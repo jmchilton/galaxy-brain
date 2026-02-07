@@ -1,0 +1,145 @@
+# meta_schema.yml - JSON Schema Draft 07 in YAML syntax
+# Defines the frontmatter contract for all notes in vault/.
+# The validator injects meta_tags.yml keys into tags.items.enum at runtime.
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "Galaxy Notes Frontmatter"
+type: object
+required: [type, tags, status, created, revised, revision, ai_generated]
+
+properties:
+  type:
+    type: string
+    enum: [research, plan, plan-section, concept, moc]
+  tags:
+    type: array
+    items:
+      type: string
+      enum: []  # injected at runtime from meta_tags.yml
+    minItems: 1
+  status:
+    type: string
+    enum: [draft, reviewed, revised, stale, archived]
+  created:
+    type: string
+    format: date  # advisory; actual validation in custom code
+  revised:
+    type: string
+    format: date
+  revision:
+    type: integer
+    minimum: 1
+  ai_generated:
+    type: boolean
+
+  # --- Fields used by research notes ---
+  subtype:
+    type: string
+  component:
+    type: string
+  galaxy_areas:
+    type: array
+    items:
+      type: string
+  github_issue:
+    oneOf:
+      - type: integer
+      - type: array
+        items:
+          type: integer
+        minItems: 1
+  github_pr:
+    type: integer
+  github_repo:
+    type: string
+
+  # --- Fields used by plan notes ---
+  title:
+    type: string
+  related_issues:
+    type: array
+    items:
+      type: string
+      pattern: "^\\[\\[.+\\]\\]$"
+  unresolved_questions:
+    type: integer
+  parent_feature:
+    type: string
+
+  # --- Fields used by plan-section notes ---
+  parent_plan:
+    type: string
+    pattern: "^\\[\\[.+\\]\\]$"
+  section:
+    type: string
+  resolves_question:
+    type: integer
+
+  # --- Shared optional fields ---
+  aliases:
+    type: array
+    items:
+      type: string
+  related_prs:
+    type: array
+    items:
+      oneOf:
+        - type: string
+          pattern: "^\\[\\[.+\\]\\]$"
+        - type: integer
+  related_notes:
+    type: array
+    items:
+      type: string
+      pattern: "^\\[\\[.+\\]\\]$"
+  branch:
+    type: string
+
+allOf:
+  # research notes require subtype
+  - if:
+      properties:
+        type: { const: research }
+      required: [type]
+    then:
+      required: [subtype]
+      properties:
+        subtype:
+          enum: [component, issue, pr, issue-roundup, design-problem, design-spec]
+
+  # research/issue requires github_issue + github_repo
+  - if:
+      properties:
+        type: { const: research }
+        subtype: { const: issue }
+      required: [type, subtype]
+    then:
+      required: [github_issue, github_repo]
+
+  # research/pr requires github_pr + github_repo
+  - if:
+      properties:
+        type: { const: research }
+        subtype: { const: pr }
+      required: [type, subtype]
+    then:
+      required: [github_pr, github_repo]
+
+  # plan requires title
+  - if:
+      properties:
+        type: { const: plan }
+      required: [type]
+    then:
+      required: [title]
+
+  # plan-section requires parent_plan + section
+  - if:
+      properties:
+        type: { const: plan-section }
+      required: [type]
+    then:
+      required: [parent_plan, section]
+
+# Strict mode: unknown fields are rejected to catch typos and schema drift.
+# To allow unknown fields for forward-compatibility, change to: true
+additionalProperties: false

@@ -1,0 +1,90 @@
+# Galaxy Notes - Allowed Tags
+# Used for frontmatter validation. Every tag in the vault must appear here.
+# Tags are hierarchical: searching #research matches all #research/* subtags.
+
+# --- Note Type Tags ---
+# These classify what kind of note it is. Every note gets exactly one.
+
+research:
+  description: "Parent tag for all research notes"
+
+research/component:
+  description: "Deep dive into a Galaxy codebase area, feature, or subsystem"
+
+research/issue:
+  description: "Analysis of a single GitHub issue"
+
+research/pr:
+  description: "Analysis of a single pull request"
+
+research/issue-roundup:
+  description: "Summary spanning multiple related GitHub issues"
+
+research/design-problem:
+  description: "Analysis of a cross-cutting bug or design problem that spans multiple issues/components"
+
+research/design-spec:
+  description: "Design specification or RFC-style proposal for a new approach"
+
+plan:
+  description: "Implementation plan with steps, testing strategy, and unresolved questions"
+
+plan/section:
+  description: "Focused research or design for a specific part of a parent plan"
+
+plan/followup:
+  description: "Post-implementation status tracker - deviations from plan, remaining work, retrospective"
+
+concept:
+  description: "Reusable Galaxy concept referenced by many notes (e.g. dataset collections, implicit conversion)"
+
+moc:
+  description: "Map of Content - navigation hub that organizes and contextualizes links, contains no research itself"
+
+# --- Galaxy Area Tags ---
+# These classify which part of Galaxy the note relates to. Notes can have multiple.
+
+galaxy/api:
+  description: "Galaxy REST API - endpoints, serialization, request/response schemas"
+
+galaxy/client:
+  description: "Galaxy frontend - Vue components, stores, client-side logic"
+
+galaxy/lib:
+  description: "Galaxy Python library code - lib/ directory, core utilities"
+
+galaxy/tools:
+  description: "Galaxy tool framework - tool execution, parameter handling, tool definitions"
+
+galaxy/tools/runtime:
+  description: "Tool runtime execution - job dispatch, container integration, command building"
+
+galaxy/tools/testing:
+  description: "Tool testing infrastructure - test frameworks, tool test definitions, test data"
+
+galaxy/tools/yaml:
+  description: "YAML tool definitions - tool XML/YAML schema, parameter types, structured tool state"
+
+galaxy/tools/collections:
+  description: "Tool-level collection handling - collection inputs/outputs, mapping, element iteration"
+
+galaxy/workflows:
+  description: "Workflow system - editor, invocations, extraction, step execution"
+
+galaxy/datasets:
+  description: "Dataset model - HDA/LDDA lifecycle, storage, metadata"
+
+galaxy/collections:
+  description: "Dataset collections - HDCAs, collection types, nested elements, paired/list structures"
+
+galaxy/models:
+  description: "SQLAlchemy ORM models - database schema, model relationships, migrations"
+
+galaxy/security:
+  description: "Security model - permissions, roles, sharing, user-defined tool sandboxing"
+
+galaxy/admin:
+  description: "Galaxy administration - config, job management, user management"
+
+galaxy/testing:
+  description: "Testing infrastructure - Selenium, API tests, integration test framework"
