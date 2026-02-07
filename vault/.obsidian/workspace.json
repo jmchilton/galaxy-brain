@@ -1,0 +1,209 @@
+{
+  "main": {
+    "id": "735cff18e836bc1d",
+    "type": "split",
+    "children": [
+      {
+        "id": "4461cfdf3ab9665f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "52fef0c667caa137",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "research/Workflow Extraction Issues.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Workflow Extraction Issues"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "68b7856fc203dc3f",
+    "type": "split",
+    "children": [
+      {
+        "id": "b957e8a9f2bfcc9c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c1926bfde7f63465",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "73fcb0f662569dda",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:research/design-spec",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "8729f54490d730ef",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 429.5
+  },
+  "right": {
+    "id": "cbd554e3fe405514",
+    "type": "split",
+    "children": [
+      {
+        "id": "82275efb3f896b37",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b9bfec891eec3c42",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Untitled.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Untitled"
+            }
+          },
+          {
+            "id": "7bee419d95a72321",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Untitled.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Untitled"
+            }
+          },
+          {
+            "id": "f7560b2869d98fbc",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "70ed4f9aba63fbd3",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "fb000b0f11af212d",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Untitled.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Untitled"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "c1926bfde7f63465",
+  "lastOpenFiles": [
+    "research/Component - Worktree Bootstrapping.md",
+    "Dashboard.md",
+    "research/PR 18758 - Tool Execution Typing and Decomposition.md",
+    "research/Workflow Extraction Issues.md",
+    "research/Workflow Extraction Multiple Histories.md",
+    "research/Component - Workflow Extraction Models.md",
+    "research/Component - Workflow Extraction.md",
+    "plans/Plan - Workflow Extraction Vue Conversion.md",
+    "plans",
+    "research/Issue 17506 - Convert Workflow Extraction Interface to Vue.md",
+    "research/PR 20935 - Tool Request API.md",
+    "research/Component - Tool State Specification.md",
+    "Untitled.canvas",
+    "2026-02-05.md",
+    "research/Component - Implicit Dataset Conversion.md",
+    "Issue 9161.md",
+    "research/PR 19434 - User Defined Tools.md",
+    "research/Component - YAML Tool Runtime.md",
+    "research/Component - Tool Testing Infrastructure.md",
+    "research/Component - Collection Tool Execution Semantics.md"
+  ]
+}
