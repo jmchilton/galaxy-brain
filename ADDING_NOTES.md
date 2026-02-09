@@ -87,6 +87,7 @@ The `[[` and `]]` are required. Inner text must be non-empty.
 - **Research/issue-roundup**: `<Topic> Issues.md`
 - **Research/design-problem**: `<Problem Name>.md`
 - **Research/design-spec**: `<Spec Name>.md`
+- **Research/dependency**: `Dependency - <Name>.md`
 - **Plan**: `Plan - <Title>.md`
 - **Plan section**: `Plan - <Parent Title> - <Section>.md`
 - **Concept**: `Concept - <Name>.md`

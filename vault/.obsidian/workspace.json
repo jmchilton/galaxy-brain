@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "research/Workflow Extraction Issues.md",
+                "file": "research/Component - Tool State Specification.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Workflow Extraction Issues"
+              "title": "Component - Tool State Specification"
             }
           }
         ]
@@ -183,12 +183,24 @@
       "bases:Create new base": false
     }
   },
-  "active": "c1926bfde7f63465",
+  "active": "52fef0c667caa137",
   "lastOpenFiles": [
+    "research/Component - Collection Tool Execution Semantics.md",
+    "research/Component - Collection API.md",
+    "research/Component - Workflow Editor Terminal Tests.md",
+    "research/Component - Workflow Editor Terminals.md",
+    "research/Component - Collection Models.md",
+    "research/PR 19305 - Implement Sample Sheets.md",
+    "research/Component - Tool State Dynamic Models.md",
+    "research/Dependency - Pydantic Dynamic Models.md",
+    "research/Dependency - Collection Graphviz.md",
+    "research/Component - Workflow Testing.md",
+    "research/Workflow Extraction Issues.md",
+    "research/PR 19377 - Collection Specification.md",
+    "research/Dependency - Pydantic Discriminated Unions.md",
     "research/Component - Worktree Bootstrapping.md",
     "Dashboard.md",
     "research/PR 18758 - Tool Execution Typing and Decomposition.md",
-    "research/Workflow Extraction Issues.md",
     "research/Workflow Extraction Multiple Histories.md",
     "research/Component - Workflow Extraction Models.md",
     "research/Component - Workflow Extraction.md",
@@ -200,10 +212,6 @@
     "Untitled.canvas",
     "2026-02-05.md",
     "research/Component - Implicit Dataset Conversion.md",
-    "Issue 9161.md",
-    "research/PR 19434 - User Defined Tools.md",
-    "research/Component - YAML Tool Runtime.md",
-    "research/Component - Tool Testing Infrastructure.md",
-    "research/Component - Collection Tool Execution Semantics.md"
+    "Issue 9161.md"
   ]
 }

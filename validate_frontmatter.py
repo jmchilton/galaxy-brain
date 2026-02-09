@@ -43,6 +43,7 @@ TYPE_TAG_MAP = {
     ("research", "issue-roundup"): "research/issue-roundup",
     ("research", "design-problem"): "research/design-problem",
     ("research", "design-spec"): "research/design-spec",
+    ("research", "dependency"): "research/dependency",
     ("plan", None): "plan",
     ("plan-section", None): "plan/section",
     ("concept", None): "concept",

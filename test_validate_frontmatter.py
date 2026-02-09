@@ -43,6 +43,17 @@ VALID_RESEARCH_COMPONENT = {
     "ai_generated": True,
 }
 
+VALID_RESEARCH_DEPENDENCY = {
+    "type": "research",
+    "subtype": "dependency",
+    "tags": ["research/dependency"],
+    "status": "draft",
+    "created": "2025-01-15",
+    "revised": "2025-01-15",
+    "revision": 1,
+    "ai_generated": True,
+}
+
 VALID_RESEARCH_ISSUE = {
     "type": "research",
     "subtype": "issue",
@@ -122,6 +133,7 @@ VALID_MOC = {
     "data",
     [
         pytest.param(VALID_RESEARCH_COMPONENT, id="research-component"),
+        pytest.param(VALID_RESEARCH_DEPENDENCY, id="research-dependency"),
         pytest.param(VALID_RESEARCH_ISSUE, id="research-issue"),
         pytest.param(VALID_RESEARCH_PR, id="research-pr"),
         pytest.param(VALID_PLAN, id="plan"),

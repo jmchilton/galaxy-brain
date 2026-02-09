@@ -34,6 +34,7 @@ Meta files live at the repo root, outside `vault/`. Open `vault/` as the Obsidia
 | `research` | `issue-roundup` | `research/issue-roundup` | Summary spanning multiple related issues | — |
 | `research` | `design-problem` | `research/design-problem` | Cross-cutting bug or design problem spanning issues/components | — |
 | `research` | `design-spec` | `research/design-spec` | Design specification or RFC-style proposal | — |
+| `research` | `dependency` | `research/dependency` | Research into a project dependency (version migration, API, best practices) | — |
 | `plan` | — | `plan` | Implementation plan with steps and testing strategy | `title` |
 | `plan-section` | — | `plan/section` | Focused research for a specific part of a parent plan | `parent_plan` (wiki link), `section` |
 | `plan` | — | `plan/followup` | Post-implementation status tracker, deviations, remaining work | `title` |

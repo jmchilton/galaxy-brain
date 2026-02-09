@@ -104,7 +104,7 @@ allOf:
       required: [subtype]
       properties:
         subtype:
-          enum: [component, issue, pr, issue-roundup, design-problem, design-spec]
+          enum: [component, issue, pr, issue-roundup, design-problem, design-spec, dependency]
 
   # research/issue requires github_issue + github_repo
   - if:

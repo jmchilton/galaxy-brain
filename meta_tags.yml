@@ -26,6 +26,9 @@ research/design-problem:
 research/design-spec:
   description: "Design specification or RFC-style proposal for a new approach"
 
+research/dependency:
+  description: "Research into a project dependency - version migration, API surface, best practices"
+
 plan:
   description: "Implementation plan with steps, testing strategy, and unresolved questions"
 
