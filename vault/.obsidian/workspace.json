@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "research/Component - Tool State Specification.md",
+                "file": "research/PR 19305 - Implement Sample Sheets.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Component - Tool State Specification"
+              "title": "PR 19305 - Implement Sample Sheets"
             }
           }
         ]
@@ -183,20 +183,26 @@
       "bases:Create new base": false
     }
   },
-  "active": "52fef0c667caa137",
+  "active": "c1926bfde7f63465",
   "lastOpenFiles": [
+    "research/Component - Backend Dependency Management.md",
+    "research/Component - Collections - Sample Sheets Backend.md",
+    "research/Component - Collections - Paired or Unpaired.md",
+    "research/Component - Paired or Unpaired Collections.md",
+    "research/PR 19377 - Collection Specification.md",
+    "research/PR 19377 - Collection Types and Wizard UI.md",
+    "research/PR 19305 - Implement Sample Sheets.md",
+    "research/Component - Workflow Editor Terminals.md",
+    "research/Component - Workflow Editor Terminal Tests.md",
+    "research/Component - Tool State Specification.md",
     "research/Component - Collection Tool Execution Semantics.md",
     "research/Component - Collection API.md",
-    "research/Component - Workflow Editor Terminal Tests.md",
-    "research/Component - Workflow Editor Terminals.md",
     "research/Component - Collection Models.md",
-    "research/PR 19305 - Implement Sample Sheets.md",
     "research/Component - Tool State Dynamic Models.md",
     "research/Dependency - Pydantic Dynamic Models.md",
     "research/Dependency - Collection Graphviz.md",
     "research/Component - Workflow Testing.md",
     "research/Workflow Extraction Issues.md",
-    "research/PR 19377 - Collection Specification.md",
     "research/Dependency - Pydantic Discriminated Unions.md",
     "research/Component - Worktree Bootstrapping.md",
     "Dashboard.md",
@@ -206,12 +212,6 @@
     "research/Component - Workflow Extraction.md",
     "plans/Plan - Workflow Extraction Vue Conversion.md",
     "plans",
-    "research/Issue 17506 - Convert Workflow Extraction Interface to Vue.md",
-    "research/PR 20935 - Tool Request API.md",
-    "research/Component - Tool State Specification.md",
-    "Untitled.canvas",
-    "2026-02-05.md",
-    "research/Component - Implicit Dataset Conversion.md",
-    "Issue 9161.md"
+    "Untitled.canvas"
   ]
 }
