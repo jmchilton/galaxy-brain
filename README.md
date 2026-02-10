@@ -1,11 +1,11 @@
-# Galaxy Notes
+# Galaxy Brain
 
 Obsidian vault of AI-generated research notes, implementation plans, and development artifacts for [Galaxy](https://github.com/galaxyproject/galaxy).
 
 ## Structure
 
 ```
-galaxy-notes/
+galaxy-brain/
   meta_tags.yml                # allowed tag registry
   meta_schema.yml              # frontmatter JSON Schema (Draft 07, YAML syntax)
   validate_frontmatter.py      # frontmatter validation CLI

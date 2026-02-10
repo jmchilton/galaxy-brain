@@ -1,4 +1,4 @@
-# Galaxy Notes - Allowed Tags
+# Galaxy Brain - Allowed Tags
 # Used for frontmatter validation. Every tag in the vault must appear here.
 # Tags are hierarchical: searching #research matches all #research/* subtags.
 

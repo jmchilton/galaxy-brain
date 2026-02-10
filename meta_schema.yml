@@ -2,7 +2,7 @@
 # Defines the frontmatter contract for all notes in vault/.
 # The validator injects meta_tags.yml keys into tags.items.enum at runtime.
 $schema: "http://json-schema.org/draft-07/schema#"
-title: "Galaxy Notes Frontmatter"
+title: "Galaxy Brain Frontmatter"
 type: object
 required: [type, tags, status, created, revised, revision, ai_generated]
 

@@ -1,4 +1,4 @@
-# Galaxy Notes - Claude Code Instructions
+# Galaxy Brain - Claude Code Instructions
 
 ## Project Overview
 
