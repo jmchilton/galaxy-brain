@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const allNotes = await getCollection('vault');
+
+const components = allNotes
+  .filter(n => n.data.tags.includes('research/component') && n.data.status !== 'archived')
+  .sort((a, b) => b.data.revised.getTime() - a.data.revised.getTime());
+
+const prs = allNotes
+  .filter(n => n.data.tags.includes('research/pr') && n.data.status !== 'archived')
+  .sort((a, b) => b.data.revised.getTime() - a.data.revised.getTime());
+
+const issues = allNotes
+  .filter(n => n.data.tags.includes('research/issue') && n.data.status !== 'archived')
+  .sort((a, b) => b.data.revised.getTime() - a.data.revised.getTime());
+
+const plans = allNotes
+  .filter(n => n.data.tags.includes('plan') && n.data.status !== 'archived')
+  .sort((a, b) => b.data.revised.getTime() - a.data.revised.getTime());
+
+function formatDate(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+function noteTitle(id: string): string {
+  const basename = id.split('/').pop()!;
+  return basename.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+---
+<Base title="Dashboard">
+  <h1 class="mb-4 text-2xl font-bold">Galaxy Brain</h1>
+
+  <h2 class="mt-6 mb-2 text-xl font-semibold">Component Research</h2>
+  <table class="data-table">
+    <thead><tr><th>Name</th><th>Status</th><th>Revised</th><th>Rev</th></tr></thead>
+    <tbody>
+      {components.map(n => (
+        <tr>
+          <td><a href={`${base}/${n.id}/`}>{noteTitle(n.id)}</a></td>
+          <td><span class={`badge badge-${n.data.status}`}>{n.data.status}</span></td>
+          <td>{formatDate(n.data.revised)}</td>
+          <td>{n.data.revision}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2 class="mt-6 mb-2 text-xl font-semibold">Merged Pull Request Research</h2>
+  <table class="data-table">
+    <thead><tr><th>Name</th><th>Status</th><th>Revised</th><th>Rev</th></tr></thead>
+    <tbody>
+      {prs.map(n => (
+        <tr>
+          <td><a href={`${base}/${n.id}/`}>{noteTitle(n.id)}</a></td>
+          <td><span class={`badge badge-${n.data.status}`}>{n.data.status}</span></td>
+          <td>{formatDate(n.data.revised)}</td>
+          <td>{n.data.revision}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2 class="mt-6 mb-2 text-xl font-semibold">Issues</h2>
+  <table class="data-table">
+    <thead><tr><th>Name</th><th>Status</th><th>Revised</th><th>Rev</th></tr></thead>
+    <tbody>
+      {issues.map(n => (
+        <tr>
+          <td><a href={`${base}/${n.id}/`}>{noteTitle(n.id)}</a></td>
+          <td><span class={`badge badge-${n.data.status}`}>{n.data.status}</span></td>
+          <td>{formatDate(n.data.revised)}</td>
+          <td>{n.data.revision}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2 class="mt-6 mb-2 text-xl font-semibold">Plans</h2>
+  <table class="data-table">
+    <thead><tr><th>Name</th><th>Status</th><th>Revised</th><th>Rev</th></tr></thead>
+    <tbody>
+      {plans.map(n => (
+        <tr>
+          <td><a href={`${base}/${n.id}/`}>{noteTitle(n.id)}</a></td>
+          <td><span class={`badge badge-${n.data.status}`}>{n.data.status}</span></td>
+          <td>{formatDate(n.data.revised)}</td>
+          <td>{n.data.revision}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</Base>

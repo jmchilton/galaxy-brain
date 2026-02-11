@@ -1,0 +1,37 @@
+---
+import '../styles/global.css';
+interface Props {
+  title: string;
+  pageTitle?: string;
+}
+const { title, pageTitle } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} - Galaxy Brain</title>
+  <script is:inline>
+    document.documentElement.classList.toggle('dark',
+      localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    );
+  </script>
+</head>
+<body class="max-w-4xl mx-auto px-4 py-4 leading-relaxed bg-(--color-surface) text-(--color-text-primary)">
+  <nav class="mb-8 pb-2 border-b border-(--color-border-subtle)">
+    <a href={`${base}/`} class="text-(--color-link) font-semibold no-underline hover:underline">Galaxy Brain</a>
+    <span class="text-(--color-text-muted)"> | </span>
+    <a href={`${base}/tags/`} class="text-(--color-link) font-semibold no-underline hover:underline">Tags</a>
+    {pageTitle && (
+      <>
+        <span class="text-(--color-text-muted)"> / </span>
+        <span class="text-(--color-text-secondary)">{pageTitle}</span>
+      </>
+    )}
+  </nav>
+  <slot />
+</body>
+</html>

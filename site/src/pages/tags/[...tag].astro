@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+export async function getStaticPaths() {
+  const allNotes = await getCollection('vault');
+  const tags = new Set<string>();
+  for (const note of allNotes) {
+    for (const tag of note.data.tags) {
+      tags.add(tag);
+    }
+  }
+  return [...tags].map(tag => ({
+    params: { tag },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const allNotes = await getCollection('vault');
+
+const notes = allNotes
+  .filter(n => n.data.tags.includes(tag) && n.data.status !== 'archived')
+  .sort((a, b) => b.data.revised.getTime() - a.data.revised.getTime());
+
+function formatDate(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+function noteTitle(id: string): string {
+  const basename = id.split('/').pop()!;
+  return basename.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+---
+<Base title={`Tag: ${tag}`} pageTitle={tag}>
+  <h1 class="mb-4 text-2xl font-bold">Tag: <span class="tag">{tag}</span></h1>
+  <p class="mb-4 text-(--color-text-secondary)">{notes.length} note{notes.length !== 1 ? 's' : ''}</p>
+
+  <table class="data-table">
+    <thead><tr><th>Name</th><th>Status</th><th>Revised</th><th>Rev</th></tr></thead>
+    <tbody>
+      {notes.map(n => (
+        <tr>
+          <td><a href={`${base}/${n.id}/`}>{n.data.title || noteTitle(n.id)}</a></td>
+          <td><span class={`badge badge-${n.data.status}`}>{n.data.status}</span></td>
+          <td>{formatDate(n.data.revised)}</td>
+          <td>{n.data.revision}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</Base>
