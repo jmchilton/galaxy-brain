@@ -20,6 +20,12 @@ galaxy-brain/
     templates/                 # Templater templates (skipped by validator)
     bases/                     # Obsidian Bases views
     .obsidian/                 # Obsidian config
+  site/                        # Astro static site (GitHub Pages)
+    src/layouts/               # Base layout w/ Tailwind
+    src/pages/                 # Dashboard, note detail, tags, raw markdown
+    src/styles/global.css      # Tailwind theme tokens + component classes
+    src/lib/wiki-links.ts      # Wiki link resolution
+  .github/workflows/           # GitHub Actions deploy
 ```
 
 Meta files live at the repo root, outside `vault/`. Open `vault/` as the Obsidian vault root so Obsidian never indexes tooling files.
@@ -42,6 +48,24 @@ Meta files live at the repo root, outside `vault/`. Open `vault/` as the Obsidia
 | `moc` | — | `moc` | Navigation hub that organizes links, no research itself | — |
 
 All research subtypes also require `subtype` in frontmatter. **Base fields** (required on all notes): `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`.
+
+## Static Site
+
+The vault is published as a static site via Astro + Tailwind CSS, deployed to GitHub Pages.
+
+```sh
+make site-dev      # start dev server at localhost:4321
+make site-build    # build to site/dist/
+make site-preview  # preview production build
+```
+
+Features:
+- Dashboard homepage with tables grouped by note type
+- Note detail pages with metadata, wiki link resolution, and rendered markdown
+- Tag browser with grouped listing and per-tag filtered views
+- Raw markdown endpoint + clipboard copy button on each note
+- Dark mode (auto-detects OS preference)
+- Deployed automatically on push to `main`
 
 ## Validation
 

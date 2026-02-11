@@ -1,43 +1,41 @@
-# Astro Starter Kit: Minimal
+# Galaxy Brain Site
+
+Astro static site rendering the vault notes for GitHub Pages.
+
+## Stack
+
+- [Astro](https://astro.build/) — static site generator
+- [Tailwind CSS v4](https://tailwindcss.com/) — utility-first styling via `@tailwindcss/vite`
+- [`@tailwindcss/typography`](https://github.com/tailwindlabs/tailwindcss-typography) — prose rendering for markdown content
+
+## Development
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev       # localhost:4321
+npm run build     # production build to dist/
+npm run preview   # preview production build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Or from the repo root: `make site-dev`, `make site-build`, `make site-preview`.
 
-## 🚀 Project Structure
+## Pages
 
-Inside of your Astro project, you'll see the following folders and files:
+| Route | Source | Description |
+|-------|--------|-------------|
+| `/` | `src/pages/index.astro` | Dashboard — tables grouped by note type |
+| `/{slug}/` | `src/pages/[...slug].astro` | Note detail — metadata, wiki links, prose |
+| `/tags/` | `src/pages/tags/index.astro` | Tag index — grouped with counts |
+| `/tags/{tag}/` | `src/pages/tags/[...tag].astro` | Tag filter — notes with that tag |
+| `/raw/{slug}.md` | `src/pages/raw/[...slug].md.ts` | Raw markdown body (plain text) |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Theme
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+All theme tokens live in `src/styles/global.css`:
+- Color palette (surfaces, text, links, badges, tags)
+- Dark mode overrides (class-based, auto-detects OS preference)
+- Component classes: `.badge-*`, `.tag`, `.data-table`, `.meta`
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Content
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Notes loaded from `../vault/` via Astro content collections. Schema defined in `src/content.config.ts`. Wiki links (`[[...]]`) resolved to site URLs via `src/lib/wiki-links.ts`.

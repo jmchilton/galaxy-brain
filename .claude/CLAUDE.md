@@ -10,8 +10,9 @@ Obsidian vault + validation tooling for AI-generated Galaxy development notes. N
 - `meta_schema.yml` - JSON Schema Draft 07 (YAML syntax) defining the frontmatter contract
 - `validate_frontmatter.py` - validation CLI (PEP 723 inline deps for uv)
 - `test_validate_frontmatter.py` - pytest suite (52 tests)
-- `Makefile` - `make validate`, `make test`
+- `Makefile` - `make validate`, `make test`, `make site-dev`, `make site-build`
 - `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
+- `site/` - Astro static site rendering vault notes for GitHub Pages
 
 ## Commands
 
@@ -20,15 +21,29 @@ make test                          # run all tests
 make test ARGS="-k pattern"        # run specific tests
 make validate                      # validate vault/ frontmatter
 make validate ARGS="vault/research/" # validate subdirectory
+make site-dev                      # start Astro dev server
+make site-build                    # build static site to site/dist/
+make site-preview                  # preview production build
 ```
 
 ## Architecture
 
+### Validation
 - Schema in `meta_schema.yml` uses `allOf/if/then` for conditional field requirements (e.g. `type: research` + `subtype: issue` requires `github_issue`)
 - Tag enum in schema is empty in the file; `validate_frontmatter.py` injects `meta_tags.yml` keys at runtime
 - `additionalProperties: false` - unknown frontmatter fields are rejected
 - Validation layers: JSON Schema -> date format -> wiki link format -> tag coherence (warnings)
 - PyYAML parses YAML dates as `datetime.date`; `preprocess_frontmatter()` converts to ISO strings before schema validation
+
+### Static Site (`site/`)
+- Astro static site deployed to GitHub Pages at `/galaxy-brain/`
+- Content loaded from `../vault/` via Astro content collections (`site/src/content.config.ts`)
+- Tailwind CSS v4 via `@tailwindcss/vite` plugin; theme tokens in `site/src/styles/global.css`
+- Dark mode: class-based toggle, auto-detects OS preference
+- `@tailwindcss/typography` for markdown prose rendering
+- Pages: dashboard (`index.astro`), note detail (`[...slug].astro`), tag index + tag detail (`tags/`), raw markdown endpoint (`raw/`)
+- Wiki links (`[[...]]`) resolved to site URLs via `site/src/lib/wiki-links.ts`
+- GitHub Actions deploys on push to `main` (`.github/workflows/deploy.yml`)
 
 ## Conventions
 
