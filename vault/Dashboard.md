@@ -25,6 +25,18 @@ SORT revised DESC
 
 ```
 
+```dataview
+
+TABLE status, revised, revision
+
+FROM #research/dependency  
+
+WHERE status != "archived"
+
+SORT revised DESC
+
+```
+
 Issues
 ```dataview
 
