@@ -1,5 +1,4 @@
-
-Component Research
+## Component Research
 ```dataview
 
 TABLE status, revised, revision
@@ -12,7 +11,7 @@ SORT revised DESC
 
 ```
 
-Merged Pull Request Research
+## Merged Pull Request Research
 ```dataview
 
 TABLE status, revised, revision
@@ -25,11 +24,12 @@ SORT revised DESC
 
 ```
 
+## Dependency Research
 ```dataview
 
 TABLE status, revised, revision
 
-FROM #research/dependency  
+FROM #research/dependency
 
 WHERE status != "archived"
 
@@ -37,7 +37,7 @@ SORT revised DESC
 
 ```
 
-Issues
+## Issues
 ```dataview
 
 TABLE status, revised, revision
@@ -49,12 +49,26 @@ WHERE status != "archived"
 SORT revised DESC
 
 ```
-Plans
+
+## Plans
 ```dataview
 
 TABLE status, revised, revision
 
-FROM #plan 
+FROM #plan
+
+WHERE status != "archived"
+
+SORT revised DESC
+
+```
+
+## Projects
+```dataview
+
+TABLE status, revised, revision
+
+FROM #project
 
 WHERE status != "archived"
 

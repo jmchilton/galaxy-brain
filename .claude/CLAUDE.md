@@ -10,7 +10,9 @@ Obsidian vault + validation tooling for AI-generated Galaxy development notes. N
 - `meta_schema.yml` - JSON Schema Draft 07 (YAML syntax) defining the frontmatter contract
 - `validate_frontmatter.py` - validation CLI (PEP 723 inline deps for uv)
 - `test_validate_frontmatter.py` - pytest suite (52 tests)
-- `Makefile` - `make validate`, `make test`, `make site-dev`, `make site-build`
+- `dashboard_sections.json` - shared dashboard section config (drives both Dashboard.md and index.astro)
+- `generate_dashboard.py` - generates Dashboard.md from config; `--check` for drift detection
+- `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make site-dev`, `make site-build`
 - `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
 - `site/` - Astro static site rendering vault notes for GitHub Pages
 
@@ -21,6 +23,8 @@ make test                          # run all tests
 make test ARGS="-k pattern"        # run specific tests
 make validate                      # validate vault/ frontmatter
 make validate ARGS="vault/research/" # validate subdirectory
+make dashboard                     # generate vault/Dashboard.md from config
+make check-dashboard               # exit 1 if Dashboard.md drifts from config
 make site-dev                      # start Astro dev server
 make site-build                    # build static site to site/dist/
 make site-preview                  # preview production build
@@ -45,6 +49,12 @@ make site-preview                  # preview production build
 - Pages: dashboard (`index.astro`), note detail (`[...slug].astro`), project sub-file detail (`projects/[project]/[...file].astro`), tag index + tag detail (`tags/`), raw markdown endpoints (`raw/`)
 - Wiki links (`[[...]]`) resolved to site URLs via `site/src/lib/wiki-links.ts`
 - GitHub Actions deploys on push to `main` (`.github/workflows/deploy.yml`)
+
+### Dashboard Sync
+- Sections defined in `dashboard_sections.json` (repo root)
+- `generate_dashboard.py` produces Dataview queries for Obsidian's `vault/Dashboard.md`
+- Astro `index.astro` imports same JSON for the landing page
+- `make check-dashboard` detects drift between config and generated file
 
 ### Project Type
 - Directory-based note type: `vault/projects/<name>/` with `index.md` (frontmatter) + raw sub-files (no frontmatter)

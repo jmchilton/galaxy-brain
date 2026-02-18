@@ -1,4 +1,4 @@
-.PHONY: validate test install site-dev site-build site-preview
+.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -12,6 +12,12 @@ install:
 	mkdir -p ~/.claude/skills
 	ln -sfn $(CURDIR)/skill/galaxy-brain ~/.claude/skills/galaxy-brain
 	ln -sfn $(CURDIR) ~/.galaxy-brain
+
+dashboard:
+	uv run python generate_dashboard.py
+
+check-dashboard:
+	uv run python generate_dashboard.py --check
 
 site-dev:
 	cd site && npm run dev

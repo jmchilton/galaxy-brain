@@ -1,9 +1,10 @@
-"""Tests for validate_frontmatter.py.
+"""Tests for validate_frontmatter.py and generate_dashboard.py.
 
 Uses the real meta_schema.yml and meta_tags.yml from the repo root.
 """
 import copy
 import datetime
+import json
 from pathlib import Path
 
 import pytest
@@ -20,6 +21,7 @@ from validate_frontmatter import (
     validate_tag_coherence,
     validate_wiki_links,
 )
+from generate_dashboard import generate_dashboard, check_dashboard
 
 REPO_ROOT = Path(__file__).parent
 
@@ -629,3 +631,35 @@ def test_validate_directory_with_project(tmp_path):
     )
     assert total_errors == 0
     assert total_warnings == 0
+
+
+# ---------------------------------------------------------------------------
+# Dashboard generation
+# ---------------------------------------------------------------------------
+
+DASHBOARD_SECTIONS = json.loads((REPO_ROOT / "dashboard_sections.json").read_text())
+
+
+def test_generate_dashboard_output():
+    """Generated output has correct Dataview format for each section."""
+    output = generate_dashboard(DASHBOARD_SECTIONS)
+    for section in DASHBOARD_SECTIONS:
+        assert f"## {section['label']}" in output
+        assert f"FROM #{section['tag']}" in output
+    assert 'WHERE status != "archived"' in output
+    assert "SORT revised DESC" in output
+
+
+def test_generate_dashboard_check_passes(tmp_path):
+    """--check returns True when file matches generated content."""
+    dashboard = tmp_path / "Dashboard.md"
+    content = generate_dashboard(DASHBOARD_SECTIONS)
+    dashboard.write_text(content)
+    assert check_dashboard(DASHBOARD_SECTIONS, str(dashboard)) is True
+
+
+def test_generate_dashboard_check_fails(tmp_path):
+    """--check returns False when file differs from generated content."""
+    dashboard = tmp_path / "Dashboard.md"
+    dashboard.write_text("# stale content\n")
+    assert check_dashboard(DASHBOARD_SECTIONS, str(dashboard)) is False

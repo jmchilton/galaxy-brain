@@ -1,0 +1,8 @@
+[
+  { "label": "Component Research", "tag": "research/component" },
+  { "label": "Merged Pull Request Research", "tag": "research/pr" },
+  { "label": "Dependency Research", "tag": "research/dependency" },
+  { "label": "Issues", "tag": "research/issue" },
+  { "label": "Plans", "tag": "plan" },
+  { "label": "Projects", "tag": "project" }
+]
