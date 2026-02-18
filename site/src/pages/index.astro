@@ -21,6 +21,10 @@ const plans = allNotes
   .filter(n => n.data.tags.includes('plan') && n.data.status !== 'archived')
   .sort((a, b) => b.data.revised.getTime() - a.data.revised.getTime());
 
+const projects = allNotes
+  .filter(n => n.data.type === 'project' && n.data.status !== 'archived')
+  .sort((a, b) => b.data.revised.getTime() - a.data.revised.getTime());
+
 function formatDate(d: Date): string {
   return d.toISOString().slice(0, 10);
 }
@@ -85,6 +89,21 @@ function noteTitle(id: string): string {
       {plans.map(n => (
         <tr>
           <td><a href={`${base}/${n.id}/`}>{noteTitle(n.id)}</a></td>
+          <td><span class={`badge badge-${n.data.status}`}>{n.data.status}</span></td>
+          <td>{formatDate(n.data.revised)}</td>
+          <td>{n.data.revision}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2 class="mt-6 mb-2 text-xl font-semibold">Projects</h2>
+  <table class="data-table">
+    <thead><tr><th>Name</th><th>Status</th><th>Revised</th><th>Rev</th></tr></thead>
+    <tbody>
+      {projects.map(n => (
+        <tr>
+          <td><a href={`${base}/${n.id}/`}>{n.data.title || noteTitle(n.id)}</a></td>
           <td><span class={`badge badge-${n.data.status}`}>{n.data.status}</span></td>
           <td>{formatDate(n.data.revised)}</td>
           <td>{n.data.revision}</td>

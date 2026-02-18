@@ -9,7 +9,7 @@ required: [type, tags, status, created, revised, revision, ai_generated]
 properties:
   type:
     type: string
-    enum: [research, plan, plan-section, concept, moc]
+    enum: [research, plan, plan-section, concept, moc, project]
   tags:
     type: array
     items:
@@ -139,6 +139,14 @@ allOf:
       required: [type]
     then:
       required: [parent_plan, section]
+
+  # project requires title
+  - if:
+      properties:
+        type: { const: project }
+      required: [type]
+    then:
+      required: [title]
 
 # Strict mode: unknown fields are rejected to catch typos and schema drift.
 # To allow unknown fields for forward-compatibility, change to: true

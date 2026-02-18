@@ -37,13 +37,20 @@ make site-preview                  # preview production build
 
 ### Static Site (`site/`)
 - Astro static site deployed to GitHub Pages at `/galaxy-brain/`
+- Two Astro content collections: `vault` (typed frontmatter), `projectFiles` (no frontmatter, raw sub-files)
 - Content loaded from `../vault/` via Astro content collections (`site/src/content.config.ts`)
 - Tailwind CSS v4 via `@tailwindcss/vite` plugin; theme tokens in `site/src/styles/global.css`
 - Dark mode: class-based toggle, auto-detects OS preference
 - `@tailwindcss/typography` for markdown prose rendering
-- Pages: dashboard (`index.astro`), note detail (`[...slug].astro`), tag index + tag detail (`tags/`), raw markdown endpoint (`raw/`)
+- Pages: dashboard (`index.astro`), note detail (`[...slug].astro`), project sub-file detail (`projects/[project]/[...file].astro`), tag index + tag detail (`tags/`), raw markdown endpoints (`raw/`)
 - Wiki links (`[[...]]`) resolved to site URLs via `site/src/lib/wiki-links.ts`
 - GitHub Actions deploys on push to `main` (`.github/workflows/deploy.yml`)
+
+### Project Type
+- Directory-based note type: `vault/projects/<name>/` with `index.md` (frontmatter) + raw sub-files (no frontmatter)
+- Validator only validates `index.md`; non-index files in `projects/` are skipped by `find_md_files()`
+- Project indexes render at `/projects/<name>/` with a "Project Files" listing
+- Sub-files render at `/projects/<name>/<file>/` with breadcrumb navigation
 
 ## Conventions
 
@@ -51,7 +58,7 @@ make site-preview                  # preview production build
 - Tags are hierarchical (`research/component`); searching `research` matches subtags in Obsidian
 - Wiki link fields (`parent_plan`, `related_issues`, `related_notes`) must use `[[...]]` format
 - `LIBRARY_*.md` files are project meta-docs, not vault notes - they don't need frontmatter
-- Validator skips `.obsidian/` and `templates/` directories
+- Validator skips `.obsidian/`, `templates/`, and non-index files in `projects/` directories
 
 ## Adding a New Note Type
 

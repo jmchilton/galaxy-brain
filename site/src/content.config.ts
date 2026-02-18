@@ -1,15 +1,23 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+function slugifyPath(entry: string): string {
+  return entry.replace(/\.md$/, '').split('/')
+    .map(s => s.toLowerCase().replace(/\s+-\s+/g, '-').replace(/\s+/g, '-')
+      .replace(/[^a-z0-9\-]/g, '').replace(/-+/g, '-'))
+    .join('/');
+}
+
 const vault = defineCollection({
   loader: glob({
-    pattern: ['**/*.md', '!Dashboard.md', '!.obsidian/**', '!templates/**'],
+    pattern: ['**/*.md', '!Dashboard.md', '!.obsidian/**', '!templates/**',
+              '!projects/*/!(index).md'],
     base: '../vault',
     generateId({ entry }) {
-      return entry.replace(/\.md$/, '').split('/')
-        .map(s => s.toLowerCase().replace(/\s+-\s+/g, '-').replace(/\s+/g, '-')
-          .replace(/[^a-z0-9\-]/g, '').replace(/-+/g, '-'))
-        .join('/');
+      let id = slugifyPath(entry);
+      // Strip /index from project directory entries
+      if (id.endsWith('/index')) id = id.slice(0, -'/index'.length);
+      return id;
     }
   }),
   schema: z.object({
@@ -41,4 +49,15 @@ const vault = defineCollection({
   })
 });
 
-export const collections = { vault };
+const projectFiles = defineCollection({
+  loader: glob({
+    pattern: ['projects/*/!(index).md'],
+    base: '../vault',
+    generateId({ entry }) {
+      return slugifyPath(entry);
+    }
+  }),
+  schema: z.object({}).passthrough()
+});
+
+export const collections = { vault, projectFiles };

@@ -48,6 +48,7 @@ TYPE_TAG_MAP = {
     ("plan-section", None): "plan/section",
     ("concept", None): "concept",
     ("moc", None): "moc",
+    ("project", None): "project",
 }
 
 
@@ -210,6 +211,8 @@ def find_md_files(directory):
         if any(p.startswith(".") or p in SKIP_DIRS for p in parts):
             continue
         if path.name in SKIP_FILES:
+            continue
+        if "projects" in parts and path.name != "index.md":
             continue
         yield path
 

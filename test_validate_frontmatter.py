@@ -9,11 +9,13 @@ from pathlib import Path
 import pytest
 
 from validate_frontmatter import (
+    find_md_files,
     load_schema,
     load_tags,
     preprocess_frontmatter,
     validate_data,
     validate_dates,
+    validate_directory,
     validate_file,
     validate_tag_coherence,
     validate_wiki_links,
@@ -123,6 +125,17 @@ VALID_MOC = {
     "ai_generated": True,
 }
 
+VALID_PROJECT = {
+    "type": "project",
+    "tags": ["project"],
+    "status": "draft",
+    "created": "2025-01-15",
+    "revised": "2025-01-15",
+    "revision": 1,
+    "ai_generated": True,
+    "title": "Sample Project",
+}
+
 
 # ---------------------------------------------------------------------------
 # Valid notes of each type
@@ -140,6 +153,7 @@ VALID_MOC = {
         pytest.param(VALID_PLAN_SECTION, id="plan-section"),
         pytest.param(VALID_CONCEPT, id="concept"),
         pytest.param(VALID_MOC, id="moc"),
+        pytest.param(VALID_PROJECT, id="project"),
     ],
 )
 def test_valid_notes(schema, data):
@@ -534,3 +548,84 @@ def test_optional_parent_feature(schema):
     data = {**VALID_PLAN, "parent_feature": "workflow extraction"}
     errors, _ = validate_data(data, schema)
     assert errors == []
+
+
+# ---------------------------------------------------------------------------
+# Project type
+# ---------------------------------------------------------------------------
+
+
+def test_valid_project(schema):
+    errors, warnings = validate_data(VALID_PROJECT, schema)
+    assert errors == []
+    assert warnings == []
+
+
+def test_project_missing_title(schema):
+    data = {
+        "type": "project",
+        "tags": ["project"],
+        "status": "draft",
+        "created": "2025-01-15",
+        "revised": "2025-01-15",
+        "revision": 1,
+        "ai_generated": True,
+    }
+    errors, _ = validate_data(data, schema)
+    assert any("title" in e for e in errors)
+
+
+def test_project_tag_coherence():
+    data = {"type": "project", "tags": ["galaxy/api"]}
+    warnings = validate_tag_coherence(data)
+    assert len(warnings) == 1
+    assert "project" in warnings[0]
+
+
+def test_find_md_files_skips_project_subfiles(tmp_path):
+    proj_dir = tmp_path / "projects" / "sample"
+    proj_dir.mkdir(parents=True)
+    (proj_dir / "index.md").write_text("---\ntype: project\n---\n")
+    (proj_dir / "overview.md").write_text("# Overview\n")
+    (proj_dir / "architecture.md").write_text("# Architecture\n")
+
+    files = list(find_md_files(tmp_path))
+    filenames = [f.name for f in files]
+    assert "overview.md" not in filenames
+    assert "architecture.md" not in filenames
+
+
+def test_find_md_files_includes_project_index(tmp_path):
+    proj_dir = tmp_path / "projects" / "sample"
+    proj_dir.mkdir(parents=True)
+    (proj_dir / "index.md").write_text("---\ntype: project\n---\n")
+    (proj_dir / "overview.md").write_text("# Overview\n")
+
+    files = list(find_md_files(tmp_path))
+    filenames = [f.name for f in files]
+    assert "index.md" in filenames
+
+
+def test_validate_directory_with_project(tmp_path):
+    proj_dir = tmp_path / "projects" / "sample"
+    proj_dir.mkdir(parents=True)
+    (proj_dir / "index.md").write_text(
+        "---\n"
+        "type: project\n"
+        "tags:\n  - project\n"
+        "status: draft\n"
+        "created: 2025-01-15\n"
+        "revised: 2025-01-15\n"
+        "revision: 1\n"
+        "ai_generated: true\n"
+        "title: Sample Project\n"
+        "---\n"
+        "# Sample Project\n"
+    )
+    (proj_dir / "overview.md").write_text("# Overview\nNo frontmatter here.\n")
+
+    total_errors, total_warnings = validate_directory(
+        str(tmp_path), str(REPO_ROOT / "meta_schema.yml"), str(REPO_ROOT / "meta_tags.yml")
+    )
+    assert total_errors == 0
+    assert total_warnings == 0

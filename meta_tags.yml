@@ -44,6 +44,9 @@ concept:
 moc:
   description: "Map of Content - navigation hub that organizes and contextualizes links, contains no research itself"
 
+project:
+  description: "Multi-file project directory with index.md landing page"
+
 # --- Galaxy Area Tags ---
 # These classify which part of Galaxy the note relates to. Notes can have multiple.
 
