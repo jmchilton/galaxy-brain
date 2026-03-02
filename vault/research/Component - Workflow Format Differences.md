@@ -6,8 +6,8 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-02-19
-revised: 2026-02-19
-revision: 1
+revised: 2026-03-02
+revision: 2
 ai_generated: true
 component: Workflow Formats (native vs Format2)
 galaxy_areas: [workflows]
@@ -450,6 +450,152 @@ native → Format2 → native
 This round-trip is also lossy in minor ways: `__current_case__` values may differ if the tool isn't available for validation, `errors` fields are dropped, step ordering may change within equivalence classes.
 
 For practical purposes, both formats produce identical runtime behavior when imported into Galaxy — the same steps execute with the same parameters and connections. The differences are cosmetic and metadata-level.
+
+## Deep Dive: `tool_state` vs `state` in Format2
+
+The Format2 specification accepts two different keys for tool parameter state: `state` and `tool_state`. These represent fundamentally different encoding contracts and take entirely different code paths during conversion to native format.
+
+### The Two Keys
+
+**`state`** — the human-authored approach. Values are structured YAML (dicts, lists, scalars). This is what Format2 was designed for and what human authors should use:
+
+```yaml
+steps:
+  count_features:
+    tool_id: random_lines1
+    state:
+      num_lines: 2
+      seed_source:
+        seed_source_selector: set_seed
+        seed: asdf
+```
+
+**`tool_state`** — the machine-generated approach. Values are pre-serialized (each top-level value is already a JSON string). This is what gxformat2's own `from_galaxy_native()` export function produces:
+
+```yaml
+steps:
+  count_features:
+    tool_id: random_lines1
+    tool_state:
+      num_lines: '2'
+      seed_source: '{"seed_source_selector": "set_seed", "seed": "asdf"}'
+```
+
+### Conversion Logic (Format2 → Native)
+
+The converter in `gxformat2/converter.py` (lines 400–414) uses a mutually exclusive `if-elif`:
+
+```python
+tool_state = {"__page__": 0}
+
+if "state" in step or runtime_inputs:
+    step_state = step.pop("state", {})
+    step_state = setup_connected_values(step_state, append_to=connect)
+    for key, value in step_state.items():
+        tool_state[key] = json.dumps(value)       # <-- per-value encoding
+    for runtime_input in runtime_inputs:
+        tool_state[runtime_input] = json.dumps({"__class__": "RuntimeValue"})
+elif "tool_state" in step:
+    tool_state.update(step.get("tool_state"))      # <-- direct merge, no encoding
+```
+
+Then, regardless of which path was taken:
+
+```python
+step["tool_state"] = json.dumps(tool_state)        # <-- outer encoding
+```
+
+**The `state` path** does two levels of JSON encoding: each top-level value is individually `json.dumps()`'d, then the entire dict is `json.dumps()`'d. This produces the double-encoded format Galaxy expects (a JSON string containing JSON strings as values). Before encoding, `setup_connected_values()` recursively walks the state dict and replaces any `$link` references with `{"__class__": "ConnectedValue"}` markers, appending the actual connection targets to the `connect` dict.
+
+**The `tool_state` path** does one level of JSON encoding: values are merged as-is (assumed to already be JSON strings), then the entire dict is `json.dumps()`'d. This path exists to support round-tripping — the export (`from_galaxy_native()`) produces `tool_state` with pre-encoded string values, and re-import consumes them without additional encoding.
+
+### Conversion Logic (Native → Format2)
+
+The export in `gxformat2/export.py` (lines 138–141) does a straightforward decode:
+
+```python
+tool_state = json.loads(step["tool_state"])   # parse outer JSON string
+tool_state.pop("__page__", None)
+tool_state.pop("__rerun_remap_job_id__", None)
+step_dict["tool_state"] = tool_state           # store as structured dict
+```
+
+The export always uses the key `tool_state`, never `state`. This means the exported Format2 preserves the per-value JSON string encoding from the native format. The values remain as JSON strings (e.g., `'{"seed_source_selector": "set_seed"}'`), not decoded back to structured YAML. This is a deliberate round-trip design choice — it avoids the need for the export to understand the tool's parameter structure in order to decide which values are dicts vs. JSON strings of dicts.
+
+### Encoding Example
+
+Starting from human-authored Format2 with `state`:
+
+```yaml
+state:
+  anno:
+    anno_select: history
+    gff_feature_type: exon
+  num_lines: 5
+```
+
+After per-value `json.dumps` (step 1):
+```python
+tool_state = {
+    "__page__": 0,
+    "anno": '{"anno_select": "history", "gff_feature_type": "exon"}',
+    "num_lines": "5"
+}
+```
+
+After outer `json.dumps` (step 2) — final native `tool_state`:
+```json
+"{\"__page__\": 0, \"anno\": \"{\\\"anno_select\\\": \\\"history\\\", \\\"gff_feature_type\\\": \\\"exon\\\"}\", \"num_lines\": \"5\"}"
+```
+
+Each top-level value is a JSON string inside a JSON string — the double-encoding characteristic of native `.ga` tool state.
+
+### No Schema Involvement in Conversion
+
+The Format2 → native conversion is **purely algorithmic**, operating only on the workflow data itself. It does not:
+
+- Load or consult tool XML/YAML definitions
+- Validate parameter names, types, or values against any tool schema
+- Use the `ImporterGalaxyInterface` for state conversion (that interface exists only for importing subworkflows and tools)
+- Infer `__current_case__` for conditionals (unlike what Galaxy does during step injection)
+- Check whether parameter values are valid for their declared types
+
+The algorithm is simple: iterate top-level keys, `json.dumps()` each value, wrap in outer `json.dumps()`. The only "intelligence" is `setup_connected_values()`, which recursively finds `$link` markers and replaces them with `ConnectedValue` — but even this is pattern-matching on the data, not consulting a schema.
+
+On the Galaxy side, the imported native-format workflow goes through `ToolModule.recover_state()`, which by default also just deserializes the JSON tool_state without validation. Full tool-aware validation (filling defaults, checking parameter values) only happens later during step injection (`WorkflowModuleInjector`) when the workflow is prepared for execution, and optionally during `recover_state` with `fill_defaults=True`.
+
+### Implications of Schema-Free Conversion
+
+The absence of schema validation during conversion has several consequences:
+
+1. **Invalid state passes silently** — A Format2 workflow with `state: {nonexistent_param: 42}` converts to native format without error. The bad parameter only surfaces (if at all) when Galaxy tries to execute the step.
+
+2. **No type coercion** — If a tool expects an integer but the Format2 `state` provides a string, the string gets `json.dumps()`'d and stored. There's no opportunity to catch the mismatch early.
+
+3. **Round-trip asymmetry** — The export uses `tool_state` (preserving per-value encoding), not `state` (structured values). A human-authored workflow using `state` will look different after a native → Format2 round-trip, even though the semantics are identical.
+
+4. **Conditional cases are opaque** — Native format includes `__current_case__` markers computed from the tool definition. Format2's `state` key omits these (they're inferred later by Galaxy). If the tool isn't available during import, the case inference may produce different results.
+
+5. **No completeness checking** — There's no way to know during conversion whether required parameters are missing, since "required" is defined by the tool, not the workflow format.
+
+### Future Direction: Schema-Validated Tool State
+
+Galaxy already has a sophisticated tool state specification infrastructure (see *Tool State Specification* component research) with 12 distinct state representations, each backed by dynamically generated Pydantic models. Two representations are directly relevant to workflow state:
+
+- **`workflow_step`**: Validates unlinked parameter values (data inputs are always `None`)
+- **`workflow_step_linked`**: Validates parameters where connected inputs are `{"__class__": "ConnectedValue"}`
+
+These models are generated from tool parameter definitions and enforce strict typing (`StrictInt`, `StrictBool`, etc.), range constraints, and structural correctness (conditional discriminators, repeat bounds, section nesting).
+
+Bringing this validation infrastructure into the Format2 conversion pipeline could address the gaps above. A schema-aware conversion could:
+
+- **Validate early** — Reject invalid parameter names, types, or values during `state` → `tool_state` conversion rather than deferring to runtime
+- **Infer `__current_case__`** — Compute conditional case indices from selector values using the tool's parameter tree, matching what Galaxy does during step injection
+- **Fill defaults** — Populate missing parameters with tool-defined defaults, producing more complete native tool_state
+- **Enable a `state` export path** — With knowledge of the tool's parameter structure, `from_galaxy_native()` could decode per-value JSON strings back to structured values and emit `state` instead of `tool_state`, producing cleaner human-readable output
+- **Power linting** — The gxformat2 linter could validate `state` values against the tool schema, catching errors before the workflow is even imported
+
+The main constraint is that gxformat2 is designed to work without Galaxy's tool infrastructure — it's a standalone library. Schema-aware features would need to be optional (activated when tool definitions are available) while preserving the current schema-free path as the default. The `ImporterGalaxyInterface` or a similar mechanism could be extended to provide tool parameter metadata to the converter when available.
 
 ## Version History
 

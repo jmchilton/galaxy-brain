@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "research/Component - Workflow Refactoring API.md",
+                "file": "projects/workflow_state/COMPONENT_WORKFLOW_STATE_INITIAL_WORK.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Component - Workflow Refactoring API"
+              "title": "COMPONENT_WORKFLOW_STATE_INITIAL_WORK"
             }
           }
         ],
@@ -82,7 +82,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "file:page",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -103,8 +103,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -213,40 +212,43 @@
       "bases:Create new base": false
     }
   },
-  "active": "73fcb0f662569dda",
+  "active": "c1926bfde7f63465",
   "lastOpenFiles": [
-    "research/Component - Markdown Visualizations.md",
-    "research/PR 5378 - Tool Resource Requirements.md",
-    "research/PR 20936 - Resource Requirements via TPV.md",
-    "research/Component - Workflow Testing.md",
-    "research/Component - Workflow Refactoring API.md",
+    "projects/workflow_state/FILES_INDEX.md",
+    "projects/workflow_state/FIRST_STEPS.md",
+    "projects/workflow_state/PROBLEM_AND_GOAL.md",
+    "projects/workflow_state/index.md",
     "research/Component - Workflow Format Differences.md",
-    "research/PR 19377 - Collection Types and Wizard UI.md",
-    "projects/cwl/CWL_GRAPH_RESEARCH_ANDPLAN.md",
-    "projects/cwl/CWL_LEGACY_RUNTIME.md",
-    "projects/cwl/CWL_LEGACY_BRANCH.md",
-    "projects/cwl/CWL_REPLACE_EPHEMERAL_COLLECTIONS_PLAN.md",
-    "projects/cwl/CWL_SCHEMA_DEF_REQUIREMENT.md",
-    "projects/cwl/CWL_TOOL_LOADING_AND_REFERENCE_TOOLS.md",
-    "projects/cwl/DEPENDENCY_CWLTOOL.md",
-    "projects/cwl/DEPENDENCIES_CWL_CONFORMANCE_TESTS.md",
-    "projects/cwl/HDCA_AS_OBJECTS_PLAN.md",
-    "projects/cwl/JOB_INTERNAL_CWL_NULL_UNION.md",
-    "projects/cwl/TOOL_LOADING_FROM_CONFORMANCE_TESTS_PLAN.md",
-    "projects/cwl/DEBUGGING_CONFORMANCE_TESTS.md",
-    "projects/cwl/WORKFLOW_SECONDARY_FILES.md",
-    "research/Component - CWL Ephemeral Collections.md",
-    "research/Component - Collection Adapters.md",
-    "research/Component - E2E Tests - Writing.md",
-    "projects/collection_semantics/index.md",
-    "projects/cwl/index.md",
+    "research/PR 18524 - Add Tool-Centric APIs to Tool Shed 2.0.md",
+    "projects/workflow_state/COMPONENT_WORKFLOW_STATE_INITIAL_WORK.md",
+    "research/Component - Tool State Specification.md",
+    "research/Component - gxformat2 Parsing and Syntax.md",
+    "projects/wf_refactor_persistence/E2E_PERSISTENCE_TEST_PLAN.md",
+    "projects/history_markdown/index.md",
+    "projects/history_markdown/HISTORY_PAGES_UI_CONVERGE_PLAN.md",
+    "projects/history_markdown/HISTORY_PAGES_TEST_CONVERGE_PLAN.md",
+    "projects/history_markdown/HISTORY_PAGES_CLEANUP_PLAN.md",
+    "projects/history_markdown/HISTORY_MARKDOWN_ARCHITECTURE.md",
+    "projects/history_markdown/E2E_TEST_POLISH_WHEN_GREEN.md",
+    "projects/history_markdown",
+    "projects/cwl/CWL_CONDITIONALS_STATUS.md",
+    "projects/cwl/CWL_CONDITIONALS_PICK_VALUE_VIA_TOOL_PLAN.md",
+    "projects/cwl/CWL_CONDITIONALS_PICK_VALUE_FRAMEWORK_SUPPORT.md",
+    "projects/cwl/CWL_CONDITIONALS_PICK_VALUE_COMPARE.md",
+    "research/Component - CWL Workflow State.md",
+    "research/Dependency - gxformat2.md",
+    "research/Component - Workflow Format (.ga).md",
+    "research/Component - Worktree Bootstrapping.md",
+    "research/Component - YAML Tool Runtime.md",
+    "research/Component - Workflow Testing.md",
+    "projects/workflow_state",
+    "Untitled 1.canvas",
+    "Untitled.canvas",
     "projects/cwl",
-    "projects/wf_refactor_persistence/index.md",
     "projects/wf_refactor_persistence",
     "projects/collection_semantics",
     "projects/sample-project",
     "projects",
-    "plans",
-    "Untitled.canvas"
+    "plans"
   ]
 }
