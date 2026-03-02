@@ -100,20 +100,45 @@ WorkflowModule.execute() in modules.py
 
 ## Local Test Environment
 
+### Populating Conformance Test Files
+
+Conformance test files (CWL tools, job inputs, test data) are **not committed** — they're gitignored and downloaded on demand. If `test/functional/tools/cwl_tools/v1.1/` doesn't exist, tests can't run. See `DEPENDENCIES_CWL_CONFORMANCE_TESTS.md` for full details.
+
+```bash
+# Download all versions + generate pytest files:
+make generate-cwl-conformance-tests
+
+# Or just the shell script:
+bash scripts/update_cwl_conformance_tests.sh
+```
+
+This downloads from upstream CWL repos and populates:
+- `test/functional/tools/cwl_tools/v1.{0,1,2}/` — conformance YAML + test files
+- `lib/galaxy_test/api/cwl/test_cwl_conformance_v1_?.py` — generated pytest files
+
+Both dirs are gitignored, so each worktree needs its own copy.
+
 ### VIRTUAL_ENV must be set
 
-Galaxy's job script template uses `$VIRTUAL_ENV` to activate the venv inside job scripts. Without it, `python` may resolve to a system shim (e.g. rye) and the CWL relocate script silently fails — outputs are empty.
+Galaxy's job script template uses `$VIRTUAL_ENV` to activate the venv inside job scripts. Without it, `python` may resolve to a system shim (e.g. rye) and the CWL relocate script silently fails — outputs are empty. **This is the #1 cause of mysterious CWL test failures locally.**
+
+The relocate script (`relocate_dynamic_outputs.py`) is invoked as `python '...'` inside the job script. If `VIRTUAL_ENV` isn't set, `_galaxy_setup_environment` can't activate the venv, so `python` resolves to rye's shim which errors with `Target Python binary 'python' not found`. The job still reports "ok" (exit code was captured before the relocate step), but all CWL outputs processed by `handle_outputs()` are missing:
+- **File outputs**: 0-byte datasets (file never moved to output path)
+- **Expression.json outputs**: empty content → `JSONDecodeError`
+- **ExpressionTool outputs**: expression never evaluated (it runs inside `handle_outputs`)
 
 ```bash
 # Either activate the venv:
 source .venv/bin/activate
-pytest ...
+GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false pytest ...
 
 # Or export it explicitly:
-VIRTUAL_ENV=$(pwd)/.venv pytest ...
+VIRTUAL_ENV=$(pwd)/.venv GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false pytest ...
 ```
 
-Symptom: `JSONDecodeError: Expecting value: line 1 column 1` on expression.json outputs. The dataset exists but content is `b''`.
+**Also set `GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false`** — without it, Galaxy may attempt conda initialization on first run, adding significant startup time and potential hangs.
+
+**Symptom**: `JSONDecodeError: Expecting value: line 1 column 1` on expression.json outputs. The dataset exists in "ok" state but content is `b''`. Job stderr contains `error: Target Python binary 'python' not found`. This will pass in CI where the venv is properly activated.
 
 ## Debugging Techniques
 
@@ -126,7 +151,7 @@ Galaxy test output suppresses debug-level logs. Always use `log.info()` for temp
 | Error | Stage | Where to look |
 |-------|-------|---------------|
 | `NotImplementedError` in `from_cwl` | Workflow expression eval | `modules.py` `_ref_to_cwl` - missing src type? |
-| Pydantic `Extra inputs are not permitted` | Tool state validation | `modules.py` - when-only inputs leaking to validation? |
+| Pydantic `Extra inputs are not permitted` | Tool state validation | `modules.py` - when-only inputs leaking to validation? Or CWL job JSON has keys not in tool inputs (shared job files) — stripped server-side in `jobs.py:create()` for CWL tools |
 | `KeyError('id')` in `_collect_cwl_inputs` | Job creation | Non-HDA refs (e.g. `{src: "json"}`) reaching input collection |
 | `CompareFail: expected X got Y` | Output comparison | Trace from output collection backward |
 | `CompareFail` with extra quotes/escaping | JSON round-trip | Double-encoding: check staging vs read-back |
@@ -142,6 +167,8 @@ Galaxy test output suppresses debug-level logs. Always use `log.info()` for temp
 **When-only inputs leaking**: CWL workflow steps can have inputs used only in `when` expressions that aren't actual tool inputs. These must be filtered before tool validation and before passing to `_collect_cwl_inputs`.
 
 **Relocate script silent failure**: If `python` isn't found (missing venv activation), the relocate script fails silently. The job still "succeeds" (exit code is captured separately) but all CWL outputs are empty. File outputs appear as 0-byte datasets; expression.json outputs cause `JSONDecodeError`.
+
+**Directory HDA path vs content**: Galaxy directory-type HDAs store their content in `hda.dataset.extra_files_path`, not the primary `.dat` file. Any code passing a directory HDA path to cwltool (or anything expecting a real filesystem directory) must use the extra files path. Symptom: `NotADirectoryError` from cwltool during `bind_input` / `get_listing`.
 
 ### Adding Debug Logging
 
