@@ -2,18 +2,17 @@
 
 Extend `lib/galaxy_test/selenium/test_workflow_editor_undo_redo.py` with tests for the workflow action persistence and changelog features.
 
-## 1. How to Enable the Feature Flag
+## 1. Enable Feature Flag in Test Server Config
 
-Galaxy selenium tests create a session-scoped server. Configuration respects `GALAXY_CONFIG_OVERRIDE_*` environment variables via `load_app_properties`.
+Add `enable_workflow_action_persistence=True` to the config dict in `lib/galaxy_test/driver/driver_util.py` in the `setup_galaxy_config()` function (around line 242). This enables the feature for all selenium tests automatically — no runtime env vars needed.
 
-**Approach:** Set the env var before running these tests:
+**Location:** In the config dict (lines 196-243), add after `workflow_completion_monitor_sleep`:
 
-```bash
-GALAXY_CONFIG_OVERRIDE_ENABLE_WORKFLOW_ACTION_PERSISTENCE=true \
-  pytest lib/galaxy_test/selenium/test_workflow_editor_undo_redo.py -k "Persistence" -v
+```python
+enable_workflow_action_persistence=True,
 ```
 
-This enables `enable_workflow_action_persistence` for the Galaxy instance. Existing undo/redo tests are compatible with persistence enabled — the refactor-as-save path falls back to raw PUT when needed.
+Existing undo/redo tests are compatible with persistence enabled — the refactor-as-save path falls back to raw PUT when needed.
 
 **Naming convention:** New test class `TestWorkflowEditorPersistence` with methods prefixed `test_persistence_*` for easy `-k` filtering.
 
@@ -356,7 +355,6 @@ Without the flag, no changelog entries created.
 1. **`resetStores()` in refactor path** — current `saveViaRefactor()` calls `_loadCurrent()` → `resetStores()` which clears undo stack. The "undo survives save" tests assume this changes. Prerequisite or red-to-green?
 2. **Confirmation dialog selectors** — revert flow has up to 2 modals (unsaved changes + revert confirm). Are these standard `b-modal` instances? Need exact selectors.
 3. **Changelog panel visibility assertion** — should we add a test that confirms the activity bar button IS visible when persistence enabled (and invisible when not)?
-4. **External Galaxy instances** — `GALAXY_CONFIG_OVERRIDE_*` has no effect on pre-configured servers. Skip condition needed?
-5. **Comment roundtrip reliability** — existing undo/redo comment tests have `HACK` sleep for slow CI. Same workaround needed here?
-6. **Batch title format** — what exactly does `buildBatchTitle` produce? Need to check implementation for assertion format.
-7. **Fallback test isolation** — `test_persistence_fallback_when_disabled` can't run with flag enabled. Separate file or skip?
+4. **Comment roundtrip reliability** — existing undo/redo comment tests have `HACK` sleep for slow CI. Same workaround needed here?
+5. **Batch title format** — what exactly does `buildBatchTitle` produce? Need to check implementation for assertion format.
+6. **Fallback test isolation** — `test_persistence_fallback_when_disabled` can't run with flag enabled. Separate file or skip?

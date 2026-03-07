@@ -3,12 +3,13 @@
 ## Running a Single Test
 
 ```bash
-GALAXY_CONFIG_ENABLE_BETA_WORKFLOW_MODULES="true" \
-GALAXY_CONFIG_OVERRIDE_ENABLE_BETA_TOOL_FORMATS="true" \
+. .venv/bin/activate; VIRTUAL_ENV=$(pwd)/.venv GALAXY_CONFIG_ENABLE_BETA_WORKFLOW_MODULES="true" \
+GALAXY_CONFIG_OVERRIDE_ENABLE_BETA_TOOL_FORMATS="true"  GALAXY_TEST_DISABLE_ACCESS_LOG=1 \
+GALAXY_TEST_LOG_LEVEL=WARN \
 GALAXY_SKIP_CLIENT_BUILD=1 \
 GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false \
 GALAXY_CONFIG_OVERRIDE_TOOL_CONFIG_FILE="test/functional/tools/sample_tool_conf.xml" \
-pytest -v lib/galaxy_test/api/cwl/test_cwl_conformance_v1_2.py::TestCwlConformance::test_conformance_v1_2_<test_suffix>
+pytest -s -v lib/galaxy_test/api/cwl/test_cwl_conformance_v1_2.py::TestCwlConformance::test_conformance_v1_2_<test_suffix>
 ```
 
 All env vars required. `GALAXY_SKIP_CLIENT_BUILD=1` saves ~30s. Tests take ~3-4 minutes each (Galaxy server startup dominates).
@@ -142,52 +143,29 @@ VIRTUAL_ENV=$(pwd)/.venv GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false pytest ...
 
 ## Debugging Techniques
 
-### Use log.info, not log.debug
+### Use log.warning
 
-Galaxy test output suppresses debug-level logs. Always use `log.info()` for temporary debugging output so it actually appears in test output.
+Galaxy has very verbose test output so we disable a lot of the debugging with GALAXY_TEST_LOG_LEVEL=WARN - so use log.warning to write debug statements.
 
 ### Narrowing by Error Type
 
-| Error | Stage | Where to look |
-|-------|-------|---------------|
-| `NotImplementedError` in `from_cwl` | Workflow expression eval | `modules.py` `_ref_to_cwl` - missing src type? |
-| Pydantic `Extra inputs are not permitted` | Tool state validation | `modules.py` - when-only inputs leaking to validation? Or CWL job JSON has keys not in tool inputs (shared job files) — stripped server-side in `jobs.py:create()` for CWL tools |
-| `KeyError('id')` in `_collect_cwl_inputs` | Job creation | Non-HDA refs (e.g. `{src: "json"}`) reaching input collection |
-| `CompareFail: expected X got Y` | Output comparison | Trace from output collection backward |
-| `CompareFail` with extra quotes/escaping | JSON round-trip | Double-encoding: check staging vs read-back |
-| `JSONDecodeError` on empty expression.json | Relocate script didn't run | Check `VIRTUAL_ENV` is set; check job stderr for "python not found" |
-| `CompareFail: expected N got 0` (exit code) | Exit code not passed | Check exit code file path in `runtime_actions.py` |
+| Error                                       | Stage                      | Where to look                                                                                                                                                                    |
+| ------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NotImplementedError` in `from_cwl`         | Workflow expression eval   | `modules.py` `_ref_to_cwl` - missing src type?                                                                                                                                   |
+| Pydantic `Extra inputs are not permitted`   | Tool state validation      | `modules.py` - when-only inputs leaking to validation? Or CWL job JSON has keys not in tool inputs (shared job files) — stripped server-side in `jobs.py:create()` for CWL tools |
+| `KeyError('id')` in `_collect_cwl_inputs`   | Job creation               | Non-HDA refs (e.g. `{src: "json"}`) reaching input collection                                                                                                                    |
+| `CompareFail: expected X got Y`             | Output comparison          | Trace from output collection backward                                                                                                                                            |
+| `CompareFail` with extra quotes/escaping    | JSON round-trip            | Double-encoding: check staging vs read-back                                                                                                                                      |
+| `JSONDecodeError` on empty expression.json  | Relocate script didn't run | Check `VIRTUAL_ENV` is set; check job stderr for "python not found"                                                                                                              |
+| `CompareFail: expected N got 0` (exit code) | Exit code not passed       | Check exit code file path in `runtime_actions.py`                                                                                                                                |
 
 ### Common Bug Patterns
-
-**Double JSON encoding**: Values stored via `ObjectUploadTarget` are `json.dumps()`'d into `expression.json` HDAs. When reading back, must `json.loads()` the content. If any step in the read-back path returns raw file content for strings, you get extra quotes and escaped newlines.
-
-**Missing src type in _ref_to_cwl**: Galaxy parameter refs use `{src: "hda", id: N}`, `{src: "hdca", id: N}`, or `{src: "json", value: V}`. If `_ref_to_cwl` doesn't handle a src type, the raw dict leaks through to expression evaluation.
-
-**When-only inputs leaking**: CWL workflow steps can have inputs used only in `when` expressions that aren't actual tool inputs. These must be filtered before tool validation and before passing to `_collect_cwl_inputs`.
 
 **Relocate script silent failure**: If `python` isn't found (missing venv activation), the relocate script fails silently. The job still "succeeds" (exit code is captured separately) but all CWL outputs are empty. File outputs appear as 0-byte datasets; expression.json outputs cause `JSONDecodeError`.
 
 **Directory HDA path vs content**: Galaxy directory-type HDAs store their content in `hda.dataset.extra_files_path`, not the primary `.dat` file. Any code passing a directory HDA path to cwltool (or anything expecting a real filesystem directory) must use the extra files path. Symptom: `NotADirectoryError` from cwltool during `bind_input` / `get_listing`.
 
-### Adding Debug Logging
-
-Useful spots for temporary `log.info()`:
-
-```python
-# In modules.py, when expression evaluation (~line 2687):
-log.info(f"step_state for when eval: {step_state}")
-log.info(f"when result: {when_value}")
-
-# In evaluation.py, input_json before passing to cwltool (~line 1238):
-log.info(f"CWL input_json: {input_json}")
-
-# In runtime_actions.py, output values (~line 189):
-log.info(f"CWL output {output_name}: {output!r} (type={type(output).__name__})")
-
-# In cwl_runtime.py, _parse_scalar:
-log.info(f"_parse_scalar content={content!r} type={type(item_type_param).__name__}")
-```
+**macOS vs Linux `wc` output**: macOS `wc -l` pads output with leading spaces (e.g. `"      16\n"` = 9 bytes) while Linux produces `"16\n"` (3 bytes). Several CWL conformance tests use `wc -l` and expect Linux output. A `CompareFail` with correct line count but wrong checksum/size on macOS is likely this — not a real bug. These tests will pass in CI (Linux).
 
 ## Expression.json Round-Trip
 
