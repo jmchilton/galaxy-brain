@@ -35,6 +35,9 @@ Three merge paths exist in `run.py:466-557`:
 | A | Multiple HDAs | default | `list` | Promote N datasets to a list |
 | B | Multiple `list` HDCAs | `merge_flattened` | `list` | Flatten all list elements into one list |
 | C | Multiple `list` HDCAs | `merge_nested` | `list:<input_type>` | Nest input lists as sub-collections |
+| D | Multiple HDAs | `merge_nested` | `list:list` | Wrap each HDA in a sub-list (PLAN_GAP6) |
+
+Note: Single-connection + `merge_nested` is a degenerate case of A/C (1-element list).
 
 ---
 
@@ -214,6 +217,87 @@ class MergeListsNestedAdapter(CollectionAdapter):
         )
 ```
 
+### 1e. `TransientCollectionAdapterSubListElement` (for PLAN_GAP6)
+
+Virtual sub-list element containing transient dataset elements. Unlike
+`TransientCollectionAdapterCollectionElement` (wraps a real HDCA), this wraps
+a list of `TransientCollectionAdapterDatasetInstanceElement` to represent a
+sub-list with no backing HDCA — needed for merge_nested of individual HDAs.
+
+```python
+class TransientCollectionAdapterSubListElement:
+    """Virtual sub-list collection element containing transient dataset elements."""
+
+    def __init__(self, element_identifier: str,
+                 elements: list[TransientCollectionAdapterDatasetInstanceElement]):
+        self.element_identifier = element_identifier
+        self._elements = elements
+
+    @property
+    def child_collection(self):
+        return self
+
+    @property
+    def element_object(self):
+        return self
+
+    @property
+    def is_collection(self):
+        return True
+
+    @property
+    def elements(self):
+        return self._elements
+
+    @property
+    def collection_type(self):
+        return "list"
+
+    @property
+    def dataset_instances(self):
+        return [e.dataset_instance for e in self._elements]
+```
+
+### 1f. `MergeNestedDatasetsAdapter` (for PLAN_GAP6)
+
+Replaces Path D (multiple HDAs → list:list, each HDA in own sub-list).
+
+```python
+class MergeNestedDatasetsAdapter(CollectionAdapter):
+    """Wrap multiple individual datasets into list:list."""
+
+    def __init__(self, datasets: list["HistoryDatasetAssociation"]):
+        self._datasets = datasets
+
+    @property
+    def collection_type(self) -> str:
+        return "list:list"
+
+    @property
+    def elements(self):
+        result = []
+        for i, hda in enumerate(self._datasets):
+            inner = TransientCollectionAdapterDatasetInstanceElement("0", hda)
+            result.append(TransientCollectionAdapterSubListElement(str(i), [inner]))
+        return result
+
+    @property
+    def dataset_instances(self):
+        return list(self._datasets)
+
+    @property
+    def adapting(self):
+        return self._datasets
+
+    def to_adapter_model(self):
+        return AdaptedDataCollectionMergeNestedDatasetsRequestInternal(
+            src="CollectionAdapter",
+            adapter_type="MergeNestedDatasets",
+            adapting=[DataRequestInternalHda(src="hda", id=hda.id)
+                      for hda in self._datasets],
+        )
+```
+
 ---
 
 ## Step 2: Pydantic Serialization Models
@@ -235,6 +319,10 @@ class AdaptedDataCollectionMergeListsNestedRequestInternal(AdaptedDataCollection
     adapter_type: Literal["MergeListsNested"]
     input_collection_type: str
     adapting: list[DataRequestInternalHdca]
+
+class AdaptedDataCollectionMergeNestedDatasetsRequestInternal(AdaptedDataCollectionRequestBase):
+    adapter_type: Literal["MergeNestedDatasets"]
+    adapting: list[DataRequestInternalHda]
 ```
 
 ### External models (API-facing, string IDs):
@@ -252,6 +340,10 @@ class AdaptedDataCollectionMergeListsNestedRequest(AdaptedDataCollectionRequestB
     adapter_type: Literal["MergeListsNested"]
     input_collection_type: str
     adapting: list[DataRequestHdca]
+
+class AdaptedDataCollectionMergeNestedDatasetsRequest(AdaptedDataCollectionRequestBase):
+    adapter_type: Literal["MergeNestedDatasets"]
+    adapting: list[DataRequestHda]
 ```
 
 ### Update discriminated unions:
@@ -285,6 +377,8 @@ def recover_adapter(wrapped_object, adapter_model):
         return MergeListsFlattenedAdapter(wrapped_object)  # list[HDCA]
     elif adapter_type == "MergeListsNested":
         return MergeListsNestedAdapter(wrapped_object, adapter_model.input_collection_type)
+    elif adapter_type == "MergeNestedDatasets":
+        return MergeNestedDatasetsAdapter(wrapped_object)  # list[HDA]
     else:
         raise Exception(f"Unknown collection adapter encountered {adapter_type}")
 ```
@@ -329,7 +423,10 @@ For merge adapters, `adapting` is a list. Two sub-cases:
 1. **MergeDatasets**: `adapting` is `list[TransientElement]` → existing list branch
    works (each element has `.element_identifier` and `.hda`)
 
-2. **MergeFlattened/MergeNested**: `adapting` is `list[HDCA]` → need new sub-branch:
+2. **MergeNestedDatasets**: `adapting` is `list[HDA]` (raw HDAs, not TransientElements)
+   → same list branch but handle raw HDA type alongside TransientElement.
+
+3. **MergeFlattened/MergeNested**: `adapting` is `list[HDCA]` → need new sub-branch:
 
 ```python
 elif isinstance(adapting, list):
@@ -338,6 +435,10 @@ elif isinstance(adapting, list):
         if isinstance(element, TransientCollectionAdapterDatasetInstanceElement):
             input_key = f"{name}|__adapter_part__|{element.element_identifier}"
             job.add_input_dataset(input_key, dataset=element.hda)
+        elif isinstance(element, model.HistoryDatasetAssociation):
+            # MergeNestedDatasets: raw HDAs
+            input_key = f"{name}|__adapter_part__|{i}"
+            job.add_input_dataset(input_key, dataset=element)
         elif isinstance(element, model.HistoryDatasetCollectionAssociation):
             input_key = f"{name}|__adapter_part__|{i}"
             job.add_input_dataset_collection(
@@ -359,18 +460,29 @@ Replace `replacement_for_input_connections()` lines 511-557. Instead of building
 a `DatasetCollection` + `DatasetCollectionElement` objects in memory and wrapping
 in `EphemeralCollection`, create the appropriate adapter:
 
-```python
-# Was:
-collection = model.DatasetCollection()
-collection.collection_type = input_collection_type or "list"
-# ... build DCE objects ...
-return modules.EphemeralCollection(collection=collection, history=...)
+**Single-connection path** (`len(connections) == 1`): Add merge_nested handling
+before the existing `return replacement`:
 
-# Becomes:
+```python
+if len(connections) == 1:
+    replacement = self.replacement_for_connection(connections[0], is_data=is_data)
+    if merge_type == "merge_nested" and is_data and hasattr(replacement, 'history_content_type'):
+        if replacement.history_content_type == "dataset":
+            return MergeDatasetsAdapter([replacement])  # 1-element list
+        elif replacement.history_content_type == "dataset_collection":
+            return MergeListsNestedAdapter(
+                [replacement], replacement.collection.collection_type)
+    return replacement
+```
+
+**Multi-connection path**: Replace EphemeralCollection creation with adapters:
+
+```python
 if input_collection_type is None:
-    # Path A: merge datasets into list
     if merge_type == "merge_nested":
-        raise NotImplementedError()
+        # Path D: wrap each HDA in sub-list -> list:list (PLAN_GAP6)
+        return MergeNestedDatasetsAdapter(inputs)
+    # Path A: merge datasets into flat list
     return MergeDatasetsAdapter(inputs)
 
 elif input_collection_type == "list":
@@ -384,7 +496,9 @@ elif input_collection_type == "list":
         # default for lists = flatten (existing behavior)
         return MergeListsFlattenedAdapter(inputs)
 else:
-    raise NotImplementedError()
+    raise NotImplementedError(
+        f"merge_{merge_type} not implemented for collection type '{input_collection_type}'"
+    )
 ```
 
 **Note:** `inputs` here are the replacement objects from
@@ -392,6 +506,101 @@ else:
 are HDCAs. Need to verify the actual types returned by
 `replacement_for_connection()` — they may be HDAs or HDCAs depending on the
 upstream step output type.
+
+---
+
+## Step 5b: Replace CWL-Path EphemeralCollection Sites
+
+The CWL code path has two additional EphemeralCollection consumption sites that
+are distinct from the merge-adapter creation in `replacement_for_input_connections()`.
+
+### 5b-i. `build_cwl_input_dict()` — adapter materialization (modules.py ~line 294)
+
+**Current:**
+```python
+if isinstance(replacement, EphemeralCollection):
+    session = get_object_session(step)
+    session.add(replacement.persistent_object)
+    session.flush()
+
+cwl_input_dict[input_name] = _galaxy_to_cwl_ref(replacement)
+```
+
+**Replace with:** When a `CollectionAdapter` is returned from
+`replacement_for_input_connections()`, materialize it as a real HDCA. The CWL
+scatter path (`find_cwl_scatter_collections`) needs real HDCA IDs to load
+collections from the DB via `trans.sa_session.get(HDCA, ref["id"])`.
+
+```python
+if isinstance(replacement, CollectionAdapter):
+    hdca = _persist_adapter_as_hdca(replacement, step, progress)
+    cwl_input_dict[input_name] = _galaxy_to_cwl_ref(hdca)
+```
+
+Where `_persist_adapter_as_hdca` builds a `HistoryDatasetCollectionAssociation`
+from the adapter's elements/collection_type, adds to session, and flushes.
+
+**Constraint**: This materialization MUST happen before
+`find_cwl_scatter_collections()` runs, since scatter detection loads HDCAs by ID.
+
+**Shared utility**: The HDCA-from-DatasetCollection creation pattern here is also
+used by `_build_flat_crossproduct_hdcas()` (PLAN_GAP1) and the subcollection
+wrapping in Step 5b-iii. Consider factoring into a small shared helper:
+```python
+def _create_hdca_for_collection(dc, history, sa_session):
+    hdca = model.HistoryDatasetCollectionAssociation(collection=dc, history=history)
+    sa_session.add(hdca)
+    sa_session.flush()
+    return hdca
+```
+
+**Sub-list materialization** (PLAN_GAP6): When `_persist_adapter_as_hdca()` encounters
+a `MergeNestedDatasetsAdapter`, its elements are `TransientCollectionAdapterSubListElement`
+objects. The helper must recursively build real `DatasetCollection` +
+`DatasetCollectionElement` objects from each sub-list's child elements. Generic approach:
+when iterating adapter elements, if `element.is_collection`, create a child
+`DatasetCollection` from `element.elements` and wrap in a `DatasetCollectionElement`.
+
+### 5b-ii. `_galaxy_to_cwl_ref()` — adapter branch (modules.py ~line 339)
+
+**Current:**
+```python
+elif isinstance(value, EphemeralCollection):
+    return {"src": "hdca", "id": value.persistent_object.id}
+```
+
+**Replace:** Remove this branch. With Step 5b-i materializing adapters into HDCAs
+in `build_cwl_input_dict()`, `_galaxy_to_cwl_ref()` always receives real HDCA
+objects — the standard HDCA branch handles them.
+
+### 5b-iii. Scatter iteration loop — subcollection wrapping (modules.py ~line 2784)
+
+**Current:**
+```python
+ephemeral = EphemeralCollection(
+    collection=obj,
+    history=invocation.history,
+)
+sa_session.add(ephemeral.persistent_object)
+sa_session.flush()
+obj = ephemeral
+```
+
+This wraps a bare `DatasetCollection` (subcollection element from scatter over
+nested collections like `list:list`) into an HDCA for ID-based referencing. This
+is NOT a merge operation.
+
+**Replace with direct HDCA creation** (no adapter needed):
+```python
+if isinstance(obj, model.DatasetCollection):
+    hdca = model.HistoryDatasetCollectionAssociation(
+        collection=obj,
+        history=invocation.history,
+    )
+    sa_session.add(hdca)
+    sa_session.flush()
+    slice_dict[name] = _galaxy_to_cwl_ref(hdca)
+```
 
 ---
 
@@ -536,6 +745,18 @@ These conformance tests exercise all three merge paths:
 | `scatter_multi_input_embedded_subworkflow` | A (default, subworkflow) | Must pass |
 | `valuefrom_wf_step_multiple` | multiple sources | Must pass |
 | `wf_multiplesources_multipletypes` | mixed types | Must pass |
+| `wf_wc_nomultiple_merge_nested` | D (merge_nested HDAs) | Must pass (was RED — PLAN_GAP6) |
+
+### Scatter Regression Tests
+
+The CWL scatter code path creates and consumes EphemeralCollections differently
+from the merge path. Include these in the regression suite:
+
+| Test ID | Why |
+|---------|-----|
+| `scatter_wf1` through `scatter_wf4` | Basic scatter (no subcollection wrapping) |
+| `scatter_valuefrom*` | Scatter + valueFrom interaction |
+| Any nested-collection scatter tests | Exercise line-2784 subcollection wrapping path |
 
 ### Development Order
 
@@ -552,14 +773,14 @@ These conformance tests exercise all three merge paths:
 
 | File | Change |
 |------|--------|
-| `lib/galaxy/model/dataset_collections/adapters.py` | Add 3 adapter classes + 1 helper + update `recover_adapter()` |
-| `lib/galaxy/tool_util_models/parameters.py` | Add 6 Pydantic models (3 internal + 3 external) + update unions |
+| `lib/galaxy/model/dataset_collections/adapters.py` | Add 4 adapter classes + 2 helpers + update `recover_adapter()` |
+| `lib/galaxy/tool_util_models/parameters.py` | Add 8 Pydantic models (4 internal + 4 external) + update unions |
 | `lib/galaxy/workflow/run.py` | Replace EphemeralCollection creation with adapter creation |
 | `lib/galaxy/tools/parameters/basic.py` | Remove ephemeral check in `to_json()`, update `src_id_to_item()` recovery |
 | `lib/galaxy/tools/actions/__init__.py` | Remove ephemeral check, extend list-adapting recording for HDCAs |
 | `lib/galaxy/managers/collections.py` | Replace ephemeral checks with `isinstance(CollectionAdapter)` |
 | `lib/galaxy/model/__init__.py` | Replace ephemeral check with `isinstance(CollectionAdapter)` |
-| `lib/galaxy/workflow/modules.py` | Delete `EphemeralCollection` class |
+| `lib/galaxy/workflow/modules.py` | Delete `EphemeralCollection` class; update `build_cwl_input_dict()` (Step 5b-i), `_galaxy_to_cwl_ref()` (Step 5b-ii), scatter iteration loop (Step 5b-iii) |
 
 **No changes needed:**
 - `matching.py` — `not hasattr(hid)` detection still works
@@ -568,6 +789,13 @@ These conformance tests exercise all three merge paths:
 ---
 
 ## Risks & Considerations
+
+0. **CWL scatter depends on real HDCA IDs** — `find_cwl_scatter_collections()`
+   loads collections from DB via `trans.sa_session.get(HDCA, ref["id"])`. Merge
+   adapters flowing through the CWL code path MUST be materialized into real,
+   flushed HDCAs in `build_cwl_input_dict()` (Step 5b-i) before scatter detection
+   runs. This is a hard constraint — adapters cannot flow lazily through the CWL
+   scatter path.
 
 1. **`replacement_for_connection()` return types** — need to verify what types
    are actually returned. For datasets it may return HDA directly or something
