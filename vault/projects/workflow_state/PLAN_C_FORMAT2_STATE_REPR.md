@@ -273,6 +273,16 @@ Serve via Tool Shed 2.0 API. External tools validate format2 state without Galax
 - **Dynamic selects:** Lenient pass-through when options aren't available at validation time.
 - **`__current_case__` in reverse pipeline:** Assume omitting it works fine. Validate via Galaxy framework tests and IWC corpus — fixing any defects is a project deliverable.
 
+## Status: Partially Superseded by Plan B
+
+Plan B implemented the core architecture this plan describes: native → `workflow_step_linked` → `workflow_step` pipeline with post-conversion validation against both models. Key outcomes:
+
+- **Confirmed:** `workflow_step`/`workflow_step_linked` is the right representation pair. No new representation needed.
+- **Confirmed:** Post-conversion validation (validate native, convert, validate cleaned) catches bugs early.
+- **Not adopted:** Visitor pattern (`visit_input_values()`) for conversion. Per-type explicit conversion was kept — more debuggable, worked well in practice. The "no per-type code" claim in Advantages #2 turned out to be aspirational; type coercion inherently requires per-type logic.
+- **Not adopted:** `linked_to_format2()` as a separate visitor pass. Connection stripping and state building happen together in `_convert_state_at_level()`.
+- **Still relevant:** Phases 5-6 (improve validation_format2.py, JSON Schema generation) are not yet addressed by Plan B.
+
 ## Open Questions
 
 - Where does round-trip utility live — galaxy-tool-util, gxformat2, or both?

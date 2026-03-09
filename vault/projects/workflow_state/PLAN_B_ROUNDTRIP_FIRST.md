@@ -197,6 +197,89 @@ Each failure maps to a D1-D3 work item. Expected categories:
 4. Verify focused test passes
 5. Re-run full sweep to check for regressions
 
+#### Phase 2.5: Refactor to visitor pattern
+
+**Motivation:** `convert.py` and `validation_native.py` each hand-roll tree traversal (conditional branch selection, repeat iteration, section recursion) that duplicates `visit_input_values()` in `visitor.py`. Three places to update when adding parameter types or fixing traversal bugs.
+
+**Current visitor limitations** (must fix first):
+- `Callback` protocol is `(parameter, value) -> replacement` — no path context, no dual output (state + in), no access to step/input_connections
+- `_select_which_when()` has debug `print()` statements (lines 120-121)
+- Assumes clean structured dicts — native state has JSON-encoded substates and repeat instances discovered from input_connections
+
+**Approach:**
+1. Fix `visitor.py` bugs (remove print statements)
+2. Extend callback protocol with path context: `(parameter, value, path, context) -> replacement`
+   - `path`: flat state path (e.g. `cond|repeat_0|param`) — visitor already computes this via `flat_state_path()`
+   - `context`: opaque dict passed through (carries `step`, `format2_in`, etc.)
+3. Add pre-processing hook for native state: JSON string decoding, connection merge — runs before visitor walks each level
+4. Refactor `convert.py` to use visitor for tree traversal, keep leaf logic in callback:
+   - Callback handles: connection check → `format2_in`, type coercion → `format2_state`, RuntimeValue detection
+   - ~30 lines of callback replacing ~60 lines of manual traversal
+5. Refactor `validation_native.py` similarly — merge + validation as visitor callback
+6. Verify 100% sweep still passes (no behavioral change, pure refactor)
+
+**Risk:** Low — existing 41/41 sweep is the safety net. Pure refactor, no new functionality.
+
+**When:** Before Phase 3 (subworkflows, IWC corpus). Subworkflows will add another traversal concern; better to have one traversal path first.
+
+### Phase 2.6: Subworkflow Support
+
+**Motivation:** Two native test workflows (`test_subworkflow_with_integer_input.ga`, `test_subworkflow_with_tags.ga`) and one framework workflow (`replacement_parameters_nested.gxwf.yml`) are blocked. Subworkflows are structural (no `tool_state`), so they need a different code path than tool steps. gxformat2 already handles them recursively in both directions — the gap is entirely in the `workflow_state` module and the round-trip test harness.
+
+**Key insight:** Subworkflow steps have **no tool_state to convert**. The `tool_state` field is `null`/absent. The work is: (1) don't crash on them, (2) recursively process nested tool steps within the embedded subworkflow, (3) compare nested structures in round-trip.
+
+#### Step 2.6.1: Understand the native subworkflow representation
+- Subworkflow steps: `type: "subworkflow"`, `tool_id: <uuid>`, `tool_state: null`
+- `subworkflow` key contains a full nested workflow dict (recursive structure)
+- Input connections use `"{step_id}:{step_name}"` keys with `input_subworkflow_step_id` field
+- Format2 uses `run:` block with inline `class: GalaxyWorkflow` dict or external reference string
+
+#### Step 2.6.2: Handle subworkflow steps in convert.py
+- `convert_state_to_format2()` currently requires tool lookup via `get_parsed_tool_for_native_step()` — subworkflow `tool_id` (UUID) won't resolve
+- Add early return for `type: "subworkflow"` steps — no `tool_state` conversion needed (state is `null`)
+- Recursively call per-step conversion on each tool step within `step["subworkflow"]["steps"]`
+- Subworkflow inputs/outputs are structural (data_input, parameter_input) — already handled as non-tool steps
+
+#### Step 2.6.3: Handle subworkflow steps in validation_native.py
+- `validate_step_native()` will fail trying to look up subworkflow UUID as a tool
+- Add early detection: if `step.get("type") == "subworkflow"`, skip tool validation
+- Recursively validate tool steps within nested `step["subworkflow"]["steps"]`
+- Validate subworkflow-specific connection format (`input_subworkflow_step_id` present)
+
+#### Step 2.6.4: Update round-trip test harness
+- Add `test_subworkflow_with_integer_input.ga` and `test_subworkflow_with_tags.ga` to `NATIVE_WORKFLOWS` inventory
+- Remove the `FailureClass.SUBWORKFLOW` early-return in `convert_and_compare_step()`
+- For subworkflow steps: recurse into `step["subworkflow"]["steps"]` and convert/compare each tool step
+- Add `compare_subworkflow()` function that:
+  - Compares nested step count
+  - Recursively calls `compare_steps()` on matched tool steps
+  - Compares subworkflow input/output structure
+  - Compares subworkflow-level input_connections (with `input_subworkflow_step_id`)
+- Handle `replacement_parameters_nested.gxwf.yml` in framework sweep (format2→native→format2 direction — the `run:` block should survive round-trip)
+
+#### Step 2.6.5: Full round-trip with nested subworkflows
+- `full_roundtrip_native()` currently builds format2 via `from_galaxy_native()` which already handles subworkflows recursively
+- Ensure the format2 output includes `run:` blocks for subworkflow steps
+- `python_to_workflow()` already reconstructs `subworkflow` key recursively
+- Verify: original `subworkflow` dict ≈ roundtripped `subworkflow` dict (same tool steps, same connections, same state)
+
+#### Step 2.6.6: Edge cases
+- **Recursive nesting:** Subworkflows can contain subworkflows — ensure recursion handles arbitrary depth
+- **External references:** Format2 `run:` can be a string (graph ID or URL) instead of inline dict — handle gracefully (skip or resolve)
+- **`content_id` vs `subworkflow`:** Native steps may use `content_id` to reference stored workflows instead of embedding — detect and handle (likely skip for now, flag as limitation)
+- **Subworkflow outputs:** `workflow_outputs` on subworkflow steps reference nested step outputs — verify these survive round-trip
+
+**Test plan (red-to-green):**
+1. Add subworkflow test files to inventory → tests fail (SUBWORKFLOW failure class)
+2. Handle subworkflow steps in convert.py → per-step conversion passes for nested tool steps
+3. Handle in validation_native.py → validation passes
+4. Update comparison logic → full round-trip comparison works
+5. Assert 100% sweep still holds with subworkflow workflows included
+
+**Risk:** Low-medium. gxformat2 does the heavy lifting for structural conversion. Main risk is edge cases in nested connection comparison and subworkflow output mapping.
+
+**When:** After Phase 2.5 (visitor refactor), before Phase 3 (IWC/ToolShed). Subworkflows are common in IWC corpus — must work before scaling to real-world workflows.
+
 ### Phase 3: IWC Scale + Execution Validation (3-4 weeks)
 
 **Goal:** Extend to IWC workflows, prove execution equivalence.
@@ -290,7 +373,7 @@ Export integration → D6
 
 1. **gxformat2 export limitations** — `from_galaxy_native()` currently produces `tool_state` not `state`. The round-trip pipeline bypasses this by doing its own conversion: parse native → `workflow_step_linked` → `workflow_step` (= format2 `state`). The gxformat2 export path is only used for non-state parts of the workflow (connections, metadata, structure).
 2. **Tool availability** — Framework workflows use stock tools (available). IWC workflows use toolshed tools (need API integration). Phase 3 may be blocked on Tool Shed integration.
-3. **Subworkflows** — 2 native test workflows use subworkflows. Should be supported in early phases — don't defer too long.
+3. **Subworkflows** — ~~2 native + 1 framework test workflows use subworkflows.~~ Resolved in Phase 2.6 (`42ae7a48aa`).
 4. **Execution tests require Galaxy instance** — Phase 3 execution equivalence needs a running Galaxy with test tools. Heavier infrastructure than structural comparison.
 
 ## Resolved Decisions
@@ -301,6 +384,74 @@ Export integration → D6
 - **Round-trip in CI:** Integrate round-trip validation into existing workflow framework tests — all workflow tests exercise this in CI without adding new standalone tests.
 - **`$link` markers:** `workflow_step` should fail validation if `$link` appears. `workflow_step_linked` handles connection markers.
 - **`__current_case__` in reverse pipeline:** Assume omitting it works; validate via framework tests and IWC corpus. Fixing any defects from this is a project deliverable.
+
+## Progress
+
+### Phase 1+2 Complete (2026-03-07)
+
+All stock-tool test workflows pass both per-step conversion and full native→format2→native round-trip comparison.
+
+**Per-step conversion sweep:** 41/41 (100%) — 1 excluded (intentional missing tool)
+**Full round-trip sweep:** 14/14 (100%) native workflows
+
+#### Commits (branch `wf_tool_state`)
+1. `be3344f8c2` — Round-trip harness + extend native validation/conversion to all param types (35/42)
+2. `244bd48f12` — Version-tolerant tool lookup, full round-trip comparison tests (37/42, 14/15 full)
+3. `422d1524a5` — Fix ToolExpressionOutput.to_model() for boolean type (40/42)
+4. `baf139333e` — Fix native validation merge for gxformat2 output reference strings (41/42)
+5. `2c1484cabd` — Exclude list for intentional missing tool, assert 100% in sweeps
+
+#### What was built
+- **`test/unit/workflows/test_roundtrip.py`** (~820 lines) — full harness with per-step + full round-trip sweeps, structured failure classification, type-aware comparison logic, exclude list
+- **`lib/galaxy/tool_util/workflow_state/convert.py`** — all parameter types converted (conditionals, repeats, sections, rules, all scalars), post-conversion validation, replacement param detection
+- **`lib/galaxy/tool_util/workflow_state/validation_native.py`** — all parameter types validated, double-encoded JSON handling, ConnectedValue merge from input_connections
+- **`lib/galaxy/workflow/gx_validator.py`** — version-tolerant tool lookup with fallback to latest
+- **`lib/galaxy/tool_util/parser/output_objects.py`** — fixed boolean type for expression tool outputs
+
+#### Key bugs fixed
+- `ToolExpressionOutput.to_model()` checked `"bool"` but production tools use `"boolean"`
+- `_merge_into_state()` only replaced `None`/`"null"` with ConnectedValue; gxformat2 puts output reference strings in tool_state for connected params
+- Tool version lookup was exact-match only; added fallback to latest version
+- Repeat conversion failed when tool_state had no repeat instances but input_connections referenced them
+- Various comparison asymmetries: RuntimeValue/ConnectedValue absence, bookkeeping keys, JSON string encoding, empty lists
+
+#### Known limitations
+- Post-conversion validation silently passes when the only errors are ConnectedValue type mismatches (model gap, not conversion bug)
+- Replacement parameter states skip post-conversion validation entirely
+
+#### Plan deviations
+- Per-type conversion approach kept (no visitor pattern rewrite) — explicit, debuggable, works well
+- Phases 1+2 collapsed into ~3 sessions instead of 5-7 weeks
+- Full round-trip comparison wired up early (was planned as separate step)
+
+### Phase 2.6 Complete (2026-03-08)
+
+Subworkflow steps now fully supported in round-trip pipeline.
+
+**Per-step conversion sweep:** 43/43 (100%) — was 41, +2 subworkflow workflows
+**Full round-trip sweep:** 16/16 (100%) — was 14, +2 subworkflow workflows
+
+#### Commit (branch `wf_tool_state`)
+6. `42ae7a48aa` — Subworkflow support for round-trip conversion and validation
+
+#### What was built
+- **`test/unit/workflows/test_roundtrip.py`** — recursive subworkflow handling:
+  - `_roundtrip_subworkflow_step()` recurses into `step["subworkflow"]["steps"]` for per-step conversion
+  - `_compare_workflow_steps()` recurses into subworkflows for nested tool step comparison
+  - `_replace_tool_state_with_format2_state()` recurses into format2 `run:` blocks
+  - `_ensure_export_defaults()` recurses for gxformat2 export prep
+  - `TestSubworkflowRoundTrip` class with dedicated tests for both subworkflow files
+- **`lib/galaxy/tool_util/workflow_state/validation_native.py`** — `validate_workflow_native()` recurses into subworkflow steps
+
+#### Key insight
+Subworkflow steps have **no `tool_state`** — they're structural. No changes needed in `convert.py` or `_walker.py`. The work was entirely in the test harness (recursion into nested workflows) and the validation entry point.
+
+### Remaining: Phase 3
+
+**Phase 3** (IWC scale + execution validation) is not started. Key items:
+- IWC workflow corpus with toolshed tool support
+- Execution equivalence testing
+- `__current_case__` omission validation via framework tests
 
 ## Open Questions
 
