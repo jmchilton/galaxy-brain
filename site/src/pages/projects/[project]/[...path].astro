@@ -1,0 +1,126 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import FileTree from '../../../components/FileTree.astro';
+
+function titleize(s: string): string {
+  return s.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+}
+
+export async function getStaticPaths() {
+  const entries = await getCollection('projectFiles');
+
+  // Group entries by project
+  const projectEntries = new Map<string, CollectionEntry<'projectFiles'>[]>();
+  for (const entry of entries) {
+    const parts = entry.id.split('/');
+    const project = parts[1];
+    if (!projectEntries.has(project)) projectEntries.set(project, []);
+    projectEntries.get(project)!.push(entry);
+  }
+
+  const paths: any[] = [];
+
+  for (const [project, projFiles] of projectEntries) {
+    // File paths
+    for (const entry of projFiles) {
+      const relPath = entry.id.split('/').slice(2).join('/');
+      paths.push({
+        params: { project, path: relPath },
+        props: { entry, isFolder: false },
+      });
+    }
+
+    // Folder paths — extract unique directory prefixes
+    const folderPaths = new Set<string>();
+    for (const entry of projFiles) {
+      const parts = entry.id.split('/').slice(2); // after projects/<name>
+      for (let i = 1; i < parts.length; i++) {
+        folderPaths.add(parts.slice(0, i).join('/'));
+      }
+    }
+    for (const folderPath of folderPaths) {
+      paths.push({
+        params: { project, path: folderPath },
+        props: { isFolder: true, folderPath: `projects/${project}/${folderPath}` },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { entry, isFolder, folderPath } = Astro.props;
+const { project, path: routePath } = Astro.params;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Look up parent project
+const allNotes = await getCollection('vault');
+const projectSlug = `projects/${project}`;
+const parentProject = allNotes.find(n => n.id === projectSlug);
+const projectTitle = parentProject?.data.title || titleize(project!);
+
+// Build breadcrumb segments from the route path
+const pathSegments = routePath!.split('/');
+
+interface Breadcrumb { label: string; href?: string }
+const breadcrumbs: Breadcrumb[] = [
+  { label: 'Home', href: `${base}/` },
+  { label: projectTitle, href: `${base}/${projectSlug}/` },
+];
+
+// Intermediate folder segments
+for (let i = 0; i < pathSegments.length - 1; i++) {
+  const folderSlug = pathSegments.slice(0, i + 1).join('/');
+  breadcrumbs.push({
+    label: titleize(pathSegments[i]),
+    href: `${base}/projects/${project}/${folderSlug}/`,
+  });
+}
+
+// Current page (last segment, no link)
+const currentLabel = titleize(pathSegments[pathSegments.length - 1]);
+breadcrumbs.push({ label: currentLabel });
+
+const pageTitle = currentLabel;
+
+// Render content for file entries
+let Content: any = null;
+if (!isFolder && entry) {
+  const rendered = await render(entry);
+  Content = rendered.Content;
+}
+
+// For folders: get files under this folder
+let folderFiles: CollectionEntry<'projectFiles'>[] = [];
+if (isFolder) {
+  const allProjectFiles = await getCollection('projectFiles');
+  const prefix = folderPath + '/';
+  folderFiles = allProjectFiles
+    .filter(f => f.id.startsWith(prefix))
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+---
+<Base title={pageTitle} pageTitle={pageTitle}>
+  <nav class="mb-4 text-sm text-(--color-text-secondary)">
+    {breadcrumbs.map((bc, i) => (
+      <>
+        {i > 0 && <span class="mx-1">&rsaquo;</span>}
+        {bc.href
+          ? <a href={bc.href} class="text-(--color-link) hover:underline">{bc.label}</a>
+          : <span>{bc.label}</span>}
+      </>
+    ))}
+  </nav>
+
+  <h1 class="mb-4 text-2xl font-bold">{pageTitle}</h1>
+
+  {isFolder ? (
+    <FileTree files={folderFiles} basePath={folderPath!} />
+  ) : (
+    <article class="prose prose-slate max-w-none dark:prose-invert">
+      {Content && <Content />}
+    </article>
+  )}
+</Base>

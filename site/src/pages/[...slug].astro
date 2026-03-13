@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import FileTree from '../components/FileTree.astro';
 import { buildWikiLinkMap, resolveWikiLink } from '../lib/wiki-links';
 
 export async function getStaticPaths() {
@@ -158,15 +159,7 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
   {projectFiles.length > 0 && (
     <div class="mb-6">
       <h2 class="text-lg font-semibold mb-2">Project Files</h2>
-      <ul class="list-none p-0 space-y-1">
-        {projectFiles.map(f => (
-          <li>
-            <a href={`${base}/${f.id}/`} class="text-(--color-link) hover:underline">
-              {fileTitle(f.id)}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <FileTree files={projectFiles} basePath={entry.id} />
     </div>
   )}
 

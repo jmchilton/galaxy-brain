@@ -1,0 +1,78 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  files: CollectionEntry<'projectFiles'>[];
+  basePath: string; // e.g. "projects/cwl"
+  depth?: number;
+}
+
+const { files, basePath, depth = 0 } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+interface TreeNode {
+  folders: Map<string, { path: string; children: CollectionEntry<'projectFiles'>[] }>;
+  files: CollectionEntry<'projectFiles'>[];
+}
+
+function buildTree(entries: CollectionEntry<'projectFiles'>[], prefix: string): TreeNode {
+  const tree: TreeNode = { folders: new Map(), files: [] };
+  for (const entry of entries) {
+    // Get the relative path after prefix
+    const rel = entry.id.slice(prefix.length);
+    const parts = rel.split('/');
+    if (parts.length === 1) {
+      // Direct file
+      tree.files.push(entry);
+    } else {
+      // Belongs in a subfolder
+      const folderName = parts[0];
+      if (!tree.folders.has(folderName)) {
+        tree.folders.set(folderName, { path: prefix + folderName, children: [] });
+      }
+      tree.folders.get(folderName)!.children.push(entry);
+    }
+  }
+  return tree;
+}
+
+function fileTitle(id: string): string {
+  return id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+}
+
+function folderDisplayName(name: string): string {
+  return name.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+}
+
+const tree = buildTree(files, basePath + '/');
+
+// Sort folders and files alphabetically
+const sortedFolders = [...tree.folders.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+const sortedFiles = tree.files.sort((a, b) => a.id.localeCompare(b.id));
+---
+
+<ul class="list-none p-0 space-y-1">
+  {sortedFolders.map(([name, folder]) => (
+    <li>
+      <details open={depth === 0}>
+        <summary class="cursor-pointer hover:text-(--color-link)">
+          <span class="mr-1">&#128193;</span>
+          <a href={`${base}/${folder.path}/`} class="text-(--color-link) hover:underline font-medium">
+            {folderDisplayName(name)}
+          </a>
+        </summary>
+        <div class="ml-4">
+          <Astro.self files={folder.children} basePath={folder.path} depth={depth + 1} />
+        </div>
+      </details>
+    </li>
+  ))}
+  {sortedFiles.map(f => (
+    <li>
+      <span class="mr-1">&#128196;</span>
+      <a href={`${base}/${f.id}/`} class="text-(--color-link) hover:underline">
+        {fileTitle(f.id)}
+      </a>
+    </li>
+  ))}
+</ul>

@@ -11,7 +11,7 @@ function slugifyPath(entry: string): string {
 const vault = defineCollection({
   loader: glob({
     pattern: ['**/*.md', '!Dashboard.md', '!.obsidian/**', '!templates/**',
-              '!projects/*/!(index).md'],
+              '!projects/**/!(index).md'],
     base: '../vault',
     generateId({ entry }) {
       let id = slugifyPath(entry);
@@ -51,7 +51,7 @@ const vault = defineCollection({
 
 const projectFiles = defineCollection({
   loader: glob({
-    pattern: ['projects/*/!(index).md'],
+    pattern: ['projects/**/!(index).md'],
     base: '../vault',
     generateId({ entry }) {
       return slugifyPath(entry);
