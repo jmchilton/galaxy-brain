@@ -69,7 +69,15 @@ This proves Format2 export is non-destructive. Validation should be demonstrated
 - **Framework test workflows**: run Galaxy's workflow framework tests against round-tripped workflows (without `__current_case__`) to prove execution equivalence.
 - **IWC repository**: run the full IWC workflow test suite against double-converted versions of every workflow to prove broad compatibility and that `__current_case__` is unnecessary across real-world workflows.
 
-### D6: Format2 Export from Galaxy
+### D6: IWC Workflow State Verification
+
+Validate the tool state of every workflow in the IWC (Intergalactic Workflow Commission) repository against current tool definitions using the validation infrastructure (D2–D4). Every IWC workflow should pass validation — any failures indicate either stale state in the workflow or gaps in the validator. Failures should be triaged and fixed (clean stale keys, fix invalid values, or adjust the validator). The result is a verified-clean baseline for the IWC corpus.
+
+### D7: IWC Lint-on-Merge
+
+Integrate `galaxy-workflow-validate` into the IWC repository's CI pipeline so that workflow state validation runs on every pull request. PRs that introduce or modify workflows with invalid or stale tool state should fail CI. This prevents state rot from re-accumulating after D6 establishes the clean baseline. Implementation options include a GitHub Actions workflow calling `galaxy-workflow-validate --strict` or a pre-commit hook — the key requirement is that invalid state blocks merge.
+
+### D8: Format2 Export from Galaxy
 
 Enable Galaxy to export workflows in Format2 format. The export path should:
 - Use schema-aware conversion to produce `state` (not `tool_state`) in the output

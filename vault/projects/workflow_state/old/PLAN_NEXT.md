@@ -38,49 +38,94 @@ All stock-tool workflows pass. The gap: **ToolShed tools need cache infrastructu
 
 ---
 
+## Phase 2.8: Stale State Detection & Fixing — COMPLETE
+
+**Goal:** Detect and strip stale (undeclared) keys from persisted `tool_state` in workflows, and provide CLI tooling for auditing/cleaning.
+
+### Commits (branch `wf_tool_state`)
+- `e2eb2ee70e` — RED tests: stale parameter keys persist in workflow tool_state across upgrades
+- `e32e9da58f` — Fix `params_to_strings`/`params_from_strings` to strip stale tool_state keys
+- `e51990291c` — Add `galaxy-workflow-validate` and `galaxy-workflow-clean-stale-state` CLIs
+- `802fb755e2` — Fix clean-stale-state: preserve key order and values, add `--diff` flag
+- `f6c5172f37` — Deduplicate `as_dict`/`as_list` helpers and `DEFAULT_TOOLSHED_URL` constant
+- `bcc81a367e` — Add `--recursive` tree ops to workflow validate and clean-stale-state CLIs
+- `c79957b0a5` — Overhaul workflow_state CLIs for cohesion and consistency
+- `b52faccc21` — Polish CLI overhaul: deduplicate `--tool-source` arg, improve naming and help text
+- `8aed179978` — Refactor workflow_state CLIs: extract domain logic into typed modules
+
+### What was built
+- **Core fix** — `params_to_strings`/`params_from_strings` in `tools/parameters/__init__.py` now filter to declared inputs only, preventing stale keys from surviving save/load cycles
+- **`galaxy-workflow-validate`** — CLI that validates every step's `tool_state` against the tool's declared inputs, reports undeclared/stale keys per step
+- **`galaxy-workflow-clean-stale-state`** — CLI that strips stale keys from `.ga` files, with `--diff` mode for review
+- **`--recursive`** — Both CLIs support recursive directory traversal for bulk operations
+- **`--populate-cache`** — Auto-cache ToolShed tool metadata during validation
+- **Domain modules** — CLI logic extracted into typed modules for reuse
+
+---
+
 ## Phase 3: ToolShed Tool Validation at Scale
 
 **Goal:** Prove round-trip works on real-world workflows with ToolShed tools.
 
 **Depends on:** Phase 2.7 (cache populated for target tools)
 
-### 3.1: IWC workflow selection
+### 3.1: IWC workflow selection — COMPLETE
 
-Select 10-20 IWC workflows spanning different complexity levels:
-- Simple linear pipelines (2-3 tools)
-- Branching/conditional workflows
-- Workflows with repeats, sections
-- Subworkflow-containing workflows
-- Workflows with collection operations
+Ran against **all 111 IWC workflows** (exceeding the original 10-20 target). Full results in `IWC_REVIEW_SUMMARY.md`.
 
-### 3.2: Cache population for IWC corpus
+### 3.2: Cache population for IWC corpus — COMPLETE
 
-Use `galaxy-tool-cache populate-workflow` to cache all tool metadata:
-```bash
-for wf in test/unit/workflows/iwc/*.ga; do
-    galaxy-tool-cache populate-workflow "$wf" --source api
-done
+509/509 unique tools cached. 499 via ToolShed API, 10 via `add-local` fallback (stock Galaxy tools not served by ToolShed API, plus expression tools tracked in [#22007](https://github.com/galaxyproject/galaxy/pull/22007)). Zero skips.
+
+### 3.3: IWC validation sweep — PARTIALLY COMPLETE
+
+**CLI sweep done:**
 ```
+Workflows: 111 | Steps: 2074 OK, 64 FAIL, 0 SKIP, 0 ERROR
+```
+- 86/111 workflows fully clean
+- 25 workflows have 124 stale keys across ~50 steps
 
-Catalog failures: tools that can't be resolved from any source.
+**Still TODO:** Formalize into `test_roundtrip.py` IWC test class with `GET_TOOL_INFO_WITH_TOOLSHED` for CI regression checking.
 
-### 3.3: IWC round-trip sweep
+### 3.4: Format2 subworkflow recursion in validation — COMPLETE
 
-Extend `test_roundtrip.py` with an IWC test class:
-- Per-step conversion sweep (with `GET_TOOL_INFO_WITH_TOOLSHED`)
-- Full round-trip sweep
-- Catalog failures by class (same `FailureClass` enum)
+Both `validate_workflow_format2` and `_validate_format2` now detect steps with a `run` dict and recurse into inline subworkflows, matching native validation's subworkflow handling. CLI path produces dotted step prefixes (e.g. `"0.0.0"`) for nested tools. 9 tests covering valid/invalid state, deep nesting (3 levels), string `run` refs, missing `run` key, empty subworkflows.
 
-**Expected failures:** New parameter types, tool version mismatches, `workflow_step` model gaps for ToolShed-specific parameter patterns. Each failure drives a fix.
+**Commit:** `2635b0a3fc` on `wf_tool_state`
 
-### 3.4: Fix IWC-specific failures
+### 3.5: Fix IWC-specific failures — IN PROGRESS
 
-Work through failures systematically (same red-to-green pattern as Phase 2). Likely issues:
-- Parameter types not yet exercised by stock-tool workflows
-- `workflow_step` model gaps for ToolShed-specific parameter patterns
-- Tool versions not found (version fallback needed)
+**Done:**
+- `hidden_data` param modeled as optional data in tool meta-models (`7662e14a37`)
+- `params_to_strings`/`params_from_strings` stale key stripping (Phase 2.8)
 
-**Target:** 90%+ of IWC workflows pass per-step conversion. 100% not expected — some may use deprecated tool versions or exotic patterns.
+**Remaining — actual failure classes from IWC sweep:**
+
+The original plan predicted "unknown parameter types" as the key risk. The IWC sweep revealed **stale state** as the dominant issue instead. Failure categories:
+
+| Category | Steps | Workflows | Root cause |
+|----------|-------|-----------|------------|
+| `saveLog` in multiqc | 16 | 14 | Stale key from tool upgrade |
+| `__workflow_invocation_uuid__` | 20 | 1 | Runtime leak via encode fallback |
+| `__identifier__` | ~10 | 4 | Runtime leak via extraction cleanup gap |
+| `trim_front2`/`trim_tail2` in fastp | 3 | 3 | Stale keys from tool upgrade |
+| `images` in imagemagick | 4 | 2 | Stale key from tool upgrade |
+| Tool-specific stale keys | ~11 | 5 | Various tool upgrades |
+
+### 3.6: Stale bookkeeping key leak fixes
+
+Root cause analysis in `STALE_STATE_BOOKKEEPING.md`. Two runtime-only values leak into persisted `.ga` files through different paths:
+
+**`__workflow_invocation_uuid__`** — injected at `tools/execute.py:223`, leaks when `DefaultToolState.encode()` raises `ValueError` and the fallback in `modules.py:374` returns raw `self.state.inputs` unfiltered, bypassing `params_to_strings`.
+
+**Fix needed:** `lib/galaxy/workflow/modules.py:374` — filter or strip the fallback return value instead of returning raw `self.state.inputs`.
+
+**`__identifier__`** — injected at `tools/actions/__init__.py:501` with pipe-delimited keys (`input_name|__identifier__`). Leaks because `__cleanup_param_values()` in `extract.py:430-487` only handles underscore-suffix keys, not pipe-delimited patterns.
+
+**Fix needed:** `lib/galaxy/workflow/extract.py:430-487` — add `__identifier__` cleanup matching the pipe-delimited pattern.
+
+Note: the Phase 2.8 `params_to_strings` fix prevents these keys from *surviving* through save/load cycles, but these fixes prevent them from *entering* persisted state in the first place.
 
 ---
 
@@ -192,17 +237,24 @@ Extend `gxformat2/lint.py` with optional schema-aware validation:
 
 ## Phase Summary
 
-| Phase | Delivers | Depends On | Key Risk |
-|-------|----------|------------|----------|
-| 2.7: Cache Infrastructure | `galaxy-tool-cache` CLI, cache index, multi-source | **COMPLETE** | — |
-| 3: ToolShed Validation | IWC round-trip at scale | Phase 2.7 | Unknown parameter patterns |
-| 4: Execution Equivalence | `__current_case__` proof, execution comparison | — (stock tools only) | Galaxy engine bugs |
-| 5: Format2 Export | Galaxy export API with `state` blocks | Phases 3-4 | Fallback UX |
-| 6: External Tooling | IDE/agent validation support | Phase 2.7, 3 | gxformat2 dependency boundary |
+| Phase | Delivers | Depends On | Status | Key Risk |
+|-------|----------|------------|--------|----------|
+| 2.7: Cache Infrastructure | `galaxy-tool-cache` CLI, cache index, multi-source | — | **COMPLETE** | — |
+| 2.8: Stale State Detection | `params_to_strings` fix, validate/clean CLIs | — | **COMPLETE** | — |
+| 3: ToolShed Validation | IWC round-trip at scale | Phase 2.7 | **3.1-3.4 COMPLETE, 3.5-3.6 IN PROGRESS** | Stale state leakage (not unknown param types) |
+| 4: Execution Equivalence | `__current_case__` proof, execution comparison | — (stock tools only) | Not started | Galaxy engine bugs |
+| 5: Format2 Export | Galaxy export API with `state` blocks | Phases 3-4 | Not started | Fallback UX |
+| 6: External Tooling | IDE/agent validation support | Phase 2.7, 3 | Not started | gxformat2 dependency boundary |
 
-**Parallelism:** Phase 2.7 is complete. Phase 3 and 4 can start in parallel — Phase 4 uses only stock tools, Phase 3 uses the cache infra from 2.7. Phase 5 depends on confidence from 3+4. Phase 6 depends on 3 but not on 4+5.
+**Parallelism:** Phases 2.7 and 2.8 are complete. Phase 3.5-3.6 and Phase 4 can proceed in parallel — Phase 4 uses only stock tools, Phase 3 uses the cache infra from 2.7. Phase 5 depends on confidence from 3+4. Phase 6 depends on 3 but not on 4+5.
 
 ---
+
+## Unresolved Questions
+
+- Should the `modules.py`/`extract.py` leak fixes (3.6) be part of this branch or separate PRs?
+- Is formalizing the IWC sweep into `test_roundtrip.py` still valuable given the CLI sweep already proved coverage?
+- Of the 64 failing steps, how many are stale-key-only (fixable by cleaning) vs genuine conversion/model gaps?
 
 ## Resolved Questions
 
@@ -212,3 +264,5 @@ Extend `gxformat2/lint.py` with optional schema-aware validation:
 - **Format2 export API:** Extend existing `/api/workflows/{id}/download` with `format=format2` parameter.
 - **gxformat2 lint:** Pass `ParsedTool` dicts (not as a dependency); `galaxy-tool-cache` populates the cache, lint reads it.
 - **Cache infrastructure:** `galaxy-tool-cache` CLI in `packages/tool_util`, `GALAXY_TOOL_CACHE_DIR` env var, no TTL. See `CLIENT_TOOL_CACHE_PLAN.md`.
+- **IWC corpus size:** Full corpus (111 workflows, 509 tools) used instead of 10-20 subset. All tools cacheable.
+- **Dominant failure class:** Stale state keys, not unknown parameter types. Most failures are tool-upgrade residue or runtime value leakage, not missing model coverage.

@@ -12,8 +12,8 @@ Galaxy's agent system requires a live LLM to test. The DI refactoring (AGENT_DI.
 
 ```
 app.py (startup)
-  ├─ static_agents_config set? → StaticAgentRegistry(yaml_path)
-  └─ else                      → build_default_registry(config)
+  ├─ inference_services.static_responses set? → StaticAgentRegistry(yaml_path)
+  └─ else                                    → build_default_registry(config)
        ↓
   _register_singleton(AgentRegistry, registry)
   _register_singleton(AgentService, ...)
@@ -183,32 +183,29 @@ class StaticAgentRegistry(AgentRegistry):
 
 **Return type:** `StaticAgent` is a subclass of `BaseGalaxyAgent`, so the return type `StaticAgent` satisfies `BaseGalaxyAgent`. No `type: ignore` needed.
 
-## Step 3: Config schema
+## Step 3: Config — `inference_services.static_responses`
 
-**File:** `lib/galaxy/config/schemas/config_schema.yml` — add after `inference_services` block:
+Config lives under the existing `inference_services` key (no separate `static_agents_config`):
 
 ```yaml
-static_agents_config:
-  type: str
-  required: false
-  desc: |
-    Path to YAML file defining static agent responses for testing.
-    When set, all agent requests return pre-configured responses
-    instead of calling an LLM. The static registry replaces the
-    real AgentRegistry in the DI container.
+inference_services:
+  static_responses: test/integration/static_agents.yml
 ```
+
+**File:** `lib/galaxy/config/schemas/config_schema.yml` — documented in `inference_services` desc block.
 
 ## Step 4: Wire into `app.py`
 
-**File:** `lib/galaxy/app.py` — replace the current registry creation block:
+**File:** `lib/galaxy/app.py` — reads `inference_services.static_responses`:
 
 ```python
 # AI agent registry and service
-static_config = getattr(self.config, "static_agents_config", None)
-if static_config:
+inference_config = getattr(self.config, "inference_services", None) or {}
+static_responses = inference_config.get("static_responses") if isinstance(inference_config, dict) else None
+if static_responses:
     from galaxy.agents.static_backend import StaticAgentRegistry
-    agent_registry = StaticAgentRegistry(static_config)
-    log.info(f"Static agent backend loaded: {static_config}")
+    agent_registry = StaticAgentRegistry(static_responses)
+    log.info(f"Static agent backend loaded: {static_responses}")
 else:
     agent_registry = build_default_registry(self.config)
 self._register_singleton(AgentRegistry, agent_registry)
@@ -223,12 +220,13 @@ self._register_singleton(AgentService, AgentService(self.config, JobQueryManager
 
 ```python
 "agents_available": lambda item, key, **context: bool(
-    getattr(item, "static_agents_config", None)
-    or item.ai_api_key
+    item.ai_api_key
     or item.ai_api_base_url
     or getattr(item, "inference_services", None)
 ),
 ```
+
+No separate `static_agents_config` check needed — `inference_services` presence covers it.
 
 ## Step 6: `skip_without_agents` decorator
 
@@ -319,9 +317,9 @@ fallback:
 class TestAgentsStaticBackend(IntegrationTestCase):
     @classmethod
     def handle_galaxy_config_kwds(cls, config):
-        config["static_agents_config"] = os.path.join(
-            os.path.dirname(__file__), "static_agents.yml"
-        )
+        config["inference_services"] = {
+            "static_responses": os.path.join(os.path.dirname(__file__), "static_agents.yml"),
+        }
 ```
 
 Tests:
@@ -337,14 +335,20 @@ These exercise the **full HTTP→API→AgentService→Registry→Agent→Respons
 
 ## Implementation Order
 
-1. Write RED unit tests for `StaticAgent` + `StaticAgentRegistry` (Step 7)
-2. Implement `lib/galaxy/agents/static_backend.py` (Steps 1-2) → GREEN
-3. Add `static_agents_config` to config schema (Step 3)
-4. Wire conditional registry in `app.py` (Step 4)
-5. Add `agents_available` to config serializer (Step 5)
-6. Add `skip_without_agents` decorator (Step 6)
-7. Create `test/integration/static_agents.yml` (Step 8)
-8. Write integration tests (Step 9) → RED → GREEN
+1. ~~Write RED unit tests for `StaticAgent` + `StaticAgentRegistry` (Step 7)~~ ✅
+2. ~~Implement `lib/galaxy/agents/static_backend.py` (Steps 1-2) → GREEN~~ ✅
+3. ~~Config under `inference_services.static_responses` (Step 3)~~ ✅
+4. ~~Wire conditional registry in `app.py` (Step 4)~~ ✅
+5. ~~Add `agents_available` to config serializer (Step 5)~~ ✅
+6. ~~Add `skip_without_agents` decorator (Step 6)~~ ✅
+7. ~~Create `test/integration/static_agents.yml` (Step 8)~~ ✅
+8. ~~Write integration tests (Step 9)~~ ✅ (7/7 passed, 36s)
+
+**All implementation steps complete.** Unit tests (29/29) and integration tests (7/7) green.
+
+**Remaining decisions:**
+- Delete `TestAgentsApiMocked` or keep alongside? (Open Question 2)
+- Phase 2: PageAssistant static rules (see below)
 
 ## What This Replaces in `test/integration/test_agents.py`
 
@@ -397,7 +401,7 @@ mypy lib/galaxy/app.py lib/galaxy/managers/agents.py
 | File | Change |
 |------|--------|
 | `lib/galaxy/agents/static_backend.py` | **NEW** — `StaticAgent` + `StaticAgentRegistry` |
-| `lib/galaxy/config/schemas/config_schema.yml` | Add `static_agents_config` |
+| `lib/galaxy/config/schemas/config_schema.yml` | Document `inference_services.static_responses` |
 | `lib/galaxy/app.py` | Conditional registry creation |
 | `lib/galaxy/managers/configuration.py` | Add `agents_available` serializer |
 | `lib/galaxy_test/base/populators.py` | Add `skip_without_agents` |
