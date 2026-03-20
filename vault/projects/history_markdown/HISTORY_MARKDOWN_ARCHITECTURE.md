@@ -1,7 +1,7 @@
 # History Pages: Architecture & Feature Summary
 
 > **Branch:** `history_pages`
-> **Date:** 2026-02-28
+> **Date:** 2026-03-14
 > **Status:** Feature-complete, pre-merge
 
 ---
@@ -69,6 +69,16 @@ Both modes share: editor UI, revision system, AI chat, dirty tracking, diff view
 - Shared histories expose their pages in read-only display mode to other users
 - Standalone pages use the Permissions modal to manage sharing, publishing, and slug assignment
 
+### Reviewing past AI conversations
+
+> *"I had a great chat with the AI last week about my RNA-seq results. I want to pick up where I left off."*
+
+- Opens page -> toggles chat panel
+- Clicks chat history icon to open `PageChatHistoryList`
+- Browses past conversations with timestamps
+- Selects a previous exchange to resume it
+- Can also delete old conversations to keep things tidy
+
 ### Revision history and rollback
 
 > *"The agent's last edit broke my formatting. I want to go back."*
@@ -76,6 +86,7 @@ Both modes share: editor UI, revision system, AI chat, dirty tracking, diff view
 - Opens revision panel (right sidebar, 300px)
 - Sees revision list with timestamps and source badges: "Manual", "AI", "Restored"
 - Clicks an old revision to preview it read-only
+- Can compare revision against current content or previous revision (three view modes)
 - Clicks "Restore" -> creates a new revision from old content (`edit_source="restore"`)
 
 ---
@@ -94,9 +105,10 @@ Both modes share: editor UI, revision system, AI chat, dirty tracking, diff view
 |       |                      EditorSplitView                              |
 |       |                            |                                      |
 |       |   PageRevisionList    PageChatPanel                               |
-|       |   PageRevisionView     |         |                                |
+|       |   PageRevisionView     |         |         |                      |
 |       |                  ChatMessageCell  ProposalDiffView                 |
 |       |                  ChatInput       SectionPatchView                  |
+|       |                  PageChatHistoryList                               |
 |       |                                                                   |
 |  pageEditorStore (Pinia) <---> API Client (api/pages.ts)                  |
 +---------------------------------+-----------------------------------------+
@@ -244,6 +256,10 @@ Conversations are scoped per-page via `ChatExchange.page_id`. The flow:
 4. Response stored as `ChatExchange` + `ChatExchangeMessage` with full `agent_response` JSON
 5. Frontend persists `exchange_id` in `userLocalStorage` per-page for session continuity
 
+### Chat History Browsing
+
+Users can browse, resume, and delete past conversations for a page via `PageChatHistoryList`. The store tracks `pageChatHistory`, `isLoadingChatHistory`, `showChatHistory`, and `chatHistoryError` state. Chat history is fetched from `GET /api/chat/page/{page_id}/history` and displayed in a sidebar list with timestamps. Selecting a past exchange resumes it; deletion is also supported.
+
 ---
 
 ## 8. Frontend Components
@@ -253,8 +269,8 @@ Conversations are scoped per-page via `ChatExchange.page_id`. The flow:
 ```
 History-attached entry:
   HistoryCounter (button in history panel)
-    +- HistoryPageView (list + display routing -- 176 lines)
-         +- HistoryPageList (page picker -- 89 lines)
+    +- HistoryPageView (list + display routing -- 178 lines)
+         +- HistoryPageList (page picker -- 92 lines)
          +- Markdown (display-only render)
          +- PageEditorView (edit mode delegation)
 
@@ -262,20 +278,23 @@ Standalone entry:
   PageEditor (thin wrapper -- 13 lines)
     +- PageEditorView
 
-PageEditorView (unified editor -- 364 lines)
+PageEditorView (unified editor -- 373 lines)
   +- ClickToEdit (inline title editing)
   +- MarkdownEditor
   |    +- TextEditor (drag-and-drop for history items)
-  +- PageRevisionList (sidebar panel -- 88 lines)
-  +- PageRevisionView (read-only revision preview -- 59 lines)
+  +- PageRevisionList (sidebar panel -- 87 lines)
+  +- PageRevisionView (revision preview + diff modes -- 195 lines)
   +- EditorSplitView (resizable 60/40 split -- 111 lines)
-  |    +- PageChatPanel (agent chat -- 477 lines)
+  |    +- PageChatPanel (agent chat -- 571 lines)
   |         +- ChatMessageCell (shared from ChatGXY)
   |         +- ChatInput (shared from ChatGXY)
   |         +- ProposalDiffView (full-doc diff -- 123 lines)
   |         +- SectionPatchView (per-section diff -- 207 lines)
-  +- ObjectPermissionsModal (standalone only -- 16 lines)
-  |    +- ObjectPermissions (344 lines)
+  |         +- PageChatHistoryList (chat history browser -- 235 lines)
+  +- ObjectPermissionsModal (standalone only -- 18 lines)
+  |    +- ObjectPermissions (363 lines)
+  |    +- PermissionObjectType (32 lines)
+  |    +- SharingIndicator (73 lines)
 ```
 
 ### PageEditorView (unified editor)
@@ -296,8 +315,13 @@ The core editor component. Adapts based on context:
 1. Loading spinner (no current page yet)
 2. Error alert (dismissible)
 3. Display-only mode (read-only Markdown render + toolbar with Edit button)
-4. Revision view (full-page revision preview with Restore button)
+4. Revision view (revision preview/diff with Restore button — supports three view modes)
 5. Edit mode (toolbar + editor + optional chat/revision sidepanels)
+
+**Revision view modes** (`revisionViewMode`):
+- `"preview"` — read-only render of revision content
+- `"changes_current"` — diff against current page content
+- `"changes_previous"` — diff against previous revision
 
 ### HistoryPageView (history context router)
 
@@ -308,15 +332,16 @@ Routes between three states for history-attached pages:
 
 Handles Window Manager integration: when WM is active, clicking a page in the list opens it in a WinBox window via `displayOnly=true` with `router.push(url, { title, preventWindowManager: false })`.
 
-### Pinia Store (`pageEditorStore` -- 472 lines)
+### Pinia Store (`pageEditorStore`)
 
 **Mode:** `mode: "history" | "standalone"` -- controls which features are available.
 
 **State management:**
 - Page list, current page, editor content (raw), title
 - Dirty tracking: `isDirty = currentContent !== originalContent || currentTitle !== originalTitle`
-- Revision list and selected revision
+- Revision list, selected revision, and `revisionViewMode: "preview" | "changes_current" | "changes_previous"`
 - UI toggles: `showRevisions`, `showChatPanel` (mutually exclusive)
+- Chat history: `pageChatHistory`, `isLoadingChatHistory`, `showChatHistory`, `chatHistoryError`
 - Loading/saving flags
 
 **Cross-session persistence (userLocalStorage):**
@@ -437,32 +462,32 @@ All page operations use the unified `/api/pages` endpoints. History-attached pag
 
 | Layer | Tests | LOC | Coverage |
 |-------|-------|-----|----------|
-| Selenium E2E | 24 | 489 | Navigation, editing, drag-drop, WM, revisions, rename |
-| API integration | in `test_pages_history_attached.py` | 13,561 | CRUD, revisions, permissions |
-| Vitest (components) | 9 test files | 2,241 | All PageEditor components, store, diff utils |
-| Agent unit | 28 | 708 | Structured output, tools, prompt injection, live LLM |
+| Selenium E2E | 30 | 673 | Navigation, editing, drag-drop, WM, revisions, rename, chat, permissions |
+| API integration | 29 | 323 | CRUD, revisions, permissions, chat persistence |
+| Agent unit | 40 | 821 | Structured output, tools, prompt injection, history context, live LLM |
 | History tools | 32 | 511 | All 5 tool functions |
 | Chat manager | 8 | 149 | Page-scoped persistence, filtering |
+| Vitest (components) | 9 test files | ~2,100 | All PageEditor components, store, diff utils |
 
 ### Frontend Test Files
 
 | File | Lines | Focus |
 |------|-------|-------|
-| `PageEditorView.test.ts` | 645 | Unified editor: standalone + history modes, revisions, WM |
+| `pageEditorStore.test.ts` | 1,422 | Store: CRUD, revisions, persistence, standalone mode, chat history |
+| `PageEditorView.test.ts` | 646 | Unified editor: standalone + history modes, revisions, WM |
 | `HistoryPageView.test.ts` | 367 | List/display/edit routing, lifecycle, WM integration |
 | `PageChatPanel.test.ts` | 379 | Chat loading, proposals, feedback, staleness |
 | `sectionDiffUtils.test.ts` | 265 | Section parsing, diff computation, patch application |
 | `PageRevisionList.test.ts` | 207 | Revision list rendering, source labels, restore |
 | `HistoryPageList.test.ts` | 185 | Page list, create/select/view events |
-| `ProposalDiffView.test.ts` | 66 | Full-replacement diff rendering |
 | `SectionPatchView.test.ts` | 68 | Section-level patch UI |
+| `ProposalDiffView.test.ts` | 66 | Full-replacement diff rendering |
 | `EditorSplitView.test.ts` | 59 | Resizable split layout |
-| `pageEditorStore.test.ts` | 952 | Store: CRUD, revisions, persistence, standalone mode |
 
 ### Test Infrastructure
 
-- **Selenium helpers:** 11 methods on `NavigatesGalaxy` (navigate, create, edit, save, rename, revisions)
-- **Navigation YAML:** 25+ selectors under `pages.history` section
+- **Selenium helpers:** 13 methods on `NavigatesGalaxy` (navigate, create, edit, save, rename, revisions, chat)
+- **Navigation YAML:** 29+ selectors under `pages.history` section
 - **Vitest:** Pinia testing utilities, MSW for HTTP mocking, Vue shallowMount
 - **Agent tests:** Mocked pydantic-ai agent + optional live LLM tests (env-gated)
 
@@ -474,14 +499,14 @@ The existing `ChatGXY.vue` (982 lines) was refactored into shared sub-components
 
 | Component | Lines | Purpose |
 |-----------|-------|---------|
-| `ChatMessageCell.vue` | 110 | Message rendering with role styling, feedback buttons, action suggestions |
-| `ChatInput.vue` | ~40 | Textarea + send button with busy state |
-| `ActionCard.vue` | 80 | Action suggestion cards with priority-based styling |
-| `agentTypes.ts` | 59 | Agent type registry with icons and labels |
-| `chatTypes.ts` | 15 | Shared `ChatMessage` interface |
-| `chatUtils.ts` | 12 | `generateId()` and `scrollToBottom()` helpers |
+| `ChatMessageCell.vue` | 345 | Message rendering with role styling, feedback buttons, action suggestions |
+| `ChatInput.vue` | 96 | Textarea + send button with busy state |
+| `ActionCard.vue` | 97 | Action suggestion cards with priority-based styling |
+| `agentTypes.ts` | 60 | Agent type registry with icons and labels |
+| `chatTypes.ts` | 26 | Shared `ChatMessage` interface |
+| `chatUtils.ts` | 13 | `generateId()` and `scrollToBottom()` helpers |
 
-ChatGXY went from 982 -> 619 lines. PageChatPanel reuses all extracted components with no duplication.
+PageChatPanel reuses all extracted components with no duplication.
 
 ---
 
@@ -545,51 +570,56 @@ The revision panel and chat panel are mutually exclusive -- toggling one closes 
 | File | Lines | Role |
 |------|-------|------|
 | `lib/galaxy/model/__init__.py` | +100 | Page model extensions (`history_id`, revision `edit_source`, ChatExchange `page_id`) |
-| `lib/galaxy/managers/pages.py` | ~500 | PageManager: CRUD, revisions, content pipeline, history filtering |
-| `lib/galaxy/webapps/galaxy/api/pages.py` | ~400 | REST endpoints including revision operations |
+| `lib/galaxy/managers/pages.py` | ~795 | PageManager: CRUD, revisions, content pipeline, history filtering |
+| `lib/galaxy/webapps/galaxy/api/pages.py` | ~393 | REST endpoints including revision operations |
 | `lib/galaxy/webapps/galaxy/services/pages.py` | ~200 | PagesService: endpoint logic |
 | `lib/galaxy/schema/schema.py` | +120 | Pydantic schemas: `PageDetails`, `PageRevisionSummary/Details`, query payloads |
 | `lib/galaxy/managers/markdown_util.py` | 1,434 | `ready_galaxy_markdown_for_export()` |
-| `lib/galaxy/agents/page_assistant.py` | ~392 | PageAssistantAgent class + structured output types |
-| `lib/galaxy/agents/history_tools.py` | ~511 | 5 async history data tools |
-| `lib/galaxy/agents/prompts/page_assistant.md` | ~157 | System prompt template |
+| `lib/galaxy/agents/page_assistant.py` | ~454 | PageAssistantAgent class + structured output types |
+| `lib/galaxy/agents/history_tools.py` | ~288 | 5 async history data tools |
+| `lib/galaxy/agents/prompts/page_assistant.md` | ~159 | System prompt template |
 | `lib/galaxy/managers/chat.py` | +55 | Page-scoped chat methods |
-| `lib/galaxy/webapps/galaxy/api/chat.py` | +40 | Chat endpoints |
+| `lib/galaxy/webapps/galaxy/api/chat.py` | ~570 | Chat endpoints (including page chat history) |
 | `lib/galaxy/agents/base.py` | +1 | `PAGE_ASSISTANT` enum value |
 
 ### Frontend (TypeScript/Vue)
 
 | File | Lines | Role |
 |------|-------|------|
-| `client/src/api/pages.ts` | 162 | Unified API client (CRUD, revisions, revert) |
-| `client/src/stores/pageEditorStore.ts` | 472 | Pinia store with mode, persistence, revisions |
-| `client/src/components/PageEditor/PageEditorView.vue` | 364 | Unified editor (standalone + history) |
-| `client/src/components/PageEditor/HistoryPageView.vue` | 176 | History context: list + display routing |
-| `client/src/components/PageEditor/HistoryPageList.vue` | 89 | Page picker for history |
-| `client/src/components/PageEditor/PageChatPanel.vue` | 477 | Agent chat panel |
+| `client/src/api/pages.ts` | 166 | Unified API client (CRUD, revisions, revert) |
+| `client/src/stores/pageEditorStore.ts` | — | Pinia store with mode, persistence, revisions, chat history |
+| `client/src/components/PageEditor/PageEditorView.vue` | 373 | Unified editor (standalone + history) |
+| `client/src/components/PageEditor/HistoryPageView.vue` | 178 | History context: list + display routing |
+| `client/src/components/PageEditor/HistoryPageList.vue` | 92 | Page picker for history |
+| `client/src/components/PageEditor/PageChatPanel.vue` | 571 | Agent chat panel + chat history integration |
+| `client/src/components/PageEditor/PageChatHistoryList.vue` | 235 | Chat history browser with selection/deletion |
 | `client/src/components/PageEditor/EditorSplitView.vue` | 111 | Resizable 60/40 split layout |
-| `client/src/components/PageEditor/PageRevisionList.vue` | 88 | Revision sidebar |
-| `client/src/components/PageEditor/PageRevisionView.vue` | 59 | Revision preview |
+| `client/src/components/PageEditor/PageRevisionList.vue` | 87 | Revision sidebar |
+| `client/src/components/PageEditor/PageRevisionView.vue` | 195 | Revision preview + diff view modes |
 | `client/src/components/PageEditor/ProposalDiffView.vue` | 123 | Full-document diff |
 | `client/src/components/PageEditor/SectionPatchView.vue` | 207 | Section-level diff with checkboxes |
 | `client/src/components/PageEditor/sectionDiffUtils.ts` | 218 | Diff computation |
-| `client/src/components/PageEditor/ObjectPermissions.vue` | 344 | Permission checking (standalone) |
+| `client/src/components/PageEditor/ObjectPermissions.vue` | 363 | Permission checking (standalone) |
+| `client/src/components/PageEditor/ObjectPermissionsModal.vue` | 18 | Modal wrapper for permissions |
+| `client/src/components/PageEditor/PermissionObjectType.vue` | 32 | Object type display in permissions |
+| `client/src/components/PageEditor/SharingIndicator.vue` | 73 | Permission toggle indicator |
+| `client/src/components/PageEditor/object-permission-composables.ts` | — | Composables for permission handling |
 | `client/src/components/PageEditor/PageEditor.vue` | 13 | Standalone entry wrapper |
 | `client/src/components/Markdown/Editor/TextEditor.vue` | +40 | Drag-and-drop additions |
-| ChatGXY extractions (6 files) | ~316 | Shared chat components |
+| ChatGXY extractions (6 files) | ~637 | Shared chat components |
 
 ### Tests
 
 | File | Lines | Tests |
 |------|-------|-------|
-| `lib/galaxy_test/selenium/test_history_pages.py` | 489 | 24 |
-| `lib/galaxy_test/api/test_pages_history_attached.py` | 13,561 | Comprehensive API tests |
-| `lib/galaxy/selenium/navigates_galaxy.py` | +100 | 11 helper methods |
-| `test/unit/app/test_agents.py` | 708 | 28 (including PageAssistantAgent) |
+| `lib/galaxy_test/selenium/test_history_pages.py` | 673 | 30 |
+| `lib/galaxy_test/api/test_pages_history_attached.py` | 323 | 29 |
+| `lib/galaxy/selenium/navigates_galaxy.py` | +100 | 13 helper methods |
+| `test/unit/app/test_agents.py` | 821 | 40 (17 PageAssistantAgent) |
 | `test/unit/app/test_history_tools.py` | 511 | 32 |
 | `test/unit/app/test_chat_manager.py` | 149 | 8 |
-| Client vitest (9 files) | 2,241 | Store, components, diff utils |
-| `client/src/stores/pageEditorStore.test.ts` | 952 | ~60 |
+| Client vitest (10 files) | ~2,100 | Store, components, diff utils |
+| `client/src/stores/pageEditorStore.test.ts` | 1,422 | ~87 |
 
 ---
 

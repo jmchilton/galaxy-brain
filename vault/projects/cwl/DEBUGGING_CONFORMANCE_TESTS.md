@@ -119,6 +119,45 @@ This downloads from upstream CWL repos and populates:
 
 Both dirs are gitignored, so each worktree needs its own copy.
 
+## Docker-Required Tests
+
+Some CWL conformance tests require Docker (e.g. `docker_entrypoint`, `dockeroutputdir`, `networkaccess_disabled`, `iwd-container-entryname1`). These are **not** in the API conformance suite — they're skipped there and run separately via an integration test harness.
+
+### How It Works
+
+- `scripts/cwl_conformance_to_test_cases.py` has a `DOCKER_REQUIRED` dict listing test IDs per CWL version
+- Docker-required tests get a `@pytest.mark.skip` in the generated API test files
+- A separate file `test/integration/test_containerized_cwl_conformance.py` is generated with these tests, using `IntegrationTestCase` that configures Galaxy with `docker_enabled: True`
+- Tests are marked `@pytest.mark.cwl_docker_required`
+- The integration file is gitignored — generated at test time
+
+### Running Docker Tests Locally
+
+Requires Docker on PATH. Generate the test file first, then run:
+
+```bash
+# Generate conformance tests (including the integration file):
+make generate-cwl-conformance-tests
+
+# Run all docker-required tests:
+. .venv/bin/activate
+pytest -s -v test/integration/test_containerized_cwl_conformance.py -m cwl_docker_required
+
+# Or via run_tests.sh (handles venv + generation):
+./run_tests.sh --generate-cwl -integration test/integration/test_containerized_cwl_conformance.py -- -m cwl_docker_required
+```
+
+### CI
+
+Docker tests run in `.github/workflows/integration_cwl_docker.yaml`. This workflow:
+- Pulls required images (`bash:4.4.12`, `debian:stable-slim`, `python:3-slim`)
+- Uses `--generate-cwl` flag on `run_tests.sh` to generate test files inside the venv (system Python lacks PyYAML)
+- Runs with `-m cwl_docker_required` marker
+
+### Adding a New Docker-Required Test
+
+Add the test ID to the `DOCKER_REQUIRED` dict in `scripts/cwl_conformance_to_test_cases.py` under the appropriate version. Remove it from `RED_TESTS` if present. Regenerate.
+
 ### VIRTUAL_ENV must be set
 
 Galaxy's job script template uses `$VIRTUAL_ENV` to activate the venv inside job scripts. Without it, `python` may resolve to a system shim (e.g. rye) and the CWL relocate script silently fails — outputs are empty. **This is the #1 cause of mysterious CWL test failures locally.**

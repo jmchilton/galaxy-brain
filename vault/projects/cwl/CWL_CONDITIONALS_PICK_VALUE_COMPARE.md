@@ -34,23 +34,23 @@
 
 ### By pickValue mode
 
-| Mode | Tests | Pattern | Tool (A) | Framework (B) |
-|------|-------|---------|----------|----------------|
-| **first_non_null** | 8 | multi-source | YES | YES |
-| `pass_through_required_{false,true}_when` x2 (+nojs) | | multi-source | YES | YES |
-| `first_non_null_{first,second}_non_null` x2 (+nojs) | | multi-source | YES | YES |
-| **the_only_non_null** | 4 | multi-source | YES | YES |
-| `pass_through_required_the_only_non_null` (+nojs) | | multi-source | YES | YES |
-| `the_only_non_null_single_true` (+nojs) | | multi-source | YES | YES |
-| **all_non_null** | 6 | multi-source | NO | YES |
-| `all_non_null_{all_null,one,multi}_non_null` x3 (+nojs) | | multi-source | NO | YES |
-| **scatter+conditional** | 7 | scatter | NO | PARTIAL |
-| `condifional_scatter_on_nonscattered_{false,true_nojs}` x3 | | scatter+pickValue | NO | YES (Phase 6) |
-| `scatter_on_scattered_conditional` (+nojs) | | scatter+pickValue | NO | YES (Phase 6) |
-| `conditionals_nested_cross_scatter` (+nojs) | | nested scatter | NO | MAYBE |
-| `conditionals_multi_scatter` (+nojs) | | hybrid multi+scatter | NO | MAYBE |
-| **Complex** | 2 | multi+linkMerge | NO | PARTIAL |
-| `cond-with-defaults-{1,2}` | | linkMerge+pickValue+File[] | NO | PARTIAL |
+| Mode                                                       | Tests | Pattern                    | Tool (A) | Framework (B) |
+| ---------------------------------------------------------- | ----- | -------------------------- | -------- | ------------- |
+| **first_non_null**                                         | 8     | multi-source               | YES      | YES           |
+| `pass_through_required_{false,true}_when` x2 (+nojs)       |       | multi-source               | YES      | YES           |
+| `first_non_null_{first,second}_non_null` x2 (+nojs)        |       | multi-source               | YES      | YES           |
+| **the_only_non_null**                                      | 4     | multi-source               | YES      | YES           |
+| `pass_through_required_the_only_non_null` (+nojs)          |       | multi-source               | YES      | YES           |
+| `the_only_non_null_single_true` (+nojs)                    |       | multi-source               | YES      | YES           |
+| **all_non_null**                                           | 6     | multi-source               | NO       | YES           |
+| `all_non_null_{all_null,one,multi}_non_null` x3 (+nojs)    |       | multi-source               | NO       | YES           |
+| **scatter+conditional**                                    | 7     | scatter                    | NO       | PARTIAL       |
+| `condifional_scatter_on_nonscattered_{false,true_nojs}` x3 |       | scatter+pickValue          | NO       | YES (Phase 6) |
+| `scatter_on_scattered_conditional` (+nojs)                 |       | scatter+pickValue          | NO       | YES (Phase 6) |
+| `conditionals_nested_cross_scatter` (+nojs)                |       | nested scatter             | NO       | MAYBE         |
+| `conditionals_multi_scatter` (+nojs)                       |       | hybrid multi+scatter       | NO       | MAYBE         |
+| **Complex**                                                | 2     | multi+linkMerge            | NO       | PARTIAL       |
+| `cond-with-defaults-{1,2}`                                 |       | linkMerge+pickValue+File[] | NO       | PARTIAL       |
 
 ### Summary
 

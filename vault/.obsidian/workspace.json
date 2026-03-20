@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "projects/collection_semantics/index.md",
+                "file": "research/Component - YAML Tool Runtime.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "Component - YAML Tool Runtime"
             }
           },
           {
@@ -41,16 +41,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "projects/workflow_state/COMPONENT_WORKFLOW_STATE_INITIAL_WORK.md",
+                "file": "projects/cwl/workflow_features/CWL_CONDITIONALS_PICK_VALUE_FRAMEWORK_SUPPORT.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "COMPONENT_WORKFLOW_STATE_INITIAL_WORK"
+              "title": "CWL_CONDITIONALS_PICK_VALUE_FRAMEWORK_SUPPORT"
+            }
+          },
+          {
+            "id": "60cf29fb20e97a0c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "projects/cwl/workflow_features/PLAN_GAP3_DOTPRODUCT_VALUEFROM.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "PLAN_GAP3_DOTPRODUCT_VALUEFROM"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -107,7 +121,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 429.5
+    "width": 550.5
   },
   "right": {
     "id": "cbd554e3fe405514",
@@ -214,41 +228,44 @@
   },
   "active": "c1926bfde7f63465",
   "lastOpenFiles": [
+    "projects/workflow_state/EXECUTIVE_SUMMARY.md",
+    "projects/workflow_state/CONNECTION_VALIDATION.md",
+    "projects/workflow_state/NEXT_STEPS_PLAN.md",
+    "projects/workflow_state/CURRENT_STATE.md",
     "projects/workflow_state/FILES_INDEX.md",
-    "projects/workflow_state/FIRST_STEPS.md",
+    "projects/workflow_state/PLAN_ROUNDTRIP_ARTIFACT_TESTS.md",
+    "research/Component - Tool Testing Infrastructure.md",
+    "projects/workflow_state/PLAN_GXFORMAT2_SCHEMA_PROTOCOL.md",
+    "projects/workflow_state/old/ROUNDTRIP_DISCUSSION.md",
+    "projects/workflow_state/CONNECTION_PROBLEMS.md",
+    "projects/workflow_state/CURRENT_CASE_TOOLING_PLAN.md",
     "projects/workflow_state/PROBLEM_AND_GOAL.md",
+    "projects/workflow_state/CONNECTION_VALIDATION_TESTING_AND_TRACKING_PLAN.md",
+    "projects/workflow_state/old/NON_DATA_CONNECTION_VALIDATION.md",
     "projects/workflow_state/index.md",
-    "research/Component - Workflow Format Differences.md",
-    "research/PR 18524 - Add Tool-Centric APIs to Tool Shed 2.0.md",
-    "projects/workflow_state/COMPONENT_WORKFLOW_STATE_INITIAL_WORK.md",
-    "research/Component - Tool State Specification.md",
-    "research/Component - gxformat2 Parsing and Syntax.md",
-    "projects/wf_refactor_persistence/E2E_PERSISTENCE_TEST_PLAN.md",
-    "projects/history_markdown/index.md",
-    "projects/history_markdown/HISTORY_PAGES_UI_CONVERGE_PLAN.md",
-    "projects/history_markdown/HISTORY_PAGES_TEST_CONVERGE_PLAN.md",
-    "projects/history_markdown/HISTORY_PAGES_CLEANUP_PLAN.md",
-    "projects/history_markdown/HISTORY_MARKDOWN_ARCHITECTURE.md",
-    "projects/history_markdown/E2E_TEST_POLISH_WHEN_GREEN.md",
+    "projects/workflow_state/PHASE_6_DETAILED_PLAN.md",
+    "projects/workflow_state/STALE_KEY_INTEGRATION_PLAN.md",
+    "projects/workflow_state/STALE_KEY_TAXONOMY.md",
+    "projects/workflow_state/old/stale_key_taxonomy_infographic.png",
+    "projects/workflow_state/old/TOOL_API.md",
+    "projects/workflow_state/COLLECTION_TYPE_REACTORING_PLAN.md",
+    "research/Component - API Tests Tools.md",
+    "research/Component - API Tests.md",
+    "projects/workflow_state/CONNECTION_VALIDATION_TESTING_AND_TRACKING_PLAN.md.tmp.10403.1773860206667",
+    "research/Dependency - CWL Conformance Tests.md",
+    "projects/cwl/pickValue/PJA_DEBRIEF.md",
+    "projects/cwl/pickValue/PICK_VALUES_E2E_PJA_PLAN.md",
+    "projects/cwl/pickValue/PICK_VALUES_E2E_PLAN.md",
+    "projects/workflow_state/stale_key_taxonomy_infographic.png.tmp",
+    "projects/workflow_state/stale_state",
+    "projects/workflow_state/old",
+    "projects/cwl/pickValue",
+    "projects/cwl/workflow_features",
     "projects/history_markdown",
-    "projects/cwl/CWL_CONDITIONALS_STATUS.md",
-    "projects/cwl/CWL_CONDITIONALS_PICK_VALUE_VIA_TOOL_PLAN.md",
-    "projects/cwl/CWL_CONDITIONALS_PICK_VALUE_FRAMEWORK_SUPPORT.md",
-    "projects/cwl/CWL_CONDITIONALS_PICK_VALUE_COMPARE.md",
-    "research/Component - CWL Workflow State.md",
-    "research/Dependency - gxformat2.md",
-    "research/Component - Workflow Format (.ga).md",
-    "research/Component - Worktree Bootstrapping.md",
-    "research/Component - YAML Tool Runtime.md",
-    "research/Component - Workflow Testing.md",
     "projects/workflow_state",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "projects/cwl",
-    "projects/wf_refactor_persistence",
-    "projects/collection_semantics",
-    "projects/sample-project",
-    "projects",
-    "plans"
+    "projects/wf_refactor_persistence"
   ]
 }

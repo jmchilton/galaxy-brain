@@ -138,19 +138,28 @@ Reference the Galaxy fix PR so reviewers understand why these keys are stale and
 
 **Goal:** Prove round-tripped workflows execute identically, and that `__current_case__` omission is safe.
 
-### 5.1: `__current_case__` stripping test
+### 5.0: Source-level validation (DONE)
 
-The key proof that `__current_case__` is unnecessary:
+Validated `__current_case__` redundancy via static analysis of the IWC corpus using `galaxy-workflow-validate --strip-bookkeeping`.
 
-1. Take the 24 framework format2 workflows (have execution specs in `{name}.gxwf-tests.yml`)
-2. Convert format2 → native (produces `__current_case__`)
-3. Strip all `__current_case__` values from native
-4. Run through Galaxy's workflow test runner
-5. All tests must pass
+**Findings:**
+- Full IWC corpus: 2074+ steps validated with and without bookkeeping keys
+- Initial run: 6 steps flipped OK→FAIL — all caused by a bool/string type mismatch bug in `_select_which_when_native()`, not by genuine `__current_case__` dependency
+- Fix: `_test_value_matches_discriminator()` in `_walker.py` — bidirectional bool/string coercion for conditional discriminator matching
+- After fix: **zero steps degrade** when stripping bookkeeping. 3 steps improve (bookkeeping keys were themselves stale)
+- 1 IWC workflow (interproscan) has a genuine test-value/`__current_case__` disagreement — `__current_case__` was masking stale data from an inactive branch
 
-**File:** `test/integration/workflows/test_current_case_stripping.py`
+**Why `__current_case__` is safe to strip:** `params_from_strings()` (`lib/galaxy/tools/parameters/__init__.py:267`) recomputes `__current_case__` from the test parameter value via `get_current_case()` every time tool state is deserialized. The execution engine reads the recomputed value, not the persisted one.
 
-If any fail, that's a Galaxy engine bug — it should derive case from selector value, not rely on persisted index.
+**Write-up:** `CURRENT_CASE_WALKING_ISSUE.md`
+
+### 5.1: `__current_case__` stripping execution test (DONE)
+
+Empirical proof via the 24 framework workflow tests that `__current_case__` is unnecessary at execution time.
+
+**Approach:** `GALAXY_TEST_STRIP_BOOKKEEPING_FROM_WORKFLOWS=1` env var in `WorkflowPopulator.upload_yaml_workflow()` (`lib/galaxy_test/base/populators.py`). When set: upload Format2 → download native → strip bookkeeping via `strip_bookkeeping_from_workflow()` → re-upload stripped native. Parallels the existing `round_trip_format_conversion` download-transform-reupload cycle.
+
+**Result:** All 24 framework workflow tests pass with bookkeeping stripped. CI green. Confirms that `params_from_strings()` correctly recomputes `__current_case__` from the test parameter value at load time — the persisted value is redundant.
 
 ### 5.2: Round-tripped workflow execution
 
@@ -231,7 +240,7 @@ Extend `gxformat2/lint.py` with optional schema-aware validation:
 | 2: PR stale key fix | `params_to_strings` fix + tests in Galaxy dev | Ready to PR |
 | 3: Fix runtime leakage | `modules.py` fallback + `extract.py` cleanup fixes | Needs implementation |
 | 4: Clean IWC workflows | PRs to IWC repo removing 124 stale keys | Blocked on Phase 2 (for "fix prevents recurrence" story) |
-| 5: Execution equivalence | `__current_case__` proof, round-trip execution comparison | Independent, can start now |
+| 5: Execution equivalence | `__current_case__` proof, round-trip execution comparison | 5.0 + 5.1 done — `__current_case__` proven redundant (static + execution) |
 | 6: Format2 export | Galaxy export API with `state` blocks | Depends on Phase 5 confidence |
 | 7: External tooling | JSON Schema, ToolShed API, gxformat2 lint | Depends on Phase 2 |
 
