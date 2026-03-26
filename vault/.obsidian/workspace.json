@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "research/Component - YAML Tool Runtime.md",
+                "file": "projects/workflow_state/PROBLEM_AND_GOAL.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Component - YAML Tool Runtime"
+              "title": "PROBLEM_AND_GOAL"
             }
           },
           {
@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "projects/workflow_state/CURRENT_STATE.md",
+                "file": "projects/workflow_state/PROMPTS.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CURRENT_STATE"
+              "title": "PROMPTS"
             }
           },
           {
@@ -226,35 +226,35 @@
       "bases:Create new base": false
     }
   },
-  "active": "4845e632645dbecd",
+  "active": "c1926bfde7f63465",
   "lastOpenFiles": [
-    "projects/workflow_state/PLAN_STRUCTURED_DIFFS.md",
-    "projects/workflow_state/PLAN_ROUNDTRIP_ARTIFACT_TESTS.md",
+    "research/Component - Auto Pairing.md",
+    "projects/workflow_state/ROUNDTRIP_HTML_REPORT_REQUIREMENTS.md",
+    "projects/workflow_state/CLEAN_PY_MODEL_PLAN.md",
+    "projects/workflow_state/CONNECTION_GRAPH_MODELED_PLAN.md",
     "projects/workflow_state/CURRENT_STATE.md",
-    "research/Component - Tool State Specification.md",
-    "research/Component - Workflow Testing.md",
-    "projects/cwl/pickValue/REMOVING_NODES.md",
-    "research/Component - Galaxy Workflow Expression Context.md",
-    "research/Component - Workflow Format (.ga).md",
-    "research/Component - Workflow Format Differences.md",
-    "research/Component - Worktree Bootstrapping.md",
-    "research/Component - Workflow Refactoring API.md",
-    "research/Component - YAML Tool Runtime.md",
-    "projects/workflow_state/PLAN_GXFORMAT2_SLASH_IN_LABELS.md",
-    "research/PR 16612 - Workflow Comments.md",
-    "research/Component - Workflow Comments.md",
-    "research/Component - Workflow API.md",
-    "research/Component - Post Job Actions.md",
-    "research/Component - E2E Tests Smart Components.md",
-    "projects/workflow_state/old/stale_key_taxonomy_infographic.png",
-    "projects/workflow_state/old/TOOL_API.md",
-    "projects/workflow_state/old/ROUNDTRIP_DISCUSSION.md",
-    "projects/workflow_state/old/NON_DATA_CONNECTION_VALIDATION.md",
-    "projects/workflow_state/STALE_KEY_TAXONOMY.md",
-    "projects/workflow_state/STALE_KEY_INTEGRATION_PLAN.md",
-    "projects/workflow_state/PLAN_GXFORMAT2_SCHEMA_PROTOCOL.md",
-    "projects/workflow_state/PHASE_6_DETAILED_PLAN.md",
+    "projects/workflow_state/PROBLEM_AND_GOAL.md",
+    "projects/workflow_state/PROMPTS.md",
     "projects/workflow_state/EXECUTIVE_SUMMARY.md",
+    "projects/workflow_state/FILES_INDEX.md",
+    "projects/workflow_state/GXFORMAT2_CONVERSION_AND_EXPANSION.md",
+    "projects/workflow_state/old/USE_NORMALIZED_WORKFLOWS_PLAN.md",
+    "projects/workflow_state/PULL_REQUESTS_FROM_WORK.md",
+    "research/PR 19434 - User Defined Tools.md",
+    "projects/workflow_state/SIMPLIFY_GXFORMAT2_CONTRACT_IN_GALAXY_PLAN.md",
+    "research/Component - Tool State Specification.md",
+    "research/Component - YAML Tool Runtime.md",
+    "projects/workflow_state/old/STALE_KEY_INTEGRATION_PLAN.md",
+    "projects/workflow_state/STALE_KEY_TAXONOMY.md",
+    "projects/workflow_state/old/PLAN_GXFORMAT2_SCHEMA_PROTOCOL.md",
+    "projects/workflow_state/old/PHASE_6_DETAILED_PLAN.md",
+    "projects/workflow_state/NEXT_STEPS_PLAN.md",
+    "projects/workflow_state/old/CURRENT_CASE_TOOLING_PLAN.md",
+    "projects/workflow_state/old/COLLECTION_TYPE_REACTORING_PLAN.md",
+    "projects/workflow_state/old/PLAN_STRUCTURED_DIFFS.md",
+    "projects/workflow_state/old/PLAN_ROUNDTRIP_ARTIFACT_TESTS.md",
+    "research/Component - Workflow Testing.md",
+    "projects/workflow_state/old/stale_key_taxonomy_infographic.png",
     "projects/workflow_state/CONNECTION_VALIDATION_TESTING_AND_TRACKING_PLAN.md.tmp.10403.1773860206667",
     "projects/workflow_state/stale_key_taxonomy_infographic.png.tmp",
     "projects/workflow_state/stale_state",
