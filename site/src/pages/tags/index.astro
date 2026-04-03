@@ -27,7 +27,7 @@ const otherTags = sorted.filter(([t]) =>
 <Base title="Tags" pageTitle="Tags">
   <h1 class="mb-4 text-2xl font-bold">Tags</h1>
 
-  <h2 class="mt-6 mb-2 text-xl font-semibold">Note Type Tags</h2>
+  <h2 class="mt-8 mb-3 text-xl font-semibold border-b-2 border-(--color-accent)/20 pb-2">Note Type Tags</h2>
   <ul class="list-none my-2 mb-6 p-0 flex flex-wrap gap-2">
     {noteTypeTags.map(([tag, count]) => (
       <li class="flex items-center gap-1">
@@ -39,7 +39,7 @@ const otherTags = sorted.filter(([t]) =>
 
   {galaxyAreaTags.length > 0 && (
     <>
-      <h2 class="mt-6 mb-2 text-xl font-semibold">Galaxy Area Tags</h2>
+      <h2 class="mt-8 mb-3 text-xl font-semibold border-b-2 border-(--color-accent)/20 pb-2">Galaxy Area Tags</h2>
       <ul class="list-none my-2 mb-6 p-0 flex flex-wrap gap-2">
         {galaxyAreaTags.map(([tag, count]) => (
           <li class="flex items-center gap-1">
@@ -53,7 +53,7 @@ const otherTags = sorted.filter(([t]) =>
 
   {otherTags.length > 0 && (
     <>
-      <h2 class="mt-6 mb-2 text-xl font-semibold">Other Tags</h2>
+      <h2 class="mt-8 mb-3 text-xl font-semibold border-b-2 border-(--color-accent)/20 pb-2">Other Tags</h2>
       <ul class="list-none my-2 mb-6 p-0 flex flex-wrap gap-2">
         {otherTags.map(([tag, count]) => (
           <li class="flex items-center gap-1">

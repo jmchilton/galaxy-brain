@@ -1,0 +1,70 @@
+---
+interface Props {
+  pageTitle?: string;
+}
+const { pageTitle } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<header class="bg-gradient-to-br from-(--color-galaxy-dark) to-(--color-galaxy-primary) border-b-4 border-(--color-accent) relative overflow-hidden">
+  <div class="absolute inset-0 bg-grid-header pointer-events-none"></div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex items-center gap-4">
+      <a href={`${base}/`} class="text-xl font-bold text-(--color-text-on-dark) no-underline hover:text-(--color-accent) transition-colors">
+        Galaxy Brain
+      </a>
+      <nav class="flex items-center gap-3 text-sm">
+        <a href={`${base}/`} class="text-(--color-text-on-dark) no-underline hover:text-(--color-accent) transition-colors opacity-80 hover:opacity-100">
+          Dashboard
+        </a>
+        <a href={`${base}/tags/`} class="text-(--color-text-on-dark) no-underline hover:text-(--color-accent) transition-colors opacity-80 hover:opacity-100">
+          Tags
+        </a>
+      </nav>
+    </div>
+    <button id="theme-toggle" type="button"
+      class="p-1.5 rounded text-(--color-text-on-dark) opacity-70 hover:opacity-100 hover:text-(--color-accent) transition-colors cursor-pointer"
+      aria-label="Toggle dark mode">
+      <svg id="icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      </svg>
+      <svg id="icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </div>
+  {pageTitle && (
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 pb-4">
+      <div class="flex items-center gap-2">
+        <div class="w-1 h-6 bg-(--color-accent) rounded-full"></div>
+        <span class="text-sm text-(--color-text-on-dark) opacity-70">{pageTitle}</span>
+      </div>
+    </div>
+  )}
+</header>
+
+<style>
+  .bg-grid-header {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+</style>
+
+<script is:inline>
+  // Theme toggle
+  const toggle = document.getElementById('theme-toggle');
+  const sunIcon = document.getElementById('icon-sun');
+  const moonIcon = document.getElementById('icon-moon');
+  function updateIcons() {
+    const isDark = document.documentElement.classList.contains('dark');
+    sunIcon.classList.toggle('hidden', !isDark);
+    moonIcon.classList.toggle('hidden', isDark);
+  }
+  updateIcons();
+  toggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = isDark ? 'dark' : 'light';
+    updateIcons();
+  });
+</script>
