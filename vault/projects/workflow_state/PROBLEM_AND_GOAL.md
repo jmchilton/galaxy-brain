@@ -85,6 +85,26 @@ Enable Galaxy to export workflows in Format2 format. The export path should:
 - Fall back to native export for workflows that can't be cleanly converted (missing tool defs, validation failures, etc.)
 - Preserve functional equivalence — a re-imported Format2 workflow must produce identical execution results (bookkeeping artifacts like `__current_case__` are not preserved)
 
+### D9: Rich Format2 Editing in VSCode via Tool State Schemas
+
+Extend the existing [galaxy-workflows-vscode](https://github.com/galaxyproject/galaxy-language-server) extension with tool-state-aware language services powered by gxformat2's pydantic models and Galaxy's `WorkflowStepToolState` infrastructure. This delivers the first workflow editor — for any platform — with per-tool auto-completion, validation, and hover documentation inside `state:` blocks.
+
+1. **JSON Schema export pipeline** — gxformat2 exports `GalaxyWorkflow.model_json_schema()` for workflow structure; `galaxy-tool-util` exports `WorkflowStepToolState.model_json_schema()` per tool. These replace the extension's stale YAML Salad schemas (Jul 2022 snapshot, missing comments, creator types, `pick_value`, `when`, conditional execution).
+2. **Static schema replacement** — Replace the extension's custom YAML Salad `SchemaLoader` (~400 lines) with a JSON Schema walker, unifying the Format2 and native server schema paths. Pydantic-generated schemas express discriminated unions, container unions, and literal types that raw YAML Salad cannot.
+3. **Tool registry service** — A `ToolRegistryService` in the extension that fetches `ParsedTool` definitions from cascading sources: local cache → ToolShed 2.0 TRS API → configured Galaxy instance APIs (usegalaxy.org, usegalaxy.eu, private instances with API keys) → local tool XML. Reuses the existing `galaxy-tool-cache` infrastructure and `fetch_from_galaxy()` already implemented in `toolshed_tool_info.py`. Configurable via VSCode settings with per-source enable/disable and optional authentication.
+4. **Dynamic state completions** — When the cursor is inside a step's `state:` block, the extension resolves the step's `tool_id` from the AST, fetches the tool's `WorkflowStepToolState` JSON Schema, and provides: field name completions (parameter names), type-aware value completions (enum options, boolean, numeric ranges), nested structure completions (repeats, conditionals), and hover documentation (parameter help text, type info, defaults).
+5. **Connection source completions** — When completing `source:` in `in:` blocks, suggest `step_label/output_name` from upstream steps, filtered by type compatibility using the `connection_types.py` / `connection_validation.py` infrastructure.
+6. **Workspace integration** — Auto-discover workflows in the workspace, populate the tool cache on activation, resolve subworkflow `run:` references for cross-file navigation, and provide a status bar indicator for cache health.
+
+### D10: Full gxformat2 Support in the IWC Pipeline
+
+Extend the IWC repository's tooling, CI, and website to treat `.gxwf.yml` (Format2) as a first-class format alongside native `.ga`. This includes:
+
+1. **Format2 source-of-truth option** — IWC workflows can be authored/maintained in Format2; native `.ga` generated on demand (inverse of current flow).
+2. **CI pipeline** — planemo test/lint, schema validation, and roundtrip checks work for Format2 workflows. `galaxy-workflow-validate` runs on both formats.
+3. **Website / catalog rendering** — IWC website (Dockstore integration, workflow cards, etc.) can ingest and display Format2 metadata.
+4. **planemo integration** — `planemo test`, `planemo workflow_lint`, and related commands handle Format2 workflows without requiring pre-conversion to native.
+
 ## Constraints
 
 - `gxformat2` is a standalone library with no Galaxy runtime dependency. Schema-aware features must be **optional** — activated when tool definitions are available, with the current schema-free path as the default.

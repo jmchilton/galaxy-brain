@@ -5,37 +5,49 @@ Lets add a deliverable to PROBLEM_AND_GOAL. I want full support for gxformat2 in
 
 ----
 
+Read and follow directions in /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/MEMORY.md to get up and running. Please review doc/source/dev/wf_tooling.md for some understanding of why things are inconsistent. I think I'd like to rename the CLI methods:
+- galaxy-workflow-validate -> gxwf-state-validate
+- galaxy-workflow-clean-stale-state -> gxwf-state-clean
+- galaxy-workflow-roundtrip-validate -> gxwf-roundtrip-validate
+- galaxy-workflow-export-format2 -> gxwf-to-format2-stateful
 
-/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/CURRENT_STATE.md is the state of what we're working on and /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/PROBLEM_AND_GOAL.md is what we're working toward.
-Commit 2179357eb14b75e264af67c815f1892b026bedb5 introduces some test cases for cases when artifacts are introduced when we round-trip convert from native workflow format -> format2 -> back. Commit 1a480a3ea4bd70964e167939ca485f55665cd6b1 introduced a taxonomy of what some mismatches look like. Do we have good coverage in the tests for the kinds of mismatches that we're seeing.  Can we update the mismatches to point at particular tests to prove they are benign? 
+Then I'd like to start with the gxformat2 and work on making the workflows cohesive in the sense that this work feels like taking that work and adding state to the mix.
 
-----
+* I'd like to converge gxwf-to-format2 and gxwf-to-format2-stateful in CLI options and structure, etc... to whatever degree possible (maybe this is tough though).
+* I'd like to implement gxwf-to-native-stateful on this side of things to reflect gxwf-to-native in gxformat2. Obviously it would try to reuse and callback and the functionality developed for roundtrip validate - so if we could refactor that out for reuse.
+* I'd also like to make a gxwf-lint-stateful  that extends the functionality in gxformat2 but to include the stateful validation (the functionality from gxwf-state-valdiate).
 
-You with your current context is a pro at running the roundtrip native to gxformat2 to native code on workflows and native to gxformat2 conversion. I have another agent who I've used to create branches on my fork of the IWC, using the clean stale state stuff, and open pull requests. Can you give a blurb to give them about the two operations I listed there so I can have them build a general skill for this.
-
-------
-
-/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/CURRENT_STATE.md is the state of what we're working on and /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/PROBLEM_AND_GOAL.md is what we're working toward. Planemo will be the ultimate user-facing CLI application for all this work - but our CLIs are useful for debugging and developing the features we're going to expose there.
-
-Can you look at Planemo workflow lint's source code - /Users/jxc755/projects/repositories/planemo/planemo/workflow_lint.py (mostly _lint_best_practices). I think everything about linting publication artifacts, the repository, etc... belong in Planemo but Planemo should not be parsing workflows - the best practices around workflow linting should be available via a CLI gxwf-lint that is a CLI wrapper around a linting module. Can you plan out this refactoring? I have a vague idea that we should create a pydantic model in this project and not have the linter stuff - since we don't depend on galaxy-tool-util - but then Planemo should adapt our pydantic model to the linting framework.
-
-------
-
-Abstractions:
-
-We've implement gxformat2 and native workflows in gxformat2/schema. 
-
-They are working well for validation - but I'd like to also use them in other contexts. I think this means having an abstraction that we can use to allow lax variants of these workflows. I'm imagining load_native(dict, strict: boolean) -> NativeGalaxyWorkflow.
-
-By default it would just do a normal load to pydantic. But if strict is false - we can work around some bugs. One is https://github.com/galaxyproject/iwc/pull/1167/changes - allowing tags to be "" and convert that to [].
-
-Looking over the code is there any place such an abstraction would be useful and would help have more typed, cleaner code? 
-
-------------
-
-/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/CURRENT_STATE.md is the state of what we're working on and /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/PROBLEM_AND_GOAL.md is what we're working toward. We've written just an unbelievable amount of code here - can you create some subagents to do some deep research on abstractions so we have a basis that we can use to start to think about refactoring across projects.
-
-Have one subagent review gxformat2 and summarize its abstractions for dealing with workflows and write them out to ABSTRACTIONS_GXFORMAT2.md.
-Have another subagent review the abstractions patterns we use in this workflow_state module to walk, edit, convert workflows, etc... and write this out to ABSTRACTIONS_WORKFLOW_STATE.md, finally have another subagent review workflow_state branch and start to generate ideas for converging the existing code into reusable abstractions. 
+Can you do some research and draw up a large plan for all of this. None of the code on the galaxy side has ever reached release state so we don't have worry about backward compatibility and in fact we should work hard to get the best abstractions and cleanest code we can now while we have freedom. The planning can and probably should include developments on the gxformat2 side of things.
 
 
+
+
+
+
+
+
+Can you review 35819900a2d0bfb0cf74f019f453d194a2bd2285 in /Users/jxc755/projects/worktrees/gxformat2/branch/docs. It has setup some declarative testing for the normalized versions of the two workflow models. I'd like to extend the models we added in 089442769db2100771cce5d4029079cefe43fa5c - with normalized versions that mirror what we did in gxformat2 and that can rerun the declarative tests we setup there.
+
+Can you draw up a plan for this on this side and let me know if there is anything we can do on the gxformat2 side of things to improve the ease of reuse of those models here. We already are syncing artifacts from gxformat2 and I think we will just want to expand that for testing here.
+
+
+
+Can you review the "validation" modules in /Users/jxc755/projects/worktrees/galaxy/branch/wf_tool_state/lib/galaxy/tool_util/workflow_state - this project is trying to replicate a lot of Python functionality in TypeScript. My understanding of the workflow validation is something like
+
+---
+
+Dispatch on Type:
+
+- If Native, validate against the native schema and then walk the steps and validate the "tool_state" in each step against a dynamic schema of type workflow_state_native
+
+- If format2, validate against format2 schema then walk the steps and validate the the "state" against the workflow_step and then migrate connections into the state and validate that against workflow_step_linked tool state. 
+
+---
+
+I'd like to expand our validation CLI in here to do these operations also. Can you come up with a plan for this. We have a CLI that does the out workflow shape validation and we have the ability to generate these dynamic models, and we have tool cache reading code that can use the tool structures bridging the workflows and the dynamic models.
+
+Point at particular workflows. 
+
+
+So I think 
+/Users/jxc755/projects/repositories/galaxy-hub/ (https://github.com/galaxyproject/galaxy-hub) -> galaxyproject.org  and  /Users/jxc755/projects/repositories/iwc/website (https://github.com/galaxyproject/iwc) -> https://iwc.galaxyproject.org/. Represent the most updated Galaxy documentation styling / design principles. Galaxy itself /Users/jxc755/projects/repositories/galaxy/client -> https://github.com/galaxyproject/galaxy  usegalaxy.org has a related styling that these are sort of derived from. Can you have three subagents research the styling pipelines, decisions, principles, colors, typing, etc... for each of these projects and write out three reports on the styling in DESIGN_IWC.md DESIGN_HUB.md, and DESIGN_CORE.md.

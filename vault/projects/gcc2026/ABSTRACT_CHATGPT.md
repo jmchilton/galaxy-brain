@@ -1,0 +1,16 @@
+
+## Reproducibility in the Age of Agents
+
+Agent-driven science is scaling faster than our ability to trust it. As agents generate analyses at unprecedented speed, we risk automating the reproducibility crisis itself—producing more results, but with less provenance, less transparency, and more “slop.”
+
+Galaxy needs to meet this moment by confronting a new reproducibility crisis—one that is accelerating with the rise of agents.
+
+The claim we make is simple: the infrastructure built for human reproducibility is exactly what agents need—**and therefore Galaxy’s role must not be to adapt away from its core principles and strengths, but to double down on them.**
+
+We demonstrate this through two new Galaxy capabilities, both designed for humans but that immediately give agents new leverage and incentive to prioritize reproducibility and build workflows that communicate their story and provenance.
+
+**History Notebooks** are Galaxy-flavored markdown documents attached to histories. They give every analysis a living narrative, with embedded dataset views, job parameter tables, and interactive visualizations that persist and version alongside the data. A researcher can document solo; a human can co-author with the in-app AI assistant; an external agent like Claude Code can drive analysis via the API and document its own work as it goes—building a versioned narrative a human can review after the fact, not just a chat transcript that evaporates. Crucially, when a workflow is extracted from a documented history, the notebook becomes the workflow's built-in report — the narrative travels with the computation, so every future invocation carries the context needed to interpret its outputs. The antidote to slop isn't less automation—it's better infrastructure. There has never been a better time to make the communication of an analysis as reproducible as the analysis itself.
+
+**Workflow State Validation** brings the static checks of the Galaxy runtime outside the browser and workflow editor — the long-missing piece that makes Format2 (YAML) workflows a first-class citizen. Concise enough for a human to read, structured enough for an agent to compose, and now validated against typed parameter schemas for 10,000+ ToolShed tools. No Galaxy server required. Build in your own editor with autocompletion and inline documentation; validate every parameter name, value, select option, conditional branch, and collection type connection in milliseconds. This is the workflow authoring experience bioinformaticians have loved about text-based systems like Nextflow — but with static guarantees only a centralized typed tool registry can provide. The difference between catching a misspelled output directory and catching an invalid alignment scoring option that would silently produce wrong results. For agents, the leverage compounds: the concise format fits in a context window, structured per-parameter error reports replace trial-and-error execution cycles, and the resulting workflows are statically verified before they ever run.
+
+Together, these features illustrate a broader pattern: Galaxy's reproducibility infrastructure is not overhead for agents to bypass—it is the feedback loop that makes agent-assisted science trustworthy by design.

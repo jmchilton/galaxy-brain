@@ -1,35 +1,37 @@
-# History Pages: Architecture & Feature Summary
+# Galaxy Notebooks & Reports: Architecture & Feature Summary
 
 > **Branch:** `history_pages`
-> **Date:** 2026-03-14
+> **Date:** 2026-04-01
 > **Status:** Feature-complete, pre-merge
 
 ---
 
-## 1. What Are History Pages?
+## 1. What Are Galaxy Notebooks?
 
-History Pages are markdown documents tied to Galaxy histories. They let users (and AI agents) document, annotate, and share analysis narratives alongside the data that produced them. A history can have multiple pages, and each page supports an AI assistant that can read history contents and propose edits.
+Galaxy Notebooks are markdown documents tied to Galaxy histories. They let users (and AI agents) document, annotate, and share analysis narratives alongside the data that produced them. A history can have multiple notebooks, and each notebook supports an AI assistant that can read history contents and propose edits.
 
-History Pages are built on the existing Galaxy **Page** model — they are regular Pages with an optional `history_id` foreign key. This unified model means history-attached and standalone pages share the same editor, revision system, AI chat, and API surface. The difference is contextual: history pages gain access to history-aware AI tools and are accessed through the history panel rather than the pages grid.
+**UI terminology vs backend model:** The backend uses the existing **Page** model for everything — a "Galaxy Notebook" is a Page with `history_id` set, and a "Report" is a standalone Page. User-facing strings are centralized in `Page/constants.ts` via `PAGE_LABELS`, making the terminology easy to change without touching backend code.
+
+This unified model means notebooks and reports share the same editor, revision system, AI chat, and API surface. The difference is contextual: notebooks gain access to history-aware AI tools and are accessed through the history panel rather than the reports grid.
 
 Every save creates an immutable revision, edits from humans and agents are tracked separately via `edit_source`, and the revision system supports preview and one-click rollback.
 
 ---
 
-## 2. Standalone Pages vs History Pages
+## 2. Reports vs Galaxy Notebooks
 
-The system supports two page contexts through a single unified editor (`PageEditorView`):
+The system supports two contexts through a single unified editor (`PageEditorView`):
 
-| Aspect | Standalone Pages | History Pages |
-|--------|-----------------|---------------|
-| **Entry point** | Grid list (`/pages/list`) or direct URL | History panel "Pages" button |
+| Aspect | Reports (standalone) | Galaxy Notebooks (history-attached) |
+|--------|---------------------|--------------------------------------|
+| **Entry point** | Grid list (`/pages/list`) or direct URL | History panel "Galaxy Notebooks" button |
 | **Route** | `/pages/editor?id=X` | `/histories/:historyId/pages/:pageId` |
-| **`history_id`** | null | Set — scopes page to a history |
+| **`history_id`** | null | Set — scopes notebook to a history |
 | **AI chat tools** | Text editing only (no history tools) | Full history tools: `list_history_datasets`, `get_dataset_info`, `get_dataset_peek`, `get_collection_structure`, `resolve_hid` |
 | **Drag-and-drop** | From toolbox directives | Also from history panel (datasets/collections) |
 | **Permissions modal** | Yes (`ObjectPermissionsModal`) | No — inherits from history sharing |
 | **Save & View** | Yes (slug-based published URL) | No (history context, no slug) |
-| **Page list** | Grid (`/pages/list`) | Inline `HistoryPageList` within history panel |
+| **List** | Grid (`/pages/list`) | Inline `HistoryPageList` within history panel |
 | **Window Manager** | "View in Window" grid action | Click from list opens in WinBox |
 | **Auto-create** | No | `resolveCurrentPage()` creates on first visit |
 
@@ -43,18 +45,18 @@ Both modes share: editor UI, revision system, AI chat, dirty tracking, diff view
 
 > *"I ran a ChIP-seq pipeline and want to write up what I did and what the results mean, with embedded dataset previews and plots, right next to the history that contains the data."*
 
-- Opens history panel -> clicks "Pages" button
-- System auto-creates a page titled after the history
+- Opens history panel -> clicks "Galaxy Notebooks" button
+- System auto-creates a notebook titled after the history
 - Types markdown prose; uses the toolbox to insert dataset references (`history_dataset_display(...)`)
 - Drags a dataset from the history panel into the editor -- directive auto-inserted
 - Clicks Preview to see rendered markdown with live dataset embeds
 - Saves; revision #1 recorded with `edit_source="user"`
 
-### AI-assisted page editing
+### AI-assisted notebook editing
 
 > *"I have 50 datasets from a variant-calling run. I want the AI to summarize what's in my history and draft a methods section."*
 
-- Opens page -> toggles chat panel (split view: 60% editor / 40% chat)
+- Opens notebook -> toggles chat panel (split view: 60% editor / 40% chat)
 - Types: "Summarize the datasets in this history and draft a Methods section"
 - Agent calls `list_history_datasets` -> `get_dataset_info` -> `resolve_hid` tools
 - Agent returns a `section_patch` proposal targeting `## Methods`
@@ -64,16 +66,16 @@ Both modes share: editor UI, revision system, AI chat, dirty tracking, diff view
 
 ### Sharing and publishing
 
-> *"My analysis is complete. I want to share the page read-only."*
+> *"My analysis is complete. I want to share the notebook read-only."*
 
-- Shared histories expose their pages in read-only display mode to other users
-- Standalone pages use the Permissions modal to manage sharing, publishing, and slug assignment
+- Shared histories expose their notebooks in read-only display mode to other users
+- Reports use the Permissions modal to manage sharing, publishing, and slug assignment
 
 ### Reviewing past AI conversations
 
 > *"I had a great chat with the AI last week about my RNA-seq results. I want to pick up where I left off."*
 
-- Opens page -> toggles chat panel
+- Opens notebook -> toggles chat panel
 - Clicks chat history icon to open `PageChatHistoryList`
 - Browses past conversations with timestamps
 - Selects a previous exchange to resume it
@@ -81,7 +83,7 @@ Both modes share: editor UI, revision system, AI chat, dirty tracking, diff view
 
 ### Revision history and rollback
 
-> *"The agent's last edit broke my formatting. I want to go back."*
+> *"The agent's last edit broke my formatting. I want to go back to the previous version."*
 
 - Opens revision panel (right sidebar, 300px)
 - Sees revision list with timestamps and source badges: "Manual", "AI", "Restored"
@@ -99,7 +101,7 @@ Both modes share: editor UI, revision system, AI chat, dirty tracking, diff view
 |                                                                           |
 |  HistoryCounter --> HistoryPageView --> PageEditorView <-- PageEditor      |
 |       |                 |    |              |                  |           |
-|       |           +-----+    +-----+   MarkdownEditor     (standalone     |
+|       |           +-----+    +-----+   MarkdownEditor     (report          |
 |       |           |                |    TextEditor          entry)         |
 |       |     HistoryPageList        |    (drag-drop)                       |
 |       |                      EditorSplitView                              |
@@ -142,12 +144,12 @@ Both modes share: editor UI, revision system, AI chat, dirty tracking, diff view
 |--------|------|-------|
 | `id` | int PK | |
 | `user_id` | int FK -> galaxy_user | Indexed |
-| `history_id` | int FK -> history | **Nullable**, indexed. When set, page is history-attached |
+| `history_id` | int FK -> history | **Nullable**, indexed. When set, page is a Galaxy Notebook |
 | `title` | text | Not versioned |
-| `slug` | text | Indexed. Standalone pages only |
+| `slug` | text | Indexed. Reports only |
 | `latest_revision_id` | int FK -> page_revision | Eager-loaded; circular FK with `use_alter` |
 | `source_invocation_id` | int FK -> workflow_invocation | Nullable. Tracks "generated from invocation" |
-| `published` / `importable` | bool | Standalone sharing features |
+| `published` / `importable` | bool | Report sharing features |
 | `deleted` | bool | Soft-delete pattern |
 | `create_time` / `update_time` | datetime | |
 
@@ -171,15 +173,13 @@ Relationships: `user`, `history` (optional), `revisions` (cascade delete), `late
 |--------|------|-------|
 | `page_id` | int FK -> page | Nullable, indexed. Scopes chat to a page |
 
-The original `notebook_id` FK was replaced with `page_id` when the HistoryNotebook model was merged into Page.
+The `page_id` FK scopes chat exchanges to a page.
 
 ### Migration
 
 | Migration | Purpose |
 |-----------|---------|
-| `b75f0f4dbcd4` | Create `history_notebook` + `history_notebook_revision` tables (later merged into `page` / `page_revision`) |
-
-The separate `history_notebook` and `history_notebook_revision` tables were created in an early migration, then merged into the existing `page` and `page_revision` tables. The merge added `history_id` to `page`, `edit_source` to `page_revision`, and `page_id` to `chat_exchange`.
+| `b75f0f4dbcd4` | Add `history_id` to `page`, `edit_source` to `page_revision`, `page_id` to `chat_exchange` |
 
 ---
 
@@ -228,7 +228,7 @@ Registered as `AgentType.PAGE_ASSISTANT` in the Galaxy agent framework. Uses pyd
 | `get_collection_structure` | Collection element listing | Element names, types, states |
 | `resolve_hid` | HID -> directive argument conversion | `history_dataset_id=N` or `history_dataset_collection_id=N` + `job_id` |
 
-When editing a standalone page (no `history_id`), history tools are unavailable -- the agent can still do full-replacement and section-patch edits on the page content.
+When editing a report (no `history_id`), history tools are unavailable -- the agent can still do full-replacement and section-patch edits on the content.
 
 **Output types (3, discriminated by `mode` literal):**
 
@@ -252,7 +252,7 @@ Conversations are scoped per-page via `ChatExchange.page_id`. The flow:
 
 1. User sends message -> `POST /api/chat` with `page_id` and `agent_type="page_assistant"`
 2. API looks up page, extracts `history_id` and current content from the page record
-3. Agent processes with history tools (if history-attached) and current document context
+3. Agent processes with history tools (if notebook) and current document context
 4. Response stored as `ChatExchange` + `ChatExchangeMessage` with full `agent_response` JSON
 5. Frontend persists `exchange_id` in `userLocalStorage` per-page for session continuity
 
@@ -267,42 +267,42 @@ Users can browse, resume, and delete past conversations for a page via `PageChat
 ### Component Tree
 
 ```
-History-attached entry:
+Galaxy Notebook entry:
   HistoryCounter (button in history panel)
-    +- HistoryPageView (list + display routing -- 178 lines)
-         +- HistoryPageList (page picker -- 92 lines)
+    +- HistoryPageView (list + display routing -- 177 lines)
+         +- HistoryPageList (notebook picker -- 91 lines)
          +- Markdown (display-only render)
          +- PageEditorView (edit mode delegation)
 
-Standalone entry:
-  PageEditor (thin wrapper -- 13 lines)
+Report entry:
+  PageEditor (thin wrapper -- 12 lines)
     +- PageEditorView
 
-PageEditorView (unified editor -- 373 lines)
+PageEditorView (unified editor -- 372 lines)
   +- ClickToEdit (inline title editing)
   +- MarkdownEditor
   |    +- TextEditor (drag-and-drop for history items)
   +- PageRevisionList (sidebar panel -- 87 lines)
-  +- PageRevisionView (revision preview + diff modes -- 195 lines)
-  +- EditorSplitView (resizable 60/40 split -- 111 lines)
-  |    +- PageChatPanel (agent chat -- 571 lines)
+  +- PageRevisionView (revision preview + diff -- 194 lines)
+  +- EditorSplitView (resizable 60/40 split -- 110 lines)
+  |    +- PageChatPanel (agent chat -- 570 lines)
   |         +- ChatMessageCell (shared from ChatGXY)
   |         +- ChatInput (shared from ChatGXY)
-  |         +- ProposalDiffView (full-doc diff -- 123 lines)
-  |         +- SectionPatchView (per-section diff -- 207 lines)
-  |         +- PageChatHistoryList (chat history browser -- 235 lines)
-  +- ObjectPermissionsModal (standalone only -- 18 lines)
+  |         +- ProposalDiffView (full-doc diff -- 122 lines)
+  |         +- SectionPatchView (per-section diff -- 206 lines)
+  |         +- PageChatHistoryList (chat history browser -- 234 lines)
+  +- ObjectPermissionsModal (reports only -- 17 lines)
   |    +- ObjectPermissions (363 lines)
-  |    +- PermissionObjectType (32 lines)
-  |    +- SharingIndicator (73 lines)
+  |    +- PermissionObjectType (31 lines)
+  |    +- SharingIndicator (72 lines)
 ```
 
 ### PageEditorView (unified editor)
 
 The core editor component. Adapts based on context:
 
-| Feature | `historyId` set | standalone |
-|---------|----------------|------------|
+| Feature | Galaxy Notebook (`historyId` set) | Report (standalone) |
+|---------|-----------------------------------|---------------------|
 | Back button target | `/histories/:hid/pages` | `/pages/list` |
 | Title display | History name (read-only header) | Inline `ClickToEdit` |
 | Revisions button | Always | Always |
@@ -323,18 +323,18 @@ The core editor component. Adapts based on context:
 - `"changes_current"` — diff against current page content
 - `"changes_previous"` — diff against previous revision
 
-### HistoryPageView (history context router)
+### HistoryPageView (notebook context router)
 
-Routes between three states for history-attached pages:
+Routes between three states for Galaxy Notebooks:
 1. **List mode** (no `pageId`) -> `HistoryPageList`
 2. **Display mode** (`displayOnly=true`) -> Markdown renderer with toolbar
 3. **Edit mode** (`pageId` set, no `displayOnly`) -> delegates to `PageEditorView`
 
-Handles Window Manager integration: when WM is active, clicking a page in the list opens it in a WinBox window via `displayOnly=true` with `router.push(url, { title, preventWindowManager: false })`.
+Handles Window Manager integration: when WM is active, clicking a notebook in the list opens it in a WinBox window via `displayOnly=true` with `router.push(url, { title, preventWindowManager: false })`.
 
 ### Pinia Store (`pageEditorStore`)
 
-**Mode:** `mode: "history" | "standalone"` -- controls which features are available.
+**Mode:** `mode: "history" | "standalone"` -- `"history"` = Galaxy Notebook, `"standalone"` = Report.
 
 **State management:**
 - Page list, current page, editor content (raw), title
@@ -352,9 +352,9 @@ Handles Window Manager integration: when WM is active, clicking a page in the li
 **Smart defaults:**
 - `resolveCurrentPage(historyId)` returns stored page, falls back to most recent by update_time, or auto-creates a new one
 
-**Mode differentiation is minimal** -- mostly a UI/UX signal:
+**Mode differentiation is minimal** -- mostly determines UI labels (via `PAGE_LABELS`) and available features:
 - History mode: guard checks require `historyId` for load operations
-- Standalone mode: `savePage()` defaults `edit_source` to `"user"` if not specified
+- Report mode: `savePage()` defaults `edit_source` to `"user"` if not specified
 - API calls are identical -- unified `/api/pages` endpoints handle both via optional `history_id`
 
 ### Diff System (`sectionDiffUtils.ts` -- 218 lines)
@@ -376,13 +376,13 @@ Built on [jsdiff](https://github.com/kpdecker/jsdiff) (`diff@^8.0.3`).
 
 | Path | Component | Notes |
 |------|-----------|-------|
-| `/histories/:historyId/pages` | HistoryPageView | List mode |
-| `/histories/:historyId/pages/:pageId` | HistoryPageView | Edit mode |
-| `/histories/:historyId/pages/:pageId?displayOnly=true` | HistoryPageView | Read-only rendered (WM) |
-| `/pages/editor?id=X` | PageEditor | Standalone edit |
-| `/pages/editor?id=X&displayOnly=true` | PageEditor | Standalone display |
-| `/pages/list` | GridPage | Standalone page grid |
-| `/published/page?id=X` | PageView | Published/embed view |
+| `/histories/:historyId/pages` | HistoryPageView | Notebook list |
+| `/histories/:historyId/pages/:pageId` | HistoryPageView | Notebook edit |
+| `/histories/:historyId/pages/:pageId?displayOnly=true` | HistoryPageView | Notebook read-only (WM) |
+| `/pages/editor?id=X` | PageEditor | Report edit |
+| `/pages/editor?id=X&displayOnly=true` | PageEditor | Report display |
+| `/pages/list` | GridPage | Reports grid |
+| `/published/page?id=X` | PageView | Published report view |
 
 ### Drag-and-Drop
 
@@ -395,16 +395,16 @@ TextEditor supports drag from the history panel when `mode="page"`:
 ### Window Manager Integration
 
 When Galaxy's Window Manager (WinBox) is active:
-- **History pages:** Clicking a page in `HistoryPageList` opens it in a WinBox window via `displayOnly=true`
-- **Standalone pages:** "View in Window" grid action calls `Galaxy.frame.add()` with embed URL
-- **HistoryCounter:** The page button respects WM state -- opens in frame when active
+- **Notebooks:** Clicking a notebook in `HistoryPageList` opens it in a WinBox window via `displayOnly=true`
+- **Reports:** "View in Window" grid action calls `Galaxy.frame.add()` with embed URL
+- **HistoryCounter:** The notebook button respects WM state -- opens in frame when active
 - `onUnmounted` skips `store.$reset()` in display mode (iframe independence)
 
 ---
 
 ## 9. API Surface
 
-All page operations use the unified `/api/pages` endpoints. History-attached pages are just pages with `history_id` set.
+All operations use the unified `/api/pages` endpoints. Notebooks are pages with `history_id` set; reports have `history_id` null.
 
 ### Page CRUD
 
@@ -425,7 +425,7 @@ All page operations use the unified `/api/pages` endpoints. History-attached pag
 | `GET` | `/api/pages/{id}/revisions/{rid}` | Get revision content |
 | `POST` | `/api/pages/{id}/revisions/{rid}/revert` | Restore to revision (`edit_source="restore"`) |
 
-### Sharing & Publishing (standalone pages)
+### Sharing & Publishing (reports only)
 
 | Method | Path | Purpose |
 |--------|------|---------|
@@ -446,7 +446,7 @@ All page operations use the unified `/api/pages` endpoints. History-attached pag
 
 | Param | Default | Notes |
 |-------|---------|-------|
-| `history_id` | null | Filter pages by history (the key filter for history-attached pages) |
+| `history_id` | null | Filter by history (the key filter for notebooks) |
 | `show_own` | true | Show user's own pages |
 | `show_published` | true | Show published pages |
 | `show_shared` | false | Show pages shared with user |
@@ -462,26 +462,28 @@ All page operations use the unified `/api/pages` endpoints. History-attached pag
 
 | Layer | Tests | LOC | Coverage |
 |-------|-------|-----|----------|
-| Selenium E2E | 30 | 673 | Navigation, editing, drag-drop, WM, revisions, rename, chat, permissions |
-| API integration | 29 | 323 | CRUD, revisions, permissions, chat persistence |
-| Agent unit | 40 | 821 | Structured output, tools, prompt injection, history context, live LLM |
+| Selenium E2E | 30 | 669 | Navigation, editing, drag-drop, WM, revisions, rename, chat, permissions |
+| API integration | 30 | 336 | CRUD, revisions, permissions, chat persistence |
+| Agent unit | 39 | 810 | Structured output, tools, prompt injection, history context, live LLM |
 | History tools | 32 | 511 | All 5 tool functions |
 | Chat manager | 8 | 149 | Page-scoped persistence, filtering |
-| Vitest (components) | 9 test files | ~2,100 | All PageEditor components, store, diff utils |
+| Vitest (components) | 11 test files | ~3,673 | All PageEditor components, store, diff utils |
 
 ### Frontend Test Files
 
 | File | Lines | Focus |
 |------|-------|-------|
-| `pageEditorStore.test.ts` | 1,422 | Store: CRUD, revisions, persistence, standalone mode, chat history |
-| `PageEditorView.test.ts` | 646 | Unified editor: standalone + history modes, revisions, WM |
-| `HistoryPageView.test.ts` | 367 | List/display/edit routing, lifecycle, WM integration |
-| `PageChatPanel.test.ts` | 379 | Chat loading, proposals, feedback, staleness |
+| `pageEditorStore.test.ts` | 1,422 | Store: CRUD, revisions, persistence, report + notebook modes, chat history |
+| `PageEditorView.test.ts` | 649 | Unified editor: report + notebook modes, revisions, WM |
+| `HistoryPageView.test.ts` | 367 | Notebook list/display/edit routing, lifecycle, WM integration |
+| `PageChatPanel.test.ts` | 385 | Chat loading, proposals, feedback, staleness |
 | `sectionDiffUtils.test.ts` | 265 | Section parsing, diff computation, patch application |
 | `PageRevisionList.test.ts` | 207 | Revision list rendering, source labels, restore |
-| `HistoryPageList.test.ts` | 185 | Page list, create/select/view events |
+| `HistoryPageList.test.ts` | 185 | Notebook list, create/select/view events |
 | `SectionPatchView.test.ts` | 68 | Section-level patch UI |
 | `ProposalDiffView.test.ts` | 66 | Full-replacement diff rendering |
+| `PageRevisionView.test.ts` | 199 | Revision preview + diff modes |
+| `PageChatHistoryList.test.ts` | 229 | Chat history list rendering, selection, deletion |
 | `EditorSplitView.test.ts` | 59 | Resizable split layout |
 
 ### Test Infrastructure
@@ -512,38 +514,35 @@ PageChatPanel reuses all extracted components with no duplication.
 
 ## 12. Design Decisions
 
-### Model Merge: HistoryNotebook -> Page
+### Unified Page Model
 
-The original implementation created separate `HistoryNotebook` and `HistoryNotebookRevision` tables. After removing HID syntax (which was the only structural difference between notebooks and pages), the models were identical. The merge:
+Both Galaxy Notebooks and Reports reuse the existing `Page` model rather than introducing a separate table. The distinction is a nullable `page.history_id` FK — when set, the page is a notebook; when null, it's a report.
 
-- Added `page.history_id` (nullable FK to history) instead of a separate table
-- Added `page_revision.edit_source` to track revision provenance
-- Changed `chat_exchange.notebook_id` -> `chat_exchange.page_id`
-- Eliminated separate API endpoints (`/api/histories/{id}/notebooks/*`), manager, and schema classes
-- All page operations now go through the unified `/api/pages` endpoints with optional `history_id` filter
+- `page.history_id` (nullable FK to history) distinguishes notebooks from reports
+- `page_revision.edit_source` tracks revision provenance (`"user"`, `"agent"`, `"restore"`)
+- `chat_exchange.page_id` scopes chat to a page
+- All page operations go through the unified `/api/pages` endpoints with optional `history_id` filter
 
 **Benefit:** One model, one API, one editor, one store. No duplication.
 
-### HID Syntax (Decided: Removed from storage layer)
+### HID Syntax (Decided: Not stored)
 
-History pages originally introduced `hid=N` syntax in stored markdown -- ~630 lines across 16 files for backend resolution, dual content fields, client-side provide/inject, and store-based HID-to-ID mapping.
-
-**Current approach:** Pages store `history_dataset_id=X` (matching existing Page syntax). The agent uses `resolve_hid` as a tool to bridge between user-visible HIDs and directive IDs. This eliminates the resolution machinery while preserving the agent's ability to work with HIDs naturally.
+Pages store `history_dataset_id=X` (matching existing Page syntax) rather than `hid=N`. The agent uses `resolve_hid` as a tool to bridge between user-visible HIDs and directive IDs. This avoids complex resolution machinery while preserving the agent's ability to work with HIDs naturally.
 
 Trade-off: power users hand-editing markdown see opaque IDs, but the toolbox and drag-and-drop handle insertion -- most users never read raw markdown.
 
 ### UI Convergence
 
-Two parallel editors existed: legacy `PageEditorMarkdown.vue` (Options API, local state, no revisions/chat) and `HistoryNotebookView.vue` (Composition API, Pinia store, full features). The convergence:
+The legacy `PageEditorMarkdown.vue` (Options API, local state, no revisions/chat) was replaced by a single unified editor:
 
-- Created `PageEditorView.vue` as a single editor that adapts via `mode: "history" | "standalone"`
-- `HistoryPageView.vue` kept only list + display routing; edit mode delegates to `PageEditorView`
+- `PageEditorView.vue` adapts via `mode: "history" | "standalone"` (notebook vs report)
+- `HistoryPageView.vue` handles only list + display routing; edit mode delegates to `PageEditorView`
 - Legacy `PageEditorMarkdown.vue` and `PageEditor/services.js` deleted
 - Single `pageEditorStore` handles both modes with minimal branching
 
-### Multiple Pages Per History
+### Multiple Notebooks Per History
 
-No unique constraint on `page.history_id`. A history can have multiple pages for different analysis perspectives, collaborators, or document types.
+No unique constraint on `page.history_id`. A history can have multiple notebooks for different analysis perspectives, collaborators, or document types.
 
 ### Title Not Versioned
 
@@ -572,54 +571,55 @@ The revision panel and chat panel are mutually exclusive -- toggling one closes 
 | `lib/galaxy/model/__init__.py` | +100 | Page model extensions (`history_id`, revision `edit_source`, ChatExchange `page_id`) |
 | `lib/galaxy/managers/pages.py` | ~795 | PageManager: CRUD, revisions, content pipeline, history filtering |
 | `lib/galaxy/webapps/galaxy/api/pages.py` | ~393 | REST endpoints including revision operations |
-| `lib/galaxy/webapps/galaxy/services/pages.py` | ~200 | PagesService: endpoint logic |
+| `lib/galaxy/webapps/galaxy/services/pages.py` | 214 | PagesService: endpoint logic |
 | `lib/galaxy/schema/schema.py` | +120 | Pydantic schemas: `PageDetails`, `PageRevisionSummary/Details`, query payloads |
 | `lib/galaxy/managers/markdown_util.py` | 1,434 | `ready_galaxy_markdown_for_export()` |
-| `lib/galaxy/agents/page_assistant.py` | ~454 | PageAssistantAgent class + structured output types |
-| `lib/galaxy/agents/history_tools.py` | ~288 | 5 async history data tools |
-| `lib/galaxy/agents/prompts/page_assistant.md` | ~159 | System prompt template |
-| `lib/galaxy/managers/chat.py` | +55 | Page-scoped chat methods |
-| `lib/galaxy/webapps/galaxy/api/chat.py` | ~570 | Chat endpoints (including page chat history) |
+| `lib/galaxy/agents/page_assistant.py` | 453 | PageAssistantAgent class + structured output types |
+| `lib/galaxy/agents/history_tools.py` | 287 | 5 async history data tools |
+| `lib/galaxy/agents/prompts/page_assistant.md` | 158 | System prompt template |
+| `lib/galaxy/managers/chat.py` | 394 | Page-scoped chat methods |
+| `lib/galaxy/webapps/galaxy/api/chat.py` | 583 | Chat endpoints (including page chat history) |
 | `lib/galaxy/agents/base.py` | +1 | `PAGE_ASSISTANT` enum value |
 
 ### Frontend (TypeScript/Vue)
 
 | File | Lines | Role |
 |------|-------|------|
+| `client/src/components/Page/constants.ts` | 137 | Centralized UI labels: "Galaxy Notebook" vs "Report" terminology |
 | `client/src/api/pages.ts` | 166 | Unified API client (CRUD, revisions, revert) |
-| `client/src/stores/pageEditorStore.ts` | — | Pinia store with mode, persistence, revisions, chat history |
-| `client/src/components/PageEditor/PageEditorView.vue` | 373 | Unified editor (standalone + history) |
-| `client/src/components/PageEditor/HistoryPageView.vue` | 178 | History context: list + display routing |
-| `client/src/components/PageEditor/HistoryPageList.vue` | 92 | Page picker for history |
-| `client/src/components/PageEditor/PageChatPanel.vue` | 571 | Agent chat panel + chat history integration |
-| `client/src/components/PageEditor/PageChatHistoryList.vue` | 235 | Chat history browser with selection/deletion |
-| `client/src/components/PageEditor/EditorSplitView.vue` | 111 | Resizable 60/40 split layout |
+| `client/src/stores/pageEditorStore.ts` | 563 | Pinia store with mode, persistence, revisions, chat history |
+| `client/src/components/PageEditor/PageEditorView.vue` | 372 | Unified editor (notebook + report) |
+| `client/src/components/PageEditor/HistoryPageView.vue` | 177 | Notebook context: list + display routing |
+| `client/src/components/PageEditor/HistoryPageList.vue` | 91 | Notebook picker for history |
+| `client/src/components/PageEditor/PageChatPanel.vue` | 570 | Agent chat panel + chat history integration |
+| `client/src/components/PageEditor/PageChatHistoryList.vue` | 234 | Chat history browser with selection/deletion |
+| `client/src/components/PageEditor/EditorSplitView.vue` | 110 | Resizable 60/40 split layout |
 | `client/src/components/PageEditor/PageRevisionList.vue` | 87 | Revision sidebar |
-| `client/src/components/PageEditor/PageRevisionView.vue` | 195 | Revision preview + diff view modes |
-| `client/src/components/PageEditor/ProposalDiffView.vue` | 123 | Full-document diff |
-| `client/src/components/PageEditor/SectionPatchView.vue` | 207 | Section-level diff with checkboxes |
-| `client/src/components/PageEditor/sectionDiffUtils.ts` | 218 | Diff computation |
-| `client/src/components/PageEditor/ObjectPermissions.vue` | 363 | Permission checking (standalone) |
-| `client/src/components/PageEditor/ObjectPermissionsModal.vue` | 18 | Modal wrapper for permissions |
-| `client/src/components/PageEditor/PermissionObjectType.vue` | 32 | Object type display in permissions |
-| `client/src/components/PageEditor/SharingIndicator.vue` | 73 | Permission toggle indicator |
-| `client/src/components/PageEditor/object-permission-composables.ts` | — | Composables for permission handling |
-| `client/src/components/PageEditor/PageEditor.vue` | 13 | Standalone entry wrapper |
+| `client/src/components/PageEditor/PageRevisionView.vue` | 194 | Revision preview + diff view modes |
+| `client/src/components/PageEditor/ProposalDiffView.vue` | 122 | Full-document diff |
+| `client/src/components/PageEditor/SectionPatchView.vue` | 206 | Section-level diff with checkboxes |
+| `client/src/components/PageEditor/sectionDiffUtils.ts` | 217 | Diff computation |
+| `client/src/components/PageEditor/ObjectPermissions.vue` | 363 | Permission checking (reports) |
+| `client/src/components/PageEditor/ObjectPermissionsModal.vue` | 17 | Modal wrapper for permissions |
+| `client/src/components/PageEditor/PermissionObjectType.vue` | 31 | Object type display in permissions |
+| `client/src/components/PageEditor/SharingIndicator.vue` | 72 | Permission toggle indicator |
+| `client/src/components/PageEditor/object-permission-composables.ts` | 89 | Composables for permission handling |
+| `client/src/components/PageEditor/PageEditor.vue` | 12 | Report entry wrapper |
 | `client/src/components/Markdown/Editor/TextEditor.vue` | +40 | Drag-and-drop additions |
 | ChatGXY extractions (6 files) | ~637 | Shared chat components |
 
 ### Tests
 
-| File | Lines | Tests |
-|------|-------|-------|
-| `lib/galaxy_test/selenium/test_history_pages.py` | 673 | 30 |
-| `lib/galaxy_test/api/test_pages_history_attached.py` | 323 | 29 |
-| `lib/galaxy/selenium/navigates_galaxy.py` | +100 | 13 helper methods |
-| `test/unit/app/test_agents.py` | 821 | 40 (17 PageAssistantAgent) |
-| `test/unit/app/test_history_tools.py` | 511 | 32 |
-| `test/unit/app/test_chat_manager.py` | 149 | 8 |
-| Client vitest (10 files) | ~2,100 | Store, components, diff utils |
-| `client/src/stores/pageEditorStore.test.ts` | 1,422 | ~87 |
+| File                                                 | Lines  | Tests                         |
+| ---------------------------------------------------- | ------ | ----------------------------- |
+| `lib/galaxy_test/selenium/test_history_pages.py`     | 669    | 30                            |
+| `lib/galaxy_test/api/test_pages_history_attached.py` | 336    | 30                            |
+| `lib/galaxy/selenium/navigates_galaxy.py`            | +100   | 13 helper methods             |
+| `test/unit/app/test_agents.py`                       | 810    | 39 (17 PageAssistantAgent)    |
+| `test/unit/app/test_history_tools.py`                | 511    | 32                            |
+| `test/unit/app/test_chat_manager.py`                 | 149    | 8                             |
+| Client vitest (11 files)                             | ~3,673 | Store, components, diff utils |
+| `client/src/stores/pageEditorStore.test.ts`          | 1,422  | ~87                           |
 
 ---
 

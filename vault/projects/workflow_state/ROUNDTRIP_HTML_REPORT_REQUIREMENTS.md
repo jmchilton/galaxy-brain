@@ -13,36 +13,148 @@ Provide a rich, self-contained HTML page that lets a developer visually assess t
 
 ## 2. Architecture
 
-### 2.1 Library + Thin CLI
+The system has three layers: a **Python data collection library** (in Galaxy), a **TypeScript data model** (npm package), and a **Vue 3 viewer app** (npm package). The Python CLI generates JSON conforming to the TS model, then wraps it in an HTML shell that loads the Vue viewer.
 
-The tool is structured as:
-- **Library function** in `galaxy.tool_util.workflow_state` that accepts a directory path (or list of workflow paths) and returns a structured report model (Pydantic). This function orchestrates calls to existing APIs: `validate_workflow`, `convert_state_to_format2`, roundtrip logic from `roundtrip.py`, and stale key classification from `clean.py`.
-- **Thin CLI wrapper** registered as `galaxy-workflow-roundtrip-report` console_script. Accepts a directory path, cache options (same `_cli_common.py` pattern), and output path for the HTML file.
-- Other tools can call the library to get the report model or HTML fragments.
+### 2.1 Three-Project Structure
 
-### 2.2 Integration with Existing APIs
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  Galaxy (Python)                                                │
+│  galaxy.tool_util.workflow_state.roundtrip_report               │
+│  - Orchestrates validation, conversion, roundtrip               │
+│  - Produces JSON conforming to the TS model                     │
+│  - galaxy-workflow-roundtrip-report CLI                         │
+│  - Wraps JSON + viewer assets into HTML                         │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │ JSON blob
+┌──────────────────────────▼──────────────────────────────────────┐
+│  @galaxy-project/roundtrip-report-model (npm, TypeScript)       │
+│  - Zod schemas mirroring the Pydantic models                    │
+│  - Runtime validation of JSON blobs                             │
+│  - Exported TypeScript types consumed by the viewer             │
+│  - Independently useful — other tools can consume the model     │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │ types + validation
+┌──────────────────────────▼──────────────────────────────────────┐
+│  @galaxy-project/roundtrip-report-viewer (npm, Vue 3)           │
+│  - Vue 3 + PrimeVue (unstyled) + Shiki + VueUse                │
+│  - Builds to a single JS bundle + CSS file via Vite             │
+│  - Reads JSON from <script type="application/json"> on mount    │
+│  - Published to npm → auto-mirrored by unpkg/jsdelivr CDNs     │
+└─────────────────────────────────────────────────────────────────┘
+```
 
-The library calls existing Python APIs directly (no subprocess invocation):
-- `validate_workflow` / `validate_native_step_against` for pre-conversion validation
-- `convert_state_to_format2` / `convert_state_to_format2_using` for forward conversion
-- `roundtrip_native_workflow` / `roundtrip_native_step` for full roundtrip
-- `clean_stale_state` / `classify_stale_keys` for stale key analysis
-- `discover_workflows` for directory traversal
-- `setup_tool_info` / `ToolCacheOptions` for tool metadata resolution
-- `make_convert_tool_state` / `make_encode_tool_state` for gxformat2 callback injection
+### 2.2 Python Side: Library + Thin CLI
 
-### 2.3 Rendering Approach: Embedded JSON + JS Renderer
+**Library function** in `galaxy.tool_util.workflow_state` that:
+- Accepts a directory path (or list of workflow paths) and returns a structured report model (Pydantic)
+- Orchestrates calls to existing APIs directly (no subprocess invocation):
+  - `validate_workflow` / `validate_native_step_against` for pre-conversion validation
+  - `convert_state_to_format2` / `convert_state_to_format2_using` for forward conversion
+  - `roundtrip_native_workflow` / `roundtrip_native_step` for full roundtrip
+  - `clean_stale_state` / `classify_stale_keys` for stale key analysis
+  - `discover_workflows` for directory traversal
+  - `setup_tool_info` / `ToolCacheOptions` for tool metadata resolution
+  - `make_convert_tool_state` / `make_encode_tool_state` for gxformat2 callback injection
 
-The output is a single self-contained `.html` file containing:
-- A JSON data blob (`<script type="application/json" id="report-data">`) with the full report model serialized
-- A JS renderer (vanilla JS or lightweight framework like Alpine.js) that reads the JSON and builds the interactive UI client-side
-- Inline CSS for styling
-- No external dependencies — works fully offline, shareable as a single file
+**Thin CLI wrapper** registered as `galaxy-workflow-roundtrip-report` console_script. Accepts a directory path, cache options (same `_cli_common.py` pattern), and output path for the HTML file.
 
-This separation of data and presentation means:
-- The JSON blob is independently useful (can be consumed by other tools)
-- The renderer can be iterated on without changing the data model
-- Future extensions (e.g. loading a baseline JSON for comparison) are architecturally possible
+**HTML assembly:** The CLI produces the final HTML by:
+1. Serializing the Pydantic report model to JSON
+2. Loading the pre-built viewer assets (JS bundle + CSS)
+3. Injecting both into an HTML shell template
+
+### 2.3 TypeScript Model Package
+
+**Package:** `@galaxy-project/roundtrip-report-model`
+
+- Zod schemas that mirror the Pydantic models (sections 3.1–3.5)
+- Exported inferred TypeScript types (`RoundtripHtmlReport`, `WorkflowReport`, `StepReport`, `ParameterNode`, etc.)
+- `parseReport(json: unknown): RoundtripHtmlReport` — validates a raw JSON blob at runtime
+- Enum types for `DiffType`, `DiffSeverity`, `FailureClass`, `StepStatus`, etc.
+- No Vue dependency — pure TypeScript + Zod. Usable by any JS/TS consumer.
+- The Pydantic models (Python) and Zod schemas (TS) are the **canonical contract** between data producer and viewer. Changes to one must be reflected in the other.
+
+### 2.3.1 Pydantic → Zod Automation
+
+Zod schemas are generated from Pydantic via a **JSON Schema intermediary pipeline**:
+
+1. **Pydantic → JSON Schema**: `model_json_schema(mode='serialization')` (includes `computed_field`, handles all types)
+2. **JSON Schema → Zod**: `json-schema-to-zod` npm package converts to Zod code
+3. **Build script**: A Python+Node script runs the pipeline and writes `.ts` files. Invoked during development, output committed to the TS model package.
+
+**What works automatically:** basic types, optionals, enums, nested models, lists, dicts, literals, computed fields.
+
+**What needs manual maintenance:**
+- **Recursive models** (`ParameterNode` references itself) — `json-schema-to-zod` has a recursion depth limit and falls back to `z.any()`. The `ParameterNode` Zod schema needs a manual `z.lazy()` wrapper.
+- **Complex unions** (`anyOf`/`oneOf`) may need touch-up.
+
+**Drift prevention:** A CI test roundtrips sample JSON fixtures through both Pydantic (`model_validate`) and Zod (`parseReport`) to catch schema drift between the two.
+
+**Note:** `json-schema-to-zod` is flagged as pending deprecation awaiting Zod v4. If Zod v4 ships native JSON Schema support (`z.fromJSONSchema()`), the intermediary package becomes unnecessary. Design the build script to be replaceable.
+
+### 2.4 Vue 3 Viewer Package
+
+**Package:** `@galaxy-project/roundtrip-report-viewer`
+
+**Stack:**
+- **Vue 3** (Composition API) — ~45KB gzipped
+- **PrimeVue 4 (unstyled mode)** — Tree, TreeTable, Accordion, DataTable, Panel. MIT licensed, all components free. Unstyled mode gives full CSS control.
+- **Shiki** — syntax highlighting for JSON/YAML in comparison views (~200KB, can be subset to just json+yaml grammars)
+- **VueUse** — `useClipboard`, `useUrlSearchParams` for hash state. Tree-shakeable, only import what's used.
+- **Vite** — build tool. Produces a single JS bundle + CSS file via `vite build --mode lib` or a custom build config.
+
+**Build output:** Two files:
+- `roundtrip-report-viewer.js` — self-contained JS bundle (Vue + PrimeVue + Shiki + app code)
+- `roundtrip-report-viewer.css` — all styles
+
+Estimated bundle: ~150-300KB JS + ~20KB CSS before gzip. Negligible vs the 25-50MB data blob.
+
+**How the viewer initializes:**
+```js
+// In the built bundle's entry point:
+import { createApp } from 'vue'
+import App from './App.vue'
+const el = document.getElementById('app')
+const dataEl = document.getElementById('report-data')
+const report = JSON.parse(dataEl.textContent)
+createApp(App, { report }).mount(el)
+```
+
+**Dev mode:** `vite dev` serves the app with hot-reload. A `public/sample-report.json` provides test data. During dev, the app loads the sample JSON instead of reading from `<script>` tag.
+
+### 2.5 Rendering Modes: Inline vs CDN
+
+The CLI supports two modes for how the viewer is loaded in the generated HTML:
+
+**Inline mode (default):** `galaxy-workflow-roundtrip-report <path> -o report.html`
+- Viewer JS + CSS inlined directly into the HTML file
+- Fully self-contained, works offline, shareable as a single file
+- Viewer assets are shipped as **package data** inside `galaxy-tool-util` (vendored from npm build)
+
+**CDN mode:** `galaxy-workflow-roundtrip-report <path> -o report.html --cdn`
+- Viewer loaded via `<script>` / `<link>` tags pointing to unpkg or jsdelivr:
+  ```html
+  <link rel="stylesheet" href="https://unpkg.com/@galaxy-project/roundtrip-report-viewer@1/dist/style.css">
+  <script src="https://unpkg.com/@galaxy-project/roundtrip-report-viewer@1/dist/index.js"></script>
+  ```
+- HTML file is tiny (just the JSON data blob + a few tags)
+- Requires network to view, but viewer updates automatically when a new version is published to npm
+- Version pinning: major version pinned (`@1`), picks up patch/minor fixes automatically
+
+Both modes use the same JSON data format and the same viewer code — the only difference is where the browser loads the JS/CSS from.
+
+### 2.6 Asset Pipeline: npm → Galaxy
+
+The built viewer assets need to be available to the Python CLI for inline mode. Options (in order of preference):
+
+1. **Vendored in galaxy-tool-util**: A script (or CI step) runs `npm pack @galaxy-project/roundtrip-report-viewer`, extracts the dist files, and commits them to `lib/galaxy/tool_util/workflow_state/_viewer_assets/`. The Python `render_html()` reads these files. Simple, no runtime dependency on npm. Update by re-running the script when the viewer is updated.
+
+2. **Separate Python package**: Publish `galaxy-roundtrip-report-assets` to PyPI containing just the built JS/CSS. The CLI `pip install`s it and reads the files via `importlib.resources`. Cleaner separation but more packages to manage.
+
+3. **Fetch at CLI runtime**: The CLI downloads from unpkg/jsdelivr on first use and caches locally. Adds network dependency to report generation (mitigated by cache). Most flexible but least reliable.
+
+**Recommendation:** Option 1 (vendored) for v1. The viewer assets are ~300KB — trivial to commit. CI can automate the update.
 
 ---
 
@@ -70,7 +182,7 @@ CorpusSummary:
   roundtrip: {clean, benign_only, errors, failed}
   stale_keys: {total_keys, affected_workflows, clean_workflows}
   diff_category_breakdown: dict[str, int]   # benign artifact type -> count
-  step_failure_distribution: dict[str, int] # tool_id -> failure count
+  step_failure_distribution: dict[str, dict[str, int]]  # tool_id -> {failure_class -> count}
 ```
 
 ### 3.3 Per-Workflow Report
@@ -80,13 +192,17 @@ WorkflowReport:
   path: str
   relative_path: str
   category: str                     # directory grouping
-  format: str                       # "native" or "format2"
+  format: str                       # "native" (v1 only; future: "format2")
   workflow_name: str
 
   # Full workflow dicts (embedded)
   original_workflow: dict           # original .ga content
   format2_workflow: dict|null       # converted format2 dict (null if conversion failed entirely)
   roundtripped_workflow: dict|null  # roundtripped native dict (null if reimport failed)
+
+  # Step ID mapping used for comparison
+  step_id_mapping: dict[str, str]   # original_step_id -> roundtripped_step_id
+  step_id_match_methods: dict[str, str]  # step_id -> match method (label+type, same-id, tool_id)
 
   # Phase results
   validation: WorkflowValidationSummary
@@ -125,14 +241,18 @@ StepReport:
 
   # Status
   validation_status: "ok"|"fail"|"skip"
-  validation_errors: list[str]
+  pre_conversion_errors: list[str]   # validation errors before conversion (native state invalid)
+  post_conversion_errors: list[str]  # validation errors after conversion (format2 state invalid)
   conversion_status: "success"|"failed"|"skipped"
   conversion_error: str|null
   failure_class: str|null           # from FailureClass enum
+  has_replacement_params: bool      # step contains ${...} params (skips post-conversion validation)
 
   # Diffs
   diffs: list[StepDiff]            # from roundtrip comparison
-  stale_keys_found: list[str]
+  skipped_keys: list[str]          # keys in SKIP_KEYS that were present but excluded from comparison
+  stale_keys_found: list[str]      # stale keys detected in original
+  stale_keys_stripped: list[str]   # stale keys actually removed before conversion
   stale_key_classifications: dict[str, str]  # key -> category
 
   # Structural tree (parameter hierarchy)
@@ -150,7 +270,9 @@ ParameterNode:
   # For conditionals
   test_param: str|null
   test_value: str|null
-  active_branch: str|null          # which when branch is active
+  declared_when_values: list[str]  # all when values from tool definition
+  active_branch: str|null          # which when branch matched
+  no_branch_matched: bool          # true if test_value didn't match any when
 
   # For repeats
   instances: list[list[ParameterNode]]
@@ -178,7 +300,7 @@ ParameterNode:
 **Dashboard section (top of page):**
 - Status heatmap/grid: workflows x status dimensions (validation, conversion, roundtrip) with color-coded cells. Click a cell to jump to that workflow.
 - Diff category breakdown: bar or table showing count per benign artifact type + error count.
-- Step failure distribution: table of tool_ids sorted by failure frequency.
+- Step failure distribution: table of tool_ids sorted by failure frequency, with failure class breakdown per tool (e.g. "cutadapt: 5 tool_not_found, 2 conversion_error").
 - All three visualizations are collapsible.
 
 **Workflow list (main body):**
@@ -200,6 +322,8 @@ Each card shows a single row with:
 
 Expanding a workflow card reveals:
 
+**Step ID Mapping table** (collapsible): Shows `original_step_id -> roundtripped_step_id` with the match method used (label+type, same-id, tool_id fallback). Essential for diagnosing connection comparison issues — if the mapping is wrong, every connection diff for that step is misleading.
+
 **Step list** with status badges per step. Each step is itself collapsible.
 
 **Per-step expanded view** contains:
@@ -209,16 +333,18 @@ Expanding a workflow card reveals:
 - **Column 2: Format2** — `state` dict, syntax-highlighted YAML or JSON
 - **Column 3: Roundtripped Native** — decoded `tool_state` dict, syntax-highlighted JSON
 - Diff highlighting: mismatched values highlighted in columns 1 and 3. Missing keys highlighted. Benign diffs in yellow/amber, errors in red.
+- For deeply nested tools where three columns become cramped: provide a tabbed alternative (original | format2 | roundtripped) as a per-step toggle. Also provide a "diff-only" mode showing only keys where values differ.
 
 #### 4.3.2 Structural Tree View
 - Collapsible tree rendering the parameter hierarchy (sections > conditionals > repeats > leaves)
 - Each leaf node shows three values: original / format2 / roundtripped
 - Color-coded: green = match, red = error mismatch, amber = benign mismatch, gray = missing/skipped
-- Conditionals: show active branch only, with indicator of which branch is selected
+- Conditionals: show all branches. Active branch expanded and highlighted. Inactive branches collapsed and dimmed. Show the test parameter value, declared `when` values from tool definition, and which branch matched. If no branch matched, highlight in red.
 - Repeats: show each instance as a numbered sub-tree
 
 #### 4.3.3 Connections Comparison
 - Three-column view: original `input_connections` | format2 `in`/`connect` | roundtripped `input_connections`
+- Each column shows connections in that format's native representation (don't translate format2 `in`/`connect` to native `input_connections` — show the actual syntax)
 - Diff highlighting on mismatches
 
 #### 4.3.4 Graphical Metadata
@@ -227,7 +353,10 @@ Expanding a workflow card reveals:
 
 #### 4.3.5 Diff Summary
 - List of all `StepDiff` entries for this step, with severity badges and descriptions
+- Per-step diff filtering: "show all / errors only / benign only" toggle
+- Benign diffs default to collapsed summary by category (e.g. "3 all-None sections omitted"). Expand to see individual entries.
 - Benign diffs show the artifact reason and link to proving test
+- Clicking a diff entry scrolls to and highlights the corresponding key in the three-column comparison (4.3.1) and/or the structural tree view (4.3.2)
 
 ### 4.4 Full Workflow JSON (Collapsible)
 
@@ -262,6 +391,7 @@ Every detail section is collapsible:
 - Clicking a cell in the heatmap scrolls to and expands that workflow
 - Clicking a tool_id in the failure distribution filters/highlights workflows containing that tool
 - Anchor links for each workflow and step for sharing specific locations
+- URL hash state: expand/collapse state reflected in the URL hash so a shared link opens to a specific workflow/step
 - "Expand all" / "Collapse all" controls at each level
 
 ### 5.4 Filtering & Search
@@ -294,10 +424,11 @@ The data model should be designed so that a format2-native-format2 roundtrip can
 ### 7.1 Target: IWC Corpus (~120 workflows)
 
 The primary target is the IWC corpus. At this scale:
-- All data can be embedded inline in a single HTML file
-- No pagination or lazy loading required
-- Acceptable file size: up to ~10-20 MB for the HTML (mostly JSON data)
-- All JS rendering happens client-side on page load
+- All data embedded inline in a single HTML file (including full workflow dicts — three per workflow)
+- Acceptable file size: up to ~25-50 MB for the HTML (mostly JSON data; 120 workflows x 3 representations x ~100KB avg)
+- No pagination required
+- JS renderer should materialize DOM content lazily (only when a section is expanded) to keep initial page load fast despite the large data blob
+- JSON blob parsed once on page load; per-workflow rendering deferred until expand
 
 ### 7.2 No Architectural Dead Ends
 
@@ -327,6 +458,8 @@ Arguments:
 Options:
   -o, --output FILE     Output HTML file path (default: roundtrip_report.html)
   --json FILE           Also write the raw report JSON to FILE
+  --cdn                 Load viewer from CDN (unpkg) instead of inlining assets.
+                        Produces a smaller HTML file but requires network to view.
   --populate-cache      Auto-populate tool cache before analysis
   --tool-source {auto,api,galaxy}
   --tool-source-cache-dir DIR
@@ -376,9 +509,9 @@ The library provides:
 
 ## 11. Implementation Components
 
-### 11.1 Report Data Collection (`roundtrip_report.py`)
+### 11.1 Report Data Collection (`roundtrip_report.py`) — Python/Galaxy
 
-New module that orchestrates:
+New module in `galaxy.tool_util.workflow_state` that orchestrates:
 1. `discover_workflows()` to find all workflows in the directory
 2. For each workflow:
    a. Load and decode the workflow
@@ -391,34 +524,117 @@ New module that orchestrates:
 3. Compute corpus-level aggregates (`CorpusSummary`)
 4. Return `RoundtripHtmlReport`
 
-### 11.2 Parameter Tree Builder
+### 11.2 Parameter Tree Builder — Python/Galaxy
 
-New utility that, given a `ParsedTool` and three state dicts (original, format2, roundtripped):
+**This is the largest new component.** The existing `_walker.py` walks one state dict at a time. This requires a new three-way walker.
+
+New general-purpose utility (usable by other tools beyond the report) that, given a `ParsedTool` and three state dicts (original, format2, roundtripped):
 - Walks the tool's parameter definition tree
-- At each node, extracts the corresponding values from all three state dicts
+- At each node, extracts the corresponding values from all three state dicts (using each format's key conventions)
 - Builds a `ParameterNode` tree with match status computed at each leaf
-- Handles conditionals (active branch only, determined by test param value)
+- Handles conditionals: walks all branches, marks which is active (determined by test param value and declared `when` values), flags when no branch matches
 - Handles repeats (instance count from the state dicts)
 - Handles sections (nested ParameterNode)
 
-### 11.3 HTML Template / JS Renderer
+The three-way walker should be factored as a reusable utility since the same capability is valuable for Format2 editor tooling, workflow version diffing, etc.
 
-- HTML shell with embedded CSS
-- `<script type="application/json" id="report-data">` block containing the serialized report
-- JS renderer that:
-  - Parses the JSON blob on page load
-  - Builds the dashboard visualizations (heatmap, bar charts — can be CSS-only or use a tiny chart lib)
-  - Renders the workflow list with collapsible cards
-  - Handles expand/collapse, filtering, search, and navigation
-  - Syntax-highlights JSON/YAML in the comparison views
-  - Applies diff highlighting based on match status
+### 11.3 HTML Assembly — Python/Galaxy
 
-### 11.4 Syntax Highlighting & Diff
+The CLI's `render_html()` function:
+1. Serializes the Pydantic `RoundtripHtmlReport` to JSON
+2. In **inline mode**: reads the vendored viewer assets from `_viewer_assets/` (JS + CSS)
+3. In **CDN mode**: generates `<script src>` / `<link href>` tags pointing to unpkg
+4. Injects JSON blob + viewer into an HTML shell template (a simple Python string template or Jinja2)
+5. Writes the final `.html` file
+
+### 11.4 TypeScript Model Package — `@galaxy-project/roundtrip-report-model`
+
+**Project setup:**
+```
+roundtrip-report-model/
+├── package.json           # name: @galaxy-project/roundtrip-report-model
+├── tsconfig.json
+├── src/
+│   ├── index.ts           # public API exports
+│   ├── report.ts          # RoundtripHtmlReport, CorpusSummary
+│   ├── workflow.ts        # WorkflowReport, StepReport
+│   ├── tree.ts            # ParameterNode
+│   ├── diffs.ts           # StepDiff, DiffType, DiffSeverity, BenignArtifact
+│   └── enums.ts           # FailureClass, StepStatus, ConnectionStatus
+├── tests/
+│   └── parse.test.ts      # validation against sample JSON fixtures
+└── vitest.config.ts
+```
+
+- Each Pydantic model maps to a Zod schema + inferred TS type
+- `parseReport()` validates unknown JSON at runtime via Zod `.parse()`
+- Published with both ESM and CJS builds
+- Sample JSON fixtures exported for testing (extracted from real IWC roundtrip runs)
+
+### 11.5 Vue 3 Viewer App — `@galaxy-project/roundtrip-report-viewer`
+
+**Project setup:**
+```
+roundtrip-report-viewer/
+├── package.json           # name: @galaxy-project/roundtrip-report-viewer
+├── vite.config.ts         # builds as lib + standalone entry
+├── src/
+│   ├── main.ts            # entry point: parse JSON, mount app
+│   ├── App.vue            # root component
+│   ├── components/
+│   │   ├── Dashboard/
+│   │   │   ├── StatusHeatmap.vue
+│   │   │   ├── DiffCategoryBreakdown.vue
+│   │   │   └── StepFailureDistribution.vue
+│   │   ├── WorkflowCard.vue
+│   │   ├── WorkflowDeepDive.vue
+│   │   ├── StepIdMapping.vue
+│   │   ├── StepView.vue
+│   │   ├── ThreeColumnComparison.vue
+│   │   ├── ParameterTreeView.vue      # recursive, uses PrimeVue Tree
+│   │   ├── ConnectionsComparison.vue
+│   │   ├── GraphicalMetadata.vue
+│   │   ├── DiffSummary.vue
+│   │   ├── FullWorkflowJson.vue
+│   │   └── SyntaxHighlight.vue        # Shiki wrapper
+│   ├── composables/
+│   │   ├── useReport.ts               # provide/inject report data
+│   │   ├── useFiltering.ts            # workflow + step filtering
+│   │   ├── useHashState.ts            # URL hash <-> expand state
+│   │   └── useDiffNavigation.ts       # click diff -> scroll to key
+│   └── styles/
+│       └── theme.css                  # PrimeVue unstyled overrides
+├── public/
+│   └── sample-report.json             # dev mode test data
+└── vitest.config.ts
+```
+
+**Key Vue components:**
+
+| Component | PrimeVue usage | Role |
+|---|---|---|
+| `StatusHeatmap` | DataTable | Workflows x status grid, color-coded cells, click-to-navigate |
+| `WorkflowCard` | Accordion / Panel | Collapsed summary row, expands to deep dive |
+| `ParameterTreeView` | Tree | Recursive parameter hierarchy with three-way values at leaves |
+| `ThreeColumnComparison` | — (custom) | Side-by-side JSON with Shiki highlighting + diff marks. Tab toggle for single-column mode. |
+| `DiffSummary` | — (custom) | Filterable diff list with cross-linking to tree/comparison views |
+| `FullWorkflowJson` | Panel (collapsible) | Syntax-highlighted full workflow with copy-to-clipboard (VueUse) |
+
+**Build configuration (Vite):**
+
+The viewer needs to build in two modes:
+1. **Library mode** (`vite build`): produces `dist/index.js` + `dist/style.css` for npm publish and CDN use. Entry point auto-mounts to `#app` and reads JSON from `#report-data`.
+2. **Dev mode** (`vite dev`): serves the app with HMR, loads `public/sample-report.json`.
+
+**Renderer resilience:** If a workflow's data is malformed or a field is unexpectedly null, the component degrades gracefully (shows what's available, flags what's missing — never breaks the whole page). Vue's `errorCaptured` hook at the `WorkflowCard` level catches rendering errors per-workflow.
+
+### 11.6 Syntax Highlighting & Diff — Vue Viewer
 
 For the three-column comparison:
-- JSON syntax highlighting (can be lightweight — just colorize keys, strings, numbers, booleans, null)
-- Diff highlighting: line-level or token-level marking of differences between columns
-- Consider: a simple recursive diff renderer that walks the JSON tree and marks changed subtrees, rather than text-level diffing
+- **Shiki** for JSON/YAML syntax highlighting (subset to json + yaml grammars to minimize bundle)
+- Diff highlighting: a recursive tree-diff renderer that walks the JSON structure and marks changed subtrees with CSS classes, rather than text-level line diffing
+- Three-column and tabbed single-column modes share the same highlighting logic
+- "Diff-only" mode filters the tree to show only nodes with differences
 
 ---
 
@@ -433,12 +649,36 @@ For the three-column comparison:
 
 ---
 
-## 13. Unresolved Questions
+## 13. Resolved Decisions (from review)
 
-1. Should the parameter tree builder be a general-purpose utility (usable by other tools) or scoped to the report?
-2. For the heatmap — rows are workflows, what should columns be? (validation, stale keys, conversion, roundtrip) or finer-grained (per-step)?
-3. Should the benign artifact "proven_by" test links be clickable (linking to GitHub source)?
-4. How should workflow comments (the graphical annotation boxes, not code comments) be represented in the comparison view?
-5. Should the report include timing information (how long each phase took per workflow)?
-6. For the JS renderer — vanilla JS or Alpine.js? Alpine is ~15KB and would simplify reactivity significantly.
-7. Should we consider a "print-friendly" mode or PDF export capability?
+- **Parameter tree builder:** general-purpose utility, not scoped to the report
+- **Frontend framework:** Vue 3 + PrimeVue (unstyled) + Shiki + VueUse
+- **Conditional branches:** show all branches (inactive collapsed/dimmed), not just active
+- **Connection format:** show each format's native representation (don't translate format2 to native)
+- **Step ID mapping:** surface it per-workflow for debugging connection issues
+- **Validation errors:** split pre- vs post-conversion
+- **Stale keys:** track both found and stripped
+- **File size:** ~25-50MB acceptable, full workflow dicts embedded always
+- **Rendering modes:** inline (default, self-contained) + `--cdn` flag for CDN-loaded viewer
+- **Asset pipeline:** vendored in galaxy-tool-util for v1
+- **TypeScript model:** separate npm package (`@galaxy-project/roundtrip-report-model`) with Zod schemas
+- **Vue viewer:** separate npm package (`@galaxy-project/roundtrip-report-viewer`), published to npm, auto-mirrored by unpkg/jsdelivr
+- **PrimeVue licensing:** MIT, all needed components (Tree, TreeTable, Accordion, DataTable, Panel, unstyled mode) are in the free core
+
+## 14. Unresolved Questions
+
+### Data & Presentation
+1. For the heatmap — rows are workflows, what should columns be? (validation, stale keys, conversion, roundtrip) or finer-grained (per-step)?
+2. Should the benign artifact "proven_by" test links be clickable (linking to GitHub source)?
+3. How should workflow comments (the graphical annotation boxes, not code comments) be represented in the comparison view?
+4. Should the report include timing information (how long each phase took per workflow)?
+5. Should we consider a "print-friendly" mode or PDF export capability?
+6. Should values that matched only after type coercion (e.g. `"5" == 5`) be surfaced as a diagnostic? Possible "coerced matches" severity level or debug toggle.
+7. How should `--strict` mode affect the visual report? Show both normal and strict assessments simultaneously, or just change the classification?
+
+### Project & Build
+8. Mono-repo or separate repos for the TS model and Vue viewer? Mono-repo (e.g. Turborepo/pnpm workspaces) simplifies cross-package development. Separate repos give independent release cycles.
+9. npm scope: `@galaxy-project/` assumed — does this scope exist on npm? If not, who creates it?
+10. Where should the TS/Vue projects live? Under `galaxy` repo (packages/ dir), under a new dedicated repo, or under an existing Galaxy org repo?
+11. Shiki bundle size: subset to json+yaml grammars (~50KB) or ship full grammar set (~200KB)?
+12. Should the vendored assets be committed to the Galaxy repo or fetched during CI and included in the sdist/wheel only?

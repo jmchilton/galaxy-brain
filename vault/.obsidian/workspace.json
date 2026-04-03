@@ -13,58 +13,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "projects/workflow_state/PROBLEM_AND_GOAL.md",
+                "file": "projects/workflow_state/TS_CLI_LAYER_PLAN.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PROBLEM_AND_GOAL"
-            }
-          },
-          {
-            "id": "4845e632645dbecd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "projects/workflow_state/PROMPTS.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "PROMPTS"
-            }
-          },
-          {
-            "id": "bde22928fc6e1ea1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "projects/cwl/workflow_features/CWL_CONDITIONALS_PICK_VALUE_FRAMEWORK_SUPPORT.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "CWL_CONDITIONALS_PICK_VALUE_FRAMEWORK_SUPPORT"
-            }
-          },
-          {
-            "id": "60cf29fb20e97a0c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "projects/cwl/workflow_features/PLAN_GAP3_DOTPRODUCT_VALUEFROM.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "PLAN_GAP3_DOTPRODUCT_VALUEFROM"
+              "title": "TS_CLI_LAYER_PLAN"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -226,34 +183,35 @@
       "bases:Create new base": false
     }
   },
-  "active": "c1926bfde7f63465",
+  "active": "52fef0c667caa137",
   "lastOpenFiles": [
-    "research/Component - Auto Pairing.md",
-    "projects/workflow_state/ROUNDTRIP_HTML_REPORT_REQUIREMENTS.md",
-    "projects/workflow_state/CLEAN_PY_MODEL_PLAN.md",
-    "projects/workflow_state/CONNECTION_GRAPH_MODELED_PLAN.md",
-    "projects/workflow_state/CURRENT_STATE.md",
-    "projects/workflow_state/PROBLEM_AND_GOAL.md",
+    "projects/workflow_state/MEMORY.md",
+    "projects/workflow_state/TS_CLI_LAYER_PLAN.md",
     "projects/workflow_state/PROMPTS.md",
-    "projects/workflow_state/EXECUTIVE_SUMMARY.md",
-    "projects/workflow_state/FILES_INDEX.md",
-    "projects/workflow_state/GXFORMAT2_CONVERSION_AND_EXPANSION.md",
-    "projects/workflow_state/old/USE_NORMALIZED_WORKFLOWS_PLAN.md",
+    "projects/workflow_state/TS_DOCS.md",
+    "projects/workflow_state/TS_CI_AND_PUBLICATION_PLAN.md",
+    "projects/workflow_state/TS_STATE_EXPECTATIONS_PLAN.md",
+    "projects/workflow_state/GXFORMAT2_EXPANDED_LINT_TESTING_PLAN.md",
+    "projects/workflow_state/ROUNDTRIP_HTML_REPORT_REQUIREMENTS.md",
     "projects/workflow_state/PULL_REQUESTS_FROM_WORK.md",
-    "research/PR 19434 - User Defined Tools.md",
-    "projects/workflow_state/SIMPLIFY_GXFORMAT2_CONTRACT_IN_GALAXY_PLAN.md",
-    "research/Component - Tool State Specification.md",
-    "research/Component - YAML Tool Runtime.md",
-    "projects/workflow_state/old/STALE_KEY_INTEGRATION_PLAN.md",
+    "projects/workflow_state/VSCODE_EXTENSION_PLAN.md",
+    "projects/workflow_state/WORKBENCH_MVP_PLAN.md",
+    "projects/workflow_state/old/WF_JSON_SCHEMA_VALIDATION_PLAN.md",
+    "projects/workflow_state/vestigial_current_case_issue.md",
+    "projects/workflow_state/old/TYPESCRIPT_META_MODELS_PLAN.md",
     "projects/workflow_state/STALE_KEY_TAXONOMY.md",
-    "projects/workflow_state/old/PLAN_GXFORMAT2_SCHEMA_PROTOCOL.md",
-    "projects/workflow_state/old/PHASE_6_DETAILED_PLAN.md",
-    "projects/workflow_state/NEXT_STEPS_PLAN.md",
-    "projects/workflow_state/old/CURRENT_CASE_TOOLING_PLAN.md",
-    "projects/workflow_state/old/COLLECTION_TYPE_REACTORING_PLAN.md",
-    "projects/workflow_state/old/PLAN_STRUCTURED_DIFFS.md",
-    "projects/workflow_state/old/PLAN_ROUNDTRIP_ARTIFACT_TESTS.md",
-    "research/Component - Workflow Testing.md",
+    "projects/workflow_state/old/DECLARATIVE_REFACTOR_PLAN.md",
+    "projects/workflow_state/old/PLAN_ROUNDTRIP_REPORT_HARDENING.md",
+    "projects/workflow_state/old/NORMALIZED_TEST_GAPS_REQUEST.md",
+    "projects/history_markdown/HISTORY_MARKDOWN_ARCHITECTURE.md",
+    "projects/workflow_state/CURRENT_STATE.md",
+    "projects/gcc2026/HISTORY_NOTEBOOKS_EXECUTIVE_SUMMARY.md",
+    "projects/gcc2026/WORKFLOW_STATE_EXECUTIVE_SUMMARY.md",
+    "projects/gcc2026/HISTORY NOTEBOOK DISCUSSION.md",
+    "projects/gcc2026/ABSTRACT_CHATGPT.md",
+    "projects/gcc2026/ABSTRACT_CLAUDE.md",
+    "projects/gcc2026/ABSTRACT.md",
+    "projects/gcc2026",
     "projects/workflow_state/old/stale_key_taxonomy_infographic.png",
     "projects/workflow_state/CONNECTION_VALIDATION_TESTING_AND_TRACKING_PLAN.md.tmp.10403.1773860206667",
     "projects/workflow_state/stale_key_taxonomy_infographic.png.tmp",
@@ -265,7 +223,6 @@
     "projects/workflow_state",
     "Untitled 1.canvas",
     "Untitled.canvas",
-    "projects/cwl",
-    "projects/wf_refactor_persistence"
+    "projects/cwl"
   ]
 }
