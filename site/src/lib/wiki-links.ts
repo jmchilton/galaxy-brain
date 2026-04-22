@@ -1,12 +1,17 @@
 import type { CollectionEntry } from 'astro:content';
 
-/** Map from slugified note basename → full entry ID */
-export function buildWikiLinkMap(entries: CollectionEntry<'vault'>[]): Map<string, string> {
-  const map = new Map<string, string>();
+export interface WikiLinkTarget {
+  id: string;
+  summary: string;
+}
+
+/** Map from slugified note basename → target (full entry ID + summary) */
+export function buildWikiLinkMap(entries: CollectionEntry<'vault'>[]): Map<string, WikiLinkTarget> {
+  const map = new Map<string, WikiLinkTarget>();
   for (const entry of entries) {
     // entry.id is like "research/component-backend-dependency-management"
     const basename = entry.id.split('/').pop()!;
-    map.set(basename, entry.id);
+    map.set(basename, { id: entry.id, summary: entry.data.summary });
   }
   return map;
 }
@@ -32,23 +37,24 @@ function stripBrackets(wikiLink: string): string {
  */
 export function resolveWikiLink(
   wikiLink: string,
-  linkMap: Map<string, string>,
+  linkMap: Map<string, WikiLinkTarget>,
   base: string
-): { href: string | null; label: string } {
+): { href: string | null; label: string; summary: string | null } {
   const label = stripBrackets(wikiLink);
   const slug = slugify(label);
 
   // Exact match first
   if (linkMap.has(slug)) {
-    return { href: `${base}/${linkMap.get(slug)!}/`, label };
+    const t = linkMap.get(slug)!;
+    return { href: `${base}/${t.id}/`, label, summary: t.summary };
   }
 
   // Prefix match: find entries whose basename starts with the slug
-  for (const [basename, id] of linkMap) {
+  for (const [basename, target] of linkMap) {
     if (basename.startsWith(slug)) {
-      return { href: `${base}/${id}/`, label };
+      return { href: `${base}/${target.id}/`, label, summary: target.summary };
     }
   }
 
-  return { href: null, label };
+  return { href: null, label, summary: null };
 }

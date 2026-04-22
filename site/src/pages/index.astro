@@ -29,11 +29,12 @@ function noteTitle(id: string): string {
     <Fragment>
       <h2 class="mt-8 mb-3 text-xl font-semibold border-b-2 border-(--color-accent)/20 pb-2">{section.label}</h2>
       <table class="data-table">
-        <thead><tr><th>Name</th><th>Status</th><th>Revised</th><th>Rev</th></tr></thead>
+        <thead><tr><th>Name</th><th>Summary</th><th>Status</th><th>Revised</th><th>Rev</th></tr></thead>
         <tbody>
           {section.notes.map(n => (
             <tr>
               <td><a href={`${base}/${n.id}/`}>{n.data.title || noteTitle(n.id)}</a></td>
+              <td class="text-sm text-(--color-text-muted)">{n.data.summary}</td>
               <td><span class={`badge badge-${n.data.status}`}>{n.data.status}</span></td>
               <td>{formatDate(n.data.revised)}</td>
               <td>{n.data.revision}</td>

@@ -78,6 +78,7 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
       <div class="w-1 mt-1 h-8 bg-(--color-accent) rounded-full shrink-0"></div>
       <div class="flex-1">
         <h1 class="text-2xl font-bold text-white">{data.title || pageTitle}</h1>
+        <p class="mt-1 text-sm text-white/80 italic">{data.summary}</p>
         <div class="mt-2 flex flex-wrap gap-2 items-center">
           <span class={`badge badge-${data.status}`}>{data.status}</span>
           {data.tags.map(t => <a href={`${base}/tags/${t}/`} class="no-underline"><span class="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-white/15 text-white hover:bg-(--color-accent) hover:text-(--color-galaxy-dark) transition-colors">{t}</span></a>)}
@@ -122,7 +123,7 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
         <dt>Parent Plan:</dt>
         <dd>
           {parentPlan.href
-            ? <a href={parentPlan.href} class="text-(--color-link) hover:underline">{parentPlan.label}</a>
+            ? <a href={parentPlan.href} title={parentPlan.summary || undefined} class="text-(--color-link) hover:underline">{parentPlan.label}</a>
             : <span class="dangling">{parentPlan.label}</span>}
         </dd>
       </>
@@ -135,7 +136,7 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
           {relatedIssues.map((l, i) => (
             <>
               {l.href
-                ? <a href={l.href} class="text-(--color-link) hover:underline">{l.label}</a>
+                ? <a href={l.href} title={l.summary || undefined} class="text-(--color-link) hover:underline">{l.label}</a>
                 : <span class="dangling">{l.label}</span>}
               {i < relatedIssues.length - 1 ? ', ' : ''}
             </>
@@ -151,7 +152,7 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
           {relatedNotes.map((l, i) => (
             <>
               {l.href
-                ? <a href={l.href} class="text-(--color-link) hover:underline">{l.label}</a>
+                ? <a href={l.href} title={l.summary || undefined} class="text-(--color-link) hover:underline">{l.label}</a>
                 : <span class="dangling">{l.label}</span>}
               {i < relatedNotes.length - 1 ? ', ' : ''}
             </>
