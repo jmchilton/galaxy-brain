@@ -11,6 +11,7 @@ created: 2026-03-26
 revised: 2026-03-26
 revision: 1
 ai_generated: true
+summary: "Automatic forward/reverse read pairing: parallel frontend/backend implementations validated against shared YAML spec"
 ---
 
 # Auto-Pairing in Galaxy

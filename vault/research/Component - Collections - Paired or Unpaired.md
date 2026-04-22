@@ -25,6 +25,7 @@ related_notes:
   - "[[Component - Collection Models]]"
   - "[[Component - Collection API]]"
   - "[[PR 19377 - Collection Types and Wizard UI]]"
+summary: "Discriminated union type of 1 or 2 elements with asymmetric subtyping where paired IS-A paired_or_unpaired"
 ---
 
 # The `paired_or_unpaired` Collection Type in Galaxy

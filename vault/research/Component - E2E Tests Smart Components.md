@@ -11,6 +11,7 @@ revision: 1
 ai_generated: true
 component: E2E Tests Smart Components
 galaxy_areas: [testing]
+summary: "Component system: navigation.yml, Component tree, SmartComponent/SmartTarget wrappers, parameterized selectors"
 ---
 
 # Galaxy Selenium Component System — Deep Dive

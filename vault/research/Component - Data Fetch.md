@@ -7,6 +7,7 @@ created: 2026-02-13
 revised: 2026-02-13
 revision: 1
 ai_generated: true
+summary: "Import pipeline from URLs/paste/files/FTP via /api/tools/fetch wrapping __DATA_FETCH__ tool producing HDAs or HDCAs"
 ---
 
 # Galaxy Data Fetch API - Deep Dive

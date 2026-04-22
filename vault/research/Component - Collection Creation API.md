@@ -10,6 +10,7 @@ created: 2026-02-18
 revised: 2026-02-18
 revision: 1
 ai_generated: true
+summary: "Two-path collection creation: direct POST with element identifiers or fetch API uploading new data atomically"
 ---
 
 # Dataset Collection Creation API - Deep Dive

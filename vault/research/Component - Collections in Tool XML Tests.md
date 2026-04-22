@@ -10,6 +10,7 @@ created: 2026-02-18
 revised: 2026-02-18
 revision: 1
 ai_generated: true
+summary: "Test syntax for collections: nested <collection> tags with type, elements, fields for records and paired variants"
 ---
 
 # Collections in Tool XML Tests

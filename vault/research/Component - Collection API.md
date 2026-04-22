@@ -15,6 +15,7 @@ galaxy_areas:
   - api
 related_notes:
   - "[[Component - Collection Models]]"
+summary: "Full collection API surface: POST/GET/PUT/DELETE endpoints, DatasetCollectionsService, fuzzy drill-down, export"
 ---
 
 # Galaxy Dataset Collection API Layer

@@ -10,6 +10,7 @@ created: 2026-02-13
 revised: 2026-02-13
 revision: 1
 ai_generated: true
+summary: "Four agent UX surfaces: ChatGXY full-page chat, GalaxyWizard error widget, tool generator, Jupyternaut proxy"
 ---
 
 # Galaxy Agents UX: Comprehensive Report

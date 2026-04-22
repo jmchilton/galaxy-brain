@@ -14,6 +14,7 @@ ai_generated: true
 github_repo: galaxyproject/galaxy
 related_prs:
   - 19377
+summary: "Ephemeral wrappers promoting datasets/pairs to collections at tool runtime (PromoteDatasetToCollection family)"
 ---
 
 # Component: Collection Adapters

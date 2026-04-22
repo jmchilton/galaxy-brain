@@ -16,6 +16,7 @@ galaxy_areas:
   - api
   - tools
   - testing
+summary: "Tool API testing split: ~3500 lines legacy unittest tests + ~775 lines modern fluent pytest with input parametrization"
 ---
 
 # Component: API Tests - Tools

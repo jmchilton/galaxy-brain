@@ -11,6 +11,7 @@ created: 2026-02-16
 revised: 2026-02-16
 revision: 1
 ai_generated: true
+summary: "API test plumbing: ApiTestCase base class, populators, fixtures, decorators, assertions, user context switching"
 ---
 
 # Writing Galaxy API Tests

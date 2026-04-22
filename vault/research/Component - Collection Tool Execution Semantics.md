@@ -16,6 +16,7 @@ galaxy_areas:
   - collections
   - tools
 branch: structured_tool_state
+summary: "Collection types (list, paired, record), mapping semantics, linked vs cross-product multiple inputs, element identifier flow"
 ---
 
 # Collection Tool Execution Semantics in Galaxy

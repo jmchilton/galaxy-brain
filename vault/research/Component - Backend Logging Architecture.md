@@ -9,6 +9,7 @@ revision: 1
 ai_generated: true
 component: backend-logging
 branch: cwl_fixes_4
+summary: "Python logging with custom TRACE level, dictConfig defaults, app stack filters, Sentry/Fluentd, Gravity support"
 ---
 
 # Galaxy Backend Logging Architecture

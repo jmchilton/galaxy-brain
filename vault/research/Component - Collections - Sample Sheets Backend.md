@@ -26,6 +26,7 @@ related_notes:
   - "[[Component - Collection API]]"
   - "[[Component - Collections - Paired or Unpaired]]"
   - "[[PR 19305 - Implement Sample Sheets]]"
+summary: "Tabular metadata per collection element: column_definitions, columns row on elements, typed validation, cross-refs"
 ---
 
 # Sample Sheet Collection Types: Backend Implementation

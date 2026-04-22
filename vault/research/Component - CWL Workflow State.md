@@ -11,6 +11,7 @@ revision: 1
 ai_generated: true
 component: CWL Workflow State
 galaxy_areas: [workflows]
+summary: "CWL workflow import to persistence to execution: parsed via WorkflowProxy, state encoded/decoded, tool_inputs dict"
 ---
 
 # CWL Workflow State: Loading, Persistence, and Execution Trace

@@ -14,6 +14,7 @@ ai_generated: true
 github_repo: galaxyproject/galaxy
 related_notes:
   - "[[Component - Collection Adapters]]"
+summary: "Lightweight non-persisted collections created during CWL execution for MultipleInputFeatureRequirement merge strategies"
 ---
 
 # CWL Ephemeral Collections in Galaxy

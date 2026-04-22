@@ -9,6 +9,7 @@ revision: 1
 ai_generated: true
 component: E2E Testing
 galaxy_areas: [testing, client]
+summary: "Layered test infrastructure: SeleniumTestCase, NavigatesGalaxy helpers, smart component system, Selenium/Playwright"
 ---
 
 # Writing E2E Tests in Galaxy: A Comprehensive Guide

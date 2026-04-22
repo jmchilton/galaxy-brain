@@ -13,6 +13,7 @@ ai_generated: true
 galaxy_areas:
   - collections
   - models
+summary: "Core model classes: DatasetCollection, DatasetCollectionElement, HDCA/LDCA instances, implicit collections from mapping"
 ---
 
 # Galaxy Dataset Collection Model Layer

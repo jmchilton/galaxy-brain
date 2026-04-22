@@ -11,6 +11,7 @@ revision: 1
 ai_generated: true
 galaxy_areas:
   - lib
+summary: "Python deps via uv: pyproject.toml, uv.lock, pinned-*.txt files, conditional dependency resolver, weekly updates"
 ---
 
 # Galaxy Backend Dependency Management
