@@ -17,6 +17,7 @@ galaxy_areas:
   - testing
 related_notes:
   - "[[Component - Workflow Editor Terminals]]"
+summary: "Unit tests for editor terminal connection rules, datatype/collection compatibility validation"
 ---
 
 # Workflow Editor Terminal Tests: Comprehensive Research Report

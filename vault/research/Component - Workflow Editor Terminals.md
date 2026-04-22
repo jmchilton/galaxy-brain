@@ -13,6 +13,7 @@ ai_generated: true
 galaxy_areas:
   - workflows
   - client
+summary: "Terminal connection logic, compatibility checking, map-over propagation, plain class instances"
 ---
 
 # Workflow Editor Terminals Module - Architecture Research Report

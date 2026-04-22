@@ -11,6 +11,7 @@ created: 2026-02-11
 revised: 2026-02-11
 revision: 1
 ai_generated: true
+summary: "Visual DAG rendering of workflow invocation with real-time job state, readonly editor canvas"
 ---
 
 # Component Architecture: Invocation Graph View

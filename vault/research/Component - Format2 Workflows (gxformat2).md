@@ -12,6 +12,7 @@ revision: 1
 ai_generated: true
 component: Format2 Workflows (gxformat2)
 galaxy_areas: [workflows, lib]
+summary: "YAML format2 workflow parsing, detection via class=GalaxyWorkflow, conversion pipeline to native JSON"
 ---
 
 # gxformat2: Parsing and Syntax in Galaxy

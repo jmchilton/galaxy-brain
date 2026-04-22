@@ -15,6 +15,7 @@ component: Workflow Comments
 galaxy_areas: [workflows, client, api]
 related_notes:
   - "[[PR 16612 - Workflow Comments]]"
+summary: "Visual annotation system for workflows, text/markdown/frames/freehand without execution impact"
 ---
 
 # Workflow Comments: Architecture White Paper

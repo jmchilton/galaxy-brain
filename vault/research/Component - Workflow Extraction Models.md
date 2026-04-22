@@ -11,6 +11,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
+summary: "ORM model relationships for reconstructing workflows from history via dataset ancestry"
 ---
 
 # Galaxy Models for Workflow Extraction

@@ -11,6 +11,7 @@ created: 2026-02-18
 revised: 2026-02-18
 revision: 1
 ai_generated: true
+summary: "DatasetCollectionWrapper objects in Cheetah command templates, paired/list iteration access"
 ---
 
 # Collections in Tool XML Command Blocks (Cheetah)

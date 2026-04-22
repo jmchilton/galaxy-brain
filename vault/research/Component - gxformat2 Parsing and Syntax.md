@@ -11,6 +11,7 @@ revised: 2026-03-01
 revision: 1
 ai_generated: true
 github_repo: galaxyproject/galaxy
+summary: "Format2 YAML detection, conversion pipeline to Galaxy JSON before import processing"
 ---
 
 # gxformat2: Parsing and Syntax in Galaxy

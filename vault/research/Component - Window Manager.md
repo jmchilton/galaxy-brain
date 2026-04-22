@@ -10,6 +10,7 @@ created: 2026-02-11
 revised: 2026-02-11
 revision: 1
 ai_generated: true
+summary: "Floating window system using WinBox.js, intercepting router.push to render iframe overlays"
 ---
 
 # Galaxy Window Manager System - Research Report

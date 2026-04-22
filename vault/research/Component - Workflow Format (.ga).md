@@ -12,6 +12,7 @@ revision: 1
 ai_generated: true
 component: Workflow Format (.ga)
 galaxy_areas: [workflows, models]
+summary: "Galaxy JSON workflow format, steps/connections/comments/metadata, canonical serialization"
 ---
 
 # Galaxy Workflow Native Format (.ga) Syntax Reference

@@ -12,6 +12,7 @@ revision: 1
 ai_generated: true
 component: Post Job Actions
 galaxy_areas: [workflows, api]
+summary: "Declarative post-processing operations on job outputs, transformations without explicit tools"
 ---
 
 # Post Job Actions (PJA) - Component Architecture & Design

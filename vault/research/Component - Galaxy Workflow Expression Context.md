@@ -10,6 +10,7 @@ created: 2025-03-21
 revised: 2025-03-21
 revision: 1
 ai_generated: true
+summary: "CWL-based workflow expressions evaluated as JavaScript with $job, $self, $runtime variables"
 ---
 
 # Galaxy Workflow Expression Evaluation Context

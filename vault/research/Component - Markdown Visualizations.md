@@ -11,6 +11,7 @@ revised: 2026-02-25
 revision: 1
 ai_generated: true
 github_repo: galaxyproject/galaxy
+summary: "Five fenced block types for galaxy directives, Vega charts, visualizations, Vitessce dashboards"
 ---
 
 # Galaxy Markdown Visualizations: Complete Reference

@@ -13,6 +13,7 @@ revision: 1
 ai_generated: true
 component: Invocation Report to Pages
 github_repo: galaxyproject/galaxy
+summary: "Pipeline for converting invocation reports to Pages with encoded ID transformation and markdown"
 ---
 # Workflow Invocation Reports to Pages: Architecture Overview
 

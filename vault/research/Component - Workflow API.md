@@ -12,6 +12,7 @@ revision: 1
 ai_generated: true
 component: Workflow API
 galaxy_areas: [workflows, api]
+summary: "REST API for workflow CRUD, execution, invocation monitoring via FastAPI controllers"
 ---
 
 # Galaxy Workflow API - Comprehensive Reference Documentation

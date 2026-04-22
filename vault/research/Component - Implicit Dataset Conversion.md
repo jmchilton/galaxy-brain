@@ -20,6 +20,7 @@ galaxy_areas:
   - tools
   - api
   - lib
+summary: "Transparent datatype conversion mechanism via ImplicitlyConvertedDatasetAssociation, invisible HDAs"
 ---
 
 # Galaxy Implicit Dataset Conversion - Research Findings

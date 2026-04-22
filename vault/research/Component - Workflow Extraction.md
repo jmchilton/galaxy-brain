@@ -11,6 +11,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
+summary: "Extract history to workflow via Mako UI, traces jobs/datasets back to reconstruct graph"
 ---
 
 # Workflow Extraction in Galaxy - Overview

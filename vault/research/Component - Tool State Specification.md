@@ -12,6 +12,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
+summary: "YAML-driven test suite validating 12 tool state representations, each form context-specific"
 ---
 
 # Galaxy Tool State Specification Infrastructure
