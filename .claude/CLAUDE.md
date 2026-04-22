@@ -59,6 +59,11 @@ make site-preview                  # preview production build
 - Astro `index.astro` imports same JSON for the landing page
 - `make check-dashboard` detects drift between config and generated file
 
+### Templates
+- `vault/templates/` holds Obsidian Templater templates, one per `type`/`subtype`
+- Skipped by validator (`SKIP_DIRS`) and Astro glob (`!templates/**`)
+- Requires Templater community plugin; see README "Obsidian Templates"
+
 ### Project Type
 - Directory-based note type: `vault/projects/<name>/` with `index.md` (frontmatter) + raw sub-files (no frontmatter)
 - Validator only validates `index.md`; non-index files in `projects/` are skipped by `find_md_files()`

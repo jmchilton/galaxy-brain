@@ -49,6 +49,10 @@ Meta files live at the repo root, outside `vault/`. Open `vault/` as the Obsidia
 
 All research subtypes also require `subtype` in frontmatter. **Base fields** (required on all notes): `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`.
 
+## Obsidian Templates
+
+`vault/templates/` contains [Templater](https://github.com/SilentVoid13/Templater) templates — one per note type/subtype. Install the Templater community plugin and point its "Template folder location" at `templates/`. Creating a new note with a template prompts for required fields (summary, name, GitHub numbers where applicable), stamps today's date, moves the file to the correct directory, and scaffolds H1 + section headings.
+
 ## Static Site
 
 The vault is published as a static site via Astro + Tailwind CSS, deployed to GitHub Pages.
