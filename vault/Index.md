@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*83 notes. Auto-generated — run `make index` to refresh.*
+*84 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -23,7 +23,7 @@
 - [[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]] — ChatGXY persistence model, API flow, and frontend state management for chat conversations
 - [[Component - Collection Tool Execution Semantics]] — Collection types (list, paired, record), mapping semantics, linked vs cross-product multiple inputs, element identifier flow
 - [[Component - Tool XML Collection Commands]] — DatasetCollectionWrapper objects in Cheetah command templates, paired/list iteration access
-- [[Component - Collections in Tool XML Tests]] — Test syntax for collections: nested <collection> tags with type, elements, fields for records and paired variants
+- [[Component - Collections in Tool XML Tests]] — Test syntax for collections: nested 'collection' tags with type, elements, fields for records and paired variants
 - [[Component - Invocation Graph View]] — Visual DAG rendering of workflow invocation with real-time job state, readonly editor canvas
 - [[Component - API Tests Tools]] — Tool API testing split: ~3500 lines legacy unittest tests + ~775 lines modern fluent pytest with input parametrization
 - [[Component - Collection Adapters]] — Ephemeral wrappers promoting datasets/pairs to collections at tool runtime (PromoteDatasetToCollection family)
@@ -42,6 +42,7 @@
 - [[Component - Markdown Visualizations]] — Five fenced block types for galaxy directives, Vega charts, visualizations, Vitessce dashboards
 - [[Component - Workflow Extraction Models]] — ORM model relationships for reconstructing workflows from history via dataset ancestry
 - [[Component - E2E Tests Smart Components]] — Component system: navigation.yml, Component tree, SmartComponent/SmartTarget wrappers, parameterized selectors
+- [[Component - Tool Shed Search and Indexing]] — Tool Shed's Whoosh repo/tool search and partial GA4GH TRS v2, indexed from hg-walked metadata with no auto-refresh on upload
 - [[Component - Tool State Dynamic Models]] — Pydantic dynamic models for validating tool parameter state across 12 representations
 - [[Component - Tool Testing Infrastructure]] — Framework for parsing, loading, executing tests in XML/YAML tool files via planemo
 - [[Component - Window Manager]] — Floating window system using WinBox.js, intercepting router.push to render iframe overlays

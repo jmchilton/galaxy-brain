@@ -29,7 +29,7 @@ If a match is found:
 - Switch to update-existing mode (skip step 5; steps 6–10 still apply).
 
 ### 4. Classify type/subtype
-Use the Note Types table in `README.md`. Pick `type`/`subtype` based on fetched content. Consult `.claude/commands/import-note.md` for the existing classification logic — this command extends that flow.
+Use the Note Types table in `README.md`. Pick `type`/`subtype` based on fetched content. Cross-check `meta_schema.yml` for conditional field requirements.
 
 ### 5. Draft new note
 - Pick the matching template in `vault/templates/` as a structural reference (do not execute Templater; read as guide).

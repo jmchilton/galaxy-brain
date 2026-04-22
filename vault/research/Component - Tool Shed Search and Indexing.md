@@ -1,7 +1,18 @@
-# Galaxy Tool Shed — Search, Indexing, and TRS APIs: Current State
+---
+type: research
+subtype: component
+tags: [research/component, galaxy/api, galaxy/tools, galaxy/lib]
+component: "Tool Shed Search and Indexing"
+status: draft
+created: 2026-04-22
+revised: 2026-04-22
+revision: 1
+ai_generated: true
+summary: "Tool Shed's Whoosh repo/tool search and partial GA4GH TRS v2, indexed from hg-walked metadata with no auto-refresh on upload"
+related_prs: [18524]
+---
 
-**Date:** 2026-04-21
-**Scope:** Neutral survey of what the Tool Shed exposes programmatically for finding repositories and tools. Not framed around any specific downstream consumer.
+# Galaxy Tool Shed — Search, Indexing, and TRS APIs: Current State
 
 ## 1. Architecture primer
 
