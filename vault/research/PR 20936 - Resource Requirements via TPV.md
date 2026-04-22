@@ -6,12 +6,14 @@ tags:
   - galaxy/tools/runtime
 status: draft
 created: 2026-02-24
-revised: 2026-02-24
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_pr: 20936
 github_repo: galaxyproject/galaxy
 summary: "Tool resource requirements forwarded to TPV for job destination routing and scheduling decisions"
+related_notes:
+  - "[[PR 5378 - Tool Resource Requirements]]"
 ---
 
 # PR #20936 Research: Wire up and test resource requirement via TPV

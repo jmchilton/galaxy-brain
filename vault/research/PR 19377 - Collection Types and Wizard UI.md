@@ -10,8 +10,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-08
-revised: 2026-02-09
-revision: 2
+revised: 2026-04-22
+revision: 3
 ai_generated: true
 github_pr: 19377
 github_repo: galaxyproject/galaxy
@@ -23,6 +23,7 @@ galaxy_areas:
   - testing
 related_notes:
   - "[[Component - Dataset Collections]]"
+  - "[[Component - Collections - Paired or Unpaired]]"
 branch: collection_specification
 summary: "Paired_or_unpaired and record collection types plus collection adapters enable flexible tool input matching"
 ---

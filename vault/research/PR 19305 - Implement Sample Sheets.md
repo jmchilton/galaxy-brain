@@ -12,8 +12,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-09
-revised: 2026-02-09
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_pr: 19305
 github_repo: galaxyproject/galaxy
@@ -26,6 +26,8 @@ galaxy_areas:
   - workflows
   - testing
 summary: "Sample sheets attach typed columnar metadata to dataset collection elements for bioinformatics workflows"
+related_notes:
+  - "[[Component - Collections - Sample Sheets Backend]]"
 ---
 
 # Research: Galaxy PR #19305 - Implement Sample Sheets

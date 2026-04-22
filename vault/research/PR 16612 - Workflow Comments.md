@@ -10,10 +10,12 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-03-16
-revised: 2026-03-16
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Workflow Comments feature supports text, markdown, frames, and freehand drawing annotations"
+related_notes:
+  - "[[Component - Workflow Comments]]"
 ---
 
 # PR #16612 Research Summary

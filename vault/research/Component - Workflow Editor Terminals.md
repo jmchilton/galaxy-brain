@@ -7,13 +7,15 @@ tags:
   - galaxy/client
 status: draft
 created: 2026-02-09
-revised: 2026-02-09
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 galaxy_areas:
   - workflows
   - client
 summary: "Terminal connection logic, compatibility checking, map-over propagation, plain class instances"
+related_notes:
+  - "[[Component - Workflow Editor Terminal Tests]]"
 ---
 
 # Workflow Editor Terminals Module - Architecture Research Report

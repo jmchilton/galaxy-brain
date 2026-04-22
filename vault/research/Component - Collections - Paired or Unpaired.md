@@ -11,8 +11,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-09
-revised: 2026-02-09
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 galaxy_areas:
   - collections
@@ -25,6 +25,7 @@ related_notes:
   - "[[Component - Collection Models]]"
   - "[[Component - Collection API]]"
   - "[[PR 19377 - Collection Types and Wizard UI]]"
+  - "[[Component - Collections - Sample Sheets Backend]]"
 summary: "Discriminated union type of 1 or 2 elements with asymmetric subtyping where paired IS-A paired_or_unpaired"
 ---
 

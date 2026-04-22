@@ -7,13 +7,17 @@ tags:
   - galaxy/models
 status: draft
 created: 2026-02-09
-revised: 2026-02-09
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 galaxy_areas:
   - collections
   - models
 summary: "Core model classes: DatasetCollection, DatasetCollectionElement, HDCA/LDCA instances, implicit collections from mapping"
+related_notes:
+  - "[[Component - Collection API]]"
+  - "[[Component - Collections - Paired or Unpaired]]"
+  - "[[Component - Collections - Sample Sheets Backend]]"
 ---
 
 # Galaxy Dataset Collection Model Layer

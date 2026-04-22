@@ -8,13 +8,15 @@ tags:
   - galaxy/tools
 status: draft
 created: 2026-02-23
-revised: 2026-02-23
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_repo: galaxyproject/galaxy
 related_prs:
   - 19377
 summary: "Ephemeral wrappers promoting datasets/pairs to collections at tool runtime (PromoteDatasetToCollection family)"
+related_notes:
+  - "[[Component - CWL Ephemeral Collections]]"
 ---
 
 # Component: Collection Adapters

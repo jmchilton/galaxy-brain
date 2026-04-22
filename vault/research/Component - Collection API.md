@@ -7,14 +7,16 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-02-09
-revised: 2026-02-09
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 galaxy_areas:
   - collections
   - api
 related_notes:
   - "[[Component - Collection Models]]"
+  - "[[Component - Collections - Paired or Unpaired]]"
+  - "[[Component - Collections - Sample Sheets Backend]]"
 summary: "Full collection API surface: POST/GET/PUT/DELETE endpoints, DatasetCollectionsService, fuzzy drill-down, export"
 ---
 
