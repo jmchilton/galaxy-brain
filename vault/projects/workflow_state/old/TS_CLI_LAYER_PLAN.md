@@ -306,16 +306,30 @@ Add a table mapping Python CLI commands to TS equivalents:
 
 ## Implementation Order
 
-1. **Step 0** — `gxwf` binary + migrate validate
-2. **Step 1** — `clean` command
-3. **Step 2** — `lint` command
-4. **Step 3** — `convert` command
-5. **Step 4a** — `populate-workflow`
-6. **Step 4b** — `structural-schema`
-7. **Step 6** — Documentation (can start alongside any step)
-8. **Step 5** — Tree variants (`validate-tree`, `lint-tree`, `clean-tree`, `convert-tree`)
+1. ~~**Step 0** — `gxwf` binary + migrate validate~~ ✅ (ddc8da3)
+2. ~~**Step 1** — `clean` command~~ ✅ (ddc8da3)
+3. ~~**Step 2** — `lint` command~~ ✅ (ddc8da3)
+4. ~~**Step 3** — `convert` command~~ ✅ (ddc8da3)
+5. ~~**Step 4a** — `populate-workflow`~~ ✅ (pending commit)
+6. ~~**Step 4b** — `structural-schema`~~ ✅ (pending commit)
+7. ~~**Step 5** — Tree variants (`validate-tree`, `lint-tree`, `clean-tree`, `convert-tree`)~~ ✅ (947915b)
+8. ~~**Step 6** — Documentation~~ ✅ (pending commit)
 
 Steps 1-3 are independent once step 0 is done and can be parallelized.
+
+### Post-implementation refactors (done)
+
+After Steps 0–3, extracted shared abstractions to prepare for tree variants:
+- `writeWorkflowOutput()` in `workflow-io.ts` — consolidated write-to-file-or-stdout pattern
+- `renderStepResults()` in `render-results.ts` — shared step validation rendering
+- `lintWorkflowReport()` exported from `lint.ts` — accepts pre-loaded `ToolCache` (avoids double-loading in tree mode)
+- Test helpers: `createCliTestContext()` + shared fixtures (`seedSimpleTool`, `seedAllTools`)
+
+### Schema identifier annotations
+
+`structural-schema` required `identifier` annotations on recursive `Schema.suspend()` calls for `JSONSchema.make()`.
+- Forward references: fixed in schema-salad-plus-pydantic 0.1.6 ([#6](https://github.com/jmchilton/schema-salad-plus-pydantic/issues/6))
+- Backward circular references (e.g. `WorkflowStep.run` → `GalaxyWorkflow`): manually patched; tracked in [#8](https://github.com/jmchilton/schema-salad-plus-pydantic/issues/8) for code generator fix
 
 ---
 

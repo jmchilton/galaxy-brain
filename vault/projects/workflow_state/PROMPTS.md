@@ -1,4 +1,22 @@
 
+Here is the last time we did an architectural review of this project. We came up with this document - /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/VS_CODE_ARCHITECTURE.md. My understanding is over a number of commits we have managed to move more code from these plugins into the upstream Galaxy Tool Util packages. Can you review this document and verify details and see what needs to be updated if anything? 
+
+
+
+
+
+
+We're trying to converge a Python toolkit for managing Galaxy workflows tracking across a few places with a TypeScript toolkit tracked in this branch. 
+
+The Python portions are in:
+- Low-level Galaxy Python modeling in gxformat2 project: /Users/jxc755/projects/worktrees/gxformat2/branch/abstraction_applications
+- Galaxy Backend/CLI Pieces: /Users/jxc755/projects/worktrees/galaxy/branch/wf_tool_state and described in: /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/CURRENT_STATE.md
+- And a budding webapp in: /Users/jxc755/projects/repositories/gxwf-web
+
+Can you review the connection validation code on the Python side and plan to replicate it here. 
+
+
+
 /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/CURRENT_STATE.md is the state of what we're working on and /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/PROBLEM_AND_GOAL.md is what we're working toward.
 
 Lets add a deliverable to PROBLEM_AND_GOAL. I want full support for gxformat2 in the IWC pipeline, CI, website, etc...
@@ -51,3 +69,11 @@ Point at particular workflows.
 
 So I think 
 /Users/jxc755/projects/repositories/galaxy-hub/ (https://github.com/galaxyproject/galaxy-hub) -> galaxyproject.org  and  /Users/jxc755/projects/repositories/iwc/website (https://github.com/galaxyproject/iwc) -> https://iwc.galaxyproject.org/. Represent the most updated Galaxy documentation styling / design principles. Galaxy itself /Users/jxc755/projects/repositories/galaxy/client -> https://github.com/galaxyproject/galaxy  usegalaxy.org has a related styling that these are sort of derived from. Can you have three subagents research the styling pipelines, decisions, principles, colors, typing, etc... for each of these projects and write out three reports on the styling in DESIGN_IWC.md DESIGN_HUB.md, and DESIGN_CORE.md.
+
+
+
+
+
+Please read "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/GXWF AGENT.md" for context. 
+
+I'd love for the APIs to be destructive and then the current behavior preserved with a dry run option. Can you build a plan to do this?

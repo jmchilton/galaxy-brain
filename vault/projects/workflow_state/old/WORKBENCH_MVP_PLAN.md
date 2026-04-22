@@ -8,16 +8,16 @@ Concurrent with studio creation: rename `packages/server` → `packages/tool-cac
 
 ## Decisions Made
 
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| Frontend | Vue 3 + Vite + PrimeVue (unstyled) + Shiki | User preference; PrimeVue unstyled allows custom theming |
-| Operations | Client-side in browser | Validate/clean/normalize/convert are pure TS functions in schema/core; no server roundtrip needed |
-| Server | Fastify sidecar | Only for fs read/write + git ops; Fastify has native TS support, fast |
-| Git | simple-git | Wraps git CLI; galaxy-workflows-vscode uses VSCode git API (not transferable); simple-git is clean and full-featured |
-| Syntax highlighting | Shiki | File viewer + diff views |
-| File editing | Write-back with git awareness | Show git status/diff context, require confirmation before writes |
-| Audience | Community tool | Clean UX, configurable, installable via npx/pnpm dlx |
-| Proxy rename | `@galaxy-tool-util/tool-cache-proxy` | Descriptive; stays separate from studio |
+| Decision            | Choice                                     | Rationale                                                                                                            |
+| ------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| Frontend            | Vue 3 + Vite + PrimeVue (unstyled) + Shiki | User preference; PrimeVue unstyled allows custom theming                                                             |
+| Operations          | Client-side in browser                     | Validate/clean/normalize/convert are pure TS functions in schema/core; no server roundtrip needed                    |
+| Server              | Fastify sidecar                            | Only for fs read/write + git ops; Fastify has native TS support, fast                                                |
+| Git                 | simple-git                                 | Wraps git CLI; galaxy-workflows-vscode uses VSCode git API (not transferable); simple-git is clean and full-featured |
+| Syntax highlighting | Shiki                                      | File viewer + diff views                                                                                             |
+| File editing        | Write-back with git awareness              | Show git status/diff context, require confirmation before writes                                                     |
+| Audience            | Community tool                             | Clean UX, configurable, installable via npx/pnpm dlx                                                                 |
+| Proxy rename        | `@galaxy-tool-util/tool-cache-proxy`       | Descriptive; stays separate from studio                                                                              |
 
 ## Architecture
 

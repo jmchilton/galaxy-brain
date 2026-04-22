@@ -224,7 +224,7 @@ The extension's `SchemaNodeResolver` walks `path -> schema node`. When it hits `
 
 **Unresolved:** Tool version resolution — steps may omit `tool_version`. ToolShed API needs a version; Galaxy API can return latest. Default strategy: if version missing, fetch latest and note it in hover.
 
-### Phase 4: Dynamic Schema Composition (TypeScript side)
+	### Phase 4: Dynamic Schema Composition (TypeScript side)
 **Goal:** Compose per-step schemas dynamically — workflow structure + tool-specific state.
 
 1. When a step has `tool_id`, dynamically replace the `state: Any` schema node with the tool's `WorkflowStepToolState` JSON Schema

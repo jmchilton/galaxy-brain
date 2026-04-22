@@ -88,13 +88,23 @@ Before committing to the rest of the plan, prove the load path. Nothing here is 
 
 **Update (2026-04-13):** After `galaxy-tool-util-ts#52` merged (core split into browser-safe root + `/node` subpath with a `browser` export condition), the shim scaffolding introduced in the first pass was entirely unwound — see 0.5.1 update below. Browser bundles are now clean by virtue of the upstream export map, not local plugins.
 
-**0.2** — In a scratch Vite + Vue app, install `@codingame/monaco-vscode-api` and its required service overrides (at minimum: extensions, languages, keybindings, notifications, quick input, commands). Mount a Monaco editor into a `<div>`.
+**0.2** — ✅ **Done (2026-04-13).** Scratch app at `~/projects/repositories/monaco-spike` (Vite 8 + Vue 3 + TS). All `@codingame/monaco-vscode-*` packages installed at `30.0.1` with `--save-exact`. Deps aliased: `monaco-editor` → `@codingame/monaco-vscode-editor-api@30.0.1`, `vscode` → `@codingame/monaco-vscode-extension-api@30.0.1`. Service overrides wired: extensions (with `enableWorkerExtensionHost: true`), languages, textmate, theme, configuration (with `initUserConfiguration` before `initialize`), files, keybindings, notifications, quickaccess. Monaco editor mounts cleanly into a `<div>` with a `gxformat2` model.
 
-**0.3** — Register the local extension folder via the extensions service. Verify the extension's `activate()` runs and both language clients connect. Open a trivial `.ga` file content and check that diagnostics/hover/completion work.
+**0.3** — ✅ **Done (2026-04-13, second pass).** `registerExtension(manifest, ExtensionHostKind.LocalWebWorker, { path: "/galaxy-workflows" })` accepted the manifest. `registerFileUrl(relPath, fsUrl)` wired up the browser entry, both LSP workers, the 2 language-configuration JSONs, and the 2 TextMate grammars, served via Vite's `/@fs/<absolute>` route with `server.fs.allow` extended to the extension worktree. Both LSP web workers boot end-to-end; hover at `class:` in a gxformat2 buffer returns Format2-schema content (`The 'outputs' field is required.` / `class - Must be 'GalaxyWorkflow'.`), confirming LSP round-trip. Two spike-side fixes were needed beyond the original wiring: (a) `MonacoEnvironment.getWorker` must dispatch the `TextMateWorker` label to the textmate override's own worker bundle (`@codingame/monaco-vscode-textmate-service-override/worker`), not the editor worker — the wrong bundle yields `Missing method $init on worker thread channel default`; (b) URLs passed to `registerFileUrl` must be absolute (with origin) — root-relative `/@fs/...` paths get `URI.parse`d by `registerExtensionFileUrl` (`extensions.js:32`) to scheme `file:`, and the extension-host worker's `_loadCommonJSModule` then fails on a `file://` URL with bare "Failed to fetch". Diagnosed via a custom worker entry that wraps `self.fetch` with a logger (kept in the spike at `src/editor/extensionHostWorker.ts`).
 
-**0.4** — Document what did NOT work. Common risks: unsupported VS Code APIs in the shim, missing `fs.*` calls in extension activation, Workbench services pulled in transitively that bloat the bundle, CSP issues with worker spawning.
+**0.4** — ✅ **Done (2026-04-13).** Findings captured at `~/projects/repositories/monaco-spike/FINDINGS.md`. Concrete drift from the plan:
 
-**Exit criteria:** a working prototype (even ugly) shows completion in Monaco from the loaded extension. If this fails or reveals showstoppers, regroup and revisit option A (publish `@gxwf/server-*` to npm and wire monaco-languageclient directly) before continuing.
+1. **Package list drift.** `@codingame/monaco-vscode-quickinput-service-override` does **not** exist at v30 — the correct name is `@codingame/monaco-vscode-quickaccess-service-override`. `@codingame/monaco-vscode-language-detection-worker-service-override` does **not** exist either (drop from Phase 1.1). `monaco-editor` should be installed as an alias (`npm:@codingame/monaco-vscode-editor-api`), not as a direct dep — the two Monacos cannot coexist.
+2. **Service-override options.** Keybindings override's prop is `shouldUseGlobalKeybindings`, not `shouldUseGlobalStorage`. Configuration override takes no args; call `initUserConfiguration(jsonBlob)` **before** `initialize(...)`. Extensions override accepts `{ enableWorkerExtensionHost, iframeAlternateDomain }`.
+3. **`registerExtension` semantics.** `path` becomes the URI path of the extension-file URI (`extension-file://<publisher>.<name>/<path>`). `registerFileUrl(filePath, url)` **joins** `filePath` onto that location — file paths must be RELATIVE (no leading `/<path>/`).
+4. **`MonacoEnvironment` needs BOTH `getWorker` and `getWorkerUrl`.** Known labels: `editorWorkerService`, `TextMateWorker` (background tokenizer), `extensionHostWorkerMain` / `extensionHost` / `extensionHostWorker` (main thread spawn + iframe URL), `webWorkerExtensionHostIframe` (URL pointing at the override package's iframe HTML).
+5. **Iframe HTML can't be deep-imported.** The override package's `exports` only matches `*.js`/`*.css`/`*.d.ts`, so `import ... from ".../webWorkerExtensionHostIframe.html?url"` is rejected. Workaround: copy the file into a `public/` folder (or a tiny Vite plugin). Needs a dedicated step in Phase 1.
+6. **Extension-host worker format — resolved in-spike.** The iframe HTML's `createWorker` already branches on `workerOptions.type`: a `'module'` value makes the blob use `await import(url)` instead of `importScripts(url)`. `MonacoEnvironment.getWorkerOptions(moduleId, label) → { type: "module" }` for the `extensionHost*` labels lets Vite's ESM `?worker&url` output work as-is. Verified in spike: extension host boots, `activate()` runs. See Phase 0.5.7.
+7. **Vite configuration.** `optimizeDeps.exclude` all `@codingame/monaco-vscode-*` packages — the dep optimizer moves JS to `/.vite/deps/` but leaves sibling asset files behind, so `new URL('./x', import.meta.url)` 404s. `optimizeDeps.esbuildOptions` prints a Vite 8 deprecation warning (still functional in 8.0.x); use `optimizeDeps.rolldownOptions` for new code. `server.fs.allow` needs the extension worktree root for `folder:` delivery to work during dev.
+8. **CSP.** Add `frame-src 'self' blob:` to the Phase 4.5 header set — the extension host iframe is spawned via a blob URL.
+9. **Tool-cache wiring (Phase 4) is not yet exercised.** The `IndexedDBCacheStorage` code path cannot be verified until item 6 is fixed and `activate()` can actually reach the language-client initialization.
+
+**Exit criteria — MET (2026-04-13, second pass):** prototype loads the extension manifest + assets, boots the extension host worker, completes `activate()`, both LSP web workers spawn (`Galaxy Workflows (galaxyworkflow) server is ready.` / `Galaxy Workflows (gxformat2,gxwftests) server is ready.`), and an LSP hover at `class:` returns Format2-schema content. Phase 1 unblocked.
 
 ---
 
@@ -134,6 +144,12 @@ After the `#52` bump `ToolCache.storage` is required (no filesystem default). Fi
 
 **0.5.6 — Browser-mode configuration surface.** Not addressed in this pass. `IndexedDBCacheStorage` currently uses its built-in `galaxy-tool-cache-v1` default; exposing `galaxyWorkflows.cacheDbName` / `galaxyWorkflows.toolCacheProxy.url` is a small follow-up once Phase 2 wiring exercises the settings surface end-to-end.
 
+**0.5.7 — ESM extension-host worker via `getWorkerOptions`.** ✅ **Resolved (2026-04-13).** The iframe HTML (`webWorkerExtensionHostIframe.html:105`) already branches on `workerOptions.type`: `(workerOptions?.type === 'module') ? await import('${workerUrl}') : importScripts('${workerUrl}')`. `MonacoEnvironment.getWorkerOptions(_moduleId, label)` flows through `StandaloneWebWorkerService.getWorkerOptions` into the iframe postMessage payload. **Fix:** return `{ type: "module" }` from `getWorkerOptions` for the `extensionHost*` labels. No IIFE side-build, no HTML fork, extension-host worker stays isolated. Confirmed in the spike: after this change the extension host boots and `activate()` runs (next error is an unrelated `extension-file://` → `new Worker(...)` URL issue inside the extension's own code, see Phase 0.5.8).
+
+Companion fix (still applies): `public/monaco/webWorkerExtensionHostIframe.html` needs to be populated from the override package at install time — postinstall script is the simpler of the two options considered, drops in a Vite plugin later if we want one.
+
+**0.5.8 — DISSOLVED (2026-04-13).** Originally framed as: extension's `new Worker(serverUri.toString())` at `client/src/browser/extension.ts:31` fails because browsers can't spawn workers from `extension-file://` URIs, requiring an upstream fix to convert to HTTP first. **This is incorrect.** monaco-vscode-api's extension-host worker already patches `self.Worker` (`extensionHostWorker.js:54`, `patchWorker(asBrowserUri, getAllStaticBrowserUris)`) — `new Worker(extension-file://...)` inside extension code is intercepted, the URI is resolved to its registered browser URL via `FileAccess.asBrowserUri`, and a blob bootstrap calls `importScripts(<resolvedUrl>)`. The "Failed to fetch" originally attributed to this code path was actually the *previous* fetch — `_loadCommonJSModule` loading the extension's own browser entry — failing because spike-side `registerFileUrl` calls were storing scheme-less paths that `URI.parse` defaulted to `file:` (see Phase 0.3 update). Once registrations were rewritten as absolute `http://` URLs, both LSP workers spawn cleanly with no extension-side change. **No upstream PR is required for this item.**
+
 Exit criteria: extension loads via Phase 0 spike with LSP workers functional and tool hover sourced from IndexedDB. Upstream PRs merged or at least tagged on a dev branch referenced by `EXT_COMMIT.md`.
 
 **Test regressions from this pass (2026-04-12).** 7 of 377 server tests fail in `packages/server-common/tests/unit/toolRegistry.test.ts`. All failures are API-drift from the `@galaxy-tool-util/core` bump (cache-key input format changed; `ToolCache.hasCached` is now async; populateCache failure path changed). The tests pre-date the core rewrite and were written against the 0.2.0-npm cache layout.
@@ -150,25 +166,27 @@ Exit criteria: extension loads via Phase 0 spike with LSP workers functional and
 
 ## Phase 1: gxwf-ui Dependencies + Editor Shell
 
-**1.1** — Add deps to `packages/gxwf-ui/package.json`:
+**1.1** — Add deps to `packages/gxwf-ui/package.json`. **Final list post-Phase-0 (2026-04-13):**
 
 ```
-pnpm add -F @galaxy-tool-util/gxwf-ui \
-  monaco-editor \
-  @codingame/monaco-vscode-api \
-  @codingame/monaco-vscode-extensions-service-override \
-  @codingame/monaco-vscode-languages-service-override \
-  @codingame/monaco-vscode-keybindings-service-override \
-  @codingame/monaco-vscode-notifications-service-override \
-  @codingame/monaco-vscode-quickinput-service-override \
-  @codingame/monaco-vscode-language-detection-worker-service-override \
-  @codingame/monaco-vscode-configuration-service-override \
-  @codingame/monaco-vscode-files-service-override \
-  @codingame/monaco-vscode-textmate-service-override \
-  @codingame/monaco-vscode-theme-service-override
+pnpm add -F @galaxy-tool-util/gxwf-ui --save-exact \
+  monaco-editor@npm:@codingame/monaco-vscode-editor-api@30.0.1 \
+  vscode@npm:@codingame/monaco-vscode-extension-api@30.0.1 \
+  @codingame/monaco-vscode-api@30.0.1 \
+  @codingame/monaco-vscode-editor-api@30.0.1 \
+  @codingame/monaco-vscode-extensions-service-override@30.0.1 \
+  @codingame/monaco-vscode-languages-service-override@30.0.1 \
+  @codingame/monaco-vscode-keybindings-service-override@30.0.1 \
+  @codingame/monaco-vscode-notifications-service-override@30.0.1 \
+  @codingame/monaco-vscode-quickaccess-service-override@30.0.1 \
+  @codingame/monaco-vscode-configuration-service-override@30.0.1 \
+  @codingame/monaco-vscode-files-service-override@30.0.1 \
+  @codingame/monaco-vscode-textmate-service-override@30.0.1 \
+  @codingame/monaco-vscode-theme-service-override@30.0.1 \
+  reflect-metadata
 ```
 
-Exact list will shake out during Phase 0. Record the final set in a changeset.
+Corrections vs. previous draft: `quickaccess` replaces `quickinput` (which does not exist at v30); `language-detection-worker-service-override` dropped (no such package); `monaco-editor` and `vscode` are **aliases** to `@codingame/monaco-vscode-editor-api` and `@codingame/monaco-vscode-extension-api` respectively — installing real `monaco-editor` breaks everything by bringing in a second Monaco runtime. All `@codingame/*` packages pinned to the same exact version.
 
 **Also required (not strictly "service overrides"):**
 - `vscode` aliased to `@codingame/monaco-vscode-extension-api` (or equivalent package) so the loaded extension can `import * as vscode`.
@@ -180,11 +198,16 @@ Exact list will shake out during Phase 0. Record the final set in a changeset.
 
 **Initial configuration bootstrap.** `configuration-service-override` requires an initial JSON blob. Assemble one from gxwf-ui's reactive settings at mount time — anything the extension reads via `workspace.getConfiguration("galaxyWorkflows")` comes from there.
 
-**1.2** — Configure Vite worker handling. `monaco-vscode-api` ships workers as separate ESM entry points. Update `vite.config.ts`:
+**1.2** — Configure Vite worker handling (revised post-Phase-0, 2026-04-13):
 
-- Add `optimizeDeps.include` for the service override packages.
-- Set `worker.format: "es"`.
-- If Vite dev-mode trips on `new Worker(new URL(...))` resolution, add explicit `{ worker: { plugins: [...] } }` config.
+- `optimizeDeps.exclude` **all** `@codingame/monaco-vscode-*` packages — the optimizer moves JS into `/.vite/deps/` but strands sibling assets, so `new URL('./x', import.meta.url)` inside those packages 404s. (Tried `include` first; it made things worse.)
+- `optimizeDeps.rolldownOptions` instead of `esbuildOptions` — Vite 8 deprecates the latter.
+- `server.fs.allow` must include the extension build-output root for the `folder:` delivery mode.
+- `MonacoEnvironment` must expose **both** `getWorker(_, label)` and `getWorkerUrl(_, label)`. Handled labels: `editorWorkerService`, `TextMateWorker`, `extensionHost*`, `webWorkerExtensionHostIframe`. See the spike's `src/main.ts` for the reference implementation.
+- The extension-host worker URL cannot be Vite's ESM `?worker&url` output — see Phase 0.5.7 for the classic-bundle requirement.
+- Copy `@codingame/monaco-vscode-extensions-service-override/vscode/src/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html` into `public/monaco/` at install time. The package's `exports` map blocks `?url` deep imports.
+- **`registerFileUrl` calls must pass absolute URLs (with origin).** monaco-vscode-api's `registerExtensionFileUrl` runs `URI.parse(url)` on whatever you pass; scheme-less paths like `/@fs/...` default to scheme `file:`, and the extension-host worker's `_loadCommonJSModule` then calls `fetch("file:///...")` which the browser refuses from an `http://` origin. Helper: prefix `self.location.origin` before calling `registerFileUrl`. The failure surface is a bare "Failed to fetch" with no URL, so wrap the worker entry in a fetch-logging shim (see spike's `src/editor/extensionHostWorker.ts`).
+- **`MonacoEnvironment.getWorker` needs a dedicated case for each service override that ships its own worker bundle.** TextMate is one (`@codingame/monaco-vscode-textmate-service-override/worker`); using the editor worker for the `TextMateWorker` label yields `Missing method $init on worker thread channel default`. Audit each override added in Phase 1.1 for a sibling `worker` / `workers/*` export and add cases as needed.
 
 **1.3** — Create `packages/gxwf-ui/src/components/MonacoEditor.vue`. Replace `EditorShell.vue`'s textarea with this new component at call sites. Contract:
 
@@ -205,7 +228,7 @@ const emit = defineEmits<{
 
 **1.4** — Lifecycle: mount on tab activate, dispose model + editor on unmount. Use a singleton `getMonacoServices()` initializer — VS Code services are global and should init exactly once per page load. Guard with `let servicesReady: Promise<void> | null = null`.
 
-**1.5** — Language detection: simple extension → language-id map (`.ga` → `galaxyworkflow`, `.gxwf.yml` / `.gxwf.yaml` → `gxformat2`). The loaded VS Code extension registers both languages — do not hardcode Monaco `registerLanguage()` calls here; let the extension own that.
+**1.5** — Language detection: extension → language-id map. Three languages ship in the extension (`package.json` contributes): `galaxyworkflow` (`.ga`), `gxformat2` (`.gxwf.yml`/`.gxwf.yaml`), and `gxwftests` (`-test(s).yml`/`-test(s).yaml`). Map all three; missing the third silently mis-identifies workflow-test YAML. The loaded extension registers the languages — do not hardcode Monaco `registerLanguage()` calls here; let the extension own that.
 
 **Test targets for this phase:**
 - Unit: language resolver (`resolveLanguageId(fileName)` → language id).
@@ -286,11 +309,11 @@ Fold the existing `IndexedDBCacheStorage` (commit `ac820d3`) into the extension 
 
 **4.1** — Prerequisite landed in Phase 0.5.2 (`ToolRegistryServiceImpl` accepts `CacheStorage` via inversify factory). Here we wire it:
 
-- `gx-workflow-ls-*/src/browser/server.ts` binds `TYPES.CacheStorage` to `() => new IndexedDBCacheStorage(dbName)` in the browser inversify container.
-- `gx-workflow-ls-*/src/node/server.ts` binds to `() => new FilesystemCacheStorage(cacheDir)` (current default behavior preserved).
-- `ToolRegistryServiceImpl` is unchanged beyond Phase 0.5.2 — it no longer knows about FS vs IDB, just receives a `CacheStorage`.
+- `gx-workflow-ls-*/src/browser/server.ts` binds `TYPES.CacheStorageFactory` to `() => new IndexedDBCacheStorage(dbName)` in the browser inversify container.
+- `gx-workflow-ls-*/src/node/server.ts` binds to `(dir) => new FilesystemCacheStorage(getCacheDir(dir))` (current default behavior preserved).
+- `ToolRegistryServiceImpl` is unchanged beyond Phase 0.5.2 — it no longer knows about FS vs IDB, just receives a `CacheStorage` from the factory.
 
-`IndexedDBCacheStorage`'s constructor takes only `dbName` (defaults to `galaxy-tool-cache-v1`). If a user wants cache isolation per origin/workflow, surface a `galaxyWorkflows.cacheDbName` setting (added in Phase 0.5.6) and pass it to the factory.
+`IndexedDBCacheStorage`'s constructor takes only `dbName` (defaults to `galaxy-tool-cache-v1`). If a user wants cache isolation per origin/workflow, surface a `galaxyWorkflows.cacheDbName` setting (added in Phase 0.5.6) and pass it through the factory.
 
 **4.2** — The DB name needs to be deterministic per origin. Default `"galaxy-tool-cache-v1"` (as shipped) is fine — one cache per browser, shared across workflows.
 
@@ -315,11 +338,14 @@ Content-Security-Policy:
   default-src 'self';
   script-src 'self' 'wasm-unsafe-eval';
   worker-src 'self' blob:;
+  frame-src 'self' blob:;
   connect-src 'self' https://open-vsx.org https://toolshed.g2.bx.psu.edu <configured proxies>;
   style-src 'self' 'unsafe-inline';
   font-src 'self' data:;
   img-src 'self' data:;
 ```
+
+`frame-src 'self' blob:` added post-Phase-0 (2026-04-13): the extensions service spawns its extension-host iframe by `URL.createObjectURL(...)` on the sandbox HTML. Without `frame-src` the iframe is blocked.
 
 `unsafe-inline` for styles is currently required by monaco-vscode-api's inline theme injection. Audit whether nonce-based CSP is feasible later. `wasm-unsafe-eval` is needed by some textmate grammar engines.
 
@@ -480,7 +506,7 @@ Upstream changes required on galaxy-workflows-vscode:
 
 | Risk | Mitigation |
 |---|---|
-| Phase 0 reveals monaco-vscode-api can't load the extension cleanly | Fall back to option A: publish `@gxwf/server-*` to npm, use monaco-languageclient directly. Lose the "one codebase" benefit; keep the editor. |
+| Phase 0 reveals monaco-vscode-api can't load the extension cleanly | Resolved (2026-04-13): full Phase 0 spike loads manifest, grammars, configs, both LSP web workers, and returns LSP hover content for gxformat2. Two minor spike-side wiring fixes were needed (TextMate worker dispatch, absolute-URL `registerFileUrl` calls) — neither requires upstream changes. Option-A fallback (npm + monaco-languageclient) shelved unless gxwf-ui Phase 1 surfaces something new. |
 | Bundle size blows past tolerance | Audit service overrides and drop any not strictly needed (theme, quickinput, language-detection are likely candidates for removal). Lazy-load the editor tab so the dashboard isn't penalized. |
 | Extension host extension has Node-only activation code | Gate behind `isBrowser` check upstream. Small PRs to the VS Code repo. |
 | CSS bleed breaks PrimeVue | Shadow DOM (Phase 5.2 preferred path). If shadow DOM fails, scope via CSS layers — messier but workable. |
@@ -505,6 +531,10 @@ Upstream changes required on galaxy-workflows-vscode:
 7. Single universal `.vsix` (desktop + browser) vs. separate `galaxy-workflows-browser.vsix` — decide in Phase 0.5.3.
 8. Inversify browser container wiring — upstream in galaxy-workflows-vscode, or a small gxwf-ui-side shim? Preference is upstream so desktop/web share binding config.
 9. `packageBundle.json` manifest format for `folder:` loader — define shape in Phase 0.5.5.
+10. ~~Classic-worker strategy for the extension host — A/B/C in Phase 0.5.7?~~ Resolved: Option D (`getWorkerOptions` → `{ type: "module" }`) confirmed in spike.
+11. Iframe-HTML delivery — postinstall copy script vs. dedicated Vite plugin? Either works; picking the simpler of the two.
+12. ~~Where does the `extension-file://` → HTTP rewrite belong for extension-spawned LSP workers (Phase 0.5.8)?~~ Resolved: nowhere — monaco-vscode-api's `patchWorker` already handles this. See 0.5.8 dissolution note.
+13. ~~Service-override set likely needs `environment` / `host` / `log` / `storage` additions before activation completes~~ Resolved: the spike's set (extensions, languages, textmate, theme, configuration, files, keybindings, notifications, quickaccess) is sufficient to reach a working LSP. Add more only as concrete needs emerge.
 
 Previously listed, now answered in the plan body:
 - Shadow DOM vs. CSS layers → Phase 5.2 prefers shadow DOM; confirmed in Phase 0.3.
