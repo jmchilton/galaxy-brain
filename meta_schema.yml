@@ -30,6 +30,10 @@ properties:
     minimum: 1
   ai_generated:
     type: boolean
+  summary:
+    type: string
+    minLength: 20
+    maxLength: 160
 
   # --- Fields used by research notes ---
   subtype:

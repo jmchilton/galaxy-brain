@@ -181,8 +181,16 @@ def validate_data(data, schema):
     warnings.extend(wiki_warnings)
 
     warnings.extend(validate_tag_coherence(processed))
+    warnings.extend(validate_summary_present(processed))
 
     return errors, warnings
+
+
+def validate_summary_present(data):
+    """Warn if `summary` is missing. Migration aid until field becomes required."""
+    if "summary" not in data:
+        return ["summary: missing (recommended one-line description, 20-160 chars)"]
+    return []
 
 
 def validate_file(filepath, schema):

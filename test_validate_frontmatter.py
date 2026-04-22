@@ -45,6 +45,7 @@ VALID_RESEARCH_COMPONENT = {
     "revised": "2025-01-15",
     "revision": 1,
     "ai_generated": True,
+    "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
 VALID_RESEARCH_DEPENDENCY = {
@@ -56,6 +57,7 @@ VALID_RESEARCH_DEPENDENCY = {
     "revised": "2025-01-15",
     "revision": 1,
     "ai_generated": True,
+    "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
 VALID_RESEARCH_ISSUE = {
@@ -69,6 +71,7 @@ VALID_RESEARCH_ISSUE = {
     "ai_generated": True,
     "github_issue": 12345,
     "github_repo": "galaxyproject/galaxy",
+    "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
 VALID_RESEARCH_PR = {
@@ -82,6 +85,7 @@ VALID_RESEARCH_PR = {
     "ai_generated": True,
     "github_pr": 6789,
     "github_repo": "galaxyproject/galaxy",
+    "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
 VALID_PLAN = {
@@ -93,6 +97,7 @@ VALID_PLAN = {
     "revision": 1,
     "ai_generated": True,
     "title": "Implement dataset collection mapping",
+    "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
 VALID_PLAN_SECTION = {
@@ -105,6 +110,7 @@ VALID_PLAN_SECTION = {
     "ai_generated": True,
     "parent_plan": "[[Plan - Dataset Collection Mapping]]",
     "section": "API endpoint design",
+    "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
 VALID_CONCEPT = {
@@ -115,6 +121,7 @@ VALID_CONCEPT = {
     "revised": "2025-01-15",
     "revision": 1,
     "ai_generated": True,
+    "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
 VALID_MOC = {
@@ -125,6 +132,7 @@ VALID_MOC = {
     "revised": "2025-01-15",
     "revision": 1,
     "ai_generated": True,
+    "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
 VALID_PROJECT = {
@@ -136,6 +144,7 @@ VALID_PROJECT = {
     "revision": 1,
     "ai_generated": True,
     "title": "Sample Project",
+    "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
 
@@ -553,6 +562,55 @@ def test_optional_parent_feature(schema):
 
 
 # ---------------------------------------------------------------------------
+# Summary field
+# ---------------------------------------------------------------------------
+
+
+def test_summary_valid(schema):
+    data = {**VALID_CONCEPT, "summary": "A crisp one-liner describing this note."}
+    errors, warnings = validate_data(data, schema)
+    assert errors == []
+    assert not any("summary" in w for w in warnings)
+
+
+def test_summary_too_short(schema):
+    data = {**VALID_CONCEPT, "summary": "too short"}
+    errors, _ = validate_data(data, schema)
+    assert any("summary" in e for e in errors)
+
+
+def test_summary_too_long(schema):
+    data = {**VALID_CONCEPT, "summary": "x" * 161}
+    errors, _ = validate_data(data, schema)
+    assert any("summary" in e for e in errors)
+
+
+def test_summary_exact_bounds(schema):
+    # minLength 20
+    data_min = {**VALID_CONCEPT, "summary": "x" * 20}
+    errors, _ = validate_data(data_min, schema)
+    assert errors == []
+    # maxLength 160
+    data_max = {**VALID_CONCEPT, "summary": "x" * 160}
+    errors, _ = validate_data(data_max, schema)
+    assert errors == []
+
+
+def test_summary_missing_warns(schema):
+    data = dict(VALID_CONCEPT)
+    data.pop("summary", None)
+    errors, warnings = validate_data(data, schema)
+    assert errors == []
+    assert any("summary" in w and "missing" in w for w in warnings)
+
+
+def test_summary_wrong_type(schema):
+    data = {**VALID_CONCEPT, "summary": 123}
+    errors, _ = validate_data(data, schema)
+    assert any("summary" in e for e in errors)
+
+
+# ---------------------------------------------------------------------------
 # Project type
 # ---------------------------------------------------------------------------
 
@@ -621,6 +679,7 @@ def test_validate_directory_with_project(tmp_path):
         "revision: 1\n"
         "ai_generated: true\n"
         "title: Sample Project\n"
+        "summary: A sample project used as a fixture in the test suite.\n"
         "---\n"
         "# Sample Project\n"
     )
