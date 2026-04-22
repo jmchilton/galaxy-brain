@@ -119,7 +119,7 @@ if (isFolder) {
   {isFolder ? (
     <FileTree files={folderFiles} basePath={folderPath!} />
   ) : (
-    <article class="prose prose-slate max-w-none dark:prose-invert">
+    <article class="prose prose-slate max-w-none dark:prose-invert" data-pagefind-body>
       {Content && <Content />}
     </article>
   )}
