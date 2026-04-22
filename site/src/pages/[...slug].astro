@@ -145,6 +145,22 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
       </>
     )}
 
+    {data.sources && data.sources.length > 0 && (
+      <>
+        <dt>Sources:</dt>
+        <dd>
+          {data.sources.map((s, i) => (
+            <>
+              {/^https?:\/\//.test(s)
+                ? <a href={s} class="text-(--color-link) hover:underline break-all">{s}</a>
+                : <span class="break-all">{s}</span>}
+              {i < data.sources!.length - 1 ? <br /> : null}
+            </>
+          ))}
+        </dd>
+      </>
+    )}
+
     {relatedNotes.length > 0 && (
       <>
         <dt>Related Notes:</dt>

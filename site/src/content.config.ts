@@ -44,6 +44,7 @@ const vault = defineCollection({
     parent_feature: z.string().optional(),
     section: z.string().optional(),
     aliases: z.array(z.string()).optional(),
+    sources: z.array(z.string().min(1)).min(1).optional(),
     branch: z.string().optional(),
     unresolved_questions: z.number().optional(),
     resolves_question: z.number().optional(),

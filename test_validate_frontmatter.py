@@ -358,6 +358,30 @@ def test_invalid_subtype(schema):
 # ---------------------------------------------------------------------------
 
 
+def test_sources_valid(schema):
+    data = {**VALID_CONCEPT, "sources": ["https://example.com/a", "docs/b.md"]}
+    errors, _ = validate_data(data, schema)
+    assert errors == []
+
+
+def test_sources_empty_array_rejected(schema):
+    data = {**VALID_CONCEPT, "sources": []}
+    errors, _ = validate_data(data, schema)
+    assert errors != []
+
+
+def test_sources_empty_string_rejected(schema):
+    data = {**VALID_CONCEPT, "sources": [""]}
+    errors, _ = validate_data(data, schema)
+    assert errors != []
+
+
+def test_sources_wrong_type_rejected(schema):
+    data = {**VALID_CONCEPT, "sources": "https://example.com"}
+    errors, _ = validate_data(data, schema)
+    assert errors != []
+
+
 def test_unknown_field_rejected(schema):
     data = {**VALID_CONCEPT, "unknown_field": "should fail"}
     errors, _ = validate_data(data, schema)
