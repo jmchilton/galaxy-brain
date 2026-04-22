@@ -217,6 +217,79 @@ def find_md_files(directory):
         yield path
 
 
+def _slugify(name):
+    """Mirror the site's wiki-link slug: lowercase, collapse dashes/spaces, strip non-alnum."""
+    s = name.lower()
+    s = re.sub(r"\s+-\s+", "-", s)
+    s = re.sub(r"\s+", "-", s)
+    s = re.sub(r"[^a-z0-9\-]", "", s)
+    s = re.sub(r"-+", "-", s)
+    return s
+
+
+def _strip_brackets(wiki_link):
+    if not isinstance(wiki_link, str):
+        return None
+    m = _WIKI_LINK_RE.match(wiki_link)
+    return m.group(1).strip() if m else None
+
+
+def _resolve_wiki_link(wiki_link, slug_to_file):
+    """Resolve a wiki link to a file path using exact-then-prefix slug match on basenames."""
+    label = _strip_brackets(wiki_link)
+    if not label:
+        return None
+    slug = _slugify(label)
+    if not slug:
+        return None
+    if slug in slug_to_file:
+        return slug_to_file[slug]
+    for basename_slug, path in slug_to_file.items():
+        if basename_slug.startswith(slug):
+            return path
+    return None
+
+
+def validate_bidirectional_related_notes(files_meta):
+    """Cross-file check: warn when A.related_notes lists B but B.related_notes lacks A.
+
+    files_meta: list of (filepath, metadata) tuples for notes that parsed successfully.
+    Returns list of (filepath, warning) tuples.
+    """
+    slug_to_file = {}
+    for path, _ in files_meta:
+        stem = Path(path).stem
+        if stem == "index":
+            # project dirs: use parent dir name (matches how notes reference projects)
+            stem = Path(path).parent.name
+        slug_to_file[_slugify(stem)] = path
+
+    meta_by_path = {p: m for p, m in files_meta}
+
+    forward = {}  # path -> set of resolved target paths
+    for path, meta in files_meta:
+        targets = set()
+        rns = meta.get("related_notes") or []
+        if isinstance(rns, list):
+            for wl in rns:
+                tp = _resolve_wiki_link(wl, slug_to_file)
+                if tp and tp != path:
+                    targets.add(tp)
+        forward[path] = targets
+
+    warnings = []
+    for a_path, targets in forward.items():
+        for b_path in targets:
+            if b_path not in meta_by_path:
+                continue
+            if a_path not in forward.get(b_path, set()):
+                a_stem = Path(a_path).stem if Path(a_path).stem != "index" else Path(a_path).parent.name
+                warnings.append(
+                    (b_path, f"related_notes: missing backlink to [[{a_stem}]] (declared in {a_path})")
+                )
+    return warnings
+
+
 def validate_directory(directory, schema_path, tags_path):
     """Validate all .md files in directory. Returns (total_errors, total_warnings)."""
     tags = load_tags(tags_path)
@@ -225,6 +298,9 @@ def validate_directory(directory, schema_path, tags_path):
     total_errors = 0
     total_warnings = 0
     files_checked = 0
+
+    per_file_warnings = {}  # path -> list of warning strings
+    files_meta = []  # (path, metadata) for cross-file checks
 
     for filepath in find_md_files(directory):
         files_checked += 1
@@ -240,6 +316,22 @@ def validate_directory(directory, schema_path, tags_path):
         for w in warnings:
             print(f"  WARN   {w}")
             total_warnings += 1
+            per_file_warnings.setdefault(str(filepath), []).append(w)
+
+        if not errors:
+            try:
+                post = frontmatter.loads(Path(filepath).read_text(encoding="utf-8"))
+                files_meta.append((str(filepath), post.metadata))
+            except Exception:
+                pass
+
+    # Cross-file: bidirectional related_notes
+    for path, warning in validate_bidirectional_related_notes(files_meta):
+        if path not in per_file_warnings:
+            print(f"\n{path}:")
+        print(f"  WARN   {warning}")
+        total_warnings += 1
+        per_file_warnings.setdefault(path, []).append(warning)
 
     print(f"\n{'=' * 50}")
     print(f"Files: {files_checked}  Errors: {total_errors}  Warnings: {total_warnings}")

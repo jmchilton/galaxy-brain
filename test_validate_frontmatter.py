@@ -14,6 +14,7 @@ from validate_frontmatter import (
     load_schema,
     load_tags,
     preprocess_frontmatter,
+    validate_bidirectional_related_notes,
     validate_data,
     validate_dates,
     validate_directory,
@@ -708,6 +709,66 @@ def test_validate_directory_with_project(tmp_path):
     )
     assert total_errors == 0
     assert total_warnings == 0
+
+
+# ---------------------------------------------------------------------------
+# Bidirectional related_notes (cross-file)
+# ---------------------------------------------------------------------------
+
+
+def test_bidirectional_related_notes_symmetric_no_warning():
+    files_meta = [
+        ("/v/A.md", {"related_notes": ["[[B]]"]}),
+        ("/v/B.md", {"related_notes": ["[[A]]"]}),
+    ]
+    assert validate_bidirectional_related_notes(files_meta) == []
+
+
+def test_bidirectional_related_notes_missing_backlink_warns():
+    files_meta = [
+        ("/v/A.md", {"related_notes": ["[[B]]"]}),
+        ("/v/B.md", {}),
+    ]
+    warnings = validate_bidirectional_related_notes(files_meta)
+    assert len(warnings) == 1
+    path, msg = warnings[0]
+    assert path == "/v/B.md"
+    assert "A" in msg
+
+
+def test_bidirectional_related_notes_dangling_link_ignored():
+    """If target doesn't exist in the vault, no warning (not a bidirectional issue)."""
+    files_meta = [
+        ("/v/A.md", {"related_notes": ["[[Nonexistent]]"]}),
+    ]
+    assert validate_bidirectional_related_notes(files_meta) == []
+
+
+def test_bidirectional_related_notes_prefix_match():
+    """Wiki link 'Issue 17506' resolves to 'Issue 17506 - Convert...' by prefix."""
+    files_meta = [
+        ("/v/research/Plan X.md", {"related_notes": ["[[Issue 17506]]"]}),
+        ("/v/research/Issue 17506 - Convert Workflow Extraction.md",
+         {"related_notes": ["[[Plan X]]"]}),
+    ]
+    assert validate_bidirectional_related_notes(files_meta) == []
+
+
+def test_bidirectional_related_notes_parent_plan_not_enforced():
+    """parent_plan is one-to-many; no backref required."""
+    files_meta = [
+        ("/v/A.md", {"parent_plan": "[[B]]"}),
+        ("/v/B.md", {}),
+    ]
+    assert validate_bidirectional_related_notes(files_meta) == []
+
+
+def test_bidirectional_related_notes_related_issues_not_enforced():
+    files_meta = [
+        ("/v/A.md", {"related_issues": ["[[Issue 1]]"]}),
+        ("/v/Issue 1.md", {}),
+    ]
+    assert validate_bidirectional_related_notes(files_meta) == []
 
 
 # ---------------------------------------------------------------------------
