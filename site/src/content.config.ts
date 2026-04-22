@@ -10,7 +10,7 @@ function slugifyPath(entry: string): string {
 
 const vault = defineCollection({
   loader: glob({
-    pattern: ['**/*.md', '!Dashboard.md', '!Index.md', '!.obsidian/**', '!templates/**',
+    pattern: ['**/*.md', '!Dashboard.md', '!Index.md', '!log.md', '!.obsidian/**', '!templates/**',
               '!projects/**/!(index).md'],
     base: '../vault',
     generateId({ entry }) {

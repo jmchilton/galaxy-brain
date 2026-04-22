@@ -13,6 +13,7 @@ Obsidian vault + validation tooling for AI-generated Galaxy development notes. N
 - `dashboard_sections.json` - shared dashboard section config (drives both Dashboard.md and index.astro)
 - `generate_dashboard.py` - generates Dashboard.md from config; `--check` for drift detection
 - `generate_index.py` - generates Index.md (prose catalog of every note + summary); `--check` for drift
+- `vault/log.md` - append-only vault operations log; written by `/ingest` (and future `/ask`, `/lint-vault`); excluded from validator and site
 - `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make index`, `make check-index`, `make site-dev`, `make site-build`
 - `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
 - `site/` - Astro static site rendering vault notes for GitHub Pages
