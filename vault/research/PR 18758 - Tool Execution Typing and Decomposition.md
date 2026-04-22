@@ -11,10 +11,16 @@ github_repo: galaxyproject/galaxy
 component: Tool Execution
 status: draft
 created: 2026-02-05
-revised: 2026-02-05
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Adds type aliases documenting tool state lifecycle through execution from request to job completion"
+related_notes:
+  - "[[Component - Tool State Dynamic Models]]"
+  - "[[Component - Tool State Specification]]"
+  - "[[Component - YAML Tool Runtime]]"
+  - "[[PR 18641 - Parameter Model Improvements Research]]"
+  - "[[PR 20935 - Tool Request API]]"
 ---
  
 # PR #18758: More Typing, Docs, and Decomposition Around Tool Execution

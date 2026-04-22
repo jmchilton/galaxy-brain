@@ -8,10 +8,17 @@ tags:
 component: Workflow Extraction
 status: draft
 created: 2026-02-05
-revised: 2026-02-05
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Extract history to workflow via Mako UI, traces jobs/datasets back to reconstruct graph"
+related_notes:
+  - "[[Component - Workflow API]]"
+  - "[[Component - Workflow Extraction Models]]"
+  - "[[Component - Workflow Format (.ga)]]"
+  - "[[Issue 17506 - Convert Workflow Extraction Interface to Vue]]"
+  - "[[Workflow Extraction Issues]]"
+  - "[[Workflow Extraction Multiple Histories]]"
 ---
 
 # Workflow Extraction in Galaxy - Overview

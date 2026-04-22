@@ -8,7 +8,7 @@ tags:
 status: draft
 created: 2026-02-09
 revised: 2026-04-22
-revision: 2
+revision: 3
 ai_generated: true
 galaxy_areas:
   - collections
@@ -18,6 +18,13 @@ related_notes:
   - "[[Component - Collection API]]"
   - "[[Component - Collections - Paired or Unpaired]]"
   - "[[Component - Collections - Sample Sheets Backend]]"
+  - "[[Component - CWL Ephemeral Collections]]"
+  - "[[Component - Collection Adapters]]"
+  - "[[Component - Collection Creation API]]"
+  - "[[Component - Collection Tool Execution Semantics]]"
+  - "[[Dependency - Collection Graphviz]]"
+  - "[[PR 19305 - Implement Sample Sheets]]"
+  - "[[PR 19377 - Collection Types and Wizard UI]]"
 ---
 
 # Galaxy Dataset Collection Model Layer

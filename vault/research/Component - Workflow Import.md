@@ -9,12 +9,18 @@ tags:
   - galaxy/lib
 status: draft
 created: 2026-02-19
-revised: 2026-02-19
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: Workflow Import
 galaxy_areas: [api, workflows, lib, models]
 summary: "HTTP to database stack for workflow import spanning API controller, manager, and service layers"
+related_notes:
+  - "[[Component - CWL Workflow State]]"
+  - "[[Component - Format2 Workflows (gxformat2)]]"
+  - "[[Component - Workflow API]]"
+  - "[[Component - Workflow Format (.ga)]]"
+  - "[[Component - gxformat2 Parsing and Syntax]]"
 ---
 
 # Galaxy Workflow Import: Component Architecture

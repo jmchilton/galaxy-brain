@@ -7,13 +7,21 @@ tags:
   - galaxy/tools
 status: draft
 created: 2026-02-08
-revised: 2026-02-08
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: tool_state_dynamic_models
 galaxy_areas:
   - tools
 summary: "Pydantic dynamic models for validating tool parameter state across 12 representations"
+related_notes:
+  - "[[Component - Tool State Specification]]"
+  - "[[Component - YAML Tool Runtime]]"
+  - "[[Dependency - Pydantic Discriminated Unions]]"
+  - "[[Dependency - Pydantic Dynamic Models]]"
+  - "[[PR 18641 - Parameter Model Improvements Research]]"
+  - "[[PR 18758 - Tool Execution Typing and Decomposition]]"
+  - "[[PR 20935 - Tool Request API]]"
 ---
 
 # Galaxy Tool State: Dynamic Pydantic Models

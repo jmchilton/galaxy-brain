@@ -6,12 +6,14 @@ tags:
   - galaxy/collections
 status: draft
 created: 2026-02-08
-revised: 2026-02-08
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 galaxy_areas:
   - collections
 summary: "Graphviz diagram generator for Galaxy dataset collection hierarchies with nested box layout"
+related_notes:
+  - "[[Component - Collection Models]]"
 ---
 
 # gx-collection-graphviz - Project Summary

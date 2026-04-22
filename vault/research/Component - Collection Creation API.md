@@ -7,10 +7,16 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-02-18
-revised: 2026-02-18
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Two-path collection creation: direct POST with element identifiers or fetch API uploading new data atomically"
+related_notes:
+  - "[[Component - Auto Pairing]]"
+  - "[[Component - Collection API]]"
+  - "[[Component - Collection Models]]"
+  - "[[Component - Data Fetch]]"
+  - "[[Problem - Workflow Test Collection Inputs]]"
 ---
 
 # Dataset Collection Creation API - Deep Dive

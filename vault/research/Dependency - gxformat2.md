@@ -6,10 +6,15 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-02-18
-revised: 2026-02-18
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Bidirectional conversion between native .ga and Format2 YAML with linting and visualization"
+related_notes:
+  - "[[Component - Format2 Workflows (gxformat2)]]"
+  - "[[Component - Workflow Format (.ga)]]"
+  - "[[Component - Workflow Format Differences]]"
+  - "[[Component - gxformat2 Parsing and Syntax]]"
 ---
 
 # gxformat2 — Implementation Overview & API Reference

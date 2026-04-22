@@ -7,10 +7,13 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2025-03-21
-revised: 2025-03-21
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "CWL-based workflow expressions evaluated as JavaScript with $job, $self, $runtime variables"
+related_notes:
+  - "[[Component - CWL Workflow State]]"
+  - "[[Dependency - cwl-utils]]"
 ---
 
 # Galaxy Workflow Expression Evaluation Context

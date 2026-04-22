@@ -7,12 +7,15 @@ tags:
   - galaxy/client
 status: draft
 created: 2026-02-11
-revised: 2026-02-11
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_pr: 20390
 github_repo: galaxyproject/galaxy
 summary: "Workflow editor search panel finds steps, inputs, outputs, comments with fuzzy matching and canvas highlight"
+related_notes:
+  - "[[Component - Workflow Comments]]"
+  - "[[Component - Workflow Editor Terminals]]"
 ---
 # PR #20390 Research: Workflow Graph Search
 

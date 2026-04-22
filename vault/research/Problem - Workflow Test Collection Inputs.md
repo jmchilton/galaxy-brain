@@ -7,10 +7,16 @@ tags:
   - galaxy/collections
 status: draft
 created: 2026-02-21
-revised: 2026-02-21
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Framework test collections populated via fetch API dispatches on type, supports nested structures"
+related_notes:
+  - "[[Component - Collection Creation API]]"
+  - "[[Component - Collections in Tool XML Tests]]"
+  - "[[Component - Data Fetch]]"
+  - "[[Component - Workflow Testing]]"
+  - "[[Dependency - Planemo - Workflow Tests - Collection Inputs]]"
 ---
 
 # Workflow Framework Test Collection Inputs

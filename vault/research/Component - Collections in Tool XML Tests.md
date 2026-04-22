@@ -7,10 +7,15 @@ tags:
   - galaxy/tools/collections
 status: draft
 created: 2026-02-18
-revised: 2026-02-18
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Test syntax for collections: nested 'collection' tags with type, elements, fields for records and paired variants"
+related_notes:
+  - "[[Component - Tool Testing Infrastructure]]"
+  - "[[Component - Tool XML Collection Commands]]"
+  - "[[Dependency - Planemo - Workflow Tests - Collection Inputs]]"
+  - "[[Problem - Workflow Test Collection Inputs]]"
 ---
 
 # Collections in Tool XML Tests

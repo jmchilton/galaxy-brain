@@ -4,10 +4,14 @@ subtype: dependency
 tags: [research/dependency, galaxy/workflows, galaxy/testing]
 status: draft
 created: 2026-02-13
-revised: 2026-02-13
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "CWL conformance test suite infrastructure for spec compliance validation across v1.0, v1.1, v1.2"
+related_notes:
+  - "[[Component - CWL Workflow State]]"
+  - "[[Component - Workflow Testing]]"
+  - "[[Dependency - cwl-utils]]"
 ---
 
 # CWL Conformance Tests in Galaxy

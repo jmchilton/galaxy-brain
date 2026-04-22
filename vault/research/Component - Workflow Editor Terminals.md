@@ -8,7 +8,7 @@ tags:
 status: draft
 created: 2026-02-09
 revised: 2026-04-22
-revision: 2
+revision: 3
 ai_generated: true
 galaxy_areas:
   - workflows
@@ -16,6 +16,9 @@ galaxy_areas:
 summary: "Terminal connection logic, compatibility checking, map-over propagation, plain class instances"
 related_notes:
   - "[[Component - Workflow Editor Terminal Tests]]"
+  - "[[Component - Collection Tool Execution Semantics]]"
+  - "[[Component - Invocation Graph View]]"
+  - "[[PR 20390 - Workflow Graph Search]]"
 ---
 
 # Workflow Editor Terminals Module - Architecture Research Report

@@ -11,7 +11,7 @@ tags:
 status: draft
 created: 2026-02-08
 revised: 2026-04-22
-revision: 3
+revision: 4
 ai_generated: true
 github_pr: 19377
 github_repo: galaxyproject/galaxy
@@ -24,6 +24,11 @@ galaxy_areas:
 related_notes:
   - "[[Component - Dataset Collections]]"
   - "[[Component - Collections - Paired or Unpaired]]"
+  - "[[Component - Auto Pairing]]"
+  - "[[Component - Collection Adapters]]"
+  - "[[Component - Collection Models]]"
+  - "[[Component - Collection Tool Execution Semantics]]"
+  - "[[PR 19305 - Implement Sample Sheets]]"
 branch: collection_specification
 summary: "Paired_or_unpaired and record collection types plus collection adapters enable flexible tool input matching"
 ---

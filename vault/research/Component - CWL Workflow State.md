@@ -6,12 +6,19 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-02-19
-revised: 2026-02-19
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: CWL Workflow State
 galaxy_areas: [workflows]
 summary: "CWL workflow import to persistence to execution: parsed via WorkflowProxy, state encoded/decoded, tool_inputs dict"
+related_notes:
+  - "[[Component - CWL Ephemeral Collections]]"
+  - "[[Component - Galaxy Workflow Expression Context]]"
+  - "[[Component - Workflow Format Differences]]"
+  - "[[Component - Workflow Import]]"
+  - "[[Dependency - CWL Conformance Tests]]"
+  - "[[Dependency - cwl-utils]]"
 ---
 
 # CWL Workflow State: Loading, Persistence, and Execution Trace

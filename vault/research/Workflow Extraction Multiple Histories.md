@@ -10,10 +10,15 @@ related_issues:
   - "[[Issue 13823]]"
 status: draft
 created: 2026-02-05
-revised: 2026-02-05
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "ID-based extraction removes single-history limitation, fixes cross-history copied dataset problems"
+related_notes:
+  - "[[Component - Workflow Extraction]]"
+  - "[[Component - Workflow Extraction Models]]"
+  - "[[Issue 17506 - Convert Workflow Extraction Interface to Vue]]"
+  - "[[Workflow Extraction Issues]]"
 ---
 
 # Multiple History Support for ID-Based Workflow Extraction

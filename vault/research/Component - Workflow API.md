@@ -7,12 +7,18 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-03-16
-revised: 2026-03-16
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: Workflow API
 galaxy_areas: [workflows, api]
 summary: "REST API for workflow CRUD, execution, invocation monitoring via FastAPI controllers"
+related_notes:
+  - "[[Component - Invocation Report to Pages]]"
+  - "[[Component - Post Job Actions]]"
+  - "[[Component - Workflow Extraction]]"
+  - "[[Component - Workflow Import]]"
+  - "[[Component - Workflow Refactoring API]]"
 ---
 
 # Galaxy Workflow API - Comprehensive Reference Documentation

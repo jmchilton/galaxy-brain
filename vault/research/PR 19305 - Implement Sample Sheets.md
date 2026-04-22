@@ -13,7 +13,7 @@ tags:
 status: draft
 created: 2026-02-09
 revised: 2026-04-22
-revision: 2
+revision: 3
 ai_generated: true
 github_pr: 19305
 github_repo: galaxyproject/galaxy
@@ -28,6 +28,9 @@ galaxy_areas:
 summary: "Sample sheets attach typed columnar metadata to dataset collection elements for bioinformatics workflows"
 related_notes:
   - "[[Component - Collections - Sample Sheets Backend]]"
+  - "[[Component - Collection API]]"
+  - "[[Component - Collection Models]]"
+  - "[[PR 19377 - Collection Types and Wizard UI]]"
 ---
 
 # Research: Galaxy PR #19305 - Implement Sample Sheets

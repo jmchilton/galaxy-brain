@@ -9,10 +9,18 @@ tags:
 component: Tool State Specification
 status: draft
 created: 2026-02-05
-revised: 2026-02-05
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "YAML-driven test suite validating 12 tool state representations, each form context-specific"
+related_notes:
+  - "[[Component - Tool State Dynamic Models]]"
+  - "[[Component - Tool Testing Infrastructure]]"
+  - "[[Component - YAML Tool Runtime]]"
+  - "[[Dependency - Pydantic Dynamic Models]]"
+  - "[[PR 18641 - Parameter Model Improvements Research]]"
+  - "[[PR 18758 - Tool Execution Typing and Decomposition]]"
+  - "[[PR 20935 - Tool Request API]]"
 ---
 
 # Galaxy Tool State Specification Infrastructure

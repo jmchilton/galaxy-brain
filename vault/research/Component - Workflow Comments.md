@@ -8,13 +8,14 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-03-16
-revised: 2026-03-16
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: Workflow Comments
 galaxy_areas: [workflows, client, api]
 related_notes:
   - "[[PR 16612 - Workflow Comments]]"
+  - "[[PR 20390 - Workflow Graph Search]]"
 summary: "Visual annotation system for workflows, text/markdown/frames/freehand without execution impact"
 ---
 

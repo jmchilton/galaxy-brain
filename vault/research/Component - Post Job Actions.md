@@ -7,12 +7,15 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-03-16
-revised: 2026-03-16
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: Post Job Actions
 galaxy_areas: [workflows, api]
 summary: "Declarative post-processing operations on job outputs, transformations without explicit tools"
+related_notes:
+  - "[[Component - Workflow API]]"
+  - "[[Component - Workflow Format (.ga)]]"
 ---
 
 # Post Job Actions (PJA) - Component Architecture & Design

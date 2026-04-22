@@ -9,10 +9,15 @@ tags:
 component: ChatGXY Persistence
 status: draft
 created: 2026-03-05
-revised: 2026-03-05
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "ChatGXY persistence model, API flow, and frontend state management for chat conversations"
+related_notes:
+  - "[[Component - Agents Backend]]"
+  - "[[Component - Agents UX]]"
+  - "[[PR 21434 - AI Agent Framework and ChatGXY]]"
+  - "[[PR 21692 - Standardize Agent API Schemas]]"
 ---
 
 # ChatGXY Persistence: How Chats Are Stored, Loaded, and Managed

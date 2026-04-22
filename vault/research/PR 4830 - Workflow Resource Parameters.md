@@ -4,12 +4,15 @@ subtype: pr
 tags: [research/pr, galaxy/workflows, galaxy/tools/runtime]
 status: draft
 created: 2026-03-12
-revised: 2026-03-12
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_pr: 4830
 github_repo: galaxyproject/galaxy
 summary: "Administrators define workflow-level resource parameters users set when invoking workflows for scheduling"
+related_notes:
+  - "[[PR 20936 - Resource Requirements via TPV]]"
+  - "[[PR 5378 - Tool Resource Requirements]]"
 ---
 
 # PR #4830 Research Summary: Workflow-to-Job Scheduling Parameters

@@ -7,13 +7,14 @@ tags:
   - galaxy/tools/yaml
 status: draft
 created: 2026-02-24
-revised: 2026-02-24
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_pr: 5378
 github_repo: galaxyproject/galaxy
 related_notes:
   - "[[PR 20936 - Resource Requirements via TPV]]"
+  - "[[PR 4830 - Workflow Resource Parameters]]"
 summary: "Tools declare resource requirements like cores and memory modeled after CWL ResourceRequirement"
 ---
 

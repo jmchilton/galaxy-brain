@@ -9,10 +9,18 @@ tags:
 component: Tool Testing Infrastructure
 status: draft
 created: 2026-02-05
-revised: 2026-02-05
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Framework for parsing, loading, executing tests in XML/YAML tool files via planemo"
+related_notes:
+  - "[[Component - API Tests]]"
+  - "[[Component - API Tests Tools]]"
+  - "[[Component - Collections in Tool XML Tests]]"
+  - "[[Component - Tool State Specification]]"
+  - "[[Component - Workflow Testing]]"
+  - "[[Dependency - Planemo - Workflow Tests - Collection Inputs]]"
+  - "[[PR 18641 - Parameter Model Improvements Research]]"
 ---
 
 # Galaxy Tool Testing Infrastructure Overview

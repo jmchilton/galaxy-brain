@@ -8,12 +8,16 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-02-11
-revised: 2026-02-11
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: Invocation Report to Pages
 github_repo: galaxyproject/galaxy
 summary: "Pipeline for converting invocation reports to Pages with encoded ID transformation and markdown"
+related_notes:
+  - "[[Component - Invocation Graph View]]"
+  - "[[Component - Markdown Visualizations]]"
+  - "[[Component - Workflow API]]"
 ---
 # Workflow Invocation Reports to Pages: Architecture Overview
 

@@ -8,12 +8,16 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-02-23
-revised: 2026-02-23
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_repo: galaxyproject/galaxy
 related_notes:
   - "[[Component - Collection Adapters]]"
+  - "[[Component - CWL Workflow State]]"
+  - "[[Component - Collection Models]]"
+  - "[[Component - Collection Tool Execution Semantics]]"
+  - "[[Dependency - cwl-utils]]"
 summary: "Lightweight non-persisted collections created during CWL execution for MultipleInputFeatureRequirement merge strategies"
 ---
 

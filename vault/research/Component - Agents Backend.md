@@ -4,10 +4,17 @@ subtype: component
 tags: [research/component, galaxy/api, galaxy/lib]
 status: draft
 created: 2026-02-13
-revised: 2026-02-13
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Multi-agent AI framework with pydantic-ai, five specialized agents, registry pattern, and async execution"
+related_notes:
+  - "[[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]]"
+  - "[[Component - Agents UX]]"
+  - "[[PR 21434 - AI Agent Framework and ChatGXY]]"
+  - "[[PR 21463 - Jupyternaut Adapter for JupyterLite]]"
+  - "[[PR 21692 - Standardize Agent API Schemas]]"
+  - "[[PR 21706 - Data Analysis Agent Integration]]"
 ---
 
 # Galaxy Agents Backend: API and Infrastructure Report

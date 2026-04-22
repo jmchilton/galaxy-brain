@@ -8,10 +8,15 @@ tags:
   - galaxy/tools
 status: draft
 created: 2026-02-18
-revised: 2026-02-18
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "DatasetCollectionWrapper objects in Cheetah command templates, paired/list iteration access"
+related_notes:
+  - "[[Component - Collection Adapters]]"
+  - "[[Component - Collection Tool Execution Semantics]]"
+  - "[[Component - Collections - Paired or Unpaired]]"
+  - "[[Component - Collections in Tool XML Tests]]"
 ---
 
 # Collections in Tool XML Command Blocks (Cheetah)

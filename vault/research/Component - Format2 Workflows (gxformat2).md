@@ -7,12 +7,18 @@ tags:
   - galaxy/lib
 status: draft
 created: 2026-02-19
-revised: 2026-02-19
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: Format2 Workflows (gxformat2)
 galaxy_areas: [workflows, lib]
 summary: "YAML format2 workflow parsing, detection via class=GalaxyWorkflow, conversion pipeline to native JSON"
+related_notes:
+  - "[[Component - Workflow Format (.ga)]]"
+  - "[[Component - Workflow Format Differences]]"
+  - "[[Component - Workflow Import]]"
+  - "[[Component - gxformat2 Parsing and Syntax]]"
+  - "[[Dependency - gxformat2]]"
 ---
 
 # gxformat2: Parsing and Syntax in Galaxy

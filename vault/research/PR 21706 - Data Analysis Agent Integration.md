@@ -4,12 +4,17 @@ subtype: pr
 tags: [research/pr, galaxy/api, galaxy/client]
 status: draft
 created: 2026-02-13
-revised: 2026-02-13
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_pr: 21706
 github_repo: galaxyproject/galaxy
 summary: "Integrates data analysis agent with DSPy generating Python code executed in browser via Pyodide"
+related_notes:
+  - "[[Component - Agents Backend]]"
+  - "[[Component - Agents UX]]"
+  - "[[PR 21434 - AI Agent Framework and ChatGXY]]"
+  - "[[PR 21692 - Standardize Agent API Schemas]]"
 ---
 
 # PR #21706 Research Summary: Data Analysis Agent Integration

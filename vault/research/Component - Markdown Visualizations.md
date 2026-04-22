@@ -7,11 +7,13 @@ tags:
   - galaxy/client
 status: draft
 created: 2026-02-25
-revised: 2026-02-25
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_repo: galaxyproject/galaxy
 summary: "Five fenced block types for galaxy directives, Vega charts, visualizations, Vitessce dashboards"
+related_notes:
+  - "[[Component - Invocation Report to Pages]]"
 ---
 
 # Galaxy Markdown Visualizations: Complete Reference

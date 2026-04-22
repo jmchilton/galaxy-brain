@@ -12,7 +12,7 @@ tags:
 status: draft
 created: 2026-02-09
 revised: 2026-04-22
-revision: 2
+revision: 3
 ai_generated: true
 galaxy_areas:
   - collections
@@ -26,6 +26,10 @@ related_notes:
   - "[[Component - Collection API]]"
   - "[[PR 19377 - Collection Types and Wizard UI]]"
   - "[[Component - Collections - Sample Sheets Backend]]"
+  - "[[Component - Auto Pairing]]"
+  - "[[Component - Collection Tool Execution Semantics]]"
+  - "[[Component - Tool XML Collection Commands]]"
+  - "[[Dependency - Pydantic Discriminated Unions]]"
 summary: "Discriminated union type of 1 or 2 elements with asymmetric subtyping where paired IS-A paired_or_unpaired"
 ---
 

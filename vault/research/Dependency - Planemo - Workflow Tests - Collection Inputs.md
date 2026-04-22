@@ -7,10 +7,15 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-21
-revised: 2026-02-21
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Workflow test collection inputs using CWL list, explicit class, and nested collection syntaxes"
+related_notes:
+  - "[[Component - Collections in Tool XML Tests]]"
+  - "[[Component - Tool Testing Infrastructure]]"
+  - "[[Component - Workflow Testing]]"
+  - "[[Problem - Workflow Test Collection Inputs]]"
 ---
 
 # Workflow Test Collection Inputs: Full Code Path Trace

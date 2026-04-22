@@ -8,13 +8,16 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-02-17
-revised: 2026-02-17
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 galaxy_areas:
   - api
   - workflows
 summary: "PUT endpoint for refactoring workflows, routes through service layer with validation"
+related_notes:
+  - "[[Component - Workflow API]]"
+  - "[[Component - Workflow Format (.ga)]]"
 ---
 
 # Galaxy Workflow Refactoring API

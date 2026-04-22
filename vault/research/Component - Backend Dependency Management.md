@@ -6,12 +6,14 @@ tags:
   - galaxy/lib
 status: draft
 created: 2026-02-09
-revised: 2026-02-09
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 galaxy_areas:
   - lib
 summary: "Python deps via uv: pyproject.toml, uv.lock, pinned-*.txt files, conditional dependency resolver, weekly updates"
+related_notes:
+  - "[[Component - Worktree Bootstrapping]]"
 ---
 
 # Galaxy Backend Dependency Management

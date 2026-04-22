@@ -15,10 +15,20 @@ related_prs:
 branch: model_parameter_improvements_1
 status: draft
 created: 2026-02-05
-revised: 2026-02-05
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Extended parameter models with drill_down, data_column, conditional_select types and improved validation"
+related_notes:
+  - "[[Component - Tool State Dynamic Models]]"
+  - "[[Component - Tool State Specification]]"
+  - "[[Component - Tool Testing Infrastructure]]"
+  - "[[Component - YAML Tool Runtime]]"
+  - "[[Dependency - Pydantic Discriminated Unions]]"
+  - "[[Dependency - Pydantic Dynamic Models]]"
+  - "[[PR 18758 - Tool Execution Typing and Decomposition]]"
+  - "[[PR 19434 - User Defined Tools]]"
+  - "[[PR 20935 - Tool Request API]]"
 ---
 
 # PR #18641: Parameter Model Improvements - Research Summary

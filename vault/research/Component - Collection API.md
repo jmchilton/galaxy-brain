@@ -8,7 +8,7 @@ tags:
 status: draft
 created: 2026-02-09
 revised: 2026-04-22
-revision: 2
+revision: 3
 ai_generated: true
 galaxy_areas:
   - collections
@@ -17,6 +17,9 @@ related_notes:
   - "[[Component - Collection Models]]"
   - "[[Component - Collections - Paired or Unpaired]]"
   - "[[Component - Collections - Sample Sheets Backend]]"
+  - "[[Component - Collection Creation API]]"
+  - "[[Component - Data Fetch]]"
+  - "[[PR 19305 - Implement Sample Sheets]]"
 summary: "Full collection API surface: POST/GET/PUT/DELETE endpoints, DatasetCollectionsService, fuzzy drill-down, export"
 ---
 

@@ -9,10 +9,17 @@ tags:
 component: YAML Tool Runtime
 status: draft
 created: 2026-02-05
-revised: 2026-02-05
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "YAML tool runtime converts tool state to CWL-style inputs with validated JobInternalToolState"
+related_notes:
+  - "[[Component - Tool State Dynamic Models]]"
+  - "[[Component - Tool State Specification]]"
+  - "[[PR 18641 - Parameter Model Improvements Research]]"
+  - "[[PR 18758 - Tool Execution Typing and Decomposition]]"
+  - "[[PR 19434 - User Defined Tools]]"
+  - "[[PR 20935 - Tool Request API]]"
 ---
 
 # YAML Tool Runtime State Representation

@@ -9,14 +9,18 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-03-04
-revised: 2026-03-04
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 galaxy_areas:
   - api
   - tools
   - testing
 summary: "Tool API testing split: ~3500 lines legacy unittest tests + ~775 lines modern fluent pytest with input parametrization"
+related_notes:
+  - "[[Component - API Tests]]"
+  - "[[Component - Tool Testing Infrastructure]]"
+  - "[[PR 20935 - Tool Request API]]"
 ---
 
 # Component: API Tests - Tools

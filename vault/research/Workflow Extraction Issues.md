@@ -7,10 +7,15 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-02-05
-revised: 2026-02-07
-revision: 2
+revised: 2026-04-22
+revision: 3
 ai_generated: true
 summary: "Workflow extraction has open issues with copied datasets, connection loss, interface needs Vue conversion"
+related_notes:
+  - "[[Component - Workflow Extraction]]"
+  - "[[Component - Workflow Extraction Models]]"
+  - "[[Issue 17506 - Convert Workflow Extraction Interface to Vue]]"
+  - "[[Workflow Extraction Multiple Histories]]"
 ---
 
 # Workflow Extraction - Known Issues

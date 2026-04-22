@@ -6,12 +6,18 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-02-19
-revised: 2026-03-02
-revision: 2
+revised: 2026-04-22
+revision: 3
 ai_generated: true
 component: Workflow Formats (native vs Format2)
 galaxy_areas: [workflows]
 summary: "Native .ga vs Format2 .gxwf.yml serialization, machine vs human-authored designs and structural trade-offs"
+related_notes:
+  - "[[Component - CWL Workflow State]]"
+  - "[[Component - Format2 Workflows (gxformat2)]]"
+  - "[[Component - Workflow Format (.ga)]]"
+  - "[[Component - gxformat2 Parsing and Syntax]]"
+  - "[[Dependency - gxformat2]]"
 ---
 
 # Galaxy Workflow Formats: gxformat2 vs Native (.ga)

@@ -4,12 +4,18 @@ subtype: pr
 tags: [research/pr, galaxy/api, galaxy/client]
 status: draft
 created: 2026-02-13
-revised: 2026-02-13
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_pr: 21692
 github_repo: galaxyproject/galaxy
 summary: "Standardizes agent response metadata, typing, validates suggestions, removes deprecated endpoints"
+related_notes:
+  - "[[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]]"
+  - "[[Component - Agents Backend]]"
+  - "[[Component - Agents UX]]"
+  - "[[PR 21434 - AI Agent Framework and ChatGXY]]"
+  - "[[PR 21706 - Data Analysis Agent Integration]]"
 ---
 
 # PR #21692 Research: Standardize Agent API Schemas and Response Metadata

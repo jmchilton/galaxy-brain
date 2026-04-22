@@ -15,10 +15,15 @@ related_issues:
   - "[[Issue 21336]]"
 status: draft
 created: 2026-02-05
-revised: 2026-02-05
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Convert build_from_current_history mako to FastAPI and Vue, extract directly to editor"
+related_notes:
+  - "[[Component - Workflow Extraction]]"
+  - "[[Component - Workflow Extraction Models]]"
+  - "[[Workflow Extraction Issues]]"
+  - "[[Workflow Extraction Multiple Histories]]"
 ---
 
 # Issue #17506: Convert Workflow Extraction Interface to Vue

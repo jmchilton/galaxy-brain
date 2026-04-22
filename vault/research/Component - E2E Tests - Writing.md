@@ -4,12 +4,15 @@ subtype: component
 tags: [research/component, galaxy/testing, galaxy/client]
 status: draft
 created: 2026-02-11
-revised: 2026-02-11
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: E2E Testing
 galaxy_areas: [testing, client]
 summary: "Layered test infrastructure: SeleniumTestCase, NavigatesGalaxy helpers, smart component system, Selenium/Playwright"
+related_notes:
+  - "[[Component - API Tests]]"
+  - "[[Component - E2E Tests Smart Components]]"
 ---
 
 # Writing E2E Tests in Galaxy: A Comprehensive Guide

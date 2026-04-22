@@ -6,12 +6,14 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-03-16
-revised: 2026-03-16
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: E2E Tests Smart Components
 galaxy_areas: [testing]
 summary: "Component system: navigation.yml, Component tree, SmartComponent/SmartTarget wrappers, parameterized selectors"
+related_notes:
+  - "[[Component - E2E Tests - Writing]]"
 ---
 
 # Galaxy Selenium Component System — Deep Dive

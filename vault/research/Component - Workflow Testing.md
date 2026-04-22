@@ -7,14 +7,20 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-08
-revised: 2026-02-08
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 component: workflow_testing
 galaxy_areas:
   - workflows
   - testing
 summary: "YAML declarative and Python procedural testing frameworks for workflow execution validation"
+related_notes:
+  - "[[Component - API Tests]]"
+  - "[[Component - Tool Testing Infrastructure]]"
+  - "[[Dependency - CWL Conformance Tests]]"
+  - "[[Dependency - Planemo - Workflow Tests - Collection Inputs]]"
+  - "[[Problem - Workflow Test Collection Inputs]]"
 ---
 
 # Galaxy Workflow Testing: A Comprehensive Guide

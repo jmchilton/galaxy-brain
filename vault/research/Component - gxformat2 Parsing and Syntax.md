@@ -7,11 +7,17 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-03-01
-revised: 2026-03-01
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 github_repo: galaxyproject/galaxy
 summary: "Format2 YAML detection, conversion pipeline to Galaxy JSON before import processing"
+related_notes:
+  - "[[Component - Format2 Workflows (gxformat2)]]"
+  - "[[Component - Workflow Format (.ga)]]"
+  - "[[Component - Workflow Format Differences]]"
+  - "[[Component - Workflow Import]]"
+  - "[[Dependency - gxformat2]]"
 ---
 
 # gxformat2: Parsing and Syntax in Galaxy

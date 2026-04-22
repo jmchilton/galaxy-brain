@@ -8,10 +8,15 @@ tags:
   - galaxy/client
 status: draft
 created: 2026-03-26
-revised: 2026-03-26
-revision: 1
+revised: 2026-04-22
+revision: 2
 ai_generated: true
 summary: "Automatic forward/reverse read pairing: parallel frontend/backend implementations validated against shared YAML spec"
+related_notes:
+  - "[[Component - Collection Creation API]]"
+  - "[[Component - Collections - Paired or Unpaired]]"
+  - "[[Component - Data Fetch]]"
+  - "[[PR 19377 - Collection Types and Wizard UI]]"
 ---
 
 # Auto-Pairing in Galaxy
