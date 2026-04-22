@@ -13,7 +13,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
-summary: Convert the last non-data-display Mako template (workflow extraction) to Vue + FastAPI; tracks issue #17506.
+summary: "Convert the last non-data-display Mako template (workflow extraction) to Vue + FastAPI; tracks issue #17506."
 ---
 
 # Workflow Extraction Vue Conversion Plan

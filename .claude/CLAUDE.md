@@ -12,7 +12,8 @@ Obsidian vault + validation tooling for AI-generated Galaxy development notes. N
 - `test_validate_frontmatter.py` - pytest suite (52 tests)
 - `dashboard_sections.json` - shared dashboard section config (drives both Dashboard.md and index.astro)
 - `generate_dashboard.py` - generates Dashboard.md from config; `--check` for drift detection
-- `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make site-dev`, `make site-build`
+- `generate_index.py` - generates Index.md (prose catalog of every note + summary); `--check` for drift
+- `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make index`, `make check-index`, `make site-dev`, `make site-build`
 - `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
 - `site/` - Astro static site rendering vault notes for GitHub Pages
 
@@ -25,6 +26,8 @@ make validate                      # validate vault/ frontmatter
 make validate ARGS="vault/research/" # validate subdirectory
 make dashboard                     # generate vault/Dashboard.md from config
 make check-dashboard               # exit 1 if Dashboard.md drifts from config
+make index                         # generate vault/Index.md from frontmatter summaries
+make check-index                   # exit 1 if Index.md drifts from vault
 make site-dev                      # start Astro dev server
 make site-build                    # build static site to site/dist/
 make site-preview                  # preview production build

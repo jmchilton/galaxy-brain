@@ -12,7 +12,7 @@ created: 2026-02-21
 revised: 2026-02-21
 revision: 1
 ai_generated: true
-summary: Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113).
+summary: "Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113)."
 related_issues:
   - "[[galaxyproject/galaxy#9166]]"
   - "[[galaxyproject/galaxy#21113]]"

@@ -1,4 +1,4 @@
-.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard
+.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -18,6 +18,12 @@ dashboard:
 
 check-dashboard:
 	uv run python generate_dashboard.py --check
+
+index:
+	uv run $(DEPS) python generate_index.py
+
+check-index:
+	uv run $(DEPS) python generate_index.py --check
 
 site-dev:
 	cd site && npm run dev

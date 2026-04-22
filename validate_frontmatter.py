@@ -26,7 +26,7 @@ import jsonschema
 import yaml
 
 SKIP_DIRS = {".obsidian", "templates"}
-SKIP_FILES = {"Dashboard.md"}
+SKIP_FILES = {"Dashboard.md", "Index.md"}
 
 # Wiki link fields and whether they hold a single value or array of values.
 WIKI_LINK_FIELDS = {

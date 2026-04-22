@@ -22,6 +22,7 @@ from validate_frontmatter import (
     validate_wiki_links,
 )
 from generate_dashboard import generate_dashboard, check_dashboard
+from generate_index import collect_notes, generate_index, check_index, derive_title
 
 REPO_ROOT = Path(__file__).parent
 
@@ -715,3 +716,110 @@ def test_generate_dashboard_check_fails(tmp_path):
     dashboard = tmp_path / "Dashboard.md"
     dashboard.write_text("# stale content\n")
     assert check_dashboard(DASHBOARD_SECTIONS, str(dashboard)) is False
+
+
+# ---------------------------------------------------------------------------
+# Index generation
+# ---------------------------------------------------------------------------
+
+
+def _write_note(path, **fm):
+    """Write a markdown file with YAML frontmatter + optional body."""
+    body = fm.pop("body", "")
+    lines = ["---"]
+    for k, v in fm.items():
+        if isinstance(v, list):
+            lines.append(f"{k}:")
+            for item in v:
+                lines.append(f"  - {item}")
+        else:
+            lines.append(f'{k}: "{v}"' if isinstance(v, str) else f"{k}: {v}")
+    lines.append("---")
+    lines.append(body)
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def _mini_vault(tmp_path):
+    """Build a small vault with one note of each major type."""
+    (tmp_path / "research").mkdir()
+    (tmp_path / "projects" / "demo").mkdir(parents=True)
+
+    _write_note(tmp_path / "research" / "Component - Foo.md",
+                type="research", subtype="component",
+                tags=["research/component"], status="draft",
+                created="2025-01-15", revised="2025-01-15", revision=1,
+                ai_generated=True,
+                summary="Covers the Foo widget lifecycle and its Pinia store binding.",
+                body="\n# Foo Widget Research\n")
+    _write_note(tmp_path / "research" / "PR 1234 - Bar.md",
+                type="research", subtype="pr",
+                tags=["research/pr"], status="draft",
+                created="2025-01-15", revised="2025-01-15", revision=1,
+                ai_generated=True, github_pr=1234, github_repo="galaxyproject/galaxy",
+                summary="PR 1234 introduces the Bar feature to the workflow editor.",
+                body="\n# PR 1234\n")
+    _write_note(tmp_path / "projects" / "demo" / "index.md",
+                type="project", title="Demo",
+                tags=["project"], status="draft",
+                created="2025-01-15", revised="2025-01-15", revision=1,
+                ai_generated=True,
+                summary="Demo project tracking experimental work on widgets.",
+                body="\n# Demo Project\n")
+    return tmp_path
+
+
+def test_derive_title_prefers_h1(tmp_path):
+    p = tmp_path / "x.md"
+    assert derive_title(p, "\n# Actual Heading\n\nBody") == "Actual Heading"
+
+
+def test_derive_title_falls_back_to_stem(tmp_path):
+    p = tmp_path / "My Note.md"
+    assert derive_title(p, "No heading here, just prose.") == "My Note"
+
+
+def test_collect_notes_project_slug_uses_parent(tmp_path):
+    _mini_vault(tmp_path)
+    notes = collect_notes(tmp_path)
+    project = next(n for n in notes if n["type"] == "project")
+    assert project["slug"] == "demo"
+
+
+def test_generate_index_contains_sections_and_entries(tmp_path):
+    _mini_vault(tmp_path)
+    notes = collect_notes(tmp_path)
+    out = generate_index(notes)
+    assert "# Galaxy Brain Index" in out
+    assert "## Projects" in out
+    assert "## Research" in out
+    assert "### Components" in out
+    assert "### Pull Requests" in out
+    assert "[[demo]]" in out
+    assert "[[Component - Foo]]" in out
+    assert "[[PR 1234 - Bar]]" in out
+    # Summary text must appear on the entry line.
+    assert "Foo widget lifecycle" in out
+
+
+def test_generate_index_marks_archived_status(tmp_path):
+    _mini_vault(tmp_path)
+    notes = collect_notes(tmp_path)
+    notes[0]["status"] = "archived"
+    out = generate_index(notes)
+    assert "*(archived)*" in out
+
+
+def test_generate_index_check_passes(tmp_path):
+    _mini_vault(tmp_path)
+    notes = collect_notes(tmp_path)
+    idx = tmp_path / "Index.md"
+    idx.write_text(generate_index(notes))
+    assert check_index(notes, str(idx)) is True
+
+
+def test_generate_index_check_fails(tmp_path):
+    _mini_vault(tmp_path)
+    notes = collect_notes(tmp_path)
+    idx = tmp_path / "Index.md"
+    idx.write_text("# stale\n")
+    assert check_index(notes, str(idx)) is False
