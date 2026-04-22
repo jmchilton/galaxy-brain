@@ -9,6 +9,7 @@ created: 2026-02-21
 revised: 2026-02-21
 revision: 1
 ai_generated: true
+summary: Project formalizing Galaxy collection semantics and their documentation.
 ---
 
 # Collection Semantics

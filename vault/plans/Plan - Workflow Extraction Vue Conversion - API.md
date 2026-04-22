@@ -14,6 +14,7 @@ created: 2026-02-12
 revised: 2026-02-12
 revision: 1
 ai_generated: true
+summary: API design spec for replacing the legacy Mako workflow extraction UI with a typed FastAPI endpoint and Vue frontend.
 ---
 
 # Workflow Extraction API Design

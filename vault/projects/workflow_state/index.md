@@ -9,6 +9,7 @@ created: 2026-03-01
 revised: 2026-03-01
 revision: 1
 ai_generated: true
+summary: "Workflow validation infrastructure: pre-execution parameter typing, format2 usability, VS Code tooling, tool search overhaul."
 ---
 
 # Workflow State
