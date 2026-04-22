@@ -13,12 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "projects/workflow_state/old/THEME_OVERHAUL_PLAN.md",
+                "file": "projects/workflow_state/GXWF_AGENT.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "THEME_OVERHAUL_PLAN"
+              "title": "GXWF_AGENT"
+            }
+          },
+          {
+            "id": "eeea0378e35a61d5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Index.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Index"
             }
           },
           {
@@ -27,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "projects/workflow_state/VS_CODE_TOOL_SEARCH_LSP_PLAN.md",
+                "file": "projects/workflow_state/old/CONNECTION_VALIDATION.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "VS_CODE_TOOL_SEARCH_LSP_PLAN"
+              "title": "CONNECTION_VALIDATION"
             }
           }
         ],
@@ -195,38 +209,40 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "templater-obsidian:Templater": false
     }
   },
-  "active": "afaa5d9cb9aebde6",
+  "active": "eeea0378e35a61d5",
   "lastOpenFiles": [
-    "research/Component - API Tests.md",
-    "projects/workflow_state/VS_CODE_TOOL_SEARCH_LSP_PLAN.md",
-    "projects/workflow_state/VS_CODE_TOOL_VIEW_PLAN.md",
-    "projects/workflow_state/FILL_STATIC_DEFAULTS_PORT_PLAN.md",
-    "projects/workflow_state/TS_SEARCH_OVERHAUL_ISSUE.md",
+    "projects/workflow_state/index.md",
+    "log.md",
+    "Index.md",
     "projects/workflow_state/COMPONENT_TOOL_SHED_SEARCHING.md",
-    "projects/workflow_state/VS_CODE_MONACO_FIRST_PLAN_V2_PHASE_5_5.md",
-    "projects/workflow_state/VS_CODE_ARCHITECTURE.md",
-    "projects/workflow_state/PROMPTS.md",
-    "projects/workflow_state/RUNTIME_VALUES.md",
-    "projects/workflow_state/PROBLEM_AND_GOAL.md",
-    "projects/workflow_state/WORKFLOW_TEST_SCHEMA_USABILITY_ISSUE.md",
+    "research/Component - Tool Shed Search and Indexing.md",
+    "research/Component - Collections in Tool XML Tests.md",
     "projects/workflow_state/GXWF_AGENT.md",
-    "projects/workflow_state/MEMORY.md",
-    "projects/workflow_state/old/CONNECTION_VALIDATION.md",
-    "projects/workflow_state/old/CONNECTION_GRAPH_MODELED_PLAN.md",
-    "projects/workflow_state/TEST_VALIDATION_PLAN.md",
-    "projects/workflow_state/VS_CODE_CONVERSION_PLAN.md",
-    "projects/workflow_state/TEST_SCHEMA_TS_PLAN.md",
-    "projects/workflow_state/TEST_JOB_VALDIATION_PLAN.md",
-    "projects/workflow_state/TEST_JOB_VALIDATION_TS_FOLLOWUP_PLAN.md",
-    "projects/workflow_state/TEST_JOB_VALIDATION_TS_FOLLOWUP_PLAN.md.tmp.2748.1776716317127",
-    "projects/workflow_state/TEST_FORMAT_EFFECT_SCHEMA_PLAN.md",
-    "projects/workflow_state/IMPROVED_TEST_MODEL_PLAN.md",
-    "projects/workflow_state/VS_CODE_MONACO_FIRST_PLAN_V2.md",
+    "projects/workflow_state/TS_CONNECTION_REFACTOR_IN_GX_PLAN.md",
+    "projects/workflow_state/TS_SEARCH_OVERHAUL_ISSUE.md",
+    "projects/workflow_state/old/TS_MORE_WORKFLOW_OPERATIONS.md",
+    "projects/workflow_state/VS_CODE_TOOL_SEARCH_LSP_PLAN.md",
+    "plans/Plan - Expanded Markdown Support.md",
+    "templates/project.md",
+    "templates/moc.md",
+    "templates/concept.md",
+    "templates/plan-section.md",
+    "templates/plan.md",
+    "templates/research-issue-roundup.md",
+    "templates/research-design-spec.md",
+    "templates/research-design-problem.md",
+    "templates/research-dependency.md",
+    "templates/research-pr.md",
+    "templates/research-issue.md",
+    "templates/research-component.md",
+    "templates",
+    "projects/workflow_state/PROMPTS.md",
     "projects/workflow_state/old/THEME_OVERHAUL_PLAN.md",
-    "projects/workflow_state/old/YAML_SCHEMA_REVIEW.md",
+    "projects/workflow_state/TEST_JOB_VALIDATION_TS_FOLLOWUP_PLAN.md.tmp.2748.1776716317127",
     "projects/history_markdown/gcc2026",
     "projects/workflow_state/old/stale_key_taxonomy_infographic.png",
     "projects/workflow_state/CONNECTION_VALIDATION_TESTING_AND_TRACKING_PLAN.md.tmp.10403.1773860206667",
@@ -236,7 +252,6 @@
     "projects/cwl/pickValue",
     "projects/cwl/workflow_features",
     "projects/history_markdown",
-    "projects/workflow_state",
     "Untitled 1.canvas",
     "Untitled.canvas"
   ]

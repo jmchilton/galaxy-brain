@@ -1,7 +1,17 @@
 # Tool Search LSP + `@galaxy-tool-util` Search Plumbing — Staged Plan
 
 **Date:** 2026-04-21
-**Status update (2026-04-21):** `expandToolStateDefaults` — the hard part of Stage 4 — landed ahead of the search-package stages. See `FILL_STATIC_DEFAULTS_PORT_PLAN.md` (sibling doc) for the port plan and commit `afcd804` on the `vs_code_integration` worktree for the implementation. Stage 4 remaining scope is now just `buildMinimalToolState` (trivial, returns `{}`) + the step-skeleton generators.
+
+**Status update (2026-04-22):** Stages happened **out of order**. A reader picking up Stage 4 should read this block before the per-stage sections.
+
+- ✅ **Stage 4a done** — `expandToolStateDefaults` landed first as its own port (commit `afcd804`, `vs_code_integration` worktree). See `FILL_STATIC_DEFAULTS_PORT_PLAN.md`.
+- ✅ **Stages 1–3 done** (unstaged on `vs_code_integration` at the time of writing): new `@galaxy-tool-util/search` package with plain-TS wire types + `normalizeToolSearchResults` (Stage 1), `searchTools` / `iterateToolSearchPages` HTTP client (Stage 2), and `ToolSearchService` with fan-out, cross-source dedup, maxResults, enrichment, and TRS version helpers (Stage 3). TRS helpers (`getTRSToolVersions`, `getLatestTRSToolVersion`) landed in `core` rather than `search` — justified because `ToolInfoService.getToolInfo` now uses them to auto-resolve latest versions, which is cross-cutting. `search` re-exports them. No `rerank` helper yet — deliberately deferred, disclosed in the changeset.
+- ✅ **Package-layout prep for Stage 4 done (2026-04-22)**: `ParsedTool` (+ `HelpContent`, `XrefDict`, `Citation`) moved from `@galaxy-tool-util/core` to `@galaxy-tool-util/schema`. `ParsedTool.inputs` tightened from `readonly unknown[]` to `readonly ToolParameterModel[]`. A latent cycle was fixed along the way: `tool-state-validator.ts` used to type-import `ToolInfoService` from `core`; it now accepts any `ToolInfoLookup = { getToolInfo(toolId, toolVersion?) }` structural interface, which `ToolInfoService` satisfies automatically. This means **`schema` no longer depends on `core` at all, and `core` now depends on `schema`** — the `schema ← core ← search` chain is real in package.json for the first time. All consumers updated; no re-export kept.
+- ✅ **Stage 4 remaining scope done (2026-04-22)**: `buildMinimalToolState` (returns `{}`, doc-commented as extension point) in `packages/schema/src/workflow/minimal-tool-state.ts`; step-skeleton generators (`buildNativeStep` / `buildFormat2Step` / `buildStep`) in `packages/schema/src/workflow/step-skeleton.ts`; 16 unit tests in `packages/schema/test/step-skeleton.test.ts` covering schema-validation round-trips, defaults, overrides, and dispatch. `make check` and `make test` clean. Changeset `.changeset/step-skeleton.md` bumps `schema` minor. `ParsedTool` overload on `expandToolStateDefaults` not added — no caller wants it yet; trivial to add later.
+- ⏳ **Stage 5**: publish. Bumps now needed (combined across the four changesets on branch):
+  - `@galaxy-tool-util/schema` — **minor** (new `ParsedTool` export, tightened `inputs`, `ToolInfoLookup` interface) + any Stage 4 additions.
+  - `@galaxy-tool-util/core` — **major** (breaking removal of `ParsedTool`/`HelpContent`/`XrefDict`/`Citation` exports; new TRS exports; `getToolInfo` auto-resolves latest).
+  - `@galaxy-tool-util/search` — **initial 0.1.0**.
 
 **Companion docs (same folder):**
 - `VS_CODE_ARCHITECTURE.md` — current shape of the VS Code extension and its two LSP servers.
@@ -39,14 +49,16 @@ Everything else — HTTP, Effect schemas, result normalization, ranking, step sk
 
 ### Package layout decision
 
-Search plumbing lives in a new package `@galaxy-tool-util/search`, not in `core`. `core` already exposes a coherent surface (cache + ParsedTool + ToolInfoService); bolting a second service with its own HTTP client, result models, and ranking onto it would blur that line. A separate package:
+Search plumbing lives in a new package `@galaxy-tool-util/search`, not in `core`. A separate package:
 
 - keeps `core` lean and its browser-entry verifier (`check:browser`) focused on the cache path;
-- lets `search` depend on `core` (for `ParsedTool`, `ToolInfoService`, `ToolSource`, `cacheKey`) without the inverse;
+- lets `search` depend on `schema` + `core` without the inverse;
 - gives `@galaxy-tool-util/gxwf-web` and the VS Code extension a single focused dependency for tool discovery;
 - makes versioning of search-specific concerns independent of cache/model changes.
 
 Dependency chain: `schema` ← `core` ← `search` (new) ← `cli` / `tool-cache-proxy` / VS Code / `gxwf-web`.
+
+After the 2026-04-22 move, data models (parameter types, `ParsedTool`, workflow formats, step skeleton) live in `schema`; IO/caching/services (`ToolInfoService`, `ToolCache`, HTTP clients) live in `core`. `search` depends on both: `core` for `ToolInfoService` + `ToolSource` + TRS helpers, `schema` for `ParsedTool`.
 
 The bar: when Stage 1–5 are published, a non-VS-Code consumer (`gxwf-web`, planemo, a Jupyter extension) could ship tool search + step insertion without pulling in any VS Code code.
 
@@ -195,7 +207,10 @@ Implementation: start with server score, apply boosts for (a) exact `toolName` p
 
 **Owner:** galaxy-tool-util agent.
 
-**Status:** `expandToolStateDefaults` landed ahead of Stages 1–3 (commit `afcd804`, `vs_code_integration` branch). Remaining work when this stage runs: `buildMinimalToolState` (trivial) + step-skeleton generators + tests + changeset already present covers only expand-defaults; step-skeleton work adds its own changeset.
+**Status (2026-04-22):**
+- ✅ `expandToolStateDefaults` landed ahead of Stages 1–3 (commit `afcd804`, `vs_code_integration` branch). Signature takes `ToolParameterModel[]` — see "Signature note" below about whether to add a `ParsedTool` overload.
+- ✅ `ParsedTool` now lives in `@galaxy-tool-util/schema` (moved 2026-04-22), with `inputs: readonly ToolParameterModel[]`. The original rationale for `expandToolStateDefaults` taking `ToolParameterModel[]` instead of `ParsedTool` ("keeps schema free of a core dependency") no longer applies — `schema` owns `ParsedTool` now. A `ParsedTool` overload/wrapper is cheap to add; do it as part of this stage if it simplifies callers.
+- ⏳ Remaining: `buildMinimalToolState` (trivial) + step-skeleton generators + tests. The unstaged changeset `parsed-tool-to-schema.md` on `vs_code_integration` already bumps `schema` minor for the move; Stage 4 additions can append to it or add a second changeset — either works.
 
 ### Why `schema` owns this
 
@@ -222,7 +237,9 @@ The plan intentionally exposes **two** functions rather than one:
 
 ### Deliverables
 
-**Delivered (2026-04-22):** `expandToolStateDefaults(toolInputs, currentState)` in `packages/schema/src/workflow/fill-defaults.ts`. Note the signature takes `ToolParameterModel[]`, not `ParsedTool` — keeps `schema` free of a `core` dependency (`ParsedTool.inputs` is typed `S.Array(S.Unknown)` in `core`, so a typed `ToolParameterModel[]` hand-off is cleaner than a runtime cast). A `ParsedTool`-level wrapper can live in `core` if a caller needs it. Supporting scalar/default logic in `packages/schema/src/schema/parameter-defaults.ts`. Walker gained a `repeatMinPad` option. 30 unit tests. See `FILL_STATIC_DEFAULTS_PORT_PLAN.md` for design rationale.
+**Delivered (2026-04-22):** `expandToolStateDefaults(toolInputs, currentState)` in `packages/schema/src/workflow/fill-defaults.ts`. Signature takes `ToolParameterModel[]`. Supporting scalar/default logic in `packages/schema/src/schema/parameter-defaults.ts`. Walker gained a `repeatMinPad` option. 30 unit tests. See `FILL_STATIC_DEFAULTS_PORT_PLAN.md` for design rationale.
+
+**Signature note (2026-04-22):** The original rationale for taking `ToolParameterModel[]` instead of `ParsedTool` was "keep `schema` free of a `core` dependency." That constraint no longer exists — `ParsedTool` now lives in `schema` and its `inputs` are typed `readonly ToolParameterModel[]`. A thin `expandToolStateDefaults(tool: ParsedTool, state)` overload that forwards to the existing function is now trivial; add it here if the step-skeleton builder ends up wanting a uniform `ParsedTool`-in signature.
 
 **Still to do in Stage 4:**
 
@@ -256,6 +273,7 @@ The skeleton functions internally call `buildMinimalToolState` to populate `tool
 - Don't invent position heuristics. Default `{top: 0, left: 0}`; UI can re-layout.
 - Native and format2 diverge in tool_state encoding: native accepts both the string form and the object form (post-clean). Emit the object form (`tool_state: {}`) — what the VS Code clean pipeline expects.
 - **Existing types to reuse** (confirmed present):
+  - `ParsedTool` — `packages/schema/src/schema/parsed-tool.ts` (moved here 2026-04-22).
   - Native: `NativeStep` + `NativeStepSchema` from `packages/schema/src/workflow/raw/native.effect.ts`.
   - Format2: `WorkflowStep` + `WorkflowStepSchema` from `packages/schema/src/workflow/raw/gxformat2.effect.ts`.
   - Supporting: `StepPosition`, `NativeStepInput/Output`, `WorkflowStepInput/Output` from the same files.
@@ -428,25 +446,25 @@ Strictly out-of-scope for this plan, but worth noting so the next maintainer kno
 | Package | Stage | Version bump kind |
 |---|---|---|
 | `@galaxy-tool-util/search` (new) | 1, 2, 3 | initial `0.1.0` |
-| `@galaxy-tool-util/schema` | 4 | minor (new APIs: `buildMinimalToolState`, `expandToolStateDefaults`, step-skeleton builders) |
-| `@galaxy-tool-util/core` | — | no changes required (depended on by `search`) |
+| `@galaxy-tool-util/schema` | 4 + ParsedTool move | minor (new APIs: `ParsedTool` export, `buildMinimalToolState`, `expandToolStateDefaults`, step-skeleton builders; `ToolInfoLookup` interface) |
+| `@galaxy-tool-util/core` | 1–3 + ParsedTool move | **major** (breaking removal of `ParsedTool`/`HelpContent`/`XrefDict`/`Citation` exports; new TRS helpers; `getToolInfo` auto-resolves latest version) |
 | `galaxy-workflows-vscode` extension | 6, 7, 8 | patch or minor per extension release policy |
 
 ## Hand-off prompt for the galaxy-tool-util agent (Stage 1 → 5)
 
-> You are working in `/Users/jxc755/projects/worktrees/galaxy-tool-util/branch/wf_test_schema`. Read `CLAUDE.md` and `docs/development/publication.md` first.
+> You are working in `/Users/jxc755/projects/worktrees/galaxy-tool-util/branch/vs_code_integration`. Read `CLAUDE.md` and `docs/development/publication.md` first.
 >
-> Read `/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/VS_CODE_TOOL_SEARCH_LSP_PLAN.md` Stages 1–5 and `/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/COMPONENT_TOOL_SHED_SEARCHING.md`.
+> Read the top-of-file status block of this plan first — Stages 1–3 and Stage 4a (`expandToolStateDefaults`) are already done and unstaged on `vs_code_integration`, and `ParsedTool` was moved from `core` to `schema` on 2026-04-22. **Do not try to redo these.** Your remaining scope is **Stage 4's `buildMinimalToolState` + step-skeleton generators** and **Stage 5 publish**.
 >
-> Implement Stages 1–4 as sequential commits (one changeset per stage is fine, or bundle). After each stage: `make check && make test`. Do not proceed to the next stage if either fails.
+> Remaining Stage 4 work:
+> - `buildMinimalToolState(tool: ParsedTool): Record<string, unknown>` — returns `{}` for every tool. That's not a placeholder; it's the correct answer. Doc-comment it as the designated extension point.
+> - Step-skeleton generators (`buildNativeStep`, `buildFormat2Step`, `buildStep`) in `packages/schema/src/workflow/step-skeleton.ts`. Take `ParsedTool` directly — it lives in `schema` now, so the earlier `ToolParameterModel[]` workaround is no longer needed.
+> - Optionally add a `ParsedTool` overload for `expandToolStateDefaults` if the step-skeleton builder wants a uniform `ParsedTool`-in signature.
+> - Tests per the "Tests" subsection below.
 >
-> Package layout is decided: **Stage 1 creates a new `@galaxy-tool-util/search` package.** Do not try to put search plumbing in `core`. Use `packages/tool-cache-proxy/` as the closest structural analog for package scaffolding (it also has HTTP code). Read `docs/development/publication.md` for how to onboard a new package.
+> Before coding, surface any remaining ambiguities to the user (e.g. native vs format2 `tool_state` shape, how position defaults interact with existing workflows). Don't silently decide.
 >
-> The `buildMinimalToolState` function in Stage 4 is intentionally trivial today — it returns `{}` for every tool. That's not a placeholder to flesh out; that's the correct answer. It exists as the designated extension point with a doc comment that explains why. `expandToolStateDefaults` has already landed (commit `afcd804`) — the remaining Stage 4 work is `buildMinimalToolState` + the step-skeleton builders.
->
-> Before coding each stage, surface any remaining ambiguities to the user. Specifically: (a) fixture format for Stage 1 tests (reuse `core` fixtures if they exist, otherwise capture fresh); (b) whether `expandToolStateDefaults` should delegate to an existing helper you find in the schema package. Don't silently make these decisions.
->
-> When Stages 1–4 are green locally, follow the publication doc to cut a release of `@galaxy-tool-util/search` (`0.1.0`) and a minor bump of `@galaxy-tool-util/schema`. The VS Code work in Stages 6–9 depends on the published versions.
+> Stage 5 publish: four changesets on branch at time of writing (`search-package-stage-1.md`, `search-service-core-trs.md`, `parsed-tool-to-schema.md`, plus the `expandToolStateDefaults` changeset). Stage 4 step-skeleton work adds to the schema changeset or a new one. Follow the publication doc.
 >
 > Ground rules from `~/.claude/CLAUDE.md` apply: concise commits, red-to-green testing, no test-data edits to make tests pass, do not run `git rebase`.
 
@@ -468,7 +486,8 @@ Strictly out-of-scope for this plan, but worth noting so the next maintainer kno
 - **`expandToolStateDefaults` reads the current state** so conditional branches reflect the user's active `test_value`, repeat items aren't wiped, and sections recurse correctly. It is idempotent, does not validate, and does not pre-fill data / data_collection inputs. (§ Stage 4 "Design".)
 - **Step-skeleton generator always seeds `tool_state: {}` / `state: {}`** by calling `buildMinimalToolState` — never hardcoded `{}`. (§ Stage 4 "Deliverables".)
 - **The expand-defaults action is deemphasized**: surfaced only from the tree view's step context menu, not as a quick fix, hover prompt, or automatic suggestion. (§ Stage 8f.)
-- **`expandToolStateDefaults` signature takes `ToolParameterModel[]`**, not `ParsedTool`. Keeps `schema` free of a `core` dependency. A `ParsedTool`-level wrapper can live in `core` later if a caller needs it. (Implemented 2026-04-22, commit `afcd804`.)
+- **`expandToolStateDefaults` signature takes `ToolParameterModel[]`**, implemented 2026-04-22 (commit `afcd804`). The original rationale (keep `schema` free of `core`) is superseded — `ParsedTool` now lives in `schema` (moved 2026-04-22), so a `ParsedTool` overload is trivial and can be added in Stage 4 if useful.
+- **`ParsedTool` + helpers live in `@galaxy-tool-util/schema`** (moved 2026-04-22 from `core`). `schema ← core` is the real dep direction now; the reverse type-import via `ToolStateValidator` was replaced with a `ToolInfoLookup` structural interface defined locally in `schema`. `ParsedTool.inputs` is typed `readonly ToolParameterModel[]`.
 - **Walker `repeatMinPad` option** (rather than pre-padding state inside `fill-defaults.ts`) — cleaner, additive, matches a real model feature from Python's `_initialize_repeat_state`. The option also forces the repeat key to be written to output even when empty, and ignores `inputConnections` for instance count.
 - **Lenient on unknown conditional `test_value`**: Python raises when no `when` matches and none is flagged `is_default_when`; our walker returns `null` and emits only the test parameter's default. Appropriate for a user-invoked UI action that shouldn't crash on partially-authored workflows.
 

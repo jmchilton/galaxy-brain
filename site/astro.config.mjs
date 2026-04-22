@@ -9,5 +9,10 @@ export default defineConfig({
   integrations: [pagefind()],
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+        ignored: ['**/.obsidian/**', '**/vault/log.md'],
+      },
+    },
   },
 });

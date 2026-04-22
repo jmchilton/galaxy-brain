@@ -77,3 +77,10 @@ So I think
 Please read "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/GXWF AGENT.md" for context. 
 
 I'd love for the APIs to be destructive and then the current behavior preserved with a dry run option. Can you build a plan to do this?
+
+
+
+
+Please read "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/GXWF_AGENT.md" for context. We did this awhile ago and it went really well /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/old/CONNECTION_VALIDATION.md. Adding connection validation logic to the Python project before we knew we'd have a TypeScript version of all of this code. Despite our efforts to refactor the state of the Galaxy code is still that we had some Python abstractions that we ported to JavaScript for the workflow editor and they evolved in different ways over a decade so when we brought the logic back we had to put a little shim on top of the Python logic to get the workflow editor logic.
+
+Well now I'd like to port all of that Python logic to this project - which means this will be a TypeScript fork of Python Shim of JavaScript logic ported from Python. It is kind of a mess. I'd love if ahead of this project we could refactor the workflow editor pieces that are standalone and decoupled from Vue / services / etc.. (or that could be refactored as such) into this project and have Galaxy import it for a bunch of the connection logic. Can you do some research and see if that is at all feasible?
