@@ -12,6 +12,7 @@ created: 2026-02-13
 revised: 2026-02-13
 revision: 1
 ai_generated: true
+summary: "Pydantic-ai multi-agent framework with router, error analysis, custom tool, orchestrator agents"
 ---
 
 # PR #21434 Research: Add AI Agent Framework and ChatGXY 2.0

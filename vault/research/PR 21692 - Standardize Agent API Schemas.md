@@ -9,6 +9,7 @@ revision: 1
 ai_generated: true
 github_pr: 21692
 github_repo: galaxyproject/galaxy
+summary: "Standardizes agent response metadata, typing, validates suggestions, removes deprecated endpoints"
 ---
 
 # PR #21692 Research: Standardize Agent API Schemas and Response Metadata

@@ -24,6 +24,7 @@ galaxy_areas:
 related_notes:
   - "[[Component - Dataset Collections]]"
 branch: collection_specification
+summary: "Paired_or_unpaired and record collection types plus collection adapters enable flexible tool input matching"
 ---
 
 # PR #19377 Research Summary

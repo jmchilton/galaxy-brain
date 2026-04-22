@@ -11,6 +11,7 @@ created: 2026-02-13
 revised: 2026-02-13
 revision: 1
 ai_generated: true
+summary: "OpenAI Chat Completions endpoint supports Jupyternaut AI assistant in JupyterLite visualizations"
 ---
 
 # PR #21463 Research Summary

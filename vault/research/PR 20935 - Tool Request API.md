@@ -14,6 +14,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
+summary: "Asynchronous job submission via POST /api/jobs with Pydantic-validated state transformations"
 ---
 
 # Tool Request API

@@ -14,6 +14,7 @@ github_pr: 5378
 github_repo: galaxyproject/galaxy
 related_notes:
   - "[[PR 20936 - Resource Requirements via TPV]]"
+summary: "Tools declare resource requirements like cores and memory modeled after CWL ResourceRequirement"
 ---
 
 # PR #5378 Research: "Allow specification of resource requirements in tools"

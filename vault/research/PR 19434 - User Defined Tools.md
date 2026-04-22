@@ -15,6 +15,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
+summary: "Users create YAML tools via UI with sandboxed JavaScript expressions and required containerization"
 ---
 
 # User-Defined Tools (Beta)

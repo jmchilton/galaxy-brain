@@ -9,6 +9,7 @@ revision: 1
 ai_generated: true
 github_pr: 18524
 github_repo: galaxyproject/galaxy
+summary: "Tool Shed 2.0 APIs expose parsed tool metadata and parameter schemas for external tooling without Galaxy internals"
 ---
 
 # PR #18524 Research Summary: Add Tool-Centric APIs to the Tool Shed 2.0

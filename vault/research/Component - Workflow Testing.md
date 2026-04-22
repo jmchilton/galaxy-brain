@@ -14,6 +14,7 @@ component: workflow_testing
 galaxy_areas:
   - workflows
   - testing
+summary: "YAML declarative and Python procedural testing frameworks for workflow execution validation"
 ---
 
 # Galaxy Workflow Testing: A Comprehensive Guide

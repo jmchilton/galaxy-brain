@@ -14,6 +14,7 @@ ai_generated: true
 galaxy_areas:
   - api
   - workflows
+summary: "PUT endpoint for refactoring workflows, routes through service layer with validation"
 ---
 
 # Galaxy Workflow Refactoring API

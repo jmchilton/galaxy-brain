@@ -11,6 +11,7 @@ revision: 2
 ai_generated: true
 component: Workflow Formats (native vs Format2)
 galaxy_areas: [workflows]
+summary: "Native .ga vs Format2 .gxwf.yml serialization, machine vs human-authored designs and structural trade-offs"
 ---
 
 # Galaxy Workflow Formats: gxformat2 vs Native (.ga)

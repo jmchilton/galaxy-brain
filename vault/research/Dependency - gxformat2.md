@@ -9,6 +9,7 @@ created: 2026-02-18
 revised: 2026-02-18
 revision: 1
 ai_generated: true
+summary: "Bidirectional conversion between native .ga and Format2 YAML with linting and visualization"
 ---
 
 # gxformat2 — Implementation Overview & API Reference

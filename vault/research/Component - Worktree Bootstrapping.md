@@ -16,6 +16,7 @@ galaxy_areas:
   - lib
   - client
   - testing
+summary: "Backend Python and frontend Node.js dependency setup, configuration, and dev server bootstrap"
 ---
 
 # Galaxy Worktree Bootstrapping Reference

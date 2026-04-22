@@ -11,6 +11,7 @@ revision: 1
 ai_generated: true
 github_pr: 20936
 github_repo: galaxyproject/galaxy
+summary: "Tool resource requirements forwarded to TPV for job destination routing and scheduling decisions"
 ---
 
 # PR #20936 Research: Wire up and test resource requirement via TPV

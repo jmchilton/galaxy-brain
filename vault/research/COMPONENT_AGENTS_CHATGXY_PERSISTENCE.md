@@ -12,6 +12,7 @@ created: 2026-03-05
 revised: 2026-03-05
 revision: 1
 ai_generated: true
+summary: "ChatGXY persistence model, API flow, and frontend state management for chat conversations"
 ---
 
 # ChatGXY Persistence: How Chats Are Stored, Loaded, and Managed

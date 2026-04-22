@@ -13,6 +13,7 @@ created: 2026-03-16
 revised: 2026-03-16
 revision: 1
 ai_generated: true
+summary: "Workflow Comments feature supports text, markdown, frames, and freehand drawing annotations"
 ---
 
 # PR #16612 Research Summary

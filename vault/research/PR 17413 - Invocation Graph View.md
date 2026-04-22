@@ -12,6 +12,7 @@ revision: 1
 ai_generated: true
 github_pr: 17413
 github_repo: galaxyproject/galaxy
+summary: "Invocation graph view reuses workflow editor DAG in read-only mode overlaying job states"
 ---
 # PR #17413 Research: Visualizing workflow runs with an invocation graph view
 

@@ -8,6 +8,7 @@ created: 2026-02-08
 revised: 2026-02-08
 revision: 1
 ai_generated: true
+summary: "Pydantic create_model API dynamically builds BaseModel subclasses with field definitions"
 ---
 
 # Pydantic v2 Dynamic Models Reference

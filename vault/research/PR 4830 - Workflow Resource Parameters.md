@@ -9,6 +9,7 @@ revision: 1
 ai_generated: true
 github_pr: 4830
 github_repo: galaxyproject/galaxy
+summary: "Administrators define workflow-level resource parameters users set when invoking workflows for scheduling"
 ---
 
 # PR #4830 Research Summary: Workflow-to-Job Scheduling Parameters

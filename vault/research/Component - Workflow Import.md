@@ -14,6 +14,7 @@ revision: 1
 ai_generated: true
 component: Workflow Import
 galaxy_areas: [api, workflows, lib, models]
+summary: "HTTP to database stack for workflow import spanning API controller, manager, and service layers"
 ---
 
 # Galaxy Workflow Import: Component Architecture

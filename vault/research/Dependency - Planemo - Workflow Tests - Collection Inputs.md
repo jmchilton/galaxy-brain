@@ -10,6 +10,7 @@ created: 2026-02-21
 revised: 2026-02-21
 revision: 1
 ai_generated: true
+summary: "Workflow test collection inputs using CWL list, explicit class, and nested collection syntaxes"
 ---
 
 # Workflow Test Collection Inputs: Full Code Path Trace

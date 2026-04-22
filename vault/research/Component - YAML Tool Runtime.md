@@ -12,6 +12,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
+summary: "YAML tool runtime converts tool state to CWL-style inputs with validated JobInternalToolState"
 ---
 
 # YAML Tool Runtime State Representation

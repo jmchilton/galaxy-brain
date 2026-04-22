@@ -11,6 +11,7 @@ revision: 1
 ai_generated: true
 galaxy_areas:
   - collections
+summary: "Graphviz diagram generator for Galaxy dataset collection hierarchies with nested box layout"
 ---
 
 # gx-collection-graphviz - Project Summary

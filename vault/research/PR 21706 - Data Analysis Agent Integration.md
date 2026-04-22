@@ -9,6 +9,7 @@ revision: 1
 ai_generated: true
 github_pr: 21706
 github_repo: galaxyproject/galaxy
+summary: "Integrates data analysis agent with DSPy generating Python code executed in browser via Pyodide"
 ---
 
 # PR #21706 Research Summary: Data Analysis Agent Integration

@@ -14,6 +14,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
+summary: "Adds type aliases documenting tool state lifecycle through execution from request to job completion"
 ---
  
 # PR #18758: More Typing, Docs, and Decomposition Around Tool Execution

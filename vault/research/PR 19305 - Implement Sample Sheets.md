@@ -25,6 +25,7 @@ galaxy_areas:
   - tools
   - workflows
   - testing
+summary: "Sample sheets attach typed columnar metadata to dataset collection elements for bioinformatics workflows"
 ---
 
 # Research: Galaxy PR #19305 - Implement Sample Sheets

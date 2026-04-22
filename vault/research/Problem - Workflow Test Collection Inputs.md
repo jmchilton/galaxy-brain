@@ -10,6 +10,7 @@ created: 2026-02-21
 revised: 2026-02-21
 revision: 1
 ai_generated: true
+summary: "Framework test collections populated via fetch API dispatches on type, supports nested structures"
 ---
 
 # Workflow Framework Test Collection Inputs

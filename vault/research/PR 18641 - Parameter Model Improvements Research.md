@@ -18,6 +18,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
+summary: "Extended parameter models with drill_down, data_column, conditional_select types and improved validation"
 ---
 
 # PR #18641: Parameter Model Improvements - Research Summary

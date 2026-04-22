@@ -12,6 +12,7 @@ revision: 1
 ai_generated: true
 github_pr: 20390
 github_repo: galaxyproject/galaxy
+summary: "Workflow editor search panel finds steps, inputs, outputs, comments with fuzzy matching and canvas highlight"
 ---
 # PR #20390 Research: Workflow Graph Search
 

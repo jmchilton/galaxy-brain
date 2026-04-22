@@ -10,6 +10,7 @@ created: 2026-02-05
 revised: 2026-02-07
 revision: 2
 ai_generated: true
+summary: "Workflow extraction has open issues with copied datasets, connection loss, interface needs Vue conversion"
 ---
 
 # Workflow Extraction - Known Issues

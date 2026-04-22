@@ -13,6 +13,7 @@ created: 2026-02-05
 revised: 2026-02-05
 revision: 1
 ai_generated: true
+summary: "ID-based extraction removes single-history limitation, fixes cross-history copied dataset problems"
 ---
 
 # Multiple History Support for ID-Based Workflow Extraction
