@@ -4,7 +4,7 @@
 $schema: "http://json-schema.org/draft-07/schema#"
 title: "Galaxy Brain Frontmatter"
 type: object
-required: [type, tags, status, created, revised, revision, ai_generated]
+required: [type, tags, status, created, revised, revision, ai_generated, summary]
 
 properties:
   type:

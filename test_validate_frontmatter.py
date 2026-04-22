@@ -203,7 +203,7 @@ def test_github_issue_wrong_type(schema):
 
 @pytest.mark.parametrize(
     "field",
-    ["type", "tags", "status", "created", "revised", "revision", "ai_generated"],
+    ["type", "tags", "status", "created", "revised", "revision", "ai_generated", "summary"],
 )
 def test_missing_required_base_field(schema, field):
     data = copy.deepcopy(VALID_CONCEPT)
@@ -386,6 +386,7 @@ def test_file_valid(schema, tmp_path):
         "revised: 2025-01-15\n"
         "revision: 1\n"
         "ai_generated: true\n"
+        "summary: A crisp one-liner describing this test fixture note.\n"
         "---\n"
         "# Content\n"
     )
@@ -594,14 +595,6 @@ def test_summary_exact_bounds(schema):
     data_max = {**VALID_CONCEPT, "summary": "x" * 160}
     errors, _ = validate_data(data_max, schema)
     assert errors == []
-
-
-def test_summary_missing_warns(schema):
-    data = dict(VALID_CONCEPT)
-    data.pop("summary", None)
-    errors, warnings = validate_data(data, schema)
-    assert errors == []
-    assert any("summary" in w and "missing" in w for w in warnings)
 
 
 def test_summary_wrong_type(schema):
