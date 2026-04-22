@@ -102,3 +102,41 @@ make site-preview                  # preview production build
 - Integration tests use `validate_file()` with temp markdown files via `tmp_path`
 - Prefer red-to-green: write failing test first, then fix
 - Never remove tests or weaken assertions to make them pass; fix the implementation
+
+## Agent Playbook
+
+Operating manual for Claude sessions working in this vault. Link to code, don't duplicate it.
+
+### Add a note
+- Don't hand-write frontmatter. Use the `/ingest` skill for URLs/local files, or an Obsidian Templater template from `vault/templates/`.
+- Required base fields: `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`, `summary`. Conditional fields per type live in `meta_schema.yml` (`allOf/if/then`).
+- Tags must appear in `meta_tags.yml`. Unknown tags fail validation.
+- Wiki-link fields (`parent_plan`, `related_notes`, `related_issues`) must be `[[Target Name]]`.
+
+### Answer from the vault
+- Start with `vault/Index.md` for topic routing — summary-level catalog of every note.
+- If summaries aren't enough, read the full notes. Check `related_notes` / `parent_plan` for context.
+- `vault/log.md` is the append-only operations journal (written by `/ingest`); skip unless the question is about vault history.
+
+### Update a note
+- Increment `revision`, update `revised` to today's date, preserve `created`.
+- If frontmatter changed, regenerate: `make index` (and `make dashboard` if section config changed).
+
+### Maintain
+- Before commit: `make validate` (errors block; warnings are advisory).
+- `make check-index` and `make check-dashboard` detect drift — run after frontmatter/config changes.
+- `make test` runs the pytest suite.
+- Validator also performs a cross-file bidirectional `related_notes` check — asymmetric links emit warnings.
+
+### Where things live
+- `vault/` — notes. `Dashboard.md` / `Index.md` / `log.md` are generated or special, skipped by validator and site.
+- `vault/projects/<name>/` — directory-based note type; only `index.md` is validated, siblings are raw project files.
+- `vault/templates/` — Templater templates, skipped by validator and site.
+- `site/` — Astro static site; `site/src/pages/[...slug].astro` renders each note with backlinks panel.
+- Root tooling: `validate_frontmatter.py`, `generate_dashboard.py`, `generate_index.py`, `Makefile`.
+
+### Don't
+- Don't remove tests or weaken assertions to make them pass — fix the implementation.
+- Don't weaken `meta_schema.yml` to fit a non-conforming note. Reshape the note or extend the schema deliberately (with tests).
+- Don't add ad-hoc frontmatter fields — `additionalProperties: false` rejects anything not declared in `meta_schema.yml`.
+- Don't edit generated files (`Dashboard.md`, `Index.md`) by hand; change the source (`dashboard_sections.json` or note frontmatter) and regenerate.
