@@ -5,15 +5,26 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   pageTitle?: string;
+  description?: string;
 }
-const { title, pageTitle } = Astro.props;
+const {
+  title,
+  pageTitle,
+  description = 'Obsidian vault of Galaxy development notes, research, and plans.',
+} = Astro.props;
+const fullTitle = `${title} - Galaxy Brain`;
 ---
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{title} - Galaxy Brain</title>
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
   <script is:inline>
     document.documentElement.classList.toggle('dark',
       localStorage.theme === 'dark' ||
@@ -21,9 +32,10 @@ const { title, pageTitle } = Astro.props;
     );
   </script>
 </head>
-<body class="min-h-screen flex flex-col bg-(--color-surface) text-(--color-text-primary)">
+<body class="min-h-dvh flex flex-col bg-(--color-surface) text-(--color-text-primary)">
+  <a href="#main" class="skip-link">Skip to content</a>
   <Header pageTitle={pageTitle} />
-  <main class="flex-1 bg-grid max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 leading-relaxed">
+  <main id="main" class="flex-1 bg-grid max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 leading-relaxed">
     <slot />
   </main>
   <Footer />
