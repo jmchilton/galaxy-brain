@@ -86,30 +86,29 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
 ---
 <Base title={pageTitle} pageTitle={data.title || pageTitle}>
   <div data-pagefind-body>
-  <div class="mb-6 -mx-4 sm:-mx-6 -mt-6 px-4 sm:px-6 py-5 bg-gradient-to-br from-(--color-galaxy-dark) to-(--color-galaxy-primary) text-(--color-text-on-dark) relative overflow-hidden">
-    <div class="absolute inset-0 bg-grid-overlay pointer-events-none"></div>
-    <div class="relative flex items-start gap-3">
-      <div class="w-1 mt-1 h-8 bg-(--color-accent) rounded-full shrink-0"></div>
-      <div class="flex-1">
-        <h1 class="text-2xl font-bold text-white" data-pagefind-meta="title">{data.title || pageTitle}</h1>
-        <p class="mt-1 text-sm text-white/80 italic" data-pagefind-weight="10" data-pagefind-meta="summary">{data.summary}</p>
-        <div class="mt-2 flex flex-wrap gap-2 items-center">
-          <span class={`badge badge-${data.status}`}>{data.status}</span>
-          {data.tags.map(t => <a href={`${base}/tags/${t}/`} class="no-underline"><span class="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-white/15 text-white hover:bg-(--color-accent) hover:text-(--color-galaxy-dark) transition-colors">{t}</span></a>)}
-        </div>
-      </div>
+  <header class="mb-6 border-l-2 border-(--color-accent) pl-4 sm:pl-5">
+    <a href={`${base}/`} class="inline-flex items-center gap-1 text-xs text-(--color-text-secondary) hover:text-(--color-link) no-underline transition-colors">
+      <span aria-hidden="true">&larr;</span> Dashboard
+    </a>
+    <h1 class="mt-1 text-3xl font-bold text-balance text-(--color-text-primary)" data-pagefind-meta="title">{data.title || pageTitle}</h1>
+    {data.summary && (
+      <p class="mt-2 text-base text-(--color-text-secondary) text-pretty" data-pagefind-weight="10" data-pagefind-meta="summary">{data.summary}</p>
+    )}
+    <div class="mt-3 flex flex-wrap gap-2 items-center">
+      <span class={`badge badge-${data.status}`}>{data.status}</span>
+      {data.tags.map(t => <a href={`${base}/tags/${t}/`} class="no-underline"><span class="tag">{t}</span></a>)}
     </div>
-    <div class="relative mt-3 flex gap-2">
+    <div class="mt-3 flex gap-2">
       <a href={`${base}/raw/${entry.id}.md`}
-         class="text-xs px-2.5 py-1 rounded border border-white/25 text-white/80 no-underline hover:bg-white/10 transition-colors">
+         class="text-xs px-2.5 py-1 rounded border border-(--color-border) text-(--color-text-secondary) no-underline hover:bg-(--color-surface-hover) hover:text-(--color-text-primary) transition-colors">
         Raw
       </a>
       <button id="copy-raw" data-url={`${base}/raw/${entry.id}.md`}
-         class="text-xs px-2.5 py-1 rounded border border-white/25 text-white/80 cursor-pointer hover:bg-white/10 transition-colors">
+         class="text-xs px-2.5 py-1 rounded border border-(--color-border) text-(--color-text-secondary) cursor-pointer hover:bg-(--color-surface-hover) hover:text-(--color-text-primary) transition-colors">
         Copy
       </button>
     </div>
-  </div>
+  </header>
 
   <dl class="meta mb-6 p-3 rounded-lg bg-(--color-surface-raised) border-l-4 border-(--color-accent)">
     <dt>Revised:</dt>
@@ -223,15 +222,6 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
   )}
   </div>
 </Base>
-
-<style>
-  .bg-grid-overlay {
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-</style>
 
 <script>
   const btn = document.getElementById('copy-raw') as HTMLButtonElement;

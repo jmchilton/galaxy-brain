@@ -1,9 +1,5 @@
 ---
 import Search from 'astro-pagefind/components/Search';
-interface Props {
-  pageTitle?: string;
-}
-const { pageTitle } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const baseHref = `${base}/`;
@@ -53,14 +49,6 @@ const navLinks = [
     </button>
     </div>
   </div>
-  {pageTitle && (
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 pb-4">
-      <div class="flex items-center gap-2">
-        <div class="w-1 h-6 bg-(--color-accent) rounded-full"></div>
-        <span class="text-sm text-(--color-text-on-dark) opacity-70">{pageTitle}</span>
-      </div>
-    </div>
-  )}
 </header>
 
 <style is:global>
