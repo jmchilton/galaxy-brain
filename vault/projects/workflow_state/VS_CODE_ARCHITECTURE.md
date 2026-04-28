@@ -1,6 +1,6 @@
 # VS Code Galaxy Workflows Extension -- Architecture
 
-**Date:** 2026-04-12 (reviewed/updated 2026-04-21)
+**Date:** 2026-04-12 (reviewed/updated 2026-04-23)
 **Branch:** `wf_tool_state`
 **Location:** `/Users/jxc755/projects/worktrees/galaxy-workflows-vscode/branch/wf_tool_state`
 
@@ -28,6 +28,10 @@ Galaxy Workflows is a VS Code language extension for authoring [Galaxy](https://
 - File export, preview diffs, and Git-based clean comparison
 - Document symbols/outline
 - Code actions and quick fixes
+- Tool-info hover on `tool_id` (name, description, license, EDAM, xrefs, help excerpt, ToolShed link)
+- Inline CodeLens on every step's `tool_id` (cache-state icon + click action: Open in ToolShed / retry / populate)
+- "Workflow Tools" Explorer tree view listing each step's tool with cached/uncached/failed icons and inline actions
+- "Insert Tool Step…" command with ToolShed search (QuickPick) and auto-built step skeleton
 
 ---
 
@@ -50,11 +54,15 @@ galaxy-workflows-vscode/
 |   |   |   +-- exportWorkflow.ts     # Export-as-file commands
 |   |   |   +-- convertFile.ts        # In-place file conversion commands
 |   |   |   +-- populateToolCache.ts  # Populate Tool Cache command
+|   |   |   +-- populateToolCacheForTool.ts  # Per-tool retry (CodeLens target)
+|   |   |   +-- openToolInToolShed.ts / refreshToolsView.ts / revealToolStep.ts  # Workflow-tools view actions
+|   |   |   +-- insertToolStep.ts / insertToolStepHelpers.ts  # "Insert Tool Step…" (search + skeleton insert)
 |   |   |   +-- selectForCleanCompare.ts / compareCleanWith.ts  # Git clean-diff
 |   |   +-- providers/                # Virtual document providers
 |   |   |   +-- cleanWorkflowProvider.ts           # Fetches cleaned content from server
 |   |   |   +-- cleanWorkflowDocumentProvider.ts   # Virtual doc scheme for clean preview
 |   |   |   +-- convertedWorkflowDocumentProvider.ts # Virtual doc scheme for conversion preview
+|   |   |   +-- workflowToolsTreeProvider.ts       # Explorer tree view + reveal/openToolShed helpers
 |   |   |   +-- git/                  # Git integration (BuiltinGitProvider)
 |   |   +-- requests/
 |   |   |   +-- gxworkflows.ts        # Routes custom LSP requests to correct client
@@ -114,11 +122,16 @@ galaxy-workflows-vscode/
 |       |   |   |   +-- documentsCache.ts        # DocumentsCacheImpl
 |       |   |   +-- providers/
 |       |   |   |   +-- codeActionHandler.ts     # Quick fix for legacy tool_state
+|       |   |   |   +-- codeLensHandler.ts       # CodeLens dispatcher (tool_id lenses)
 |       |   |   |   +-- completionHandler.ts     # LSP completion dispatcher
 |       |   |   |   +-- formattingHandler.ts     # Document formatting dispatcher
 |       |   |   |   +-- hover/hoverHandler.ts    # Hover dispatcher + contributors
+|       |   |   |   +-- hover/toolIdHover.ts     # Tool-info hover for cursor on tool_id
+|       |   |   |   +-- hover/toolInfoMarkdown.ts # Shared ParsedTool -> markdown block
+|       |   |   |   +-- hover/toolShedUrl.ts     # Derive repo URL from a Galaxy tool id
 |       |   |   |   +-- symbolsHandler.ts        # Document symbols dispatcher
 |       |   |   |   +-- handler.ts               # ServerEventHandler base class
+|       |   |   |   +-- toolIdCodeLens.ts        # Build per-step tool_id CodeLenses
 |       |   |   |   +-- toolRegistry.ts          # ToolRegistryServiceImpl
 |       |   |   |   +-- toolStateCompletion.ts   # ToolStateCompletionService (shared)
 |       |   |   |   +-- validation/
@@ -128,6 +141,7 @@ galaxy-workflows-vscode/
 |       |   |   |       +-- profiles.ts               # Validation profile definitions
 |       |   |   +-- services/
 |       |   |       +-- index.ts                 # ServiceBase abstract class
+|       |   |       +-- toolSearchService.ts     # ToolSearchLspService (SEARCH_TOOLS, GET_STEP_SKELETON)
 |       |   |       +-- cleanWorkflow.ts         # CleanWorkflowService
 |       |   |       +-- convertWorkflow.ts       # ConvertWorkflowService
 |       |   |       +-- toolCacheService.ts      # ToolCacheService (cache requests + auto-resolution)
@@ -145,6 +159,7 @@ galaxy-workflows-vscode/
 +-- shared/
 |   +-- src/
 |       +-- requestsDefinitions.ts   # Custom LSP request/notification IDs and payload types
+|       +-- toolStatePresentation.ts # Shared presentation atoms (icons, action labels, headlines)
 +-- workflow-languages/              # TextMate grammars + language configurations
 |   +-- syntaxes/                    # .tmLanguage.json files (JSON, YAML)
 |   +-- configurations/             # Language configuration JSON
@@ -156,16 +171,17 @@ galaxy-workflows-vscode/
 
 ## 3. Upstream Dependencies
 
-The extension depends on two packages from the `galaxy-tool-util` TypeScript monorepo:
+The extension depends on three packages from the `galaxy-tool-util` TypeScript monorepo:
 
 | Package | Role |
 |---|---|
 | `@galaxy-tool-util/core` (+ `/node` subpath) | `ToolInfoService` -- fetches tool XML from Galaxy ToolShed TRS API, parses it into structured tool definitions. Pluggable `CacheStorage` backends: `IndexedDBCacheStorage` (exported from the top-level entry, used by browser builds) and `FilesystemCacheStorage` + `getCacheDir()` (exported from the `/node` subpath, used by Node builds). The extension never imports Node-only modules into browser bundles — each server has separate `node/server.ts` and `browser/server.ts` entries that bind the appropriate `CacheStorage` factory via Inversify. |
-| `@galaxy-tool-util/schema` | Effect-based schemas for Galaxy workflow types AND workflow-tests. `cleanWorkflow()` -- strips runtime-only properties and decodes string-encoded `tool_state`. `toFormat2Stateful()` / `toNativeStateful()` -- bidirectional conversion preserving tool state. `ToolStateValidator` -- validates tool state dicts against parsed tool parameter schemas. `findParamAtPath()` -- navigates tool parameter trees for completion/hover. `lintWorkflow()` -- additional structural lint rules. Canonical DTOs: `WorkflowInput`, `WorkflowOutput`, `WorkflowDataType` (re-exported from `server-common/languageTypes` and `shared/requestsDefinitions`). Utilities: `isCompatibleType`, type guards (`isBooleanParam`, `isConditionalParam`, `isRepeatParam`, `isSectionParam`, `isSelectParam`). Workflow-tests JSON Schema is sourced from `testsSchema` in this package -- the previously-vendored `workflow-languages/schemas/tests.schema.json` has been removed. |
+| `@galaxy-tool-util/search` | `ToolSearchService` -- queries Tool Shed search endpoints across configured sources and returns ranked `NormalizedToolHit[]`. Also exposes `getLatestVersionForToolId()` used by `GET_STEP_SKELETON` when the caller doesn't pin a version. Instantiated once in `ToolRegistryServiceImpl.configure()` alongside the `ToolInfoService`; exposed via `getSearchService()`. |
+| `@galaxy-tool-util/schema` | Effect-based schemas for Galaxy workflow types AND workflow-tests. `cleanWorkflow()` -- strips runtime-only properties and decodes string-encoded `tool_state`. `toFormat2Stateful()` / `toNativeStateful()` -- bidirectional conversion preserving tool state. `ToolStateValidator` -- validates tool state dicts against parsed tool parameter schemas. `findParamAtPath()` -- navigates tool parameter trees for completion/hover. `lintWorkflow()` -- additional structural lint rules. `buildStep()` -- synthesizes a native or Format2 step skeleton from a `ParsedTool` (used by `GET_STEP_SKELETON`). `ParsedTool` type (name, version, description, license, EDAM ops/topics, xrefs, citations, help) -- surfaced in hover and tree tooltip. Canonical DTOs: `WorkflowInput`, `WorkflowOutput`, `WorkflowDataType` (re-exported from `server-common/languageTypes` and `shared/requestsDefinitions`). Utilities: `isCompatibleType`, type guards (`isBooleanParam`, `isConditionalParam`, `isRepeatParam`, `isSectionParam`, `isSelectParam`). Workflow-tests JSON Schema is sourced from `testsSchema` in this package -- the previously-vendored `workflow-languages/schemas/tests.schema.json` has been removed. |
 
 Effect Schemas (`@effect/schema`) are compiled to JSON Schema at startup via `EffectJSONSchema.make()` and handed to the underlying JSON/YAML language services for structural validation.
 
-**Published versions (as of 2026-04-21):** `@galaxy-tool-util/schema@0.4.0`, `@galaxy-tool-util/core@0.3.0`. These are the floor; bump both when a matching `core` release ships.
+**Published versions (as of 2026-04-23):** `@galaxy-tool-util/schema@0.4.0`, `@galaxy-tool-util/core@0.3.0`, `@galaxy-tool-util/search@^0.2.0`. These are the floor; bump in lockstep when matching releases ship.
 
 ---
 
@@ -184,8 +200,9 @@ Both call `initExtension()` in `client/src/common/index.ts`, which:
 2. Registers all commands, providers, and requests against the **native** client.
 3. Starts both language clients.
 4. Sets up request routing so custom LSP requests reach the correct server based on the document's language ID.
-5. Subscribes to `TOOL_RESOLUTION_FAILED` notifications from the Format2 server and surfaces them via an Output channel + a once-per-session warning toast.
+5. Subscribes to `TOOL_RESOLUTION_FAILED` notifications from **both** servers (either server's auto-resolution flow can emit them, depending on which one owns the document) and surfaces them via an Output channel + a once-per-session warning toast.
 6. Creates the `ToolCacheStatusBar` which polls the native server's cache size.
+7. Creates the `WorkflowToolsTreeProvider`, registers the `galaxyWorkflows.toolsView` Explorer tree, and wires active-editor / document-change / `TOOL_RESOLUTION_FAILED` events to refresh it (text changes debounced ~500ms).
 
 ### 4.2 Language Client Configuration
 
@@ -202,7 +219,7 @@ The native client can also pass `toolAutoResolution: true` in `initializationOpt
 
 ### 4.4 Commands
 
-11 commands are registered in `package.json` under `contributes.commands`:
+18 commands are registered in `package.json` under `contributes.commands`:
 
 | Command ID | Enabled When | Behavior |
 |---|---|---|
@@ -211,12 +228,19 @@ The native client can also pass `toolAutoResolution: true` in `initializationOpt
 | `selectForCleanCompare` | Git context | Stores a reference to a workflow revision for later comparison |
 | `compareCleanWith` | After select | Opens diff of two cleaned workflow revisions (Git timeline/explorer) |
 | `populateToolCache` | Always | Sends `GET_WORKFLOW_TOOL_IDS` then `POPULATE_TOOL_CACHE` to server |
+| `populateToolCacheForTool` | Hidden (`when: false`) | Per-tool retry invoked by the "Resolution failed — retry" CodeLens; sends `POPULATE_TOOL_CACHE_FOR_TOOL` |
+| `insertToolStep` | `.ga` or `.gxwf.yml` open | Prompts for search term, sends `SEARCH_TOOLS`, shows QuickPick, sends `GET_STEP_SKELETON`, applies a `WorkspaceEdit` inserting the built step |
+| `openToolInToolShed` | Workflow Tools view item / CodeLens | Opens the tool's ToolShed repo page in the external browser |
+| `revealToolStep` | Workflow Tools view item | Selects and scrolls to the step's `tool_id` in the active editor |
+| `refreshToolsView` | Workflow Tools view title | Re-queries `GET_WORKFLOW_TOOLS` and refreshes the tree |
 | `previewConvertToFormat2` | `.ga` open | Shows conversion preview in diff editor |
 | `previewConvertToNative` | `.gxwf.yml` open | Shows conversion preview in diff editor |
 | `exportToFormat2` | `.ga` open | Converts and writes a new `.gxwf.yml` file alongside the original |
 | `exportToNative` | `.gxwf.yml` open | Converts and writes a new `.ga` file alongside the original |
 | `convertFileToFormat2` | `.ga` open | Replaces the file's content with converted Format2 YAML |
 | `convertFileToNative` | `.gxwf.yml` open | Replaces the file's content with converted native JSON |
+| `previewMermaidDiagram` | `.ga` or `.gxwf.yml` open | Opens (or focuses) a `WebviewPanel` for the active workflow; sends `RENDER_WORKFLOW_DIAGRAM` and re-renders on edit (debounced 400 ms) |
+| `exportMermaid` | `.ga` or `.gxwf.yml` open | Writes the rendered mermaid source as `<stem>.mmd` alongside the workflow; "Reveal in Explorer" follow-up |
 
 Commands appear in the command palette, editor context menu, and explorer context menu (for Git comparison commands), controlled by `when` clauses in `package.json`.
 
@@ -228,6 +252,8 @@ Preview and diff operations use VS Code's virtual document system:
 - **`ConvertedWorkflowDocumentProvider`** -- similar scheme for conversion previews.
 
 These providers enable read-only diff views without modifying the original file.
+
+The diagram preview uses a different mechanism — a `WebviewPanel` rather than a virtual document — owned by `DiagramPreviewPanelManager` (`client/src/providers/diagramPreviewPanelManager.ts`). One panel per `(documentUri, format)` pair (re-invoking the command reveals the existing panel). On `{type: "ready"}` from the bundled webview script, the manager sends `RENDER_WORKFLOW_DIAGRAM` to whichever language client matches `document.languageId` and posts the result back as `{type: "render", payload, error}`. A `RenderScheduler` (per-key debouncer, no vscode dep, tested with Jest fake timers) collapses rapid `onDidChangeTextDocument` events into a single re-render after 400 ms; `onDidCloseTextDocument` disposes the panel. The webview HTML template is loaded via `workspace.fs.readFile` so the same code path works in the Node and browser hosts; the bundled JS lives at `client/dist/media/diagram/<format>.global.js` (tsup IIFE convention) and renders SVG locally with no network access.
 
 ### 4.6 Status Bar
 
@@ -242,6 +268,32 @@ Defined in `package.json` under `contributes.configuration`:
 | `galaxyWorkflows.validation.profile` | `"basic"` or `"iwc"` | `"basic"` | resource | Validation strictness level |
 | `galaxyWorkflows.toolCache.directory` | string | `~/.galaxy/tool_info_cache` | machine | Filesystem path to shared tool cache |
 | `galaxyWorkflows.toolShed.url` | string | `https://toolshed.g2.bx.psu.edu` | machine | ToolShed base URL for fetching tool definitions |
+
+### 4.8 Workflow Tools Tree View
+
+`client/src/providers/workflowToolsTreeProvider.ts`
+
+`WorkflowToolsTreeProvider` implements `TreeDataProvider<WorkflowToolItem>` and feeds the `galaxyWorkflows.toolsView` Explorer view (visibility gated on `resourceExtname` in `.ga/.yml/.yaml`). Data comes from the `GET_WORKFLOW_TOOLS` custom request, routed to whichever server owns the active document:
+
+- **Icon per state** -- `ThemeIcon(TOOL_STATE_ICON_NAME[state])` resolved from `shared/src/toolStatePresentation.ts` (`cached → check`, `uncached → info`, `failed → error`). Same atoms are reused by hover and CodeLens.
+- **Tooltip** -- `MarkdownString` with tool name, version, `tool_id`, description, a cache-state hint, and an `[Open in ToolShed](url)` link when the tool id is a ToolShed-style id.
+- **Inline item actions** (declared in `package.json` under `view/item/context`, group `inline@1 / inline@2`): `revealToolStep` (selects the step's `tool_id` range in the editor) and `openToolInToolShed` (opens the repo URL via `env.openExternal`).
+- **Title action**: `refreshToolsView` (re-queries).
+- **Refresh triggers**: `onDidChangeActiveTextEditor`, `onDidSaveTextDocument`, debounced `onDidChangeTextDocument`, and `TOOL_RESOLUTION_FAILED` notifications from either client.
+- `WorkflowToolEntry.range` is supplied by the server and lets `revealToolStep` scroll/select without re-parsing on the client.
+
+### 4.9 Insert Tool Step Command
+
+`client/src/commands/insertToolStep.ts` + `insertToolStepHelpers.ts`
+
+`InsertToolStepCommand` (a `CustomCommand` subclass, so it holds references to both clients via its constructor) drives a four-step pipeline:
+
+1. **Input box** (`window.showInputBox`) -- prompts for a search term. Also accepts a scripted `{ query, autoPickToolIdContains }` args object so tests (see `insertToolStep.e2e.ts`) and future code actions can drive the pipeline UI-free.
+2. **`SEARCH_TOOLS`** -- sent to the client for the active document's format, wrapped in a `ProgressLocation.Window` progress notification.
+3. **`QuickPick`** of `ToolSearchHit`s -- label = tool name, description = `owner/repo · version`, detail = truncated description, plus a per-item "Open in ToolShed" button (icon `link-external`) that opens `<toolshedUrl>/view/<owner>/<repo>`.
+4. **`GET_STEP_SKELETON`** -- returns a ready-to-serialize step object. The command then applies a single `WorkspaceEdit` that rewrites the entire document text (via `insertNativeStep` or `insertFormat2Step` helpers that splice the step into the existing JSON/YAML) and moves the cursor to the inserted `tool_id` line.
+
+A reentrancy guard (`_inFlight`) prevents overlapping invocations. The command is contributed under `commandPalette` and gated on `resourceLangId == galaxyworkflow || resourceLangId == gxformat2`.
 
 ---
 
@@ -312,6 +364,7 @@ validateDocument(documentContext)
 | `completionProvider` | Trigger chars: `"`, `:` |
 | `documentSymbolProvider` | -- |
 | `codeActionProvider` | -- |
+| `codeLensProvider` | `resolveProvider: false` — all lens titles/commands are built eagerly |
 
 ### 5.3 Dependency Injection
 
@@ -343,6 +396,7 @@ Each server assembles its DI container from:
 | `CompletionHandler` | `textDocument/completion` | `languageService.doComplete()` |
 | `SymbolsHandler` | `textDocument/documentSymbol` | `languageService.getSymbols()` |
 | `CodeActionHandler` | `textDocument/codeAction` | Checks for `legacy-tool-state` diagnostics |
+| `CodeLensHandler` | `textDocument/codeLens` | `languageService.doCodeLens()` — both language services delegate to `buildToolIdCodeLenses()` in server-common |
 
 Each handler looks up the `DocumentContext` from the cache, resolves the correct `LanguageService` by language ID, and delegates.
 
@@ -354,7 +408,9 @@ Each handler looks up the `DocumentContext` from the cache, resolves the correct
 |---|---|
 | `CleanWorkflowService` | `CLEAN_WORKFLOW_DOCUMENT`, `CLEAN_WORKFLOW_CONTENTS` |
 | `ConvertWorkflowService` | `CONVERT_WORKFLOW_CONTENTS` |
-| `ToolCacheService` | `GET_WORKFLOW_TOOL_IDS`, `POPULATE_TOOL_CACHE`, `GET_TOOL_CACHE_STATUS` |
+| `RenderDiagramService` | `RENDER_WORKFLOW_DIAGRAM` |
+| `ToolCacheService` | `GET_WORKFLOW_TOOL_IDS`, `POPULATE_TOOL_CACHE`, `POPULATE_TOOL_CACHE_FOR_TOOL`, `GET_TOOL_CACHE_STATUS`, `GET_WORKFLOW_TOOLS` |
+| `ToolSearchLspService` | `SEARCH_TOOLS`, `GET_STEP_SKELETON` |
 
 `ServiceBase` provides a `detectLanguageId()` helper that sniffs raw text content (JSON object -> `"galaxyworkflow"`, else -> `"gxformat2"`) to route content-based requests to the correct language service.
 
@@ -461,10 +517,14 @@ interface ToolRegistryService {
   listCached(): Promise<Array<{ cache_key, tool_id, tool_version, source, source_url, cached_at }>>;
   getCacheSize(): Promise<number>;
   getToolParameters(toolId: string, toolVersion?: string): Promise<unknown[] | null>;
+  getToolInfo(toolId: string, toolVersion?: string): Promise<ParsedTool | null>;
   populateCache(tools: ToolRef[]): Promise<PopulateToolCacheResult>;
   validateNativeStep(toolId, toolVersion, toolState, inputConnections?): Promise<ToolStateDiagnostic[]>;
   hasResolutionFailed(toolId, toolVersion?): boolean;
   markResolutionFailed(toolId, toolVersion?): void;
+  clearResolutionFailed(toolId, toolVersion?): void;
+  getToolShedBaseUrl(): string | undefined;
+  getSearchService(): ToolSearchService | undefined;
 }
 ```
 
@@ -475,7 +535,9 @@ interface ToolRegistryService {
 3. `populateCache()` batch-fetches tools from the ToolShed with concurrency of 5. Returns `{ fetched, alreadyCached, failed }`.
 4. `getToolParameters()` returns the parsed tool input parameters from cache, or `null` if not cached. Does not trigger network fetches.
 5. `getCacheSize()` returns the current cached-tool count (replaced the old sync `cacheSize` getter when storage became async).
-6. A `_resolutionFailed` set tracks tools that couldn't be resolved, preventing repeated fetch attempts.
+6. A `_resolutionFailed` set tracks tools that couldn't be resolved, preventing repeated fetch attempts. `populateCache()` clears the flag for every tool whose fetch succeeds, so a manual retry (via the "Resolution failed — retry" CodeLens or the batch `Populate Tool Cache` command) can recover without a server restart. `clearResolutionFailed()` is also exposed directly.
+7. `configure()` also instantiates a `ToolSearchService` from `@galaxy-tool-util/search` with the same sources (currently a single `{ type: "toolshed", url }`) and the shared `ToolInfoService`; `getSearchService()` returns it to the `ToolSearchLspService`.
+8. `getToolInfo()` returns the full `ParsedTool` (name, description, version, license, help, EDAM, xrefs, citations) when cached. Used by hover, the CodeLens, and the `GET_WORKFLOW_TOOLS` handler to populate UI metadata.
 
 No custom cache logic exists in the extension -- all cache management lives upstream in `@galaxy-tool-util/core`.
 
@@ -497,6 +559,25 @@ When a document is opened, `scheduleResolution()` collects uncached tool refs, d
 - Sends `TOOL_RESOLUTION_FAILED` notification to client for any failures
 
 The pending/in-flight sets prevent duplicate fetches when multiple documents reference the same tool.
+
+### 7.3 Workflow Tools Provider (`GET_WORKFLOW_TOOLS`)
+
+Also implemented in `ToolCacheService`. For a given document URI:
+
+1. `extractStepSummariesFromDocument(doc)` walks the document's `getStepNodes()` and returns per-step `{ stepId, label, toolId, toolVersion, toolIdRange }` summaries. The same helper also powers `buildToolIdCodeLenses` — it was consolidated in commit `1c3e471` to keep native and format2 walkers in sync.
+2. For each step with a tool id: resolve cached/resolution-failed state, fetch `ParsedTool` via `getToolInfo()` when cached (to surface `name` + `description`), and compute `toolshedUrl` via `parseToolShedRepoUrl()`.
+3. Return `WorkflowToolEntry[]` (see §14).
+
+The handler is AST-backed end-to-end — `toolIdRange` comes from the `StringASTNode` that holds the `tool_id` value, so `revealToolStep` can scroll the editor without re-parsing client-side.
+
+### 7.4 Tool Search LSP Service
+
+`server/packages/server-common/src/services/toolSearchService.ts` — `ToolSearchLspService` (extends `ServiceBase`). Two requests:
+
+- **`SEARCH_TOOLS`** `{ query, pageSize?, maxResults? }` → `{ hits: ToolSearchHit[], truncated }`. Delegates to `ToolSearchService.searchTools()`, fetches `maxResults + 1` to set the `truncated` flag, then flattens each upstream `NormalizedToolHit` into the wire-shape `ToolSearchHit` (keeping `toolshedUrl`, `trsToolId`, `fullToolId`, `version`, `changesetRevision`, display fields).
+- **`GET_STEP_SKELETON`** `{ toolshedUrl, trsToolId, version?, format, stepIndex?, label? }` → `{ step, error? }`. If `version` is omitted, calls `ToolSearchService.getLatestVersionForToolId()`. Reconstructs the `<host>/repos/<owner>/<repo>/<toolId>/<version>` Galaxy tool id from the TRS-style id, calls `populateCache()` to guarantee the tool is in cache, then `getToolInfo()` + `buildStep({ tool, format, stepIndex, label })` from `@galaxy-tool-util/schema`. Errors are returned as `{ step: null, error }` strings rather than thrown.
+
+Both handlers are format-agnostic — the `format: "native" | "format2"` flag on `GET_STEP_SKELETON` is the only place the output shape diverges (dict-of-dicts vs. array-of-objects step; JSON vs. YAML is handled client-side by the insert helpers).
 
 ---
 
@@ -643,6 +724,51 @@ Both format-specific hover services share the same pattern:
 
 The hover markdown shows: parameter name, type label (e.g. `select`, `integer`, `boolean`), label, help text, and available options (for select and boolean types).
 
+### 8.8 Tool-Id Hover
+
+`server/packages/server-common/src/providers/hover/toolIdHover.ts` — `buildToolIdHover()`
+
+Triggered when the cursor is on a `tool_id` property (key or value) inside any `steps` context. Flow:
+
+1. Navigate up from the cursor node to find the enclosing `tool_id` `PropertyASTNode`; require the property's path to contain `"steps"`.
+2. Read `tool_version` from the sibling step property.
+3. Degraded states first:
+   - `hasResolutionFailed()` → markdown headline `TOOL_RESOLUTION_FAILED_HEADLINE` + the tool id in code.
+   - Not cached → `TOOL_NOT_CACHED_HEADLINE` + `TOOL_NOT_CACHED_HINT` (mentions the `Populate Tool Cache` command by name, via the shared presentation atoms).
+4. Cached → `buildToolInfoMarkdown(parsedTool)` which emits: bold name, `id@version` code span, description as a blockquote, a bullet list of license / EDAM operations / EDAM topics / xrefs (with deep links for `bio.tools` and `bioconductor`) / citation count / `[Open in ToolShed](url)`, then a truncated help excerpt (default 500 chars).
+
+Both format-specific hover services call this before falling back to tool-state / schema hovers. Unit tests in `server-common/tests/unit/toolIdHover.test.ts` + `toolInfoMarkdown.test.ts` cover the rendering; integration tests in each server's `tests/integration/{native,format2}ToolIdHover.test.ts` cover the wiring end-to-end.
+
+### 8.9 Tool-Id CodeLens
+
+`server/packages/server-common/src/providers/toolIdCodeLens.ts` — `buildToolIdCodeLenses()`
+
+Emits one CodeLens anchored at each step's `tool_id` value range. Title format is `$(icon) <name> <version> · <action>` where the icon/action pair varies by state:
+
+| State | Icon | Title / command |
+|---|---|---|
+| `hasResolutionFailed` | `$(error)` | `… · Resolution failed — retry` → `galaxy-workflows.populateToolCacheForTool({ toolId, toolVersion })` |
+| Not cached | `$(info)` | `… · Run Populate Tool Cache` → `galaxy-workflows.populateToolCache` (batch) |
+| Cached, ToolShed id | `$(check)` | `… · Open in ToolShed` → `galaxy-workflows.openToolInToolShed({ toolId, toolVersion, toolshedUrl })` |
+| Cached, built-in tool | `$(check)` | Title only, empty `command: ""` — VS Code renders it as plain non-clickable text so the icon + name/version still show |
+
+For cached tools, the display name and version come from the fetched `ParsedTool` (falls back to raw `toolId`/`toolVersion` when unavailable). Both language services expose `doCodeLens()` that delegates here; `CodeLensHandler` dispatches `textDocument/codeLens` to the service matching the document's language.
+
+The per-tool retry (`populateToolCacheForTool`) is a separate command + LSP request (`POPULATE_TOOL_CACHE_FOR_TOOL`) precisely so the CodeLens can target a single tool rather than re-fetching every tool in the document. Successful single-tool retries clear the `_resolutionFailed` flag (see §7.1), so the lens flips to `Open in ToolShed` / cached state on the next render.
+
+### 8.10 Shared Presentation Atoms
+
+`shared/src/toolStatePresentation.ts`
+
+A small module used by hover, CodeLens, and the tree view to keep wording and iconography in lockstep:
+
+- `ToolState = "cached" | "uncached" | "failed"` with `TOOL_STATE_ICON_NAME` mapping (`check` / `info` / `error`).
+- `toolStateIconMarkup(state)` — returns `$(name)` for server-side Markdown/CodeLens titles.
+- `POPULATE_TOOL_CACHE_COMMAND_NAME`, `OPEN_IN_TOOLSHED_ACTION`, `RETRY_ACTION`, `RUN_POPULATE_TOOL_CACHE_ACTION` — action labels.
+- `TOOL_NOT_CACHED_HEADLINE`, `TOOL_RESOLUTION_FAILED_HEADLINE`, `TOOL_NOT_CACHED_HINT` — headlines/hints for degraded hovers and tooltips.
+
+Client code imports these (via the `../../shared/src/...` relative path, as with `requestsDefinitions.ts`) to build its `ThemeIcon`s and `MarkdownString` tooltips, so changes to icon choice or action wording propagate to all three surfaces at once.
+
 ---
 
 ## 9. Code Actions
@@ -688,6 +814,17 @@ Handles `CONVERT_WORKFLOW_CONTENTS` requests. Optionally cleans before convertin
 
 Errors are returned as typed results (`{ contents: "", error: "..." }`) rather than thrown, so the client can display them via `showErrorMessage()`.
 
+### 10.3 RenderDiagramService
+
+`server/packages/server-common/src/services/renderDiagramService.ts`
+
+Handles `RENDER_WORKFLOW_DIAGRAM` requests. Detects the source format via `ServiceBase.detectLanguageId()` and delegates to `languageService.renderDiagram(text, format, options?)`. The format-specific implementations parse the workflow (JSON for native, YAML for format2) and dispatch on `format`:
+
+- `"mermaid"` → `workflowToMermaid(dict, options)` from `@galaxy-tool-util/schema`. The function accepts a native dict, a format2 dict, or a pre-normalized `NormalizedFormat2Workflow`; it normalizes internally via `ensureFormat2()`.
+- `"cytoscape"` → throws `"not yet implemented"`. The dispatch case is in place so the second renderer ships as a server-only patch + a sibling webview bundle.
+
+Errors are returned as typed results (`{ contents: "", error }`) so the client/webview can show them inline rather than as a toast. The `LanguageServiceBase` default implementation throws `"not implemented"`, mirroring `convertWorkflowText`.
+
 ---
 
 ## 11. Format-Specific Servers
@@ -720,6 +857,8 @@ Wraps `vscode-json-languageservice` (the same library that powers VS Code's buil
 2. Input connection completion (if inside `input_connections`) -> `NativeWorkflowConnectionService`
 3. JSON language service schema-driven completions (fallback)
 
+**Diagram rendering** (`renderDiagram()`): `JSON.parse` then dispatch on the requested `DiagramFormat` — `"mermaid"` calls `workflowToMermaid()` from `@galaxy-tool-util/schema`; `"cytoscape"` throws pending upstream support.
+
 ### 11.2 Format2 Workflow Language Service
 
 `server/gx-workflow-ls-format2/src/languageService.ts`
@@ -749,6 +888,8 @@ Uses the custom `@gxwf/yaml-language-service` for YAML parsing (see section 12).
 **Hover** (`GxFormat2HoverService`): Two sources:
 1. Tool state parameter hover -- if cursor is inside `state:`, shows parameter documentation
 2. Schema node hover -- resolves cursor path to schema node, shows property documentation
+
+**Diagram rendering** (`renderDiagram()`): YAML-parses the document then dispatches on the requested `DiagramFormat` (mermaid implemented; cytoscape stubbed). Same dispatch shape as the native service.
 
 ### 11.3 Connection Completion Service (Format2)
 
@@ -812,9 +953,14 @@ All custom LSP communication uses request/notification identifiers under the `ga
 | `getWorkflowInputs` | `{ uri }` | `{ inputs: WorkflowInput[] }` |
 | `getWorkflowOutputs` | `{ uri }` | `{ outputs: WorkflowOutput[] }` |
 | `getWorkflowToolIds` | -- | `{ tools: ToolRef[] }` |
+| `getWorkflowTools` | `{ uri }` | `{ tools: WorkflowToolEntry[] }` |
 | `populateToolCache` | `{ tools: ToolRef[] }` | `{ fetched, alreadyCached, failed[] }` |
+| `populateToolCacheForTool` | `{ toolId, toolVersion? }` | `{ fetched, alreadyCached, failed[] }` (same shape; single-element list) |
 | `getToolCacheStatus` | -- | `{ cacheSize }` |
 | `convertWorkflowContents` | `{ contents, targetFormat, clean? }` | `{ contents, error? }` |
+| `renderWorkflowDiagram` | `{ contents, format: DiagramFormat, options?: Record<string, unknown> }` | `{ contents, error? }` |
+| `searchTools` | `{ query, pageSize?, maxResults? }` | `{ hits: ToolSearchHit[], truncated }` |
+| `getStepSkeleton` | `{ toolshedUrl, trsToolId, version?, format, stepIndex?, label? }` | `{ step, error? }` |
 
 **Notifications (server -> client):**
 
@@ -827,7 +973,11 @@ All custom LSP communication uses request/notification identifiers under the `ga
 - `WorkflowInput { name, type: WorkflowDataType, doc?, default?, optional? }` (re-exported from `@galaxy-tool-util/schema`)
 - `WorkflowOutput { name, uuid?, doc?, type? }` (re-exported from `@galaxy-tool-util/schema`)
 - `ToolRef { toolId, toolVersion? }`
+- `WorkflowToolEntry { stepId, stepLabel?, toolId, toolVersion?, cached, resolutionFailed, name?, description?, toolshedUrl?, range: LSPRange }` (one per workflow step; feeds the Workflow Tools tree view)
+- `ToolSearchHit { toolshedUrl, toolId, toolName, toolDescription, repoName, repoOwnerUsername, score, version?, changesetRevision?, trsToolId, fullToolId }` — structurally mirrors `NormalizedToolHit` from `@galaxy-tool-util/search`; `trsToolId` (`<owner>~<repo>~<toolId>`) feeds `GET_STEP_SKELETON`
+- `LSPRange { start: { line, character }, end: { line, character } }` — inlined subset of the LSP `Range` type so `shared/` stays free of `vscode-languageserver-types` (the client doesn't depend on it)
 - `WorkflowDataType` -- union `"boolean" | "collection" | "color" | "data" | "double" | "File" | "float" | "int" | "integer" | "long" | "null" | "string" | "text"` widened with `(string & {})` to stay structurally compatible with the upstream schema package (which accepts custom datatype strings). The known union still drives autocomplete; `isCompatibleType()` is also re-exported from the schema package.
+- `DiagramFormat` -- union `"mermaid" | "cytoscape"`. The wire shape carries a `string` payload regardless of renderer (mermaid emits its own DSL string; cytoscape will emit `JSON.stringify(elements)` once upstream lands), so the protocol stays uniform across renderers. `RENDER_WORKFLOW_DIAGRAM` is a contents-based request (raw text rather than URI) for the same reason as `CONVERT_WORKFLOW_CONTENTS` — the client previews unsaved edits.
 
 ---
 
@@ -996,6 +1146,8 @@ The browser build excludes Node-only modules (`node:fs`, etc.). Tool cache opera
 
 Test data lives in `/test-data/` with sample workflows in both formats.
 
+The diagram preview feature spans all three test layers: server unit + integration tests cover `RenderDiagramService` and each language service's `renderDiagram()` (mermaid output and the cytoscape stub branch); client jest tests cover the standalone `RenderScheduler` debouncer with fake timers; client E2E (`diagramPreview.e2e.ts`) sends `RENDER_WORKFLOW_DIAGRAM` through the real LSP transport for both formats and exercises the `exportMermaid` command end-to-end. Webview-DOM assertions (asserting actual SVG is drawn inside the panel) are intentionally out of scope for the existing harness — tracked under [davelopez#86](https://github.com/davelopez/galaxy-workflows-vscode/issues/86) for an opt-in `wdio-vscode-service` target.
+
 ---
 
 ## 18. Extension Points
@@ -1117,7 +1269,25 @@ The extension degrades gracefully when tool definitions are unavailable:
 
 ---
 
-## 21. Changelog vs. Original (2026-04-12 → 2026-04-21)
+## 21. Changelog vs. Original (2026-04-12 → 2026-04-23)
+
+### Tool-discovery surfaces (2026-04-21 → 2026-04-23)
+
+A cluster of commits added richer tool interactions on top of the existing cache infrastructure — all three surfaces (hover, CodeLens, tree view) share the same `ToolRegistryService` and the presentation atoms in `shared/src/toolStatePresentation.ts`.
+
+- **`997bc95`** — Tool-info hover on `tool_id` for `.ga` and `.gxwf.yml`. New helpers in `server-common/src/providers/hover/`: `toolIdHover.ts`, `toolInfoMarkdown.ts`, `toolShedUrl.ts`. Both format-specific hover services call `buildToolIdHover()` before falling back to tool-state / schema hovers. `ToolRegistryService.getToolInfo()` added.
+- **`1284d92`** — Workflow Tools Explorer tree view. New `GET_WORKFLOW_TOOLS` request (payload `WorkflowToolEntry[]`), new `WorkflowToolsTreeProvider` client-side, new commands `refreshToolsView`/`revealToolStep`/`openToolInToolShed`, new view contribution `galaxyWorkflows.toolsView`.
+- **`595397e`** — CodeLens on `tool_id` with per-tool retry. New `CodeLensHandler`, `buildToolIdCodeLenses()`, `doCodeLens()` added to both language services, new capability `codeLensProvider`. New command `populateToolCacheForTool` + LSP request `POPULATE_TOOL_CACHE_FOR_TOOL`.
+- **`55ac53b`** — `populateCache()` clears the `_resolutionFailed` flag for every successfully-fetched tool, so a per-tool retry (or a batch populate) flips the CodeLens back to the cached state without a server restart.
+- **`1c3e471`** — Consolidated native and format2 step walkers into a shared `getStepNodes()` helper used by both `GET_WORKFLOW_TOOLS` and the CodeLens builder; the previous duplicate walkers in `toolCacheService` were collapsed.
+- **`c8ff43b`** — Hoisted presentation atoms into `shared/src/toolStatePresentation.ts`; hover, CodeLens, and tree view now pull icons + wording from the same module.
+- **`64b5132`** — E2E tests for the Workflow Tools view and `tool_id` CodeLens (`toolsView.e2e.ts`, `codeLens.e2e.ts`).
+- **`c749823`** — Subscribe both clients to `TOOL_RESOLUTION_FAILED` (previously native-only). Either server's auto-resolution flow can emit the notification depending on which one owns the document.
+- **`e5029ea`** — Extracted the new workflow-tools commands into `CustomCommand` subclasses (`openToolInToolShed.ts`, `refreshToolsView.ts`, `revealToolStep.ts`), pulling wiring out of `common/index.ts`.
+- **`1284d92` + `595397e` + `4591ec3`** — `shared/src/requestsDefinitions.ts` grew `LSPRange`, `WorkflowToolEntry`, `PopulateToolCacheForToolParams`, `ToolSearchHit`, `SearchToolsParams/Result`, `GetStepSkeletonParams/Result`.
+- **`4591ec3`** — Insert Tool Step command. New client command `insertToolStep` with input-box → `SEARCH_TOOLS` → QuickPick → `GET_STEP_SKELETON` → `WorkspaceEdit` pipeline. New server service `ToolSearchLspService`. New upstream dep `@galaxy-tool-util/search` (adds `ToolSearchService.searchTools()` + `getLatestVersionForToolId()`). `buildStep()` from `@galaxy-tool-util/schema` is the skeleton builder. Live-ToolShed E2E test verifies the full flow.
+
+### Earlier (2026-04-12 → 2026-04-21)
 
 Post-`2026-04-12` commits that shifted architecture into upstream `@galaxy-tool-util`:
 

@@ -30,10 +30,3 @@ The declarative YAML-driven fixture tests are the source of truth and high value
 The TypeScript is meant in large part to feed into a VS Code Plugin we're developing in /Users/jxc755/projects/worktrees/galaxy-workflows-vscode/branch/wf_tool_state.
 
 The clean operation intentionally exposes no key-level policy knobs (no allow/deny/preserve/strip lists). Users always get "clean everything." The Python clean.py has more machinery but the API and CLI surface should stay simple.
-
-
-
-
-
-
-We're working /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/VS_CODE_MONACO_FIRST_PASS_PLAN.md. We just did phase 0 but it seems wrong like more shim/mocking than I was expecting. We implemented https://github.com/jmchilton/galaxy-tool-util-ts/pull/52 in galaxy-tool-util and merged it into main (though still not published) - can you use that work to simplify what we have implemented here?
