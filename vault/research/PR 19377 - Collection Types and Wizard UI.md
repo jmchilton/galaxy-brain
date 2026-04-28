@@ -10,8 +10,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-08
-revised: 2026-04-22
-revision: 4
+revised: 2026-04-28
+revision: 5
 ai_generated: true
 github_pr: 19377
 github_repo: galaxyproject/galaxy
@@ -29,6 +29,7 @@ related_notes:
   - "[[Component - Collection Models]]"
   - "[[Component - Collection Tool Execution Semantics]]"
   - "[[PR 19305 - Implement Sample Sheets]]"
+  - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
 branch: collection_specification
 summary: "Paired_or_unpaired and record collection types plus collection adapters enable flexible tool input matching"
 ---

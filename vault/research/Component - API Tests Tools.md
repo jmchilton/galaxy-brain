@@ -9,8 +9,8 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-03-04
-revised: 2026-04-22
-revision: 2
+revised: 2026-04-28
+revision: 3
 ai_generated: true
 galaxy_areas:
   - api
@@ -21,6 +21,7 @@ related_notes:
   - "[[Component - API Tests]]"
   - "[[Component - Tool Testing Infrastructure]]"
   - "[[PR 20935 - Tool Request API]]"
+  - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
 ---
 
 # Component: API Tests - Tools

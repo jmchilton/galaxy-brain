@@ -15,8 +15,8 @@ related_prs:
 branch: model_parameter_improvements_1
 status: draft
 created: 2026-02-05
-revised: 2026-04-22
-revision: 2
+revised: 2026-04-28
+revision: 4
 ai_generated: true
 summary: "Extended parameter models with drill_down, data_column, conditional_select types and improved validation"
 related_notes:
@@ -29,6 +29,8 @@ related_notes:
   - "[[PR 18758 - Tool Execution Typing and Decomposition]]"
   - "[[PR 19434 - User Defined Tools]]"
   - "[[PR 20935 - Tool Request API]]"
+  - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
+  - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
 ---
 
 # PR #18641: Parameter Model Improvements - Research Summary

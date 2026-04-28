@@ -9,8 +9,8 @@ tags:
 component: YAML Tool Runtime
 status: draft
 created: 2026-02-05
-revised: 2026-04-22
-revision: 2
+revised: 2026-04-28
+revision: 4
 ai_generated: true
 summary: "YAML tool runtime converts tool state to CWL-style inputs with validated JobInternalToolState"
 related_notes:
@@ -20,6 +20,8 @@ related_notes:
   - "[[PR 18758 - Tool Execution Typing and Decomposition]]"
   - "[[PR 19434 - User Defined Tools]]"
   - "[[PR 20935 - Tool Request API]]"
+  - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
+  - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
 ---
 
 # YAML Tool Runtime State Representation

@@ -8,8 +8,8 @@ tags:
   - galaxy/tools
 status: draft
 created: 2026-02-05
-revised: 2026-04-22
-revision: 2
+revised: 2026-04-28
+revision: 3
 ai_generated: true
 component: dataset_collections
 galaxy_areas:
@@ -25,6 +25,7 @@ related_notes:
   - "[[Component - Tool XML Collection Commands]]"
   - "[[Component - Workflow Editor Terminals]]"
   - "[[PR 19377 - Collection Types and Wizard UI]]"
+  - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
 ---
 
 # Collection Tool Execution Semantics in Galaxy

@@ -7,8 +7,8 @@ tags:
   - galaxy/models
 status: draft
 created: 2026-02-09
-revised: 2026-04-22
-revision: 3
+revised: 2026-04-28
+revision: 4
 ai_generated: true
 galaxy_areas:
   - collections
@@ -25,6 +25,7 @@ related_notes:
   - "[[Dependency - Collection Graphviz]]"
   - "[[PR 19305 - Implement Sample Sheets]]"
   - "[[PR 19377 - Collection Types and Wizard UI]]"
+  - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
 ---
 
 # Galaxy Dataset Collection Model Layer
