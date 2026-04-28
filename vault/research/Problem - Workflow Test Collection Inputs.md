@@ -17,6 +17,7 @@ related_notes:
   - "[[Component - Data Fetch]]"
   - "[[Component - Workflow Testing]]"
   - "[[Dependency - Planemo - Workflow Tests - Collection Inputs]]"
+  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 
 # Workflow Framework Test Collection Inputs

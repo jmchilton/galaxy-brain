@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*86 notes. Auto-generated — run `make index` to refresh.*
+*87 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -108,6 +108,7 @@
 
 - [[Workflow Extraction Multiple Histories]] — ID-based extraction removes single-history limitation, fixes cross-history copied dataset problems
 - [[Problem - Workflow Test Collection Inputs]] — Framework test collections populated via fetch API dispatches on type, supports nested structures
+- [[Problem - YAML Tool Post-Hoc State Divergence]] — Rerun, job display, export, workflow extract read legacy JobParameter rows via basic.py, not Job.tool_state — no YAML tool tests prove they agree
 
 ### Design Specs
 

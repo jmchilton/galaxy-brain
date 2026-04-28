@@ -22,6 +22,7 @@ related_notes:
   - "[[Component - Tool Testing Infrastructure]]"
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
+  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 
 # Component: API Tests - Tools

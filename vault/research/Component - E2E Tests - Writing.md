@@ -13,6 +13,7 @@ summary: "Layered test infrastructure: SeleniumTestCase, NavigatesGalaxy helpers
 related_notes:
   - "[[Component - API Tests]]"
   - "[[Component - E2E Tests Smart Components]]"
+  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 
 # Writing E2E Tests in Galaxy: A Comprehensive Guide

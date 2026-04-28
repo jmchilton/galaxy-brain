@@ -22,6 +22,7 @@ related_notes:
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
+  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 
 # User-Defined Tools (Beta)

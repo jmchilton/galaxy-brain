@@ -22,6 +22,7 @@ related_notes:
   - "[[Dependency - Planemo - Workflow Tests - Collection Inputs]]"
   - "[[PR 18641 - Parameter Model Improvements Research]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
+  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 
 # Galaxy Tool Testing Infrastructure Overview

@@ -30,6 +30,7 @@ related_notes:
   - "[[PR 19434 - User Defined Tools]]"
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
+  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 
 # PR #21842: Migrate tool execution request from /api/tools to /api/jobs

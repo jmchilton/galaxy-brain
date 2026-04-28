@@ -19,6 +19,7 @@ related_notes:
   - "[[Issue 17506 - Convert Workflow Extraction Interface to Vue]]"
   - "[[Workflow Extraction Issues]]"
   - "[[Workflow Extraction Multiple Histories]]"
+  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 
 # Workflow Extraction in Galaxy - Overview

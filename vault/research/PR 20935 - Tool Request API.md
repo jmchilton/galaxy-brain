@@ -26,6 +26,7 @@ related_notes:
   - "[[PR 19434 - User Defined Tools]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
+  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 
 # Tool Request API
