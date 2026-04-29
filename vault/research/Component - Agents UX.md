@@ -7,8 +7,8 @@ tags:
 component: Agents UX
 status: draft
 created: 2026-02-13
-revised: 2026-04-22
-revision: 2
+revised: 2026-04-29
+revision: 3
 ai_generated: true
 summary: "Four agent UX surfaces: ChatGXY full-page chat, GalaxyWizard error widget, tool generator, Jupyternaut proxy"
 related_notes:
@@ -20,6 +20,7 @@ related_notes:
   - "[[PR 21463 - Jupyternaut Adapter for JupyterLite]]"
   - "[[PR 21692 - Standardize Agent API Schemas]]"
   - "[[PR 21706 - Data Analysis Agent Integration]]"
+  - "[[PR 21942 - Shared Agent Operations and MCP Server]]"
 ---
 
 # Galaxy Agents UX: Comprehensive Report

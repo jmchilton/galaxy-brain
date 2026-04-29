@@ -43,3 +43,15 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[PR 18641 - Parameter Model Improvements Research]] — added cross-ref; same parameter model lineage
   - [[PR 18758 - Tool Execution Typing and Decomposition]] — added cross-ref; tool state typing
   - [[PR 19434 - User Defined Tools]] — added cross-ref; YAML tool submission now via /api/jobs
+
+## 2026-04-29 ingest — PR 21942 - Shared Agent Operations and MCP Server
+- **source**: https://github.com/galaxyproject/galaxy/pull/21942
+- **created**: [[PR 21942 - Shared Agent Operations and MCP Server]]
+- **updated**:
+  - [[PR 21434 - AI Agent Framework and ChatGXY]] — added cross-ref; this PR refactors that framework
+  - [[PR 21692 - Standardize Agent API Schemas]] — added cross-ref; ops manager bypasses these schemas
+  - [[PR 21706 - Data Analysis Agent Integration]] — added cross-ref; sibling agent addition
+  - [[PR 21463 - Jupyternaut Adapter for JupyterLite]] — added cross-ref; comparable external AI mounting pattern
+  - [[Component - Agents Backend]] — added cross-ref; needs revision for ops manager + HistoryAgent
+  - [[Component - Agents UX]] — added cross-ref; MCP is a new external surface
+  - [[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]] — added cross-ref; MCP is the non-persistent peer entry point

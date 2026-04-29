@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*87 notes. Auto-generated — run `make index` to refresh.*
+*88 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -84,6 +84,7 @@
 - [[PR 21706 - Data Analysis Agent Integration]] — Integrates data analysis agent with DSPy generating Python code executed in browser via Pyodide
 - [[PR 21828 - YAML Tool Hardening and Tool State]] — Typed Pydantic collection runtime models, Job.tool_state column, YAML test case JSON validation, collection inputs for YAML tools
 - [[PR 21842 - Tool Execution Migrated to api jobs]] — Tool form submits via POST /api/jobs with client-side flat-to-nested state, polls tool_requests until terminal
+- [[PR 21942 - Shared Agent Operations and MCP Server]] — Shared AgentOperationsManager wraps Galaxy services for HistoryAgent and an in-process FastMCP server mounted at /api/mcp
 - [[PR 4830 - Workflow Resource Parameters]] — Administrators define workflow-level resource parameters users set when invoking workflows for scheduling
 - [[PR 5378 - Tool Resource Requirements]] — Tools declare resource requirements like cores and memory modeled after CWL ResourceRequirement
 - [[PR 19305 - Implement Sample Sheets]] — Sample sheets attach typed columnar metadata to dataset collection elements for bioinformatics workflows

@@ -9,8 +9,8 @@ github_pr: 21434
 github_repo: galaxyproject/galaxy
 status: draft
 created: 2026-02-13
-revised: 2026-04-22
-revision: 2
+revised: 2026-04-29
+revision: 3
 ai_generated: true
 summary: "Pydantic-ai multi-agent framework with router, error analysis, custom tool, orchestrator agents"
 related_notes:
@@ -20,6 +20,7 @@ related_notes:
   - "[[PR 21463 - Jupyternaut Adapter for JupyterLite]]"
   - "[[PR 21692 - Standardize Agent API Schemas]]"
   - "[[PR 21706 - Data Analysis Agent Integration]]"
+  - "[[PR 21942 - Shared Agent Operations and MCP Server]]"
 ---
 
 # PR #21434 Research: Add AI Agent Framework and ChatGXY 2.0

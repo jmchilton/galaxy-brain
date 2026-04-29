@@ -4,53 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "27e5fd887a41c880",
+        "id": "dabd60f6a5ff1615",
         "type": "tabs",
         "children": [
           {
-            "id": "a93281b341b51644",
+            "id": "36bca3d42207bd20",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "projects/workflow_state/GXWF_AGENT.md",
+                "file": "projects/history_markdown/EXTRACT_BY_ID_PLAN.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "GXWF_AGENT"
-            }
-          },
-          {
-            "id": "eeea0378e35a61d5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Index.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Index"
-            }
-          },
-          {
-            "id": "afaa5d9cb9aebde6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "projects/workflow_state/old/CONNECTION_VALIDATION.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "CONNECTION_VALIDATION"
+              "title": "EXTRACT_BY_ID_PLAN"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -213,45 +184,45 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "eeea0378e35a61d5",
+  "active": "36bca3d42207bd20",
   "lastOpenFiles": [
-    "projects/workflow_state/index.md",
-    "log.md",
-    "Index.md",
-    "projects/workflow_state/COMPONENT_TOOL_SHED_SEARCHING.md",
-    "research/Component - Tool Shed Search and Indexing.md",
-    "research/Component - Collections in Tool XML Tests.md",
+    "projects/history_markdown/EXTRACT_BY_ID_RESEARCH_2026-04-28.md",
+    "projects/history_markdown/EXTRACT_BY_ID_PLAN.md",
+    "projects/workflow_state/skills/PROBLEM_AND_GOAL.md",
+    "projects/workflow_state/skills/RELEVANT_PATHS.md",
+    "projects/workflow_state/skills/old/TS_ISSUE_TOOL_DISCOVERY_GAPS.md",
+    "projects/workflow_state/skills/old/EVAL_SEARCH_SKILL.md",
+    "projects/workflow_state/skills/SKILLS_REPORTS.md",
+    "projects/workflow_state/skills/SKILLS_NF.md",
+    "projects/workflow_state/skills/COMPONENT_GALAXY_WORKFLOW_TESTING.md",
+    "projects/workflow_state/skills/COMPONENT_NEXTFLOW_WORKFLOW_TESTING.md",
+    "projects/history_markdown/seed_demo_histories.py",
+    "projects/history_markdown/PROMPTS.md",
+    "research/PR 21942 - Shared Agent Operations and MCP Server.md",
+    "projects/history_markdown/TESTING_ALTERNATIVES.md",
+    "projects/workflow_state/WF_VIZ_3_CLIENT_ANNOTATIONS_PLAN.md",
+    "projects/history_markdown/HISTORY_MARKDOWN_ARCHITECTURE.md",
     "projects/workflow_state/GXWF_AGENT.md",
-    "projects/workflow_state/TS_CONNECTION_REFACTOR_IN_GX_PLAN.md",
-    "projects/workflow_state/TS_SEARCH_OVERHAUL_ISSUE.md",
-    "projects/workflow_state/old/TS_MORE_WORKFLOW_OPERATIONS.md",
-    "projects/workflow_state/VS_CODE_TOOL_SEARCH_LSP_PLAN.md",
-    "plans/Plan - Expanded Markdown Support.md",
-    "templates/project.md",
-    "templates/moc.md",
-    "templates/concept.md",
-    "templates/plan-section.md",
-    "templates/plan.md",
-    "templates/research-issue-roundup.md",
-    "templates/research-design-spec.md",
-    "templates/research-design-problem.md",
-    "templates/research-dependency.md",
-    "templates/research-pr.md",
-    "templates/research-issue.md",
-    "templates/research-component.md",
+    "projects/workflow_state/GXWF_WEB_CACHE_PANEL_PLAN.md",
+    "projects/history_markdown/AGENT_TESTING.md",
+    "projects/history_markdown/AGENT_TESTING_V2.md",
+    "projects/workflow_state/PYTHON_WEB_CACHE_PLAN.md",
+    "projects/workflow_state/WF_VIZ_2_PLAN.md",
+    "projects/workflow_state/old/CONNECTION_VALIDATION.md",
+    "research/PR 20935 - Tool Request API.md",
+    "projects/workflow_state/old/TEST_JOB_VALDIATION_PLAN.md",
+    "research/Component - Workflow Extraction Models.md",
+    "research/Component - Workflow Extraction.md",
+    "projects/workflow_state/skills/old",
+    "projects/workflow_state/GXWF_WEB_CACHE_PANEL_PLAN.md.tmp.84650.1777291487804",
+    "projects/workflow_state/skills",
     "templates",
-    "projects/workflow_state/PROMPTS.md",
-    "projects/workflow_state/old/THEME_OVERHAUL_PLAN.md",
     "projects/workflow_state/TEST_JOB_VALIDATION_TS_FOLLOWUP_PLAN.md.tmp.2748.1776716317127",
     "projects/history_markdown/gcc2026",
     "projects/workflow_state/old/stale_key_taxonomy_infographic.png",
     "projects/workflow_state/CONNECTION_VALIDATION_TESTING_AND_TRACKING_PLAN.md.tmp.10403.1773860206667",
     "projects/workflow_state/stale_key_taxonomy_infographic.png.tmp",
     "projects/workflow_state/stale_state",
-    "projects/workflow_state/old",
-    "projects/cwl/pickValue",
-    "projects/cwl/workflow_features",
-    "projects/history_markdown",
     "Untitled 1.canvas",
     "Untitled.canvas"
   ]
