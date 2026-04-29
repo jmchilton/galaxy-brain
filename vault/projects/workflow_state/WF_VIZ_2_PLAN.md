@@ -209,12 +209,14 @@ Uses `cytoscapeElements(parsed, { edgeAnnotations, layout: "preset" })` — the 
 
 Today `useMermaid` doesn't pass `edgeAnnotations` to `workflowToMermaid`. Fix:
 
-1. Lift annotation fetching into a new composable `useEdgeAnnotations(path)` that calls a new gxwf-web endpoint `GET /api/workflows/:path/edge-annotations` returning the lookup map. (Today the validator runs only via CLI; backend needs a thin route that runs it server-side and returns the JSON.) Cache by path.
-2. `useMermaid` accepts an optional `edgeAnnotations` ref; passes through to `workflowToMermaid({ edgeAnnotations })`.
-3. `useCytoscape` does the same.
-4. Toolbar gets a "Show map/reduce" toggle (off by default to match CLI). Toggling re-runs `build()` with annotations attached.
+1. New backend route `POST /workflows/{path}/edge-annotations` in gxwf-web (`router.ts` + `workflows.ts::operateEdgeAnnotations`) that runs `resolveEdgeAnnotationsWithCache` against the server's existing `ToolCache` and returns the annotation map as a JSON object (`Record<string, EdgeAnnotation>`).
+2. `resolveEdgeAnnotations` in `cli/src/commands/annotate-connections.ts` is split: the existing CLI entry point still owns its own Node tool-cache, and a new `resolveEdgeAnnotationsWithCache(data, cache)` is exported for callers (gxwf-web) that already have a `ToolCache`. Both are re-exported from `@galaxy-tool-util/cli`.
+3. New composable `useEdgeAnnotations()` calls the route with `fetch` and reconstructs a `Map<string, EdgeAnnotation>` from the response. No client-side validator wiring — the browser bundle no longer pulls in `@galaxy-tool-util/connection-validation`.
+4. `useMermaid` accepts an optional `edgeAnnotations` ref; passes through to `workflowToMermaid({ edgeAnnotations })`.
+5. `useCytoscape` does the same.
+6. Toolbar gets a "Show map/reduce" toggle (off by default to match CLI). Toggling re-runs `build()` with annotations attached. Persist in `localStorage` (`gxwf-ui:diagram-annotate`).
 
-Backend route lives in `packages/gxwf-web/src/routes/edge-annotations.ts`. Reuses `resolveEdgeAnnotations()` from the CLI's `annotate-connections.ts` — extract that helper into `@galaxy-tool-util/connection-validation` if it isn't already exposed.
+Why server-side: the validator's annotations only become meaningful when tool input/output specs are available — without them, `mapDepth` stays 0 and `reduction` stays false on every tool→tool edge, and the toggle is functionally a no-op. The server already loads tools via `makeNodeToolInfoService`, so reusing that cache gives full fidelity for free. The browser-side path was prototyped first with a no-op `GetToolInfo` and rejected once it became clear it produced empty annotation maps for IWC-style workflows (no labels alone are enough; the input collection-type metadata lives in `ParsedTool`).
 
 ### 3.5 Theming
 
@@ -233,7 +235,7 @@ Mermaid re-init handles dark mode. Cytoscape doesn't:
 ### 3.7 Docs + changeset
 
 - Update CLAUDE.md dev-server section if any new env var.
-- `pnpm changeset` minor for `gxwf-ui`, possibly `gxwf-web` (if endpoint added).
+- `pnpm changeset` minor for `gxwf-ui`, `gxwf-web`, and `cli` (new exported helper).
 
 ---
 
@@ -262,12 +264,13 @@ Mermaid re-init handles dark mode. Cytoscape doesn't:
 4. `tests: parity with TS coordinates`
 
 **Phase 3** (UI)
-1. `gxwf-web: edge-annotations endpoint`
-2. `gxwf-ui: useCytoscape composable + cytoscape deps`
-3. `gxwf-ui: renderer toggle in WorkflowDiagram`
-4. `gxwf-ui: thread edgeAnnotations into useMermaid + useCytoscape + toolbar toggle`
-5. `gxwf-ui: dark/light cytoscape stylesheet + theme watcher`
-6. `docs/changeset: runtime renderer swap`
+1. `gxwf-ui: useCytoscape composable + cytoscape deps`
+2. `gxwf-ui: renderer toggle in WorkflowDiagram`
+3. `cli: export resolveEdgeAnnotationsWithCache for reuse`
+4. `gxwf-web: edge-annotations endpoint (operateEdgeAnnotations)`
+5. `gxwf-ui: useEdgeAnnotations + thread edgeAnnotations into useMermaid + useCytoscape + toolbar toggle`
+6. `gxwf-ui: dark/light cytoscape stylesheet + shared useTheme`
+7. `docs/changeset: runtime renderer swap`
 
 ---
 
