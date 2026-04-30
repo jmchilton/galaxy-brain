@@ -1,24 +1,31 @@
 
-## Repository
+## Foundry repo
 
-Galaxy Workflow Foundry (GitHub):
+Local clone:
+/Users/jxc755/projects/repositories/foundry
+
+GitHub:
 https://github.com/jmchilton/foundry
 
-## Foundry design docs (this directory)
+Design docs (in repo): `docs/ARCHITECTURE.md`, `docs/HARNESS_PIPELINES.md`, `docs/MOLDS.md`, `docs/COMPILATION_PIPELINE.md`, `docs/CORPUS_INGESTION.md`, `docs/GXY_SKETCHES_ALIGNMENT.md`, `docs/COMPONENT_ARCHON.md`.
 
-Conceptual / vision:
-- /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/PROBLEM_AND_GOAL.md
-- /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/KNOWLEDGE_BASE.md
-- /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/GLOSSARY.md
+Glossary (terminology, agent-loaded): `content/glossary.md`.
 
-Mold inventory and harness pipelines:
-- /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/INITIAL_HARNESS_PIPELINES.md
-- /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/INITIAL_MOLDS.md
+Originals before move (preserved): `vault/projects/workflow_state/old/`.
 
-Architecture, ingestion, compilation:
-- /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/INITIAL_ARCHITECTURE.md
-- /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/INITIAL_CORPUS_INGESTION.md
-- /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/INITIAL_COMPILATION_PIPELINE.md
+## Adjacent projects
+
+gxy-sketches — corpus of routing/decision-aid sketches distilled from nf-core + IWC; consumed by gxy3 (chat-driven app). Owned by another contributor; field-name parity is the only entanglement. See `docs/GXY_SKETCHES_ALIGNMENT.md` in foundry.
+/Users/jxc755/projects/repositories/gxy-sketches
+
+## Galaxy-brain-local notes (not Foundry)
+
+Galaxy-brain influence reference (kept here, not in Foundry):
+/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/COMPONENT_GALAXY_BRAIN.md
+
+Galaxy / Nextflow workflow-testing background research (Foundry-relevant; pending conversion to `research/component` notes):
+/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/COMPONENT_GALAXY_WORKFLOW_TESTING.md
+/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/COMPONENT_NEXTFLOW_WORKFLOW_TESTING.md
 
 Prior art (reference, not carried forward):
 - /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/SKILLS_NF.md
