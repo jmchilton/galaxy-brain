@@ -13,11 +13,50 @@ There is a TypeScript and a Python version of the CLI but we tried to give them 
 
 ### Skills
 
-A number of composable skills would be ideal.
+A number of composable skills would be ideal. /Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/KNOWLEDGE_BASE.md describes the **Galaxy Workflow Foundry** (the knowledge base) and **Molds** (abstract templates that are *cast* into concrete skills).
+#### discover-shed-tool Mold
 
-#### find-shed-tool skill
+We've added the relevant pieces to gxwf in both Python and TypeScript versions. The Mold wraps `gxwf tool-search` / `tool-versions` / `tool-revisions` and `galaxy-tool-cache`, encoding the heuristics that classify candidates (owner trust, version proximity, container availability, `+galaxyN` revision posture). Named for the *mechanism* (the Galaxy Tool Shed), not the goal — sibling Molds (`discover-tool-via-galaxy-api`, `discover-tool-on-github`) can slot in if other discovery sources are wrapped. Replaces the prior-art `find-shed-tool` skill design (`old/PLAN_SEARCH_CLI.md`) — that work feeds the Mold's content; the hand-authored skill form does not carry over. See `INITIAL_MOLDS.md`.
 
-We've added the relevant pieces to gxwf in both Python and TypeScript versions.
+#### gxwf-cli and planemo-cli Molds
+
+Whole-CLI Molds that roll up per-command **CLI manual pages** (under `content/cli/<tool>/`) into a structured runtime artifact (JSON manifest + thin procedural overview). Replaces the prior-art `~/.claude/skills/gxwf-cli` (a help-text dump). Per-action Molds (`discover-shed-tool`, `validate-with-gxwf`, `run-workflow-test`) reference individual manual pages directly; the whole-CLI cast is the standalone product for an agent that needs general competence with the CLI.
+#### summarize-nextflow
+
+Come up with a concrete, validatable format that pulls down all the nextflow files and links them. Describes the workflow test data. Describes tools, containers, etc... 
+#### nextflow-summary-to-galaxy-data-flow
+
+Output an abstract description of the data flow through a Galaxy workflow based on information in the skill.
+#### nextflow-to-galaxy-template
+
+Convert a nextflow summary and galaxy data flow analysis into a gxformat2 skeleton with TODOs for concrete steps.
+
+#### nextflow-test-to-galaxy-tests
+
+/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/COMPONENT_GALAXY_WORKFLOW_TESTING.md
+
+#### summarize-galaxy-tool
+
+Pull down the JSON schema for a tool, the containers, a description of the source, inputs, outputs, etc... This can be used to construct a step and isolate an agent consuming this output from "how to find the tool", "how to download the tool", "parse the XML", etc... 
+#### implement-tool-step
+
+Find a step in an abstraction gxformat2 workflow and convert it to a concrete step using the summarize-galaxy-tool.
+
+### Knowledge Skills
+
+I would hope progressive disclosure paired with content derived from the KB would let us design agents that have some specialities.
+#### design-galaxy-tabular-manipulation
+
+#### design-galaxy-collection-manipulation
+
+#### design-galaxy-conditional-handling
+
+#### design-custom-galaxy-tool
+
+If we cannot find a matching Galaxy tool - Galaxy has user defined tools:
+
+/Users/jxc755/projects/repositories/galaxy-brain/vault/research/PR 19434 - User Defined Tools.md
+/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/workflow_state/skills/COMPONENT_NEXTFLOW_WORKFLOW_TESTING.md
 
 ### Harness
 
