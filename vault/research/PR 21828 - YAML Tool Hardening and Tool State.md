@@ -20,13 +20,15 @@ related_prs:
   - 20935
 status: draft
 created: 2026-04-28
-revised: 2026-04-28
-revision: 3
+revised: 2026-05-07
+revision: 4
 ai_generated: true
 summary: "Typed Pydantic collection runtime models, Job.tool_state column, YAML test case JSON validation, collection inputs for YAML tools"
 sources:
   - "https://github.com/galaxyproject/galaxy/pull/21828"
 related_notes:
+  - "[[Component - User-Defined Tools]]"
+  - "[[Component - User-Defined Tool Source Validation]]"
   - "[[Component - YAML Tool Runtime]]"
   - "[[Component - Tool State Specification]]"
   - "[[Component - Tool State Dynamic Models]]"

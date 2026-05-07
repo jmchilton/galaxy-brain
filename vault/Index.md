@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*88 notes. Auto-generated — run `make index` to refresh.*
+*90 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -114,6 +114,8 @@
 ### Design Specs
 
 - [[Component - Tool State Specification]] — YAML-driven test suite validating 12 tool state representations, each form context-specific
+- [[Component - User-Defined Tools]] — Synthesis of the User-Defined Tools initiative — YAML tool format, sandboxed expressions, typed tool state, schema hardening, post-hoc divergence.
+- [[Component - User-Defined Tool Source Validation]] — Validation of the YAML tool source — UserToolSource Pydantic schema, narrow YAML input models, ToolSourceSchema.json, MCP authoring surface.
 
 ### Issue Roundups
 

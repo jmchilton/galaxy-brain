@@ -13,11 +13,12 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-04-28
-revised: 2026-04-28
-revision: 1
+revised: 2026-05-07
+revision: 2
 ai_generated: true
 summary: "Rerun, job display, export, workflow extract read legacy JobParameter rows via basic.py, not Job.tool_state — no YAML tool tests prove they agree"
 related_notes:
+  - "[[Component - User-Defined Tools]]"
   - "[[PR 19434 - User Defined Tools]]"
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"

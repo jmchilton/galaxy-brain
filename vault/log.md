@@ -55,3 +55,15 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Agents Backend]] — added cross-ref; needs revision for ops manager + HistoryAgent
   - [[Component - Agents UX]] — added cross-ref; MCP is a new external surface
   - [[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]] — added cross-ref; MCP is the non-persistent peer entry point
+
+## 2026-05-07 manual — Component - User-Defined Tools
+- **source**: external agent draft (no upstream URL)
+- **created**: [[Component - User-Defined Tools]]
+- **created**: [[Component - User-Defined Tool Source Validation]]
+- **note**: agent wrote both files directly as `Whitepaper - *.md` with subtype=whitepaper; renamed to `Design - *.md`, retyped as `design-spec`, dropped invalid tags (research/whitepaper, galaxy/agents, galaxy/agents/mcp, galaxy/tools/validation), added sources, trimmed editorial framing
+- **updated**:
+  - [[PR 19434 - User Defined Tools]] — backlink to both designs
+  - [[PR 21828 - YAML Tool Hardening and Tool State]] — backlink to both designs
+  - [[Component - YAML Tool Runtime]] — backlink to both designs
+  - [[Component - Tool State Specification]] — backlink to both designs
+  - [[Problem - YAML Tool Post-Hoc State Divergence]] — backlink to UDT design

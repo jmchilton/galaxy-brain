@@ -9,11 +9,13 @@ tags:
 component: Tool State Specification
 status: draft
 created: 2026-02-05
-revised: 2026-04-28
-revision: 4
+revised: 2026-05-07
+revision: 5
 ai_generated: true
 summary: "YAML-driven test suite validating 12 tool state representations, each form context-specific"
 related_notes:
+  - "[[Component - User-Defined Tools]]"
+  - "[[Component - User-Defined Tool Source Validation]]"
   - "[[Component - Tool State Dynamic Models]]"
   - "[[Component - Tool Testing Infrastructure]]"
   - "[[Component - YAML Tool Runtime]]"
