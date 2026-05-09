@@ -11,8 +11,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-09
-revised: 2026-02-09
-revision: 1
+revised: 2026-05-09
+revision: 2
 ai_generated: true
 galaxy_areas:
   - collections
@@ -25,6 +25,7 @@ related_notes:
   - "[[Component - Collection Models]]"
   - "[[Component - Collection API]]"
   - "[[Component - Collections - Paired or Unpaired]]"
+  - "[[Component - Collections - Records]]"
   - "[[PR 19305 - Implement Sample Sheets]]"
 summary: "Tabular metadata per collection element: column_definitions, columns row on elements, typed validation, cross-refs"
 ---

@@ -7,8 +7,8 @@ tags:
   - galaxy/models
 status: draft
 created: 2026-02-09
-revised: 2026-04-28
-revision: 4
+revised: 2026-05-09
+revision: 5
 ai_generated: true
 galaxy_areas:
   - collections
@@ -18,6 +18,7 @@ related_notes:
   - "[[Component - Collection API]]"
   - "[[Component - Collections - Paired or Unpaired]]"
   - "[[Component - Collections - Sample Sheets Backend]]"
+  - "[[Component - Collections - Records]]"
   - "[[Component - CWL Ephemeral Collections]]"
   - "[[Component - Collection Adapters]]"
   - "[[Component - Collection Creation API]]"

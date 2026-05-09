@@ -67,3 +67,13 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - YAML Tool Runtime]] — backlink to both designs
   - [[Component - Tool State Specification]] — backlink to both designs
   - [[Problem - YAML Tool Post-Hoc State Divergence]] — backlink to UDT design
+
+## 2026-05-09 manual — Component - Collections - Records
+- **source**: external agent draft (no upstream URL)
+- **created**: [[Component - Collections - Records]]
+- **note**: agent wrote file directly without /ingest; frontmatter already valid, no schema fixes needed
+- **updated**:
+  - [[Component - Collection Models]] — backlink
+  - [[Component - Collection API]] — backlink
+  - [[Component - Collections - Sample Sheets Backend]] — backlink
+  - [[Component - Collections - Paired or Unpaired]] — backlink

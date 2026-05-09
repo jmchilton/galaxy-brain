@@ -11,8 +11,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-09
-revised: 2026-04-22
-revision: 3
+revised: 2026-05-09
+revision: 4
 ai_generated: true
 galaxy_areas:
   - collections
@@ -26,6 +26,7 @@ related_notes:
   - "[[Component - Collection API]]"
   - "[[PR 19377 - Collection Types and Wizard UI]]"
   - "[[Component - Collections - Sample Sheets Backend]]"
+  - "[[Component - Collections - Records]]"
   - "[[Component - Auto Pairing]]"
   - "[[Component - Collection Tool Execution Semantics]]"
   - "[[Component - Tool XML Collection Commands]]"

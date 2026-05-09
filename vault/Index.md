@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*90 notes. Auto-generated — run `make index` to refresh.*
+*91 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -59,6 +59,7 @@
 - [[Component - Post Job Actions]] — Declarative post-processing operations on job outputs, transformations without explicit tools
 - [[Component - Collections - Sample Sheets Backend]] — Tabular metadata per collection element: column_definitions, columns row on elements, typed validation, cross-refs
 - [[Component - Collections - Paired or Unpaired]] — Discriminated union type of 1 or 2 elements with asymmetric subtyping where paired IS-A paired_or_unpaired
+- [[Component - Collections - Records]] — Heterogeneous fixed-shape collection: CWL-derived `fields` schema of named typed slots; no implicit mapping
 - [[Component - Workflow Comments]] — Visual annotation system for workflows, text/markdown/frames/freehand without execution impact
 - [[Component - Workflow Editor Terminal Tests]] — Unit tests for editor terminal connection rules, datatype/collection compatibility validation
 - [[Component - Workflow Editor Terminals]] — Terminal connection logic, compatibility checking, map-over propagation, plain class instances
