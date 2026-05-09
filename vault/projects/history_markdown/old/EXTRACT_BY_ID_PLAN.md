@@ -40,13 +40,11 @@ Migrate workflow extraction from HID-based dataset/collection identification to 
 
 ## Endpoint Decision (resolved)
 
-New endpoint: **`POST /api/workflow/extract`** (singular `workflow`, per user choice).
+New endpoint: **`POST /api/workflows/extract`** (plural, matches rest of workflow API).
 
 History-optional, ID-based payload only. Existing endpoints stay untouched for back-compat:
 - `POST /api/histories/{history_id}/extract_workflow` — HID-based, history-scoped (legacy).
 - `POST /api/workflows` w/ `from_history_id` — HID-based, untyped (legacy).
-
-Note on naming: rest of the workflow API is plural (`/api/workflows/...`). Singular `/api/workflow/extract` is intentional per user; flag for review at PR time.
 
 Vue UI: introduce a new client helper (e.g. `extractWorkflowByIds`) calling the new endpoint; replace the existing `extractWorkflowFromHistory` submit path.
 
@@ -56,7 +54,7 @@ Vue UI: introduce a new client helper (e.g. `extractWorkflowByIds`) calling the 
 |------|--------|
 | `lib/galaxy/workflow/extract.py` | Add `BaseWorkflowSummary` (pulls `__original_hda` / `__original_hdca` / `__check_state` / warnings out of existing `WorkflowSummary`); add `WorkflowSummaryByIds`, `extract_workflow_by_ids`, `extract_steps_by_ids`, `step_inputs_by_id`. Existing `WorkflowSummary` becomes a `BaseWorkflowSummary` subclass with no behavior change |
 | `lib/galaxy/schema/workflows.py` | New `WorkflowExtractionByIdsPayload` model (separate from existing `WorkflowExtractionPayload`) |
-| `lib/galaxy/webapps/galaxy/api/workflows.py` | New endpoint `POST /api/workflow/extract` — body has optional `from_history_id`, `hda_ids`, `hdca_ids`, `job_ids`. Returns `WorkflowExtractionResult`. (No HID fields accepted — mixing impossible by construction.) |
+| `lib/galaxy/webapps/galaxy/api/workflows.py` | New endpoint `POST /api/workflows/extract` — body has optional `from_history_id`, `hda_ids`, `hdca_ids`, `job_ids`. Returns `WorkflowExtractionResult`. (No HID fields accepted — mixing impossible by construction.) |
 | `lib/galaxy/webapps/galaxy/services/workflows.py` | Add `WorkflowsService.extract_by_ids(...)`. Controller stays thin. (Note: legacy HID controller currently inlines `extract_workflow(...)` directly; consider following up by moving that into the service too — out of scope for this PR.) |
 | `client/src/api/histories.ts` (or new `client/src/api/workflows.ts`) | Add `extractWorkflowByIds(payload)` |
 | `client/src/components/History/WorkflowExtractionForm.vue` | Track encoded IDs in selection; submit `hda_ids` / `hdca_ids`; HIDs only for display |
@@ -94,7 +92,7 @@ No HID fields on this model — mixing is impossible by construction (per design
 ### New endpoint
 
 ```
-POST /api/workflow/extract
+POST /api/workflows/extract
 Body: WorkflowExtractionByIdsPayload
 Returns: WorkflowExtractionResult
 ```
@@ -263,7 +261,7 @@ Each step: small commit, full unit suite + targeted API subset before next step.
 
 ## Design Decisions (resolved 2026-04-28)
 
-- **Endpoint**: `POST /api/workflow/extract` (singular, per user). Sibling to existing endpoints, history-optional.
+- **Endpoint**: `POST /api/workflows/extract` (plural, matches rest of workflow API). Sibling to existing endpoints, history-optional.
 - **Schema**: separate `WorkflowExtractionByIdsPayload` model (no HID fields → mixing impossible by construction).
 - **Refactor scope**: introduce `BaseWorkflowSummary` now; existing `WorkflowSummary` becomes a subclass (no behavior change), `WorkflowSummaryByIds` joins as a sibling.
 - **Mixed payload**: not possible — separate endpoint + separate schema.
@@ -271,4 +269,3 @@ Each step: small commit, full unit suite + targeted API subset before next step.
 ## Unresolved Questions
 
 - Anonymous-user / shared-history cross-history scenarios — punt to integration tests; should follow standard Galaxy access rules.
-- Singular `/api/workflow/extract` vs convention `/api/workflows/...` — flag for review at PR time.
