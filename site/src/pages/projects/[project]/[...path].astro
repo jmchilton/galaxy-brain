@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import FileTree from '../../../components/FileTree.astro';
+import { originalRelPath } from '../../../lib/project-paths';
 
 function titleize(s: string): string {
   return s.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -32,7 +33,7 @@ export async function getStaticPaths() {
       });
     }
 
-    // Folder paths — extract unique directory prefixes
+    // Folder paths — extract unique directory prefixes (slugified, used in URL)
     const folderPaths = new Set<string>();
     for (const entry of projFiles) {
       const parts = entry.id.split('/').slice(2); // after projects/<name>
@@ -55,51 +56,88 @@ const { entry, isFolder, folderPath } = Astro.props;
 const { project, path: routePath } = Astro.params;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Look up parent project
+// Look up parent project (vault entry)
 const allNotes = await getCollection('vault');
 const projectSlug = `projects/${project}`;
 const parentProject = allNotes.find(n => n.id === projectSlug);
 const projectTitle = parentProject?.data.title || titleize(project!);
 
-// Build breadcrumb segments from the route path
-const pathSegments = routePath!.split('/');
+// Original directory of the project, e.g. "projects/workflow_state"
+const projectOriginalDir = parentProject
+  ? originalRelPath(parentProject).replace(/\/index$/, '')
+  : projectSlug;
 
-interface Breadcrumb { label: string; href?: string }
-const breadcrumbs: Breadcrumb[] = [
-  { label: 'Home', href: `${base}/` },
-  { label: projectTitle, href: `${base}/${projectSlug}/` },
-];
-
-// Intermediate folder segments
-for (let i = 0; i < pathSegments.length - 1; i++) {
-  const folderSlug = pathSegments.slice(0, i + 1).join('/');
-  breadcrumbs.push({
-    label: titleize(pathSegments[i]),
-    href: `${base}/projects/${project}/${folderSlug}/`,
-  });
-}
-
-// Current page (last segment, no link)
-const currentLabel = titleize(pathSegments[pathSegments.length - 1]);
-breadcrumbs.push({ label: currentLabel });
-
-const pageTitle = currentLabel;
-
-// Render content for file entries
-let Content: any = null;
-if (!isFolder && entry) {
-  const rendered = await render(entry);
-  Content = rendered.Content;
-}
-
-// For folders: get files under this folder
+// For folders we need the children to derive the original folder names.
 let folderFiles: CollectionEntry<'projectFiles'>[] = [];
+let originalFolderPath = '';
 if (isFolder) {
   const allProjectFiles = await getCollection('projectFiles');
   const prefix = folderPath + '/';
   folderFiles = allProjectFiles
     .filter(f => f.id.startsWith(prefix))
     .sort((a, b) => a.id.localeCompare(b.id));
+  // Reconstruct the original folder path from a child file's filePath.
+  // depth = 2 (projects/<project>) + number of folder segments below project.
+  const folderDepth = 2 + routePath!.split('/').length;
+  if (folderFiles.length > 0) {
+    originalFolderPath = originalRelPath(folderFiles[0])
+      .split('/')
+      .slice(0, folderDepth)
+      .join('/');
+  }
+}
+
+// Build breadcrumb segments using original names where possible.
+interface Breadcrumb { label: string; href?: string }
+const breadcrumbs: Breadcrumb[] = [
+  { label: 'Home', href: `${base}/` },
+  { label: projectTitle, href: `${base}/${projectSlug}/` },
+];
+
+// Page title and intermediate folder labels: prefer original names.
+let pageTitle: string;
+const slugSegments = routePath!.split('/');
+
+if (!isFolder && entry) {
+  const fileOrig = originalRelPath(entry);
+  const fileParts = fileOrig.split('/'); // projects/<orig>/.../<file>
+  // Original folder segments live between the project dir and the filename.
+  const projectDirParts = projectOriginalDir.split('/').length;
+  const intermediateFolders = fileParts.slice(projectDirParts, -1);
+  const fileName = fileParts[fileParts.length - 1];
+
+  for (let i = 0; i < intermediateFolders.length; i++) {
+    const folderSlug = slugSegments.slice(0, i + 1).join('/');
+    breadcrumbs.push({
+      label: intermediateFolders[i],
+      href: `${base}/projects/${project}/${folderSlug}/`,
+    });
+  }
+  pageTitle = fileName;
+} else {
+  // Folder route: original folder names from originalFolderPath
+  const projectDirParts = projectOriginalDir.split('/').length;
+  const folderParts = originalFolderPath
+    ? originalFolderPath.split('/').slice(projectDirParts)
+    : slugSegments; // fallback if no children (shouldn't happen)
+
+  for (let i = 0; i < folderParts.length - 1; i++) {
+    const folderSlug = slugSegments.slice(0, i + 1).join('/');
+    breadcrumbs.push({
+      label: folderParts[i],
+      href: `${base}/projects/${project}/${folderSlug}/`,
+    });
+  }
+  pageTitle = folderParts[folderParts.length - 1] || titleize(slugSegments[slugSegments.length - 1]);
+}
+
+breadcrumbs.push({ label: pageTitle });
+
+// Render content for file entries
+let Content: any = null;
+if (!isFolder && entry) {
+  const rendered = await render(entry);
+  Content = rendered.Content;
 }
 ---
 <Base title={pageTitle} pageTitle={pageTitle}>
@@ -117,7 +155,7 @@ if (isFolder) {
   <h1 class="mb-4 text-2xl font-bold">{pageTitle}</h1>
 
   {isFolder ? (
-    <FileTree files={folderFiles} basePath={folderPath!} />
+    <FileTree files={folderFiles} originalBasePath={originalFolderPath} />
   ) : (
     <article class="prose prose-slate max-w-none dark:prose-invert" data-pagefind-body>
       {Content && <Content />}
