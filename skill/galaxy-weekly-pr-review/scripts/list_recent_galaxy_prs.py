@@ -31,6 +31,7 @@ DEFAULT_INTEREST_PATHS = {
     "lib/galaxy/tool_util/**": 5,
     "lib/galaxy/tool_util_models/**": 5,
     "lib/galaxy/tools/**": 4,
+    "lib/galaxy/files/**": 4,
     "lib/tool_shed/**": 4,
     "test/**/tool_util/**": 4,
     "test/**/tool_shed/**": 4,
@@ -42,10 +43,13 @@ DEFAULT_INTEREST_PATHS = {
 DEFAULT_KEYWORDS = {
     "tool framework": 4,
     "tool_util": 4,
-    "parsedtool": 4,
     "tool shed": 4,
     "toolshed": 4,
     "workflow": 3,
+    "markdown": 3,
+    "agents": 3,
+    "ai": 3,
+    "jupyter": 3,
     "schema": 1,
     "pydantic": 2,
 }
