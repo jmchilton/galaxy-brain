@@ -1,0 +1,25 @@
+{
+  "labels": {
+    "area/tool-framework": 4,
+    "area/tool-shed": 4,
+    "area/API": 2,
+    "area/workflows": 3
+  },
+  "paths": {
+    "lib/galaxy/tool_util/**": 5,
+    "lib/galaxy/tool_util_models/**": 5,
+    "lib/galaxy/tools/**": 4,
+    "lib/tool_shed/**": 4,
+    "test/**/tool_util/**": 4,
+    "test/**/tool_shed/**": 4,
+    "client/src/api/schema/**": 1
+  },
+  "keywords": {
+    "tool framework": 4,
+    "tool_util": 4,
+    "parsedtool": 4,
+    "tool shed": 4,
+    "workflow": 3,
+    "pydantic": 2
+  }
+}
