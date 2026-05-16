@@ -8,7 +8,7 @@ tags:
 status: draft
 created: 2026-02-09
 revised: 2026-05-16
-revision: 7
+revision: 8
 ai_generated: true
 galaxy_areas:
   - collections
@@ -28,6 +28,7 @@ related_notes:
   - "[[PR 19377 - Collection Types and Wizard UI]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[PR 21932 - History Graph API]]"
+  - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
   - "[[PR 22706 - Workflow Extraction by IDs]]"
 ---
 

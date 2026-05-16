@@ -8,13 +8,14 @@ tags:
 status: draft
 created: 2026-02-05
 revised: 2026-05-16
-revision: 4
+revision: 5
 ai_generated: true
 summary: "Workflow extraction has open issues with copied datasets, connection loss, interface needs Vue conversion"
 related_notes:
   - "[[Component - Workflow Extraction]]"
   - "[[Component - Workflow Extraction Models]]"
   - "[[Issue 17506 - Convert Workflow Extraction Interface to Vue]]"
+  - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
   - "[[PR 22706 - Workflow Extraction by IDs]]"
   - "[[Workflow Extraction Multiple Histories]]"
 ---

@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*93 notes. Auto-generated — run `make index` to refresh.*
+*94 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -86,6 +86,7 @@
 - [[PR 21828 - YAML Tool Hardening and Tool State]] — Typed Pydantic collection runtime models, Job.tool_state column, YAML test case JSON validation, collection inputs for YAML tools
 - [[PR 21842 - Tool Execution Migrated to api jobs]] — Tool form submits via POST /api/jobs with client-side flat-to-nested state, polls tool_requests until terminal
 - [[PR 21932 - History Graph API]] — GET /api/histories/{id}/graph returns bounded provenance DAG over HDAs HDCAs tool_requests
+- [[PR 21935 - Workflow Extraction Vue Conversion]] — Mako to Vue conversion of workflow extraction UI with new HID-keyed FastAPI extraction summary and extract workflow endpoints replacing legacy controller
 - [[PR 21942 - Shared Agent Operations and MCP Server]] — Shared AgentOperationsManager wraps Galaxy services for HistoryAgent and an in-process FastMCP server mounted at /api/mcp
 - [[PR 22706 - Workflow Extraction by IDs]] — ID-based workflow extraction endpoint selecting implicit collection jobs by encoded id instead of HID inference for map-over steps
 - [[PR 4830 - Workflow Resource Parameters]] — Administrators define workflow-level resource parameters users set when invoking workflows for scheduling

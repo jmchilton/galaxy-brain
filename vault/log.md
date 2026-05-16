@@ -113,3 +113,18 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[PR 18758 - Tool Execution Typing and Decomposition]] — backlink
   - [[Component - Workflow Editor Terminals]] — backlink
   - [[Component - Workflow API]] — backlink
+
+## 2026-05-16 ingest — PR 21935 - Workflow Extraction Vue Conversion
+- **source**: https://github.com/galaxyproject/galaxy/pull/21935
+- **created**: [[PR 21935 - Workflow Extraction Vue Conversion]]
+- **updated**:
+  - [[Issue 17506 - Convert Workflow Extraction Interface to Vue]] — backlink (parent issue)
+  - [[PR 22706 - Workflow Extraction by IDs]] — backlink (direct ID-native follow-up)
+  - [[Component - Workflow Extraction]] — backlink
+  - [[Component - Workflow Extraction Models]] — backlink
+  - [[Workflow Extraction Multiple Histories]] — backlink
+  - [[Workflow Extraction Issues]] — backlink
+  - [[Component - Workflow API]] — backlink
+  - [[Component - Workflow Editor Terminals]] — backlink
+  - [[Component - Collection Models]] — backlink
+  - [[Component - Collection Tool Execution Semantics]] — backlink

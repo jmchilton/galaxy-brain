@@ -8,7 +8,7 @@ tags:
 status: draft
 created: 2026-02-09
 revised: 2026-05-16
-revision: 5
+revision: 6
 ai_generated: true
 galaxy_areas:
   - workflows
@@ -20,6 +20,7 @@ related_notes:
   - "[[Component - Workflow Editor Terminal Tests]]"
   - "[[PR 20390 - Workflow Graph Search]]"
   - "[[PR 21932 - History Graph API]]"
+  - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
   - "[[PR 22706 - Workflow Extraction by IDs]]"
 ---
 

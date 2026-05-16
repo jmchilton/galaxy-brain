@@ -21,7 +21,7 @@ related_prs:
 status: draft
 created: 2026-05-16
 revised: 2026-05-16
-revision: 1
+revision: 2
 ai_generated: true
 summary: "ID-based workflow extraction endpoint selecting implicit collection jobs by encoded id instead of HID inference for map-over steps"
 sources:
@@ -40,6 +40,7 @@ related_notes:
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
   - "[[PR 18758 - Tool Execution Typing and Decomposition]]"
+  - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
   - "[[Component - Workflow Editor Terminals]]"
   - "[[Component - Workflow API]]"
 ---
