@@ -7,26 +7,28 @@ tags:
   - galaxy/models
 status: draft
 created: 2026-02-09
-revised: 2026-05-09
-revision: 5
+revised: 2026-05-16
+revision: 7
 ai_generated: true
 galaxy_areas:
   - collections
   - models
 summary: "Core model classes: DatasetCollection, DatasetCollectionElement, HDCA/LDCA instances, implicit collections from mapping"
 related_notes:
-  - "[[Component - Collection API]]"
-  - "[[Component - Collections - Paired or Unpaired]]"
-  - "[[Component - Collections - Sample Sheets Backend]]"
-  - "[[Component - Collections - Records]]"
-  - "[[Component - CWL Ephemeral Collections]]"
   - "[[Component - Collection Adapters]]"
+  - "[[Component - Collection API]]"
   - "[[Component - Collection Creation API]]"
   - "[[Component - Collection Tool Execution Semantics]]"
+  - "[[Component - Collections - Paired or Unpaired]]"
+  - "[[Component - Collections - Records]]"
+  - "[[Component - Collections - Sample Sheets Backend]]"
+  - "[[Component - CWL Ephemeral Collections]]"
   - "[[Dependency - Collection Graphviz]]"
   - "[[PR 19305 - Implement Sample Sheets]]"
   - "[[PR 19377 - Collection Types and Wizard UI]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
+  - "[[PR 21932 - History Graph API]]"
+  - "[[PR 22706 - Workflow Extraction by IDs]]"
 ---
 
 # Galaxy Dataset Collection Model Layer

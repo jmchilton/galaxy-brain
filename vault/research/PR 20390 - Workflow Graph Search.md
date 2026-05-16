@@ -7,8 +7,8 @@ tags:
   - galaxy/client
 status: draft
 created: 2026-02-11
-revised: 2026-04-22
-revision: 2
+revised: 2026-05-13
+revision: 3
 ai_generated: true
 github_pr: 20390
 github_repo: galaxyproject/galaxy
@@ -16,6 +16,7 @@ summary: "Workflow editor search panel finds steps, inputs, outputs, comments wi
 related_notes:
   - "[[Component - Workflow Comments]]"
   - "[[Component - Workflow Editor Terminals]]"
+  - "[[PR 21932 - History Graph API]]"
 ---
 # PR #20390 Research: Workflow Graph Search
 

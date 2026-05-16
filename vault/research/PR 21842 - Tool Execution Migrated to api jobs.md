@@ -14,22 +14,24 @@ related_prs:
   - 21828
 status: draft
 created: 2026-04-28
-revised: 2026-04-28
-revision: 2
+revised: 2026-05-16
+revision: 4
 ai_generated: true
 summary: "Tool form submits via POST /api/jobs with client-side flat-to-nested state, polls tool_requests until terminal"
 sources:
   - "https://github.com/galaxyproject/galaxy/pull/21842"
 related_notes:
   - "[[Component - API Tests Tools]]"
-  - "[[Component - Tool State Specification]]"
   - "[[Component - Tool State Dynamic Models]]"
+  - "[[Component - Tool State Specification]]"
   - "[[Component - YAML Tool Runtime]]"
   - "[[PR 18641 - Parameter Model Improvements Research]]"
   - "[[PR 18758 - Tool Execution Typing and Decomposition]]"
   - "[[PR 19434 - User Defined Tools]]"
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
+  - "[[PR 21932 - History Graph API]]"
+  - "[[PR 22706 - Workflow Extraction by IDs]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 

@@ -77,3 +77,39 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Collection API]] — backlink
   - [[Component - Collections - Sample Sheets Backend]] — backlink
   - [[Component - Collections - Paired or Unpaired]] — backlink
+
+## 2026-05-13 ingest — PR 21932 - History Graph API
+- **source**: https://github.com/galaxyproject/galaxy/pull/21932
+- **created**: [[PR 21932 - History Graph API]]
+- **updated**:
+  - [[PR 20935 - Tool Request API]] — backlink
+  - [[PR 21842 - Tool Execution Migrated to api jobs]] — backlink
+  - [[PR 21828 - YAML Tool Hardening and Tool State]] — backlink
+  - [[PR 17413 - Invocation Graph View]] — backlink
+  - [[PR 20390 - Workflow Graph Search]] — backlink
+  - [[PR 18758 - Tool Execution Typing and Decomposition]] — backlink
+  - [[Component - Workflow Extraction]] — backlink
+  - [[Component - Workflow Extraction Models]] — backlink
+  - [[Component - Collection Tool Execution Semantics]] — backlink
+  - [[Component - Collection Models]] — backlink
+  - [[Component - Invocation Graph View]] — backlink
+  - [[Component - Workflow Editor Terminals]] — backlink
+  - [[Issue 17506 - Convert Workflow Extraction Interface to Vue]] — backlink
+
+## 2026-05-16 ingest — PR 22706 - Workflow Extraction by IDs
+- **source**: https://github.com/galaxyproject/galaxy/pull/22706
+- **created**: [[PR 22706 - Workflow Extraction by IDs]]
+- **updated**:
+  - [[Component - Workflow Extraction]] — backlink
+  - [[Component - Workflow Extraction Models]] — backlink
+  - [[Workflow Extraction Multiple Histories]] — backlink
+  - [[Workflow Extraction Issues]] — backlink
+  - [[Issue 17506 - Convert Workflow Extraction Interface to Vue]] — backlink
+  - [[Component - Collection Models]] — backlink
+  - [[Component - Collection Tool Execution Semantics]] — backlink
+  - [[PR 20935 - Tool Request API]] — backlink
+  - [[PR 21828 - YAML Tool Hardening and Tool State]] — backlink
+  - [[PR 21842 - Tool Execution Migrated to api jobs]] — backlink
+  - [[PR 18758 - Tool Execution Typing and Decomposition]] — backlink
+  - [[Component - Workflow Editor Terminals]] — backlink
+  - [[Component - Workflow API]] — backlink

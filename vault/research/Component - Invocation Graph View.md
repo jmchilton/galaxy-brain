@@ -8,14 +8,15 @@ tags:
 component: Invocation Graph View
 status: draft
 created: 2026-02-11
-revised: 2026-04-22
-revision: 2
+revised: 2026-05-13
+revision: 3
 ai_generated: true
 summary: "Visual DAG rendering of workflow invocation with real-time job state, readonly editor canvas"
 related_notes:
   - "[[Component - Invocation Report to Pages]]"
   - "[[Component - Workflow Editor Terminals]]"
   - "[[PR 17413 - Invocation Graph View]]"
+  - "[[PR 21932 - History Graph API]]"
 ---
 
 # Component Architecture: Invocation Graph View

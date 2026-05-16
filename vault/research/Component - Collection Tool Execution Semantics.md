@@ -8,8 +8,8 @@ tags:
   - galaxy/tools
 status: draft
 created: 2026-02-05
-revised: 2026-04-28
-revision: 3
+revised: 2026-05-16
+revision: 5
 ai_generated: true
 component: dataset_collections
 galaxy_areas:
@@ -18,14 +18,16 @@ galaxy_areas:
 branch: structured_tool_state
 summary: "Collection types (list, paired, record), mapping semantics, linked vs cross-product multiple inputs, element identifier flow"
 related_notes:
-  - "[[Component - CWL Ephemeral Collections]]"
   - "[[Component - Collection Adapters]]"
   - "[[Component - Collection Models]]"
   - "[[Component - Collections - Paired or Unpaired]]"
+  - "[[Component - CWL Ephemeral Collections]]"
   - "[[Component - Tool XML Collection Commands]]"
   - "[[Component - Workflow Editor Terminals]]"
   - "[[PR 19377 - Collection Types and Wizard UI]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
+  - "[[PR 21932 - History Graph API]]"
+  - "[[PR 22706 - Workflow Extraction by IDs]]"
 ---
 
 # Collection Tool Execution Semantics in Galaxy
