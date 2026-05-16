@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import FileTree from '../components/FileTree.astro';
 import { buildWikiLinkMap, resolveWikiLink, buildBacklinkMap } from '../lib/wiki-links';
+import { originalRelPath } from '../lib/project-paths';
 
 export async function getStaticPaths() {
   const entries = await getCollection('vault');
@@ -69,16 +70,16 @@ function formatDate(d: Date): string {
 
 // Project sub-files (for type=project)
 let projectFiles: CollectionEntry<'projectFiles'>[] = [];
+let projectOriginalDir = '';
 if (data.type === 'project') {
   const allProjectFiles = await getCollection('projectFiles');
   const prefix = entry.id + '/';
   projectFiles = allProjectFiles
     .filter(f => f.id.startsWith(prefix))
     .sort((a, b) => a.id.localeCompare(b.id));
-}
-
-function fileTitle(id: string): string {
-  return id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+  // Original directory of the project (preserves underscores/case),
+  // derived from this entry's filePath: ".../vault/projects/<orig>/index.md"
+  projectOriginalDir = originalRelPath(entry).replace(/\/index$/, '');
 }
 
 // Title from filename
@@ -194,7 +195,7 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
   {projectFiles.length > 0 && (
     <div class="mb-6">
       <h2 class="text-lg font-semibold mb-2">Project Files</h2>
-      <FileTree files={projectFiles} basePath={entry.id} />
+      <FileTree files={projectFiles} originalBasePath={projectOriginalDir} />
     </div>
   )}
 
