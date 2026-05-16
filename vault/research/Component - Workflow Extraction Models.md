@@ -8,16 +8,19 @@ tags:
 component: Workflow Extraction Models
 status: draft
 created: 2026-02-05
-revised: 2026-04-22
-revision: 2
+revised: 2026-05-16
+revision: 5
 ai_generated: true
 summary: "ORM model relationships for reconstructing workflows from history via dataset ancestry"
 related_notes:
   - "[[Component - Workflow Extraction]]"
   - "[[Issue 17506 - Convert Workflow Extraction Interface to Vue]]"
+  - "[[PR 21932 - History Graph API]]"
+  - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
+  - "[[PR 22706 - Workflow Extraction by IDs]]"
+  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
   - "[[Workflow Extraction Issues]]"
   - "[[Workflow Extraction Multiple Histories]]"
-  - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 
 # Galaxy Models for Workflow Extraction

@@ -7,8 +7,8 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-03-16
-revised: 2026-04-22
-revision: 2
+revised: 2026-05-16
+revision: 4
 ai_generated: true
 component: Workflow API
 galaxy_areas: [workflows, api]
@@ -19,6 +19,8 @@ related_notes:
   - "[[Component - Workflow Extraction]]"
   - "[[Component - Workflow Import]]"
   - "[[Component - Workflow Refactoring API]]"
+  - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
+  - "[[PR 22706 - Workflow Extraction by IDs]]"
 ---
 
 # Galaxy Workflow API - Comprehensive Reference Documentation

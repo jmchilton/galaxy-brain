@@ -20,22 +20,22 @@ related_prs:
   - 20935
 status: draft
 created: 2026-04-28
-revised: 2026-05-07
-revision: 4
+revised: 2026-05-16
+revision: 6
 ai_generated: true
 summary: "Typed Pydantic collection runtime models, Job.tool_state column, YAML test case JSON validation, collection inputs for YAML tools"
 sources:
   - "https://github.com/galaxyproject/galaxy/pull/21828"
 related_notes:
-  - "[[Component - User-Defined Tools]]"
-  - "[[Component - User-Defined Tool Source Validation]]"
-  - "[[Component - YAML Tool Runtime]]"
-  - "[[Component - Tool State Specification]]"
-  - "[[Component - Tool State Dynamic Models]]"
   - "[[Component - Collection Models]]"
   - "[[Component - Collection Tool Execution Semantics]]"
   - "[[Component - Collections in Tool XML Tests]]"
+  - "[[Component - Tool State Dynamic Models]]"
+  - "[[Component - Tool State Specification]]"
   - "[[Component - Tool Testing Infrastructure]]"
+  - "[[Component - User-Defined Tool Source Validation]]"
+  - "[[Component - User-Defined Tools]]"
+  - "[[Component - YAML Tool Runtime]]"
   - "[[Dependency - Pydantic Discriminated Unions]]"
   - "[[Dependency - Pydantic Dynamic Models]]"
   - "[[PR 18641 - Parameter Model Improvements Research]]"
@@ -44,6 +44,8 @@ related_notes:
   - "[[PR 19434 - User Defined Tools]]"
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
+  - "[[PR 21932 - History Graph API]]"
+  - "[[PR 22706 - Workflow Extraction by IDs]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
 

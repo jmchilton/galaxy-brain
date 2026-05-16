@@ -7,18 +7,21 @@ tags:
   - galaxy/client
 status: draft
 created: 2026-02-09
-revised: 2026-04-22
-revision: 3
+revised: 2026-05-16
+revision: 6
 ai_generated: true
 galaxy_areas:
   - workflows
   - client
 summary: "Terminal connection logic, compatibility checking, map-over propagation, plain class instances"
 related_notes:
-  - "[[Component - Workflow Editor Terminal Tests]]"
   - "[[Component - Collection Tool Execution Semantics]]"
   - "[[Component - Invocation Graph View]]"
+  - "[[Component - Workflow Editor Terminal Tests]]"
   - "[[PR 20390 - Workflow Graph Search]]"
+  - "[[PR 21932 - History Graph API]]"
+  - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
+  - "[[PR 22706 - Workflow Extraction by IDs]]"
 ---
 
 # Workflow Editor Terminals Module - Architecture Research Report

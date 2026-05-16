@@ -11,8 +11,8 @@ github_repo: galaxyproject/galaxy
 component: Tool Execution
 status: draft
 created: 2026-02-05
-revised: 2026-04-28
-revision: 4
+revised: 2026-05-16
+revision: 6
 ai_generated: true
 summary: "Adds type aliases documenting tool state lifecycle through execution from request to job completion"
 related_notes:
@@ -23,6 +23,8 @@ related_notes:
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
+  - "[[PR 21932 - History Graph API]]"
+  - "[[PR 22706 - Workflow Extraction by IDs]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 ---
  

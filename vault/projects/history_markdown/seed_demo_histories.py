@@ -71,12 +71,18 @@ class PasteSpec:
 
 
 def paste_dataset(gi: GalaxyInstance, history_id: str, spec: PasteSpec) -> str:
-    """Upload an inline dataset via the tools/fetch API and return the dataset id."""
+    """Upload an inline dataset via upload1 and return the dataset id.
+
+    Pass file_name= so bioblend sets files_0|NAME on the upload job itself;
+    a post-upload rename gets clobbered when the upload job finalizes.
+    """
     payload = gi.tools.paste_content(
-        spec.content, history_id=history_id, file_type=spec.file_type
+        spec.content,
+        history_id=history_id,
+        file_type=spec.file_type,
+        file_name=spec.name,
     )
-    ds = payload["outputs"][0]
-    return ds["id"]
+    return payload["outputs"][0]["id"]
 
 
 def wait_for(gi: GalaxyInstance, history_id: str, timeout: int = 600) -> None:
@@ -115,7 +121,7 @@ def hda(id_: str) -> dict:
 
 def scenario_notebook_from_scratch(gi: GalaxyInstance, name: str) -> str:
     h = gi.histories.create_history(name=name)["id"]
-    src = paste_dataset(gi, h, PasteSpec("demo_input.txt", LINES_TXT, "txt"))
+    src = paste_dataset(gi, h, PasteSpec("sampleA_gene_ids.txt", LINES_TXT, "txt"))
     run_tool(gi, h, "head", {"input": hda(src), "lineNum": 5})
     run_tool(gi, h, "head", {"input": hda(src), "lineNum": 15})
     run_tool(gi, h, "cat", {"input1": hda(src), "queries_0|input2": hda(src)})
@@ -124,9 +130,9 @@ def scenario_notebook_from_scratch(gi: GalaxyInstance, name: str) -> str:
 
 def scenario_methods_draft(gi: GalaxyInstance, name: str) -> str:
     h = gi.histories.create_history(name=name)["id"]
-    fq = paste_dataset(gi, h, PasteSpec("sample_R1.fastq", FASTQ_CONTENT, "fastq"))
-    fa = paste_dataset(gi, h, PasteSpec("reference.fasta", FASTA_CONTENT, "fasta"))
-    txt = paste_dataset(gi, h, PasteSpec("notes.txt", LINES_TXT, "txt"))
+    fq = paste_dataset(gi, h, PasteSpec("H3K27ac_rep1_R1.fastq", FASTQ_CONTENT, "fastq"))
+    fa = paste_dataset(gi, h, PasteSpec("hg38_chr19_subset.fasta", FASTA_CONTENT, "fasta"))
+    txt = paste_dataset(gi, h, PasteSpec("experiment_metadata.txt", LINES_TXT, "txt"))
     run_tool(gi, h, "mapper", {"input1": hda(fq), "reference": hda(fa)})
     run_tool(gi, h, "head", {"input": hda(txt), "lineNum": 10})
     run_tool(gi, h, "cat", {"input1": hda(txt), "queries_0|input2": hda(txt)})
@@ -137,9 +143,9 @@ def scenario_per_section_diff(gi: GalaxyInstance, name: str) -> str:
     # Same shape as methods-draft but distinct name and slightly different inputs
     # so you can record both clips back-to-back without confusing histories.
     h = gi.histories.create_history(name=name)["id"]
-    fq = paste_dataset(gi, h, PasteSpec("rep2_R1.fastq", FASTQ_CONTENT, "fastq"))
-    fa = paste_dataset(gi, h, PasteSpec("hg_demo.fasta", FASTA_CONTENT, "fasta"))
-    bed = paste_dataset(gi, h, PasteSpec("peaks.bed", SAMPLE_BED, "bed"))
+    fq = paste_dataset(gi, h, PasteSpec("H3K27ac_rep2_R1.fastq", FASTQ_CONTENT, "fastq"))
+    fa = paste_dataset(gi, h, PasteSpec("hg38_chr19_subset.fasta", FASTA_CONTENT, "fasta"))
+    bed = paste_dataset(gi, h, PasteSpec("H3K27ac_rep2_macs2_peaks.bed", SAMPLE_BED, "bed"))
     run_tool(gi, h, "mapper", {"input1": hda(fq), "reference": hda(fa)})
     run_tool(gi, h, "head", {"input": hda(bed), "lineNum": 2})
     return h
@@ -147,8 +153,8 @@ def scenario_per_section_diff(gi: GalaxyInstance, name: str) -> str:
 
 def scenario_revisions(gi: GalaxyInstance, name: str) -> str:
     h = gi.histories.create_history(name=name)["id"]
-    fq = paste_dataset(gi, h, PasteSpec("variants_R1.fastq", FASTQ_CONTENT, "fastq"))
-    fa = paste_dataset(gi, h, PasteSpec("ref.fasta", FASTA_CONTENT, "fasta"))
+    fq = paste_dataset(gi, h, PasteSpec("patient042_tumor_R1.fastq", FASTQ_CONTENT, "fastq"))
+    fa = paste_dataset(gi, h, PasteSpec("GRCh38_chr17_TP53.fasta", FASTA_CONTENT, "fasta"))
     map_out = run_tool(gi, h, "mapper", {"input1": hda(fq), "reference": hda(fa)})
     bam_id = map_out["outputs"][0]["id"]
     # Wait for the BAM so pileup's metadata validator (bam_index) has something real.
@@ -164,7 +170,7 @@ def scenario_revisions(gi: GalaxyInstance, name: str) -> str:
 
 def scenario_reports_vs_notebooks(gi: GalaxyInstance, name: str) -> str:
     h = gi.histories.create_history(name=name)["id"]
-    src = paste_dataset(gi, h, PasteSpec("intervals.bed", SAMPLE_BED, "bed"))
+    src = paste_dataset(gi, h, PasteSpec("genome_intervals_chr1_chr2.bed", SAMPLE_BED, "bed"))
     run_tool(gi, h, "head", {"input": hda(src), "lineNum": 2})
     return h
 
