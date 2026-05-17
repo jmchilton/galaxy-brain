@@ -13,8 +13,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-04-28
-revised: 2026-05-07
-revision: 2
+revised: 2026-05-16
+revision: 3
 ai_generated: true
 summary: "Rerun, job display, export, workflow extract read legacy JobParameter rows via basic.py, not Job.tool_state — no YAML tool tests prove they agree"
 related_notes:
@@ -45,6 +45,50 @@ legacy `JobParameter` rows via `params_from_strings` in
 `lib/galaxy/tools/parameters/basic.py`. Two parallel representations of the
 same job exist, only one is validated, and YAML tools have no end-to-end tests
 proving they agree.
+
+---
+
+## Verified facts & correction (2026-05-16)
+
+Code read at `dev` / `history_notebook_extract`. These correct terminology used
+loosely below and elsewhere.
+
+- **`ToolRequest.request_state` does not exist.** `class ToolRequest`
+  (`lib/galaxy/model/__init__.py:1411-1428`) has `request: Mapped[dict]`
+  (`:1419`), `state`, `state_message` — no `request_state`. That field exists
+  only on `ToolLandingRequest` / `WorkflowLandingRequest`. Anywhere this note
+  (or a code FIXME) says "`ToolRequest.request_state` reader", the real object
+  is **`ToolRequest.request`**.
+- **`ToolRequest.request` is the `request_internal` representation.** Written
+  `lib/galaxy/webapps/galaxy/services/jobs.py:272` as
+  `tool_request.request = request_internal_state.input_state` after `decode()`
+  (encoded→int ids). It is **not** dereferenced — `{src: url, ...}` survives.
+- **Map-over is encoded as a Batch**, not a plain collection ref:
+  `{"__class__":"Batch","values":[{src: hdca|dce, id: N}, …],"linked": bool}`.
+  Model `BatchRequest` (`lib/galaxy/tool_util_models/parameters.py:132-137`);
+  expansion semantics `lib/galaxy/tools/parameters/meta.py:348-372` —
+  `linked: true` → MATCHED (zip / normal map-over), `linked: false` →
+  MULTIPLIED (cross-product).
+- **ICJ ↔ ToolRequest is 1:1 by construction.** One ToolRequest per mapped
+  execution; all constituent jobs share `Job.tool_request_id` (same object
+  reused `lib/galaxy/tools/execute.py:256-257`; ICJ created once `:615`).
+  Multiple distinct `tool_request_id` on one ICJ only via corruption / manual
+  SQL — a legitimately-built ICJ is never mixed-era. Per-step (not per-job) is
+  the correct granularity for any "is there structured state" gate.
+- **History Graph already reads `ToolRequest.request`** (`_fetch_payloads`,
+  `lib/galaxy/managers/history_graph.py:379`) and walks `{src,id}` leaves with
+  `boltons.iterutils.remap` — descending into Batch `values` transparently. So
+  a structured workflow-extraction reader and the History Graph would share one
+  parse; the only net-new piece for extraction is a
+  `request_internal → workflow_step_linked` *parameter* conversion. History
+  Graph treats >1 distinct `tool_request_id` for an item as ambiguous
+  (debug + skip producer edge, `:301-367`).
+
+**Consequence for the "clean fix" below:** for *workflow extraction
+specifically* the structured source is `ToolRequest.request`
+(`request_internal`) — not `Job.tool_state`, and not a non-existent
+`ToolRequest.request_state`. `Job.tool_state` is the wrong granularity for a
+mapped step (element-level, not the collection-level request).
 
 ---
 
@@ -250,6 +294,16 @@ predating the column. That requires:
   accept structured tool state directly rather than reconstructing via
   `params_to_strings` (`lib/galaxy/workflow/extract.py:429`).
 - Job display UI to render from the structured state (matching the form).
+
+> **Correction (2026-05-16):** for the *workflow-extraction* consumer the
+> structured source is `ToolRequest.request` (representation `request_internal`,
+> per-step / per-ToolRequest), **not** `Job.tool_state` (element-level, wrong
+> granularity for mapped steps) and **not** `ToolRequest.request_state` (no such
+> field — see "Verified facts & correction" above). The extraction-side reader
+> is therefore a `request_internal → workflow_step_linked` conversion sharing
+> History Graph's `{src,id}` walk, with a config-gated `params_from_strings`
+> fallback for executions lacking a tool request. Display/rerun consumers may
+> still want a `Job.tool_state`-based reader; those are separate seams.
 
 The tests above are the prerequisite — without them we can't tell whether the
 two paths agree, and any switchover will silently regress XML tools or YAML
