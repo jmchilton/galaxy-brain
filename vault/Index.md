@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*94 notes. Auto-generated — run `make index` to refresh.*
+*97 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -14,6 +14,12 @@
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
 - [[wf_refactor_persistence]] — Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113).
 - [[workflow_state]] — Workflow validation infrastructure: pre-execution parameter typing, format2 usability, VS Code tooling, tool search overhaul.
+
+## Papers
+
+- [[galaxy-notebooks]] — Paper workspace for Galaxy Notebooks as reproducible analysis communication and notebook-driven workflow extraction.
+- [[foundry]] — Paper workspace for Foundry as a provenance-bearing knowledge-to-skill compiler for Galaxy workflow authoring agents.
+- [[gxwf]] — Paper workspace for gxwf static validation, CLI tooling, browser authoring, and VS Code integration.
 
 ## Research
 

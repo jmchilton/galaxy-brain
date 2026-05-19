@@ -29,7 +29,7 @@ _H1_RE = re.compile(r"^#\s+(.+?)\s*$", re.MULTILINE)
 
 # (type, subtype) -> (section heading, sort_key)
 # Top-level sections rendered in this order.
-TOP_LEVEL_ORDER = ["plans", "projects", "research", "concepts", "mocs"]
+TOP_LEVEL_ORDER = ["plans", "projects", "papers", "research", "concepts", "mocs"]
 
 RESEARCH_SUBTYPE_ORDER = [
     "component",
@@ -70,8 +70,8 @@ def collect_notes(vault_dir: Path):
         post = frontmatter.loads(text)
         meta = post.metadata
         rel = path.relative_to(vault_dir)
-        # Project index.md files share stem "index"; slug by parent dir instead.
-        if meta.get("type") == "project" and path.name == "index.md":
+        # Workspace index.md files share stem "index"; slug by parent dir instead.
+        if meta.get("type") in ("project", "paper") and path.name == "index.md":
             slug = path.parent.name
         else:
             slug = path.stem
@@ -98,7 +98,7 @@ def _entry_line(note):
 
 def generate_index(notes):
     """Build Index.md content from a list of note dicts."""
-    by_type = {t: [] for t in ("plan", "plan-section", "project", "research", "concept", "moc")}
+    by_type = {t: [] for t in ("plan", "plan-section", "project", "paper", "research", "concept", "moc")}
     for n in notes:
         t = n.get("type")
         if t in by_type:
@@ -124,6 +124,13 @@ def generate_index(notes):
         lines.append("## Projects")
         lines.append("")
         for n in by_type["project"]:
+            lines.append(_entry_line(n))
+        lines.append("")
+
+    if by_type["paper"]:
+        lines.append("## Papers")
+        lines.append("")
+        for n in by_type["paper"]:
             lines.append(_entry_line(n))
         lines.append("")
 

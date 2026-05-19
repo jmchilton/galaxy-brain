@@ -15,6 +15,7 @@ galaxy-brain/
   vault/                       # <- Obsidian vault root
     research/                  # research notes (components, issues, PRs)
     plans/                     # implementation plans and plan sections
+    papers/                    # manuscript workspaces with index + draft artifacts
     concepts/                  # reusable Galaxy concept notes
     mocs/                      # Maps of Content
     templates/                 # Templater templates (skipped by validator)
@@ -46,6 +47,8 @@ Meta files live at the repo root, outside `vault/`. Open `vault/` as the Obsidia
 | `plan` | — | `plan/followup` | Post-implementation status tracker, deviations, remaining work | `title` |
 | `concept` | — | `concept` | Reusable Galaxy concept referenced by many notes | — |
 | `moc` | — | `moc` | Navigation hub that organizes links, no research itself | — |
+| `project` | — | `project` | Multi-file implementation workspace with an `index.md` landing page | `title` |
+| `paper` | — | `paper` | Multi-file manuscript workspace with an `index.md` landing page | `title`, `paper_stage`, `paper_kind`, `central_claim` |
 
 All research subtypes also require `subtype` in frontmatter. **Base fields** (required on all notes): `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`.
 

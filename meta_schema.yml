@@ -9,7 +9,7 @@ required: [type, tags, status, created, revised, revision, ai_generated, summary
 properties:
   type:
     type: string
-    enum: [research, plan, plan-section, concept, moc, project]
+    enum: [research, plan, plan-section, concept, moc, project, paper]
   tags:
     type: array
     items:
@@ -68,6 +68,31 @@ properties:
     type: integer
   parent_feature:
     type: string
+
+  # --- Fields used by paper notes ---
+  short_title:
+    type: string
+  paper_stage:
+    type: string
+    enum: [idea, outline, evidence, drafting, preprint, submitted, published]
+  paper_kind:
+    type: string
+    enum: [application-note, software, methods, perspective, white-paper, review]
+  target_venue:
+    type: string
+  central_claim:
+    type: string
+    minLength: 20
+    maxLength: 400
+  preprint_url:
+    type: string
+  manuscript_url:
+    type: string
+  related_projects:
+    type: array
+    items:
+      type: string
+      pattern: "^\\[\\[.+\\]\\]$"
 
   # --- Fields used by plan-section notes ---
   parent_plan:
@@ -157,6 +182,14 @@ allOf:
       required: [type]
     then:
       required: [title]
+
+  # paper requires manuscript-tracking fields
+  - if:
+      properties:
+        type: { const: paper }
+      required: [type]
+    then:
+      required: [title, paper_stage, paper_kind, central_claim]
 
 # Strict mode: unknown fields are rejected to catch typos and schema drift.
 # To allow unknown fields for forward-compatibility, change to: true

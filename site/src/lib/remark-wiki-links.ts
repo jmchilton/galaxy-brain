@@ -38,9 +38,9 @@ function walk(dir: string, root: string, out: string[]): void {
       walk(full, root, out);
     } else if (ent.isFile() && ent.name.endsWith('.md')) {
       if (rel === ent.name && SKIP_TOP.has(ent.name)) continue;
-      // skip non-index files inside any projects/<name>/ dir
+      // skip non-index files inside workspace dirs
       const parts = rel.split('/');
-      if (parts[0] === 'projects' && parts.length >= 3 && parts[parts.length - 1] !== 'index.md') continue;
+      if ((parts[0] === 'projects' || parts[0] === 'papers') && parts.length >= 3 && parts[parts.length - 1] !== 'index.md') continue;
       out.push(rel);
     }
   }

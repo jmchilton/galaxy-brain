@@ -75,3 +75,16 @@ WHERE status != "archived"
 SORT revised DESC
 
 ```
+
+## Papers
+```dataview
+
+TABLE status, revised, revision
+
+FROM #paper
+
+WHERE status != "archived"
+
+SORT revised DESC
+
+```

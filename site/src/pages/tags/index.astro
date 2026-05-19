@@ -17,11 +17,11 @@ for (const note of allNotes) {
 const sorted = [...tagCounts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
 
 const noteTypeTags = sorted.filter(([t]) =>
-  t.startsWith('research/') || t.startsWith('plan') || t === 'concept' || t === 'moc' || t === 'project'
+  t.startsWith('research/') || t.startsWith('plan') || t === 'concept' || t === 'moc' || t === 'project' || t === 'paper'
 );
 const galaxyAreaTags = sorted.filter(([t]) => t.startsWith('galaxy/'));
 const otherTags = sorted.filter(([t]) =>
-  !t.startsWith('research/') && !t.startsWith('plan') && t !== 'concept' && t !== 'moc' && !t.startsWith('galaxy/')
+  !t.startsWith('research/') && !t.startsWith('plan') && t !== 'concept' && t !== 'moc' && t !== 'project' && t !== 'paper' && !t.startsWith('galaxy/')
 );
 ---
 <Base title="Tags" pageTitle="Tags">

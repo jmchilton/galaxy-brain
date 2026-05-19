@@ -149,6 +149,21 @@ VALID_PROJECT = {
     "summary": "A sample note used as a fixture in the frontmatter test suite.",
 }
 
+VALID_PAPER = {
+    "type": "paper",
+    "tags": ["paper"],
+    "status": "draft",
+    "created": "2025-01-15",
+    "revised": "2025-01-15",
+    "revision": 1,
+    "ai_generated": False,
+    "title": "Sample Paper",
+    "paper_stage": "outline",
+    "paper_kind": "software",
+    "central_claim": "A sample manuscript claim long enough to validate cleanly.",
+    "summary": "A sample manuscript workspace used as a fixture in the test suite.",
+}
+
 
 # ---------------------------------------------------------------------------
 # Valid notes of each type
@@ -167,6 +182,7 @@ VALID_PROJECT = {
         pytest.param(VALID_CONCEPT, id="concept"),
         pytest.param(VALID_MOC, id="moc"),
         pytest.param(VALID_PROJECT, id="project"),
+        pytest.param(VALID_PAPER, id="paper"),
     ],
 )
 def test_valid_notes(schema, data):
@@ -661,6 +677,38 @@ def test_project_tag_coherence():
     assert "project" in warnings[0]
 
 
+# ---------------------------------------------------------------------------
+# Paper type
+# ---------------------------------------------------------------------------
+
+
+def test_valid_paper(schema):
+    errors, warnings = validate_data(VALID_PAPER, schema)
+    assert errors == []
+    assert warnings == []
+
+
+@pytest.mark.parametrize("field", ["title", "paper_stage", "paper_kind", "central_claim"])
+def test_paper_missing_required_field(schema, field):
+    data = copy.deepcopy(VALID_PAPER)
+    del data[field]
+    errors, _ = validate_data(data, schema)
+    assert any(field in e for e in errors)
+
+
+def test_paper_related_projects_valid(schema):
+    data = {**VALID_PAPER, "related_projects": ["[[history_markdown]]", "[[workflow_state]]"]}
+    errors, _ = validate_data(data, schema)
+    assert errors == []
+
+
+def test_paper_tag_coherence():
+    data = {"type": "paper", "tags": ["galaxy/workflows"]}
+    warnings = validate_tag_coherence(data)
+    assert len(warnings) == 1
+    assert "paper" in warnings[0]
+
+
 def test_find_md_files_skips_project_subfiles(tmp_path):
     proj_dir = tmp_path / "projects" / "sample"
     proj_dir.mkdir(parents=True)
@@ -674,11 +722,35 @@ def test_find_md_files_skips_project_subfiles(tmp_path):
     assert "architecture.md" not in filenames
 
 
+def test_find_md_files_skips_paper_subfiles(tmp_path):
+    paper_dir = tmp_path / "papers" / "sample"
+    paper_dir.mkdir(parents=True)
+    (paper_dir / "index.md").write_text("---\ntype: paper\n---\n")
+    (paper_dir / "outline.md").write_text("# Outline\n")
+    (paper_dir / "evidence.md").write_text("# Evidence\n")
+
+    files = list(find_md_files(tmp_path))
+    filenames = [f.name for f in files]
+    assert "outline.md" not in filenames
+    assert "evidence.md" not in filenames
+
+
 def test_find_md_files_includes_project_index(tmp_path):
     proj_dir = tmp_path / "projects" / "sample"
     proj_dir.mkdir(parents=True)
     (proj_dir / "index.md").write_text("---\ntype: project\n---\n")
     (proj_dir / "overview.md").write_text("# Overview\n")
+
+    files = list(find_md_files(tmp_path))
+    filenames = [f.name for f in files]
+    assert "index.md" in filenames
+
+
+def test_find_md_files_includes_paper_index(tmp_path):
+    paper_dir = tmp_path / "papers" / "sample"
+    paper_dir.mkdir(parents=True)
+    (paper_dir / "index.md").write_text("---\ntype: paper\n---\n")
+    (paper_dir / "outline.md").write_text("# Outline\n")
 
     files = list(find_md_files(tmp_path))
     filenames = [f.name for f in files]
@@ -703,6 +775,35 @@ def test_validate_directory_with_project(tmp_path):
         "# Sample Project\n"
     )
     (proj_dir / "overview.md").write_text("# Overview\nNo frontmatter here.\n")
+
+    total_errors, total_warnings = validate_directory(
+        str(tmp_path), str(REPO_ROOT / "meta_schema.yml"), str(REPO_ROOT / "meta_tags.yml")
+    )
+    assert total_errors == 0
+    assert total_warnings == 0
+
+
+def test_validate_directory_with_paper(tmp_path):
+    paper_dir = tmp_path / "papers" / "sample"
+    paper_dir.mkdir(parents=True)
+    (paper_dir / "index.md").write_text(
+        "---\n"
+        "type: paper\n"
+        "tags:\n  - paper\n"
+        "status: draft\n"
+        "created: 2025-01-15\n"
+        "revised: 2025-01-15\n"
+        "revision: 1\n"
+        "ai_generated: false\n"
+        "title: Sample Paper\n"
+        "paper_stage: outline\n"
+        "paper_kind: software\n"
+        "central_claim: A sample manuscript claim long enough to validate cleanly.\n"
+        "summary: A sample manuscript workspace used as a fixture in the test suite.\n"
+        "---\n"
+        "# Sample Paper\n"
+    )
+    (paper_dir / "outline.md").write_text("# Outline\nNo frontmatter here.\n")
 
     total_errors, total_warnings = validate_directory(
         str(tmp_path), str(REPO_ROOT / "meta_schema.yml"), str(REPO_ROOT / "meta_tags.yml")
@@ -828,6 +929,7 @@ def _mini_vault(tmp_path):
     """Build a small vault with one note of each major type."""
     (tmp_path / "research").mkdir()
     (tmp_path / "projects" / "demo").mkdir(parents=True)
+    (tmp_path / "papers" / "paper-demo").mkdir(parents=True)
 
     _write_note(tmp_path / "research" / "Component - Foo.md",
                 type="research", subtype="component",
@@ -850,6 +952,15 @@ def _mini_vault(tmp_path):
                 ai_generated=True,
                 summary="Demo project tracking experimental work on widgets.",
                 body="\n# Demo Project\n")
+    _write_note(tmp_path / "papers" / "paper-demo" / "index.md",
+                type="paper", title="Paper Demo",
+                tags=["paper"], status="draft",
+                created="2025-01-15", revised="2025-01-15", revision=1,
+                ai_generated=False,
+                paper_stage="outline", paper_kind="software",
+                central_claim="A sample manuscript claim long enough to validate cleanly.",
+                summary="Demo paper workspace tracking a manuscript about widgets.",
+                body="\n# Paper Demo\n")
     return tmp_path
 
 
@@ -870,16 +981,25 @@ def test_collect_notes_project_slug_uses_parent(tmp_path):
     assert project["slug"] == "demo"
 
 
+def test_collect_notes_paper_slug_uses_parent(tmp_path):
+    _mini_vault(tmp_path)
+    notes = collect_notes(tmp_path)
+    paper = next(n for n in notes if n["type"] == "paper")
+    assert paper["slug"] == "paper-demo"
+
+
 def test_generate_index_contains_sections_and_entries(tmp_path):
     _mini_vault(tmp_path)
     notes = collect_notes(tmp_path)
     out = generate_index(notes)
     assert "# Galaxy Brain Index" in out
     assert "## Projects" in out
+    assert "## Papers" in out
     assert "## Research" in out
     assert "### Components" in out
     assert "### Pull Requests" in out
     assert "[[demo]]" in out
+    assert "[[paper-demo]]" in out
     assert "[[Component - Foo]]" in out
     assert "[[PR 1234 - Bar]]" in out
     # Summary text must appear on the entry line.

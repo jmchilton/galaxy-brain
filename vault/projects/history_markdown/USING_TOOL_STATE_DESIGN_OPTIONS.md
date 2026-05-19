@@ -178,7 +178,7 @@ STEP_STATE cures *"workflows should not get a fake `ToolRequest`."* It does **no
 ## Open questions
 
 - `request_state` enum members: `not_validated` / `validated` / `validation_failed` — add a 4th `converter_failed` for telemetry granularity?
-- Does any existing consumer assume `ToolRequest` ⇒ valid? (Audit `_extract_inputs`; carried from [[PR 21932 - History Graph API]] §6.)
+- Does any existing consumer assume `ToolRequest` ⇒ valid? **Yes — extraction now does, concretely.** The gate commit's structured branch double-validates (`RequestInternalToolState.validate` in `extract.py`, then again in `to_workflow_step_state`) and raises 400 on failure rather than degrading. So routing `validation_failed` workflow-produced state through it will 400. This makes the `validation_failed` enum member load-bearing for the decision, not just telemetry — see [[CAPTURE_WORKFLOW_EXECUTION_STATE_PLAN]] open questions. (Still audit History Graph `_extract_inputs`; carried from [[PR 21932 - History Graph API]] §6.)
 - `tool_source` snapshot: do provenance consumers need the serialized source blob, or is the workflow step's `tool_id`/version enough? (Determines whether STEP_STATE is two columns or three.)
 - EXEC_STATE trigger: what *independent* need would justify the production backfill later — graph builder simplification alone, or only a broader provenance-model consolidation?
 - `request_state` vs `WorkflowInvocationStep.state` (invocation lifecycle): different axes, deliberately `request_`-prefixed — confirm the name before it is in a migration.

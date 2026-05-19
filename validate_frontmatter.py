@@ -33,6 +33,7 @@ WIKI_LINK_FIELDS = {
     "parent_plan": "single",
     "related_issues": "array",
     "related_notes": "array",
+    "related_projects": "array",
 }
 
 # Maps (type, subtype) -> expected tag. subtype=None for non-research types.
@@ -49,6 +50,7 @@ TYPE_TAG_MAP = {
     ("concept", None): "concept",
     ("moc", None): "moc",
     ("project", None): "project",
+    ("paper", None): "paper",
 }
 
 
@@ -212,7 +214,7 @@ def find_md_files(directory):
             continue
         if path.name in SKIP_FILES:
             continue
-        if "projects" in parts and path.name != "index.md":
+        if ("projects" in parts or "papers" in parts) and path.name != "index.md":
             continue
         yield path
 
@@ -260,7 +262,7 @@ def validate_bidirectional_related_notes(files_meta):
     for path, _ in files_meta:
         stem = Path(path).stem
         if stem == "index":
-            # project dirs: use parent dir name (matches how notes reference projects)
+            # workspace dirs: use parent dir name (matches how notes reference projects/papers)
             stem = Path(path).parent.name
         slug_to_file[_slugify(stem)] = path
 

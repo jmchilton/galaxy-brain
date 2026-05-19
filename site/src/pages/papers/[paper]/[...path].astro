@@ -1,0 +1,151 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import FileTree from '../../../components/FileTree.astro';
+import { originalRelPath } from '../../../lib/project-paths';
+
+function titleize(s: string): string {
+  return s.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+}
+
+export async function getStaticPaths() {
+  const entries = await getCollection('paperFiles');
+
+  const paperEntries = new Map<string, CollectionEntry<'paperFiles'>[]>();
+  for (const entry of entries) {
+    const parts = entry.id.split('/');
+    const paper = parts[1];
+    if (!paperEntries.has(paper)) paperEntries.set(paper, []);
+    paperEntries.get(paper)!.push(entry);
+  }
+
+  const paths: any[] = [];
+
+  for (const [paper, files] of paperEntries) {
+    for (const entry of files) {
+      const relPath = entry.id.split('/').slice(2).join('/');
+      paths.push({
+        params: { paper, path: relPath },
+        props: { entry, isFolder: false },
+      });
+    }
+
+    const folderPaths = new Set<string>();
+    for (const entry of files) {
+      const parts = entry.id.split('/').slice(2);
+      for (let i = 1; i < parts.length; i++) {
+        folderPaths.add(parts.slice(0, i).join('/'));
+      }
+    }
+    for (const folderPath of folderPaths) {
+      paths.push({
+        params: { paper, path: folderPath },
+        props: { isFolder: true, folderPath: `papers/${paper}/${folderPath}` },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { entry, isFolder, folderPath } = Astro.props;
+const { paper, path: routePath } = Astro.params;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const allNotes = await getCollection('vault');
+const paperSlug = `papers/${paper}`;
+const parentPaper = allNotes.find(n => n.id === paperSlug);
+const paperTitle = parentPaper?.data.title || titleize(paper!);
+
+const paperOriginalDir = parentPaper
+  ? originalRelPath(parentPaper).replace(/\/index$/, '')
+  : paperSlug;
+
+let folderFiles: CollectionEntry<'paperFiles'>[] = [];
+let originalFolderPath = '';
+if (isFolder) {
+  const allPaperFiles = await getCollection('paperFiles');
+  const prefix = folderPath + '/';
+  folderFiles = allPaperFiles
+    .filter(f => f.id.startsWith(prefix))
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const folderDepth = 2 + routePath!.split('/').length;
+  if (folderFiles.length > 0) {
+    originalFolderPath = originalRelPath(folderFiles[0])
+      .split('/')
+      .slice(0, folderDepth)
+      .join('/');
+  }
+}
+
+interface Breadcrumb { label: string; href?: string }
+const breadcrumbs: Breadcrumb[] = [
+  { label: 'Home', href: `${base}/` },
+  { label: paperTitle, href: `${base}/${paperSlug}/` },
+];
+
+let pageTitle: string;
+const slugSegments = routePath!.split('/');
+
+if (!isFolder && entry) {
+  const fileOrig = originalRelPath(entry);
+  const fileParts = fileOrig.split('/');
+  const paperDirParts = paperOriginalDir.split('/').length;
+  const intermediateFolders = fileParts.slice(paperDirParts, -1);
+  const fileName = fileParts[fileParts.length - 1];
+
+  for (let i = 0; i < intermediateFolders.length; i++) {
+    const folderSlug = slugSegments.slice(0, i + 1).join('/');
+    breadcrumbs.push({
+      label: intermediateFolders[i],
+      href: `${base}/papers/${paper}/${folderSlug}/`,
+    });
+  }
+  pageTitle = fileName;
+} else {
+  const paperDirParts = paperOriginalDir.split('/').length;
+  const folderParts = originalFolderPath
+    ? originalFolderPath.split('/').slice(paperDirParts)
+    : slugSegments;
+
+  for (let i = 0; i < folderParts.length - 1; i++) {
+    const folderSlug = slugSegments.slice(0, i + 1).join('/');
+    breadcrumbs.push({
+      label: folderParts[i],
+      href: `${base}/papers/${paper}/${folderSlug}/`,
+    });
+  }
+  pageTitle = folderParts[folderParts.length - 1] || titleize(slugSegments[slugSegments.length - 1]);
+}
+
+breadcrumbs.push({ label: pageTitle });
+
+let Content: any = null;
+if (!isFolder && entry) {
+  const rendered = await render(entry);
+  Content = rendered.Content;
+}
+---
+<Base title={pageTitle} pageTitle={pageTitle}>
+  <nav class="mb-4 text-sm text-(--color-text-secondary)">
+    {breadcrumbs.map((bc, i) => (
+      <>
+        {i > 0 && <span class="mx-1">&rsaquo;</span>}
+        {bc.href
+          ? <a href={bc.href} class="text-(--color-link) hover:underline">{bc.label}</a>
+          : <span>{bc.label}</span>}
+      </>
+    ))}
+  </nav>
+
+  <h1 class="mb-4 text-2xl font-bold">{pageTitle}</h1>
+
+  {isFolder ? (
+    <FileTree files={folderFiles} originalBasePath={originalFolderPath} />
+  ) : (
+    <article class="prose prose-slate max-w-none dark:prose-invert" data-pagefind-body>
+      {Content && <Content />}
+    </article>
+  )}
+</Base>

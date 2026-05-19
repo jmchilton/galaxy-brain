@@ -62,24 +62,29 @@ function resolveLinks(links: string[] | undefined) {
 
 const relatedIssues = resolveLinks(data.related_issues);
 const relatedNotes = resolveLinks(data.related_notes);
+const relatedProjects = resolveLinks(data.related_projects);
 const parentPlan = data.parent_plan ? resolveWikiLink(data.parent_plan, linkMap, base) : null;
 
 function formatDate(d: Date): string {
   return d.toISOString().slice(0, 10);
 }
 
-// Project sub-files (for type=project)
-let projectFiles: CollectionEntry<'projectFiles'>[] = [];
-let projectOriginalDir = '';
-if (data.type === 'project') {
-  const allProjectFiles = await getCollection('projectFiles');
+// Workspace sub-files (for type=project or type=paper)
+let workspaceFiles: Array<CollectionEntry<'projectFiles'> | CollectionEntry<'paperFiles'>> = [];
+let workspaceOriginalDir = '';
+let workspaceFilesLabel = '';
+if (data.type === 'project' || data.type === 'paper') {
+  const allWorkspaceFiles = data.type === 'paper'
+    ? await getCollection('paperFiles')
+    : await getCollection('projectFiles');
   const prefix = entry.id + '/';
-  projectFiles = allProjectFiles
+  workspaceFiles = allWorkspaceFiles
     .filter(f => f.id.startsWith(prefix))
     .sort((a, b) => a.id.localeCompare(b.id));
-  // Original directory of the project (preserves underscores/case),
-  // derived from this entry's filePath: ".../vault/projects/<orig>/index.md"
-  projectOriginalDir = originalRelPath(entry).replace(/\/index$/, '');
+  // Original directory of the workspace (preserves underscores/case),
+  // derived from this entry's filePath: ".../vault/<kind>/<orig>/index.md"
+  workspaceOriginalDir = originalRelPath(entry).replace(/\/index$/, '');
+  workspaceFilesLabel = data.type === 'paper' ? 'Paper Files' : 'Project Files';
 }
 
 // Title from filename
@@ -129,6 +134,48 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
       <>
         <dt>GitHub PR:</dt>
         <dd><a href={prLink.href} class="text-(--color-link) hover:underline">#{prLink.num}</a></dd>
+      </>
+    )}
+
+    {data.paper_stage && (
+      <>
+        <dt>Paper Stage:</dt>
+        <dd>{data.paper_stage}</dd>
+      </>
+    )}
+
+    {data.paper_kind && (
+      <>
+        <dt>Paper Kind:</dt>
+        <dd>{data.paper_kind}</dd>
+      </>
+    )}
+
+    {data.target_venue && (
+      <>
+        <dt>Target Venue:</dt>
+        <dd>{data.target_venue}</dd>
+      </>
+    )}
+
+    {data.central_claim && (
+      <>
+        <dt>Central Claim:</dt>
+        <dd>{data.central_claim}</dd>
+      </>
+    )}
+
+    {data.preprint_url && (
+      <>
+        <dt>Preprint:</dt>
+        <dd><a href={data.preprint_url} class="text-(--color-link) hover:underline break-all">{data.preprint_url}</a></dd>
+      </>
+    )}
+
+    {data.manuscript_url && (
+      <>
+        <dt>Manuscript:</dt>
+        <dd><a href={data.manuscript_url} class="text-(--color-link) hover:underline break-all">{data.manuscript_url}</a></dd>
       </>
     )}
 
@@ -190,12 +237,28 @@ const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g,
         </dd>
       </>
     )}
+
+    {relatedProjects.length > 0 && (
+      <>
+        <dt>Related Projects:</dt>
+        <dd>
+          {relatedProjects.map((l, i) => (
+            <>
+              {l.href
+                ? <a href={l.href} title={l.summary || undefined} class="text-(--color-link) hover:underline">{l.label}</a>
+                : <span class="dangling">{l.label}</span>}
+              {i < relatedProjects.length - 1 ? ', ' : ''}
+            </>
+          ))}
+        </dd>
+      </>
+    )}
   </dl>
 
-  {projectFiles.length > 0 && (
+  {workspaceFiles.length > 0 && (
     <div class="mb-6">
-      <h2 class="text-lg font-semibold mb-2">Project Files</h2>
-      <FileTree files={projectFiles} originalBasePath={projectOriginalDir} />
+      <h2 class="text-lg font-semibold mb-2">{workspaceFilesLabel}</h2>
+      <FileTree files={workspaceFiles} originalBasePath={workspaceOriginalDir} />
     </div>
   )}
 

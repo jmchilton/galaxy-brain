@@ -32,6 +32,9 @@ See the "Extra required fields" column in the [Note Types table](README.md#note-
 - `title` — human-readable plan name
 - `parent_plan` — wiki link to parent plan: `"[[Plan - Feature Name]]"`
 - `section` — what this section covers: `"API endpoint design"`
+- `paper_stage` — manuscript stage: `idea`, `outline`, `evidence`, `drafting`, `preprint`, `submitted`, `published`
+- `paper_kind` — manuscript kind: `application-note`, `software`, `methods`, `perspective`, `white-paper`, `review`
+- `central_claim` — the main claim the paper has to defend
 
 ## Optional Fields
 
@@ -47,6 +50,8 @@ Include when relevant:
 - `unresolved_questions` — count of open questions (plans)
 - `resolves_question` — which parent plan question this answers (plan-sections)
 - `branch` — git branch the note was generated from
+- `short_title`, `target_venue`, `preprint_url`, `manuscript_url` — manuscript tracking fields
+- `related_projects` — wiki links to implementation project workspaces
 
 ## Tags
 
@@ -78,6 +83,8 @@ The `[[` and `]]` are required. Inner text must be non-empty.
 | `plan-section` | `vault/plans/` |
 | `concept` | `vault/concepts/` |
 | `moc` | `vault/mocs/` |
+| `project` | `vault/projects/<slug>/index.md` |
+| `paper` | `vault/papers/<slug>/index.md` |
 
 ## File Naming
 
@@ -92,6 +99,8 @@ The `[[` and `]]` are required. Inner text must be non-empty.
 - **Plan section**: `Plan - <Parent Title> - <Section>.md`
 - **Concept**: `Concept - <Name>.md`
 - **MOC**: `MOC - <Topic>.md`
+- **Project**: `projects/<slug>/index.md` plus unvalidated child files
+- **Paper**: `papers/<slug>/index.md` plus unvalidated child files such as `outline.md`, `evidence.md`, and `manuscript.md`
 
 ## Linking
 

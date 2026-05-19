@@ -11,11 +11,11 @@ function slugifyPath(entry: string): string {
 const vault = defineCollection({
   loader: glob({
     pattern: ['**/*.md', '!Dashboard.md', '!Index.md', '!log.md', '!.obsidian/**', '!templates/**',
-              '!projects/**/!(index).md'],
+              '!projects/**/!(index).md', '!papers/**/!(index).md'],
     base: '../vault',
     generateId({ entry }) {
       let id = slugifyPath(entry);
-      // Strip /index from project directory entries
+      // Strip /index from workspace directory entries
       if (id.endsWith('/index')) id = id.slice(0, -'/index'.length);
       return id;
     }
@@ -43,6 +43,14 @@ const vault = defineCollection({
     parent_plan: z.string().optional(),
     parent_feature: z.string().optional(),
     section: z.string().optional(),
+    short_title: z.string().optional(),
+    paper_stage: z.string().optional(),
+    paper_kind: z.string().optional(),
+    target_venue: z.string().optional(),
+    central_claim: z.string().optional(),
+    preprint_url: z.string().optional(),
+    manuscript_url: z.string().optional(),
+    related_projects: z.array(z.string()).optional(),
     aliases: z.array(z.string()).optional(),
     sources: z.array(z.string().min(1)).min(1).optional(),
     branch: z.string().optional(),
@@ -62,4 +70,15 @@ const projectFiles = defineCollection({
   schema: z.object({}).passthrough()
 });
 
-export const collections = { vault, projectFiles };
+const paperFiles = defineCollection({
+  loader: glob({
+    pattern: ['papers/**/!(index).md'],
+    base: '../vault',
+    generateId({ entry }) {
+      return slugifyPath(entry);
+    }
+  }),
+  schema: z.object({}).passthrough()
+});
+
+export const collections = { vault, projectFiles, paperFiles };

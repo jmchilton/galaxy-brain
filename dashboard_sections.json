@@ -4,5 +4,6 @@
   { "label": "Dependency Research", "tag": "research/dependency" },
   { "label": "Issues", "tag": "research/issue" },
   { "label": "Plans", "tag": "plan" },
-  { "label": "Projects", "tag": "project" }
+  { "label": "Projects", "tag": "project" },
+  { "label": "Papers", "tag": "paper" }
 ]
