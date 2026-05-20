@@ -13,15 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "projects/history_markdown/CAPTURE_WORKFLOW_EXECUTION_STATE_PLAN.md",
+                "file": "projects/history_markdown/MAP_OVER_EMPTY_EXTRACTION_TOOL_REQUEST_PLAN.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CAPTURE_WORKFLOW_EXECUTION_STATE_PLAN"
+              "title": "MAP_OVER_EMPTY_EXTRACTION_TOOL_REQUEST_PLAN"
+            }
+          },
+          {
+            "id": "bca7b9aec751b1be",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "projects/history_markdown/gcc2026/ABSTRACT_CHATGPT.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ABSTRACT_CHATGPT"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -184,44 +199,44 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "e779dd5049c9359e",
+  "active": "c1926bfde7f63465",
   "lastOpenFiles": [
-    "projects/history_markdown/TOOL_REQUEST_OR_WORKFLOW_STEP.md",
-    "projects/history_markdown/GRAPH_WORKFLOW_EXTRACTION_PLAN.md",
-    "projects/history_markdown/EXTRACT_TOOL_REQUEST_STATE_PLAN.md",
-    "projects/history_markdown/E2E_TEST_POLISH_WHEN_GREEN.md",
-    "projects/history_markdown/DIFF_VIEWER_POLISH_AND_TESTING.md",
+    "papers/gxwf/outline.md",
+    "papers/gxwf/figures.md",
+    "papers/gxwf/evidence.md",
+    "projects/history_markdown/gcc2026/WORKFLOW_STATE_EXECUTIVE_SUMMARY.md",
+    "projects/history_markdown/gcc2026/HISTORY_NOTEBOOKS_EXECUTIVE_SUMMARY.md",
+    "projects/history_markdown/gcc2026/ABSTRACT_CHATGPT.md",
+    "papers/gxwf/glossary.md",
+    "papers/gxwf/tasks.md",
     "projects/history_markdown/CAPTURE_WORKFLOW_EXECUTION_STATE_PLAN.md",
-    "projects/history_markdown/USING_TOOL_STATE_DESIGN_OPTIONS.md",
+    "projects/history_markdown/TEST_AGENT_TOOLS_ISSUE.md",
+    "projects/history_markdown/TOOL_SOURCE_TRACKING_PLAN.md",
     "research/PR 21932 - History Graph API.md",
-    "research/Problem - YAML Tool Post-Hoc State Divergence.md",
-    "research/Component - Tool State Specification.md",
-    "projects/history_markdown/HISTORY_MARKDOWN_ARCHITECTURE.md",
-    "research/Component - Workflow Extraction Models.md",
-    "research/Component - Workflow Extraction.md",
-    "research/PR 21935 - Workflow Extraction Vue Conversion.md",
-    "research/PR 22706 - Workflow Extraction by IDs.md",
-    "research/PR 21842 - Tool Execution Migrated to api jobs.md",
-    "projects/history_markdown/ICJ_NATIVE_PLAN.md",
-    "projects/workflow_state/skills/NFCORE_TO_GALAXY_TOOLS.md",
-    "projects/history_markdown/old/TESTING_ALTERNATIVES.md",
-    "projects/history_markdown/old/LOST_CHATS_ISSUE.md",
-    "projects/history_markdown/old/HISTORY_PAGES_CLEANUP_PLAN.md",
-    "projects/history_markdown/old/AGENT_TESTING_V2.md",
-    "projects/history_markdown/old/AGENT_TESTING.md",
-    "projects/history_markdown/old/AGENT_DI.md",
-    "projects/history_markdown/HIDE_TOOLBOX_WHEN_CHAT_OPEN_PLAN.md",
-    "projects/history_markdown/EXTRACT_ICJ_PLAN.md",
+    "projects/history_markdown/QUEUED_EXECUTION_EXTRACTION_TOOL_REQUEST_PLAN.md",
+    "papers/foundry/references.md",
+    "papers/foundry/manuscript.md",
+    "papers/foundry/case-study.md",
+    "papers/foundry/figures.md",
+    "papers/foundry/evidence.md",
+    "papers/foundry/outline.md",
+    "papers/foundry/index.md",
+    "papers/gxwf/references.md",
+    "papers/gxwf/manuscript.md",
+    "papers/gxwf/index.md",
+    "papers/galaxy-notebooks/references.md",
+    "papers/galaxy-notebooks/manuscript.md",
+    "papers/galaxy-notebooks/demo.md",
+    "papers/gxwf",
+    "papers/galaxy-notebooks",
+    "papers/foundry",
+    "papers",
     "projects/workflow_state/proposal/background",
     "projects/workflow_state/proposal",
     "projects/history_markdown/gcc2026/old",
     "projects/history_markdown/old",
     "projects/history_markdown/seed_demo_histories.py",
     "projects/workflow_state/skills/old",
-    "projects/workflow_state/GXWF_WEB_CACHE_PANEL_PLAN.md.tmp.84650.1777291487804",
-    "projects/workflow_state/skills",
-    "templates",
-    "projects/workflow_state/TEST_JOB_VALIDATION_TS_FOLLOWUP_PLAN.md.tmp.2748.1776716317127",
     "projects/workflow_state/old/stale_key_taxonomy_infographic.png",
     "Untitled 1.canvas",
     "Untitled.canvas"
