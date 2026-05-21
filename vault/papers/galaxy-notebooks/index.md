@@ -8,7 +8,7 @@ tags:
   - galaxy/api
   - galaxy/workflows
 status: draft
-paper_stage: outline
+paper_stage: manuscript
 paper_kind: methods
 target_venue: "Genome Research"
 central_claim: "Galaxy Notebooks make the communication of an analysis reproducible by turning a documented history into the report, interface, and provenance-aware extraction surface for a reusable workflow."
@@ -16,7 +16,7 @@ related_projects:
   - "[[history_markdown]]"
 created: 2026-05-17
 revised: 2026-05-20
-revision: 2
+revision: 3
 ai_generated: false
 summary: "Paper workspace for Galaxy Notebooks as reproducible analysis communication and notebook-driven workflow extraction."
 ---
@@ -49,5 +49,7 @@ Aim high but maintain a credible retreat path. Draft once at the highest target'
 - [evidence](./evidence/)
 - [figures](./figures/)
 - [demo](./demo/)
+- [glossary](./glossary/)
+- [tasks](./tasks/)
 - [manuscript](./manuscript/)
 - [references](./references/)

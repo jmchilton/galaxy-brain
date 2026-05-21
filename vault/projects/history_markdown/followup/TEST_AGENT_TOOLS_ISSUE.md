@@ -2,7 +2,9 @@
 
 ## Summary
 
-Add an API-test path that exercises the pydantic-ai `@agent.tool` dispatch chain end-to-end against a real Galaxy DB inside the FastAPI event loop, using `pydantic_ai.models.test.TestModel` to deterministically force the LLM to call every registered tool. This closes the coverage gap that let blocking sync `Session` I/O in `lib/galaxy/agents/history_tools.py` ship undetected (galaxyproject/galaxy#22361 review by @mvdbeek), and turns the aiocop middleware into a real regression guard for the agent tool path.
+Add an integration test that exercises the pydantic-ai `@agent.tool` dispatch chain end-to-end against a real Galaxy DB inside the FastAPI event loop, using `pydantic_ai.models.test.TestModel` to deterministically force the LLM to call every registered tool. This closes the coverage gap that let blocking sync `Session` I/O in `lib/galaxy/agents/history_tools.py` ship undetected (galaxyproject/galaxy#22361 review by @mvdbeek), and turns the aiocop middleware into a real regression guard for the agent tool path.
+
+Placed under `test/integration/` (not `lib/galaxy_test/api/`) because the test requires a custom Galaxy config — the `test_model` agent registry backend — which only the integration test driver supports per-class via `handle_galaxy_config_kwds`. See `doc/source/dev/writing_tests.md` decision tree and the cited precedent `test/integration/test_event_loop_blocking.py`, which uses the same aiocop assertion pattern.
 
 ## Why / context
 
@@ -21,9 +23,9 @@ So aiocop never sees the path, and the next analogous regression slips the same 
 
 A regression test that:
 
-1. Runs under `./run_tests.sh -api` (CI), no external LLM, no opt-in env var.
+1. Runs under `./run_tests.sh -integration` (CI), no external LLM, no opt-in env var.
 2. Drives the real `PageAssistantAgent` (real registry, real `@agent.tool` registration, real `await self.agent.run(...)`) against a real DB and real history/page data.
-3. Forces pydantic-ai to invoke **every** registered tool deterministically (via `TestModel(call_tools='all')`).
+3. Forces pydantic-ai to invoke **every** registered tool deterministically (via `TestModel(call_tools='all')`). For `PageAssistantAgent` the registered tool surface is `list_history_datasets`, `get_dataset_info`, `get_dataset_peek`, `get_collection_structure`, `resolve_hid` (the `@agent.tool` callables in `page_assistant.py:224-317`), each delegating to the corresponding public function in `history_tools.py` (the agent tool is `list_history_datasets`; the wrapped helper is `list_history_items`).
 4. Asserts aiocop did not detect a blocking-I/O violation on the request — i.e., the existing `_check_aiocop_violations` in `lib/galaxy_test/base/api.py` is the assertion; no new assertion code needed.
 5. Would have **failed** prior to `c8b77adfde` and **passes** after — proving it's a real guard.
 
@@ -52,7 +54,7 @@ A *first* DB call in a fresh SQLAlchemy pool emits `getaddrinfo` + `socket.conne
 
 ## Acceptance criteria
 
-- [ ] New test file under `lib/galaxy_test/api/` (e.g. `test_page_assistant_tools.py`) that meets the *Goal* above.
+- [ ] New test file under `test/integration/` (e.g. `test_page_assistant_tool_dispatch.py`) that meets the *Goal* above. Integration suite (not API) because the test class needs `handle_galaxy_config_kwds` to enable the `test_model` agent registry — a per-server-run config switch.
 - [ ] Test invokes every `@agent.tool` registered in `page_assistant.py:224-317` via the real pydantic-ai dispatch (verifiable from server logs or via `TestModel.last_model_request_parameters`).
 - [ ] Test seeded with a user history containing at least one HDA (with a `creating_job` so the `hda.creating_job` lazy load fires) and one HDCA (paired or list collection, so `_get_collection_structure_impl` exercises `hdca.collection.elements` and per-element `elem.hda` lazy loads).
 - [ ] Test asserts on the `X-Aiocop-Violations` header directly — fails on *any* `socket.socket.send`/`recv`-class event emitted during the request, not just the default severity-≥50 threshold (see *What can go wrong #1*). Default `_check_aiocop_violations` stays as a complementary safety net.
@@ -70,19 +72,20 @@ Pattern is established by galaxyproject/galaxy#22070: `factory.py` checks `infer
 - `lib/galaxy/agents/test_model_backend.py` — `TestModelAgentRegistry(AgentRegistry)`: defers to the *real* `build_default_registry` for agent class registration, then overrides each agent instance's `.agent` (the `pydantic_ai.Agent` constructed in `BaseGalaxyAgent._create_agent`, `base.py:319,322`) with a fresh `Agent(..., model=TestModel(call_tools='all', custom_output_args=<valid output instance for that agent>), tools=<same registered tools>)` — preserving the real `@agent.tool` registration and `deps_type` so the dispatch chain is unchanged from production. The `custom_output_args` per agent type avoids the structured-output retry storm described in *What can go wrong #2*; for `page_assistant` use a minimal valid `FullReplacementEdit`.
 - `lib/galaxy/agents/factory.py` — extend with `if inference_config.get("test_model"): return TestModelAgentRegistry(...)`, taking precedence after `static_responses` is not set.
 - `lib/galaxy/managers/configuration.py` — expose `llm_registry_type == "test_model"` mirror to the existing `"static"`/`"default"` so tests can detect mode.
-- `lib/galaxy_test/driver/driver_util.py` — auto-enable `test_model` for framework-launched servers when no `static_responses` fixture is configured and a sentinel is set (e.g. env var `GALAXY_TEST_AGENT_TEST_MODEL=1`, or a new fixture file). Keep static backend as the default for the existing `TestAgentsApi` cases; the new test class opts in explicitly.
+- The new integration test class opts in via `handle_galaxy_config_kwds` (writing_tests.md:807 — the canonical per-test Galaxy config mechanism, available on `IntegrationTestCase` only). No `driver_util.py` env-var sentinel wiring is needed; the mode switch is confined to the one test class.
 
 Alternative to a registry subclass: a `TestModelAgentDecorator` that wraps any `AgentRegistry.get_agent` result and patches `.agent` lazily. Smaller surface, but harder to reason about for new maintainers. The subclass route mirrors `StaticAgentRegistry` exactly and is the cited precedent.
 
 ### 2. Add the test
 
-`lib/galaxy_test/api/test_page_assistant_tools.py` (new) — separate from `test_agents.py` because mode selection is per-server-run, not per-test-method. Mirrors the `@pytest.mark.skipif(not AIOCOP_ENABLED, ...)` gate from `test/integration/test_event_loop_blocking.py`. Sketch:
+`test/integration/test_page_assistant_tool_dispatch.py` (new) — integration test (not API) because it needs `handle_galaxy_config_kwds` to enable the `test_model` agent backend per server run. Mirrors the `@pytest.mark.skipif(not AIOCOP_ENABLED, ...)` gate from `test/integration/test_event_loop_blocking.py`. Sketch:
 
 ```python
 import pytest
 
 from galaxy_test.base.api import AIOCOP_ENABLED
 from galaxy_test.base.populators import DatasetPopulator, skip_without_agents
+from galaxy_test.driver import integration_util
 
 
 # Severity-10 socket events that should never appear on an async handler's
@@ -95,15 +98,20 @@ _LOOP_BLOCKING_SOCKET_EVENTS = (
 
 @pytest.mark.skipif(not AIOCOP_ENABLED, reason="GALAXY_TEST_AIOCOP not set")
 @skip_without_agents
-class TestPageAssistantToolDispatchApi(ApiTestCase):
+class TestPageAssistantToolDispatchIntegration(integration_util.IntegrationTestCase):
     """Drives the real PageAssistantAgent tool chain against a real DB.
     Guards against blocking sync I/O in @agent.tool wrappers (aiocop)."""
 
+    @classmethod
+    def handle_galaxy_config_kwds(cls, config):
+        super().handle_galaxy_config_kwds(config)
+        # Swap to the TestModel-backed registry; the real registry constructs
+        # real agents, then TestModelAgentRegistry overrides each
+        # BaseGalaxyAgent.agent.model with TestModel(call_tools='all').
+        config["inference_services"] = {"test_model": True}
+
     def setUp(self):
         super().setUp()
-        config = self._get("configuration").json()
-        if config.get("llm_registry_type") != "test_model":
-            self.skipTest("requires TestModel agent backend")
         self.dataset_populator = DatasetPopulator(self.galaxy_interactor)
 
     def test_page_assistant_tool_chain_does_not_block_event_loop(self):
@@ -136,8 +144,8 @@ class TestPageAssistantToolDispatchApi(ApiTestCase):
             f"Sync DB on event loop detected: {header!r}"
         )
         # Sanity that TestModel swap landed (otherwise tools never fired and
-        # the guard is a no-op):
-        assert int(fields.get("count", "0")) >= 0  # placeholder — see Q6
+        # the guard is a no-op). Use response metadata showing tools were
+        # invoked — see Q6 for the exact assertion shape.
 ```
 
 ### 3. Verify the guard
@@ -145,10 +153,10 @@ class TestPageAssistantToolDispatchApi(ApiTestCase):
 Reproduction:
 
 ```bash
-GALAXY_TEST_AIOCOP=1 ./run_tests.sh -api lib/galaxy_test/api/test_page_assistant_tools.py
+GALAXY_TEST_AIOCOP=1 ./run_tests.sh -integration test/integration/test_page_assistant_tool_dispatch.py
 ```
 
-Before merge, revert `c8b77adfde` locally and rerun. Confirm the test fails with `Sync DB on event loop detected: …socket.socket.send…` (or `recv`). Capture the `X-Aiocop-Violations` header from the regressed run in the PR description as evidence — not "tests pass green," but the actual blocking-event readout the test caught.
+Before merge, revert the threadpool-offload changes on `history_tools.py` (pre-rebase SHA `c8b77adfde`; post-#22361-merge: the equivalent diff within the squashed merge commit) locally and rerun. Confirm the test fails with `Sync DB on event loop detected: …socket.socket.send…` (or `recv`). Capture the `X-Aiocop-Violations` header from the regressed run in the PR description as evidence — not "tests pass green," but the actual blocking-event readout the test caught.
 
 ## Design alternatives considered
 
@@ -163,12 +171,12 @@ Use `feedback_decision_doc_authoring` UPPER_SNAKE option naming. Recommendation:
 | **MONKEYPATCH_AT_TEST_SETUP** | Patch `BaseGalaxyAgent._create_agent` in test fixtures                                      | ❌ Test server is out-of-process |
 
 ### TEST_MODEL_VIA_REGISTRY (recommended)
-- **What**: parallel to #22070's `StaticAgentRegistry`. Real registry constructs real agents; we override each `BaseGalaxyAgent.agent` with a pydantic-ai `Agent(model=TestModel(call_tools='all'), ...)` preserving the registered tools.
+- **What**: parallel to #22070's `StaticAgentRegistry`. Real registry constructs real agents; we override each `BaseGalaxyAgent.agent` with a pydantic-ai `Agent(model=TestModel(call_tools='all'), ...)` preserving the registered tools. Enabled per-class via integration test's `handle_galaxy_config_kwds`.
 - **Pros**: matches an existing established pattern in the same subsystem; exercises the *entire* tool dispatch chain (including the threadpool offload we're guarding); deterministic; no LLM; no external creds; one CI invocation.
-- **Cons**: ~150–300 LOC for the registry + factory + driver_util wiring + config exposure. Real implementation lift, not just a test file. Adds a third backend mode to reason about.
+- **Cons**: ~150–250 LOC for the registry + factory + config exposure. Real implementation lift, not just a test file. Adds a third backend mode to reason about.
 
 ### DIRECT_TOOL_INVOCATION
-- **What**: An API test (or in-process Python test against a launched Galaxy) that fetches a real `trans` and calls `await list_history_items(trans.sa_session, history_id)` directly inside the test, looping over each helper. aiocop sees the syscalls.
+- **What**: An integration test that fetches a real `trans` from `self._app` and calls `await list_history_items(trans.sa_session, history_id)` directly inside the test, looping over each helper. aiocop sees the syscalls. Still an integration test (not API) because it needs `self._app` and to run under the test server's event loop with aiocop enabled — but it doesn't need a config switch, so could in principle live as a slim integration class without `handle_galaxy_config_kwds`.
 - **Pros**: smallest implementation lift — no registry/factory work, no `TestModel`. Still catches a threadpool-fix regression in the helpers.
 - **Cons**: does **not** validate the dispatch wiring (`@agent.tool` registration, the `await` in `page_assistant.py:240+`, the agent-deps plumbing). A future regression that breaks just the wrapper layer would slip. Also less natural as a "drive the agent" test that mvdbeek would recognize as answering his question.
 - **Use as**: a fast, narrow companion guard, or a fallback if TEST_MODEL_VIA_REGISTRY is deemed too much for this PR.
@@ -183,16 +191,17 @@ Use `feedback_decision_doc_authoring` UPPER_SNAKE option naming. Recommendation:
 
 ### MONKEYPATCH_AT_TEST_SETUP (rejected)
 - **What**: `mock.patch` `BaseGalaxyAgent._create_agent` in pytest fixtures to inject TestModel.
-- **Why rejected**: `lib/galaxy_test/driver/driver_util.py` actually runs the test server in a `threading.Thread` *inside the same Python process* as the test runner (`EmbeddedServerWrapper`, ~`driver_util.py:658`), so in-process `mock.patch` would reach the server thread — that's not the obstacle. The real problem is *timing*: agent instances are constructed at app startup (via the registry created by `factory.py:build_default_registry`), well before any test `setUp` runs. A per-test `mock.patch` does not retroactively re-wrap already-constructed `BaseGalaxyAgent.agent` instances, and patching `_create_agent` in a `conftest`/`setUpClass` runs after startup. Possible-but-fiddly variants exist (patch in a session-scoped fixture that fires *before* `init_fast_app`, or post-hoc walk every agent in the registry and replace `.agent`) — but they re-invent the registry-swap mechanism that #22070 already established as the conventional injection point. Use the established mechanism.
+- **Why rejected**: agent instances are constructed at app startup (via `factory.py:build_default_registry`), before any test `setUp` runs — so a per-test patch arrives too late. Possible variants exist (session-scoped fixture pre-`init_fast_app`; post-hoc walk every agent in the registry) but they re-invent the registry-swap mechanism that #22070 already established as the conventional injection point. Use the established mechanism — and on the integration suite, `handle_galaxy_config_kwds` already runs before app construction (writing_tests.md:823), so the registry swap lands at the right point in startup.
 
 ## Open questions
 
 - **Q1 — registry granularity**: should `TestModelAgentRegistry` swap every agent's model uniformly, or allow per-agent-type opt-out (e.g. keep `router` real, override only the leaf agents)? Probably uniform for simplicity, but worth confirming when `router` is invoked in the page-chat flow.
-- **Q2 — should this test ride in #22361 or land separately?** The review summary said *"some of that could be followup"*; this is squarely follow-up scope (test infrastructure, not the fix itself). Filing as a separate issue/PR with a back-link is cleaner and matches mvdbeek's framing.
+- **Q2 — should this test ride in #22361 or land separately?** The review summary said *"some of that could be followup"*; this is squarely follow-up scope (test infrastructure, not the fix itself). Filing as a separate issue/PR with a back-link is cleaner and matches mvdbeek's framing. Land under the integration suite — see writing_tests.md decision tree.
 - **Q3 — pydantic-ai version skew**: the lockfile (`requirements.txt`) pins `pydantic-ai==1.97.0` / `pydantic-ai-slim==1.97.0` (pyproject only floors at `>=1.56.0`), but the local venv has `1.93.0`. `TestModel.call_tools='all'` and `custom_output_args` exist in both — but the skipped `test_router_with_test_model` at `test_agents.py:286` (decorator at `:284`) cites *"TestModel API changed in pydantic-ai, needs update for new version"*, so something in the call surface drifted. Validate against the *pinned* 1.97.0 version before committing the implementation. Reviving the skipped unit test is adjacent but separable — track in its own task, not this issue.
 - **Q4 — collection seeding**: which `DatasetCollectionPopulator` helper produces a paired list with elements that exercise the `hdca.collection.elements` lazy-load path in `_get_collection_structure_impl`? Pick one whose output covers both element types (`elem.hda` and `elem.child_collection`).
 - **Q5 — page populator**: `lib/galaxy_test/base/populators.py` (galaxyproject/galaxy#22361) added `new_history_page` etc. — confirm those are public and stable enough to depend on, or stabilize them as part of this work.
 - **Q6 — assertion shape**: rely solely on `_maybe_check_aiocop` (implicit pass-on-no-violation), or also assert response metadata showing tools were invoked? The latter guards against the TestModel swap silently no-op'ing (e.g. wrong factory wiring). Recommend both.
+- **Q7 — authz coverage**: also seed an unauthorized-page case (different user, no sharing) and assert `POST /api/chat` with that `page_id` returns 403 *before* the tool chain fires. Cheap to add to the same test class; uses the access-check shipped in `88e66d6a5b` (`get_accessible_page`). Closes a small adjacent gap surfaced in guerler's `discussion_r3032429339`.
 
 ## Out of scope
 
