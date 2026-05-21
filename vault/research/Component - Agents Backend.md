@@ -9,7 +9,7 @@ revision: 3
 ai_generated: true
 summary: "Multi-agent AI framework with pydantic-ai, five specialized agents, registry pattern, and async execution"
 related_notes:
-  - "[[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]]"
+  - "[[Component - Agents ChatGXY Persistence]]"
   - "[[Component - Agents UX]]"
   - "[[PR 21434 - AI Agent Framework and ChatGXY]]"
   - "[[PR 21463 - Jupyternaut Adapter for JupyterLite]]"

@@ -11,7 +11,7 @@ github_pr: 21692
 github_repo: galaxyproject/galaxy
 summary: "Standardizes agent response metadata, typing, validates suggestions, removes deprecated endpoints"
 related_notes:
-  - "[[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]]"
+  - "[[Component - Agents ChatGXY Persistence]]"
   - "[[Component - Agents Backend]]"
   - "[[Component - Agents UX]]"
   - "[[PR 21434 - AI Agent Framework and ChatGXY]]"

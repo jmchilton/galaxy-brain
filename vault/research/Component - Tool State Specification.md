@@ -9,8 +9,8 @@ tags:
 component: Tool State Specification
 status: draft
 created: 2026-02-05
-revised: 2026-05-07
-revision: 5
+revised: 2026-05-21
+revision: 6
 ai_generated: true
 summary: "YAML-driven test suite validating 12 tool state representations, each form context-specific"
 related_notes:
@@ -26,6 +26,7 @@ related_notes:
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
+  - "[[Problem - basic.py Parameter Hierarchy]]"
 ---
 
 # Galaxy Tool State Specification Infrastructure

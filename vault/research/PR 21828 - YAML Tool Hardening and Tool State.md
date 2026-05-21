@@ -20,8 +20,8 @@ related_prs:
   - 20935
 status: draft
 created: 2026-04-28
-revised: 2026-05-16
-revision: 6
+revised: 2026-05-21
+revision: 7
 ai_generated: true
 summary: "Typed Pydantic collection runtime models, Job.tool_state column, YAML test case JSON validation, collection inputs for YAML tools"
 sources:
@@ -47,6 +47,7 @@ related_notes:
   - "[[PR 21932 - History Graph API]]"
   - "[[PR 22706 - Workflow Extraction by IDs]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
+  - "[[Problem - basic.py Parameter Hierarchy]]"
 ---
 
 # PR #21828: Various YAML Tool Hardening and Progress toward Tool State Goals

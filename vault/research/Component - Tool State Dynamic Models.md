@@ -7,8 +7,8 @@ tags:
   - galaxy/tools
 status: draft
 created: 2026-02-08
-revised: 2026-04-28
-revision: 4
+revised: 2026-05-21
+revision: 5
 ai_generated: true
 component: tool_state_dynamic_models
 galaxy_areas:
@@ -25,6 +25,7 @@ related_notes:
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
+  - "[[Problem - basic.py Parameter Hierarchy]]"
 ---
 
 # Galaxy Tool State: Dynamic Pydantic Models

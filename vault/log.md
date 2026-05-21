@@ -128,3 +128,28 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Workflow Editor Terminals]] — backlink
   - [[Component - Collection Models]] — backlink
   - [[Component - Collection Tool Execution Semantics]] — backlink
+
+## 2026-05-21 ingest — Problem - basic.py Parameter Hierarchy
+- **source**: lib/galaxy/tools/parameters/basic.py (synthesized dossier from 4 parallel subagent reports on branch refactor-data-options-builder)
+- **created**: [[Problem - basic.py Parameter Hierarchy]]
+- **updated**:
+  - [[Component - Tool State Specification]] — backlink
+  - [[Component - Tool State Dynamic Models]] — backlink
+  - [[Component - YAML Tool Runtime]] — backlink
+  - [[Component - User-Defined Tools]] — backlink
+  - [[Problem - YAML Tool Post-Hoc State Divergence]] — backlink
+  - [[Workflow Extraction Issues]] — backlink
+  - [[PR 21828 - YAML Tool Hardening and Tool State]] — backlink
+  - [[PR 20935 - Tool Request API]] — backlink
+  - [[PR 21842 - Tool Execution Migrated to api jobs]] — backlink
+
+## 2026-05-21 rename — COMPONENT_* → Component - * convention
+- **source**: filename hygiene
+- **updated**:
+  - [[Component - Agents ChatGXY Persistence]] — renamed from COMPONENT_AGENTS_CHATGXY_PERSISTENCE.md
+  - [[Component - UI Error Handling]] — renamed from COMPONENT_UI_ERROR_HANDLING.md; added missing `research/component` tag
+  - [[Component - Agents UX]] — wiki-link updates
+  - [[Component - Agents Backend]] — wiki-link updates
+  - [[PR 21434 - AI Agent Framework and ChatGXY]] — wiki-link updates
+  - [[PR 21692 - Standardize Agent API Schemas]] — wiki-link updates
+  - [[PR 21942 - Shared Agent Operations and MCP Server]] — wiki-link updates

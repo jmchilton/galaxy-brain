@@ -13,8 +13,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-04-28
-revised: 2026-05-16
-revision: 3
+revised: 2026-05-21
+revision: 4
 ai_generated: true
 summary: "Rerun, job display, export, workflow extract read legacy JobParameter rows via basic.py, not Job.tool_state — no YAML tool tests prove they agree"
 related_notes:
@@ -33,6 +33,7 @@ related_notes:
   - "[[Component - API Tests Tools]]"
   - "[[Component - E2E Tests - Writing]]"
   - "[[Problem - Workflow Test Collection Inputs]]"
+  - "[[Problem - basic.py Parameter Hierarchy]]"
 ---
 
 # YAML Tool Post-Hoc State Divergence

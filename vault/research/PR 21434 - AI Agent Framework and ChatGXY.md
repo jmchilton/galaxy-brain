@@ -14,7 +14,7 @@ revision: 3
 ai_generated: true
 summary: "Pydantic-ai multi-agent framework with router, error analysis, custom tool, orchestrator agents"
 related_notes:
-  - "[[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]]"
+  - "[[Component - Agents ChatGXY Persistence]]"
   - "[[Component - Agents Backend]]"
   - "[[Component - Agents UX]]"
   - "[[PR 21463 - Jupyternaut Adapter for JupyterLite]]"

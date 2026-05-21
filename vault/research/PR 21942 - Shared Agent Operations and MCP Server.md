@@ -23,7 +23,7 @@ related_notes:
   - "[[PR 21463 - Jupyternaut Adapter for JupyterLite]]"
   - "[[Component - Agents Backend]]"
   - "[[Component - Agents UX]]"
-  - "[[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]]"
+  - "[[Component - Agents ChatGXY Persistence]]"
 ---
 
 # PR #21942 Research: Shared Operations Layer for Internal and External AI Agents
@@ -131,4 +131,4 @@ Adds `AgentOperationsManager` (`lib/galaxy/agents/operations.py`, ~875 lines) �
 - [[PR 21463 - Jupyternaut Adapter for JupyterLite]] — comparable external AI integration mounting/auth pattern.
 - [[Component - Agents Backend]] — backend agent architecture; needs revision for ops manager + HistoryAgent.
 - [[Component - Agents UX]] — UX surfaces; MCP is a new external surface alongside ChatGXY/wizard/Jupyternaut.
-- [[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]] — ChatGXY persistence; MCP is the non-persistent peer entry point.
+- [[Component - Agents ChatGXY Persistence]] — ChatGXY persistence; MCP is the non-persistent peer entry point.

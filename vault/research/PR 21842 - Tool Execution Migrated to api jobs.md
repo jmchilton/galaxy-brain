@@ -14,8 +14,8 @@ related_prs:
   - 21828
 status: draft
 created: 2026-04-28
-revised: 2026-05-16
-revision: 4
+revised: 2026-05-21
+revision: 5
 ai_generated: true
 summary: "Tool form submits via POST /api/jobs with client-side flat-to-nested state, polls tool_requests until terminal"
 sources:
@@ -33,6 +33,7 @@ related_notes:
   - "[[PR 21932 - History Graph API]]"
   - "[[PR 22706 - Workflow Extraction by IDs]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
+  - "[[Problem - basic.py Parameter Hierarchy]]"
 ---
 
 # PR #21842: Migrate tool execution request from /api/tools to /api/jobs

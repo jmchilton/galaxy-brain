@@ -12,8 +12,8 @@ revision: 3
 ai_generated: true
 summary: "Four agent UX surfaces: ChatGXY full-page chat, GalaxyWizard error widget, tool generator, Jupyternaut proxy"
 related_notes:
-  - "[[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]]"
-  - "[[COMPONENT_UI_ERROR_HANDLING]]"
+  - "[[Component - Agents ChatGXY Persistence]]"
+  - "[[Component - UI Error Handling]]"
   - "[[Component - Agents Backend]]"
   - "[[Component - Window Manager]]"
   - "[[PR 21434 - AI Agent Framework and ChatGXY]]"

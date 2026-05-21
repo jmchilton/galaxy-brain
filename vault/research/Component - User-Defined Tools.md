@@ -12,8 +12,8 @@ tags:
 component: User-Defined Tools
 status: draft
 created: 2026-05-07
-revised: 2026-05-07
-revision: 1
+revised: 2026-05-21
+revision: 2
 ai_generated: true
 sources:
   - https://github.com/galaxyproject/galaxy/pull/19434
@@ -48,6 +48,7 @@ related_notes:
   - "[[Component - Tool State Specification]]"
   - "[[Component - Tool State Dynamic Models]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
+  - "[[Problem - basic.py Parameter Hierarchy]]"
 ---
 
 # User-Defined Tools in Galaxy

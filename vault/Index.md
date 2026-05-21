@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*97 notes. Auto-generated — run `make index` to refresh.*
+*98 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -17,16 +17,16 @@
 
 ## Papers
 
+- [[gxwf]] — Paper workspace for Format 2 as Galaxy's writable workflow format, gxformat2 as the library for working with that format, and gxwf as the schema-aware validation, CLI, browser, and VS Code authoring stack.
 - [[galaxy-notebooks]] — Paper workspace for Galaxy Notebooks as reproducible analysis communication and notebook-driven workflow extraction.
 - [[foundry]] — Paper workspace for Foundry as a provenance-bearing knowledge-to-skill compiler for Galaxy workflow authoring agents.
-- [[gxwf]] — Paper workspace for gxwf static validation, CLI tooling, browser authoring, and VS Code integration.
 
 ## Research
 
 ### Components
 
 - [[Component - Auto Pairing]] — Automatic forward/reverse read pairing: parallel frontend/backend implementations validated against shared YAML spec
-- [[COMPONENT_AGENTS_CHATGXY_PERSISTENCE]] — ChatGXY persistence model, API flow, and frontend state management for chat conversations
+- [[Component - Agents ChatGXY Persistence]] — ChatGXY persistence model, API flow, and frontend state management for chat conversations
 - [[Component - Collection Tool Execution Semantics]] — Collection types (list, paired, record), mapping semantics, linked vs cross-product multiple inputs, element identifier flow
 - [[Component - Tool XML Collection Commands]] — DatasetCollectionWrapper objects in Cheetah command templates, paired/list iteration access
 - [[Component - Collections in Tool XML Tests]] — Test syntax for collections: nested 'collection' tags with type, elements, fields for records and paired variants
@@ -43,7 +43,7 @@
 - [[Component - Data Fetch]] — Import pipeline from URLs/paste/files/FTP via /api/tools/fetch wrapping __DATA_FETCH__ tool producing HDAs or HDCAs
 - [[Component - Collection API]] — Full collection API surface: POST/GET/PUT/DELETE endpoints, DatasetCollectionsService, fuzzy drill-down, export
 - [[Component - Collection Models]] — Core model classes: DatasetCollection, DatasetCollectionElement, HDCA/LDCA instances, implicit collections from mapping
-- [[COMPONENT_UI_ERROR_HANDLING]] — Backend MessageException serialization to JSON and frontend parsing via simple-error.ts
+- [[Component - UI Error Handling]] — Backend MessageException serialization to JSON and frontend parsing via simple-error.ts
 - [[Component - Implicit Dataset Conversion]] — Transparent datatype conversion mechanism via ImplicitlyConvertedDatasetAssociation, invisible HDAs
 - [[Component - Markdown Visualizations]] — Five fenced block types for galaxy directives, Vega charts, visualizations, Vitessce dashboards
 - [[Component - Workflow Extraction Models]] — ORM model relationships for reconstructing workflows from history via dataset ancestry
@@ -117,6 +117,7 @@
 
 ### Design Problems
 
+- [[Problem - basic.py Parameter Hierarchy]] — Structural dossier on basic.py: parser fused with codec, isinstance dispatch, god-class data params, parallel Pydantic schism, hidden HistoryItemRef ADT
 - [[Workflow Extraction Multiple Histories]] — ID-based extraction removes single-history limitation, fixes cross-history copied dataset problems
 - [[Problem - Workflow Test Collection Inputs]] — Framework test collections populated via fetch API dispatches on type, supports nested structures
 - [[Problem - YAML Tool Post-Hoc State Divergence]] — Rerun, job display, export, workflow extract read legacy JobParameter rows via basic.py, not Job.tool_state — no YAML tool tests prove they agree
