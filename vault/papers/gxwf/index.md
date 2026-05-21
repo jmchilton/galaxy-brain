@@ -18,7 +18,7 @@ created: 2026-05-17
 revised: 2026-05-20
 revision: 5
 ai_generated: false
-summary: "Paper workspace for Format 2 as Galaxy's writable workflow format, gxformat2 as the library for working with that format, and gxwf as the schema-aware validation, CLI, browser, and VS Code authoring stack."
+summary: "Paper workspace for Format 2 (Galaxy's writable workflow format), gxformat2 library, and gxwf schema-aware validation/CLI/browser/VS Code authoring stack."
 ---
 
 # Format 2 / gxformat2 / gxwf
