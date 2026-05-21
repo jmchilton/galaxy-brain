@@ -153,3 +153,17 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[PR 21434 - AI Agent Framework and ChatGXY]] — wiki-link updates
   - [[PR 21692 - Standardize Agent API Schemas]] — wiki-link updates
   - [[PR 21942 - Shared Agent Operations and MCP Server]] — wiki-link updates
+
+## 2026-05-21 ingest — PR 22070 - Static YAML Agent Backend for Deterministic Testing
+- **source**: https://github.com/galaxyproject/galaxy/pull/22070
+- **created**: [[PR 22070 - Static YAML Agent Backend for Deterministic Testing]]
+- **updated**:
+  - [[PR 21434 - AI Agent Framework and ChatGXY]] — backlink to PR 22070 (alternate registry impl)
+  - [[PR 21692 - Standardize Agent API Schemas]] — backlink to PR 22070 (static backend emits these shapes)
+  - [[PR 21942 - Shared Agent Operations and MCP Server]] — backlink to PR 22070 (sibling agent-stack PR)
+  - [[PR 21706 - Data Analysis Agent Integration]] — backlink to PR 22070 (deterministic test regression guard)
+  - [[PR 21463 - Jupyternaut Adapter for JupyterLite]] — backlink to PR 22070 (shares inference_services surface)
+  - [[Component - Agents Backend]] — backlink to PR 22070 (alternate AgentRegistry impl)
+  - [[Component - Agents UX]] — backlink to PR 22070 (Selenium coverage for ChatGXY/Wizard)
+  - [[Component - Agents ChatGXY Persistence]] — backlink to PR 22070 (surface now rebranded GalaxyAI post-merge)
+  - [[Component - E2E Tests - Writing]] — backlink to PR 22070 (new data-description selector tests)

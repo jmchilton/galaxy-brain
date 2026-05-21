@@ -4,8 +4,8 @@ subtype: pr
 tags: [research/pr, galaxy/api, galaxy/client]
 status: draft
 created: 2026-02-13
-revised: 2026-04-29
-revision: 3
+revised: 2026-05-21
+revision: 4
 ai_generated: true
 github_pr: 21706
 github_repo: galaxyproject/galaxy
@@ -16,6 +16,7 @@ related_notes:
   - "[[PR 21434 - AI Agent Framework and ChatGXY]]"
   - "[[PR 21692 - Standardize Agent API Schemas]]"
   - "[[PR 21942 - Shared Agent Operations and MCP Server]]"
+  - "[[PR 22070 - Static YAML Agent Backend for Deterministic Testing]]"
 ---
 
 # PR #21706 Research Summary: Data Analysis Agent Integration

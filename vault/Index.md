@@ -1,9 +1,10 @@
 # Galaxy Brain Index
 
-*98 notes. Auto-generated — run `make index` to refresh.*
+*100 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
+- [[TOOL_FORM_POPULATE_REFACTOR]] — Extract tool-form-building from Tool.to_json into ToolFormBuilder with Pydantic envelope models; regression gate is a declarative YAML expectation suite.
 - [[Plan - Workflow Extraction Vue Conversion]] — Convert the last non-data-display Mako template (workflow extraction) to Vue + FastAPI; tracks issue #17506.
 - [[Plan - Workflow Extraction Vue Conversion - API]] — API design spec for replacing the legacy Mako workflow extraction UI with a typed FastAPI endpoint and Vue frontend.
 
@@ -17,7 +18,7 @@
 
 ## Papers
 
-- [[gxwf]] — Paper workspace for Format 2 as Galaxy's writable workflow format, gxformat2 as the library for working with that format, and gxwf as the schema-aware validation, CLI, browser, and VS Code authoring stack.
+- [[gxwf]] — Paper workspace for Format 2 (Galaxy's writable workflow format), gxformat2 library, and gxwf schema-aware validation/CLI/browser/VS Code authoring stack.
 - [[galaxy-notebooks]] — Paper workspace for Galaxy Notebooks as reproducible analysis communication and notebook-driven workflow extraction.
 - [[foundry]] — Paper workspace for Foundry as a provenance-bearing knowledge-to-skill compiler for Galaxy workflow authoring agents.
 
@@ -94,6 +95,7 @@
 - [[PR 21932 - History Graph API]] — GET /api/histories/{id}/graph returns bounded provenance DAG over HDAs HDCAs tool_requests
 - [[PR 21935 - Workflow Extraction Vue Conversion]] — Mako to Vue conversion of workflow extraction UI with new HID-keyed FastAPI extraction summary and extract workflow endpoints replacing legacy controller
 - [[PR 21942 - Shared Agent Operations and MCP Server]] — Shared AgentOperationsManager wraps Galaxy services for HistoryAgent and an in-process FastMCP server mounted at /api/mcp
+- [[PR 22070 - Static YAML Agent Backend for Deterministic Testing]] — Static YAML agent backend replaces mocked tests with deterministic API and Selenium coverage; drive-by detect_errors.xml fix
 - [[PR 22706 - Workflow Extraction by IDs]] — ID-based workflow extraction endpoint selecting implicit collection jobs by encoded id instead of HID inference for map-over steps
 - [[PR 4830 - Workflow Resource Parameters]] — Administrators define workflow-level resource parameters users set when invoking workflows for scheduling
 - [[PR 5378 - Tool Resource Requirements]] — Tools declare resource requirements like cores and memory modeled after CWL ResourceRequirement
