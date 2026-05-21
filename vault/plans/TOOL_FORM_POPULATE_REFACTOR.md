@@ -13,7 +13,7 @@ created: 2026-05-21
 revised: 2026-05-21
 revision: 3
 ai_generated: true
-summary: "Extract tool-form-building pipeline from Tool.to_json into a ToolFormBuilder module with Pydantic envelope models (BuiltToolForm, WorkflowStepForm). Excludes per-parameter input modelling. Regression gate is a declarative YAML expectation suite (unit), not byte-for-byte snapshots."
+summary: "Extract tool-form-building from Tool.to_json into ToolFormBuilder with Pydantic envelope models; regression gate is a declarative YAML expectation suite."
 ---
 
 # Tool Form Build Pipeline Refactor
