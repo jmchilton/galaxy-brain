@@ -5,12 +5,13 @@ tags:
   - research/pr
   - galaxy/api
   - galaxy/client
+  - galaxy/agents
 github_pr: 21434
 github_repo: galaxyproject/galaxy
 status: draft
 created: 2026-02-13
 revised: 2026-05-21
-revision: 4
+revision: 5
 ai_generated: true
 summary: "Pydantic-ai multi-agent framework with router, error analysis, custom tool, orchestrator agents"
 related_notes:

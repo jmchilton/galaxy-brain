@@ -1,17 +1,17 @@
 ---
 type: plan
+title: Tool Form Build Pipeline Refactor
 tags:
   - plan
   - galaxy/tools
   - galaxy/api
-  - galaxy/refactor
 related_notes:
   - "[[Problem - basic.py Parameter Hierarchy]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
 status: draft
 created: 2026-05-21
 revised: 2026-05-21
-revision: 3
+revision: 4
 ai_generated: true
 summary: "Extract tool-form-building from Tool.to_json into ToolFormBuilder with Pydantic envelope models; regression gate is a declarative YAML expectation suite."
 ---

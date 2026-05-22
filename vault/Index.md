@@ -1,9 +1,11 @@
 # Galaxy Brain Index
 
-*100 notes. Auto-generated — run `make index` to refresh.*
+*102 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
+- [[Plan - ChatGXY Notebook Convergence]] — Converge PR 22096's docked ChatGXY and history_pages PageChatPanel into one Analysis-level chat surface; notebooks become a router context
+- [[Plan - Chat Context and Docked Panel Tests]] — API + Selenium coverage for GalaxyAI docked panel, interface context attachment, and @mention entity context, on the PR 22070 static backend
 - [[TOOL_FORM_POPULATE_REFACTOR]] — Extract tool-form-building from Tool.to_json into ToolFormBuilder with Pydantic envelope models; regression gate is a declarative YAML expectation suite.
 - [[Plan - Workflow Extraction Vue Conversion]] — Convert the last non-data-display Mako template (workflow extraction) to Vue + FastAPI; tracks issue #17506.
 - [[Plan - Workflow Extraction Vue Conversion - API]] — API design spec for replacing the legacy Mako workflow extraction UI with a typed FastAPI endpoint and Vue frontend.

@@ -97,3 +97,6 @@ galaxy/admin:
 
 galaxy/testing:
   description: "Testing infrastructure - Selenium, API tests, integration test framework"
+
+galaxy/agents:
+  description: "Galaxy AI agent stack - agent framework, chat surfaces, MCP, inference services"

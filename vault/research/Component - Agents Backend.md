@@ -1,7 +1,7 @@
 ---
 type: research
 subtype: component
-tags: [research/component, galaxy/api, galaxy/lib]
+tags: [research/component, galaxy/api, galaxy/lib, galaxy/agents]
 status: draft
 created: 2026-02-13
 revised: 2026-05-21

@@ -167,3 +167,24 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Agents UX]] — backlink to PR 22070 (Selenium coverage for ChatGXY/Wizard)
   - [[Component - Agents ChatGXY Persistence]] — backlink to PR 22070 (surface now rebranded GalaxyAI post-merge)
   - [[Component - E2E Tests - Writing]] — backlink to PR 22070 (new data-description selector tests)
+
+## 2026-05-21 ingest — Plan - ChatGXY Notebook Convergence
+- **source**: vault/plans/CHATGXY_NOTEBOOK_CONVERGE_PLAN.md (renamed)
+- **created**: [[Plan - ChatGXY Notebook Convergence]]
+- **updated**:
+  - meta_tags.yml — added `galaxy/agents` tag (covers chat/agent surfaces)
+  - [[Component - Agents Backend]] — added `galaxy/agents` tag
+  - [[Component - Agents UX]] — added `galaxy/agents` tag; revision bump
+  - [[Component - Agents ChatGXY Persistence]] — added `galaxy/agents` tag; revision bump
+  - [[PR 21434 - AI Agent Framework and ChatGXY]] — added `galaxy/agents` tag; revision bump
+  - [[PR 21463 - Jupyternaut Adapter for JupyterLite]] — added `galaxy/agents` tag; revision bump
+  - [[PR 21692 - Standardize Agent API Schemas]] — added `galaxy/agents` tag
+  - [[PR 21706 - Data Analysis Agent Integration]] — added `galaxy/agents` tag
+  - [[PR 21942 - Shared Agent Operations and MCP Server]] — added `galaxy/agents` tag; revision bump
+  - [[PR 22070 - Static YAML Agent Backend for Deterministic Testing]] — added `galaxy/agents` tag; revision bump
+  - vault/plans/TOOL_FORM_POPULATE_REFACTOR.md — added missing `title`; dropped non-registered `galaxy/refactor` tag; revision bump
+
+## 2026-05-21 ingest — Plan - Chat Context and Docked Panel Tests
+- **source**: vault/plans/TEST_CHAT_CONTEXT.md (renamed)
+- **created**: [[Plan - Chat Context and Docked Panel Tests]]
+- **updated**: none

@@ -6,12 +6,13 @@ tags:
   - galaxy/api
   - galaxy/client
   - galaxy/testing
+  - galaxy/agents
 github_pr: 22070
 github_repo: galaxyproject/galaxy
 status: draft
 created: 2026-05-21
 revised: 2026-05-21
-revision: 1
+revision: 2
 ai_generated: true
 summary: "Static YAML agent backend replaces mocked tests with deterministic API and Selenium coverage; drive-by detect_errors.xml fix"
 sources:

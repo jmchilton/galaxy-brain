@@ -4,11 +4,12 @@ subtype: component
 tags:
   - research/component
   - galaxy/client
+  - galaxy/agents
 component: Agents UX
 status: draft
 created: 2026-02-13
 revised: 2026-05-21
-revision: 4
+revision: 5
 ai_generated: true
 summary: "Four agent UX surfaces: ChatGXY full-page chat, GalaxyWizard error widget, tool generator, Jupyternaut proxy"
 related_notes:

@@ -6,11 +6,12 @@ tags:
   - galaxy/client
   - galaxy/api
   - galaxy/lib
+  - galaxy/agents
 component: ChatGXY Persistence
 status: draft
 created: 2026-03-05
 revised: 2026-05-21
-revision: 4
+revision: 5
 ai_generated: true
 summary: "ChatGXY persistence model, API flow, and frontend state management for chat conversations"
 related_notes:

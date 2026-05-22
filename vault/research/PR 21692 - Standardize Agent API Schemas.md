@@ -1,7 +1,7 @@
 ---
 type: research
 subtype: pr
-tags: [research/pr, galaxy/api, galaxy/client]
+tags: [research/pr, galaxy/api, galaxy/client, galaxy/agents]
 status: draft
 created: 2026-02-13
 revised: 2026-05-21

@@ -6,12 +6,13 @@ tags:
   - galaxy/api
   - galaxy/lib
   - galaxy/admin
+  - galaxy/agents
 github_pr: 21942
 github_repo: galaxyproject/galaxy
 status: draft
 created: 2026-04-29
 revised: 2026-05-21
-revision: 2
+revision: 3
 ai_generated: true
 summary: "Shared AgentOperationsManager wraps Galaxy services for HistoryAgent and an in-process FastMCP server mounted at /api/mcp"
 sources:

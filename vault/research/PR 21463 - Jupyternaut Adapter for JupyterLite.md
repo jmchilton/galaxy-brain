@@ -4,12 +4,13 @@ subtype: pr
 tags:
   - research/pr
   - galaxy/api
+  - galaxy/agents
 github_pr: 21463
 github_repo: galaxyproject/galaxy
 status: draft
 created: 2026-02-13
 revised: 2026-05-21
-revision: 4
+revision: 5
 ai_generated: true
 summary: "OpenAI Chat Completions endpoint supports Jupyternaut AI assistant in JupyterLite visualizations"
 related_notes:
