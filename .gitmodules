@@ -1,0 +1,3 @@
+[submodule "galaxy-architecture"]
+	path = galaxy-architecture
+	url = https://github.com/jmchilton/galaxy-architecture.git

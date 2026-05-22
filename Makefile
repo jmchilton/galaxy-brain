@@ -1,4 +1,4 @@
-.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index
+.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -24,6 +24,15 @@ index:
 
 check-index:
 	uv run $(DEPS) python generate_index.py --check
+
+architecture-views:
+	uv run generate_architecture_views.py $(ARGS)
+
+check-architecture-views:
+	uv run generate_architecture_views.py --check
+
+architecture-update:
+	uv run scripts/sync_architecture.py $(ARGS)
 
 site-dev:
 	cd site && npm run dev

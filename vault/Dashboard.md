@@ -88,3 +88,16 @@ WHERE status != "archived"
 SORT revised DESC
 
 ```
+
+## Architecture
+```dataview
+
+TABLE status, revised, revision
+
+FROM #architecture
+
+WHERE status != "archived"
+
+SORT revised DESC
+
+```

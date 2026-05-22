@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*103 notes. Auto-generated — run `make index` to refresh.*
+*104 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -14,6 +14,7 @@
 
 - [[collection_semantics]] — Project formalizing Galaxy collection semantics and their documentation.
 - [[cwl]] — Project tracking CWL implementation in Galaxy: conformance tests, conditionals, packing, tool loading.
+- [[architecture]] — Mirrored view of the galaxy-architecture repo — training topics rendered as vault-readable markdown.
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
 - [[wf_refactor_persistence]] — Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113).
 - [[workflow_state]] — Workflow validation infrastructure: pre-execution parameter typing, format2 usability, VS Code tooling, tool search overhaul.

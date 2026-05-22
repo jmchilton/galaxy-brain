@@ -50,6 +50,9 @@ project:
 paper:
   description: "Multi-file manuscript workspace with index.md landing page"
 
+architecture:
+  description: "Galaxy architecture topic view (mirrored from galaxy-architecture submodule)"
+
 # --- Galaxy Area Tags ---
 # These classify which part of Galaxy the note relates to. Notes can have multiple.
 
