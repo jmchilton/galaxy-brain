@@ -12,8 +12,8 @@ github_repo: galaxyproject/galaxy
 component: User-Defined Tools
 status: draft
 created: 2026-02-05
-revised: 2026-05-07
-revision: 5
+revised: 2026-05-22
+revision: 6
 ai_generated: true
 summary: "Users create YAML tools via UI with sandboxed JavaScript expressions and required containerization"
 related_notes:
@@ -25,6 +25,7 @@ related_notes:
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
+  - "[[PR 22615 - UserToolSource Pydantic Semantic Validation]]"
 ---
 
 # User-Defined Tools (Beta)

@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*102 notes. Auto-generated — run `make index` to refresh.*
+*103 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -101,6 +101,7 @@
 - [[PR 22706 - Workflow Extraction by IDs]] — ID-based workflow extraction endpoint selecting implicit collection jobs by encoded id instead of HID inference for map-over steps
 - [[PR 4830 - Workflow Resource Parameters]] — Administrators define workflow-level resource parameters users set when invoking workflows for scheduling
 - [[PR 5378 - Tool Resource Requirements]] — Tools declare resource requirements like cores and memory modeled after CWL ResourceRequirement
+- [[PR 22615 - UserToolSource Pydantic Semantic Validation]] — Pushes id pattern, blank-field, citation DOI/BibTeX, input-ref, and output-claim checks onto UserToolSource pydantic validators benefiting agent and API
 - [[PR 19305 - Implement Sample Sheets]] — Sample sheets attach typed columnar metadata to dataset collection elements for bioinformatics workflows
 - [[PR 20935 - Tool Request API]] — Asynchronous job submission via POST /api/jobs with Pydantic-validated state transformations
 - [[PR 19434 - User Defined Tools]] — Users create YAML tools via UI with sandboxed JavaScript expressions and required containerization

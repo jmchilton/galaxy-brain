@@ -188,3 +188,14 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
 - **source**: vault/plans/TEST_CHAT_CONTEXT.md (renamed)
 - **created**: [[Plan - Chat Context and Docked Panel Tests]]
 - **updated**: none
+
+## 2026-05-22 ingest — PR 22615 - UserToolSource Pydantic Semantic Validation
+- **source**: https://github.com/galaxyproject/galaxy/pull/22615
+- **created**: [[PR 22615 - UserToolSource Pydantic Semantic Validation]]
+- **updated**:
+  - [[Component - User-Defined Tool Source Validation]] — added PR 22615 to related_prs/notes; direct extension of this surface
+  - [[Component - User-Defined Tools]] — added PR 22615 to related_prs/notes; hardening step in the initiative
+  - [[PR 19434 - User Defined Tools]] — backlink to PR 22615
+  - [[PR 21434 - AI Agent Framework and ChatGXY]] — backlink to PR 22615; CustomToolAgent error path changed
+  - [[Component - Agents Backend]] — backlink to PR 22615; validation flow into producer reflection loop
+  - [[Dependency - Pydantic Dynamic Models]] — backlink to PR 22615; field_validator/model_validator usage

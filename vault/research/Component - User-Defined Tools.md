@@ -12,8 +12,8 @@ tags:
 component: User-Defined Tools
 status: draft
 created: 2026-05-07
-revised: 2026-05-21
-revision: 2
+revised: 2026-05-22
+revision: 3
 ai_generated: true
 sources:
   - https://github.com/galaxyproject/galaxy/pull/19434
@@ -37,6 +37,7 @@ related_prs:
   - 22566
   - 22625
   - 22628
+  - 22615
 related_notes:
   - "[[Component - User-Defined Tool Source Validation]]"
   - "[[PR 19434 - User Defined Tools]]"
@@ -49,6 +50,7 @@ related_notes:
   - "[[Component - Tool State Dynamic Models]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
   - "[[Problem - basic.py Parameter Hierarchy]]"
+  - "[[PR 22615 - UserToolSource Pydantic Semantic Validation]]"
 ---
 
 # User-Defined Tools in Galaxy

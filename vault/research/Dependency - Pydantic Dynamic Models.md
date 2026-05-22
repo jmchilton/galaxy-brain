@@ -5,8 +5,8 @@ tags:
   - research/dependency
 status: draft
 created: 2026-02-08
-revised: 2026-04-28
-revision: 3
+revised: 2026-05-22
+revision: 4
 ai_generated: true
 summary: "Pydantic create_model API dynamically builds BaseModel subclasses with field definitions"
 related_notes:
@@ -16,6 +16,7 @@ related_notes:
   - "[[PR 18641 - Parameter Model Improvements Research]]"
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
+  - "[[PR 22615 - UserToolSource Pydantic Semantic Validation]]"
 ---
 
 # Pydantic v2 Dynamic Models Reference
