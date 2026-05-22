@@ -10,7 +10,7 @@ component: User-Defined Tools - Source Validation
 status: draft
 created: 2026-05-07
 revised: 2026-05-22
-revision: 2
+revision: 3
 ai_generated: true
 sources:
   - https://github.com/galaxyproject/galaxy/pull/22507
@@ -146,6 +146,49 @@ Two design choices carry the schema:
 The `normalize_items` validator allows both list-of-dicts and dict-of-dicts
 forms for `inputs`/`outputs` (a YAML ergonomics nicety), but normalizes
 before strict validation runs.
+
+### 2.1 The post-#22615 validator surface
+
+PR [#22615](https://github.com/galaxyproject/galaxy/pull/22615) (see
+[[PR 22615 - UserToolSource Pydantic Semantic Validation]]) layers
+semantic validators on top of the shape-only schema above. They run
+during pydantic model construction, so every `DynamicUnprivilegedToolCreatePayload`
+caller (API, MCP, `CustomToolAgent`) is gated identically:
+
+- **`id`** — `Field(pattern=r"^[a-z][a-z0-9_-]*$")` on
+  `_DynamicToolSourceBase` (hyphens allowed; uppercase rejected).
+- **`name`** — `min_length=5` plus `_reject_blank_strings` (also covers
+  `version`).
+- **`container`** (UserToolSource-only) — `_reject_blank_container`.
+- **`_check_input_refs`** (`model_validator(mode="after")`) — scans
+  every `$(...)` block in `shell_command` and each `configfile.content`
+  for `inputs.<name>` references and rejects undeclared names. Top-level
+  identifier only; nested refs like `inputs.cond.test_parameter` resolve
+  to `inputs.cond` and computed/aliased ECMAScript is accepted as a
+  false negative.
+- **`_check_output_claims`** (`model_validator(mode="after")`) — each
+  output must declare `from_work_dir` or `discover_datasets` (datasets)
+  or `structure.discover_datasets` (collections). Replaces the old
+  "name appears in command" heuristic.
+- **`Citation._check_citation_shape`** (in `tool_source.py`) — empty
+  content rejected; `type=doi` matched against `^10\.\d{4,9}/.+$`,
+  `type=bibtex` matched against `^@[a-zA-Z]+\s*\{`.
+
+A `_canonical_order` `model_serializer` on `UserToolSource` pins the
+key order on `model_dump` so editor round-trips don't reshuffle the
+document.
+
+Two helpers operationalize the validators outside pydantic itself:
+`format_validation_errors` distills `ValidationError.errors()` to
+friendly `"<dotted.loc>: <msg>"` bullets (agent-only at HEAD; the API
+path uses FastAPI's default 422), and `lint_user_tool_source` invokes
+the lint framework with `NETWORK_LINTERS` skipped — used by both the
+API manager and the agent to surface container-shape and related linter
+findings on top of pydantic.
+
+Container *image shape* (quay.io/biocontainers, docker://, oras://,
+docker-hub) lives in a new `ContainerImageShape` linter rather than on
+the pydantic model.
 
 ## 3. Narrow YAML-facing input models — `yaml_parameters.py`
 
@@ -429,6 +472,21 @@ definitions and 4 scalar/YAML user-tool definitions
 `gx_select_multiple_one_default_user`). These are the canonical "agent
 should be able to write something like this" examples.
 
+### 7.4 `user_tool_source_validation_cases.yml`
+
+PR #22615 added `test/unit/tool_util/user_tool_source_validation_cases.yml`
+(184 lines) as a third external corpus. Each case is an overlay on a
+`VALID_TOOL` baseline; `test_user_tool_source_validation.py` applies it
+and asserts either valid construction or a `ValidationError` whose
+`code` set matches `expected_errors`. One case
+(`format_validation_errors_distillation`) pins the exact distilled
+bullet output as documentation of the helper's format.
+
+The same "external corpus + python harness" design as
+`parameter_specification.yml` — the corpus is portable to
+`galaxy-tool-util-ts`, MCP clients, or IDE plugins that need to
+re-implement validation without depending on Galaxy's pydantic models.
+
 ## 8. The agent authoring surface
 
 The validation work on the YAML source matters most when the source is
@@ -528,14 +586,19 @@ documented public path. (Open: see §9.)
   `d3c37a26e1`, `0151cb50d8`, `bc32fa1c71`), but the source-level
   schema's constraint that credentials may only be referenced from
   approved JS contexts is not in the model — it's runtime-only.
-- **`format_source: <input_name>`** resolution. If the referenced input
-  doesn't exist, is that a parse-time or runtime failure? The narrow
-  models accept any string. A cross-field validator on
-  `_DynamicToolSourceBase` could catch this at source time.
-- **`shell_command` JS expressions.** `$(inputs.foo.path)` referencing a
-  non-existent input is a runtime failure. The runtime model exposed at
-  `/api/unprivileged_tools/runtime_model` could in principle drive a
-  parse-time check.
+- **`format_source: <input_name>`** resolution. The referenced input
+  name is still accepted unchecked by the narrow models — only
+  `shell_command` and `configfiles[*].content` got the parse-time
+  reference scan in #22615. A cross-field validator on
+  `_DynamicToolSourceBase` could close this sibling gap.
+- **Nested `$(inputs.<a>.<b>)` references.** PR #22615's
+  `_check_input_refs` lands the top-level case (an undeclared
+  `inputs.foo` in `shell_command` or `configfiles[*].content` now fails
+  at parse time), but the design explicitly only walks the top-level
+  identifier — a typo in the *section* name of `inputs.cond.test_param`
+  is caught (the section doesn't exist), but a typo in the *child* name
+  of a declared section is not. Computed/aliased ECMAScript
+  (`var x = inputs; x.foo`) is also an accepted false negative.
 
 ### 9.2 Schema-synchronization gaps
 
@@ -579,10 +642,13 @@ In priority order:
    bundle" workaround.
 2. **CI-gate `ToolSourceSchema.json` regeneration.** A Pydantic-side
    change that doesn't propagate to the client bundle should fail CI.
-3. **Cross-field validators on `_DynamicToolSourceBase`.** Catch
-   `format_source` and `$(inputs.foo)` references to non-existent inputs
-   at parse time. The narrow input models already know the input names;
-   a `model_validator(mode="after")` can enforce.
+3. **Cross-field validators on `_DynamicToolSourceBase`.** Partially
+   landed in PR #22615: `_check_input_refs` catches undeclared
+   top-level `$(inputs.foo)` in `shell_command` and
+   `configfiles[*].content`, and `_check_output_claims` enforces
+   `from_work_dir` / `discover_datasets` on outputs. Still pending:
+   `format_source: <input_name>` reference validation, and nested-
+   identifier walking (typos *inside* declared conditionals/sections).
 4. **Finish output-collection validation.** Replace the hard-coded
    `output_collections = []` with structured validation against
    `IncomingToolOutput`.
