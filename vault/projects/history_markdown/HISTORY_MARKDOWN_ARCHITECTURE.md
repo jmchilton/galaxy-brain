@@ -104,7 +104,7 @@ Both modes share: editor UI, revision system, AI chat, dirty tracking, diff view
 |       |           +-----+    +-----+   MarkdownEditor     (report          |
 |       |           |                |    TextEditor          entry)         |
 |       |     HistoryPageList        |    (drag-drop)                       |
-|       |                      EditorSplitView                              |
+|       |                      SplitView                                    |
 |       |                            |                                      |
 |       |   PageRevisionList    PageChatPanel                               |
 |       |   PageRevisionView     |         |         |                      |
@@ -284,7 +284,7 @@ PageEditorView (unified editor -- 372 lines)
   |    +- TextEditor (drag-and-drop for history items)
   +- PageRevisionList (sidebar panel -- 87 lines)
   +- PageRevisionView (revision preview + diff -- 194 lines)
-  +- EditorSplitView (resizable 60/40 split -- 110 lines)
+  +- SplitView (resizable 60/40 split -- 92 lines, shared in Common/)
   |    +- PageChatPanel (agent chat -- 570 lines)
   |         +- ChatMessageCell (shared from ChatGXY)
   |         +- ChatInput (shared from ChatGXY)
@@ -484,7 +484,7 @@ All operations use the unified `/api/pages` endpoints. Notebooks are pages with 
 | `ProposalDiffView.test.ts` | 66 | Full-replacement diff rendering |
 | `PageRevisionView.test.ts` | 199 | Revision preview + diff modes |
 | `PageChatHistoryList.test.ts` | 229 | Chat history list rendering, selection, deletion |
-| `EditorSplitView.test.ts` | 59 | Resizable split layout |
+| `SplitView.test.ts` | 41 | Resizable split layout |
 
 ### Test Infrastructure
 
@@ -593,7 +593,7 @@ The revision panel and chat panel are mutually exclusive -- toggling one closes 
 | `client/src/components/PageEditor/HistoryPageList.vue` | 91 | Notebook picker for history |
 | `client/src/components/PageEditor/PageChatPanel.vue` | 570 | Agent chat panel + chat history integration |
 | `client/src/components/PageEditor/PageChatHistoryList.vue` | 234 | Chat history browser with selection/deletion |
-| `client/src/components/PageEditor/EditorSplitView.vue` | 110 | Resizable 60/40 split layout |
+| `client/src/components/Common/SplitView.vue` | 92 | Resizable 60/40 split layout |
 | `client/src/components/PageEditor/PageRevisionList.vue` | 87 | Revision sidebar |
 | `client/src/components/PageEditor/PageRevisionView.vue` | 194 | Revision preview + diff view modes |
 | `client/src/components/PageEditor/ProposalDiffView.vue` | 122 | Full-document diff |

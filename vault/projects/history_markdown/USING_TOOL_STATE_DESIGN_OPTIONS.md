@@ -16,12 +16,12 @@
 - *When* do we capture the structured state? **execution-time** vs read-time → settled: **execution-time** (read-time = **READ_TIME**, rejected).
 - *Where* does it live? → **MINT** (a `ToolRequest`) vs **STEP_STATE** (a column on the workflow step) vs **EXEC_STATE** (a new shared value object).
 
-| Label | One line | Verdict |
-|---|---|---|
-| **READ_TIME** | Don't store it; synthesize at read time behind an abstraction | ❌ rejected — inherits the lossiness we exist to kill |
-| **MINT** | Workflows mint a `ToolRequest` | ⚠️ viable, but overloads the command object |
-| **STEP_STATE** ★ | Capture at execute time → column on `workflow_invocation_step` + one resolver | ✅ **recommended** |
-| **EXEC_STATE** | Extract a shared `ToolExecutionState`; `Job` points at it | 🌟 north star, deferred |
+| Label            | One line                                                                      | Verdict                                              |
+| ---------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------- |
+| **READ_TIME**    | Don't store it; synthesize at read time behind an abstraction                 | ❌ rejected — inherits the lossiness we exist to kill |
+| **MINT**         | Workflows mint a `ToolRequest`                                                | ⚠️ viable, but overloads the command object          |
+| **STEP_STATE** ★ | Capture at execute time → column on `workflow_invocation_step` + one resolver | ✅ **recommended**                                    |
+| **EXEC_STATE**   | Extract a shared `ToolExecutionState`; `Job` points at it                     | 🌟 north star, deferred                              |
 
 **Recommendation.** Land the decision-independent **atomic core** first (the converter + validity enum + feed the already-existing per-job persistence + instrument). Then **STEP_STATE** (additive column + resolver). Keep **EXEC_STATE** as the written north star — the resolver makes it a later consumer-transparent migration *if* a production backfill is ever independently justified.
 
