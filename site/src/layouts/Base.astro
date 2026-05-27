@@ -39,5 +39,33 @@ const fullTitle = `${title} - Galaxy Brain`;
     <slot />
   </main>
   <Footer />
+  <script>
+    async function renderMermaid() {
+      const blocks = document.querySelectorAll<HTMLElement>('.mermaid');
+      if (blocks.length === 0) return;
+      const { default: mermaid } = await import('mermaid');
+      const isDark = document.documentElement.classList.contains('dark');
+      // Restore source if previously rendered (mermaid replaces innerHTML with SVG).
+      blocks.forEach((el) => {
+        if (el.dataset.source) el.textContent = el.dataset.source;
+        else el.dataset.source = el.textContent ?? '';
+        el.removeAttribute('data-processed');
+      });
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? 'dark' : 'default',
+        securityLevel: 'strict',
+        fontFamily: 'inherit',
+      });
+      await mermaid.run({ querySelector: '.mermaid' });
+    }
+
+    renderMermaid();
+
+    // Re-render on theme toggle.
+    new MutationObserver((muts) => {
+      if (muts.some((m) => m.attributeName === 'class')) renderMermaid();
+    }).observe(document.documentElement, { attributes: true });
+  </script>
 </body>
 </html>
