@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*104 notes. Auto-generated — run `make index` to refresh.*
+*105 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -99,6 +99,7 @@
 - [[PR 21935 - Workflow Extraction Vue Conversion]] — Mako to Vue conversion of workflow extraction UI with new HID-keyed FastAPI extraction summary and extract workflow endpoints replacing legacy controller
 - [[PR 21942 - Shared Agent Operations and MCP Server]] — Shared AgentOperationsManager wraps Galaxy services for HistoryAgent and an in-process FastMCP server mounted at /api/mcp
 - [[PR 22070 - Static YAML Agent Backend for Deterministic Testing]] — Static YAML agent backend replaces mocked tests with deterministic API and Selenium coverage; drive-by detect_errors.xml fix
+- [[PR 22692 - LLM Eval Harness for Agents]] — Real-LLM eval harness scores Galaxy agents across models with baseline diffing plus router file-source awareness via fast-path and MCP tools
 - [[PR 22706 - Workflow Extraction by IDs]] — ID-based workflow extraction endpoint selecting implicit collection jobs by encoded id instead of HID inference for map-over steps
 - [[PR 4830 - Workflow Resource Parameters]] — Administrators define workflow-level resource parameters users set when invoking workflows for scheduling
 - [[PR 5378 - Tool Resource Requirements]] — Tools declare resource requirements like cores and memory modeled after CWL ResourceRequirement
