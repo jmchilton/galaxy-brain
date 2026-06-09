@@ -4,8 +4,8 @@ subtype: pr
 tags: [research/pr, galaxy/api, galaxy/client, galaxy/agents]
 status: draft
 created: 2026-02-13
-revised: 2026-05-21
-revision: 4
+revised: 2026-06-03
+revision: 5
 ai_generated: true
 github_pr: 21692
 github_repo: galaxyproject/galaxy
@@ -18,6 +18,7 @@ related_notes:
   - "[[PR 21706 - Data Analysis Agent Integration]]"
   - "[[PR 21942 - Shared Agent Operations and MCP Server]]"
   - "[[PR 22070 - Static YAML Agent Backend for Deterministic Testing]]"
+  - "[[PR 22692 - LLM Eval Harness for Agents]]"
 ---
 
 # PR #21692 Research: Standardize Agent API Schemas and Response Metadata

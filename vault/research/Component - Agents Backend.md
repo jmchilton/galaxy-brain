@@ -4,8 +4,8 @@ subtype: component
 tags: [research/component, galaxy/api, galaxy/lib, galaxy/agents]
 status: draft
 created: 2026-02-13
-revised: 2026-05-22
-revision: 5
+revised: 2026-06-03
+revision: 6
 ai_generated: true
 summary: "Multi-agent AI framework with pydantic-ai, five specialized agents, registry pattern, and async execution"
 related_notes:
@@ -18,6 +18,7 @@ related_notes:
   - "[[PR 21942 - Shared Agent Operations and MCP Server]]"
   - "[[PR 22070 - Static YAML Agent Backend for Deterministic Testing]]"
   - "[[PR 22615 - UserToolSource Pydantic Semantic Validation]]"
+  - "[[PR 22692 - LLM Eval Harness for Agents]]"
 ---
 
 # Galaxy Agents Backend: API and Infrastructure Report

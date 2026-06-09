@@ -11,8 +11,8 @@ github_pr: 22070
 github_repo: galaxyproject/galaxy
 status: draft
 created: 2026-05-21
-revised: 2026-05-21
-revision: 2
+revised: 2026-06-03
+revision: 3
 ai_generated: true
 summary: "Static YAML agent backend replaces mocked tests with deterministic API and Selenium coverage; drive-by detect_errors.xml fix"
 sources:
@@ -27,6 +27,7 @@ related_notes:
   - "[[Component - Agents UX]]"
   - "[[Component - Agents ChatGXY Persistence]]"
   - "[[Component - E2E Tests - Writing]]"
+  - "[[PR 22692 - LLM Eval Harness for Agents]]"
 ---
 
 # PR #22070 Research: Static YAML Agent Backend for Deterministic Testing

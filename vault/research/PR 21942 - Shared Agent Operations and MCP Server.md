@@ -11,8 +11,8 @@ github_pr: 21942
 github_repo: galaxyproject/galaxy
 status: draft
 created: 2026-04-29
-revised: 2026-05-21
-revision: 3
+revised: 2026-06-03
+revision: 4
 ai_generated: true
 summary: "Shared AgentOperationsManager wraps Galaxy services for HistoryAgent and an in-process FastMCP server mounted at /api/mcp"
 sources:
@@ -26,6 +26,7 @@ related_notes:
   - "[[Component - Agents UX]]"
   - "[[Component - Agents ChatGXY Persistence]]"
   - "[[PR 22070 - Static YAML Agent Backend for Deterministic Testing]]"
+  - "[[PR 22692 - LLM Eval Harness for Agents]]"
 ---
 
 # PR #21942 Research: Shared Operations Layer for Internal and External AI Agents

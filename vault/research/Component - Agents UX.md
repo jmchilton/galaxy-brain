@@ -8,8 +8,8 @@ tags:
 component: Agents UX
 status: draft
 created: 2026-02-13
-revised: 2026-05-21
-revision: 5
+revised: 2026-06-03
+revision: 6
 ai_generated: true
 summary: "Four agent UX surfaces: ChatGXY full-page chat, GalaxyWizard error widget, tool generator, Jupyternaut proxy"
 related_notes:
@@ -23,6 +23,7 @@ related_notes:
   - "[[PR 21706 - Data Analysis Agent Integration]]"
   - "[[PR 21942 - Shared Agent Operations and MCP Server]]"
   - "[[PR 22070 - Static YAML Agent Backend for Deterministic Testing]]"
+  - "[[PR 22692 - LLM Eval Harness for Agents]]"
 ---
 
 # Galaxy Agents UX: Comprehensive Report

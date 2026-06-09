@@ -199,3 +199,14 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[PR 21434 - AI Agent Framework and ChatGXY]] — backlink to PR 22615; CustomToolAgent error path changed
   - [[Component - Agents Backend]] — backlink to PR 22615; validation flow into producer reflection loop
   - [[Dependency - Pydantic Dynamic Models]] — backlink to PR 22615; field_validator/model_validator usage
+
+## 2026-06-03 ingest — PR 22692 - LLM Eval Harness for Agents
+- **source**: https://github.com/galaxyproject/galaxy/pull/22692
+- **created**: [[PR 22692 - LLM Eval Harness for Agents]]
+- **updated**:
+  - [[PR 21942 - Shared Agent Operations and MCP Server]] — backlink; this PR adds file-source methods + MCP tools on top
+  - [[PR 22070 - Static YAML Agent Backend for Deterministic Testing]] — backlink; static-backend deterministic counterpart to this real-LLM harness
+  - [[PR 21434 - AI Agent Framework and ChatGXY]] — backlink; defines the agent fleet under evaluation
+  - [[PR 21692 - Standardize Agent API Schemas]] — backlink; AgentResponse shape the eval tasks read
+  - [[Component - Agents Backend]] — backlink; system under eval
+  - [[Component - Agents UX]] — backlink; routing decisions scored here drive these surfaces
