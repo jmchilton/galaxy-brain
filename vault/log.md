@@ -221,3 +221,10 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[PR 20935 - Tool Request API]] — backlink; parallel async submit-then-poll pattern
   - [[Component - Format2 Workflows (gxformat2)]] — backlink; WES accepts gx_workflow_format2
   - [[Component - API Tests]] — backlink; test_wes.py + new populator helpers build on this plumbing
+
+## 2026-06-12 ingest — Component - Tool Install YAML
+- **source**: /Users/jxc755/projects/worktrees/galaxy/branch/history_pages/COMPONENT_GALAXY_TOOL_INSTALL_YAML.md
+- **created**: [[Component - Tool Install YAML]]
+- **updated**:
+  - [[Component - Tool Shed Search and Indexing]] — backlink; repos/revisions/GUID this format resolves against
+  - [[Component - Workflow Format (.ga)]] — backlink; .ga tool_shed_repository records feed workflow-to-tools
