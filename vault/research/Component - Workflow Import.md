@@ -9,8 +9,8 @@ tags:
   - galaxy/lib
 status: draft
 created: 2026-02-19
-revised: 2026-04-22
-revision: 2
+revised: 2026-06-06
+revision: 3
 ai_generated: true
 component: Workflow Import
 galaxy_areas: [api, workflows, lib, models]
@@ -21,6 +21,7 @@ related_notes:
   - "[[Component - Workflow API]]"
   - "[[Component - Workflow Format (.ga)]]"
   - "[[Component - gxformat2 Parsing and Syntax]]"
+  - "[[PR 21335 - GA4GH WES API]]"
 ---
 
 # Galaxy Workflow Import: Component Architecture

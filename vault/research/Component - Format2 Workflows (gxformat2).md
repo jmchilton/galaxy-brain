@@ -7,8 +7,8 @@ tags:
   - galaxy/lib
 status: draft
 created: 2026-02-19
-revised: 2026-04-22
-revision: 2
+revised: 2026-06-06
+revision: 3
 ai_generated: true
 component: Format2 Workflows (gxformat2)
 galaxy_areas: [workflows, lib]
@@ -19,6 +19,7 @@ related_notes:
   - "[[Component - Workflow Import]]"
   - "[[Component - gxformat2 Parsing and Syntax]]"
   - "[[Dependency - gxformat2]]"
+  - "[[PR 21335 - GA4GH WES API]]"
 ---
 
 # gxformat2: Parsing and Syntax in Galaxy

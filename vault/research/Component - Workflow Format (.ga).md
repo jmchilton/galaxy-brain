@@ -7,14 +7,15 @@ tags:
   - galaxy/models
 status: draft
 created: 2026-02-19
-revised: 2026-04-22
-revision: 2
+revised: 2026-06-12
+revision: 3
 ai_generated: true
 component: Workflow Format (.ga)
 galaxy_areas: [workflows, models]
 summary: "Galaxy JSON workflow format, steps/connections/comments/metadata, canonical serialization"
 related_notes:
   - "[[Component - Format2 Workflows (gxformat2)]]"
+  - "[[Component - Tool Install YAML]]"
   - "[[Component - Post Job Actions]]"
   - "[[Component - Workflow Extraction]]"
   - "[[Component - Workflow Format Differences]]"

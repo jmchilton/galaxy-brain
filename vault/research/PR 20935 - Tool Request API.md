@@ -11,8 +11,8 @@ github_repo: galaxyproject/galaxy
 component: Tool Request API
 status: draft
 created: 2026-02-05
-revised: 2026-05-21
-revision: 7
+revised: 2026-06-06
+revision: 8
 ai_generated: true
 summary: "Asynchronous job submission via POST /api/jobs with Pydantic-validated state transformations"
 related_notes:
@@ -24,6 +24,7 @@ related_notes:
   - "[[PR 18641 - Parameter Model Improvements Research]]"
   - "[[PR 18758 - Tool Execution Typing and Decomposition]]"
   - "[[PR 19434 - User Defined Tools]]"
+  - "[[PR 21335 - GA4GH WES API]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
   - "[[PR 21932 - History Graph API]]"

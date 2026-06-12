@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*105 notes. Auto-generated — run `make index` to refresh.*
+*107 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -55,6 +55,7 @@
 - [[Component - Tool Shed Search and Indexing]] — Tool Shed's Whoosh repo/tool search and partial GA4GH TRS v2, indexed from hg-walked metadata with no auto-refresh on upload
 - [[Component - Tool State Dynamic Models]] — Pydantic dynamic models for validating tool parameter state across 12 representations
 - [[Component - Tool Testing Infrastructure]] — Framework for parsing, loading, executing tests in XML/YAML tool files via planemo
+- [[Component - Tool Install YAML]] — Declarative Tool Shed install-request YAML consumed by ephemeris shed-tools, ansible-galaxy-tools, and usegalaxy-tools; manifest-vs-lockfile curation
 - [[Component - Window Manager]] — Floating window system using WinBox.js, intercepting router.push to render iframe overlays
 - [[Component - Workflow API]] — REST API for workflow CRUD, execution, invocation monitoring via FastAPI controllers
 - [[Component - Galaxy Workflow Expression Context]] — CWL-based workflow expressions evaluated as JavaScript with $job, $self, $runtime variables
@@ -89,6 +90,7 @@
 - [[PR 19377 - Collection Types and Wizard UI]] — Paired_or_unpaired and record collection types plus collection adapters enable flexible tool input matching
 - [[PR 20390 - Workflow Graph Search]] — Workflow editor search panel finds steps, inputs, outputs, comments with fuzzy matching and canvas highlight
 - [[PR 20936 - Resource Requirements via TPV]] — Tool resource requirements forwarded to TPV for job destination routing and scheduling decisions
+- [[PR 21335 - GA4GH WES API]] — GA4GH WES API exposing Galaxy workflow runs with gxworkflow URI loading state mapping and keyset pagination
 - [[PR 21434 - AI Agent Framework and ChatGXY]] — Pydantic-ai multi-agent framework with router, error analysis, custom tool, orchestrator agents
 - [[PR 21463 - Jupyternaut Adapter for JupyterLite]] — OpenAI Chat Completions endpoint supports Jupyternaut AI assistant in JupyterLite visualizations
 - [[PR 21692 - Standardize Agent API Schemas]] — Standardizes agent response metadata, typing, validates suggestions, removes deprecated endpoints
