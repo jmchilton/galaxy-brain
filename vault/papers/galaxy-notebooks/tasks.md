@@ -49,18 +49,21 @@ Already delivered (kept for record):
 
 ## Figures
 
-Canonical set is the three figures referenced in `manuscript.md`; detailed spec and asset inventory live in `figures.md`.
+Canonical set is the four figures referenced in `manuscript.md`; detailed spec and asset inventory live in `figures.md`, archived capture report in `old/FIGURE_CAPTURE_REPORT.md`.
 
-- [ ] Figure 1 — notebook beside extracted workflow. Notebook half captured (`uc1_notebook_full.png`); still need the extracted 14-step workflow graph (workflow `33b43b4e7093c91f`).
-- [ ] Figure 2 — embedded-output exemplar (two heatmaps). One captured (`uc1_fig1_heatmap.png`); still need the second heatmap (`579ae69ccbd17e45`).
-- [ ] Figure 3 — extraction outcomes across vignettes (ATAC before/after + ChIP caller/comparator split). Not started; needs workflow-graph captures or a composed diagram.
+- [x] Figure 1 — notebook beside extracted workflow. Panels captured + embedded (`uc1_notebook_full.png` + `uc1_fig1_workflow_graph.png`). Remaining: side-by-side layout in final art.
+- [x] Figure 2 — embedded-output exemplar (two heatmaps). Both captured + embedded (`uc1_fig1_heatmap.png` + `uc1_fig1_heatmap2.png`).
+- [x] Figure 3 — extraction outcomes across vignettes. Panels captured + embedded (ATAC degenerate/5-step; ChIP caller/comparator). Remaining: panel layout + the dashed-seam arrow in final art.
+- [x] Figure 4 — agent authorship is attributable. `uc1_revision_panel.png` captured, promoted to a referenced figure, and embedded (honest caption: agent revisions only).
+- [x] Capture pass complete and panels embedded in the manuscript (served via `site/public/figures/`).
 
-Optional figures that would strengthen the paper (see `figures.md`):
+Still open from the capture pass (all optional / polish):
 
-- [ ] PDF renderer extension figure — assets already captured (`uc3_volcano_embed/_as_pdf_directive`, `uc3_pca_embed/_as_pdf_directive`); the Implementation PDF paragraph currently has no figure. Cheapest high-value add.
-- [ ] Data-model and authoring-modes/revision-provenance diagrams (no assets; would need drawing).
-- [x] Copy the source PNGs likely to be used into `figures/` (6 kept; the two extra notebook fulls dropped — regeneration is cheap).
-- [ ] Capture the still-missing assets via the producing agent — see `FIGURE_CAPTURE_TODO.md`.
+- [ ] Report-continuity capture (notebook narrative → extracted workflow report) — procedure in `old/FIGURE_CAPTURE_REPORT.md`.
+- [x] Quality re-capture of `uc1_notebook_full.png` with the real UC history loaded — done (UC1 history active in right panel). UC2/UC3 notebook fulls still uncaptured and would need the same fix, but neither is referenced in the manuscript.
+- [ ] Decide whether to promote the **PDF renderer** figure (assets ready: `uc3_volcano_*`, `uc3_pca_*`) — Implementation PDF paragraph has no figure.
+- [x] Promote the **agent-authorship** revision panel → now Figure 4 (honest caption: 4 agent revisions; no synthetic provenance).
+- [ ] Data-model and authoring-modes diagrams (no assets; would need drawing).
 
 ## Citations and Literature
 
@@ -85,6 +88,8 @@ Optional figures that would strengthen the paper (see `figures.md`):
 - [ ] Add author list, affiliations, ORCIDs, corresponding author, acknowledgements, funding, competing interests, and data availability.
 - [ ] Replace all `[TODO]` and "must be verified" language before external circulation.
 - [ ] Run a style pass for active voice and remove architecture-document residue.
+- [ ] Re-confirm Supporting Information artifacts (recipes, `.ga` workflows, tool-install YAMLs) against the merged Galaxy release and trim to the target venue's length limit. (Removed the "will be re-confirmed … before submission" hedge from the SI section.)
+- [ ] Decide venue framing — full resource claim vs. narrower application-note. Manuscript now asserts the resource claim outright, with breadth as future work; the "application-note fallback" hedge was removed from the Discussion.
 
 ## Honest Risks in the Current Draft
 
@@ -93,5 +98,4 @@ Optional figures that would strengthen the paper (see `figures.md`):
 - [ ] A reviewer may see "agent" and expect an AI evaluation. Keep the agent claim scoped to authoring provenance and reviewable document output.
 - [ ] The unified Page model is elegant but not itself a publishable contribution. Keep it in Implementation, not the abstract's center of gravity.
 - [ ] Embedded artifact references support reproducible communication only if identifier stability and sharing semantics are clear. Confirm behavior under history sharing, import, and workflow extraction.
-</content>
-</invoke>
+- [ ] Live in-app view cannot yet isolate a single page of a multi-page PDF (the baked report and extraction collector already do). A rasterize-to-image endpoint is the planned fix. Manuscript states this as future work — ship the endpoint or keep the scoping honest. (Removed the in-prose "planned rasterize-to-image endpoint" detail.)
