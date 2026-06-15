@@ -191,17 +191,47 @@ The evidence matches the paper's claim rather than a benchmark: that Galaxy Note
 
 The first evidence layer is implementation completeness: model migrations, API endpoints, frontend flows, assistant tools, revision behavior, and test coverage. This can be reported as a concise table with test counts by layer and the main behaviors covered. (This layer is not covered by the three extraction vignettes and needs separate sourcing from a CI artifact.)
 
-The second evidence layer is a worked notebook vignette. The mobile-resistome study (Vignette 1) serves this role: a small but real four-isolate *S. aureus* comparison whose notebook embeds two on-graph heatmaps and a comparative finding, documented closely enough that a reader sees why the notebook belongs in the history rather than in a separate document. The differential ATAC-seq study (Vignette 3) complements it as the figure-heavy case in which PDF tool outputs are referenced and rendered directly.
+The second evidence layer is a worked notebook vignette. The mobile-resistome study (Vignette 1) serves this role: a small but real four-isolate *S. aureus* comparison whose notebook embeds two on-graph heatmaps and a comparative finding, documented closely enough that a reader sees why the notebook belongs in the history rather than in a separate document (Figures 1 and 2). The differential ATAC-seq study (Vignette 3) complements it as the figure-heavy case in which PDF tool outputs are referenced and rendered directly.
 
-The third evidence layer is workflow handoff, now reported as results rather than promised. From the mobile-resistome notebook, extraction recovers a fourteen-step, nine-output, sample-agnostic workflow with a clean seeded report that re-runs byte-identical to the original. The differential ATAC-seq case provides the sharpest before/after instance of this layer: the same analysis seeds zero tools when documented off-graph and the full five-step pipeline when documented on-graph. The differential-ChIP case bounds the layer: a single extraction is complete but condition-pinned, while the two-workflow split restores sample-agnostic reuse. These appear as figure sequences and a summary table (Table 1), not as a quantitative benchmark.
+The third evidence layer is workflow handoff, now reported as results rather than promised. From the mobile-resistome notebook, extraction recovers a fourteen-step, nine-output, sample-agnostic workflow with a clean seeded report that re-runs byte-identical to the original. The differential ATAC-seq case provides the sharpest before/after instance of this layer (Figure 3): the same analysis seeds zero tools when documented off-graph and the full five-step pipeline when documented on-graph. The differential-ChIP case bounds the layer: a single extraction is complete but condition-pinned, while the two-workflow split restores sample-agnostic reuse. These appear as figure sequences and a summary table (Table 1), not as a quantitative benchmark.
 
-The fourth evidence layer is agent authorship, now delivered rather than promised. Galaxy's MCP server exposes the notebook Page operations as agent-callable tools, and the three vignette notebooks were authored through it: an external agent created and revised each notebook, with every edit entering the revision log as `edit_source="agent"`. The point is not to evaluate model quality; it is to show that the notebook is a reviewable, attributable output medium for agent-assisted analysis — a human can open any vignette notebook, inspect the history beside it, and see exactly which revisions an agent wrote.
+The fourth evidence layer is agent authorship, now delivered rather than promised. Galaxy's MCP server exposes the notebook Page operations as agent-callable tools, and the three vignette notebooks were authored through it: an external agent created and revised each notebook, with every edit entering the revision log as `edit_source="agent"` (Figure 4). The point is not to evaluate model quality; it is to show that the notebook is a reviewable, attributable output medium for agent-assisted analysis — a human can open any vignette notebook, inspect the history beside it, and see exactly which revisions an agent wrote.
 
 ### Figures
 
-- **Figure 1 — notebook beside extracted workflow.** The rendered mobile-resistome notebook (two `ggplot2_heatmap2` heatmaps) beside the extracted fourteen-step graph. This is the concrete instance of the "history → notebook → graph → extracted workflow" figure.
-- **Figure 2 — embedded-output exemplar.** The two heatmaps as the embedded-output exemplar, captioned as extractable tool outputs rather than pasted images (the visual payoff for the auditability argument).
-- **Figure 3 — extraction outcomes across vignettes.** A multi-panel figure pairing: (a) the differential ATAC-seq before/after — off-graph notebook seeding two inputs and zero tools, versus the identical analysis re-documented on-graph seeding the five-step DAG; and (b) the differential-ChIP caller/comparator split, two boxes joined by a dashed "analyst picks the two conditions" arrow marking the irreducible seam. Table 1 accompanies this figure.
+**Figure 1 — notebook beside extracted workflow.** The rendered mobile-resistome notebook (left) beside the fourteen-step workflow recovered from it by notebook-driven extraction (right): the concrete instance of the "history → notebook → graph → extracted workflow" path.
+
+![Rendered mobile-resistome Galaxy Notebook](figures/uc1_notebook_full.png)
+
+![Extracted fourteen-step mobile-resistome workflow](figures/uc1_fig1_workflow_graph.png)
+
+**Figure 2 — embedded-output exemplar.** The two mobile-resistome `ggplot2_heatmap2` outputs the notebook embeds — extractable on-graph tool outputs, not pasted images (the visual payoff for the auditability argument).
+
+![ARG genomic-location heatmap](figures/uc1_fig1_heatmap.png)
+
+![ARG mobile-context heatmap](figures/uc1_fig1_heatmap2.png)
+
+**Figure 3 — extraction outcomes across vignettes.** (a) Differential ATAC-seq before/after: the off-graph notebook seeds a degenerate two-input, zero-tool workflow, while the identical analysis re-documented on-graph seeds the five-step pipeline. (b) Differential-ChIP caller/comparator split: a map-over peak caller and a pairwise comparator, joined in final art by a "analyst picks the two conditions" seam. Table 1 accompanies this figure.
+
+*(a) off-graph notebook → degenerate workflow (2 inputs, 0 tools):*
+
+![Degenerate workflow extracted from the off-graph ATAC-seq notebook](figures/uc3_fig3a_workflow_degenerate.png)
+
+*(a) on-graph notebook → five-step workflow:*
+
+![Five-step workflow extracted from the on-graph ATAC-seq notebook](figures/uc3_fig3a_workflow_5step.png)
+
+*(b) map-over peak caller (5 steps):*
+
+![Differential-ChIP map-over peak caller workflow](figures/uc2_fig3b_caller_5step.png)
+
+*(b) pairwise comparator (29 steps):*
+
+![Differential-ChIP pairwise comparator workflow](figures/uc2_fig3b_comparator_29step.png)
+
+**Figure 4 — agent authorship is attributable.** The revision history of the mobile-resistome notebook, which was authored entirely through Galaxy's MCP: four agent-authored revisions (`edit_source="agent"`, badged *AI*) above the initial pre-feature revision. A reviewer can see at a glance which content an agent wrote — the concrete instance of evidence layer 4. (This notebook is all-agent; the model also distinguishes user- and restore-authored revisions, not shown here.)
+
+![Revision history of the mobile-resistome notebook showing agent-authored revisions](figures/uc1_revision_panel.png)
 
 ## Related Work
 
