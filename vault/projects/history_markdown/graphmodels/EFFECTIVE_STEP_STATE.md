@@ -2,7 +2,7 @@
 
 A white paper on a concept that exists in Galaxy's tool-execution
 machinery but isn't named in the
-[12-state taxonomy](../../research/Component%20-%20Tool%20State%20Specification.md):
+[12-state taxonomy](Component%20-%20Tool%20State%20Specification.md):
 the per-step payload that sits between the user-facing request and
 the per-iteration job state. It is the natural unit of a workflow
 step, and the source of several inconsistencies in how TR-sourced

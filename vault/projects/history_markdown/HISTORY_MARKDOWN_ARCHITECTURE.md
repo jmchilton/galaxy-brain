@@ -185,30 +185,31 @@ The `page_id` FK scopes chat exchanges to a page.
 
 ## 6. Content Pipeline
 
-Page content flows through two representations:
+Page content has **three** representations across the boundary, not two. The DB-internal form is distinct from both API fields — a distinction the earlier draft of this doc collapsed (see correction note below).
 
 ```
-User edits markdown in MarkdownEditor / TextEditor
-        |
-        v
-  +-------------------+
-  |  Raw content       |  Stored in DB as-is
-  |  (internal IDs)    |  history_dataset_id=42
-  +--------+----------+
-           |  rewrite_content_for_export()
-           v
-  +-----------------------+     +----------------------------+
-  |  content_editor        |     |  content                    |
-  |  (raw, for editor)     |     |  (encoded IDs + expanded    |
-  |  Same as DB content    |     |   directives, for render)   |
-  +-----------------------+     +----------------------------+
+INBOUND (create/update):
+  client markdown (ENCODED ids) --ready_galaxy_markdown_for_import--> decode_id --> DB
+  e.g. history_dataset_id=f2db41e1fa331b3e  ----------------------->  history_dataset_id=42
+
+DB-internal (page_revision.content):
+  RAW integer ids, directives un-expanded     history_dataset_id=42   (never returned to clients)
+
+OUTBOUND (show/update response) -- rewrite_content_for_export():
+        DB-internal ---ready_galaxy_markdown_for_export--> two forms, BOTH with ENCODED ids:
+           |
+           +--> content_editor = export_markdown
+           |      ENCODED ids, directives intact, NOT embed-expanded   (editor reads/writes this)
+           |
+           +--> content = export_markdown_embed_expanded
+                  ENCODED ids + embedded dataset content               (Markdown renderer uses this)
 ```
 
 The API returns **both** fields in `PageDetails`:
-- `content_editor`: What the text editor displays and saves back
-- `content`: What the Markdown renderer uses (with encoded IDs the existing Galaxy markdown components expect)
+- `content_editor`: what the text editor displays and saves back — **encoded** ids, un-expanded directives
+- `content`: what the Markdown renderer uses — **encoded** ids, embeds expanded
 
-This dual-field pattern avoids the round-trip problems that would arise from encoding/decoding IDs on every save cycle.
+> **Correction (2026-06-12):** An earlier revision of this section described `content_editor` as "raw, same as DB content" with `history_dataset_id=42`. That is wrong. The raw integer form exists *only* in the `page_revision.content` DB column; the service always runs `rewrite_content_for_export` before returning, so **both** API fields carry encoded ids. The real difference between `content_editor` and `content` is **embed expansion** (un-expanded directives vs. inlined dataset content), *not* raw-vs-encoded ids. Verified against `managers/pages.py:457` (`rewrite_content_for_export`), `services/pages.py:89` (`_page_to_details`), and `managers/markdown_util.py:111,655` (import `decode_id` / export `encode_id`). This matters: any consumer reading `content_editor` (the editor, and any MCP page tool) stays in encoded-id space — no raw DB ids leak across the API boundary.
 
 ---
 
