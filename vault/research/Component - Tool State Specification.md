@@ -57,20 +57,20 @@ Validation  [instantiate model(**state_dict), catch ValidationError]
 
 Defined in `lib/galaxy/tool_util_models/parameters.py:82-95` as `StateRepresentationT`:
 
-| Representation | Purpose | ID Type | Data Refs | All Required? |
-|---|---|---|---|---|
-| `relaxed_request` | Lenient API input (nulls→defaults) | string | `{src: hda, id: "abc"}` | No |
-| `request` | Strict API request from client | string | `{src: hda, id: "abc"}` + batching | No |
-| `request_internal` | Stored in DB after decode | int | `{src: hda, id: 5}` + URLs | No |
-| `request_internal_dereferenced` | After URL resolution | int | `{src: hda, id: 5}` only | No |
-| `landing_request` | Shared workflow landing page | string | All optional | No |
-| `landing_request_internal` | Landing stored in DB | int | All optional | No |
-| `job_internal` | Job record (all params filled) | int | `{src: hda, id: 5}` | Yes |
-| `job_runtime` | CWL-style runtime JSON with file metadata | N/A | `DataInternalJson` (path, format, size) | Yes |
-| `test_case_xml` | XML test case definitions | N/A | `{class: File, path: "foo.bed"}` | No |
-| `test_case_json` | JSON test case definitions | N/A | Same but no string splitting | No |
-| `workflow_step` | Workflow editor (unlinked params) | N/A | Always `None` for data | No |
-| `workflow_step_linked` | Workflow editor (linked allowed) | N/A | `{__class__: ConnectedValue}` | No |
+| Representation                  | Purpose                                   | ID Type | Data Refs                               | All Required? |
+| ------------------------------- | ----------------------------------------- | ------- | --------------------------------------- | ------------- |
+| `relaxed_request`               | Lenient API input (nulls→defaults)        | string  | `{src: hda, id: "abc"}`                 | No            |
+| `request`                       | Strict API request from client            | string  | `{src: hda, id: "abc"}` + batching      | No            |
+| `request_internal`              | Stored in DB after decode                 | int     | `{src: hda, id: 5}` + URLs              | No            |
+| `request_internal_dereferenced` | After URL resolution                      | int     | `{src: hda, id: 5}` only                | No            |
+| `landing_request`               | Shared workflow landing page              | string  | All optional                            | No            |
+| `landing_request_internal`      | Landing stored in DB                      | int     | All optional                            | No            |
+| `job_internal`                  | Job record (all params filled)            | int     | `{src: hda, id: 5}`                     | Yes           |
+| `job_runtime`                   | CWL-style runtime JSON with file metadata | N/A     | `DataInternalJson` (path, format, size) | Yes           |
+| `test_case_xml`                 | XML test case definitions                 | N/A     | `{class: File, path: "foo.bed"}`        | No            |
+| `test_case_json`                | JSON test case definitions                | N/A     | Same but no string splitting            | No            |
+| `workflow_step`                 | Workflow editor (unlinked params)         | N/A     | Always `None` for data                  | No            |
+| `workflow_step_linked`          | Workflow editor (linked allowed)          | N/A     | `{__class__: ConnectedValue}`           | No            |
 
 Key behavioral differences:
 - **ID encoding**: `request` uses string IDs, `request_internal`/`job_internal` use int IDs

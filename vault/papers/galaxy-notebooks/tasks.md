@@ -4,45 +4,36 @@ Working list of things needed to lift `manuscript.md` from second-pass draft to 
 
 ## Highest-Leverage Work Still Ahead
 
-### Axis 1 - Prove the notebook-driven extraction story with one worked vignette
+Extraction itself is delivered and evidenced by three real, paper-worthy analyses (S. aureus mobile resistome PRJDB8599, TAL1 differential ChIP, differential ATAC-seq). The "prove extraction with a worked vignette" and "find a domain contributor" goals are closed, and there is **no remaining required build work** for the paper.
 
-The manuscript's strongest claim is that the notebook can guide workflow extraction and seed a workflow report. The architecture is plausible, but the current evidence is not yet paper-grade. This needs one end-to-end vignette that a reviewer can inspect.
+### Optional enhancement: graph confirmation / prune view
 
-- [ ] Choose a demo history with enough structure to make graph extraction meaningful, ideally 6-12 jobs and at least one collection.
-- [ ] Write a polished Galaxy Notebook for that history with embedded references to the meaningful outputs.
-- [ ] Capture the backward provenance closure from notebook-referenced artifacts.
-- [ ] Show the graph confirmation step, including at least one prune or confirm action.
-- [ ] Extract the workflow and show the notebook narrative carried into the workflow report.
-- [ ] Decide whether this is implemented evidence or prototype evidence, then normalize manuscript language accordingly.
+The manuscript has been softened so it no longer depends on this: the Extraction section now describes a three-step flow (identify → backward walk → extract) and frames a read-only, selectable confirm/prune graph view as a natural human-in-the-loop *addition*, explicitly noting the reported results came from page-based extraction. So the draft is honest and complete whether or not this view ever ships. This item is **entirely optional**.
 
-### Axis 2 - Add a real scientific vignette, not only a toy history
+How it would slightly strengthen the paper:
 
-A synthetic screencast proves mechanics but not value. A real lab or training analysis would materially strengthen a Genome Research / Methods framing.
+- Turns the human-in-the-loop claim from a described affordance into a *shown* one — a reviewer skeptical of "agent/automated extraction" sees an explicit human checkpoint before a workflow is created.
+- Gives a concrete answer to "what if the backward walk over-captures?" — a prune action visibly removes an unwanted branch (e.g. the optional Bakta enrichment in the mobile-resistome case, already noted as outside the 14-step core).
+- Adds one selection/confirmation figure that visually distinguishes this path from free-text workflow synthesis.
 
-- [ ] Identify a PhD contributor or domain collaborator with an analysis history suitable for documentation.
-- [ ] Convert that analysis into a notebook with embedded outputs and a clear interpretation section.
-- [ ] Record what the notebook adds beyond the raw history: selected outputs, rationale, result interpretation, and report continuity.
-- [ ] Add a short vignette subsection or figure panel.
-- [ ] If this cannot land, mark it as a limitation and retreat the target framing if needed.
+Where it would slot in (if built):
 
-### Axis 3 - Keep chat in its lane
+- **Extraction section** — restore step 3 to the flow (identify → walk → *confirm/prune* → extract) and drop the "page-based, no confirm view" caveat sentence.
+- **Implementation → Frontend** — one paragraph describing the read-only selectable graph view (distinct from the Workflow Editor).
+- **Figures** — a new figure or a panel on Figure 3 showing a confirm/prune action; `figures.md` Figure 3 already sketches "graph confirmation" as a panel.
+- **Table 1 / Evidence** — optionally a "pruned nodes" data point per vignette (e.g. Bakta pruned in the mobile-resistome case), which the current table omits.
 
-The old conference abstract leaned hard on agents. The paper should make agents a strong use case but not the central contribution.
+- [ ] (optional) Build the read-only selectable graph confirmation view and capture a confirm/prune figure; then apply the four slot-in edits above.
 
-- [ ] Sweep manuscript for places where "AI", "agent", or "chat" carries the main claim.
-- [ ] Rephrase those passages so the notebook/revision/artifact layer carries the claim.
-- [ ] Keep one crisp agent-authorship vignette showing `edit_source="agent"` and reviewable section-level diffs.
-- [ ] Avoid any benchmark-like claims about model quality unless actual evaluation exists.
+Already delivered (kept for record):
 
-### Axis 4 - Terminology normalization
-
-The source docs use "History Notebooks", "history pages", "Pages", "Reports", and "Galaxy Notebooks". The paper needs one vocabulary.
-
-- [ ] Use `glossary.md` as the term source of truth.
-- [ ] Replace manuscript uses of "History Notebook" with "Galaxy Notebook" unless quoting old language.
-- [ ] Use "Page" only for backend/model/API implementation discussion.
-- [ ] Use "Report" only for standalone Pages.
-- [ ] Check figures, captions, and abstract for the same terminology.
+- [x] Demo histories with extractable structure (collection map-over, on-graph figures).
+- [x] Polished notebooks with embedded references to meaningful outputs.
+- [x] Backward provenance closure captured from notebook-referenced artifacts.
+- [x] Workflow extracted with the notebook narrative carried into the seeded report.
+- [x] Implemented-vs-prototype decision made; manuscript language normalized to "implemented."
+- [x] Agent authorship delivered via the notebook MCP (`edit_source="agent"`); chat/agents kept as an authoring path, no model-quality claims.
+- [x] Terminology normalized against `glossary.md` (Galaxy Notebook / Report / Page; MCP).
 
 ## Evidence and Numbers to Fill In
 
@@ -58,11 +49,18 @@ The source docs use "History Notebooks", "history pages", "Pages", "Reports", an
 
 ## Figures
 
-- [ ] Figure 1: Conceptual model - history, notebook, artifact references, provenance graph, extracted workflow, workflow report.
-- [ ] Figure 2: UI workflow - history panel entry, notebook editor, embedded dataset directive, rendered preview.
-- [ ] Figure 3: Revision provenance - manual edit, agent proposal, accepted section patch, restore.
-- [ ] Figure 4: Notebook-driven extraction - referenced output to backward graph closure to confirmed workflow.
-- [ ] Figure 5, optional: Unified Page model - Report vs Galaxy Notebook context without exposing too much implementation detail.
+Canonical set is the three figures referenced in `manuscript.md`; detailed spec and asset inventory live in `figures.md`.
+
+- [ ] Figure 1 — notebook beside extracted workflow. Notebook half captured (`uc1_notebook_full.png`); still need the extracted 14-step workflow graph (workflow `33b43b4e7093c91f`).
+- [ ] Figure 2 — embedded-output exemplar (two heatmaps). One captured (`uc1_fig1_heatmap.png`); still need the second heatmap (`579ae69ccbd17e45`).
+- [ ] Figure 3 — extraction outcomes across vignettes (ATAC before/after + ChIP caller/comparator split). Not started; needs workflow-graph captures or a composed diagram.
+
+Optional figures that would strengthen the paper (see `figures.md`):
+
+- [ ] PDF renderer extension figure — assets already captured (`uc3_volcano_embed/_as_pdf_directive`, `uc3_pca_embed/_as_pdf_directive`); the Implementation PDF paragraph currently has no figure. Cheapest high-value add.
+- [ ] Data-model and authoring-modes/revision-provenance diagrams (no assets; would need drawing).
+- [x] Copy the source PNGs likely to be used into `figures/` (6 kept; the two extra notebook fulls dropped — regeneration is cheap).
+- [ ] Capture the still-missing assets via the producing agent — see `FIGURE_CAPTURE_TODO.md`.
 
 ## Citations and Literature
 
@@ -80,9 +78,9 @@ The source docs use "History Notebooks", "history pages", "Pages", "Reports", an
 
 ## Manuscript Hygiene
 
-- [ ] Tighten the abstract after evidence is known; current abstract is a broad resource abstract.
+- [x] Tighten the abstract after evidence is known; current abstract is a broad resource abstract.
 - [ ] Add a more concrete final paragraph to the Introduction once the vignette is selected.
-- [ ] Replace "Evaluation Plan" with "Evaluation" once figures and demo data exist.
+- [x] Replace "Evaluation Plan" with "Evaluation" once figures and demo data exist. (Done as "Evidence" — covers both the delivered layers and the still-pending ones.)
 - [ ] Decide whether "Methods" stays separate or folds into Implementation for the target venue.
 - [ ] Add author list, affiliations, ORCIDs, corresponding author, acknowledgements, funding, competing interests, and data availability.
 - [ ] Replace all `[TODO]` and "must be verified" language before external circulation.
@@ -95,19 +93,5 @@ The source docs use "History Notebooks", "history pages", "Pages", "Reports", an
 - [ ] A reviewer may see "agent" and expect an AI evaluation. Keep the agent claim scoped to authoring provenance and reviewable document output.
 - [ ] The unified Page model is elegant but not itself a publishable contribution. Keep it in Implementation, not the abstract's center of gravity.
 - [ ] Embedded artifact references support reproducible communication only if identifier stability and sharing semantics are clear. Confirm behavior under history sharing, import, and workflow extraction.
-
-## Fallback Trim Plan
-
-If retreating from Genome Research / Resource to Bioinformatics Original Paper:
-
-- [ ] Keep one strong vignette rather than three authoring modes.
-- [ ] Collapse implementation detail into a single section.
-- [ ] Keep notebook-driven extraction as the main differentiator if the demo is real; otherwise demote it to future work.
-- [ ] Shorten related work to one paragraph each on Galaxy, notebooks, workflows, and agents.
-
-If retreating to Application Note:
-
-- [ ] Center the paper on "history-attached Galaxy markdown notebooks with revisions and artifact embeds."
-- [ ] Drop most agent detail.
-- [ ] Drop notebook-driven extraction unless implemented and screenshot-ready.
-- [ ] Use one figure and one concise availability section.
+</content>
+</invoke>

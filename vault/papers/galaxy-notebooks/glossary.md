@@ -13,6 +13,7 @@ Shared vocabulary for the Galaxy Notebooks paper. Normalize manuscript, outline,
 - Avoid making chat the noun that carries the contribution. Chat and agents are authoring paths; the artifact is the notebook.
 - Use **notebook-driven workflow extraction** for the workflow handoff pattern, and state that it is driven by explicit referenced artifacts or selections, not by parsing free text.
 - Use **workflow report** for the narrative/report content that travels with an extracted Galaxy workflow.
+- Use **vignette** for a worked extraction example in the manuscript (the three are numbered Vignette 1–3); avoid "use case" / "UC" in manuscript prose — those labels are reserved for the project's tracking docs.
 - Use **Galaxy-flavored markdown** for markdown with Galaxy directives that can embed datasets, collections, visualizations, job details, and other Galaxy objects.
 
 ## Terms
@@ -28,6 +29,8 @@ Shared vocabulary for the Galaxy Notebooks paper. Normalize manuscript, outline,
 **External agent** - An agent outside the Galaxy web client, such as a command-line coding agent, notebook automation, or service integration, that uses Galaxy APIs to run analyses and update notebooks. Prefer this term when distinguishing API-level automation from the in-app AI assistant.
 
 **Galaxy-flavored markdown** - Markdown plus Galaxy directives, including embedded dataset and collection displays. It is the notebook content format and the bridge between narrative prose and computational artifacts.
+
+**MCP server** - Galaxy's Model Context Protocol server, the external surface that exposes the shared operations layer (including the notebook Page operations) as agent-callable tools. Notebook edits made through it create revisions tagged `edit_source="agent"`; reverts are tagged `edit_source="restore"`. Use this term for external agent authoring; it is the same operations layer the in-app AI assistant and web client use, not a separate notebook API.
 
 **Galaxy Notebook** - A history-attached Galaxy document. In the implementation, this is a `Page` with `history_id` set; in the manuscript, this implementation detail should not leak into the user-facing term.
 

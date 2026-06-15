@@ -142,6 +142,10 @@ Initial source list for the Galaxy Notebooks paper. Notes are deliberately manus
 
 ## Agent-Assisted Bioinformatics and AI-Science Context
 
+- Anthropic. 2024. Introducing the Model Context Protocol. https://www.anthropic.com/news/model-context-protocol (specification: https://modelcontextprotocol.io)
+  - Use at the first mention of MCP (System Concept / External Agent Authoring / Implementation) to cite the open standard that Galaxy's MCP server implements for external agent access to the notebook Page operations.
+  - Caution: this is a vendor announcement plus an evolving specification site, not a peer-reviewed source. Cite as documentation (treat like the GTN/Galaxy docs citations) and verify the spec URL/version is stable before submission; there is no canonical academic paper for MCP.
+
 - Boiko DA, MacKnight R, Kline B, Gomes G. 2023. Autonomous chemical research with large language models. Nature 624:570-578. https://doi.org/10.1038/s41586-023-06792-0
   - Use in Introduction/Discussion as a high-profile example of LLM agents orchestrating scientific tasks.
   - Supports the paper's motivation that agents need provenance-aware infrastructure. Do not make it central; it is outside bioinformatics.
@@ -196,5 +200,7 @@ Initial source list for the Galaxy Notebooks paper. Notes are deliberately manus
 - Empirical evidence for analysis communication failures in biomedical papers. The reproducibility citations establish the general problem; the paper would be stronger with one or two sources showing that methods/reporting omissions specifically block reuse of bioinformatics analyses.
 
 - AI-agent bioinformatics literature is moving quickly. Before submission, re-check 2025-2026 agent papers and prefer peer-reviewed versions over arXiv/preprints where possible.
+
+- MCP has no peer-reviewed citation — only the Anthropic announcement and the specification site. Confirm the spec version/URL is stable at submission time, and decide whether a citation to a Galaxy-specific MCP description (the merged MCP pull requests or release notes) should accompany or replace the vendor spec.
 
 - Verify or remove the Bu et al. 2026 AI data scientist reference. It is currently retained only as a candidate lead and should not be cited from the manuscript.

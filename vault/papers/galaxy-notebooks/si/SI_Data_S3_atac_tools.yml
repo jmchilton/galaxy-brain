@@ -1,0 +1,53 @@
+# Tool-install request for use case: differential ATAC-seq accessibility
+# Issue:    https://github.com/jmchilton/galaxy-brain/issues/14
+# GTN anchors (repo names verbatim from their workflow .ga files):
+#   - epigenetics/atac-seq  (iuc/macs2, iuc/bedtools, iuc/pygenometracks,
+#                            bgruening/deeptools_compute_matrix, bgruening/deeptools_plot_heatmap)
+#   - differential tools confirmed from other GTN workflows:
+#                            iuc/featurecounts, iuc/deseq2, iuc/volcanoplot
+# Deviation: single-sample peak calling -> replicate-aware counts over a shared peak
+#            universe + DESeq2 differential testing. Single-sample preprocessing
+#            (trimming/mapping/filtering/dup-removal) is intentionally omitted; MVP starts
+#            from a prepared count matrix / union peaks.
+tools:
+# Peak calling (reused) + union peak-universe construction (merge/sort intervals)
+- name: macs2
+  owner: iuc
+  tool_panel_section_label: 'Differential ATAC-seq'
+- name: bedtools
+  owner: iuc
+  tool_panel_section_label: 'Differential ATAC-seq'
+# Build SAF-like annotation from union peaks; filter significant DESeq2 hits
+- name: text_processing
+  owner: bgruening
+  tool_panel_section_label: 'Differential ATAC-seq'
+# Count fragments over the union peak universe
+- name: featurecounts
+  owner: iuc
+  tool_panel_section_label: 'Differential ATAC-seq'
+# Differential accessibility testing (factor: condition); PCA + sample-distance outputs
+- name: deseq2
+  owner: iuc
+  tool_panel_section_label: 'Differential ATAC-seq'
+# Volcano plot of differential accessibility
+- name: volcanoplot
+  owner: iuc
+  tool_panel_section_label: 'Differential ATAC-seq'
+# Replicate QC when BAMs are included
+- name: deeptools_multi_bam_summary
+  owner: bgruening
+  tool_panel_section_label: 'Differential ATAC-seq'
+- name: deeptools_plot_correlation
+  owner: bgruening
+  tool_panel_section_label: 'Differential ATAC-seq'
+# Signal heatmap/profile over top differential peaks
+- name: deeptools_compute_matrix
+  owner: bgruening
+  tool_panel_section_label: 'Differential ATAC-seq'
+- name: deeptools_plot_heatmap
+  owner: bgruening
+  tool_panel_section_label: 'Differential ATAC-seq'
+# Genome-track figure over a gained/lost region
+- name: pygenometracks
+  owner: iuc
+  tool_panel_section_label: 'Differential ATAC-seq'

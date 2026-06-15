@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*107 notes. Auto-generated — run `make index` to refresh.*
+*108 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -17,6 +17,7 @@
 - [[architecture]] — Mirrored view of the galaxy-architecture repo — training topics rendered as vault-readable markdown.
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
 - [[wf_refactor_persistence]] — Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113).
+- [[usecases]] — Three worked Galaxy Notebooks use cases (UC1–UC3) and the workflows extracted from them, supporting the Galaxy Notebooks paper.
 - [[workflow_state]] — Workflow validation infrastructure: pre-execution parameter typing, format2 usability, VS Code tooling, tool search overhaul.
 
 ## Papers
