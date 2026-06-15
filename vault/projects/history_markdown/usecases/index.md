@@ -1,3 +1,18 @@
+---
+type: project
+title: "History Markdown Use Cases"
+tags:
+  - project
+  - galaxy/client
+  - galaxy/api
+  - galaxy/workflows
+status: draft
+created: 2026-06-12
+revised: 2026-06-14
+revision: 1
+ai_generated: true
+summary: "Three worked Galaxy Notebooks use cases (UC1–UC3) and the workflows extracted from them, supporting the Galaxy Notebooks paper."
+---
 
 This document is tracking our effort to build three really nice use cases for Galaxy Notebooks and extracting workflows from them.
 
@@ -37,4 +52,4 @@ sqlite3 database/universe.sqlite "select key from api_keys where user_id=1 order
 **Use the MCP for the interactive analysis steps.** It's registered in Claude Code as `galaxy-notebooks` (tools `mcp__galaxy-notebooks__*`) and mounted at `http://localhost:8080/api/mcp`. Galaxy must be running. Every MCP tool takes an `api_key` argument (per-tool auth — no header); pass the admin key above on each call. Start a session with `connect(api_key)`, then drive analysis with `search_tools` / `get_tool_details` / `run_tool` and build the notebook with `create_page` / `update_page` / `get_page`. Workflow + IWC ops are also exposed (`invoke_workflow`, `import_workflow_from_iwc`, etc.). If the `mcp__galaxy-notebooks__*` tools aren't loaded in a fresh session, the server is registered but Claude Code only loads MCP servers at session start — reload/restart.
 
 **Tools + containers.** The 18 use-case repos (sections *MRSA Mobile AMR*, *TAL1 Candidate Genes*, *Differential ATAC-seq*) are installed; their 24 BioContainer images are pre-pulled and run in Docker (`docker_enabled` job env + `enable_mulled_containers`, `conda_auto_install: false`). To add more tools, edit/add a `*-tools.yml` and run `shed-tools install -g http://localhost:8080 -a <KEY> -t <yaml> --skip-install-resolver-dependencies` (ephemeris is installed isolated via `uv tool`; do NOT pip-install it into Galaxy's `.venv`). Note: Apple Silicon runs amd64 containers under emulation — correct but slow for heavy tools.
-
+</content>

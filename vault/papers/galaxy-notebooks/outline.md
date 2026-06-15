@@ -16,7 +16,7 @@ Bioinformatics readers who know Galaxy histories and workflows but do not yet se
 4. Narrative-to-workflow: notebook references identify meaningful outputs; graph walk recovers provenance.
 5. Graph confirmation: users review the extracted structure visually, not from a flat job list.
 6. Report continuity: the notebook seeds the extracted workflow report.
-7. Evaluation: implementation scope, tests, demo scenario, and extraction prototype.
+7. Evidence: implementation scope, tests, and three worked vignettes demonstrating notebook-driven extraction.
 
 ## Do Not Let This Become
 

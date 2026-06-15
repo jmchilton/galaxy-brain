@@ -1,0 +1,23 @@
+# Tool-install request for use case: TAL1 peaks to candidate regulated genes
+# Issue:    https://github.com/jmchilton/galaxy-brain/issues/13
+# GTN anchors (repo names verbatim from their workflow .ga files):
+#   - epigenetics/tal1-binding-site-identification (iuc/macs2, iuc/bedtools, bgruening/deeptools_*)
+#   - transcriptomics/de-novo                      (stretch: expression evidence join)
+# Deviation: reuse the tutorial's existing narrowPeak / peak-class outputs and close the
+#            interpretive loop -> promoter-overlap + nearest-gene candidate prioritization.
+#            Trackster/IGV-style browsing is a built-in Galaxy view (no install). Bar charts /
+#            distance-to-TSS distributions are rendered in-notebook.
+tools:
+# Promoter-window construction (slop/flank), peak<->promoter Intersect, nearest-gene ClosestBed
+- name: bedtools
+  owner: iuc
+  tool_panel_section_label: 'TAL1 Candidate Genes'
+# Collapse duplicate transcript isoforms by gene symbol; stretch expression-table join
+- name: text_processing
+  owner: bgruening
+  tool_panel_section_label: 'TAL1 Candidate Genes'
+# Provenance: the reused TAL1 peaks were called with MACS2 in the source tutorial.
+# Included so the notebook can regenerate peaks if upstream outputs are unavailable.
+- name: macs2
+  owner: iuc
+  tool_panel_section_label: 'TAL1 Candidate Genes'

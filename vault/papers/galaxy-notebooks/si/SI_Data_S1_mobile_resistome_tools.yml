@@ -1,0 +1,45 @@
+# Tool-install request for use case: MRSA mobile-AMR context across isolates
+# Issue:    https://github.com/jmchilton/galaxy-brain/issues/12
+# GTN anchors (repo names taken verbatim from their workflow .ga files):
+#   - genome-annotation/amr-gene-detection      (nml/staramr, iuc/bakta, iuc/tbl2gff3, iuc/jbrowse)
+#   - genome-annotation/bacterial-genome-annotation
+#                                               (iuc/isescan, iuc/integron_finder, iuc/plasmidfinder,
+#                                                bgruening/text_processing)
+# Deviation: comparative ARG mobile-context across 3-4 isolates. Read QC/assembly is
+#            provenance only and intentionally omitted; heatmaps/figures are rendered in-notebook.
+tools:
+# AMR detection over the isolate-assembly collection (summary/resfinder/plasmidfinder/mlst TSVs)
+- name: staramr
+  owner: nml
+  tool_panel_section_label: 'MRSA Mobile AMR'
+# Whole-genome annotation per isolate
+- name: bakta
+  owner: iuc
+  tool_panel_section_label: 'MRSA Mobile AMR'
+# Mobile genetic element calls: insertion sequences and integrons
+- name: isescan
+  owner: iuc
+  tool_panel_section_label: 'MRSA Mobile AMR'
+- name: integron_finder
+  owner: iuc
+  tool_panel_section_label: 'MRSA Mobile AMR'
+# Plasmid replicon typing (standalone, for coordinates feeding the mobile-context map)
+- name: plasmidfinder
+  owner: iuc
+  tool_panel_section_label: 'MRSA Mobile AMR'
+# Convert AMR/plasmid/IS/integron tables into GFF3 intervals
+- name: tbl2gff3
+  owner: iuc
+  tool_panel_section_label: 'MRSA Mobile AMR'
+# General table wrangling for the same conversions (cut/sort/awk/sed)
+- name: text_processing
+  owner: bgruening
+  tool_panel_section_label: 'MRSA Mobile AMR'
+# Interval intersect/closest to classify ARGs as plasmid/IS/integron-adjacent
+- name: bedtools
+  owner: iuc
+  tool_panel_section_label: 'MRSA Mobile AMR'
+# Locus visualization for the representative mobile-AMR region
+- name: jbrowse
+  owner: iuc
+  tool_panel_section_label: 'MRSA Mobile AMR'
