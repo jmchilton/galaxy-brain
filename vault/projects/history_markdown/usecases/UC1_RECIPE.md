@@ -1,10 +1,40 @@
 # UC1 Setup Recipe — MRSA Mobile AMR Context Across Isolates
 
 **Issue:** https://github.com/jmchilton/galaxy-brain/issues/12
-**Science:** Comparative ARG↔IS proximity analysis across 4 *S. aureus* isolates. Headline: `aac(6')-aph(2'')` is IS6-adjacent on plasmids of KUN1163/KUH140046 but IS256-adjacent on KUH180129 chromosome.
-**Extracted workflow ID on reference server:** `33b43b4e7093c91f` (`/tmp/uc1_workflow.ga`) — 14 steps, 1 input, 13 tools, zero dangling, 9 workflow outputs.
+**Science:** Comparative ARG↔IS proximity across 4 *S. aureus* isolates. Headline: `aac(6')-aph(2'')` is IS6-adjacent on the plasmids of KUN1163/KUH140046 but IS256-adjacent on the KUH180129 chromosome.
+**Faithful workflow:** `UC1_MRSA_Bakta_JBrowse_faithful.ga` — 35 steps, 1 input collection, 6 `__BUILD_LIST__` nests, 4 `__EXTRACT_DATASET__` anchors, Bakta + JBrowse integrated. Extracts cleanly and re-runs byte-identical to golden.
 
-> Server-agnostic recipe to recreate the UC1 notebook on another Galaxy. Tool versions and parameters were confirmed against the reference server (Galaxy 26.2.dev0). Where a value is instance-specific (encoded dataset ids), the recipe gives the step to regenerate it.
+> Server-agnostic recipe to recreate the UC1 notebook on another Galaxy. Tool versions/parameters confirmed against the reference server (Galaxy 26.2.dev0). Instance-specific values (encoded dataset ids) come with the step that regenerates them.
+
+---
+
+## 0. Two techniques this pipeline depends on
+
+Read these first — they govern *how* you wire several steps below.
+
+### A. Map-over of a `multiple="true"` input → use `__BUILD_LIST__`, never `batch:true`
+
+Some tool inputs accept a whole collection (`type="data" multiple="true"`): here staramr `genomes`, both bedtools closest `inputB` (`-b`), and all three JBrowse track `annotation` inputs. Feeding a flat `list` into one of these **reduces** — a single job sees all 4 elements — which is wrong when you want per-isolate results.
+
+The API can fake element-wise mapping with `{"batch":true,"values":[{"src":"hdca",...}]}`, but **don't**: it is not expressible in the Galaxy UI or the workflow editor, and it is silently lost on workflow extraction (the extracted workflow reduces). It does not round-trip.
+
+The faithful, UI-/workflow-/extraction-safe pattern is to add one dimension of nesting:
+
+```
+list  --map __BUILD_LIST__-->  list:list  -->  multiple input
+                                                 (outer list maps → 4 jobs;
+                                                  singleton inner reduces → 1 element each)
+```
+
+So for each `multiple` input: run `__BUILD_LIST__` mapped over the upstream `list` (connect `datasets_0|input` to the list; in a direct API call that single input takes `batch:true`), giving a `list:list`, then feed that into the `multiple` parameter. UC1 needs this in **6 places** (staramr `genomes`; closest #1 and #2 `inputB`; JBrowse ARG / IS / Bakta track inputs).
+
+`batch:true` on a **single** `data` input (ISEScan, Integron, Bakta, SortBED, tbl2gff3, collapse, awk, closest `inputA`, JBrowse reference, and `__BUILD_LIST__`'s own input) is normal map-over — fine, and what makes the whole graph run per-isolate.
+
+> Caveat: `__BUILD_LIST__` pairing is **positional** — it zips by index and ignores element identifiers. Safe only while every branch stays 1:1 and order-preserving from the shared input collection. A branch-local filter/sort would silently mispair with no error.
+
+### B. Per-isolate display of a mapped output → `__EXTRACT_DATASET__`
+
+JBrowse runs mapped, so its output is a *collection* of 4 browsers. A notebook directive that embeds a single collection **element** is silently dropped on extraction. To show one isolate's browser, first run `__EXTRACT_DATASET__` (by identifier) to pull that element out as a standalone dataset, then point the directive at the standalone id. UC1 does this 4× (one per isolate).
 
 ---
 
@@ -13,40 +43,40 @@
 ### Tool Shed repos (install via ephemeris shed-tools)
 
 ```bash
-# Install ephemeris isolated (do NOT pip-install into Galaxy's .venv):
-uv tool install ephemeris
+uv tool install ephemeris   # isolated; do NOT pip-install into Galaxy's .venv
 
-# Install UC1 tool set:
 shed-tools install -g http://<SERVER>:8080 -a <ADMIN_KEY> \
   -t mrsa-mobile-amr-tools.yml \
   --skip-install-resolver-dependencies
 ```
 
-`mrsa-mobile-amr-tools.yml` installs: staramr (nml), bakta (iuc), isescan (iuc), integron_finder (iuc), plasmidfinder (iuc), tbl2gff3 (iuc), text_processing (bgruening), bedtools (iuc), jbrowse (iuc). Also install (needed for the on-graph figures and collection operations): `iuc/ggplot2_heatmap2`, `nml/collapse_collections`.
+`mrsa-mobile-amr-tools.yml` installs: staramr (nml), bakta (iuc), isescan (iuc), integron_finder (iuc), plasmidfinder (iuc), tbl2gff3 (iuc), text_processing (bgruening), bedtools (iuc), jbrowse (iuc). Also install `iuc/ggplot2_heatmap2` and `nml/collapse_collections`.
 
-### Confirmed tool IDs and versions (from running server)
+### Confirmed tool IDs and versions
 
 | Tool | Full tool ID | Version |
 |---|---|---|
 | staramr | `toolshed.g2.bx.psu.edu/repos/nml/staramr/staramr_search` | `0.12.3+galaxy0` |
 | isescan | `toolshed.g2.bx.psu.edu/repos/iuc/isescan/isescan` | `1.7.3+galaxy0` |
 | integron_finder | `toolshed.g2.bx.psu.edu/repos/iuc/integron_finder/integron_finder` | `2.0.5+galaxy1` |
+| bakta | `toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta` | `1.9.4+galaxy1` |
+| jbrowse | `toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse` | `1.16.11+galaxy1` |
+| tbl2gff3 | `toolshed.g2.bx.psu.edu/repos/iuc/tbl2gff3/tbl2gff3` | `1.2` |
 | bedtools closest | `toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_closestbed` | `2.31.1+galaxy1` |
 | bedtools sortbed | `toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_sortbed` | `2.31.1+galaxy0` |
 | tp_awk_tool | `toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool` | `9.5+galaxy3` |
 | ggplot2_heatmap2 | `toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2` | `3.3.0+galaxy0` |
 | collapse_collections | `toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset` | `5.1.0` |
 
-Builtin (no install): `__DATA_FETCH__` (collection upload from URL).
+Builtin (no install): `__DATA_FETCH__` (collection upload), `__BUILD_LIST__`, `__EXTRACT_DATASET__`.
 
 ### Docker / container setup
 Enable Docker for containerized jobs (`docker_enabled` job env + `enable_mulled_containers: true`, `conda_auto_install: false`). Pre-pull BioContainer images before running, especially on Apple Silicon (amd64 emulation is correct but slow).
 
-### Bakta (OPTIONAL — structural confirmation only, NOT in the extractable core)
-Deliberately excluded from the extractable clean pipeline. If desired as non-extractable enrichment:
-- Install `iuc/bakta`; download Bakta light DB v5.1 (1.48 GB tar → 3.4 GB) to `database/bakta_db/db-light`.
+### Bakta DB setup
+- Download Bakta light DB v5.1 (1.48 GB tar → 3.4 GB) to `database/bakta_db/db-light`.
 - **Critical:** move the bundled `amrfinderplus-db/` OUT of `db-light` (the wrapper does `ln -s db-light/*` and fails if it exists there).
-- Update AMRFinder DB: `amrfinder_update --force_update --database <amrfinderplus-db-dir>` inside `quay.io/biocontainers/bakta:1.9.4--pyhdfd78af_0` (bundled 2023-11-15.1 is too old for bakta 1.9.4's amrfinder 3.12.8 → need ≥ 2023-12-15.2).
+- Update AMRFinder DB: `amrfinder_update --force_update --database <amrfinderplus-db-dir>` inside `quay.io/biocontainers/bakta:1.9.4--pyhdfd78af_0` (bundled 2023-11-15.1 is too old for amrfinder 3.12.8 → need ≥ 2023-12-15.2; UC1 used `amrfinderplus_V3.12_2024-07-22.1`).
 - Register both DBs in `.loc` (bakta `bakta_version` col = `1.7`; amrfinder `db_version` col = `3.12`); repoint `shed_tool_data_table_conf.xml` off `.loc.sample`; restart (no working reload endpoint for data tables).
 - On Apple Silicon run Bakta **serially** (one isolate at a time), not mapped 4-wide (OOM under concurrent amd64-emulated diamond/blast).
 
@@ -54,13 +84,13 @@ Deliberately excluded from the extractable clean pipeline. If desired as non-ext
 
 ## 2. Reference Data / DB Setup
 
-None for the extractable core. The analysis is assembly-based (FASTA→BED); no genome index or `.loc` registration is needed.
+Only the Bakta DB above. The AMR/IS analysis is assembly-based (FASTA→BED); no genome index or `.loc` registration.
 
 ---
 
 ## 3. Input Data
 
-One `list` collection of 4 combined chromosome+plasmid FASTA files, fetched directly from ENA via a single `POST /api/tools/fetch` (set `history_id`):
+One `list` collection of 4 combined chromosome+plasmid FASTA files, fetched from ENA via a single `POST /api/tools/fetch` (set `history_id`):
 
 ```json
 {
@@ -82,7 +112,7 @@ One `list` collection of 4 combined chromosome+plasmid FASTA files, fetched dire
 }
 ```
 
-Element names (isolate IDs) must be exactly `KUH140013`, `KUH140046`, `KUH180129`, `KUN1163` — they become the matrix column labels.
+Element names (isolate IDs) must be exactly `KUH140013`, `KUH140046`, `KUH180129`, `KUN1163` — they become matrix column labels and the `__EXTRACT_DATASET__` selectors.
 
 | Element | MLST | Chr | Plasmid | Genome bp |
 |---|---|---|---|---|
@@ -95,11 +125,13 @@ Source: Hikichi et al. 2019, BioProject PRJDB8599.
 
 ---
 
-## 4. Pipeline Steps
+## 4. Pipeline
 
-All steps map over the input collection. Use `{"batch":true,"values":[{"src":"hdca","id":<collection_id>}]}` for the collection input parameter when calling `POST /api/tools` directly (the MCP `run_tool` does not surface map-over; use direct API).
+Everything maps over the input collection so each isolate gets its own result. Single-data inputs map natively (connect the collection; `batch:true` in direct API). The `multiple` inputs flagged **[nest]** below need a `__BUILD_LIST__` per §0-A.
 
-### Step 1 — staramr `…/staramr_search/0.12.3+galaxy0`
+### 4a. Annotation branches (off the input list)
+
+**Step — staramr** `…/staramr_search/0.12.3+galaxy0` — `genomes` **[nest]**
 ```json
 {"pointfinder_db": {"use_pointfinder": "disabled"},
  "advanced": {"genome_size_lower_bound": "4000000", "genome_size_upper_bound": "6000000",
@@ -107,51 +139,88 @@ All steps map over the input collection. Use `{"batch":true,"values":[{"src":"hd
   "pid_threshold": "98.0", "plasmidfinder_type": "include_all", "plength_plasmidfinder": "60.0",
   "plength_resfinder": "60.0", "report_all_blast": false}}
 ```
-The genome-size "quality-failed" warning is expected for *S. aureus* (~2.8–2.9 Mb vs the 4–6 Mb window); ResFinder/PlasmidFinder calls are unaffected. Outputs used: `resfinder.tsv`, `mlst.tsv`, `summary.tsv`, `plasmidfinder.tsv` collections.
+`genomes` is `multiple="true"` → build a `list:list` from the input and feed it (else all 4 isolates collapse into one staramr job). The genome-size "quality-failed" warning is expected for *S. aureus* (~2.8–2.9 Mb vs the 4–6 Mb window); calls are unaffected. Outputs used: `resfinder.tsv`, `mlst.tsv`, `summary.tsv`, `plasmidfinder.tsv` collections.
 
-### Step 2 — ISEScan `…/isescan/1.7.3+galaxy0`
+**Step — ISEScan** `…/isescan/1.7.3+galaxy0` (single input → native map)
 ```json
 {"remove_short_is": true, "log_activate": false}
 ```
-**CRITICAL GOTCHA:** `remove_short_is` MUST be `true`. The default (`false`) keeps partial/unclassified elements (`family=new`) → spurious distance-0 IS overlaps → corrupted context matrix (KUN1163 shows 25 vs the validated 17 IS). Headline survives either way, but only `true` reproduces byte-identical results. Output used: `results in gff format` collection.
+**CRITICAL:** `remove_short_is` MUST be `true`. Default `false` keeps partial/unclassified elements (`family=new`) → spurious distance-0 overlaps → corrupted matrix (KUN1163 shows 25 vs the validated 17 IS). Output used: `results in gff format` collection.
 
-### Step 3 — Integron Finder `…/integron_finder/2.0.5+galaxy1`
+**Step — Integron Finder** `…/integron_finder/2.0.5+galaxy1` (single input → native map)
 ```json
 {"type_replicon": "--circ", "local_max": false, "promoter_attI": false, "gbk": false, "pdf": false,
  "settings": {"attc_settings": {"calin_threshold": "2", "dist_thresh": "4000", "max_attc_size": "200", "min_attc_size": "40"},
   "protein_settings": {"func_annot": false, "no_proteins": false}}}
 ```
-Expected: zero integrons in all four (expected for *S. aureus*). Outputs: `Integron annotations`, `Summary` collections.
+Expected: zero integrons in all four (expected for *S. aureus*). Outputs: `Integron annotations`, `Summary`.
 
-### Step 4 — ARG→BED (tp_awk on `resfinder.tsv` collection)
+**Step — Bakta** `…/bakta/1.9.4+galaxy1` (single input → native map)
+```json
+{"organism": {"genus": "Staphylococcus", "species": "aureus"},
+ "annotation": {"translation_table": "11", "keep_contig_headers": true},
+ "input_option": {"min_contig_length": "200",
+   "bakta_db_select": "V5.1_light_2024-01-19",
+   "amrfinder_db_select": "amrfinderplus_V3.12_2024-07-22.1"},
+ "output_files": {"output_selection": ["file_tsv", "file_gff3"]}}
+```
+`keep_contig_headers: true` keeps the ENA accessions as seqids so Bakta GFF3 coordinates line up with the JBrowse reference. Output used: GFF3 (genome-wide CDS calls). On Apple Silicon run serially (see §1).
+
+### 4b. Feature prep (BED for proximity, GFF3 for browser tracks)
+
+**ARG → BED** — tp_awk on staramr `resfinder.tsv` collection:
 ```awk
 NR>1 { s=$9; e=$10; if (s>e) { t=s; s=e; e=t } print $8"\t"(s-1)"\t"e"\t"$2 }
 ```
-Output: `contig, start(0-based), end, gene` (`$8`=contig, `$9/$10`=start/end, `$2`=gene; swap for reverse-strand hits).
+→ **SortBED** (default lexicographic) → ARG sorted BED. ($8=contig, $9/$10=start/end, $2=gene.)
 
-### Step 5 — IS→BED (tp_awk on ISEScan gff collection)
+**IS → BED** — tp_awk on ISEScan gff collection:
 ```awk
 /family=/ { fam="IS"; if (match($9, /family=[^;]+/)) fam=substr($9, RSTART+7, RLENGTH-7); print $1"\t"($4-1)"\t"$5"\t"fam }
 ```
-Output: `contig, start(0-based), end, IS_family`.
+→ **SortBED** → IS sorted BED.
 
-### Steps 6 & 7 — SortBED `…/bedtools_sortbed/2.31.1+galaxy0`
-Default params (lexicographic). Map over the ARG BED collection (step 6) and the IS BED collection (step 7).
-
-### Step 8 — bedtools closest -d `…/bedtools_closestbed/2.31.1+galaxy1`
-Input A = ARG sorted BED (mapped); Input B = IS sorted BED (mapped; matched element-wise).
-```json
-{"ties": "all", "strand": "", "addition": true, "addition2": {"addition2_select": ""}, "k": "1", "io": false, "mdb": "each"}
+**Bakta CDS → BED** — tp_awk on Bakta GFF3 collection (gene/product/locus_tag name, stop at FASTA section):
+```awk
+BEGIN{FS=OFS="\t"}
+/^##FASTA/{exit} /^#/{next}
+$3=="CDS"{
+  g="";p="";lt="";
+  if(match($9,/gene=[^;]+/)) g=substr($9,RSTART+5,RLENGTH-5);
+  if(match($9,/product=[^;]+/)) p=substr($9,RSTART+8,RLENGTH-8);
+  if(match($9,/locus_tag=[^;]+/)) lt=substr($9,RSTART+10,RLENGTH-10);
+  name=(g!="")?g:((p!="")?p:((lt!="")?lt:"CDS")); gsub(/[ \t]+/,"_",name);
+  print $1,($4-1),$5,name;
+}
 ```
-(`addition: true` = `-d`; `ties: all`; `mdb: each`.) Output (9 cols): `ARG_contig, ARG_start, ARG_end, gene, IS_contig, IS_start, IS_end, IS_family, distance`.
+→ **SortBED** → Bakta gene sorted BED.
 
-### Step 9 — Collapse Collection `…/collapse_dataset/5.1.0`
+**GFF3 tracks for JBrowse** — `tbl2gff3` (`begin=2, end=3, Name attr=col 4, strand=infer`) converts a 4-col BED back to GFF3:
+- on the **IS BED** (pre-sort copy): `source=ISEScan`, `type=mobile_genetic_element` → IS track GFF3.
+- on the **ARG BED**: `source=staramr`, `type=gene` → ARG track GFF3.
+
+### 4c. Proximity (two `closest` runs, both `inputB` nested)
+
+bedtools closest `…/bedtools_closestbed/2.31.1+galaxy1`, params for both:
+```json
+{"ties": "all", "strand": "", "addition": true, "addition2": {"addition2_select": ""},
+ "k": "1", "io": false, "mdb": "each"}
+```
+(`addition:true`=`-d`; `mdb:each` keeps per-element B databases.) `inputA` = ARG sorted BED (native map). `inputB` = `-b`, `multiple="true"` **[nest]** — build a `list:list` from the B collection so each isolate's ARG features are measured only against *its own* B features (a flat list reduces and every job sees all isolates → pairing lost).
+
+- **closest #1**: inputB = IS sorted BED → 9-col `ARG_contig, ARG_start, ARG_end, gene, IS_contig, IS_start, IS_end, IS_family, distance`.
+- **closest #2**: inputB = Bakta gene sorted BED → nearest annotated gene to each ARG.
+
+### 4d. Matrices, heatmaps, flanking-gene table
+
+**Collapse Collection** `…/collapse_dataset/5.1.0` (prepends the element identifier as column 1), on each closest output:
 ```json
 {"one_header": false, "filename": {"add_name": true, "place_name": "same_multiple"}}
 ```
-Prepends the element identifier as column 1. Output (10 cols): `isolate, contig, ARG_start, ARG_end, gene, IS_contig, IS_start, IS_end, IS_family, distance`.
 
-### Step 10 — Matrix 1 (ARG location, gene × isolate) tp_awk
+From **closest #1** collapse (10 cols: `isolate, contig, ARG_start, ARG_end, gene, IS_contig, IS_start, IS_end, IS_family, distance`):
+
+*Matrix 1 — ARG location (gene × isolate)* tp_awk → heatmap Fig 1:
 ```awk
 BEGIN{FS=OFS="\t"}
 { iso[NR]=$1; con[NR]=$2; gene[NR]=$5; n=NR; if($4+0>mx[$2]) mx[$2]=$4+0; isos[$1]=1 }
@@ -168,9 +237,9 @@ END{
   for(r=1;r<=ng;r++){ printf "%s",GN[r]; for(a=1;a<=ni;a++) printf "%s%d",OFS,(L[GN[r],A[a]]+0); printf "\n"; }
 }
 ```
-Self-contained plasmid classifier: `max(ARG_end)` per contig `< 200000` bp = plasmid (code 2), else chromosome (code 1); plasmid wins on mixed copies. Output: gene × isolate, 0=absent / 1=chromosome / 2=plasmid.
+Self-contained plasmid classifier: `max(ARG_end)` per contig `< 200000` bp = plasmid (code 2), else chromosome (code 1); plasmid wins on mixed copies. Cells: 0=absent / 1=chromosome / 2=plasmid.
 
-### Step 11 — Matrix 2 (ARG mobile context, context × isolate) tp_awk
+*Matrix 2 — mobile context (context × isolate)* tp_awk → heatmap Fig 2:
 ```awk
 BEGIN{FS=OFS="\t"}
 { iso[NR]=$1; con[NR]=$2; di[NR]=$10; n=NR; if($4+0>mx[$2]) mx[$2]=$4+0; isos[$1]=1 }
@@ -190,30 +259,50 @@ END{
 }
 ```
 
-### Steps 12 & 13 — Heatmaps `…/ggplot2_heatmap2/3.3.0+galaxy0`
-Fig 1 (Matrix 1) title "ARG genomic location (0=absent, 1=chromosome, 2=plasmid)"; Fig 2 (Matrix 2) title "ARG counts by mobile context". Both:
+From **closest #2** collapse — *nearest flanking gene table* tp_awk (Bakta gene neighborhood of each ARG):
+```awk
+BEGIN{FS=OFS="\t"; print "Isolate","ARG","Nearest_flanking_gene","Distance_bp"}
+{ print $1,$5,$9,$10 }
+```
+
+**Heatmaps** `…/ggplot2_heatmap2/3.3.0+galaxy0` — Fig 1 title "ARG genomic location (0=absent, 1=chromosome, 2=plasmid)"; Fig 2 title "ARG counts by mobile context". Both:
 ```json
 {"transform": "none", "zscore_cond": {"scale": "none", "zscore": "none"},
  "cluster_cond": {"cluster": "no"}, "labels": "both",
  "colorchoice": {"name": "BrBG", "type": "palettes"}, "image_file_format": "png"}
 ```
 
+### 4e. JBrowse + per-isolate extraction
+
+**JBrowse** `…/jbrowse/1.16.11+galaxy1` — `reference_genome|genome` = input collection (native map → one browser per isolate). One track group "MRSA mobile-AMR" with three `gene_calls` tracks, each `annotation` input being `multiple="true"` **[nest]**:
+- ARG GFF3 (from tbl2gff3)
+- IS GFF3 (from tbl2gff3)
+- Bakta GFF3 (direct from Bakta)
+
+Without the nests every browser would load all 4 isolates' tracks; with them each browser shows only its own isolate's reference + ARG/IS/Bakta features.
+
+**Per-isolate display** — run `__EXTRACT_DATASET__` 4× on the JBrowse output collection, `which_dataset=by_identifier` with `identifier` = each isolate ID (`KUH140013`, `KUH140046`, `KUH180129`, `KUN1163`). Each yields a standalone browser dataset the page can embed (§0-B).
+
 ---
 
 ## 5. Notebook directives (on-graph outputs the page displays)
 
 One `galaxy`-fenced block per directive:
-1. `history_dataset_collection_display(history_dataset_collection_id=<staramr mlst collection>)`
-2. `history_dataset_collection_display(history_dataset_collection_id=<staramr summary collection>)`
-3. `history_dataset_as_image(history_dataset_id=<Fig1 location heatmap PNG>)`
-4. `history_dataset_collection_display(history_dataset_collection_id=<staramr plasmidfinder collection>)`
-5. `history_dataset_collection_display(history_dataset_collection_id=<staramr resfinder collection>)`
-6. `history_dataset_collection_display(history_dataset_collection_id=<Integron Finder Summary collection>)`
-7. `history_dataset_collection_display(history_dataset_collection_id=<ISEScan tabular results collection>)`
-8. `history_dataset_collection_display(history_dataset_collection_id=<bedtools closest collection>)`
-9. `history_dataset_as_image(history_dataset_id=<Fig2 context heatmap PNG>)`
+1. `history_dataset_collection_display(...staramr mlst collection)`
+2. `history_dataset_collection_display(...staramr summary collection)`
+3. `history_dataset_as_image(...Fig 1 location heatmap PNG)`
+4. `history_dataset_collection_display(...staramr plasmidfinder collection)`
+5. `history_dataset_collection_display(...staramr resfinder collection)`
+6. `history_dataset_collection_display(...Integron Finder Summary collection)`
+7. `history_dataset_collection_display(...ISEScan tabular results collection)`
+8. `history_dataset_collection_display(...bedtools closest #1 collection)`
+9. `history_dataset_as_image(...Fig 2 context heatmap PNG)`
+10. `history_dataset_as_table(...nearest-flanking-gene table)` — quote titles with spaces
+11–14. `history_dataset_embedded(history_dataset_id=...)` — the 4 `__EXTRACT_DATASET__` browser datasets, one per isolate (embed the extracted *dataset*, never a collection element).
 
-(Titles with spaces in `history_dataset_as_table` must be quoted.)
+> **Use `history_dataset_embedded`, not `history_dataset_display`.** Both render the identical 16:9 iframe (`/datasets/<id>/display/?preview=True`); `display` only adds a `Dataset: <name>` + Download/Import header bar, which is redundant here since the narrative already labels each browser. `embedded` gives the clean browser.
+>
+> **Interactive JBrowse needs a sanitize-allowlist entry for `__EXTRACT_DATASET__`.** With the default `sanitize_all_html: true`, Galaxy serves `html` datasets as `text/plain` (raw source, browser won't boot) unless the dataset's **creating tool** is in `sanitize_allowlist`. Extraction re-tags the creating tool from jbrowse to `__EXTRACT_DATASET__`, so an allowlist entry for jbrowse does **not** cover the extracted per-isolate browsers — add `__EXTRACT_DATASET__` to `config/sanitize_allowlist.txt` (each entry on its own line) and reload (gunicorn `SIGHUP`). The JBrowse *assets* (`data/trackList.json`, …) already resolve under the display path; only the `index.html` mime-type is gated.
 
 ---
 
@@ -221,7 +310,8 @@ One `galaxy`-fenced block per directive:
 
 | Check | Expected |
 |---|---|
-| bedtools closest collection (with `remove_short_is=true`) | byte-identical across all 4 isolates |
+| staramr jobs | 4 (mapped, not 1 reduced) |
+| bedtools closest #1 collection (`remove_short_is=true`) | byte-identical across all 4 isolates |
 | Matrix 2 (context) | byte-identical |
 | Matrix 1 cells | identical (row order may be alphabetical) |
 | KUN1163 IS count | 17 complete elements |
@@ -229,8 +319,8 @@ One `galaxy`-fenced block per directive:
 | `aac(6')-aph(2'')` KUH140046 | **467 bp**, IS6, plasmid |
 | `aac(6')-aph(2'')` KUH180129 | **84 bp**, IS256, chromosome |
 | Integrons | zero in all four |
-| Page extraction | 14 seeded, 8 ICJ map-over, 9 exposed, 0 warnings, 0 dangling |
-| Extracted workflow | 14 steps (1 input + 13 tools) |
+| JBrowse | 4 browsers; each shows only its own isolate's reference + ARG/IS/Bakta tracks (≈7 inputs/browser, not 16) |
+| Extracted workflow | 35 steps: 1 input, 6 `__BUILD_LIST__`, 4 `__EXTRACT_DATASET__`, rest tools; 0 dangling |
 
 Headline (load-bearing science): same gene `aac(6')-aph(2'')`, different mobilizing IS family by location (IS6 plasmids vs IS256 chromosome).
 
@@ -243,4 +333,4 @@ Page-extraction feature (PR #22860 / `extract_next`):
 GET  /api/pages/<page_id>/workflow_extraction_summary
 POST /api/workflows/extract {"from_page_id": "<page_id>", "history_id": "<history_id>"}
 ```
-Expected: 14 steps, every input_connection resolves (zero dangling), 9 workflow outputs, report rewritten with 0 leftover instance ids. Cleanest extraction of the three — genuine collection map-over, no anti-patterns, no code change required.
+Because the history was built with the `__BUILD_LIST__` nests and `__EXTRACT_DATASET__` anchors (not API `batch:true`), the extracted workflow round-trips faithfully: 35 steps, every input_connection resolves, 0 dangling, and a re-run reproduces the golden matrices/flank table and per-isolate browsers. (If instead any `multiple` input had been batch-mapped via the API, extraction would reduce it — that asymmetry is tracked on #4623 / #22710.)

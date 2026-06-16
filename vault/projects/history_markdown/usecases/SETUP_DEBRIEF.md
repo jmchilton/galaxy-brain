@@ -26,6 +26,8 @@ The instance already had `admin_users: jmchilton@gmail.com` and the AI key. Adde
   enable_mcp_server: true
   conda_auto_install: false
   enable_mulled_containers: true
+  enable_celery_tasks: true        # added 2026-06-15, see "Job caching" below
+  calculate_dataset_hash: always   # added 2026-06-15, see "Job caching" below
   job_config:
     runners:
       local:
@@ -44,6 +46,18 @@ The instance already had `admin_users: jmchilton@gmail.com` and the AI key. Adde
 - `galaxy_infrastructure_url` set so MCP/API responses build absolute URLs correctly.
 - Default container resolvers + `$defaults` docker volumes work out of the box on macOS — the worktree lives under `/Users`, which Docker Desktop shares by default.
 - Galaxy auto-created `config/shed_tool_conf.xml` (tool_path → `database/shed_tools`) on first start; did **not** need to set `tool_config_file`.
+
+#### Job caching (added 2026-06-15)
+To make repeated use-case passes fast — re-running the same tools on the same (or byte-identical re-uploaded) inputs should *skip* execution and reuse prior outputs:
+
+- `enable_celery_tasks: true` — required so the celery worker computes dataset hashes (and unblocks other async tasks). gravity already runs a `celery worker` + `beat` here, so no extra process is needed; the sqlalchemy/sqlite control transport (`amqp_internal_connection`) is the broker, no redis/rabbitmq required.
+- `calculate_dataset_hash: always` — hash **every** dataset output, not just uploads (the default `upload`). Content hashes are what let the job cache match a re-derived/re-uploaded dataset against a prior identical one.
+
+Two caching modes result:
+- *Identity-based* (re-run on the **same** HDA) already worked without these, via the run-time `use_cached_job` flag.
+- *Content-hash* (re-uploaded / re-derived but byte-identical) is what these two unlock.
+
+Caveats: caching only **skips a job when the run requests it** — tick "Attempt to re-use jobs with identical parameters?" in the tool/workflow form, or pass `use_cached_job: true` to the invocation API. Only datasets produced **after** enabling `always` carry hashes, so first-pass matches against pre-existing history data won't hit. Hashing adds a small per-job cost. Requires a server restart (gravity bounce) to take effect; `enable_celery_tasks: true` is observable at `GET /api/configuration`.
 
 ### 2. Ephemeris — installed ISOLATED
 ```bash
