@@ -5,10 +5,8 @@ Source object IDs for each PNG in this directory. Reference server: local Galaxy
 ## Previously captured (unchanged)
 | File | Source object |
 |---|---|
-| `uc1_notebook_full.png` | UC1 notebook page `eafb646da3b7aac5` (history `48916fac0de9a85d`) |
+| `uc1_notebook_full.png` | UC1 notebook page `eafb646da3b7aac5`, captured with history `48916fac0de9a85d` ("MRSA mobile AMR context across isolates (clean)") set as the **active** history — the right panel now shows the populated UC history (re-captured to fix the earlier empty "Unnamed history") |
 | `uc1_fig1_heatmap.png` | UC1 heatmap dataset `29e36fb8642bf5ed` (first mobile-resistome matrix), 2000×2000 downscaled to 463×464 |
-| `uc3_volcano_embed.png` / `uc3_volcano_as_pdf_directive.png` | UC3 volcano PDF (live `<embed>` vs `history_dataset_as_pdf` rasterized) |
-| `uc3_pca_embed.png` / `uc3_pca_as_pdf_directive.png` | UC3 DESeq2 diagnostics PDF page 1 (PCA): live embed vs directive |
 
 > `uc2_notebook_full.png` / `uc3_notebook_full.png` were generated earlier but are not currently in `figures/` — regenerate alongside the quality re-capture (UC2 page `42a2c611109e5ed3` / history `96d9e11f37f34b29`; UC3 page `a7e42332dab8f5db` / history `241d84796a24640a`).
 
@@ -25,9 +23,22 @@ Source object IDs for each PNG in this directory. Reference server: local Galaxy
 | `uc2_single_condition-pinned_34step.png` | extracted workflow `03501d7626bd192f` (34 steps) | Fig 3b optional reference (single condition-pinned extract) |
 | `uc1_revision_panel.png` | page `b887d74393f85b6d` revision history (5 revisions) | evidence layer 4 / agent authorship. Badges: `(AI)` = `edit_source="agent"`, `(Unknown)` = pre-feature/initial revision. See report caveat. |
 
+## UC3 rebuild — differential-accessibility application (Fig 3a, current)
+Vignette 3 was rewritten from a before/after "display gates extraction" demo into a positive application (count matrix → ranked, re-runnable workflow). Notebook page `d071e794759ab192`, history `be8c8ac3dbd1dd54`, extracted 13-step workflow `ba751ee0539fff04`. Figures are on-graph image outputs: the DESeq2 PCA and volcano PDFs are converted to PNG in-graph (`graphicsmagick_image_convert` → `__EXTRACT_DATASET__`) and referenced with `history_dataset_as_image`. Captured against the dev client (`:5173`); chrome cropped to the document column.
+
+| File | Source object | Notes |
+|---|---|---|
+| `uc3_notebook_source.png` | page `d071e794759ab192` editor (markdown source) | Fig 3a — `history_dataset_as_image` / `history_dataset_as_table` directives over on-graph outputs |
+| `uc3_notebook_rendered_pca.png` | extracted PCA image "Sample PCA plot" `fbb70e50318ce3f7`, rendered inline | Fig 3a — PC1 ≈ 98% variance |
+| `uc3_notebook_rendered_volcano.png` | extracted volcano image "Volcano plot" `db724f789d20d73e`, rendered inline | Fig 3a — Down/Not-Sig/Up |
+| `uc3_notebook_rendered_tables.png` | DESeq2 result + significant + top-50 ranked tables | Fig 3a — on-graph tabular outputs |
+| `uc3_workflow_13step.png` | extracted workflow `ba751ee0539fff04` (13 steps) | Fig 3a — counts collection + sheet → DESeq2 → NA-filter → volcano ∥ sig-filter → sort → top-gained/-lost, plus two image-output branches (convert → extract) for the PCA and volcano figures |
+
+> Removed (no longer referenced by the manuscript): the old before/after `uc3_fig3a_workflow_degenerate.png` / `uc3_fig3a_workflow_5step.png`, the PDF-renderer comparison shots `uc3_{pca,volcano}_embed.png` / `uc3_{pca,volcano}_as_pdf_directive.png`, and `uc3_workflow_9step.png`.
+
 ## Clean / extractable page + history IDs (for any further captures)
 | UC | page | history |
 |---|---|---|
 | UC1 MRSA | `eafb646da3b7aac5` | `48916fac0de9a85d` |
 | UC2 TAL1 | `42a2c611109e5ed3` | `96d9e11f37f34b29` |
-| UC3 ATAC | `a7e42332dab8f5db` | `241d84796a24640a` |
+| UC3 ATAC (rebuild) | `d071e794759ab192` | `be8c8ac3dbd1dd54` |

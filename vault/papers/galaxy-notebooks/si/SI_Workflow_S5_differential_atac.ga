@@ -3,10 +3,10 @@
     "annotation": "",
     "comments": [],
     "format-version": "0.1",
-    "name": "Differential ATAC-seq (extracted)",
+    "name": "Differential ATAC-seq accessibility (Eryth vs B-cell)",
     "report": {
-        "markdown": "# Differential ATAC-seq accessibility\n\nThe existing Galaxy ATAC-seq tutorial calls peaks in *one* sample. This notebook makes the jump that matters for biology: **count fragments over a shared peak universe across biological replicates, then test which regions change accessibility between two conditions** \u2014 replicate-aware differential accessibility, not peak presence/absence.\n\nIt starts from a **precomputed count matrix** (the issue's preferred MVP): the **Corces et al. 2016 human hematopoiesis ATAC-seq** peak \u00d7 sample count matrix (GSE74912), **genome-wide**, contrasting **Erythroblast vs B-cell** (donors as replicates). Every analysis step is a real Galaxy tool \u2014 the per-sample counts go in as **one collection** with a donor-aware sample sheet, so the whole notebook **extracts to a reusable DESeq2 workflow**, and every figure below is a genuine tool output (no re-uploaded screenshots).\n\n## Design\n\n| | |\n|---|---|\n| Peak universe | **590,650 genome-wide peaks** (Corces union peak set) |\n| Conditions | Erythroblast (4) vs B-cell (4), donors as replicates |\n| Test | DESeq2 (`sample_sheet_contrasts`, `~ condition`, Erythroblast = reference) |\n| Significance | padj < 0.05 and \\|log2FC\\| \u2265 1 |\n\n## Replicate QC \u2014 the conditions separate cleanly\n\nDESeq2's diagnostic plots (PCA on the variance-stabilised counts, sample-distance, dispersion) come straight from the tool. PC1 carries essentially all the variance (**\u2248 98%**) on the Erythroblast\u2013B-cell axis, with each condition's replicates grouped:\n\n```galaxy\nhistory_dataset_as_image(output=\"DESeq2 plots\")\n```\n\nThis is the replicate-QC the issue asks for. Condition dominates PC1; `Eryth_1` is a mild PC2 outlier but does not cross the boundary \u2014 no samples are swapped, the contrast is safe to run.\n\n## Differential accessibility\n\nDESeq2 finds **45,620 significantly differential peaks** (padj < 0.05, \\|log2FC\\| \u2265 1): **34,873 more accessible in B-cell** and **10,747 more accessible in Erythroblast** \u2014 out of ~247,000 *testable* peaks (DESeq2 low-count-filtered the other 343,612 of 590,650 to NA). The volcano is the real `volcanoplot` tool output on the DESeq2 result (after dropping NA-padj rows):\n\n```galaxy\nhistory_dataset_as_image(output=\"Volcano Plot PDF\")\n```\n\n> **Direction:** DESeq2 used Erythroblast as the reference level, so **log2FC > 0 (red, \"Up\") = gained in B-cell** and **log2FC < 0 (blue, \"Down\") = gained in Erythroblast**. (The sign is reference-dependent and easy to flip.)\n\nThe full DESeq2 result table (every peak's log2FC, p-value, padj) is on-graph:\n\n```galaxy\nhistory_dataset_as_table(output=\"DESeq2 result\", title=\"DESeq2 result (peak, baseMean, log2FC, lfcSE, stat, pvalue, padj)\", compact=true)\n```\n\n## The differential map recovers the lineage master regulators\n\nGenome-wide, the test recovers the **master transcription factors that define the erythroid vs B-lymphoid split**, each accessible on exactly the expected side (hg19):\n\n| Direction | Locus | log2FC | padj | Role |\n|---|---|---|---|---|\n| **B-cell-gained** | **EBF1** (chr5) | **+8.0** | 4\u00d710\u207b\u00b9\u00b9 | B-cell master TF |\n| B-cell-gained | **MS4A1 / CD20** (chr11) | +7.3 | 1\u00d710\u207b\u00b9\u00b3 | B-cell surface marker |\n| B-cell-gained | **PAX5** (chr9) | +6.8 | 1\u00d710\u207b\u2077 | B-cell master TF |\n| B-cell-gained | **CD19** (chr16) | +4.0 | 5\u00d710\u207b\u00b3 | B-cell marker |\n| **Erythroblast-gained** | **HBB \u03b2-globin / LCR** (chr11) | **\u22126.6** | 6\u00d710\u207b\u00b3\u00b2 | erythroid globin |\n| Erythroblast-gained | **GATA1** (chrX) | \u22125.5 | 1\u00d710\u207b\u2079 | **erythroid master TF** |\n\n*(Each row is a representative significant peak; for genes with several peaks the most-significant peak may differ slightly in log2FC/padj. EBF1, MS4A1, HBB and GATA1 are unambiguous.)*\n\nThe payoff of going genome-wide: **GATA1** (erythroid master TF, chrX) sits among the strongest Erythroblast-gained peaks, opposite **PAX5/EBF1** (B-cell master TFs), with the surface markers (CD19, CD20) and the \u03b2-globin locus all where lineage biology predicts. The differential-accessibility map **recovers the lineage master-regulator program** \u2014 a chromatin correlate (accessibility is not expression; see caveats).\n\n## Why this extracts cleanly\n\n- **counts collection + sample sheet \u2192 DESeq2 \u2192 awk (NA filter) \u2192 volcanoplot** are all real tool jobs, so the analysis extracts as one reusable workflow with a single collection input.\n- **The displayed figures are the tools' own outputs** \u2014 the DESeq2 diagnostic-plots PDF and the volcanoplot PDF, referenced directly. (These tools emit PDF; the notebook renderer rasterizes the first page for display, so the real outputs can be shown without re-uploading screenshots \u2014 which is what lets extraction walk back from each figure to DESeq2.)\n\n## Method caveats\n\n- **Accessibility \u2260 expression / regulation.** A differential peak marks differential chromatin accessibility, not a proven regulatory change; recovering master-TF loci validates the test but is a correlate of the lineage program.\n- **Shared-donor pseudoreplication.** Two pairs share a donor (B-cell \u00d72 Donor5483; Erythroblast \u00d72 Donor6926), so effective replication is < 4/condition and significance is somewhat inflated. A donor-aware design (`~ donor + condition`) is preferable \u2014 the `donor` column is in the sample sheet. Conclusions are robust to it.\n- **Precomputed matrix, hg19.** Library sizes are imbalanced; DESeq2 estimates median-of-ratios size factors internally and the PCA confirms imbalance did not drive the separation.\n- **Reference-level direction** stated above; flipping the factor reference flips every sign.\n\n## Where this goes next\n\n1. Re-run with a **donor-aware design** (`~ donor + condition`); annotate top peaks to nearest genes (`bedtools closest`, as in the TAL1 use case).\n2. The issue's optional **BAM branch**: build the union peak set, convert to SAF, count with `featureCounts`.\n3. A **pyGenomeTracks/deepTools heatmap** over the top differential peaks (GATA1 vs PAX5 loci).\n",
-        "title": "Differential ATAC-seq accessibility"
+        "markdown": "# Differential ATAC-seq Accessibility \u2014 Erythroblast vs B-cell\n\nGenome-wide differential chromatin accessibility from the Corces 2016 human\nhematopoiesis ATAC-seq count matrix (GSE74912, hg19). Per-sample read counts over\na shared **590,650-peak** universe are tested with DESeq2 (`~ condition`,\nErythroblast as reference), then NA-filtered, significance-filtered, and ranked.\n\nEvery figure and table below references a **real on-graph tool output**, so this\nnotebook extracts to a complete, re-runnable workflow.\n\n## Sample-level QC \u2014 PCA\n\nPC1 (\u2248 98% variance) cleanly separates Erythroblast from B-cell samples.\n\n```galaxy\nhistory_dataset_as_image(output=\"Sample PCA plot\")\n```\n\n## Differential accessibility \u2014 volcano\n\n**45,620** of ~247,038 testable peaks are significant (padj < 0.05, |log2FC| \u2265 1).\n\n```galaxy\nhistory_dataset_as_image(output=\"Volcano plot\")\n```\n\n## DESeq2 result table\n\nDirection: reference level = Erythroblast, so **log2FC > 0 = B-cell-gained**,\n**log2FC < 0 = Erythroblast-gained**. Columns: peak_id, baseMean, log2FC, lfcSE,\nstat, pvalue, padj.\n\n```galaxy\nhistory_dataset_as_table(output=\"DESeq2 result file on dataset 1-8 and 10 and collection 9\", title=\"DESeq2 result (peak, baseMean, log2FC, lfcSE, stat, pvalue, padj)\", compact=true)\n```\n\n## Significant differential peaks\n\n45,620 significant peaks: **34,873 B-cell-gained** (log2FC > 0) and\n**10,747 Erythroblast-gained** (log2FC < 0).\n\n```galaxy\nhistory_dataset_as_table(output=\"Significant differential peaks (padj<0.05, abs LFC>=1)\", title=\"Significant differential peaks (padj<0.05, |log2FC|>=1)\", compact=true)\n```\n\n## Top condition-gained regions\n\nLineage master regulators land on the expected sides \u2014 B-cell-gained includes\nEBF1/PAX5/MS4A1/CD19; Erythroblast-gained includes GATA1/HBB.\n\n```galaxy\nhistory_dataset_as_table(output=\"Top 50 B-cell-gained peaks\", title=\"Top 50 B-cell-gained peaks (highest log2FC)\", compact=true)\n```\n\n```galaxy\nhistory_dataset_as_table(output=\"Top 50 Erythroblast-gained peaks\", title=\"Top 50 Erythroblast-gained peaks (lowest log2FC)\", compact=true)\n```\n",
+        "title": "Differential ATAC-seq Accessibility \u2014 Erythroblast vs B-cell"
     },
     "steps": {
         "0": {
@@ -18,10 +18,10 @@
             "inputs": [
                 {
                     "description": "",
-                    "name": "ATAC sample metadata"
+                    "name": "Input Dataset"
                 }
             ],
-            "label": "ATAC sample metadata",
+            "label": "Input Dataset",
             "name": "Input dataset",
             "outputs": [],
             "position": {
@@ -32,7 +32,7 @@
             "tool_state": "{\"optional\": false, \"tag\": null}",
             "tool_version": null,
             "type": "data_input",
-            "uuid": "bba7a389-04bd-4d7b-a445-8def86827286",
+            "uuid": "3ad2bc42-71d5-4d00-8be6-4605692911b1",
             "when": null,
             "workflow_outputs": []
         },
@@ -45,10 +45,10 @@
             "inputs": [
                 {
                     "description": "",
-                    "name": "ATAC counts"
+                    "name": "Input Dataset Collection"
                 }
             ],
-            "label": "ATAC counts",
+            "label": "Input Dataset Collection",
             "name": "Input dataset collection",
             "outputs": [],
             "position": {
@@ -59,7 +59,7 @@
             "tool_state": "{\"optional\": false, \"tag\": null, \"collection_type\": \"list\", \"fields\": null, \"column_definitions\": null}",
             "tool_version": null,
             "type": "data_collection_input",
-            "uuid": "29829486-8301-4629-9328-b5d42164569d",
+            "uuid": "e9d19e6d-4374-4a92-906a-148750cbd88e",
             "when": null,
             "workflow_outputs": []
         },
@@ -115,18 +115,13 @@
             "tool_uuid": null,
             "tool_version": "2.11.40.8+galaxy2",
             "type": "tool",
-            "uuid": "a3b10ba7-caca-442b-899d-2f2eff2e36b7",
+            "uuid": "29d53567-67bd-4c7b-8fa6-abc8282e6a9f",
             "when": null,
             "workflow_outputs": [
                 {
-                    "label": "DESeq2 result",
+                    "label": "DESeq2 result file on dataset 1-8 and 10 and collection 9",
                     "output_name": "deseq_out",
-                    "uuid": "c27add69-cb9b-4472-b134-c7e352411098"
-                },
-                {
-                    "label": "DESeq2 plots",
-                    "output_name": "plots",
-                    "uuid": "75f192fb-8abc-4e84-ba10-aa8b1e867585"
+                    "uuid": "262f9f7b-5ebe-4d29-9309-4808ed5129d8"
                 }
             ]
         },
@@ -166,15 +161,59 @@
             "tool_uuid": null,
             "tool_version": "9.5+galaxy3",
             "type": "tool",
-            "uuid": "1c407ea2-00fd-40de-a3b4-f22b3f25293c",
+            "uuid": "e498338d-176a-4d88-a703-cc4cb59f68c3",
             "when": null,
             "workflow_outputs": []
         },
         "4": {
             "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/iuc/volcanoplot/volcanoplot/4.0.3+galaxy0",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/graphicsmagick_image_convert/graphicsmagick_image_convert/1.3.46+galaxy0",
             "errors": null,
             "id": 4,
+            "input_connections": {
+                "input": {
+                    "id": 2,
+                    "output_name": "plots"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "Convert image format",
+            "outputs": [
+                {
+                    "name": "splitted_pdf",
+                    "type": "input"
+                },
+                {
+                    "name": "output",
+                    "type": "png"
+                }
+            ],
+            "position": {
+                "left": 450,
+                "top": 130
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/graphicsmagick_image_convert/graphicsmagick_image_convert/1.3.46+galaxy0",
+            "tool_shed_repository": {
+                "changeset_revision": "54c9a136e24f",
+                "name": "graphicsmagick_image_convert",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"__input_ext\": \"input\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"input\": null, \"output_format\": \"png\", \"palette\": {\"palette_select\": \"no\", \"__current_case__\": 2}, \"resize\": \"100.0\", \"transformations\": null, \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+            "tool_uuid": null,
+            "tool_version": "1.3.46+galaxy0",
+            "type": "tool",
+            "uuid": "8a42464a-89d4-4b71-81e2-e3cbc1999f29",
+            "when": null,
+            "workflow_outputs": []
+        },
+        "5": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/iuc/volcanoplot/volcanoplot/4.0.3+galaxy0",
+            "errors": null,
+            "id": 5,
             "input_connections": {
                 "input": {
                     "id": 3,
@@ -206,18 +245,314 @@
             "tool_uuid": null,
             "tool_version": "4.0.3+galaxy0",
             "type": "tool",
-            "uuid": "cd7891a9-17fb-41aa-8b4f-5e8eaa04ae62",
+            "uuid": "535dbb7f-7b8d-4f9f-b603-f236c42408d2",
+            "when": null,
+            "workflow_outputs": []
+        },
+        "6": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool/9.5+galaxy3",
+            "errors": null,
+            "id": 6,
+            "input_connections": {
+                "infile": {
+                    "id": 3,
+                    "output_name": "outfile"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "Text reformatting",
+            "outputs": [
+                {
+                    "name": "outfile",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 670,
+                "top": 130
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool/9.5+galaxy3",
+            "tool_shed_repository": {
+                "changeset_revision": "ab83aa685821",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"__input_ext\": \"input\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"code\": \"$7+0 < 0.05 && ($3+0 >= 1 || $3+0 <= -1){print}\", \"infile\": null, \"variables\": [], \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+            "tool_uuid": null,
+            "tool_version": "9.5+galaxy3",
+            "type": "tool",
+            "uuid": "7e1d674d-ecfe-427e-9b6f-1d2dda87422a",
             "when": null,
             "workflow_outputs": [
                 {
-                    "label": "Volcano Plot PDF",
-                    "output_name": "plot",
-                    "uuid": "488eaafb-68c8-47a0-9345-bdd3c8b00b2d"
+                    "label": "Significant differential peaks (padj<0.05, abs LFC>=1)",
+                    "output_name": "outfile",
+                    "uuid": "151662a0-0687-4d72-b98d-f6ceacae3077"
+                }
+            ]
+        },
+        "7": {
+            "annotation": "",
+            "content_id": "__EXTRACT_DATASET__",
+            "errors": null,
+            "id": 7,
+            "input_connections": {
+                "input": {
+                    "id": 4,
+                    "output_name": "splitted_pdf"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "Extract dataset",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "data"
+                }
+            ],
+            "position": {
+                "left": 670,
+                "top": 250
+            },
+            "post_job_actions": {},
+            "tool_id": "__EXTRACT_DATASET__",
+            "tool_state": "{\"input\": null, \"which\": {\"which_dataset\": \"by_identifier\", \"__current_case__\": 1, \"identifier\": \"temp_000\"}, \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+            "tool_uuid": null,
+            "tool_version": "1.0.2",
+            "type": "tool",
+            "uuid": "e11a52fb-e4ad-427d-adf3-82a7b77e6ff1",
+            "when": null,
+            "workflow_outputs": [
+                {
+                    "label": "Sample PCA plot",
+                    "output_name": "output",
+                    "uuid": "3b828410-1e7f-4388-9bde-841d2dd49db5"
+                }
+            ]
+        },
+        "8": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/graphicsmagick_image_convert/graphicsmagick_image_convert/1.3.46+galaxy0",
+            "errors": null,
+            "id": 8,
+            "input_connections": {
+                "input": {
+                    "id": 5,
+                    "output_name": "plot"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "Convert image format",
+            "outputs": [
+                {
+                    "name": "splitted_pdf",
+                    "type": "input"
+                },
+                {
+                    "name": "output",
+                    "type": "png"
+                }
+            ],
+            "position": {
+                "left": 890,
+                "top": 130
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/graphicsmagick_image_convert/graphicsmagick_image_convert/1.3.46+galaxy0",
+            "tool_shed_repository": {
+                "changeset_revision": "54c9a136e24f",
+                "name": "graphicsmagick_image_convert",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"__input_ext\": \"input\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"input\": null, \"output_format\": \"png\", \"palette\": {\"palette_select\": \"no\", \"__current_case__\": 2}, \"resize\": \"100.0\", \"transformations\": null, \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+            "tool_uuid": null,
+            "tool_version": "1.3.46+galaxy0",
+            "type": "tool",
+            "uuid": "71152028-4b19-4069-959e-0021fdca29f9",
+            "when": null,
+            "workflow_outputs": []
+        },
+        "9": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/9.5+galaxy3",
+            "errors": null,
+            "id": 9,
+            "input_connections": {
+                "infile": {
+                    "id": 6,
+                    "output_name": "outfile"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "Sort",
+            "outputs": [
+                {
+                    "name": "outfile",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 890,
+                "top": 10
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/9.5+galaxy3",
+            "tool_shed_repository": {
+                "changeset_revision": "ab83aa685821",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"__input_ext\": \"input\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"header\": \"0\", \"infile\": null, \"sortkeys\": [{\"__index__\": 0, \"column\": \"3\", \"start_charpos\": null, \"end_charpos\": null, \"order\": \"r\", \"style\": \"g\", \"ignore_case\": false, \"ignore_leading_blanks\": false}], \"unique\": false, \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+            "tool_uuid": null,
+            "tool_version": "9.5+galaxy3",
+            "type": "tool",
+            "uuid": "dbc3cbb3-c4cb-487b-a652-05a7e42cfe65",
+            "when": null,
+            "workflow_outputs": []
+        },
+        "10": {
+            "annotation": "",
+            "content_id": "__EXTRACT_DATASET__",
+            "errors": null,
+            "id": 10,
+            "input_connections": {
+                "input": {
+                    "id": 8,
+                    "output_name": "splitted_pdf"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "Extract dataset",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "data"
+                }
+            ],
+            "position": {
+                "left": 1110,
+                "top": 250
+            },
+            "post_job_actions": {},
+            "tool_id": "__EXTRACT_DATASET__",
+            "tool_state": "{\"input\": null, \"which\": {\"which_dataset\": \"by_identifier\", \"__current_case__\": 1, \"identifier\": \"temp_000\"}, \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+            "tool_uuid": null,
+            "tool_version": "1.0.2",
+            "type": "tool",
+            "uuid": "22925fdb-e843-4701-9bb2-2faba228c15d",
+            "when": null,
+            "workflow_outputs": [
+                {
+                    "label": "Volcano plot",
+                    "output_name": "output",
+                    "uuid": "48628758-2864-4849-bd92-3ff7bb8caae3"
+                }
+            ]
+        },
+        "11": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/9.5+galaxy3",
+            "errors": null,
+            "id": 11,
+            "input_connections": {
+                "infile": {
+                    "id": 9,
+                    "output_name": "outfile"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "Select first",
+            "outputs": [
+                {
+                    "name": "outfile",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 1110,
+                "top": 10
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/9.5+galaxy3",
+            "tool_shed_repository": {
+                "changeset_revision": "ab83aa685821",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"__input_ext\": \"input\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"complement\": \"\", \"count\": \"50\", \"infile\": null, \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+            "tool_uuid": null,
+            "tool_version": "9.5+galaxy3",
+            "type": "tool",
+            "uuid": "ba999e45-c51d-46ab-b8cb-724175846cd5",
+            "when": null,
+            "workflow_outputs": [
+                {
+                    "label": "Top 50 B-cell-gained peaks",
+                    "output_name": "outfile",
+                    "uuid": "e7d3de87-1bc0-4328-871f-f04e961c4e4b"
+                }
+            ]
+        },
+        "12": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/9.5+galaxy3",
+            "errors": null,
+            "id": 12,
+            "input_connections": {
+                "infile": {
+                    "id": 9,
+                    "output_name": "outfile"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "Select last",
+            "outputs": [
+                {
+                    "name": "outfile",
+                    "type": "input"
+                }
+            ],
+            "position": {
+                "left": 1110,
+                "top": 130
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/9.5+galaxy3",
+            "tool_shed_repository": {
+                "changeset_revision": "ab83aa685821",
+                "name": "text_processing",
+                "owner": "bgruening",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"__input_ext\": \"input\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"complement\": \"\", \"infile\": null, \"num_lines\": \"50\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+            "tool_uuid": null,
+            "tool_version": "9.5+galaxy3",
+            "type": "tool",
+            "uuid": "7f11b328-9e0a-4c60-8737-6d206244cc63",
+            "when": null,
+            "workflow_outputs": [
+                {
+                    "label": "Top 50 Erythroblast-gained peaks",
+                    "output_name": "outfile",
+                    "uuid": "75b3e8cd-a755-46b8-99ac-a42f9da68beb"
                 }
             ]
         }
     },
     "tags": [],
-    "uuid": "40f8a384-4f12-4cc6-8a43-085ec5a9fd63",
+    "uuid": "538df3f5-2daf-4d08-91fe-c8e2fdbe4c51",
     "version": 0
 }
