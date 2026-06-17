@@ -1,28 +1,32 @@
 # Evidence
 
-## Implemented System
+Current evidence snapshot for `manuscript.md`. The manuscript now treats notebook-driven extraction, report continuity, and external-agent notebook authorship as delivered behavior, not as an evaluation plan.
+
+## Delivered System
 
 - History-attached Pages via `Page.history_id`.
 - Revision provenance via `PageRevision.edit_source`.
 - Page-scoped chat via `ChatExchange.page_id`.
 - History-aware notebook assistant tools.
-- Shared editor, diff, revision, and API paths for notebooks and standalone reports.
+- Shared editor, diff, revision, rendering, and API paths for notebooks and standalone reports.
+- MCP notebook operations for external-agent authoring, with agent edits recorded as `edit_source="agent"` and restores as `edit_source="restore"`.
 
-## Prototype Evidence Needed
+## Vignette Evidence
 
-- Notebook-driven workflow extraction demo for GCC.
-- Graph selection or backward-closure prototype from notebook-referenced outputs.
-- Extracted workflow report seeded from notebook content.
-- Clear before/after comparison against flat history-list extraction.
+- **Vignette 1: mobile resistome.** Four-isolate *S. aureus* ARG-to-insertion-sequence context analysis. Notebook-referenced on-graph tables and heatmaps extract to a 14-step, 9-output, sample-agnostic workflow that re-runs byte-identical to the validated original.
+- **Vignette 2: differential ATAC-seq.** Corces 2016 hematopoiesis count-matrix analysis contrasting erythroblast and B-cell accessibility. Notebook-referenced PCA, volcano, significant-peak, and ranked top-gained outputs extract to a 13-step, 6-output workflow that reproduces the 45,620 significant-peak result and lineage master-regulator loci.
+- **Vignette 3: differential ChIP.** TAL1 G1E-versus-megakaryocyte binding analysis. A single extraction reproduces the analysis but is condition-pinned; reusable decomposition yields a 5-step map-over peak caller and 29-step pairwise comparator.
 
-## Quantitative/Concrete Claims To Gather
+## Evidence Layers
 
-- Test counts by layer.
-- Number of routes/API endpoints touched.
-- Small demo history size: number of datasets, jobs, notebook revisions, extracted workflow steps.
-- Time or interaction comparison is optional; a high-fidelity demo may be enough for a preprint.
+- **Implementation completeness:** migrations, API, frontend, assistant tools, revision behavior, MCP operations, and test coverage.
+- **Worked notebook artifacts:** Figures 1-3 show notebooks with on-graph outputs, not pasted figures.
+- **Workflow handoff:** Table 1 and SI Workflows S1-S5 show extracted workflow structure, clean inputs, exposed outputs, and re-run behavior.
+- **Agent authorship:** Figure 4 shows MCP-authored revisions recorded as agent-authored notebook revisions.
 
-## Risks
+## Remaining Evidence Gaps
 
-- If extraction is too rough, phrase it as prototype evidence and keep the core paper grounded in the durable notebook/revision model.
-- If chat distracts reviewers, move chat details later and lead with notebook-to-graph-to-workflow.
+- Exact Galaxy PR number(s), commit range, and release target.
+- Current test counts by layer.
+- Final venue-specific availability/data-availability handles.
+- Optional report-continuity screenshot showing notebook narrative inside an extracted workflow report.

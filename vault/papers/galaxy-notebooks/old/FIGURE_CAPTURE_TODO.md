@@ -25,7 +25,7 @@ For every capture: record the source object ID in a one-line manifest beside the
 
 ## Quality re-captures (worth redoing the notebook fulls)
 
-- [ ] NOT done — requires switching the session's current history first (the editor's right panel shows the *current* history, not the page's source history). Procedure + UC history IDs in `FIGURE_CAPTURE_REPORT.md`. (`uc2`/`uc3` notebook fulls are also currently absent from `figures/` — regenerate together with this fix.)
+- [x] **UC1 done** — `uc1_notebook_full.png` re-captured with history `48916fac0de9a85d` set active (`GET history/set_as_current?id=…` inside the browser session, then `/pages/editor?id=eafb646da3b7aac5`); right panel now shows the populated MRSA history. [ ] **UC2/UC3 still pending** — same procedure (UC2 history `96d9e11f37f34b29` / page `42a2c611109e5ed3`; UC3 history `241d84796a24640a` / page `a7e42332dab8f5db`); their notebook fulls are also currently absent from `figures/`, so regenerate.
 - [ ] Both full-app + content-cropped shots per notebook — see report.
 
 ## Not capturable here (assembly/drawing, noted for completeness)

@@ -40,9 +40,9 @@
 - Tighten the abstract to the falsifiable thesis; it currently diffuses across several weaker claims.
 
 ### Implementation / evidence & rigor
-- Fold in the two code fixes as *maturation* evidence: the `_original_hda` collection-op closure fix (UC2) and the PDF-renderer extension (UC3), each with unit + Selenium tests. These show the extraction machinery is robust *and improvable*, not just asserted.
-- Disclose the PyMuPDF dependency add (optional import + graceful fallback) — a reproducibility paper adding a silent dependency undercuts itself; framed as optional/graceful it's a strength.
-- Use real numbers everywhere a placeholder sits: 14 steps / 0 dangling (UC1); 34 steps single vs 5+29 split (UC2); 2 inputs/0 tools → 5 steps/3 outputs (UC3); 45,620 significant peaks etc.
+- Fold in the `_original_hda` collection-op closure fix (UC2) as *maturation* evidence (unit + Selenium tests) — shows the extraction machinery is robust *and improvable*, not just asserted.
+- Lean on the no-core-change figure story for UC3: PDF figures stay on-graph by converting each to PNG with an in-graph tool (`graphicsmagick_image_convert` → `__EXTRACT_DATASET__`), so no `pymupdf` dependency or renderer change is added — a reproducibility paper that needs zero new core surface for figures is the stronger position.
+- Use real numbers everywhere a placeholder sits: 14 steps / 0 dangling (UC1); 34 steps single vs 5+29 split (UC2); 13 steps / 6 outputs (UC3); 45,620 significant peaks etc.
 
 ### Background / literature review
 - Add the missing **Electronic Lab Notebook** related work (Jupyter, RMarkdown/Quarto, observable, ELN systems) and position against it: Galaxy Notebooks bind narrative to *server-side provenance*, not a re-executed kernel.

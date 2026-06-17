@@ -15,8 +15,8 @@ central_claim: "Galaxy Notebooks make the communication of an analysis reproduci
 related_projects:
   - "[[history_markdown]]"
 created: 2026-05-17
-revised: 2026-05-20
-revision: 3
+revised: 2026-06-17
+revision: 4
 ai_generated: false
 summary: "Paper workspace for Galaxy Notebooks as reproducible analysis communication and notebook-driven workflow extraction."
 ---
@@ -33,7 +33,7 @@ The paper should not center on "pages have chat." Chat is one authoring path. Th
 
 ## Target
 
-**Genome Research, Methods/Resource, ~6000–8000 words.** Same Planemo-precedent playbook as the gxwf paper. The history-as-narrative artifact is novel enough on its own; empirical weight comes from the three worked extraction vignettes (mobile resistome, differential ChIP, differential ATAC-seq) — documented histories driving workflow extraction across a happy path, a topological limit, and the display discipline that makes extraction possible. The three authoring modes (solo human, human + in-app AI, external agent via API) are the user model, not the empirical centerpiece; agent authoring is shown as an authoring path, not benchmarked. A real lab analysis contributed by a domain researcher would strengthen breadth further.
+**Genome Research, Methods/Resource, ~6000–8000 words.** Same Planemo-precedent playbook as the gxwf paper. The history-as-narrative artifact is novel enough on its own; empirical weight comes from the three worked extraction vignettes (mobile resistome, differential ATAC-seq, differential ChIP) — documented histories driving workflow extraction across a clean byte-identical baseline, a richer notebook-to-results workflow, and a topological limit resolved by splitting. The three authoring modes (solo human, human + in-app AI, external agent via API) are the user model, not the empirical centerpiece; agent authoring is shown as an authoring path, not benchmarked. A real lab analysis contributed by a domain researcher would strengthen breadth further.
 
 ## Workspace
 

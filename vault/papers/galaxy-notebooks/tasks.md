@@ -53,7 +53,7 @@ Canonical set is the four figures referenced in `manuscript.md`; detailed spec a
 
 - [x] Figure 1 — notebook beside extracted workflow. Panels captured + embedded (`uc1_notebook_full.png` + `uc1_fig1_workflow_graph.png`). Remaining: side-by-side layout in final art.
 - [x] Figure 2 — embedded-output exemplar (two heatmaps). Both captured + embedded (`uc1_fig1_heatmap.png` + `uc1_fig1_heatmap2.png`).
-- [x] Figure 3 — extraction outcomes across vignettes. Panels captured + embedded (ATAC degenerate/5-step; ChIP caller/comparator). Remaining: panel layout + the dashed-seam arrow in final art.
+- [x] Figure 3 — extraction outcomes across vignettes. Panels captured + embedded (ATAC notebook/results/13-step workflow; ChIP caller/comparator). Remaining: panel layout + the dashed-seam arrow in final art.
 - [x] Figure 4 — agent authorship is attributable. `uc1_revision_panel.png` captured, promoted to a referenced figure, and embedded (honest caption: agent revisions only).
 - [x] Capture pass complete and panels embedded in the manuscript (served via `site/public/figures/`).
 
@@ -61,7 +61,7 @@ Still open from the capture pass (all optional / polish):
 
 - [ ] Report-continuity capture (notebook narrative → extracted workflow report) — procedure in `old/FIGURE_CAPTURE_REPORT.md`.
 - [x] Quality re-capture of `uc1_notebook_full.png` with the real UC history loaded — done (UC1 history active in right panel). UC2/UC3 notebook fulls still uncaptured and would need the same fix, but neither is referenced in the manuscript.
-- [ ] Decide whether to promote the **PDF renderer** figure (assets ready: `uc3_volcano_*`, `uc3_pca_*`) — Implementation PDF paragraph has no figure.
+- [x] PDF-renderer mechanism dropped from the manuscript: ATAC-seq figures are now presented as on-graph image outputs (PDF→PNG via in-graph `graphicsmagick_image_convert` → `__EXTRACT_DATASET__`), extraction is a 13-step workflow, and the renderer-extension/`history_dataset_as_pdf`/PyMuPDF discussion and comparison figures were removed.
 - [x] Promote the **agent-authorship** revision panel → now Figure 4 (honest caption: 4 agent revisions; no synthetic provenance).
 - [ ] Data-model and authoring-modes diagrams (no assets; would need drawing).
 
@@ -98,4 +98,4 @@ Still open from the capture pass (all optional / polish):
 - [ ] A reviewer may see "agent" and expect an AI evaluation. Keep the agent claim scoped to authoring provenance and reviewable document output.
 - [ ] The unified Page model is elegant but not itself a publishable contribution. Keep it in Implementation, not the abstract's center of gravity.
 - [ ] Embedded artifact references support reproducible communication only if identifier stability and sharing semantics are clear. Confirm behavior under history sharing, import, and workflow extraction.
-- [ ] Live in-app view cannot yet isolate a single page of a multi-page PDF (the baked report and extraction collector already do). A rasterize-to-image endpoint is the planned fix. Manuscript states this as future work — ship the endpoint or keep the scoping honest. (Removed the in-prose "planned rasterize-to-image endpoint" detail.)
+- [x] PDF live-view/baked-view mismatch no longer a manuscript concern: the in-core PDF renderer extension was dropped in favor of presenting figures as on-graph image outputs (PDF→PNG via an in-graph conversion step). No PDF rendering claim remains to scope.
