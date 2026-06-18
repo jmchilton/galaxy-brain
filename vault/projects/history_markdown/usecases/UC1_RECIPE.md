@@ -12,23 +12,24 @@
 
 Read these first — they govern *how* you wire several steps below.
 
-### A. Map-over of a `multiple="true"` input → use `__BUILD_LIST__`, never `batch:true`
+### A. Per-isolate map-over of a `multiple="true"` input
 
 Some tool inputs accept a whole collection (`type="data" multiple="true"`): here staramr `genomes`, both bedtools closest `inputB` (`-b`), and all three JBrowse track `annotation` inputs. Feeding a flat `list` into one of these **reduces** — a single job sees all 4 elements — which is wrong when you want per-isolate results.
 
-The API can fake element-wise mapping with `{"batch":true,"values":[{"src":"hdca",...}]}`, but **don't**: it is not expressible in the Galaxy UI or the workflow editor, and it is silently lost on workflow extraction (the extracted workflow reduces). It does not round-trip.
-
-The faithful, UI-/workflow-/extraction-safe pattern is to add one dimension of nesting:
+Per-isolate mapping nests the upstream `list` one level deeper as a `list:list` (`__BUILD_LIST__`), then maps over its *outer* dimension so the `multiple` input consumes one element at a time:
 
 ```
 list  --map __BUILD_LIST__-->  list:list  -->  multiple input
-                                                 (outer list maps → 4 jobs;
-                                                  singleton inner reduces → 1 element each)
+        (4 singleton inner lists)        outer list maps → 4 jobs;
+                                         singleton inner reduces → 1 each → list-depth output
 ```
 
-So for each `multiple` input: run `__BUILD_LIST__` mapped over the upstream `list` (connect `datasets_0|input` to the list; in a direct API call that single input takes `batch:true`), giving a `list:list`, then feed that into the `multiple` parameter. UC1 needs this in **6 places** (staramr `genomes`; closest #1 and #2 `inputB`; JBrowse ARG / IS / Bakta track inputs).
+**Map-over forms via `/api/tools` — this is how you build the history (no UI, no clicking):**
 
-`batch:true` on a **single** `data` input (ISEScan, Integron, Bakta, SortBED, tbl2gff3, collapse, awk, closest `inputA`, JBrowse reference, and `__BUILD_LIST__`'s own input) is normal map-over — fine, and what makes the whole graph run per-isolate.
+- **Single `data` input over a `list`** (ISEScan, Integron, Bakta, SortBED, tbl2gff3, awk on a collection, closest `inputA`, JBrowse `reference`, and `__BUILD_LIST__`'s own input): `{"batch": true, "values": [{"src":"hdca","id": <list>}]}` → one job per element.
+- **`multiple` input that pairs with a batched sibling** (closest `inputB`, paired with the batched `inputA`): feed its `list:list` as `{"values": [{"src":"hdca","id": <list:list>}]}` — the plain multiple-value form, **not** `batch`. In the *same* tool call Galaxy subcollection-maps its outer list against the batched sibling → per-isolate jobs, `list`-depth output. (Wrapping it in `batch:true` fails — *"Cannot match collection types"* — you'd be matching a `list` against a `list:list`.)
+- **staramr `genomes` is the exception:** it's the tool's *only* input, so there's no sibling to pair against, and **no `list:list` form works** — each either reduces to one job or mirrors the `list:list` into the output (over-nest), which makes Collapse later key on the inner index (`"0"`) instead of the isolate. Map it over the **plain input `list`** with `batch:true` → `list` output, one job per isolate. So a hand-built history uses build_list for the 4 closest/JBrowse track inputs, **not** staramr — the `.ga`'s build_list→staramr edge is a workflow-editor artifact.
+- **JBrowse track `annotation` (3× `multiple`, nested in `track_groups`/`data_tracks` repeats):** the pairing above does **not** currently take through that repeat nesting via `/api/tools` (each browser gets every isolate's tracks). Per-isolate JBrowse is the one step that still needs `extract`/engine handling — open item (§4e).
 
 > Caveat: `__BUILD_LIST__` pairing is **positional** — it zips by index and ignores element identifiers. Safe only while every branch stays 1:1 and order-preserving from the shared input collection. A branch-local filter/sort would silently mispair with no error.
 
@@ -139,7 +140,7 @@ Everything maps over the input collection so each isolate gets its own result. S
   "pid_threshold": "98.0", "plasmidfinder_type": "include_all", "plength_plasmidfinder": "60.0",
   "plength_resfinder": "60.0", "report_all_blast": false}}
 ```
-`genomes` is `multiple="true"` → build a `list:list` from the input and feed it (else all 4 isolates collapse into one staramr job). The genome-size "quality-failed" warning is expected for *S. aureus* (~2.8–2.9 Mb vs the 4–6 Mb window); calls are unaffected. Outputs used: `resfinder.tsv`, `mlst.tsv`, `summary.tsv`, `plasmidfinder.tsv` collections.
+`genomes` is `multiple="true"` → map staramr over the **plain input `list`** with `batch:true` (`{"batch":true,"values":[{"src":"hdca","id":<input list>}]}`) so each isolate gets its own job (else all 4 collapse into one). Do **not** feed it a `__BUILD_LIST__` `list:list`: staramr's sole input has no sibling to pair against, so every `list:list` form either reduces or over-nests the output and corrupts the whole ARG chain (§0-A). The genome-size "quality-failed" warning is expected for *S. aureus* (~2.8–2.9 Mb vs the 4–6 Mb window); calls are unaffected. Outputs used: `resfinder.tsv`, `mlst.tsv`, `summary.tsv`, `plasmidfinder.tsv` collections.
 
 **Step — ISEScan** `…/isescan/1.7.3+galaxy0` (single input → native map)
 ```json
@@ -281,6 +282,8 @@ BEGIN{FS=OFS="\t"; print "Isolate","ARG","Nearest_flanking_gene","Distance_bp"}
 
 Without the nests every browser would load all 4 isolates' tracks; with them each browser shows only its own isolate's reference + ARG/IS/Bakta features.
 
+> **Open item — per-isolate JBrowse via `/api/tools`.** The `{"values":[{list:list}]}` pairing that works for closest `inputB` does **not** take through JBrowse's three `annotation` inputs (they sit inside `track_groups`/`data_tracks` repeats): each browser ends up with all 4 isolates' tracks and JBrowse errors. Closest/matrices build cleanly with the §0-A forms; this step is the one that still needs the workflow engine (or a per-isolate workaround). Tracked alongside #4623 / #22710.
+
 **Per-isolate display** — run `__EXTRACT_DATASET__` 4× on the JBrowse output collection, `which_dataset=by_identifier` with `identifier` = each isolate ID (`KUH140013`, `KUH140046`, `KUH180129`, `KUN1163`). Each yields a standalone browser dataset the page can embed (§0-B).
 
 ---
@@ -333,4 +336,4 @@ Page-extraction feature (PR #22860 / `extract_next`):
 GET  /api/pages/<page_id>/workflow_extraction_summary
 POST /api/workflows/extract {"from_page_id": "<page_id>", "history_id": "<history_id>"}
 ```
-Because the history was built with the `__BUILD_LIST__` nests and `__EXTRACT_DATASET__` anchors (not API `batch:true`), the extracted workflow round-trips faithfully: 35 steps, every input_connection resolves, 0 dangling, and a re-run reproduces the golden matrices/flank table and per-isolate browsers. (If instead any `multiple` input had been batch-mapped via the API, extraction would reduce it — that asymmetry is tracked on #4623 / #22710.)
+The faithful workflow (with its `__BUILD_LIST__` nests and `__EXTRACT_DATASET__` anchors) round-trips: 35 steps, every input_connection resolves, 0 dangling, and a re-run reproduces the golden matrices/flank table and per-isolate browsers. Build the source history with the `/api/tools` map-over forms in §0-A — `batch:true` for single-data map-overs, and the `{"values":[{hdca}]}` multiple-value form (paired with a batched sibling) for closest `inputB`. staramr maps over the plain input list; JBrowse per-isolate tracks are the open item (§4e). The API-batch-vs-extraction asymmetry for `multiple` inputs is tracked on #4623 / #22710.
