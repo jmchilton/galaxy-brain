@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*108 notes. Auto-generated — run `make index` to refresh.*
+*109 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -38,6 +38,7 @@
 - [[Component - Invocation Graph View]] — Visual DAG rendering of workflow invocation with real-time job state, readonly editor canvas
 - [[Component - API Tests Tools]] — Tool API testing split: ~3500 lines legacy unittest tests + ~775 lines modern fluent pytest with input parametrization
 - [[Component - Collection Adapters]] — Ephemeral wrappers promoting datasets/pairs to collections at tool runtime (PromoteDatasetToCollection family)
+- [[Component - CORS Handling]] — Five CORS mechanisms — global origin-validated middleware, per-route reflected-origin landings, OPTIONS catch-all, legacy WSGI path, display-app proxy
 - [[Component - CWL Ephemeral Collections]] — Lightweight non-persisted collections created during CWL execution for MultipleInputFeatureRequirement merge strategies
 - [[Component - CWL Workflow State]] — CWL workflow import to persistence to execution: parsed via WorkflowProxy, state encoded/decoded, tool_inputs dict
 - [[Component - Collection Creation API]] — Two-path collection creation: direct POST with element identifiers or fetch API uploading new data atomically
