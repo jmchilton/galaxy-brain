@@ -1,0 +1,142 @@
+# Galaxy Brain - Codex Instructions
+
+## Project Overview
+
+Obsidian vault + validation tooling for AI-generated Galaxy development notes. Notes live in `vault/`, tooling at repo root.
+
+## Key Files
+
+- `meta_tags.yml` - tag registry; every vault tag must appear here
+- `meta_schema.yml` - JSON Schema Draft 07 (YAML syntax) defining the frontmatter contract
+- `validate_frontmatter.py` - validation CLI (PEP 723 inline deps for uv)
+- `test_validate_frontmatter.py` - pytest suite (52 tests)
+- `dashboard_sections.json` - shared dashboard section config (drives both Dashboard.md and index.astro)
+- `generate_dashboard.py` - generates Dashboard.md from config; `--check` for drift detection
+- `generate_index.py` - generates Index.md (prose catalog of every note + summary); `--check` for drift
+- `vault/log.md` - append-only vault operations log; written by `/ingest` (and future `/ask`, `/lint-vault`); excluded from validator and site
+- `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make index`, `make check-index`, `make site-dev`, `make site-build`
+- `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
+- `site/` - Astro static site rendering vault notes for GitHub Pages
+
+## Commands
+
+```sh
+make test                          # run all tests
+make test ARGS="-k pattern"        # run specific tests
+make validate                      # validate vault/ frontmatter
+make validate ARGS="vault/research/" # validate subdirectory
+make dashboard                     # generate vault/Dashboard.md from config
+make check-dashboard               # exit 1 if Dashboard.md drifts from config
+make index                         # generate vault/Index.md from frontmatter summaries
+make check-index                   # exit 1 if Index.md drifts from vault
+make site-dev                      # start Astro dev server
+make site-build                    # build static site to site/dist/
+make site-preview                  # preview production build
+```
+
+## Architecture
+
+### Validation
+- Schema in `meta_schema.yml` uses `allOf/if/then` for conditional field requirements (e.g. `type: research` + `subtype: issue` requires `github_issue`)
+- Tag enum in schema is empty in the file; `validate_frontmatter.py` injects `meta_tags.yml` keys at runtime
+- `additionalProperties: false` - unknown frontmatter fields are rejected
+- Validation layers: JSON Schema -> date format -> wiki link format -> tag coherence (warnings)
+- PyYAML parses YAML dates as `datetime.date`; `preprocess_frontmatter()` converts to ISO strings before schema validation
+
+### Static Site (`site/`)
+- Astro static site deployed to GitHub Pages at `/galaxy-brain/`
+- Two Astro content collections: `vault` (typed frontmatter), `projectFiles` (no frontmatter, raw sub-files)
+- Content loaded from `../vault/` via Astro content collections (`site/src/content.config.ts`)
+- Tailwind CSS v4 via `@tailwindcss/vite` plugin; theme tokens in `site/src/styles/global.css`
+- Dark mode: class-based toggle, auto-detects OS preference
+- `@tailwindcss/typography` for markdown prose rendering
+- Pages: dashboard (`index.astro`), note detail (`[...slug].astro`), project sub-file detail (`projects/[project]/[...file].astro`), tag index + tag detail (`tags/`), raw markdown endpoints (`raw/`)
+- Wiki links (`[[...]]`) resolved to site URLs via `site/src/lib/wiki-links.ts`
+- GitHub Actions deploys on push to `main` (`.github/workflows/deploy.yml`)
+
+### Dashboard Sync
+- Sections defined in `dashboard_sections.json` (repo root)
+- `generate_dashboard.py` produces Dataview queries for Obsidian's `vault/Dashboard.md`
+- Astro `index.astro` imports same JSON for the landing page
+- `make check-dashboard` detects drift between config and generated file
+
+### Templates
+- `vault/templates/` holds Obsidian Templater templates, one per `type`/`subtype`
+- Skipped by validator (`SKIP_DIRS`) and Astro glob (`!templates/**`)
+- Requires Templater community plugin; see README "Obsidian Templates"
+
+### Project Type
+- Directory-based note type: `vault/projects/<name>/` with `index.md` (frontmatter) + raw sub-files (no frontmatter)
+- Validator only validates `index.md`; non-index files in `projects/` are skipped by `find_md_files()`
+- Project indexes render at `/projects/<name>/` with a "Project Files" listing
+- Sub-files render at `/projects/<name>/<file>/` with breadcrumb navigation
+
+## Conventions
+
+- Notes in `vault/` must have YAML frontmatter with all base fields: `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`
+- Tags are hierarchical (`research/component`); searching `research` matches subtags in Obsidian
+- Wiki link fields (`parent_plan`, `related_issues`, `related_notes`) must use `[[...]]` format
+- `LIBRARY_*.md` files are project meta-docs, not vault notes - they don't need frontmatter
+- Validator skips `.obsidian/`, `templates/`, and non-index files in `projects/` directories
+
+## Adding a New Note Type
+
+1. Add type tag to `meta_tags.yml`
+2. If new `type` value: add to `type.enum` in `meta_schema.yml`
+3. If new `subtype`: add to `subtype.enum` in the research `allOf/if/then` block
+4. If conditional fields needed: add `if/then` block to `allOf` in schema; declare properties at top level
+5. Add entry to `TYPE_TAG_MAP` in `validate_frontmatter.py` for tag coherence
+6. Add test cases in `test_validate_frontmatter.py`
+
+## Adding a New Frontmatter Field
+
+1. Add property definition to `properties` in `meta_schema.yml` (must be top-level due to `additionalProperties: false`)
+2. If conditionally required: add to relevant `then.required` in `allOf`
+3. If wiki link field: add `pattern: "^\\[\\[.+\\]\\]$"` in schema and entry in `WIKI_LINK_FIELDS` dict in validator
+4. Add test coverage
+
+## Tests
+
+- Tests use real `meta_schema.yml` and `meta_tags.yml` from repo root
+- Unit tests call `validate_data()` directly with dicts
+- Integration tests use `validate_file()` with temp markdown files via `tmp_path`
+- Prefer red-to-green: write failing test first, then fix
+- Never remove tests or weaken assertions to make them pass; fix the implementation
+
+## Agent Playbook
+
+Operating manual for Codex sessions working in this vault. Link to code, don't duplicate it.
+
+### Add a note
+- Don't hand-write frontmatter. Use the `/ingest` skill for URLs/local files, or an Obsidian Templater template from `vault/templates/`.
+- Required base fields: `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`, `summary`. Conditional fields per type live in `meta_schema.yml` (`allOf/if/then`).
+- Tags must appear in `meta_tags.yml`. Unknown tags fail validation.
+- Wiki-link fields (`parent_plan`, `related_notes`, `related_issues`) must be `[[Target Name]]`.
+
+### Answer from the vault
+- Start with `vault/Index.md` for topic routing — summary-level catalog of every note.
+- If summaries aren't enough, read the full notes. Check `related_notes` / `parent_plan` for context.
+- `vault/log.md` is the append-only operations journal (written by `/ingest`); skip unless the question is about vault history.
+
+### Update a note
+- Increment `revision`, update `revised` to today's date, preserve `created`.
+- If frontmatter changed, regenerate: `make index` (and `make dashboard` if section config changed).
+
+### Maintain
+- Before commit: `make validate` (errors block; warnings are advisory).
+- `make check-index` and `make check-dashboard` detect drift — run after frontmatter/config changes.
+- `make test` runs the pytest suite.
+- Validator also performs a cross-file bidirectional `related_notes` check — asymmetric links emit warnings.
+
+### Where things live
+- `vault/` — notes. `Dashboard.md` / `Index.md` / `log.md` are generated or special, skipped by validator and site.
+- `vault/projects/<name>/` — directory-based note type; only `index.md` is validated, siblings are raw project files.
+- `vault/templates/` — Templater templates, skipped by validator and site.
+- `site/` — Astro static site; `site/src/pages/[...slug].astro` renders each note with backlinks panel.
+- Root tooling: `validate_frontmatter.py`, `generate_dashboard.py`, `generate_index.py`, `Makefile`.
+
+### Don't
+- Don't remove tests or weaken assertions to make them pass — fix the implementation.
+- Don't weaken `meta_schema.yml` to fit a non-conforming note. Reshape the note or extend the schema deliberately (with tests).
+- Don't add ad-hoc frontmatter fields — `additionalProperties: false` rejects anything not declared in `meta_schema.yml`.
+- Don't edit generated files (`Dashboard.md`, `Index.md`) by hand; change the source (`dashboard_sections.json` or note frontmatter) and regenerate.
