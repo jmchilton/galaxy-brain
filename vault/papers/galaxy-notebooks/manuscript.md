@@ -77,8 +77,6 @@ In this mode, the notebook becomes the agent's structured output artifact. It is
 
 The same authorship rule applies: accepted content is revisioned and attributable. A future audit should be able to ask not only "which tool produced this dataset?" but also "who or what wrote this interpretation?"
 
-Galaxy implements this path directly. Galaxy's Model Context Protocol (MCP) server [Anthropic 2024] exposes the notebook Page operations — list, read, create, update, revision listing, revision read, and revert — as agent-callable tools, backed by the same operations layer that serves the in-app assistant and the web client. An external agent reads a notebook's editable content (`content_editor`, with directive identifiers in encoded form), proposes new content, and writes it back; each content edit creates a revision recorded as `edit_source="agent"`, and a rollback is recorded as `edit_source="restore"`. The dual `content`/`content_editor` representation is what makes the round-trip safe: the agent edits the same raw markdown a human would, and embedded artifact directives survive the cycle. The three documented analyses in this paper were authored through this MCP rather than typed by hand — concrete evidence that the notebook is a usable, attributable output medium for external agents, not only for the in-app assistant.
-
 ## Notebook-Driven Workflow Extraction
 
 Galaxy already supports extracting workflows from histories. The traditional extraction interface asks the user to select jobs or outputs from a history-oriented view and then constructs a workflow from the selected provenance. That mechanism is powerful, but the selection surface is not the same surface where the analyst explains the analysis. The user decides what mattered in one place and writes why it mattered somewhere else.
@@ -90,6 +88,14 @@ A reference seeds extraction only if it points at an output the history actually
 The flow has three steps. First, the notebook identifies outputs that matter through embedded artifact references or an explicit saved selection. Second, Galaxy walks backward through the history graph from those artifacts, recovering the jobs, collections, and inputs required to reproduce them. Third, Galaxy extracts a reusable workflow and seeds its workflow report from the notebook narrative. The results reported here were produced by this page-based extraction directly from the notebook's referenced artifacts; a read-only, selectable graph view for confirming or pruning the recovered closure before extraction is a natural human-in-the-loop addition to this path.
 
 This is deliberately not free-text workflow synthesis. The notebook prose provides explanation; the artifact references and graph provide precision. The user stays in control by curating which artifacts the notebook references and by editing the extracted workflow in the existing Workflow Editor; a graph confirmation view would add an explicit selection-and-confirmation surface before extraction, not a second workflow editor.
+
+### Agents, Notebooks, and Reproducible Histories
+
+For agent-assisted analysis, the notebook is the shared canvas rather than a final transcript. An agent can use it while the history is being built: recording the question, explaining choices, embedding the outputs that matter, and revising the interpretation as the analysis changes. A human can review that same canvas in the Galaxy interface, with the history beside it and with agent-authored revisions marked as such. When the analysis is extracted, the notebook does not remain an isolated note; its narrative and artifact references become the workflow report bundled with the reusable workflow.
+
+Galaxy implements this path through its Model Context Protocol (MCP) server [Anthropic 2024]. The server exposes the notebook Page operations — list, read, create, update, revision listing, revision read, and revert — as agent-callable tools backed by the same operations layer used by the web client. The three documented analyses in this paper were authored through this MCP rather than typed by hand, exercising the notebook as an external-agent output surface end to end.
+
+This workflow also makes recurring agent shortcuts visible. Agents often satisfy the local task by uploading derived tables, pasting exported figures, running local scripts, hard-coding collection-element names, or repeating a step once per sample instead of rebuilding the analysis around collections. Each shortcut may produce a convincing notebook but weakens workflow extraction because Galaxy can only walk backward through on-graph artifacts. The companion Galaxy Skills `reproduciblify` skill codifies the repair pattern used in these vignettes: replace off-graph computation with Galaxy tools, carry arbitrary arity through collections and nested collections, split irreducible pairwise comparisons into producer and comparator workflows, and embed only the on-graph artifacts that should seed extraction.
 
 ### Three Worked Vignettes
 
@@ -286,7 +292,7 @@ The three extraction vignettes were captured on the current Galaxy branch using 
 
 ## Availability
 
-Galaxy Notebooks are developed in the open as part of Galaxy's history-attached Pages work. The page-based workflow extraction and the notebook MCP tools are each delivered through merged Galaxy pull requests. The reproduction recipes, extracted workflows, and tool-install lists in the Supporting Information carry enough detail to reproduce the figures, the extraction sequences, and the byte-identical re-run of the mobile-resistome workflow.
+Galaxy Notebooks are available in Galaxy 26.1 as part of Galaxy's history-attached Pages work. The notebook MCP functionality has been merged and is expected to be available in the next Galaxy release, likely Galaxy 26.2. The reproduction recipes, extracted workflows, and tool-install lists in the Supporting Information carry enough detail to reproduce the figures, the extraction sequences, and the byte-identical re-run of the mobile-resistome workflow.
 
 ## Supporting Information
 
