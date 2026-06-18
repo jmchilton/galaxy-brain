@@ -228,3 +228,11 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
 - **updated**:
   - [[Component - Tool Shed Search and Indexing]] — backlink; repos/revisions/GUID this format resolves against
   - [[Component - Workflow Format (.ga)]] — backlink; .ga tool_shed_repository records feed workflow-to-tools
+
+## 2026-06-18 ingest — CORS Handling
+- **source**: /Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-CORS-Handling.md
+- **created**: [[Component - CORS Handling]]
+- **updated**:
+  - [[Component - Data Fetch]] — reciprocal backlink; landing endpoints use allow_cors reflected-origin path
+  - [[Component - Workflow API]] — reciprocal backlink; reconciles its "Public (CORS enabled)" landing claim
+  - [[PR 21942 - Shared Agent Operations and MCP Server]] — reciprocal backlink; corrects MCP "inherits CORS via app.mount" claim
