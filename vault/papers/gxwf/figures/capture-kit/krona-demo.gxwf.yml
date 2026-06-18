@@ -1,0 +1,147 @@
+class: GalaxyWorkflow
+label: Taxonomy Profiling and Visualization with Krona
+doc: Microbiome - Taxonomy Profiling
+inputs:
+  - id: collection_of_preprocessed_samples
+    type: collection
+    collection_type: list
+    optional: false
+    doc: Output collection from the Nanopore Preprocessing workflow
+    position:
+      top: 0
+      left: 0
+  - id: kraken_database
+    type: string
+    optional: false
+    restrictOnConnections: true
+    doc: kraken_database_for_user_to_choose
+    position:
+      top: 276.7833526611328
+      left: 24.79997558593749
+outputs:
+  - id: kraken2_with_pluspf_database_output
+    outputSource: _unlabeled_step_2
+  - id: kraken2_with_pluspf_database_output_report
+    outputSource: _unlabeled_step_2/report_output
+  - id: converted_kraken_report
+    outputSource: _unlabeled_step_3
+  - id: krona_pie_chart
+    outputSource: _unlabeled_step_4
+steps:
+  - id: _unlabeled_step_2
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/2.1.1+galaxy1
+    tool_version: 2.1.1+galaxy1
+    tool_shed_repository:
+      changeset_revision: 20e2f64aa1fe
+      name: kraken2
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    in:
+      - id: kraken2_database
+        source: kraken_database
+      - id: single_paired|input_sequences
+        source: collection_of_preprocessed_samples
+    out:
+      - id: output
+        rename: kraken2_with_pluspf_database_output
+      - id: report_output
+        rename: kraken2_with_pluspf_database_output_report
+    state:
+      single_paired:
+        single_paired_selector: "no"
+      use_names: false
+      confidence: 0.1
+      min_base_quality: 0
+      minimum_hit_groups: 2
+      quick: false
+      split_reads: false
+      report:
+        create_report: true
+        use_mpa_style: false
+        report_zero_counts: false
+        report_minimizer_data: false
+    tool_state: null
+    position:
+      top: 205.00002746582032
+      left: 231.99998779296874
+    uuid: ddb4e42b-6381-411e-9328-1c7959ecda47
+  - id: _unlabeled_step_3
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/krakentools_kreport2krona/krakentools_kreport2krona/1.2+galaxy1
+    tool_version: 1.2+galaxy1
+    tool_shed_repository:
+      changeset_revision: 2deaada69b14
+      name: krakentools_kreport2krona
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    in:
+      - id: report
+        source: _unlabeled_step_2/report_output
+    out:
+      - id: output
+        rename: converted_kraken_report
+    state:
+      intermediate_ranks: false
+    tool_state: null
+    position:
+      top: 205.31667785644532
+      left: 447.9999877929688
+    uuid: 7464e3a0-2253-4fe5-832f-ea155a660b08
+  - id: _unlabeled_step_4
+    tool_id: toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.7.1+galaxy0
+    tool_version: 2.7.1+galaxy0
+    tool_shed_repository:
+      changeset_revision: e9005d1f3cfd
+      name: taxonomy_krona_chart
+      owner: crs4
+      tool_shed: toolshed.g2.bx.psu.edu
+    in:
+      - id: type_of_data|input
+        source: _unlabeled_step_3
+    out:
+      - id: output
+        rename: krona_pie_chart
+        add_tags:
+          - taxonomy_profiling_visualisation_krona_pie_chart
+    state:
+      type_of_data:
+        type_of_data_selector: text
+      root_name: Root
+      combine_inputs: false
+    tool_state: null
+    position:
+      top: 212.31666564941406
+      left: 701
+    uuid: 8b130a6a-6fb3-4498-ac19-0d2df97c09e1
+tags:
+  - name:Collection
+  - name:microGalaxy
+  - name:PathoGFAIR
+  - name:IWC
+uuid: a55428c8-9934-4941-93c4-3920b4ba3366
+license: MIT
+release: "0.1"
+comments:
+  - type: frame
+    position:
+      - 685
+      - 167.31666564941406
+    size:
+      - 236
+      - 191
+    color: red
+    title: Taxonomy Visualisation
+    contains_steps:
+      - _unlabeled_step_4
+  - type: frame
+    position:
+      - 4.800000000000011
+      - 165.01666564941405
+    size:
+      - 663.2
+      - 295.6
+    color: red
+    title: Taxonomy Profiling
+    contains_steps:
+      - _unlabeled_step_2
+      - _unlabeled_step_3
+      - kraken_database

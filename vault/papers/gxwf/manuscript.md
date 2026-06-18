@@ -179,6 +179,15 @@ The CLI binaries are distributed via npm and via standalone executables built wi
 
 The `@galaxy-tool-util/*` packages are available on npm under the `@galaxy-tool-util` scope; sources are at [REPOSITORY URL]. The Visual Studio Code extension `galaxy-workflows-vscode` is available on the VS Code Marketplace; sources are at [REPOSITORY URL]. The browser editor `gxwf-ui` is available at [BROWSER EDITOR URL]; sources are at [REPOSITORY URL]. All components are released under [LICENSE]. Format 2 is documented at [FORMAT 2 DOCS URL]; the `gxformat2` library is available at [GXFORMAT2 REPOSITORY URL].
 
+## Supporting Information
+
+Supporting information provides the reproducible artifacts and extended figures behind the validation claims. Because every CLI-backed item regenerates from the published `gxwf` binary against the public IWC corpus, the supporting information is not merely illustrative — it is the audit trail for the depth claim.
+
+- **Extended figures (Figures S1–S10)** — per-surface detail the body only summarizes: native `.ga` vs Format 2 for one real step (S1); the planted-error worked example with its actual diagnostics (S2); collection/map-over connection validation with an annotated diagram (S3); native `.ga` parity, the legacy `tool_state` quick fix, conditional-aware completion, and tool-cache graceful degradation in VS Code (S4–S7); the `gxwf-ui` browser editor running with no Galaxy server (S8); bidirectional conversion and round-trip fidelity (S9); and tool-ID search via `gxwf tool-search` (S10).
+- **Worked example (Listing S1, Workflows S1–S2)** — a single named IWC workflow in both native `.ga` and Format 2, plus a variant carrying one mistake per error class (misspelled parameter, illegal select, type mismatch, stale `__current_case__`, invalid collection connection) each shown with the real `gxwf validate` diagnostic and contrasted against the comparable Nextflow/Snakemake/WDL toolchain.
+- **Tool-install list (Data S1)** — an ephemeris/shed-tools YAML pinning the worked example's tools, so a reader can cache them for offline validation or install them into a Galaxy server.
+- **Corpus reports (Reports S1–S2)** — the full per-workflow `gxwf validate-tree --strict` and `gxwf roundtrip-tree` results behind Figure 4 and the corpus counts, with the corpus commit SHA and capture date recorded for auditability.
+
 ## References
 
 Citations are listed in the form used inline in the text. Full bibliographic records and BibTeX entries are maintained in `references.md`. Entries marked "repository" denote software whose canonical citable form is the source repository; we cite these explicitly in the prose to make the absence of a peer-reviewed reference visible to readers.
