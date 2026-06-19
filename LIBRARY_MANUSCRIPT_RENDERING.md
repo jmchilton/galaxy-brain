@@ -160,6 +160,38 @@ unknown key passthrough, non-paper file untouched). Bibliography parser tests in
 
 ## Track B — manuscript as front door
 
+**DONE (step 3, part 1 — header band + TOC).** New
+`site/src/components/PaperManuscript.astro`, wired into the manuscript branch of
+`papers/[paper]/[...path].astro` (gate: `entry.id` ends `/manuscript`):
+- **Header band** from the parent `index.md` frontmatter: `short_title` eyebrow,
+  authoritative title, `status` / `paper_stage` / `paper_kind` / `target_venue`
+  pills, `central_claim` lede, Workspace + Raw + Copy actions, revised/rev line.
+- **Title source:** the manuscript's own H1 is authoritative (the band shows it;
+  the in-article H1 is hidden via CSS to avoid duplication). This surfaced a
+  content divergence between `index.md` `title` and the manuscript H1 for
+  **galaxy-notebooks** and **gxwf** (foundry already matched), now reconciled:
+  galaxy-notebooks standardized on the workspace title (updated the manuscript
+  H1 — its abstract foregrounds workflow extraction); gxwf standardized on the
+  manuscript H1 "Schema-Aware Authoring and Validation…" (updated `index.md` —
+  its abstract names validation depth as the contribution).
+- **Sticky TOC** built from Astro's `render().headings` (depth-2 sections);
+  IntersectionObserver scroll-spy highlights the active section. Hidden below
+  `lg`; the article gets `min-w-0` so the grid track can shrink.
+- Styles in `global.css` (`.paper-pill`, `.paper-toc`, `.toc-active`, band).
+
+Gotchas hit & fixed:
+- **Grid blowout:** the `1fr` article track has default `min-width:auto`, so a
+  wide child expanded it to ~4500px and pushed the TOC off-screen — fixed with
+  `min-w-0` on the article.
+- **Citation popover overflow:** the (Track A) hover popovers are absolutely
+  positioned at 80vw and, anchored at right-edge citations, forced a horizontal
+  scrollbar at narrow/`lg`-edge widths even while hidden. Fixed with
+  `overflow-x: clip` on the article (leaves upward popovers visible, doesn't
+  touch the sibling sticky TOC) — verified no h-scroll at 480/768/1024/1280.
+
+Still TODO for Track B: the routing flip (manuscript → `/papers/<paper>/`,
+dashboard → `/workspace/`), abstract pull-quote, Track E frontmatter promotion.
+
 **Routing (Q2 — locked: manuscript primary):** `/papers/<paper>/` renders the
 **manuscript** as the primary view; drafting dashboard moves to
 `/papers/<paper>/workspace/`. Implementation: special-case the paper-root path in
@@ -214,7 +246,8 @@ no-ops cleanly.
 
 1. ~~`references.yml` + linter (+ make targets, tests)~~ — **DONE for all three papers.**
 2. ~~Track A remark plugin + reference-list rendering + popover~~ — **DONE, all three papers.**
-3. Track B routing flip + header band + TOC.
+3. ~~Track B header band + sticky TOC~~ — **DONE, all three papers.** Routing
+   flip (dashboard → /workspace/) + abstract pull-quote still pending.
 4. Track D SI cards + inline SI/figure links.
 5. Track C figure polish (optional).
 6. Generalize/verify across `foundry` + `gxwf`.

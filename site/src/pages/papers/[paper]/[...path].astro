@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import FileTree from '../../../components/FileTree.astro';
+import PaperManuscript from '../../../components/PaperManuscript.astro';
 import { originalRelPath } from '../../../lib/project-paths';
 
 function titleize(s: string): string {
@@ -122,12 +123,23 @@ if (!isFolder && entry) {
 breadcrumbs.push({ label: pageTitle });
 
 let Content: any = null;
+let headings: import('astro').MarkdownHeading[] = [];
 if (!isFolder && entry) {
   const rendered = await render(entry);
   Content = rendered.Content;
+  headings = rendered.headings;
 }
+
+// The manuscript renders as a front-door reading view (header band + TOC),
+// not the plain sub-file layout. Gate on the file being `manuscript.md`.
+const isManuscript = !isFolder && !!entry && !!parentPaper &&
+  entry!.id.endsWith('/manuscript');
+// The manuscript's own H1 is the authoritative paper title; fall back to the
+// workspace frontmatter title.
+const manuscriptTitle = (isManuscript &&
+  (headings.find(h => h.depth === 1)?.text || parentPaper!.data.title)) || pageTitle;
 ---
-<Base title={pageTitle} pageTitle={pageTitle}>
+<Base title={isManuscript ? manuscriptTitle : pageTitle} pageTitle={isManuscript ? manuscriptTitle : pageTitle}>
   <nav class="mb-4 text-sm text-(--color-text-secondary)">
     {breadcrumbs.map((bc, i) => (
       <>
@@ -139,9 +151,19 @@ if (!isFolder && entry) {
     ))}
   </nav>
 
-  <h1 class="mb-4 text-2xl font-bold">{pageTitle}</h1>
+  {!isManuscript && <h1 class="mb-4 text-2xl font-bold">{pageTitle}</h1>}
 
-  {isFolder ? (
+  {isManuscript ? (
+    <PaperManuscript
+      title={manuscriptTitle}
+      paper={parentPaper!.data}
+      headings={headings}
+      base={base}
+      rawHref={`${base}/raw/papers/${paper}/manuscript.md`}
+      workspaceHref={`${base}/${paperSlug}/`}>
+      {Content && <Content />}
+    </PaperManuscript>
+  ) : isFolder ? (
     <FileTree files={folderFiles} originalBasePath={originalFolderPath} />
   ) : (
     <article class="prose prose-slate max-w-none dark:prose-invert" data-pagefind-body>

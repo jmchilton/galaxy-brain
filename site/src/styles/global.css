@@ -296,6 +296,13 @@ a:hover .tag {
   color: var(--color-text-muted);
   font-style: italic;
 }
+/* Below `lg` the layout is single-column and citations reach the right edge,
+   so the (hover-only) popover would spill past the viewport and force a
+   horizontal scrollbar. Drop it on narrow/touch widths — tapping the citation
+   still jumps to the reference list. */
+@media (max-width: 1023.98px) {
+  .cite-pop { display: none; }
+}
 
 ol.reference-list {
   list-style: none;
@@ -322,4 +329,55 @@ ol.reference-list .ref-key {
 }
 ol.reference-list a {
   color: var(--color-link);
+}
+
+/* ── Paper manuscript front-door (header band + sticky TOC) ── */
+.paper-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  background: var(--color-surface-raised);
+}
+.paper-pill-venue {
+  border-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+.paper-toc .toc-label {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+.paper-toc nav {
+  border-left: 1px solid var(--color-border);
+  padding-left: 0.75rem;
+  max-height: calc(100dvh - 4rem);
+  overflow-y: auto;
+}
+.paper-toc a.toc-active {
+  color: var(--color-link);
+  font-weight: 600;
+}
+/* The header band already shows the title; drop the manuscript's own leading H1. */
+.paper-manuscript-body > h1:first-child {
+  display: none;
+}
+/* Clip horizontal overflow so a right-edge citation popover can't push the page
+   wider than the viewport. `clip` leaves vertical overflow visible, so the
+   upward-opening popovers still show; the sticky TOC is a sibling, unaffected. */
+.paper-manuscript-body {
+  overflow-x: clip;
+}
+/* Anchor jumps (TOC + citation refs) clear the top of the viewport. */
+.prose :is(h2, h3) {
+  scroll-margin-top: 4rem;
 }

@@ -1,0 +1,120 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  title: string;
+  paper: Record<string, any>;
+  headings: MarkdownHeading[];
+  base: string;
+  rawHref: string;
+  workspaceHref: string;
+}
+
+const { title, paper, headings, base, rawHref, workspaceHref } = Astro.props;
+
+// Top-level sections drive the table of contents.
+const toc = headings.filter(h => h.depth === 2);
+
+function fmtDate(d: unknown): string | null {
+  if (d instanceof Date) return d.toISOString().slice(0, 10);
+  if (typeof d === 'string') return d.slice(0, 10);
+  return null;
+}
+const revised = fmtDate(paper.revised);
+---
+<header class="manuscript-band mb-8 border-l-2 border-(--color-accent) pl-4 sm:pl-5">
+  {paper.short_title && (
+    <p class="text-xs uppercase tracking-wide text-(--color-text-secondary)">{paper.short_title}</p>
+  )}
+  <h1 class="mt-1 text-3xl font-bold text-balance text-(--color-text-primary)" data-pagefind-meta="title">
+    {title}
+  </h1>
+
+  <div class="mt-3 flex flex-wrap items-center gap-2">
+    {paper.status && <span class={`badge badge-${paper.status}`}>{paper.status}</span>}
+    {paper.paper_stage && <span class="paper-pill">{paper.paper_stage}</span>}
+    {paper.paper_kind && <span class="paper-pill">{paper.paper_kind}</span>}
+    {paper.target_venue && <span class="paper-pill paper-pill-venue">{paper.target_venue}</span>}
+  </div>
+
+  {paper.central_claim && (
+    <p class="mt-4 max-w-3xl text-lg leading-snug text-pretty text-(--color-text-primary)">
+      {paper.central_claim}
+    </p>
+  )}
+
+  <div class="mt-4 flex flex-wrap items-center gap-2 text-xs text-(--color-text-secondary)">
+    <a href={workspaceHref}
+       class="px-2.5 py-1 rounded border border-(--color-border) no-underline hover:bg-(--color-surface-hover) hover:text-(--color-text-primary) transition-colors">
+      Workspace
+    </a>
+    <a href={rawHref}
+       class="px-2.5 py-1 rounded border border-(--color-border) no-underline hover:bg-(--color-surface-hover) hover:text-(--color-text-primary) transition-colors">
+      Raw
+    </a>
+    <button id="copy-raw" data-url={rawHref}
+       class="px-2.5 py-1 rounded border border-(--color-border) cursor-pointer hover:bg-(--color-surface-hover) hover:text-(--color-text-primary) transition-colors">
+      Copy
+    </button>
+    {revised && <span class="ml-1">Revised {revised}{paper.revision ? ` · rev ${paper.revision}` : ''}</span>}
+  </div>
+</header>
+
+<div class="lg:grid lg:grid-cols-[1fr_13rem] lg:gap-10 lg:items-start">
+  <article class="paper-manuscript-body prose prose-slate max-w-none min-w-0 dark:prose-invert" data-pagefind-body>
+    <slot />
+  </article>
+
+  {toc.length > 1 && (
+    <aside class="paper-toc hidden lg:block lg:sticky lg:top-6">
+      <p class="toc-label">On this page</p>
+      <nav>
+        <ul class="list-none pl-0 m-0 space-y-1 text-sm">
+          {toc.map(h => (
+            <li><a href={`#${h.slug}`} data-toc={h.slug}
+                   class="block py-0.5 text-(--color-text-secondary) no-underline hover:text-(--color-link) transition-colors">{h.text}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+  )}
+</div>
+
+<script>
+  const btn = document.getElementById('copy-raw') as HTMLButtonElement | null;
+  btn?.addEventListener('click', async () => {
+    const url = btn.dataset.url!;
+    try {
+      const res = await fetch(url);
+      await navigator.clipboard.writeText(await res.text());
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    } catch {
+      btn.textContent = 'Failed';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    }
+  });
+
+  // Scroll-spy: highlight the TOC entry for the section currently in view.
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-toc]'));
+  if (links.length > 0) {
+    const byId = new Map(links.map(a => [a.dataset.toc!, a]));
+    const targets = links
+      .map(a => document.getElementById(a.dataset.toc!))
+      .filter((el): el is HTMLElement => el !== null);
+    let active: HTMLAnchorElement | null = null;
+    const setActive = (id: string) => {
+      const next = byId.get(id) ?? null;
+      if (next === active) return;
+      active?.classList.remove('toc-active');
+      next?.classList.add('toc-active');
+      active = next;
+    };
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible[0]) setActive(visible[0].target.id);
+    }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+    targets.forEach(t => observer.observe(t));
+  }
+</script>
