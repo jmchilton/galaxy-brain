@@ -7,15 +7,15 @@ tags:
   - galaxy/workflows
   - galaxy/tools
 status: draft
-paper_stage: outline
+paper_stage: drafting
 paper_kind: methods
 target_venue: "Genome Biology"
 central_claim: "The Galaxy Workflow Foundry improves agentic workflow construction by compiling curated, schema-typed workflow knowledge into portable skills with explicit provenance instead of relying on runtime retrieval alone."
 related_projects:
   - "[[workflow_state]]"
 created: 2026-05-17
-revised: 2026-05-20
-revision: 2
+revised: 2026-06-19
+revision: 3
 ai_generated: false
 summary: "Paper workspace for Foundry as a provenance-bearing knowledge-to-skill compiler for Galaxy workflow authoring agents."
 ---

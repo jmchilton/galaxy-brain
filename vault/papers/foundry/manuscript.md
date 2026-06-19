@@ -1,21 +1,239 @@
-# Manuscript Draft
+# Galaxy Workflow Foundry: Compiling Curated Workflow Knowledge into Provenanced Agent Skills
+
+> **Draft status.** The conceptual, architectural, and comparison sections below are drafted. The **Evidence / Case Study** section and every empirical claim marked `[TODO]` are *intentionally unwritten* — the end-to-end validation work is in active progress and this draft does not present it as complete. See `evidence.md` and `case-study.md` for the working plan behind that section.
 
 ## Abstract
 
-TODO.
+Computational biology encodes the same analyses many times over, once per workflow system — bash, Make, CWL, Nextflow, Snakemake, WDL, Galaxy — and translating between these dialects is a routine, error-prone integration tax. Large language models can now read a paper or a Nextflow pipeline and propose an equivalent Galaxy workflow, but they fail in characteristic, detectable ways: hallucinated tool identifiers, dropped conditional branches, fabricated parameter names, plausible-looking `gxformat2` a parser rejects on the first line. Hand-authored "convert this workflow" agent skills attempt to suppress these failures with prose caveats that neither compose nor scale, and that silently rot as Galaxy, the ToolShed, and the corpus move underneath them. We present the **Galaxy Workflow Foundry**, a system built on a different premise: an agent skill is a *compilation target*, not an authoring surface. The Foundry maintains a curated, citation-grounded, schema-typed knowledge base of Galaxy workflow-construction knowledge — Patterns, Molds, Pipelines, CLI references, and Schemas — and a *casting* pipeline that compiles selected slices of that knowledge into target-specific agent skills, each carrying explicit provenance back to the exact source revision, references, prompt, and model that produced it. Knowledge stays inspectable to humans; skills stay executable for agents; the link between them is reproducible and auditable. Schema-aware validation (via the companion `gxwf` tooling) runs as a deterministic inner loop, replacing prose caveats with an enforcement mechanism. We describe the architecture, the casting compiler, the provenance model, and the discipline of grounding every Pattern in observed corpus uptake rather than speculative authorship. The central wager is structural rather than stylistic: **a knowledge base becomes useful when its structure makes it executable, and a skill becomes trustworthy when its source remains inspectable.** `[TODO: one-sentence headline result from the worked case studies, once complete.]`
 
 ## Introduction
 
-TODO.
+### Workflow conversion is the integration tax of bioinformatics
 
-## Architecture
+The same biology is implemented many times across the field's workflow systems. The Intergalactic Workflow Commission (IWC) [IWC] curates roughly 120 Galaxy workflows spanning variant calling, RNA-seq, single-cell, proteomics, metagenomics, and assembly; nf-core [Ewels 2020] curates roughly 80 Nextflow pipelines, many covering overlapping biology with different ergonomics and different user communities. Every year a non-trivial fraction of Galaxy contributor effort goes into work of one shape: read a paper or an upstream pipeline, identify the steps, find or author the Galaxy tool wrappers, assemble a `gxformat2` workflow [gxformat2], attach test data, validate, and debug. The work is straightforward translation, but it is slow, error-prone, and a poor fit for human attention — and it is rarely reusable. A maintainer who converts ten Nextflow pipelines does not produce a reusable artifact on the eleventh; they produce a graveyard of in-flight branches and stale notes.
 
-TODO.
+### Large language models help, until they don't
 
-## Case Study
+Models are strong at the interpretive part of conversion: reading prose, identifying tools named in a methods section, mapping Nextflow processes to algorithmic intent, proposing a plausible Galaxy interface. They are also confident in precisely the wrong places. A model that has seen many Galaxy workflows in pretraining will cheerfully invent a ToolShed owner that does not exist, drop the `+galaxyN` revision suffix from a tool identifier, conflate `input_connections` parameter names across versions of the same tool, hallucinate a conditional branch the source pipeline does not have, or emit a `tool_state` blob that looks syntactically reasonable but references parameters the conditional selector never exposes.
 
-TODO.
+Each of these failures is *detectable* by a schema or a command-line checker. Galaxy's `gxwf` static validator [gxwf; companion paper, this issue] catches each of them deterministically against typed tool schemas served by the ToolShed for more than ten thousand community tools [Blankenberg 2014]. The problem is not detection. It is that hand-authored conversion skills tend to enumerate failure modes as prose caveats — "remember to check the tool revision suffix; remember to validate UUIDs" — and prose caveats neither compose nor scale. The skill grows, the prose grows, the failures change shape, and the skill silently rots until the next regression slips through.
+
+### Monolithic skills are the wrong shape
+
+The natural first response is a single large "convert a Nextflow pipeline to Galaxy" skill: one prompt with embedded patterns, examples, and warnings. This works for one or two pipelines and then collapses, for reasons that are facets of a single mistake — treating the skill as the unit of authorship:
+
+- **Context flooding.** Every run drags the full knowledge of collections, conditionals, tabular manipulation, tool wrapping, test fixtures, and validation into the prompt, whether or not the workflow under conversion uses any of it.
+- **Brittle composition.** "Convert paper to Galaxy" and "convert Nextflow to Galaxy" share most of their structure, but a monolithic skill cannot reuse the shared phases.
+- **No inspectable source.** The skill *is* its own source; there is nothing upstream to point to when a maintainer asks where a recommendation came from.
+- **Compressed evidence.** Working examples and corpus citations get summarized into prose, and the prose drifts from the corpus.
+- **One-runtime captivity.** A skill written for one orchestration system does not run on another without a rewrite.
+
+The Foundry is built around the opposite premise: the skill is a *compilation target*. Authoring happens against a richer source of truth, and skills fall out by casting.
+
+### Knowledge bases and skills, linked by a compiler
+
+Two communities have each built half of what is needed. Knowledge-base communities — wikis, documentation sites, structured note vaults — preserve rich context: cross-links, citations, evidence, design rationale. They are excellent for humans browsing depth-first and poor at driving deterministic agent action. Skill and agent-tool communities — agent skills [Agent Skills], the Model Context Protocol [MCP], retrieval chains — preserve execution: a procedure plus the references it needs to run. They are excellent at action and tend to compress away the evidence and rationale that make the action maintainable.
+
+The Foundry's central claim is that **neither half is enough on its own, and the two should be linked by a compilation step rather than written independently.** The same Pattern page — "how do you build a named collection in Galaxy from per-sample tabular outputs?" — is browsable on a static site for humans *and* packaged into casts for agents. The two views never drift, because they share a source. A maintainer who improves a Pattern improves every cast that references it on the next rebuild.
+
+This positioning distinguishes the Foundry from adjacent approaches. Documentation-for-agents conventions such as `llms.txt` [llms.txt] expose curated text for retrieval but do not compile inspectable knowledge into executable, provenanced artifacts. The closest prior work in spirit is Corpus2Skill [Sun 2026], which distills an enterprise document corpus offline into a navigable hierarchy of skill files and lets an agent navigate that hierarchy rather than retrieve over it at serve time; it shares the Foundry's core conviction that for a structured corpus, navigating a compiled hierarchy beats runtime vector retrieval. The Foundry differs in task and in rigor: Corpus2Skill compiles documents for question-answering, whereas the Foundry compiles *construction* knowledge into executable skills for a generative task; it replaces uniform summary nodes with a typed content model and per-kind casting transformations; and it records explicit provenance linking every cast artifact back to its source revision, references, prompt, and model. Auto-generated tool wrappers from OpenAPI specifications or `--help` output [FastMCP] preserve fidelity at the cost of operational judgment — they describe what a command does, not *when to reach for it*. The Foundry's contribution is the combination: a typed, corpus-grounded knowledge base; a per-kind casting compiler; and provenance as a first-class, versioned audit record.
+
+The remainder of the paper describes the Foundry's content model and architecture; why decomposition into atomic, harness-step-tier Molds works; the casting compiler and its provenance model; the schema-driven trust model; how the Foundry grounds itself in the IWC corpus without mirroring it; and the dual-audience documentation surface. We then present worked case studies `[TODO — in progress]`, compare against the principal alternatives, and discuss limits and honest risks. The Foundry is the most speculative of three companion efforts on agent-authorable Galaxy workflows; the others describe the writable workflow format and validation stack [gxwf; companion paper, this issue] and reproducible notebook-driven workflow extraction [Galaxy Notebooks; companion paper, this issue].
+
+## The Foundry Architecture
+
+The Foundry's structure follows its data. Organize the content well — typed frontmatter, registered tags, wiki-linked references, generated indexes — and validation, casting, and rendering fall out naturally.
+
+### A small, stratified content model
+
+The content model under `content/` is small and typed. Eight note types each carry a directory, a row in the frontmatter schema (`meta_schema.yml`), a controlled tag, and a conditional required-fields block enforced by the validator:
+
+| Type | Role | Audience |
+|---|---|---|
+| `pattern` | Galaxy construction idiom, citing IWC exemplars | Humans (browse) + Molds (reference) |
+| `source-pattern` | Source→target mapping idiom (e.g. Nextflow→Galaxy) | Humans + template-generation Molds |
+| `cli-command` | One CLI subcommand reference (`gxwf`, `planemo`) | Humans + action Molds |
+| `schema` | Renderable note over a JSON Schema owned by a code package | Humans + casts (verbatim copy) |
+| `mold` | An atomic action — manifest plus procedure | The casting compiler |
+| `pipeline` | Ordered sequence of Molds composing a journey | Humans (subway map) + harness orchestration |
+| `prompt` | Wrapper note over a reusable prompt sidecar | Casts |
+| `research` | Background synthesis (component, design-problem, design-spec) | Humans + on-demand Mold references |
+
+The frontmatter schema is strict — `additionalProperties: false` — so notes cannot grow ad-hoc fields without a deliberate schema extension. At the time of writing the content base comprises approximately [TODO: N] Patterns, [TODO: N] Molds, [TODO: N] Pipelines, [TODO: N] Schemas, and [TODO: N] research notes; these counts are reported precisely in Supporting Information and regenerate from the repository.
+
+### Pipelines are the journey surface
+
+The named conversion paths — `paper-to-galaxy`, `nextflow-to-galaxy`, `cwl-to-galaxy`, `paper-to-cwl`, `nextflow-to-cwl`, and an interactive `interview-to-galaxy` — live as `pipeline` notes whose `phases` field is an ordered list of Mold references, `[loop]` markers, and `[branch]` routing steps. Pipelines do two jobs at once. As a *build artifact*, a pipeline names the Molds a harness will orchestrate; the validator enforces the invariant that the Mold inventory equals the union of pipeline phases — every Mold belongs to at least one pipeline, every phase resolves to a real Mold. As a *navigation surface*, pipelines render as subway maps over the knowledge base: a contributor or agent landing cold sees the journeys first, then drills into Molds, then into the Patterns and CLI pages beneath. Pipelines are the primary information architecture; type-based indexes are the secondary reference surface.
+
+### Molds are typed reference manifests, not free-form prose
+
+A Mold is the unit the compiler operates on. Its `index.md` carries a frontmatter contract — an axis (source-specific, target-specific, tool-specific, or generic), the relevant `source` / `target` / `tool`, input/output artifact contracts, and a typed `references:` manifest — plus a procedural body that renders into the cast skill verbatim and is written for the runtime agent. Author-facing meta-content (changelog, open questions, casting hints, evaluation cases) lives in sibling files and is never packaged.
+
+The `references:` manifest is the load-bearing innovation. Each entry declares its `kind` (`pattern`, `cli-command`, `schema`, `prompt`, `example`, `research`), which selects the casting transformation; a `ref` wiki-link to the source note; whether it is `used_at` cast time, runtime, or both; whether it should `load` upfront (shaping the skill body) or on-demand (sitting in `references/` with a `trigger` telling the agent when to open it); a casting `mode` (`verbatim`, `condense`, or `sidecar`); and an `evidence` tier (`hypothesis`, `corpus-observed`, or `cast-validated`) that the validator can audit. The manifest tells the compiler which knowledge to pull, how to transform it, when the runtime agent should reach for it, and how confident the maintainer is — and the same metadata that powers static validation drives runtime behavior. There is no second authoring surface.
+
+### Sibling files separate decay rates
+
+A Mold directory contains more than `index.md`, because its parts age differently and serve different audiences: `index.md` is the runtime instruction; `eval.md` holds maintainer-facing, runnable assertions (a fixture plus something that could fail); `usage.md` illustrates without asserting; `refinement.md` plus a dated `refinements/` journal track open design questions and refinement runs; `casting.md` guides the caster; `changes.md` is author-facing history. The cast packager reads only `index.md` plus declared references. This *body discipline* — keeping author meta-content out of `index.md` — is what stops maintainer notes from leaking into runtime artifacts.
+
+### Casts are isolated, frozen, and target-specific
+
+Casting produces `casts/<target>/<name>/`, committed to the repository, generated by the build tool, skipped by the validator, and checked by a dedicated verifier. A Claude-target cast is a `SKILL.md` (a deterministic render of the Mold body, artifact contracts, and references) plus a `references/` tree of schemas, CLI sidecars, patterns, notes, prompts, and examples, plus a `_provenance.json` file. The cast carries no links back to the Foundry: an agent loading it sees a self-contained skill. The Claude target is the first target built; web (`skill.json`-shaped) and generic (single-markdown) targets are designed but not yet built, so portability is structural rather than retrofitted.
+
+## Why Decomposition Works
+
+### Atomicity at the harness-step tier
+
+The Mold inventory is derived as the union of phases across the named pipelines, and a phase is *atomic relative to the harness*: one step a harness orchestrates, with a discrete artifact handoff to the next. Atomic does not mean small. `summarize-nextflow` reads an entire pipeline source tree and emits a structured, schema-validated summary; `implement-galaxy-tool-step` runs once per workflow step. Both are atomic at the harness tier. This sizing is load-bearing. Going smaller (per-tool-call Molds) would explode the catalog into hundreds of micro-skills with no clear reuse boundary; going larger (per-pipeline Molds) would re-introduce the monolithic-skill problem. The harness-step tier is the sweet spot where the same Mold reappears across the paper-, Nextflow-, and CWL-to-Galaxy paths without modification.
+
+### Discover-first, author-on-fallthrough
+
+The Galaxy per-step loop is `discover-shed-tool → on-fallthrough → author-galaxy-tool-wrapper`. This is a harness-level branch, not a Mold. The two underlying capabilities are clean Molds: `discover-shed-tool` wraps the `gxwf` tool-search and version/revision commands, classifies candidates by owner trust, version proximity, container availability, and `+galaxyN` revision posture, and recommends a pick or falls through; `author-galaxy-tool-wrapper` consumes container and environment information from the source summary and authors a new Galaxy tool definition when discovery yields nothing acceptable. Naming `discover-shed-tool` for the *mechanism* leaves room for siblings — discovery via the Galaxy API, or on GitHub — as additive Molds without disturbing the branch shape.
+
+### Schema-driven validation in the inner loop
+
+Every per-step phase is followed by a validation Mold that runs `gxwf validate` on the just-implemented step; on a red result the harness loops back to step implementation or wrapper authoring. A terminal validation Mold runs after assembly. This shifts the per-step loop from "author and hope" to **author → validate → fix**, with validation inline after each step. Crucially, the Foundry does *not* maintain a parallel prose caveat catalog of failure modes; `gxwf`'s schema is the source of truth and the validation loop is the enforcement mechanism. Prose caveats were what made monolithic skills brittle in the first place.
+
+### CLI knowledge is reference content, not a Mold tier
+
+An early design instinct was to make every CLI subcommand its own Mold. This is wrong. A CLI subcommand is *reference content* — synopsis, arguments, flags, examples, exit codes, gotchas — that action Molds wrap. The CLI pages are cast to JSON sidecars so the runtime agent can consult them without prose bloat. Wrapping a CLI does not disqualify a Mold: `discover-shed-tool`, the validation Molds, and `run-workflow-test` all wrap CLIs and are Molds. The criterion is whether there is *procedural content worth casting* — when to run, how to interpret results, when to loop back — not whether the underlying mechanism is a CLI.
+
+## The Casting Compiler
+
+Casting is the bridge between the inspectable knowledge base and the executable skill, and its design encodes the project's strongest opinions.
+
+### Per-kind dispatch, not one-shot inlining
+
+Casting is not "resolve every wiki link and concatenate." Each reference kind has a tailored transformation: `pattern` references are copied verbatim or LLM-condensed per their declared mode; `cli-command` references become deterministic JSON sidecars from registered upstream CLI metadata; `schema` references import a named runtime export from the owning code package and serialize it verbatim at a pinned version; `research` notes are copied or condensed as progressive-disclosure surfaces; `prompt` references are copied verbatim as bytewise contracts; and `eval` content is *never packaged* — evaluation is a Foundry-internal concern by design. Most paths are deterministic. LLM-driven condensation runs only where it adds value, and runs as a two-phase contract: the deterministic caster writes a `pending_llm` placeholder, an LLM phase fills it, and the verifier rejects any committed provenance with an unfilled entry.
+
+### Cast from structured sources, not rendered prose
+
+When an upstream project ships both a structured source (YAML, JSON Schema, an interface definition) and a human-rendered form (LaTeX-heavy Markdown, generated HTML), the Foundry casts from the structured source: it is denser per token, schema-regular, and preserves identifiers — test pin names, labels — that renderers discard. The canonical example is Galaxy's collection-semantics specification, which lives upstream as a YAML file rendered to a Markdown page; the Foundry vendors both at the same revision, casts agent-facing knowledge from the YAML, and uses the rendered prose only for the human site. The rule generalizes: **when both forms exist, agents read structure and humans read prose.**
+
+### Provenance as the audit substrate
+
+Every cast records a `_provenance.json` file (schema version 2): the Mold revision and content hash, the commit SHA at cast time, the model name and version, the prompt identity and hash per LLM-produced reference, every resolved reference with source and destination hashes, the artifact contracts after producer inheritance, and a cast history. This is not bookkeeping; it is what makes the Foundry honest. A reviewer can check whether a cast is up to date, reproduce a deterministic cast and compare it byte-for-byte, trace why a generated skill contains a specific paragraph back to a reference, version, and prompt, and diff two casts' provenance to explain why their outputs differ. The provenance schema is a versioned contract, separate from the cast targets.
+
+### Identity is content hash, not version number
+
+There are no semantic versions on Molds and no versions on casts. Identity is name plus content hash plus commit SHA, and re-casting is the migration path. A consumer that needs to freeze a generated skill pins it by commit SHA. This keeps the iteration loop fast — change a Mold, re-cast, review the diff — at the cost of an automatic "breaking change" signal; the alternative was an authoring tax nobody would pay.
+
+## Schema-Driven Trust
+
+The word *schema* appears in the Foundry in two distinct senses, and conflating them was a recurring early confusion. The **frontmatter schema** (`meta_schema.yml`) is the contract for Foundry content notes — JSON Schema in strict mode, with conditional required fields per type. The **Mold I/O schemas** are the contracts for what Molds consume and produce — the structured summary of a Nextflow pipeline, a Galaxy tool-discovery result, a CWL summary, a test-plan format. The split is deliberate: the frontmatter schema rarely changes, while Mold I/O schemas evolve with corpus understanding.
+
+The Foundry's rule is **schema lives with its producer; orphan schemas live in the core package.** A schema with a code producer in the repository lives in that producer's package; orphan and vendored-upstream schemas live in a shared package or wherever they are needed at runtime. All validators funnel through `foundry validate-<name>` subcommands so that generated skills validate against a single CLI surface.
+
+The canonical case is the tool-test format. The `@galaxy-tool-util/schema` package ships a `tests.schema.json` generated from Galaxy's Pydantic test models, carrying every assertion's parameters, types, defaults, required fields, a discriminator constant, and the original Python docstring as a description. An agent equipped with that schema can author syntactically valid workflow-test files and look up what each assertion does, with no prose vocabulary catalog required. The Foundry pins the schema's upstream source, vendors it at a known revision, and copies it verbatim into casts that need it; the same vendored JSON powers casting output and site schema rendering, so research notes and Mold bodies can deep-link individual definitions.
+
+## Corpus Grounding: IWC Without a Mirror
+
+### No ingestion pipeline
+
+A naive "build a knowledge base about Galaxy" project would begin by mirroring the IWC into local notes. The Foundry deliberately does not. There is no IWC ingestion pipeline and no exemplar mirror. The corpus is referenced three ways: Patterns cite IWC workflows by URL in the page body, optionally pinned to commit SHAs; pattern authors paste 10–30 lines of cleaned `gxformat2` directly into a body when an inline excerpt earns its place; and a dedicated comparison Mold operates against live IWC at runtime via web fetch rather than against Foundry-hosted pages. The cost is real — no per-workflow inverse view, no auto-detection of structural drift in cited workflows — but the benefit is that the Foundry never competes with the IWC as the canonical home of its content. Upstream stays authoritative; the Foundry adds synthesis.
+
+### A research-only skeleton tier
+
+For survey work, the Foundry materializes a gitignored corpus workspace on demand. Survey work runs in tiers: a cheap grep over Format 2 files that is blind to step-sequence patterns; a *skeleton scan* over structurally-reduced workflows that exposes topology, control flow, and tool sequences cheaply enough that all ~120 skeletons fit in agent context; and expensive whole-workflow reads reserved for parameter-level evidence on promising recipes. A skeleton is a Format 2 workflow with non-structural fields stripped. Skeletons are a research tool, not a casting artifact.
+
+### Corpus-first authoring
+
+A construction pattern earns its page only when the corpus shows uptake: **no exemplar in IWC, no Pattern page.** If a survey turns up an interesting capability with zero corpus uptake, the gap is recorded as a one-line survey note, not a speculative Pattern. The same posture governs research notes: a reference note starts as a stub and grows paragraph by paragraph from observed gaps in cast runs, each paragraph naming the motivating case — a workflow, a log entry where the runtime agent guessed, fell back, or contradicted the schema. Pre-written comprehensive notes are an anti-pattern: they read as plausible, sound authoritative, and quietly propagate the author's prior beliefs into every downstream cast. The runtime agent cannot distinguish invented prose from earned prose, so the safer default is to write nothing until contact with the corpus demands it.
+
+## Progressive Disclosure and Dual-Audience Documentation
+
+Agents should see the right knowledge at the right time. The Foundry does not flatten every Pattern, CLI page, schema, example, and research note into one prompt body just because the information exists. Progressive disclosure is both an authoring principle and a runtime contract: pipelines disclose the journey, Molds disclose the action, typed references disclose the dependency surface, reference metadata declares whether material is needed at cast time or runtime, the load policy distinguishes upfront from on-demand material, and casting mode decides whether a reference is copied, condensed, or turned into a sidecar. A generated skill can therefore start with a compact procedure and a required schema and consult a deeper research note only when the work crosses into that topic. The goal is not minimalism for its own sake but *navigable depth*: humans browse from journey to Mold to reference; agents move from action to supporting evidence without dragging the whole library into every step.
+
+The same content drives a human-facing static site (Astro, deployed to GitHub Pages). The same wiki-link resolver runs in the validator, the site renderer, and the body-link transformer; the same configuration drives both the Obsidian dashboard and the site landing page. Two properties matter: backlinks come from typed frontmatter fields rather than body-link scanning, so they are bounded, fast, and author-controlled; and `additionalProperties: false` plus controlled tags means a site widget can compose deterministic filters over note metadata. Every note also has a raw-Markdown endpoint serving `text/plain`, so a new orchestration runtime can consume notes without a custom adapter. A maintainer who improves a Pattern improves the human view, the validator's reference graph, and every cast on the next rebuild — without writing the change three times.
+
+## Portability
+
+The agentic-coding landscape will keep changing, and the Foundry does not bind its core knowledge to one agent runtime, editor, model vendor, or orchestration framework. Molds are durable source artifacts, not vendor-specific skills; cast skills are generated target artifacts, and a new runtime needs a new target adapter and renderer, not a knowledge-base rewrite; pipelines describe journeys and harnesses (which live in their own repositories) execute them; and a Pattern is the same Pattern whether it ships into a Claude `SKILL.md`, a web `skill.json`, or a generic single-markdown skill. This separation is what lets the Foundry adapt as orchestration changes.
+
+## Evidence and Case Studies
+
+> **This section is intentionally incomplete and under active development.** The architecture above is built and exercised internally, but the Foundry's central claim — that compile-time grounding with provenance produces *better* agentic workflow construction than runtime retrieval or monolithic skills — requires worked, end-to-end case studies that this draft does not yet present. We describe the planned evidence here so the gap is explicit rather than papered over; we do **not** report internal development test-drives as published results.
+
+The evidence the Foundry needs, before this is a credible methods manuscript, is one or more *complete narrative case studies*: a real upstream pipeline (a paper methods section, an nf-core module path, or a CWL user-guide workflow) carried end-to-end through a named pipeline's Molds and re-validated. A worked case study must demonstrate, at minimum:
+
+1. A source summarizer producing a schema-valid structured summary of the upstream pipeline.
+2. That summary validating against its published schema.
+3. At least one downstream design Mold (interface, data-flow, or template) consuming the summary without re-reading the source.
+4. A `gxformat2` Galaxy workflow skeleton or step-level artifact.
+5. `gxwf` validation of that artifact, with the structured author-validate-fix loop shown.
+6. At least one instruction or reference traced through `_provenance.json` back to its Mold and source reference.
+
+`[TODO: results table — per case study, the Molds exercised, the validation outcome, and any biological signal recovered or parameter drift caught.]`
+
+`[TODO: a failure-comparison vignette — the same conversion attempted by a monolithic skill or an unguided agent, contrasted against the decomposed Foundry loop, to isolate what decomposition and schema-driven validation actually buy.]`
+
+The strongest case study is the one with the most checkable artifact, not the most impressive biology; the discipline is to show a real artifact tied to a real upstream pipeline, validated by `gxwf`, and traceable through provenance. Candidate fixtures and the working evaluation plan are tracked in `case-study.md` and `evidence.md`. We are explicit that, until these are complete, the Foundry is presented as an *early model* for compiling workflow knowledge into provenanced skills, not a mature automated conversion system.
+
+## Comparisons
+
+**Versus a wiki.** A wiki preserves context and supports human browsing, but it produces no executable artifacts, does not validate cross-references mechanically, records no provenance when content is consumed, and enforces no body-versus-meta separation. A wiki page that grows a runtime-instruction section eventually contradicts another section that grew elsewhere, with no compiler to surface the contradiction.
+
+**Versus a bundle of hand-written agent skills.** A bundle of skills executes well and packages cleanly but tends to compress away the evidence and rationale that make a skill maintainable. The same content appears in multiple skills with subtle drift, Patterns get re-derived per skill, and there is no single inspectable source a maintainer can fix once.
+
+**Versus generated documentation from code.** Auto-generated docs — `--help` dumps, schema-to-Markdown renderers — preserve fidelity at the cost of context. They tell you what a command does, not *when to reach for it* or *why* to combine it with another tool. The Foundry's CLI and schema notes are hand-framed wrappers around generated metadata; the framing is where the operational judgment lives.
+
+**Versus retrieval-augmented generation.** Runtime vector retrieval over a workflow corpus answers "what looks similar to this query" but provides no guarantee of completeness for schema-bound construction, no inspectable compilation step, and no provenance linking a generated instruction to an audited source. The Foundry's wager is that for schema-bound workflow authoring, compile-time grounding with provenance beats runtime retrieval; recent work reports that navigating a compiled corpus hierarchy outperforms dense and agentic retrieval baselines for structured, single-domain corpora in a question-answering setting [Sun 2026], though testing the wager for workflow *construction* is the work of the case studies above.
+
+**Versus the prior monolithic conversion skills.** The hand-authored Nextflow-to-Galaxy and tool-discovery skills were the prior art that motivated the Foundry. Their *content* feeds CLI pages and action Molds; their *form* does not. Decomposition into Molds, schema-driven inner-loop validation, casting as the integration boundary, and `gxwf` as the source of truth for `gxformat2` correctness are the specific responses to specific failure modes in those skills.
 
 ## Discussion
 
-TODO.
+The Foundry connects pieces that other projects keep separate. Knowledge bases preserve context; the Foundry's `content/` is a knowledge base. Skills drive action; the Foundry's `casts/` are skills. Schemas anchor trust; `gxwf` validation, the frontmatter schema, and the Mold I/O schemas keep both knowledge and skills honest. Corpora ground abstraction; the IWC, cited rather than mirrored, keeps the Foundry from becoming a speculative ontology. Compilers keep the two ends consistent; casting is the compiler, provenance is the audit substrate, and the validator is the type checker. None of these ideas is individually new. The combination is the contribution.
+
+The work the Foundry takes off a Galaxy maintainer's plate is not "writing a skill." It is the long-term cost of keeping a skill *correct* as Galaxy, the IWC, `gxwf`, Planemo [Bray 2023], and the agent ecosystem all change underneath it. The skill is the easy part; keeping it accurate, citation-grounded, and aligned with the corpus over years is what makes hand-authored skills rot. Casting from a structured source — with provenance, schema validation, and corpus-first authoring discipline — is how the Foundry intends to make that durable.
+
+### Limits and Honest Risks
+
+The Foundry is, at the time of writing, an architecture and a growing body of content whose central efficacy claim is not yet demonstrated by completed case studies. Everything in the Evidence section is forward-looking, and the gap between "the loop is built" and "the loop measurably outperforms the alternatives" is exactly the gap a reviewer should hold us to.
+
+The corpus-first discipline is a constraint we impose on ourselves, not one the tooling enforces perfectly; a maintainer can still write a plausible-sounding Pattern ahead of corpus evidence, and the `evidence` tier on references is an audit aid, not a guarantee. The depth of any downstream validation inherits the limits of `gxwf` and of ToolShed schema completeness [Blankenberg 2014]: the validator is a floor on correctness, not a ceiling. Multi-target portability is asserted structurally but only the Claude target is built, so the claim that a new runtime needs only a new adapter is, until a second target ships, an architectural argument rather than a demonstrated one. Finally, identity-by-content-hash buys iteration speed at the cost of an automatic breaking-change signal; whether that tradeoff holds up as consumers begin pinning casts is something only use will reveal.
+
+We have tried to keep the design defensible by treating provenance as a programmable audit record rather than decoration, by keeping the casting compiler deterministic wherever an LLM step is not strictly required, and by refusing to author knowledge the corpus has not yet justified. Whether the central wager holds will be visible only when the case studies are complete.
+
+## Methods
+
+`[TODO: the Foundry is implemented as a pnpm-managed TypeScript monorepo of N packages — the core casting/validation tooling, schema-producing packages, and source-summarizer packages — alongside a typed content base under content/ and an Astro static site. Enumerate the package list, the validator's cross-file checks, the casting pipeline's two-phase deterministic-plus-LLM contract, and the provenance schema version, mirroring the level of detail in the gxwf paper's Methods. Pin exact package names, counts, and the build-tool invocation in tasks.md before submission.]`
+
+## Availability
+
+`[TODO: repository URL, license, site URL, and the npm scope under which the Foundry's packages are published. Confirm public-availability posture before submission — the Foundry may remain a research artifact rather than a released package set at first submission, in which case state that explicitly.]`
+
+## Supporting Information
+
+`[TODO: SI plan, to be filled as the case studies land. Anticipated items: (S1) the full content-base inventory with exact type counts and the repository commit SHA; (S2) a worked provenance walkthrough tracing one SKILL.md paragraph through _provenance.json to its Mold and source reference; (S3) per-case-study artifacts — source summary, design briefs, the gxformat2 draft, and the gxwf validation report; (S4) the casting compiler's per-kind dispatch table with one real cast per kind; (S5) the frontmatter schema and reference-vocabulary contract.]`
+
+## References
+
+Citations use the inline `[Author YYYY]` / short-key form; full bibliographic records are maintained in `references.md`. Entries marked "repository" or "specification" denote software or standards whose canonical citable form is a repository or spec; we cite these in prose so the absence of a peer-reviewed reference is visible. Entries marked **TODO/verify** are placeholders to be confirmed before submission.
+
+- **Agent Skills.** Anthropic. Agent Skills. `[TODO: confirm canonical citation — documentation or announcement URL]` — documentation.
+- **Blankenberg 2014.** Blankenberg D, Von Kuster G, Bouvier E, Baker D, Afgan E, Stoler N, Taylor J, Nekrutenko A. Dissemination of scientific software with Galaxy ToolShed. Genome Biology 15:403 (2014). doi:10.1186/s13059-014-0403-5.
+- **Bray 2023.** Bray SA, Chilton J, Bernt M, Soranzo N, van den Beek M, Batut B, Rasche H, Čech M, Cock PJA, Grüning B, Nekrutenko A. The Planemo toolkit for developing, deploying, and executing scientific data analyses in Galaxy and beyond. Genome Research 33(2):261–268 (2023). doi:10.1101/gr.276963.122.
+- **Crusoe 2022.** Crusoe MR, Abeln S, Iosup A, Amstutz P, Chilton J, Tijanić N, Ménager H, Soiland-Reyes S, Gavrilović B, Goble C, and the CWL Community. Methods Included: Standardizing Computational Reuse and Portability with the Common Workflow Language. Communications of the ACM 65(6):54–63 (2022). doi:10.1145/3486897.
+- **Di Tommaso 2017.** Di Tommaso P, Chatzou M, Floden EW, Prieto Barja P, Palumbo E, Notredame C. Nextflow enables reproducible computational workflows. Nature Biotechnology 35(4):316–319 (2017). doi:10.1038/nbt.3820.
+- **Ewels 2020.** Ewels PA, Peltzer A, Fillinger S, Patel H, Alneberg J, Wilm A, Garcia MU, Di Tommaso P, Nahnsen S. The nf-core framework for community-curated bioinformatics pipelines. Nature Biotechnology 38:276–278 (2020). doi:10.1038/s41587-020-0439-x.
+- **FastMCP.** FastMCP contributors. FastMCP: generating MCP tools from OpenAPI specifications. https://gofastmcp.com/integrations/openapi — documentation. (Representative of the OpenAPI-to-tool/skill generator category.)
+- **Galaxy Community 2024.** The Galaxy Community. The Galaxy platform for accessible, reproducible, and collaborative data analyses: 2024 update. Nucleic Acids Research 52(W1):W83–W94 (2024). doi:10.1093/nar/gkae410.
+- **Galaxy Notebooks.** `[Companion paper, this issue — reproducible notebook-driven workflow extraction. Confirm final title/citation.]`
+- **gxformat2.** Chilton J, and Galaxy Project contributors. gxformat2: Galaxy Workflow Format 2. https://github.com/galaxyproject/gxformat2 — repository.
+- **gxwf.** `[Companion paper, this issue — Format 2 and gxwf: schema-aware authoring and validation of Galaxy workflows. Confirm final title/citation.]`
+- **IWC.** Intergalactic Workflow Commission. https://github.com/galaxyproject/iwc — repository; site at https://iwc.galaxyproject.org/.
+- **llms.txt.** Howard J. The /llms.txt file proposal. https://llmstxt.org/ — specification.
+- **MCP.** Anthropic. Model Context Protocol. https://modelcontextprotocol.io/ — specification.
+- **Sun 2026.** Sun Y, Wei P, Hsieh LB. Don't Retrieve, Navigate: Distilling Enterprise Knowledge into Navigable Agent Skills for QA and RAG. arXiv:2604.14572 (2026). Implementation: https://github.com/dukesun99/Corpus2Skill.
+
+## Figures
+
+(Figure placeholders; each to be produced from artifacts in the repository or from the deployed site.)
+
+**Figure 1. Knowledge base to skill.** Pattern / Mold / Pipeline / Schema source content flows through the casting compiler into a target skill with references and provenance.
+
+**Figure 2. Progressive disclosure.** A skill body loads the essential procedure upfront and opens references only when their triggers apply.
+
+**Figure 3. Provenance walkthrough.** A paragraph or reference in a `SKILL.md` traced through `_provenance.json` to a Mold and a source reference.
+
+**Figure 4. Case-study flow.** A source workflow or paper → schema-valid summary → interface / data-flow / template design Molds → `gxformat2` draft → `gxwf` validation. `[TODO: instantiate with a real completed case study.]`
