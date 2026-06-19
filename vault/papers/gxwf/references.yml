@@ -1,0 +1,216 @@
+# Canonical bibliography for the gxwf manuscript.
+#
+# Single source of truth: the machine-readable data the site renderer and
+# check_references.py consume. Keys match the inline citation key used in
+# manuscript.md (`[Key]`). Editorial guidance and status/verification notes are
+# kept here as `#` comments — they are not rendered. The renderer links/lists
+# only cited keys; uncited entries are a tracked backlog and render nothing.
+#
+# Status notes (surface in cover letter or a methods footnote):
+#   - gxformat2, IWC, Cromwell, miniwdl, Sprocket, nf-schema, OpenWDL, LSP, Monaco,
+#     Snakemake docs — no peer-reviewed publication; cited as repositories/specs.
+#   - GA4GH TRS — specification only; cited alongside Dockstore (O'Connor 2017),
+#     its peer-reviewed companion for the protocol.
+#   - BioAgents 2025 — byline/venue record needs verification (see entry note).
+#   - Xin 2024 (BIA) — preprint only; verify a peer-reviewed form before submission.
+
+# ── Galaxy / workflow systems ──
+
+"Blankenberg 2014":
+  kind: article
+  authors: "Blankenberg D, Von Kuster G, Bouvier E, Baker D, Afgan E, Stoler N, Taylor J, Nekrutenko A"
+  year: 2014
+  title: "Dissemination of scientific software with Galaxy ToolShed"
+  venue: "Genome Biology 15:403"
+  doi: "10.1186/s13059-014-0403-5"
+  pmid: "25001293"
+
+"Galaxy Community 2024":
+  kind: article
+  authors: "The Galaxy Community"
+  year: 2024
+  title: "The Galaxy platform for accessible, reproducible, and collaborative data analyses: 2024 update"
+  venue: "Nucleic Acids Research 52(W1):W83-W94"
+  doi: "10.1093/nar/gkae410"
+  pmid: "38769056"
+
+"Bray 2023":
+  kind: article
+  authors: "Bray SA, Chilton J, Bernt M, Soranzo N, van den Beek M, Batut B, Rasche H, Čech M, Cock PJA, Grüning B, Nekrutenko A"
+  year: 2023
+  title: "The Planemo toolkit for developing, deploying, and executing scientific data analyses in Galaxy and beyond"
+  venue: "Genome Research 33(2):261-268"
+  doi: "10.1101/gr.276963.122"
+  pmid: "36828587"
+
+"Hiltemann 2023":
+  kind: article
+  authors: "Hiltemann S, Rasche H, Gladman S, Hotz H-R, Larivière D, Blankenberg D, et al."
+  year: 2023
+  title: "Galaxy Training: A powerful framework for teaching!"
+  venue: "PLOS Computational Biology 19(1):e1010752"
+  doi: "10.1371/journal.pcbi.1010752"
+  pmid: "36622853"
+  # note: source author lists truncate with "et al."/"and others"; full byline not in repo.
+
+"Crusoe 2022":
+  kind: article
+  authors: "Crusoe MR, Abeln S, Iosup A, Amstutz P, Chilton J, Tijanić N, Ménager H, Soiland-Reyes S, Gavrilović B, Goble C, and the CWL Community"
+  year: 2022
+  title: "Methods Included: Standardizing Computational Reuse and Portability with the Common Workflow Language"
+  venue: "Communications of the ACM 65(6):54-63"
+  doi: "10.1145/3486897"
+
+"Di Tommaso 2017":
+  kind: article
+  authors: "Di Tommaso P, Chatzou M, Floden EW, Prieto Barja P, Palumbo E, Notredame C"
+  year: 2017
+  title: "Nextflow enables reproducible computational workflows"
+  venue: "Nature Biotechnology 35(4):316-319"
+  doi: "10.1038/nbt.3820"
+  pmid: "28398311"
+
+"Mölder 2021":
+  kind: article
+  authors: "Mölder F, Jablonski KP, Letcher B, Hall MB, Tomkins-Tinch CH, Sochat V, Forster J, Lee S, Twardziok SO, Kanitz A, Wilm A, Holtgrewe M, Rahmann S, Nahnsen S, Köster J"
+  year: 2021
+  title: "Sustainable data analysis with Snakemake"
+  venue: "F1000Research 10:33"
+  doi: "10.12688/f1000research.29032.2"
+  pmid: "34035898"
+
+"O'Connor 2017":
+  kind: article
+  authors: "O'Connor BD, Yuen D, Chung V, Duncan AG, Liu XK, Patricia J, Paten B, Stein L, Ferretti V"
+  year: 2017
+  title: "The Dockstore: enabling modular, community-focused sharing of Docker-based genomics tools and workflows"
+  venue: "F1000Research 6:52"
+  doi: "10.12688/f1000research.10137.1"
+  pmid: "28344774"
+
+# ── Specifications, registries, and software (cited as repositories/specs) ──
+
+"GA4GH TRS":
+  kind: spec
+  authors: "Global Alliance for Genomics and Health"
+  title: "Tool Registry Service (TRS) API specification"
+  url: "https://github.com/ga4gh/tool-registry-service-schemas"
+
+"IWC":
+  kind: software
+  authors: "Intergalactic Workflow Commission"
+  title: "IWC: A curated library of Galaxy workflows"
+  url: "https://github.com/galaxyproject/iwc"
+  # note: site at https://iwc.galaxyproject.org/
+
+"LSP":
+  kind: spec
+  authors: "Microsoft Corporation"
+  title: "Language Server Protocol specification"
+  url: "https://microsoft.github.io/language-server-protocol/"
+
+"Monaco":
+  kind: software
+  authors: "Microsoft Corporation"
+  title: "Monaco Editor: The code editor that powers VS Code, in the browser"
+  url: "https://github.com/microsoft/monaco-editor"
+
+"Cromwell":
+  kind: software
+  authors: "Broad Institute"
+  title: "Cromwell: A Workflow Management System for WDL and CWL"
+  url: "https://github.com/broadinstitute/cromwell"
+
+"OpenWDL":
+  kind: spec
+  authors: "OpenWDL community"
+  title: "Workflow Description Language (WDL) specification"
+  url: "https://github.com/openwdl/wdl"
+
+"Sprocket":
+  kind: software
+  authors: "St. Jude Rust Labs"
+  title: "Sprocket: A bioinformatics workflow engine for the Workflow Description Language"
+  url: "https://github.com/stjude-rust-labs/sprocket"
+  # note: site at https://sprocket.bio/
+
+"Snakemake docs":
+  kind: documentation
+  authors: "Snakemake contributors"
+  title: "Snakemake best practices and linter documentation"
+  url: "https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html"
+
+# ── Agent / AI bioinformatics ──
+
+"BioAgents 2025":
+  kind: article
+  authors: "Mehandru N, Hall AK, Melnichenko O, Dubinina Y, Tsirulnikov D, Bamman D, Alaa A, Saponas S, Malladi VS"
+  year: 2025
+  title: "BioAgents: Bridging the gap in bioinformatics analysis with multi-agent systems"
+  venue: "Scientific Reports 15:39036"
+  doi: "10.1038/s41598-025-25919-z"
+  # note: same paper as galaxy-notebooks [Mehandru 2025]; record filled from that entry.
+  #       byline was originally flagged "to confirm" — verify full author list before submission.
+
+"Xin 2024":
+  kind: preprint
+  authors: "Xin Q, et al."
+  year: 2024
+  title: "BioInformatics Agent (BIA): Unleashing the Power of Large Language Models to Reshape Bioinformatics Workflow"
+  venue: "bioRxiv 2024.05.22.595240"
+  doi: "10.1101/2024.05.22.595240"
+  # note: preprint; verify against final published form before submission.
+
+# ── Backlog: resolved records, not yet cited inline ──
+
+"miniwdl":
+  kind: software
+  authors: "Lin M, and Chan Zuckerberg Initiative contributors"
+  title: "miniwdl: Workflow Description Language developer tools and local runner"
+  url: "https://github.com/chanzuckerberg/miniwdl"
+
+"nf-schema":
+  kind: software
+  authors: "Seqera Labs and nf-core community"
+  title: "nf-schema: Schema validation for Nextflow pipelines"
+  url: "https://github.com/nextflow-io/nf-schema"
+
+"gxformat2":
+  kind: software
+  authors: "Chilton J, and Galaxy Project contributors"
+  title: "gxformat2: Galaxy Workflow Format 2"
+  url: "https://github.com/galaxyproject/gxformat2"
+  # note: documentation at https://galaxyproject.github.io/gxformat2/
+
+# ── Optional companion references (not cited; kept in scope) ──
+
+"Goecks 2010":
+  kind: article
+  authors: "Goecks J, Nekrutenko A, Taylor J, and the Galaxy Team"
+  year: 2010
+  title: "Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences"
+  venue: "Genome Biology 11:R86"
+  doi: "10.1186/gb-2010-11-8-r86"
+  # guidance: foundational Galaxy paper; cite alongside Galaxy Community 2024 only if a reviewer asks for historical grounding.
+
+"Köster 2012":
+  kind: article
+  authors: "Köster J, Rahmann S"
+  year: 2012
+  title: "Snakemake — a scalable bioinformatics workflow engine"
+  venue: "Bioinformatics 28(19):2520-2522"
+  doi: "10.1093/bioinformatics/bts480"
+  # guidance: original Snakemake paper; Mölder 2021 is the current canonical ref. Include if a reviewer prefers both.
+
+"Ewels 2020":
+  kind: article
+  authors: "Ewels PA, Peltzer A, Fillinger S, Patel H, Alneberg J, Wilm A, Garcia MU, Di Tommaso P, Nahnsen S"
+  year: 2020
+  title: "The nf-core framework for community-curated bioinformatics pipelines"
+  venue: "Nature Biotechnology 38:276-278"
+  doi: "10.1038/s41587-020-0439-x"
+  # guidance: cite if the nf-core module-collection discussion in Validation Across Workflow Systems grows.
+
+# ── Tracked, citation in flux (no stable record yet) ──
+#   WorkflowHub — citation in flux; see Goble C, Soiland-Reyes S, et al. (2021-2025).
+#     Add for the IWC discussion if the manuscript references cross-registry workflow exchange.

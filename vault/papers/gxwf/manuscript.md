@@ -196,29 +196,8 @@ Supporting information provides the reproducible artifacts and extended figures 
 
 ## References
 
-Citations are listed in the form used inline in the text. Full bibliographic records and BibTeX entries are maintained in `references.md`. Entries marked "repository" denote software whose canonical citable form is the source repository; we cite these explicitly in the prose to make the absence of a peer-reviewed reference visible to readers.
+Citations use the inline form used in the text; full bibliographic records are maintained in `references.yml` and the list below is generated from it at render time. Entries marked "repository" denote software whose canonical citable form is the source repository; we cite these explicitly in the prose to make the absence of a peer-reviewed reference visible to readers.
 
-- **Blankenberg 2014.** Blankenberg D, Von Kuster G, Bouvier E, Baker D, Afgan E, Stoler N, Taylor J, Nekrutenko A. Dissemination of scientific software with Galaxy ToolShed. Genome Biology 15:403 (2014). doi:10.1186/s13059-014-0403-5.
-- **Bray 2023.** Bray SA, Chilton J, Bernt M, Soranzo N, van den Beek M, Batut B, Rasche H, Čech M, Cock PJA, Grüning B, Nekrutenko A. The Planemo toolkit for developing, deploying, and executing scientific data analyses in Galaxy and beyond. Genome Research 33(2):261–268 (2023). doi:10.1101/gr.276963.122.
-- **BioAgents 2025.** *Author list to confirm.* BioAgents: Bridging the gap in bioinformatics analysis with multi-agent systems. Scientific Reports (2025). *Citation pending verification against final journal record.*
-- **Cromwell.** Broad Institute. Cromwell: A Workflow Management System for WDL and CWL. https://github.com/broadinstitute/cromwell — repository.
-- **Crusoe 2022.** Crusoe MR, Abeln S, Iosup A, Amstutz P, Chilton J, Tijanić N, Ménager H, Soiland-Reyes S, Gavrilović B, Goble C, and the CWL Community. Methods Included: Standardizing Computational Reuse and Portability with the Common Workflow Language. Communications of the ACM 65(6):54–63 (2022). doi:10.1145/3486897.
-- **Di Tommaso 2017.** Di Tommaso P, Chatzou M, Floden EW, Prieto Barja P, Palumbo E, Notredame C. Nextflow enables reproducible computational workflows. Nature Biotechnology 35(4):316–319 (2017). doi:10.1038/nbt.3820.
-- **GA4GH TRS.** Global Alliance for Genomics and Health. Tool Registry Service (TRS) API specification. https://github.com/ga4gh/tool-registry-service-schemas — specification.
-- **Galaxy Community 2024.** The Galaxy Community. The Galaxy platform for accessible, reproducible, and collaborative data analyses: 2024 update. Nucleic Acids Research 52(W1):W83–W94 (2024). doi:10.1093/nar/gkae410.
-- **gxformat2.** Chilton J, and Galaxy Project contributors. gxformat2: Galaxy Workflow Format 2. https://github.com/galaxyproject/gxformat2 — repository; documentation at https://galaxyproject.github.io/gxformat2/.
-- **Hiltemann 2023.** Hiltemann S, Rasche H, Gladman S, Hotz H-R, Larivière D, Blankenberg D, et al. Galaxy Training: A powerful framework for teaching! PLOS Computational Biology 19(1):e1010752 (2023). doi:10.1371/journal.pcbi.1010752.
-- **IWC.** Intergalactic Workflow Commission. https://github.com/galaxyproject/iwc — repository; site at https://iwc.galaxyproject.org/.
-- **LSP.** Microsoft Corporation. Language Server Protocol specification. https://microsoft.github.io/language-server-protocol/ — specification.
-- **miniwdl.** Lin M, and Chan Zuckerberg Initiative contributors. miniwdl: Workflow Description Language developer tools and local runner. https://github.com/chanzuckerberg/miniwdl — repository.
-- **Mölder 2021.** Mölder F, Jablonski KP, Letcher B, Hall MB, Tomkins-Tinch CH, Sochat V, Forster J, Lee S, Twardziok SO, Kanitz A, Wilm A, Holtgrewe M, Rahmann S, Nahnsen S, Köster J. Sustainable data analysis with Snakemake. F1000Research 10:33 (2021). doi:10.12688/f1000research.29032.2.
-- **Monaco.** Microsoft Corporation. Monaco Editor: The code editor that powers VS Code, in the browser. https://github.com/microsoft/monaco-editor — repository.
-- **nf-schema.** Seqera Labs and nf-core community. nf-schema: Schema validation for Nextflow pipelines. https://github.com/nextflow-io/nf-schema — repository.
-- **O'Connor 2017.** O'Connor BD, Yuen D, Chung V, Duncan AG, Liu XK, Patricia J, Paten B, Stein L, Ferretti V. The Dockstore: enabling modular, community-focused sharing of Docker-based genomics tools and workflows. F1000Research 6:52 (2017). doi:10.12688/f1000research.10137.1.
-- **OpenWDL.** OpenWDL community. Workflow Description Language (WDL) specification. https://github.com/openwdl/wdl — specification.
-- **Snakemake docs.** Snakemake contributors. Snakemake best practices and linter documentation. https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html — documentation.
-- **Sprocket.** St. Jude Rust Labs. Sprocket: A bioinformatics workflow engine for the Workflow Description Language. https://github.com/stjude-rust-labs/sprocket — repository; site at https://sprocket.bio/.
-- **Xin 2024.** Xin Q, et al. BioInformatics Agent (BIA): Unleashing the Power of Large Language Models to Reshape Bioinformatics Workflow. bioRxiv 2024.05.22.595240 (2024). *Preprint; verify against final published form if available before submission.*
 
 ## Figures
 

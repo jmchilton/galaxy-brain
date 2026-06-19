@@ -45,4 +45,3 @@ The paper should not center on "pages have chat." Chat is one authoring path. Th
 - [tasks](./tasks/)
 - [manuscript](./manuscript/)
 - [supporting information](./supporting-information/)
-- [references](./references/)

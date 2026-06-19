@@ -232,23 +232,9 @@ The Foundry is a pnpm-managed TypeScript monorepo of five packages under the `@g
 
 ## References
 
-Citations use the inline `[Author YYYY]` / short-key form; full bibliographic records are maintained in `references.md`. Entries marked "repository" or "specification" denote software or standards whose canonical citable form is a repository or spec; we cite these in prose so the absence of a peer-reviewed reference is visible. Entries marked **TODO/verify** are placeholders to be confirmed before submission.
+Citations use the inline `[Author YYYY]` / short-key form; full bibliographic records are maintained in `references.yml` and the list below is generated from it at render time. Entries marked "repository" or "specification" denote software or standards whose canonical citable form is a repository or spec; we cite these in prose so the absence of a peer-reviewed reference is visible. Entries marked **TODO/verify** are placeholders to be confirmed before submission.
 
-- **Agent Skills.** Anthropic. Agent Skills. `[TODO: confirm canonical citation — documentation or announcement URL]` — documentation.
-- **Blankenberg 2014.** Blankenberg D, Von Kuster G, Bouvier E, Baker D, Afgan E, Stoler N, Taylor J, Nekrutenko A. Dissemination of scientific software with Galaxy ToolShed. Genome Biology 15:403 (2014). doi:10.1186/s13059-014-0403-5.
-- **Bray 2023.** Bray SA, Chilton J, Bernt M, Soranzo N, van den Beek M, Batut B, Rasche H, Čech M, Cock PJA, Grüning B, Nekrutenko A. The Planemo toolkit for developing, deploying, and executing scientific data analyses in Galaxy and beyond. Genome Research 33(2):261–268 (2023). doi:10.1101/gr.276963.122.
-- **Crusoe 2022.** Crusoe MR, Abeln S, Iosup A, Amstutz P, Chilton J, Tijanić N, Ménager H, Soiland-Reyes S, Gavrilović B, Goble C, and the CWL Community. Methods Included: Standardizing Computational Reuse and Portability with the Common Workflow Language. Communications of the ACM 65(6):54–63 (2022). doi:10.1145/3486897.
-- **Di Tommaso 2017.** Di Tommaso P, Chatzou M, Floden EW, Prieto Barja P, Palumbo E, Notredame C. Nextflow enables reproducible computational workflows. Nature Biotechnology 35(4):316–319 (2017). doi:10.1038/nbt.3820.
-- **Ewels 2020.** Ewels PA, Peltzer A, Fillinger S, Patel H, Alneberg J, Wilm A, Garcia MU, Di Tommaso P, Nahnsen S. The nf-core framework for community-curated bioinformatics pipelines. Nature Biotechnology 38:276–278 (2020). doi:10.1038/s41587-020-0439-x.
-- **FastMCP.** FastMCP contributors. FastMCP: generating MCP tools from OpenAPI specifications. https://gofastmcp.com/integrations/openapi — documentation. (Representative of the OpenAPI-to-tool/skill generator category.)
-- **Galaxy Community 2024.** The Galaxy Community. The Galaxy platform for accessible, reproducible, and collaborative data analyses: 2024 update. Nucleic Acids Research 52(W1):W83–W94 (2024). doi:10.1093/nar/gkae410.
-- **Galaxy Notebooks.** `[Companion paper, this issue — reproducible notebook-driven workflow extraction. Confirm final title/citation.]`
-- **gxformat2.** Chilton J, and Galaxy Project contributors. gxformat2: Galaxy Workflow Format 2. https://github.com/galaxyproject/gxformat2 — repository.
-- **gxwf.** `[Companion paper, this issue — Format 2 and gxwf: schema-aware authoring and validation of Galaxy workflows. Confirm final title/citation.]`
-- **IWC.** Intergalactic Workflow Commission. https://github.com/galaxyproject/iwc — repository; site at https://iwc.galaxyproject.org/.
-- **llms.txt.** Howard J. The /llms.txt file proposal. https://llmstxt.org/ — specification.
-- **MCP.** Anthropic. Model Context Protocol. https://modelcontextprotocol.io/ — specification.
-- **Sun 2026.** Sun Y, Wei P, Hsieh LB. Don't Retrieve, Navigate: Distilling Enterprise Knowledge into Navigable Agent Skills for QA and RAG. arXiv:2604.14572 (2026). Implementation: https://github.com/dukesun99/Corpus2Skill.
+*Companion papers in this set — [Galaxy Notebooks] and [gxwf] — are cross-referenced inline; confirm final titles/citations before submission.*
 
 ## Figures
 

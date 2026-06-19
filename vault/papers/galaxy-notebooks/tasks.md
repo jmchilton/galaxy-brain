@@ -73,7 +73,7 @@ Still open from the capture pass (all optional / polish):
 - [ ] Add reproducible research practice citations without overloading the introduction.
 - [ ] Add AI-agent bioinformatics citations cautiously; prefer a short paragraph and avoid unstable claims.
 - [ ] Convert placeholder inline citations in `manuscript.md` to the final reference keys.
-- [ ] Decide whether to use author-year prose references only or add BibTeX alongside notes in `references.md`.
+- [x] Bibliography moved to `references.yml` (single source; author-year keys, guidance as comments). `references.md` retired; the site renders the reference list from the YAML.
 - [ ] Find a stronger source for Galaxy workflow reports than GTN/docs, or explicitly mark those citations as documentation.
 - [ ] Find a Galaxy-specific citation or implementation reference for history-to-workflow extraction; otherwise keep YesWorkflow/noWorkflow as conceptual neighbors only.
 - [ ] Add electronic/computational lab notebook literature outside Jupyter/R Markdown if it gives better language for history-attached narrative.

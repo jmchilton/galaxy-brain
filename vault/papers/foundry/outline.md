@@ -27,4 +27,4 @@ Lead with the knowledge-to-skill compiler idea, not the website. The site is the
 | Methods | drafted from project docs |
 | Availability | TODO — public-posture decision needed |
 | Supporting Information | plan listed; fills as case studies land |
-| References / Figures | drafted; see `references.md` and `figures.md` for open items |
+| References / Figures | drafted; see `references.yml` and `figures.md` for open items |

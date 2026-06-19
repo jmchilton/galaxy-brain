@@ -306,4 +306,4 @@ These artifacts are pinned to the reference development server.
 
 ## References
 
-Inline citations are keyed to `references.md`.
+Inline citations are keyed to `references.yml`; the list below is generated from it at render time.
