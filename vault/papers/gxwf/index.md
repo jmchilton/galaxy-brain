@@ -1,6 +1,6 @@
 ---
 type: paper
-title: "Format 2 and gxwf: Human- and Agent-Writable Galaxy Workflows"
+title: "Format 2 and gxwf: Schema-Aware Authoring and Validation of Galaxy Workflows"
 short_title: "Format 2/gxwf"
 tags:
   - paper
@@ -15,8 +15,8 @@ central_claim: "Format 2 makes Galaxy workflows concise and writable by humans a
 related_projects:
   - "[[workflow_state]]"
 created: 2026-05-17
-revised: 2026-05-20
-revision: 5
+revised: 2026-06-19
+revision: 6
 ai_generated: false
 summary: "Paper workspace for Format 2 (Galaxy's writable workflow format), gxformat2 library, and gxwf schema-aware validation/CLI/browser/VS Code authoring stack."
 ---

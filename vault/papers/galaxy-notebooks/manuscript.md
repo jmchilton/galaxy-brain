@@ -1,4 +1,4 @@
-# Galaxy Notebooks: Reproducible Communication for Data-Intensive Analysis
+# Galaxy Notebooks: Reproducible Communication and Narrative-Driven Workflow Extraction
 
 ## Abstract
 
