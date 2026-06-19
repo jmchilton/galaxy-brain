@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import NoteView from '../../../components/NoteView.astro';
+
+export async function getStaticPaths() {
+  const papers = (await getCollection('vault')).filter(e => e.data.type === 'paper');
+  return papers.map(paperEntry => ({
+    params: { paper: paperEntry.id.split('/')[1] },
+    props: { paperEntry },
+  }));
+}
+
+interface Props {
+  paperEntry: CollectionEntry<'vault'>;
+}
+const { paperEntry } = Astro.props;
+---
+<NoteView entry={paperEntry} />

@@ -37,11 +37,11 @@ The paper should not center on "pages have chat." Chat is one authoring path. Th
 
 ## Workspace
 
-- [outline](./outline/)
-- [evidence](./evidence/)
-- [figures](./figures/)
-- [demo](./demo/)
-- [glossary](./glossary/)
-- [tasks](./tasks/)
-- [manuscript](./manuscript/)
-- [supporting information](./supporting-information/)
+- [outline](../outline/)
+- [evidence](../evidence/)
+- [figures](../figures/)
+- [demo](../demo/)
+- [glossary](../glossary/)
+- [tasks](../tasks/)
+- [manuscript](../manuscript/)
+- [supporting information](../supporting-information/)

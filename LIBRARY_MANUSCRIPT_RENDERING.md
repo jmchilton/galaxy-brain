@@ -189,8 +189,28 @@ Gotchas hit & fixed:
   `overflow-x: clip` on the article (leaves upward popovers visible, doesn't
   touch the sibling sticky TOC) — verified no h-scroll at 480/768/1024/1280.
 
-Still TODO for Track B: the routing flip (manuscript → `/papers/<paper>/`,
-dashboard → `/workspace/`), abstract pull-quote, Track E frontmatter promotion.
+**DONE (step 3, part 2 — routing flip).** `/papers/<paper>/` now renders the
+**manuscript front door**; the drafting dashboard moved to
+`/papers/<paper>/workspace/`.
+- Extracted the whole generic note template+logic out of `[...slug].astro` into
+  `components/NoteView.astro` (reused, not duplicated). `[...slug].astro` now
+  just filters out `type: paper` entries and delegates to `<NoteView>`. Verified
+  the extraction is faithful: non-paper pages rebuild **byte-identical** to the
+  pre-refactor output (research / projects / tags = 0 diff).
+- New `papers/[paper]/index.astro` — manuscript front door (PaperManuscript);
+  degrades to `<NoteView>` if a paper has no manuscript. New
+  `papers/[paper]/workspace.astro` — dashboard via `<NoteView>`.
+- `/papers/<paper>/manuscript/` still renders (the `[...path].astro` view), so
+  existing inbound links don't break; its Workspace button now points to
+  `/workspace/`.
+- The `## Workspace` link lists in each `index.md` used `./outline/`-style
+  relative links that break from `/workspace/`; rewrote them `./` → `../`
+  (non-destructive, kept gxwf's annotations) so they resolve from the new
+  location. The redundant FileTree "Paper Files" panel is the primary nav.
+
+Still TODO for Track B: abstract pull-quote styling, Track E frontmatter
+promotion. (The drafting workspace is now a route rather than a collapsible
+panel — the locked Q2 choice.)
 
 **Routing (Q2 — locked: manuscript primary):** `/papers/<paper>/` renders the
 **manuscript** as the primary view; drafting dashboard moves to
@@ -246,8 +266,8 @@ no-ops cleanly.
 
 1. ~~`references.yml` + linter (+ make targets, tests)~~ — **DONE for all three papers.**
 2. ~~Track A remark plugin + reference-list rendering + popover~~ — **DONE, all three papers.**
-3. ~~Track B header band + sticky TOC~~ — **DONE, all three papers.** Routing
-   flip (dashboard → /workspace/) + abstract pull-quote still pending.
+3. ~~Track B header band + sticky TOC + routing flip~~ — **DONE, all three
+   papers.** Abstract pull-quote still pending.
 4. Track D SI cards + inline SI/figure links.
 5. Track C figure polish (optional).
 6. Generalize/verify across `foundry` + `gxwf`.

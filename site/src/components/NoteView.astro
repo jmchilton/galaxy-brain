@@ -1,0 +1,300 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import FileTree from './FileTree.astro';
+import { buildWikiLinkMap, resolveWikiLink, buildBacklinkMap } from '../lib/wiki-links';
+import { originalRelPath } from '../lib/project-paths';
+
+interface Props {
+  entry: CollectionEntry<'vault'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const allEntries = await getCollection('vault');
+const linkMap = buildWikiLinkMap(allEntries);
+const backlinkMap = buildBacklinkMap(allEntries, linkMap);
+
+const entryMap = new Map(allEntries.map(e => [e.id, e]));
+const incoming = (backlinkMap.get(entry.id) ?? [])
+  .map(b => ({ ...b, source: entryMap.get(b.sourceId) }))
+  .filter(b => b.source)
+  .sort((a, b) => a.sourceId.localeCompare(b.sourceId));
+
+const FIELD_LABELS: Record<string, string> = {
+  parent_plan: 'parent plan',
+  related_notes: 'related note',
+  related_issues: 'related issue',
+};
+
+const { data } = entry;
+
+// Build GitHub links
+const githubRepo = data.github_repo || 'galaxyproject/galaxy';
+const githubBase = `https://github.com/${githubRepo}`;
+
+function ghIssueLinks(val: number | number[] | undefined): { num: number; href: string }[] {
+  if (val === undefined) return [];
+  const nums = Array.isArray(val) ? val : [val];
+  return nums.map(n => ({ num: n, href: `${githubBase}/issues/${n}` }));
+}
+
+function ghPrLink(val: number | undefined): { num: number; href: string } | null {
+  if (val === undefined) return null;
+  return { num: val, href: `${githubBase}/pull/${val}` };
+}
+
+const issueLinks = ghIssueLinks(data.github_issue);
+const prLink = ghPrLink(data.github_pr);
+
+// Resolve wiki link fields
+function resolveLinks(links: string[] | undefined) {
+  if (!links) return [];
+  return links.map(wl => resolveWikiLink(wl, linkMap, base));
+}
+
+const relatedIssues = resolveLinks(data.related_issues);
+const relatedNotes = resolveLinks(data.related_notes);
+const relatedProjects = resolveLinks(data.related_projects);
+const parentPlan = data.parent_plan ? resolveWikiLink(data.parent_plan, linkMap, base) : null;
+
+function formatDate(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+// Workspace sub-files (for type=project or type=paper)
+let workspaceFiles: Array<CollectionEntry<'projectFiles'> | CollectionEntry<'paperFiles'>> = [];
+let workspaceOriginalDir = '';
+let workspaceFilesLabel = '';
+if (data.type === 'project' || data.type === 'paper') {
+  const allWorkspaceFiles = data.type === 'paper'
+    ? await getCollection('paperFiles')
+    : await getCollection('projectFiles');
+  const prefix = entry.id + '/';
+  workspaceFiles = allWorkspaceFiles
+    .filter(f => f.id.startsWith(prefix))
+    .sort((a, b) => a.id.localeCompare(b.id));
+  // Original directory of the workspace (preserves underscores/case),
+  // derived from this entry's filePath: ".../vault/<kind>/<orig>/index.md"
+  workspaceOriginalDir = originalRelPath(entry).replace(/\/index$/, '');
+  workspaceFilesLabel = data.type === 'paper' ? 'Paper Files' : 'Project Files';
+}
+
+// Title from filename
+const pageTitle = entry.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+---
+<Base title={pageTitle} pageTitle={data.title || pageTitle}>
+  <div data-pagefind-body>
+  <header class="mb-6 border-l-2 border-(--color-accent) pl-4 sm:pl-5">
+    <a href={`${base}/`} class="inline-flex items-center gap-1 text-xs text-(--color-text-secondary) hover:text-(--color-link) no-underline transition-colors">
+      <span aria-hidden="true">&larr;</span> Dashboard
+    </a>
+    <h1 class="mt-1 text-3xl font-bold text-balance text-(--color-text-primary)" data-pagefind-meta="title">{data.title || pageTitle}</h1>
+    {data.summary && (
+      <p class="mt-2 text-base text-(--color-text-secondary) text-pretty" data-pagefind-weight="10" data-pagefind-meta="summary">{data.summary}</p>
+    )}
+    <div class="mt-3 flex flex-wrap gap-2 items-center">
+      <span class={`badge badge-${data.status}`}>{data.status}</span>
+      {data.tags.map(t => <a href={`${base}/tags/${t}/`} class="no-underline"><span class="tag">{t}</span></a>)}
+    </div>
+    <div class="mt-3 flex gap-2">
+      <a href={`${base}/raw/${entry.id}.md`}
+         class="text-xs px-2.5 py-1 rounded border border-(--color-border) text-(--color-text-secondary) no-underline hover:bg-(--color-surface-hover) hover:text-(--color-text-primary) transition-colors">
+        Raw
+      </a>
+      <button id="copy-raw" data-url={`${base}/raw/${entry.id}.md`}
+         class="text-xs px-2.5 py-1 rounded border border-(--color-border) text-(--color-text-secondary) cursor-pointer hover:bg-(--color-surface-hover) hover:text-(--color-text-primary) transition-colors">
+        Copy
+      </button>
+    </div>
+  </header>
+
+  <dl class="meta mb-6 p-3 rounded-lg bg-(--color-surface-raised) border-l-4 border-(--color-accent)">
+    <dt>Revised:</dt>
+    <dd>{formatDate(data.revised)}</dd>
+
+    <dt>Revision:</dt>
+    <dd>{data.revision}</dd>
+
+    {issueLinks.length > 0 && (
+      <>
+        <dt>GitHub Issues:</dt>
+        <dd>{issueLinks.map((l, i) => <><a href={l.href} class="text-(--color-link) hover:underline">#{l.num}</a>{i < issueLinks.length - 1 ? ', ' : ''}</>)}</dd>
+      </>
+    )}
+
+    {prLink && (
+      <>
+        <dt>GitHub PR:</dt>
+        <dd><a href={prLink.href} class="text-(--color-link) hover:underline">#{prLink.num}</a></dd>
+      </>
+    )}
+
+    {data.paper_stage && (
+      <>
+        <dt>Paper Stage:</dt>
+        <dd>{data.paper_stage}</dd>
+      </>
+    )}
+
+    {data.paper_kind && (
+      <>
+        <dt>Paper Kind:</dt>
+        <dd>{data.paper_kind}</dd>
+      </>
+    )}
+
+    {data.target_venue && (
+      <>
+        <dt>Target Venue:</dt>
+        <dd>{data.target_venue}</dd>
+      </>
+    )}
+
+    {data.central_claim && (
+      <>
+        <dt>Central Claim:</dt>
+        <dd>{data.central_claim}</dd>
+      </>
+    )}
+
+    {data.preprint_url && (
+      <>
+        <dt>Preprint:</dt>
+        <dd><a href={data.preprint_url} class="text-(--color-link) hover:underline break-all">{data.preprint_url}</a></dd>
+      </>
+    )}
+
+    {data.manuscript_url && (
+      <>
+        <dt>Manuscript:</dt>
+        <dd><a href={data.manuscript_url} class="text-(--color-link) hover:underline break-all">{data.manuscript_url}</a></dd>
+      </>
+    )}
+
+    {parentPlan && (
+      <>
+        <dt>Parent Plan:</dt>
+        <dd>
+          {parentPlan.href
+            ? <a href={parentPlan.href} title={parentPlan.summary || undefined} class="text-(--color-link) hover:underline">{parentPlan.label}</a>
+            : <span class="dangling">{parentPlan.label}</span>}
+        </dd>
+      </>
+    )}
+
+    {relatedIssues.length > 0 && (
+      <>
+        <dt>Related Issues:</dt>
+        <dd>
+          {relatedIssues.map((l, i) => (
+            <>
+              {l.href
+                ? <a href={l.href} title={l.summary || undefined} class="text-(--color-link) hover:underline">{l.label}</a>
+                : <span class="dangling">{l.label}</span>}
+              {i < relatedIssues.length - 1 ? ', ' : ''}
+            </>
+          ))}
+        </dd>
+      </>
+    )}
+
+    {data.sources && data.sources.length > 0 && (
+      <>
+        <dt>Sources:</dt>
+        <dd>
+          {data.sources.map((s, i) => (
+            <>
+              {/^https?:\/\//.test(s)
+                ? <a href={s} class="text-(--color-link) hover:underline break-all">{s}</a>
+                : <span class="break-all">{s}</span>}
+              {i < data.sources!.length - 1 ? <br /> : null}
+            </>
+          ))}
+        </dd>
+      </>
+    )}
+
+    {relatedNotes.length > 0 && (
+      <>
+        <dt>Related Notes:</dt>
+        <dd>
+          {relatedNotes.map((l, i) => (
+            <>
+              {l.href
+                ? <a href={l.href} title={l.summary || undefined} class="text-(--color-link) hover:underline">{l.label}</a>
+                : <span class="dangling">{l.label}</span>}
+              {i < relatedNotes.length - 1 ? ', ' : ''}
+            </>
+          ))}
+        </dd>
+      </>
+    )}
+
+    {relatedProjects.length > 0 && (
+      <>
+        <dt>Related Projects:</dt>
+        <dd>
+          {relatedProjects.map((l, i) => (
+            <>
+              {l.href
+                ? <a href={l.href} title={l.summary || undefined} class="text-(--color-link) hover:underline">{l.label}</a>
+                : <span class="dangling">{l.label}</span>}
+              {i < relatedProjects.length - 1 ? ', ' : ''}
+            </>
+          ))}
+        </dd>
+      </>
+    )}
+  </dl>
+
+  {workspaceFiles.length > 0 && (
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold mb-2">{workspaceFilesLabel}</h2>
+      <FileTree files={workspaceFiles} originalBasePath={workspaceOriginalDir} />
+    </div>
+  )}
+
+  <article class="prose prose-slate max-w-none dark:prose-invert">
+    <Content />
+  </article>
+
+  {incoming.length > 0 && (
+    <section class="mt-8 pt-6 border-t border-(--color-border)">
+      <h2 class="text-lg font-semibold mb-3">Incoming References <span class="text-sm font-normal text-(--color-text-secondary)">({incoming.length})</span></h2>
+      <ul class="space-y-2 list-none pl-0">
+        {incoming.map(b => {
+          const s = b.source!;
+          const title = s.data.title || s.id.split('/').pop()!.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+          return (
+            <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
+              <a href={`${base}/${s.id}/`} class="text-(--color-link) hover:underline font-medium">{title}</a>
+              <span class="text-xs px-1.5 py-0.5 rounded bg-(--color-surface-raised) text-(--color-text-secondary) w-fit">{FIELD_LABELS[b.field]}</span>
+              {s.data.summary && <span class="text-sm text-(--color-text-secondary) italic">— {s.data.summary}</span>}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  )}
+  </div>
+</Base>
+
+<script>
+  const btn = document.getElementById('copy-raw') as HTMLButtonElement;
+  btn?.addEventListener('click', async () => {
+    const url = btn.dataset.url!;
+    try {
+      const res = await fetch(url);
+      const text = await res.text();
+      await navigator.clipboard.writeText(text);
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    } catch {
+      btn.textContent = 'Failed';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    }
+  });
+</script>

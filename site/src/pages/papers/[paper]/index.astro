@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import PaperManuscript from '../../../components/PaperManuscript.astro';
+import NoteView from '../../../components/NoteView.astro';
+
+export async function getStaticPaths() {
+  const papers = (await getCollection('vault')).filter(e => e.data.type === 'paper');
+  const paperFiles = await getCollection('paperFiles');
+  return papers.map(paperEntry => {
+    const paper = paperEntry.id.split('/')[1];
+    const manuscript = paperFiles.find(f => f.id === `papers/${paper}/manuscript`) ?? null;
+    return { params: { paper }, props: { paperEntry, manuscript } };
+  });
+}
+
+interface Props {
+  paperEntry: CollectionEntry<'vault'>;
+  manuscript: CollectionEntry<'paperFiles'> | null;
+}
+const { paperEntry, manuscript } = Astro.props;
+const { paper } = Astro.params;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+let Content: any = null;
+let headings: import('astro').MarkdownHeading[] = [];
+if (manuscript) {
+  const rendered = await render(manuscript);
+  Content = rendered.Content;
+  headings = rendered.headings;
+}
+// The manuscript's own H1 is the authoritative title; fall back to frontmatter.
+const title = (manuscript &&
+  (headings.find(h => h.depth === 1)?.text || paperEntry.data.title)) ||
+  paperEntry.data.title || paper!;
+---
+{manuscript ? (
+  <Base title={title} pageTitle={title}>
+    <PaperManuscript
+      title={title}
+      paper={paperEntry.data}
+      headings={headings}
+      base={base}
+      rawHref={`${base}/raw/papers/${paper}/manuscript.md`}
+      workspaceHref={`${base}/papers/${paper}/workspace/`}>
+      <Content />
+    </PaperManuscript>
+  </Base>
+) : (
+  <NoteView entry={paperEntry} />
+)}

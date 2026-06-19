@@ -46,8 +46,8 @@ Aim high but maintain a credible retreat path. Draft once at the highest target'
 
 ## Workspace
 
-- [outline](./outline/)
-- [evidence](./evidence/)
-- [figures](./figures/)
-- [case-study](./case-study/)
-- [manuscript](./manuscript/)
+- [outline](../outline/)
+- [evidence](../evidence/)
+- [figures](../figures/)
+- [case-study](../case-study/)
+- [manuscript](../manuscript/)

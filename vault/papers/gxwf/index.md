@@ -35,9 +35,9 @@ The central contrast is not "Galaxy has validation and others do not." The contr
 
 ## Workspace
 
-- [manuscript](./manuscript/) — the draft
-- [tasks](./tasks/) — polish TODO list maintained alongside the draft
-- [glossary](./glossary/) — internal authoring reference; terminology contract between drafts (not cited in the paper)
+- [manuscript](../manuscript/) — the draft
+- [tasks](../tasks/) — polish TODO list maintained alongside the draft
+- [glossary](../glossary/) — internal authoring reference; terminology contract between drafts (not cited in the paper)
 
 ## Target Ladder
 
