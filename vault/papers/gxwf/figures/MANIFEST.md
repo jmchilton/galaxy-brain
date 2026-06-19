@@ -98,15 +98,25 @@ gxwf tool-revisions devteam/bwa/bwa --latest
 
 ## Web-mode GUI captures (`capture-kit/web-shots/`)
 
-Five curated screenshots from the **browser** extension host (`vscode-test-web`), captured 2026-06-19 against the `web_tool_resolution_fixes` build (`galaxy-workflows-vscode`, `@galaxy-tool-util/*` 1.8.2). ToolShed was reached through a local CORS proxy configured via the workspace setting `galaxyWorkflows.toolShed.url` (settable per-workspace after the `machine`→`window` scope fix). These are the only web-shot assets — earlier exploratory/uncached frames were removed.
+Curated screenshots from the **browser** extension host (`vscode-test-web`), captured 2026-06-19 against the `web_tool_resolution_fixes` build (`galaxy-workflows-vscode`, `@galaxy-tool-util/*` 1.8.2) at a fixed 1280×800 viewport, light theme. ToolShed was reached through a local CORS proxy configured via the workspace setting `galaxyWorkflows.toolShed.url` (settable per-workspace after the `machine`→`window` scope fix). Earlier exploratory/uncached frames were removed.
 
 | File | Subject | Shows | Figure role |
 |---|---|---|---|
 | `format2-toolstate-select-dropdown.png` | clean `macs2-demo.gxwf.yml` | select-value completion (`format:` → BAM/BAMPE/BED), no squiggles | fig3_vscode (schema-aware editing) |
 | `format2-toolstate-property-name.png` | clean `macs2-demo.gxwf.yml` | parameter-name completion inside `state:` with type badges | fig3_vscode |
+| `format2-toolstate-diagnostic.png` | `macs2-demo-broken.gxwf.yml` (`format: BAMX`) | invalid-select error: squiggle + Problems "Invalid value 'BAMX' for 'format'. Must be one of: BAM, BAMPE, BED"; Workflow Tools view + CodeLens | fig3_vscode |
+| `format2-toolstate-hover.png` | clean `macs2-demo.gxwf.yml` | hover card on `format`: param name · `select` · option labels (BAM/BAMPE/BED with help) | fig3_vscode |
 | `autocomplete-toolstate-select-dropdown.png` | `krona-demo-broken.ga` (native) | select-value completion alongside live diagnostics | figS4_native_parity |
 | `autocomplete-toolstate-property-name.png` | `krona-demo-broken.ga` (native) | parameter-name completion inside `tool_state` | figS4_native_parity |
+| `legacy-toolstate-quickfix.png` | `krona-legacy.ga` (string-encoded `tool_state`) | gutter lightbulb + Quick Fix "Clean workflow (convert tool_state to object form)" on the legacy string value | figS5_legacy_quickfix (before) |
+| `legacy-toolstate-objectform.png` | `krona-legacy.ga` after applying the fix | `tool_state` expanded to object form, validates clean ("No problems"), Workflow Tools populated | figS5_legacy_quickfix (after) |
+| `conditional-completion-text.png` | `krona-demo.gxwf.yml` step 4 `type_of_data_selector: text` | param completion inside the conditional offers only `input` | figS6_conditional_completion (case A) |
+| `conditional-completion-taxonomy.png` | `krona-demo.gxwf.yml` step 4 `type_of_data_selector: taxonomy` | param completion offers `input` **and `max_rank`** — the extra key exposed only by the taxonomy case | figS6_conditional_completion (case B) |
 | `toolshed-search-dropdown.png` | Insert Tool Step (query `fastqc`) | ToolShed-search QuickPick: tool name · `owner/repo`, description, "Open in ToolShed" button | figS10_toolsearch (GUI variant) |
+
+**Conditional choice for S6:** kraken2's `single_paired` conditional is *not* usable here — every case exposes the same `input_sequences` key (only the data arity differs), so the offered keys don't visibly change. `taxonomy_krona_chart`'s `type_of_data` conditional is the right subject: the `taxonomy` case adds `max_rank` (a select 0–21) that the `text` case lacks, making the case-dependent key set visible in the completion list.
+
+**Fixture note:** `capture-kit/krona-legacy.ga` was corrected on 2026-06-19 — it carried 5 stray step-level `connected_paths: {}` fields (in-memory-only derived data that `@galaxy-tool-util` strips on serialize and the native schema rejects), which produced 5 "Property connected_paths is not allowed" errors inconsistent with its documented "clean except legacy encoding" purpose. Removed via `jq` while preserving the string-encoded `tool_state`, so the file now shows *only* the legacy-encoding Hint/quick-fix.
 
 ## Working captures
 Live under `/tmp/gxwf_si/captures/` during authoring (not committed): `tool-search-bwa.txt`, `connections-ok.txt`, `validate-broken.txt`, plus `pe-artic.gxwf.yml` / `pe-artic-broken.gxwf.yml`. Promote the curated subset into `si/` (see `supporting-information.md`) once the worked example is finalized.
