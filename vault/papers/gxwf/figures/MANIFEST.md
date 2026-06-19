@@ -94,6 +94,19 @@ gxwf tool-versions iuc/bwa_mem2/bwa_mem2_idx
 gxwf tool-revisions devteam/bwa/bwa --latest
 ```
 - Typeset the `tool-search` table directly (scored `owner/repo`, `tool_id`, name, description).
+- GUI variant of the same capability: `web-shots/toolshed-search-dropdown.png` (the **Insert Tool Step** command's ToolShed-search QuickPick). See "Web-mode GUI captures" below.
+
+## Web-mode GUI captures (`capture-kit/web-shots/`)
+
+Five curated screenshots from the **browser** extension host (`vscode-test-web`), captured 2026-06-19 against the `web_tool_resolution_fixes` build (`galaxy-workflows-vscode`, `@galaxy-tool-util/*` 1.8.2). ToolShed was reached through a local CORS proxy configured via the workspace setting `galaxyWorkflows.toolShed.url` (settable per-workspace after the `machine`→`window` scope fix). These are the only web-shot assets — earlier exploratory/uncached frames were removed.
+
+| File | Subject | Shows | Figure role |
+|---|---|---|---|
+| `format2-toolstate-select-dropdown.png` | clean `macs2-demo.gxwf.yml` | select-value completion (`format:` → BAM/BAMPE/BED), no squiggles | fig3_vscode (schema-aware editing) |
+| `format2-toolstate-property-name.png` | clean `macs2-demo.gxwf.yml` | parameter-name completion inside `state:` with type badges | fig3_vscode |
+| `autocomplete-toolstate-select-dropdown.png` | `krona-demo-broken.ga` (native) | select-value completion alongside live diagnostics | figS4_native_parity |
+| `autocomplete-toolstate-property-name.png` | `krona-demo-broken.ga` (native) | parameter-name completion inside `tool_state` | figS4_native_parity |
+| `toolshed-search-dropdown.png` | Insert Tool Step (query `fastqc`) | ToolShed-search QuickPick: tool name · `owner/repo`, description, "Open in ToolShed" button | figS10_toolsearch (GUI variant) |
 
 ## Working captures
 Live under `/tmp/gxwf_si/captures/` during authoring (not committed): `tool-search-bwa.txt`, `connections-ok.txt`, `validate-broken.txt`, plus `pe-artic.gxwf.yml` / `pe-artic-broken.gxwf.yml`. Promote the curated subset into `si/` (see `supporting-information.md`) once the worked example is finalized.

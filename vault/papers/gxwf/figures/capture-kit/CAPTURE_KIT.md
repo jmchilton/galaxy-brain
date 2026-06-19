@@ -54,5 +54,7 @@ Diagnostics (squiggles + Problems panel) and the `Tools: N cached` status bar re
 
 ## Automation notes
 
-`screencapture` (macOS) is available; `cliclick` is not, `osascript` is. Non-interactive shots (diagnostics, Problems panel, status bar) can be screen-captured after launch. Transient popups (hover/completion/quick-fix menu) need either a human at the keyboard (≈5 quick captures) or fragile `osascript` keystroke automation. Save captures as `figures/fig3_vscode.png`, `figS4_native_parity.png`, etc. (see `../MANIFEST.md`).
+`screencapture` (macOS) is available; `cliclick` is not, `osascript` is. Non-interactive shots (diagnostics, Problems panel, status bar) can be screen-captured after launch. Transient popups (hover/completion/quick-fix menu) need either a human at the keyboard (≈5 quick captures) or fragile `osascript` keystroke automation.
+
+In practice the transient-popup figures were captured headlessly via the **browser** extension host (`vscode-test-web`) driven by Playwright — completion dropdowns and the Insert Tool Step ToolShed QuickPick render in the workbench DOM and are scriptable there. The five curated results live in `web-shots/` (inventory + provenance in `../MANIFEST.md`, "Web-mode GUI captures"). Save additional captures as `figures/fig3_vscode.png`, `figS4_native_parity.png`, etc. (see `../MANIFEST.md`).
 </content>
