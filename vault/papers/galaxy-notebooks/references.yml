@@ -1,0 +1,369 @@
+# Canonical bibliography for the Galaxy Notebooks manuscript.
+#
+# Single source of truth: the machine-readable data the site renderer and
+# check_references.py consume. Keys match the inline citation key used in
+# manuscript.md (`[Key]`). Per-entry editorial guidance ("where to cite") and
+# section-level notes are kept here as `#` comments — they are not rendered.
+# The renderer links/lists only cited keys; uncited entries are a tracked
+# backlog and render nothing.
+
+# ===== Core Galaxy =====
+
+"Goecks 2010":
+  kind: article
+  authors: "Goecks J, Nekrutenko A, Taylor J, The Galaxy Team"
+  year: 2010
+  title: "Galaxy: a comprehensive approach for supporting accessible, reproducible, and transparent computational research in the life sciences"
+  venue: "Genome Biology 11:R86"
+  doi: "10.1186/gb-2010-11-8-r86"
+  # guidance: Intro/Background. Cite specifically for Pages as interactive web documents communicating
+  #           complete analyses; position Galaxy Notebooks as a history-attached, versioned continuation.
+
+"Abueg 2024":
+  kind: article
+  authors: "Abueg LAL, Afgan E, Allart O, et al."
+  year: 2024
+  title: "The Galaxy platform for accessible, reproducible, and collaborative data analyses: 2024 update"
+  venue: "Nucleic Acids Research 52:W83-W94"
+  doi: "10.1093/nar/gkae410"
+  # guidance: Background/Implementation context — current Galaxy scope, services, tool breadth.
+
+# Uncited Galaxy documentation sources (no formal citation key; cite sparingly if needed):
+#   - The Galaxy Community. Workflow Reports tutorial. Galaxy Training Network.
+#       https://training.galaxyproject.org/training-material/topics/galaxy-interface/tutorials/workflow-reports/tutorial.html
+#       (clearest current source for invocation reports, Galaxy Markdown, PDF export, "share as Page").
+#   - Galaxy Project documentation. `galaxy.workflow.reports` package.
+#       https://docs.galaxyproject.org/en/master/lib/galaxy.workflow.reports.html (implementation detail only).
+#   - Galaxy Workflow Format 2 documentation. https://galaxyproject.github.io/gxformat2/ (cite only if Format 2 is discussed).
+
+# ===== Reproducibility and scientific workflows =====
+
+"Sandve 2013":
+  kind: article
+  authors: "Sandve GK, Nekrutenko A, Taylor J, Hovig E"
+  year: 2013
+  title: "Ten simple rules for reproducible computational research"
+  venue: "PLOS Computational Biology 9:e1003285"
+  doi: "10.1371/journal.pcbi.1003285"
+  # guidance: Intro. Bridges general reproducibility norms to the paper's communication-as-reproducibility claim.
+
+"Wratten 2021":
+  kind: article
+  authors: "Wratten L, Wilm A, Göke J"
+  year: 2021
+  title: "Reproducible, scalable, and shareable analysis pipelines with bioinformatics workflow managers"
+  venue: "Nature Methods 18:1161-1168"
+  doi: "10.1038/s41592-021-01254-9"
+  # guidance: Related Work — modern review of workflow managers; bridge to the narrower communicative-intent claim.
+
+"Amstutz 2022":
+  kind: article
+  authors: "Amstutz P, Crusoe MR, Tijanic N, et al."
+  year: 2022
+  title: "Methods included: standardizing computational reuse and portability with the Common Workflow Language"
+  venue: "Communications of the ACM 65:54-63"
+  doi: "10.1145/3486897"
+  # guidance: Related Work — CWL standardizes execution descriptions; contrast with versioned narrative + reports.
+
+"Davidson and Freire 2008":
+  kind: inproceedings
+  authors: "Davidson SB, Freire J"
+  year: 2008
+  title: "Provenance and scientific workflows: challenges and opportunities"
+  venue: "Proceedings of SIGMOD 2008, 1345-1350"
+  doi: "10.1145/1376616.1376772"
+  # guidance: Provenance/Related Work — why workflows and provenance are linked; justifies graph-backed extraction.
+
+"Goble 2014":
+  kind: article
+  authors: "Goble C"
+  year: 2014
+  title: "Better software, better research"
+  venue: "IEEE Internet Computing 18:4-8"
+  doi: "10.1109/MIC.2014.88"
+  # guidance: backlog — compact "software quality is research quality" cite; secondary/contextual.
+
+"Leipzig 2017":
+  kind: article
+  authors: "Leipzig J"
+  year: 2017
+  title: "A review of bioinformatic pipeline frameworks"
+  venue: "Briefings in Bioinformatics 18:530-536"
+  doi: "10.1093/bib/bbw020"
+  # guidance: backlog — locate Galaxy among pipeline systems without a full comparison.
+
+"Ludäscher 2006":
+  kind: article
+  authors: "Ludäscher B, Altintas I, Berkley C, et al."
+  year: 2006
+  title: "Scientific workflow management and the Kepler system"
+  venue: "Concurrency and Computation: Practice and Experience 18:1039-1065"
+  doi: "10.1002/cpe.994"
+  # guidance: backlog — canonical scientific workflow-management cite for historical grounding.
+
+# ===== Literate programming, dynamic documents, notebooks =====
+
+"Knuth 1984":
+  kind: article
+  authors: "Knuth DE"
+  year: 1984
+  title: "Literate programming"
+  venue: "The Computer Journal 27:97-111"
+  doi: "10.1093/comjnl/27.2.97"
+  # guidance: Related Work/Discussion — long tradition of explaining executable work; contrast: notebooks don't own computation.
+
+"Kluyver 2016":
+  kind: inproceedings
+  authors: "Kluyver T, Ragan-Kelley B, Pérez F, et al."
+  year: 2016
+  title: "Jupyter Notebooks - a publishing format for reproducible computational workflows"
+  venue: "Positioning and Power in Academic Publishing, 87-90"
+  doi: "10.3233/978-1-61499-649-1-87"
+  # guidance: Related Work — canonical Jupyter cite; contrast narrative-to-code-cells vs narrative-to-history.
+
+"Rule 2019":
+  kind: article
+  authors: "Rule A, Birmingham A, Zuniga C, et al."
+  year: 2019
+  title: "Ten simple rules for writing and sharing computational analyses in Jupyter Notebooks"
+  venue: "PLOS Computational Biology 15:e1007007"
+  doi: "10.1371/journal.pcbi.1007007"
+  # guidance: Related Work/Discussion — notebooks need discipline; contrast with document-first claim.
+
+"Pimentel 2019":
+  kind: inproceedings
+  authors: "Pimentel JF, Murta L, Braganholo V, Freire J"
+  year: 2019
+  title: "A large-scale study about quality and reproducibility of Jupyter notebooks"
+  venue: "2019 IEEE/ACM MSR, 507-517"
+  doi: "10.1109/MSR.2019.00077"
+  # guidance: Related Work — empirical evidence notebooks often have reproducibility issues.
+
+"Samuel 2024":
+  kind: article
+  authors: "Samuel S, Mietchen D"
+  year: 2024
+  title: "Computational reproducibility of Jupyter notebooks from biomedical publications"
+  venue: "GigaScience 13:giae021"
+  doi: "10.1093/gigascience/giae021"
+  # guidance: Intro/Related Work — biomedical-specific notebook reproducibility evidence.
+
+"Leisch 2002":
+  kind: inproceedings
+  authors: "Leisch F"
+  year: 2002
+  title: "Sweave: dynamic generation of statistical reports using literate data analysis"
+  venue: "Compstat 2002 - Proceedings in Computational Statistics, 575-580. Physica"
+  doi: "10.1007/978-3-642-57489-4_89"
+  # guidance: backlog — dynamic reports combining prose and computation; predates modern notebooks.
+
+"Xie 2015":
+  kind: book
+  authors: "Xie Y"
+  year: 2015
+  title: "Dynamic Documents with R and knitr"
+  venue: "Chapman and Hall/CRC"
+  doi: "10.1201/9781315382487"
+  # guidance: backlog — knitr/R Markdown as mature dynamic-report ecosystems (book).
+
+"Baumer 2014":
+  kind: article
+  authors: "Baumer B, Cetinkaya-Rundel M, Bray A, Loi L, Horton NJ"
+  year: 2014
+  title: "R Markdown: integrating a reproducible analysis tool into introductory statistics"
+  venue: "Technology Innovations in Statistics Education 8"
+  doi: "10.5070/T581020118"
+  # guidance: backlog — R Markdown combining prose, code, output; educationally framed, supporting.
+
+# ===== Provenance, research objects, versioned scholarly artifacts =====
+
+"Moreau and Missier 2013":
+  kind: spec
+  authors: "Moreau L, Missier P, eds."
+  year: 2013
+  title: "PROV-DM: The PROV Data Model"
+  venue: "W3C Recommendation"
+  url: "https://www.w3.org/TR/prov-dm/"
+  # guidance: Provenance Background — entities, activities, agents, derivations; relates to edit_source and revisions.
+
+"Belhajjame 2015":
+  kind: article
+  authors: "Belhajjame K, Zhao J, Garijo D, et al."
+  year: 2015
+  title: "Using a suite of ontologies for preserving workflow-centric research objects"
+  venue: "Journal of Web Semantics 32:16-42"
+  doi: "10.1016/j.websem.2015.01.003"
+  # guidance: Related Work — workflow-centric research objects; one of the closest conceptual neighbors.
+
+"Soiland-Reyes 2022":
+  kind: article
+  authors: "Soiland-Reyes S, Sefton P, Crosas M, et al."
+  year: 2022
+  title: "Packaging research artefacts with RO-Crate"
+  venue: "Data Science 5:97-138"
+  doi: "10.3233/DS-210053"
+  # guidance: Discussion/Future Work — packaging notebooks, histories, workflows, reports into research objects.
+
+"Lebo 2013":
+  kind: spec
+  authors: "Lebo T, Sahoo S, McGuinness D, eds."
+  year: 2013
+  title: "PROV-O: The PROV Ontology"
+  venue: "W3C Recommendation"
+  url: "https://www.w3.org/TR/prov-o/"
+  # guidance: backlog — machine-readable provenance/export. Do not overclaim PROV-O implementation.
+
+"Groth 2013":
+  kind: spec
+  authors: "Groth P, Moreau L"
+  year: 2013
+  title: "PROV-Overview: An Overview of the PROV Family of Documents"
+  venue: "W3C Working Group Note"
+  url: "https://www.w3.org/TR/prov-overview/"
+  # guidance: backlog — accessible single cite to the PROV family; prefer PROV-DM for technical claims.
+
+"Bechhofer 2010":
+  kind: article
+  authors: "Bechhofer S, De Roure D, Gamble M, Goble C, Buchan I"
+  year: 2010
+  title: "Research Objects: towards exchange and reuse of digital knowledge"
+  venue: "Nature Precedings"
+  doi: "10.1038/npre.2010.4626.1"
+  # guidance: backlog — introduce Research Objects historically; pair with Belhajjame 2015 for archival cite.
+
+"Soiland-Reyes 2024":
+  kind: article
+  authors: "Soiland-Reyes S, Bacall F, Crusoe MR, et al."
+  year: 2024
+  title: "Recording provenance of workflow runs with RO-Crate"
+  venue: "PLOS ONE 19:e0299210"
+  doi: "10.1371/journal.pone.0299210"
+  # guidance: backlog — workflow-run provenance packaging; avoid implying current Galaxy Notebooks emit it.
+
+"Muniswamy-Reddy 2006":
+  kind: inproceedings
+  authors: "Muniswamy-Reddy KK, Holland DA, Braun U, Seltzer M"
+  year: 2006
+  title: "Provenance-aware storage systems"
+  venue: "USENIX Annual Technical Conference, 43-56"
+  url: "https://www.usenix.org/conference/2006-usenix-annual-technical-conference/provenance-aware-storage-systems"
+  # guidance: backlog — broader systems precedent for automatically captured provenance.
+
+# ===== Workflow extraction and narrative-to-workflow precedents =====
+
+"McPhillips 2015":
+  kind: article
+  authors: "McPhillips T, Song T, Kolisnik T, et al."
+  year: 2015
+  title: "YesWorkflow: a user-oriented, language-independent tool for recovering workflow information from scripts"
+  venue: "International Journal of Digital Curation 10:298-313"
+  doi: "10.2218/ijdc.v10i1.370"
+  # guidance: Related Work — structured annotations expose latent workflow info; we recover from the provenance graph.
+
+"Pimentel 2017":
+  kind: article
+  authors: "Pimentel JF, Murta L, Braganholo V, Freire J"
+  year: 2017
+  title: "noWorkflow: a tool for collecting, analyzing, and managing provenance from Python scripts"
+  venue: "Proceedings of VLDB Endowment 10:1841-1844"
+  doi: "10.14778/3137765.3137789"
+  # guidance: Related Work — retrospective provenance capture; we connect an existing graph to communicative intent.
+
+"Deelman 2009":
+  kind: article
+  authors: "Deelman E, Gannon D, Shields M, Taylor I"
+  year: 2009
+  title: "Workflows and e-Science: an overview of workflow system features and capabilities"
+  venue: "Future Generation Computer Systems 25:528-540"
+  doi: "10.1016/j.future.2008.06.012"
+  # guidance: backlog — broad survey of workflow-system capabilities; keep brief.
+
+"Garijo 2011":
+  kind: inproceedings
+  authors: "Garijo D, Gil Y"
+  year: 2011
+  title: "A new approach for publishing workflows: abstractions, standards, and linked data"
+  venue: "Proceedings of the 6th Workshop on Workflows in Support of Large-Scale Science"
+  doi: "10.1145/2110497.2110504"
+  # guidance: backlog — workflow publication and abstraction; helpful for report continuity, not essential.
+
+# ===== Agent-assisted bioinformatics and AI-science context =====
+
+"Anthropic 2024":
+  kind: spec
+  authors: "Anthropic"
+  year: 2024
+  title: "Introducing the Model Context Protocol"
+  url: "https://www.anthropic.com/news/model-context-protocol"
+  # guidance: first MCP mention. Vendor announcement + evolving spec (https://modelcontextprotocol.io); cite as documentation, verify URL.
+
+"Boiko 2023":
+  kind: article
+  authors: "Boiko DA, MacKnight R, Kline B, Gomes G"
+  year: 2023
+  title: "Autonomous chemical research with large language models"
+  venue: "Nature 624:570-578"
+  doi: "10.1038/s41586-023-06792-0"
+  # guidance: Intro/Discussion — high-profile LLM-agents-orchestrating-science example; not central (outside bioinformatics).
+
+"Mehandru 2025":
+  kind: article
+  authors: "Mehandru N, Hall AK, Melnichenko O, Dubinina Y, Tsirulnikov D, Bamman D, Alaa A, Saponas S, Malladi VS"
+  year: 2025
+  title: "BioAgents: bridging the gap in bioinformatics analysis with multi-agent systems"
+  venue: "Scientific Reports 15:39036"
+  doi: "10.1038/s41598-025-25919-z"
+  # guidance: Discussion — agent-assisted bioinformatics specifically. Same paper appears in gxwf as [BioAgents 2025].
+
+"Qu 2026":
+  kind: article
+  authors: "Qu Y, Huang K, Yin M, Zhan K, Liu D, Yin D, Cousins HC, et al."
+  year: 2026
+  title: "CRISPR-GPT for agentic automation of gene-editing experiments"
+  venue: "Nature Biomedical Engineering 10:245-258"
+  doi: "10.1038/s41551-025-01463-z"
+  # guidance: backlog (Discussion) — biomedical agentic experimental design; pair with Notebooks as documentation infrastructure.
+
+"Wang 2024":
+  kind: article
+  authors: "Wang L, Ma C, Feng X, et al."
+  year: 2024
+  title: "A survey on large language model based autonomous agents"
+  venue: "Frontiers of Computer Science 18:186345"
+  doi: "10.1007/s11704-024-40231-1"
+  # guidance: backlog — compact general-agent background only; avoid generic LLM-agent taxonomy pull.
+
+"Lu 2024":
+  kind: preprint
+  authors: "Lu C, Lu C, Lange RT, Foerster J, Clune J, Ha D"
+  year: 2024
+  title: "The AI Scientist: towards fully automated open-ended scientific discovery"
+  venue: "arXiv:2408.06292"
+  url: "https://arxiv.org/abs/2408.06292"
+  # guidance: backlog — direction-of-travel example; preprint, motivation/risk framing only.
+
+"Bu 2026":
+  kind: article
+  authors: "Bu D, Sun J, Li K, He Z, Huang W, Hu J, Zhang S, et al."
+  year: 2026
+  title: "Empowering AI data scientists using a multi-agent LLM framework with self-evolving capabilities for autonomous, tool-aware biomedical data analyses"
+  venue: "Nature Biomedical Engineering"
+  doi: "10.1038/s41551-026-01634-6"
+  # note: UNVERIFIED — do not cite until a primary publisher page is located (search surfaces aggregators only).
+
+# ===== Internal project sources (not citations) =====
+#   vault/projects/history_markdown/HISTORY_MARKDOWN_ARCHITECTURE.md — Page model reuse, history_id,
+#       PageRevision.edit_source, page-scoped chat, history-aware tools, revision/rollback, content pipeline.
+#   vault/projects/history_markdown/gcc2026/HISTORY_NOTEBOOKS_EXECUTIVE_SUMMARY.md — three authoring modes.
+#   vault/projects/history_markdown/gcc2026/ABSTRACT_CHATGPT.md — framing contrast (agent-heavy).
+#   vault/papers/galaxy-notebooks/{index.md,outline.md} — central claim, target ladder, section placement.
+
+# ===== Citation gaps to fill before submission =====
+#   - Primary/archival cite for Galaxy built-in workflow reports (current best: GTN + API docs).
+#   - Direct cite for Galaxy Pages after the 2010 paper (later Pages/report publication, if any).
+#   - Galaxy-specific history->workflow extraction cite (else lean on YesWorkflow/noWorkflow + local evidence).
+#   - User-facing ELN literature outside Jupyter/R Markdown (better language for "history-attached narrative").
+#   - Empirical evidence that methods/reporting omissions block reuse of bioinformatics analyses.
+#   - Re-check 2025-2026 agent papers; prefer peer-reviewed over preprints.
+#   - MCP has no peer-reviewed cite; confirm spec URL/version stable; consider a Galaxy-MCP description.
+#   - Verify or remove Bu et al. 2026.

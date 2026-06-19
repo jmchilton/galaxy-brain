@@ -59,13 +59,13 @@ Every `[NUMBER]` in the draft is an empirical claim the manuscript cannot make w
 
 ## Citations
 
-The manuscript now carries inline citations (added in the second pass) and `references.md` carries the BibTeX records. The work remaining:
+The manuscript now carries inline citations; bibliographic records now live in `references.yml` (single source — `references.md` retired, the site renders the reference list from the YAML). The work remaining:
 
 - [ ] Verify Bray 2023 author byline against the journal record (BibTeX byline drawn from search results, not the printed paper).
 - [ ] Verify Hiltemann 2023 author list against the journal record (`et al.` placeholder in current entry — full byline before submission).
 - [ ] **BioAgents 2025** — resolve author byline, exact venue, DOI; or remove citation from Discussion if unverifiable.
 - [ ] **Xin 2024 (BIA)** — check whether a peer-reviewed form has appeared since the preprint; cite the published version if it has.
-- [ ] Consider adding **Goecks 2010** (foundational Galaxy paper) — currently in references.md as optional companion; decide whether to include alongside Galaxy Community 2024.
+- [ ] Consider adding **Goecks 2010** (foundational Galaxy paper) — currently in `references.yml` backlog (optional companion); decide whether to include alongside Galaxy Community 2024.
 - [ ] Consider adding **Köster 2012** (original Snakemake) — currently optional companion; some reviewers prefer original + update.
 - [ ] Consider adding **Ewels 2020** (nf-core framework paper) — relevant if Validation Across Workflow Systems prose around nf-core's module collection grows.
 - [ ] Replace any remaining placeholder URLs in Availability and Methods sections with the production URLs at submission time.

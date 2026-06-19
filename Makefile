@@ -1,4 +1,4 @@
-.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update
+.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -6,7 +6,7 @@ validate:
 	uv run $(DEPS) python validate_frontmatter.py $(ARGS)
 
 test:
-	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py -v $(ARGS)
+	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_check_references.py -v $(ARGS)
 
 install:
 	mkdir -p ~/.claude/skills
@@ -33,6 +33,12 @@ check-architecture-views:
 
 architecture-update:
 	uv run scripts/sync_architecture.py $(ARGS)
+
+references:
+	uv run check_references.py $(ARGS)
+
+check-references:
+	uv run check_references.py --check $(ARGS)
 
 site-dev:
 	cd site && npm run dev

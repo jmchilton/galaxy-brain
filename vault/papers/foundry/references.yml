@@ -1,0 +1,128 @@
+# Canonical bibliography for the Foundry manuscript.
+#
+# This is the single source of truth: the machine-readable data the site
+# renderer and check_references.py consume. Keys match the inline citation key
+# used in manuscript.md (`[Key]`). Editorial guidance and status/verification
+# notes are kept here as `#` comments — they are not rendered.
+#
+# The renderer links and lists only the keys actually cited; uncited entries
+# below are a tracked backlog of candidate citations and render nothing.
+
+# ── Internal source docs the manuscript draws on (not citations) ──
+#   docs/ARCHITECTURE.md          — content model, validator checks, casting pipeline
+#   docs/COMPARISONS.md           — positioning vs wikis, skills, RAG, generated docs
+#   docs/COMPILATION_PIPELINE.md  — per-kind casting dispatch, two-phase contract
+#   docs/GUIDING_PRINCIPLES.md, docs/MOLDS.md, docs/MOLD_SPEC.md — Mold authoring contract
+#   vault/projects/workflow_state/proposal/FOUNDRY_WHITE_PAPER.md — white paper this draft derives from
+#   (Cite the repository, not a local checkout, in the manuscript.)
+
+# ── External references ──
+
+"Blankenberg 2014":
+  kind: article
+  authors: "Blankenberg D, Von Kuster G, Bouvier E, Baker D, Afgan E, Stoler N, Taylor J, Nekrutenko A"
+  year: 2014
+  title: "Dissemination of scientific software with Galaxy ToolShed"
+  venue: "Genome Biology 15:403"
+  doi: "10.1186/s13059-014-0403-5"
+
+"Bray 2023":
+  kind: article
+  authors: "Bray SA, Chilton J, Bernt M, Soranzo N, van den Beek M, Batut B, Rasche H, Čech M, Cock PJA, Grüning B, Nekrutenko A"
+  year: 2023
+  title: "The Planemo toolkit for developing, deploying, and executing scientific data analyses in Galaxy and beyond"
+  venue: "Genome Research 33(2):261-268"
+  doi: "10.1101/gr.276963.122"
+
+"Ewels 2020":
+  kind: article
+  authors: "Ewels PA, Peltzer A, Fillinger S, Patel H, Alneberg J, Wilm A, Garcia MU, Di Tommaso P, Nahnsen S"
+  year: 2020
+  title: "The nf-core framework for community-curated bioinformatics pipelines"
+  venue: "Nature Biotechnology 38:276-278"
+  doi: "10.1038/s41587-020-0439-x"
+
+"Sun 2026":
+  kind: preprint
+  authors: "Sun Y, Wei P, Hsieh LB"
+  year: 2026
+  title: "Don't Retrieve, Navigate: Distilling Enterprise Knowledge into Navigable Agent Skills for QA and RAG"
+  venue: "arXiv:2604.14572"
+  url: "https://github.com/dukesun99/Corpus2Skill"
+  # guidance: closest prior work (Corpus2Skill); external evidence for navigation-over-retrieval.
+
+"MCP":
+  kind: spec
+  authors: "Anthropic"
+  title: "Model Context Protocol"
+  url: "https://modelcontextprotocol.io/"
+
+"IWC":
+  kind: software
+  authors: "Intergalactic Workflow Commission"
+  title: "IWC: A curated library of Galaxy workflows"
+  url: "https://github.com/galaxyproject/iwc"
+  # note: site at https://iwc.galaxyproject.org/
+
+"FastMCP":
+  kind: software
+  authors: "FastMCP contributors"
+  title: "FastMCP: generating MCP tools from OpenAPI specifications"
+  url: "https://gofastmcp.com/integrations/openapi"
+  # guidance: representative of the OpenAPI-to-tool/skill generator category.
+
+"Agent Skills":
+  kind: spec
+  authors: "Anthropic"
+  title: "Agent Skills"
+  # note: TODO/verify — confirm canonical citation (documentation vs announcement URL) before submission.
+
+# ── Backlog: resolved records, not yet cited inline ──
+
+"Crusoe 2022":
+  kind: article
+  authors: "Crusoe MR, Abeln S, Iosup A, Amstutz P, Chilton J, Tijanić N, Ménager H, Soiland-Reyes S, Gavrilović B, Goble C, and the CWL Community"
+  year: 2022
+  title: "Methods Included: Standardizing Computational Reuse and Portability with the Common Workflow Language"
+  venue: "Communications of the ACM 65(6):54-63"
+  doi: "10.1145/3486897"
+
+"Di Tommaso 2017":
+  kind: article
+  authors: "Di Tommaso P, Chatzou M, Floden EW, Prieto Barja P, Palumbo E, Notredame C"
+  year: 2017
+  title: "Nextflow enables reproducible computational workflows"
+  venue: "Nature Biotechnology 35(4):316-319"
+  doi: "10.1038/nbt.3820"
+
+"Galaxy Community 2024":
+  kind: article
+  authors: "The Galaxy Community"
+  year: 2024
+  title: "The Galaxy platform for accessible, reproducible, and collaborative data analyses: 2024 update"
+  venue: "Nucleic Acids Research 52(W1):W83-W94"
+  doi: "10.1093/nar/gkae410"
+
+"gxformat2":
+  kind: software
+  authors: "Chilton J, and Galaxy Project contributors"
+  title: "gxformat2: Galaxy Workflow Format 2"
+  url: "https://github.com/galaxyproject/gxformat2"
+  # note: documentation at https://galaxyproject.github.io/gxformat2/
+
+"llms.txt":
+  kind: spec
+  authors: "Howard J"
+  title: "The /llms.txt file proposal"
+  url: "https://llmstxt.org/"
+
+# ── Companion papers (this issue / Galaxy paper set) ──
+#   Galaxy Notebooks — reproducible notebook-driven workflow extraction (vault/papers/galaxy-notebooks/).
+#     Confirm final title/citation. Cited inline as [Galaxy Notebooks]; cross-paper linking is a later track.
+#   gxwf — Format 2 and gxwf: schema-aware authoring and validation of Galaxy workflows (vault/papers/gxwf/).
+#     Confirm final title/citation.
+
+# ── To resolve / verify before submission ──
+#   Agent Skills — confirm Anthropic's canonical citation URL (docs vs announcement).
+#   RAG failure analyses — optional: a citable RAG-failure-mode analysis would further support the
+#     "compile-time grounding beats runtime retrieval" claim; [Sun 2026] already supplies external evidence.

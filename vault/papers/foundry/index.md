@@ -51,4 +51,3 @@ Aim high but maintain a credible retreat path. Draft once at the highest target'
 - [figures](./figures/)
 - [case-study](./case-study/)
 - [manuscript](./manuscript/)
-- [references](./references/)
