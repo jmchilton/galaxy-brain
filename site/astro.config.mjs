@@ -5,6 +5,7 @@ import pagefind from 'astro-pagefind';
 import remarkWikiLinks from './src/lib/remark-wiki-links.ts';
 import remarkMermaid from './src/lib/remark-mermaid.ts';
 import remarkMdLinks from './src/lib/remark-md-links.ts';
+import remarkPaperCitations from './src/lib/remark-paper-citations.ts';
 
 export default defineConfig({
   site: 'https://jmchilton.github.io',
@@ -14,6 +15,7 @@ export default defineConfig({
     remarkPlugins: [
       [remarkWikiLinks, { vaultDir: '../vault', base: '/galaxy-brain' }],
       [remarkMdLinks, { vaultDir: '../vault', base: '/galaxy-brain' }],
+      remarkPaperCitations,
       remarkMermaid,
     ],
   },
