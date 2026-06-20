@@ -51,6 +51,10 @@ const vault = defineCollection({
     preprint_url: z.string().optional(),
     manuscript_url: z.string().optional(),
     related_projects: z.array(z.string()).optional(),
+    authors: z.array(z.object({
+      name: z.string(),
+      orcid: z.string().url().optional(),
+    })).optional(),
     aliases: z.array(z.string()).optional(),
     sources: z.array(z.string().min(1)).min(1).optional(),
     branch: z.string().optional(),
