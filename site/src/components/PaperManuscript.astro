@@ -1,5 +1,6 @@
 ---
 import type { MarkdownHeading } from 'astro';
+import { roundWords } from '../lib/manuscript-stats';
 
 interface Props {
   title: string;
@@ -8,9 +9,10 @@ interface Props {
   base: string;
   rawHref: string;
   workspaceHref: string;
+  stats?: { words: number; figures: number } | null;
 }
 
-const { title, paper, headings, base, rawHref, workspaceHref } = Astro.props;
+const { title, paper, headings, base, rawHref, workspaceHref, stats } = Astro.props;
 
 // Top-level sections drive the table of contents.
 const toc = headings.filter(h => h.depth === 2);
@@ -21,6 +23,10 @@ function fmtDate(d: unknown): string | null {
   return null;
 }
 const revised = fmtDate(paper.revised);
+
+const metaBits: string[] = [];
+if (stats?.words) metaBits.push(`~${roundWords(stats.words)} words`);
+if (stats?.figures) metaBits.push(`${stats.figures} figure${stats.figures === 1 ? '' : 's'}`);
 ---
 <header class="manuscript-band mb-8 border-l-2 border-(--color-accent) pl-4 sm:pl-5">
   {paper.short_title && (
@@ -57,6 +63,7 @@ const revised = fmtDate(paper.revised);
       Copy
     </button>
     {revised && <span class="ml-1">Revised {revised}{paper.revision ? ` · rev ${paper.revision}` : ''}</span>}
+    {metaBits.length > 0 && <span class="ml-1">· {metaBits.join(' · ')}</span>}
   </div>
 </header>
 
@@ -78,6 +85,10 @@ const revised = fmtDate(paper.revised);
       </nav>
     </aside>
   )}
+</div>
+
+<div id="lightbox" class="lightbox" hidden>
+  <img alt="" />
 </div>
 
 <script>
@@ -116,5 +127,21 @@ const revised = fmtDate(paper.revised);
       if (visible[0]) setActive(visible[0].target.id);
     }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
     targets.forEach(t => observer.observe(t));
+  }
+
+  // Click-to-zoom: clicking a manuscript image opens it full-size in an overlay.
+  const lightbox = document.getElementById('lightbox') as HTMLElement | null;
+  const lightboxImg = lightbox?.querySelector('img') as HTMLImageElement | null;
+  if (lightbox && lightboxImg) {
+    const close = () => { lightbox.hidden = true; lightboxImg.src = ''; };
+    document.querySelectorAll<HTMLImageElement>('.paper-manuscript-body img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.currentSrc || img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.hidden = false;
+      });
+    });
+    lightbox.addEventListener('click', close);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lightbox.hidden) close(); });
   }
 </script>

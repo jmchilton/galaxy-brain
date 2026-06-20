@@ -5,6 +5,7 @@ import Base from '../../../layouts/Base.astro';
 import FileTree from '../../../components/FileTree.astro';
 import PaperManuscript from '../../../components/PaperManuscript.astro';
 import { originalRelPath } from '../../../lib/project-paths';
+import { manuscriptStats } from '../../../lib/manuscript-stats';
 
 function titleize(s: string): string {
   return s.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -138,6 +139,7 @@ const isManuscript = !isFolder && !!entry && !!parentPaper &&
 // workspace frontmatter title.
 const manuscriptTitle = (isManuscript &&
   (headings.find(h => h.depth === 1)?.text || parentPaper!.data.title)) || pageTitle;
+const manuscriptStatsData = isManuscript ? manuscriptStats(entry!.body ?? '') : null;
 ---
 <Base title={isManuscript ? manuscriptTitle : pageTitle} pageTitle={isManuscript ? manuscriptTitle : pageTitle}>
   <nav class="mb-4 text-sm text-(--color-text-secondary)">
@@ -160,7 +162,8 @@ const manuscriptTitle = (isManuscript &&
       headings={headings}
       base={base}
       rawHref={`${base}/raw/papers/${paper}/manuscript.md`}
-      workspaceHref={`${base}/papers/${paper}/workspace/`}>
+      workspaceHref={`${base}/papers/${paper}/workspace/`}
+      stats={manuscriptStatsData}>
       {Content && <Content />}
     </PaperManuscript>
   ) : isFolder ? (

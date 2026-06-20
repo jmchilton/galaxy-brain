@@ -219,6 +219,11 @@ export default function remarkPaperCrossrefs() {
       if (n.type === 'heading' && (n as Heading).depth <= 2) break;
       end++;
     }
+    // The cards carry the item list now, so drop the editorial bullet list(s) in
+    // the section (keep the intro/closing prose). Render-time only; source intact.
+    for (let i = end - 1; i > siHeadIdx; i--) {
+      if (tree.children[i].type === 'list') { tree.children.splice(i, 1); end--; }
+    }
     const cardsNode: RootContent = { type: 'html', value: siCardsHtml(si) } as RootContent;
     tree.children.splice(end, 0, cardsNode);
   };

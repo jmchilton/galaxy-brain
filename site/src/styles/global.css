@@ -424,6 +424,54 @@ ol.reference-list a {
   border-radius: 0.25rem;
 }
 
+/* ── Manuscript figures ── */
+/* Embedded images render centered, bordered, and click-to-zoom. */
+.paper-manuscript-body img {
+  display: block;
+  margin: 1.25rem auto 0.5rem;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background: var(--color-surface);
+  cursor: zoom-in;
+}
+/* Figure captions (anchored `**Figure N**` paragraphs) read as captions. */
+.paper-manuscript-body p[id^="figure-"] {
+  margin-top: 0.5rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 48rem;
+  margin-inline: auto;
+}
+.paper-manuscript-body p[id^="figure-"] strong {
+  color: var(--color-text-primary);
+}
+
+/* ── Lightbox (click-to-zoom) ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgb(0 0 0 / 0.85);
+  cursor: zoom-out;
+}
+.lightbox[hidden] {
+  display: none;
+}
+.lightbox img {
+  max-width: 95vw;
+  max-height: 95vh;
+  border-radius: 0.375rem;
+  box-shadow: 0 8px 40px rgb(0 0 0 / 0.5);
+}
+
 /* ── Supporting Information download cards ── */
 .si-downloads {
   margin-top: 1.5rem;
