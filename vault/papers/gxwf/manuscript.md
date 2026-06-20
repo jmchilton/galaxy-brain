@@ -1,6 +1,6 @@
 # Format 2 and gxwf: Schema-Aware Authoring and Validation of Galaxy Workflows
 
-*John Chilton, [David Lopez](https://orcid.org/0000-0002-9541-3961), Marius van den Beek, and Anton Nekrutenko*
+*[John Chilton](https://orcid.org/0000-0002-6794-0756), [David Lopez](https://orcid.org/0000-0002-9541-3961), [Marius van den Beek](https://orcid.org/0000-0002-9676-7032), and [Anton Nekrutenko](https://orcid.org/0000-0002-5987-8032)*
 
 ## Abstract
 

@@ -1,6 +1,6 @@
 # Galaxy Notebooks: Reproducible Communication and Narrative-Driven Workflow Extraction
 
-*John Chilton, Marius van den Beek, Dannon Baker, Ahmed Hamid Awan, and Anton Nekrutenko*
+*[John Chilton](https://orcid.org/0000-0002-6794-0756), [Marius van den Beek](https://orcid.org/0000-0002-9676-7032), [Dannon Baker](https://orcid.org/0000-0002-4882-5357), [Ahmed Hamid Awan](https://orcid.org/0009-0003-2600-6152), and [Anton Nekrutenko](https://orcid.org/0000-0002-5987-8032)*
 
 ## Abstract
 
