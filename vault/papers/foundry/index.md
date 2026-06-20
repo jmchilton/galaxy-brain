@@ -13,9 +13,16 @@ target_venue: "Genome Biology"
 central_claim: "The Galaxy Workflow Foundry improves agentic workflow construction by compiling curated, schema-typed workflow knowledge into portable skills with explicit provenance instead of relying on runtime retrieval alone."
 related_projects:
   - "[[workflow_state]]"
+authors:
+  - name: John Chilton
+    orcid: https://orcid.org/0000-0002-6794-0756
+  - name: Marius van den Beek
+    orcid: https://orcid.org/0000-0002-9676-7032
+  - name: Anton Nekrutenko
+    orcid: https://orcid.org/0000-0002-5987-8032
 created: 2026-05-17
-revised: 2026-06-19
-revision: 3
+revised: 2026-06-20
+revision: 4
 ai_generated: false
 summary: "Paper workspace for Foundry as a provenance-bearing knowledge-to-skill compiler for Galaxy workflow authoring agents."
 ---

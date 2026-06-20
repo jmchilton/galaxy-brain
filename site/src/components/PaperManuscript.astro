@@ -23,6 +23,11 @@ function fmtDate(d: unknown): string | null {
   return null;
 }
 const revised = fmtDate(paper.revised);
+const authors = Array.isArray(paper.authors)
+  ? paper.authors.filter((author: unknown): author is { name: string; orcid?: string } =>
+      typeof author === 'object' && author !== null &&
+      typeof (author as { name?: unknown }).name === 'string')
+  : [];
 
 const metaBits: string[] = [];
 if (stats?.words) metaBits.push(`~${roundWords(stats.words)} words`);
@@ -35,6 +40,19 @@ if (stats?.figures) metaBits.push(`${stats.figures} figure${stats.figures === 1 
   <h1 class="mt-1 text-3xl font-bold text-balance text-(--color-text-primary)" data-pagefind-meta="title">
     {title}
   </h1>
+
+  {authors.length > 0 && (
+    <p class="mt-2 max-w-3xl text-sm leading-relaxed text-(--color-text-secondary)" data-pagefind-meta="authors">
+      {authors.map((author, i) => (
+        <>
+          {author.orcid
+            ? <a href={author.orcid} class="text-(--color-link) no-underline hover:underline">{author.name}</a>
+            : <span>{author.name}</span>}
+          {i < authors.length - 2 ? ', ' : i === authors.length - 2 ? ', and ' : ''}
+        </>
+      ))}
+    </p>
+  )}
 
   <div class="mt-3 flex flex-wrap items-center gap-2">
     {paper.status && <span class={`badge badge-${paper.status}`}>{paper.status}</span>}

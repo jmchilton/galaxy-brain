@@ -14,9 +14,20 @@ target_venue: "Genome Research"
 central_claim: "Galaxy Notebooks make the communication of an analysis reproducible by turning a documented history into the report, interface, and provenance-aware extraction surface for a reusable workflow."
 related_projects:
   - "[[history_markdown]]"
+authors:
+  - name: John Chilton
+    orcid: https://orcid.org/0000-0002-6794-0756
+  - name: Marius van den Beek
+    orcid: https://orcid.org/0000-0002-9676-7032
+  - name: Dannon Baker
+    orcid: https://orcid.org/0000-0002-4882-5357
+  - name: Ahmed Hamid Awan
+    orcid: https://orcid.org/0009-0003-2600-6152
+  - name: Anton Nekrutenko
+    orcid: https://orcid.org/0000-0002-5987-8032
 created: 2026-05-17
-revised: 2026-06-17
-revision: 4
+revised: 2026-06-20
+revision: 5
 ai_generated: false
 summary: "Paper workspace for Galaxy Notebooks as reproducible analysis communication and notebook-driven workflow extraction."
 ---
