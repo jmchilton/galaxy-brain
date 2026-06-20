@@ -54,6 +54,7 @@ const vault = defineCollection({
     authors: z.array(z.object({
       name: z.string(),
       orcid: z.string().url().optional(),
+      confirmed: z.boolean().optional(),
     })).optional(),
     aliases: z.array(z.string()).optional(),
     sources: z.array(z.string().min(1)).min(1).optional(),

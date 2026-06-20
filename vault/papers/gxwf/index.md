@@ -17,15 +17,19 @@ related_projects:
 authors:
   - name: John Chilton
     orcid: https://orcid.org/0000-0002-6794-0756
+    confirmed: true
   - name: David Lopez
     orcid: https://orcid.org/0000-0002-9541-3961
+    confirmed: false
   - name: Marius van den Beek
     orcid: https://orcid.org/0000-0002-9676-7032
+    confirmed: false
   - name: Anton Nekrutenko
     orcid: https://orcid.org/0000-0002-5987-8032
+    confirmed: false
 created: 2026-05-17
 revised: 2026-06-20
-revision: 7
+revision: 8
 ai_generated: false
 summary: "Paper workspace for Format 2 (Galaxy's writable workflow format), gxformat2 library, and gxwf schema-aware validation/CLI/browser/VS Code authoring stack."
 ---

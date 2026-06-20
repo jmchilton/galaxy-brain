@@ -17,17 +17,22 @@ related_projects:
 authors:
   - name: John Chilton
     orcid: https://orcid.org/0000-0002-6794-0756
+    confirmed: true
   - name: Marius van den Beek
     orcid: https://orcid.org/0000-0002-9676-7032
+    confirmed: false
   - name: Dannon Baker
     orcid: https://orcid.org/0000-0002-4882-5357
+    confirmed: false
   - name: Ahmed Hamid Awan
     orcid: https://orcid.org/0009-0003-2600-6152
+    confirmed: false
   - name: Anton Nekrutenko
     orcid: https://orcid.org/0000-0002-5987-8032
+    confirmed: false
 created: 2026-05-17
 revised: 2026-06-20
-revision: 5
+revision: 6
 ai_generated: false
 summary: "Paper workspace for Galaxy Notebooks as reproducible analysis communication and notebook-driven workflow extraction."
 ---

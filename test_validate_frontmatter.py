@@ -702,6 +702,27 @@ def test_paper_related_projects_valid(schema):
     assert errors == []
 
 
+def test_paper_authors_valid(schema):
+    data = {**VALID_PAPER, "authors": [
+        {"name": "John Chilton", "orcid": "https://orcid.org/0000-0002-6794-0756", "confirmed": True},
+        {"name": "Jane Doe", "confirmed": False},
+    ]}
+    errors, _ = validate_data(data, schema)
+    assert errors == []
+
+
+def test_paper_author_confirmed_must_be_boolean(schema):
+    data = {**VALID_PAPER, "authors": [{"name": "John Chilton", "confirmed": "yes"}]}
+    errors, _ = validate_data(data, schema)
+    assert errors != []
+
+
+def test_paper_author_rejects_unknown_field(schema):
+    data = {**VALID_PAPER, "authors": [{"name": "John Chilton", "affiliation": "JHU"}]}
+    errors, _ = validate_data(data, schema)
+    assert errors != []
+
+
 def test_paper_tag_coherence():
     data = {"type": "paper", "tags": ["galaxy/workflows"]}
     warnings = validate_tag_coherence(data)

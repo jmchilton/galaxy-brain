@@ -24,7 +24,7 @@ function fmtDate(d: unknown): string | null {
 }
 const revised = fmtDate(paper.revised);
 const authors = Array.isArray(paper.authors)
-  ? paper.authors.filter((author: unknown): author is { name: string; orcid?: string } =>
+  ? paper.authors.filter((author: unknown): author is { name: string; orcid?: string; confirmed?: boolean } =>
       typeof author === 'object' && author !== null &&
       typeof (author as { name?: unknown }).name === 'string')
   : [];
@@ -48,6 +48,7 @@ if (stats?.figures) metaBits.push(`${stats.figures} figure${stats.figures === 1 
           {author.orcid
             ? <a href={author.orcid} class="text-(--color-link) no-underline hover:underline">{author.name}</a>
             : <span>{author.name}</span>}
+          {author.confirmed !== true && <span class="italic text-(--color-text-secondary)"> (confirmation pending)</span>}
           {i < authors.length - 2 ? ', ' : i === authors.length - 2 ? ', and ' : ''}
         </>
       ))}

@@ -16,13 +16,16 @@ related_projects:
 authors:
   - name: John Chilton
     orcid: https://orcid.org/0000-0002-6794-0756
+    confirmed: true
   - name: Marius van den Beek
     orcid: https://orcid.org/0000-0002-9676-7032
+    confirmed: false
   - name: Anton Nekrutenko
     orcid: https://orcid.org/0000-0002-5987-8032
+    confirmed: false
 created: 2026-05-17
 revised: 2026-06-20
-revision: 4
+revision: 5
 ai_generated: false
 summary: "Paper workspace for Foundry as a provenance-bearing knowledge-to-skill compiler for Galaxy workflow authoring agents."
 ---
