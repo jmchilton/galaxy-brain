@@ -251,3 +251,11 @@ Citations use the inline `[Author YYYY]` / short-key form; full bibliographic re
 **Figure 5. The workflow draft resolves.** One workflow step shown at three resolution tiers — Deferred (`tool_id: TODO`, full `_plan_*`), Identity-pinned (concrete `tool_id`, `tool_version: TODO`, `_plan_state` retained), and Resolved (concrete wrapper, bound `tool_state`, no `_plan_*`) — over a fixed, concrete topology, ending in promotion to `class: GalaxyWorkflow` and a green `gxwf` check. The figure makes "under-determination as a typed state" concrete. `[TODO: instantiate from a real draft progression.]`
 
 **Figure 6. Draft extraction.** A topology-complete workflow draft (left) — concrete steps solid, deferred wrapper-tier steps drawn as a grey-dashed planned overlay — and the result of `gxwf draft-extract` (right): the deferred steps dropped, `_plan_*` planning fields stripped, and the fully-resolved remainder promoted to `class: GalaxyWorkflow`. The extracted concrete subset is exactly what `draft-validate --concrete` checks against real tool schemas; deferred steps are skipped rather than failed, so a partially-resolved draft is still validated at the resolution it has reached. (Mechanism illustration over a draft snapshot, not a completed case study.)
+
+*(left) topology-complete draft — seven concrete steps solid, seven deferred wrapper-tier steps as a grey-dashed planned overlay:*
+
+![Workflow draft with planned overlay](figures/mobile_reformat_draft.png)
+
+*(right) after `gxwf draft-extract` — deferred steps dropped, `_plan_*` stripped, the resolved remainder promoted to `class: GalaxyWorkflow`:*
+
+![Extracted concrete subset of the draft](figures/mobile_reformat_extracted.png)

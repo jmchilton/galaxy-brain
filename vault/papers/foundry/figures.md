@@ -9,7 +9,7 @@ Production tracker. Captions live in the manuscript's Figures section; this file
 | 3 | Provenance walkthrough | Real `SKILL.md` excerpt + its `_provenance.json` entry from an existing cast | TODO — pick a clean cast; gated on choosing the case-study Mold |
 | 4 | Case-study flow | Real completed case study (source → summary → design Molds → draft → `gxwf` validate) | **blocked** on case study (`case-study.md`) |
 | 5 | Workflow draft resolves (Deferred → Identity-pinned → Resolved → promoted + `gxwf` green) | One real step shown at three resolution tiers over fixed topology | can be instantiated from a real draft progression; the "under-determination as a typed state" figure |
-| 6 | Draft extraction (draft + planned overlay → extracted concrete subset, promoted to `GalaxyWorkflow`) | `figures/mobile_reformat_draft.png` + `figures/mobile_reformat_extracted.png` (MRSA step-07; see `figures/MANIFEST.md`) | assets in hand; captioned + body callout wired (`Figure 6`); **mechanism figure, not case-study evidence** |
+| 6 | Draft extraction (draft + planned overlay → extracted concrete subset, promoted to `GalaxyWorkflow`) | `figures/mobile_reformat_draft.png` + `figures/mobile_reformat_extracted.png` (MRSA step-07; see `figures/MANIFEST.md`) | **embedded** in manuscript Figures section (both panels, note-relative paths); captioned + body callout wired (`Figure 6`); **mechanism figure, not case-study evidence** |
 
 Notes:
 - Figures 1–2 are conceptual and can be drawn now.
