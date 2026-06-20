@@ -381,3 +381,109 @@ ol.reference-list a {
 .prose :is(h2, h3) {
   scroll-margin-top: 4rem;
 }
+/* Same clearance for the cross-ref targets: figure/table captions + SI cards. */
+.paper-manuscript-body p[id],
+.si-card {
+  scroll-margin-top: 4rem;
+}
+
+/* ── Abstract pull-quote ── */
+/* Astro slugs `## Abstract` to `id="abstract"`; style the heading as a small
+   eyebrow label and the single abstract paragraph that follows as a lede. */
+.paper-manuscript-body h2#abstract {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  border: 0;
+  margin-bottom: 0.5rem;
+}
+.paper-manuscript-body h2#abstract + p {
+  margin-top: 0;
+  padding-left: 1.1rem;
+  border-left: 3px solid var(--color-accent);
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: var(--color-text-primary);
+}
+
+/* ── Cross-reference links (figures / tables / SI) ── */
+.prose a.xref {
+  color: var(--color-link);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--color-border);
+  white-space: nowrap;
+}
+.prose a.xref:hover {
+  border-bottom-color: var(--color-link);
+}
+.paper-manuscript-body p[id]:target,
+.si-card:target {
+  background: var(--color-surface-hover);
+  border-radius: 0.25rem;
+}
+
+/* ── Supporting Information download cards ── */
+.si-downloads {
+  margin-top: 1.5rem;
+}
+.si-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.75rem;
+}
+.si-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-surface-raised);
+}
+.si-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.si-card-type {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.1rem 0.5rem;
+  border-radius: 9999px;
+  color: var(--color-text-on-dark);
+  background: var(--color-galaxy-grey);
+}
+.si-type-recipe { background: var(--color-galaxy-primary); }
+.si-type-workflow { background: #2f7d54; }
+.si-type-data { background: #8a5a1b; }
+.si-type-report { background: #6b4c9a; }
+.si-type-figure { background: #b04a6a; }
+.si-type-listing { background: var(--color-galaxy-grey); }
+.si-card-context {
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+}
+.si-card-desc {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--color-text-primary);
+}
+.si-card-desc code {
+  font-size: 0.8em;
+}
+.si-card-action {
+  margin-top: auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-link);
+  text-decoration: none;
+}
+.si-card-action:hover {
+  text-decoration: underline;
+}
