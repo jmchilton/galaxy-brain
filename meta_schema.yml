@@ -93,6 +93,20 @@ properties:
     items:
       type: string
       pattern: "^\\[\\[.+\\]\\]$"
+  authors:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        orcid:
+          type: string
+          pattern: "^https://orcid\\.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$"
+      additionalProperties: false
 
   # --- Fields used by plan-section notes ---
   parent_plan:

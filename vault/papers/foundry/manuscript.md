@@ -1,5 +1,7 @@
 # Galaxy Workflow Foundry: Compiling Curated Workflow Knowledge into Provenanced Agent Skills
 
+*John Chilton, Marius van den Beek, and Anton Nekrutenko*
+
 > **Draft status.** The conceptual, architectural, and comparison sections below are drafted. The **Evidence / Case Study** section and every empirical claim marked `[TODO]` are *intentionally unwritten* — the end-to-end validation work is in active progress and this draft does not present it as complete. See `evidence.md` and `case-study.md` for the working plan behind that section.
 
 ## Abstract
