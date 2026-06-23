@@ -1,6 +1,11 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+const noteTypeSchema = z.enum(['research', 'plan', 'plan-section', 'concept', 'moc', 'project', 'paper']);
+const statusSchema = z.enum(['draft', 'reviewed', 'revised', 'stale', 'archived']);
+const paperStageSchema = z.enum(['idea', 'outline', 'evidence', 'drafting', 'preprint', 'submitted', 'published']);
+const paperKindSchema = z.enum(['application-note', 'software', 'methods', 'perspective', 'white-paper', 'review']);
+
 function slugifyPath(entry: string): string {
   return entry.replace(/\.md$/, '').split('/')
     .map(s => s.toLowerCase().replace(/\s+-\s+/g, '-').replace(/\s+/g, '-')
@@ -21,9 +26,9 @@ const vault = defineCollection({
     }
   }),
   schema: z.object({
-    type: z.string(),
+    type: noteTypeSchema,
     tags: z.array(z.string()),
-    status: z.string(),
+    status: statusSchema,
     created: z.coerce.date(),
     revised: z.coerce.date(),
     revision: z.number(),
@@ -44,8 +49,8 @@ const vault = defineCollection({
     parent_feature: z.string().optional(),
     section: z.string().optional(),
     short_title: z.string().optional(),
-    paper_stage: z.string().optional(),
-    paper_kind: z.string().optional(),
+    paper_stage: paperStageSchema.optional(),
+    paper_kind: paperKindSchema.optional(),
     target_venue: z.string().optional(),
     central_claim: z.string().optional(),
     preprint_url: z.string().optional(),

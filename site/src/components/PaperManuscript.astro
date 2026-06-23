@@ -13,6 +13,7 @@ interface Props {
 }
 
 const { title, paper, headings, base, rawHref, workspaceHref, stats } = Astro.props;
+const showHumanReviewBanner = paper.status === 'draft';
 
 // Top-level sections drive the table of contents.
 const toc = headings.filter(h => h.depth === 2);
@@ -34,6 +35,15 @@ if (stats?.words) metaBits.push(`~${roundWords(stats.words)} words`);
 if (stats?.figures) metaBits.push(`${stats.figures} figure${stats.figures === 1 ? '' : 's'}`);
 ---
 <header class="manuscript-band mb-8 border-l-2 border-(--color-accent) pl-4 sm:pl-5">
+  {showHumanReviewBanner && (
+    <aside class="review-banner mb-5" role="status" aria-label="Human review status">
+      <p class="review-banner-label">Human review pending</p>
+      <p class="review-banner-copy">
+        This manuscript is marked <strong>draft</strong>. Its claims, citations, and figures have not yet completed human review and should be treated as provisional.
+      </p>
+    </aside>
+  )}
+
   {paper.short_title && (
     <p class="text-xs uppercase tracking-wide text-(--color-text-secondary)">{paper.short_title}</p>
   )}
