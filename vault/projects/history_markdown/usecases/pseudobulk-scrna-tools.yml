@@ -1,0 +1,41 @@
+# Tool-install request for use case: cell-type-resolved pseudobulk DE (COVID-19)
+# Issue:    https://github.com/jmchilton/galaxy-brain/issues/29
+# IWC anchor (repo names taken verbatim from the workflow .ga file):
+#   - scRNAseq/pseudobulk-worflow-decoupler-edger/pseudo-bulk_edgeR.ga
+#         (ebi-gxa/decoupler_pseudobulk; iuc/edger; iuc/volcanoplot;
+#          iuc/column_remove_by_header; iuc/collection_element_identifiers;
+#          bgruening/text_processing; bgruening/split_file_to_collection)
+# Deviation: from one pooled normal-vs-COVID_19 contrast to a per-cell-type edgeR fan-out
+#            + cross-cell-type synthesis. MVP reproduces the pooled contrast single-cell-natively.
+# NOTE: the shipped workflow's param_value_from_file step is a Galaxy built-in (no install).
+tools:
+# Aggregate single cells into per-(cell type x individual) pseudobulk profiles + QC plots
+- name: decoupler_pseudobulk
+  owner: ebi-gxa
+  tool_panel_section_label: 'Pseudobulk scRNA'
+# Differential expression (people-as-replicates) + ranked DEG tables
+- name: edger
+  owner: iuc
+  tool_panel_section_label: 'Pseudobulk scRNA'
+# Volcano of the contrast
+- name: volcanoplot
+  owner: iuc
+  tool_panel_section_label: 'Pseudobulk scRNA'
+# Count-matrix column sanitation feeding edgeR
+- name: column_remove_by_header
+  owner: iuc
+  tool_panel_section_label: 'Pseudobulk scRNA'
+# Header/column text wrangling for the sanitation chain
+- name: text_processing
+  owner: bgruening
+  tool_panel_section_label: 'Pseudobulk scRNA'
+# Split the pseudobulk matrix into a collection (per-cell-type fan-out, stretch)
+- name: split_file_to_collection
+  owner: bgruening
+  tool_panel_section_label: 'Pseudobulk scRNA'
+- name: collection_element_identifiers
+  owner: iuc
+  tool_panel_section_label: 'Pseudobulk scRNA'
+# OPTIONAL upstream "where cell-type labels come from" chapter would add the Scanpy clustering
+# stack (iuc/scanpy_* 1.10.2+galaxy*, iuc/anndata_* 0.10.9+galaxy0) -- omitted from the core
+# install as the pseudobulk MVP starts from the already-annotated h5ad.

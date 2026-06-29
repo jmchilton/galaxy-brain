@@ -1,0 +1,63 @@
+# Tool-install request for use case: HyPhy molecular-selection landscape (Dengue CDS)
+# Issue:    https://github.com/jmchilton/galaxy-brain/issues/27
+# IWC anchors (repo names taken verbatim from the workflow .ga files under
+#   workflows/comparative_genomics/hyphy/):
+#   - hyphy-preprocessing.ga  (codon-aware prep: stop-codon removal -> collapse -> faSplit ->
+#                              cawlign -> CLN -> IQ-TREE)
+#   - hyphy-core.ga           (MEME/FEL/BUSTED/PRIME selection panel, per-gene map-over)
+#   - hyphy-compare.ga        (annotate foreground -> RELAX + Contrast-FEL)
+#   - capheine-core-and-compare.ga (orchestrator; ends in DRHIP combined-summary tables)
+# Deviation: turn the batch per-gene JSON pipeline into a notebook that embeds DRHIP
+#            combined-summary/site tables as on-graph artifacts. MVP can import precomputed
+#            codon_alignments/ + iqtree_trees/ to skip the alignment/tree runtime.
+tools:
+# Codon-aware preprocessing chain (feeds Core; skippable in the MVP via precomputed inputs)
+- name: remove_terminal_stop_codons
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+- name: collapse_collections
+  owner: nml
+  tool_panel_section_label: 'HyPhy Selection'
+- name: ucsc_fasplit
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+- name: cawlign
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+- name: hyphy_cln
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+- name: iqtree
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+# Core selection panel, mapped over the codon-alignment collection
+- name: hyphy_meme
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+- name: hyphy_fel
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+- name: hyphy_busted
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+- name: hyphy_prime
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+# Compare branch (stretch): label the 2023 foreground, then RELAX + Contrast-FEL
+- name: hyphy_annotate
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+- name: hyphy_relax
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+- name: hyphy_cfel
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+# Collapse the per-gene HyPhy JSONs into combined on-graph summary/site tables (the embeds)
+- name: drhip
+  owner: iuc
+  tool_panel_section_label: 'HyPhy Selection'
+# General table wrangling used across the preprocessing/summary steps
+- name: text_processing
+  owner: bgruening
+  tool_panel_section_label: 'HyPhy Selection'

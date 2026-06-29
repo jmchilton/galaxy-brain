@@ -9,7 +9,7 @@ tags:
 status: draft
 paper_stage: drafting
 paper_kind: methods
-target_venue: "Genome Biology"
+target_venue: "Genome Research"
 central_claim: "The Galaxy Workflow Foundry improves agentic workflow construction by compiling curated, schema-typed workflow knowledge into portable skills with explicit provenance instead of relying on runtime retrieval alone."
 related_projects:
   - "[[workflow_state]]"
@@ -38,15 +38,15 @@ Runtime retrieval is not enough for schema-bound workflow construction. Foundry 
 
 ## Current Emphasis
 
-This is the most speculative paper. It needs concrete case studies before it becomes a conventional software manuscript.
+This is the most speculative paper. It needs a concrete case study before it becomes a conventional software manuscript. The demonstrated path is **construction from intent** (`interview-to-galaxy`); cross-source conversion is architecturally supported but not yet exercised end-to-end. Because the construction path supplies no demonstrated biological application, the working venue has been pulled back from Genome Biology (see Target Ladder).
 
 ## Target Ladder
 
-Aim high but maintain a credible retreat path. Draft once at the highest target's length; fallbacks are trim operations on that draft, not rewrites.
+Aim high but maintain a credible retreat path. Draft once at the highest realistic target's length; fallbacks are trim operations on that draft, not rewrites. **Pulled back one rung (2026-06):** the demonstrated path is construction-from-intent with no biological-application story, so the working primary is Genome Research, not Genome Biology.
 
-**Primary — Genome Biology, Method/Software article, ~6000–8000 words.** Foundry is the one paper in this set with a credible biological angle: each case study is a real published pipeline (paper-to-Galaxy, Nextflow-to-Galaxy, CWL-to-Galaxy) converted and re-validated. Genome Biology's Software section explicitly expects demonstrated application — Foundry can supply it because every Mold produces a checkable artifact tied to a real upstream pipeline. Aim higher *here*, not at gxwf, because this is the paper whose contribution can credibly earn the venue. Requires at least 2 worked case studies with biological context (recovered signal, parameter-drift caught, reproducibility delta) — PhD contributors carry the weight here.
+**Working primary — Genome Research, Methods/Resource, ~6000–8000 words.** Infrastructure-with-applied-validation framing, with Planemo precedent at the venue. Carries the construction case study (`gxwf`- and `planemo`-validated, provenance-traced) plus the failure-comparison vignette against an unguided-agent baseline. Does not require demonstrated biological discovery — the contribution is the compiler/typed-draft/provenance machinery, validated on a real construction task.
 
-**Fallback 1 — Genome Research, Methods/Resource, ~6000–8000 words.** If reviewers push back on biological discovery being insufficient for Genome Biology's Software section, GR is the natural step down with Planemo precedent. Same case studies, retarget the framing from "biology enabled" to "infrastructure with applied validation." Minimal prose surgery, no length cut.
+**Aspirational — Genome Biology, Method/Software article, ~6000–8000 words.** *Gated on capability the project does not have today.* Genome Biology's Software section expects demonstrated biological application; that needs at least 2 worked case studies on real published pipelines (recovered signal, parameter-drift caught, reproducibility delta) — which means the conversion paths working end-to-end, not just construction-from-intent. Keep the door open only if a PhD-contributor lands a real conversion + biology result; do not plan the draft around it.
 
 **Fallback 2 — Bioinformatics Original Paper, ~5000 words.** Trim from the higher draft: one case study instead of N, schema-as-contract pattern compressed to one section, drop comparison-to-runtime-retrieval framing, treat Molds as a single concept rather than a typology. Loses the "compiler" framing's depth; reduces to "agent-authoring pipeline for Galaxy workflows backed by gxwf validation."
 

@@ -6,9 +6,9 @@ Production tracker. Captions live in the manuscript's Figures section; this file
 |---|---|---|---|
 | 1 | Knowledge base → skill | Diagram: Pattern/Mold/Pipeline/Schema → casting compiler → cast (refs + provenance) | TODO draw |
 | 2 | Progressive disclosure | Diagram: skill body upfront, references opened on trigger | TODO draw |
-| 3 | Provenance walkthrough | Real `SKILL.md` excerpt + its `_provenance.json` entry from an existing cast | TODO — pick a clean cast; gated on choosing the case-study Mold |
+| 3 | Provenance walkthrough | Real `SKILL.md` excerpt + its `_provenance.json` entry from an existing cast | **instantiated** — `provenance-walkthrough.md` (implement-galaxy-workflow-test → planemo-asserts-idioms note; SHA-256 recomputed and matches). Not gated on the case study after all. Needs drawing. |
 | 4 | Case-study flow | Real completed case study (source → summary → design Molds → draft → `gxwf` validate) | **blocked** on case study (`case-study.md`) |
-| 5 | Workflow draft resolves (Deferred → Identity-pinned → Resolved → promoted + `gxwf` green) | One real step shown at three resolution tiers over fixed topology | can be instantiated from a real draft progression; the "under-determination as a typed state" figure |
+| 5 | Workflow draft resolves (Deferred → Identity-pinned → Resolved → promoted + `gxwf` green) | One real step shown at three resolution tiers over fixed topology | **drafted** — `figure5-draft-resolves.md` (UC3 DESeq2 step; tiers 2–3 real artifacts, tier 1 reconstructed; ends in promotion + `gxwf` green + the `factor:["2"]` schema-catch). Mechanism illustration over a stand-in run, **not** Evidence-table data. Needs drawing. |
 | 6 | Draft extraction (draft + planned overlay → extracted concrete subset, promoted to `GalaxyWorkflow`) | `figures/mobile_reformat_draft.png` + `figures/mobile_reformat_extracted.png` (MRSA step-07; see `figures/MANIFEST.md`) | **embedded** in manuscript Figures section (both panels, note-relative paths); captioned + body callout wired (`Figure 6`); **mechanism figure, not case-study evidence** |
 
 Notes:

@@ -1,0 +1,40 @@
+# Tool-install request for use case: molecular-formula assignment + van Krevelen (FT-MS)
+# Issue:    https://github.com/jmchilton/galaxy-brain/issues/30
+# IWC anchor (repo names taken verbatim from the workflow .ga file):
+#   - metabolomics/mfassignr/mfassignr.ga  (RECETOX/MUNI; all repos owner recetox)
+# Note: Tool Shed repo names are lowercase (mfassignr_mfassigncho, mfassignr_findrecalseries),
+#       even though the issue text shows the camelCase inner tool ids (mfassignCHO, findRecalSeries).
+# Shape: a linear single-sample assignment+recalibration chain (no map-over); the notebook's
+#        money shot is the on-graph van Krevelen (VK) plot from mfassignr_mfassign.
+tools:
+# Noise estimation (choose KMDNoise vs HistNoise) + signal-to-noise diagnostic
+- name: mfassignr_kmdnoise
+  owner: recetox
+  tool_panel_section_label: 'FT-MS Formula Assignment'
+- name: mfassignr_histnoise
+  owner: recetox
+  tool_panel_section_label: 'FT-MS Formula Assignment'
+- name: mfassignr_snplot
+  owner: recetox
+  tool_panel_section_label: 'FT-MS Formula Assignment'
+# Isotope filtering (monoisotopic vs isotopologue peaks)
+- name: mfassignr_isofiltr
+  owner: recetox
+  tool_panel_section_label: 'FT-MS Formula Assignment'
+# First-pass CHO-only assignment -> recalibrant series selection -> recalibration (MZplot)
+- name: mfassignr_mfassigncho
+  owner: recetox
+  tool_panel_section_label: 'FT-MS Formula Assignment'
+- name: mfassignr_recallist
+  owner: recetox
+  tool_panel_section_label: 'FT-MS Formula Assignment'
+- name: mfassignr_findrecalseries
+  owner: recetox
+  tool_panel_section_label: 'FT-MS Formula Assignment'
+- name: mfassignr_recal
+  owner: recetox
+  tool_panel_section_label: 'FT-MS Formula Assignment'
+# Final heteroatom assignment: Unambig/Ambig/None tables + per-element plots (VK, MSgroups, errorMZ)
+- name: mfassignr_mfassign
+  owner: recetox
+  tool_panel_section_label: 'FT-MS Formula Assignment'

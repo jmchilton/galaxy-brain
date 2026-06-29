@@ -1,0 +1,467 @@
+{
+  "a_galaxy_workflow": "true",
+  "annotation": "",
+  "comments": [],
+  "format-version": "0.1",
+  "name": "UC7 MFAssignR van Krevelen (extracted)",
+  "steps": {
+    "0": {
+      "annotation": "",
+      "content_id": null,
+      "errors": null,
+      "id": 0,
+      "input_connections": {},
+      "inputs": [
+        {
+          "description": "",
+          "name": "Input Dataset"
+        }
+      ],
+      "label": "Input Dataset",
+      "name": "Input dataset",
+      "outputs": [],
+      "position": {
+        "left": 10,
+        "top": 10
+      },
+      "tool_id": null,
+      "tool_state": "{\"optional\": false, \"tag\": null}",
+      "tool_version": null,
+      "type": "data_input",
+      "uuid": "7222a4e6-c0f8-411f-879c-233a97fd8558",
+      "when": null,
+      "workflow_outputs": []
+    },
+    "1": {
+      "annotation": "",
+      "content_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_kmdnoise/mfassignr_kmdnoise/1.1.2+galaxy0",
+      "errors": null,
+      "id": 1,
+      "input_connections": {
+        "input_file": {
+          "id": 0,
+          "output_name": "output"
+        }
+      },
+      "inputs": [],
+      "label": null,
+      "name": "MFAssignR KMDNoise",
+      "outputs": [
+        {
+          "name": "Noise",
+          "type": "txt"
+        },
+        {
+          "name": "KMD_plot",
+          "type": "png"
+        }
+      ],
+      "position": {
+        "left": 230,
+        "top": 10
+      },
+      "post_job_actions": {},
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_kmdnoise/mfassignr_kmdnoise/1.1.2+galaxy0",
+      "tool_shed_repository": {
+        "changeset_revision": "a7a823839ae3",
+        "name": "mfassignr_kmdnoise",
+        "owner": "recetox",
+        "tool_shed": "toolshed.g2.bx.psu.edu"
+      },
+      "tool_state": "{\"__input_ext\": \"input\", \"__workflow_invocation_uuid__\": \"26f711406cb311f1adefd16b685637e4\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"input_file\": null, \"lower_x\": null, \"lower_y\": \"0.05\", \"upper_x\": null, \"upper_y\": \"0.2\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+      "tool_uuid": null,
+      "tool_version": "1.1.2+galaxy0",
+      "type": "tool",
+      "uuid": "3969026a-b3ee-4a64-bcec-4f2097a5d635",
+      "when": null,
+      "workflow_outputs": []
+    },
+    "2": {
+      "annotation": "",
+      "content_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_histnoise/mfassignr_histnoise/1.1.2+galaxy0",
+      "errors": null,
+      "id": 2,
+      "input_connections": {
+        "input_file": {
+          "id": 0,
+          "output_name": "output"
+        }
+      },
+      "inputs": [],
+      "label": null,
+      "name": "MFAssignR HistNoise",
+      "outputs": [
+        {
+          "name": "Noise",
+          "type": "txt"
+        },
+        {
+          "name": "Hist_plot",
+          "type": "png"
+        }
+      ],
+      "position": {
+        "left": 230,
+        "top": 130
+      },
+      "post_job_actions": {},
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_histnoise/mfassignr_histnoise/1.1.2+galaxy0",
+      "tool_shed_repository": {
+        "changeset_revision": "9654573e6889",
+        "name": "mfassignr_histnoise",
+        "owner": "recetox",
+        "tool_shed": "toolshed.g2.bx.psu.edu"
+      },
+      "tool_state": "{\"SN\": \"0.0\", \"__input_ext\": \"input\", \"__workflow_invocation_uuid__\": \"26f711406cb311f1adefd16b685637e4\", \"bin\": \"0.01\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"input_file\": null, \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+      "tool_uuid": null,
+      "tool_version": "1.1.2+galaxy0",
+      "type": "tool",
+      "uuid": "b0eb88ba-4267-4997-a50e-70b2b61d333e",
+      "when": null,
+      "workflow_outputs": []
+    },
+    "3": {
+      "annotation": "",
+      "content_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_snplot/mfassignr_snplot/1.1.2+galaxy1",
+      "errors": null,
+      "id": 3,
+      "input_connections": {
+        "input_file": {
+          "id": 0,
+          "output_name": "output"
+        }
+      },
+      "inputs": [],
+      "label": null,
+      "name": "MFAssignR SNplot",
+      "outputs": [
+        {
+          "name": "SNplot",
+          "type": "png"
+        }
+      ],
+      "position": {
+        "left": 230,
+        "top": 250
+      },
+      "post_job_actions": {},
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_snplot/mfassignr_snplot/1.1.2+galaxy1",
+      "tool_shed_repository": {
+        "changeset_revision": "f19c0631b9e5",
+        "name": "mfassignr_snplot",
+        "owner": "recetox",
+        "tool_shed": "toolshed.g2.bx.psu.edu"
+      },
+      "tool_state": "{\"__input_ext\": \"input\", \"__workflow_invocation_uuid__\": \"26f711406cb311f1adefd16b685637e4\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"cut\": \"2076.0\", \"input_file\": null, \"kmdn\": \"0.0\", \"mass\": \"301.0\", \"sn_ratio\": \"6.0\", \"window_x\": \"50.0\", \"window_y\": \"10.0\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+      "tool_uuid": null,
+      "tool_version": "1.1.2+galaxy1",
+      "type": "tool",
+      "uuid": "e4949ff0-5356-4c98-adca-f349a54b530f",
+      "when": null,
+      "workflow_outputs": []
+    },
+    "4": {
+      "annotation": "",
+      "content_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_isofiltr/mfassignr_isofiltr/1.1.2+galaxy1",
+      "errors": null,
+      "id": 4,
+      "input_connections": {
+        "peaks": {
+          "id": 0,
+          "output_name": "output"
+        }
+      },
+      "inputs": [],
+      "label": null,
+      "name": "MFAssignR IsoFiltR",
+      "outputs": [
+        {
+          "name": "mono_out",
+          "type": "tabular"
+        },
+        {
+          "name": "iso_out",
+          "type": "tabular"
+        }
+      ],
+      "position": {
+        "left": 230,
+        "top": 370
+      },
+      "post_job_actions": {},
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_isofiltr/mfassignr_isofiltr/1.1.2+galaxy1",
+      "tool_shed_repository": {
+        "changeset_revision": "1c199c3d5993",
+        "name": "mfassignr_isofiltr",
+        "owner": "recetox",
+        "tool_shed": "toolshed.g2.bx.psu.edu"
+      },
+      "tool_state": "{\"Carberr\": \"5.0\", \"Carbrat\": \"60.0\", \"SN\": \"346.0\", \"Sulferr\": \"5.0\", \"Sulfrat\": \"30.0\", \"__input_ext\": \"input\", \"__workflow_invocation_uuid__\": \"26f711406cb311f1adefd16b685637e4\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"kmdn\": \"0.0\", \"peaks\": null, \"sn_ratio\": \"6.0\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+      "tool_uuid": null,
+      "tool_version": "1.1.2+galaxy1",
+      "type": "tool",
+      "uuid": "23985c84-d947-4ffd-be41-0125f394e5f7",
+      "when": null,
+      "workflow_outputs": []
+    },
+    "5": {
+      "annotation": "",
+      "content_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_mfassigncho/mfassignr_mfassignCHO/1.1.2+galaxy1",
+      "errors": null,
+      "id": 5,
+      "input_connections": {
+        "input_iso": {
+          "id": 4,
+          "output_name": "iso_out"
+        },
+        "input_mono": {
+          "id": 4,
+          "output_name": "mono_out"
+        }
+      },
+      "inputs": [],
+      "label": null,
+      "name": "MFAssignR MFAssignCHO",
+      "outputs": [
+        {
+          "name": "plots",
+          "type": "input"
+        },
+        {
+          "name": "Unambig",
+          "type": "tabular"
+        },
+        {
+          "name": "Ambig",
+          "type": "tabular"
+        },
+        {
+          "name": "None",
+          "type": "tabular"
+        }
+      ],
+      "position": {
+        "left": 450,
+        "top": 10
+      },
+      "post_job_actions": {},
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_mfassigncho/mfassignr_mfassignCHO/1.1.2+galaxy1",
+      "tool_shed_repository": {
+        "changeset_revision": "da64d663694b",
+        "name": "mfassignr_mfassigncho",
+        "owner": "recetox",
+        "tool_shed": "toolshed.g2.bx.psu.edu"
+      },
+      "tool_state": "{\"__input_ext\": \"input\", \"__workflow_invocation_uuid__\": \"26f711406cb311f1adefd16b685637e4\", \"advanced\": {\"elements_amount\": {\"Ex\": \"0\", \"Mx\": \"0\", \"NH4x\": \"0\", \"Ox\": \"30\"}, \"set_ratios\": {\"O_Cmin\": \"0.0\", \"O_Cmax\": \"2.5\", \"H_Cmin\": \"0.1\", \"H_Cmax\": \"3.0\"}, \"other_params\": {\"Zx\": \"1\", \"assign_typeof_ions\": \"no\", \"DBEOmin\": \"-13.0\", \"DBEOmax\": \"13.0\", \"Omin\": \"0\", \"max_def\": \"0.9\", \"min_def\": \"0.5\", \"HetCut\": \"off\", \"NMScut\": \"on\", \"nLoop\": \"5\", \"ambig_bool\": \"off\", \"MSMS\": \"off\", \"DeNovo\": \"1000.0\"}}, \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"highMW\": \"1000.0\", \"input_iso\": null, \"input_mono\": null, \"ionmode\": \"neg\", \"kmdn\": \"346.0\", \"lowMW\": \"50.0\", \"ppm_err\": \"3\", \"sn_ratio\": \"6.0\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+      "tool_uuid": null,
+      "tool_version": "1.1.2+galaxy1",
+      "type": "tool",
+      "uuid": "66869ffa-6eb4-48a6-a4fb-0a111c69baa9",
+      "when": null,
+      "workflow_outputs": []
+    },
+    "6": {
+      "annotation": "",
+      "content_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_recallist/mfassignr_recallist/1.1.2+galaxy0",
+      "errors": null,
+      "id": 6,
+      "input_connections": {
+        "input_file": {
+          "id": 5,
+          "output_name": "Unambig"
+        }
+      },
+      "inputs": [],
+      "label": null,
+      "name": "MFAssignR RecalList",
+      "outputs": [
+        {
+          "name": "recal_series",
+          "type": "tabular"
+        }
+      ],
+      "position": {
+        "left": 670,
+        "top": 10
+      },
+      "post_job_actions": {},
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_recallist/mfassignr_recallist/1.1.2+galaxy0",
+      "tool_shed_repository": {
+        "changeset_revision": "6c7b17d38a1d",
+        "name": "mfassignr_recallist",
+        "owner": "recetox",
+        "tool_shed": "toolshed.g2.bx.psu.edu"
+      },
+      "tool_state": "{\"__input_ext\": \"input\", \"__workflow_invocation_uuid__\": \"26f711406cb311f1adefd16b685637e4\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"input_file\": null, \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+      "tool_uuid": null,
+      "tool_version": "1.1.2+galaxy0",
+      "type": "tool",
+      "uuid": "3050a589-0406-436b-8436-c063715eacf1",
+      "when": null,
+      "workflow_outputs": []
+    },
+    "7": {
+      "annotation": "",
+      "content_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_findrecalseries/mfassignr_findRecalSeries/1.1.2+galaxy1",
+      "errors": null,
+      "id": 7,
+      "input_connections": {
+        "input_file": {
+          "id": 6,
+          "output_name": "recal_series"
+        }
+      },
+      "inputs": [],
+      "label": null,
+      "name": "MFAssignR FindRecalSeries",
+      "outputs": [
+        {
+          "name": "final_series",
+          "type": "tabular"
+        }
+      ],
+      "position": {
+        "left": 890,
+        "top": 10
+      },
+      "post_job_actions": {},
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_findrecalseries/mfassignr_findRecalSeries/1.1.2+galaxy1",
+      "tool_shed_repository": {
+        "changeset_revision": "1b4881c150cc",
+        "name": "mfassignr_findrecalseries",
+        "owner": "recetox",
+        "tool_shed": "toolshed.g2.bx.psu.edu"
+      },
+      "tool_state": "{\"__input_ext\": \"input\", \"__workflow_invocation_uuid__\": \"26f711406cb311f1adefd16b685637e4\", \"abundance_score_threshold\": \"100.0\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"coverage_threshold\": \"90\", \"fill_series\": \"false\", \"global_max\": \"1000.0\", \"global_min\": \"0.0\", \"input_file\": null, \"number_of_combinations\": \"5\", \"peak_distance_threshold\": \"2.0\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+      "tool_uuid": null,
+      "tool_version": "1.1.2+galaxy1",
+      "type": "tool",
+      "uuid": "4fee715b-619f-4939-88d9-366c527f2b79",
+      "when": null,
+      "workflow_outputs": []
+    },
+    "8": {
+      "annotation": "",
+      "content_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_recal/mfassignr_recal/1.1.2+galaxy0",
+      "errors": null,
+      "id": 8,
+      "input_connections": {
+        "input_file": {
+          "id": 5,
+          "output_name": "Unambig"
+        },
+        "isopeaks": {
+          "id": 4,
+          "output_name": "iso_out"
+        },
+        "peaks": {
+          "id": 4,
+          "output_name": "mono_out"
+        },
+        "series": {
+          "id": 7,
+          "output_name": "final_series"
+        }
+      },
+      "inputs": [],
+      "label": null,
+      "name": "MFAssignR Recal",
+      "outputs": [
+        {
+          "name": "Mono",
+          "type": "tabular"
+        },
+        {
+          "name": "Iso",
+          "type": "tabular"
+        },
+        {
+          "name": "Recalibrants",
+          "type": "tabular"
+        },
+        {
+          "name": "MZplot",
+          "type": "png"
+        }
+      ],
+      "position": {
+        "left": 1110,
+        "top": 10
+      },
+      "post_job_actions": {},
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_recal/mfassignr_recal/1.1.2+galaxy0",
+      "tool_shed_repository": {
+        "changeset_revision": "cfcf45ba58be",
+        "name": "mfassignr_recal",
+        "owner": "recetox",
+        "tool_shed": "toolshed.g2.bx.psu.edu"
+      },
+      "tool_state": "{\"CalPeak\": \"150.0\", \"__input_ext\": \"input\", \"__workflow_invocation_uuid__\": \"26f711406cb311f1adefd16b685637e4\", \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"input_file\": null, \"ionmode\": \"neg\", \"isopeaks\": null, \"kmdn\": \"346.0\", \"mzRange\": \"50.0\", \"peaks\": null, \"series\": null, \"sn_ratio\": \"6.0\", \"step_H2\": \"5.0\", \"step_O\": \"3.0\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+      "tool_uuid": null,
+      "tool_version": "1.1.2+galaxy0",
+      "type": "tool",
+      "uuid": "00a2e616-c201-46b8-9e0a-42937697ac64",
+      "when": null,
+      "workflow_outputs": []
+    },
+    "9": {
+      "annotation": "",
+      "content_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_mfassign/mfassignr_mfassign/1.1.2+galaxy1",
+      "errors": null,
+      "id": 9,
+      "input_connections": {
+        "input_iso": {
+          "id": 8,
+          "output_name": "Iso"
+        },
+        "input_mono": {
+          "id": 8,
+          "output_name": "Mono"
+        }
+      },
+      "inputs": [],
+      "label": null,
+      "name": "MFAssignR MFAssign",
+      "outputs": [
+        {
+          "name": "plots",
+          "type": "input"
+        },
+        {
+          "name": "Unambig",
+          "type": "tabular"
+        },
+        {
+          "name": "Ambig",
+          "type": "tabular"
+        },
+        {
+          "name": "None",
+          "type": "tabular"
+        }
+      ],
+      "position": {
+        "left": 1330,
+        "top": 10
+      },
+      "post_job_actions": {},
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/recetox/mfassignr_mfassign/mfassignr_mfassign/1.1.2+galaxy1",
+      "tool_shed_repository": {
+        "changeset_revision": "22c80f584bb1",
+        "name": "mfassignr_mfassign",
+        "owner": "recetox",
+        "tool_shed": "toolshed.g2.bx.psu.edu"
+      },
+      "tool_state": "{\"__input_ext\": \"input\", \"__workflow_invocation_uuid__\": \"26f711406cb311f1adefd16b685637e4\", \"advanced\": {\"elements_amount\": {\"Nx\": \"0\", \"Sx\": \"0\", \"Px\": \"0\", \"Ex\": \"0\", \"S34x\": \"0\", \"N15x\": \"0\", \"Dx\": \"0\", \"Clx\": \"0\", \"Fx\": \"0\", \"Cl37x\": \"0\", \"Br81x\": \"0\", \"Ix\": \"0\", \"Mx\": \"0\", \"NH4x\": \"0\", \"Ox\": \"30\"}, \"set_valence\": {\"Sval\": \"2\", \"Nval\": \"3\", \"S34val\": \"2\", \"N15val\": \"3\", \"Pval\": \"5\"}, \"set_ratios\": {\"O_Cmin\": \"0.0\", \"O_Cmax\": \"2.5\", \"H_Cmin\": \"0.1\", \"H_Cmax\": \"3.0\", \"S34_abund\": \"30\", \"C13_abund\": \"60\"}, \"other_params\": {\"iso_err\": \"3\", \"Zx\": \"1\", \"assign_typeof_ions\": \"no\", \"DBEOmin\": \"-13.0\", \"DBEOmax\": \"13.0\", \"Omin\": \"0\", \"max_def\": \"0.9\", \"min_def\": \"0.5\", \"HetCut\": \"off\", \"NMScut\": \"on\", \"nLoop\": \"5\", \"ambig_bool\": \"off\", \"MSMS\": \"off\", \"SulfCheck\": \"on\", \"N3corr\": \"on\", \"DeNovo\": \"300.0\"}}, \"chromInfo\": \"/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/tool-data/shared/ucsc/chrom/?.len\", \"highMW\": \"1000.0\", \"input_iso\": null, \"input_mono\": null, \"ionmode\": \"neg\", \"kmdn\": \"346.0\", \"lowMW\": \"50.0\", \"ppm_err\": \"3\", \"sn_ratio\": \"6.0\", \"__page__\": 0, \"__rerun_remap_job_id__\": null}",
+      "tool_uuid": null,
+      "tool_version": "1.1.2+galaxy1",
+      "type": "tool",
+      "uuid": "30b38128-1f8e-4a57-a6ea-2c8417e6e348",
+      "when": null,
+      "workflow_outputs": []
+    }
+  },
+  "tags": [],
+  "uuid": "9d11daea-5116-41f2-9ea0-55fd60656377",
+  "version": 0
+}

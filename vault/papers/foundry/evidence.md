@@ -13,8 +13,8 @@ Status tracker for what the paper can stand on. The manuscript's Evidence sectio
 
 The central efficacy claim is **not yet demonstrated**. Tracked in `case-study.md`:
 
-- One (ideally two) complete narrative case study: real upstream pipeline → schema-valid summary → design Molds → `gxformat2` draft → `gxwf` validation → provenance trace.
-- A failure-comparison vignette (monolithic skill / unguided agent vs. the decomposed loop).
+- One clean **construction** case study (the path that runs): real analysis intent → freeform-summary → design Molds → exemplar comparison → `gxformat2` draft → per-step resolution → `gxwf` validation → `planemo test` → provenance trace. Conversion (Nextflow/CWL/paper → Galaxy) follows once a path is exercised end-to-end; only `summarize-nextflow` ships runtime code today.
+- A failure-comparison vignette (monolithic skill / unguided agent vs. the decomposed loop) on the construction task — fabrication-catch is the load-bearing metric.
 - A provenance walkthrough (one `SKILL.md` paragraph traced to Mold + source ref).
 
 **Not evidence:** the `_emulated-runs/` dev test-drives in the project repo. They are internal harness shake-outs that surface gaps; they are not publishable end-to-end conversions and must not be presented as results.

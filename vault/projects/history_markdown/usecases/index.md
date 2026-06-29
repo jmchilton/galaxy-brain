@@ -8,10 +8,10 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-06-12
-revised: 2026-06-14
-revision: 1
+revised: 2026-06-19
+revision: 2
 ai_generated: true
-summary: "Three worked Galaxy Notebooks use cases (UC1–UC3) and the workflows extracted from them, supporting the Galaxy Notebooks paper."
+summary: "Galaxy Notebooks paper use cases: UC1–UC3 worked with extracted workflows; UC4–UC7 newly seeded as interview inputs from an IWC review."
 ---
 
 This document is tracking our effort to build three really nice use cases for Galaxy Notebooks and extracting workflows from them.
@@ -28,6 +28,12 @@ Uses Cases:
 -  Galaxy Notebooks demo: MRSA mobile AMR context across isolates https://github.com/jmchilton/galaxy-brain/issues/12
 - Galaxy Notebooks demo: TAL1 peaks to candidate regulated genes  https://github.com/jmchilton/galaxy-brain/issues/13
 - Galaxy Notebooks demo: differential ATAC-seq accessibility https://github.com/jmchilton/galaxy-brain/issues/14 
+
+Newly seeded from IWC review (interview inputs only; no notebook/extraction yet):
+- UC4 — Galaxy Notebooks demo: HyPhy molecular-selection landscape across Dengue CDS genes https://github.com/jmchilton/galaxy-brain/issues/27
+- UC5 — Galaxy Notebooks demo: per-object morphometric cohort analysis of IHC-stained tissue (control vs drug-treated) https://github.com/jmchilton/galaxy-brain/issues/28
+- UC6 — Galaxy Notebooks demo: cell-type-resolved pseudobulk differential expression (COVID-19) https://github.com/jmchilton/galaxy-brain/issues/29
+- UC7 — Galaxy Notebooks demo: molecular-formula assignment and van Krevelen chemical-space characterization (FT-MS) https://github.com/jmchilton/galaxy-brain/issues/30
 
 ## Local environment (for agents working in this worktree)
 

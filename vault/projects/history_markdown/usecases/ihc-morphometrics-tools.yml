@@ -1,0 +1,59 @@
+# Tool-install request for use case: per-object IHC morphometric cohort (CD11b, control vs drug)
+# Issue:    https://github.com/jmchilton/galaxy-brain/issues/28
+# IWC anchors (repo names taken verbatim from the workflow .ga files under workflows/imaging/):
+#   - histological-staining-area-quantification.ga
+#         (imgteam color_deconvolution/split_image/2d_auto_threshold/2d_feature_extraction/
+#          imagej2_analyze_particles_binary/image_info; devteam/column_maker;
+#          iuc/collection_element_identifiers; nml/collapse_collections; bgruening/text_processing)
+#   - fluorescence-nuclei-segmentation-and-counting.ga
+#         (object lever: imgteam binary2labelimage/count_objects/overlay_images)
+# Deviation: from one "% stained area" per image to per-object morphology+intensity
+#            distributions across a 6-ROI cohort (3 control / 3 treated), as a collection map-over.
+tools:
+# Staining-quantification chain (MVP anchor): deconvolve -> split DAB channel -> Otsu threshold
+- name: color_deconvolution
+  owner: imgteam
+  tool_panel_section_label: 'IHC Morphometrics'
+- name: split_image
+  owner: imgteam
+  tool_panel_section_label: 'IHC Morphometrics'
+- name: 2d_auto_threshold
+  owner: imgteam
+  tool_panel_section_label: 'IHC Morphometrics'
+# Object lever: connected-components label map -> per-object features -> object count -> overlay
+- name: binary2labelimage
+  owner: imgteam
+  tool_panel_section_label: 'IHC Morphometrics'
+- name: 2d_feature_extraction
+  owner: imgteam
+  tool_panel_section_label: 'IHC Morphometrics'
+- name: count_objects
+  owner: imgteam
+  tool_panel_section_label: 'IHC Morphometrics'
+- name: overlay_images
+  owner: imgteam
+  tool_panel_section_label: 'IHC Morphometrics'
+# Current histological particle-size filter (may be replaced fully by binary2labelimage)
+- name: imagej2_analyze_particles_binary
+  owner: imgteam
+  tool_panel_section_label: 'IHC Morphometrics'
+# Image metadata (total_area for the % stained-area summary)
+- name: image_info
+  owner: imgteam
+  tool_panel_section_label: 'IHC Morphometrics'
+# Table/collection wrangling: tag sample_id/condition, collapse per-object tables, % area summary
+- name: column_maker
+  owner: devteam
+  tool_panel_section_label: 'IHC Morphometrics'
+- name: text_processing
+  owner: bgruening
+  tool_panel_section_label: 'IHC Morphometrics'
+- name: collection_element_identifiers
+  owner: iuc
+  tool_panel_section_label: 'IHC Morphometrics'
+- name: collapse_collections
+  owner: nml
+  tool_panel_section_label: 'IHC Morphometrics'
+# NOTE: object-distribution box/violin plot and the per-sample feature heatmap are open
+#       tasks in the issue (exact on-graph repo IDs unconfirmed) -- add once pinned,
+#       likely an iuc/ggplot2_* repo (e.g. ggplot2_heatmap2) plus a box/violin plotter.
