@@ -8,8 +8,8 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-02-16
-revised: 2026-06-06
-revision: 3
+revised: 2026-07-13
+revision: 4
 ai_generated: true
 summary: "API test plumbing: ApiTestCase base class, populators, fixtures, decorators, assertions, user context switching"
 related_notes:
@@ -18,6 +18,7 @@ related_notes:
   - "[[Component - Tool Testing Infrastructure]]"
   - "[[Component - Workflow Testing]]"
   - "[[PR 21335 - GA4GH WES API]]"
+  - "[[Component - DRS Support]]"
 ---
 
 # Writing Galaxy API Tests

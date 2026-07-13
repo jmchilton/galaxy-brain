@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*109 notes. Auto-generated — run `make index` to refresh.*
+*111 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -17,7 +17,7 @@
 - [[architecture]] — Mirrored view of the galaxy-architecture repo — training topics rendered as vault-readable markdown.
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
 - [[wf_refactor_persistence]] — Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113).
-- [[usecases]] — Three worked Galaxy Notebooks use cases (UC1–UC3) and the workflows extracted from them, supporting the Galaxy Notebooks paper.
+- [[usecases]] — Galaxy Notebooks paper use cases: UC1–UC3 worked with extracted workflows; UC4–UC7 newly seeded as interview inputs from an IWC review.
 - [[workflow_state]] — Workflow validation infrastructure: pre-execution parameter typing, format2 usability, VS Code tooling, tool search overhaul.
 
 ## Papers
@@ -42,6 +42,7 @@
 - [[Component - CWL Ephemeral Collections]] — Lightweight non-persisted collections created during CWL execution for MultipleInputFeatureRequirement merge strategies
 - [[Component - CWL Workflow State]] — CWL workflow import to persistence to execution: parsed via WorkflowProxy, state encoded/decoded, tool_inputs dict
 - [[Component - Collection Creation API]] — Two-path collection creation: direct POST with element identifiers or fetch API uploading new data atomically
+- [[Component - DRS Support]] — Client and server for GA4GH DRS URIs — file-source plugin, identifiers.org compact-identifier resolution, OIDC bearer token attachment
 - [[Component - Agents Backend]] — Multi-agent AI framework with pydantic-ai, five specialized agents, registry pattern, and async execution
 - [[Component - Agents UX]] — Four agent UX surfaces: ChatGXY full-page chat, GalaxyWizard error widget, tool generator, Jupyternaut proxy
 - [[Component - Backend Dependency Management]] — Python deps via uv: pyproject.toml, uv.lock, pinned-*.txt files, conditional dependency resolver, weekly updates
@@ -142,3 +143,7 @@
 ### Issue Roundups
 
 - [[Workflow Extraction Issues]] — Workflow extraction has open issues with copied datasets, connection loss, interface needs Vue conversion
+
+## Maps of Content
+
+- [[JOHNS_TASKS]] — Running personal task list of Galaxy dev work threads tracked by date with checkboxes

@@ -13,8 +13,8 @@ related_prs:
   - 20935
 status: draft
 created: 2026-06-06
-revised: 2026-06-06
-revision: 1
+revised: 2026-07-13
+revision: 2
 ai_generated: true
 summary: "GA4GH WES API exposing Galaxy workflow runs with gxworkflow URI loading state mapping and keyset pagination"
 related_notes:
@@ -24,6 +24,7 @@ related_notes:
   - "[[PR 20935 - Tool Request API]]"
   - "[[Component - Format2 Workflows (gxformat2)]]"
   - "[[Component - API Tests]]"
+  - "[[Component - DRS Support]]"
 sources:
   - "https://github.com/galaxyproject/galaxy/pull/21335"
 ---

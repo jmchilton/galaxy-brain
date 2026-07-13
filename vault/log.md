@@ -236,3 +236,12 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Data Fetch]] — reciprocal backlink; landing endpoints use allow_cors reflected-origin path
   - [[Component - Workflow API]] — reciprocal backlink; reconciles its "Public (CORS enabled)" landing claim
   - [[PR 21942 - Shared Agent Operations and MCP Server]] — reciprocal backlink; corrects MCP "inherits CORS via app.mount" claim
+
+## 2026-07-13 ingest — DRS Support
+- **source**: /Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-DRS-Support.md
+- **created**: [[Component - DRS Support]]
+- **updated**:
+  - [[Component - Data Fetch]] — reciprocal backlink; DRS is a file source consumed by the import pipeline
+  - [[PR 21335 - GA4GH WES API]] — reciprocal backlink; sibling GA4GH API sharing build_service_info plumbing
+  - [[Component - CORS Handling]] — reciprocal backlink; overlaps on file-source http_headers Authorization handling
+  - [[Component - API Tests]] — reciprocal backlink; ApiTestCase harness underpins the DRS server tests
