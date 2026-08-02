@@ -226,11 +226,13 @@ Verified with `vue-tsc --noEmit` (clean), eslint + prettier (clean), and
 The prototype addresses blocking concerns 1–5, structural §1, §2, §3, §5 and the real part
 of §4, and two of the three §6 bullets. Untouched, and still standing against the PR:
 
-- **§4's residual limitation** — a selection cannot include elements that have not been
-  fetched, and the UI does not say so. Ctrl+A on a 120-element collection selects 100 and
-  labels the action "Build List (100)". Inherent to paging rather than a defect; surfacing
-  it is a UI decision for the author. (§4's original claims about range drift and
-  interleaved sub-collections were wrong — see the corrected §4.)
+- **§4's residual defect** — a selection silently omits elements that have not been
+  fetched. Ctrl+A on a 120-element collection selects 100, says "Build List (100)", and
+  builds a list missing 20 with no indication. New with this PR (the panel had no selection
+  before), and unique to this panel — the history panel's select-all covers the whole query.
+  Left to the author only because the three possible remedies pull user-visible behavior in
+  different directions. (§4's original claims about range drift and interleaved
+  sub-collections were wrong — see the corrected §4.)
 - **§6 third bullet** — `:extended-collection-type="{}"` is still allocated per render.
 - **Smaller findings 1–5** — `:writable="canEdit"` hiding Rerun inside sub-collections, the
   title/behavior mismatch on sub-collections, `canMutateHistory` not being an ownership
@@ -612,11 +614,24 @@ reports **"Build List (3)"** while the selection holds 2 — and every row rende
 select-all reports what it holds and `isSelected` cannot answer from a filter. Prototyped:
 `selectedItems.ts`, `types.d.ts`, and all four callers; the count above goes 3 → 2.
 
-The residual limitation is inherent rather than a defect: **a selection cannot include
-elements that have not been fetched**, and nothing tells the user so. Ctrl+A on a
-120-element collection selects 100 and says "Build List (100)". Surfacing that — a note on
-the build action when `element_count` exceeds what is loaded — is a UI decision for the
-author, not something a reviewer should choose.
+**What remains is a real defect, not merely a limitation.** That a selection cannot include
+unfetched elements is inherent. That nothing says so is not. Ctrl+A on a 120-element
+collection selects 100, labels the action "Build List (100)", and builds a list silently
+missing 20 elements — a quietly wrong artifact from a user-initiated action. It is not
+confined to Ctrl+A: shift-clicking across a placeholder gap sweeps 22 rows and selects 2,
+just as silently. Any selection in a collection over `FETCH_LIMIT` is exposed.
+
+No other listing has this failure mode. The history panel's Ctrl+A enters query selection
+and its operations act on the whole query server-side; this panel is the only one with
+paging and no query behind it, so it is the only one where select-all can silently
+under-cover. This is not an accepted tradeoff elsewhere in the codebase.
+
+Not a regression — `CollectionPanel.vue` and `CollectionOperations.vue` had no selection
+code at all before this PR — but a gap in a new feature rather than something pre-existing.
+
+Which remedy is the author's call: fetch the missing range when a selection spans
+placeholders; disable select-all unless `element_count` matches the loaded count; or label
+the shortfall on the build action. The third is the floor and makes the others optional.
 
 <details>
 <summary>Original claim (wrong on two counts)</summary>
