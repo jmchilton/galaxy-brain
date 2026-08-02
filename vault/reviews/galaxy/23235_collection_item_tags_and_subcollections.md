@@ -214,26 +214,23 @@ top of the PR head:
 5. `Cover the creator hand-off and stub the creator module`
 6. `Hydrate the selection through datasetStore, not a bare API call`
 7. `Trim explanatory comments to the load-bearing ones`
+8. `Make query selection an optional feature of useSelectedItems`
 
 Verified with `vue-tsc --noEmit` (clean), eslint + prettier (clean), and
 `vitest run` over `src/api`, `src/components/History`, `src/components/Collections`,
-`src/composables/selectedItems`, `src/stores/collectionElementsStore` — **46 files, 310
-tests, all passing**.
+`src/components/Workflow/List`, `src/composables/selectedItems`,
+`src/stores/collectionElementsStore` — **48 files, 322 tests, all passing**.
 
 ### What the prototype leaves open
 
-The prototype addresses blocking concerns 1–5 and structural §1, §2, §3, and two of the
-three §6 bullets. Untouched, and still standing against the PR:
+The prototype addresses blocking concerns 1–5, structural §1, §2, §3, §5 and the real part
+of §4, and two of the three §6 bullets. Untouched, and still standing against the PR:
 
-- **§4** — `allItems` is still a compacted projection. `selectableDatasets` filters
-  placeholders and sub-collections out of a list `ListingLayout` renders in full, so
-  positional range-select and arrow-navigation still drift on any collection >50 elements
-  or with interleaved sub-collections. `CollectionPanel.test.ts` does not cover this
-  either; its fixture is three elements with no placeholders. **This is the largest
-  remaining defect.**
-- **§5** — the panel still passes `filterText: ref("")`, `filterClass: HistoryFilters` and
-  a `totalItemsInQuery` equal to `allItems.length`. Ctrl+A → `selectAllInCurrentQuery`
-  remains reachable.
+- **§4's residual limitation** — a selection cannot include elements that have not been
+  fetched, and the UI does not say so. Ctrl+A on a 120-element collection selects 100 and
+  labels the action "Build List (100)". Inherent to paging rather than a defect; surfacing
+  it is a UI decision for the author. (§4's original claims about range drift and
+  interleaved sub-collections were wrong — see the corrected §4.)
 - **§6 third bullet** — `:extended-collection-type="{}"` is still allocated per render.
 - **Smaller findings 1–5** — `:writable="canEdit"` hiding Rerun inside sub-collections, the
   title/behavior mismatch on sub-collections, `canMutateHistory` not being an ownership
@@ -580,20 +577,66 @@ worth an issue.
 
 ### 4. `allItems` is a compacted projection of what is on screen
 
-`selectableDatasets` (`CollectionPanel.vue:134-142`) filters out `ContentPlaceholder`
-entries and sub-collection elements, but `ListingLayout` renders the unfiltered
-`collectionElements` (`:262`). The composable's range-select and arrow-navigation are
-purely positional over `allItems` (`selectedItems.ts:186-192`, `:301-303`). So in any
-collection where the two arrays differ — >50 elements (placeholders, see
-`collectionElementsStore.ts:34`, `:173-176`), or a `list:paired`/`list:list` with
-sub-collection rows interleaved — shift-range selects a span that does not match what the
-user dragged over, and Arrow keys skip rows. The history panel does not have this problem
-because its `allItems` is the rendered list.
+> **Substantially corrected after building the case.** Two of the three claims I made here
+> were wrong. What survives is real but much narrower, and it turns out to share a fix with
+> §5. The corrected version follows; the original claim is kept below it.
 
-This is not something a prop tweak fixes; it wants either (a) selection restricted to
-fully-loaded, flat collections, with the toggle hidden otherwise, or (b) `allItems`
-supplied as the same array that is rendered, with non-selectable entries handled inside the
-composable. Please decide deliberately and say which in the PR body.
+`selectableDatasets` filters `ContentPlaceholder` entries and sub-collection elements out of
+a list `ListingLayout` renders in full (`CollectionPanel.vue:270-275`), and the composable's
+range-select and arrow-navigation are positional over `allItems`
+(`selectedItems.ts:186-192`, `:301-303`). Built as a fixture — a 120-element collection
+scrolled to offset 70 — that renders 120 rows of which 20 are placeholders.
+
+**What is *not* wrong, contrary to my original claim:**
+
+- **Range selection picks the right set.** Filtering is order-preserving, so the datasets
+  between two rows in the compacted `allItems` are exactly the datasets between those rows
+  as rendered. Shift-clicking row 49 → row 70 across the 20-row gap selects 2, and those 2
+  are precisely the loaded rows in the span. Smaller than the span the user swept, but not a
+  *wrong* set — the rows in between have no dataset to select yet.
+- **Interleaved sub-collections cannot happen.** Collections are homogeneous per level:
+  every `generate_elements` implementation in `lib/galaxy/model/dataset_collections/types/`
+  yields one kind, so a level is all `hda` or all `dataset_collection`. `list:paired` is a
+  list whose every element is a pair. There is no interleaving to drift over.
+
+**What is real:** the panel was configured for a selection mode it cannot honour. It passed
+`totalItemsInQuery: selectableDatasets.length` — the *loaded* count — into a composable that
+treats a mismatch between that number and `selectedItems.size` as "query selection", a mode
+where `isSelected` answers from `filterClass.testFilters` instead of the selection. A `list`
+holding the same HDA under two element identifiers makes those two numbers disagree, because
+selection keys on the dataset. Verified: three rows, two of them the same HDA, select-all
+reports **"Build List (3)"** while the selection holds 2 — and every row renders selected.
+
+**Remedy — and it is §5's remedy.** Group `filterText` / `totalItemsInQuery` / `filterClass`
+/ `querySelectionBreak` into one optional `querySelection` option and omit it here. Then
+select-all reports what it holds and `isSelected` cannot answer from a filter. Prototyped:
+`selectedItems.ts`, `types.d.ts`, and all four callers; the count above goes 3 → 2.
+
+The residual limitation is inherent rather than a defect: **a selection cannot include
+elements that have not been fetched**, and nothing tells the user so. Ctrl+A on a
+120-element collection selects 100 and says "Build List (100)". Surfacing that — a note on
+the build action when `element_count` exceeds what is loaded — is a UI decision for the
+author, not something a reviewer should choose.
+
+<details>
+<summary>Original claim (wrong on two counts)</summary>
+
+> So in any collection where the two arrays differ — >50 elements (placeholders, see
+> `collectionElementsStore.ts:34`, `:173-176`), or a `list:paired`/`list:list` with
+> sub-collection rows interleaved — shift-range selects a span that does not match what the
+> user dragged over, and Arrow keys skip rows.
+>
+> This is not something a prop tweak fixes; it wants either (a) selection restricted to
+> fully-loaded, flat collections, with the toggle hidden otherwise, or (b) `allItems`
+> supplied as the same array that is rendered, with non-selectable entries handled inside
+> the composable.
+
+Order-preserving compaction makes the range set correct, and collection levels are
+homogeneous so nothing interleaves. Arrow navigation does skip placeholder rows, but landing
+on the next loaded row rather than a "Loading…" placeholder is defensible behavior, not a
+bug. Neither (a) nor (b) is warranted.
+
+</details>
 
 ### 5. Inert composable arguments signal a missing seam
 
@@ -616,6 +659,13 @@ query-selection feature; make them one optional grouped option in
 `selectAllInCurrentQuery`/query-selection when it is absent. That is a genuinely reusable
 improvement to a shared composable, and it is the difference between this PR reusing an
 abstraction and this PR wedging itself into one.
+
+**Prototyped** (commit `Make query selection an optional feature of useSelectedItems`). The
+grouped `QuerySelectionOptions` is ~20 lines in `types.d.ts`; the composable guards four
+expressions on its presence; `HistoryPanel`, `HistoryList` and `WorkflowList` nest four
+existing arguments and are otherwise unchanged; `CollectionPanel` deletes them along with the
+`HistoryFilters` import. Three cases added to `selectedItems.test.ts` for the no-query
+configuration. This also resolves the real part of §4 — see above.
 
 ### 6. Smaller structural notes
 
