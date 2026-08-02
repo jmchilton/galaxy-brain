@@ -4,10 +4,10 @@ Converging the foundries along the **casting** axis: extract the caster into the
 substrate *and* move its per-kind behaviour out of TypeScript literals onto the kind and
 target declarations, in one migration.
 
-> **Status (2026-08-02).** Phase 1 partially done — hardcodes #1–#4 landed, plus two
-> unplanned fixes the work surfaced. Four commits on `foundry` branch `cast-declarative`
-> (worktree `~/projects/worktrees/foundry/branch/cast-declarative`), under review.
-> Phase 0 not started; see "Ordering deviation" below. Details in **Progress log**.
+> **Status (2026-08-02).** **Phase 0 done.** Phase 1 partially done — hardcodes #1–#4 landed,
+> plus fixes from two review rounds. Nine commits on `foundry` branch `cast-declarative`
+> (worktree `~/projects/worktrees/foundry/branch/cast-declarative`) and one on `foundry-pattern`
+> branch `cast-convergence`. Details in **Progress log**.
 
 Decisions taken up front (see "Decisions" at the end for the reasoning):
 - **Scope:** extract + declarative together.
@@ -307,6 +307,36 @@ depend on that walk-up regardless. And `site/src/lib/casts.ts` re-`readdirSync`e
 one-entry directory per Mold, and caching would add staleness risk in the dev server for no
 measurable gain.
 
+### Phase 0 — done, and step 2 of it was wrong as planned
+
+Run after Phase 1's first tranche rather than before it; no conflict resulted, because
+byte-identity had forced the `cast:` blocks to describe behaviour as it was, condense included.
+
+- **`43caa36`** pins the premise as three checks over the corpus: no Mold declares
+  `mode: condense`, no provenance entry is LLM-sourced or awaiting one, every verbatim ref
+  satisfies `src_hash == dst_hash`. All passed before the deletion, which is the point.
+- **`ebc56ab`** removes the machinery: the two-phase `castOneRef` branch, `pending_llm`,
+  prior-ref carry-forward, prompt/model provenance, `condense_prompts`, the verifier's pending
+  guard (now the stronger "a committed cast must be deterministic"), and the fields from the
+  provenance schema. `source` survives as a single-valued enum — it is the claim provenance
+  makes, not something a reader should infer from an absence. The mold kind's `casting.md`
+  companion went too: its declared purpose was per-Mold condensation prompts, and no Mold has
+  one. All 47 committed `_provenance.json` files still validate against the tightened schema.
+- **`adb7da5`** — **the plan's step 2 was wrong.** It said to drop `condense` from `modes` in
+  `@galaxy-foundry/reference-contract` with a minor bump. The shared vocabulary is the
+  *pattern's*: `the-model` names condensation as one of two transform modes, so deleting the term
+  would assert that no Foundry may ever have an LLM phase, and would need a package release to
+  reverse. The standing-up checklist already singles this exact term out as *capacity rather than
+  description*, to be declined with `narrow: { modes: [...] }` — the mechanism statgen already
+  uses. So the flagship narrows instead. **Consequence: steps 2 and 3 collapse — neither
+  `foundry-lib` nor statgen needs any change, and the cross-repo release this phase was said to
+  be blocked on does not exist.** The narrowing is load-bearing on contact: the validator now
+  rejects `mode: condense`, which is what moved two fixtures off it.
+- **`23a8cad`** (foundry-pattern) re-scopes the site's claim. `the-model` and
+  `anatomy-of-an-instance` both implied a mixed pipeline; the honest version is stronger — the
+  pattern fixes the *ordering*, how far the deterministic half reaches is a domain question, and
+  both instances reached "all the way," which is what makes a cast byte-stable.
+
 ### Findings that change later phases
 
 - **A fifth kind-name hardcode was missed in the original survey.** `castOneRef` dispatches the
@@ -341,6 +371,19 @@ measurable gain.
 - **`site/src/lib/casts.ts` still hardcodes `target === 'claude'`** for the `skills/` bundle
   layout, in the same function `8c73a44` de-hardcoded. That is hardcode #5 (`bundle_path`) seen
   from the site side; both should move to `_target.yml` together.
+- **`narrow` is the substrate's answer for declining capacity, and it now has two users.** Worth
+  remembering in Phase 2: when the extracted `@galaxy-foundry/cast` meets a capability one
+  instance lacks, the move is to let the instance decline it, not to delete it from the shared
+  package. The plan got this backwards once already.
+- **The pattern site's vendored instance data is stale — already, and for both instances.**
+  `npm --prefix site run check:instances` reports 4 stale files (`kinds.json` and `meta_tags.yml`
+  for each instance). This is *pre-existing*, not caused by the `casting.md` companion removal:
+  the sync script reads `~/projects/repositories/foundry` (at `0479ad6`, behind `origin/main`
+  and carrying uncommitted work), not the `cast-declarative` worktree, so it has not yet seen
+  that change at all. Do **not** run `sync:instances` until `cast-declarative` merges and the
+  main checkout is clean — doing it now would vendor an unreleased mid-edit state. After the
+  merge it needs one sync, and it will then also pick up the dropped `casting.md` companion,
+  which the kind-catalog page reports on.
 
 ### Remaining in Phase 1
 

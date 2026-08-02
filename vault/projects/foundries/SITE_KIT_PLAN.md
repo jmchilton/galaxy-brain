@@ -343,7 +343,16 @@ third instance copies the wrong one by name.
 2. Phase 2 at all, or ship Phase 1 and record the shell as "did not transfer"?
 3. Does foundry-pattern adopt anything? It has no vault-doc renderer and a deliberately different
    shell — so probably only Phase 0. Confirm it stays out.
-4. Container width (`max-w-5xl` vs `6xl`) — a prop, or does each instance keep its own `main`?
+4. ~~Container width (`max-w-5xl` vs `6xl`) — a prop, or does each instance keep its own `main`?~~
+   **Answered: neither.** The difference was never decided — statgen's shell was copied from
+   foundry's two months later and the width changed in the same edit as the name and description,
+   and neither repo touched it again. Nor does either corpus defend a value: the prose measure is
+   set by narrowing LOCALLY (statgen does it a dozen times across eight index pages, foundry once),
+   so the shell width is only the outer bound for tables and grids — 117 of foundry's 374 pages
+   against 45 of statgen's 213. Both now use the wider bound, and `CONTAINER` is a shared value
+   rather than a parameter, so a shared shell can hold the measure and take no prop for it.
+   The general lesson: **parameterizing a difference is how an accident becomes a policy.** Check
+   the provenance of every value before giving it a knob.
 5. `tokens.css`: ship token *names* only, or names + the current values as defaults?
 6. Does the TDA foundry get stood up as the kit's first consumer, or after both instances have
    adopted it?
