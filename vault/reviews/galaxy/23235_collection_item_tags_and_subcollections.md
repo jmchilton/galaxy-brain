@@ -1,5 +1,225 @@
 # PR 23235 — Feature/collection item tags and subcollections
 
+## Implementation update (2026-08-02)
+
+The two coupled P1 identity defects described in the current-head review below are fixed
+in commit `652f48c6f4`, on top of `563b27298d`:
+
+- normalized dataset objects now retain their DCE id and `element_identifier`, and
+  collection-panel selection keys on the DCE id rather than the HDA id;
+- creator hand-off merges each occurrence's hydrated HDA details into a fresh object while
+  restoring `element_identifier` as the builder-facing name.
+
+The regression fixture now gives the detailed HDA a deliberately different name, and the
+duplicate-HDA case asserts that all three DCE occurrences reach the creator in order with
+their own identifiers and distinct builder objects. Verification: 50 focused Vitest tests,
+`vue-tsc --noEmit`, targeted ESLint, Prettier, and `git diff --check` all pass. The nested
+subcollection and other P2 findings below remain separate follow-up work.
+
+Re-verified independently at `652f48c6f4`: `vue-tsc --noEmit` clean, and the full relevant
+suite (`src/api`, `src/components/History`, `src/components/Collections`,
+`src/components/Workflow/List`, `src/composables/selectedItems`,
+`src/stores/collectionElementsStore`) at **48 files, 325 tests passing**. Three points the
+fix gets right that are easy to miss:
+
+- `:get-item-key` must be passed to `ContentItem` alongside the composable's `getItemKey`,
+  and it is. `ContentItem` defaults it to `itemUniqueKey` (`:72`) and renders it as the DOM
+  `id` (`:103`, `:314`); range selection reads that attribute back
+  (`selectedItems.ts:19-20`, `:419-420`). Changing one side only would break range
+  selection silently and emit duplicate DOM ids for the duplicate rows.
+- No E2E selector depends on the per-row `#dataset-<id>` format — the `dataset-` hits in
+  `navigation.yml` are class selectors and `table#dataset-details`.
+- The creator hand-off spreads into fresh objects rather than mutating `datasetStore`'s
+  cached dataset, so renaming to `element_identifier` does not leak into the store.
+
+Incidental win: a collection element row and the history row for the same HDA could both
+render `id="dataset-hda_N"` in multi-view. Per-occurrence keys make that collision
+impossible.
+
+**This finding was a miss in the review below, not just in the PR.** The original
+`counts the datasets it actually holds when everything is selected` test asserted the
+collapsed count of 2 and carried a comment rationalizing it. The reasoning was confined to
+"does `selectionSize` agree with the map" — the query-selection hazard of §5 — and never
+asked what the user receives. Three rows render selected (both duplicate rows share a key,
+so `isSelected` lights up both), the label says 2, and the build produces a two-element
+list. Replacing that assertion with 3 plus end-to-end assertions on the built list is a
+behavior correction, not a weakened test.
+
+## Current-head review (2026-08-02)
+
+This section supersedes the earlier prototype verdict below. The historical analysis is
+left in place because it explains why the follow-up commits were made, but the worktree is
+now at `563b27298d`, **ten** John Chilton-authored commits after the contributor's PR head
+`211e2c5c4f` (merge-base `8dd36b818b`, current `origin/dev`). The remote PR still ends at
+`211e2c5c4f`; the ten local commits are the user/Claude prototype layer reviewed here.
+
+### Verdict
+
+**The ten follow-up commits are substantial, mostly solid improvements, but the combined
+change is not ready to merge.** They fix the original branch's most immediate identity,
+typing, hydration, and stale-tag-state bugs and leave behind several useful reusable
+abstractions. Two coupled correctness defects remain and should block merge: repeated
+occurrences of one HDA collapse into one selection, and detail hydration discards the
+collection element identifier that the new list is supposed to preserve. The current
+tests both mask the name loss and explicitly accept the duplicate loss.
+
+Nested collection elements also remain outside both features because `canEdit` is
+root-only. That conflicts with the PR's stated `list:paired` behavior and should be fixed
+or the scope/documentation changed before merge.
+
+### Prioritized findings
+
+#### P1 — Select collection *elements*, not unique HDAs, and preserve their identifiers
+
+`CollectionPanel.vue:98-124` projects DCEs to `element.object` and keys the shared
+selection with `itemUniqueKey`, i.e. `dataset-<hda_id>`. A collection is an ordered list of
+element occurrences, and it can legally contain the same HDA more than once under
+different `element_identifier` values. Those occurrences therefore collide in the
+selection map: selecting either marks both rows, select-all reports two for a three-row
+collection, and the creator receives only one occurrence. The new test at
+`CollectionPanel.test.ts:412-463` constructs exactly that valid case but asserts the lossy
+result (`2`) instead of the required three occurrences. This is not merely a cosmetic
+count issue; the created collection has different membership from the selection shown to
+the user.
+
+The subsequent hydration loses a second piece of collection semantics.
+`CollectionPanel.vue:147-160` maps selected values to HDA ids, fetches `HDADetailed`, then
+replaces each selected value with the fetched HDA. `ListCollectionCreator.vue:258-263`
+uses `item.name` as the new element identifier. In real data the HDA's name can differ
+from the source DCE's `element_identifier`, so the new list silently gets underlying HDA
+names instead of the identifiers shown in the source collection. The test server at
+`CollectionPanel.test.ts:184-201` returns an HDA name deliberately equal to `element N`,
+masking this regression.
+
+These defects share one fix: make the selection item the DCE (or a declared per-DCE
+adapter) and key it by the DCE id. At creator hand-off, zip each selected occurrence with
+its fetched details and create a fresh builder item such as
+`{ ...details, name: element.element_identifier }`. A fresh object per occurrence is
+important when two DCEs point to the same HDA. Add a test where two DCEs share one HDA id
+but have different identifiers, and where the detailed HDA name differs from both; assert
+that both occurrences reach the creator in order with their DCE identifiers. This should
+block merge.
+
+The current boundary normalization at `api/index.ts:146-164,256-271` is useful for
+`history_content_type`, but assigning `element_identifier` to `HDAObject.name` also
+conflates two distinct concepts. The fetch API intentionally returns a minimal HDA
+reference; the collection element owns its identifier, while the HDA owns its name. A
+per-DCE builder adapter keeps that distinction explicit and reusable.
+
+#### P1 — The advertised features disappear after drilling into a subcollection
+
+`CollectionPanel.vue:89-90` defines `canEdit` as `isRoot && canMutateHistory(history)`.
+That value gates the selection composable (`:125`), the entire operations bar (`:239-247`),
+and tag writability (`:280-282`). Once navigation selects a `SubCollection`, `isRoot` is
+false: tags are disabled and there is no Select/Build List action.
+
+This is especially visible for the PR description's `list:paired` example: the root rows
+are subcollections and intentionally non-selectable, but drilling into a pair is the only
+place its underlying datasets appear, and that is exactly where selection is disabled.
+Separate root-only collection metadata editing from dataset tagging/new-list building.
+The latter should depend on whether the history can be mutated, not whether the current
+collection is the HDCA root. Add nested-navigation coverage. If nested operation is
+intentionally out of scope, remove the contrary claim and retitle the feature; as written,
+this is a product-level gap.
+
+#### P2 — A tag edit is only written back to one occurrence of a duplicated HDA
+
+`CollectionPanel.vue:170-174` mutates only the particular `element.object` emitted by the
+row. The backend tag belongs to the HDA, not the DCE. When the same HDA occurs twice in
+the collection, the second DCE has a separate minimal object and continues to show stale
+tags until reload, despite the PR description correctly promising dataset-wide tag
+semantics. After making selection element-aware, either canonicalize HDA state through
+`datasetStore` or update every loaded DCE whose `object.id` matches. Cover this alongside
+the duplicate-occurrence test.
+
+#### P2 — The global creator-fetch optimization needs an explicit completeness contract
+
+`CollectionCreatorIndex.vue:71-79` disables `useHistoryDatasets` whenever any
+`selectedItems` are supplied, while the old hydration watcher remains at `:97-111` and is
+normally inert in precisely that mode. Avoiding a 27,000-item history fetch is a valuable
+fix, and the new collection-panel path now explicitly hydrates its items. But this shared
+component has several existing selected-item callers, its prop type promises only
+`HistoryItemSummary[]`, and there is no focused test proving each caller supplies the
+fields the builders validate (`extension`, state, deleted/purged, etc.). Either remove the
+dead watcher and make "selected items are builder-ready" an explicit typed contract, or
+add an option that lets only explicitly hydrated callers skip the fetch. At minimum add a
+`CollectionCreatorIndex` regression test for selected and unselected paths.
+
+### Assessment of the contributor's remote changes (`8dd36b818b..211e2c5c4f`)
+
+The product idea is good and the direction is appropriate: use `ContentItem`, reuse
+`useSelectedItems`, and hand off to the existing `CollectionCreatorIndex` rather than
+creating parallel selection or collection-building systems. The `taggable` capability is
+narrower and safer than pretending a collection element is a top-level history item. The
+large-history optimization addresses a real performance problem. Imports are at module
+scope, and no tests were weakened.
+
+The original implementation was nevertheless not mergeable. It kept a derived
+`datasetFor(element)` beside the raw row object, so different interaction paths stored
+different shapes; it let subcollection clicks reach a dataset-only creator; it handed the
+minimal contents payload to builders that require fields such as `extension`, `hid`,
+`deleted`, and `visible`; and `ContentItem` locally shadowed tags instead of having the
+owner update the stored object. There was no `CollectionPanel` coverage to expose those
+integration failures. The ten follow-up commits correctly address these original defects.
+
+### Assessment of the ten local follow-up commits (`211e2c5c4f..563b27298d`)
+
+The follow-up work is a real improvement, not churn:
+
+- Normalizing the required history-content discriminator at the API boundary avoids
+  caller-by-caller patches and Vue 2 late-property reactivity problems.
+- Sharing `itemUniqueKey` removes duplicated key logic.
+- Moving optimistic tag display ownership back to `CollectionPanel` eliminates stale
+  shadow state from the widely reused `ContentItem`.
+- Hydrating through the existing `datasetStore` reuses its cache/error handling and gives
+  the collection builders the detailed shape their types require.
+- Making query selection an optional, grouped capability of `useSelectedItems` is a good
+  reusable abstraction for finite non-query lists; the History, HistoryList, and Workflow
+  callers retain their old query behavior.
+- Reporting unloaded elements makes the pagination limitation honest, and the new API,
+  composable, content-item, and panel tests are much stronger than the contributor branch.
+- The comment-trimming commits leave the code easier to scan. All new Python/TypeScript
+  imports are module-level; no test was removed or weakened.
+
+The residual mistake is choosing **HDA identity** to satisfy the "one object per row"
+invariant. The invariant is right, but the row being selected is a DCE occurrence, not a
+deduplicated dataset. The duplicate test currently rationalizes that loss, and the
+hydration test chooses fixtures that hide identifier loss. Fixing those two expectations
+should lead the final design.
+
+### Verification
+
+- `git diff --check origin/dev...HEAD`: clean.
+- `env NODE_OPTIONS=--no-experimental-webstorage pnpm type-check`: pass.
+- Focused Vitest run over `api/index.test.ts`, `ContentItem.test.js`,
+  `CollectionPanel.test.ts`, and `selectedItems.test.ts`: **4 files, 50 tests passed**.
+  A first run under Node 25 failed because Node exposed a broken experimental global
+  `localStorage`; disabling that Node feature let Happy DOM provide the test storage and
+  all tests passed.
+- Focused ESLint over all 17 changed client files: 0 errors, 6 `no-explicit-any` warnings
+  (the affected generic/test typing is non-blocking).
+- Worktree remained clean after review.
+- Remote CI's client unit/lint jobs passed. The two observed Selenium failures were
+  timeouts in object-store quotas and paired-list upload scenarios and appear unrelated
+  to this client-only diff; they should still be rerun to green before merge.
+
+### Recommended remaining work
+
+1. ~~Rebase selection on DCE occurrence identity and preserve `element_identifier` during
+   detailed hydration; replace the duplicate-loss test with correct end-to-end assertions.~~
+   Done in `652f48c6f4`. Two follow-ups left behind by it, neither blocking:
+   `collectionElementDatasetKey` lives in `CollectionPanel.vue` while `itemKey.ts` exists to
+   be the canonical home and its own doc says every `ContentItem` listing must agree on the
+   key — there are now two schemes with one defined away from the other; and
+   `onBuildCollection` pairs `selectedElements` to `datasets` positionally, which is correct
+   as written but fragile.
+2. Split root metadata editability from tag/build permissions and test a nested collection
+   (especially `list:paired`).
+3. Keep all loaded occurrences of one HDA's tags synchronized.
+4. Tighten and test `CollectionCreatorIndex`'s "selected items are complete" contract.
+5. Rerun the two unrelated Selenium jobs. With those changes, the overall approach looks
+   worth merging.
+
 - https://github.com/galaxyproject/galaxy/pull/23235
 - Author: joachimwolff (states the code was written by Claude Code / Opus 5)
 - State: OPEN, no reviews, no comments at time of writing
@@ -204,7 +424,7 @@ selection machinery and merely wedging itself alongside it.
 
 The restructure above was built and verified, not just proposed. Branch
 [`jmchilton/galaxy@review-23235-judo-prototype`](https://github.com/jmchilton/galaxy/tree/review-23235-judo-prototype),
-also at `~/projects/worktrees/galaxy/pr/23235`, nine commits on
+also at `~/projects/worktrees/galaxy/pr/23235`, eleven commits on
 top of the PR head:
 
 1. `Normalize collection element datasets at the fetch boundary`
@@ -216,6 +436,9 @@ top of the PR head:
 7. `Trim explanatory comments to the load-bearing ones`
 8. `Make query selection an optional feature of useSelectedItems`
 9. `Say how many elements a selection cannot reach`
+10. `Cut comments that restate the code`
+11. `Preserve collection element identity when building lists` — selection keys on the DCE
+    occurrence, not the HDA (see the implementation update at the top)
 
 Verified with `vue-tsc --noEmit` (clean), eslint + prettier (clean), and
 `vitest run` over `src/api`, `src/components/History`, `src/components/Collections`,
@@ -240,8 +463,10 @@ of §4, and two of the three §6 bullets. Untouched, and still standing against 
   and the absent post-create feedback. All are author decisions or live outside the
   restructure's blast radius.
 
-Duplicate-HDA keying (above) also still stands: it is a consequence of keying on the
-dataset, which the judo commits to.
+Duplicate-HDA keying, listed here as open in an earlier pass, is fixed in `652f48c6f4`:
+selection keys on the DCE occurrence rather than the dataset. The judo's "one object per
+row" invariant survives intact — it was the *choice of identity* that was wrong, not the
+invariant.
 
 ### Red-to-green: the new tests do catch the bugs
 
@@ -612,7 +837,14 @@ reports **"Build List (3)"** while the selection holds 2 — and every row rende
 **Remedy — and it is §5's remedy.** Group `filterText` / `totalItemsInQuery` / `filterClass`
 / `querySelectionBreak` into one optional `querySelection` option and omit it here. Then
 select-all reports what it holds and `isSelected` cannot answer from a filter. Prototyped:
-`selectedItems.ts`, `types.d.ts`, and all four callers; the count above goes 3 → 2.
+`selectedItems.ts`, `types.d.ts`, and all four callers; the count above went 3 → 2.
+
+**But 2 was the wrong target, and this analysis stopped one step short.** Collapsing the
+duplicate to a single selection entry makes the numbers agree at the cost of the user's
+intent: three rows selected should build a three-element list. `652f48c6f4` keys selection
+on the DCE occurrence instead, so the count is 3, the map holds 3, and the built list keeps
+all three identifiers. That also removes this finding's trigger — see the evidence
+downgrade under §5.
 
 **What remains is a real defect, not merely a limitation.** That a selection cannot include
 unfetched elements is inherent. That nothing says so is not. Ctrl+A on a 120-element
@@ -713,6 +945,23 @@ expressions on its presence; `HistoryPanel`, `HistoryList` and `WorkflowList` ne
 existing arguments and are otherwise unchanged; `CollectionPanel` deletes them along with the
 `HistoryFilters` import. Three cases added to `selectedItems.test.ts` for the no-query
 configuration. This also resolves the real part of §4 — see above.
+
+**Evidence downgrade after `652f48c6f4`.** The duplicate-HDA case above was the concrete
+trigger this finding was demonstrated with, and per-occurrence keys remove it: on select-all
+`selectedItems.size` now always equals `selectableDatasets.length`, so
+`allSelected && total !== size` can never hold and the panel cannot enter query selection at
+all. Verified by restoring the old wiring (`querySelection` with
+`totalItemsInQuery: selectableDatasets.length`) on top of `652f48c6f4` — all 13
+`CollectionPanel` tests pass, where before they went 3 → 2.
+
+So the panel-level red-to-green claimed for this finding no longer reproduces. What stands:
+the seam argument is unchanged — importing `HistoryFilters` into a panel with no filter is
+feature logic crossing a boundary, and a stubbed `filterClass` is a lie the composable would
+act on. It is now defense-in-depth rather than a live defect: any future change that lets
+the loaded count diverge from the selected count (passing `element_count` instead of the
+loaded length, say, or filtering deleted elements out of `selectableDatasets` after
+selection) resurrects it immediately. The three composable-level cases in
+`selectedItems.test.ts` remain the real coverage, and are the better home for it.
 
 ### 6. Smaller structural notes
 
