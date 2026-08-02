@@ -248,8 +248,29 @@ the shared component declares is present in the emitted stylesheet. Write that t
 *current* hand-rolled components first, watch it pass, then swap in the package and watch it keep
 passing. A test written after the swap proves nothing about what the swap changed.
 
-foundry-pattern already asserts against built output rather than reading claims off the page
-(#17, #18) — reuse that harness rather than building a second one.
+~~foundry-pattern already asserts against built output rather than reading claims off the page
+(#17, #18) — reuse that harness rather than building a second one.~~ **Wrong, and backwards.**
+#18 moved foundry-pattern the OTHER way: its title is "the catalog's claims are checked, not read
+off the built page", and it replaced reading rendered HTML with unit tests over the lib functions,
+for good reasons (the corpus could not reach the `identical` flag at all). No built-output harness
+existed in any of the three repos.
+
+**Step 1 is now done** — galaxyproject/foundry#427, jmchilton/statistical-genomics-foundry#140.
+Seven assertions per instance over every built page, each falsified by breaking the thing it names.
+Two did not work as written:
+
+- the theme check passed with the pre-paint script deleted, because the header's theme TOGGLE sets
+  the same two things on click — whole-page string matching cannot tell two scripts apart;
+- **the Tailwind canary created its own evidence.** statgen's `site/tests/` sits inside the Vite
+  root, so automatic source detection scanned the test, and naming `min-h-dvh` in the assertion put
+  it in the stylesheet. The test passed with the layout stripped. Fixed with `@source not` for the
+  test directory. foundry's copy escaped only because its tests live above the Vite root — luck,
+  not design, and now recorded as a comment because moving the file breaks it silently.
+
+The second one is the Phase 2 risk in miniature: the assertion that exists to prove Tailwind
+scanned a file was satisfied by Tailwind scanning the assertion. Worth carrying into the checklist
+whatever happens to Phase 2 — a test that names a class it is checking for is not neutral about
+the thing it checks.
 
 **Stop condition.** If the Tailwind `@source` or the unbuilt-`.astro` export turns into more than a
 day, ship Phase 1 and write Phase 2 up as a rejected option in the checklist. 250 lines of shared

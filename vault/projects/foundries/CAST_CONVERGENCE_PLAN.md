@@ -4,6 +4,11 @@ Converging the foundries along the **casting** axis: extract the caster into the
 substrate *and* move its per-kind behaviour out of TypeScript literals onto the kind and
 target declarations, in one migration.
 
+> **Status (2026-08-02).** Phase 1 partially done — hardcodes #1–#4 landed, plus two
+> unplanned fixes the work surfaced. Four commits on `foundry` branch `cast-declarative`
+> (worktree `~/projects/worktrees/foundry/branch/cast-declarative`), under review.
+> Phase 0 not started; see "Ordering deviation" below. Details in **Progress log**.
+
 Decisions taken up front (see "Decisions" at the end for the reasoning):
 - **Scope:** extract + declarative together.
 - **Condense:** retire the unexercised LLM phase.
@@ -234,6 +239,117 @@ declaration to report on.
 This satisfies the CONVERGE_PROMPT in both directions at once: the document gains a *short* Part
 while the result of running it becomes a foundry that actually produces artifacts.
 
+## Progress log
+
+### Phase 1, first tranche — done (4 commits, `cast-declarative`)
+
+**Ordering deviation.** Phase 0 (retire condense) was specified first and was skipped — work
+started at Phase 1 by request. No conflict resulted: Phase 1's gate is byte-identity, which
+forced the `cast:` blocks to describe behaviour *as it is*, condense included. Phase 0 now
+reduces to deleting `condense` from those declarations and the machinery behind it.
+
+**`ddf9da2` — a real bug the baseline measurement found.** The plan assumed a clean starting
+point for the byte-identity oracle. It was not clean: `content/research/planemo-asserts-idioms/index.md`
+had been edited (a doc path renamed to `content/meta/casting.md`) and the 7 bundles carrying it
+verbatim were never re-cast, so all 7 shipped a pointer to a file that no longer exists. The
+stale provenance recorded `src_hash == dst_hash` — satisfying the verbatim guarantee against the
+note *as it used to be*, self-consistent and wrong. Deterministic re-cast, one line per bundle.
+
+**`91e7d7b` — the gate that would have caught it.** CI cast-checked exactly one Mold
+(`summarize-nextflow --check`), so drift in the other 46 was structurally invisible.
+`make check-casts` now runs `--check` over every Mold, reports every drifted one rather than
+stopping at the first, and is wired into `make check` and CI. Verified red-to-green against
+injected drift.
+
+**`db35ea4` — hardcodes #1–#4 became declarations.** `cast:` blocks per kind, as designed.
+Two design points resolved as the plan proposed: castability *is* the presence of the block
+(no second list), and the target's `modes` became a **constraint** on the kind's rather than a
+rival declaration. Byte-identical across all 47 Molds; `make check` green (240 tests).
+
+**`8c73a44` — the `generic`/`web` targets deleted.** Both held only a `.gitkeep`, no
+`_target.yml`, so neither was castable. The site's hardcoded `['claude','web','generic']` now
+discovers targets by looking for a `_target.yml` — same move as a kind being castable when it
+declares a `cast:` block.
+
+**`14953a1` — review fixes.** An independent review verified byte-identity the hard way (re-cast
+all 47 Molds with the pre-refactor caster from `git archive`, diffed the whole tree: only
+`cast_at` and `commit` differ) and raised one high finding plus five smaller ones, all addressed.
+The high one was a genuine defect: the load-bearing test overwrote the tracked
+`reference_contract.yml`, racing every concurrent reader and stripping the file's comments.
+Fixed with a temp root plus symlinks; verified by running the suite and `make check-casts`
+concurrently.
+
+**`9849556` — verification round found the trap in the fix.** The `14953a1` temp root symlinked
+`content/` and `casts/` but not `LICENSES/`, and both Molds under test carry `license_file:`
+refs — so with the contract *unmutated* the cast already failed, and `expect(code).not.toBe(0)`
+was being satisfied by the environment. Only the substring assertions were doing real work. The
+helper now asserts a clean **control** first and owns the invocation so `--check` cannot be
+omitted (the root symlinks the whole real `casts/`; a caller that forgot it would rewrite
+`SKILL.md`, rewrite `_provenance.json`, and unlink committed files while exiting 0). The same
+overwrite-a-tracked-file hazard was still live in the stale-`_verify.json` test and is fixed the
+same way. Verified: 60 polls during a run, no window where tracked files are dirty.
+
+**The methodological lesson, worth carrying into every later phase.** Two rounds of review found
+the same class of defect twice: *a check that passes for the wrong reason.* Byte-identity passed
+while behaviour changed on inputs the corpus lacks; the declaration tests passed while the
+environment, not the declaration, was failing them. Both were invisible from a green run. The
+countermeasure now in the harness is the control assertion — a negative test must be paired with
+a positive that proves the fixture is otherwise sound. Phase 2's extraction should ship the same
+discipline rather than trusting a green suite.
+
+**Declined, with reasons.** Two review suggestions were not taken. `validate.ts:1402` calls
+`loadReferenceContract()` with no argument so it walks up from cwd — flagged as "cheap to align"
+with the caster, but `--root` is implemented as a `process.chdir` (`validate.ts:1501`), so the
+walk-up already resolves relative to the root; the reported bug does not exist, and the reviewer
+withdrew it on the second pass. `validateDirectory` additionally takes no root option, and
+`tests/validate.test.ts` builds its temp vaults inside the repo root with no contract, so they
+depend on that walk-up regardless. And `site/src/lib/casts.ts` re-`readdirSync`es per Mold — true, but it is one readdir of a
+one-entry directory per Mold, and caching would add staleness risk in the dev server for no
+measurable gain.
+
+### Findings that change later phases
+
+- **A fifth kind-name hardcode was missed in the original survey.** `castOneRef` dispatches the
+  sidecar builder on `mode === "sidecar" && kind === "cli-command"` (cast-mold.ts:949), with a
+  related guard at :872. The table above said four. Still outstanding.
+- **Two declarations are dormant — no content exercises them.** Every committed reference names
+  its own `mode`, so `default_mode` never fires; no `cli-tool` note's directory differs from its
+  `tool:`, so `slug_field` is a no-op. First attempts to test them passed vacuously. Both now
+  have fixtures built to discriminate. **This matters for Phase 3:** statgen will inherit
+  declarations that no corpus exercises, so the shared package must carry these tests rather
+  than relying on either instance's content to cover them.
+- **Two latent bugs fell out of the refactor.** Schema `dst` used `basename()`, which would have
+  produced `index.schema.json` the moment that kind became directory-shaped — the exact failure
+  `deriveDst` already documents for another kind. And the wiki-link address precheck, previously
+  applied only to `schema`, now answers to the declared `ref_shape` instead of assuming every
+  castable kind is wiki-link-shaped.
+- **Temp-repo test fixtures were incomplete Foundries.** 19 of them wrote a `_target.yml` but no
+  reference contract; they now seed the real one. Worth knowing before Phase 2 moves tests into
+  the shared package.
+- **`@galaxy-foundry/reference-contract`'s parser silently drops unknown keys**, so a `cast:`
+  block written by an instance whose caster does not read it does nothing, quietly. Flagged as a
+  Phase 2 follow-up: the shared parser should reject rather than drop. (Confirmed inert *in this
+  repo* — `loadCastContract` re-reads the raw YAML rather than going through `parseTerm` — so it
+  is a hazard for the shared package, not a live bug here.)
+- **Two behaviour changes byte-identity provably cannot see.** `resolveWikiLink` accepts bare
+  inner text, so an unbracketed ref used to resolve for all five non-schema kinds and now does
+  not; and a declared `slug_field` a note lacks used to fall back silently. Both are now
+  deliberate, tested, and documented. The general lesson for Phase 2: byte-identity over one
+  corpus proves *no regression on inputs that exist*, never *no behaviour change*. Extraction
+  needs the same treatment — enumerate what the corpus does not exercise, and test that
+  separately.
+- **`site/src/lib/casts.ts` still hardcodes `target === 'claude'`** for the `skills/` bundle
+  layout, in the same function `8c73a44` de-hardcoded. That is hardcode #5 (`bundle_path`) seen
+  from the site side; both should move to `_target.yml` together.
+
+### Remaining in Phase 1
+
+#5 `bundle_path`, #6 vocabulary rewrites, #7 the cast document (which also owns the
+`refKindLabel` literals at cast-mold.ts:1128–1132), #8 the two domain leaks, and the
+newly-found sidecar dispatch. **#7 is now unblocked in the negative direction:** with
+`generic`/`web` deleted, a target-neutral intermediate is speculative until a second target is
+real, so the SKILL.md template can stay TypeScript for now.
+
 ## Decisions
 
 - **Extract now, on a prose second-implementation.** The instructions doc's own rule says extract
@@ -249,8 +365,9 @@ while the result of running it becomes a foundry that actually produces artifact
 
 ## Unresolved questions
 
-- `generic` and `web` targets: real near-term, or delete the empty dirs? Decides whether the cast
-  document (Phase 1.2) is load-bearing now or speculative.
+- ~~`generic` and `web` targets: real near-term, or delete the empty dirs?~~ **Resolved
+  2026-08-02: deleted** (`8c73a44`). The cast document is therefore speculative until a second
+  target is real.
 - Does statgen actually want to cast, or is it upstream of that?
 - TDA foundry is greenfield with no site at all — is it the intended proving ground for the
   revised instructions (Phase 5, unwritten)?
