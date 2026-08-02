@@ -204,7 +204,7 @@ selection machinery and merely wedging itself alongside it.
 
 The restructure above was built and verified, not just proposed. Branch
 [`jmchilton/galaxy@review-23235-judo-prototype`](https://github.com/jmchilton/galaxy/tree/review-23235-judo-prototype),
-also at `~/projects/worktrees/galaxy/pr/23235`, seven commits on
+also at `~/projects/worktrees/galaxy/pr/23235`, nine commits on
 top of the PR head:
 
 1. `Normalize collection element datasets at the fetch boundary`
@@ -215,24 +215,24 @@ top of the PR head:
 6. `Hydrate the selection through datasetStore, not a bare API call`
 7. `Trim explanatory comments to the load-bearing ones`
 8. `Make query selection an optional feature of useSelectedItems`
+9. `Say how many elements a selection cannot reach`
 
 Verified with `vue-tsc --noEmit` (clean), eslint + prettier (clean), and
 `vitest run` over `src/api`, `src/components/History`, `src/components/Collections`,
 `src/components/Workflow/List`, `src/composables/selectedItems`,
-`src/stores/collectionElementsStore` — **48 files, 322 tests, all passing**.
+`src/stores/collectionElementsStore` — **48 files, 325 tests, all passing**.
 
 ### What the prototype leaves open
 
 The prototype addresses blocking concerns 1–5, structural §1, §2, §3, §5 and the real part
 of §4, and two of the three §6 bullets. Untouched, and still standing against the PR:
 
-- **§4's residual defect** — a selection silently omits elements that have not been
-  fetched. Ctrl+A on a 120-element collection selects 100, says "Build List (100)", and
-  builds a list missing 20 with no indication. New with this PR (the panel had no selection
-  before), and unique to this panel — the history panel's select-all covers the whole query.
-  Left to the author only because the three possible remedies pull user-visible behavior in
-  different directions. (§4's original claims about range drift and interleaved
-  sub-collections were wrong — see the corrected §4.)
+- **§4's residual defect — the silence is fixed, the limit is not.** A selection still
+  cannot reach unfetched elements; the operations bar now says how many while selecting, so
+  a build no longer silently under-covers. Lifting the limit (fetch the gap) or refusing the
+  action (gate select-all) remain open, and are author calls — see §4 for the cost of each.
+  (§4's original claims about range drift and interleaved sub-collections were wrong — see
+  the corrected §4.)
 - **§6 third bullet** — `:extended-collection-type="{}"` is still allocated per render.
 - **Smaller findings 1–5** — `:writable="canEdit"` hiding Rerun inside sub-collections, the
   title/behavior mismatch on sub-collections, `canMutateHistory` not being an ownership
@@ -629,9 +629,41 @@ under-cover. This is not an accepted tradeoff elsewhere in the codebase.
 Not a regression — `CollectionPanel.vue` and `CollectionOperations.vue` had no selection
 code at all before this PR — but a gap in a new feature rather than something pre-existing.
 
-Which remedy is the author's call: fetch the missing range when a selection spans
-placeholders; disable select-all unless `element_count` matches the loaded count; or label
-the shortfall on the build action. The third is the floor and makes the others optional.
+Three remedies, in descending cost:
+
+1. **Fetch the gap.** `fetchMissingElements(dsc, offset, limit)` already takes a window and
+   already skips loaded ranges (`collectionElementsStore.ts:88-99`), so filling the
+   collection is a loop rather than new machinery — except that every call goes through
+   `lastQueue.enqueue(..., key)` keyed on the collection (`:138`), and `LastQueue` is
+   last-wins with a 1000 ms throttle per key (`lastQueue.ts:29`, `:101-114`). A
+   `Promise.all` over 20 pages fetches one and rejects nineteen with `ActionSkippedError`;
+   a sequential loop takes ~20 s for 1000 elements. Doing it properly needs a batch entry
+   point on the store that bypasses the queue, plus a bound and progress UI. Correct for
+   small collections, and it still picks a cutoff — just later.
+2. **Don't offer what can't be backed.** Gate the selection affordance on
+   `collectionElements.length === selectableDatasets.length`. A dozen lines, no new failure
+   modes, but it punishes the case the feature exists for: a 10k-element collection can
+   never use selection until fully scrolled. Gating only select-all would half-fix it —
+   shift-click across a gap is silently partial too.
+3. **Say the number.** Keep the behavior, report the shortfall. Doesn't lift the limit,
+   only the silence — and the silence is the defect.
+
+The design-correct fourth shape is the history panel's: hand the server the set instead of
+enumerating client-side. Unavailable — `CreateNewCollectionPayload`
+(`lib/galaxy/schema/schema.py:1825-1841`) accepts only `element_identifiers`, with no
+"source: this HDCA" variant. Adding one is an API plus manager change, outside a client PR.
+
+**Prototyped: remedy 3.** `CollectionPanel` counts placeholders via an `isPlaceholder`
+now exported from `collectionElementsStore` (it was private; the panel's template already
+re-derived it as `item.id === undefined`), and `CollectionOperations` renders
+`⚠ N not loaded` beside the build action while selection is on. Three tests; two are
+red-to-green, the third guards the fully-loaded case and passes either way.
+
+One thing that did not land: replacing the template's `item.id === undefined` with the
+exported guard. A type predicate in that `v-if` makes `vue-tsc` narrow `item` to `never`
+inside the sibling branches' event handlers (`TS2339` on `item.object` at `:293`, `:295`),
+while direct prop bindings in the same branch are fine. Left as the PR has it rather than
+adding a non-narrowing wrapper to work around the codegen.
 
 <details>
 <summary>Original claim (wrong on two counts)</summary>
