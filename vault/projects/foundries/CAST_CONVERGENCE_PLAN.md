@@ -263,27 +263,64 @@ disagree with the first. That reasoning is sound and the conclusion is still wro
 two instances: the gate says *whether* a kind may take a sidecar, never *which renderer builds
 it*. `sidecar` has to become a named renderer chosen by declaration.
 
-**Settled 2026-08-03 by reading statgen's corpus, and the answer is worse than "loose."**
-Statgen has **3** `mode: sidecar` refs, not one — and all three are `kind: research`, pointing at
-`beaulieu-omeara-2016-hisse`, `cunningham-1999-asr-limitations` and `tettelin-2008-openness`.
-Their `verification:` fields say why: *"Only the abstract was readable (body paywalled)"*, *"Only
-p.665 was readable"*, *"(paywalled) note"*.
+**Settled 2026-08-03. `sidecar` is not divergent — the licence model is.**
 
-So the word means two different operations:
+First pass on this read statgen's three `mode: sidecar` refs as a second meaning of the word. That
+was wrong. `sidecar` is defined once, in `@galaxy-foundry/reference-contract`'s shared `modes`
+data — *"Transformed into a structured runtime artifact beside the generated skill"* — and
+statgen's own `content/meta/casting.md` documents exactly that meaning, routing `cli-command` to a
+deterministic JSON sidecar at `references/cli/<slug>.json`. Both instances agree.
 
-- **Flagship `sidecar`** — render structured JSON from a `cli-command` note's frontmatter. A
-  *format* decision.
-- **Statgen `sidecar`** — the source cannot be redistributed, so carry a derived summary instead
-  of the bytes. An *access and licence* decision.
+What the three refs actually expose is a **structural dead end**, and it is worth stating in full
+because it is the first real finding the second instance has produced:
 
-They collide exactly where Phase 2 already shipped: `applyLicensePolicy` keys off `mode`, on the
-reasoning that mode is the thing being permitted. That reasoning holds for statgen's meaning and
-is meaningless for the flagship's. Phase 2.5 has to separate the two axes — what a ref is allowed
-to carry, and which renderer builds it — rather than pick a winner.
+1. All three are `kind: research` pointing at paywalled papers — `beaulieu-omeara-2016-hisse`
+   (`CC-BY-NC-ND-4.0`), `cunningham-1999-asr-limitations` and `tettelin-2008-openness` (both
+   `LicenseRef-all-rights-reserved`).
+2. In `license-policy.yml` both licences are `policy: own-words-only`, `allowed_modes:
+   [condense]`.
+3. Statgen **narrows `condense` out** of the inherited `modes` vocabulary —
+   `SUPPORTED_MODES = ['verbatim', 'sidecar']`, recorded in `site/src/lib/reference-contract.ts`
+   and defended in `casting.md` on the grounds that every carry here is deterministic.
+
+So statgen narrowed away the only mode its own corpus's licences permit for a class of source it
+uses heavily. `sidecar` was the improvised escape hatch — the nearest available thing that was
+not `verbatim`. At first cast, `applyLicensePolicy` rejects all three under *any* mode statgen
+admits.
+
+**The table is what is wrong here, not statgen.** All three notes declare
+`derived: own-words-summary` or `abstract-only-own-words-summary`. Their bodies are statgen's own
+prose *about* the paper; the `license:` field describes the upstream work, not the note's
+contents. Carrying such a note verbatim redistributes none of the paper — and the table already
+knows this, saying so in prose at `CC-BY-NC-SA`: *"NC condition kept out of casts (own-words)."*
+But `applyLicensePolicy` triggers on the mere **presence** of `license:`, so a derived note is
+policed as though it were the source.
+
+This is the same distinction #41 kept instance-side for the `license_file` *presence* rule — the
+flagship's `upstream` scoping telling a Foundry-authored annotation from genuine third-party
+redistribution. Nobody generalized it to the *mode* rule, because the flagship never needed to:
+it has zero `derived:` notes and exactly one `condense` ref. Statgen has 99 research refs and a
+corpus built on summarizing paywalled work.
+
+**Fix, in dependency order:**
+
+1. **Substrate.** `applyLicensePolicy` must key off whether the note's *content* is
+   Foundry-authored, not off `license:` presence. `derived:` is the existing field that records
+   it — reuse it rather than inventing a flag. A derived note falls outside redistribution policy
+   exactly as an unlicensed one does, and keeps `attribution` as its obligation.
+2. **Statgen.** The three refs become `mode: verbatim`, which is what carrying your own prose is.
+3. **Gate.** Per-kind allowed modes, so `mode: sidecar` on `kind: research` fails at validate
+   time. Statgen has no such gate today — the flagship's lives in `_target.yml`'s
+   `kinds.<kind>.modes`, and statgen has no `_target.yml` at all, which is why three bad refs sat
+   unnoticed.
+
+`sidecar` itself needs no change: it keeps one meaning, and statgen's `cli-command` kind keeps
+using it. The Phase 2.5 point stands for a different reason — `castOneRef` dispatches `sidecar`
+unconditionally to `buildCliSidecar`, so the *renderer* must still become a declared choice.
 
 Two smaller corpus facts that also bear on the extraction: statgen's one `kind: cli-command` ref
-resolves to `[[paml-manual]]`, which is `type: tutorial`, and it declares `mode: verbatim`. So no
-statgen ref uses the flagship's sidecar renderer at all, and statgen's kinds are not its note
+resolves to `[[paml-manual]]`, which is `type: tutorial` and declares `mode: verbatim`. So no
+statgen ref exercises the flagship's sidecar renderer at all, and statgen's kinds are not its note
 types — `research` covers `paper`, `book` and `tutorial`. The flagship's near-identity between
 the two is an instance fact the caster must not assume.
 
