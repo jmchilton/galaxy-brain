@@ -298,6 +298,27 @@ checklist bullet is not "assert on built output" but **assert on the specific by
 depends on** — presence checks pass on a broken page, and the build environment is part of what is
 under test.
 
+**Step 5 — the footer.** galaxyproject/foundry#432, jmchilton/statistical-genomics-foundry#144.
+**`Base.astro`, `Header.astro` and `Footer.astro` are now byte-identical across both instances.**
+The extra links became a `FOOTER_LINKS` list in the same `ShellLink` shape as the nav, rendered
+before the repository link both instances always carry — empty in one, one entry in the other.
+
+The copyright year was deleted rather than converged, and that is the first value in this sequence
+NOT settled by provenance alone. Provenance said the usual thing (born with the flagship
+2026-04-30, copied without it 2026-06-26, never revisited), but the deciding argument is that
+`new Date().getFullYear()` runs at BUILD time: the same commit renders differently across a new
+year, and **every check on this shell is a diff against built HTML**. A build that is not
+reproducible from its source makes its own verification unreadable. Worth the checklist on its own:
+nothing in the reading surface may read the clock.
+
+**What this means for Phase 2.** The premise has changed since §1 was written. The estimate there
+was "roughly 250 lines of near-verbatim code" measured as a *diff*; the shell is now three files
+with a zero diff and a config module beside them. Phase 2 is no longer "extract and generalize" —
+the generalizing is done, in-place, and what remains is purely the packaging question in §3. If
+that question answers badly, the instances keep everything they have gained and the finding is
+narrower and more interesting than "the visual shell did not transfer": it transferred completely,
+and could not be *shipped*.
+
 **Stop condition.** If the Tailwind `@source` or the unbuilt-`.astro` export turns into more than a
 day, ship Phase 1 and write Phase 2 up as a rejected option in the checklist. 250 lines of shared
 presentation is not worth novel packaging machinery, and the honest finding — *the visual shell did
