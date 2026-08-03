@@ -354,6 +354,42 @@ assertion per consumer, and the canary is non-negotiable rather than nice to hav
 decide is not *can it ship* but *should it* — see unresolved question 2, which the zero-diff shell
 has already reframed.
 
+**Step 6 — the package. Built and merged, jmchilton/foundry-lib#37.**
+`@galaxy-foundry/site-kit`: `SiteShell.astro` plus `SiteIdentity`, `ShellLink`, `resolveNav`,
+`CONTAINER`. All four spike answers held at full size. Nine CI gates green.
+
+Three things the spike did not reach:
+
+- **The container measure did not become a prop, and that was the design decision of the phase.**
+  Both instances had converged on `max-w-6xl` before the shell moved, so the kit holds it. The
+  instance's own note had asked for exactly this — *"the first thing that should LEAVE this file"* —
+  and question 4's lesson says why: parameterizing it now would hand a settled accident back out as
+  a policy. `navVisible` stayed a prop, because 5 vs 6 is a measured difference.
+- **`resolveNav` is tested for the first time.** Sixteen `match` closures across the two instances
+  and no test between them, because a closure cannot be asserted on without building a site. As
+  data it is fourteen cases, two of them falsified. One falsification exposed a *weak test* — the
+  base-comparison case passed under the mutation it was written for — which was rewritten.
+- **Smoke asserts the `.astro` files are in the tarball.** `exports` points at source here, and
+  every other check in the repo reads the source tree, where they are present either way.
+
+**Adoption is verified, and it is a zero diff.** The flagship builds 374 pages with no rendered
+difference from a build of the same commit in the same worktree, once Astro's scoped-style hashes,
+asset filenames and whitespace are normalized. Two things only the diff caught: import order in the
+composition point decides where the stylesheet `<link>` lands (putting the component import first
+moved it after every page's scoped `<style>` on 19 pages and dropped Tailwind's license banner),
+and a baseline built in a *different worktree* is not a baseline — generated packages differ.
+
+The existing canary needed no new mechanism. `min-h-dvh` was already asserted, and the move is what
+armed it: the class is now named by the kit and by nothing in the repo. Falsified twice — deleting
+the `@source` line and misspelling it both build 374 pages green and both fail that one assertion.
+
+**Blocked on a manual step, by design.** Trusted publishing is configured on a page that does not
+exist until the package does, so the first version of any new package has to be published from a
+laptop — `pnpm publish --no-git-checks --no-provenance --tag stub`, then the trusted publisher on
+npm, then the Version Packages PR. See `docs/development/publication.md` there. The two consumer
+PRs are written and verified against a packed tarball; they cannot land until the package resolves
+from npm.
+
 ### Phase 3 — the checklist
 
 Part 2 currently spends ~70 lines telling an author to stand up the reading surface by hand. After
@@ -444,7 +480,7 @@ belongs in the checklist whatever happens to the package.
 
 1. `@galaxy-foundry/site-kit`, or split TS/`.astro` into two packages? (One package, subpath
    exports, is my recommendation — two packages doubles the release ceremony for ~250 lines.)
-2. Phase 2 at all, or ship Phase 1 and record the shell as "did not transfer"?
+~~2. Phase 2 at all, or ship Phase 1 and record the shell as "did not transfer"?~~ **Answered: built and merged, jmchilton/foundry-lib#37.** The zero-diff shell made it a distribution question rather than a design one, and the spike had already priced it. See Phase 2 step 6.
 3. Does foundry-pattern adopt anything? It has no vault-doc renderer and a deliberately different
    shell — so probably only Phase 0. Confirm it stays out.
 4. ~~Container width (`max-w-5xl` vs `6xl`) — a prop, or does each instance keep its own `main`?~~
