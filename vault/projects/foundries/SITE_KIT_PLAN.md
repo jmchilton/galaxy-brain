@@ -791,6 +791,45 @@ Tutorials do not, though all five have one. That is now one field in one table r
 difference spread over three files, which is the point — but it is a rendered change and belongs in
 its own commit.
 
+### Phase 7 — the tag grouping. **DONE**, both instances: galaxyproject/foundry#439, jmchilton/statistical-genomics-foundry#147.
+
+`lib/tag-browse.ts`, **byte-identical in both repos**, holds `groupTagsInUse(registry, counts)` and
+`facetLabelOf(registry, tag)`. Three call sites per repo stopped deciding it for themselves.
+
+**The evidence is not the copy count.** `@galaxy-foundry/tag-registry` owns the rule that
+membership is DECLARED — a tag belongs to the facet whose `values` list it, never to whatever
+precedes its slash — and BOTH instances' own notes say so, listing "browse by declaring facet"
+among the rules that moved into the package. What the package ships is the lookup. **The package
+documents a rule it does not ship**, so every caller built the browse surface itself, and what
+they built was not code they had copied: it was a decision — browse order, the empty-facet rule,
+what becomes of a tag no facet declared — taken privately, agreeing only because nothing had ever
+made it disagree.
+
+**The counts are the seam, and they are the whole of what is per-instance.** A tagged thing is a
+non-archived note in one repo and an entry across five collections in the other. Everything above
+the counts is the same question, which is why the module is one file rather than two similar ones.
+
+**The synthetic registry is the point of the test.** Neither real registry can tell the rule from
+its coincidence: every tag in either `meta_tags.yml` is slashed AND its prefix happens to name its
+facet, so grouping by declaration and grouping by prefix are indistinguishable against real data.
+The fixture declares `role/solo` under `family` and `family/b` under `role`, and carries a bare
+`meta`. Falsified five ways in each repo, including reintroducing a second reader of `facetOf`.
+
+**A third caller in each repo was a test.** `registry-drift`'s "no facet with zero members in use"
+reasons explicitly about what /tags renders and reached that conclusion by its own route — a
+second answer to the question, dressed as a test of the first. It now asks the grouping.
+
+374 and 213 pages byte-identical to a build of the same worktree before the change — `diff -rq`,
+no normalizer.
+
+**What this says about the package boundary, which is the live question.** Every extraction on this
+axis so far went to the package that already owned the concept — `wiki-links` took the anchors,
+`license-policy` took the licenses reader, `site-kit` took the shell and the base. This one points
+at `tag-registry`, and it is the second time a candidate has been correctly refused by site-kit
+(the tag chip was the first). **site-kit has taken exactly one concept — the shell — and everything
+since has belonged somewhere else.** That is either the seam holding or the package being thin;
+see unresolved question 8.
+
 ---
 
 ## Unresolved questions
@@ -820,6 +859,27 @@ its own commit.
 5. `tokens.css`: ship token *names* only, or names + the current values as defaults?
 6. Does the TDA foundry get stood up as the kit's first consumer, or after both instances have
    adopted it?
+8. **Has `site-kit` earned its place, or did the convergence do all the work?** Raised
+   2026-08-03, and the strongest open question on the axis. The case against is real and mostly
+   made by this document: the shell reached a ZERO DIFF *in place*, before it was packaged, so the
+   value was already banked and the package delivered distribution rather than design. It costs a
+   laptop publish for a first version, a `^0.x` range that does not cross a minor (the exact trap
+   Phase 0 existed to unstick), a Tailwind `@source` line whose typo is as silent as its absence,
+   and a canary assertion per consumer that is non-negotiable rather than nice to have. N is 2, and
+   §1 already conceded that one of the two was a crib. And **every candidate since has belonged
+   somewhere else** — the tag chip to neither package, the tag grouping to `tag-registry`, the
+   route collapse to one instance — so site-kit holds exactly one concept.
+   The case for is narrower but not nothing: `shellBase` absorbed 56 private answers standing beside
+   an authoritative one, and that absorption REQUIRED a package to be the authority; and two
+   byte-identical copies stay identical only until someone edits one, which a version bump makes
+   visible and a copy does not.
+   **The deciding experiment exists and has not been run.** The TDA foundry is on disk with a
+   corpus (`content/environments`, `meta`, `packages`, `papers`) and no `site/` at all. Question 6
+   asks whether it is stood up as the kit's first consumer; question 8 is what the answer would
+   MEAN. If standing it up is the cheapest of the three, the kit is real. If most of the cost turns
+   out to be the parts the kit does not ship — the palette, the note components, the link map, the
+   corpus routes — then the honest finding is that the reading surface transferred and the shell was
+   the small half of it, which is worth more to the pattern than the package is.
 7. ~~Who owns the `attw`/`publint` exemption if a package ships unbuilt `.astro` — scope the
    existing call, or exempt the package?~~ **Answered by the spike: neither is needed.** The
    existing `--entrypoints .` already confines `attw` to the JS entrypoint, and `publint` is clean.
