@@ -546,9 +546,46 @@ two before it still carry the raw `diff -rq` claim. 374 pages — 117 unchanged,
 chip, 15 the co-occurrence chips, nothing else moved. Stylesheet 228 bytes smaller, three utilities
 only the hand-rolled chip used dropped, `tag-count` added.
 
-**Not ported to the sibling.** It has no links to tag pages, so the rule would have nothing to
-check, and a vacuous rule reports the same PASS as a clean one. Its one remaining item is a `.dark
-.tag` background that restates the light value — a no-op, not worth a PR of its own.
+**"Not ported to the sibling" was wrong, and the correction is the interesting part.** The claim was
+that the sibling has no links to tag pages so the rule would be vacuous. It has five collections of
+them. Both greps that produced the claim looked for `class="tag"` and for `rounded-full`, and the
+sibling's chips use neither: `TagChips.astro` draws a bordered mono pill in utilities. The same
+blind spot hid `.topic-chip` two paragraphs up — **twice in one sitting, a search for the canonical
+spelling of a thing missed the copies, which is the one place a copy is guaranteed not to be.**
+
+### Phase 5b — the sibling's tag surface. **DONE**, third commit on jmchilton/statistical-genomics-foundry#147.
+
+Prompted by a reading of the gap that was more right than mine: both instances have tag registries,
+so both should have tag pages. The sibling *has* the pages. What it did not have was a corpus that
+points at them.
+
+**The surface ran one way.** Five collections carry tags — molds, papers, tutorials, books,
+patterns — and the tag pages list entries from all five. Only molds rendered chips. Four fifths of
+the corpus appeared on tag pages that its own pages never mentioned, which from any single page
+looks like a site that simply has no tags. Nothing can catch this by reading one file: each page is
+locally complete, and the defect is a missing edge.
+
+**`.tag` named two different concepts across the two repos.** Here it was the *provenance* pill —
+source book, chapter, version, licence — while the registry tags were the hand-rolled chip. So the
+one thing on the site that IS a tag was the one thing not using the class called `tag`, and the
+earlier cross-repo comparison of the two `.tag` rules read as near-agreement while the two rules
+were about different things. Two definitions can agree on every declaration and still not be the
+same decision. The pills became `.meta-pill`; `.tag` is the registry chip in both repos now.
+
+**The second rule is the sibling's alone**, and that asymmetry is the point. It asserts that every
+collection in `COLLECTION_LABEL` renders chips somewhere under its route — derived from the same
+map the tag pages group by, so a collection added there is a collection whose detail page owes a
+link back. The flagship needs no such rule: it renders tags from one note header shared by every
+page, so it has no per-collection wiring that can be forgotten. **A rule earns its place from the
+shape of the failure available in that repo, not from the other repo having one.** Verified by
+reverting the four pages — it names books, papers, patterns, tutorials.
+
+The chip rule itself is the same file in both, and porting it corrected the original: the sibling
+links back to the tags INDEX from each tag page, which the flagship's regex read as a tag link and
+would have held to a chip's rule. That exclusion went back into the flagship, so the two differ
+only where the two sites do.
+
+213 pages, 85 untouched; the pill rename renders identically, and the rest is the new chip rows.
 
 A broader measurement, unspent: seven `@theme` tokens in foundry are referenced by nothing, by
 `var()` or by generated utility name. Only one was a tag token — `--color-tag-bg` was live, it was
