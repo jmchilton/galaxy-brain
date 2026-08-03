@@ -272,6 +272,32 @@ scanned a file was satisfied by Tailwind scanning the assertion. Worth carrying 
 whatever happens to Phase 2 — a test that names a class it is checking for is not neutral about
 the thing it checks.
 
+**Step 2 — name the values.** galaxyproject/foundry#429, jmchilton/statistical-genomics-foundry#141.
+`site-identity.ts` in each instance; `Base.astro` byte-identical afterwards. The container width
+was converged rather than parameterized — see unresolved question 4, and the general form there.
+
+**Step 3 — make the nav data.** galaxyproject/foundry#431,
+jmchilton/statistical-genomics-foundry#143. `Header.astro` byte-identical too, so the whole shell
+except `Footer.astro` is now one file living in two places. `{href, label, match}` became
+`{path, label}` plus a visible count: fifteen of the sixteen `match` closures were the same line,
+and the sixteenth excluded a route pair that has never existed in either repo. A closure cannot be
+passed to a shared component or read from a file, which is what made this a precondition rather
+than tidying. The overflow group is now a slice of one list, so it is present in both instances and
+renders in one — the cut point is a measured count (wordmarks of 75px and 279px), not a decision
+about which sections matter.
+
+**And a third harness defect, of the same family as the other two.** Vitest mirrors
+`import.meta.env` into `process.env`, `BASE_URL=/` included. The child `astro build` in
+`ensureBuilt` inherited it and preferred it over `astro.config.mjs`, so **both instances' harnesses
+had been asserting against a site built at the wrong base since step 1 landed** — every link
+root-relative, every page built, every assertion green. Nothing read an href until step 3 did.
+
+That is now three for three: every defect this harness has found was found by an assertion reading
+something no earlier assertion had read, and in all three cases what was wrong was the harness. The
+checklist bullet is not "assert on built output" but **assert on the specific bytes the reader
+depends on** — presence checks pass on a broken page, and the build environment is part of what is
+under test.
+
 **Stop condition.** If the Tailwind `@source` or the unbuilt-`.astro` export turns into more than a
 day, ship Phase 1 and write Phase 2 up as a rejected option in the checklist. 250 lines of shared
 presentation is not worth novel packaging machinery, and the honest finding — *the visual shell did
