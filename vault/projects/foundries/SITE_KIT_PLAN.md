@@ -526,8 +526,15 @@ belongs in the checklist whatever happens to the package.
 1. `@galaxy-foundry/site-kit`, or split TS/`.astro` into two packages? (One package, subpath
    exports, is my recommendation — two packages doubles the release ceremony for ~250 lines.)
 ~~2. Phase 2 at all, or ship Phase 1 and record the shell as "did not transfer"?~~ **Answered: built and merged, jmchilton/foundry-lib#37.** The zero-diff shell made it a distribution question rather than a design one, and the spike had already priced it. See Phase 2 step 6.
-3. Does foundry-pattern adopt anything? It has no vault-doc renderer and a deliberately different
-   shell — so probably only Phase 0. Confirm it stays out.
+3. ~~Does foundry-pattern adopt anything?~~ **Answered: no, and the reason is principled.** Its
+   whole shell is one 75-line `Base.astro` with the header and footer inline, and it shares no
+   token with either instance — `--ink`, `--soot`, `--ash`, `--ember`, `--rule`, `--muted`,
+   `--font-display` against the instances' `--color-surface` / `--color-text-primary` /
+   `--color-accent`. Different measure too (`max-w-5xl`), and a nav with no overflow group. Every
+   adoption in this axis was justified by changing NO rendered page; adopting here would change
+   every one of them, because the pattern site is not a Foundry instance and does not look like
+   one. What did transfer is the idea rather than the code: its nav is already a data array rather
+   than per-entry closures.
 4. ~~Container width (`max-w-5xl` vs `6xl`) — a prop, or does each instance keep its own `main`?~~
    **Answered: neither.** The difference was never decided — statgen's shell was copied from
    foundry's two months later and the width changed in the same edit as the name and description,
