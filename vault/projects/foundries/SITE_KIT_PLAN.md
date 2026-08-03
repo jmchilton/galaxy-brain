@@ -407,9 +407,11 @@ to make there: `--tag stub` does **not** keep `latest` clear. A package with no 
 first publish regardless, so npm assigned `latest: 0.0.0` — harmless, since the release takes it,
 but the flag does not buy what the page implies.
 
-Both consumer branches are committed and fully verified against the packed tarball, pinned to a
-`file:` dependency. They cannot open until the Version Packages PR merges and 0.1.0 resolves from
-npm; the pins then become `^0.1.0`.
+`0.1.0` is released, and both consumers are open on it: galaxyproject/foundry#439 and
+jmchilton/statistical-genomics-foundry#147. Each was verified twice — once against the packed
+tarball and again after repointing to `^0.1.0`, since the published artifact is the thing readers
+actually get. The zero diff held both times; the only pages that differ are the architecture notes
+each PR edits.
 
 Both adoptions also updated the instance's own architecture prose to say the shell is installed
 rather than local — which is the same claim Phase 3 has to make in the checklist.
