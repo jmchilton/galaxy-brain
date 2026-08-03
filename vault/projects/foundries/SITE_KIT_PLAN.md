@@ -416,20 +416,39 @@ each PR edits.
 Both adoptions also updated the instance's own architecture prose to say the shell is installed
 rather than local — which is the same claim Phase 3 has to make in the checklist.
 
-### Phase 3 — the checklist
+### Phase 3 — the checklist. **DONE**, galaxyproject/foundry-pattern#32.
 
-Part 2 currently spends ~70 lines telling an author to stand up the reading surface by hand. After
-Phase 1 it becomes: install the kit, wire the composition points, and here are the two silent
-defaults that still bite (astro 7's `markdown.processor`, `compressHTML: true`). The wiki-link
-section stays as-is — it describes a seam that is working.
+The estimate was wrong in a useful way. Part 2 was supposed to be ~70 lines of stand-up-by-hand;
+the shell was **two lines** of it. Everything else in that part — the astro 7 pins, the route rule,
+the wiki-link seam, the loose-doc helper — was still true. So the work became an audit rather than a
+rewrite, and the audit is where the value was: three claims had drifted, and none of them was the
+shell.
 
-`INHERITED vs. SUPPLIED` gains the kit in the INSTALLED grade, and the MECHANICAL column loses the
-Astro app but keeps the rest.
+- The config snippet showed `remark-math` + `rehype-katex` as the standard pipeline. Only the
+  wiki-link plugin is common to both instances; the maths is one instance's domain and the citation
+  and vendored-MyST transforms are the other's. **Take the shape, not the list.**
+- It named `SourceMeta` and `TagChips` as the components to write, and one instance has neither.
+  22 components and 3,290 lines against 2 and 85, no name in common. Now stated as the honest
+  contrast: the chrome converged unprompted, the rendering of the corpus did not.
+- "Pin the base once" was ambiguous enough that one instance writes the literal twice — as the
+  config's `base` and again in the wiki-link plugin's options.
 
-Also record what did **not** move and why: the link map (deliberate), `design-docs.ts` (70 vs 236
-lines, both mid-migration to a `meta` kind for domain reasons), the palette, and — if Phase 2 is
-abandoned — the shell. The checklist already treats "what the evidence kept out" as instructive;
-this is more of it.
+`INHERITED vs. SUPPLIED`: INSTALLED is seven. MECHANICAL keeps the Astro app and loses the shell,
+which makes it the first thing to graduate out of that column — so the column now carries a worked
+example of the route it exists to describe (compare value by value, defend or remove each
+disagreement IN PLACE, move only once the files are identical). YOURS gains the identity, the
+palette, and the note components. What did not move is recorded beside the earlier list: the link
+map, the note components, the palette.
+
+One correction fed back the other way. The bump-acceptance lesson added by the pattern repo's own
+astro-7 work says *accept on the rendered page, not the build* — right, and incomplete. **The
+stylesheet is output too.** That is now in the checklist with the normalization it needs.
+
+**A stale worktree nearly put a false claim in.** The substrate table looked two rows out of date
+and the fix was already on main, a day old — the same `^0.x` trap, already found and already fixed
+by the repo itself. Nothing shipped, because the rebase conflicted and the conflict is what
+surfaced it. Fetch before auditing a document for staleness; the document is not the thing most
+likely to be stale.
 
 ---
 
