@@ -4,10 +4,22 @@ Converging the foundries along the **casting** axis: extract the caster into the
 substrate *and* move its per-kind behaviour out of TypeScript literals onto the kind and
 target declarations, in one migration.
 
-> **Status (2026-08-02).** **Phase 0 done.** Phase 1 partially done — hardcodes #1–#4 landed,
-> plus fixes from two review rounds. Nine commits on `foundry` branch `cast-declarative`
-> (worktree `~/projects/worktrees/foundry/branch/cast-declarative`) and one on `foundry-pattern`
-> branch `cast-convergence`. Details in **Progress log**.
+> **Status (2026-08-03).** **Phases 0, 1 and 2 are done.** Phases 0–1 merged to
+> galaxyproject/foundry `main` — **#433**, **#434**, **#438**, plus `foundry-pattern` **#31**.
+> Phase 2 shipped `@galaxy-foundry/cast` — jmchilton/foundry-lib **#39** and **#41**, released
+> as **0.2.0** (0.1.0 is the name-claiming stub). The flagship adopts it in **#440**, open and
+> green.
+> **Next: Phase 2.5** — extract the caster itself, which Phase 3 turned out to require.
+> Details in **Progress log**; the split under **How the branch was split**.
+>
+> Three plan changes decided along the way, all recorded below: **#6 and #7 are dropped from
+> Phase 1** (target-renderer work with no second target to justify it, after `8c73a44` deleted
+> the only two candidates), **Phase 0's steps 2–3 collapsed** (the flagship narrows rather
+> than the substrate deleting, so no cross-repo release exists), and **Phase 2's ships list is
+> cut** — the verify manifest and the renderer turned out to be built from one instance's Mold
+> vocabulary, so they stay put until Phase 3 produces a second implementation. A fourth followed:
+> **Phase 2.5 was added**, because Phase 3 assumed a caster that Phase 2 had explicitly declined
+> to extract.
 
 Decisions taken up front (see "Decisions" at the end for the reasoning):
 - **Scope:** extract + declarative together.
@@ -65,10 +77,10 @@ Still TypeScript literals in `cast-mold.ts`:
 | 2 | `defaultMode = kind === "cli-command" ? "sidecar" : "verbatim"` | 255 | ref kind |
 | 3 | Resolution `if/else`: note-file / `package://` export / prompt payload companion / `tool:` slug override | 269–328 | ref kind |
 | 4 | `if (r.kind !== "research" && r.kind !== "pattern") continue` | 372 | ref kind |
-| 5 | `args.target === "claude" ? .../skills/... : ...` | 1277 | target |
-| 6 | `runtimeProcedureBody` vocabulary rewrites (`Mold`→`skill`, …) | 1082–93 | target |
-| 7 | Whole `SKILL.md` template — sections, order, Runtime Notes boilerplate | 1196–1251 | target |
-| 8 | `[[summary-nextflow]]` lookup; `@galaxy-foundry/foundry` validator package | 1416, 1178 | the instance (domain leaks) |
+| 5 | `args.target === "claude" ? .../skills/... : ...` | 1277 | target — **done, `42e4690`** |
+| 6 | `runtimeProcedureBody` vocabulary rewrites (`Mold`→`skill`, …) | 1082–93 | target — **dropped, no second target** |
+| 7 | Whole `SKILL.md` template — sections, order, Runtime Notes boilerplate | 1196–1251 | target — **dropped, no second target** |
+| 8 | `[[summary-nextflow]]` lookup; `@galaxy-foundry/foundry` validator package | 1416, 1178 | the instance — **done, `f7d5d91`** |
 
 **#1 and #4 are the bug the pattern already documented once.** `kind-catalog.md` records that
 `_target.yml`'s hand-written `forbid_packaged_files` "named two of the eight its kinds declare",
@@ -182,10 +194,15 @@ deriving was measured by tests that fail under the hand-written list.
 
 ### Phase 2 — Extract `@galaxy-foundry/cast` (foundry-lib)
 
-Now that the per-kind behaviour is data, the package boundary is mechanical.
+**Done 2026-08-03, with a smaller ships list than planned.** See the Progress log entry for
+what the code said and why. Shipped: placement, reconciliation, hashing, bundle hygiene, the
+provenance record and carry-forward, and licence enforcement. Declined for now: ref resolution,
+companion expansion, the verify manifest and the renderer.
+
+The original scope, for the record:
 
 **Ships:** ref resolution driven by the `cast:` declarations, companion expansion, hashing and
-`reconcile`, provenance v3 emission and carry-forward, the `--check` drift gate, orphan pruning
+`reconcile`, provenance v4 emission and carry-forward, the `--check` drift gate, orphan pruning
 under `references/`, license-policy enforcement, the verify manifest, the cast document, and a
 default renderer.
 
@@ -205,10 +222,81 @@ Pipeline concept is under reconsideration — cite it as evidence for extraction
 **Test gate:** same oracle. `pnpm -r test` green in flagship and foundry-lib, `cast --check`
 clean over 47 Molds, 54 bundles byte-identical.
 
+### Phase 2.5 — Extract the caster itself (foundry-lib)
+
+**Added 2026-08-03, because Phase 3 cannot start without it.** Phase 3 read as though installing
+`@galaxy-foundry/cast` makes an instance able to cast. It does not. The package is the
+deterministic *half* — placement, drift, hashing, the provenance shape, licence enforcement. The
+thing that casts is `cast-mold.ts`, still 1,379 lines in the flagship's build-cli, and Phase 2
+declined to extract it for want of a second implementation.
+
+Statgen makes the gap concrete: it has no build-cli at all. Its only TypeScript lives under
+`site/`, run by `vite-node`. No CLI package, no `cast` command, no validator binary. Installing
+`cast` there gives it a library with no caller.
+
+**What the survey found.** The 264-line main command is almost entirely generic orchestration.
+Nine domain hooks are woven through it, and statgen needs none of them:
+
+| Hook | Domain fact it encodes |
+| --- | --- |
+| `buildSlugMap`'s `tool`+`command` alias | Galaxy CLI commands are addressable two ways |
+| `buildProducerIndex` / `buildVerifyManifest` / `readArtifactContracts` | `output_artifacts` / `input_artifacts` |
+| `aggregateRequiredTools` + `_required_tools.json` | Galaxy tool requirements |
+| `validateRuns` over `runs/*/summary.json` | harvested run output |
+| `renderSkillMarkdown`'s `artifactRows` / `schemaValidationRows` | the same artifact contract |
+| `_verify.json` emission | the verify manifest |
+| `buildCliSidecar` / `resolveCliCommandMeta` | planemo command metadata |
+
+The generic core is the rest: argv, target config, ref resolution and `deriveDst`, companion
+expansion, the stable `(kind, group, companion)` ordering, `castOneRef`, orphan reconciliation
+under `references/`, drift reporting, provenance assembly and `cast_history`, and SKILL.md's
+frontmatter, body and ref rows.
+
+So this is a caster with declared extension points, not a lift. The flagship passes all nine
+hooks; statgen passes none. That asymmetry is the test of whether the seam is in the right place
+— and it is the evidence Phase 2 lacked.
+
+**One blocker the survey turned up.** `mode: sidecar` dispatches unconditionally to
+`buildCliSidecar`. The comment defends this — the target's `kinds.<kind>.modes` already gates
+which kinds may take `sidecar`, so naming the kind again would be a second gate that could only
+disagree with the first. That reasoning is sound and the conclusion is still wrong once there are
+two instances: the gate says *whether* a kind may take a sidecar, never *which renderer builds
+it*. `sidecar` has to become a named renderer chosen by declaration.
+
+**Settled 2026-08-03 by reading statgen's corpus, and the answer is worse than "loose."**
+Statgen has **3** `mode: sidecar` refs, not one — and all three are `kind: research`, pointing at
+`beaulieu-omeara-2016-hisse`, `cunningham-1999-asr-limitations` and `tettelin-2008-openness`.
+Their `verification:` fields say why: *"Only the abstract was readable (body paywalled)"*, *"Only
+p.665 was readable"*, *"(paywalled) note"*.
+
+So the word means two different operations:
+
+- **Flagship `sidecar`** — render structured JSON from a `cli-command` note's frontmatter. A
+  *format* decision.
+- **Statgen `sidecar`** — the source cannot be redistributed, so carry a derived summary instead
+  of the bytes. An *access and licence* decision.
+
+They collide exactly where Phase 2 already shipped: `applyLicensePolicy` keys off `mode`, on the
+reasoning that mode is the thing being permitted. That reasoning holds for statgen's meaning and
+is meaningless for the flagship's. Phase 2.5 has to separate the two axes — what a ref is allowed
+to carry, and which renderer builds it — rather than pick a winner.
+
+Two smaller corpus facts that also bear on the extraction: statgen's one `kind: cli-command` ref
+resolves to `[[paml-manual]]`, which is `type: tutorial`, and it declares `mode: verbatim`. So no
+statgen ref uses the flagship's sidecar renderer at all, and statgen's kinds are not its note
+types — `research` covers `paper`, `book` and `tutorial`. The flagship's near-identity between
+the two is an instance fact the caster must not assume.
+
+**Test gate:** the flagship's byte-identity oracle again — 47 Molds, 54 bundles, no byte moves
+with all nine hooks injected. Then statgen casting with none of them, which is the real result.
+
 ### Phase 3 — statgen casts for the first time
 
-1. Install `@galaxy-foundry/cast`; add `cast:` blocks to its three kinds; write
-   `casts/claude/_target.yml`.
+**Blocked on Phase 2.5.** Step 1 as originally written is not sufficient.
+
+1. Install the caster from Phase 2.5 (and `@galaxy-foundry/cast` beneath it); add `cast:` blocks
+   to its three kinds; write `casts/claude/_target.yml`. Statgen needs a CLI entry point of its
+   own — it has none today.
 2. Replace `content/meta/casting.md`'s prose table with a generated view of the actual
    declarations, or delete the table and link the declarations. The unrunnable copy is the
    thing being removed.
@@ -337,6 +425,52 @@ byte-identity had forced the `cast:` blocks to describe behaviour as it was, con
   pattern fixes the *ordering*, how far the deterministic half reaches is a domain question, and
   both instances reached "all the way," which is what makes a cast byte-stable.
 
+### Round 3 review, and the four commits it produced
+
+The third review pass covered `43caa36`, `ebc56ab`, `adb7da5`, `23a8cad`. It was asked to assume
+a check-passing-for-the-wrong-reason defect was present, as in rounds 1 and 2. **It found two.**
+It also confirmed independently that all 47 committed records validate against the narrowed
+schema, and it tried and failed to break `adb7da5`'s reasoning.
+
+- **`eb1fc82` — the verifier was wired into nothing.** `scripts/cast-skill-verify.ts` appeared in
+  no Makefile target, no npm script and no CI workflow; its only callers were two tests against
+  `summarize-nextflow`. So the schema that `content/schemas/cast-provenance.md` calls the contract
+  of record was enforced on 1 of 47 records, and the guard `ebc56ab` rewrote never executed
+  outside a test. **This is the same defect `91e7d7b` fixed for the caster, in the same shape** —
+  and that one had already shipped seven broken bundles. `make check-verify` mirrors
+  `check-casts`; verified it bites by injecting `pending_llm: true` into a committed record.
+- **`a56c612` — the pinning tests passed on zero.** All three scan and assert an empty offender
+  list, which is as green on nothing as on everything. The reviewer proved it: with all three
+  violations present, renaming `_provenance.json` turned two of them green, because
+  `if (!existsSync(provPath)) continue` cannot distinguish a pipeline harness from a total scan
+  collapse — and that skip already fired seven times per run. Now the skip is accounted for
+  (no provenance ⇒ must have `_assembly.json`) and each test asserts a floor on what it read.
+  Re-ran the probe to confirm both now fail.
+- **`152b4ed` — schema v3 had been narrowed in place.** `mode` lost `condense`, `source` lost
+  `llm`, and three fields were deleted under `additionalProperties: false`, while the `const`
+  stayed at 3 — one version number naming two incompatible contracts. Widening survives without
+  a bump; narrowing does not. `cast-provenance.md` had already written the procedure down before
+  the case arose. Bumped to 4, all 47 re-cast, contract note revised (its title had said "schema
+  v2" since the v3 bump). The re-cast touched exactly three fields; no `SKILL.md` or reference
+  byte changed.
+- **`b9c8ae8` — `ebc56ab` updated no documentation at all**, and four of the survivors were
+  *operative*: `.claude/commands/cast.md` told an agent to write `prompt`/`model` into provenance
+  (now rejected) **and to author `SKILL.md`, which the caster renders deterministically and
+  drift-checks** — so following the command produced a bundle the next `make casts` overwrites.
+  That last part the review did not catch; it turned up while fixing the part it did.
+  `review-mold.md` and `review-pattern.md` were also stale and also missed by the review.
+- **`9223206`** (foundry-pattern) — `23a8cad` corrected `the-model` and left `glossary.md`
+  contradicting it, **and `the-model` itself names the glossary "the page that wins where two
+  others disagree."** Also fixed the statgen overclaim (below).
+
+**Two things worth carrying forward.** First, the reviewer verified the *reasoning* in `adb7da5`,
+not just the code, and found the substrate's own `narrow` docstring naming `modes.condense` by
+name as capacity to be declined — so the collapse of steps 2–3 is what the code says, not a
+convenient reading. Second, it named a **substrate gap**: `narrow` is prescribed but has no
+declarative surface, because `loadInstanceKinds` actively refuses an instance that declares an
+inherited group. Both instances therefore hardcode the same list in TypeScript. That is an
+upstream issue for foundry-lib, not a change to this branch — **still unfiled.**
+
 ### Findings that change later phases
 
 - **A fifth kind-name hardcode was missed in the original survey.** `castOneRef` dispatches the
@@ -368,9 +502,9 @@ byte-identity had forced the `cast:` blocks to describe behaviour as it was, con
   corpus proves *no regression on inputs that exist*, never *no behaviour change*. Extraction
   needs the same treatment — enumerate what the corpus does not exercise, and test that
   separately.
-- **`site/src/lib/casts.ts` still hardcodes `target === 'claude'`** for the `skills/` bundle
-  layout, in the same function `8c73a44` de-hardcoded. That is hardcode #5 (`bundle_path`) seen
-  from the site side; both should move to `_target.yml` together.
+- ~~**`site/src/lib/casts.ts` still hardcodes `target === 'claude'`**~~ **Resolved (`42e4690`).**
+  It was six literals, not one — and the caster, verifier and pipeline assembler each carried the
+  same ternary. All four now read `bundle_path` through `lib/target-layout.ts`.
 - **`narrow` is the substrate's answer for declining capacity, and it now has two users.** Worth
   remembering in Phase 2: when the extracted `@galaxy-foundry/cast` meets a capability one
   instance lacks, the move is to let the instance decline it, not to delete it from the shared
@@ -385,13 +519,85 @@ byte-identity had forced the `cast:` blocks to describe behaviour as it was, con
   merge it needs one sync, and it will then also pick up the dropped `casting.md` companion,
   which the kind-catalog page reports on.
 
-### Remaining in Phase 1
+### Phase 1 — done
 
-#5 `bundle_path`, #6 vocabulary rewrites, #7 the cast document (which also owns the
-`refKindLabel` literals at cast-mold.ts:1128–1132), #8 the two domain leaks, and the
-newly-found sidecar dispatch. **#7 is now unblocked in the negative direction:** with
-`generic`/`web` deleted, a target-neutral intermediate is speculative until a second target is
-real, so the SKILL.md template can stay TypeScript for now.
+**`42e4690` — #5 `bundle_path` and the sidecar dispatch.** The
+`target === "claude" ? ".../skills/..." : ...` ternary was written out four times (caster,
+verifier, pipeline assembler, site) for one fact about one target. Now `_target.yml` says it and
+`lib/target-layout.ts` is the only reader; the site loses five of its six `'claude'` path literals
+(the two that remain *name the target* in functions about the Claude target, which is different).
+The sidecar dispatch's `&& kind === "cli-command"` was a second gate behind the target's `modes`
+list — the third instance on this branch of a hand-written check duplicating a declaration.
+**A trap the new test found:** `bundle_path: {mold}` is not a string — unquoted braces are YAML
+flow-mapping syntax, so it loads as `{ mold: null }` and the old code died on
+`template.includes is not a function` three frames away. Validated where it is read now.
+
+**`f7d5d91` — #8, both domain leaks.** `@galaxy-foundry/foundry` was *inferred* ("has a
+subcommand" ⇒ the multi-command CLI ⇒ that package name), in the caster **and** in `validate.ts`.
+Notes declare `validator_package` now, defaulting to `package`; exactly one note needs it. The
+`[[summary-nextflow]]` lookup became "the schema the Mold declares for its own output" — and the
+*fallback* was the worse half, since for any other Mold it picked a schema with no stated
+relationship to the runs. Two bugs fell out of testing it: `loadAjvForSchema` threw a bare
+`SyntaxError` naming no file, for a file the caster chose rather than one the author pointed at,
+and the throw escaped to the top instead of joining the finding list.
+
+Both commits: all 54 bundles byte-identical, `make check` green (251 tests).
+
+**#6 and #7 are dropped, not deferred silently.** Both are target-renderer work, and the only two
+targets that would have paid for them were deleted in `8c73a44`. Building a target-neutral cast
+document against a single target invents an abstraction with no second implementation — the rule
+the instructions doc states, and the one this plan already invoked to justify extracting the
+caster. Re-open them when a second target is real; the `refKindLabel` literals ride along with #7.
+
+### Phase 2 — done, and the ships list was too long
+
+Shipped as `@galaxy-foundry/cast` 0.1.0: foundry-lib **#39** (merged) and **#41** (open, green).
+The flagship's adoption is on `cast-package-adopt`, two commits, blocked on the release.
+
+**What moved.** Bundle placement, drift reconciliation, content hashing, bundle hygiene
+(`copyVerbatim`, `pruneEmptyDirs`, `gitHead`), the provenance record's shape at v4 with
+carry-forward, and licence-policy enforcement.
+
+**Two contracts restated rather than copied.** Placement takes a target *directory*, not
+`(repoRoot, target)` — `casts/` appears nowhere in the pattern spec, so hardcoding it would
+export one instance's layout as the pattern's. Carry-forward reads text rather than a path, so
+the record's shape is testable without a filesystem. Both leave the composition in the
+instance, which is what `build-cli/src/lib/target-layout.ts` now is.
+
+**What the code refused, with the evidence.** Three of the planned ships are built out of one
+instance's Mold vocabulary, not the pattern's:
+
+- `buildVerifyManifest` reads `meta.output_artifacts` and `meta.input_artifacts`. statgen's
+  `mold` kind declares `type`, `name`, `summary`, `references`, `tags` — and nothing else.
+- `schemaValidatorInvocation` resolves a wiki-link to a `schema` note and reads
+  `validator_package` / `validator_subcommand`. statgen has no `schema` kind at all.
+- The renderer renders those same artifact sections.
+
+`expandCompanions` is a fourth, for a different reason: 25 lines needing three instance
+callbacks, and it deliberately omits `verification` and `package_source` when building a
+companion — so the obvious generic version (spread the parent) changes the emitted record. The
+flagship also narrows `kind` to a six-member union that a shared signature widens back to
+`string`.
+
+What is genuinely left is the `cast.resolve` dispatch skeleton, while the three resolvers
+behind it stay instance-shaped. **Decision: stop here and let Phase 3 supply the second
+implementation**, which is the rule foundry-lib's own README states and which this extraction
+already had to write an explicit exception for.
+
+**One fact that was declared twice, now once.** `_target.yml` carried
+`provenance_schema_version: 4` while the caster is what writes the shape — a target could name
+a contract nothing emits, which is the v3-narrowed-in-place defect in a new place. The caster
+emits `PROVENANCE_SCHEMA_VERSION`; the JSON Schema stays the contract of record and
+`check-verify` cross-checks them. Tested red-to-green with a target declaring `99`.
+
+**Oracle.** Re-casting all 47 Molds moves `commit` and `cast_at` and nothing else — no
+`SKILL.md`, no reference byte. The licence path is genuinely covered rather than vacuously
+passing: 32 of 47 bundles carry licensed refs and 42 `license_file_hash` values reproduce.
+`make check` green, 267 tests / 17 files, site 374 pages.
+
+**A flake fixed on the way.** `vitest.config.ts` set no `testTimeout`. Two different files
+timed out at the 5s default on separate runs — always a timeout, never a wrong answer — because
+these tests spawn `tsx` or read all 374 built pages. Now 60s.
 
 ## Decisions
 
@@ -406,6 +612,60 @@ real, so the SKILL.md template can stay TypeScript for now.
 - **Flagship first.** A byte-identical re-cast of 54 existing bundles is a regression oracle no
   new instance can provide.
 
+### How the branch was split. Shipped 2026-08-02 as three stacked PRs.
+
+**The first test asked the wrong question.** It cherry-picked the three Phase 0 commits out from
+*under* Phase 1 — a reorder. That worked (`ebc56ab` applied clean, the other two took three
+mechanical resolutions, 247 tests passed on `origin/main` + Phase 0, `cast --check` reported
+exactly the 7 bundles already drifted on `main`), but it priced the split at one rebase of every
+Phase 1 commit, paid later, hitting the same conflicts from the other direction.
+
+Nothing needed the reorder. The history is already linear and the repo merges with merge commits,
+so cutting by **prefix** costs nothing: branch at a SHA, PR it, base the next on it. No SHA
+rewriting, no rebase, no cherry-pick. Re-tested that way, building each cut in a scratch worktree:
+
+| PR | range | commits | `make check` | tests | vs. current `main` |
+|---|---|---|---|---|---|
+| [#433](https://github.com/galaxyproject/foundry/pull/433) | `ddf9da2..91e7d7b` | 2 | green | 236 / 15 | clean |
+| [#434](https://github.com/galaxyproject/foundry/pull/434) | `db35ea4..adb7da5` | 7 | green | 246 / 15 | clean |
+| [#438](https://github.com/galaxyproject/foundry/pull/438) | `eb1fc82..f7d5d91` + sweep | 7 | green | 266 / 17 | **1 conflict** |
+
+(#438 replaces [#435](https://github.com/galaxyproject/foundry/pull/435) — see "What actually happened" below.)
+
+`casts/` clean at every cut — no tranche ships a bundle the next one fixes. The test count
+climbing 236 → 246 → 251 is what makes them separately reviewable: each tranche brings its own
+coverage rather than leaning on the next one's.
+
+The branch had gone **20 commits behind `main`**, and merging it whole conflicts on
+`site/src/lib/casts.ts`, where main's site-helper work landed on the function `42e4690` rewrote.
+Splitting confines that to the last tranche: **13 of 15 commits land with no conflict work at
+all.** So the split is not a trade of rebase-cost for smaller reviews — it costs nothing *and*
+isolates the one merge that needs thought.
+
+`foundry-pattern`'s two commits went up as [#31](https://github.com/galaxyproject/foundry-pattern/pull/31);
+15 behind `main` but merging clean, and independent of the flagship PRs.
+
+**What actually happened.** #433 merged, #434 took one review comment ("drop this archeology") and
+merged, and then **#435 was merged into its own base branch instead of into `main`**. GitHub does
+not retarget a stacked PR when its base merges — it only does that when the base branch is
+*deleted* — so #435 still pointed at `cast-declarative-kinds`, and merging it put `9823da1` on a
+side branch `main` does not contain. Nothing was lost, but the PR list read as shipped when a
+third of the work was not. Caught by `git merge-base --is-ancestor 9823da1 origin/main`.
+
+The recovery: rebase `cast-declarative` onto `main` (`--onto origin/main adb7da5`), resolve the one
+conflict, and open **#438** as a replacement, since a closed PR cannot be retargeted. So the real
+cost of stacking was not the rebase the first test predicted — it was that **a stacked PR's base
+silently stays stale after the base merges**. Next time: retarget each PR to `main` the moment the
+one below it merges, before merging it.
+
+Two things the rebase surfaced. Main's `7fa8525` had replaced `defaultRepoRoot()`'s three-hop
+`fileURLToPath` walk with `REPO_ROOT` — the conflicting function — because after `astro build` the
+hops landed on `site/` and 54 pages went unbuilt, green at 316 instead of 370. **This branch's own
+"site build 316 pages" verification line had been quoting that bug**; post-rebase it is 374. And
+`42e4690` had reformatted `site/src/lib/casts.ts` to double quotes against `site/`'s single-quote
+convention — the prettier hook is scoped to `^packages/.*/(src|test)/.*\.ts$`, so nothing flagged
+it. Restoring it removed 44 of the 110 changed lines: the conflict was smaller than it looked.
+
 ## Unresolved questions
 
 - ~~`generic` and `web` targets: real near-term, or delete the empty dirs?~~ **Resolved
@@ -414,7 +674,29 @@ real, so the SKILL.md template can stay TypeScript for now.
 - Does statgen actually want to cast, or is it upstream of that?
 - TDA foundry is greenfield with no site at all — is it the intended proving ground for the
   revised instructions (Phase 5, unwritten)?
-- `@galaxy-foundry/note-schema` (flagship-local) vs `kind-schema` + per-instance types (statgen):
-  two arrangements of the same seam. Reconcile as part of Phase 2, or leave?
-- Does retiring `condense` need a deprecation window in `reference-contract`, or is
-  "both consumers are in hand" enough for a straight removal?
+- ~~`@galaxy-foundry/note-schema` (flagship-local) vs `kind-schema` + per-instance types
+  (statgen): two arrangements of the same seam. Reconcile as part of Phase 2, or leave?~~
+  **Wrong axis, 2026-08-03.** The arrangement is fine and mostly already extracted —
+  `note-schema.ts`, `kind-manifest.ts` and `reference-contract.ts` are ~250 lines of composition
+  over shared packages, and the package exists because the flagship's kinds have two consumers
+  (the site *and* build-cli) where statgen's have one. The real finding is **duplication inside
+  `context.ts`**: both instances hand-build the `reference` zod object with byte-identical error
+  strings (`on-demand ref "…" requires a trigger`, `hypothesis-evidence ref "…" requires a
+  verification`), and they have already drifted two ways — the flagship encodes each vocabulary
+  as `z.string().refine(…)` and statgen as `z.enum(keys(group))`, and statgen's shape carries a
+  tenth field, `recheck`. `licenseId` and `tag` are duplicated the same way. The base envelope is
+  *not* a candidate: 12 fields against one. **Next move: extract the reference-entry schema and
+  its two cross-field rules into `@galaxy-foundry/reference-contract`, beside the vocabularies
+  they validate against, and settle `recheck` while doing it.**
+- ~~Does retiring `condense` need a deprecation window in `reference-contract`?~~ **Moot** — the
+  term was never removed from the shared package; the flagship narrows it away locally.
+- ~~Land Phase 0 (and `ddf9da2` + `91e7d7b`) ahead as separate PRs, or merge the branch whole?~~
+  **Resolved 2026-08-02: three stacked PRs**, split by prefix rather than by phase, so there is no
+  rebase to weigh. See "How the branch was split".
+- ~~File the `narrow`-has-no-declarative-surface gap upstream on foundry-lib?~~ **Filed
+  2026-08-02** as [jmchilton/foundry-lib#35](https://github.com/jmchilton/foundry-lib/issues/35).
+  Verifying it sharpened the claim: the checklist says a narrowed group is AUTHORED, and
+  `loadInstanceKinds` refuses an authored inherited group — the two statements contradict, and
+  refusing `modes:` is *correct*, so the gap is that narrowing has no surface distinct from
+  declaring. Both instances hold the identical `SUPPORTED_MODES = ["verbatim", "sidecar"]`, and
+  neither consumes it as a type, so a YAML surface would cost nothing either one uses.
