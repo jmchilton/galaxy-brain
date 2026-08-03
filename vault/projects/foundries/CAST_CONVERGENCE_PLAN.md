@@ -302,17 +302,43 @@ redistribution. Nobody generalized it to the *mode* rule, because the flagship n
 it has zero `derived:` notes and exactly one `condense` ref. Statgen has 99 research refs and a
 corpus built on summarizing paywalled work.
 
+**The rule already exists. One layer just doesn't implement it.** This is not new policy:
+
+- `license-policy.yml`'s `global_rules` declares **`foundry_content_out_of_scope`** — *"This
+  table governs third-party pass-through content only. Foundry-authored notes are covered by the
+  root LICENSE and are never conflated with it."*
+- Statgen's `site/src/lib/reference-contract.ts` states it in prose and cites that rule by name:
+  *"`mode` does NOT answer 'may this text be redistributed' — that is a question about the
+  SOURCE, decided at ingestion and recorded in a note's `derived:` posture."*
+- Statgen already **enforces** it at ingestion. `licenseCoherence` in `site/src/types/context.ts`
+  rejects verbatim carry under an own-words-only row and requires a `license_file` where one is
+  owed — keying off `declaresVerbatimCarry(note.derived)`, never off `mode`.
+
+`applyLicensePolicy` re-asks the same question at cast time using `mode`, and never reads
+`global_rules`. That is the whole defect.
+
 **Fix, in dependency order:**
 
-1. **Substrate.** `applyLicensePolicy` must key off whether the note's *content* is
-   Foundry-authored, not off `license:` presence. `derived:` is the existing field that records
-   it — reuse it rather than inventing a flag. A derived note falls outside redistribution policy
-   exactly as an unlicensed one does, and keeps `attribution` as its obligation.
-2. **Statgen.** The three refs become `mode: verbatim`, which is what carrying your own prose is.
-3. **Gate.** Per-kind allowed modes, so `mode: sidecar` on `kind: research` fails at validate
-   time. Statgen has no such gate today — the flagship's lives in `_target.yml`'s
-   `kinds.<kind>.modes`, and statgen has no `_target.yml` at all, which is why three bad refs sat
-   unnoticed.
+1. **Substrate, upstream — independent of #440.** Lift `declaresVerbatimCarry` into
+   `@galaxy-foundry/license-policy`, beside the `global_rules` it implements, and have
+   `applyLicensePolicy` consult it. Guard **only** the mode check: `license_file_hash` stamping
+   stays unconditional, because it is provenance rather than permission, and statgen declares
+   `license_file` on 64 notes. Needs `derived?: string` on `ProvenanceRefEntry` — a widening of
+   provenance v4, so no version bump.
+2. **`allowed_modes: [condense]` on the 9 own-words-only rows becomes `[]`.** Behaviour is
+   already identical, since no instance admits `condense`; this is a truthfulness fix so the
+   table stops naming a retired mode.
+3. **Statgen.** The three refs become `mode: verbatim`, which is what carrying your own prose is.
+4. **Gate.** Per-kind allowed modes, so `mode: sidecar` on `kind: research` fails at validate
+   time. Statgen has no such gate — the flagship's lives in `_target.yml`'s `kinds.<kind>.modes`,
+   and statgen has no `_target.yml` at all, which is why three bad refs sat unnoticed.
+
+**The fix discriminates rather than bypasses.** `declaresVerbatimCarry` is
+`/license-aware|with-quotes|verbatim/i && !/own-words/i`, and it is correct on all seven `derived`
+values in the corpus — including the free-prose one that keeps functional strings verbatim, which
+`own-words` correctly excludes per the `functional_strings_verbatim` global rule. So **47
+`license-aware-summary` notes stay policed** (all under verbatim-ok rows, all passing) and 64
+own-words notes are exempted. Not a blanket exemption for statgen.
 
 `sidecar` itself needs no change: it keeps one meaning, and statgen's `cli-command` kind keeps
 using it. The Phase 2.5 point stands for a different reason — `castOneRef` dispatches `sidecar`
