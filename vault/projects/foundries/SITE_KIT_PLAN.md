@@ -665,6 +665,134 @@ belongs in the checklist whatever happens to the package.
 
 ---
 
+## 7. What the survey missed — and why the method missed it
+
+Raised 2026-08-03, as a worry that the axis was letting accidental divergence stand and calling it
+domain. Measured against both instances at `site-kit-adopt`. The worry is right, and the shape of
+the error is in the survey rather than in any decision.
+
+**Every phase on this axis was found by diffing files that share a name.** §1 opens by saying the
+first pass counted filename overlap; `Base.astro`, `licenses.ts`, `content-files.ts`, `site-base.ts`
+all came out of that. The method cannot see two files doing one job under different names, and it
+cannot see one job split across a different NUMBER of files. That is the same failure Phase 5
+recorded twice — *a search for the canonical spelling of a thing misses the copies* — applied one
+level up, to the survey itself. `src/pages/**` had never appeared in this document. Not deferred:
+never looked at, because the two instances share no route filename.
+
+**Phase 3's honest contrast was measured wrong.** "22 components and 3,290 lines against 2 and 85,
+no name in common" reads as *the flagship renders more*. What it actually records is that the
+flagship put its per-type rendering in COMPONENTS behind one catch-all route, and the sibling put
+its in the ROUTES. Same job, different location — invisible to a component-name diff, which is why
+the count looked like a domain gap. Some of it is a domain gap. Not all of it.
+
+**1. Routing.** The flagship has one `[...slug].astro`, 120 lines, dispatching on `data.type`
+through a `TYPE_LABELS` map into eight body components. The sibling has six detail routes, of which
+`books`, `papers` and `tutorials` are near-verbatim copies of one another — same `getStaticPaths`,
+same `data-pagefind-body` wrapper, same `SourceMeta` + `TagChips` + prose article. `papers` and
+`tutorials` differ in the collection-name string and nothing else.
+
+The sibling already HAS the flagship's dispatch map: `COLLECTION_LABEL` in `lib/tags.ts`, which the
+tag pages group by. The detail routes hardcode the same knowledge six more times.
+
+This is also where Phase 5b's defect came from. Four of five collections rendered no chips, and
+that was possible only because there were five places to answer the question. Under one route,
+"does this collection render chips" is not a question that can have five answers — so the collapse
+does not just satisfy 5b's second rule, it removes the shape of failure the rule was written
+against. A structural fix outranks a check whenever it is available.
+
+**2. The tag pages.** Both `tags/index.astro` compute the same thing — group tags-in-use by the
+DECLARING facet, count, render chip and gloss — and both say so in comments neither author saw:
+"not the one its text happens to start with… no 'Other' bucket" against "not by its `/` prefix…
+no tag can fall through into an 'other' bucket". Both consume `@galaxy-foundry/tag-registry`
+through the same four accessors, `facets` / `facetOf` / `facetLabel` / `tagDescription`. One calls
+them as methods; the other re-exports them as free functions from `meta-tags.ts`, a wrapper whose
+entire content is a calling convention.
+
+Apply the Phase 4 test: a package already answers this for its own purposes. So these are two
+private renderings standing beside an authoritative grouping — the `shellBase` shape. What differs
+legitimately is only the listing: a `data-table` of type/status/revised against cards grouped by
+collection. The grouping is not.
+
+**3. Same name, different job — live again.** §5 fixed `content-files.ts` for exactly this and the
+class was not swept. `registries.ts` means "the loaded registries" in one and "the options bag for
+`buildKindContext`" in the other, and the sibling's header asserts the opposite: *"Named to match
+the parent Foundry's `registries.ts`, which does the same job."* `render-vault-doc.ts` exports
+`renderContentDoc(relPath)` against `renderVaultDoc(absPath)` — flagged in §1's original table and
+never acted on. `getAllNotes()` and `getTaggedEntries()` both produce everything with tags and a
+URL.
+
+And one only a cross-instance diff can see: both pin `pagefind@^1.5.2`, and they disagree about
+what search covers. The sibling indexes its glossary, its design records and every detail route;
+the flagship indexes `[...slug]` and nothing else, leaving `story/index` (481 lines of prose),
+`usage/claude/[skill]` (628 lines × 54 skills), `external` and `glossary` out of its own search.
+Same package, same version, two answers, nothing on screen to show it.
+
+**What is correctly separate, and should be said as clearly.** `MoldBody`, `PipelineBody`,
+`PhaseGraph`, `PipelineMatrix`, `CastArtifacts`, `SchemaBody` render workflow-conversion objects the
+sibling has no analogue of. `SourceMeta` is real domain in the other direction: the sibling derives
+its corpus from books and papers and must carry provenance, while the flagship authors its own and
+has nothing to attribute. The corpus COMPONENTS are correctly separate. The route that chooses
+among them, and the tag surface that indexes them, are not.
+
+**The transferable rule.** Two instances can converge on a design and diverge on where they put it,
+and a file-level diff reports that as no overlap at all. Survey by QUESTION ANSWERED, not by
+filename — "which file decides what a note's detail page looks like" finds one file in one repo and
+six in the other, which a directory listing of either repo alone will never suggest is a finding.
+
+### Phase 6 — one detail route in the sibling. **DONE**, fourth commit on jmchilton/statistical-genomics-foundry#147.
+
+`src/pages/[collection]/[...slug].astro` replaces six files. What differs per collection turned out
+to be two fields — whether a reader can go up from here, and whether the page states the note's own
+title and summary — held in `lib/detail-routes.ts`. Everything else that looked per-collection was
+either furniture dispatched on `entry.collection`, the way the flagship dispatches on a note's
+`type`, or an accident with three spellings.
+
+**The live hypothesis was that the six routes existed for a TYPING reason, and it was wrong.** This
+repo deliberately keeps each kind's shape precise, and `frontmatter-schema.ts` warns in as many
+words that mapping over the kinds collapses them to the widest common type and lands `entry.data:
+unknown` on the pages. That warning is about `.map`. Spread into one array the six entry types stay
+a UNION, `entry.collection` discriminates it, and `astro check` reports 0 errors across all six
+branches — every `entry.data.pole`, `entry.data.source_chapter`, `entry.data.record_kind` checked
+rather than asserted. A constraint that would have justified the divergence was available to test
+and had never been tested.
+
+**The rule replaces a rule.** 5b's second assertion walked each collection's directory asking
+whether anything under it rendered chips. Under one route the question has one answer, so it now
+reads that route — shorter, and strictly stronger: the walk could only find collections it knew to
+look for, and passed for a collection whose directory happened to hold some other page carrying the
+string. `collection-routes`' directory check was rewritten the same way, onto the `collection` param
+the key now travels through. **A structural fix outranks a check whenever it is available**, because
+the check has to be maintained and the structure does not — and 5b's defect was possible only
+because there were five places to answer one question.
+
+Three things the collapse surfaced, none of which a diff of the six files would have shown:
+
+- **Design records carry tags and are not on the tag surface.** Six routes hid it by never
+  rendering chips there. One route renders them everywhere unless told otherwise, so the gate is
+  explicit and reads `COLLECTION_LABEL`: a chip is a link, and the tag pages have to list the note
+  back. Left open rather than answered.
+- **A scoped `<style>` became a cost of the collapse.** One route imports `SourceMeta` on all 213
+  pages, and Astro ships a component's scoped styles wherever it is IMPORTED — so 26 pages that
+  render no provenance box carried its CSS. The four rules moved to `global.css`, where this site
+  keeps appearance anyway. Declarations carried over literally: `py-0.5` is 0.125rem against
+  0.1rem, `rounded-full` is 9999px against 999px, and respelling them as utilities would have made
+  a move into a restyling. Caught by diffing the CSS as rule sets, which is now the third finding
+  that half of this axis's verification has produced.
+- Four copies of a bordered mono pill, and three spellings of the chip row's margins. The margins
+  derive from what surrounds the row now, so the three spellings cannot come back.
+
+213 pages, 76 untouched; the other 137 differ only in class-attribute spelling and the relocated
+stylesheet — 28 distinct element deltas, every one accounted for above. Stylesheet gains four rules
+and loses none. Each rule falsified: hardcode the route param, delete the chips, drop a
+collection's row, and the original six-route red.
+
+**Unspent, measured here.** Molds and Patterns link back to their browse pages and Books, Papers and
+Tutorials do not, though all five have one. That is now one field in one table rather than a
+difference spread over three files, which is the point — but it is a rendered change and belongs in
+its own commit.
+
+---
+
 ## Unresolved questions
 
 1. `@galaxy-foundry/site-kit`, or split TS/`.astro` into two packages? (One package, subpath
