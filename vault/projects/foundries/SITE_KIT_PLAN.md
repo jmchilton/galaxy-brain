@@ -501,6 +501,62 @@ while two `astro build`s were running alongside it. It passes in 381ms alone and
 run. Not this change — but that test reads 374 built pages against vitest's default timeout, which
 is thinner than it looks.
 
+### Phase 5 — the tag chip. **DONE**, foundry only, third commit on galaxyproject/foundry#439.
+
+The first change in this axis that alters rendered pages, and the first that turns out **not** to be
+a package candidate. site-kit ships the shell and no chip concept at all, so by the Phase 4 test the
+copy count proves nothing on its own. This is repair inside one instance. Convergence is the
+precondition for extraction, not the consequence — the same order as everywhere else.
+
+A link to a tag page was rendered four ways, and the fourth was only found by the test. Three were
+one concept: `<a class="no-underline"><span class="tag">`, `<a class="tag">`, and on `tags/[...tag]`
+a pill spelled out in utilities that never consulted `.tag` — its own background, a border it
+invented, nine lines below a `.tag` in the same heading.
+
+**The defect the markup rule cannot see.** `patterns/index.astro` used `.tag` correctly and still
+had no hover: the rule was `a:hover .tag`, a descendant selector, which an anchor that IS the chip
+can never satisfy. It kept `transition-colors` and lost the thing to transition to. Nothing failed,
+and a chip that does not react looks like a chip nobody moused over. Both nestings are legitimate —
+the tags index wraps the chip AND the note count in one anchor — so the fix is that whether the chip
+lights up stops following from a layout decision.
+
+**The rule keys on the anchor, not the geometry, and that was a correction.** The first version
+asserted the pill lives in the stylesheet and nowhere else. It passed — and meant nothing:
+`border-radius: 999px` appears in nine components here as a local idiom for rails, dots and bars, so
+the assertion only held because it keyed on the Tailwind spelling `rounded-full`. A green assertion
+that passes for a reason unrelated to its subject is the failure this whole axis exists to kill; it
+was deleted rather than shipped. The surviving second rule derives its requirement from the markup —
+whichever nestings the call sites actually use, the stylesheet has to cover — so deleting a selector
+fails it, instead of restating that the selector is present.
+
+**The exception is named, not excluded.** `.topic-chip` on the patterns index links to tag pages and
+is deliberately a different affordance: a browse row, sized to be aimed at rather than read under a
+title. It is listed in the rule with its reason. A rule with a silent gap and a rule with a stated
+exception look identical from outside and only one is honest — and a third entry is the signal to
+stop and ask what concept it is.
+
+**Two tokens that lied.** `--color-tag-bg` was `#edf4fa`/`#21262d` — byte-for-byte
+`--color-surface-hover` in both themes, which is the name the sibling already uses for the same two
+values. The repos agreed on the value and disagreed only on the name. `--color-tag-bg-hover` was
+defined in both themes and read by nothing; the hover rule uses `--color-accent`. Both are gone from
+the shipped stylesheet.
+
+Verified as an intended bump rather than byte-identity, which is why it is a separate commit: the
+two before it still carry the raw `diff -rq` claim. 374 pages — 117 unchanged, 242 the note-header
+chip, 15 the co-occurrence chips, nothing else moved. Stylesheet 228 bytes smaller, three utilities
+only the hand-rolled chip used dropped, `tag-count` added.
+
+**Not ported to the sibling.** It has no links to tag pages, so the rule would have nothing to
+check, and a vacuous rule reports the same PASS as a clean one. Its one remaining item is a `.dark
+.tag` background that restates the light value — a no-op, not worth a PR of its own.
+
+A broader measurement, unspent: seven `@theme` tokens in foundry are referenced by nothing, by
+`var()` or by generated utility name. Only one was a tag token — `--color-tag-bg` was live, it was
+just live under the wrong name. The remaining six — `--color-galaxy-gold`, `--color-surface-dark`,
+`--color-surface-dark-medium`, `--color-accent-hover`, `--color-rail-on`, `--font-sans` — were left
+alone; a general dead-token rule has to tell `@theme` (which generates utilities) from `:root`
+(which does not), and that is its own chunk.
+
 ---
 
 ## 5. Three lessons to transfer, package or no package
