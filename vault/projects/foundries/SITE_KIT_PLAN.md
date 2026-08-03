@@ -148,7 +148,7 @@ without losing Phase 1.
 
 ## 4. Phases
 
-### Phase 0 — unstick the ranges (precondition, ~30 min)
+### Phase 0 — unstick the ranges (precondition, ~30 min) — **DONE**
 
 `foundry-lib` publishes `license-policy@0.2.0` and `wiki-links@0.2.0`. **Every consumer pins
 `^0.1.0`**, and a caret on a 0.x version does not cross a minor — so all three repos are silently
@@ -162,7 +162,11 @@ adding a seventh package to trees that are already two minors behind on two of s
 
 Tracked alongside the toolchain-floor work in galaxyproject/foundry-pattern#22.
 
-### Phase 1 — the pure-TS half
+**Done, alongside Phase 1's adoption** — galaxyproject/foundry#424,
+jmchilton/statistical-genomics-foundry#137. Both instances now pin `license-policy@^0.2.0` and
+`wiki-links@^0.3.0`, checked on disk rather than read off the range.
+
+### Phase 1 — the pure-TS half — **DONE**
 
 **Revised on contact with foundry-lib, 2026-08-02. There is no `site-kit` package in this phase.**
 
@@ -177,10 +181,10 @@ So Phase 1 is one gap plus adoption:
 
 | | status |
 | --- | --- |
-| 1a — vault-doc link resolution | **the only new code**; done, PR jmchilton/foundry-lib#32 |
-| 1b — `licenses` | already shipped as `license-policy@0.2.0` (`loadLicenseFiles(dir)`, `findLicenseFile`, `licenseIdFromFile`); directory is a parameter, as intended. **Adopt only.** |
-| 1a — anchors | already shipped as `wiki-links@0.2.0` (`addBoldTermAnchors`, `slugifyTerm`). **Adopt only.** |
-| 1c — `contentRootFrom` | still open; see §5 |
+| 1a — vault-doc link resolution | **the only new code**; done, PR jmchilton/foundry-lib#32. **Adopted in both.** |
+| 1b — `licenses` | already shipped as `license-policy@0.2.0` (`loadLicenseFiles(dir)`, `findLicenseFile`, `licenseIdFromFile`); directory is a parameter, as intended. **Adopted in both.** |
+| 1a — anchors | already shipped as `wiki-links@0.2.0` (`addBoldTermAnchors`, `slugifyTerm`). **Adopted in both.** |
+| 1c — `contentRootFrom` | **settled, and not as an export** — the rule went to the checklist, a `repo-root.ts` and a guard test to each instance. See §5. |
 
 After 1a, `renderVaultDoc` is four calls — read the file, `resolveWikiLinksInMarkdown`,
 `marked.parse`, `addBoldTermAnchors` — three of them from packages. That is thin enough that it
@@ -223,14 +227,16 @@ instances ship was committed first, and it passes the 5 prose cases while failin
 code-region cases. Masking covers fenced blocks and inline spans, and explicitly does not cover
 indented or HTML blocks.
 
-Remaining for 1a: adopt in both instances (needs Phase 0), delete both `render-vault-doc.ts`
-copies down to the four-call composition, and confirm each glossary line renders the token it
-names.
+**Adopted in both**, verified 2026-08-02 by reading the modules rather than the PR titles: each
+`render-vault-doc.ts` is now the four-call composition, resolving through
+`resolveWikiLinksInMarkdown` with a `resolve` deliberately identical to the remark plugin's, so the
+two pipelines cannot answer differently about the same text.
 
-**1b. `licenses` — adopt `license-policy@0.2.0`.** Nothing to build. Delete both `lib/licenses.ts`
-and route the two `/licenses` page groups at `loadLicenseFiles(dir)`. Needs Phase 0.
+**1b. `licenses` — adopt `license-policy@0.2.0`. Done in both.** Each `lib/licenses.ts` is now the
+composition point §2 describes: twenty lines, holding the one fact the package declines to know —
+where the directory is — and nothing else.
 
-**1c. `contentRootFrom(rootUrl)`.** Still open. See §5.
+**1c. `contentRootFrom(rootUrl)`.** Settled, and not as an export. See §5.
 
 Gate for 1a–1c in each instance: `astro check` + `astro build` + the site test suite, plus **one
 rendered-output assertion per adopted module**. A clean build is not evidence — it is what both
@@ -365,9 +371,9 @@ this is more of it.
 
 ---
 
-## 5. Two lessons to transfer, package or no package
+## 5. Three lessons to transfer, package or no package
 
-Neither is duplication, so neither is a package export. Both are cases where one instance has a fix
+None is duplication, so none is a package export. All three are cases where one instance has a fix
 the other will eventually need, and the checklist is where they belong.
 
 **Root anchoring. — DONE, and worse than described.** What follows is what this section said before
@@ -386,10 +392,37 @@ correctly from a different `../` count that happened to land. The fix is `root` 
 `astro:config/server`. statgen resolves from cwd instead, which works only because Astro runs from
 `site/`. Ship the *rule* as `contentRootFrom(rootUrl)` and the *import* stays in the instance.
 
-**Name collision.** Two files called `content-files.ts` doing different jobs is the kind of thing
-the glossary discipline exists to prevent, applied one level down. Rename in whichever instance is
-cheaper — foundry's is closer to `note-directory.ts`, statgen's to `corpus-files.ts` — before a
-third instance copies the wrong one by name.
+**Name collision. — DONE**, galaxyproject/foundry#437,
+jmchilton/statistical-genomics-foundry#146. Two files called `content-files.ts` doing different
+jobs is the kind of thing the glossary discipline exists to prevent, applied one level down. Both
+were renamed rather than the cheaper one: neither old name described its module, and renaming one
+would have left the collision half-standing for a third instance to meet. foundry's
+`note-directory.ts` resolves ONE note's directory and the companions beside it; statgen's
+`corpus-files.ts` walks the corpus to enumerate a collection's notes. They shared no line of code —
+the name was the entire overlap.
+
+**Prose about code rots faster than prose about the corpus — and only one instance reads it.**
+Found by the rename above, which is the good way to find it. statgen's `path-references.test.ts`
+exists because "a file MOVES and every path that named it stays exactly as correct-looking as it
+was". The rename moved a file that `content/meta/code-architecture.md` names on two lines, and the
+check stayed green: it anchored `./`, `../` and `content/`, so the dozen `site/src/lib/…` module
+paths in that document had never been read at all. Widening the anchor set to `site/` found those
+two lines and **nothing else** in 213 pages, so it cost no allowance entries.
+
+foundry has no equivalent check, and the gap is live, not hypothetical. A crude probe over its
+markdown — every backticked `content/`, `docs/`, `packages/` or `site/src/` token that names a
+file, minus the obvious `<slug>`/`*` templates — leaves roughly twenty that do not resolve, among
+them `content/pipelines/cwl-to-galaxy.md` cited in five files. Two wrinkles to settle before
+porting, both of which statgen never had to face:
+
+- foundry's prose lives outside `content/` too — `casts/**/run-summary.md` carries several of
+  these — and statgen's check deliberately scans only the corpus.
+- `content/log.md` is append-only. An entry naming a file that has since moved may be *correct as
+  history*, which is a different question from a stale cross-reference and wants a different
+  answer than an `ELSEWHERE` entry.
+
+This is the same shape as the two lessons above: one instance has a check the other needs, so it
+belongs in the checklist whatever happens to the package.
 
 ---
 
