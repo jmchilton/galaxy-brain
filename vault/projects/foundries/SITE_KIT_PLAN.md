@@ -324,6 +324,30 @@ day, ship Phase 1 and write Phase 2 up as a rejected option in the checklist. 25
 presentation is not worth novel packaging machinery, and the honest finding — *the visual shell did
 not transfer* — is worth as much to the pattern as the package would be.
 
+**Step 4 — the packaging spike. Run 2026-08-02; all four questions answered in well under the stop
+condition.** A throwaway `@galaxy-foundry/site-kit` was built in `foundry-lib`, packed with
+`pnpm pack`, installed into the flagship's site from the tarball, and imported by a real page. The
+spike lives on the local branch `spike/site-kit` in foundry-lib — committed, never pushed.
+
+| | Answer |
+|---|---|
+| Unbuilt `.astro` from a `tsc`-only repo | **Works, no new machinery.** `include: ["src/**/*.ts"]` builds the TS half and ignores the `.astro`; `files: ["dist", "src"]` ships both. The consumer imports `@galaxy-foundry/site-kit/components/Chrome.astro` and Astro compiles it. `astro check` even enforces the component's `Props` across the boundary — a wrong prop type is 1 error at the consumer. |
+| `attw --profile esm-only --entrypoints .` | **Passes — because of the `--entrypoints .` already in the script.** Drop that flag and the `.astro` subpath is 💀 *Resolution failed* on both node16-ESM and bundler. `publint` is clean either way, and `lint:packages` is green across all seven packages. No exemption is needed; what is needed is knowing that an existing flag is now load-bearing. |
+| Tailwind `@source` into `node_modules` | **The trap is real, and so is the fix.** Without the directive: build green, 375 pages, zero warnings, and the class the package declares has NO rule in any emitted stylesheet — the page renders unstyled. With `@source "../../node_modules/@galaxy-foundry/site-kit/src"`: present. Tailwind follows pnpm's symlink into the store, so the ordinary install layout is fine. |
+| `vite.ssr.noExternal` | **Not needed.** Astro resolved and compiled the package's `.astro` with no Vite configuration at all. |
+
+**The finding that matters is not in the table.** A **typo'd `@source` is exactly as silent as a
+missing one** — `site-kitt` instead of `site-kit` builds green, 375 pages, no warning, class absent.
+So the consumer-side fix has the same failure mode as the bug it fixes, and cannot be verified by
+reading it. What closes the loop is already built: pointing `built-shell.test.ts`'s
+`LAYOUT_ONLY_UTILITY` at a class the PACKAGE declares fails with the right message in both cases —
+measured, by deleting the directive and watching it go red.
+
+**Verdict: Phase 2 is feasible.** The cost is two lines of consumer config and one canary
+assertion per consumer, and the canary is non-negotiable rather than nice to have. What remains to
+decide is not *can it ship* but *should it* — see unresolved question 2, which the zero-diff shell
+has already reframed.
+
 ### Phase 3 — the checklist
 
 Part 2 currently spends ~70 lines telling an author to stand up the reading surface by hand. After
@@ -403,5 +427,8 @@ third instance copies the wrong one by name.
 5. `tokens.css`: ship token *names* only, or names + the current values as defaults?
 6. Does the TDA foundry get stood up as the kit's first consumer, or after both instances have
    adopted it?
-7. Who owns the `attw`/`publint` exemption if a package ships unbuilt `.astro` — scope the existing
-   call, or exempt the package?
+7. ~~Who owns the `attw`/`publint` exemption if a package ships unbuilt `.astro` — scope the
+   existing call, or exempt the package?~~ **Answered by the spike: neither is needed.** The
+   existing `--entrypoints .` already confines `attw` to the JS entrypoint, and `publint` is clean.
+   The follow-on question is whether that should be made deliberate — a comment on the script, or a
+   test — since it is currently a flag that happens to be right.
