@@ -372,23 +372,47 @@ Three things the spike did not reach:
 - **Smoke asserts the `.astro` files are in the tarball.** `exports` points at source here, and
   every other check in the repo reads the source tree, where they are present either way.
 
-**Adoption is verified, and it is a zero diff.** The flagship builds 374 pages with no rendered
+**Both adoptions are verified, and both are a zero diff.** 374 pages and 213 pages, no rendered
 difference from a build of the same commit in the same worktree, once Astro's scoped-style hashes,
-asset filenames and whitespace are normalized. Two things only the diff caught: import order in the
-composition point decides where the stylesheet `<link>` lands (putting the component import first
-moved it after every page's scoped `<style>` on 19 pages and dropped Tailwind's license banner),
-and a baseline built in a *different worktree* is not a baseline — generated packages differ.
+asset filenames and whitespace are normalized. A baseline built in a *different* worktree is not a
+baseline — generated packages differ, and the first attempt produced 16 phantom differences and a
+copyright year the source has not carried since #432.
+
+**Diff the stylesheet too, not just the markup.** The rendered pages were identical while the CSS
+was not. Three findings, two of which no test would have reported:
+
+- Import order in the composition point decides where the stylesheet `<link>` lands. The component
+  import above `global.css` moved it after every page's scoped `<style>` on 19 pages and dropped
+  Tailwind's license banner.
+- **A comment shipped a CSS rule.** The composition point described something as "invisible";
+  Tailwind scans source *text*, comments included, so the word emitted a `.invisible` rule for a
+  class no page carries. `site-identity.ts` had warned about this for width names since it once
+  shipped a rule for a width nothing used — same trap, different part of speech. Prose in a scanned
+  file is input to the build, and the only defence is a diff that reads the CSS.
+- Once those were fixed, both stylesheets came out byte-identical under the same normalization.
 
 The existing canary needed no new mechanism. `min-h-dvh` was already asserted, and the move is what
-armed it: the class is now named by the kit and by nothing in the repo. Falsified twice — deleting
-the `@source` line and misspelling it both build 374 pages green and both fail that one assertion.
+armed it: the class is now named by the kit and by nothing in either repo. Falsified twice in each
+instance — deleting the `@source` line and misspelling it both build every page green and both fail
+that one assertion. In the sibling this promoted an older line from nicety to load-bearing:
+`@source not "../../tests"` is what stops its test, which sits inside the Vite root, from answering
+its own question by naming the canary.
 
 **Blocked on a manual step, by design.** Trusted publishing is configured on a page that does not
 exist until the package does, so the first version of any new package has to be published from a
 laptop — `pnpm publish --no-git-checks --no-provenance --tag stub`, then the trusted publisher on
-npm, then the Version Packages PR. See `docs/development/publication.md` there. The two consumer
-PRs are written and verified against a packed tarball; they cannot land until the package resolves
-from npm.
+npm, then the Version Packages PR. See `docs/development/publication.md` there. Done for site-kit;
+`npm dist-tag ls` confirms it while `npm view` still 404s, which that page predicts. One correction
+to make there: `--tag stub` does **not** keep `latest` clear. A package with no `latest` gets one on
+first publish regardless, so npm assigned `latest: 0.0.0` — harmless, since the release takes it,
+but the flag does not buy what the page implies.
+
+Both consumer branches are committed and fully verified against the packed tarball, pinned to a
+`file:` dependency. They cannot open until the Version Packages PR merges and 0.1.0 resolves from
+npm; the pins then become `^0.1.0`.
+
+Both adoptions also updated the instance's own architecture prose to say the shell is installed
+rather than local — which is the same claim Phase 3 has to make in the checklist.
 
 ### Phase 3 — the checklist
 
