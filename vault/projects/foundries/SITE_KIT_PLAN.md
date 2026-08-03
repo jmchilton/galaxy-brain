@@ -489,6 +489,13 @@ shell move needed normalization because it changed component file paths and ther
 scoped-style ids; this one changes no path, so the raw comparison is available and is the stronger
 claim. The stylesheets were still diffed as rule sets on their own, per the §2 finding.
 
+The checklist followed in galaxyproject/foundry-pattern#33. What it records is not the adoption but
+the TEST: the parked question — should the shell's package become where every component reaches for
+a utility — did not need answering, because the premise was wrong. Ask instead whether a package
+already answers the question for its own purposes. If it does, the copies are drift waiting to
+happen and the composition point is where you absorb them. If it does not, the copy count proves
+nothing; you still have a shared decision nobody has taken.
+
 One process note: the full foundry suite failed once with a 5s timeout in `built-shell.test.ts`,
 while two `astro build`s were running alongside it. It passes in 381ms alone and in a quiet full
 run. Not this change — but that test reads 374 built pages against vitest's default timeout, which
