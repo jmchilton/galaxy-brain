@@ -450,6 +450,50 @@ by the repo itself. Nothing shipped, because the rebase conflicted and the confl
 surfaced it. Fetch before auditing a document for staleness; the document is not the thing most
 likely to be stale.
 
+### Phase 4 — the base. **DONE**, in the two adoption PRs rather than beside them.
+
+The adoptions were held back deliberately: a PR that only swaps a header and a footer for a package
+is not worth the ceremony of merging, so the bigger chunk goes in first. This was it.
+
+Fifty-six files — 38 in foundry, 18 in the sibling — each opened with the same line,
+`const base = import.meta.env.BASE_URL.replace(/\/$/, '')`. Not near-identical: **one literal, no
+variants, in both repos.** They now import `base` from the instance's own `lib/site-base.ts`, which
+is a single call to the kit's `shellBase`.
+
+**Why this qualifies when duplication alone never does.** The shell already answers this question —
+it has to, to resolve the nav — and its answer is the one the header and footer link against. So
+there were not 56 copies of a helper; there were 56 private answers standing beside an authoritative
+one. The failure that makes it worth fixing is not the repetition, it is that the chrome and the
+corpus can come to disagree with nothing on screen to show it.
+
+That also settles where it lives. `shellBase` is not a general utility that happens to sit in the
+shell's package: the deployment base IS part of the shell's contract, which is why exporting it
+there needed no new package. And the instances do not import the kit 56 times — each keeps ONE
+composition point, `lib/site-base.ts`, beside `site-identity.ts`. The pattern the shell established
+holds: the kit ships the rule, the instance owns the file that applies it.
+
+**The assertion is the single reader, not the correct expression**, because both ways of writing it
+wrong build green. Reading `BASE_URL` unstripped is *correct at a domain root* — the strip is a
+no-op there, so `astro dev` and any root deploy confirm the bug — and doubles the slash under a
+base. A stripper that trims one character too many renders no error at all, just links that land
+somewhere else. `site-base.test.ts` in each repo asserts that exactly one module reads the
+environment; reintroducing a local copy fails it, checked in both.
+
+The source walk it needs already existed in `root-anchoring.test.ts`, so it moved to a shared
+`site-sources.ts` in each repo. The reason is not tidiness: the two rules have to scan the same set,
+and a rule enforced over a smaller set than the one it describes has a hole neither test can see.
+
+**Verified harder than the shell was.** Both `dist` trees are byte-identical to a build of the same
+worktree before the change — `diff -rq`, no normalizer, 587 pages plus stylesheets and chunks. The
+shell move needed normalization because it changed component file paths and therefore Astro's
+scoped-style ids; this one changes no path, so the raw comparison is available and is the stronger
+claim. The stylesheets were still diffed as rule sets on their own, per the §2 finding.
+
+One process note: the full foundry suite failed once with a 5s timeout in `built-shell.test.ts`,
+while two `astro build`s were running alongside it. It passes in 381ms alone and in a quiet full
+run. Not this change — but that test reads 374 built pages against vitest's default timeout, which
+is thinner than it looks.
+
 ---
 
 ## 5. Three lessons to transfer, package or no package
