@@ -830,6 +830,48 @@ at `tag-registry`, and it is the second time a candidate has been correctly refu
 since has belonged somewhere else.** That is either the seam holding or the package being thin;
 see unresolved question 8.
 
+### Phase 8 — the kind dispatch. **DONE**, fifth commit on galaxyproject/foundry#439 (`75b5c46`), pinned in jmchilton/statistical-genomics-foundry#147 (`93ae3ed`), checklist on foundry-pattern `kind-dispatch`.
+
+Chosen because it was the largest genuinely-shared decision left on the reading surface *and*
+because it tests question 8 on something that matters rather than on tidiness.
+
+**The finding is a discriminant, not a cast.** GWF dispatched kind furniture on `data.type`; SGF on
+`entry.collection`. That reads like the same decision spelled two ways, and it is not: `type`
+narrows `entry.data` and leaves `entry` the union, so `{data.type === 'mold' && <MoldBody
+entry={entry} />}` hands the component every kind there is and the prop is checked against nothing.
+`entry.collection` narrows the entry. GWF needed a cast in every component *because* of the
+discriminant it chose, and the cast is what let the rest happen.
+
+**The union was never the obstacle.** Deleting the route's `as any` produced six errors from a
+zero baseline, and the error text enumerated all nine arms intact. Same shape as the six-route
+type argument in Phase 6: a constraint that would have justified divergence, refuted in an hour.
+
+**What twenty-two casts were hiding**, all of it green:
+
+- `TYPE_LABELS` as `Record<string, string>` — eight rows for ten kinds behind `?? data.type`. Two
+  kinds printed `cli-tool` and `prompt` as their own labels on every page they had.
+- Six private copies of "what do I call this note", five missing the `tool command` branch the
+  sixth had. Every CLI command was titled from its slug everywhere except its own header — in list
+  context, the unqualified `Add`, `List`, `Convert`, `Validate`. 24 pages changed on the fix.
+- `ReferenceContract` re-describing a nine-field shape the schema built two hundred lines below,
+  because `KindContext.reference` was declared `z.ZodType<unknown>`. **The documented-but-not-shipped
+  pattern from Phase 7, one layer down** — third instance of that shape on this axis.
+
+**The pin is the erasure, not the correct expression**, matching `site-base.test.ts`. Scoped to
+`/\.data\s+as\s+any\b/`: unrelated casts (JSON-Schema walking, mdast surgery) stay legal, because a
+rule that forbids everything acquires an exception list and the exception list is where the next
+one hides. SGF's copy was green from birth and says so; falsified with a probe cast rather than
+left unproven.
+
+Verified on the built site: stylesheet byte-identical, exactly 24 pages differ, all in CLI command
+names and the two labels. One self-inflicted catch — a backtick-quoted method name in an `.astro`
+comment shipped a 1.2 KB Tailwind rule for a class no page carries, which is precisely what
+`Base.astro`'s own comment warns about.
+
+**What it says about the boundary.** Nothing wanted to go in site-kit. It landed in `lib/notes.ts`
+and in `note-schema`. **Third consecutive chunk pointing away from the package** — see question 8,
+which this sharpens rather than answers.
+
 ---
 
 ## Unresolved questions
@@ -868,7 +910,19 @@ see unresolved question 8.
    and a canary assertion per consumer that is non-negotiable rather than nice to have. N is 2, and
    §1 already conceded that one of the two was a crib. And **every candidate since has belonged
    somewhere else** — the tag chip to neither package, the tag grouping to `tag-registry`, the
-   route collapse to one instance — so site-kit holds exactly one concept.
+   route collapse to one instance, the kind dispatch to one instance and `note-schema` — so
+   site-kit holds exactly one concept, now across four consecutive candidates.
+   **The frame has shifted since this was raised, and the sharper objection is not thinness.**
+   Surveying the page load stage by stage (2026-08-04) found the reading surface is thin *because
+   the packages already ate the thick parts* — six shared packages do the work, and what remains in
+   `site/src` is each instance's map into them plus genuine domain. So "site-kit is small" is not
+   by itself a charge. What IS a charge: the kit ships components depending on six CSS custom
+   properties and three class names it neither ships nor checks, and ships the search box while
+   nothing ships what the box indexes — pagefind is all-or-nothing, so GWF marking one route leaves
+   ~22 others out of the index entirely, including 54 skill pages. **Site-kit is not under-scoped;
+   it is under-sealed**, and that is the same documented-but-not-shipped shape as `tag-registry`'s
+   browse rule and `KindContext.reference`, now three times over. Sealing it is the test worth
+   running before TDA, because TDA would copy the unsealed contract into a third repo.
    The case for is narrower but not nothing: `shellBase` absorbed 56 private answers standing beside
    an authoritative one, and that absorption REQUIRED a package to be the authority; and two
    byte-identical copies stay identical only until someone edits one, which a version bump makes
