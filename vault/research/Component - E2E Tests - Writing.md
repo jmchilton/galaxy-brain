@@ -4,8 +4,8 @@ subtype: component
 tags: [research/component, galaxy/testing, galaxy/client]
 status: draft
 created: 2026-02-11
-revised: 2026-05-21
-revision: 3
+revised: 2026-08-08
+revision: 4
 ai_generated: true
 component: E2E Testing
 galaxy_areas: [testing, client]
@@ -15,6 +15,7 @@ related_notes:
   - "[[Component - E2E Tests Smart Components]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
   - "[[PR 22070 - Static YAML Agent Backend for Deterministic Testing]]"
+  - "[[Component - Private Object Stores]]"
 ---
 
 # Writing E2E Tests in Galaxy: A Comprehensive Guide

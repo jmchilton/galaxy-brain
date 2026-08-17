@@ -6,12 +6,13 @@ tags:
   - galaxy/client
 status: draft
 created: 2026-03-04
-revised: 2026-05-21
-revision: 3
+revised: 2026-08-08
+revision: 4
 ai_generated: true
 summary: "Backend MessageException serialization to JSON and frontend parsing via simple-error.ts"
 related_notes:
   - "[[Component - Agents UX]]"
+  - "[[Component - Private Object Stores]]"
 ---
 
 # Galaxy Frontend Error Handling Reference

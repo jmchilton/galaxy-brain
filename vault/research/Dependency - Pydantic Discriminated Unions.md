@@ -5,8 +5,8 @@ tags:
   - research/dependency
 status: draft
 created: 2026-02-08
-revised: 2026-04-28
-revision: 3
+revised: 2026-08-08
+revision: 4
 ai_generated: true
 summary: "Pydantic 2.x discriminated unions route validation by field tags instead of sequential checks"
 related_notes:
@@ -15,6 +15,7 @@ related_notes:
   - "[[Dependency - Pydantic Dynamic Models]]"
   - "[[PR 18641 - Parameter Model Improvements Research]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
+  - "[[Component - Private Object Stores]]"
 ---
 
 # Pydantic 2.x Discriminated Unions Research
