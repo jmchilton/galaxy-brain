@@ -8,8 +8,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-07
-revised: 2026-04-22
-revision: 2
+revised: 2026-08-17
+revision: 3
 ai_generated: true
 component: worktree_bootstrap
 galaxy_areas:
@@ -19,6 +19,7 @@ galaxy_areas:
 summary: "Backend Python and frontend Node.js dependency setup, configuration, and dev server bootstrap"
 related_notes:
   - "[[Component - Backend Dependency Management]]"
+  - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
 ---
 
 # Galaxy Worktree Bootstrapping Reference

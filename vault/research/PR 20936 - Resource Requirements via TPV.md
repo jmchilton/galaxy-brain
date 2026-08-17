@@ -6,8 +6,8 @@ tags:
   - galaxy/tools/runtime
 status: draft
 created: 2026-02-24
-revised: 2026-04-22
-revision: 3
+revised: 2026-08-17
+revision: 4
 ai_generated: true
 github_pr: 20936
 github_repo: galaxyproject/galaxy
@@ -15,6 +15,7 @@ summary: "Tool resource requirements forwarded to TPV for job destination routin
 related_notes:
   - "[[PR 5378 - Tool Resource Requirements]]"
   - "[[PR 4830 - Workflow Resource Parameters]]"
+  - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
 ---
 
 # PR #20936 Research: Wire up and test resource requirement via TPV

@@ -9,8 +9,8 @@ tags:
 component: Tool Testing Infrastructure
 status: draft
 created: 2026-02-05
-revised: 2026-04-28
-revision: 3
+revised: 2026-08-17
+revision: 4
 ai_generated: true
 summary: "Framework for parsing, loading, executing tests in XML/YAML tool files via planemo"
 related_notes:
@@ -23,6 +23,7 @@ related_notes:
   - "[[PR 18641 - Parameter Model Improvements Research]]"
   - "[[PR 21828 - YAML Tool Hardening and Tool State]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
+  - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
 ---
 
 # Galaxy Tool Testing Infrastructure Overview

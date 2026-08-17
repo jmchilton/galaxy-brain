@@ -245,3 +245,28 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[PR 21335 - GA4GH WES API]] — reciprocal backlink; sibling GA4GH API sharing build_service_info plumbing
   - [[Component - CORS Handling]] — reciprocal backlink; overlaps on file-source http_headers Authorization handling
   - [[Component - API Tests]] — reciprocal backlink; ApiTestCase harness underpins the DRS server tests
+
+## 2026-08-08 ingest — Private Object Stores
+- **source**: /Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-private-object-stores.md
+- **created**: [[Component - Private Object Stores]]
+- **updated**:
+  - [[Component - Data Fetch]] — reciprocal backlink; upload jobs trip the require_shareable gate
+  - [[Component - User-Defined Tools]] — reciprocal backlink; sibling user-supplied-definition subsystem
+  - [[Component - DRS Support]] — reciprocal backlink; user file sources share _config_templates.py and HasConfigTemplate
+  - [[Dependency - Pydantic Discriminated Unions]] — reciprocal backlink; ObjectStoreConfiguration is one, and extra=forbid blocks a private key
+  - [[Component - UI Error Handling]] — reciprocal backlink; CANNOT_SHARE_PRIVATE_DATASET_MESSAGE and error code 400008
+  - [[Component - Workflow API]] — reciprocal backlink; invocations carry preferred_object_store_id
+  - [[Component - API Tests]] — reciprocal backlink; DatasetPopulator object-store helpers back the BYOS suite
+  - [[Component - E2E Tests - Writing]] — reciprocal backlink; BYOS preferences UI via create_object_store_template
+
+## 2026-08-17 ingest — Galaxy Pulsar Runner Code Sharing
+- **source**: /Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-Galaxy-Pulsar-Runner-Code-Sharing.md
+- **created**: [[Component - Galaxy Pulsar Runner Code Sharing]]
+- **updated**:
+  - [[Component - Backend Dependency Management]] — reciprocal backlink; pins pulsar-galaxy-lib==0.15.15, the Pulsar→Galaxy channel
+  - [[Component - Tool Testing Infrastructure]] — reciprocal backlink; home of the external_dependency_management mulled tests that the for-pulsar packages variant uniquely ran
+  - [[Component - Private Object Stores]] — reciprocal backlink; objectstore is one of five packages in packages_for_pulsar_by_dep_dag.txt
+  - [[Component - YAML Tool Runtime]] — reciprocal backlink; remote_tool_eval.py is the Galaxy code executed on the Pulsar host
+  - [[Component - Worktree Bootstrapping]] — reciprocal backlink; installs the mandatory pulsar-galaxy-lib dependency
+  - [[PR 20936 - Resource Requirements via TPV]] — reciprocal backlink; TPV routes jobs to the Pulsar destinations this runner services
+  - [[Component - Post Job Actions]] — reciprocal backlink; Galaxy-side post-processing of the same job lifecycle

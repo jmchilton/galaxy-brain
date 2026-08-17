@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*111 notes. Auto-generated — run `make index` to refresh.*
+*113 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -54,6 +54,7 @@
 - [[Component - Implicit Dataset Conversion]] — Transparent datatype conversion mechanism via ImplicitlyConvertedDatasetAssociation, invisible HDAs
 - [[Component - Markdown Visualizations]] — Five fenced block types for galaxy directives, Vega charts, visualizations, Vitessce dashboards
 - [[Component - Workflow Extraction Models]] — ORM model relationships for reconstructing workflows from history via dataset ancestry
+- [[Component - Galaxy Pulsar Runner Code Sharing]] — Four code-sharing channels between Galaxy and Pulsar, a manually synced util mirror with 20 of 23 files drifted, and stringly-typed job status mapping
 - [[Component - E2E Tests Smart Components]] — Component system: navigation.yml, Component tree, SmartComponent/SmartTarget wrappers, parameterized selectors
 - [[Component - Tool Shed Search and Indexing]] — Tool Shed's Whoosh repo/tool search and partial GA4GH TRS v2, indexed from hg-walked metadata with no auto-refresh on upload
 - [[Component - Tool State Dynamic Models]] — Pydantic dynamic models for validating tool parameter state across 12 representations
@@ -71,6 +72,7 @@
 - [[Component - Format2 Workflows (gxformat2)]] — YAML format2 workflow parsing, detection via class=GalaxyWorkflow, conversion pipeline to native JSON
 - [[Component - gxformat2 Parsing and Syntax]] — Format2 YAML detection, conversion pipeline to Galaxy JSON before import processing
 - [[Component - Post Job Actions]] — Declarative post-processing operations on job outputs, transformations without explicit tools
+- [[Component - Private Object Stores]] — Storage-layer private flag vs permission-layer private roles, and why user-defined stores are private only by report
 - [[Component - Collections - Sample Sheets Backend]] — Tabular metadata per collection element: column_definitions, columns row on elements, typed validation, cross-refs
 - [[Component - Collections - Paired or Unpaired]] — Discriminated union type of 1 or 2 elements with asymmetric subtyping where paired IS-A paired_or_unpaired
 - [[Component - Collections - Records]] — Heterogeneous fixed-shape collection: CWL-derived `fields` schema of named typed slots; no implicit mapping
