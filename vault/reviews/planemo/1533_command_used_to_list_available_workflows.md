@@ -201,16 +201,14 @@ c04e6fb1 command used to list available workflows        (Smeds, rebased)
 
 - [ ] The `rich` migration jmchilton offered to take on — now a one-function
       change in `planemo.io.print_table`.
-- [ ] `docs/` is stale against master by 19 files. Regenerate and commit
-      separately, then consider a CI drift check so it stops rotting.
-- [ ] `rich` is imported by `planemo/galaxy/upload_progress.py` and
-      `planemo/galaxy/invocations/progress.py` but is **not** in
-      `requirements.txt` — it is only satisfied transitively. Undeclared direct
-      dependency; unrelated to this PR but found while checking finding 1.
-- [ ] `galaxy-tool-util-models` is unpinned in `requirements.txt` while
-      `galaxy-tool-util` is pinned, so a clean resolve picks mismatched versions
-      (26.0.1 vs 26.1.1) and planemo fails to import. Hit this setting up the
-      worktree; also unrelated to this PR.
+- [ ] `docs/` is stale against master by 18 files, from two causes: genuinely
+      missing options (`--shed_tool_data_table_config` is in `options.py` but
+      not in the committed `run.rst`), and trailing whitespace the generator
+      emits that the committed files lack — which flip-flops on every
+      regeneration. `lint_docs` builds the docs but never checks them for
+      drift, which is why this rotted.
+- [x] `rich` undeclared in `requirements.txt` — fixed in
+      [#1682](https://github.com/galaxyproject/planemo/pull/1682).
 
 ## Outcome
 
@@ -220,3 +218,25 @@ Pushed to `jmchilton/planemo` as `list_workflows_rebased`; opened as
 
 The "reopen" in the original instruction was a misnomer — #1533 was open the
 whole time, never closed. Confirmed the intent before acting.
+
+## Correction — stale base
+
+The first pass of this review rebased onto a **stale local `master`**
+(`d3ce9bfe`), 41 commits behind `origin/master` (`72cb551a`). Two consequences,
+both since fixed:
+
+1. **#1681 was opened on the wrong base.** Rebased onto real `origin/master`
+   (clean, no conflicts) and force-pushed. Now `MERGEABLE`.
+2. **One "finding" was not real.** I reported `galaxy-tool-util-models` as
+   unpinned while `galaxy-tool-util` was pinned, and demonstrated a clean
+   resolve producing 26.0.1 vs 26.1.1 with planemo failing to import outright.
+   That reproduced only because the stale base predated
+   `315c3f36 "Constrain galaxy-tool-util-models version"` (mvdbeek, in #1674).
+   Real master already carries `galaxy-tool-util-models>=25.1,<26.2`, and a
+   clean resolve against it gives 26.1.1 across all three packages. **Withdrawn.**
+
+The `rich` finding was re-verified against `origin/master` and does hold.
+
+`ghwt create` branches off the local `master` ref without fetching, so a
+worktree created from a stale clone starts stale. Worth a `git fetch` before
+trusting the base.
