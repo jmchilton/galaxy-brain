@@ -1,12 +1,13 @@
 # planemo #1557 — Various fixes for targeting postgres in singularity
 
 `galaxyproject/planemo#1557`, mvdbeek, +128/-138 across 11 files, branch `postgres_singularity_fix` → `master`.
-Rebased 2026-08-20 from merge-base `28411491` (2025-10-16) onto current master (281 commits ahead).
+Rebased 2026-08-20 from merge-base `28411491` (2025-10-16) onto current master (281 commits ahead),
+then fixed findings 1-4 in two commits on top. **Not pushed** — the branch lives on mvdbeek's fork.
 
 ## Rebase
 
 8 commits replayed, authorship preserved. Pre-rebase HEAD kept as tag `pr1557-original`
-in `~/projects/worktrees/planemo/pr/1557`. **Not pushed** — the branch lives on mvdbeek's fork.
+in `~/projects/worktrees/planemo/pr/1557`.
 
 7 of 11 files had zero master churn. One conflict, in `planemo/galaxy/config.py`, on commit 6
 (`ef2da1e5 Don't special case singularity postgres`). Two hunks, both semantic rather than textual:
@@ -130,12 +131,50 @@ shrinks by ~40 lines and `interface.py` grows the methods that make the backends
 is that the unification stops short of sqlite — the factory still has no `SqliteDatabaseSource`, so
 `_create_profile_local` is left half-migrated, which is exactly what finding 1 is.
 
+## Fixes applied
+
+Two commits on top of the rebase, in the worktree, unpushed:
+
+**`40cdc71d Fix sqlite profile creation`** — findings 1, 3, 4.
+Restores master's `DATABASE_LOCATION_TEMPLATE` path for the sqlite branch rather than inventing the
+`SqliteDatabaseSource` the factory only promises, which also puts the F401 import back to work; deletes
+the dead `database_connection + ...` statement; collapses `not in ["sqlite"]` to `!= "sqlite"` to match
+`delete_profile`. Adds `test_profile_commands_sqlite` — written red first, reproducing the
+`UnboundLocalError` through the real CLI, then green.
+
+**`d4ff60c1 Pass profile_directory through to the database source`** — finding 2.
+Passes `profile_directory` from `_create_profile_local` and `delete_profile`. Verified: the singularity
+source now resolves `<profile>/postgres` instead of a throwaway `mkdtemp`. `delete_profile` is included
+deliberately — create and delete have to agree on where the database lives.
+
+Post-fix: `flake8`, `black`, `isort` all clean; profile + database command tests 2 passed, 3 skipped
+(skips need `PLANEMO_ENABLE_POSTGRES_TESTS` / psql).
+
+## Still open for mvdbeek
+
+- **Finding 5** (docker container cleanup after dropping `stop_postgres_docker()` from the tests) and
+  **finding 6** (`GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION` no longer exported) are unresolved — both
+  are questions about intent, not defects to patch.
+- **The serve path still cannot see the profile's database location.** `_database_connection`
+  (`planemo/galaxy/config.py:1273-1282`) builds a fresh source via `create_database_source(**kwds)` with no
+  profile context, so a singularity profile serves against a new `mkdtemp` rather than the `<profile>/postgres`
+  that `profile_create` populated — and the stored `database_connection` string, whose socket path points into
+  the profile, gets overwritten by the context manager. Persisting the resolved location into
+  `planemo_profile_options.json` would let it flow back through the existing `postgres_storage_location`
+  kwds option, but whether the stored connection or a fresh source should win is a design call.
+- **`create_database` was dropped from the `DatabaseSource` ABC** (`planemo/database/interface.py`) while
+  `_create_profile_local` and `cmd_database_create.py` still call it. The method left the contract but not
+  the call sites; it should either go back on the interface or off the callers.
+
 ## Follow-ups
 
-- [ ] Fix or revert the sqlite branch in `_create_profile_local` (finding 1) — currently a hard crash
-- [ ] Pass `profile_directory` at the call sites, or drop the parameter (finding 2)
-- [ ] Remove the now-unused `DATABASE_LOCATION_TEMPLATE` import (finding 3)
-- [ ] Delete the dead `database_connection + ...` statement (finding 4)
+- [x] Fix or revert the sqlite branch in `_create_profile_local` (finding 1)
+- [x] Pass `profile_directory` at the call sites (finding 2)
+- [x] Remove the now-unused `DATABASE_LOCATION_TEMPLATE` import (finding 3)
+- [x] Delete the dead `database_connection + ...` statement (finding 4)
+- [x] Add a sqlite profile test
 - [ ] Confirm docker container cleanup after dropping `stop_postgres_docker()` from tests (finding 5)
 - [ ] Confirm the `GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION` drop is intended (finding 6)
-- [ ] Add a sqlite profile test — no test covers `profile_create --database_type sqlite`
+- [ ] Decide how the serve path resolves a profile's database location
+- [ ] Restore `create_database` to the ABC or drop it from the callers
+- [ ] Decide whether to push the rebase + fixes to mvdbeek's fork
