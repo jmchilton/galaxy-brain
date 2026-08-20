@@ -4,6 +4,8 @@
 Rebased 2026-08-20 from merge-base `28411491` (2025-10-16) onto current master (281 commits ahead),
 then fixed findings 1-4 in two commits on top.
 
+**CI:** #1679 is red — 7 of 14 checks, all traced below. Not rebase damage; #1557 was never green either.
+
 **Outcome:** #1557 was closed 2026-08-20 and superseded by **#1679** ("Various fixes for targeting postgres
 in singularity (rebase)"), opened from `jmchilton/planemo:postgres_singularity_fix_rebased`. mvdbeek's fork
 was never pushed to.
@@ -126,6 +128,126 @@ resolves properties into galaxy.yml specifically so the config does not depend o
 the legacy `<22.01` .ini branch and anything reading the override directly would notice. Worth a sentence
 from the author confirming it is deliberate.
 
+## CI on #1679 (2026-08-20)
+
+7 of 14 checks red. Master at `72cb551a` is green on the identical 13-job matrix, so every failure
+below is a regression carried by this branch. **None of it came from the rebase** — #1557's own last
+CI run was already red (`lint` and `unit-quick` failed on both Python versions; the six long jobs were
+cancelled behind them), so the branch has never been green. The rebase only made the rest of the matrix
+run far enough to see what was underneath.
+
+| job | result |
+| --- | --- |
+| lint, lint_docs, mypy (3.10 + 3.13), serveclientcmd, build_packages | pass |
+| unit-quick (3.10), unit-quick (3.13) | 1 failed — `test_database_commands_docker` |
+| unit-diagnostic-servebasic-gx-dev | 1 failed — `test_serve_daemon`, pytest-timeout at 360s |
+| unit-nonredundant-…-nogx | 26 failed, 415 passed |
+| unit-nonredundant-…-gx-dev, -gx-250, -gx-231 | failed |
+
+All of it traces to five defects, three of them new to this note.
+
+**7. `_database_connection` treats every non-`sqlite` database type as a request for a real database
+server — `planemo/galaxy/config.py:1273-1282`. Blocking.**
+
+Master special-cased exactly one type:
+
+```python
+def _database_connection(database_location, **kwds):
+    if "database_type" in kwds and kwds["database_type"] == "postgres_singularity":
+        default_connection = postgres_singularity.DEFAULT_CONNECTION_STRING
+    else:
+        default_connection = DATABASE_LOCATION_TEMPLATE % database_location
+    return kwds.get("database_connection") or default_connection
+```
+
+The PR inverts the test to `if kwds.get("database_type") != "sqlite"`. But `--database_type` defaults to
+`"auto"` (`planemo/options.py:1836-1840`), and callers that never pass it at all leave it `None` — so the
+*default* path is now "build a `DatabaseSource`", not "use sqlite". `create_database_source` resolves
+`auto` by probing for `psql`, which exists on the CI runners, so it hands back a
+`LocalPostgresDatabaseSource` whose user is unset:
+
+```python
+self.database_user = kwds.get("postgres_database_user", None)
+...
+return f"postgresql://{self.database_user}@{hostname}/{identifier}"
+```
+
+Reproduced in the worktree, with `which("psql")` stubbed true:
+
+```
+database_type='auto'   -> postgresql://None@localhost/galaxy
+database_type=None     -> postgresql://None@localhost/galaxy
+database_type='sqlite' -> sqlite:////tmp/cfg/galaxy.sqlite?isolation_level=IMMEDIATE
+```
+
+and the matching line from the CI postgres log, repeating until the job gives up:
+
+```
+FATAL:  password authentication failed for user "None"
+```
+
+That is the `test_serve_daemon` timeout, and the bulk of the 26 `nogx` failures — every test that starts
+a Galaxy without a `--profile`. Profile-based tests survive because `_create_profile_local` catches the
+`RuntimeError` from `create_database` and falls back to sqlite, storing `database_type: sqlite` in the
+profile.
+
+The shape of master's design is the thing to restore: the *profile* owns database selection, and
+`local_galaxy_config` just honours whatever `database_connection` the profile resolved. A source should
+only be built for an explicitly-named postgres type.
+
+**8. `--database_connection` is silently ignored — same function. Blocking.**
+
+Master's `kwds.get("database_connection") or default_connection` is gone; nothing in the new function
+reads `database_connection` at all. Reproduced:
+
+```
+user-supplied --database_connection -> postgresql://None@localhost/galaxy
+```
+
+`tests/test_galaxy_config.py::test_database_connection_override_path` exists precisely to catch this and
+now fails. It also means a profile's stored connection string cannot reach a serve — the loose end already
+recorded under "Still open for mvdbeek", now with a failing test attached to it.
+
+**6 (upgraded from "worth a look" to blocking). `database_connection` never reaches `env`.**
+
+`planemo/galaxy/config.py:491` builds `env` from `properties`; `properties["database_connection"]` is not
+assigned until line 510, inside the `with`. `_build_env_for_galaxy` copies into a fresh dict, so the later
+mutation cannot reach it and `GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION` is simply absent. I guessed
+modern Galaxy would not care because `write_galaxy_config` resolves properties into galaxy.yml — but
+`tests/test_galaxy_config.py::test_defaults` asserts on `config.env` and fails with a bare
+`KeyError: 'GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION'`. Fix is ordering: open the context manager before
+`env` is built rather than after.
+
+**9. `database_list` / `database_create` / `database_delete` never start the container — `planemo/database/postgres_docker.py:63-80`. Blocking.**
+
+Master started the container as a side effect of `DockerPostgresDatabaseSource.__init__`. The PR moves that
+into an explicit `start()` — better design — but the three `cmd_database_*.py` commands call
+`create_database_source(**kwds).<method>()` and never call `start()`. Only `_database_connection` was taught
+the new lifecycle. Result:
+
+```
+Error response from daemon: No such container: planemopostgres
+```
+
+That is the `test_database_commands_docker` failure in both `unit-quick` jobs. Dropping the tests'
+`try/finally: stop_postgres_docker()` (finding 5) removed the one thing that was papering over it.
+
+**10. Docker `create_database` / `delete_database` are no-ops — `planemo/database/postgres_docker.py:66-72`. Blocking.**
+
+```python
+    def create_database(self, identifier):
+        # Not needed for profile creation, database will be created when Galaxy starts.
+        pass
+```
+
+The commit that added these is titled "Don't create or delete database when setting up profile with docker
+postgres", but the change lands on the shared `DatabaseSource`, not on the profile code that motivated it.
+`cmd_database_create.py` still prints `"Database with URL %s created."` while creating nothing, and
+`test_database_commands_docker` asserts the created name shows up in `database_list` — so this test has two
+independent breaks in it, and fixing finding 9 alone will not turn it green. If profile setup should skip
+creation, that belongs in `_create_profile_local`, not in the source that the user-facing `database_create`
+command drives.
+
 ## Reuse note
 
 The direction is right: collapsing the `postgres_singularity` special case into the same
@@ -178,7 +300,11 @@ Post-fix: `flake8`, `black`, `isort` all clean; profile + database command tests
 - [x] Delete the dead `database_connection + ...` statement (finding 4)
 - [x] Add a sqlite profile test
 - [ ] Confirm docker container cleanup after dropping `stop_postgres_docker()` from tests (finding 5)
-- [ ] Confirm the `GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION` drop is intended (finding 6)
+- [x] Confirm the `GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION` drop is intended (finding 6) — it is not; `test_defaults` fails on it
+- [ ] Restore sqlite as the default in `_database_connection` (finding 7)
+- [ ] Honour `kwds["database_connection"]` again (finding 8)
+- [ ] Call `start()` from the `database_*` commands, or restore it to construction (finding 9)
+- [ ] Move the "skip database creation" decision out of `DockerPostgresDatabaseSource` (finding 10)
 - [ ] Decide how the serve path resolves a profile's database location
 - [ ] Restore `create_database` to the ABC or drop it from the callers
 - [x] Push the rebase + fixes — went to jmchilton's fork, opened as #1679; #1557 closed
