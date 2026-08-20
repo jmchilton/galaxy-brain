@@ -12,7 +12,9 @@ queries a Galaxy for its workflows and prints a table, or JSON under `--raw`.
 
 ## Status
 
-Taken over. Smeds never returned after being asked (2025-06-19) to rebase the
+Taken over. **#1533 closed 2026-08-20 in favor of #1681**
+(https://github.com/galaxyproject/planemo/pull/1681), pushed from
+`jmchilton:list_workflows_rebased`. Smeds never returned after being asked (2025-06-19) to rebase the
 `api.py` conflict, and never addressed mvdbeek's `//`-in-URL note from
 2025-06-18. Rebased onto master and fixed up here.
 
@@ -197,7 +199,6 @@ c04e6fb1 command used to list available workflows        (Smeds, rebased)
 
 ## Follow-ups
 
-- [ ] Decide the disposition of #1533 itself (see open question below).
 - [ ] The `rich` migration jmchilton offered to take on — now a one-function
       change in `planemo.io.print_table`.
 - [ ] `docs/` is stale against master by 19 files. Regenerate and commit
@@ -211,9 +212,11 @@ c04e6fb1 command used to list available workflows        (Smeds, rebased)
       (26.0.1 vs 26.1.1) and planemo fails to import. Hit this setting up the
       worktree; also unrelated to this PR.
 
-## Open question
+## Outcome
 
-The instruction was to "reopen" #1533, but it is currently **OPEN** — never
-closed. Not pushed anywhere yet. Options: push to `jmchilton/planemo` and open a
-fresh PR crediting Smeds (the #1557 → #1679 pattern), or push a branch and ask
-Smeds to pull it into his. Awaiting a decision.
+Pushed to `jmchilton/planemo` as `list_workflows_rebased`; opened as
+[#1681](https://github.com/galaxyproject/planemo/pull/1681) crediting Smeds;
+#1533 commented and closed pointing at it.
+
+The "reopen" in the original instruction was a misnomer — #1533 was open the
+whole time, never closed. Confirmed the intent before acting.
