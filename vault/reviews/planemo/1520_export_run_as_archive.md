@@ -3,7 +3,7 @@
 - **PR:** https://github.com/galaxyproject/planemo/pull/1520
 - **Author:** Smeds (Patrik Smeds)
 - **Opened:** 2025-04-25 · last activity 2025-05-19
-- **Assessed:** 2026-08-20 (not rebased, not taken over)
+- **Assessed:** 2026-08-20 · **closed 2026-08-20** (not rebased, not taken over)
 - **Size:** +115 / -1, 4 files · `CONFLICTING` / `DIRTY`
 
 Adds three options to `planemo run`: `--archive_file` (write the run to a
@@ -112,8 +112,19 @@ It's a small, separate piece of work, not a rebase:
 Worth confirming demand first: the motivation was a GBCC demo that happened
 over a year ago.
 
-## Open questions
+## Outcome
 
-- Close #1520 with an explanation, or leave it open?
-- Is the cross-instance upload still wanted by anyone, or was it GBCC-specific?
-- If wanted: add `from_store` to bioblend, or keep the raw call in planemo?
+Commented and closed 2026-08-20 —
+[comment](https://github.com/galaxyproject/planemo/pull/1520#issuecomment-5361274953).
+The comment leads with the fact that Smeds' own `invocation_export` covers it
+and credits his (correct) diagnosis of the Galaxy-side blocker, so it reads as
+"you already solved this" rather than a rejection. The code-level defects
+(finding list above) were deliberately left out of the comment — piling on
+critique of code that isn't merging adds nothing. They stay here in case the
+upload feature is ever picked up.
+
+## Still open
+
+- Is cross-instance upload wanted by anyone, or was it GBCC-specific?
+- If wanted: add `from_store` to bioblend (reusable), or keep a raw call in
+  `planemo/galaxy/api.py`?
