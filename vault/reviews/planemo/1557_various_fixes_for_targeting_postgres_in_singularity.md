@@ -2,7 +2,11 @@
 
 `galaxyproject/planemo#1557`, mvdbeek, +128/-138 across 11 files, branch `postgres_singularity_fix` → `master`.
 Rebased 2026-08-20 from merge-base `28411491` (2025-10-16) onto current master (281 commits ahead),
-then fixed findings 1-4 in two commits on top. **Not pushed** — the branch lives on mvdbeek's fork.
+then fixed findings 1-4 in two commits on top.
+
+**Outcome:** #1557 was closed 2026-08-20 and superseded by **#1679** ("Various fixes for targeting postgres
+in singularity (rebase)"), opened from `jmchilton/planemo:postgres_singularity_fix_rebased`. mvdbeek's fork
+was never pushed to.
 
 ## Rebase
 
@@ -177,4 +181,23 @@ Post-fix: `flake8`, `black`, `isort` all clean; profile + database command tests
 - [ ] Confirm the `GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION` drop is intended (finding 6)
 - [ ] Decide how the serve path resolves a profile's database location
 - [ ] Restore `create_database` to the ABC or drop it from the callers
-- [ ] Decide whether to push the rebase + fixes to mvdbeek's fork
+- [x] Push the rebase + fixes — went to jmchilton's fork, opened as #1679; #1557 closed
+- [x] File the `wait_on` dedupe — **#1680**
+
+## Spun out
+
+**#1680 — Deduplicate `planemo.io.wait_on` in favor of `galaxy.util.wait.wait_on`.**
+`planemo/io.py:327` is a near-verbatim copy of Galaxy's, which additionally raises a typed
+`TimeoutAssertionError`, takes an injectable `sleep_` for tests, and parameterises `delta`. Only two
+callers (`config.py:929`, `activity.py:1027`), both passing `timeout` explicitly, and nothing catches
+the timeout — so the swap is contained.
+
+The blocker is the dependency floor, verified against published wheels: `galaxy.util.wait` moved from
+`galaxy.tool_util.verify.wait` and first ships in **galaxy-util 26.0** (missing in 24.1.2 and 25.0.1),
+while `requirements.txt:10` pins `galaxy-util[template]>=24.1,<26.2`. Doing the dedupe means bumping
+that floor to `>=26.0`, which is a deliberate call rather than a mechanical one.
+
+Decided *against* rewriting the polling loop in `planemo/database/postgres_singularity.py:60-71`.
+Its `for`/`else` is correct — the `else` fires only on exhaustion — and switching to `wait_on` is a wash
+on line count while losing the periodic "Waiting for the postgres database to initialize." message, which
+is the only sign of life during a cold `docker://postgres` pull.
