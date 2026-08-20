@@ -4,7 +4,8 @@
 Rebased 2026-08-20 from merge-base `28411491` (2025-10-16) onto current master (281 commits ahead),
 then fixed findings 1-4 in two commits on top.
 
-**CI:** #1679 is red — 7 of 14 checks, all traced below. Not rebase damage; #1557 was never green either.
+**CI:** #1679 was red — 7 of 14 checks. Not rebase damage; #1557 was never green either. Five defects found
+and fixed (`b03239d9`); the one behaviour change left to argue about is one token wide.
 
 **Outcome:** #1557 was closed 2026-08-20 and superseded by **#1679** ("Various fixes for targeting postgres
 in singularity (rebase)"), opened from `jmchilton/planemo:postgres_singularity_fix_rebased`. mvdbeek's fork
@@ -276,11 +277,65 @@ deliberately — create and delete have to agree on where the database lives.
 Post-fix: `flake8`, `black`, `isort` all clean; profile + database command tests 2 passed, 3 skipped
 (skips need `PLANEMO_ENABLE_POSTGRES_TESTS` / psql).
 
+## Fixes applied — round 2 (CI red)
+
+Four more commits, pushed to `jmchilton:postgres_singularity_fix_rebased` (`b03239d9`).
+
+**`ea3c8a32 Set database_connection before the Galaxy env is built`** — finding 6.
+Pure move: the `with _database_connection(...)` block now opens where master assigned the property,
+above `_build_env_for_galaxy`, and the rest of `local_galaxy_config` is indented into it. No semantics
+changed; `GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION` is exported again.
+
+**`5db1ee5a Only stand up a database server for an explicitly named backend`** — findings 7 and 8.
+`_database_connection` now yields, in order: an explicit `database_connection`; a managed source for a
+named postgres backend; otherwise the config directory's sqlite file. Three unit tests in
+`tests/test_galaxy_config.py`, written red first — two of them fail on the pre-fix function
+(`auto` → `postgresql://None@localhost/galaxy`, and the override being ignored), the third pins the
+start/stop lifecycle for a named backend. The upstream `test_defaults` and
+`test_database_connection_override_path` also cover 6 and 8 but need a built Galaxy, which this laptop
+cannot produce (`common_startup.sh` fails against system python3) — those two are CI's to confirm.
+
+**`884da691 Start the database server from the commands that administer it`** — finding 9.
+New `started_database_source()` in `planemo/database/factory.py`: constructs and starts in one call, for
+the callers that administer a database rather than run a Galaxy against one — `cmd_database_list`,
+`cmd_database_create`, `cmd_database_delete`, and both profile paths. It deliberately does not stop;
+the container runs with `--rm`, so shutting it down would discard what was just created. The serve path
+keeps `create_database_source` and owns `stop()` itself. That split is the thing worth having: the bug
+existed because "who starts this" was implicit in `__init__`, and moving it out left no name to forget.
+
+**`b03239d9 Let postgres_docker create and delete databases again`** — findings 10 and 5.
+Drops the no-op `create_database`/`delete_database`, restores `create_database` to the ABC, and puts the
+`try/finally: stop_postgres_docker()` back in both docker tests.
+
+Verified locally against real docker: `test_database_commands.py -k docker` red before
+(`No such container: planemopostgres`) and green after; `test_profile_commands.py` 2 passed, 1 skipped,
+with no container left behind. `flake8`, `black`, `isort` clean; `mypy` reports nothing in any touched
+file. `test_database_commands` (local psql, non-docker) fails here for want of a postgres server — it
+passes in CI.
+
+### The one line
+
+The behaviour change is isolated to `planemo/galaxy/config.py`:
+
+```python
+MANAGED_DATABASE_TYPES = ("postgres", "postgres_docker", "postgres_singularity")
+```
+
+Adding `"auto"` to that tuple restores mvdbeek's default — planemo prefers a local postgres whenever
+`psql` is on PATH. Everything else in this branch is a bug fix; that one token is the policy call. It
+needs more than the token to be viable, though: `create_database_source` raises when it finds none of
+psql/docker/singularity, whereas `_create_profile_local` falls back to sqlite, so `auto` currently means
+two different things depending on which path resolves it.
+
+Not built: the `SqliteDatabaseSource` the factory has had a commented-out placeholder for. It looks like
+the natural completion, but the two `auto` policies above are genuinely different — profiles want the
+postgres probe, a one-off run wants sqlite — so a single resolver would paper over a real distinction.
+Left as a follow-up rather than smuggled into a CI fix.
+
 ## Still open for mvdbeek
 
-- **Finding 5** (docker container cleanup after dropping `stop_postgres_docker()` from the tests) and
-  **finding 6** (`GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION` no longer exported) are unresolved — both
-  are questions about intent, not defects to patch.
+- **Findings 5, 6, 9 and 10 turned out to be defects rather than questions of intent** — all four are
+  fixed above. Finding 7 is the only open policy call; see "The one line".
 - **The serve path still cannot see the profile's database location.** `_database_connection`
   (`planemo/galaxy/config.py:1273-1282`) builds a fresh source via `create_database_source(**kwds)` with no
   profile context, so a singularity profile serves against a new `mkdtemp` rather than the `<profile>/postgres`
@@ -288,9 +343,8 @@ Post-fix: `flake8`, `black`, `isort` all clean; profile + database command tests
   the profile, gets overwritten by the context manager. Persisting the resolved location into
   `planemo_profile_options.json` would let it flow back through the existing `postgres_storage_location`
   kwds option, but whether the stored connection or a fresh source should win is a design call.
-- **`create_database` was dropped from the `DatabaseSource` ABC** (`planemo/database/interface.py`) while
-  `_create_profile_local` and `cmd_database_create.py` still call it. The method left the contract but not
-  the call sites; it should either go back on the interface or off the callers.
+- **Whether `auto` should mean postgres for a one-off run.** mvdbeek's branch says yes; this one restores
+  master's no. One token, `MANAGED_DATABASE_TYPES`.
 
 ## Follow-ups
 
@@ -299,14 +353,16 @@ Post-fix: `flake8`, `black`, `isort` all clean; profile + database command tests
 - [x] Remove the now-unused `DATABASE_LOCATION_TEMPLATE` import (finding 3)
 - [x] Delete the dead `database_connection + ...` statement (finding 4)
 - [x] Add a sqlite profile test
-- [ ] Confirm docker container cleanup after dropping `stop_postgres_docker()` from tests (finding 5)
+- [x] Confirm docker container cleanup after dropping `stop_postgres_docker()` from tests (finding 5) — it did leak; cleanup restored
 - [x] Confirm the `GALAXY_CONFIG_OVERRIDE_DATABASE_CONNECTION` drop is intended (finding 6) — it is not; `test_defaults` fails on it
-- [ ] Restore sqlite as the default in `_database_connection` (finding 7)
-- [ ] Honour `kwds["database_connection"]` again (finding 8)
-- [ ] Call `start()` from the `database_*` commands, or restore it to construction (finding 9)
-- [ ] Move the "skip database creation" decision out of `DockerPostgresDatabaseSource` (finding 10)
+- [x] Restore sqlite as the default in `_database_connection` (finding 7) — isolated to `MANAGED_DATABASE_TYPES`
+- [x] Honour `kwds["database_connection"]` again (finding 8)
+- [x] Call `start()` from the `database_*` commands, or restore it to construction (finding 9) — `started_database_source()`
+- [x] Move the "skip database creation" decision out of `DockerPostgresDatabaseSource` (finding 10) — reverted outright
 - [ ] Decide how the serve path resolves a profile's database location
-- [ ] Restore `create_database` to the ABC or drop it from the callers
+- [x] Restore `create_database` to the ABC or drop it from the callers — back on the ABC
+- [ ] Decide whether `auto` should prefer postgres for a one-off run (the one line)
+- [ ] Build the `SqliteDatabaseSource` the factory placeholder promises
 - [x] Push the rebase + fixes — went to jmchilton's fork, opened as #1679; #1557 closed
 - [x] File the `wait_on` dedupe — **#1680**
 
