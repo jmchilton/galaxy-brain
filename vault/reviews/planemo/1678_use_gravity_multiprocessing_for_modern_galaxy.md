@@ -4,8 +4,9 @@
 Head `d504f1d9`. Python CI run 2594 (attempt 2) green.
 
 > **Update 2026-08-21** — mvdbeek pushed five commits addressing the feedback; head is now
-> `346faf9b`. See [Round 2](#round-2--mvdbeeks-response-346faf9b) at the bottom. The findings
-> below are preserved as originally written.
+> `346faf9b`. See [Round 2](#round-2--mvdbeeks-response-346faf9b) at the bottom, and
+> [Round 3](#round-3--follow-up-branch-jmchilton1678-review-followups) for the follow-up branch.
+> The findings below are preserved as originally written.
 
 ## What it does
 
@@ -313,14 +314,61 @@ is green across all 14 checks. Nothing outstanding rises to a blocker.
 Worth a pre-merge tweak: (A) guard the second `wait` and (B) raise `TERMINATION_TIMEOUT`. Both are
 one-liners and (B) protects the diagnostic contract that (2) just narrowed.
 
+## Round 3 — follow-up branch (`jmchilton:1678-review-followups`)
+
+Four commits on top of `346faf9b`, addressing round-2 A and B plus findings 4 and 6.
+
+**`d495f263` — one process-group termination helper.** Finding 4's justification for the
+duplicate loop was that the monitor should stay stdlib-only. It doesn't hold: `python -m
+planemo.galaxy.daemon_monitor` makes runpy import the `planemo.galaxy` package, whose
+`__init__.py` does `from .config import galaxy_config`. Measured — 1625 modules including click
+and requests, against 78 for a bare interpreter. So the loop moved into `planemo.io` once and both
+callers use it.
+
+Two behaviour changes fall out. `kill_posix` now waits on the whole group rather than only the
+leader, which is what its own gunicorn comment was worried about, and returns as soon as the group
+is gone instead of always sleeping a flat second. And `terminate_process_group` grew a `reap`
+callback: **an unreaped leader lingers as a zombie that still answers signal 0**, so without it the
+group never looks empty, the grace period is always spent in full, and SIGKILL is always sent to a
+group that already complied. That was latent in `346faf9b` — its SIGTERM never actually got
+credited. Verified red: drop `reap` and even a willing process returns `False`.
+
+**`ac3e8214` — 0.5 s → 10 s, overridable via `PLANEMO_TERMINATION_TIMEOUT`.** Read from the
+environment per call rather than captured at import, so the monitor subprocess honours it without
+it being threaded through argv. Raising it costs nothing when Galaxy behaves, precisely because of
+the reap fix — the timeout became an upper bound rather than a delay. Only the post-SIGKILL wait is
+capped separately, since SIGKILL can't be caught.
+
+**`fea3cc2d` — teardown never raises.** `_shut_down_daemon_monitor` escalates through the shared
+helper and warns instead of raising. It also stops waiting for a monitor nobody asked to stop:
+closing the control pipe is what requests teardown, and a detached daemon has no pipe left.
+Measured, the monitor exits 0.43 s after EOF — the 20 s was entirely the detached path waiting out
+a grace period it was never told to observe. The two daemon tests now finish in ~2 s, faster than
+on `346faf9b`.
+
+**`d9c440ec` — `lru_cache` on `get_galaxy_version`.** All seven signatures go back to taking
+`galaxy_root` alone. Keyed on the checkout path; `_install_galaxy` clears it. Tests pin that one
+configuration build reads the module exactly once, and that two roots don't share an answer.
+
+Verification: 44 passed in `test_io.py` + `test_gravity_multiprocessing.py` + `test_galaxy_config.py`;
+506 tests still collect; flake8/isort clean; mypy clean in all three touched files. The 3
+`test_galaxy_config.py` failures are `RuntimeError: Failed to install Galaxy` and reproduce
+identically on `346faf9b` — macOS can't build a Galaxy venv here.
+
+Not addressed on this branch: findings 5, 7, 8, 9, 11, 12, 13, and round-2 D.
+
 ## Follow-ups
 
 - [x] Monitor escalates SIGTERM → SIGKILL and survives its own group signal (finding 1) — `7f82d80e`
 - [x] Decide and document what `service_log_contents` means under multiprocessing (finding 2) — `49d7ba2c`
 - [x] Fold the daemon launch into `run_galaxy_command` rather than around it (finding 3) — `b850174d`, via extraction
 - [x] Justify or revert the `RequestException` broadening in `ephemeris_sleep` (finding 10) — `5dc10841`, reverted
-- [ ] Guard the second `wait(timeout=2)` in `kill()` and escalate to SIGKILL (round 2, A)
-- [ ] Raise `TERMINATION_TIMEOUT` above 0.5 s (round 2, B)
-- [ ] Collapse the third copy of the TERM/KILL escalation, or comment why the monitor stays stdlib-only (finding 4)
-- [ ] Replace the `galaxy_version` parameter threading with `lru_cache` on `get_galaxy_version` (finding 6)
+- [x] Guard the second `wait(timeout=2)` in `kill()` and escalate to SIGKILL (round 2, A) — `fea3cc2d`
+- [x] Raise `TERMINATION_TIMEOUT` above 0.5 s (round 2, B) — `ac3e8214`
+- [x] Collapse the third copy of the TERM/KILL escalation (finding 4) — `d495f263`
+- [x] Replace the `galaxy_version` parameter threading with `lru_cache` (finding 6) — `d9c440ec`
 - [ ] Move `test_sleep_fails_immediately_for_invalid_url` out of the shared helpers module (round 2, D)
+- [ ] Declare `use_multiprocessing` on `BaseGalaxyConfig` and drop the `getattr` (finding 5)
+- [ ] Extract the duplicated startup-failure message in `serve.py` (finding 7)
+- [ ] Split `kill()` into `_kill_multiprocessing` / `_kill_supervisor` (finding 8)
+- [ ] Map the monitor's signal-death return code so it does not report 241 (finding 11)
