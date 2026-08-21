@@ -3,6 +3,10 @@
 `galaxyproject/planemo#1678`, mvdbeek, +691/-45 across 6 files, branch `gravity-subprocess` → `master`.
 Head `d504f1d9`. Python CI run 2594 (attempt 2) green.
 
+> **Update 2026-08-21** — mvdbeek pushed five commits addressing the feedback; head is now
+> `346faf9b`. See [Round 2](#round-2--mvdbeeks-response-346faf9b) at the bottom. The findings
+> below are preserved as originally written.
+
 ## What it does
 
 For Galaxy >= 25.0.1, planemo writes `gravity: {process_manager: multiprocessing}` into the
@@ -207,10 +211,116 @@ multiprocessing manager is correct. Findings 1 and 2 should land before merge; 3
 accretion-vs-abstraction concerns and are worth pushing on since this code will be the default path
 for every modern Galaxy planemo serves.
 
+## Round 2 — mvdbeek's response (`346faf9b`)
+
+Five commits on top of `d504f1d9`, +187/-61 across 8 files. All 14 CI checks green.
+
+### Scorecard
+
+| # | Finding | Status |
+|---|---------|--------|
+| 1 | Monitor cannot escalate past SIGTERM | **Fixed**, with a real regression test |
+| 2 | `service_log_contents` silently empty | **Fixed**, made explicit + tested |
+| 3 | `run_galaxy_command` bypassed | **Fixed** by extracting `log_galaxy_command` |
+| 4 | `kill_process_group` duplicates `kill_posix` | Resolved by deletion — duplication moved, not removed |
+| 5 | `use_multiprocessing` duck-typed | Not addressed |
+| 6 | Version re-exec'd every call | **Fixed**, but by threading a parameter through 6 signatures |
+| 7 | Duplicated error construction | Not addressed |
+| 8 | `kill()` branches twice | Not addressed |
+| 9 | `env.pop("SUPERVISORD_SOCKET")` inert | Not addressed |
+| 10 | `RequestException` broadening | **Fixed** — reverted, with a test |
+| 11 | Signal-killed startup reports 241 | Not addressed |
+| 12–13 | Doc nits (`--server-name`, version gate) | Not addressed |
+
+### The blocking two are genuinely fixed
+
+**Finding 1** — `7f82d80e`. The child now gets `start_new_session=True`, so Galaxy owns a process
+group the monitor is *not* in. The monitor installs SIGTERM/SIGINT handlers that only set a flag,
+and `_terminate_process_group` does TERM → probe (0.5 s) → KILL → `child.wait()`, reaping the
+leader. `test_monitor_escalates_for_sigterm_ignoring_process_group` drives a `run.sh` whose whole
+tree ignores SIGTERM. Verified locally: red against the old monitor
+(`AssertionError: Process 49812 did not exit`), green against the new one. 15/15 pass.
+
+A side benefit worth noting, because it closes a gap flagged under Tests: `planemo serve --daemon
+--pid_file` → `kill_pid_file` SIGTERMs the *monitor*. Previously that killed the monitor and left
+Galaxy orphaned. Now the flag is checked each loop iteration — including in the post-DETACH poll —
+so the documented teardown route actually tears Galaxy down. Still not covered end to end by a test.
+
+**Finding 2** — `49d7ba2c`. `service_log_contents` returns `{}` for `use_multiprocessing` with a
+comment explaining why, and `MODERN_RUN_SH` now prints from its child so the test can assert the
+output lands in `config.log_contents`. Exactly the "make it deliberate" ask.
+
+### New concerns introduced by the fix
+
+**A. `kill()` can raise out of teardown — `planemo/galaxy/config.py:1249-1254`**
+
+```python
+try:
+    self._daemon_process.wait(timeout=2)
+except subprocess.TimeoutExpired:
+    self._daemon_process.send_signal(signal.SIGTERM)
+    self._daemon_process.wait(timeout=2)
+```
+
+The second `wait` is unguarded, so a wedged monitor makes `kill()` raise `TimeoutExpired` from a
+cleanup path — masking whatever exception was already in flight. Worse, the SIGTERM cannot unwedge
+it: if the monitor is inside `_terminate_process_group`, it is blocked in `child.wait()`, and the
+handler only sets a flag that is never re-checked there (PEP 475 restarts the `waitpid`). Either
+guard the second wait and escalate to `SIGKILL`, or drop the SIGTERM and just guard.
+
+**B. `TERMINATION_TIMEOUT = 0.5` is short — `planemo/galaxy/daemon_monitor.py:11`**
+
+The deleted `kill_process_group` allowed ~1 s at each stage; this halves it. Real gunicorn plus
+celery workers will not finish a graceful shutdown in 0.5 s, so SIGKILL becomes the *normal*
+teardown path rather than the escalation. That interacts directly with finding 2's resolution:
+`main.log` is now the only diagnostic channel, and hard-killing services mid-flush risks truncating
+the very log the contract was just narrowed onto. A few seconds would cost nothing here.
+
+**C. Nothing can reap Galaxy if the monitor dies**
+
+Monitor and Galaxy are now in separate sessions, and the pid file still records only the monitor.
+Previously the shared group gave planemo a way to nuke both. This is an inherent trade of the fix
+and the monitor is a small stdlib loop, so probably fine — but the belt-and-braces is gone.
+
+**D. Test placed in the shared helpers module — `tests/test_utils.py:63`**
+
+`test_sleep_fails_immediately_for_invalid_url` lands in the module every other test module imports
+for helpers, wedged between constant definitions and `class MarkGenerator`. It runs (the filename
+matches), but it belongs in a test module for `ephemeris_sleep`.
+
+### On findings 4 and 6, the abstraction concern didn't really land
+
+**4** — `kill_process_group` is gone from `planemo/io.py`, but its escalation loop reappears as
+`_terminate_process_group` in `daemon_monitor.py`. That is still the same TERM → probe → KILL logic
+as `kill_posix`, now in a third file. Keeping the monitor stdlib-only is a defensible reason not to
+import `planemo.io` — but then that reason is worth a comment, because the next reader sees three
+copies and no explanation.
+
+**6** — the fix threads `galaxy_version` through `local_galaxy_config`, `write_galaxy_config`,
+`gravity_supports_multiprocessing`, `get_galaxy_major_version`, `get_refgenie_config`,
+`_handle_refgenie_config`, and `LocalGalaxyConfig.__init__`, each with a
+`galaxy_version or get_galaxy_version(galaxy_root)` fallback and two mutually-exclusive optional
+parameters that nothing enforces. A `functools.lru_cache` on `get_galaxy_version` was one line and
+zero new signature surface. This is the accretion pattern the review was aimed at, applied while
+fixing a finding about it.
+
+## Verdict — round 2
+
+Mergeable. Both blocking findings are properly fixed, the escalation fix carries a regression test
+that genuinely fails without it, the `RequestException` broadening is reverted with a test, and CI
+is green across all 14 checks. Nothing outstanding rises to a blocker.
+
+Worth a pre-merge tweak: (A) guard the second `wait` and (B) raise `TERMINATION_TIMEOUT`. Both are
+one-liners and (B) protects the diagnostic contract that (2) just narrowed.
+
 ## Follow-ups
 
-- [ ] Monitor escalates SIGTERM → SIGKILL and survives its own group signal (finding 1)
-- [ ] Decide and document what `service_log_contents` means under multiprocessing (finding 2)
-- [ ] Fold the daemon launch into `run_galaxy_command` rather than around it (finding 3)
-- [ ] Collapse `kill_process_group` into `kill_posix` with a `pgid` parameter (finding 4)
-- [ ] Justify or revert the `RequestException` broadening in `ephemeris_sleep` (finding 10)
+- [x] Monitor escalates SIGTERM → SIGKILL and survives its own group signal (finding 1) — `7f82d80e`
+- [x] Decide and document what `service_log_contents` means under multiprocessing (finding 2) — `49d7ba2c`
+- [x] Fold the daemon launch into `run_galaxy_command` rather than around it (finding 3) — `b850174d`, via extraction
+- [x] Justify or revert the `RequestException` broadening in `ephemeris_sleep` (finding 10) — `5dc10841`, reverted
+- [ ] Guard the second `wait(timeout=2)` in `kill()` and escalate to SIGKILL (round 2, A)
+- [ ] Raise `TERMINATION_TIMEOUT` above 0.5 s (round 2, B)
+- [ ] Collapse the third copy of the TERM/KILL escalation, or comment why the monitor stays stdlib-only (finding 4)
+- [ ] Replace the `galaxy_version` parameter threading with `lru_cache` on `get_galaxy_version` (finding 6)
+- [ ] Move `test_sleep_fails_immediately_for_invalid_url` out of the shared helpers module (round 2, D)
