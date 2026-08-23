@@ -366,7 +366,9 @@ Left as a follow-up rather than smuggled into a CI fix.
 - [x] Push the rebase + fixes — went to jmchilton's fork, opened as #1679; #1557 closed
 - [x] File the `wait_on` dedupe — **#1680**
 - [x] Address mvdbeek's three inline comments on #1679 — `8774dc1c`, pushed
-- [ ] Replace the `which("psql")` probe in `factory.py` / `profiles.py` (separate PR)
+- [x] Replace the `which("psql")` probe in `factory.py` / `profiles.py` — `ff7af416`, dropped the ladder
+- [ ] Regenerate `docs/commands/*.rst` (stale well before this branch)
+- [ ] `delete_profile` hands `None` to the factory for a `docker_galaxy` profile
 
 ## Spun out
 
@@ -430,7 +432,33 @@ installed and nothing about a reachable server, so `auto` picks postgres on any 
 postgres client package. The profile path degrades to sqlite when the create fails; the factory path
 just fails.
 
-Two shapes for a fix: probe for reachability (`psql --list` succeeds) instead of presence, or drop
-the ladder and make `auto` mean sqlite, requiring an explicit `--database_type` for the
-`database_*` commands. Either is a behaviour change to `profile_create` defaults, so it wants its
-own PR rather than a rider on an approved one.
+Two shapes were on the table: probe for reachability (`psql --list` succeeds) instead of presence,
+or drop the ladder. Chose to drop it — `ff7af416`.
+
+- `factory.py` — `auto` raises and asks for a `--database_type`. The `database_*` commands
+  administer a server; there is no sqlite backend for them to fall back to (the
+  `SqliteDatabaseSource` is still a commented-out placeholder), so guessing is the only thing
+  removed.
+- `profiles.py` — `auto` is sqlite, full stop.
+- The `RuntimeError` → sqlite fallback in `_create_profile_local` went with the ladder. It was only
+  reachable through `auto`, since `allow_sqlite_fallback` was `database_type == "auto"`; an
+  explicitly named backend that cannot create its database should fail loudly.
+- `options.py` — the `--database_type` help now says what `auto` means.
+
+`tests/test_database_selection.py` is new: five unit tests covering the raise, the dispatch, the
+sqlite default across `{}`/`None`/`auto`/`sqlite`, a named backend's `create_database` call, and
+that a create failure is no longer swallowed. Two of the five fail against the pre-change tree.
+
+The checked-in `docs/commands/*.rst` were **not** regenerated. `python3 scripts/commands_to_rst.py`
+rewrites 21 files, most of the churn predating this branch (`--postgres-storage-location` →
+`--postgres_storage_location`, missing `--shed_data_dir` / `--tool_evaluation_strategy` blocks,
+trailing whitespace). `make lint-docs` runs `ready-docs` first, so CI regenerates them regardless;
+committing 300 lines of unrelated drift into an approved PR is the worse trade. Worth its own
+sweep.
+
+### Noticed while there, not fixed
+
+`delete_profile` (`profiles.py:41-48`) guards on `engine != "external_galaxy"`, so a
+`docker_galaxy` profile — whose stored options carry no `database_type` at all — falls into the
+`!= "sqlite"` branch and hands `None` to the factory, which raises `Unknown database type [None]`.
+Pre-existing, unchanged by this commit.
