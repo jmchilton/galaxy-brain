@@ -350,12 +350,54 @@ on `346faf9b`.
 `galaxy_root` alone. Keyed on the checkout path; `_install_galaxy` clears it. Tests pin that one
 configuration build reads the module exactly once, and that two roots don't share an answer.
 
+### Pre-merge hardening fix — resolved in `05996f37`
+
+**`PLANEMO_TERMINATION_TIMEOUT` needs finite/range validation, and its parent allowance should
+match the monitor's actual budget — `planemo/io.py:44-57`, `planemo/galaxy/config.py:1202`.**
+
+`termination_timeout()` catches `ValueError`, but `float("nan")`, `float("inf")`, and negative
+values all parse successfully. `nan` is the correctness problem: `_wait_for_process_group_exit`
+computes a `nan` deadline, then `time.monotonic() >= deadline` is forever false, so a stubborn
+process group can hang teardown forever and never reach SIGKILL. Infinity deliberately or
+accidentally has the same no-upper-bound outcome; a negative value skips the TERM grace and makes
+SIGKILL immediate. Validate with `math.isfinite()` plus an explicit non-negative (or positive)
+range, warning and falling back to the default when invalid. Add `nan`, `inf`, and negative cases
+to `test_termination_timeout_honours_the_environment`.
+
+There is a related arithmetic mismatch for otherwise valid sub-second overrides. The monitor's
+worst-case helper budget is `timeout + KILL_SETTLE_TIMEOUT`, but `_shut_down_daemon_monitor` waits
+`2 * timeout`. With the test value `0.5`, for example, the monitor is allowed 1.5 seconds while its
+parent starts its own escalation after 1 second; for `0.1`, those are 1.1 and 0.2 seconds. The
+default 10-second path is fine, but the new override should remain internally coherent. Derive the
+parent wait from the same TERM-plus-KILL budget (with a small scheduling margin) instead of
+doubling the TERM grace.
+
+**Resolved.** `05996f37` rejects non-finite and negative values while preserving zero as an
+explicit immediate-escalation setting. The parent allowance is now the TERM timeout plus
+`KILL_SETTLE_TIMEOUT` and two polling intervals. Regression tests cover `nan`, `inf`, negative,
+zero, and the exact parent budget.
+
 Verification: 44 passed in `test_io.py` + `test_gravity_multiprocessing.py` + `test_galaxy_config.py`;
 506 tests still collect; flake8/isort clean; mypy clean in all three touched files. The 3
 `test_galaxy_config.py` failures are `RuntimeError: Failed to install Galaxy` and reproduce
 identically on `346faf9b` — macOS can't build a Galaxy venv here.
 
+Rechecked independently: 26/26 passed in `test_io.py` + `test_gravity_multiprocessing.py`, and
+18/18 non-Galaxy-install tests passed in `test_galaxy_config.py` (3 install tests skipped). The
+socket/process tests require running outside the filesystem/network sandbox; their initial
+sandbox failures were only `PermissionError` from binding localhost ports. Flake8 and isort are
+clean on all six touched files. Mypy is clean for the three touched source files with imported
+modules skipped; following the whole import graph exposes six pre-existing errors in unrelated
+modules (`api.py`, `tools.py`, `runnable.py`, and `cli.py`).
+
 Not addressed on this branch: findings 5, 7, 8, 9, 11, 12, 13, and round-2 D.
+
+### Verdict — round 3
+
+The five commits are well aimed and materially improve the PR: they consolidate an existing
+abstraction instead of adding another copy, keep imports at module scope, remove parameter
+threading, and add strong process-level regression coverage without weakening any tests. The
+timeout hardening concern is resolved; ask Marius to merge the branch into #1678 once CI is green.
 
 ## Follow-ups
 
@@ -367,6 +409,8 @@ Not addressed on this branch: findings 5, 7, 8, 9, 11, 12, 13, and round-2 D.
 - [x] Raise `TERMINATION_TIMEOUT` above 0.5 s (round 2, B) — `ac3e8214`
 - [x] Collapse the third copy of the TERM/KILL escalation (finding 4) — `d495f263`
 - [x] Replace the `galaxy_version` parameter threading with `lru_cache` (finding 6) — `d9c440ec`
+- [x] Validate `PLANEMO_TERMINATION_TIMEOUT` as finite/in-range and align the parent wait with
+      `timeout + KILL_SETTLE_TIMEOUT` (round 3) — `05996f37`
 - [ ] Move `test_sleep_fails_immediately_for_invalid_url` out of the shared helpers module (round 2, D)
 - [ ] Declare `use_multiprocessing` on `BaseGalaxyConfig` and drop the `getattr` (finding 5)
 - [ ] Extract the duplicated startup-failure message in `serve.py` (finding 7)

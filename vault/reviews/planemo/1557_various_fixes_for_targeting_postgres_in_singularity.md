@@ -361,10 +361,12 @@ Left as a follow-up rather than smuggled into a CI fix.
 - [x] Move the "skip database creation" decision out of `DockerPostgresDatabaseSource` (finding 10) — reverted outright
 - [ ] Decide how the serve path resolves a profile's database location
 - [x] Restore `create_database` to the ABC or drop it from the callers — back on the ABC
-- [ ] Decide whether `auto` should prefer postgres for a one-off run (the one line)
+- [x] Decide whether `auto` should prefer postgres for a one-off run (the one line) — mvdbeek: no, the psql probe is a bug
 - [ ] Build the `SqliteDatabaseSource` the factory placeholder promises
 - [x] Push the rebase + fixes — went to jmchilton's fork, opened as #1679; #1557 closed
 - [x] File the `wait_on` dedupe — **#1680**
+- [x] Address mvdbeek's three inline comments on #1679 — `8774dc1c`, pushed
+- [ ] Replace the `which("psql")` probe in `factory.py` / `profiles.py` (separate PR)
 
 ## Spun out
 
@@ -383,3 +385,52 @@ Decided *against* rewriting the polling loop in `planemo/database/postgres_singu
 Its `for`/`else` is correct — the `else` fires only on exhaustion — and switching to `wait_on` is a wash
 on line count while losing the periodic "Waiting for the postgres database to initialize." message, which
 is the only sign of life during a cold `docker://postgres` pull.
+
+## mvdbeek's review on #1679 (2026-08-22)
+
+Approved, with three inline comments. All three are addressed in `8774dc1c` on
+`postgres_singularity_fix_rebased`.
+
+1. **`config.py:173` — "1679 is this PR, i'm not seeing any discussion."** Correct: the
+   `MANAGED_DATABASE_TYPES` comment pointed at the PR that carries it, so it referred a reader to
+   nothing. The paragraph is gone; two factual lines remain. The same comment adds the substantive
+   point below — *"presence of psql determining anything at all is a bug we should fix"* — which
+   settles the one open policy call in this review's favour but is not itself fixed here (see
+   "The psql probe").
+
+2. **`config.py:1286` — the docstring repeats the module comment; promote the kwds.** Both done.
+   `_database_connection` now reads
+   `(database_location: str, database_connection: Optional[str] = None, database_type: Optional[str] = None, **kwds)`
+   and the docstring is one line. mypy is clean on the file — the two names were only ever pulled
+   out with `kwds.get`, and the sole caller (`config.py:479`) already passes them inside `**kwds`.
+   `create_database_source` gets `database_type=` back explicitly since it is no longer in `kwds`.
+
+3. **`tests/test_galaxy_config.py:111` — hard-coded `/tmp` path.** The three unit tests never
+   touched the filesystem — the location is only interpolated into `DATABASE_LOCATION_TEMPLATE`
+   and compared as a string, so it would not in fact have failed on macOS. Fixed anyway, via the
+   existing `TempDirectoryContext` from `tests/test_utils.py` rather than a bare module-level
+   `mkdtemp()`, which would leak a directory per test session. All three pass.
+   `test_database_connection_override_path` fails locally for an unrelated reason (it installs a
+   real Galaxy, which this machine has no checkout for).
+
+### The psql probe
+
+mvdbeek's "presence of psql determining anything at all is a bug" closes finding 7: `auto` should
+not have meant postgres, and `MANAGED_DATABASE_TYPES` stays as it is. But the probe he objects to
+lives in two other places this PR does not touch:
+
+- `planemo/database/factory.py:16-24` — `auto` → `postgres` if `which("psql")`, else docker, else
+  singularity, else **raise**.
+- `planemo/galaxy/profiles.py:89-97` — the same ladder, except the final `else` is **sqlite**, with
+  a `RuntimeError` fallback to sqlite if `create_database` then fails.
+
+`--database_type postgres` is documented as "an existing postgres server you user can access without
+a password via the psql command" (`options.py:1850`). `which("psql")` proves the *client* is
+installed and nothing about a reachable server, so `auto` picks postgres on any machine with the
+postgres client package. The profile path degrades to sqlite when the create fails; the factory path
+just fails.
+
+Two shapes for a fix: probe for reachability (`psql --list` succeeds) instead of presence, or drop
+the ladder and make `auto` mean sqlite, requiring an explicit `--database_type` for the
+`database_*` commands. Either is a behaviour change to `profile_create` defaults, so it wants its
+own PR rather than a rider on an approved one.
