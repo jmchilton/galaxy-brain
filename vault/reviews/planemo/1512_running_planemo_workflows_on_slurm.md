@@ -201,3 +201,59 @@ not a running process. Heading and the matching intro bullet both say that now.
 database_source.sqlalchemy_url(...)` in the `postgres_singularity` branch is a
 no-op expression over two unbound names. PR #1679 deletes that whole ladder, so
 it is already fixed there; noted only so it isn't rediscovered.
+
+---
+
+## Round 4 — mvdbeek's 7th comment (2026-08-24, after the round-2 push)
+
+> Do we actually keep tools by default ? ... i trust whatever your agent says 😆
+
+On the new profile paragraph. **The claim holds, but the wording was loose**, so it
+was tightened rather than defended.
+
+### Traced
+
+`planemo/cli.py:142-150` — `command_function` applies `ensure_profile` to any
+command carrying `--profile`, `run` included, and `_setup_profile_options`
+folds the result into `kwds` unless the option was given on the CLI.
+
+`planemo/galaxy/profiles.py:208-236` (`_profile_options`) supplies explicit
+`shed_tool_conf`, `shed_tool_path`, `shed_tool_data_table_config`,
+`shed_data_manager_config`, `tool_dependency_dir`, and
+`mulled_resolution_cache_data_dir`, all under the profile directory.
+
+`planemo/galaxy/config.py:1730-1757` (`_shed_config_paths`) resolves each file
+as explicit value → under `--shed_data_dir` → **ephemeral per-run config
+directory**. A profile takes the first branch; a bare run falls to the third.
+
+### Demonstrated
+
+Same resolver, profile kwds vs. empty kwds:
+
+| | profile | bare run |
+|---|---|---|
+| `shed_tool_path` | `<ws>/profiles/slurm_cluster/shed_tools` | `<per-run>/shed_tools` |
+| `shed_tool_conf` | `<ws>/profiles/slurm_cluster/shed_tool_conf.xml` | `<per-run>/shed_tools_conf.xml` |
+| `shed_tool_data_table_config` | `<ws>/profiles/slurm_cluster/…` | `<per-run>/…` |
+| `shed_data_manager_config_file` | `<ws>/profiles/slurm_cluster/…` | `<per-run>/…` |
+| `tool_dependency_dir` | `<ws>/profiles/slurm_cluster/deps` | `<per-run>/deps` |
+
+So: yes, by default — `profile_create` alone is enough, no extra flag.
+`--shed_data_dir` is the same persistence for people not using a profile.
+
+### What was actually wrong
+
+"a fresh installation of every tool the workflow needs" overreached. Conda
+packages resolve against a machine-wide conda prefix (`CondaContext(conda_prefix=None)`
+resolves to `~/miniforge3` here), so those are *not* reinstalled per run — only
+Tool Shed tool installs are. The sentence now says "Tool Shed tools" and names
+what the profile keeps, instead of implying dependency downloads repeat.
+
+Head is now `36359f3e`.
+
+### Noted, not acted on
+
+`_profile_options` writes `shed_tool_conf.xml` while `_shed_config_paths`
+defaults to `shed_tools_conf.xml` — same file, two spellings across the two code
+paths. Harmless today because the profile passes an explicit value, but it will
+confuse the next reader.
