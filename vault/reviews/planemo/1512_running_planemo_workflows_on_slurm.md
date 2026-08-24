@@ -147,17 +147,37 @@ Reproduced before fixing, then red-to-green.
 
 ### Branches
 
-- `jmchilton:doc-run-as-cwl-rebased` — `43a6a3e2`, the doc rewrite. PR #1683.
+- `jmchilton:doc-run-as-cwl-rebased` — `8f0c8a13`, the doc rewrite. PR #1683,
+  now **rebased onto the fixes branch** at the user's request (belt and braces —
+  the two are textually independent). Authorship on Smeds's two commits survived
+  the rebase. GitHub therefore shows #1685's two commits inside #1683's diff
+  until #1685 merges; a fork branch can't be a PR base, so the stack can't be
+  expressed to GitHub any other way. #1683's description now says so.
 - `jmchilton:job-config-init-fixes` — off `origin-https/master` at `75c52d30`,
-  two commits, **no PR opened**:
+  two commits, **PR #1685**:
   - `6d8e2e9f` record the generated job config in the profile
   - `05298e9a` default `job_config_init` to the newest Galaxy the generator knows
     (+ regenerated `docs/commands/{job_config_init,profile_job_config_init}.rst`;
     the generator also rewrites eleven unrelated command docs that have drifted
     from merged PRs — reverted, not this branch's business)
 
-**#1683 should not merge before the fixes branch**, or the TPV example ships the
-legacy layout and the profile example points Galaxy at a JSON file.
+**#1683 should not merge before #1685**, or the TPV example ships the legacy
+layout and the profile example points Galaxy at a JSON file. The rebase now
+enforces that ordering rather than relying on a note.
+
+### Round 3 — prose pass (2026-08-24)
+
+After the rebase, a language pass over the whole document: the opening paragraph
+leads with the constraint rather than the passive "Some data cannot be
+uploaded"; the profile rationale no longer contains the mangled sentence "On a
+cluster that is slow, and it is repeated work"; passive constructions
+("Generating into a profile ... is refused") became active; and every prose line
+is rewrapped to the file's 80-column convention, leaving only the three
+unbreakable link-target URLs long, as in the original.
+
+One accuracy fix fell out of the pass: the section heading said "Reuse the
+instance with a profile", but a profile reuses the database and installed tools,
+not a running process. Heading and the matching intro bullet both say that now.
 
 ### Validation
 
