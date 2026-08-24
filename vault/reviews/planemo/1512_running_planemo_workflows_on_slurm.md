@@ -251,9 +251,42 @@ what the profile keeps, instead of implying dependency downloads repeat.
 
 Head is now `36359f3e`.
 
-### Noted, not acted on
+### Round 5 — the shed_tool_conf spelling (2026-08-24)
 
-`_profile_options` writes `shed_tool_conf.xml` while `_shed_config_paths`
-defaults to `shed_tools_conf.xml` — same file, two spellings across the two code
-paths. Harmless today because the profile passes an explicit value, but it will
-confuse the next reader.
+`_profile_options` writes `shed_tool_conf.xml`; `_shed_config_paths` defaulted to
+`shed_tools_conf.xml`. Same file, two spellings. Surveyed the tree: the kwarg,
+the `--shed_tool_conf` option, `config.py:262`'s pre-`shed_data_dir` path,
+profiles, and Galaxy itself all say **singular** — `_shed_config_paths` was the
+lone plural. So it is a slip, not a convention.
+
+Not purely cosmetic to fix, though: `--shed_data_dir` shipped in **0.75.45**
+(2026-07-15, ~6 weeks ago), so a pinned directory in the wild can already hold
+`shed_tools_conf.xml`. Renaming outright would leave that file orphaned and
+silently reinstall every shed tool it records. `_resolve` now takes an optional
+legacy basename and keeps an existing file when it finds one.
+
+Branch `jmchilton:shed-tool-conf-naming` off `origin-https/master` at
+`75c52d30`, one commit, **no PR opened**. Also renames `shed_tools_conf_option`
+to match the `--shed_tool_conf` it declares.
+
+Validation:
+- two renamed assertions confirmed red before the fix
+- the legacy-name test mutation-checked: dropping the fallback argument fails it
+- `pytest tests/test_galaxy_config.py -k shed_config`: 5 passed
+- flake8 / black clean
+- `test_database_connection_override_path` and `test_override_files_path` fail in
+  the full `test_galaxy_config.py` run, but they fail identically on pristine
+  master — they bootstrap a real Galaxy and the system `/usr/bin/python3` is
+  3.9.6. Not related.
+
+## Findings ledger
+
+Six review comments, four fixed in prose alone. The other two each turned out to
+sit on a real defect, and two more defects surfaced while checking them.
+
+| Finding | Status |
+|---|---|
+| `profile_job_config_init` records the options JSON as `job_config_file` | Fixed, PR #1685 |
+| `--galaxy_version` default pinned to 24.2 vs the library's 25.0 | Fixed, PR #1685 |
+| `shed_tool_conf.xml` vs `shed_tools_conf.xml` | Fixed, branch `shed-tool-conf-naming`, no PR |
+| `profiles.py:114` no-op over unbound names in the `postgres_singularity` branch | Already fixed by PR #1679; left alone |
