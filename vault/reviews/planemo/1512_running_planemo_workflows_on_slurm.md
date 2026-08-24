@@ -98,3 +98,86 @@ are explicitly left for administrators to supply.
   commit restarted the check suite, so the latest head should be merged only
   after that run is green
 
+
+---
+
+## Round 2 — mvdbeek's six review comments on #1683 (2026-08-24)
+
+Marius approved #1683 and left six review comments on `docs/_running_slurm.rst`.
+All six are addressed; two of them could not be honoured truthfully without
+first fixing planemo code, so the doc branch now **depends on a second branch**.
+
+| # | Comment | Disposition |
+|---|---|---|
+| 1 | "replace singularity throughout with apptainer" (`:59`) | Prose says Apptainer. The **flag stays `--singularity`** and the generated keys stay `singularity_enabled` / `singularity_cmd` — one sentence now says so instead of the doc silently mixing both names. |
+| 2 | "This has been fixed, all of the workflow tests also pass on sqlite" (`:64`) | Dropped the Database requirements subsection, the "PostgreSQL is optional but recommended" line, and the postgres `planemo run` example. |
+| 3 | "assume modern galaxy without the version flag, so that this ages better" (`:99`) | Flag dropped from both examples — **after** fixing the default it falls back to. See below. |
+| 4 | "After this i would strongly recommend setting up a profile" (`:83`) | New "Reuse the instance with a profile" section after the first single-server run, and the job config is now generated into the profile via `profile_job_config_init`. **This command was broken.** See below. |
+| 5 | empty ```suggestion``` deleting `:181-187` + "no need for postgres" | "Database is locked" troubleshooting section deleted. |
+| 6 | "Smeds worked against a cluster with completely broken network... I would drop that" (`:189`) | "Galaxy exits during tool installation" section deleted. Only "Port already in use" survives. |
+
+### Comment 3 exposed an inverted default
+
+`planemo/options.py:208` pinned `--galaxy_version` to `"24.2"`, while
+`gxjobconfinit.generate:284` defaults to `"25.0"` when the value is `None`.
+`generate.py:323` branches on `galaxy_version < "25.0"`.
+
+So simply deleting the flag — exactly what was asked — would have selected the
+**legacy** layout, not a modern one. Verified by generating both:
+
+- `--runner slurm --singularity`: byte-identical with and without the flag.
+- `--runner slurm --tpv --singularity`: without the flag you get
+  `runner: dynamic` + `rules_module: tpv.rules` + a `tpv.yml` you must write
+  yourself, and `tpvdb_slurm` only as a **commented-out** template. The doc's
+  surrounding prose ("edit the generated `job_conf.yml` to configure the
+  `tpvdb_slurm` destination") is only true of the 25.0 output.
+
+Fix: pass `None` through so the library's own default applies and moves with it.
+
+### Comment 4 exposed a broken command
+
+`planemo/galaxy/profiles.py:260-275` writes `job_conf.yml` into the profile and
+then records **`planemo_profile_options.json`** as the profile's
+`job_config_file`. A profile set up with `profile_job_config_init` hands Galaxy
+its own options JSON as a job configuration; the Slurm config never takes
+effect. `tests/test_cmd_profile_job_config_init.py` only asserted exit codes,
+which is why it survived.
+
+Reproduced before fixing, then red-to-green.
+
+### Branches
+
+- `jmchilton:doc-run-as-cwl-rebased` — `43a6a3e2`, the doc rewrite. PR #1683.
+- `jmchilton:job-config-init-fixes` — off `origin-https/master` at `75c52d30`,
+  two commits, **no PR opened**:
+  - `6d8e2e9f` record the generated job config in the profile
+  - `05298e9a` default `job_config_init` to the newest Galaxy the generator knows
+    (+ regenerated `docs/commands/{job_config_init,profile_job_config_init}.rst`;
+    the generator also rewrites eleven unrelated command docs that have drifted
+    from merged PRs — reverted, not this branch's business)
+
+**#1683 should not merge before the fixes branch**, or the TPV example ships the
+legacy layout and the profile example points Galaxy at a JSON file.
+
+### Validation
+
+- `pytest tests/test_cmd_job_config_init.py tests/test_cmd_profile_job_config_init.py`: 8 passed
+- Both new tests confirmed red before the fixes
+- `flake8` / `black --check` / `isort --check-only` clean on all four changed files
+- End-to-end on the fixed branch: `profile_create` + `profile_job_config_init
+  --runner slurm --tpv --singularity` yields `dynamic_tpv`, an uncommented
+  `tpvdb_slurm`, `https://gxy.io/tpv/db.yml`, `singularity_cmd: singularity`,
+  a commented `drmaa_library_path`, `native_specification`, `tmp_dir: true`,
+  and a profile recording the real `job_conf.yml`
+- Re-running `profile_job_config_init` into a populated profile refuses — the
+  doc's caveat about deleting `job_conf.yml` or using a second profile is real
+- Full Sphinx build: 22 warnings, all pre-existing autodoc/toctree noise, none
+  from `running.rst` or `_running_slurm.rst`
+- `git diff --check`: clean
+
+### Not acted on
+
+`planemo/galaxy/profiles.py:114` (master) — `database_connection +
+database_source.sqlalchemy_url(...)` in the `postgres_singularity` branch is a
+no-op expression over two unbound names. PR #1679 deletes that whole ladder, so
+it is already fixed there; noted only so it isn't rediscovered.
