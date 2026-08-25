@@ -1,5 +1,7 @@
 # Handling Package Versions
 
+> Historical deep dive. The canonical package plan is in [`PLAN.md`](PLAN.md); its release floor supersedes the early `galaxy>=26.1` example below.
+
 How Planemo depends on Galaxy once Galaxy runs inside Planemo's own Python environment. Scoped to the `embedded_galaxy` engine; see `PROBLEM_AND_GOAL.md` for the engine itself.
 
 ## Context

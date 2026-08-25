@@ -1,5 +1,7 @@
 # Background Work: Celery and Job Handlers
 
+> Historical deep dive. Settled decisions and resolved questions are in [`PLAN.md`](PLAN.md) and [`RESEARCH_RESOLUTIONS.md`](RESEARCH_RESOLUTIONS.md).
+
 How asynchronous tasks and jobs get done when Galaxy has only one process. See `PROCESS_LIFECYCLE.md` for shutdown and `LOGGING_AND_OUTPUT.md` for where output lands.
 
 ## Context

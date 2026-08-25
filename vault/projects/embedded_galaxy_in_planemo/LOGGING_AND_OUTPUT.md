@@ -1,5 +1,7 @@
 # Logging and Output
 
+> Historical deep dive. The canonical file-backed, Rich-safe logging decision is in [`PLAN.md`](PLAN.md).
+
 What the user sees when Galaxy runs inside Planemo's process. See `TRANSPORT_AND_SERVER_MODEL.md` for the threaded-uvicorn decision and `PROCESS_LIFECYCLE.md` for shutdown.
 
 ## Context

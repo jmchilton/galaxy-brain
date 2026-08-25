@@ -1,5 +1,7 @@
 # Process Lifecycle
 
+> Historical deep dive. [`RESEARCH_RESOLUTIONS.md`](RESEARCH_RESOLUTIONS.md) supersedes the custom-SIGINT and unresolved repeat-launch choices below.
+
 Startup ordering, shutdown, signals, and cleanup for the `embedded_galaxy` engine. See `TRANSPORT_AND_SERVER_MODEL.md` for the decision to run uvicorn on a background thread, which is what makes most of this hard.
 
 ## Context

@@ -1,5 +1,7 @@
 # Wheel Issues
 
+> Historical issue inventory. Galaxy PR [#23360](https://github.com/galaxyproject/galaxy/pull/23360) resolves or corrects several entries; see [`UPSTREAM_23360_REVIEW.md`](UPSTREAM_23360_REVIEW.md) and [`RESEARCH_RESOLUTIONS.md`](RESEARCH_RESOLUTIONS.md) for current status.
+
 Places where Galaxy assumes a source checkout and degrades silently under a wheel install. Collected while researching the `embedded_galaxy` engine, which is the first Planemo context with no Galaxy checkout anywhere.
 
 Everything below was read in source and, where marked **[ran it]**, reproduced. Items marked **[reported, unverified]** came out of research and have not been independently confirmed.

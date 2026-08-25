@@ -1,5 +1,7 @@
 # Embedded Galaxy Engine for Planemo (`--engine embedded_galaxy`)
 
+> Historical design brief. Use [`PLAN.md`](PLAN.md) for implementation and [`UPSTREAM_23360_REVIEW.md`](UPSTREAM_23360_REVIEW.md) for the current Galaxy prerequisite.
+
 ## Scope and Assumptions
 
 - **This document assumes [planemo#1678](https://github.com/galaxyproject/planemo/pull/1678) ("Use Gravity multiprocessing for modern Galaxy") is merged**, and is written against that baseline. That work gives the existing `galaxy` engine a real process-lifecycle story - Gravity's `multiprocessing` process manager for Galaxy 25.0.1+, foreground `run.sh` in its own process group behind a `daemon_monitor`, `terminate_process_group` escalation, detach-on-success - and it establishes conventions this engine should follow rather than re-invent. It also introduces the assumption that a Galaxy version can be read off a checkout, which this engine has to break.

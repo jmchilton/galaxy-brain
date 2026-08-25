@@ -1,5 +1,7 @@
 # Transport and Server Model
 
+> Historical deep dive. The loopback/pre-bound-socket lifecycle is finalized in [`PLAN.md`](PLAN.md).
+
 How the embedded engine gets a running Galaxy and how Planemo talks to it. Scoped to the `embedded_galaxy` engine; see `PROBLEM_AND_GOAL.md` for the engine itself and `HANDLING_PACKAGE_VERSIONS.md` for how Galaxy gets installed.
 
 ## Decision
