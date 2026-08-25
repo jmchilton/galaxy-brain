@@ -1,0 +1,824 @@
+# Workflow Semantics - Discovered Facts
+# Each record: test (identifier), fact (behavioral description), context (utility for a semantics doc)
+
+# =============================================================================
+# OPTIONAL DATA INPUTS
+# =============================================================================
+
+- test: test_workflows.py::test_run_with_optional_data_specified_to_multi_data
+  fact: Optional data input when provided is consumed normally by multi-data tool.
+  context: Positive baseline example for optional data input behavior.
+
+- test: test_workflows.py::test_run_with_optional_data_unspecified_to_multi_data
+  fact: Optional data input when omitted causes tool to receive empty input and produce default "No input selected" output.
+  context: Key example - defines what tools see when optional data is absent.
+
+- test: test_workflows.py::test_run_with_optional_data_unspecified_survives_delayed_step
+  fact: Omitted optional data input survives delayed scheduling ($link) without causing failure.
+  context: Edge case example - interaction between optional inputs and delayed scheduling.
+
+- test: test_workflows.py::test_run_with_non_optional_data_unspecified_fails_invocation
+  fact: Required (non-optional) data input that is unspecified fails invocation with 400 error.
+  context: Counter-example to optional behavior - documents the required-input contract.
+
+- test: test_workflows.py::test_run_with_optional_collection_specified
+  fact: Optional collection input when provided executes normally.
+  context: Positive baseline for optional collections - parallel to optional data.
+
+- test: test_workflows.py::test_run_with_optional_collection_unspecified
+  fact: Optional collection input when omitted produces default placeholder output.
+  context: Parallel to unspecified optional data - extends pattern to collections.
+
+- test: test_workflows.py::test_run_with_non_optional_collection_unspecified_fails_invocation
+  fact: Required collection input that is unspecified fails invocation.
+  context: Counter-example - required collection contract mirrors required data contract.
+
+# =============================================================================
+# OPTIONAL INPUTS IN SUBWORKFLOWS
+# =============================================================================
+
+- test: test_workflows.py::test_run_subworkflow_with_optional_data_unspecified
+  fact: Omitted optional data in parent workflow propagates correctly through subworkflow with delayed scheduling.
+  context: Important example - optional nulls must cross subworkflow boundaries.
+
+- test: test_workflows.py::test_run_subworkflow_with_optional_parent_input_connected_but_not_provided
+  fact: When parent's optional input is connected to subworkflow but not provided, NO_REPLACEMENT is pre-populated before subworkflow executes, preventing delayed scheduling failure.
+  context: Regression fix - documents a subtle interaction between NO_REPLACEMENT sentinel and subworkflow scheduling. Good edge case example.
+
+- test: test_workflows.py::test_run_subworkflow_with_boolean_parameter_in_when_condition
+  fact: Boolean false parameter passed through subworkflow with delayed scheduling is not converted to None during when expression evaluation.
+  context: Regression fix - false vs None distinction is critical. Counter-example to naive null-coercion.
+
+# =============================================================================
+# DEFAULT VALUES
+# =============================================================================
+
+- test: default_values.gxwf-tests.yml (test 1)
+  fact: Required parameter with default value uses the default when input is omitted from invocation.
+  context: Baseline positive example for default value behavior.
+
+- test: default_values.gxwf-tests.yml (test 2)
+  fact: Explicit null for a required parameter with default does NOT trigger the default - it overrides it and causes failure.
+  context: Critical distinction - default applies only when omitted, not when explicitly null. Counter-example.
+
+- test: default_values.gxwf-tests.yml (test 3)
+  fact: Empty string for a required parameter with default does NOT trigger the default - it overrides it and causes failure.
+  context: Parallel to explicit null case - empty string is a value, not an omission. Counter-example.
+
+- test: default_values_optional.gxwf-tests.yml (test 1)
+  fact: Optional parameter with default value uses the default when input is omitted.
+  context: Shows optional+default behaves same as required+default for the omission case.
+
+- test: default_values_optional.gxwf-tests.yml (test 2)
+  fact: Explicit null on optional parameter with default overrides the default and causes failure.
+  context: Potentially surprising - optional+default still fails on explicit null. Documents that "optional" doesn't mean "null-safe".
+
+- test: default_values_optional.gxwf-tests.yml (test 3)
+  fact: Empty string on optional parameter with default overrides the default and causes failure.
+  context: Same as above for empty string. Reinforces that defaults only apply on omission.
+
+- test: test_workflows.py::test_run_replace_params_over_default
+  fact: Step parameters specified in invocation override tool default values.
+  context: Documents the override precedence - invocation params > tool defaults.
+
+- test: test_workflows.py::test_run_replace_params_over_default_delayed
+  fact: Step parameter override works correctly even with delayed scheduling after pause step.
+  context: Edge case - override precedence holds through delayed scheduling.
+
+- test: test_workflows.py::test_run_subworkflow_with_required_input_with_default_unconnected
+  fact: Subworkflow with unconnected required parameter that has a default value uses the default automatically.
+  context: Useful example - disconnected required input with default doesn't fail, it uses the default.
+
+# =============================================================================
+# OPTIONAL TEXT PARAMETERS AND TYPE COERCION
+# =============================================================================
+
+- test: optional_text_to_bool.gxwf-tests.yml (test 1)
+  fact: Omitted optional text parameter connected to expression tool (text_to_bool) evaluates to false, causing downstream conditional step to be skipped.
+  context: Key example of the optional->expression->when pipeline. Documents null text -> false coercion path.
+
+- test: optional_text_to_bool.gxwf-tests.yml (test 2)
+  fact: Provided optional text parameter connected to expression tool evaluates to true, causing downstream conditional step to execute.
+  context: Positive complement to the omission case above.
+
+- test: test_workflows.py::test_workflow_optional_input_text_parameter_reevaluation
+  fact: Optional text parameters with empty string defaults are reevaluated correctly in nested workflow context.
+  context: Edge case - empty string default + nested workflow reevaluation.
+
+- test: optional_text_param_rescheduling.gxwf-tests.yml
+  fact: Scheduling succeeds when step needs rescheduling with unspecified optional parameters.
+  context: Edge case - interaction between optional params and rescheduling.
+
+# =============================================================================
+# WHEN EXPRESSIONS
+# =============================================================================
+
+- test: test_workflows.py::test_run_workflow_invalid_when_expression
+  fact: Invalid when expression syntax (e.g. "$(:syntaxError:)") causes invocation failure with expression_evaluation_failed reason.
+  context: Error case - documents the failure mode for bad expressions.
+
+- test: test_workflows.py::test_run_workflow_fails_when_expression_not_boolean
+  fact: When expression that evaluates to non-boolean (e.g. string "false") fails with when_not_boolean error including the actual type name.
+  context: Critical counter-example - string "false" is NOT boolean false. Type strictness documented.
+
+- test: test_workflows.py::test_run_workflow_conditional_step_map_over_expression_tool
+  fact: When mapping over collection with expression tool producing booleans, each element is independently evaluated for conditional execution - true elements run, false elements are skipped.
+  context: Core example of collection mapping + when expression interaction.
+
+- test: test_workflows.py::test_run_workflow_conditional_subworkflow_step_map_over_expression_tool
+  fact: Subworkflow conditional steps inherit collection mapping from parent. Each collection element's boolean controls subworkflow step execution independently.
+  context: Extension of above into subworkflows - documents per-element when evaluation.
+
+- test: test_workflows.py::test_run_workflow_conditional_subworkflow_step_map_over_expression_tool_with_extra_nesting
+  fact: Nested workflows with conditional subworkflow steps and disconnected map_over sources maintain collection context correctly.
+  context: Stress test of the mapping+when+subworkflow combination.
+
+- test: test_workflows.py::test_run_workflow_conditional_subworkflow_step_map_over_expression_tool_with_extra_nesting_skip_all
+  fact: When all elements in a mapped conditional subworkflow are skipped (all false), the workflow completes successfully with all-skipped output.
+  context: Edge case - all-skip scenario doesn't cause failure.
+
+- test: test_workflows.py::test_run_workflow_conditional_step_map_over_expression_tool_pick_value
+  fact: Multiple mapped conditional steps producing different outputs can feed into pick_value using first_or_error strategy, selecting the non-skipped output.
+  context: Documents pick_value as the canonical way to handle mapped conditional results.
+
+# =============================================================================
+# EXPRESSION.JSON VS REGULAR DATASETS
+# =============================================================================
+
+- evidence: lib/galaxy/workflow/modules.py::to_cwl
+  fact: Datasets with extension "expression.json" are deserialized as JSON values in CWL context, while regular datasets become File objects with location/format/path properties.
+  context: Fundamental distinction - this is the fork point for how datasets enter expression evaluation. Core doc material.
+
+- evidence: lib/galaxy/workflow/modules.py::to_cwl
+  fact: Before deserializing expression.json, datasets are checked for ready state, ok status, and purged status. Not-ready raises DelayedWorkflowEvaluation, failed/purged raises FailWorkflowEvaluation.
+  context: Documents the pre-conditions for expression evaluation - important for understanding failure modes.
+
+- evidence: lib/galaxy/workflow/modules.py::to_cwl
+  fact: Collections are converted to CWL as arrays (list type) or dicts (record type) recursively, with element identifiers as keys for records.
+  context: Documents collection->CWL conversion rules. Useful reference material.
+
+- evidence: lib/galaxy/workflow/modules.py::from_cwl
+  fact: CWL File objects with "step_input://" locations are resolved back to original HDA references.
+  context: Documents the round-trip conversion path. Complements to_cwl docs.
+
+- test: test_workflows.py::test_expression_tool_output_in_format_source
+  fact: expression.json outputs from conditional skipped steps create null expression.json datasets; pick_value filters these; format_source on the result still works.
+  context: Complex interaction example - expression.json + conditional skip + pick_value + format_source.
+
+- evidence: lib/galaxy/workflow/modules.py::ToolModule.execute
+  fact: When a non-data tool parameter receives an expression.json dataset, it is deserialized from JSON rather than treated as file reference.
+  context: Documents how expression.json flows into tool parameters vs data inputs differently.
+
+# =============================================================================
+# LEGACY SYNTAX COMPATIBILITY
+# =============================================================================
+
+- evidence: lib/galaxy/workflow/modules.py::evaluate_value_from_expressions
+  fact: Legacy when expression syntax "${inputs.when}" (23.0) is automatically converted to "$(inputs.when)" (23.1+).
+  context: Backwards compatibility note - useful but potentially redundant if only documenting current behavior.
+
+# =============================================================================
+# NO_REPLACEMENT SENTINEL
+# =============================================================================
+
+- evidence: lib/galaxy/tools/parameters/workflow_utils.py::NoReplacement
+  fact: NoReplacement is a singleton sentinel representing a missing optional input value. It converts to None in CWL context.
+  context: Core concept - should be defined early in any semantics doc. Referenced by many other facts.
+
+- test: optional_param_default_value.gxwf-tests.yml
+  fact: Omitting optional parameter from invocation does not leak NO_REPLACEMENT sentinel into PJA output renames - template "${variable}" remains as literal string.
+  context: Regression fix - documents that NO_REPLACEMENT must not escape into user-visible text.
+
+# =============================================================================
+# STEP SKIPPING AND HIDDEN OUTPUTS
+# =============================================================================
+
+- test: test_workflow_invocation.py::test_run_workflow_optional_data_skips_step
+  fact: Optional data input with null value causes dependent conditional steps to be skipped entirely.
+  context: Core example of step skipping behavior.
+
+- test: test_workflow_invocation.py::test_run_workflow_optional_data_provided_runs_step
+  fact: Same workflow with provided optional data executes the conditional step.
+  context: Positive complement to the skip case.
+
+- evidence: lib/galaxy/workflow/modules.py::ToolModule.execute
+  fact: When a step is completely skipped (when_values == [False]) and not executing in a subworkflow collection context (not progress.subworkflow_collection_info), its outputs are marked invisible to avoid UI confusion.
+  context: UI behavior detail - skipped steps don't pollute history. Note this is inside a collection_info branch so collection mapping IS happening.
+
+- evidence: lib/galaxy/workflow/modules.py::ToolModule.execute
+  fact: ConditionalStepWhen parameter receiving false raises SkipWorkflowStepEvaluation, preventing job creation entirely.
+  context: Implementation detail of the skip mechanism - useful for understanding the execution model.
+
+# =============================================================================
+# PICK VALUE
+# =============================================================================
+
+- test: test_workflow_invocation.py::test_pick_value_preserves_datatype_and_inheritance_chain
+  fact: pick_value tool preserves dataset datatype and inheritance chain (copied_from_history_dataset_association_id) when selecting from conditional outputs.
+  context: Important behavioral guarantee - pick_value doesn't lose provenance.
+
+# =============================================================================
+# EMPTY COLLECTIONS
+# =============================================================================
+
+- test: test_workflows.py::test_empty_list_mapping
+  fact: Empty collections can be mapped over without errors, producing empty output collections.
+  context: Edge case baseline - empty in, empty out, no error.
+
+- test: test_workflows.py::test_empty_list_reduction
+  fact: Empty collections can be reduced/aggregated without errors.
+  context: Parallel to empty mapping - extends pattern to reduction.
+
+- test: empty_collection_sort.gxwf-tests.yml
+  fact: Collection operations like sort work correctly with filtered (empty) collections.
+  context: Another empty collection edge case - operations on post-filter empty collections.
+
+# =============================================================================
+# FILTER OPERATIONS
+# =============================================================================
+
+- test: filter_null.gxwf-tests.yml (test 1)
+  fact: __FILTER_NULL__ tool with when expression true keeps all non-null datasets in collection.
+  context: Positive example of filter_null behavior.
+
+- test: filter_null.gxwf-tests.yml (test 2)
+  fact: __FILTER_NULL__ tool with when expression false discards all datasets, producing empty collection.
+  context: Documents filter_null + when interaction.
+
+# =============================================================================
+# PARAMETER CONNECTIONS AND TYPE HANDLING
+# =============================================================================
+
+- test: test_workflows.py::test_run_with_text_input_connection
+  fact: Text parameters can be connected to tool inputs via $link expression.
+  context: Baseline example of parameter-to-tool connections.
+
+- test: test_workflows.py::test_run_with_numeric_input_connection
+  fact: Numeric expression outputs can be connected to tool inputs requiring numeric parameters.
+  context: Documents cross-type parameter connections.
+
+- test: integer_into_data_column.gxwf-tests.yml
+  fact: Integer parameter can be connected to data_column parameter type.
+  context: Specific type coercion example - integer -> data column.
+
+- test: multiple_integer_into_data_column.gxwf-tests.yml
+  fact: Multiple integer parameters can be connected to multi-column parameter.
+  context: Extension of above to multi-value case.
+
+- test: test_workflows.py::test_run_with_validated_parameter_connection_optional
+  fact: Text parameter connections through validation tools work correctly.
+  context: Baseline for validated parameter connections.
+
+- test: test_workflows.py::test_run_with_validated_parameter_connection_invalid
+  fact: Invalid parameter values in validated connections cause job failure.
+  context: Error case for parameter validation.
+
+- test: test_workflows.py::test_run_with_validated_parameter_connection_default_values
+  fact: Parameter inputs with default values work correctly in validated parameter connections.
+  context: Interaction between defaults and validation.
+
+# =============================================================================
+# COLLECTION MAPPING (NON-COLLECTION-SEMANTICS-DOC)
+# =============================================================================
+
+- test: flat_over_paired_or_unpaired.gxwf-tests.yml (test 1)
+  fact: Flat list mapped over paired_or_unpaired input produces list output preserving collection type.
+  context: Potentially redundant with collection_semantics.yml - but relevant to workflow-level mapping behavior.
+
+- test: flat_over_paired_or_unpaired.gxwf-tests.yml (test 2)
+  fact: Flat sample_sheet mapped over paired_or_unpaired produces sample_sheet output.
+  context: Same as above - collection type preservation through workflow mapping.
+
+- test: triply_nested_list_mapping.gxwf-tests.yml (test 1)
+  fact: list:list:list parameter consumed directly without mapping when tool accepts that depth.
+  context: Potentially redundant with collection_semantics.yml.
+
+- test: triply_nested_list_mapping.gxwf-tests.yml (test 2)
+  fact: Mapping over list:list:list input produces list output when tool consumes inner structure.
+  context: Potentially redundant with collection_semantics.yml.
+
+- test: subcollection_rank_sorting.gxwf-tests.yml
+  fact: Tools receive most specific matching collection type; excess nesting levels trigger implicit mapping.
+  context: Likely redundant with collection_semantics.yml rank matching documentation.
+
+- test: subcollection_rank_sorting_paired.gxwf-tests.yml
+  fact: Paired collection rank matching follows same depth-specificity rules as list collections.
+  context: Likely redundant with collection_semantics.yml.
+
+# =============================================================================
+# REPLACEMENT PARAMETERS (PJA)
+# =============================================================================
+
+- test: replacement_parameters_text.gxwf-tests.yml
+  fact: Text parameters can be implicitly used as replacement parameters in workflow step PJA output renaming.
+  context: Documents PJA parameter substitution mechanism.
+
+- test: replacement_parameters_legacy.gxwf-tests.yml
+  fact: Legacy implicit runtime parameters work in PJA.
+  context: Backwards compatibility - may be redundant if only documenting current behavior.
+
+- test: replacement_parameters_nested.gxwf-tests.yml
+  fact: Text parameters can cross subworkflow boundaries for use in nested PJA renaming.
+  context: Documents parameter propagation through subworkflows.
+
+- test: test_workflows.py::test_parameter_substitution_sanitization
+  fact: Parameter substitution in PJA sanitizes special characters (quotes -> __dq__).
+  context: Security-relevant behavior - sanitization prevents injection.
+
+# =============================================================================
+# WORKFLOW OUTPUTS
+# =============================================================================
+
+- test: test_workflows.py::test_optional_workflow_output
+  fact: Workflow outputs can be conditionally absent if source tool doesn't produce output.
+  context: Documents optional workflow output behavior.
+
+- test: test_workflows.py::test_workflow_optional_input_filtering
+  fact: Tools with optional inputs can filter outputs based on whether input was provided.
+  context: Documents input-dependent output filtering.
+
+- test: rename_based_on_input_collection.gxwf-tests.yml
+  fact: Output dataset renaming can reference input collection names via template substitution.
+  context: Specific PJA feature - may be tangential to core semantics.
+
+# =============================================================================
+# MULTI-SELECT AND MULTI-DATA
+# =============================================================================
+
+- test: multi_select_mapping.gxwf-tests.yml
+  fact: List of multi-select parameters maps over job execution creating list output collection.
+  context: Documents parameter-driven collection mapping.
+
+- test: multiple_text.gxwf-tests.yml
+  fact: Multiple text parameters can be fed into multi_select parameters.
+  context: Documents multi-value parameter handling.
+
+# =============================================================================
+# MISC WORKFLOW FEATURES
+# =============================================================================
+
+- test: multiple_versions.gxwf-tests.yml
+  fact: Workflows run with specified tool versions, not just latest.
+  context: Tangential to core semantics - more about tool resolution.
+
+- test: flatten_collection.gxwf-tests.yml
+  fact: Flatten collection operation works correctly in workflows.
+  context: Potentially redundant with collection_semantics.yml.
+
+- test: zip_collection.gxwf-tests.yml
+  fact: __ZIP_COLLECTION__ operation works in workflows.
+  context: Potentially redundant with collection_semantics.yml.
+
+- test: test_workflows.py::test_run_with_default_file_dataset_input
+  fact: Workflow inputs can have default file datasets that are used when input is omitted.
+  context: Documents file-level defaults (distinct from parameter defaults).
+
+- test: test_workflows.py::test_run_with_default_file_dataset_input_and_explicit_input
+  fact: Default file dataset input can be overridden with explicit input.
+  context: Override behavior for file defaults - parallel to parameter default override.
+
+- test: test_workflows.py::test_run_with_default_file_in_step_inline
+  fact: Step-level default file dataset inputs (inline in step definition) work correctly.
+  context: Alternative default mechanism - step-inline vs workflow-input-level.
+
+- test: test_workflows.py::test_subworkflow_inputs_optional_editor
+  fact: Optional input parameters in subworkflows are correctly serialized in editor format.
+  context: Editor serialization detail - may be tangential.
+
+- test: test_workflows.py::test_subworkflow_missing_input_connection_error
+  fact: Subworkflows with disconnected required inputs fail with validation error.
+  context: Error case for subworkflow wiring.
+
+- test: test_workflows.py::test_defaults_editor
+  fact: Default values in workflow steps persist through editor serialization/deserialization roundtrip.
+  context: Editor behavior - tangential to runtime semantics.
+
+# =============================================================================
+# CONNECTION RESTRICTIONS
+# =============================================================================
+
+- test: test_workflows.py::test_value_restriction_with_data_meta_filter
+  fact: Text parameter with restrictOnConnections generates option list from tool metadata filter.
+  context: Documents connection-restricted parameter behavior.
+
+- test: test_workflows.py::test_value_restriction_with_select_from_subworkflow_input
+  fact: restrictOnConnections restrictions propagate through subworkflow parameter boundaries.
+  context: Edge case - restrictions cross subworkflow boundaries.
+
+# =============================================================================
+# INVOCATION STATE MACHINE
+# =============================================================================
+
+- evidence: lib/galaxy/schema/invocation.py::InvocationState, lib/galaxy/schema/invocation.py::InvocationStepState
+  fact: WorkflowInvocation states are NEW -> READY -> SCHEDULED -> COMPLETED/FAILED/CANCELLED. InvocationStep states are NEW -> READY -> SCHEDULED. Steps don't expose terminal states.
+  context: Foundation - prerequisite for understanding scheduling, failure, and cancellation semantics.
+
+# =============================================================================
+# STEP ORDERING AND CYCLE DETECTION
+# =============================================================================
+
+- evidence: lib/galaxy/workflow/steps.py::attach_ordered_steps
+  fact: Workflow steps are topologically ordered at import time. Self-connections and circular dependencies are detected (has_cycles flag) and prevent execution.
+  context: Foundation - establishes that step ordering is a DAG guarantee.
+
+# =============================================================================
+# FAILURE TAXONOMY
+# =============================================================================
+
+- evidence: lib/galaxy/workflow/run.py::__invoke
+  fact: Three failure pathways exist at the invoker level - CancelWorkflowEvaluation triggers cancel(), FailWorkflowEvaluation marks as failed, unexpected exceptions cause failure with "unexpected_failure" reason. Each attaches a message to the invocation.
+  context: Core failure taxonomy - essential for documenting how workflows terminate abnormally.
+
+- evidence: lib/galaxy/schema/invocation.py::FailureReason
+  fact: Expected failure reasons (dataset_failed, collection_failed, job_failed, output_not_found, when_not_boolean, step_input_deleted) are exposed to users. Unexpected failures (expression_evaluation_failed, unexpected_failure) are logged but details hidden to avoid leaking secrets.
+  context: Security model for failure reporting - some error details intentionally redacted.
+
+# =============================================================================
+# DELAY AND FAILURE PROPAGATION
+# =============================================================================
+
+- evidence: lib/galaxy/workflow/run.py::WorkflowProgress.replacement_for_connection
+  fact: When a step output is referenced but not yet produced, the step is marked STEP_OUTPUT_DELAYED and DelayedWorkflowEvaluation is raised. Downstream steps are also delayed (cascade).
+  context: Documents dependency delay propagation - distinct from failure propagation.
+
+- evidence: lib/galaxy/workflow/run.py::WorkflowProgress.replacement_for_connection
+  fact: Dataset collections that fail to populate (not waiting_for_elements and not populated) cause FailWorkflowEvaluation with InvocationFailureCollectionFailed. This is a hard failure, not a delay.
+  context: Distinguishes collection population failure from delay - important boundary.
+
+- evidence: lib/galaxy/workflow/run.py::WorkflowProgress.replacement_for_connection
+  fact: Non-data parameter inputs that use a dataset/collection from a step have stricter requirements - dataset must be ready and ok. Pending = delay, failed/purged = FailWorkflowEvaluation with InvocationFailureDatasetFailed.
+  context: Expression inputs have stricter readiness requirements than data flow inputs.
+
+# =============================================================================
+# PAUSE AND CANCELLATION
+# =============================================================================
+
+- test: test_workflows.py::test_workflow_pause
+  fact: Pause steps block workflow scheduling. Approving (action=true) continues execution. Rejecting (action=false) cancels the workflow with cancelled_on_review reason.
+  context: Pause is a user-in-the-loop mechanism with binary outcome.
+
+- test: test_workflows.py::test_cancel_workflow_invocation
+  fact: Deleting a workflow invocation while running transitions to cancelled with user_request reason and deletes all associated jobs.
+  context: User cancellation semantics and cleanup behavior.
+
+- test: test_workflows.py::test_cancel_new_workflow_when_history_deleted
+  fact: Deleting the target history cancels all non-terminal invocations with history_deleted reason. Works for both NEW and SCHEDULED states.
+  context: External resource deletion triggers workflow cancellation.
+
+# =============================================================================
+# FAILURE FILTERING OPERATIONS
+# =============================================================================
+
+- test: test_workflows.py::test_filter_failed_mapping
+  fact: __FILTER_FAILED_DATASETS__ removes failed datasets from a mapped collection, reducing collection size for downstream steps.
+  context: Failure filtering is a first-class collection operation - distinct from filter_null.
+
+- test: test_workflows.py::test_keep_success_mapping_paused
+  fact: __KEEP_SUCCESS_DATASETS__ filters mapped collections at execution time, keeping only successful datasets. Paused datasets don't propagate downstream when filtered.
+  context: Interaction between paused state, mapping, and output filtering.
+
+# =============================================================================
+# SUBWORKFLOW WIRING VALIDATION
+# =============================================================================
+
+- evidence: lib/galaxy/workflow/run.py::WorkflowProgress.subworkflow_progress
+  fact: Subworkflows with disconnected required inputs fail at invocation time with output_not_found reason ONLY if the input has no default value. Disconnected required inputs WITH defaults automatically use the default.
+  context: Clarifies subworkflow wiring validation - defaults bypass connection requirements.
+
+# =============================================================================
+# FAILURE RECOVERY
+# =============================================================================
+
+- test: test_workflows.py::test_workflow_resume_from_failed_step
+  fact: When a failed step is resumed via rerun_remap_job_id, dependent steps that were paused due to the failure transition to ok and continue execution.
+  context: Failure recovery semantics - distinct from initial execution and re-invocation.
+
+# =============================================================================
+# IMPLICIT COLLECTION MATCHING
+# =============================================================================
+
+- evidence: lib/galaxy/workflow/modules.py::WorkflowModule._find_collections_to_match
+  fact: Implicit collection matching uses matching.CollectionsToMatch to find collections needing mapping. The algorithm respects direct_match, can_map_over, and subcollection_type to determine mapping depth.
+  context: Core matching algorithm - bridges collection_semantics.yml concepts to workflow runtime.
+
+# =============================================================================
+# SCHEDULING LIMITS AND TIMEOUTS
+# =============================================================================
+
+- test: test/integration/test_workflow_scheduling_options.py::TestMaximumWorkflowInvocationDuration::test
+  fact: When maximum_workflow_invocation_duration is set (e.g. 20 seconds) and a workflow stalls (e.g. on a pause step), the invocation transitions to "failed" state after the duration elapses. Before the timeout the invocation remains in a non-failed state.
+  context: Directly answers Q13 partially - timeout causes failure. Still unclear whether in-flight jobs are cancelled or orphaned.
+
+- test: test/integration/test_workflow_scheduling_options.py::TestMaximumWorkflowJobsPerSchedulingIteration::test_collection_explicit_and_implicit
+  fact: With maximum_workflow_jobs_per_scheduling_iteration=1, a multi-step workflow with collection operations (explicit creation + implicit mapping + reduction) still completes successfully. Steps are scheduled across multiple iterations, one job per iteration.
+  context: Directly answers Q15 - the limit throttles jobs per iteration but remaining steps resume in subsequent iterations. Workflow completes normally.
+
+- test: test/integration/test_workflow_scheduling_options.py::TestMaximumWorkflowJobsPerSchedulingIteration::test_scheduling_rounds
+  fact: With maximum_workflow_jobs_per_scheduling_iteration=1, a 4-step sequential workflow (cat -> cat -> dynamic list creation -> count) completes across multiple scheduling rounds, including steps that produce dynamic collections.
+  context: Reinforces Q15 answer and adds that dynamic collection creation also works correctly under per-iteration job limits.
+
+# =============================================================================
+# PJA BEHAVIOR ON SKIPPED STEPS
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/workflow/modules.py::ToolModule.execute (job_callback), lib/galaxy/tools/actions/__init__.py::DefaultToolAction.execute (skip handling), lib/galaxy/job_execution/actions/post.py::ChangeDatatypeAction (ChangeDatatypeAction skip check)
+  fact: PJAs DO execute on skipped steps. When a step is skipped, a job is still created (state=SKIPPED) with placeholder datasets (extension=expression.json, content="null", visible=False via set_skipped()). The job_callback that runs PJAs fires unconditionally. Most PJAs (Hide, Delete, Tag, Rename) operate on the placeholder datasets harmlessly. Only ChangeDatatypeAction has explicit skip-awareness - it returns early to preserve expression.json extension.
+  context: Answers Q5, but scoped to the job path only. A step with no job (pick_value, mapped-over tool outputs) dispatches through ActionBox.execute_on_mapped_over instead, where the supported set and the skip guard are both different - see PJA DISPATCH ON STEPS WITH NO JOB below. ChangeDatatypeAction is no longer the only action with explicit skip-awareness.
+
+# =============================================================================
+# DATASET "READY" STATE DEFINITION
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/workflow/modules.py::to_cwl (to_cwl checks), lib/galaxy/model/__init__.py::Dataset (ready_states), lib/galaxy/model/__init__.py::DatasetInstance (is_ok/is_pending), lib/galaxy/schema/schema.py::DatasetState (DatasetState enum)
+  fact: >-
+    "Ready" for expression evaluation is a two-tier check. Tier 1 - Dataset.in_ready_state() means NOT in {NEW, UPLOAD, QUEUED, RUNNING, SETTING_METADATA}. Ready states include OK, EMPTY, ERROR, PAUSED, FAILED_METADATA, DEFERRED, DISCARDED. Tier 2 - is_ok requires state == OK specifically. In to_cwl(), not-ready -> DelayedWorkflowEvaluation (retry later), ready-but-not-ok -> FailWorkflowEvaluation (hard fail), purged -> FailWorkflowEvaluation. So "ready" means "stop waiting, we have an answer" while "ok" means "the answer is good."
+  context: Answers Q21. The two-tier distinction is important - ERROR is "ready" (don't delay) but not "ok" (fail the workflow).
+
+# =============================================================================
+# SKIPPED STEP WORKFLOW OUTPUT (Q3)
+# =============================================================================
+
+- test: skipped_step_output.gxwf-tests.yml (test 1)
+  fact: Workflow output sourced from a conditionally-skipped step (when=false, no pick_value) produces a null expression.json dataset that is hidden (visible=false).
+  context: Answers Q3 directly - output is not absent or an error, it's a hidden null placeholder.
+
+- test: skipped_step_output.gxwf-tests.yml (test 2)
+  fact: Same workflow with when=true executes the step and produces real visible output with original file content.
+  context: Positive complement to Q3 - confirms the conditional controls both execution and output visibility.
+
+- test: skipped_mapped_output.gxwf-tests.yml
+  fact: Mapped conditional step with mixed true/false boolean values produces an output collection where executed elements have real content and skipped elements have expression.json null content.
+  context: Q3 collection variant - element ordering preserved, skipped elements are null placeholders not gaps.
+
+# =============================================================================
+# WHEN EXPRESSION TYPE STRICTNESS (Q8)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/workflow/modules.py::evaluate_value_from_expressions (isinstance check), from_cwl passthrough at lib/galaxy/workflow/modules.py::from_cwl, test_workflows.py::test_run_workflow_fails_when_expression_not_boolean (test_run_workflow_fails_when_expression_not_boolean)
+  fact: >-
+    When expression results are strictly boolean-only via isinstance(result, bool). There is NO coercion of falsy values. None, 0, "", [] would all fail with when_not_boolean error reporting their actual type. The from_cwl() function passes non-File values through unchanged, and JavaScript evaluation preserves types. The only tested non-boolean case is string "false" (via $("false")) which fails with "Type is: str".
+  context: >-
+    Answers Q8. Strict type checking, no coercion. Untested but predictable: 0 would fail as "Type is: int", None as "Type is: NoneType", etc.
+
+# =============================================================================
+# PARAMETER CONNECTION TYPE HANDLING (Q9)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/workflow/run.py::WorkflowProgress.replacement_for_input (replacement_for_input), lib/galaxy/workflow/run.py::WorkflowProgress.replacement_for_connection (replacement_for_connection), lib/galaxy/workflow/modules.py::ToolModule.execute (parameter replacement)
+  fact: Parameter connections have NO type validation or coercion. Values flow through unchanged from source to destination. The from_json() methods on parameter types (which DO coerce - e.g. int(), float(), string_as_bool) are NOT called for connected values. The only special handling is expression.json deserialization (lib/galaxy/workflow/modules.py::ToolModule.execute) and the bool() cast for ConditionalStepWhen (lib/galaxy/workflow/modules.py::ToolModule.execute).
+  context: Answers Q9. No type matrix exists because there's no type checking. Cross-type connections (integer output -> text input) are untested and could behave unexpectedly since the tool receives a Python int instead of a string.
+
+- evidence: Code analysis of lib/galaxy/tools/parameters/basic.py::IntegerToolParameter.from_json (IntegerToolParameter.from_json), lib/galaxy/tools/parameters/basic.py::BooleanToolParameter.from_json (BooleanToolParameter.from_json via string_as_bool)
+  fact: Tool parameter from_json() methods DO perform coercion (int() for integers, string_as_bool() for booleans where "true"/"yes"/"on"/"1" -> True, everything else -> False). But these are only called during tool parameter deserialization from JSON, NOT during workflow connection resolution. This means the coercion rules differ depending on whether a value comes from a connection vs from step state.
+  context: Important nuance - same tool input behaves differently depending on value source. Could be a source of subtle bugs.
+
+# =============================================================================
+# JOB FAILURE PROPAGATION (Q1)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/workflow/run.py::WorkflowInvoker.__check_implicitly_dependent_steps (__check_implicitly_dependent_steps iterates non_data_connection inputs only), lib/galaxy/workflow/run.py::WorkflowInvoker.__check_implicitly_dependent_step (__check_implicitly_dependent_step checks job.state, raises InvocationFailureJobFailed), lib/galaxy/workflow/run.py::WorkflowProgress.replacement_for_connection (replacement_for_connection checks dataset.is_ok for non-data inputs)
+  fact: Job failure propagates via two distinct paths. Non-data connections (parameters) trigger __check_implicitly_dependent_step() which checks job.state BEFORE inputs are evaluated - if job.state != OK, raises FailWorkflowEvaluation with InvocationFailureJobFailed. Data-only connections never trigger the job state check - instead downstream fails when replacement_for_connection() finds dataset in ERROR state, raising InvocationFailureDatasetFailed.
+  context: Answers Q1. The failure reason differs by connection type (JobFailed vs DatasetFailed) even though both result in workflow failure. A step with only data connections to a failed upstream will fail on dataset state, not job state.
+
+# =============================================================================
+# PAUSE STEP DEPENDENCIES (Q2)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/workflow/run.py::WorkflowInvoker.__check_implicitly_dependent_steps (implicit dep check only iterates non_data_connection), lib/galaxy/workflow/run.py::WorkflowProgress.replacement_for_connection (STEP_OUTPUT_DELAYED raises DelayedWorkflowEvaluation), lib/galaxy/workflow/modules.py::PauseModule.execute (PauseModule.execute marks output delayed), lib/galaxy/workflow/run.py::WorkflowInvoker.__check_implicitly_dependent_step TODO comment context
+  fact: Pause steps do NOT create implicit dependencies. The implicit dependency check (lib/galaxy/workflow/run.py::WorkflowInvoker.__check_implicitly_dependent_steps) only checks non_data_connection inputs. Pause steps use data connections, so they're never checked. Downstream steps that consume pause output are blocked because replacement_for_connection() finds STEP_OUTPUT_DELAYED and raises DelayedWorkflowEvaluation. Steps NOT connected to the pause step run immediately. The TODO at lib/galaxy/workflow/run.py::WorkflowInvoker.__check_implicitly_dependent_step is about job-finished checking for pause steps (which have no jobs), not about adding new implicit ordering.
+  context: Answers Q2. Blocking is connection-based, not type-based. Unconnected steps run freely regardless of pause state.
+
+# =============================================================================
+# SCHEDULING ITERATION STATE PERSISTENCE (Q14)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/workflow/run.py::WorkflowInvoker.__init__ (new WorkflowProgress each iteration), lib/galaxy/workflow/run.py::WorkflowProgress.remaining_steps (remaining_steps rebuilds state), lib/galaxy/workflow/run.py::WorkflowProgress.remaining_steps (inject_all reloads tools), lib/galaxy/workflow/run.py::WorkflowProgress.remaining_steps (compute_runtime_state from persisted JSON), lib/galaxy/workflow/run.py::WorkflowProgress.remaining_steps (recover_mapping for completed steps), lib/galaxy/workflow/modules.py::WorkflowModule.recover_mapping (recover_mapping reads output_datasets/output_dataset_collections from DB)
+  fact: Scheduling uses hybrid state persistence. Persisted in DB between iterations - InvocationStep records (state, job_id), step output dataset/collection associations, workflow inputs, parameter inputs, tool input runtime state as JSON. Rebuilt fresh each iteration - WorkflowProgress instance (outputs dict starts empty), tool info (inject_all), runtime state (compute_runtime_state from persisted JSON). Completed step outputs are recovered from DB via recover_mapping(), not re-executed. Parameter evaluations are effectively recomputed each iteration.
+  context: Answers Q14. Key implication - completed steps are never re-executed, but delayed steps are re-evaluated from scratch with recovered upstream outputs.
+
+# =============================================================================
+# NULL PROPAGATION CHAINS (Q4)
+# =============================================================================
+
+- test: null_propagation_three_step_chain.gxwf-tests.yml (test 1 - should_run=false)
+  fact: When a step is skipped (when=false), downstream steps receiving its expression.json null output as data input also produce expression.json null output. Skip propagates through the entire chain - all 3 outputs are expression.json containing "null".
+  context: Answers Q4 for data inputs. Null/skip status propagates indefinitely through data-input chains. Downstream tools do NOT process the expression.json file literally.
+
+- test: null_propagation_three_step_chain.gxwf-tests.yml (test 2 - should_run=true)
+  fact: Same 3-step chain with when=true executes all steps normally with real output.
+  context: Control case confirming the chain works when not skipped.
+
+- test: null_propagation_data_chain_pick_value.gxwf-tests.yml (test 1 - should_run=false)
+  fact: Null propagation passes through a data-input cat step and pick_value correctly recognizes the propagated null, selecting the fallback file instead.
+  context: Extends Q4 - pick_value treats propagated nulls as null (not as literal expression.json files), enabling fallback selection.
+
+- test: null_propagation_data_chain_pick_value.gxwf-tests.yml (test 2 - should_run=true)
+  fact: Same workflow with when=true - pick_value selects the real output over the fallback.
+  context: Control case.
+
+- test: null_propagation_param_chain.gxwf-tests.yml (test 1 - param omitted)
+  fact: Null propagates through expression tool parameter chains. Each expression_null_handling_text tool receives null via expression.json deserialization, outputs expression.json null, and the next step deserializes it again. All 3 outputs contain "null".
+  context: Answers Q4 for parameter inputs. Null is preserved as a JSON value through expression evaluation, not lost or converted.
+
+- test: null_propagation_param_chain.gxwf-tests.yml (test 2 - param="hello_world")
+  fact: Same 3-step expression tool chain passes real text value through unchanged.
+  context: Control case for parameter chain.
+
+# =============================================================================
+# SUBWORKFLOW MAPPING COMBINATION (Q10)
+# =============================================================================
+
+- test: subworkflow_mapping_combination.gxwf-tests.yml
+  fact: When parent maps list_a over a subworkflow (single_from_parent expects data, gets list -> 1 level of mapping) and the subworkflow internally maps over list_b (collection_to_map expects list, gets list -> direct match, 0 levels), the output is a flat list, NOT list:list. The system finds one mapping axis from the parent level. The subworkflow's internal mapping does not add a second nesting level.
+  context: Answers Q10. Consistent with collection_semantics.yml - implicit mapping resolves the gap between provided and expected collection depth across all inputs simultaneously, not per-input independently. Subworkflows behave like tools in this regard. Two inputs don't each contribute independent mapping axes.
+
+# =============================================================================
+# INVOCATION TIMEOUT JOB HANDLING (Q13)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/workflow/run.py::WorkflowInvoker.invoke (timeout calls set_state(FAILED) and returns), lib/galaxy/workflow/scheduling_manager.py::WorkflowRequestMonitor.__attempt_schedule (user cancellation calls cancel_invocation_steps()), lib/galaxy/model/__init__.py::WorkflowInvocation.cancel_invocation_steps (cancel_invocation_steps sets jobs to DELETING)
+  fact: When maximum_workflow_invocation_duration is exceeded, the invocation transitions to FAILED but in-flight jobs are ORPHANED - they continue executing unaware of the timeout. The timeout path calls set_state(FAILED) directly without calling cancel_invocation_steps(). This is asymmetric with user-initiated cancellation which DOES call cancel_invocation_steps() to set jobs to DELETING state.
+  context: Answers Q13 remainder. Likely a bug or missing feature - timeout should arguably clean up jobs like cancellation does.
+
+# =============================================================================
+# NESTED ERROR PATH TRACING (Q16)
+# =============================================================================
+
+- evidence: >-
+    Code analysis of lib/galaxy/workflow/run.py::WorkflowInvoker.invoke (appends step order_index to workflow_step_index_path on FailWorkflowEvaluation in subworkflow steps), lib/galaxy/schema/invocation.py::InvocationMessageBase (InvocationMessageBase has workflow_step_index_path: Optional[list[int]]), lib/galaxy/model/__init__.py::WorkflowInvocationMessage (persisted as JSON in WorkflowInvocationMessage)
+  fact: Galaxy builds error paths through nested subworkflows via workflow_step_index_path - a list of step order_index values from parent through subworkflows (excludes the failing step itself). When FailWorkflowEvaluation is caught and the current step is a subworkflow, the step's order_index is appended to the path. Persisted as JSON in WorkflowInvocationMessage. No integration test exists for deep nesting (3+ levels).
+  context: Answers Q16. Mechanism exists and is well-structured but untested for deep nesting.
+
+# =============================================================================
+# JOB CACHE MECHANISM (Q19)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/managers/jobs.py::JobSearch (JobSearch.by_tool_input and __search), lib/galaxy/tools/actions/__init__.py::DefaultToolAction.execute (cache reuse creates new job with copied_from_job_id)
+  fact: Job cache uses DB-based parameter matching. Cache hit requires exact match on tool ID+version, user ID, job state (OK), input dataset IDs, and all non-ignored tool parameters (JSON-serialized, sorted keys, byte-for-byte). Ignored params include __use_cached_job__, __workflow_invocation_uuid__, __when_value__, __input_ext, chromInfo, dbkey, and *|__identifier__. On cache hit, a new job is created with copied_from_job_id pointing to the original and output datasets reference the same underlying dataset objects. No explicit invalidation mechanism exists - entries are immutable DB records.
+  context: Answers Q19. Only way to get a cache miss is to change an input parameter or dataset.
+
+# =============================================================================
+# FORMAT_SOURCE BEHAVIOR (Q12)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/tools/actions/__init__.py::determine_output_format (determine_output_format), lib/galaxy/tools/actions/__init__.py::get_ext_or_implicit_ext (get_ext_or_implicit_ext), lib/galaxy/tools/evaluation.py::ToolEvaluator._eval_format_source (late evaluation for expression.json)
+  fact: format_source silently overrides the declared format attribute with the source dataset's extension. No compatibility validation occurs. get_ext_or_implicit_ext() respects implicit conversions (returns parent type if dataset was implicitly converted). If format_source lookup fails (bad reference), it silently falls back to the declared format via try/except pass. Late evaluation path handles expression.json outputs separately.
+  context: Answers Q12. Silent override by design, not a bug. format_source is intended to be more specific than static format declaration.
+
+# =============================================================================
+# RESUME VS RERUN SEMANTICS (Q7)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/tools/actions/__init__.py::DefaultToolAction.execute (rerun_remap_job_id trigger), lib/galaxy/tools/actions/__init__.py::DefaultToolAction._remap_job_on_rerun (_remap_job_on_rerun), lib/galaxy/model/__init__.py::Job.resume (job.resume() PAUSED->NEW), test_workflows.py::test_workflow_resume_from_failed_step (test_workflow_resume_from_failed_step)
+  fact: >-
+    "Resume from failed step" is NOT a first-class workflow concept. It's an implicit side effect of re-running a failed tool with rerun_remap_job_id parameter on /api/tools. The _remap_job_on_rerun() method creates a new job, hides old failed outputs, updates all downstream jobs' parameters to reference new outputs via __remap_parameters(), then calls job.resume() on each downstream paused job (PAUSED -> NEW). The SAME invocation continues - same ID, stays in "scheduled" state. Downstream jobs re-execute with remapped inputs.
+  context: >-
+    Answers Q7 resume path. Key: resume is continuation of an existing invocation, not a new one.
+
+- evidence: Code analysis of lib/galaxy/tools/actions/__init__.py::DefaultToolAction.__remap_data_inputs (__remap_data_inputs, __remap_parameters), lib/galaxy/tools/actions/__init__.py::DefaultToolAction._remap_job_on_rerun (collection element remapping via replace_failed_elements)
+  fact: Job remapping builds a mapping of old failed output HDAs to new successful output HDAs, then updates downstream job parameters to reference the new datasets. For dataset collections, replace_failed_elements() updates collection elements. Old failed outputs are marked invisible. Authorization check ensures only jobs belonging to the current user are remapped.
+  context: Implementation detail of the remapping mechanism. Collection support and authorization are important guarantees.
+
+- evidence: Code analysis contrasting rerun_remap_job_id path (same invocation, lib/galaxy/tools/actions/__init__.py::DefaultToolAction.execute) with new invocation path (POST /api/workflows/{id}/invocations, fresh invocation ID)
+  fact: >-
+    "Rerun" (re-invoke) creates a completely new workflow invocation with a new ID and fresh state. All steps execute from scratch or use cached jobs if use_cached_job=True. No relationship to previous invocation exists. This is fundamentally different from resume - resume continues the same invocation, rerun starts a new one.
+  context: Answers Q7 rerun path. The two mechanisms are orthogonal - resume fixes a failure in-place, rerun starts fresh.
+
+- evidence: Code analysis of lib/galaxy/model/__init__.py::Job.resume (job.resume recursively resumes dependent jobs via unpause_dependent_jobs)
+  fact: job.resume() is recursive - it changes the job's state from PAUSED to NEW, then iterates output_datasets and calls unpause_dependent_jobs() which collects all transitively dependent paused jobs and resumes them too. This means a single rerun_remap_job_id call can cascade resume through an arbitrarily deep dependency chain.
+  context: Important behavioral guarantee - resume cascades through the full downstream chain, not just immediate dependents.
+
+# =============================================================================
+# EXPRESSION EVALUATION CONTEXT (Q11)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/tools/expressions/cwlNodeEngine.js (VM globals), cwl_utils.expression.do_eval (inputs alias), lib/galaxy/workflow/modules.py::to_cwl (to_cwl type conversion), lib/galaxy/workflow/modules.py::evaluate_value_from_expressions (context construction)
+  fact: Expression evaluation uses CWL-based JavaScript via Node.js (cwlNodeEngine.js, vm.runInNewContext). Available globals in the JS context are $job (all connected step inputs), $self (output context), $runtime, $tmpdir, $outdir. The "inputs" alias used in $(inputs.foo) is provided by cwl_utils.expression.do_eval() upstream, not Galaxy's code. Galaxy passes the step_state dict as jobinput, cwl_utils exposes it as both $job and inputs.
+  context: Foundational - defines what expressions can access.
+
+- evidence: Code analysis of lib/galaxy/workflow/modules.py::to_cwl (to_cwl), lib/galaxy/tool_util/cwl/util.py::set_basename_and_derived_properties (set_basename_and_derived_properties)
+  fact: >-
+    "to_cwl() type mapping: HDA (non-expression.json) -> File object with .path, .location, .format, .basename, .nameroot, .nameext properties. HDA (expression.json) -> deserialized JSON via json.load() (any JSON type). HDCA list -> Array recursively. HDCA record/other -> Object keyed by element_identifier. NoReplacement -> null. Text -> String. Integer/Float -> Number. Boolean -> true/false. RuntimeValue -> null."
+  context: Complete type conversion table - defines how Galaxy objects appear inside expressions.
+
+- evidence: Code analysis of lib/galaxy/workflow/modules.py::from_cwl (from_cwl)
+  fact: from_cwl() converts expression results back to Galaxy types. Handles File dicts (with class+location keys) via progress.raw_to_galaxy(), lists recursively, and primitives as passthrough. Dicts without class+location keys raise NotImplementedError - complex object results from expressions cannot be converted back to Galaxy types.
+  context: Important limitation - expressions can produce objects internally but can't return them to Galaxy.
+
+- evidence: Code analysis of lib/galaxy/workflow/modules.py::evaluate_value_from_expressions (evaluate_value_from_expressions), specifically lines 265 vs 284-287
+  fact: value_from expressions (WorkflowStepInput.value_from) are collected during evaluation setup but NOT evaluated in evaluate_value_from_expressions(). Only when_expression is evaluated in this function. value_from may be handled elsewhere or may be incomplete.
+  context: Potential gap in the expression system - value_from is modeled but appears unused in the workflow scheduling path.
+
+- evidence: Code analysis of lib/galaxy/tools/expressions/cwlNodeEngine.js (expression wrapping)
+  fact: >-
+    "Expression engine details: inline expressions $(...) wrapped as {return expression;}, block expressions ${...} wrapped as IIFE {return function() {...}();}. Executed in isolated V8 VM via vm.runInNewContext(). InlineJavascriptRequirement can provide expressionLib (additional JS prepended). CWL version v1.2.1."
+  context: Engine implementation details - relevant for understanding expression capabilities and limitations.
+
+# =============================================================================
+# PICK VALUE OUTPUT VISIBILITY (Q18)
+# =============================================================================
+
+- test: test_workflows.py::test_pick_value_output_visible_with_hidden_inputs
+  fact: pick_value output does not inherit hidden state from skipped (hidden) inputs. Output visibility is independent of input visibility - even when pick_value selects from inputs where some are hidden (from skipped steps), the result is visible.
+  context: Answers Q18. Important for UI behavior - pick_value "launders" visibility, ensuring the selected result appears in history regardless of input visibility.
+
+# =============================================================================
+# CONDITIONAL MAPPED COLLECTION STRUCTURE (Q17)
+# =============================================================================
+
+- test: skipped_mapped_output.gxwf-tests.yml, test_workflows.py::test_run_workflow_conditional_step_map_over_expression_tool_pick_value
+  fact: When conditional mapping produces mixed skip/run results, element ordering is preserved in the output collection. Skipped elements become expression.json null placeholders occupying their original positions - there are no gaps or removed elements. The collection retains its full size with real datasets at executed positions and null placeholders at skipped positions.
+  context: Answers Q17 explicitly. Collections maintain structural integrity through conditional mapping - consumers can rely on element count and ordering being preserved.
+
+# =============================================================================
+# TWO-LEVEL NESTED PJA PARAMETER SUBSTITUTION (Q20 - TEST CONFIRMED)
+# =============================================================================
+
+- test: replacement_parameters_nested_two_levels.gxwf-tests.yml
+  fact: Text parameters flow through two subworkflow boundaries and are correctly substituted in PJA RenameDatasetAction at the deepest level. Parent passes "my_prefix" -> level1 -> level2 where it's used in output rename, producing "my_prefix deep_output".
+  context: Confirms Q20 - no depth limit on parameter substitution through subworkflow boundaries. Parameters are passed explicitly at each boundary.
+
+# =============================================================================
+# NESTED SUBWORKFLOW ERROR PATH TRACING (Q16 - TEST CONFIRMED)
+# =============================================================================
+
+- test: test_workflows.py::test_nested_subworkflow_error_includes_two_level_step_path
+  fact: >-
+    When a tool fails inside a doubly-nested subworkflow (parent -> outer_sub -> inner_sub -> failing_step with when expression $("not_a_boolean")), the invocation message includes workflow_step_index_path with 2 elements tracing through the subworkflow steps. Failure reason is "when_not_boolean" with details "Type is: str".
+  context: Confirms Q16 with test evidence - error path tracing works for deep nesting. The path length matches the nesting depth (excluding the failing step itself).
+
+# =============================================================================
+# JOB CACHE MISS ON PARAMETER CHANGE (Q19 - TEST CONFIRMED)
+# =============================================================================
+
+- test: test_workflows.py::test_cache_miss_on_parameter_change
+  fact: With use_cached_job=True, running the same workflow with identical tool state (sleep_time=0) produces a cache hit (copied_from_job_id is set). Running with different tool state (sleep_time=1) produces a cache miss (no copied_from_job_id) - a new job executes from scratch.
+  context: Confirms Q19 with test evidence - parameter changes cause cache miss. The cache key includes tool state parameters.
+
+# =============================================================================
+# FORMAT_SOURCE INHERITS INPUT FORMAT (Q12 - TEST CONFIRMED)
+# =============================================================================
+
+- test: format_source_inherits_input.gxwf-tests.yml (test 1 - bed input)
+  fact: Tool with format_source="input1" on output produces output with .bed format when input is .bed.
+  context: Confirms Q12 - format_source overrides tool's default format with input's format.
+
+- test: format_source_inherits_input.gxwf-tests.yml (test 2 - fasta input)
+  fact: Same tool with .fasta input produces output with .fasta format.
+  context: Second data point confirming format_source inherits whatever the input format is, not a fixed type.
+
+# =============================================================================
+# NESTED SUBWORKFLOW OUTPUT ROUTING (#7 FROM COMPLETENESS REVIEW)
+# =============================================================================
+
+- test: replacement_parameters_nested_two_levels.gxwf-tests.yml (same test as Q20)
+  fact: Data and parameter outputs route correctly through two levels of subworkflow nesting. The innermost step's output (create_step/out_file1) flows back through subworkflow_level2 -> subworkflow_level1 -> parent workflow output without special handling. Each subworkflow boundary declares outputSource pointing to the inner step's output.
+  context: Confirms nested subworkflow output routing works at depth 2. No special rules or limitations observed - output connections follow the same outputSource pattern at each level.
+
+# =============================================================================
+# EXPRESSION ERROR UNIFORMITY (#2 FROM COMPLETENESS REVIEW)
+# =============================================================================
+
+- evidence: Code analysis of lib/galaxy/workflow/modules.py::evaluate_value_from_expressions (catches all exceptions from do_eval uniformly), test_workflows.py::test_run_workflow_invalid_when_expression (syntax error), test_nested_subworkflow_error_includes_two_level_step_path (type error via $("not_a_boolean"))
+  fact: All expression evaluation failures (syntax errors, runtime errors, reference errors, type errors) are caught uniformly in a single except block and produce the same expression_evaluation_failed reason. Error details are intentionally hidden from the user for security (expressions may contain secrets). The only post-evaluation type check is isinstance(result, bool) for when expressions, which produces a distinct when_not_boolean reason with the actual type name exposed.
+  context: Important for debugging - users cannot distinguish between $(syntax_error), $(inputs.nonexistent), and $(1/0) from the invocation message. Only when_not_boolean gives type details. This is by design for security.
+
+# =============================================================================
+# PJA DISPATCH ON STEPS WITH NO JOB
+# =============================================================================
+
+- evidence: lib/galaxy/job_execution/actions/post.py::ActionBox.execute_on_mapped_over and the supports_mapped_over flag; lib/galaxy/workflow/modules.py::PickValueModule._apply_post_job_actions; test/unit/job_execution/test_action_box.py
+  fact: A pick_value step has no job, so its PJAs dispatch through ActionBox.execute_on_mapped_over rather than the job-finish path. An action that does not implement execute_on_mapped_over inherits DefaultJobAction's pass and does nothing. Supported - Rename, ChangeDatatype, ColumnSet, Hide, Delete, Tag, RemoveTag. Unsupported - Email, DeleteIntermediates, ValidateOutputs, SetMetadata. Of the unsupported set only Email and DeleteIntermediates are in public_actions, so exactly those two were configurable in the editor and silently inert.
+  context: Which PJAs a step honours depends on whether it runs a job - a distinction the editor did not expose and no error reported. The editor now hides both on pick_value forms and ActionBox warns at dispatch.
+
+- evidence: lib/galaxy/workflow/modules.py::ToolModule._handle_mapped_over_post_job_actions filters on ActionBox.mapped_over_output_actions before dispatching; lib/galaxy/workflow/modules.py::PickValueModule._apply_post_job_actions does not
+  fact: The two no-job call sites differ in what they dispatch. ToolModule pre-filters to mapped_over_output_actions (Rename, Hide, Tag, RemoveTag - all supported), so an unsupported action can never reach it. PickValueModule dispatches every PJA on the step with no allowlist, so it is the only path on which the silent no-op was reachable.
+  context: Explains why the gap went unnoticed - it exists only on pick_value, the newer of the two paths.
+
+- test: pick_value_mapped_skip_pja.gxwf-tests.yml
+  fact: A ChangeDatatype PJA on a mapped-over pick_value step leaves skipped elements as expression.json. The guard lives in the action (DefaultJobAction.mapped_over_dataset_instances, filtering on DatasetInstance.is_skipped) rather than at the call site.
+  context: Downstream skip detection keys on extension == "expression.json", so changing a skipped element's datatype breaks it silently. Guarding in the action means a third call site cannot miss it.
+
+- test: pick_value_mapped_mixed_skip_pja.gxwf-tests.yml
+  fact: With mixed skip/run elements the PJA applies per element - executed elements get the new datatype, skipped elements keep expression.json.
+  context: The guard is element-level, not step-level. Complements the Q17 fact that element ordering survives conditional mapping.
+
+- test: pick_value_mapped_set_columns.gxwf-tests.yml
+  fact: ColumnSetAction on a mapped-over output carries the same element-level skip guard as ChangeDatatypeAction - both route through mapped_over_dataset_instances.
+  context: Confirms the guard generalizes rather than being ChangeDatatype-specific. ColumnSet is the second action to gain execute_on_mapped_over and would have repeated the bug.
+
+- evidence: lib/galaxy/model/__init__.py::DatasetInstance.is_skipped; lib/galaxy/workflow/modules.py::PickValueModule._is_null_or_skipped
+  fact: A dataset instance counts as skipped when extension == "expression.json" AND blurb == "skipped" - both, not either. The predicate sits on DatasetInstance rather than on HistoryDatasetAssociation alone, so it applies to collection elements too.
+  context: Names the skip sentinel. Worth knowing it is a heuristic over two string fields and not a state flag - a genuine expression.json output is distinguished only by its blurb.
+
+# =============================================================================
+# CHANGE DATATYPE ON COLLECTION OUTPUTS
+# =============================================================================
+
+- test: test_workflows.py::test_change_datatype_static_collection_output
+  fact: A ChangeDatatype PJA on a collection whose structure is known up front applies to every element immediately, at tool-action time, because those elements already exist.
+  context: Baseline for the collection half of change_datatype and the counterpart to the discovered case below.
+
+- test: test_workflows.py::test_change_datatype_discovered_outputs
+  fact: For a dynamic (discovered) collection the elements do not exist yet, so the action defers - a PostJobActionAssociation is persisted and consumed at discovery as ext_override, keyed by output name. Job.get_change_datatype_actions filters on action_type only, not on ActionBox.immediate_actions, which is what lets the association survive that far.
+  context: One PJA with two modes. The deferral reads like dead code - both job-finish paths filter immediate_actions out - but it is the only thing that gives a discovered collection the new extension.
