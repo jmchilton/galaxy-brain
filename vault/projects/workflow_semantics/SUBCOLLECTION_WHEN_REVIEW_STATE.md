@@ -10,8 +10,19 @@ what bug this is fixing." Split into two branches off `dev`:
 
 | Branch | Content | Status |
 |---|---|---|
-| `subworkflow_mapping_per_step_semantics` | all-`None` collapse + framework test + unconditional docs | pushed to fork, not opened |
+| `regenerate_collection_semantics_doc` | regenerate the stale generated doc, nothing else | pushed to fork, not opened |
+| `subworkflow_mapping_per_step_semantics` | all-`None` collapse + framework test + unconditional docs | pushed to fork, stacked on the above, not opened |
 | `subworkflow_mapping_when_alignment` | `is_aligned_with` guard + API tests + unit tests + conditional docs | pushed to fork, stacked on the above, not opened |
+
+`doc/source/dev/collection_semantics.md` on dev has been missing the 102-line Type
+Compatibility Algebra section since `39597b3366` (2026-04-25) added it to the YAML without
+regenerating. Every PR touching that file inherited those 102 lines of unrelated diff -
+which is most of why #23369's doc change read as larger than it was. Regenerating first
+takes the first PR's doc diff from 155 lines to its own 53.
+
+Nothing catches this drift: `semantics.py --check` only validates test references (and
+`main()` discards `check()`'s return value besides), and the file is excluded from prettier
+because prettier fights the generator. Worth a CI guard at some point.
 
 Local verification of the split:
 
