@@ -6,8 +6,8 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-08-25
-revised: 2026-08-25
-revision: 1
+revised: 2026-08-26
+revision: 2
 ai_generated: true
 github_issue: 22200
 summary: "Formalizing Galaxy workflow evaluation semantics into a CI-validated documentation artifact, per issue #22200."
@@ -30,7 +30,7 @@ Notes moved here 2026-08-25 from untracked markdown in the
 | | |
 |---|---|
 | First attempt | PR #22217 — closed 2026-03-23, ~1 day old (see status doc §2) |
-| Open PR | [#23369](https://github.com/galaxyproject/galaxy/pull/23369) — keep subworkflow `when` state with the collection it was computed over |
+| Open PR | [#23369](https://github.com/galaxyproject/galaxy/pull/23369) — reviewed 2026-08-26 and **split in two**; see the review-state note |
 | Landed PJA fixes | #23328 / #23330 / #23334 |
 | The real deliverable | still ahead — `workflow_semantics.yml` + CI-validated linkage (status doc §5, PR-B) |
 
@@ -45,7 +45,14 @@ Notes moved here 2026-08-25 from untracked markdown in the
   linked from #22200. This is what PR-B seeds from — filtered to facts whose
   refs still resolve on dev, with line anchors replaced by symbol anchors
   (93% of line anchors rotted in five months; 0% of named-test refs did).
-- **`SUBCOLLECTION_WHEN_PR_DESCRIPTION.md`** — description as posted on PR #23369.
+- **`SUBCOLLECTION_WHEN_REVIEW_STATE.md`** — mvdbeek's 2026-08-26 review of #23369, the
+  two branches it was split into, what was verified locally, and the seven open items.
+- **`PR_UNCONDITIONAL_WHEN_VALUES_DESCRIPTION.md`** — description for the first half:
+  the all-`None` collapse, the framework test, the unconditional docs. Branch
+  `subworkflow_mapping_per_step_semantics`.
+- **`PR_WHEN_ALIGNMENT_DESCRIPTION.md`** — description for the second half: the
+  `is_aligned_with` guard, API + unit tests, conditional docs. Branch
+  `subworkflow_mapping_when_alignment`, stacked on the first.
 - **`WF_SEMANTICS_FACT_QUESTIONS.md`** — the Q1–Q21 question set plus §2's extra
   fact records. **Read with the status doc's §3.8 corrections in hand:** Q1, Q18
   and Q19 are wrong, Q6 was the one genuinely unanswered question, and §2's 15
@@ -70,6 +77,8 @@ Superseded — kept for provenance, not for following.
 - **`NULL_CHAIN_AND_MAPPING_COMBINATION_TESTS.md`** — test plan for Q4 (null
   propagation chains) and Q10 (subworkflow mapping combination). Same fate: Q10's
   file survives as PR-D, the null-chain files fold into `filter_null.gxwf.yml`.
+- **`SUBCOLLECTION_WHEN_PR_DESCRIPTION.md`** — the combined description as posted on
+  #23369, before the split. Superseded by the two descriptions above.
 - **`WHEN_SUBCOLLECTION_ISSUE.md`** — 2026-08-23 session handoff for the
   subworkflow/`when` collection-mapping bug. Superseded by PR #23369; its cited
   HEAD (`950bd75e`) is stale.
