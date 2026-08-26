@@ -9,3 +9,5 @@ fixed — the flagship was 39 commits behind on the first attempt, including its
 Develop a plan for converging existing foundries along some particular axis. If not given extra context - figure out some potential axes and present to the user before digging into a particular axis. 
 
 The instructions (never run before) for standing up new foundries using the Astro pattern is in /Users/jxc755/projects/repositories/foundry-pattern/content/pattern/standing-up-a-foundry.instructions.txt. In addition to reducing duplication between existing foundries - convergence should either result in this document being simplified or the result of running it being a foundry that covers more of the merged structure out of the box.
+
+

@@ -4,22 +4,26 @@ Converging the foundries along the **casting** axis: extract the caster into the
 substrate *and* move its per-kind behaviour out of TypeScript literals onto the kind and
 target declarations, in one migration.
 
-> **Status (2026-08-03).** **Phases 0, 1 and 2 are done.** Phases 0–1 merged to
+> **Status (2026-08-05).** **Phases 0, 1 and 2 are done.** Phases 0–1 merged to
 > galaxyproject/foundry `main` — **#433**, **#434**, **#438**, plus `foundry-pattern` **#31**.
 > Phase 2 shipped `@galaxy-foundry/cast` — jmchilton/foundry-lib **#39** and **#41**, released
-> as **0.2.0** (0.1.0 is the name-claiming stub). The flagship adopts it in **#440**, open and
-> green.
-> **Next: Phase 2.5** — extract the caster itself, which Phase 3 turned out to require.
-> Details in **Progress log**; the split under **How the branch was split**.
+> as **0.2.0** (0.1.0 is the name-claiming stub).
+> **Phase 2.5 is in progress.** Its licence half shipped ahead of everything else
+> (foundry-lib **#42**, statgen **#148**, **#150**). Its extraction half is **#440**, fifteen
+> commits, open and green: **all five extension points are declared** — 4b landed via
+> `cast` 0.5.0 — and the spine has not moved yet.
+> **Condense is fully retired**, term and all, across the substrate and both instances.
+> The four follow-ups 4b turned up are done; the first of them found three bundles that had been
+> silently stale on `main` for a day. **Next: the spine move.** Details in **Progress log**.
 >
-> Three plan changes decided along the way, all recorded below: **#6 and #7 are dropped from
+> Four plan changes decided along the way, all recorded below: **#6 and #7 are dropped from
 > Phase 1** (target-renderer work with no second target to justify it, after `8c73a44` deleted
-> the only two candidates), **Phase 0's steps 2–3 collapsed** (the flagship narrows rather
-> than the substrate deleting, so no cross-repo release exists), and **Phase 2's ships list is
-> cut** — the verify manifest and the renderer turned out to be built from one instance's Mold
-> vocabulary, so they stay put until Phase 3 produces a second implementation. A fourth followed:
-> **Phase 2.5 was added**, because Phase 3 assumed a caster that Phase 2 had explicitly declined
-> to extract.
+> the only two candidates), **Phase 0's steps 2–3 collapsed and then un-collapsed** (the flagship
+> narrowed rather than the substrate deleting — and three weeks later the substrate deleted after
+> all, see the progress log), and **Phase 2's ships list is cut** — the verify manifest and the
+> renderer turned out to be built from one instance's Mold vocabulary, so they stay put until
+> Phase 3 produces a second implementation. A fourth followed: **Phase 2.5 was added**, because
+> Phase 3 assumed a caster that Phase 2 had explicitly declined to extract.
 
 Decisions taken up front (see "Decisions" at the end for the reasoning):
 - **Scope:** extract + declarative together.
@@ -317,7 +321,11 @@ corpus built on summarizing paywalled work.
 `applyLicensePolicy` re-asks the same question at cast time using `mode`, and never reads
 `global_rules`. That is the whole defect.
 
-**Fix, in dependency order:**
+**Fix, in dependency order — all four shipped 2026-08-03/04.** Steps 1–2 are foundry-lib
+**#42**, released as `license-policy` 0.3.0 / `cast` 0.3.0 and taken by the flagship in
+`6e72892`. Steps 3–4 are statgen **#148**, which chose a better remedy than step 4 as written —
+see the progress log. Statgen deleted its own copy of the rule in **#150**, once its pin could
+reach the release.
 
 1. **Substrate, upstream — independent of #440.** Lift `declaresVerbatimCarry` into
    `@galaxy-foundry/license-policy`, beside the `global_rules` it implements, and have
@@ -483,6 +491,9 @@ byte-identity had forced the `cast:` blocks to describe behaviour as it was, con
   `foundry-lib` nor statgen needs any change, and the cross-repo release this phase was said to
   be blocked on does not exist.** The narrowing is load-bearing on contact: the validator now
   rejects `mode: condense`, which is what moved two fixtures off it.
+  **Reversed 2026-08-04**, once the pattern site stopped naming condensation and both instances
+  had declined the term independently — the original step 2 was right about the destination and
+  wrong about the timing. See "Condense is retired outright" below.
 - **`23a8cad`** (foundry-pattern) re-scopes the site's claim. `the-model` and
   `anatomy-of-an-instance` both implied a mixed pipeline; the honest version is stronger — the
   pattern fixes the *ordering*, how far the deterministic half reaches is a domain question, and
@@ -662,6 +673,178 @@ passing: 32 of 47 bundles carry licensed refs and 42 `license_file_hash` values 
 timed out at the 5s default on separate runs — always a timeout, never a wrong answer — because
 these tests spawn `tsx` or read all 374 built pages. Now 60s.
 
+### Phase 2.5, the licence half — done, and step 4 was solved better than specified
+
+**foundry-lib #42** (`license-policy` 0.3.0, `cast` 0.3.0). `declaresVerbatimCarry` moved beside
+the `global_rules` it implements, and the cast-time check consults it via a new `derived` field on
+`ProvenanceRefEntry` — a widening of provenance v4, so no version bump. `license_file_hash`
+stamping is untouched: recording what a note cites is provenance, not permission.
+
+**The `allowed_modes` column is gone entirely**, along with `allowsMode` and `CastMode` — further
+than step 2 planned. Not a cleanup: a licence constrains what a note may *contain*, never how a
+bundle is *assembled* from it, so mapping licences to casting transforms was the wrong axis. The
+tell is that the column was derivable from (`policy`, `copyleft`) on every row without exception,
+which is exactly why nine rows could name a retired mode and nothing noticed. The flagship took
+0.3.0 in `6e72892` and used none of the removed API, so the breaking half cost nothing.
+
+**statgen #148 did not build the gate step 4 asked for.** Step 4 wanted per-kind allowed modes so
+`mode: sidecar` on `kind: research` fails at validate time. Statgen has no `_target.yml` to hold
+one. It narrowed `sidecar` out of its `modes` vocabulary instead — it owns no renderer for the
+mode and no ref legitimately used it — so `mode: sidecar` now fails the *schema*, at authoring
+time, one layer earlier than the proposed gate. **The narrowing is the gate.** Re-add the term the
+day a Mold needs a cli-command sidecar, and write the renderer then. The three research refs
+became `verbatim`, which is what carrying your own prose is.
+
+**statgen #150 — the pin, not the rule, was the straggler.** `site/package.json` sat at
+`^0.2.0` while the fix shipped in 0.3.0, so statgen kept its own copy of `declaresVerbatimCarry`
+for a day without either half knowing. Caret on 0.x is patch-only — **third time** that has cost
+this project a fix it believed it had. Every other `@galaxy-foundry` pin there was current, which
+is why nothing flagged it: there was no drift to see, only a version that had quietly stopped
+moving. Same regex, so no verdict moved — 50 corpus notes governed, 63 out of scope. One test
+pins the posture that discriminates (`neufeld-countsplit-2024`: *own-words paraphrase, functional
+strings kept verbatim as facts*, under arXiv's `own-words-only` row), verified red under a
+substring match.
+
+**A gap the fix opens that only statgen can close.** `derived` is now a field on
+`ProvenanceRefEntry`, and the flagship's note schema has no `derived` field at all — so every
+flagship ref reads as pass-through. Correct for a corpus with zero `derived:` notes, but it means
+#440's 47-bundle oracle proves *nothing* about the new path. Phase 3's first cast is the only
+thing that will exercise it.
+
+### Phase 2.5, the extraction half — all five points declared (#440, 15 commits)
+
+The seam is `packages/build-cli/src/lib/cast-hooks.ts`: a `CastHooks` object the flagship fills
+and passes to its own caster. **Inversion in place** — no package boundary, no release, no version
+pin — until the spine moves and it becomes the public interface.
+
+- **`renderers`** (`ba2dc3d`). A `mode` is shared vocabulary; a renderer is one instance's
+  implementation of it. `sidecar` stops dispatching unconditionally to `buildCliSidecar`. The
+  blocker the survey named, closed. `verbatim` is deliberately un-registerable: it is a copy, not
+  a render.
+- **`bundleFiles`** (`015942f`). Bundle-root emissions (`_verify.json`, `_required_tools.json`)
+  become contributions rather than inline writes — and stop outliving a refused cast, which was a
+  real bug, not a refactor artifact.
+- **`skillLede` / `skillSections` / `slugAliases` / `bundleChecks`** (`dbb1da5`). SKILL.md was
+  eight sections the caster knew by name; it now writes frontmatter, title and the `## Title`
+  convention, and renders whatever list the instance hands it. Four sections were Galaxy outright;
+  the two reference sections only *looked* general, so `refKindLabel` and the "packaged as a
+  sidecar" phrasing became arguments. `validateRuns` became a bundle check, which took Ajv out of
+  the caster's imports entirely — it was the only dependency serving one branch.
+
+**The `<tool> <command>` alias rule was written three times** — caster, validator, pipeline
+assembler — agreeing by hand, with assemble-pipeline's copy carrying a comment *claiming* parity
+with cast's rather than holding it. That is the arrangement that lets two of three drift with
+nothing noticing. One rule now, imported.
+
+**Oracle held at every tranche:** `check-casts` clean over 47 Molds; a regenerate moves 94 lines,
+two per bundle, `commit` and `cast_at` — the two fields `--check` ignores by design. `make check`
+267 → 275 tests. The byte oracle cannot tell "renders what it was given" from "renders a list it
+knows", so 4a's load-bearing test renders a section list nothing in this repo would produce and
+asserts the output contains no `## Outputs` and no `## Procedure`.
+
+### Condense is retired outright — the term, not just the two instances' use of it
+
+**2026-08-04/05.** Phase 0's step 2 said to delete `condense` from the shared `modes` vocabulary.
+`adb7da5` overruled it: the vocabulary is the *pattern's*, `the-model` named condensation as one
+of two transform modes, so deleting the term would assert no Foundry may ever have an LLM phase.
+The flagship narrowed instead. **That reasoning expired when the pattern site stopped naming it.**
+Both instances had by then declined the term independently, and a vocabulary entry no consumer
+admits is a word with nothing behind it. Retired in `reference-contract` **0.2.0**.
+
+Then it sat there. Both instances pinned **`^0.1.0`**, and a caret on 0.x is patch-only, so
+neither resolved past the release — with every "we decline `condense`" comment still literally
+true, which is exactly why nothing flagged it. **Fourth occurrence of this trap**; a fifth
+followed at `cast` `^0.4.0` (below).
+
+- **statgen #152.** The narrow now declines `sidecar` — the only mode left to decline, and the
+  one statgen genuinely cannot render for want of a caster. `SUPPORTED_MODES = ['verbatim']`.
+- **flagship `6c4b47f`.** The narrow goes entirely, and `SUPPORTED_MODES` with it. What was left
+  named the whole vocabulary, which reads as a policy and enforces nothing. **Membership now
+  means renderable here** — a stronger property than the narrow was asserting.
+
+**The recurring defect showed up three more times.** A test written to enforce a removal decays
+into a tautology once the removal lands upstream, and all three still passed while asserting
+nothing: statgen's `rejects condense` and the flagship's `refuses an unimplemented mode` both
+used a word the schema had already stopped accepting, and `no Mold declares mode: condense`
+could no longer fail at all. Each was retargeted and **red-checked by mutation** — the flagship's
+floor test now asserts every declared mode is one the caster renders, which fails when a renderer
+is dropped and which the old assertion survives.
+
+### 4b — the artifacts block leaves the shared type (`cast` 0.5.0, #440 `25172dd`)
+
+The plan called this "the one place where byte-identity is at genuine risk." It was, and the
+extraction is the smaller half of the fix.
+
+`Provenance` declared `artifacts?: ProvenanceArtifacts` — Galaxy's `output_artifacts` /
+`input_artifacts` and its producer index — in a package whose header claims to hold what does not
+vary by domain. Nothing in the package read it. But removing a typed field leaves the question it
+was standing in for: `JSON.stringify` emits keys in insertion order, so byte-identity of 47
+records was resting on how one caster happened to order one object literal. Not expressible in a
+type, not asserted anywhere, invisible to a consumer's build.
+
+**foundry-lib #55** replaces it with `provenanceRecord({ head, refs, extensions, tail })`, which
+writes every key explicitly and reserves one slot between `refs` and `validation_results` —
+after what was compiled, before what checking it concluded. Key order becomes a package invariant
+with tests on the *serialized text*: `toEqual` compares key-order-blind and would pass on exactly
+the reshuffle that rewrites every committed bundle. Plus a packed-tarball smoke check, since after
+packing the types are gone and order is the only observable left.
+
+**Flagship `25172dd`** passes `extensions: { artifacts }` and declares the three types in
+`lib/artifact-contract.ts` — instance side of the seam, so they are already in place when the
+spine leaves. `--note` now decides the revision before the record is assembled rather than
+assigning onto it after. Both pins were `^0.4.0`: **fifth caret-on-0.x occurrence.**
+
+**The finding that matters more than 4b: the oracle never checked the record.** `cast --check`
+*writes* `_provenance.json` rather than reconciling it, so the file that IS the contract is the
+one file in a bundle the drift gate never compares. Verified by moving the slot past the tail:
+`make check-casts` stayed **green** while a regenerate moved 107 lines instead of 94. The named
+risk would have shipped past `--check` and surfaced only in a diff someone happened to read.
+
+And the first test written for it was a tautology, caught by the same mutation. Absent fields are
+omitted from JSON, so a record with no `validation_results` or `open_questions` serializes
+identically whether the block is in its slot or appended last. The test now plants an
+`open_question` and re-casts. **Only 1 of 47 committed records has a tail**, so even a regenerate
+catches this by accident of which Mold has an open question.
+
+### Follow-ups 4b turned up — all four done (`437d782`, `ad549f0`)
+
+1. **The record is now reconciled like everything else** (`437d782`). It compares with `cast_at`
+   and `mold.commit` held fixed — the clock and wherever HEAD sits, the two fields a byte
+   comparison would fail on for every bundle on every run, and the reason it went uncompared at
+   all. Everything else compares, key order included.
+   **The gate found three stale bundles on its first run.** compare-against-iwc-exemplar (record
+   said Mold revision 8, Mold said 9), find-test-data (3 vs 4), repair-galaxy-draft-topology
+   (1 vs 2) — stale since `85539c8` and `33f2320` on 2026-08-04, with `check-casts` green
+   throughout. The bundles were right; only the record was lying about its source. Re-cast.
+   Both halves red-checked: dropping the comparison passes a record naming revision 99; dropping
+   the normalization fails a bundle cast one second earlier, which is the version of this gate
+   someone turns off.
+2. **Publishing now copies the set staging recorded** (`ad549f0`), each path added beside the
+   write that produces it, rather than re-deriving its own list a hundred lines away. Insertion
+   order keeps `_provenance.json` last. No new test was needed — dropping a category from the set
+   already fails eight, because a bundle that publishes less than it staged does not check clean
+   afterwards.
+3. **The silent skip throws** (`ad549f0`). Recorded-but-not-written is a bug in the function, not
+   a condition to publish around.
+4. **`castOneRef` loses its `check` flag** (`ad549f0`), which had been constant since the staging
+   rewrite. `dst_hash` is `drift.expectedHash` directly: the staged file is brought into line by
+   definition, so the two cases `recordedHash` distinguishes cannot both arise. It stops being
+   re-exported, no call site being left. **Nothing was wrong in the package** — the flagship had
+   simply stopped being the kind of caller its contract describes.
+
+### Two bugs the staging rewrite fixed, which were not refactor artifacts
+
+Worth recording because both were ordering faults invisible to every existing check:
+
+- **Bundle checks read the wrong bytes.** The registered check validates harvested `runs/`
+  against the schema the Mold declares, read from `<bundleRoot>/<schemaRef.dst>` — under
+  `--check` that is the *committed* schema, not the one being proposed. Contributed files had it
+  from the other side (reconciled inert, so a checker saw last cast's manifest), and provenance
+  was written after the checks entirely, so no check could read the record for the bundle it was
+  checking.
+- **A refused cast left part of a bundle behind.** `_verify.json` had been deferred past the
+  error gate by hand for exactly this reason; refs and SKILL.md had not.
+
 ## Decisions
 
 - **Extract now, on a prose second-implementation.** The instructions doc's own rule says extract
@@ -731,6 +914,22 @@ it. Restoring it removed 44 of the 110 changed lines: the conflict was smaller t
 
 ## Unresolved questions
 
+- **Merge #440 at fifteen commits, or hold it through the spine move?** Holding keeps one
+  reviewable story; merging now banks all five extension points and shortens the window in
+  which `main` moves under the branch — the failure that cost #435. **The window stopped being
+  hypothetical, twice in one day.** #447 put the PR in `CONFLICTING` on 2026-08-05, which is
+  *why* no checks ran on two pushes: GitHub cannot run `pull_request` workflows when it cannot
+  compute the merge, so a conflicted PR looks untested rather than failing. Resolved by
+  regenerating `Dashboard.md`. Then #439 conflicted it again within hours, on the dependency
+  manifests — each side had bumped a package the other had not.
+  **A rebase was considered and rejected on cost.** `pnpm-lock.yaml` is touched by five of the
+  branch's commits and cannot be hand-merged, so a rebase means five `pnpm install`s at
+  intermediate states nothing ever tested, against one resolution for a merge. The branch also
+  already carries a merge commit, so the linear history a rebase would buy is gone, and a
+  force-push would invalidate the SHAs this document cites. The repo merges with merge commits;
+  the plan said as much when it chose prefix-cutting over rebasing for the three stacked PRs.
+  **Neither conflict was semantic** — a generated file, a lockfile, and one alphabetical-ordering
+  wart this branch had introduced in `site/package.json`, now corrected to main's ordering.
 - ~~`generic` and `web` targets: real near-term, or delete the empty dirs?~~ **Resolved
   2026-08-02: deleted** (`8c73a44`). The cast document is therefore speculative until a second
   target is real.

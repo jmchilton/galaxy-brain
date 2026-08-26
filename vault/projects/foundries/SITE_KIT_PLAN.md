@@ -874,6 +874,169 @@ which this sharpens rather than answers.
 
 ---
 
+### Phase 9 — sealing the style contract. **DONE**, jmchilton/foundry-lib#46 (released as `site-kit@0.2.0` via #47), with the instance cleanups landed ahead of it in galaxyproject/foundry#444 and jmchilton/statistical-genomics-foundry#151.
+
+Chosen because question 8 named it: *site-kit is not under-scoped, it is under-sealed.* The kit
+shipped components depending on six custom properties and three class names it neither shipped nor
+checked. This is the test that question said was worth running before TDA.
+
+**The mechanism is why nobody would have noticed.** A missing token is not a build error: the
+utility `bg-(--color-chrome)` compiles to `var(--color-chrome)` whether or not anything declares
+it, the browser resolves the property to nothing, and that region renders with no background. A
+green build and a page that looks like a styling opinion.
+
+**The colon is load-bearing, and this is the whole finding.** The obvious check searches the built
+CSS for the token name — which the shell's OWN `var(--color-chrome)` satisfies on every site,
+including one with no `@theme` block at all. `shellStyleGaps` searches for `--color-chrome:`.
+Proven by mutation: removing the colon fails exactly one test.
+
+**Tailwind 4's tree-shaking makes the check evidence of two things at once.** A theme variable with
+no reference emits nothing, so a declaration reaching the output proves both that the instance
+defined the token AND that something asked for it. Measured: `--color-surface-dark` and
+`--color-surface-dark-medium` emitted zero declarations.
+
+**And it is why the naive palette audit is wrong.** Live tokens land in `:root,:host{…}`, but a
+`.dark` redeclaration emits from that rule regardless, because a class is not tree-shaken. So a
+whole-stylesheet search reports a dead token as alive on the strength of a dark value nothing
+reads. That found two of GWF's six (`--color-rail-on`, `--color-tag-bg-hover`) and SGF's
+`--color-border`. The check added to both instances reads `:root`, not the file.
+
+**The brand name was the second half, and the larger one.** `--color-galaxy-dark` in a shared
+contract billed every non-Galaxy instance: SGF declared *Galaxy's exact hexes under Galaxy's names*,
+and eleven further use sites had grown on top of the two the shell asked for. Renamed to
+`--color-chrome` — a role. **A shared thing names roles; the instance names brands and maps in one
+line.** That rule matters more than the rename.
+
+**Landed as isolated PRs ahead of the kit change**, at the user's direction, and re-deriving against
+`main` rather than against the adoption stack changed both results materially: GWF gained a sixth
+dead token, and SGF's planned shim evaporated entirely. Both cleanups are zero-diff on the rendered
+site — 0 of 374 and 0 of 213 pages differ once the stylesheet href is normalised.
+
+One inlined literal in each: `.bg-grid` drew its tint as `rgba(37, 83, 123, 0.06)`, the brand
+written out in decimal under a name no search for the token finds — *which is exactly why a rename
+walks past it*. The dark rule kept its literal deliberately: white at 3% is its own decision, not a
+token. A repeated value is not a mapping.
+
+**What it says about the boundary.** The first chunk on this axis whose home was site-kit and
+nowhere else — but it is sealing what the kit already shipped, so it does not yet answer question 8.
+Phase 10 does.
+
+---
+
+### Phase 10 — the reference card. **DONE**, jmchilton/foundry-lib#54, released as `site-kit@0.3.0` and `reference-contract@0.3.0`. The instance-side debrand it needed is galaxyproject/foundry#447.
+
+Chosen from a component diff: an SGF mold page is 35 lines — back-link, tag chips, `eval ✓ ·
+scenarios —`, body. A GWF mold page is NoteHeader + NoteMeta + mold strip + ReferenceContract +
+CastArtifacts + artifact handoffs + MoldHealth + IncomingRefs + LicenseBox.
+
+**The finding that decided the chunk.** SGF depends on `@galaxy-foundry/reference-contract`, loads
+it, wires it into `registries.ts`, imports its types in `types/context.ts`, and validates twelve
+notes' worth of `references:` against it — and no `.astro` file in the repo reads any of it. The
+package shipped the vocabulary and left the view to be reinvented, so one instance reinvented it in
+269 lines and one never got round to it. **Nothing failed.** Twelve notes declare a contract no
+reader has ever seen.
+
+**The same mapping written three times.** `CONTRACT_GROUPS` in the package; a schema spelling
+`kind: enumOf("kinds")` … `mode: enumOf("modes")` by hand; a view spelling the same five pairs back
+the other way as `pillInfo('modes', ref.mode)`. The irregular pairs — `mode`/`modes`, `kind`/`kinds`
+— are precisely why three hand-written lists could not be compared by eye and were compared by
+nothing else. `REFERENCE_FIELDS` is that mapping as a value; `REFERENCE_CHIP_FIELDS` derives from
+it *and* from `INHERITED_GROUPS`, so `kind` falls out on its own rather than being left off a list.
+
+**A style is not an error, so the split became data.** Every renderer of the `evidence` vocabulary
+drew the same line — `hypothesis` one colour, the other two another — by term NAME, in a class
+selector. A copy of the table kept where the table cannot see it, and silently no opinion at all
+about a fifth term. `standing: provisional | grounded` is now required on evidence terms and
+validated at parse, because a renderer's fallback for an unplaced term is a style, and a style is
+not an error.
+
+**What the card refuses to decide.** Per-kind accents: `kinds` is the one group an instance
+declares — `loadInstanceKinds` throws if a shared table tries to — so cards carry `data-kind` and an
+instance sets `--color-kind-accent`, with `--color-brand` behind it. That fallback is a real answer,
+which is why it is not in `REFERENCE_TOKENS`.
+
+**`REFERENCE_TOKENS` is Phase 9's rule applied to a component that ships its own stylesheet.** The
+failure is different — an instance cannot fail to write a *rule* here — but a scoped
+`var(--color-brand)` resolving to nothing renders exactly like a design decision. Two tests read the
+component rather than the list, so it cannot drift in either direction; one mutation trips both.
+
+**The GWF debrand had to land first and is worth landing regardless** (#447). Four tokens, 64
+references, 20 files. Proven a no-op: 0 of 374 pages differ once the renamed tokens are normalised
+on both sides — they are Tailwind class names, so they appear in the markup — and the stylesheet
+carries the same 140 declarations, 351 bytes smaller from shorter names. `--color-neutral` stayed
+apart from `--color-text-secondary` though both are `#58585a`.
+
+**One real defect surfaced in the tooling.** knip reported the new dependency as unused: it reads
+`.ts`, and the import lives in an `.astro` frontmatter fence. First cross-package import from an
+Astro file in that repo, so the gap had never had anything to show. Fixed with a compiler in
+`knip.ts`; `ignoreDependencies` would have silenced this one and the next one too.
+
+**What it says about the boundary — and this reverses the streak.** Four consecutive candidates had
+belonged somewhere else. This one belongs in site-kit and nowhere else, and the reason generalizes:
+**it is a reading-surface component whose DATA already had a package.** That is a criterion rather
+than a preference, and it is the first one this document has been able to state. It also predicts
+the next candidates — `LicenseBox` sits on `license-policy`, which ships the policy and no view.
+
+---
+
+### Phase 11 — the search index. jmchilton/foundry-lib#58, galaxyproject/foundry#447 and jmchilton/statistical-genomics-foundry#153, all green.
+
+Chosen because question 8 named it as the second unsealed contract, beside the style one Phase 9
+closed: *the kit ships the search box while nothing ships what the box indexes.* Unlike every
+earlier phase on this axis, this one is a **reader-facing defect** rather than an architecture
+argument.
+
+**The mechanism runs backwards from what the annotation looks like.** Pagefind is all-or-nothing:
+mark NO page with `data-pagefind-body` and every page is indexed from its `<body>`; mark ONE and
+every unmarked page leaves the index entirely. So the attribute that reads as "index this page"
+means "index only pages like this one", and adding it to a single route is **strictly worse for the
+rest of the site than never adding it**.
+
+**Measured, not reasoned**, by building each instance twice:
+
+| | pages built | indexed | missing |
+|---|---|---|---|
+| galaxyproject/foundry, one route marked | 374 | **242** | 132 |
+| galaxyproject/foundry, nothing marked | 374 | 374 | 0 |
+| statistical-genomics-foundry, nine routes marked | 213 | **168** | 45 |
+
+GWF's missing 132: every artifact page, all 23 tag routes, all **48 generated skill pages**, the
+glossary, the dashboard, the log, and every section landing page. SGF's missing 45: all 38 tag
+pages, the six section indexes, and the home page. In both cases the *listing* routes — where a
+reader who does not already know a note's name would look.
+
+**Why it survived, and this is the transferable part.** The build log prints
+`Pagefind indexed 374 pages` in BOTH states, because it counts pages processed rather than pages
+indexed. No warning, no diff, no page that looks wrong. The only symptom is a search answering "no
+results" for words plainly on the site — which reads as a Pagefind quirk rather than as a fault
+anyone owns. **The single signal a developer sees is identical in the healthy and broken cases.**
+That is a stronger form of silence than Phase 9's: there, nothing reported the failure; here,
+something reports and reports the same number either way.
+
+**SGF is the more interesting instance.** It marked NINE routes and still lost 45 pages — so this
+is not "someone forgot once". The per-route wrapper gets *quieter* the more routes remember it,
+because each one that does makes the pattern look established while the rule stays all-or-nothing.
+
+**The fix is one decision in the layout**, defaulted to searchable. Opt-in would leave every new
+route one forgotten prop away from being unfindable, which is the failure mode that produced this.
+Marking `<main>` rather than accepting Pagefind's `<body>` fallback also keeps the nav and footer
+out of every result's excerpt — which the nine wrappers were already achieving and the fallback
+would not.
+
+**Two checks, deliberately not one.** The package ships `searchIndexGaps`, which reads source and
+answers "did anyone write the attribute". Each instance asserts on its **emitted `pagefind-entry.json`**,
+which answers "can a reader find this page". Only the second would have caught the original defect,
+and only the first can live in a package. Both instances' assertions were written red against the
+state on `main` and report it with the numbers — `expected 242 to be 374`, and 132 named pages.
+
+**What it says about the boundary.** Second candidate in a row that belongs in site-kit, and it
+sharpens Phase 10's criterion rather than repeating it: the kit already shipped the *box*, so it
+owed the contract for what fills it. **A package that ships a UI affordance owes the contract its
+affordance depends on** — which is the same sentence as Phase 9's tokens and Phase 10's view, said
+about behaviour instead of about markup or data.
+
+---
+
 ## Unresolved questions
 
 1. `@galaxy-foundry/site-kit`, or split TS/`.astro` into two packages? (One package, subpath
@@ -934,6 +1097,29 @@ which this sharpens rather than answers.
    out to be the parts the kit does not ship — the palette, the note components, the link map, the
    corpus routes — then the honest finding is that the reading surface transferred and the shell was
    the small half of it, which is worth more to the pattern than the package is.
+   **Updated 2026-08-04 by Phases 9 and 10, and the tally has turned.** Sealing was the test this
+   question asked for, and it found a real defect class rather than tidiness: the check that would
+   have been written by hand — search the built CSS for the token name — passes on a site with no
+   `@theme` block at all, because the shell's own `var()` satisfies it. That is not a contract an
+   instance could have honoured by reading carefully, which was the charge.
+   Then Phase 10 broke the "every candidate belongs somewhere else" streak at four, and did it with
+   a criterion instead of a preference: **a reading-surface component whose data already has a
+   package belongs beside that package's data.** `reference-contract` shipped a vocabulary, a
+   loader, a validator, narrowing and a spec URL — and no view, so one instance wrote 269 lines and
+   the other validated twelve notes into silence. The kit now holds two concepts, and names the next
+   candidates rather than guessing at them (`LicenseBox` over `license-policy`, on the same shape).
+   What this does NOT settle: the case against was always that the shell reached zero-diff *in
+   place*, so the package delivered distribution rather than design. Phase 10 answers that on its
+   own terms — the reference card never reached zero-diff in place, because one of the two instances
+   never had it. A package was the only thing that could have carried it there. TDA is still the
+   deciding experiment for the shell half.
+   **Phase 11 is the strongest evidence yet, and it is not an architecture argument.** The kit ships
+   a search box; nothing shipped what fills it; and both instances were losing pages — 132 and 45,
+   including all 48 of GWF's generated skill pages. Readers were affected the whole time. The
+   criterion tightens to: **a package that ships a UI affordance owes the contract its affordance
+   depends on.** Three phases now read as one sentence about markup (9), data (10) and behaviour
+   (11). What the package has NOT yet been shown to do is carry a shell to a repo that has none —
+   still TDA, still unrun.
 7. ~~Who owns the `attw`/`publint` exemption if a package ships unbuilt `.astro` — scope the
    existing call, or exempt the package?~~ **Answered by the spike: neither is needed.** The
    existing `--entrypoints .` already confines `attw` to the JS entrypoint, and `publint` is clean.
