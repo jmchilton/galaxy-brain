@@ -22,7 +22,8 @@ All under `lib/galaxy/tool_util/workflow_state/`:
 
 | Module | Responsibility |
 |---|---|
-| `__init__.py` | Public API: `convert_state_to_format2`, `Format2State`, `ConversionValidationFailure`, `validate_workflow`, `export_workflow_to_format2`, `GetToolInfo`, `ToolInputs`, plus library entry points `validate_single`, `clean_single`, `roundtrip_single`, `export_single`, `lint_single` |
+| `__init__.py` | Public API: `convert_state_to_format2`, `Format2State`, `ConversionValidationFailure`, `validate_workflow`, `export_workflow_to_format2`, `GetToolInfo`, `ToolInputs`, plus library entry points `validate_single`, `clean_single`, `roundtrip_single`, `export_single`, `lint_single`; inline-tool exports `ensure_inline_resolver`, `InlineResolver`, `InlineToolInventoryEntry`, `InlineToolSourceResult`, `resolve_for_step`, `validate_inline_tool_source_for_step`, `walk_inline_tools` |
+| `_inline_tool.py` | Local parse + validate for inline user-defined tool representations (`GalaxyUserTool` / `GalaxyTool` embedded in steps). `InlineResolver`, `InlineToolInventoryEntry`, `InlineToolSourceResult`, `ensure_inline_resolver()`, `resolve_for_step()`, `validate_inline_tool_source_for_step()`, `walk_inline_tools()`. Phase A of USER_DEFINED_TOOL_STEP_VALIDATION (Phase B resolver swap pending). |
 | `_types.py` | `NativeWorkflowDict`, `Format2WorkflowDict`, `WorkflowFormat`, `GetToolInfo` protocol |
 | `_util.py` | Shared helpers: `coerce_select_value`, `is_connected_or_runtime`, `step_connected_paths`, `step_tool_state`, `step_input_connections`, `StepLike` union type, `decode_double_encoded_values` |
 | `_walker.py` | `walk_native_state()` and `walk_format2_state()` --- recursive traversal of tool_state dicts with callback pattern. Handles conditionals (branch selection via test value, no `__current_case__` dependency), repeats, sections. |
@@ -45,7 +46,7 @@ All under `lib/galaxy/tool_util/workflow_state/`:
 | `connection_types.py` | Adapter over `CollectionTypeDescription` adding sentinel types (NULL/ANY) and connection-validation-specific free functions. |
 | `connection_graph.py` | Connection graph builder --- resolves output types, propagates map-over through multi-data reduction, strips map-over prefix for `collection_type_source`. Uses `NormalizedNativeWorkflow`. |
 | `connection_validation.py` | Per-connection type validation. Synthesizes `when` input for conditional step execution. |
-| `clean.py` | `clean_stale_state()` / `strip_stale_keys()` --- removes tool_state keys not in current tool definition. Defaults to full clean policy. Policy knobs: `--allow`/`--deny`/`--preserve`/`--strip`. Structural step cleaning, format2 support, `--skip-uuid`. Single-file and tree modes. |
+| `clean.py` | `clean_stale_state()` / `strip_stale_keys()` --- removes tool_state keys not in current tool definition. Defaults to full clean policy. Policy knobs: `--allow`/`--deny`/`--preserve`/`--strip`. Structural step cleaning, format2 support, `--skip-uuid`. `validate=True` (`--validate`) gates each step on native validation, reverting steps whose cleaned state fails (`_revert_if_invalid()`); `reverted`/`revert_reason` tracked on `CleanStepResult`. `_raw_step_def()` resolves steps by str-or-int key. Single-file and tree modes. |
 | `roundtrip.py` | Full round-trip: native to format2 to native to compare. Pydantic models: `StepResult` (diffs now `list[StepDiff]`, not `list[str]`), `RoundTripResult`, `BenignArtifact`, `StepDiff`, `ComparisonResult`, `StepIdMappingResult`, `RoundTripValidationResult`, `RoundTripTreeReport`. Structured markdown/JSON reports. Single-file and tree modes. |
 | `export_format2.py` | Schema-aware native-to-format2 export via `ConversionOptions` callback. `ExportResult` wraps `NormalizedFormat2` with `.format2_dict`. Single-file and tree modes. Position normalization to `left`/`top` only. |
 | `to_native_stateful.py` | Schema-aware format2-to-native conversion via `state_encode_to_native` callback. `ToNativeResult`, `StepEncodeStatus` (both now Pydantic models, not dataclasses). `skip_replacement_params` `StepStatus`. Single-file and tree modes. |
@@ -93,6 +94,8 @@ galaxy-tool-cache info <trs_id>              # show details for cached tool
 galaxy-tool-cache clear [prefix]             # clear cache
 galaxy-tool-cache structural-schema          # export gxformat2 workflow JSON Schema
 galaxy-tool-cache schema <tool_id>           # export per-tool WorkflowStepToolState JSON Schema
+galaxy-tool-cache list-inline-tools <path>   # dump inline (GalaxyUserTool/GalaxyTool) inventory of a workflow
+galaxy-tool-cache embedded-schema <path>     # write per-step embedded-tool schema files to --output-dir
 ```
 
 ### gxwf-* Commands (7 single-file + 7 tree variants)
@@ -204,13 +207,16 @@ Schemas exported via `galaxy-tool-cache structural-schema` and `galaxy-tool-cach
 ## Other Changes Outside the Package
 
 - **`hidden_data` params modeled as optional data in tool meta-models** --- `parameters/factory.py` now treats `hidden_data` like `data`
-- **`lib/galaxy/managers/workflows.py`** --- format2 export via `_export_as_format2()` with toolbox-backed `ToolboxGetToolInfo`; `_clean_native_dict()` integration; `clean` / `clean_preserve` / `clean_strip` parameters threaded through `workflow_to_dict()`; precheck integration
-- **`lib/galaxy/webapps/galaxy/api/workflows.py`** --- `clean`, `clean_preserve`, `clean_strip` query params on `GET /api/workflows/{id}/download` (applies to `ga`, `format2`, `format2_wrapped_yaml` styles; invalid category → 400, missing toolbox → 409)
+- **`lib/galaxy/managers/workflows.py`** --- format2 export via `_export_as_format2()` with toolbox-backed `ToolboxGetToolInfo`; `_clean_native_dict()` integration (now accepts `validate` for per-step validate-gated cleaning); `clean` / `clean_preserve` / `clean_strip` / `clean_validate` / `tool_state_as_dict` parameters threaded through `workflow_to_dict()`; `_normalize_native_tool_state()` controls native `ga` tool_state encoding (dict vs double-encoded string); precheck integration
+- **`lib/galaxy/webapps/galaxy/api/workflows.py`** --- `clean`, `clean_preserve`, `clean_strip`, `clean_validate`, `tool_state_as_dict` query params on `GET /api/workflows/{id}/download` (applies to `ga`, `format2`, `format2_wrapped_yaml` styles; invalid category → 400, missing toolbox → 409)
+  - **`tool_state_as_dict`** --- opt-in; emit native `ga` `tool_state` as a JSON object instead of the legacy double-encoded JSON string ("remove the extra JSON encoding", per IWC #1158). Default stays string-encoded — ~7 internal consumers still `json.loads(step["tool_state"])`.
+  - **`clean_validate`** --- per step, validate the cleaned native tool_state and revert that step if it fails (native path only).
+  - **Fixed (2026-06-30):** the API `clean=true` native path had **never** stripped anything — `_workflow_to_dict_export` keys steps by **int** order_index but `clean_stale_state` only looked up string-ish keys, so every step was silently skipped (disk-loaded `.ga` string keys masked it; no test exercised the in-memory export dict). Fixed via `_raw_step_def()` (str-then-int). Covered by `test_wf_conversion_artifacts.py::TestWfExportToolStateEncoding`.
 - **`lib/galaxy/webapps/galaxy/api/tools.py`** --- `GET /api/tools/{id}/parsed`, `/versions/{v}/parsed`, `/versions/{v}/parameter_request_schema`, `/versions/{v}/parameter_landing_request_schema`, `/versions/{v}/parameter_test_case_xml_schema` (mirrors ToolShed tool endpoints so `galaxy-tool-cache` / `--tool-source galaxy` can pull metadata from a running Galaxy)
 - **Parameter visitor refactoring** in `parameters/visitor.py` and `tool_util_models/parameters.py`
 - **`galaxy.model.dataset_collections.type_description`** --- thin re-export shim over `galaxy.tool_util.collections`
 - **`GALAXY_TEST_STRIP_BOOKKEEPING_FROM_WORKFLOWS`** env var enabled in CI
-- **`pyproject.toml`** --- gxformat2 bumped to `git+https://github.com/jmchilton/gxformat2.git@abstraction_applications` (branch dep; must be released and pinned back to a PyPI version range before this lands on `dev`)
+- **`pyproject.toml`** --- gxformat2 bumped to `git+https://github.com/jmchilton/gxformat2.git@parameter_models` (branch dep; must be released and pinned back to a PyPI version range before this lands on `dev`). NB: `run_tests.sh`/`common_startup` re-resolves deps and downgrades this to PyPI `gxformat2==0.27.0`, taking the venv off-pin; reinstall the branch to restore.
 - **ToolShed API fixes** --- missing stock tool sources for converters and version mismatches
 - **Pydantic model fixes:**
   - `safe_field_name` + alias for QIIME2 underscore-prefixed parameter names
@@ -229,6 +235,8 @@ Schemas exported via `galaxy-tool-cache structural-schema` and `galaxy-tool-cach
 ## Test Coverage
 
 ### Test Suites
+
+Default location is `test/unit/tool_util/workflow_state/` (the isolated tool_util env, no galaxy-app/data). **Exceptions** (relocated by the "Relocate galaxy-app-dependent workflow_state tests" commit because they reach into `galaxy.workflow`/`galaxy.model`): `test_precheck.py`, `test_legacy_encoding.py`, `test_format2_subworkflow_validation.py`, `test_collection_semantics_coverage.py`, `test_workflow_state_tree.py`, `test_completion.py`, `test_format2_tool_state_validation.py` live in `test/unit/workflow/`. `test_roundtrip.py` lives in `test/unit/workflows/`; `test_legacy_parameters.py` in `test/unit/tool_util/`; `test_wf_conversion_artifacts.py` + `test_tool_execute.py` are API tests in `lib/galaxy_test/api/`.
 
 | Suite | What It Covers |
 |---|---|
@@ -264,6 +272,13 @@ Schemas exported via `galaxy-tool-cache structural-schema` and `galaxy-tool-cach
 | `test_wf_conversion_artifacts.py` | API workflow tests for format2 conversion artifacts |
 | `test_tool_execute.py` | Direct tool execution tests for repeat/select artifacts |
 | `test_declarative.py` | YAML-driven declarative tests for clean, validate, export_format2, clean_then_validate. Navigates workflow structure directly via path-based assertions. Synthetic fixtures + IWC workflows including subworkflow recursion. |
+| `test_clean_validate_gate.py` | Validate-gated clean (`clean_stale_state(validate=True)`): keep valid cleans, revert invalid steps, dict + JSON-string (export-shape) tool_state, int-keyed steps. |
+| `test_convert_runtime_value.py` | RuntimeValue handling in native↔format2 conversion |
+| `test_yaml_scalar_handling.py` | YAML scalar encoding edge cases |
+| `test_offline_coverage.py` | Offline coverage tracking |
+| `test_inline_tool_resolver.py` / `test_inline_resolver_cache.py` / `test_inline_source_validation.py` / `test_inline_udt_workflows.py` / `test_json_schema_inline.py` | Inline/user-defined-tool (UDT) parse, resolve, cache, and JSON-schema validation |
+| `test_workflow_state_tree.py` *(test/unit/workflow/)* | Galaxy-app-dependent validate/clean tree runs (split from `test_workflow_tree.py`) |
+| `test_completion.py` / `test_format2_tool_state_validation.py` *(test/unit/workflow/)* | Completion + format2 tool-state validation against the live toolbox |
 
 ### IWC Test Workflows
 Real-world IWC workflows under `test/unit/workflows/iwc/` used as checked-in regression data. Broader corpus is loaded on demand by `test_iwc_sweep.py` when `GALAXY_TEST_IWC_DIRECTORY` is set.
@@ -286,7 +301,10 @@ Real-world IWC workflows under `test/unit/workflows/iwc/` used as checked-in reg
 | **D10: Full gxformat2 in IWC** | Not started | Depends on D7 + gxformat2 release. |
 
 ### Bonus: Stale State Cleaning
-`gxwf-state-clean` with classification/policy knobs. Integrated into roundtrip pipeline.
+`gxwf-state-clean` with classification/policy knobs. Integrated into roundtrip pipeline. `--validate` adds a per-step native-validation gate that reverts steps whose cleaned state fails (also exposed as `clean_validate` on the API). The Galaxy `ga` export can additionally drop the legacy double-encoding via `tool_state_as_dict` ("remove the extra JSON encoding", IWC #1158).
+
+### Bonus: Inline / User-Defined-Tool (UDT) Step Validation
+`_inline_tool.py` --- local parse + validate for inline `GalaxyUserTool` / `GalaxyTool` representations embedded directly in workflow steps (no Tool Shed / toolbox round-trip). `InlineResolver` + `resolve_for_step()` plug inline tools into the same `GetToolInfo`-shaped resolution used by clean/validate/convert; `walk_inline_tools()` inventories them; `validate_inline_tool_source_for_step()` validates the embedded source. Surfaced via `galaxy-tool-cache list-inline-tools` / `embedded-schema` and JSON-schema-inline support. This is **Phase A** (local parse/validate foundation) of `USER_DEFINED_TOOL_STEP_VALIDATION.md`; **Phase B** (resolver swap) is still pending.
 
 ### Bonus: Legacy Encoding / Parameter Detection
 `precheck.py` + `legacy_encoding.py` + `legacy_parameters.py` --- three-layer detection allowing graceful skip of workflows that can't be meaningfully validated or converted.
@@ -321,15 +339,16 @@ All tree-mode markdown reports render through Jinja2 templates in `templates/rep
 3. **Validate any workflow** against tool definitions --- native or format2, Pydantic or JSON Schema backend, single file or entire directory tree
 4. **Validate workflow-test files** (`*-tests.yml`) against the `Tests` schema with no tool cache required
 5. **Validate connections** alongside state in a unified pipeline
-6. **Clean stale keys** with classification and policy knobs (default policy = full clean)
-7. **Convert native to format2** with schema-aware state blocks via CLI, library, or Galaxy `GET /api/workflows/{id}/download?style=format2&clean=true`
-8. **Convert format2 to native** with schema-aware encoding via CLI or library
-9. **Run round-trip equivalence validation** --- 120/120 IWC workflows pass (last full sweep)
-10. **Lint workflows** with combined structural + stateful checks; orthogonal `--strict-{structure,encoding,state}` axes
-11. **Detect legacy encoding** and replacement parameters --- graceful skip instead of false failures
-12. **Search Tool Shed** from the CLI: tools, repos, versions, revisions
-13. **Render workflows** as Cytoscape / Mermaid / abstract CWL via `gxwf viz`/`mermaid`/`abstract-export` (in-process gxformat2 dispatch)
-14. **Batch process** entire directory trees with Jinja2-templated JSON/Markdown reports
+6. **Clean stale keys** with classification and policy knobs (default policy = full clean); optionally `--validate`/`clean_validate` to revert any step whose cleaned state fails native validation
+7. **Export legible native `.ga`** with un-stringified `tool_state` (JSON object, not double-encoded string) via `GET /api/workflows/{id}/download?style=ga&tool_state_as_dict=true`, optionally combined with `clean=true`
+8. **Convert native to format2** with schema-aware state blocks via CLI, library, or Galaxy `GET /api/workflows/{id}/download?style=format2&clean=true`
+9. **Convert format2 to native** with schema-aware encoding via CLI or library
+10. **Run round-trip equivalence validation** --- 120/120 IWC workflows pass (last full sweep)
+11. **Lint workflows** with combined structural + stateful checks; orthogonal `--strict-{structure,encoding,state}` axes
+12. **Detect legacy encoding** and replacement parameters --- graceful skip instead of false failures
+13. **Search Tool Shed** from the CLI: tools, repos, versions, revisions
+14. **Render workflows** as Cytoscape / Mermaid / abstract CWL via `gxwf viz`/`mermaid`/`abstract-export` (in-process gxformat2 dispatch)
+15. **Batch process** entire directory trees with Jinja2-templated JSON/Markdown reports
 
 ## What's Not Done Yet
 
@@ -337,6 +356,6 @@ All tree-mode markdown reports render through Jinja2 templates in `templates/rep
 - **VS Code extension** (D9) --- substantial planning under `VS_CODE_*.md` (architecture, conversion, mermaid, tool-search LSP, cache tree, tool view); JSON Schema export, tool-search Python service, and `gxwf` dispatcher are landed foundations. Tool registry hookup, dynamic completions, and connection completions still pending --- tracked in companion VS_CODE plans.
 - **Full gxformat2 in IWC** (D10) --- depends on D7 + gxformat2 release
 - **Connection validation CLI** --- `connection_validation.py` engine exists but phases 3-5 (per-connection validation, `collection_semantics.yml` tracking) not complete
-- **gxformat2 release** --- callback protocol branch (`abstraction_applications`) still depended on directly via git; not yet merged/released; Galaxy `pyproject.toml` pin must be restored to a PyPI version range before this branch can land on `dev`
+- **gxformat2 release** --- callback protocol branch (`parameter_models`) still depended on directly via git; not yet merged/released; Galaxy `pyproject.toml` pin must be restored to a PyPI version range before this branch can land on `dev`
 - External subworkflow references (string `run` keys) are skipped, not resolved
 - `connection_types.py` F2 bug: `has_subcollections_of_type` `endswith` false positive for `"list:paired_or_unpaired".endswith("paired")` --- marked xfail
