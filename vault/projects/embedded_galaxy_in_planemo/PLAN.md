@@ -1,6 +1,6 @@
 # Plan: `embedded_galaxy` Engine
 
-Status: planning handoff, reconciled 2026-08-24 against Planemo master `75c52d3` and Galaxy PR #23360 at `cb42d82`.
+Status: implementation in progress, reconciled 2026-08-26 against the `embed_galaxy` Planemo branch and Galaxy PR #23360.
 
 ## Outcome
 
@@ -17,6 +17,32 @@ Galaxy PR [#23360](https://github.com/galaxyproject/galaxy/pull/23360) must firs
 - be included in a package release.
 
 Until then, prototype against wheels built from the PR. When released, set the Planemo extra's lower bound to the **first release containing the builder and wheel-job fixes**, not merely `>=26.1`.
+
+## Implementation ledger
+
+Implemented and exercised on the `embed_galaxy` branch through `a38721d4`:
+
+- engine registration, option validation, shared managed configuration, and checkout-free YAML-tool recognition;
+- one pre-bound loopback server, one Galaxy construction for mixed test inputs, an in-process Celery worker on both required queues, and ordered teardown;
+- scoped file/console logging, restoration of Galaxy's process-global app, environment and logger restoration, partial worker-start cleanup, and defensive fork-pool shutdown;
+- a real opt-in acceptance test covering XML and YAML tools, upload, workflow execution, and Tool Shed installation in one application; the test also repeats Celery result reads and checks that no new threads, multiprocessing children, global app, or generated configuration directory survives; and
+- a 30-second whole-teardown diagnostic that reports live thread and child-process names. Galaxy's own `app.shutdown()` registration disposes the model engine, so Planemo must not dispose it a second time.
+
+Deliberately separate work:
+
+- workflow polling now honors the command's single-test timeout in Planemo PR #1687; and
+- the pre-existing test import cycle is being handled independently rather than coupled to this engine.
+
+Release-blocked work:
+
+- add the `embedded_galaxy` optional dependency and its containment/resolver checks after the first Galaxy release containing #23360; and
+- then add user documentation and per-PR Linux integration coverage against that released package set.
+
+Still required before merge:
+
+- record cold/warm startup timings against the managed Galaxy engine;
+- add focused first- and second-`Ctrl-C` teardown coverage; and
+- run the existing-engine/full-suite regression checks once the branch is rebased onto its prerequisite PRs.
 
 ## Scope
 
@@ -77,7 +103,7 @@ Teardown must be idempotent and continue after individual failures:
 2. Exit the Celery worker context before dismantling the Galaxy app.
 3. Defensively stop and join `celery_app.fork_pool` for at most 5 seconds, even if worker startup only partially completed.
 4. Call `app.shutdown()` behind a once-flag. Set `galaxy.app.app = None` afterward if it still points to this app.
-5. Remove engine logging handlers, restore modified logger levels and `GALAXY_CONFIG_FILE`, dispose remaining database connections, and remove the temporary directory unless `--no_cleanup` was requested.
+5. Remove engine logging handlers, restore modified logger levels and `GALAXY_CONFIG_FILE`, and remove the temporary directory unless `--no_cleanup` was requested. Galaxy's application shutdown already disposes its model engine; do not dispose it twice from Planemo.
 
 Use a 30-second diagnostic budget for the whole cooperative teardown and log remaining thread/process names when it is exceeded. Be honest about the limit: Python cannot safely kill a wedged in-process thread, and a2wsgi's `ThreadPoolExecutor.shutdown(wait=True)` can still block on an actively wedged WSGI request. The daemon uvicorn thread is a backstop, not proof of hard-bounded process exit.
 
