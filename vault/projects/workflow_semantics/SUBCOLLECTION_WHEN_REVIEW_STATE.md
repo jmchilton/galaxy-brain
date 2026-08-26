@@ -10,9 +10,9 @@ what bug this is fixing." Split into two branches off `dev`:
 
 | Branch | Content | Status |
 |---|---|---|
-| `regenerate_collection_semantics_doc` | regenerate the stale generated doc, nothing else | pushed to fork, not opened |
-| `subworkflow_mapping_per_step_semantics` | all-`None` collapse + framework test + unconditional docs | pushed to fork, stacked on the above, not opened |
-| `subworkflow_mapping_when_alignment` | `is_aligned_with` guard + API tests + unit tests + conditional docs | pushed to fork, stacked on the above, not opened |
+| `regenerate_collection_semantics_doc` | regenerate the stale generated doc, nothing else | **merged as #23376** |
+| `subworkflow_mapping_per_step_semantics` | all-`None` collapse + framework test + unconditional docs | rebased on dev after #23376, pushed, not opened |
+| `subworkflow_mapping_when_alignment` | `is_aligned_with` guard + API tests + unit tests + conditional docs | stacked on the above, pushed, not opened |
 
 `doc/source/dev/collection_semantics.md` on dev has been missing the 102-line Type
 Compatibility Algebra section since `39597b3366` (2026-04-25) added it to the YAML without
