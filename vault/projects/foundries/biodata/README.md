@@ -1,6 +1,6 @@
 # CSHL Biological Data Science 2026 — abstract submission
 
-Three competing abstract drafts for the Galaxy Workflow Foundry, all on the same spine:
+Two competing abstract drafts for the Galaxy Workflow Foundry, both on the same spine:
 cross-ecosystem workflow conversion, with deterministic validation in the loop.
 
 ## Meeting
@@ -27,49 +27,75 @@ cross-ecosystem workflow conversion, with deterministic validation in the loop.
 
 | file | framing | title+body chars |
 | - | - | - |
-| `abstract-b1-artifact-and-oracle.md` | leads with the system | 2,618 |
-| `abstract-b2-negative-result.md` | leads with the measurement — **recommended** | 2,521 |
-| `abstract-b3-deliverable.md` | leads with what a user gets | 2,415 |
+| `abstract-b1-artifact-and-oracle.md` | leads with the system | 1,772 |
+| `abstract-b3-deliverable.md` | leads with what a user gets | 1,836 |
 
-All three leave roughly 580–785 characters for the author and affiliation block, which is ample for
-six authors.
+Both sit roughly 1,300 characters under budget after the evaluation paragraphs were pulled (see
+below). There is room for one substantial paragraph of real evidence in each, once we have it.
 
-### Why B2
+## Claims pulled, 2026-08-27
 
-Every group at this meeting is now making a model emit structured output. B2's finding —
-an empty array is well-formed, so schema conformance reads as correctness until checked against
-independent ground truth — generalizes past Galaxy to all of them. It is also the draft where the
-honesty is the product rather than a trailing caveat, which is the best available answer to
-Goecks's "when does Foundry deliver a real benefit versus existing solutions?"
+Both drafts originally carried an evaluation paragraph citing an nf-core overfitting sweep — "six
+of eight non-template pipelines returned zero processes against ground truth of 9 to 99," held to
+an "80-percent-of-ground-truth threshold." **Those paragraphs are removed and should not come
+back in that form.** A third draft built entirely on that finding was deleted.
 
-B3 is the better poster and the better recruiting pitch. B1 is the most complete but leads with
-machinery, and the Tools/Infrastructure session is already full of machinery-first tool abstracts.
+The numbers were real in the sense that they were transcribed from `foundry/content/log.md`
+(2026-05-03, "summarize-nextflow ad-hoc fixture sweep"). They were not sound as abstract claims:
 
-Cheap hybrid worth considering: keep B2 entire, but open with B3's first sentence so the reader
-knows what the system *does* before hearing what it got wrong.
+1. **It was a debugging sweep, not an experiment.** No protocol, no hypothesis, no held-out set.
+   The entry exists to justify a resolver fix list, and the fix landed.
+2. **The ground truth was `grep -c '^process '`, which is known-wrong in both directions.** The
+   2026-05-02 entry in the same log shows that grep *undercounting* against the resolver on
+   nf-core pipelines (34 vs 31, 76 vs 66, 123 vs 90, 61 vs 51) because it misses indented and
+   multi-line declarations. It cannot be the denominator.
+3. **The 80% threshold is a fudge factor around that bad oracle**, not a quality bar — the log
+   says so outright: "80% rather than exact to allow for genuine false-positive grep matches."
+4. **"Zero processes" was a one-line bug, not a finding.** `discoverProcessFiles()` looked only
+   under `<root>/modules/**/main.nf`; pipelines using another layout returned nothing.
+5. **It is stale.** The resolver now walks all `.nf` files with multi-process-per-file support.
+   The sweep was never re-run — `workflow-fixtures/pipelines/` is gitignored and not cloned.
+
+## What a defensible version would need
+
+A trustworthy ground truth, then a re-run on current code:
+
+- **Use Nextflow itself as the oracle.** `nextflow inspect` / the DSL2 parser yields the real
+  process inventory. See `foundry/content/research/component-nextflow-inspect`. Comparing the
+  resolver to the language runtime is defensible; comparing it to a grep is not.
+- **Or hand-label a small set.** Five to eight pipelines counted by hand once, committed as
+  labelled fixtures. Small n, but real and citable.
+
+The claim then states only what it supports: recovery rate across N pipelines verified against
+`nextflow inspect`.
+
+Better still, the number worth having for this abstract is the end-to-end one, not extraction
+fidelity: **of N upstream pipelines, how many yield a Galaxy workflow that `gxwf validate`
+accepts and `planemo test` runs green.** That is the benchmark both drafts promise and neither
+has.
 
 ## Open items
 
 1. **Affiliations.** Author line follows GCC 2026 (Chilton, van den Beek, Baker, López, Awan,
    Nekrutenko); institutions still need confirming, as does the presenter designation.
 2. **Registration** — required before the abstract counts. Confirm before Friday.
-3. **The commitment.** All three drafts promise "the end-to-end conversion benchmark," which does
-   not exist yet. What exists is per-stage evaluation plus one extraction sweep. Delivering it
-   means cloning the 38 pinned fixtures and running the full journey to a `planemo test` verdict
-   on a defensible subset before November 4.
+3. **The benchmark**, per the section above.
 
-## Evidence the drafts draw on
+## Corpus figures the drafts still rely on
 
 Verified against the `foundry` repository, 2026-08-26:
 
 - 341 notes · 47 Molds · 7 pipelines · 54 patterns · 32 CLI manual pages · 14 schemas
 - 54 cast skills, installable as a Claude Code / Codex plugin
 - 36 `eval.md` oracles · 32 `scenarios.md` case files
-- 38 pinned upstream fixtures — 16 nf-core, 10 ad-hoc Nextflow, 12 CWL-family
-- 120 curated IWC workflow skeletons as corpus grounding
-- Negative result (`content/log.md`, 2026-05-03): of 8 non-nf-core pipelines, 2 hard failures and
-  6 exiting 0 with schema-valid summaries reporting **zero** processes against ground truth of
-  9, 11, 12, 17, 94, 99
-- Remediation (`content/log.md`, 2026-08-19): layout-agnostic discovery recovers 95 processes,
-  68 subworkflows, 54 edges, 6 conditionals from `ncbi/egapx`; standing oracle requires ≥80% of
-  independent ground truth
+
+Exact counts from the repository. Note that neither draft currently cites them; both stop at
+"47 atomic actions" and "seven ordered pipelines," which are also exact.
+
+Two figures from the deleted paragraphs were looser than presented and should be re-checked
+before reuse: the fixture corpus breakdown ("38 pinned pipelines — 16 nf-core, 10 ad-hoc
+Nextflow, 12 CWL" — the 38/16/10 are exact `fixtures.yaml` flavor counts, but "12 CWL" lumps
+`bio-workflow`, `conformance`, `tool-library` and `user-guide`, and several of those are docs or
+tool libraries rather than pipelines), and "120 curated Galaxy workflow skeletons" (quoted from
+`content/meta/corpus.md`, revised 2026-05-10; the skeleton corpus is generated and gitignored, so
+the current count is unverified).

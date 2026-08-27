@@ -1,6 +1,6 @@
 # B1 — "Artifact and oracle"
 
-Leads with the system. Most complete of the three; weakest hook for a talk slot.
+Leads with the system. Weaker hook for a talk slot than B3.
 
 ## Title
 
@@ -33,16 +33,5 @@ identifiers resolve against the live Tool Shed, and the journey does not termina
 executes the workflow's own generated tests. The model translates and repairs; independent tools
 select, validate, execute, and classify.
 
-The corpus is grounded in 120 curated Galaxy workflow skeletons and evaluated against 38 pinned
-upstream pipelines spanning nf-core, ad-hoc Nextflow, and CWL. That evaluation surface — 36
-fixture-independent oracles and 32 concrete case files — is what makes the negative results
-legible. Our Nextflow resolver initially overfit to the nf-core template: on eight pipelines that
-do not follow it, two failed outright and six exited zero emitting schema-valid summaries
-containing zero processes, against ground truth of 9 to 99. Conformance passed while fidelity
-collapsed silently. Rebuilding discovery to be layout-agnostic recovered 95 processes, 68
-subworkflows, and 54 edges from a pipeline that previously returned nothing, and added a standing
-oracle requiring recovery within 80 percent of independent ground truth.
-
-We will present the full conversion benchmark across the corpus, the failure taxonomy it exposes,
-and the artifacts: an open knowledge base, 54 installable skills, and the deterministic tooling
-that gates them.
+We will present the conversion benchmark across our pinned upstream corpus and the artifacts: an
+open knowledge base, 54 installable skills, and the deterministic tooling that gates them.

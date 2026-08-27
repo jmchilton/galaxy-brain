@@ -1,10 +1,10 @@
 # B3 — "The deliverable"
 
-Leads with what a user gets. Most accessible; the better poster and the better recruiting pitch.
+Leads with what a user gets. The most accessible framing and the strongest hook.
 
 ## Title
 
-From nf-core Pipeline or Interview to a Tested, Executable Galaxy Workflow
+Build a Galaxy Workflow from Anything
 
 ## Authors
 
@@ -36,11 +36,5 @@ authored step as it is written, tool identifiers resolve against the live Tool S
 journey does not terminate until planemo executes the workflow's own generated tests. The model
 translates and repairs; independent programs select, validate, execute, and classify.
 
-We evaluate against 38 pinned upstream pipelines — 16 nf-core, 10 ad-hoc Nextflow, 12 CWL —
-using 36 fixture-independent oracles and 32 concrete case files, grounded in 120 curated Galaxy
-workflow exemplars. That surface caught our own worst bug: extraction tuned on nf-core silently
-returned zero processes for six of eight non-template pipelines carrying 9 to 99, while passing
-every schema check. Layout-agnostic discovery now recovers 95 processes and 68 subworkflows from
-one such pipeline, held to a standing 80-percent-of-ground-truth threshold.
-
-We will present the conversion benchmark, the failure taxonomy, and 54 installable open skills.
+We will present the conversion benchmark across our pinned upstream corpus and 54 installable
+open skills.
