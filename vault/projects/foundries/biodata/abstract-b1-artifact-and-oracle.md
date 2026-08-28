@@ -33,9 +33,9 @@ generated workflow tests. Structured failures feed back into the authoring loop 
 accepted as plausible output.
 
 Early applications have produced working Galaxy workflows from free-form expert specifications
-and translations of complex Nextflow analyses, including nf-core/sarek. These prototypes expose
-unsupported conditional paths and parameters rather than treating partial coverage as a complete
-translation. This work will demonstrate and discuss conversions of pinned nf-core and non-nf-core
-workflows not used to author the conversion instructions. We will report source-step recovery,
-resolved and version-pinned tool coverage, gxwf validation, Planemo test completion, and observed
-failure modes, alongside the open knowledge base and its 54 installable skills.
+and preliminary translations of complex Nextflow analyses. These prototypes expose unsupported
+conditional paths and parameters rather than treating partial coverage as a complete translation.
+This work will demonstrate and discuss conversions of pinned nf-core and non-nf-core workflows
+not used to author the conversion instructions. We will report source-step recovery, resolved and
+version-pinned tool coverage, gxwf validation, Planemo test completion, and observed failure modes,
+alongside the open knowledge base and its 54 installable skills.

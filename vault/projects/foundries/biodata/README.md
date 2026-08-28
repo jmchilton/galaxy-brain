@@ -27,10 +27,10 @@ cross-ecosystem workflow conversion, with deterministic validation in the loop.
 
 | file | framing | title+body chars |
 | - | - | - |
-| `abstract-b1-artifact-and-oracle.md` | leads with the system | 2,092 |
-| `abstract-b3-deliverable.md` | leads with what a user gets | 2,228 |
+| `abstract-b1-artifact-and-oracle.md` | leads with the system | 2,079 |
+| `abstract-b3-deliverable.md` | leads with what a user gets | 2,130 |
 
-Before authors and affiliations, B1 leaves roughly 1,100 characters and B3 roughly 970 characters
+Before authors and affiliations, B1 leaves roughly 1,120 characters and B3 roughly 1,070 characters
 under the limit. Both now reserve their final paragraph for the evaluation that will be presented.
 
 ## Claims pulled, 2026-08-27

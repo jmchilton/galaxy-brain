@@ -17,13 +17,12 @@ John Chilton, Marius van den Beek, Dannon Baker, David López, Ahmed Hamid Awan,
 Give the Galaxy Workflow Foundry an nf-core or non-nf-core Nextflow pipeline, a CWL workflow, a
 published methods section, or an analysis described in conversation. It constructs a Galaxy
 workflow in which tools are resolved to installable revisions, parameters and connections are
-checked against Galaxy tool schemas, and executable tests accompany the result. The goal is not a
-workflow-shaped answer, but a workflow that can be inspected, installed, run, and repaired.
+checked against Galaxy tool schemas, and executable tests accompany the result. The deliverable
+couples the Galaxy workflow with the evidence needed to inspect, install, run, and repair it.
 
 Early applications have produced working Galaxy workflows from free-form expert specifications
-and have translated the main analytical spine of Nextflow pipelines as complex as nf-core/sarek.
-The current Sarek translation does not capture every conditional path or parameter; those gaps
-are surfaced as explicit unresolved requirements instead of being hidden behind a syntactically
+and preliminary translations of complex Nextflow pipelines. Source behaviors not yet captured are
+surfaced as explicit unresolved requirements instead of being hidden behind a syntactically
 plausible result.
 
 This behavior comes from replacing one large "convert this workflow" prompt with 47 action-sized
