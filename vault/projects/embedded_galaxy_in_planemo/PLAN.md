@@ -1,6 +1,6 @@
 # Plan: `embedded_galaxy` Engine
 
-Status: implementation in progress, reconciled 2026-08-26 against the `embed_galaxy` Planemo branch and Galaxy PR #23360.
+Status: implementation in progress, reconciled 2026-08-28 against the `embed_galaxy` Planemo branch and Galaxy PR #23360.
 
 ## Outcome
 
@@ -20,7 +20,7 @@ Until then, prototype against wheels built from the PR. When released, set the P
 
 ## Implementation ledger
 
-Implemented and exercised on the `embed_galaxy` branch through `a38721d4`:
+Implemented and exercised on the `embed_galaxy` branch through `6f299109`:
 
 - engine registration, option validation, shared managed configuration, and checkout-free YAML-tool recognition;
 - one pre-bound loopback server, one Galaxy construction for mixed test inputs, an in-process Celery worker on both required queues, and ordered teardown;
