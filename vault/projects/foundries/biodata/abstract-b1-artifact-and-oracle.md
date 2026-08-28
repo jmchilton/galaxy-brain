@@ -23,7 +23,7 @@ latest Galaxy representation that preserves its scientific intent. Without that 
 translation can be plausible yet structurally or scientifically wrong.
 
 We present the Galaxy Workflow Foundry: an inspectable knowledge base of current Galaxy practice
-whose structure makes that knowledge actionable. It decomposes workflow translation into 47
+whose structure makes that knowledge actionable. It decomposes workflow translation into dozens of
 action-sized units, or Molds. Each Mold is a typed reference manifest that declares the schemas,
 corpus exemplars, and command contracts it requires, and compiles into a self-contained agent
 skill with a provenance record. Seven pipeline skills compose these actions into routes from
@@ -35,9 +35,11 @@ generated workflow tests. Structured failures feed back into the authoring loop 
 accepted as plausible output.
 
 Early applications have produced working Galaxy workflows from free-form expert specifications
-and preliminary translations of complex Nextflow analyses. These prototypes expose unsupported
-conditional paths and parameters rather than treating partial coverage as a complete translation.
-This work will demonstrate and discuss conversions of pinned nf-core and non-nf-core workflows
-not used to author the conversion instructions. We will report source-step recovery, resolved and
-version-pinned tool coverage, gxwf validation, Planemo test completion, and observed failure modes,
-alongside the open knowledge base and its 54 installable skills.
+and preliminary translations of complex Nextflow analyses. These prototypes make incompleteness
+explicit: unresolved source behavior remains visible as a requirement for further work instead of
+disappearing into a plausible translation. This work will demonstrate and discuss Galaxy workflow
+construction from published methods, free-form expert descriptions, and pinned nf-core and
+non-nf-core Nextflow workflows, including sources not used to author the conversion instructions.
+We will report source-step recovery, resolved and version-pinned tool coverage, gxwf validation,
+Planemo test completion, and observed failure modes, alongside the open knowledge base and its
+installable skills.

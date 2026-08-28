@@ -28,7 +28,7 @@ plausible result.
 This behavior comes from treating an inspectable knowledge base, not one large "convert this
 workflow" prompt, as the source of record. The Foundry assembles current Galaxy schemas, corpus
 exemplars, command contracts, and design knowledge that no model can be assumed to know, then
-makes selected slices actionable through 47 action-sized skills composed into seven
+makes selected slices actionable through dozens of action-sized skills composed into seven
 source-to-target pipelines. Provenance records exactly what produced each skill. Improving a
 conversion therefore means updating reviewable domain knowledge and recompiling, rather than
 accumulating untestable prompt caveats.
@@ -38,8 +38,9 @@ pins candidate tools; gxwf validates workflow structure, parameter state, and da
 Planemo installs the tools and executes source-derived or generated tests. The model proposes and
 repairs translations, while structured failures keep the process from silently declaring success.
 
-This work will demonstrate and discuss conversions across pinned nf-core and non-nf-core
-workflows, including sources not used to develop the conversion instructions. For each, we will
-report preservation of the source analysis, step and tool coverage, gxwf validation, Planemo test
-completion, and remaining translation gaps. The Foundry knowledge base and all 54 compiled skills
-are open and installable for independent use and extension.
+This work will demonstrate and discuss Galaxy workflow construction from published methods,
+free-form expert descriptions, and pinned nf-core and non-nf-core Nextflow workflows, including
+sources not used to develop the conversion instructions. For each, we will report preservation of
+the source analysis, step and tool coverage, gxwf validation, Planemo test completion, and
+remaining translation gaps. The Foundry knowledge base and compiled skills are open and
+installable for independent use and extension.
