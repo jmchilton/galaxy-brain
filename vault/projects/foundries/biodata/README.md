@@ -27,11 +27,73 @@ cross-ecosystem workflow conversion, with deterministic validation in the loop.
 
 | file | framing | title+body chars |
 | - | - | - |
-| `abstract-b1-artifact-and-oracle.md` | leads with the system | 2,520 |
-| `abstract-b3-deliverable.md` | leads with what a user gets | 2,396 |
+| `abstract-b1-artifact-and-oracle.md` | leads with the system | 2,661 |
+| `abstract-b3-deliverable.md` | leads with what a user gets | 2,544 |
 
-Before authors and affiliations, B1 leaves roughly 680 characters and B3 roughly 800 characters
-under the limit. Both now reserve their final paragraph for the evaluation that will be presented.
+Authors and affiliations are now written in (242 characters as pasted). Against the
+3,200 limit that leaves **B1 297 characters and B3 414 characters** of real headroom. Both reserve their final
+paragraph for the evaluation that will be presented.
+
+## Author line, 2026-08-28
+
+    John Chilton¹, Marius van den Beek¹, Dannon Baker², Danielle Callan³, Anton Nekrutenko¹
+
+    1. The Pennsylvania State University, University Park, PA, USA
+    2. Johns Hopkins University, Baltimore, MD, USA
+    3. Temple University, Philadelphia, PA, USA
+
+- **David López and Ahmed Hamid Awan dropped** at author request.
+- **Danielle Callan added**, slotted into López's position so Nekrutenko stays last.
+- **Callan is Temple, not Penn State.** A first web search claimed Penn State; that was wrong.
+  The affiliation is verified against the BRC-Analytics preprint (bioRxiv 2025.10.13.682095v2),
+  which shares this author group — "Dept. of Biology, Temple University, Philadelphia, PA, USA."
+  She publishes as "Danielle Callan" (GitHub `d-callan`); LinkedIn shows "Danielle Leake Callan."
+- **Baker is Johns Hopkins**, confirmed (jhu.edu, Taylor Lab). The `Clever Canary, LLC` line in
+  that same preprint belongs to a different author — no conflict.
+- Institution-only form is used to save space. Departmental form (e.g. "Dept. of Biochemistry and
+  Molecular Biology, The Pennsylvania State University") costs roughly 90 more characters.
+
+## Named demonstration targets, 2026-08-28
+
+Both final paragraphs now name `nf-core/sarek` (template-conformant variant calling) and NCBI's
+`EGAPx` (eukaryotic genome annotation, no nf-core template) as the pipelines that will be
+presented. These are stated in the future tense as demonstration *targets*, not as results — the
+construction commits to presenting them, not to having succeeded. The "which follows no such
+template" clause pre-frames a partial EGAPx result as informative rather than as a shortfall,
+which matters because EGAPx is PI-driven scope rather than settled work.
+
+This is why the abstract now carries biology at all: the previous drafts named no assay, organism,
+or analysis type anywhere, which is a problem for a program committee whose sessions are
+genomics-facing and whose organizers and keynotes are assembly/annotation people.
+
+## Polish pass, 2026-08-28
+
+**Both drafts stay in play** — two options for readers, not one submission. Applied to both:
+
+- **Hedge de-stacking.** "Early applications … and *preliminary* translations of *complex*
+  Nextflow analyses" → "…and *partial* translations of Nextflow pipelines. Incompleteness is
+  explicit by design: …". No claim changed. "Preliminary" described the author's confidence;
+  "partial" describes the artifact. Also fixed a drift — B1 said "analyses", B3 said "pipelines".
+- **Stakes sentence added:** "Porting an analysis between workflow ecosystems is today a manual
+  expert task, which is why most analyses never move." Neither draft previously said what the
+  status quo costs. Opens B1 (replacing a flat negation-of-an-abstraction start); closes B3's
+  first paragraph (the imperative opener must stay first).
+
+B3 only:
+
+- Title now claims rather than lists: "…to **Runnable** Galaxy Workflows".
+- Sentence 2 rebuilt as a parallel triple instead of three passives.
+- Machinery paragraph names its actor ("Independent programs, not the model, determine…") and
+  closes short: "The model proposes and repairs. The tools decide when it is done."
+
+**Deliberately kept:** the Karpathy eponym, at author request, acknowledged as weak in its current
+form. The weakness is that "an extension of a Karpathy-style LLM wiki" neither says extended *how*
+nor glosses the referent for readers who don't know it. A drop-in that keeps the name and fixes
+both is on the table but unapplied.
+
+**Not done:** paragraph 3 of B3 is the densest jargon ("corpus exemplars, command contracts,
+action-sized skills composed into seven source-to-target pipelines") and is where a skimming
+reviewer bounces. B1 did not receive the title or machinery-paragraph treatment.
 
 ## Claims pulled, 2026-08-27
 
@@ -76,10 +138,18 @@ has.
 
 ## Open items
 
-1. **Affiliations.** Author line follows GCC 2026 (Chilton, van den Beek, Baker, López, Awan,
-   Nekrutenko); institutions still need confirming, as does the presenter designation.
+1. **Presenter designation** still TBC. Every affiliation on the line is now verified.
 2. **Registration** — required before the abstract counts. Confirm before Friday.
 3. **The benchmark**, per the section above.
+4. **`EGAPx` styling** — confirm against NCBI's own docs before submission. The GitHub repo is
+   lowercase `ncbi/egapx`, but the product appears to be styled `EGAPx`; the drafts currently use
+   `EGAPx`. A misrendered tool name in an abstract is a cheap, visible credibility hit.
+5. **The Sarek data.** If existing Sarek results are solid, Sarek should also replace the vague
+   "preliminary translations of complex Nextflow analyses" in the present-tense paragraph. A named
+   partial result in present tense is what makes the future-tense paragraph read as a plan on
+   rails rather than as aspiration. Not yet done — the data has not been reviewed.
+6. **CWL is now unnamed** in both demonstration lists, which name only Nextflow pipelines. Either
+   name a CWL target too, or accept that CWL survives only in the earlier body text.
 
 ## Corpus figures the drafts still rely on
 
