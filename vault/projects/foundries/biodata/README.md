@@ -42,16 +42,7 @@ paragraph for the evaluation that will be presented.
     2. Johns Hopkins University, Baltimore, MD, USA
     3. Temple University, Philadelphia, PA, USA
 
-- **David López and Ahmed Hamid Awan dropped** at author request.
-- **Danielle Callan added**, slotted into López's position so Nekrutenko stays last.
-- **Callan is Temple, not Penn State.** A first web search claimed Penn State; that was wrong.
-  The affiliation is verified against the BRC-Analytics preprint (bioRxiv 2025.10.13.682095v2),
-  which shares this author group — "Dept. of Biology, Temple University, Philadelphia, PA, USA."
-  She publishes as "Danielle Callan" (GitHub `d-callan`); LinkedIn shows "Danielle Leake Callan."
-- **Baker is Johns Hopkins**, confirmed (jhu.edu, Taylor Lab). The `Clever Canary, LLC` line in
-  that same preprint belongs to a different author — no conflict.
-- Institution-only form is used to save space. Departmental form (e.g. "Dept. of Biochemistry and
-  Molecular Biology, The Pennsylvania State University") costs roughly 90 more characters.
+All affiliations verified.
 
 ## Named demonstration targets, 2026-08-28
 
