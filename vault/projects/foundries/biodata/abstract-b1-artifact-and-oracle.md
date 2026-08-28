@@ -4,7 +4,7 @@ Leads with the system. Weaker hook for a talk slot than B3.
 
 ## Title
 
-Test-Gated Agent Skills for Cross-Ecosystem Workflow Translation
+Test-Gated Agent Skills for Translating Nextflow and CWL Pipelines into Galaxy
 
 ## Authors
 
@@ -29,15 +29,16 @@ a translation can be plausible yet structurally or scientifically wrong.
 
 We present the Galaxy Workflow Foundry: an inspectable knowledge base of current Galaxy practice—an
 extension of a Karpathy-style LLM wiki—whose structure makes that knowledge actionable. It
-decomposes workflow translation into dozens of action-sized units, or Molds. Each Mold is a typed
-reference manifest that declares the schemas, corpus exemplars, and command contracts it requires,
-and compiles into a self-contained agent skill with a provenance record. Seven pipeline skills
-compose these actions into routes from Nextflow, CWL, published methods, or a domain-expert
-interview to Galaxy. The model interprets, translates, and repairs; deterministic programs
-constrain the machine-checkable parts of the result. Tool Shed discovery resolves tools to
-installable revisions, gxwf validates workflow structure and parameters against Galaxy tool
-schemas, and Planemo executes source-derived or generated workflow tests. Structured failures feed
-back into the authoring loop instead of being accepted as plausible output.
+decomposes workflow translation into dozens of action-sized units called Molds. Each declares the
+schemas, exemplars, and command contracts it requires, then compiles into a self-contained agent
+skill with a provenance record. Seven pipeline skills compose these actions into routes from
+Nextflow, CWL, published methods, or a domain-expert interview to Galaxy.
+
+Independent programs, not the model, determine whether a translation is correct. Tool Shed
+discovery resolves tools to installable revisions; gxwf validates workflow structure and parameters
+against Galaxy tool schemas; Planemo executes source-derived or generated workflow tests. The model
+interprets, translates, and repairs. Their structured failures feed the next revision instead of
+passing as plausible output.
 
 Early applications have produced working Galaxy workflows from free-form expert specifications, and
 partial translations of Nextflow pipelines. Incompleteness is explicit by design: unresolved source

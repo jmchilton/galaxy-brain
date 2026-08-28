@@ -27,11 +27,11 @@ cross-ecosystem workflow conversion, with deterministic validation in the loop.
 
 | file | framing | title+body chars |
 | - | - | - |
-| `abstract-b1-artifact-and-oracle.md` | leads with the system | 2,661 |
+| `abstract-b1-artifact-and-oracle.md` | leads with the system | 2,621 |
 | `abstract-b3-deliverable.md` | leads with what a user gets | 2,544 |
 
 Authors and affiliations are now written in (242 characters as pasted). Against the
-3,200 limit that leaves **B1 297 characters and B3 414 characters** of real headroom. Both reserve their final
+3,200 limit that leaves **B1 337 characters and B3 414 characters** of real headroom. Both reserve their final
 paragraph for the evaluation that will be presented.
 
 ## Author line, 2026-08-28
@@ -91,9 +91,26 @@ form. The weakness is that "an extension of a Karpathy-style LLM wiki" neither s
 nor glosses the referent for readers who don't know it. A drop-in that keeps the name and fixes
 both is on the table but unapplied.
 
+B1 brought to parity in a second pass:
+
+- **Title names the ecosystems** — "…for Translating Nextflow and CWL Pipelines into Galaxy"
+  replaces the abstract "Cross-Ecosystem Workflow Translation".
+- **The 7-sentence paragraph 2 was split.** It carried the knowledge base, the Mold model, the
+  pipeline composition, the three validators and the feedback loop in one block. Now two
+  paragraphs; sentence counts per paragraph are 6/4/4/2/2 instead of 6/7/2/2.
+- **Machinery paragraph names its actor**, matching B3, and closes on the feedback loop —
+  deliberately a different closing line from B3's "The tools decide when it is done," since the
+  two drafts are shown as alternatives.
+- **"Molds" kept** as the project's coined term, but "typed reference manifest" dropped — it added
+  jargon without adding meaning.
+
+Note: both drafts now open that paragraph with the same sentence ("Independent programs, not the
+model, determine whether a translation is correct"). Intentional — it is the shared thesis — but
+visible if anyone reads them side by side.
+
 **Not done:** paragraph 3 of B3 is the densest jargon ("corpus exemplars, command contracts,
 action-sized skills composed into seven source-to-target pipelines") and is where a skimming
-reviewer bounces. B1 did not receive the title or machinery-paragraph treatment.
+reviewer bounces.
 
 ## Claims pulled, 2026-08-27
 
