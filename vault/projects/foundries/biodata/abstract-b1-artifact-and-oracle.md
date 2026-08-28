@@ -14,14 +14,16 @@ John Chilton, Marius van den Beek, Dannon Baker, David López, Ahmed Hamid Awan,
 
 ## Body
 
-Equivalent analyses are expressed differently across Nextflow, CWL, and Galaxy, making faithful
-porting labor-intensive. Language models can propose translations, but often introduce defects
-that domain tools can detect: invented tool identifiers, lost version pins, invalid parameter
-names, incompatible data connections, and malformed workflow documents. A monolithic conversion
-prompt accumulates the rules for avoiding these defects as prose that is difficult to test,
-attribute, or reuse.
+Faithful workflow translation is not primarily a syntax-conversion problem. It requires current,
+ecosystem-specific knowledge: how source concepts map to Galaxy data models, collection
+semantics, tool interfaces, reference data, and workflow idioms. Much of this knowledge lives in
+fast-moving code, schemas, and expert practice rather than stable documentation or model training
+corpora. A frontier model can read a Nextflow or CWL workflow, but cannot be assumed to know the
+latest Galaxy representation that preserves its scientific intent. Without that grounding, a
+translation can be plausible yet structurally or scientifically wrong.
 
-We present the Galaxy Workflow Foundry, which decomposes workflow translation into 47
+We present the Galaxy Workflow Foundry: an inspectable knowledge base of current Galaxy practice
+whose structure makes that knowledge actionable. It decomposes workflow translation into 47
 action-sized units, or Molds. Each Mold is a typed reference manifest that declares the schemas,
 corpus exemplars, and command contracts it requires, and compiles into a self-contained agent
 skill with a provenance record. Seven pipeline skills compose these actions into routes from
