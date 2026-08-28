@@ -4,7 +4,7 @@ Leads with the system. Weaker hook for a talk slot than B3.
 
 ## Title
 
-Compiling Trustworthy Agent Skills for Cross-Ecosystem Workflow Conversion
+Test-Gated Agent Skills for Cross-Ecosystem Workflow Translation
 
 ## Authors
 
@@ -14,24 +14,28 @@ John Chilton, Marius van den Beek, Dannon Baker, David López, Ahmed Hamid Awan,
 
 ## Body
 
-Reproducible analysis is fragmented across workflow ecosystems. A Nextflow pipeline, a CWL
-description, and a Galaxy workflow encode the same science in incompatible dialects, and porting
-between them is expensive enough that most groups simply do not. Language models can read a
-pipeline and propose a translation, and they fail the same detectable ways every time:
-hallucinated tool identifiers, dropped revision suffixes, fabricated parameter names, and
-serializations the parser rejects on line one. The usual response is a large hand-authored
-"convert a workflow" prompt that enumerates these failures as prose caveats. Those caveats do not
-compose, cannot be tested, and rot on the next regression.
+Equivalent analyses are expressed differently across Nextflow, CWL, and Galaxy, making faithful
+porting labor-intensive. Language models can propose translations, but often introduce defects
+that domain tools can detect: invented tool identifiers, lost version pins, invalid parameter
+names, incompatible data connections, and malformed workflow documents. A monolithic conversion
+prompt accumulates the rules for avoiding these defects as prose that is difficult to test,
+attribute, or reuse.
 
-We take a different shape. Workflow conversion is decomposed into 47 atomic actions, each a typed
-reference manifest declaring exactly the schemas, corpus exemplars, and command contracts it
-depends on, and each compiled into a self-contained, frozen agent skill carrying a provenance
-record. Seven ordered pipelines compose those actions end to end: Nextflow, CWL, a published
-paper, or a domain-expert interview in; a validated, executable Galaxy workflow out. Determinism
-is enforced rather than requested. Every authored step is schema-validated inline by gxwf, tool
-identifiers resolve against the live Tool Shed, and the journey does not terminate until planemo
-executes the workflow's own generated tests. The model translates and repairs; independent tools
-select, validate, execute, and classify.
+We present the Galaxy Workflow Foundry, which decomposes workflow translation into 47
+action-sized units, or Molds. Each Mold is a typed reference manifest that declares the schemas,
+corpus exemplars, and command contracts it requires, and compiles into a self-contained agent
+skill with a provenance record. Seven pipeline skills compose these actions into routes from
+Nextflow, CWL, published methods, or a domain-expert interview to Galaxy. The model interprets,
+translates, and repairs; deterministic programs constrain the machine-checkable parts of the
+result. Tool Shed discovery resolves tools to installable revisions, gxwf validates workflow
+structure and parameters against Galaxy tool schemas, and Planemo executes source-derived or
+generated workflow tests. Structured failures feed back into the authoring loop instead of being
+accepted as plausible output.
 
-We will present the conversion benchmark across our pinned upstream corpus and the artifacts: an
-open knowledge base, 54 installable skills, and the deterministic tooling that gates them.
+Early applications have produced working Galaxy workflows from free-form expert specifications
+and translations of complex Nextflow analyses, including nf-core/sarek. These prototypes expose
+unsupported conditional paths and parameters rather than treating partial coverage as a complete
+translation. This work will demonstrate and discuss conversions of pinned nf-core and non-nf-core
+workflows not used to author the conversion instructions. We will report source-step recovery,
+resolved and version-pinned tool coverage, gxwf validation, Planemo test completion, and observed
+failure modes, alongside the open knowledge base and its 54 installable skills.

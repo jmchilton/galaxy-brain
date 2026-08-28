@@ -4,7 +4,7 @@ Leads with what a user gets. The most accessible framing and the strongest hook.
 
 ## Title
 
-Build a Galaxy Workflow from Anything
+From Nextflow, CWL, Papers, and Conversations to Galaxy Workflows
 
 ## Authors
 
@@ -14,27 +14,31 @@ John Chilton, Marius van den Beek, Dannon Baker, David López, Ahmed Hamid Awan,
 
 ## Body
 
-Point at an nf-core pipeline, a CWL description, or a published methods section — or just
-describe your analysis in conversation — and get back a Galaxy workflow whose every step is a
-real, version-pinned tool, whose parameters validate against the Tool Shed, and which ships with
-tests that have actually been run. That is the deliverable we are building, and it works today on
-pipelines we did not develop it against.
+Give the Galaxy Workflow Foundry an nf-core or non-nf-core Nextflow pipeline, a CWL workflow, a
+published methods section, or an analysis described in conversation. It constructs a Galaxy
+workflow in which tools are resolved to installable revisions, parameters and connections are
+checked against Galaxy tool schemas, and executable tests accompany the result. The goal is not a
+workflow-shaped answer, but a workflow that can be inspected, installed, run, and repaired.
 
-Getting there required rejecting the obvious approach. A single large prompt instructing a model
-to "convert this workflow" fails in predictable, detectable ways — hallucinated tool identifiers,
-dropped revision suffixes, fabricated parameter names, serializations the parser rejects
-immediately — and the usual patch is a growing list of prose caveats that cannot be tested and
-rot on the next regression. Instead we decompose conversion into 47 atomic actions. Each is a
-typed manifest declaring the schemas, corpus exemplars, and command contracts it depends on, and
-each compiles into a small frozen agent skill carrying a provenance record naming exactly what it
-was built from. Seven ordered pipelines compose them end to end. The knowledge base, not the
-skill, is the source of record, so improving a conversion means editing inspectable domain
-knowledge and recompiling, not hand-patching a prompt.
+Early applications have produced working Galaxy workflows from free-form expert specifications
+and have translated the main analytical spine of Nextflow pipelines as complex as nf-core/sarek.
+The current Sarek translation does not capture every conditional path or parameter; those gaps
+are surfaced as explicit unresolved requirements instead of being hidden behind a syntactically
+plausible result.
 
-Correctness is enforced by tools, not requested from the model. gxwf schema-validates each
-authored step as it is written, tool identifiers resolve against the live Tool Shed, and the
-journey does not terminate until planemo executes the workflow's own generated tests. The model
-translates and repairs; independent programs select, validate, execute, and classify.
+This behavior comes from replacing one large "convert this workflow" prompt with 47 action-sized
+skills composed into seven source-to-target pipelines. Each skill is compiled from an inspectable
+manifest of schemas, corpus exemplars, and command contracts, with provenance recording exactly
+what produced it. Improving a conversion therefore means updating reviewable domain knowledge and
+recompiling, rather than accumulating untestable prompt caveats.
 
-We will present the conversion benchmark across our pinned upstream corpus and 54 installable
-open skills.
+Machine-checkable correctness is delegated to independent tools. Tool Shed discovery verifies and
+pins candidate tools; gxwf validates workflow structure, parameter state, and data connections;
+Planemo installs the tools and executes source-derived or generated tests. The model proposes and
+repairs translations, while structured failures keep the process from silently declaring success.
+
+This work will demonstrate and discuss conversions across pinned nf-core and non-nf-core
+workflows, including sources not used to develop the conversion instructions. For each, we will
+report preservation of the source analysis, step and tool coverage, gxwf validation, Planemo test
+completion, and remaining translation gaps. The Foundry knowledge base and all 54 compiled skills
+are open and installable for independent use and extension.
