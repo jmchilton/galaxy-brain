@@ -22,17 +22,17 @@ corpora. A frontier model can read a Nextflow or CWL workflow, but cannot be ass
 latest Galaxy representation that preserves its scientific intent. Without that grounding, a
 translation can be plausible yet structurally or scientifically wrong.
 
-We present the Galaxy Workflow Foundry: an inspectable knowledge base of current Galaxy practice
-whose structure makes that knowledge actionable. It decomposes workflow translation into dozens of
-action-sized units, or Molds. Each Mold is a typed reference manifest that declares the schemas,
-corpus exemplars, and command contracts it requires, and compiles into a self-contained agent
-skill with a provenance record. Seven pipeline skills compose these actions into routes from
-Nextflow, CWL, published methods, or a domain-expert interview to Galaxy. The model interprets,
-translates, and repairs; deterministic programs constrain the machine-checkable parts of the
-result. Tool Shed discovery resolves tools to installable revisions, gxwf validates workflow
-structure and parameters against Galaxy tool schemas, and Planemo executes source-derived or
-generated workflow tests. Structured failures feed back into the authoring loop instead of being
-accepted as plausible output.
+We present the Galaxy Workflow Foundry: an inspectable knowledge base of current Galaxy
+practice—an extension of a Karpathy-style LLM wiki—whose structure makes that knowledge
+actionable. It decomposes workflow translation into dozens of action-sized units, or Molds. Each
+Mold is a typed reference manifest that declares the schemas, corpus exemplars, and command
+contracts it requires, and compiles into a self-contained agent skill with a provenance record.
+Seven pipeline skills compose these actions into routes from Nextflow, CWL, published methods, or
+a domain-expert interview to Galaxy. The model interprets, translates, and repairs; deterministic
+programs constrain the machine-checkable parts of the result. Tool Shed discovery resolves tools
+to installable revisions, gxwf validates workflow structure and parameters against Galaxy tool
+schemas, and Planemo executes source-derived or generated workflow tests. Structured failures
+feed back into the authoring loop instead of being accepted as plausible output.
 
 Early applications have produced working Galaxy workflows from free-form expert specifications
 and preliminary translations of complex Nextflow analyses. These prototypes make incompleteness
