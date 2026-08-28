@@ -10,13 +10,9 @@ The engine is successful when XML and YAML tool tests and workflow tests run wit
 
 ## Prerequisite
 
-Galaxy PR [#23360](https://github.com/galaxyproject/galaxy/pull/23360) must first:
+Galaxy PR [#23360](https://github.com/galaxyproject/galaxy/pull/23360) merged into `release_26.1` on 2026-08-26 with the builder, wheel-job, mypy, and partial-global cleanup fixes. The remaining prerequisite is a package release containing that merge; PyPI's current `galaxy` 26.1.1 release predates it.
 
-- land the mypy fix currently being handled separately;
-- clear a partially built `galaxy.app.app` global if ASGI assembly fails; and
-- be included in a package release.
-
-Until then, prototype against wheels built from the PR. When released, set the Planemo extra's lower bound to the **first release containing the builder and wheel-job fixes**, not merely `>=26.1`.
+Until that release, prototype against wheels built from the merged PR. When published, set the Planemo extra's lower bound to the **first release containing the builder and wheel-job fixes**, not merely `>=26.1`.
 
 ## Implementation ledger
 
