@@ -1,6 +1,6 @@
 # Plan: `embedded_galaxy` Engine
 
-Status: implementation in progress, reconciled 2026-08-28 against the `embed_galaxy` Planemo branch and Galaxy PR #23360.
+Status: implementation in progress, reconciled 2026-08-29 against the `embed_galaxy` Planemo branch and Galaxy PR #23360.
 
 ## Outcome
 
@@ -16,13 +16,16 @@ Until that release, prototype against wheels built from the merged PR. When publ
 
 ## Implementation ledger
 
-Implemented and exercised on the `embed_galaxy` branch through `6f299109`:
+Implemented and exercised on the `embed_galaxy` branch through `7222fd2c`:
 
 - engine registration, option validation, shared managed configuration, and checkout-free YAML-tool recognition;
 - one pre-bound loopback server, one Galaxy construction for mixed test inputs, an in-process Celery worker on both required queues, and ordered teardown;
-- scoped file/console logging, restoration of Galaxy's process-global app, environment and logger restoration, partial worker-start cleanup, and defensive fork-pool shutdown;
-- a real opt-in acceptance test covering XML and YAML tools, upload, workflow execution, and Tool Shed installation in one application; the test also repeats Celery result reads and checks that no new threads, multiprocessing children, global app, or generated configuration directory survives; and
-- a 30-second whole-teardown diagnostic that reports live thread and child-process names. Galaxy's own `app.shutdown()` registration disposes the model engine, so Planemo must not dispose it a second time.
+- scoped file/console logging, restoration of Galaxy's process-global app, environment and logger restoration, partial worker-start cleanup, and defensive Celery worker/fork-pool shutdown even when an earlier cleanup action fails;
+- focused readiness-failure, uvicorn-failure, first-`Ctrl-C`, and second-`Ctrl-C` tests that preserve the primary error while completing the remaining cleanup;
+- a real opt-in acceptance test covering XML and YAML tools, upload, workflow execution, and Tool Shed installation in one application; the test also repeats Celery result reads and checks that no registered probe task, local job process, new thread, multiprocessing child, global app, or generated configuration directory survives;
+- subprocess acceptance tests proving that `planemo run` downloads the expected output and exits without a surviving process group, and that foreground `planemo serve` becomes ready, handles `SIGINT`, releases its port, and exits without a surviving process group;
+- concrete `--no_cleanup` coverage proving that the generated configuration and complete log remain while failure replay stays bounded to the last 100 lines; and
+- a 30-second whole-teardown diagnostic that reports live thread and child-process names and cannot itself prevent cleanup if its timer fails. Galaxy's own `app.shutdown()` registration disposes the model engine, so Planemo must not dispose it a second time.
 
 Deliberately separate work:
 
@@ -37,7 +40,6 @@ Release-blocked work:
 Still required before merge:
 
 - record cold/warm startup timings against the managed Galaxy engine;
-- add focused first- and second-`Ctrl-C` teardown coverage; and
 - run the existing-engine/full-suite regression checks once the branch is rebased onto its prerequisite PRs.
 
 ## Scope
