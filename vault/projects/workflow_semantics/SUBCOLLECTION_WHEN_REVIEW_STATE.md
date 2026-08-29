@@ -11,14 +11,22 @@ what bug this is fixing." Split into two branches off `dev`:
 | Branch | Content | Status |
 |---|---|---|
 | `regenerate_collection_semantics_doc` | regenerate the stale generated doc, nothing else | **merged as #23376** |
-| `subworkflow_mapping_per_step_semantics` | all-`None` collapse + framework test + unconditional docs | rebased on dev after #23376, pushed, not opened |
-| `subworkflow_mapping_when_alignment` | `is_aligned_with` guard + API tests + unit tests + conditional docs | stacked on the above, pushed, not opened |
+| `subworkflow_mapping_per_step_semantics` | all-`None` collapse + framework test, nothing else | `3091235ec2`, pushed, not opened |
+| `subworkflow_mapping_when_alignment` | `is_aligned_with` guard + API tests + unit tests + the whole Subworkflows doc section | `bd24feae8f`, stacked on the above, pushed, not opened |
+
+All `collection_semantics` changes moved out of the first branch into the second on
+2026-08-29, to isolate the bug. The first PR is now three files - `modules.py` and the two
+framework-test files, 111 insertions. The second carries both doc paragraphs and the
+generated markdown, and registers the first PR's framework test as its example (the
+reference resolves because the branch is stacked). Combined content across the two is
+byte-identical to what it was before the move.
 
 `doc/source/dev/collection_semantics.md` on dev has been missing the 102-line Type
 Compatibility Algebra section since `39597b3366` (2026-04-25) added it to the YAML without
 regenerating. Every PR touching that file inherited those 102 lines of unrelated diff -
 which is most of why #23369's doc change read as larger than it was. Regenerating first
-takes the first PR's doc diff from 155 lines to its own 53.
+took the first PR's doc diff from 155 lines to its own 53; those 53 now live in the second
+PR.
 
 Nothing catches this drift: `semantics.py --check` only validates test references (and
 `main()` discards `check()`'s return value besides), and the file is excluded from prettier
@@ -54,12 +62,12 @@ matters because force-pushing orphans the inline comments the reviewer spent an 
    list but you're not feeding it one" / "what the inner workflow sees after the map-over
    is a single dataset." It is legal — the child invocation receives whole collections —
    but if a reviewer bounces off it twice the artifact is unclear.
-4. **Doc: "All steps inherit that mapping, right?"** The current prose is what the code
+4. **Doc: "All steps inherit that mapping, right?"** (now second PR) The current prose is what the code
    does — `compute_collection_info` ends `return collection_info or
    progress.subworkflow_collection_info`, so a step with its own collection uses its own
    dimensionality and inherits only `when_values`. Answer with the pointer.
 5. **Doc: "its outputs match only that collection — in the context of the subworkflow,
-   right?"** Stronger than that: the framework test shows the 3-element output stays flat
+   right?"** (now second PR) Stronger than that: the framework test shows the 3-element output stays flat
    at the top level too.
 6. **Doc suggestion: say you cannot consume beyond the subworkflow input depth** — a
    `multiple="true"` input connected to a single data input inside a subworkflow mapped

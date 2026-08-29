@@ -47,7 +47,6 @@ with the bug present.
 
 ## Docs
 
-`collection_semantics.yml` had no subworkflow examples at all. Adds a Subworkflows section
-covering how a collection mapped over a subworkflow step resolves per step inside it, and
-registers the rule the framework test demonstrates as
-`UNCONDITIONAL_SUBWORKFLOW_INDEPENDENT_LOCAL_MAPPING`.
+None. The Subworkflows section of `collection_semantics.yml` lives in the follow-up PR
+instead, so this one is the bug and its regression test and nothing else. The framework
+test is registered as an example there.

@@ -70,8 +70,10 @@ subworkflow maps over a collection whose elements don't correspond, the invocati
 
 ## Docs
 
-Extends the Subworkflows section added by #PR1 with how `when` results travel with the
-mapping they were computed over.
+`collection_semantics.yml` had no subworkflow examples at all. Adds a Subworkflows section
+covering how a collection mapped over a subworkflow step resolves per step inside it, and
+how `when` results travel with the mapping they were computed over. Registers the framework
+test added by #PR1 as `UNCONDITIONAL_SUBWORKFLOW_INDEPENDENT_LOCAL_MAPPING`.
 
 ## Where the correspondence can't be established
 
