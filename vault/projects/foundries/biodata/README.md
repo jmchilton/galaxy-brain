@@ -28,10 +28,10 @@ cross-ecosystem workflow conversion, with deterministic validation in the loop.
 | file | framing | title+body chars |
 | - | - | - |
 | `abstract-b1-artifact-and-oracle.md` | leads with the system | 2,621 |
-| `abstract-b3-deliverable.md` | leads with what a user gets | 2,544 |
+| `abstract-b3-deliverable.md` | leads with what a user gets | 2,161 |
 
 Authors and affiliations are now written in (242 characters as pasted). Against the
-3,200 limit that leaves **B1 337 characters and B3 414 characters** of real headroom. Both reserve their final
+3,200 limit that leaves **B1 337 characters and B3 797 characters** of real headroom. Both reserve their final
 paragraph for the evaluation that will be presented.
 
 ## Author line, 2026-08-28
@@ -95,13 +95,21 @@ B1 brought to parity in a second pass:
 - **"Molds" kept** as the project's coined term, but "typed reference manifest" dropped — it added
   jargon without adding meaning.
 
-Note: both drafts now open that paragraph with the same sentence ("Independent programs, not the
-model, determine whether a translation is correct"). Intentional — it is the shared thesis — but
-visible if anyone reads them side by side.
+Before the 2026-08-30 B3 pass, both drafts opened that paragraph with the same sentence
+("Independent programs, not the model, determine whether a translation is correct"). B3 no longer
+uses the shared sentence.
 
-**Not done:** paragraph 3 of B3 is the densest jargon ("corpus exemplars, command contracts,
-action-sized skills composed into seven source-to-target pipelines") and is where a skimming
-reviewer bounces.
+**Resolved 2026-08-30:** paragraph 3 of B3 was the densest jargon ("corpus exemplars, command
+contracts, action-sized skills composed into seven source-to-target pipelines"). It now describes
+the knowledge base, focused skills, and provenance in direct terms.
+
+## Stop-slop pass, 2026-08-30
+
+B3 now names people as actors where the original relied on abstractions, removes its em dash and
+binary contrasts, and replaces the slogan ending of the validation paragraph with a description of
+how the model uses tool reports. The pass also replaces the unsupported "most analyses never move"
+with the narrower claim that many analyses stay in their original system. The technical acceptance
+criteria and all evaluation targets remain unchanged.
 
 ## Claims pulled, 2026-08-27
 

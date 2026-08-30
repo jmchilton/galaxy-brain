@@ -1,4 +1,4 @@
-# B3 — "The deliverable"
+# B3: "The deliverable"
 
 Leads with what a user gets. The most accessible framing and the strongest hook.
 
@@ -19,33 +19,31 @@ John Chilton¹, Marius van den Beek¹, Dannon Baker², Danielle Callan³, Anton 
 ## Body
 
 Give the Galaxy Workflow Foundry a published methods section, an analysis described in
-conversation, a Nextflow pipeline, or a CWL workflow. It returns a Galaxy workflow together with
-an explicit account of what is runnable, what has been validated, and what still requires human
-resolution. The deliverable couples the Galaxy workflow with the evidence needed to inspect,
-install, run, and repair it. Porting an analysis between workflow ecosystems is today a manual
-expert task, which is why most analyses never move.
+conversation, a Nextflow pipeline, or a CWL workflow. You receive a Galaxy workflow with validation
+results and an explicit list of gaps that need human attention. The Foundry records the evidence
+needed to inspect, install, run, and repair the workflow. An expert must reconstruct an analysis by
+hand to move it between workflow ecosystems, so many analyses stay in the system in which they were
+written.
 
-Early applications have produced working Galaxy workflows from free-form expert specifications, and
-partial translations of Nextflow pipelines. Incompleteness is explicit by design: source behavior
-not yet captured stays visible as a stated requirement rather than hidden behind a syntactically
-plausible result.
+We have used the Foundry to produce working Galaxy workflows from free-form expert specifications
+and partial translations of Nextflow pipelines. The Foundry lists unresolved source behavior as
+explicit requirements in its output.
 
-This behavior comes from treating an inspectable knowledge base—an extension of a Karpathy-style
-LLM wiki—as the source of record, rather than one large "convert this workflow" prompt. The Foundry
-organizes current Galaxy schemas, working examples, validation commands, and design knowledge into
-focused skills that are assembled into seven translation pipelines. Provenance records exactly
-what produced each skill. Improving a conversion therefore means updating reviewable domain
-knowledge and recompiling, rather than accumulating untestable prompt caveats.
+We maintain current Galaxy schemas, working examples, validation commands, and design knowledge in
+an inspectable source of record based on Karpathy's LLM wiki pattern. The Foundry packages this
+knowledge into focused skills and assembles them into seven translation pipelines. For each skill,
+we record its source material in a provenance record. A developer can update the domain knowledge
+behind a failed conversion and compile the skill again.
 
-Independent programs, not the model, determine whether a translation is correct. Tool Shed
-discovery verifies and pins candidate tools; gxwf validates workflow structure, parameter state,
-and data connections; Planemo installs the tools and executes source-derived or generated tests.
-The model proposes and repairs. The tools decide when it is done.
+We use Tool Shed discovery, gxwf, and Planemo to set the acceptance criteria. Tool Shed
+discovery pins candidate tools to installable revisions; gxwf checks workflow structure,
+parameters, and connections; Planemo installs the tools and runs source-derived or generated
+tests. The model uses their reports to revise the workflow.
 
 We will present workflows built from a published methods section and from a conversation with a
 domain expert, alongside conversions of nf-core/sarek, a template-conformant variant-calling
 pipeline, and NCBI's EGAPx eukaryotic genome annotation pipeline, which follows no such template.
-The evaluation includes pipelines the skills were never written against. For each we report tool
+We selected some evaluation pipelines after developing the skills. For each we report tool
 coverage, gxwf validation, whether Planemo tests run green, and where the translation remains
-incomplete. The Foundry knowledge base and compiled skills are open and installable for independent
-use and extension.
+incomplete. We release the Foundry knowledge base and compiled skills for others to inspect,
+install, and extend.
