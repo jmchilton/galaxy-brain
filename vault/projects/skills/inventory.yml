@@ -1,0 +1,169 @@
+schema_version: 1
+last_reviewed: 2026-09-03
+maintainer: jmchilton
+
+repositories:
+  claude-jmchilton-plugins:
+    url: https://github.com/jmchilton/claude-jmchilton-plugins
+    local_checkout: ~/projects/repositories/claude-jmchilton-plugins
+    visibility: public
+    purpose: Personal agent workflows packaged for Claude Code and Codex.
+    hosts:
+      - claude-code
+      - codex
+    status: active
+    documentation: complete
+    packaging:
+      claude: plugins/jmchilton/.claude-plugin/plugin.json
+      codex: plugins/jmchilton/.codex-plugin/plugin.json
+      claude_marketplace: .claude-plugin/marketplace.json
+      codex_marketplace: .agents/plugins/marketplace.json
+    skills:
+      - name: galaxy-backend-tests
+        path: plugins/jmchilton/skills/galaxy-backend-tests
+        purpose: Run Galaxy backend test suites with the repository test harness.
+      - name: galaxy-bootstrap
+        path: plugins/jmchilton/skills/galaxy-bootstrap
+        purpose: Prepare a Galaxy worktree for local development and testing.
+      - name: galaxy-playwright
+        path: plugins/jmchilton/skills/galaxy-playwright
+        purpose: Run Galaxy Playwright and Selenium tests against a development server.
+      - name: galaxy-toolshed-tests
+        path: plugins/jmchilton/skills/galaxy-toolshed-tests
+        purpose: Run Galaxy Tool Shed functional tests and their supporting servers.
+      - name: herdr-config
+        path: plugins/jmchilton/skills/herdr-config
+        purpose: Install and configure the herdr terminal agent multiplexer.
+    claude_only_commands:
+      portability: review-needed
+      path: plugins/jmchilton/commands
+      names:
+        - check-gx-branch
+        - clipdoc
+        - clippath
+        - comment-archaeology
+        - commit
+        - decompose-for-rebase
+        - deconflict
+        - dedup
+        - gita
+        - gx-vitest-review
+        - plan-clean
+        - plan-debrief
+        - plan-integrate-questions
+        - plan-interview
+        - plan-publish
+        - plan-research-questions
+        - plan-review
+        - plan-summary
+        - pull-request-summary
+        - py-challenge-patches
+        - pyreview
+        - research-merge
+        - research-pull-request
+        - research-unresolved-question
+        - review-test
+        - update-document
+
+  galaxy-skills:
+    url: https://github.com/jmchilton/galaxy-skills
+    local_checkout: ~/projects/repositories/galaxy-skills
+    visibility: public
+    purpose: Community-facing skills for Galaxy development and integration work.
+    hosts:
+      - claude-code
+      - codex
+      - other-agent-skill-hosts
+    status: active
+    documentation: needs-refresh
+    skills:
+      - name: galaxy-transform-collection
+        path: collection-manipulation
+      - name: galaxy-integration
+        path: galaxy-integration
+      - name: jupyterlite-galaxy
+        path: galaxy-integration/jupyterlite
+      - name: galaxy-mcp-reference
+        path: galaxy-integration/mcp-reference
+      - name: hub-news-posts
+        path: hub-news-posts
+      - name: nf-to-galaxy
+        path: nf-to-galaxy
+      - name: nf-pipeline-to-galaxy-workflow
+        path: nf-to-galaxy/nf-pipeline-to-galaxy-workflow
+      - name: nf-process-to-galaxy-tool
+        path: nf-to-galaxy/nf-process-to-galaxy-tool
+      - name: nf-subworkflow-to-galaxy-workflow
+        path: nf-to-galaxy/nf-subworkflow-to-galaxy-workflow
+      - name: tool-dev
+        path: tool-dev
+      - name: tool-selection-diagram
+        path: tool-dev/tool-selection-diagram
+      - name: update-usegalaxy-tool
+        path: update-usegalaxy-tool
+      - name: workflow-reports
+        path: workflow-reports
+
+local_installations:
+  - name: design-taste-frontend
+    path: ~/.agents/skills/design-taste-frontend
+    source: unresolved
+    revision: unknown
+    disposition: locate-upstream-or-adopt
+  - name: gpt-taste
+    path: ~/.agents/skills/gpt-taste
+    source: unresolved
+    revision: unknown
+    disposition: locate-upstream-or-adopt
+  - name: high-end-visual-design
+    path: ~/.agents/skills/high-end-visual-design
+    source: unresolved
+    revision: unknown
+    disposition: locate-upstream-or-adopt
+  - name: industrial-brutalist-ui
+    path: ~/.agents/skills/industrial-brutalist-ui
+    source: unresolved
+    revision: unknown
+    disposition: locate-upstream-or-adopt
+  - name: minimalist-ui
+    path: ~/.agents/skills/minimalist-ui
+    source: unresolved
+    revision: unknown
+    disposition: locate-upstream-or-adopt
+  - name: redesign-existing-projects
+    path: ~/.agents/skills/redesign-existing-projects
+    source: unresolved
+    revision: unknown
+    disposition: locate-upstream-or-adopt
+  - name: stitch-design-taste
+    path: ~/.agents/skills/stitch-design-taste
+    source: unresolved
+    revision: unknown
+    disposition: locate-upstream-or-adopt
+  - name: gh-stack
+    path: ~/.codex/skills/gh-stack
+    source: https://github.com/github/gh-stack
+    source_path: skills/gh-stack
+    revision: refs/tags/v0.1.0
+    tree_sha: c95c8b5b4dd850f3fef007b304428f5684f2fb87
+    disposition: retain-upstream-provenance
+
+maintenance_backlog:
+  - id: dual-host-smoke-test
+    repository: claude-jmchilton-plugins
+    priority: high
+    task: Install from the GitHub marketplace in clean Claude and Codex sessions, then tag a release.
+  - id: galaxy-skills-docs
+    repository: galaxy-skills
+    priority: high
+    task: Correct repository identity, inventory drift, and Codex installation guidance.
+  - id: command-portability-review
+    repository: claude-jmchilton-plugins
+    priority: medium
+    task: Convert reusable Claude-only commands to provider-neutral skills where useful.
+  - id: local-provenance
+    priority: medium
+    task: Resolve upstream source and pinned revision for seven copied design skills.
+  - id: maintenance-ci
+    priority: medium
+    task: Validate inventory, manifests, skill metadata, references, and clean installs.
