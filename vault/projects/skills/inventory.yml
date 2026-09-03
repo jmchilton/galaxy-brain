@@ -19,6 +19,9 @@ repositories:
       claude_marketplace: .claude-plugin/marketplace.json
       codex_marketplace: .agents/plugins/marketplace.json
     skills:
+      - name: codex-review
+        path: plugins/jmchilton/skills/codex-review
+        purpose: Run an independent read-only Codex CLI review and triage its findings.
       - name: galaxy-backend-tests
         path: plugins/jmchilton/skills/galaxy-backend-tests
         purpose: Run Galaxy backend test suites with the repository test harness.
