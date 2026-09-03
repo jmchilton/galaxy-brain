@@ -34,6 +34,9 @@ repositories:
       - name: herdr-config
         path: plugins/jmchilton/skills/herdr-config
         purpose: Install and configure the herdr terminal agent multiplexer.
+      - name: thermo-nuclear-code-quality-review
+        path: plugins/jmchilton/skills/thermo-nuclear-code-quality-review
+        purpose: Run an explicitly requested, unusually strict maintainability review.
     claude_only_commands:
       portability: review-needed
       path: plugins/jmchilton/commands
