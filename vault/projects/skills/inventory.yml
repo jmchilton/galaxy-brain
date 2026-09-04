@@ -37,6 +37,9 @@ repositories:
       - name: herdr-config
         path: plugins/jmchilton/skills/herdr-config
         purpose: Install and configure the herdr terminal agent multiplexer.
+      - name: herdr-open-worktree
+        path: plugins/jmchilton/skills/herdr-open-worktree
+        purpose: Open an existing Git worktree as a Herdr workspace and optionally start an agent there.
       - name: thermo-nuclear-code-quality-review
         path: plugins/jmchilton/skills/thermo-nuclear-code-quality-review
         purpose: Run an explicitly requested, unusually strict maintainability review.
