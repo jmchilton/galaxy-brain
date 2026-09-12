@@ -1,37 +1,29 @@
-<!-- Suggested title: Analyze workflow when input references structurally -->
+<!-- Suggested title: Match workflow `when` inputs by path instead of substring -->
 
-This is PR 2 of 3. It is a frontend cleanup built on the expression-context normalization in PR 1 and provides the path-aware analysis used by the optional-input authoring feature in PR 3. It does not add a new workflow-editor control by itself.
-
-The workflow editor previously decided whether a `when` expression referenced an extra connection with a substring check:
+The workflow editor reconstructs input terminals for connections that exist only to supply a step's `when` expression. Those terminals are used to draw the connection on the node and lay out the graph, but today the editor decides whether to create one with a substring search:
 
 ```typescript
 step.when?.includes(inputName)
 ```
 
-That is not sufficient once nested tool inputs have two intentionally different representations:
+This confuses names such as `input1` and `input10`, counts input-like text inside strings and comments, and misses nested inputs because Galaxy stores the connection as `cond|input1` while the expression reads `inputs.cond.input1`. The result is a workflow graph with phantom condition terminals in some cases and missing terminals in others.
 
-- workflow connections use flattened names such as `cond|input1`;
-- expressions use property paths such as `inputs.cond.input1`; and
-- repeat members add an indexed mapping such as `queries_0|input2` to `inputs.queries[0].input2`.
+This PR replaces the substring heuristic with structural reference analysis. It also adds the path translation needed to compare Galaxy's two representations:
 
-Substring matching can also confuse `input1` with `input10`, count input-like text inside strings or comments, and mistake a literal property containing `|` for a nested path.
+- workflow connections flatten nested names, for example `cond|input1`;
+- `when` expressions traverse nested tool state, for example `inputs.cond.input1`; and
+- repeat members add an indexed mapping, for example `queries_0|input2` to `inputs.queries[0].input2`.
 
-This PR adds two small, focused modules:
+Two focused modules keep those responsibilities separate:
 
-- `workflowInputPath.ts` translates connection names into segmented expression paths, resolves repeat indices through tool state, and declines ambiguous names rather than guessing.
-- `whenExpression.ts` tokenizes the supported JavaScript-like property-access shapes without executing user code. It recognizes dot, bracket, mixed, numeric, and optional-chain access; ignores strings, comments, and regular-expression contents; and treats computed or otherwise unsupported access conservatively as dynamic.
+- `whenExpression.ts` tokenizes the supported JavaScript-like property-access forms without executing the expression. It recognizes dot, bracket, mixed, numeric, and optional-chain access while ignoring strings, comments, and regular-expression contents.
+- `workflowInputPath.ts` translates flattened connection names into segmented expression paths, resolves repeat indices against tool state, and returns no result when a name has more than one valid interpretation.
 
-The workflow step store now uses this structural analysis when synthesizing extra input terminals for a `when` expression. This fixes false matches while preserving dynamically addressed expressions when static analysis cannot disprove the reference.
+The step store now synthesizes an extra terminal only when the connection path is structurally referenced by the expression. Analysis remains deliberately conservative: computed properties, template literals, unsupported syntax, and tokenization failures are treated as dynamic, so the editor keeps a real connection when it cannot prove that the expression is unrelated.
 
-The expression cases live in declarative YAML so supported syntax and conservative failure boundaries can be reviewed as data. Separate path tests cover nested conditionals, repeats, nested repeats, literal names that resemble repeat members, and genuinely ambiguous flattened names.
+The expression cases live in declarative YAML so the supported syntax and conservative boundaries can be reviewed as data and reused by other implementations. Path tests separately cover nested conditionals, repeats, nested repeats, literal names that resemble repeat members, and ambiguous flattened names.
 
-## Stack
-
-1. `issue_23333`: normalize the backend `when` expression context.
-2. **This PR:** add structural input-path and expression-reference analysis in the editor.
-3. `optional_input_gating`: consume this analysis for optional-input presence conditions.
-
-This PR should be reviewed against `issue_23333`, not against `dev`.
+This is a client-side follow-up to #23409, which removed the runtime's pipe-prefixed alias for nested tool inputs and left the nested property path as the canonical spelling. It does not change expression evaluation or the workflow format. The analyzer and shared cases are also the foundation for #23424's import-time validation and the follow-up editor work for running a step only when an optional input is present.
 
 ## How to test the changes?
 

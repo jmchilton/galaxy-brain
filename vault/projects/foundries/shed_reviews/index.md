@@ -8,7 +8,7 @@ tags:
 status: draft
 created: 2026-09-09
 revised: 2026-09-10
-revision: 1
+revision: 2
 ai_generated: false
 summary: "Conveying IUC-like review authority to non-IUC Tool Shed repositories, and publishing the gates an agentic tool-maturation pipeline passes"
 ---
@@ -20,3 +20,5 @@ summary: "Conveying IUC-like review authority to non-IUC Tool Shed repositories,
 ./STANDARDS_PIPELINES.md outlines the standards pipelines that frontier models could likely apply to tools. https://github.com/galaxy-iuc/standards
 
 ./IUC_INFRASTRUCTURE.md outlines the automated checks and skills, etc... used to create IUC tools right now.
+
+./ACCEPTANCE_CRITERIA.md defines the initial, testable completion criteria for the review evidence model and its three assessment modalities.

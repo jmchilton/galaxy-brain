@@ -1,0 +1,1 @@
+Read ../DEVELOPMENT_LAYOUT.md for context about foundries.

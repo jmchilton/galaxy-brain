@@ -1,16 +1,14 @@
 <!-- Suggested title: Stop exposing flat nested inputs in workflow when expressions -->
 
-This is PR 1 of 3 in a stack that prepares for and then adds editor support for running workflow steps only when an optional input is present. This first PR is independently useful and contains the backend compatibility correction tracked in #23333.
+Galaxy builds the `inputs` object for workflow `when` expressions from tool execution state plus extra step connections. A parameter nested inside a tool conditional is available in its natural nested shape, `inputs.cond.param`, but Galaxy also exposes the same value under the workflow editor's internal flattened connection name, `inputs["cond|param"]`. That second spelling is an implementation detail escaping into a public expression API: it is undocumented, the editor cannot generate it, and it appears nowhere in the public Galaxy, IWC, GTN, or gxformat2 workflow corpora. This PR removes it, leaving one supported way to reach a nested input. That matters now because upcoming editor work needs to generate and read back these expressions, which is only tractable if each value has a single canonical path.
 
-Galaxy builds the `inputs` object used by workflow `when` expressions from tool execution state plus extra step connections. A connected parameter nested inside a tool conditional was already available in its normal nested shape, but Galaxy also exposed the same value under its flat, pipe-prefixed connection name:
+So, of these three spellings, the third stops resolving:
 
 ```javascript
 inputs.cond.param
 inputs["cond"]["param"]
 inputs["cond|param"]
 ```
-
-The last spelling leaks an internal workflow-connection representation into the expression API. It is undocumented, the workflow editor cannot generate it, and no use was found in the public Galaxy, IWC, GTN, or gxformat2 workflow corpora.
 
 This PR stops copying recognized nested tool inputs into the expression context under their pipe-prefixed aliases. It preserves:
 
@@ -23,14 +21,6 @@ The new framework-workflow fixture exercises both supplied and omitted optional 
 This is an intentional compatibility change for hand-authored private workflows that use `inputs["cond|param"]`. The supported replacement is `inputs.cond.param` or `inputs["cond"]["param"]`; the release note calls this out.
 
 Closes #23333.
-
-## Stack
-
-1. **This PR:** normalize the backend `when` expression context.
-2. `when_expression_analysis`: make the workflow editor reason about expression input paths structurally.
-3. `optional_input_gating`: add optional-input presence conditions to the workflow editor.
-
-Each PR is intended to be reviewed against the branch immediately below it.
 
 ## How to test the changes?
 

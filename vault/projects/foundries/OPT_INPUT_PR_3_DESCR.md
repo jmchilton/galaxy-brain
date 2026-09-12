@@ -1,20 +1,12 @@
-<!-- Suggested title: Support optional-input workflow conditions in the editor -->
+<!-- Suggested title: Let workflow steps run only when an optional input is provided -->
 
-This is PR 3 of 3. It adds the user-facing optional-input authoring behavior on top of the normalized runtime expression context from PR 1 and the structural editor analysis from PR 2.
+https://github.com/user-attachments/assets/685511f7-298d-40c5-aa54-80378caeb2af
 
-Galaxy can already evaluate a step condition such as:
-
-```javascript
-$(inputs.primer.input_bed !== null)
-```
-
-This makes it valid for an optional workflow input to feed a required tool or subworkflow input: the step runs when the value is supplied and is skipped before required-input validation when the value is absent. The workflow editor previously refused or marked that connection invalid, however, and offered no direct way to author the condition.
-
-This PR makes that workflow shape first-class in the editor.
+A Galaxy workflow author cannot currently connect an optional input to a required tool input in the editor — the connection is marked invalid. The runtime has supported this shape for some time: a step condition such as `$(inputs.primer.input_bed !== null)` causes the step to be skipped before required-input validation, so the step runs when the value is supplied and is cleanly skipped when it is absent. The gap is purely in authoring; expressing this today means hand-writing a `when` expression against an undocumented contract and then fighting the editor's connection validation. This PR makes the shape first-class: the **Conditionally skip step?** control becomes a mode selector including *run when a connected input is provided*, dropping an optional output on a required input previews and creates the connection plus its condition as one undoable action, and existing imported workflows using this pattern stop being flagged as invalid.
 
 ### Authoring conditions
 
-The existing **Conditionally skip step?** control becomes a mode selector with:
+The mode selector offers:
 
 - always run;
 - run when a boolean parameter is true;
@@ -47,13 +39,9 @@ The new developer documentation describes boolean and presence conditions, repea
 
 Follow-up to #23333.
 
-## Stack
+<!-- FILL IN: replace #PR2 below with the real number once PR 2 is opened. -->
 
-1. `issue_23333`: normalize the backend `when` expression context.
-2. `when_expression_analysis`: add structural input-path and expression-reference analysis.
-3. **This PR:** add optional-input presence-condition authoring and validation.
-
-This PR should be reviewed against `when_expression_analysis`, not against `dev`.
+Depends on #PR2 and is based on that branch, so the diff here shows both until it merges. Review the top commit only.
 
 ## How to test the changes?
 

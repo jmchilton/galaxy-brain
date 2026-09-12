@@ -1,0 +1,8 @@
+Read index.md and build a list of issues actively be worked or previously worked on by other agents.
+
+Pick an outstanding issue on galaxyproject/foundry with agent/implement or agent/research. Prioritize priority/mvp issues over priority/v2 issues. Prioritize roadmap/main over roadmap/substep over roadmap/off.
+
+When you pick an issue record it in index.md with a status of WIP - a line - <issue link> | AGENT WIP.
+
+- If the issue has a agent/research tag - please have a subagent research the problem and prepare a concise, readable comment for the issue. Have another subagent review that comment for correctness and clarity, fix any issues the subagent raises that seem important. The comment should remain concise and readable. Use <details> to keep assist with readability when needed. Post the comment and remove the agent/research tag. After the comment is posted update status line for this issue in index.md to <issue link> | AGENT POSTED COMMENT FOR REVIEW
+- If the issue has a agent/implement tag - please have a subagent research the problem and write a detailed plan to ./plans/<issue_number>_PLAN.md. Have a subagent review the plan for correctness and clarity and fix the plan. Then implement the plan. Have a subagent review it for correctness and clarity. Open a DRAFT PR for this work and update the status line in index.md to <issue link> | <pr link> | short_description. If the issue cannot be completed without significant clarification or very important human design decisions - please stop and write ./plans/<issue_number>_DESIGN_QUESTIONS.md and update the status line in index as <issue link> | REQUIRES DESIGN SESSION.
