@@ -66,6 +66,9 @@ Notes moved here 2026-08-25 from untracked markdown in the
 - **`COMPONENT_GALAXY_WORKFLOW_EXPRESSION_CONTEXT.md`** — reference on how
   `when` / `value_from` expressions are evaluated (CWL JS via `cwl_utils`,
   `cwlNodeEngine.js` globals, Galaxy↔CWL type conversion).
+- **`MAPPED_WORKFLOW_RECOVERY_PERFORMANCE.md`** — design exploration for
+  avoiding repeated collection-tree matching and recursive child recovery on
+  every scheduler pass by persisting compact output-axis lineage.
 
 ## old_plans/
 

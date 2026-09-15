@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*115 notes. Auto-generated — run `make index` to refresh.*
+*121 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -16,9 +16,13 @@
 - [[cwl]] — Project tracking CWL implementation in Galaxy: conformance tests, conditionals, packing, tool loading.
 - [[architecture]] — Mirrored view of the galaxy-architecture repo — training topics rendered as vault-readable markdown.
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
+- [[modules]] — Project for translating nf-core modules into maintainable Galaxy tool wrappers.
 - [[wf_refactor_persistence]] — Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113).
 - [[usecases]] — Galaxy Notebooks paper use cases: UC1–UC3 worked with extracted workflows; UC4–UC7 newly seeded as interview inputs from an IWC review.
 - [[skills]] — Tracks canonical homes, documentation, packaging, provenance, and maintenance status for reusable agent skills.
+- [[toolshed]] — Ongoing Tool Shed maintenance, API modernization, dead-code cleanup, and feature work.
+- [[shed_reviews]] — Conveying IUC-like review authority to non-IUC Tool Shed repositories, and publishing the gates an agentic tool-maturation pipeline passes
+- [[workflow_backlog]] — Running log of Galaxy workflow backlog issues, each line pairing an issue with its PR and the next action needed
 - [[workflow_semantics]] — Formalizing Galaxy workflow evaluation semantics into a CI-validated documentation artifact, per issue #22200.
 - [[workflow_state]] — Workflow validation infrastructure: pre-execution parameter typing, format2 usability, VS Code tooling, tool search overhaul.
 
@@ -78,6 +82,8 @@
 - [[Component - Collections - Sample Sheets Backend]] — Tabular metadata per collection element: column_definitions, columns row on elements, typed validation, cross-refs
 - [[Component - Collections - Paired or Unpaired]] — Discriminated union type of 1 or 2 elements with asymmetric subtyping where paired IS-A paired_or_unpaired
 - [[Component - Collections - Records]] — Heterogeneous fixed-shape collection: CWL-derived `fields` schema of named typed slots; no implicit mapping
+- [[Component - Tool Shed Data Model]] — Shed-side SQLAlchemy schema — 14 tables, hg-keyed RepositoryMetadata over a denormalized JSON blob, dead flags, two-revision alembic history
+- [[Component - User Password Management]] — PBKDF2 storage, 24-hour reset tokens, five password entry flows, and the legacy controllers behind them
 - [[Component - Workflow Comments]] — Visual annotation system for workflows, text/markdown/frames/freehand without execution impact
 - [[Component - Workflow Editor Terminal Tests]] — Unit tests for editor terminal connection rules, datatype/collection compatibility validation
 - [[Component - Workflow Editor Terminals]] — Terminal connection logic, compatibility checking, map-over propagation, plain class instances

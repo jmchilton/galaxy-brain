@@ -9,12 +9,13 @@ component: "Tool Install YAML"
 galaxy_areas: [admin, tools]
 status: draft
 created: 2026-06-12
-revised: 2026-06-12
-revision: 1
+revised: 2026-09-09
+revision: 2
 ai_generated: true
 summary: "Declarative Tool Shed install-request YAML consumed by ephemeris shed-tools, ansible-galaxy-tools, and usegalaxy-tools; manifest-vs-lockfile curation"
 sources: ["/Users/jxc755/projects/worktrees/galaxy/branch/history_pages/COMPONENT_GALAXY_TOOL_INSTALL_YAML.md"]
 related_notes:
+  - "[[Component - Tool Shed Data Model]]"
   - "[[Component - Tool Shed Search and Indexing]]"
   - "[[Component - Workflow Format (.ga)]]"
 ---

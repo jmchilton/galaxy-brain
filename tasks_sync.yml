@@ -1,0 +1,52 @@
+# Config for the /sync-tasks command, which maintains vault/JOHNS_TASKS.md.
+#
+# Scope is "every repo John opens PRs in" minus exclude_repos. There is no
+# allow-list on purpose — new repos should show up without editing this file.
+
+login: jmchilton
+
+# Open PRs not updated within this many days are stale and stay out of the task
+# list entirely. Raise it to resurface older threads.
+stale_after_days: 60
+
+# Repos whose PRs never belong in the task list. Either a full `owner/name` or
+# `owner/*` to drop a whole org. Drive-by packaging and one-off contributions.
+exclude_repos:
+  - conda-forge/*
+
+# Stable repo/keyword -> task-list group overrides. Consulted only after the
+# "match an existing bullet already in the file" pass, and before falling back
+# to a top-level bullet. A group need not correspond to a vault/projects/ entry.
+#
+#   - group: <heading text used as the parent bullet>
+#     note: <optional [[wiki link]] to a vault note>
+#     repos: <optional list of owner/name; matches on repo alone>
+#     keywords: <optional list of lowercase substrings matched against PR title>
+#
+# repos and keywords are OR'd. Omit both and the entry never matches.
+project_map:
+  # Keyword-only on purpose. A repo match on galaxyproject/planemo swept in
+  # every unrelated planemo PR (IWC linting, Dockstore, Zenodo) — those are
+  # Foundry work, not this project.
+  - group: Embed Galaxy in Planemo
+    note: "[[embedded_galaxy_in_planemo]]"
+    keywords:
+      - embedded galaxy
+      - package-installed
+      - gravity
+
+  - group: Foundry
+    repos:
+      - galaxyproject/foundry
+      - galaxyproject/foundry-pattern
+      - galaxyproject/iwc
+      - galaxyproject/iwc-lab
+    keywords:
+      - iwc
+      - dockstore
+      - workflow review
+
+  - group: Pulsar HTCondor2
+    keywords:
+      - htcondor
+      - condor

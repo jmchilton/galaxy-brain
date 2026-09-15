@@ -30,7 +30,7 @@ UDT steps are **silently skipped** today, producing false-negative passes:
 - `lint_stateful` runs gxformat2's structural lint plus state validation; the state path skips UDT steps as above. No lint of the inline `UserToolSource`.
 - `precheck_native_workflow` / `legacy_encoding.py` were not designed to look at `tool_representation` and currently don't.
 
-The result: a workflow that embeds a broken `UserToolSource` (undeclared input refs, blank version, missing output claim, malformed citation, weird container shape, …) passes `gxwf-state-validate --strict-state` clean. Any downstream consumer — VS Code, [[PROBLEM_AND_GOAL|IWC lint-on-merge (D7), the gxformat2 IWC migration (D10)]] — inherits the false negative.
+The result: a workflow that embeds a broken `UserToolSource` (undeclared input refs, blank version, missing output claim, malformed citation, weird container shape, …) passes `gxwf-state-validate --strict-state` clean. Any downstream consumer — VS Code, [[projects/workflow_state/PROBLEM_AND_GOAL|IWC lint-on-merge (D7), the gxformat2 IWC migration (D10)]] — inherits the false negative.
 
 ## 2. Goal
 

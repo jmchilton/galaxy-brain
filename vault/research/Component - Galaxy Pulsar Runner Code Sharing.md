@@ -6,18 +6,19 @@ component: "Galaxy Pulsar Runner Code Sharing"
 galaxy_areas: [lib, admin, tools/runtime, testing]
 status: draft
 created: 2026-08-17
-revised: 2026-08-17
-revision: 1
+revised: 2026-09-09
+revision: 2
 ai_generated: true
 summary: "Four code-sharing channels between Galaxy and Pulsar, a manually synced util mirror with 20 of 23 files drifted, and stringly-typed job status mapping"
 sources: ["/Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-Galaxy-Pulsar-Runner-Code-Sharing.md"]
 related_notes:
   - "[[Component - Backend Dependency Management]]"
-  - "[[Component - Worktree Bootstrapping]]"
-  - "[[Component - Private Object Stores]]"
   - "[[Component - Post Job Actions]]"
-  - "[[Component - YAML Tool Runtime]]"
+  - "[[Component - Private Object Stores]]"
+  - "[[Component - Tool Shed Data Model]]"
   - "[[Component - Tool Testing Infrastructure]]"
+  - "[[Component - Worktree Bootstrapping]]"
+  - "[[Component - YAML Tool Runtime]]"
   - "[[PR 20936 - Resource Requirements via TPV]]"
 ---
 

@@ -85,7 +85,7 @@ black, isort, ruff, flake8, and whitespace checks: passed
 ```
 
 ## Before marking ready for review
-
+	
 - [ ] Rebase onto `master` after Planemo #1687 merges and confirm the PR contains only the embedded-engine work.
 - [ ] Use the first Galaxy release containing #23360 to add `planemo[embedded_galaxy]` with a one-series upper bound.
 - [ ] Add optional-dependency containment and resolver checks.

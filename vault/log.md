@@ -270,3 +270,22 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Worktree Bootstrapping]] — reciprocal backlink; installs the mandatory pulsar-galaxy-lib dependency
   - [[PR 20936 - Resource Requirements via TPV]] — reciprocal backlink; TPV routes jobs to the Pulsar destinations this runner services
   - [[Component - Post Job Actions]] — reciprocal backlink; Galaxy-side post-processing of the same job lifecycle
+
+## 2026-09-09 ingest — Tool Shed Data Model
+- **source**: /Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-Tool-Shed-Data-Model.md
+- **created**: [[Component - Tool Shed Data Model]]
+- **updated**:
+  - [[Component - Tool Shed Search and Indexing]] — reciprocal backlink; the designated sibling, reads Repository/RepositoryMetadata to build the Whoosh indexes
+  - [[PR 18524 - Add Tool-Centric APIs to Tool Shed 2.0]] — reciprocal backlink; introduced the API2/Pydantic surface the model-to-wire mapping runs through
+  - [[Component - Tool Install YAML]] — reciprocal backlink; its name/owner/revisions triple is the (Repository.name, User.username, changeset_revision) key
+  - [[Component - Galaxy Pulsar Runner Code Sharing]] — reciprocal backlink; the vault's other treatment of two codebases sharing a partially-forked module
+
+## 2026-09-10 ingest — Component - User Password Management
+- **source**: /Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-User-Password-Management.md
+- **created**: [[Component - User Password Management]]
+- **updated**:
+  - [[Component - CORS Handling]] — backlink; shares the dual-mapper routing stack that explains the /root/login finding
+  - [[Component - UI Error Handling]] — backlink; set_password_cleartext raises a bare Exception outside the MessageException path
+  - [[Component - E2E Tests - Writing]] — backlink; test_change_password.py is a live @selenium_only holdout
+  - [[Component - Tool Shed Data Model]] — backlink; shed keeps a parallel User/PasswordResetToken with SHA-1 hashing
+  - [[Component - API Tests]] — backlink; password endpoints have zero API-test coverage

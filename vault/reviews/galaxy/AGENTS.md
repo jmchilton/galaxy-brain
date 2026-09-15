@@ -1,92 +1,73 @@
 # Galaxy PR Reviews
 
-Review notes for `galaxyproject/galaxy` pull requests, plus the rules for keeping the
-local worktrees in sync with what's worth reviewing.
+Working notes for active `galaxyproject/galaxy` pull-request reviews.
 
-## Source of truth
+## Active queue
 
-`index.md` in this directory — a flat list of PR numbers under `PRs To Review:`. No
-frontmatter, no structure beyond `- <number>` lines. Adding a number there is the signal
-to review.
+`index.md` is the only review queue. Keep it intentionally tiny:
 
-## Worktree lifecycle
+- Use the heading `PRs To Review:` followed by `- <number> — <concise status>` entries.
+- Limit each PR to one or two physical lines.
+- Include only work we still own: an unread PR, an unposted review, author fixes awaiting
+  verification, or a specifically blocked review that will resume.
+- Remove a PR as soon as the review is delivered and no response needs verification, or when
+  the PR is merged, closed, or removed by the user.
+- Never put review history, findings, CI logs, worktree inventories, follow-up branches, issues,
+  or completed/delivered PRs in `index.md`. Those details belong in the active review note or
+  nowhere.
 
-Worktrees live at `~/projects/worktrees/galaxy/pr/<PR_NUMBER>/`, managed by `ghwt`.
+## Review-note lifecycle
 
-**Add** — driven by the document. A PR number that appears in `index.md` with no
-corresponding worktree gets one:
-
-```sh
-ghwt create galaxy <PR_NUMBER>
-```
-
-**Remove** — driven by PR state, *not* by the document. When a PR has been merged or
-closed for a few days, tear its worktree down:
-
-```sh
-ghwt rm galaxy <PR_NUMBER>
-```
-
-The asymmetry is intentional. Removing a number from `index.md` does **not** mean
-destroy the worktree — reviewing may still be in flight, or the note may have been pruned
-for tidiness. Only a merged/closed PR that has settled for a few days justifies removal.
-Conversely, a still-open PR keeps its worktree even after it drops off the list.
-
-Check PR state with `gh pr view <PR_NUMBER> --repo galaxyproject/galaxy --json state,mergedAt,closedAt`.
-Note the command is `ghwt rm`, not `ghwt remove`.
-
-`/sync-galaxy-reviews` does both directions in one pass — creates worktrees for listed
-PRs that lack one, removes worktrees for PRs merged/closed 3+ days ago (holding back any
-with uncommitted changes).
-
-## Writing reviews
-
-Review notes go here, one file per PR, alongside `index.md`:
+Use one primary file per active PR:
 
 ```
 vault/reviews/galaxy/<PR_NUMBER>_<short_description>.md
 ```
 
-`<short_description>` is a lowercase snake_case slug of the PR title, e.g.
-`23170_workflow_invocation_export.md`.
+The slug is lowercase snake_case. Prefix any temporary companion artifact with the same PR
+number so it can be pruned with the primary note.
 
-**Run reviews in subagents.** Reading a Galaxy PR's diff plus surrounding code burns a
-lot of context; keep the main session as a coordinator. One subagent per PR, each told to
-write its own file at the path above and return only a short summary.
+Review notes are temporary working state, not an archive. When a PR leaves `index.md`, delete
+all matching `<PR_NUMBER>_*` files unless the user explicitly promotes or retains an artifact.
+Git history is sufficient for tracked notes. Promote durable material into `vault/research/` as
+a proper `type: research`, `subtype: pr` note.
 
-## Don't nudge
+Non-PR work such as an active issue-response draft may temporarily live here, but it must not
+appear in `index.md` and should be removed or promoted when that work ends.
 
-Once a review is delivered, the ball is theirs and it stays theirs. Don't propose pinging
-an author, bumping a stale thread, or chasing an unmerged follow-up PR sitting on someone's
-fork — these are their PRs, on their schedule, and August is slow.
+**Run reviews in subagents.** Use one subagent per PR, tell it to write the primary review file,
+and have it return only a short summary to the coordinator.
 
-So when triaging: a target waiting on its author is **not** outstanding work. Report it as
-delivered, and don't list "nudge X" as a next step. What counts as ours is unposted review
-comments, unverified fixes the author pushed in response to us, and follow-up work we said
-we'd do.
+## Worktree lifecycle
 
-## These files are not vault notes
+Worktrees live at `~/projects/worktrees/galaxy/pr/<PR_NUMBER>/` and are managed by `ghwt`.
 
-`vault/reviews/**` is excluded from the vault's frontmatter contract — `reviews` is in
-`SKIP_DIRS` in `validate_frontmatter.py`, and `!reviews/**` is in the glob in
-`site/src/content.config.ts`. That covers `index.md` here too, despite `index.md` being
-the validated entry point in `projects/` and `papers/`. So:
+- If an indexed PR lacks a worktree, run `ghwt create galaxy <PR_NUMBER>`.
+- Removing a PR from `index.md` prunes its review files but does not remove its worktree.
+- Keep worktrees for open PRs even after review delivery.
+- Remove a clean worktree only after its PR has been merged or closed for at least three days:
+  `ghwt rm galaxy <PR_NUMBER>`.
+- Hold any worktree with uncommitted changes.
 
-- No YAML frontmatter required. Don't add any; it buys nothing here.
-- They don't appear in `Index.md`, `Dashboard.md`, or the Astro site.
-- Wiki links out to real vault notes (`[[PR 21842 - ...]]`) still work in Obsidian and are
-  fine to use, but nothing links back automatically.
+Check state with `gh pr view <PR_NUMBER> --repo galaxyproject/galaxy --json state,mergedAt,closedAt`.
+`/sync-galaxy-reviews` creates missing queued worktrees and removes eligible settled ones.
 
-If a review matures into something worth publishing, promote it into `vault/research/`
-as a proper note (`type: research`, `subtype: pr`) rather than adding
-frontmatter in place.
+## Delivery and follow-up
+
+Once a review is delivered, the ball is theirs. Do not propose nudging the author, bumping a
+stale thread, or chasing an unmerged fork PR. Work remains ours only while a review is unposted,
+author fixes need verification, or we explicitly committed to a follow-up.
 
 ## Review focus
 
-Per the user's standing preferences, weight reviews toward:
+Weight reviews toward:
 
-- Reuse of existing abstractions — this is a very old, well-established codebase; new code
-  that reinvents something is the main concern.
-- Whether the change leaves behind a reusable abstraction, or just accretes.
-- Python imports at module top level, not buried in functions (unless commented why).
-- Test coverage, and whether tests were weakened rather than the implementation fixed.
+- Reuse of existing abstractions and whether the change leaves a reusable seam rather than
+  accreting another path.
+- Python imports at module top level unless a lower import has a documented reason.
+- Test coverage, especially whether assertions were weakened instead of fixing implementation.
+
+## File format
+
+These files are excluded from vault validation and the Astro site. Do not add YAML frontmatter.
+Wiki links to real vault notes are allowed, but review files receive no automatic backlinks.

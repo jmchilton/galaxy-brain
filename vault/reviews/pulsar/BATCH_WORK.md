@@ -4,6 +4,22 @@ Handoff for picking this up cold. Companion to `473_gcp_batch_vm_sizing_env_life
 (see its final section, "Revised: converge on Galaxy's own Batch runner"); this file is the
 operational state, that one is the reasoning.
 
+## Update — 2026-09-04
+
+The large PR 473 has been split rather than fixed in place:
+
+- Galaxy PR 23367 merged, so Galaxy now passes persisted backend ids separately.
+- Pulsar PR 491 merged, establishing the matching `external_id` path in Pulsar and fixing TES polling/cancellation.
+- Pulsar PR 493 is open against `master`: **Size GCP Batch jobs from requested resources**.
+  It cherry-picks Keith's sizing, SSD, and environment commits with his original Git author,
+  then adds a separate correction/test commit. It contains no naming or deletion changes.
+- PR 493 is now the resource half of 473. PR 473 remains open and conflicting while the extraction lands.
+
+The next code change is a small GCP-only naming/persistence PR. Rebase and trim
+`gcp-job-name-convergence-v2`: do not carry its broad K8s/TES naming refactor now that PR 491 has
+landed. Generate the Batch name once, return it as `ExternalId`, and use the supplied external id
+for polling and deletion. Optional deletion/retention remains deferred to a separate design.
+
 ## What this is
 
 PR 473 (`ksuderman/pulsar:gcp-batch-resource-management`) P1 #1: the GCP Batch client builds
@@ -33,7 +49,7 @@ Determinism loses on three counts, each verified:
    (`runners/pulsar.py:834`) passes the external id in *as* `job_id`, so deriving the name
    from `job_id` double-prefixes.
 
-## Branches (both pushed, no PRs opened)
+## Original branches
 
 **Pulsar** — `jmchilton/pulsar:gcp-job-name-convergence-v2`, worktree
 `~/projects/worktrees/pulsar/branch/gcp-job-name-convergence` (note: worktree dir keeps the
@@ -82,16 +98,15 @@ fail with the source change stashed, 2 (the negative cases) correctly pass eithe
 pre-commit hooks passed. No `.venv` in that worktree; tests were run with
 `PYTHONPATH=lib ~/projects/worktrees/galaxy/branch/htcondor_pulsar/.venv/bin/python -m pytest`.
 
-## Merge ordering
+## Original merge ordering
 
-Galaxy must land first. Otherwise a Pulsar client on the GCP path raises "No backend job name
-recorded" rather than silently polling a nonexistent job — a better failure, but still a hard
-constraint. Say so in the Pulsar PR body.
+Galaxy had to land first. That dependency is now satisfied by merged Galaxy PR 23367, and the
+Pulsar-side external-id seam landed in PR 491.
 
-## Next steps
+## Superseded next steps
 
-- Draft both PR bodies (Pulsar against `ksuderman/pulsar:gcp-batch-resource-management`,
-  Galaxy against `dev`). Neither PR is open yet.
+- The Galaxy external-id PR and Pulsar TES PR are complete. PR 493 carries the resource subset.
+- Open the remaining GCP-only naming/persistence PR against `master` after PR 493 settles.
 - Open items carried over, none addressed by either branch:
   - Neither side validates the prefix. k8s checks `(?!-)[a-z\d-]{1,20}(?<!-)$`
     (`pykube_util.py:135-141`); `gcp_job_id_prefix` does nothing, so an operator string goes

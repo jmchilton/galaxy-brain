@@ -81,7 +81,7 @@ Critical to avoid these framings:
 **Foundry** (`~/projects/repositories/foundry`): the applicant project. Current scope: pipelines among workflow formats — `nextflow → galaxy`, `nextflow → cwl`, `cwl → galaxy`. Goal in this proposal context: broaden Foundry's framing to capture a fundable thesis.
 
 **Adjacent in-flight Galaxy work that's directly relevant:**
-- **Workflow tool state validation infrastructure** (this project — `workflow_state/`). Schema-aware validation of Galaxy workflows in both native `.ga` and Format2 `.gxwf.yml`, powered by Pydantic models generated from tool definitions served by **Tool Shed 2.0**. See [[EXECUTIVE_SUMMARY]] and [[PROBLEM_AND_GOAL]].
+- **Workflow tool state validation infrastructure** (this project — `workflow_state/`). Schema-aware validation of Galaxy workflows in both native `.ga` and Format2 `.gxwf.yml`, powered by Pydantic models generated from tool definitions served by **Tool Shed 2.0**. See [[EXECUTIVE_SUMMARY]] and [[projects/cwl/older_plans/pickValue/PROBLEM_AND_GOAL]].
 - **Tool Shed 2.0:** typed, versioned, centralized registry serving `ParsedTool` schemas for thousands of tools over HTTP. **No competing workflow system has anything comparable.**
 - **gxformat2 / Format2:** the human-writable Galaxy workflow format. Validator, cleaner, round-trip checker, and Format2 export already working.
 - **galaxy-workflows-vscode + galaxy-language-server:** VSCode extension being extended with tool-state-aware completions/hovers/validation driven by the Pydantic-generated JSON Schemas — first workflow editor of its kind on any platform.
