@@ -7,7 +7,7 @@ tags:
 status: draft
 created: 2026-09-16
 revised: 2026-09-16
-revision: 2
+revision: 3
 ai_generated: true
 summary: "Migrate the full Galaxy Selenium suite to Playwright and recover the core of PR #21199, via small atomic PRs."
 ---
@@ -30,4 +30,5 @@ decorators remain, using small, atomic, obviously correct PRs.
 
 - `AGENTS.md` — instructions for agents working on this project (`CLAUDE.md` symlinks to it).
 - `PROBLEMS_AND_GOALS.md` — big-picture context.
+- `GESTURE_ABSTRACTION_DESIGN.md` — design for the backend-neutral input/gesture vocabulary replacing `action_chains()`.
 - `WORKFLOW_EDITOR_PLAYWRIGHT_STATUS.md` — salvaged `playwright_backlog` triage; remaining workflow-editor `selenium_only` tests and established Playwright patterns.
