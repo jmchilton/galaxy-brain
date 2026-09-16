@@ -99,3 +99,79 @@ Steps 1-4 are additive and independently mergeable. Step 6 is the one that canno
   the drivers?
 - Step 6 touches every remaining call site at once — acceptable as one PR, or gate it behind a
   deprecation period where the protocol method warns?
+
+## Implementation log (2026-09-16)
+
+Three branches, in order. Each is independently mergeable.
+
+### `playwright_column_definition_send_enter`
+
+Answers the first open question: the `send_enter` bug is **separate**, and fixing it standalone was
+right. The description field is a `<textarea>`, ENTER inserted a literal newline into the saved
+value, and `FormText` commits through `v-model` on every input event — so the ENTER was never doing
+the work the comment claimed. Removing it unblocked
+`test_collection_input_sample_sheet_chipseq_example`; green under both backends.
+
+### `playwright_gesture_vocabulary_port` — plan step 5, pulled to the front
+
+Sequencing the mechanical port *first* turned out better than steps 1-4. It needs no new API, so it
+is the cheapest thing to review, and it shrinks the surface the later steps have to think about.
+
+13 sites became `hover()` or `move_to_and_click()`. Three `backend_type` branches disappeared
+(`clear_tooltips`, `workflow_run_ensure_expanded`, and the tooltip hover in `get_tooltip_text`) —
+those branches existed only because the *domain* layer was choosing an input strategy, which is the
+driver's job. One chain in `test_history_multi_view` was built and never performed; deleted.
+
+`test_conditional_subworkflow_step` migrated for free: its only blocker was one
+`move_to_element(x).click().perform()`.
+
+### `playwright_neutral_key_press` — plan step 1
+
+`press(*keys, modifiers=..., element=...)` on the protocol, implemented natively by each backend, plus
+the `Key` enum. `send_enter`/`send_escape`/`send_backspace` now delegate to it.
+
+Two design decisions changed from the sketch above:
+
+- **`Key` values are semantic** (`"shift"`, `"tab"`), not Selenium's unicode constants, with one map
+  per backend. The tempting shortcut — give the enum Selenium's values so existing call sites keep
+  working — would have made Selenium's encoding the interchange format. It is safe to do properly
+  because `press()` never goes through `PlaywrightElement.send_keys`, which flattens its arguments
+  into a character stream and would type `"tab"` literally. That flattening is why
+  `send_keys_to_page` still takes Selenium constants; it migrates when the char-stream path is
+  rewritten.
+- **No new `click()`.** The sketch proposed `click(element, modifiers=...)`, which collides with the
+  protocol's existing `click(selector_template: Target)`. Modified clicks belong as a `modifiers`
+  kwarg on `move_to_and_click()` instead — extending the gesture that already exists rather than
+  adding a near-synonym.
+
+Fixed a latent bug on the way: `HasDriver._send_key` built an `ActionChains` for the no-element case
+and never called `perform()`, so page-level `send_escape()` silently did nothing under Selenium.
+`test_workflow_run_target` is the one caller; it now gets a real ESCAPE, which CI should confirm.
+
+Tests live in `test/unit/selenium/test_has_driver.py` (answering the third open question) because the
+`has_driver_instance` fixture there already parametrizes over Selenium, Playwright, and the proxy
+against real browsers. 21 new tests; the whole file is 400 passing.
+
+## Remaining work
+
+| Step | Needs |
+|---|---|
+| `move_to_and_click(modifiers=...)` | migrates `shift_click`, deletes its `backend_type` branch |
+| `hover_away()` | migrates `_clear_tooltip`'s `move_by_offset(100, 100)` |
+| `active_element()` | unblocks `test_aria_connections_menu` together with `press()` |
+| `send_keys_to_page` / `mouse_drag` | move their `backend_type` branches into the driver impls |
+| partial / held drags | `navigates_galaxy:1245`, `test_history_pages:387` assert mid-drag |
+| delete `action_chains()` from protocol + proxy | the enforcing step; also drops `test_action_chains` |
+
+## Local environment
+
+Both backends now run locally on macOS:
+
+- Point tests at the **Vite dev server** (`GALAXY_TEST_EXTERNAL=http://localhost:5173/`). Galaxy on
+  8080 serves `/static/dist/*`, which does not exist in a `GALAXY_SKIP_CLIENT_BUILD=1` worktree.
+- Playwright wants `GALAXY_TEST_SELENIUM_HEADLESS=1`. Headed runs hang in `Page.screenshot` when the
+  browser window is occluded, and every failure then surfaces as a screenshot timeout rather than the
+  real error.
+- Selenium needs chromedriver on `PATH`; Selenium Manager will fetch it
+  (`selenium/webdriver/common/macos/selenium-manager --browser chrome`). Leave
+  `GALAXY_TEST_SELENIUM_HEADLESS` unset — setting it to `1` asks for Xvfb, which macOS lacks.
