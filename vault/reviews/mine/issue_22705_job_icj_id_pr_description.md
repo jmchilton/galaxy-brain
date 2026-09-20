@@ -52,20 +52,15 @@ New in `test_jobs.py`:
   its own coverage: null for an unmapped job, a single non-null id shared across a
   mapped-over batch, and agreement with what `show` reports for the same job.
 
-The scoping guard lives in `test/unit/data/model/test_model.py` rather than in the API
-tests. An API-level assertion cannot fail: `/api/jobs` declares
-`list[ShowFullJobResponse | EncodedJobDetails | JobSummary]`, `EncodedJobDetails.params`
-is required, and a collection-view job dict has no `params` — so every index row
-resolves to `JobSummary`, which never declares the field, whatever the model does. The
-unit test asserts the key is on the element list and not the collection list, and that
-every collection key resolves against `Job.table.columns`. That second assertion matters
-on its own: `ImplicitCollectionJobs.get_job_attributes` does
-`getattr(Job.table.columns, attr)` over `dict_collection_visible_keys`, so a property
-added there would `AttributeError` on every mapped invocation step.
+`test_agents.py::test_encode_ids_helper_encodes_nested_ids` gains the new key in both
+its int and `None` forms, verified red by dropping the key from `ID_FIELDS`.
 
-`lib/galaxy/agents/operations.py` encodes only keys listed in `ID_FIELDS`, so the new
-field is added there — otherwise agents get a raw integer next to encoded `id` and
-`history_id`.
+There is deliberately no test pinning the element-only scoping. An API-level assertion
+cannot fail — `/api/jobs` declares
+`list[ShowFullJobResponse | EncodedJobDetails | JobSummary]`, `EncodedJobDetails.params`
+is required, and a collection-view job dict has no `params`, so every index row resolves
+to `JobSummary`, which never declares the field whatever the model does. The reasoning
+is recorded in the commit message instead.
 
 Local runs:
 
@@ -73,13 +68,8 @@ Local runs:
 |---|---|
 | `test_jobs.py -k implicit_collection_jobs` | 4 passed |
 | `test_workflow_extraction.py` (full) | 65 passed, 1 skipped |
-| `test/unit/data/model/test_model.py` | 5 passed |
 | `test_agents.py::TestAgentOperationsManagerEncoding` | 3 passed |
 | `client` `pnpm type-check` | clean |
 | black / ruff / isort / flake8 (pinned) | clean |
-
-Both new field tests and both new guards were verified red first — the model guard by
-adding the key to `dict_collection_visible_keys`, the agent one by dropping it from
-`ID_FIELDS`.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
