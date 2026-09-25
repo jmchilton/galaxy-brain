@@ -2,7 +2,7 @@
 
 GitHub state last refreshed: 2026-09-20.
 
-Branch and PR state lives in `vault/reviews/mine/index.md`; this file maps issues to
+Branch and PR state lives in `vault/agents/mine/index.md`; this file maps issues to
 the branches that address them. Every issue listed here — in any section — is already
 triaged and must be excluded from the next "find new issues" sweep.
 
