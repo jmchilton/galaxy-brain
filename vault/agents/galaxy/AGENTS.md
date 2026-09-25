@@ -11,7 +11,7 @@ preference; direct requests to the user or the user's explicit picks take preced
 
 ## Active queue
 
-`index.md` is the only review queue. Keep it intentionally tiny:
+`REVIEW_TARGETS.md` is the only review queue. Keep it intentionally tiny:
 
 - Use the heading `PRs To Review:` followed by `- <number> — <concise status>` entries.
 - Limit each PR to one or two physical lines.
@@ -20,7 +20,7 @@ preference; direct requests to the user or the user's explicit picks take preced
 - Remove a PR as soon as the review is delivered and no response needs verification, or when
   the PR is merged, closed, or removed by the user.
 - Never put review history, findings, CI logs, worktree inventories, follow-up branches, issues,
-  or completed/delivered PRs in `index.md`. Those details belong in the active review note or
+  or completed/delivered PRs in `REVIEW_TARGETS.md`. Those details belong in the active review note or
   nowhere.
 
 ## Review-note lifecycle
@@ -28,19 +28,19 @@ preference; direct requests to the user or the user's explicit picks take preced
 Use one primary file per active PR:
 
 ```
-vault/reviews/galaxy/<PR_NUMBER>_<short_description>.md
+vault/agents/galaxy/<PR_NUMBER>_<short_description>.md
 ```
 
 The slug is lowercase snake_case. Prefix any temporary companion artifact with the same PR
 number so it can be pruned with the primary note.
 
-Review notes are temporary working state, not an archive. When a PR leaves `index.md`, delete
+Review notes are temporary working state, not an archive. When a PR leaves `REVIEW_TARGETS.md`, delete
 all matching `<PR_NUMBER>_*` files unless the user explicitly promotes or retains an artifact.
 Git history is sufficient for tracked notes. Promote durable material into `vault/research/` as
 a proper `type: research`, `subtype: pr` note.
 
 Non-PR work such as an active issue-response draft may temporarily live here, but it must not
-appear in `index.md` and should be removed or promoted when that work ends.
+appear in `REVIEW_TARGETS.md` and should be removed or promoted when that work ends.
 
 **Run reviews in subagents.** Use one subagent per PR, tell it to write the primary review file,
 and have it return only a short summary to the coordinator.
@@ -50,7 +50,7 @@ and have it return only a short summary to the coordinator.
 Worktrees live at `~/projects/worktrees/galaxy/pr/<PR_NUMBER>/` and are managed by `ghwt`.
 
 - If an indexed PR lacks a worktree, run `ghwt create galaxy <PR_NUMBER>`.
-- Removing a PR from `index.md` prunes its review files but does not remove its worktree.
+- Removing a PR from `REVIEW_TARGETS.md` prunes its review files but does not remove its worktree.
 - Keep worktrees for open PRs even after review delivery.
 - Remove a clean worktree only after its PR has been merged or closed for at least three days:
   `ghwt rm galaxy <PR_NUMBER>`.
