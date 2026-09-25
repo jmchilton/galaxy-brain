@@ -1,7 +1,7 @@
 Find open `galaxyproject/galaxy` PRs worth reviewing next, and let the user pick one or two.
 
 This is a *suggestion* command. It reads GitHub and reports; it never edits
-`vault/reviews/galaxy/index.md`, never creates worktrees, and never starts a review on its
+`vault/agents/galaxy/REVIEW_TARGETS.md`, never creates worktrees, and never starts a review on its
 own. `/sync-galaxy-reviews` handles worktrees once the user has picked.
 
 ## What to surface
@@ -22,10 +22,17 @@ or topic.
 Recency matters as a tiebreak. A draft last touched in 2024 is almost certainly dead;
 say so rather than listing it straight-faced.
 
+Prefer other candidates when a PR has an outstanding review request to another
+contributor made within the past seven days, especially when their expertise fits
+the change. Give that review room to happen rather than suggesting overlapping
+work. This is a soft preference, not an exclusion: a direct request to the user,
+the user's explicit selection, or a clear need for a complementary perspective
+can outweigh it. Briefly mention the existing request if surfacing the PR anyway.
+
 ## Skip
 
-- Anything with a note in `vault/reviews/galaxy/` (`ls` it — filenames are `<number>_*.md`)
-  or a number in `index.md`. Those are reviewed or in flight.
+- Anything with a note in `vault/agents/galaxy/` (`ls` it — filenames are `<number>_*.md`)
+  or a number in `REVIEW_TARGETS.md`. Those are reviewed or in flight.
 - Anything the user has already commented on or reviewed.
 
 ## Finding them
@@ -50,6 +57,21 @@ gh pr view <N> --repo galaxyproject/galaxy --json comments,reviews \
 ```
 
 Read-only calls can run in parallel.
+
+For the shortlist, also check current `reviewRequests` and the issue timeline (or
+explicit review requests in comments). Current requests alone have no request
+timestamp; do not infer their age from the PR's `updatedAt` or creation date.
+
+```sh
+gh pr view <N> --repo galaxyproject/galaxy --json reviewRequests
+gh api --paginate repos/galaxyproject/galaxy/issues/<N>/timeline \
+  --jq '.[] | select(.event == "review_requested" or .event == "review_request_removed") | {event,created_at,reviewer:.requested_reviewer.login,team:.requested_team.slug}'
+```
+
+Match request events to reviewers still requested, using the latest request after
+any removal/re-request. A recent request already answered is not a pending ask.
+De-prioritizing a candidate does not add it to our queue or create a reminder to
+chase it when the week expires.
 
 ## Reporting
 

@@ -1,19 +1,20 @@
-Sync local Galaxy PR worktrees with `vault/reviews/galaxy/index.md` — create missing ones, tear down settled ones.
+Sync local Galaxy PR worktrees with `vault/agents/galaxy/REVIEW_TARGETS.md` — create missing ones, tear down settled ones.
 
 Reconcile two things:
 
-- **Create** — every PR number listed in `vault/reviews/galaxy/index.md` should have a worktree.
+- **Create** — every PR number listed in `vault/agents/galaxy/REVIEW_TARGETS.md` should have a worktree.
 - **Remove** — every existing worktree whose PR has been merged or closed for **3+ days** should be gone.
 
-The two directions are independent. A PR dropping off `index.md` is *not* a reason to
+The two directions are independent. A PR dropping off `REVIEW_TARGETS.md` is *not* a reason to
 destroy its worktree, and an open PR keeps its worktree even if it isn't listed.
 
 ## Steps
 
 ### 1. Read the list
 
-Read `vault/reviews/galaxy/index.md`. It's a flat list of `- <number>` lines under
-`PRs To Review:`. Collect the numbers; ignore anything else in the file.
+Read `vault/agents/galaxy/REVIEW_TARGETS.md`. It's a flat list of `- <number>` lines under
+`PRs To Review:`. Collect only the numbers in that section; ignore the skip/blocked
+sections and anything else in the file.
 
 ### 2. List existing worktrees
 
@@ -67,7 +68,7 @@ remove either case automatically; list them separately and ask the user.
 
 Print a short plan before touching anything:
 
-- `create: <numbers>` — listed in `index.md`, no worktree
+- `create: <numbers>` — listed in `REVIEW_TARGETS.md`, no worktree
 - `remove: <number> (merged YYYY-MM-DD, N days ago)` — clean worktrees only
 - `hold: <number> (open | settled N days ago | dirty)` — with the reason
 
@@ -99,5 +100,5 @@ One-line-per-action summary of what actually happened, plus anything held back a
 
 - Read-only `gh` and `ls` calls for step 3 can be batched in parallel; `ghwt` mutations
   should run one at a time.
-- Don't edit `index.md` as part of this — it's hand-maintained input, not state.
+- Don't edit `REVIEW_TARGETS.md` as part of this — it's hand-maintained input, not state.
 - Don't create or delete review note files here; this command only manages worktrees.
