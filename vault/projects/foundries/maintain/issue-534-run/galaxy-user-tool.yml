@@ -1,0 +1,70 @@
+{
+  "class": "GalaxyUserTool",
+  "id": "minimap2_align_paf",
+  "version": "1.0.0",
+  "name": "Minimap2 alignment to PAF",
+  "description": "Align reads to a reference or to one another and write PAF alignments.",
+  "container": "biocontainers/mulled-v2-66534bcbb7031a148b13e2ad42583020b9cd25c4:365b17b986c1a60c1b82c6066a9345f38317b763-0",
+  "shell_command": "minimap2 $(inputs.cigar_paf_format ? '-c' : '') -t $(inputs.threads) $(inputs.reference ? \"'\" + inputs.reference.path + \"'\" : inputs.reads.map((input) => \"'\" + input.path + \"'\").join(\" \")) $(inputs.reads.map((input) => \"'\" + input.path + \"'\").join(\" \")) -o alignment.paf && minimap2 --version > minimap2.version.txt",
+  "inputs": [
+    {
+      "name": "reads",
+      "type": "data",
+      "format": [
+        "fasta",
+        "fastq",
+        "fasta.gz",
+        "fastqsanger.gz"
+      ],
+      "multiple": true,
+      "label": "Reads to align",
+      "help": "One or more read files; preserve paired files together when relevant."
+    },
+    {
+      "name": "reference",
+      "type": "data",
+      "format": [
+        "fasta",
+        "fasta.gz"
+      ],
+      "optional": true,
+      "label": "Reference sequences",
+      "help": "If absent, align reads against themselves as in the source fallback."
+    },
+    {
+      "name": "cigar_paf_format",
+      "type": "boolean",
+      "value": false,
+      "label": "Include CIGAR strings in PAF",
+      "help": "Maps to the source cigar_paf_format flag and minimap2 -c."
+    },
+    {
+      "name": "threads",
+      "type": "integer",
+      "value": 2,
+      "min": 1,
+      "label": "Threads",
+      "help": "Controls minimap2 -t; replaces the source task.cpus runtime value."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "paf",
+      "type": "data",
+      "format": "tabular",
+      "from_work_dir": "alignment.paf",
+      "label": "Read alignments in PAF format"
+    },
+    {
+      "name": "versions",
+      "type": "data",
+      "format": "txt",
+      "from_work_dir": "minimap2.version.txt",
+      "label": "Minimap2 version"
+    }
+  ],
+  "help": {
+    "format": "markdown",
+    "content": "Scenario draft derived only from MINIMAP2_ALIGN process evidence. This variant pins bam_format=false, retains the reference-or-reads fallback and optional CIGAR output, and uses the source mulled image. BAM mode and Groovy task.ext command arguments are deliberately outside this variant; a separate BAM variant requires Samtools sorting. The versions output is a plain Minimap2 version record rather than the source pipeline-specific versions.yml envelope."
+  }
+}

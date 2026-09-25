@@ -1,0 +1,882 @@
+diff --git a/casts/claude/skills/author-galaxy-tool-wrapper/_provenance.json b/casts/claude/skills/author-galaxy-tool-wrapper/_provenance.json
+index 92a2554e..96c56bfb 100644
+--- a/casts/claude/skills/author-galaxy-tool-wrapper/_provenance.json
++++ b/casts/claude/skills/author-galaxy-tool-wrapper/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/author-galaxy-tool-wrapper/index.md",
+     "revision": 4,
+     "content_hash": "f9c208c6c9e6cc4b6515ae68c3dcacb60b682eeee7e60d65d24c179faee75de2",
+-    "commit": "a56c6127966e59c75cf67d1d41ca03c8b4cf45dd"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-02T22:04:17.980Z",
++  "cast_at": "2026-08-19T18:37:26.415Z",
+   "cast_date": "2026-05-08",
+   "cast_revision": 1,
+   "cast_history": [
+@@ -97,8 +97,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Read process tool, container, conda, inputs, outputs, script summary, and test fixture evidence from the source pipeline summary.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/author-galaxy-tool-wrapper/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/author-galaxy-tool-wrapper/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/author-galaxy-tool-wrapper/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/author-galaxy-tool-wrapper/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/nextflow-summary-to-cwl-data-flow/_provenance.json b/casts/claude/skills/nextflow-summary-to-cwl-data-flow/_provenance.json
+index c5584dfb..486d85cf 100644
+--- a/casts/claude/skills/nextflow-summary-to-cwl-data-flow/_provenance.json
++++ b/casts/claude/skills/nextflow-summary-to-cwl-data-flow/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/nextflow-summary-to-cwl-data-flow/index.md",
+     "revision": 1,
+     "content_hash": "68a75d5f934610fd9bf95434c94c3965dc2c591ea33160e911a3662f1f290aaa",
+-    "commit": "a56c6127966e59c75cf67d1d41ca03c8b4cf45dd"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-02T22:04:50.184Z",
++  "cast_at": "2026-08-19T18:42:24.826Z",
+   "refs": [
+     {
+       "kind": "schema",
+@@ -21,8 +21,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Read process, channel, operator, and fixture structure while drafting CWL-facing abstract data flow.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/nextflow-summary-to-cwl-data-flow/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/nextflow-summary-to-cwl-data-flow/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/nextflow-summary-to-cwl-data-flow/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/nextflow-summary-to-cwl-data-flow/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/nextflow-summary-to-cwl-interface/_provenance.json b/casts/claude/skills/nextflow-summary-to-cwl-interface/_provenance.json
+index 437da4b3..09c18f67 100644
+--- a/casts/claude/skills/nextflow-summary-to-cwl-interface/_provenance.json
++++ b/casts/claude/skills/nextflow-summary-to-cwl-interface/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/nextflow-summary-to-cwl-interface/index.md",
+     "revision": 1,
+     "content_hash": "3fc1ccd78b3828e77382b921fc547a4ea2f56d7123cd92cf0e1cfefd4561984f",
+-    "commit": "a56c6127966e59c75cf67d1d41ca03c8b4cf45dd"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-02T22:04:51.152Z",
++  "cast_at": "2026-08-19T18:42:27.752Z",
+   "refs": [
+     {
+       "kind": "schema",
+@@ -21,8 +21,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Read source-level channel, parameter, process, and test-fixture evidence before choosing CWL Workflow inputs and outputs.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/nextflow-summary-to-cwl-interface/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/nextflow-summary-to-cwl-interface/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/nextflow-summary-to-cwl-interface/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/nextflow-summary-to-cwl-interface/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/nextflow-summary-to-galaxy-data-flow/_provenance.json b/casts/claude/skills/nextflow-summary-to-galaxy-data-flow/_provenance.json
+index 98280a14..e6797403 100644
+--- a/casts/claude/skills/nextflow-summary-to-galaxy-data-flow/_provenance.json
++++ b/casts/claude/skills/nextflow-summary-to-galaxy-data-flow/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/nextflow-summary-to-galaxy-data-flow/index.md",
+     "revision": 5,
+     "content_hash": "ab1fde58ac26d8d204e39eca5032fe304ad01c5128eb82b5f06bd2321426b174",
+-    "commit": "aede1aeab8ceb890192c9606a6e967a36fcf2224"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-03T23:37:55.552Z",
++  "cast_at": "2026-08-19T18:42:30.687Z",
+   "cast_date": "2026-05-07",
+   "cast_revision": 3,
+   "cast_history": [
+@@ -233,8 +233,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Read process, channel, operator, and fixture structure while drafting Galaxy-facing abstract data flow.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/nextflow-summary-to-galaxy-data-flow/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/nextflow-summary-to-galaxy-data-flow/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/nextflow-summary-to-galaxy-data-flow/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/nextflow-summary-to-galaxy-data-flow/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/nextflow-summary-to-galaxy-interface/_provenance.json b/casts/claude/skills/nextflow-summary-to-galaxy-interface/_provenance.json
+index 5d4d2871..e8a008b3 100644
+--- a/casts/claude/skills/nextflow-summary-to-galaxy-interface/_provenance.json
++++ b/casts/claude/skills/nextflow-summary-to-galaxy-interface/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/nextflow-summary-to-galaxy-interface/index.md",
+     "revision": 5,
+     "content_hash": "dcebf8087554cd90d5f9e7da322551dd2f76883369db0eef8f028bf6f85a0f7a",
+-    "commit": "a56c6127966e59c75cf67d1d41ca03c8b4cf45dd"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-02T22:04:53.079Z",
++  "cast_at": "2026-08-19T18:42:33.716Z",
+   "cast_date": "2026-05-07",
+   "cast_revision": 3,
+   "cast_history": [
+@@ -157,8 +157,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Read source-level channel, parameter, process, and test-fixture evidence before choosing Galaxy workflow inputs and outputs.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/nextflow-summary-to-galaxy-interface/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/nextflow-summary-to-galaxy-interface/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/nextflow-summary-to-galaxy-interface/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/nextflow-summary-to-galaxy-interface/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/nextflow-summary-to-galaxy-reference-data/_provenance.json b/casts/claude/skills/nextflow-summary-to-galaxy-reference-data/_provenance.json
+index d8b9ca00..fbb3d07a 100644
+--- a/casts/claude/skills/nextflow-summary-to-galaxy-reference-data/_provenance.json
++++ b/casts/claude/skills/nextflow-summary-to-galaxy-reference-data/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/nextflow-summary-to-galaxy-reference-data/index.md",
+     "revision": 4,
+     "content_hash": "788baae784e8c75ed2c390af073212bc258fd541c6eba2b9b4374292b7db96b2",
+-    "commit": "a56c6127966e59c75cf67d1d41ca03c8b4cf45dd"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-02T22:04:54.012Z",
++  "cast_at": "2026-08-19T18:42:37.149Z",
+   "refs": [
+     {
+       "kind": "research",
+@@ -79,8 +79,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Read `reference_assets[]` (curated path-typed inputs with `used_by` attribution to consuming subworkflows), `reference_rebuilds[]` (compute-if-missing rebuild rules with builder process and guard), and `params[]` provenance (`source_kind`, including `getGenomeAttribute` for nf-core key-expanded bundles) to determine which reference assets the source pipeline consumes and how it rebuilds them when absent.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/nextflow-summary-to-galaxy-reference-data/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/nextflow-summary-to-galaxy-reference-data/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/nextflow-summary-to-galaxy-reference-data/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/nextflow-summary-to-galaxy-reference-data/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/nextflow-summary-to-galaxy-template/_provenance.json b/casts/claude/skills/nextflow-summary-to-galaxy-template/_provenance.json
+index f3b2efa5..494f7a3a 100644
+--- a/casts/claude/skills/nextflow-summary-to-galaxy-template/_provenance.json
++++ b/casts/claude/skills/nextflow-summary-to-galaxy-template/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/nextflow-summary-to-galaxy-template/index.md",
+     "revision": 8,
+     "content_hash": "23676d3bdc6a728949f757ae221a7e40153666e7028f671ea8ab52fe5b9f2686",
+-    "commit": "aede1aeab8ceb890192c9606a6e967a36fcf2224"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-03T23:37:57.886Z",
++  "cast_at": "2026-08-19T18:42:49.885Z",
+   "cast_date": "2026-05-07",
+   "cast_revision": 3,
+   "cast_history": [
+@@ -326,8 +326,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Read process, channel, operator, and fixture structure when emitting placeholder steps and TODO context.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/nextflow-summary-to-galaxy-template/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/nextflow-summary-to-galaxy-template/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/nextflow-summary-to-galaxy-template/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/nextflow-summary-to-galaxy-template/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/nextflow-test-to-cwl-test-plan/_provenance.json b/casts/claude/skills/nextflow-test-to-cwl-test-plan/_provenance.json
+index b86bdad6..698a96e5 100644
+--- a/casts/claude/skills/nextflow-test-to-cwl-test-plan/_provenance.json
++++ b/casts/claude/skills/nextflow-test-to-cwl-test-plan/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/nextflow-test-to-cwl-test-plan/index.md",
+     "revision": 1,
+     "content_hash": "6b2b5d921e5998debde2018e44ad2b117e7af6e538feddbff5a17ee21a9e256f",
+-    "commit": "a56c6127966e59c75cf67d1d41ca03c8b4cf45dd"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-02T22:04:56.538Z",
++  "cast_at": "2026-08-19T18:42:57.211Z",
+   "refs": [
+     {
+       "kind": "schema",
+@@ -21,8 +21,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Read summarized nf-test profiles, snapshot fixtures, selected test data, params, and expected outputs.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/nextflow-test-to-cwl-test-plan/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/nextflow-test-to-cwl-test-plan/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/nextflow-test-to-cwl-test-plan/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/nextflow-test-to-cwl-test-plan/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/nextflow-test-to-galaxy-test-plan/_provenance.json b/casts/claude/skills/nextflow-test-to-galaxy-test-plan/_provenance.json
+index 36f02c74..117af3cc 100644
+--- a/casts/claude/skills/nextflow-test-to-galaxy-test-plan/_provenance.json
++++ b/casts/claude/skills/nextflow-test-to-galaxy-test-plan/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/nextflow-test-to-galaxy-test-plan/index.md",
+     "revision": 5,
+     "content_hash": "4507e5ff7ffaa9751cf80e33c28fec403766dc95197c0813821362711f603732",
+-    "commit": "aede1aeab8ceb890192c9606a6e967a36fcf2224"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-03T23:38:00.340Z",
++  "cast_at": "2026-08-19T18:43:02.950Z",
+   "refs": [
+     {
+       "kind": "research",
+@@ -129,8 +129,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Read summarized nf-test profiles, snapshot fixtures, selected test data, params, and expected outputs.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     },
+     {
+diff --git a/casts/claude/skills/nextflow-test-to-galaxy-test-plan/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/nextflow-test-to-galaxy-test-plan/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/nextflow-test-to-galaxy-test-plan/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/nextflow-test-to-galaxy-test-plan/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/nextflow-to-test-data/_provenance.json b/casts/claude/skills/nextflow-to-test-data/_provenance.json
+index 6f085938..1f76b54a 100644
+--- a/casts/claude/skills/nextflow-to-test-data/_provenance.json
++++ b/casts/claude/skills/nextflow-to-test-data/_provenance.json
+@@ -6,9 +6,9 @@
+     "path": "content/molds/nextflow-to-test-data/index.md",
+     "revision": 2,
+     "content_hash": "5569467ca2b1bb6bdaec69f4d6a9482b111b4433d5a70f1bf19c29a8d511f3ca",
+-    "commit": "aede1aeab8ceb890192c9606a6e967a36fcf2224"
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+-  "cast_at": "2026-08-03T23:38:01.703Z",
++  "cast_at": "2026-08-19T18:43:06.099Z",
+   "refs": [
+     {
+       "kind": "research",
+@@ -83,8 +83,8 @@
+       "evidence": "corpus-observed",
+       "purpose": "Input contract: read the selected profile's `test_fixtures.inputs[]` and the `nf_tests[]` enumeration — role, url/path, sha1, filetype — as the declared source of test data.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/nextflow-to-test-data/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/nextflow-to-test-data/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/nextflow-to-test-data/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/nextflow-to-test-data/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/casts/claude/skills/summarize-nextflow/SKILL.md b/casts/claude/skills/summarize-nextflow/SKILL.md
+index c2aea2e7..b70670d7 100644
+--- a/casts/claude/skills/summarize-nextflow/SKILL.md
++++ b/casts/claude/skills/summarize-nextflow/SKILL.md
+@@ -120,7 +120,7 @@ A single JSON document conforming to summary-nextflow (`packages/summarize-nextf
+       "outputs": [ { "name": "paf",      "shape": "tuple(val(meta), path(\"*.paf\")) optional", "description": "...", "topic": null },
+                    { "name": "versions", "shape": "path(\"versions.yml\")",                     "description": "tool versions YAML", "topic": null } ],
+       "when": null,
+-      "script_summary": "Align reads against reference, emit PAF or BAM.",
++      "script_excerpt": "\"\"\"\n$args\nminimap2 -t $task.cpus $reference $reads > ${prefix}.paf\n\"\"\"",   // verbatim script body; script_summary is the LLM pass's job
+       "publish_dir": null }
+   ],
+   "subworkflows": [
+@@ -187,7 +187,7 @@ Field-name parity with gxy-sketches (`SketchSource`, `ToolSpec`, `TestDataRef`,
+ The skill is **not a single LLM prompt** over the source tree. It is a small program with one or two embedded LLM calls. The split is:
+ 
+ - **Deterministic:** locate files, parse `nextflow.config` and `nextflow_schema.json`, regex-tokenize `process` blocks for typed fields (name, container, conda, declared IO channel names, `when:` guards, `publishDir`), read nf-core module `meta.yml` verbatim, enumerate `include { X } from '...'` for the call graph, resolve biocontainer image strings.
+-- **LLM-driven:** one-line summary of each process `script:` body, reconciliation of operator-chained channel paths (`A | map | join(B) | groupTuple`) into the workflow `edges[]`, free-text `description` / `notes` fields, IO inference when `meta.yml` is absent and the script is the only signal.
++- **LLM-driven:** one-line `script_summary` of each process, over the verbatim `script_excerpt` the deterministic pass carries; reconciliation of operator-chained channel paths (`A | map | join(B) | groupTuple`) into the workflow `edges[]`, free-text `description` / `notes` fields, IO inference when `meta.yml` is absent and the script is the only signal.
+ 
+ Everything the schema demands as a typed enum or path is deterministic. Free-text fields are LLM. The schema enforces that boundary by typing.
+ 
+@@ -233,7 +233,8 @@ For each `process <NAME> { ... }` in `main.nf`, `workflows/`, `modules/**`, `sub
+ - Sweep `include { ... }` statements across the pipeline (`main.nf`, `workflows/`, `subworkflows/**`) to populate `processes[].aliases`. `include { MINIMAP2_ALIGN as MINIMAP2_CONSENSUS }` adds `MINIMAP2_CONSENSUS` to the `MINIMAP2_ALIGN` process's `aliases[]`. The same module can be re-imported under multiple aliases (bacass aliases `MINIMAP2_ALIGN` three times). Edges reference the alias name; the canonical `name` is the FK target.
+ - Detect `topic: <name>` annotations on outputs (Nextflow 24+ channel topics — nf-core templates emit `tuple(val("${task.process}"), val('toolname'), eval(...)) topic: versions` for version aggregation). Record the topic name in `ChannelIO.topic`.
+ - Where `meta.yml` exists, **use it** for `description` and IO documentation rather than parsing the `script:` block.
+-- LLM call (one per process, batchable): summarize the `script:` body in one line. Pass the script verbatim plus the declared IO; ask only for what the tool *does*.
++- Carry the `script:`/`shell:`/`exec:` body verbatim into `script_excerpt` (dedented, truncated at 4000 characters, `stub:` dropped). For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does.
++- LLM call (one per process, batchable): summarize `script_excerpt` in one line into `script_summary`. Ask only for what the tool *does*. Deterministic runs omit `script_summary` rather than emitting a placeholder.
+ 
+ #### 5. Build the tool registry
+ 
+diff --git a/casts/claude/skills/summarize-nextflow/_provenance.json b/casts/claude/skills/summarize-nextflow/_provenance.json
+index f946930f..1c2ffe7a 100644
+--- a/casts/claude/skills/summarize-nextflow/_provenance.json
++++ b/casts/claude/skills/summarize-nextflow/_provenance.json
+@@ -5,12 +5,12 @@
+     "name": "summarize-nextflow",
+     "path": "content/molds/summarize-nextflow/index.md",
+     "revision": 14,
+-    "content_hash": "cb1d13ddba33496cc62070c3adde6a3e4159053db8ee304fbe5a803e810f849e",
+-    "commit": "aede1aeab8ceb890192c9606a6e967a36fcf2224"
++    "content_hash": "60659f52ed7278ed7ac66144c6706696b3880ee4d2db114afda7cedccde83e2e",
++    "commit": "419f8311888bf6e33d77630f22013abc7141de70"
+   },
+   "cast_method": "hand-cast",
+   "cast_agent": "claude (manual transcription, no LLM cast prompt)",
+-  "cast_at": "2026-08-03T23:38:03.201Z",
++  "cast_at": "2026-08-19T18:43:50.262Z",
+   "cast_date": "2026-05-08",
+   "cast_revision": 11,
+   "cast_history": [
+@@ -226,8 +226,8 @@
+       "evidence": "cast-validated",
+       "purpose": "Validate the emitted Nextflow summary JSON and provide downstream consumers the output contract.",
+       "license": "MIT",
+-      "src_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
+-      "dst_hash": "946330cc314556e77bb41725fa294e2496fe99b618888c660b7e8be7dc62ee5a",
++      "src_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
++      "dst_hash": "201a42699572c0300cae59fb6b434c6a75fbc95f45d048132ec4299dd6741a4b",
+       "source": "deterministic"
+     }
+   ],
+diff --git a/casts/claude/skills/summarize-nextflow/references/schemas/summary-nextflow.schema.json b/casts/claude/skills/summarize-nextflow/references/schemas/summary-nextflow.schema.json
+index 77d76052..1397885b 100644
+--- a/casts/claude/skills/summarize-nextflow/references/schemas/summary-nextflow.schema.json
++++ b/casts/claude/skills/summarize-nextflow/references/schemas/summary-nextflow.schema.json
+@@ -612,7 +612,14 @@
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/content/molds/summarize-nextflow/index.md b/content/molds/summarize-nextflow/index.md
+index 3fa7198a..4e94f872 100644
+--- a/content/molds/summarize-nextflow/index.md
++++ b/content/molds/summarize-nextflow/index.md
+@@ -155,7 +155,7 @@ A single JSON document conforming to [[summary-nextflow]] (`packages/summarize-n
+       "outputs": [ { "name": "paf",      "shape": "tuple(val(meta), path(\"*.paf\")) optional", "description": "...", "topic": null },
+                    { "name": "versions", "shape": "path(\"versions.yml\")",                     "description": "tool versions YAML", "topic": null } ],
+       "when": null,
+-      "script_summary": "Align reads against reference, emit PAF or BAM.",
++      "script_excerpt": "\"\"\"\n$args\nminimap2 -t $task.cpus $reference $reads > ${prefix}.paf\n\"\"\"",   // verbatim script body; script_summary is the LLM pass's job
+       "publish_dir": null }
+   ],
+   "subworkflows": [
+@@ -222,7 +222,7 @@ Field-name parity with gxy-sketches (`SketchSource`, `ToolSpec`, `TestDataRef`,
+ The cast skill is **not a single LLM prompt** over the source tree. It is a small program with one or two embedded LLM calls. The split is:
+ 
+ - **Deterministic:** locate files, parse `nextflow.config` and `nextflow_schema.json`, regex-tokenize `process` blocks for typed fields (name, container, conda, declared IO channel names, `when:` guards, `publishDir`), read nf-core module `meta.yml` verbatim, enumerate `include { X } from '...'` for the call graph, resolve biocontainer image strings.
+-- **LLM-driven:** one-line summary of each process `script:` body, reconciliation of operator-chained channel paths (`A | map | join(B) | groupTuple`) into the workflow `edges[]`, free-text `description` / `notes` fields, IO inference when `meta.yml` is absent and the script is the only signal.
++- **LLM-driven:** one-line `script_summary` of each process, over the verbatim `script_excerpt` the deterministic pass carries; reconciliation of operator-chained channel paths (`A | map | join(B) | groupTuple`) into the workflow `edges[]`, free-text `description` / `notes` fields, IO inference when `meta.yml` is absent and the script is the only signal.
+ 
+ Everything the schema demands as a typed enum or path is deterministic. Free-text fields are LLM. The schema enforces that boundary by typing.
+ 
+@@ -268,7 +268,8 @@ For each `process <NAME> { ... }` in `main.nf`, `workflows/`, `modules/**`, `sub
+ - Sweep `include { ... }` statements across the pipeline (`main.nf`, `workflows/`, `subworkflows/**`) to populate `processes[].aliases`. `include { MINIMAP2_ALIGN as MINIMAP2_CONSENSUS }` adds `MINIMAP2_CONSENSUS` to the `MINIMAP2_ALIGN` process's `aliases[]`. The same module can be re-imported under multiple aliases (bacass aliases `MINIMAP2_ALIGN` three times). Edges reference the alias name; the canonical `name` is the FK target.
+ - Detect `topic: <name>` annotations on outputs (Nextflow 24+ channel topics — nf-core templates emit `tuple(val("${task.process}"), val('toolname'), eval(...)) topic: versions` for version aggregation). Record the topic name in `ChannelIO.topic`.
+ - Where `meta.yml` exists, **use it** for `description` and IO documentation rather than parsing the `script:` block.
+-- LLM call (one per process, batchable): summarize the `script:` body in one line. Pass the script verbatim plus the declared IO; ask only for what the tool *does*.
++- Carry the `script:`/`shell:`/`exec:` body verbatim into `script_excerpt` (dedented, truncated at 4000 characters, `stub:` dropped). For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does.
++- LLM call (one per process, batchable): summarize `script_excerpt` in one line into `script_summary`. Ask only for what the tool *does*. Deterministic runs omit `script_summary` rather than emitting a placeholder.
+ 
+ ### 5. Build the tool registry
+ 
+diff --git a/content/schemas/summary-nextflow.md b/content/schemas/summary-nextflow.md
+index 1646749c..b9539f8e 100644
+--- a/content/schemas/summary-nextflow.md
++++ b/content/schemas/summary-nextflow.md
+@@ -73,7 +73,7 @@ Per `content/meta/casting.md`'s per-kind dispatch, this schema is referenced by
+ 
+ - **Structured channel typing.** `processes[].inputs[].shape` is a string (`"tuple(meta, [path,path])"`), not a structured type. NF channel typing is a research project; a string is enough for downstream Molds to reason about and an LLM to emit.
+ - **Operator-chain semantics.** `Edge.via` records the literal operator chain (`["map", "join", "groupTuple"]`). Reconciling what the chain *does* to channel shapes is left to the LLM step that fills `Edge.notes` when confidence is low.
+-- **Multi-tool processes outside decomposed mulled-v2 containers.** A process can run multiple tools (a shell pipeline of two binaries). `Process.tool` is nullable; multi-tool processes set it null and surface tool details in `script_summary` and `container`. A `tools[]` foreign-key array on `Process` would be cleaner; deferred until downstream use forces it.
++- **Multi-tool processes outside decomposed mulled-v2 containers.** A process can run multiple tools (a shell pipeline of two binaries). `Process.tool` is nullable; multi-tool processes set it null and surface tool details in `script_excerpt` and `container`. A `tools[]` foreign-key array on `Process` would be cleaner; deferred until downstream use forces it.
+ 
+ ## Revision 2 — 2026-05-01
+ 
+diff --git a/packages/summarize-nextflow/src/resolver.ts b/packages/summarize-nextflow/src/resolver.ts
+index b313f0c8..8dd965af 100644
+--- a/packages/summarize-nextflow/src/resolver.ts
++++ b/packages/summarize-nextflow/src/resolver.ts
+@@ -198,7 +198,7 @@ interface Process {
+   inputs: ChannelIO[];
+   outputs: ChannelIO[];
+   when: string | null;
+-  script_summary: string;
++  script_excerpt: string | null;
+   publish_dir: string | null;
+ }
+ 
+@@ -795,7 +795,7 @@ function parseProcessFile(pipelineRoot: string, path: string): Process[] {
+       inputs: parseIoBlock(body, "input"),
+       outputs: parseIoBlock(body, "output"),
+       when: normalizeDirective(matchOne(body, /when:\s*\n([\s\S]*?)\n\s*script:/u)),
+-      script_summary: summarizeScript(name),
++      script_excerpt: extractScript(body),
+       publish_dir: normalizeDirective(matchOne(body, /publishDir\s+([^\n]+)/u)),
+     };
+   });
+@@ -1730,11 +1730,14 @@ function parseIoBlock(text: string, blockName: "input" | "output"): ChannelIO[]
+     }));
+ }
+ 
++// `path`/`val`/`env` bind an identifier; a quoted argument is a literal path, so it never names the channel.
+ function parseIoName(line: string, blockName: "input" | "output"): string {
+   return (
+-    matchOne(line, /emit:\s*([A-Za-z0-9_]+)/u) ??
+-    matchOne(line, /path\(?([A-Za-z0-9_]+)/u) ??
+-    matchOne(line, /val\(([A-Za-z0-9_]+)/u) ??
++    matchOne(line, /emit:\s*['"]?([A-Za-z0-9_]+)/u) ??
++    matchOne(line, /\bpath\s*\(?\s*([A-Za-z0-9_]+)/u) ??
++    matchOne(line, /\bval\s*\(?\s*([A-Za-z0-9_]+)/u) ??
++    matchOne(line, /\benv\s*\(?\s*([A-Za-z0-9_]+)/u) ??
++    matchOne(line, /\beach\s+([A-Za-z0-9_]+)/u) ??
+     `${blockName}_${Math.abs(hash(line))}`
+   );
+ }
+@@ -2351,9 +2354,23 @@ function parseProseAssertions(text: string): string[] {
+     .filter((assertion) => !assertion.startsWith("snapshot("));
+ }
+ 
+-function summarizeScript(name: string): string {
+-  const tool = name.toLowerCase().replace(/_/gu, " ");
+-  return `Run ${tool} and emit declared Nextflow outputs.`;
++const SCRIPT_EXCERPT_LIMIT = 4000;
++
++// Verbatim script body, dedented. Interpreting it is the consumer's job, not the parser's.
++function extractScript(body: string): string | null {
++  const block = matchOne(body, /(?:^|\n)[^\S\n]*(?:script|shell|exec):[^\S\n]*\n([\s\S]*)$/u);
++  if (block === null) return null;
++  const lines = block.replace(/\n[^\S\n]*stub:[^\S\n]*\n[\s\S]*$/u, "").split("\n");
++  while (lines.length && !lines[0]!.trim()) lines.shift();
++  while (lines.length && !lines[lines.length - 1]!.trim()) lines.pop();
++  if (lines.length === 0) return null;
++  const indent = Math.min(
++    ...lines.filter((line) => line.trim()).map((line) => line.length - line.trimStart().length),
++  );
++  const text = lines.map((line) => line.slice(indent)).join("\n");
++  return text.length > SCRIPT_EXCERPT_LIMIT
++    ? `${text.slice(0, SCRIPT_EXCERPT_LIMIT)}\n… [truncated]`
++    : text;
+ }
+ 
+ function extractNamedBlock(text: string, name: string): string | null {
+diff --git a/packages/summarize-nextflow/src/schema/summary-nextflow.schema.generated.ts b/packages/summarize-nextflow/src/schema/summary-nextflow.schema.generated.ts
+index 190c3613..fab4fa86 100644
+--- a/packages/summarize-nextflow/src/schema/summary-nextflow.schema.generated.ts
++++ b/packages/summarize-nextflow/src/schema/summary-nextflow.schema.generated.ts
+@@ -614,7 +614,14 @@ export const summaryNextflowSchema = {
+         },
+         "script_summary": {
+           "type": "string",
+-          "description": "One-line LLM-derived summary of what the `script:` body does. Free text."
++          "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in."
++        },
++        "script_excerpt": {
++          "type": [
++            "string",
++            "null"
++          ],
++          "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does."
+         },
+         "publish_dir": {
+           "type": [
+diff --git a/packages/summarize-nextflow/src/schema/summary-nextflow.schema.json b/packages/summarize-nextflow/src/schema/summary-nextflow.schema.json
+index 6da44017..0679e0ff 100644
+--- a/packages/summarize-nextflow/src/schema/summary-nextflow.schema.json
++++ b/packages/summarize-nextflow/src/schema/summary-nextflow.schema.json
+@@ -176,7 +176,8 @@
+         "inputs":          { "type": "array", "items": { "$ref": "#/$defs/ChannelIO" } },
+         "outputs":         { "type": "array", "items": { "$ref": "#/$defs/ChannelIO" } },
+         "when":            { "type": ["string", "null"], "description": "Verbatim `when:` guard expression, or null if absent." },
+-        "script_summary":  { "type": "string", "description": "One-line LLM-derived summary of what the `script:` body does. Free text." },
++        "script_summary":  { "type": "string", "description": "One-line LLM-derived summary of what the `script:` body does. Free text. The deterministic CLI does not emit it — it emits `script_excerpt` instead, and the cast skill's LLM pass fills this in." },
++        "script_excerpt":  { "type": ["string", "null"], "description": "Verbatim `script:`/`shell:`/`exec:` body, dedented and truncated at 4000 characters, or null when the process declares none. Deterministic. For ad-hoc pipelines with no `meta.yml` this is the only evidence of what a process does." },
+         "publish_dir":     { "type": ["string", "null"], "description": "`publishDir` value when the process publishes outputs (or null)." }
+       }
+     },
+diff --git a/packages/summarize-nextflow/test/resolver.test.ts b/packages/summarize-nextflow/test/resolver.test.ts
+index 8819a5e1..1eb9ee06 100644
+--- a/packages/summarize-nextflow/test/resolver.test.ts
++++ b/packages/summarize-nextflow/test/resolver.test.ts
+@@ -40,8 +40,10 @@ interface SummaryLike {
+         }[];
+       } | null;
+     }[];
+-    inputs: unknown[];
+-    outputs: unknown[];
++    inputs: { name: string; shape: string; topic: string | null }[];
++    outputs: { name: string; shape: string; topic: string | null }[];
++    script_summary?: string;
++    script_excerpt: string | null;
+   }[];
+   subworkflows: {
+     name: string;
+@@ -1838,6 +1840,165 @@ workflow PIPE {
+     expect(summary.reference_assets).toEqual([]);
+   });
+ 
++  test("names process IO from quoted emit labels and space-separated declarations", async () => {
++    const root = tempPipelineRoot();
++    write(root, "nextflow.config", "manifest { name = 'adhoc/io-names' }\n");
++    write(
++      root,
++      "modules/annot.nf",
++      `process ANNOT {
++  input:
++  path gencoll_asn, name: 'inp/*'
++  val max_intron
++  env(TOOL_VERSION)
++  each batch_id
++  output:
++  path "out/*", emit: "all"
++  path "out/ACCEPT/accept.asn", emit: 'accept_asn'
++  path "out/log.txt", emit: log
++  script:
++  'annot'
++}
++`,
++    );
++    write(
++      root,
++      "main.nf",
++      "include { ANNOT } from './modules/annot'\nworkflow PIPE { main: ANNOT() }\n",
++    );
++
++    const summary = await summarize(root);
++    const annot = summary.processes.find((process) => process.name === "ANNOT");
++
++    expect(annot?.inputs.map((io) => io.name)).toEqual([
++      "gencoll_asn",
++      "max_intron",
++      "TOOL_VERSION",
++      "batch_id",
++    ]);
++    expect(annot?.outputs.map((io) => io.name)).toEqual(["all", "accept_asn", "log"]);
++  });
++
++  test("keeps naming tuple IO after its path element, not the leading val", async () => {
++    const root = tempPipelineRoot();
++    write(root, "nextflow.config", "manifest { name = 'nf-core/tuple-io' }\n");
++    write(
++      root,
++      "modules/align.nf",
++      `process ALIGN {
++  input:
++  tuple val(meta), path(reads)
++  each path(fasta)
++  output:
++  tuple val(meta), path("*.bam"), emit: bam
++  path "versions.yml", emit: versions
++  script:
++  'align'
++}
++`,
++    );
++    write(
++      root,
++      "main.nf",
++      "include { ALIGN } from './modules/align'\nworkflow PIPE { main: ALIGN() }\n",
++    );
++
++    const summary = await summarize(root);
++    const align = summary.processes.find((process) => process.name === "ALIGN");
++
++    expect(align?.inputs.map((io) => io.name)).toEqual(["reads", "fasta"]);
++    expect(align?.outputs.map((io) => io.name)).toEqual(["bam", "versions"]);
++  });
++
++  test("falls back to a synthesized name only when no identifier is declared", async () => {
++    const root = tempPipelineRoot();
++    write(root, "nextflow.config", "manifest { name = 'adhoc/anonymous-io' }\n");
++    write(
++      root,
++      "modules/anon.nf",
++      `process ANON {
++  input:
++  path "reference/*"
++  output:
++  path("\${meta.id}.txt")
++  script:
++  'anon'
++}
++`,
++    );
++    write(
++      root,
++      "main.nf",
++      "include { ANON } from './modules/anon'\nworkflow PIPE { main: ANON() }\n",
++    );
++
++    const summary = await summarize(root);
++    const anon = summary.processes.find((process) => process.name === "ANON");
++
++    expect(anon?.inputs[0]?.name).toMatch(/^input_[0-9]+$/u);
++    expect(anon?.outputs[0]?.name).toMatch(/^output_[0-9]+$/u);
++  });
++
++  test("carries the script body verbatim and dedented, without the stub block", async () => {
++    const root = tempPipelineRoot();
++    write(root, "nextflow.config", "manifest { name = 'adhoc/script-excerpt' }\n");
++    write(
++      root,
++      "modules/divide.nf",
++      `process DIVIDE {
++  input:
++  path metadata_file
++  script:
++      """
++      mkdir -p output tmp
++      rnaseq_divide_by_strandedness -work-area tmp \\
++        -metadata $metadata_file -stranded-output output/stranded.list
++      """
++  stub:
++      """
++      touch output/stranded.list
++      """
++}
++`,
++    );
++    write(
++      root,
++      "main.nf",
++      "include { DIVIDE } from './modules/divide'\nworkflow PIPE { main: DIVIDE() }\n",
++    );
++
++    const summary = await summarize(root);
++    const divide = summary.processes.find((process) => process.name === "DIVIDE");
++
++    expect(divide?.script_excerpt).toBe(
++      [
++        '"""',
++        "mkdir -p output tmp",
++        "rnaseq_divide_by_strandedness -work-area tmp \\",
++        "  -metadata $metadata_file -stranded-output output/stranded.list",
++        '"""',
++      ].join("\n"),
++    );
++    expect(divide?.script_excerpt).not.toContain("touch");
++  });
++
++  test("emits no script_summary and a null excerpt for a process with no script block", async () => {
++    const root = tempPipelineRoot();
++    write(root, "nextflow.config", "manifest { name = 'adhoc/no-script' }\n");
++    write(root, "modules/bare.nf", "process BARE {\n  input:\n  val x\n}\n");
++    write(
++      root,
++      "main.nf",
++      "include { BARE } from './modules/bare'\nworkflow PIPE { main: BARE() }\n",
++    );
++
++    const summary = await summarize(root);
++    const bare = summary.processes.find((process) => process.name === "BARE");
++
++    expect(bare?.script_excerpt).toBeNull();
++    expect(bare).not.toHaveProperty("script_summary");
++  });
++
+   test("warns when an explicit mulled index path is missing", async () => {
+     const root = tempPipelineRoot();
+     write(root, "nextflow.config", "manifest { name = 'nf-core/missing-mulled-index' }\n");

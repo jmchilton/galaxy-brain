@@ -1,0 +1,274 @@
+[
+  {
+    "name": "multiqc",
+    "source_version": "1.27",
+    "container_evidence": "biocontainers/racon:1.4.20--h9a82719_1",
+    "package_evidence": "bioconda::multiqc=1.27",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "dfast",
+    "source_version": "1.3.2",
+    "container_evidence": "biocontainers/dfast:1.3.2--h43eeafb_0",
+    "package_evidence": "bioconda::dfast=1.3.2",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "requests",
+    "source_version": "2.26.0",
+    "container_evidence": "biocontainers/requests:2.26.0",
+    "package_evidence": "conda-forge::requests=2.26.0",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "kmerfinder",
+    "source_version": "3.0.2",
+    "container_evidence": "biocontainers/kmerfinder:3.0.2--hdfd78af_0",
+    "package_evidence": "bioconda::kmerfinder=3.0.2",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "sed",
+    "source_version": "4.7",
+    "container_evidence": "nf-core/ubuntu:20.04",
+    "package_evidence": "conda-forge::sed=4.7",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "medaka",
+    "source_version": "1.4.3-0",
+    "container_evidence": "biocontainers/medaka:1.4.3--py38h130def0_0",
+    "package_evidence": "medaka=1.4.3-0",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "nanopolish",
+    "source_version": "0.14.0",
+    "container_evidence": "biocontainers/nanopolish:0.14.0--h773013f_3",
+    "package_evidence": "bioconda::nanopolish=0.14.0",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "pycoqc",
+    "source_version": "2.5.2",
+    "container_evidence": "biocontainers/pycoqc:2.5.2--py_0",
+    "package_evidence": "bioconda::pycoqc=2.5.2",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "bakta",
+    "source_version": "1.9.3",
+    "container_evidence": "biocontainers/bakta:1.9.3--pyhdfd78af_0",
+    "package_evidence": "bioconda::bakta=1.9.3",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "busco",
+    "source_version": "5.8.3",
+    "container_evidence": "https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/c6/c607f319867d96a38c8502f751458aa78bbd18fe4c7c4fa6b9d8350e6ba11ebe/data",
+    "package_evidence": "bioconda::busco=5.8.3",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "sepp",
+    "source_version": "4.5.5",
+    "container_evidence": "https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/c6/c607f319867d96a38c8502f751458aa78bbd18fe4c7c4fa6b9d8350e6ba11ebe/data",
+    "package_evidence": "bioconda::sepp=4.5.5",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "canu",
+    "source_version": "2.2",
+    "container_evidence": "biocontainers/canu:2.2--ha47f30e_0",
+    "package_evidence": "bioconda::canu=2.2",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "coreutils",
+    "source_version": "8.30",
+    "container_evidence": "nf-core/ubuntu:20.04",
+    "package_evidence": "conda-forge::coreutils=8.30",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "dragonflye",
+    "source_version": "1.2.1",
+    "container_evidence": "biocontainers/dragonflye:1.2.1--hdfd78af_0",
+    "package_evidence": "bioconda::dragonflye=1.2.1",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "fastp",
+    "source_version": "0.24.0",
+    "container_evidence": "https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/88/889a182b8066804f4799f3808a5813ad601381a8a0e3baa4ab8d73e739b97001/data",
+    "package_evidence": "bioconda::fastp=0.24.0",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "fastqc",
+    "source_version": "0.12.1",
+    "container_evidence": "biocontainers/fastqc:0.12.1--hdfd78af_0",
+    "package_evidence": "bioconda::fastqc=0.12.1",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "filtlong",
+    "source_version": "0.2.1",
+    "container_evidence": "biocontainers/filtlong:0.2.1--h9a82719_0",
+    "package_evidence": "bioconda::filtlong=0.2.1",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "kraken2",
+    "source_version": "2.1.2",
+    "container_evidence": "biocontainers/mulled-v2-5799ab18b5fc681e75923b2450abaa969907ec98:87fc08d11968d081f3e8a37131c1f1f6715b6542-0",
+    "package_evidence": "bioconda::kraken2=2.1.2",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "pigz",
+    "source_version": "2.6",
+    "container_evidence": "biocontainers/mulled-v2-5799ab18b5fc681e75923b2450abaa969907ec98:87fc08d11968d081f3e8a37131c1f1f6715b6542-0",
+    "package_evidence": "conda-forge::pigz=2.6",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "liftoff",
+    "source_version": "1.6.3",
+    "container_evidence": "biocontainers/liftoff:1.6.3--pyhdfd78af_0",
+    "package_evidence": "bioconda::liftoff=1.6.3",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "miniasm",
+    "source_version": "0.3_r179",
+    "container_evidence": "biocontainers/miniasm:0.3_r179--h5bf99c6_2",
+    "package_evidence": "bioconda::miniasm=0.3_r179",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "minimap2",
+    "source_version": "2.24",
+    "container_evidence": "biocontainers/mulled-v2-66534bcbb7031a148b13e2ad42583020b9cd25c4:365b17b986c1a60c1b82c6066a9345f38317b763-0",
+    "package_evidence": "bioconda::minimap2=2.24",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "samtools",
+    "source_version": "1.19.2",
+    "container_evidence": "biocontainers/samtools:1.19.2--h50ea8bc_0",
+    "package_evidence": "bioconda::samtools=1.19.2",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "htslib",
+    "source_version": "1.19.1",
+    "container_evidence": "biocontainers/samtools:1.19.2--h50ea8bc_0",
+    "package_evidence": "bioconda::htslib=1.19.1",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "nanoplot",
+    "source_version": "1.46.1",
+    "container_evidence": "biocontainers/nanoplot:1.46.1--pyhdfd78af_0",
+    "package_evidence": "bioconda::nanoplot=1.46.1",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "porechop",
+    "source_version": "0.2.4",
+    "container_evidence": "biocontainers/porechop:0.2.4--py39h7cff6ad_2",
+    "package_evidence": "bioconda::porechop=0.2.4",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "prokka",
+    "source_version": "1.14.6",
+    "container_evidence": "biocontainers/prokka:1.14.6--pl5321hdfd78af_4",
+    "package_evidence": "bioconda::prokka=1.14.6",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "quast",
+    "source_version": "5.2.0",
+    "container_evidence": "biocontainers/quast:5.2.0--py39pl5321h2add14b_1",
+    "package_evidence": "bioconda::quast=5.2.0",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "racon",
+    "source_version": "1.4.20",
+    "container_evidence": "biocontainers/racon:1.4.20--h9a82719_1",
+    "package_evidence": "bioconda::racon=1.4.20",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "toulligqc",
+    "source_version": "2.7.1",
+    "container_evidence": "biocontainers/toulligqc:2.7.1--pyhdfd78af_0",
+    "package_evidence": "bioconda::toulligqc=2.7.1",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "plotly",
+    "source_version": "5.24.0",
+    "container_evidence": "biocontainers/toulligqc:2.7.1--pyhdfd78af_0",
+    "package_evidence": "conda-forge::plotly=5.24.0",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "unicycler",
+    "source_version": "0.5.1",
+    "container_evidence": "https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/2b/2b9f404e2169ea74161d63d24f55d6339dc98c3745bf2442e425d5a673617fca/data",
+    "package_evidence": "bioconda::unicycler=0.5.1",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "grep",
+    "source_version": "3.11",
+    "container_evidence": "nf-core/ubuntu:20.04",
+    "package_evidence": "conda-forge::grep=3.11",
+    "decision": "use source image",
+    "unresolved": null
+  },
+  {
+    "name": "tar",
+    "source_version": "1.34",
+    "container_evidence": "nf-core/ubuntu:20.04",
+    "package_evidence": "conda-forge::tar=1.34",
+    "decision": "use source image",
+    "unresolved": null
+  }
+]

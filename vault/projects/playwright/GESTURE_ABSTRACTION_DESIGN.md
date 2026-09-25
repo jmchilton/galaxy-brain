@@ -152,16 +152,135 @@ Tests live in `test/unit/selenium/test_has_driver.py` (answering the third open 
 `has_driver_instance` fixture there already parametrizes over Selenium, Playwright, and the proxy
 against real browsers. 21 new tests; the whole file is 400 passing.
 
+### `playwright_hover_away` - plan step 3, plus half of step 6
+
+`hover_away()` on the protocol. `_clear_tooltip` was the last unguarded `action_chains()` use in
+shared code, so every tooltip assertion was broken under Playwright - and nothing caught it, because
+`integration_selenium.yaml` has no Playwright matrix and its four `assert_tooltip_text_contains`
+calls are the only live callers.
+
+**Not a faithful port, deliberately.** Selenium's `move_by_offset(100, 100)` is *relative* to the
+current pointer. Playwright exposes no read of that position, so parity needs the driver to track
+every mouse move - and `mouse_drag`'s Playwright branch still moves the mouse from
+`navigates_galaxy`, outside the driver, so a cached position would go stale and be silently wrong.
+That is the exact failure class this work exists to delete. Instead the Playwright impl asks the page
+for `document.querySelectorAll(":hover")`, takes the innermost hovered element, and moves clear of
+its box. No stored state.
+
+Known limit, accepted not overlooked: it clears the *innermost* hovered element, so a trigger that is
+an ancestor of what the pointer sits on (icon inside a button) may survive. Selenium's blind offset
+has the same hole, and `_clear_tooltip` retries twice then raises a named message, so it fails loudly.
+
+**`action_chains()` under Playwright now raises** instead of returning `self`. Strictly an
+improvement in error quality, not a behavior change: the stub made every chain method an
+`AttributeError` on the driver, so nothing that passes today could break. The single exception was
+`test_action_chains`, which asserted `chains is not None` - the one thing a stub satisfies. Rewritten
+to assert the per-backend contract rather than dropped, as the sketch above had assumed.
+
+**Verification.** `test_hover_away` added beside `test_hover`, using the existing
+`#hover-target` / `#hover-indicator` fixture and its `:hover + sibling` CSS, so it runs against real
+browsers on all three fixture params. Confirmed load-bearing by stubbing both impls and watching it
+go red on selenium, playwright and proxy-selenium. Full file: 309 passed, 1 skipped.
+
+The real-Galaxy path needed a separate check, because `integration_selenium` cannot run in a
+`GALAXY_SKIP_CLIENT_BUILD=1` worktree - it hosts its own Galaxy, so there is no Vite dev server to
+target and every test errors on `#masthead` in setup. Probed instead with a throwaway selenium test
+against the running dev server: two `get_tooltip_text` reads with `click_away=False`, so the second
+can only succeed if `_clear_tooltip` dismissed the first tooltip. Passes under both backends, same
+text both times (`'Home'`, `'Support, Contact, and Community'`).
+
+That probe happens to cover the ancestor-trigger case above: `MastheadItem` puts `v-g-tooltip` on the
+`BNavItem` `<li>`, while the pointer lands on the `<a>` inside it. 100px of clearance from the inner
+box leaves the outer one too, so the limit needs a trigger much larger than its hovered child before
+it bites.
+
 ## Remaining work
 
 | Step | Needs |
 |---|---|
 | `move_to_and_click(modifiers=...)` | migrates `shift_click`, deletes its `backend_type` branch |
-| `hover_away()` | migrates `_clear_tooltip`'s `move_by_offset(100, 100)` |
-| `active_element()` | unblocks `test_aria_connections_menu` together with `press()` |
+| ~~`hover_away()`~~ | done - `playwright_hover_away` |
+| ~~`active_element()`~~ | done - merged with `press()` in [#23574](https://github.com/galaxyproject/galaxy/pull/23574) on 2026-09-21; both are on the protocol (`has_driver_protocol.py:375`, `:380`), the proxy (`has_driver_proxy.py:329`, `:333`) and both impls. `test_aria_connections_menu` is unblocked. |
 | `send_keys_to_page` / `mouse_drag` | move their `backend_type` branches into the driver impls |
 | partial / held drags | `navigates_galaxy:1245`, `test_history_pages:387` assert mid-drag |
-| delete `action_chains()` from protocol + proxy | the enforcing step; also drops `test_action_chains` |
+| delete `action_chains()` from protocol + proxy | the enforcing step; decided 2026-09-20, deferred behind the ports above (see below) |
+
+Remaining `action_chains()` callers, all that step 6 has left to port: `navigates_galaxy` 1245 (partial
+drag), 3012 (`shift_click`), 3045 (`send_keys_to_page`), 3088 (`mouse_drag`) - each already inside a
+`backend_type == "selenium"` branch - plus `test_history_pages:387`, `test_workflow_editor`
+1354/1390/1431/1437, `test_uploads:424`, and `test_workflow_run:319` in the test suite.
+`test_custom_tools:111` and `test_workflow_editor:1966` build their own `ActionChains(self.driver)` and
+do not go through the protocol at all.
+
+### Decided 2026-09-20: delete the protocol method, keep the Selenium one
+
+Asked whether the `NotImplementedError` in the Playwright impl is the destination or a waypoint. It is a
+waypoint. Step 6 deletes three things, not one: the abstract declaration
+(`has_driver_protocol.py:373`), the proxy delegate (`has_driver_proxy.py:325`), and the Playwright raise
+(`has_playwright_driver.py:867`). `HasDriver.action_chains()` stays as a concrete Selenium method - the
+Selenium impl uses it internally at 361, 370, 378, 397 and 667, which is just an implementation using its
+own toolkit.
+
+Three findings settle it:
+
+- **The escape hatch already exists.** `NavigatesGalaxy.driver` (`navigates_galaxy.py:268`) is a property
+  returning the raw Selenium `WebDriver` under Selenium and raising
+  `NotImplementedError("Functionality cannot be run with Playwright yet.")` under Playwright - the same
+  semantics the `action_chains()` raise now has. Two doors to one room; the protocol method is the
+  redundant one.
+- **The target form has precedent in-tree.** `test_custom_tools:111` and `test_workflow_editor:1966`
+  already write `ActionChains(self.driver)` directly. The other ten sites join them; no new machinery.
+- **It fails the protocol's own premise.** The protocol speaks intents - `hover`, `double_click`,
+  `fire_mousedown`, `drag_and_drop`. `action_chains()` returns a Selenium builder object that no
+  non-Selenium backend can ever produce. A method that exists only to be refused is not an abstraction.
+
+Checked and dismissed: whether `ActionChains(self.driver)` in `navigates_galaxy` would drag Selenium into
+the domain layer. It would not - lines 29-30 already import `By` and `Keys`.
+
+Sequencing is the open question, not the destination. Four of the ten sites are ones the gesture ports
+above would *delete* rather than rewrite, so doing step 6 first means writing code we then throw away.
+Deferred deliberately: the raise stays until the `move_to_and_click(modifiers=...)`, `send_keys_to_page`,
+`mouse_drag` and partial-drag ports land, and step 6 closes behind them.
+
+**Updated 2026-09-21.** Two of those prerequisites are now off the list. #23574 landed `press()` and
+`active_element()` together - steps 1 and 4 - so the deferred set is down to
+`move_to_and_click(modifiers=...)`, the `send_keys_to_page` / `mouse_drag` driver-impl moves, and the
+partial / held drags. Nothing about the sequencing argument changes; the queue in front of step 6 is
+just shorter. `playwright_hover_away` was rebased onto dev the same day, and the one conflict was
+exactly here - dev added `active_element()` and `press()` at the spot in `has_driver.py` where the
+branch adds `hover_away()`, purely additive, both sides kept.
+
+## Element typing in HasDriver
+
+Selenium's `WebElement` does **not** satisfy `WebElementProtocol` under mypy.
+`WebElement.find_element` takes `str | By` and returns `WebElement`, while the
+protocol declares `find_element(by: str) -> WebElementProtocol`; the return type
+fails to match, recursively. This is exactly why `_webelement_to_protocol`
+exists as a documented `cast`.
+
+Practical consequence: a test holding a raw element from
+`self.driver.find_element(...)` cannot pass it to a protocol-typed method such
+as `move_to_and_click()`. **Fix it at the call site** — use the neutral finders
+(`find_element_by_link_text`, etc.), which already return `WebElementProtocol`.
+
+An abandoned branch (`selenium_driver_protocol_element_types`) instead widened
+eleven `HasDriver` element parameters from `WebElement` to `WebElementProtocol`,
+on the theory that the implementation narrowed what the protocol promised. That
+was wrong twice over:
+
+- **It fixed nothing.** The real errors land on `HasDriverProxy.move_to_and_click`,
+  which was already typed `WebElementProtocol`, and survived the change verbatim.
+- **It made the annotations false.** All eleven bodies genuinely require a real
+  `WebElement`: `action_chains().move_to_element(element)` and
+  `execute_script("...", element)` both serialize by Selenium element ID, so a
+  `PlaywrightElement` fails at runtime. The widening only type-checked because
+  `action_chains()` is unannotated (so `Any`) and `execute_script(*args)` takes
+  `Any` — nothing checks those bodies at all.
+
+Nor is anything enforcing conformance: every `HasDriverProtocol` binding site
+uses `cast()`. Backend and element type always travel together, so cross-backend
+substitution is not a real scenario — the implementations should keep their
+concrete types, and shared code should obtain elements through the protocol.
 
 ## Local environment
 

@@ -1,0 +1,503 @@
+{
+  "plan_version": "1",
+  "source": {
+    "kind": "nextflow",
+    "name": "nf-core/bacass 2.5.0",
+    "derived_from": "test-evidence",
+    "notes": "Generated summary at manifest pin; preserve all nine nf-test cases and all four snapshot capture kinds. No concrete Galaxy workflow labels are available."
+  },
+  "workflow": {
+    "title": "Bacass Galaxy translation",
+    "label_source": "assumed",
+    "notes": "Output labels require confirmation against a future Galaxy draft."
+  },
+  "test_cases": [
+    {
+      "id": "test",
+      "doc": "Translate -profile test",
+      "derived_from": "test-evidence",
+      "provenance": "tests/default.nf.test :: -profile test",
+      "job_inputs": [
+        {
+          "workflow_label": null,
+          "label_status": "unresolved",
+          "description": "samplesheet",
+          "collection_shape": null,
+          "datatype": "tsv",
+          "fixture": {
+            "storage": "remote-url",
+            "location": "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/bacass/bacass_short_reseq.tsv",
+            "checksum": null,
+            "provenance": "Selected-profile test_fixtures input; do not apply to other profiles."
+          }
+        }
+      ],
+      "expected_outputs": []
+    },
+    {
+      "id": "test-dfast",
+      "doc": "Translate -profile test_dfast",
+      "derived_from": "test-evidence",
+      "provenance": "tests/dfast.nf.test :: -profile test_dfast",
+      "job_inputs": [],
+      "expected_outputs": []
+    },
+    {
+      "id": "test-hybrid",
+      "doc": "Translate -profile test_hybrid",
+      "derived_from": "test-evidence",
+      "provenance": "tests/hybrid.nf.test :: -profile test_hybrid",
+      "job_inputs": [],
+      "expected_outputs": []
+    },
+    {
+      "id": "test-hybrid-dragonflye",
+      "doc": "Translate -profile test_hybrid_dragonflye",
+      "derived_from": "test-evidence",
+      "provenance": "tests/hybrid_dragonflye.nf.test :: -profile test_hybrid_dragonflye",
+      "job_inputs": [],
+      "expected_outputs": []
+    },
+    {
+      "id": "test-long",
+      "doc": "Translate -profile test_long",
+      "derived_from": "test-evidence",
+      "provenance": "tests/long.nf.test :: -profile test_long",
+      "job_inputs": [],
+      "expected_outputs": []
+    },
+    {
+      "id": "test-long-dragonflye",
+      "doc": "Translate -profile test_long_dragonflye",
+      "derived_from": "test-evidence",
+      "provenance": "tests/long_dragonflye.nf.test :: -profile test_long_dragonflye",
+      "job_inputs": [],
+      "expected_outputs": []
+    },
+    {
+      "id": "test-liftoff",
+      "doc": "Translate -profile test_liftoff",
+      "derived_from": "test-evidence",
+      "provenance": "tests/long_liftoff.nf.test :: -profile test_liftoff",
+      "job_inputs": [],
+      "expected_outputs": []
+    },
+    {
+      "id": "test-long-miniasm",
+      "doc": "Translate -profile test_long_miniasm",
+      "derived_from": "test-evidence",
+      "provenance": "tests/long_miniasm.nf.test :: -profile test_long_miniasm",
+      "job_inputs": [],
+      "expected_outputs": []
+    },
+    {
+      "id": "test-long-miniasm-prokka",
+      "doc": "Translate -profile test_long_miniasm_prokka",
+      "derived_from": "test-evidence",
+      "provenance": "tests/long_miniasm_prokka.nf.test :: -profile test_long_miniasm_prokka",
+      "job_inputs": [],
+      "expected_outputs": []
+    }
+  ],
+  "unresolved": [
+    {
+      "kind": "assertion",
+      "description": "-profile test :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_dfast :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_dfast :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_dfast :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_dfast :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_hybrid :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_hybrid :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_hybrid :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_hybrid :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_hybrid_dragonflye :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_hybrid_dragonflye :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_hybrid_dragonflye :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_hybrid_dragonflye :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_dragonflye :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_dragonflye :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_dragonflye :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_dragonflye :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_liftoff :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_liftoff :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_liftoff :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_liftoff :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_miniasm :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_miniasm :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_miniasm :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_miniasm :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_miniasm_prokka :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_miniasm_prokka :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_miniasm_prokka :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "blocking": true,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    },
+    {
+      "kind": "assertion",
+      "description": "-profile test_long_miniasm_prokka :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "blocking": false,
+      "suggested_resolution": "Bind the capture to the concrete Galaxy output or record an intentional omission before implementing workflow tests."
+    }
+  ],
+  "omissions": [],
+  "warnings": [
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "path": "tests/default.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "path": "tests/default.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "path": "tests/default.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "path": "tests/default.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_dfast :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "path": "tests/dfast.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_dfast :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "path": "tests/dfast.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_dfast :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "path": "tests/dfast.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_dfast :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "path": "tests/dfast.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_hybrid :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "path": "tests/hybrid.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_hybrid :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "path": "tests/hybrid.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_hybrid :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "path": "tests/hybrid.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_hybrid :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "path": "tests/hybrid.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_hybrid_dragonflye :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "path": "tests/hybrid_dragonflye.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_hybrid_dragonflye :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "path": "tests/hybrid_dragonflye.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_hybrid_dragonflye :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "path": "tests/hybrid_dragonflye.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_hybrid_dragonflye :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "path": "tests/hybrid_dragonflye.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "path": "tests/long.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "path": "tests/long.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "path": "tests/long.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "path": "tests/long.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_dragonflye :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "path": "tests/long_dragonflye.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_dragonflye :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "path": "tests/long_dragonflye.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_dragonflye :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "path": "tests/long_dragonflye.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_dragonflye :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "path": "tests/long_dragonflye.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_liftoff :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "path": "tests/long_liftoff.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_liftoff :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "path": "tests/long_liftoff.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_liftoff :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "path": "tests/long_liftoff.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_liftoff :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "path": "tests/long_liftoff.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_miniasm :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "path": "tests/long_miniasm.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_miniasm :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "path": "tests/long_miniasm.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_miniasm :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "path": "tests/long_miniasm.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_miniasm :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "path": "tests/long_miniasm.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_miniasm_prokka :: succeeded_task_count \u2014 Nextflow task counts have no direct Galaxy job-count assertion; translate workflow success separately.",
+      "path": "tests/long_miniasm_prokka.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_miniasm_prokka :: versions_yml \u2014 Confirm a published versions output and normalize platform/tool-version differences before choosing content assertions.",
+      "path": "tests/long_miniasm_prokka.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_miniasm_prokka :: stable_names \u2014 Pruned filenames require mapping to Galaxy output labels and sample identifiers; a filename inventory is not a content guarantee.",
+      "path": "tests/long_miniasm_prokka.nf.test"
+    },
+    {
+      "code": "untranslatable-snapshot",
+      "message": "-profile test_long_miniasm_prokka :: stable_paths \u2014 Nextflow work/publish paths have no direct Galaxy history-path equivalent; preserve output-binding intent instead.",
+      "path": "tests/long_miniasm_prokka.nf.test"
+    }
+  ]
+}

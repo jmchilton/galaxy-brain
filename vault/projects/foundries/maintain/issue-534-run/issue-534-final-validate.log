@@ -1,0 +1,117 @@
+
+> foundry@0.0.0 validate /Users/jxc755/projects/worktrees/foundry/branch/issue-534
+> tsx packages/build-cli/src/bin/foundry-build.ts validate --root .
+
+
+content/molds/changeset-to-galaxy-test-plan/index.md:
+  WARN   references[0]: schema ref with evidence=hypothesis is suspicious — schema is the cast contract, expect cast-validated
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/convert-nfcore-module-to-galaxy-tool/index.md:
+  WARN   references[13]: schema ref with evidence=hypothesis is suspicious — schema is the cast contract, expect cast-validated
+
+content/molds/cwl-test-to-galaxy-test-plan/index.md:
+  WARN   references[0]: schema ref with evidence=hypothesis is suspicious — schema is the cast contract, expect cast-validated
+
+content/molds/freeform-summary-to-galaxy-test-plan/index.md:
+  WARN   references[0]: schema ref with evidence=hypothesis is suspicious — schema is the cast contract, expect cast-validated
+
+content/molds/implement-galaxy-workflow-test/index.md:
+  WARN   references[2]: schema ref with evidence=hypothesis is suspicious — schema is the cast contract, expect cast-validated
+
+content/molds/nextflow-test-to-galaxy-test-plan/index.md:
+  WARN   references[0]: schema ref with evidence=hypothesis is suspicious — schema is the cast contract, expect cast-validated
+
+content/pipelines/paper-to-cwl/index.md:
+  WARN   phases[6]: no prior phase produces any input_artifact for role 'galaxy-interface' (freeform-galaxy-interface, nextflow-galaxy-interface, cwl-galaxy-interface)
+  WARN   phases[7]: input_artifact 'cwl-test-plan' has no prior phase producing it in this pipeline
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+content/pipelines/update-interview-to-galaxy/index.md:
+  WARN   phases[5]: input_artifact 'test-data-refs' has no prior phase producing it in this pipeline
+
+content/pipelines/update-interview-to-galaxy/scenarios.md:
+  WARN   scenarios.md cases should bind a fixture
+
+content/molds/apply-galaxy-workflow-changeset/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/cwl-to-test-data/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/debug-cwl-workflow-output/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/freeform-summary-to-cwl-design/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/freeform-summary-to-galaxy-template/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/implement-cwl-tool-step/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/implement-cwl-workflow-test/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/interview-to-galaxy-workflow-changeset/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/nextflow-summary-to-cwl-data-flow/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/nextflow-summary-to-cwl-interface/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/nextflow-summary-to-galaxy-reference-data/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/nextflow-to-test-data/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/paper-to-test-data/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/summarize-cwl-tool/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/summarize-galaxy-workflow/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/summarize-paper/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/summary-to-cwl-template/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/molds/validate-cwl/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+content/pipelines/cwl-to-galaxy/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+content/pipelines/interview-to-galaxy/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+
+content/pipelines/paper-to-galaxy/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+==================================================
+Files: 254  Errors: 0  Warnings: 50

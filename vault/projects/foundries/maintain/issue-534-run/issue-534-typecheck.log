@@ -1,0 +1,4 @@
+
+> @galaxy-foundry/summarize-nextflow@0.3.0 typecheck /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/summarize-nextflow
+> tsc --noEmit
+

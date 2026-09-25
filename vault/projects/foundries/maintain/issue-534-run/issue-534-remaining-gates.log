@@ -1,0 +1,642 @@
+clean: pipeline-cwl-to-galaxy (no drift)
+clean: pipeline-galaxy-workflow-maturation (no drift)
+clean: pipeline-galaxy-workflow-review (no drift)
+clean: pipeline-interview-to-galaxy (no drift)
+clean: pipeline-nextflow-to-cwl (no drift)
+clean: pipeline-nextflow-to-galaxy (no drift)
+clean: pipeline-paper-to-cwl (no drift)
+clean: pipeline-paper-to-galaxy (no drift)
+clean: pipeline-update-interview-to-galaxy (no drift)
+npm run check:fixtures
+
+> foundry@0.0.0 check:fixtures
+> tsx scripts/check-fixtures.ts
+
+Checked 11 artifact fixture(s) against 6 declared validator(s); all valid.
+No committed fixture exercises: galaxy-test-plan, galaxy-tool-pin, galaxy-tool-summary, summary-nextflow
+npm run test
+
+> foundry@0.0.0 test
+> vitest run
+
+
+ RUN  v4.1.10 /Users/jxc755/projects/worktrees/foundry/branch/issue-534
+
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-validates-a-tiny-vault-end-to-end/patterns/foo.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-verified-evidence-with-an-existing-verification-path/patterns/pattern-x.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-missing-verification-path/patterns/pattern-x.md:
+  ERROR  verification_paths: file does not exist: verification/workflows/missing/gate.gxformat2.yml
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 1  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-structurally-verified-evidence-without-verification-paths/patterns/pattern-x.md:
+  ERROR  evidence=structurally-verified requires at least one verification path
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 1  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-corpus-observed-evidence-with-verification-paths/patterns/pattern-x.md:
+  ERROR  evidence=corpus-observed must not declare verification_paths
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 1  Warnings: 1
+
+==================================================
+Files: 1  Errors: 0  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-generated-IWC-paths-in-iwc-exemplars/patterns/pattern-x.md:
+  ERROR  iwc_exemplars[0].workflow must use an abstract IWC workflow ID, not a generated path or line citation: $IWC_FORMAT2/transcriptomics/rnaseq-pe/rnaseq-pe.gxwf.yml:270-299
+
+==================================================
+Files: 1  Errors: 1  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-when-operation-patterns-omit-iwc-exemplars-during-migration/patterns/pattern-x.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-flags-pipeline-phase-resolving-to-non-Mold/pipelines/p/index.md:
+  ERROR  phases[0].mold: [[some-pattern]] resolves to type=pattern, expected mold
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-flags-pipeline-phase-resolving-to-non-Mold/patterns/some-pattern.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 2  Errors: 1  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-pipeline-eval-md-and-scenarios-md-siblings/pipelines/p/scenarios.md:
+  WARN   scenario 'demo' fixture is not materialized: nf-core/demo
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-pipeline-eval-md-and-scenarios-md-siblings/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-pipeline-scenario-fixture-that-escapes-the-repository/pipelines/p/scenarios.md:
+  ERROR  scenario 'escape' fixture escapes repository root: ../outside
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-pipeline-scenario-fixture-that-escapes-the-repository/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-pipeline-scenario-fixture-that-escapes-the-repository/pipelines/p/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+
+==================================================
+Files: 2  Errors: 1  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-frontmatter-in-a-pipeline-sibling/pipelines/p/eval.md:
+  ERROR  only pipeline index.md may have frontmatter
+  WARN   eval.md should declare at least one '## Property:' section
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-frontmatter-in-a-pipeline-sibling/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-frontmatter-in-a-pipeline-sibling/pipelines/p/index.md:
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+==================================================
+Files: 2  Errors: 1  Warnings: 4
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-an-undeclared-file-in-a-pipeline-directory/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-an-undeclared-file-in-a-pipeline-directory/pipelines/p/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 4
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-an-undeclared-file-in-a-pipeline-directory/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-an-undeclared-file-in-a-pipeline-directory/pipelines/p/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-an-undeclared-file-in-a-pipeline-directory/pipelines/p/notes.md:
+  ERROR  pipeline: undeclared file beside the note: notes.md
+
+==================================================
+Files: 2  Errors: 1  Warnings: 4
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-a-file-that-is-neither-note-companion-nor-declared-non-note/patterns/foo.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-a-file-that-is-neither-note-companion-nor-declared-non-note/log.md:
+  ERROR  no collection claims this file and no allowance declares it — add it to a collection, put it beside the note that owns it, or declare it in NOT_NOTES
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-a-file-that-is-neither-note-companion-nor-declared-non-note/patterns/foo.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 1  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-inside-a-collection-s-own-directory-where-no-note-owns-the-file/patterns/README.md:
+  ERROR  no frontmatter found
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-inside-a-collection-s-own-directory-where-no-note-owns-the-file/patterns/foo.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 2  Errors: 1  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-what-NOT-NOTES-declares/patterns/foo.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-leaves-a-stray-beside-a-directory-note-to-the-kind-that-did-not-declare-it/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-leaves-a-stray-beside-a-directory-note-to-the-kind-that-did-not-declare-it/molds/mold-a/scenario.md:
+  ERROR  mold: undeclared file beside the note: scenario.md
+
+==================================================
+Files: 1  Errors: 1  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-ignores-markdown-nested-under-a-declared-companion-directory/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 0  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-does-not-warn-on-an-examples-subdir-of-scenario-fixtures-in-a-pipeline-directory/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-does-not-warn-on-an-examples-subdir-of-scenario-fixtures-in-a-pipeline-directory/pipelines/p/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 4
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-does-not-warn-on-an-examples-subdir-of-scenario-fixtures-in-a-pipeline-directory/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-does-not-warn-on-an-examples-subdir-of-scenario-fixtures-in-a-pipeline-directory/pipelines/p/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 4
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-a-flat-md-file-under-content-pipelines-/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-a-flat-md-file-under-content-pipelines-/pipelines/p/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 4
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-a-flat-md-file-under-content-pipelines-/molds/mold-a/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-a-flat-md-file-under-content-pipelines-/pipelines/p/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-a-flat-md-file-under-content-pipelines-/pipelines/stray.md:
+  ERROR  no collection claims this file and no allowance declares it — add it to a collection, put it beside the note that owns it, or declare it in NOT_NOTES
+
+==================================================
+Files: 2  Errors: 1  Warnings: 4
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-resolves-a-pipeline-s-branch-phase-to-molds/molds/author/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-resolves-a-pipeline-s-branch-phase-to-molds/molds/discover/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-resolves-a-pipeline-s-branch-phase-to-molds/pipelines/p/index.md:
+  WARN   pipeline: should have eval.md — Abstract oracle for the pipeline as a whole, above the per-Mold evals.
+  WARN   pipeline: should have scenarios.md — End-to-end cases bound to fixtures, walking every phase.
+
+==================================================
+Files: 3  Errors: 0  Warnings: 6
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-validates-typed-reference-targets/molds/m/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-validates-typed-reference-targets/patterns/pattern-x.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 5  Errors: 0  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-prompt-note-with-no-upstream-prompt-beside-it/prompts/prompt-x/index.md:
+  ERROR  prompt: required companion is missing: upstream.prompt
+
+==================================================
+Files: 1  Errors: 1  Warnings: 0
+
+==================================================
+Files: 1  Errors: 0  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-resolves-CLI-command-references-by-tool-and-command/cli/gxwf/validate.md:
+  WARN   cli-command should include ## Output
+  WARN   cli-command should include ## Examples
+  WARN   cli-command should include ## Gotchas
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-resolves-CLI-command-references-by-tool-and-command/molds/m/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 5
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-does-not-treat-a-cli-tool-s-sibling-command-notes-as-undeclared-companions/content/cli/gxwf/validate.md:
+  WARN   cli-command should include ## Output
+  WARN   cli-command should include ## Examples
+  WARN   cli-command should include ## Gotchas
+
+==================================================
+Files: 2  Errors: 0  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-does-flag-a-non-note-file-beside-a-cli-tool-which-declares-no-companions/content/cli/gxwf/gxwf.json:
+  ERROR  cli-tool: undeclared file beside the note: gxwf.json
+
+==================================================
+Files: 1  Errors: 1  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-CLI-command-absent-from-the-upstream-CLI-metadata/cli/gxwf/not-real.md:
+  ERROR  cli-command gxwf/not-real is absent from upstream CLI metadata
+  WARN   cli-command should include ## Output
+  WARN   cli-command should include ## Examples
+  WARN   cli-command should include ## Gotchas
+
+==================================================
+Files: 1  Errors: 1  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-CLI-command-with-no-source-url-to-check-the-page-against/cli/gxwf/validate.md:
+  ERROR  cli-command must declare source_url — the external document this page summarizes
+  WARN   cli-command should include ## Output
+  WARN   cli-command should include ## Examples
+  WARN   cli-command should include ## Gotchas
+
+==================================================
+Files: 1  Errors: 1  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-source-url-on-a-command-this-repository-implements/cli/foundry/validate-tests-format.md:
+  ERROR  cli-command foundry/validate-tests-format is implemented in this repository and must not declare source_url
+  WARN   cli-command should include ## Output
+  WARN   cli-command should include ## Examples
+  WARN   cli-command should include ## Gotchas
+
+==================================================
+Files: 1  Errors: 1  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-a-command-this-repository-implements-with-no-source-url/cli/foundry/validate-tests-format.md:
+  WARN   cli-command should include ## Output
+  WARN   cli-command should include ## Examples
+  WARN   cli-command should include ## Gotchas
+
+==================================================
+Files: 1  Errors: 0  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-typed-references-that-resolve-to-the-wrong-type/molds/m/index.md:
+  ERROR  references.0.trigger: on-demand ref "[[not-research]]" requires a trigger
+  ERROR  mold source index.md must validate as type=mold
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-typed-references-that-resolve-to-the-wrong-type/patterns/not-research.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 2  Errors: 2  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-validates-source-pattern-implementation-links/patterns/pattern-x.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 2  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-source-pattern-links-that-do-not-resolve/source-patterns/nextflow/source-x.md:
+  ERROR  implemented_by_patterns: wiki link [[missing-pattern]] did not resolve
+
+==================================================
+Files: 1  Errors: 1  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-source-pattern-links-that-resolve-to-non-patterns/source-patterns/nextflow/source-x.md:
+  ERROR  implemented_by_patterns: wiki link [[not-a-pattern]] resolves to type=research, expected pattern
+
+==================================================
+Files: 2  Errors: 1  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-vendored-schema-missing-license-file/schemas/x.md:
+  ERROR  license: vendored schema with external upstream requires `license`
+
+==================================================
+Files: 1  Errors: 1  Warnings: 0
+
+==================================================
+Files: 1  Errors: 0  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-license-file-pointing-at-a-missing-file/schemas/x.md:
+  ERROR  license_file: file does not exist or is empty: LICENSES/does-not-exist.LICENSE
+
+==================================================
+Files: 1  Errors: 1  Warnings: 0
+
+==================================================
+Files: 1  Errors: 0  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-requires-verification-for-hypothesis-references/molds/m/index.md:
+  ERROR  references.0.trigger: on-demand ref "[[component-x]]" requires a trigger
+  ERROR  references.0.verification: hypothesis-evidence ref "[[component-x]]" requires a verification
+  ERROR  mold source index.md must validate as type=mold
+
+==================================================
+Files: 2  Errors: 3  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-on-demand-references-that-omit-triggers/molds/m/index.md:
+  ERROR  references.0.trigger: on-demand ref "[[component-x]]" requires a trigger
+  ERROR  mold source index.md must validate as type=mold
+
+==================================================
+Files: 2  Errors: 2  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-flags-Mold-source-layout-drift/molds/m/notes.md:
+  ERROR  only mold index.md may have frontmatter
+  ERROR  mold: undeclared file beside the note: notes.md
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-flags-Mold-source-layout-drift/molds/m/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 2  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-a-Mold-eval-plan-without-frontmatter/molds/m/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-a-declared-sibling-and-rejects-an-undeclared-one/molds/m/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-a-declared-sibling-and-rejects-an-undeclared-one/molds/m/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-a-declared-sibling-and-rejects-an-undeclared-one/molds/m/usage.md:
+  ERROR  mold: undeclared file beside the note: usage.md
+
+==================================================
+Files: 1  Errors: 1  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-allowlists-scenarios-md-and-accepts-Property-sections-in-eval-md/molds/m/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+==================================================
+Files: 1  Errors: 0  Warnings: 0
+
+==================================================
+Files: 1  Errors: 0  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-when-scenarios-md-lacks-a-Case-section/molds/m/scenarios.md:
+  WARN   scenarios.md should declare at least one '## Case:' section
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+==================================================
+Files: 1  Errors: 0  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-when-a-scenarios-md-case-binds-no-fixture/molds/m/scenarios.md:
+  WARN   scenarios.md cases should bind a fixture
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-when-eval-md-uses-a-Case-section-oracle-must-stay-abstract-/molds/m/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-when-eval-md-uses-a-Case-section-oracle-must-stay-abstract-/molds/m/eval.md:
+  WARN   eval.md should not use '## Case:' sections — concrete cases belong in scenarios.md
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-when-eval-md-uses-a-Case-section-oracle-must-stay-abstract-/molds/m/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 0  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-an-undeclared-file-in-a-Mold-directory/molds/m/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-an-undeclared-file-in-a-Mold-directory/molds/m/scratch.md:
+  ERROR  mold: undeclared file beside the note: scratch.md
+
+==================================================
+Files: 1  Errors: 1  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-an-undeclared-subdirectory-in-a-Mold-directory/molds/m/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-an-undeclared-subdirectory-in-a-Mold-directory/molds/m/scratch:
+  ERROR  mold: undeclared directory beside the note: scratch
+
+==================================================
+Files: 1  Errors: 1  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-refinement-journal-entries-with-valid-frontmatter/molds/m/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 0  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-on-refinement-journal-entries-missing-frontmatter/molds/m/refinements/2026-05-04-probe.md:
+  WARN   refinement journal entry should declare mold/date/intent/decision frontmatter
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-on-refinement-journal-entries-missing-frontmatter/molds/m/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 0  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-related-molds-that-do-not-resolve-on-a-note-that-is-not-a-mold/patterns/pattern-r.md:
+  ERROR  related_molds: wiki link [[ghost-mold]] did not resolve
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 1  Errors: 1  Warnings: 1
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-when-related-molds-resolves-to-a-note-that-is-not-a-mold/patterns/pattern-s.md:
+  ERROR  related_molds: wiki link [[pattern-t]] resolves to type=pattern, expected mold
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-when-related-molds-resolves-to-a-note-that-is-not-a-mold/patterns/pattern-t.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 2  Errors: 1  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-errors-on-body-wiki-links-that-do-not-resolve/patterns/pattern-x.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+  ERROR  body wiki-link [[ghost-target]] did not resolve
+
+==================================================
+Files: 1  Errors: 1  Warnings: 1
+
+==================================================
+Files: 1  Errors: 0  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-on-schema-reference-with-evidence-hypothesis/molds/m/index.md:
+  WARN   references[0]: schema ref with evidence=hypothesis is suspicious — schema is the cast contract, expect cast-validated
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-when-a-stub-mold-body-declares-references/molds/m/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+  WARN   mold body is a stub but declares 1 reference(s) — cast bundles them with no procedure to apply
+
+==================================================
+Files: 2  Errors: 0  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-on-refinement-journal-entries-with-bad-decision-vocab/molds/m/refinements/2026-05-04-probe.md:
+  WARN   refinement journal 'decision' should be one of: keep, schema-change, reference-change, eval-add, open-question, other
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-warns-on-refinement-journal-entries-with-bad-decision-vocab/molds/m/index.md:
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 0  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-artifact-handoff-between-two-molds/molds/consumer/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-artifact-handoff-between-two-molds/molds/producer/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 4
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-a-consumer-artifact-produced-by-a-registered-runtime-mode/molds/consumer/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-runtime-artifact-id-that-collides-with-a-Mold-producer/runtime_artifacts.yml:
+  ERROR  runtime artifact 'runtime-ledger' collides with a Mold output producer (/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-runtime-artifact-id-that-collides-with-a-Mold-producer/molds/producer/index.md)
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-runtime-artifact-id-that-collides-with-a-Mold-producer/molds/producer/index.md:
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 2  Errors: 1  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-unknown-fields-in-the-runtime-artifact-registry/runtime_artifacts.yml:
+  ERROR  artifacts.runtime-ledger.typo: unknown artifact field
+
+==================================================
+Files: 0  Errors: 1  Warnings: 0
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-a-consumer-artifact-with-no-producer/molds/consumer/index.md:
+  ERROR  input_artifacts[0].id 'summary-missing' has no producer (no Mold output or registered runtime artifact declares it)
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 1  Errors: 1  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-an-artifact-schema-wiki-link-that-resolves-to-non-schema/molds/producer/index.md:
+  ERROR  output_artifacts[0].schema: wiki link [[not-a-schema]] resolves to type=pattern, expected schema
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-an-artifact-schema-wiki-link-that-resolves-to-non-schema/patterns/not-a-schema.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 2  Errors: 1  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-an-artifact-schema-wiki-link-to-a-schema-note/molds/producer/index.md:
+  WARN   output_artifacts[0].schema declares [[schema-x]] but no matching references[] entry of kind=schema — the schema will be named in the cast contract but not packaged into the bundle. Add a 'kind: schema, ref: "[[schema-x]]"' entry to references.
+  WARN   mold: should have eval.md — Abstract oracle: the properties any cast of this Mold must satisfy.
+  WARN   mold: should have scenarios.md — Concrete cases bound to fixtures, run against the eval properties.
+
+==================================================
+Files: 2  Errors: 0  Warnings: 3
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-two-notes-claiming-one-wiki-link-address/patterns/foo-bar.md:
+  ERROR  wiki-link address 'foo-bar' is also claimed by content/patterns/foo/bar.md, which holds it — this note is unreachable by wiki-link
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-rejects-two-notes-claiming-one-wiki-link-address/patterns/foo/bar.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 2  Errors: 1  Warnings: 2
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-two-notes-whose-addresses-differ-only-after-slugifying-distinct-ids/patterns/foo/bar.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/.tmp-test-vault-accepts-two-notes-whose-addresses-differ-only-after-slugifying-distinct-ids/patterns/foo-baz.md:
+  WARN   operation or recipe pattern should declare iwc_exemplars metadata
+
+==================================================
+Files: 2  Errors: 0  Warnings: 2
+
+ Test Files  26 passed (26)
+      Tests  387 passed (387)
+   Start at  13:45:25
+   Duration  44.38s (transform 1.87s, setup 0ms, import 5.94s, tests 54.37s, environment 7ms)
+

@@ -1,0 +1,42 @@
+diff --git a/content/pipelines/nextflow-to-galaxy/scenarios.md b/content/pipelines/nextflow-to-galaxy/scenarios.md
+index 81d565fb..3cd07786 100644
+--- a/content/pipelines/nextflow-to-galaxy/scenarios.md
++++ b/content/pipelines/nextflow-to-galaxy/scenarios.md
+@@ -180,13 +180,13 @@ journey do when the summary comes back mostly empty?"
+   interface is undetermined from the summary alone. Silently emitting a
+   parameterless Galaxy workflow is the failure mode this case exists to catch.
+ 
+-- expect (conditionals): the five detected guards — `proteins`,
++- expect (conditionals): the six detected guards — `proteins`,
+   `short_reads_ids || short_reads`, `long_reads_ids || long_reads`,
+-  `params?.tasks?.cmsearch?.enabled`, `params?.tasks?.trnascan?.enabled` —
+-  reach the final workflow as optional inputs, gated steps, or a stated scope
+-  decision. The last two correspond one-to-one with toggles the example YAML
+-  actually sets, so they are user-facing choices by demonstration, not
+-  inference.
++  `params?.tasks?.cmsearch?.enabled`, `params?.tasks?.trnascan?.enabled`,
++  `busco_lineage` — reach the final workflow as optional inputs, gated steps, or
++  a stated scope decision. The two `tasks.*.enabled` guards correspond
++  one-to-one with toggles the example YAML actually sets, so they are
++  user-facing choices by demonstration, not inference.
+ 
+ - expect (scope): 95 processes is not a Galaxy workflow. The journey must reach
+   a **stated scope decision** naming which annotation planes it carries
+@@ -198,11 +198,12 @@ journey do when the summary comes back mostly empty?"
+   expected to *mostly fall through to author*. egapx's steps are NCBI C++
+   toolkit binaries (`chainer_wnode`, `gnomon_wnode`, `align_sort_sa`,
+   `annot_builder_run`, …) shipped only inside `ncbi/egapx:0.5.2` — no
+-  BioContainers, no bioconda, no Shed wrappers. Per `eval.md`, every carried
+-  tool still needs a recorded decision; the interesting question is whether
+-  [[author-galaxy-tool-wrapper]] can produce a defensible wrapper when its only
+-  evidence is a `script:` block and one monolithic image, and whether it says so
+-  when it cannot.
++  BioContainers and no bioconda. What the Shed already carries for egapx is a
++  finding of the run, not an assumption of this case. Per `eval.md`, every
++  carried tool still needs a recorded decision; the interesting question is
++  whether [[author-galaxy-tool-wrapper]] can produce a defensible wrapper when
++  its only evidence is a `script:` block and one monolithic image, and whether
++  it says so when it cannot.
+ 
+ - expect (test data): `test_fixtures` and `nf_tests` are empty, so
+   [[nextflow-to-test-data]] must fall through the `test-data-resolution` chain

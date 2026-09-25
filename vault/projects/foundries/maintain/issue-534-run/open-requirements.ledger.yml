@@ -1,0 +1,21 @@
+{
+  "entries": [
+    {
+      "id": "bacass-graph-reconciliation",
+      "status": "open",
+      "raised_by": "nextflow-summary-to-galaxy-data-flow",
+      "unmet": "Exact sample-keyed graph wiring cannot be established from merged/partial channel source expressions.",
+      "missing": "Reconciled channel expressions and join keys.",
+      "blocking": false,
+      "note": "Preserve source branch and map/reduce intent; settle wiring before templating."
+    },
+    {
+      "id": "bacass-reference-resource-carriers",
+      "status": "open",
+      "raised_by": "nextflow-summary-to-galaxy-data-flow",
+      "unmet": "Database input carriers and Bakta rebuild disposition remain draft choices.",
+      "missing": "Settled Galaxy reference-data shapes.",
+      "blocking": false
+    }
+  ]
+}

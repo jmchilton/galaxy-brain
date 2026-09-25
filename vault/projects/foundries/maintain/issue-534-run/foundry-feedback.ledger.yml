@@ -1,0 +1,78 @@
+{
+  "run": {
+    "pipeline": null,
+    "run_slug": "issue-534-manual-downstream",
+    "status": "complete",
+    "phases": [
+      {
+        "n": 1,
+        "kind": "mold",
+        "skill": "nextflow-summary-to-galaxy-data-flow",
+        "status": "done",
+        "feedback_checked": true
+      },
+      {
+        "n": 2,
+        "kind": "mold",
+        "skill": "author-galaxy-tool-wrapper",
+        "status": "done",
+        "feedback_checked": true
+      },
+      {
+        "n": 3,
+        "kind": "mold",
+        "skill": "nextflow-test-to-galaxy-test-plan",
+        "status": "done",
+        "feedback_checked": true
+      }
+    ]
+  },
+  "entries": [
+    {
+      "id": "standalone-row-input-contract",
+      "raised_by": "author-galaxy-tool-wrapper",
+      "observed_in": {
+        "mold": "author-galaxy-tool-wrapper",
+        "path": "content/molds/author-galaxy-tool-wrapper/index.md",
+        "revision": 5,
+        "content_hash": "cced8f068cd1ce81fefad23a62fdb4d52b3ce805b2231f64a7fe37f258bc1e09",
+        "foundry_head": "ac92d2713fb01b07049027e584b8610e07c88d82"
+      },
+      "subject": {
+        "kind": "mold",
+        "label": "author-galaxy-tool-wrapper",
+        "locator": "content/molds/author-galaxy-tool-wrapper/index.md"
+      },
+      "kind": "defect",
+      "severity": "major",
+      "what": "Standalone process-row scenario conflicts with the whole-summary input declaration.",
+      "expected": "Either declare a process-row input contract or change the scenario to supply a summary while enforcing row-only authoring.",
+      "evidence": "validate-summary-nextflow on minimap2-process.json exits 3 with 26 diagnostics; manual row-only UDT authoring passes gxwf validate-tool-source.",
+      "status": "open",
+      "issue": null
+    },
+    {
+      "id": "bacass-channel-assignment-boundary",
+      "raised_by": "nextflow-summary-to-galaxy-data-flow",
+      "observed_in": {
+        "mold": "nextflow-summary-to-galaxy-data-flow",
+        "path": "content/molds/nextflow-summary-to-galaxy-data-flow/index.md",
+        "revision": 7,
+        "content_hash": "1f98fd5cf9a54fd81e48db957f7451760f5e97629748f3d39fd66dc59b2ac765",
+        "foundry_head": "ac92d2713fb01b07049027e584b8610e07c88d82"
+      },
+      "subject": {
+        "kind": "tooling",
+        "label": "summarize-nextflow resolver",
+        "locator": "packages/summarize-nextflow/src/resolver.ts"
+      },
+      "kind": "defect",
+      "severity": "major",
+      "what": "Bacass ch_input source absorbs preceding channel assignments and classifies from_param as prokka_proteins.",
+      "expected": "Keep each channel assignment expression separate before factory/FK classification.",
+      "evidence": "The source string starts with ch_versions = Channel.empty() and includes def criteria plus ch_proteins assignment before ch_samplesheet.multiMap(criteria). A draft brief could be produced only by marking exact graph reconciliation open.",
+      "status": "open",
+      "issue": null
+    }
+  ]
+}

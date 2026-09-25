@@ -1,0 +1,383 @@
+{
+  "name": "MINIMAP2_ALIGN",
+  "aliases": [
+    "MINIMAP2_CONSENSUS",
+    "MINIMAP2_POLISH"
+  ],
+  "in_subworkflows": [],
+  "module_path": "modules/nf-core/minimap2/align/main.nf",
+  "meta": {
+    "description": "A versatile pairwise aligner for genomic and spliced nucleotide sequences",
+    "keywords": [
+      "align",
+      "fasta",
+      "fastq",
+      "genome",
+      "paf",
+      "reference"
+    ],
+    "authors": [
+      "@heuermh",
+      "@sofstam",
+      "@sateeshperi",
+      "@jfy133"
+    ],
+    "maintainers": [
+      "@heuermh",
+      "@sofstam",
+      "@sateeshperi",
+      "@jfy133"
+    ],
+    "tools": [
+      {
+        "name": "minimap2",
+        "description": "A versatile pairwise aligner for genomic and spliced nucleotide sequences.\n",
+        "homepage": "https://github.com/lh3/minimap2",
+        "documentation": "https://github.com/lh3/minimap2#uguide",
+        "licence": [
+          "MIT"
+        ]
+      }
+    ],
+    "input": [
+      {
+        "name": "meta",
+        "description": "Groovy Map containing sample information\ne.g. [ id:'test', single_end:false ]\n",
+        "licence": [],
+        "type": "map"
+      },
+      {
+        "name": "reads",
+        "description": "List of input FASTA or FASTQ files of size 1 and 2 for single-end\nand paired-end data, respectively.\n",
+        "licence": [],
+        "type": "file"
+      },
+      {
+        "name": "meta2",
+        "description": "Groovy Map containing reference information\ne.g. [ id:'test_ref']\n",
+        "licence": [],
+        "type": "map"
+      },
+      {
+        "name": "reference",
+        "description": "Reference database in FASTA format.\n",
+        "licence": [],
+        "type": "file"
+      },
+      {
+        "name": "bam_format",
+        "description": "Specify that output should be in BAM format",
+        "licence": [],
+        "type": "boolean"
+      },
+      {
+        "name": "cigar_paf_format",
+        "description": "Specify that output CIGAR should be in PAF format",
+        "licence": [],
+        "type": "boolean"
+      },
+      {
+        "name": "cigar_bam",
+        "description": "Write CIGAR with >65535 ops at the CG tag. This is recommended when\ndoing XYZ (https://github.com/lh3/minimap2#working-with-65535-cigar-operations)\n",
+        "licence": [],
+        "type": "boolean"
+      }
+    ],
+    "output": [
+      {
+        "name": "meta",
+        "description": "Groovy Map containing sample information\ne.g. [ id:'test', single_end:false ]\n",
+        "licence": [],
+        "type": "map"
+      },
+      {
+        "name": "paf",
+        "description": "Alignment in PAF format",
+        "licence": [],
+        "type": "file",
+        "pattern": "*.paf"
+      },
+      {
+        "name": "bam",
+        "description": "Alignment in BAM format",
+        "licence": [],
+        "type": "file",
+        "pattern": "*.bam"
+      },
+      {
+        "name": "versions",
+        "description": "File containing software versions",
+        "licence": [],
+        "type": "file",
+        "pattern": "versions.yml"
+      }
+    ]
+  },
+  "module_tests": [
+    {
+      "name": "sarscov2 - fastq, fasta, true, false, false",
+      "path": "modules/nf-core/minimap2/align/tests/main.nf.test",
+      "profiles": [],
+      "params_overrides": {},
+      "assert_workflow_success": false,
+      "snapshot": {
+        "captures": [],
+        "helpers": [],
+        "ignore_files": [],
+        "ignore_globs": [],
+        "snap_path": "modules/nf-core/minimap2/align/tests/main.nf.test.snap",
+        "parsed_content": [
+          {
+            "name": "sarscov2 - fastq, fasta, true, false, false",
+            "channels": [
+              {
+                "key": null,
+                "files": [],
+                "values": [
+                  "test.bam"
+                ]
+              },
+              {
+                "key": null,
+                "files": [
+                  {
+                    "path": "versions.yml",
+                    "basename": "versions.yml",
+                    "md5": "9e9eeae0002d466d580a9d6e0d003eb1",
+                    "stub": false
+                  }
+                ],
+                "values": []
+              }
+            ]
+          }
+        ]
+      },
+      "prose_assertions": [
+        "process.success"
+      ]
+    },
+    {
+      "name": "sarscov2 - [fastq1, fastq2], fasta, true, false, false",
+      "path": "modules/nf-core/minimap2/align/tests/main.nf.test",
+      "profiles": [],
+      "params_overrides": {},
+      "assert_workflow_success": false,
+      "snapshot": {
+        "captures": [],
+        "helpers": [],
+        "ignore_files": [],
+        "ignore_globs": [],
+        "snap_path": "modules/nf-core/minimap2/align/tests/main.nf.test.snap",
+        "parsed_content": [
+          {
+            "name": "sarscov2 - [fastq1, fastq2], fasta, true, false, false",
+            "channels": [
+              {
+                "key": null,
+                "files": [],
+                "values": [
+                  "test.bam"
+                ]
+              },
+              {
+                "key": null,
+                "files": [
+                  {
+                    "path": "versions.yml",
+                    "basename": "versions.yml",
+                    "md5": "9e9eeae0002d466d580a9d6e0d003eb1",
+                    "stub": false
+                  }
+                ],
+                "values": []
+              }
+            ]
+          }
+        ]
+      },
+      "prose_assertions": [
+        "process.success"
+      ]
+    },
+    {
+      "name": "sarscov2 - fastq, [], true, false, false",
+      "path": "modules/nf-core/minimap2/align/tests/main.nf.test",
+      "profiles": [],
+      "params_overrides": {},
+      "assert_workflow_success": false,
+      "snapshot": {
+        "captures": [],
+        "helpers": [],
+        "ignore_files": [],
+        "ignore_globs": [],
+        "snap_path": "modules/nf-core/minimap2/align/tests/main.nf.test.snap",
+        "parsed_content": [
+          {
+            "name": "sarscov2 - fastq, [], true, false, false",
+            "channels": [
+              {
+                "key": null,
+                "files": [],
+                "values": [
+                  "test.bam"
+                ]
+              },
+              {
+                "key": null,
+                "files": [
+                  {
+                    "path": "versions.yml",
+                    "basename": "versions.yml",
+                    "md5": "9e9eeae0002d466d580a9d6e0d003eb1",
+                    "stub": false
+                  }
+                ],
+                "values": []
+              }
+            ]
+          }
+        ]
+      },
+      "prose_assertions": [
+        "process.success"
+      ]
+    },
+    {
+      "name": "sarscov2 - fastq, fasta, true, false, false - stub",
+      "path": "modules/nf-core/minimap2/align/tests/main.nf.test",
+      "profiles": [],
+      "params_overrides": {},
+      "assert_workflow_success": false,
+      "snapshot": {
+        "captures": [],
+        "helpers": [],
+        "ignore_files": [],
+        "ignore_globs": [],
+        "snap_path": "modules/nf-core/minimap2/align/tests/main.nf.test.snap",
+        "parsed_content": [
+          {
+            "name": "sarscov2 - fastq, fasta, true, false, false - stub",
+            "channels": [
+              {
+                "key": null,
+                "files": [],
+                "values": [
+                  "test.bam"
+                ]
+              },
+              {
+                "key": null,
+                "files": [
+                  {
+                    "path": "versions.yml",
+                    "basename": "versions.yml",
+                    "md5": "9e9eeae0002d466d580a9d6e0d003eb1",
+                    "stub": false
+                  }
+                ],
+                "values": []
+              }
+            ]
+          }
+        ]
+      },
+      "prose_assertions": [
+        "process.success"
+      ]
+    },
+    {
+      "name": "sarscov2 - fastq, fasta, false, false, false - stub",
+      "path": "modules/nf-core/minimap2/align/tests/main.nf.test",
+      "profiles": [],
+      "params_overrides": {},
+      "assert_workflow_success": false,
+      "snapshot": {
+        "captures": [],
+        "helpers": [],
+        "ignore_files": [],
+        "ignore_globs": [],
+        "snap_path": "modules/nf-core/minimap2/align/tests/main.nf.test.snap",
+        "parsed_content": [
+          {
+            "name": "sarscov2 - fastq, fasta, false, false, false - stub",
+            "channels": [
+              {
+                "key": null,
+                "files": [],
+                "values": [
+                  "test.paf"
+                ]
+              },
+              {
+                "key": null,
+                "files": [
+                  {
+                    "path": "versions.yml",
+                    "basename": "versions.yml",
+                    "md5": "9e9eeae0002d466d580a9d6e0d003eb1",
+                    "stub": false
+                  }
+                ],
+                "values": []
+              }
+            ]
+          }
+        ]
+      },
+      "prose_assertions": [
+        "process.success"
+      ]
+    }
+  ],
+  "tool": "minimap2",
+  "container": "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ? 'https://depot.galaxyproject.org/singularity/mulled-v2-66534bcbb7031a148b13e2ad42583020b9cd25c4:365b17b986c1a60c1b82c6066a9345f38317b763-0' : 'biocontainers/mulled-v2-66534bcbb7031a148b13e2ad42583020b9cd25c4:365b17b986c1a60c1b82c6066a9345f38317b763-0' }",
+  "conda": "${moduleDir}/environment.yml",
+  "inputs": [
+    {
+      "name": "reads",
+      "shape": "tuple val(meta), path(reads)",
+      "topic": null
+    },
+    {
+      "name": "reference",
+      "shape": "tuple val(meta2), path(reference)",
+      "topic": null
+    },
+    {
+      "name": "bam_format",
+      "shape": "val bam_format",
+      "topic": null
+    },
+    {
+      "name": "cigar_paf_format",
+      "shape": "val cigar_paf_format",
+      "topic": null
+    },
+    {
+      "name": "cigar_bam",
+      "shape": "val cigar_bam",
+      "topic": null
+    }
+  ],
+  "outputs": [
+    {
+      "name": "paf",
+      "shape": "tuple val(meta), path(\"*.paf\"), optional: true, emit: paf",
+      "topic": null
+    },
+    {
+      "name": "bam",
+      "shape": "tuple val(meta), path(\"*.bam\"), optional: true, emit: bam",
+      "topic": null
+    },
+    {
+      "name": "versions",
+      "shape": "path \"versions.yml\" , emit: versions",
+      "topic": null
+    }
+  ],
+  "when": "task.ext.when == null || task.ext.when",
+  "script_excerpt": "def args  = task.ext.args ?: ''\ndef args2 = task.ext.args2 ?: ''\ndef prefix = task.ext.prefix ?: \"${meta.id}\"\ndef bam_output = bam_format ? \"-a | samtools sort -@ ${task.cpus} -o ${prefix}.bam ${args2}\" : \"-o ${prefix}.paf\"\ndef cigar_paf = cigar_paf_format && !bam_format ? \"-c\" : ''\ndef set_cigar_bam = cigar_bam && bam_format ? \"-L\" : ''\n\"\"\"\nminimap2 \\\\\n    $args \\\\\n    -t $task.cpus \\\\\n    ${reference ?: reads} \\\\\n    $reads \\\\\n    $cigar_paf \\\\\n    $set_cigar_bam \\\\\n    $bam_output\n\n\ncat <<-END_VERSIONS > versions.yml\n\"${task.process}\":\n    minimap2: \\$(minimap2 --version 2>&1)\nEND_VERSIONS\n\"\"\"",
+  "publish_dir": null
+}

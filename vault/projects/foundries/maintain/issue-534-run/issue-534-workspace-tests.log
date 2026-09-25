@@ -1,0 +1,54 @@
+
+> foundry@0.0.0 packages-test /Users/jxc755/projects/worktrees/foundry/branch/issue-534
+> pnpm --filter "./packages/*" test
+
+Scope: 7 of 9 workspace projects
+packages/gxwf-foundry-note-schema test$ vitest run
+packages/planemo-cli-meta test$ tsc --noEmit && vitest run
+packages/planemo-test-report-schema test$ tsc --noEmit && vitest run
+packages/summarize-nextflow test$ vitest run
+packages/summarize-nextflow test:  RUN  v4.1.10 /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/summarize-nextflow
+packages/planemo-cli-meta test:  RUN  v4.1.10 /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-cli-meta
+packages/gxwf-foundry-note-schema test:  RUN  v4.1.10 /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry-note-schema
+packages/planemo-test-report-schema test:  RUN  v4.1.10 /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-test-report-schema
+packages/planemo-cli-meta test:  Test Files  1 passed (1)
+packages/planemo-cli-meta test:       Tests  3 passed (3)
+packages/planemo-cli-meta test:    Start at  13:41:54
+packages/planemo-cli-meta test:    Duration  327ms (transform 21ms, setup 0ms, import 44ms, tests 2ms, environment 0ms)
+packages/planemo-cli-meta test: Done
+packages/planemo-test-report-schema test:  Test Files  1 passed (1)
+packages/planemo-test-report-schema test:       Tests  5 passed (5)
+packages/planemo-test-report-schema test:    Start at  13:41:54
+packages/planemo-test-report-schema test:    Duration  392ms (transform 26ms, setup 0ms, import 85ms, tests 26ms, environment 0ms)
+packages/planemo-test-report-schema test: Done
+packages/gxwf-foundry-note-schema test:  Test Files  4 passed (4)
+packages/gxwf-foundry-note-schema test:       Tests  51 passed (51)
+packages/gxwf-foundry-note-schema test:    Start at  13:41:54
+packages/gxwf-foundry-note-schema test:    Duration  587ms (transform 332ms, setup 0ms, import 1.15s, tests 40ms, environment 0ms)
+packages/gxwf-foundry-note-schema test: Done
+packages/summarize-nextflow test:  ❯ test/integration/cli.test.ts (26 tests | 1 failed) 133007ms
+packages/summarize-nextflow test:      × resolves bacass profile test data expressions 120030ms
+packages/summarize-nextflow test: ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+packages/summarize-nextflow test:  FAIL  test/integration/cli.test.ts > summarize-nextflow CLI — real pipeline tree (nf-core/bacass) > resolves bacass profile test data expressions
+packages/summarize-nextflow test: AssertionError: expected null to be +0 // Object.is equality
+packages/summarize-nextflow test: - Expected:
+packages/summarize-nextflow test: 0
+packages/summarize-nextflow test: + Received:
+packages/summarize-nextflow test: null
+packages/summarize-nextflow test:  ❯ test/integration/cli.test.ts:883:22
+packages/summarize-nextflow test:     881|       { encoding: "utf8", maxBuffer: SPAWN_MAX_BUFFER, timeout: NETWOR…
+packages/summarize-nextflow test:     882|     );
+packages/summarize-nextflow test:     883|     expect(r.status).toBe(0);
+packages/summarize-nextflow test:        |                      ^
+packages/summarize-nextflow test:     884|
+packages/summarize-nextflow test:     885|     const data = JSON.parse(r.stdout);
+packages/summarize-nextflow test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+packages/summarize-nextflow test:  Test Files  1 failed | 6 passed (7)
+packages/summarize-nextflow test:       Tests  1 failed | 158 passed (159)
+packages/summarize-nextflow test:    Start at  13:41:53
+packages/summarize-nextflow test:    Duration  133.37s (transform 753ms, setup 0ms, import 2.27s, tests 155.26s, environment 0ms)
+packages/summarize-nextflow test: Failed
+/Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/summarize-nextflow:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @galaxy-foundry/summarize-nextflow@0.3.0 test: `vitest run`
+Exit status 1
+ ELIFECYCLE  Command failed with exit code 1.

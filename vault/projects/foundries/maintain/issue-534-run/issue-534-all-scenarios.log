@@ -1,0 +1,9 @@
+
+ RUN  v4.1.10 /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/summarize-nextflow
+
+
+ Test Files  2 passed (2)
+      Tests  45 passed (45)
+   Start at  13:41:24
+   Duration  10.06s (transform 108ms, setup 0ms, import 329ms, tests 10.58s, environment 0ms)
+

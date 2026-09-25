@@ -1,0 +1,22 @@
+Scope: 3 of 9 workspace projects
+packages/gxwf-foundry test$ vitest run
+packages/gxwf-foundry test:  RUN  v4.1.10 /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry
+packages/gxwf-foundry test:  Test Files  8 passed (8)
+packages/gxwf-foundry test:       Tests  46 passed (46)
+packages/gxwf-foundry test:    Start at  13:44:38
+packages/gxwf-foundry test:    Duration  1.16s (transform 865ms, setup 0ms, import 5.45s, tests 306ms, environment 0ms)
+packages/gxwf-foundry test: Done
+packages/gxwf-pi-harness test$ vitest run
+packages/gxwf-pi-harness test:  RUN  v4.1.10 /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-pi-harness
+packages/gxwf-pi-harness test:  Test Files  6 passed | 1 skipped (7)
+packages/gxwf-pi-harness test:       Tests  31 passed | 2 skipped (33)
+packages/gxwf-pi-harness test:    Start at  13:44:40
+packages/gxwf-pi-harness test:    Duration  8.78s (transform 382ms, setup 0ms, import 47.94s, tests 2.17s, environment 0ms)
+packages/gxwf-pi-harness test: Done
+packages/build-cli test$ tsc --noEmit && vitest run
+packages/build-cli test:  RUN  v4.1.10 /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/build-cli
+packages/build-cli test:  Test Files  8 passed (8)
+packages/build-cli test:       Tests  66 passed (66)
+packages/build-cli test:    Start at  13:44:52
+packages/build-cli test:    Duration  1.14s (transform 596ms, setup 0ms, import 4.52s, tests 190ms, environment 0ms)
+packages/build-cli test: Done

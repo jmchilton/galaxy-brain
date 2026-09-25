@@ -95,10 +95,11 @@ that matches the buckets above. Removing a tree deletes neither its branch nor a
 hand-maintained snapshot:
 
 ```sh
-./scan_worktrees.sh            # table of every tree + safe/outstanding/fresh counts
+./scan_worktrees.sh            # table of every tree + safe/outstanding/fresh/idle counts
 ./scan_worktrees.sh --safe     # names only: clean + fully merged, safe to remove
 ./scan_worktrees.sh --work     # names only: trees with outstanding work
-./scan_worktrees.sh --fresh    # names only: sitting exactly on the baseline, never used
+./scan_worktrees.sh --fresh    # names only: on the baseline, created within FRESH_DAYS
+./scan_worktrees.sh --idle     # names only: on the baseline but older — judgment call
 ./scan_worktrees.sh --markdown # regenerate the tables in this document
 ./scan_worktrees.sh --no-fetch # skip the origin fetch (faster, risks a stale baseline)
 ```
@@ -106,16 +107,36 @@ hand-maintained snapshot:
 It fetches `origin` by default: a stale baseline silently inflates the outstanding-work count, flagging
 trees whose PRs have since merged.
 
-Paths are overridable via `FOUNDRY_REPO`, `FOUNDRY_WORKTREES`, and `FOUNDRY_BASELINE`, so the same script
-works for another repo's worktrees.
+Trees come from `git worktree list --porcelain`, not a directory glob. **The glob version missed nine
+trees** — the eight under `branch/codex/` (one level deeper than `$BASE/*/`) and `pr/508` — so a cleanup
+driven off `--safe` would have silently skipped 4.2 GB of clean, merged checkouts. Worktrees registered
+outside `$BASE` (a rebase scratch tree under `/tmp`, say) are listed by absolute path so they can't hide
+either, and one registered but missing from disk is reported as prunable rather than being counted as
+having no work.
+
+Paths are overridable via `FOUNDRY_REPO`, `FOUNDRY_WORKTREES` and `FOUNDRY_BASELINE`, so the same script
+works for another repo's worktrees — `FOUNDRY_BASELINE=origin/master` for a repo that never renamed.
+`FOUNDRY_WORKTREES` now defaults to the worktree *root* (`~/projects/worktrees/foundry`), not
+`.../branch`, so sibling roots like `pr/` are in scope. `FOUNDRY_FRESH_DAYS` (default 3) sets the
+fresh/idle cutoff.
+
+**Fresh vs idle.** A tree exactly on the baseline — clean, nothing ahead, nothing behind — has no work
+because it was just created, which every other measure reads as identical to abandoned. Age off the
+worktree's `.git` file breaks the tie: within `FRESH_DAYS` it's *fresh* (a workspace someone just set
+up), older it's *idle*. Neither is ever listed by `--safe`. The original `--fresh` had no age input at
+all, so its verdict only held on the day a tree was created; `planemo-pin-gate` was marked "fresh, leave
+it" on 2026-09-12 and was plain-safe within days, once main advanced past it.
 
 Driving a cleanup off it directly:
 
 ```sh
 ./scan_worktrees.sh --safe | while read t; do
-  git -C ~/projects/repositories/foundry worktree remove ~/projects/worktrees/foundry/branch/"$t"
+  git -C ~/projects/repositories/foundry worktree remove ~/projects/worktrees/foundry/"$t"
 done
 ```
+
+`git worktree remove` exiting 0 does not prove the ~600M of ignored files went with it — check the path
+is actually gone, `rm -rf` any husk, then `worktree prune`.
 
 ## What's been cleared
 

@@ -15,10 +15,10 @@
 - [[collection_semantics]] — Project formalizing Galaxy collection semantics and their documentation.
 - [[cwl]] — Project tracking CWL implementation in Galaxy: conformance tests, conditionals, packing, tool loading.
 - [[architecture]] — Mirrored view of the galaxy-architecture repo — training topics rendered as vault-readable markdown.
-- [[gx_issues]] — Managing and working through the relevant Galaxy issue backlog, with branches cross-referenced to the issues they address.
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
 - [[modules]] — Project for translating nf-core modules into maintainable Galaxy tool wrappers.
 - [[wf_refactor_persistence]] — Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113).
+- [[playwright]] — Migrate the full Galaxy Selenium suite to Playwright and recover the core of PR #21199, via small atomic PRs.
 - [[usecases]] — Galaxy Notebooks paper use cases: UC1–UC3 worked with extracted workflows; UC4–UC7 newly seeded as interview inputs from an IWC review.
 - [[skills]] — Tracks canonical homes, documentation, packaging, provenance, and maintenance status for reusable agent skills.
 - [[toolshed]] — Ongoing Tool Shed maintenance, API modernization, dead-code cleanup, and feature work.

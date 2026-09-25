@@ -4,25 +4,233 @@ tags:
   - moc
 status: draft
 created: 2026-06-29
-revised: 2026-09-12
-revision: 6
+revised: 2026-09-25
+revision: 9
 ai_generated: false
 summary: "Running personal task list of Galaxy dev work threads tracked by date with checkboxes"
 ---
 
 # John's Tasks
 
+## September 21, 2026
+- [ ] Playwright migration
+	- [x] [galaxy#23621](https://github.com/galaxyproject/galaxy/pull/23621) — Run history panel collection tests under Playwright
+	- [x] [galaxy#23622](https://github.com/galaxyproject/galaxy/pull/23622) — Run history panel tests under Playwright
+	- [x] [galaxy#23623](https://github.com/galaxyproject/galaxy/pull/23623) — Run admin app tests under Playwright; fix stale GTable selectors
+	- [x] [galaxy#23624](https://github.com/galaxyproject/galaxy/pull/23624) — Run published histories tests under Playwright
+	- [x] [galaxy#23644](https://github.com/galaxyproject/galaxy/pull/23644) — Run integration Selenium tests under Playwright
+	- [x] [galaxy#23706](https://github.com/galaxyproject/galaxy/pull/23706) — Run dataset tests under Playwright
+	- [ ] [galaxy#23707](https://github.com/galaxyproject/galaxy/pull/23707) — Make more drag-and-drop tests work under Playwright
+- [x] Pulsar path handling
+	- [x] [galaxy#23620](https://github.com/galaxyproject/galaxy/pull/23620) — Read the remote job and tool directories from the Pulsar job config
+	- [x] [pulsar#515](https://github.com/galaxyproject/pulsar/pull/515) — Remove the `__PULSAR_JOBS_DIRECTORY__` destination token (merged 2026-09-22; closes pulsar#29)
+- [ ] Pulsar staging and postprocessing
+	- [ ] [pulsar#517](https://github.com/galaxyproject/pulsar/pull/517) — Let file actions declare what they need from the destination (draft)
+	- [ ] [pulsar#518](https://github.com/galaxyproject/pulsar/pull/518) — Record file staging metrics for Galaxy job metrics (draft)
+	- [ ] [pulsar#519](https://github.com/galaxyproject/pulsar/pull/519) — Implement recovery of postprocessing (draft)
+- [ ] Galaxy fixes
+	- [x] [galaxy#23618](https://github.com/galaxyproject/galaxy/pull/23618) — Enforce `enable_account_interface` server-side
+	- [x] [galaxy#23619](https://github.com/galaxyproject/galaxy/pull/23619) — Harden tool framework infinity handling (redux)
+	- [x] [galaxy#23628](https://github.com/galaxyproject/galaxy/pull/23628) — Return serializable data validation errors
+	- [x] [galaxy#23629](https://github.com/galaxyproject/galaxy/pull/23629) — Allow `<requirements>` children in any order in the tool XSD
+	- [x] [galaxy#23630](https://github.com/galaxyproject/galaxy/pull/23630) — Report unparseable tool expression templates as author errors
+	- [ ] [galaxy#23651](https://github.com/galaxyproject/galaxy/pull/23651) — Throw more specific exceptions in workflow extraction
+	- [x] [galaxy#23652](https://github.com/galaxyproject/galaxy/pull/23652) — Trim non-code changes from merged data table validation work
+	- [ ] [galaxy#19937](https://github.com/galaxyproject/galaxy/pull/19937) — Add a redirect for an old Tool Shed URL pattern (draft)
+- [ ] Workflow semantics — [[workflow_semantics]]
+	- [x] [galaxy#23659](https://github.com/galaxyproject/galaxy/pull/23659) — Refactor collection handling toward reuse
+	- [ ] [galaxy#23676](https://github.com/galaxyproject/galaxy/pull/23676) — Bring subworkflow mapping inline between the workflow editor and backend (draft)
+	- [x] [galaxy#23681](https://github.com/galaxyproject/galaxy/pull/23681) — Refactor workflow evaluation ahead of subworkflow mapping
+- [ ] Workflow and tool state
+	- [x] [galaxy#23699](https://github.com/galaxyproject/galaxy/pull/23699) — Make tool-util model package imports lightweight
+	- [x] [galaxy#23705](https://github.com/galaxyproject/galaxy/pull/23705) — Refactor schema states for lazy downstream imports
+	- [ ] [gxformat2#255](https://github.com/galaxyproject/gxformat2/pull/255) — Preserve numeric workflow input bounds in conversions
+- [ ] Galaxy package test infrastructure
+	- [ ] [galaxy#23697](https://github.com/galaxyproject/galaxy/pull/23697) — Include unit tests in Python package sdists (draft)
+	- [ ] [galaxy#23698](https://github.com/galaxyproject/galaxy/pull/23698) — Allow the packaged test driver to work (draft)
+- [ ] Tool Shed — [[toolshed]]
+	- [ ] [galaxy#23663](https://github.com/galaxyproject/galaxy/pull/23663) — Upgrade client-side csv-parse
+	- [ ] [galaxy#23665](https://github.com/galaxyproject/galaxy/pull/23665) — Upgrade client Vitest dependencies to 4.1.11
+	- [ ] [galaxy#23666](https://github.com/galaxyproject/galaxy/pull/23666) — Bump Quasar to 2.33.1 in the Tool Shed frontend
+	- [x] [galaxy#23668](https://github.com/galaxyproject/galaxy/pull/23668) — Implement CI for the Tool Shed frontend
+	- [ ] [galaxy#23672](https://github.com/galaxyproject/galaxy/pull/23672) — Upgrade Tool Shed Vitest
+	- [ ] [galaxy#23704](https://github.com/galaxyproject/galaxy/pull/23704) — Overhaul Tool Shed publish permissions (draft)
+- [ ] Planemo workflow testing
+	- [ ] [planemo#1723](https://github.com/galaxyproject/planemo/pull/1723) — Fix silently skipped collection output assertions
+	- [ ] [planemo#1724](https://github.com/galaxyproject/planemo/pull/1724) — Sanitize invocation labels used as filenames
+	- [ ] [planemo#1725](https://github.com/galaxyproject/planemo/pull/1725) — Make `--test_data` resolve tool test inputs
+	- [ ] [planemo#1726](https://github.com/galaxyproject/planemo/pull/1726) — Skip tests when external services are down
+	- [ ] [planemo#1727](https://github.com/galaxyproject/planemo/pull/1727) — Exit non-zero when autoupdate fails to update a tool (draft)
+	- [ ] [planemo#1728](https://github.com/galaxyproject/planemo/pull/1728) — Preserve collected outputs when a test names an undefined output
+- [ ] Foundry
+	- [x] [foundry#598](https://github.com/galaxyproject/foundry/pull/598) — Clarify evaluation plan and scenario boundaries
+	- [x] [foundry#599](https://github.com/galaxyproject/foundry/pull/599) — Add Foundry documentation and content review skills
+	- [x] [foundry#600](https://github.com/galaxyproject/foundry/pull/600) — Explain the CWL-to-Galaxy pipeline journey
+	- [x] [foundry#601](https://github.com/galaxyproject/foundry/pull/601) — Guide paper-to-Galaxy pipeline use
+	- [x] [foundry#602](https://github.com/galaxyproject/foundry/pull/602) — Guide paper-to-CWL pipeline use
+	- [x] [foundry#603](https://github.com/galaxyproject/foundry/pull/603) — Guide Nextflow-to-CWL pipeline use
+	- [x] [foundry#604](https://github.com/galaxyproject/foundry/pull/604) — Clarify Galaxy tabular pattern choices
+	- [ ] [foundry#605](https://github.com/galaxyproject/foundry/pull/605) — Keep Workflow Brief planning opt-in and clarify build routes
+	- [x] [foundry#606](https://github.com/galaxyproject/foundry/pull/606) — Clarify Galaxy collection pattern choices
+	- [x] [foundry#607](https://github.com/galaxyproject/foundry/pull/607) — Ignore private workspaces in changeset checks
+	- [x] [foundry#608](https://github.com/galaxyproject/foundry/pull/608) — Clarify Galaxy conditional pattern choices
+	- [x] [foundry#609](https://github.com/galaxyproject/foundry/pull/609) — Refresh IWC corpus integration guidance
+	- [x] [foundry#610](https://github.com/galaxyproject/foundry/pull/610) — Clarify CWL test-plan translation
+	- [x] [foundry#611](https://github.com/galaxyproject/foundry/pull/611) — Update IWC test data conventions
+	- [x] [foundry#612](https://github.com/galaxyproject/foundry/pull/612) — Ground IWC test shortcut guidance in evidence
+	- [x] [foundry#613](https://github.com/galaxyproject/foundry/pull/613) — Choose Planemo assertions by failure mode and stability
+	- [x] [foundry#614](https://github.com/galaxyproject/foundry/pull/614) — Clarify Galaxy workflow testability design
+	- [x] [foundry#615](https://github.com/galaxyproject/foundry/pull/615) — Clarify gxformat2 structural schema limits
+	- [ ] [foundry#616](https://github.com/galaxyproject/foundry/pull/616) — Clarify gxformat2 workflow input guidance
+- [x] [claude-jmchilton-plugins#2](https://github.com/jmchilton/claude-jmchilton-plugins/pull/2) — Add shared writing and documentation skills
+- [x] [docker-galaxy#638](https://github.com/bgruening/docker-galaxy/pull/638) — Build the Galaxy 26.1 image with HTCondor and ARM64 support
+- PRs Reviewed
+	- Galaxy
+		- [galaxy#23703](https://github.com/galaxyproject/galaxy/pull/23703) itisAliRH — Remove duplicate scoped base.scss copies from the CSS bundle
+		- [galaxy#23700](https://github.com/galaxyproject/galaxy/pull/23700) nsoranzo — Report which mypy errors a PR introduces instead of their count
+		- [galaxy#23694](https://github.com/galaxyproject/galaxy/pull/23694) mvdbeek — Fix user-defined tool references in workflow steps
+		- [galaxy#23692](https://github.com/galaxyproject/galaxy/pull/23692) nsoranzo — Prevent growth of the mypy untyped-code backlog
+		- [galaxy#23683](https://github.com/galaxyproject/galaxy/pull/23683) davelopez — Hide upload size when unknown or zero bytes
+		- [galaxy#23682](https://github.com/galaxyproject/galaxy/pull/23682) davelopez — Improve URL validation feedback on small screens
+		- [galaxy#23679](https://github.com/galaxyproject/galaxy/pull/23679) ahmedhamidawan — Hide history dropdown options for unowned histories
+		- [galaxy#23677](https://github.com/galaxyproject/galaxy/pull/23677) mvdbeek — Fix connection-reset race in the interactor POST retry test
+		- [galaxy#23674](https://github.com/galaxyproject/galaxy/pull/23674) mvdbeek — Merge release 26.1 into dev
+		- [galaxy#23673](https://github.com/galaxyproject/galaxy/pull/23673) mvdbeek — Fix unusable admin quota forms on large instances
+		- [galaxy#23671](https://github.com/galaxyproject/galaxy/pull/23671) nsoranzo — Grow the mypy green list with four near-miss packages
+		- [galaxy#23670](https://github.com/galaxyproject/galaxy/pull/23670) dannon — Cap keyed and quoted terms in index search filtering
+		- [galaxy#23664](https://github.com/galaxyproject/galaxy/pull/23664) mvdbeek — Fix workflow scheduler history updates committed mid-attempt
+		- [galaxy#23653](https://github.com/galaxyproject/galaxy/pull/23653) davelopez — Add `warc.gz` with WARC-aware upload content checks
+		- [galaxy#23650](https://github.com/galaxyproject/galaxy/pull/23650) mvdbeek — Return 400 for non-integer dataset IDs in `/root/display_as`
+		- [galaxy#23647](https://github.com/galaxyproject/galaxy/pull/23647) mvdbeek — Serialize the Rucio test container's WSGI workers
+		- [galaxy#23641](https://github.com/galaxyproject/galaxy/pull/23641) mvdbeek — Preserve numeric encoded history IDs in form submissions
+		- [galaxy#23640](https://github.com/galaxyproject/galaxy/pull/23640) mvdbeek — Replace external fixture downloads with the test HTTP server
+		- [galaxy#23639](https://github.com/galaxyproject/galaxy/pull/23639) davelopez — Make upload history changes obvious and show the URL in progress
+		- [galaxy#23638](https://github.com/galaxyproject/galaxy/pull/23638) mvdbeek — Merge release 26.1 into dev
+		- [galaxy#23637](https://github.com/galaxyproject/galaxy/pull/23637) mvdbeek — Fix data selector pagination inside repeat inputs
+		- [galaxy#23636](https://github.com/galaxyproject/galaxy/pull/23636) mvdbeek — Report failed staged inputs in tool test errors
+		- [galaxy#23635](https://github.com/galaxyproject/galaxy/pull/23635) mvdbeek — Preserve early local job process failure diagnostics
+		- [galaxy#23634](https://github.com/galaxyproject/galaxy/pull/23634) mvdbeek — Use consistent filenames for dataset display and downloads
+		- [galaxy#23633](https://github.com/galaxyproject/galaxy/pull/23633) mvdbeek — Fix unavailable toolbox filters in user preferences
+		- [galaxy#23631](https://github.com/galaxyproject/galaxy/pull/23631) mvdbeek — Preserve diagnostics when job stdout or stderr cannot be read
+		- [galaxy#23617](https://github.com/galaxyproject/galaxy/pull/23617) ksuderman — Fix doubled URL prefix on the workflow preview Run button
+		- [galaxy#23615](https://github.com/galaxyproject/galaxy/pull/23615) mvdbeek — Advertise annotation limits and fix library collection annotation lookup
+		- [galaxy#23614](https://github.com/galaxyproject/galaxy/pull/23614) mvdbeek — Fix dangling discriminator mapping in standalone tool state JSON schemas
+		- [galaxy#23587](https://github.com/galaxyproject/galaxy/pull/23587) davelopez — Improve upload state tracking in the progress view
+		- [galaxy#23583](https://github.com/galaxyproject/galaxy/pull/23583) mvdbeek — Use the bundle index for chained data-manager metadata
+		- [galaxy#23536](https://github.com/galaxyproject/galaxy/pull/23536) mvdbeek — Add password reset to the Tool Shed
+		- [galaxy#23534](https://github.com/galaxyproject/galaxy/pull/23534) guerler — Let visualizations target frozen and tagged release branches
+		- [galaxy#23508](https://github.com/galaxyproject/galaxy/pull/23508) arash77 — Add GitLab and ARC file sources
+		- [galaxy#23485](https://github.com/galaxyproject/galaxy/pull/23485) ahmedhamidawan — Simplify/refactor `Filtering` by tokenizing the filter text once
+		- [galaxy#23464](https://github.com/galaxyproject/galaxy/pull/23464) itisAliRH — Restore styling and behavior lost in the GButton adoption sweep
+		- [galaxy#23365](https://github.com/galaxyproject/galaxy/pull/23365) mvdbeek — Add embedded authoring reference for user-defined tools
+		- [galaxy#23342](https://github.com/galaxyproject/galaxy/pull/23342) ahmedhamidawan — Wrap tooltips instead of overflowing their width
+		- [galaxy#22128](https://github.com/galaxyproject/galaxy/pull/22128) mvdbeek — Track scheduling dependencies for workflow invocations
+		- [galaxy#18455](https://github.com/galaxyproject/galaxy/pull/18455) Delphine-L — Sanitize spaces in the export tool
+		- [galaxy#18017](https://github.com/galaxyproject/galaxy/pull/18017) mvdbeek — Don't catch `ParameterValueError` after persisting values in the database
+		- [galaxy#17164](https://github.com/galaxyproject/galaxy/pull/17164) mvdbeek — Containerize set metadata
+	- Docker Galaxy
+		- [docker-galaxy#635](https://github.com/bgruening/docker-galaxy/pull/635) bgruening — Galaxy 26.1 release
+		- [docker-galaxy#634](https://github.com/bgruening/docker-galaxy/pull/634) bgruening — ARM64 support
+	- Foundry
+		- [foundry#593](https://github.com/galaxyproject/foundry/pull/593) nekrut — Add shared Antigravity support for Foundry skills
+	- gxformat2
+		- [gxformat2#254](https://github.com/galaxyproject/gxformat2/pull/254) mvdbeek — Preserve a user-defined tool step's state when converting to format2
+	- Planemo
+		- [planemo#1130](https://github.com/galaxyproject/planemo/pull/1130) bernt-matthias — Include subdirectories and parent directories in `ci_find`
+	- Pulsar
+		- [pulsar#514](https://github.com/galaxyproject/pulsar/pull/514) dSizovs — Use the manager name returned by compute-resource registration
+
+## September 14, 2026
+- [ ] Foundry
+	- [x] [foundry#523](https://github.com/galaxyproject/foundry/pull/523) — Flag issues missing roadmap/priority labels or valid substep parentage
+	- [x] [foundry#524](https://github.com/galaxyproject/foundry/pull/524) — Verify four more pattern claims with test workflows
+	- [x] [foundry#525](https://github.com/galaxyproject/foundry/pull/525) — Add issue-backed Foundry roadmap
+	- [x] [foundry#526](https://github.com/galaxyproject/foundry/pull/526) — Refine roadmap issue presentation
+	- [x] [foundry#527](https://github.com/galaxyproject/foundry/pull/527) — Verify four more pattern claims with test workflows
+	- [x] [foundry#528](https://github.com/galaxyproject/foundry/pull/528) — Document Nextflow test case selection policy
+	- [x] [foundry#529](https://github.com/galaxyproject/foundry/pull/529) — Classify Nextflow profiles by kind
+	- [x] [foundry#530](https://github.com/galaxyproject/foundry/pull/530) — Make the conversion worker Planemo-ready
+	- [x] [foundry#533](https://github.com/galaxyproject/foundry/pull/533) — Remove conversion Mold revision history
+	- [x] [foundry#536](https://github.com/galaxyproject/foundry/pull/536) — Clean up the nf-core conversion Mold
+	- [x] [foundry#537](https://github.com/galaxyproject/foundry/pull/537) — Ground nf-core conversion datatype mapping
+	- [ ] [foundry#545](https://github.com/galaxyproject/foundry/pull/545) — Make Nextflow evidence optional in Galaxy UDT authoring
+	- [x] [foundry#567](https://github.com/galaxyproject/foundry/pull/567) — Initial Workflow Brief pipelines
+- [ ] Embed Galaxy in Planemo — [[embedded_galaxy_in_planemo]]
+	- [ ] [planemo#1703](https://github.com/galaxyproject/planemo/pull/1703) — List invocations across all workflows
+	- [ ] [planemo#1704](https://github.com/galaxyproject/planemo/pull/1704) — Pin Galaxy virtualenvs to an explicit Python version
+	- [ ] [planemo#1707](https://github.com/galaxyproject/planemo/pull/1707) — Write inline test jobs outside source directories (draft)
+	- [ ] [planemo#1708](https://github.com/galaxyproject/planemo/pull/1708) — Keep managed Galaxy running after tests (draft)
+	- [ ] [planemo#1711](https://github.com/galaxyproject/planemo/pull/1711) — Use galaxy.util.wait.wait_on
+	- [ ] [planemo#1712](https://github.com/galaxyproject/planemo/pull/1712) — Fix no-wait Galaxy tool execution
+	- [ ] [planemo#1713](https://github.com/galaxyproject/planemo/pull/1713) — Report standalone engine errors without crashing
+- [ ] Linting Overhaul
+	- [ ] [planemo#1706](https://github.com/galaxyproject/planemo/pull/1706) — Modernize Planemo-specific tool linters
+	- [ ] [planemo#1710](https://github.com/galaxyproject/planemo/pull/1710) — Fix shed_lint fail-fast behavior (draft)
+- [ ] Pulsar
+	- [ ] [pulsar#503](https://github.com/galaxyproject/pulsar/pull/503) — Send tool stdout and stderr to Galaxy while the job is running
+	- [x] [pulsar#504](https://github.com/galaxyproject/pulsar/pull/504) — Better error handling when setting up environment statements
+	- [x] [pulsar#505](https://github.com/galaxyproject/pulsar/pull/505) — Fail the job when a transport error blocks work-dir stage out
+	- [x] [pulsar#506](https://github.com/galaxyproject/pulsar/pull/506) — Run the resilience suite on ubuntu-24.04
+	- [x] [pulsar#507](https://github.com/galaxyproject/pulsar/pull/507) — Replace flake8 with ruff
+	- [x] [pulsar#508](https://github.com/galaxyproject/pulsar/pull/508) — Move the lint and test jobs to ubuntu-24.04
+	- [x] [pulsar#509](https://github.com/galaxyproject/pulsar/pull/509) — Extract the resilience harness and recorder into `pulsar.testing`
+- [ ] Playwright migration
+	- [x] [galaxy#23574](https://github.com/galaxyproject/galaxy/pull/23574) — Add a keyboard abstraction to enable more Playwright testing
+	- [x] [galaxy#23598](https://github.com/galaxyproject/galaxy/pull/23598) — Drop more `selenium_only` test markers
+	- [x] [galaxy#23601](https://github.com/galaxyproject/galaxy/pull/23601) — Run tool form tests under Playwright
+	- [x] [galaxy#23602](https://github.com/galaxyproject/galaxy/pull/23602) — Run upload tests under Playwright
+	- [x] [galaxy#23603](https://github.com/galaxyproject/galaxy/pull/23603) — Run workflow management tests under Playwright
+	- [x] [galaxy#23607](https://github.com/galaxyproject/galaxy/pull/23607) — Unlock `test_workflow_run` for Playwright
+	- [x] [galaxy#23611](https://github.com/galaxyproject/galaxy/pull/23611) — Run collection builder tests under Playwright
+- [ ] Tool and test reporting
+	- [x] [galaxy#23600](https://github.com/galaxyproject/galaxy/pull/23600) — Report test-case state-building errors instead of raising
+	- [x] [galaxy#23605](https://github.com/galaxyproject/galaxy/pull/23605) — Report tool-model and test-parse failures in test-case validation
+	- [x] [galaxy#23608](https://github.com/galaxyproject/galaxy/pull/23608) — Report unresolvable job markdown labels instead of returning 500
+	- [x] [galaxy#23599](https://github.com/galaxyproject/galaxy/pull/23599) — Fix 500 on the dataset tool-markdown report endpoint
+- [ ] Galaxy fixes and maintenance
+	- [ ] [galaxy#23593](https://github.com/galaxyproject/galaxy/pull/23593) — Fix counterintuitive `has_n_cols` behavior for CSV (redux)
+	- [x] [galaxy#23594](https://github.com/galaxyproject/galaxy/pull/23594) — Drop broken annotation indices and limit annotation sizes
+	- [x] [galaxy#23606](https://github.com/galaxyproject/galaxy/pull/23606) — Expose `implicit_collection_jobs_id` on the job details and search APIs
+	- [x] [galaxy#23610](https://github.com/galaxyproject/galaxy/pull/23610) — Rebuild config on dev and add CI to keep it current
+	- [x] [SergeyYakubov/galaxy#1](https://github.com/SergeyYakubov/galaxy/pull/1) — Harden Docker identity resolution from OIDC claims
+	- [ ] [fairytalesbykcc/galaxy#1](https://github.com/fairytalesbykcc/galaxy/pull/1) — Fix Parquet converter headers, inference, and safe text round trips
+- [ ] Workflow state tooling
+	- [x] [galaxy-tool-util-ts#183](https://github.com/jmchilton/galaxy-tool-util-ts/pull/183) — Convert statefully by default when the tool cache is populated
+- [ ] Planemo maintenance
+	- [ ] [planemo#1709](https://github.com/galaxyproject/planemo/pull/1709) — Replace Perl documentation example with Python
+	- [ ] [planemo#1714](https://github.com/galaxyproject/planemo/pull/1714) — Apply Click conversion to configured option values
+- PRs Reviewed
+	- [galaxy#23550](https://github.com/galaxyproject/galaxy/pull/23550) guerler — Add varri visualization
+	- [galaxy#23543](https://github.com/galaxyproject/galaxy/pull/23543) ksuderman — Add k8s_fs_group_change_policy to the Kubernetes job runner
+	- [galaxy#23542](https://github.com/galaxyproject/galaxy/pull/23542) nsoranzo — Add `AbstractTool` class to `tool_util`
+	- [galaxy#23541](https://github.com/galaxyproject/galaxy/pull/23541) mvdbeek — Backport mulled cache seeding to fix flaky integration tests
+	- [galaxy#23540](https://github.com/galaxyproject/galaxy/pull/23540) mvdbeek — Record shed install panel placement before the cached toolbox reload
+	- [galaxy#23539](https://github.com/galaxyproject/galaxy/pull/23539) mvdbeek — Deliver SSE control tasks to webapp processes only
+	- [galaxy#23537](https://github.com/galaxyproject/galaxy/pull/23537) mvdbeek — Fix two flaky API tests
+	- [galaxy#23533](https://github.com/galaxyproject/galaxy/pull/23533) mvdbeek — Fix zero defaults for YAML numeric tool parameters
+	- [galaxy#23517](https://github.com/galaxyproject/galaxy/pull/23517) afgane — Reuse connections and bound the connect timeout in the test interactor
+	- [galaxy#23516](https://github.com/galaxyproject/galaxy/pull/23516) davelopez — Add Common Crawl file source
+	- [galaxy#23515](https://github.com/galaxyproject/galaxy/pull/23515) afgane — Make the tool-test polling cadence configurable
+	- [galaxy#23388](https://github.com/galaxyproject/galaxy/pull/23388) mvdbeek — Harden user-defined tool output declarations
+	- [galaxy#23387](https://github.com/galaxyproject/galaxy/pull/23387) mvdbeek — Require top-level containers for user-defined tools
+	- [galaxy#23283](https://github.com/galaxyproject/galaxy/pull/23283) guerler — Reject generating parameter models for upload_dataset inputs
+
 ## September 7, 2026
-- [x] [galaxy#23465](https://github.com/galaxyproject/galaxy/pull/23465) — Fix some package test warnings on dev
-- [x] [galaxy#23459](https://github.com/galaxyproject/galaxy/pull/23459) — Reject output-only format_source references in the XML linter
-- [x] [foundry#486](https://github.com/galaxyproject/foundry/pull/486) — Fix commented Nextflow workflow parsing
-- [x] [guerler/galaxy#36](https://github.com/guerler/galaxy/pull/36) — Handle output discovery failures consistently
-- [x] [pulsar#495](https://github.com/galaxyproject/pulsar/pull/495) — Fix typos and grammar in documentation
-- [x] [pulsar#494](https://github.com/galaxyproject/pulsar/pull/494) — Fix daemon handling in webless mode
+- [x] Galaxy fixes and maintenance
+	- [x] [galaxy#23465](https://github.com/galaxyproject/galaxy/pull/23465) — Fix some package test warnings on dev
+	- [x] [galaxy#23459](https://github.com/galaxyproject/galaxy/pull/23459) — Reject output-only `format_source` references in the XML linter
+	- [x] [guerler/galaxy#36](https://github.com/guerler/galaxy/pull/36) — Handle output discovery failures consistently
+	- [x] [galaxy#23482](https://github.com/galaxyproject/galaxy/pull/23482) — Default missing workflow comment colors
+	- [x] [galaxy#23498](https://github.com/galaxyproject/galaxy/pull/23498) — Use TRS IDs as fallback names for GalaxyAI workflow suggestions
+	- [x] [galaxy#23513](https://github.com/galaxyproject/galaxy/pull/23513) — Set Galaxy memory variables in GB and support memory overhead
+	- [x] [galaxy#23514](https://github.com/galaxyproject/galaxy/pull/23514) — Add the Galaxy Conda environment hash to `mulled-hash`
 - [ ] IUC Standards Docs
 	- [x] [standards#85](https://github.com/galaxy-iuc/standards/pull/85) — Add Pulsar / remote-execution compatibility best-practices docs
 	- [ ] [standards#86](https://github.com/galaxy-iuc/standards/pull/86) — Add security corpus-research deep-dives
 - [ ] Foundry
+	- [x] [foundry#486](https://github.com/galaxyproject/foundry/pull/486) — Fix commented Nextflow workflow parsing
+	- [x] [foundry#521](https://github.com/galaxyproject/foundry/pull/521) — Bump planemo pin to 0.75.47
+	- [x] [foundry#522](https://github.com/galaxyproject/foundry/pull/522) — Verify four more pattern claims with test workflows
 	- [x] [iwc-lab#3](https://github.com/galaxyproject/iwc-lab/pull/3) — Read workflow descriptors as YAML so Format-2 works
 	- [x] [foundry#489](https://github.com/galaxyproject/foundry/pull/489) — Add linear Pi Pipeline evaluation controller
 	- [x] [foundry#490](https://github.com/galaxyproject/foundry/pull/490) — Vendor IWC workflow review prompts
@@ -32,77 +240,80 @@ summary: "Running personal task list of Galaxy dev work threads tracked by date 
 	- [ ] [planemo#1695](https://github.com/galaxyproject/planemo/pull/1695) — Require workflow tests under the IWC lint profile
 	- [x] [planemo#1696](https://github.com/galaxyproject/planemo/pull/1696) — Fix Dockstore names for Galaxy workflow suffixes
 	- [ ] [planemo#1697](https://github.com/galaxyproject/planemo/pull/1697) — Validate dates in IWC changelog headings
-	- [ ] [planemo#1698](https://github.com/galaxyproject/planemo/pull/1698) — Skip Zenodo-dependent tests when the API is unavailable
+	- [x] [planemo#1698](https://github.com/galaxyproject/planemo/pull/1698) — Skip Zenodo-dependent tests when the API is unavailable
 	- [x] [foundry#495](https://github.com/galaxyproject/foundry/pull/495) — Resolve bundled Foundry validator in Pi harness
 	- [x] [foundry#497](https://github.com/galaxyproject/foundry/pull/497) — Add lifecycle taxonomy for review and publication pipelines
 	- [x] [foundry#498](https://github.com/galaxyproject/foundry/pull/498) — Add IWC workflow maturation Mold
 	- [x] [foundry#502](https://github.com/galaxyproject/foundry/pull/502) — The gallery shows the badge a note page shows, not a copy of it
 	- [x] [foundry#506](https://github.com/galaxyproject/foundry/pull/506) — Single-source the planemo pin behind a check
-	- [ ] [foundry#508](https://github.com/galaxyproject/foundry/pull/508) — Add GALAXY WORKFLOW MATURATION pipeline (draft)
-	- [ ] [foundry#509](https://github.com/galaxyproject/foundry/pull/509) — Add GALAXY WORKFLOW REVIEW pipeline and review-galaxy-workflow Mold (draft)
-- [ ] [galaxy#22860](https://github.com/galaxyproject/galaxy/pull/22860) — Empower Researches to Extract Workflows with Reproducible Narratives from a Notebook
-- [ ] [galaxy-skills#26](https://github.com/galaxyproject/galaxy-skills/pull/26) — Add project-review skill (stub)
-- [ ] [foundry-pattern#59](https://github.com/galaxyproject/foundry-pattern/pull/59) — Add the edge of human knowledge to the Case (draft)
-- [ ] [statistical-genomics-foundry#164](https://github.com/jmchilton/statistical-genomics-foundry/pull/164) — Adopt the shared source-note frontmatter contract
-- [ ] [topoqa-interface-quality-replication#1](https://github.com/jmchilton/topoqa-interface-quality-replication/pull/1) — Name the benchmark as the papers do
-- [ ] [crypt4gh-recryptor-service#3](https://github.com/elixir-europe/crypt4gh-recryptor-service/pull/3) — Harden CORS per service mode
-- [x] [foundry#488](https://github.com/galaxyproject/foundry/pull/488) — Add Pi-backed clean-room skill evaluation harness
-- [ ] [galaxy#23482](https://github.com/galaxyproject/galaxy/pull/23482) — Default missing workflow comment colors
-- [ ] [pulsar#496](https://github.com/galaxyproject/pulsar/pull/496) — [WIP] Fix job recovery startup race
+	- [x] [foundry#508](https://github.com/galaxyproject/foundry/pull/508) — Add GALAXY WORKFLOW MATURATION pipeline
+	- [x] [foundry#509](https://github.com/galaxyproject/foundry/pull/509) — Add GALAXY WORKFLOW REVIEW pipeline and review-galaxy-workflow Mold
+	- [ ] [foundry-pattern#59](https://github.com/galaxyproject/foundry-pattern/pull/59) — Add the edge of human knowledge to the Case (draft)
+	- [x] [foundry#488](https://github.com/galaxyproject/foundry/pull/488) — Add Pi-backed clean-room skill evaluation harness
+	- [x] [foundry-lib#133](https://github.com/jmchilton/foundry-lib/pull/133) — A contested wiki-link address says so
 - [ ] Embed Galaxy in Planemo — [[embedded_galaxy_in_planemo]]
 	- [ ] [planemo#1701](https://github.com/galaxyproject/planemo/pull/1701) — Run package-installed Galaxy through Gravity (draft)
 - [ ] Tool Shed — [[toolshed]]
-	- [ ] [galaxy#23500](https://github.com/galaxyproject/galaxy/pull/23500) — More Tool Shed Dead Code Removal.
-	- [ ] [galaxy#23502](https://github.com/galaxyproject/galaxy/pull/23502) — Prevent dependency cache failures from rolling back Tool Shed installs
-- [x] [galaxy#23498](https://github.com/galaxyproject/galaxy/pull/23498) — Use TRS IDs as fallback names for GalaxyAI workflow suggestions
-- [x] [pulsar#497](https://github.com/galaxyproject/pulsar/pull/497) — Clarify real-user job configuration documentation
-- [x] [pulsar#500](https://github.com/galaxyproject/pulsar/pull/500) — Close leaked file and transport handles
-- [ ] [pulsar#499](https://github.com/galaxyproject/pulsar/pull/499) — Limit stdout and stderr in status responses
-- [ ] [planemo#1700](https://github.com/galaxyproject/planemo/pull/1700) — Allow anonymous access to external Galaxy instances
-- [ ] [planemo#1702](https://github.com/galaxyproject/planemo/pull/1702) — Add --use_cache to planemo test, off by default (draft)
-- [ ] [galaxy#23513](https://github.com/galaxyproject/galaxy/pull/23513) — Set Galaxy memory variables in GB and support memory overhead
-- [ ] [galaxy#23514](https://github.com/galaxyproject/galaxy/pull/23514) — Add the Galaxy Conda environment hash to `mulled-hash`
-- [ ] [foundry-lib#133](https://github.com/jmchilton/foundry-lib/pull/133) — A contested wiki-link address says so
+	- [x] [galaxy#23500](https://github.com/galaxyproject/galaxy/pull/23500) — More Tool Shed Dead Code Removal.
+	- [x] [galaxy#23502](https://github.com/galaxyproject/galaxy/pull/23502) — Prevent dependency cache failures from rolling back Tool Shed installs
+- [ ] Pulsar
+	- [x] [pulsar#494](https://github.com/galaxyproject/pulsar/pull/494) — Fix daemon handling in webless mode
+	- [x] [pulsar#495](https://github.com/galaxyproject/pulsar/pull/495) — Fix typos and grammar in documentation
+	- [x] [pulsar#496](https://github.com/galaxyproject/pulsar/pull/496) — Fix job recovery startup race
+	- [x] [pulsar#497](https://github.com/galaxyproject/pulsar/pull/497) — Clarify real-user job configuration documentation
+	- [ ] [pulsar#499](https://github.com/galaxyproject/pulsar/pull/499) — Limit stdout and stderr in status responses
+	- [x] [pulsar#500](https://github.com/galaxyproject/pulsar/pull/500) — Close leaked file and transport handles
+	- [ ] [pulsar#502](https://github.com/galaxyproject/pulsar/pull/502) — Support configuring the AMQP heartbeat interval, or disabling heartbeats
+- [ ] Planemo
+	- [ ] [planemo#1700](https://github.com/galaxyproject/planemo/pull/1700) — Allow anonymous access to external Galaxy instances
+	- [x] [planemo#1702](https://github.com/galaxyproject/planemo/pull/1702) — Add `--use_cache` to `planemo test`, off by default
+- [ ] Research and prototypes
+	- [ ] [galaxy#22860](https://github.com/galaxyproject/galaxy/pull/22860) — Empower Researches to Extract Workflows with Reproducible Narratives from a Notebook
+	- [ ] [galaxy-skills#26](https://github.com/galaxyproject/galaxy-skills/pull/26) — Add project-review skill (stub)
+	- [ ] [statistical-genomics-foundry#164](https://github.com/jmchilton/statistical-genomics-foundry/pull/164) — Adopt the shared source-note frontmatter contract
+	- [ ] [topoqa-interface-quality-replication#1](https://github.com/jmchilton/topoqa-interface-quality-replication/pull/1) — Name the benchmark as the papers do
+	- [ ] [crypt4gh-recryptor-service#3](https://github.com/elixir-europe/crypt4gh-recryptor-service/pull/3) — Harden CORS per service mode
 - PRs Reviewed
-	- [galaxy#23526](https://github.com/galaxyproject/galaxy/pull/23526) mvdbeek — Keep the center GalaxyAI view mounted across its own route changes
-	- [galaxy#23525](https://github.com/galaxyproject/galaxy/pull/23525) mvdbeek — Use pydantic-aware serializer for celery control replies
-	- [galaxy#23524](https://github.com/galaxyproject/galaxy/pull/23524) mvdbeek — Keep collection input form state local until undo or redo
-	- [galaxy#23512](https://github.com/galaxyproject/galaxy/pull/23512) mvdbeek — Prevent mapper deferrals from starving later ready jobs
-	- [galaxy#23511](https://github.com/galaxyproject/galaxy/pull/23511) nsoranzo — Document configuration schema and Python dependency workflows in `CONTRIBUTING.md`
-	- [galaxy#23510](https://github.com/galaxyproject/galaxy/pull/23510) mvdbeek — Return rate-limit rejections as Galaxy error responses
-	- [galaxy#23506](https://github.com/galaxyproject/galaxy/pull/23506) afgane — Accept a directory as a fetch src=path target
-	- [galaxy#23494](https://github.com/galaxyproject/galaxy/pull/23494) ahmedhamidawan — Prevent `ScrollList` from doing infinite fetches on error
-	- [galaxy#23491](https://github.com/galaxyproject/galaxy/pull/23491) nsoranzo — Remove remaining Reports webapp config and docs
-	- [galaxy#23490](https://github.com/galaxyproject/galaxy/pull/23490) afgane — Upload test files the server cannot see, even with --force_path_paste
-	- [galaxy#23488](https://github.com/galaxyproject/galaxy/pull/23488) mvdbeek — Document unique server names for multi-instance Gunicorn deployments
-	- [galaxy#23483](https://github.com/galaxyproject/galaxy/pull/23483) afgane — Retry not-ready dataset downloads and surface HTTP status in the tool test client
-	- [galaxy#23481](https://github.com/galaxyproject/galaxy/pull/23481) davelopez — Add support to cancel file uploads
-	- [galaxy#23476](https://github.com/galaxyproject/galaxy/pull/23476) guerler — Fail the job when output discovery fails
-	- [galaxy#23467](https://github.com/galaxyproject/galaxy/pull/23467) afgane — Don't set job state to OK before finish_job runs in the GCP Batch runner
-	- [galaxy#23460](https://github.com/galaxyproject/galaxy/pull/23460) nsoranzo — Add pkg-resources-backport dependency for fs
-	- [galaxy#23450](https://github.com/galaxyproject/galaxy/pull/23450) ahmedhamidawan — Migrate `ToolForm` to Composition API and TypeScript
-	- [galaxy#23401](https://github.com/galaxyproject/galaxy/pull/23401) afgane — Forward force_path_paste for non-composite test inputs
-	- [galaxy#23329](https://github.com/galaxyproject/galaxy/pull/23329) guerler — Enable tool request by default
-	- [galaxy#23245](https://github.com/galaxyproject/galaxy/pull/23245) Rajioba1 — Populate AnnData spec version metadata
-	- [galaxy#23171](https://github.com/galaxyproject/galaxy/pull/23171) pauldg — Retry transient connection errors on idempotent iRODS reads
-	- [pulsar#427](https://github.com/galaxyproject/pulsar/pull/427) bernt-matthias — Add typing for managers
+	- Galaxy
+		- [galaxy#23526](https://github.com/galaxyproject/galaxy/pull/23526) mvdbeek — Keep the center GalaxyAI view mounted across its own route changes
+		- [galaxy#23525](https://github.com/galaxyproject/galaxy/pull/23525) mvdbeek — Use pydantic-aware serializer for celery control replies
+		- [galaxy#23524](https://github.com/galaxyproject/galaxy/pull/23524) mvdbeek — Keep collection input form state local until undo or redo
+		- [galaxy#23512](https://github.com/galaxyproject/galaxy/pull/23512) mvdbeek — Prevent mapper deferrals from starving later ready jobs
+		- [galaxy#23511](https://github.com/galaxyproject/galaxy/pull/23511) nsoranzo — Document configuration schema and Python dependency workflows in `CONTRIBUTING.md`
+		- [galaxy#23510](https://github.com/galaxyproject/galaxy/pull/23510) mvdbeek — Return rate-limit rejections as Galaxy error responses
+		- [galaxy#23506](https://github.com/galaxyproject/galaxy/pull/23506) afgane — Accept a directory as a fetch src=path target
+		- [galaxy#23494](https://github.com/galaxyproject/galaxy/pull/23494) ahmedhamidawan — Prevent `ScrollList` from doing infinite fetches on error
+		- [galaxy#23491](https://github.com/galaxyproject/galaxy/pull/23491) nsoranzo — Remove remaining Reports webapp config and docs
+		- [galaxy#23490](https://github.com/galaxyproject/galaxy/pull/23490) afgane — Upload test files the server cannot see, even with --force_path_paste
+		- [galaxy#23488](https://github.com/galaxyproject/galaxy/pull/23488) mvdbeek — Document unique server names for multi-instance Gunicorn deployments
+		- [galaxy#23483](https://github.com/galaxyproject/galaxy/pull/23483) afgane — Retry not-ready dataset downloads and surface HTTP status in the tool test client
+		- [galaxy#23481](https://github.com/galaxyproject/galaxy/pull/23481) davelopez — Add support to cancel file uploads
+		- [galaxy#23476](https://github.com/galaxyproject/galaxy/pull/23476) guerler — Fail the job when output discovery fails
+		- [galaxy#23467](https://github.com/galaxyproject/galaxy/pull/23467) afgane — Don't set job state to OK before finish_job runs in the GCP Batch runner
+		- [galaxy#23460](https://github.com/galaxyproject/galaxy/pull/23460) nsoranzo — Add pkg-resources-backport dependency for fs
+		- [galaxy#23450](https://github.com/galaxyproject/galaxy/pull/23450) ahmedhamidawan — Migrate `ToolForm` to Composition API and TypeScript
+		- [galaxy#23401](https://github.com/galaxyproject/galaxy/pull/23401) afgane — Forward force_path_paste for non-composite test inputs
+		- [galaxy#23329](https://github.com/galaxyproject/galaxy/pull/23329) guerler — Enable tool request by default
+		- [galaxy#23245](https://github.com/galaxyproject/galaxy/pull/23245) Rajioba1 — Populate AnnData spec version metadata
+		- [galaxy#23171](https://github.com/galaxyproject/galaxy/pull/23171) pauldg — Retry transient connection errors on idempotent iRODS reads
+	- Pulsar
+		- [pulsar#427](https://github.com/galaxyproject/pulsar/pull/427) bernt-matthias — Add typing for managers
 
 ## August 31, 2026
 - Ekkk - Chicago.
-- 
 - [ ] Embed Galaxy in Planemo
 	- [ ] [planemo#1691](https://github.com/galaxyproject/planemo/pull/1691) — [WIP] Run package-installed Galaxy through Gravity
 - [ ] Linting Overhaul
-	- [ ] [galaxy#23229](https://github.com/galaxyproject/galaxy/pull/23229) — Repository-level data-table linting for data-manager / reference-data bundles
+	- [x] [galaxy#23229](https://github.com/galaxyproject/galaxy/pull/23229) — Repository-level data-table linting for data-manager / reference-data bundles
 - [ ] Kubernetes
-	- [ ] [galaxy#23324](https://github.com/galaxyproject/galaxy/pull/23324) — Refactor Kubernetes PV/PVC setup between integration test classes for reuse
-	- [ ] [galaxy#23325](https://github.com/galaxyproject/galaxy/pull/23325) — Fix stale Kubernetes job naming docs
+	- [x] [galaxy#23324](https://github.com/galaxyproject/galaxy/pull/23324) — Refactor Kubernetes PV/PVC setup between integration test classes for reuse
+	- [x] [galaxy#23325](https://github.com/galaxyproject/galaxy/pull/23325) — Fix stale Kubernetes job naming docs
 - [ ] Pick Value
 	- [ ] [galaxy#23433](https://github.com/galaxyproject/galaxy/pull/23433) — Bug fix - pick_values inputs need to be available before picking.
 	- [ ] [galaxy#23455](https://github.com/galaxyproject/galaxy/pull/23455) — Add a failure-tolerant Pick Value mode (draft)
 - [ ] Job Finishing
-	- [ ] [galaxy#23436](https://github.com/galaxyproject/galaxy/pull/23436) — Add FINISHING job state and pulsar recovery for restart safety (redo)
-	- [ ] [galaxy#23448](https://github.com/galaxyproject/galaxy/pull/23448) — Move metadata handling into finish_job on the work queue
+	- [x] [galaxy#23436](https://github.com/galaxyproject/galaxy/pull/23436) — Add FINISHING job state and pulsar recovery for restart safety (redo)
+	- [x] [galaxy#23448](https://github.com/galaxyproject/galaxy/pull/23448) — Move metadata handling into finish_job on the work queue
 - [ ] [galaxy#23334](https://github.com/galaxyproject/galaxy/pull/23334) — Warn when a post job action cannot run on a step with no job
 - [ ] [galaxy#23340](https://github.com/galaxyproject/galaxy/pull/23340) — Accumulated review nits - 2026-08-21
 - [x] [pulsar#493](https://github.com/galaxyproject/pulsar/pull/493) — Size GCP Batch jobs from requested resources
@@ -136,7 +347,7 @@ summary: "Running personal task list of Galaxy dev work threads tracked by date 
 	- [ ] [galaxy#23326](https://github.com/galaxyproject/galaxy/pull/23326) — Share HTCondor mechanics with Pulsar via util/condor (draft)
 - [x] Many Pulsar and Planemo PRs.
 - [ ] [galaxy#23330](https://github.com/galaxyproject/galaxy/pull/23330) — Don't apply PJAs to skipped elements of mapped over outputs (draft)
-- [ ] [planemo#1679](https://github.com/galaxyproject/planemo/pull/1679) — Various fixes for targeting postgres in singularity (rebase)
+- [x] [planemo#1679](https://github.com/galaxyproject/planemo/pull/1679) — Various fixes for targeting postgres in singularity (rebase)
 - [ ] [planemo#1684](https://github.com/galaxyproject/planemo/pull/1684) — Drop dead interactor.VERBOSE_GALAXY_ERRORS assignment
 - [ ] [foundry-pattern#64](https://github.com/galaxyproject/foundry-pattern/pull/64) — One route is the rule; the key as the segment is the preference
 - [ ] [statistical-genomics-foundry#168](https://github.com/jmchilton/statistical-genomics-foundry/pull/168) — A summary is shown wherever a note has one
@@ -173,4 +384,3 @@ summary: "Running personal task list of Galaxy dev work threads tracked by date 
 - Linting Overhaul
 - [X] FAIR Foundries and Licensing Details.
 - Better Unit tests.
-- 

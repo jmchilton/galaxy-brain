@@ -5,8 +5,8 @@ tags:
   - project
 status: draft
 created: 2026-09-03
-revised: 2026-09-03
-revision: 1
+revised: 2026-09-25
+revision: 2
 ai_generated: true
 summary: "Tracks canonical homes, documentation, packaging, provenance, and maintenance status for reusable agent skills."
 ---
@@ -46,3 +46,4 @@ Third-party skills may remain in their upstream repositories. The inventory shou
 
 - `AGENTS.md` — instructions for agents maintaining this project.
 - `inventory.yml` — canonical repositories, reusable artifacts, local installations, and maintenance state.
+- `HERDR_SUPPORT.md` — herdr integration state on this machine (Claude vs Codex): gap analysis, official-integration install log, remaining follow-ups.

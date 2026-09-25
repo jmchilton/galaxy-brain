@@ -79,7 +79,7 @@ Conversely, a still-open PR keeps its worktree even after it drops off the list.
 
 ## These files are not vault notes
 
-`vault/reviews/**` is excluded from the vault's frontmatter contract — `reviews` is in
+`vault/agents/**` is excluded from the vault's frontmatter contract — `agents` is in
 `SKIP_DIRS` in `validate_frontmatter.py`, and `!reviews/**` is in the glob in
 `site/src/content.config.ts`. That covers `index.md` here too, despite `index.md` being
 the validated entry point in `projects/` and `papers/`. So:

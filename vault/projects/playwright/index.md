@@ -6,8 +6,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-09-16
-revised: 2026-09-16
-revision: 4
+revised: 2026-09-21
+revision: 17
 ai_generated: true
 summary: "Migrate the full Galaxy Selenium suite to Playwright and recover the core of PR #21199, via small atomic PRs."
 ---
@@ -25,10 +25,13 @@ decorators remain, using small, atomic, obviously correct PRs.
 - Recover the core functionality and tests from
   [galaxyproject/galaxy#21199](https://github.com/galaxyproject/galaxy/pull/21199),
   minus the Jupyter notebook work.
+- Keep backlog of issues empty ./BACKLOG.md by working through them.
 
 ## Files
 
 - `AGENTS.md` — instructions for agents working on this project (`CLAUDE.md` symlinks to it).
 - `PROBLEMS_AND_GOALS.md` — big-picture context.
 - `GESTURE_ABSTRACTION_DESIGN.md` — design for the backend-neutral input/gesture vocabulary replacing `action_chains()`.
+- `BRANCHES.md` — branches and PRs for this project; mirrors `vault/reviews/mine/index.md`.
+- `SELENIUM_ONLY_SURVEY.md` — breakdown of the remaining 140 `@selenium_only` tests, diagnosed blockers, and the local state-accumulation trap.
 - `WORKFLOW_EDITOR_PLAYWRIGHT_STATUS.md` — salvaged `playwright_backlog` triage; remaining workflow-editor `selenium_only` tests and established Playwright patterns.

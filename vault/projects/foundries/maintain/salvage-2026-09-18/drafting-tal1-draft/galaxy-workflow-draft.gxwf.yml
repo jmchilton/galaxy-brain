@@ -1,0 +1,401 @@
+class: GalaxyWorkflowDraft
+label: TAL1 peaks to candidate regulated genes
+doc: |
+  Candidate-gene prioritization from pre-called TAL1 ChIP-seq peak sets (G1E +
+  megakaryocyte states) via promoter overlap and nearest-TSS assignment.
+  Source: galaxy-brain #13 (INTERVIEW -> GALAXY pipeline), design briefs
+  freeform-galaxy-interface.md + freeform-galaxy-data-flow.md, corpus check
+  iwc-comparison-notes.md.
+
+  Topology is settled here; tool wrappers / parameters / port names are deferred
+  to the per-step implementation loop (TODO sentinels + _plan_* fields).
+
+  Scope decisions:
+  - `Regions of interest (BED)` from the interface brief is intentionally NOT a
+    workflow input: it feeds no MVP step (the Runx1 locus browser view is a
+    Galaxy-Notebook-layer concern, not a deterministic workflow output).
+  - Expression-evidence integration (stretch) is omitted entirely: blocked on
+    unverified RNA-seq metadata; would enter as a gated `when:` join later.
+  - slop genome/chrom-sizes is treated as tool_state (built-in mm10 `loc`), not a
+    workflow input — see promoter_windows._plan_context for the portability
+    trade-off.
+
+tags:
+  - epigenetics
+  - chip-seq
+
+inputs:
+
+  TAL1 peak sets:
+    type: collection
+    collection_type: list
+    format:
+      - bed
+    doc: |
+      Pre-called TAL1 peaks, one element per peak class. Expected element
+      identifiers (test API): common, G1E_only, megakaryocyte_only. narrowPeak in
+      origin; treated as BED intervals downstream. Mapped over for all per-class
+      steps; identifiers must survive to outputs.
+
+  RefSeq gene annotations (mm10):
+    type: data
+    format:
+      - bed
+    doc: |
+      RefSeq_gene_annotations_mm10.bed (BED12; gene symbol in column 4 - to
+      verify). Source for strand-aware TSS derivation. Shared reference, fanned in
+      against each mapped peak-class element.
+
+  Promoter upstream (bp):
+    type: int
+    default: 1000
+    doc: Bases upstream of TSS for the promoter window (working default -1000).
+
+  Promoter downstream (bp):
+    type: int
+    default: 500
+    doc: Bases downstream of TSS for the promoter window (working default +500).
+
+outputs:
+
+  candidate_gene_summary:
+    outputSource: candidate_summary/TODO_candidate_table
+    label: Candidate gene summary
+    type: data
+    doc: Promoter-bound TAL1 target candidates across peak classes (class as column).
+
+  promoter_bound_peak_to_gene:
+    outputSource: collapse_promoter_isoforms/TODO_promoter_dedup
+    label: Promoter-bound peak-to-gene tables
+    type: collection
+    doc: Per peak class - peaks overlapping a promoter window joined to gene/strand/TSS.
+
+  nearest_gene_tables:
+    outputSource: collapse_nearest_isoforms/TODO_nearest_dedup
+    label: Nearest-gene tables (non-promoter peaks)
+    type: collection
+    doc: Per peak class - non-promoter peaks with nearest gene + signed distance to TSS.
+
+  peak_set_summary_counts:
+    outputSource: peak_counts/TODO_counts
+    label: Peak-set summary counts
+    type: data
+    doc: Per class - n peaks, n promoter-overlapping, n nearest-gene-assigned.
+
+  promoter_windows_bed:
+    outputSource: promoter_windows/TODO_promoter_bed
+    label: Promoter windows (BED)
+    type: data
+    doc: Strand-aware promoter windows - intermediate checkpoint (see _plan_out re change_datatype bed).
+
+  candidate_counts_plot:
+    outputSource: barchart_candidate_counts/TODO_barchart
+    label: Candidate counts by peak class (plot)
+    type: data
+    doc: Bar chart of candidate gene counts per peak class (weak / smoke output).
+
+  distance_to_tss_plot:
+    outputSource: distance_tss_plot/TODO_distplot
+    label: Distance-to-TSS distribution (plot)
+    type: data
+    doc: Distance-to-TSS distribution for non-promoter peaks (weak / smoke output).
+
+steps:
+
+  derive_tss:
+    tool_id: TODO
+    label: Derive strand-aware TSS from RefSeq BED12
+    in:
+      TODO_annotation: RefSeq gene annotations (mm10)
+    out:
+      - id: TODO_tss
+    _plan_state: |
+      Reduce each BED12 transcript to its TSS: + strand -> chromStart, - strand ->
+      chromEnd (1bp feature). Carry the gene symbol (col 4) onto each TSS feature
+      so promoter overlap [intersect_promoter_hits] and nearest-gene [nearest_gene]
+      emit the symbol without a separate join.
+    _plan_context: |
+      NO corpus tool: TSS-from-BED12 is absent from IWC (iwc-comparison-notes #4).
+      Discovery required. Candidates: a "Gene BED to TSS/promoter" interval tool;
+      or a text/awk transform on BED12 (strand-aware); or UCSC-style BED ops.
+      Must preserve strand and the symbol column.
+    _plan_in: |
+      single port: the RefSeq BED12 File (workflow input). Wrapper port name TBD.
+    _plan_out: |
+      one BED of TSS points carrying gene symbol + strand. Consumed by
+      promoter_windows (slop) and sort_tss (-> nearest_gene).
+
+  promoter_windows:
+    tool_id: TODO
+    label: Expand TSS to strand-aware promoter windows
+    in:
+      TODO_intervals: derive_tss/TODO_tss
+      TODO_upstream: Promoter upstream (bp)
+      TODO_downstream: Promoter downstream (bp)
+    out:
+      - id: TODO_promoter_bed
+    _plan_state: |
+      Strand-aware asymmetric slop: -s, -l = `Promoter upstream (bp)` (1000),
+      -r = `Promoter downstream (bp)` (500). Window must keep the gene symbol.
+      NOTE: the one IWC slop exemplar (atacseq) is symmetric + strand:false; this
+      strand-aware asymmetric mode is corpus-unexercised (iwc-comparison-notes #2).
+    _plan_context: |
+      Resolvable tool: bedtools_slopbed. IWC pins
+      toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_slopbed/2.31.1+galaxy0.
+      Pattern: interval-window-flank. slop needs chrom sizes: prefer built-in mm10
+      via genome_file_opts=loc (no workflow input). Portability trade-off: a test
+      env without the mm10 .len data-table entry would need a chrom-sizes File
+      input instead - flagged for the test plan.
+    _plan_in: |
+      TODO_intervals <- derive_tss TSS bed; TODO_upstream/TODO_downstream <- int
+      params bound to slop -l/-r. Genome via tool_state, not a port.
+    _plan_out: |
+      promoter-window BED (carries gene symbol). Also promoted as a workflow
+      checkpoint output `promoter_windows_bed`; per-step loop should add
+      change_datatype: bed on this port if the tool reports a weaker type.
+
+  intersect_promoter_hits:
+    tool_id: TODO
+    label: Peaks overlapping promoter windows (annotated with gene)
+    in:
+      TODO_a: TAL1 peak sets
+      TODO_b: promoter_windows/TODO_promoter_bed
+    out:
+      - id: TODO_promoter_bound
+    _plan_state: |
+      bedtools intersect reporting both peak and overlapping promoter feature
+      (-wa -wb) so each kept peak carries its gene symbol/strand/TSS. Maps over the
+      `TAL1 peak sets` list; promoter windows fan in as shared reference B.
+    _plan_context: |
+      Resolvable tool: bedtools_intersectbed. IWC pins
+      toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.31.1+galaxy0
+      (used in epigenetics/consensus-peaks). Pattern: interval-overlap-filter.
+    _plan_in: |
+      TODO_a <- peaks (mapped collection element); TODO_b <- promoter windows File.
+    _plan_out: |
+      per-class tabular of promoter-bound peaks + gene fields. Feeds
+      collapse_promoter_isoforms and peak_counts.
+
+  intersect_promoter_miss:
+    tool_id: TODO
+    label: Peaks not overlapping any promoter window
+    in:
+      TODO_a: TAL1 peak sets
+      TODO_b: promoter_windows/TODO_promoter_bed
+    out:
+      - id: TODO_non_promoter
+    _plan_state: |
+      Same intersect, anti-join mode (-v): keep peaks with no promoter overlap.
+      Maps over the `TAL1 peak sets` list against the shared promoter windows.
+    _plan_context: |
+      Same wrapper as intersect_promoter_hits (bedtools_intersectbed, -v).
+      Pattern: interval-overlap-filter.
+    _plan_in: |
+      TODO_a <- peaks (mapped); TODO_b <- promoter windows File.
+    _plan_out: |
+      per-class non-promoter peaks. Feeds sort_non_promoter -> nearest_gene.
+
+  sort_tss:
+    tool_id: TODO
+    label: Coordinate-sort TSS for closest
+    in:
+      TODO_intervals: derive_tss/TODO_tss
+    out:
+      - id: TODO_sorted_tss
+    _plan_state: |
+      Coordinate sort (chrom, start) so bedtools closest has a sorted reference.
+    _plan_context: |
+      bedtools closest requires position-sorted inputs. Coordinate-aware sort is a
+      mild corpus gap (IWC sorts intervals with tabular sort1); candidates:
+      bedtools_sortbed or text-processing sort1. Must match nearest_gene ordering.
+    _plan_in: |
+      TODO_intervals <- derive_tss TSS bed (single File).
+    _plan_out: |
+      sorted TSS bed -> nearest_gene reference port.
+
+  sort_non_promoter:
+    tool_id: TODO
+    label: Coordinate-sort non-promoter peaks for closest
+    in:
+      TODO_intervals: intersect_promoter_miss/TODO_non_promoter
+    out:
+      - id: TODO_sorted_peaks
+    _plan_state: |
+      Coordinate sort each non-promoter peak-class element before closest.
+    _plan_context: |
+      Same sort concern as sort_tss; maps over the non-promoter list collection.
+    _plan_in: |
+      TODO_intervals <- intersect_promoter_miss output (mapped collection).
+    _plan_out: |
+      sorted per-class non-promoter peaks -> nearest_gene query port.
+
+  nearest_gene:
+    tool_id: TODO
+    label: Nearest TSS + distance for non-promoter peaks
+    in:
+      TODO_query: sort_non_promoter/TODO_sorted_peaks
+      TODO_reference: sort_tss/TODO_sorted_tss
+    out:
+      - id: TODO_nearest
+    _plan_state: |
+      bedtools closest with distance (-d): for each non-promoter peak, the nearest
+      TSS feature and signed/abs distance. Reference is the TSS set (not gene
+      bodies) so the same step serves both the nearest-gene table and the
+      distance-to-TSS distribution. Gene symbol rides on the TSS feature.
+    _plan_context: |
+      CORPUS GAP: bedtools closest / nearest-feature is absent across ALL of IWC
+      (iwc-comparison-notes headline + #1). No exemplar - this subgraph ships
+      greenfield; exemplar comparison gives it no structural cover. Tool exists in
+      the same iuc/bedtools suite: bedtools_closestbed (-d for distance).
+      Validation burden (sorting, -d column, tie behavior) falls on the per-step
+      loop. Decide closest vs window-join here (both corpus-absent; closest -d
+      preferred).
+    _plan_in: |
+      TODO_query <- sorted non-promoter peaks (mapped); TODO_reference <- sorted
+      TSS File. Both must share sort order.
+    _plan_out: |
+      per-class table: peak + nearest gene symbol + distance to TSS. Feeds
+      collapse_nearest_isoforms and peak_counts.
+
+  collapse_promoter_isoforms:
+    tool_id: TODO
+    label: Collapse promoter-bound isoforms by gene symbol
+    in:
+      TODO_table: intersect_promoter_hits/TODO_promoter_bound
+    out:
+      - id: TODO_promoter_dedup
+    _plan_state: |
+      Group by gene symbol so an isoform-duplicated symbol counts once. Tie-break
+      UNDECIDED (min TSS distance vs best MACS2 score vs keep-all) - carry forward.
+      Maps over the promoter-bound list.
+    _plan_context: |
+      Idiom precedent in IWC consensus-peaks reductions: tp_sorted_uniq /
+      datamash_ops. Pattern: tabular-group-and-aggregate-with-datamash.
+    _plan_in: |
+      TODO_table <- intersect_promoter_hits output (mapped collection).
+    _plan_out: |
+      deduped per-class promoter-bound table. Workflow output
+      `promoter_bound_peak_to_gene` + feeds candidate_summary.
+
+  collapse_nearest_isoforms:
+    tool_id: TODO
+    label: Collapse nearest-gene isoforms by gene symbol
+    in:
+      TODO_table: nearest_gene/TODO_nearest
+    out:
+      - id: TODO_nearest_dedup
+    _plan_state: |
+      Same group-by-symbol collapse on the nearest-gene tables; same undecided
+      tie-break. Maps over the nearest-gene list.
+    _plan_context: |
+      Same idiom as collapse_promoter_isoforms (datamash / sorted_uniq).
+    _plan_in: |
+      TODO_table <- nearest_gene output (mapped collection).
+    _plan_out: |
+      deduped per-class nearest-gene table. Workflow output `nearest_gene_tables`
+      + feeds concat_nearest_tables.
+
+  candidate_summary:
+    tool_id: TODO
+    label: Combine promoter-bound candidates into one table
+    in:
+      TODO_tables: collapse_promoter_isoforms/TODO_promoter_dedup
+    out:
+      - id: TODO_candidate_table
+    _plan_state: |
+      Reduce the deduped promoter-bound list collection to ONE table, stamping the
+      collection element identifier (peak class) as a column. Columns: peak class,
+      coords, gene symbol, strand, TSS, overlap/distance, MACS2 score/q-value IF
+      those survive the inputs (open question). Interpretation: "Candidate gene
+      summary" = promoter-bound targets; nearest-gene is a separate output table.
+    _plan_context: |
+      collection -> table reduction with identifier-as-column. IWC precedent:
+      nml/collapse_collections (collapse_dataset). Pattern:
+      tabular-concatenate-collection-to-table. If the concat idiom cannot stamp the
+      element identifier, a relabel step must precede this (open question).
+    _plan_in: |
+      TODO_tables <- collapse_promoter_isoforms list (reduced, not mapped).
+    _plan_out: |
+      single candidate table. Workflow output `candidate_gene_summary`.
+
+  concat_nearest_tables:
+    tool_id: TODO
+    label: Concatenate nearest-gene tables for plotting
+    in:
+      TODO_tables: collapse_nearest_isoforms/TODO_nearest_dedup
+    out:
+      - id: TODO_nearest_table
+    _plan_state: |
+      Row-bind the deduped nearest-gene list to one table (peak class as column),
+      exposing the distance-to-TSS column for the distribution plot.
+    _plan_context: |
+      Same reduction idiom as candidate_summary (collapse_dataset). Pattern:
+      tabular-concatenate-collection-to-table.
+    _plan_in: |
+      TODO_tables <- collapse_nearest_isoforms list (reduced).
+    _plan_out: |
+      one nearest-gene table -> distance_tss_plot.
+
+  peak_counts:
+    tool_id: TODO
+    label: Peak-set summary counts per class
+    in:
+      TODO_all_peaks: TAL1 peak sets
+      TODO_promoter_hits: intersect_promoter_hits/TODO_promoter_bound
+      TODO_nearest: nearest_gene/TODO_nearest
+    out:
+      - id: TODO_counts
+    _plan_state: |
+      Per peak class emit: n peaks (from `TAL1 peak sets`), n promoter-overlapping
+      (from intersect_promoter_hits), n nearest-gene-assigned (from nearest_gene).
+      Join by element identifier (peak class) into one 4-column table.
+    _plan_context: |
+      Reduction over three list collections keyed by the same element identifier.
+      HANDOFF: this single placeholder node may need to EXPAND in the per-step loop
+      into per-collection element counts (wc per element) + a join by identifier -
+      no single corpus tool counts three collections at once. Candidates:
+      datamash_ops / table_compute / param_value_from_file (all seen in
+      consensus-peaks). Flagged as the least-settled node.
+    _plan_in: |
+      three collection inputs counted per element then joined on peak class.
+    _plan_out: |
+      counts table. Workflow output `peak_set_summary_counts` + feeds
+      barchart_candidate_counts.
+
+  barchart_candidate_counts:
+    tool_id: TODO
+    label: Bar chart of candidate counts by peak class
+    in:
+      TODO_table: peak_counts/TODO_counts
+    out:
+      - id: TODO_barchart
+    _plan_state: |
+      Bar chart: candidate gene counts per peak class from the counts table. Weak
+      / smoke output (the counts table is the real checkpoint).
+    _plan_context: |
+      Generic plotting tool (e.g. a bar-chart / ggplot tool). Not corpus-pinned;
+      cosmetic. Discovery deferred.
+    _plan_in: |
+      TODO_table <- peak_counts counts table.
+    _plan_out: |
+      bar chart image. Workflow output `candidate_counts_plot`.
+
+  distance_tss_plot:
+    tool_id: TODO
+    label: Distance-to-TSS distribution plot
+    in:
+      TODO_table: concat_nearest_tables/TODO_nearest_table
+    out:
+      - id: TODO_distplot
+    _plan_state: |
+      Histogram / distribution of distance-to-TSS over non-promoter peaks, ideally
+      split by peak class. Weak / smoke output. NOTE: distribution is over
+      non-promoter (nearest) distances only - confirm whether all-peak coverage is
+      wanted (open question).
+    _plan_context: |
+      Generic histogram/distribution plotting tool. Not corpus-pinned. Discovery
+      deferred.
+    _plan_in: |
+      TODO_table <- concatenated nearest-gene table (distance column).
+    _plan_out: |
+      distribution image. Workflow output `distance_to_tss_plot`.

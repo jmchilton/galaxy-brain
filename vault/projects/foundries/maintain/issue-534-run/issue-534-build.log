@@ -1,0 +1,62 @@
+
+> foundry@0.0.0 packages-build /Users/jxc755/projects/worktrees/foundry/branch/issue-534
+> pnpm --filter "./packages/*" build
+
+Scope: 7 of 9 workspace projects
+packages/gxwf-foundry-note-schema build$ tsc
+packages/planemo-cli-meta prebuild$ pnpm sync
+packages/planemo-test-report-schema prebuild$ pnpm sync
+packages/summarize-nextflow prebuild$ pnpm sync
+packages/planemo-cli-meta prebuild: > @galaxy-foundry/planemo-cli-meta@0.2.1 sync /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-cli-meta
+packages/planemo-cli-meta prebuild: > node scripts/sync-meta.mjs
+packages/planemo-test-report-schema prebuild: > @galaxy-foundry/planemo-test-report-schema@0.2.1 sync /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-test-report-schema
+packages/planemo-test-report-schema prebuild: > node scripts/sync-schema.mjs
+packages/summarize-nextflow prebuild: > @galaxy-foundry/summarize-nextflow@0.3.0 sync /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/summarize-nextflow
+packages/summarize-nextflow prebuild: > node scripts/sync-schema.mjs
+packages/summarize-nextflow prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/summarize-nextflow/src/schema/summary-nextflow.schema.generated.ts
+packages/planemo-cli-meta prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-cli-meta/src/cli-meta.generated.ts
+packages/planemo-cli-meta prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-cli-meta/src/cli-meta.provenance.generated.ts
+packages/planemo-test-report-schema prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-test-report-schema/src/test-report.schema.generated.ts
+packages/planemo-test-report-schema prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-test-report-schema/src/test-report.provenance.generated.ts
+packages/planemo-test-report-schema prebuild: Done
+packages/summarize-nextflow prebuild: Done
+packages/planemo-cli-meta prebuild: Done
+packages/planemo-test-report-schema build$ tsc && node scripts/copy-schema-assets.mjs
+packages/summarize-nextflow build$ tsc && node scripts/copy-schema-assets.mjs
+packages/planemo-cli-meta build$ tsc && node scripts/copy-assets.mjs
+packages/planemo-cli-meta build: copied /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-cli-meta/src/cli-meta.json -> dist/cli-meta.json
+packages/planemo-cli-meta build: copied /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-cli-meta/src/cli-meta.provenance.json -> dist/cli-meta.provenance.json
+packages/planemo-cli-meta build: Done
+packages/planemo-test-report-schema build: copied /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-test-report-schema/src/test-report.schema.json -> dist/test-report.schema.json
+packages/planemo-test-report-schema build: copied /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/planemo-test-report-schema/src/test-report.provenance.json -> dist/test-report.provenance.json
+packages/planemo-test-report-schema build: Done
+packages/summarize-nextflow build: copied src/schema/summary-nextflow.schema.json → dist/schema/summary-nextflow.schema.json
+packages/summarize-nextflow build: copied src/schema/nf-core-meta/nf-core-module-meta.schema.json → dist/schema/nf-core-meta/nf-core-module-meta.schema.json
+packages/summarize-nextflow build: copied src/schema/nf-core-meta/nf-core-subworkflow-meta.schema.json → dist/schema/nf-core-meta/nf-core-subworkflow-meta.schema.json
+packages/summarize-nextflow build: copied src/schema/nf-core-meta/nextflow-parameters-meta.schema.json → dist/schema/nf-core-meta/nextflow-parameters-meta.schema.json
+packages/summarize-nextflow build: Done
+packages/gxwf-foundry-note-schema build: Done
+packages/gxwf-foundry prebuild$ pnpm sync
+packages/gxwf-foundry prebuild: > @galaxy-foundry/gxwf-foundry@0.1.2 sync /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry
+packages/gxwf-foundry prebuild: > node scripts/sync-schema.mjs
+packages/gxwf-foundry prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry/src/meta/version.generated.ts
+packages/gxwf-foundry prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry/src/schemas/summary-cwl/summary-cwl.schema.generated.ts
+packages/gxwf-foundry prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry/src/schemas/summary-galaxy-workflow/summary-galaxy-workflow.schema.generated.ts
+packages/gxwf-foundry prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry/src/schemas/galaxy-tool-discovery/galaxy-tool-discovery.schema.generated.ts
+packages/gxwf-foundry prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry/src/schemas/galaxy-tool-summary/galaxy-tool-summary.schema.generated.ts
+packages/gxwf-foundry prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry/src/schemas/galaxy-workflow-test-plan/galaxy-workflow-test-plan.schema.generated.ts
+packages/gxwf-foundry prebuild: synced /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry/src/schemas/tests-format/tests.schema.json
+packages/gxwf-foundry prebuild: generated /Users/jxc755/projects/worktrees/foundry/branch/issue-534/packages/gxwf-foundry/src/schemas/tests-format/tests.schema.generated.ts
+packages/gxwf-foundry prebuild: Done
+packages/gxwf-foundry build$ tsc && node scripts/copy-schema-assets.mjs
+packages/gxwf-foundry build: copied src/schemas/summary-cwl/summary-cwl.schema.json → dist/schemas/summary-cwl/summary-cwl.schema.json
+packages/gxwf-foundry build: copied src/schemas/summary-galaxy-workflow/summary-galaxy-workflow.schema.json → dist/schemas/summary-galaxy-workflow/summary-galaxy-workflow.schema.json
+packages/gxwf-foundry build: copied src/schemas/galaxy-tool-discovery/galaxy-tool-discovery.schema.json → dist/schemas/galaxy-tool-discovery/galaxy-tool-discovery.schema.json
+packages/gxwf-foundry build: copied src/schemas/galaxy-tool-summary/galaxy-tool-summary.schema.json → dist/schemas/galaxy-tool-summary/galaxy-tool-summary.schema.json
+packages/gxwf-foundry build: copied src/schemas/galaxy-workflow-test-plan/galaxy-workflow-test-plan.schema.json → dist/schemas/galaxy-workflow-test-plan/galaxy-workflow-test-plan.schema.json
+packages/gxwf-foundry build: copied src/schemas/tests-format/tests.schema.json → dist/schemas/tests-format/tests.schema.json
+packages/gxwf-foundry build: Done
+packages/gxwf-pi-harness build$ tsc
+packages/gxwf-pi-harness build: Done
+packages/build-cli build$ tsc
+packages/build-cli build: Done

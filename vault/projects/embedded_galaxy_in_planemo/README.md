@@ -2,6 +2,10 @@
 
 Planning material for an opt-in Planemo engine that runs a package-installed Galaxy in the Planemo process.
 
+## Scope
+
+This directory holds the package-installed Galaxy work, including #1701, its stacked `test --serve` follow-up, `galaxyapphelpers/`, and the original embedded-engine research. General Planemo PR descriptions live in [`vault/reviews/planemo/`](../../reviews/planemo/WORKTREES.md); that location guide also lists the relocated authoring worktrees.
+
 ## Start here
 
 1. [`PLAN.md`](PLAN.md) is the canonical implementation handoff. It contains the settled architecture, work order, and acceptance tests.
