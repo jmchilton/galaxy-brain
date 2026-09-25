@@ -7,7 +7,7 @@ Produced by a subagent review, then partially re-verified by hand. Provenance of
 marked at the bottom — the branch facts and the `#23521` code paths were re-read directly; the
 internal mechanism description is the subagent's reading and was not independently traced.
 
-Not added to `index.md`: there is no stated intention to open a PR for this branch, and
+Not added to `MY_BRANCHES.md`: there is no stated intention to open a PR for this branch, and
 `AGENTS.md` says not to infer that from a worktree. Its predecessor
 [#23369](https://github.com/galaxyproject/galaxy/pull/23369) (branch `subworkflow_mapping_per_step`)
 was closed by John with "Closing this out for a smaller more bug focused PR - I'll keep the doc

@@ -72,7 +72,7 @@ re-committing to the broken predicate.
 ### It removes the failure entirely
 
 As written, a missing output is logged and skipped — the job never fails. That is the same defect
-class as [[339_fail_jobs_when_stage_out_fails]]: a job that did not stage its data out reports green
+class as [[pulsar_339_fail_jobs_when_stage_out_fails]]: a job that did not stage its data out reports green
 in Galaxy. Merging the log statement would partially undo the direction of #467 and #505. Marius'
 position in Dec 2025 — *"If we think the output should exist but it doesn't we should fail, not log
 a warning"* — is the right one, and it is now also the cheaper one.

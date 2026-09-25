@@ -125,6 +125,6 @@ Close #247 as superseded — the reported crash is gone and the shell hunks no l
 `SCRIPTS_DIRECTORY` fix is worth doing, it is a fresh one-line PR, not a rescue of this branch;
 there is no commit here worth preserving authorship on.
 
-Adjacent, same file: [[480_daemon_flag_webless]] (webless branch dropping `"$@"`) and PR #487
+Adjacent, same file: [[pulsar_480_daemon_flag_webless]] (webless branch dropping `"$@"`) and PR #487
 (`--port` arg). If the `SCRIPTS_DIRECTORY` fix gets written, those three want coordinating — all
 three touch the `webless` branch of this script.

@@ -1,6 +1,6 @@
 # Branches and PRs
 
-Convenience view. **Source of truth is [`vault/reviews/mine/index.md`](../../reviews/mine/index.md)** —
+Convenience view. **Source of truth is [`vault/agents/mine/MY_BRANCHES.md`](../../agents/mine/MY_BRANCHES.md)** —
 a separate branch-management agent owns it, tracks CI, opens PRs, and undrafts.
 Update that file first; this one mirrors it.
 

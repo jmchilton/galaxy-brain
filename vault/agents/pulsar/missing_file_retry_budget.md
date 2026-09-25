@@ -23,7 +23,7 @@ file. The cap is configurable independently for pre- and postprocessing, and `0`
 restores the old shared-budget behavior.
 
 This is the right layer for issue #298 and a useful evolution of the recommendation in
-[[329_transfer_retries_fix]]: it keeps transfer actions free of policy, preserves the
+[[pulsar_329_transfer_retries_fix]]: it keeps transfer actions free of policy, preserves the
 failure rather than silently skipping it, and leaves behind a reusable retry-policy
 hook instead of a one-off path check.
 

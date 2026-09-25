@@ -1,18 +1,18 @@
-Sync local Galaxy PR worktrees with `vault/agents/galaxy/REVIEW_TARGETS.md` — create missing ones, tear down settled ones.
+Sync local Galaxy PR worktrees with `vault/agents/gx_reviews/PULL_REQUESTS.md` — create missing ones, tear down merged/closed ones.
 
 Reconcile two things:
 
-- **Create** — every PR number listed in `vault/agents/galaxy/REVIEW_TARGETS.md` should have a worktree.
-- **Remove** — every existing worktree whose PR has been merged or closed for **3+ days** should be gone.
+- **Create** — every PR number listed in `vault/agents/gx_reviews/PULL_REQUESTS.md` should have a worktree.
+- **Remove** — every existing worktree whose PR has been merged or closed should be gone.
 
-The two directions are independent. A PR dropping off `REVIEW_TARGETS.md` is *not* a reason to
+The two directions are independent. A PR dropping off `PULL_REQUESTS.md` is *not* a reason to
 destroy its worktree, and an open PR keeps its worktree even if it isn't listed.
 
 ## Steps
 
 ### 1. Read the list
 
-Read `vault/agents/galaxy/REVIEW_TARGETS.md`. It's a flat list of `- <number>` lines under
+Read `vault/agents/gx_reviews/PULL_REQUESTS.md`. It's a flat list of `- <number> — <status>` entries under
 `PRs To Review:`. Collect only the numbers in that section; ignore the skip/blocked
 sections and anything else in the file.
 
@@ -32,9 +32,8 @@ For each worktree number:
 gh pr view <PR_NUMBER> --repo galaxyproject/galaxy --json number,state,title,mergedAt,closedAt
 ```
 
-A worktree is a **removal candidate** when `state` is `MERGED` or `CLOSED` *and*
-`mergedAt`/`closedAt` is at least 3 days before today. Anything `OPEN`, or settled
-less than 3 days ago, stays — say so in the report rather than silently dropping it.
+A worktree is a **removal candidate** when `state` is `MERGED` or `CLOSED`. Anything
+`OPEN` stays — say so in the report rather than silently dropping it.
 
 ### 4. Verify the directory name actually matches the PR
 
@@ -68,9 +67,9 @@ remove either case automatically; list them separately and ask the user.
 
 Print a short plan before touching anything:
 
-- `create: <numbers>` — listed in `REVIEW_TARGETS.md`, no worktree
-- `remove: <number> (merged YYYY-MM-DD, N days ago)` — clean worktrees only
-- `hold: <number> (open | settled N days ago | dirty)` — with the reason
+- `create: <numbers>` — listed in `PULL_REQUESTS.md`, no worktree
+- `remove: <number> (merged YYYY-MM-DD)` — clean worktrees only
+- `hold: <number> (open | dirty | mismatched)` — with the reason
 
 Then run the actions. Clean removals and creations proceed without asking; dirty
 removals only after the user confirms.
@@ -100,5 +99,5 @@ One-line-per-action summary of what actually happened, plus anything held back a
 
 - Read-only `gh` and `ls` calls for step 3 can be batched in parallel; `ghwt` mutations
   should run one at a time.
-- Don't edit `REVIEW_TARGETS.md` as part of this — it's hand-maintained input, not state.
+- Don't edit `PULL_REQUESTS.md` as part of this — it's hand-maintained input, not state.
 - Don't create or delete review note files here; this command only manages worktrees.

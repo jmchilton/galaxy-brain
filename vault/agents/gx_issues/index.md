@@ -16,13 +16,3 @@ summary: "Managing and working through the relevant Galaxy issue backlog, with b
 
 The project is designed for managing and working our way through relevant Galaxy
 issue backlog.
-
-Branch and PR management follows
-[`vault/agents/mine/PROJECT_MANAGEMENT.md`](../mine/PROJECT_MANAGEMENT.md),
-with a cross reference maintained between branches developed here and the issues
-tracked in `ISSUES.md`.
-
-## Files
-
-- `AGENTS.md` — instructions for agents working on this project.
-- `ISSUES.md` — tracked Galaxy issues and the branches addressing them.

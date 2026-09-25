@@ -1,7 +1,7 @@
 Find open `galaxyproject/galaxy` PRs worth reviewing next, and let the user pick one or two.
 
 This is a *suggestion* command. It reads GitHub and reports; it never edits
-`vault/agents/galaxy/REVIEW_TARGETS.md`, never creates worktrees, and never starts a review on its
+`vault/agents/gx_reviews/PULL_REQUESTS.md`, never creates worktrees, and never starts a review on its
 own. `/sync-galaxy-reviews` handles worktrees once the user has picked.
 
 ## What to surface
@@ -31,8 +31,8 @@ can outweigh it. Briefly mention the existing request if surfacing the PR anyway
 
 ## Skip
 
-- Anything with a note in `vault/agents/galaxy/` (`ls` it — filenames are `<number>_*.md`)
-  or a number in `REVIEW_TARGETS.md`. Those are reviewed or in flight.
+- Anything with a note in `vault/agents/gx_reviews/` (`ls` it and `old/` — filenames are `galaxy_<number>_*.md`)
+  or a number in `PULL_REQUESTS.md`. Those are reviewed or in flight.
 - Anything the user has already commented on or reviewed.
 
 ## Finding them

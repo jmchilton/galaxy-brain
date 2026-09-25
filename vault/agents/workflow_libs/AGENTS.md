@@ -1,4 +1,4 @@
-# Workflow library reviews
+# Workflow library maintenance
 
 This directory coordinates reviews and related development across:
 
@@ -7,13 +7,11 @@ This directory coordinates reviews and related development across:
 - [gxwf-web](https://github.com/jmchilton/gxwf-web) — Python API and web serving.
 - [galaxy-workflows-vscode](https://github.com/davelopez/galaxy-workflows-vscode) — editor integration.
 
-## Queue and worktrees
-
-`index.md` is the review queue. Add a PR number under its repository heading to request a review. Keep review notes here as `<repo>_<number>_<short_slug>.md`, without frontmatter. This directory is excluded from vault validation and the site.
-
-Use `ghwt create <project> <PR_NUMBER>` for queued PRs that lack a worktree. Worktrees normally live under `~/projects/worktrees/<project>/pr/<PR_NUMBER>/`; check the actual path with `ghwt` because the local project name can differ from the GitHub repository name. An existing development branch under `branch/` is separate from a PR review worktree.
-
-Check PR state with `gh pr view <PR_NUMBER> --repo <owner>/<repo> --json state,mergedAt,closedAt`. Remove a worktree with `ghwt rm <project> <PR_NUMBER>` only after its PR has been merged or closed for a few days. Removing a number from `index.md` alone does not remove its worktree.
+@../_shared/WORKTREES.md
+@../_shared/REVIEW_NOTES.md
+@../_shared/REVIEW_FOCUS.md
+@../_shared/ISSUES_INDEX.md
+@../_shared/PULL_REQUESTS_INDEX.md
 
 ## Cross-repository work
 

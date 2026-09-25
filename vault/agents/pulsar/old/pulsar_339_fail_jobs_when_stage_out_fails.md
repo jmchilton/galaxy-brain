@@ -38,7 +38,7 @@ That was a deliberate compatibility choice, and it is exactly what defeats #467 
 
 **#467 — ksuderman, merged 2026-09-04, "Re-raise infrastructure errors during output collection."**
 Its commit is #339's `down.py` hunk in spirit: `_allow_collect_failure` now takes the exception and
-refuses to downgrade infrastructure failures (see [[467_re_raise_infrastructure_errors_during_output_collection]]).
+refuses to downgrade infrastructure failures (see [[pulsar_467_re_raise_infrastructure_errors_during_output_collection]]).
 But it expresses "infrastructure failure" as `OSError`:
 
 ```python
@@ -139,4 +139,4 @@ natefoo's draft note still applies too — Galaxy surfaces this as *"Remote job 
 problem running or monitoring this job."* A custom client message was the reason he left it in
 draft, and nothing since has addressed it.
 
-Related: [[467_re_raise_infrastructure_errors_during_output_collection]].
+Related: [[pulsar_467_re_raise_infrastructure_errors_during_output_collection]].

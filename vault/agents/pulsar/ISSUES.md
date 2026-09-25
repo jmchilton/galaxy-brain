@@ -22,7 +22,7 @@ reading each issue. Annotate lines in place as triage proceeds.
 
 Prior attempts worth reading before starting fresh.
 
-- 384 — https://github.com/galaxyproject/pulsar/pull/386 (closed unmerged, superseded by 499; review note `386_drop_stdout_and_stderr_from_message_status.md`)
+- 384 — https://github.com/galaxyproject/pulsar/pull/386 (closed unmerged, superseded by 499; review note `pulsar_386_drop_stdout_and_stderr_from_message_status.md`)
 - 469 resilience suite fixture flakiness — https://github.com/galaxyproject/pulsar/pull/470 (merged, partial) + https://github.com/galaxyproject/pulsar/pull/471 (closed unmerged)
 
 ## Triaged, still open

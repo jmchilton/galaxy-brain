@@ -2,15 +2,19 @@
 
 Please read "~/projects/repositories/galaxy-brain/vault/agents/mine/PROJECT_MANAGEMENT.md" for information on branch and PR management for work done on this project.
 
-## Backlog
+## Nuts and Bolts
 
-Branches are tracked as specified in PROJECT_MANAGEMENT.md - but please maintain a cross reference between branches developed as part of this project and the issues we're tracking in ./ISSUES.md.
+@../_shared/ISSUES_INDEX.md
 
-When asked for new issues to track - please exclude issues already appearing in ISSUES.md (indicates they are blocked or we have WIP) and first check for issues assigned to jmchilton - these should all eventually be triaged into ./ISSUES.md. After that prefer issues:
+When looking for new Galaxy specifically - additionally prefer:
 
 - Related to workflows, Pulsar, Planemo, tool development, file sources, the API.
 - Unassigned to other contributors.
 
+Branch and PR management for Galaxy follows
+[`vault/agents/mine/PROJECT_MANAGEMENT.md`](../mine/PROJECT_MANAGEMENT.md),
+with a cross reference maintained between branches developed here and the issues
+tracked in `ISSUES.md`.
 ## To File
 
 Issues dropped into tofile/ need to make their way to Github and be deleted. In general if you see issues in there - work with user to make sure these get filed if you're an OpenAI/Codex agent. Claude please leave this alone generally unless explicitly prompted by John.

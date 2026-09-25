@@ -69,7 +69,7 @@ Found during the sweep; not filed anywhere.
   TRS predicates: inline in `runnable_resolve.py` vs. exported `is_trs_identifier()` at
   `workflows.py:844`; only the inline copy sanity-checks the id. Consolidating on
   `is_trs_identifier` and moving service-segment validation into `parse_trs_id` fixes the
-  duplication and the latent bug together. Detail: [[1508_verification_trs_dockstore_id]].
+  duplication and the latent bug together. Detail: [[planemo_1508_verification_trs_dockstore_id]].
 - **Unversioned TRS ids resolve to `versions[0]`**, which is the branch (`main`), not the newest
   release — the "usually the latest" comment is wishful, and reproducibility suffers.
 - **TRS/Dockstore support is undocumented.** `grep -rni "\btrs\b" docs/` returns nothing and

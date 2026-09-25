@@ -2,7 +2,7 @@
 
 ## Source of truth
 
-`index.md` in this directory is the categorized work queue for the user's open PRs and
+`MY_BRANCHES.md` in this directory is the categorized work queue for the user's open PRs and
 active branches that are intended to become PRs. Keep every open PR exactly once. Adding a
 non-PR branch there is the signal to move it toward a PR.
 
@@ -46,19 +46,19 @@ index. Use the categories as follows:
 - **Needs attention / author work:** the exhaustive fallback for conflicts, stale or absent CI,
   relevant failures, unresolved design work, or another concrete action we own.
 
-Refresh the snapshot date in `index.md` whenever GitHub state is re-queried. Remove merged or
+Refresh the snapshot date in `MY_BRANCHES.md` whenever GitHub state is re-queried. Remove merged or
 closed PRs from the active lists, but follow the separate worktree rules below before deleting
 anything locally.
 
 ## Merged PRs
 
-Once PRs are merged - move any documentation about them in this directory to old/ and remove them from index.md. Do not tracked PRs that have been merged in index.md - that is for active work. Clean up clean worktrees after merges also.
+Once PRs are merged - move any documentation about them in this directory to old/ and remove them from MY_BRANCHES.md. Do not tracked PRs that have been merged in MY_BRANCHES.md - that is for active work. Clean up clean worktrees after merges also.
 
 ## Worktree lifecycle
 
 Worktrees live at `~/projects/worktrees/galaxy/branch/<BRANCH_NAME>/`, managed by `ghwt`.
 
-**Add** — driven by the document. A PR number that appears in `index.md` with no
+**Add** — driven by the document. A PR number that appears in `MY_BRANCHES.md` with no
 corresponding worktree gets one:
 
 ```sh
@@ -72,7 +72,7 @@ closed for a few days, tear its worktree down - warn user if files need to be cl
 ghwt rm galaxy <BRANCH_NAME>
 ```
 
-The asymmetry is intentional. Removing a number from `index.md` does **not** mean
+The asymmetry is intentional. Removing a number from `MY_BRANCHES.md` does **not** mean
 destroy the worktree — reviewing may still be in flight, or the note may have been pruned
 for tidiness. Only a merged/closed PR that has settled for a few days justifies removal.
 Conversely, a still-open PR keeps its worktree even after it drops off the list.
