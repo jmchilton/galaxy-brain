@@ -32,6 +32,6 @@ decorators remain, using small, atomic, obviously correct PRs.
 - `AGENTS.md` — instructions for agents working on this project (`CLAUDE.md` symlinks to it).
 - `PROBLEMS_AND_GOALS.md` — big-picture context.
 - `GESTURE_ABSTRACTION_DESIGN.md` — design for the backend-neutral input/gesture vocabulary replacing `action_chains()`.
-- `BRANCHES.md` — branches and PRs for this project; mirrors `vault/agents/mine/MY_BRANCHES.md`.
+- `BRANCHES.md` — branches and PRs for this project; mirrors `vault/agents/gx_branches/MY_BRANCHES.md`.
 - `SELENIUM_ONLY_SURVEY.md` — breakdown of the remaining 140 `@selenium_only` tests, diagnosed blockers, and the local state-accumulation trap.
 - `WORKFLOW_EDITOR_PLAYWRIGHT_STATUS.md` — salvaged `playwright_backlog` triage; remaining workflow-editor `selenium_only` tests and established Playwright patterns.

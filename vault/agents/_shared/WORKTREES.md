@@ -36,6 +36,20 @@ closed tear its worktree down:
 ```sh
 ghwt rm PROJECT <BRANCH_NAME>
 ```
+
+## Before removing any worktree
+
+Remove only clean worktrees. First check for uncommitted and unpushed work:
+
+```sh
+git -C <WORKTREE> status --porcelain
+git -C <WORKTREE> rev-list @{u}..HEAD --count
+```
+
+Non-empty status means uncommitted changes. A non-zero count, or no upstream at all
+(`git -C <WORKTREE> rev-parse @{u}` fails), means local commits exist nowhere else. In
+either case do **not** remove it - tell the user what's there and wait for them to confirm.
+
 ## Status
 
 Check PR state with `gh pr view <PR_NUMBER> --repo galaxyproject/planemo --json state,mergedAt,closedAt`.

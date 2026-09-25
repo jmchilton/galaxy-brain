@@ -1,4 +1,4 @@
-# Galaxy PR Reviews
+# My Galaxy Branches and PRs
 
 ## Source of truth
 
@@ -66,7 +66,7 @@ ghwt create galaxy <BRANCH_NAME>
 ```
 
 **Remove** — driven by PR state, *not* by the document. When a PR has been merged or
-closed for a few days, tear its worktree down - warn user if files need to be cleaned up first:
+closed, tear its worktree down - warn user if files need to be cleaned up first:
 
 ```sh
 ghwt rm galaxy <BRANCH_NAME>
@@ -74,7 +74,7 @@ ghwt rm galaxy <BRANCH_NAME>
 
 The asymmetry is intentional. Removing a number from `MY_BRANCHES.md` does **not** mean
 destroy the worktree — reviewing may still be in flight, or the note may have been pruned
-for tidiness. Only a merged/closed PR that has settled for a few days justifies removal.
+for tidiness. Only a merged or closed PR justifies removal.
 Conversely, a still-open PR keeps its worktree even after it drops off the list.
 
 ## These files are not vault notes

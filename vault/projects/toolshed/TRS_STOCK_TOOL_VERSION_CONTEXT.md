@@ -54,7 +54,7 @@ Lint fix pushed as `3d2873a811`; replacement PR checks are pending, and [fork Py
 
 Release rebase validation at `f211f388f0`: **75 unit tests passed, 12 skipped; all eight tools API tests passed**. Targeted mypy on the changed modules, TRS schema, and unit test passed, along with the release-pinned Ruff (`0.15.13`), isort (`8.0.1`), Black (`26.3.1`), and `git diff --check`. The branch was pushed with an exact force-with-lease check, and the PR target, title, and validation results were updated. Replacement CI remains pending; the PR stays in draft.
 
-The initial push triggered 29 workflows: 27 queued and two skipped at the first check. After the fixture-based follow-up, current fork [Tool Shed tests](https://github.com/jmchilton/galaxy/actions/runs/35151816436), [unit tests](https://github.com/jmchilton/galaxy/actions/runs/35151816430), and [Python lint](https://github.com/jmchilton/galaxy/actions/runs/35151816366) remain queued. PR CI is also queued, with CircleCI in progress. The draft is recorded in `vault/reviews/mine/index.md` under waiting for CI. No review-thread reply has been posted.
+The initial push triggered 29 workflows: 27 queued and two skipped at the first check. After the fixture-based follow-up, current fork [Tool Shed tests](https://github.com/jmchilton/galaxy/actions/runs/35151816436), [unit tests](https://github.com/jmchilton/galaxy/actions/runs/35151816430), and [Python lint](https://github.com/jmchilton/galaxy/actions/runs/35151816366) remain queued. PR CI is also queued, with CircleCI in progress. The draft is recorded in `vault/agents/gx_branches/MY_BRANCHES.md` under waiting for CI. No review-thread reply has been posted.
 
 ## Separate existing TRS limitations
 
