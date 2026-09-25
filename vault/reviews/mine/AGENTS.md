@@ -49,6 +49,11 @@ index. Use the categories as follows:
 Refresh the snapshot date in `index.md` whenever GitHub state is re-queried. Remove merged or
 closed PRs from the active lists, but follow the separate worktree rules below before deleting
 anything locally.
+
+## Merged PRs
+
+Once PRs are merged - move any documentation about them in this directory to old/ and remove them from index.md. Do not tracked PRs that have been merged in index.md - that is for active work. Clean up clean worktrees after merges also.
+
 ## Worktree lifecycle
 
 Worktrees live at `~/projects/worktrees/galaxy/branch/<BRANCH_NAME>/`, managed by `ghwt`.

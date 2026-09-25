@@ -1,0 +1,43 @@
+# Write "How to Document Galaxy" developer docs
+
+We have `doc/source/dev/writing_tests.md` for testing (#21507). We have no equivalent for
+documentation, so the PR checklist has nothing to point contributors at.
+
+What's missing isn't a style guide — it's a mapping from *kind of contribution* to *where the
+documentation goes*. Galaxy has many documentation surfaces (admin docs, config schema
+descriptions, sample job/file-source/object-store configs, the tool XSD, OpenAPI annotations,
+in-app help terms, embedded reference panels) and no single place saying which one applies to
+what. Just as important, it should say when the answer is "none."
+
+Proposed spine for the doc, using merged PRs as exemplars:
+
+- [ ] | Contribution kind                                   | Exemplar        | Where the documentation goes                                                                                                                                                                                                                           |
+- [ ] | --------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+- [ ] | Major new feature with admin configuration          | #22513          | New page under `doc/source/admin/`, descriptions on every new `config_schema.yml` option, and deployment notes where operators will actually hit it.                                                                                                   |
+- [ ] | Tweak to an existing admin-facing feature           | #22960          | Update the existing admin page and option descriptions in the same PR, avoid archeology about bug fixes and older behavior - we have per-release docs.                                                                                                 |
+- [ ] | Deprecating, renaming, or removing a config option  | —               | Three obligations, not one: a rename keeps the old name working via `deprecated_alias` in `config_schema.yml`, while removal separately owes the release notes and the admin upgrade path.                                                             |
+- [ ] | Deep user-facing feature                            | #23365          | In-app reference the user can read without leaving the page, generated from one source that also builds the published docs.                                                                                                                            |
+- [ ] | Small UI component or control                       | #22873          | `title` tooltip text — or better, `<HelpText uri="..." />` against the shared glossary in `lib/galaxy/schema/terms.yml` when the concept recurs.                                                                                                       |
+- [ ] | New or changed Vue component, store, or service     | —               | No dedicated documentation spot — keep tests and inline comments concise and readable enough to serve as the documentation.                                                                                                                            |
+- [ ] | New tool XML syntax                                 | #17581          | `<xs:documentation>` in `galaxy.xsd`, which generates the published tool schema reference, plus a tool in `test/functional/tools/` registered in `sample_tool_conf.xml` that exercises the new syntax — the executable example readers will copy from. |
+- [ ] | New or changed API endpoint                         | #21335          | Route `summary`/`description` and `Field`/`Query` descriptions — the OpenAPI schema is the API documentation.                                                                                                                                          |
+- [ ] | New datatype                                        | #23575 / #23088 | A small test file in `lib/galaxy/datatypes/test/`, plus `description` / description_url on the `datatypes_conf.xml.sample` entry.                                                                                                                      |
+- [ ] | Change to an existing datatype                      | #23215          | Generally nothing.                                                                                                                                                                                                                                     |
+- [ ] | New file source, admin-configured only              | #19319          | A worked entry in `file_sources_conf.yml.sample`.                                                                                                                                                                                                      |
+- [ ] | New file source with a user-defined (BYOD) template | #23104          | A worked template in `lib/galaxy/files/templates/examples/`, plus a section in `doc/source/admin/data.md`.                                                                                                                                             |
+- [ ] | New object store                                    | #19415          | Worked templates in `lib/galaxy/objectstore/templates/examples/` and a plain-language entry in `ObjectStoreTypeSpan.vue`, which is what users hover to learn what the storage is.                                                                      |
+- [ ] | New authentication / OIDC backend                   | TODO            | **TODO.** Structurally the same pluggable-backend shape as file sources, object stores, and job runners, but we have not settled what it owes.                                                                                                         |
+- [ ] | New job runner                                      | #21528          | A full section in `job_conf.sample.yml` (and optionally the XML advanced sample), plus a section in `doc/source/admin/cluster.md`.                                                                                                                     |
+- [ ] | New job runner option                               | #23543          | A short commented entry in the same sample config — nothing more.                                                                                                                                                                                      |
+- [ ] | Database migration or model schema change           | —               | Generally nothing — the release team catches serious migration issues. Flag anything irreversible or long-running in the PR so they can.                                                                                                               |
+- [ ] | Security fix                                        | —               | Follow `SECURITY.md` instead of documenting in the open. Issues affecting only `dev` can be discussed publicly; everything else goes to the committers list or GitHub private reporting first.                                                         |
+- [ ] | Performance work with no behavior change            | —               | Generally nothing. The effect is user-visible, but there is no behavior to describe.                                                                                                                                                                   |
+- [ ] | Developer or contributor workflow                   | #21507          | A prose guide under `doc/source/dev/`.                                                                                                                                                                                                                 |
+- [ ] | Bug fix with no user-visible surface                | #22389          | Generally nothing.                                                                                                                                                                                                                                     |
+
+Once this exists, the PR checklist should point at both it and `writing_tests.md`.
+
+Context: closing #15027 in favor of this. The argument there was that a documentation
+checkbox is worthless without guidance behind it, and that's still true — but the bar for
+what we can ask of contributors has moved, and docstrings are no longer the interesting
+half of the problem.

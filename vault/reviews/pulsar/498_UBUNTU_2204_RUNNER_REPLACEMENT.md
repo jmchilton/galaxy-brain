@@ -121,6 +121,37 @@ shows the packaged `slurmd.service` failing at install time before the script wr
 `/etc/slurm/slurm.conf` — harmless, but it is the sort of thing that reads as the cause of
 an unrelated failure.)
 
+## The resilience suite is flaky, independently of the runner
+
+PR 1's first CI run failed the Resilience Suite on 24.04
+(`test_d1_pulsar_restart_with_broker_and_galaxy_outage[mode=amqp]`, no terminal status in
+120s). That looked like a 24.04 regression. It is not.
+
+Upstream `master` failed the same job on **22.04** the same day (run 34999480455, 17:09Z) on
+a different scenario — `test_b4_broker_dies_and_pulsar_sigkill[mode=relay]`, TimeoutError
+waiting on relay consumer bind. Recent master history is 12 failures in 15 runs across
+several jobs, resilience among them.
+
+So a single red run proves nothing either way. Control experiment: same commit, resilience
+on both runners, `-x` dropped so the full failure set is visible rather than the first one
+(run 35005025750):
+
+| runner | result | wall clock |
+| --- | --- | --- |
+| ubuntu-22.04 | 73 passed, 3 skipped | 20m35s |
+| ubuntu-24.04 | 73 passed, 3 skipped | 19m35s |
+
+Identical, and both fully green across all 76 tests — which also means the two earlier
+failures were intermittent, not deterministic.
+
+The honest reading: **no signal of a 24.04 regression**. Not "proven equivalent" — one
+green run each on a suite this flaky is weak evidence in both directions. What it does
+establish is that the earlier red run was ambient flake and is not a reason to hold PR 1.
+
+Worth noting separately: the `-x` in the committed workflow, and the comment above it
+("Drop -x once the job is stable"), are now actively unhelpful — they convert any single
+flaky scenario into a red build with no information about the other 75 tests.
+
 ## Keeping Python 3.7 signal without a 22.04 runner
 
 Asked whether 3.7 could come out of the matrix while something still proved the syntax
@@ -247,8 +278,25 @@ that the container does not expire on 2027-04-17.
 
 Three PRs, deliberately decoupled so the migration doesn't wait on the 3.7 decision.
 
-Status: **PR 1 implemented** on `jmchilton/pulsar:ci-runners-24-04` (worktree
-`~/projects/worktrees/pulsar/branch/ci-runners-24-04`), pushed, not opened.
+Status as of 2026-09-16:
+
+- **PR 1 merged** — #506, merge commit `8d4abbe`. `resilience` is on `ubuntu-24.04`.
+- **ruff swap merged** — #507, merge commit `9175231`. `ruff.toml` sets
+  `target-version = "py37"`, so the 3.7 syntax gate is now static rather than an artifact
+  of running flake8 under a 3.7 interpreter. The `Lint (3.7, lint)` matrix cell is
+  therefore redundant and PR 2 can delete it.
+- **PR 2 opened — #508**, `jmchilton/pulsar:ci-test-lint-24-04` (worktree
+  `~/projects/worktrees/pulsar/branch/ci-test-lint-24-04`), commit `2490e7e`. `lint`,
+  `test` and `mypy` all pinned to `ubuntu-24.04`; **no `ubuntu-22.04` left in the repo.**
+  vermin was folded into this commit rather than shipped separately.
+- **Decision made (2026-09-16): neither (a) nor (b).** 3.7 comes out of CI entirely with
+  no replacement runtime cell. Rationale: ruff's `target-version = "py37"` covers syntax,
+  and anyone still on a 3.7 host who hits dependency or stdlib-API breakage will open a
+  bug report. That retires questions 2 and 3 below.
+- **PR 3 not started**, and its scope has shrunk — PR 2 already removed 3.7 from both CI
+  matrices, so PR 3 is now only the packaging metadata (classifier, `python_requires`,
+  the `dev-requirements.txt` markers), i.e. dropping 3.7 *support*, not 3.7 *testing*.
+  Those are deliberately still in place after PR 2.
 
 ### PR 1 — move what has no Python-version exposure
 
@@ -323,12 +371,18 @@ nothing on it is PR material.
 
 ## Unresolved questions
 
-1. Drop 3.7, or keep it? (Nate/Nicola input — who still deploys Pulsar on a 3.7 host?)
-2. If kept: 22.04 holdover (a) or `python:3.7.17-bookworm` container (b)? Container
-   recommended.
-3. OK to lose `test-ci` on 3.7 either way — unit + lint + docs only?
-4. Pin `ubuntu-24.04` everywhere, or move to `ubuntu-latest`? File currently mixes both
-   (`mypy` is `latest`). Normalize, or leave alone?
+1. Drop 3.7 *support* (not just testing)? Still open — Nate/Nicola input on who deploys
+   Pulsar on a 3.7 host. PR 2 does not touch this.
+2. ~~22.04 holdover (a) or `python:3.7.17-bookworm` container (b)?~~ **Resolved
+   2026-09-16 — neither.** No 3.7 runtime cell; ruff's syntax check plus bug reports.
+3. ~~OK to lose `test-ci` on 3.7?~~ **Resolved** — all 3.7 CI is gone, not just `test-ci`.
+4. ~~Pin `ubuntu-24.04` everywhere, or `ubuntu-latest`?~~ **Pinned** in PR 2, including
+   `mypy`. `pulsar.yaml` is now uniform; `deploy.yaml`, `galaxy_framework.yaml` and
+   `zizmor.yaml` are still `ubuntu-latest` and were left alone (none were on 22.04).
 5. Add `python_requires` to `setup.py` (absent today) as part of PR 3?
-6. Pin the container by digest, matching how `galaxy/simple-job-files` is pinned in the
-   same file?
+6. ~~Pin the container by digest?~~ Moot — no container.
+7. ~~Add `vermin` to cover the stdlib-API gap ruff cannot see?~~ **Done, folded into
+   PR 2 (#508).** New `tox -e vermin`, fourth cell in the lint matrix, 0.3s over 190
+   files. Two trailing `# novermin` suppressions -- the markers do not work on their own
+   line above the offending statement, only trailing it. Scratch branch
+   `vermin-py37-floor` deleted after folding.

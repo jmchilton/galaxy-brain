@@ -2,6 +2,13 @@
 
 Working notes for active `galaxyproject/galaxy` pull-request reviews.
 
+## Choosing new reviews
+
+Follow the [candidate-finding guidance](../../../.claude/commands/find-galaxy-reviews.md).
+Prefer other PRs when another contributor has an outstanding review request from
+within the past seven days, particularly when their expertise fits. This is a soft
+preference; direct requests to the user or the user's explicit picks take precedence. Prefer PRs that are out of draft.
+
 ## Active queue
 
 `index.md` is the only review queue. Keep it intentionally tiny:
