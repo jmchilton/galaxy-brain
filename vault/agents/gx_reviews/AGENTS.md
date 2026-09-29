@@ -21,7 +21,8 @@ In these files PROJECT is galaxy.
 
 Once a review is delivered, the ball is theirs. Do not propose nudging the author, bumping a
 stale thread, or chasing an unmerged fork PR. Work remains ours only while a review is unposted,
-author fixes need verification, or we explicitly committed to a follow-up.
+author fixes need verification, we explicitly committed to a follow-up, or an approved PR awaits
+the user's merge. Delivered/approved PRs stay in `PULL_REQUESTS.md` until merged or closed.
 
 ## File format
 

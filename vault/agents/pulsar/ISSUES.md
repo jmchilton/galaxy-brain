@@ -59,9 +59,7 @@ Grouped by title, mechanically. 48 issues.
 
 ### Job lifecycle and reliability
 
-- 74 duplicate inputs on tool submission
 - 75 detect cancellation from job limits
-- 89 `AsynchronousJobState` has no `get_id_tag`
 - 135 `jobs_directory` breaks version checking
 - 158 include the tail when trimming stdout/stderr
 - 162 exit code not returned on staging problems

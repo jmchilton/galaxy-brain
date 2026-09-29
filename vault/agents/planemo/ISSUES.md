@@ -1,6 +1,6 @@
 # Planemo issue triage
 
-PR and issue states below verified against GitHub 2026-09-24.
+PR and issue states below verified against GitHub 2026-09-25.
 
 ## Blocked issues
 
@@ -9,14 +9,15 @@ galaxyproject/galaxy#23229, merged 2026-09-22 — now actionable, moved to the b
 
 ## Open issues with an open PR
 
-- 542 shed_lint --fail_fast https://github.com/galaxyproject/planemo/pull/1710 (draft, closes)
+- 542 shed_lint --fail_fast https://github.com/galaxyproject/planemo/pull/1710 (closes)
+- 667 shed_lint missing lint options https://github.com/galaxyproject/planemo/pull/1729 (draft, closes)
 - 1112 TS repo name lint level https://github.com/galaxyproject/planemo/pull/1111 (closes; CI green)
-- 1175 test --serve https://github.com/galaxyproject/planemo/pull/1708 (draft, stacked on 1701)
+- 1175 test --serve https://github.com/galaxyproject/planemo/pull/1708 (draft, stacked on 1701;
+  no closes keyword — 1175 stays open on merge unless one is added)
 - 1476 anonymous external Galaxy https://github.com/galaxyproject/planemo/pull/1700 (closes)
-- 1478 autoupdate exit code 0 on failure https://github.com/galaxyproject/planemo/pull/1727 (draft, closes)
 - 1489 pin Galaxy python version https://github.com/galaxyproject/planemo/pull/1704 (closes)
 - 1536 `--test_data` for tool tests https://github.com/galaxyproject/planemo/pull/1725 (closes)
-- 1625 test crash on undefined workflow output https://github.com/galaxyproject/planemo/pull/1728 (draft, closes)
+- 1625 test crash on undefined workflow output https://github.com/galaxyproject/planemo/pull/1728 (closes)
 - 1629 invocation label slashes https://github.com/galaxyproject/planemo/pull/1724 (closes)
 - 1667 config click.Path conversion https://github.com/galaxyproject/planemo/pull/1714 (closes)
 - 1668 run --no_wait crash https://github.com/galaxyproject/planemo/pull/1712 (closes); related https://github.com/galaxyproject/planemo/pull/1713
@@ -26,8 +27,16 @@ galaxyproject/galaxy#23229, merged 2026-09-22 — now actionable, moved to the b
 - 1694 iwc changelog date https://github.com/galaxyproject/planemo/pull/1697 (closes)
 - 1705 workflow collection assertions https://github.com/galaxyproject/planemo/pull/1723 (closes)
 
-No issue behind it: https://github.com/galaxyproject/planemo/pull/1726 (draft) skips tests when
+No issue behind it: https://github.com/galaxyproject/planemo/pull/1726 skips tests when
 quay.io, the Tool Sheds, Dockstore or usegalaxy.eu are down. Test infra, nothing to close.
+
+## Recently merged
+
+- 1478 autoupdate exited 0 on failure — https://github.com/galaxyproject/planemo/pull/1727 merged
+  2026-09-25. mvdbeek caught that making `assert_at_least_one` live would break the weekly
+  planemo-autoupdate job for repos containing only skiplisted entries; fixed by counting skipped
+  tools and workflows as targets. Verified against tools-iuc `tools/optitype` and
+  `tools/interproscan` with the live skip list: master 0, pre-fix 2, fixed 0.
 
 ## Close candidates (1)
 
@@ -56,6 +65,10 @@ live upstream it is now untracked anywhere.
   or take the docs down (`docs/appliance.rst`, `writing_appliance.rst`, `writing_cwl_appliance.rst`,
   `_writing_test_and_serve_appliance.rst`, `docs/Vagrantfile`, the `appliance` toctree entry in
   `docs/index.rst`, and the appliance route offered in `docs/writing.rst`).
+- **Embedded Galaxy stack** (1701 -> 1708): both were conflicted on master and were rebased
+  2026-09-25. master and 1701 had independently extracted the same mulled-containers block into
+  a helper under different names; master's `_handle_mulled_container_kwds` won (it handles
+  singularity and ships tests) and 1701's `_configure_mulled_containers` was dropped.
 - **Machine-readable lint** (1139 1360): tool-side JSON report is nearly free; the workflow side
   is the real work. Split along that line. Check `PR_DESCRIPTION_STRUCTURED_DATA_ERRORS.md` first.
 
@@ -99,12 +112,20 @@ Found during the sweep; not filed anywhere.
   acceptance test for 1721.
 - **Nothing guards that a command's computed exit code reaches `ctx.exit()`.** `cmd_autoupdate`
   built an `exit_codes` list and `return`ed `coalesce_return_codes(...)` for years (#1478);
-  click discards a callback's return value, so every failure exited 0. It was the only command
-  doing this, but nothing would catch the next one. planemo. Unfiled.
+  click discards a callback's return value, so every failure exited 0. That one instance is fixed
+  (PR 1727, merged), and it was the only command doing it, but nothing would catch the next one.
+  planemo. Still unfiled.
+- **`--urls` is defined inline and identically in both `cmd_lint` and `cmd_shed_lint`.** PR 1729
+  moved `--doi` and `--conda_requirements` into `options.py` factories; `--urls` is the last
+  copy-paste of the pattern that caused #667. One line each to fold in. planemo. Unfiled.
+- **The DOI linter cannot currently succeed.** doi.org answers 403 to an unauthenticated
+  `requests` GET, so `lint --doi` reports "dx.doi returned unexpected status code 403" for every
+  DOI. `tests/test_lint.py:86` `test_lint_doi` still passes because it only asserts exit 1, which
+  the 403 warning also produces — the check is dead and the test cannot tell. planemo. Unfiled.
 
 ## Build-next shortlist
 
-XS/S: 588 667 286 577 904 1515 1413 1077 258
+XS/S: 286 577 904 1515 1413 1077 258
 S–M: 1516 · M: 807 1139 1613 1449 96(+706) · admin: 1342
 Newly actionable: 1672 (galaxy#23229 merged 2026-09-22)
 

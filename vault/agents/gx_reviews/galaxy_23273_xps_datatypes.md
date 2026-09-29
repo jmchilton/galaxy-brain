@@ -86,3 +86,66 @@ Move `h5py` to module top (already imported there by `binary.py`, so there is no
 - No code changes, pushes, GitHub comments, or index edits. No full integration/backend server tests run; none required for these diagnostics.
 
 Temporary diagnostic script: `/tmp/galaxy23273_review_diagnostics.py`. The existing passing doctests are useful smoke tests but miss registry selection, actual VAMAS structure, and metadata/preview behavior. No test assertion was weakened.
+
+## Follow-up 2026-09-26
+
+Checked the author's response commits `fa2f678fe9d` ("try to address review comments") and `0dda0617a58` ("add new test file") of 2026-09-24, plus our dev merge `3af7e261723`. Earlier head: `09dc0449d5e`. There are no author replies in any thread; the response is code only. No jmchilton review or comment exists on the PR. As noted above, arash's review carried our findings, so rows below cite his and lukaspie's comments. Any comment we post would be jmchilton's first on this PR.
+
+### Response scope
+
+- **XpsTabular removed** along with `test.xps.tsv`. This drops the tabular ordering issue, the metadata/peek drift, the CasaXPS/Prodigy sniff gaps, and the `comment_lines` / `file_ext` threads. It matches lukaspie's view that vendor text exports are too unstable to support ([r4092615241](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4092615241)). It is a reasonable scope cut.
+- The PR is now two datatypes: `vamas` (text) and `nxxps` (H5 subclass).
+
+### Status of outstanding requests
+
+| # | Request (who, where) | Status | Evidence / correctness |
+|---|---|---|---|
+| 1 | Register sniffers before generic types (arash review body; our #1) | **Addressed** | `NXxps` sniffer is before `binary:H5` (sample conf ~1301). `Vamas` is added near the end of `<sniffers>` (~1551). `guess_ext`: `test.vms→vamas`, `test.nxs.xps→nxxps`, `test.mz5→h5`. The real xylib `mjr9_64c.vms` gives `vamas`. Correct. |
+| 2 | VAMAS sniffer must match line-1 format identifier ([r4016513667](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4016513667); our #2) | **Addressed** | `xps.py:~90–105` requires exact line 1 `VAMAS Surface Chemical Analysis Standard Data Transfer Format 1988 May 4`, then any technique line in the prefix. The "VAMAS interoperability workshop notes" false positive now gives `txt`. Correct. It uses equality rather than `startswith`, which is fine. |
+| 3 | Real VAMAS fixture replacing synthetic `test.vamas` (arash body; lukaspie [r4092716316](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4092716316)/[gist](https://gist.github.com/lukaspie/e073ea707a9d222c3c1b3919c83bd0fe)) | **Addressed in content, broken in name** | `test.vms` is byte-identical to the output of lukaspie's gist generator (reran it and diffed), so it is attributable. The `vamas` PyPI parser reads 1 block: XPS, REGULAR, 100 y-values, x start 105 / step -0.1. It lacks the `end of experiment` trailer. xylib reads the block count and does not need it (nit only). The name is the problem: see new problem A. |
+| 4 | Technique list per ISO 14976 ([r4016513632](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4016513632); lukaspie [r4092754318](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4092754318)) | **Addressed** | `_VAMAS_TECHNIQUES` now equals pynxtools-xps `ALLOWED_TECHNIQUES`, including bare `AES`, which arash had questioned. Using lukaspie's list is reasonable. |
+| 5 | Remove `infer_from vms` / `nxs` aliases ([r4016513749](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4016513749); our #3) | **Addressed** | Both removed. `slide.vms→vms` (Hamamatsu), `slide.vmu→vms`, `tomo.nxs→data`. Correct. The block also moved out of the Proteomics section to sit after `h5` (~250). The `description_url` is fixed to 24269. |
+| 6 | ISO URL 25919→24269 ([r4016513593](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4016513593)) | **Addressed** | Module docstring and conf both fixed. |
+| 7 | Rename `test.nxs.xps`→`test.nxxps` ([r4016513702](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4016513702); our #4) | **Not addressed** | The file is still `lib/galaxy/datatypes/test/test.nxs.xps`, and the new unit test references it too. The exact `find_datatype` from `test/integration/test_datatype_upload.py` still raises `Couldn't guess datatype for file 'test.nxs.xps'`. The module still fails at import, taking `objectstore/test_objectstore_datatype_upload.py` with it. lukaspie's reply ([r4092624027](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4092624027)) that real files end in `.nxs` is about user files, not harness fixture names. |
+| 8 | h5py at module top; hoist `_read_definition`; fix `(1,)` array + non-Group default; log exceptions ([r4016513618](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4016513618), [r4016513728](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4016513728); anuprulez [r3785200086](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r3785200086)) | **Addressed** | arash's helper was adopted verbatim, plus `log.debug` in the outer `except`. Verified with h5py: a root `default` pointing at a Dataset plus a `(1,)` `[b"NXxps"]` definition in an NXentry now sniffs True. Black is clean. The helper introduced UP045 lint: see new problem B. |
+| 9 | Drop redundant `edam_format` ([r4016513709](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4016513709)) and `display_peek` override ([r4016513717](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4016513717)) | **Not addressed** (nit) | Both are still in `NXxps`. Harmless. |
+| 10 | Should `NXmpes` sniff True? (arash r4016513728) / generic NeXus `nxs` type (lukaspie [r3764198832](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r3764198832), [r4092548494](https://github.com/galaxyproject/galaxy/pull/23273#discussion_r4092548494)) | **No reply** | An `NXmpes` entry sniffs False. A generic NeXus datatype is a reasonable follow-up PR, not a blocker. It needs an explicit author answer. |
+| 11 | Minor items from arash's body: title "abd", template PR body, docs rst, `Vamas.set_peek` discarding line count | **Not addressed** | Title still "Add Vamas abd nxxps…". The body is still the template. `galaxy.datatypes.xps` is absent from `doc/source/lib/galaxy.datatypes.rst`. `Vamas.set_peek` still sets a fixed blurb. `set_meta` / `open()` concerns are moot now that XpsTabular is gone. |
+
+### New problems introduced by the response
+
+**A. `test.vms` breaks the datatype-upload integration test (P2).** `find_datatype` matches fixture names by registered extension. `vms` is Hamamatsu, so the case becomes `datatype=Hamamatsu`, which has a `sniff` attribute and is not uploadable. The helper uploads with `file_type=auto`, and the upload sniffs as `vamas` with state ok. The assertion `file_ext == "vms"` then fails. This would surface as soon as problem #7 stops masking it. Fix: name the fixture `test.vamas` (Galaxy extension convention), keeping lukaspie's content. The user-facing `.vms` suffix question is separate and is already settled by removing the `infer_from`. Update the `Vamas` doctest and the new registry test accordingly.
+
+**B. UP045 lint at the merged head (P2, pending CI).** Pinned `ruff==0.16.8` against merged `pyproject.toml` flags `xps.py:150` `Optional[str]` → `str | None`. It is the only UP045 hit in `lib/galaxy/datatypes/`. arash's "dev ignores UP045" no longer holds. Drop the `Optional` import.
+
+**New test (`test_xps_sniffers_precede_generic_datatypes`, `test/unit/data/datatypes/test_datatypes_registry.py:86`).** The test is meaningful. The `nxxps` assertion would fail at `09dc0449d5e` because of sniff order, `mz5→h5` is a good negative control, and `vamas` is a smoke check of real registry ordering. The fixtures are wired into direct doctests and this registry test, but not into the integration harness (problem #7 and new problem A). The existing `test_datatype_upload.py` harness is the reusable coverage that auto-sniffs every fixture, so fixture names must satisfy it.
+
+### Verification (2026-09-26, worktree at `3af7e261723`)
+
+- `pytest --doctest-modules lib/galaxy/datatypes/xps.py test/unit/data/datatypes/test_datatypes_registry.py`: 7 passed. `test/unit/data/datatypes/test_sniff.py`: 36 passed. Borrowed venv from `pr/18467`, `PYTHONPATH=lib`.
+- The black check is clean. `ruff@0.16.8` reports 1 error (UP045).
+- Sample-registry `guess_ext`, `get_datatype_from_filename`, integration `find_datatype`, and h5py edge-case scripts: see the scratchpad `diag.py` / `diag2.py` from this session.
+- `vamas` PyPI parse of `test.vms` succeeded. lukaspie's gist output diffed identical to it.
+
+### CI
+
+- `0dda0617a58` (response head): the only check run is CircleCI `get_code_and_test` → `get_code` failed. That is infra/checkout, not PR code. No GitHub Actions runs exist for that SHA, likely because the dev conflict blocked the merge ref (unconfirmed). **The response commits were never CI-validated.**
+- `3af7e261723` (our merge): 41 jobs pending, 2 skipped. Expected PR-related reds are integration shards (collection error from `test.nxs.xps`) and lint (UP045). After the rename, expect the `test.vms` upload case to fail until it is renamed too.
+
+### Next action
+
+Request small remaining changes. The remaining work is two fixture renames and one annotation. Everything substantive, including sniffer ordering, the VAMAS sniffer, the real fixture, the aliases, and the h5py helper, is fixed correctly. Wait for the lint result before asserting B, or phrase it as expected.
+
+Draft comment:
+
+> *Posted by Claude (AI assistant) on behalf of @jmchilton — not authored by them personally.*
+>
+> Thanks, the rework resolves nearly everything: sniffers ordered ahead of H5, the VAMAS identifier check, the aliases removed, and the h5py helper fixed. The new `test.vms` also parses cleanly with the `vamas` reader. Dropping XpsTabular seems like the right scope. Three small things remain before this can go green:
+>
+> 1. **`test.nxs.xps` → `test.nxxps`.** `test/integration/test_datatype_upload.py::find_datatype` matches fixtures by registered extension and still raises `Couldn't guess datatype for file 'test.nxs.xps'` at import. That errors the whole module plus the objectstore variant. Please update the `NXxps` doctest and `test_xps_sniffers_precede_generic_datatypes` too.
+> 2. **`test.vms` → `test.vamas`.** The same harness maps `test.vms` to the Hamamatsu `vms` datatype, auto-sniffs it as `vamas`, and asserts `file_ext == "vms"`. Fixture names only have to satisfy the harness. They don't change what suffix users upload, and with the `infer_from` gone `.vms` uploads are sniffed by content anyway. The content can stay as is. Please update the `Vamas` doctest and the registry test.
+> 3. **Lint:** with the pinned ruff 0.16.8 and current dev config, `xps.py:150` hits UP045. Use `str | None` and drop the `Optional` import.
+>
+> Optional: the title still says "abd", and the PR body is the template. `galaxy.datatypes.xps` isn't in `doc/source/lib/galaxy.datatypes.rst`. The `NXmpes` / generic NeXus `nxs` question from the earlier threads could use a short answer, even if it's "follow-up PR".
+
+**Update 2026-09-26:** we pushed the three blocker fixes ourselves at `88ba0c68b07` (`test.nxs.xps`→`test.nxxps`, `test.vms`→`test.vamas`, doctest/registry-test refs, `Optional[str]`→`str | None`). Upload-harness collection verified locally (338 cases; both fixtures map to their sniffed type). The draft comment above is stale: rewrite it to report these fixes and list only the minor items.

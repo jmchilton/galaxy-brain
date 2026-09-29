@@ -122,6 +122,91 @@ against the old implementation under Playwright only.
 **Rule:** a Playwright wait that reads only mirrored driver state and never calls
 into the driver cannot observe change. Prefer a driver call inside any poll.
 
+## Fixed driver gap: navigate_to gave up when the page redirected itself
+
+`HasPlaywrightDriver.navigate_to` called `page.goto(url)` bare. When the page
+assigns `window.location` while that navigation is still on the wire, Chromium
+cancels the one that lost the race and Playwright raises
+`net::ERR_ABORTED`. Selenium's `driver.get()` reports nothing at all in the same
+situation - it just leaves you wherever the page went.
+
+Found via `test_change_password`, whose only decorator reason was the raised
+`ERR_ABORTED`. `FormGeneric.vue`'s `onSubmit` awaits the POST and then sets
+`window.location = "/user?message=..."`; the test clicks Save and immediately calls
+`home()`, so the two navigations collide. Two wrong hypotheses came first - a
+`history.pushState` race and a `beforeunload` prompt - and a standalone probe ruled
+both out before `window.location` reproduced it 3/3.
+
+Fixed on `playwright_change_password`: `navigate_to` retries the `goto` once when,
+and only when, the browser reports `ERR_ABORTED`. A server-side redirect never
+raises, so the retry cannot fight one.
+
+**Selenium has the same gap and it is not safely fixable there.** Its `get()`
+surfaces no error, and "we did not land on the requested URL" is indistinguishable
+from an ordinary redirect - retrying on that would fight every legitimate one. So
+`TestNavigateTo` in `test/unit/selenium/test_has_driver.py` uses a Playwright-only
+`playwright_driver_instance` fixture rather than the three-backend one. The
+`selenium` and `proxy-selenium` parameters fail that assertion today; that is a real
+latent gap, not a test defect.
+
+**Rule:** a test that clicks a submit control and then navigates is racing its own
+request on either backend. Wait for the outcome first.
+
+## Fixed app bug: a watcher read its guard off the wrong parameter
+
+`test_rules_example_3_list_pairs` was marked selenium-only for "Rule editor Apply is
+intercepted by a closing vue-multiselect dropdown". That was the symptom, four steps
+downstream of the cause.
+
+`RuleCollectionBuilder.vue` declared `addColumnRegexGroupCount: function (oldVal, newVal)`.
+Vue passes a watcher `(newValue, oldValue)`, so the `< 1` clamp tested the value the field
+had just **left**. Emptying the field and typing `2` evaluated `"" < 1`, true, and put the
+model back to `1`. The add-column-regex rule then ran with one group instead of two,
+reported "7 row(s) failed to match specified regular expression", and every rule after it
+was "Skipped due to previous errors" - so column E never existed, and the swap-columns
+dropdown that "intercepted" Apply was simply open on "No elements found".
+
+Only Playwright reached the bad branch: `clear()` is `fill("")`, which pushes `""` into the
+bound model, where Selenium's `clear()` does not. Correcting the parameter alone was not
+enough - clamping an *empty* field puts the old count back under the cursor and the next
+digit lands beside it (`'12'`). An emptied field is mid-edit, not a count below the
+minimum, so it is left alone.
+
+Rule: when a Playwright-only failure points at a click being intercepted, check whether the
+state the click depends on was ever built. The interception is often the last domino.
+
+## Not a driver gap: the server, not the backend
+
+Three of the decorators surveyed described real timeouts that had nothing to do with the
+driver. Confirm any suspected gap under **both** backends against a server configured the
+way the test framework configures one.
+
+- `test_collection_edit.py` (both decorators): the Datatypes tab is
+  `v-if="isConfigLoaded && config.enable_celery_tasks"`. `lib/galaxy_test/base/api.py` sets
+  `enable_celery_tasks = True` for framework-launched Galaxy; an ad hoc `run.sh` server
+  leaves it `false`, so the tab never renders and both backends time out identically.
+- `test_igv_loads_correct_genome`: skips outright unless `/api/plugins` is non-empty, which
+  needs `visualization_plugins_directory` set. Commented out, the registry loads nothing and
+  all 49 plugins are invisible.
+- `test_share_history_login_redirect` and `test_core_deferred`: no gap at all - the recorded
+  failures no longer reproduce.
+
+## Harness traps that look like Playwright gaps
+
+Both of these produced convincing, wrong diagnoses before being run down:
+
+- **Shared login user.** `GALAXY_TEST_END_TO_END_CONFIG` maps `login_email`/`login_password`
+  onto `GALAXY_TEST_SELENIUM_USER_EMAIL`/`_PASSWORD` (`framework.py:119`). Setup then logs in
+  as that account, but a test calling `fill_login_and_submit(user_email)` with no password
+  sends `DEFAULT_PASSWORD` ("123456"). Result: "Invalid password" on a test that is fine in
+  CI, where `login()` falls through to `register()`.
+- **Cross-host session.** Driving Vite on `:5173` while Galaxy emits absolute
+  `127.0.0.1:8080` links means any app-initiated navigation crosses origins and drops the
+  session cookie. Target one host, or expect logged-in state to vanish mid-test.
+
+Also: Selenium's headless mode here wants `pyvirtualdisplay`, so on macOS a Selenium control
+run opens a real browser window. Closing it kills the driver and the run errors in seconds.
+
 ## Known driver gap: get_attribute is attributes-only
 
 `PlaywrightElement.get_attribute` special-cases `"value"` and otherwise calls

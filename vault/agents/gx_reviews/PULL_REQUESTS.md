@@ -1,20 +1,31 @@
 PRs To Review:
-- 23696 — current `dev` merged after fixes at `54dc72cd462`; non-atomic user association save remains,
-  awaiting fresh CI
-- 22130 — `logout_all` blocker and mypy failure fixed/pushed through `f3dcd6823ce`; awaiting fresh CI,
-  non-blocking client fallback concern remains
-- 18467 — LoginForm test typing fixed/pushed at `4e9c87b7cce` (vue-tsc + Login tests green locally); awaiting fresh CI
-- 23669 — substantial author update at `c6e70cee06a`; local-description search finding remains,
-  converter failure appears unrelated
+- 23791 — reviewed at `fb677a09c76`: approve once undrafted (medium: markdown profile keeps form controls; no real-sanitizer tests); draft review unposted
+- 23793 — reviewed at `1676de6968f`: approve (lows only: hand-rolled proxy wait vs wait_on); draft review unposted
+- 23473 — reviewed at `312d2fbe6a3`: comment (major: per-keystroke root search fan-out; activity gating dup); draft review unposted
+- 23731 — approved; follow-up comment posted by user; awaiting merge
+- 23744 — reviewed at `ac94d14062d`; follow-up branch dataset_permissions_load_state (`47b00ea5510`) ready; user to merge 23744 then open follow-up
+- 23777 — reviewed at `2192376e02a`: approve w/ suggestion (computed owner filter vs awaiting loadUser); draft review unposted
+- 23772 — reviewed at `0521cf89e0c`: approve w/ request (medium: fixed_delegated_auth missing from email-change gate); draft review unposted
+- 23743 — reviewed at `9d7d1e505ec`: request changes (conflicts; duplicates merged #23739; config-store toast spam); draft review unposted
+- 23775 — reviewed at `51a2c7d27b3`: approve (low: stale click-pair target); draft review unposted
+- 23780 — reviewed at `87709ed0cd5`: approve once undrafted (nit: stale DebouncedInput comment); draft review unposted
+- 23779 — reviewed at `c4560373a29`: approve once undrafted (medium: polling survives unmount mid-request); draft review unposted
+- 23798 — reviewed at `ed06c81d092`: approve (lows: queued events dropped at drain; fast_app imports gunicorn worker); draft review unposted
+- 23803 — reviewed at `e17542dd937` (draft): approve once CI fixed (high: authoringHelp output-labels example lacks inputs → test fail; medium: 25.1/26.0 backport); draft review unposted
+- 23741 — reviewed at `51de5c4e386`; we pushed fix `03d215de49f` (key module queue by step); awaiting CI; draft review unposted
+- 16666 — design agreed in galaxy_16666_env_design_decisions.md (one PR: job_env/tool_env + runtime_environment_variable); implementation not started; restart comment needs redraft, unposted
+- 23740 — approved + commented by user; awaiting merge
+- 16477 — mypy fix pushed to hechth:grant_tool_tag at `6621865ef39`; CI pending; parity issue drafted, unposted
+- 22811 — dev merged at `b421fe664d6` (after falsy-0 fix); awaiting CI, review comment unposted
 - 23577 — cleaned branch at `d424576953d`; collection-name collision blocker remains, CI green
-- 23273 — existing feedback awaits author; resume only after branch update or substantive reply
-- 23223 — hardening follow-up merged at `8afbc3efc09`; undrafted and green, ready for final verification
+- 23273 — blockers + strict-mypy typing fixed by us, dev merged, at `a2bbeec442c`; awaiting CI; draft comment needs rewrite (only minors left)
+- 23223 — hold until Tue 2026-09-29: user pinged committers, will merge then unless someone objects; do not raise before then
 - 23560 — still draft; re-review when it leaves draft
 - 22976 — upstream still draft; our fork PR (fairytalesbykcc#1) awaits author; re-review when undrafted
+- 19330 — rescued locally on rescue_19330 at `28cdf403ca4` (rebased on dev, debug logging dropped, XSD merged w/ #23763 wording + doc polish); not pushed; comment unposted
 
 PRs to Skip For 7 Days:
 - 22259 - Marius wants to review it.
-- 23472 - Don't offer this up again until davelopez's review has been responded to.
 
 PRs Blocked:
 - 23233 is blocked until the review we already made is responded to.
