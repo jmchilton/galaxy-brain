@@ -15,11 +15,8 @@ Composite parts are copied rather than genuinely linked because they have to lan
 
 ## Tests
 
-`test/unit/app/tools/test_data_fetch.py` gains two tests that serve `file://` URLs through a `prefer_links` posix file source — the shape path paste produces:
+`test/integration/test_remote_files_posix.py` gains `TestPreferLinksPosixFileSourceIntegration::test_composite_upload_does_not_consume_linked_sources`. It fetches a velvet composite dataset through the fetch API with every part a `gxfiles://` URL on the class's `prefer_links` posix source, then checks the CRLF sources survive unmoved and unmodified while the staged `Roadmaps` part is converted. It fails without the fix (`the upload consumed the linked source .../root/sequences`) and passes with it.
 
-- `test_extra_files_do_not_consume_a_linked_source`
-- `test_composite_files_do_not_consume_a_linked_source` — also asserts the source is not rewritten in place, by feeding it CRLF content and checking the CRLFs survive on disk while the staged copy is converted.
-
-Both fail on the current branch (`the upload consumed the linked source file`) and pass with the fix. `_execute_context` grows an optional `file_sources` argument so a test can register the posix source.
+The `extra_files` branch gets the same one-line fix but no test: the fetch API's `ExtraFiles` model only takes an archive-style `src`, so linked nested `extra_files` elements can't reach `data_fetch.py` through the API.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
