@@ -78,6 +78,26 @@ Being re-derived as small branches off current dev; see `TEST_STORIES_RESCUE.md`
 | `jmchilton/test-stories-rebased-20260318` | `76ccbddc52a` | The working reference. Base `a86f56b0b08` (2026-03-18), 6082 behind dev. Existed **only** in the local worktree until 2026-09-30 - no remote contained it - and `PROJECT_MANAGEMENT.md` would have torn the worktree down on PR closure. Pushed before closing. |
 | `jmchilton/test-stories` | `a5a839d79b3` | What the closed PR showed. A different, older history - 2954/26 divergent from the above. |
 
+### Piece 2 — `selenium_highlight_element` @ `4e602eea82e`
+
+`highlight_element(element)` on the protocol, both backends and the proxy. Pushed,
+no PR. 9 tests red against dev's library, green with it, across `selenium`,
+`playwright` and `proxy-selenium`.
+
+Two corrections to the reference branch:
+
+- It built the restore call by interpolating the saved value into JS source -
+  `f"arguments[0].style.border = '{original_border}';"`. Passed as `arguments[1]`
+  instead.
+- It annotated the return as `ContextManager[None]`; dev spells this
+  `AbstractContextManager[None]` on `visit_new_window` and `accept_alert`.
+
+**Structure.** `scroll_into_view` is the local precedent for a JS-driven element
+helper: implemented per backend, Playwright routing through `_unwrap_element` to a
+private `_scroll_into_view`. `highlight_element` follows it. A shared mixin was
+considered and rejected - `wait_methods_mixin.py` is the only cross-backend module
+in the package and a highlight helper does not belong under that name.
+
 ### Piece 1 — `rule_target_column_docs` @ `696002e13f6`
 
 Pushed, no PR. The first port ran +358/−64 and read like a tutorial. Trimmed to
