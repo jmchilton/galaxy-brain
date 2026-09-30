@@ -1,5 +1,5 @@
 
-For repository with name PROJECT (e.g.  planemo, pulsar, galaxy, etc..)
+For a repository named PROJECT (for example, `planemo`, `pulsar`, or `galaxy`).
 
 ## For Pull Request Reviews
 
@@ -37,6 +37,10 @@ closed tear its worktree down:
 ghwt rm PROJECT <BRANCH_NAME>
 ```
 
+The asymmetry is intentional. Removing an entry from the tracking document does **not** mean
+destroy the worktree. Only a merged or closed PR justifies automatic removal; a still-open PR
+keeps its worktree even after it drops off the list.
+
 ## Before removing any worktree
 
 Remove only clean worktrees. First check for uncommitted and unpushed work:
@@ -52,4 +56,5 @@ either case do **not** remove it - tell the user what's there and wait for them 
 
 ## Status
 
-Check PR state with `gh pr view <PR_NUMBER> --repo galaxyproject/planemo --json state,mergedAt,closedAt`.
+Check PR state with
+`gh pr view <PR_NUMBER> --repo <OWNER>/<PROJECT> --json state,mergedAt,closedAt`.
