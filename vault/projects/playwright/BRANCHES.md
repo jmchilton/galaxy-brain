@@ -78,11 +78,24 @@ Being re-derived as small branches off current dev; see `TEST_STORIES_RESCUE.md`
 | `jmchilton/test-stories-rebased-20260318` | `76ccbddc52a` | The working reference. Base `a86f56b0b08` (2026-03-18), 6082 behind dev. Existed **only** in the local worktree until 2026-09-30 - no remote contained it - and `PROJECT_MANAGEMENT.md` would have torn the worktree down on PR closure. Pushed before closing. |
 | `jmchilton/test-stories` | `a5a839d79b3` | What the closed PR showed. A different, older history - 2954/26 divergent from the above. |
 
-### Piece 2 — `selenium_highlight_element` @ `4e602eea82e`
+### PR B — `dump_tour_highlight_steps` @ `7ccbfe88164`
 
-`highlight_element(element)` on the protocol, both backends and the proxy. Pushed,
-no PR. 9 tests red against dev's library, green with it, across `selenium`,
-`playwright` and `proxy-selenium`.
+`highlight_element` on the protocol, both backends and the proxy, plus its consumer:
+`dump_tour.py` borders each tour step's target element in the screenshot it dumps.
+Pushed, no PR.
+
+**The first version was unshippable and that is the lesson.** `highlight_element`
+was built, tested and pushed on its own before it became clear the only caller was
+`stories/data/upload.py`, five pieces away. A new protocol method with three unit
+tests and no call site is not reviewable. The fix was not to defer it - it was to
+find the caller that already existed. `dump_tour.py` has been on dev all along, its
+whole job is dumping tour screenshots for documentation, and `run_tour_step` already
+holds the resolved element at the moment it calls `handle_step`.
+
+Ordinary test screenshots were surveyed and rejected as a home: all 383
+`self.screenshot()` sites in `lib/galaxy_test/selenium/` feed diagnostics, where
+whole-page state is the point and the element is usually the thing that was not
+found. Documentation output and diagnostic output want opposite things.
 
 Two corrections to the reference branch:
 
@@ -94,9 +107,16 @@ Two corrections to the reference branch:
 
 **Structure.** `scroll_into_view` is the local precedent for a JS-driven element
 helper: implemented per backend, Playwright routing through `_unwrap_element` to a
-private `_scroll_into_view`. `highlight_element` follows it. A shared mixin was
-considered and rejected - `wait_methods_mixin.py` is the only cross-backend module
-in the package and a highlight helper does not belong under that name.
+private method. `highlight_element` follows it. A shared mixin was considered and
+rejected - `wait_methods_mixin.py` is the only cross-backend module in the package
+and a highlight helper does not belong under that name.
+
+**Verified.** 9 unit tests red against dev's library, green with it, across
+`selenium`, `playwright` and `proxy-selenium`. The whole `core.history.yaml` tour
+walked against a live Galaxy under Playwright: 19 PNGs, target bordered on every
+step that has one, no border on the content-only step 0, and exactly one border on
+step 18 - so restoration holds across a full tour rather than accumulating.
+`test_core_history` passes with the changed callback.
 
 ### Piece 1 — `rule_target_column_docs` @ `696002e13f6`
 

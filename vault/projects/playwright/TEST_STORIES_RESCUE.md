@@ -93,7 +93,7 @@ extraction (C), because C is an extraction of code dev already has and already c
 | # | PR | Contents | First consumer | Verified by |
 |---|---|---|---|---|
 | A | Rule-target docstrings | `rule_target_columns.py`, `rule_target_models.py`, `rule_target_column_specification.yml` | n/a - documentation | **done**, [#23835](https://github.com/galaxyproject/galaxy/pull/23835) |
-| B | Highlighted tour dumps | `highlight_element` on protocol/both backends/proxy; `TourCallbackProtocol.handle_step` gains the resolved element; `dump_tour.py` highlights each step's target | `dump_tour.py`, which exists on dev | `test_has_driver.py` red-to-green (**done**, 9 tests); tour dump by hand |
+| B | Highlighted tour dumps | `highlight_element` on protocol/both backends/proxy; `TourCallbackProtocol.handle_step` gains the resolved element; `dump_tour.py` highlights each step's target | `dump_tour.py`, which exists on dev | **done**, branch `dump_tour_highlight_steps` @ `7ccbfe88164` - 9 unit tests red-to-green, `core.history.yaml` walked live (19 PNGs, borders correct and not accumulating), `test_core_history` passes |
 | C | Markdown conversion into `galaxy.util` | `util/markdown.py`, css rename, `packages/util/setup.cfg`, `markdown_util.py` -45/+6, `configuration.py` | `markdown_util.py`, `pages.py`, `workflow/reports/generators` - all on dev | `test_markdown_to_html.py` |
 | D | Stories core | `stories/__init__.py`, `story.py`, `context.py`, `jupyter_context.py`, `framework.py`, `GALAXY_TEST_STORIES_DIRECTORY`, `latest` symlink, `cli.py` flags, `NavigatesGalaxyMixin` shim if needed | the framework wiring, plus at least one test that emits a story | `test_story_sections.py`; live Galaxy, both backends |
 | E | Workbook import tests | `test_workbook_import.py`, `navigation.yml`, 4 client components | the tests themselves | both backends |
@@ -161,11 +161,11 @@ wiring lives in that decorator — see the caveat above.
 - `test_trs_import.py`: do those four tests pass under Playwright once decorated?
   Check before PR D — if they fail, the pressure will be to add `@selenium_only`,
   which breaks the project's other goal.
-- Branch `selenium_highlight_element` is named for the driver method, but PR B is
-  really about tour dumps. Rename before opening?
 
 Answered 2026-09-30:
 
-- `dump_tour.py` — settled above; PR B owns the file and keeps `save_screenshot`.
+- `dump_tour.py` — settled; PR B owns the file and keeps `save_screenshot`.
+- Branch naming — renamed `selenium_highlight_element` to `dump_tour_highlight_steps`;
+  name the PR's purpose, not the helper it happens to add.
 - Splitting `story.py` — no. D is already the smallest honest unit, and it absorbs
   the old pieces 5-8 rather than splitting further.
