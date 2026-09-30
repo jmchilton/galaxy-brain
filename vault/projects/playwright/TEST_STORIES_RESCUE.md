@@ -77,33 +77,55 @@ the `screenshot(caption)` signature change.
 
 ## Order
 
-| # | Piece | Files | Verified by |
-|---|---|---|---|
-| 1 | Rule-target docstrings | `rule_target_columns.py`, `rule_target_models.py`, `rule_target_column_specification.yml` | comments/docstrings only - verified, the identifier lists come back with trailing comments. Regenerate `schema.ts` on dev rather than porting the hunk; the descriptions feed the OpenAPI schema, so generated API text does change. |
-| 2 | `highlight_element` | protocol, proxy, both backends | `test_has_driver.py`, red-to-green |
-| 3 | markdown utils → `galaxy.util` | `util/markdown.py`, css rename, `packages/util/setup.cfg`, imports in `configuration.py` + `notification.py` | `test_markdown_to_html.py` |
-| 4 | Stories core | `stories/__init__.py`, `story.py` (622 ln) | `test_story_sections.py` (570 ln) |
-| 5 | Context API | `context.py`, `jupyter_context.py`, `dump_tour.py` | live Galaxy |
-| 6 | Framework wiring | `framework.py`, `GALAXY_TEST_STORIES_DIRECTORY`, `latest` symlink, `test_trs_import.py` decorators | live Galaxy, both backends |
-| 7 | `cli.py` story flags | `cli.py` (+147) | manual |
-| 8 | `NavigatesGalaxyMixin` shim | `navigates_galaxy_mixin.py` (16 ln) | existing suite; folded into its first consumer |
-| 9 | Workbook import tests | `test_workbook_import.py`, `navigation.yml`, 4 client components | both backends |
-| 10 | `stories/data` + upload extraction | examples, fragments, `upload.py` (955 ln), `test_uploads.py` | both backends |
-| 11 | Tutorial generator | `generate_rule_builder_tutorial.py` | manual |
+Revised 2026-09-30 after piece 2 was built and found unshippable.
 
-Pieces 1–4 are unit-test-only and need no running Galaxy. From 5 on: start Galaxy
-once, set `GALAXY_TEST_STORIES_DIRECTORY`, run Playwright first then Selenium, one
-at a time.
+**Grouping rule: every PR ships its first consumer.** The original order sequenced
+by dependency, which produced branches that add an API nothing calls. `highlight_element`
+was built, tested and pushed before it became clear that its only caller was
+`stories/data/upload.py`, nine pieces away. A new method on the driver protocol with
+three unit tests and no call site is not reviewable. The plan already said this for
+the `NavigatesGalaxyMixin` shim ("folded into whichever piece first needs it"); it
+applies to everything.
 
-**Hard constraint: no new `@selenium_only` decorator may appear.** That would undo
-the project's other goal, which has one unclaimed decorator left (the held drag).
+Only two pieces stand alone on their own merits: the docstrings (A) and the markdown
+extraction (C), because C is an extraction of code dev already has and already calls.
+
+| # | PR | Contents | First consumer | Verified by |
+|---|---|---|---|---|
+| A | Rule-target docstrings | `rule_target_columns.py`, `rule_target_models.py`, `rule_target_column_specification.yml` | n/a - documentation | **done**, [#23835](https://github.com/galaxyproject/galaxy/pull/23835) |
+| B | Highlighted tour dumps | `highlight_element` on protocol/both backends/proxy; `TourCallbackProtocol.handle_step` gains the resolved element; `dump_tour.py` highlights each step's target | `dump_tour.py`, which exists on dev | `test_has_driver.py` red-to-green (**done**, 9 tests); tour dump by hand |
+| C | Markdown conversion into `galaxy.util` | `util/markdown.py`, css rename, `packages/util/setup.cfg`, `markdown_util.py` -45/+6, `configuration.py` | `markdown_util.py`, `pages.py`, `workflow/reports/generators` - all on dev | `test_markdown_to_html.py` |
+| D | Stories core | `stories/__init__.py`, `story.py`, `context.py`, `jupyter_context.py`, `framework.py`, `GALAXY_TEST_STORIES_DIRECTORY`, `latest` symlink, `cli.py` flags, `NavigatesGalaxyMixin` shim if needed | the framework wiring, plus at least one test that emits a story | `test_story_sections.py`; live Galaxy, both backends |
+| E | Workbook import tests | `test_workbook_import.py`, `navigation.yml`, 4 client components | the tests themselves | both backends |
+| F | Story data + upload extraction | `stories/data/` examples and fragments, `upload.py`, `smart_components.wait_for_and_highlight`, `test_uploads.py` | `upload.py` | both backends |
+| G | Tutorial generator | `generate_rule_builder_tutorial.py` | manual | manual |
+
+B and C need no running Galaxy. From D on: start Galaxy once, set
+`GALAXY_TEST_STORIES_DIRECTORY`, run Playwright first then Selenium, one at a time.
+
+**D is the piece that cannot be split honestly.** `story.py` alone is a document model
+nothing builds; the context API alone has nothing to write into. The smallest reviewable
+unit is the model plus the wiring plus one test that produces a story. That answers the
+old "split piece 4?" question: no, but it absorbs the old pieces 5, 6, 7 and 8, so the
+count of PRs goes down rather than up.
+
+**Hard constraint, unchanged: no new `@selenium_only` decorator may appear.**
 
 ## Things found while sorting the diff
 
-**`dump_tour.py` looks like a bug in the branch.** It changes
-`save_screenshot(f"{self.output}/{step_index}.png")` to `screenshot(...)`. But
+**`dump_tour.py`: do not port the branch's change.** It swaps
+`save_screenshot(f"{self.output}/{step_index}.png")` for `screenshot(...)`, but
 `screenshot()` takes a *label* and builds the path itself from the screenshots or
-story directory — it does not take a path. Read this before porting it.
+story directory — it does not take a path. PR B rewrites this file for its own
+reasons (highlighting each step's target element) and keeps `save_screenshot`.
+
+**Test screenshots are the wrong home for `highlight_element`.** Checked all 383
+`self.screenshot()` call sites in `lib/galaxy_test/selenium/`: they land in
+`GALAXY_TEST_SCREENSHOTS_DIRECTORY`, and failure snapshots go through `TestSnapshot`
+into a per-test error directory that ships as the "Selenium debug info" CI artifact.
+Those are read when something breaks, where whole-page state is the point — and on
+the failure path the element is usually the thing that was not found, so there is
+nothing to highlight. `dump_tour.py` is a fit because its output is documentation.
 
 **The example data move is a design choice, not a mechanical rename.** Five files
 move out of `test-data/rules/` into `lib/galaxy/selenium/stories/data/examples/`
@@ -136,8 +158,14 @@ wiring lives in that decorator — see the caveat above.
 
 ## Open questions
 
-- `dump_tour.py`: is `screenshot()` the right call there at all, given it takes a
-  label and not a path? Port needs a decision, not a copy.
 - `test_trs_import.py`: do those four tests pass under Playwright once decorated?
-- `story.py` is 622 lines and `test_story_sections.py` 570. Split piece 4, or land
-  it whole against the project's "small, atomic, concise" rule?
+  Check before PR D — if they fail, the pressure will be to add `@selenium_only`,
+  which breaks the project's other goal.
+- Branch `selenium_highlight_element` is named for the driver method, but PR B is
+  really about tour dumps. Rename before opening?
+
+Answered 2026-09-30:
+
+- `dump_tour.py` — settled above; PR B owns the file and keeps `save_screenshot`.
+- Splitting `story.py` — no. D is already the smallest honest unit, and it absorbs
+  the old pieces 5-8 rather than splitting further.
