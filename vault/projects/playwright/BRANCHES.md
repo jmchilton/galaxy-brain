@@ -78,6 +78,28 @@ Being re-derived as small branches off current dev; see `TEST_STORIES_RESCUE.md`
 | `jmchilton/test-stories-rebased-20260318` | `76ccbddc52a` | The working reference. Base `a86f56b0b08` (2026-03-18), 6082 behind dev. Existed **only** in the local worktree until 2026-09-30 - no remote contained it - and `PROJECT_MANAGEMENT.md` would have torn the worktree down on PR closure. Pushed before closing. |
 | `jmchilton/test-stories` | `a5a839d79b3` | What the closed PR showed. A different, older history - 2954/26 divergent from the above. |
 
+### Piece 1 — `rule_target_column_docs` @ `696002e13f6`
+
+Pushed, no PR. The first port ran +358/−64 and read like a tutorial. Trimmed to
++84/−32 by resetting all three files to dev and re-adding only what carries
+information.
+
+**Porting lesson for pieces 2-11.** The reference branch's comments are heavy, and
+two failure modes showed up here that will recur:
+
+1. **Restating the identifier.** "# MD5 checksum for verification" next to
+   `"hash_md5"`, `Args:` blocks repeating the signature, "# Create the header
+   column" above the constructor call. Comment what the name cannot say.
+2. **Overwriting a real comment with a worse one.** Three of dev's existing
+   comments were deleted and replaced with restatements - the `type_index` note
+   explaining why a workbook holds repeated URI/hash columns, the concrete header
+   examples on `implied_paired_or_unpaired_column_header`, and a parse-log TODO.
+   **Always read the deletions in a port diff, not just the additions.**
+
+Worth keeping: executable doctests (CI runs them via `run_tests.sh -unit
+--doctest-modules`), and one-line docstrings on Pydantic models, which surface as
+`@description` in the generated client schema.
+
 ## Remaining `selenium_only` decorators
 
 4 left in the tree, all covered by branches above except one. What is unclaimed
