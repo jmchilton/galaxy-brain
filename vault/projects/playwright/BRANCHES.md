@@ -300,6 +300,67 @@ which is `%Y%m%d%H%M%s` - lowercase `%s`, so date-and-time followed by epoch sec
 for a documentation artifact, but it is pre-existing and shared, and changing it would
 rename the CI error directories too.
 
+### PR E — `workbook_import` @ `dc4bf82c47e`
+
+Pushed, no PR. Off dev `b437cb3f0d6`, one commit, +176/−16.
+
+**Re-derived, not ported.** Dev's own #23602 rework landed
+`lib/galaxy_test/selenium/upload_activity_helpers.py`, which already has a `RuleImportContext`
+with `creating()` / `from_source()` / `wait_for_builder()` and a `file_set_wizard` component
+carrying `source_workbook` and the `data-creating-what` / `data-import-source-from` hooks —
+most of what the reference branch's 955-line `stories/data/upload.py` was going to add, built
+better. So the reference `test_workbook_import.py` was discarded and the tests rewritten.
+
+**The reference version could not have been PR E at all.** It imports `UploadStoriesMixin`
+from PR F and narrates with PR D's `document()`. The plan listed E's first consumer as
+"the tests themselves" and E as independent; it was neither. Re-derived against dev it needs
+nothing from D or F.
+
+**What the tests actually cover.** Galaxy infers the rule builder mapping from a workbook's
+column headers. Which spellings it recognises (`name`/`url`/`genome`, `LIST IDENTIFIER`/`URI`/
+`TYPE`, `forward_url`+`reverse_url`), and how two URL columns per row are split into paired
+elements, was uncovered. Five tests upload an example workbook and assert the mapping that
+came back. The nested case asserts `list_identifiers` maps to **both** identifier columns
+`[1, 2]`, outermost first — the reference asserted only the url and paired_identifier entries
+either side of it, because its two helpers both assumed a single column.
+
+**Two extractions ride along, both collapsing duplication already on dev.**
+
+- `set_file_input` on `NavigatesGalaxy`. The Playwright/Selenium split for attaching a file
+  (`element_handle.set_input_files` vs `send_keys`) was copied three times in
+  `upload_activity_helpers.py`; this is the fourth site.
+- `rule_builder_show_and_get_source` / `_as_json`, the read side of dev's existing
+  `rule_builder_set_source`. Note `test_uploads.py` inlines the read twice but screenshots
+  mid-sequence, so neither call site collapses into it.
+
+**Dropped from the reference: the `ActivitySettings.vue` hunk.** Its `data-activity-id` /
+`data-activity-visible` attributes existed only for `ensure_rules_activity_enabled`, which
+walked the activity bar to switch the rules activity on. Dev's `RuleImportContext` navigates
+straight to the `rules` route, so nothing consumes them — same rule that folded C into D.
+
+**Client changes are three test hooks.** `HiddenWorkbookUploadInput` gains a `description`
+prop so the header's shortcut input and the upload card's input can be told apart by name
+rather than by document order (the reference relied on first-match); `CardUploadWorkbook`
+and `CardDownloadWorkbook` get `data-description` attributes. Three selectors added under
+`file_set_wizard`.
+
+**The workbook examples land in `test-data/rules/`,** beside `PRJDA60709.tsv` and the rest,
+not in the package. F moves the whole set together.
+
+**Verified.** 5 tests pass under **both** backends against a live Galaxy — Playwright 29.35s,
+Selenium 71.39s — so no `selenium_only`. All three refactored `set_file_input` call sites
+regression-run under both backends (`test_deferred_upload`, `test_composite_file_upload`,
+`test_import_from_local_zip`). isort / black / flake8 / prettier / eslint / mypy / vue-tsc clean;
+mypy's resolution against this worktree was itself checked by breaking a method name and
+confirming the error. `test_upload_activity.py::test_upload_with_metadata` fails locally,
+but it fails identically with `upload_activity_helpers.py` and `navigates_galaxy.py` reset to
+`origin/dev`, so it is local state, not this branch.
+
+**Built in a second worktree** (`~/projects/worktrees/galaxy/branch/workbook_import`), since
+`selenium_stories_core`'s polish holds the long-lived one. That is an exception to
+`PROJECT_MANAGEMENT.md`'s one-worktree rule for this project, taken because E, F and G all
+need E2E runs and the alternative was to block.
+
 ### Piece 1 — `rule_target_column_docs` @ `696002e13f6`
 
 Pushed, no PR. The first port ran +358/−64 and read like a tutorial. Trimmed to
