@@ -93,14 +93,14 @@ extraction (C), because C is an extraction of code dev already has and already c
 | # | PR | Contents | First consumer | Verified by |
 |---|---|---|---|---|
 | A | Rule-target docstrings | `rule_target_columns.py`, `rule_target_models.py`, `rule_target_column_specification.yml` | n/a - documentation | **done**, [#23835](https://github.com/galaxyproject/galaxy/pull/23835) |
-| B | Highlighted tour dumps | `highlight_element` on protocol/both backends/proxy; `TourCallbackProtocol.handle_step` gains the resolved element; `dump_tour.py` highlights each step's target | `dump_tour.py`, which exists on dev | **done**, branch `dump_tour_highlight_steps` @ `7ccbfe88164` - 9 unit tests red-to-green, `core.history.yaml` walked live (19 PNGs, borders correct and not accumulating), `test_core_history` passes |
-| C | Markdown conversion into `galaxy.util` | `util/markdown.py`, css rename, `packages/util/setup.cfg`, `markdown_util.py` -45/+6, `configuration.py` | `markdown_util.py`, `pages.py`, `workflow/reports/generators` - all on dev | `test_markdown_to_html.py` |
+| B | Highlighted tour dumps | `highlight_element` on protocol/both backends/proxy; `TourCallbackProtocol.handle_step` gains the resolved element; `dump_tour.py` highlights each step's target | `dump_tour.py`, which exists on dev | **done**, branch `dump_tour_highlight_steps` @ `7cf801747c8` - 9 unit tests red-to-green, `core.history.yaml` walked live (19 PNGs, borders correct and not accumulating), `test_core_history` passes |
+| C | Markdown conversion into `galaxy.util` | `util/markdown.py`, css move, `packages/util/pyproject.toml` extra, `markdown_util.py` -42/+7, `configuration.py`, `notification.py` | `markdown_util.py`, `notification.py`, `configuration.py` - all on dev | **done**, branch `move_markdown_conversion_to_util` @ `f73cef7e698` - red-to-green on `test_markdown_to_html.py`, 958 unit tests pass, css resource lookup verified at the new location |
 | D | Stories core | `stories/__init__.py`, `story.py`, `context.py`, `jupyter_context.py`, `framework.py`, `GALAXY_TEST_STORIES_DIRECTORY`, `latest` symlink, `cli.py` flags, `NavigatesGalaxyMixin` shim if needed | the framework wiring, plus at least one test that emits a story | `test_story_sections.py`; live Galaxy, both backends |
 | E | Workbook import tests | `test_workbook_import.py`, `navigation.yml`, 4 client components | the tests themselves | both backends |
 | F | Story data + upload extraction | `stories/data/` examples and fragments, `upload.py`, `smart_components.wait_for_and_highlight`, `test_uploads.py` | `upload.py` | both backends |
 | G | Tutorial generator | `generate_rule_builder_tutorial.py` | manual | manual |
 
-B and C need no running Galaxy. From D on: start Galaxy once, set
+D is next and is the first piece needing a running Galaxy. From D on: start Galaxy once, set
 `GALAXY_TEST_STORIES_DIRECTORY`, run Playwright first then Selenium, one at a time.
 
 **D is the piece that cannot be split honestly.** `story.py` alone is a document model
@@ -148,6 +148,10 @@ fixes from the markdown move and ride with piece 3. `ActivitySettings.vue` adds
 `data-activity-id` / `data-activity-visible` test hooks and rides with piece 9.
 `test_trs_import.py`'s added decorators ride with piece 6, because the stories
 wiring lives in that decorator — see the caveat above.
+
+**Re-derive the packaging hunks, do not port them.** PR C's reference diff patched
+`packages/util/setup.cfg`; dev has since moved the packages to `pyproject.toml`. The
+same applies to anything under `packages/` for the remaining pieces.
 
 ## Reference material
 

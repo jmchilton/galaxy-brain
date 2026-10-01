@@ -78,7 +78,7 @@ Being re-derived as small branches off current dev; see `TEST_STORIES_RESCUE.md`
 | `jmchilton/test-stories-rebased-20260318` | `76ccbddc52a` | The working reference. Base `a86f56b0b08` (2026-03-18), 6082 behind dev. Existed **only** in the local worktree until 2026-09-30 - no remote contained it - and `PROJECT_MANAGEMENT.md` would have torn the worktree down on PR closure. Pushed before closing. |
 | `jmchilton/test-stories` | `a5a839d79b3` | What the closed PR showed. A different, older history - 2954/26 divergent from the above. |
 
-### PR B — `dump_tour_highlight_steps` @ `7ccbfe88164`
+### PR B — `dump_tour_highlight_steps` @ `7cf801747c8`
 
 `highlight_element` on the protocol, both backends and the proxy, plus its consumer:
 `dump_tour.py` borders each tour step's target element in the screenshot it dumps.
@@ -117,6 +117,62 @@ walked against a live Galaxy under Playwright: 19 PNGs, target bordered on every
 step that has one, no border on the content-only step 0, and exactly one border on
 step 18 - so restoration holds across a full tour rather than accumulating.
 `test_core_history` passes with the changed callback.
+
+**Amended 2026-10-01 for mypy.** Binding `element: WebElementProtocol | None = None`
+at the top of `run_tour_step` - needed because `element` was previously only bound
+inside `if element_str is not None:` - widened the declared type for the whole
+function, and the `textinsert` branch had been living off that narrowing:
+`element.send_keys(textinsert)` became `union-attr`. Fixed with an assert in that
+branch rather than a cast; a step carrying `textinsert` with no element was already
+an `AttributeError` waiting to happen, so the assert states a precondition that was
+always there. Lesson: widening a local's declared type to pass it somewhere new can
+break narrowing far from the line you edited.
+
+### PR C — `move_markdown_conversion_to_util` @ `f73cef7e698`
+
+Pushed, no PR. `to_html`, `to_pdf_raw` and `weasyprint_available` move from
+`galaxy.managers.markdown_util` into `galaxy.util.markdown`; `markdown_export_base.css`
+moves with them so `resource_string(__name__, ...)` still finds it. The consumers were
+already on dev, so unlike B this one needed no consumer hunting - it is an extraction,
+not an addition.
+
+**The reference branch's hunk was stale.** It patched `packages/util/setup.cfg`; dev has
+since migrated the packages to `pyproject.toml`, so the `markdown-convert` extra went
+into `[project.optional-dependencies]` instead. Port diffs get re-derived against dev's
+current file, never applied blind.
+
+**Why the import has to become optional.** `galaxy-util` is its own distribution and does
+not depend on Markdown. Its pytest.ini runs `--doctest-modules` across `src`, so the module
+is *imported* during the package's own test run - a top-level `import markdown` would break
+galaxy-util CI outright. `weasyprint` keeps dev's `except Exception`, not `ImportError`: it
+raises `OSError` when its system libraries (pango, cairo) are missing, and the reference
+branch had narrowed that to `ImportError`, which would have been a regression.
+
+**mypy had a suppression hiding in the old module.** `mypy.ini` scopes
+`warn_return_any = False` to `galaxy.managers.markdown_util`, which was quietly covering
+`weasyprint.write_pdf()` returning `Any`. Moving the function out of that scope exposed it.
+Annotated the local (`pdf: bytes = ...`) rather than copy the blanket suppression into a
+util module. The `markdown = None` line needs `# type: ignore[assignment,unused-ignore]`,
+not plain `[assignment]`: CI pins `types-markdown` so the ignore is used there, local venvs
+have no stubs so it is unused - verified both ways by installing and removing the stub.
+
+**Side effect worth knowing.** Moving the css into `lib/galaxy/util/` puts it inside
+prettier's scope (it was outside under `lib/galaxy/managers/`), so the pre-commit hook
+reformats it - tabs and 4-space indents to 2. Whitespace only, but it means the rename is
+not `R100`.
+
+Also renamed `pre_formatted_contents(markdown)`'s parameter to `content`: the module now
+imports `markdown` at the top, and the old parameter name shadowed it.
+
+**Verified.** Red-to-green on `test_markdown_to_html.py` (repointed the import first, got
+the `ImportError`, then moved the code). 958 passed across `test/unit/app/managers/`,
+`test/unit/workflows/test_workflow_markdown.py` and `test/unit/util/`. The css was checked
+directly - `resource_string('galaxy.util.markdown', ...)` returns 140 bytes and the old
+location raises `FileNotFoundError` - because a `git mv` can silently break a
+`resource_string(__name__, ...)` lookup and no test would catch it. Both import guards
+exercised by blocking the imports. 7 failures in `test_model_discovery.py` appear only when
+those three suites run together and reproduce identically on clean dev - pre-existing
+cross-suite pollution.
 
 ### Piece 1 — `rule_target_column_docs` @ `696002e13f6`
 
