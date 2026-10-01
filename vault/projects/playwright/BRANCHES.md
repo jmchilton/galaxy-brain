@@ -174,6 +174,65 @@ exercised by blocking the imports. 7 failures in `test_model_discovery.py` appea
 those three suites run together and reproduce identically on clean dev - pre-existing
 cross-suite pollution.
 
+### PR D — `selenium_stories_core` @ `ce5591cc7cf`
+
+Pushed, no PR. Carries `move_markdown_conversion_to_util` as its first commit, because
+PR C had no application of its own.
+
+**The consumer was already written, 383 times over.** Every `@selenium_test` calls
+`self.screenshot()`; set `GALAXY_TEST_STORIES_DIRECTORY` and those calls become a
+document instead of a pile of PNGs. No test had to change. `test_run_apply_rules_tutorial`
+takes 14 screenshots and is already named like a tutorial - it now produces one.
+
+**Scope cut from the reference.** The reference `story.py` is 622 lines; this is 240.
+Sections, filtering, markdown merging, `SectionProxy` and the CLI story flags were all
+left out, and with them the whole 570-line `test_story_sections.py`. Their consumers are
+`stories/data/upload.py` and `generate_rule_builder_tutorial.py`, which are PRs F and G.
+That test file covers *only* sections - nothing in it touches the story core - so the
+split is clean and the core needed its own tests written from scratch.
+
+Also deferred: `navigates_galaxy_mixin.py`. The reference moves the `TYPE_CHECKING` shim
+out of `framework.py` and repoints it at `GalaxySeleniumContext` so mixins can reach
+`.story` and `.section()`. No mixin needs that until F.
+
+**Design changes.**
+
+- `StoryProtocol` renamed `StoryBase`. It is an ABC used as a base class, but in this
+  package `*Protocol` means a structural `typing.Protocol` - `HasDriver` does not subclass
+  `HasDriverProtocol`, a conformance test checks it. Remember this when porting F/G, which
+  still say `StoryProtocol`.
+- `hasattr(self, "story")` guards replaced by a lazy property on `GalaxySeleniumContext`
+  returning a `NoopStory`. A class-level `NoopStory()` default would have been shared
+  mutable state across instances.
+- `to_pdf_raw(directory=...)` removes its intermediate `index.html` when the caller owns
+  the directory. The reference left it behind, where it would have been zipped into every
+  story.
+- Warnings go through `log`, not `print`.
+
+**Why the markdown move exists at all.** `galaxy-selenium` depends on `galaxy-navigation`
+then `galaxy-util`, and never on `galaxy-app`. It structurally cannot import
+`galaxy.managers.markdown_util`. `packages/selenium` now requires
+`galaxy-util[markdown-convert]`, which is the first consumer of the extra PR C added.
+
+**Verified.** 11 story unit tests and 6 new `galaxy.util.markdown` tests, both red first.
+`test/unit/selenium/` 514 passed (the 3 known local geckodriver failures), `test/unit/util/`
+497 passed, mypy clean on `galaxy/selenium/` and `framework.py`. Live under Playwright:
+`test_run_apply_rules_tutorial` passed in 77.82s and produced a 15-screenshot story -
+`story.md`, `story.html` with 15 `<img>` tags, a 17-file zip whose arcnames are all
+relative, a correct `latest` symlink, and all 15 screenshots dual-saved into
+`GALAXY_TEST_SCREENSHOTS_DIRECTORY`.
+
+**Not verified: `story.pdf`.** weasyprint is installed-but-unloadable on this machine
+(`OSError: cannot load library 'libgobject-2.0-0'`), so `weasyprint_available()` is False
+and the PDF branch is skipped. That failure is itself the evidence for keeping dev's
+`except Exception` rather than the reference's `except ImportError`. The `directory=`
+argument is covered by unit tests with a stubbed weasyprint, including cleanup when
+rendering raises.
+
+**Known rough edge.** On a retry, `story.reset()` renumbers from 000 but does not delete
+the failed attempt's PNGs, so a longer failed run can leave unreferenced images in the zip.
+The markdown only references what was recorded.
+
 ### Piece 1 — `rule_target_column_docs` @ `696002e13f6`
 
 Pushed, no PR. The first port ran +358/−64 and read like a tutorial. Trimmed to

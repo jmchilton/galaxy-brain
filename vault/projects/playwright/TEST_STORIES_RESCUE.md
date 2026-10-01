@@ -87,15 +87,29 @@ three unit tests and no call site is not reviewable. The plan already said this 
 the `NavigatesGalaxyMixin` shim ("folded into whichever piece first needs it"); it
 applies to everything.
 
-Only two pieces stand alone on their own merits: the docstrings (A) and the markdown
-extraction (C), because C is an extraction of code dev already has and already calls.
+Only one piece stands alone on its own merits: the docstrings (A).
+
+**C was wrong about this and is folded into D.** The plan claimed C stood alone "because
+it is an extraction of code dev already has and already calls". Callers existing is not
+the same as the move doing anything - nothing on dev behaves differently after C lands, so
+a reviewer gets "why?" with no answer. The hunt for an existing consumer came up empty,
+unlike B's: no other module in `lib/`, `scripts/` or `test/` imports markdown or weasyprint;
+tool help with `format="markdown"` is rendered client-side by `ToolHelp.vue`, so converting
+it server-side would be a regression, not a fix; Tool Shed READMEs do not recognise `.md`
+at all (`_get_readme_file_names` takes `.txt`/`.rst`) and `galaxy-tool-shed` already depends
+on `galaxy-app`. The one real reason for the move is that `galaxy-selenium` depends on
+`galaxy-navigation` then `galaxy-util`, and **never on `galaxy-app`** - so the stories
+feature structurally cannot import `galaxy.managers.markdown_util`. That reason only
+materialises in D. The branch `move_markdown_conversion_to_util` @ `f73cef7e698` stays
+pushed and becomes D's first commit.
 
 | # | PR | Contents | First consumer | Verified by |
 |---|---|---|---|---|
 | A | Rule-target docstrings | `rule_target_columns.py`, `rule_target_models.py`, `rule_target_column_specification.yml` | n/a - documentation | **done**, [#23835](https://github.com/galaxyproject/galaxy/pull/23835) |
 | B | Highlighted tour dumps | `highlight_element` on protocol/both backends/proxy; `TourCallbackProtocol.handle_step` gains the resolved element; `dump_tour.py` highlights each step's target | `dump_tour.py`, which exists on dev | **done**, branch `dump_tour_highlight_steps` @ `7cf801747c8` - 9 unit tests red-to-green, `core.history.yaml` walked live (19 PNGs, borders correct and not accumulating), `test_core_history` passes |
-| C | Markdown conversion into `galaxy.util` | `util/markdown.py`, css move, `packages/util/pyproject.toml` extra, `markdown_util.py` -42/+7, `configuration.py`, `notification.py` | `markdown_util.py`, `notification.py`, `configuration.py` - all on dev | **done**, branch `move_markdown_conversion_to_util` @ `f73cef7e698` - red-to-green on `test_markdown_to_html.py`, 958 unit tests pass, css resource lookup verified at the new location |
-| D | Stories core | `stories/__init__.py`, `story.py`, `context.py`, `jupyter_context.py`, `framework.py`, `GALAXY_TEST_STORIES_DIRECTORY`, `latest` symlink, `cli.py` flags, `NavigatesGalaxyMixin` shim if needed | the framework wiring, plus at least one test that emits a story | `test_story_sections.py`; live Galaxy, both backends |
+| C | *folded into D* - see above | | | |
+| D | Stories core | the markdown move (ex-C), `stories/` package, `context.py` screenshot caption + `document()`, `jupyter_context.py`, `framework.py` wiring, `GALAXY_TEST_STORIES_DIRECTORY`, `latest` symlink, `to_pdf_raw(directory=)` | the 383 `self.screenshot()` calls already on dev - no test changed | **done**, branch `selenium_stories_core` @ `ce5591cc7cf` - 17 unit tests red-to-green, `test_run_apply_rules_tutorial` produced a 15-screenshot story live under Playwright |
+| D2 | Story sections | sections, filtering, markdown merging, `SectionProxy`, `cli.py` story flags, `navigates_galaxy_mixin.py`, `test_story_sections.py` | `stories/data/upload.py` (F) and `generate_rule_builder_tutorial.py` (G) - so fold into whichever lands first | `test_story_sections.py` |
 | E | Workbook import tests | `test_workbook_import.py`, `navigation.yml`, 4 client components | the tests themselves | both backends |
 | F | Story data + upload extraction | `stories/data/` examples and fragments, `upload.py`, `smart_components.wait_for_and_highlight`, `test_uploads.py` | `upload.py` | both backends |
 | G | Tutorial generator | `generate_rule_builder_tutorial.py` | manual | manual |
@@ -103,11 +117,14 @@ extraction (C), because C is an extraction of code dev already has and already c
 D is next and is the first piece needing a running Galaxy. From D on: start Galaxy once, set
 `GALAXY_TEST_STORIES_DIRECTORY`, run Playwright first then Selenium, one at a time.
 
-**D is the piece that cannot be split honestly.** `story.py` alone is a document model
-nothing builds; the context API alone has nothing to write into. The smallest reviewable
-unit is the model plus the wiring plus one test that produces a story. That answers the
-old "split piece 4?" question: no, but it absorbs the old pieces 5, 6, 7 and 8, so the
-count of PRs goes down rather than up.
+**D could not be split by layer, but it split by feature.** `story.py` alone is a document
+model nothing builds and the context API alone has nothing to write into, so the model plus
+the wiring plus a consumer is the smallest reviewable unit - that part of the old plan held.
+What the plan missed is that **sections are a separate feature with separate consumers**.
+Cutting them took `story.py` from 622 lines to 240 and dropped the 570-line
+`test_story_sections.py` wholesale, because that file covers only sections. The consumer
+test for what remains needed no code at all: every `@selenium_test` already calls
+`self.screenshot()`.
 
 **Hard constraint, unchanged: no new `@selenium_only` decorator may appear.**
 
