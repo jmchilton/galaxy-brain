@@ -300,9 +300,9 @@ which is `%Y%m%d%H%M%s` - lowercase `%s`, so date-and-time followed by epoch sec
 for a documentation artifact, but it is pre-existing and shared, and changing it would
 rename the CI error directories too.
 
-### PR E — `workbook_import` @ `dc4bf82c47e`
+### PR E — `workbook_import` @ `f1281956c49`
 
-Pushed, no PR. Off dev `b437cb3f0d6`, one commit, +176/−16.
+Pushed, no PR. Off dev `b437cb3f0d6`, one commit, +206/−24.
 
 **Re-derived, not ported.** Dev's own #23602 rework landed
 `lib/galaxy_test/selenium/upload_activity_helpers.py`, which already has a `RuleImportContext`
@@ -347,14 +347,61 @@ and `CardDownloadWorkbook` get `data-description` attributes. Three selectors ad
 **The workbook examples land in `test-data/rules/`,** beside `PRJDA60709.tsv` and the rest,
 not in the package. F moves the whole set together.
 
-**Verified.** 5 tests pass under **both** backends against a live Galaxy — Playwright 29.35s,
-Selenium 71.39s — so no `selenium_only`. All three refactored `set_file_input` call sites
-regression-run under both backends (`test_deferred_upload`, `test_composite_file_upload`,
-`test_import_from_local_zip`). isort / black / flake8 / prettier / eslint / mypy / vue-tsc clean;
+**Verified.** 6 tests pass under **both** backends against a live Galaxy — Playwright 43.32s,
+Selenium (with the three regression tests) 161.70s — so no `selenium_only`. All three
+refactored `set_file_input` call sites regression-run under both backends
+(`test_deferred_upload`, `test_composite_file_upload`, `test_import_from_local_zip`), as is
+`test_rules_example_4_accessions`, the GTN screenshot test the source helper now serves.
+isort / black / flake8 / prettier / eslint / mypy / vue-tsc clean;
 mypy's resolution against this worktree was itself checked by breaking a method name and
 confirming the error. `test_upload_activity.py::test_upload_with_metadata` fails locally,
 but it fails identically with `upload_activity_helpers.py` and `navigates_galaxy.py` reset to
 `origin/dev`, so it is local state, not this branch.
+
+**Reviewed 2026-10-01 and amended** (was `dc4bf82c47e`). The review found **no bugs** — it
+checked each correctness question and confirmed the tests fail loudly rather than silently:
+an empty mapping raises `IndexError`, an unpopulated source textarea raises
+`JSONDecodeError`, and the full-wizard test cannot fall through to the shortcut because
+`CardUploadWorkbook` only renders under `v-else-if="wizard.isCurrent('upload-workbook')"`,
+so its file input is absent until the wizard reaches step 3. Seven things were fixed anyway,
+each verified first:
+
+- **`rule_builder_show_and_get_source` collapsed no duplication.** The claim that both
+  extractions collapse existing copies was true of `set_file_input` and false of this one.
+  `test_uploads.py:252-259` *is* the helper line-for-line; I had skipped it because of a
+  screenshot taken while the modal is open — but `screenshot_if(screenshot_name)` is exactly
+  the idiom `rule_builder_set_mapping`, `rule_builder_sort` and
+  `rule_builder_add_regex_replacement` already use. The helper now takes `screenshot_name`
+  and that site is two lines. Re-run under both backends: `rules_example_4_8_source.png` and
+  the 841-byte `rules_example_4_8_text.txt` are both still produced.
+- **`data-description="workbook upload card"` had no consumer** — the first-consumer rule
+  applied to my own addition. Deleted; the card's rendering is already proven by the
+  `wait_for_present` on its file input.
+- **`set_file_input` was looser than its own neighbour.** `shift_click`, four lines above,
+  takes `WebElementProtocol` and goes through `cast("HasPlaywrightDriver", self._driver_impl)
+  ._unwrap_element(...)`, which raises a clear `TypeError` instead of an `AttributeError`.
+  Mine was untyped — which was the only reason `.element_handle` passed mypy — and used
+  `self.backend_type` where the neighbours use `self._driver_impl.backend_type`. Now matches.
+- **`.creating("collections")` was a no-op in three tests.** `handleUploadedData`
+  (`BuildFileSetWizard.vue:224`) overwrites `creatingWhat` from the server's `workbook_type`,
+  which is inferred from the headers alone, so the click was discarded on upload. Dropped —
+  it read as a precondition and was not one.
+- **`configure-workbook` was untested.** The dropped reference test
+  `test_collection_type_selection_for_import` had zero assertions, so no asserted coverage was
+  lost, but it was the only thing walking that step, leaving the `&collection_type=` half of
+  the download href uncovered. A sixth test now picks `list:paired` and asserts both
+  `type=collection` and `collection_type=list:paired` in the generated link.
+- **`_assert_mapping` never checked the mapping's length,** so a spurious extra entry past the
+  last asserted index would have passed. `_mapping(expected_length)` now asserts it.
+- **Prop renamed `description` → `dataDescription`,** matching `itemDataDescription` /
+  `goToAllDataDescription` elsewhere in the client. Vue camelizes the attribute, so call sites
+  read `data-description="…"` and the live run proves the binding works.
+
+**Known trade-off, deliberate.** Writing to the hidden `<input type="file">` bypasses the
+visible upload affordance: break `browseFiles` or delete the `BLink` and the tests stay green.
+The reference clicked the control and caught the file chooser, but `expect_file_chooser` is
+Playwright-only and clicking a file input under Selenium opens a native dialog, so there is no
+both-backends way to exercise the click. Called out in the PR description.
 
 **Built in a second worktree** (`~/projects/worktrees/galaxy/branch/workbook_import`), since
 `selenium_stories_core`'s polish holds the long-lived one. That is an exception to
