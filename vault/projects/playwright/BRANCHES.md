@@ -174,7 +174,7 @@ exercised by blocking the imports. 7 failures in `test_model_discovery.py` appea
 those three suites run together and reproduce identically on clean dev - pre-existing
 cross-suite pollution.
 
-### PR D — `selenium_stories_core` @ `ce5591cc7cf`
+### PR D — `selenium_stories_core` @ `eccdbdaf9a7`
 
 Pushed, no PR. Carries `move_markdown_conversion_to_util` as its first commit, because
 PR C had no application of its own.
@@ -229,9 +229,76 @@ and the PDF branch is skipped. That failure is itself the evidence for keeping d
 argument is covered by unit tests with a stubbed weasyprint, including cleanup when
 rendering raises.
 
-**Known rough edge.** On a retry, `story.reset()` renumbers from 000 but does not delete
-the failed attempt's PNGs, so a longer failed run can leave unreferenced images in the zip.
-The markdown only references what was recorded.
+**Reviewed 2026-10-01 and rewritten.** A subagent review found eight real defects, all
+confirmed before fixing. The two that changed the PR's shape:
+
+- **The conversion could not live in `galaxy.util.markdown`.** `galaxy/datatypes/data.py`
+  and `tabular.py` import that module for `literal_via_fence` / `pre_formatted_contents`,
+  so a top-level `import markdown` there loads the markdown package on every
+  `set_metadata`. Verified: before, importing `galaxy.util.markdown` pulled in `markdown`;
+  now neither it nor `galaxy.datatypes.tabular` does. The conversion lives in a new
+  `galaxy/util/markdown_convert.py` and `galaxy/util/markdown.py` is byte-identical to dev
+  again. This also deleted the `pre_formatted_contents(markdown)` -> `(content)` rename and
+  its shadowing comment - both were symptoms of putting the imports in the wrong module,
+  not fixes.
+- **`markdown-convert` must not contain weasyprint.** `conditional-requirements.txt` makes
+  weasyprint optional on purpose ("problematic requirements (cairo, Pango)", xref #9651)
+  and it is absent from `pinned-requirements.txt`. Requiring `galaxy-util[markdown-convert]`
+  from `packages/selenium` would have made it a hard install dependency of galaxy-selenium
+  and galaxy-test-selenium, reversing #9651 for those packages - and needlessly, since
+  `_generate_pdf` already degrades. The extra is now `["Markdown"]` only.
+
+**The serious bug was the decorator.** `story.finalize()` sat inside the `try`, so a
+story-write failure was caught by `except Exception`, **retried as though the test had
+failed**, and finally reported as the test's error; on the failure path it sat inside the
+`except` and **replaced the real exception**. That is precisely the case stories exist to
+help debug. Story writing now goes through a guarded helper outside the `try`, matching
+`dump_test_information`'s "diagnostics never throw" discipline. Three of the six new
+decorator tests fail against the pre-review commit.
+
+Also fixed: `write_screenshot_directory_file` still called `_screenshot_path`, so with
+stories on it wrote `.txt` into the story directory, stopped populating the screenshots
+directory and consumed a screenshot number; `story.reset()` hung off
+`reset_driver_and_session`, which `test/integration_selenium/framework.py:28` also calls
+from `restart()` - moved to the retry branch where the semantics are; `_create_zip` walked
+the directory and so shipped the discarded attempt's PNGs - it now archives only the
+documents plus the screenshots the markdown references, which closes the "known rough edge"
+noted before the review and makes the stray `index.html` impossible; `inspect.cleandoc` on
+the docstring, because before Python 3.13 `__doc__` keeps its source indentation and
+markdown renders that as a code block (Galaxy supports >=3.10, this machine is 3.14, so it
+looked fine locally); `encoding="utf-8"` on both writes; `html.escape` on the `<title>`,
+the one sink `to_html` does not sanitize; `latest` symlinked on every path, not only
+success; the run directory now carries the class name and uses `exist_ok=True`, factored
+into a `run_directory` helper shared with `dump_test_information` - test method names
+repeat across selenium classes and a same-second collision used to crash the test outright.
+
+**Not taken: collapsing the null object's interface.** The review suggested replacing
+`enabled` / `output_directory` / `screenshot_counter` with one `screenshot_path()` method,
+which would remove both `story.enabled` branches. A fair simplification, but a larger
+refactor than the defects warranted.
+
+**Consumer added.** `caption=` and `document()` had no caller, so
+`test_run_apply_rules_tutorial` now captions its eight direct screenshots and narrates the
+steps. The framing came out of the review: `pytest.ini` already defines a `gtn_screenshot`
+marker, "marks test as a screenshot producer for galaxy training network" - those tests
+exist to produce documentation and currently emit loose PNGs. That is a better argument for
+this feature than the one the first commit message made.
+
+**Re-verified after the rewrite.** 1480 passed across `test/unit/selenium/`,
+`test/unit/util/` and `test/unit/app/managers/` (the 3 known local geckodriver failures),
+isort/black/mypy clean, and `test_run_apply_rules_tutorial` run live again: passed in
+70.60s, docstring rendered as prose rather than a code block, captions as headings,
+narration interleaved, 15 screenshots dual-saved.
+
+**Still unverified: `story.pdf`.** weasyprint cannot load on this machine. The
+`directory=` argument and its cleanup are covered by unit tests with a stubbed weasyprint,
+including the case where rendering raises and the case that proves `index.html` never
+reaches the zip.
+
+**Cosmetic note.** Story directories inherit `dump_test_information`'s timestamp format,
+which is `%Y%m%d%H%M%s` - lowercase `%s`, so date-and-time followed by epoch seconds. Ugly
+for a documentation artifact, but it is pre-existing and shared, and changing it would
+rename the CI error directories too.
 
 ### Piece 1 — `rule_target_column_docs` @ `696002e13f6`
 
