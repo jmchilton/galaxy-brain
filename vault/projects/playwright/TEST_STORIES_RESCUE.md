@@ -110,12 +110,15 @@ pushed and becomes D's first commit.
 | C | *folded into D* - see above | | | |
 | D | Stories core | the markdown move (ex-C), `stories/` package, `context.py` screenshot caption + `document()`, `jupyter_context.py`, `framework.py` wiring, `GALAXY_TEST_STORIES_DIRECTORY`, `latest` symlink, `to_pdf_raw(directory=)` | the 383 `self.screenshot()` calls already on dev - no test changed | **done**, branch `selenium_stories_core` @ `eccdbdaf9a7` - 26 unit tests red-to-green, reviewed and rewritten, `test_run_apply_rules_tutorial` produced a 15-screenshot story live under Playwright |
 | D2 | Story sections | sections, filtering, markdown merging, `SectionProxy`, `cli.py` story flags, `navigates_galaxy_mixin.py`, `test_story_sections.py` | `stories/data/upload.py` (F) and `generate_rule_builder_tutorial.py` (G) - so fold into whichever lands first | `test_story_sections.py` |
-| E | Workbook import tests | `test_workbook_import.py`, `navigation.yml`, 4 client components | the tests themselves | both backends |
+| E | Workbook import tests | `test_workbook_import.py`, `navigation.yml`, 3 client components, `set_file_input`, `rule_builder_show_and_get_source` | the tests themselves | both backends - **branch `workbook_import` @ `dc4bf82c47e`, E2E run pending** |
 | F | Story data + upload extraction | `stories/data/` examples and fragments, `upload.py`, `smart_components.wait_for_and_highlight`, `test_uploads.py` | `upload.py` | both backends |
 | G | Tutorial generator | `generate_rule_builder_tutorial.py` | manual | manual |
 
-D is next and is the first piece needing a running Galaxy. From D on: start Galaxy once, set
-`GALAXY_TEST_STORIES_DIRECTORY`, run Playwright first then Selenium, one at a time.
+From D on each piece needs a running Galaxy: start Galaxy once, set
+`GALAXY_TEST_STORIES_DIRECTORY` where stories are involved, run Playwright first then Selenium,
+one at a time. E is being built in a second worktree (`branch/workbook_import`) because D's
+polish still holds the long-lived one; that is an exception to the one-worktree rule in
+`PROJECT_MANAGEMENT.md`, not a change to it.
 
 **D could not be split by layer, but it split by feature.** `story.py` alone is a document
 model nothing builds and the context API alone has nothing to write into, so the model plus
@@ -160,6 +163,29 @@ file imports Selenium's `Select`, and the decorator is also what enables Playwri
 runs. If those tests fail under Playwright, the pressure will be to add a
 `selenium_only` - which breaks the hard constraint above. Check before piece 6.
 
+**Dev reworked the upload helpers underneath this plan (#23602).** `lib/galaxy_test/selenium/upload_activity_helpers.py`
+is new on dev and already carries a `RuleImportContext` with `creating()`/`from_source()`/`wait_for_builder()`,
+plus a `file_set_wizard` component with `source_workbook` and the `data-creating-what` /
+`data-import-source-from` hooks. That is most of what the branch's 955-line `stories/data/upload.py`
+was going to introduce, built better. Consequences:
+
+- **E was not independent.** The branch's `test_workbook_import.py` imports `UploadStoriesMixin`
+  from F and narrates with `self.document()` from D, so it could not have been cut first as written.
+  Re-derived against dev it needs neither: 5 tests on `UsesUploadActivity`, 3 new selectors and
+  2 new `RuleImportContext` methods.
+- **The `ActivitySettings.vue` hunk is dropped.** It existed for `ensure_rules_activity_enabled`,
+  which walked the activity bar to turn the rules activity on. Dev's `RuleImportContext` goes
+  straight to the `rules` route, so nothing consumes those `data-activity-*` attributes.
+- **F shrinks to narration and examples.** The mechanics it was going to extract from
+  `test_uploads.py` already live on dev.
+- **Two extractions ride along with E, both with existing duplication to collapse:**
+  `set_file_input` (the Playwright/Selenium file-attach split, copied three times in
+  `upload_activity_helpers.py`) and `rule_builder_show_and_get_source`, the read side of dev's
+  `rule_builder_set_source`.
+
+**The workbook examples land in `test-data/rules/`,** beside the rule examples dev already has,
+rather than in the package. F moves the whole set together.
+
 **Small hunks sort cleanly.** `configuration.py` and `notification.py` are import
 fixes from the markdown move and ride with piece 3. `ActivitySettings.vue` adds
 `data-activity-id` / `data-activity-visible` test hooks and rides with piece 9.
@@ -180,7 +206,7 @@ same applies to anything under `packages/` for the remaining pieces.
 ## Open questions
 
 - `test_trs_import.py`: do those four tests pass under Playwright once decorated?
-  Check before PR D — if they fail, the pressure will be to add `@selenium_only`,
+  Check before PR F — if they fail, the pressure will be to add `@selenium_only`,
   which breaks the project's other goal.
 
 Answered 2026-09-30:
