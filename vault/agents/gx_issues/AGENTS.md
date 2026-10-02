@@ -16,4 +16,4 @@ with a cross reference maintained between branches developed here and the issues
 tracked in `ISSUES.md`.
 ## To File
 
-Issues dropped into tofile/ need to make their way to Github and be deleted. When the user asks to file an issue, follow [`FILE_ISSUE.md`](FILE_ISSUE.md).
+Issues dropped into to_file/ need to make their way to Github and be deleted. When the user asks to prepare an issue for filing, follow [`PREPARE_TO_FILE.md`](PREPARE_TO_FILE.md).

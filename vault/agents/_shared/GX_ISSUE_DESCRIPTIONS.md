@@ -6,7 +6,7 @@ In general issues to Galaxy should be of the structure:
 
 <OPENER> (see below)
 
-For the main body - use best judgement.
+For the main body (problem/issue/request/etc) - use best judgement.
 
 ## Context
 
@@ -46,6 +46,9 @@ Combine sentences into one short paragraph in a "## Context" section.
 
 - Use detail tags and nested details also.
 - Hide long tracebacks, logs and code walks in details. Don't include detailed code walks unless they're needed.
+## DO: Lead with showing instead of telling.
+
+If the main body can be front loaded with something visual - please make it so. If the bulk of it can be entirely visual - please make it so. See ./show_me.md for guidance.
 ## DO: Be persuasive.
 
 The issue is a pitch. Readers should be convinced the problem is real or the feature is needed before any proposed fix.

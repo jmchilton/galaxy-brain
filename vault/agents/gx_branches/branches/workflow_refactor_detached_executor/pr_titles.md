@@ -1,0 +1,4 @@
+- Stop workflow refactors from saving no-op versions and rewriting the source version
+- Fix workflow refactor API damaging version history
+- Refactor API: skip no-op saves, never mutate the refactored version
+- Safer workflow refactor handling: no duplicate versions, no rewritten history

@@ -24,7 +24,7 @@ Branch: `workflow_input_pipe_names_validation`.
 
 Head: `6955e15470`; implementation diff in `workflows.py`: 25 additions, 7 deletions.
 
-[PR description](workflow_input_pipe_names_validation_pr_description.md).
+[PR description](branches/workflow_input_pipe_names_validation/pr_description.md).
 
 Legacy workflows still load with their original input labels. Authors must fix
 invalid input names manually before saving those inputs. No automatic label
@@ -39,7 +39,7 @@ Branch: `workflow_input_pipe_names_top_level`.
 
 Head: `c896bb579d`; implementation diff in `workflows.py`: 58 additions, 7 deletions.
 
-[PR description](workflow_input_pipe_names_top_level_pr_description.md).
+[PR description](branches/workflow_input_pipe_names_top_level/pr_description.md).
 
 Adds deterministic editor-time pipe-to-underscore replacement for the inputs of
 the workflow currently being edited, with suffixes to avoid label collisions.
@@ -57,7 +57,7 @@ Branch: `workflow_input_pipe_names_nested`.
 
 Head: `05184b9bab`; implementation diff in `workflows.py`: 120 additions, 11 deletions.
 
-[PR description](workflow_input_pipe_names_nested_pr_description.md).
+[PR description](branches/workflow_input_pipe_names_nested/pr_description.md).
 
 Adds parent input-interface and connection remapping. Referenced subworkflows
 are copied before renaming so the originals are not changed. Both

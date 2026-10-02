@@ -1,0 +1,1 @@
+- `tighten_extended_metadata_permissions` — gave up on tightening extended metadata permissions (John, 2026-10-02); branch had no commits beyond `dev`.

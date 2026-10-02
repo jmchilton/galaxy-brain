@@ -211,3 +211,14 @@ central question, and it is the same question as which step and parameter actual
 usegalaxy.eu invocation `679b8f790f03d7b8`. The
 mechanism above is verified; its application to this specific workflow is not. Needed:
 `GET /api/invocations/679b8f790f03d7b8?step_details=true` plus the failing job id.
+
+## Runtime route found (2026-10-02, polish)
+
+The `-1` path *is* reachable at runtime, with no subworkflow:
+
+- Invoke with `allow_tool_state_corrections: true`, which planemo always sends (`planemo/galaxy/activity.py:327`), a workflow whose **top-level** step has its conditional test param connected to an upstream text output (`param_value_from_file`).
+- The request-time 400 is skipped. At scheduling, the upstream value (`Pooling`) replaces the test param, `__current_case__` is stored as `-1`, and the step is wrapped with the last case.
+- On `release_26.0` the step fails with `'RuntimeValue' object has no attribute 'find_conversion_destination'`: the last case's `reads` was never connected. That's not the `hashable` crash, but it's the same wrong-case wrap.
+- On the branch it fails with `No case matching 'batch_select' value 'Pooling'. Valid values are ['no', 'yes'].`, and no job is created. Pinned by `test_run_workflow_corrected_state_unresolvable_conditional_case` (`929df4068f4`).
+
+The earlier attempts above were inside subworkflows, where the `inject()` shadowing bug drops the flag, so they never got past the 400. Whether the reporter used planemo (or the flag) is still unconfirmed. See `branches/issue_23521_conditional_case_resolution/polish_debrief.md`.

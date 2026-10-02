@@ -11,4 +11,8 @@ Then:
 - Rebase onto the PR's actual base branch. Check the base with `gh pr view --json baseRefName`; don't assume dev.
 - Resolve mechanical and small conflicts and to report any substantial ones.
 - Force-push with --force-with-lease only to my fork.
-- 
+
+If any branches exist in - branches_need_polish - polish these branches according ./POLISH_BRANCH.md.
+
+If any branches exist in - branches_implemented, branches_need_decision, or branches_need_pr - report these decision points to the user.
+

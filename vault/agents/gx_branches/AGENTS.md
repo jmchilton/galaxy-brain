@@ -1,23 +1,15 @@
 # My Galaxy Branches and PRs
 
-@./GALAXY_BRANCHES_POLICY.md
+@../_shared/MY_BRANCHES_INDEX.md
 
 In the following file, PROJECT is `galaxy`.
 
 @../_shared/WORKTREES.md
 
-## These files are not vault notes
+The agent running in this directory is responsible for maintaining and promoting branches within ./MY_BRANCHES.md.
 
-`vault/agents/**` is excluded from the vault's frontmatter contract — `agents` is in
-`SKIP_DIRS` in `validate_frontmatter.py`, and `!reviews/**` is in the glob in
-`site/src/content.config.ts`. That covers `index.md` here too, despite `index.md` being
-the validated entry point in `projects/` and `papers/`. So:
+If the user asks to abandon a branch, follow the process described for that.
+If the user asks to polish a branch, follow the process described in ./POLISH_BRANCH.md.
 
-- No YAML frontmatter required. Don't add any; it buys nothing here.
-- They don't appear in `Index.md`, `Dashboard.md`, or the Astro site.
-- Wiki links out to real vault notes (`[[PR 21842 - ...]]`) still work in Obsidian and are
-  fine to use, but nothing links back automatically.
+If the user asks for possible next tasks - review the kinds of tasks in ./GOOD_MORNING.md - and offer to do those kinds of things for relevant branches/PRs.
 
-If a review matures into something worth publishing, promote it into `vault/research/`
-as a proper note (`type: research`, `subtype: pr`) rather than adding
-frontmatter in place.

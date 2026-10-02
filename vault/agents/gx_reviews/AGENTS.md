@@ -17,6 +17,12 @@ In these files PROJECT is galaxy.
 @../_shared/WORKTREES.md
 
 `/sync-galaxy-reviews` creates missing queued worktrees and removes eligible settled ones.
+
+## Galaxy Review Notes
+
+The above linked advice is for general review notes - but for Galaxy specifically please be sure to include a risk assessment in reviews.
+
+@../_shared/GX_ASSESSING_RISK.md
 ## Delivery and follow-up
 
 Once a review is delivered, the ball is theirs. Do not propose nudging the author, bumping a
