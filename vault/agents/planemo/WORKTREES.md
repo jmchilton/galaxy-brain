@@ -21,7 +21,7 @@ The unrelated authoring worktrees were relocated with `git worktree move` to `/U
 
 [PR_DESCRIPTION_1692.md](PR_DESCRIPTION_1692.md) and [PR_DESCRIPTION_1693.md](PR_DESCRIPTION_1693.md) were also moved here; their worktrees were not in the embedded-Galaxy project directory.
 
-These are existing authoring branches, not new `ghwt` PR-review worktrees. The review list and its lifecycle rules in [AGENTS.md](AGENTS.md) are unchanged.
+These are existing authoring branches, not new `ghwt` PR-review worktrees. The review list and its lifecycle rules in [AGENTS.md](agents/planemo/AGENTS.md) are unchanged.
 
 ## Package-installed Galaxy work
 

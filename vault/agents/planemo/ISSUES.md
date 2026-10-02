@@ -1,6 +1,7 @@
 # Planemo issue triage
 
-PR and issue states below verified against GitHub 2026-09-25.
+Baseline triage verified 2026-09-25. Current PR health and new issues checked
+2026-10-01: [morning triage](MORNING_TRIAGE_2026-10-01.md).
 
 ## Blocked issues
 
@@ -125,9 +126,23 @@ Found during the sweep; not filed anywhere.
 
 ## Build-next shortlist
 
-XS/S: 286 577 904 1515 1413 1077 258
+XS/S: 286 577 1515 1413 1077 258
 S–M: 1516 · M: 807 1139 1613 1449 96(+706) · admin: 1342
 Newly actionable: 1672 (galaxy#23229 merged 2026-09-22)
+
+## Implemented
+
+- 904 reserved input names — [Galaxy PR 23831](https://github.com/galaxyproject/galaxy/pull/23831)
+  merged; Galaxy-side linter implemented 2026-09-30 on
+  [issue-904-reserved-input-names](https://github.com/jmchilton/galaxy/tree/issue-904-reserved-input-names),
+  commit `b8c564ca581`. Worktree:
+  `/Users/jxc755/projects/worktrees/galaxy/branch/issue-904-reserved-input-names`.
+  Warns on top-level Cheetah reserved names, including argument-derived parameter names
+  and input groups; nested fields remain allowed. 121 linter/template tests passed;
+  Planemo CLI smoke check with the changed linter loaded into its installed runtime
+  returned 1 for `sleep` and 0 for `duration`. No Planemo code change needed; consumers
+  receive the check through an updated galaxy-tool-util package.
+  [Review](galaxy_issue_904_reserved_input_names.md) · [PR description](PR_DESCRIPTION_904.md).
 
 ## Needs a human decision
 
@@ -135,3 +150,12 @@ Newly actionable: 1672 (galaxy#23229 merged 2026-09-22)
 - 580 blocked on agreeing a `.shed.yml` key order (IUC standards don't define one).
 - 1411 was never a regression; ask for the exact command.
 - NEEDS-REPRO: 1078 746 1194 1423 1584
+
+## New issues checked 2026-10-01
+
+- [1731](https://github.com/galaxyproject/planemo/issues/1731) interactive tools show no URL:
+  reporter says containers were still downloading; appears resolved, close candidate.
+- Assigned to jmchilton, previously absent from this index:
+  [1137](https://github.com/galaxyproject/planemo/issues/1137) new option;
+  [135](https://github.com/galaxyproject/planemo/issues/135) refactor planemo.shed.
+  Bodies and implementation status still need triage.

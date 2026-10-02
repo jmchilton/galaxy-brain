@@ -39,9 +39,7 @@ The new developer documentation describes boolean and presence conditions, repea
 
 Follow-up to #23333.
 
-<!-- FILL IN: replace #PR2 below with the real number once PR 2 is opened. -->
-
-Depends on #PR2 and is based on that branch, so the diff here shows both until it merges. Review the top commit only.
+Depends on #23816 and is based on that branch, so the diff here shows both until it merges. Review the top commit only.
 
 ## How to test the changes?
 

@@ -1,2 +1,3 @@
 PRs To Review:
-- 1695
+- 1695 — CI passing; mergeable; review pending
+- 1707 — rebased and reviewed; no blockers; awaiting fresh CI

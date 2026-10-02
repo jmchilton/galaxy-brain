@@ -2,6 +2,7 @@
 
 ## TL;DR
 
+- *Update 2026-10-01: `gen_authoring_doc.py` is gone from `dev`; current precedents (`directives.yml`, `collection_semantics.yml`, `config_schema.yml`) are in MIGRATION_PLAN Key decision: content format.*
 - Galaxy already has the exact pattern we need: **YAML source in-repo -> MyST generated at doc-build time by a script in `doc/`, gitignored output**. See `doc/Makefile` `GENERATED_RST` (`source/dev/user_defined_tools_authoring.md` from `doc/gen_authoring_doc.py` + `authoringHelp.yml`; `source/dev/schema.md` from `doc/parse_gx_xsd.py`). Architecture topics should plug into that same hook.
 - **Zero new Python deps**: our tooling imports only `pydantic`, `jinja2`, `pyyaml` (all pinned in `lib/galaxy/dependencies/dev-requirements.txt` / `pinned-requirements.txt`). `myst_parser` + `sphinx_rtd_theme` already in Galaxy's `doc/source/conf.py`.
 - **No Java/Node in docs CI**: commit rendered SVGs. Galaxy precedent: `doc/source/dev/tool_state_*.plantuml.{txt,svg}` both committed, rendered by hand via `doc/source/dev/image.Makefile` (downloads `plantuml.jar`, gitignored). This reverses our current `.gitignore` policy (renders gitignored).

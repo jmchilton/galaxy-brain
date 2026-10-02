@@ -1,29 +1,19 @@
 <!-- Suggested title: Match workflow `when` inputs by path instead of substring -->
 
-The workflow editor reconstructs input terminals for connections that exist only to supply a step's `when` expression. Those terminals are used to draw the connection on the node and lay out the graph, but today the editor decides whether to create one with a substring search:
+The workflow editor decides whether to draw an input terminal for a connection that only feeds a step's `when` expression with a substring check:
 
 ```typescript
 step.when?.includes(inputName)
 ```
 
-This confuses names such as `input1` and `input10`, counts input-like text inside strings and comments, and misses nested inputs because Galaxy stores the connection as `cond|input1` while the expression reads `inputs.cond.input1`. The result is a workflow graph with phantom condition terminals in some cases and missing terminals in others.
+This matches `input1` inside `input10` and inside strings or comments, and it misses nested inputs because the connection is named `cond|input1` while the expression reads `inputs.cond.input1`. The result is phantom terminals in some workflows and missing ones in others.
 
-This PR replaces the substring heuristic with structural reference analysis. It also adds the path translation needed to compare Galaxy's two representations:
+This PR replaces the substring check with structural analysis:
 
-- workflow connections flatten nested names, for example `cond|input1`;
-- `when` expressions traverse nested tool state, for example `inputs.cond.input1`; and
-- repeat members add an indexed mapping, for example `queries_0|input2` to `inputs.queries[0].input2`.
+- `whenExpression.ts` tokenizes the expression without executing it and collects the `inputs` paths it reads: dot, bracket, numeric, and optional-chain access, ignoring strings, comments, and regex literals. Computed properties, template literals, and unparseable input are reported as dynamic, and the editor keeps the terminal in that case.
+- `workflowInputPath.ts` translates connection names to expression paths, including repeats (`queries_0|input2` → `inputs.queries[0].input2`), and returns nothing for an ambiguous name.
 
-Two focused modules keep those responsibilities separate:
-
-- `whenExpression.ts` tokenizes the supported JavaScript-like property-access forms without executing the expression. It recognizes dot, bracket, mixed, numeric, and optional-chain access while ignoring strings, comments, and regular-expression contents.
-- `workflowInputPath.ts` translates flattened connection names into segmented expression paths, resolves repeat indices against tool state, and returns no result when a name has more than one valid interpretation.
-
-The step store now synthesizes an extra terminal only when the connection path is structurally referenced by the expression. Analysis remains deliberately conservative: computed properties, template literals, unsupported syntax, and tokenization failures are treated as dynamic, so the editor keeps a real connection when it cannot prove that the expression is unrelated.
-
-The expression cases live in declarative YAML so the supported syntax and conservative boundaries can be reviewed as data and reused by other implementations. Path tests separately cover nested conditionals, repeats, nested repeats, literal names that resemble repeat members, and ambiguous flattened names.
-
-This is a client-side follow-up to #23409, which removed the runtime's pipe-prefixed alias for nested tool inputs and left the nested property path as the canonical spelling. It does not change expression evaluation or the workflow format. The analyzer and shared cases are also the foundation for #23424's import-time validation and the follow-up editor work for running a step only when an optional input is present.
+The expression cases live in `when_expression_spec.yml` so other implementations can share them (#23424 uses them server-side). No change to expression evaluation or the workflow format. Follow-up to #23409, which made the nested path the only supported spelling.
 
 ## How to test the changes?
 

@@ -30,6 +30,7 @@ Prior attempts worth reading before starting fresh.
 Checked and confirmed real. Don't re-derive these from cross-reference links.
 
 - 263 support Galaxy expression tools — https://github.com/galaxyproject/pulsar/pull/266 and the other referenced commits are **workarounds**, not a fix. The gap stands.
+- 527 consolidate the duplicated `_wait_for` test helpers into `test/test_utils.py` (assigned to jmchilton; from the #525 review) — draft https://github.com/galaxyproject/pulsar/pull/528
 
 ## Untriaged
 

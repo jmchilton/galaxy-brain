@@ -2,16 +2,20 @@
 
 Addresses galaxyproject/pulsar#135.
 
-A Pulsar destination with `jobs_directory` builds its job config locally, so `pulsar_version` there is Galaxy's own `pulsar-galaxy-lib` version, not the remote's. The minimum version check always passed, and the `0.14.999` new-shell and `0.15.13` dataset collector gates keyed off the wrong version.
+A Pulsar destination with `jobs_directory` builds its job config locally, so `pulsar_version` there is Galaxy's own `pulsar-galaxy-lib` version, not the remote's. The minimum version check compared the client library against itself and always passed.
 
-The companion Pulsar change (galaxyproject/pulsar#523) marks these configs with `pulsar_version_source` (`client`, or `destination` when the admin sets `remote_pulsar_version`).
+The companion Pulsar change (galaxyproject/pulsar#523) records where the version came from in `pulsar_version_source`:
+- `destination`: the admin set `remote_pulsar_version`.
+- `container_image`: the Kubernetes, TES and GCP Batch runners use a published `galaxy/pulsar-pod-staging` image, and Pulsar knows which version it was built from. This includes Galaxy's default `0.15.0.2`.
+- `remote`: the remote Pulsar reported its own version.
+- `client`: none of the above, so the version is only the client library's.
 
-- `PulsarJobRunner.pulsar_version()` returns `None` for `client`.
-- `check_job_config` logs at info and skips the check when the version is unknown. A declared version is checked as before.
-- The new-shell and dataset collector gates assume a current Pulsar when the version is unknown, which is what happens today in practice.
-- `PulsarEmbeddedMQJobRunner` defaults `remote_pulsar_version` to `pulsar.__version__`. Its queue is consumed by the in-process Pulsar app, so the version is known and the check still runs. A destination can override it.
-- Configs without the key (remote setup, and any Pulsar release before this) behave exactly as before, so this is safe to merge ahead of the Pulsar release.
+Changes here:
+- `check_job_config` skips the minimum version check for `client` and logs that at debug. Every other source is checked as before.
+- The other version checks (the `0.14.999` new-shell check and the `0.15.13` dataset collector check) are unchanged. For `client` they compare against the client library's version, which is current, so a current remote is assumed.
+- `job_conf.sample.yml` documents `remote_pulsar_version` under the MQ destination. It notes that the setting is needed for remotes older than 0.15.13; otherwise discovered outputs are silently dropped.
+- Configs without the key (any Pulsar client before #523) behave exactly as before, so this is safe to merge ahead of the Pulsar release.
 
-Adds unit tests for `check_job_config` covering the reported, client, and declared cases, and for the embedded MQ default.
+Adds unit tests for `check_job_config` covering the skipped `client` case and the checked `destination`, `container_image` and `remote` cases.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
