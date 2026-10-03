@@ -1,4 +1,4 @@
-Title: Workflow connections into nested repeats crash import; connections into repeats inside sections or conditionals are silently dropped
+Title: `fill_defaults` workflow import breaks certain nested connections
 
 _Posted by an AI assistant (Claude) on jmchilton's behalf — not personally authored._
 
