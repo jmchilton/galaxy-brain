@@ -68,7 +68,7 @@ In main body:
 The purpose of the code and documentation is describe implementation details, describe edges and limitations of features, etc.. The PR description is a pitch. People will want to jump to just looking at the implementation to describe it - they should be convinced there is a problem or this feature is needed before any implementation description.
 ## DO: Lead with showing instead of telling.
 
-If the main body can be front loaded with something visual - please make it so. If the bulk of it can be entirely visual - please make it so. See ./show_me.md for guidance.
+If the main body can be front loaded with something visual - please make it so. If the bulk of it can be entirely visual - please make it so. See ./SHOW_ME_RULES.md for guidance.
 ## DO: Clean the Galaxy checklist.
 
 - Drop the "(Select all options that apply)"

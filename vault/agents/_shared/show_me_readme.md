@@ -16,4 +16,4 @@ Don't edit `show_me.md` locally. Re-copy it from upstream so that it stays a cle
 3. Update the upstream commit and copied date above. The latest commit for the file is shown at
    https://github.com/humanlayer/skills/commits/main/plugins/show-me/skills/show-me/SKILL.md
 
-Put local adaptations in a separate file that references this one.
+Local adaptations live in `SHOW_ME_RULES.md`, which references this file.
