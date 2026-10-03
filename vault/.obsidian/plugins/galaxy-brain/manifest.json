@@ -1,0 +1,9 @@
+{
+  "id": "galaxy-brain",
+  "name": "Galaxy Brain",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Vault helpers for galaxy-brain: copy file contents, GitHub-style preview of issue drafts.",
+  "author": "John Chilton",
+  "isDesktopOnly": false
+}

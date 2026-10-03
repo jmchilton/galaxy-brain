@@ -1,0 +1,138 @@
+/* GitHub-flavored preview: approximates github.com issue body rendering. */
+.galaxy-brain-github-preview {
+	padding: 24px 32px;
+	font-size: 14px;
+	line-height: 1.5;
+	user-select: text;
+}
+
+.galaxy-brain-github-preview .gbp-issue-title {
+	font-size: 2em;
+	font-weight: 400;
+	margin: 0 0 16px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.galaxy-brain-github-preview .gbp-body h1,
+.galaxy-brain-github-preview .gbp-body h2 {
+	padding-bottom: 0.3em;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.galaxy-brain-github-preview .gbp-body details {
+	margin: 8px 0;
+	padding: 4px 12px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+}
+
+.galaxy-brain-github-preview .gbp-body details[open] {
+	padding-bottom: 8px;
+}
+
+.galaxy-brain-github-preview .gbp-body summary {
+	cursor: pointer;
+	font-weight: 600;
+	padding: 4px 0;
+}
+
+.galaxy-brain-github-preview .gbp-body details[open] > summary {
+	margin-bottom: 8px;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.galaxy-brain-github-preview .gbp-body code {
+	padding: 0.2em 0.4em;
+	border-radius: 6px;
+	background: var(--background-secondary);
+	font-family: var(--font-monospace);
+	font-size: 85%;
+}
+
+.galaxy-brain-github-preview .gbp-body pre {
+	padding: 16px;
+	overflow: auto;
+	border-radius: 6px;
+	background: var(--background-secondary);
+}
+
+.galaxy-brain-github-preview .gbp-body pre code {
+	padding: 0;
+	background: none;
+	font-size: 85%;
+}
+
+.galaxy-brain-github-preview .gbp-body table {
+	border-collapse: collapse;
+}
+
+.galaxy-brain-github-preview .gbp-body th,
+.galaxy-brain-github-preview .gbp-body td {
+	padding: 6px 13px;
+	border: 1px solid var(--background-modifier-border);
+}
+
+.galaxy-brain-github-preview .gbp-body blockquote {
+	margin: 0;
+	padding: 0 1em;
+	color: var(--text-muted);
+	border-left: 0.25em solid var(--background-modifier-border);
+}
+
+.galaxy-brain-github-preview .gbp-body .task-list-item {
+	list-style: none;
+}
+
+.galaxy-brain-github-preview .gbp-body .task-list-item input {
+	margin: 0 0.3em 0 -1.4em;
+}
+
+/* Prism tokens, mapped to the theme's code palette. */
+.galaxy-brain-github-preview .token.comment,
+.galaxy-brain-github-preview .token.prolog,
+.galaxy-brain-github-preview .token.doctype,
+.galaxy-brain-github-preview .token.cdata {
+	color: var(--code-comment);
+}
+
+.galaxy-brain-github-preview .token.keyword,
+.galaxy-brain-github-preview .token.atrule,
+.galaxy-brain-github-preview .token.important {
+	color: var(--code-keyword);
+}
+
+.galaxy-brain-github-preview .token.string,
+.galaxy-brain-github-preview .token.char,
+.galaxy-brain-github-preview .token.attr-value,
+.galaxy-brain-github-preview .token.regex {
+	color: var(--code-string);
+}
+
+.galaxy-brain-github-preview .token.function,
+.galaxy-brain-github-preview .token.class-name {
+	color: var(--code-function);
+}
+
+.galaxy-brain-github-preview .token.number,
+.galaxy-brain-github-preview .token.boolean,
+.galaxy-brain-github-preview .token.constant {
+	color: var(--code-value);
+}
+
+.galaxy-brain-github-preview .token.property,
+.galaxy-brain-github-preview .token.attr-name,
+.galaxy-brain-github-preview .token.variable {
+	color: var(--code-property);
+}
+
+.galaxy-brain-github-preview .token.tag,
+.galaxy-brain-github-preview .token.selector,
+.galaxy-brain-github-preview .token.builtin {
+	color: var(--code-tag);
+}
+
+.galaxy-brain-github-preview .token.operator,
+.galaxy-brain-github-preview .token.punctuation {
+	color: var(--code-punctuation);
+}
