@@ -90,3 +90,9 @@ A few things:
 6. Small:
    - `string_as_bool(get_bool(...))` is redundant (`basic.py:452`).
    - `SelectTagParameter.multiple` uses `input_source.get` (`basic.py:1412`), so `"false"` is truthy, and it now reaches the editor through the new `get_all_inputs` check.
+
+## Verification (10-03, head `347255cc028`)
+
+- Finding 1 CONFIRMED: `SubWorkflowModule.get_all_inputs()` returns `multiple: False` for inner `[integer]` param; outer `get_all_outputs()` returns `multiple: True`. Pre-existing (2017), same bug class PR fixes for tool steps.
+- Finding 2 CONFIRMED: `populate_state(check=True)` rejects `[1, 2]`, `"[1, 2]"`, `"1,2"` defaults; `IntegerToolParameter(multiple=True)` fix parses all three. Caveat: default widget switches only after next form round trip.
+- Inline comment anchors (in diff): `terminals.ts:567` (finding 1), `modules.py:1526` (finding 2).

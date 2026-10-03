@@ -6,11 +6,12 @@ PRs To Review:
 - 22976 — upstream still draft; our fork PR (fairytalesbykcc#1) awaits author; re-review when undrafted
 - 19330 — rescued + linter fixes pushed to jmchilton:fix_format_source_docs, head `13956b940f6` (10-02); IUC barcode_splitter fix is tools-iuc#8471; no Galaxy PR opened, comment unposted
 - 23806 — approved by user 10-02 at `7fe4adff8b0`; awaiting merge
-- 23802 — fresh review at `347255cc028`: comment (medium: subworkflow param inputs single-valued; editor default single int); unposted
 - 23866 — author converted to draft 10-03; user requested changes (pattern-captured unknown ext should match explicit tool-XML unknown format handling); ball with author
 - 23875 — approved by user 10-02; awaiting merge
 - 23859 — approved by user 10-02; awaiting merge
 - 23876 — reviewed at `d9131533149`: approve (optional: also guard in-flight uploads via `hasUploadingItems`); draft review unposted
+- 23893 — reviewed at `27b4c8037d2`: approve after naming fix (`mfa_corpus_model.zip` not a model; user-supplied types hidden from upload); draft review unposted
+- 23880 — reviewed at `73073da31d5`: approve (nit: use `$border-default` token); draft review unposted
 
 PRs to Skip For 7 Days:
 

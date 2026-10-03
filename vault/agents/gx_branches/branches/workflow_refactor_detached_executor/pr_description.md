@@ -1,9 +1,9 @@
-Fix 🎯 #23762 - the workflow refactor API saves a new version even when nothing changed.
+Fix 🎯 #23762 and 🎯 #23885 - the workflow refactor API saves duplicate versions and rewrites the version it started from.
 
-`PUT /api/workflows/{id}/refactor` has two bugs that damage a workflow's version history. The second has no issue of its own:
+`PUT /api/workflows/{id}/refactor` has two bugs that damage a workflow's version history:
 
-- **It saves no-op refactors.** With `dry_run: false` it always adds a version. An `upgrade_all_steps` on an already-current workflow, or an `update_name` to the current name, adds a copy of the previous version. `planemo autoupdate` runs `upgrade_all_steps` this way on every run, so routinely updated workflows fill up with duplicates.
-- **It rewrites the source version.** The refactor executor edits the steps of the workflow it's given, and it was given the stored source version. After an `upgrade_tool` from 0.1 to 0.2, version 0's step *also* points at 0.2. A step position move shifts version 0's layout too. This happens through the API and through the editor's Upgrade and subworkflow upgrade buttons, whenever a newer tool or subworkflow exists.
+- **It saves no-op refactors (#23762).** With `dry_run: false` it always adds a version. An `upgrade_all_steps` on an already-current workflow, or an `update_name` to the current name, adds a copy of the previous version. `planemo autoupdate` runs `upgrade_all_steps` this way on every run, so routinely updated workflows fill up with duplicates.
+- **It rewrites the source version (#23885).** The refactor executor edits the steps of the workflow it's given, and it was given the stored source version. After an `upgrade_tool` from 0.1 to 0.2, version 0's step *also* points at 0.2. A step position move shifts version 0's layout too. This happens through the API and through the editor's Upgrade and subworkflow upgrade buttons, whenever a newer tool or subworkflow exists.
 
 ***The two fixes share one mechanism: the unsaved build that detects a no-op is also what keeps the executor off the stored version.*** Each bug has a test that fails on `dev`.
 
@@ -57,7 +57,7 @@ A workflow uploaded as format2 YAML stores connected inputs as `RuntimeValue`. `
 
 ## Context
 
-Supersedes #23790 and #23792 (both closed). Related to #22534: `changed` is what the editor's Upgrade button would need to say "already up to date".
+Supersedes #23790 and #23792 (both closed). 🎯 #23885 has the full reproduction and root cause of the source-version rewrite, and compares this fix with #23792's. Related to #22534: `changed` is what the editor's Upgrade button would need to say "already up to date".
 
 ## John's Checklist
 
@@ -68,7 +68,7 @@ Supersedes #23790 and #23792 (both closed). Related to #22534: `changed` is what
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 - [x] Which existing workflows change behavior (if any)? None run differently. Refactor API callers (planemo, BioBlend, the editor's upgrade buttons) stop getting duplicate versions, and older versions are no longer rewritten.
-- [x] Who hits this in practice and what is the evidence? `planemo autoupdate` users, per #23762. Anyone upgrading through the API or the editor's upgrade buttons has the pre-upgrade version rewritten.
+- [x] Who hits this in practice and what is the evidence? `planemo autoupdate` users, per #23762. Anyone upgrading through the API or the editor's upgrade buttons has the pre-upgrade version rewritten, per #23885.
 - [x] Were simpler or existing approaches considered? Yes - see details.
 
 <details><summary>Alternatives considered</summary>

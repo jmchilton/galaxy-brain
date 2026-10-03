@@ -1,0 +1,4 @@
+- Connect multiple parameters to subworkflows and set list defaults in the workflow editor
+- Fix multiple integer workflow parameters in subworkflows and editor defaults
+- Multiple workflow parameter follow-ups: subworkflow inputs and list defaults
+- Allow list defaults and subworkflow connections for multiple integer parameters

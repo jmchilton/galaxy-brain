@@ -1,0 +1,4 @@
+- [26.1] Fix collection `type_source` for inputs in conditionals and `_<digit>` names
+- [26.1] Fix `type_source` crashes for nested and `_<digit>` collection inputs
+- [26.1] Resolve collection `type_source` from the input visit, reject bare aliases
+- [26.1] Fix output collection `type_source` lookup for nested inputs

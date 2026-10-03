@@ -2,8 +2,6 @@
 In general issues to Galaxy should be of the structure:
 
 ```
-<AGENT_MARKER>
-
 <OPENER> (see below)
 
 For the main body (problem/issue/request/etc) - use best judgement.

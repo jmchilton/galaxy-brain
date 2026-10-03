@@ -19,3 +19,4 @@ This directory coordinates reviews and related development across:
 - When the API shape changes, regenerate the OpenAPI schema in `gxwf-web`, sync it into `galaxy-tool-util-ts`, and regenerate its API types. Commit the schema and generated types together.
 - Favor the declarative workflow fixtures for cross-language behavior checks. Run focused tests in each affected repository; follow its current local instructions for commands and dependencies.
 - Treat the older `vault/projects/workflow_state/` documents as historical context. Verify branch paths, package layout, and planned features against the current repositories before relying on them.
+- When the work requires Galaxy core development, hand the Galaxy branch off using the process in [`GX_IMPLEMENTATION_HANDOFF.md`](../_shared/GX_IMPLEMENTATION_HANDOFF.md).

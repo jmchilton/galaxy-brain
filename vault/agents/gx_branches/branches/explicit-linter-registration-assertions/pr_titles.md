@@ -1,0 +1,4 @@
+- Assert linter registrations by name instead of a shared count
+- Replace the linter count in `test_list_linters` with the set of linter names
+- Stop new linter PRs conflicting over `test_list_linters`'s count
+- Name added, removed and duplicate linters when `test_list_linters` fails

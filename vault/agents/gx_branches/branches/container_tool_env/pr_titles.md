@@ -1,0 +1,5 @@
+- Scope job and tool environment variables for container execution
+- Add `tool_env` and tool-declared runtime variables for containerized jobs
+- Let admins and tools choose which environment variables reach tool containers
+- Forward environment variables into tool containers without per-runtime params
+- Overhaul environment variable handling between containers and job configuration

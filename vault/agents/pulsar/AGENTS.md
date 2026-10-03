@@ -29,3 +29,5 @@ frontmatter in place.
 ## User Interaction
 
 When asked to implement features, fix bugs, tweak PRs, etc. - when the work is "doneish" and you'd like to report the work to John - please make sure it is committed and pushed to a remote. Send John the URL of the branch. Obviously don't commit/push work that contains secrets or security issues - those things need to be reported to John immediately.
+
+When the work requires Galaxy core development, hand the Galaxy branch off using the process in [`GX_IMPLEMENTATION_HANDOFF.md`](../_shared/GX_IMPLEMENTATION_HANDOFF.md).
