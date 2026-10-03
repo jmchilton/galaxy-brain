@@ -108,6 +108,8 @@ Found while documenting tool parameter references in 🔀 #23877, which currentl
 
 ## Proposed Approach
 
+Target `release_26.1`.
+
 Make the authoring models the single canonical YAML representation for each tool class, and route every path that builds a YAML tool (disk, stored rows, admin and user creation, `from_path`, linting, runtime model) through one class-aware validate-and-normalize step. First fix the model→loader mismatches above, then convert the in-tree fixtures to the canonical spelling rather than keeping the old dialect as a second public syntax. Keep the `GalaxyTool`/`GalaxyUserTool` trust differences as they are.
 
 <details><summary>Proposed Approach In Detail</summary>
