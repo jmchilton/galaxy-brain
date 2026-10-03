@@ -4,7 +4,7 @@ If any PRs are in draft and only waiting on CI, take them out of draft if the CI
 
 If any of the branches are:
 - conflicted
-- behind origin/dev by more than 20 commits
+- behind origin/dev by more than 400 commits
 - red for reasons not related to the PR
 
 Then:
