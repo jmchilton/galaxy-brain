@@ -13,3 +13,13 @@ If the user asks to polish a branch, follow the process described in ./POLISH_BR
 
 If the user asks for possible next tasks - review the kinds of tasks in ./GOOD_MORNING.md - and offer to do those kinds of things for relevant branches/PRs.
 
+## Automatic Actions
+
+The user authorizes these ahead of time, but only exactly as written here. Take them in this order.
+
+- **Reclassify from GitHub.** Re-query live state, refresh the snapshot date and move entries between sections per [`MY_BRANCHES_INDEX.md`](../_shared/MY_BRANCHES_INDEX.md) (e.g. `ci_wait` to `draft_ready` or `author_work`, `ready` to `attention`).
+- **Rebase stale branches.** A branch that is conflicted, more than 400 commits behind its base, or red for reasons unrelated to it gets rebased onto its actual base branch (the PR's `baseRefName`, or the base the entry names; don't assume `dev`). Resolve only mechanical and small conflicts; report substantial ones and leave the branch alone. Force-push with `--force-with-lease`, only to the `jmchilton` fork.
+- **Undraft green drafts.** Take a draft PR out of draft when its only blocker was CI and CI is green or its reds are diagnosed as unrelated in its entry. Move the entry to `ready`.
+- **Promote on fork CI.** Move a `branches_implemented_needs_ci` entry to `branches_implemented` when its fork CI is green or its reds are diagnosed as unrelated.
+- **Open approved PRs.** For each `branches_need_pr` entry whose fork CI on the approved SHA is green, open the PR against the entry's base. Use the entry's title, use `pr_description.md` verbatim, open it out of draft, and add no @-mentions. Then move the entry into the PR sections.
+- **Approval is pinned to a SHA.** A rebase with no conflicts keeps the approval, so update the SHA. Any other change to the branch moves the entry back to `branches_ready_for_final_review` with the reason.

@@ -11,11 +11,12 @@ Keep these sections in this order. Write `None yet.` under an empty one. Each he
 3. `draft_ready`: draft, mergeable and greenish. Skipped checks or a diagnosed unrelated red are fine; an unexplained relevant red isn't.
 4. `ci_wait`: draft with a run still queued or in progress. Move it once the run settles.
 5. `author_work`: draft with conflicts, stale or absent CI, relevant failures or open design work.
-6. `branches_implemented`: an agent finished a unit of work and pushed it. Polish it with [`POLISH_BRANCH.md`](../gx_branches/POLISH_BRANCH.md) once fork CI is greenish; until then its blockers say what's left (fork CI, a rebase, unproven behaviour, an author read-through).
-7. `branches_need_polish`: polishing in progress. The entry moves here when polishing starts and on to `branches_need_pr` when it ends.
-8. `branches_need_pr`: polished. The description is in `gx_branches/branches/<branch_name>/pr_description.md` and waits for the user's final review. Only the user opens the PR.
-9. `branches_need_decision`: the user has to choose (scope, an alternative, drop it) or it's reference only.
-10. `other_prs`: important open PRs in other projects.
+6. `branches_implemented` | `branches_implemented_needs_ci`: an agent finished a unit of work and pushed it. Polish it with [`POLISH_BRANCH.md`](../gx_branches/POLISH_BRANCH.md) once fork CI is greenish; until then its blockers say what's left (fork CI, a rebase, unproven behaviour, an author read-through).
+7. `branches_need_polish`: polishing in progress. The entry moves here when polishing starts and on to `branches_ready_for_final_review` when it ends.
+8. `branches_ready_for_final_review`: polished. The description is in `gx_branches/branches/<branch_name>/pr_description.md`, and the branch waits for the user's read-through, including the human-read checklist item. Only the user moves an entry out.
+9. `branches_need_pr`: the user approved it. The entry records the approved SHA and the chosen title. Agents open the PR once fork CI on that SHA is green (see Automatic Actions in `gx_branches/AGENTS.md`).
+10. `branches_need_decision`: the user has to choose (scope, an alternative, drop it) or it's reference only.
+11. `other_prs`: important open PRs in other projects.
 
 Classify from live GitHub state, never from a PR's age or title. Put a branch in a `branches_*` section only when there's a documented intent to open a PR; a worktree on its own isn't one.
 
