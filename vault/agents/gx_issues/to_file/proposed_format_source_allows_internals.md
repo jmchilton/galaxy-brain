@@ -4,14 +4,16 @@ _Posted by an AI assistant (Claude) on jmchilton's behalf — not personally aut
 
 `format_source` resolves against keys Galaxy creates only while expanding inputs (`input2`, `coll2`, conversion names), and one of those keys silently shadows a declared input.
 
-| Tool declares | `format_source` | Runtime on `dev` (output `format="txt"` fallback) | Linter on `dev` |
-|---|---|---|---|
-| `<param name="input" type="data" multiple="true">` given `[fasta, bed]` | `input2` | ✅ resolves → `bed` (second selected dataset) | ❌ ERROR: does not match any input parameter |
-| same param, given a `paired` collection (forward=`bed`, reverse=`fasta`) | `input['forward']` | ✅ resolves → `bed` | ❌ ERROR: does not match any input parameter |
-| same param, given a `paired` collection | `input2` | ✅ resolves → `fasta` (the reverse element) | ❌ ERROR |
-| `<param name="coll" type="data_collection">` given `list[fasta, bed]` | `coll2` | ✅ resolves → `bed` (second element) | ❌ ERROR |
-| `<param name="input1" format="fasta"><conversion name="input1_table" type="tabular"/>` | `input1_table` | ✅ resolves → `tabular` (the converted dataset) | ❌ ERROR |
-| multiple `input` given `[fasta]`, plus `cond\|input1` given `bed` | `input1` | ⚠️ resolves → `fasta`, **`input`'s first dataset**, not `cond\|input1` | ⚠️ WARNING: "Use the qualified name `cond\|input1`" |
+✅ intended, 😬 works but shouldn't, ❌ wrong, ⚠️ misleading.
+
+| Tool declares                                                                          | `format_source`    | Runtime on `dev` (output `format="txt"` fallback)                      | Linter on `dev`                                     |
+| -------------------------------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------- | --------------------------------------------------- |
+| `<param name="input" type="data" multiple="true">` given `[fasta, bed]`                | `input2`           | 😬 resolves → `bed` (second selected dataset)                           | ✅ ERROR: does not match any input parameter         |
+| same param, given a `paired` collection (forward=`bed`, reverse=`fasta`)               | `input['forward']` | 😬 resolves → `bed`                                                     | ✅ ERROR: does not match any input parameter         |
+| same param, given a `paired` collection                                                | `input2`           | 😬 resolves → `fasta` (the reverse element)                             | ✅ ERROR                                             |
+| `<param name="coll" type="data_collection">` given `list[fasta, bed]`                  | `coll2`            | 😬 resolves → `bed` (second element)                                    | ✅ ERROR                                             |
+| `<param name="input1" format="fasta"><conversion name="input1_table" type="tabular"/>` | `input1_table`     | 😬 resolves → `tabular` (the converted dataset)                         | ✅ ERROR                                             |
+| multiple `input` given `[fasta]`, plus `cond\|input1` given `bed`                      | `input1`           | ❌ resolves → `fasta`, **`input`'s first dataset**, not `cond\|input1` | ⚠️ WARNING: "Use the qualified name `cond\|input1`" |
 
 The last row is a silent wrong answer, not just an undocumented spelling. `input1` is a legacy alias for `cond|input1`, and the linter treats it that way and suggests qualifying it. But at runtime the numbered key that `multiple="true"` creates for `input` wins the lookup, so the output gets the wrong input's format.
 
