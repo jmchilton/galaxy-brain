@@ -11,7 +11,7 @@ A collection output's `type_source` crashes job creation with an `AttributeError
 | `input_collect` inside `<conditional name="cond">` | `input_collect` (legacy bare alias) | ❌ `'NoneType' object has no attribute '_history_query'` |
 | `data_collection` input `reads_1` at top level | `reads_1` | ❌ `'NoneType' object has no attribute '_history_query'` |
 
-The user sees `Error executing tool with id '…'` with an internal Python error and no mention of the output or the reference. Mapping over doesn't help: Galaxy builds the implicit output collection, then every job fails with the same error, leaving a collection stuck in `failed` and, in a workflow, failing the invocation. `cond|input_collect` is the qualified form that the XSD docs and linter tell authors to use for `structured_like`, so the obvious spelling is the one that crashes.
+The user sees `Error executing tool with id '…'` with an internal Python error and no mention of the output or the reference. Mapping over `cond|input_collect` doesn't help: Galaxy builds the implicit output collection, then every job fails with the same error, leaving a collection stuck in `failed` and, in a workflow, failing the invocation. `cond|input_collect` is the qualified form that the XSD docs and linter tell authors to use for `structured_like`, so the obvious spelling is the one that crashes.
 
 <details><summary>Reproduce</summary>
 
@@ -58,7 +58,28 @@ Add the tool to `test/functional/tools/sample_tool_conf.xml` and run `pytest tes
 
 For the other rows, change `type_source` to `input_collect`, or rename the top-level input to `reads_1` and use `type_source="reads_1"`.
 
-Mapped: give the same param `collection_type="list"` and map a `list:list` over it in a workflow (`in: {cond|input_collect: input1}`). The invocation fails with `Failed to create 1 job(s) for workflow step 2: Error executing tool with id '…': 'Conditional' object has no attribute 'inputs'`.
+Mapped: copy the tool as `collection_type_source_conditional_mapped`, give the param `collection_type="list"`, and map a `list:list` over it with a framework workflow test (`lib/galaxy_test/workflow/`):
+
+```yaml
+class: GalaxyWorkflow
+inputs:
+  input1:
+    type: collection
+    collection_type: list:list
+outputs:
+  wf_output:
+    outputSource: tool_step/list_output
+steps:
+  tool_step:
+    tool_id: collection_type_source_conditional_mapped
+    state:
+      cond:
+        sel: a
+    in:
+      cond|input_collect: input1
+```
+
+The invocation fails with `Failed to create 1 job(s) for workflow step 2: Error executing tool with id '…': 'Conditional' object has no attribute 'inputs'`.
 
 Run on `dev` @ `4f78c5014e8`.
 
@@ -89,7 +110,7 @@ This walk runs for every job, mapped or not. When mapped over, `sliced_input_col
 
 </details>
 
-No tool in tools-iuc, bgruening/galaxytools or tools-devteam uses `type_source`, so nothing published is broken today. It's still worth fixing: these are valid references, the failure is an unexplained 500, and the qualified form is the one tool authors are told to use elsewhere.
+No tool in tools-iuc, bgruening/galaxytools or tools-devteam uses `type_source`, so nothing published is broken today. It's still worth fixing: these are valid references, the error doesn't name the output, and the qualified form is the one tool authors are told to use elsewhere.
 
 ## Context
 
