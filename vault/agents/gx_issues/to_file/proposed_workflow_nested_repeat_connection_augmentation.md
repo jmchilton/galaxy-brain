@@ -2,7 +2,7 @@ Title: Workflow connections into nested repeats crash import; connections into r
 
 _Posted by an AI assistant (Claude) on jmchilton's behalf — not personally authored._
 
-When a workflow step connects an input to a repeat that isn't at the top level of the tool, Galaxy either fails the import with a 500 or imports the connection and then runs the job without it.
+**When a workflow is imported with `fill_defaults=true`** (as WES and Galaxy's YAML test workflows do) and a step connects an input to a repeat that isn't at the top level of the tool, Galaxy either fails the import with a 500 or imports the connection and then runs the job without it.
 
 ```yaml
 steps:
@@ -13,18 +13,18 @@ steps:
       adv|outer_1|x: i2
 ```
 
-| Connection target (no `state` unless noted) | Import | Job | Output |
-|---|---|---|---|
-| `queries_0\|input2`: top-level repeat (baseline, `test_inputs_to_steps`) | ✅ | ✅ input connected | ✅ |
-| `outer_0\|inner_1\|x`: repeat nested in a repeat | ❌ `POST /api/workflows` 500, `KeyError: 'inner'` | — | — |
-| `adv\|outer_0\|x`: repeat inside a section | ✅ connections stored | ⚠️ runs `ok` with `adv.outer = []`, **no inputs** | ❌ `end` instead of both datasets |
-| `cond\|outer_0\|x`: repeat inside the active conditional case (`state` sets only `cond.sel: a`) | ✅ | ⚠️ runs `ok` with `cond.outer = []`, **no inputs** | ❌ same |
-| `outer_0\|inner_0\|x` with `state: {outer: [{}]}` (outer instance present, inner missing) | ✅ | ⚠️ runs `ok` with `outer[0].inner = []`, **no inputs** | ❌ same |
-| Any of the above with matching repeat instances spelled out in `state` | ✅ | ✅ inputs connected | ✅ |
+| Connection target (no `state` unless noted)                                                     | Import                                           | Job                                                    | Output                           |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------ | -------------------------------- |
+| `queries_0\|input2`: top-level repeat (baseline, `test_inputs_to_steps`)                        | ✅                                                | ✅ input connected                                      | ✅                                |
+| `outer_0\|inner_1\|x`: repeat nested in a repeat                                                | ❌ `POST /api/workflows` 500, `KeyError: 'inner'` | —                                                      | —                                |
+| `adv\|outer_0\|x`: repeat inside a section                                                      | ✅ connections stored                             | ⚠️ runs `ok` with `adv.outer = []`, **no inputs**      | ❌ `end` instead of both datasets |
+| `cond\|outer_0\|x`: repeat inside the active conditional case (`state` sets only `cond.sel: a`) | ✅                                                | ⚠️ runs `ok` with `cond.outer = []`, **no inputs**     | ❌ same                           |
+| `outer_0\|inner_0\|x` with `state: {outer: [{}]}` (outer instance present, inner missing)       | ✅                                                | ⚠️ runs `ok` with `outer[0].inner = []`, **no inputs** | ❌ same                           |
+| Any of the above with matching repeat instances spelled out in `state`                          | ✅                                                | ✅ inputs connected                                     | ✅                                |
 
 The silent cases are the worst ones. The workflow imports and the stored step keeps `input_connections` for `adv|outer_0|x` and `adv|outer_1|x` next to `tool_state` `{"adv": {"outer": []}}`. The invocation schedules, the job goes green, and the connected datasets are never used. Galaxy even notices: runtime replacement computes the unmatched connection keys, but only logs `Failed to use input connections for inputs [{'adv|outer_0|x', 'adv|outer_1|x'}]` server-side (`modules.py:3196`). Nothing in the editor, the invocation or the job tells the user.
 
-Reproduced on `dev` (537915642fa) with Format2 workflows imported and invoked through the API.
+Reproduced on `dev` (537915642fa) with Format2 workflows imported through the API with `fill_defaults=true`, then invoked.
 
 <details><summary>Why: <code>augment_tool_state_for_input_connections</code> only understands top-level repeats</summary>
 
