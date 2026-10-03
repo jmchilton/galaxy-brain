@@ -2,20 +2,37 @@ Title: XML `<output type="collection">` can never parse
 
 _Posted by an AI assistant (Claude) on jmchilton's behalf — not personally authored._
 
-The XSD documents `<output type="collection">` for XML tools, but `XmlToolSource.parse_outputs` crashes on every valid form of it, so no tool using it can load.
+XML tools can declare outputs with the generic `<output type=…>` element, and `type="data"` works there (`expression_pick_larger_file.xml` uses it in an expression tool), but `type="collection"` crashes the parser on every valid form, so no tool using it can load.
+
+That element arrived in f5c93e868b7 (2018, "Implement expression tools and non-data tool outputs"), which added both a `data` and a `collection` branch. The XSD documents both, and says `type="collection"` follows the semantics of the `<collection>` tag. The `collection` branch has never parsed.
 
 | Attributes | `<output name="out" type="collection" …>` on `dev` | Same attributes on `<collection name="out" …>` |
 |---|---|---|
 | `collection_type="list"` | ❌ `TypeError: Argument must be bytes or unicode, got 'NoneType'` | ✅ parses |
 | `collection_type_source="input_collect"` | ❌ same `TypeError` | ✅ parses |
 | `structured_like="input_collect"` | ❌ same `TypeError` | ✅ parses |
-| `collection_type="list" collection_type_source="input_collect"` | ✅ rejected: `Cannot set both type and type_source` | ✅ rejected the same way |
+| `collection_type="list" collection_type_source="input_collect"` | rejected as intended (`Cannot set both type and type_source`) | rejected the same way |
 
 (`<collection>` spells the first two attributes `type` and `type_source`.)
 
-The branch copies `collection_type` and `collection_type_source` onto the element as `type` and `type_source` so it can reuse the `<collection>` parser. Whichever attribute is absent gets set to `None`, which lxml refuses, so only the invalid both-present form gets past it. It has never worked since it was added in 2018 (f5c93e868b7, "Implement expression tools and non-data tool outputs").
+<details><summary>The problematic code (`lib/galaxy/tool_util/parser/xml.py`)</summary>
 
-Nobody seems to be affected. No tool in Galaxy, tools-iuc, galaxytools or tools-devteam uses the form, and YAML tools parse their collection outputs separately. But the XSD's `Output` type declares `collection_type`, `collection_type_source`, `structured_like` and the other collection attributes, and says `type="collection"` follows the semantics of the `<collection>` tag. An author who follows the schema gets a tool that won't load.
+The branch copies `collection_type` and `collection_type_source` onto the element as `type` and `type_source` so it can reuse the `<collection>` parser. Whichever attribute is absent gets set to `None`, which lxml refuses, so only the invalid both-present form gets past it.
+
+```python
+elif output_type == "collection":
+    out_child.attrib["type"] = unicodify(out_child.get("collection_type"))
+    out_child.attrib["type_source"] = unicodify(out_child.get("collection_type_source"))
+    _parse_collection(out_child)
+```
+
+</details>
+
+<details><summary>Nobody seems to be affected</summary>
+
+No tool in Galaxy, tools-iuc, galaxytools or tools-devteam uses the form, and YAML tools parse their collection outputs separately. But the XSD's `Output` type declares `collection_type`, `collection_type_source`, `structured_like` and the other collection attributes, so an author who follows the schema gets a tool that won't load.
+
+</details>
 
 <details><summary>Reproduce (no app needed)</summary>
 
@@ -34,15 +51,6 @@ src.parse_outputs(None)
     out_child.attrib["type"] = unicodify(out_child.get("collection_type"))
   File "src/lxml/etree.pyx", in lxml.etree._Attrib.__setitem__
 TypeError: Argument must be bytes or unicode, got 'NoneType'
-```
-
-The branch, from `lib/galaxy/tool_util/parser/xml.py`:
-
-```python
-elif output_type == "collection":
-    out_child.attrib["type"] = unicodify(out_child.get("collection_type"))
-    out_child.attrib["type_source"] = unicodify(out_child.get("collection_type_source"))
-    _parse_collection(out_child)
 ```
 
 </details>
