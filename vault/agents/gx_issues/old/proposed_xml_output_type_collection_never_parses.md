@@ -1,17 +1,15 @@
 Title: XML `<output type="collection">` can never parse
 
-_Posted by an AI assistant (Claude) on jmchilton's behalf — not personally authored._
-
 XML tools can declare outputs with the generic `<output type=…>` element, and `type="data"` works there (`expression_pick_larger_file.xml` uses it in an expression tool), but `type="collection"` crashes the parser on every valid form, so no tool using it can load.
 
 That element arrived in f5c93e868b7 (2018, "Implement expression tools and non-data tool outputs"), which added both a `data` and a `collection` branch. The XSD documents both, and says `type="collection"` follows the semantics of the `<collection>` tag. The `collection` branch has never parsed.
 
-| Attributes | `<output name="out" type="collection" …>` on `dev` | Same attributes on `<collection name="out" …>` |
-|---|---|---|
-| `collection_type="list"` | ❌ `TypeError: Argument must be bytes or unicode, got 'NoneType'` | ✅ parses |
-| `collection_type_source="input_collect"` | ❌ same `TypeError` | ✅ parses |
-| `structured_like="input_collect"` | ❌ same `TypeError` | ✅ parses |
-| `collection_type="list" collection_type_source="input_collect"` | rejected as intended (`Cannot set both type and type_source`) | rejected the same way |
+| Attributes                                                      | `<output name="out" type="collection" …>` on `dev`               | Same attributes on `<collection name="out" …>` |
+| --------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------- |
+| `collection_type="list"`                                        | ❌ `TypeError: Argument must be bytes or unicode, got 'NoneType'` | ✅ parses                                       |
+| `collection_type_source="input_collect"`                        | ❌ same `TypeError`                                               | ✅ parses                                       |
+| `structured_like="input_collect"`                               | ❌ same `TypeError`                                               | ✅ parses                                       |
+| `collection_type="list" collection_type_source="input_collect"` | rejected as intended (`Cannot set both type and type_source`)    | rejected the same way                          |
 
 (`<collection>` spells the first two attributes `type` and `type_source`.)
 
