@@ -1,6 +1,6 @@
 ## The Index
 
-`agents/gx_branches/MY_BRANCHES.md` is the categorized work queue for the user's open PRs and for branches meant to become PRs. Each open PR appears exactly once. Adding a non-PR branch is the signal to move it toward a PR. Merged and closed PRs leave the file.
+`agents/gx_branches/MY_BRANCHES.md` is the categorized work queue for the user's open Galaxy PRs and for Galaxy branches meant to become PRs. Each open PR appears exactly once. Adding a non-PR branch is the signal to move it toward a PR. Merged and closed PRs leave the file.
 
 ## Sections
 
@@ -16,7 +16,6 @@ Keep these sections in this order. Write `None yet.` under an empty one. Each he
 8. `branches_ready_for_final_review`: polished. The description is in `gx_branches/branches/<branch_name>/pr_description.md`, and the branch waits for the user's read-through, including the human-read checklist item. Only the user moves an entry out.
 9. `branches_need_pr`: the user approved it. The entry records the approved SHA and the chosen title. Agents open the PR once fork CI on that SHA is green (see Automatic Actions in `gx_branches/AGENTS.md`).
 10. `branches_need_decision`: the user has to choose (scope, an alternative, drop it) or it's reference only.
-11. `other_prs`: important open PRs in other projects.
 
 Classify from live GitHub state, never from a PR's age or title. Put a branch in a `branches_*` section only when there's a documented intent to open a PR; a worktree on its own isn't one.
 
