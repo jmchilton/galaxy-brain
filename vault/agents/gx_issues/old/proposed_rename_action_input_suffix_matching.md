@@ -2,6 +2,7 @@ Title: Workflow rename `#{input}` falls back to raw suffix matching and can name
 
 _Posted by an AI assistant (Claude) on jmchilton's behalf — not personally authored._
 
+
 When a workflow rename action uses an unqualified `#{name}`, Galaxy picks the first nested input whose path ends with that text, even mid-word. For example, `#{s}` can resolve to `main|barcodes`.
 
 ## The problem
