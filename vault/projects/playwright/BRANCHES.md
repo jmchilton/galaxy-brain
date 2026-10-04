@@ -430,16 +430,53 @@ Worth keeping: executable doctests (CI runs them via `run_tests.sh -unit
 --doctest-modules`), and one-line docstrings on Pydantic models, which surface as
 `@description` in the generated client schema.
 
+### PR — `playwright_drag_over_feedback` @ `82e414ef063`
+
+Pushed, no PR. Off dev `3167c014a47`, one commit, +111/-21. Drops the last
+`selenium_only` that needed new gesture vocabulary.
+
+`drag_over(source, target)` on the protocol, both impls and the proxy - a context manager, like
+`visit_new_window` and `accept_alert`, holding a drag over the target and dropping on exit.
+Selenium holds a real pointer drag (the sequence the test had inline); Playwright has no pointer
+drag to hold, so its scripted `drag_and_drop` splits into `_drag_hold` / `_drag_release` and is
+rebuilt as hold-then-release rather than gaining a second copy of the event sequence.
+
+**The split's hazard was already documented in the code it split.** `_drag_and_drop` said the
+sequence must be dispatched without yielding, because a zone that swaps its contents on
+`dragenter` detaches the element the caller grabbed. It survives because the target-to-document
+chain is collected before any handler runs and travels to the release in a `JSHandle`. The
+existing `test_drag_and_drop_target_rerenders_on_dragenter` now covers that across two
+round-trips instead of one.
+
+Rejected on the way: passing the shared three-line `drag()` helper between the two scripts as a
+function handle. Playwright *invokes* a function expression handed to `evaluate_handle`, so there
+is no handle to pass; each script declares the helper, as the original did.
+
+**Verified.** `test_drag_over` red on all three fixture params then green, asserting the class is
+present inside the block, gone after, and that the drop still landed. The red run also settled the
+design question: a real chromedriver pointer drag does fire `dragenter`, so Selenium needed no
+scripted path. Full `test_has_driver.py` 375 passed / 1 skipped. Live: Playwright 2 passed
+(57.47s), Selenium 2 passed (79.49s) for the two page-editor drag tests; the other two
+`drag_and_drop` consumers (`workflow_editor_connect`, `test_history_multi_view`) regression-run
+under Playwright, 2 passed. Probed load-bearing by moving the assertion outside the `with` - it
+fails on `'markdown-textarea w-100 p-4'`, so the class only exists while the drag is held.
+
+**Not migrated: `workflow_editor_connect`'s partial drag** (`navigates_galaxy.py:1245`). The
+design doc groups it with this one, but it is a pointer drag to an *offset* with no target,
+held only for a screenshot. `drag_over` takes a target and ends in a drop; widening it to cover
+both would make it mean less than either caller does.
+
 ## Remaining `selenium_only` decorators
 
-4 left in the tree, all covered by branches above except one. What is unclaimed
-on dev `914d816195b`:
+3 left in the tree on dev `3167c014a47`, every one covered:
 
-| Test | Blocker |
+| Test | Owner |
 | --- | --- |
-| `test_history_pages::test_drag_drop_visual_feedback` | asserts `page-dragover-success` mid-drag via `action_chains()`. Needs the held drag from `GESTURE_ABSTRACTION_DESIGN.md`'s remaining-work table - the only decorator left that needs new gesture vocabulary. |
+| `test_change_password` | [#23808](https://github.com/galaxyproject/galaxy/pull/23808), open and green |
+| `test_library_contents::test_import_dataset_from_path` | `playwright_text_table_parity` |
+| `test_histories_list::test_tags` | `playwright_scoped_css_parity` |
 
-Landing the stack plus that one held-drag gesture finishes the goal in
-`PROBLEMS_AND_GOALS.md`, and closes the last of the three prerequisites the
-gesture design defers step 6 (deleting `action_chains()` from the protocol and
-proxy) behind.
+Landing those three finishes the goal in `PROBLEMS_AND_GOALS.md`. The held-drag prerequisite in
+front of the gesture design's step 6 (deleting `action_chains()` from the protocol and proxy) is
+done; `move_to_and_click(modifiers=...)`, the `send_keys_to_page` / `mouse_drag` driver-impl
+moves and the partial drag are what is left in front of it.

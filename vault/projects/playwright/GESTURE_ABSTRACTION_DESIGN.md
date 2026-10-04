@@ -202,13 +202,15 @@ it bites.
 | ~~`hover_away()`~~ | done - `playwright_hover_away` |
 | ~~`active_element()`~~ | done - merged with `press()` in [#23574](https://github.com/galaxyproject/galaxy/pull/23574) on 2026-09-21; both are on the protocol (`has_driver_protocol.py:375`, `:380`), the proxy (`has_driver_proxy.py:329`, `:333`) and both impls. `test_aria_connections_menu` is unblocked. |
 | `send_keys_to_page` / `mouse_drag` | move their `backend_type` branches into the driver impls |
-| partial / held drags | `navigates_galaxy:1245`, `test_history_pages:387` assert mid-drag |
+| ~~held drags~~ | done - `playwright_drag_over_feedback`. `drag_over(source, target)` is a context manager holding a drag over the target, dropping on exit; `test_history_pages:387` uses it and its `selenium_only` is gone. |
+| partial drags | `navigates_galaxy:1245` holds a pointer drag to an *offset* with no target, only to screenshot it. Deliberately not folded into `drag_over`, which takes a target and ends in a drop. |
 | delete `action_chains()` from protocol + proxy | the enforcing step; decided 2026-09-20, deferred behind the ports above (see below) |
 
 Remaining `action_chains()` callers, all that step 6 has left to port: `navigates_galaxy` 1245 (partial
 drag), 3012 (`shift_click`), 3045 (`send_keys_to_page`), 3088 (`mouse_drag`) - each already inside a
-`backend_type == "selenium"` branch - plus `test_history_pages:387`, `test_workflow_editor`
-1354/1390/1431/1437, `test_uploads:424`, and `test_workflow_run:319` in the test suite.
+`backend_type == "selenium"` branch - plus `test_workflow_editor`
+1354/1390/1431/1437, `test_uploads:424`, and `test_workflow_run:319` in the test suite
+(`test_history_pages:387` came off this list with `playwright_drag_over_feedback`).
 `test_custom_tools:111` and `test_workflow_editor:1966` build their own `ActionChains(self.driver)` and
 do not go through the protocol at all.
 

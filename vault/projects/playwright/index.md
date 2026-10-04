@@ -6,8 +6,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-09-16
-revised: 2026-10-01
-revision: 28
+revised: 2026-10-04
+revision: 29
 ai_generated: true
 summary: "Migrate the full Galaxy Selenium suite to Playwright and recover the core of PR #21199, via small atomic PRs."
 ---
