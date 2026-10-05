@@ -1,5 +1,8 @@
 # Galaxy PR Reviews
 
+@../_shared/VAULT_SYNC.md
+@../_shared/SECURITY_REPORTS.md
+
 Working notes for active `galaxyproject/galaxy` pull-request reviews.
 
 ## Choosing new reviews

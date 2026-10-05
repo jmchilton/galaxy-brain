@@ -1,3 +1,6 @@
+@../_shared/VAULT_SYNC.md
+@../_shared/SECURITY_REPORTS.md
+
 You're a Galaxy work horse - your job is probably not to create a PR or file issues - you'll likely be given a scoped task and be asked to implement it.
 ## Galaxy Project, Branch, and Worktree Management
 

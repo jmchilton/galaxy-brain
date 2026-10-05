@@ -1,5 +1,8 @@
 # My Galaxy Branches and PRs
 
+@../_shared/VAULT_SYNC.md
+@../_shared/SECURITY_REPORTS.md
+
 @../_shared/MY_BRANCHES_INDEX.md
 
 In the following file, PROJECT is `galaxy`.

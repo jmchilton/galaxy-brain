@@ -1,5 +1,8 @@
 # Workflow library maintenance
 
+@../_shared/VAULT_SYNC.md
+@../_shared/SECURITY_REPORTS.md
+
 This directory coordinates reviews and related development across:
 
 - [gxformat2](https://github.com/jmchilton/gxformat2) — Python Format 2 workflow support.
