@@ -56,7 +56,7 @@ Pins freshness at release: `requirements-cli.txt` is a static committed snapshot
 
 ### Design / should discuss
 
-3. **planemo-cli duplicates the `planemo` package instead of depending on `planemo==X`** (`scripts/check_distributions.py:42` even asserts "CLI must contain its own code"). Consequences: two PyPI distributions own the same files; installing both in one env (e.g. a project depending on `planemo` + someone adding `planemo-cli`) silently clobbers, and uninstalling either breaks the other. The docs warn about it (`docs/installation.rst`) and `check_installed_distribution.py:30-35` asserts it, but nothing prevents it for users. The alternative - `planemo-cli` as a metapackage with `planemo==<version>` + the pins - lets the resolver catch conflicts, drops the `planemo/__init__.py` metadata fallback, drops the payload-identity checks, and makes the wheel tiny. Cost: the pin has to be generated at build time (the same build script can write it). Worth an explicit decision in the PR description either way, since the vendoring choice drives most of the new code.
+3. *(Resolved 2026-10-05: full copy is intentional for a hermetic `uvx` CLI.)* **planemo-cli duplicates the `planemo` package instead of depending on `planemo==X`** (`scripts/check_distributions.py:42` even asserts "CLI must contain its own code"). Consequences: two PyPI distributions own the same files; installing both in one env (e.g. a project depending on `planemo` + someone adding `planemo-cli`) silently clobbers, and uninstalling either breaks the other. The docs warn about it (`docs/installation.rst`) and `check_installed_distribution.py:30-35` asserts it, but nothing prevents it for users. The alternative - `planemo-cli` as a metapackage with `planemo==<version>` + the pins - lets the resolver catch conflicts, drops the `planemo/__init__.py` metadata fallback, drops the payload-identity checks, and makes the wheel tiny. Cost: the pin has to be generated at build time (the same build script can write it). Worth an explicit decision in the PR description either way, since the vendoring choice drives most of the new code.
 4. **`requirements-cli.txt` as a committed generated file + custom check is the wrong source of truth.** It's provably just `uv export --no-dev --no-emit-project --no-hashes --no-header --no-annotate`. Committing it means any lock-only update (dependabot `uv` ecosystem, manual `uv lock --upgrade-package`) fails `check-dependencies` until someone regenerates. Generating it in `build_distributions.py` (staged into the planemo-cli sdist, which already happens) makes `uv.lock` the single source and makes enabling dependabot for `uv` trivial.
 5. **No automation keeps the lock fresh** - `.github/dependabot.yml` only covers `github-actions`. Add a `package-ecosystem: "uv"` entry (grouped, with cooldown like actions), contingent on (4); otherwise pins rot silently between manual refreshes.
 6. **`update_dependencies.py` re-implements `uv lock --check`** (`scripts/update_dependencies.py:32-53` compares pyproject deps/groups/requires-python against `uv.lock` metadata by hand). `uv lock --check` (or `--locked`) does exactly this and is maintained by uv. With that and `uv export -o`, most of the script disappears.
@@ -95,8 +95,8 @@ Pins freshness at release: `requirements-cli.txt` is a static committed snapshot
 ## Next steps
 
 1. [ ] Fix `docs/installation.rst` underline (one char) - otherwise `lint_docs` fails.
-2. [ ] Decide vendored-copy vs `planemo==X` metapackage for `planemo-cli`; record rationale in PR body.
-3. [ ] Configure a PyPI pending trusted publisher for `planemo-cli` (galaxyproject/planemo, `deploy.yaml`, no environment) **before merge**; make it an explicit checklist item in the PR.
+2. [x] Decided: vendored full copy is intentional (hermetic `uvx` CLI). Still record rationale in PR body.
+3. [x] (done 2026-10-05 by John) Configure a PyPI pending trusted publisher for `planemo-cli` (galaxyproject/planemo, `deploy.yaml`, no environment) **before merge**; make it an explicit checklist item in the PR.
 4. [ ] Consider `skip-existing: true` on the publish step so a failed partial upload can be re-run.
 5. [ ] Replace committed `requirements-cli.txt` + hand-rolled lock check with `uv lock --check` and build-time `uv export`; shrink `update_dependencies.py` accordingly.
 6. [ ] Add `uv` ecosystem to `.github/dependabot.yml` (after 5).
@@ -104,3 +104,14 @@ Pins freshness at release: `requirements-cli.txt` is a static committed snapshot
 8. [ ] Reduce `test_packages` matrix on PRs.
 9. [ ] Follow-up (optional): move tox to `dependency_groups`, drop generated `requirements.txt`/`dev-requirements.txt`.
 10. [ ] Re-check PR CI once it runs (`build_packages`, `test_packages`, `lint_docs`).
+
+## Trim plan (given full-copy decision)
+
+Core that must stay: `build_distributions.py`, `uv.lock`, deploy build + smoke job, docs.
+
+- Split out the dev-tooling migration (dependency-groups, `setup-venv` -> `uv sync`, `packages.find`, generated `requirements.txt`/`dev-requirements.txt`). Keep `dependencies = {file = "requirements.txt"}`; tox untouched. Deletes `update_dependencies.py` and `check-dependencies`.
+- Don't commit `requirements-cli.txt`; `build_distributions.py` runs `uv export --frozen ...` into the unpacked sdist (`include *.txt` already ships it). Staleness gate = `uv lock --check`.
+- Delete `check_distributions.py`: payload identity, pin==file, and marker compatibility all hold by construction / by uv resolution.
+- Replace `check_installed_distribution.py` with workflow lines using `uvx --from dist/planemo_cli-*.whl planemo ...` (the real UX) + `uv pip check`. Delete stale `scripts/test_wheel.bash`.
+- Drop `MANIFEST.in` scripts line; hardcode `PROJECT_EMAIL`, drop metadata lookup in `planemo/__init__.py`.
+- Matrix: planemo-cli on 3.10, 3.14, macOS; planemo once (~4 jobs vs 11).
