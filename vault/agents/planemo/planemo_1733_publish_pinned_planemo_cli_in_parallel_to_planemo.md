@@ -109,7 +109,7 @@ Pins freshness at release: `requirements-cli.txt` is a static committed snapshot
 
 Core that must stay: `build_distributions.py`, `uv.lock`, deploy build + smoke job, docs.
 
-- Split out the dev-tooling migration (dependency-groups, `setup-venv` -> `uv sync`, `packages.find`, generated `requirements.txt`/`dev-requirements.txt`). Keep `dependencies = {file = "requirements.txt"}`; tox untouched. Deletes `update_dependencies.py` and `check-dependencies`.
+- ~~Split out the dev-tooling migration~~ Revised 2026-10-05: John wants the uv modernization kept. Keep dependency-groups, static `dependencies`, `packages.find`, `uv.lock`, `setup-venv` -> `uv sync --locked`. Finish it instead of shimming: delete `requirements.txt`/`dev-requirements.txt`, switch `tox.ini` deps to `dependency_groups =` (tox >= 4.22; dedupes the hand-copied tox deps), add `uv` to dependabot. Nothing left to generate -> `update_dependencies.py` + `check-dependencies` go away. Optional: tox-uv `uv-venv-lock-runner` for one env so CI exercises the locked set `planemo-cli` ships; keep unit envs unpinned to catch upstream breakage for library users.
 - Don't commit `requirements-cli.txt`; `build_distributions.py` runs `uv export --frozen ...` into the unpacked sdist (`include *.txt` already ships it). Staleness gate = `uv lock --check`.
 - Delete `check_distributions.py`: payload identity, pin==file, and marker compatibility all hold by construction / by uv resolution.
 - Replace `check_installed_distribution.py` with workflow lines using `uvx --from dist/planemo_cli-*.whl planemo ...` (the real UX) + `uv pip check`. Delete stale `scripts/test_wheel.bash`.
