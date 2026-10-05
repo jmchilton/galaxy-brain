@@ -15,7 +15,6 @@ Closed 2026-10-05 by us: #23455 (`pick_value_first_ok_or_skip`, abandoned), work
 - [#23815](https://github.com/galaxyproject/galaxy/pull/23815) — branch `container_tool_env` — Description: Adds `job_env`/`tool_env` destination scopes and tool-declared runtime variables forwarded into Docker/Singularity containers; blockers: needs review (undrafted by John 2026-10-05; CI at `09472d66d94` green except Rucio infra; rebased onto dev at `3cdceb8b808`, no conflicts — await CI). [Description](branches/container_tool_env/pr_description.md), [titles](branches/container_tool_env/pr_titles.md), [polish debrief](branches/container_tool_env/polish_debrief.md).
 - [#23850](https://github.com/galaxyproject/galaxy/pull/23850) — branch `pulsar_version_metrics` — Description: Records Pulsar client/target/server versions as job metrics, renames the `pulsar_transfer` plugin to `pulsar`, finishes jobs for the submitted version; blockers: needs review (undrafted by John 2026-10-05; PR CI at `04d8d2dd46f` red only on dev-flaky Playwright `test_step_parameter_inputs`); pairs with [Pulsar #529](https://github.com/galaxyproject/pulsar/pull/529). [Description](branches/pulsar_version_metrics/pr_description.md), [titles](branches/pulsar_version_metrics/pr_titles.md), [polish debrief](branches/pulsar_version_metrics/polish_debrief.md).
 
-
 ## Open Galaxy PRs — needs attention (`attention`)
 
 None yet.
