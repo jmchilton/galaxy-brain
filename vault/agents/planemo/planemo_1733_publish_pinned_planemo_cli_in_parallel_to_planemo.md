@@ -99,7 +99,7 @@ Pins freshness at release: `requirements-cli.txt` is a static committed snapshot
 3. [x] (done 2026-10-05 by John) Configure a PyPI pending trusted publisher for `planemo-cli` (galaxyproject/planemo, `deploy.yaml`, no environment) **before merge**; make it an explicit checklist item in the PR.
 4. [ ] Consider `skip-existing: true` on the publish step so a failed partial upload can be re-run.
 5. [x] (029f1b0b, c3d7f056) Replace committed `requirements-cli.txt` + hand-rolled lock check with `uv lock --check` and build-time `uv export`; shrink `update_dependencies.py` accordingly.
-6. [ ] Add `uv` ecosystem to `.github/dependabot.yml` (after 5).
+6. [x] (69e03a46) Instead of dependabot uv: weekly `dependencies.yaml` mirroring Galaxy's (galaxybot PAT, push-to-fork). Needs admin: `galaxybot/planemo` fork + `GALAXYBOT_PAT` repo secret on planemo.
 7. [ ] Trim `check_distributions.py` to non-tautological checks; drop `MANIFEST.in` scripts line; replace `scripts/test_wheel.bash` with the new smoke test.
 8. [ ] Reduce `test_packages` matrix on PRs.
 9. [ ] Follow-up (optional): move tox to `dependency_groups`, drop generated `requirements.txt`/`dev-requirements.txt`.
@@ -121,3 +121,4 @@ Core that must stay: `build_distributions.py`, `uv.lock`, deploy build + smoke j
 - First PR CI run: lint / lint_docs / build_packages "failed" = runner not acquired (infra), not code.
 - c3d7f056: `requirements-cli.txt` no longer committed; `build_distributions.py` runs `uv export` into the staged CLI source. Verified 111 pins in wheel; CLI sdist ships the file and rebuilds with no uv on PATH. `check-dependencies` = `uv lock --check`.
 - Dependabot `uv` deferred - known issues: `versioning-strategy` dropped before the uv updater (raises pyproject floors; dependabot-core#16112), and `lockfile-only` skips transitives (dependabot-core#14073). Needs decision vs a scheduled `uv lock --upgrade` workflow.
+- 69e03a46: weekly `uv lock --upgrade` PR workflow (John chose scheduled workflow over dependabot). zizmor offline clean. Blocked on admin setup: galaxybot fork of planemo + `GALAXYBOT_PAT` secret (Galaxy's is repo-level; not visible to planemo). Side note: planemo still has a 2020 `PYPI_PASSWORD` repo secret, unused since trusted publishing - candidate to delete.
