@@ -1,5 +1,8 @@
 # Planemo Maintenance 
 
+@../_shared/VAULT_SYNC.md
+@../_shared/SECURITY_REPORTS.md
+
 Review notes for `galaxyproject/planemo` pull requests, issues, feature development, plus the rules for keeping the local worktrees in sync with what's worth reviewing.
 
 In the following files PROJECT is `planemo`.

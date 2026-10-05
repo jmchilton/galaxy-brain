@@ -1,3 +1,6 @@
+@../_shared/VAULT_SYNC.md
+@../_shared/SECURITY_REPORTS.md
+
 ## Galaxy Project, Branch, and Worktree Management
 
 Please read "~/projects/repositories/galaxy-brain/vault/agents/gx_branches/PROJECT_MANAGEMENT.md" for information on branch and PR management for work done on this project.
