@@ -1,1 +1,4 @@
 - `tighten_extended_metadata_permissions` — gave up on tightening extended metadata permissions (John, 2026-10-02); branch had no commits beyond `dev`.
+- `issue_23521_empty_collection_single_data_param` (`eaf5c260ccc`) — abandoned: only reaches a hand-built nested `dce` request that is already a 400, no user has hit it, and it doesn't fix #23521, which `issue_23521_conditional_case_resolution` tackles directly (John, 2026-10-04).
+- `pick_value_first_ok_or_skip` (`166c41017fa`, PR #23455 closed) — abandoned: the skip mode behaves inconsistently, since errors downstream of a skipped input surface as paused instead of failed (John, 2026-10-05).
+- `metadata_lazy_imports` (`5c5a491de0b`) — abandoned: 1184 behind with its first 3 commits already on `dev` and a `tool_util_models` conflict when John abandoned it (2026-10-05).

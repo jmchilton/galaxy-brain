@@ -1,0 +1,4 @@
+- Run test_import_dataset_from_path under Playwright
+- Read the library dataset table by its cells, unblocking test_import_dataset_from_path under Playwright
+- Fix `KeyError: 'Name'` in test_import_dataset_from_path under Playwright
+- Drop `@selenium_only` from test_import_dataset_from_path
