@@ -3,6 +3,8 @@
 Commit and push tracking files, notes, plans, and debriefs after meaningful batches
 of updates and before handoff. Checkpoint between phases during long tasks.
 This applies only to galaxy-brain, not project code or worktree workflows.
+Use `main` and the established remote; don't create side branches for these
+updates unless John asks.
 
 - Commit only your own changes; preserve others' staged and unstaged work.
   The coordinator handles Git when using subagents.
