@@ -94,7 +94,7 @@ Pins freshness at release: `requirements-cli.txt` is a static committed snapshot
 
 ## Next steps
 
-1. [ ] Fix `docs/installation.rst` underline (one char) - otherwise `lint_docs` fails.
+1. [x] (029f1b0b) Fix `docs/installation.rst` underline (one char) - otherwise `lint_docs` fails.
 2. [x] Decided: vendored full copy is intentional (hermetic `uvx` CLI). Still record rationale in PR body.
 3. [x] (done 2026-10-05 by John) Configure a PyPI pending trusted publisher for `planemo-cli` (galaxyproject/planemo, `deploy.yaml`, no environment) **before merge**; make it an explicit checklist item in the PR.
 4. [ ] Consider `skip-existing: true` on the publish step so a failed partial upload can be re-run.
@@ -115,3 +115,7 @@ Core that must stay: `build_distributions.py`, `uv.lock`, deploy build + smoke j
 - Replace `check_installed_distribution.py` with workflow lines using `uvx --from dist/planemo_cli-*.whl planemo ...` (the real UX) + `uv pip check`. Delete stale `scripts/test_wheel.bash`.
 - Drop `MANIFEST.in` scripts line; hardcode `PROJECT_EMAIL`, drop metadata lookup in `planemo/__init__.py`.
 - Matrix: planemo-cli on 3.10, 3.14, macOS; planemo once (~4 jobs vs 11).
+
+### Progress
+- 029f1b0b: deleted `requirements.txt`, `dev-requirements.txt`, `update_dependencies.py`; tox uses `dependency_groups` (`requires = tox>=4.22`); `check-dependencies` = `uv lock --check` + diff of `uv export` vs `requirements-cli.txt` (interim until build-time export). Verified: tox envs install groups (incl. skip_install envs), `make dist` 111 pins. Local `lint_docs` fails on autodoc circular-import warnings on py3.13/macOS - same on unmodified master, pre-existing. `scripts/test_wheel.bash` still references `dev-requirements.txt` (slated for deletion).
+- First PR CI run: lint / lint_docs / build_packages "failed" = runner not acquired (infra), not code.
