@@ -13,6 +13,8 @@ Closed 2026-10-05 by us: #23455 (`pick_value_first_ok_or_skip`, abandoned), work
 - [#22860](https://github.com/galaxyproject/galaxy/pull/22860) — branch `extract_next` (`c4817499d71`) — Description: Extracts reproducible workflows and narrative reports from Galaxy notebook activity; blockers: none (open since 2026-06, approved by ahmedhamidawan 2026-09-24; PR CI green on the Vue 3 rebase `c4817499d71`) — await merge; notebook extraction browser scenarios still unproven; title typo "Researches" → "Researchers"?; [debrief](extract_next/implementation_debrief.md).
 - [#23334](https://github.com/galaxyproject/galaxy/pull/23334) — branch `pja_warn_unsupported_mapped_over` — Description: Hides job-only actions on pick-value steps and warns about saved configurations; blockers: needs review; rebased onto dev 2026-10-05 at `b2652f11fb4` (mechanical `FormPickValue.test.ts` conflict with dev's `VueWrapper` retype; vitest 13 pass) — await CI.
 - [#23815](https://github.com/galaxyproject/galaxy/pull/23815) — branch `container_tool_env` — Description: Adds `job_env`/`tool_env` destination scopes and tool-declared runtime variables forwarded into Docker/Singularity containers; blockers: needs review (undrafted by John 2026-10-05; CI at `09472d66d94` green except Rucio infra; rebased onto dev at `3cdceb8b808`, no conflicts — await CI). [Description](branches/container_tool_env/pr_description.md), [titles](branches/container_tool_env/pr_titles.md), [polish debrief](branches/container_tool_env/polish_debrief.md).
+- [#23850](https://github.com/galaxyproject/galaxy/pull/23850) — branch `pulsar_version_metrics` — Description: Records Pulsar client/target/server versions as job metrics, renames the `pulsar_transfer` plugin to `pulsar`, finishes jobs for the submitted version; blockers: needs review (undrafted by John 2026-10-05; PR CI at `04d8d2dd46f` red only on dev-flaky Playwright `test_step_parameter_inputs`); pairs with [Pulsar #529](https://github.com/galaxyproject/pulsar/pull/529). [Description](branches/pulsar_version_metrics/pr_description.md), [titles](branches/pulsar_version_metrics/pr_titles.md), [polish debrief](branches/pulsar_version_metrics/polish_debrief.md).
+
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -20,7 +22,7 @@ None yet.
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
-- [#23850](https://github.com/galaxyproject/galaxy/pull/23850) — branch `pulsar_version_metrics` — Description: Records Pulsar client/target/server versions as job metrics, renames the `pulsar_transfer` plugin to `pulsar`, finishes jobs for the submitted version; blockers: polished 2026-10-05, test nits fixed at `04d8d2dd46f`, PR body replaced with the polished description; PR CI on `04d8d2dd46f` settled, only red is dev-flaky Playwright `test_step_parameter_inputs`; John (finish change stays here, no staging-image bump): human-read item, then undraft; pairs with [Pulsar #529](https://github.com/galaxyproject/pulsar/pull/529). [Description](branches/pulsar_version_metrics/pr_description.md), [titles](branches/pulsar_version_metrics/pr_titles.md), [polish debrief](branches/pulsar_version_metrics/polish_debrief.md).
+None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
