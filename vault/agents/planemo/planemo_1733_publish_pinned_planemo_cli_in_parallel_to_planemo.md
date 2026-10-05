@@ -98,7 +98,7 @@ Pins freshness at release: `requirements-cli.txt` is a static committed snapshot
 2. [x] Decided: vendored full copy is intentional (hermetic `uvx` CLI). Still record rationale in PR body.
 3. [x] (done 2026-10-05 by John) Configure a PyPI pending trusted publisher for `planemo-cli` (galaxyproject/planemo, `deploy.yaml`, no environment) **before merge**; make it an explicit checklist item in the PR.
 4. [ ] Consider `skip-existing: true` on the publish step so a failed partial upload can be re-run.
-5. [ ] Replace committed `requirements-cli.txt` + hand-rolled lock check with `uv lock --check` and build-time `uv export`; shrink `update_dependencies.py` accordingly.
+5. [x] (029f1b0b, c3d7f056) Replace committed `requirements-cli.txt` + hand-rolled lock check with `uv lock --check` and build-time `uv export`; shrink `update_dependencies.py` accordingly.
 6. [ ] Add `uv` ecosystem to `.github/dependabot.yml` (after 5).
 7. [ ] Trim `check_distributions.py` to non-tautological checks; drop `MANIFEST.in` scripts line; replace `scripts/test_wheel.bash` with the new smoke test.
 8. [ ] Reduce `test_packages` matrix on PRs.
@@ -119,3 +119,5 @@ Core that must stay: `build_distributions.py`, `uv.lock`, deploy build + smoke j
 ### Progress
 - 029f1b0b: deleted `requirements.txt`, `dev-requirements.txt`, `update_dependencies.py`; tox uses `dependency_groups` (`requires = tox>=4.22`); `check-dependencies` = `uv lock --check` + diff of `uv export` vs `requirements-cli.txt` (interim until build-time export). Verified: tox envs install groups (incl. skip_install envs), `make dist` 111 pins. Local `lint_docs` fails on autodoc circular-import warnings on py3.13/macOS - same on unmodified master, pre-existing. `scripts/test_wheel.bash` still references `dev-requirements.txt` (slated for deletion).
 - First PR CI run: lint / lint_docs / build_packages "failed" = runner not acquired (infra), not code.
+- c3d7f056: `requirements-cli.txt` no longer committed; `build_distributions.py` runs `uv export` into the staged CLI source. Verified 111 pins in wheel; CLI sdist ships the file and rebuilds with no uv on PATH. `check-dependencies` = `uv lock --check`.
+- Dependabot `uv` deferred - known issues: `versioning-strategy` dropped before the uv updater (raises pyproject floors; dependabot-core#16112), and `lockfile-only` skips transitives (dependabot-core#14073). Needs decision vs a scheduled `uv lock --upgrade` workflow.
