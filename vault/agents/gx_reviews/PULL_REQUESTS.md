@@ -10,6 +10,7 @@ PRs To Review:
 - 23924 — reviewed at `03b62ebf0f4`: approve w/ suggestions (GHeading sizes → tokens.css; dup .sr-only; router-link @click untested); draft review unposted
 - 23923 — reviewed at `1f82e3d6323`: approve w/ suggestions (hardcoded theme values vs tokens.css; BootstrapVariant/Size dup types; vue/no-lone-template → error); draft review unposted
 - 23928 — reviewed at `296e110e9ce`: approve (fix matches root cause; optional: reuse `.unselectable`); draft review unposted
+- 21064 — reviewed at `f5ca5c939b0`: approve w/ small follow-ups; davelopez review 6 addressed, 2 partial, 2 unaddressed (no replies from author); draft review unposted
 
 PRs to Skip For 7 Days:
 
