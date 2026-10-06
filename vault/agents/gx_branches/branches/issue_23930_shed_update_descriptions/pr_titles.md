@@ -1,0 +1,4 @@
+- [26.1] Fix Tool Shed repository update swapping short and long descriptions
+- [26.1] Map synopsis/description correctly in the Tool Shed repository update API
+- [26.1] Fix `planemo shed_update` overwriting a repository's short description
+- [26.1] Fix Tool Shed 2.0 repository update storing the long description as the synopsis

@@ -17,7 +17,7 @@ So the API's `description` (the long text) overwrote the model's short `descript
 
 - The v1 controller's `update()` mapped the fields correctly (`description=synopsis, long_description=description`), starting with `591ce54f0db` in 2015. That controller was deleted in `0cd01f69010`.
 - Planemo and bioblend have sent `synopsis=<short>, description=<long>` since 2015, so nothing changed on the client side.
-- The 2.0 endpoint arrived in `1a7e5d1df9f` (2024-08-06, "Restore repository update in the tool shed 2.0") without the mapping. It first shipped in v24.2.0. Its tests covered only `homepage_url` and categories.
+- The 2.0 endpoint arrived in `1a7e5d1df9f` (2024-08-06, "Restore repository update in the tool shed 2.0") without the mapping. It first shipped in v24.2.0, but only behind `TOOL_SHED_API_VERSION=v2`; `81475072313` made v2 the unconditional default, first in v26.1.0, so default deployments regressed in 26.1. Its tests covered only `homepage_url` and categories.
 - `test_0000...::test_0020` edits both descriptions through `edit_repository_information`, which uses the correct API names. But it reverts the edit and never checks what was stored, so it couldn't catch this.
 
 ## Change
