@@ -1,8 +1,11 @@
 # planemo #1733 - Publish pinned planemo-cli in parallel to planemo
 
-- PR: https://github.com/galaxyproject/planemo/pull/1733 (head `jmchilton:publish-planemo-cli`, single commit `8c1050de`, Codex-authored)
+- PR: https://github.com/galaxyproject/planemo/pull/1733 (branch `jmchilton:publish-planemo-cli`, current reviewed head `d929cefaf203ae6e6ec4de37b476ce1af357d7c2`)
 - Worktree: `~/projects/worktrees/planemo/branch/publish-planemo-cli` (based on origin/master `515e928e`)
-- Reviewed: 2026-10-05. PR CI was still all-pending at review time (incl. `build_packages`), so CI results are not in here.
+- Reviewed: 2026-10-06. All checks on the current head pass; PyPI publishing is skipped on the PR.
+- Current verdict: implementation sound and clear, no new correctness findings or merge blockers. See [Independent Codex review — 2026-10-06](#independent-codex-review--2026-10-06) below for current validation and the optional pinned-runtime CI follow-up.
+
+The older review passes below record prior heads and findings, including issues subsequently resolved. They are historical context, not the current verdict.
 
 ## What the PR does
 
@@ -155,3 +158,27 @@ Close. Fix 1 before merge (CI mypy red); 2 is a one-character fix worth folding 
 
 ### Re-review fixes (ec92e116)
 All re-review findings addressed except `click.MultiCommand` -> `click.Group` (follow-up). `typecheck` group for tox mypy; deploy uses `uv sync --locked --only-group release` (pip step + `cache: pip` gone); `skip-existing: true`; `uv export --locked`; `test_workflow_tests.sh` glob `planemo-*.whl`; CONTRIBUTING/developing docs. Verified: py313 mypy + lint OK, `make check-dependencies`, release-only venv `make dist` -> 4 artifacts twine PASSED, zizmor clean. Remaining: PR body w/ admin checklist (galaxybot fork, `GALAXYBOT_PAT`, delete `PYPI_PASSWORD`).
+
+## Independent Codex review — 2026-10-06
+
+Reviewed exact head `d929cefaf203ae6e6ec4de37b476ce1af357d7c2` against `origin/master` (`515e928e`). Read the full implementation diff, dependency graph, packaging consumers, tox configuration, and release workflows. Verification used temporary copies; the author's worktree was left untouched.
+
+**Verdict: the implementation is sound and clear. No new correctness findings or merge blockers.** The earlier implementation fixes remain in place; operational publisher/bot setup was not reverified. The intentionally brief PR description is outside this verdict.
+
+The central abstraction is now small: `scripts/build_distributions.py:25-51` stages the CLI from the ordinary sdist, exports the runtime lock, removes stale distribution metadata, and uses the standard build backend again. This keeps code, assets, entry points, and versions aligned without a second package implementation. Moving the original dependencies into `pyproject.toml` preserves their ranges; the removed `stdlib-list` requirement was conditional on Python below the project's existing minimum. Package discovery returns the same 19 packages as the former explicit list.
+
+### Independent verification
+
+- Built both distributions with uv 0.10.7 and Python 3.13 from an archive of the exact head. All four wheel/sdist artifacts pass `twine check`.
+- Both wheels contain identical code/data payloads: 203 files. Their versions match (`0.75.48.dev0`), and both expose the `planemo` command.
+- The ordinary wheel retains 24 ranged runtime requirements; the CLI wheel has 111 exact `==` requirements, including environment markers. No test/release tools or dependency on the `planemo` distribution leak into the CLI requirements. Across Python 3.10–3.15 and Linux/macOS/Windows marker environments, no package has overlapping active pins, and every direct runtime pin satisfies its original range. This is a metadata check, not installation testing on all those platforms.
+- Rebuilt the CLI sdist with ordinary `python -m build --wheel`, with uv absent from `PATH`. The resulting wheel's metadata and code/data exactly match the first wheel (excluding `RECORD`). The exported requirements are embedded in the sdist, so rebuilding does not consult the development lock or require uv.
+- Simulated changing `__version__` from `0.75.48.dev0` to `0.75.48` in a separate temporary project: `uv lock --check` still passes. Release version changes do not stale the lock; both distributions derive their version from the same staged source.
+- Installed the exact exported runtime constraints plus the test dependency group on macOS/Python 3.14. `uv pip check` passes. Ran the quick suite with `PLANEMO_SKIP_SLOW_TESTS=1 PLANEMO_SKIP_GALAXY_TESTS=1 PLANEMO_SKIP_GALAXY_CWL_TESTS=1`: **494 passed, 103 skipped, 2 failed** in 212.55 seconds. The failures are excluded from PR findings: the unchanged test `tests/test_autopygen_parser_discovery.py:104` references `ast.Str`, removed in Python 3.14 (production autopygen code does not), and the Docker profile test cannot connect to the local Docker daemon.
+- All checks reported by GitHub for this exact head pass: packaging build, all four artifact smoke jobs, every Python CI job, and workflow analysis. PyPI publishing is skipped on the PR, as expected.
+
+### Optional follow-up
+
+One main-suite CI job using the locked runtime would strengthen the assurance behind the CLI pins. `.github/workflows/deploy.yaml:49-59` currently checks version output, tool linting, and report generation against the built wheels; the broader `.github/workflows/ci.yaml` tox suite resolves dependencies independently. The local pinned quick-suite run did not uncover a runtime incompatibility, so this is a validation improvement rather than a defect or merge condition.
+
+The migration uses standard dependency groups and uv export behavior; consulted the primary [uv dependency documentation](https://docs.astral.sh/uv/concepts/projects/dependencies/) and [uv command reference](https://docs.astral.sh/uv/reference/cli/#uv-export) when checking group selection and export semantics.
