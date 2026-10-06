@@ -9,16 +9,16 @@ Fix 🎯 #23695 - document how to skip tests when a remote service they depend o
 | `skip_if_galaxy_depot_down` | `https://depot.galaxyproject.org/` |
 | `skip_if_dockstore_down` | `https://dockstore.org/` |
 | `skip_if_workflowhub_down` | `https://workflowhub.eu/` |
-| `skip_if_toolshed_down` | `https://toolshed.g2.bx.psu.edu` (moved here, see below) |
+| `skip_if_toolshed_down` | `DEFAULT_TOOL_SHED_URL` (moved here, see below) |
 | `skip_if_site_down(url)` | Any other `url` |
 
-It also covers stacking decorators, skipping from setup code with `is_site_up` (as `UsesShed.configure_shed` does), and what the front-page probe misses: `unavailable_pattern` for errors behind a healthy front page and `skip_on_network_error` for connection errors and timeouts.
+It also covers stacking decorators, skipping from setup code with the new `raise_skip_if_site_down(url)` (as `UsesShed.configure_shed` now does), and what the front-page probe misses: `unavailable_pattern` for errors behind a healthy front page and `skip_on_network_error` for connection errors and timeouts.
 
-The branch also makes `galaxy.util.unittest_utils` the one place to import these from. `skip_if_toolshed_down` moves there from `galaxy_test.base.populators`. The "Skip Decorators" section now covers `skip_unless_executable(name)`, which was undocumented, and points `skip_unless_environ(var)`, which was listed only as an `integration_util` helper, at `unittest_utils` for any kind of test.
+The branch also makes `galaxy.util.unittest_utils` the one place to import these from. `skip_if_toolshed_down` moves there from `galaxy_test.base.populators`, and `UsesShed.configure_shed` stops hand-rolling its own Tool Shed check. The "Skip Decorators" section now covers `skip_unless_executable(name)`, which was undocumented, and points `skip_unless_environ(var)`, which was listed only as an `integration_util` helper, at `unittest_utils` for any kind of test.
 
 ***It's for developers writing Galaxy's own tests (not tool tests). No test's skip behavior changes, and no existing test needs retrofitting. It documents the convention #23685 and #23842 already applied.***
 
-***The code changes are moves, not new behavior. `populators` still re-exports `skip_if_toolshed_down`, and `integration_util` re-exports the `unittest_utils` `skip_unless_environ` instead of keeping an identical copy, so every existing import keeps working, including under mypy.***
+***The code changes are moves and one extracted helper, not new skip conditions. `populators` still re-exports `skip_if_toolshed_down`, and `integration_util` re-exports the `unittest_utils` `skip_unless_environ` instead of keeping an identical copy, so every existing import keeps working, including under mypy.***
 
 ***Skipping doesn't hide regressions. A test skips only when the probe fails, or on an explicit `unavailable_pattern` match or network error; any other failure still fails.***
 
@@ -27,6 +27,7 @@ The branch also makes `galaxy.util.unittest_utils` the one place to import these
 <details><summary>Code changes</summary>
 
 - `skip_if_toolshed_down` is defined in `galaxy.util.unittest_utils` beside the other per-service decorators. `galaxy_test.base.populators` re-exports it, and its two callers (`test_data_manager.py`, `test_shed_tool_tests.py`) import from the new home.
+- `raise_skip_if_site_down(url)` is the probe-and-`SkipTest` step `skip_if_site_down` already ran, pulled out for setup code. `UsesShed.configure_shed` used `is_site_up` plus its own `SkipTest` message without the reason; it now calls the helper, so its skip says why (e.g. `(HTTP 503)`). `skip_if_toolshed_down` and `UsesShed` both probe `DEFAULT_TOOL_SHED_URL`.
 - `integration_util.skip_unless_environ` was a line-for-line copy of `unittest_utils.skip_unless_environ`. It's now the same function, re-exported explicitly (`x as x`, as mypy's `no_implicit_reexport` requires), so `@integration_util.skip_unless_environ(...)` in `test_coexecution.py` still works.
 
 </details>
@@ -53,20 +54,21 @@ Builds on 🔀 #23685 and 🔀 #23842.
 ## John's Checklist
 
 - [ ] Did a human read every test and every comment? (Requires human author to check)
-- [x] What does the user see when it fails? N/A. Docs and test helpers only; skip messages are unchanged.
+- [x] What does the user see when it fails? N/A for users. Skip messages are unchanged, except `UsesShed`'s Tool Shed skip, which now includes the reason (`(HTTP 503)`).
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? N/A. No new tests; the moved decorators are the same objects, checked by import identity.
+- [x] Are unit tests not just testing the literal implementation? Yes. `test_unittest_utils.py` probes a local HTTP server answering 200 or 503 and checks the skip and its reason, not the helper's internals.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 
 ## How to test the changes?
+- [x] I've included appropriate [automated tests](https://docs.galaxyproject.org/en/latest/dev/writing_tests.html).
 - [x] Instructions for manual testing are as follows:
 
 <details><summary>Manual check</summary>
 
 Build the docs (`make docs`) and read `dev/writing_tests.html#remote-service-down`. Check that the cross-links (from "Slow 'Unit' Tests", "Skip Decorators" and "Handling Flaky Tests") land on the new section. A standalone Sphinx + MyST render of the page showed no new warnings before the `skip_unless_executable` paragraph was added; fork CI's docs build covers the final page.
 
-`skip_if_toolshed_down` and `skip_unless_environ` resolve to the same objects from their old and new import paths. `test_data_manager.py`, `test_shed_tool_tests.py` and `test_coexecution.py` collect cleanly. mypy on the changed modules plus `test_coexecution.py` is clean; with an implicit re-export it fails on `test_coexecution.py`'s `integration_util.skip_unless_environ`.
+`skip_if_toolshed_down` and `skip_unless_environ` resolve to the same objects from their old and new import paths. `test_data_manager.py`, `test_shed_tool_tests.py`, `test_coexecution.py` and `test_workflow_repository_tool_update.py` collect cleanly. New `test/unit/util/test_unittest_utils.py` (3 tests) failed before `raise_skip_if_site_down` existed and passes now. mypy on the changed modules plus `test_coexecution.py` is clean; with an implicit re-export it fails on `test_coexecution.py`'s `integration_util.skip_unless_environ`.
 
 </details>
 
