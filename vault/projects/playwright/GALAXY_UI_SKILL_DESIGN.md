@@ -143,10 +143,43 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
       `dialog-accept`) resolves it. Verbs that expect a dialog keep using `accept_alert`.
 - **S2 — version skew: resolved.** S1 ran Python 1.63.0 against playwright-core
   1.64.0-alpha with no issues.
-- **S3 — daemon lifecycle.** Decide the idle timeout, recovery from browser death, and whether
-  `start` can re-attach to a living daemon after the agent's shell restarts.
-  playwright-cli's model is a reference: socket per workspace hash plus session name, a 1 h
-  headless idle timeout, and `list` / `close-all` / `kill-all`.
+- **S3 — daemon lifecycle: resolved 2026-10-06.**
+  - **The prototype.** It was throwaway: a detached daemon holding a real
+    `GalaxySeleniumContextImpl` (Playwright, headless) against test.galaxyproject.org, with a JSON
+    line protocol over a Unix socket, one request at a time. Eight tests, all passing:
+
+    | Test | Behaviour |
+    |---|---|
+    | Detach | Spawned with `start_new_session=True`, the daemon is reparented to launchd and survives the agent shell that started it |
+    | Fresh shell | A new shell reconnects by session name. Page state is intact |
+    | Abandoned call | Client A times out (2 s) during a 6 s call. The daemon finishes the call, logs "client gone" and stays up. Client B, queued behind it, is served at 6 s. A's result is lost to the agent |
+    | Browser killed | The pre-call liveness check (`is_connected` / `is_closed`) still reads alive, because the sync API only notices during a call. The first call fails with `TargetClosedError`; the next one triggers a relaunch |
+    | Daemon `kill -9` | No orphans: Playwright's driver process notices and takes Chromium down. The next client removes the stale socket and metadata and reports "no gxui daemon" |
+    | Idle timeout | After `accept()` times out, the daemon exits, quits the browser, and removes the socket and metadata |
+    | Attached CLI across a relaunch or stop | The playwright-cli session dies. Its error suggests `open`, which would start a second browser (and SIGABRT in Codex's sandbox). Re-attaching to the same CDP port works |
+    | Codex sandbox | A client in `codex exec` (`workspace-write`, network on) reaches a daemon socket in `~/.cache` |
+
+  - **Decisions for the real daemon:**
+    1. **Short socket path.** macOS caps `AF_UNIX` paths at ~104 bytes, and the first attempt
+       failed under the session scratch dir. Use `~/.cache/gxui/<session>.sock`, or a hash as
+       playwright-cli does. Never put the socket in the workspace.
+    2. **`gxui start` is idempotent.** It returns the running daemon if there is one, and it
+       prints the CDP URL.
+       - Under Codex the harness runs it outside the sandbox, because Chrome cannot launch inside.
+       - Under Claude Code the agent may run it.
+    3. **`gxui` owns the playwright-cli attach.** It attaches on start and re-attaches after every
+       browser relaunch. The skill forbids `open`, `close` and `attach`.
+    4. **Browser death is detected by catching `TargetClosedError`**, not by a liveness check
+       before the call. The daemon relaunches on the same CDP port, re-attaches the CLI, and fails
+       the call with "browser relaunched; page state and login lost".
+    5. **Long verbs are bounded below host tool timeouts.** Claude Code's Bash default is 2 min.
+       A verb returns its state on a timeout rather than blocking. The daemon writes every result
+       to the transcript, and `gxui last` returns the latest one, so an abandoned call loses
+       nothing.
+    6. **Idle timeout defaults to 1 h,** as playwright-cli's headless default does. `0` disables
+       it for harness runs, where the harness stops the daemon.
+    7. **One daemon per session, one request at a time**, with no lock beyond the listen backlog.
+       Two agents use two sessions.
 
 ## Known gaps the first runs will hit
 
