@@ -12,7 +12,10 @@ import time
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import (
+    quote,
+    unquote,
+)
 
 DOMAINS = ["session", "history", "upload", "dataset", "tool", "workflow", "observe", "generic"]
 
@@ -255,33 +258,40 @@ def history_wait(ctx, hid: int, timeout: float = 240.0):
 # --- upload ----------------------------------------------------------------
 
 
-def _upload(ctx, method: str, stage) -> str:
+def _upload(ctx, method: str, stage, timeout: float) -> str:
     uploader = ctx.upload_context(method)
     stage(uploader)
-    hids = uploader._start_and_wait_for_uploaded_hids()
+    # As BaseUploadContext._start_and_wait_for_uploaded_hids, but with history-wait's deadline: its
+    # per-item wait is sized for test servers and a slow fetch from Zenodo outlives it.
+    first = uploader._current_latest_hid() + 1
+    count = uploader._context._item_count
+    uploader.start()
+    hids = list(range(first, first + count))
+    for hid in hids:
+        history_wait(ctx, hid, timeout=timeout)
     return "ok hids " + " ".join(str(h) for h in hids)
 
 
 @verb("upload-url", "upload", "upload_context('paste-links')")
-def upload_url(ctx, *urls: str, ext: str = "", name: str = ""):
+def upload_url(ctx, *urls: str, ext: str = "", name: str = "", timeout: float = 240.0):
     """Upload one or more URLs (Import Data > Paste Links/URLs); waits until every new item is ok."""
     metadata = {k: v for k, v in (("extension", ext), ("name", name)) if v}
-    return _upload(ctx, "paste-links", lambda up: up.stage_paste_links([(u, metadata or None) for u in urls]))
+    return _upload(ctx, "paste-links", lambda up: up.stage_paste_links([(u, metadata or None) for u in urls]), timeout)
 
 
 @verb("upload-paste", "upload", "upload_context('paste-content')")
-def upload_paste(ctx, content: str, ext: str = "", name: str = ""):
+def upload_paste(ctx, content: str, ext: str = "", name: str = "", timeout: float = 240.0):
     """Upload pasted text as one dataset; waits until it is ok."""
     metadata = {k: v for k, v in (("extension", ext), ("name", name)) if v}
-    return _upload(ctx, "paste-content", lambda up: up.stage_paste_content(content, metadata or None))
+    return _upload(ctx, "paste-content", lambda up: up.stage_paste_content(content, metadata or None), timeout)
 
 
 @verb("upload-file", "upload", "upload_context('local-file')")
-def upload_file(ctx, path: str, ext: str = "", name: str = ""):
+def upload_file(ctx, path: str, ext: str = "", name: str = "", timeout: float = 240.0):
     """Upload a local file as one dataset; waits until it is ok."""
     metadata = {k: v for k, v in (("extension", ext), ("name", name)) if v}
     path = os.path.abspath(os.path.expanduser(path))
-    return _upload(ctx, "local-file", lambda up: up.stage_local_file(path, metadata or None))
+    return _upload(ctx, "local-file", lambda up: up.stage_local_file(path, metadata or None), timeout)
 
 
 # --- dataset ---------------------------------------------------------------
@@ -326,10 +336,14 @@ def tool_search(ctx, text: str):
     ctx.components.tools.search.wait_for_and_send_keys(text)
     ctx.sleep_for(ctx.wait_types.UX_RENDER)
     # navigation.yml has no tool-title component yet.
-    titles = [
-        t.strip().splitlines()[0] for t in ctx.page.locator("#toolbox-panel .toolTitle").all_inner_texts() if t.strip()
-    ]
-    return "\n".join(titles[:20]) or "no matching tools"
+    lines = []
+    for title in ctx.page.locator("#toolbox-panel .toolTitle").all()[:20]:
+        text = title.inner_text().strip().splitlines()
+        links = title.locator("a")
+        href = (links.first.get_attribute("href") or "") if links.count() else ""
+        tool_id = unquote(href.split("tool_id=", 1)[1].split("&", 1)[0]) if "tool_id=" in href else "?"
+        lines.append(f"{text[0] if text else '?'}  [{tool_id}]")
+    return "\n".join(lines) or "no matching tools"
 
 
 @verb("tool-run", "tool", "tool_form_execute")
@@ -367,11 +381,47 @@ def workflow_run(ctx, name: str, inputs: str = "", submit: bool = True):
 
 
 @verb("workflow-extract", "workflow", "extract_workflow_name_and_submit")
-def workflow_extract(ctx, name: str):
-    """Extract a workflow from the current history (all steps), name it, and create it."""
+def workflow_extract(ctx, name: str, input_names: str = "", exclude_hids: str = "", submit: bool = True):
+    """Extract a workflow from the current history, name it, and create it.
+
+    --input-names 'FASTQ reads' renames the input cards in order (comma-separated for several).
+    --exclude-hids 5 leaves out the tool steps that created those history items (comma-separated).
+    --no-submit stops before creating, to check the form (`gxui snapshot workflow_extract`).
+    """
     ctx.navigate_to_workflow_extraction()
+    extract = ctx.components.workflow_extract
+    for hid in _int_list(exclude_hids):
+        job_id = ctx.api_get(f"datasets/{_dataset_id(ctx, hid)}")["creating_job"]
+        checkbox = extract.card_checkbox_by_job_id(job_id=job_id)
+        element = checkbox.wait_for_present()
+        if ctx.locator(checkbox).is_checked():
+            # The card checkbox is an opacity-0 input; Galaxy's own extraction tests click it by script.
+            ctx.execute_script_click(element)
+        if ctx.locator(checkbox).is_checked():
+            raise RuntimeError(f"could not exclude the step that created hid {hid}")
+    # navigation.yml has no input-card rename components yet.
+    for index, label in enumerate(n.strip() for n in input_names.split(",") if n.strip()):
+        ctx.page.locator('[data-step-type^="input_"] .g-card-rename').nth(index).click()
+        ctx.page.locator("#input-name-input").fill(label)
+        ctx.page.locator("#rename-modal-input .g-modal-confirm-buttons button:last-of-type").click()
+        ctx.page.locator("#input-name-input").wait_for(state="detached")
+    if not submit:
+        ctx.extract_workflow_set_name(name)
+        return "form filled, not submitted"
     ctx.extract_workflow_name_and_submit(name)
-    return f"extracted {name!r}"
+    extract._.wait_for_absent()
+    return f"extracted {name!r}; now on {ctx.page.url}"
+
+
+def _int_list(text: str) -> list[int]:
+    return [int(part) for part in str(text).split(",") if part.strip()]
+
+
+def _dataset_id(ctx, hid: int) -> str:
+    for item in ctx.history_contents(datasets_only=True):
+        if item["hid"] == hid:
+            return item["id"]
+    raise UsageError(f"no hid {hid} in the current history")
 
 
 # --- observe ---------------------------------------------------------------
@@ -409,36 +459,65 @@ def snapshot(ctx, component: str = "", label: str = ""):
 
 # --- generic: components and raw calls -------------------------------------
 
-COMPONENT_ACTIONS = ["click", "text", "value", "visible", "absent", "wait", "send-keys", "clear-send-keys"]
+COMPONENT_ACTIONS = [
+    "click",
+    "check",
+    "uncheck",
+    "text",
+    "value",
+    "visible",
+    "absent",
+    "wait",
+    "send-keys",
+    "clear-send-keys",
+]
 
 
 @verb("component", "generic", "components.<path>", layer="component", positional=("value",))
-def component(ctx, path: str, action: str, value: str = ""):
-    """Act on one navigation.yml component: click|text|value|visible|absent|wait|send-keys|clear-send-keys.
+def component(ctx, path: str, action: str, value: str = "", timeout: float = 30.0):
+    """Act on one navigation.yml component: click|check|uncheck|text|value|visible|absent|wait|send-keys|clear-send-keys.
 
-    PATH uses the tour grammar, e.g. 'history_panel.item(hid=3).title'. Waits like any Galaxy test.
+    PATH uses the tour grammar, e.g. 'history_panel.item(hid=3).title'. Waits up to TIMEOUT seconds.
+    check/uncheck also work on styled checkboxes whose input is invisible.
     """
+    if action not in COMPONENT_ACTIONS:
+        raise UsageError(f"unknown action {action!r}; one of {', '.join(COMPONENT_ACTIONS)}")
     target = ctx.component(path)
-    if action == "click":
-        target.wait_for_and_click()
-        return "clicked"
-    if action == "text":
-        return _bounded(target.wait_for_text())
-    if action == "value":
-        return target.wait_for_value()
-    if action in ("visible", "wait"):
-        target.wait_for_visible()
-        return "visible"
-    if action == "absent":
-        target.wait_for_absent_or_hidden()
-        return "absent"
-    if action == "send-keys":
-        target.wait_for_and_send_keys(value)
+    try:
+        if action == "click":
+            target.wait_for_and_click(timeout=timeout)
+            return "clicked"
+        if action in ("check", "uncheck"):
+            want = action == "check"
+            element = target.wait_for_present(timeout=timeout)
+            if ctx.locator(target).is_checked() != want:
+                ctx.execute_script_click(element)
+            if ctx.locator(target).is_checked() != want:
+                raise RuntimeError(f"{path} did not become {action}ed")
+            return f"{action}ed"
+        if action == "text":
+            return _bounded(target.wait_for_text(timeout=timeout))
+        if action == "value":
+            return target.wait_for_value(timeout=timeout)
+        if action in ("visible", "wait"):
+            target.wait_for_visible(timeout=timeout)
+            return "visible"
+        if action == "absent":
+            target.wait_for_absent_or_hidden(timeout=timeout)
+            return "absent"
+        target.wait_for_visible(timeout=timeout)
+        if action == "send-keys":
+            target.wait_for_and_send_keys(value)
+        else:
+            target.wait_for_and_clear_and_send_keys(value)
         return "sent"
-    if action == "clear-send-keys":
-        target.wait_for_and_clear_and_send_keys(value)
-        return "sent"
-    raise UsageError(f"unknown action {action!r}; one of {', '.join(COMPONENT_ACTIONS)}")
+    except Exception as e:
+        if "imeout" in type(e).__name__ and action != "absent" and not target.is_absent:
+            raise RuntimeError(
+                f"{path} is in the page but not visible/clickable after {timeout:.0f}s "
+                "(a styled checkbox or hidden input?): try `check`/`uncheck`, or its visible label"
+            ) from None
+        raise
 
 
 @verb("components", "generic", layer="component", positional=("prefix",))

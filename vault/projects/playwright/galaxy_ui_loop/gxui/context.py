@@ -1,6 +1,7 @@
 """The Galaxy context a gxui daemon holds: Galaxy's standalone context plus the task mixins."""
 
 import os
+import re
 
 from galaxy.navigation.components import (
     LocatorT,
@@ -30,6 +31,8 @@ class GxuiContext(GalaxySeleniumContextImpl, RunsWorkflows, UsesUploadActivity):
 
     def component(self, path: str) -> SmartTarget:
         """A SmartTarget for a navigation.yml path such as ``history_panel.item(hid=3).title``."""
+        # The tour grammar takes `key=value` literally; agents naturally quote values.
+        path = _QUOTED_ARGUMENT.sub(r"=\2", path)
         try:
             locator = self.components.resolve_component_locator(path)
         except KeyError as e:
@@ -39,6 +42,14 @@ class GxuiContext(GalaxySeleniumContextImpl, RunsWorkflows, UsesUploadActivity):
                 ) from None
             raise
         return SmartTarget(_LocatorTarget(path, locator), self)
+
+    def locator(self, target):
+        """The Playwright Locator for a Target (first match)."""
+        selector = self.configured_driver.driver_impl._selenium_locator_to_playwright_selector(*target.element_locator)
+        return self.page.locator(selector).first
+
+
+_QUOTED_ARGUMENT = re.compile(r"""=\s*(['"])(.*?)\1""")
 
 
 class _LocatorTarget(Target):

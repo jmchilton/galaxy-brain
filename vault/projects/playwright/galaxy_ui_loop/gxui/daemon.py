@@ -36,14 +36,15 @@ class Transcript:
     def __init__(self, path: str):
         self.path = path
         self.lock = threading.Lock()
-        self.last: dict | None = None
+        self.last_call: dict | None = None  # latest verb/component/call result, for `gxui last`
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
     def write(self, entry: dict) -> dict:
         entry = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), **entry}
         with self.lock, open(self.path, "a") as f:
             f.write(json.dumps(entry, default=str) + "\n")
-            self.last = entry
+            if entry.get("layer") not in ("note", "external"):
+                self.last_call = entry
         return entry
 
 
@@ -56,6 +57,7 @@ class Daemon:
         self.work: queue.Queue = queue.Queue()
         self.last_activity = time.time()
         self.busy: str | None = None
+        self.busy_since = ""
         self.restarts = 0
         self.dialogs: list = []
         self.stopping = False
@@ -132,7 +134,9 @@ class Daemon:
         if op == "status":
             return {"ok": True, "result": self.status()}
         if op == "last":
-            return {"ok": True, "result": self.transcript.last or "no calls yet"}
+            if self.busy:
+                return {"ok": True, "result": f"still running: {self.busy} (since {self.busy_since})"}
+            return {"ok": True, "result": self.transcript.last_call or "no calls yet"}
         if op == "stop":
             self.stopping = True
             self.work.put(None)
@@ -159,7 +163,7 @@ class Daemon:
         entry = {"layer": verb.layer, "verb": name, "args": rest, "method": verb.method}
         try:
             args, kwargs = verb.parse(rest)
-            self.busy = name
+            self.busy, self.busy_since = " ".join(argv), time.strftime("%H:%M:%S")
             result = verb.func(self.ctx, *args, **kwargs)
             reply = {"ok": True, "result": _summarize(result)}
         except UsageError as e:

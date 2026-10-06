@@ -10,6 +10,7 @@ import os
 import subprocess
 import sys
 import threading
+import time
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -98,6 +99,7 @@ def gxui(tmp_path):
             assert result.returncode == 0, result.stderr
         return result
 
+    run.env = env
     yield run
     run("stop", check=False)
 
@@ -125,7 +127,8 @@ def test_daemon_drives_a_page(gxui, fixture_url, tmp_path):
 
     gxui("gap", "need", "a", "hover", "verb")
     gxui("note", "box 1 done")
-    assert json.loads(gxui("last").stdout)["verb"] == "note"
+    # `last` skips notes and gaps: it is for recovering a verb result a shell timeout cut off.
+    assert json.loads(gxui("last").stdout)["args"] == ["wait_for_selector_visible", "#nope"]
 
     lines = [json.loads(line) for line in (tmp_path / "t" / "transcript.jsonl").read_text().splitlines()]
     assert [(e["layer"], e["verb"]) for e in lines] == [
@@ -157,7 +160,7 @@ def test_browser_death_relaunches(gxui, fixture_url):
 def test_optional_positional_and_default_true_flag_usage():
     assert REGISTRY["components"].parse(["history_panel"]) == ([], {"prefix": "history_panel"})
     assert REGISTRY["components"].parse([]) == ([], {})
-    assert REGISTRY["component"].usage() == "component PATH ACTION [VALUE]"
+    assert REGISTRY["component"].usage() == "component PATH ACTION [VALUE] [--timeout TIMEOUT]"
     assert "[--no-submit]" in REGISTRY["workflow-run"].usage()
 
 
@@ -171,3 +174,41 @@ def test_results_are_summarized_for_the_transcript():
     assert _summarize(None) == "ok"
     assert _summarize("hid 2 ok") == "hid 2 ok"
     assert _summarize(object()) == "ok"
+
+
+def test_component_paths_accept_quoted_arguments():
+    from gxui.context import _QUOTED_ARGUMENT
+
+    path = "workflow_run.input_data_div(label='FASTQ reads')"
+    assert _QUOTED_ARGUMENT.sub(r"=\2", path) == "workflow_run.input_data_div(label=FASTQ reads)"
+
+
+def test_workflow_extract_arguments():
+    assert REGISTRY["workflow-extract"].parse(["QC", "--input-names", "FASTQ reads", "--exclude-hids", "5"]) == (
+        ["QC"],
+        {"input_names": "FASTQ reads", "exclude_hids": "5"},
+    )
+
+
+def test_component_rejects_unknown_actions_before_touching_the_page():
+    with pytest.raises(UsageError, match="unknown action 'hover'"):
+        REGISTRY["component"].func(None, "history_panel.item(hid=1)", "hover")
+
+
+def test_last_reports_a_running_verb(gxui, fixture_url):
+    gxui("start", "--url", fixture_url, "--idle-timeout", "0", "--timeout-multiplier", "0.5")
+    env_run = subprocess.Popen(
+        [sys.executable, "-m", "gxui.client", "call", "wait_for_selector_visible", "#nope"],
+        env={**os.environ, **gxui.env},
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    try:
+        for _ in range(50):
+            if "still running: call wait_for_selector_visible" in gxui("last").stdout:
+                break
+            time.sleep(0.1)
+        else:
+            pytest.fail("`last` never reported the running verb")
+    finally:
+        env_run.wait()

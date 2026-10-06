@@ -23,12 +23,15 @@ the verb prints the path.
 1. **Verbs** - `gxui history-new NAME`, `gxui upload-url URL... --ext fastqsanger`,
    `gxui tool-search NAME`, `gxui tool-open ID`, `gxui tool-run` (prints the output hids),
    `gxui history-wait HID`, `gxui workflow-run NAME --inputs '{"label": 1}'`, ...
-   A verb that returns has finished: uploads are `ok`, forms are rendered. `history-wait` waits up
-   to `--timeout` seconds (default 240) and fails at once if the job errors; if it times out, the
-   job is still running - run it again.
+   A verb that returns has done what it says: uploads are `ok`, forms are rendered, `tool-run` has
+   *submitted* (follow with `history-wait`). `history-wait` and uploads wait up to `--timeout`
+   seconds (default 240) and fail at once on an error state; a timeout means still running - check
+   `history-items` before retrying, so you don't upload twice.
+   `workflow-extract NAME --input-names LABEL --exclude-hids HID` does a whole extraction.
 2. **Components** - name UI elements from Galaxy's `navigation.yml`:
    `gxui components history_panel` browses; `gxui component 'history_panel.item(hid=3).title' click`
-   acts (click|text|value|visible|absent|send-keys|clear-send-keys), with Galaxy's waits.
+   acts (click|check|uncheck|text|value|visible|absent|send-keys|clear-send-keys), with Galaxy's
+   waits, up to `--timeout` (default 30 s). Use `check`/`uncheck` for styled checkboxes.
    `gxui call METHOD ARGS...` reaches any other public framework method.
 3. **Escape hatch** - `playwright-cli -s=<session>` is already attached to the same page (snapshot,
    find, click by ref, eval, console). **Before each playwright-cli command or REST call, run
