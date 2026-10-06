@@ -1,3 +1,4 @@
+- Document skip decorators in writing_tests.md
 - Document skipping tests when a remote service is down; gather skip decorators in unittest_utils
 - Document skip decorators and move `skip_if_toolshed_down` into `unittest_utils`
 - Testing docs: skip when quay.io, depot, Dockstore, WorkflowHub or the Tool Shed is down
