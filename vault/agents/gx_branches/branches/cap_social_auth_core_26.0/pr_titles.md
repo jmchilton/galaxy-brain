@@ -1,0 +1,3 @@
+- [26.0] Cap social-auth-core below 6
+- [26.0] Pin social-auth-core<6 to fix package installs and packages CI
+- [26.0] Keep social-auth-core 6.0 out of galaxy-data installs
