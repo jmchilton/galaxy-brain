@@ -29,7 +29,7 @@ Builds on 🔀 #23918, which fixed #23896 and added the rename unit tests this P
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? The same as before: an unresolved reference renders as `""`, with no error.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They assert rendered names for templates, including parity rows for unclosed `#{`, nested braces, whitespace and repeated placeholders.
