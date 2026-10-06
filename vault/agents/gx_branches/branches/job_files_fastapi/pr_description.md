@@ -1,6 +1,6 @@
 Migrate the job files API (`/api/jobs/{job_id}/files`) to FastAPI so that a job runner's upload is written to disk once instead of twice. This is the third attempt, after #8846 and #20235.
 
-Pulsar uploads every remote output through this endpoint, so the earlier review asked for a speed and memory comparison. Here is one 512 MiB upload and one download, measured locally:
+***This endpoint is internal: only job runners such as Pulsar call it, authorized by a per-job key. It isn't a user-facing API.*** Pulsar uploads every remote output through it, so the earlier review asked for a speed and memory comparison. Here is one 512 MiB upload and one download, measured locally:
 
 | 512 MiB, Pulsar-style request | `dev` | This PR |
 | --- | --- | --- |
@@ -10,34 +10,37 @@ Pulsar uploads every remote output through this endpoint, so the earlier review 
 | GET, wall time | 0.89 s | 0.99 s |
 | Server memory | flat | flat |
 
-***These numbers come from macOS with an embedded server, not a Linux gunicorn deployment. The script is below so the comparison can be rerun on Linux.***
+***These numbers come from single runs on macOS with an embedded uvicorn server, on an earlier commit of this branch, not from a Linux gunicorn deployment. The script is below so the comparison can be rerun.*** Deployments using x-accel or xsendfile don't stream GETs through Galaxy at all.
 
-`dev` already writes uploads twice: WSGI spools the multipart body into a temp file, then moves it, which is a copy whenever the temp directory and the destination are on different filesystems. A plain FastAPI port keeps that cost: `File` parameters spool into a `SpooledTemporaryFile` and the endpoint copies it out. This PR doesn't declare `File`/`Form` parameters. Pulsar sends `path` and `job_key` as query parameters. When they're there, the endpoint authorizes before reading the body, streams the file part into a named file next to its destination, then renames it (or appends it, for `tool_stdout`/`tool_stderr`).
+***The double write isn't FastAPI's fault: `dev` already writes uploads twice.*** WSGI spools the multipart body into a temp file, then moves it, which is a copy whenever the temp directory and the destination are on different filesystems. A plain FastAPI port keeps that cost: `File` parameters spool into a `SpooledTemporaryFile` and the endpoint copies it out. This PR doesn't declare `File`/`Form` parameters. Pulsar sends `path` and `job_key` as query parameters. ***When they're there, the endpoint authorizes before reading any of the body,*** and checks again once the body has arrived. It streams the file part into a named file next to its destination, then renames it (or appends it, for `tool_stdout`/`tool_stderr`).
 
-***Nothing changes for job runners. The URL, query and form parameters, multipart format, HEAD support, TUS and nginx upload sources are all the same, so Pulsar needs no change.***
+***Pulsar needs no change. The URL, query and form parameters, multipart format, HEAD and Range support, TUS and nginx upload sources are all the same. Only error responses change (table below).*** User uploads (`/api/tools/fetch`) and the TUS routers are untouched.
 
 ***This completes the migration. The legacy `JobFilesAPIController`, its routes and the dead WSGI TUS stubs are deleted, and the module drops its mypy exemption.***
 
-Some failures that were 500s on `dev` now return Galaxy's usual error responses:
+Some failures that were 500s on `dev`, or worse, now return Galaxy's usual error responses:
 
 | Request | `dev` | This PR |
 | --- | --- | --- |
 | GET a missing file | 500 | 404 |
+| GET a missing `dataset_*.dat` with no purged input | empty 200 😬 | 404 |
+| POST with no file | 500 | 400 |
 | GET a directory | 500 | 400 |
 | Unknown job id | 500 | 404 |
 | TUS `session_id` with no completed upload | 500 | 400 |
 | nginx `__file_path` that doesn't exist | 500 | 400 |
-| Malformed multipart body | 500 | 400 |
+
+😬 = Pulsar got an empty file instead of an error. A malformed multipart body is also a 400, with a test.
 
 <details><summary>How the upload is handled</summary>
 
 - `JobFilesManager` (`lib/galaxy/managers/job_files.py`) holds job-key authorization, the write-path check (working directory, output dataset or its extra files), the nginx and TUS source checks, and replace-or-append. The endpoint is a thin `@router.cbv` on top of it. The endpoint has no user or session, so it doesn't depend on `trans`.
 - With query auth, the upload is staged in a hidden `.job_files_upload_*` directory in the job's working directory, or in the output dataset's directory, never inside an extra files path. That keeps the final rename on one filesystem. The job state is checked again after the body arrives, because a long upload can outlive the job.
 - The request's DB connection is released before the body is read, and the authorization, parsing and file work run in the threadpool. python-multipart's public `create_form_parser` writes file parts straight to named files in the staging directory.
-- With form-only auth (older clients), uploads are spooled to `new_file_path`, authorized, then moved, as on `dev`.
+- When `path` and `job_key` are in the form instead of the query (Pulsar never does this), uploads are spooled to `new_file_path`, authorized, then moved, as on `dev`.
 - The path isn't URL-decoded a second time, which #20235 did. A literal `%2F` in a file name survives the round trip, and there's a test for it.
 - HEAD is an explicit `@router.head`, because FastAPI doesn't add it.
-- GET uses `GalaxyFileResponse`, which honours `nginx_x_accel_redirect_base`/`apache_xsendfile` just as `dev`'s `send_file` did, and adds Range support.
+- GET uses `GalaxyFileResponse`, which honours `nginx_x_accel_redirect_base`/`apache_xsendfile` and Range requests, just as `dev`'s `send_file` did.
 - The TUS store fallback (`tus_upload_store_job_files` → `tus_upload_store` → `new_file_path`) is now one config property, used by both the TUS router and the endpoint.
 
 </details>
@@ -64,7 +67,7 @@ Review `create` in `lib/galaxy/webapps/galaxy/api/job_files.py`. Check where the
 
 ## Context
 
-Builds on 🔀 #23856, which hardened the legacy endpoint and added the tests this PR keeps unchanged as characterization tests. Replaces 🔀 #20235 by domgz and the closed 🔀 #8846; the route docs and schema follow #20235. Unblocks 🔀 #20598 (ARC job runner), whose raw-body PUT can reuse the same staging and replace-or-append path.
+Builds on 🔀 #23856, which hardened the legacy endpoint and added the tests this PR keeps; their assertions are unchanged, but they now post the way Pulsar does, with `path`/`job_key` in the query. Replaces 🔀 #20235 by domgz and the closed 🔀 #8846; the route docs and schema follow #20235. Unblocks 🔀 #20598 (ARC job runner), whose raw-body PUT can reuse the same staging and replace-or-append path.
 
 ## John's Checklist
 
@@ -81,9 +84,9 @@ Builds on 🔀 #23856, which hardened the legacy endpoint and added the tests th
 
 <details><summary>Tests</summary>
 
-- `test/integration/test_job_files.py`: 22 tests. Uploads use Pulsar's query auth by default, and form auth keeps its own tests. New ones cover missing files and directories, unknown jobs, missing TUS and nginx sources, percent-escaped paths, streaming into the working directory or next to an output (never inside its extra files path), and rejected uploads leaving nothing staged.
+- `test/integration/test_job_files.py`: 24 tests. Uploads use Pulsar's query auth by default, and form auth keeps its own tests. New ones cover missing files (including dataset-named ones) and directories, unknown jobs, missing TUS and nginx sources, missing or malformed uploads, percent-escaped paths, streaming into the working directory or next to an output (never inside its extra files path), and rejected uploads leaving nothing staged.
 - `test/integration/test_job_files_tus.py` and `test_job_files_remote_transfer.py` run tool tests through embedded Pulsar with TUS and multipart transfers.
-- All of the above pass locally, and fork CI is green.
+- All of the above pass locally. Fork CI was green on an earlier commit (`3b810a29624`); the current one is still queued.
 
 </details>
 
@@ -94,7 +97,7 @@ Save it as `test/integration/test_zz_job_files_perf.py` on `dev` and on this bra
 ```python
 """Job files API perf: POST (Pulsar post_file), many small appends (post_bytes style), GET.
 
-Copy to <worktree>/test/integration/test_zz_job_files_perf.py (import becomes `from .test_job_files import`), then:
+Copy to <worktree>/test/integration/test_zz_job_files_perf.py (it imports `from integration.test_job_files`), then:
   PERF_MB=1024 PYTHONPATH=lib pytest test/integration/test_zz_job_files_perf.py -k "TestJobFilesPerf and test_perf" -s
 Measures wall time, peak RSS delta of the (embedded server + client) process, block output ops and
 system-wide disk bytes written (after sync; noisy). On Linux prefer /proc/<pid>/io write_bytes.
