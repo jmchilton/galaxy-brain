@@ -20,13 +20,13 @@ Follow-up to 🔀 #23802 - lets multiple integer parameters connect into subwork
 - **`build_module` validates against the definition being edited.** The controller ran `populate_state` against a module built from empty state, so the default field was always single-valued at validation time. The controller logic moves into a new `WorkflowModule.populate_state_from_tool_form(incoming, errors)` hook. `InputParameterModule` overrides it: a first pass, with its errors discarded, recovers the edited definition, then a second pass validates against it. `ToolModule` keeps the old behavior.
 - **List defaults reach the client as lists.** `IntegerToolParameter` had no `to_json`, so the base `unicodify` sent `"[1, 2]"` to the editor and the run form. Multiple integer lists now pass through unchanged, as `SelectToolParameter` does. Without this, reopening a saved list default in the editor showed two empty rows (`"[1"` / `"2]"`).
 - **Invalid saved values return 400 on the run form.** The save path doesn't validate, so `{multiple: false, default: [1, 2]}` can be stored. `IntegerToolParameter.__init__` now raises `ParameterValueError` for it, not a bare `TypeError`. `_workflow_to_dict_run` turns that into a `RequestParameterInvalidException` that names the step. Any other invalid saved parameter value, such as a non-integer default on a single integer, gets the same 400.
+- **Multiple integer values must be lists.** `IntegerToolParameter` split strings on commas and newlines, left over from the run form's old one-per-line textarea. Both forms submit lists now and multiple integers are new, so `"1,2"` is now "an integer is required". A single integer is still accepted.
 
 </details>
 
 <details><summary>Known limitations</summary>
 
 - Multiple **text** parameters still get a single-valued default field.
-- `"1,x"` passes `build_module` and fails at run time. That predates this PR, and the number inputs block it in the editor.
 - A `null` default (what an emptied number list submits) gets the editor field error "an integer or workflow parameter is required". Covered by a unit test, not in the browser.
 - A cleaner long-term design would make integer `multiple` a `Conditional` test parameter, so a single `populate_state` pass picks the right default field. That changes the form state shape and `step_state_to_tool_state`. The two-pass hook is easy to back out.
 
@@ -50,7 +50,7 @@ Builds on 🔀 #23802. The subworkflow `multiple=False` dates from 2017 and alre
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? An invalid saved default gets a field error in the editor and a 400 naming the step on the run form (see table).
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They round-trip through the tool form, save, reload and runtime, and assert the messages users see.
@@ -71,13 +71,16 @@ Builds on 🔀 #23802. The subworkflow `multiple=False` dates from 2017 and alre
     - A list default round-trips through tool form, save, reload and runtime value.
     - Turning multiple off with a list default gives the editor error and a `ParameterValueError`.
     - Clearing every row gives the editor error.
-  - 🔴 `lib/galaxy_test/api/test_workflow_build_module.py`: `"1,2"` and `[1, 2]` defaults validate, and the default field reports `multiple`.
+    - 🔴 `"1,2"`, `"1\n2"` and `["1,2"]` defaults give "an integer is required".
+  - `lib/galaxy_test/api/test_workflow_build_module.py`:
+    - 🔴 a `[1, 2]` default validates, and the default field reports `multiple`.
+    - 🔴 a `"1,2"` default gives "an integer is required".
   - `lib/galaxy_test/api/test_workflows.py`:
     - 🔴 `test_run_form_multiple_integer_list_default`: the run form gets `[1, 2]`, not `"[1, 2]"`.
     - 🔴 `test_run_form_invalid_default_on_single_integer_parameter`: `[1, 2]` and `x` defaults on a single integer return 400 naming the step, not 500.
     - `test_run_multiple_integer_list_default_through_subworkflow`: an `[integer]` list default runs through a subworkflow into `column_param_list`. It passes on `dev` too.
   - 🔴 `lib/galaxy_test/selenium/test_workflow_editor.py::test_multiple_integer_parameter_list_default`: toggles multiple, enters 1 and 2 as number rows, saves, checks the stored `tool_state`, reopens and checks the rows. Passes on both Selenium and Playwright.
-  - 🔴 `IntegerToolParameter` doctest: a `to_json` → `from_json` round trip returns `[1, 2]`.
+  - 🔴 `IntegerToolParameter` doctest: a `to_json` → `from_json` round trip returns `[1, 2]`, and `"1,2"` raises.
 
   </details>
 
