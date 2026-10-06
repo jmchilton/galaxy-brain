@@ -2,6 +2,7 @@
 
 Requested equivalent of [Pulsar #539](https://github.com/galaxyproject/pulsar/pull/539): run Pyrefly alongside mypy and fix the reported typing problems.
 
+- Draft PR: [Planemo #1734](https://github.com/galaxyproject/planemo/pull/1734)
 - Branch: [jmchilton/planemo:pyrefly](https://github.com/jmchilton/planemo/tree/pyrefly)
 - Commit: [e29cb517](https://github.com/jmchilton/planemo/commit/e29cb51754e92267284d03ad6c4a831ae35a0bb9)
 - Worktree: `/Users/jxc755/projects/worktrees/planemo/branch/pyrefly`
@@ -26,4 +27,4 @@ Two documented, local `invalid-inheritance` suppressions remain on Rich `Live` s
 - `uv lock --check`, documentation RST parsing, and `git diff --check` pass. Zizmor reports no findings in the modified CI workflow.
 - Independent subagent review found no introduced correctness issues and confirmed the dependency floor, checker policy, runtime-preserving refactors, and Rich diagnostic reproducer.
 
-The branch is committed and pushed. No new PR was created; this is a separate follow-up branch to #1733.
+The branch is committed and pushed. Draft PR #1734 targets `master` and explicitly depends on #1733; its diff includes that dependency until #1733 is merged.
