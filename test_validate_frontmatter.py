@@ -767,6 +767,17 @@ def test_find_md_files_skips_agents_dir(tmp_path):
     assert [f.name for f in files] == ["note.md"]
 
 
+def test_find_md_files_skips_repositories_dir(tmp_path):
+    issue_dir = tmp_path / "repositories" / "galaxy" / "issues" / "queued" / "123"
+    issue_dir.mkdir(parents=True)
+    (issue_dir / "index.md").write_text("# #123\n")
+    (issue_dir / "plan.md").write_text("# Plan\n")
+    (tmp_path / "note.md").write_text("---\ntype: research\n---\n")
+
+    files = list(find_md_files(tmp_path))
+    assert [f.name for f in files] == ["note.md"]
+
+
 def test_find_md_files_includes_project_index(tmp_path):
     proj_dir = tmp_path / "projects" / "sample"
     proj_dir.mkdir(parents=True)
