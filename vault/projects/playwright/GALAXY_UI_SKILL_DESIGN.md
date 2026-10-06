@@ -179,7 +179,7 @@ when a separate PR it merges in lands.
 |---|---|---|
 | 1 | Context bootstrap fix | Own PR (approved); merged into the standing branch |
 | 2 | CDP port | Standing branch |
-| 3 | `headless=auto` under Playwright | Not started; own PR (bug on its own) |
+| 3 | ~~`headless=auto` under Playwright~~ | Dropped: not a gxui need; queued for gx_issues |
 | 4 | Tool-form filler + `tool-describe` | Not started; filler lift is its own PR, `tool-describe` on the standing branch |
 | 5 | `gxui` itself | Standing branch, once verbs settle |
 
@@ -197,8 +197,11 @@ when a separate PR it merges in lands.
    `playwright_remote_debugging_port` branch is retired; John judged it not mergeable alone): opt-in
    `remote_debugging_port` on `ConfiguredDriver` / `get_playwright_driver`, passed to
    `launch(args=...)`. S1 showed that is all that's needed; no persistent context.
-3. **`headless=auto` under Playwright.** `framework.py:1450` goes through `get_local_browser`,
-   which raises without chromedriver or geckodriver even when the backend is Playwright.
+3. **Dropped (2026-10-06).** `headless=auto` under Playwright: `framework.py:1450` goes through
+   `get_local_browser`, which raises without chromedriver or geckodriver even for the Playwright
+   backend. It only bites the test suite's `get_configured_driver()`; gxui builds its driver via
+   `GalaxySeleniumContextImpl` with an explicit `headless`, so it never hits it. Handed to gx_issues
+   (`vault/agents/gx_issues/to_file/playwright_headless_auto_needs_chromedriver.md`).
 4. **A public tool-form filler and `tool-describe`.** Lift the filler out of `RunsToolTests` into
    a `NavigatesGalaxy` method keyed by parameter path. `RunsToolTests` then calls it, so the
    existing tool-test E2E suite becomes its regression test.
