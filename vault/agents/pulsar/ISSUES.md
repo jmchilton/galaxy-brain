@@ -1,13 +1,9 @@
-# Pulsar issue triage
-
 Triage index for `galaxyproject/pulsar` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/pulsar/issues/`. PR reviews are tracked in `index.md`.
 
 GitHub state last refreshed: 2026-10-06.
-
 ## Waiting on John (`needs_decision`)
 
 None yet.
-
 ## In motion (`wip`)
 
 - [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) (ksuderman) addresses part, won't close it; next: review #473. [notes](../../repositories/pulsar/issues/wip/465/index.md)
@@ -22,6 +18,7 @@ None yet.
 
 - [#492](https://github.com/galaxyproject/pulsar/issues/492) — report job failure reason to Galaxy for resubmission; blocked on: [#486](https://github.com/galaxyproject/pulsar/pull/486). [notes](../../repositories/pulsar/issues/blocked/492/index.md)
 - [#510](https://github.com/galaxyproject/pulsar/issues/510) — modernize Windows support; blocked on: a Windows dev environment for an agent. [notes](../../repositories/pulsar/issues/blocked/510/index.md)
+- (assigned) [#520](https://github.com/galaxyproject/pulsar/issues/520) — release 1.0; blocked on: a 0.16.0 we really like and a Galaxy 26.2 release process that feels good. [notes](../../repositories/pulsar/issues/blocked/520/index.md)
 
 ## Untriaged (`untriaged`)
 
@@ -88,9 +85,8 @@ Grouped by title, mechanically.
 - [#375](https://github.com/galaxyproject/pulsar/issues/375) — `queued_python` not executing jobs
 - [#377](https://github.com/galaxyproject/pulsar/issues/377) — is `pulsar-check` expected to work?
 - [#389](https://github.com/galaxyproject/pulsar/issues/389) — job not running — empty tool script?
-- (assigned) [#452](https://github.com/galaxyproject/pulsar/issues/452) — document local relay setup; single-core default and shared-password auth
+- [#452](https://github.com/galaxyproject/pulsar/issues/452) — document local relay setup; single-core default and shared-password auth
 
 ### Releases
 
-- (assigned) [#520](https://github.com/galaxyproject/pulsar/issues/520) — release a 1.0
 - [#535](https://github.com/galaxyproject/pulsar/issues/535) — proposal: maintain a Pulsar release branch per Galaxy release
