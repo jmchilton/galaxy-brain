@@ -1,0 +1,4 @@
+- Add browser tests for importing from workbooks
+- Test the rule builder mapping inferred from workbook headers
+- Cover workbook upload in the file-set wizard under Selenium and Playwright
+- Add Selenium/Playwright tests for workbook-based dataset and collection import
