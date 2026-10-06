@@ -1,0 +1,4 @@
+- Fix XML `<output type="collection">` crashing the tool parser
+- Fix parsing of generic XML collection outputs (`<output type="collection">`)
+- Let XML tools load `<output type="collection">` again
+- Read `collection_type`/`collection_type_source` directly for generic XML collection outputs
