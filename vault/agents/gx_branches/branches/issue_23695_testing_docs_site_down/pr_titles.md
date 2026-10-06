@@ -1,4 +1,4 @@
-- Document skipping tests when a remote service is down
-- Document `skip_if_*_down` decorators in the testing guide
-- Testing docs: skip, don't fail, when quay.io, depot, Dockstore or WorkflowHub is down
+- Document skipping tests when a remote service is down; gather skip decorators in unittest_utils
+- Document skip decorators and move `skip_if_toolshed_down` into `unittest_utils`
+- Testing docs: skip when quay.io, depot, Dockstore, WorkflowHub or the Tool Shed is down
 - Add a "Skipping Tests When a Remote Service Is Down" section to writing_tests.md
