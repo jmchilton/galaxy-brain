@@ -1,0 +1,8 @@
+#!/bin/sh
+# Run the gxui client with a Galaxy checkout's Python and lib on the path.
+#   GXUI_GALAXY_ROOT  Galaxy checkout (default: the gxui_base worktree)
+#   GXUI_PYTHON       Python with Galaxy's deps and playwright (default: $GXUI_GALAXY_ROOT/.venv/bin/python)
+here=$(cd "$(dirname "$0")/.." && pwd)
+root=${GXUI_GALAXY_ROOT:-$HOME/projects/worktrees/galaxy/branch/gxui_base}
+python=${GXUI_PYTHON:-$root/.venv/bin/python}
+PYTHONPATH="$here:$root/lib${PYTHONPATH:+:$PYTHONPATH}" exec "$python" -m gxui.client "$@"

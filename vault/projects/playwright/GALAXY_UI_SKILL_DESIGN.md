@@ -8,7 +8,8 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
 
 **Done:**
 - **Research.** CLI vs MCP; the decision is a CLI skill (`GALAXY_UI_SKILL_RESEARCH.md`).
-- **This design.** The skill is named `galaxy-ui` and its CLI `gxui`.
+- **This design.** The skill is named `galaxy-ui-driver` (renamed from `galaxy-ui`: dev's
+  `@galaxyproject/galaxy-ui` component package arrived in #23924) and its CLI `gxui`.
 - **Loop design** (`GALAXY_UI_SKILL_LOOP.md`).
 - **Phase 0, run 1.** Codex + playwright-cli on GTN `galaxy-intro-short` against
   test.galaxyproject.org passed verification (`GALAXY_UI_SKILL_RUNS.md`).
@@ -19,26 +20,54 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   The gx_branches process owns it from here.
 - **Prerequisite PR 2** is branch `playwright_remote_debugging_port` @ `da5054d39f3`, handed to
   gx_branches (needs CI + polish).
+- **`gxui` MVP, external first** (John's call): `galaxy_ui_loop/gxui/` + `skill/galaxy-ui-driver/`,
+  run against the local-only `gxui_base` worktree (dev + PRs 1–2). 11 tests pass; a read-only smoke
+  on test.galaxyproject.org worked (status, `history-items`, `dataset-peek`, `tool-open` FastQC,
+  components, scoped snapshot, playwright-cli attach/detach). Findings below under "MVP findings".
 
 **Next, in order:**
-1. **Prerequisite PR 4 (public tool-form filler + `tool-describe`).** Larger. Lift it out of
+1. **Arm A run.** Wire `run.sh` for arm A (start `gxui` outside the sandbox with the saved login and
+   `--playwright-cli`, put `bin/gxui` on the agent's PATH, install `galaxy-ui-driver`, swap the
+   prompt's tooling paragraph) and run GTN `galaxy-intro-short` against the phase0-run1 baseline.
+2. **Prerequisite PR 4 (public tool-form filler + `tool-describe`).** Larger. Lift it out of
    `RunsToolTests`, which then calls it.
-2. **The `gxui` MVP (PR 5).** Build the daemon per the S3 decisions, the verb registry from the
-   verb table, and the transcript, plus a unit test driving `basic.html` through the daemon. Start
-   from `galaxy_ui_loop/spikes/gxui_spike.py`, which is the prototype S3 tested.
-3. **Loop, in parallel with 1–2:**
+3. **Upstream the MVP findings** as small gx_branches PRs (Tool Shed `tool_open` first).
+4. **Loop, in parallel:**
    - Expand GTN `{% snippet faqs/... %}` includes before handing `tutorial.md` to the agent.
      phase0-run1 got them unexpanded.
    - Do runs 2–3 of arm B to get an n=3 baseline.
-   - Then run arm A on the same target once `gxui` exists.
 
 **Open questions for John:**
-- Should the daemon live upstream in `lib/galaxy_test/selenium/`, or start external?
 - Should the skill live in `claude-jmchilton-plugins` or `galaxy-skills`?
 - REST during UI runs: allowed for staging and verification only, or always counted as a gap?
-- Should `drive-scenario` be retired into `galaxy-ui`?
+- Should `drive-scenario` be retired into `galaxy-ui-driver`?
 - run1 left "My Analysis" link-accessible on John's test.galaxyproject.org account, along with two
   histories and a workflow. Keep them or clean them up?
+
+## MVP findings (2026-10-06)
+
+Gaps in Galaxy's test abstractions that building `gxui` against live Galaxy exposed. Each is a
+small upstream PR candidate:
+- **`tool_open` cannot open Tool Shed tools.** The panel's `id:` filter becomes
+  `id_exact:(<guid>)` unescaped (`client/src/components/Panels/utilities.ts:257`), so a GUID's `/`,
+  `+` and `:` find nothing; and `tool_panel.tool_link` expects `?tool_id=<id>`, while real links
+  URL-encode the versioned GUID. Only simple ids like `cat1` (all the E2E suite uses) work. `gxui`
+  opens the form's URL for GUIDs meanwhile.
+- **Private helpers verbs need:** `BaseUploadContext._start_and_wait_for_uploaded_hids` (upload
+  verbs), `HasPlaywrightDriver._selenium_locator_to_playwright_selector` (component-scoped aria
+  snapshots).
+- **No path → `SmartTarget` resolver.** `resolve_component_locator` returns a `LocatorT`; `gxui`
+  wraps it in a small `Target` to get Galaxy's waits.
+- **Undocumented methods.** `logout`, `history_panel_rename`, `display_dataset`,
+  `show_dataset_details`, `open_history_multi_view`, `workflow_import_submit_url` and others have
+  no docstring, so help falls back to text written in `gxui`.
+- **Workflow extraction helpers exist** (`navigate_to_workflow_extraction`,
+  `extract_workflow_name_and_submit`); the verb table's "no helper" was stale.
+- **Cold start.** Importing `galaxy_test.selenium.framework` takes ~25 s the first time; a warm
+  `gxui start` is ~10 s.
+- **Dialogs.** The passive listener also records dialogs `accept_alert` handles, so the "dialog
+  open" hint can be stale after such verbs.
+- test.galaxyproject.org's footer confirms it runs commit `67c3f964d355`.
 
 ## Shape
 
@@ -84,7 +113,7 @@ The initial set comes from what the tutorial and IWC candidates need. `S` marks 
 | workflow | `workflow-import-url URL` | `navigate_to_workflows_import` + `workflow_import_submit_url` |
 | workflow | `workflow-run NAME --inputs JSON` | `workflow_run_with_name` + `workflow_run_specify_inputs` + `workflow_run_submit` (data inputs only — S for parameters) |
 | workflow | `invocation-wait` | S: no UI-side helper; tests wait via the API |
-| workflow | `extract-workflow` | S: GTN intro tutorials use it; no helper exists |
+| workflow | `workflow-extract NAME` | `navigate_to_workflow_extraction` + `extract_workflow_name_and_submit` (all steps; input renaming is S) |
 | observe | `screenshot LABEL`, `snapshot [PATH]` | `screenshot`; Python `locator.aria_snapshot()` written to a file |
 | narrate | `note MARKDOWN` | Transcript annotation for now. It becomes Test Stories `document()` once `selenium_stories_core` lands |
 
@@ -120,7 +149,7 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
 
 | Piece | Home | Why |
 |---|---|---|
-| Daemon, client, verb registry | Galaxy, `lib/galaxy_test/selenium/` (package `galaxy-test-selenium`), entry point `gxui` (cf. `gxwf`) | It must import the mixins in `framework.py`, versions with the vocabulary, and can be upstreamed |
+| Daemon, client, verb registry | Starts external in `galaxy_ui_loop/gxui/` (John, 2026-10-06); target is Galaxy's `lib/galaxy_test/selenium/` (package `galaxy-test-selenium`), entry point `gxui` (cf. `gxwf`) once verbs settle | It must import the mixins in `framework.py`, versions with the vocabulary, and can be upstreamed |
 | Skill (`SKILL.md`) | `claude-jmchilton-plugins/plugins/jmchilton/skills/galaxy-ui/` | It needs a Galaxy worktree, like its sibling `galaxy-playwright`; move it to `galaxy-skills` once it is community-ready |
 | Loop harness | Next to the skill, under `evals/` | It is part of how the skill is maintained |
 | Run reports | `vault/projects/playwright/` (ledger); screenshots and JSONL stay outside the vault | Large binary artifacts don't belong in the vault |

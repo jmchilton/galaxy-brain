@@ -1,0 +1,47 @@
+"""The Galaxy context a gxui daemon holds: Galaxy's standalone context plus the task mixins."""
+
+import os
+
+from galaxy.navigation.components import (
+    LocatorT,
+    Target,
+)
+from galaxy.selenium.context import GalaxySeleniumContextImpl
+from galaxy.selenium.smart_components import SmartTarget
+from galaxy_test.selenium.framework import RunsWorkflows
+from galaxy_test.selenium.upload_activity_helpers import UsesUploadActivity
+
+
+class GxuiContext(GalaxySeleniumContextImpl, RunsWorkflows, UsesUploadActivity):
+    def __init__(self, from_dict: dict, artifacts: str) -> None:
+        super().__init__(from_dict)
+        self.artifacts = artifacts
+        self.login_email = from_dict.get("login_email")
+        self.login_password = from_dict.get("login_password")
+
+    @property
+    def page(self):
+        return self.configured_driver.driver_impl.page
+
+    def _screenshot_path(self, label, extension=".png"):
+        directory = os.path.join(self.artifacts, "png")
+        os.makedirs(directory, exist_ok=True)
+        return os.path.join(directory, label + extension)
+
+    def component(self, path: str) -> SmartTarget:
+        """A SmartTarget for a navigation.yml path such as ``history_panel.item(hid=3).title``."""
+        return SmartTarget(_LocatorTarget(path, self.components.resolve_component_locator(path)), self)
+
+
+class _LocatorTarget(Target):
+    def __init__(self, path: str, locator: LocatorT):
+        self._path = path
+        self._locator = locator
+
+    @property
+    def description(self) -> str:
+        return self._path
+
+    @property
+    def component_locator(self) -> LocatorT:
+        return self._locator

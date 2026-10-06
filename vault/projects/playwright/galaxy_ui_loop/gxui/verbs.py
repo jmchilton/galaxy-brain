@@ -1,0 +1,431 @@
+"""Verb registry. Each verb is a NavigatesGalaxy/mixin method, or a short adapter composing them.
+
+CLI arguments come from the callable's signature and help from its docstring, so nothing is written
+twice. Adapters take the context first; method verbs are bound to the context at call time.
+"""
+
+import argparse
+import inspect
+import json
+import os
+import time
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any
+from urllib.parse import quote
+
+DOMAINS = ["session", "history", "upload", "dataset", "tool", "workflow", "observe", "generic"]
+
+
+@dataclass
+class Verb:
+    name: str
+    domain: str
+    func: Callable[..., Any]
+    method: str | None  # backing NavigatesGalaxy method, for help and transcript replay
+    layer: str = "verb"
+    optional_positional: tuple[str, ...] = ()  # defaulted params taken positionally, e.g. `components PREFIX`
+
+    def parameters(self) -> list[inspect.Parameter]:
+        params = list(inspect.signature(self.func).parameters.values())
+        return params[1:]  # self or ctx
+
+    def summary(self) -> str:
+        doc = inspect.getdoc(self.func) or ""
+        return doc.splitlines()[0] if doc else ""
+
+    def usage(self) -> str:
+        parts = [self.name]
+        for p in self.parameters():
+            flag = p.name.replace("_", "-")
+            if p.kind is p.VAR_POSITIONAL:
+                parts.append(f"{p.name.upper()}...")
+            elif p.default is p.empty:
+                parts.append(p.name.upper())
+            elif p.name in self.optional_positional:
+                parts.append(f"[{p.name.upper()}]")
+            elif p.default is False:
+                parts.append(f"[--{flag}]")
+            elif p.default is True:
+                parts.append(f"[--no-{flag}]")
+            else:
+                parts.append(f"[--{flag} {p.name.upper()}]")
+        return " ".join(parts)
+
+    def help(self) -> str:
+        backing = f"  (backs onto {self.method})" if self.method else ""
+        doc = inspect.getdoc(self.func) or ""
+        return f"gxui {self.usage()}{backing}\n\n{doc}".rstrip()
+
+    def parse(self, argv: list[str]) -> tuple[list[Any], dict[str, Any]]:
+        parser = argparse.ArgumentParser(prog=f"gxui {self.name}", add_help=False, exit_on_error=False)
+        positional: list[str] = []
+        varargs: str | None = None
+        for p in self.parameters():
+            convert = _converter(p)
+            if p.kind is p.VAR_POSITIONAL:
+                parser.add_argument(p.name, nargs="*", type=convert)
+                varargs = p.name
+            elif p.kind is p.VAR_KEYWORD:
+                continue
+            elif p.default is p.empty:
+                parser.add_argument(p.name, type=convert)
+                positional.append(p.name)
+            elif p.name in self.optional_positional:
+                parser.add_argument(p.name, nargs="?", type=convert)
+            elif isinstance(p.default, bool):
+                parser.add_argument(f"--{p.name.replace('_', '-')}", dest=p.name, action=argparse.BooleanOptionalAction)
+            else:
+                parser.add_argument(f"--{p.name.replace('_', '-')}", dest=p.name, type=convert)
+        try:
+            namespace, extra = parser.parse_known_args(argv)
+        except (argparse.ArgumentError, SystemExit) as e:
+            raise UsageError(f"{e}; usage: gxui {self.usage()}") from None
+        if extra:
+            raise UsageError(f"unexpected arguments {extra}; usage: gxui {self.usage()}")
+        values = vars(namespace)
+        missing = [name for name in positional if values.get(name) is None]
+        if missing:
+            raise UsageError(f"missing {', '.join(m.upper() for m in missing)}; usage: gxui {self.usage()}")
+        args = [values.pop(name) for name in positional]
+        if varargs:
+            args += values.pop(varargs) or []
+        kwargs = {k: v for k, v in values.items() if v is not None}
+        return args, kwargs
+
+
+class UsageError(Exception):
+    pass
+
+
+def _converter(p: inspect.Parameter) -> Callable[[str], Any]:
+    annotation = p.annotation
+    if isinstance(annotation, str):
+        annotation = {"int": int, "float": float, "str": str}.get(annotation, annotation)
+    if annotation in (int, float, str):
+        return annotation
+    if p.default is not p.empty and p.default is not None and type(p.default) in (int, float):
+        return type(p.default)
+    return _auto
+
+
+def _auto(value: str) -> Any:
+    """Unannotated Galaxy methods take hids as ints and dicts/lists as values."""
+    if value.lstrip("-").isdigit():
+        return int(value)
+    if value[:1] in "[{":
+        return json.loads(value)
+    return value
+
+
+REGISTRY: dict[str, Verb] = {}
+
+
+def verb(name: str, domain: str, method: str | None = None, layer: str = "verb", positional: tuple[str, ...] = ()):
+    def register(func):
+        REGISTRY[name] = Verb(name, domain, func, method, layer, positional)
+        return func
+
+    return register
+
+
+def method_verb(name: str, domain: str, method: str, context_class: type, doc: str = "") -> None:
+    """Expose a context method unchanged; signature and docstring come from the method.
+
+    ``doc`` covers Galaxy methods that have no docstring yet - each one is a docstring to upstream.
+    """
+    unbound = getattr(context_class, method)
+
+    def call(ctx, *args, **kwargs):
+        return getattr(ctx, method)(*args, **kwargs)
+
+    call.__signature__ = inspect.signature(unbound)  # type: ignore[attr-defined]
+    call.__doc__ = inspect.getdoc(unbound) or doc or f"Call {method}."
+    REGISTRY[name] = Verb(name, domain, call, method)
+
+
+def register_method_verbs(context_class: type) -> None:
+    for name, domain, method, doc in [
+        ("home", "session", "home", ""),
+        ("logout", "session", "logout", "Log out of Galaxy."),
+        ("history-rename", "history", "history_panel_rename", "Rename the current history."),
+        ("history-wait", "history", "history_panel_wait_for_hid_ok", "Wait until history item HID is ok."),
+        ("multiview", "history", "open_history_multi_view", "Open History Multiview."),
+        ("dataset-view", "dataset", "display_dataset", "Show dataset HID in the center panel (eye icon)."),
+        ("dataset-details", "dataset", "show_dataset_details", "Open dataset HID's details page (info icon)."),
+        ("workflow-extract-open", "workflow", "navigate_to_workflow_extraction", ""),
+        ("workflow-import-url", "workflow", "workflow_import_submit_url", "Import a workflow from URL."),
+    ]:
+        method_verb(name, domain, method, context_class, doc)
+
+
+# --- session ---------------------------------------------------------------
+
+
+@verb("login", "session", "submit_login", positional=("email",))
+def login(ctx, email: str = "", password: str = ""):
+    """Log in. Without arguments, uses the credentials in the daemon's --config (never printed)."""
+    email = email or ctx.login_email
+    password = password or ctx.login_password
+    if not email:
+        raise UsageError("no credentials: pass EMAIL --password, or start the daemon with --config")
+    ctx.home()
+    ctx.submit_login(email, password)
+    return f"logged in as {email}"
+
+
+@verb("register", "session", "register")
+def register(ctx, email: str, password: str = "", username: str = ""):
+    """Register a new user and log in as them. Never on shared servers that allow one account."""
+    ctx.register(email, password or None, username or None)
+    return f"registered {email}"
+
+
+# --- history ---------------------------------------------------------------
+
+
+@verb("history-new", "history", "history_panel_create_new_with_name")
+def history_new(ctx, name: str):
+    """Create a history, make it current and name it; waits for the rename to land."""
+    ctx.history_panel_create_new_with_name(name)
+    return f"history {ctx.current_history_id()} {name!r}"
+
+
+@verb("history-tag", "history", "history_panel_add_tags")
+def history_tag(ctx, *tags: str):
+    """Add tags to the current history."""
+    ctx.history_panel_add_tags(list(tags))
+    return f"tagged {', '.join(tags)}"
+
+
+@verb("history-items", "history", "history_contents")
+def history_items(ctx, deleted: bool = False):
+    """List the current history: one line per item, `hid state extension name`. Read-only (API)."""
+    lines = []
+    history = ctx.current_history()
+    for item in ctx.history_contents(datasets_only=True):
+        if item.get("deleted") and not deleted:
+            continue
+        kind = item.get("extension") or item.get("collection_type") or item.get("history_content_type")
+        lines.append(
+            f"{item['hid']:>4} {item.get('state') or item.get('populated_state', '?'):<9} {kind:<10} {item['name']}"
+        )
+    header = f"history {history['id']} {history['name']!r} ({len(lines)} items)"
+    return "\n".join([header, *lines])
+
+
+# --- upload ----------------------------------------------------------------
+
+
+def _upload(ctx, method: str, stage) -> str:
+    uploader = ctx.upload_context(method)
+    stage(uploader)
+    hids = uploader._start_and_wait_for_uploaded_hids()
+    return "ok hids " + " ".join(str(h) for h in hids)
+
+
+@verb("upload-url", "upload", "upload_context('paste-links')")
+def upload_url(ctx, *urls: str, ext: str = "", name: str = ""):
+    """Upload one or more URLs (Import Data > Paste Links/URLs); waits until every new item is ok."""
+    metadata = {k: v for k, v in (("extension", ext), ("name", name)) if v}
+    return _upload(ctx, "paste-links", lambda up: up.stage_paste_links([(u, metadata or None) for u in urls]))
+
+
+@verb("upload-paste", "upload", "upload_context('paste-content')")
+def upload_paste(ctx, content: str, ext: str = "", name: str = ""):
+    """Upload pasted text as one dataset; waits until it is ok."""
+    metadata = {k: v for k, v in (("extension", ext), ("name", name)) if v}
+    return _upload(ctx, "paste-content", lambda up: up.stage_paste_content(content, metadata or None))
+
+
+@verb("upload-file", "upload", "upload_context('local-file')")
+def upload_file(ctx, path: str, ext: str = "", name: str = ""):
+    """Upload a local file as one dataset; waits until it is ok."""
+    metadata = {k: v for k, v in (("extension", ext), ("name", name)) if v}
+    path = os.path.abspath(os.path.expanduser(path))
+    return _upload(ctx, "local-file", lambda up: up.stage_local_file(path, metadata or None))
+
+
+# --- dataset ---------------------------------------------------------------
+
+
+@verb("dataset-peek", "dataset", "history_panel_click_item_title")
+def dataset_peek(ctx, hid: int):
+    """Expand a history item and print its peek (bounded)."""
+    ctx.history_panel_wait_for_hid_ok(hid)
+    item = ctx.history_panel_item_component(hid=hid)
+    if item.peek.is_absent:
+        ctx.history_panel_click_item_title(hid=hid, wait=True)
+    return _bounded(item.peek.wait_for_text())
+
+
+# --- tool ------------------------------------------------------------------
+
+
+@verb("tool-open", "tool", "tool_open")
+def tool_open(ctx, tool_id: str):
+    """Open a tool's form by id; waits for the form.
+
+    Simple ids go through the tool panel search. Tool Shed GUIDs open the form's URL instead: the
+    panel's `id:` search and tool_link selector both miss them today.
+    """
+    if "/" in tool_id:
+        ctx.navigate_to(ctx.build_url(f"?tool_id={quote(tool_id, safe='')}&version=latest"))
+        route = " (via URL)"
+    else:
+        ctx.tool_open(tool_id)
+        route = ""
+    ctx.components.tool_form.execute.wait_for_visible()
+    version = ctx.components.tool_form.tool_version
+    return f"form open: {tool_id}{route}" + (f" {version.wait_for_text()}" if not version.is_absent else "")
+
+
+@verb("tool-run", "tool", "tool_form_execute")
+def tool_run(ctx):
+    """Submit the open tool form. Follow with `history-wait HID` for the outputs."""
+    ctx.tool_form_execute()
+    ctx.sleep_for(ctx.wait_types.UX_TRANSITION)
+    return "submitted"
+
+
+# --- workflow --------------------------------------------------------------
+
+
+@verb("workflow-run", "workflow", "workflow_run_with_name")
+def workflow_run(ctx, name: str, inputs: str = "", submit: bool = True):
+    """Open the run form for the named workflow, set data inputs, submit.
+
+    INPUTS is JSON mapping input label to hid, e.g. '{"input1": 1}'.
+    """
+    ctx.workflow_run_with_name(name)
+    if inputs:
+        ctx.workflow_run_specify_inputs({label: {"hid": hid} for label, hid in json.loads(inputs).items()})
+    if submit:
+        ctx.workflow_run_submit()
+        return f"submitted {name!r}"
+    return f"run form open for {name!r}"
+
+
+@verb("workflow-extract", "workflow", "extract_workflow_name_and_submit")
+def workflow_extract(ctx, name: str):
+    """Extract a workflow from the current history (all steps), name it, and create it."""
+    ctx.navigate_to_workflow_extraction()
+    ctx.extract_workflow_name_and_submit(name)
+    return f"extracted {name!r}"
+
+
+# --- observe ---------------------------------------------------------------
+
+
+@verb("url", "observe")
+def url(ctx):
+    """Print the current URL and page title."""
+    return f"{ctx.page.url}  {ctx.page.title()!r}"
+
+
+@verb("screenshot", "observe", "screenshot")
+def screenshot(ctx, label: str):
+    """Save a PNG of the page; prints the path."""
+    return ctx.screenshot(label)
+
+
+@verb("snapshot", "observe", positional=("component",))
+def snapshot(ctx, component: str = "", label: str = ""):
+    """Write the page's (or one component's) accessibility tree to a file; prints the path and size."""
+    if component:
+        target = ctx.component(component)
+        target.wait_for_visible()
+        selector = ctx.configured_driver.driver_impl._selenium_locator_to_playwright_selector(*target.element_locator)
+        tree = ctx.page.locator(selector).first.aria_snapshot()
+    else:
+        tree = ctx.page.locator("body").aria_snapshot()
+    directory = os.path.join(ctx.artifacts, "aria")
+    os.makedirs(directory, exist_ok=True)
+    path = os.path.join(directory, f"{time.strftime('%H%M%S')}-{label or component or 'page'}.yml")
+    with open(path, "w") as f:
+        f.write(tree)
+    return f"{path} ({tree.count(chr(10)) + 1} lines)"
+
+
+# --- generic: components and raw calls -------------------------------------
+
+COMPONENT_ACTIONS = ["click", "text", "value", "visible", "absent", "wait", "send-keys", "clear-send-keys"]
+
+
+@verb("component", "generic", "components.<path>", layer="component", positional=("value",))
+def component(ctx, path: str, action: str, value: str = ""):
+    """Act on one navigation.yml component: click|text|value|visible|absent|wait|send-keys|clear-send-keys.
+
+    PATH uses the tour grammar, e.g. 'history_panel.item(hid=3).title'. Waits like any Galaxy test.
+    """
+    target = ctx.component(path)
+    if action == "click":
+        target.wait_for_and_click()
+        return "clicked"
+    if action == "text":
+        return _bounded(target.wait_for_text())
+    if action == "value":
+        return target.wait_for_value()
+    if action in ("visible", "wait"):
+        target.wait_for_visible()
+        return "visible"
+    if action == "absent":
+        target.wait_for_absent_or_hidden()
+        return "absent"
+    if action == "send-keys":
+        target.wait_for_and_send_keys(value)
+        return "sent"
+    if action == "clear-send-keys":
+        target.wait_for_and_clear_and_send_keys(value)
+        return "sent"
+    raise UsageError(f"unknown action {action!r}; one of {', '.join(COMPONENT_ACTIONS)}")
+
+
+@verb("components", "generic", layer="component", positional=("prefix",))
+def components(ctx, prefix: str = ""):
+    """Browse the navigation.yml tree: child components and selectors under PREFIX."""
+    node = ctx.navigation
+    for part in [p for p in prefix.split(".") if p]:
+        node = getattr(node, part)
+    children = sorted(getattr(node, "_sub_components", {}))
+    selectors = getattr(node, "_selectors", {})
+    labels = getattr(node, "_labels", {})
+    lines = [f"{prefix or '<root>'}: {len(children)} components, {len(selectors)} selectors, {len(labels)} labels"]
+    lines += [f"  {name}/" for name in children]
+    lines += [f"  {name}: {_selector_text(sel)}" for name, sel in sorted(selectors.items())]
+    lines += [f"  {name}: label {label.text!r}" for name, label in sorted(labels.items())]
+    return "\n".join(lines)
+
+
+@verb("call", "generic", layer="call")
+def call(ctx, method: str, *args: str):
+    """Call any public context method with no verb yet. Logged; frequent calls are verbs to promote."""
+    if method.startswith("_"):
+        raise UsageError("private methods are off limits")
+    value = getattr(ctx, method)(*[_auto(a) for a in args])
+    return "ok" if value is None else _bounded(repr(value))
+
+
+def _selector_text(selector) -> str:
+    return getattr(selector, "_selector", None) or str(selector)
+
+
+def _bounded(text: str, limit: int = 2000) -> str:
+    return text if len(text) <= limit else text[:limit] + f"... [{len(text) - limit} more chars]"
+
+
+def help_text(topic: str = "") -> str:
+    if topic in REGISTRY:
+        return REGISTRY[topic].help()
+    domains = [topic] if topic in DOMAINS else DOMAINS
+    lines = []
+    for domain in domains:
+        verbs = [v for v in REGISTRY.values() if v.domain == domain]
+        if not verbs:
+            continue
+        lines.append(f"{domain}:")
+        lines += [f"  {v.usage():<44} {v.summary()}" for v in verbs]
+    lines.append(
+        "built in: start, stop, status, last, help [DOMAIN|VERB], note TEXT, gap REASON, dialog accept|dismiss"
+    )
+    return "\n".join(lines)
