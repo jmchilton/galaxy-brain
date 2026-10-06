@@ -31,7 +31,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 
 ## In motion (`wip`)
 
-- [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; local-only branch `issue-534-concrete-nextflow-scenarios` (1 unpushed commit, 116 behind main). [notes](../../repositories/foundry/issues/wip/534/index.md)
+- [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios` on `jmchilton` (1 commit, 116 behind main). [notes](../../repositories/foundry/issues/wip/534/index.md)
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](../../repositories/foundry/issues/wip/548/index.md)
 - [#573](https://github.com/galaxyproject/foundry/issues/573) — `implement-galaxy-tool-step` documents no binding convention for an authored UDT; draft PR [#617](https://github.com/galaxyproject/foundry/pull/617). [notes](../../repositories/foundry/issues/wip/573/index.md)
 

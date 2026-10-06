@@ -4,4 +4,4 @@
 
 Labels at seeding (2026-10-06): `agent/implement`, `needs-triage`.
 
-Work lives in worktree `~/projects/worktrees/foundry/branch/issue-534` on branch `issue-534-concrete-nextflow-scenarios`: one commit `2ba1f4a6`, not on any remote.
+Work lives in worktree `~/projects/worktrees/foundry/branch/issue-534` on branch `issue-534-concrete-nextflow-scenarios`: one commit `2ba1f4a6`, pushed to the `jmchilton` fork 2026-10-06 (116 behind main, no PR).
