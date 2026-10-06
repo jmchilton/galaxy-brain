@@ -1,0 +1,4 @@
+- Fix `TypeError` when building a Galaxy Selenium/Playwright context from config
+- Fix Jupyter browser automation contexts broken since the Playwright backend split
+- Pass a timeout handler when GalaxySeleniumContextImpl builds its driver
+- Restore `galaxy.selenium.context.init()` and `timeout_multiplier`
