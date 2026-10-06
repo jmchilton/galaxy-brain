@@ -37,6 +37,8 @@ The initial set comes from what the tutorial and IWC candidates need. `S` marks 
 | history | `history-items` | S: list hid, name, state and extension. Read-only; it can use `api_get` because it observes rather than drives |
 | history | `history-wait [HID]` | `history_panel_wait_for_hid_ok` / `wait_for_history` |
 | history | `multiview` | `open_history_multi_view` |
+| history | `history-share` | `click_history_option_sharing` + `make_accessible_and_publishable` (that helper also publishes; the tutorial wants link access only — S) |
+| history | `dataset-copy HID --to HISTORY` | S: Multiview drag, the GTN route; phase0-run1 |
 | upload | `upload-paste`, `upload-url`, `upload-file` | `upload_context(...)` fluent contexts (`upload_activity_helpers.py`) |
 | collection | `build-list`, `build-list-paired` | `history_panel_build_list_auto` / `_of_pairs` (+ `collection_builder_*`) |
 | dataset | `dataset-view HID`, `dataset-details HID`, `dataset-peek HID` | `display_dataset`, `show_dataset_details`, peek via `history_panel_click_item_title` |

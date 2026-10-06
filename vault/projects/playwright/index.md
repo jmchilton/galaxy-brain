@@ -7,7 +7,7 @@ tags:
 status: draft
 created: 2026-09-16
 revised: 2026-10-06
-revision: 31
+revision: 32
 ai_generated: true
 summary: "Migrate the full Galaxy Selenium suite to Playwright and recover the core of PR #21199, via small atomic PRs."
 ---
@@ -34,6 +34,7 @@ decorators remain, using small, atomic, obviously correct PRs.
 - `GALAXY_UI_SKILL.md` — brief for an agent skill that drives the Galaxy UI, plus a tutorial/IWC feedback loop.
 - `GALAXY_UI_SKILL_RESEARCH.md` — playwright-cli vs playwright-mcp findings; decision: CLI skill, no MCP yet; skill best practices.
 - `GALAXY_UI_SKILL_DESIGN.md` — `gxui` daemon + CLI over `NavigatesGalaxy`, playwright-cli escape hatch, prerequisite PRs, spikes.
+- `GALAXY_UI_SKILL_RUNS.md` — run ledger: per-run metrics, verification, and findings for the skill, abstractions and training.
 - `GALAXY_UI_SKILL_LOOP.md` — setup/drive/verify/report/triage loop over GTN tutorials and IWC workflows, with arm comparison and token measurement.
 - `GESTURE_ABSTRACTION_DESIGN.md` — design for the backend-neutral input/gesture vocabulary replacing `action_chains()`.
 - `BRANCHES.md` — branches and PRs for this project; mirrors `vault/agents/gx_branches/MY_BRANCHES.md`.
