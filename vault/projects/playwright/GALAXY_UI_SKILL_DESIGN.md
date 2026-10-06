@@ -18,10 +18,12 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   README.
 - **Prerequisite PR 1** is branch `selenium_context_timeout_handler`, approved at `46aebb27457`.
   The gx_branches process owns it from here.
-- **Prerequisite PR 2** is branch `playwright_remote_debugging_port` @ `da5054d39f3`, handed to
-  gx_branches (needs CI + polish).
+- **Standing branch `galaxy_ui_driver`** (John, 2026-10-06): Galaxy-side changes that don't
+  justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
+  holds PR 2 (`da5054d39f3`, CDP port, no longer queued alone) on top of a merge of PR 1. See
+  "Prerequisite PRs" below.
 - **`gxui` MVP, external first** (John's call): `galaxy_ui_loop/gxui/` + `skill/galaxy-ui-driver/`,
-  run against the local-only `gxui_base` worktree (dev + PRs 1–2; how to run and recreate it is in
+  run against the `galaxy_ui_driver` worktree (how to run and recreate it is in
   `galaxy_ui_loop/README.md`). 17 tests pass (`galaxy_ui_loop/tests/test_gxui.py`). Findings below
   under "MVP findings".
 - **Arm A is wired** (`ARM=A ./run.sh`). runA1 crashed (gxui bug, fixed); runA2 and runA3
@@ -168,6 +170,19 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
 
 ## Prerequisite PRs (small, atomic, in this order)
 
+Changes with their own motivation (a bug fix, a test refactor) go up as separate PRs. Changes only
+gxui motivates go on the standing branch `galaxy_ui_driver` and wait; `gxui` itself (item 5) is
+the motivating example that eventually goes up with them. Rebase the standing branch onto dev
+when a separate PR it merges in lands.
+
+| # | Change | Where |
+|---|---|---|
+| 1 | Context bootstrap fix | Own PR (approved); merged into the standing branch |
+| 2 | CDP port | Standing branch |
+| 3 | `headless=auto` under Playwright | Not started; own PR (bug on its own) |
+| 4 | Tool-form filler + `tool-describe` | Not started; filler lift is its own PR, `tool-describe` on the standing branch |
+| 5 | `gxui` itself | Standing branch, once verbs settle |
+
 1. **Fix the standalone context bootstrap.** Branch `selenium_context_timeout_handler`,
    approved at `46aebb27457`.
    - `GalaxySeleniumContextImpl.__init__` (`context.py:62`) calls
@@ -178,7 +193,8 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
    - `timeout_multiplier` (`context.py:65`) is stored but never read.
    - The fix is to build `galaxy_timeout_handler(timeout_multiplier)` and pass it.
    - This repairs the Jupyter path on its own merits, with no agent framing needed.
-2. **Driver attachability.** Branch `playwright_remote_debugging_port` @ `da5054d39f3`: opt-in
+2. **Driver attachability.** Commit `da5054d39f3` on the standing branch (its
+   `playwright_remote_debugging_port` branch is retired; John judged it not mergeable alone): opt-in
    `remote_debugging_port` on `ConfiguredDriver` / `get_playwright_driver`, passed to
    `launch(args=...)`. S1 showed that is all that's needed; no persistent context.
 3. **`headless=auto` under Playwright.** `framework.py:1450` goes through `get_local_browser`,

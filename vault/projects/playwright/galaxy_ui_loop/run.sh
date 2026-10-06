@@ -39,7 +39,7 @@ if [ "$ARM" = B ]; then
 else
   # gxui needs a Galaxy checkout with UI-skill prereq PRs 1-2 and a Python with Galaxy's deps.
   export GXUI_HOME="$LOOP_HOME/gxui" GXUI_SESSION=gtn GXUI_CLIENT_TIMEOUT=290
-  export GXUI_GALAXY_ROOT=${GXUI_GALAXY_ROOT:-$HOME/projects/worktrees/galaxy/branch/gxui_base}
+  export GXUI_GALAXY_ROOT=${GXUI_GALAXY_ROOT:-$HOME/projects/worktrees/galaxy/branch/galaxy_ui_driver}
   export GXUI_PYTHON=${GXUI_PYTHON:-$GXUI_GALAXY_ROOT/.venv/bin/python}
   cp -R "$HERE/skill/galaxy-ui-driver" "$RUN/work/.agents/skills/"
   { echo '#!/bin/sh'

@@ -30,11 +30,13 @@ Per run: `events.jsonl`, `codex-home/sessions` (token log), `work/notes.md`, `wo
 
 `gxui/` is the CLI and daemon from `../GALAXY_UI_SKILL_DESIGN.md`; `skill/galaxy-ui-driver/SKILL.md`
 is the skill. It needs a Galaxy checkout with prerequisite PRs 1 and 2 and a Python with Galaxy's
-deps. `gxui_base` is a local-only worktree (never pushed) with no `.venv` of its own, so always set
-`GXUI_PYTHON`. Recreate it if it is gone (or once either PR changes):
+deps. That is the standing branch `galaxy_ui_driver` (pushed to `jmchilton`; worktree
+`~/projects/worktrees/galaxy/branch/galaxy_ui_driver`). It holds the Galaxy-side changes gxui needs,
+saved until the gxui work is a complete motivating example; see `../GALAXY_UI_SKILL_DESIGN.md`. The
+worktree has no `.venv` of its own, so always set `GXUI_PYTHON`. Recreate it if it is gone:
 
-    git -C ~/projects/repositories/galaxy worktree add -b gxui_base ~/projects/worktrees/galaxy/branch/gxui_base playwright_remote_debugging_port
-    git -C ~/projects/worktrees/galaxy/branch/gxui_base merge --no-edit selenium_context_timeout_handler
+    git -C ~/projects/repositories/galaxy fetch jmchilton galaxy_ui_driver
+    git -C ~/projects/repositories/galaxy worktree add ~/projects/worktrees/galaxy/branch/galaxy_ui_driver galaxy_ui_driver
 
 Arm A loop run (Codex; same prerequisites as arm B above):
 
@@ -46,7 +48,7 @@ shell-command counts: agents wrap `./gxui` in their own scripts.
 
 Interactive use:
 
-    export GXUI_GALAXY_ROOT=~/projects/worktrees/galaxy/branch/gxui_base   # the default
+    export GXUI_GALAXY_ROOT=~/projects/worktrees/galaxy/branch/galaxy_ui_driver   # the default
     export GXUI_PYTHON=~/projects/worktrees/galaxy/branch/playwright_text_table_parity/.venv/bin/python
     bin/gxui start --url https://test.galaxyproject.org --storage-state ~/.cache/gxui-loop/auth/galaxy-test-auth.json
     bin/gxui help

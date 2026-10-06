@@ -38,3 +38,9 @@ only pre-existing errors in the file, none on changed lines.
 
 - No env var / `framework.py` plumbing (e.g. to attach playwright-cli to a running E2E test). Small
   follow-up if wanted; the gxui daemon passes the port directly.
+
+## Update 2026-10-06: folded into a standing branch
+
+John: not mergeable on its own. The commit now lives on the standing branch `galaxy_ui_driver`
+(see MY_BRANCHES, `branches_need_decision`) and waits for gxui as a motivating example. Don't
+polish or open a PR for `playwright_remote_debugging_port`.
