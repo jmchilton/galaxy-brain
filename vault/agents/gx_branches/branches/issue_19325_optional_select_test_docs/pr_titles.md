@@ -1,0 +1,4 @@
+- Document `value_json` for unset and empty selects in tool tests
+- Recommend `value_json="null"` over `value=""` for optional selects in tool tests
+- Fix tool XSD docs recommending `value=""` for optional selects
+- Tool test docs: use `value_json="null"` / `value_json="[]"` for selects
