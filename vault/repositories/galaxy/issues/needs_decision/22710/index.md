@@ -1,0 +1,5 @@
+# galaxy#22710 — Not capturing validated tool requests for workflow invocations.
+
+[Issue](https://github.com/galaxyproject/galaxy/issues/22710)
+
+Branch `workflow_state_backfill` — Workflow invocations never capture validated tool request state, so graph view ([#21659](https://github.com/galaxyproject/galaxy/issues/21659)) and better history extraction ([#22709](https://github.com/galaxyproject/galaxy/issues/22709)) have to reconstruct it from invocation tables; guerler argued for minting `ToolRequest` rows (MINT), John for a shared `ToolExecutionState` referenced by both `ToolRequest` and `WorkflowInvocationStep` (EXEC_STATE), mvdbeek agreed the real requirement is capturing non-tool steps and decision points; state: a worktree exists at `1f87eebce32` with uncommitted changes and is **not** tracked in `vault/agents/gx_branches/MY_BRANCHES.md`; John spent four days across five migrations and reported the attempt failed, so the branch is evidence rather than a candidate to push — next: decide whether to restart from the MINT increment or salvage the TES-keyed shape on the branch.

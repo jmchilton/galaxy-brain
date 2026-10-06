@@ -19,5 +19,6 @@ Write a debrief of the research and the rewrite to `to_file/debrief_<short_name>
 ## 4. Hand off
 
 - Give the user a recommendation on whether to post the issue in its current state.
-- If the user wants it posted, post it, then move the source file, the proposal and the debrief to `old/` so that `to_file/` stays clean.
+- If the user wants it posted, post it, then triage it per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md): create its directory under `vault/repositories/galaxy/issues/STATUS/<number>/` and move the source file, the proposal and the debrief there as `issue_draft.md`, `proposal.md` and `debrief.md`, so that `to_file/` stays clean.
+- If the user decides not to post it, move the three files to `old/`.
 - Infer from context whether John should be assigned, for example when the issue came out of his own branch or work. If so, assign John and add the issue to `ISSUES.md`.

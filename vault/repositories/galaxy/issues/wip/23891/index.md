@@ -1,0 +1,5 @@
+# galaxy#23891 — `format_source` resolves Galaxy's internal input keys (`input2`, `coll2`, conversion names) it shouldn't
+
+[Issue](https://github.com/galaxyproject/galaxy/issues/23891) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+
+`format_source` resolves Galaxy's internal job-creation keys (`input2` on a `multiple` param, `coll2` collection elements, conversion names like `input1_table`, selectors on multiple data params), and a numbered key silently shadows a legacy alias (`input1` picks a multiple `input`'s first dataset instead of `cond|input1`); the linter disagrees both ways (errors on documented bracket selectors, skips `|` refs); runtime half of [#23444](https://github.com/galaxyproject/galaxy/issues/23444); filed from the [#23877](https://github.com/galaxyproject/galaxy/pull/23877) docs work; open: gate the internal-key restriction by profile or not (0 uses in 3145 public tools); next: one declared-parameter resolver shared by runtime and `OutputsFormatSourceReference`, red API tests first.

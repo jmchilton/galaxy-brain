@@ -1,0 +1,5 @@
+# galaxy#23895 — `fill_defaults` workflow import breaks certain nested connections
+
+[Issue](https://github.com/galaxyproject/galaxy/issues/23895) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+
+Workflow import with `fill_defaults=true` (WES, Galaxy's YAML test workflows; the UI and planemo don't set it) runs `augment_tool_state_for_input_connections`, which looks repeats up only in `tool.inputs` and stops at sections/conditionals: connections into a nested repeat crash import with a 500 (`KeyError: 'inner'`), and connections into a repeat under a section or the active conditional case, or into an existing outer instance, are silently dropped (job runs `ok` without the inputs); workaround: spell out the repeat instances in `state`; [#23877](https://github.com/galaxyproject/galaxy/pull/23877)'s docs should say broken, not untested; open: unmatched connections fail import or warn; unverified: whether sparse imports without `fill_defaults` drop even top-level repeat connections; next: reuse `_populate_state_legacy`'s descent as a shared helper (match `<name>_<i>|`, not bare `startswith`), red API tests first.
