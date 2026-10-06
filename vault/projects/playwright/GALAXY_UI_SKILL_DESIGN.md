@@ -17,18 +17,16 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   README.
 - **Prerequisite PR 1** is branch `selenium_context_timeout_handler`, approved at `46aebb27457`.
   The gx_branches process owns it from here.
+- **Prerequisite PR 2** is branch `playwright_remote_debugging_port` @ `da5054d39f3`, handed to
+  gx_branches (needs CI + polish).
 
 **Next, in order:**
-1. **Prerequisite PR 2 (driver attachability).** Add an opt-in `remote_debugging_port` in
-   `get_playwright_driver`, passed to `launch(args=...)`. Per S1, nothing else is needed. It is a
-   small gx_branches branch off dev, red-to-green in `test/unit/selenium/test_driver_factory.py`
-   (attach over CDP and see the page).
-2. **Prerequisite PR 4 (public tool-form filler + `tool-describe`).** Larger. Lift it out of
+1. **Prerequisite PR 4 (public tool-form filler + `tool-describe`).** Larger. Lift it out of
    `RunsToolTests`, which then calls it.
-3. **The `gxui` MVP (PR 5).** Build the daemon per the S3 decisions, the verb registry from the
+2. **The `gxui` MVP (PR 5).** Build the daemon per the S3 decisions, the verb registry from the
    verb table, and the transcript, plus a unit test driving `basic.html` through the daemon. Start
    from `galaxy_ui_loop/spikes/gxui_spike.py`, which is the prototype S3 tested.
-4. **Loop, in parallel with 1–3:**
+3. **Loop, in parallel with 1–2:**
    - Expand GTN `{% snippet faqs/... %}` includes before handing `tutorial.md` to the agent.
      phase0-run1 got them unexpanded.
    - Do runs 2–3 of arm B to get an n=3 baseline.
@@ -139,9 +137,9 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
    - `timeout_multiplier` (`context.py:65`) is stored but never read.
    - The fix is to build `galaxy_timeout_handler(timeout_multiplier)` and pass it.
    - This repairs the Jupyter path on its own merits, with no agent framing needed.
-2. **Driver attachability.** `get_playwright_driver` (`driver_factory.py:262`) always does
-   `launch()` + `new_page()`. Add an opt-in `remote_debugging_port` passed to `launch(args=...)`.
-   S1 showed that is all that's needed; no persistent context.
+2. **Driver attachability.** Branch `playwright_remote_debugging_port` @ `da5054d39f3`: opt-in
+   `remote_debugging_port` on `ConfiguredDriver` / `get_playwright_driver`, passed to
+   `launch(args=...)`. S1 showed that is all that's needed; no persistent context.
 3. **`headless=auto` under Playwright.** `framework.py:1450` goes through `get_local_browser`,
    which raises without chromedriver or geckodriver even when the backend is Playwright.
 4. **A public tool-form filler and `tool-describe`.** Lift the filler out of `RunsToolTests` into
