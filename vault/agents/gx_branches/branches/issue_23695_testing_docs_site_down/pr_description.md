@@ -1,0 +1,63 @@
+Fix 🎯 #23695 - document how to skip tests when a remote service they depend on is down.
+
+🔀 #23685 added skip-when-down decorators for quay.io, depot.galaxyproject.org and Dockstore and applied them, with the existing WorkflowHub one, across the suite. 🔀 #23842 added `unavailable_pattern` and `skip_on_network_error`. `writing_tests.md` mentions none of it. A developer writing a test against a remote service today has to find `galaxy.util.unittest_utils` by grepping. The new section in "Avoiding External Dependencies in Tests" covers it:
+
+| Decorator | Probes |
+|-----------|--------|
+| `skip_if_github_down` | `https://github.com/` |
+| `skip_if_quay_down` | `https://quay.io/` |
+| `skip_if_galaxy_depot_down` | `https://depot.galaxyproject.org/` |
+| `skip_if_dockstore_down` | `https://dockstore.org/` |
+| `skip_if_workflowhub_down` | `https://workflowhub.eu/` |
+| `skip_if_site_down(url)` | Any other `url` |
+
+Plus `skip_if_toolshed_down` (the main Tool Shed) in `galaxy_test.base.populators`.
+
+It also covers stacking decorators, skipping from setup code with `is_site_up` (as `UsesShed.configure_shed` does), and what the front-page probe misses: `unavailable_pattern` for errors behind a healthy front page and `skip_on_network_error` for connection errors and timeouts.
+
+***It's docs only, for developers writing Galaxy's own tests (not tool tests). No test, decorator or CI behavior changes, and no existing test needs retrofitting. It documents the convention #23685 and #23842 already applied.***
+
+***Skipping doesn't hide regressions. A test skips only when the probe fails, or on an explicit `unavailable_pattern` match or network error; any other failure still fails.***
+
+***It separates "skip when down" from "flaky". Outages get skipped; other intermittent failures still go through `@transient_failure`, and the two sections now link to each other.***
+
+<details><summary>Where the new text lives</summary>
+
+- New `### Skipping Tests When a Remote Service Is Down` (`{#remote_service_down}`) under "Avoiding External Dependencies in Tests".
+- A pointer from the mulled "Slow 'Unit' Tests" section, whose tests hit quay.io and depot.
+- A pointer from "Handling Flaky Tests", so outages aren't filed as transient failures.
+
+Every decorator name, probed URL and example test name was checked against `lib/galaxy/util/unittest_utils/__init__.py` and existing usages (`test_workflows.py`, `test_metadata_source.py`, `uses_shed.py`).
+
+</details>
+
+## Risks
+
+Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door).
+
+## Context
+
+Builds on 🔀 #23685 and 🔀 #23842.
+
+## John's Checklist
+
+- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] What does the user see when it fails? N/A. Docs only.
+- [x] Is the diff free of unrelated or stale generated changes? Yes!
+- [x] Are unit tests not just testing the literal implementation? N/A. No tests.
+- [x] Are the comments free of excess archeology? Yes.
+- [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
+
+## How to test the changes?
+- [x] Instructions for manual testing are as follows:
+
+<details><summary>Manual check</summary>
+
+Build the docs (`make docs`) and read `dev/writing_tests.html#remote-service-down`. Check that the two cross-links (from "Slow 'Unit' Tests" and "Handling Flaky Tests") land on the new section. A standalone Sphinx + MyST render of the page showed no new warnings.
+
+</details>
+
+## License
+- [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
