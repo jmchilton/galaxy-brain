@@ -1,0 +1,2 @@
+- [26.1] Cap social-auth-core below 6
+- [26.1] Merge social-auth-core<6 cap forward from 26.0
