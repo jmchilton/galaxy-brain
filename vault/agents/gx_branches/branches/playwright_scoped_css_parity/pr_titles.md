@@ -1,0 +1,4 @@
+- Run test_tags under Playwright
+- Fix test_tags' tag editor selectors, unblocking it under Playwright
+- Drop `@selenium_only` from test_tags
+- Fix test_tags' scoped tag editor selectors so it runs under Playwright
