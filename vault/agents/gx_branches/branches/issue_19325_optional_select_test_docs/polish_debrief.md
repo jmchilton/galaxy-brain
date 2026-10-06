@@ -21,6 +21,6 @@ Description-only fixes:
 - Manual test: needs Galaxy venv; concrete planemo lint recipe.
 
 ## Questions for John (scope)
-- Opener: "Fix 🎯 #19325" vs "Toward" — issue's error-presentation complaint (param name not obvious) stays open.
+- Opener: John chose "Fix 🎯 #19325" (2026-10-06).
 - Separate PR: single-select validation error naming the param and suggesting `value_json="null"`?
 - Should `TestsCaseValidation` validate at the tool's own profile? Today a pre-26.1 multiple select with `value=""` lint-errors from 24.2 though it runs fine.
