@@ -43,7 +43,7 @@ John asked for a review of the sample sheet components' ag-grid use after the Vu
 ## Rebase onto #23938
 - One conflict, `useAgGrid.ts`: #23938 also drops `columnApi`, so the composable now returns `gridApi` and `resize` only.
 - The `ag-grid-vue3` 31.3.4 wrapper still passes `markRaw(toRaw(rows))` and still finds renderers by name on `$parent.$options.components`, so nothing here changes.
-- 31 turns `animateRows` on by default (30 had it off). On 36 that broke `test_build_paired_list_manual_matched`. John chose to wait on #23938's CI rather than act; this branch doesn't touch it.
+- 31 turns `animateRows` on by default (30 had it off). On 36 that broke `test_build_paired_list_manual_matched`. #23938's CI then failed `manual_matched` and `show_original` in both Selenium and Playwright with the lingering-row error. With John's go-ahead, `b7bda6ce9c1` (`:animate-rows="false"` on the paired builder grid; red then green locally, plus `auto_matched`) was pushed to dannon's PR branch (fast-forward, maintainer edit, no comment). This branch still sits on `9fbdfc9fff4` and needs restacking onto `b7bda6ce9c1`.
 - On 31.3.4: vitest 150/150, vue-tsc clean. E2E on 31.3.4 under Playwright: both sample sheet chipseq tests, `test_build_list_of_lists`, `test_rules_example_3_list_pairs` pass (`manual_matched` not run; left to #23938 CI)
 
 ## Open
