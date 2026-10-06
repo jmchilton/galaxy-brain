@@ -1,0 +1,4 @@
+- Fix workflow rename leaving a literal `#{...}` after an empty placeholder
+- Resolve workflow rename `#{...}` placeholders in a single pass
+- Fix workflow rename skipping the placeholder after an empty or one-character value
+- Stop workflow rename from skipping adjacent `#{...}` placeholders
