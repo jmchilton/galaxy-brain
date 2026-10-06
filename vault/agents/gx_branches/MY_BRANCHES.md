@@ -58,7 +58,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- Branch `job_files_fastapi` (`17cbd50f12b`) — Description: Migrates the job files API to FastAPI behind an extracted `JobFilesManager`; blockers: #23856 merged; rebased onto dev 2026-10-05 (no conflicts) — fork CI on `17cbd50f12b` — Selenium cache miss, full rerun 2026-10-06; release-script red is fork-only (stale fork `master`); polishing started 2026-10-06 (John: implementation looks good). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:job_files_fastapi?expand=1).
+- Branch `job_files_fastapi` (`1f751bc49ca`) — Description: Migrates the job files API to FastAPI behind an extracted `JobFilesManager`; blockers: #23856 merged; rebased onto dev 2026-10-05 (no conflicts) — fork CI on `17cbd50f12b` — Selenium cache miss, full rerun 2026-10-06; release-script red is fork-only (stale fork `master`); polishing started 2026-10-06 (John: implementation looks good). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:job_files_fastapi?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
@@ -77,7 +77,6 @@ None yet.
 
 - Branch `move_markdown_conversion_to_util` (`b34d429b35a`) — Description: Moves markdown HTML/PDF conversion out of `managers.markdown_util` into `galaxy.util`; blockers: none, reference only — don't PR alone (John, 2026-10-01); it's the first commit of `selenium_stories_core`.
 - Branch `issue_23424_when_expression_validation` (`3987a65973d`, PR #23817 closed by us 2026-09-30) — Description: Validates workflow `when` expression input references at import; blockers: #23816 merged; rebased onto dev 2026-10-05 (own 3 commits, no conflicts; unit test passes) — fork CI on `3987a65973d`; decide: reopen #23817 or open fresh. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23424_when_expression_validation?expand=1).
-- [#23821](https://github.com/galaxyproject/galaxy/pull/23821) (closed by us 2026-10-01) — branch `pulsar_version_source` — Description: Skips the minimum Pulsar version check when the version is only the client library's; blockers: reopen, fold into #23850, or abandon? [Description](branches/pulsar_version_source/pr_description.md).
 - Branch `workflow_input_pipe_names` — Description: Reserves pipes in input names, with three possible correction scopes; blockers: choose a scope ([comparison](workflow_input_pipe_names_versions.md)), then fix lint and mypy. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:workflow_input_pipe_names?expand=1).
 - Branch `subworkflow_mapping_when_alignment` — Description: Aligns mapped subworkflow `when` values with compatible collection inputs; blockers: decide whether #23676 supersedes it. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:subworkflow_mapping_when_alignment?expand=1).
 
