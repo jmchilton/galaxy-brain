@@ -1,0 +1,4 @@
+- Unpin happy-dom by not pointing text inputs at missing datalists
+- Update happy-dom to 20.14.5 and drop the 20.6.2 pin
+- Stop FormText binding `list` without datalist options, unblocking happy-dom updates
+- Unpin happy-dom (supersedes #22915)
