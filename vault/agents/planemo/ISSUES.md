@@ -1,161 +1,71 @@
 # Planemo issue triage
 
-Baseline triage verified 2026-09-25. Current PR health and new issues checked
-2026-10-01: [morning triage](MORNING_TRIAGE_2026-10-01.md).
+Triage index for `galaxyproject/planemo` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/planemo/issues/`. PR reviews are tracked in `PULL_REQUESTS.md`; live gaps with no issue yet are in [`WORTH_FILING.md`](WORTH_FILING.md).
 
-## Blocked issues
+GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default. Only the issues below are triaged; Planemo's other ~170 open issues are not listed.
 
-None. 1672 (repo-level data-manager / data-table linting) was blocked on
-galaxyproject/galaxy#23229, merged 2026-09-22 — now actionable, moved to the build-next list.
+## Waiting on John (`needs_decision`)
 
-## Open issues with an open PR
+- [#1720](https://github.com/galaxyproject/planemo/issues/1720) — appliance: rebuild it or take its docs down; decide: which. [notes](../../repositories/planemo/issues/needs_decision/1720/index.md)
+- [#1267](https://github.com/galaxyproject/planemo/issues/1267) — workflow_lint and editor Best Practices lint different structures; not implemented; decide: close-with-ask? [notes](../../repositories/planemo/issues/needs_decision/1267/index.md)
+- [#1535](https://github.com/galaxyproject/planemo/issues/1535) — `mulled-search` GitHub 401; live bug filed in the wrong repo; decide: transfer to galaxy-tool-util? [notes](../../repositories/planemo/issues/needs_decision/1535/index.md)
+- [#1589](https://github.com/galaxyproject/planemo/issues/1589) — `HelpInvalidRST` on local images; wrong repo; decide: transfer to galaxy-util (docutils settings)? [notes](../../repositories/planemo/issues/needs_decision/1589/index.md)
+- [#1731](https://github.com/galaxyproject/planemo/issues/1731) — interactive tools show no URL; reporter says containers were still downloading; decide: close? [notes](../../repositories/planemo/issues/needs_decision/1731/index.md)
+- [#580](https://github.com/galaxyproject/planemo/issues/580) — `.shed.yml` key order; IUC standards don't define one; decide: agree on an order. [notes](../../repositories/planemo/issues/needs_decision/580/index.md)
+- [#1411](https://github.com/galaxyproject/planemo/issues/1411) — reported regression was never a regression; decide: ask the reporter for the exact command? [notes](../../repositories/planemo/issues/needs_decision/1411/index.md)
+- [#315](https://github.com/galaxyproject/planemo/issues/315) — Add functionality for converting Galaxy tool to CWL; CWL-gated; decide: is CWL supported? [notes](../../repositories/planemo/issues/needs_decision/315/index.md)
+- [#486](https://github.com/galaxyproject/planemo/issues/486) — Implement additional CWL backends for run and test.; CWL-gated; decide: is CWL supported? [notes](../../repositories/planemo/issues/needs_decision/486/index.md)
+- [#728](https://github.com/galaxyproject/planemo/issues/728) — Introduce CWL option for guessing secondaryFiles.; CWL-gated; decide: is CWL supported? [notes](../../repositories/planemo/issues/needs_decision/728/index.md)
+- [#1484](https://github.com/galaxyproject/planemo/issues/1484) — CWL steps that return arrays of files should be discovered datasets; CWL-gated; decide: is CWL supported? [notes](../../repositories/planemo/issues/needs_decision/1484/index.md)
+- [#1078](https://github.com/galaxyproject/planemo/issues/1078) — Need to reinstall planemo every time after using it; needs reproduction; decide: ask the reporter or close? [notes](../../repositories/planemo/issues/needs_decision/1078/index.md)
+- [#746](https://github.com/galaxyproject/planemo/issues/746) — All tests fail with dbkey error; needs reproduction; decide: ask the reporter or close? [notes](../../repositories/planemo/issues/needs_decision/746/index.md)
+- [#1194](https://github.com/galaxyproject/planemo/issues/1194) — `planemo shed_update` updates suites before contained tools; needs reproduction; decide: ask the reporter or close? [notes](../../repositories/planemo/issues/needs_decision/1194/index.md)
+- [#1423](https://github.com/galaxyproject/planemo/issues/1423) — Input staging problem: History not found; needs reproduction; decide: ask the reporter or close? [notes](../../repositories/planemo/issues/needs_decision/1423/index.md)
+- [#1584](https://github.com/galaxyproject/planemo/issues/1584) — SyntaxWarning:; needs reproduction; decide: ask the reporter or close? [notes](../../repositories/planemo/issues/needs_decision/1584/index.md)
 
-- 542 shed_lint --fail_fast https://github.com/galaxyproject/planemo/pull/1710 (closes)
-- 667 shed_lint missing lint options https://github.com/galaxyproject/planemo/pull/1729 (draft, closes)
-- 1112 TS repo name lint level https://github.com/galaxyproject/planemo/pull/1111 (closes; CI green)
-- 1175 test --serve https://github.com/galaxyproject/planemo/pull/1708 (draft, stacked on 1701;
-  no closes keyword — 1175 stays open on merge unless one is added)
-- 1476 anonymous external Galaxy https://github.com/galaxyproject/planemo/pull/1700 (closes)
-- 1489 pin Galaxy python version https://github.com/galaxyproject/planemo/pull/1704 (closes)
-- 1536 `--test_data` for tool tests https://github.com/galaxyproject/planemo/pull/1725 (closes)
-- 1625 test crash on undefined workflow output https://github.com/galaxyproject/planemo/pull/1728 (closes)
-- 1629 invocation label slashes https://github.com/galaxyproject/planemo/pull/1724 (closes)
-- 1667 config click.Path conversion https://github.com/galaxyproject/planemo/pull/1714 (closes)
-- 1668 run --no_wait crash https://github.com/galaxyproject/planemo/pull/1712 (closes); related https://github.com/galaxyproject/planemo/pull/1713
-- 1680 dedupe wait_on https://github.com/galaxyproject/planemo/pull/1711 (closes)
-- 1686 embedded Galaxy run engine https://github.com/galaxyproject/planemo/pull/1701 (draft; no closes keyword)
-- 1693 iwc lint missing tests https://github.com/galaxyproject/planemo/pull/1695 (closes)
-- 1694 iwc changelog date https://github.com/galaxyproject/planemo/pull/1697 (closes)
-- 1705 workflow collection assertions https://github.com/galaxyproject/planemo/pull/1723 (closes)
+## In motion (`wip`)
 
-No issue behind it: https://github.com/galaxyproject/planemo/pull/1726 skips tests when
-quay.io, the Tool Sheds, Dockstore or usegalaxy.eu are down. Test infra, nothing to close.
+- [#542](https://github.com/galaxyproject/planemo/issues/542) — planemo shed_lint --fail_fast broken?; PR [#1710](https://github.com/galaxyproject/planemo/pull/1710). [notes](../../repositories/planemo/issues/wip/542/index.md)
+- [#667](https://github.com/galaxyproject/planemo/issues/667) — shed_lint is missing options in lint; PR [#1729](https://github.com/galaxyproject/planemo/pull/1729). [notes](../../repositories/planemo/issues/wip/667/index.md)
+- [#1476](https://github.com/galaxyproject/planemo/issues/1476) — planemo's configuration of bioblend's api key prevents running commands without authentication that don't require it; PR [#1700](https://github.com/galaxyproject/planemo/pull/1700). [notes](../../repositories/planemo/issues/wip/1476/index.md)
+- [#1489](https://github.com/galaxyproject/planemo/issues/1489) — Default python version to loosely defined; PR [#1704](https://github.com/galaxyproject/planemo/pull/1704). [notes](../../repositories/planemo/issues/wip/1489/index.md)
+- [#1536](https://github.com/galaxyproject/planemo/issues/1536) — `--test_data` option of `planemo t` does not work; PR [#1725](https://github.com/galaxyproject/planemo/pull/1725). [notes](../../repositories/planemo/issues/wip/1536/index.md)
+- [#1625](https://github.com/galaxyproject/planemo/issues/1625) — planemo test crashes when workflow test specifies non-existent outputs; PR [#1728](https://github.com/galaxyproject/planemo/pull/1728). [notes](../../repositories/planemo/issues/wip/1625/index.md)
+- [#1629](https://github.com/galaxyproject/planemo/issues/1629) — workflow_test_init fails with FileNotFoundError when workflow input labels contain forward slashes (/); PR [#1724](https://github.com/galaxyproject/planemo/pull/1724). [notes](../../repositories/planemo/issues/wip/1629/index.md)
+- [#1667](https://github.com/galaxyproject/planemo/issues/1667) — Global config values bypass click.Path conversion (resolve_path is dead code); PR [#1714](https://github.com/galaxyproject/planemo/pull/1714). [notes](../../repositories/planemo/issues/wip/1667/index.md)
+- [#1668](https://github.com/galaxyproject/planemo/issues/1668) — planemo run --no_wait crashes with UnboundLocalError for tools; PR [#1712](https://github.com/galaxyproject/planemo/pull/1712). [notes](../../repositories/planemo/issues/wip/1668/index.md)
+- [#1680](https://github.com/galaxyproject/planemo/issues/1680) — Deduplicate planemo.io.wait_on in favor of galaxy.util.wait.wait_on; PR [#1711](https://github.com/galaxyproject/planemo/pull/1711). [notes](../../repositories/planemo/issues/wip/1680/index.md)
+- [#1693](https://github.com/galaxyproject/planemo/issues/1693) — workflow_lint --iwc should error, not warn, when a workflow has no test cases; PR [#1695](https://github.com/galaxyproject/planemo/pull/1695). [notes](../../repositories/planemo/issues/wip/1693/index.md)
+- [#1694](https://github.com/galaxyproject/planemo/issues/1694) — workflow_lint --iwc does not check the date on the newest CHANGELOG heading; PR [#1697](https://github.com/galaxyproject/planemo/pull/1697). [notes](../../repositories/planemo/issues/wip/1694/index.md)
+- [#1705](https://github.com/galaxyproject/planemo/issues/1705) — Workflow test collection assertions are silently skipped unless spelled `element_tests`; PR [#1723](https://github.com/galaxyproject/planemo/pull/1723). [notes](../../repositories/planemo/issues/wip/1705/index.md)
+- [#1175](https://github.com/galaxyproject/planemo/issues/1175) — `test --serve`; draft PR [#1708](https://github.com/galaxyproject/planemo/pull/1708), stacked on #1701, no closing keyword. [notes](../../repositories/planemo/issues/wip/1175/index.md)
+- [#1686](https://github.com/galaxyproject/planemo/issues/1686) — embedded Galaxy run engine; draft PR [#1701](https://github.com/galaxyproject/planemo/pull/1701), no closing keyword. [notes](../../repositories/planemo/issues/wip/1686/index.md)
 
-## Recently merged
+## Queued (`queued`)
 
-- 1478 autoupdate exited 0 on failure — https://github.com/galaxyproject/planemo/pull/1727 merged
-  2026-09-25. mvdbeek caught that making `assert_at_least_one` live would break the weekly
-  planemo-autoupdate job for repos containing only skiplisted entries; fixed by counting skipped
-  tools and workflows as targets. Verified against tools-iuc `tools/optitype` and
-  `tools/interproscan` with the live skip list: master 0, pre-fix 2, fixed 0.
+- [#1139](https://github.com/galaxyproject/planemo/issues/1139) — machine-readable lint, tool side; next: tool-side JSON report first (nearly free). [notes](../../repositories/planemo/issues/queued/1139/index.md)
+- [#1360](https://github.com/galaxyproject/planemo/issues/1360) — machine-readable lint, workflow side; next: after the tool-side JSON report. [notes](../../repositories/planemo/issues/queued/1360/index.md)
+- [#1721](https://github.com/galaxyproject/planemo/issues/1721) — `docker_galaxy` engine broken; next: drop the stale `bgruening/galaxy-stable` fallback, un-skip its one test. [notes](../../repositories/planemo/issues/queued/1721/index.md)
+- [#1722](https://github.com/galaxyproject/planemo/issues/1722) — `metadata_source`/`format_source` lint gaps; next: fix in galaxy-tool-util. [notes](../../repositories/planemo/issues/queued/1722/index.md)
+- [#577](https://github.com/galaxyproject/planemo/issues/577) — planemo lint should warn about interpreter tag on version_command; build-next (XS/S); next: implement. [notes](../../repositories/planemo/issues/queued/577/index.md)
+- [#1515](https://github.com/galaxyproject/planemo/issues/1515) — Back up tool_test_output.* rather than overwriting; build-next (XS/S); next: implement. [notes](../../repositories/planemo/issues/queued/1515/index.md)
+- [#1413](https://github.com/galaxyproject/planemo/issues/1413) — planemo lint workflow tests improvement; build-next (XS/S); next: implement. [notes](../../repositories/planemo/issues/queued/1413/index.md)
+- [#1077](https://github.com/galaxyproject/planemo/issues/1077) — Understanding output of planemo workflow_lint; build-next (XS/S); next: implement. [notes](../../repositories/planemo/issues/queued/1077/index.md)
+- [#258](https://github.com/galaxyproject/planemo/issues/258) — When linting check that two params don't have the same name at the same level in the xml; build-next (XS/S); next: implement. [notes](../../repositories/planemo/issues/queued/258/index.md)
+- [#1516](https://github.com/galaxyproject/planemo/issues/1516) — configure log level - decrease current output; build-next (S–M); next: implement. [notes](../../repositories/planemo/issues/queued/1516/index.md)
+- [#807](https://github.com/galaxyproject/planemo/issues/807) — tool test linting; build-next (M); next: implement. [notes](../../repositories/planemo/issues/queued/807/index.md)
+- [#1613](https://github.com/galaxyproject/planemo/issues/1613) — Improve version linter; build-next (M); next: implement. [notes](../../repositories/planemo/issues/queued/1613/index.md)
+- [#1449](https://github.com/galaxyproject/planemo/issues/1449) — Return inputs ID in --test_output_json outputs; build-next (M); next: implement. [notes](../../repositories/planemo/issues/queued/1449/index.md)
+- [#96](https://github.com/galaxyproject/planemo/issues/96) — linting: Check sample loc files exist under tool-data/; build-next (M); next: implement. [notes](../../repositories/planemo/issues/queued/96/index.md)
+- [#706](https://github.com/galaxyproject/planemo/issues/706) — Lint does not notice missing tool_data_table_conf.xml.sample; build-next (M); next: implement. [notes](../../repositories/planemo/issues/queued/706/index.md)
+- [#1342](https://github.com/galaxyproject/planemo/issues/1342) — Rename the default branch to `main`; build-next (admin); next: implement. [notes](../../repositories/planemo/issues/queued/1342/index.md)
+- [#1672](https://github.com/galaxyproject/planemo/issues/1672) — repo-level data-manager/data-table linting; galaxy#23229 merged; next: implement. [notes](../../repositories/planemo/issues/queued/1672/index.md)
 
-## Close candidates (1)
+## Blocked on others (`blocked`)
 
-1267 only. **Not implemented** — the #1213 false positive is fixed (proved by counterfactual),
-but `workflow_lint` and the editor's Best Practices panel lint different data structures:
-planemo reads the legacy `.ga` `step["inputs"]` list, so it false-positives on nested conditional
-inputs and misses a genuinely dangling data input. Close-with-ask; the divergence table and 11
-enumerated follow-ups are in [[ISSUE_CLOSE_DRAFTS_2026-09-21]]. Highest-value single fix is
-galaxy `managers/workflows.py:1764` (`val` should be `partval`) — three of the planemo-side
-items collapse into it.
+None yet.
 
-## Transfer, don't close (2)
+## Untriaged (`untriaged`)
 
-Live bugs filed in the wrong repo:
-- 1535 `mulled-search` GitHub 401 → galaxy-tool-util
-- 1589 `HelpInvalidRST` on local images → galaxy-util docutils settings
-
-1649 (`NodeJSEngine.__del__` TypeError → cwl-utils) was closed by its reporter on 2026-09-23
-with "fixed in the latest version". Nothing was transferred, so if the cwl-utils defect is still
-live upstream it is now untracked anywhere.
-
-## Cluster decisions
-
-- **Appliance**: resolved 2026-09-21. The four stale issues are closed and the decision is
-  tracked in https://github.com/galaxyproject/planemo/issues/1720 — either rebuild the appliance
-  or take the docs down (`docs/appliance.rst`, `writing_appliance.rst`, `writing_cwl_appliance.rst`,
-  `_writing_test_and_serve_appliance.rst`, `docs/Vagrantfile`, the `appliance` toctree entry in
-  `docs/index.rst`, and the appliance route offered in `docs/writing.rst`).
-- **Embedded Galaxy stack** (1701 -> 1708): both were conflicted on master and were rebased
-  2026-09-25. master and 1701 had independently extracted the same mulled-containers block into
-  a helper under different names; master's `_handle_mulled_container_kwds` won (it handles
-  singularity and ships tests) and 1701's `_configure_mulled_containers` was dropped.
-- **Machine-readable lint** (1139 1360): tool-side JSON report is nearly free; the workflow side
-  is the real work. Split along that line. Check `PR_DESCRIPTION_STRUCTURED_DATA_ERRORS.md` first.
-
-## Worth filing — live gaps with no issue
-
-Found during the sweep; not filed anywhere.
-
-- **Dockstore web URLs are rejected misleadingly.** `dockstore.org/workflows/...:version` — the
-  form a user copies from the address bar — fails with "try linting with planemo workflow_lint",
-  and `_resolve_trs_url` builds a garbage URL instead of erroring. Root cause is two divergent
-  TRS predicates: inline in `runnable_resolve.py` vs. exported `is_trs_identifier()` at
-  `workflows.py:844`; only the inline copy sanity-checks the id. Consolidating on
-  `is_trs_identifier` and moving service-segment validation into `parse_trs_id` fixes the
-  duplication and the latent bug together. Detail: [[planemo_1508_verification_trs_dockstore_id]].
-- **Unversioned TRS ids resolve to `versions[0]`**, which is the branch (`main`), not the newest
-  release — the "usually the latest" comment is wishful, and reproducibility suffers.
-- **TRS/Dockstore support is undocumented.** `grep -rni "\btrs\b" docs/` returns nothing and
-  `cmd_run.py` help never mentions it.
-- **`workflow_lint` does not cross-check `.ga` `input_connections` targets** against existing
-  step ids.
-- **`docker_galaxy` engine has a dead hardcoded image fallback.** `planemo/options.py:617`
-  defaults `--docker_galaxy_image` to the maintained `quay.io/bgruening/galaxy`, but
-  `planemo/galaxy/config.py:1163` falls back to `bgruening/galaxy-stable` when the kwd is absent
-  — Docker Hub, frozen at `20.09` since 2021-04-18. Two defaults for one thing; the non-CLI one
-  is five years stale. Related to https://github.com/galaxyproject/planemo/issues/1721.
-- **`metadata_source` and `format_source` lint gaps** — filed 2026-09-21 as
-  https://github.com/galaxyproject/planemo/issues/1722 (tracked in planemo, fix lands in
-  galaxy-tool-util).
-- **`<repeat>`/`<section>`/`<conditional>` names are not checked against output names.**
-  `_iter_param()` walks only `./inputs//param`, so a container element sharing an output's name
-  is a real Cheetah namespace collision that lints clean. galaxy-tool-util. Unfiled.
-- **Invalid datatype extensions are stored, not rejected, at runtime.**
-  `lib/galaxy/model/__init__.py:5418-5427` falls back to `data` without erroring, and the bad
-  string stays in the HDA `extension` column. Galaxy runtime. Unfiled.
-- **`DATATYPES_CONF` and tool-local `datatypes_conf.xml` are undocumented.** Both are verified
-  working escape hatches for non-core datatypes failing `ValidDatatypes`; nothing under `docs/`
-  mentions either. The one planemo-side gap out of this batch. Unfiled.
-- **The one `docker_galaxy` test is skipped.** `tests/test_cmd_test.py:185`
-  `@skip("Configuring quay.io/bgruening/galaxy:latest is currently broken")`, added by mvdbeek
-  in `d6b222d4` (2025-06-19). The engine has no other coverage. Un-skipping this is the
-  acceptance test for 1721.
-- **Nothing guards that a command's computed exit code reaches `ctx.exit()`.** `cmd_autoupdate`
-  built an `exit_codes` list and `return`ed `coalesce_return_codes(...)` for years (#1478);
-  click discards a callback's return value, so every failure exited 0. That one instance is fixed
-  (PR 1727, merged), and it was the only command doing it, but nothing would catch the next one.
-  planemo. Still unfiled.
-- **`--urls` is defined inline and identically in both `cmd_lint` and `cmd_shed_lint`.** PR 1729
-  moved `--doi` and `--conda_requirements` into `options.py` factories; `--urls` is the last
-  copy-paste of the pattern that caused #667. One line each to fold in. planemo. Unfiled.
-- **The DOI linter cannot currently succeed.** doi.org answers 403 to an unauthenticated
-  `requests` GET, so `lint --doi` reports "dx.doi returned unexpected status code 403" for every
-  DOI. `tests/test_lint.py:86` `test_lint_doi` still passes because it only asserts exit 1, which
-  the 403 warning also produces — the check is dead and the test cannot tell. planemo. Unfiled.
-
-## Build-next shortlist
-
-XS/S: 286 577 1515 1413 1077 258
-S–M: 1516 · M: 807 1139 1613 1449 96(+706) · admin: 1342
-Newly actionable: 1672 (galaxy#23229 merged 2026-09-22)
-
-## Implemented
-
-- 904 reserved input names — [Galaxy PR 23831](https://github.com/galaxyproject/galaxy/pull/23831)
-  merged; Galaxy-side linter implemented 2026-09-30 on
-  [issue-904-reserved-input-names](https://github.com/jmchilton/galaxy/tree/issue-904-reserved-input-names),
-  commit `b8c564ca581`. Worktree:
-  `/Users/jxc755/projects/worktrees/galaxy/branch/issue-904-reserved-input-names`.
-  Warns on top-level Cheetah reserved names, including argument-derived parameter names
-  and input groups; nested fields remain allowed. 121 linter/template tests passed;
-  Planemo CLI smoke check with the changed linter loaded into its installed runtime
-  returned 1 for `sleep` and 0 for `duration`. No Planemo code change needed; consumers
-  receive the check through an updated galaxy-tool-util package.
-  [Review](galaxy_issue_904_reserved_input_names.md) · [PR description](PR_DESCRIPTION_904.md).
-
-## Needs a human decision
-
-- CWL: still a hard dependency and two live engines. Supported or not? Gates 315 486 728 1484 + docs.
-- 580 blocked on agreeing a `.shed.yml` key order (IUC standards don't define one).
-- 1411 was never a regression; ask for the exact command.
-- NEEDS-REPRO: 1078 746 1194 1423 1584
-
-## New issues checked 2026-10-01
-
-- [1731](https://github.com/galaxyproject/planemo/issues/1731) interactive tools show no URL:
-  reporter says containers were still downloading; appears resolved, close candidate.
-- Assigned to jmchilton, previously absent from this index:
-  [1137](https://github.com/galaxyproject/planemo/issues/1137) new option;
-  [135](https://github.com/galaxyproject/planemo/issues/135) refactor planemo.shed.
-  Bodies and implementation status still need triage.
+- (assigned) [#135](https://github.com/galaxyproject/planemo/issues/135) — Refactor planemo.shed module
+- (assigned) [#1137](https://github.com/galaxyproject/planemo/issues/1137) — new option
