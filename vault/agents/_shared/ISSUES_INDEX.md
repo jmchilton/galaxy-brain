@@ -24,7 +24,8 @@ Each entry is one bullet:
 - [#12345](ISSUE_URL) — what's wrong, at most 120 characters; next: concrete step. [notes](../../repositories/PROJECT/issues/STATUS/12345/index.md)
 ```
 
-- Prefix `(assigned)` when the issue is assigned to jmchilton on GitHub, and `(large)` when it is too big for a triage agent to take on alone.
+- Mark assignment on the exception, not the rule: the header says whether issues in this index are assigned to jmchilton by default, and lines that differ carry `(assigned)` or `(unassigned)`.
+- Prefix `(large)` when the issue is too big for a triage agent to take on alone.
 - `wip` entries name the branch or PR, never its CI or review state. That lives in the branch tracking file (e.g. `gx_branches/MY_BRANCHES.md`).
 - `blocked` entries replace `next:` with `blocked on:`; `needs_decision` entries with `decide:`.
 - `untriaged` entries are just the link and a short title.
