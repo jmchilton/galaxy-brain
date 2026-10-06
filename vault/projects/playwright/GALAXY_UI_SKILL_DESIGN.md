@@ -101,8 +101,8 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
    - The fix is to build `galaxy_timeout_handler(timeout_multiplier)` and pass it.
    - This repairs the Jupyter path on its own merits, with no agent framing needed.
 2. **Driver attachability.** `get_playwright_driver` (`driver_factory.py:262`) always does
-   `launch()` + `new_page()`. Add an opt-in to launch with `--remote-debugging-port`, and use a
-   persistent/default context so CDP attachers see the page (spike S1).
+   `launch()` + `new_page()`. Add an opt-in `remote_debugging_port` passed to `launch(args=...)`.
+   S1 showed that is all that's needed; no persistent context.
 3. **`headless=auto` under Playwright.** `framework.py:1450` goes through `get_local_browser`,
    which raises without chromedriver or geckodriver even when the backend is Playwright.
 4. **A public tool-form filler and `tool-describe`.** Lift the filler out of `RunsToolTests` into
@@ -111,17 +111,38 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
 5. **The `gxui` daemon, client and the first ~15 verbs**, with a `test/unit/selenium` test that
    drives the toy `basic.html` fixture through the daemon.
 
-## Spikes before step 5
+## Spikes
 
-- **S1 — two clients, one page.** Do Python Playwright and playwright-cli `attach --cdp` see and
-  drive the same page?
-  - Risk: a CDP attacher may only see the default context, while `browser.new_page()` creates a
-    separate one.
-  - Fallback: drop playwright-cli, and add `gxui snapshot` / `gxui css CSS click` built on Python
-    `aria_snapshot()`. That loses refs, `find`, console and network.
-- **S2 — version skew.** Galaxy pins Python `playwright==1.63.0`; `@playwright/cli` pins
-  playwright-core 1.64 alpha. CDP is browser-level, so this should not matter, but S1 should run
-  on exactly these versions.
+- **S1 — two clients, one page: resolved 2026-10-06, works.** The spike scripts drove a
+  local fixture page and the live test.galaxyproject.org from Galaxy's venv, with Python
+  `playwright==1.63.0` and `@playwright/cli` 0.1.22.
+  - **Launch modes.** All four modes pass: `browser.launch` + `new_page` (what `driver_factory`
+    does today) and `launch_persistent_context`, each headless and headed.
+  - **What was checked in each mode:**
+    - `attach --cdp` lists and snapshots Python's page;
+    - a CLI click by CSS and by snapshot ref is seen by Python;
+    - a DOM change made by Python is seen in the CLI's next snapshot;
+    - `detach` leaves Python working, with the viewport (1280) unchanged.
+  - **The feared non-default-context problem did not occur**, so the
+    `launch_persistent_context` fallback is unnecessary. `get_playwright_driver` only needs to
+    pass `--remote-debugging-port` through to `launch(args=...)`.
+  - **Live Galaxy.** `GalaxySeleniumContextImpl` (with the
+    `selenium_context_timeout_handler` fix) ran `home()` and a smart-component wait while the CLI
+    was attached. The CLI then `find`s the login button and clicks it, and Python's
+    `components.login.form.wait_for_visible()` sees the CLI-driven navigation.
+  - **`page.url` lags.** One second after the CLI click it still read `/`. Read the URL after a
+    wait, not straight after an action by the other client.
+  - **Dialogs need a deliberate policy.**
+    - With no Python `dialog` listener, Playwright auto-dismisses a `confirm()` before the CLI ever
+      sees it.
+    - With a passive listener, the dialog stays open, the CLI reports `Modal state`, and
+      `dialog-accept` resolves it (`confirm()` returned `true`).
+    - Galaxy's `accept_alert` registers a `page.once` handler only inside its context manager.
+    - **Design:** the daemon registers a passive listener. A verb that hits an unexpected dialog
+      fails fast with the dialog's message. A `gxui dialog accept|dismiss` verb (or CLI
+      `dialog-accept`) resolves it. Verbs that expect a dialog keep using `accept_alert`.
+- **S2 — version skew: resolved.** S1 ran Python 1.63.0 against playwright-core
+  1.64.0-alpha with no issues.
 - **S3 — daemon lifecycle.** Decide the idle timeout, recovery from browser death, and whether
   `start` can re-attach to a living daemon after the agent's shell restarts.
   playwright-cli's model is a reference: socket per workspace hash plus session name, a 1 h
