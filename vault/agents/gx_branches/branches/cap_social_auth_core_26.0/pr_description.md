@@ -19,9 +19,9 @@ ImportError: cannot import name 'AuthMissingParameter' from 'social_core.excepti
 
 ***Server installs aren't affected. `pinned-requirements.txt` pins 4.8.3 here (4.9.1 on 26.1, 5.2.0 on dev). This only fixes package installs and the packages CI job.***
 
-***This is a cap, not a port. Moving to 6.0 needs a database migration as well as new exception names, so it's tracked separately.***
+***This is a cap, not a port. Moving to 6.0 needs a database migration as well as new exception names, so it's tracked separately in #23941.***
 
-<details><summary>What a 6.0 port involves</summary>
+<details><summary>What a 6.0 port involves (#23941)</summary>
 
 From the 6.0.0 release notes:
 
