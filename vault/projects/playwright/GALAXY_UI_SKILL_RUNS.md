@@ -6,6 +6,8 @@ events, the Codex session log and notes stay outside the vault.
 | Run | Date | Arm | Target | Server | Agent | Verify | Wall | Tokens in (cached) / out | Commands (failed) |
 |---|---|---|---|---|---|---|---|---|---|
 | phase0-run1 | 2026-10-06 | B (playwright-cli 0.1.22, stock skill) | GTN `galaxy-intro-short` | test.galaxyproject.org (26.2.dev0) | Codex `gpt-6.1-sol`, high | **pass** | 17.5 min | 6.60M (6.47M) / 14.0k | 149 (11) |
+| phase1-runA1 | 2026-10-06 | A (gxui MVP `c63c0d8` + galaxy-ui-driver) | GTN `galaxy-intro-short` | test.galaxyproject.org (`67c3f964d355`) | Codex `gpt-6.1-sol`, high | **fail** (gxui crash, box 5) | 7.6 min | 2.09M (2.03M) / 9.6k | 65 (8); transcript: 17 verb, 11 component, 1 gap |
+| phase1-runA2 | 2026-10-06 | A (gxui `9655aa8` + galaxy-ui-driver) | GTN `galaxy-intro-short` | test.galaxyproject.org (`67c3f964d355`) | Codex `gpt-6.1-sol`, high | **pass** | 25.3 min | 8.03M (7.90M) / 29.4k | 178 (13); transcript: 51 verb, 19 component, 7 call, 14 gap |
 
 ## phase0-run1
 
@@ -88,3 +90,87 @@ events, the Codex session log and notes stay outside the vault.
   (`https://test.galaxyproject.org/u/jmchilton/h/my-analysis`), because the tutorial says to.
 - Histories "My Analysis" and "Next Analysis" and workflow "QC and filtering" remain on John's
   account.
+
+## phase1-runA1
+
+**Setup.** As phase0-run1, but arm A: `run.sh` started a gxui daemon outside the sandbox with the
+saved login, had it attach playwright-cli, and gave the agent `./gxui` plus both skills. Tutorial
+input unchanged (snippets still unexpanded) for comparability.
+
+**Result: stopped in box 5 by a gxui bug.** Boxes 1–4 done through verbs (`history-new`,
+`upload-url`, `dataset-view`); FastQC submitted. Then `history-wait` (Galaxy's
+`history_panel_wait_for_hid_ok`) returned a `SmartTarget`, the transcript's `json.dumps` raised,
+and the exception escaped the serve loop: the daemon and its browser died. Verification failed
+(no workflow, no invocation). Not comparable to phase0-run1 on cost; ~4 boxes in 7.6 min.
+
+**Fixed for runA2** (`9655aa8`):
+- The daemon summarises non-text results, serialises the transcript defensively, and turns any
+  verb exception into an error reply instead of dying.
+- `history-wait` is an adapter: it repeats Galaxy's 45 s job wait (sized for test servers) up to
+  `--timeout` (default 240 s), fails at once on error states, and reports the state on timeout.
+- `tool-run` prints the new output hids; new `tool-panel` and `tool-search NAME` verbs.
+- A component path with no element of its own (`snapshot tool_panel`) explains itself instead of
+  `KeyError: '_'`.
+- The skill says `history-items` is an observation verb, allowed under UI-only rules (the agent
+  avoided it because its help said "API").
+
+**Other findings.**
+- **Unscoped selector:** `tool_panel.search` in `navigation.yml` is a bare `.search-query`. After an
+  upload it matched the Import Data panel's search, so `component tool_panel.search
+  clear-send-keys FastQC` typed into the wrong box and reported success. `tools.search` is the
+  scoped one. Candidate `navigation.yml` fix; the verbs now use `tools.search`.
+- **Agent tooling behaviour:** Codex wrote `run_cli.py` to give every gxui call a 10-minute
+  timeout and to log a gap before each playwright-cli call. Shell-command metrics therefore miss
+  gxui calls; for arm A, count from the gxui transcript.
+- **One gap logged:** no activity-bar component to open Tools (now the `tool-panel` verb).
+- **Training:** the same upload-flow and "data 1" → "dataset 1" drift as phase0-run1, plus box 4:
+  the preview says "only the first 100 KB is shown", not "the first megabyte".
+
+**Side effects on test.galaxyproject.org.** History "My Analysis (phase1-runA1)" (3 items).
+
+## phase1-runA2
+
+**Result: pass, but dearer than the arm B baseline** (n=1 each, so no delta is quotable yet).
+- All 13 boxes plus sharing done. The independent check passed: "My Analysis (phase1-runA2)" (5
+  items) and "Next Analysis (phase1-runA2)" (4 items), all `ok`; workflow "QC and filtering
+  (phase1-runA2)"; invocation `completed`.
+- Against phase0-run1: 25.3 vs 17.5 min, 8.03M vs 6.60M input, 29.4k vs 14.0k output, 178 vs 149
+  commands. 14 gaps logged (13 playwright-cli commands), against 11 `run-code` + 7 `eval` in run1.
+
+**Where the time went** (per-box from the transcript's `note` marks):
+
+| Box | Time | Calls | Cost driver |
+|---|---|---|---|
+| 10 extract workflow | 489 s | 18 + 10 gaps | No verbs for input rename or step exclusion; a `component` click on an `opacity: 0` custom checkbox stalled **361 s** (past the 290 s client cutoff) and the next queued call waited behind it |
+| 5 FastQC | 217 s | 9 | Server job time: `history-wait 2` took 162 s and succeeded (the runA1 fix worked) |
+| 13 run workflow | 124 s | 15 | `workflow-run --inputs` timed out: `workflow_run_specify_inputs` targets an obsolete `step-label` selector |
+| 7, 9 filter / re-run | 110 s each | 12, 8 | No tool parameter map: one DOM inspection to find parameter ids (`tool-describe`, prereq PR 4) |
+| 12 Multiview copy | 96 s | 10 + 3 gaps | No drag verb; `navigation.yml`'s `history-column-*` ids no longer exist |
+
+**gxui fixes this calls for** (not yet applied):
+1. `workflow-extract NAME --input-name LABEL --exclude-hid HID`, so box 10 is one verb.
+2. Bound `component` waits well under the client timeout, and refuse clicks on invisible inputs
+   with a message pointing at the label (memory: `opacity: 0` is invisible to Selenium-style waits).
+3. `last` should return the latest *verb* result, or say what is still running; today it returned
+   a later `gap` line while a verb was still waiting. A cancel path for a stuck wait is worth
+   considering.
+4. `upload-url` needs `history-wait`'s deadline loop (it timed out at 48 s, upload then went green).
+5. Strip quotes in component arguments (`input(label='FASTQ reads')` produced literal quotes in
+   CSS), and print tool ids in `tool-search`.
+6. Skill: qualify "a verb that returns has finished" (`tool-run` returns on submission).
+
+**Galaxy-side findings** (upstream candidates):
+- `workflow_run_specify_inputs` / `workflow_run.input_data_div` uses an obsolete `step-label`
+  selector; the current simplified run form uses `data-label`.
+- Multiview `history-column-*` ids in `navigation.yml` are stale.
+- The extraction form's step checkboxes are `opacity: 0` inputs with empty labels: an accessibility
+  issue as well as a test-abstraction one (run1 hit the same thing via playwright-cli).
+- No helpers for extraction input rename / step exclusion by hid, or Multiview dataset copy.
+
+**Training findings new since run1:** box 13 hides tool parameters behind "Workflow Run Settings",
+which the box doesn't mention; box 3's numbered steps jump from 1 to 3; box 10's "workflow created"
+message is now a navigation to Workflow Preview.
+
+**Side effects on test.galaxyproject.org.** Histories "My Analysis (phase1-runA2)" (link-accessible
+at `/u/jmchilton/h/my-analysis-phase1-runa2`) and "Next Analysis (phase1-runA2)"; workflow "QC and
+filtering (phase1-runA2)" and its invocation.

@@ -25,10 +25,13 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   on test.galaxyproject.org worked (status, `history-items`, `dataset-peek`, `tool-open` FastQC,
   components, scoped snapshot, playwright-cli attach/detach). Findings below under "MVP findings".
 
+- **Arm A is wired** (`ARM=A ./run.sh`). phase1-runA1 crashed (gxui bug, fixed); phase1-runA2
+  **passed** all 13 boxes but cost more than arm B's run1 (25 vs 17.5 min, 8.0M vs 6.6M input).
+  Box 10 (workflow extraction) and job waits dominate; see `GALAXY_UI_SKILL_RUNS.md`.
+
 **Next, in order:**
-1. **Arm A run.** Wire `run.sh` for arm A (start `gxui` outside the sandbox with the saved login and
-   `--playwright-cli`, put `bin/gxui` on the agent's PATH, install `galaxy-ui-driver`, swap the
-   prompt's tooling paragraph) and run GTN `galaxy-intro-short` against the phase0-run1 baseline.
+1. **Apply the runA2 gxui fixes** listed in `GALAXY_UI_SKILL_RUNS.md` (extraction verb, bounded
+   component waits, `last`, upload deadline, quoting, `tool-search` ids), then runA3.
 2. **Prerequisite PR 4 (public tool-form filler + `tool-describe`).** Larger. Lift it out of
    `RunsToolTests`, which then calls it.
 3. **Upstream the MVP findings** as small gx_branches PRs (Tool Shed `tool_open` first).

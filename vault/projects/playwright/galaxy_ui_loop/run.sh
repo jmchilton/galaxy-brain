@@ -48,7 +48,7 @@ else
   (cd "$RUN/work" && ./gxui start --url https://test.galaxyproject.org --idle-timeout 0 \
     --storage-state "$LOOP_HOME/auth/galaxy-test-auth.json" --artifacts "$RUN/gxui" \
     --playwright-cli "npx --no-install playwright-cli" > /dev/null)
-  trap '(cd "$RUN/work" && ./gxui stop > /dev/null 2>&1)' EXIT
+  trap '(cd "$RUN/work" && ./gxui stop > /dev/null 2>&1) || true' EXIT
 fi
 
 date -u +%Y-%m-%dT%H:%M:%SZ > "$RUN/started_at"
