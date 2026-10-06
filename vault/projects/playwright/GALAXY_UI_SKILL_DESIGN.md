@@ -20,7 +20,7 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   The gx_branches process owns it from here.
 - **Standing branch `galaxy_ui_driver`** (John, 2026-10-06): Galaxy-side changes that don't
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
-  holds PR 2 (`da5054d39f3`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
+  holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
 - **`gxui` MVP, external first** (John's call): `galaxy_ui_loop/gxui/` + `skill/galaxy-ui-driver/`,
   run against the `galaxy_ui_driver` worktree (how to run and recreate it is in
@@ -174,15 +174,15 @@ the motivating example, decide which commits get pulled out ahead as their own P
 with gxui. PR 1 is already its own approved PR; the stack starts on its tip (`46aebb27457`, don't
 rebase it while approved). When PR 1 merges, rebase the stack onto dev and drop its commits.
 
-**Pending:** the branch is still `e55a91e241a`, a merge of PR 1 + PR 2 from before this rule.
-Restacking it (reset to `46aebb27457`, cherry-pick `da5054d39f3`, force-push) needs John's OK.
+Restacked 2026-10-06 (John's OK): tip `9ffb7bda18c`. Its base is PR 1's base `8f9ef7c7de2`,
+9 dev commits older than the old merge's `253a4cb0b9c`; nothing gxui needs.
 
 Commit queue (✅ = on the branch):
 
 | # | Commit | Kind |
 |---|---|---|
 | 1 | Context bootstrap fix (PR 1, 3 commits) | fix ✅ |
-| 2 | Opt-in CDP port on Playwright Chromium (`da5054d39f3`) | enhancement ✅ |
+| 2 | Opt-in CDP port on Playwright Chromium (`9ffb7bda18c`, was `da5054d39f3`) | enhancement ✅ |
 | 3 | ~~`headless=auto` under Playwright~~ | dropped; queued for gx_issues |
 | 4a | `tool_open` / `tool_panel.tool_link` work for Tool Shed GUIDs | fix |
 | 4b | `workflow_run_specify_inputs`: obsolete `step-label` → `data-label` | fix |
@@ -207,7 +207,7 @@ Commit queue (✅ = on the branch):
    - `timeout_multiplier` (`context.py:65`) is stored but never read.
    - The fix is to build `galaxy_timeout_handler(timeout_multiplier)` and pass it.
    - This repairs the Jupyter path on its own merits, with no agent framing needed.
-2. **Driver attachability.** Commit `da5054d39f3` on the standing branch (its
+2. **Driver attachability.** Commit `9ffb7bda18c` (was `da5054d39f3`) on the standing branch (its
    `playwright_remote_debugging_port` branch is retired; John judged it not mergeable alone): opt-in
    `remote_debugging_port` on `ConfiguredDriver` / `get_playwright_driver`, passed to
    `launch(args=...)`. S1 showed that is all that's needed; no persistent context.
