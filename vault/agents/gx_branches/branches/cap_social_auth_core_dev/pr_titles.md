@@ -1,0 +1,2 @@
+- Merge 26.1 into dev (with social-auth-core<6 cap)
+- Cap social-auth-core below 6 (merge forward from 26.1)
