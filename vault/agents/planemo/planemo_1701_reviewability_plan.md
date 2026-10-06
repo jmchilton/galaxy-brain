@@ -2,6 +2,8 @@
 
 Reviewed 2026-10-06 against [`ca2becff`](https://github.com/galaxyproject/planemo/commit/ca2becffe6fbe8dce22faad9846beed88ee99b1f), based on `b1002b01`. This is a proposed implementation sequence, not a rewritten branch. Correctness findings and reproduction results are in [the review](planemo_1701_run_package_installed_galaxy_through_gravity.md).
 
+Follow-up: the three correctness findings were fixed, and change 1 below was extracted into [draft #1735](https://github.com/galaxyproject/planemo/pull/1735). The [runtime-only comparison](https://github.com/jmchilton/planemo/compare/recognize-yaml-galaxy-tools...package-installed-galaxy-gravity) now excludes the YAML recognition files. Changes 2 and 3 remain proposals; they were not requested in this implementation follow-up. Existing branch history was retained with a normal prerequisite merge.
+
 ## Recommendation
 
 Keep the Gravity-backed package runtime. Move independently useful fixes and the shared-code extraction ahead of its introduction. The current single commit changes 27 files (+1,363/-309); `planemo/galaxy/config.py` alone accounts for +491/-193. A reviewer currently has to establish both that existing checkout behavior survived a large extraction and that a new backend works.
