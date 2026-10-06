@@ -2,3 +2,7 @@
 - `issue_23521_empty_collection_single_data_param` (`eaf5c260ccc`) — abandoned: only reaches a hand-built nested `dce` request that is already a 400, no user has hit it, and it doesn't fix #23521, which `issue_23521_conditional_case_resolution` tackles directly (John, 2026-10-04).
 - `pick_value_first_ok_or_skip` (`166c41017fa`, PR #23455 closed) — abandoned: the skip mode behaves inconsistently, since errors downstream of a skipped input surface as paused instead of failed (John, 2026-10-05).
 - `metadata_lazy_imports` (`5c5a491de0b`) — abandoned: 1184 behind with its first 3 commits already on `dev` and a `tool_util_models` conflict when John abandoned it (2026-10-05).
+- `workflow_refactor_skip_noop_save` (`e80d562055e`, PR #23790 closed) — abandoned: folded into #23799, merged 2026-10-06 (John, 2026-10-06).
+- `workflow_refactor_preserve_source_version` (`1401f026f09`, PR #23792 closed) — abandoned: folded into #23799 on `dev`; no `release_26.1` backport wanted (John, 2026-10-06).
+- `when_input_exact_match` (`969052e2766`) — abandoned: smaller alternative to #23816, which merged 2026-10-05 (John, 2026-10-06).
+- `playwright_navigate_to_selenium` (`ea73914180e`) — abandoned: its Selenium `navigate_to` retry never fired in `test_change_password.py` yet cost a script call per navigation and had a known false positive (John, 2026-10-06).
