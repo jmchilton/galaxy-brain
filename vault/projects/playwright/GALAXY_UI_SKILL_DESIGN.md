@@ -20,8 +20,8 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   The gx_branches process owns it from here.
 - **Standing branch `galaxy_ui_driver`** (John, 2026-10-06): Galaxy-side changes that don't
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
-  holds PR 2 (`da5054d39f3`, CDP port, no longer queued alone) on top of a merge of PR 1. See
-  "Prerequisite PRs" below.
+  holds PR 2 (`da5054d39f3`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
+  lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
 - **`gxui` MVP, external first** (John's call): `galaxy_ui_loop/gxui/` + `skill/galaxy-ui-driver/`,
   run against the `galaxy_ui_driver` worktree (how to run and recreate it is in
   `galaxy_ui_loop/README.md`). 17 tests pass (`galaxy_ui_loop/tests/test_gxui.py`). Findings below
@@ -35,12 +35,10 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
 1. **runA3's gxui list** (`GALAXY_UI_SKILL_RUNS.md`): `workflow-run` inputs via
    `input_select_field`, `history-share`, `call --list`, `dataset-copy`; then expand snippets and
    take n=3 per arm before quoting any delta.
-2. **Prerequisite PR 4 (public tool-form filler + `tool-describe`).** Larger. Lift it out of
-   `RunsToolTests`, which then calls it.
-3. **Upstream the Galaxy-side findings** as small gx_branches PRs: "MVP findings" below, plus the
-   runA2/runA3 Galaxy-side lists in `GALAXY_UI_SKILL_RUNS.md` (obsolete `step-label` in
-   `workflow_run_specify_inputs`, stale Multiview ids, opacity-0 extraction checkboxes). Tool Shed
-   `tool_open` first.
+2. **Galaxy-side work, one commit each on the standing branch** (queue under "Prerequisite
+   PRs"): Tool Shed `tool_open` first, then the other fixes, then enhancements incl. PR 4.
+3. **Decide what to pull out** ahead of the standing branch as separate PRs once gxui is a
+   complete motivating example.
 4. **Loop, in parallel:**
    - Expand GTN `{% snippet faqs/... %}` includes before handing `tutorial.md` to the agent.
      phase0-run1 got them unexpanded.
@@ -170,18 +168,34 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
 
 ## Prerequisite PRs (small, atomic, in this order)
 
-Changes with their own motivation (a bug fix, a test refactor) go up as separate PRs. Changes only
-gxui motivates go on the standing branch `galaxy_ui_driver` and wait; `gxui` itself (item 5) is
-the motivating example that eventually goes up with them. Rebase the standing branch onto dev
-when a separate PR it merges in lands.
+Process (John, 2026-10-06): Galaxy-side work goes on the standing branch `galaxy_ui_driver`,
+**one fix or enhancement per commit**, stacked linearly (no merge commits). At the end, with gxui as
+the motivating example, decide which commits get pulled out ahead as their own PRs and which go up
+with gxui. PR 1 is already its own approved PR; the stack starts on its tip (`46aebb27457`, don't
+rebase it while approved). When PR 1 merges, rebase the stack onto dev and drop its commits.
 
-| # | Change | Where |
+**Pending:** the branch is still `e55a91e241a`, a merge of PR 1 + PR 2 from before this rule.
+Restacking it (reset to `46aebb27457`, cherry-pick `da5054d39f3`, force-push) needs John's OK.
+
+Commit queue (✅ = on the branch):
+
+| # | Commit | Kind |
 |---|---|---|
-| 1 | Context bootstrap fix | Own PR (approved); merged into the standing branch |
-| 2 | CDP port | Standing branch |
-| 3 | ~~`headless=auto` under Playwright~~ | Dropped: not a gxui need; queued for gx_issues |
-| 4 | Tool-form filler + `tool-describe` | Not started; filler lift is its own PR, `tool-describe` on the standing branch |
-| 5 | `gxui` itself | Standing branch, once verbs settle |
+| 1 | Context bootstrap fix (PR 1, 3 commits) | fix ✅ |
+| 2 | Opt-in CDP port on Playwright Chromium (`da5054d39f3`) | enhancement ✅ |
+| 3 | ~~`headless=auto` under Playwright~~ | dropped; queued for gx_issues |
+| 4a | `tool_open` / `tool_panel.tool_link` work for Tool Shed GUIDs | fix |
+| 4b | `workflow_run_specify_inputs`: obsolete `step-label` → `data-label` | fix |
+| 4c | Stale Multiview `history-column-*` ids in `navigation.yml` | fix |
+| 4d | Extraction step checkboxes: opacity-0, empty labels (a11y) | fix (client) |
+| 5a | Move `extract_workflow_toggle_job` / `_rename_output` into `NavigatesGalaxy`; input-card rename components | enhancement |
+| 5b | Public upload-wait and locator→Playwright-selector helpers (drop the `_` gxui uses) | enhancement |
+| 5c | Component path → `SmartTarget` resolver | enhancement |
+| 5d | Docstrings on the `NavigatesGalaxy` methods gxui exposes | enhancement |
+| 5e | Multiview dataset-copy helper | enhancement |
+| 6a | Lift tool-form filler out of `RunsToolTests` into `NavigatesGalaxy` (PR 4) | enhancement |
+| 6b | `tool-describe` (PR 4) | enhancement |
+| 7 | `gxui` itself (item 5 below), once verbs settle | enhancement |
 
 1. **Fix the standalone context bootstrap.** Branch `selenium_context_timeout_handler`,
    approved at `46aebb27457`.
