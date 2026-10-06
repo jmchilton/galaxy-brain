@@ -19,6 +19,6 @@ Applied to the description only:
 - Motivation: since #23918, references that used to match mid-word now render `""`, which makes the skip more likely. The reordered API test is that case.
 
 ## Left over (questions for John)
-- Whitespace: `#{ a }` with no operations renders `""`, on `dev` and here. IWC VGP5's `Cutadapt on #{library.input_1 }` is affected. A separate issue?
+- Whitespace: `#{ a }` with no operations renders `""`, on `dev` and here, and IWC VGP5 is affected. Queued as `gx_issues/to_file/rename_reference_whitespace.md` (John, 2026-10-06).
 - The `${...}` pass still expands inserted values. The issue scopes this out.
 - `resolve` stays a closure.
