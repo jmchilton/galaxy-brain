@@ -6,10 +6,6 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 
 ## Waiting on John (`needs_decision`)
 
-- [#22437](https://github.com/galaxyproject/galaxy/issues/22437) — account API ignored `enable_account_interface`; fix [#23618](https://github.com/galaxyproject/galaxy/pull/23618) merged; decide: close the issue? [notes](../../repositories/galaxy/issues/needs_decision/22437/index.md)
-- [#22840](https://github.com/galaxyproject/galaxy/issues/22840) — `/api/datasets/{id}/report` 500s on every `tool_markdown`; fix [#23599](https://github.com/galaxyproject/galaxy/pull/23599) merged (25.1 untouched); decide: close? [notes](../../repositories/galaxy/issues/needs_decision/22840/index.md)
-- [#23555](https://github.com/galaxyproject/galaxy/issues/23555) — validator 400 not JSON-serializable; fix [#23628](https://github.com/galaxyproject/galaxy/pull/23628) merged; decide: close the issue? [notes](../../repositories/galaxy/issues/needs_decision/23555/index.md)
-- [#23747](https://github.com/galaxyproject/galaxy/issues/23747) — missing E2E tests for 26.2 features; #23751 and #23755 merged; decide: confirm both halves landed, then close? [notes](../../repositories/galaxy/issues/needs_decision/23747/index.md)
 - [#22710](https://github.com/galaxyproject/galaxy/issues/22710) — invocations never capture validated tool request state; 4-day attempt failed; decide: restart from MINT or salvage TES shape? [notes](../../repositories/galaxy/issues/needs_decision/22710/index.md)
 - [#23444](https://github.com/galaxyproject/galaxy/issues/23444) — canonical nested parameter-reference syntax for YAML tools; decide: answer mvdbeek's two scoping questions. [notes](../../repositories/galaxy/issues/needs_decision/23444/index.md)
 - [#22739](https://github.com/galaxyproject/galaxy/issues/22739) — extract `Tool.to_json` into `ToolFormBuilder`; plan published; decide: agree on the plan before code moves. [notes](../../repositories/galaxy/issues/needs_decision/22739/index.md)
