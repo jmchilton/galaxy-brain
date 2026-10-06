@@ -1,0 +1,4 @@
+- Don't auto-stub components that opt out of compat v-model in vitest
+- Keep v-model working in shallow specs for `modelValue` components
+- Replace per-spec `GFormInput: false` stub opt-outs with a vitest `createStubs` hook
+- Vitest: leave `COMPONENT_V_MODEL: false` components unstubbed so their v-model works
