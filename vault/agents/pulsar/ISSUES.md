@@ -1,103 +1,96 @@
 # Pulsar issue triage
 
-Companion to `index.md` (which tracks PRs to review). This tracks the **issue** backlog:
-57 open as of 2026-09-22, the oldest from 2014-09-21.
+Triage index for `galaxyproject/pulsar` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/pulsar/issues/`. PR reviews are tracked in `index.md`.
 
-Sections below the fold are mechanical — built from GitHub cross-reference events, not from
-reading each issue. Annotate lines in place as triage proceeds.
+GitHub state last refreshed: 2026-10-06.
 
-## Blocked issues
+## Waiting on John (`needs_decision`)
 
-- 492 report failure reason to Galaxy — blocked on https://github.com/galaxyproject/pulsar/pull/486 (the issue's own Sequencing section puts 485/486 first)
-- 510 modernize Windows support — blocked on access to a Windows development environment. Tracker for the seven Windows issues closed 2026-09-16 (8, 46, 55, 57, 92, 121, 128); reopen the work only if a Windows box gets hooked up to an agent.
+None yet.
 
-## Open issues with an open PR
+## In motion (`wip`)
 
-- 384 status publisher dies on oversize message https://github.com/galaxyproject/pulsar/pull/499 (closes)
-- 465 batch co-execution tracker https://github.com/galaxyproject/pulsar/pull/473 (partial — tracker issue, won't close)
-- 490 extract resilience harness https://github.com/galaxyproject/pulsar/pull/509 (closes)
-- 498 ubuntu-22.04 runner deprecation https://github.com/galaxyproject/pulsar/pull/508 (partial — 506, 507 merged; packaging metadata PR still unwritten)
+- [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) (ksuderman) addresses part, won't close it; next: review #473. [notes](../../repositories/pulsar/issues/wip/465/index.md)
 
-## Had a PR that never landed
+## Queued (`queued`)
 
-Prior attempts worth reading before starting fresh.
+- (assigned) [#498](https://github.com/galaxyproject/pulsar/issues/498) — ubuntu-22.04 runner deprecation; lint/test moved to 24.04 (#508 merged); next: packaging metadata PR. [notes](../../repositories/pulsar/issues/queued/498/index.md)
+- [#263](https://github.com/galaxyproject/pulsar/issues/263) — expression tools unsupported; #266 and friends are workarounds; next: design a real fix from the research note. [notes](../../repositories/pulsar/issues/queued/263/index.md)
+- [#469](https://github.com/galaxyproject/pulsar/issues/469) — resilience suite fixture startup flakiness; next: read #470 (partial) and #471 (unmerged) before starting fresh. [notes](../../repositories/pulsar/issues/queued/469/index.md)
 
-- 384 — https://github.com/galaxyproject/pulsar/pull/386 (closed unmerged, superseded by 499; review note `pulsar_386_drop_stdout_and_stderr_from_message_status.md`)
-- 469 resilience suite fixture flakiness — https://github.com/galaxyproject/pulsar/pull/470 (merged, partial) + https://github.com/galaxyproject/pulsar/pull/471 (closed unmerged)
+## Blocked on others (`blocked`)
 
-## Triaged, still open
+- [#492](https://github.com/galaxyproject/pulsar/issues/492) — report job failure reason to Galaxy for resubmission; blocked on: [#486](https://github.com/galaxyproject/pulsar/pull/486). [notes](../../repositories/pulsar/issues/blocked/492/index.md)
+- [#510](https://github.com/galaxyproject/pulsar/issues/510) — modernize Windows support; blocked on: a Windows dev environment for an agent. [notes](../../repositories/pulsar/issues/blocked/510/index.md)
 
-Checked and confirmed real. Don't re-derive these from cross-reference links.
+## Untriaged (`untriaged`)
 
-- 263 support Galaxy expression tools — https://github.com/galaxyproject/pulsar/pull/266 and the other referenced commits are **workarounds**, not a fix. The gap stands.
-- 527 consolidate the duplicated `_wait_for` test helpers into `test/test_utils.py` (assigned to jmchilton; from the #525 review) — draft https://github.com/galaxyproject/pulsar/pull/528
-
-## Untriaged
-
-Grouped by title, mechanically. 48 issues.
+Grouped by title, mechanically.
 
 ### Caching
 
-- 47 finish old-style caching
-- 48 caching rewrite
-- 49 cache expiry
+- [#47](https://github.com/galaxyproject/pulsar/issues/47) — finish old-style caching
+- [#48](https://github.com/galaxyproject/pulsar/issues/48) — caching rewrite
+- [#49](https://github.com/galaxyproject/pulsar/issues/49) — cache expiry
 
 ### Configuration and framework design
 
-- 35 data transfer job metrics
-- 56 configurable retries on client HTTP requests
-- 66 periodic check-in on specific jobs
-- 250 batch-mode Pulsar
-- 289 remove `pulsar/util/pastescript`?
+- [#35](https://github.com/galaxyproject/pulsar/issues/35) — data transfer job metrics
+- [#56](https://github.com/galaxyproject/pulsar/issues/56) — configurable retries on client HTTP requests
+- [#66](https://github.com/galaxyproject/pulsar/issues/66) — periodic check-in on specific jobs
+- [#250](https://github.com/galaxyproject/pulsar/issues/250) — batch-mode Pulsar
+- [#289](https://github.com/galaxyproject/pulsar/issues/289) — remove `pulsar/util/pastescript`?
 
 ### Test infrastructure
 
-- 9 integration test for local setup
-- 11 integration test for cancelling during staging
-- 17 condor in the dockerized suite
-- 127 BioContainers test cases
-- 484 9 tests in 3 files never run — filenames don't match `python_files`
+- [#9](https://github.com/galaxyproject/pulsar/issues/9) — integration test for local setup
+- [#11](https://github.com/galaxyproject/pulsar/issues/11) — integration test for cancelling during staging
+- [#17](https://github.com/galaxyproject/pulsar/issues/17) — condor in the dockerized suite
+- [#127](https://github.com/galaxyproject/pulsar/issues/127) — BioContainers test cases
+- [#484](https://github.com/galaxyproject/pulsar/issues/484) — 9 tests in 3 files never run — filenames don't match `python_files`
 
 ### Job lifecycle and reliability
 
-- 75 detect cancellation from job limits
-- 135 `jobs_directory` breaks version checking
-- 158 include the tail when trimming stdout/stderr
-- 162 exit code not returned on staging problems
-- 283 large stdout/stderr crashes the acknowledgement manager
-- 284 clean the job directory on new jobs
-- 327 slow completion when expected files are missing
-- 344 MQ unacknowledged retries not multiprocess-aware
-- 349 queue/limits for pre- and post-processing
-- 354 losing jobs on restart while postprocessing
-- 355 deleted jobs not cleaned from `${manager}-preprocessing-jobs`
-- 358 node failure with no `return_code` marked successful
-- 393 losing jobs to network interruptions
-- 408 sync slurm runner features with Galaxy's
-- 416 `JSONDecodeError` on `launch_config` needs manual intervention
+- [#75](https://github.com/galaxyproject/pulsar/issues/75) — detect cancellation from job limits
+- [#135](https://github.com/galaxyproject/pulsar/issues/135) — `jobs_directory` breaks version checking
+- [#162](https://github.com/galaxyproject/pulsar/issues/162) — exit code not returned on staging problems
+- [#283](https://github.com/galaxyproject/pulsar/issues/283) — large stdout/stderr crashes the acknowledgement manager
+- [#284](https://github.com/galaxyproject/pulsar/issues/284) — clean the job directory on new jobs
+- [#327](https://github.com/galaxyproject/pulsar/issues/327) — slow completion when expected files are missing
+- [#344](https://github.com/galaxyproject/pulsar/issues/344) — MQ unacknowledged retries not multiprocess-aware
+- [#349](https://github.com/galaxyproject/pulsar/issues/349) — queue/limits for pre- and post-processing
+- [#355](https://github.com/galaxyproject/pulsar/issues/355) — deleted jobs not cleaned from `${manager}-preprocessing-jobs`
+- [#358](https://github.com/galaxyproject/pulsar/issues/358) — node failure with no `return_code` marked successful
+- [#408](https://github.com/galaxyproject/pulsar/issues/408) — sync slurm runner features with Galaxy's
+- [#416](https://github.com/galaxyproject/pulsar/issues/416) — `JSONDecodeError` on `launch_config` needs manual intervention
 
 ### Staging and file transfer
 
-- 193 working-dir outputs produce no outputs found
-- 341 tool files copied without execute bit
-- 342 postprocessing POST 403 with nothing logged
-- 362 curl remote transfers have no timeout
-- 363 resume support for `remote_transfer_tus`
-- 400 rsync helpers unsafe with shell metacharacters
+- [#193](https://github.com/galaxyproject/pulsar/issues/193) — working-dir outputs produce no outputs found
+- [#341](https://github.com/galaxyproject/pulsar/issues/341) — tool files copied without execute bit
+- [#342](https://github.com/galaxyproject/pulsar/issues/342) — postprocessing POST 403 with nothing logged
+- [#362](https://github.com/galaxyproject/pulsar/issues/362) — curl remote transfers have no timeout
+- [#363](https://github.com/galaxyproject/pulsar/issues/363) — resume support for `remote_transfer_tus`
+- [#400](https://github.com/galaxyproject/pulsar/issues/400) — rsync helpers unsafe with shell metacharacters
 
 ### Containers and cloud
 
-- 330 support rewriting the image name
-- 335 container scheduling with Azure Batch
+- [#330](https://github.com/galaxyproject/pulsar/issues/330) — support rewriting the image name
+- [#335](https://github.com/galaxyproject/pulsar/issues/335) — container scheduling with Azure Batch
 
 ### User reports needing reproduction
 
-- 125 bogus escape `u'\39'`
-- 209 recommended settings for shared filesystem setup
-- 359 "must specify user submit parameter with this manager"
-- 373 `KeyError: 'username'` when authenticating
-- 374 cannot access remote login node host
-- 375 `queued_python` not executing jobs
-- 377 is `pulsar-check` expected to work?
-- 389 job not running — empty tool script?
-- 452 document local relay setup; single-core default and shared-password auth
+- [#125](https://github.com/galaxyproject/pulsar/issues/125) — bogus escape `u'\39'`
+- [#209](https://github.com/galaxyproject/pulsar/issues/209) — recommended settings for shared filesystem setup
+- [#359](https://github.com/galaxyproject/pulsar/issues/359) — "must specify user submit parameter with this manager"
+- [#373](https://github.com/galaxyproject/pulsar/issues/373) — `KeyError: 'username'` when authenticating
+- [#374](https://github.com/galaxyproject/pulsar/issues/374) — cannot access remote login node host
+- [#375](https://github.com/galaxyproject/pulsar/issues/375) — `queued_python` not executing jobs
+- [#377](https://github.com/galaxyproject/pulsar/issues/377) — is `pulsar-check` expected to work?
+- [#389](https://github.com/galaxyproject/pulsar/issues/389) — job not running — empty tool script?
+- (assigned) [#452](https://github.com/galaxyproject/pulsar/issues/452) — document local relay setup; single-core default and shared-password auth
+
+### Releases
+
+- (assigned) [#520](https://github.com/galaxyproject/pulsar/issues/520) — release a 1.0
+- [#535](https://github.com/galaxyproject/pulsar/issues/535) — proposal: maintain a Pulsar release branch per Galaxy release
