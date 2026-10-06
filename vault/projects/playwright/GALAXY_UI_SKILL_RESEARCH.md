@@ -10,7 +10,7 @@ marked *verified* were observed, not read.
 **Ship a CLI skill. Do not build an MCP now.** The skill has two command-line layers driving one
 browser:
 
-1. **`gx-ui`**, a Galaxy-specific Python CLI. It is backed by a daemon holding a
+1. **`gxui`**, a Galaxy-specific Python CLI. It is backed by a daemon holding a
    `NavigatesGalaxy` context. Its verbs are existing Galaxy test abstractions.
 2. **`playwright-cli`**, the generic escape hatch. It attaches over CDP to the same browser and
    covers snapshots, `find`, ref clicks, console and network.
@@ -85,14 +85,14 @@ them as dynamic tools.
 1. **The hosts are coding agents with a shell.** Claude Code and Codex run CLIs natively. A skill
    costs nothing until it triggers; an MCP costs ~5k tokens per turn whether Galaxy is in play or
    not.
-2. **The transcript is a script.** Each `gx-ui` call is one `NavigatesGalaxy` method call. A run's
+2. **The transcript is a script.** Each `gxui` call is one `NavigatesGalaxy` method call. A run's
    command log therefore compiles into a pytest test or a Test Story
    ([TEST_STORIES_RESCUE.md](TEST_STORIES_RESCUE.md)), which feeds this project's own goal. MCP tool
    calls are just as loggable, but the shell transcript is already replayable as written.
 3. **Composition.** Shell lets the agent loop over hids, pipe to `jq`, and keep artifacts on disk.
    The playwright-cli skill leans on exactly this (`--raw`, `snapshot > before.yml`, `diff`).
 4. **MCP's stated advantage is already covered.** The README credits MCP with "persistent state …
-   long-running autonomous workflows". The `gx-ui` daemon holds the browser either way.
+   long-running autonomous workflows". The `gxui` daemon holds the browser either way.
 5. **There is prior art to beat.** The local `drive-scenario` skill drives Galaxy through the
    Playwright MCP with raw ref clicks. Its UC5 run dropped to raw `/api/tools` calls for the
    collection map-over: with only generic clicks available, agents abandon the UI, so the run stops
@@ -101,7 +101,7 @@ them as dynamic tools.
 
 ## When to add an MCP
 
-Build a thin MCP adapter over the `gx-ui` verb table, never a second implementation, when any of
+Build a thin MCP adapter over the `gxui` verb table, never a second implementation, when any of
 these holds:
 - A host without a shell needs to drive Galaxy, e.g. claude.ai, or Galaxy's own agents.
 - The verb set has stabilised into roughly 10–15 coarse verbs that are worth paying for every turn.
@@ -121,7 +121,7 @@ data.
    - Generate the CLI dispatch and its help from method signatures and docstrings, so nothing is
      hand-copied.
 3. **Progressive disclosure.** Keep `SKILL.md` under ~2k tokens (the vault's measured median;
-   5k is the cap). Serve the verb catalog from `gx-ui help [domain]` rather than pasting it into
+   5k is the cap). Serve the verb catalog from `gxui help [domain]` rather than pasting it into
    the skill. playwright-cli's 3.9k plus 53 KB of references is the ceiling to stay under.
 4. **Terse output.** A verb prints one line of outcome plus ids (hid, history id, invocation id).
    Snapshots and screenshots go to files and the command prints the path, the same file-not-inline
@@ -136,7 +136,7 @@ data.
    `history_panel.item(hid=3)`. Resolve them with the existing `resolve_component_locator`, the
    code tours already use. CSS and playwright-cli refs are the last resort.
 8. **A logged escape hatch.**
-   - Every playwright-cli action, raw `gx-ui call`, or REST call during a UI task is logged as a
+   - Every playwright-cli action, raw `gxui call`, or REST call during a UI task is logged as a
      gap event with a one-line reason.
    - That log is the loop's primary output.
    - API use is allowed only for staging and verification, and is tagged as such.
@@ -150,7 +150,7 @@ data.
 11. **Host-neutral packaging.**
     - Write the description with explicit use/don't-use triggers. Use it to drive the live UI;
       don't use it to run the E2E pytest suite (that is `galaxy-playwright`).
-    - Scope `allowed-tools` to `Bash(gx-ui:*)` and `Bash(playwright-cli:*)`.
+    - Scope `allowed-tools` to `Bash(gxui:*)` and `Bash(playwright-cli:*)`.
     - Validate the skill for both Claude Code and Codex.
 12. **Real tools, not test tools.** Never start Galaxy with `GALAXY_RUN_WITH_TEST_TOOLS` for this
     skill, because that mode hides installed shed tools (`drive-scenario`, `SETUP_DEBRIEF.md`).

@@ -37,7 +37,7 @@ The prompt is the same for every arm except its tooling paragraph.
 **GTN tutorial.** Work through every hands-on box as a learner would, through the UI.
 - Skip boxes that leave Galaxy, such as UCSC, and say so.
 - Record per box: `done`, `partial` or `failed`, plus friction notes.
-- Call `gx-ui note` with the box title before starting each box, so the transcript lines up with
+- Call `gxui note` with the box title before starting each box, so the transcript lines up with
   the tutorial.
 
 **IWC workflow.**
@@ -48,13 +48,13 @@ The prompt is the same for every arm except its tooling paragraph.
 5. Inspect each output the test asserts on, through the UI.
 
 **Rule for every target.** Before any playwright-cli action or REST call, run
-`gx-ui gap "<reason>"`. REST is allowed only for staging and verification, and is tagged as such.
+`gxui gap "<reason>"`. REST is allowed only for staging and verification, and is tagged as such.
 
 **Arms:**
 
 | Arm | Tooling | Question it answers |
 |---|---|---|
-| A | `galaxy-ui` skill (`gx-ui` + attached playwright-cli) | Does the vocabulary carry a real task? |
+| A | `galaxy-ui` skill (`gxui` + attached playwright-cli) | Does the vocabulary carry a real task? |
 | B | playwright-cli + its stock skill, no Galaxy vocabulary | What does the vocabulary save, in tokens, turns, wall time and success? |
 | C (optional) | Playwright MCP, as `drive-scenario` uses it | Does the CLI-vs-MCP token argument hold on Galaxy? |
 
@@ -117,8 +117,8 @@ zero gap events. Gap count and tokens per box or step are the trend lines to tra
 - Sum per-turn `usage` (input, output, cache read, cache creation) and also record
   `total_cost_usd`, turn count and wall time. Note that `gxy-sketches`' `claude_cli.py` already
   wraps `claude -p` but ignores usage.
-- Count tool calls by layer from the shell commands (`gx-ui` verb, component, call; playwright-cli;
-  curl; other) and from the `gx-ui` transcript.
+- Count tool calls by layer from the shell commands (`gxui` verb, component, call; playwright-cli;
+  curl; other) and from the `gxui` transcript.
 - Report the always-loaded context cost separately: the skill description plus `SKILL.md` for A,
   the playwright-cli skill for B, and the MCP schemas for C. That is the number the research
   doc's claim depends on.
@@ -144,9 +144,9 @@ zero gap events. Gap count and tokens per box or step are the trend lines to tra
   - It produces the baseline numbers.
   - Its report is a first, data-driven verb wishlist. Check that wishlist against the verb table
     before building step 5 of the design.
-- **Phase 1.** The prerequisite PRs and the `gx-ui` MVP, then Arm A on targets 1–2.
+- **Phase 1.** The prerequisite PRs and the `gxui` MVP, then Arm A on targets 1–2.
 - **Phase 2.** Iterate per §5–6, add targets 3–4, then Arm C once.
-- **Later.** With Test Stories D merged, `gx-ui transcript --as story` turns a passing GTN run into
+- **Later.** With Test Stories D merged, `gxui transcript --as story` turns a passing GTN run into
   regenerated tutorial screenshots, which is the screenshot-refresh half of the training feedback.
 
 ## Where outputs go

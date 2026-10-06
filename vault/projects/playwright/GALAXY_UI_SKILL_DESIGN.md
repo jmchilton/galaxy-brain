@@ -7,7 +7,7 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
 ## Shape
 
 ```
-agent ──Bash──▶ gx-ui <verb> [args] ──unix socket──▶ gx-ui daemon (Python, one per session)
+agent ──Bash──▶ gxui <verb> [args] ──unix socket──▶ gxui daemon (Python, one per session)
                                                       ├─ NavigatesGalaxy + UsesUploadActivity
                                                       │    + RunsWorkflows + tool-form filler
                                                       ├─ Playwright Chromium, CDP port exposed
@@ -17,9 +17,9 @@ agent ──Bash──▶ playwright-cli -s=<session> attach --cdp=http://127.0.
 
 - **The daemon owns the browser.** It serves requests sequentially on the thread that started
   Playwright, because the sync API is thread-bound.
-- **`gx-ui` is a thin client.** It sends `{verb, args}` and prints the reply.
+- **`gxui` is a thin client.** It sends `{verb, args}` and prints the reply.
 - **The skill is a short `SKILL.md`.** It covers when to use which layer, the startup and status
-  steps, and the gap-logging rule. Verb details come from `gx-ui help`.
+  steps, and the gap-logging rule. Verb details come from `gxui help`.
 
 ## Three layers, in order of preference
 
@@ -52,9 +52,9 @@ The initial set comes from what the tutorial and IWC candidates need. `S` marks 
 
 **2. Components.** These address the UI by smart-component path, using the same resolver as tours
 (`components.py:247`):
-- `gx-ui components [PREFIX]` browses the `navigation.yml` tree, showing keys and resolved
+- `gxui components [PREFIX]` browses the `navigation.yml` tree, showing keys and resolved
   selectors.
-- `gx-ui component 'history_panel.item(hid=3).title' click|text|value|wait|visible|absent|send-keys V`
+- `gxui component 'history_panel.item(hid=3).title' click|text|value|wait|visible|absent|send-keys V`
   acts on one element.
 
 These calls go through `SmartTarget`, so they get Galaxy's waits and transition retries.
@@ -62,7 +62,7 @@ These calls go through `SmartTarget`, so they get Galaxy's waits and transition 
 **3. Escape hatch.** This is `playwright-cli` attached to the same browser: `snapshot`, `find`, ref
 clicks, `console`, `requests`, `eval`. Every use is logged; see logging below.
 
-`gx-ui call METHOD JSON` reaches any public `NavigatesGalaxy` method that has no verb yet. It is
+`gxui call METHOD JSON` reaches any public `NavigatesGalaxy` method that has no verb yet. It is
 also logged. A method called through it often is the next verb to promote.
 
 ## Logging and transcript
@@ -72,17 +72,17 @@ The daemon appends one JSON line per call to `transcript.jsonl`. Each line recor
 - `ok`, a short `result`, and `duration_ms`;
 - artifact paths.
 
-`gx-ui gap "<reason>"` records a `layer: external` line *before* the agent uses playwright-cli or
+`gxui gap "<reason>"` records a `layer: external` line *before* the agent uses playwright-cli or
 the REST API. The skill makes this mandatory. The transcript is the input to:
 - the loop's report ([GALAXY_UI_SKILL_LOOP.md](GALAXY_UI_SKILL_LOOP.md));
-- `gx-ui transcript --as pytest`, which emits a test body in the style of `test_*.py`;
+- `gxui transcript --as pytest`, which emits a test body in the style of `test_*.py`;
 - later, `--as story`, through Test Stories D.
 
 ## Where things live
 
 | Piece | Home | Why |
 |---|---|---|
-| Daemon, client, verb registry | Galaxy, `lib/galaxy_test/selenium/` (package `galaxy-test-selenium`), entry point `gx-ui` next to `gx-dump-tour` | It must import the mixins in `framework.py`, versions with the vocabulary, and can be upstreamed |
+| Daemon, client, verb registry | Galaxy, `lib/galaxy_test/selenium/` (package `galaxy-test-selenium`), entry point `gxui` (cf. `gxwf`) | It must import the mixins in `framework.py`, versions with the vocabulary, and can be upstreamed |
 | Skill (`SKILL.md`) | `claude-jmchilton-plugins/plugins/jmchilton/skills/galaxy-ui/` | It needs a Galaxy worktree, like its sibling `galaxy-playwright`; move it to `galaxy-skills` once it is community-ready |
 | Loop harness | Next to the skill, under `evals/` | It is part of how the skill is maintained |
 | Run reports | `vault/projects/playwright/` (ledger); screenshots and JSONL stay outside the vault | Large binary artifacts don't belong in the vault |
@@ -106,7 +106,7 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
 4. **A public tool-form filler and `tool-describe`.** Lift the filler out of `RunsToolTests` into
    a `NavigatesGalaxy` method keyed by parameter path. `RunsToolTests` then calls it, so the
    existing tool-test E2E suite becomes its regression test.
-5. **The `gx-ui` daemon, client and the first ~15 verbs**, with a `test/unit/selenium` test that
+5. **The `gxui` daemon, client and the first ~15 verbs**, with a `test/unit/selenium` test that
    drives the toy `basic.html` fixture through the daemon.
 
 ## Spikes before step 5
@@ -115,7 +115,7 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
   drive the same page?
   - Risk: a CDP attacher may only see the default context, while `browser.new_page()` creates a
     separate one.
-  - Fallback: drop playwright-cli, and add `gx-ui snapshot` / `gx-ui css CSS click` built on Python
+  - Fallback: drop playwright-cli, and add `gxui snapshot` / `gxui css CSS click` built on Python
     `aria_snapshot()`. That loses refs, `find`, console and network.
 - **S2 — version skew.** Galaxy pins Python `playwright==1.63.0`; `@playwright/cli` pins
   playwright-core 1.64 alpha. CDP is browser-level, so this should not matter, but S1 should run
