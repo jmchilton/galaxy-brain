@@ -8,6 +8,7 @@ events, the Codex session log and notes stay outside the vault.
 | phase0-run1 | 2026-10-06 | B (playwright-cli 0.1.22, stock skill) | GTN `galaxy-intro-short` | test.galaxyproject.org (26.2.dev0) | Codex `gpt-6.1-sol`, high | **pass** | 17.5 min | 6.60M (6.47M) / 14.0k | 149 (11) |
 | phase1-runA1 | 2026-10-06 | A (gxui MVP `c63c0d8` + galaxy-ui-driver) | GTN `galaxy-intro-short` | test.galaxyproject.org (`67c3f964d355`) | Codex `gpt-6.1-sol`, high | **fail** (gxui crash, box 5) | 7.6 min | 2.09M (2.03M) / 9.6k | 65 (8); transcript: 17 verb, 11 component, 1 gap |
 | phase1-runA2 | 2026-10-06 | A (gxui `9655aa8` + galaxy-ui-driver) | GTN `galaxy-intro-short` | test.galaxyproject.org (`67c3f964d355`) | Codex `gpt-6.1-sol`, high | **pass** | 25.3 min | 8.03M (7.90M) / 29.4k | 178 (13); transcript: 51 verb, 19 component, 7 call, 14 gap |
+| phase1-runA3 | 2026-10-06 | A (gxui `97f4d7e` + galaxy-ui-driver) | GTN `galaxy-intro-short` | test.galaxyproject.org (`67c3f964d355`) | Codex `gpt-6.1-sol`, high | **pass** | 18.8 min | 8.10M (7.97M) / 22.7k | 166 (8); transcript: 49 verb, 37 component, 5 call, 3 gap |
 
 ## phase0-run1
 
@@ -174,3 +175,40 @@ message is now a navigation to Workflow Preview.
 **Side effects on test.galaxyproject.org.** Histories "My Analysis (phase1-runA2)" (link-accessible
 at `/u/jmchilton/h/my-analysis-phase1-runa2`) and "Next Analysis (phase1-runA2)"; workflow "QC and
 filtering (phase1-runA2)" and its invocation.
+
+## phase1-runA3
+
+**Result: pass; gaps 14 → 3, box 10 489 s → 199 s, wall 25.3 → 18.8 min** (baseline run1: 17.5).
+Same verification as runA2: both "(phase1-runA3)" histories all `ok`, workflow "QC and filtering
+(phase1-runA3)", invocation `completed`.
+
+**Token picture across the three passing runs** (one run each, so no delta is quotable):
+
+| Run | Fresh input | Cached input | Output (reasoning) | Commands | Wall |
+|---|---|---|---|---|---|
+| run1 (B) | 135k | 6.47M | 14.0k (1.0k) | 149 | 17.5 min |
+| runA2 | 133k | 7.90M | 29.4k (6.2k) | 178 | 25.3 min |
+| runA3 | 130k | 7.97M | 22.7k (4.5k) | 166 | 18.8 min |
+
+Fresh input is flat. Arm A's extra cost is turns (more cache reads) and output. The agent still
+verifies most verbs with a `snapshot` (18) and explores with `components` (11) and `help` (7), so
+the vocabulary has not yet cut the turn count. Verbs that report richer state, and fewer
+exploratory calls, are the levers.
+
+**Remaining time sinks:**
+- **Box 13 (298 s):** mostly real job time (`history-wait 4` 93 s); plus `workflow-run --inputs`
+  still fails on Galaxy's obsolete `step-label` selector (the agent recovered with the existing
+  `workflow_run.input_select_field(label=…)` component), and a 30 s observation timeout.
+- **Box 5 (204 s):** FastQC job time (155 s).
+- **Sharing:** `call click_history_option_sharing` on the Workflow Preview page (no history panel)
+  waited 121 s and failed; `home` first fixed it. A `history-share` verb should go home itself.
+- **Box 7:** still one gap for a tool parameter map (`tool-describe`, prereq PR 4).
+- **Box 12:** two gaps for the Multiview dataset drag (`dataset-copy` verb).
+
+**Next gxui changes:** `workflow-run` input setting via `input_select_field`; `history-share`;
+`call --list` (the agent read framework source to find method names); `dataset-copy`; and
+`tool-describe` once PR 4 exists. The skill should say that component clicks return before async
+work (rename, creation) finishes.
+
+**Side effects on test.galaxyproject.org.** Histories "My Analysis (phase1-runA3)" (link-accessible)
+and "Next Analysis (phase1-runA3)"; workflow "QC and filtering (phase1-runA3)" and its invocation.
