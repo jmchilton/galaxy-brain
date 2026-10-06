@@ -19,7 +19,7 @@ A sixth test, `test_collection_workbook_template_is_typed`, picks `list:paired` 
 
 <details><summary>Test hooks and helpers</summary>
 
-- The workbook file inputs are hidden, and the wizard has two of them (the header shortcut and the step 3 card). `HiddenWorkbookUploadInput` takes a required `data-description` so tests can tell them apart, and the step 1 download link gets one too. `navigation.yml` gains the matching selectors.
+- The workbook file inputs are hidden, and the wizard has two of them (the header shortcut and the step 3 card). `HiddenWorkbookUploadInput` takes a required `data-description` so tests can tell them apart, and the step 1 download link gets one too. The sample sheet wizard passes one as well, since the prop is required. `navigation.yml` gains the matching selectors.
 - `set_file_input` on `NavigatesGalaxy` attaches a file under either backend. The Playwright/Selenium split for this was copied three times in `upload_activity_helpers.py`. Those three call sites now use it.
 - `rule_builder_show_and_get_source` is the read side of the existing `rule_builder_set_source`. `test_rules_example_4_accessions` had its own copy and now uses it.
 - `RuleImportContext` (from 🔀 #23602) gains `upload_workbook`, `upload_workbook_from_card`, `workbook_for_collection_type` and `workbook_download_url`.
@@ -28,7 +28,7 @@ A sixth test, `test_collection_workbook_template_is_typed`, picks `list:paired` 
 
 ## Risks
 
-Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door). It is test-only apart from three `data-description` attributes.
+Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door). It is test-only apart from four `data-description` attributes.
 
 ## Context
 

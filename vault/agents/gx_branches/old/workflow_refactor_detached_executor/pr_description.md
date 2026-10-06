@@ -12,7 +12,7 @@ This PR:
 - **Skips the save when nothing changed.** ***A no-op refactor of the latest version now returns that version instead of a copy; refactoring an older version still saves, so reverts work as before.***
 - **Reports the outcome.** `RefactorResponse` gains a `changed` field, for dry runs too. ***Request bodies and existing response fields are unchanged.*** The client schema is regenerated.
 - **Gives the executor a detached build.** It runs against an unsaved dry-run build of the source, so the stored version is never touched.
-- **Fixes a dry-run session leak.** Dry-run builds left a subworkflow step's outputs, inputs and post-job actions in the session, so the next commit failed with `SAWarning: Object of type <WorkflowStep> not in session`. Dry-run refactor requests on `dev` have the same bug. It goes unnoticed only because nothing commits after one.
+- **Makes dry-run builds complete and detached.** Dry-run builds skipped post-job actions, so a workflow with hide, rename or datatype actions looked changed. They also put a subworkflow step into the session, along with its outputs, inputs and annotations, so the next commit failed with `SAWarning: Object of type <WorkflowStep> not in session` or saved orphaned annotation rows. Post-job actions are now built without being added to the session, and detached subworkflow steps stay out of it. Dry-run refactor requests on `dev` have the session bug. It goes unnoticed only because nothing commits after one.
 
 ***Only `PUT /api/workflows/{id}/refactor` changes. The editor's normal save, including choosing a step's tool version, doesn't go through it.***
 
@@ -88,8 +88,8 @@ API (`lib/galaxy_test/api/test_workflows.py`):
 
 - `test_refactor_noop_does_not_create_version`: `upgrade_all_steps` and a same-name `update_name` report `changed: false` (dry run and real), and no version is added.
 - `test_refactor_upgrade_reports_changed`, `test_refactor_annotation_reports_changed`: a real change reports `changed: true` and saves.
-- `test_refactor_noop_of_previous_version_creates_version`: a no-op on `version=0` still saves.
-- `test_refactor_noop_with_connections_and_subworkflow`: no false changes from connections or subworkflows.
+- `test_refactor_noop_of_previous_version_creates_version`: a no-op on `version=0` still saves and reports `changed: false`.
+- `test_refactor_noop_with_connections_and_subworkflow`: no false changes from connections, subworkflows or post-job actions.
 - `test_refactor_step_position_creates_version`: a position move saves, and version 0's layout is unchanged. On `dev`, version 0's layout moves.
 - `test_refactor_noop_saves_pending_tool_substitution`: a pending substitution is saved.
 - `test_refactor_upgrade_preserves_previous_version`: version 0 keeps tool version 0.1 after an upgrade.
@@ -97,7 +97,8 @@ API (`lib/galaxy_test/api/test_workflows.py`):
 Integration (`test/integration/test_workflow_refactoring.py`):
 
 - `test_tool_version_upgrade_preserves_source_version`, `test_subworkflow_upgrade_preserves_source_version`: the source version keeps its tool version and subworkflow. Both fail on `dev`.
-- `test_refactor_saves_only_the_new_version`: a subworkflow upgrade writes exactly one new `Workflow` and only its steps and outputs.
+- `test_refactor_saves_only_the_new_version`: a subworkflow upgrade writes exactly one new `Workflow` and only its steps, outputs, connections, post-job actions and annotations.
+- `test_refactor_of_annotated_subworkflow_step_saves_no_orphan_annotations`: dry and real refactors of a workflow with an annotated subworkflow step leave no annotation rows without a step.
 - `test_subworkflow_upgrade_dry_run_writes_nothing`: the dry-run session leak. On `dev` this fails with the `SAWarning`.
 - `test_refactor_noop_of_imported_workflow_does_not_create_version`: a no-op on a workflow with `source_metadata` doesn't save.
 

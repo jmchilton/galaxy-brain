@@ -1,0 +1,4 @@
+- Match workflow rename input references on whole path segments
+- Fix rename `#{input}` resolving to a mid-word input match
+- Stop workflow rename references from matching partial input names
+- Fix unqualified rename references naming outputs after the wrong input
