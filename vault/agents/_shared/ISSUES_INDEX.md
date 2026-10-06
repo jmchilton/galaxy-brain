@@ -1,3 +1,5 @@
+@REPOSITORY_ISSUES.md
+
 ## The Index
 
 `ISSUES.md` is this agent's triage index: one line per issue that still needs someone's move. Detail lives in the issue's directory under `vault/repositories/PROJECT/issues/STATUS/`, per [`REPOSITORY_ISSUES.md`](REPOSITORY_ISSUES.md). PROJECT is the repository the issue belongs to (e.g. galaxy, planemo, pulsar, gxformat2); one agent directory may cover several.
