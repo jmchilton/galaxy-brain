@@ -16,6 +16,9 @@ galaxy-brain/
     research/                  # research notes (components, issues, PRs)
     plans/                     # implementation plans and plan sections
     papers/                    # manuscript workspaces with index + draft artifacts
+    repositories/              # GitHub artifacts (issues, branches, reviews) per repository
+    agents/                    # daily-driver agents; index into repositories/
+    projects/                  # multi-week projects within or across repositories
     concepts/                  # reusable Galaxy concept notes
     mocs/                      # Maps of Content
     templates/                 # Templater templates (skipped by validator)
@@ -30,6 +33,12 @@ galaxy-brain/
 ```
 
 Meta files live at the repo root, outside `vault/`. Open `vault/` as the Obsidian vault root so Obsidian never indexes tooling files.
+
+## Repositories, Agents, and Projects
+
+- **`repositories/`** records GitHub artifacts and our work on them: `repositories/<repo>/issues/`, and later branches and reviews, for each repository we work on (galaxy, pulsar, planemo, ...). Each artifact gets a directory whose subdirectory reflects its status (e.g. `issues/{assigned,open,closed}/<number>/`); see [`REPOSITORY_ISSUES.md`](vault/agents/_shared/REPOSITORY_ISSUES.md). Planned: permanent URLs for these artifacts, so links survive a status move.
+- **`agents/`** holds the daily-driver agents. They manage branches, solve small to medium problems, and triage issues. Some own one repository (`pulsar`, `planemo`), some own one aspect of a repository (`gx_branches`, `gx_reviews`, `gx_issues`), and some span several (`workflow_libs`). Each agent keeps its own tracking files, which mostly index into `repositories/` and show John and the agents the current cross-section of interest for development and review.
+- **`projects/`** holds large, multi-week projects within one repository or across several. A project may hold only tracking documents or agent definitions.
 
 ## Note Types
 
