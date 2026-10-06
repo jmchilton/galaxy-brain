@@ -147,9 +147,9 @@ def method_verb(name: str, domain: str, method: str, context_class: type, doc: s
 def register_method_verbs(context_class: type) -> None:
     for name, domain, method, doc in [
         ("home", "session", "home", ""),
+        ("tool-panel", "tool", "open_toolbox", "Open the Tools activity panel (tool search and sections)."),
         ("logout", "session", "logout", "Log out of Galaxy."),
         ("history-rename", "history", "history_panel_rename", "Rename the current history."),
-        ("history-wait", "history", "history_panel_wait_for_hid_ok", "Wait until history item HID is ok."),
         ("multiview", "history", "open_history_multi_view", "Open History Multiview."),
         ("dataset-view", "dataset", "display_dataset", "Show dataset HID in the center panel (eye icon)."),
         ("dataset-details", "dataset", "show_dataset_details", "Open dataset HID's details page (info icon)."),
@@ -200,7 +200,11 @@ def history_tag(ctx, *tags: str):
 
 @verb("history-items", "history", "history_contents")
 def history_items(ctx, deleted: bool = False):
-    """List the current history: one line per item, `hid state extension name`. Read-only (API)."""
+    """List the current history: one line per item, `hid state extension name`.
+
+    An observation verb: it reads what the history panel shows (via Galaxy's API, so it is compact
+    and exact) and changes nothing. Allowed under UI-only rules.
+    """
     lines = []
     history = ctx.current_history()
     for item in ctx.history_contents(datasets_only=True):
@@ -212,6 +216,40 @@ def history_items(ctx, deleted: bool = False):
         )
     header = f"history {history['id']} {history['name']!r} ({len(lines)} items)"
     return "\n".join([header, *lines])
+
+
+TERMINAL_BAD_STATES = {"error", "failed_metadata", "paused", "discarded", "deferred"}
+
+
+def _hid_state(ctx, hid: int) -> str:
+    for item in ctx.history_contents(datasets_only=True):
+        if item["hid"] == hid:
+            return item.get("state") or item.get("populated_state") or "?"
+    return "absent"
+
+
+@verb("history-wait", "history", "history_panel_wait_for_hid_ok")
+def history_wait(ctx, hid: int, timeout: float = 240.0):
+    """Wait until history item HID is ok, for up to TIMEOUT seconds. Fails at once on error states.
+
+    Repeats Galaxy's job-completion wait (sized for test servers) until the deadline, so long jobs on
+    public servers are fine. On timeout it reports the item's current state.
+    """
+    deadline = time.time() + timeout
+    while True:
+        try:
+            ctx.history_panel_wait_for_hid_ok(hid, allowed_force_refreshes=1)
+            return f"hid {hid} ok"
+        except Exception as e:
+            if "Timeout" not in type(e).__name__ and "timeout" not in str(e).lower():
+                raise
+            state = _hid_state(ctx, hid)
+            if state == "ok":
+                return f"hid {hid} ok"
+            if state in TERMINAL_BAD_STATES:
+                raise RuntimeError(f"hid {hid} is {state}") from None
+            if time.time() >= deadline:
+                raise TimeoutError(f"hid {hid} still {state} after {timeout:.0f}s; run history-wait again") from None
 
 
 # --- upload ----------------------------------------------------------------
@@ -280,12 +318,34 @@ def tool_open(ctx, tool_id: str):
     return f"form open: {tool_id}{route}" + (f" {version.wait_for_text()}" if not version.is_absent else "")
 
 
+@verb("tool-search", "tool", "components.tools.search")
+def tool_search(ctx, text: str):
+    """Open the Tools panel and search it for TEXT (a tool name, or `id:<tool id>`); lists matching tools."""
+    ctx.open_toolbox()
+    ctx.components.tools.clear_search.wait_for_and_click()
+    ctx.components.tools.search.wait_for_and_send_keys(text)
+    ctx.sleep_for(ctx.wait_types.UX_RENDER)
+    # navigation.yml has no tool-title component yet.
+    titles = [
+        t.strip().splitlines()[0] for t in ctx.page.locator("#toolbox-panel .toolTitle").all_inner_texts() if t.strip()
+    ]
+    return "\n".join(titles[:20]) or "no matching tools"
+
+
 @verb("tool-run", "tool", "tool_form_execute")
 def tool_run(ctx):
-    """Submit the open tool form. Follow with `history-wait HID` for the outputs."""
+    """Submit the open tool form; prints the new output hids. Follow with `history-wait HID`."""
+    before = (ctx._latest_history_item() or {}).get("hid", 0)
     ctx.tool_form_execute()
-    ctx.sleep_for(ctx.wait_types.UX_TRANSITION)
-    return "submitted"
+    new_hids: list[int] = []
+
+    def outputs_appeared(driver=None):
+        nonlocal new_hids
+        new_hids = [i["hid"] for i in ctx.history_contents(datasets_only=True) if i["hid"] > before]
+        return True if new_hids else None
+
+    ctx._wait_on(outputs_appeared, "tool outputs to appear in the history", wait_type=ctx.wait_types.DATABASE_OPERATION)
+    return "submitted; output hids " + " ".join(str(h) for h in new_hids)
 
 
 # --- workflow --------------------------------------------------------------

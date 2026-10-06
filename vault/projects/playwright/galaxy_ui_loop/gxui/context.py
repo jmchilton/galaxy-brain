@@ -30,7 +30,15 @@ class GxuiContext(GalaxySeleniumContextImpl, RunsWorkflows, UsesUploadActivity):
 
     def component(self, path: str) -> SmartTarget:
         """A SmartTarget for a navigation.yml path such as ``history_panel.item(hid=3).title``."""
-        return SmartTarget(_LocatorTarget(path, self.components.resolve_component_locator(path)), self)
+        try:
+            locator = self.components.resolve_component_locator(path)
+        except KeyError as e:
+            if e.args == ("_",):
+                raise ValueError(
+                    f"{path!r} groups other components and has no element of its own; see `gxui components {path}`"
+                ) from None
+            raise
+        return SmartTarget(_LocatorTarget(path, locator), self)
 
 
 class _LocatorTarget(Target):

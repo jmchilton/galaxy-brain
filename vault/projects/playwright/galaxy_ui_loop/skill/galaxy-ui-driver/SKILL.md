@@ -21,8 +21,11 @@ the verb prints the path.
 ## Three layers - use the first that works
 
 1. **Verbs** - `gxui history-new NAME`, `gxui upload-url URL... --ext fastqsanger`,
-   `gxui tool-open ID`, `gxui history-wait HID`, `gxui workflow-run NAME --inputs '{"label": 1}'`, ...
-   A verb that returns has finished: uploads are `ok`, forms are rendered.
+   `gxui tool-search NAME`, `gxui tool-open ID`, `gxui tool-run` (prints the output hids),
+   `gxui history-wait HID`, `gxui workflow-run NAME --inputs '{"label": 1}'`, ...
+   A verb that returns has finished: uploads are `ok`, forms are rendered. `history-wait` waits up
+   to `--timeout` seconds (default 240) and fails at once if the job errors; if it times out, the
+   job is still running - run it again.
 2. **Components** - name UI elements from Galaxy's `navigation.yml`:
    `gxui components history_panel` browses; `gxui component 'history_panel.item(hid=3).title' click`
    acts (click|text|value|visible|absent|send-keys|clear-send-keys), with Galaxy's waits.
@@ -37,7 +40,8 @@ Never run playwright-cli `open`, `close`, `attach`, `detach`, `state-load`/`stat
 
 ## Observing
 
-- `gxui url` - current URL and title. `gxui history-items` - `hid state extension name` per item.
+- `gxui url` - current URL and title. `gxui history-items` - `hid state extension name` per item
+  (an observation verb - fine under UI-only rules; it changes nothing).
 - `gxui dataset-peek HID` - bounded peek text. `gxui snapshot [COMPONENT]` - accessibility tree
   to a file; scope it to a component, whole-page trees are large.
 - `gxui screenshot LABEL` - PNG path.
@@ -50,6 +54,7 @@ A failed verb prints the error, URL, a screenshot path and a hint. Then:
 - A verb that outlives your shell's timeout keeps running in the daemon: `gxui last` returns
   its result.
 - "browser died and was relaunched": login and page state are gone - report it.
+- "no gxui daemon": the session is gone - stop and report it; don't try to start a new one.
 - A JavaScript dialog blocks the page: `gxui dialog accept|dismiss`.
 
 ## Narrating

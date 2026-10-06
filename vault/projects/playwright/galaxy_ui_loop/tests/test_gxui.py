@@ -19,6 +19,7 @@ import galaxy.selenium
 from gxui.context import GxuiContext
 from gxui.verbs import (
     REGISTRY,
+    method_verb,
     register_method_verbs,
     UsageError,
 )
@@ -40,13 +41,22 @@ class TestVerbParsing:
         assert kwargs == {"ext": "fastqsanger"}
 
     def test_unannotated_method_args_become_ints(self):
-        assert REGISTRY["history-wait"].parse(["3"]) == ([3], {})
+        assert REGISTRY["dataset-view"].parse(["3"]) == ([3], {})
 
     def test_method_verb_options_from_method_defaults(self):
-        assert REGISTRY["history-wait"].parse(["3", "--allowed-force-refreshes", "1"]) == (
-            [3],
-            {"allowed_force_refreshes": 1},
-        )
+        class Context:
+            def wait_for(self, hid, allowed_force_refreshes=0):
+                """Wait for HID."""
+
+        method_verb("test-wait", "history", "wait_for", Context)
+        try:
+            assert REGISTRY["test-wait"].parse(["3", "--allowed-force-refreshes", "1"]) == (
+                [3],
+                {"allowed_force_refreshes": 1},
+            )
+            assert REGISTRY["test-wait"].summary() == "Wait for HID."
+        finally:
+            del REGISTRY["test-wait"]
 
     def test_boolean_flag(self):
         assert REGISTRY["workflow-run"].parse(["QC", "--no-submit"]) == (["QC"], {"submit": False})
@@ -149,3 +159,15 @@ def test_optional_positional_and_default_true_flag_usage():
     assert REGISTRY["components"].parse([]) == ([], {})
     assert REGISTRY["component"].usage() == "component PATH ACTION [VALUE]"
     assert "[--no-submit]" in REGISTRY["workflow-run"].usage()
+
+
+def test_history_wait_is_an_adapter_with_a_deadline():
+    assert REGISTRY["history-wait"].parse(["2", "--timeout", "30"]) == ([2], {"timeout": 30.0})
+
+
+def test_results_are_summarized_for_the_transcript():
+    from gxui.daemon import _summarize
+
+    assert _summarize(None) == "ok"
+    assert _summarize("hid 2 ok") == "hid 2 ok"
+    assert _summarize(object()) == "ok"

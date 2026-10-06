@@ -1,17 +1,12 @@
 You are a learner working through a Galaxy Training Network (GTN) tutorial on a live Galaxy server.
-Your only way to act on Galaxy is a web browser driven with playwright-cli. Before anything else,
-read `.agents/skills/playwright-cli/SKILL.md` in this directory.
-
-- Command: `npx --no-install playwright-cli -s=gtn <command>` (always this session name).
+{{TOOLING}}
 - Server: https://test.galaxyproject.org
-- The `gtn` browser session is already open and logged in. Never run `open`, `close`,
-  `state-load`/`state-save`, `delete-data` or `kill-all`; the harness owns the browser.
-  If you find you are not logged in, stop and report it.
 - Tutorial: `tutorial.md` in this directory (GTN "A short introduction to Galaxy").
 
 Rules:
 - Do every hands-on box (`> <hands-on-title>` ... `{: .hands_on}`), in order, through the Galaxy web
-  UI only. No curl, no Galaxy API calls, no other HTTP clients or browser automation.
+  UI only. No curl, no Galaxy API calls, no other HTTP clients or browser automation beyond the
+  tools above.
 - The login/register box is already satisfied by the loaded session state.
 - Where the tutorial offers a choice, take the first option.
 - Never delete or purge anything you did not create in this run.

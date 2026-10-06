@@ -4,6 +4,7 @@ import collections
 import datetime
 import glob
 import json
+import os
 import re
 import sys
 
@@ -37,8 +38,11 @@ for event in read_jsonl(f"{run}/events.jsonl"):
         continue
     command = item.get("command", "")
     match = re.search(r"playwright-cli(?:\s+-s=\S+)?\s+([\w-]+)", command)
+    gxui = re.search(r"gxui\s+([\w-]+)", command)
     if match:
         kind = f"playwright-cli {match.group(1)}"
+    elif gxui:
+        kind = f"gxui {gxui.group(1)}"
     elif re.search(r"\b(curl|wget|httpie)\b|/api/", command):
         kind = "http (rule violation)"
     else:
@@ -46,6 +50,15 @@ for event in read_jsonl(f"{run}/events.jsonl"):
     commands[kind] += 1
     if item.get("exit_code") not in (0, None):
         failed += 1
+
+
+# Arm A: the gxui transcript records verb / component / call / external (gap) / note layers.
+transcript_layers = collections.Counter()
+gaps = []
+for entry in read_jsonl(f"{run}/gxui/transcript.jsonl") if os.path.exists(f"{run}/gxui/transcript.jsonl") else []:
+    transcript_layers[entry.get("layer")] += 1
+    if entry.get("layer") == "external":
+        gaps.append(entry.get("text"))
 
 
 def stamp(name):
@@ -66,6 +79,8 @@ print(
             "commands_total": sum(commands.values()),
             "commands_failed": failed,
             "commands": dict(commands.most_common()),
+            "gxui_layers": dict(transcript_layers),
+            "gxui_gaps": gaps,
         },
         indent=2,
     )

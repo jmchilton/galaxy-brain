@@ -42,7 +42,7 @@ class Transcript:
     def write(self, entry: dict) -> dict:
         entry = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), **entry}
         with self.lock, open(self.path, "a") as f:
-            f.write(json.dumps(entry) + "\n")
+            f.write(json.dumps(entry, default=str) + "\n")
             self.last = entry
         return entry
 
@@ -161,7 +161,7 @@ class Daemon:
             args, kwargs = verb.parse(rest)
             self.busy = name
             result = verb.func(self.ctx, *args, **kwargs)
-            reply = {"ok": True, "result": "ok" if result is None else result}
+            reply = {"ok": True, "result": _summarize(result)}
         except UsageError as e:
             reply = {"ok": False, "error": str(e)}
         except PlaywrightError as e:
@@ -253,7 +253,12 @@ class Daemon:
                 if item is None:
                     break
                 conn, req = item
-                _reply(conn, self.run_verb(req["argv"]))
+                try:
+                    reply = self.run_verb(req["argv"])
+                except Exception as e:  # a bug in gxui must not take the browser down with it
+                    print(traceback.format_exc(), flush=True)
+                    reply = {"ok": False, "error": f"gxui internal error: {type(e).__name__}: {e}"}
+                _reply(conn, reply)
                 self.last_activity = time.time()
         finally:
             self.stopping = True
@@ -265,6 +270,19 @@ class Daemon:
                 self.ctx.configured_driver.quit()
             except Exception:
                 pass
+
+
+def _summarize(result) -> str | int | float | list | dict:
+    """Verbs print short text; framework methods sometimes return components or elements."""
+    if result is None:
+        return "ok"
+    if isinstance(result, (str, int, float)):
+        return result
+    try:
+        json.dumps(result)
+        return result
+    except TypeError:
+        return "ok"
 
 
 def _reply(conn: socket.socket, reply: dict) -> None:
