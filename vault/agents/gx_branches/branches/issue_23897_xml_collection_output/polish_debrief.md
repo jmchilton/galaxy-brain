@@ -1,6 +1,6 @@
 # issue_23897_xml_collection_output polish debrief (2026-10-06)
 
-Started at `79355838ae1` and ended at `2ae7d7908a8`.
+Started at `79355838ae1` and ended at `b2f5b06642c`.
 
 ## CI
 Fork CI on `79355838ae1` was fully queued, with no reds. It needs a new run on `2ae7d7908a8`.
@@ -30,9 +30,15 @@ Applied to the description:
 - **Risks:** changed from two-way to the one-way format, per GX_ASSESSING_RISK ("establishes behaviors for developer artifacts such as tools").
 - **Test coverage wording:** fixed. There are 8 combinations, not 9.
 
+## Scope expansion (John, 2026-10-06: "address 1-3 in this branch")
+- In `b2f5b06642c`, the XSD `Output` type now uses a new `OutputElement` group: the union of the data children plus `data` (`OutputCollectionData`). Its documentation says which children apply per `type`.
+- Aligning `discover_datasets` isn't expressible. XSD 1.0 can't choose a content model by attribute, and Element Declarations Consistent forbids two `discover_datasets` types in one model. The dataset flavour (the superset) stays, and the documentation says `assign_primary_output` doesn't apply to collections. The parser already ignored it there.
+- "Cannot set both" is now raised in `_parse_collection` with the attribute names the author wrote and the output name. The structure check in `output_objects.py` stays as the backstop for YAML.
+- New `test_outputs_generic_collection_children` (XSD linter). It's red on `dev`'s XSD with `Element 'data': This element is not expected.`
+- Local results: test_parsing + test_tool_linters 240 passed, and all 311 test tools pass `.ci/validate_test_tools.sh`.
+- The human-read box was re-cleared because new tests and an XSD comment were added after John ticked it.
+- A process slip: a `git checkout -- galaxy.xsd` during a red check threw away the uncommitted XSD edit. I re-applied it before committing. Red checks from now on swap files through scratch copies.
+
 ## Left over (questions for John)
-- The XSD `Output` type allows no static `<data>` child, although the parser and a unit test support one. Add it to the XSD, or drop the test case?
-- `Output` uses the dataset-flavoured `discover_datasets`. Align it with the collection one?
-- The "Cannot set both type and type_source" message uses the `<collection>` attribute names for the generic form.
 - The output linters and `tool_util/upgrade` skip generic collection outputs.
 - Correct #23897's "never parsed" title and body?
