@@ -43,7 +43,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- Branch `issue_23897_xml_collection_output` (`79355838ae1`; targets `dev`) — Description: Fixes XML `<output type="collection">` parsing (#23897); blockers: fork CI, then polish; [debrief](issue_23897_xml_collection_output/implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23897_xml_collection_output?expand=1).
 - Branch `yaml_boolean_defaults` (`01027324b35`; targets `release_26.1`) — Description: First slice of #23888: honors explicit YAML Boolean defaults; specifies user-tool contracts with reusable API execution helpers and real YAML/JSON authoring fixtures; blockers: fork CI on `01027324b35` — YAML tools now follow the canonical contract on every load path (omitted `optional`/Boolean `value` → False, explicit null Boolean stays null under request execution; XML unchanged, John 2026-10-05); PR must flag the YAML behaviour change on a release branch; then polish; fixed CI's 401s by making `conftest.py` API interactor fixtures per-test (a session interactor's API key expired once a class-based test ran); PR should mention the conftest change; [debrief](branches/yaml_boolean_defaults/implementation_debrief.md).
 - Branch `activity_settings_availability` (`6c0307b4b35`, stacked on `shared_activity_availability`) — Description: Activity settings lists only optional activities the user can have: no Upload/Tools for custom-tool users, no disabled Interactive Tools/GalaxyAI; blockers: parent PR #23921; fork CI on `6c0307b4b35` — Playwright cache miss, full rerun 2026-10-06; macOS startup red `No module named 'boltons'` (undiagnosed); then polish; [debrief](branches/activity_settings_availability/implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:activity_settings_availability?expand=1).
 - Branch `pulsar_mq_status_poll` (`9815368a986`, rebased onto dev 2026-10-05, no conflicts) — Description: Opt-in `status_poll_interval` asks Pulsar MQ to resend lost job statuses; stops double finishes (revives #9911); blockers: Pulsar #532 release + pin bump; fork CI on `bde5c42735c` had relevant reds — mypy `Need type annotation` in `test/unit/app/jobs/test_pulsar_runner.py` (lines 333-386) and integration `test_status_poll_recovers_lost_complete_status`; [debrief](branches/pulsar_mq_status_poll/implementation_debrief.md).
@@ -64,7 +63,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- Branch `issue_23897_xml_collection_output` (`79355838ae1`; targets `dev`) — Description: Fixes XML `<output type="collection">` parsing (#23897); blockers: polishing in progress; [debrief](branches/issue_23897_xml_collection_output/implementation_debrief.md) — [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23897_xml_collection_output?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
