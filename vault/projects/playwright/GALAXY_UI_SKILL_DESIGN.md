@@ -21,10 +21,9 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
 - **Prerequisite PR 2** is branch `playwright_remote_debugging_port` @ `da5054d39f3`, handed to
   gx_branches (needs CI + polish).
 - **`gxui` MVP, external first** (John's call): `galaxy_ui_loop/gxui/` + `skill/galaxy-ui-driver/`,
-  run against the local-only `gxui_base` worktree (dev + PRs 1–2). 11 tests pass; a read-only smoke
-  on test.galaxyproject.org worked (status, `history-items`, `dataset-peek`, `tool-open` FastQC,
-  components, scoped snapshot, playwright-cli attach/detach). Findings below under "MVP findings".
-
+  run against the local-only `gxui_base` worktree (dev + PRs 1–2; how to run and recreate it is in
+  `galaxy_ui_loop/README.md`). 17 tests pass (`galaxy_ui_loop/tests/test_gxui.py`). Findings below
+  under "MVP findings".
 - **Arm A is wired** (`ARM=A ./run.sh`). runA1 crashed (gxui bug, fixed); runA2 and runA3
   **passed** all 13 boxes. runA3: 18.8 min, 3 gaps (runA2: 25.3 min, 14 gaps; arm B run1: 17.5
   min). Fresh input is flat across arms; arm A spends more turns and output. See
@@ -36,7 +35,10 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
    take n=3 per arm before quoting any delta.
 2. **Prerequisite PR 4 (public tool-form filler + `tool-describe`).** Larger. Lift it out of
    `RunsToolTests`, which then calls it.
-3. **Upstream the MVP findings** as small gx_branches PRs (Tool Shed `tool_open` first).
+3. **Upstream the Galaxy-side findings** as small gx_branches PRs: "MVP findings" below, plus the
+   runA2/runA3 Galaxy-side lists in `GALAXY_UI_SKILL_RUNS.md` (obsolete `step-label` in
+   `workflow_run_specify_inputs`, stale Multiview ids, opacity-0 extraction checkboxes). Tool Shed
+   `tool_open` first.
 4. **Loop, in parallel:**
    - Expand GTN `{% snippet faqs/... %}` includes before handing `tutorial.md` to the agent.
      phase0-run1 got them unexpanded.
@@ -46,8 +48,10 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
 - Should the skill live in `claude-jmchilton-plugins` or `galaxy-skills`?
 - REST during UI runs: allowed for staging and verification only, or always counted as a gap?
 - Should `drive-scenario` be retired into `galaxy-ui-driver`?
-- run1 left "My Analysis" link-accessible on John's test.galaxyproject.org account, along with two
-  histories and a workflow. Keep them or clean them up?
+- Test-server leftovers on John's test.galaxyproject.org account: run1, runA2 and runA3 each left
+  a link-accessible "My Analysis…" history, a "Next Analysis…" history, a "QC and filtering…"
+  workflow and an invocation; runA1 left one history. Keep them or clean them up? Runs add more
+  each time.
 
 ## MVP findings (2026-10-06)
 
@@ -67,7 +71,10 @@ small upstream PR candidate:
   `show_dataset_details`, `open_history_multi_view`, `workflow_import_submit_url` and others have
   no docstring, so help falls back to text written in `gxui`.
 - **Workflow extraction helpers exist** (`navigate_to_workflow_extraction`,
-  `extract_workflow_name_and_submit`); the verb table's "no helper" was stale.
+  `extract_workflow_name_and_submit`); the verb table's "no helper" was stale. But the step-toggle
+  and output-rename helpers (`extract_workflow_toggle_job`, `extract_workflow_rename_output`) live
+  in the test class in `test_workflow_extraction.py`, not `NavigatesGalaxy`, so `gxui` re-does them.
+  Input-card rename has no `navigation.yml` components at all.
 - **Cold start.** Importing `galaxy_test.selenium.framework` takes ~25 s the first time; a warm
   `gxui start` is ~10 s.
 - **Dialogs.** The passive listener also records dialogs `accept_alert` handles, so the "dialog

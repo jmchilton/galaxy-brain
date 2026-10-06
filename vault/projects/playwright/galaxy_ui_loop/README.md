@@ -29,8 +29,22 @@ Per run: `events.jsonl`, `codex-home/sessions` (token log), `work/notes.md`, `wo
 ## gxui (MVP, external first)
 
 `gxui/` is the CLI and daemon from `../GALAXY_UI_SKILL_DESIGN.md`; `skill/galaxy-ui-driver/SKILL.md`
-is the skill. It needs a Galaxy checkout with prerequisite PRs 1 and 2 - the local-only
-`gxui_base` worktree merges both - and a Python with Galaxy's deps:
+is the skill. It needs a Galaxy checkout with prerequisite PRs 1 and 2 and a Python with Galaxy's
+deps. `gxui_base` is a local-only worktree (never pushed) with no `.venv` of its own, so always set
+`GXUI_PYTHON`. Recreate it if it is gone (or once either PR changes):
+
+    git -C ~/projects/repositories/galaxy worktree add -b gxui_base ~/projects/worktrees/galaxy/branch/gxui_base playwright_remote_debugging_port
+    git -C ~/projects/worktrees/galaxy/branch/gxui_base merge --no-edit selenium_context_timeout_handler
+
+Arm A loop run (Codex; same prerequisites as arm B above):
+
+    ARM=A RUN_ID=phase1-runA4 GXUI_PYTHON=~/projects/worktrees/galaxy/branch/playwright_text_table_parity/.venv/bin/python ./run.sh
+    uv run --no-project --python 3.12 python verify.py ~/.cache/gxui-loop/runs/phase1-runA4
+
+For arm A count calls from `metrics.json`'s `gxui_layers`/`gxui_gaps` (the gxui transcript), not the
+shell-command counts: agents wrap `./gxui` in their own scripts.
+
+Interactive use:
 
     export GXUI_GALAXY_ROOT=~/projects/worktrees/galaxy/branch/gxui_base   # the default
     export GXUI_PYTHON=~/projects/worktrees/galaxy/branch/playwright_text_table_parity/.venv/bin/python
