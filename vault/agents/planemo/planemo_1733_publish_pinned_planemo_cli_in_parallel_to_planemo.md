@@ -152,3 +152,6 @@ Re-reviewed 2026-10-05 against origin/master `515e928e`. PR CI at review time: `
 ### Verdict
 
 Close. Fix 1 before merge (CI mypy red); 2 is a one-character fix worth folding in. 3-7 are small cleanups; 3 also gives the `release` group a real consumer.
+
+### Re-review fixes (ec92e116)
+All re-review findings addressed except `click.MultiCommand` -> `click.Group` (follow-up). `typecheck` group for tox mypy; deploy uses `uv sync --locked --only-group release` (pip step + `cache: pip` gone); `skip-existing: true`; `uv export --locked`; `test_workflow_tests.sh` glob `planemo-*.whl`; CONTRIBUTING/developing docs. Verified: py313 mypy + lint OK, `make check-dependencies`, release-only venv `make dist` -> 4 artifacts twine PASSED, zizmor clean. Remaining: PR body w/ admin checklist (galaxybot fork, `GALAXYBOT_PAT`, delete `PYPI_PASSWORD`).
