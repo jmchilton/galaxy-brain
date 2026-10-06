@@ -53,7 +53,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
-- Branch `issue_23900_rename_single_pass` (`477027c4f71`, restacked on rebased `issue_23896_rename_input_segments` 2026-10-05) — Description: Resolves workflow rename `#{...}` placeholders in one regex pass, so an empty placeholder no longer leaves the next one literal in the output name (fixes #23900); blockers: parent #23918 merged 2026-10-05 (base now `dev`); fork CI on `477027c4f71` queued (was green except Rucio at `2b15270dded`), then polish; [debrief](branches/issue_23900_rename_single_pass/implementation_debrief.md).
 - Branch `playwright_scoped_css_parity` (`e2eeec2f4b0`, rewritten 2026-10-05, stacked on `playwright_text_table_parity`) — Description: Drops the redundant `.stateless-tags` prefix from `test_tags`' tag editor selectors, unblocking the test under Playwright; blockers: fork CI on `e2eeec2f4b0` — polish after its parent; top of the stack; [debrief](branches/playwright_scoped_css_parity/implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:playwright_scoped_css_parity?expand=1).
 - Branch `upgrade_advice_structured_like` (`051335c00d1`, rebased onto dev 2026-10-05, no conflicts) — Description: Moves `structured_like` qualification upgrade advice from 18.01 to a new 26.0 migration (fixes #23884); blockers: fork CI on `051335c00d1` (was green except Rucio at `cbbfcc7c445`) — polish; [debrief](branches/upgrade_advice_structured_like/implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upgrade_advice_structured_like?expand=1).
 - Branch `optional_input_gating` (`2837cb477f8`; parent #23816 merged 2026-10-05) — Description: Runs workflow steps only when their optional inputs are present; blockers: rebased onto dev 2026-10-05 and its tests ported to Vue 3 (`NodeInput`, `Lint`, `FormConditional`; 268 vitest pass, vue-tsc clean) — fork CI on `2837cb477f8` done, reds unrelated (Selenium `test_history_options` flake; Converter quay.io timeout) — polish next; local `pick_value_module` worktree is stale at `dc180747adc` (3 local-only commits); [draft description](branches/optional_input_gating/pr_description.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:optional_input_gating?expand=1).
@@ -61,7 +60,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- Branch `issue_23900_rename_single_pass` (`477027c4f71`, on `dev`) — Description: Resolves workflow rename `#{...}` placeholders in one regex pass, so an empty placeholder no longer leaves the next one literal (fixes #23900); blockers: polishing in progress; [debrief](branches/issue_23900_rename_single_pass/implementation_debrief.md) — [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23900_rename_single_pass?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
