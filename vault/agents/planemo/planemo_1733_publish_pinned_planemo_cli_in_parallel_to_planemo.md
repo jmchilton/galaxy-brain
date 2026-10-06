@@ -1,9 +1,9 @@
 # planemo #1733 - Publish pinned planemo-cli in parallel to planemo
 
-- PR: https://github.com/galaxyproject/planemo/pull/1733 (branch `jmchilton:publish-planemo-cli`, current reviewed head `d929cefaf203ae6e6ec4de37b476ce1af357d7c2`)
+- PR: https://github.com/galaxyproject/planemo/pull/1733 (branch `jmchilton:publish-planemo-cli`, independently reviewed head `d929cefaf203ae6e6ec4de37b476ce1af357d7c2`, locked-CI follow-up `92359c14ad15097d1b3f9fd696f4e60536cff872`)
 - Worktree: `~/projects/worktrees/planemo/branch/publish-planemo-cli` (based on origin/master `515e928e`)
-- Reviewed: 2026-10-06. All checks on the current head pass; PyPI publishing is skipped on the PR.
-- Current verdict: implementation sound and clear, no new correctness findings or merge blockers. See [Independent Codex review — 2026-10-06](#independent-codex-review--2026-10-06) below for current validation and the optional pinned-runtime CI follow-up.
+- Reviewed: 2026-10-06. All checks on the independently reviewed head pass; the locked-CI follow-up has passed local checks and its GitHub checks are queued. PyPI publishing is skipped on the PR.
+- Current verdict: implementation sound and clear, no new correctness findings or merge blockers. See [Independent Codex review — 2026-10-06](#independent-codex-review--2026-10-06) below. The requested full-matrix locked-runtime follow-up is implemented in `92359c14`; see the final section for validation.
 
 The older review passes below record prior heads and findings, including issues subsequently resolved. They are historical context, not the current verdict.
 
@@ -182,3 +182,15 @@ The central abstraction is now small: `scripts/build_distributions.py:25-51` sta
 One main-suite CI job using the locked runtime would strengthen the assurance behind the CLI pins. `.github/workflows/deploy.yaml:49-59` currently checks version output, tool linting, and report generation against the built wheels; the broader `.github/workflows/ci.yaml` tox suite resolves dependencies independently. The local pinned quick-suite run did not uncover a runtime incompatibility, so this is a validation improvement rather than a defect or merge condition.
 
 The migration uses standard dependency groups and uv export behavior; consulted the primary [uv dependency documentation](https://docs.astral.sh/uv/concepts/projects/dependencies/) and [uv command reference](https://docs.astral.sh/uv/reference/cli/#uv-export) when checking group selection and export semantics.
+
+## Locked CI implementation — 2026-10-06
+
+John requested that the full existing test matrix exercise the locked runtime, rather than adding just one locked test job. Implemented and pushed [92359c14](https://github.com/jmchilton/planemo/commit/92359c14ad15097d1b3f9fd696f4e60536cff872) on [publish-planemo-cli](https://github.com/jmchilton/planemo/tree/publish-planemo-cli).
+
+- All 13 existing Python CI matrix entries export `uv.lock` with every dependency group and apply it through tox's `constraints` option. This covers both dependency-group installation and Planemo's package dependencies, including all existing Galaxy integration jobs. Galaxy's separate environments resolve their own dependencies.
+- One additional Python 3.13 quick-test job resolves the latest allowed dependencies to retain coverage of the library's loose requirements. Existing check names are preserved, and the extra job has a distinct name.
+- Raised tox's minimum to 4.28, which introduced the `constraints` option. The path is supplied through `PLANEMO_TEST_CONSTRAINTS`; ordinary local tox use remains unconstrained unless explicitly supplied. Developer documentation includes the matching local commands. No generated requirements file is committed.
+
+Validation: all original matrix combinations are preserved and locked; the latest job has no constraints in the effective tox configuration. Tox's installation logs confirm the constraints apply to both test tools and runtime requirements. All 106 installed dependencies covered by the active constraints match their lockfile versions, and `uv pip check` passes. Python 3.10 locked lint and mypy pass; the locked Python 3.13 quick suite reports **495 passed, 103 skipped, 1 deselected** (the unavailable local Docker test). Developer documentation parses without warnings, `uv lock --check` and `git diff --check` pass, and zizmor reports no workflow findings.
+
+The new [Python CI run](https://github.com/galaxyproject/planemo/actions/runs/37486220225) is queued for the pushed head. Full integration results are pending; the local checks above do not substitute for those jobs.
