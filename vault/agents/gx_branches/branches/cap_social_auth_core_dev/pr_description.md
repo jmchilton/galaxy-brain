@@ -8,7 +8,7 @@ ImportError: cannot import name 'AuthMissingParameter' from 'social_core.excepti
 
 ***This is a full merge-forward. Besides the cap, it carries the 26.1 fixes not yet on dev (#23928 Safari workflow connection drags, #23909 history/workflow card owner actions). Those merged without conflicts.***
 
-***Only conflict: `packages/data/setup.cfg` is gone on dev. The cap goes in `packages/data/pyproject.toml` instead.*** Root `pyproject.toml` merged cleanly.
+***Only conflict: `packages/data/setup.cfg` is gone on dev. The cap goes in `packages/data/pyproject.toml` instead.***
 
 ***Server installs aren't affected. `pinned-requirements.txt` pins 5.2.0 here.*** The 6.0 port is tracked in #23941.
 

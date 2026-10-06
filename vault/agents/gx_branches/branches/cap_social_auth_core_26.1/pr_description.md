@@ -6,7 +6,7 @@ Merge #23940 (cap `social-auth-core` below 6) forward to `release_26.1`, so pack
 ImportError: cannot import name 'AuthMissingParameter' from 'social_core.exceptions'
 ```
 
-***This is a merge of the 26.0 branch, not a separate fix. It merged cleanly; the diff against `release_26.1` is the same two lines (`packages/data/setup.cfg`, `pyproject.toml`).***
+***This is a merge of the 26.0 branch, not a separate fix. It merged cleanly; the diff against `release_26.1` is the same one line in `packages/data/setup.cfg`.***
 
 ***Server installs aren't affected. `pinned-requirements.txt` pins 4.9.1 here.*** The 6.0 port is tracked in #23941.
 
