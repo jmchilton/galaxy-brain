@@ -1,0 +1,6 @@
+__pycache__/
+.daemon/
+.playwright-cli/
+auth/
+runs/
+node_modules/

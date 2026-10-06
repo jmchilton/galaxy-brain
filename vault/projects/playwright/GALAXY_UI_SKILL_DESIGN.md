@@ -4,6 +4,44 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
 [GALAXY_UI_SKILL_RESEARCH.md](GALAXY_UI_SKILL_RESEARCH.md). All Galaxy refs are against dev as of
 2026-10-06.
 
+## Status and next steps (2026-10-06)
+
+**Done:**
+- **Research.** CLI vs MCP; the decision is a CLI skill (`GALAXY_UI_SKILL_RESEARCH.md`).
+- **This design.** The skill is named `galaxy-ui` and its CLI `gxui`.
+- **Loop design** (`GALAXY_UI_SKILL_LOOP.md`).
+- **Phase 0, run 1.** Codex + playwright-cli on GTN `galaxy-intro-short` against
+  test.galaxyproject.org passed verification (`GALAXY_UI_SKILL_RUNS.md`).
+- **Spikes S1–S3 are all resolved** (below).
+- **The harness** is source in `galaxy_ui_loop/`, with state in `~/.cache/gxui-loop`. See its
+  README.
+- **Prerequisite PR 1** is branch `selenium_context_timeout_handler`, approved at `46aebb27457`.
+  The gx_branches process owns it from here.
+
+**Next, in order:**
+1. **Prerequisite PR 2 (driver attachability).** Add an opt-in `remote_debugging_port` in
+   `get_playwright_driver`, passed to `launch(args=...)`. Per S1, nothing else is needed. It is a
+   small gx_branches branch off dev, red-to-green in `test/unit/selenium/test_driver_factory.py`
+   (attach over CDP and see the page).
+2. **Prerequisite PR 4 (public tool-form filler + `tool-describe`).** Larger. Lift it out of
+   `RunsToolTests`, which then calls it.
+3. **The `gxui` MVP (PR 5).** Build the daemon per the S3 decisions, the verb registry from the
+   verb table, and the transcript, plus a unit test driving `basic.html` through the daemon. Start
+   from `galaxy_ui_loop/spikes/gxui_spike.py`, which is the prototype S3 tested.
+4. **Loop, in parallel with 1–3:**
+   - Expand GTN `{% snippet faqs/... %}` includes before handing `tutorial.md` to the agent.
+     phase0-run1 got them unexpanded.
+   - Do runs 2–3 of arm B to get an n=3 baseline.
+   - Then run arm A on the same target once `gxui` exists.
+
+**Open questions for John:**
+- Should the daemon live upstream in `lib/galaxy_test/selenium/`, or start external?
+- Should the skill live in `claude-jmchilton-plugins` or `galaxy-skills`?
+- REST during UI runs: allowed for staging and verification only, or always counted as a gap?
+- Should `drive-scenario` be retired into `galaxy-ui`?
+- run1 left "My Analysis" link-accessible on John's test.galaxyproject.org account, along with two
+  histories and a workflow. Keep them or clean them up?
+
 ## Shape
 
 ```
@@ -91,7 +129,8 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
 
 ## Prerequisite PRs (small, atomic, in this order)
 
-1. **Fix the standalone context bootstrap.**
+1. **Fix the standalone context bootstrap.** Branch `selenium_context_timeout_handler`,
+   approved at `46aebb27457`.
    - `GalaxySeleniumContextImpl.__init__` (`context.py:62`) calls
      `ConfiguredDriver(**from_dict.get("driver", {}))`, but `ConfiguredDriver` has required a
      positional `timeout_handler` since `086eac9dfe7`. So `context.init()` and both Jupyter
