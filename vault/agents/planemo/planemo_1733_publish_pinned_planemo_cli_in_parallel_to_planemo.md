@@ -123,3 +123,32 @@ Core that must stay: `build_distributions.py`, `uv.lock`, deploy build + smoke j
 - Dependabot `uv` deferred - known issues: `versioning-strategy` dropped before the uv updater (raises pyproject floors; dependabot-core#16112), and `lockfile-only` skips transitives (dependabot-core#14073). Needs decision vs a scheduled `uv lock --upgrade` workflow.
 - 69e03a46: weekly `uv lock --upgrade` PR workflow (John chose scheduled workflow over dependabot). zizmor offline clean. Blocked on admin setup: galaxybot fork of planemo + `GALAXYBOT_PAT` secret (Galaxy's is repo-level; not visible to planemo). Side note: planemo still has a 2020 `PYPI_PASSWORD` repo secret, unused since trusted publishing - candidate to delete.
 - e007de62: deleted `check_distributions.py`, `check_installed_distribution.py`, `test_wheel.bash`; MANIFEST scripts line gone; `PROJECT_EMAIL` hardcoded (no importlib.metadata). `test_packages` = 4 jobs running the wheel via `uvx --from` (cli 3.10/3.14/macOS 3.13, planemo 3.13). Smoke script verified locally for cli/3.10 and planemo/3.13. Only new script left: `build_distributions.py`.
+
+## Re-review (e007de62)
+
+Re-reviewed 2026-10-05 against origin/master `515e928e`. PR CI at review time: `build_packages` pass; everything else pending.
+
+### Findings (by severity)
+
+1. **Blocking - CI `mypy` jobs (3.10 and 3.13) will fail.** `tox.ini:31` `lint,mypy: lint` gives the `skip_install` mypy env the whole lint group; `black` pulls in `click` (8.5.0), so mypy now type-checks against real click stubs and errors on `planemo/cli.py:128` `class PlanemoCLI(click.MultiCommand)` (`Variable "click.MultiCommand" is not valid as a type` + `Invalid base class`). Master's mypy env had only mypy (click unresolved, `ignore_missing_imports`) and passes. Same error happens in a `make setup-venv` `.venv`. Fix: separate group `typecheck = ["mypy"]` (included in `dev`), `lint: lint` + `mypy: typecheck` in tox - verified passes in a scratch copy. Porting `PlanemoCLI` to `click.Group` is the real follow-up.
+2. **Medium - `scripts/test_workflow_tests.sh:18`** `PLANEMO_TARGET="$PROJECT_DIRECTORY/dist/planemo*whl"` now matches both wheels, so `run_galaxy_workflow_tests.sh:23` `pip install ${PLANEMO_TARGET}` installs planemo and planemo-cli into one venv - the combination `docs/installation.rst` says not to do. Not in the CI matrix but it is the `gxwf_test_test` tox env. Fix: `dist/planemo-*.whl`.
+3. **Low - `deploy.yaml:12-19`** still installs `build twine tomlkit` unpinned via pip (plus `cache: pip`, now keyed off `docs/requirements.txt`) while the `release` dependency group lists the same tools in the lock and has no consumer besides `dev`. Fix: move setup-uv first, replace the pip step with `uv sync --locked --only-group release`, drop `cache: pip`; `make dist`'s `IN_VENV` then uses `.venv`. Verified locally: builds all 4 artifacts, `twine check` passes.
+4. **Low - `scripts/build_distributions.py:17`** `--frozen` -> `--locked`, so a stale `uv.lock` fails `make dist` / `make release` locally (the release path never runs `check-dependencies`) instead of shipping stale pins.
+5. **Nit - `deploy.yaml:25`** `make check-dependencies VENV=SKIP`: `VENV` has no effect on that target; drop it.
+6. **Nit - `scripts/build_distributions.py:48`** "This archive was produced immediately above by our own build backend." still there (earlier finding 16).
+7. **Nit - stale docs.** `CONTRIBUTING.rst:71` still says "Assuming you have virtualenvwrapper installed" before `make setup-venv`; it now requires uv. `docs/developing.rst:46` "consume the committed snapshot" -> "the committed `uv.lock`".
+8. **Still open from earlier:** `skip-existing: true` on publish (next step 4). PR body has no precondition checklist (galaxybot/planemo fork + `GALAXYBOT_PAT` secret pending).
+
+### Verified clean
+
+- No leftover references to deleted files/targets (`requirements.txt`, `dev-requirements.txt`, `update_dependencies`, `check_distributions`, `check_installed_distribution`, `test_wheel`) outside historical `docs/notebooks/cwl.ipynb` output. `.claude/commands/ready-release.md`, Makefile, tox, MANIFEST, workflows clean. `stdlib-list` drop is dead code (guarded by `< 3.10`); `wheel` drop is fine (build backend handles it); toil kept in `cwl-test`.
+- `uv lock --check` passes (uv 0.10.7).
+- `build_distributions.py`: 4 artifacts, `twine check` pass; CLI wheel `Name: planemo-cli`, 111 `==` pins with markers kept; wheel payloads identical; CLI sdist ships `requirements-cli.txt`, regenerated `planemo_cli.egg-info`, rebuilds with no uv on PATH (111 pins). Imports at top.
+- deploy.yaml: setup-uv runs before both `check-dependencies` and `make dist`; pip `tomlkit` still needed only because of finding 3. uvx smoke step emulated exactly (shell function, `ls` glob, temp cwd) for planemo_cli/3.14 and planemo/3.13: all pass (cosmetic glob2 `\Z` SyntaxWarning). `pypi-publish` needs `[build_packages, test_packages]` correct.
+- tox (4.50.1, py313): lint pass; unit-quick/lint_docs/lint_docstrings provision with the right groups (test group + package deps; docs group + package deps). lint_docs warnings identical to master locally (pre-existing autodoc failures on macOS).
+- `gxwf_test_test`: `make setup-venv` = `uv sync --locked` (default `dev` group incl. `release`) so `make dist` works; needs uv on PATH, not in CI matrix. Old `setup-venv` exited after creating the venv without installing - now fixed.
+- dependencies.yaml mirrors Galaxy's (branch/fork renamed, `dependencies` label exists on planemo, setup-uv pinned version instead of `python-version` - fine for a universal lock). `uvx zizmor --offline --config zizmor.yml .github/`: no findings.
+
+### Verdict
+
+Close. Fix 1 before merge (CI mypy red); 2 is a one-character fix worth folding in. 3-7 are small cleanups; 3 also gives the `release` group a real consumer.
