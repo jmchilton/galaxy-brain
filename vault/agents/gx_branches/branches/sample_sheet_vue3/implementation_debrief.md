@@ -1,8 +1,8 @@
 # sample_sheet_vue3 — implementation debrief
 
-Branch `sample_sheet_vue3` at `2e3fe908530`, on dev `253a4cb0b9c`. Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/sample_sheet_vue3` (shared with the stacked `ag_grid_36`).
+Branch `sample_sheet_vue3` at `58a1b813b85`, stacked on dannon's #23938 (ag-grid 31.3.4 bump, head `9fbdfc9fff4`). First built on dev `253a4cb0b9c` (`2e3fe908530`); John asked to build on #23938. Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/sample_sheet_vue3` (shared with the stacked `ag_grid_36`).
 
-John asked for a review of the sample sheet components' ag-grid use after the Vue 3 move, with a rewrite toward Vue 3 patterns where it reads better. Stays on ag-grid 30.2.1; the upgrade is the stacked `ag_grid_36`.
+John asked for a review of the sample sheet components' ag-grid use after the Vue 3 move, with a rewrite toward Vue 3 patterns where it reads better. Runs on ag-grid 31.3.4 from #23938; the 36 upgrade is the stacked `ag_grid_36`.
 
 ## Bugs fixed (each red first)
 - `SampleSheetGrid` watched `() => { props.initialElements; }`, which returns undefined and never re-fires. A workbook dropped on the fill-grid step never reloaded the sheet.
@@ -40,6 +40,13 @@ John asked for a review of the sample sheet components' ag-grid use after the Vu
 - **Validate `file_type`/`dbkey` extra columns with `useGridHelpers().makeExtensionColumn`/`makeDbkeyColumn`, as `FetchGrid` does.** This predates the branch; follow-up.
 - **`DisplayCollectionAsSheet` could use a `computed` instead of the watch→ref composable.** Kept the composable so both grids share one row source.
 
+## Rebase onto #23938
+- One conflict, `useAgGrid.ts`: #23938 also drops `columnApi`, so the composable now returns `gridApi` and `resize` only.
+- The `ag-grid-vue3` 31.3.4 wrapper still passes `markRaw(toRaw(rows))` and still finds renderers by name on `$parent.$options.components`, so nothing here changes.
+- 31 turns `animateRows` on by default (30 had it off). On 36 that broke `test_build_paired_list_manual_matched`. John chose to wait on #23938's CI rather than act; this branch doesn't touch it.
+- On 31.3.4: vitest 150/150, vue-tsc clean. E2E on 31.3.4 under Playwright: both sample sheet chipseq tests, `test_build_list_of_lists`, `test_rules_example_3_list_pairs` pass (`manual_matched` not run; left to #23938 CI)
+
 ## Open
+- Open the PR only after #23938 merges.
 - Fork CI not run yet.
 - Overlaps #23922 (`workbook_import`) only on one deleted line in `SampleSheetWizard.vue` (the stray `height="300px"`).

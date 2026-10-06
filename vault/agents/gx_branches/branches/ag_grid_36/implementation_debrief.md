@@ -1,11 +1,11 @@
 # ag_grid_36 — implementation debrief
 
-Branch `ag_grid_36` at `18be5430e60`, stacked on `sample_sheet_vue3` (`2e3fe908530`). Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/sample_sheet_vue3`.
+Branch `ag_grid_36` at `e1f12c03d14`, stacked on `sample_sheet_vue3` (`58a1b813b85`), which sits on dannon's #23938 (31.3.4). Was `18be5430e60` on dev before the rebase. Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/sample_sheet_vue3`.
 
-Upgrades `ag-grid-community` and `ag-grid-vue3` from 30.2.1 to 36.2.0, both pinned exactly. This supersedes Dependabot #22916, which should be closed; nothing has been posted on it. #22916 bumps only `ag-grid-community` to 31.3.4, and `ag-grid-vue3@30.2.1` pins `ag-grid-community ~30.2.1`.
+Upgrades `ag-grid-community` and `ag-grid-vue3` from 31.3.4 to 36.2.0, both pinned exactly. #23938 already supersedes Dependabot #22916 and fixes the CVE, so this branch is now an optional follow-up rather than a security fix.
 
 ## Why 36 and not 32 LTS
-- **Security:** 30.2.1 is affected by CVE-2024-38996 (GHSA-876p-c77m-x2hc, prototype pollution via `mergeDeep`, CVSS 9.8), fixed in 31.3.4.
+- **Security (now handled by #23938):** 30.2.1 is affected by CVE-2024-38996 (GHSA-876p-c77m-x2hc, prototype pollution via `mergeDeep`, CVSS 9.8), fixed in 31.3.4.
 - **LTS is stale:** 32.3.9 was the last 32 LTS release, on 2025-08-13.
 - **Cost of 36 is contained:** the work 33+ needs (module registration and opting out of the new themes) sits in `useAgGrid`.
 - **Bundle:** the gzipped grid chunk is about 227 KB on 32 vs 317 KB on 36 with `AllCommunityModule`, or 266 KB with only the modules Galaxy needs. The chunk is lazy-loaded.
@@ -47,6 +47,11 @@ Upgrades `ag-grid-community` and `ag-grid-vue3` from 30.2.1 to 36.2.0, both pinn
 - **Move from `theme: "legacy"` to the Theming API (`themeAlpine`).** That is a visual change, and AG Grid has deprecated legacy themes but not removed them. Follow-up.
 - **Add a Dependabot group for the pair.** npm isn't in `.github/dependabot.yml` (security PRs only), so the exact pins carry the lockstep.
 
+## Rebase onto #23938
+- Conflicts in `package.json`, `RuleGrid.vue` and `useAgGrid.ts` were the same edits on both sides; kept this branch's. The lockfile was regenerated from #23938's; it changes only the ag-grid entries.
+- `git range-diff` shows the grid patch is unchanged apart from the base, so the E2E results above were not re-run. vitest 153/153 and vue-tsc clean on the rebase.
+- The commit message now says 31.3.4 → 36.2.0 and drops the CVE and #22916 framing.
+
 ## Open
 - Fork CI not run yet.
-- Ship after or with `sample_sheet_vue3`; the PR should say it supersedes #22916.
+- Ship after `sample_sheet_vue3`, which waits on #23938. Whether 36 is worth it is Dannon's call.
