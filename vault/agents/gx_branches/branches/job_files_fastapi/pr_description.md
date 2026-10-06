@@ -71,7 +71,7 @@ Builds on 🔀 #23856, which hardened the legacy endpoint and added the tests th
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Galaxy's usual JSON errors with 400/403/404 codes (table above). The one gap is an early 403 on a large upload, which can surface as a connection reset.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. Integration tests go through HTTP and check status codes, file contents, Pulsar's query mode, form mode, appends and percent-escaped paths. Two streaming tests watch the staged file grow before the request finishes, to show the upload isn't spooled.
