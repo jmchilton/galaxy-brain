@@ -1,8 +1,8 @@
 # issue_21015_multiple_text_param — implementation debrief
 
-Multiple **text** workflow parameters ("Allow multiple selection"), done the same way as #23802 / #23939 did multiple integers. Issue: [#21015](https://github.com/galaxyproject/galaxy/issues/21015). Branch on the `jmchilton` fork at `2d3a5849032`. No PR opened.
+Multiple **text** workflow parameters ("Allow multiple selection"), done the same way as #23802 / #23939 did multiple integers. Issue: [#21015](https://github.com/galaxyproject/galaxy/issues/21015). Branch on the `jmchilton` fork at `4736fd1d066`, rebased onto dev `02a2e659909`. No PR opened.
 
-**Stacked on #23939** (`workflow_multiple_parameter_followups`, head `e95b6a48fe9`). Both branches rewrite the same `IntegerToolParameter` multiple methods in `basic.py`, and #23939's list-only decision shapes this design. #23939 has since merged to dev (confirmed 2026-10-07), so rebase onto dev (a 3-commit cherry-pick) before opening the PR.
+**Stacked on #23939** (`workflow_multiple_parameter_followups`, head `e95b6a48fe9`). Both branches rewrite the same `IntegerToolParameter` multiple methods in `basic.py`, and #23939's list-only decision shapes this design. #23939 merged to dev, and the branch was rebased onto dev on 2026-10-07 (3 commits, no conflicts).
 
 ## Finding that shaped the work
 
@@ -12,7 +12,7 @@ The first pass split newline strings on the backend. It was dropped after findin
 
 ## Commits
 
-1. `849c699a16d` Validate and store multiple text values as lists.
+1. `e5ed863f3c5` Validate and store multiple text values as lists.
    - Moves the multiple handling (`_is_multiple_value`, `_multiple_values`, per-entry `validate`, list `to_json`) up from `IntegerToolParameter` to `TextToolParameter`. Integer keeps only its int conversion.
    - Text entries become strings. Empty, non-text (e.g. nested list) and newline-containing entries are rejected; the newline check mirrors #23939's rejection of `"1\n2"`. A bare string becomes a one-item list.
    - Text gets multiple-aware `from_json` and `get_initial_value`, so editor-saved defaults are normalized too.
@@ -20,12 +20,12 @@ The first pass split newline strings on the backend. It was dropped after findin
    - Float gets the same conversion, initial-value and `__init__` handling as Integer. This is needed because `run_request` now calls `to_python` for every multiple `TextToolParameter` subclass. Without it, gxformat2 `[float]` list submissions would have started failing.
    - `get_default_parameter` passes `multiple` for text too, so the editor default takes a list.
    - `MockTrans` gains `security`, which `get_config_form` needs for select fields.
-2. `e347208ed3c` Rename/generalize `FormNumberList` → `FormValueList`, with text rows that render `FormText` and skip comma splitting.
+2. `13429d82a15` Rename/generalize `FormNumberList` → `FormValueList`, with text rows that render `FormText` and skip comma splitting.
    - `FormElement` routes multiple integer, float and text to it.
    - Text rows keep `datalist` suggestions, with a per-row id (`<id>-<rowkey>`) so each row's `list` attribute points at its own `<datalist>`. On dev a multiple text field is a textarea, which drops suggestions, so this gap is older than the branch. It's fixed here because the per-row fields only exist on this branch.
    - Navigation selectors renamed `*_number_list_*` → `*_value_list_*`. Row selector is `//input[not(@type="range")]`.
    - New Selenium tests: editor connection to `multi_select` (the #21015 flow) and run form with a text list.
-3. `2d3a5849032` `restrict_options` preselects every value of a list default.
+3. `4736fd1d066` `restrict_options` preselects every value of a list default.
    - Caught in review: once the editor default became a list, `restrictOnConnections` stopped preselecting it.
 
 ## Validation
@@ -52,6 +52,17 @@ The first pass split newline strings on the backend. It was dropped after findin
   - Selenium backend not run.
 - `vue-tsc` is clean for touched files; the `WorkflowExtractionForm.test.ts` errors are already on the base. mypy (run from `lib/`) is clean for touched files. Pre-commit hooks pass.
 - Port 8080 belonged to the `workflow_multiple_parameter_followups` worktree's Galaxy, so this worktree's untracked `config/galaxy.yml` binds 8081.
+
+- After the rebase onto dev, all rerun green:
+  - unit workflows: 176 passed, 1 skipped;
+  - doctests: 15;
+  - API subset: 18;
+  - build_module: 8;
+  - framework workflows: 3;
+  - vitest Form: 28;
+  - all 5 Playwright tests, on a restarted Galaxy and Vite.
+  - `vue-tsc` is clean. mypy reports nothing in touched files; its 23 errors are in unrelated modules and stubs.
+  - Dev's `FormText` change (the `list` attribute is set only when there are suggestions) works with the per-row ids.
 
 ## Review (subagent) — acted on
 
