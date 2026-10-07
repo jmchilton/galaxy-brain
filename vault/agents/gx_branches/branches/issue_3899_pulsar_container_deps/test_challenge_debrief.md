@@ -1,6 +1,6 @@
 # Test challenge debrief: issue_3899_pulsar_container_deps
 
-Process: `vault/agents/_shared/GX_CHALLENGE_TESTS.md`. Changes are uncommitted in the worktree.
+Process: `vault/agents/_shared/GX_CHALLENGE_TESTS.md`. Changes committed as `9bf9056b1cc`.
 
 ## Unit tests (`test/unit/app/jobs/test_pulsar_runner.py`)
 
