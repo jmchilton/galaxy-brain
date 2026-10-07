@@ -1,0 +1,4 @@
+- Type `copy_tags_to` as an iterable and test nested tags survive an HDCA copy
+- Test that collection element tags survive copying an HDCA to another history
+- Clean up HDA `copy_tags` typing and add a regression test for #10230
+- Drop the dead dict branch from `copy_tags_to` and test HDCA copy tags
