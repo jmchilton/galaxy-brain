@@ -1,0 +1,4 @@
+- Fix "Show inputs for this item" in imported histories
+- Make the related filter work on imported and copied history items
+- Follow copied_from links when finding related history items
+- Fix related items filter for copied datasets and collections
