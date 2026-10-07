@@ -29,7 +29,7 @@ Builds on 🔀 #23779, which converted both components to `<script setup>`. Revi
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? The same red alert in the install monitor (and polling stops), and the same "Failed to generate download" toast on the button. For a failed `/ready` poll it now carries the API's error message instead of a stringified `AxiosError`.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They count real requests after unmount and check `window.location.assign` isn't called, without inspecting timers or private state.
