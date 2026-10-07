@@ -9,7 +9,7 @@ What the `related:<hid>` filter highlights after you click "Show inputs for this
 | Another history it was copied into, with new hids | the clicked item only ❌ | the copies of its inputs and outputs in that history ✅ |
 | An imported history where a new job ran on an imported dataset | the new job's items only ❌ | the original job's items and the new job's ✅ |
 
-The second row is covered by two API tests that fail on `dev` at the bug's assertion: one for datasets (`[1] == [1, 3]`) and one for collections (`[1] == [1, 12]`). Rows 3 and 4 are unit tests in `test_JobConnectionsManager.py` that also fail on `dev`.
+Each of the last three rows is an API test that fails on `dev` at the bug's assertion. Row 2 has two, one for datasets and one for collections.
 
 Importing a shared or published history is how people study someone else's analysis, and that's exactly where "what produced this?" matters. Today the button is there but does nothing useful. Importing copies each dataset and collection, but jobs keep pointing at the originals, so the copies have no job connections at all. This PR follows each item's existing `copied_from_*` link back to the item a job actually used, collects that item's connections, and maps them back onto the copies in the current history. ***Nothing changes about importing or copying: no jobs are copied, no new columns, no migration, no client change. The filter reads the links that copies already record.*** ***It only ever returns hids from the history being viewed, even when the chain runs through another user's history.***
 
@@ -44,7 +44,7 @@ Risks are minimal - this change doesn't lock Galaxy into particular difficult to
 <details><summary>Risk Details</summary>
 
 - The API shape is unchanged: `related:<hid>` still returns a list of hids.
-- The unit tests run on SQLite only. The two API tests exercise both CTEs and run on Postgres in CI; locally they ran on SQLite.
+- The recursive CTEs ran only on SQLite locally. The API tests exercise both of them, and CI runs them on Postgres.
 - Each click runs the collection CTE over every HDCA in the history. Each step is a primary-key join, but a history with thousands of collections pays for all of them.
 
 </details>
@@ -58,7 +58,7 @@ Builds on 🔀 #15210, which added the `related` filter. Alternative to #15573.
 - [ ] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? If the copy chain breaks (e.g. a library-dataset hop), only the clicked item is highlighted, as on `dev`. A query error shows as the usual filter error in the history panel.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. They build real job graphs, copy them with `History.copy`, `HDA.copy` and `HDCA.copy`, and check the hids that come back, including copies that get new hids, copies of copies, jobs run on copies, and jobs run on a collection element.
+- [x] Are unit tests not just testing the literal implementation? N/A. There are no unit tests. The API tests run real tools, copy histories and items through the API, and check the hids the filter returns.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 
@@ -67,14 +67,11 @@ Builds on 🔀 #15210, which added the `related` filter. Alternative to #15573.
 
 <details><summary>Tests</summary>
 
-- `test/unit/app/managers/test_JobConnectionsManager.py`:
-  - `test_related_hids`: the same history, then `History.copy()` of it
-  - `test_related_hids_copied_items_new_hids`: items copied into another history with new hids
-  - `test_related_hids_jobs_on_copies`: a job run on a copy, a copy of that copy, and the original history left unchanged
-  - `test_related_hids_collection_elements`: a job run on a collection element, before and after `History.copy()`
-- `lib/galaxy_test/api/test_history_contents.py`, both fail on `dev`:
-  - `test_index_filter_by_related_items_copied_history`: a tool run on a dataset (`[1] == [1, 3]`)
+- `lib/galaxy_test/api/test_history_contents.py` (all four fail on `dev`):
+  - `test_index_filter_by_related_items_copied_history`: a tool run on a dataset, then the history copied (`[1] == [1, 3]`)
   - `test_index_filter_by_related_collections_copied_history`: `__FILTER_FAILED_DATASETS__` run on a list, plus an unrelated list (`[1] == [1, 12]`)
+  - `test_index_filter_by_related_items_copied_with_new_hids`: datasets and collections copied into a new history, outputs before inputs, so the copies get new hids (`[3] == [2, 3]`)
+  - `test_index_filter_by_related_items_jobs_on_copies`: a tool run on a dataset in the copied history, then that history copied again (two copy levels), and the original history left unchanged (`[1, 3] == [1, 2, 3]`)
 - `lib/galaxy_test/selenium/test_history_related_filter.py::test_history_related_filter_copied_history`: copies the history, switches to the copy, clicks the highlight button, and checks that the related item shows and the unrelated one doesn't
 
 </details>

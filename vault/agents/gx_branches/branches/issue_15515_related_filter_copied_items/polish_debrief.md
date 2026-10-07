@@ -1,6 +1,6 @@
 # issue_15515_related_filter_copied_items — polish debrief
 
-Polished 2026-10-06. Started at `de497533043` and ended at `a0c5632801a`, pushed to the `jmchilton` fork. No PR was opened.
+Polished 2026-10-06. Started at `de497533043` and ended at `2cce6b3cfb5`, pushed to the `jmchilton` fork. No PR was opened.
 
 ## CI
 
@@ -39,3 +39,12 @@ Questions that widen the scope, left for John:
 
 - E2E `test_history_related_filter_copied_history` has never been run. Fork CI will run it.
 - The CTEs have never run on Postgres. The API tests in fork CI will cover them.
+
+## Unit tests moved to the API layer (John's call, after hand-off)
+
+John asked whether the API tests made `test_JobConnectionsManager.py` redundant. Two cases were covered only by unit tests:
+
+- copies that get new hids (`History.copy()` keeps hids, so a bug mapping by the original's hid passes the copy-history tests)
+- jobs run on copies, two copy levels deep (the only test that the CTE actually recurses)
+
+Both became API tests at `2cce6b3cfb5`, and the unit-test changes were reverted to the base. Collections are covered too: outputs are copied before their inputs, so each related pair's hids come out reversed. All 5 `related` API tests pass on SQLite. With dev's `job_connections.py` swapped in, all four copied-history tests fail at their related-hids assertion. Every test now runs on Postgres in CI.
