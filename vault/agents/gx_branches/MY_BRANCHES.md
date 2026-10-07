@@ -71,6 +71,7 @@ None yet.
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
 - Branch `issue_19391_file_source_templates_config_dir` (`8c73b104063`, off dev) — Description: Adds opt-in `file_source_templates_config_dir` / `object_store_templates_config_dir` drop-in dirs beside the `_config_file` options (fixes #19391); blockers: polishing in progress; fork CI on `8c73b104063` queued. [Implementation debrief](branches/issue_19391_file_source_templates_config_dir/implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19391_file_source_templates_config_dir?expand=1).
+- Branch `script_setup_polling_unmount` (`c616d0060bb`, off dev) — Description: Install Monitor and StsDownloadButton stop polling for good on unmount, even with a request in flight; blockers: polishing in progress; fork CI on `c616d0060bb`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:script_setup_polling_unmount?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
