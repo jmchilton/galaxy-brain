@@ -14,6 +14,7 @@ events, the Codex session log and notes stay outside the vault.
 | phase2-runB3 | 2026-10-07 | B (playwright-cli 0.1.22, stock skill) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 29.1 min | 9.59M (9.42M) / 19.7k | 205 (21) |
 | phase2-runA1 | 2026-10-07 | A (gxui `14c3d7e` + galaxy-ui-driver `b7595fb`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 90.9 min (~43 min DNS outage; not comparable) | 6.41M (6.29M) / 25.9k | 193 (15); 95 requests; transcript: 90 verb, 29 component, 4 call, 4 gap |
 | phase2-runA2 | 2026-10-07 | A (gxui `92494b47a8f` + galaxy-ui-driver `4aa3eae`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 13.6 min | 4.81M (4.71M) / 16.4k | 143 (7); 82 requests; transcript: 64 verb, 29 component, 6 gap |
+| phase2-runA3 | 2026-10-07 | A (gxui `b70f93d5410` + galaxy-ui-driver `4aa3eae`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 15.7 min | 4.55M (4.45M) / 18.9k | 67 (1); 88 requests; transcript: 72 verb, 33 component, 1 call, 5 gap |
 
 ## phase0-run1
 
@@ -246,3 +247,25 @@ hooks, made worse by gxui's error telling the agent to pin histories that were a
 did, then retried by name and by id). Fixed before A3 (`b70f93d5410`): with no hooks on the page
 the error says this Galaxy predates them and to drag by hand. Also: `workflow-run --no-submit`
 timed out waiting for `#run-workflow` (the agent recovered); `components upload` isn't a path.
+
+**phase2-runA3:** pass, 15.7 min, 4.55M input, 88 requests. The new copy error worked: one
+`dataset-copy` failure, then straight to a hand drag (still 4 gaps to find the drop zone). New gap:
+the box 9 rerun form (`?job_id=`) isn't recognized by `tool-describe`/`tool-fill` (they need
+`tool_id` in the URL), and `tool-describe TOOL_ID` shows defaults, not the job's settings. Polling
+rose again (48 `write_stdin`); `&&` chains up to 20. Snapshotting a grouping component
+(`tool_form`, `workflow_run`) errors; the agent recovered.
+
+**Phase 2 summary (n=3 per arm, all 6 pass):**
+
+| | Arm B (no skill) | Arm A (gxui + skill) |
+|---|---|---|
+| Wall | 24.0 / 20.1 / 29.1 min | (A1 DNS outage) / 13.6 / 15.7 min |
+| Input | 9.51 / 8.18 / 9.59M | 6.41 / 4.81 / 4.55M |
+| Requests | 106 / 95 / 105 | 95 / 82 / 88 |
+| Output | 18.5 / 18.2 / 19.7k | 25.9 / 16.4 / 18.9k |
+
+Input roughly halves with the skill and wall time drops by about a third. Caveats: gxui changed
+between A runs (A2 got `history-new` going home first, A3 the clearer copy error), so arm A is a
+moving target; and A1's wall time is lost to the outage. Fresh input is not the driver; requests
+times context is (A's context stays smaller: mean 52-68k vs 72-90k).
+Remaining box 12 cost is server/client skew; box 9 needs rerun support.
