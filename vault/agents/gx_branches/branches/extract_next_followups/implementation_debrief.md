@@ -31,6 +31,8 @@ Follow-ups to #22860 (notebook → workflow extraction + report), ready to open 
 - Pushed to `jmchilton/extract_next_followups` (force-pushed after rebase).
 - Selenium: notebook tests' `output_star_active_for_job` still match (locked star keeps `active`).
 - M7 follow-up coverage (`bce4345ee4c`): Selenium asserts the referenced star is `aria-disabled` with the report tooltip (passes on Playwright backend; local Selenium backend fails in setup login, env issue); card tests assert rendered `aria-disabled`/`data-title` and that a locked click emits nothing; HDCA and ICJ exposure-warning API tests. Selenium `extract_workflow_toggle_output_star` now checks `aria-disabled` (its `disabled` check never fired on GButton).
+- Round-trip E2E (`bd59332cc29`, Playwright backend, full notebook file 7/7): notebook → extract → invoke on fresh data → invocation report renders the new output, not the notebook's; report notes toast; copied-in output seeded as a pre-checked input wired to its consumer. The toast test caught a real bug: report notes used the 3s default toast and vanished unread; now `duration: 0` (dismiss to close). New `DatasetPopulator.copy_dataset` replaces the API mixin's raw post.
+- Follow-up outside this branch: `GToast` body ignores `\n`, so several report notes run together in one paragraph (galaxy-ui `white-space: pre-line` on `.g-toast-body`).
 - Flaky under load once: `test_accessible_invocation_create_page`, `test_extract_mapping_workflow_from_history` (both pass on rerun, unrelated).
 
 ## Not acted on (and why)
