@@ -24,7 +24,7 @@ Applied:
 Checks: 668 editor/store vitest (dangling_when_lint), vue-tsc, eslint (warnings only, all pre-existing kinds) and prettier all pass.
 
 ## Questions for John
-- **Flag gates on disconnected tool inputs?** The run form asks for a disconnected data input, so a `!== null` gate on it tests the runner's choice rather than an upstream output. Options:
+- ~~**Flag gates on disconnected tool inputs?**~~ John 2026-10-07: yes, keep flagging (the branch's current behaviour). The run form asks for a disconnected data input, so a `!== null` gate on it tests the runner's choice rather than an upstream output. Options:
   - keep flagging it (it's usually a rewiring mistake, and it's what `optional_input_gating` relies on)
   - flag only optional tool inputs
   - drop the tool-input branch so only names nothing can supply are flagged
