@@ -37,15 +37,17 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
    new verbs `history-share [--publish]` (goes home first), `dataset-copy HID --source HISTORY`
    (`multi_history_copy_item`) and `methods TEXT` (in place of `call --list`: names, signatures,
    covering verb); the skill says component clicks return before the work they start finishes.
-   Next: expand snippets, then take n=3 per arm before quoting any delta.
+   Snippets: done. `run.sh` inlines the tutorial's `{% snippet faqs/... %}` includes
+   (`expand_snippets.py`) and records the GTN commit in `$RUN/gtn_rev` (pinned at `e2d1765` so far).
+   Earlier runs got them unexpanded, so the n=3 per arm should be fresh runs on the expanded
+   tutorial (3 B + 3 A), not top-ups of run1/runA2/runA3. Needs John's go-ahead: each run writes
+   to his test.galaxyproject.org account.
 2. **Galaxy-side work, one commit each on the standing branch** (queue under "Prerequisite
    PRs"): Tool Shed `tool_open` first, then the other fixes, then enhancements incl. PR 4.
 3. **Decide what to pull out** ahead of the standing branch as separate PRs once gxui is a
    complete motivating example.
 4. **Loop, in parallel:**
-   - Expand GTN `{% snippet faqs/... %}` includes before handing `tutorial.md` to the agent.
-     phase0-run1 got them unexpanded.
-   - Do runs 2–3 of arm B to get an n=3 baseline.
+   - Arm B n=3 baseline on the expanded tutorial (see 1).
 
 **Open questions for John:**
 - Should the skill live in `claude-jmchilton-plugins` or `galaxy-skills`?

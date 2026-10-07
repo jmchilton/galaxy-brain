@@ -10,7 +10,8 @@ RUN_ID=${RUN_ID:-$(date +%Y%m%dT%H%M%S)}
 RUN=$LOOP_HOME/runs/$RUN_ID
 ARM=${ARM:-B}
 case $ARM in A|B) ;; *) echo "ARM must be A or B"; exit 1 ;; esac
-TUTORIAL=$HOME/projects/repositories/training-material/topics/introduction/tutorials/galaxy-intro-short/tutorial.md
+GTN=$HOME/projects/repositories/training-material
+TUTORIAL=$GTN/topics/introduction/tutorials/galaxy-intro-short/tutorial.md
 
 test -f "$LOOP_HOME/auth/galaxy-test-auth.json" || { echo "missing $LOOP_HOME/auth/galaxy-test-auth.json - see README.md"; exit 1; }
 if [ ! -d "$LOOP_HOME/node_modules" ]; then
@@ -20,7 +21,9 @@ mkdir -p "$RUN/codex-home" "$RUN/work"
 # Isolated CODEX_HOME: no global AGENTS.md, memories, skills or plugins; auth shared via symlink.
 ln -s "$HOME/.codex/auth.json" "$RUN/codex-home/auth.json"
 printf 'model = "%s"\nmodel_reasoning_effort = "%s"\n' "${MODEL:-gpt-6.1-sol}" "${EFFORT:-high}" > "$RUN/codex-home/config.toml"
-cp "$TUTORIAL" "$RUN/work/tutorial.md"
+# Inline the FAQ snippets the rendered tutorial shows; keep the GTN commit so runs stay comparable.
+uv run --no-project --python 3.12 python "$HERE/expand_snippets.py" "$GTN" < "$TUTORIAL" > "$RUN/work/tutorial.md"
+git -C "$GTN" rev-parse HEAD > "$RUN/gtn_rev"
 tooling=$(echo "$ARM" | tr AB ab)
 awk -v f="$HERE/tooling_$tooling.md" '/^\{\{TOOLING\}\}$/ { while ((getline line < f) > 0) print line; next } { print }' \
   "$HERE/prompt.md" > "$RUN/prompt.md"

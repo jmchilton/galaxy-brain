@@ -59,6 +59,9 @@ State (socket, log, transcript, screenshots, aria snapshots) is in `$GXUI_HOME` 
 `~/.cache/gxui`), per session (`GXUI_SESSION` or `--session`, default `default`). Pass
 `--playwright-cli '<command>'` to `start` to have the daemon attach playwright-cli to its browser.
 
+`run.sh` inlines the tutorial's FAQ snippets with `expand_snippets.py`
+(`uv run --no-project --with pytest python -m pytest tests/test_expand_snippets.py`).
+
 Tests (browserless verb parsing, plus a daemon driving Galaxy's `basic.html` fixture and a browser
 kill/relaunch):
 
