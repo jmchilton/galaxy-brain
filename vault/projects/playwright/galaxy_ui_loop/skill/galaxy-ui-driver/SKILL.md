@@ -27,6 +27,9 @@ the verb prints the path.
    *submitted* (follow with `history-wait`). `history-wait` and uploads wait up to `--timeout`
    seconds (default 240) and fail at once on an error state; a timeout means still running - check
    `history-items` before retrying, so you don't upload twice.
+   **Wait for each gxui command to exit** - give it minutes, not seconds; don't background it and
+   poll. Verbs fail with a non-zero exit, so **chain the steps you would not check in between**:
+   `gxui history-new X && gxui upload-url URL --ext fastqsanger && gxui history-items`.
    `workflow-extract NAME --input-names LABEL --exclude-hids HID` does a whole extraction.
    `history-share` gives the current history a link; `dataset-copy HID --source HISTORY` copies
    an item from another history into the current one (Multiview drag).
