@@ -4,7 +4,7 @@ Follow-ups to #22860 (notebook → workflow extraction + report), ready to open 
 
 ## Branch shape
 
-- #22860 merged 2026-10-06 (`67a54e12ede`). Rebased onto origin/dev `4fe00d9e7ab` with `--onto origin/dev 1e7e6c1f9fb`; clean, no conflicts; schema regen no diff.
+- #22860 merged 2026-10-06 (`67a54e12ede`). Rebased onto origin/dev `4fe00d9e7ab` with `--onto origin/dev 1e7e6c1f9fb`; clean, no conflicts; schema regen no diff. Rebased again 2026-10-07 onto `02a2e659909` (clean; dev's only overlap was `useHistoryCardActions`).
 - Worktree: `~/projects/worktrees/galaxy/branch/extract_next_followups` — own `.venv` (py3.13, dev's pinned reqs), own `client/node_modules`.
 
 ## What changed (by theme)
@@ -34,6 +34,15 @@ Follow-ups to #22860 (notebook → workflow extraction + report), ready to open 
 - Round-trip E2E (`bd59332cc29`, Playwright backend, full notebook file 7/7): notebook → extract → invoke on fresh data → invocation report renders the new output, not the notebook's; report notes toast; copied-in output seeded as a pre-checked input wired to its consumer. The toast test caught a real bug: report notes used the 3s default toast and vanished unread; now `duration: 0` (dismiss to close). New `DatasetPopulator.copy_dataset` replaces the API mixin's raw post.
 - Follow-up outside this branch: `GToast` body ignores `\n`, so several report notes run together in one paragraph (galaxy-ui `white-space: pre-line` on `.g-toast-body`).
 - Flaky under load once: `test_accessible_invocation_create_page`, `test_extract_mapping_workflow_from_history` (both pass on rerun, unrelated).
+
+## Codex review (2026-10-07, after rebase onto `02a2e659909`)
+
+Independent `codex exec` review of `origin/dev...HEAD`; both findings confirmed red, fixed red-to-green.
+
+- **Visualization cells missed** (`95fdd92fc47`). `_DATASET_CELL` needed column-0 fences and LF; validation and the client's `parseMarkdown` accept indented and CRLF fences, so such a cell kept its `dataset_id` silently. New `markdown_parse.remap_galaxy_markdown_cells` splits cells like the client (`\n` only, JS trim); fence-type validation shares its `_fence_type`.
+- **Twice-copied output** (`31f193f9b46`). Two copies of one external output each got a seeded input row; `extract_steps_by_ids` wires all copies of an original to one input, leaving the other dangling. Now only the first copy per original is seeded; the other row stays, unchecked.
+- After both: extraction + pages API, extract unit, markdown unit 418 passed, 2 skipped; client extraction vitest 53. Selenium not rerun (neither fix touches the client). Pushed `31f193f9b46`.
+- Not fixed (pre-dates the branch): plain history extraction has the same collapse when a user checks two copies of one original, or an input row holds original + copy (form sends each output as an input). Fix would be dedupe in `extract_steps_by_ids` or the form.
 
 ## Not acted on (and why)
 
