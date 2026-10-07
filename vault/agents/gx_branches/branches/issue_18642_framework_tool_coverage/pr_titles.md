@@ -1,0 +1,4 @@
+- Fix parameter models for drill_downs with relative `from_file` and add framework coverage
+- Fix Tool Shed/tool_util parsing of relative `from_file` drill_downs; add framework tests
+- Add drill_down `from_file` framework test and fix the parameter model failure it exposed
+- Framework tool coverage for drill_down `from_file`, dynamic drill_down and dynamic select
