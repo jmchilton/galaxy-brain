@@ -10,7 +10,7 @@ Toward 🎯 #13511 - document a Slurm epilog that kills InteractiveTool containe
 
 ✅ yes · 🚫 no
 
-usegalaxy.org added this kind of epilog to its InteractiveTools cluster in 2024 ([`infrastructure-playbook` `files/slurm/epilog.sh`](https://github.com/galaxyproject/infrastructure-playbook/blob/main/files/slurm/epilog.sh)), but Galaxy's docs don't mention it. This PR adds a "Cleaning up orphaned containers" section to the InteractiveTools admin docs. It explains the trap, says when containers can escape it, and gives an epilog that reads the container name from the `configs/container_config.json` Galaxy already writes for InteractiveTools. The section also says which runners it works with.
+usegalaxy.org added this kind of epilog to its InteractiveTools cluster in 2024 ([`epilog.sh`](https://github.com/galaxyproject/infrastructure-playbook/blob/8e96583f146bb79c0d5e3d8b8c3f4f975163c7af/files/slurm/epilog.sh), enabled in its [`slurm.conf` settings](https://github.com/galaxyproject/infrastructure-playbook/blob/8e96583f146bb79c0d5e3d8b8c3f4f975163c7af/group_vars/meta_jetstream2/vars.yaml#L142-L144)), but Galaxy's docs don't mention it. This PR adds a "Cleaning up orphaned containers" section to the InteractiveTools admin docs. It explains the trap, says when containers can escape it, and gives an epilog that reads the container name from the `configs/container_config.json` Galaxy already writes for InteractiveTools. The section also says which runners it works with.
 
 ***It's for admins running InteractiveTools under Slurm through a runner that submits from the job directory: Galaxy's `slurm`/`drmaa` runners or Pulsar's DRMAA managers. It's docs only: Galaxy's container cleanup doesn't change, and the doc says the epilog shouldn't normally be needed.***
 
@@ -40,7 +40,7 @@ Risks are minimal - this change doesn't lock Galaxy into particular difficult to
 
 ## Context
 
-Adapted from the Slurm epilog usegalaxy.org runs. The 2022 #13511 thread already suggested a similar epilog as a workaround. Pulsar's SIGKILL-without-TERM stop path is filed as galaxyproject/pulsar#541. Not included here: fixing that, or labelling job containers (`--label galaxy_job_id=...`) so orphans can be reaped without the job directory.
+Adapted from the Slurm epilog usegalaxy.org runs on its Jetstream2 InteractiveTools cluster. It was added in galaxyproject/infrastructure-playbook@1c7895f (2024-11-18), which adds [the script](https://github.com/galaxyproject/infrastructure-playbook/blob/8e96583f146bb79c0d5e3d8b8c3f4f975163c7af/files/slurm/epilog.sh), [installs it as root-owned `/etc/slurm/epilog.sh`](https://github.com/galaxyproject/infrastructure-playbook/blob/8e96583f146bb79c0d5e3d8b8c3f4f975163c7af/group_vars/jetstream2_controllers/vars.yaml#L31-L35) and [sets `Epilog: /etc/slurm/epilog.sh`](https://github.com/galaxyproject/infrastructure-playbook/blob/8e96583f146bb79c0d5e3d8b8c3f4f975163c7af/group_vars/meta_jetstream2/vars.yaml#L143). The 2022 #13511 thread already suggested a similar epilog as a workaround. Pulsar's SIGKILL-without-TERM stop path is filed as galaxyproject/pulsar#541. Not included here: fixing that, or labelling job containers (`--label galaxy_job_id=...`) so orphans can be reaped without the job directory.
 
 ## John's Checklist
 
