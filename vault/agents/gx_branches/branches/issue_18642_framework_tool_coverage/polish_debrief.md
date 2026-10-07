@@ -42,9 +42,14 @@ Tasks applied:
   - XSD 1.0 can't condition the enum on `type`, so select also gets `checkbox` in the schema. At runtime it still renders as a drop-down, as any unrecognized `display` value does. The description's Risk Details says so.
 - **The `ext=` cleanup went to an issue draft,** [`gx_issues/to_file/framework_parameter_tools_ext_attribute.md`](../../../gx_issues/to_file/framework_parameter_tools_ext_attribute.md). It covers 14 tools, plus the other XSD failures in `parameters/`: 17 of 100 tools fail macro-expanded validation, and CI validates only top-level tools.
 
+- **John asked to fold in drill_down option `selected`, done at `85f79a9ab6c`.**
+  - `ParamDrillDownOption` gains `selected` (PermissiveBoolean, worded like select's). The runtime uses selected options as the default (`basic.py` ~1920, `tool_util_models` `selected_drill_down_options`).
+  - The linter test was renamed `test_xsd_drill_down_attributes` and given an inline option with `selected="true"`. It was red on the attribute and is green now.
+  - `validate_tools.sh` passes `gx_drill_down_exact_with_selection.xml`.
+  - The issue draft now marks that row as fixed on this branch.
+
 ## Scope questions for John
 
 - Should `tool_data_path` go through `input_models_for_pages`, for a strict Literal model inside Galaxy? It changes the signature, and tool_util and the Tool Shed still wouldn't benefit.
 - Should there be a Tool Shed regression test, a model endpoint test for a relative-`from_file` drill_down?
-- The XSD also rejects drill_down `<option selected="true">` (`gx_drill_down_exact_with_selection.xml`), which the runtime supports. It's the same class of drill_down XSD gap. Fold it in here, or leave it to the issue draft?
 - Is the `../test/functional/tool-data/` fixture path acceptable? The alternative is the root `tool-data/` directory.

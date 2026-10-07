@@ -43,14 +43,14 @@ Survey run 2026-10-07 on `issue_18642_framework_tool_coverage` (`1e8e1f9d97d`, d
 | `gx_section_boolean.xml`, `gx_section_data.xml`, `gx_section_select_dynamic.xml` | `section`: attribute `title` required | Test tool sloppiness. Is `title` actually required at runtime? Check before choosing between fixing the tool and relaxing the XSD. |
 | `gx_repeat_select_dynamic.xml` | `repeat`: attribute `title` required | Same as above. |
 | `gx_rules.xml` | `type="rules"` not in the param type enum | XSD gap. `rules` is a real (if niche) param type. |
-| `gx_drill_down_exact_with_selection.xml` | drill_down `option`: attribute `selected` not allowed | XSD gap. The runtime supports it (`_recurse_drill_down_elems` in `parser/xml.py` ~1708 reads `selected`). John may fold this into the issue_18642 branch, so check that branch or PR before touching it. |
+| `gx_drill_down_exact_with_selection.xml` | drill_down `option`: attribute `selected` not allowed | **Fixed on `issue_18642_framework_tool_coverage` (`85f79a9ab6c`). Out of scope here.** Once that branch merges, the failure count is 16 of 100. |
 
 ## Suggested scope
 
 1. Replace `ext=` with `format=` in the 14 tools.
    - **Caution:** for `ext="tabular"` and `ext="txt"`, switching to `format=` starts restricting inputs. Check that those tools' tests and the spec entries in `test/unit/tool_util/parameter_specification.yml` still pass, since the spec uses `{src: hda, id: …}` and doesn't check datatypes. Also check the framework tool tests, whose inputs are mostly `.txt`/`.tabular` test-data files.
    - Dropping `ext="data"` (the default) is equivalent and is the simplest choice for those tools.
-2. Decide per row on the other failures: fix the tool, or extend the XSD where the runtime supports the attribute (`rules`, drill_down option `selected`).
+2. Decide per row on the other failures: fix the tool, or extend the XSD where the runtime supports the attribute (`rules`).
 3. Optional: extend `.ci/validate_test_tools.sh` to cover `parameters/*.xml`, so this can't drift back. It needs (1) and (2) first, or an exclude list.
 
 ## Reproduce

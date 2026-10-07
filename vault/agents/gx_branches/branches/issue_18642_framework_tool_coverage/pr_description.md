@@ -29,7 +29,8 @@ The branch also deletes a drill_down `filter` check from the parser. ***This doe
 - **XSD:**
   - Documents `from_file` on `param` (drill_down only) and lists it in the drill_down attribute table.
   - Adds `checkbox` to the `display` enum, which only had select's `checkboxes|radio`. drill_down has always accepted `checkbox`. The docs say plainly that it does nothing: the form shows checkboxes or radio buttons based on `multiple`.
-  - Before this, schema validation rejected annotation_profiler on both attributes. A `test_tool_linters.py` case now locks in that the XSD accepts both. The runtime has always supported them.
+  - Accepts `selected` on drill_down `<option>`s, documented the same way as select's. The runtime uses selected options as the parameter's default.
+  - Before this, schema validation rejected annotation_profiler (`from_file`, `display="checkbox"`) and the existing `gx_drill_down_exact_with_selection` test tool (`selected`). A `test_tool_linters.py` case now locks in that the XSD accepts all three. The runtime has always supported them.
 - **`DrillDownSelectToolParameter`:** asserts that the options were resolved, so a relative `from_file` built without a tool data path (`tool=None`; no callers found) fails with a clear message, not a `TypeError` from `os.path.join(None, …)`. Inside Galaxy, `tool_data_path` is always set, so this doesn't fire.
 - `open()` in the parser is now a context manager.
 
@@ -43,7 +44,7 @@ The branch also deletes a drill_down `filter` check from the parser. ***This doe
 
 ## Risks
 
-The one hard-to-reverse part is that the XSD now accepts drill_down `from_file` and `display="checkbox"`. ***Neither is a new feature: the runtime has always supported both, and the schema just stops rejecting them.*** The parser and test changes are two-way.
+The one hard-to-reverse part is that the XSD now accepts drill_down `from_file`, `display="checkbox"` and option `selected`. ***None of them is a new feature: the runtime has always supported all three, and the schema just stops rejecting them.*** The parser and test changes are two-way.
 
 <details><summary>Risk Details</summary>
 
@@ -86,7 +87,11 @@ Builds on 🔀 #19027, which added the `dynamic_options` drill_down and select f
   - The doctests in `basic.py` and `parser/xml.py` pass.
   - `xmllint` on the XSD and `validate_tools.sh` on the new tool pass.
 - `parse_tool()` and the Tool Shed's `parse_tool_custom(…, ShedParsedTool)` on devteam `annotation_profiler.xml`: dev raises the assertion, and this branch builds the model.
-- XSD: `test_xsd_drill_down_from_file_and_display` fails on the previous branch head with `The value 'checkbox' is not an element of the set {'checkboxes', 'radio'}`. On `1e8e1f9d97d`, all 135 tests in `test_tool_linters.py` pass, as do the 36 parameter spec and test-case tests. `xmllint --schema` on devteam `annotation_profiler.xml` reports `validates`.
+- XSD:
+  - Before each fix, `test_xsd_drill_down_attributes` failed with `The value 'checkbox' is not an element of the set {'checkboxes', 'radio'}`, and then with `Element 'option', attribute 'selected': The attribute 'selected' is not allowed`.
+  - On `85f79a9ab6c`, all 135 tests in `test_tool_linters.py` pass, as do the 36 parameter spec and test-case tests.
+  - `validate_tools.sh` passes `gx_drill_down_exact_with_selection.xml`, `gx_drill_down_from_file.xml` and `drill_down.xml`.
+  - `xmllint --schema` on devteam `annotation_profiler.xml` reports `validates`.
 
 </details>
 
