@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Codex works GTN galaxy-intro-short on test.galaxyproject.org. ARM=B (default): stock playwright-cli.
+# Codex works a GTN tutorial on test.galaxyproject.org. ARM=B (default): stock playwright-cli.
+# TUTORIAL: a GTN tutorial directory under topics/ (default introduction/tutorials/galaxy-intro-short).
 # ARM=A: the galaxy-ui-driver skill - a gxui daemon with playwright-cli attached as the escape hatch.
 # Prereq: $GXUI_LOOP_HOME/auth/galaxy-test-auth.json (see README.md). Usage: ./run.sh   (env: ARM, MODEL, EFFORT, RUN_ID)
 set -euo pipefail
@@ -11,7 +12,10 @@ RUN=$LOOP_HOME/runs/$RUN_ID
 ARM=${ARM:-B}
 case $ARM in A|B) ;; *) echo "ARM must be A or B"; exit 1 ;; esac
 GTN=$HOME/projects/repositories/training-material
-TUTORIAL=$GTN/topics/introduction/tutorials/galaxy-intro-short/tutorial.md
+TUTORIAL=${TUTORIAL:-introduction/tutorials/galaxy-intro-short}
+TUTORIAL_MD=$GTN/topics/$TUTORIAL/tutorial.md
+test -f "$TUTORIAL_MD" || { echo "no tutorial at $TUTORIAL_MD"; exit 1; }
+TUTORIAL_TITLE=$(sed -n 's/^title: *//p' "$TUTORIAL_MD" | head -1 | tr -d "\"'")
 
 test -f "$LOOP_HOME/auth/galaxy-test-auth.json" || { echo "missing $LOOP_HOME/auth/galaxy-test-auth.json - see README.md"; exit 1; }
 if [ ! -d "$LOOP_HOME/node_modules" ]; then
@@ -22,11 +26,12 @@ mkdir -p "$RUN/codex-home" "$RUN/work"
 ln -s "$HOME/.codex/auth.json" "$RUN/codex-home/auth.json"
 printf 'model = "%s"\nmodel_reasoning_effort = "%s"\n' "${MODEL:-gpt-6.1-sol}" "${EFFORT:-high}" > "$RUN/codex-home/config.toml"
 # Inline the FAQ snippets the rendered tutorial shows; keep the GTN commit so runs stay comparable.
-uv run --no-project --python 3.12 python "$HERE/expand_snippets.py" "$GTN" < "$TUTORIAL" > "$RUN/work/tutorial.md"
+uv run --no-project --python 3.12 python "$HERE/expand_snippets.py" "$GTN" < "$TUTORIAL_MD" > "$RUN/work/tutorial.md"
 git -C "$GTN" rev-parse HEAD > "$RUN/gtn_rev"
+echo "$TUTORIAL" > "$RUN/tutorial"
 tooling=$(echo "$ARM" | tr AB ab)
 awk -v f="$HERE/tooling_$tooling.md" '/^\{\{TOOLING\}\}$/ { while ((getline line < f) > 0) print line; next } { print }' \
-  "$HERE/prompt.md" > "$RUN/prompt.md"
+  "$HERE/prompt.md" | sed "s|{{TUTORIAL_TITLE}}|$TUTORIAL_TITLE|" > "$RUN/prompt.md"
 echo "$ARM" > "$RUN/arm"
 ln -s "$LOOP_HOME/node_modules" "$RUN/work/node_modules"
 (cd "$RUN/work" && npx --no-install playwright-cli install --skills=agents > /dev/null)

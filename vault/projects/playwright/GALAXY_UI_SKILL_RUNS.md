@@ -269,3 +269,8 @@ between A runs (A2 got `history-new` going home first, A3 the clearer copy error
 moving target; and A1's wall time is lost to the outage. Fresh input is not the driver; requests
 times context is (A's context stays smaller: mean 52-68k vs 86-90k).
 Remaining box 12 cost is server/client skew; box 9 needs rerun support.
+
+**Comparison parked** (John, 2026-10-07): we've got some baseline numbers that are promising
+against an optimized skill on a frontier model. More comparisons, and comparisons on different
+models and such, are still to be done. Later runs are arm A only, refining the skill on more
+tutorials.

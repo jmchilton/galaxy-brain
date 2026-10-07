@@ -22,33 +22,31 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
   holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
-- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`b70f93d5410`,
-  `lib/galaxy_test/selenium/gxui/`, 22 tests in `test/unit/selenium/test_gxui.py`). The skill is on
+- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`f561c00528d`,
+  `lib/galaxy_test/selenium/gxui/`, 25 tests in `test/unit/selenium/test_gxui.py`). The skill is on
   galaxy-skills branch `gxui` (`galaxy-ui-driver/`). The vault's `galaxy_ui_loop/` keeps only the
   eval harness; how to run and recreate the worktrees is in its README. Findings below under "MVP
   findings".
-- **Arm A is wired** (`ARM=A ./run.sh`). runA1 crashed (gxui bug, fixed); runA2 and runA3
-  **passed** all 13 boxes. runA3: 18.8 min, 3 gaps (runA2: 25.3 min, 14 gaps; arm B run1: 17.5
-  min). Fresh input is flat across arms; arm A spends more turns and output. See
-  `GALAXY_UI_SKILL_RUNS.md`.
+- **Comparison: parked** (John, 2026-10-07). Phase 2 (n=3 per arm, fresh runs on the expanded
+  tutorial, all 6 pass): arm A 13.6-15.7 min and 4.5-6.4M input against arm B 20-29 min and
+  8.2-9.6M (`GALAXY_UI_SKILL_RUNS.md`, "Phase 2 summary"). The verdict to quote: **we've got some
+  baseline numbers that are promising against an optimized skill on a frontier model. More
+  comparisons, and comparisons on different models and such, are still to be done.** Paired runs
+  are expensive and the approach doesn't depend on them, so the loop now refines the skill instead.
 
 **Next, in order:**
-1. **runA3's gxui list** (`GALAXY_UI_SKILL_RUNS.md`): done (2026-10-07), all checked live on a
-   local Galaxy. `workflow-run --inputs` works now that `workflow_run_specify_inputs` is fixed;
-   new verbs `history-share [--publish]` (goes home first), `dataset-copy HID --source HISTORY`
-   (`multi_history_copy_item`) and `methods TEXT` (in place of `call --list`: names, signatures,
-   covering verb); the skill says component clicks return before the work they start finishes.
-   Snippets: done. `run.sh` inlines the tutorial's `{% snippet faqs/... %}` includes
-   (`expand_snippets.py`) and records the GTN commit in `$RUN/gtn_rev` (pinned at `e2d1765` so far).
-   Earlier runs got them unexpanded, so the n=3 per arm should be fresh runs on the expanded
-   tutorial (3 B + 3 A), not top-ups of run1/runA2/runA3. Needs John's go-ahead: each run writes
-   to his test.galaxyproject.org account.
-2. **Galaxy-side work, one commit each on the standing branch** (queue under "Prerequisite
-   PRs"): Tool Shed `tool_open` first, then the other fixes, then enhancements incl. PR 4.
-3. **Decide what to pull out** ahead of the standing branch as separate PRs once gxui is a
+1. **Phase 2 gaps:** done (2026-10-07). `dataset-rerun HID` opens a job's rerun form;
+   `tool-describe`/`tool-fill` read `?job_id=` forms and show the job's settings (Galaxy:
+   `tool_form_parameters(job_id=...)`, commit 6c); `snapshot` of a component group falls back to
+   the center panel; the skill gives a concrete 300 s timeout for gxui calls; `history-new` goes
+   home first; `dataset-copy` names server/client skew when Multiview lacks per-history hooks.
+2. **Refine the skill on more tutorials, arm A only**, starting with the workflow-heavy GTN
+   galaxy-interface ones (`workflow-editor`, `workflow-parameters`, `collections`,
+   `workflow-reports`, `history-to-workflow`). Needs the harness to take any tutorial (path,
+   prompt title, per-tutorial pass rule in `verify.py`).
+3. **Galaxy-side work, one commit each below the gxui tip** (queue under "Prerequisite PRs").
+4. **Decide what to pull out** ahead of the standing branch as separate PRs once gxui is a
    complete motivating example.
-4. **Loop, in parallel:**
-   - Arm B n=3 baseline on the expanded tutorial (see 1).
 
 **Open questions for John:**
 - Should the skill live in `claude-jmchilton-plugins` or `galaxy-skills`?
@@ -208,7 +206,8 @@ Commit queue (✅ = on the branch):
 | 6a | `tool_form_fill` / `tool_form_set_parameter` lifted out of `RunsToolTests` (`c21bfd3aae0`) | enhancement ✅ |
 | 6a′ | Deferred conditional parameters were never retried (`c9fa7115138`) | fix ✅ |
 | 6b | `tool_form_parameters` → `ToolFormParameter` from the build model (`d391a9225fd`) | enhancement ✅ |
-| gxui | `gxui` itself, **always the tip** (`b70f93d5410`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (22 pass); amended in place | enhancement ✅ |
+| 6c | `tool_form_parameters(job_id=...)` describes a rerun form from `jobs/{id}/build_for_rerun` (`a6bff91124e`) | enhancement ✅ |
+| gxui | `gxui` itself, **always the tip** (`f561c00528d`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (25 pass); amended in place | enhancement ✅ |
 
 Notes from doing 4a–5e (2026-10-06):
 - **Corrected findings.** 4a's cause was client-side panel search (regex-escaped query matched

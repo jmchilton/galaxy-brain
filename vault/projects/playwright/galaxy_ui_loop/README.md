@@ -44,10 +44,12 @@ Recreate the worktrees if they are gone:
     git -C ~/projects/repositories/galaxy-skills fetch jmchilton gxui
     git -C ~/projects/repositories/galaxy-skills worktree add ~/projects/worktrees/galaxy-skills/branch/gxui gxui
 
-Arm A loop run (Codex; same prerequisites as arm B above):
+Arm A loop run (Codex; same prerequisites as arm B above). `TUTORIAL` is a GTN tutorial directory
+under `topics/` (default `introduction/tutorials/galaxy-intro-short`); add its minimums to `verify.py`'s
+`EXPECTED`:
 
-    ARM=A RUN_ID=phase2-runA2 GXUI_PYTHON=~/projects/worktrees/galaxy/branch/playwright_text_table_parity/.venv/bin/python ./run.sh
-    uv run --no-project --python 3.12 python verify.py ~/.cache/gxui-loop/runs/phase2-runA2
+    ARM=A TUTORIAL=galaxy-interface/tutorials/workflow-editor RUN_ID=refine-workflow-editor-1 GXUI_PYTHON=~/projects/worktrees/galaxy/branch/playwright_text_table_parity/.venv/bin/python ./run.sh
+    uv run --no-project --python 3.12 python verify.py ~/.cache/gxui-loop/runs/refine-workflow-editor-1
 
 For arm A count calls from `metrics.json`'s `gxui_layers`/`gxui_gaps` (the gxui transcript), not the
 shell-command counts: agents wrap `./gxui` in their own scripts.

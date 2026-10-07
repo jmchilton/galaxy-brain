@@ -1,7 +1,9 @@
-"""Independent check of a Phase 0 run on test.galaxyproject.org, via the API.
+"""Independent check of a loop run on test.galaxyproject.org, via the API.
 
 Looks only at histories, workflows and invocations created after the run started, so it does not
 depend on what the agent reports. Usage: python3 verify.py runs/<id>
+Pass: everything the run created is ok and no invocation failed, plus the tutorial's minimums in
+EXPECTED (unknown tutorials need at least one history).
 Auth: GALAXY_API_KEY if set, else the galaxysession cookie from $GXUI_LOOP_HOME/auth/galaxy-test-auth.json.
 """
 
@@ -11,9 +13,18 @@ import sys
 import urllib.request
 
 SERVER = "https://test.galaxyproject.org"
+# Minimum histories / workflows / finished invocations a run of each tutorial must leave.
+EXPECTED = {
+    "introduction/tutorials/galaxy-intro-short": {"histories": 2, "workflows": 1, "invocations": 1},
+}
 run = sys.argv[1]
 with open(f"{run}/started_at") as f:
     started = f.read().strip().replace("Z", "")
+tutorial = "introduction/tutorials/galaxy-intro-short"  # runs before run.sh recorded it
+if os.path.exists(f"{run}/tutorial"):
+    with open(f"{run}/tutorial") as f:
+        tutorial = f.read().strip()
+expected = EXPECTED.get(tutorial, {"histories": 1, "workflows": 0, "invocations": 0})
 
 
 if "GALAXY_API_KEY" in os.environ:
@@ -51,14 +62,17 @@ workflows = [w["name"] for w in created_in_run(get("workflows"))]
 invocations = [
     {"workflow_id": i["workflow_id"], "state": i["state"]} for i in created_in_run(get("invocations?limit=50"))
 ]
+finished = [i for i in invocations if i["state"] in ("scheduled", "completed")]
 summary = {
+    "tutorial": tutorial,
+    "expected": expected,
     "histories": histories,
     "workflows_created": workflows,
     "invocations": invocations,
-    # galaxy-intro-short: >= 2 histories, an extracted workflow, a finished invocation, everything ok.
-    "pass": len(histories) >= 2
-    and bool(workflows)
-    and any(i["state"] in ("scheduled", "completed") for i in invocations)
+    "pass": len(histories) >= expected["histories"]
+    and len(workflows) >= expected["workflows"]
+    and len(finished) >= expected["invocations"]
+    and not any(i["state"] in ("failed", "cancelled") for i in invocations)
     and not any(h["not_ok"] for h in histories),
 }
 print(json.dumps(summary, indent=2))

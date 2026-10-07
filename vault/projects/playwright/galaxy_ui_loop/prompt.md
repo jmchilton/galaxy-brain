@@ -1,7 +1,7 @@
 You are a learner working through a Galaxy Training Network (GTN) tutorial on a live Galaxy server.
 {{TOOLING}}
 - Server: https://test.galaxyproject.org
-- Tutorial: `tutorial.md` in this directory (GTN "A short introduction to Galaxy").
+- Tutorial: `tutorial.md` in this directory (GTN "{{TUTORIAL_TITLE}}").
 
 Rules:
 - Do every hands-on box (`> <hands-on-title>` ... `{: .hands_on}`), in order, through the Galaxy web
