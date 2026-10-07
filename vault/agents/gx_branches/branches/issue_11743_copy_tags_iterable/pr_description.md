@@ -16,8 +16,15 @@ Fix 🎯 #11743 - type `copy_tags_to` as an iterable of tag associations and tes
 
 <details><summary>Typing details</summary>
 
-- `ItemTagAssociation` declares `tag_id: Mapped[int]` and `value: Mapped[str | None]` without `mapped_column`, the same way it already declares `user_tname`, so mypy can check `copy_tags_to`. All 10 subclasses already define both columns, and their mapped tables are unchanged.
-- `CollectedToolInputs.preserved_tags`/`preserved_hdca_tags`, `OutputCollections(tags=, hdca_tags=)` and `ModelOperationToolAction._produce_outputs(tags=, hdca_tags=)` go from `Any`/untyped to `dict[str, ItemTagAssociation]`.
+- `ItemTagAssociation` declares `tag_id: Mapped[int | None]` and `value: Mapped[str | None]` without `mapped_column`, the same way it already declares `user_tname`, so mypy can check `copy_tags_to`. All 10 subclasses already define both columns. Their `tag_id` annotations become `Mapped[int | None]` to match `nullable=True`, and their mapped tables are unchanged.
+- `CollectedToolInputs.preserved_tags`/`preserved_hdca_tags` and `OutputCollections(tags=, hdca_tags=)` go from `Any`/untyped to a new `PreservedTagsT = dict[str | None, ItemTagAssociation]`, keyed by tag value, which can be `None`.
+
+</details>
+
+<details><summary>Related cleanups</summary>
+
+- `ModelOperationToolAction` no longer passes `tags`/`hdca_tags` to `tool.produce_outputs`. No `produce_outputs` reads them, and they were the last place the preserved-tags dict could reach an HDA `copy`.
+- `DatasetCollectionManager._append_tags` copies the tags dict before adding implicit input tags, so it no longer changes the caller's dict. `create()` no longer assigns its `None` result (or `add_tags_from_list`'s) to `tags`. No current caller passes both a dict and implicit inputs, so behaviour is unchanged.
 
 </details>
 
