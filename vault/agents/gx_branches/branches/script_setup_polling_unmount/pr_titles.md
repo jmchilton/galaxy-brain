@@ -1,0 +1,5 @@
+- Stop Tool Shed install and download polling for good on unmount
+- Fix polling that outlives the Tool Shed install monitor and download button
+- Don't resume polling when a request resolves after unmount
+- Move install monitor and STS download button onto existing polling composables
+- Stop task monitors and resource watchers from polling after their component is gone
