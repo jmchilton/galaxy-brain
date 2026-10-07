@@ -34,8 +34,8 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
 **Next, in order:**
 1. **runA3's gxui list** (`GALAXY_UI_SKILL_RUNS.md`): `workflow-run` inputs (now just
    `workflow_run_specify_inputs`), `history-share`, `call --list`, `dataset-copy` (now
-   `multi_history_copy_item`); `_auto` JSON-parses any argument starting with `[`, so `call` with a
-   CSS selector like `[data-…]` fails; then expand snippets and
+   `multi_history_copy_item`); `tool-describe`/`tool-fill` and the `_auto` selector fix are done;
+   then expand snippets and
    take n=3 per arm before quoting any delta.
 2. **Galaxy-side work, one commit each on the standing branch** (queue under "Prerequisite
    PRs"): Tool Shed `tool_open` first, then the other fixes, then enhancements incl. PR 4.
@@ -195,8 +195,9 @@ Commit queue (✅ = on the branch):
 | 5c | `resolve_component(path)` → Target / SmartTarget (`2d1e531ab57`) | enhancement ✅ |
 | 5d | Docstrings on the `NavigatesGalaxy` methods gxui exposes (`106def5145d`) | enhancement ✅ |
 | 5e | `multi_history_copy_item` between Multiview columns (`498fa974c36`) | enhancement ✅ |
-| 6a | Lift tool-form filler out of `RunsToolTests` into `NavigatesGalaxy` (PR 4) | enhancement |
-| 6b | `tool-describe` (PR 4) | enhancement |
+| 6a | `tool_form_fill` / `tool_form_set_parameter` lifted out of `RunsToolTests` (`c5a1a961bd4`) | enhancement ✅ |
+| 6a′ | Deferred conditional parameters were never retried (`d73824e9adb`) | fix ✅ |
+| 6b | `tool_form_parameters` → `ToolFormParameter` from the build model (`ebb9c5ab184`) | enhancement ✅ |
 | 7 | `gxui` itself (item 5 below), once verbs settle | enhancement |
 
 Notes from doing 4a–5e (2026-10-06):
@@ -215,6 +216,23 @@ Notes from doing 4a–5e (2026-10-06):
   tests run one at a time against it. `test_dataset.py::test_history_dataset_display_text` failed
   locally inside the dataset iframe, after the upload helper had succeeded; not investigated.
 - gxui now calls only public Galaxy APIs for these (vault `5e8a09c`, `5bbc4a9`, `4dea0b0`).
+
+Notes from 6a/6b (2026-10-06):
+- **6a regression check.** 17 tool-form-harness tests covering every filler path (text, select,
+  boolean, color, multi-select, checkbox, drill-down, conditional, section, repeat, multi-data,
+  collections) ran before and after the lift with identical results. Locally all 17 stop at the
+  harness's final "used /api/tool_requests" assertion: CI sets `enable_tool_requests` plus Celery;
+  with tool requests on but no Celery, jobs hang in `running`, so local runs use the legacy path.
+  Form filling, running and output checks pass before that assertion. CI covers tool requests.
+- **6a′.** Moving the filler exposed that its deferred retry looked parameters up by
+  `key.replace("|", "-")`, while form element ids keep `|`, so every deferred parameter was
+  skipped. Fixed with stub-form unit tests (`test/unit/selenium/test_tool_form_fill.py`).
+- **6b.** Flattens the build model (`api/tools/{id}/build`, the form's own source) rather than
+  scraping the DOM: options and every conditional case come for free. An E2E test checks the paths
+  against the open form. gxui verbs `tool-describe` and `tool-fill` sit on top (vault `983f90d`).
+- **Disk.** The machine's data volume hit 100% during 6b (other sessions' scratch dirs dominate);
+  each local harness failure writes ~13 MB to the worktree's `database/test_errors`. Clear it after
+  runs.
 
 1. **Fix the standalone context bootstrap.** Branch `selenium_context_timeout_handler`,
    approved at `46aebb27457`.
