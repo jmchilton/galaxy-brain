@@ -9,7 +9,7 @@ Fixes [#19391](https://github.com/galaxyproject/galaxy/issues/19391). Based on `
 - Shared loader `load_raw_template_configs(inline, config_file, config_dir)` in `lib/galaxy/util/config_templates.py`:
   - Inline `*_templates` replace the file and dir, as before.
   - Otherwise file templates come first, then each non-hidden `.yml`/`.yaml` file in the dir, sorted by filename. Each dir file is added as an `{"include": path}` entry, so it can hold a single template or a list.
-  - A missing dir is silent, same as a missing file.
+  - A dir that is set but missing loads nothing and logs a warning (added in polish, `55e5440299a`).
 - The loader replaces 4 copy-pasted "inline else file" blocks: both template managers and both blocks in `lib/galaxy/dependencies/__init__.py`.
   - The file-source deps block used to ignore inline `file_source_templates`. It now honors them.
   - Both deps blocks now catch `OSError` the same way.
@@ -51,7 +51,7 @@ Red first, then green:
 - **Duplicate `(id, version)` across file and dir is silent.** `find_template_by` is first-wins. This is pre-existing with includes. A warning in `raw_config_to_catalog` would be cheap, but it's a separate concern.
 - **Relative `include:` paths resolve against Galaxy's CWD, not the including file.** This is pre-existing, and changing it could break current configs. I documented it instead.
 - **Tours (`tours/_impl.py`) and toolbox views (`toolbox/views/sources.py`) have their own unsorted listdir loops.** They could switch to `config_files_in_directory` as a follow-up. That would change their order and dotfile behavior slightly, so I left them out here.
-- **Alternative design: let `*_templates_config_file` accept a directory**, as `tool_config_file` does. I rejected it because the issue asks for a dir option, and a default drop-in dir is friendlier. Worth a line in the PR description.
+- **Alternative design: let `*_templates_config_file` accept a directory**, as `tool_config_file` does. I rejected it because the issue asks for a dir option and a separate option keeps the existing file working beside the dir. Worth a line in the PR description.
 - Prettier's pre-commit hook also fixed 2 unrelated whitespace lines in `data.md`. I kept them because the hook requires it.
 
 ## Follow-ups

@@ -1,0 +1,4 @@
+- Add drop-in directories for file source and object store templates
+- Allow file source and object store templates to be loaded from a directory
+- Add `file_source_templates_config_dir` and `object_store_templates_config_dir`
+- Let admins add or remove user storage templates by copying files into a directory
