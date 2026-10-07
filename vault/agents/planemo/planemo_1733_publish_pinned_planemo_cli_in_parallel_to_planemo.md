@@ -3,6 +3,7 @@
 - PR: https://github.com/galaxyproject/planemo/pull/1733 (branch `jmchilton:publish-planemo-cli`, independently reviewed head `d929cefaf203ae6e6ec4de37b476ce1af357d7c2`, locked-CI follow-up `92359c14ad15097d1b3f9fd696f4e60536cff872`)
 - Worktree: `~/projects/worktrees/planemo/branch/publish-planemo-cli` (based on origin/master `515e928e`)
 - Reviewed: 2026-10-06. CI verified 2026-10-07 at locked-CI head `92359c14`: 21 successful checks and the expected skipped PyPI upload. Mergeable and out of draft.
+- Latest head: cleanup `2401396b` pushed 2026-10-07; fresh CI queued. See the review-comment cleanup below.
 - Current verdict: implementation sound and clear, no new correctness findings or merge blockers. See [Independent Codex review — 2026-10-06](#independent-codex-review--2026-10-06) below. The requested full-matrix locked-runtime follow-up is implemented in `92359c14`; see the final section for validation.
 
 The older review passes below record prior heads and findings, including issues subsequently resolved. They are historical context, not the current verdict.
@@ -194,3 +195,27 @@ John requested that the full existing test matrix exercise the locked runtime, r
 Validation: all original matrix combinations are preserved and locked; the latest job has no constraints in the effective tox configuration. Tox's installation logs confirm the constraints apply to both test tools and runtime requirements. All 106 installed dependencies covered by the active constraints match their lockfile versions, and `uv pip check` passes. Python 3.10 locked lint and mypy pass; the locked Python 3.13 quick suite reports **495 passed, 103 skipped, 1 deselected** (the unavailable local Docker test). Developer documentation parses without warnings, `uv lock --check` and `git diff --check` pass, and zizmor reports no workflow findings.
 
 The new [Python CI run](https://github.com/galaxyproject/planemo/actions/runs/37486220225) is queued for the pushed head. Full integration results are pending; the local checks above do not substitute for those jobs.
+
+## Review-comment cleanup — 2026-10-07
+
+At John's request, simplified both items raised by nsoranzo and pushed
+[`2401396b`](https://github.com/jmchilton/planemo/commit/2401396b00e4f7b5a4ddf6d05ef90985a601f504)
+to [`publish-planemo-cli`](https://github.com/jmchilton/planemo/tree/publish-planemo-cli).
+
+- Removed the unused `pytest-mock` test dependency, inherited from the old development
+  requirements, and regenerated `uv.lock` without upgrades. The lock diff removes
+  only this package and its group references. All 111 runtime export lines match
+  the prior head exactly.
+- Removed the separate `make check-dependencies` deploy step. The preceding
+  `uv sync --locked --only-group release` and the build's `uv export --locked`
+  retain stale-lock protection. The local Make target remains available.
+
+Validation used a fresh Python 3.13 environment from the updated lock, with
+`pytest-mock` confirmed absent: **495 quick tests passed, 103 skipped, 1 deselected**
+in 220 seconds. The deselected test is the Docker profile case requiring an
+unavailable local daemon; existing quick-suite flags skip slow/Galaxy/CWL-Galaxy
+cases. `uv pip check`, `uv lock --check`, deploy YAML parsing, runtime-export
+comparison, and `git diff --check` pass. The source worktree is clean.
+
+GitHub confirms the new PR head and fresh CI is queued. No review replies or other
+comments were posted; John will respond to the two threads.
