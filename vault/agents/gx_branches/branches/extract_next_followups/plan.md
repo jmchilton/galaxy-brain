@@ -1,7 +1,7 @@
 # extract_next_followups — fix plan for #22860
 
 Branch `extract_next_followups` stacked on `extract_next` (`c4817499d71`) + local merge of origin/dev
-(`1e7e6c1f9fb`, simulates post-merge state). After #22860 merges: `git rebase --onto origin/dev 1e7e6c1f9fb`.
+(`1e7e6c1f9fb`, simulated post-merge state). #22860 merged 2026-10-06; branch rebased onto origin/dev.
 Worktree: `~/projects/worktrees/galaxy/branch/extract_next_followups`.
 
 Sources: deep review subagent + Vue/Bootstrap migration subagent (2026-10-06). Client tests green on merge state.
@@ -23,6 +23,6 @@ Sources: deep review subagent + Vue/Bootstrap migration subagent (2026-10-06). C
 
 ## Deferred / needs decision
 - M3 element-of-mapped-collection in report (design: element identifier vs warn).
-- M7 reconcile re-exposing un-starred outputs (policy).
+- M7 done: lock star in form + server warning (John chose C + B).
 - GBadge in galaxy-ui; GCard GCheckbox/GLink migration — separate dev PRs.
 - Endpoint naming `extraction_summary` vs `workflow_extraction_summary`.
