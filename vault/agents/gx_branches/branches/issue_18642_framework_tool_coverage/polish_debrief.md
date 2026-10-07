@@ -34,10 +34,17 @@ Tasks applied:
 - Reworded two comments (`xml.py`, `parameter_specification.yml`) from "outside Galaxy" to "without a tool data path". Galaxy's own model build doesn't get one either.
 - Moved the "filter check isn't a feature" and "XSD `from_file` isn't new" answers above the fold, in bold-italic.
 
+## Follow-up after hand-off (John's answers)
+
+- **The XSD now accepts `display="checkbox"`, folded in at `1e8e1f9d97d`.**
+  - `checkbox` was added to the shared `DisplayType` enum, and the `display` docs say it does nothing on drill_down. The client's `FormDrilldown` picks checkboxes or radios from `multiple` and ignores `display`.
+  - Red to green: the new `test_tool_linters.py::test_xsd_drill_down_from_file_and_display` failed on the enum and now passes. All 135 linter tests and the 36 parameter tests pass. annotation_profiler now validates against the branch XSD.
+  - XSD 1.0 can't condition the enum on `type`, so select also gets `checkbox` in the schema. At runtime it still renders as a drop-down, as any unrecognized `display` value does. The description's Risk Details says so.
+- **The `ext=` cleanup went to an issue draft,** [`gx_issues/to_file/framework_parameter_tools_ext_attribute.md`](../../../gx_issues/to_file/framework_parameter_tools_ext_attribute.md). It covers 14 tools, plus the other XSD failures in `parameters/`: 17 of 100 tools fail macro-expanded validation, and CI validates only top-level tools.
+
 ## Scope questions for John
 
 - Should `tool_data_path` go through `input_models_for_pages`, for a strict Literal model inside Galaxy? It changes the signature, and tool_util and the Tool Shed still wouldn't benefit.
 - Should there be a Tool Shed regression test, a model endpoint test for a relative-`from_file` drill_down?
-- The XSD also rejects annotation_profiler's `display="checkbox"`. drill_down accepts `checkbox` at runtime, but the XSD enum is select's `checkboxes|radio`. Fix it here or separately?
-- About 10 `parameters/` tools use `ext=` on data params, which isn't valid XSD (from the implementation debrief). Should that be a separate cleanup?
+- The XSD also rejects drill_down `<option selected="true">` (`gx_drill_down_exact_with_selection.xml`), which the runtime supports. It's the same class of drill_down XSD gap. Fold it in here, or leave it to the issue draft?
 - Is the `../test/functional/tool-data/` fixture path acceptable? The alternative is the root `tool-data/` directory.
