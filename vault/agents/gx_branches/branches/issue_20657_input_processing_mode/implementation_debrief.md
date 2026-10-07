@@ -2,6 +2,12 @@
 
 Branch `issue_20657_input_processing_mode` on `jmchilton` fork, 8 commits on origin/dev `4fe00d9e7ab`, head `9294237826c`. Fixes galaxyproject/galaxy#19234; addresses UI + in-app docs half of #20657 (docs-category / GTN tutorial / new nesting tool asks not done). Plan: [plan.md](plan.md). Screenshots: [screenshots/](screenshots/).
 
+## Split (2026-10-07)
+
+Branch now holds only the hint / help terms / dropdown markers (`ec283e0d829`..`070cf50468a`) plus E2E test `df109041101`; head `df109041101`. Server job count + "This will run N jobs." (rows 3–4 below) moved to [`tool_form_job_count`](../tool_form_job_count/implementation_debrief.md) (cherry-picked, independent, merges cleanly). Old combined tip `9294237826c` force-pushed away. Screenshots `s3_*`/`s5_*` and the job-count line in `s2_*` belong to the job count branch.
+
+E2E (`lib/galaxy_test/selenium/test_tool_form.py`, not run locally — CI): `test_data_input_map_over_hint` (megahit shape: 2-pair `list:paired` into `collection_paired_test`; hint, dropdown marker, waits for 2 jobs) and `test_data_input_reduction_hint` (`multi_data_param` f1: flat list → single-job hint + nest link; `list:list` → "one job per list"). New selectors `tool_form.parameter_processing_hint` / `parameter_map_over_marker`; `_clear_multiselect_tags` moved from `framework.RunsToolTests` to `NavigatesGalaxy.tool_form_clear_multiselect_tags`. Review not acted on: possible flake if the web-worker option filter is still pending when `select_set_value` presses Enter (shared by all `select_set_value` users; fix in framework only if CI shows it); flat-list single job not executed (would need `f2` filled; vitest + API cover it).
+
 ## What landed
 
 | Commit | What |
