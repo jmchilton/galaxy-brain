@@ -16,7 +16,7 @@ Follow-ups to #22860 (notebook → workflow extraction + report), ready to open 
 - **Consolidation (M5, M6).** `PageManager.get_accessible_notebook`; one `ContentKind`/`ContentRef` vocabulary (`galaxy.schema.workflows`, OpenAPI unchanged); public `get_original_hda/hdca`, `original_content_ref`, `resolve_content`, `tool_for_job`, `walk_directives`, `remap_galaxy_markdown_*`; `OBJECT_ID_ARGUMENTS` builds the id patterns; `SummaryJob` typed; label clamp after dedupe suffix; docstrings trimmed; `DatasetPopulator.run_cat1`.
 - **Client.** GCard clear-title is `icon-only color="red" transparent` like rename (consumer `:deep` override gone); card tests in own file; `from_page` is a `fromPageId` route prop (string-guarded); Extract Workflow ignores repeat clicks while the pre-extract save runs (`loading`); form fetch-failure test; JSDoc trims.
 - **Tool access.** `tool_for_job` catches `ItemAccessibilityException`, so a summary row for a job whose user-defined tool is not owned by the caller, or has been deactivated, says `CUSTOM_TOOL_INACCESSIBLE` instead of returning 500.
-- **Un-starred referenced outputs (M7, John: C + B).** Summary rows carry `referenced_by_report`; the form locks that star (disabled, `disabled-title` says the report uses it) and re-stars it when its row is re-checked. Server backstop: `reconcile_report_labels` returns a warning for each output it had to expose (API clients that omit `output_labels`). Four report API tests now send `output_labels` as the form does, so their exact-warning assertions stay unchanged; a new test covers the warning.
+- **Un-starred referenced outputs (M7, John: C + B).** Summary rows carry `referenced_by_report`; the form locks that star (disabled, `disabled-title` says the report uses it) and re-stars it when its row is re-checked. Server backstop: `reconcile_report_labels` returns a warning for each output it had to expose (API clients that omit `output_labels`). Four report API tests now send `output_labels` as the form does, so their exact-warning assertions stay unchanged; a new test covers the warning. Review fixes: only one output per referenced original is flagged (an in-history copy shares its original's row; locking both blocked extraction on duplicate labels); lock tooltip only on checked, valid rows (unchecked says to include the step); report toast heading "Notebook report notes".
 - **Dead code.** Notebook-chat + save-view selectors and `history_page_open_chat` that the rebase resurrected (dev removed them in 0d083085bd2 / aad2f585bae).
 
 ## Tests
@@ -29,7 +29,9 @@ Follow-ups to #22860 (notebook → workflow extraction + report), ready to open 
   - `test_extract_button_visible_in_notebook_editor` (selenium) was removed as redundant mid-branch, then restored (no removals without John's sign-off). It is redundant — every notebook click-through test waits for the button. Suggest removal.
 - Selenium/Playwright not run locally.
 - Pushed to `jmchilton/extract_next_followups` (force-pushed after rebase).
-- Selenium: notebook tests' `output_star_active_for_job` still match (locked star keeps `active`); no Selenium assertion on the lock yet.
+- Selenium: notebook tests' `output_star_active_for_job` still match (locked star keeps `active`).
+- M7 review suggestions not acted on: Selenium `aria-disabled` assertion on the locked star and a rendered-`data-title` card assertion (vitest covers the prop; optional polish); HDCA/ICJ variants of the exposure-warning API test (same code path as HDA via `original_content_ref`).
+- Flaky under load once: `test_accessible_invocation_create_page`, `test_extract_mapping_workflow_from_history` (both pass on rerun, unrelated).
 
 ## Not acted on (and why)
 
