@@ -38,7 +38,7 @@ Builds on 🔀 #10761, which fixed #10230. The issue came out of review on 🔀 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Nothing changes for users. If the test fails, a developer sees `assert [] == ['group:condition:a', 'name:sample1']`.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The test reads the copied inner dataset's tags through the API.
