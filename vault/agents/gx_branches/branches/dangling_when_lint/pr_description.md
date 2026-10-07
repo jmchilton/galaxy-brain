@@ -14,6 +14,8 @@ Turning on **Conditionally skip step?** gives the step a `when` input and the co
 
 A **conditional gates** section appears in the panel once any step has a `when`. It lists every name a condition reads that has no connection and no value in the step's state. Hovering an item highlights the tool input it names, or the step when the name is a gate port (like `when`) that isn't one of the tool's inputs. Clicking it opens the step.
 
+So that the warning's "connect the input" is always possible, the editor now gives every name a `when` reads, and that nothing supplies, a boolean port. On `dev` the `when` port existed only until the workflow was saved with it unconnected; after a reload, or for an imported workflow, the step had no port to connect. Disconnecting a gate port also now brings the warning back (the port keeps its key with no value, which the check first counted as connected).
+
 ***It's a warning in the editor panel, not a block. Saving, running, and backend/gxformat2 workflow linting are unchanged; the old TODO's idea of disabling save isn't part of this.***
 
 ***Workflows without conditional steps see nothing new. Gated workflows get the new section, which counts toward the panel's high-priority issues, so a gated workflow that was "all clear" can now show an issue when a condition reads an unconnected name.***
@@ -65,12 +67,16 @@ Builds on 🔀 #23816, whose `when` expression analyzer and connection-name reso
 - `modules/linting.test.ts`: `getDanglingGates` cases: connected vs not, null-check gates, state values, nested conditional and repeat connections, a literal `|` in a property name, extra connections, a subworkflow step, unloaded tools, dynamic access, de-duplication, and the input-vs-step highlight with item names.
 - `Lint.test.ts`: the section is hidden without gated steps, passes when `when` is connected, and warns with `gated: when` when it isn't.
 - API `test_run_workflow_fails_when_input_not_connected`: a `when: $(inputs.when)` step with nothing connected fails with `when_not_boolean` (`Type is: NoneType`), the runtime half of row 1.
-- `test_editor_create_conditional_step`: the TODO is replaced by opening the panel after the `when` connection is removed and asserting the section's status is `warning`.
+- `workflowStepStore.test.ts`: an unconnected `when` name gets a boolean port; names that are tool inputs, step state or read dynamically don't.
+- `test_editor_create_conditional_step`: the TODO is replaced by opening the panel after the `when` connection is removed and asserting the section's status is `warning`. It was red until disconnected ports stopped counting as connected.
+- `test_best_practices_dangling_conditional_gate` (new): imports a workflow whose `when` reads an unconnected input, checks the warning names `cat1` and `when`, connects a boolean input to the port and checks the section passes. It was red at the connect step until the port was added.
+- These two, `test_conditional_subworkflow_step` and `test_best_practices_input_label` pass locally under Playwright.
 
 Manually:
 1. Create a workflow, add a tool and turn on **Conditionally skip step?**.
 2. Open best practices. The conditional gates section warns about `when`; hovering it highlights the step.
-3. Connect a boolean parameter to `when`. The section passes.
+3. Save and reload. The `when` port is still there.
+4. Connect a boolean parameter to `when`. The section passes.
 
 </details>
 
