@@ -28,6 +28,9 @@ the verb prints the path.
    seconds (default 240) and fail at once on an error state; a timeout means still running - check
    `history-items` before retrying, so you don't upload twice.
    `workflow-extract NAME --input-names LABEL --exclude-hids HID` does a whole extraction.
+   Tool parameters: `gxui tool-describe` maps the open form's labels (what tutorials say) to paths,
+   with options and the conditional case that shows each field; `gxui tool-fill '{"path": value}'`
+   sets them (data fields take a hid; put a conditional's selector and its fields in one call).
 2. **Components** - name UI elements from Galaxy's `navigation.yml`:
    `gxui components history_panel` browses; `gxui component 'history_panel.item(hid=3).title' click`
    acts (click|check|uncheck|text|value|visible|absent|send-keys|clear-send-keys), with Galaxy's

@@ -13,8 +13,10 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 from urllib.parse import (
+    parse_qs,
     quote,
     unquote,
+    urlparse,
 )
 
 DOMAINS = ["session", "history", "upload", "dataset", "tool", "workflow", "observe", "generic"]
@@ -117,7 +119,10 @@ def _auto(value: str) -> Any:
     if value.lstrip("-").isdigit():
         return int(value)
     if value[:1] in "[{":
-        return json.loads(value)
+        try:
+            return json.loads(value)
+        except json.JSONDecodeError:
+            return value  # a CSS selector such as [data-description="..."]
     return value
 
 
@@ -341,6 +346,57 @@ def tool_search(ctx, text: str):
         tool_id = unquote(href.split("tool_id=", 1)[1].split("&", 1)[0]) if "tool_id=" in href else "?"
         lines.append(f"{text[0] if text else '?'}  [{tool_id}]")
     return "\n".join(lines) or "no matching tools"
+
+
+def _open_tool(ctx) -> tuple[str, str | None]:
+    query = parse_qs(urlparse(ctx.current_url).query)
+    if "tool_id" not in query:
+        raise UsageError("no tool form open; run `gxui tool-open TOOL_ID` or pass TOOL_ID")
+    version = query.get("version", [None])[0]
+    return query["tool_id"][0], None if version == "latest" else version
+
+
+def _describe_line(parameter) -> str:
+    line = f"{parameter.path}  ({parameter.type}) {parameter.label!r} = {parameter.value!r}"
+    if parameter.options:
+        shown = [label if label == value else f"{label}={value}" for label, value in parameter.options[:12]]
+        line += "  options: " + ", ".join(shown) + (" ..." if len(parameter.options) > 12 else "")
+    if parameter.condition:
+        line += f"  [when {parameter.condition}]"
+    return line
+
+
+@verb("tool-describe", "tool", "tool_form_parameters", positional=("tool_id",))
+def tool_describe(ctx, tool_id: str = ""):
+    """List a tool form's fields: path, type, label, value, options, and the conditional case showing each.
+
+    Defaults to the open form. Tutorials name fields by label; `tool-fill` takes the path.
+    """
+    version = None
+    if not tool_id:
+        tool_id, version = _open_tool(ctx)
+    return "\n".join(_describe_line(p) for p in ctx.tool_form_parameters(tool_id, version))
+
+
+@verb("tool-fill", "tool", "tool_form_fill")
+def tool_fill(ctx, values: str):
+    """Fill the open tool form from a JSON object of {path: value}; data fields take a hid. Does not submit.
+
+    Paths come from `tool-describe`. Set a conditional's test parameter in the same call as the fields
+    it reveals; repeats get the instances their paths name.
+    """
+    try:
+        requested = json.loads(values)
+    except json.JSONDecodeError as e:
+        raise UsageError(f"VALUES must be a JSON object: {e}") from None
+    tool_id, version = _open_tool(ctx)
+    types = {p.path: p.type for p in ctx.tool_form_parameters(tool_id, version)}
+    unknown = sorted(set(requested) - set(types))
+    if unknown:
+        raise UsageError(f"unknown paths {unknown}; see `gxui tool-describe`")
+    data = {k: v for k, v in requested.items() if types[k] in ("data", "data_collection")}
+    ctx.tool_form_fill({k: v for k, v in requested.items() if k not in data}, data)
+    return f"filled {len(requested)} fields; review with `gxui screenshot`, submit with `gxui tool-run`"
 
 
 @verb("tool-run", "tool", "tool_form_execute")

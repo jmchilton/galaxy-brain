@@ -212,3 +212,22 @@ def test_last_reports_a_running_verb(gxui, fixture_url):
             pytest.fail("`last` never reported the running verb")
     finally:
         env_run.wait()
+
+
+def test_auto_leaves_css_attribute_selectors_alone():
+    from gxui.verbs import _auto
+
+    assert _auto('[data-description="name display"]') == '[data-description="name display"]'
+    assert _auto('{"input1": 3}') == {"input1": 3}
+
+
+def test_tool_describe_lines_carry_options_and_conditions():
+    from galaxy.selenium.navigates_galaxy import ToolFormParameter
+    from gxui.verbs import _describe_line
+
+    parameter = ToolFormParameter("cond|flag", "Flag", "boolean", False, [], "cond|test=b")
+    assert _describe_line(parameter) == "cond|flag  (boolean) 'Flag' = False  [when cond|test=b]"
+    select = ToolFormParameter("mode", "Mode", "select", "a", [("A", "a"), ("b", "b")])
+    assert _describe_line(select) == "mode  (select) 'Mode' = 'a'  options: A=a, b"
+    assert REGISTRY["tool-describe"].parse([]) == ([], {})
+    assert REGISTRY["tool-describe"].parse(["cat1"]) == ([], {"tool_id": "cat1"})
