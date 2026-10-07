@@ -2,7 +2,7 @@
 
 GitHub state last refreshed: 2026-10-06 evening (fork CI backlogged; many E2E runs failed at "Restore client cache" (fork cache eviction) and were rerun).
 
-Merged 2026-10-06: #22860 (`extract_next`), #23931 (`palette_root_search_settle`), #23937 (`happy_dom_datalist_list`), #23940 (`cap_social_auth_core_26.0`) — docs in `old/`; their worktrees are clean but removal was denied by the permission classifier, so `ghwt rm` them by hand. #23799 (`workflow_refactor_detached_executor`, by mvdbeek). Merged 2026-10-05: #23816 (`when_expression_analysis`), #23918 (`issue_23896_rename_input_segments`), #23919 (`fix_format_source_docs`). Worktrees removed, docs in `old/`.
+Merged 2026-10-06: #22860 (`extract_next`), #23931 (`palette_root_search_settle`), #23937 (`happy_dom_datalist_list`), #23940 (`cap_social_auth_core_26.0`) — docs in `old/`; worktrees removed 2026-10-07. #23799 (`workflow_refactor_detached_executor`, by mvdbeek). Merged 2026-10-05: #23816 (`when_expression_analysis`), #23918 (`issue_23896_rename_input_segments`), #23919 (`fix_format_source_docs`). Worktrees removed, docs in `old/`.
 
 Closed 2026-10-05 by us: #23455 (`pick_value_first_ok_or_skip`, abandoned), worktree removed.
 
