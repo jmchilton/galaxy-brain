@@ -28,13 +28,13 @@ The select and custom mode are a new form element, `FormSelectOrText`: the "vari
   - Props: `options` (`{label, value, help?}`), `otherLabel`, `otherHelp`, `otherPlaceholder` and `validate`, a client-side function returning an error or nothing.
   - Events: `input`, emitted only for valid values (empty text is never emitted), and `alert`, which is cleared when the element goes away.
   - A value the options don't list opens the text field. Typing through a listed value (`list` on the way to `list:list`) keeps it open. A value changed from outside, such as a dialog pick or undo, is followed.
-  - A null-valued option is held under an internal value, because `FormSelect` emits `null` for deselecting too; re-clicking the selected option never clears the value.
+  - The select holds generated values, not the options' own, so no option value collides with "Other..." and a null-valued option stays distinct from `FormSelect`'s `null` on deselect; re-clicking the selected option never clears the value.
 - `Form/FormElement.vue`: type `select_or_text` maps the `data`, `other_label`, `other_help`, `other_placeholder` and `validate` attributes and routes `@alert` into the element's alerts.
 - `Collections/common/knownCollectionTypes.ts`: 12 types (the list, pair, record, nested list and sample sheet families), each with a label, a description and a group. Descriptions include the connection rules that surprise people (from `collection_semantics.yml` and `CollectionTypeDescription.accepts`): a `list:paired_or_unpaired` input also takes a plain `list` or a `list:paired`, and a sample sheet can connect to a list input but not the other way round.
 - `Collections/common/CollectionTypeCards.vue`: the grouped card grid used in the dialog. Cards respond to click, Enter and Space, and the current type's card is highlighted.
-- `Workflow/Editor/Forms/FormCollectionType.vue`: a `select_or_text` `FormElement` ("Any collection type" plus the known types, each described, then "Custom collection type...") validated with `isValidCollectionTypeStr`, and the `GModal` dialog.
-- `Toolshed/RepositoryDetails/InstallationSettings.vue`: "Target Section" lists "No section" and the existing sections, with "New section..." to type a name. The install request is unchanged (`findSection` still resolves names).
-- Selenium/Playwright tests that set a collection type use `select_set_value` on a new `collection_type_select` selector, replacing `collection_type_input`.
+- `Workflow/Editor/Forms/FormCollectionType.vue`: a `select_or_text` `FormElement` ("Any collection type" plus the known types, each described, then "Custom collection type...") validated with `isValidCollectionTypeStr`, and the `GModal` dialog. A pick from the dialog also drops custom text being typed.
+- `Toolshed/RepositoryDetails/InstallationSettings.vue`: "Target Section" lists "No section" and the existing sections, with "New section..." to type a name. Ok is disabled while a new section's name is empty. The install request is unchanged (`findSection` still resolves names).
+- Selenium/Playwright tests that set a collection type use `select_set_value` on a new `collection_type_select` selector, replacing `collection_type_input`; `collection_type_selected` and `collection_type_custom_input` read it back.
 
 </details>
 
@@ -65,7 +65,7 @@ Builds on 🔀 #20403 (allow any collection type in this field) and 🔀 #19305 
 ## John's Checklist
 
 - [ ] Did a human read every test and every comment? (Requires human author to check)
-- [x] What does the user see when it fails? An invalid or empty custom value shows an inline error and a red field and isn't saved; the step keeps the last valid type entered, which can be a prefix typed on the way (as on `dev`). A saved type the select doesn't list opens in custom mode.
+- [x] What does the user see when it fails? An invalid or empty custom value shows an inline error and a red field and isn't saved; the step keeps the last valid type entered, which can be a prefix typed on the way (as on `dev`). A saved type the select doesn't list opens in custom mode. In the Tool Shed dialog, an empty new section name shows an error and disables Ok.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They click real options and type into the field, and check what's rendered, what's emitted and saved (including "Any" as `null`), the Tool Shed install request, and that every listed collection type passes the validator.
 - [x] Are the comments free of excess archeology? Yes.
@@ -81,12 +81,13 @@ Builds on 🔀 #20403 (allow any collection type in this field) and 🔀 #19305 
 <details><summary>Tests and manual steps</summary>
 
 - vitest:
-  - `FormSelectOrText.test.ts`: listed and unlisted values, picking (including a null option), re-clicking the selected option, typing through a listed value, outside changes and undo/redo, empty and invalid text, option help, alert clearing.
+  - `FormSelectOrText.test.ts`: listed and unlisted values, picking (including a null option and values that look like internal ones), re-clicking the selected option, typing through a listed value, outside changes and undo/redo, empty and invalid text, option help, alert clearing.
   - `FormCollectionType.test.ts`: the collection-specific options, descriptions, validation messages and the dialog.
   - `FormInputCollection.test.ts`: "Any" survives to the saved state as `null`.
-  - `InstallationSettings.test.js`: existing section, new section, no section, empty new section.
+  - `InstallationSettings.test.js`: existing section, new section, no section, empty new section (Ok disabled).
   - `CollectionTypeCards.test.ts` and `knownCollectionTypes.test.ts`.
 - `test_workflow_editor.py::test_collection_input_sample_sheet_chipseq_example` sets the type through the new select and asserts the saved type is `sample_sheet:paired`. The two chipseq tests in `test_workflow_run.py` set it the same way.
+- `test_workflow_editor.py::test_collection_input_custom_and_any_collection_type_round_trip` saves a custom `list:list:list` and then "Any", checking the saved `collection_type` (`null` for "Any") and what the editor shows after a reload.
 
 Manually:
 - Open the workflow editor, add an "Input Dataset Collection", and try the select, the "Not sure which collection type to use?" dialog and "Custom collection type...".

@@ -1,6 +1,6 @@
 # issue_19049_collection_type_picker: polish debrief
 
-Polished 2026-10-06, then reopened the same night to build the general select-or-text element. Branch now `1c87e5c1ebd` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes.
+Polished 2026-10-06, then reopened the same night to build the general select-or-text element, then a Codex review round on 2026-10-07. Branch now `9f06beaa923` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes, `9f06beaa923` Codex review fixes.
 
 ## CI
 
@@ -62,3 +62,18 @@ Deferred (design points from the review):
 - No optional/clearable mode: empty text is never emitted. The next consumer, optional text parameters, needs it.
 - Typing an unlisted value into the select's search box dead-ends with "No elements found". The search could seed Other mode, or "Other..." could be pinned.
 - Picking "Other..." prefills the current value. That helps collection types (`list` to `list:list`), but for the Tool Shed it prefills an existing section's name.
+
+## Round 3: Codex review (2026-10-07)
+
+Independent `codex exec` review of the code and of the approach. Verdict: good with changes. The design answers the issue and thread (named, described types; unrestricted custom types; explicit "Any"; dialog), and `FormSelectOrText` is the right scope and layer.
+
+Three bugs, all confirmed, red-checked, and fixed in `9f06beaa923`:
+
+- Tool Shed: type a new section name, clear it, click Ok: it installed into the cleared name (on `dev`, clearing meant no section). `GModal` `okDisabled` is now bound to `sectionError`.
+- The `__null__`/`__other__` sentinels collided with real option values (a section named `__null__` installed into no section). The select now holds generated `option-<index>` values.
+- Picking the already-saved type from the dialog left an invalid custom draft on screen, since the value didn't change. `FormCollectionType` re-mounts the element (`:key`) after a dialog pick.
+
+Also added: E2E `test_collection_input_custom_and_any_collection_type_round_trip` (custom `list:list:list` and "Any" save, download and reload). Passes under Playwright against this worktree's Galaxy on 8083 (bind restored to 8081). Mutation check: emitting `undefined` for "Any" fails it with `'list' is None`. vitest 699 across the same directories; vue-tsc and eslint clean.
+
+Codex's other high-level point is still open (also in Questions): let `CollectionTypeCards` take a subset of types so `WhichBuilder.vue` and `WhichWorkbookCollectionType.vue` can use it and the registry descriptions.
+
