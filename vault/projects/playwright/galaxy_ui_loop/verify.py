@@ -19,6 +19,7 @@ EXPECTED = {
     "galaxy-interface/tutorials/workflow-editor": {"histories": 1, "workflows": 2, "invocations": 3},
     "galaxy-interface/tutorials/workflow-parameters": {"histories": 1, "workflows": 2, "invocations": 2},
     "galaxy-interface/tutorials/history-to-workflow": {"histories": 0, "workflows": 1, "invocations": 1},
+    "galaxy-interface/tutorials/workflow-reports": {"histories": 1, "workflows": 1, "invocations": 1},
 }
 run = sys.argv[1]
 with open(f"{run}/started_at") as f:

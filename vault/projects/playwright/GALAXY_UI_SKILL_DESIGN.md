@@ -22,8 +22,8 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
   holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
-- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`60afbf86176`,
-  `lib/galaxy_test/selenium/gxui/`, 32 tests in `test/unit/selenium/test_gxui.py`). The skill is on
+- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`a824ff098a0`,
+  `lib/galaxy_test/selenium/gxui/`, 33 tests in `test/unit/selenium/test_gxui.py`). The skill is on
   galaxy-skills branch `gxui` (`galaxy-ui-driver/`). The vault's `galaxy_ui_loop/` keeps only the
   eval harness; how to run and recreate the worktrees is in its README. Findings below under "MVP
   findings".
@@ -214,7 +214,8 @@ Commit queue (✅ = on the branch):
 | 7e | `_add_repeat_instances` adds only the instances a repeat is missing (`66ed25e106f`) | fix ✅ |
 | 7f | `select_set_value` clicks the option equal to the value (`txt` became `metacyto_clr.txt`) (`5df018bfa67`) | fix ✅ |
 | 7g | `workflow_run_with_name` opens the run form of the card titled exactly NAME (shares 7c's wait) (`987a30b356a`) | fix ✅ |
-| gxui | `gxui` itself, **always the tip** (`60afbf86176`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (32 pass); amended in place | enhancement ✅ |
+| 7h | `workflow_editor_click_run` clicks the editor's Run activity; new `workflow_editor.tool_bar.run` (`8e579923247`) | fix ✅ |
+| gxui | `gxui` itself, **always the tip** (`a824ff098a0`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (33 pass); amended in place | enhancement ✅ |
 
 Notes from doing 4a–5e (2026-10-06):
 - **Corrected findings.** 4a's cause was client-side panel search (regex-escaped query matched

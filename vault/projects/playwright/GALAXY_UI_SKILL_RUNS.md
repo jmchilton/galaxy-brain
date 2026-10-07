@@ -17,6 +17,7 @@ events, the Codex session log and notes stay outside the vault.
 | phase2-runA3 | 2026-10-07 | A (gxui `b70f93d5410` + galaxy-ui-driver `4aa3eae`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 15.7 min | 4.55M (4.45M) / 18.9k | 67 (1); 88 requests; transcript: 72 verb, 33 component, 1 call, 5 gap |
 | refine-workflow-editor-1 | 2026-10-07 | A (gxui `f561c00528d` + galaxy-ui-driver `79a5ac8`) | GTN `workflow-editor` (8 boxes) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | all 8 boxes done; verify **fail** (a retained errored first attempt, hid 7) | 123 min | 24.33M (24.02M) / 47.0k | 136 (37); 244 requests; transcript: 118 verb, 75 component, 114 call, 8 gap |
 | refine-workflow-parameters-1 | 2026-10-07 | A (gxui `3c8a30ea5a6` + galaxy-ui-driver `ee1d5a7`) | GTN `workflow-parameters` (6 boxes) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** (all 6 boxes) | 68 min | 13.41M (13.22M) / 22.7k | 104 (17); 215 requests; transcript: 130 verb, 16 component, 3 call, 2 gap |
+| refine-history-to-workflow-1 | 2026-10-07 | A (gxui `60afbf86176` + galaxy-ui-driver `0c68c50`) | GTN `history-to-workflow` (7 boxes) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** (all 7 boxes) | 13.3 min | 4.57M (4.46M) / 17.4k | 167 (15); 69 requests; transcript: 62 verb, 44 component, 5 call, 6 gap |
 
 ## phase0-run1
 
@@ -356,3 +357,22 @@ Gaps and what changed (gxui `60afbf86176`, skill `0c68c50`):
 - playwright-cli's attached session vanished again (box 5, its first use). It survives gxui
   restarts and leaving the editor in my tests, so the cause is still unknown. `gxui gap`, which
   the skill puts before every playwright-cli use, now checks the session and re-attaches it.
+
+**refine-history-to-workflow-1** (GTN `history-to-workflow`): pass, all 7 boxes, 13.3 min, 4.57M
+input, 69 requests. It extracted from the workflow-parameters run's history. 6 gaps, 3 of them
+switching histories: Multiview on this server has no per-history hooks (the same version skew as
+phase 2's box 12).
+Gaps and what changed (gxui `a824ff098a0`, skill `e9c579d`):
+- New `history-switch NAME|ID` goes through the history's view page and its switch button, which
+  works on this server.
+- In the editor, `tool-describe` showed the tool's defaults (count 10) rather than the step's value
+  (5). It now shows the values in the step's inspector.
+- `workflow-output` toggled Configure Output, so a second call collapsed it. It now opens it only
+  when it's closed. `workflow-save` with nothing to save timed out; it now says so.
+- `workflow_editor_click_run` clicked `#workflow-run-button`, which the editor no longer renders.
+  Galaxy fix below gxui: it clicks the Run activity (`workflow_editor.tool_bar.run`).
+- `.workflow-expand-form-link` (expanded run form) is missing on this server but present in dev:
+  version skew, no change.
+- Added before collections, from editor-1's gap: `collection-build list|list:paired HIDS --name`
+  (Galaxy's builders), and `history-wait` on a collection now also waits for its elements' jobs
+  (`job_state_summary`). `history-items` marks hidden items.
