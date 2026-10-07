@@ -1,0 +1,4 @@
+- Hold root command palette backend searches until typing settles
+- Stop the command palette sending backend searches on every keystroke
+- Let unscoped palette searches settle before reaching the backend
+- Cut per-keystroke backend fan-out in the unscoped command palette search

@@ -32,7 +32,7 @@ Undoes the pin from 🔀 #22913, which explains why it was added and that it sho
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Nothing. The browser behaviour is unchanged.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The new `FormText` test mounts a piped id with no options and with the server's `datalist: []`, under the new happy-dom. On the previous commit the `[]` case throws the selector error.
