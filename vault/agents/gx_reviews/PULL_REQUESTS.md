@@ -7,8 +7,8 @@ PRs To Review:
 - 23857 — reviewed at `56dfc2b6fe8`: request changes (small: drop skip_instance_cache — leaks pruner task per op; add mock test; share path helpers w/ ipfs); pushed 3 cleanup commits (no unit test, per user) to author branch → head `f100983e424` 10-06; draft review unposted (needs update)
 - 23944 — reviewed at `cd486038e4b`: comment, approve after change_entry force_read fix; draft review unposted
 - 23952 — reviewed at `0fe0a3c1622` (stacked on 23950): approve; optional `e.repeat` guard; draft review unposted
-- 23953 — initial review in progress (draft; paired with 23956)
-- 23956 — initial review in progress (paired with 23953)
+- 23953 — reviewed at `9ac1627fc79` (draft; paired w/ 23956): approve w/ nits (own range parser vs starlette/webob; stale body); draft review unposted
+- 23956 — reviewed at `4a81462fae5` (paired w/ 23953): approve-leaning, settle content_path semantics (sanitized store_root, inputs vs outputs, deferred); draft review unposted
 - 23951 — reviewed at `66e01e4015a`: comment (relative-path imports slip past regex); draft review unposted
 - 23950 — reviewed at `626cdbdc772`: approve; draft review unposted
 - 23949 — reviewed at `4b6832e2ec3`: approve; draft review unposted
