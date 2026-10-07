@@ -1,0 +1,4 @@
+- Document a Slurm epilog for cleaning up orphaned InteractiveTool containers
+- Document cleanup of InteractiveTool containers that outlive their jobs
+- Admin docs: Slurm epilog to kill leftover InteractiveTool containers
+- Add InteractiveTool orphaned-container cleanup to the admin docs
