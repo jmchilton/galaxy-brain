@@ -196,7 +196,9 @@ Settle the metadata element names and the converter ids/param names before merge
 
 ## Fix branch r2 — 2026-10-07
 
-`jmchilton/fix-parquet-converters-22976-r2` on top of `cf8ffbd3108` (old r1 branch diverged after author rebase). Pushed; no fork PR opened yet.
+`jmchilton/fix-parquet-converters-22976-r2` on top of `cf8ffbd3108` (old r1 branch diverged after author rebase). Direct push to author branch 403'd despite maintainerCanModify; opened fork PR https://github.com/fairytalesbykcc/galaxy/pull/2.
+
+- `16fbe10758e` rename Parquet metadata `column_count`/`line_count` → `columns`/`data_lines` (84 Parquet/tabular unit tests pass). `column_types` not added.
 
 - `59394fafdb7` declare `thriftpy2` in root `[project].dependencies` and galaxy-data `dependencies`; drop it from both test groups. Hand-added `pinned-requirements.txt` pin now survives `update.sh`.
 - `2ad2c964a1e` new `CONVERTER_parquet_to_tabular` / `CONVERTER_tabular_to_parquet` start at `1.0.0`.
