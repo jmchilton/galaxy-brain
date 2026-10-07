@@ -1,0 +1,4 @@
+- Fix S3 file source imports when the bucket is written as `s3://bucket` or `bucket/`
+- Normalize s3fs file source bucket names so browsed S3 files import
+- Strip `s3://` and trailing slashes from s3fs file source buckets
+- Accept `s3://bucket` in S3 file sources and templates
