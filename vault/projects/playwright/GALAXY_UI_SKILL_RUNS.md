@@ -9,6 +9,10 @@ events, the Codex session log and notes stay outside the vault.
 | phase1-runA1 | 2026-10-06 | A (gxui MVP `c63c0d8` + galaxy-ui-driver) | GTN `galaxy-intro-short` | test.galaxyproject.org (`67c3f964d355`) | Codex `gpt-6.1-sol`, high | **fail** (gxui crash, box 5) | 7.6 min | 2.09M (2.03M) / 9.6k | 65 (8); transcript: 17 verb, 11 component, 1 gap |
 | phase1-runA2 | 2026-10-06 | A (gxui `9655aa8` + galaxy-ui-driver) | GTN `galaxy-intro-short` | test.galaxyproject.org (`67c3f964d355`) | Codex `gpt-6.1-sol`, high | **pass** | 25.3 min | 8.03M (7.90M) / 29.4k | 178 (13); transcript: 51 verb, 19 component, 7 call, 14 gap |
 | phase1-runA3 | 2026-10-06 | A (gxui `97f4d7e` + galaxy-ui-driver) | GTN `galaxy-intro-short` | test.galaxyproject.org (`67c3f964d355`) | Codex `gpt-6.1-sol`, high | **pass** | 18.8 min | 8.10M (7.97M) / 22.7k | 166 (8); transcript: 49 verb, 37 component, 5 call, 3 gap |
+| phase2-runB1 | 2026-10-07 | B (playwright-cli 0.1.22, stock skill) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 24.0 min | 9.51M (9.32M) / 18.5k | 182 (16) |
+| phase2-runB2 | 2026-10-07 | B (playwright-cli 0.1.22, stock skill) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 20.1 min | 8.18M (7.94M) / 18.2k | 193 (18) |
+| phase2-runB3 | 2026-10-07 | B (playwright-cli 0.1.22, stock skill) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 29.1 min | 9.59M (9.42M) / 19.7k | 205 (21) |
+| phase2-runA1 | 2026-10-07 | A (gxui `14c3d7e` + galaxy-ui-driver `b7595fb`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 90.9 min (~43 min DNS outage; not comparable) | 6.41M (6.29M) / 25.9k | 193 (15); 95 requests; transcript: 90 verb, 29 component, 4 call, 4 gap |
 
 ## phase0-run1
 
@@ -212,3 +216,23 @@ work (rename, creation) finishes.
 
 **Side effects on test.galaxyproject.org.** Histories "My Analysis (phase1-runA3)" (link-accessible)
 and "Next Analysis (phase1-runA3)"; workflow "QC and filtering (phase1-runA3)" and its invocation.
+
+## phase2 (snippets expanded, n=3 per arm)
+
+Fresh runs on the tutorial with its FAQ snippets inlined (`expand_snippets.py`, GTN `e2d1765`);
+not pooled with phase0/phase1. Arm B: B1 24.0, B2 20.1, B3 29.1 min; 8.2-9.6M input.
+
+**phase2-runA1:** pass. Wall time is not comparable: test.galaxyproject.org stopped resolving
+(DNS) at 12:33 and the next gxui call came 43 min later; after it the history panel showed "Live
+updates disconnected". Requests 95 (runA3 119), input 6.41M (lowest so far), tool output 55k.
+The wait/chain skill note (`b7595fb`) helped: 123 of 162 commands used a 10 s yield (runA3: 178 of
+184 at 1 s), but polling calls held at 40 and `&&` chains fell to 6.
+Gaps and friction:
+- `dataset-copy` failed: test.galaxyproject.org predates the Multiview rewrite, so the dev
+  selectors don't match (the agent called them "obsolete"; it's the reverse). Real server/client
+  version skew - see the design doc's packaging question.
+- `history-new` failed on the workflow landing page (no history panel); like `history-share`,
+  it should go home first.
+- FastQC report is an iframe; `snapshot` doesn't see into it (G1).
+- Box 9 (rerun with changed parameters) ~25 commands; box 13 workflow-run then waiting on every
+  output ~12 commands. Candidate verbs: `dataset-rerun`, `workflow-run --wait`.

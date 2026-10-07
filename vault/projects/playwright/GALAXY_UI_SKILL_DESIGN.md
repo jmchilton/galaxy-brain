@@ -22,10 +22,11 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
   holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
-- **`gxui` MVP, external first** (John's call): `galaxy_ui_loop/gxui/` + `skill/galaxy-ui-driver/`,
-  run against the `galaxy_ui_driver` worktree (how to run and recreate it is in
-  `galaxy_ui_loop/README.md`). 22 tests pass (`galaxy_ui_loop/tests/test_gxui.py`). Findings below
-  under "MVP findings".
+- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`741e6433ba4`,
+  `lib/galaxy_test/selenium/gxui/`, 22 tests in `test/unit/selenium/test_gxui.py`). The skill is on
+  galaxy-skills branch `gxui` (`galaxy-ui-driver/`). The vault's `galaxy_ui_loop/` keeps only the
+  eval harness; how to run and recreate the worktrees is in its README. Findings below under "MVP
+  findings".
 - **Arm A is wired** (`ARM=A ./run.sh`). runA1 crashed (gxui bug, fixed); runA2 and runA3
   **passed** all 13 boxes. runA3: 18.8 min, 3 gaps (runA2: 25.3 min, 14 gaps; arm B run1: 17.5
   min). Fresh input is flat across arms; arm A spends more turns and output. See
@@ -166,9 +167,9 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
 
 | Piece | Home | Why |
 |---|---|---|
-| Daemon, client, verb registry | Starts external in `galaxy_ui_loop/gxui/` (John, 2026-10-06); target is Galaxy's `lib/galaxy_test/selenium/` (package `galaxy-test-selenium`), entry point `gxui` (cf. `gxwf`) once verbs settle | It must import the mixins in `framework.py`, versions with the vocabulary, and can be upstreamed |
-| Skill (`SKILL.md`) | `claude-jmchilton-plugins/plugins/jmchilton/skills/galaxy-ui/` | It needs a Galaxy worktree, like its sibling `galaxy-playwright`; move it to `galaxy-skills` once it is community-ready |
-| Loop harness | Next to the skill, under `evals/` | It is part of how the skill is maintained |
+| Daemon, client, verb registry | The tip commit of the standing branch `galaxy_ui_driver`: `lib/galaxy_test/selenium/gxui/`, `gxui` script in `galaxy-test-selenium`, tests in `test/unit/selenium/test_gxui.py` (John, 2026-10-07). **Correct home is `lib/galaxy/selenium/gxui/` (`galaxy-selenium`)**; it can't go there until the mixins it imports from `galaxy_test` (`RunsWorkflows` in `framework.py`, `UsesUploadActivity`) move into `galaxy.selenium` - a refactor still to plan | It needs the test framework's mixins, versions with the vocabulary, and can be upstreamed |
+| Skill (`SKILL.md`) | `galaxy-skills` worktree `~/projects/worktrees/galaxy-skills/branch/gxui`, branch `gxui`: `galaxy-ui-driver/` (John, 2026-10-07) | Community skills repo; marked experimental until `gxui` ships in Galaxy |
+| Loop harness | `galaxy_ui_loop/` in the vault (`run.sh`, `verify.py`, `metrics.py`, prompts, `expand_snippets.py`) | Eval tooling; it takes gxui from the Galaxy worktree and the skill from the galaxy-skills worktree |
 | Run reports | `vault/projects/playwright/` (ledger); screenshots and JSONL stay outside the vault | Large binary artifacts don't belong in the vault |
 
 ## Prerequisite PRs (small, atomic, in this order)
@@ -178,6 +179,12 @@ Process (John, 2026-10-06): Galaxy-side work goes on the standing branch `galaxy
 the motivating example, decide which commits get pulled out ahead as their own PRs and which go up
 with gxui. PR 1 is already its own approved PR; the stack starts on its tip (`46aebb27457`, don't
 rebase it while approved). When PR 1 merges, rebase the stack onto dev and drop its commits.
+
+**gxui is one commit, always the tip** (John, 2026-10-07). Galaxy fixes and enhancements go below
+it, one commit each: commit the fix, then move it under the gxui commit (cherry-pick both back on in
+order; no interactive rebase). gxui changes amend the tip commit. Every fix can then be pulled out
+without gxui. Restacking this way and force-pushing `galaxy_ui_driver` to `jmchilton` with
+`--force-with-lease` is a standing OK; no need to ask each time.
 
 Restacked 2026-10-06 (John's OK): tip `9ffb7bda18c`. Its base is PR 1's base `8f9ef7c7de2`,
 9 dev commits older than the old merge's `253a4cb0b9c`; nothing gxui needs.
@@ -195,13 +202,13 @@ Commit queue (✅ = on the branch):
 | 4d | ~~Extraction step checkboxes~~ | dropped: not a Galaxy bug (see below) |
 | 5a | Extraction step helpers moved into `NavigatesGalaxy`; `extract_workflow_rename_input` (`cc9cefd0fb6`) | enhancement ✅ |
 | 5b | Public `playwright_locator`, `start_for_uploaded_hids`, `Component.sub_components` (`98be43d5d94`) | enhancement ✅ |
-| 5c | `resolve_component(path)` → Target / SmartTarget (`2d1e531ab57`) | enhancement ✅ |
-| 5d | Docstrings on the `NavigatesGalaxy` methods gxui exposes (`106def5145d`) | enhancement ✅ |
-| 5e | `multi_history_copy_item` between Multiview columns (`498fa974c36`) | enhancement ✅ |
-| 6a | `tool_form_fill` / `tool_form_set_parameter` lifted out of `RunsToolTests` (`c5a1a961bd4`) | enhancement ✅ |
-| 6a′ | Deferred conditional parameters were never retried (`d73824e9adb`) | fix ✅ |
-| 6b | `tool_form_parameters` → `ToolFormParameter` from the build model (`ebb9c5ab184`) | enhancement ✅ |
-| 7 | `gxui` itself (item 5 below), once verbs settle | enhancement |
+| 5c | `resolve_component(path)` → Target / SmartTarget (`0f516b05703`, was `2d1e531ab57`; restack fixed its mypy no-any-return) | enhancement ✅ |
+| 5d | Docstrings on the `NavigatesGalaxy` methods gxui exposes (`963e6c56db5`) | enhancement ✅ |
+| 5e | `multi_history_copy_item` between Multiview columns (`00452f45288`) | enhancement ✅ |
+| 6a | `tool_form_fill` / `tool_form_set_parameter` lifted out of `RunsToolTests` (`c21bfd3aae0`) | enhancement ✅ |
+| 6a′ | Deferred conditional parameters were never retried (`c9fa7115138`) | fix ✅ |
+| 6b | `tool_form_parameters` → `ToolFormParameter` from the build model (`d391a9225fd`) | enhancement ✅ |
+| gxui | `gxui` itself, **always the tip** (`741e6433ba4`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (22 pass); amended in place | enhancement ✅ |
 
 Notes from doing 4a–5e (2026-10-06):
 - **Corrected findings.** 4a's cause was client-side panel search (regex-escaped query matched

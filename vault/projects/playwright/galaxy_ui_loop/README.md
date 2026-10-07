@@ -26,22 +26,28 @@ Per run: `events.jsonl`, `codex-home/sessions` (token log), `work/notes.md`, `wo
 `../GALAXY_UI_SKILL_DESIGN.md`. Run them with Galaxy's venv Python and, for the Galaxy ones,
 `PYTHONPATH=<galaxy worktree>/lib`.
 
-## gxui (MVP, external first)
+## gxui and the skill
 
-`gxui/` is the CLI and daemon from `../GALAXY_UI_SKILL_DESIGN.md`; `skill/galaxy-ui-driver/SKILL.md`
-is the skill. It needs a Galaxy checkout with prerequisite PRs 1 and 2 and a Python with Galaxy's
-deps. That is the standing branch `galaxy_ui_driver` (pushed to `jmchilton`; worktree
-`~/projects/worktrees/galaxy/branch/galaxy_ui_driver`). It holds the Galaxy-side changes gxui needs,
-saved until the gxui work is a complete motivating example; see `../GALAXY_UI_SKILL_DESIGN.md`. The
-worktree has no `.venv` of its own, so always set `GXUI_PYTHON`. Recreate it if it is gone:
+This directory is only the eval harness now. gxui (CLI, daemon, verbs) is the **tip commit** of the
+standing Galaxy branch `galaxy_ui_driver` (`lib/galaxy_test/selenium/gxui/`, tests in
+`test/unit/selenium/test_gxui.py`; pushed to `jmchilton`, worktree
+`~/projects/worktrees/galaxy/branch/galaxy_ui_driver`), stacked on the Galaxy fixes it needs. Change
+gxui by amending that commit; Galaxy fixes go below it (policy in `../GALAXY_UI_SKILL_DESIGN.md`).
+The skill is `galaxy-ui-driver/` on the `gxui` branch of galaxy-skills (worktree
+`~/projects/worktrees/galaxy-skills/branch/gxui`, pushed to `jmchilton`); `run.sh` copies it from
+there (`GXUI_SKILL_DIR` overrides) and records both revisions in `$RUN/skill_rev` and
+`$RUN/gxui_rev`. The Galaxy worktree has no `.venv` of its own, so always set `GXUI_PYTHON`.
+Recreate the worktrees if they are gone:
 
     git -C ~/projects/repositories/galaxy fetch jmchilton galaxy_ui_driver
     git -C ~/projects/repositories/galaxy worktree add ~/projects/worktrees/galaxy/branch/galaxy_ui_driver galaxy_ui_driver
+    git -C ~/projects/repositories/galaxy-skills fetch jmchilton gxui
+    git -C ~/projects/repositories/galaxy-skills worktree add ~/projects/worktrees/galaxy-skills/branch/gxui gxui
 
 Arm A loop run (Codex; same prerequisites as arm B above):
 
-    ARM=A RUN_ID=phase1-runA4 GXUI_PYTHON=~/projects/worktrees/galaxy/branch/playwright_text_table_parity/.venv/bin/python ./run.sh
-    uv run --no-project --python 3.12 python verify.py ~/.cache/gxui-loop/runs/phase1-runA4
+    ARM=A RUN_ID=phase2-runA2 GXUI_PYTHON=~/projects/worktrees/galaxy/branch/playwright_text_table_parity/.venv/bin/python ./run.sh
+    uv run --no-project --python 3.12 python verify.py ~/.cache/gxui-loop/runs/phase2-runA2
 
 For arm A count calls from `metrics.json`'s `gxui_layers`/`gxui_gaps` (the gxui transcript), not the
 shell-command counts: agents wrap `./gxui` in their own scripts.
@@ -62,7 +68,7 @@ State (socket, log, transcript, screenshots, aria snapshots) is in `$GXUI_HOME` 
 `run.sh` inlines the tutorial's FAQ snippets with `expand_snippets.py`
 (`uv run --no-project --with pytest python -m pytest tests/test_expand_snippets.py`).
 
-Tests (browserless verb parsing, plus a daemon driving Galaxy's `basic.html` fixture and a browser
-kill/relaunch):
+gxui's tests (browserless verb parsing, plus a daemon driving Galaxy's `basic.html` fixture and a
+browser kill/relaunch), from the Galaxy worktree:
 
-    PYTHONPATH=$PWD:$GXUI_GALAXY_ROOT/lib $GXUI_PYTHON -m pytest tests/test_gxui.py
+    PYTHONPATH=lib $GXUI_PYTHON -m pytest test/unit/selenium/test_gxui.py

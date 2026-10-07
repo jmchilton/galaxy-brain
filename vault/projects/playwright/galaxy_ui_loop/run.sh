@@ -40,11 +40,13 @@ if [ "$ARM" = B ]; then
     && $PW state-load "$LOOP_HOME/auth/galaxy-test-auth.json" > /dev/null && $PW reload > /dev/null)
   trap '(cd "$RUN/work" && $PW close > /dev/null 2>&1)' EXIT
 else
-  # gxui needs a Galaxy checkout with UI-skill prereq PRs 1-2 and a Python with Galaxy's deps.
+  # gxui is the tip commit of Galaxy's galaxy_ui_driver branch; it needs a Python with Galaxy's deps.
   export GXUI_HOME="$LOOP_HOME/gxui" GXUI_SESSION=gtn GXUI_CLIENT_TIMEOUT=290
   export GXUI_GALAXY_ROOT=${GXUI_GALAXY_ROOT:-$HOME/projects/worktrees/galaxy/branch/galaxy_ui_driver}
   export GXUI_PYTHON=${GXUI_PYTHON:-$GXUI_GALAXY_ROOT/.venv/bin/python}
-  cp -R "$HERE/skill/galaxy-ui-driver" "$RUN/work/.agents/skills/"
+  SKILL=${GXUI_SKILL_DIR:-$HOME/projects/worktrees/galaxy-skills/branch/gxui/galaxy-ui-driver}
+  cp -R "$SKILL" "$RUN/work/.agents/skills/"
+  git -C "$SKILL" rev-parse --short HEAD > "$RUN/skill_rev"; git -C "$GXUI_GALAXY_ROOT" rev-parse --short HEAD > "$RUN/gxui_rev"
   { echo '#!/bin/sh'
     for v in GXUI_HOME GXUI_SESSION GXUI_CLIENT_TIMEOUT GXUI_GALAXY_ROOT GXUI_PYTHON; do eval "echo export $v=\\\"\$$v\\\""; done
     echo "exec \"$HERE/bin/gxui\" \"\$@\""; } > "$RUN/work/gxui" && chmod +x "$RUN/work/gxui"
