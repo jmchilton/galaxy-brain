@@ -240,7 +240,7 @@ Gaps and friction:
   output ~12 commands. Candidate verbs: `dataset-rerun`, `workflow-run --wait`.
 
 **phase2-runA2:** pass, and the best run yet on every measure: 13.6 min (arm B 20-29), 4.81M input
-(B 8.2-9.6M), 82 requests (B 94-105), 17 polling calls (A1 40). First run from the new homes
+(B 8.2-9.6M), 82 requests (B 95-108), 17 polling calls (A1 40). First run from the new homes
 (gxui `92494b47a8f` on the standing branch, skill `4aa3eae` in galaxy-skills); `history-new` now
 goes home first. All 6 gaps are box 12: `dataset-copy` against a Multiview without per-history
 hooks, made worse by gxui's error telling the agent to pin histories that were already shown (it
@@ -261,11 +261,11 @@ rose again (48 `write_stdin`); `&&` chains up to 20. Snapshotting a grouping com
 |---|---|---|
 | Wall | 24.0 / 20.1 / 29.1 min | (A1 DNS outage) / 13.6 / 15.7 min |
 | Input | 9.51 / 8.18 / 9.59M | 6.41 / 4.81 / 4.55M |
-| Requests | 106 / 95 / 105 | 95 / 82 / 88 |
+| Requests | 106 / 95 / 108 | 95 / 82 / 88 |
 | Output | 18.5 / 18.2 / 19.7k | 25.9 / 16.4 / 18.9k |
 
 Input roughly halves with the skill and wall time drops by about a third. Caveats: gxui changed
 between A runs (A2 got `history-new` going home first, A3 the clearer copy error), so arm A is a
 moving target; and A1's wall time is lost to the outage. Fresh input is not the driver; requests
-times context is (A's context stays smaller: mean 52-68k vs 72-90k).
+times context is (A's context stays smaller: mean 52-68k vs 86-90k).
 Remaining box 12 cost is server/client skew; box 9 needs rerun support.
