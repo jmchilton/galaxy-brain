@@ -3,10 +3,6 @@
 import os
 import re
 
-from galaxy.navigation.components import (
-    LocatorT,
-    Target,
-)
 from galaxy.selenium.context import GalaxySeleniumContextImpl
 from galaxy.selenium.smart_components import SmartTarget
 from galaxy_test.selenium.framework import RunsWorkflows
@@ -34,14 +30,13 @@ class GxuiContext(GalaxySeleniumContextImpl, RunsWorkflows, UsesUploadActivity):
         # The tour grammar takes `key=value` literally; agents naturally quote values.
         path = _QUOTED_ARGUMENT.sub(r"=\2", path)
         try:
-            locator = self.components.resolve_component_locator(path)
+            return self.components.resolve_component(path)
         except KeyError as e:
             if e.args == ("_",):
                 raise ValueError(
                     f"{path!r} groups other components and has no element of its own; see `gxui components {path}`"
                 ) from None
             raise
-        return SmartTarget(_LocatorTarget(path, locator), self)
 
     def locator(self, target):
         """The Playwright Locator for a Target (first match)."""
@@ -50,16 +45,3 @@ class GxuiContext(GalaxySeleniumContextImpl, RunsWorkflows, UsesUploadActivity):
 
 _QUOTED_ARGUMENT = re.compile(r"""=\s*(['"])(.*?)\1""")
 
-
-class _LocatorTarget(Target):
-    def __init__(self, path: str, locator: LocatorT):
-        self._path = path
-        self._locator = locator
-
-    @property
-    def description(self) -> str:
-        return self._path
-
-    @property
-    def component_locator(self) -> LocatorT:
-        return self._locator
