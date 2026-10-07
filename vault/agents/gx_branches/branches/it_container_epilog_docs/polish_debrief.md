@@ -29,4 +29,4 @@ Stub test re-run on the doc's script (stub `scontrol`/`docker`): Galaxy layout a
 - Generic `drmaa` runner (no Slurm subclass): not verified to keep the job dir until the epilog runs. With `cleanup_job: always`, a cancelled/timed-out job could be cleaned up first. The doc still lists `drmaa`.
 - Never run on a real Slurm node.
 - Scope questions (not done): fix pulsar#541; make the 1s `kill_pg` grace configurable; `--label galaxy_job_id=...` for orphan reaping; keep `container_config.json` out of `extra_filenames` cleanup; `--chdir` in the CLI Slurm plugins.
-- Possible separate bug: Pulsar's cvmfsexec exit handler (`e3a1b49`) sets `trap _galaxy_on_exit EXIT`, and Galaxy's docker `trap _on_exit EXIT` likely replaces it, skipping the unmount for containerized jobs. Unverified.
+- Separate bug, confirmed 2026-10-06 by rendering a real Pulsar job script around Galaxy's Docker command: Galaxy's `trap _on_exit EXIT` replaces Pulsar's unreleased `_galaxy_on_exit` handler (`e3a1b49`), so cvmfsexec `mountrepo` never unmounts for Docker jobs. Queued as `gx_issues/to_file/docker_trap_clobbers_pulsar_exit_handlers.md`.
