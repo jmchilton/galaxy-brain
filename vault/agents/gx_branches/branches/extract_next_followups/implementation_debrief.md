@@ -30,7 +30,7 @@ Follow-ups to #22860 (notebook → workflow extraction + report), ready to open 
 - Selenium/Playwright not run locally.
 - Pushed to `jmchilton/extract_next_followups` (force-pushed after rebase).
 - Selenium: notebook tests' `output_star_active_for_job` still match (locked star keeps `active`).
-- M7 review suggestions not acted on: Selenium `aria-disabled` assertion on the locked star and a rendered-`data-title` card assertion (vitest covers the prop; optional polish); HDCA/ICJ variants of the exposure-warning API test (same code path as HDA via `original_content_ref`).
+- M7 follow-up coverage (`bce4345ee4c`): Selenium asserts the referenced star is `aria-disabled` with the report tooltip (passes on Playwright backend; local Selenium backend fails in setup login, env issue); card tests assert rendered `aria-disabled`/`data-title` and that a locked click emits nothing; HDCA and ICJ exposure-warning API tests. Selenium `extract_workflow_toggle_output_star` now checks `aria-disabled` (its `disabled` check never fired on GButton).
 - Flaky under load once: `test_accessible_invocation_create_page`, `test_extract_mapping_workflow_from_history` (both pass on rerun, unrelated).
 
 ## Not acted on (and why)
