@@ -30,13 +30,13 @@ Some failures that were 500s on `dev`, or worse, now return Galaxy's usual error
 | TUS `session_id` with no completed upload | 500 | 400 |
 | nginx `__file_path` that doesn't exist | 500 | 400 |
 
-😬 = Pulsar got an empty file instead of an error. A malformed multipart body is also a 400, with a test.
+😬 = Pulsar got an empty file instead of an error. A malformed multipart body and a client disconnecting mid-upload are also 400s, with tests.
 
 <details><summary>How the upload is handled</summary>
 
-- `JobFilesManager` (`lib/galaxy/managers/job_files.py`) holds job-key authorization, the write-path check (working directory, output dataset or its extra files), the nginx and TUS source checks, and replace-or-append. The endpoint is a thin `@router.cbv` on top of it. The endpoint has no user or session, so it doesn't depend on `trans`.
+- `JobFilesManager` (`lib/galaxy/managers/job_files.py`) holds job-key authorization, the write-path check (working directory, output dataset or its extra files), the nginx and TUS source checks, and replace-or-append. It takes config, security, the object store and the session directly, so its authorization is unit tested. The endpoint is a thin `@router.cbv` on top of it. The endpoint has no user or session, so it doesn't depend on `trans`.
 - With query auth, the upload is staged in a hidden `.job_files_upload_*` directory in the job's working directory, or in the output dataset's directory, never inside an extra files path. That keeps the final rename on one filesystem. The job state is checked again after the body arrives, because a long upload can outlive the job.
-- The request's DB connection is released before the body is read, and the authorization, parsing and file work run in the threadpool. python-multipart's public `create_form_parser` writes file parts straight to named files in the staging directory.
+- The request's DB connection is released before the body is read, and the authorization, parsing, source checks and file work run in the threadpool. python-multipart's public `create_form_parser` writes file parts straight to named files in the staging directory.
 - When `path` and `job_key` are in the form instead of the query (Pulsar never does this), uploads are spooled to `new_file_path`, authorized, then moved, as on `dev`.
 - The path isn't URL-decoded a second time, which #20235 did. A literal `%2F` in a file name survives the round trip, and there's a test for it.
 - HEAD is an explicit `@router.head`, because FastAPI doesn't add it.
