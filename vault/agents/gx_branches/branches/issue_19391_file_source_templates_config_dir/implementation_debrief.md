@@ -1,10 +1,10 @@
 # Implementation debrief: `issue_19391_file_source_templates_config_dir`
 
-Fixes [#19391](https://github.com/galaxyproject/galaxy/issues/19391). Based on `dev` at `4fe00d9e7ab`. Commits: `e6ed6b6de72` (feature) and `fe1b6a52ca4` (review fixes). Pushed to `jmchilton`.
+Fixes [#19391](https://github.com/galaxyproject/galaxy/issues/19391). Based on `dev` at `4fe00d9e7ab`. Commits: `e6ed6b6de72` (feature), `fe1b6a52ca4` (review fixes), `8c73b104063` (dirs made opt-in at John's request). Pushed to `jmchilton`.
 
 ## Change
 
-- New options `file_source_templates_config_dir` and `object_store_templates_config_dir`, default `<config_dir>/file_source_templates.d` / `object_store_templates.d`. They are added **alongside** `*_templates_config_file`, not as a rename (the issue title says "change"; renaming would break existing configs).
+- New options `file_source_templates_config_dir` and `object_store_templates_config_dir`. They are opt-in with no default; an admin must set them. They are added **alongside** `*_templates_config_file`, not as a rename (the issue title says "change"; renaming would break existing configs).
 - Object store templates got the same option for sibling parity. The code paths are identical.
 - Shared loader `load_raw_template_configs(inline, config_file, config_dir)` in `lib/galaxy/util/config_templates.py`:
   - Inline `*_templates` replace the file and dir, as before.
@@ -18,9 +18,16 @@ Fixes [#19391](https://github.com/galaxyproject/galaxy/issues/19391). Based on `
 - Regenerated `galaxy.yml.sample`, `galaxy_options.rst`, `_galaxy_config_schema_attributes.py`. The `config_manage.py` type override is `str | None`, matching the sibling `_config_file`.
 - Docs: `doc/source/admin/data.md`, in both the object store and file source sections.
 
-## Why a default dir
+## Opt-in, no default dir
 
-A `path_resolves_to` option with no default logs "Trying to resolve path ... empty/None" at every startup (`_resolve_paths`). `.d` has no precedent among Galaxy options, but it is the standard Unix drop-in convention, and `config/*` is gitignored.
+The first version defaulted to `<config_dir>/*_templates.d`. John found that un-Galaxy, so it was dropped in `8c73b104063`.
+
+The options don't use `path_resolves_to`, because without a default that logs "Trying to resolve path ... empty/None" at every startup (`_resolve_paths`; `email_ban_file` is the only option that does this today). Instead they follow `container_resolvers_config_file`:
+
+- no schema default;
+- `_process_config` resolves a set value with `_in_config_dir` (absolute paths pass through).
+
+The generated type is `str | None` on its own, so no `config_manage.py` override is needed.
 
 ## Tests
 
@@ -34,7 +41,7 @@ Red first, then green:
 - `test/unit/objectstore/test_template_manager.py`: dir loading.
 - `test/unit/app/dependencies/test_deps.py`:
   - object store templates dir;
-  - file source templates found through the **default** `.d` location, which covers schema default and path resolution;
+  - file source templates dir: a `.d` dir in `config_dir` is ignored until the option is set; setting it as a relative path resolves against `config_dir`;
   - inline file source templates, which is the gap this fixes.
 
 255 unit tests pass across template, deps, user object store/file source manager, and config tests. Ruff, black and isort are clean. Mypy shows no new errors: run from `lib/`, the only errors are the pre-existing lxml-stub ones in `util/__init__.py`.
