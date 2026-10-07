@@ -32,8 +32,10 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   `GALAXY_UI_SKILL_RUNS.md`.
 
 **Next, in order:**
-1. **runA3's gxui list** (`GALAXY_UI_SKILL_RUNS.md`): `workflow-run` inputs via
-   `input_select_field`, `history-share`, `call --list`, `dataset-copy`; then expand snippets and
+1. **runA3's gxui list** (`GALAXY_UI_SKILL_RUNS.md`): `workflow-run` inputs (now just
+   `workflow_run_specify_inputs`), `history-share`, `call --list`, `dataset-copy` (now
+   `multi_history_copy_item`); `_auto` JSON-parses any argument starting with `[`, so `call` with a
+   CSS selector like `[data-…]` fails; then expand snippets and
    take n=3 per arm before quoting any delta.
 2. **Galaxy-side work, one commit each on the standing branch** (queue under "Prerequisite
    PRs"): Tool Shed `tool_open` first, then the other fixes, then enhancements incl. PR 4.
@@ -184,18 +186,35 @@ Commit queue (✅ = on the branch):
 | 1 | Context bootstrap fix (PR 1, 3 commits) | fix ✅ |
 | 2 | Opt-in CDP port on Playwright Chromium (`9ffb7bda18c`, was `da5054d39f3`) | enhancement ✅ |
 | 3 | ~~`headless=auto` under Playwright~~ | dropped; queued for gx_issues |
-| 4a | `tool_open` / `tool_panel.tool_link` work for Tool Shed GUIDs | fix |
-| 4b | `workflow_run_specify_inputs`: obsolete `step-label` → `data-label` | fix |
-| 4c | Stale Multiview `history-column-*` ids in `navigation.yml` | fix |
-| 4d | Extraction step checkboxes: opacity-0, empty labels (a11y) | fix (client) |
-| 5a | Move `extract_workflow_toggle_job` / `_rename_output` into `NavigatesGalaxy`; input-card rename components | enhancement |
-| 5b | Public upload-wait and locator→Playwright-selector helpers (drop the `_` gxui uses) | enhancement |
-| 5c | Component path → `SmartTarget` resolver | enhancement |
-| 5d | Docstrings on the `NavigatesGalaxy` methods gxui exposes | enhancement |
-| 5e | Multiview dataset-copy helper | enhancement |
+| 4a | `tool_open` / `tool_panel.tool_link` work for Tool Shed GUIDs (`3f649833297`) | fix ✅ |
+| 4b | `workflow_run_specify_inputs` fills the simplified run form too (`7f0c9112f89`) | fix ✅ |
+| 4c | Multiview selectors point at real per-history hooks (`983d9a629f1`) | fix ✅ |
+| 4d | ~~Extraction step checkboxes~~ | dropped: not a Galaxy bug (see below) |
+| 5a | Extraction step helpers moved into `NavigatesGalaxy`; `extract_workflow_rename_input` (`cc9cefd0fb6`) | enhancement ✅ |
+| 5b | Public `playwright_locator`, `start_for_uploaded_hids`, `Component.sub_components` (`98be43d5d94`) | enhancement ✅ |
+| 5c | `resolve_component(path)` → Target / SmartTarget (`2d1e531ab57`) | enhancement ✅ |
+| 5d | Docstrings on the `NavigatesGalaxy` methods gxui exposes (`106def5145d`) | enhancement ✅ |
+| 5e | `multi_history_copy_item` between Multiview columns (`498fa974c36`) | enhancement ✅ |
 | 6a | Lift tool-form filler out of `RunsToolTests` into `NavigatesGalaxy` (PR 4) | enhancement |
 | 6b | `tool-describe` (PR 4) | enhancement |
 | 7 | `gxui` itself (item 5 below), once verbs settle | enhancement |
+
+Notes from doing 4a–5e (2026-10-06):
+- **Corrected findings.** 4a's cause was client-side panel search (regex-escaped query matched
+  against a regex-escaped id), not `createWhooshQuery`; plus `tool_link` matching the URL-encoded
+  href. 4b: `step-label` isn't obsolete, it is the expanded run form's; the default simplified form
+  only has `data-label`. 4c: the live test server predates Multiview's virtual-list rewrite, so
+  Multiview is verified locally only.
+- **4d dropped.** `GCard`'s select checkbox is a standard Bootstrap custom checkbox: the input is
+  opacity 0 and the visible box is the empty label's `::before`, so the label is zero-size and no
+  automation click lands. The input's `title` gives it an accessible name. Script click is the
+  right workaround; it is now documented on `extract_workflow_toggle_job`.
+- **How it was tested.** Each commit red-to-green: vitest, `test/unit/selenium`, live checks with
+  gxui against test.galaxyproject.org (4b) and a private local Galaxy (`galaxy_ui_driver`
+  worktree, port 8091, Vite 5174; `config/galaxy.yml` is local-only), and new or existing E2E
+  tests run one at a time against it. `test_dataset.py::test_history_dataset_display_text` failed
+  locally inside the dataset iframe, after the upload helper had succeeded; not investigated.
+- gxui now calls only public Galaxy APIs for these (vault `5e8a09c`, `5bbc4a9`, `4dea0b0`).
 
 1. **Fix the standalone context bootstrap.** Branch `selenium_context_timeout_handler`,
    approved at `46aebb27457`.
