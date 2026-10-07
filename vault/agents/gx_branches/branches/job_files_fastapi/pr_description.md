@@ -16,7 +16,7 @@ Migrate the job files API (`/api/jobs/{job_id}/files`) to FastAPI so that a job 
 
 ***Pulsar needs no change. The URL, query and form parameters, multipart format, HEAD and Range support, TUS and nginx upload sources are all the same. Only error responses change (table below).*** User uploads (`/api/tools/fetch`) and the TUS routers are untouched.
 
-***This completes the migration. The legacy `JobFilesAPIController`, its routes and the dead WSGI TUS stubs are deleted, and the module drops its mypy exemption.***
+***This completes the migration. The legacy `JobFilesAPIController`, its routes and the dead WSGI `tus_patch` stub are deleted, and the module drops its mypy exemption.*** The `POST /api/job_files/tus_hooks` no-op moves to FastAPI unchanged, because vgp.usegalaxy.org points its job files tusd's `-hooks-http` at it.
 
 Some failures that were 500s on `dev`, or worse, now return Galaxy's usual error responses:
 
@@ -52,9 +52,8 @@ The one hard-to-reverse part is that the job files endpoint now appears in Galax
 <details><summary>Risk Details</summary>
 
 - The endpoint is in the OpenAPI schema with an "only for job runners, not a stable user API" description.
-- `POST /api/job_files/tus_hooks`, a no-op left for tusd `-hooks-http`, is gone and now returns 404. Galaxy never configured it, and the TUS upload route itself is unchanged.
 - Responses that were 500s are now 4xx (table above). A runner that retried on any 5xx now gets an error it won't retry.
-- A worker killed mid-upload can leave a hidden `.job_files_upload_*` directory in a job's working directory or a dataset directory. Normal errors and rejected uploads clean up after themselves, and there's a test for that.
+- A worker killed mid-upload can leave a hidden `.job_files_upload_*` directory in a job's working directory or a dataset directory. Staging next to the destination is what makes the final rename atomic. Normal errors, rejected uploads and client disconnects clean up after themselves, with tests.
 - With query auth, a large upload that's rejected gets its 403 before the body is read, so some clients see a connection reset instead of the JSON error.
 
 </details>
@@ -71,10 +70,10 @@ Builds on 🔀 #23856, which hardened the legacy endpoint and added the tests th
 
 ## John's Checklist
 
-- [x] Did a human read every test and every comment? (Requires human author to check)
+- [ ] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Galaxy's usual JSON errors with 400/403/404 codes (table above). The one gap is an early 403 on a large upload, which can surface as a connection reset.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. Integration tests go through HTTP and check status codes, file contents, Pulsar's query mode, form mode, appends and percent-escaped paths. Two streaming tests watch the staged file grow before the request finishes, to show the upload isn't spooled.
+- [x] Are unit tests not just testing the literal implementation? Yes. Integration tests go through HTTP and check status codes, file contents, Pulsar's query mode, form mode, appends and percent-escaped paths. Two streaming tests watch the staged file grow before the request finishes, to show the upload isn't spooled. One test gets its 403 having sent none of the body, and another finishes the job mid-upload and gets a 403 from the second check. `JobFilesManager` takes its dependencies directly, so unit tests cover its job-key, job-state and write-path checks.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 
@@ -84,9 +83,10 @@ Builds on 🔀 #23856, which hardened the legacy endpoint and added the tests th
 
 <details><summary>Tests</summary>
 
-- `test/integration/test_job_files.py`: 24 tests. Uploads use Pulsar's query auth by default, and form auth keeps its own tests. New ones cover missing files (including dataset-named ones) and directories, unknown jobs, missing TUS and nginx sources, missing or malformed uploads, percent-escaped paths, streaming into the working directory or next to an output (never inside its extra files path), and rejected uploads leaving nothing staged.
+- `test/unit/app/managers/test_JobFilesManager.py`: 9 tests of the manager's authorization, with no server.
+- `test/integration/test_job_files.py`: 29 tests. Uploads use Pulsar's query auth by default, and form auth keeps its own tests. New ones cover missing files (including dataset-named ones) and directories, unknown jobs, missing TUS and nginx sources, missing or malformed uploads, percent-escaped paths, Range reads, streaming into the working directory or next to an output (never inside its extra files path), rejected uploads leaving nothing staged, a 403 sent before any of the body is read, a job finishing mid-upload, a client disconnecting mid-upload, and the `tus_hooks` no-op.
 - `test/integration/test_job_files_tus.py` and `test_job_files_remote_transfer.py` run tool tests through embedded Pulsar with TUS and multipart transfers.
-- All of the above pass locally. Fork CI was green on an earlier commit (`3b810a29624`); the current one is still queued.
+- All of the above pass locally at `1476724b914`.
 
 </details>
 
