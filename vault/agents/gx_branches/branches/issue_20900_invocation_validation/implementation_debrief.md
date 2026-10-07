@@ -1,6 +1,6 @@
 # issue_20900_invocation_validation — implementation debrief
 
-Branch `issue_20900_invocation_validation` at `9be940c74d0` (11 commits), off dev `4fe00d9e7ab`. Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/issue_20900_invocation_validation`.
+Branch `issue_20900_invocation_validation` at `9b18c329c8f` (13 commits), off dev `4fe00d9e7ab`. Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/issue_20900_invocation_validation`.
 
 ## Goal
 #20900: reject bad workflow invocation requests at the API (400/403/404) before any side effects, instead of failing at scheduling as an `unexpected_failure`, a 500, or Sentry noise. The example in the issue is an int reaching a text `parameter_input` via `planemo run`.
@@ -28,6 +28,8 @@ Branch `issue_20900_invocation_validation` at `9be940c74d0` (11 commits), off de
 - `on_complete` action names are checked against the DI-registered `WorkflowCompletionHookRegistry`.
 - The landing request is resolved, with an ownership check, before anything is queued.
 
+**Subworkflow structure** — a subworkflow step with a required input that has no default and no connection is rejected (400), including nested subworkflows. The error names the step path, e.g. `outer > inner: ... 'x'`. `disconnected_required_subworkflow_inputs` in `modules.py` is shared with the runtime backstop in `run.py`, which stays. `test_subworkflow_missing_input_connection_error` (mvdbeek, bcd9bb2cc93) now asserts the 400, the error code, the message, and that no invocation or jobs were created (John OK'd changing it without weakening it).
+
 **Tools** — tools that are not workflow-compatible are rejected inside the existing missing-tools check. That check now looks each tool up once (`ToolLike.is_workflow_compatible` was added to the protocol).
 
 **Ordering** — `build_workflow_run_configs` now validates everything first. That includes the batch, replacement-param, resource-param and effective-outputs checks, plus `populate_module_and_state` for step overrides and upgrade messages. Only then does it create histories, convert LDDAs and dereference URLs.
@@ -45,7 +47,6 @@ Branch `issue_20900_invocation_validation` at `9be940c74d0` (11 commits), off de
 - **`populate_module_and_state` now runs twice per run:** once in validation, once in `queue_invoke`. This is in-memory only. Reusing the first result would depend on a hidden side effect that survives a commit, and the session expires on commit.
 
 ## Deliberately not done
-- **A disconnected required input on a subworkflow is still not rejected at submission.** `test_subworkflow_missing_input_connection_error` (mvdbeek, bcd9bb2cc93) asserts that the invocation is created and then fails at runtime. Changing it needs John's OK.
 - **Defaults are not type-checked.** Doing so could reject published workflows whose defaults the user can't fix.
 - **An hdca sent to a dataset input is allowed.** That is input-level map-over, which `test_workflow_input_mapping` relies on.
 - **`on_complete` `target_uri` is not checked.** No request-time validator fits, and `test_completion_export_config_accepted` accepts an unconfigured `gxfiles://` target.
@@ -59,9 +60,8 @@ Branch `issue_20900_invocation_validation` at `9be940c74d0` (11 commits), off de
   - scheduler retry-forever
 
 ## Review findings not acted on
-- **Two tests the reviewer suggested trimming,** pending John's OK:
-  - `test_workflow_parameter_invalid_is_expected_failure` only asserts a constant.
-  - The six-case wrong-type API parametrization could shrink to two cases.
+- **The reviewer suggested shrinking the wrong-type API parametrization.** John prefers API tests, so we did the opposite: dropped the 16 duplicate unit tests (and the constant-only `test_workflow_parameter_invalid_is_expected_failure`) and moved their cases into the API tests.
+- **No API test reaches the runtime subworkflow backstop.** In the partly-connected case it still reports the misleading `output_not_found` from a leftover loop variable.
 - **URL collection requests can still leave an orphan history.** `dereference_input_to_hdca` validates sample-sheet metadata after the history is created. Not fixed.
 - **`InputParameterModule.execute` still catches only `ValueError`.** A connected value of the wrong type that reaches a validator at scheduling can raise an uncaught `TypeError`. This predates the branch.
 - **`history="hist_id="` with an empty id** now names the new history `hist_id=` instead of using the default name.
@@ -75,13 +75,15 @@ Branch `issue_20900_invocation_validation` at `9be940c74d0` (11 commits), off de
 
 ## Tests
 New API tests in `test_workflows.py`:
-- wrong-type and string parameters
-- restrictions
+- wrong-type parameters (10 cases) and numeric/boolean strings
+- restrictions, for single and `multiple` text
+- suggestions not enforced
+- an optional input given `""`
 - validated text of the wrong type
 - multiple text
 - dataset given to a collection input
-- incompatible collection type
-- deleted inputs
+- incompatible collection type, and `list:list` mapped onto a `list` input
+- deleted and purged inputs
 - nonexistent inputs (hda, ldda, ld, hdca)
 - library dataset input
 - unknown scheduler
@@ -91,18 +93,27 @@ New API tests in `test_workflows.py`:
 - tool that isn't workflow-compatible
 - `no_add_to_history`
 - no history created by an invalid request or an invalid step parameter
+- subworkflow input disconnected, partly connected, or disconnected in a nested subworkflow
 
-Also unit tests in `test/unit/workflows/test_modules.py` and `test_landing.py`, and a doctest on `TextToolParameter`. Nearly all were red, then green.
+Other tests:
+- No unit tests remain in `test/unit/workflows/test_modules.py`; it is identical to dev.
+- Kept: the `TextToolParameter` doctest (parameter class shared with scheduling) and the landing ownership unit test.
+- Not covered: color and directory_uri can't be written as format2 inputs, so they're only covered through the shared string check.
 
-Runs, one at a time:
-- Unit: 219 passed.
-- API: 48 passed after review (71 and 27 in earlier runs).
-- Landing and completion: 13 passed.
-- Hierarchical object store integration: 28 passed.
-- Framework workflows: 87 passed, 1 failed (`directory_index_1`), which fails the same way on base `4fe00d9e7ab`.
+Red then green: checked by swapping the implementation files to their dev versions. Suggestions, optional-empty and map-over pass on dev too; they guard against over-rejecting.
+
+Latest runs, one at a time:
+- Parameter, collection and deleted-input API tests: 35 passed.
+- Subworkflow API tests: 49 passed.
+- Unit workflows: 166 passed.
+- basic.py doctests: 15 passed.
+- Earlier runs:
+  - API after review: 48 passed.
+  - Landing and completion: 13 passed.
+  - Hierarchical object store integration: 28 passed.
+  - Framework workflows: 87 passed, 1 failed (`directory_index_1`), which also fails on base `4fe00d9e7ab`.
 
 mypy (run from `lib/`) is clean on touched files, as are black, isort and ruff.
 
 ## Open
 - Fork CI has not run.
-- Decide on the subworkflow disconnected-input test, and on trimming the two tests.
