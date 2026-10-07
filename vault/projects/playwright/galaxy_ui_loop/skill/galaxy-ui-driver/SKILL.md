@@ -28,6 +28,8 @@ the verb prints the path.
    seconds (default 240) and fail at once on an error state; a timeout means still running - check
    `history-items` before retrying, so you don't upload twice.
    `workflow-extract NAME --input-names LABEL --exclude-hids HID` does a whole extraction.
+   `history-share` gives the current history a link; `dataset-copy HID --source HISTORY` copies
+   an item from another history into the current one (Multiview drag).
    Tool parameters: `gxui tool-describe` maps the open form's labels (what tutorials say) to paths,
    with options and the conditional case that shows each field; `gxui tool-fill '{"path": value}'`
    sets them (data fields take a hid; put a conditional's selector and its fields in one call).
@@ -35,7 +37,10 @@ the verb prints the path.
    `gxui components history_panel` browses; `gxui component 'history_panel.item(hid=3).title' click`
    acts (click|check|uncheck|text|value|visible|absent|send-keys|clear-send-keys), with Galaxy's
    waits, up to `--timeout` (default 30 s). Use `check`/`uncheck` for styled checkboxes.
-   `gxui call METHOD ARGS...` reaches any other public framework method.
+   A component `click` returns once the click lands, not when the work it starts (a rename, a
+   new history, a save) has finished: confirm the result before the next step.
+   `gxui call METHOD ARGS...` reaches any other public framework method; `gxui methods TEXT`
+   finds them - don't read framework source.
 3. **Escape hatch** - `playwright-cli -s=<session>` is already attached to the same page (snapshot,
    find, click by ref, eval, console). **Before each playwright-cli command or REST call, run
    `gxui gap "<what was missing>"`.** Gaps are the main output of a run - be specific.

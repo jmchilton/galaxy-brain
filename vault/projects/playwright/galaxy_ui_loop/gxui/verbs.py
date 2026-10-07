@@ -226,6 +226,49 @@ def history_items(ctx, deleted: bool = False):
     return "\n".join([header, *lines])
 
 
+@verb("history-share", "history", "click_history_option_sharing")
+def history_share(ctx, publish: bool = False):
+    """Make the current history accessible via link (--publish also publishes it); prints the link.
+
+    Sharing opens from the history panel's menu, so this goes home first.
+    """
+    history_id = ctx.current_history_id()
+    if not ctx.api_get("users/current").get("username"):
+        raise RuntimeError("the account has no public name; sharing asks for one first (Preferences > Manage Information)")
+    ctx.home()
+    ctx.click_history_option_sharing()
+    sharing = ctx.components.histories.sharing
+    status = ctx.api_get(f"histories/{history_id}/sharing")
+    if not status["importable"]:
+        sharing.make_accessible.wait_for_and_click()
+    if publish and not status["published"]:
+        sharing.make_publishable.wait_for_and_click()
+
+    def shared():
+        status = ctx.api_get(f"histories/{history_id}/sharing")
+        done = status["importable"] and status["username_and_slug"] and (status["published"] or not publish)
+        return status if done else None
+
+    status = ctx._wait_on(shared, "the history to become shared", wait_type=ctx.wait_types.DATABASE_OPERATION)
+    state = "accessible via link and published" if status["published"] else "accessible via link"
+    return f"{state}: {ctx.build_url(status['username_and_slug'], for_selenium=False)}"
+
+
+def _history_id(ctx, history: str) -> str:
+    """The id of a history given by name or id; empty means the current history."""
+    if not history:
+        return ctx.current_history_id()
+    histories = ctx.api_get("histories?keys=id,name")
+    if any(h["id"] == history for h in histories):
+        return history
+    named = [h["id"] for h in histories if h["name"] == history]
+    if not named:
+        raise UsageError(f"no history {history!r} (by name or id)")
+    if len(named) > 1:
+        raise UsageError(f"{len(named)} histories named {history!r}; pass an id: {', '.join(named)}")
+    return named[0]
+
+
 TERMINAL_BAD_STATES = {"error", "failed_metadata", "paused", "discarded", "deferred"}
 
 
@@ -307,6 +350,36 @@ def dataset_peek(ctx, hid: int):
     if item.peek.is_absent:
         ctx.history_panel_click_item_title(hid=hid, wait=True)
     return _bounded(item.peek.wait_for_text())
+
+
+@verb("dataset-copy", "dataset", "multi_history_copy_item")
+def dataset_copy(ctx, hid: int, source: str = "", target: str = ""):
+    """Copy item HID between histories by dragging it in History Multiview; prints its new hid.
+
+    --source and --target take a history name or id and default to the current history; pass one.
+    Both must be Multiview columns: pinned, or among the most recently updated histories.
+    """
+    source_id, target_id = _history_id(ctx, source), _history_id(ctx, target)
+    if source_id == target_id:
+        raise UsageError("source and target are the same history; pass --source or --target")
+    before = {item["hid"] for item in ctx.history_contents(history_id=target_id)}
+    ctx.home()
+    ctx.open_history_multi_view()
+    try:
+        ctx.multi_history_copy_item(hid, from_history_id=source_id, to_history_id=target_id)
+    except Exception as e:
+        if "imeout" not in type(e).__name__:
+            raise
+        raise RuntimeError(
+            f"hid {hid} of {source or 'the current history'} or the {target or 'current'} history is not a "
+            "Multiview column; pin both with Multiview's Select Histories"
+        ) from None
+
+    def copied():
+        return [item["hid"] for item in ctx.history_contents(history_id=target_id) if item["hid"] not in before]
+
+    new_hids = ctx._wait_on(copied, "the copy to appear", wait_type=ctx.wait_types.DATABASE_OPERATION)
+    return f"copied hid {hid} as hid {' '.join(str(h) for h in new_hids)} of {target or 'the current history'}"
 
 
 # --- tool ------------------------------------------------------------------
@@ -590,11 +663,46 @@ def components(ctx, prefix: str = ""):
 
 @verb("call", "generic", layer="call")
 def call(ctx, method: str, *args: str):
-    """Call any public context method with no verb yet. Logged; frequent calls are verbs to promote."""
+    """Call any public context method with no verb yet; `gxui methods TEXT` finds them.
+
+    Logged; frequent calls are verbs to promote.
+    """
     if method.startswith("_"):
         raise UsageError("private methods are off limits")
+    if not callable(getattr(ctx, method, None)):
+        raise UsageError(f"no method {method!r}; see `gxui methods TEXT`")
     value = getattr(ctx, method)(*[_auto(a) for a in args])
     return "ok" if value is None else _bounded(repr(value))
+
+
+@verb("methods", "generic", positional=("text",))
+def methods(ctx, text: str = ""):
+    """List the context methods `call` reaches whose names contain TEXT: signature, summary, covering verb."""
+    return method_listing(type(ctx), text)
+
+
+def method_listing(context_class: type, text: str = "") -> str:
+    covered = {v.method: v.name for v in REGISTRY.values() if v.method}
+    names = [
+        name
+        for name in sorted(dir(context_class))
+        if not name.startswith("_") and text in name and inspect.isfunction(inspect.getattr_static(context_class, name))
+    ]
+    if not text:
+        return f"{len(names)} methods; pass TEXT for signatures\n" + " ".join(names)
+    lines = []
+    for name in names:
+        function = getattr(context_class, name)
+        signature = inspect.signature(function)
+        signature = signature.replace(parameters=list(signature.parameters.values())[1:])
+        doc = inspect.getdoc(function) or ""
+        line = f"{name}{signature}"
+        if doc:
+            line += f"  - {doc.splitlines()[0]}"
+        if name in covered:
+            line += f"  [verb: {covered[name]}]"
+        lines.append(line)
+    return "\n".join(lines) or f"no methods contain {text!r}"
 
 
 def _selector_text(selector) -> str:

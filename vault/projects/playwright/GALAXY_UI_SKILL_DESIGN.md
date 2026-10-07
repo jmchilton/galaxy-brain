@@ -24,7 +24,7 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
 - **`gxui` MVP, external first** (John's call): `galaxy_ui_loop/gxui/` + `skill/galaxy-ui-driver/`,
   run against the `galaxy_ui_driver` worktree (how to run and recreate it is in
-  `galaxy_ui_loop/README.md`). 17 tests pass (`galaxy_ui_loop/tests/test_gxui.py`). Findings below
+  `galaxy_ui_loop/README.md`). 22 tests pass (`galaxy_ui_loop/tests/test_gxui.py`). Findings below
   under "MVP findings".
 - **Arm A is wired** (`ARM=A ./run.sh`). runA1 crashed (gxui bug, fixed); runA2 and runA3
   **passed** all 13 boxes. runA3: 18.8 min, 3 gaps (runA2: 25.3 min, 14 gaps; arm B run1: 17.5
@@ -32,11 +32,12 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   `GALAXY_UI_SKILL_RUNS.md`.
 
 **Next, in order:**
-1. **runA3's gxui list** (`GALAXY_UI_SKILL_RUNS.md`): `workflow-run` inputs (now just
-   `workflow_run_specify_inputs`), `history-share`, `call --list`, `dataset-copy` (now
-   `multi_history_copy_item`); `tool-describe`/`tool-fill` and the `_auto` selector fix are done;
-   then expand snippets and
-   take n=3 per arm before quoting any delta.
+1. **runA3's gxui list** (`GALAXY_UI_SKILL_RUNS.md`): done (2026-10-07), all checked live on a
+   local Galaxy. `workflow-run --inputs` works now that `workflow_run_specify_inputs` is fixed;
+   new verbs `history-share [--publish]` (goes home first), `dataset-copy HID --source HISTORY`
+   (`multi_history_copy_item`) and `methods TEXT` (in place of `call --list`: names, signatures,
+   covering verb); the skill says component clicks return before the work they start finishes.
+   Next: expand snippets, then take n=3 per arm before quoting any delta.
 2. **Galaxy-side work, one commit each on the standing branch** (queue under "Prerequisite
    PRs"): Tool Shed `tool_open` first, then the other fixes, then enhancements incl. PR 4.
 3. **Decide what to pull out** ahead of the standing branch as separate PRs once gxui is a

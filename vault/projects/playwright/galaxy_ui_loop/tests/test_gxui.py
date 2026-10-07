@@ -19,6 +19,8 @@ import pytest
 import galaxy.selenium
 from gxui.context import GxuiContext
 from gxui.verbs import (
+    _history_id,
+    method_listing,
     REGISTRY,
     method_verb,
     register_method_verbs,
@@ -231,3 +233,39 @@ def test_tool_describe_lines_carry_options_and_conditions():
     assert _describe_line(select) == "mode  (select) 'Mode' = 'a'  options: A=a, b"
     assert REGISTRY["tool-describe"].parse([]) == ([], {})
     assert REGISTRY["tool-describe"].parse(["cat1"]) == ([], {"tool_id": "cat1"})
+
+
+def test_dataset_copy_and_history_share_arguments():
+    assert REGISTRY["dataset-copy"].parse(["2", "--source", "My Analysis"]) == ([2], {"source": "My Analysis"})
+    assert REGISTRY["history-share"].parse(["--publish"]) == ([], {"publish": True})
+
+
+class _HistoriesStub:
+    def __init__(self, histories):
+        self.histories = histories
+
+    def api_get(self, endpoint):
+        assert endpoint.startswith("histories")
+        return self.histories
+
+    def current_history_id(self):
+        return "c0"
+
+
+def test_history_names_resolve_to_ids():
+    ctx = _HistoriesStub([{"id": "a1", "name": "My Analysis"}, {"id": "b2", "name": "Next"}, {"id": "b3", "name": "Next"}])
+    assert _history_id(ctx, "My Analysis") == "a1"
+    assert _history_id(ctx, "b3") == "b3"
+    assert _history_id(ctx, "") == "c0"
+    with pytest.raises(UsageError, match="2 histories named 'Next'"):
+        _history_id(ctx, "Next")
+    with pytest.raises(UsageError, match="no history 'Nope'"):
+        _history_id(ctx, "Nope")
+
+
+def test_method_listing_filters_and_points_at_verbs():
+    listing = method_listing(GxuiContext, "create_new_with_name")
+    assert listing.splitlines()[0].startswith("history_panel_create_new_with_name(name)")
+    assert "[verb: history-new]" in listing
+    assert "_screenshot_path" not in method_listing(GxuiContext, "screenshot")
+    assert REGISTRY["methods"].parse(["history"]) == ([], {"text": "history"})
