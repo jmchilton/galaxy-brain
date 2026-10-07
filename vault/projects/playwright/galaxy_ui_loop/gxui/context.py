@@ -45,8 +45,7 @@ class GxuiContext(GalaxySeleniumContextImpl, RunsWorkflows, UsesUploadActivity):
 
     def locator(self, target):
         """The Playwright Locator for a Target (first match)."""
-        selector = self.configured_driver.driver_impl._selenium_locator_to_playwright_selector(*target.element_locator)
-        return self.page.locator(selector).first
+        return self.configured_driver.driver_impl.playwright_locator(target.element_locator).first
 
 
 _QUOTED_ARGUMENT = re.compile(r"""=\s*(['"])(.*?)\1""")

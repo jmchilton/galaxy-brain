@@ -261,12 +261,9 @@ def history_wait(ctx, hid: int, timeout: float = 240.0):
 def _upload(ctx, method: str, stage, timeout: float) -> str:
     uploader = ctx.upload_context(method)
     stage(uploader)
-    # As BaseUploadContext._start_and_wait_for_uploaded_hids, but with history-wait's deadline: its
-    # per-item wait is sized for test servers and a slow fetch from Zenodo outlives it.
-    first = uploader._current_latest_hid() + 1
-    count = uploader._context._item_count
-    uploader.start()
-    hids = list(range(first, first + count))
+    # Not start_and_wait_for_uploaded_hids: its per-item wait is sized for test servers and a slow
+    # fetch from Zenodo outlives it, so wait with history-wait's deadline instead.
+    hids = uploader.start_for_uploaded_hids()
     for hid in hids:
         history_wait(ctx, hid, timeout=timeout)
     return "ok hids " + " ".join(str(h) for h in hids)
@@ -445,8 +442,7 @@ def snapshot(ctx, component: str = "", label: str = ""):
     if component:
         target = ctx.component(component)
         target.wait_for_visible()
-        selector = ctx.configured_driver.driver_impl._selenium_locator_to_playwright_selector(*target.element_locator)
-        tree = ctx.page.locator(selector).first.aria_snapshot()
+        tree = ctx.locator(target).aria_snapshot()
     else:
         tree = ctx.page.locator("body").aria_snapshot()
     directory = os.path.join(ctx.artifacts, "aria")
@@ -526,9 +522,9 @@ def components(ctx, prefix: str = ""):
     node = ctx.navigation
     for part in [p for p in prefix.split(".") if p]:
         node = getattr(node, part)
-    children = sorted(getattr(node, "_sub_components", {}))
-    selectors = getattr(node, "_selectors", {})
-    labels = getattr(node, "_labels", {})
+    children = sorted(node.sub_components)
+    selectors = dict(node.selectors.items())
+    labels = dict(node.labels.items())
     lines = [f"{prefix or '<root>'}: {len(children)} components, {len(selectors)} selectors, {len(labels)} labels"]
     lines += [f"  {name}/" for name in children]
     lines += [f"  {name}: {_selector_text(sel)}" for name, sel in sorted(selectors.items())]
