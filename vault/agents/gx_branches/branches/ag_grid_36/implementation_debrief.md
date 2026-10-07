@@ -1,6 +1,6 @@
 # ag_grid_36 — implementation debrief
 
-Branch `ag_grid_36` at `e1f12c03d14`, stacked on `sample_sheet_vue3` (`58a1b813b85`), which sits on dannon's #23938 (31.3.4). Was `18be5430e60` on dev before the rebase. Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/sample_sheet_vue3`.
+Branch `ag_grid_36` at `10df5b747af`, stacked on `sample_sheet_vue3` (`4dd34fe8db3`), which sits on dannon's #23938 (31.3.4). Was `18be5430e60` on dev before the rebase. Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/sample_sheet_vue3`.
 
 Upgrades `ag-grid-community` and `ag-grid-vue3` from 31.3.4 to 36.2.0, both pinned exactly. #23938 already supersedes Dependabot #22916 and fixes the CVE, so this branch is now an optional follow-up rather than a security fix.
 
@@ -50,6 +50,7 @@ Upgrades `ag-grid-community` and `ag-grid-vue3` from 31.3.4 to 36.2.0, both pinn
 ## Rebase onto #23938
 - Conflicts in `package.json`, `RuleGrid.vue` and `useAgGrid.ts` were the same edits on both sides; kept this branch's. The lockfile was regenerated from #23938's; it changes only the ag-grid entries.
 - `git range-diff` shows the grid patch is unchanged apart from the base, so the E2E results above were not re-run. vitest 153/153 and vue-tsc clean on the rebase.
+- Restacked onto #23938's `bc9216f4da8` without conflicts. #23938's per-grid `:animate-rows="false"` on the paired builder is dropped here because `useAgGrid` sets `animateRows: false` for every grid. vitest 153/153, vue-tsc clean.
 - The commit message now says 31.3.4 → 36.2.0 and drops the CVE and #22916 framing.
 
 ## Open

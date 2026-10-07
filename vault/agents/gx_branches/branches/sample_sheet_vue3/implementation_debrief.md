@@ -1,6 +1,6 @@
 # sample_sheet_vue3 — implementation debrief
 
-Branch `sample_sheet_vue3` at `58a1b813b85`, stacked on dannon's #23938 (ag-grid 31.3.4 bump, head `9fbdfc9fff4`). First built on dev `253a4cb0b9c` (`2e3fe908530`); John asked to build on #23938. Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/sample_sheet_vue3` (shared with the stacked `ag_grid_36`).
+Branch `sample_sheet_vue3` at `4dd34fe8db3`, stacked on dannon's #23938 (ag-grid 31.3.4 bump, head `bc9216f4da8`). First built on dev `253a4cb0b9c` (`2e3fe908530`); John asked to build on #23938. Pushed to `jmchilton/galaxy`. Worktree: `~/projects/worktrees/galaxy/branch/sample_sheet_vue3` (shared with the stacked `ag_grid_36`).
 
 John asked for a review of the sample sheet components' ag-grid use after the Vue 3 move, with a rewrite toward Vue 3 patterns where it reads better. Runs on ag-grid 31.3.4 from #23938; the 36 upgrade is the stacked `ag_grid_36`.
 
@@ -43,7 +43,8 @@ John asked for a review of the sample sheet components' ag-grid use after the Vu
 ## Rebase onto #23938
 - One conflict, `useAgGrid.ts`: #23938 also drops `columnApi`, so the composable now returns `gridApi` and `resize` only.
 - The `ag-grid-vue3` 31.3.4 wrapper still passes `markRaw(toRaw(rows))` and still finds renderers by name on `$parent.$options.components`, so nothing here changes.
-- 31 turns `animateRows` on by default (30 had it off). On 36 that broke `test_build_paired_list_manual_matched`. #23938's CI then failed `manual_matched` and `show_original` in both Selenium and Playwright with the lingering-row error. With John's go-ahead, `b7bda6ce9c1` (`:animate-rows="false"` on the paired builder grid; red then green locally, plus `auto_matched`) was pushed to dannon's PR branch (fast-forward, maintainer edit, no comment). This branch still sits on `9fbdfc9fff4` and needs restacking onto `b7bda6ce9c1`.
+- 31 turns `animateRows` on by default (30 had it off). On 36 that broke `test_build_paired_list_manual_matched`. #23938's CI then failed `manual_matched` and `show_original` in both Selenium and Playwright with the lingering-row error. With John's go-ahead, `b7bda6ce9c1` (`:animate-rows="false"` on the paired builder grid; red then green locally, plus `auto_matched`) was pushed to dannon's PR branch (fast-forward, maintainer edit, no comment). John then asked for a merge of dev into #23938 (`bc9216f4da8`, lockfile-only conflict, pushed). Both branches were restacked onto it with no conflicts; `manual_matched` and the chipseq URI test pass on this branch.
+- Order: #23938 → `sample_sheet_vue3` → `ag_grid_36`.
 - On 31.3.4: vitest 150/150, vue-tsc clean. E2E on 31.3.4 under Playwright: both sample sheet chipseq tests, `test_build_list_of_lists`, `test_rules_example_3_list_pairs` pass (`manual_matched` not run; left to #23938 CI)
 
 ## Open
