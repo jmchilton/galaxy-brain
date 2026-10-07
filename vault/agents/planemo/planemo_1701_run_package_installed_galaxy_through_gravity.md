@@ -136,3 +136,15 @@ YAML recognition was extracted into [draft #1735](https://github.com/galaxyproje
 Validation of the fix commit: 115 focused tests passed, 3 skipped; released Galaxy 26.1.1 / Gravity 1.2.4 acceptance passed 3 tests in 205 seconds, with the external Tool Shed case deselected. After incorporating current master and connecting the prerequisite, the final focused suite passed **117 tests, 3 skipped**. Flake8, Black, Isort, Ruff, and `git diff --check` passed on the final tree. Local mypy reported the same 24 errors in 10 files on both `ca2becff` and the fix commit; no new typing errors were introduced in that environment. Remote CI was restarted by the pushes and remains separate validation.
 
 The fixes and prerequisite connection are on [`package-installed-galaxy-gravity`](https://github.com/jmchilton/planemo/tree/package-installed-galaxy-gravity). The PR description now links the prerequisite/comparison and records these results; its Gravity version claim was corrected to match `gravity>=1.2.3`.
+
+## CI verified — 2026-10-07
+
+Final head `0ecea31a` has 17 successful checks and the expected skipped release upload.
+GitHub reports mergeable; the PR remains draft. Prerequisite #1735 has 14 successful
+checks and is out of draft. Merge #1735 first, then refresh the upstream diff as
+needed under the stacking guidance above. No additional source fix is justified
+by today's CI sweep.
+
+Follow-up #1708 is also green (17 successful checks), but its head `4f5f6cbc`
+does not contain #1701's October 6 fix commit `ee14c2b2`. Refresh that stack after
+landing the prerequisite/runtime work and repeat the lifecycle checks before merge.

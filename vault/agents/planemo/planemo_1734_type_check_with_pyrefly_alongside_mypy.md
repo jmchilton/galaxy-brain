@@ -28,3 +28,11 @@ Two documented, local `invalid-inheritance` suppressions remain on Rich `Live` s
 - Independent subagent review found no introduced correctness issues and confirmed the dependency floor, checker policy, runtime-preserving refactors, and Rich diagnostic reproducer.
 
 The branch is committed and pushed. Draft PR #1734 targets `master` and explicitly depends on #1733; its diff includes that dependency until #1733 is merged.
+
+## CI verified — 2026-10-07
+
+Head `e29cb517` has 23 successful checks and the expected skipped release upload.
+Both Pyrefly jobs, both mypy jobs, integration jobs, latest-dependency quick suite,
+and package smoke tests pass. GitHub reports mergeable; the PR remains draft and
+stacked on #1733. Prerequisite #1733 is green and out of draft; merge it first, then
+refresh this stack if needed.

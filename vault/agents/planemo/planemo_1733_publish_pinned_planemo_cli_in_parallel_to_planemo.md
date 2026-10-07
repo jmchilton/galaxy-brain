@@ -2,7 +2,7 @@
 
 - PR: https://github.com/galaxyproject/planemo/pull/1733 (branch `jmchilton:publish-planemo-cli`, independently reviewed head `d929cefaf203ae6e6ec4de37b476ce1af357d7c2`, locked-CI follow-up `92359c14ad15097d1b3f9fd696f4e60536cff872`)
 - Worktree: `~/projects/worktrees/planemo/branch/publish-planemo-cli` (based on origin/master `515e928e`)
-- Reviewed: 2026-10-06. All checks on the independently reviewed head pass; the locked-CI follow-up has passed local checks and its GitHub checks are queued. PyPI publishing is skipped on the PR.
+- Reviewed: 2026-10-06. CI verified 2026-10-07 at locked-CI head `92359c14`: 21 successful checks and the expected skipped PyPI upload. Mergeable and out of draft.
 - Current verdict: implementation sound and clear, no new correctness findings or merge blockers. See [Independent Codex review — 2026-10-06](#independent-codex-review--2026-10-06) below. The requested full-matrix locked-runtime follow-up is implemented in `92359c14`; see the final section for validation.
 
 The older review passes below record prior heads and findings, including issues subsequently resolved. They are historical context, not the current verdict.
