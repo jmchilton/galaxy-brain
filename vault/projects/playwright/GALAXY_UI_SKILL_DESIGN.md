@@ -22,7 +22,7 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
   holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
-- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`92494b47a8f`,
+- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`b70f93d5410`,
   `lib/galaxy_test/selenium/gxui/`, 22 tests in `test/unit/selenium/test_gxui.py`). The skill is on
   galaxy-skills branch `gxui` (`galaxy-ui-driver/`). The vault's `galaxy_ui_loop/` keeps only the
   eval harness; how to run and recreate the worktrees is in its README. Findings below under "MVP
@@ -208,7 +208,7 @@ Commit queue (✅ = on the branch):
 | 6a | `tool_form_fill` / `tool_form_set_parameter` lifted out of `RunsToolTests` (`c21bfd3aae0`) | enhancement ✅ |
 | 6a′ | Deferred conditional parameters were never retried (`c9fa7115138`) | fix ✅ |
 | 6b | `tool_form_parameters` → `ToolFormParameter` from the build model (`d391a9225fd`) | enhancement ✅ |
-| gxui | `gxui` itself, **always the tip** (`92494b47a8f`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (22 pass); amended in place | enhancement ✅ |
+| gxui | `gxui` itself, **always the tip** (`b70f93d5410`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (22 pass); amended in place | enhancement ✅ |
 
 Notes from doing 4a–5e (2026-10-06):
 - **Corrected findings.** 4a's cause was client-side panel search (regex-escaped query matched

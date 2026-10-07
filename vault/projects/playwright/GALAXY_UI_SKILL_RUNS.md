@@ -13,6 +13,7 @@ events, the Codex session log and notes stay outside the vault.
 | phase2-runB2 | 2026-10-07 | B (playwright-cli 0.1.22, stock skill) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 20.1 min | 8.18M (7.94M) / 18.2k | 193 (18) |
 | phase2-runB3 | 2026-10-07 | B (playwright-cli 0.1.22, stock skill) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 29.1 min | 9.59M (9.42M) / 19.7k | 205 (21) |
 | phase2-runA1 | 2026-10-07 | A (gxui `14c3d7e` + galaxy-ui-driver `b7595fb`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 90.9 min (~43 min DNS outage; not comparable) | 6.41M (6.29M) / 25.9k | 193 (15); 95 requests; transcript: 90 verb, 29 component, 4 call, 4 gap |
+| phase2-runA2 | 2026-10-07 | A (gxui `92494b47a8f` + galaxy-ui-driver `4aa3eae`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 13.6 min | 4.81M (4.71M) / 16.4k | 143 (7); 82 requests; transcript: 64 verb, 29 component, 6 gap |
 
 ## phase0-run1
 
@@ -236,3 +237,12 @@ Gaps and friction:
 - FastQC report is an iframe; `snapshot` doesn't see into it (G1).
 - Box 9 (rerun with changed parameters) ~25 commands; box 13 workflow-run then waiting on every
   output ~12 commands. Candidate verbs: `dataset-rerun`, `workflow-run --wait`.
+
+**phase2-runA2:** pass, and the best run yet on every measure: 13.6 min (arm B 20-29), 4.81M input
+(B 8.2-9.6M), 82 requests (B 94-105), 17 polling calls (A1 40). First run from the new homes
+(gxui `92494b47a8f` on the standing branch, skill `4aa3eae` in galaxy-skills); `history-new` now
+goes home first. All 6 gaps are box 12: `dataset-copy` against a Multiview without per-history
+hooks, made worse by gxui's error telling the agent to pin histories that were already shown (it
+did, then retried by name and by id). Fixed before A3 (`b70f93d5410`): with no hooks on the page
+the error says this Galaxy predates them and to drag by hand. Also: `workflow-run --no-submit`
+timed out waiting for `#run-workflow` (the agent recovered); `components upload` isn't a path.
