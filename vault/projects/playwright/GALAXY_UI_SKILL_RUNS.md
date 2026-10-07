@@ -15,6 +15,8 @@ events, the Codex session log and notes stay outside the vault.
 | phase2-runA1 | 2026-10-07 | A (gxui `14c3d7e` + galaxy-ui-driver `b7595fb`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 90.9 min (~43 min DNS outage; not comparable) | 6.41M (6.29M) / 25.9k | 193 (15); 95 requests; transcript: 90 verb, 29 component, 4 call, 4 gap |
 | phase2-runA2 | 2026-10-07 | A (gxui `92494b47a8f` + galaxy-ui-driver `4aa3eae`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 13.6 min | 4.81M (4.71M) / 16.4k | 143 (7); 82 requests; transcript: 64 verb, 29 component, 6 gap |
 | phase2-runA3 | 2026-10-07 | A (gxui `b70f93d5410` + galaxy-ui-driver `4aa3eae`) | GTN `galaxy-intro-short`, snippets expanded (`e2d1765`) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** | 15.7 min | 4.55M (4.45M) / 18.9k | 67 (1); 88 requests; transcript: 72 verb, 33 component, 1 call, 5 gap |
+| refine-workflow-editor-1 | 2026-10-07 | A (gxui `f561c00528d` + galaxy-ui-driver `79a5ac8`) | GTN `workflow-editor` (8 boxes) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | all 8 boxes done; verify **fail** (a retained errored first attempt, hid 7) | 123 min | 24.33M (24.02M) / 47.0k | 136 (37); 244 requests; transcript: 118 verb, 75 component, 114 call, 8 gap |
+| refine-workflow-parameters-1 | 2026-10-07 | A (gxui `3c8a30ea5a6` + galaxy-ui-driver `ee1d5a7`) | GTN `workflow-parameters` (6 boxes) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** (all 6 boxes) | 68 min | 13.41M (13.22M) / 22.7k | 104 (17); 215 requests; transcript: 130 verb, 16 component, 3 call, 2 gap |
 
 ## phase0-run1
 
@@ -274,3 +276,83 @@ Remaining box 12 cost is server/client skew; box 9 needs rerun support.
 against an optimized skill on a frontier model. More comparisons, and comparisons on different
 models and such, are still to be done. Later runs are arm A only, refining the skill on more
 tutorials.
+
+
+## Refinement runs (arm A only, one tutorial each)
+
+**refine-workflow-editor-1** (GTN `workflow-editor`): all 8 boxes done, but 123 min, 24.3M input,
+244 requests with mean context 101k. gxui had no workflow-editor verbs, so the agent made 114
+`call`s to framework methods it had to discover, plus 4 playwright-cli drags. Verify fails on a
+retained errored first collection attempt (hid 7). My `gxui-dev` test workflows also counted while
+the run was going; they are deleted now. test.galaxyproject.org answered 429 to the editor's
+burst of requests on load (the run form, the editor, and the versions call), probably made worse
+by my dev session at the same time.
+Gaps and what changed (gxui `3c8a30ea5a6`, skill `ee1d5a7`):
+- No editor vocabulary. New verbs: `workflow-new`, `workflow-edit`, `workflow-steps` (steps,
+  terminals, connections, tool ids), `workflow-add-input [KIND|list]`, `workflow-add-tool`,
+  `workflow-step`, `workflow-connect`, `workflow-disconnect`, `workflow-remove-step`,
+  `workflow-output` (label, rename, tags, datatype), `workflow-param-input`,
+  `workflow-add-subworkflow`, `workflow-save`. STEP is a label or number; terminals are STEP#NAME.
+- `workflow_editor_connect`'s `label#name` format was undiscoverable (6 wrong guesses).
+  `workflow-connect` uses a real pointer drag and prints the editor's own refusal reason (for
+  example "an output of this tool is mapped over ... Disconnect output(s) and retry", which is
+  box 6's trap). Terminal ids contain spaces for subworkflow inputs, so it selects by `[id=...]`.
+- A click on a covered node retried for 6-13 min (Galaxy fix below gxui: retry a Playwright
+  timeout once). New steps stack on top of each other, so gxui auto-lays-out when they overlap and
+  pans clear of the editor toolbar that auto-layout tucks them under.
+- A label set right after adding a step landed on the previous step. Added steps are now selected
+  before labelling, and the label is checked on the node.
+- Adding a Tool Shed tool searched by full GUID, which this server's panel search can't match.
+  It now searches by the GUID's short tool id.
+- `tool-describe`/`tool-fill` didn't work in the editor's inspector. They now read the open step's
+  tool, and data fields are left to connections. Galaxy fixes: the filler waited for the execute
+  button the editor doesn't have; repeats got an extra instance.
+- `tool-fill` rejected `components_2|...` because only instance 0 is described. Fixed.
+- Opening a second subworkflow toggled the Workflows panel closed (Galaxy fix).
+  `workflow_index_open_with_name` clicked the first card before the search narrowed the list, and
+  in dev testing it opened the run's own workflow (Galaxy fix).
+- `component send-keys Enter` typed "Enter": new `press KEY` action.
+- `upload-paste --ext txt` gave `metacyto_clr.txt` (Galaxy fix: `select_set_value` picks the exact
+  option).
+- Error replies now name a visible Galaxy modal (such as "Loading workflow versions failed...
+  (429)"). `workflow-edit` retries a load that got 429 once.
+- Leaving the editor with unsaved changes hung the verb forever: the `beforeunload` dialog was held
+  for `gxui dialog`, which queues behind the blocked verb. gxui now dismisses it (stays, keeps
+  the work) and says to save first.
+- The skill now says the 290 s client timeout is meant to sit under the 300 s shell timeout (the
+  agent had raised it to 600).
+Not done yet: a list-building verb; collections that report `ok` before their member jobs finish
+(`history-wait`); `dataset-peek` on error datasets; playwright-cli session lost mid-run (box 4);
+the keyboard connection menu labels an unlabelled step "undefined" (a client bug).
+
+**refine-workflow-parameters-1** (GTN `workflow-parameters`): pass, all 6 boxes, 68 min, 13.4M
+input, 215 requests with mean context 63k (editor-1: 101k). The new editor verbs carried it: 130
+verb calls against 3 `call`s (editor-1: 114 `call`s), and only 2 gaps. test.galaxyproject.org's
+nginx kept answering 429 to bursts: the run form, `history-items` (JSON errors), and in my dev
+testing even a workflow submission. One request a second is fine; a page load's burst is not.
+Gaps and what changed (gxui `60afbf86176`, skill `0c68c50`):
+- Connecting to steps off screen failed "with no reason". `workflow-connect` now pans the canvas
+  until both terminals are in its open area (clear of the toolbar, the zoom controls and the
+  minimap), dragging from an empty spot it finds with `elementFromPoint`. Selecting a step does
+  the same.
+- A connect right after a parameter type change was refused while the terminal still had the old
+  type. It now retries once after the editor settles.
+- An input step's own form (a parameter's type, say) had no verb, so the agent used
+  `tool_form_set_parameter`. `tool-describe` / `tool-fill` now list and set the inspector fields
+  of a non-tool step.
+- After save or reopen, `workflow-steps` showed tool ids on the wrong steps. Saving reloads and
+  renumbers, so saving and opening reset the tool-id caches.
+- `workflow-run --inputs` couldn't name an unlabelled input. Unknown labels now get the list the
+  form uses (an unlabelled input shows its step number). New `--params` sets parameter inputs.
+- Several boxes needed to wait for a whole invocation (about 5-11 commands each). New
+  `invocation-wait [ID]` and `workflow-run --wait`: they wait for the invocation and all its jobs,
+  polling every 5 s, then list every job output's hid and state, not only marked workflow outputs.
+  This Galaxy's finished invocations are `completed`, not `scheduled`. The run form shows its
+  invocation in place, so the new invocation is found through the API. A 429'd submission is
+  retried once.
+- gxui's own API calls back off on 429 (5, 10 and 20 s) instead of failing on nginx's HTML page.
+- `workflow_run_with_name` clicked the first card's run button before the search narrowed the
+  list, like `workflow_index_open_with_name` did (Galaxy fix below gxui: shared exact-card wait).
+- playwright-cli's attached session vanished again (box 5, its first use). It survives gxui
+  restarts and leaving the editor in my tests, so the cause is still unknown. `gxui gap`, which
+  the skill puts before every playwright-cli use, now checks the session and re-attaches it.
