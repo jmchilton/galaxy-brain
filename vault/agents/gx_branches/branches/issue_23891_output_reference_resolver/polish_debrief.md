@@ -31,6 +31,6 @@ Checks: 185 unit tests (output references, linters, collect_primary_datasets) pa
 
 ## Questions for John
 - Lint `metadata_source` before 26.2 makes a bad one a load error?
-- Fold `type_source`'s `qualify_legacy_data_input_reference` onto `InputReferences`?
+- ~~Fold `type_source`'s `qualify_legacy_data_input_reference` onto `InputReferences`?~~ Done at `ca3890d94e0` (John asked): the check moved into `_resolve_output_references` and shares its `InputReferences`; the helper is deleted; an ambiguous alias lists every candidate. 180 unit tests pass. `issue_23902` was rebased onto it (two mechanical conflicts: test additions, XSD `metadata_source` sentence), now `435099bdf8c`, with 200 unit tests passing.
 - Cover `structured_like`/`change_format` with the same resolution (follow-up)?
 - Add an end-to-end `metadata_source` collision test before opening?

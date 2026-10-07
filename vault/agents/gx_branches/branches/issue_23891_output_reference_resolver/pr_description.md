@@ -23,7 +23,7 @@ Tool loading now resolves each `format_source`/`metadata_source` against the dec
 
 ***Older tools still load. Only profile 26.2 and later tools fail on an unresolvable reference; older ones get a log warning.***
 
-***Legacy aliases keep working at every profile, including 26.2; they're rewritten, not rejected. Requiring qualified names is #23902, and `structured_like`, `type_source` and `change_format` references are untouched here.***
+***Legacy aliases keep working at every profile, including 26.2; they're rewritten, not rejected. Requiring qualified names is #23902, and `structured_like` and `change_format` references are untouched here.***
 
 ***What jobs record doesn't change. `JobToInputDatasetAssociation` names and the `input1…N` keys stay as they are, so the job API and stored jobs are unaffected; only what a reference may name changes.***
 
@@ -33,6 +33,7 @@ Tool loading now resolves each `format_source`/`metadata_source` against the dec
 - `Tool._resolve_output_references` runs in `Tool.parse` right after `parse_outputs`, so subclasses that override `parse_outputs` can't skip it. It covers `<data>`, `<collection>` and the `<data>` inside a collection, and updates the `ToolOutput` in place, so the remote-metadata `to_dict`, discovered collections and `known_outputs` all see the resolved value.
 - A legacy reference is kept as written when its qualified form is itself another input's legacy alias (`format_source_in_conditional.xml` output3: `input1` → `cond|input1` would hit the nested `cond|inner_cond|input1`). The existing framework test covers it.
 - `output_collect.py`: discovered-collection collectors always get the collection's default format. A collection that declared `format_source` parses its collectors without a default, so a dropped reference would otherwise give `data` instead of the declared format.
+- The existing load-time `type_source` check (bare aliases already fail) now uses the same resolver, replacing `qualify_legacy_data_input_reference`, which duplicated its alias matching and repeat reindexing. An ambiguous alias now names every input it could mean instead of the first.
 - Linter (`OutputsFormatSourceReference`): uses the shared resolver, errors on a reference to a non-dataset input (e.g. a select), and suggests the qualified name with the reference's own repeat index. The discovered-collection legacy error says "cannot resolve before Galaxy 26.2" when this Galaxy rewrites the alias, and keeps the old wording when it can't (ambiguous or shadowed).
 
 </details>
@@ -100,7 +101,7 @@ The framework tools, the API test and every test in `test/unit/app/tools/test_ou
 
 - Framework tools `format_source_internal_keys` (`input2`, a conversion name, `coll2`, and a discovered collection with `format_source="input2"`, which also covers the `output_collect.py` change) and `format_source_legacy_alias_collision`.
 - API `test_format_source_internal_keys_collection_for_multiple_input`: a collection given to a `multiple` data input, covering `input['forward']` and `input2`. The tool test framework can't give a collection to a `multiple` data input.
-- Unit: `test/unit/app/tools/test_output_references.py` (rewrite, drop, collection and nested outputs, a YAML tool, the 26.2 load error) and `test/unit/tool_util/test_output_references.py` (repeat reindexing, the shadowed-alias exception, a parameter named like a repeat instance, `hidden_data`, mismatched repeat indices), plus 2 linter tests.
+- Unit: `test/unit/app/tools/test_output_references.py` (rewrite, drop, collection and nested outputs, a YAML tool, the 26.2 load error) and `test/unit/tool_util/test_output_references.py` (repeat reindexing, the shadowed-alias exception, a parameter named like a repeat instance, `hidden_data`, mismatched repeat indices), plus 2 linter tests. `type_source` tests in `test_tool_deserialization.py` gain a repeat-reindexing case and an ambiguous-alias case.
 - The existing `format_source`, `output_format`, conversion and collection framework tests stay green.
 
 </details>
