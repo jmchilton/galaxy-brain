@@ -1,0 +1,5 @@
+- Pick workflow collection input types from a described select
+- Replace the free-text collection type field in the workflow editor with a described picker
+- Workflow editor: select collection input types, with descriptions and a "which type?" dialog
+- Explain collection types when defining workflow collection inputs
+- Add a described collection type picker to workflow collection inputs
