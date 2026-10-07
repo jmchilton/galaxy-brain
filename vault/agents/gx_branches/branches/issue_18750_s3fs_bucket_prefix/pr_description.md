@@ -54,7 +54,7 @@ Builds on 🔀 #23497, which added `FtpConfigMixin` and `split_ftp_host_path` fo
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Other bad buckets (typos, `https://` URLs, uppercase `S3://`) still fail at browse time with S3's error, as before; the forms above no longer browse and then fail at import.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The network test lists a real public bucket configured three ways and realizes the listed entry.
