@@ -1,0 +1,4 @@
+- Warn when a step's `when` reads an input nothing is connected to
+- Best practices: flag conditional steps whose condition reads an unconnected input
+- Lint dangling `when` conditions in the workflow editor
+- Add a conditional gates check to the workflow best practices panel
