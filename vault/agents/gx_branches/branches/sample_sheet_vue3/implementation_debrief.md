@@ -48,6 +48,6 @@ John asked for a review of the sample sheet components' ag-grid use after the Vu
 - On 31.3.4: vitest 150/150, vue-tsc clean. E2E on 31.3.4 under Playwright: both sample sheet chipseq tests, `test_build_list_of_lists`, `test_rules_example_3_list_pairs` pass (`manual_matched` not run; left to #23938 CI)
 
 ## Open
-- Open the PR only after #23938 merges.
-- Fork CI not run yet.
+- #23938 merged 2026-10-07; branch rebased onto dev and polished (see [polish debrief](polish_debrief.md)). Now at `ed2a6de8339`.
+- Fork CI on `ed2a6de8339` pending.
 - Overlaps #23922 (`workbook_import`) only on one deleted line in `SampleSheetWizard.vue` (the stray `height="300px"`).

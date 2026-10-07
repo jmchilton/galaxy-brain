@@ -1,0 +1,4 @@
+- Fix sample sheet grid editing bugs with Vue 3 grid patterns
+- Fix sample sheet workbook reload, duplicate identifiers and boolean edits
+- Move sample sheet grids to Vue 3 patterns, fix editing bugs
+- Fix sample sheet grid editing and bind ag-grid with `v-model`
