@@ -7,3 +7,4 @@
 - `when_input_exact_match` (`969052e2766`) — abandoned: smaller alternative to #23816, which merged 2026-10-05 (John, 2026-10-06).
 - `playwright_navigate_to_selenium` (`ea73914180e`) — abandoned: its Selenium `navigate_to` retry never fired in `test_change_password.py` yet cost a script call per navigation and had a known false positive (John, 2026-10-06).
 - `pulsar_version_source` (`a0b0355dcca`, PR #23821 closed) — abandoned: replaced by #23850; its version-check skip only compared the client library against itself (John, 2026-10-06).
+- `cap_social_auth_core_dev` (`d93a599af56`) — abandoned: superseded by mvdbeek's #23945, which adds the same `social-auth-core<6` cap on `dev` (John, 2026-10-07).
