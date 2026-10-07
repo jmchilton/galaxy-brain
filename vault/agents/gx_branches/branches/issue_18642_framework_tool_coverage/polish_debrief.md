@@ -11,7 +11,8 @@ Polished 2026-10-07. The branch went from `93eef27e194` to `ae3e417411e` with on
 ## Checklist (GENERAL.md)
 
 - The subagent passed all five items an agent can answer. The human-read item is left for John.
-- The new commit only changes comment wording, so I didn't re-run the subagent. The archeology item still holds, because the comments describe current behaviour.
+- After the comment-only commit, I re-ran a subagent on the two comment items. Both pass, and both reworded comments are accurate against `factory.py:281` and `tools/__init__.py:1738`. It noted that "(parameter models)" in `xml.py` is terse. I didn't push another commit for it, which would have restarted the backlogged fork CI. That's left for John's read.
+- The description's production Tool Shed row is backed by checks: the assertion is present on `release_26.0` and `release_26.1`, and the branch XSD still rejects annotation_profiler's `display="checkbox"` (xmllint).
 
 ## Red evidence gathered during polish
 

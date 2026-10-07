@@ -4,12 +4,12 @@ A drill_down whose `from_file` path is relative can't get a parameter model on d
 
 | | dev | this branch |
 |---|---|---|
-| Main Tool Shed, `GET /api/tools/devteam~annotation_profiler~Annotation_Profiler_0/versions/1.0.0` | ❌ HTTP 500 (fastqc on the same endpoint: 200) | ✅ model builds (`parse_tool_custom(…, ShedParsedTool)` run locally) |
+| Main Tool Shed, `GET /api/tools/devteam~annotation_profiler~Annotation_Profiler_0/versions/1.0.0` | ❌ HTTP 500 in production, which runs a release branch with the same assertion (fastqc on the same endpoint: 200) | ✅ model builds (`parse_tool_custom(…, ShedParsedTool)` run locally) |
 | tool_util `parse_tool()` on `annotation_profiler.xml` | ❌ `AssertionError: This tool cannot be parsed outside of a Galaxy context` | ✅ `DrillDownParameterModel` |
 | Galaxy loading `gx_drill_down_from_file` | ⚠️ `Failed to generate parameter models for tool 'gx_drill_down_from_file'`; tool left without a parameter schema | ✅ schema built |
 | `gx_drill_down_from_file` framework tests, `GALAXY_TEST_USE_LEGACY_TOOL_API=never` | ❌ 2/2 fail: `could not build request: This tool cannot be parsed outside of a Galaxy context` | ✅ 2/2 |
 
-The Tool Shed row is consistent with the local run: dev's Tool Shed code raises this assertion building the model for that tool. I haven't seen the main Tool Shed's logs. ***On dev the tool form still runs these tools, because it falls back to the legacy `/api/tools` when a tool has no parameter schema. What breaks is the Tool Shed tool API, tool_util, and Galaxy's typed tool APIs.*** By code, `/api/jobs` and the tool inputs schema endpoint reject a tool without a schema (`Tool … has no parameters defined`).
+The Tool Shed row is consistent with the local run: dev's Tool Shed code raises this assertion building the model for that tool. The main Tool Shed's logs weren't checked. ***On dev the tool form still runs these tools, because it falls back to the legacy `/api/tools` when a tool has no parameter schema. What breaks is the Tool Shed tool API, tool_util, and Galaxy's typed tool APIs.*** By code, `/api/jobs` and the tool inputs schema endpoint reject a tool without a schema (`Tool … has no parameters defined`).
 
 When the path is relative and there's no tool data path, the parser now returns `None` ("options unknown"), as it already does for `dynamic_options`, and the model falls back to a strict string. ***Galaxy still rejects values that aren't in the options file at runtime*** (`DrillDownSelectToolParameter.from_json`: `an invalid option ('option4') was selected`). The new framework tool checks this with an `expect_failure` test. ***Only the pre-validation model is a plain string.***
 
@@ -44,7 +44,7 @@ The one hard-to-reverse part is that the XSD now documents `from_file` for drill
 
 <details><summary>Risk Details</summary>
 
-- Documenting `from_file` in the XSD makes it officially supported, and linting accepts it.
+- Documenting `from_file` in the XSD makes it officially supported, and linting accepts it. annotation_profiler itself still fails XSD validation, on a separate gap: the `display` enum doesn't include drill_down's `checkbox`.
 - Outside Galaxy (tool_util, the Tool Shed), a relative `from_file` drill_down now validates any string rather than erroring. It doesn't validate against the file's values.
 - In Galaxy, the parameter model for these tools is also a strict string, since `input_models_for_pages` doesn't get `tool_data_path`. Runtime `from_json` still enforces the options.
 - Removing the dead `filter` check changes no behavior, because it could never fire.
