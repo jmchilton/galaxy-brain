@@ -148,18 +148,18 @@ def method_verb(name: str, domain: str, method: str, context_class: type, doc: s
 
 
 def register_method_verbs(context_class: type) -> None:
-    for name, domain, method, doc in [
-        ("home", "session", "home", ""),
-        ("tool-panel", "tool", "open_toolbox", "Open the Tools activity panel (tool search and sections)."),
-        ("logout", "session", "logout", "Log out of Galaxy."),
-        ("history-rename", "history", "history_panel_rename", "Rename the current history."),
-        ("multiview", "history", "open_history_multi_view", "Open History Multiview."),
-        ("dataset-view", "dataset", "display_dataset", "Show dataset HID in the center panel (eye icon)."),
-        ("dataset-details", "dataset", "show_dataset_details", "Open dataset HID's details page (info icon)."),
-        ("workflow-extract-open", "workflow", "navigate_to_workflow_extraction", ""),
-        ("workflow-import-url", "workflow", "workflow_import_submit_url", "Import a workflow from URL."),
+    for name, domain, method in [
+        ("home", "session", "home"),
+        ("tool-panel", "tool", "open_toolbox"),
+        ("logout", "session", "logout"),
+        ("history-rename", "history", "history_panel_rename"),
+        ("multiview", "history", "open_history_multi_view"),
+        ("dataset-view", "dataset", "display_dataset"),
+        ("dataset-details", "dataset", "show_dataset_details"),
+        ("workflow-extract-open", "workflow", "navigate_to_workflow_extraction"),
+        ("workflow-import-url", "workflow", "workflow_import_submit_url"),
     ]:
-        method_verb(name, domain, method, context_class, doc)
+        method_verb(name, domain, method, context_class)
 
 
 # --- session ---------------------------------------------------------------
