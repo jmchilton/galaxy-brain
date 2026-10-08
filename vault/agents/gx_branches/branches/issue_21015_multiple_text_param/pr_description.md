@@ -17,6 +17,12 @@ Implement 🎯 #21015 - multiple text workflow parameters work end to end, like 
 
 Multiple integers use the same rows. While recording these screenshots, the rows got a small style fix: each remove × is now centered on its field, and rows are spaced further apart.
 
+<details><summary>Row styling, before and after</summary>
+
+![List rows before and after the style fix: the remove × moves from the top of each field to its center, and rows are spaced further apart](screenshots/value_list_style_before_after.png)
+
+</details>
+
 ```yaml
 inputs:
   steps_to_skip:
