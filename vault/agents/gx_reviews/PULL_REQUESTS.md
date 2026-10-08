@@ -14,8 +14,9 @@ PRs To Review:
 - 23949 — user approved 10-07; awaiting merge
 - 23925 — reviewed at `58f87d38527`; user posted findings as comment 10-07, asked author to fix/comment; ball with author
 - 22136 — reviewed at `1b8e21cfd81`: request changes (DatasetController.default swallows /datasets/* client routes — CI red; tests use synthetic route table; fallback ignores method); draft review unposted
-- 23058 — reviewed at `bd562019bde`: request changes (async validation in wrong layer — validate in JobsService.create; new test cannot pass; mvdbeek concerns unaddressed); draft review unposted
+- 23058 — reviewed at `bd562019bde`: request changes; our fix in fork PR SID-6921#1, ball with author; draft review unposted
 - 23942 — reviewed at `aaed58e7b28`: comment, approve after rebase (conflicts w/ dev after 23925; shed preset Vue2→3 + dropped rules; edit-path save-after-failed-test gap); draft review unposted
+- 23988 — review in progress at `ac656b19129`
 
 PRs to Skip For 7 Days:
 

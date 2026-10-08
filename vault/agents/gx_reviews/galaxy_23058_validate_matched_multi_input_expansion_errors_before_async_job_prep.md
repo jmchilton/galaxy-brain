@@ -115,4 +115,4 @@ Tests (shared galaxy venv with `PYTHONPATH` set to the worktree's `lib` and the 
 - Green: the 9 multirun tests pass, and so do all 35 `request`-format tests in `test_tool_execute.py`.
 - mypy: no errors in the touched modules.
 
-Not pushed to the author or PR'd anywhere yet.
+Opened as fork PR https://github.com/SID-6921/galaxy/pull/1 (2026-10-08) into `fix-tool-input-matched-validation-22884`.
