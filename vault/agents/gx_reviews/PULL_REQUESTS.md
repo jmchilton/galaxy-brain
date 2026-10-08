@@ -13,6 +13,8 @@ PRs To Review:
 - 23950 — user approved 10-07; awaiting merge
 - 23949 — user approved 10-07; awaiting merge
 - 23925 — reviewed at `58f87d38527`; user posted findings as comment 10-07, asked author to fix/comment; ball with author
+- 22136 — reviewed at `1b8e21cfd81`: request changes (DatasetController.default swallows /datasets/* client routes — CI red; tests use synthetic route table; fallback ignores method); draft review unposted
+- 23058 — review in progress at `bd562019bde`
 
 PRs to Skip For 7 Days:
 
