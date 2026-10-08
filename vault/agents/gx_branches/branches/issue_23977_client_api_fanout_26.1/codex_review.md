@@ -1,6 +1,6 @@
 # Codex review: issue_23977_client_api_fanout_26.1
 
-An independent Codex review (`codex exec -s read-only`) ran on `origin/release_26.1...4d184c6672e`, with a brief that contained only the issue goals. It reported 2 findings. I confirmed both in the code, wrote a test that failed for each, fixed both, and folded the fixes into commits 3 and 5. The branch is now `f8d58ca20a1`, 7 commits. Afterwards: 20 branch test files (138 tests) and 223 files (1616 tests) across the touched areas pass, `vue-tsc` is clean and pre-commit passes.
+An independent Codex review (`codex exec -s read-only`) ran on `origin/release_26.1...4d184c6672e`, with a brief that contained only the issue goals. It reported 2 findings. I confirmed both in the code, wrote a test that failed for each, fixed both, and folded the fixes into commits 3 and 5. The branch is now `f8d58ca20a1`, 7 commits. Afterwards (later folded further; final tip `448da3a3b9a`): 20 branch test files (138 tests) and 223 files (1616 tests) across the touched areas pass, `vue-tsc` is clean and pre-commit passes.
 
 Acted on:
 - **P2 `rateLimiter.ts`: retries ran out → it returned the *original* 429.** It now returns the last retry's response. Before, the final response's `Retry-After` was lost, so `useRetryGate` retried after about 1–2 s even when the server had asked for 60 s. Test: "returns the last 429 when retries run out" (red: `Retry-After` was `null`).

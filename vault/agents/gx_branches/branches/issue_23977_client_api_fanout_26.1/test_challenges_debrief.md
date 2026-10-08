@@ -4,7 +4,7 @@ Process: `vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md`. Base: `origin/rel
 
 What triggered this run: John dropped the request-counting E2E test. That test was the stated reason for deleting `HelpText.test.ts` in `229818f3f36`.
 
-Commits (coordinator note: later folded into commit 2 "Load datatypes for help terms…" (HelpText, storeProviders) and commit 5 "Show loading…" (WorkflowRerun); branch `f8d58ca20a1`; originals on local ref `backup/issue_23977_pre_codex_fold`):
+Commits (coordinator note: later folded into commit 2 "Load datatypes for help terms…" (HelpText, storeProviders) and commit 5 "Show loading…" (WorkflowRerun); branch now `448da3a3b9a`; originals on local ref `backup/issue_23977_pre_codex_fold`):
 - `465438a4c4f` Restore HelpText fan-out test: many YAML help rows request no datatypes
 - `aa8ff56e66f` WorkflowRerun, DatatypesProvider tests: msw failures instead of store mocks
 

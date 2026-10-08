@@ -1,6 +1,6 @@
 # Implementation debrief: issue_23977_client_api_fanout_26.1
 
-**STATUS: READY.** Branch `issue_23977_client_api_fanout_26.1` on `jmchilton`, tip `e6069c126b6`, based on `origin/release_26.1` `5308aa51b16`. 7 commits, client only. It refs galaxyproject/galaxy#23977 and does not fix it: the backend counts N+1 is a separate dev follow-up. No PR.
+**STATUS: READY.** Branch `issue_23977_client_api_fanout_26.1` on `jmchilton`, tip `448da3a3b9a`, based on `origin/release_26.1` `5308aa51b16`. 7 commits, client only. It refs galaxyproject/galaxy#23977 and does not fix it: the backend counts N+1 is a separate dev follow-up. No PR.
 
 Pre-revision debrief, with per-commit detail, earlier decisions and pre-existing issues: `earlier_drafts/1/implementation_debrief.md`.
 
@@ -25,6 +25,9 @@ Pre-revision debrief, with per-commit detail, earlier decisions and pre-existing
   - Rewrote the `WorkflowRerun` and `DatatypesProvider` tests to use msw failures instead of store mocks.
   - No E2E recommended.
 - **Screenshot step** found a misleading spinner: a failed `setCurrentHistory` in `WorkflowRerun` left the new spinner up forever, where base stayed blank. Fixed: the error is caught, the existing "Unable to switch" toast shows, and the form renders. Test added. While there I fixed a `WorkflowRerun.test.ts` assertion that could never fail (it looked for `workflowrun-stub`, but the stub renders as `anonymous-stub`).
+- Also changed `WorkflowRerun.test.ts` to check the alert with `findComponent(GAlert)`. The old tag-name check was never verified to match the rendered stub.
+- **Not independently reviewed:** the three post-process fixes (rateLimiter last 429, HistoryDatasetDetails summary spinner, WorkflowRerun try/catch) landed after the review, Codex and the test challenge had run. They are self-verified with red→green tests only.
+- **Reverses a John decision:** the 2026-10-08 "keep test-challenge drops" call is overridden for `HelpText.test.ts` only, because the E2E that justified dropping it is gone. The keyedCache and helpTermsStore spy drops still stand.
 - All fixes were folded into their logical commits. Local backup ref: `backup/issue_23977_pre_codex_fold`.
 
 ## Process results
@@ -35,7 +38,7 @@ Pre-revision debrief, with per-commit detail, earlier decisions and pre-existing
 
 ## Testing
 
-- vitest across touched areas at `e6069c126b6`, Node 22.20.0: 223 files / 1617 tests pass. `vue-tsc --noEmit` is clean, and pre-commit over `origin/release_26.1..HEAD` passes.
+- vitest across touched areas at `448da3a3b9a`, Node 22.20.0: 223 files / 1617 tests pass. `vue-tsc --noEmit` is clean, and pre-commit over `origin/release_26.1..HEAD` passes.
 - No E2E. Not re-measured against a rate-limited server.
 
 ## For the PR description (when asked)
