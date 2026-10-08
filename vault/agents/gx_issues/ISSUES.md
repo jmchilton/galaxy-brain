@@ -71,6 +71,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#3899](https://github.com/galaxyproject/galaxy/issues/3899) — dependencies resolved for jobs that run in Docker; next: check on dev. [notes](../../repositories/galaxy/issues/queued/3899/index.md)
 - [#23977](https://github.com/galaxyproject/galaxy/issues/23977) — client page loads fan out /api/ requests (invocations list 165, 96 × 429 on test); next: dedupe datatypes fetch, red request-count test. [notes](../../repositories/galaxy/issues/queued/23977/index.md)
 - [#23978](https://github.com/galaxyproject/galaxy/issues/23978) — `parameters/` test tools use ignored `ext=`; 17 tools fail XSD, CI skips them; next: fix after issue_18642 lands, add to CI. [notes](../../repositories/galaxy/issues/queued/23978/index.md)
+- [#23979](https://github.com/galaxyproject/galaxy/issues/23979) — Playwright backend with default `headless=auto` needs chromedriver/geckodriver; next: backend guard in `headless_selenium()` + unit test. [notes](../../repositories/galaxy/issues/queued/23979/index.md)
 - [#22451](https://github.com/galaxyproject/galaxy/issues/22451) — Sentry `Failed to extract job.`; diagnostics merged in [#23651](https://github.com/galaxyproject/galaxy/pull/23651), root cause open; next: root-cause via #22709. [notes](../../repositories/galaxy/issues/queued/22451/index.md)
 
 ## Blocked on others (`blocked`)
