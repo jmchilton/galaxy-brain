@@ -11,23 +11,11 @@ Implement 🎯 #21015 - multiple text workflow parameters work end to end, like 
 | Editor default | Single text field; a list default shows as the one string `['amrfinder', 'deepsig']` | ✅ One field per value; saved as a list and reloaded as rows |
 | `restrictOnConnections` with a list default | Nothing preselected | ✅ Every default value preselected |
 
-| The #21015 connection | List default in the editor | Run form |
-| --- | --- | --- |
-| ![Multiple text input connected to a multi-select tool input](screenshots/workflow_editor_multiple_text_parameter_multi_select_connection.png) | ![Text list default with one field per value, one value containing a comma](screenshots/workflow_editor_multiple_text_parameter_list_default.png) | ![Run form with one field per text value](screenshots/workflow_run_multiple_text_parameter.png) |
-
-<details><summary>Multiple integers use the same rows</summary>
-
-| Editor list default | Run form |
+| List default in the editor | Run form |
 | --- | --- |
-| ![Integer list default with one field per value](screenshots/workflow_editor_multiple_integer_parameter_list_default.png) | ![Run form with one field per integer value](screenshots/workflow_run_multiple_integer_parameter.png) |
+| ![Text list default with one field per value, one value containing a comma](screenshots/workflow_editor_multiple_text_parameter_list_default.png) | ![Run form with one field per text value](screenshots/workflow_run_multiple_text_parameter.png) |
 
-| Refused by a single-integer input | Connected to a multiple column select |
-| --- | --- |
-| ![Multiple integer input refused by a single-integer tool input](screenshots/workflow_editor_multiple_integer_parameter_invalid_connection.png) | ![Multiple integer input connected to a multiple column select](screenshots/workflow_editor_multiple_integer_parameter_multiple_column_connection.png) |
-
-</details>
-
-The screenshots come from the Selenium tests below. While recording them, the rows got a small style fix: each remove × is now centered on its field, and rows are spaced further apart. This applies to integer lists too.
+Multiple integers use the same rows. While recording these screenshots, the rows got a small style fix: each remove × is now centered on its field, and rows are spaced further apart.
 
 ```yaml
 inputs:
@@ -66,7 +54,7 @@ Each of these was red before its change:
 - Vitest: commas kept in text values; suggestions on every row.
 - Selenium `test_multiple_text_parameter_connections`: connects a multiple text input to `multi_select`, sets a two-row default containing a comma, then saves and reloads it. It fails on the missing list rows when the editor default isn't multiple.
 
-Selenium `test_execution_with_multiple_text_parameter` runs a workflow from the run form with a text list. `test_multiple_integer_parameter_with_range` sets min/max and a list default in the editor, then checks the saved range and the run form rows. The connection, list default and run form tests each record the screenshots above. The existing multiple-integer and restricted-select E2E tests cover the renamed selectors. All the E2E tests pass locally under Playwright.
+Selenium `test_execution_with_multiple_text_parameter` runs a workflow from the run form with a text list. `test_multiple_integer_parameter_with_range` sets min/max and a list default in the editor, then checks the saved range and the run form rows. `test_multiple_text_parameter_connections` and `test_execution_with_multiple_text_parameter` record the screenshots above. The existing multiple-integer and restricted-select E2E tests cover the renamed selectors. All the E2E tests pass locally under Playwright.
 
 </details>
 
