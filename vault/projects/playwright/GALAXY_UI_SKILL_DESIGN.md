@@ -88,7 +88,34 @@ No longer the top blocker.
 enough. **Contradicted the same day:** a lone dev session hit three 429s in about 10 minutes of
 ordinary verbs. They hit the run form load after editor work, "Unable to load your user data", and
 the Cancel request itself, which never landed. Run notes undercount them. `workflow-run` now
-reloads a 429'd form once; the rest is for John to decide. Keep the rule: no other gxui session on the account while a run is going.
+reloads a 429'd form once; the rest is for John to decide.
+
+**Measured 2026-10-08** (one dev session, nothing else on the account). Every browser request was
+logged over CDP and gxui's own `api_get` calls were logged too, with steps 30 s apart. `/api/`
+requests per step:
+
+| Step | Browser | gxui | Peak in 1 s | 429s |
+|---|---|---|---|---|
+| plain load: home | 24 | 0 | 24 | 0 |
+| plain load: workflow list (~25 workflows) | 48 | 0 | 48 | 1 |
+| plain load: editor | 21 | 0 | 21 | 0 |
+| plain load: run form | 32 | 0 | 32 | 0 |
+| **plain load: invocations list** | **165** | 0 | **84** | **96** |
+| plain load: tool form | 28 | 0 | 27 | 0 |
+| gxui `workflow-edit` (list, then editor) | 60 | 2 | 53 | 4 |
+| gxui `workflow-run --no-submit` (list, then form) | 63 | 1 | 57 | 7 |
+| gxui `history-items`, `tool-describe`, `invocation-wait` | 0 | 1-4 | ≤4 | 0 |
+
+- An idle page sends nothing.
+- gxui's own calls are 1-4 per verb. Its navigation (list, then card, then page) is the path a
+  person clicks.
+- The bursts are Galaxy's client:
+  - the workflow list fetches `workflows/{id}/counts` once per card;
+  - the invocations list fetches `/api/datatypes?extension_only=false` 62 times (uncached) and
+    `workflows/{id}` 4 times per workflow;
+  - Sentry's `/api/2/envelope/` shares the bucket.
+- A person opening Workflow Invocations once gets 96 rejected requests. Against nginx's burst of 40
+  (4 r/s), the invocations list can't load cleanly for anyone with a page of invocations. Keep the rule: no other gxui session on the account while a run is going.
 If "(429)" comes back in run notes, the parked options were per-verb counts in the transcript, a
 browser-level retry (`context.route`; needs an idle pump under sync Playwright), an own bucket
 via `X-API-Key`, and a 429 backoff in Galaxy's client.
