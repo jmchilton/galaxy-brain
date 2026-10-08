@@ -84,22 +84,11 @@ history-to-workflow 0, workflow-reports 0 (one "Upload request failed", cause un
 dropped after dev sessions stopped running alongside eval runs and `api_get` started backing off.
 No longer the top blocker.
 
-**429 plan, in order:**
-1. **Measure.** The daemon counts `/api/` responses and 429s per verb (`page.on("response")`) into
-   the transcript; `metrics.json` gets totals. This decides whether step 3 is needed.
-2. **One session per account cookie during a run.** The harness refuses to start while another
-   gxui daemon is running. Today this is only a habit.
-3. **If 429s persist: one browser-level retry** (`context.route("**/api/**")`: on a 429, wait 1 s,
-   `route.fetch()` again, fulfill). It would replace the per-verb sleeps (`verbs.py` 711, 878) and
-   the 429 dialog detection, and it covers playwright-cli actions too. **Spike first:** sync
-   Playwright only dispatches route handlers while the daemon is inside a Playwright call. The idle
-   loop (`work.get(timeout=1)`) and the `time.sleep`s in verbs would stall the page, so this needs
-   an idle pump (`page.wait_for_timeout`). Fallback: an in-page fetch wrapper (`add_init_script`).
-4. **Optional:**
-   - give gxui its own bucket with `X-API-Key` (needs a key; never logged);
-   - upstream: Galaxy's client doesn't retry a 429, and Main now has the same limits (infra
-     `b9e8c97`), so real users can see "(429)" on the run form. A client fetch middleware with
-     backoff is a candidate Galaxy fix; ask before opening anything.
+**429 plan: stop here** (John, 2026-10-08). Backoff plus no dev sessions during runs solved it
+without more machinery. Keep the rule: no other gxui session on the account while a run is going.
+If "(429)" comes back in run notes, the parked options were per-verb counts in the transcript, a
+browser-level retry (`context.route`; needs an idle pump under sync Playwright), an own bucket
+via `X-API-Key`, and a 429 backoff in Galaxy's client.
 
 **Hardening from the last runs, ranked by what they cost:**
 1. **Verb deadlines.** `--timeout` becomes a total deadline from verb start, capped under the
