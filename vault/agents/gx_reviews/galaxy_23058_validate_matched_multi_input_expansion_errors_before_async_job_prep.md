@@ -95,3 +95,24 @@ Risks are minimal - this change doesn't lock Galaxy into particular difficult to
 Reviewers should confirm that the request-time check skips exactly the batches whose width depends on dereferencing (HDCA/DCE map-over), so it can't reject a request that expansion would accept. A test for an equal-length linked batch alongside the mismatch case covers this.
 
 </details>
+
+## Fix branch — 2026-10-08
+
+`jmchilton/galaxy` `fix-matched-batch-validation-23058` (head `78a4a3152cf`), two commits on top of PR head `bd562019bde`:
+
+- `e107d2c4380` test: `test_multirun_on_multiple_inputs_mismatched_lengths` in `test_tool_execute.py` (cat1, linked batch 2 vs 1, flat/nested/request formats) asserts 400 + "should be of equal length".
+- `78a4a3152cf` fix:
+  - `permutations.assert_matched_lengths()` is the single length check; `build_combos` uses it too.
+  - `InputMatchedException` now subclasses `RequestParameterInvalidException` (err_code 400008 on both paths).
+  - `meta.validate_matched_batch_lengths(tool, request_internal_state)` reuses `split_inputs_nested` with a dataset-batch-only classifier. It skips hdca/dce map-overs, which still mismatch at queue time.
+  - `JobsService.create` calls it right after the request-internal validation.
+  - Reverts the PR's `Tool` try/except wrappers and its `/api/jobs` test, which used the legacy payload.
+
+Net vs dev: 4 files, +75/−8. Nothing of the PR's source survives, only its intent.
+
+Tests (shared galaxy venv with `PYTHONPATH` set to the worktree's `lib` and the test tool conf):
+- Red: the new test fails only `[request]` at `bd562019bde`. It logs "Problem validating tool state after request created", the Sentry event.
+- Green: the 9 multirun tests pass, and so do all 35 `request`-format tests in `test_tool_execute.py`.
+- mypy: no errors in the touched modules.
+
+Not pushed to the author or PR'd anywhere yet.
