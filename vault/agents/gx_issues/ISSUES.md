@@ -69,6 +69,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#13037](https://github.com/galaxyproject/galaxy/issues/13037) — bug report emails should name the job's conda env or container; next: add them. [notes](../../repositories/galaxy/issues/queued/13037/index.md)
 - [#11743](https://github.com/galaxyproject/galaxy/issues/11743) — collection tagging parameter cleanup; next: the three cleanups. [notes](../../repositories/galaxy/issues/queued/11743/index.md)
 - [#3899](https://github.com/galaxyproject/galaxy/issues/3899) — dependencies resolved for jobs that run in Docker; next: check on dev. [notes](../../repositories/galaxy/issues/queued/3899/index.md)
+- [#23977](https://github.com/galaxyproject/galaxy/issues/23977) — client page loads fan out /api/ requests (invocations list 165, 96 × 429 on test); next: dedupe datatypes fetch, red request-count test. [notes](../../repositories/galaxy/issues/queued/23977/index.md)
 - [#22451](https://github.com/galaxyproject/galaxy/issues/22451) — Sentry `Failed to extract job.`; diagnostics merged in [#23651](https://github.com/galaxyproject/galaxy/pull/23651), root cause open; next: root-cause via #22709. [notes](../../repositories/galaxy/issues/queued/22451/index.md)
 
 ## Blocked on others (`blocked`)
