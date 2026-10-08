@@ -18,6 +18,7 @@ events, the Codex session log and notes stay outside the vault.
 | refine-workflow-editor-1 | 2026-10-07 | A (gxui `f561c00528d` + galaxy-ui-driver `79a5ac8`) | GTN `workflow-editor` (8 boxes) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | all 8 boxes done; verify **fail** (a retained errored first attempt, hid 7) | 123 min | 24.33M (24.02M) / 47.0k | 136 (37); 244 requests; transcript: 118 verb, 75 component, 114 call, 8 gap |
 | refine-workflow-parameters-1 | 2026-10-07 | A (gxui `3c8a30ea5a6` + galaxy-ui-driver `ee1d5a7`) | GTN `workflow-parameters` (6 boxes) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** (all 6 boxes) | 68 min | 13.41M (13.22M) / 22.7k | 104 (17); 215 requests; transcript: 130 verb, 16 component, 3 call, 2 gap |
 | refine-history-to-workflow-1 | 2026-10-07 | A (gxui `60afbf86176` + galaxy-ui-driver `0c68c50`) | GTN `history-to-workflow` (7 boxes) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | **pass** (all 7 boxes) | 13.3 min | 4.57M (4.46M) / 17.4k | 167 (15); 69 requests; transcript: 62 verb, 44 component, 5 call, 6 gap |
+| refine-workflow-reports-1 | 2026-10-07 | A (gxui `a824ff098a0` + galaxy-ui-driver `e9c579d`) | GTN `workflow-reports` (7 boxes) | test.galaxyproject.org | Codex `gpt-6.1-sol`, high | boxes 1-6 done, 7 reached; Codex stalled before `report.md` (killed after 30 min idle); verify **fail** (11 `new` items from its own cancelled invocation) | 72.8 min | 13.86M (13.66M) / 21.2k | 171 (22); 164 requests; transcript: 92 verb, 62 component, 8 call, 18 gap |
 
 ## phase0-run1
 
@@ -376,3 +377,24 @@ Gaps and what changed (gxui `a824ff098a0`, skill `e9c579d`):
 - Added before collections, from editor-1's gap: `collection-build list|list:paired HIDS --name`
   (Galaxy's builders), and `history-wait` on a collection now also waits for its elements' jobs
   (`job_state_summary`). `history-items` marks hidden items.
+
+**refine-workflow-reports-1** (GTN `workflow-reports`): boxes 1-6 done (notes), and the last gxui
+call rendered the shared page (box 7). Then Codex stopped producing events for 30 min before
+writing `report.md`, so I killed it. 72.8 min, 13.9M input, 164 requests, 18 gaps. Verify fails
+on 11 items stuck `new` from an invocation the agent submitted by mistake and cancelled itself.
+Gaps (from the transcript; no report):
+- Box 1 imports through TRS (workflow registry search). This server's import wizard doesn't match
+  the TRS selectors (version skew: dev's `WorkflowImport.vue` still has them). The agent imported
+  from the `.ga` URL instead.
+- Box 2: `upload-url` ran past 290 s after an "Upload request failed" (probably a 429), waiting on
+  hids that never appeared. Fixed (gxui `5a5b1455281`, not yet tried live): uploads wait at most
+  60 s for their hids and fail at once on a visible upload failure.
+- Boxes 4 and 6: there is no report-editor vocabulary. The agent found `pages.editor.markdown_editor`
+  works for the report textarea, then used palette clicks and dialogs (Galaxy version, current time,
+  an image of a labelled output), styled radio labels, and "Return to Workflow". This is the next
+  thing to build: `workflow-report` (open it, print the markdown), a whole-markdown write or
+  replace, `workflow-report-insert ITEM [--output LABEL]`, and closing the editor. Check
+  the editor's markup on this server first: dev has a newer cell editor.
+- Box 5: `workflow-step` timed out on a step under the inspector panel. Fixed (`5a5b1455281`, not
+  yet tried live): the canvas's open area now excludes the inspector.
+- Box 6: no verb to cancel an invocation, or to pick a data input on an already open run form.

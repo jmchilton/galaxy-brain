@@ -22,7 +22,7 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
   holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
-- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`a824ff098a0`,
+- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`5a5b1455281`,
   `lib/galaxy_test/selenium/gxui/`, 33 tests in `test/unit/selenium/test_gxui.py`). The skill is on
   galaxy-skills branch `gxui` (`galaxy-ui-driver/`). The vault's `galaxy_ui_loop/` keeps only the
   eval harness; how to run and recreate the worktrees is in its README. Findings below under "MVP
@@ -40,10 +40,18 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
    `tool_form_parameters(job_id=...)`, commit 6c); `snapshot` of a component group falls back to
    the center panel; the skill gives a concrete 300 s timeout for gxui calls; `history-new` goes
    home first; `dataset-copy` names server/client skew when Multiview lacks per-history hooks.
-2. **Refine the skill on more tutorials, arm A only**, starting with the workflow-heavy GTN
-   galaxy-interface ones (`workflow-editor`, `workflow-parameters`, `collections`,
-   `workflow-reports`, `history-to-workflow`). Needs the harness to take any tutorial (path,
-   prompt title, per-tutorial pass rule in `verify.py`).
+2. **Refine the skill on more tutorials, arm A only** (John, 2026-10-07: run each, fix its gaps,
+   move on; record serious blockers and skip). Done: `workflow-editor`, `workflow-parameters`,
+   `history-to-workflow`, `workflow-reports` (ledger "Refinement runs"). **Resume here:**
+   (a) build the report-editor verbs `workflow-reports-1` asked for (check this server's report
+   editor DOM first); (b) live-check the two untested fixes in gxui `5a5b1455281` (upload failure,
+   inspector-aware panning); (c) run `collections` (`TUTORIAL=galaxy-interface/tutorials/collections`,
+   then add its EXPECTED). `collection-build`, `history-switch` and collection-aware `history-wait`
+   are already there; bwa_mem, lofreq and SnpSift were not checked on the server; the data is
+   about 100 KB a file. Known blockers: test.galaxyproject.org's nginx answers 429 to request bursts
+   (gxui backs off, but page loads still hit it); version skew (Multiview hooks, TRS import, the
+   expanded run form link); playwright-cli's attached session vanishes mid-run for an unknown
+   reason (`gxui gap` re-attaches it).
 3. **Galaxy-side work, one commit each below the gxui tip** (queue under "Prerequisite PRs").
 4. **Decide what to pull out** ahead of the standing branch as separate PRs once gxui is a
    complete motivating example.
@@ -215,7 +223,7 @@ Commit queue (✅ = on the branch):
 | 7f | `select_set_value` clicks the option equal to the value (`txt` became `metacyto_clr.txt`) (`5df018bfa67`) | fix ✅ |
 | 7g | `workflow_run_with_name` opens the run form of the card titled exactly NAME (shares 7c's wait) (`987a30b356a`) | fix ✅ |
 | 7h | `workflow_editor_click_run` clicks the editor's Run activity; new `workflow_editor.tool_bar.run` (`8e579923247`) | fix ✅ |
-| gxui | `gxui` itself, **always the tip** (`a824ff098a0`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (33 pass); amended in place | enhancement ✅ |
+| gxui | `gxui` itself, **always the tip** (`5a5b1455281`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (33 pass); amended in place | enhancement ✅ |
 
 Notes from doing 4a–5e (2026-10-06):
 - **Corrected findings.** 4a's cause was client-side panel search (regex-escaped query matched
