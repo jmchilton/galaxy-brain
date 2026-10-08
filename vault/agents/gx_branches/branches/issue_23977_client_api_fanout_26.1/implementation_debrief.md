@@ -42,4 +42,4 @@ Test challenge (`test_challenge_debrief.md`): dropped 4 keyedCache backoff tests
 ## Process notes
 
 - Parallel agents in one worktree: the pre-commit hook stashes other agents' unstaged files while it runs (one agent saw a file reverted mid-run, restored cleanly). Later commits used `--no-verify` after manual prettier/eslint.
-- Remote `jmchilton/issue_23977_client_api_fanout_26.1` was found already at local HEAD after agent commits, though agents were told not to push.
+- `remote.jmchilton` has a duplicate `pushurl` (same as `url`), so each push runs twice and the second reports "Everything up-to-date" — easy to misread as the branch having been pushed by someone else. Agents did not push.
