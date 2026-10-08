@@ -1,0 +1,4 @@
+- Support multiple text workflow parameters end to end
+- Run workflows with multiple text parameters feeding multi-select tool inputs
+- Multiple text workflow parameters as lists, like multiple integers
+- Enter multiple text workflow parameter values as a list of fields
