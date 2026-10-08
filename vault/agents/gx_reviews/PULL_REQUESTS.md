@@ -16,7 +16,7 @@ PRs To Review:
 - 22136 — reviewed at `1b8e21cfd81`: request changes (DatasetController.default swallows /datasets/* client routes — CI red; tests use synthetic route table; fallback ignores method); draft review unposted
 - 23058 — reviewed at `bd562019bde`: request changes; our fix in fork PR SID-6921#1, ball with author; draft review unposted
 - 23942 — reviewed at `aaed58e7b28`: comment, approve after rebase (conflicts w/ dev after 23925; shed preset Vue2→3 + dropped rules; edit-path save-after-failed-test gap); draft review unposted
-- 23988 — review in progress at `ac656b19129`
+- 23988 — reviewed at `ac656b19129`: approve + suggest graft for tool_util functional_tools symlink; draft review unposted
 
 PRs to Skip For 7 Days:
 
