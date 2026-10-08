@@ -16,6 +16,7 @@ Recorded 2026-10-08 under Playwright (headless), from branch head `c8f9c40bae0`,
 | `workflow_editor_multiple_text_parameter_list_default.png` | same | Text list default `--ex1,ex2` / `--ex3` (new) |
 | `workflow_run_multiple_integer_parameter.png` | `test_workflow_run.py::test_execution_with_multiple_integer_parameter` | Integer run form with two rows |
 | `workflow_run_multiple_text_parameter.png` | `test_execution_with_multiple_text_parameter` | Text run form with two rows |
+| `value_list_style_before_after.png` | composite (not from a test) | Row styling before/after `c8f9c40bae0`: editor text default (crops scaled 2x) and run form with an integer range, cropped from the pre-fix and post-fix recordings |
 
 ## Notes
 
