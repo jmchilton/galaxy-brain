@@ -6,3 +6,4 @@ site/.astro/
 .playwright-mcp/
 .ingest-dossiers/
 .claude/scheduled_tasks.lock
+/vault/agents/**/screenshots/

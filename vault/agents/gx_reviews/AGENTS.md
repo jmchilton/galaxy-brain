@@ -21,6 +21,13 @@ In these files PROJECT is galaxy.
 
 `/sync-galaxy-reviews` creates missing queued worktrees and removes eligible settled ones.
 
+## Automatic Actions
+
+The user authorizes these ahead of time, but only exactly as written here. Take them in this order.
+
+- Clean up any PRs that have been merged from PULL_REQUESTS.md and local worktrees for those. Report that these have been merged.
+- If any PRs exist in PULL_REQUESTS.md that have not had an initial review. Launch the review process for them please.
+
 ## Galaxy Review Notes
 
 The above linked advice is for general review notes - but for Galaxy specifically please be sure to include a risk assessment in reviews.

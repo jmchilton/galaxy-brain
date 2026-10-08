@@ -33,14 +33,19 @@ Each entry is one bullet and one sentence:
 - Link the branch's PR description or notes at the end when they exist.
 - End every `branches_*` entry with an `[Open PR]` compare link from the `jmchilton` fork branch to its upstream target (`dev` unless the entry names a release branch). Skip it only for entries marked do-not-PR.
 - Refresh the snapshot date at the top whenever GitHub state is re-queried.
-
 ## Merged PRs
 
 When a PR is merged, remove its entry, move its documents in this directory to `old/`, and remove its worktree if it's clean (per `WORKTREES.md`).
-
 ## Closed PRs
 
 When a PR is closed move its entry from the PRs section- to branches_need_decision. A branch not merged needs to by explicitly abandoned by user to leave this index - not just a close.
 ## Abandoned Branches
 
 When the user requests a branch is delete/discarded/abandoned or some such - move any documents into old/ and add a one line entry ABANDONED_BRANCHES.md describing why it was abandoned.
+## Cleaning up Worktrees
+
+Try to reclaim space when we can while trying to preserve work where we can - remove clean merged/closed/abandoned worktrees from disk after ensuring nothing is going to be lost because they are pushed to Github.
+
+If there is uncommitted work - diff it into a patch and save it to ./lost_and_found/BRANCH_NAME_uncommitted.patch. If there are notes, etc... sitting in the branch - likewise move this to lost_and_found/ (up to 1MB) so the tree can be reclaimed.
+
+Remove only clean worktrees whose commits are confirmed pushed, following WORKTREES.md. If a worktree has staged, unstaged, or untracked changes, unpushed commits, or no upstream, leave it intact and report what prevents cleanup. A patch in lost_and_found/ is supplemental documentation, not sufficient grounds to remove the worktree.

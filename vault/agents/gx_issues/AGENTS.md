@@ -20,3 +20,9 @@ tracked in `ISSUES.md`.
 ## To File
 
 Issues dropped into to_file/ need to make their way to Github and be deleted. When the user asks to prepare an issue for filing, follow [`PREPARE_TO_FILE.md`](PREPARE_TO_FILE.md).
+
+## Automatic Actions
+
+The user authorizes these ahead of time, but only exactly as written here. Take them in this order.
+
+- Run the ./PREPARE_TO_FILE.md process on issues in to_file/ that do not contained a polished issue.
