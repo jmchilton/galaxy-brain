@@ -15,3 +15,7 @@ Initial validation: 38 focused tests passed (30 selector tests exercising real G
 Infrastructure remains unchanged: Minikube hosts PostgreSQL/RabbitMQ needed by general suites; unconditional suites still use containers/Apptainer. This pass does not gate infrastructure preparation or migrate shared services. A follow-up can decouple that setup once the selection policy is measured in CI.
 
 Next: independent correctness/clarity review and required test challenge, scope evaluation, final implementation debrief, commit/push and branch-manager handoff. No PR opening by the implementation agent.
+
+## Requested relocation (2026-10-08)
+
+Move the selection documentation and both integration-selection modules under `test/integration/`. The CLI remains in `scripts/`; update its import path, pytest hook imports, synthetic suite imports and documentation without changing the selection policy. Validate dependency-free CLI startup, selector execution, integration collection and sharding. Existing full branch review/test results apply to policy behavior; import/layout checks and a fresh revision review/test challenge remain. Branch notes are moved to the current `gx_branches/branches/integration_ci_scope` location.
