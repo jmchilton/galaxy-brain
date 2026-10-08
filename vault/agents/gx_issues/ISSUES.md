@@ -73,6 +73,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#23978](https://github.com/galaxyproject/galaxy/issues/23978) — `parameters/` test tools use ignored `ext=`; 17 tools fail XSD, CI skips them; next: fix after issue_18642 lands, add to CI. [notes](../../repositories/galaxy/issues/queued/23978/index.md)
 - [#23979](https://github.com/galaxyproject/galaxy/issues/23979) — Playwright backend with default `headless=auto` needs chromedriver/geckodriver; next: backend guard in `headless_selenium()` + unit test. [notes](../../repositories/galaxy/issues/queued/23979/index.md)
 - [#23980](https://github.com/galaxyproject/galaxy/issues/23980) — workflow text param with static allowed values ignores its default in the run form; next: per-option `selected` from default + red unit test. [notes](../../repositories/galaxy/issues/queued/23980/index.md)
+- [#23981](https://github.com/galaxyproject/galaxy/issues/23981) — workflow rename `#{name }` with padding silently renders empty (hits IWC VGP5); next: always strip + flip parity test row. [notes](../../repositories/galaxy/issues/queued/23981/index.md)
 - [#22451](https://github.com/galaxyproject/galaxy/issues/22451) — Sentry `Failed to extract job.`; diagnostics merged in [#23651](https://github.com/galaxyproject/galaxy/pull/23651), root cause open; next: root-cause via #22709. [notes](../../repositories/galaxy/issues/queued/22451/index.md)
 
 ## Blocked on others (`blocked`)
