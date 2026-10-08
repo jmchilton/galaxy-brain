@@ -2,7 +2,7 @@ Screenshots successfully obtained.
 
 # issue_21015_multiple_text_param — screenshots
 
-Recorded 2026-10-08 under Playwright (headless), from branch head `58928294f5e`. Galaxy ran on 8081 and Vite on 5175, with `GALAXY_TEST_SCREENSHOTS_DIRECTORY` set. The files are in `screenshots/`, which git ignores.
+Recorded 2026-10-08 under Playwright (headless), from branch head `c8f9c40bae0`, after the `FormValueList` layout fix. Galaxy ran on 8081 and Vite on 5175, with `GALAXY_TEST_SCREENSHOTS_DIRECTORY` set. The files are in `screenshots/`, which git ignores.
 
 | File | Test | Shows |
 | --- | --- | --- |
@@ -21,4 +21,4 @@ Recorded 2026-10-08 under Playwright (headless), from branch head `58928294f5e`.
 
 - **The first test after a cold Vite start times out on `#masthead`.** Rerunning it once fixed this every time.
 - **No range slider for workflow integer parameters.** The editor stores min/max as an `in_range` validator, not as the parameter's own `min`/`max`, so the runtime field gets no `attrs.min`/`attrs.max` and `FormNumber` draws no slider. The editor's default field doesn't get them either. So `FormValueList` rows never show a slider for workflow parameters.
-- **Open polish John raised.** The × buttons are top-aligned (`align-items-start`) and the rows are tight (`mb-1`/`ml-1`) in `FormValueList.vue`. This isn't changed yet.
+- **Layout fix (`c8f9c40bae0`).** You asked for the × buttons to be centered and the rows given more room. Rows now use `align-items-center mb-2` and the remove button `ml-2`. All screenshots were re-recorded after the change.
