@@ -21,7 +21,7 @@ The tool XSD tells authors to write `value=""` in a test when no option should b
 
 ***This is the tool-author reference (the tool XML docs are generated from the XSD). Galaxy reviewers only need to check it matches current behavior.***
 
-***It's docs only. Validation, linting and profile behavior don't change; the docs now describe what Galaxy already does.***
+***Validation, linting and profile behavior don't change; the docs now describe what Galaxy already does, and new framework tool tests run each documented form.***
 
 ***Existing tools aren't broken by this. `value=""` on a multiple select still runs before profile 26.1, as before; its lint error from 24.2 already exists and is unchanged.***
 
@@ -29,6 +29,10 @@ The tool XSD tells authors to write `value=""` in a test when no option should b
 
 - The `<param>` element docs under tool tests in `lib/galaxy/tool_util/xsd/galaxy.xsd`, which also generate the published tool XML reference.
 - One example sentence added to the `value_json` attribute docs.
+- Framework tool tests in `test/functional/tools/parameters/`: `value_json="null"` on `gx_select_optional` and `gx_select_multiple_optional`, `value_json="[]"` on `gx_select_multiple_optional` and `gx_select_multiple`. Each renders as `None` in the command, like an omitted optional select.
+- `test_select_multiple_empty_list` in `test_tool_execute.py`: `[]` runs and renders `None` through the legacy, 21.01 and request input formats.
+- `parameter_specification.yml`: `[]` is valid for multiple selects in every state representation and invalid for single selects.
+- Unit tests pin the profile cutoffs this table documents: `value=""` on a single select fails test loading from 24.2 and on a multiple select from 26.1, `TestsMultipleSelectEmptyValue` warns before 26.1 and errors from it, and the `value_json` forms load at every profile.
 
 Every row of the table was checked by parsing a test tool at profiles 21.05, 24.2 and 26.1 and running the `TestsCaseValidation` and `TestsMultipleSelectEmptyValue` linters. The reference renders through `doc/parse_gx_xsd.py`, with the same fenced `xml` blocks as the rest of the XSD.
 
@@ -47,7 +51,7 @@ Builds on 🔀 #22894, which made `value=""` on multiple selects a legacy pre-26
 - [ ] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? N/A. Docs only; the multiple-select lint message already points at `value_json="[]"`.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? N/A. No tests.
+- [x] Are unit tests not just testing the literal implementation? Yes. Framework tool tests run each documented form through a real job and check the command line.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? The "before 26.1" sentence tells authors of older tools why `value=""` on a multiple select still runs.
 
