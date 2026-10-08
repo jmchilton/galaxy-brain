@@ -22,8 +22,8 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
   holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
-- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`5a5b1455281`,
-  `lib/galaxy_test/selenium/gxui/`, 33 tests in `test/unit/selenium/test_gxui.py`). The skill is on
+- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`e293149b9d1`,
+  `lib/galaxy_test/selenium/gxui/`, 41 tests in `test/unit/selenium/test_gxui.py`). The skill is on
   galaxy-skills branch `gxui` (`galaxy-ui-driver/`). The vault's `galaxy_ui_loop/` keeps only the
   eval harness; how to run and recreate the worktrees is in its README. Findings below under "MVP
   findings".
@@ -84,29 +84,32 @@ history-to-workflow 0, workflow-reports 0 (one "Upload request failed", cause un
 dropped after dev sessions stopped running alongside eval runs and `api_get` started backing off.
 No longer the top blocker.
 
-**429 plan: stop here** (John, 2026-10-08). Backoff plus no dev sessions during runs solved it
-without more machinery. Keep the rule: no other gxui session on the account while a run is going.
+**429 plan: stop here** (John, 2026-10-08). Backoff plus no dev sessions during runs looked like
+enough. **Contradicted the same day:** a lone dev session hit three 429s in about 10 minutes of
+ordinary verbs. They hit the run form load after editor work, "Unable to load your user data", and
+the Cancel request itself, which never landed. Run notes undercount them. `workflow-run` now
+reloads a 429'd form once; the rest is for John to decide. Keep the rule: no other gxui session on the account while a run is going.
 If "(429)" comes back in run notes, the parked options were per-verb counts in the transcript, a
 browser-level retry (`context.route`; needs an idle pump under sync Playwright), an own bucket
 via `X-API-Key`, and a 429 backoff in Galaxy's client.
 
 **Hardening from the last runs, ranked by what they cost:**
-1. **Verb deadlines.** `--timeout` becomes a total deadline from verb start, capped under the
+1. ✅ **Verb deadlines.** `--timeout` becomes a total deadline from verb start, capped under the
    290 s client: `upload-url` ran 315 s and `invocation-wait` 309 s with `--timeout 240`.
    `invocation-wait` lists outputs with one `invocations/{id}` call, not one call per job.
-2. **`workflow-run` data inputs.** Refuse to submit while a data input wasn't named in `--inputs`:
+2. ✅ **`workflow-run` data inputs.** Refuse to submit while a data input wasn't named in `--inputs`:
    the form preselects the newest compatible dataset, so reports box 6 ran on `23: Unique…`
    instead of iris.csv, and the cancelled invocation fails verify. Also:
    - fill an already-open run form (reports box 6);
    - `--new-history NAME` (history-to-workflow box 7 took about 8 commands).
-3. **Names containing ":".** The workflow list search parses `GTN Training:` as a filter, so
+3. ✅ **Names containing ":".** The workflow list search parses `GTN Training:` as a filter, so
    `workflow-edit`/`workflow-run` by full name timed out twice. Search a colon-free part, then
    match the exact title.
 4. **Report-editor verbs** (8 of the 18 gaps in workflow-reports): open the Report activity,
    print/replace the markdown, insert an item (Galaxy version, time, image or dataset by output
    label), return to the workflow. Check the server's DOM first.
-5. **`invocation-cancel [ID]`** (reports box 6).
-6. **`invocation-wait` with no ID** should refuse when the newest invocation predates the last
+5. ✅ **`invocation-cancel ID`** (reports box 6).
+6. ✅ **`invocation-wait` with no ID** should refuse when the newest invocation predates the last
    submit: it read the stale `8585d05b239c1089` after a `call`-based submit.
 7. **`workflow-output` timed out** on `form-element-__label__output1` with `a824ff098a0`, which
    already opens Configure Output only when absent. Check on the server (skew, or an inspector
@@ -121,6 +124,17 @@ via `X-API-Key`, and a 429 backoff in Galaxy's client.
     verify (reports stalled 30 min after its last box).
 12. **Version skew** (TRS import wizard, expanded run form link, Multiview hooks): record it; fix
     in Galaxy only where dev has the same selectors.
+
+**Done 2026-10-08** (gxui `e293149b9d1`, Galaxy 7i/7j, skill `482aa95`, live-checked on test):
+- `--timeout` is one deadline for the whole verb: `upload-paste --timeout 120` gave up at 120.6 s.
+- `invocation-wait` lists outputs from `invocations/{id}?step_details=true`. Without an id it uses
+  the invocation open on the page, and refuses a newest one that finished over 2 min ago.
+- `workflow-run` refuses to submit while a data input isn't in `--inputs`. Without NAME it fills the
+  form already open. It takes `--new-history NAME`, and reloads once when the form loads with a 429.
+- Workflows with ":" in their name open by name.
+- `invocation-cancel ID`: cancelling deleted the job it had queued.
+- Found while checking: the daemon cut every error to its first line, so `invocation-wait`'s
+  hid list never reached agents on a timeout. gxui's own errors now come through whole.
 
 **Collections is unblocked:** bwa_mem 0.7.19+galaxy1, lofreq_call 2.1.5 and the SnpSift tools
 (5.4.0c) are on the server.
@@ -283,7 +297,9 @@ Commit queue (✅ = on the branch):
 | 7f | `select_set_value` clicks the option equal to the value (`txt` became `metacyto_clr.txt`) (`5df018bfa67`) | fix ✅ |
 | 7g | `workflow_run_with_name` opens the run form of the card titled exactly NAME (shares 7c's wait) (`987a30b356a`) | fix ✅ |
 | 7h | `workflow_editor_click_run` clicks the editor's Run activity; new `workflow_editor.tool_bar.run` (`8e579923247`) | fix ✅ |
-| gxui | `gxui` itself, **always the tip** (`5a5b1455281`, 2026-10-07): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (33 pass); amended in place | enhancement ✅ |
+| 7i | `workflow_index_open_with_name` / `workflow_run_with_name` search a colon-free part of the name (`workflow_search_term`; the list search read `GTN Training:` as a filter) (`3a8d859dab9`) | fix ✅ |
+| 7j | `navigation.yml` `invocations.cancel_button` (`b98e9c42974`) | enhancement ✅ |
+| gxui | `gxui` itself, **always the tip** (`e293149b9d1`, 2026-10-08): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (41 pass); amended in place | enhancement ✅ |
 
 Notes from doing 4a–5e (2026-10-06):
 - **Corrected findings.** 4a's cause was client-side panel search (regex-escaped query matched
