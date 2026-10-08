@@ -42,8 +42,8 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
    home first; `dataset-copy` names server/client skew when Multiview lacks per-history hooks.
 2. **Refine the skill on more tutorials, arm A only** (John, 2026-10-07: run each, fix its gaps,
    move on; record serious blockers and skip). Done: `workflow-editor`, `workflow-parameters`,
-   `history-to-workflow`, `workflow-reports` (ledger "Refinement runs"). **Resume here:**
-   (a) build the report-editor verbs `workflow-reports-1` asked for (check this server's report
+   `history-to-workflow`, `workflow-reports` (ledger "Refinement runs"). **Resume here:** work
+   the ranked lists in "429s and hardening plan" below first; then (a) build the report-editor verbs `workflow-reports-1` asked for (check this server's report
    editor DOM first); (b) live-check the two untested fixes in gxui `5a5b1455281` (upload failure,
    inspector-aware panning); (c) run `collections` (`TUTORIAL=galaxy-interface/tutorials/collections`,
    then add its EXPECTED). `collection-build`, `history-switch` and collection-aware `history-wait`
@@ -64,6 +64,77 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   a link-accessible "My Analysis…" history, a "Next Analysis…" history, a "QC and filtering…"
   workflow and an invocation; runA1 left one history. Keep them or clean them up? Runs add more
   each time.
+
+## 429s and hardening plan (2026-10-07)
+
+**How test.galaxyproject.org rate-limits** (infrastructure-playbook
+`templates/nginx/galaxy_test.j2` at `8e96583`):
+- `/api/`: 4 r/s, burst 40, nodelay. Everything else: 8 r/s, burst 50. Resumable upload and job
+  files are exempt.
+- The bucket key is `X-API-Key` if sent, else the `galaxysession` cookie, else the IP. gxui's
+  `api_get` sends the browser's cookies, so the page, gxui's polls, playwright-cli and any dev
+  session started from the same auth state **share one bucket**.
+- A crawler zone (1 r/s, one bucket for every match) keys on a user-agent list kept in an
+  encrypted vault. Probed: 25 fast requests each as `python-requests` and `HeadlessChrome` all got
+  200, so neither matches.
+
+**Evidence.** UI-visible 429s per refinement run: workflow-editor 4 (run form; "Loading workflow
+versions failed"), workflow-parameters 1 (plus 2 JSONDecodeErrors, since backed off),
+history-to-workflow 0, workflow-reports 0 (one "Upload request failed", cause unknown). They
+dropped after dev sessions stopped running alongside eval runs and `api_get` started backing off.
+No longer the top blocker.
+
+**429 plan, in order:**
+1. **Measure.** The daemon counts `/api/` responses and 429s per verb (`page.on("response")`) into
+   the transcript; `metrics.json` gets totals. This decides whether step 3 is needed.
+2. **One session per account cookie during a run.** The harness refuses to start while another
+   gxui daemon is running. Today this is only a habit.
+3. **If 429s persist: one browser-level retry** (`context.route("**/api/**")`: on a 429, wait 1 s,
+   `route.fetch()` again, fulfill). It would replace the per-verb sleeps (`verbs.py` 711, 878) and
+   the 429 dialog detection, and it covers playwright-cli actions too. **Spike first:** sync
+   Playwright only dispatches route handlers while the daemon is inside a Playwright call. The idle
+   loop (`work.get(timeout=1)`) and the `time.sleep`s in verbs would stall the page, so this needs
+   an idle pump (`page.wait_for_timeout`). Fallback: an in-page fetch wrapper (`add_init_script`).
+4. **Optional:**
+   - give gxui its own bucket with `X-API-Key` (needs a key; never logged);
+   - upstream: Galaxy's client doesn't retry a 429, and Main now has the same limits (infra
+     `b9e8c97`), so real users can see "(429)" on the run form. A client fetch middleware with
+     backoff is a candidate Galaxy fix; ask before opening anything.
+
+**Hardening from the last runs, ranked by what they cost:**
+1. **Verb deadlines.** `--timeout` becomes a total deadline from verb start, capped under the
+   290 s client: `upload-url` ran 315 s and `invocation-wait` 309 s with `--timeout 240`.
+   `invocation-wait` lists outputs with one `invocations/{id}` call, not one call per job.
+2. **`workflow-run` data inputs.** Refuse to submit while a data input wasn't named in `--inputs`:
+   the form preselects the newest compatible dataset, so reports box 6 ran on `23: Unique…`
+   instead of iris.csv, and the cancelled invocation fails verify. Also:
+   - fill an already-open run form (reports box 6);
+   - `--new-history NAME` (history-to-workflow box 7 took about 8 commands).
+3. **Names containing ":".** The workflow list search parses `GTN Training:` as a filter, so
+   `workflow-edit`/`workflow-run` by full name timed out twice. Search a colon-free part, then
+   match the exact title.
+4. **Report-editor verbs** (8 of the 18 gaps in workflow-reports): open the Report activity,
+   print/replace the markdown, insert an item (Galaxy version, time, image or dataset by output
+   label), return to the workflow. Check the server's DOM first.
+5. **`invocation-cancel [ID]`** (reports box 6).
+6. **`invocation-wait` with no ID** should refuse when the newest invocation predates the last
+   submit: it read the stale `8585d05b239c1089` after a `call`-based submit.
+7. **`workflow-output` timed out** on `form-element-__label__output1` with `a824ff098a0`, which
+   already opens Configure Output only when absent. Check on the server (skew, or an inspector
+   still loading).
+8. **Step numbers:** gxui's are zero-based, the UI's "Step N" is one-based (reports box 5). Print
+   the UI's numbers.
+9. **Live-check the `5a5b1455281` fixes.** Upload failure detection: reports box 2 waited 240 s on
+   "Upload request failed", and observation verbs queued behind it. Inspector-aware panning.
+10. **playwright-cli's session vanished in 2 of 4 runs**, so layer 3 was gone for whole runs.
+    Re-attaching on `gap` is a patch; the root cause is still open.
+11. **Harness stall watchdog:** no Codex events for 15 min means record "stalled", stop, and still
+    verify (reports stalled 30 min after its last box).
+12. **Version skew** (TRS import wizard, expanded run form link, Multiview hooks): record it; fix
+    in Galaxy only where dev has the same selectors.
+
+**Collections is unblocked:** bwa_mem 0.7.19+galaxy1, lofreq_call 2.1.5 and the SnpSift tools
+(5.4.0c) are on the server.
 
 ## MVP findings (2026-10-06)
 
