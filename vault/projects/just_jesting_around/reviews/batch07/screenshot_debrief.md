@@ -1,6 +1,6 @@
 Screenshots not relevant for this change.
 
-Applied [the screenshot process](../../../../../agents/_shared/GX_PROCESS_SCREENSHOTS.md) and read [the E2E writing reference](../../../../../research/Component%20-%20E2E%20Tests%20-%20Writing.md), including the distinction between failure snapshots and explicit screenshot capture.
+Applied [the screenshot process](../../../../agents/_shared/GX_PROCESS_SCREENSHOTS.md) and read [the E2E writing reference](../../../../research/Component%20-%20E2E%20Tests%20-%20Writing.md), including the distinction between failure snapshots and explicit screenshot capture.
 
 The iteration diff against `8cd6910a856b15009722e296b69f21fbfaa42e8b` contains ten unit-test files. Form display, registration, target storage, confirmation lifetime, metadata rendering, history updates, workflow comments, mentions, queueing, and redirects gain clearer test arrangements or assertions; no production component, template, style, navigation selector, or E2E screenshot behavior changes. The six earlier iteration commits also remain test/helper/guidance changes relative to the new upstream base, so rebasing them introduces no branch-authored UI change to record.
 

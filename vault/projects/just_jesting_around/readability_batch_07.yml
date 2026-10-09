@@ -23,7 +23,7 @@ selection:
   file: client/src/entry/analysis/modules/Register.test.ts
 branch: jest_readability_batch_01
 base_commit: 8cd6910a856b15009722e296b69f21fbfaa42e8b
-status: implementing
+status: reviewed
 rebase:
   old_head: f51f2fb07942d8d338c77e35723bf25e90f06963
   upstream: cd6a53537e0bb28be183c4a6c134c1c0f5a4d6d1
@@ -60,3 +60,25 @@ baseline:
   toolshed_suites: 1
   selected_tests: 105
   test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+validation:
+  baseline_selected_tests: 105
+  final_selected_tests: 138
+  affected_suites: 10
+  client_tests: 126
+  client_suites: 9
+  toolshed_tests: 12
+  toolshed_suites: 1
+  post_review_shuffled_tests: 45
+  post_review_shuffled_seed: 70123
+  client_vue_tsc: passed
+  toolshed_vue_tsc: passed
+  eslint: passed with current upstream configurations
+  prettier: passed
+  normal_review: visibility listener cleanup applied; no remaining blockers
+  test_challenge: retain existing layers and cases; verify actual skipped queue promise
+  scope: retain ten originators with existing shared helper reuse
+  screenshots: not relevant
+  test_environment: NODE_OPTIONS=--no-webstorage
+  source_commit_hooks: passed
+commit: 7c2738f4644b7b0f6923d9a2e6654349210e81b8

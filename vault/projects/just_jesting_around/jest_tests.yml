@@ -79,6 +79,7 @@
 - file: client/src/components/Form/FormCard.test.js
 - file: client/src/components/Form/FormCardSticky.test.js
 - file: client/src/components/Form/FormDisplay.test.js
+  iterated: 1
 - file: client/src/components/Form/FormElement.test.js
 - file: client/src/components/Form/FormElementLabel.test.js
 - file: client/src/components/Form/FormMessage.test.js
@@ -130,6 +131,7 @@
 - file: client/src/components/History/SwitchToHistoryLink.test.ts
 - file: client/src/components/History/TargetHistorySelector.test.ts
 - file: client/src/components/History/TargetObjectStoreSelector.test.ts
+  iterated: 1
 - file: client/src/components/History/WorkflowExtractionForm.test.ts
 - file: client/src/components/History/model/queries.test.ts
 - file: client/src/components/HistoryExport/Index.test.js
@@ -335,6 +337,7 @@
 - file: client/src/components/providers/utils.test.js
 - file: client/src/composables/accessibleHover.test.ts
 - file: client/src/composables/confirmDialog.test.ts
+  iterated: 1
 - file: client/src/composables/fileSources.test.ts
   iterated: 1
 - file: client/src/composables/keyedCache.test.ts
@@ -361,6 +364,7 @@
 - file: client/src/composables/useCreatingJob.test.ts
   iterated: 1
 - file: client/src/composables/useEntityMentions.test.ts
+  iterated: 1
 - file: client/src/composables/useHistoryDatasets.test.ts
 - file: client/src/composables/useInvocationGraph.test.ts
 - file: client/src/composables/useNotificationSSE.test.ts
@@ -374,6 +378,7 @@
 - file: client/src/directives/vGTooltip.test.ts
 - file: client/src/entry/analysis/modules/Login.test.ts
 - file: client/src/entry/analysis/modules/Register.test.ts
+  iterated: 1
 - file: client/src/entry/analysis/router-push.test.js
 - file: client/src/entry/analysis/routes/login-routes.test.ts
 - file: client/src/router/guards.test.ts
@@ -386,6 +391,7 @@
 - file: client/src/stores/datasetCollectionStore.test.ts
 - file: client/src/stores/entryPointStore.test.js
 - file: client/src/stores/historyStore.test.ts
+  iterated: 1
 - file: client/src/stores/invocationStore.test.ts
 - file: client/src/stores/jobMetricsStore.test.ts
   iterated: 1
@@ -404,6 +410,7 @@
 - file: client/src/stores/workflowConnectionStore.test.ts
   iterated: 1
 - file: client/src/stores/workflowEditorCommentStore.test.ts
+  iterated: 1
 - file: client/src/stores/workflowEditorToolbarStore.test.ts
   iterated: 1
 - file: client/src/stores/workflowSearchStore.test.ts
@@ -419,9 +426,11 @@
   iterated: 1
 - file: client/src/utils/historyUpload.test.ts
 - file: client/src/utils/lastQueue.test.js
+  iterated: 1
 - file: client/src/utils/parseBool.test.ts
   iterated: 1
 - file: client/src/utils/redirect.test.ts
+  iterated: 1
 - file: client/src/utils/strings.test.ts
 - file: client/src/utils/tool-version.test.ts
 - file: client/src/utils/tusUpload.test.ts
@@ -438,6 +447,7 @@
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts
   iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts
+  iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts
