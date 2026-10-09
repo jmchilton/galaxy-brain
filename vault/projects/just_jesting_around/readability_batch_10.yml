@@ -1,0 +1,26 @@
+seed: 4259579149
+inventory_sha256: ac72ff7b99bbad5c5407ea36376cf0474e5b5df608094f30b4463dd8fdf337af
+selection:
+- category: component
+  file: client/src/components/Dataset/DatasetView.test.js
+- category: component
+  file: client/src/components/PageEditor/object-permission-composables.test.js
+- category: composable
+  file: client/src/composables/keyedObjects.test.ts
+- category: composable
+  file: client/src/composables/keyedCache.test.ts
+- category: store
+  file: client/src/stores/workflowStore.test.ts
+- category: store
+  file: client/src/stores/objectStoreTemplatesStore.test.ts
+- category: utility
+  file: client/src/utils/tool-version.test.ts
+- category: utility
+  file: client/src/utils/utils.test.js
+- category: other
+  file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts
+- category: other
+  file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts
+branch: jest_readability_batch_01
+base_commit: 03776948996d3d0450d328d2901475fb83b5a4e0
+status: selected
