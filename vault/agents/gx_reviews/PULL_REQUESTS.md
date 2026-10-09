@@ -12,6 +12,7 @@ PRs To Review:
 - 23942 — user approved 10-08 at `c076c13e2da`; awaiting merge
 - 23988 — mr-c expanded + handed PR to us; our follow-up commit `678ba5cd173` local, unpushed; nsoranzo wants test.sh regression guard (estimate in note)
 - 23965 — reviewed at `34de076d569`: comment, approve once CI green; draft review unposted
+- 24006 — reviewed at `4c75dddee45`: comment, approve w/ suggestions; draft review unposted
 
 PRs to Skip For 7 Days:
 
