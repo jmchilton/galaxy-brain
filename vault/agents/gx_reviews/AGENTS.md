@@ -2,6 +2,7 @@
 
 @../_shared/VAULT_SYNC.md
 @../_shared/SECURITY_REPORTS.md
+@../_shared/NOT_VAULT_NOTES.md
 
 Coordinates `galaxyproject/galaxy` pull-request reviews.
 
@@ -43,8 +44,3 @@ Once a review is delivered, the ball is theirs. Do not propose nudging the autho
 stale thread, or chasing an unmerged fork PR. Work remains ours only while a review is unposted,
 author fixes need verification, we explicitly committed to a follow-up, or an approved PR awaits
 the user's merge. Delivered/approved PRs stay in `PULL_REQUESTS.md` until merged or closed.
-
-## File format
-
-Agent files and repository review records are excluded from vault validation and the Astro site. Do not add YAML frontmatter.
-Wiki links to real vault notes are allowed, but review files receive no automatic backlinks.
