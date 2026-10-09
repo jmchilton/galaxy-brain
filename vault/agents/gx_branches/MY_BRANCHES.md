@@ -10,6 +10,7 @@ Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2
 - [`job_files_fastapi`](../../repositories/galaxy/branches/active/job_files_fastapi/index.md) — Migrates the job files API to FastAPI behind an extracted `JobFilesManager`, writing Pulsar uploads to disk once. [#23933](https://github.com/galaxyproject/galaxy/pull/23933).
 - [`workbook_import`](../../repositories/galaxy/branches/active/workbook_import/index.md) — Tests the rule builder mapping Galaxy infers from workbook headers, under Selenium and Playwright. [#23922](https://github.com/galaxyproject/galaxy/pull/23922).
 - [`issue_21015_multiple_text_param`](../../repositories/galaxy/branches/active/issue_21015_multiple_text_param/index.md) — Supports multiple text workflow parameters end to end (#21015). [#23992](https://github.com/galaxyproject/galaxy/pull/23992).
+- [`issue_19325_optional_select_test_docs`](../../repositories/galaxy/branches/active/issue_19325_optional_select_test_docs/index.md) — Documents unset optional selects and empty multiple-select lists in tool tests (#19325), with tests for each form. [#23959](https://github.com/galaxyproject/galaxy/pull/23959).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -17,7 +18,7 @@ Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
-- [`issue_19325_optional_select_test_docs`](../../repositories/galaxy/branches/active/issue_19325_optional_select_test_docs/index.md) — Documents unset optional selects and empty multiple-select lists in tool tests (#19325), with tests for each form. [#23959](https://github.com/galaxyproject/galaxy/pull/23959).
+None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
