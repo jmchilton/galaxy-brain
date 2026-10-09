@@ -1,0 +1,36 @@
+seed: 2000521917
+inventory_sha256: ad53786c7e23bf9f741768baf75fd77aec7fc6e0720726a464056d3be8ecdf07
+selection:
+- category: component
+  file: client/src/components/Form/FormElement.test.js
+- category: component
+  file: client/src/components/GalaxyAI/chatUtils.test.ts
+- category: component
+  file: client/src/components/Panels/utilities.test.ts
+- category: component
+  file: client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts
+- category: component
+  file: client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js
+- category: component
+  file: client/src/components/User/UserBeaconSettings.test.ts
+- category: composable
+  file: client/src/composables/pollUntil.test.ts
+- category: composable
+  file: client/src/composables/taskMonitor.test.ts
+- category: store
+  file: client/src/stores/workflowSearchStore.test.ts
+- category: store
+  file: client/src/stores/activityStore.test.ts
+- category: store
+  file: client/src/stores/datasetCollectionStore.test.ts
+- category: utility
+  file: client/src/utils/historyUpload.test.ts
+- category: utility
+  file: client/src/utils/upload-queue.test.js
+- category: other
+  file: client/src/entry/analysis/routes/login-routes.test.ts
+- category: other
+  file: client/src/router/guards.test.ts
+branch: jest_readability_batch_01
+base_commit: da55fde9518fddae07a6cf5ab67ee7c6423591c5
+status: selected
