@@ -1,6 +1,6 @@
 # Provider removal
 
-On 2026-10-09, after polishing, John asked to migrate `SelectionOperations` and `LibraryDataset` in this branch instead of a follow-up, because those components have to be migrated anyway. Commits `4c54f449abc`..`cea986dee14`, pushed.
+On 2026-10-09, after polishing, John asked to migrate `SelectionOperations` and `LibraryDataset` in this branch instead of a follow-up, because those components have to be migrated anyway. Commits `4c54f449abc`..`cea986dee14`, plus `788cef7a92e`, pushed.
 
 ## Changes
 
@@ -8,7 +8,7 @@ On 2026-10-09, after polishing, John asked to migrate `SelectionOperations` and 
 - **`LibraryDataset`** (`79642867e1a`). Its `setup()` calls both composables with `enabled: isEditMode`; `isEditMode` moves from `data()` to a setup ref. The providers used to mount only inside edit-mode cells, so the lists load lazily, as before.
   - The tests now mock `getUploadDatatypes`/`getUploadDbKeys` instead of stubbing the providers. They reset both stores per test, because `getLocalVue()` shares one pinia across the file.
   - New guard: "loads datatypes and Database/Builds only when modifying the dataset". It fails if `enabled` is dropped (red-checked).
-- **`SelectionOperations`** (`7619d45e0c2`). Its `setup()` calls both composables eagerly. The old providers were eager too: they sat inside `GModal`s, a native `<dialog>` that always renders its slot, and `HistoryOperations` hides the selection slot with `v-show`. So the request count doesn't change. The `storeToRefs(useDbKeyStore())` workaround and its comment are gone.
+- **`SelectionOperations`** (`7619d45e0c2`, corrected in `788cef7a92e`). Its `setup()` calls both composables with `enabled: () => props.selectionSize > 0 && !props.isMultiViewItem`. That matches the root `<section v-if="hasSelection && !isMultiViewItem">`, which used to decide when the modals, and the providers inside them, mounted. `7619d45e0c2` loaded eagerly and wrongly claimed this changed nothing; it missed the `v-if`. The strengthening review caught it, and red-first tests ("waits until items are selected", "loads nothing in a multi-view history panel") now guard it. The `storeToRefs(useDbKeyStore())` workaround and its comment are gone.
   - The tests mock the utils, and failures are driven through the component's own load, so the `rejects.toThrow` setup line is gone.
   - New red-first assertions check the modal alert text for both dbkeys and datatypes. They couldn't be reached before, because the providers were stubbed.
 - **Providers deleted** (`cea986dee14`). `DatatypesProvider`, `DbKeyProvider`, the `uploadListProvider` factory and `storeProviders.test.js` are removed. That test file was added by #23995 and only tested those two providers. `SimpleProviderMixin` is restored to its `dev` form, which drops #23995's unused `error` slot prop. Against `dev`, `storeProviders.js`/`index.js` now differ only by the two removed providers.

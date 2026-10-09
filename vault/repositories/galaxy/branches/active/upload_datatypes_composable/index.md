@@ -1,6 +1,6 @@
 # upload_datatypes_composable
 
-Status: `branches_implemented_needs_ci`. Base: `dev`. Tip `cea986dee14`. Polished at `75c67e1fa27`; the provider removal since then makes `pr_description.md` stale, so it needs a re-polish.
+Status: `branches_ready_for_final_review`. Base: `dev`. Tip `788cef7a92e`.
 
 Adds `useUploadDatatypes` and `useUploadDbKeys` composables over store-owned loading/error state, moves every consumer onto them, deletes `DatatypesProvider`/`DbKeyProvider`, and shows datatype and Database/Build load failures instead of empty selectors.
 
