@@ -1,0 +1,4 @@
+- Preselect the default of statically restricted workflow text inputs in the run form
+- Fix workflow run form ignoring defaults on text inputs with static restrictions
+- Honor text parameter defaults when restricted to a static list of values
+- Make the workflow run form preselect restricted text input defaults

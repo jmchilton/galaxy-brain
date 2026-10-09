@@ -57,7 +57,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
-- [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
 - [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:extract_next_followups?expand=1).
 - [`resubmit_static_chain_test_26.1`](../../repositories/galaxy/branches/active/resubmit_static_chain_test_26.1/index.md) — Tests repeated resubmission through static destinations with per-hop environment values. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:resubmit_static_chain_test_26.1?expand=1).
 - [`yaml_boolean_defaults`](../../repositories/galaxy/branches/active/yaml_boolean_defaults/index.md) — Honors explicit YAML Boolean defaults with user-tool API contract coverage (#23888).
@@ -72,6 +71,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs, and lets the run form submit an allowed `""` (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_23977_client_api_fanout_26.1?expand=1).
 - [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing bugs. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:sample_sheet_vue3?expand=1).
 - [`issue_19391_file_source_templates_config_dir`](../../repositories/galaxy/branches/active/issue_19391_file_source_templates_config_dir/index.md) — Adds drop-in configuration directories for file source and object store templates (#19391). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19391_file_source_templates_config_dir?expand=1).
