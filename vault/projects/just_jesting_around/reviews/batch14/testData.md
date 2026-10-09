@@ -1,0 +1,7 @@
+# Shared PageEditor fixture follow-through — iteration 14
+
+`client/src/components/PageEditor/testData.ts` delegates to the existing `getFakePageSummary` factory instead of repeating its default fields. The summary overrides exactly the differing fields: ID `page-1`, history ID `history-1`, title `My Analysis`, latest revision `rev-1`, and revision array `["rev-1"]`. Every remaining field has the same value as the original fixture: null slug and invocation, false published/importable/deleted/author_deleted, the June 15 2025 creation/update timestamps, username `test`, empty email hash, model class Page, and empty tags. The untitled fixture still inherits the same summary and changes only ID to `page-2` and title to the empty string.
+
+A repository search finds exactly two import consumers: selected PageCard and unchanged supporting `client/src/components/PageEditor/HistoryPageList.test.ts`. The supporting suite was first run against the original fixture read from HEAD, passing 11/11 with no skips; then the factory-backed fixture was restored. The combined shuffled validation with seed 140047 passes PageCard's 5 cases and HistoryPageList's same 11 cases, as part of 45 passing cases across the three selected suites and this supporting suite. Scoped lint and formatting include the fixture.
+
+This is supporting fixture reuse, not a full review of HistoryPageList. Its inventory counter must remain unchanged. No production code or shared factory implementation changed.

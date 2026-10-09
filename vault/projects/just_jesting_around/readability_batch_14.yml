@@ -1,8 +1,7 @@
 iteration: 14
 seed: 330085416
 inventory_sha256: 9d63336e58a1ab1513d1d07ed9e2c1500d3032485d521ceea3eeb71602017a12
-parent_commit: 983633ff5e3ff4da8364f9222889afde5713b42c
-status: selected
+status: reviewed
 selection:
 - file: client/src/components/PageEditor/PageCard.test.ts
 - file: client/src/components/Common/SidebarList.test.ts
@@ -14,3 +13,35 @@ selection:
 - file: client/src/components/Visualizations/VisualizationCreate.test.js
 - file: client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts
 - file: client/src/components/TagsMultiselect/HeadlessMultiselect.test.ts
+branch: jest_readability_batch_01
+base_commit: 983633ff5e3ff4da8364f9222889afde5713b42c
+baseline:
+  selected_cases: 96
+  selected_passed: 96
+  selected_skipped: 0
+  selected_suites: 10
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/PageEditor/testData.ts
+supporting_suites:
+- client/src/components/PageEditor/HistoryPageList.test.ts
+helper_files:
+- client/src/components/PageEditor/testData.ts
+documentation_files: []
+commit: b8933cdd60dac5572bc156c40a1464ab72e018a2
+validation:
+  passed_cases: 108
+  skipped_cases: 0
+  total_cases: 108
+  affected_suites: 11
+  shuffle_seed: 140101
+  test_environment: NODE_OPTIONS=--no-webstorage
+  client_vue_tsc: passed
+  eslint: passed; zero warnings/errors
+  prettier: passed
+  normal_review: approved
+  test_challenge: approved; original contracts retained
+  strict_code_quality_review: approved
+  scope: retain ten originators plus shared page fixture reuse
+  screenshots: not relevant
+  source_commit_hooks: passed

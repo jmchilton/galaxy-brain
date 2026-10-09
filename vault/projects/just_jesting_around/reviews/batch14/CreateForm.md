@@ -1,0 +1,9 @@
+# Object-store CreateForm review — iteration 14
+
+A local mount function supplies consistent modern Vue Test Utils options, a fresh LocalVue, a cloned template, and automatic unmounting. Real form children remain because the suite checks rendered help, actual inputs, form validation, submission, and the error message. Behavior names identify each condition. The identical SIMPLE_TEMPLATE and STANDARD_TEMPLATE definitions are consolidated without changing any input field. The object-store response uses existing `getFakeObjectStoreInstance` with the original name, template ID, UUID, variable, and secret values.
+
+All six scenarios and their original actions remain: variable/secret Markdown HTML; successful submission with name and password; creation failure after entering both fields, absent initial error, no creation event, and rendered server error; empty required secret, disabled class, attempted click, and no event; empty optional secret with enabled submission and one creation event; populated optional variable `abc` failing the five-character validator and `validvalue` enabling submission. Typed MSW handlers and statuses are unchanged. The failure-case name update is now awaited. Help element assertions use `exists()` instead of accepting any wrapper object. Successful creation verifies the complete emitted payload; error evidence uses visible text.
+
+Validation: 6 passing cases, 0 skips, shuffled seed 140047. Scoped ESLint with zero warnings, Prettier, and diff whitespace checks pass.
+
+Guidance: existing instructions already cover factory reuse, readable scenarios, async operations, mount helpers, cleanup, and typed handlers. No missing guidance emerged. A new shared template factory would add an API for these small scenario-specific templates without evidence that another reviewed consumer needs it.

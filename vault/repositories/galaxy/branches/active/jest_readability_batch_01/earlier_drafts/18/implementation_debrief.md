@@ -1,0 +1,7 @@
+READY: iteration13 is independently reviewed, validated and committed on the existing branch/worktree. Current head: `983633ff5e3ff4da8364f9222889afde5713b42c`. Upstream CI for this head is queued (29 queued checks, two skipped at handoff). The existing draft PR is [#24015](https://github.com/galaxyproject/galaxy/pull/24015).
+
+[Full report and per-file reviews](../../../../../../../projects/just_jesting_around/READABILITY_BATCH_13.md). [Review only this iteration](https://github.com/jmchilton/galaxy/compare/ba5800a26798382da706088dca0947a769b19641...983633ff5e3ff4da8364f9222889afde5713b42c). Prior iterations remain separate commits.
+
+Fifteen selected suites cover tags, archive modes, diagnostics, selection, Tool Shed servers, dates, workflow lint/export/invocations, collection descriptions, storage queries, embedded datasets and upload/context composables. Existing typed factories and setup helpers provide reuse. The archive wizard review follows history-factory reuse into the supporting export selector, preserving its eight cases and counter. No new helper or README addition is warranted. Only originators advance counters: 135 of 396.
+
+All 161 cases pass across 16 suites with no skips, including 153 originator cases and eight supporting cases. Full client types, scoped current lint, formatting, whitespace and source hooks pass. Normal review, fresh test challenge and strict quality review approve. Scope stays as implemented; screenshots are irrelevant. Prior debriefs are archived in `earlier_drafts/17/`.
