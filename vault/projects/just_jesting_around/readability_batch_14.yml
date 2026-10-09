@@ -1,0 +1,16 @@
+iteration: 14
+seed: 330085416
+inventory_sha256: 9d63336e58a1ab1513d1d07ed9e2c1500d3032485d521ceea3eeb71602017a12
+parent_commit: 983633ff5e3ff4da8364f9222889afde5713b42c
+status: selected
+selection:
+- file: client/src/components/PageEditor/PageCard.test.ts
+- file: client/src/components/Common/SidebarList.test.ts
+- file: client/src/components/Markdown/Sections/MarkdownVitessce.test.js
+- file: client/src/components/PageEditor/HistoryPageView.test.ts
+- file: client/src/components/History/Graph/useHistoryGraph.test.ts
+- file: client/src/components/ObjectStore/Instances/CreateForm.test.ts
+- file: client/src/components/providers/InvocationsProvider.test.js
+- file: client/src/components/Visualizations/VisualizationCreate.test.js
+- file: client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts
+- file: client/src/components/TagsMultiselect/HeadlessMultiselect.test.ts
