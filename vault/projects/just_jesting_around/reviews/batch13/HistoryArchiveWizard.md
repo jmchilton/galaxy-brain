@@ -1,0 +1,11 @@
+Reviewed `client/src/components/History/Archiving/HistoryArchiveWizard.test.ts` (originator), 3 → 3 cases.
+
+Existing `getFakeHistorySummary` replaces three sparse history casts with fresh complete typed histories; `getFakeFileSource` supplies the writable plugin with the original ID, URI, label, documentation, flags, and capability values. Each mount uses fresh local plugins and testing Pinia through existing `withPlugins`, seeds the real history cache, and unmounts after the test. Scenario names distinguish absent writable sources, both archive modes, and already archived histories.
+
+Preserved all original tab absence/count and keep/free tab presence assertions, the already-archived input, and archived alert presence. The simple-mode scenario additionally proves the simple archival component exists. Shallow mount remains appropriate because archive children are not exercised.
+
+Concrete reuse follow-through: the neighboring `HistoryArchiveExportSelector.test.ts` repeated the same sparse history shape across eight calls. Its existing mount helper now uses the same fresh history factory as a default argument, preserving its original ID/name and all export fixtures, receives fresh local mount plugins, and auto-unmounts. This supporting migration removes its eight history casts; its iteration counter remains unchanged and its eight cases remain eligible for a full future review. See [supporting review](HistoryArchiveExportSelector.md).
+
+Validation: six affected suites pass in shuffled order (seed `130043`): 53 cases, zero skips/failures. Selected baseline: 27 cases across the five originators; the selector supporting baseline adds eight. Tag regex parameterization accounts for the 18 additional individually reported cases. Evidence: `/private/tmp/jest_readability_batch13_components_final.json`; supporting baseline `/private/tmp/jest_readability_batch13_selector_baseline.json`. Scoped ESLint passes with zero warnings and Prettier passes for all six files. Root performs full client typechecking and the authoritative whole-batch verification.
+
+Guidance: existing readable scenarios, factory reuse, component integration, async settling, and cleanup guidance already covers these changes. No README addition or marginal advice proposed.

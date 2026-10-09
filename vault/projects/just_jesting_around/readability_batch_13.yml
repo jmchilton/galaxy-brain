@@ -33,10 +33,31 @@ selection:
   file: client/src/composables/useActiveContext.test.ts
 branch: jest_readability_batch_01
 base_commit: ba5800a26798382da706088dca0947a769b19641
-status: selected
+status: reviewed
 baseline:
   selected_cases: 116
   selected_passed: 116
   selected_skipped: 0
   selected_suites: 15
   test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts
+helper_files: []
+documentation_files: []
+commit: 983633ff5e3ff4da8364f9222889afde5713b42c
+validation:
+  passed_cases: 161
+  skipped_cases: 0
+  total_cases: 161
+  affected_suites: 16
+  shuffle_seed: 130151
+  test_environment: NODE_OPTIONS=--no-webstorage
+  client_vue_tsc: passed
+  eslint: passed; zero warnings/errors on code files
+  prettier: passed
+  normal_review: approved
+  test_challenge: approved; original contracts retained
+  strict_code_quality_review: approved
+  scope: retain fifteen originators plus archive selector supporting migration
+  screenshots: not relevant
+  source_commit_hooks: passed

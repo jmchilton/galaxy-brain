@@ -55,6 +55,7 @@
 - file: client/src/components/Dataset/Tabular/TabularChunkedView.test.ts
 - file: client/src/components/DatasetInformation/DatasetAttributes.test.ts
 - file: client/src/components/DatasetInformation/DatasetError.test.ts
+  iterated: 1
 - file: client/src/components/DatasetInformation/DatasetInformation.test.ts
 - file: client/src/components/Datatypes/index.test.ts
 - file: client/src/components/Downloads/DownloadItemCard.test.ts
@@ -104,7 +105,9 @@
 - file: client/src/components/Grid/configs/adminUsers.test.js
 - file: client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts
 - file: client/src/components/History/Archiving/HistoryArchiveWizard.test.ts
+  iterated: 1
 - file: client/src/components/History/Content/Collection/CollectionDescription.test.ts
+  iterated: 1
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.js
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.ts
 - file: client/src/components/History/Content/ContentItem.test.js
@@ -139,6 +142,7 @@
   iterated: 1
 - file: client/src/components/History/WorkflowExtractionForm.test.ts
 - file: client/src/components/History/model/queries.test.ts
+  iterated: 1
 - file: client/src/components/HistoryExport/Index.test.js
 - file: client/src/components/HistoryExport/ToLink.test.js
 - file: client/src/components/HistoryExport/ToRemoteFile.test.js
@@ -170,6 +174,7 @@
 - file: client/src/components/Markdown/Editor/TextEditor.test.ts
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js
+  iterated: 1
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowDisplay.test.js
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js
   iterated: 1
@@ -231,11 +236,13 @@
 - file: client/src/components/ScrollList/ScrollList.test.ts
 - file: client/src/components/SelectionDialog/DatasetCollectionDialog.test.js
 - file: client/src/components/SelectionDialog/SelectionDialog.test.js
+  iterated: 1
 - file: client/src/components/SelectionField/SelectionField.test.js
 - file: client/src/components/SingleItemSelector.test.ts
 - file: client/src/components/StsDownloadButton.test.js
 - file: client/src/components/Tags/StatelessTags.test.js
 - file: client/src/components/Tags/model.test.js
+  iterated: 1
 - file: client/src/components/TagsMultiselect/HeadlessMultiselect.test.ts
 - file: client/src/components/TagsMultiselect/StatelessTags.test.js
 - file: client/src/components/TagsMultiselect/Tag.test.js
@@ -262,6 +269,7 @@
 - file: client/src/components/Toolshed/SearchList/Categories.test.js
 - file: client/src/components/Toolshed/SearchList/Repositories.test.js
 - file: client/src/components/Toolshed/SearchList/ServerSelection.test.js
+  iterated: 1
 - file: client/src/components/Toolshed/services.test.js
 - file: client/src/components/Tour/Tour.test.js
 - file: client/src/components/Upload/CompositeBox.test.js
@@ -288,6 +296,7 @@
 - file: client/src/components/User/UserPreferencesModel.test.ts
 - file: client/src/components/User/UserPreferredObjectStore.test.ts
 - file: client/src/components/UtcDate.test.js
+  iterated: 1
 - file: client/src/components/Visualizations/DisplayApplication.test.js
 - file: client/src/components/Visualizations/DisplayApplications.test.js
 - file: client/src/components/Visualizations/VisualizationCreate.test.js
@@ -309,6 +318,7 @@
 - file: client/src/components/Workflow/Editor/Forms/FormTool.test.js
 - file: client/src/components/Workflow/Editor/Index.test.ts
 - file: client/src/components/Workflow/Editor/Lint.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/Node.test.ts
 - file: client/src/components/Workflow/Editor/NodeOutput.test.ts
 - file: client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts
@@ -334,6 +344,7 @@
 - file: client/src/components/Workflow/Run/model.test.js
 - file: client/src/components/Workflow/WorkflowAnnotation.test.ts
 - file: client/src/components/Workflow/WorkflowExport.test.js
+  iterated: 1
 - file: client/src/components/Workflow/WorkflowNavigationTitle.test.ts
 - file: client/src/components/WorkflowInvocationState/JobStep.test.ts
 - file: client/src/components/WorkflowInvocationState/JobStepJobs.test.ts
@@ -342,6 +353,7 @@
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
 - file: client/src/components/WorkflowInvocationState/util.test.ts
+  iterated: 1
 - file: client/src/components/admin/AdminPanel.test.js
   iterated: 1
 - file: client/src/components/admin/BaseList.test.js
@@ -383,12 +395,15 @@
 - file: client/src/composables/taskMonitor.test.ts
   iterated: 1
 - file: client/src/composables/upload/uploadItemTypes.test.ts
+  iterated: 1
 - file: client/src/composables/upload/useUploadBatchOperations.test.ts
   iterated: 1
 - file: client/src/composables/upload/useUploadSubmission.test.ts
+  iterated: 1
 - file: client/src/composables/urlTracker.test.ts
   iterated: 1
 - file: client/src/composables/useActiveContext.test.ts
+  iterated: 1
 - file: client/src/composables/useCreatingJob.test.ts
   iterated: 1
 - file: client/src/composables/useEntityMentions.test.ts

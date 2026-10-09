@@ -1,0 +1,9 @@
+Supporting migration of `client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts`, 8 → 8 cases. This suite is not an originator and its inventory counter does not advance.
+
+A fresh default history argument in the existing mount helper removes eight sparse `HistorySummary` casts while preserving ID `test-history-id`, name `fake-history-name`, and `archived: false`. Each mount creates fresh localization/Pinia/router plugins; auto-unmount releases the task-monitoring lifecycle after scenarios. The existing real checkbox selective stub and untyped export content-type handler are retained.
+
+Preserved all eight scenarios and assertions: missing export; recent temporary export; permanent but outdated/failed export; current permanent export; pending export task; unavailable archive; unchecked confirmation disables archive; checked confirmation enables archive. Original export objects, PENDING task response, checkbox state checks and button disabled attributes are unchanged. No abstraction added. Baseline independently captured before editing: eight passing cases in `/private/tmp/jest_readability_batch13_selector_baseline.json`.
+
+Validation: six affected suites pass in shuffled order (seed `130043`): 53 cases, zero skips/failures. Selected baseline: 27 cases across the five originators; the selector supporting baseline adds eight. Tag regex parameterization accounts for the 18 additional individually reported cases. Evidence: `/private/tmp/jest_readability_batch13_components_final.json`; supporting baseline `/private/tmp/jest_readability_batch13_selector_baseline.json`. Scoped ESLint passes with zero warnings and Prettier passes for all six files. Root performs full client typechecking and the authoritative whole-batch verification.
+
+Guidance: existing readable scenarios, factory reuse, component integration, async settling, and cleanup guidance already covers these changes. No README addition or marginal advice proposed.

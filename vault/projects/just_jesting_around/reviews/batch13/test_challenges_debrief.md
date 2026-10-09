@@ -70,4 +70,4 @@ zero skips/failures (seed 130151): 153 selected cases, eight supporting cases.
 The original selected baseline was 116 passing cases; 37 additional named
 executions expose existing variations. Full client typechecking, affected-file
 ESLint with zero permitted warnings, and Prettier also passed. See
-[independent normal review](../../../../../projects/just_jesting_around/reviews/batch13/normal_review.md) for the inspected artifact paths.
+[independent normal review](normal_review.md) for the inspected artifact paths.
