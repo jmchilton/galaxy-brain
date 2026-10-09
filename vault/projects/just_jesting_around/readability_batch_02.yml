@@ -1,0 +1,15 @@
+seed: 4013406510
+selection:
+- category: component
+  file: client/src/components/Notifications/NotificationCard.test.ts
+- category: composable
+  file: client/src/composables/resourceWatcher.test.ts
+- category: store
+  file: client/src/stores/toolStore.test.ts
+- category: utility
+  file: client/src/utils/filtering.test.js
+- category: api
+  file: client/src/api/pages.test.ts
+branch: jest_readability_batch_01
+base_commit: aa1f1ed6aebf2431968012bbdcafb63c063c329d
+status: selected

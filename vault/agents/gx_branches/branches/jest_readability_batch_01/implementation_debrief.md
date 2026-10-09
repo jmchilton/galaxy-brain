@@ -12,6 +12,8 @@ Independent normal review found no blocking findings and checked exact store ass
 
 Shared typed page/revision factories have concrete consumers in store, API, and PageEditor tests, but migrating them is outside this batch. The existing upload module remains mocked for component-boundary isolation; its pure helper is separately tested. No PR was opened.
 
-Galaxy commit: `682dcc45e2a10f6f3dd9161fdb9ee8dccbd38649`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
+Galaxy commit: `aa1f1ed6aebf2431968012bbdcafb63c063c329d`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
 
 The revised guide uses concise wording for independent scenarios and links `it.each` to Vitest’s official API reference, matching Galaxy’s runner. Generic assertion advice and unnecessary illustrative phrases were removed. The expanded untyped-response example retains its setup and has a concise introduction describing the response-schema exception. Independent documentation reviews found no findings, README formatting passes, and earlier tests/typecheck/scope/screenshot results remain applicable.
+
+The user-reviewed first batch is consolidated into one commit. Its tree is unchanged from the reviewed tip (`8bca7f0b72fccccfd39848607460bc5244433ebe`); all validation and review conclusions remain applicable.

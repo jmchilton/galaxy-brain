@@ -2,6 +2,7 @@
 - file: client/packages/api-client/src/integration.test.ts
 - file: client/src/api/client/rateLimiter.test.ts
 - file: client/src/api/client/serverMock.test.ts
+  iterated: 1
 - file: client/src/api/datasets.test.ts
 - file: client/src/api/index.test.ts
 - file: client/src/api/pages.test.ts
@@ -255,6 +256,7 @@
 - file: client/src/components/Visualizations/DisplayApplications.test.js
 - file: client/src/components/Visualizations/VisualizationCreate.test.js
 - file: client/src/components/Visualizations/VisualizationExamples.test.js
+  iterated: 1
 - file: client/src/components/Visualizations/VisualizationHeader.test.js
 - file: client/src/components/Visualizations/utilities.test.js
 - file: client/src/components/WindowManager/WindowManagerWindow.test.ts
@@ -317,6 +319,7 @@
 - file: client/src/composables/keyedCache.test.ts
 - file: client/src/composables/keyedObjects.test.ts
 - file: client/src/composables/markdown.test.js
+  iterated: 1
 - file: client/src/composables/pagination.test.ts
 - file: client/src/composables/persistentProgressMonitor.test.ts
 - file: client/src/composables/pollUntil.test.ts
@@ -358,6 +361,7 @@
 - file: client/src/stores/objectStoreInstancesStore.test.ts
 - file: client/src/stores/objectStoreTemplatesStore.test.ts
 - file: client/src/stores/pageEditorStore.test.ts
+  iterated: 1
 - file: client/src/stores/storageOperationsStore.test.ts
 - file: client/src/stores/toolStore.test.ts
 - file: client/src/stores/userStore.test.ts
@@ -375,6 +379,7 @@
 - file: client/src/utils/historyUpload.test.ts
 - file: client/src/utils/lastQueue.test.js
 - file: client/src/utils/parseBool.test.ts
+  iterated: 1
 - file: client/src/utils/redirect.test.ts
 - file: client/src/utils/strings.test.ts
 - file: client/src/utils/tool-version.test.ts
