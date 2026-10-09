@@ -1,0 +1,46 @@
+seed: 2991699491
+inventory_sha256: 262acbf754e8809542f13b81fe4fb934ae36c0e9a7308e51232aededc41c174d
+selection:
+- category: component
+  file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts
+- category: composable
+  file: client/src/composables/urlTracker.test.ts
+- category: store
+  file: client/src/stores/collectionAttributesStore.test.ts
+- category: utility
+  file: client/src/utils/url.test.js
+- category: api
+  file: client/src/api/datasets.test.ts
+branch: jest_readability_batch_01
+base_commit: 51b247553a74e150c898eb9435b9230d10569466
+status: in_progress
+supporting_files:
+- file: client/src/components/User/DiskUsage/Management/Cleanup/test-utils.ts
+  reason: Typed CleanableItem factory used immediately by three cleanup suites.
+- file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts
+  reason: Replace repeated item records with the shared factory.
+- file: client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts
+  reason: Replace repeated item records with the shared factory.
+- file: client/src/components/Notifications/test-utils.ts
+  reason: Complete the earlier deterministic notification fixture follow-up.
+- file: client/src/components/Notifications/NotificationCard.test.ts
+  reason: Consume typed content/read-state overrides and enumerate formerly random shared-item types.
+- file: client/src/components/Notifications/NotificationsList.test.ts
+  reason: Exercise fresh deterministic mixed read/unread fixtures.
+validation:
+  baseline_selected_tests: 32
+  baseline_supporting_tests: 23
+  baseline_tests: 55
+  final_selected_tests: 59
+  final_supporting_tests: 26
+  final_tests: 85
+  combined_iterations_tests: 359
+  combined_iterations_suites: 21
+  test_environment: NODE_OPTIONS=--no-webstorage for Node 25/happy-dom browser storage
+  prettier: passed
+  eslint: passed with two existing supporting ReviewCleanupDialog warnings
+  vue_tsc: diagnosing template inference triggered by test typing
+  normal_review: no blocking findings
+  test_challenge: all original behavior/assertions preserved
+  scope: retain selected five and focused cleanup/notification consumer migrations
+  screenshots: not relevant
