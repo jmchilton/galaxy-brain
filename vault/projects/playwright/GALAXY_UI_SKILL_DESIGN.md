@@ -22,7 +22,7 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
   holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
-- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`ce968bc19f8`,
+- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`2573f2f9f2d`,
   `lib/galaxy/selenium/gxui/`, `gxui` script of `galaxy-selenium`, tests in
   `test/unit/selenium/test_gxui*.py`). Codex's package move and config/login work
   (`GXUI_PACKAGE_MOVE_HANDOFF.md`, `GXUI_CONFIG_LOGIN_HANDOFF.md`) were folded in 2026-10-09. The skill is on
@@ -328,10 +328,11 @@ Commit queue (✅ = on the branch):
 | 7h | `workflow_editor_click_run` clicks the editor's Run activity; new `workflow_editor.tool_bar.run` (`8e579923247`) | fix ✅ |
 | 7i | `workflow_index_open_with_name` / `workflow_run_with_name` search a colon-free part of the name (`workflow_search_term`; the list search read `GTN Training:` as a filter) (`3a8d859dab9`) | fix ✅ |
 | 7j | `navigation.yml` `invocations.cancel_button` (`b98e9c42974`) | enhancement ✅ |
-| 7k | Upload Activity helpers lifted into `galaxy.selenium.upload_activity_helpers` (old module re-exports); `workflow_run_wait_for_ok` on `NavigatesGalaxy` (`30ef5813c1a`, Codex) | enhancement ✅ |
-| 7l | Test-framework context checks split from the `galaxy-selenium` package suite (`6ca606d67b5`, Codex) | enhancement ✅ |
-| 7m | `ConfiguredDriver(storage_state=...)`: a Playwright page starts with saved cookies + localStorage (`37d2cb5a632`) | enhancement ✅ |
-| gxui | `gxui` itself, **always the tip** (`ce968bc19f8`, 2026-10-09): `lib/galaxy/selenium/gxui/`, `gxui` script of `galaxy-selenium`, profiles/config/login (Codex), `test/unit/selenium/test_gxui*.py`; amended in place | enhancement ✅ |
+| 7k | Upload Activity helpers lifted into `galaxy.selenium.upload_activity_helpers` (old module re-exports); `workflow_run_wait_for_ok` on `NavigatesGalaxy` (`8edb951379a`, Codex) | enhancement ✅ |
+| 7l | Test-framework context checks split from the `galaxy-selenium` package suite (`192796b6b22`, Codex) | enhancement ✅ |
+| 7m | `ConfiguredDriver(storage_state=...)`: a Playwright page starts with saved cookies + localStorage (`72ac4722d69`) | enhancement ✅ |
+| 7n | `galaxy_url` keeps a path prefix (`https://x/galaxy` + `api/...`); standalone + CLI contexts use it, gxui's own override dropped (`49df973ad0c`) | fix ✅ |
+| gxui | `gxui` itself, **always the tip** (`2573f2f9f2d`, 2026-10-09): `lib/galaxy/selenium/gxui/`, `gxui` script of `galaxy-selenium`, profiles/config/login (Codex), `test/unit/selenium/test_gxui*.py`; amended in place | enhancement ✅ |
 
 Notes from doing 4a–5e (2026-10-06):
 - **Corrected findings.** 4a's cause was client-side panel search (regex-escaped query matched

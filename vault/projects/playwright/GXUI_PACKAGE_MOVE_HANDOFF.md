@@ -1,7 +1,7 @@
 # gxui package move — implementation handoff
 
-**Integrated 2026-10-09** into `galaxy_ui_driver` (gxui tip `ce968bc19f8`; helper lift and context-test
-split below it as 7k/7l). Review fixes: login restore uses the new `ConfiguredDriver(storage_state=)`
+**Integrated 2026-10-09** into `galaxy_ui_driver` (gxui tip `2573f2f9f2d`; helper lift and context-test
+split below it as 7k/7l; 7m storage state, 7n path-prefix URLs). Review fixes: login restore uses the new `ConfiguredDriver(storage_state=)`
 (7m) instead of swapping the private browser context; the redaction test now reaches the failing
 verb; daemon's old `--config`/`--storage-state` path and the `galaxy_test.selenium.gxui` shims
 dropped (gxui never shipped); `import yaml` hoisted; isort.
