@@ -31,7 +31,7 @@ can outweigh it. Briefly mention the existing request if surfacing the PR anyway
 
 ## Skip
 
-- Anything with a record in `vault/repositories/galaxy/reviews/active/<number>/` or `archived/<number>/`, a legacy note in `vault/agents/gx_reviews/` or its `old/` directory (`galaxy_<number>_*.md`), or a number in `PULL_REQUESTS.md`. Those are reviewed or in flight.
+- Anything with a record in `vault/repositories/galaxy/reviews/active/<number>/` or `archived/<number>/`, or a PR linked in `vault/agents/gx_reviews/PULL_REQUESTS.md`. Those are reviewed or in flight. The queue uses linked PR numbers; read their URLs rather than relying on the old bare-number format.
 - Anything the user has already commented on or reviewed.
 
 ## Finding them

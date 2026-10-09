@@ -12,9 +12,12 @@ In the following files PROJECT is `planemo`.
 @../_shared/REVIEW_FOCUS.md
 @../_shared/ISSUES_INDEX.md
 @../_shared/PULL_REQUESTS_INDEX.md
+
+The review queue is [PULL_REQUESTS.md](PULL_REQUESTS.md); detail lives under `vault/repositories/planemo/reviews/`, including archived history.
+
 ## These files are not vault notes
 
-`vault/agents/**` is excluded from the vault's frontmatter contract — `agents` is in
+`vault/agents/**` and `vault/repositories/**` are excluded from the vault's frontmatter contract — both are in
 `SKIP_DIRS` in `validate_frontmatter.py`, and `!agents/**` is in the glob in
 `site/src/content.config.ts`. That covers `index.md` here too, despite `index.md` being
 the validated entry point in `projects/` and `papers/`. So:

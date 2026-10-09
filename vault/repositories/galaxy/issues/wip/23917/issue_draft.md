@@ -1,6 +1,6 @@
 # Vitest: auto-stubs break G-components migrated to Vue 3 v-model (COMPONENT_V_MODEL: false)
 
-Source: follow-up from our review of #23908 ("Move GCheckbox and GFormInput v-model to modelValue", itisAliRH, merged 2026-10-05). Part of the #23812 G-component Vue 3 migration series. Full review: `vault/agents/gx_reviews/old/galaxy_23908_move_gcheckbox_and_gforminput_v_model_to_modelvalue.md` (or `gx_reviews/` if not archived yet).
+Source: follow-up from our review of #23908 ("Move GCheckbox and GFormInput v-model to modelValue", itisAliRH, merged 2026-10-05). Part of the #23812 G-component Vue 3 migration series. [Full review](../../../reviews/archived/23908/review.md).
 
 ## Problem
 

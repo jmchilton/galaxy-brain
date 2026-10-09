@@ -1,5 +1,7 @@
 PRs To Review:
-- 639 — review fixes reported pushed; CI green; verification of current head not recorded. [notes](pr639_review.md)
-- 640 — reviewed with suggestions; CI green; prior findings not yet reconciled with current head. [notes](pr640_review.md)
+- [#639](https://github.com/bgruening/docker-galaxy/pull/639) — Fixes reported pushed; current-head verification unrecorded. [notes](../../repositories/docker-galaxy/reviews/active/639/index.md)
+- [#640](https://github.com/bgruening/docker-galaxy/pull/640) — Review suggestions need reconciliation with current head. [notes](../../repositories/docker-galaxy/reviews/active/640/index.md)
 
-GitHub state last refreshed: 2026-10-09. These are existing reviews of John's own PRs; draft development PRs are tracked in [index.md](index.md).
+
+GitHub state last refreshed: 2026-10-09.
+Includes existing review follow-ups on John's own PRs.

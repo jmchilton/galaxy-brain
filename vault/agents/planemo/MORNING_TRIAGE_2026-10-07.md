@@ -17,7 +17,7 @@ there are no delegated issues awaiting closure cleanup.
    23 checks successful, still draft. Both are mergeable.
 3. [#1695](https://github.com/galaxyproject/planemo/pull/1695), IWC missing-test
    severity, reviewed today with no findings: 22 workflow-lint tests and six CLI
-   assertions pass. [Review](planemo_1695_require_workflow_tests_under_the_iwc_lint_profile.md).
+   assertions pass. [Review](../../repositories/planemo/reviews/active/1695/review.md).
    [#1707](https://github.com/galaxyproject/planemo/pull/1707), temporary inline
    jobs, retains its reviewed head and green CI and is now out of draft.
    Both are mergeable and await merge.
@@ -26,7 +26,7 @@ there are no delegated issues awaiting closure cleanup.
    checks pass. CI has 14 successful checks; mergeable and out of draft.
    It also raises the default generated tool profile from 21.05 to 25.0, so new
    wrappers require Galaxy 25.0 or newer.
-   [Review](planemo_1736_remove_python_template_version_from_template.md).
+   [Review](../../repositories/planemo/reviews/archived/1736/review.md).
 
 All counts exclude the expected skipped release-upload job. GitHub reports
 `BLOCKED` for these PRs despite mergeable diffs and passing checks; no merge-conflict

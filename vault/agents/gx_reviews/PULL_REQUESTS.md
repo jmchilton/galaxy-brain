@@ -1,19 +1,20 @@
 PRs To Review:
-- 23223 — John's reply and/or merge decision after Sergey's response. [notes](../../repositories/galaxy/reviews/active/23223/index.md)
-- 23560 — still draft; re-review when it leaves draft
-- 22976 — tabled until author responds to Marius's review comments; our draft review unposted (needs update to reflect merged fixes)
-- 23866 — author converted to draft 10-03; user requested changes (pattern-captured unknown ext should match explicit tool-XML unknown format handling); ball with author
-- 23898 — reviewed at `c6f8234b5e4`: runner change fine; blocked on Pulsar release (git pin + PULSAR_GALAXY_LIB build vars must revert; keep #533 shims for compat); draft review unposted
-- 23953 — reviewed at `9ac1627fc79` (draft; paired w/ 23956): approve w/ nits (own range parser vs starlette/webob; stale body); draft review unposted
-- 23956 — reviewed at `4a81462fae5` (paired w/ 23953); Marius reviewed 10-08 asking author to relook — do not post our draft; ball with author
-- 23951 — user approved 10-07; dev merge pushed 10-09; awaiting merge
-- 23058 — reviewed at `bd562019bde`: request changes; our fix in fork PR SID-6921#1; user commented 10-08; ball with author
-- 23942 — user approved 10-08 at `c076c13e2da`; awaiting merge
-- 23988 — mr-c expanded + handed PR to us; our follow-up commit `678ba5cd173` local, unpushed; nsoranzo wants test.sh regression guard (estimate in note)
-- 23965 — reviewed at `34de076d569`: comment, approve once CI green; draft review unposted
-- 24006 — reviewed at `4c75dddee45`: comment, approve w/ suggestions; draft review unposted
+- [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — John's reply and/or merge decision after Sergey's response. [notes](../../repositories/galaxy/reviews/active/23223/index.md)
+- [#23560](https://github.com/galaxyproject/galaxy/pull/23560) — Draft; re-review when it leaves draft. [notes](../../repositories/galaxy/reviews/active/23560/index.md)
+- [#22976](https://github.com/galaxyproject/galaxy/pull/22976) — Parked for author/Marius follow-up; local draft unposted. [notes](../../repositories/galaxy/reviews/active/22976/index.md)
+- [#23866](https://github.com/galaxyproject/galaxy/pull/23866) — Draft; requested changes; ball with author. [notes](../../repositories/galaxy/reviews/active/23866/index.md)
+- [#23898](https://github.com/galaxyproject/galaxy/pull/23898) — Waiting on Pulsar release; draft review unposted. [notes](../../repositories/galaxy/reviews/active/23898/index.md)
+- [#23953](https://github.com/galaxyproject/galaxy/pull/23953) — Draft; approval draft with nits unposted. [notes](../../repositories/galaxy/reviews/active/23953/index.md)
+- [#23956](https://github.com/galaxyproject/galaxy/pull/23956) — Do not post our draft; author/Marius discussing approach. [notes](../../repositories/galaxy/reviews/active/23956/index.md)
+- [#23951](https://github.com/galaxyproject/galaxy/pull/23951) — Approved earlier head; generated-config check red. [notes](../../repositories/galaxy/reviews/active/23951/index.md)
+- [#23058](https://github.com/galaxyproject/galaxy/pull/23058) — Requested author merge of fork fixes; ball with author. [notes](../../repositories/galaxy/reviews/active/23058/index.md)
+- [#23988](https://github.com/galaxyproject/galaxy/pull/23988) — PR handed to us; regression guard options posted. [notes](../../repositories/galaxy/reviews/active/23988/index.md)
+- [#23965](https://github.com/galaxyproject/galaxy/pull/23965) — Approved; draft; admin migration follow-up with Marius. [notes](../../repositories/galaxy/reviews/active/23965/index.md)
+- [#24006](https://github.com/galaxyproject/galaxy/pull/24006) — Approved; suggestions posted. [notes](../../repositories/galaxy/reviews/active/24006/index.md)
 
 PRs to Skip For 7 Days:
 
 PRs Blocked:
 None yet.
+
+GitHub state last refreshed: 2026-10-09.

@@ -1,6 +1,6 @@
 # Debrief: page_card_share_hidden_until_user_loads
 
-Source: finding #4 of the #23909 review (`gx_reviews/galaxy_23909_show_history_and_workflow_card_owner_actions_once_the_current_user_loads.md`). #23909 merged into `release_26.1` on 2026-10-05.
+Source: finding #4 of the #23909 review (`../../../reviews/archived/23909/review.md`). #23909 merged into `release_26.1` on 2026-10-05.
 
 ## Research
 

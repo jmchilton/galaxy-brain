@@ -16,6 +16,8 @@ This directory coordinates reviews and related development across:
 @../_shared/ISSUES_INDEX.md
 @../_shared/PULL_REQUESTS_INDEX.md
 
+Review records live under `vault/repositories/PROJECT/reviews/` for the PR's repository; [PULL_REQUESTS.md](PULL_REQUESTS.md) is the shared queue. Include the repository in each entry's label.
+
 ## Cross-repository work
 
 - Trace a behavior through the Python library, TypeScript library, API, and extension before changing a shared contract. Keep corresponding report models and fixtures aligned.

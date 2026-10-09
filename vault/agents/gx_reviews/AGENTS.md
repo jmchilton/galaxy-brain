@@ -3,11 +3,11 @@
 @../_shared/VAULT_SYNC.md
 @../_shared/SECURITY_REPORTS.md
 
-Working notes for active `galaxyproject/galaxy` pull-request reviews.
+Coordinates `galaxyproject/galaxy` pull-request reviews.
 
-## Review migration preview
+## Review records
 
-Review records for #23223 and #23857 follow [REPOSITORY_REVIEWS.md](../_shared/REPOSITORY_REVIEWS.md) under `vault/repositories/galaxy/reviews/`. Read and update those records instead of recreating their former agent-directory notes. #23223 is linked from the queue; merged #23857 is under `archived/`. Other reviews retain the existing layout until migrated.
+The queue is [PULL_REQUESTS.md](PULL_REQUESTS.md). Review records follow [REPOSITORY_REVIEWS.md](../_shared/REPOSITORY_REVIEWS.md) under `vault/repositories/galaxy/reviews/active/` or `archived/`. Read and update the linked record rather than recreating agent-directory notes. Check archived records too before treating a PR as unreviewed.
 
 ## Choosing new reviews
 
@@ -30,7 +30,7 @@ In these files PROJECT is galaxy.
 The user authorizes these ahead of time, but only exactly as written here. Take them in this order.
 
 - Clean up any PRs that have been merged from PULL_REQUESTS.md and local worktrees for those. Report that these have been merged.
-- If any PRs exist in PULL_REQUESTS.md that have not had an initial review. Launch the review process for them please.
+- If any PRs exist in PULL_REQUESTS.md that have not had an initial review in their linked records. Launch the review process for them please.
 
 ## Galaxy Review Notes
 
@@ -46,5 +46,5 @@ the user's merge. Delivered/approved PRs stay in `PULL_REQUESTS.md` until merged
 
 ## File format
 
-These files are excluded from vault validation and the Astro site. Do not add YAML frontmatter.
+Agent files and repository review records are excluded from vault validation and the Astro site. Do not add YAML frontmatter.
 Wiki links to real vault notes are allowed, but review files receive no automatic backlinks.

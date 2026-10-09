@@ -25,4 +25,6 @@ Make the latest review, reviewed commit, and whether it was delivered easy to fi
 
 Reviews within branch, issue, or project work can stay in those records. Link related records rather than copying their notes.
 
+Agents can use local `screenshots/` to support reviews. Screenshots are ignored and won't be committed; describe useful captures in the notes.
+
 Security findings and sensitive evidence follow [SECURITY_REPORTS.md](SECURITY_REPORTS.md).

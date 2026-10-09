@@ -12,9 +12,7 @@ destroy its worktree, and an open PR keeps its worktree even if it isn't listed.
 
 ### 1. Read the list
 
-Read `vault/agents/gx_reviews/PULL_REQUESTS.md`. It's a flat list of `- <number> — <status>` entries under
-`PRs To Review:`. Collect only the numbers in that section; ignore the skip/blocked
-sections and anything else in the file.
+Read `vault/agents/gx_reviews/PULL_REQUESTS.md`. It's a flat list of `- [#<number>](PR_URL) — <status>. [notes](REVIEW_INDEX_PATH)` entries under `PRs To Review:`. Collect PR numbers from the `galaxyproject/galaxy/pull/<number>` URLs in that section; ignore the skip/blocked sections, supporting-note links, and anything else in the file. `None yet.` means an empty queue.
 
 ### 2. List existing worktrees
 

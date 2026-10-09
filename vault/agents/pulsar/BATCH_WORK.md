@@ -1,6 +1,6 @@
 # GCP Batch job naming — work in flight
 
-Handoff for picking this up cold. Companion to `pulsar_473_gcp_batch_vm_sizing_env_lifecycle.md`
+Handoff for picking this up cold. Companion to `../../repositories/pulsar/reviews/active/473/review.md`
 (see its final section, "Revised: converge on Galaxy's own Batch runner"); this file is the
 operational state, that one is the reasoning.
 
