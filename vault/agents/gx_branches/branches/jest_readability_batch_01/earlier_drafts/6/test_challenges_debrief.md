@@ -1,0 +1,5 @@
+All original behavior and assertions are retained. Independent iteration-02 test challenge found no fixes needed; the governing instruction to preserve tests overrides template suggestions to drop them. No production changes or E2E expansion were warranted.
+
+The tests cover rendered notification actions, client requests, cache recovery, precise polling lifecycle, and filter parsing/serialization at the client layer. Existing request mocks remain narrow; the new page factory has two immediate consumers and needs no trivial mirror tests. All 57 original polling assertions and all 49 later filtering regression assertions survive; earlier compound filter inputs were independently mapped to the new tables.
+
+Selected cases increase from 100 to 168, with the supporting store remaining at 71. The ten suites from both iterations pass 266 cases. Full typing, lint, and formatting pass. [Full review](subagents/normal_review_02.md). First-iteration challenge is preserved in `earlier_drafts/5/test_challenges_debrief.md`.

@@ -187,6 +187,7 @@
 - file: client/src/components/Panels/Common/Tool.test.ts
 - file: client/src/components/Panels/Common/ToolSection.test.ts
 - file: client/src/components/Panels/InteractiveToolsPanel.test.ts
+- file: client/src/components/Panels/MyToolsLanding.test.ts
 - file: client/src/components/Panels/ToolBox.test.js
 - file: client/src/components/Panels/ToolBoxSearch.test.ts
 - file: client/src/components/Panels/ToolPanel.test.ts

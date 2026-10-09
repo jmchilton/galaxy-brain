@@ -19,20 +19,35 @@ supporting_files:
 - file: client/tests/test-data/pages.ts
   reason: Typed page summary/details factories consumed immediately by API and store
     tests.
+- file: client/tests/test-data/tools.ts
+  reason: Typed Tool defaults with four immediate consumers.
+- file: client/src/components/Panels/MyToolsLanding.test.ts
+  reason: Replace a local sparse Tool cast with the shared factory.
+- file: client/src/components/Panels/Common/ToolSection.test.ts
+  reason: Replace sparse Tool fixtures while retaining section ordering and labels.
+- file: client/src/components/ToolsList/ToolsList.test.ts
+  reason: Preserve JSON fixture fields with typed Tool defaults and checked hidden-flag
+    narrowing.
 validation:
-  baseline_tests: 171
+  baseline_tests: 190
   baseline_selected_tests: 100
-  baseline_supporting_tests: 71
+  baseline_supporting_tests: 90
   test_environment: NODE_OPTIONS=--no-webstorage for Node 25/happy-dom browser storage
-  final_tests: 239
+  final_tests: 258
   final_selected_tests: 168
-  final_supporting_tests: 71
-  combined_iterations_tests: 266
+  final_supporting_tests: 90
+  combined_iterations_tests: 285
   prettier: passed
   eslint: passed
   vue_tsc: passed
   normal_review: no blocking findings
   test_challenge: all original behavior/assertions preserved
-  scope: retain selected five, page factory and supporting store fixture migration
+  scope: retain selected five and concrete page/Tool factory consumer migrations
   screenshots: not relevant
-commit: cba48a2e87ceec9fb1e93cbd7d4ce6a349187334
+  tool_factory_revision:
+    baseline_tests: 22
+    final_tests: 22
+    preserved_assertion_statements: 54
+    normal_review: no blocking findings
+    test_challenge: no additional tests or layer changes needed
+commit: 51b247553a74e150c898eb9435b9230d10569466

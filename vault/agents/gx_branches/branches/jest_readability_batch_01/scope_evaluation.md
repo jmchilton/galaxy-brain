@@ -1,69 +1,54 @@
-Recommendation: retain iteration 02's scope of five selected tests, the shared typed page factory, and the fixture-only migration of its existing store consumer. Keep the reviewed first iteration unchanged and commit this iteration separately on the same branch/worktree.
+Recommendation: retain the user-authorized shared Tool factory and all four concrete consumers, alongside iteration 02's selected readability work and existing page factory migration. Amend iteration 02 on the same branch/worktree; preserve the reviewed first-iteration commit.
 
-The [loop instructions](../../../../projects/just_jesting_around/LOOP_ITERATION.md) request five previously uniterated tests, dedicated subagents, concrete reuse investigation, and selective guidance synthesis. The [manifest](../../../../projects/just_jesting_around/readability_batch_02.yml) selects notification, polling, store, filtering, and API tests. A successful iteration need not add README advice; the supplied reviews identify no missing repository-specific guidance.
+The revised [loop instructions](../../../../projects/just_jesting_around/LOOP_ITERATION.md) treat the five selected tests as origins for cross-test reuse, not a file limit. The user explicitly requested implementing the Tool factory now. Supporting migrations remain focused on that abstraction and do not increment their inventory counters; those tests remain eligible for a full later review.
 
-## As implemented: five selected tests plus a two-consumer factory
+## As implemented: selected tests and concrete shared factories
 
-Retain the selected readability refactors and `client/tests/test-data/pages.ts`. The selected `api/pages.test.ts` and supporting `stores/pageEditorStore.test.ts` now share previously identical summary/details fixtures; the supporting store diff changes only the import and fixture declarations. Production behavior, E2E tests, and the existing client guide stay outside this iteration.
-
-| Pros | Cons |
-| --- | --- |
-| • Covers each requested test category.<br>• Resolves a demonstrated duplication from the first experiment.<br>• Gives the new helper two immediate consumers with unchanged defaults. | • Touches one supporting suite beyond the selected five.<br>• Introduces a shared helper requiring validation of both consumers. |
-
-## Contract to exactly five source files
-
-Keep duplicate page fixtures in the API and store and avoid the shared helper. This reduces the file count but discards an immediate reuse opportunity explicitly requested by the loop; do not contract this far.
+Retain the five selected tests, the supporting pageEditorStore fixture migration, the three supporting Tool component tests, and the two test-data helpers: eleven source files in the complete iteration. The page helper serves identical API/store fixtures; `getFakeTool` replaces partial casts in toolStore, MyToolsLanding, ToolSection, and ToolsList while keeping scenario inputs visible as overrides. ToolsList preserves its JSON fields and checks the widened hidden flag before constructing typed tools.
 
 | Pros | Cons |
 | --- | --- |
-| • Simplifies the source-file boundary.<br>• Avoids introducing a shared test API. | • Leaves identical required-field fixtures duplicated.<br>• Misses concrete cross-file reuse while both consumers are already understood. |
+| • Follows the explicit request and revised reuse policy.<br>• Gives the Tool helper four immediate consumers and the page helper two.<br>• Centralizes complete types without duplicating irrelevant fields at each call site. | • Shared defaults require checking every migrated consumer.<br>• Three supporting suites add validation work beyond the original sample. |
+
+The final delta from pre-revision commit `cba48a2e87ceec9fb1e93cbd7d4ce6a349187334` changes only fixture imports/construction in four tests and adds `tests/test-data/tools.ts`. The complete iteration relative to first-iteration commit `aa1f1ed6aebf2431968012bbdcafb63c063c329d` contains exactly the eleven files described above. No production, E2E, or README changes appear.
+
+## Contract the Tool migration to its originating store
+
+Use `getFakeTool` only in toolStore and leave the three demonstrated component consumers with their old casts. Do not adopt this contraction: it would reduce validation effort at the expense of the concrete cross-test reuse the user requested.
+
+| Pros | Cons |
+| --- | --- |
+| • Smaller migration surface.<br>• Requires fewer supporting-suite checks. | • Leaves known partial and JSON fixture casts in place.<br>• Weakens the authorized cross-test factory implementation.<br>• Provides only one immediate consumer for the new helper. |
 
 ## Expand notification factory cleanup
 
-Make notification factories deterministic, accept explicit overrides, and fix malformed seen timestamps while reviewing both NotificationCard and NotificationsList. Defer this coordinated fixture work; the selected Card scenarios already make action-relevant category/read state explicit without changing shared factory defaults.
+Make notification defaults deterministic, add typed overrides, and correct malformed seen timestamps while reviewing Card/List consumers together. Keep this as the remaining documented follow-up: the current selected Card action scenarios explicitly control relevant state, while redesigning the shared random defaults needs a coordinated review of NotificationsList expectations.
 
 | Pros | Cons |
 | --- | --- |
-| • Removes random fixture state across concrete Card/List consumers.<br>• Fixes the invalid timestamp constructed by `toISOString() + 3`. | • Adds NotificationsList review and shared factory semantics to this sample.<br>• Requires deciding which defaults its existing list scenarios rely on. |
+| • Removes random defaults across concrete consumers.<br>• Corrects `toISOString() + 3` in test fixtures. | • Changes shared fixture semantics beyond the requested Tool migration.<br>• Requires determining which existing List scenarios depend on generated states/counts. |
 
 <details>
 <summary>Originating evidence</summary>
 
-The [NotificationCard review](../../../../projects/just_jesting_around/reviews/batch02/NotificationCard.md) identifies the shared `components/Notifications/test-utils.ts` factories and `generateNotificationsList(10)` in NotificationsList. The timestamp issue occurs in test data; it is not evidence of a production timestamp defect. Preserve this specific follow-up in marginal advice rather than adding generic determinism guidance to the README.
+The [NotificationCard review](../../../../projects/just_jesting_around/reviews/batch02/NotificationCard.md) identifies `components/Notifications/test-utils.ts` and NotificationsList's `generateNotificationsList(10)`. This test-data timestamp defect is not evidence of a production bug. [Marginal advice](../../../../projects/just_jesting_around/MARGINAL_ADVICE.md) retains this specific unresolved work; the implemented Tool idea has been removed.
 
 </details>
 
-## Expand to a shared Tool factory
+## Expand the page and revision migrations
 
-Introduce a schema-complete Tool factory and migrate toolStore together with MyToolsLanding, ToolSection, and ToolsList fixtures. Defer until those consumers are reviewed together; the selected store's small fixture does not establish useful defaults for every required Tool field.
-
-| Pros | Cons |
-| --- | --- |
-| • Has concrete consumers using partial or JSON fixture casts.<br>• Could centralize type-safe Tool defaults. | • Adds roughly eighteen fields irrelevant to this store scenario.<br>• Expands into multiple unrelated component suites before their fixture needs are established. |
-
-<details>
-<summary>Originating evidence and narrower alternative</summary>
-
-The [toolStore review](../../../../projects/just_jesting_around/reviews/batch02/toolStore.md) names `Panels/MyToolsLanding.test.ts`, `Panels/Common/ToolSection.test.ts`, and `ToolsList/ToolsList.test.ts`; their casts were confirmed during this scope audit. It also considered replacing the existing axios rejection/recovery sequence with MSW. That change adds handler sequencing without making these three store scenarios clearer, so retaining the existing boundary is appropriate.
-
-</details>
-
-## Expand the page factory migration
-
-Migrate PageEditor component fixtures to the new helper, and investigate shared revision factories. Defer that expansion: the immediate API/store pair has identical defaults, while `PageEditor/testData.ts` uses different page/history/revision IDs and title, and the current iteration establishes no second revision-factory consumer.
+Review further PageEditor consumers and migrate suitable fixtures to the page helper; introduce shared revision factories once their concrete contracts are established. Defer this additional migration during the requested Tool amendment: `PageEditor/testData.ts` uses different page/history/revision IDs and title, and the current iteration has not established a second immediate revision-factory consumer.
 
 | Pros | Cons |
 | --- | --- |
-| • Could reduce additional page fixture duplication.<br>• Builds on a helper with proven current consumers. | • Adds component suites with distinct fixture identities.<br>• Broadens the factory API before reviewing their actual inputs.<br>• Revision extraction remains speculative within this iteration. |
+| • Could remove further required-field boilerplate.<br>• Extends a helper already validated in two consumers. | • Requires reviewing distinct component fixture identities.<br>• Revision defaults need evidence from another concrete consumer. |
 
-## Expand documentation or the inventory
+## Expand testing guidance or change the axios boundary
 
-Add general paragraphs about deterministic fixtures, request assertions, fake timers, or cleanup, or refactor more inventory entries in this commit. Defer additional suites and omit redundant prose; these reviews found existing guidance sufficient, and the user's loop calls for evidence-backed additions rather than a documentation quota.
+Add general prose about fixtures and assertions, or replace toolStore's existing axios rejection/recovery mock with MSW. Neither change is needed for this request: the original review found the retry sequence readable, and both factory APIs follow existing guidance without exposing a new documentation gap.
 
 | Pros | Cons |
 | --- | --- |
-| • Further samples can test reuse opportunities.<br>• Specific API examples could become useful if a later sample reveals a gap. | • General advice adds little for the intended readers.<br>• Extra suites blur this iteration's review and validation boundary. |
+| • A future specific gap could justify an API example.<br>• MSW could standardize HTTP mocking if later cases need it. | • Routine advice adds little for the intended readers.<br>• Changing the mock boundary adds sequencing work unrelated to shared fixtures. |
 
-The final tracked/untracked file-list audit confirms exactly these seven source files, and the completed [filtering review](../../../../projects/just_jesting_around/reviews/batch02/filtering.md) proposes no shared helper or additional guidance. The driver reports integrated validation passed: ten suites, 266 cases, full Vue type-check, targeted lint, and formatting.
-
-This document evaluates scope only. Implementation correctness, coverage preservation, integrated validation, and commit readiness belong to the separate normal review and test challenge. First-iteration debriefs remain archived under `earlier_drafts/5/`.
+The driver reports thirteen suites and 285 cases passed, plus full Vue type-check, lint, and formatting. The independent reviewer reports all 54 assertions retained across the four Tool consumers. This report evaluates scope rather than implementation correctness or test adequacy; those remain covered by separate normal review and test challenge. Earlier iteration-02 reports are preserved in `earlier_drafts/6/`, and first-iteration reports in `earlier_drafts/5/`.
