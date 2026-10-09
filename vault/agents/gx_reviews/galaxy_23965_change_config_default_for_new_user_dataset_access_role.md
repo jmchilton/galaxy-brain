@@ -48,24 +48,57 @@ suggestion for the remote-user path.
    `UserManager.create` (`users.py:196`) and `handle_user_login` (`webapp.py:868`) use. The new
    branch in `get_or_create_remote_user` (`create_private_user_role` + `user_set_default_permissions(..., default_access_private=config...)`)
    could just call `create_user_role(user, self.app)`, so the config is read in exactly one place.
-   This bug existed precisely because the remote path had its own copy. The `hasattr(app.config, ...)`
-   fallback in `create_user_role` is effectively dead for Galaxy configs and could go too.
+   This bug existed precisely because the remote path had its own copy. The remote path can't lean
+   on `handle_user_login` (it builds the session via `__create_new_session`, `webapp.py:633-680`),
+   so it does need its own call - but nothing about session handling or ordering stops that call
+   being `create_user_role`. Keep the `app_type == "galaxy"` guard (Tool Shed's agent has its own
+   `create_user_role`). Sketch:
 
-3. **Legacy remote-user branch retroactively privatizes data.** The existing-user branch
-   (users without `default_permissions`, the pre-2009 remote-user bug) now calls
+   ```python
+   if user:
+       if self.app_type == "galaxy":
+           self.app.security_agent.create_user_role(user, self.app)
+       else:
+           self.app.security_agent.get_private_user_role(user, auto_create=True)
+   elif user is None:
+       ...
+       session.commit()
+       if self.app_type == "galaxy":
+           self.app.security_agent.create_user_role(user, self.app)
+       else:
+           self.app.security_agent.create_private_user_role(user)
+   ```
+
+   The PR's three new remote-user unit tests only assert user defaults, so they hold either way.
+   The `hasattr(app.config, ...)` fallback in `create_user_role` is effectively dead for Galaxy
+   configs (schema-backed; `MockAppConfig` sets it too) and could go.
+
+3. **Legacy remote-user branch now privatizes existing data.** The existing-user branch
+   (users without `default_permissions`, the pre-2009 remote-user bug) calls
    `user_set_default_permissions(..., history=True, dataset=True, default_access_private=True)`.
-   With `dataset=True` that rewrites permissions on existing datasets in the user's active
-   histories, so they become private - contradicting the new doc text "existing users and data are
-   unchanged". Population is tiny, but `dataset=True` isn't needed to fix the reported bug;
-   switching to `create_user_role` (finding 2) would drop it. Worth a one-line decision either way.
+   `dataset=True` runs `set_all_dataset_permissions` on every active-history dataset the user can
+   manage that isn't in a library or another user's history (`security.py:858-869`), so those
+   datasets become private. This isn't new behaviour in shape: dev already ran
+   `history=True, dataset=True` here, just with the public default, which reset any restricted
+   datasets to public. The PR flips the direction. Either way it contradicts the doc text
+   "existing users and data are unchanged". Population is tiny. `create_user_role` (finding 2)
+   avoids the rewrite, but it also stops writing default permissions onto the user's existing
+   active histories, so new datasets in those old histories stay public. That matches what a
+   legacy local user gets via `handle_user_login`. Alternative: keep `history=True` and drop only
+   `dataset=True`. Worth a one-line decision either way.
 
 4. **Upgrade impact is real and correctly labelled.** Every server that doesn't set the option
    changes on upgrade, with a mixed population (old users public, new users private). Library
-   uploads use the uploader's user defaults (`upload_common.py:228-229`), so a newly created
-   admin populating a shared data library will produce datasets only they can read. History
-   sharing/publishing will hit the "change permissions" dialog much more often (the selenium test
-   change shows this). `highlight/admin` is set; the release-note blurb should explicitly mention
-   data libraries and say how to restore old behaviour (`new_user_dataset_access_role_default_private: false`).
+   uploads use the uploader's user defaults - legacy upload path `upload_common.py:226-229` and
+   fetch-API path `JobContext.add_library_dataset_to_folder` (`tools/__init__.py:1122-1125`) - so
+   any user created after the upgrade (typically a new admin) populating a shared data library
+   produces datasets only they can read. The PR's own selenium change
+   (`test_user_library_permissions.py`, "The imported dataset starts out private") shows it. History
+   sharing/publishing will hit the "change permissions" dialog much more often. `highlight/admin`
+   is set; neither the PR body nor the option docs mention libraries, so the release-note blurb
+   should, and should give the opt-out (`new_user_dataset_access_role_default_private: false`).
+   The PR title drops `_default_private`; since titles feed release notes, it should name the full
+   option.
 
 5. **Minor.** `markdown_util` fix special-cases `container != "invocation_time"` by name; a rule of
    "prefer any non-`invocation_id` id, fall back to `invocation_id`" would not need updating if
@@ -75,6 +108,27 @@ suggestion for the remote-user path.
 
 Ran locally (Galaxy venv, `PYTHONPATH=lib`): the 5 new unit tests in `test_security.py` and
 `test_UserManager.py` pass. Did not run API/integration/selenium suites.
+
+## Verification (2026-10-09)
+
+Adversarial re-check at `34de076d569` vs merge-base with fresh `origin/dev`.
+
+- **Finding 2 (reuse): confirmed.** `create_user_role` (`security.py:723-732`) ensures the private
+  role and, only if the user has no defaults, calls `user_set_default_permissions` with the config
+  value (no history/dataset rewrite; commits). Callers identical on dev and head: `users.py:196`,
+  `webapp.py:868` (plus Tool Shed's own override). Remote login never reaches `handle_user_login`,
+  hence the separate call, but no session/ordering reason blocks reuse. Added sketch + `app_type` guard note.
+- **Finding 3 (legacy remote): partially confirmed.** Path and effect are real
+  (`users.py:838-846` -> `security.py:819-869`); scratch unit test at head: a manage-only (public)
+  dataset gains a private access role, history defaults become private. But the `dataset=True`
+  rewrite is pre-existing (dev `users.py:841-842`, public direction); the PR flips it to private.
+  The reuse fix avoids the rewrite (scratch test: dataset untouched) but leaves the old histories
+  without defaults. Corrected finding/draft.
+- **Finding 4 (release note): confirmed, wording sharpened.** Option is
+  `new_user_dataset_access_role_default_private` (`config_schema.yml:3108`), now `default: true`,
+  so `false` is the right opt-out. Library uploads take uploader defaults on both upload paths;
+  not specific to admins. PR body and docs don't mention libraries. Added PR-title nit (title omits
+  `_default_private`).
 
 Test assessment: test edits add explicit `make_dataset_public` where tests exercise anonymous,
 DRS, cross-user or library access - these are setup changes, not weakened assertions. The new
@@ -92,7 +146,7 @@ Flipping this default is a one-way door for admins and users: new accounts on ev
 - Data-library uploads take the uploader's default permissions, so libraries populated by newly created admins become readable only by that admin until restrictions are removed.
 - Sharing/publishing histories, pages and workflow reports from new users will prompt for permission changes or show inaccessible datasets to viewers.
 - Anonymous/DRS/display-URL consumers of new users' datasets will get 403 unless data is made public.
-- Legacy remote users with no default permissions get existing active-history datasets made private on next remote login.
+- Legacy remote users with no default permissions get existing active-history datasets they manage made private on next remote login (dev reset them to public on that path).
 - `set_all_dataset_permissions(new=True)` now silently skips duplicates; behaviour change for any caller that relied on adding duplicate rows (none found).
 - Discovered collection elements now carry derived/history permissions instead of none - correct, but changes accessibility of tool outputs for all users, not just new ones.
 
@@ -117,11 +171,11 @@ A few things:
 
 1. **CI is still red on `TestToolsApi::test_guess_derived_permissions_collections`.** Now that fetched list elements get default permissions, the "public" input collection is private, so the first output is private too and `_dataset_accessible(public_element_id)` fails. Making the input collection's elements public before the first run (like the `test_guess_derived_permissions` change in this PR) should fix it without changing what the test checks.
 
-2. **Remote user path could reuse `create_user_role`.** `GalaxyRBACAgent.create_user_role(user, app)` already does "ensure private role, then set default permissions from `new_user_dataset_access_role_default_private` if the user has none", and it's what `UserManager.create` and `handle_user_login` use. Calling it from both branches of `get_or_create_remote_user` would keep the config read in one place - the remote-user bug happened because that path had its own copy.
+2. **Remote user path could reuse `create_user_role`.** `GalaxyRBACAgent.create_user_role(user, app)` already does "ensure private role, then set default permissions from `new_user_dataset_access_role_default_private` if the user has none", and it's what `UserManager.create` and `handle_user_login` use. Calling it from both branches of `get_or_create_remote_user` (inside the existing `app_type == "galaxy"` guard) would keep the config read in one place - the remote-user bug happened because that path had its own copy.
 
-3. **Existing remote users with no default permissions.** The legacy branch now calls `user_set_default_permissions(..., history=True, dataset=True, default_access_private=...)`. With `dataset=True` that rewrites permissions on datasets already in their active histories, making existing data private, which doesn't match "existing users and data are unchanged". It only affects very old accounts, but switching to `create_user_role` (point 2) avoids it.
+3. **Existing remote users with no default permissions.** The legacy branch calls `user_set_default_permissions(..., history=True, dataset=True, default_access_private=...)`. With `dataset=True` that rewrites permissions on datasets they manage in their active histories. On dev that reset them to public; now it makes them private. Either way it doesn't match "existing users and data are unchanged". It only affects very old accounts. Switching to `create_user_role` (point 2) avoids the rewrite, though it also leaves their existing histories without default permissions (same as a legacy local login today); dropping just `dataset=True` is the other option.
 
-4. **Release notes.** Thanks for the `highlight/admin` label. The release-note text should mention data libraries explicitly (library uploads use the uploader's default permissions, so a newly created admin's library uploads are private to them) and give the one-line opt-out (`new_user_dataset_access_role_default_private: false`).
+4. **Release notes.** Thanks for the `highlight/admin` label. The release-note text should mention data libraries explicitly (library uploads, both the legacy upload and fetch paths, use the uploader's default permissions, so library uploads by anyone created after the upgrade - e.g. a new admin - are private to them) and give the one-line opt-out (`new_user_dataset_access_role_default_private: false`). It'd also help if the PR title named the full option, since it ends up in the release notes.
 
 Minor, optional: in `markdown_util`, preferring any non-`invocation_id` id and falling back to `invocation_id` would avoid naming `invocation_time` specifically.
 
@@ -135,7 +189,7 @@ Flipping this default is a one-way door for admins and users: new accounts on ev
 - Data-library uploads take the uploader's default permissions, so libraries populated by newly created admins become readable only by that admin until restrictions are removed.
 - Sharing/publishing histories, pages and workflow reports from new users will prompt for permission changes or show inaccessible datasets to viewers.
 - Anonymous/DRS/display-URL consumers of new users' datasets will get 403 unless data is made public.
-- Legacy remote users with no default permissions get existing active-history datasets made private on next login.
+- Legacy remote users with no default permissions get existing active-history datasets they manage made private on next remote login.
 - Discovered collection elements now carry derived/history permissions instead of none, which changes accessibility of tool outputs for all users, not only new ones.
 
 </details>
