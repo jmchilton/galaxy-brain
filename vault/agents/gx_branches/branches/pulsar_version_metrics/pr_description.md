@@ -1,72 +1,115 @@
-> **Drafted by Claude (AI assistant) on jmchilton's behalf.**
+Follow-up to 🔀 #23784 - record which Pulsar version a job was submitted for and which one ran it, and finish jobs for the version they were submitted for.
 
-Follows #23784 (Pulsar transfer job metrics). Replaces #23821, which I closed: knowing
-which Pulsar version Galaxy assumed, and which one actually ran, seemed more useful than
-more version logic. This also fixes the launch/finish disagreement Marius found reviewing
-that PR.
+Galaxy decides how to stage a Pulsar job's outputs from a guess at the remote Pulsar's version, and when the guess is wrong, discovered outputs quietly go missing (galaxyproject/pulsar#135). Today nothing records that guess, so an admin can't tell which destinations are guessing or guessing wrong. With this branch, the `pulsar` job metrics plugin shows admins this on each Pulsar job:
 
-Pulsar side: galaxyproject/pulsar#518 (transfer metrics, includes the matching rename),
-galaxyproject/pulsar#529 (Pulsar records its own version, on top of #518), and
-galaxyproject/pulsar#523 (`pulsar_version_source`). Either side can land first. Nothing
-breaks without the other, but see "What you'll see before the Pulsar side ships" below.
+| Metric | Example | Meaning |
+|---|---|---|
+| Pulsar Client Version | `0.15.16` | Galaxy's `pulsar-galaxy-lib` |
+| Pulsar Target Version | `0.15.16` | the remote version Galaxy submitted the job for |
+| Pulsar Target Version Source | `client` | how Galaxy knew it (below) |
+| Pulsar Server Version | `0.15.12` | the Pulsar that actually ran the job |
+| Pulsar Server Version Source | `status` | `status` (in the finished job's status) or `job_files` (written by Pulsar, galaxyproject/pulsar#529) |
 
-**Renames the `pulsar_transfer` job metrics plugin to `pulsar`.** #23784 is only on `dev`,
-so nothing released uses the old name. A `dev` job metrics config that names
-`pulsar_transfer` will now fail to load. One plugin now reports everything Pulsar-related.
-The files it reads keep their names: `transfer_<phase>` under plugin `pulsar` is still
-`__instrument_pulsar_transfer_<phase>`.
+These rows read "Galaxy didn't know the remote's version, assumed a current Pulsar, and a 0.15.12 Pulsar ran the job". 0.15.12 predates dataset collector descriptions (0.15.13), so this destination's discovered outputs can go missing, and it needs `remote_pulsar_version`. ***These metrics only record a mismatch; Galaxy doesn't warn about one.*** They're admin-only by default (`POTENTIALLY_SENSITVE`); the transfer figures from #23784 stay public.
 
-**Records Pulsar versions as job metrics.** These are admin-only; the transfer figures stay
-public.
+***Useful with today's client library: on `jobs_directory` destinations the target is Galaxy's own client version and the server version comes from the status, so a mismatch already shows. Only `target_version_source` reads `unreported` until pulsar#523 ships.***
 
-| metric | meaning |
-|---|---|
-| `client_version` | Galaxy's `pulsar-galaxy-lib` |
-| `target_version` | the remote version Galaxy submitted the job for |
-| `target_version_source` | how Galaxy knew it (from pulsar#523): `remote`, `destination` (`remote_pulsar_version`), `container_image` (a published staging image), `client` (unknown, so the client library's version stands in), or `unreported` (a client library that predates pulsar#523) |
-| `server_version` | the Pulsar that actually ran the job |
-| `server_version_source` | `status` (reported in the finished job's status) or `job_files` (written by Pulsar into the job's files, pulsar#529; the only report from polling Kubernetes, TES, GCP Batch and AWS Batch runners) |
+<details><summary>Target version sources</summary>
 
-The runner writes the target at submission and the status version at finish. For now these
-only record a mismatch; nothing warns about it.
+From galaxyproject/pulsar#523's `pulsar_version_source`:
 
-**Finishes jobs for the version they were submitted for.** `finish_job` described outputs
-using the version in the finished job's status, while submission used the version from
-setup. Marius found two places these disagree:
-- a `jobs_directory` (MQ) remote, where setup never asks the remote and the status reports
-  the real version;
-- polling coexecution, whose status carries no version at all, so it read as `0.6.0`.
+- `remote` - the remote Pulsar reported it at setup.
+- `destination` - the destination's `remote_pulsar_version`.
+- `container_image` - a published Pulsar staging image Galaxy recognizes.
+- `client` - unknown, so the client library's version stands in and a current Pulsar is assumed.
+- `unreported` - a client library that predates pulsar#523.
 
-Finishing now reuses the recorded target version, so it describes outputs the way the
-remote was told to collect them. If the target itself was wrong, that is, an old remote
-whose version Galaxy couldn't know (`target_version_source: client`), outputs can still go
-missing. The fix there is declaring `remote_pulsar_version` (pulsar#523). The new metric is
-how to spot those destinations. Jobs submitted before this change fall back to the old
-behaviour.
+</details>
 
-The job metrics docs describe `remote_pulsar_version` and link to Pulsar's Galaxy
-configuration docs. That setting does nothing until Galaxy's Pulsar client library includes
-pulsar#523.
+### Finishing uses the submitted version
 
-**Relation to #23821.** That PR skipped `check_job_config`'s minimum-version check when the
-version came from the client library. This one doesn't. With `pulsar_version_source:
-client` the compared version is the pinned client library, which meets every entry in
-`MINIMUM_PULSAR_VERSIONS`, so the skip only removed a log line. The coexecution concern
-from that review (Galaxy knows the default staging image's version) is handled on the
-Pulsar side by pulsar#523's map of published images.
+***This replaces #23821: the launch/finish disagreement found reviewing it is fixed here, its `check_job_config` skip is dropped (it compared the client library against itself), and recognizing coexecution staging images moved to pulsar#523.***
 
-**What you'll see before the Pulsar side ships.** With today's pin (`pulsar-galaxy-lib`
-0.15.15), every job records `target_version_source: unreported`. Polling coexecution jobs
-record no `server_version` until pulsar#529 is released. Transfer figures need pulsar#518.
+`finish_job` used to describe outputs for the version in the finished job's *status*, while submission used the version from *setup*. The two disagree in two places (found reviewing #23821):
 
-Tests:
-- unit tests for the plugin: reading, which server version source wins, admin-only
-  visibility (including when the plugin is only configured per destination), formatting,
-  and logged failures;
-- unit tests for picking the submitted version at finish, and one that drives `finish_job`
-  with a status carrying no version (polling coexecution) and checks outputs are described
-  for the recorded target, not `0.6.0`. It fails without the runner change;
-- an embedded Pulsar integration test that checks every version metric is recorded and that
-  server, target and client versions agree.
+| Job | Outputs described at submission for | At finish, before | At finish, now |
+|---|---|---|---|
+| Polling coexecution (Kubernetes, TES, GCP Batch); status has no version | the target, e.g. `0.15.16` | `0.6.0` (missing version) | the recorded target |
+| `jobs_directory` (MQ) remote; setup never asks the remote | the client library's version | the version in the status | the recorded target |
+
+Finish now reads the target recorded at submission: one version per job, the one the metric reports. Jobs submitted before this change have no recorded target and fall back to the status version, as before.
+
+***For `remote_transfer` destinations (the default for MQ and coexecution) this changes no collected outputs: the remote already staged them using the submission-time description. Galaxy's finish-time description only decides what Galaxy fetches itself.***
+
+***It also doesn't fix a wrong target.*** An old remote Galaxy couldn't identify (`target_version_source: client`) is still told to collect outputs for a current Pulsar, and outputs can still go missing. The fix there is declaring `remote_pulsar_version` (pulsar#523); the new metric is how to find those destinations.
+
+### Renames `pulsar_transfer` to `pulsar`
+
+One plugin now reports everything Pulsar-related. ***#23784 is only on `dev`, so no release has the `pulsar_transfer` name; a `dev` job metrics config that names it will fail to load.*** The files it reads keep their names, so Pulsar's side is unchanged: `transfer_<phase>` under plugin `pulsar` is still `__instrument_pulsar_transfer_<phase>`.
+
+<details><summary>What you'll see before the Pulsar side ships</summary>
+
+- With today's pin (`pulsar-galaxy-lib` 0.15.15), every job records `target_version_source: unreported`.
+- Polling coexecution jobs record no server version until the destination's staging image includes pulsar#529. Galaxy's default `galaxy/pulsar-pod-staging:0.15.0.2` never will.
+- Transfer figures need galaxyproject/pulsar#518.
+- `remote_pulsar_version` does nothing until Galaxy's client library includes pulsar#523; the job metrics docs say so and link to Pulsar's Galaxy configuration docs.
+
+Either side can land first. Nothing breaks without the other: missing files just mean missing metrics.
+
+</details>
+
+<details><summary>Implementation notes</summary>
+
+- The runner writes `__instrument_pulsar_version_target` into the job's metadata directory before launch, and `__instrument_pulsar_version_status` after `pulsar_finish_job`, so staged-back files can't overwrite it. Writes are best effort and logged with `log.exception`; a metric never fails a job.
+- `InstrumentPlugin.safety` and the instrument file-name helpers are now classmethods. `JobMetrics.dictifiable_metrics` used the plugin class's `default_safety` for a plugin configured only per destination, which dropped per-metric safety; it now calls `safety(metric_name)`.
+- `PulsarPlugin` owns reading and writing its files, so the runner and the plugin share one naming convention.
+
+</details>
+
+## Risks
+
+The one-way piece is the plugin name: once `pulsar` ships in a release, job metrics configs will name it, and renaming again means breaking them.
+
+<details><summary>Risk Details</summary>
+
+- `dev` job metrics configs naming `pulsar_transfer` stop loading.
+- A job metrics file shared with Pulsar and naming `pulsar` stops a Pulsar without pulsar#518's "skip unknown plugins" from starting. #23784's `pulsar_transfer` had the same issue.
+- The metric names and their `source` vocabularies (`remote`, `destination`, `container_image`, `client`, `unreported`; `status`, `job_files`) become what admins query.
+- Finishing now trusts the recorded target over the status version. For Galaxy-fetched outputs, a wrong target is now consistently wrong with submission instead of inconsistently.
+
+</details>
+
+<details><summary>Risk Review Advice</summary>
+
+Check the plugin name and metric names are ones we're happy to keep. In `runners/pulsar.py`, check `finish_job`'s use of `submitted_pulsar_version` and the fallback for jobs submitted before this change.
+
+</details>
+
+## Context
+
+Builds on 🔀 #23784 (Pulsar transfer job metrics). Replaces 🔀 #23821 (see above). Pairs with galaxyproject/pulsar#518 (transfer metrics and the matching rename), galaxyproject/pulsar#529 (Pulsar records its own version) and galaxyproject/pulsar#523 (`pulsar_version_source`).
+
+## John's Checklist
+
+- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] What does the user see when it fails? A metric that can't be written or read is logged and left out; the job still runs and finishes. A `dev` config still naming `pulsar_transfer` fails at startup.
+- [x] Is the diff free of unrelated or stale generated changes? Yes!
+- [x] Are unit tests not just testing the literal implementation? Yes. The finish test drives `finish_job` and checks the version outputs are described for, and the integration test reads the metrics back through `/api/jobs/{id}/metrics`.
+- [x] Are the comments free of excess archeology? Yes.
+- [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
+
+## How to test the changes?
+- [x] I've included appropriate [automated tests](https://docs.galaxyproject.org/en/latest/dev/writing_tests.html).
+
+<details><summary>Tests</summary>
+
+- `test_finish_job_describes_outputs_for_the_submitted_version` drives `finish_job` with a status carrying no version and a recorded target of `0.15.16`. It fails with the old finish line (`0.6.0`).
+- Unit tests for the plugin: reading, which server version source wins, admin-only visibility (including a plugin configured only per destination), formatting, and logged failures.
+- `test_records_pulsar_version_metrics` runs a job on embedded Pulsar and checks every version metric is recorded and that server, target and client versions agree.
+
+</details>
+
+## License
+- [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

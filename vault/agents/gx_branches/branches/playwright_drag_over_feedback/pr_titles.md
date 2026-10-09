@@ -1,0 +1,4 @@
+- Add a held-drag `drag_over()` gesture, run test_drag_drop_visual_feedback under Playwright
+- Run test_drag_drop_visual_feedback under Playwright
+- Add `drag_over()` to the backend-neutral gesture vocabulary
+- Assert drag-over feedback on both browser backends with a `drag_over()` context manager

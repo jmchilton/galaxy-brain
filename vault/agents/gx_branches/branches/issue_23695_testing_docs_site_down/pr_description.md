@@ -53,7 +53,7 @@ Builds on 🔀 #23685 and 🔀 #23842.
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? N/A for users. Skip messages are unchanged, except `UsesShed`'s Tool Shed skip, which now includes the reason (`(HTTP 503)`).
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. `test_unittest_utils.py` probes a local HTTP server answering 200 or 503 and checks the skip and its reason, not the helper's internals.
@@ -74,5 +74,3 @@ Build the docs (`make docs`) and read `dev/writing_tests.html#remote-service-dow
 
 ## License
 - [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)

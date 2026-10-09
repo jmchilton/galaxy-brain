@@ -1,4 +1,6 @@
 
-Information about managing Galaxy PRs is in ../../agents/gx_branches/AGENTS.md.
+Information about managing Galaxy branches/PRs is in @../../agents/gx_branches/AGENTS.md.
 
-Generally this agent is working on clearing out Tool Shed backlog issues and should get branches green in CI on the jmchilton remote before adding PR descriptions to ../../agents/gx_branches/ and updating the MY_BRANCHES.md document there to track the branch as ready to PR.
+Information about delivering features and solving bugs in @../../agents/gx_workhorse/AGENTS.md.
+
+Generally this agent is working on clearing out Tool Shed backlog issues and should get work through implementations before adding to MY_BRANCHES.md.

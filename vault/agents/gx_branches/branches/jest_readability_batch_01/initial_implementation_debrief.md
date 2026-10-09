@@ -1,15 +1,3 @@
-# Initial implementation: Jest readability batch 01
+Iteration 02 reuses the existing `jest_readability_batch_01` branch/worktree, with first iteration retained as reviewed commit `aa1f1ed6aebf2431968012bbdcafb63c063c329d`. Five previously uniterated tests were selected with seed `4013406510`; [manifest](../../../../projects/just_jesting_around/readability_batch_02.yml).
 
-Five randomly selected client unit-test files are being refactored for readability on `jest_readability_batch_01`, based on dev commit `c35feb587eb8738a2d94cfb91769d0fbd14839bf`. Galaxy now runs these suites with Vitest. The original five files passed all 88 tests before changes.
-
-The selection uses one random file from each of five categories (component, composable, store, utility, API), seed `2313546650`. Selection and per-file agent reports live in [the project directory](../../../../projects/just_jesting_around/).
-
-- `client/src/components/Visualizations/VisualizationExamples.test.js`
-- `client/src/composables/markdown.test.js`
-- `client/src/stores/pageEditorStore.test.ts`
-- `client/src/utils/parseBool.test.ts`
-- `client/src/api/client/serverMock.test.ts`
-
-Each file has a dedicated implementation subagent. They read the complete client testing guidance, inspect related source and sibling tests, preserve original inputs/assertions, and investigate reuse. Parent integrates evidence-backed guidance in `client/README.md`. No production behavior change is intended.
-
-Final combined validation, independent normal review, test challenge, scope evaluation, and screenshot relevance audit follow the per-file work. Existing tests must not be removed or weakened, including during the test challenge.
+Each selected file has a dedicated subagent. Identical page summary/details fixtures in the selected API and the previously reviewed store justify a shared typed factory and a small supporting store migration. No production changes or new README prose are required. The six-suite baseline passes 171 cases. Node 25 needs `NODE_OPTIONS=--no-webstorage` so happy-dom supplies working browser storage; no source setup change is needed. Independent review, test challenge, scope, and screenshot applicability follow final validation.

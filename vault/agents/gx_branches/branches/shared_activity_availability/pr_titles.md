@@ -1,0 +1,4 @@
+- Share activity availability checks between the activity bar and command palette
+- Check activity availability in one place for the activity bar and palette
+- Move activity bar availability gates into `isActivityAvailable`
+- Stop duplicating activity gates between the activity bar and command palette

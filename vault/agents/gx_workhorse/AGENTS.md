@@ -49,3 +49,7 @@ If more than 3 tests were added/removed/modified, please move any existing `BRAN
 If any UI changes were made and we have screenshots recorded, move them to `BRANCH_DIRECTORY/earlier_drafts/N/screenshots/` and have a subagent regenerate screenshots according to the above process.
 
 Finally, move `BRANCH_DIRECTORY/implementation_debrief.md` into `BRANCH_DIRECTORY/earlier_drafts/N/implementation_debrief.md` if present and write a new implementation debrief. We've got the old debrief in place - so you don't need to keep a lot of archeology around.
+
+## Recover
+
+A branch may have been implemented and recorded but be missing some of the debriefs above because the process didn't happen, we stopped early, or the branch predates the current process.  If I ask you to recover a branch - please walk through the "after the plan" steps above and do the ones that make sense for this branch.

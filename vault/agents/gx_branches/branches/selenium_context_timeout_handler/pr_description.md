@@ -31,7 +31,7 @@ Fixes a regression from 🔀 #21102 (Playwright backend support). Found while pl
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A working context instead of a `TypeError`. Real failures are now browser-launch errors from `ConfiguredDriver`, as in the test framework.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They check that a configured `timeout_multiplier` scales the waits the context really uses.

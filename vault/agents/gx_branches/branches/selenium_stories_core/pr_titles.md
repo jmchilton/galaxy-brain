@@ -1,0 +1,4 @@
+- Write Selenium test screenshots out as markdown/HTML/PDF stories
+- Generate documentation stories from Selenium/Playwright test runs
+- Add `GALAXY_TEST_STORIES_DIRECTORY` to turn test screenshots into documents
+- Turn browser test screenshots into narrated story documents

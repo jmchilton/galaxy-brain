@@ -1,0 +1,4 @@
+- Record Pulsar versions as job metrics; rename pulsar_transfer plugin to pulsar
+- Record the Pulsar version a job was submitted for and the one that ran it
+- Pulsar job metrics: record target and server versions, finish for the submitted version
+- Show admins which Pulsar version each job assumed and which one ran it

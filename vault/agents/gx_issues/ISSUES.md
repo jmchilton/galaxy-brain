@@ -66,7 +66,6 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#18750](https://github.com/galaxyproject/galaxy/issues/18750) — user-defined S3 file source import fails; next: confirm on dev, add the `s3fs` property. [notes](../../repositories/galaxy/issues/queued/18750/index.md)
 - [#21811](https://github.com/galaxyproject/galaxy/issues/21811) — make `uv run` work from the Galaxy root; next: retry `uv.lock` with current tooling. [notes](../../repositories/galaxy/issues/queued/21811/index.md)
 - [#18642](https://github.com/galaxyproject/galaxy/issues/18642) — framework test gaps: `from_file`/`dynamic_options` drill-downs and selects; next: test tools. [notes](../../repositories/galaxy/issues/queued/18642/index.md)
-- [#13037](https://github.com/galaxyproject/galaxy/issues/13037) — bug report emails should name the job's conda env or container; next: add them. [notes](../../repositories/galaxy/issues/queued/13037/index.md)
 - [#11743](https://github.com/galaxyproject/galaxy/issues/11743) — collection tagging parameter cleanup; next: the three cleanups. [notes](../../repositories/galaxy/issues/queued/11743/index.md)
 - [#3899](https://github.com/galaxyproject/galaxy/issues/3899) — dependencies resolved for jobs that run in Docker; next: check on dev. [notes](../../repositories/galaxy/issues/queued/3899/index.md)
 - [#23977](https://github.com/galaxyproject/galaxy/issues/23977) — client page loads fan out /api/ requests (invocations list 165, 96 × 429 on test); next: dedupe datatypes fetch, red request-count test. [notes](../../repositories/galaxy/issues/queued/23977/index.md)
@@ -75,7 +74,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#23980](https://github.com/galaxyproject/galaxy/issues/23980) — workflow text param with static allowed values ignores its default in the run form; next: per-option `selected` from default + red unit test. [notes](../../repositories/galaxy/issues/queued/23980/index.md)
 - [#23981](https://github.com/galaxyproject/galaxy/issues/23981) — workflow rename `#{name }` with padding silently renders empty (hits IWC VGP5); next: always strip + flip parity test row. [notes](../../repositories/galaxy/issues/queued/23981/index.md)
 - [#23983](https://github.com/galaxyproject/galaxy/issues/23983) — TEMP SSE/notification overrides left in E2E workflows; two are dead keys; next: revert PR (coordinate with #23976). [notes](../../repositories/galaxy/issues/queued/23983/index.md)
-- [#22451](https://github.com/galaxyproject/galaxy/issues/22451) — Sentry `Failed to extract job.`; diagnostics merged in [#23651](https://github.com/galaxyproject/galaxy/pull/23651), root cause open; next: root-cause via #22709. [notes](../../repositories/galaxy/issues/queued/22451/index.md)
+
 
 ## Blocked on others (`blocked`)
 
@@ -85,11 +84,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 
 ## Untriaged (`untriaged`)
 
-- [#1684](https://github.com/galaxyproject/galaxy/issues/1684) — More Refined Docker Support for Tools
 - [#1810](https://github.com/galaxyproject/galaxy/issues/1810) — Simplified User-Facing Dataset Collection Model
-- [#5822](https://github.com/galaxyproject/galaxy/issues/5822) — Rules Widget - Post Merge Smaller Tweaks
-- [#10915](https://github.com/galaxyproject/galaxy/issues/10915) — Performance Testing Metrics Aggregation and Comparison
-- [#10916](https://github.com/galaxyproject/galaxy/issues/10916) — Performance Testing at Scale
 - [#13511](https://github.com/galaxyproject/galaxy/issues/13511) — Galaxy interactive tools with slurm and docker - docker container is not removed when tool is finished.
 - [#19049](https://github.com/galaxyproject/galaxy/issues/19049) — Add a dedicated interface for collection types in Workflow input field
 - [#19234](https://github.com/galaxyproject/galaxy/issues/19234) — Missing batch mode info for paired data

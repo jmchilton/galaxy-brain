@@ -36,3 +36,8 @@ Rebased onto master `515e928e` and pushed final head `8e8ca0e4`.
 71 configuration, engine, and workflow utility tests passed; three Galaxy startup tests skipped.
 New classless secondary-file tests failed before the fix and pass after it.
 Targeted mypy and pre-commit checks passed. Fresh CI remains the final merge gate; PR still draft.
+
+## CI verified 2026-10-04
+
+Head `8e8ca0e4` has 14 successful checks and the expected skipped release upload.
+GitHub reports mergeable. No remaining review blockers; ready to leave draft and merge.

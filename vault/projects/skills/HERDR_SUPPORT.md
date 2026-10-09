@@ -1,5 +1,39 @@
 # Herdr Support: Claude vs Codex (This Machine)
 
+## Codex glyph regression (2026-10-05)
+
+With herdr 0.8.2 and codex-cli 0.160.0, newer Codex panes displayed literal
+`codex` instead of `⬢`. The shared Codex app-server daemon retained the Herdr
+environment of its originating pane, `w12:p1`. Other CLI processes had their
+own correct pane IDs (`w2D:p1`, `w1Z:p1`, `w2H:p1`, `w2W:p1`), but hooks and
+agent shell commands inherited the daemon's `HERDR_PANE_ID=w12:p1`.
+
+Evidence: live `herdr api snapshot` showed the glyph and a Codex session ref
+only on `w12:p1`; the other four Codex panes had neither. A read-only
+`hooks/list` request to the installed Codex runtime confirmed both Herdr
+SessionStart hooks were enabled and trusted, with no configuration errors.
+Comparing only `HERDR_*` variables on the CLI processes and daemon confirmed
+the pane mismatch. This is a shared-daemon environment problem, rather than
+a glyph/font or hook-trust problem. Claude's separate processes remain correct.
+
+Restored `⬢` on the four affected live panes with:
+
+```sh
+herdr pane report-metadata <pane-id> --source user:codex-glyph \
+  --agent codex --display-agent '⬢'
+```
+
+For future Herdr launches, use `codex --no-daemon` (or
+`codex --no-daemon resume <session-id>`). Installed CLI help describes this
+option as running without the shared background server even when it is already
+running. This gives each session a process that inherits its own pane context.
+The workaround has not yet been checked in a newly launched interactive session.
+Existing daemon-backed sessions keep their inherited context until relaunched;
+restoring their glyph metadata only repairs the current sidebar display.
+No startup configuration was changed, and no running sessions were restarted.
+
+The snapshot below describes the earlier integration setup.
+
 Snapshot 2026-09-25. herdr 0.8.2 at `~/.local/bin/herdr`, config `~/.config/herdr/config.toml`. Local source clone `~/projects/repositories/herdr` is stale (v0.6.1, May 2026) — pull before source-diving.
 
 ## TL;DR

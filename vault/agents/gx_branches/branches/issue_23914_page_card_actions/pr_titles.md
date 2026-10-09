@@ -1,0 +1,4 @@
+- Keep notebook card actions in step with the current user
+- Fix notebook cards hiding Share and Publish when the user loads late
+- Make notebook card actions and title reactive
+- Show Share and Publish on notebook cards once the user loads

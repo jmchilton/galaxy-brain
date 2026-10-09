@@ -27,12 +27,12 @@ Synthesized expression-only probe ports inherit the connected source's data or p
 
 ### Feedback, tests, and documentation
 
-The workflow-editor lint panel now reports statically resolvable condition inputs that have no connection, without warning on missing tools or expressions that cannot be resolved safely.
+Builds on `dangling_when_lint` (TODO: PR number), whose best practices section flags condition inputs with no connection; that check covers the conditions this PR generates.
 
 Regression coverage includes:
 
-- framework workflows for top-level, nested dot, nested bracket, repeat, ungated failure, and twin-probe behavior, each tested with the optional value both present and absent where applicable;
-- component and store tests for condition modes, expression generation, repeat paths, custom-expression preservation, terminal validity, drop highlighting, subworkflow support, pause-step rejection, probe typing, and dangling-condition linting; and
+- framework workflows gating top-level, conditional-nested, and repeat-nested required inputs, plus twin-probe dispatch, each run with the optional value present and absent;
+- component and store tests for condition modes, expression generation, repeat paths, custom-expression preservation, terminal validity, drop highlighting, drop-to-gate confirmation and undo, subworkflow support, pause-step rejection, and probe typing; and
 - Selenium coverage for selecting condition modes, clearing invalid connection marking, saving and downloading the generated expression, and validating the twin-dispatch topology.
 
 The new developer documentation describes boolean and presence conditions, repeat syntax, conditional-output handling with Pick Value, twin dispatch, and dangling condition inputs.
@@ -63,9 +63,7 @@ The focused client tests can be run from `client/` with:
 ```shell
 pnpm exec vitest run \
     src/components/Workflow/Editor/Forms/FormConditional.test.ts \
-    src/components/Workflow/Editor/Lint.test.ts \
     src/components/Workflow/Editor/NodeInput.test.ts \
-    src/components/Workflow/Editor/modules/linting.test.ts \
     src/components/Workflow/Editor/modules/terminals.test.ts \
     src/components/Workflow/Editor/modules/whenExpression.test.ts \
     src/stores/workflowStepStore.test.ts
