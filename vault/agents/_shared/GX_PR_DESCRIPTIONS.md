@@ -38,6 +38,7 @@ The following should be read as a pretty controlled list but variations on this 
 - Refactor ahead of 🌿<branch_name_and_link> - simple, single describing the downstream branch.
 - Toward 🎯 #<issue_number> - single, simple line describing the partial fix (when the change addresses the issue's mechanism but isn't shown to fix the reported case).
 - Groundwork for 🎯 #<issue_number> - single, simple line describing what this prepares (docs, refactors or surveys the issue's work needs).
+- Follow-up to 🔀 #<pr_number> - single, simple line describing what this adds on top of that PR (e.g. a response to its review).
 ## DO: Place PR in Context
 
 Combine sentences into one short paragraphs in a "## Context" section above the check lists.
