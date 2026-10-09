@@ -25,3 +25,9 @@ Reply to mvdbeek not posted yet.
 - Switch `useUploadConfigurations` (`composables/uploadConfigurations.ts`) to it. Its private loader calls the same `getUploadDatatypes(false, AUTO_EXTENSION)` and carries a `// TODO: Maybe a store would be better`.
 - Move `CollectionEditView` (`<script setup>`) to the composable. `SelectionOperations` and `LibraryDataset` are Options API; they keep the provider until converted, then it can go.
 - Same treatment for `DbKeyProvider`/`dbKeyStore`, which also catch and log.
+
+Started as [`upload_datatypes_composable`](../upload_datatypes_composable/index.md) (2026-10-09).
+
+## Forward-merge warning
+
+On `dev` (Vue 3 compat), this PR's tests fail: `storeProviders.test.js` and `HelpText.test.ts` use test-utils v1 APIs, and `helpTermsStore.test.ts` "term changes" misses watcher updates across `vi.resetModules()`. Ports are in `upload_datatypes_composable` commit `333b511c6d4`; whoever forward-merges `release_26.1` needs them.
