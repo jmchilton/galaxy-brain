@@ -31,8 +31,7 @@ can outweigh it. Briefly mention the existing request if surfacing the PR anyway
 
 ## Skip
 
-- Anything with a note in `vault/agents/gx_reviews/` (`ls` it and `old/` — filenames are `galaxy_<number>_*.md`)
-  or a number in `PULL_REQUESTS.md`. Those are reviewed or in flight.
+- Anything with a record in `vault/repositories/galaxy/reviews/active/<number>/` or `archived/<number>/`, a legacy note in `vault/agents/gx_reviews/` or its `old/` directory (`galaxy_<number>_*.md`), or a number in `PULL_REQUESTS.md`. Those are reviewed or in flight.
 - Anything the user has already commented on or reviewed.
 
 ## Finding them

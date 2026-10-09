@@ -5,6 +5,10 @@
 
 Working notes for active `galaxyproject/galaxy` pull-request reviews.
 
+## Review migration preview
+
+Review records for #23223 and #23857 follow [REPOSITORY_REVIEWS.md](../_shared/REPOSITORY_REVIEWS.md) under `vault/repositories/galaxy/reviews/`. Read and update those records instead of recreating their former agent-directory notes. #23223 is linked from the queue; merged #23857 is under `archived/`. Other reviews retain the existing layout until migrated.
+
 ## Choosing new reviews
 
 Follow the [candidate-finding guidance](../../../.claude/commands/find-galaxy-reviews.md).

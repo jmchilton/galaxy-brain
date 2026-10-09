@@ -81,7 +81,7 @@ in the touched sample configuration. No code changed after this review. Branch
 was pushed to `jmchilton/galaxy:fix/23223-oidc-docker-user` on 2026-09-16 at the
 user's request; no PR has been opened. Branch:
 https://github.com/jmchilton/galaxy/tree/fix/23223-oidc-docker-user . Draft PR body:
-`galaxy_23223_followup_pr_description.md`.
+`pr_description.md`.
 
 ---
 
@@ -283,7 +283,7 @@ isort clean; all other commit hooks pass. Branch:
 https://github.com/jmchilton/galaxy/tree/fix/23223-oidc-docker-user
 
 All ten findings from the second pass are closed. Remaining: real Docker/Linux CI validation,
-and `galaxy_23223_followup_pr_description.md` still describes only the first hardening commit.
+and `pr_description.md` still describes only the first hardening commit.
 
 ## CI red fixed and dev merged — `2731876f7ad`, `b2aa7b07845` (2026-09-17)
 
@@ -330,7 +330,7 @@ container resolution/description) 449 passed / 3 failed, and those 3 (`test_expr
 two `test_runner_local`) fail identically on base `1a0b6f0470b4` — environment, not the change.
 
 PR: https://github.com/SergeyYakubov/galaxy/pull/1 (base `docker_user`).
-`galaxy_23223_followup_pr_description.md` refreshed to match: real test numbers, the `DescribesJobIdentity`
+`pr_description.md` refreshed to match: real test numbers, the `DescribesJobIdentity`
 protocol paragraph, and a note that no `dev` merge is included.
 
 The `fix/23223-oidc-docker-user` branch (with the dev merge) stays as-is for our own CI.

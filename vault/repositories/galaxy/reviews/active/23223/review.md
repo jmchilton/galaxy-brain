@@ -7,7 +7,7 @@ Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/23223` (clean).
 
 ## Follow-up implementation
 
-User requested a fix branch on 2026-09-16. Worktree: `/Users/jxc755/projects/worktrees/galaxy/followup/23223-oidc-docker-user`, branch `fix/23223-oidc-docker-user`, based directly on the reviewed author head. The original findings below describe the author branch, not the corrected follow-up. A second agent is reviewing the complete feature and fixing additional concrete issues; its result lives in `galaxy_23223_followup_branch_review.md`. The draft PR body is `galaxy_23223_followup_pr_description.md`.
+User requested a fix branch on 2026-09-16. Worktree: `/Users/jxc755/projects/worktrees/galaxy/followup/23223-oidc-docker-user`, branch `fix/23223-oidc-docker-user`, based directly on the reviewed author head. The original findings below describe the author branch, not the corrected follow-up. A second agent is reviewing the complete feature and fixing additional concrete issues; its result lives in `followup_branch_review.md`. The draft PR body is `pr_description.md`.
 
 Completed and committed as `aa8185a68ff38ac2b9b4fca00deb8082980154a3`. Independent whole-feature review found no remaining concrete blocker after additional configuration/compatibility fixes; coordinator re-ran all 109 focused tests successfully. Commit hooks pass and worktree is clean. Pushed to `jmchilton/galaxy:fix/23223-oidc-docker-user` on 2026-09-16: https://github.com/jmchilton/galaxy/tree/fix/23223-oidc-docker-user . Ready for a PR against `SergeyYakubov/galaxy:docker_user`; no PR opened yet. Real Docker/integration validation remains outstanding.
 
