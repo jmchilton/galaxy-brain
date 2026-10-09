@@ -13,8 +13,35 @@ selection:
   file: client/src/app/app.test.js
 branch: jest_readability_batch_01
 base_commit: c51894fcccf93283b4e1a44cb9e90246be3f2283
-status: implementing
+status: reviewed
 baseline:
   selected_tests: 36
   selected_suites: 5
   test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- file: client/tests/test-data/objectStores.ts
+  reason: Typed object-store instances with fresh mutable defaults and two concrete
+    consumers.
+- file: client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts
+  reason: Replace duplicate fixture while preserving exact original keys, values and
+    two scenarios.
+validation:
+  baseline_selected_tests: 36
+  baseline_supporting_tests: 2
+  baseline_tests: 38
+  final_selected_tests: 36
+  final_supporting_tests: 2
+  final_tests: 38
+  affected_suites: 6
+  client_vue_tsc: passed
+  prettier: passed
+  eslint: passed without errors or warnings
+  fixture_equivalence: original store and dropdown payload keys and values preserved
+  selected_items_isolation: formerly order-dependent query-count-change case passes
+    alone
+  normal_review: no actionable findings
+  scope: retain five originators, one supporting suite and one helper
+  screenshots: not relevant
+  test_challenge: retain existing layers and all cases
+  selected_items_shuffle: all 11 cases pass with seed 46199
+commit: f51f2fb07942d8d338c77e35723bf25e90f06963

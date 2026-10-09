@@ -1,0 +1,13 @@
+# selectedItems review — iteration 06
+
+Selected originator: `client/src/composables/selectedItems/selectedItems.test.ts`.
+
+Baseline and final: 11 cases. The suite keeps every original checked selection state: initially enabled mode; disabling clears mode/map/count/query flag; scope change clears selection; reset clears the count while keeping mode enabled; query totals 100 versus 10; deselecting a query item retains nine loaded items and calls the break callback; changing the query count to 80 retains ten loaded items and calls the callback; individual map size 0→1→2→1 and membership keys; explicit selection count 3→2; query count 100 with no loaded items. The four distinct function-shape checks remain together in the first case rather than being repeated in action aliases. The two simple query-count cases use descriptive `it.each` rows. Source assertion statements decrease from 40 to 38 because rows share expectations and duplicate setter-shape checks are consolidated; behavioral coverage is unchanged.
+
+The original suite allocated mutable input refs once for the entire file. Its query-count-change case relied on the preceding case leaving the total at 100. Inputs now use fresh typed `SelectedItemsProps<Item>` in each case, and the query-count-change case explicitly starts at 100. Vue changes await `nextTick`; these scenarios have no asynchronous API work. Direct action calls replace routing helpers and setup narration, leaving the scenario inputs and expected values visible. The repeated four-property disabled-state contract remains one assertion helper.
+
+The composable uses watchers and `useActiveElement` window listeners. A fresh effect scope owns them and stops after each case; installed VueUse `useEventListener` registers its stop/cleanup with `tryOnScopeDispose`. This does not require an artificial mounted component. The public component-constructor constraint replaces explicit `any` in the selected composable type. Existing `nth` replaces conditional fixture checks and hand-written throws.
+
+Reuse searches found no other test directly using this composable, and its short numeric items are not domain fixtures useful to other consumers. Reuse the existing `nth` helper; no new shared abstraction, supporting migration, marginal advice, or README addition is justified.
+
+Validation: both selectedItems and app suites pass (16 cases total), and the formerly order-dependent query-count-change case passes alone (1 passed, 10 skipped). Scoped ESLint passes with no errors or warnings; its separate Browserslist tool advisory is pre-existing. Prettier passes. Root performs combined validation and independent review.

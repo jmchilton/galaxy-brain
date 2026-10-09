@@ -13,6 +13,7 @@
 - file: client/src/api/pages.test.ts
   iterated: 1
 - file: client/src/app/app.test.js
+  iterated: 1
 - file: client/src/app/utils.test.ts
   iterated: 1
 - file: client/src/components/ActivityBar/ActivityBar.test.js
@@ -48,6 +49,7 @@
 - file: client/src/components/Dataset/DatasetCopy.test.js
 - file: client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts
 - file: client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
+  iterated: 1
 - file: client/src/components/Dataset/DatasetView.test.js
 - file: client/src/components/Dataset/Tabular/TabularChunkedView.test.ts
 - file: client/src/components/DatasetInformation/DatasetAttributes.test.ts
@@ -347,6 +349,7 @@
 - file: client/src/composables/roundRobinSelector.test.ts
   iterated: 1
 - file: client/src/composables/selectedItems/selectedItems.test.ts
+  iterated: 1
 - file: client/src/composables/shortTermStorageMonitor.test.ts
 - file: client/src/composables/taskMonitor.test.ts
 - file: client/src/composables/upload/uploadItemTypes.test.ts
@@ -388,6 +391,7 @@
   iterated: 1
 - file: client/src/stores/notificationsStore.test.ts
 - file: client/src/stores/objectStoreInstancesStore.test.ts
+  iterated: 1
 - file: client/src/stores/objectStoreTemplatesStore.test.ts
 - file: client/src/stores/pageEditorStore.test.ts
   iterated: 1
@@ -421,6 +425,7 @@
 - file: client/src/utils/strings.test.ts
 - file: client/src/utils/tool-version.test.ts
 - file: client/src/utils/tusUpload.test.ts
+  iterated: 1
 - file: client/src/utils/upload-queue.test.js
 - file: client/src/utils/upload.test.ts
 - file: client/src/utils/url.test.js
