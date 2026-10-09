@@ -1,0 +1,20 @@
+seed: 3346925579
+inventory_sha256: b52586d91d161678055fc9e76c636aa6a2dd6d8e1dbb8307815b171baa3f74f7
+selection:
+- category: component
+  file: client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
+- category: composable
+  file: client/src/composables/selectedItems/selectedItems.test.ts
+- category: store
+  file: client/src/stores/objectStoreInstancesStore.test.ts
+- category: utility
+  file: client/src/utils/tusUpload.test.ts
+- category: other
+  file: client/src/app/app.test.js
+branch: jest_readability_batch_01
+base_commit: c51894fcccf93283b4e1a44cb9e90246be3f2283
+status: implementing
+baseline:
+  selected_tests: 36
+  selected_suites: 5
+  test_environment: NODE_OPTIONS=--no-webstorage
