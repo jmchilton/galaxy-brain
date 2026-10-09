@@ -1,0 +1,42 @@
+seed: 191605832
+inventory_sha256: 1bbb2b401b477bae52a6b7071503053c44c09c62deef70c32e9ed1fa34592c81
+selection:
+- category: component
+  file: client/src/components/Tags/model.test.js
+- category: component
+  file: client/src/components/History/Archiving/HistoryArchiveWizard.test.ts
+- category: component
+  file: client/src/components/DatasetInformation/DatasetError.test.ts
+- category: component
+  file: client/src/components/SelectionDialog/SelectionDialog.test.js
+- category: component
+  file: client/src/components/Toolshed/SearchList/ServerSelection.test.js
+- category: component
+  file: client/src/components/UtcDate.test.js
+- category: component
+  file: client/src/components/Workflow/Editor/Lint.test.ts
+- category: component
+  file: client/src/components/Workflow/WorkflowExport.test.js
+- category: component
+  file: client/src/components/History/Content/Collection/CollectionDescription.test.ts
+- category: component
+  file: client/src/components/History/model/queries.test.ts
+- category: component
+  file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js
+- category: component
+  file: client/src/components/WorkflowInvocationState/util.test.ts
+- category: composable
+  file: client/src/composables/upload/uploadItemTypes.test.ts
+- category: composable
+  file: client/src/composables/upload/useUploadSubmission.test.ts
+- category: composable
+  file: client/src/composables/useActiveContext.test.ts
+branch: jest_readability_batch_01
+base_commit: ba5800a26798382da706088dca0947a769b19641
+status: selected
+baseline:
+  selected_cases: 116
+  selected_passed: 116
+  selected_skipped: 0
+  selected_suites: 15
+  test_environment: NODE_OPTIONS=--no-webstorage
