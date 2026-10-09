@@ -40,6 +40,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`zizmor_self_repository`](../../repositories/galaxy/branches/active/zizmor_self_repository/index.md) — Uses GitHub's `$/` self-repository syntax for in-repo workflows and actions, fixing zizmor alerts. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:zizmor_self_repository?expand=1).
 - [`jest_readability_batch_01`](../../repositories/galaxy/branches/active/jest_readability_batch_01/index.md) — Improves client test readability and shares typed page and Tool fixtures across concrete consumers. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01?expand=1).
 - [`integration_ci_scope`](../../repositories/galaxy/branches/active/integration_ci_scope/index.md) — Selects costly plugin suites from changed paths; helpers and guide live beside integration tests. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:integration_ci_scope).
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
