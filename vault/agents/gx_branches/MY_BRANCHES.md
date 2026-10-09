@@ -18,7 +18,7 @@ Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
-None yet.
+- [`issue_23977_datatypes_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_datatypes_fanout_26.1/index.md) — Shares client datatype requests and avoids fetching them for help terms (#23977). [#23995](https://github.com/galaxyproject/galaxy/pull/23995).
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
@@ -28,7 +28,6 @@ None yet.
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
 - [`issue_21015_multiple_text_param`](../../repositories/galaxy/branches/active/issue_21015_multiple_text_param/index.md) — Supports multiple text workflow parameters end to end (#21015). [#23992](https://github.com/galaxyproject/galaxy/pull/23992).
-- [`issue_23977_datatypes_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_datatypes_fanout_26.1/index.md) — Shares client datatype requests and avoids fetching them for help terms (#23977). [#23995](https://github.com/galaxyproject/galaxy/pull/23995).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
