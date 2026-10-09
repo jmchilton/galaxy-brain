@@ -1,5 +1,7 @@
 # Review: bgruening/docker-galaxy#640 — CVMFS-backed tool execution via Planemo
 
+Tracking refreshed 2026-10-09: [PR #640](https://github.com/bgruening/docker-galaxy/pull/640) remains open at `f4fe4e601c56`; reported checks pass or skip. The findings below describe `ca065da`; their resolution has not been checked against the current head in this tracking refresh.
+
 Reviewed 2026-09-26 at head `ca065da` (3 commits, stacked on #639 `userspace-cvmfs`). CI green: Single Container, ARM64, Lint.
 
 ## Verdict

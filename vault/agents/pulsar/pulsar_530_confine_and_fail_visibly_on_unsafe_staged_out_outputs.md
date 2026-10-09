@@ -1,5 +1,7 @@
 # pulsar#530 - Confine and fail visibly on unsafe staged-out outputs
 
+Tracking refreshed 2026-10-09: [PR #530](https://github.com/galaxyproject/pulsar/pull/530) remains open at `e9c1838cb21b`, after the reviewed `faedeec` and follow-up `8e56def`. Three Galaxy integration checks are red; the other reported checks pass or skip. The review below is historical; no code re-review or diagnosis of the current failures was performed in this tracking refresh.
+
 - PR: https://github.com/galaxyproject/pulsar/pull/530 (mvdbeek, `mvdbeek:pulsar-confine-work-dir-outputs`)
 - Reviewed at: `faedeec` (includes John's merge of `origin/master`, trivial curl.py constants conflict)
 - Worktree: `~/projects/worktrees/pulsar/pr/530`

@@ -1,4 +1,4 @@
-Triage index for `galaxyproject/pulsar` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/pulsar/issues/`. PR reviews are tracked in `index.md`.
+Triage index for `galaxyproject/pulsar` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/pulsar/issues/`. PR reviews are tracked in [PULL_REQUESTS.md](PULL_REQUESTS.md).
 
 GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default.
 ## Waiting on John (`needs_decision`)
@@ -6,7 +6,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default.
 None yet.
 ## In motion (`wip`)
 
-- [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) (ksuderman) addresses part, won't close it; next: review #473. [notes](../../repositories/pulsar/issues/wip/465/index.md)
+- [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) addresses part, won't close it. [notes](../../repositories/pulsar/issues/wip/465/index.md)
 
 ## Queued (`queued`)
 

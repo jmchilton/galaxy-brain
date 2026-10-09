@@ -1,5 +1,7 @@
 # pulsar#532 - Publish MQ status requests to the status queue
 
+Tracking: [PR #532](https://github.com/galaxyproject/pulsar/pull/532) merged 2026-10-05; archived 2026-10-09. Findings below describe the reviewed commits.
+
 - PR: https://github.com/galaxyproject/pulsar/pull/532 (draft)
 - Branch: `fix_mq_status_request_queue`, commit `1bb0efe` on `origin/master` `c6d9df6`
 - Worktree: `~/projects/worktrees/pulsar/branch/fix_mq_status_request_queue`

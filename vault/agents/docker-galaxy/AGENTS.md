@@ -1,6 +1,14 @@
 @../_shared/VAULT_SYNC.md
 @../_shared/SECURITY_REPORTS.md
 
-Our goal is to have a Galaxy docker appliance that works and is ready to be used in applications. This used to exist for years but we didn't have the person-power to maintain it - maybe you the agent can fix that.
+Maintain the Galaxy Docker appliance at `bgruening/docker-galaxy` so it works and is ready to be used in applications.
 
-The repo is https://github.com/bgruening/docker-galaxy - maybe a good place to start is https://github.com/bgruening/docker-galaxy/pull/635.
+In the following files PROJECT is `docker-galaxy`.
+
+@../_shared/PULL_REQUESTS_INDEX.md
+@../_shared/REVIEW_NOTES.md
+@../_shared/REVIEW_FOCUS.md
+
+Start with [index.md](index.md) for current development tracking and [PULL_REQUESTS.md](PULL_REQUESTS.md) for reviews. The September recovery plan is historical context; PR #635 has merged.
+
+These agent files have no YAML frontmatter and are excluded from vault validation and the Astro site.

@@ -1,5 +1,7 @@
 # PR 473 — Dynamic VM sizing, resource env injection, and job lifecycle controls for GCP Batch
 
+Tracking refreshed 2026-10-09: [PR #473](https://github.com/galaxyproject/pulsar/pull/473) remains open at `8827d935ae71`. #493 merged 2026-09-08; John requested a rebase onto it, and Keith acknowledged. Ball with the author. See [the Batch handoff](BATCH_WORK.md) for split history.
+
 **Repo:** galaxyproject/pulsar · **PR:** #473 · **Author:** ksuderman · **Head:** `8827d935ae717a981e3a9f73f396a2ef1b712cf4` · **Base:** `master` (merge-base `0e4e622`)
 
 Three separable features landed as one change against Pulsar's GCP Batch *client* (this is

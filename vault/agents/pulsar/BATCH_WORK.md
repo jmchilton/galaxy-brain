@@ -4,7 +4,13 @@ Handoff for picking this up cold. Companion to `pulsar_473_gcp_batch_vm_sizing_e
 (see its final section, "Revised: converge on Galaxy's own Batch runner"); this file is the
 operational state, that one is the reasoning.
 
-## Update — 2026-09-04
+## Tracking refresh — 2026-10-09
+
+PR #493 merged on 2026-09-08. John asked Keith to rebase #473 onto it that day, and Keith acknowledged the request. #473 remains open at the originally reviewed `8827d93`; the ball is with the author. PR #487 also merged, on 2026-09-04.
+
+The branch and implementation notes below are historical context, not a refreshed instruction to resume the naming work. Current review tracking is in [PULL_REQUESTS.md](PULL_REQUESTS.md).
+
+## Update — 2026-09-04 (historical)
 
 The large PR 473 has been split rather than fixed in place:
 
@@ -130,4 +136,4 @@ Pulsar-side external-id seam landed in PR 491.
 ## Elsewhere in the 473 orbit
 
 - Galaxy PR #23326 (HTCondor) opened, unrelated to this thread.
-- Pulsar PR #487 (resilience `--port` arg) awaiting a merge decision.
+- Pulsar PR #487 (resilience `--port` arg) merged on 2026-09-04.

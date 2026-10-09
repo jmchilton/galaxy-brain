@@ -1,5 +1,7 @@
 # pulsar #531 - Wait for recovered jobs instead of sleeping in persistence tests
 
+Tracking: [PR #531](https://github.com/galaxyproject/pulsar/pull/531) merged 2026-10-03; archived 2026-10-09. Findings below describe the reviewed commits.
+
 - PR: https://github.com/galaxyproject/pulsar/pull/531 (nuwang:fix-persistence-test-race, head `09da8ca`)
 - Scope: `test/persistence_test.py` +19/-3. Based on current `origin/master` (`c6d9df6`).
 - Worktree: `~/projects/worktrees/pulsar/pr/531` (branch `pr-531`, made via https fetch, not ghwt)

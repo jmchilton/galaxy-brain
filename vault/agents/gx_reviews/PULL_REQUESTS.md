@@ -17,5 +17,4 @@ PRs To Review:
 PRs to Skip For 7 Days:
 
 PRs Blocked:
-- 23233 is blocked until the review we already made is responded to.
-- 23234 is blocked until 23233 is responded to.
+None yet.

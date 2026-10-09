@@ -1,5 +1,7 @@
 # Review: bgruening/docker-galaxy#639 — userspace CVMFS runtime
 
+Tracking refreshed 2026-10-09: [PR #639](https://github.com/bgruening/docker-galaxy/pull/639) remains open at `f713d52cf115`; reported checks pass or skip. John posted that the findings at `5221354` were addressed in `fea8aca` and `aa3b399`. The findings below describe that older head; verification of the current head is not recorded here.
+
 Reviewed 2026-09-25 at head `5221354` (3 commits on `main@e6c5877`). All CI checks were still queued, so this is a static review. The upstream `cvmfsexec` v4.54 source was checked at the pinned commit.
 
 ## Verdict

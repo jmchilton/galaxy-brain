@@ -1,5 +1,7 @@
 # PR 518 — Record file staging metrics for Galaxy job metrics
 
+Tracking refreshed 2026-10-09: [PR #518](https://github.com/galaxyproject/pulsar/pull/518) remains open at `a030789fae7d`; CI is green (release upload skipped). The fixes and test cleanup recorded below are pushed; awaiting merge.
+
 Reviewed local `pulsar-transfer-metrics` at `392c870` against its PR branch point `3e455c8`. The implementation reuses the existing job metrics filename convention and `ResultsCollector`; imports are at module scope. I found two counting defects.
 
 ## Findings

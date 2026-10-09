@@ -1,5 +1,7 @@
 # pulsar#526 - Fix curl redirect handling, unresumable downloads and TUS action rebuild
 
+Tracking: [PR #526](https://github.com/galaxyproject/pulsar/pull/526) merged 2026-10-03; archived 2026-10-09. Findings below describe the reviewed commits.
+
 - PR: https://github.com/galaxyproject/pulsar/pull/526 (nuwang)
 - Worktree: `~/projects/worktrees/pulsar/pr/526` @ `1f7eb9a` (vs fetched `origin/master`)
 - Commits: `bf3e3ad` (curl redirects + restart unresumable downloads), `1f7eb9a` (TUS `from_dict`)
