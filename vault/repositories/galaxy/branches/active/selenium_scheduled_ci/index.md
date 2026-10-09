@@ -1,15 +1,13 @@
 # selenium_scheduled_ci
 
-Status: `branches_ready_for_final_review`. Base: `dev`. Tip `85b37d45dbe`.
+Status: `ready`. Base: `dev`. [PR #24014](https://github.com/galaxyproject/galaxy/pull/24014) (open).
 
 Runs Selenium CI weekly or on demand and tracks dev failures in a GitHub issue.
 
 [Implementation](implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tracking history](tracking_history.md)
 
-Decisions for John:
-- Weekly (Tuesday) cadence or nightly.
-- Whether to assign or ping anyone on new issues. Currently nobody.
-- Whether to also cover `release_*`, which the old workflow ran on push.
-- Whether to smoke-run it on the fork first.
+John edited the description and chose the title "Run Selenium tests weekly and track failures in an issue". At his request, the PR was opened out of draft on 2026-10-09 at `85b37d45dbe`, while fork CI on that tip was still queued; the previous tip `e43796a64cf` was green.
 
-The workflow can't run upstream until it's on `dev`.
+Shipped as weekly (Tuesday), with no one assigned and only `dev` covered.
+
+After merge, dispatch it once on `dev` as a smoke test.
