@@ -1,6 +1,6 @@
 # issue_18750_s3fs_bucket_prefix
 
-Status: `ready`. Base: `dev`. [PR #23972](https://github.com/galaxyproject/galaxy/pull/23972) (open).
+Status: `merged`. Base: `dev`. [PR #23972](https://github.com/galaxyproject/galaxy/pull/23972) (merged).
 
 Strips s3:// and s3a:// bucket prefixes so browsed s3fs entries import (#18750).
 

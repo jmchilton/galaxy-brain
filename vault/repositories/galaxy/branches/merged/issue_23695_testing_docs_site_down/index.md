@@ -1,6 +1,6 @@
 # issue_23695_testing_docs_site_down
 
-Status: `ready`. Base: `dev`. [PR #23960](https://github.com/galaxyproject/galaxy/pull/23960) (open).
+Status: `merged`. Base: `dev`. [PR #23960](https://github.com/galaxyproject/galaxy/pull/23960) (merged).
 
 Documents test skip decorators and shares skip_if_toolshed_down (#23695).
 

@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-08 evening. PR metadata checked 2026-10-09.
+Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-08 evening. PR metadata checked 2026-10-09; merged PRs swept 2026-10-09.
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
@@ -8,13 +8,8 @@ Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2
 
 - [`pja_warn_unsupported_mapped_over`](../../repositories/galaxy/branches/active/pja_warn_unsupported_mapped_over/index.md) — Hides job-only actions on pick-value steps and warns about saved configurations. [#23334](https://github.com/galaxyproject/galaxy/pull/23334).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
-- [`pulsar_version_metrics`](../../repositories/galaxy/branches/active/pulsar_version_metrics/index.md) — Records Pulsar client, target and server versions as job metrics. [#23850](https://github.com/galaxyproject/galaxy/pull/23850).
-- [`shared_activity_availability`](../../repositories/galaxy/branches/active/shared_activity_availability/index.md) — Shares activity configuration and permission gates between the activity bar and command palette. [#23921](https://github.com/galaxyproject/galaxy/pull/23921).
 - [`job_files_fastapi`](../../repositories/galaxy/branches/active/job_files_fastapi/index.md) — Migrates the job files API to FastAPI behind an extracted `JobFilesManager`, writing Pulsar uploads to disk once. [#23933](https://github.com/galaxyproject/galaxy/pull/23933).
 - [`workbook_import`](../../repositories/galaxy/branches/active/workbook_import/index.md) — Tests the rule builder mapping Galaxy infers from workbook headers, under Selenium and Playwright. [#23922](https://github.com/galaxyproject/galaxy/pull/23922).
-- [`issue_23695_testing_docs_site_down`](../../repositories/galaxy/branches/active/issue_23695_testing_docs_site_down/index.md) — Documents test skip decorators and shares skip_if_toolshed_down (#23695). [#23960](https://github.com/galaxyproject/galaxy/pull/23960).
-- [`issue_18750_s3fs_bucket_prefix`](../../repositories/galaxy/branches/active/issue_18750_s3fs_bucket_prefix/index.md) — Strips s3:// and s3a:// bucket prefixes so browsed s3fs entries import (#18750). [#23972](https://github.com/galaxyproject/galaxy/pull/23972).
-- [`ci_trigger_scope`](../../repositories/galaxy/branches/active/ci_trigger_scope/index.md) — Scopes CI workflow edits to their suites/callers and covers missed shared inputs. [#23990](https://github.com/galaxyproject/galaxy/pull/23990).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -47,7 +42,6 @@ Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes parameter framework tools XSD-valid and checks them in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
 - [`selenium_scheduled_ci`](../../repositories/galaxy/branches/active/selenium_scheduled_ci/index.md) — Runs Selenium CI weekly or on demand and tracks dev failures in a GitHub issue. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_scheduled_ci?expand=1).
-- [`issue_23979_playwright_headless_auto`](../../repositories/galaxy/branches/active/issue_23979_playwright_headless_auto/index.md) — Avoids probing for Selenium drivers when Playwright chooses headless mode (#23979). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23979_playwright_headless_auto?expand=1).
 - [`issue_20900_invocation_validation`](../../repositories/galaxy/branches/active/issue_20900_invocation_validation/index.md) — Validates workflow invocation requests before creating histories or other side effects (#20900). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_20900_invocation_validation?expand=1).
 - [`issue_3899_pulsar_container_deps`](../../repositories/galaxy/branches/active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_3899_pulsar_container_deps?expand=1).
 - [`issue_20657_input_processing_mode`](../../repositories/galaxy/branches/active/issue_20657_input_processing_mode/index.md) — Explains tool input batching and collection mapping, and fixes collection-type matching (#20657). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_20657_input_processing_mode?expand=1).

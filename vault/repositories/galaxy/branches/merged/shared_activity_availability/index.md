@@ -1,6 +1,6 @@
 # shared_activity_availability
 
-Status: `ready`. Base: `dev`. [PR #23921](https://github.com/galaxyproject/galaxy/pull/23921) (open).
+Status: `merged`. Base: `dev`. [PR #23921](https://github.com/galaxyproject/galaxy/pull/23921) (merged).
 
 Shares activity configuration and permission gates between the activity bar and command palette.
 

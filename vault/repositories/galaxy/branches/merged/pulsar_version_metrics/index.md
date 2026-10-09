@@ -1,6 +1,6 @@
 # pulsar_version_metrics
 
-Status: `ready`. Base: `dev`. [PR #23850](https://github.com/galaxyproject/galaxy/pull/23850) (open).
+Status: `merged`. Base: `dev`. [PR #23850](https://github.com/galaxyproject/galaxy/pull/23850) (merged).
 
 Records Pulsar client, target and server versions as job metrics.
 

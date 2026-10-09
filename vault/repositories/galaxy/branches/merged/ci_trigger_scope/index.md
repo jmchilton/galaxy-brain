@@ -1,6 +1,6 @@
 # ci_trigger_scope
 
-Status: `ready`. Base: `dev`. [PR #23990](https://github.com/galaxyproject/galaxy/pull/23990) (open).
+Status: `merged`. Base: `dev`. [PR #23990](https://github.com/galaxyproject/galaxy/pull/23990) (merged).
 
 Scopes CI workflow edits to their suites/callers and covers missed shared inputs.
 
