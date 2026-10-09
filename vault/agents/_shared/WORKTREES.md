@@ -30,16 +30,17 @@ Worktrees for PROJECT request reviews live at `~/projects/worktrees/PROJECT/bran
 ghwt create PROJECT <BRANCH_NAME>
 ```
 
-**Remove** — driven by PR state, *not* by the document. When a PR has been merged or
-closed tear its worktree down:
+**Remove** — driven by branch state, *not* by the document.
+
+- Merged, closed, or abandoned branches **should** be removed.
+- When disk space is low, any branch **may** be removed once its work is pushed to a remote.
+  `ghwt create` can recreate it.
+
+Dropping an entry from the tracking document alone isn't a reason to remove its worktree.
 
 ```sh
 ghwt rm PROJECT <BRANCH_NAME>
 ```
-
-The asymmetry is intentional. Removing an entry from the tracking document does **not** mean
-destroy the worktree. Only a merged or closed PR justifies automatic removal; a still-open PR
-keeps its worktree even after it drops off the list.
 
 ## Before removing any worktree
 
