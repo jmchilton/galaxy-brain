@@ -1,0 +1,30 @@
+# Fresh test-layer challenge — iteration 15
+
+Retain the selected unit-test contracts. No higher-layer rewrite or added E2E test is required for this iteration.
+
+Reviewed the iteration 15 changes relative to `b8933cdd60dac5572bc156c40a1464ab72e018a2`, including all ten selected suites, the shared test-data export, and its supporting API ownership-test consumer. Read `LOOP_ITERATION.md`, `PROBLEM_AND_GOAL.md`, the complete client unit-testing guidance, and the shared review focus. No production code changed.
+
+Read the full shared `GX_PROCESS_CHALLENGE_TESTS.md`, Galaxy's `doc/source/dev/writing_tests.md`, and the vault's E2E Writing and Smart Components research. The user's explicit readability experiment and meaningful-coverage preservation take precedence over generic instructions to drop overlapping unit tests.
+
+## Concrete overlap and retained distinctions
+
+| Selected contracts | Inspected higher-layer evidence | Decision |
+| --- | --- | --- |
+| Markdown history import and directive rendering | `lib/galaxy_test/selenium/test_pages.py::test_history_links` publishes a history, embeds its link in a page, clicks, and verifies the copied history title. `test_simple_page_creation_edit_and_view` embeds a dataset; `test_workflow_problem_display` embeds problem workflows. | Successful import has end-to-end coverage. Keep precise loading/error text, failed request, parser rejection, invocation/workflow boundary, collapse click, and boolean prop coercion tests; those are not asserted by those browser flows. |
+| Upgrade modal | `test_workflow_editor.py::test_editor_tool_upgrade_message` checks the real old-tool message and dismissal/save. `test_editor_subworkflow_tool_upgrade_message` checks version and bad integer messages for a subworkflow. | Existing browser coverage protects the feature wiring. Keep empty input, post-dismissal prop updates, exact detail rendering, and sanitizer/profile contract. No new feature behavior requires a new browser test. |
+| History item controls and switching | `test_history_dataset_state.py::test_dataset_state` checks actual dataset identity, metadata, action buttons and expanded details. `test_history_panel.py::test_refresh_preserves_state` checks expanded/closed persistence across page refresh. `test_history_related_filter.py::test_history_related_filter` checks related-item visibility using the real history panel. | These do not assert emitted tag/selection/collapse payloads or the owned/current/purged/archived/unowned/filter/Ctrl-click matrix. Keep those component contracts. |
+| History flags/access | `lib/galaxy_test/api/test_histories.py`, `TestArchivingHistoriesWithoutExportRecord.test_archive`, `test_other_users_cannot_archive_history`, and `test_restore` check real archive flags and authorization. | API ownership/state behavior complements the switch-link UI matrix. It cannot replace button titles or ordinary-versus-Ctrl-click dispatch. |
+| Upload lifecycle | `test_uploads.py::test_upload_file`, `test_upload_simplest`, `test_upload_deferred`, and list/pair/paired-list cases check successful dataset or collection creation and history results. | Keep the composable's mixed terminal-state protections, 100%-transferred cancellation distinction, partial-byte totals, processing/error resolution, batch and dismissal contracts. Those exact local state transitions are not checked by successful upload E2E flows. |
+| SSE/polling refresh display | `test_history_panel.py::test_refresh_preserves_state` reloads the page and checks expansion persistence. | It does not control initial SSE connection, connection loss after a successful open, fixed three-minute staleness, button props, or the reload event. Keep the seven focused component cases. |
+| Tool Shed details/search | `lib/tool_shed/test/functional/test_shed_repositories.py::test_index_simple` looks up a real repository by owner/name; `test_index_pagination` checks page/category/filter totals. | Backend lookup/pagination cannot replace Galaxy's client loading/detail or no-results rendering. Service mocks isolate the transport boundary while retaining real search table/link rendering. |
+| FormCard/FormElementLabel | Inspected the components: title/help/icon/required/condition/slot are component presentation contracts. | Small tests, but they check Galaxy markup and required-state feedback, not Vue/Pinia framework behavior. Preserve their original coverage. |
+
+## Mock and abstraction challenge
+
+Repositories no longer write internal `repositories`/`pageState`; an empty service response exercises the public load boundary. Details service argument assertions move out of the fake implementation. The heading click, real dialog close, tags, and GButton selection/refresh flows use rendered controls. Upload state is called directly without a component harness because it needs no lifecycle context. Existing domain factories and SSE support replace local duplication; the new extended-history factory models one stable API shape for the two selected component consumers and the supporting API ownership-test consumer. The API test keeps the brief missing-owner shape distinct from explicitly owned and null-owner extended summaries.
+
+No production restructuring is needed to make these tests readable. No new feature or observable browser behavior is introduced, so adding an E2E flow would expand this batch without resolving a concrete coverage gap created by the change. This conclusion is based on the inspected tests, not a claim that every matrix cell already has full-stack coverage.
+
+## Validation
+
+The authoritative shuffled run (seed `150101`, `NODE_OPTIONS=--no-webstorage`) passes 110/110 cases across eleven files (96 selected cases and 14 supporting API cases), with no skipped, todo, or failed cases. Full client typechecking, scoped ESLint with zero warnings, and Prettier pass. Upload authors also ran the unchanged shared-fixture consumers: 30 additional passing cases across upload item types, batch operations, and submission. Higher-layer suites were inspected, not executed.

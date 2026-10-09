@@ -1,0 +1,11 @@
+Reviewed `client/src/components/ObjectStore/Instances/UpgradeForm.test.ts`, 4 → 4 cases.
+
+The suite adopts the existing typed `getFakeObjectStoreInstance` factory and keeps upgrade-specific values beside the test template. Repeated mounting becomes one helper with fresh localized plugins, router and cloned inputs per case, followed by automatic unmount. The router is returned explicitly for route assertions, replacing access through `wrapper.vm`. Submission clicks are awaited, and failure text is read from the rendered alert.
+
+Preservation: the AWS S3 instance and `moo` identity, UUID, original version 1 upgrading to template version 2, old/new/dropped variables and secrets, optional flags, help/default strings and all existing base instance flags. The factory's defaults exactly match the removed boilerplate fields. Both variable cases still find the actual form input and check its original value (`my old value` or empty string); meaningless wrapper truthiness now becomes actual element existence. Success and failure still pass through the real POST test endpoint before the PUT update, preserve OK plugin status and their original successful/400 responses, and retain the exact index path and confirmation query. The failure sequence begins with no error, then verifies no created event and the visible `problem upgrading` alert. Inputs, submission children and routing are rendered for real.
+
+Reuse: existing object-store factory and `getLocalVue`, `createTestRouter`, `withPlugins`, `flushPromises` and automatic unmount provide the needed setup. The versioned upgrade template has no second concrete consumer requiring a new template factory. Existing factory consumers remain unchanged.
+
+Guidance: existing typed-fixture, scenario, async and cleanup guidance covers this review. No new README rule or marginal advice proposed.
+
+Validation: 43/43 cases pass across the three selected suites and supporting GenericItem suite, zero failures or skips, shuffled with seed `160033` and `NODE_OPTIONS=--no-webstorage`. Evidence: `/private/tmp/batch16_components_tests.json`. Scoped ESLint passes with zero warnings and Prettier passes. The driver coordinates the final full client typecheck and whole-batch checks.

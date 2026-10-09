@@ -3,7 +3,7 @@ seed: 1929998238
 inventory_sha256: 750b84fe6905d081a00a870cecfa099d5d4e054966d7c5d6a1225a51c9cce4aa
 branch: jest_readability_batch_01
 base_commit: ebf196cabbe55f4ce8ee692a439e9eb59d86c647
-status: selected
+status: reviewed
 selection:
 - file: client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts
 - file: client/src/components/History/WorkflowExtractionForm.test.ts
@@ -19,9 +19,39 @@ excluded_draws:
 - file: client/src/components/Upload/DefaultBox.test.ts
   reason: Removed upstream in 56395148c79; inventory retained as historical record.
   replacement: client/src/components/Form/Elements/FormData/FormDataUri.test.ts
+  replacement_seed: 1929998239
 baseline:
   selected_cases: 163
   selected_passed: 163
   selected_skipped: 0
   selected_suites: 10
   test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/tests/vitest/visibleIntersectionObserver.ts
+- client/src/components/History/Content/GenericItem.test.ts
+supporting_suites:
+- client/src/components/History/Content/GenericItem.test.ts
+helper_files:
+- client/tests/vitest/visibleIntersectionObserver.ts
+documentation_files: []
+commit: e82e4f7718ce86e06a5d174f16a4e5ec76f0bc34
+validation:
+  passed_cases: 188
+  skipped_cases: 0
+  total_cases: 188
+  affected_suites: 11
+  selected_cases: 180
+  supporting_cases: 8
+  shuffle_seed: 160101
+  test_environment: NODE_OPTIONS=--no-webstorage
+  client_vue_tsc: passed
+  eslint: passed; zero warnings/errors
+  prettier: passed
+  normal_review: approved
+  test_challenge: approved; original contracts retained
+  strict_code_quality_review: approved
+  scope: retain ten originators plus shared observer and supporting history consumer
+  screenshots: not relevant
+  source_commit_hooks: passed
+  upstream_ci: running; results pending
+  pr_mergeability: mergeable

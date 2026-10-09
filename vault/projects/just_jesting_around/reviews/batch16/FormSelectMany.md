@@ -1,0 +1,11 @@
+Reviewed `client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts`, 8 → 8 cases.
+
+Flattened repeated nested assertion blocks into eight named behavior sequences. The local `emailOptions` fixture constructs the same ordered email combinations directly, replacing a general Cartesian matrix algorithm. Existing `emittedArg` supplies the latest controlled-input payload and `applyInput` applies only its `value` prop, modeling the same parent feedback. Each mount now gets fresh shared plugins and a testing Pinia through `withPlugins`; no component `any` cast or obsolete top-level Pinia mount option remains. Timers are scoped to each test, async debounce flushing is awaited, and wrappers auto-unmount. Selective shallow mounting keeps the actual search input and action buttons rendered; the existing worker mock and its real filtering implementation remain.
+
+Preservation: all eight scenarios retain the original options and order, both successive selection emissions, preselected column labels and exclusion from the opposite column, adding a third selected value, initial counts `(2)`/`(4)` and updated `(3)`/`(3)`, selecting all six then deselecting all six, mixed-case `BAR` search and mode changes with counts 2 → 0 → 2 → 2 → 4 → 6, filtered select/deselect with search clearing and final counts 2/1, and the complete shift/control highlight sequence. The highlight scenario retains prefixes `foo`, `BAR`, `baz`, `bar`, original click indexes and modifier combinations, highlight counts 8/6/6/2, selected count 6 and final column counts 4/4. These are dependent state transitions and stay together.
+
+Reuse: adopted existing `emittedArg`, `nth`, `getLocalVue`, and `withPlugins`. Searched neighboring form and worker suites; the email fixtures and controlled-parent arrangement have no second concrete consumer requiring a new shared abstraction. Helpers remain local.
+
+Guidance: existing async, readable setup, event and selective-stubbing practices apply. No new README rule or marginal advice proposed.
+
+Validation: all four owned suites pass 93/93 cases, zero failures or skips, shuffled with seed `160071` and `NODE_OPTIONS=--no-webstorage`; evidence is `/private/tmp/batch16_forms_tests.json`. Scoped ESLint passes with zero warnings and Prettier passes; the driver coordinates full client typechecking and final batch checks.

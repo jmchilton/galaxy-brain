@@ -1,0 +1,30 @@
+Independent review approves iteration16. Accepted preservation, fixture reuse, the shared observer and strengthened number-step/rule-error assertions; no unresolved readability recommendation remains. Full tests, client types, lint and formatting pass.
+
+<details>
+<summary>Full review</summary>
+
+Independent normal review: approved. No blocking findings or requested changes remain.
+
+Reviewed the complete iteration diff against `ebf196cabbe55f4ce8ee692a439e9eb59d86c647`, the original selected scenarios and changed arrangements, all author reports, and the new untracked visibility helper. Applied the shared review focus and the complete client testing guidance. This review covers ten selected originators, one supporting suite and one shared helper; it is independent of the authors' review.
+
+| Suite | Preserved behavior and assessment |
+| --- | --- |
+| FormSelectMany | Eight original sequences retain ordered options, both selection emissions, preselection exclusions, counts, select/deselect, case-sensitive and regex filtering, filtered selection, and the exact shift/control highlight transitions. The controlled-parent helper applies only the emitted value; real search input/buttons and the existing worker boundary remain. |
+| WorkflowExtractionForm | All 46 cases remain. Loading/errors, empty history, exact submission buckets, ICJ deduplication, seeded versus backend checked flags, ordinary/mapped inclusion, page routing, warning badges, collisions/truncation, output/step labels and disabled submission retain their original inputs and assertions. The clear-title case still clicks the real GCard. Typed callbacks and payloads replace casts. |
+| FormNumber | All original values and bounds map to 26 independently reported rows, including all six out-of-range values and eight precision inputs. Both rendered step attributes now observe the original precision expectations within their owning test, replacing the unawaited async loop. Real inputs and alerts remain rendered. |
+| ChatMessageCell | All 24 cases retain original message text, mismatched clarification response content, two options, both feedback directions and disabled properties, metadata values, error/system behavior, slot content and sanitizer arguments. Real clarification children and the ActionCard button/event forwarding case remain. |
+| FormDataUri | All three cases retain unchanged fixtures, singular default identifiers/locations and every ordered recursive list element. Type guards replace casts without inventing or dropping fixture coverage. |
+| UpgradeForm | Four original outcomes retain instance/template values, real old/new inputs, successful POST/PUT flow and exact route/query, and pre-error/no-created-event/error-text failure sequence. Existing factory defaults match the removed fields; per-case cloned inputs and fresh routers improve isolation. |
+| RuleDefinitions | All 55 unchanged cross-language YAML entries and the existing empty-header regression remain. Exact successful rows and optional sources survive; the runtime error checks the actual nonempty rule annotation. Six entries without initial data still exercise specification metadata rather than claiming client schema validation. Imported mutable data/rules are cloned. |
+| TabularChunkedView | Seven cases retain extensions, parsing/fallback output, request offsets `[0, 8, 12]`, row counts, EOF/error request counts and both original 250 ms terminal observation windows. The real infinite-scroll composable remains. |
+| TargetHistorySelector | Three original histories retain their flags/defaults and exact warnings. Store seeding and the stubbed link boundary remain; the removed HTTP handler was unconsumed. |
+| QuotaUsageSummary | All three cases retain exact byte totals, finite/unlimited sources and the original exposed numeric assertion. Additional rendered wording and ordered child props strengthen coverage. |
+| GenericItem, supporting | Its eight HDA/HDCA cases, fetch boundaries, error states and automatic-refresh failure sequence remain unchanged. Only the duplicate observer is replaced. |
+
+The shared `VisibleIntersectionObserver` implements the DOM contract in the existing test-utility layer and has two concrete consumers. It keeps synchronous true-intersection callbacks, target identity and the tabular fixture's time `1`. Complete entry fields replace unsafe casts; GenericItem only consumes the true-intersection condition. No visibility modes, timers or application logic enter the helper.
+
+Checked final driver evidence directly: all 188 tests pass across eleven affected file suites, with no skipped cases, shuffled using seed `160101`. The ten selected suites contribute 180 cases and supporting GenericItem contributes eight. Full client types, scoped ESLint with zero warnings and Prettier each exit zero. Evidence: `/private/tmp/jest_readability_batch16_final_client.json` and `/private/tmp/jest_readability_batch16_validation_status.json`.
+
+No existing meaningful assertion or scenario was removed to obtain a pass. No production code changes or new unresolved advice are required; the existing README already explains the implemented improvements.
+
+</details>

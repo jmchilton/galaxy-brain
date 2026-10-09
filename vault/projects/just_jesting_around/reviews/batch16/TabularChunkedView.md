@@ -1,0 +1,11 @@
+Reviewed `client/src/components/Dataset/Tabular/TabularChunkedView.test.ts`, 7 → 7 cases.
+
+The tabular/CSV header variants use named rows while each chunking, error and parsing scenario remains independent. Mounts receive fresh shared plugins and automatically unmount; stubbed globals restore after each case. The repeated visibility observer now comes from a shared typed helper also adopted by GenericItem. The observer continues to immediately report every observed target as intersecting, preserving the real infinite-scroll composable rather than mocking its decisions.
+
+Preservation: original dataset ID, two-column metadata and extensions; header true for generic tabular and false for CSV; the exact two data chunks followed by EOF, offsets `[0, 8, 12]`, three rendered rows, exactly three requests and the original 250 ms no-additional-request observation; the original rejected error and visible message, exactly one request with the same 250 ms stop observation; quoted comma and tab cells with exact parsed rows; and ragged-record fallback folding the third CSV field into the last tab-separated cell. The two time windows are retained and explained because terminal-state assertions must observe beyond the infinite-scroll retry interval. Axios and application-root mocking, real parser/infinite-scroll execution and shallow GTable boundary remain unchanged.
+
+Reuse: see [shared visibility observer review](visibleIntersectionObserver.md). GenericItem is a concrete second consumer; it is a supporting edit and does not advance its originator counter. Sparse dataset setup remains local because a new detailed-dataset factory would add many unrelated fields without a concrete second consumer.
+
+Guidance: existing reuse, scenario, mock-boundary, async and cleanup guidance explains the change. No new README rule or marginal advice proposed.
+
+Validation: 43/43 cases pass across the three selected suites and supporting GenericItem suite, zero failures or skips, shuffled with seed `160033` and `NODE_OPTIONS=--no-webstorage`. Evidence: `/private/tmp/batch16_components_tests.json`. Scoped ESLint passes with zero warnings and Prettier passes. The driver coordinates the final full client typecheck and whole-batch checks.

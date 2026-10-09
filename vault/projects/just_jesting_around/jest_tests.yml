@@ -54,6 +54,7 @@
 - file: client/src/components/Dataset/DatasetView.test.js
   iterated: 1
 - file: client/src/components/Dataset/Tabular/TabularChunkedView.test.ts
+  iterated: 1
 - file: client/src/components/DatasetInformation/DatasetAttributes.test.ts
 - file: client/src/components/DatasetInformation/DatasetError.test.ts
   iterated: 1
@@ -67,16 +68,19 @@
 - file: client/src/components/Form/Elements/FormCheck.test.js
 - file: client/src/components/Form/Elements/FormData/FormData.test.ts
 - file: client/src/components/Form/Elements/FormData/FormDataUri.test.ts
+  iterated: 1
 - file: client/src/components/Form/Elements/FormData/collections.test.ts
 - file: client/src/components/Form/Elements/FormDirectory.test.js
 - file: client/src/components/Form/Elements/FormDrilldown/utilities.test.js
 - file: client/src/components/Form/Elements/FormHidden.test.js
 - file: client/src/components/Form/Elements/FormInput.test.js
 - file: client/src/components/Form/Elements/FormNumber.test.js
+  iterated: 1
 - file: client/src/components/Form/Elements/FormOptionalText.test.js
 - file: client/src/components/Form/Elements/FormRadio.test.js
 - file: client/src/components/Form/Elements/FormSelect.test.js
 - file: client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts
+  iterated: 1
 - file: client/src/components/Form/Elements/FormText.test.js
 - file: client/src/components/Form/Elements/FormUpload.test.js
 - file: client/src/components/Form/FormCard.test.js
@@ -98,6 +102,7 @@
 - file: client/src/components/GalaxyAI/ChatActions.test.ts
 - file: client/src/components/GalaxyAI/ChatInput.test.ts
 - file: client/src/components/GalaxyAI/ChatMessageCell.test.ts
+  iterated: 1
 - file: client/src/components/GalaxyAI/ChatModeSelector.test.ts
 - file: client/src/components/GalaxyAI/ClarificationCard.test.ts
 - file: client/src/components/GalaxyAI/agentTypes.test.ts
@@ -145,9 +150,11 @@
 - file: client/src/components/History/SwitchToHistoryLink.test.ts
   iterated: 1
 - file: client/src/components/History/TargetHistorySelector.test.ts
+  iterated: 1
 - file: client/src/components/History/TargetObjectStoreSelector.test.ts
   iterated: 1
 - file: client/src/components/History/WorkflowExtractionForm.test.ts
+  iterated: 1
 - file: client/src/components/History/model/queries.test.ts
   iterated: 1
 - file: client/src/components/HistoryExport/Index.test.js
@@ -204,6 +211,7 @@
   iterated: 1
 - file: client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts
 - file: client/src/components/ObjectStore/Instances/UpgradeForm.test.ts
+  iterated: 1
 - file: client/src/components/ObjectStore/ObjectStoreBadge.test.ts
 - file: client/src/components/ObjectStore/ObjectStoreBadges.test.ts
 - file: client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js
@@ -244,6 +252,7 @@
 - file: client/src/components/Popper/usePopper.test.js
 - file: client/src/components/Register/RegisterForm.test.ts
 - file: client/src/components/RuleBuilder/RuleDefinitions.test.ts
+  iterated: 1
 - file: client/src/components/RuleBuilder/SavedRulesSelector.test.js
 - file: client/src/components/RuleCollectionBuilder.test.js
 - file: client/src/components/ScrollList/ScrollList.test.ts
@@ -300,6 +309,7 @@
   iterated: 1
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts
+  iterated: 1
 - file: client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts
   iterated: 1
 - file: client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts
