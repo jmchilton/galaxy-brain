@@ -4,7 +4,7 @@ Status: prototype, not in `MY_BRANCHES.md`. No PR intent yet; John is evaluating
 
 Worktree: `~/projects/worktrees/galaxy/branch/storybook_prototype` (ghwt). Pushed to `jmchilton/storybook_prototype`.
 
-- [Plan: Storybook Vitest addon (pinned)](plan_vitest_addon.md)
+- [Plan: Storybook Vitest addon](../../../../../projects/just_jesting_around/plan_vitest_addon.md), built on [storybook_interactions](../storybook_interactions/index.md)
 
 ## Why
 
@@ -40,4 +40,4 @@ John finds the client unit tests hard to hold in context: long files, mostly per
 
 ## Next
 
-John to review the three migrations. Then revisit the [Vitest addon plan](plan_vitest_addon.md).
+John to review the three migrations. Browser-mode work continues on [storybook_interactions](../storybook_interactions/index.md).

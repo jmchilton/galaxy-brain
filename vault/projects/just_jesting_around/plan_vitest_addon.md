@@ -1,6 +1,6 @@
 # Plan: Storybook Vitest addon (pinned)
 
-Pinned 2026-10-09 by John until FilesDialog and HistoryExportWizard are migrated to composed stories.
+Pinned 2026-10-09 by John until FilesDialog and HistoryExportWizard were migrated to composed stories; unpinned the same day, built on `storybook_interactions`.
 
 ## Idea
 
@@ -28,7 +28,7 @@ Mixed mode is out of scope: the existing suite depends on Node-side shims (the t
 
 ## Experiment
 
-1. Add the addon and browser mode on `storybook_prototype`, as the `unit`/`storybook` project split above.
+1. Done on `storybook_interactions` (`1bc00618a5f`): the `unit`/`storybook` split, 26 stories plus one play function (HistoryExportWizard `ExportsDirectDownload`) pass in Chromium. The optional `browser` project isn't added yet. See the [branch record](../../repositories/galaxy/branches/active/storybook_interactions/index.md).
 2. Move 3–4 FormData tests to `play` functions: multiple datasets, linked/unlinked batch mode, and the drag-and-drop rejections. Use `onInput: fn()` args instead of `wrapper.emitted()`, and role/title/text queries instead of `.multiselect__*` classes.
 3. Measure wall time against the happy-dom run of the same cases.
 4. Check whether the compat deprecation console error fails the render smoke test for every story.
