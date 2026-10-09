@@ -1,0 +1,42 @@
+seed: 1197571187
+inventory_sha256: 45919ebf3dc3e85734c93f7a39147c4dd3176f7d8d1df4866550ec621ded88a8
+selection:
+- category: component
+  file: client/src/components/History/Content/Dataset/DatasetDownload.test.ts
+- category: component
+  file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js
+- category: component
+  file: client/src/components/Workflow/Editor/modules/canvasDraw.test.ts
+- category: component
+  file: client/src/components/admin/AdminPanel.test.js
+- category: component
+  file: client/src/components/History/Modals/SelectorModal.test.js
+- category: component
+  file: client/src/components/Workflow/Editor/Forms/FormDefault.test.js
+- category: component
+  file: client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts
+- category: component
+  file: client/src/components/ToolEntryPoints/ToolEntryPoints.test.js
+- category: component
+  file: client/src/components/Markdown/Editor/CellOption.test.js
+- category: composable
+  file: client/src/composables/useHistoryDatasets.test.ts
+- category: composable
+  file: client/src/composables/pagination.test.ts
+- category: composable
+  file: client/src/composables/usePageProposals.test.ts
+- category: store
+  file: client/src/stores/userStore.test.ts
+- category: store
+  file: client/src/stores/entryPointStore.test.js
+- category: other
+  file: client/src/entry/analysis/router-push.test.js
+branch: jest_readability_batch_01
+base_commit: 61c44ce5a05f0b70021010ba7d937c25690c1558
+status: selected
+baseline:
+  selected_cases: 104
+  selected_passed: 104
+  selected_skipped: 0
+  selected_suites: 15
+  test_environment: NODE_OPTIONS=--no-webstorage
