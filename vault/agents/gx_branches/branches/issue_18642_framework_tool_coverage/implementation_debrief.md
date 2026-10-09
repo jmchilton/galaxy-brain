@@ -38,5 +38,5 @@ Branch at `f66d1f0f97d` (off dev `4fe00d9e7ab`), pushed to the `jmchilton` fork.
 
 ## Follow-ups
 
-- The stacked `issue_23978_parameter_tools_xsd` is based on `85f79a9ab6c`. It needs a rebase onto `f66d1f0f97d` before it opens.
+- The stacked `issue_23978_parameter_tools_xsd` was rebased onto `f66d1f0f97d` (now `2bd2d9cf1b4`, force-pushed with lease). `validate_test_tools.sh` passes all 410 tools, and all 136 linter tests pass.
 - The scope questions in the polish debrief still stand: `tool_data_path` plumbing, a Tool Shed regression test, and the fixture path.
