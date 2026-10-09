@@ -364,7 +364,7 @@
 - file: client/src/stores/objectStoreInstancesStore.test.ts
 - file: client/src/stores/objectStoreTemplatesStore.test.ts
 - file: client/src/stores/pageEditorStore.test.ts
-  iterated: 2
+  iterated: 1
 - file: client/src/stores/storageOperationsStore.test.ts
 - file: client/src/stores/toolStore.test.ts
   iterated: 1

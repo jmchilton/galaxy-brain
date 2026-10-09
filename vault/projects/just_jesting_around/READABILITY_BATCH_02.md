@@ -14,9 +14,9 @@ Five previously uniterated tests were randomly selected, one per category, with 
 
 Added `client/tests/test-data/pages.ts` with typed summary/details factories. The selected API test and previously reviewed `stores/pageEditorStore.test.ts` had identical objects; both consume the helper immediately. The supporting store changes only fixture declarations/imports and retains all 71 cases. Defaults are unchanged and array fields are fresh per factory call. Revision factories and PageEditor component fixtures remain outside this iteration.
 
-No README additions emerged from this sample. Existing guidance covered the useful changes; routine request assertions, timer APIs, and deterministic-case advice did not justify new paragraphs. [MARGINAL_ADVICE.md](MARGINAL_ADVICE.md) keeps two concrete follow-ups: malformed/random notification-factory timestamps across Card/List consumers, and a typed Tool factory across identified component/store consumers, with reasons for deferral.
+No README additions emerged from this sample. Existing guidance covered the useful changes; routine request assertions, timer APIs, and deterministic-case advice did not justify new paragraphs. [MARGINAL_ADVICE.md](MARGINAL_ADVICE.md) retains the notification-factory timestamp follow-up. The identified typed Tool factory is actionable cross-test reuse to follow through in a future iteration; the clarified loop permits migrating its concrete consumers without marking them fully iterated.
 
-The five selected inventory entries receive `iterated: 1`; the supporting page-store fixture migration is recorded as a second iteration of that file. These counters track file reviews, not just random selections.
+The five selected originating inventory entries receive `iterated: 1`. The supporting page-store fixture migration is recorded separately and leaves its first-iteration counter at 1, following the clarified loop policy; supporting edits do not count as another full review.
 
 ## Validation
 
