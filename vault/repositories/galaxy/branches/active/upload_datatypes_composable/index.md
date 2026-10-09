@@ -2,7 +2,7 @@
 
 Status: `branches_implemented_needs_ci`. Base: `dev`.
 
-Adds a `useUploadDatatypes` composable with loading/error state; upload configurations and collection editing use it.
+Adds `useUploadDatatypes` and `useUploadDbKeys` composables with loading/error state, and shows datatype and Database/Build load failures instead of empty selectors.
 
 [Implementation](implementation_debrief.md)
 

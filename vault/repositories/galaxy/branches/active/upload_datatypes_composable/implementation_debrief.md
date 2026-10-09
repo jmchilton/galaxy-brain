@@ -12,13 +12,20 @@ Follow-up to mvdbeek's review on #23995; plan in [the #23995 review note](../iss
   - `CollectionEditView` uses the composable instead of `DatatypesProvider`. It now fetches at setup even when the celery-only Datatypes tab is hidden; the request is shared app-wide.
   - `datatypeStore` imports `getUploadDatatypes` by name so tests mocking `@/components/Upload/utils` reach it.
 
+- `310940d62f5`: the same for Database/Builds.
+  - `dbKeyStore` rejects instead of logging; imports `getUploadDbKeys` by name.
+  - `DbKeyProvider` exposes `error`; `SelectionOperations` (modal `GAlert`) and `LibraryDataset` (current `genome_build` plus error) render it.
+  - `useUploadDbKeys()` in new `composables/dbKeys.ts` (matches `api/dbKeys.ts`); `CollectionEditView` uses it instead of `DbKeyProvider`.
+  - `DirectoryDatasetPicker` calls the store directly; it now catches and shows an inline `GAlert`. Not moved to the composable: it loads dbkeys after datatypes and builds its list from that ordering.
+  - `useUploadConfigurations` keeps its own dbkey loader: it sorts by the configured `default_genome`, while the store sorts by `?`.
+
 ## Testing
 
 - Red first: `composables/datatypes.test.ts` (success; error exposed). Existing `uploadConfigurations.test.ts` `"formats"` case covers the switch.
 - No `CollectionEditView` test exists; not added (heavy to mount).
-- Local, node 22.20.0: providers, LibraryDataset, HistoryOperations, Collections, stores, Upload, Help, composables, sharedPromise — 101 files / 864 tests pass. `vue-tsc --noEmit` clean. Prettier/eslint clean (one pre-existing `@onChange` warning).
+- Dbkeys, red first: `composables/dbKeys.test.ts`, `DbKeyProvider` cases in `storeProviders.test.js`, failed-dbkey stub in `LibraryDataset.test.js`. No `DirectoryDatasetPicker` test exists.
+- Local, node 22.20.0, at `310940d62f5`: providers, Libraries, HistoryOperations, Collections, stores, Upload, Help, composables, sharedPromise — 107 files / 880 tests pass. `vue-tsc --noEmit` clean. Prettier/eslint clean (one pre-existing `@onChange` warning).
 
 ## Not done
 
-- `DbKeyProvider`/`dbKeyStore` still catch and log; same treatment would fit.
-- `SelectionOperations` and `LibraryDataset` keep `DatatypesProvider` (Options API).
+- `SelectionOperations` and `LibraryDataset` keep `DatatypesProvider`/`DbKeyProvider` (Options API).
