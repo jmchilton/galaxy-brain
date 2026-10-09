@@ -22,8 +22,10 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
   holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
   lands there one commit per fix/enhancement; see "Prerequisite PRs" below.
-- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`e293149b9d1`,
-  `lib/galaxy_test/selenium/gxui/`, 41 tests in `test/unit/selenium/test_gxui.py`). The skill is on
+- **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`ce968bc19f8`,
+  `lib/galaxy/selenium/gxui/`, `gxui` script of `galaxy-selenium`, tests in
+  `test/unit/selenium/test_gxui*.py`). Codex's package move and config/login work
+  (`GXUI_PACKAGE_MOVE_HANDOFF.md`, `GXUI_CONFIG_LOGIN_HANDOFF.md`) were folded in 2026-10-09. The skill is on
   galaxy-skills branch `gxui` (`galaxy-ui-driver/`). The vault's `galaxy_ui_loop/` keeps only the
   eval harness; how to run and recreate the worktrees is in its README. Findings below under "MVP
   findings".
@@ -274,7 +276,7 @@ the REST API. The skill makes this mandatory. The transcript is the input to:
 
 | Piece | Home | Why |
 |---|---|---|
-| Daemon, client, verb registry | The tip commit of the standing branch `galaxy_ui_driver`: `lib/galaxy_test/selenium/gxui/`, `gxui` script in `galaxy-test-selenium`, tests in `test/unit/selenium/test_gxui.py` (John, 2026-10-07). **Correct home is `lib/galaxy/selenium/gxui/` (`galaxy-selenium`)**; it can't go there until the mixins it imports from `galaxy_test` (`RunsWorkflows` in `framework.py`, `UsesUploadActivity`) move into `galaxy.selenium` - a refactor still to plan | It needs the test framework's mixins, versions with the vocabulary, and can be upstreamed |
+| Daemon, client, verb registry | The tip commit of the standing branch `galaxy_ui_driver`: `lib/galaxy/selenium/gxui/`, `gxui` script in `galaxy-selenium`, tests in `test/unit/selenium/test_gxui*.py`. Moved out of `galaxy_test` 2026-10-09 once `UsesUploadActivity` moved to `galaxy.selenium` (7k) | It needs the test framework's mixins, versions with the vocabulary, and can be upstreamed |
 | Skill (`SKILL.md`) | `galaxy-skills` worktree `~/projects/worktrees/galaxy-skills/branch/gxui`, branch `gxui`: `galaxy-ui-driver/` (John, 2026-10-07) | Community skills repo; marked experimental until `gxui` ships in Galaxy |
 | Loop harness | `galaxy_ui_loop/` in the vault (`run.sh`, `verify.py`, `metrics.py`, prompts, `expand_snippets.py`) | Eval tooling; it takes gxui from the Galaxy worktree and the skill from the galaxy-skills worktree |
 | Run reports | `vault/projects/playwright/` (ledger); screenshots and JSONL stay outside the vault | Large binary artifacts don't belong in the vault |
@@ -326,7 +328,10 @@ Commit queue (✅ = on the branch):
 | 7h | `workflow_editor_click_run` clicks the editor's Run activity; new `workflow_editor.tool_bar.run` (`8e579923247`) | fix ✅ |
 | 7i | `workflow_index_open_with_name` / `workflow_run_with_name` search a colon-free part of the name (`workflow_search_term`; the list search read `GTN Training:` as a filter) (`3a8d859dab9`) | fix ✅ |
 | 7j | `navigation.yml` `invocations.cancel_button` (`b98e9c42974`) | enhancement ✅ |
-| gxui | `gxui` itself, **always the tip** (`e293149b9d1`, 2026-10-08): `lib/galaxy_test/selenium/gxui/`, `gxui` script, `test/unit/selenium/test_gxui.py` (41 pass); amended in place | enhancement ✅ |
+| 7k | Upload Activity helpers lifted into `galaxy.selenium.upload_activity_helpers` (old module re-exports); `workflow_run_wait_for_ok` on `NavigatesGalaxy` (`30ef5813c1a`, Codex) | enhancement ✅ |
+| 7l | Test-framework context checks split from the `galaxy-selenium` package suite (`6ca606d67b5`, Codex) | enhancement ✅ |
+| 7m | `ConfiguredDriver(storage_state=...)`: a Playwright page starts with saved cookies + localStorage (`37d2cb5a632`) | enhancement ✅ |
+| gxui | `gxui` itself, **always the tip** (`ce968bc19f8`, 2026-10-09): `lib/galaxy/selenium/gxui/`, `gxui` script of `galaxy-selenium`, profiles/config/login (Codex), `test/unit/selenium/test_gxui*.py`; amended in place | enhancement ✅ |
 
 Notes from doing 4a–5e (2026-10-06):
 - **Corrected findings.** 4a's cause was client-side panel search (regex-escaped query matched

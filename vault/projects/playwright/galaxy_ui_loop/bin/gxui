@@ -1,7 +1,7 @@
 #!/bin/sh
-# Run the gxui client (lib/galaxy_test/selenium/gxui on the standing branch) with a Galaxy checkout's Python.
+# Run the gxui client (lib/galaxy/selenium/gxui on the standing branch) with a Galaxy checkout's Python.
 #   GXUI_GALAXY_ROOT  Galaxy checkout (default: the galaxy_ui_driver worktree)
 #   GXUI_PYTHON       Python with Galaxy's deps and playwright (default: $GXUI_GALAXY_ROOT/.venv/bin/python)
 root=${GXUI_GALAXY_ROOT:-$HOME/projects/worktrees/galaxy/branch/galaxy_ui_driver}
 python=${GXUI_PYTHON:-$root/.venv/bin/python}
-PYTHONPATH="$root/lib${PYTHONPATH:+:$PYTHONPATH}" exec "$python" -m galaxy_test.selenium.gxui.client "$@"
+PYTHONPATH="$root/lib${PYTHONPATH:+:$PYTHONPATH}" exec "$python" -m galaxy.selenium.gxui.client "$@"

@@ -29,8 +29,8 @@ Per run: `events.jsonl`, `codex-home/sessions` (token log), `work/notes.md`, `wo
 ## gxui and the skill
 
 This directory is only the eval harness now. gxui (CLI, daemon, verbs) is the **tip commit** of the
-standing Galaxy branch `galaxy_ui_driver` (`lib/galaxy_test/selenium/gxui/`, tests in
-`test/unit/selenium/test_gxui.py`; pushed to `jmchilton`, worktree
+standing Galaxy branch `galaxy_ui_driver` (`lib/galaxy/selenium/gxui/`, tests in
+`test/unit/selenium/test_gxui*.py`; pushed to `jmchilton`, worktree
 `~/projects/worktrees/galaxy/branch/galaxy_ui_driver`), stacked on the Galaxy fixes it needs. Change
 gxui by amending that commit; Galaxy fixes go below it (policy in `../GALAXY_UI_SKILL_DESIGN.md`).
 The skill is `galaxy-ui-driver/` on the `gxui` branch of galaxy-skills (worktree
