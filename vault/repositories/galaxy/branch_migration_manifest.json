@@ -704,7 +704,7 @@
       "destination": "vault/repositories/galaxy/branches/active/issue_23914_page_card_actions/polish_debrief.md",
       "tracked": true,
       "source_sha256": "0894c3d8c3d53ab2aac5531b9c76ded13f5e4f29ff3706afa94d3acf51d6daa7",
-      "destination_sha256": "6e5df6f1583ee08fe54c556c5f24d66d9908415ff8028af6472174e9966c0508"
+      "destination_sha256": "58ad34b1b9013844e520365f949bff454a1bfb7a6ace3be127f8ffb52865146f"
     },
     {
       "source": "vault/agents/gx_branches/branches/issue_23914_page_card_actions/pr_description.md",
@@ -977,28 +977,28 @@
       "destination": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/1/implementation_debrief.md",
       "tracked": true,
       "source_sha256": "69d68abfa7d0697fb0ad62f7d053d6f472f6e7b3b23915508bb29f8e6643dce6",
-      "destination_sha256": "5752b8adbbedfc7bd88b5bb24a3eca114adf7608bd928eae8979ff0a45c293b5"
+      "destination_sha256": "1ee4a31608242e3259b0871436e97bcfd923363c7ff5a3916b73de7a3ff16a45"
     },
     {
       "source": "vault/agents/gx_branches/branches/jest_readability_batch_01/earlier_drafts/2/implementation_debrief.md",
       "destination": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/2/implementation_debrief.md",
       "tracked": true,
       "source_sha256": "b5500c2ef712b8e656679a5dadd4fb5fbd662086844fda8c89bbbe3a18f0df2f",
-      "destination_sha256": "3868e68e4cdf7814a3074ec690935798daf5bc151c3071edf5c67c48a9f98add"
+      "destination_sha256": "ad0517361bc82b62959b569b8521f8e52b1f524f81fd3c2ad3db60f738df2d11"
     },
     {
       "source": "vault/agents/gx_branches/branches/jest_readability_batch_01/earlier_drafts/3/implementation_debrief.md",
       "destination": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/3/implementation_debrief.md",
       "tracked": true,
       "source_sha256": "fe84707854ef380e9e89b49875211ef8ba1851622f63ca080a6a451a8eb0331c",
-      "destination_sha256": "8607ee8b566e3f2f57001e918519b5fcad0fb06d93ca94f8ab1fe18211a0d8a7"
+      "destination_sha256": "4d1b33aad91012db597f0eb7ccc88822b67bcaf87761ce86d8481122d76cfd67"
     },
     {
       "source": "vault/agents/gx_branches/branches/jest_readability_batch_01/earlier_drafts/4/implementation_debrief.md",
       "destination": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/4/implementation_debrief.md",
       "tracked": true,
       "source_sha256": "39d97d4f007026afa2157e1a570611f6b93e3bcd61ff96cceede2a8f64487f0f",
-      "destination_sha256": "d38dd3ed75d5a345f5f603c75ce1f325dd0ec44a700974de9738852ed6642494"
+      "destination_sha256": "30f6a8959410122d309c530d43ff911bbb81875b967cff061241290b27af63b0"
     },
     {
       "source": "vault/agents/gx_branches/branches/jest_readability_batch_01/earlier_drafts/5/implementation_debrief.md",
@@ -1040,7 +1040,7 @@
       "destination": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/6/implementation_debrief.md",
       "tracked": true,
       "source_sha256": "fa953b1f5c7acf5a041553b5ce1b38bc23862a063ecc54ae6e79e1ad55cacada",
-      "destination_sha256": "36801be41e7324cbaae87e33f48eaec3a5515a2722babd3849d7a487459a7f4d"
+      "destination_sha256": "930287cee6b3d4c0fdbc4cf28d218bcc90da4d72c58b24ef5fe424dc464275b9"
     },
     {
       "source": "vault/agents/gx_branches/branches/jest_readability_batch_01/earlier_drafts/6/initial_implementation_debrief.md",
@@ -1068,7 +1068,7 @@
       "destination": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/6/test_challenges_debrief.md",
       "tracked": true,
       "source_sha256": "53a344df8f51acbf9cf01564f7980422a698b4c79c1058fdefdda1ffadd630f3",
-      "destination_sha256": "53a344df8f51acbf9cf01564f7980422a698b4c79c1058fdefdda1ffadd630f3"
+      "destination_sha256": "de0dd677329c6933948561fff33019f75d0d170e56fc67e10c392f0af027e4c0"
     },
     {
       "source": "vault/agents/gx_branches/branches/jest_readability_batch_01/implementation_debrief.md",
@@ -2403,54 +2403,11 @@
     "playwright_hover_away remains active as history with unconfirmed lifecycle.",
     "Comparison/reference records do not imply new PR intent."
   ],
-  "preexisting_unresolved_supporting_links": [
-    {
-      "file": "vault/repositories/galaxy/branches/active/issue_23914_page_card_actions/polish_debrief.md",
-      "target": "../../../../../repositories/galaxy/branches/active/issue_23914_page_card_actions/implementation_debrief.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/1/implementation_debrief.md",
-      "target": "scope_evaluation.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/1/implementation_debrief.md",
-      "target": "screenshot_debrief.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/2/implementation_debrief.md",
-      "target": "scope_evaluation.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/2/implementation_debrief.md",
-      "target": "screenshot_debrief.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/3/implementation_debrief.md",
-      "target": "scope_evaluation.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/3/implementation_debrief.md",
-      "target": "screenshot_debrief.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/4/implementation_debrief.md",
-      "target": "scope_evaluation.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/4/implementation_debrief.md",
-      "target": "screenshot_debrief.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/6/implementation_debrief.md",
-      "target": "subagents/normal_review_02.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/jest_readability_batch_01/earlier_drafts/6/test_challenges_debrief.md",
-      "target": "subagents/normal_review_02.md"
-    },
-    {
-      "file": "vault/repositories/galaxy/branches/active/selenium_stories_core/pr_description.md",
-      "target": "000_rules_apply_rules_example_4_1_input_paste.png"
-    }
-  ]
+  "preexisting_unresolved_supporting_links": [],
+  "supporting_link_cleanup": {
+    "date": "2026-10-09",
+    "jest_links_repaired": 10,
+    "missing_page_card_reference_removed": 1,
+    "fenced_example_false_positives_removed": 1
+  }
 }

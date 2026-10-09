@@ -8,7 +8,7 @@ Client README guidance now covers readable scenarios, handler lifetime and type 
 
 Validation: baseline 88 cases passed; final combined run passed all five suites and 98 cases. The additional cases split existing expectations, rather than introducing new production behaviors. All modified tests and README pass Prettier; all five test files pass ESLint; full client `pnpm exec vue-tsc --noEmit` passes. Tests were run with `pnpm exec vitest run <five paths> --maxWorkers=2 --reporter=verbose`. The full client suite was not run because no production/shared-helper code changed.
 
-Independent normal review found no blocking findings and checked exact store assertion preservation. Test challenge retains all baseline cases; shared page/revision factories and a pure upload-item-builder spy remain documented follow-ups. [Scope evaluation](scope_evaluation.md) recommends retaining five files plus the guide. [Screenshot audit](screenshot_debrief.md) found screenshots not relevant because no production or E2E source changed.
+Independent normal review found no blocking findings and checked exact store assertion preservation. Test challenge retains all baseline cases; shared page/revision factories and a pure upload-item-builder spy remain documented follow-ups. [Scope evaluation](../5/scope_evaluation.md) recommends retaining five files plus the guide. [Screenshot audit](../5/screenshot_debrief.md) found screenshots not relevant because no production or E2E source changed.
 
 Shared typed page/revision factories have concrete consumers in store, API, and PageEditor tests, but migrating them is outside this batch. The existing upload module remains mocked for component-boundary isolation; its pure helper is separately tested. No PR was opened.
 

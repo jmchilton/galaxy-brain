@@ -28,4 +28,6 @@ PR state/base/head metadata was refreshed for 88 identified PRs and agreed with 
 
 The [migration manifest](branch_migration_manifest.json) records source/destination paths and hashes for every moved file. Hash differences reflect supporting-link/path repairs; substantive branch history is retained.
 
-Verified all moved files, all 68 queue entries, all four approvals, 458 local links across the queue/catalog/report/indexes, and screenshot ignore rules. Vault validation and index/dashboard checks pass (15 existing vault warnings). Twelve older supporting links still reference missing files or unarchived draft reviews; these predate the migration and are listed in the manifest.
+Verified all moved files, all 68 queue entries, all four approvals, 458 local links across the queue/catalog/report/indexes, and screenshot ignore rules. Vault validation and index/dashboard checks pass (15 existing vault warnings).
+
+Supporting-link cleanup, 2026-10-09: repaired ten Jest paths to their preserved reviews, removed the page-card polish debrief's missing implementation-note reference, and removed one false positive from the audit (an image link inside a fenced Markdown example). All twelve flagged entries are resolved.

@@ -1,6 +1,6 @@
 # issue_23914_page_card_actions — polish debrief
 
-Polished at `93a34e9a739` on `jmchilton/issue_23914_page_card_actions`, base `dev`. Implementation notes: [implementation debrief](../../../../../repositories/galaxy/branches/active/issue_23914_page_card_actions/implementation_debrief.md).
+Polished at `93a34e9a739` on `jmchilton/issue_23914_page_card_actions`, base `dev`.
 
 ## CI
 - Fork CI on `617f8a2f6d0` was all queued when polishing started, with no reds. It needs checking on `93a34e9a739`.
