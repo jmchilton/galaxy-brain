@@ -1,0 +1,30 @@
+seed: 3819550256
+inventory_sha256: a1dfa3121b1435047720c2c50c0b8c7850d1882efde4bd7c6885062440d888e4
+selection:
+- category: component
+  file: client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts
+- category: component
+  file: client/src/components/admin/Notifications/NotificationsManagement.test.ts
+- category: composable
+  file: client/src/composables/useSidebarSelection.test.ts
+- category: composable
+  file: client/src/composables/upload/useUploadBatchOperations.test.ts
+- category: store
+  file: client/src/stores/invocationStore.test.ts
+- category: store
+  file: client/src/stores/windowManagerStore.test.ts
+- category: utility
+  file: client/src/utils/filterConversion.test.js
+- category: utility
+  file: client/src/utils/utils.test.ts
+- category: other
+  file: client/src/entry/analysis/modules/Login.test.ts
+- category: other
+  file: client/src/watch/watchHistory.test.js
+branch: jest_readability_batch_01
+base_commit: 39c6b40bc2468155924f1fda0f241254b546d249
+status: selected
+baseline:
+  selected_tests: 82
+  selected_suites: 10
+  test_environment: NODE_OPTIONS=--no-webstorage
