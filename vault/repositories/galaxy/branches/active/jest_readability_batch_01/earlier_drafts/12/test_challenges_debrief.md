@@ -1,0 +1,30 @@
+# Iteration 07 fresh test challenges
+
+Challenged all ten selected files against the client testing guidance, Galaxy's test-layer decision tree, and the shared test challenge instructions. This is a fresh challenge of iteration 07, separate from the earlier six rebased commits. The user's requirement to preserve tests and assertions takes precedence over the shared playbook's suggestion to drop weak or duplicate cases.
+
+## Behavior and layer
+
+| File | Challenge and disposition |
+| --- | --- |
+| `FormDisplay.test.js` | DOM replacement, conditional visibility, repeat insertion, and event payload composition are component contracts. The nested event cases isolate the dataset child while preserving the real parent. The broad form cases still need real controls to exercise those behaviors. Keep at the client component layer. |
+| `TargetObjectStoreSelector.test.ts` | Privacy warnings depend on actual component/composable logic and intercepted permissions, rather than a canned warning mock. Both privacy scenarios remain meaningful. A server API test cannot check this rendered warning without a browser. |
+| `confirmDialog.test.ts` | Cancellation must depend on the caller's real unmount hook. The double resolves only upon receiving the actual abort signal, and the test checks false-to-true signal state before the returned cancellation result. It cannot pass merely because its fake always cancels. |
+| `useEntityMentions.test.ts` | Cursor boundaries, mixed mention offsets, name versus ID resolution, and context grouping are direct public function contracts. Typed doubles isolate store lookup rather than substituting parser results. Two pre-existing empty-context cases use the same empty input; retain both under the user's instruction, without claiming they cover distinct branches. |
+| `workflowEditorCommentStore.test.ts` | The validation table remains independent of implementation predicates: expected accepted types are listed explicitly for each input. Nested frames and selection transitions check domain behavior, rather than Pinia internals. A browser would make the twelve input/type combinations harder to diagnose and would not remove a dependency needed by these store contracts. |
+| `historyStore.test.ts` | Mock SSE delivery and refresh functions observe dispatch decisions; real store/configuration/queue/HTTP behavior is exercised. HTTP races and retry failures need controlled blocking and failure sequencing. Existing history browser suites cover broader user flows but do not replace these precise local races. Fixed an ignored-event scenario that previously had no registered current history. Flagged leftover polling visibility listeners despite store disposal for focused cleanup. |
+| `redirect.test.ts` | Exact input/output pairs are valuable security and navigation boundaries, including browser-normalized control characters and protocol-relative forms. They do not simply restate the implementation. No server or browser is required to check these pure return contracts. |
+| `lastQueue.test.js` | Deterministic timing exposes first/latest scheduling, per-key throttling, thrown-error recovery, and abort forwarding. The new skip case uses three actual enqueues; the original two-action case did not supersede a pending action. The 1000-key map checks remain pre-existing implementation-oriented cleanup coverage, preserved under the user's instruction. They are not presented as proof that every internal map is bounded. |
+| `MetadataJsonViewer.test.ts` | The real wrapper is exercised, including renderer prop translation. Its fake renders passed values but does not test third-party formatting or the wrapper's field-description slot. The model-name presence case retains its original modest existence check; no claim of description tooltip coverage is made. No production behavior changed that requires adding browser coverage in this readability loop. |
+| `Register.test.ts` | Checks the actual registration wrapper's session/configuration wiring at its child boundary. The form is shallow, so this is not represented as a registration submission test. Existing browser login/registration coverage addresses the broader workflow. |
+
+## Isolation and abstractions
+
+Confirmed cleanup for mounted wrappers, dialog registration, shared registration configuration, and fake queue timers. Confirmed fresh Pinia setup and that workflow comments are cloned by the store. Found a remaining history polling listener leak: stopping the watcher cancels its timer but does not unregister `visibilitychange`. The coordinator implemented and this reviewer independently inspected exact listener cleanup in the selected test file, preserving the real watcher and production code. The scoped spy observes real registrations and teardown removes only the captured visibility listener callbacks/options before restoring the spy.
+
+Existing typed factories replace ad hoc object store/history fixtures where useful. Native Vue doubles implement small specific external contracts. No reusable abstraction was forced onto unrelated parser, dialog, or renderer arrangements; no supporting suites are required by this iteration.
+
+## E2E decision and result
+
+No production code or user flow changes. The modified tests protect client contracts and deterministic race boundaries that do not require a Galaxy server. Reviewed existing login/registration, history panel/storage, and workflow editor browser-test entry points; their broader coverage does not make these local assertions redundant. No new API, integration, Selenium, or Playwright test was required, and no test was removed or weakened.
+
+Inspected final result JSON independently: 138 passing cases across ten physical files, compared with 105 baseline cases. Also inspected the post-review correction results: all 45 cases pass across the three changed files, including history cleanup and dialog/workflow typing corrections; the coordinator reports shuffled order with seed 70123 for that run. Coordinator typechecks, lint, and formatting remain separate validation responsibilities. No unresolved blocking test challenge remains.

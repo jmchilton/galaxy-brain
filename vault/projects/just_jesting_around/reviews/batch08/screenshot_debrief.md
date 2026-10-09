@@ -1,6 +1,6 @@
 Screenshots not relevant for this change.
 
-Reviewed the shared screenshot process and [Component - E2E Tests - Writing](../../../../../research/Component%20-%20E2E%20Tests%20-%20Writing.md), including its distinction between failure-only snapshots and explicit screenshots captured with `GALAXY_TEST_SCREENSHOTS_DIRECTORY`.
+Reviewed the shared screenshot process and [Component - E2E Tests - Writing](../../../../research/Component%20-%20E2E%20Tests%20-%20Writing.md), including its distinction between failure-only snapshots and explicit screenshots captured with `GALAXY_TEST_SCREENSHOTS_DIRECTORY`.
 
 Iteration 08 changes ten selected unit-test suites, two supporting suites, and two test helpers relative to the reviewed baseline `7c2738f4644b7b0f6923d9a2e6654349210e81b8`. Production Vue templates, component logic, CSS, navigation selectors, assets, and E2E tests are unchanged in this iteration. Mounted component and directive test arrangements exercise existing behavior; their fixture and assertion changes do not alter the deployed UI.
 

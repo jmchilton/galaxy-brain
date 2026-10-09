@@ -137,6 +137,7 @@
 - file: client/src/components/HistoryExport/Index.test.js
 - file: client/src/components/HistoryExport/ToLink.test.js
 - file: client/src/components/HistoryExport/ToRemoteFile.test.js
+  iterated: 1
 - file: client/src/components/HistoryImport.test.js
 - file: client/src/components/Indices/SharingIndicators.test.js
 - file: client/src/components/InteractiveTools/InteractiveTools.test.js
@@ -208,6 +209,7 @@
 - file: client/src/components/Panels/ToolBox.test.js
 - file: client/src/components/Panels/ToolBoxSearch.test.ts
 - file: client/src/components/Panels/ToolPanel.test.ts
+  iterated: 1
 - file: client/src/components/Panels/Upload/uploadMethodRegistry.test.ts
 - file: client/src/components/Panels/Upload/uploadState.test.ts
 - file: client/src/components/Panels/utilities.test.ts
@@ -336,6 +338,7 @@
 - file: client/src/components/providers/StoredWorkflowProvider.test.js
 - file: client/src/components/providers/utils.test.js
 - file: client/src/composables/accessibleHover.test.ts
+  iterated: 1
 - file: client/src/composables/confirmDialog.test.ts
   iterated: 1
 - file: client/src/composables/fileSources.test.ts
@@ -367,6 +370,7 @@
   iterated: 1
 - file: client/src/composables/useHistoryDatasets.test.ts
 - file: client/src/composables/useInvocationGraph.test.ts
+  iterated: 1
 - file: client/src/composables/useNotificationSSE.test.ts
   iterated: 1
 - file: client/src/composables/usePageProposals.test.ts
@@ -376,6 +380,7 @@
 - file: client/src/composables/zipExplorer.test.ts
   iterated: 1
 - file: client/src/directives/vGTooltip.test.ts
+  iterated: 1
 - file: client/src/entry/analysis/modules/Login.test.ts
 - file: client/src/entry/analysis/modules/Register.test.ts
   iterated: 1
@@ -384,6 +389,7 @@
 - file: client/src/router/guards.test.ts
 - file: client/src/stores/activityStore.test.ts
 - file: client/src/stores/chatStore.test.ts
+  iterated: 1
 - file: client/src/stores/collectionAttributesStore.test.ts
   iterated: 1
 - file: client/src/stores/collectionElementsStore.test.ts
@@ -396,6 +402,7 @@
 - file: client/src/stores/jobMetricsStore.test.ts
   iterated: 1
 - file: client/src/stores/notificationsStore.test.ts
+  iterated: 1
 - file: client/src/stores/objectStoreInstancesStore.test.ts
   iterated: 1
 - file: client/src/stores/objectStoreTemplatesStore.test.ts
@@ -432,11 +439,13 @@
 - file: client/src/utils/redirect.test.ts
   iterated: 1
 - file: client/src/utils/strings.test.ts
+  iterated: 1
 - file: client/src/utils/tool-version.test.ts
 - file: client/src/utils/tusUpload.test.ts
   iterated: 1
 - file: client/src/utils/upload-queue.test.js
 - file: client/src/utils/upload.test.ts
+  iterated: 1
 - file: client/src/utils/url.test.js
   iterated: 1
 - file: client/src/utils/utils.test.js
@@ -444,6 +453,7 @@
 - file: client/src/watch/watchHistory.test.js
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts
+  iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts
   iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts

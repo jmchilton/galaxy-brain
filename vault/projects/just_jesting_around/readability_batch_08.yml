@@ -23,7 +23,7 @@ selection:
   file: client/src/directives/vGTooltip.test.ts
 branch: jest_readability_batch_01
 base_commit: 7c2738f4644b7b0f6923d9a2e6654349210e81b8
-status: selected
+status: reviewed
 baseline:
   client_tests: 152
   client_suites: 9
@@ -31,3 +31,32 @@ baseline:
   toolshed_suites: 1
   selected_tests: 170
   test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/stores/historyStore.test.ts
+- client/src/components/GalaxyAI/ChatModeSelector.test.ts
+helper_files:
+- client/src/stores/_testing/sseStoreSupport.ts
+- client/tests/test-data/chat.ts
+validation:
+  baseline_selected_tests: 170
+  final_selected_tests: 198
+  supporting_tests: 50
+  affected_tests: 248
+  affected_suites: 12
+  client_tests: 227
+  client_suites: 11
+  toolshed_tests: 21
+  toolshed_suites: 1
+  shuffled_seed: 80131
+  client_vue_tsc: passed
+  toolshed_vue_tsc: passed
+  eslint: passed with current configurations; zero warnings/errors
+  prettier: passed
+  normal_review: approved after restoring second URL source assertion and isolating
+    history retry IDs
+  test_challenge: approved; all original contracts retained
+  scope: retain ten originators and two concrete supporting consumers
+  screenshots: not relevant
+  source_commit_hooks: passed
+  test_environment: NODE_OPTIONS=--no-webstorage
+commit: 39c6b40bc2468155924f1fda0f241254b546d249
