@@ -1,18 +1,19 @@
 Migrate the job files API (`/api/jobs/{job_id}/files`) to FastAPI so that a job runner's upload is written to disk once instead of twice. This is the third attempt, after #8846 and #20235.
 
-***This endpoint is internal: only job runners such as Pulsar call it, authorized by a per-job key. It isn't a user-facing API.*** Pulsar uploads every remote output through it, so the earlier review asked for a speed and memory comparison. Here is one 512 MiB upload and one download, measured locally:
+***This endpoint is internal: only job runners such as Pulsar call it, authorized by a per-job key. It isn't a user-facing API.*** Pulsar uploads every remote output through it, so the earlier review asked for a speed and memory comparison. mvdbeek reran it on a deployment-shaped setup (gunicorn with Galaxy's worker, one worker, Postgres 15, Pulsar's `post_file`, a fresh server and database per run, medians of 5 runs, macOS):
 
-| 512 MiB, Pulsar-style request | `dev` | This PR |
+| | `dev` | This PR |
 | --- | --- | --- |
-| POST, wall time | 2.80 s | 1.56 s ✅ |
-| POST, bytes written to disk | 1097 MiB (2x) | 559 MiB (1x) ✅ |
-| 1000 small appends to `tool_stdout` | ~12 ms each | ~12 ms each |
-| GET, wall time | 0.89 s | 0.99 s |
+| POST 1 GiB, wall / worker CPU | 4.48 s / 4.38 s | 1.32 s / 1.19 s ✅ |
+| POST 1 GiB, bytes written | 2050 MiB (2x) | 1026 MiB (1x) ✅ |
+| 8 × 256 MiB concurrent POSTs, wall / CPU | 25.5 s / 30.9 s | 16.9 s / 17.7 s ✅ |
+| GET 1 GiB, wall / CPU | 1.20 s / 0.83 s | 0.35 s / 0.30 s ✅ |
+| Small POST (4 KiB, or a 1 KiB append) | 2.9 ms | 3.0–3.1 ms |
 | Server memory | flat | flat |
 
-***These numbers come from single runs on macOS with an embedded uvicorn server, on an earlier commit of this branch, not from a Linux gunicorn deployment. The script is below so the comparison can be rerun.*** Deployments using x-accel or xsendfile don't stream GETs through Galaxy at all.
+The GET and small-POST rows include his four follow-up commits. `GalaxyFileResponse` now sends 1 MiB chunks instead of Starlette's 64 KiB, which speeds up dataset and history downloads too. The upload steps run in fewer threadpool calls. A `/api/version` probe every 20 ms kept a p99 around 5 ms on both branches during transfers, so the event loop isn't blocked. Not measured: Linux, NFS, form-auth uploads, or `new_file_path` on a different filesystem from the job directories (there `dev`'s move is a third copy). Deployments using x-accel or xsendfile don't stream GETs through Galaxy at all. His harness is in [this gist](https://gist.github.com/mvdbeek/f6898dba00215f3054806112a9bd02a8).
 
-***The double write isn't FastAPI's fault: `dev` already writes uploads twice.*** WSGI spools the multipart body into a temp file, then moves it, which is a copy whenever the temp directory and the destination are on different filesystems. A plain FastAPI port keeps that cost: `File` parameters spool into a `SpooledTemporaryFile` and the endpoint copies it out. This PR doesn't declare `File`/`Form` parameters. Pulsar sends `path` and `job_key` as query parameters. ***When they're there, the endpoint authorizes before reading any of the body,*** and checks again once the body has arrived. It streams the file part into a named file next to its destination, then renames it (or appends it, for `tool_stdout`/`tool_stderr`).
+***The double write isn't FastAPI's fault: `dev` already writes uploads twice.*** WSGI spools the multipart body into a temp file, then moves it, which is a copy whenever the temp directory and the destination are on different filesystems. A plain FastAPI port keeps that cost: `File` parameters spool into a `SpooledTemporaryFile` and the endpoint copies it out. This PR doesn't declare `File`/`Form` parameters. Pulsar sends `path` and `job_key` as query parameters. ***When they're there, the endpoint authorizes before reading any of the body,*** and checks the job is still active once a large or slow body has arrived. It streams the file part into a named file next to its destination, then renames it (or appends it, for `tool_stdout`/`tool_stderr`).
 
 ***Pulsar needs no change. The URL, query and form parameters, multipart format, HEAD and Range support, TUS and nginx upload sources are all the same. Only error responses change (table below).*** User uploads (`/api/tools/fetch`) and the TUS routers are untouched.
 
@@ -32,10 +33,12 @@ Some failures that were 500s on `dev`, or worse, now return Galaxy's usual error
 
 😬 = Pulsar got an empty file instead of an error. A malformed multipart body and a client disconnecting mid-upload are also 400s, with tests.
 
+This also fixes a leak on `dev`: every `tool_stdout`/`tool_stderr` append after the first left its multipart temp file in `new_file_path` (999 files per 1000 appends). This PR leaves none.
+
 <details><summary>How the upload is handled</summary>
 
 - `JobFilesManager` (`lib/galaxy/managers/job_files.py`) holds job-key authorization, the write-path check (working directory, output dataset or its extra files), the nginx and TUS source checks, and replace-or-append. It takes config, security, the object store and the session directly, so its authorization is unit tested. The endpoint is a thin `@router.cbv` on top of it. The endpoint has no user or session, so it doesn't depend on `trans`.
-- With query auth, the upload is staged in a hidden `.job_files_upload_*` directory in the job's working directory, or in the output dataset's directory, never inside an extra files path. That keeps the final rename on one filesystem. The job state is checked again after the body arrives, because a long upload can outlive the job.
+- With query auth, the upload is staged in a hidden `.job_files_upload_*` directory in the job's working directory, or in the output dataset's directory, never inside an extra files path. That keeps the final rename on one filesystem. The job state is checked again after the body arrives when the body is 1 MiB or more, has no declared length, or took a second or more, because a long upload can outlive the job. Small uploads arrive right after the first check, so they skip the extra DB round trip.
 - The request's DB connection is released before the body is read, and the authorization, parsing, source checks and file work run in the threadpool. python-multipart's public `create_form_parser` writes file parts straight to named files in the staging directory.
 - When `path` and `job_key` are in the form instead of the query (Pulsar never does this), uploads are spooled to `new_file_path`, authorized, then moved, as on `dev`.
 - The path isn't URL-decoded a second time, which #20235 did. A literal `%2F` in a file name survives the round trip, and there's a test for it.
@@ -60,7 +63,7 @@ The one hard-to-reverse part is that the job files endpoint now appears in Galax
 
 <details><summary>Risk Review Advice</summary>
 
-Review `create` in `lib/galaxy/webapps/galaxy/api/job_files.py`. Check where the upload is staged, that authorization runs before and after the body is read, and the cleanup in `finally`. `JobFilesManager.authorize_write` is the security boundary for writes. It keeps `dev`'s rules, with `dev`'s `in_directory` checks and `safe_str_cmp` job-key comparison.
+Review `create` in `lib/galaxy/webapps/galaxy/api/job_files.py`. Check where the upload is staged, that authorization runs before the body is read and the job state is re-checked after a large or slow one, and the cleanup in `finally`. `JobFilesManager.authorize_write` is the security boundary for writes. It keeps `dev`'s rules, with `dev`'s `in_directory` checks and `safe_str_cmp` job-key comparison.
 
 </details>
 
@@ -86,13 +89,13 @@ Builds on 🔀 #23856, which hardened the legacy endpoint and added the tests th
 - `test/unit/app/managers/test_JobFilesManager.py`: 9 tests of the manager's authorization, with no server.
 - `test/integration/test_job_files.py`: 29 tests. Uploads use Pulsar's query auth by default, and form auth keeps its own tests. New ones cover missing files (including dataset-named ones) and directories, unknown jobs, missing TUS and nginx sources, missing or malformed uploads, percent-escaped paths, Range reads, streaming into the working directory or next to an output (never inside its extra files path), rejected uploads leaving nothing staged, a 403 sent before any of the body is read, a job finishing mid-upload, a client disconnecting mid-upload, and the `tus_hooks` no-op.
 - `test/integration/test_job_files_tus.py` and `test_job_files_remote_transfer.py` run tool tests through embedded Pulsar with TUS and multipart transfers.
-- All of the above pass locally at `1476724b914`.
+- All of the above pass locally at `1476724b914`; mvdbeek reran them (48 tests) with his follow-up commits.
 
 </details>
 
-<details><summary>Perf script</summary>
+<details><summary>Earlier perf script</summary>
 
-Save it as `test/integration/test_zz_job_files_perf.py` on `dev` and on this branch, then run `PERF_MB=1024 PYTHONPATH=lib pytest test/integration/test_zz_job_files_perf.py -k "TestJobFilesPerf and test_perf" -s`.
+An earlier single-process comparison. Save it as `test/integration/test_zz_job_files_perf.py` on `dev` and on this branch, then run `PERF_MB=1024 PYTHONPATH=lib pytest test/integration/test_zz_job_files_perf.py -k "TestJobFilesPerf and test_perf" -s`.
 
 ```python
 """Job files API perf: POST (Pulsar post_file), many small appends (post_bytes style), GET.
