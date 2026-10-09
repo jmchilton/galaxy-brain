@@ -3,7 +3,7 @@
 - PR: https://github.com/galaxyproject/galaxy/pull/23988 (mr-c, not draft, base `dev`)
 - Head reviewed: `ac656b19129cb9079dd560628bec33f7b5c22c6d` (1 commit, +20/-2, 3 files)
 - Worktree: `~/projects/worktrees/galaxy/pr/23988`
-- Status: approved + comment posted 10-08. mr-c force-pushed expanded coverage (`764537ce202`, 17 MANIFEST.in files, every file enumerated) and invited us to take the PR over. nsoranzo asked for a `packages/test.sh` regression guard. Follow-up fixes committed locally as `678ba5cd173` on branch `mr-c/packages_explicit_nonPy_data_inclusion` in the worktree. **Not pushed.** See "Round 2" below.
+- Status: approved + comment posted 10-08. mr-c force-pushed expanded coverage (`764537ce202`, 17 MANIFEST.in files, every file enumerated) and invited us to take the PR over. nsoranzo asked for a `packages/test.sh` regression guard. Our follow-up fixes `678ba5cd173` pushed to mr-c's branch 10-09; guard branches A/B on jmchilton fork. See "Round 2" below.
 - Verdict: **approve, with one suggested addition** (graft `functional_tools` in tool_util). The PR's own entries are correct; it just doesn't cover everything its stated goal (running the tests downstream) needs.
 
 ## Summary
@@ -111,3 +111,13 @@ Open work for B:
 - B only catches what tests exercise. It would miss `upload.py`, for example.
 
 **Churn either way:** about 139 non-`.py` files were added under `lib/galaxy` since Jan 2026, and 48 commits added functional test tools. With per-file enumeration plus a CI gate, contributors adding a test tool or datatype sample will hit red package CI and must edit a MANIFEST.in. `graft`/`recursive-include` on pure-data directories (functional_tools, datatypes/test, tool_shed test_data, xsd, ontologies...) avoids most of that. Graft walks the filesystem, though, so keep it off dirs that collect untracked junk in dev checkouts (e.g. `tool_shed/webapp/frontend` → node_modules, webapps static build output).
+
+### Round 2 actions (10-09)
+
+- Pushed `678ba5cd173` to mr-c's PR branch (`764537ce202..678ba5cd173`).
+- User chose to keep per-file enumeration (no graft conversion).
+- Pushed two guard branches to the jmchilton fork, both stacked on `678ba5cd173`. No PRs opened.
+  - **A** `packages_sdist_rebuild_check` (`0c91e288c01`): adds `check_wheel_from_bare_sdist` to `packages/test.sh` after `twine check` (non-pulsar only). It diffs the dist wheel listing against a wheel rebuilt from the egg-info-stripped sdist. Red/green verified on data by removing one ocr include: a `< galaxy/datatypes/test/ocr_sample.alto` line and exit 1, then exit 0 after restoring. Shellcheck clean.
+  - **B** `packages_test_stripped_wheel`: keeps today's `uv pip install .[extras]`, then builds the stripped wheel and reinstalls only it with `--no-deps`. `pytest .` splits into `pytest src` (doctests, pythonpath=src as before) and `pytest -o pythonpath= tests` (installed wheel). Gotcha: `packages/pyproject.toml` is a uv workspace, so `uv pip install .` resolves sibling galaxy-* from the checkout, while installing a bare wheel path resolves them from the index (released 26.1.1, skewed). Hence install-then-swap. Red on tool_util with dev MANIFEST: collection error, missing `upgrade_codes.json`.
+  - B now pushed as `570fa54cae5`. Green on tool_util with the PR MANIFEST: 1590 passed. The one failure, `test_watcher`, also fails locally on macOS under today's flow and passes in CI. `test_container_resolution.py` was skipped locally because its docker tests hang on this Mac (about 1 s in CI). B needed a `cp -R` of the generated `cwl_tools/` (from `make generate-cwl-conformance-tests`, gitignored) into the installed tool_util. Without it, 27 `test_cwl` failures, because no wheel ships those files. This means B is a bit more invasive than A.
+  - Fork CI queued for both: A https://github.com/jmchilton/galaxy/actions/runs/37942654516, B https://github.com/jmchilton/galaxy/actions/runs/37950579370
