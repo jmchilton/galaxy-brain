@@ -1,0 +1,26 @@
+seed: 2313546650
+source_checkout: a63da1dfd19
+selection:
+- category: component
+  file: client/src/components/Visualizations/VisualizationExamples.test.js
+- category: composable
+  file: client/src/composables/markdown.test.js
+- category: store
+  file: client/src/stores/pageEditorStore.test.ts
+- category: utility
+  file: client/src/utils/parseBool.test.ts
+- category: api
+  file: client/src/api/client/serverMock.test.ts
+branch: jest_readability_batch_01
+base_commit: c35feb587eb8738a2d94cfb91769d0fbd14839bf
+status: reviewed
+validation:
+  baseline_tests: 88
+  final_tests: 98
+  prettier: passed
+  eslint: passed
+  vue_tsc: passed
+  normal_review: no blocking findings
+  scope: retain five selected files plus guide
+  screenshots: not relevant
+commit: da70013509141de12d815141565eb51edfb5b912

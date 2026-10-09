@@ -1,0 +1,27 @@
+# Test challenges debrief
+
+All original cases and assertion requirements are preserved; no test was removed or weakened. The governing AGENTS instructions override generic challenge suggestions to drop or relocate existing tests. Reviewed all five selected test files and the README guidance against Galaxy's writing-tests guide and the test-challenge instructions. No production/E2E expansion was performed.
+
+## Challenge by test domain
+
+- **parseBool:** these small tests protect an externally consumed normalization contract, not framework internals. All boolean, string, nullish, and numeric inputs deserve preservation even though individual assertions are simple. Table-driven naming makes failures identify the specific input. Real function, no mocks, no useful server/browser dependency.
+- **useMarkdown:** these tests exercise real rendering through the client's composable export. Heading text and actual links are public output; the link option is a public input. Strengthening the link-presence assertions prevents an empty rendering from satisfying a negative check. Direct invocation is appropriate because this composable needs no injected component/lifecycle context. No mock or E2E rewrite is required.
+- **useServerMock:** although this is a test infrastructure test, query/path selection, typed success/error responses, and missing-handler guidance are the infrastructure's public contract. Calling the real Galaxy API client through the real MSW integration is the behavior under test. Replacing MSW with an API-client stub would bypass that contract. Separating four requests requires beforeEach handler installation because teardown resets per-test handlers.
+- **VisualizationExamples:** rendered loading/list visibility, name-selected DOM clicks, service submission arguments, and user notification text protect component behavior. Calling callbacks supplied to uploadDatasets simulates the external upload outcome. The component and dropdown are real; the minimal real Pinia store supplies only the consumed history state. Fresh Pinia plus automatic unmount address isolation. Full mount is justified by slot/click forwarding coverage, rather than copied child stubs. Upload and toast services remain mocked at their existing boundaries.
+- **Page editor store:** direct actions and exposed state are this store's consumer contract. Computed availability/dirty state, load/save/delete failures and loading flags, per-history/page IDs, revision boundaries/content, standalone mode, resets, and save-in-flight edits belong at this layer. Real Pinia, API adapters, and MSW already avoid stubbing store internals. Tests that read directly assigned state may look mechanically simple, but establish meaningful reset/isolation/selection rules and are preserved. Small typed handlers replace broad unrelated CRUD success mocks. Typed revision factories replace incomplete cast-based fixtures, with original scenario-specific IDs/dates/content retained.
+
+## Potential mock and reuse improvements
+
+The existing createUrlUploadItem fake reproduces part of a pure item builder. A future component-testing batch could consider a spy backed by the real builder while leaving uploadDatasets mocked, retaining the original argument assertions. This is nonblocking: utils/upload.test.ts already tests that real builder separately, and importing the entire upload module into this component test can require additional dependency setup. The current batch correctly keeps the existing module boundary while improving scenario readability.
+
+Typed page/revision fixtures have concrete additional consumers in api/pages.test.ts and PageEditor component tests. Extracting a shared test-data factory would be worthwhile when those files are reviewed together; importing a component-local fixture into the store test would introduce unnecessary coupling. The short selected-example/mount helpers have no demonstrated second consumer. No generic callback wrapper or shared helper is needed for simple inline arrangements.
+
+## Higher-layer and implementation challenges
+
+Existing Selenium page creation/edit/view and visualization-plugin tests provide broader flows; they do not substitute for exact client normalization, Markdown options, store reset/error/loading/race behavior, or MSW setup guidance. No changed product behavior requires new E2E coverage in this test-only batch. A future feature changing actual sample-dataset upload behavior could justify browser coverage for a selected example reaching the current history, but that is a separate product change, not a prerequisite for this readability work.
+
+No production restructuring is needed to make these tests readable. They already exercise real implementations where useful, and avoid framework-only assertions. Replacing preserved unit cases with backend tests would miss frontend contracts and violate the governing instruction.
+
+## Evidence and limitations
+
+Independently audited the complete six-file diff, relevant implementation/helper behavior, and baseline/current store assertion inventories: 71 store scenarios and 150 assertions remain; only the captured save-body access gains optional chaining, still requiring edit_source to equal user. Baseline behavior in all other files remains equivalent or stronger. Parent reports final combined targeted validation passed 98 tests in five files (baseline 88), all selected-file Prettier/ESLint checks passed, README formatting passed, and full vue-tsc passed. No browser or full Vitest suite was run by this reviewer.
