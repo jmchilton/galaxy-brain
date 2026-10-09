@@ -1,6 +1,6 @@
 # test-stories-rebased-20260318
 
-Status: `branches_need_decision`.
+Status: `abandoned`.
 
 Preserves the rebased test-stories history while small replacement branches land.
 

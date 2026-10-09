@@ -99,10 +99,8 @@ None yet.
 
 ## Galaxy branches — still deciding on (`branches_need_decision`)
 
-- [`galaxy_ui_driver_followups`](../../repositories/galaxy/branches/active/galaxy_ui_driver_followups/index.md) — Preserves the helper, package and login/config changes integrated into galaxy_ui_driver. Do not PR independently.
 - [`galaxy_ui_driver`](../../repositories/galaxy/branches/active/galaxy_ui_driver/index.md) — Standing branch for Galaxy changes motivated by gxui. Do not PR independently. Do not polish; Playwright owns it.
 - [`move_markdown_conversion_to_util`](../../repositories/galaxy/branches/active/move_markdown_conversion_to_util/index.md) — Moves markdown HTML/PDF conversion out of `managers.markdown_util` into `galaxy.util`. Do not PR independently.
 - [`issue_23424_when_expression_validation`](../../repositories/galaxy/branches/active/issue_23424_when_expression_validation/index.md) — Validates workflow `when` expression input references at import. Decision: Decide whether to reopen #23817 or open a fresh PR. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23424_when_expression_validation?expand=1).
 - [`workflow_input_pipe_names`](../../repositories/galaxy/branches/active/workflow_input_pipe_names/index.md) — Reserves pipes in input names, with three possible correction scopes. Decision: Choose validation-only, top-level correction, or nested correction. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:workflow_input_pipe_names?expand=1).
 - [`subworkflow_mapping_when_alignment`](../../repositories/galaxy/branches/active/subworkflow_mapping_when_alignment/index.md) — Aligns mapped subworkflow `when` values with compatible collection inputs. Decision: Decide whether #23676 supersedes this work. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:subworkflow_mapping_when_alignment?expand=1).
-- [`test-stories-rebased-20260318`](../../repositories/galaxy/branches/active/test-stories-rebased-20260318/index.md) — Preserves the rebased test-stories history while small replacement branches land. Do not PR independently.
