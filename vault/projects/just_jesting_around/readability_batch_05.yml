@@ -1,0 +1,52 @@
+seed: 419692059
+inventory_sha256: 9f6615bda1367ee59f4690d6f7d69990416bfb42a422e6fdadce0599dd1f5bbe
+selection:
+- category: component
+  file: client/src/components/History/Multiple/MultipleView.test.js
+- category: component
+  file: client/src/components/Panels/Common/ToolSection.test.ts
+- category: component
+  file: client/src/components/Form/composables/useFormState.test.js
+- category: component
+  file: client/src/components/History/CurrentHistory/HistoryNavigation.test.ts
+- category: component
+  file: client/src/components/Workflow/Editor/Actions/actions.test.ts
+- category: component
+  file: client/src/components/History/Modals/CopyModal.test.ts
+- category: composable
+  file: client/src/composables/useNotificationSSE.test.ts
+- category: composable
+  file: client/src/composables/fileSources.test.ts
+- category: composable
+  file: client/src/composables/roundRobinSelector.test.ts
+- category: composable
+  file: client/src/composables/useCreatingJob.test.ts
+- category: store
+  file: client/src/stores/workflowStepStore.test.ts
+- category: store
+  file: client/src/stores/collectionElementsStore.test.ts
+- category: store
+  file: client/src/stores/jobMetricsStore.test.ts
+- category: store
+  file: client/src/stores/workflowConnectionStore.test.ts
+- category: utility
+  file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts
+- category: utility
+  file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts
+- category: utility
+  file: client/src/app/utils.test.ts
+- category: utility
+  file: client/src/utils/dates.test.ts
+- category: api
+  file: client/packages/api-client/src/client.test.ts
+- category: api
+  file: client/src/api/client/rateLimiter.test.ts
+branch: jest_readability_batch_01
+base_commit: 2dbcc3703c61c058598fe50d14fba2623bd3329f
+status: reviewing
+baseline:
+  selected_tests: 163
+  client_tests: 135
+  client_suites: 18
+  toolshed_tests: 28
+  toolshed_suites: 2
