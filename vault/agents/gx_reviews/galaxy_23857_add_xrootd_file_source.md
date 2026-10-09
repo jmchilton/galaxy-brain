@@ -7,7 +7,7 @@
 
 ## Verdict
 
-Request changes (small). Plugin is a close, tidy clone of `ipfs.py` and path-scoping logic works, but `skip_instance_cache=True` leaks a never-ending asyncio task per file operation, and there are no tests even though the IPFS sibling shows a cheap mock-based pattern. Remaining items are reuse/nits.
+Superseded: see "Re-review at f100983e424" below (approve). Original verdict at `56dfc2b6fe8`: request changes (small). Plugin is a close, tidy clone of `ipfs.py` and path-scoping logic works, but `skip_instance_cache=True` leaks a never-ending asyncio task per file operation, and there are no tests even though the IPFS sibling shows a cheap mock-based pattern. Remaining items are reuse/nits.
 
 ## Findings (by severity)
 
@@ -104,3 +104,61 @@ The current CI failures (biotools unit tests, a workflow API test) look unrelate
 - `test/unit/files/test_xrootd.py`: 11 mock tests; red-checked (breaking the `..` guard fails 5).
 
 Pushed to the author branch `PlushZ:add-xrootd-fs` on 2026-10-06 without the unit-test commit, at John's request: head `f100983e424`. `7ba4985b39c` (the tests) remains only on `jmchilton:xrootd_review_fixes`. The draft review still asks for the fixes now pushed, so it needs rewriting before posting.
+
+## Re-review at f100983e424 (2026-10-09)
+
+- Head `f100983e4240e2941f04dbfbe604de122cc3f235`, diffed vs merge-base `b437cb3f0d6` (origin/dev fetched 2026-10-09; merge-base unchanged).
+- New commits (all John's): `1a8cef3f8ce` (drop `skip_instance_cache` + redundant `invalidate_cache`, comment re no parent creation), `b398877c4dc` (`normalize_rooted_relative_path(path, root_label)` in `_fsspec.py`, used by ipfs + xrootd), `f100983e424` (`writable` `default: false`).
+- GitHub: no reviews or comments on the PR yet. The 2026-10-06 draft was never posted, so the draft below is the first review.
+- CI: two reds, both unrelated. Package tests failed on a `wheels.galaxyproject.org` 503 during `uv pip install`. Selenium shard 0 failed on `test_history_options::test_options` with a Selenium `isShown` error.
+- Local check: ran `test_ipfs.py` (11 tests), `test_template_models.py::test_examples_parse`, and the 11 mock tests from `jmchilton:xrootd_review_fixes` (copied into the worktree temporarily, then removed). All 23 passed against this head, using `~/projects/repositories/galaxy/.venv` with `PYTHONPATH=lib`. The worktree has no `.venv`.
+
+### Resolved
+- Finding 1 (pruner-task leak): resolved. `_open_fs` no longer passes `skip_instance_cache`, so fsspec reuses one instance per `hostid`/`timeout`/cache options, and the listings cache now works.
+- Finding 3 (duplicated helpers): the minimum version is resolved. The shared helper lives in `_fsspec.py`, and `posixpath` is gone from `ipfs.py`. `_to_filesystem_path`/`_adapt_entry_path` stay per-plugin, which is fine because the root forms differ (an IPFS CID root vs an absolute XRootD path).
+- Finding 4: `invalidate_cache` is dropped, and the code comment now says that writes don't create parent directories.
+- Nit: `writable` `default: false` is added and matches the WebDAV/S3 templates.
+- Finding 2 (tests): John chose not to require them. Not re-requested.
+
+### Remaining
+- Nothing blocking.
+- Optional nit (left out of the draft): nothing validates `hostid`, so `root://host` or `host/path` produces a library `ValueError` at use time instead of a form error. The help text covers it, so it isn't worth a round-trip.
+- Imports are at module top, typing matches siblings, and there are no obvious comments (the two in `_write_from` explain non-obvious library behavior).
+
+### Risks (updated)
+
+The one-way part is small: a new `xrootd` template/plugin type whose config field names (`hostid`, `root`, `timeout`, `writable`) are saved in user file source instances and exposed in the API schema enum.
+
+<details><summary>Risk Details</summary>
+
+- Renaming or reshaping `hostid`/`root` later needs a template version bump and a migration of saved user instances.
+- `"xrootd"` joins the `FileSourceTemplateType` API enum.
+- Only anonymous access is supported. Token/X509 auth later will need `secrets` and probably new template variables, which is additive.
+- Opt-in only: nothing changes unless an admin installs `fsspec-xrootd` and enables the template.
+- Write path: uploads go through `fs.open(..., "wb")` and won't create parent directories, which the template help says.
+
+</details>
+
+<details><summary>Risk Review Advice</summary>
+
+Check that the template variable names and the anonymous-only access model are what we want to commit to for XRootD. Everything else is plugin-internal and cheap to change after merge. The new shared `normalize_rooted_relative_path` in `_fsspec.py` is the path-escape guard for both IPFS and XRootD, so changes to it should be reviewed with both plugins in mind.
+
+</details>
+
+### Draft GitHub review (approve, unposted)
+
+---
+
+*Posted by Claude (AI assistant) on behalf of jmchilton. Not written by them personally.*
+
+Thanks for this. Mirroring the IPFS plugin's root scoping keeps it easy to follow. I pushed three small commits to your branch instead of a round of review comments:
+
+- **Keep fsspec instance caching.** `XRootDFileSystem.__init__` starts a `ReadonlyFileHandleCache` pruner task on fsspec's shared event loop, and that task never stops. With `skip_instance_cache=True`, every list/download/upload created a new instance and left another task running in the Galaxy process. In a quick check, 50 constructions left 50 live tasks. Without the flag, fsspec reuses the instance, and the configured listings cache actually takes effect. The trailing `invalidate_cache` in `_write_from` was also dropped, because `XRootDFile.close()` already invalidates the path and its parent.
+- **Share the root-escape check.** `_normalize_relative_path` now lives in `_fsspec.py` as `normalize_rooted_relative_path(path, root_label)` and is used by both IPFS and XRootD.
+- **`writable` defaults to `false`** in `production_xrootd.yml`, like the WebDAV and S3 templates.
+
+Longer term, an upstream `_put_file` in fsspec-xrootd would let the custom `_write_from` go away. Fine as-is for now.
+
+The current CI reds look unrelated: a wheels-server 503 in the package tests and a Selenium `test_history_options` failure.
+
+Approving.

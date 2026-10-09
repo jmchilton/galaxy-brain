@@ -4,7 +4,7 @@ PRs To Review:
 - 22976 — tabled until author responds to Marius's review comments; our draft review unposted (needs update to reflect merged fixes)
 - 23866 — author converted to draft 10-03; user requested changes (pattern-captured unknown ext should match explicit tool-XML unknown format handling); ball with author
 - 23898 — reviewed at `c6f8234b5e4`: runner change fine; blocked on Pulsar release (git pin + PULSAR_GALAXY_LIB build vars must revert; keep #533 shims for compat); draft review unposted
-- 23857 — re-review in progress at `f100983e424` (after our 3 cleanup commits)
+- 23857 — re-reviewed at `f100983e424`: approve (prior findings resolved; unit test waived per user); draft review unposted
 - 23953 — reviewed at `9ac1627fc79` (draft; paired w/ 23956): approve w/ nits (own range parser vs starlette/webob; stale body); draft review unposted
 - 23956 — reviewed at `4a81462fae5` (paired w/ 23953); Marius reviewed 10-08 asking author to relook — do not post our draft; ball with author
 - 23951 — user approved 10-07; awaiting merge
