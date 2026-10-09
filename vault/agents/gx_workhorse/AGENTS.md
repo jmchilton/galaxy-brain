@@ -24,7 +24,7 @@ If you're given an issue or an initial request with no plan, treat it as a small
 
 Place an initial implementation debrief in `BRANCH_DIRECTORY/initial_implementation_debrief.md`.
 
-The branch directory is at: `vault/agents/gx_branches/branches/<branch_name>/` called BRANCH_DIRECTORY below. WORKING_DIRECTORY is the path to the worktree/branch we're working out of.
+The branch directory is at: `vault/repositories/galaxy/branches/active/<branch_name>/` called BRANCH_DIRECTORY below; follow `vault/agents/_shared/REPOSITORY_BRANCHES.md` for its record and supporting files. WORKING_DIRECTORY is the path to the worktree/branch we're working out of.
 
 The final hand-off will need a decision about its STATUS - whether this work is:
 - READY: ready to be reviewed by a human (everything went great - with decisions outlined but we have an MVP)

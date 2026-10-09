@@ -1,0 +1,5 @@
+# Tracking history
+
+Imported from the branch agent on 2026-10-09; this preserves the recorded decisions and evidence. CI has not been refreshed by this migration.
+
+- [#23933](https://github.com/galaxyproject/galaxy/pull/23933) — branch `job_files_fastapi` — Description: Migrates the job files API to FastAPI behind an extracted `JobFilesManager`, writing Pulsar uploads to disk once; blockers: Dannon's 2026-10-07 review addressed at `1476724b914` (kept `tus_hooks` stub — vgp.usegalaxy.org uses it; auth-order/mid-upload/disconnect/Range tests; injected manager deps) — rebased onto dev `80b6b99927a` 2026-10-08 at `842a735e812` (no conflicts) to clear the packages red (#23947's `galaxy_test` import, fixed by #23958), PR CI on it green; GitHub body synced 2026-10-07, John to read new tests and reply to Dannon; perf numbers are single macOS runs (Linux/concurrency rerun optional); domgz co-author trailer? [Description](pr_description.md), [titles](pr_titles.md), [polish debrief](polish_debrief.md).

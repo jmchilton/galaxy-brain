@@ -1,0 +1,5 @@
+# Tracking history
+
+Imported from the branch agent on 2026-10-09; this preserves the recorded decisions and evidence. CI has not been refreshed by this migration.
+
+- [#23922](https://github.com/galaxyproject/galaxy/pull/23922) — branch `workbook_import` — Description: Tests the rule builder mapping Galaxy infers from workbook headers, under Selenium and Playwright; blockers: redrafted by John 2026-10-05 for debrief follow-ups, done at `29331db6044` (tests renamed `..._mapping_...`, required `dataDescription`, `H3K27me3` test-data fix); its vue-tsc red (`SampleSheetWizard.vue` didn't pass the now-required prop) fixed at `2b245f546e3`; PR body synced; needs review (undrafted by John 2026-10-06; PR CI at `2b245f546e3` red only on packages (3.14), social-auth-core 6.0.0, so rebased onto dev `80b6b99927a` 2026-10-08 at `60af975bfb8`, no conflicts; PR CI on it red only on Integration Singularity resolver tests (network-bound, unrelated)). [Description](pr_description.md), [titles](pr_titles.md), [polish debrief](polish_debrief.md).

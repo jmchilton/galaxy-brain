@@ -1,0 +1,5 @@
+# Tracking history
+
+Imported from the branch agent on 2026-10-09; this preserves the recorded decisions and evidence. CI has not been refreshed by this migration.
+
+- Branch `playwright_drag_over_feedback` (approved SHA `21cfc109eb0`, John 2026-10-05) — Description: Adds a `drag_over()` context-manager gesture that holds a drag over a target so its feedback can be checked, and runs `test_drag_drop_visual_feedback` under Playwright; title: "Run test_drag_drop_visual_feedback under Playwright"; blockers: fork CI on `21cfc109eb0` — Playwright reds unrelated (`test_shortcut_toggles_palette` palette-open timeout, `test_runtime_parameters_simple` history wait; branch only changes drag code), failed jobs rerun 2026-10-06, rerun also hit "Restore client cache", and so did the 2026-10-06 evening full rerun (attempt 3), so Playwright hasn't run the change — open when green; use `pr_description.md` verbatim, add no agent/Claude marker (John removed it). [Description](pr_description.md), [polish debrief](polish_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:playwright_drag_over_feedback?expand=1).

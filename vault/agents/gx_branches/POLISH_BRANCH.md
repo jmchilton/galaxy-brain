@@ -1,6 +1,8 @@
 # Polishing a branch
 
 Polishing takes a branch from `branches_implemented` or `branches_implemented_needs_ci` to `branches_ready_for_final_review`. When you start, move its entry to `branches_need_polish`. When you finish, move it to `branches_ready_for_final_review`. The result is a branch that passes its checklist, plus a persuasive PR description that waits for John's final review. It builds on [`GX_PR_DESCRIPTIONS.md`](../_shared/GX_PR_DESCRIPTIONS.md). Never open the PR from polishing, and never post anything to GitHub.
+
+BRANCH_DIRECTORY is `vault/repositories/galaxy/branches/active/<branch_name>/`, following [`REPOSITORY_BRANCHES.md`](../_shared/REPOSITORY_BRANCHES.md). Read its `index.md` and supporting notes before starting; update its workflow status alongside the queue without moving the directory.
 ## 1. Check CI
 
 Check CI for issues with this branch before continuing with the polish. If some checks are still running that is fine - but check the current failures for evidence they are related to this branch. Fix the branch before continuing.
@@ -16,7 +18,7 @@ Always use [`GENERAL.md`](../_shared/gx_pr_checklists/GENERAL.md). Add [`WORKFLO
 
 ## 4. Write the PR description
 
-- Write it to `branches/<branch_name>/pr_description.md`, following `GX_PR_DESCRIPTIONS.md`.
+- Write it to `BRANCH_DIRECTORY/pr_description.md`, following `GX_PR_DESCRIPTIONS.md`.
 ## 5. Strengthen it with a subagent
 
 - Give a fresh subagent the description and the branch. Ask whether more development would make the pitch more convincing and/or allow not hedging. 
@@ -31,8 +33,8 @@ Always use [`GENERAL.md`](../_shared/gx_pr_checklists/GENERAL.md). Add [`WORKFLO
 
 ## 7. PR Titles
 
-Place 3-5 title options as a simple markdown list in `branches/<branch_name>/pr_titles.md`. For a release-branch target, prefix every title with Galaxy's version tag (`[26.0]` for `release_26.0`).
+Place 3-5 title options as a simple markdown list in `BRANCH_DIRECTORY/pr_titles.md`. For a release-branch target, prefix every title with Galaxy's version tag (`[26.0]` for `release_26.0`).
 
 ## 8. Hand off
 
-Move the entry from `branches_need_polish` to `branches_ready_for_final_review`, linking `branches/<branch_name>/pr_description.md` and `branches/<branch_name>/pr_titles.md`, per [`MY_BRANCHES_INDEX.md`](../_shared/MY_BRANCHES_INDEX.md). Write a debrief of the polishing process to branches/<branch_name>/polish_debrief.md.
+Move the entry from `branches_need_polish` to `branches_ready_for_final_review`, linking the branch's `index.md`, per [`MY_BRANCHES_INDEX.md`](../_shared/MY_BRANCHES_INDEX.md). Write a debrief of the polishing process to `BRANCH_DIRECTORY/polish_debrief.md` and link it, the description, and titles from `index.md`.

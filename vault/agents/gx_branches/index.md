@@ -10,7 +10,8 @@ toward merge: CI triage, undrafting, PR descriptions, and worktree cleanup.
 - `AGENTS.md` — instructions for agents working here (`CLAUDE.md` symlinks to it).
 - `MY_BRANCHES.md` — the categorized work queue of open PRs and branches.
 - `POLISH_BRANCH.md` — how a branch moves from `branches_need_polish` to `branches_ready_for_final_review`.
-- `branches/<branch_name>/pr_description.md` — each branch's PR description.
+- `../../repositories/galaxy/branches/active/<branch_name>/index.md` — branch records, with linked PR descriptions, reviews, implementation notes, and local screenshots.
 - `PROJECT_MANAGEMENT.md` — worktree lifecycle and hand-off rules for implementation agents.
-- `*_notes.md`, etc. — per-branch working documents.
-- `old/` — documents for merged PRs.
+- `../../repositories/galaxy/branches/merged/` — records and supporting files for merged branches.
+- `../../repositories/galaxy/branches/abandoned/` — records and supporting files for explicitly abandoned branches.
+- `ABANDONED_BRANCHES.md` — brief abandonment catalog linked to those records.

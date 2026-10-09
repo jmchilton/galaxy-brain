@@ -1,0 +1,5 @@
+# Tracking history
+
+Imported from the branch agent on 2026-10-09; this preserves the recorded decisions and evidence. CI has not been refreshed by this migration.
+
+- Branch `tool_form_job_count` (`5d2684ace76`, off dev `4fe00d9e7ab`; independent of `issue_20657_input_processing_mode`, merges cleanly with it) — Description: Previews job count before Run via new `/api/tools/{id}/build` `job_expansion` (single COUNT query, access-checked) and "This will run N jobs." with empty/mismatch/remap warnings; refactors `meta.py` expansion classifiers (sync/async/count shared; unknown ids 404 not 500); blockers: fork CI on `5d2684ace76` has a relevant red — mypy `test/unit/app/tools/test_meta_expansion.py:140,220` (`Item "None" of ...`); Client Unit red is the known `focusOrder`/`GPopover` base red, packages social-auth; Playwright/Integration still running, rest cache-evicted; [debrief](implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).

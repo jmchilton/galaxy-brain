@@ -7,3 +7,4 @@ site/.astro/
 .ingest-dossiers/
 .claude/scheduled_tasks.lock
 /vault/agents/**/screenshots/
+/vault/repositories/**/branches/**/screenshots/

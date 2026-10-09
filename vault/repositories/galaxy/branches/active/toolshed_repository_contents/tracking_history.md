@@ -1,0 +1,5 @@
+# Tracking history
+
+Imported from the branch agent on 2026-10-09; this preserves the recorded decisions and evidence. CI has not been refreshed by this migration.
+
+- Branch `toolshed_repository_contents` (`efc9a061b19`, rebased onto dev 2026-10-08 after #23925 merged) — Description: Anonymous, bounded, cacheable Tool Shed repo files API + in-app contents browser replacing hgweb links (fixes #22598); includes a 4-line core `allow_cors` preflight fix (`0a0d130347d`, splittable); prop-driven `RepositoryContentsBrowser` split out so every page state is in the component showcase; blockers: fork CI on `efc9a061b19` (E2E/Integration queued) still has the relevant red — OpenAPI linting fails redocly `security-defined` on the two new anonymous `/api/repositories/{id}/revisions/{rev}/files[/{path}]` GETs in `_shed_schema.yaml`; packages (social-auth) and Playwright `test_step_parameter_inputs` reds unrelated; [debrief](implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:toolshed_repository_contents?expand=1).

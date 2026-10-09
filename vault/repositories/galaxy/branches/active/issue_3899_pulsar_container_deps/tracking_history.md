@@ -1,0 +1,5 @@
+# Tracking history
+
+Imported from the branch agent on 2026-10-09; this preserves the recorded decisions and evidence. CI has not been refreshed by this migration.
+
+- Branch `issue_3899_pulsar_container_deps` (`9bf9056b1cc`) — Description: Pulsar runner no longer sends/does dependency resolution when the job's container doesn't opt in (`resolve_dependencies`); shares `requires_dependency_resolution()` with `command_factory`; main path already fixed by `6b3af3b2ffa` (2019); fixes #3899; blockers: fork CI on `9bf9056b1cc` partly in — API red `test_error_outputs_with_purged_inputs` (`'error' == 'paused'`, undiagnosed), packages red social-auth (unrelated), Integration and E2E queued, incl. new docker integration test `TestEmbeddedDockerPulsarRemoteDependencyResolution` (not run locally); behavior change for sites relying on Pulsar-side conda in containers; [debrief](implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_3899_pulsar_container_deps?expand=1).

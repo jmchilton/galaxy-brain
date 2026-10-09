@@ -1,0 +1,5 @@
+# Tracking history
+
+Imported from the branch agent on 2026-10-09; this preserves the recorded decisions and evidence. CI has not been refreshed by this migration.
+
+- [#23960](https://github.com/galaxyproject/galaxy/pull/23960) — branch `issue_23695_testing_docs_site_down` — Description: Documents skip-when-down and local skip decorators in `writing_tests.md`, moving `skip_if_toolshed_down` into `unittest_utils` (fixes #23695); blockers: needs review (opened 2026-10-07 at approved `b5807b53aea`, greenish: fork CI reds unrelated: packages (social-auth `AuthMissingParameter`) and cache-evicted E2E/startup that don't exercise the change; PR CI reds unrelated: packages (#23947 `galaxy_test` import), dev-flaky Playwright `test_step_parameter_inputs`; rebased onto dev `80b6b99927a` 2026-10-08 at `22e81c958e0`, no conflicts; PR CI on it red only on Integration Singularity resolver tests (network-bound, unrelated)). [Description](pr_description.md), [titles](pr_titles.md), [polish debrief](polish_debrief.md).

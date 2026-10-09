@@ -1,0 +1,5 @@
+# Tracking history
+
+Imported from the branch agent on 2026-10-09; this preserves the recorded decisions and evidence. CI has not been refreshed by this migration.
+
+- Branch `issue_23980_static_restriction_default` (`9b44c7b0b30`, off dev) — Description: Workflow text inputs restricted to static values preselect their default in the run form (scalar, list for `multiple`, dict `{value, label}` restrictions, `""` default); shared `_is_default_option` matcher also used by `restrictOnConnections`; dead top-level `selected` kwarg dropped; fixes #23980; scope eval: keep as is; new Selenium test passes locally; blockers: no CI seen yet; conflicts with #23992 (21015) in `restrict_options`, small: whoever lands second keeps `_is_default_option` (#23992's block lacks the `""` fix) and drops the duplicate `test_value_restriction_selects_multiple_text_list_default`. [Implementation debrief](implementation_debrief.md), [scope evaluation](scope_evaluation.md), [codex review](codex_review.md), [test challenge debrief](test_challenges_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
