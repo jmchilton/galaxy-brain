@@ -66,10 +66,11 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`selenium_scheduled_ci`](../../repositories/galaxy/branches/active/selenium_scheduled_ci/index.md) — Runs Selenium CI weekly or on demand and tracks dev failures in a GitHub issue. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_scheduled_ci?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`selenium_scheduled_ci`](../../repositories/galaxy/branches/active/selenium_scheduled_ci/index.md) — Runs Selenium CI weekly or on demand and tracks dev failures in a GitHub issue. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_scheduled_ci?expand=1).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_23977_client_api_fanout_26.1?expand=1).
 - [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing bugs. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:sample_sheet_vue3?expand=1).
 - [`issue_19391_file_source_templates_config_dir`](../../repositories/galaxy/branches/active/issue_19391_file_source_templates_config_dir/index.md) — Adds drop-in configuration directories for file source and object store templates (#19391). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19391_file_source_templates_config_dir?expand=1).

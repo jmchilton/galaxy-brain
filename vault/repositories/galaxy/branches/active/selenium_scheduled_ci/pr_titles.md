@@ -1,0 +1,4 @@
+- Run Selenium tests weekly and track failures in an issue
+- Bring back a weekly Selenium run that opens an issue when it fails
+- Schedule Selenium tests on dev and report failures as a GitHub issue
+- Weekly Selenium CI on dev with an auto-managed failure issue
