@@ -10,7 +10,7 @@ PRs To Review:
 - 23951 — user approved 10-07; dev merge pushed 10-09; awaiting merge
 - 23058 — reviewed at `bd562019bde`: request changes; our fix in fork PR SID-6921#1; user commented 10-08; ball with author
 - 23942 — user approved 10-08 at `c076c13e2da`; awaiting merge
-- 23988 — user approved 10-08; awaiting merge
+- 23988 — mr-c expanded + handed PR to us; our follow-up commit `678ba5cd173` local, unpushed; nsoranzo wants test.sh regression guard (estimate in note)
 - 23965 — reviewed at `34de076d569`: comment, approve once CI green; draft review unposted
 
 PRs to Skip For 7 Days:

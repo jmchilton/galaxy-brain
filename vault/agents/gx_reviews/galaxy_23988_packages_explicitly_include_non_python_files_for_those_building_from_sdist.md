@@ -3,7 +3,7 @@
 - PR: https://github.com/galaxyproject/galaxy/pull/23988 (mr-c, not draft, base `dev`)
 - Head reviewed: `ac656b19129cb9079dd560628bec33f7b5c22c6d` (1 commit, +20/-2, 3 files)
 - Worktree: `~/projects/worktrees/galaxy/pr/23988`
-- Status: reviewed locally, review **unposted**.
+- Status: approved + comment posted 10-08. mr-c force-pushed expanded coverage (`764537ce202`, 17 MANIFEST.in files, every file enumerated) and invited us to take the PR over. nsoranzo asked for a `packages/test.sh` regression guard. Follow-up fixes committed locally as `678ba5cd173` on branch `mr-c/packages_explicit_nonPy_data_inclusion` in the worktree. **Not pushed.** See "Round 2" below.
 - Verdict: **approve, with one suggested addition** (graft `functional_tools` in tool_util). The PR's own entries are correct; it just doesn't cover everything its stated goal (running the tests downstream) needs.
 
 ## Summary
@@ -71,3 +71,43 @@ Builds went to the session scratchpad, which was then deleted, along with the in
 ## Risks
 
 Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door).
+
+## Round 2 (10-09): mr-c's expanded coverage + nsoranzo's regression question
+
+### Check used
+
+Prototype `check_sdist.sh` (scratchpad, not committed), per package: `uv build` (sdist, then wheel from sdist), unpack the sdist outside git, delete `*.egg-info`, `uv build --wheel`, then diff `unzip -Z1` listings without `.dist-info`. All 25 packages (minus meta/web_client) take about 3.5 min locally, including the normal build test.sh already does. Gotcha: rebuilding inside an already-built unpack dir reuses `build/lib` and regenerated egg-info, so always start from a fresh unpack.
+
+### Gaps at `764537ce202` (mr-c's expanded push)
+
+- **data**: missing 4 `datatypes/test/ocr_sample.*` files. They were added to dev after mr-c generated his list, so the enumeration had already drifted on day one.
+- **tool_shed**: lists `.eslintignore`/`.eslintrc.js`, which no longer exist. Missing `eslint.config.mjs`.
+- **app**: 86 `.py` files under `galaxy/tools/bundled` dropped, including `data_source/upload.py` (the upload tool script, needed at runtime). `pyproject.toml` excludes `galaxy.tools.bundled*` from package discovery, but setuptools-scm ships them anyway in normal wheels. mr-c's `find ! -name '*.py'` can't see this class.
+- **tool_shed**: `tool_shed/test/**.py` dropped for the same reason (`exclude = ["tool_shed.test*"]`).
+- **objectstore**: `galaxy/objectstore/examples/__init__.py`, same reason.
+- **tool_util**: the list includes `functional_tools/CLAUDE.md` and `.claude/commands/...`, and the existing exclude/prune then removes them. The result is correct but the lines are noise.
+- **web_apps**: the pre-existing exclude/prune lines lacked the `src/` prefix (stale since b7f83c84698). They were no-ops.
+
+### Fix: local commit `678ba5cd173` (not pushed)
+
+Adds the 4 ocr includes and swaps the eslint files. Adds `recursive-include src/galaxy/tools/bundled *.py` (app), `recursive-include src/tool_shed/test *.py` (tool_shed), and the objectstore examples `__init__`. Drops the 2 redundant tool_util includes and adds the `src/` prefix in web_apps. After this, every package's stripped-sdist wheel listing is identical to its normal wheel. mr-c's per-file enumeration style is kept otherwise.
+
+### nsoranzo's ask: effort estimate
+
+Why CI can't see it today: `package-pytest.ini` sets `pythonpath = src`, so `pytest .` imports the git tree, not the installed package. `pip install .` also builds through setuptools-scm, which sees every tracked file.
+
+**Option A: artifact parity check (~1-2 h, recommended).** After `${BUILD_WHEEL_CMD} -o dist` in test.sh, rebuild the wheel from the egg-info-stripped sdist and diff the listings. It does not rerun tests and adds roughly 5-10 s per package. It catches every class above, including the `.py`-in-excluded-package one. The failure output should name the missing paths. This needs a decision about churn (below).
+
+**Option B: test the stripped artifact (literal reading of "replicate the issue... without running tests twice"; ~1-2 days + CI iteration).** Build the sdist, strip it, build the wheel, then `pip install <wheel>[extras]` instead of `.`, and run pytest with `-o pythonpath=`. Verified on tool_util (4 data-heavy test modules):
+- dev-style stripped wheel, pythonpath off: **36 failed**, 77 passed (reproduces Debian)
+- dev-style stripped wheel, pythonpath=src (today's CI): 4 failed, 109 passed (masked)
+- PR stripped wheel, pythonpath off: 4 failed, 109 passed (the 4 are unrelated tool_util_models version skew from the index)
+
+Open work for B:
+- `--doctest-modules` collection of `src/` puts src back on sys.path (namespace packages), which re-masks the problem. Doctests need `--pyargs` against site-packages, or a separate pass.
+- Sibling dev packages resolve from the index, not from local builds, so expect version skew like the above.
+- `--for-pulsar` mode builds no dist today.
+- Unknown number of tests across 25 packages may assume src-tree-only paths.
+- B only catches what tests exercise. It would miss `upload.py`, for example.
+
+**Churn either way:** about 139 non-`.py` files were added under `lib/galaxy` since Jan 2026, and 48 commits added functional test tools. With per-file enumeration plus a CI gate, contributors adding a test tool or datatype sample will hit red package CI and must edit a MANIFEST.in. `graft`/`recursive-include` on pure-data directories (functional_tools, datatypes/test, tool_shed test_data, xsd, ontologies...) avoids most of that. Graft walks the filesystem, though, so keep it off dirs that collect untracked junk in dev checkouts (e.g. `tool_shed/webapp/frontend` → node_modules, webapps static build output).
