@@ -87,10 +87,10 @@ None yet.
 
 ## Galaxy branches — approved, opens when green (`branches_need_pr`)
 
-- [`script_setup_polling_unmount`](../../repositories/galaxy/branches/active/script_setup_polling_unmount/index.md) — Install Monitor and StsDownloadButton stop polling for good on unmount, even with a request in flight. Approved `26da6bc30bd`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:script_setup_polling_unmount?expand=1).
+- [`script_setup_polling_unmount`](../../repositories/galaxy/branches/active/script_setup_polling_unmount/index.md) — Install Monitor and StsDownloadButton stop polling for good on unmount, even with a request in flight. Approved `ce0e55e925c`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:script_setup_polling_unmount?expand=1).
 - [`playwright_text_table_parity`](../../repositories/galaxy/branches/active/playwright_text_table_parity/index.md) — Fixes `test_import_dataset_from_path` under Playwright by reading table cells instead of splitting row text. Approved `1449e639c22`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:playwright_text_table_parity?expand=1).
 - [`playwright_drag_over_feedback`](../../repositories/galaxy/branches/active/playwright_drag_over_feedback/index.md) — Adds drag_over feedback checks and runs test_drag_drop_visual_feedback under Playwright. Approved `21cfc109eb0`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:playwright_drag_over_feedback?expand=1).
-- [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515). Approved `c44206d0535`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_15515_related_filter_copied_items?expand=1).
+- [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515). Approved `96218cbe647`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_15515_related_filter_copied_items?expand=1).
 
 ## Galaxy branches — still deciding on (`branches_need_decision`)
 

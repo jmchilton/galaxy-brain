@@ -6,6 +6,6 @@ Install Monitor and StsDownloadButton stop polling for good on unmount, even wit
 
 [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tracking history](tracking_history.md)
 
-Approved SHA: `26da6bc30bd` (John, 2026-10-07). Chosen title: **Stop Tool Shed install and download polling for good on unmount**.
+Approved SHA: `ce0e55e925c` (John, 2026-10-07 at `26da6bc30bd`; carried across a clean rebase onto dev 2026-10-09). Chosen title: **Stop Tool Shed install and download polling for good on unmount**.
 
 Recorded CI conditions and description instructions are in the tracking history; [shared CI context](../../queue_context.md) applies.
