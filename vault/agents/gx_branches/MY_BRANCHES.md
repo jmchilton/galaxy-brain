@@ -43,7 +43,6 @@ None yet.
 - [`integration_ci_scope`](../../repositories/galaxy/branches/active/integration_ci_scope/index.md) — Selects costly plugin suites from changed paths; helpers and guide live beside integration tests. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:integration_ci_scope).
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes parameter framework tools XSD-valid and checks them in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
-- [`selenium_scheduled_ci`](../../repositories/galaxy/branches/active/selenium_scheduled_ci/index.md) — Runs Selenium CI weekly or on demand and tracks dev failures in a GitHub issue. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_scheduled_ci?expand=1).
 - [`issue_20900_invocation_validation`](../../repositories/galaxy/branches/active/issue_20900_invocation_validation/index.md) — Validates workflow invocation requests before creating histories or other side effects (#20900). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_20900_invocation_validation?expand=1).
 - [`issue_3899_pulsar_container_deps`](../../repositories/galaxy/branches/active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_3899_pulsar_container_deps?expand=1).
 - [`issue_20657_input_processing_mode`](../../repositories/galaxy/branches/active/issue_20657_input_processing_mode/index.md) — Explains tool input batching and collection mapping, and fixes collection-type matching (#20657). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_20657_input_processing_mode?expand=1).
@@ -67,7 +66,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`selenium_scheduled_ci`](../../repositories/galaxy/branches/active/selenium_scheduled_ci/index.md) — Runs Selenium CI weekly or on demand and tracks dev failures in a GitHub issue. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_scheduled_ci?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 

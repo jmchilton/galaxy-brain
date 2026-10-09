@@ -1,6 +1,6 @@
 # selenium_scheduled_ci
 
-Status: `branches_implemented_needs_ci`. Base: `dev`.
+Status: `branches_need_polish`. Base: `dev`.
 
 Runs Selenium CI weekly or on demand and tracks dev failures in a GitHub issue.
 
