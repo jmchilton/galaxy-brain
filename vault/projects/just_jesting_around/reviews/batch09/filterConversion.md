@@ -1,0 +1,13 @@
+# Filter conversion review — iteration 09
+
+Selected originator: `client/src/utils/filterConversion.test.js`. Baseline and final: **16→39** cases.
+
+Read the problem/goal, loop instructions, marginal advice and client unit-testing guidance. Replace long mutation-based input/output sequences with named independent tables. Filter keys, input text and literal expected output now sit together. Keep the intentional history visibility false→true restoration sequence together because its successive states form one behavior. Remove async markers from synchronous tests. A fresh local mixed-filter fixture supplies the repeated domain input; expected values remain literal rather than calculated by the implementation.
+
+Coverage audit retains history defaults' exact two keys/values; all four containsDefaults object variations; logged-in and anonymous shared_with_me validation; supported key order for history/my/published workflow filters; three history visibility formatting checkpoints; display/backend tag rewriting, publication exclusion and deleted publication filter; tool MultiTags conversion through real quoteToolTagValue; five text-default variations, five history text conversions (including any and invalid tokens), three published-workflow text conversions; both unspecified-only and mixed-text normalization for workflow/history/credentials/grid filtering; and all quoteStrings-disabled token/quoted-value/multi-word-value parsing and two unchanged-normalization examples. The increase of 23 cases exposes original independent variations; no original input/output contract is lost.
+
+Keep the local `validatedFilterText` pattern test and real Filtering implementations. Its former comment falsely suggested a copied helper directly detects component wiring regressions; the replacement states its actual boundary. No production normalization extraction is needed for this readability iteration. Existing filter factories and production quoteToolTagValue are reused; bespoke credential/grid configurations remain visible where their differences matter. No supporting file or new shared abstraction is justified.
+
+Guidance: the README already covers named combinations and domain arrangements. The copied-helper boundary is clarified locally; no generalized obvious advice or unresolved marginal proposal is added.
+
+Validation: scoped shuffled Vitest seed **90123** passes **64/64** cases across all four assigned suites. JSON: `/private/tmp/jest_readability_batch09_composables_utils.json`. Current-config scoped ESLint reports zero warnings/errors, and Prettier checks pass. The driver performs combined-suite validation and full client typechecking. No production, configuration, dependency or supporting-suite changes.

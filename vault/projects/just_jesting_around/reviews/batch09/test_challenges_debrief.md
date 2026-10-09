@@ -1,6 +1,6 @@
 # Test challenge — iteration 09
 
-Retain all original contracts. Reviewed the branch's twelve-file diff against iteration parent `39c6b40bc2468155924f1fda0f241254b546d249`, [client unit-testing guidance](../../../../../../../../worktrees/galaxy/branch/jest_readability_batch_01/client/README.md#client-side-unit-testing), Galaxy's `doc/source/dev/writing_tests.md`, [E2E writing guidance](../../../../../research/Component%20-%20E2E%20Tests%20-%20Writing.md), and [smart-component guidance](../../../../../research/Component%20-%20E2E%20Tests%20Smart%20Components.md). The user's preservation requirement takes precedence over the generic challenge document's suggestions to drop tests. No original scenario or assertion was removed to obtain a passing run.
+Retain all original contracts. Reviewed the branch's twelve-file diff against iteration parent `39c6b40bc2468155924f1fda0f241254b546d249`, [client unit-testing guidance](../../../../../../../worktrees/galaxy/branch/jest_readability_batch_01/client/README.md#client-side-unit-testing), Galaxy's `doc/source/dev/writing_tests.md`, [E2E writing guidance](../../../../research/Component%20-%20E2E%20Tests%20-%20Writing.md), and [smart-component guidance](../../../../research/Component%20-%20E2E%20Tests%20Smart%20Components.md). The user's preservation requirement takes precedence over the generic challenge document's suggestions to drop tests. No original scenario or assertion was removed to obtain a passing run.
 
 | Tests challenged | Decision and reason |
 | --- | --- |

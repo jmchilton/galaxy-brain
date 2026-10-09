@@ -263,6 +263,7 @@
 - file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts
   iterated: 1
 - file: client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts
+  iterated: 1
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts
 - file: client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts
@@ -331,6 +332,7 @@
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
 - file: client/src/components/admin/Notifications/NotificationForm.test.ts
 - file: client/src/components/admin/Notifications/NotificationsManagement.test.ts
+  iterated: 1
 - file: client/src/components/admin/RoleForm.test.js
 - file: client/src/components/providers/InvocationsProvider.test.js
 - file: client/src/components/providers/JobProvider.test.js
@@ -360,6 +362,7 @@
 - file: client/src/composables/taskMonitor.test.ts
 - file: client/src/composables/upload/uploadItemTypes.test.ts
 - file: client/src/composables/upload/useUploadBatchOperations.test.ts
+  iterated: 1
 - file: client/src/composables/upload/useUploadSubmission.test.ts
 - file: client/src/composables/urlTracker.test.ts
   iterated: 1
@@ -375,6 +378,7 @@
   iterated: 1
 - file: client/src/composables/usePageProposals.test.ts
 - file: client/src/composables/useSidebarSelection.test.ts
+  iterated: 1
 - file: client/src/composables/userToolCredentials.test.ts
   iterated: 1
 - file: client/src/composables/zipExplorer.test.ts
@@ -382,6 +386,7 @@
 - file: client/src/directives/vGTooltip.test.ts
   iterated: 1
 - file: client/src/entry/analysis/modules/Login.test.ts
+  iterated: 1
 - file: client/src/entry/analysis/modules/Register.test.ts
   iterated: 1
 - file: client/src/entry/analysis/router-push.test.js
@@ -399,6 +404,7 @@
 - file: client/src/stores/historyStore.test.ts
   iterated: 1
 - file: client/src/stores/invocationStore.test.ts
+  iterated: 1
 - file: client/src/stores/jobMetricsStore.test.ts
   iterated: 1
 - file: client/src/stores/notificationsStore.test.ts
@@ -414,6 +420,7 @@
   iterated: 1
 - file: client/src/stores/userStore.test.ts
 - file: client/src/stores/windowManagerStore.test.ts
+  iterated: 1
 - file: client/src/stores/workflowConnectionStore.test.ts
   iterated: 1
 - file: client/src/stores/workflowEditorCommentStore.test.ts
@@ -429,6 +436,7 @@
 - file: client/src/utils/dates.test.ts
   iterated: 1
 - file: client/src/utils/filterConversion.test.js
+  iterated: 1
 - file: client/src/utils/filtering.test.js
   iterated: 1
 - file: client/src/utils/historyUpload.test.ts
@@ -450,7 +458,9 @@
   iterated: 1
 - file: client/src/utils/utils.test.js
 - file: client/src/utils/utils.test.ts
+  iterated: 1
 - file: client/src/watch/watchHistory.test.js
+  iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts
   iterated: 1

@@ -23,8 +23,29 @@ selection:
   file: client/src/watch/watchHistory.test.js
 branch: jest_readability_batch_01
 base_commit: 39c6b40bc2468155924f1fda0f241254b546d249
-status: selected
+status: reviewed
 baseline:
   selected_tests: 82
   selected_suites: 10
   test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts
+helper_files:
+- client/src/components/User/DiskUsage/Management/Cleanup/test-utils.ts
+validation:
+  baseline_selected_tests: 82
+  final_selected_tests: 106
+  supporting_tests: 4
+  affected_tests: 110
+  affected_suites: 11
+  shuffled_seed: 90131
+  test_environment: NODE_OPTIONS=--no-webstorage
+  client_vue_tsc: passed
+  eslint: passed with current configuration; zero warnings/errors
+  prettier: passed
+  normal_review: approved; all original contracts retained
+  test_challenge: approved; existing test layers retained
+  scope: retain ten originators and concrete cleanup factory consumer
+  screenshots: not relevant
+  source_commit_hooks: passed
+commit: 03776948996d3d0450d328d2901475fb83b5a4e0

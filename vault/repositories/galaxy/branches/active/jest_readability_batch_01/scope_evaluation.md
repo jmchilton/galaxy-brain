@@ -1,35 +1,43 @@
-Proceed with the implemented scope: ten selected originators plus the two concrete supporting consumers and their test helpers. This follows the authorized readability loop and its requirement to implement useful reuse across files; no scope decision requires user input.
+Retain the implemented scope: ten selected originators, one supporting cleanup-operation suite, and the existing shared cleanup test helper. This completes the requested batch and the [loop's](../../../../../projects/just_jesting_around/LOOP_ITERATION.md) cross-file reuse requirement; no scope change requires user input.
 
-## As implemented: ten originators and concrete reuse
+## As implemented: ten originators with concrete reuse
 
-Review the ten selected suites, preserve their original behavior and inputs, and split existing combinations into independently named cases. Add a typed chat-history fixture used by both the selected chat store and supporting ChatModeSelector suite; extract visibility-listener cleanup used by the selected notification store and supporting history store. Only the ten selected originators advance inventory counters; supporting suites remain eligible for full review later.
-
-| Pros | Cons |
-| --- | --- |
-| <ul><li>Completes the requested ten-test iteration.</li><li>Applies both abstractions to real consumers immediately.</li><li>Keeps changes in tests, fixtures, and test helpers.</li></ul> | <ul><li>Requires validation of two supporting suites in addition to the ten selected suites.</li><li>Full mounting remains appropriate for the existing menu and tooltip contracts.</li></ul> |
-
-## Contract to the ten selected files
-
-Apply only local readability changes and defer the chat fixture and shared listener cleanup. This would reduce the changed-file count, but leave the same sparse chat-history casts and duplicate cleanup in their identified consumers, contrary to the explicit cross-file follow-through requested in LOOP_ITERATION.md.
+Improve the ten selected suites' scenario names, fixtures, assertions, type inference, asynchronous arrangements, and isolation. Add a typed cleanup-operation factory to the existing helper and migrate its selected dialog and supporting operation-summary consumer; only the ten originators advance inventory counters. Relative to parent `39c6b40bc2468155924f1fda0f241254b546d249`, the twelve changed source files consist of eleven unit-test suites and one test helper.
 
 | Pros | Cons |
 | --- | --- |
-| <ul><li>Smaller review surface.</li><li>Fewer supporting test runs.</li></ul> | <ul><li>Leaves concrete reuse incomplete.</li><li>Preserves avoidable duplication and casts.</li></ul> |
+| <ul><li>Completes the requested ten-originator iteration.</li><li>Implements demonstrated reuse in both consumers immediately.</li><li>Keeps domain inputs and successful results visible.</li></ul> | <ul><li>Requires validation of one supporting suite.</li><li>Some local fixtures remain necessary to express distinct API representations and concurrency.</li></ul> |
 
-## Expand to additional full reviews or production changes
+## Contract to the ten selected suites
 
-Review more chat/upload/tooltip consumers, add generalized factories, or alter production watcher/component behavior while improving the selected suites. The reviewed evidence supports the two implemented shared abstractions; broader domain defaults, new behavior, and additional originator reviews have no demonstrated need in this iteration.
-
-| Pros | Cons |
-| --- | --- |
-| <ul><li>Could discover additional future reuse.</li></ul> | <ul><li>Expands beyond the requested ten-originator batch.</li><li>Adds design and validation work without a concrete current contract to improve.</li></ul> |
-
-## Expand documentation or browser validation
-
-Add new README rules or extend E2E screenshot scenarios for the covered components. Existing guidance already addresses the observed scenario naming, typed fixtures, selective mounting, API response handling, and cleanup patterns; this iteration changes no production rendering, styles, or E2E tests, so neither expansion is justified.
+Keep the cleanup-operation constructor local and defer its supporting migration. This removes two changed files, but preserves repeated operation metadata and empty implementations in the concrete neighboring consumer identified in [the dialog review](../../../../../projects/just_jesting_around/reviews/batch09/ReviewCleanupDialog.md).
 
 | Pros | Cons |
 | --- | --- |
-| <ul><li>Could provide additional examples if a future gap emerges.</li></ul> | <ul><li>Generic advice would repeat established guidance.</li><li>Browser captures would not demonstrate any new visual behavior.</li></ul> |
+| <ul><li>Smaller changed-file list.</li></ul> | <ul><li>Leaves an implemented reuse opportunity incomplete.</li><li>Conflicts with the loop's instruction to follow useful abstractions into concrete consumers.</li></ul> |
 
-The evaluation uses the iteration's reviewed baseline `7c2738f4644b7b0f6923d9a2e6654349210e81b8`. It covers ten selected suites, two supporting suites, and two test-helper files; correctness and assertion-preservation review belongs to the separate normal review. Per-originator reviews identify no worthwhile deferred scope expansion or marginal advice.
+## Expand into production filter normalization
+
+Extract the copied normalization sequence into a production helper and wire list components to it, then test that shared behavior. The [filter review](../../../../../projects/just_jesting_around/reviews/batch09/filterConversion.md) correctly narrows the existing test comment to its actual pattern-testing boundary; it identifies no production defect requiring a component refactor in this readability batch.
+
+| Pros | Cons |
+| --- | --- |
+| <ul><li>Could make production normalization share one tested entry point.</li></ul> | <ul><li>Requires a separate component/API design decision and broader validation.</li><li>Changes application code without an observed behavioral failure.</li></ul> |
+
+## Expand invocation factories or review more consumers
+
+Generalize the local invocation summary, collection-view, detail-view, step, or metric factories and migrate neighboring suites. The [invocation review](../../../../../projects/just_jesting_around/reviews/batch09/invocationStore.md) checked concrete neighbors: one has short three-field summaries, while another already has a readable full fixture; a shared factory currently adds indirection without a demonstrated improvement.
+
+| Pros | Cons |
+| --- | --- |
+| <ul><li>Could support future consumers with matching fixture needs.</li></ul> | <ul><li>Conflates distinct generated API representations.</li><li>Expands beyond the requested ten full reviews without useful current consumers.</li></ul> |
+
+## Expand documentation or browser work
+
+Add README rules for module-registry isolation, controlled request interleaving, or typed child props, or record E2E screenshots for the covered components. The per-originator reviews find existing guidance sufficient; watcher cache imports and held metric responses are explained locally, and [the screenshot assessment](../../../../../projects/just_jesting_around/reviews/batch09/screenshot_debrief.md) finds no production visual changes.
+
+| Pros | Cons |
+| --- | --- |
+| <ul><li>Additional examples could help if a future repeated gap emerges.</li></ul> | <ul><li>Generic rules would repeat established advice or overgeneralize local constraints.</li><li>Browser capture would show existing visual behavior.</li></ul> |
+
+This evaluation follows the [shared scope process](../../../../../agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md). Assertion preservation, correctness, and test challenges are evaluated separately by the normal reviewer; no worthwhile unresolved scope expansion is added to marginal advice.
