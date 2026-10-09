@@ -2,6 +2,7 @@
 
 @../_shared/VAULT_SYNC.md
 @../_shared/SECURITY_REPORTS.md
+@../_shared/NOT_VAULT_NOTES.md
 
 We're responsible for maintaining the Foundry ecosystem (`galaxyproject/foundry`).
 
