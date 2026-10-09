@@ -11,6 +11,7 @@ PRs To Review:
 - [#23988](https://github.com/galaxyproject/galaxy/pull/23988) — PR handed to us; MANIFEST fixes pushed to mr-c branch; guard branches A/B on fork, nothing posted. [notes](../../repositories/galaxy/reviews/active/23988/index.md)
 - [#23965](https://github.com/galaxyproject/galaxy/pull/23965) — Approved; draft; admin migration follow-up with Marius. [notes](../../repositories/galaxy/reviews/active/23965/index.md)
 - [#24006](https://github.com/galaxyproject/galaxy/pull/24006) — Approved; suggestions posted. [notes](../../repositories/galaxy/reviews/active/24006/index.md)
+- [#23989](https://github.com/galaxyproject/galaxy/pull/23989) — Approve w/ suggestions; draft review unposted. [notes](../../repositories/galaxy/reviews/active/23989/index.md)
 
 PRs to Skip For 7 Days:
 
