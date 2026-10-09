@@ -23,4 +23,4 @@ validation:
   normal_review: no blocking findings
   scope: retain five selected files plus guide
   screenshots: not relevant
-commit: 85fd4e5dc43295f2395ff2f350bd7cc2f6ba70ea
+commit: 682dcc45e2a10f6f3dd9161fdb9ee8dccbd38649

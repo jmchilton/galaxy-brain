@@ -14,7 +14,7 @@ Five tests were randomly selected, one from each client category, using seed `23
 
 - Describe the behavior and condition in each test; separate independent scenarios and use named tables for simple variations.
 - Keep scenario inputs, actions, and expectations visible when removing repeated setup; use existing factories and avoid single-use abstractions.
-- Respect MSW handler resets and register only the requests a scenario needs; retain generated request/response typing.
+- Use `response.untyped(...)` for response shapes outside the generated schema, illustrated by a complete example.
 - Call lifecycle-free composables directly. Await async store actions directly, and flush promises for component effects that expose no promise.
 
 ## Reuse opportunities
@@ -31,10 +31,12 @@ The original five files passed 88 cases. The refactored five files pass 98 cases
 
 Independent normal review, test challenge, and scope evaluation are recorded in the branch debriefs before handoff.
 
-Galaxy commit: `85fd4e5dc43295f2395ff2f350bd7cc2f6ba70ea`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
+Galaxy commit: `682dcc45e2a10f6f3dd9161fdb9ee8dccbd38649`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
 
 README revision 01 removes the two requested illustrative phrases and separates handler lifetime from response typing, with a complete untyped-response example. [Revision review](reviews/readme_revision_01.md).
 
 README revision 02 removes the generic negative-assertion paragraph. The testing improvements remain; the guide focuses on useful conventions.
 
 README revision 03 uses the shorter independent-scenario/table sentence and links to the official Vitest `it.each` API, matching the current runner. Independent review and formatting checks pass.
+
+README revision 04 removes the routine handler-lifetime/type-inference paragraphs, retaining the expanded untyped-response example and a short response-schema introduction. Review and formatting pass.
