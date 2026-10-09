@@ -82,6 +82,7 @@
 - file: client/src/components/Form/FormDisplay.test.js
   iterated: 1
 - file: client/src/components/Form/FormElement.test.js
+  iterated: 1
 - file: client/src/components/Form/FormElementLabel.test.js
 - file: client/src/components/Form/FormMessage.test.js
 - file: client/src/components/Form/composables/useFormState.test.js
@@ -97,6 +98,7 @@
 - file: client/src/components/GalaxyAI/ClarificationCard.test.ts
 - file: client/src/components/GalaxyAI/agentTypes.test.ts
 - file: client/src/components/GalaxyAI/chatUtils.test.ts
+  iterated: 1
 - file: client/src/components/Graph/composables/useFocusedNodes.test.ts
 - file: client/src/components/Grid/GridList.test.ts
 - file: client/src/components/Grid/configs/adminUsers.test.js
@@ -215,6 +217,7 @@
 - file: client/src/components/Panels/Upload/uploadMethodRegistry.test.ts
 - file: client/src/components/Panels/Upload/uploadState.test.ts
 - file: client/src/components/Panels/utilities.test.ts
+  iterated: 1
 - file: client/src/components/Popper/Popper.test.js
 - file: client/src/components/Popper/usePopper.test.js
 - file: client/src/components/Register/RegisterForm.test.ts
@@ -269,9 +272,11 @@
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts
 - file: client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts
+  iterated: 1
 - file: client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts
 - file: client/src/components/User/ExternalIdentities/ExternalRegistration.test.ts
 - file: client/src/components/User/UserBeaconSettings.test.ts
+  iterated: 1
 - file: client/src/components/User/UserDeletion.test.ts
 - file: client/src/components/User/UserOidcProfile.test.ts
 - file: client/src/components/User/UserPreferences.test.ts
@@ -293,6 +298,7 @@
 - file: client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormDefault.test.js
 - file: client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js
+  iterated: 1
 - file: client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormTool.test.js
 - file: client/src/components/Workflow/Editor/Index.test.ts
@@ -356,6 +362,7 @@
 - file: client/src/composables/pagination.test.ts
 - file: client/src/composables/persistentProgressMonitor.test.ts
 - file: client/src/composables/pollUntil.test.ts
+  iterated: 1
 - file: client/src/composables/resourceWatcher.test.ts
   iterated: 1
 - file: client/src/composables/roundRobinSelector.test.ts
@@ -364,6 +371,7 @@
   iterated: 1
 - file: client/src/composables/shortTermStorageMonitor.test.ts
 - file: client/src/composables/taskMonitor.test.ts
+  iterated: 1
 - file: client/src/composables/upload/uploadItemTypes.test.ts
 - file: client/src/composables/upload/useUploadBatchOperations.test.ts
   iterated: 1
@@ -395,8 +403,11 @@
   iterated: 1
 - file: client/src/entry/analysis/router-push.test.js
 - file: client/src/entry/analysis/routes/login-routes.test.ts
+  iterated: 1
 - file: client/src/router/guards.test.ts
+  iterated: 1
 - file: client/src/stores/activityStore.test.ts
+  iterated: 1
 - file: client/src/stores/chatStore.test.ts
   iterated: 1
 - file: client/src/stores/collectionAttributesStore.test.ts
@@ -404,6 +415,7 @@
 - file: client/src/stores/collectionElementsStore.test.ts
   iterated: 1
 - file: client/src/stores/datasetCollectionStore.test.ts
+  iterated: 1
 - file: client/src/stores/entryPointStore.test.js
 - file: client/src/stores/historyStore.test.ts
   iterated: 1
@@ -433,6 +445,7 @@
 - file: client/src/stores/workflowEditorToolbarStore.test.ts
   iterated: 1
 - file: client/src/stores/workflowSearchStore.test.ts
+  iterated: 1
 - file: client/src/stores/workflowStepStore.test.ts
   iterated: 1
 - file: client/src/stores/workflowStore.test.ts
@@ -446,6 +459,7 @@
 - file: client/src/utils/filtering.test.js
   iterated: 1
 - file: client/src/utils/historyUpload.test.ts
+  iterated: 1
 - file: client/src/utils/lastQueue.test.js
   iterated: 1
 - file: client/src/utils/parseBool.test.ts
@@ -459,6 +473,7 @@
 - file: client/src/utils/tusUpload.test.ts
   iterated: 1
 - file: client/src/utils/upload-queue.test.js
+  iterated: 1
 - file: client/src/utils/upload.test.ts
   iterated: 1
 - file: client/src/utils/url.test.js

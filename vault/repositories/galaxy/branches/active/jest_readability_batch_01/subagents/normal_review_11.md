@@ -1,0 +1,32 @@
+Independent review approves iteration11. Accepted the preservation and reuse conclusions; no unresolved review recommendation remains. The driver checked all originating reports and verified all affected suites, full client types, scoped lint and formatting before committing.
+
+<details>
+<summary>Full review</summary>
+
+# Iteration eleven independent normal review
+
+Approved after independently reviewing the complete delta from `da55fde9518fddae07a6cf5ab67ee7c6423591c5` to the final working tree. No unresolved correctness, coverage-preservation, typing, isolation, or abstraction findings remain. Scope is fifteen selected suites plus the README example-index correction; there are no supporting-suite, shared-helper, production, dependency, or configuration edits.
+
+## Assertion and boundary audit
+
+Compared every original assertion and input with its final scenario or named table row. Panel search retains all ten ranked queries, their exact ordered result arrays, four closest-term typos, all six description/length variations including the repeated input, both panel widths, Whoosh clauses and escaping, version counting, section/label filtering, ordering, identity and no-mutation checks. Existing imported JSON data stays intact. The canonical Tool factory supplies complete custom tools, while sections and embedded labels use their actual structural types.
+
+FormElement retains help/error/title, disabled and collapsible transitions, exact button labels and emitted arguments, type transitions, multiple-number rendering, optional/required messaging and sanitization expectations. Output-label presentation is separated from the dependent two-editor sequence. Accepted labels, both no-error checkpoints, the exact duplicate warning only in the conflicting editor and the accepted new-label's workflow-store mapping remain. Each mount now has fresh fixtures and explicit Pinia installation through the existing `withPlugins` helper; auto-unmount cleans up the real rendered children.
+
+Beacon settings retain all eight UI scenarios, active-count versus hidden/deleted behavior, both toggle directions, ordered create/update/refetch behavior and exact switched history ID. Named button lookups fail when the requested control is absent. The history-store import is typed, creation uses the existing history factory, and the endpoint's intentionally projected BeaconHistory response uses `response.untyped` rather than a false HistorySummary cast. Chat scrolling now checks exact position and behavior on a real DOM element. Every quota input and original unlimited/label expectation remains.
+
+Polling preserves all six result, retry, timeout and error contracts. The old elapsed-time lower bound is strengthened to no second poll at 99ms and a successful second poll at 100ms. A rejection expectation is attached before advancing the clock; fake timers are cleared and the real clock restored. Task monitoring retains all eight initial/final state and failure-reason assertions. Directly awaiting the public operation replaces unrelated promise flushing. The pending monitor is stopped through its public cleanup method after every case, and scenario-specific typed handlers check requested IDs without unrelated successful responses masking requests.
+
+UploadQueue retains its sixteen original scenarios, default/supplied options, idle/running/pause states, duplicate exception, size/index checkpoints, announcement identity, removal and FIFO behavior, three processing calls and full remote payload. Local draining cases now exercise real `_processSubmit` through the mocked external `submitUpload` callback, additionally requiring two submissions. The remote request requires one call and both callbacks. The real error mock replaces a synthetic misspelled error flag. Clearing mock history and restoring spies makes call assertions independent of case order. Queue lifecycle tests that deliberately keep `_process` pending remain narrow and unchanged in contract.
+
+Activity-store defaults, built-in restoration, custom removal, merge visibility, ordering, sidebar behavior, special-panel registration and visibility checks remain. Real icon definitions replace opaque casts; fresh updated fixtures preserve all original scenario fields. Collection cache tests keep summary/detail states and request counts while strengthening exact data checks and typing the mixed dataset payload. Workflow search keeps name/label/annotation/input matching, first-read regression and cache DOM-call contract; the existing step fixture fits those inputs and production addStep freezes a fresh outer object rather than mutating the shared arrangement. Fresh Pinia and DOM cleanup isolate cases.
+
+Login tests use real memory-router navigation and now let unexpected push failures fail the test instead of swallowing them. Both anonymous login/registration rendering and both logged-in pending destinations remain, with registration's matched-component check strengthened. Landing, home and reset-email cases remain. Guard cases preserve missing/anonymous users, redirect/home and both original external-target inputs, with a complete typed route instead of a sparse route cast. History upload retains blocked reasons, both explanatory messages and the active-history result.
+
+## Reuse and validation
+
+Existing Pinia, Vue, workflow-step, Tool, user, history and collection factories remove duplicated or cast-heavy setup. The short activity, beacon, detailed-collection, queue and monitor arrangements remain local because neighboring consumers require different contracts. No speculative shared abstraction is needed. The README correction accurately describes task states, failure reasons and request errors after removal of the shared switch handler; its surrounding table change is formatting.
+
+Inspected the driver's authoritative final JSON and validation status: **149 passed across fifteen suites, no failures or skips**, shuffled seed `110151`; baseline was 123 passed. All 26 additional executions expose original combined variations or split original independent scenarios. Full client typecheck, current scoped ESLint with no warnings and Prettier for all sixteen changed files pass. These checks were run by the driver, not repeated by this reviewer. No browser or CI result is claimed. See the [fresh test challenge](../../../../../../projects/just_jesting_around/reviews/batch11/test_challenges_debrief.md) and [strict audit](../../../../../../projects/just_jesting_around/reviews/batch11/thermo_nuclear_review.md).
+
+</details>
