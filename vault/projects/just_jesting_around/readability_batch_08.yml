@@ -1,0 +1,33 @@
+seed: 3061395928
+inventory_sha256: 299b2114d1a6187ca4fc1f1ce26cbb99dd311baac4783325058a8d377335f74e
+selection:
+- category: component
+  file: client/src/components/Panels/ToolPanel.test.ts
+- category: component
+  file: client/src/components/HistoryExport/ToRemoteFile.test.js
+- category: composable
+  file: client/src/composables/useInvocationGraph.test.ts
+- category: composable
+  file: client/src/composables/accessibleHover.test.ts
+- category: store
+  file: client/src/stores/chatStore.test.ts
+- category: store
+  file: client/src/stores/notificationsStore.test.ts
+- category: utility
+  file: client/src/utils/upload.test.ts
+- category: utility
+  file: client/src/utils/strings.test.ts
+- category: other
+  file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts
+- category: other
+  file: client/src/directives/vGTooltip.test.ts
+branch: jest_readability_batch_01
+base_commit: 7c2738f4644b7b0f6923d9a2e6654349210e81b8
+status: selected
+baseline:
+  client_tests: 152
+  client_suites: 9
+  toolshed_tests: 18
+  toolshed_suites: 1
+  selected_tests: 170
+  test_environment: NODE_OPTIONS=--no-webstorage
