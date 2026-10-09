@@ -80,12 +80,14 @@
 - file: client/src/components/Form/Elements/FormText.test.js
 - file: client/src/components/Form/Elements/FormUpload.test.js
 - file: client/src/components/Form/FormCard.test.js
+  iterated: 1
 - file: client/src/components/Form/FormCardSticky.test.js
 - file: client/src/components/Form/FormDisplay.test.js
   iterated: 1
 - file: client/src/components/Form/FormElement.test.js
   iterated: 1
 - file: client/src/components/Form/FormElementLabel.test.js
+  iterated: 1
 - file: client/src/components/Form/FormMessage.test.js
 - file: client/src/components/Form/composables/useFormState.test.js
   iterated: 1
@@ -112,11 +114,13 @@
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.js
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.ts
 - file: client/src/components/History/Content/ContentItem.test.js
+  iterated: 1
 - file: client/src/components/History/Content/Dataset/DatasetDownload.test.ts
   iterated: 1
 - file: client/src/components/History/Content/GenericElement.test.js
 - file: client/src/components/History/Content/model/states.test.js
 - file: client/src/components/History/CurrentHistory/HistoryCounter.test.ts
+  iterated: 1
 - file: client/src/components/History/CurrentHistory/HistoryNavigation.test.ts
   iterated: 1
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js
@@ -139,6 +143,7 @@
 - file: client/src/components/History/Multiple/MultipleView.test.js
   iterated: 1
 - file: client/src/components/History/SwitchToHistoryLink.test.ts
+  iterated: 1
 - file: client/src/components/History/TargetHistorySelector.test.ts
 - file: client/src/components/History/TargetObjectStoreSelector.test.ts
   iterated: 1
@@ -181,6 +186,7 @@
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js
   iterated: 1
 - file: client/src/components/Markdown/Sections/MarkdownGalaxy.test.js
+  iterated: 1
 - file: client/src/components/Markdown/Sections/MarkdownVitessce.test.js
   iterated: 1
 - file: client/src/components/Markdown/Utilities/parseInvocation.test.js
@@ -231,6 +237,7 @@
   iterated: 1
 - file: client/src/components/Panels/Upload/uploadMethodRegistry.test.ts
 - file: client/src/components/Panels/Upload/uploadState.test.ts
+  iterated: 1
 - file: client/src/components/Panels/utilities.test.ts
   iterated: 1
 - file: client/src/components/Popper/Popper.test.js
@@ -268,6 +275,7 @@
 - file: client/src/components/ToolsList/ToolsListCard.test.ts
 - file: client/src/components/ToolsView/ToolsSchemaJson/ToolsJson.test.js
 - file: client/src/components/Toolshed/InstalledList/Details.test.js
+  iterated: 1
 - file: client/src/components/Toolshed/InstalledList/Index.test.js
 - file: client/src/components/Toolshed/InstalledList/Monitor.test.js
 - file: client/src/components/Toolshed/RepositoryDetails/Index.test.ts
@@ -275,6 +283,7 @@
 - file: client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js
 - file: client/src/components/Toolshed/SearchList/Categories.test.js
 - file: client/src/components/Toolshed/SearchList/Repositories.test.js
+  iterated: 1
 - file: client/src/components/Toolshed/SearchList/ServerSelection.test.js
   iterated: 1
 - file: client/src/components/Toolshed/services.test.js
@@ -333,6 +342,7 @@
 - file: client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts
   iterated: 1
 - file: client/src/components/Workflow/Editor/StateUpgradeModal.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/WorkflowAttributes.test.ts
 - file: client/src/components/Workflow/Editor/ZoomControl.test.js
 - file: client/src/components/Workflow/Editor/composables/workflowBoundingBox.test.ts

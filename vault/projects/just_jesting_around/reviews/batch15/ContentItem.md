@@ -1,0 +1,13 @@
+Reviewed `client/src/components/History/Content/ContentItem.test.js`: its single long test becomes five behavior-focused cases.
+
+The suite now keeps rendering, tag clicks, tag removal/empty-tag transition, expansion, and selection in separately named tests with local wrappers. `mountContentItem` creates a fresh item, Pinia, and memory router, using `withPlugins` instead of legacy mount options. Automatic unmount and restored warning spies prevent leakage. Trigger promises replace unawaited clicks followed by `nextTick`; rendered tag text is checked as one exact ordered list.
+
+Preserved: item ID `item_id`, `some_data`, tags `tag1`/`tag2`/`tag3`, undeleted visible state, all original mount props, real tag controls and icons, DatasetDetails stubbing, and dataset/object-store handlers. Assertions still cover history number `1`, title `name`, exactly three ordered tags, clicking each tag and its corresponding emitted value, removing each tag and excluding it from that emitted tag list, setting `isHistoryItem: false` with `{ tags: [] }` and hiding tags, clicking the expanded header, initially absent selector, enabling selection with `alert-success`, square icon/true selection emission, selected prop transition, check-square icon/false emission, and `alert-info`. The expansion assertion now checks the actual `false` payload rather than event existence only. The standalone expansion and selection scenarios explicitly set the same empty non-history item used by those actions in the original test; the preceding tag-removal scenario separately preserves the transition into that state.
+
+Reuse: existing `emittedArg`, `getLocalVue`, `withPlugins`, and warning suppression are retained. The tiny item arrangement stays local: canonical full dataset defaults would change the deliberate sparse/unknown-state input that produces `alert-success`. No shared fixture is introduced without a second concrete consumer needing this exact sparse shape.
+
+Guidance: the existing focused scenario, local setup, selective stubbing, event, and cleanup guidance covers these changes. No additional general advice is needed.
+
+Validation: all five cases pass in the three-suite History run, shuffled with seed `150053` (24 total, zero skips), with scoped ESLint `--max-warnings 0` and Prettier check passing. Driver validation includes full client types.
+
+Supporting reuse validation: after `src/api/index.test.ts` adopts the extended-history factory, all four suites pass 38/38 cases, zero skips, shuffled seed `150063` (14 supporting ownership cases plus 24 selected History cases). Scoped lint and formatting include the helper and supporting suite. The supporting counter stays unchanged.

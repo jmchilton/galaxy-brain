@@ -1,0 +1,11 @@
+Reviewed `client/src/components/Workflow/Editor/StateUpgradeModal.test.ts`, 5 → 5 cases.
+
+A local typed `makeMessage` returns a fresh complete `UpgradeMessage`, eliminating four double casts and the component cast. Step indices use the declared string type (`"2"`, `"3"`, `"1"`), retaining their original numeric meanings; empty required icon and label fields retain the original absent-field presentation. `mountWith` returns its wrapper, eliminating shared mutable wrapper state and the action/assertion helper. A named `it.each` represents the two post-dismissal outcomes while keeping dismissal and props updates visible in each execution. Wrappers auto-unmount, and the sanitizer spy returns to its established pass-through implementation after every case.
+
+Preservation: initial empty messages hide the content; nonempty original step name and both message strings render; dispatching the real dialog `close` event hides it; passing new step-three messages reopens it, while passing an empty list leaves it hidden. The sanitizer case retains the original Tool Shed anchor, step/name/detail input, call with the `links` profile, and the `.sanitized a` presence check. The visible-message scenario additionally asserts the human step title and exact ordered details.
+
+Reuse: searches of `tests/test-data` and workflow editor fixtures found no existing upgrade-message factory. `modules/utilities.test.ts` tests message generation itself, and `Index.test.ts` stubs empty messages; neither needs this UI fixture. The three repeated populated arrangements within this suite justify a local factory, not a shared one. The real modal stays mounted because dismissal is part of the original contract.
+
+Guidance: existing domain fixture reuse, scenario tables, and mock cleanup guidance covers these changes. No README addition or marginal advice proposed.
+
+Validation: all six assigned suites pass in shuffled order (seed `150033`): 28 cases, zero skips/failures, with `NODE_OPTIONS=--no-webstorage`. Evidence: `/private/tmp/batch15_components_tests.json`. Scoped ESLint passes with zero warnings and Prettier passes. The driver coordinates full client typechecking and the authoritative whole-batch run.

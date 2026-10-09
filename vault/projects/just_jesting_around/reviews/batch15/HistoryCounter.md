@@ -1,0 +1,13 @@
+Reviewed `client/src/components/History/CurrentHistory/HistoryCounter.test.ts`: all seven cases remain.
+
+Existing history/user factories replace a shared history literal and sparse registered-user cast. A fixed clock makes the timestamps explicit; fake intervals and timeouts are cleared before returning to real timers. `withPlugins` installs the same per-test Pinia used for store setup, and wrappers automatically unmount. Configuration still passes through the real store and its API handler, using `response.untyped(HttpResponse.json(...))` instead of casting the response to `any`; the store's permissive configuration parameter needs no `never` cast. Existing SSE setters reset the two shared refs directly, replacing reflect deletion and a redundant factory invocation. Comments now explain the relevant mock boundary and timing dependency without narrating adapter internals.
+
+Preserved: history `hist-1`, owner `user-1`, zero size/content counts, undeleted/unarchived/unpurged/unpublished state; logged-in `u@example.com` user; real configuration store; mocked storage refs and SSE boundary; fake-time isolation; shallow button-prop checks and real GButton click integration. Healthy SSE and initial connection each show `Refresh history`, transparent true, blue; an established connection transitioning to disconnected shows the exact warning and red. Polling still checks the fresh “Last refreshed … ago” title/transparent/blue, three-minute-old warning/red, and an unwatched history/red. Clicking the real refresh button still emits `reloadContents` once, now as the exact `[[]]` event list.
+
+Reuse: `getFakeHistorySummaryExtended`, `getFakeRegisteredUser`, `withPlugins`, and `setSseConnected`/`setSseHasEverConnected` already provide the required domains. These factories are also adopted by SwitchToHistoryLink in this batch. The extended-history factory composes existing brief defaults and adds only required ownership/content statistics; a new configuration builder or SSE helper is not warranted.
+
+Guidance: existing factory, inferred/untyped API boundary, mount/plugin, and cleanup guidance covers this suite. No missing best practice or deferred abstraction emerged.
+
+Validation: all seven cases pass in the assigned three-suite run, shuffled with seed `150053` (24 cases total, zero skips). Scoped ESLint `--max-warnings 0` and Prettier check pass; full client types are validated by the driver.
+
+Supporting reuse validation: after `src/api/index.test.ts` adopts the extended-history factory, all four suites pass 38/38 cases, zero skips, shuffled seed `150063` (14 supporting ownership cases plus 24 selected History cases). Scoped lint and formatting include the helper and supporting suite. The supporting counter stays unchanged.

@@ -1,0 +1,13 @@
+Reviewed `client/src/components/History/SwitchToHistoryLink.test.ts`: 7 original tests become 12 independently named cases.
+
+The six positional arguments to `expectActionForHistory` are replaced by named scenario fields showing the history, tooltip, filters, and expected action counts. Each row keeps the ordinary click followed by Ctrl-click, verifying that Ctrl-click opens one additional tab without switching history or applying filters. Histories and the registered user reuse `getFakeHistorySummaryExtended` and `getFakeRegisteredUser`; fresh Pinia plugins, automatic unmount, and restoring the window spy isolate cases. The partial history-store mock now imports its actual module type rather than casting it to `any`.
+
+Preserved: loading before the API response and the rendered link/name afterward; active/current/purged/archived owned histories with and without `{ deleted: false, visible: true, hid: "1" }`; all four tooltip texts; each normal and Ctrl-click action count; accessible published history owned by another user; inaccessible error badge with no loading state or history link. Original IDs, names, ownership, deletion/purge/archive flags, and user fields remain. The published-history test formerly called the same no-filter scenario twice despite a comment about filters. Its no-filter behavior remains, and the duplicate now supplies the documented filters to verify that unowned histories still open a tab. The resolved URL and `_blank` target are additionally checked.
+
+Reuse: the shared extended-history factory and existing user factory and `withPlugins` directly serve this file and HistoryCounter in the same batch. The new factory composes the existing brief-history factory with the actual extended interface, serving both selected consumers without casts. Click expectations remain local because they describe this component's particular action contract.
+
+Guidance: existing scenario naming, tables, factories, mount setup, cleanup, and async guidance explains every change. No new README principle or deferred abstraction is supported by this review.
+
+Validation: all 12 cases pass with the other assigned History suites, shuffled with seed `150053` (24 cases total, zero skips). Scoped ESLint with `--max-warnings 0` and Prettier check pass; full client typechecking belongs to the driver validation.
+
+Supporting reuse validation: after `src/api/index.test.ts` adopts the extended-history factory, all four suites pass 38/38 cases, zero skips, shuffled seed `150063` (14 supporting ownership cases plus 24 selected History cases). Scoped lint and formatting include the helper and supporting suite. The supporting counter stays unchanged.

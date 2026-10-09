@@ -3,7 +3,7 @@ seed: 2042161363
 inventory_sha256: 5e413673dc32dbe55afcfd775930bd2832d19dee92a9db123981807b5c49118a
 branch: jest_readability_batch_01
 base_commit: b8933cdd60dac5572bc156c40a1464ab72e018a2
-status: selected
+status: reviewed
 selection:
 - file: client/src/components/Toolshed/InstalledList/Details.test.js
 - file: client/src/components/Form/FormElementLabel.test.js
@@ -15,3 +15,39 @@ selection:
 - file: client/src/components/Toolshed/SearchList/Repositories.test.js
 - file: client/src/components/Panels/Upload/uploadState.test.ts
 - file: client/src/components/History/CurrentHistory/HistoryCounter.test.ts
+baseline:
+  selected_cases: 85
+  selected_passed: 85
+  selected_skipped: 0
+  selected_suites: 10
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/tests/test-data/index.ts
+- client/src/api/index.test.ts
+supporting_suites:
+- client/src/api/index.test.ts
+helper_files:
+- client/tests/test-data/index.ts
+documentation_files: []
+commit: c4442efc78bb1d4a195b48fc9b65758a0b86a805
+validation:
+  passed_cases: 110
+  skipped_cases: 0
+  total_cases: 110
+  affected_suites: 11
+  selected_cases: 96
+  supporting_cases: 14
+  shuffle_seed: 150101
+  test_environment: NODE_OPTIONS=--no-webstorage
+  client_vue_tsc: passed
+  eslint: passed; zero warnings/errors
+  prettier: passed
+  normal_review: approved
+  test_challenge: approved; original contracts retained
+  strict_code_quality_review: approved
+  scope: retain ten originators plus shared extended-history factory and API consumer
+  screenshots: not relevant
+  source_commit_hooks: passed
+additional_validation:
+  unchanged_upload_factory_consumers: 30
+  suites: 3
