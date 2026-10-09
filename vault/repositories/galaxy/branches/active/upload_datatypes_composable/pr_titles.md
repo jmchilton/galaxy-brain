@@ -1,0 +1,4 @@
+- Show Database/Build and datatype load failures instead of empty selectors
+- Add upload datatype/dbkey composables and surface their load failures
+- Handle datatype and Database/Build load errors in callers via shared composables
+- Replace empty Database/Build selectors with load errors; add useUploadDbKeys/useUploadDatatypes
