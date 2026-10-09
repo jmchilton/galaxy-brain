@@ -1,10 +1,10 @@
 # upload_datatypes_composable
 
-Status: `branches_ready_for_final_review`. Base: `dev`. Tip `75c67e1fa27`.
+Status: `branches_implemented_needs_ci`. Base: `dev`. Tip `cea986dee14`. Polished at `75c67e1fa27`; the provider removal since then makes `pr_description.md` stale, so it needs a re-polish.
 
-Adds `useUploadDatatypes` and `useUploadDbKeys` composables over store-owned loading/error state, and shows datatype and Database/Build load failures instead of empty selectors.
+Adds `useUploadDatatypes` and `useUploadDbKeys` composables over store-owned loading/error state, moves every consumer onto them, deletes `DatatypesProvider`/`DbKeyProvider`, and shows datatype and Database/Build load failures instead of empty selectors.
 
-- [Implementation](implementation_debrief.md) ([original](earlier_drafts/1/implementation_debrief.md))
+- [Implementation](implementation_debrief.md) ([original](earlier_drafts/1/implementation_debrief.md)) · [Provider removal](provider_removal.md)
 - [PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md)
 - [Normal review](subagents/normal_review.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md)
 
