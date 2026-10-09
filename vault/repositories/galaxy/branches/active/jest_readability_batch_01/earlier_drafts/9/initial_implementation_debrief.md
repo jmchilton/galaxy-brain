@@ -1,0 +1,7 @@
+Iteration 04 is implemented and validated on the existing branch/worktree, based on iteration 03 (`4528475f09a4b005de558cbf10f063277f6b304e`). All three earlier commits remain unchanged; this iteration is `2dbcc3703c61c058598fe50d14fba2623bd3329f`.
+
+Ten previously uniterated originators were selected with seed `3916984046`, two per category. Each file received an individual subagent review against the client testing guidance, including the Tool Shed suite under its own Vue frontend setup. [Selection, outcomes and reviews](../../../../../../../projects/just_jesting_around/READABILITY_BATCH_04.md).
+
+Three typed factories share credential, storage-run and monitoring data across concrete consumers. Four supporting suites receive focused fixture migrations; their counters remain unchanged. Only the ten selected originators advance, bringing the inventory to 25 reviewed originators out of 396. Scope is seventeen test/helper files: fourteen suites and three new fixtures. Existing guidance suffices; no README or marginal-advice additions are needed.
+
+Baseline: 93 cases (72 selected, 21 supporting). Final: 99 cases (78 selected, 21 supporting) across fourteen suites. Full client and Tool Shed typechecks, scoped lint/format, independent review, fresh test challenge, scope evaluation and screenshot relevance audit pass. Standalone API package tests and scoped integration typing pass; its unrelated whole-package typing limitations are recorded in the per-file review. Prior iteration-03 debriefs are archived in `earlier_drafts/8/` with adjusted relative links.

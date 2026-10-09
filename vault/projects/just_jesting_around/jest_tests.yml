@@ -1,7 +1,9 @@
 - file: client/packages/api-client/src/client.test.ts
+  iterated: 1
 - file: client/packages/api-client/src/integration.test.ts
   iterated: 1
 - file: client/src/api/client/rateLimiter.test.ts
+  iterated: 1
 - file: client/src/api/client/serverMock.test.ts
   iterated: 1
 - file: client/src/api/datasets.test.ts
@@ -12,6 +14,7 @@
   iterated: 1
 - file: client/src/app/app.test.js
 - file: client/src/app/utils.test.ts
+  iterated: 1
 - file: client/src/components/ActivityBar/ActivityBar.test.js
 - file: client/src/components/ActivityBar/ActivityItem.test.js
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
@@ -78,6 +81,7 @@
 - file: client/src/components/Form/FormElementLabel.test.js
 - file: client/src/components/Form/FormMessage.test.js
 - file: client/src/components/Form/composables/useFormState.test.js
+  iterated: 1
 - file: client/src/components/Form/utilities.test.js
 - file: client/src/components/GDateTime.test.ts
 - file: client/src/components/GalaxyAI.newchat.test.ts
@@ -103,6 +107,7 @@
 - file: client/src/components/History/Content/model/states.test.js
 - file: client/src/components/History/CurrentHistory/HistoryCounter.test.ts
 - file: client/src/components/History/CurrentHistory/HistoryNavigation.test.ts
+  iterated: 1
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
 - file: client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts
@@ -116,8 +121,10 @@
 - file: client/src/components/History/HistoryView.test.js
 - file: client/src/components/History/Layout/DetailsLayout.test.js
 - file: client/src/components/History/Modals/CopyModal.test.ts
+  iterated: 1
 - file: client/src/components/History/Modals/SelectorModal.test.js
 - file: client/src/components/History/Multiple/MultipleView.test.js
+  iterated: 1
 - file: client/src/components/History/SwitchToHistoryLink.test.ts
 - file: client/src/components/History/TargetHistorySelector.test.ts
 - file: client/src/components/History/TargetObjectStoreSelector.test.ts
@@ -191,6 +198,7 @@
 - file: client/src/components/Panels/Buttons/FavoritesButton.test.js
 - file: client/src/components/Panels/Common/Tool.test.ts
 - file: client/src/components/Panels/Common/ToolSection.test.ts
+  iterated: 1
 - file: client/src/components/Panels/InteractiveToolsPanel.test.ts
 - file: client/src/components/Panels/MyToolsLanding.test.ts
 - file: client/src/components/Panels/ToolBox.test.js
@@ -270,6 +278,7 @@
 - file: client/src/components/Visualizations/utilities.test.js
 - file: client/src/components/WindowManager/WindowManagerWindow.test.ts
 - file: client/src/components/Workflow/Editor/Actions/actions.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/AreaHighlight.test.ts
 - file: client/src/components/Workflow/Editor/Comments/ColorSelector.test.js
 - file: client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
@@ -325,6 +334,7 @@
 - file: client/src/composables/accessibleHover.test.ts
 - file: client/src/composables/confirmDialog.test.ts
 - file: client/src/composables/fileSources.test.ts
+  iterated: 1
 - file: client/src/composables/keyedCache.test.ts
 - file: client/src/composables/keyedObjects.test.ts
 - file: client/src/composables/markdown.test.js
@@ -335,6 +345,7 @@
 - file: client/src/composables/resourceWatcher.test.ts
   iterated: 1
 - file: client/src/composables/roundRobinSelector.test.ts
+  iterated: 1
 - file: client/src/composables/selectedItems/selectedItems.test.ts
 - file: client/src/composables/shortTermStorageMonitor.test.ts
 - file: client/src/composables/taskMonitor.test.ts
@@ -345,10 +356,12 @@
   iterated: 1
 - file: client/src/composables/useActiveContext.test.ts
 - file: client/src/composables/useCreatingJob.test.ts
+  iterated: 1
 - file: client/src/composables/useEntityMentions.test.ts
 - file: client/src/composables/useHistoryDatasets.test.ts
 - file: client/src/composables/useInvocationGraph.test.ts
 - file: client/src/composables/useNotificationSSE.test.ts
+  iterated: 1
 - file: client/src/composables/usePageProposals.test.ts
 - file: client/src/composables/useSidebarSelection.test.ts
 - file: client/src/composables/userToolCredentials.test.ts
@@ -366,11 +379,13 @@
 - file: client/src/stores/collectionAttributesStore.test.ts
   iterated: 1
 - file: client/src/stores/collectionElementsStore.test.ts
+  iterated: 1
 - file: client/src/stores/datasetCollectionStore.test.ts
 - file: client/src/stores/entryPointStore.test.js
 - file: client/src/stores/historyStore.test.ts
 - file: client/src/stores/invocationStore.test.ts
 - file: client/src/stores/jobMetricsStore.test.ts
+  iterated: 1
 - file: client/src/stores/notificationsStore.test.ts
 - file: client/src/stores/objectStoreInstancesStore.test.ts
 - file: client/src/stores/objectStoreTemplatesStore.test.ts
@@ -383,15 +398,18 @@
 - file: client/src/stores/userStore.test.ts
 - file: client/src/stores/windowManagerStore.test.ts
 - file: client/src/stores/workflowConnectionStore.test.ts
+  iterated: 1
 - file: client/src/stores/workflowEditorCommentStore.test.ts
 - file: client/src/stores/workflowEditorToolbarStore.test.ts
   iterated: 1
 - file: client/src/stores/workflowSearchStore.test.ts
 - file: client/src/stores/workflowStepStore.test.ts
+  iterated: 1
 - file: client/src/stores/workflowStore.test.ts
 - file: client/src/utils/color.test.js
   iterated: 1
 - file: client/src/utils/dates.test.ts
+  iterated: 1
 - file: client/src/utils/filterConversion.test.js
 - file: client/src/utils/filtering.test.js
   iterated: 1
@@ -418,4 +436,6 @@
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts
+  iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts
+  iterated: 1
