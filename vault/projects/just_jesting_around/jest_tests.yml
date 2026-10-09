@@ -109,6 +109,7 @@
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.ts
 - file: client/src/components/History/Content/ContentItem.test.js
 - file: client/src/components/History/Content/Dataset/DatasetDownload.test.ts
+  iterated: 1
 - file: client/src/components/History/Content/GenericElement.test.js
 - file: client/src/components/History/Content/model/states.test.js
 - file: client/src/components/History/CurrentHistory/HistoryCounter.test.ts
@@ -129,6 +130,7 @@
 - file: client/src/components/History/Modals/CopyModal.test.ts
   iterated: 1
 - file: client/src/components/History/Modals/SelectorModal.test.js
+  iterated: 1
 - file: client/src/components/History/Multiple/MultipleView.test.js
   iterated: 1
 - file: client/src/components/History/SwitchToHistoryLink.test.ts
@@ -162,6 +164,7 @@
 - file: client/src/components/Markdown/Editor/CellAdd.test.js
 - file: client/src/components/Markdown/Editor/CellButton.test.js
 - file: client/src/components/Markdown/Editor/CellOption.test.js
+  iterated: 1
 - file: client/src/components/Markdown/Editor/Configurations/ConfigureHeader.test.js
 - file: client/src/components/Markdown/Editor/Configurations/ConfigureVitessce.test.js
 - file: client/src/components/Markdown/Editor/TextEditor.test.ts
@@ -169,6 +172,7 @@
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowDisplay.test.js
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js
+  iterated: 1
 - file: client/src/components/Markdown/Sections/MarkdownGalaxy.test.js
 - file: client/src/components/Markdown/Sections/MarkdownVitessce.test.js
 - file: client/src/components/Markdown/Utilities/parseInvocation.test.js
@@ -245,6 +249,7 @@
 - file: client/src/components/Tool/extractEmbeddedJs.test.ts
 - file: client/src/components/Tool/utilities.test.ts
 - file: client/src/components/ToolEntryPoints/ToolEntryPoints.test.js
+  iterated: 1
 - file: client/src/components/ToolsList/ToolsList.test.ts
 - file: client/src/components/ToolsList/ToolsListCard.test.ts
 - file: client/src/components/ToolsView/ToolsSchemaJson/ToolsJson.test.js
@@ -297,6 +302,7 @@
 - file: client/src/components/Workflow/Editor/Comments/ColorSelector.test.js
 - file: client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormDefault.test.js
+  iterated: 1
 - file: client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js
   iterated: 1
 - file: client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts
@@ -306,12 +312,14 @@
 - file: client/src/components/Workflow/Editor/Node.test.ts
 - file: client/src/components/Workflow/Editor/NodeOutput.test.ts
 - file: client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/StateUpgradeModal.test.ts
 - file: client/src/components/Workflow/Editor/WorkflowAttributes.test.ts
 - file: client/src/components/Workflow/Editor/ZoomControl.test.js
 - file: client/src/components/Workflow/Editor/composables/workflowBoundingBox.test.ts
 - file: client/src/components/Workflow/Editor/modules/activities.test.ts
 - file: client/src/components/Workflow/Editor/modules/canvasDraw.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/modules/collectionTypeDescription.test.ts
 - file: client/src/components/Workflow/Editor/modules/layout.test.ts
 - file: client/src/components/Workflow/Editor/modules/pickValueCompact.test.ts
@@ -335,6 +343,7 @@
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
 - file: client/src/components/WorkflowInvocationState/util.test.ts
 - file: client/src/components/admin/AdminPanel.test.js
+  iterated: 1
 - file: client/src/components/admin/BaseList.test.js
 - file: client/src/components/admin/Notifications/BroadcastForm.test.ts
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
@@ -360,6 +369,7 @@
 - file: client/src/composables/markdown.test.js
   iterated: 1
 - file: client/src/composables/pagination.test.ts
+  iterated: 1
 - file: client/src/composables/persistentProgressMonitor.test.ts
 - file: client/src/composables/pollUntil.test.ts
   iterated: 1
@@ -384,11 +394,13 @@
 - file: client/src/composables/useEntityMentions.test.ts
   iterated: 1
 - file: client/src/composables/useHistoryDatasets.test.ts
+  iterated: 1
 - file: client/src/composables/useInvocationGraph.test.ts
   iterated: 1
 - file: client/src/composables/useNotificationSSE.test.ts
   iterated: 1
 - file: client/src/composables/usePageProposals.test.ts
+  iterated: 1
 - file: client/src/composables/useSidebarSelection.test.ts
   iterated: 1
 - file: client/src/composables/userToolCredentials.test.ts
@@ -402,6 +414,7 @@
 - file: client/src/entry/analysis/modules/Register.test.ts
   iterated: 1
 - file: client/src/entry/analysis/router-push.test.js
+  iterated: 1
 - file: client/src/entry/analysis/routes/login-routes.test.ts
   iterated: 1
 - file: client/src/router/guards.test.ts
@@ -417,6 +430,7 @@
 - file: client/src/stores/datasetCollectionStore.test.ts
   iterated: 1
 - file: client/src/stores/entryPointStore.test.js
+  iterated: 1
 - file: client/src/stores/historyStore.test.ts
   iterated: 1
 - file: client/src/stores/invocationStore.test.ts
@@ -436,6 +450,7 @@
 - file: client/src/stores/toolStore.test.ts
   iterated: 1
 - file: client/src/stores/userStore.test.ts
+  iterated: 1
 - file: client/src/stores/windowManagerStore.test.ts
   iterated: 1
 - file: client/src/stores/workflowConnectionStore.test.ts

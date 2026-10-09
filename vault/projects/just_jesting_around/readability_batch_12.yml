@@ -33,10 +33,31 @@ selection:
   file: client/src/entry/analysis/router-push.test.js
 branch: jest_readability_batch_01
 base_commit: 61c44ce5a05f0b70021010ba7d937c25690c1558
-status: selected
+status: reviewed
 baseline:
   selected_cases: 104
   selected_passed: 104
   selected_skipped: 0
   selected_suites: 15
   test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+helper_files: []
+documentation_files: []
+commit: ba5800a26798382da706088dca0947a769b19641
+validation:
+  passed_cases: 118
+  skipped_cases: 0
+  total_cases: 118
+  affected_suites: 15
+  shuffle_seed: 120151
+  test_environment: NODE_OPTIONS=--no-webstorage
+  client_vue_tsc: passed
+  eslint: passed; zero warnings/errors on code files
+  prettier: passed
+  normal_review: approved
+  test_challenge: approved; original contracts retained
+  strict_code_quality_review: approved
+  scope: retain fifteen originators
+  screenshots: not relevant
+  source_commit_hooks: passed
+  upstream_ci: 'queued/running on existing draft PR #24015'
