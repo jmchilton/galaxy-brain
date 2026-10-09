@@ -31,8 +31,10 @@ The original five files passed 88 cases. The refactored five files pass 98 cases
 
 Independent normal review, test challenge, and scope evaluation are recorded in the branch debriefs before handoff.
 
-Galaxy commit: `d4395421eea57a0ab4bc98b594a10b2edcd9c157`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
+Galaxy commit: `85fd4e5dc43295f2395ff2f350bd7cc2f6ba70ea`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
 
 README revision 01 removes the two requested illustrative phrases and separates handler lifetime from response typing, with a complete untyped-response example. [Revision review](reviews/readme_revision_01.md).
 
 README revision 02 removes the generic negative-assertion paragraph. The testing improvements remain; the guide focuses on useful conventions.
+
+README revision 03 uses the shorter independent-scenario/table sentence and links to the official Vitest `it.each` API, matching the current runner. Independent review and formatting checks pass.

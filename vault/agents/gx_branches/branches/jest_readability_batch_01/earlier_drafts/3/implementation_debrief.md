@@ -12,6 +12,8 @@ Independent normal review found no blocking findings and checked exact store ass
 
 Shared typed page/revision factories have concrete consumers in store, API, and PageEditor tests, but migrating them is outside this batch. The existing upload module remains mocked for component-boundary isolation; its pure helper is separately tested. No PR was opened.
 
-Galaxy commit: `85fd4e5dc43295f2395ff2f350bd7cc2f6ba70ea`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
+Galaxy commit: `d4395421eea57a0ab4bc98b594a10b2edcd9c157`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
 
-The revised guide uses concise wording for independent scenarios and links `it.each` to Vitest’s official API reference, matching Galaxy’s runner. Generic assertion advice and unnecessary illustrative phrases were removed. The untyped-response example separates handler lifecycle from response typing. Independent documentation reviews found no findings, README formatting passes, and earlier tests/typecheck/scope/screenshot results remain applicable.
+README revision 01: removed the async-store-action and useMarkdown illustrative phrases at John's request. Separated mock-handler lifetime guidance from inferred-response typing and made the response.untyped snippet self-contained with beforeEach registration. Clarified that this bypasses a response shape for a known endpoint; paths missing from the schema are a different case. No tests or production code changed. README Prettier and whitespace checks pass; independent revision review found no findings. Earlier 98-case, lint, and type-check results remain applicable.
+
+README revision 02: removed the generic negative-assertion paragraph because it adds no Galaxy-specific convention. The stronger existing assertions remain. Independent review found no findings; formatting and whitespace checks pass. No test rerun is needed for this documentation-only deletion.
