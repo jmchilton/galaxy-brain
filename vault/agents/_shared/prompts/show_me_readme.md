@@ -8,7 +8,7 @@
 
 ## Updating
 
-Don't edit `show_me.md` locally. Re-copy it from upstream so that it stays a clean copy:
+Don't edit `show_me.md` locally. From this directory, re-copy it from upstream so that it stays a clean copy:
 
 1. Download the latest file over `show_me.md`:
    `curl -fsSL https://raw.githubusercontent.com/humanlayer/skills/refs/heads/main/plugins/show-me/skills/show-me/SKILL.md -o show_me.md`
@@ -16,4 +16,4 @@ Don't edit `show_me.md` locally. Re-copy it from upstream so that it stays a cle
 3. Update the upstream commit and copied date above. The latest commit for the file is shown at
    https://github.com/humanlayer/skills/commits/main/plugins/show-me/skills/show-me/SKILL.md
 
-Local adaptations live in `SHOW_ME_RULES.md`, which references this file.
+Local adaptations live in [SHOW_ME_RULES.md](../SHOW_ME_RULES.md), which references this file.
