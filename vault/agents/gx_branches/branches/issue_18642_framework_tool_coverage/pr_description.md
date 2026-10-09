@@ -1,6 +1,6 @@
 Fix 🎯 #18642 - add the missing drill_down/select framework coverage, and fix the parameter-model failure it exposed for relative `from_file` drill_downs.
 
-A drill_down whose `from_file` path is relative can't get a parameter model on dev. That's the shape the issue cites, and devteam `annotation_profiler` is the one known tool that uses it. The parser asserts when it isn't given a tool data path, and nothing that builds models passes one:
+A drill_down whose `from_file` path is relative can't get a parameter model on dev. That's the shape the issue cites. The parser asserts when it isn't given a tool data path, and nothing that builds models passes one:
 
 | | dev | this branch |
 |---|---|---|
@@ -12,6 +12,8 @@ A drill_down whose `from_file` path is relative can't get a parameter model on d
 The Tool Shed row is consistent with the local run: dev's Tool Shed code raises this assertion building the model for that tool. The main Tool Shed's logs weren't checked. ***On dev the tool form still runs these tools, because it falls back to the legacy `/api/tools` when a tool has no parameter schema. What breaks is the Tool Shed tool API, tool_util, and Galaxy's typed tool APIs.*** By code, `/api/jobs` and the tool inputs schema endpoint reject a tool without a schema (`Tool … has no parameters defined`).
 
 When the path is relative and there's no tool data path, the parser now returns `None` ("options unknown"), as it already does for `dynamic_options`, and the model falls back to a strict string. ***Galaxy still rejects values that aren't in the options file at runtime*** (`DrillDownSelectToolParameter.from_json`: `an invalid option ('option4') was selected`). The new framework tool checks this with an `expect_failure` test. ***Only the pre-validation model is a plain string.***
+
+***No working tool uses drill_down `from_file`, so this branch deprecates it rather than documenting it.*** A search of tools-iuc, tools-devteam, galaxytools and GitHub code search finds one user, devteam `deprecated/tools/annotation_profiler`. That tool can't load even with a correct tool data path, because its options file wraps `<options>` in a removed `<filter type="data_meta">` (`Non-dynamic drilldown parameters must supply an options element`). It also isn't installed on usegalaxy.org, .eu or .org.au. The attribute stays in the XSD so existing XML validates. It's marked deprecated, left out of the drill_down attribute table, and a new `InputsDrillDownFromFile` linter warns on it. The parser fix still matters: a broken tool shouldn't make the Tool Shed's model endpoint return 500.
 
 The branch also deletes a drill_down `filter` check from the parser. ***This doesn't remove a feature: the check could never fire, and Galaxy has no runtime support for drill_down filters.*** Deleting it resolves the issue's fourth item.
 
@@ -27,7 +29,8 @@ The branch also deletes a drill_down `filter` check from the parser. ***This doe
 <details><summary>Other changes</summary>
 
 - **XSD:**
-  - Documents `from_file` on `param` (drill_down only) and lists it in the drill_down attribute table.
+  - Declares `from_file` on `param` as deprecated (`gxdocs:deprecated`), the same as `size` and `force_select`. It's not in the drill_down attribute table.
+- **Linter:** `InputsDrillDownFromFile` warns `Drill down parameter [...] uses deprecated 'from_file' attribute.`, alongside the existing select `dynamic_options` and `<options from_file>` deprecation warnings.
   - Adds `checkbox` to the `display` enum, which only had select's `checkboxes|radio`. drill_down has always accepted `checkbox`. The docs say plainly that it does nothing: the form shows checkboxes or radio buttons based on `multiple`.
   - Accepts `selected` on drill_down `<option>`s, documented the same way as select's. The runtime uses selected options as the parameter's default.
   - Before this, schema validation rejected annotation_profiler (`from_file`, `display="checkbox"`) and the existing `gx_drill_down_exact_with_selection` test tool (`selected`). A `test_tool_linters.py` case now locks in that the XSD accepts all three. The runtime has always supported them.
@@ -44,11 +47,11 @@ The branch also deletes a drill_down `filter` check from the parser. ***This doe
 
 ## Risks
 
-The one hard-to-reverse part is that the XSD now accepts drill_down `from_file`, `display="checkbox"` and option `selected`. ***None of them is a new feature: the runtime has always supported all three, and the schema just stops rejecting them.*** The parser and test changes are two-way.
+The one hard-to-reverse part is that the XSD now accepts drill_down `from_file` (as deprecated), `display="checkbox"` and option `selected`. ***None of them is a new feature: the runtime has always supported all three, and the schema just stops rejecting them.*** The parser and test changes are two-way.
 
 <details><summary>Risk Details</summary>
 
-- Documenting `from_file` in the XSD makes it officially supported, and linting accepts it.
+- The XSD accepts `from_file` but marks it deprecated, and the linter warns on it. That leaves room to remove it later.
 - The `display` enum is shared by every `param`. XSD 1.0 can't condition it on `type`, so a select with `display="checkbox"` now passes the schema too. At runtime nothing changes: it still renders as a drop-down, as any unrecognized `display` value does.
 - Outside Galaxy (tool_util, the Tool Shed), a relative `from_file` drill_down now validates any string rather than erroring. It doesn't validate against the file's values.
 - In Galaxy, the parameter model for these tools is also a strict string, since `input_models_for_pages` doesn't get `tool_data_path`. Runtime `from_json` still enforces the options.
@@ -68,7 +71,7 @@ Builds on 🔀 #19027, which added the `dynamic_options` drill_down and select f
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? tool_util and the Tool Shed get a strict-string model instead of a parse error. In Galaxy, a value missing from the file is rejected with `an invalid option ('…') was selected`. A missing options file stops the tool from loading, with a logged error, the same as before.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The spec entries pin what each request representation accepts and rejects. The framework tool covers loading from the file and rejecting a value end to end.
@@ -89,7 +92,7 @@ Builds on 🔀 #19027, which added the `dynamic_options` drill_down and select f
 - `parse_tool()` and the Tool Shed's `parse_tool_custom(…, ShedParsedTool)` on devteam `annotation_profiler.xml`: dev raises the assertion, and this branch builds the model.
 - XSD:
   - Before each fix, `test_xsd_drill_down_attributes` failed with `The value 'checkbox' is not an element of the set {'checkboxes', 'radio'}`, and then with `Element 'option', attribute 'selected': The attribute 'selected' is not allowed`.
-  - On `85f79a9ab6c`, all 135 tests in `test_tool_linters.py` pass, as do the 36 parameter spec and test-case tests.
+  - On `f66d1f0f97d`, all 136 tests in `test_tool_linters.py` pass, as do the 36 parameter spec and test-case tests. `test_inputs_drill_down_from_file_deprecated` failed (no warnings) before the linter was added.
   - `validate_tools.sh` passes `gx_drill_down_exact_with_selection.xml`, `gx_drill_down_from_file.xml` and `drill_down.xml`.
   - `xmllint --schema` on devteam `annotation_profiler.xml` reports `validates`.
 
