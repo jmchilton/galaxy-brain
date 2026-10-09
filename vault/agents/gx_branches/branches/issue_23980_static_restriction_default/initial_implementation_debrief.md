@@ -20,7 +20,7 @@ Issue: galaxyproject/galaxy#23980 — workflow text params with static `restrict
 
 ## Test challenge
 
-The parametrized unit test was dropped: it duplicated the API test and recomputed the expected flags itself. Its dict-form case moved into the API test. See [test_challenge_debrief.md](test_challenge_debrief.md).
+The parametrized unit test was dropped: it duplicated the API test and recomputed the expected flags itself. Its dict-form case moved into the API test. See [test_challenges_debrief.md](test_challenges_debrief.md).
 
 ## Review findings not acted on
 
