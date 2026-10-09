@@ -1,4 +1,1 @@
-- [26.1] Stop per-row `/api/datatypes` requests on the Workflow Invocations list
 - [26.1] Load datatypes only for datatype help terms and share in-flight requests
-- [26.1] Cut client `/api/datatypes` fan-out and stop caching failed loads
-- [26.1] Share in-flight datatypes/genomes requests; skip datatypes for YAML help terms
