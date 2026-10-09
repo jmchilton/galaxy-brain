@@ -1,0 +1,17 @@
+iteration: 15
+seed: 2042161363
+inventory_sha256: 5e413673dc32dbe55afcfd775930bd2832d19dee92a9db123981807b5c49118a
+branch: jest_readability_batch_01
+base_commit: b8933cdd60dac5572bc156c40a1464ab72e018a2
+status: selected
+selection:
+- file: client/src/components/Toolshed/InstalledList/Details.test.js
+- file: client/src/components/Form/FormElementLabel.test.js
+- file: client/src/components/Form/FormCard.test.js
+- file: client/src/components/History/SwitchToHistoryLink.test.ts
+- file: client/src/components/Workflow/Editor/StateUpgradeModal.test.ts
+- file: client/src/components/Markdown/Sections/MarkdownGalaxy.test.js
+- file: client/src/components/History/Content/ContentItem.test.js
+- file: client/src/components/Toolshed/SearchList/Repositories.test.js
+- file: client/src/components/Panels/Upload/uploadState.test.ts
+- file: client/src/components/History/CurrentHistory/HistoryCounter.test.ts
