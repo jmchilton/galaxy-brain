@@ -32,4 +32,6 @@ The original five files passed 88 cases. The refactored five files pass 98 cases
 
 Independent normal review, test challenge, and scope evaluation are recorded in the branch debriefs before handoff.
 
-Galaxy commit: `da70013509141de12d815141565eb51edfb5b912`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
+Galaxy commit: `95ec3e2a4752ee2b84e432163497678b899f0f16`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
+
+README revision 01 removes the two requested illustrative phrases and separates handler lifetime from response typing, with a complete untyped-response example. [Revision review](reviews/readme_revision_01.md).

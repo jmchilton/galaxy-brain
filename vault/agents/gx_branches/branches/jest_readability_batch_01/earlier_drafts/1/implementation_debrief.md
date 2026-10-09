@@ -12,6 +12,4 @@ Independent normal review found no blocking findings and checked exact store ass
 
 Shared typed page/revision factories have concrete consumers in store, API, and PageEditor tests, but migrating them is outside this batch. The existing upload module remains mocked for component-boundary isolation; its pure helper is separately tested. No PR was opened.
 
-Galaxy commit: `95ec3e2a4752ee2b84e432163497678b899f0f16`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
-
-README revision 01: removed the async-store-action and useMarkdown illustrative phrases at John's request. Separated mock-handler lifetime guidance from inferred-response typing and made the response.untyped snippet self-contained with beforeEach registration. Clarified that this bypasses a response shape for a known endpoint; paths missing from the schema are a different case. No tests or production code changed. README Prettier and whitespace checks pass; independent revision review found no findings. Earlier 98-case, lint, and type-check results remain applicable.
+Galaxy commit: `da70013509141de12d815141565eb51edfb5b912`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
