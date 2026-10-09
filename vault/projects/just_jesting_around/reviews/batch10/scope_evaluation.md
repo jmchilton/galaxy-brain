@@ -37,4 +37,4 @@ Change cache/store implementations, repair the existing skipped preferred-visual
 | • Could address separate product or migration questions if separately requested. | • Requires new behavior evidence and validation unrelated to the readability objective. |
 | • Browser tests could document existing screens. | • No production rendering change or E2E screenshot delta calls for fresh captures here. |
 
-No scope change or user decision is recommended. Correctness and assertion strength remain the normal-review and test-challenge agents' responsibility; this evaluation concerns only the iteration boundary. Driver validation and review outcomes are recorded in the [batch report](../../../../../projects/just_jesting_around/READABILITY_BATCH_10.md).
+No scope change or user decision is recommended. Correctness and assertion strength remain the normal-review and test-challenge agents' responsibility; this evaluation concerns only the iteration boundary. Driver validation and review outcomes are recorded in the [batch report](../../READABILITY_BATCH_10.md).

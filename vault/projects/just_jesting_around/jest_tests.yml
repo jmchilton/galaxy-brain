@@ -51,6 +51,7 @@
 - file: client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
   iterated: 1
 - file: client/src/components/Dataset/DatasetView.test.js
+  iterated: 1
 - file: client/src/components/Dataset/Tabular/TabularChunkedView.test.ts
 - file: client/src/components/DatasetInformation/DatasetAttributes.test.ts
 - file: client/src/components/DatasetInformation/DatasetError.test.ts
@@ -199,6 +200,7 @@
 - file: client/src/components/PageEditor/ProposalDiffView.test.ts
 - file: client/src/components/PageEditor/SectionPatchView.test.ts
 - file: client/src/components/PageEditor/object-permission-composables.test.js
+  iterated: 1
 - file: client/src/components/PageEditor/sectionDiffUtils.test.ts
 - file: client/src/components/Panels/Buttons/FavoritesButton.test.js
 - file: client/src/components/Panels/Common/Tool.test.ts
@@ -346,7 +348,9 @@
 - file: client/src/composables/fileSources.test.ts
   iterated: 1
 - file: client/src/composables/keyedCache.test.ts
+  iterated: 1
 - file: client/src/composables/keyedObjects.test.ts
+  iterated: 1
 - file: client/src/composables/markdown.test.js
   iterated: 1
 - file: client/src/composables/pagination.test.ts
@@ -412,6 +416,7 @@
 - file: client/src/stores/objectStoreInstancesStore.test.ts
   iterated: 1
 - file: client/src/stores/objectStoreTemplatesStore.test.ts
+  iterated: 1
 - file: client/src/stores/pageEditorStore.test.ts
   iterated: 1
 - file: client/src/stores/storageOperationsStore.test.ts
@@ -431,6 +436,7 @@
 - file: client/src/stores/workflowStepStore.test.ts
   iterated: 1
 - file: client/src/stores/workflowStore.test.ts
+  iterated: 1
 - file: client/src/utils/color.test.js
   iterated: 1
 - file: client/src/utils/dates.test.ts
@@ -449,6 +455,7 @@
 - file: client/src/utils/strings.test.ts
   iterated: 1
 - file: client/src/utils/tool-version.test.ts
+  iterated: 1
 - file: client/src/utils/tusUpload.test.ts
   iterated: 1
 - file: client/src/utils/upload-queue.test.js
@@ -457,6 +464,7 @@
 - file: client/src/utils/url.test.js
   iterated: 1
 - file: client/src/utils/utils.test.js
+  iterated: 1
 - file: client/src/utils/utils.test.ts
   iterated: 1
 - file: client/src/watch/watchHistory.test.js
@@ -469,7 +477,9 @@
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts
   iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts
+  iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts
+  iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts
   iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts

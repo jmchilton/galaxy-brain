@@ -23,4 +23,38 @@ selection:
   file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts
 branch: jest_readability_batch_01
 base_commit: 03776948996d3d0450d328d2901475fb83b5a4e0
-status: selected
+status: reviewed
+baseline:
+  selected_cases: 113
+  selected_passed: 112
+  selected_skipped: 1
+  selected_suites: 10
+  supporting_cases: 38
+  supporting_suites: 3
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/CommandPalette/providers/actions.test.ts
+- client/src/components/CommandPalette/providers/workflows.test.ts
+- client/src/components/Workflow/List/useWorkflowCardActions.test.ts
+helper_files:
+- client/tests/test-data/workflows.ts
+commit: da55fde9518fddae07a6cf5ab67ee7c6423591c5
+validation:
+  passed_cases: 188
+  skipped_cases: 1
+  total_cases: 189
+  affected_suites: 13
+  selected_passed_cases: 150
+  supporting_passed_cases: 38
+  shuffle_seed: 100131
+  test_environment: NODE_OPTIONS=--no-webstorage
+  client_vue_tsc: passed
+  toolshed_vue_tsc: passed
+  eslint: passed; zero warnings/errors
+  prettier: passed
+  normal_review: approved
+  test_challenge: approved; original contracts retained
+  strict_code_quality_review: approved
+  scope: retain ten originators and three workflow fixture consumers
+  screenshots: not relevant
+  source_commit_hooks: passed
