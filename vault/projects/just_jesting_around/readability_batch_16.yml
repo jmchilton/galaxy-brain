@@ -1,0 +1,27 @@
+iteration: 16
+seed: 1929998238
+inventory_sha256: 750b84fe6905d081a00a870cecfa099d5d4e054966d7c5d6a1225a51c9cce4aa
+branch: jest_readability_batch_01
+base_commit: ebf196cabbe55f4ce8ee692a439e9eb59d86c647
+status: selected
+selection:
+- file: client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts
+- file: client/src/components/History/WorkflowExtractionForm.test.ts
+- file: client/src/components/Form/Elements/FormNumber.test.js
+- file: client/src/components/GalaxyAI/ChatMessageCell.test.ts
+- file: client/src/components/Form/Elements/FormData/FormDataUri.test.ts
+- file: client/src/components/ObjectStore/Instances/UpgradeForm.test.ts
+- file: client/src/components/RuleBuilder/RuleDefinitions.test.ts
+- file: client/src/components/Dataset/Tabular/TabularChunkedView.test.ts
+- file: client/src/components/History/TargetHistorySelector.test.ts
+- file: client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts
+excluded_draws:
+- file: client/src/components/Upload/DefaultBox.test.ts
+  reason: Removed upstream in 56395148c79; inventory retained as historical record.
+  replacement: client/src/components/Form/Elements/FormData/FormDataUri.test.ts
+baseline:
+  selected_cases: 163
+  selected_passed: 163
+  selected_skipped: 0
+  selected_suites: 10
+  test_environment: NODE_OPTIONS=--no-webstorage
