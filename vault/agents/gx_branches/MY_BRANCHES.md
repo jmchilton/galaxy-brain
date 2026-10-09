@@ -45,7 +45,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- Branch `jest_readability_batch_01` (`682dcc45e2a`, off dev) — Description: Improves readability of five diverse client unit tests and feeds findings into the testing guide; blockers: fork CI pending. [Implementation debrief](branches/jest_readability_batch_01/implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01?expand=1).
+- Branch `jest_readability_batch_01` (`cba48a2e87c`, off dev) — Description: Improves ten client unit test suites across two iteration commits and shares typed page fixtures; blockers: fork CI pending. [Implementation debrief](branches/jest_readability_batch_01/implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01?expand=1).
 
 - Branch `integration_ci_scope` (`c6d90c4f585`, off dev) — Description: Selects costly plugin suites from changed paths; helpers and guide live beside integration tests; blockers: fork CI pending. [Implementation debrief](branches/integration_ci_scope/implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:integration_ci_scope).
 

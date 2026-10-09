@@ -12,4 +12,27 @@ selection:
   file: client/src/api/pages.test.ts
 branch: jest_readability_batch_01
 base_commit: aa1f1ed6aebf2431968012bbdcafb63c063c329d
-status: selected
+status: reviewed
+supporting_files:
+- file: client/src/stores/pageEditorStore.test.ts
+  reason: Replace identical page fixture declarations with shared typed factories.
+- file: client/tests/test-data/pages.ts
+  reason: Typed page summary/details factories consumed immediately by API and store
+    tests.
+validation:
+  baseline_tests: 171
+  baseline_selected_tests: 100
+  baseline_supporting_tests: 71
+  test_environment: NODE_OPTIONS=--no-webstorage for Node 25/happy-dom browser storage
+  final_tests: 239
+  final_selected_tests: 168
+  final_supporting_tests: 71
+  combined_iterations_tests: 266
+  prettier: passed
+  eslint: passed
+  vue_tsc: passed
+  normal_review: no blocking findings
+  test_challenge: all original behavior/assertions preserved
+  scope: retain selected five, page factory and supporting store fixture migration
+  screenshots: not relevant
+commit: cba48a2e87ceec9fb1e93cbd7d4ce6a349187334

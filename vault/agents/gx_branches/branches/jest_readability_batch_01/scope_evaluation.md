@@ -1,54 +1,69 @@
-Recommendation: retain the implemented scope of five selected client unit-test files plus evidence-backed client testing guidance; defer shared page/revision factories and additional test-file refactors to a separate batch.
+Recommendation: retain iteration 02's scope of five selected tests, the shared typed page factory, and the fixture-only migration of its existing store consumer. Keep the reviewed first iteration unchanged and commit this iteration separately on the same branch/worktree.
 
-The user requested five diverse random tests, a dedicated readability agent for each, application of existing guidance, investigation of reuse within and across files, and feedback into best practices. The implementation covers one component, composable, store, utility, and API test using the recorded seed. Reuse investigation does not require migrating every discovered consumer in this batch.
+The [loop instructions](../../../../projects/just_jesting_around/LOOP_ITERATION.md) request five previously uniterated tests, dedicated subagents, concrete reuse investigation, and selective guidance synthesis. The [manifest](../../../../projects/just_jesting_around/readability_batch_02.yml) selects notification, polling, store, filtering, and API tests. A successful iteration need not add README advice; the supplied reviews identify no missing repository-specific guidance.
 
-## As implemented: five files and client guidance
+## As implemented: five selected tests plus a two-consumer factory
 
-Keep the five selected test refactors and the focused additions to `client/README.md`. Existing test helpers and factories are reused where suitable; the page editor store's new domain factories and GET handler builders remain local, and neighboring opportunities are documented in the per-file reviews.
-
-| Pros | Cons |
-| --- | --- |
-| • Satisfies every requested activity across five different test categories.<br>• Documents practices supported by specific examples.<br>• Keeps production and unrelated suites outside the change. | • Page/revision fixture duplication remains in other suites.<br>• The store refactor accounts for most of the diff and needs careful review. |
-
-## Expand to shared page/revision factories
-
-Move typed summary/details factories into `client/tests/test-data` and migrate the selected store test, `client/src/api/pages.test.ts`, and appropriate `client/src/components/PageEditor` consumers. This is a concrete reuse opportunity, but requires reviewing and validating additional suites and preserving their distinct fixture identities; leave it as a follow-up.
+Retain the selected readability refactors and `client/tests/test-data/pages.ts`. The selected `api/pages.test.ts` and supporting `stores/pageEditorStore.test.ts` now share previously identical summary/details fixtures; the supporting store diff changes only the import and fixture declarations. Production behavior, E2E tests, and the existing client guide stay outside this iteration.
 
 | Pros | Cons |
 | --- | --- |
-| • Removes repeated required-field boilerplate across real consumers.<br>• Centralizes schema maintenance and can replace incomplete fixture casts. | • Expands beyond the five randomly selected files.<br>• Adds shared API design and migration work to a readability batch.<br>• Coupling distinct fixtures prematurely could hide scenario inputs. |
+| • Covers each requested test category.<br>• Resolves a demonstrated duplication from the first experiment.<br>• Gives the new helper two immediate consumers with unchanged defaults. | • Touches one supporting suite beyond the selected five.<br>• Introduces a shared helper requiring validation of both consumers. |
+
+## Contract to exactly five source files
+
+Keep duplicate page fixtures in the API and store and avoid the shared helper. This reduces the file count but discards an immediate reuse opportunity explicitly requested by the loop; do not contract this far.
+
+| Pros | Cons |
+| --- | --- |
+| • Simplifies the source-file boundary.<br>• Avoids introducing a shared test API. | • Leaves identical required-field fixtures duplicated.<br>• Misses concrete cross-file reuse while both consumers are already understood. |
+
+## Expand notification factory cleanup
+
+Make notification factories deterministic, accept explicit overrides, and fix malformed seen timestamps while reviewing both NotificationCard and NotificationsList. Defer this coordinated fixture work; the selected Card scenarios already make action-relevant category/read state explicit without changing shared factory defaults.
+
+| Pros | Cons |
+| --- | --- |
+| • Removes random fixture state across concrete Card/List consumers.<br>• Fixes the invalid timestamp constructed by `toISOString() + 3`. | • Adds NotificationsList review and shared factory semantics to this sample.<br>• Requires deciding which defaults its existing list scenarios rely on. |
 
 <details>
-<summary>Concrete consumers recorded by the store reviewer</summary>
+<summary>Originating evidence</summary>
 
-`api/pages.test.ts` repeats page summaries and details. `PageEditor/testData.ts` supplies summary constants consumed by `HistoryPageList.test.ts` and `PageCard.test.ts`. `PageEditorView.test.ts`, `PageDisplayToolbar.test.ts`, and `HistoryPageView.test.ts` contain incomplete details fixtures. `PageRevisionList.test.ts` has a local summary factory, while `PageRevisionView.test.ts` and `PageEditorView.test.ts` provide revision details. A follow-up should keep page and revision summary/detail types distinct, generate fresh objects, and make overrides visible in each scenario. The current batch has not implemented this extraction.
+The [NotificationCard review](../../../../projects/just_jesting_around/reviews/batch02/NotificationCard.md) identifies the shared `components/Notifications/test-utils.ts` factories and `generateNotificationsList(10)` in NotificationsList. The timestamp issue occurs in test data; it is not evidence of a production timestamp defect. Preserve this specific follow-up in marginal advice rather than adding generic determinism guidance to the README.
 
 </details>
 
-## Contract to test changes only
+## Expand to a shared Tool factory
 
-Keep the five refactors but remove the README additions. This reduces documentation review, but leaves the requested learning from the five reviews confined to project notes rather than the client guidance that future contributors read.
-
-| Pros | Cons |
-| --- | --- |
-| • Smaller documentation surface.<br>• Avoids adopting broad guidance before further batches. | • Weakens the requested feedback into best practices.<br>• Leaves guidance on composable context and mock-handler lifetimes incomplete. |
-
-## Expand to neighboring tests or the full inventory
-
-Refactor additional candidates such as `utils/slug.test.ts`, related markdown tests, or the remaining inventory in the same branch. They merit later investigation, but a staged series of diverse batches gives clearer review and validation boundaries.
+Introduce a schema-complete Tool factory and migrate toolStore together with MyToolsLanding, ToolSection, and ToolsList fixtures. Defer until those consumers are reviewed together; the selected store's small fixture does not establish useful defaults for every required Tool field.
 
 | Pros | Cons |
 | --- | --- |
-| • Accelerates the project's longer-term readability goal.<br>• Tests the emerging guidance on more examples. | • Exceeds the user's requested five-file starting batch.<br>• Adds review and regression risk before evaluating this batch.<br>• May introduce abstractions without sufficient evidence. |
+| • Has concrete consumers using partial or JSON fixture casts.<br>• Could centralize type-safe Tool defaults. | • Adds roughly eighteen fields irrelevant to this store scenario.<br>• Expands into multiple unrelated component suites before their fixture needs are established. |
 
-## Expand visualization mock fidelity
+<details>
+<summary>Originating evidence and narrower alternative</summary>
 
-Replace the existing mock of the pure URL item builder with a spy on its real implementation in a later batch. The independent test challenge identified this opportunity; the mock predates these readability changes and does not justify expanding the present scope. The parent retained the upload-module mock to isolate the component boundary, and the pure helper already has coverage in `utils/upload.test.ts`.
+The [toolStore review](../../../../projects/just_jesting_around/reviews/batch02/toolStore.md) names `Panels/MyToolsLanding.test.ts`, `Panels/Common/ToolSection.test.ts`, and `ToolsList/ToolsList.test.ts`; their casts were confirmed during this scope audit. It also considered replacing the existing axios rejection/recovery sequence with MSW. That change adds handler sequencing without making these three store scenarios clearer, so retaining the existing boundary is appropriate.
+
+</details>
+
+## Expand the page factory migration
+
+Migrate PageEditor component fixtures to the new helper, and investigate shared revision factories. Defer that expansion: the immediate API/store pair has identical defaults, while `PageEditor/testData.ts` uses different page/history/revision IDs and title, and the current iteration establishes no second revision-factory consumer.
 
 | Pros | Cons |
 | --- | --- |
-| • Exercises real upload-item construction while retaining observable call assertions.<br>• Reduces duplication of a pure implementation in its mock. | • Changes the tested boundary beyond a readability refactor.<br>• Requires a separate assessment of isolation and intended unit boundaries. |
+| • Could reduce additional page fixture duplication.<br>• Builds on a helper with proven current consumers. | • Adds component suites with distinct fixture identities.<br>• Broadens the factory API before reviewing their actual inputs.<br>• Revision extraction remains speculative within this iteration. |
 
-## Independent review input
+## Expand documentation or the inventory
 
-The normal reviewer reported no scope or correctness blocker, agreed to defer shared page/revision factories, and found no need for new E2E tests. Its test challenge suggested the existing URL item-builder spy opportunity above as a follow-up. The parent reports all 98 resulting cases, lint, formatting, and full Vue TypeScript checking passed. This report evaluates scope and documented reuse opportunities; correctness and test adequacy remain covered by that independent review.
+Add general paragraphs about deterministic fixtures, request assertions, fake timers, or cleanup, or refactor more inventory entries in this commit. Defer additional suites and omit redundant prose; these reviews found existing guidance sufficient, and the user's loop calls for evidence-backed additions rather than a documentation quota.
+
+| Pros | Cons |
+| --- | --- |
+| • Further samples can test reuse opportunities.<br>• Specific API examples could become useful if a later sample reveals a gap. | • General advice adds little for the intended readers.<br>• Extra suites blur this iteration's review and validation boundary. |
+
+The final tracked/untracked file-list audit confirms exactly these seven source files, and the completed [filtering review](../../../../projects/just_jesting_around/reviews/batch02/filtering.md) proposes no shared helper or additional guidance. The driver reports integrated validation passed: ten suites, 266 cases, full Vue type-check, targeted lint, and formatting.
+
+This document evaluates scope only. Implementation correctness, coverage preservation, integrated validation, and commit readiness belong to the separate normal review and test challenge. First-iteration debriefs remain archived under `earlier_drafts/5/`.
