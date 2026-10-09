@@ -1,0 +1,7 @@
+Fresh iteration-03 test challenge complete: retain the nine affected client unit suites and both shared fixture improvements. No original test or assertion was removed or weakened.
+
+These suites protect client URL policy, stateful navigation, cache loading/request behavior, rendered cleanup results, notification actions/filtering, and copy aggregation/concurrency without a running Galaxy server. Exact preservation audits confirm all 37 original URL combinations and all 65 tracker assertions. Cleanup supporting assertions remain byte-for-byte; selected cleanup/store assertions gain visible-result/request evidence. Card covers all four formerly random shared-item types explicitly; all original Card assertions and List scenarios remain.
+
+The shared cleanup and notification helpers replace repeated or randomized domain fixtures with typed defaults and explicit overrides. Mocks retained in copy/cache scenarios record the request contracts and concurrency being tested. No production feature or browser behavior changed, so additional integration/E2E tests or helper-mirroring unit tests are unwarranted. User instructions to preserve tests take precedence over generic challenge suggestions to drop them.
+
+Validation: all 21 affected suites across three iterations pass 359 cases; iteration 03 alone has 85 cases in nine suites, versus 55 baseline. Full client type-check, formatting, and lint pass (two pre-existing supporting cleanup warnings). [Independent review details](../../subagents/normal_review_03.md).

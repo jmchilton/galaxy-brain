@@ -1,0 +1,43 @@
+Acted on the independent per-file JSON review's empty-object identity correction. The final normal review and test challenge found no blockers or additional source changes. All validation passes with the documented existing package-wide typing limitation; no recommendations were ignored.
+
+## Details
+
+# Independent iteration 04 review
+
+Reviewed the complete diff against `4528475f09a4b005de558cbf10f063277f6b304e`: ten selected test files, four supporting test consumers, and three new typed fixture modules. Read the loop instructions, project goal, client testing guidance, shared review focus and test-challenge instructions, and Galaxy's testing-layer documentation. No source or Git changes were made by this reviewer.
+
+## Findings
+
+No blocking findings. The changes improve scenario names, reduce repeated domain payloads, repair mock isolation, and strengthen assertions without changing production code or introducing a documentation quota. Supporting migrations are limited to the actual fixture consumers; they should not acquire originator counters.
+
+The monitoring helper serves three concrete consumers. It requires the request and derives its task type, while copying the request and processed object. Its current-time default preserves the existing real monitor expiration tests; the selected download card supplies fixed dates and explicit state refs. Each card mount constructs fresh refs and mocks. Resetting the persistent-result mock and restoring the clipboard spy removes the old return-value/property leakage. The returned mock matches the persistent-result interface instead of padding it with unused lower-level monitor methods. All 43 original card assertion statements remain, including the full positive/negative badge and action matrix; navigation now checks the exact route.
+
+The storage-run helper serves the store and history query suite. Its local tracked-run adapter constructs history/run URL metadata rather than invoking production conversion logic. Every query payload field and its two 2099 timestamps are preserved. The store retains the 26-hour expired input, one-second completion update, counts and processed bytes. Its four completed-state assertions no longer silently skip a missing result, and an explicit existence assertion is added. Fake timers and local storage are restored after each scenario.
+
+The credentials factories serve the composable and credential store. Default nested group, variable and secret objects are fresh; overrides keep the selected composable's bucket value and the optional Azure service's missing current group and unset secret visible. The supporting store's original complete payload remains identical. All 38 composable assertions and both supporting store assertions remain. The removed POST/PUT/DELETE handlers were unused by this selected suite. Awaited store fetches supply the computed state without redundant promise flushing; restoring the fetch spy replaces a redundant server-handler reset.
+
+The API helper suite keeps all eight ownership combinations, including the absence of a `user_id` property for a summary. Existing typed user/history factories replace its unchecked generic casts. Three formerly mislabeled anonymous-user tests repeated the registered-user guard; the registered guard retains every unique original input/result, and the anonymous group now actually calls `isAnonymousUser` for the same three user conditions.
+
+The standalone API package suite keeps its own imports and typed fixtures, with no application-only aliases or test infrastructure dependency. Replacing the `openapi-fetch` module fake with a scoped global fetch spy exercises the real request serialization and response parsing. Success `error` and failure `data` are correctly undefined under that implementation. A schema-valid missing-history request receives a real 404 response with typed `err_code`/`err_msg`; this preserves the error scenario while correcting the old fake's invented null/status/message conventions. Request assertions verify actual method and substituted URL, and an unconfigured request rejects instead of accidentally succeeding.
+
+The remaining changes preserve compact tests. The color test retains all three exact outputs. The workflow event test preserves its stateful emission sequence and intermediate first-event count; full event equality strengthens the prior type/position checks. VaultSecret uses native typed mounts and automatic cleanup while preserving label, Markdown, textarea, and links-profile sanitizer checks. Tool Shed uses its own Vue test setup; shallow mounting removes no child behavior because JsonDiffViewer has no children and still uses real jsondiffpatch output.
+
+## Preservation evidence
+
+Independently executed the old and new ZIP test arrangements in a small recording VM: all nine exact ordered input/expected-boolean pairs match, including null, undefined, empty string and both multi-URL separators. Table bodies reduce source assertion duplication without reducing executed cases.
+
+Independently executed the old and new JsonDiffViewer mount arrangements in a recording VM: all thirteen before/after value pairs and their reference relationships match. The nested unchanged case still passes the same object twice; the empty-object case still passes two separate empty objects. The final assertions inspect real rendered text and add values to formerly coarse property checks. The quoted appended value avoids matching an unrelated HTML character.
+
+Counted assertion statements across every tracked changed file and inspected the corresponding diff. Card, credentials, toolbar, color, VaultSecret, and all four supporting suites retain their original counts. Storage adds one existence check. The package integration suite grows from eleven to seventeen statements. API, ZIP, and JSON tables retain or strengthen executed assertion intent despite fewer source statements. `git diff --check` passes. Runtime, full client/Tool Shed type checks, scoped package typing, lint, and formatting are owned and recorded by the iteration driver; this review does not claim to have rerun those checks.
+
+The driver supplied final passing results for thirteen client suites / 86 cases and thirteen Tool Shed cases: 99 cases across fourteen affected suites. Full client and Tool Shed `vue-tsc` checks pass with permission to write their generated types. All seventeen files pass formatting; scoped lint has one unchanged serializer `any` warning and no errors. The separately linted package integration file passes with `--no-ignore`. Standalone package tests pass both suites / nine cases, and strict bundler-resolution typing passes for the integration test and its transitive package imports. The unrelated existing whole-package type configuration remains a stated limitation. No source changed after the final driver run.
+
+## Fresh test challenge
+
+These tests cover client contracts: rendered states and emitted events, reactive credential aggregation and editing payloads, storage-run lifetime classification, event order, URL validation, deterministic colors, ownership guards, JSON output, and package HTTP translation. They use production behavior or public observable state rather than reproducing an implementation to assert against itself. No new tests merely check fixture constructors.
+
+Reviewed existing higher-layer coverage in `lib/galaxy_test/selenium/test_history_export.py`, `test_history_storage.py`, `test_workflow_editor.py`, and `test/integration/test_credentials.py`. Those exercise exports, storage UI, workflow interactions, and credential persistence/security; they do not replace controlled client monitor states, exact URL/ownership combinations, reactive editing preservation, or standalone package transport contracts. Moving these focused cases into a running-server/browser suite would obscure the contracts and add setup without adding relevant coverage. Keep their current layers. No new production feature or UI state creates a new E2E requirement in this readability iteration.
+
+The package transport boundary is the useful mock reduction in this batch: real client integration replaces the wholesale client implementation fake. Card monitor refs remain an appropriate controlled dependency for the state matrix, while the existing persistent-monitor consumers continue exercising the real composable. Typed domain fixtures replace repeated payloads without adding a generic mock framework or application dependency to the standalone package. No additional scope expansion is justified.
+
+Existing best practices explain the improvements. No further README or marginal-advice addition is warranted, and no worthwhile abstraction remains deferred in this review.

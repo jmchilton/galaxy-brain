@@ -1,11 +1,13 @@
 - file: client/packages/api-client/src/client.test.ts
 - file: client/packages/api-client/src/integration.test.ts
+  iterated: 1
 - file: client/src/api/client/rateLimiter.test.ts
 - file: client/src/api/client/serverMock.test.ts
   iterated: 1
 - file: client/src/api/datasets.test.ts
   iterated: 1
 - file: client/src/api/index.test.ts
+  iterated: 1
 - file: client/src/api/pages.test.ts
   iterated: 1
 - file: client/src/app/app.test.js
@@ -36,6 +38,7 @@
 - file: client/src/components/ConfigTemplates/InstanceForm.test.ts
 - file: client/src/components/ConfigTemplates/TemplateSummaryPopover.test.ts
 - file: client/src/components/ConfigTemplates/VaultSecret.test.ts
+  iterated: 1
 - file: client/src/components/ConfigTemplates/formUtil.test.ts
 - file: client/src/components/ConfirmDialog.test.ts
 - file: client/src/components/DataDialog/DataDialog.test.js
@@ -49,6 +52,7 @@
 - file: client/src/components/DatasetInformation/DatasetInformation.test.ts
 - file: client/src/components/Datatypes/index.test.ts
 - file: client/src/components/Downloads/DownloadItemCard.test.ts
+  iterated: 1
 - file: client/src/components/FileSources/Instances/InstanceDropdown.test.ts
 - file: client/src/components/FilesDialog/FilesDialog.test.ts
 - file: client/src/components/Form/Elements/FormBoolean.test.js
@@ -348,7 +352,9 @@
 - file: client/src/composables/usePageProposals.test.ts
 - file: client/src/composables/useSidebarSelection.test.ts
 - file: client/src/composables/userToolCredentials.test.ts
+  iterated: 1
 - file: client/src/composables/zipExplorer.test.ts
+  iterated: 1
 - file: client/src/directives/vGTooltip.test.ts
 - file: client/src/entry/analysis/modules/Login.test.ts
 - file: client/src/entry/analysis/modules/Register.test.ts
@@ -371,6 +377,7 @@
 - file: client/src/stores/pageEditorStore.test.ts
   iterated: 1
 - file: client/src/stores/storageOperationsStore.test.ts
+  iterated: 1
 - file: client/src/stores/toolStore.test.ts
   iterated: 1
 - file: client/src/stores/userStore.test.ts
@@ -378,10 +385,12 @@
 - file: client/src/stores/workflowConnectionStore.test.ts
 - file: client/src/stores/workflowEditorCommentStore.test.ts
 - file: client/src/stores/workflowEditorToolbarStore.test.ts
+  iterated: 1
 - file: client/src/stores/workflowSearchStore.test.ts
 - file: client/src/stores/workflowStepStore.test.ts
 - file: client/src/stores/workflowStore.test.ts
 - file: client/src/utils/color.test.js
+  iterated: 1
 - file: client/src/utils/dates.test.ts
 - file: client/src/utils/filterConversion.test.js
 - file: client/src/utils/filtering.test.js
@@ -404,6 +413,7 @@
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts
+  iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts

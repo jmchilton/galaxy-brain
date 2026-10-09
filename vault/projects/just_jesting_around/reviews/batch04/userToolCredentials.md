@@ -1,0 +1,15 @@
+# User tool credentials review — iteration 04
+
+Selected originator: `client/src/composables/userToolCredentials.test.ts`.
+
+Read `LOOP_ITERATION.md`, `PROBLEM_AND_GOAL.md`, and the client README testing best practices before reviewing. This composable combines service definitions, the current user, credential-store fetches, and computed credential status; exercising the real stores with MSW keeps that public contract visible.
+
+The 19 original cases and all 38 assertion statements remain. Names now state the behavior and condition instead of repeating “should correctly compute” and a property name. Required and optional service fixtures are named for their role. The existing busy-state scenario still starts a real fetch and checks both the immediate info state and its eventual removal; the unusual explanation for starting a fetch remains useful.
+
+The broad setup registered POST, two PUT, and DELETE handlers despite having no mutation tests. Those four unused handlers are removed; the credential GET still preserves its original source-type, tool-ID, and version matching and empty fallback. `useServerMock()` already owns handler resets, so the redundant reset is replaced with restoring the fetch spy. The composable awaits its store fetch, and its computed values update synchronously from that state: removing subsequent `flushPromises()` calls passed every original assertion. No arbitrary waits or implementation changes were introduced.
+
+Reuse searches found an exact credential-group and service-response shape in `client/src/stores/userToolsServiceCredentialsStore.test.ts`, including matching IDs, source metadata, timestamp, selected group, and two set secrets. Both now consume typed `getFakeServiceCredentialGroup()` and `getFakeUserServiceCredentials()` factories in `client/tests/test-data/userCredentials.ts`. Each default invocation creates fresh group, variable, secret, and group-array objects. The composable exposes its differing `my-test-bucket` value and the optional Azure service’s name, missing selection, account variable, and unset secret as overrides. The supporting store retains its `my-bucket` value and complete response shape. Its one original reactive-editing case and both assertions remain unchanged. Both use the existing `getFakeRegisteredUser()` factory with overrides preserving the original user data. Service definitions stay local because the sibling store does not consume them.
+
+Validation: supporting baseline 1 case passed; final selected and supporting suites passed together, 20 cases. Scoped ESLint passed without errors or warnings; Prettier passed for both consumers and the helper. Root runs the full client type-check and combined iteration validation.
+
+Guidance: no README addition recommended. Concrete fixture reuse, scenario-specific setup, and descriptive behavior names are already covered. The redundant handler/reset observations follow existing infrastructure contracts and do not justify more general advice. No unresolved abstraction is deferred.

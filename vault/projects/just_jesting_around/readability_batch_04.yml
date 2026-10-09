@@ -1,0 +1,67 @@
+seed: 3916984046
+inventory_sha256: 7c3764f8185a58f3124a06c5be9e0e2b356debf937838e4f64be7e7b2a1a56db
+selection:
+- category: component
+  file: client/src/components/ConfigTemplates/VaultSecret.test.ts
+- category: component
+  file: client/src/components/Downloads/DownloadItemCard.test.ts
+- category: composable
+  file: client/src/composables/userToolCredentials.test.ts
+- category: composable
+  file: client/src/composables/zipExplorer.test.ts
+- category: store
+  file: client/src/stores/workflowEditorToolbarStore.test.ts
+- category: store
+  file: client/src/stores/storageOperationsStore.test.ts
+- category: utility
+  file: client/src/utils/color.test.js
+- category: utility
+  file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts
+- category: api
+  file: client/src/api/index.test.ts
+- category: api
+  file: client/packages/api-client/src/integration.test.ts
+branch: jest_readability_batch_01
+base_commit: 4528475f09a4b005de558cbf10f063277f6b304e
+status: reviewed
+supporting_files:
+- file: client/tests/test-data/userCredentials.ts
+  reason: Typed credential group and service factories used by two suites.
+- file: client/src/stores/userToolsServiceCredentialsStore.test.ts
+  reason: Consume shared credential and registered-user factories.
+- file: client/tests/test-data/storageOperations.ts
+  reason: Typed storage-run defaults used by store and query suites.
+- file: client/src/components/History/model/queries.test.ts
+  reason: Consume storage-run factory preserving both 2099 timestamps.
+- file: client/tests/test-data/monitoring.ts
+  reason: Typed monitoring data used by three suites with visible request input.
+- file: client/src/composables/persistentProgressMonitor.test.ts
+  reason: Consume monitoring fixtures preserving task state and IDs.
+- file: client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts
+  reason: Consume monitoring fixtures preserving completion and expiration inputs.
+validation:
+  baseline_selected_tests: 72
+  baseline_supporting_tests: 21
+  baseline_tests: 93
+  final_selected_tests: 78
+  final_supporting_tests: 21
+  final_tests: 99
+  affected_suites: 14
+  client_tests: 86
+  client_suites: 13
+  toolshed_tests: 13
+  toolshed_suites: 1
+  standalone_api_package_tests: 9
+  standalone_api_package_suites: 2
+  test_environment: NODE_OPTIONS=--no-webstorage
+  prettier: passed
+  eslint: passed with one existing supporting serializer warning
+  client_vue_tsc: passed with write access for generated global types
+  toolshed_vue_tsc: passed
+  api_integration_types: passed separate strict bundler check
+  api_package_tsc: unrelated existing module-resolution and client.test.ts errors
+  normal_review: no blocking findings
+  test_challenge: original behavior preserved and layers retained
+  scope: retain ten originators and focused shared-fixture migrations
+  screenshots: not relevant
+commit: 2dbcc3703c61c058598fe50d14fba2623bd3329f
