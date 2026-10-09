@@ -13,7 +13,6 @@ Five tests were randomly selected, one from each client category, using seed `23
 ## Guidance added to Galaxy's testing README
 
 - Describe the behavior and condition in each test; separate independent scenarios and use named tables for simple variations.
-- Pair negative assertions with evidence that the expected output exists.
 - Keep scenario inputs, actions, and expectations visible when removing repeated setup; use existing factories and avoid single-use abstractions.
 - Respect MSW handler resets and register only the requests a scenario needs; retain generated request/response typing.
 - Call lifecycle-free composables directly. Await async store actions directly, and flush promises for component effects that expose no promise.
@@ -32,6 +31,8 @@ The original five files passed 88 cases. The refactored five files pass 98 cases
 
 Independent normal review, test challenge, and scope evaluation are recorded in the branch debriefs before handoff.
 
-Galaxy commit: `95ec3e2a4752ee2b84e432163497678b899f0f16`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
+Galaxy commit: `d4395421eea57a0ab4bc98b594a10b2edcd9c157`. [Review the branch diff](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01).
 
 README revision 01 removes the two requested illustrative phrases and separates handler lifetime from response typing, with a complete untyped-response example. [Revision review](reviews/readme_revision_01.md).
+
+README revision 02 removes the generic negative-assertion paragraph. The testing improvements remain; the guide focuses on useful conventions.
