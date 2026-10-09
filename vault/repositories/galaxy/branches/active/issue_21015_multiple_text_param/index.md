@@ -1,6 +1,6 @@
 # issue_21015_multiple_text_param
 
-Status: `ci_wait`. Base: `dev`. [PR #23992](https://github.com/galaxyproject/galaxy/pull/23992) (open).
+Status: `ready`. Base: `dev`. [PR #23992](https://github.com/galaxyproject/galaxy/pull/23992) (open).
 
 Supports multiple text workflow parameters end to end (#21015).
 

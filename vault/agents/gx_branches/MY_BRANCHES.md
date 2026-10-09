@@ -1,15 +1,15 @@
 # Open PR and branch queue
 
-Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-08 evening. PR metadata checked 2026-10-09; merged PRs swept 2026-10-09.
+Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-09. PR metadata checked 2026-10-09; merged PRs swept 2026-10-09.
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
-- [`pja_warn_unsupported_mapped_over`](../../repositories/galaxy/branches/active/pja_warn_unsupported_mapped_over/index.md) — Hides job-only actions on pick-value steps and warns about saved configurations. [#23334](https://github.com/galaxyproject/galaxy/pull/23334).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
 - [`job_files_fastapi`](../../repositories/galaxy/branches/active/job_files_fastapi/index.md) — Migrates the job files API to FastAPI behind an extracted `JobFilesManager`, writing Pulsar uploads to disk once. [#23933](https://github.com/galaxyproject/galaxy/pull/23933).
 - [`workbook_import`](../../repositories/galaxy/branches/active/workbook_import/index.md) — Tests the rule builder mapping Galaxy infers from workbook headers, under Selenium and Playwright. [#23922](https://github.com/galaxyproject/galaxy/pull/23922).
+- [`issue_21015_multiple_text_param`](../../repositories/galaxy/branches/active/issue_21015_multiple_text_param/index.md) — Supports multiple text workflow parameters end to end (#21015). [#23992](https://github.com/galaxyproject/galaxy/pull/23992).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -17,15 +17,15 @@ Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
-- [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
 - [`issue_19325_optional_select_test_docs`](../../repositories/galaxy/branches/active/issue_19325_optional_select_test_docs/index.md) — Documents unset optional selects and empty multiple-select lists in tool tests (#19325), with tests for each form. [#23959](https://github.com/galaxyproject/galaxy/pull/23959).
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
-- [`issue_21015_multiple_text_param`](../../repositories/galaxy/branches/active/issue_21015_multiple_text_param/index.md) — Supports multiple text workflow parameters end to end (#21015). [#23992](https://github.com/galaxyproject/galaxy/pull/23992).
+None yet.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
+- [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
 - [`tool_parameter_references`](../../repositories/galaxy/branches/active/tool_parameter_references/index.md) — Developer reference for the inconsistent ways tools, APIs and workflows reference nested tool parameters. [#23877](https://github.com/galaxyproject/galaxy/pull/23877).
 - [`subworkflow_mapping`](../../repositories/galaxy/branches/active/subworkflow_mapping/index.md) — Brings subworkflow mapping inline between the workflow editor and the backend. [#23676](https://github.com/galaxyproject/galaxy/pull/23676).
 - [`htcondor_pulsar`](../../repositories/galaxy/branches/active/htcondor_pulsar/index.md) — Shares HTCondor mechanics with Pulsar and bounds held-job handling. [#23326](https://github.com/galaxyproject/galaxy/pull/23326).
