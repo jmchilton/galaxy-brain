@@ -1,6 +1,6 @@
 # zizmor_self_repository
 
-Status: `branches_implemented_needs_ci`. Base: `dev`. Tip `10ed99e36b4`.
+Status: `ci_wait`. Base: `dev`. Tip `10ed99e36b4`. [PR #24016](https://github.com/galaxyproject/galaxy/pull/24016) (draft, opened 2026-10-09; upstream CI running).
 
 Switches in-repo `uses:` references to GitHub's self-repository syntax (`$/...`), which fixes zizmor's `self-repository` code-scanning alerts on `dev`.
 

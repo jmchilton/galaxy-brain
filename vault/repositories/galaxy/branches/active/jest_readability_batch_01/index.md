@@ -1,6 +1,6 @@
 # jest_readability_batch_01
 
-Status: `branches_implemented_needs_ci`. Base: `dev` (rebased in iteration07 onto `cd6a53537e0bb28be183c4a6c134c1c0f5a4d6d1`).
+Status: `ci_wait`. [PR #24015](https://github.com/galaxyproject/galaxy/pull/24015) (draft, opened 2026-10-09 at `61c44ce5a05`; upstream CI running). Base: `dev` (rebased in iteration07 onto `cd6a53537e0bb28be183c4a6c134c1c0f5a4d6d1`).
 
 Eleven readability iterations improve scenario setup and shared typed fixtures; 105 of 396 originating tests are reviewed.
 
