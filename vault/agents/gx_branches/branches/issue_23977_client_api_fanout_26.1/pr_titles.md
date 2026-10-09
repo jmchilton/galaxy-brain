@@ -1,0 +1,4 @@
+- [26.1] Back off client 429/5xx retries instead of retrying in lockstep
+- [26.1] Space out client API retries and show loading while they wait
+- [26.1] Jittered backoff for client API retries; skip hidden workflow counts
+- [26.1] Stop client retries from re-bursting rate-limited servers
