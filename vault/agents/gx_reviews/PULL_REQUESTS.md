@@ -7,11 +7,11 @@ PRs To Review:
 - 23857 — re-reviewed at `f100983e424`: approve (prior findings resolved; unit test waived per user); draft review unposted
 - 23953 — reviewed at `9ac1627fc79` (draft; paired w/ 23956): approve w/ nits (own range parser vs starlette/webob; stale body); draft review unposted
 - 23956 — reviewed at `4a81462fae5` (paired w/ 23953); Marius reviewed 10-08 asking author to relook — do not post our draft; ball with author
-- 23951 — user approved 10-07; we pushed dev merge `9419e1ff167` 10-09 (package.json eslint-10 conflict); awaiting merge
+- 23951 — user approved 10-07; dev merge pushed 10-09; awaiting merge
 - 23058 — reviewed at `bd562019bde`: request changes; our fix in fork PR SID-6921#1; user commented 10-08; ball with author
 - 23942 — user approved 10-08 at `c076c13e2da`; awaiting merge
 - 23988 — user approved 10-08; awaiting merge
-- 23965 — reviewed at `34de076d569`: comment, approve once CI green (test_guess_derived_permissions_collections red from discover.py fix; reuse create_user_role in remote-user path; legacy remote users go private; release-note libraries + opt-out); draft review unposted
+- 23965 — reviewed at `34de076d569`: comment, approve once CI green; draft review unposted
 
 PRs to Skip For 7 Days:
 
