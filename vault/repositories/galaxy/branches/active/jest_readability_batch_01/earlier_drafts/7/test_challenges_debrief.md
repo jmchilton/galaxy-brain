@@ -1,0 +1,7 @@
+All original behavior and assertions are retained. The fresh test challenge for the Tool-factory revision found no fixes needed; the governing preservation instruction overrides template suggestions to drop tests. Previous iteration-02 challenge is archived in `earlier_drafts/6/`.
+
+The factory replaces partial Tool casts in the selected store and three concrete component consumers. Those four suites retain all 22 cases and all 54 assertion statements: store 6, MyToolsLanding 2, ToolSection 18, ToolsList 28. Every existing JSON field, including specialized model classes and hidden flags, survives unchanged; the helper adds complete typed defaults and fresh arrays.
+
+The tests remain appropriate client-layer contracts. This fixture migration adds no production behavior warranting new E2E coverage, production restructuring, or literal-by-literal factory tests. All current consumers are covered by existing integration with the factory and full TypeScript checking. [Full independent factory review](subagents/normal_review_02_tool_factory.md).
+
+The original sample's earlier behavior mapping remains valid: all 57 polling assertions and 49 later filtering regression assertions are retained, while earlier filter inputs are mapped to named tables. [Original iteration review](subagents/normal_review_02.md). Final selected cases are 168; supporting suites contribute 90. All thirteen suites across both iterations pass 285 cases, with full typing, lint, and formatting passing.

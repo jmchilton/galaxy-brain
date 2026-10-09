@@ -4,6 +4,7 @@
 - file: client/src/api/client/serverMock.test.ts
   iterated: 1
 - file: client/src/api/datasets.test.ts
+  iterated: 1
 - file: client/src/api/index.test.ts
 - file: client/src/api/pages.test.ts
   iterated: 1
@@ -242,6 +243,7 @@
 - file: client/src/components/User/DiskUsage/DiskUsageSummary.test.ts
 - file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts
 - file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts
+  iterated: 1
 - file: client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts
@@ -336,6 +338,7 @@
 - file: client/src/composables/upload/useUploadBatchOperations.test.ts
 - file: client/src/composables/upload/useUploadSubmission.test.ts
 - file: client/src/composables/urlTracker.test.ts
+  iterated: 1
 - file: client/src/composables/useActiveContext.test.ts
 - file: client/src/composables/useCreatingJob.test.ts
 - file: client/src/composables/useEntityMentions.test.ts
@@ -355,6 +358,7 @@
 - file: client/src/stores/activityStore.test.ts
 - file: client/src/stores/chatStore.test.ts
 - file: client/src/stores/collectionAttributesStore.test.ts
+  iterated: 1
 - file: client/src/stores/collectionElementsStore.test.ts
 - file: client/src/stores/datasetCollectionStore.test.ts
 - file: client/src/stores/entryPointStore.test.js
@@ -393,6 +397,7 @@
 - file: client/src/utils/upload-queue.test.js
 - file: client/src/utils/upload.test.ts
 - file: client/src/utils/url.test.js
+  iterated: 1
 - file: client/src/utils/utils.test.js
 - file: client/src/utils/utils.test.ts
 - file: client/src/watch/watchHistory.test.js

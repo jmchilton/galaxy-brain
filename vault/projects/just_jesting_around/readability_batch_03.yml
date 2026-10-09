@@ -13,7 +13,7 @@ selection:
   file: client/src/api/datasets.test.ts
 branch: jest_readability_batch_01
 base_commit: 51b247553a74e150c898eb9435b9230d10569466
-status: in_progress
+status: reviewed
 supporting_files:
 - file: client/src/components/User/DiskUsage/Management/Cleanup/test-utils.ts
   reason: Typed CleanableItem factory used immediately by three cleanup suites.
@@ -39,8 +39,9 @@ validation:
   test_environment: NODE_OPTIONS=--no-webstorage for Node 25/happy-dom browser storage
   prettier: passed
   eslint: passed with two existing supporting ReviewCleanupDialog warnings
-  vue_tsc: diagnosing template inference triggered by test typing
+  vue_tsc: passed with write access required for generated global types
   normal_review: no blocking findings
   test_challenge: all original behavior/assertions preserved
   scope: retain selected five and focused cleanup/notification consumer migrations
   screenshots: not relevant
+commit: 4528475f09a4b005de558cbf10f063277f6b304e
