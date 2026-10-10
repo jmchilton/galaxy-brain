@@ -7,9 +7,9 @@ tags:
 status: draft
 created: 2026-09-16
 revised: 2026-10-09
-revision: 35
+revision: 36
 ai_generated: true
-summary: "Recover the core of PR #21199 via small atomic PRs; the Selenium-to-Playwright migration is done (#24020 drops the last selenium_only)."
+summary: "Recover PR #21199's core, upstream galaxy_ui_driver's fixes with E2E coverage, and finish gxui; the Selenium-to-Playwright migration is done (#24020)."
 ---
 
 # Playwright Migration
@@ -27,6 +27,9 @@ removes the last `selenium_only` decorator. It is no longer a goal.
 - Recover the core functionality and tests from
   [galaxyproject/galaxy#21199](https://github.com/galaxyproject/galaxy/pull/21199),
   minus the Jupyter notebook work.
+- Break `galaxy_ui_driver` down and land its Galaxy fixes in dev, growing E2E coverage along
+  the way (`GALAXY_UI_DRIVER_UPSTREAM.md`).
+- Get the `gxui` CLI and its skill polished and done (`GXUI_POLISH.md`).
 - Keep backlog of issues empty ./BACKLOG.md by working through them.
 
 ## Files
@@ -36,6 +39,8 @@ removes the last `selenium_only` decorator. It is no longer a goal.
 - `GALAXY_UI_SKILL.md` — brief for an agent skill that drives the Galaxy UI, plus a tutorial/IWC feedback loop.
 - `GALAXY_UI_SKILL_RESEARCH.md` — playwright-cli vs playwright-mcp findings; decision: CLI skill, no MCP yet; skill best practices.
 - `GALAXY_UI_SKILL_DESIGN.md` — **start here for the UI skill**: status/next steps, `gxui` daemon + CLI over `NavigatesGalaxy`, playwright-cli escape hatch, prerequisite PRs, spikes S1–S3.
+- `GALAXY_UI_DRIVER_UPSTREAM.md` — long-running task: break `galaxy_ui_driver` into PRs off dev; first-cut grouping and coverage to add.
+- `GXUI_POLISH.md` — long-running task: finish gxui and the skill; points at the planned work and drafts what "done" means.
 - `galaxy_ui_loop/` — loop harness source (Codex runner, prompt, metrics, verify), spike scripts, the `gxui` MVP (`gxui/`, `bin/gxui`, tests) and the `galaxy-ui-driver` skill (`skill/`); state lives in `~/.cache/gxui-loop` and `~/.cache/gxui`.
 - `GALAXY_UI_SKILL_RUNS.md` — run ledger: per-run metrics, verification, and findings for the skill, abstractions and training.
 - `GALAXY_UI_SKILL_LOOP.md` — setup/drive/verify/report/triage loop over GTN tutorials and IWC workflows, with arm comparison and token measurement.

@@ -56,7 +56,8 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
    reason (`gxui gap` re-attaches it).
 3. **Galaxy-side work, one commit each below the gxui tip** (queue under "Prerequisite PRs").
 4. **Decide what to pull out** ahead of the standing branch as separate PRs once gxui is a
-   complete motivating example.
+   complete motivating example. Superseded 2026-10-09: pull-outs start now, per
+   `GALAXY_UI_DRIVER_UPSTREAM.md`; finishing gxui is tracked in `GXUI_POLISH.md`.
 
 **Open questions for John:**
 - Should the skill live in `claude-jmchilton-plugins` or `galaxy-skills`?
