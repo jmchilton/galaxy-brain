@@ -1,18 +1,22 @@
-# storybook_interactions
+# vitest_story_play
 
-Status: prototype, stacked on `storybook_prototype`; not in `MY_BRANCHES.md`. No PR intent yet.
+Renamed from `storybook_interactions` on 2026-10-09; the worktree directory keeps the old name.
 
-Worktree: `~/projects/worktrees/galaxy/branch/storybook_interactions` (`git worktree add` from `storybook_prototype`, not ghwt, since it's stacked). Pushed to `jmchilton/storybook_interactions`.
+Status: prototype, stacked on `vitest_stories`; not in `MY_BRANCHES.md`. No PR intent yet.
+
+Worktree: `~/projects/worktrees/galaxy/branch/storybook_interactions` (`git worktree add` from `vitest_stories`, not ghwt, since it's stacked). Pushed to `jmchilton/vitest_story_play`.
 
 - [Plan: Storybook Vitest addon](../../../../../projects/just_jesting_around/plan_vitest_addon.md)
 - [Pipeline branches](../../../../../projects/just_jesting_around/PIPELINE_BRANCHES.md)
 
 ## Done
 
-`1bc00618a5f`: Storybook's Vitest addon plus browser mode.
+Commits (rebased onto `vitest_stories` 2026-10-09): `b4b0c93a433` infra, then HistoryExportWizard play `5b045ee5f7c`. At the tip: unit 564 files / 4682 tests, browser 27/27, `vue-tsc` clean. [Infra review](../vitest_stories/infra_review.md).
+
+Infra: Storybook's Vitest addon plus browser mode.
 
 - `vitest.config.mts` has `test.projects`: `unit`, which is the existing happy-dom config unchanged (`extends: true`), and `./vitest.storybook.config.mts`.
-- `vitest.storybook.config.mts` builds on `vite.config.mjs` instead of the unit config: none of the unit config's test-only aliases or mocks apply in the browser. It adds `storybookTest()`, `@vitest/browser-playwright` with headless Chromium, and `.storybook/vitest.setup.ts` (`setProjectAnnotations` of the preview).
+- `vitest.storybook.config.mts` builds on `vite.config.mjs` instead of the unit config: none of the unit config's test-only aliases or mocks apply in the browser. It adds `storybookTest()`, `@vitest/browser-playwright` with headless Chromium (the separate `vitest.setup.ts` was removed in the polish).
 - `.storybook/viteConfig.ts` `adaptViteConfig()` is the old `viteFinal` body, shared by Storybook and the browser project.
 - Scripts: `test`, `test:watch`, `test:ui` and `test:coverage` are pinned to `--project unit`, so CI (`client-unit.yaml` runs `pnpm test`) and the Makefile are unchanged. `test:browser` runs `--project storybook`.
 - `addons` includes `@storybook/addon-vitest`, which adds the test panel in the Storybook UI.

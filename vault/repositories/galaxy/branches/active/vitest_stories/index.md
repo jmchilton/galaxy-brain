@@ -1,10 +1,12 @@
-# storybook_prototype
+# vitest_stories
+
+Renamed from `storybook_prototype` on 2026-10-09; the worktree directory keeps the old name.
 
 Status: prototype, not in `MY_BRANCHES.md`. No PR intent yet; John is evaluating it.
 
-Worktree: `~/projects/worktrees/galaxy/branch/storybook_prototype` (ghwt). Pushed to `jmchilton/storybook_prototype`.
+Worktree: `~/projects/worktrees/galaxy/branch/storybook_prototype` (ghwt). Pushed to `jmchilton/vitest_stories`.
 
-- [Plan: Storybook Vitest addon](../../../../../projects/just_jesting_around/plan_vitest_addon.md), built on [storybook_interactions](../storybook_interactions/index.md)
+- [Plan: Storybook Vitest addon](../../../../../projects/just_jesting_around/plan_vitest_addon.md), built on [vitest_story_play](../vitest_story_play/index.md)
 
 ## Why
 
@@ -12,7 +14,9 @@ John finds the client unit tests hard to hold in context: long files, mostly per
 
 ## Done
 
-`54d6b535b92`: Storybook 10.6 (`@storybook/vue3-vite`) plus `msw-storybook-addon` 3 on the client, with FormData as the first component.
+Base: `vitest_readability` (rebased 2026-10-09). Commits: `6b0a3a4f00c` infra, then FormData `11d2cdf59c3`, FilesDialog `0e4adfe73cb`, HistoryExportWizard `e658b309bce`. Unmocked `/api/` requests fail stories; `useStoryMount` options are typed (see [infra review](infra_review.md#resolved)). The one rebase conflict (HistoryExportWizard.test.ts) kept the storified test; readability's `getFakeFileSource` adoption moved into its stories. [Infra review](infra_review.md). The sections below describe the original prototype commits.
+
+Original `54d6b535b92`: Storybook 10.6 (`@storybook/vue3-vite`) plus `msw-storybook-addon` 3 on the client, with FormData as the first component.
 
 - `client/.storybook/main.ts` reuses `vite.config.mjs`. It drops the dev-server and build-metadata plugins, as well as Storybook's `vue-template-compilation` plugin, whose alias to plain Vue 3 breaks bootstrap-vue. It forces the `@vue/compat` full build and turns docgen off (`vue-docgen-api` fails on the `BaseComponents` galaxy-ui wrappers).
 - `client/.storybook/preview.ts`: `@/compat-config`, pinia, `installAppPlugins`, the app's global CSS (base.scss, theme variables, font, vue-multiselect CSS) and `mswLoader()`.
@@ -21,7 +25,7 @@ John finds the client unit tests hard to hold in context: long files, mostly per
 - `FormData.test.ts` mounts composed stories and was rewritten from 611 to 352 lines (stories: 158). All original assertions are kept; 22 tests pass (the tag test was split into 3 cases).
 - `tsconfig.json` has `paths` entries for Storybook and the msw addon's types, needed because `resolvePackageJsonExports: false` hides them; turning that on adds about 100 unrelated errors. It also includes `.storybook/*.ts`. `vue-tsc` is clean.
 
-`8f1bf1d6e5e`: FilesDialog and HistoryExportWizard migrated.
+Original `8f1bf1d6e5e`: FilesDialog and HistoryExportWizard migrated.
 
 - `tests/vitest/stories.ts` `useStoryMount()`: each mount applies the story's `parameters.msw` handlers (any addon form) to the vitest server, creates a fresh testing pinia and mounts. FormData now uses it too.
 - `configurationHandler(config)` in `__mocks__/http.ts` answers `/api/configuration`. FilesDialog's `vi.mock("@/composables/config")` was replaced by this handler, so story and test share it.
@@ -40,4 +44,4 @@ John finds the client unit tests hard to hold in context: long files, mostly per
 
 ## Next
 
-John to review the three migrations. Browser-mode work continues on [storybook_interactions](../storybook_interactions/index.md).
+John to review the three migrations. Browser-mode work continues on [vitest_story_play](../vitest_story_play/index.md).
