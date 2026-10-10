@@ -1,8 +1,6 @@
 # selenium_stories_core — implementation debrief (recovery 2026-10-09)
 
-**STATUS: READY.** Scope stays as implemented. The work is on the fork at `73fa384ba65`, which fast-forwarded from `e2bccb03545`.
-
-I rebased onto dev locally (`233a2dc31e8`, branch `selenium_stories_core_polish`), but the agent wasn't allowed to force-push it. **John: force-push `233a2dc31e8` or rebase it yourself.** Dev conflicts with the pushed SHA.
+**STATUS: READY.** Scope stays as implemented. The fork has `233a2dc31e8`, rebased onto dev `df3932ed4ba`. John force-pushed it over `73fa384ba65`, the pre-rebase stack.
 
 ## What the recovery did
 The branch predated the after-plan process. It ran each step in turn, and each one has its own debrief:
