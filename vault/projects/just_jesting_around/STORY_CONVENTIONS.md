@@ -136,7 +136,9 @@ text. The list's text stays inside the picker after it closes, and its "no optio
 and "no results" notes are always in the DOM, so check a closed picker's whole text
 anchored (`RoleForm.stories.ts`).
 
-A negative check needs something visible to wait on first. A decorator may render
+Content fed by its own request (FilesDialog's "Create new" button waits on templates)
+needs a `findBy` even after another sync point; a `queryBy` races and flakes when the
+whole project runs. A negative check needs something visible to wait on first. A decorator may render
 context from the same loaded data, such as a heading naming the item
 (`WorkflowInvocationShare.stories.ts`). A box the play just clicked is ticked by the
 browser, so check one that follows the app's state (select-all).
