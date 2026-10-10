@@ -1,0 +1,59 @@
+iteration: 40
+seed: 2610940
+inventory_sha256: 24fbc9d964cb041a80a46335df1f1d29a61532521ef6e657c841b1687b1a678d
+branch: vitest_readability
+base_commit: 0115ba3db12d31e917f081f3caa89e249221c60c
+status: reviewed
+selection:
+- file: client/src/components/Grid/configs/adminUsers.test.js
+- file: client/src/components/History/Layout/DetailsLayout.test.js
+- file: lib/tool_shed/webapp/frontend/src/components/pages/ForgotPassword.test.ts
+- file: client/src/stores/historyStore.lists.test.ts
+baseline:
+  selected_cases: 25
+  selected_passed: 25
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/GalaxyAI.newchat.test.ts
+- client/src/components/GalaxyAI.routesync.test.ts
+- client/src/stores/workflowStore.test.ts
+- client/src/components/Workflow/List/CuratedWorkflowList.test.ts
+supporting_suites:
+- client/src/components/GalaxyAI.newchat.test.ts
+- client/src/components/GalaxyAI.routesync.test.ts
+- client/src/stores/workflowStore.test.ts
+- client/src/components/Workflow/List/CuratedWorkflowList.test.ts
+helper_files:
+- client/tests/vitest/deferred.ts
+- client/src/components/GalaxyAI/test-utils.ts
+documentation_files: []
+commits:
+- sha: fcdf6126bc50a7e631bdc3d5ffee657c7bba7f94
+  subject: Improve readability of adminUsers tests
+- sha: cb5974b342e7110d65339c76dbec8ded8e56052a
+  subject: Improve readability of DetailsLayout tests
+- sha: ccf0ae09d44491b978e8997ea80f0dc6543cf999
+  subject: Improve readability of ForgotPassword tests
+- sha: 1187b4bd574ea7d7613e18869d7381f7d25923c9
+  subject: Add tests/vitest/deferred.ts for client unit tests
+- sha: 150fd592d429d1d39a0486760de829fc804ea900
+  subject: Improve readability of historyStore.lists tests
+validation:
+  passed_cases: 123
+  skipped_cases: 0
+  total_cases: 123
+  affected_suites: 8
+  selected_cases: 71
+  supporting_cases: 52
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  tool_shed_typecheck: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  per_test_coverage: no source file lost covered lines or branches
+  independent_review: approved after driver-added shared deferred helper
+  shuffle_seed: 400101
+  test_environment: NODE_OPTIONS=--no-webstorage
