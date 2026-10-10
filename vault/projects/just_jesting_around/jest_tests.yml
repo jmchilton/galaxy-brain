@@ -25,6 +25,7 @@
   storified: skip
 - file: client/packages/ui/src/utils/focusOrder.test.ts
 - file: client/packages/ui/src/utils/hoverBridge.test.ts
+  iterated: 1
 - file: client/src/api/client/errorResponseMiddleware.test.ts
   storified: skip
 - file: client/src/api/client/rateLimiter.test.ts
@@ -803,6 +804,7 @@
   split_commit: true
 - file: client/src/components/Workflow/Editor/WorkflowAttributes.test.ts
 - file: client/src/components/Workflow/Editor/ZoomControl.test.js
+  iterated: 1
 - file: client/src/components/Workflow/Editor/composables/workflowBoundingBox.test.ts
   storified: skip
   storybook_play: skip
@@ -860,6 +862,7 @@
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowRunDefaultStep.test.ts
 - file: client/src/components/Workflow/Run/WorkflowRunForm.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts
 - file: client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
   iterated: 1
@@ -1110,6 +1113,7 @@
   split_commit: true
 - file: client/src/directives/vNoSanitizeHtml.test.ts
 - file: client/src/directives/vSanitizeHtml.test.ts
+  iterated: 1
 - file: client/src/entry/analysis/App.test.ts
 - file: client/src/entry/analysis/modules/Login.test.ts
   iterated: 1

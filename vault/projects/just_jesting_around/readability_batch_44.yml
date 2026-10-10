@@ -1,0 +1,47 @@
+iteration: 44
+seed: '2610944 (ZoomControl: follow-through from iteration 43)'
+inventory_sha256: dca40ace80a5b1d244aef42f89d0975fc8930986a0e421cd1751004fe9af4910
+branch: vitest_readability
+base_commit: b77cd65c2275266ff71bd66483a3f437620abd32
+status: reviewed
+selection:
+- file: client/src/components/Workflow/Editor/ZoomControl.test.js
+- file: client/packages/ui/src/utils/hoverBridge.test.ts
+- file: client/src/directives/vSanitizeHtml.test.ts
+- file: client/src/components/Workflow/Run/WorkflowRunForm.test.ts
+baseline:
+  selected_cases: 36
+  selected_passed: 36
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: b62f7affec214a3c95d1fb470896fb819676c5b0
+  subject: Improve readability of ZoomControl tests
+- sha: fffc4ff6b83dc52f5ad7d07937c6b0c2edf124fd
+  subject: Improve readability of hoverBridge tests
+- sha: 3a2d713c3ca8408a53cd5f587222ed927cafb939
+  subject: Improve readability of vSanitizeHtml tests
+- sha: 3c6afc65dd2db0ef8fae352eb44ac47d61430ec1
+  subject: Improve readability of WorkflowRunForm tests
+validation:
+  passed_cases: 47
+  skipped_cases: 0
+  total_cases: 47
+  affected_suites: 4
+  selected_cases: 47
+  supporting_cases: 0
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  ui_package_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  per_test_coverage: no source file lost covered lines or branches
+  independent_review: approved after one fix (vSanitizeHtml eslint-disable removed)
+  shuffle_seed: 440101
+  test_environment: NODE_OPTIONS=--no-webstorage
