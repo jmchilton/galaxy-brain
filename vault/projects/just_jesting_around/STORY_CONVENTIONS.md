@@ -93,7 +93,9 @@ A component that reads the config store when it's created needs the config set
 before it mounts: a decorator that calls `setConfiguration()`, plus a matching
 `configuration` handler (`InstallationSettings.stories.ts`). One that reads it
 through `useConfig` computeds needs only the handler; the test waits on
-`useConfigStore().isLoaded`. Storybook gives each story a fresh pinia. A component
+`useConfigStore().isLoaded`. If its template reads the config before it loads, a
+decorator renders the story once `isLoaded` is true (`ToolCard.stories.ts`). Set
+the signed-in user with `withCurrentUser` from `tests/test-data/currentUser.ts`. Storybook gives each story a fresh pinia. A component
 opened through shared state (the command palette) gets a decorator that opens it on
 mount and closes it on unmount (`CommandPalette.stories.ts`).
 
