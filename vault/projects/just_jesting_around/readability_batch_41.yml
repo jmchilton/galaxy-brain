@@ -1,0 +1,57 @@
+iteration: 41
+seed: '2610941 (pageStore, visualizationStore: follow-through from iteration 40)'
+inventory_sha256: eb6a7a6aa57564102083e562a74257814c7d767f68251a3be71324b9d39a4a87
+branch: vitest_readability
+base_commit: 150fd592d429d1d39a0486760de829fc804ea900
+status: reviewed
+selection:
+- file: client/src/stores/pageStore.test.ts
+- file: client/src/stores/visualizationStore.test.ts
+- file: client/src/components/Workflow/Editor/Forms/FormTool.test.js
+- file: client/src/components/Workflow/List/WorkflowCardList.test.ts
+baseline:
+  selected_cases: 30
+  selected_passed: 30
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/api/visualizations.test.ts
+- client/src/components/CommandPalette/providers/visualizations.test.ts
+- client/src/composables/toolTrainingMaterial.test.ts
+supporting_suites:
+- client/src/api/visualizations.test.ts
+- client/src/components/CommandPalette/providers/visualizations.test.ts
+- client/src/composables/toolTrainingMaterial.test.ts
+helper_files:
+- client/tests/test-data/visualizations.ts
+documentation_files: []
+commits:
+- sha: 0829346d97a44d9de1c64bbc6e04fe45b9229382
+  subject: Improve readability of pageStore tests
+- sha: 285342ddb3eb37891c28c8f84ad5a8a63a1450c3
+  subject: Add tests/test-data/visualizations.ts for client unit tests
+- sha: 9fae39e95dc67c3a94e09dbdfc13ff375a991f9d
+  subject: Improve readability of visualizationStore tests
+- sha: d5572984176295caa82d3fcd236a1e31ca05106e
+  subject: Extend toolTrainingMaterial tests
+- sha: 31c7e3bedf02d7ed616fe832a1412319b3a8d4d7
+  subject: Improve readability of FormTool tests
+- sha: 6da6410f5702277e71ee58e886b97d9ea88be12d
+  subject: Improve readability of WorkflowCardList tests
+validation:
+  passed_cases: 48
+  skipped_cases: 0
+  total_cases: 48
+  affected_suites: 7
+  selected_cases: 32
+  supporting_cases: 16
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  per_test_coverage: no source file lost covered lines or branches
+  independent_review: approved after driver fixes (FormTool config mock; CommandPalette adoption declined, later lane owns it)
+  shuffle_seed: 410101
+  test_environment: NODE_OPTIONS=--no-webstorage

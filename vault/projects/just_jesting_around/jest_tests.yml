@@ -768,6 +768,7 @@
   split_commit: true
 - file: client/src/components/Workflow/Editor/Forms/FormSection.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormTool.test.js
+  iterated: 1
 - file: client/src/components/Workflow/Editor/Index.test.ts
   iterated: 1
 - file: client/src/components/Workflow/Editor/Lint.test.ts
@@ -828,6 +829,7 @@
 - file: client/src/components/Workflow/List/CuratedWorkflowCard.test.ts
 - file: client/src/components/Workflow/List/CuratedWorkflowList.test.ts
 - file: client/src/components/Workflow/List/WorkflowCardList.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/List/WorkflowList.test.ts
   iterated: 1
 - file: client/src/components/Workflow/List/WorkflowListTabs.test.ts
@@ -1191,6 +1193,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/stores/pageStore.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/stores/services/history.services.test.ts
   storified: skip
@@ -1216,6 +1219,7 @@
 - file: client/src/stores/userToolsServiceCredentialsStore.test.ts
   storified: skip
 - file: client/src/stores/visualizationStore.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/stores/windowManagerStore.test.ts
   iterated: 1
