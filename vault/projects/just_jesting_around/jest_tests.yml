@@ -217,6 +217,7 @@
 - file: client/src/components/History/Export/HistoryExport.test.ts
 - file: client/src/components/History/Export/HistoryExportWizard.test.ts
   storified: true
+  storybook_play: true
 - file: client/src/components/History/Graph/historyGraphMapper.test.ts
   storified: skip
   storybook_play: skip
