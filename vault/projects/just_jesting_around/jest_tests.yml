@@ -853,6 +853,7 @@
   iterated: 1
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
   iterated: 1
   storified: true
