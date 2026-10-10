@@ -1246,6 +1246,7 @@
 - file: client/tests/vitest/setup.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
   iterated: 1
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/LandingSearchBox.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/LoginForm.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts
