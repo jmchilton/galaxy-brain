@@ -35,7 +35,8 @@ component to the stories file (`FormDataWithModel`). When the parent's state cha
 is worth seeing, give the harness a visible control (`ScrollListWithStore`'s "Add
 item" button) rather than an exposed method. List an exported harness in the meta's
 `excludeStories`, or it renders as a story. A harness several stories files share goes
-in the feature's `test_fixtures.ts` (`Collections/test_fixtures.ts`). Slot content can come from an extra arg
+in the feature's `test_fixtures.ts` (`Collections/test_fixtures.ts`); a helper only
+unit tests share goes in its `test-utils.ts`, which stories never import. Slot content can come from an extra arg
 that the story's `render` passes into the slot (`GButton.stories.ts`'s `label`).
 
 #### Tests Build on Stories

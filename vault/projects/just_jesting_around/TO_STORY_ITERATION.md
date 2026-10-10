@@ -19,7 +19,7 @@ Walk back from the tip of `vitest_readability` through its `Test-File:` trailers
 Decide whether the test should become stories. Use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for):
 - **Storify:** components whose setup (stores, API mocks, router, props) describes scenarios a person would want to look at.
   Props alone count when they produce visibly different states (QuotaUsageSummary: finite total vs unlimited). A form counts even when it's empty on mount, since play functions fill it.
-- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, and wrappers whose only variation is a size or style passed to children. Tests outside `client/` (the tool shed frontend) have no Storybook yet.
+- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, wrappers whose only variation is a size or style passed to children, and components whose content comes from something Storybook doesn't serve (a visualization plugin's script). Tests outside `client/` (the tool shed frontend) have no Storybook yet.
 
 When skipping, set `storified: skip` (only that field), log the reason, and end the iteration.
 
@@ -36,7 +36,7 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 - Keep the test's language; moving `.js` to TypeScript is separate work.
 - Don't fix component bugs in this lane; add them to [BUGS_FOUND.md](BUGS_FOUND.md).
 
-If the conversion needs a Storybook change (preview, story-mount helper, shared mock handlers), commit that first, separately, and check that existing stories still render.
+If the conversion needs a Storybook change (preview, story-mount helper, shared mock handlers), commit that first, separately, and check that existing stories still render (the `storybook` project run is enough).
 
 ## Validate
 
@@ -49,6 +49,6 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 
 - Commit the test and its stories together, with a `Test-File: <path>` trailer, before the review; amend with its fixes. Push the lane once validation and review pass ([how](PIPELINE_BRANCHES.md#invariants)).
 - After the push, set `storified: true` in `jest_tests.yml`, and change no other field. Commit it with the log row (`git commit -o`); don't push galaxy-brain.
-- Append a row to [STORY_LOG.md](STORY_LOG.md) with the test, the decision, the reason and the line counts before (`git show <merge-base>:<path> | wc -l`, the lane's merge-base with `vitest_readability`) and after.
+- Append a row to [STORY_LOG.md](STORY_LOG.md) with the test, the decision, the reason and the line counts before (`git show <merge-base>:<path> | wc -l`, the lane's merge-base with `vitest_readability`) and after; a skip row gives only the before count.
 - To fix an earlier conversion, fold the fix into that test's commit (fixup and autosquash), re-run the gate, have a subagent review it if assertions changed, and update its log row in place.
 - Put pattern lessons in the row too. The driver decides whether a recurring lesson belongs in client testing guidance.
