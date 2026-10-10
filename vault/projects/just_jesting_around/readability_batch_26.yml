@@ -1,0 +1,52 @@
+iteration: 26
+seed: '2610926 (PageProvider: follow-through from iteration 25)'
+inventory_sha256: 49cad41cbe1d0c276ac413242b578dc0323cb7ac7001f0a8c2922222eb855dc9
+branch: vitest_readability
+base_commit: 1577eab6dae3d7c47780fd2fbbed674078df6b76
+status: reviewed
+selection:
+- file: client/src/components/providers/PageProvider.test.js
+- file: client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
+- file: client/src/composables/persistentProgressMonitor.test.ts
+baseline:
+  selected_cases: 24
+  selected_passed: 24
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/tests/vitest/fakeTaskMonitor.ts
+- client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts
+supporting_suites:
+- client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts
+helper_files:
+- client/tests/vitest/fakeTaskMonitor.ts
+documentation_files: []
+commits:
+- sha: da4a4a2629c224dbccaf41d42f459073897a266f
+  subject: Improve readability of PageProvider tests
+- sha: 6bf1eeae4142fed2dc3639941b8dc90a885360a4
+  subject: Improve readability of WorkflowInvocationState tests
+- sha: 362350acd0a5986dbe9ac7798246ebfd4a4f226e
+  subject: Improve readability of ErrorBanner tests
+- sha: ea3fcc46c25e2f0fa02cde906c46a6606cb06f51
+  subject: Add tests/vitest/fakeTaskMonitor.ts for client unit tests
+- sha: 3621eb6896d518c3e0ef2d678772eae9e66797e2
+  subject: Improve readability of persistentProgressMonitor tests
+validation:
+  passed_cases: 31
+  skipped_cases: 0
+  total_cases: 31
+  affected_suites: 5
+  selected_cases: 24
+  supporting_cases: 7
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  toolshed_typecheck: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved (5/5 commits)
+  shuffle_seed: 260101
+  test_environment: NODE_OPTIONS=--no-webstorage

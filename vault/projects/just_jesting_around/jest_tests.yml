@@ -605,6 +605,7 @@
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
+  iterated: 1
 - file: client/src/components/WorkflowInvocationState/util.test.ts
   iterated: 1
   split_commit: true
@@ -630,6 +631,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/providers/PageProvider.test.js
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/providers/StoredWorkflowProvider.test.js
@@ -670,6 +672,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/composables/persistentProgressMonitor.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/composables/pollUntil.test.ts
@@ -992,6 +995,7 @@
   storified: skip
   storybook_play: skip
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
+  iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts
   iterated: 1
   split_commit: true
