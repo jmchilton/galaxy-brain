@@ -164,6 +164,7 @@
   storybook_play: skip
 - file: client/src/components/GDateTime.test.ts
 - file: client/src/components/GalaxyAI.newchat.test.ts
+  iterated: 1
 - file: client/src/components/GalaxyAI.test.ts
 - file: client/src/components/GalaxyAI/ChatActions.test.ts
 - file: client/src/components/GalaxyAI/ChatInput.test.ts
@@ -204,6 +205,7 @@
   split_commit: true
 - file: client/src/components/History/Content/GenericElement.test.js
 - file: client/src/components/History/Content/model/states.test.js
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/CurrentHistory/HistoryCounter.test.ts
@@ -391,6 +393,7 @@
   split_commit: true
 - file: client/src/components/Popper/Popper.test.js
 - file: client/src/components/Popper/usePopper.test.js
+  iterated: 1
 - file: client/src/components/Register/RegisterForm.test.ts
 - file: client/src/components/RuleBuilder/RuleDefinitions.test.ts
   iterated: 1
@@ -449,6 +452,7 @@
 - file: client/src/components/Toolshed/InstalledList/Monitor.test.js
 - file: client/src/components/Toolshed/RepositoryDetails/Index.test.ts
 - file: client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js
+  iterated: 1
 - file: client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js
 - file: client/src/components/Toolshed/SearchList/Categories.test.js
 - file: client/src/components/Toolshed/SearchList/Repositories.test.js

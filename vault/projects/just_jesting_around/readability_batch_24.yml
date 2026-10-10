@@ -1,0 +1,51 @@
+iteration: 24
+seed: 2610924
+inventory_sha256: ad71f89709f8f529f0cbb0df8e2576d0ecb3a0182eea13e5d381ee1ffad674fa
+branch: vitest_readability
+base_commit: f20a449d92d349c68d01bde0c1062df65af3ad32
+status: reviewed
+selection:
+- file: client/src/components/GalaxyAI.newchat.test.ts
+- file: client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js
+- file: client/src/components/History/Content/model/states.test.js
+- file: client/src/components/Popper/usePopper.test.js
+baseline:
+  selected_cases: 11
+  selected_passed: 11
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/GalaxyAI/test-utils.ts
+- client/src/components/GalaxyAI.routesync.test.ts
+supporting_suites:
+- client/src/components/GalaxyAI.routesync.test.ts
+helper_files:
+- client/src/components/GalaxyAI/test-utils.ts
+documentation_files: []
+commits:
+- sha: 884b7b2e936f21bbb510a0fab9283b0b0a6c90c1
+  subject: Add src/components/GalaxyAI/test-utils.ts for client unit tests
+- sha: 048c143fe98bb15a9ad5cdf7209376ae7d837884
+  subject: Improve readability of GalaxyAI.newchat tests
+- sha: d2ceb371a1b58108adaef1d9283fb79836f53cc4
+  subject: Improve readability of InstallationSettings tests
+- sha: d6919cd1089ec1c86a99201f4560a2ab143b841d
+  subject: Improve readability of states tests
+- sha: 93d683a17c22cd7b5127728fb606a371a0192904
+  subject: Improve readability of usePopper tests
+validation:
+  passed_cases: 30
+  skipped_cases: 0
+  total_cases: 30
+  affected_suites: 5
+  selected_cases: 27
+  supporting_cases: 3
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved (5/5 commits)
+  shuffle_seed: 240101
+  test_environment: NODE_OPTIONS=--no-webstorage
