@@ -118,6 +118,13 @@ check `queryByRole("dialog")`, not text, and any "X is gone" check inside a clos
 dialog passes either way; reopen it to check. It reports closing on the native
 `close` event a moment after it hides, so wait for that before reopening.
 
+`toBeVisible()` passes while an element fades out; before checking an animated
+dialog stays open, wait for its `getAnimations()` to finish (`CommandPalette`).
+`userEvent.type` sends one key at a time, so input that converts on a key (a
+`t:` scope token) differs from a value set whole; `paste` what the unit test set
+whole. The browser project renders at 414px wide, so content hidden below a
+breakpoint stays in vitest.
+
 A play's first wait on data a decorator loads gets a longer timeout
 (`{ timeout: 5000 }`); the 1s default flakes when the whole project runs.
 `vue-multiselect` has no `combobox` role and renders its control only after its
