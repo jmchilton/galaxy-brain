@@ -412,6 +412,7 @@
   storified: skip
 - file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.ts
 - file: client/src/components/Login/ChangePassword.test.ts
   iterated: 1
