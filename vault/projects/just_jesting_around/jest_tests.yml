@@ -124,6 +124,7 @@
 - file: client/src/components/CommandPalette/providers/actions.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/providers/categories.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/datasets.test.ts
   storified: skip
@@ -204,6 +205,7 @@
 - file: client/src/components/ConfirmDialog.test.ts
 - file: client/src/components/DataDialog/DataDialog.test.js
 - file: client/src/components/Dataset/DatasetCopy.test.js
+  iterated: 1
 - file: client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts
 - file: client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
   iterated: 1
@@ -243,6 +245,7 @@
   storybook_play: skip
 - file: client/src/components/Form/Elements/FormDirectory.test.js
 - file: client/src/components/Form/Elements/FormDrilldown/FormDrilldown.test.js
+  iterated: 1
 - file: client/src/components/Form/Elements/FormDrilldown/utilities.test.js
   storified: skip
   storybook_play: skip
@@ -558,6 +561,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Panels/Upload/UploadFileRow.test.ts
+  iterated: 1
 - file: client/src/components/Panels/Upload/UploadMethodView.test.ts
 - file: client/src/components/Panels/Upload/UploadMethodViewInline.test.ts
 - file: client/src/components/Panels/Upload/methods/PasteLinksUpload.test.ts

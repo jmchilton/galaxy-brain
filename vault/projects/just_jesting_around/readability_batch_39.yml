@@ -1,0 +1,55 @@
+iteration: 39
+seed: '2610939 (DatasetCopy, UploadFileRow: follow-through from iteration 38)'
+inventory_sha256: cd33292165fb3330741410a5ea07486748d2c547c72652a3d8ffec554d429d07
+branch: vitest_readability
+base_commit: 871ef3bed23fca3b9800e4134b81272b97bd231e
+status: reviewed
+selection:
+- file: client/src/components/Dataset/DatasetCopy.test.js
+- file: client/src/components/Panels/Upload/UploadFileRow.test.ts
+- file: client/src/components/Form/Elements/FormDrilldown/FormDrilldown.test.js
+- file: client/src/components/CommandPalette/providers/categories.test.ts
+baseline:
+  selected_cases: 21
+  selected_passed: 21
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/SelectionField/SelectionField.test.js
+supporting_suites:
+- client/src/components/SelectionField/SelectionField.test.js
+helper_files:
+- client/src/stores/testUtils.ts
+documentation_files:
+- client/README.md
+commits:
+- sha: bafa9315c1bcb3048915c71c19aac732447822a7
+  subject: Extend src/stores/testUtils.ts for client unit tests
+- sha: 8d87aee99e59d6fa98d9d8a0b0f4973e03af7122
+  subject: Improve readability of DatasetCopy tests
+- sha: 765eb9ebc703eb9211efc8cfe4d329ec2182967e
+  subject: Improve readability of UploadFileRow tests
+- sha: a2636779827db56980913b5c840681791de4d6ca
+  subject: Improve readability of FormDrilldown tests
+- sha: b8340c59ff17c964cff1b288bd48a4053023e61e
+  subject: Improve readability of categories tests
+- sha: 0115ba3db12d31e917f081f3caa89e249221c60c
+  subject: Document seedCurrentHistory in client testing README
+validation:
+  passed_cases: 45
+  skipped_cases: 0
+  total_cases: 45
+  affected_suites: 5
+  selected_cases: 38
+  supporting_cases: 7
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  helper_importers: 34 test files importing testUtils.ts pass at tip (348 tests)
+  per_test_coverage: no source file lost covered lines or branches
+  independent_review: approved after one fix (DatasetCopy seeds before mount)
+  shuffle_seed: 390101
+  test_environment: NODE_OPTIONS=--no-webstorage
