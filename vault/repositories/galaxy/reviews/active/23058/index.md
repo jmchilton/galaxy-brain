@@ -8,6 +8,6 @@ Recorded review snapshot: `bd562019bde`. Later review rounds and delivery histor
 
 Current PR head: `f1e412e75c4`. The migration refreshed tracking, not the code review.
 
-Tracking: Requested author merge of fork fixes; ball with author.
+Tracking: Author merged our fork fixes (`f1e412e75c4`, 2026-10-10); CI workflows await maintainer approval; verify and approve.
 
 Prior queue tracking: reviewed at `bd562019bde`: request changes; our fix in fork PR SID-6921#1; user commented 10-08; ball with author
