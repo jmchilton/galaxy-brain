@@ -209,6 +209,7 @@
 - file: client/src/components/Dataset/DatasetCopy.test.js
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts
 - file: client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
   iterated: 1
@@ -426,6 +427,7 @@
 - file: client/src/components/InteractiveTools/InteractiveTools.test.js
 - file: client/src/components/JobDestinationParams/JobDestinationParams.test.ts
 - file: client/src/components/JobInformation/JobInformation.test.js
+  iterated: 1
 - file: client/src/components/JobInformation/JobOutputs.test.js
 - file: client/src/components/JobMetrics/AwsEstimate.test.js
 - file: client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js
@@ -453,6 +455,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Login/LoginForm.test.ts
+  iterated: 1
 - file: client/src/components/Login/LoginIndex.test.js
   iterated: 1
 - file: client/src/components/Login/NewUserConfirmation.test.ts
@@ -677,6 +680,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Toolshed/InstalledList/Index.test.js
+  iterated: 1
 - file: client/src/components/Toolshed/InstalledList/Monitor.test.js
 - file: client/src/components/Toolshed/RepositoryDetails/Index.test.ts
 - file: client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js
@@ -695,6 +699,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Tour/Tour.test.js
+  iterated: 1
 - file: client/src/components/Tour/TourStep.test.ts
 - file: client/src/components/Upload/UploadSelect.test.ts
 - file: client/src/components/User/APIKey/model/service.test.ts
