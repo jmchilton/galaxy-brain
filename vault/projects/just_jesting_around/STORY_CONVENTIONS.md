@@ -42,3 +42,7 @@ A `play` function is a test that runs in the browser and replays in Storybook's
 Interactions panel. Use it for things a user does and sees. Query by role, label or
 text, not CSS classes. Assert on `fn()` args instead of emitted events. Name each
 step so the panel reads like a script.
+
+Put a play on its own story named for what it does (`ExportsDirectDownload`), so
+the base stories still show the initial state. If an interaction makes more
+requests, such as opening a dialog, that story adds handlers for them.

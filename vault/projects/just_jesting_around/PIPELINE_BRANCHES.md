@@ -15,7 +15,10 @@ Stack order, bottom to top:
 
 Worktrees live under `~/projects/worktrees/galaxy/branch/`: `vitest_readability`, `storybook_prototype` (lane 2) and `storybook_interactions` (lane 3); the last two keep their old names until they're moved. Lanes push to the `jmchilton` remote.
 
-Run client tests with the pinned node: `npm_config_use_node_version=$(cat client/.node_version) pnpm exec vitest ...` from `client/`. The default node 25 breaks happy-dom.
+Run client commands from `client/` with the pinned node and `VITE_CONFIG_NATIVE_IGNORE_WARNING=true`; the default node 25 breaks happy-dom:
+- `npm_config_use_node_version=$(cat .node_version) pnpm exec vitest run --project unit <test>`
+- `... pnpm exec vitest run --project storybook <file>.stories.ts` (output is noisy with Vue compat warnings; read the summary)
+- `... pnpm type-check`
 
 `jest_readability_batch_01` (one commit per iteration, draft PR #24015) is the historical source for lane 1. It's frozen and no longer receives work.
 
@@ -41,7 +44,8 @@ Lane 4 has two parts:
 
 ## Invariants
 
-- **One commit per test file per lane.** Each commit carries a `Test-File: <path>` trailer. The trailer survives rebases, so it's how workers find a test's commits, not the SHA.
+- **One commit per test file per lane.** Each commit carries a `Test-File: <path>` trailer. The trailer survives rebases, so it's how workers find a test's commits, not the SHA. If the test already has a commit in the lane, fold new work into it (`git commit --fixup` then a non-interactive autosquash: `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash`).
+- **The ledger says what's ready.** A lane selects from the ledger field of the lane below, not from that lane's branch; a commit without its ledger write isn't done.
 - **Shared code is committed first.** Helpers, fixtures, mock handlers and story infra each go in their own commits, before the test commits that use them.
 - **Tests can enter mid-stack.** A test can be storified with no `iterated` count (FormData, FilesDialog and HistoryExportWizard already were). Lanes are a stacking order, not a gate every test must pass through.
 - **Lanes build on pushed tips.** A lane rebases onto the lane below's `jmchilton/` branch, never the local one. A driver pushes only after its iteration is validated and reviewed; until then it may amend freely.

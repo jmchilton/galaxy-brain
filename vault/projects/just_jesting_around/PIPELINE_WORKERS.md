@@ -57,7 +57,7 @@ Moves component-behavior cases out of a storified test and into `play` functions
 ## Ledger writes
 
 `jest_tests.yml` has several writers, one per field:
-- Change only your own field, using exact-line edits, and commit with explicit paths.
+- Change only your own field, using exact-line edits, and commit it with your log row using explicit paths (`git commit -o`). Don't push galaxy-brain.
 - Readability manifests fingerprint the whole file (`inventory_sha256`), so the hash changes whenever another lane writes. That's expected; the fingerprint dates a selection snapshot.
 
 ## Is this sane?

@@ -19,6 +19,7 @@ Pick the most recent test commit on `vitest_stories` whose `jest_tests.yml` entr
 - **Keep in vitest:** edge-case matrices, emitted-payload details, timing and logic, which read better as unit cases.
 - **Assertions:** a moved case keeps its assertions, rewritten as user-visible equivalents ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)).
   - If an assertion can't move without changing what it checks, keep that case in vitest and log why. Changing what a test asserts needs John's approval.
+  - Port weak assertions (OR-checks, ones that pass without the behavior) unchanged, and flag them in the log with the stronger check you'd suggest.
 
 If no case moves, set `storybook_play: skip`, log the reason, and end the iteration.
 
