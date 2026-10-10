@@ -55,6 +55,7 @@ Non-empty status means uncommitted changes. A non-zero count, or no upstream at 
 (`git -C <WORKTREE> rev-parse @{u}` fails), means local commits exist nowhere else. In
 either case do **not** remove it - tell the user what's there and wait for them to confirm.
 
+A merged PR's worktree with no upstream may be removed if clean and its HEAD is the merged PR's head commit or an ancestor of it.
 ## Status
 
 Check PR state with
