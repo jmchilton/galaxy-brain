@@ -66,6 +66,7 @@
 - file: client/src/components/Common/ExportForm.test.ts
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Common/FilterMenu.test.ts
 - file: client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts
 - file: client/src/components/Common/RDMDestinationSelector.test.ts
