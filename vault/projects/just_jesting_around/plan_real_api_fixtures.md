@@ -25,6 +25,16 @@ Client unit tests and stories read API responses that a live Galaxy actually ret
 12. **The Tool Shed fixtures are out of scope.** They stay separate.
 13. **Each capture lands with its first consumer.** The generator's capture call, the fixture file and the first test or story that uses it go in the same commit. That keeps both `check` (a missing file counts as a change) and the unimported check green at every commit. The helper infra still lands first, in its own commits.
 
+## Known constraints
+
+These come from the [survey](REAL_API_SURVEY.md) of `vitest_readability`.
+
+- **Endpoints missing from the OpenAPI schema can't be captured as planned.** The stale-fixture check (R6) would reject them. They include `/api/tools` and `/api/tool_panels/*`, `/api/entry_points`, `/api/libraries/datasets/{id}`, `/api/workflows/{id}/download`, `/api/tools/{id}/build` and `/api/webhooks`. They hold the largest old payloads (`toolsList.json` with ~12 consumers, the 26 KB `run1.json`). Until each endpoint is typed in OpenAPI, its old fixtures stay as they are.
+- **Module mocks and store seeding bypass the server mock.** Examples: `vi.mock("@/api/workflows")` in 7 files, `@/api` in 6, `datasets` in 5, `pages` in 4, `histories` in 3, and Pinia seeding like `setHistories([...])`. A test has to move to `useServerMock` handlers, or to store state fed from a fixture, before `apiFixture` helps it.
+- **Some responses are open-ended dicts.** `/api/configuration` and `/api/datatypes/types_and_mapping` gain a key with every new config option or datatype, so `check` would churn. They need the per-fixture override hook (a subset rule), and are mainly useful as a base under factories.
+- **Some responses are untyped.** `/api/datasets/{id}`, `/api/configuration`, `/api/tools/fetch` and `/api/workflows` return `unknown` or `Record<string, unknown>`, and the loader passes those types through. For them the gain is real shapes plus drift detection, not compile-time narrowing.
+- **Some fixtures depend on the current time.** For example, export records drive expiry logic from `new Date()`. They need a factory that shifts dates on top of the verbatim fixture.
+
 ## Requirements
 
 - R1. A capture helper in `galaxy_test.base` that works from both the API and the integration test cases.
@@ -67,6 +77,7 @@ Tests are red-to-green throughout. Run server-backed tests one at a time.
   - enum value change → differs
   - list reorder → differs
   - per-fixture override hook → equal
+  - subset rule for open-ended dicts (a key added to a configuration-style map) → equal
 - Each `Difference` carries the JSON path, so `check` failures point somewhere useful (AC2).
 
 ### Phase 2: capture helper, naming, modes
@@ -82,7 +93,7 @@ Tests are red-to-green throughout. Run server-backed tests one at a time.
 ### Phase 3: first generators
 
 - `lib/galaxy_test/api/test_client_fixtures.py` for default-config captures.
-- `test/integration/test_client_fixtures_quotas.py` with `enable_quotas`, which unlocks QuotaUsageSummary's responses.
+- `test/integration/test_client_fixtures_quotas.py` with `enable_quotas`, which unlocks the quota fields on `/api/users/{id}` and `/api/users/{id}/usage`. For `multi_source` usage and `/api/object_stores?selectable=true`, reuse the DISTRIBUTED object store config in `test/integration/objectstore/test_selection_with_user_preferred_object_store.py`, which declares the quota sources.
 - Run each with `update` and verify AC1 and AC4 by hand. Commit the generator modules' scaffolding here. The captures themselves are committed in Phase 5 (decision 13).
 
 ### Phase 4: client loader, stale check and unimported check
@@ -99,8 +110,17 @@ Tests are red-to-green throughout. Run server-backed tests one at a time.
 
 ### Phase 5: first conversions
 
-- One default-config component plus QuotaUsageSummary. Swap their inline payloads for `apiFixture(...)` in `useServerMock` handlers and stories, and move edge cases to factories (AC6, AC7).
-- Go through lane 4's normal flow: ledger field `real_api_calls`, per-test commits, `Test-File:` trailers.
+- Minimum (AC6): one default-config conversion and one integration-config conversion. Swap the inline payloads for `apiFixture(...)` in `useServerMock` handlers and stories, and move edge cases to factories (AC6, AC7).
+- If a test uses module mocks or store seeding (see Known constraints), move it to the server mock first, in its own commit.
+- Candidates, in order. They're the quick wins from the [survey](REAL_API_SURVEY.md), all default config and low difficulty:
+  1. POST `/api/tools/fetch` `paste_single` → `useUploadSubmission.test.ts`. The test currently checks a nested `outputs` shape the server reportedly never sends, so expect the converted test to go red and the parsing in `uploadResponse.ts` to need a fix.
+  2. GET `/api/histories/{history_id}` `view_detailed` and `view_summary` (keys `size,contents_active,user_id`) → `SwitchToHistoryLink.test.ts`. Then rebuild the `getFakeHistorySummary*` factories (21 files) over the fixture.
+  3. GET `/api/histories/{history_id}/contents` `v_dev` and `stats` → `useHistoryDatasets.test.ts`.
+  4. GET `/api/datasets/{dataset_id}` `hda_detailed_tabular` → `HistoryDatasetDetails.test.js`.
+  5. GET `/api/jobs/{job_id}` `full` → `JobInformation.test.js`. It replaces the drifted `jobInformationResponse.json`, and the always-passing assert there gets fixed in the same commit.
+  6. GET `/api/workflows` `owned` → `api/workflows.test.ts`.
+- Integration candidate: GET `/api/users/{user_id}/usage` and the quota fields on `/api/users/{user_id}` → `DiskUsageSummary.test.ts`. DiskUsageSummary mocks HTTP, while QuotaUsageSummary takes props, so QuotaUsageSummary follows via `toQuotaUsage(apiFixture(...))`. Then rebuild `getFakeRegisteredUser` (38 files) over the fixture.
+- Go through lane 4's normal flow: ledger field `real_api_calls`, per-test commits, `Test-File:` trailers. The other 14 ranked endpoints in the survey are the lane 4 backlog.
 
 ### Phase 6: CI and docs
 
@@ -108,7 +128,19 @@ Tests are red-to-green throughout. Run server-backed tests one at a time.
 - Add a short regen section next to the client testing docs (R7), matching the README tone.
 - Point the lane 4 entry in [PIPELINE_WORKERS.md](PIPELINE_WORKERS.md) at this plan.
 
+## Follow-ups found by the survey
+
+These aren't fixture work, but are worth doing.
+
+- `JobInformation.test.js:95`: `expect(...includes(msg));` has no matcher, so it can never fail. It's covered by candidate 5. If that candidate slips, fix it alone.
+- `MarkdownVitessce.test.js:82` serves invocation `inputs` as an array, where the server sends a dict. It needs a capture of `/api/invocations/{id}` (survey row 6).
+- Delete the dead fixtures `components/providers/test/json/{Dataset,DatasetCollection*}.json`, which nothing imports.
+- Add the endpoints missing from the schema to OpenAPI. That unblocks their old fixtures.
+
 ## Unresolved questions
+
+- Endpoints missing from the schema: add them to OpenAPI first, as separate PRs, or allow an untyped legacy area in `__fixtures__` that the stale-fixture check skips?
+- Lane placement for the follow-ups: fix the dead-fixture deletion and the always-passing assert in lane 1 (readability) now, or with the lane 4 conversions?
 
 - Path params: braces `{history_id}` or `_history_id_`?
 - Status segment: only for non-2xx, or always?
