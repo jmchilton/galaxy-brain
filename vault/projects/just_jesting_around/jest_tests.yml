@@ -420,6 +420,7 @@
 - file: client/src/components/Tool/ToolHelpRst.test.js
 - file: client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/Tool/ToolSuccessMessage.test.ts
 - file: client/src/components/Tool/extractEmbeddedJs.test.ts
   storified: skip
