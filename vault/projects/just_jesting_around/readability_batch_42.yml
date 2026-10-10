@@ -1,0 +1,57 @@
+iteration: 42
+seed: '2610942 (CommandPalette reports: follow-through from iteration 41)'
+inventory_sha256: dd7dce4477ee070c97ed4dea655c28d64122c8af715bb3d1cbd29d083adf7b5c
+branch: vitest_readability
+base_commit: 6da6410f5702277e71ee58e886b97d9ea88be12d
+status: reviewed
+selection:
+- file: client/src/components/CommandPalette/providers/reports.test.ts
+- file: client/src/components/Login/LoginIndex.test.js
+- file: client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js
+- file: client/src/components/Form/FormCardSticky.test.js
+baseline:
+  selected_cases: 44
+  selected_passed: 44
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/CommandPalette/providers/histories.test.ts
+- client/src/components/CommandPalette/providers/workflows.test.ts
+supporting_suites:
+- client/src/components/CommandPalette/providers/histories.test.ts
+- client/src/components/CommandPalette/providers/workflows.test.ts
+helper_files:
+- client/src/components/CommandPalette/test-utils.ts
+documentation_files:
+- client/README.md
+commits:
+- sha: 1c12e38818ad791f04ad4eba7467d4083bf676dc
+  subject: Extend src/components/CommandPalette/test-utils.ts for client unit tests
+- sha: 4885800885ea8cb497d4ef7a989f1e6eab912063
+  subject: Improve readability of reports tests
+- sha: ab31779ec0bbf8de0f66602bdbd811169aa662f7
+  subject: Improve readability of LoginIndex tests
+- sha: bc4f8978e0a86c5e18ccbff458a860ba41080f5c
+  subject: Improve readability of LibraryDataset tests
+- sha: 285932b90c6b186f91a7de079970f9b3ee96e002
+  subject: Improve readability of FormCardSticky tests
+- sha: 5c8e96d88306b65e32a503aa628b08bb5e2cc296
+  subject: Document unresolved vi.mock ids in client testing README
+validation:
+  passed_cases: 103
+  skipped_cases: 0
+  total_cases: 103
+  affected_suites: 6
+  selected_cases: 45
+  supporting_cases: 58
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  helper_importers: 15 CommandPalette test files pass (326 tests)
+  per_test_coverage: no source file lost covered lines or branches
+  independent_review: approved (5/5 commits)
+  shuffle_seed: 420101
+  test_environment: NODE_OPTIONS=--no-webstorage
