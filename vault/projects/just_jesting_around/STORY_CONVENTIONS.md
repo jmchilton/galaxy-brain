@@ -6,7 +6,8 @@ Place `Component.stories.ts` beside the component, with a title that mirrors its
 path, collapsing a repeated folder (`ScrollList`, not `ScrollList/ScrollList`) unless
 another component in that folder has stories, since a title can't also be a group. For
 a `generic="T"` component, type the meta from its props instead of `typeof Component`
-(`ScrollList.stories.ts`). Each story is a state worth looking at, named for that state
+(`ScrollList.stories.ts`). Leave `component` out of the meta when the args aren't its
+props, such as a harness standing in for its page (`Lint.stories.ts`). Each story is a state worth looking at, named for that state
 (`DownloadOnly`, `WithZenodo`). Shared props go in the meta `args`. Stories for a
 `packages/ui` component sit beside its client re-export (`GButton.stories.ts`).
 
@@ -33,7 +34,8 @@ If the component needs a parent, such as one driving v-model, add a small harnes
 component to the stories file (`FormDataWithModel`). When the parent's state change
 is worth seeing, give the harness a visible control (`ScrollListWithStore`'s "Add
 item" button) rather than an exposed method. List an exported harness in the meta's
-`excludeStories`, or it renders as a story. Slot content can come from an extra arg
+`excludeStories`, or it renders as a story. A harness several stories files share goes
+in the feature's `test_fixtures.ts` (`Collections/test_fixtures.ts`). Slot content can come from an extra arg
 that the story's `render` passes into the slot (`GButton.stories.ts`'s `label`).
 
 #### Tests Build on Stories
@@ -60,7 +62,8 @@ actions, `instrumentLocalization` for `toBeLocalizationOf`, and `props` for a va
 no story needs (`clearInputAfterExport`). To spy on a function prop the story
 provides (`loader`), wrap it in a test-local `vi.fn` and pass that as a prop.
 Listeners (`on*`) don't reach a composed story's args, so assert what they cause
-instead, or `getComponent(Component).emitted()`. With a `render` story the wrapper
+instead, or `getComponent(Component).emitted()`. An emit named `onRefactor` listens
+as `onOnRefactor`. With a `render` story the wrapper
 root is the story, so `wrapper.emitted()` is always empty. Module-level `vi.mock`
 and the global mocks in `tests/vitest/setup.ts` still apply to story mounts;
 Storybook runs the real modules. `vi.mock(path, { spy: true })` keeps call and
@@ -164,4 +167,4 @@ under the mock in vitest. Global CSS sets smooth scrolling; scroll with
 kebab name (`"onLoad-more"`).
 
 A harness that forwards listeners through `attrs` needs `compatConfig: { MODE: 3 }`,
-or compat mode drops them (`GButton.stories.ts`'s `ClickableRow`).
+or compat mode drops them (`GButton.stories.ts`'s `ClickableRow` on the play lane).

@@ -12,7 +12,7 @@ Rebase `vitest_stories` onto `jmchilton/vitest_readability`. Commands are in [PI
 
 ## Select
 
-Walk back from the tip of `vitest_readability` through its `Test-File:` trailers and pick the first test whose `jest_tests.yml` entry has no `storified` field. A commit with several trailers names several candidates, and a supporting test touched by a shared-code commit counts.
+Walk back from the tip of `vitest_readability` through its `Test-File:` trailers and pick the first test whose `jest_tests.yml` entry has no `storified` field. A commit with several trailers names several candidates, in trailer order, and a supporting test touched by a shared-code commit counts.
 
 ## Decide
 
@@ -32,6 +32,7 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 - Cases or rows the conversion itself added may be dropped once another case covers them; original ones may not.
 - Story args may replace a test's inputs if every feature the old inputs exercised is still exercised, with exact expectations recomputed. Prefer realistic values to placeholders. Note it in the log.
 - Stories sit beside the component the test mounts, even when the test file is named for another; keep the test's name.
+- If the old test passes only because of its setup (stale data the real page wouldn't show), keep its expected values, mount the story that makes them true, and flag it in the report for John.
 - Keep the test's language; moving `.js` to TypeScript is separate work.
 - Don't fix component bugs in this lane; add them to [BUGS_FOUND.md](BUGS_FOUND.md).
 
@@ -42,7 +43,7 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 - Re-run the rebase gate, which now includes the converted test and its stories.
 - The render check only proves a story doesn't throw. For stories whose content is conditional, confirm each shows what it claims with throwaway play assertions, then remove them.
 - Run type-checking, lint and formatting.
-- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own; run it in the foreground and wait for its report. Re-run the checks after applying its fixes (the touched test and stories, lint and type-check are enough for small fixes), and ask for a second review if a fix changed what an assertion checks. Tightening a reviewed check (`.alert` to `.alert-warning`) or a cosmetic data fix no assertion reads doesn't need one; changing data an assertion reads or the message a check expects does.
+- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own, and wait for its report before going on. Re-run the checks after applying its fixes (the touched test and stories, lint and type-check are enough for small fixes), and ask for a second review if a fix changed what an assertion checks. Tightening a reviewed check (`.alert` to `.alert-warning`) or a cosmetic data fix no assertion reads doesn't need one; changing data an assertion reads or the message a check expects does.
 
 ## Record
 
