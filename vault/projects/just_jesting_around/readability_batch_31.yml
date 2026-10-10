@@ -1,0 +1,58 @@
+iteration: 31
+seed: 'none (all four: GModal follow-through from iteration 30)'
+inventory_sha256: 21675c0ba2532f8ee09f48d8ba6149c323972f7b8079d125643029bfe9a0ba18
+branch: vitest_readability
+base_commit: ff84014787884913b595acbb74a22585670de385
+status: reviewed
+selection:
+- file: client/src/components/Common/RenameModal.test.ts
+- file: client/src/components/User/UserDeletion.test.ts
+- file: client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts
+- file: client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
+baseline:
+  selected_cases: 30
+  selected_passed: 30
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/BaseComponents/test-utils.ts
+- client/src/components/Sharing/UserSharing.test.ts
+- client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts
+- client/src/components/Tool/ToolInstallationRequestForm.test.ts
+supporting_suites:
+- client/src/components/Sharing/UserSharing.test.ts
+- client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts
+- client/src/components/Tool/ToolInstallationRequestForm.test.ts
+helper_files:
+- client/src/components/BaseComponents/test-utils.ts
+documentation_files:
+- client/README.md
+commits:
+- sha: 85330e23a62b78bc1d883e1d2e52a485d6aea63a
+  subject: Extend src/components/BaseComponents/test-utils.ts for client unit tests
+- sha: e2b83bdbe13726b7ecf997c10c43547a1a9b5346
+  subject: Improve readability of RenameModal tests
+- sha: 60d1cafba36cef3d807980047fdf7465ea6040d7
+  subject: Improve readability of UserDeletion tests
+- sha: b9fe9d536040628f510e0b2d88e21418bf493a38
+  subject: Improve readability of WorkflowMissingToolsRequest tests
+- sha: 95cbb90c5908b97f6e68dbc7b6e4428b42da38a5
+  subject: Improve readability of WorkflowInvocationShare tests
+- sha: f8463741af243daba216efa945d0830a53e8b378
+  subject: Document GModal clicks and Pinia store ids in client testing README
+validation:
+  passed_cases: 52
+  skipped_cases: 0
+  total_cases: 52
+  affected_suites: 7
+  selected_cases: 32
+  supporting_cases: 20
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved 4/5; WorkflowMissingToolsRequest transition case requested, folded in by fixup and re-verified; README commit by driver
+  shuffle_seed: 310101
+  test_environment: NODE_OPTIONS=--no-webstorage
