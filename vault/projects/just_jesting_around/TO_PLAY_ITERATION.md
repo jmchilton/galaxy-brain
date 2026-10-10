@@ -4,7 +4,7 @@ Reuse the same branch and worktree for every iteration.
 
 ## Rebase
 
-Rebase `vitest_story_play` onto the tip of `vitest_stories`.
+Rebase `vitest_story_play` onto `jmchilton/vitest_stories`.
 - Resolve conflicts so that both lanes' intent survives.
 - Run the `storybook` browser project and the affected unit tests.
 - Don't select a test until the rebased lane is green.
