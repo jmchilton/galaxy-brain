@@ -145,7 +145,11 @@ breakpoint stays in vitest.
 
 Show toasts with `withToasts` and check them with `seeToasts` (`tests/test-data/toasts.ts`):
 toasts share role `alert` with `GAlert`, so they're found within their region, and they
-dismiss themselves after 3s, so a "no toast" check runs at once after a positive wait.
+dismiss themselves after 3s, so a "no toast" check runs at once after a positive wait, and a
+positive `seeToasts` comes straight after the action, before other waits. AG Grid rows are
+`role=row` but their DOM order isn't display order, so sort by `aria-rowindex`; an empty
+grid is replaced by a note, so query rows with `queryAllByRole`. A click on an element with
+no listener passes silently, so check what the click should change.
 A component that renders off the main thread (`FormSelectMany`'s worker) can show stale DOM
 right after an action; follow it with an action whose result must include the earlier state.
 Where a list has no role or name, read it from its heading (`heading.parentElement`). A

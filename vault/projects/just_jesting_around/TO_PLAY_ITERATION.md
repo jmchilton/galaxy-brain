@@ -17,10 +17,11 @@ Pick the most recent (in lane commit order, by each test's story commit, not its
 
 - **Move:** component behavior a user would perform and see, such as filling forms, clicking through dialogs and wizards, or visible results.
 - **Keep in vitest:** edge-case matrices, emitted-payload details (including a click whose only result is a payload), timing and logic, which read better as unit cases. A class selector that names a variant (`.alert-success`) is a variant check; rewriting it as a role query drops it, so it stays. A matrix that reads as one fill-in script (ExportForm's disabled states) may move as one play, reaching each row's state by its own path when the inputs are independent.
-- A class, id or attribute a browser test selects by (`client/src/utils/navigation/navigation.yml`) stays checked in vitest. One nothing selects by may be rewritten as a user-visible check.
+- A class, id or attribute a browser test selects by (`client/src/utils/navigation/navigation.yml`) stays checked in vitest; a case that only clicks through one may still move. One nothing selects by may be rewritten as a user-visible check.
+- Behavior a user can't reach in the browser (a dead click handler) stays in vitest with a comment and a BUGS_FOUND row.
 - **Don't measure layout:** no pixel sizes or computed styles. Those couple a play to global CSS; a class or prop check in vitest is enough. Waiting on layout (until a list can scroll) is fine.
 - **Negative checks** ("no extra fetch") need a positive sync point to wait on first, or they pass by racing; without one they stay in vitest.
-- A case may split: its user-visible assertions move and the rest stay. A check may end up in both places when each half needs it. A half left with only negative checks ("nothing sent") keeps a positive check that the action ran (the refusal alert), or it passes when nothing happens. A kept payload check keeps the starting-state check that makes it meaningful.
+- A case may split: its user-visible assertions move and the rest stay. A check may end up in both places when each half needs it. A half left with only negative checks ("nothing sent") keeps a positive check that the action ran (the refusal alert), or it passes when nothing happens. A kept payload check always keeps the starting-state check that makes it meaningful.
 - Behavior that depends on the platform (cmd vs ctrl from the userAgent) stays; a play would pass on a Mac and fail in Linux CI.
 - A case stays when no user-visible check fails under its break (a `focus()` spy where the browser keeps focus anyway).
 - **Assertions:** a moved case keeps its assertions, rewritten as user-visible equivalents ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)).
@@ -52,4 +53,4 @@ Storybook and browser-project infra lives in `vitest_stories`. If the conversion
 
 - Commit the stories and the test together, with a `Test-File: <path>` trailer, before the review; amend with its fixes. Push once validation and review pass ([how](PIPELINE_BRANCHES.md#invariants)).
 - After the push, set `storybook_play: true` in `jest_tests.yml`, and change no other field. Commit it with the log row (`git commit -o`); don't push galaxy-brain. If the lane below moved during the iteration, push anyway; the next rebase picks it up.
-- Append a row to [PLAY_LOG.md](PLAY_LOG.md) with the test, the cases moved and kept (every movable case kept, with why), the reasons and the warm vitest `Tests` time (best of two runs; other lanes load the machine) of the stories and unit files, before and after.
+- Append a row to [PLAY_LOG.md](PLAY_LOG.md) with the test, the cases moved and kept (every movable case kept, with why), the reasons and the warm vitest `Tests` time (best of two runs; other lanes load the machine) of the stories and unit files, before (timed before you edit) and after.
