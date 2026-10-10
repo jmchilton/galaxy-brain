@@ -26,7 +26,7 @@ If no case moves, set `storybook_play: skip`, log the reason, and end the iterat
 ## Convert
 
 - Write each moved case as a `play` function on an existing or new story.
-- Remove the vitest case only after its play function passes.
+- Remove the vitest case only after its play function passes. If every case moves, delete the unit file; the commit keeps its `Test-File:` trailer.
 - Before committing, show each play function fails for the right reason: break the behavior in the component locally and watch the play fail. For a strengthened check, show the old check still passes under that break.
 - New checks a play makes possible are welcome; log them as strengthening.
 

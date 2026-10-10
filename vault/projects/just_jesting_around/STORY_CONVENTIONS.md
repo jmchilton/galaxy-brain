@@ -31,8 +31,9 @@ A story mount renders children, so a `shallowMount` stub check like
 `attributes("size")` becomes `props("size")` on the child component.
 
 Pass extra `global` options to `mountStory`; they add to the defaults rather than
-replace them. Pass `router` for a test that needs real routes, and `pinia` to stub
-actions.
+replace them. Pass `router` for a test that needs real routes, `pinia` to stub
+actions, `instrumentLocalization` for `toBeLocalizationOf`, and `props` for a value
+no story needs (`clearInputAfterExport`).
 
 Don't call `setProps` on a composed story, because that remounts it. Change state
 through the harness instead. Edge cases that nobody would want to look at stay as

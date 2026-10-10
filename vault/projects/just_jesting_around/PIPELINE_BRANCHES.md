@@ -38,11 +38,15 @@ Lane 4 has two parts:
 | `storified` | `true` \| `skip` | Story driver |
 | `storybook_play` | `true` \| `skip` | Play driver |
 | `real_api_calls` | `true` \| `skip` | Real-API driver |
+
+CI runs only the `unit` project. Story render checks and play functions aren't in CI yet, so the play lane can't go upstream until a browser CI job exists (undecided: a step in `client-unit.yaml` or its own workflow).
 | `split_commit` | `true` | Splitter (done; informational) |
 
 - `skip` means the stage doesn't apply to that test. The reason goes in the stage's batch report, not in the ledger.
 - For `storified: skip`, use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for): logic, stores, composables and API-client tests stay in happy-dom.
 - No `false` value: a missing field already means pending.
+- A test file with no entry is new upstream. Any lane adds a bare `- file:` entry in sorted order, committed on its own.
+- The ledger can run ahead of a pushed branch; select from what the pushed branch contains.
 
 ## Invariants
 

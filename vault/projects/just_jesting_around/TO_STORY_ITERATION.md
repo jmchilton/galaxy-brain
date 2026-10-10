@@ -16,7 +16,7 @@ Walk back from the tip of `vitest_readability` through its `Test-File:` trailers
 
 Decide whether the test should become stories. Use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for):
 - **Storify:** components whose setup (stores, API mocks, router, props) describes scenarios a person would want to look at.
-  Props alone count when they produce visibly different states (QuotaUsageSummary: finite total vs unlimited).
+  Props alone count when they produce visibly different states (QuotaUsageSummary: finite total vs unlimited). A form counts even when it's empty on mount, since play functions fill it.
 - **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, and wrappers whose only variation is a size or style passed to children.
 
 When skipping, set `storified: skip` (only that field), log the reason, and end the iteration.
@@ -32,8 +32,7 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 
 ## Validate
 
-- Run the converted test in the `unit` project.
-- Render its stories in the `storybook` browser project.
+- Re-run the rebase gate, which now includes the converted test and its stories.
 - Run type-checking, lint and formatting.
 - Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own. Re-run the checks after applying its fixes.
 
