@@ -100,6 +100,7 @@
 - file: client/src/components/Collections/ListCollectionCreator.test.ts
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Collections/PairCollectionCreator.test.ts
   storified: true
   storybook_play: true
