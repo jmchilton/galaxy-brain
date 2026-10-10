@@ -1,0 +1,47 @@
+iteration: 30
+seed: '2610930 (galaxyUi: follow-through from iteration 29)'
+inventory_sha256: 9c5ea8d9979b867a64fb54cd1f06a1ace396e1ca4b2caae8c8529c616718fcb1
+branch: vitest_readability
+base_commit: f43c5a1ce758082c943e8252fe801c7c50cfbb2c
+status: reviewed
+selection:
+- file: lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts
+- file: client/src/components/JobMetrics/JobMetrics.test.js
+- file: client/src/components/Sharing/UserSharing.test.ts
+- file: client/src/components/Workflow/Run/WorkflowRun.test.js
+baseline:
+  selected_cases: 22
+  selected_passed: 22
+  selected_skipped: 0
+  selected_suites: 4
+  note: WorkflowRun fails 1 case at base under shuffle seed 300101 (shared mutated fixture); passes in file order
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: 7afd8fbfd23950bed4dd5f548eb5d132bee61922
+  subject: Improve readability of galaxyUi tests
+- sha: a931df538201de3ff75163f9737a1b835d92ce4e
+  subject: Improve readability of JobMetrics tests
+- sha: cde495da54db50618ca05ec6c56fbde8bded5086
+  subject: Improve readability of UserSharing tests
+- sha: ff84014787884913b595acbb74a22585670de385
+  subject: Improve readability of WorkflowRun tests
+validation:
+  passed_cases: 22
+  skipped_cases: 0
+  total_cases: 22
+  affected_suites: 4
+  selected_cases: 22
+  supporting_cases: 0
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  toolshed_typecheck: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved (4/4 commits)
+  shuffle_seed: 300101
+  test_environment: NODE_OPTIONS=--no-webstorage
