@@ -4,13 +4,17 @@
 """Before/after metrics for the test-conversion lanes; prints markdown tables.
 
 Lane 1 compares each test file at the dev merge-base against the readability tip.
+``--update`` also counts executed tests (``vitest list``) in throwaway worktrees of both refs.
 Lanes 2 and 3 measure each per-test commit (``Test-File:`` trailer) against its parent,
 counting the test file together with its sibling ``.stories.ts``.
 """
 
 import argparse
+import json
+import os
 import re
 import subprocess
+import tempfile
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -19,6 +23,16 @@ from typing import NamedTuple
 DEFAULT_REPO = Path.home() / "projects/worktrees/galaxy/branch/vitest_readability"
 REMOTE = "jmchilton"
 LANES = ("vitest_readability", "vitest_stories", "vitest_story_play")
+VITEST_DIRS = ("client", "lib/tool_shed/webapp/frontend")
+NODE_MODULES = (*VITEST_DIRS, "client/packages/api-client", "client/packages/ui")
+SAME_TOOLING = (
+    "client/package.json",
+    "client/pnpm-lock.yaml",
+    "client/vitest.config.mts",
+    "client/packages/*/package.json",
+    "lib/tool_shed/webapp/frontend/package.json",
+    "lib/tool_shed/webapp/frontend/vitest.config.ts",
+)
 TEST_FILE = re.compile(r"\.test\.[jt]sx?$")
 STORY_LANE = re.compile(r"^Move .* test setup into Storybook stories$")
 PLAY_LANE = re.compile(r"^Move .* into (a )?play functions?$")
@@ -33,18 +47,17 @@ SIGNALS = {
     "wrapper.vm": r"\.vm\b",
     "class selectors": r"\.(?:find|findAll|get|querySelector|querySelectorAll)\(\s*[\"'`]\.",
     "vi.mock": r"\b(?:vi|jest)\.mock\(",
-    "casts": r"\bas (?:any|unknown)\b",
+    "casts": r"\bas (?:any|unknown|never)\b",
     "eslint-disable": r"eslint-disable",
-    "manual flush/sleep": r"\bflushPromises\(|\bsetTimeout\(|\bvi\.advanceTimers",
+    "manual flush/sleep": r"\bflushPromises\(|\bsetTimeout\(",
 }
 COMPILED = {name: re.compile(rx, re.MULTILINE) for name, rx in SIGNALS.items()}
 PITCH_ROWS = {
     "lines": "Test lines",
-    "wrapper.vm": "`wrapper.vm` reach-ins",
-    "casts": "`as any`/`as unknown` casts",
-    "manual flush/sleep": "`flushPromises`/`setTimeout`/timer pokes",
+    "wrapper.vm": "`.vm` reach-ins",
+    "casts": "`as any`/`as unknown`/`as never` casts",
+    "manual flush/sleep": "`flushPromises`/`setTimeout` calls",
     "vi.mock": "`vi.mock` module mocks",
-    "class selectors": 'Class-name selectors (`.find(".x")`)',
     "eslint-disable": "`eslint-disable`",
 }
 BLOCK = re.compile(
@@ -94,15 +107,28 @@ class Support(NamedTuple):
     after: Counter
 
 
+def changed_paths(repo, base, tip):
+    """(base path, tip path) per changed file, following renames; '' marks added/deleted."""
+    for line in git(repo, "diff", "-M", "--name-status", base, tip).splitlines():
+        status, *paths = line.split("\t")
+        if status[0] == "R":
+            yield tuple(paths)
+        else:
+            yield ("" if status == "A" else paths[0], "" if status == "D" else paths[0])
+
+
 def lane1(repo, base, tip):
-    changed = git(repo, "diff", "--name-only", base, tip).split()
-    files = [f for f in changed if TEST_FILE.search(f)]
+    changed = list(changed_paths(repo, base, tip))
+    files = [(old, new) for old, new in changed if TEST_FILE.search(new or old)]
     before, after, rows = Counter(), Counter(), []
-    for f in files:
-        b, a = measure(show(repo, base, f)), measure(show(repo, tip, f))
+    for old, new in files:
+        b, a = (
+            measure(show(repo, base, old) if old else ""),
+            measure(show(repo, tip, new) if new else ""),
+        )
         before.update(b)
         after.update(a)
-        rows.append((f, b, a))
+        rows.append((old, new, b, a))
     support = Support(
         git(
             repo,
@@ -112,25 +138,72 @@ def lane1(repo, base, tip):
             tip,
             "--",
             ".",
-            *[f":!{f}" for f in files],
+            *[f":!{path}" for pair in files for path in pair if path],
         ).strip(),
         Counter(),
         Counter(),
     )
-    for f in set(changed) - set(files):
-        support.before.update(measure(show(repo, base, f)))
-        support.after.update(measure(show(repo, tip, f)))
+    for old, new in set(changed) - set(files):
+        support.before.update(measure(show(repo, base, old) if old else ""))
+        support.after.update(measure(show(repo, tip, new) if new else ""))
     return rows, before, after, support
 
 
+def vitest_list(repo, ref, tmp):
+    """Executed tests per repo-relative file at ``ref``, from ``vitest list`` in a throwaway worktree."""
+    worktree = Path(tmp) / ref[:11]
+    git(repo, "worktree", "add", "-q", "--detach", str(worktree), ref)
+    try:
+        for d in NODE_MODULES:
+            (worktree / d / "node_modules").symlink_to(repo / d / "node_modules")
+        env = {
+            **os.environ,
+            "npm_config_use_node_version": (worktree / "client/.node_version")
+            .read_text()
+            .strip(),
+            "VITE_CONFIG_NATIVE_IGNORE_WARNING": "true",
+        }
+        counts = Counter()
+        for d in VITEST_DIRS:
+            out = Path(tmp) / f"{ref[:11]}-{d.replace('/', '_')}.json"
+            subprocess.run(
+                ["pnpm", "exec", "vitest", "list", f"--json={out}"],
+                cwd=worktree / d,
+                env=env,
+                check=True,
+                capture_output=True,
+            )
+            for test in json.loads(out.read_text()):
+                counts[
+                    str(Path(test["file"]).resolve().relative_to(worktree.resolve()))
+                ] += 1
+        return counts
+    finally:
+        git(repo, "worktree", "remove", "--force", str(worktree))
+
+
+def executed(repo, base, tip, files):
+    """Executed tests per changed test file at both refs; tooling must match so node_modules can be shared."""
+    if git(repo, "diff", "--name-only", base, tip, "--", *SAME_TOOLING).strip():
+        raise SystemExit(
+            "client tooling differs between base and tip; executed counts need separate installs"
+        )
+    with tempfile.TemporaryDirectory() as tmp:
+        at_base, at_tip = vitest_list(repo, base, tmp), vitest_list(repo, tip, tmp)
+    return [
+        (old, new, at_base[old] if old else 0, at_tip[new] if new else 0)
+        for old, new in files
+    ]
+
+
 def drops_table(rows, signal, limit):
-    worst = sorted(rows, key=lambda r: r[2][signal] - r[1][signal])[:limit]
+    worst = sorted(rows, key=lambda r: r[3][signal] - r[2][signal])[:limit]
     other = "expects" if signal == "cases" else "cases"
     lines = [
         f"| Test | {signal} | {other} | `.each` tables | lines |",
         "| --- | --- | --- | --- | --- |",
     ]
-    for path, b, a in worst:
+    for _, path, b, a in worst:
         if a[signal] < b[signal]:
             lines.append(
                 f"| `{path.removeprefix('client/src/')}` | {b[signal]} → {a[signal]} | {b[other]} → {a[other]} "
@@ -178,12 +251,16 @@ def delta(b, a):
     return f"{d} ({(a - b) / b:+.0%})".replace("-", "\u2212") if b else d
 
 
-def pitch_block(base, tip, files, before, after, support, today):
+def pitch_block(base, tip, files, before, after, support, runs, today):
+    run_b, run_a = sum(r[2] for r in runs), sum(r[3] for r in runs)
+    lost = [r for r in runs if r[3] < r[2]]
+    grew = sum(r[3] > r[2] for r in runs)
     lines = [
-        f"{len(files)} test files, dev `{base[:11]}` → `vitest_readability` `{tip[:11]}`, as of {today}.",
+        f"{len(files)} test files, dev merge-base `{base[:11]}` → `vitest_readability` `{tip[:11]}`, as of {today}.",
         "",
         "| Signal | Before | After | Δ | Δ with helpers |",
         "| --- | ---: | ---: | ---: | ---: |",
+        f"| Executed tests (`vitest list`) | {run_b:,} | {run_a:,} | {delta(run_b, run_a)} | |",
     ]
     for name, label in PITCH_ROWS.items():
         b, a = before[name], after[name]
@@ -192,6 +269,14 @@ def pitch_block(base, tip, files, before, after, support, today):
             f"| {label} | {b:,} | {a:,} | {delta(b, a)} | {delta(with_b, with_a)} |"
         )
     lines += [
+        "",
+        f"Files that lost an executed test: {len(lost)} of {len(runs)}"
+        + (
+            f" ({', '.join(f'`{Path(r[0]).name}` {r[2]} → {r[3]}' for r in lost)})"
+            if lost
+            else ""
+        )
+        + f"; {grew} gained tests and the rest kept the same count.",
         "",
         f"Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): {support.shortstat}.",
     ]
@@ -241,8 +326,9 @@ def main():
     files, before, after, support = lane1(repo, base1, readability)
     if args.update:
         tip = git(repo, "rev-parse", readability).strip()
+        runs = executed(repo, base1, tip, [(old, new) for old, new, _, _ in files])
         block = pitch_block(
-            base1, tip, files, before, after, support, date.today().isoformat()
+            base1, tip, files, before, after, support, runs, date.today().isoformat()
         )
         text = args.update.read_text()
         if not BLOCK.search(text):

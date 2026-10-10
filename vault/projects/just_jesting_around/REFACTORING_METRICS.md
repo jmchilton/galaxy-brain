@@ -1,42 +1,34 @@
 Two sections - the pitch - a concise, empirical case for the vitest_readability refactoring loop for inclusion in a PR someday and an internal notes new agents can pick up and build/update the metrics case against.
 ## Refactoring Metrics - the Pitch
 
-`vitest_readability` rewrites Galaxy's client unit tests one file at a time for readability and reuse, keeping what each test checks. Every test gets its own commit and a review note.
+`vitest_readability` rewrites Galaxy's client and Tool Shed frontend unit tests one file at a time, for readability and reuse, keeping what each test checks. Each selected test gets its own commit and a review note. Tests are drawn at random with a recorded seed.
 
 <!-- case_metrics:lane1:start -->
-237 test files, dev `df3932ed4ba` → `vitest_readability` `1e6d8358e8f`, as of 2026-10-10.
+243 test files, dev merge-base `df3932ed4ba` → `vitest_readability` `af169c23ba9`, as of 2026-10-10.
 
 | Signal | Before | After | Δ | Δ with helpers |
 | --- | ---: | ---: | ---: | ---: |
-| Test lines | 43,625 | 39,835 | −3,790 (−9%) | −3,294 (−7%) |
-| `wrapper.vm` reach-ins | 259 | 149 | −110 (−42%) | −108 (−41%) |
-| `as any`/`as unknown` casts | 166 | 8 | −158 (−95%) | −158 (−95%) |
-| `flushPromises`/`setTimeout`/timer pokes | 656 | 464 | −192 (−29%) | −189 (−29%) |
-| `vi.mock` module mocks | 203 | 164 | −39 (−19%) | −28 (−14%) |
-| Class-name selectors (`.find(".x")`) | 278 | 233 | −45 (−16%) | −43 (−15%) |
+| Executed tests (`vitest list`) | 2,305 | 2,726 | +421 (+18%) | |
+| Test lines | 44,641 | 40,884 | −3,757 (−8%) | −3,260 (−7%) |
+| `.vm` reach-ins | 266 | 156 | −110 (−41%) | −108 (−40%) |
+| `as any`/`as unknown`/`as never` casts | 205 | 34 | −171 (−83%) | −171 (−83%) |
+| `flushPromises`/`setTimeout` calls | 609 | 399 | −210 (−34%) | −207 (−34%) |
+| `vi.mock` module mocks | 214 | 172 | −42 (−20%) | −31 (−14%) |
 | `eslint-disable` | 5 | 1 | −4 (−80%) | −3 (−60%) |
 
-Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): 25 files changed, 678 insertions(+), 182 deletions(-).
+Files that lost an executed test: 0 of 243; 66 gained tests and the rest kept the same count.
+
+Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): 25 files changed, 686 insertions(+), 189 deletions(-).
 <!-- case_metrics:lane1:end -->
 
 What the numbers mean:
 - **Less to read.** Shared factories and mount helpers replace setup that used to be repeated in every file.
-- **Behaviour, not internals.** Fewer `wrapper.vm` reach-ins and class-name selectors, and fewer whole-module mocks.
-- **Fewer escape hatches.** Typed fixtures leave almost no casts, and there are far fewer manual flushes and sleeps.
+- **Behaviour, not internals.** Fewer `.vm` reach-ins into component instances, and fewer whole-module mocks.
+- **Fewer escape hatches.** Typed fixtures remove most casts. Manual promise flushes and real-time sleeps drop too.
 
-**Coverage held.** The number of `it(` calls in the source drops slightly, because copy-pasted cases became `it.each` tables, and a table counts once however many rows it runs. The executed counts recorded in each review note held or grew:
+**No tests were lost.** The executed-tests row comes from `vitest list` run at both refs. It counts every row of an `it.each` table, which is why it rises while the number of `it(` calls in the source falls slightly: copy-pasted cases became tables. The rise mostly splits existing checks into one test per row; it isn't new coverage. The number of `expect(` calls in the source falls about 8% for the same reason.
 
-| Test | Executed cases |
-| --- | --- |
-| `filterConversion` | 16 → 39 |
-| `collectionTypeDescription` | 9 → 18 |
-| `tool-version` | 14 → 21 |
-| `CollectionDescription` | 2 → 13 |
-| `SwitchToHistoryLink` | 7 → 12 |
-| `JsonDiffViewer` | 13 → 13 |
-| `canvasDraw` | 11 → 11 |
-
-**Stricter assertions find real problems.** In UserSharing, a truthy `emitted("cancel")` check became an exact `toEqual([[]])`. That exposed a second `cancel` event: the test's synthetic `GModal` emit had left the native dialog open. The test now clicks the real button through a shared `clickModalButton` helper.
+**Stricter assertions catch test defects.** In UserSharing, a truthy `emitted("cancel")` check became an exact `toEqual([[]])`. That exposed a second `cancel` event: the test's synthetic `GModal` emit had left the native dialog open. The test now clicks the real button through a shared `clickModalButton` helper.
 
 ## How this was generated (internal)
 
@@ -51,27 +43,37 @@ This rewrites only the block between the `case_metrics:lane1` markers. Don't han
 **What it compares.**
 - The script reads `~/projects/worktrees/galaxy/branch/vitest_readability` (override with `--repo`).
 - Before is `merge-base(origin/dev, jmchilton/vitest_readability)`; after is the pushed tip.
-- Test files are the changed `*.test.[jt]s(x)` files, read at both refs with `git show`, so nothing is checked out.
+- Test files are the changed `*.test.[jt]s(x)` files, following renames. The signals read them at both refs with `git show`.
+- Executed tests: `--update` adds a temporary `git worktree` for each ref, symlinks `node_modules` from the main worktree, and runs `vitest list --json` in `client/` and in the tool shed frontend. `vitest list` collects tests without running them. It takes about 3 minutes, and the worktrees are removed afterwards. The script refuses to run if `package.json`, the lockfile or the vitest config differ between the refs, because the shared `node_modules` would then be wrong.
 - "Δ with helpers" adds back every other changed file (helpers, fixtures, `client/README.md`), so the reductions can't hide in shared code.
 
 **Signals.** Each is a regex count over raw source, defined in `SIGNALS`:
 
 | Row | Matches | Caveat |
 | --- | --- | --- |
-| `wrapper.vm` | `.vm` | Any `.vm`, including ones on child wrappers |
-| Casts | `as any`, `as unknown` | Counts `as unknown as X` once |
-| Flush/sleep | `flushPromises(`, `setTimeout(`, `vi.advanceTimers` | `nextTick` isn't counted |
+| `.vm` reach-ins | `.vm` | Includes `findComponent(...).vm` and child wrappers, not just `wrapper.vm` |
+| Casts | `as any`, `as unknown`, `as never` | Counts `as unknown as X` once; `: any` annotations and `@ts-expect-error` aren't counted |
+| Flush/sleep | `flushPromises(`, `setTimeout(` | `nextTick`, `waitFor` and fake-timer calls aren't counted; fake timers are the preferred replacement for sleeps |
 | `vi.mock` | `vi.mock(`, `jest.mock(` | |
-| Class-name selectors | `find`/`findAll`/`get`/`querySelector(All)` with a literal leading `.` | Misses compound and variable selectors |
 | `eslint-disable` | Any directive | |
 
-**Why the table has no case or `expect` rows.** Static counts mislead: `parseBool` goes from 7 to 3 cases in the source but runs 13 tests instead of 7. The script still prints `cases`, `expects` and `.each tables` in its full output, and the drop tables there are the list to explain.
+**Left out of the pitch on purpose.** The class-name selector count (full output only) matches only literal strings. Most of its drop came from moving selectors into named constants, and once those are resolved the total is roughly flat (about 366 → 363 at `1e6d8358e8f`).
 
-**Executed counts** come from the review notes (`reviews/batchNN/<Test>.md`, the "Baseline and final" or "Cases N → N" line). They exist only for the originators; follow-through edits to other suites record pass/fail, not before/after counts. To add a row, take a file from the script's drop tables, find its note with `grep -l <Test> reviews/*/*.md`, and copy the counts.
+**Why there are no static case or `expect` rows.** Static counts mislead: `parseBool` goes from 7 to 3 cases in the source but runs 13 tests instead of 7. The script still prints `cases`, `expects` and `.each tables` in its full output, and the executed-tests row replaces them in the pitch.
+
+**Candidate measures.** Ranked by value for cost. Numbers marked "probe" are one-off counts from a review subagent at `af169c23ba9`; the script doesn't produce them yet.
+1. **Assertion precision.** Truthy checks against exact ones: probe `toBeTruthy`/`toBeFalsy` 274 → 86, `toEqual`/`toStrictEqual` 584 → 662, `toHaveBeenCalledWith`/`Times` 340 → 377. To report it, split `toBe(true|false)` from exact `toBe(x)`. Cheap: add to `SIGNALS`.
+2. **Reuse.** Probe: imports of `test-utils` 150 → 196, imports of `tests/test-data` 20 → 76, direct `mount`/`shallowMount` 348 → 203. Answers "does it use existing abstractions?" Cheap.
+3. **Production footprint.** No production files change; all 25 non-test files are helpers, fixtures or the README. Trivial: a generated line.
+4. **Branch-arm coverage per source file.** `vitest run --coverage` at both refs, diffing the `b[]` arms in `coverage-final.json`. Report arms gained and lost. A probe found one incidental loss: in `UserSharing.vue`, the falsy arm of `v-if="currentUser && isConfigLoaded"` is no longer reached, because the test now seeds the user before mounting and no test asserted on the empty state. Medium cost.
+5. **Mutation score on a stratified sample.** Stryker, or hand-written mutants as in PLAY_LOG, on 8–10 utils and composables at both refs. The only measure that shows assertions kept their strength. High cost.
+6. **Duplication.** `jscpd` over the changed tests plus helpers at both refs. Low to medium cost.
+7. **Runtime and shuffle stability.** Five shuffled seeds at both refs on the changed files. Probe on 19 files: wall time is flat (7.4s vs 6.8s). Medium cost; run serially.
+8. **Sliceability.** Probe: 247 commits, median churn 75 lines, p90 248. Trivial, from `git log --numstat`.
+9. **Test defects found.** Hand-tallied from the review notes: dead mocks, vacuous assertions, order dependence, synthetic-emit artifacts. Keep these separate from product bugs, which all came from the story and play lanes.
 
 **Gaps.**
-- Executed counts for every file, using `vitest list --project unit` at dev and at the tip. That needs a dev checkout with `node_modules`.
-- Wall time for the full `unit` suite, dev against the tip.
+- Wall time for the full suite, dev against the tip.
 - A count of lessons that made it into `client/README.md#client-side-unit-testing`.
 
 The lanes above readability (stories, play functions) are covered in [CASE_FOR_CONVERSION.md](CASE_FOR_CONVERSION.md).
