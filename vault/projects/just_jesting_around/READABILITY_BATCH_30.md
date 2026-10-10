@@ -26,3 +26,44 @@ Guidance: none yet (see above).
 22 cases across 4 suites pass, unchanged from baseline. Each commit's tests pass at that commit, shuffled with seed `300101`. Full client vue-tsc and the Tool Shed typecheck pass at the tip; ESLint, Prettier and hooks pass. [Independent review](reviews/batch30/review.md) approved all four commits, checking the three judgment calls (WorkflowRun clone, GModal buttons, v-model form) against `model.js` and `GModal.vue`.
 
 Commits: `7afd8fbfd23` (galaxyUi), `a931df53820` (JobMetrics), `cde495da54d` (UserSharing), `ff840147878` (WorkflowRun).
+
+## Later fold (2026-10-10)
+
+Two follow-ups were folded into this batch's commits, per the one-commit-per-test-file rule in `PIPELINE_BRANCHES.md`:
+- **UserSharing coverage.** A downstream agent found that the rewrite seeded the user before mount, so the falsy arm of `v-if="currentUser && isConfigLoaded"` never rendered. `UserSharing.vue` branch coverage fell from 55.17% to 54.02%. The driver confirmed both numbers. Two cases restore it (6 → 8): the no-user render, then the user loading, plus config not loaded. See [the review note](reviews/batch30/UserSharing.md).
+- **WorkflowRun store seed.** Batch 32 committed this fix separately; it now lives in the WorkflowRun commit.
+
+Lane 1 was rebased from `f43c5a1ce75` and pushed with a lease on `f324bca585c`. Every commit's tests pass at that commit, vue-tsc passes at the tip, and the tip diff against the old tip is only `UserSharing.test.ts`. The `Test-File` trailers are the stable identity. The SHAs recorded for batches 30–34 map as follows:
+
+| Old | New | Subject |
+| --- | --- | --- |
+| `cde495da54d` | `20f5d7741ef` | Improve readability of UserSharing tests |
+| `ff840147878` | `cb50245f8a0` | Improve readability of WorkflowRun tests (now includes `00b6f3f26de`) |
+| `85330e23a62` | `bac4285fd4f` | Extend src/components/BaseComponents/test-utils.ts for client unit tests |
+| `e2b83bdbe13` | `5ce47445678` | Improve readability of RenameModal tests |
+| `60d1cafba36` | `c92adacb25e` | Improve readability of UserDeletion tests |
+| `b9fe9d53604` | `1fff2313556` | Improve readability of WorkflowMissingToolsRequest tests |
+| `95cbb90c590` | `f2db2f576a1` | Improve readability of WorkflowInvocationShare tests |
+| `f8463741af2` | `b9017893852` | Document GModal clicks and Pinia store ids in client testing README |
+| `00b6f3f26de` | folded into `cb50245f8a0` | Fix user store seed in WorkflowRun tests |
+| `d8487c1f13a` | `3d56cf5f179` | Extend tests/test-data/index.ts for client unit tests |
+| `f9089bd0ed7` | `e19ef8d4f0e` | Improve readability of useCommandPalette tests |
+| `63064fcb2f2` | `727d9393fa2` | Improve readability of PermissionsInputField tests |
+| `f2df22ee269` | `9b9cd828bee` | Improve readability of historyNodeColor tests |
+| `1e6d8358e8f` | `aebc961231e` | Improve readability of ObjectStoreRestrictionSpan tests |
+| `366c441c3ba` | `467d787d3cc` | Improve readability of Masthead tests |
+| `c7f2f2babb1` | `3271f5c4de8` | Use user factories in ToolSuccess tests |
+| `64db7104fc7` | `0c87c5d0ee3` | Improve readability of QuotaForm tests |
+| `7ee3c9f5605` | `a69eac78bd4` | Use shared filter mock in RoleForm tests |
+| `de9a256d5fa` | `c2662bc8987` | Improve readability of floatingPosition tests |
+| `c7499806539` | `735728f4a66` | Improve readability of ChangePassword tests |
+| `af169c23ba9` | `893053492a0` | Use ref-backed config mock in client testing README example |
+| `783d3e03c7d` | `840a4f3e6d6` | Fix tests/vitest/mockConfig.js for client unit tests |
+| `16298061fde` | `129d04e7ab3` | Improve readability of QuotaMeter tests |
+| `86489dcbf6c` | `298c8ddd3d5` | Improve readability of GridList tests |
+| `22d1b41b3d8` | `b0e4e470630` | Improve readability of ToolCard tests |
+| `f324bca585c` | `f9113edf20c` | Improve readability of useRegistrationTarget tests |
+
+PR #24015's `jest_readability_batch_01` still points at the old `1e6d8358e8f`.
+
+Lesson: when a rewrite moves store seeding from after mount to before mount, keep a case for the pre-seed render if the template branches on it.

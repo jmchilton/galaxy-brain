@@ -11,6 +11,8 @@ Four originators drawn with seed `2610932` from 382 eligible entries, plus a fol
 | historyNodeColor | All 8 expectations are `it.each` rows. A lookup table replaces the nested-ternary mock, and the spy is now restored. New case: underscored states read dashed custom properties, matching `base.scss`; it fails without the production `replace`. [Review](reviews/batch32/historyNodeColor.md). | 4 → 9 |
 | ObjectStoreRestrictionSpan | Two-row `it.each`. `title` went from `toBeTruthy()` to a phrase unique to each state, and text is exact. Swapping the branches used to pass and now fails. [Review](reviews/batch32/ObjectStoreRestrictionSpan.md). | 2 → 2 |
 
+The WorkflowRun store-seed commit below was later folded into WorkflowRun's batch 30 commit, and every SHA from batch 30 on changed; see [the remap](READABILITY_BATCH_30.md#later-fold-2026-10-10).
+
 ## Reuse and follow-through
 
 **WorkflowRun store seed** (supporting fix, 6 → 6). Batch 31's lead was right: `initialState: { user }` never reached `userStore`. The "registered" cases passed only because a null user isn't anonymous. A probe confirmed it: an anonymous seed under the old key passes 6/6, and under `userStore` it fails 2/6. The seed now uses `getFakeRegisteredUser()`. [Review](reviews/batch32/WorkflowRun.md).
