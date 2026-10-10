@@ -1,0 +1,53 @@
+iteration: 25
+seed: 2610925
+inventory_sha256: 39aecfe7c0bc67a66a7985fbdeb35857b71a1d0a0f2f51cf08d09c90c77c67b5
+branch: vitest_readability
+base_commit: 93d683a17c22cd7b5127728fb606a371a0192904
+status: reviewed
+selection:
+- file: client/src/components/BaseComponents/GButton.test.ts
+- file: client/src/components/Workflow/Editor/modules/collectionTypeDescription.test.ts
+- file: client/src/components/ObjectStore/ConfigurationMarkdown.test.ts
+- file: client/src/components/providers/StoredWorkflowProvider.test.js
+baseline:
+  selected_cases: 37
+  selected_passed: 37
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/BaseComponents/test-utils.ts
+- client/src/components/BaseComponents/GLink.test.ts
+- client/src/components/BaseComponents/GToast.test.ts
+supporting_suites:
+- client/src/components/BaseComponents/GLink.test.ts
+- client/src/components/BaseComponents/GToast.test.ts
+helper_files:
+- client/src/components/BaseComponents/test-utils.ts
+documentation_files: []
+commits:
+- sha: 786e205027b70a8ba55d0b3b9e49076cbcc1639e
+  subject: Add src/components/BaseComponents/test-utils.ts for client unit tests
+- sha: d3461fac4858cdb93511e0958dec2ddbe18238da
+  subject: Improve readability of GButton tests
+- sha: 71bdcee710e6f3e1d42f757e23e27ca70def7577
+  subject: Improve readability of collectionTypeDescription tests
+- sha: 0273c0e19708e05334027b8b792690da79e7e7d3
+  subject: Improve readability of ConfigurationMarkdown tests
+- sha: 1577eab6dae3d7c47780fd2fbbed674078df6b76
+  subject: Improve readability of StoredWorkflowProvider tests
+validation:
+  passed_cases: 66
+  skipped_cases: 0
+  total_cases: 66
+  affected_suites: 6
+  selected_cases: 46
+  supporting_cases: 20
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved after GToast adoption folded into helper commit
+  shuffle_seed: 250101
+  test_environment: NODE_OPTIONS=--no-webstorage

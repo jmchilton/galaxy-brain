@@ -47,6 +47,7 @@
 - file: client/src/components/ActivityBar/ActivityItem.test.js
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
 - file: client/src/components/BaseComponents/GButton.test.ts
+  iterated: 1
 - file: client/src/components/Citation/CitationsList.test.ts
 - file: client/src/components/Citation/services.test.ts
   storified: skip
@@ -329,6 +330,7 @@
   split_commit: true
 - file: client/src/components/Notifications/NotificationsList.test.ts
 - file: client/src/components/ObjectStore/ConfigurationMarkdown.test.ts
+  iterated: 1
 - file: client/src/components/ObjectStore/DescribeObjectStore.test.js
 - file: client/src/components/ObjectStore/Instances/CreateForm.test.ts
   iterated: 1
@@ -563,6 +565,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/modules/collectionTypeDescription.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/modules/layout.test.ts
@@ -626,6 +629,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/providers/StoredWorkflowProvider.test.js
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/providers/utils.test.js
