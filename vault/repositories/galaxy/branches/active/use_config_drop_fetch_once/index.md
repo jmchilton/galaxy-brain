@@ -1,6 +1,6 @@
 # use_config_drop_fetch_once
 
-Status: `branches_implemented_needs_ci`. Base: `dev`.
+Status: `branches_need_polish`. Base: `dev`.
 
 Drops `useConfig`'s dead `fetchOnce` flag; every caller now retries config load on mount.
 
