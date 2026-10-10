@@ -49,11 +49,19 @@ SIGNALS = {
     "vi.mock": r"\b(?:vi|jest)\.mock\(",
     "casts": r"\bas (?:any|unknown|never)\b",
     "eslint-disable": r"eslint-disable",
+    "truthy checks": r"\.toBe(?:Truthy|Falsy)\(",
+    "exact equality": r"\.to(?:Strict)?Equal\(",
+    "test-data imports": r"from [\"']@tests/test-data",
+    "direct mounts": r"\b(?:shallowMount|mount)\(",
     "manual flush/sleep": r"\bflushPromises\(|\bsetTimeout\(",
 }
 COMPILED = {name: re.compile(rx, re.MULTILINE) for name, rx in SIGNALS.items()}
 PITCH_ROWS = {
     "lines": "Test lines",
+    "truthy checks": "`toBeTruthy`/`toBeFalsy` checks",
+    "exact equality": "Exact `toEqual`/`toStrictEqual` checks",
+    "test-data imports": "Imports of shared `@tests/test-data` fixtures",
+    "direct mounts": "Direct `mount`/`shallowMount` calls",
     "wrapper.vm": "`.vm` reach-ins",
     "casts": "`as any`/`as unknown`/`as never` casts",
     "manual flush/sleep": "`flushPromises`/`setTimeout` calls",
@@ -64,7 +72,17 @@ BLOCK = re.compile(
     r"(<!-- case_metrics:lane1:start -->\n).*?(<!-- case_metrics:lane1:end -->)",
     re.DOTALL,
 )
-GOOD = {"cases", ".each tables", "stories", "plays", "expects", "role/label queries"}
+GOOD = {
+    "cases",
+    ".each tables",
+    "stories",
+    "plays",
+    "expects",
+    "role/label queries",
+    "exact equality",
+    "test-data imports",
+    "direct mounts",
+}
 
 
 def git(repo, *args):

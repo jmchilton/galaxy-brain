@@ -10,6 +10,10 @@ Two sections - the pitch - a concise, empirical case for the vitest_readability 
 | --- | ---: | ---: | ---: | ---: |
 | Executed tests (`vitest list`) | 2,305 | 2,726 | +421 (+18%) | |
 | Test lines | 44,641 | 40,884 | −3,757 (−8%) | −3,260 (−7%) |
+| `toBeTruthy`/`toBeFalsy` checks | 274 | 86 | −188 (−69%) | −188 (−68%) |
+| Exact `toEqual`/`toStrictEqual` checks | 584 | 662 | +78 (+13%) | +78 (+13%) |
+| Imports of shared `@tests/test-data` fixtures | 19 | 75 | +56 (+295%) | +57 (+285%) |
+| Direct `mount`/`shallowMount` calls | 348 | 203 | −145 (−42%) | −144 (−41%) |
 | `.vm` reach-ins | 266 | 156 | −110 (−41%) | −108 (−40%) |
 | `as any`/`as unknown`/`as never` casts | 205 | 34 | −171 (−83%) | −171 (−83%) |
 | `flushPromises`/`setTimeout` calls | 609 | 399 | −210 (−34%) | −207 (−34%) |
@@ -22,7 +26,8 @@ Files that lost an executed test: 0 of 243; 66 gained tests and the rest kept th
 <!-- case_metrics:lane1:end -->
 
 What the numbers mean:
-- **Less to read.** Shared factories and mount helpers replace setup that used to be repeated in every file.
+- **Less to read, more reuse.** Shared `@tests/test-data` factories and per-component mount helpers replace setup that used to be repeated in every file.
+- **Stricter assertions.** Truthy/falsy checks give way to exact `toEqual`s.
 - **Behaviour, not internals.** Fewer `.vm` reach-ins into component instances, and fewer whole-module mocks.
 - **Fewer escape hatches.** Typed fixtures remove most casts. Manual promise flushes and real-time sleeps drop too.
 
@@ -56,21 +61,24 @@ This rewrites only the block between the `case_metrics:lane1` markers. Don't han
 | Flush/sleep | `flushPromises(`, `setTimeout(` | `nextTick`, `waitFor` and fake-timer calls aren't counted; fake timers are the preferred replacement for sleeps |
 | `vi.mock` | `vi.mock(`, `jest.mock(` | |
 | `eslint-disable` | Any directive | |
+| Truthy checks | `.toBeTruthy(`, `.toBeFalsy(` | `toBe(true)` and `toBeDefined` aren't counted |
+| Exact equality | `.toEqual(`, `.toStrictEqual(` | Doesn't separate exact objects from `expect.objectContaining` inside them |
+| Test-data imports | `from "@tests/test-data…"` | Alias only; local `test-utils` imports aren't counted |
+| Direct mounts | `mount(`, `shallowMount(` | A helper's one `mount(` shows up only in "Δ with helpers" |
 
 **Left out of the pitch on purpose.** The class-name selector count (full output only) matches only literal strings. Most of its drop came from moving selectors into named constants, and once those are resolved the total is roughly flat (about 366 → 363 at `1e6d8358e8f`).
 
 **Why there are no static case or `expect` rows.** Static counts mislead: `parseBool` goes from 7 to 3 cases in the source but runs 13 tests instead of 7. The script still prints `cases`, `expects` and `.each tables` in its full output, and the executed-tests row replaces them in the pitch.
 
 **Candidate measures.** Ranked by value for cost. Numbers marked "probe" are one-off counts from a review subagent at `af169c23ba9`; the script doesn't produce them yet.
-1. **Assertion precision.** Truthy checks against exact ones: probe `toBeTruthy`/`toBeFalsy` 274 → 86, `toEqual`/`toStrictEqual` 584 → 662, `toHaveBeenCalledWith`/`Times` 340 → 377. To report it, split `toBe(true|false)` from exact `toBe(x)`. Cheap: add to `SIGNALS`.
-2. **Reuse.** Probe: imports of `test-utils` 150 → 196, imports of `tests/test-data` 20 → 76, direct `mount`/`shallowMount` 348 → 203. Answers "does it use existing abstractions?" Cheap.
-3. **Production footprint.** No production files change; all 25 non-test files are helpers, fixtures or the README. Trivial: a generated line.
-4. **Branch-arm coverage per source file.** `vitest run --coverage` at both refs, diffing the `b[]` arms in `coverage-final.json`. Report arms gained and lost. A probe found one incidental loss: in `UserSharing.vue`, the falsy arm of `v-if="currentUser && isConfigLoaded"` is no longer reached, because the test now seeds the user before mounting and no test asserted on the empty state. Medium cost.
-5. **Mutation score on a stratified sample.** Stryker, or hand-written mutants as in PLAY_LOG, on 8–10 utils and composables at both refs. The only measure that shows assertions kept their strength. High cost.
-6. **Duplication.** `jscpd` over the changed tests plus helpers at both refs. Low to medium cost.
-7. **Runtime and shuffle stability.** Five shuffled seeds at both refs on the changed files. Probe on 19 files: wall time is flat (7.4s vs 6.8s). Medium cost; run serially.
-8. **Sliceability.** Probe: 247 commits, median churn 75 lines, p90 248. Trivial, from `git log --numstat`.
-9. **Test defects found.** Hand-tallied from the review notes: dead mocks, vacuous assertions, order dependence, synthetic-emit artifacts. Keep these separate from product bugs, which all came from the story and play lanes.
+1. **More precision and reuse.** Truthy checks, exact equality, test-data imports and direct mounts are already in the table. Candidates to add: `toBe(true|false)` split from exact `toBe(x)`, `toHaveBeenCalledWith`/`Times` (probe 340 → 377), and imports of local `test-utils` (probe 150 → 196).
+2. **Production footprint.** No production files change; all 25 non-test files are helpers, fixtures or the README. Trivial: a generated line.
+3. **Branch-arm coverage per source file.** `vitest run --coverage` at both refs, diffing the `b[]` arms in `coverage-final.json`. Report arms gained and lost. A probe found one incidental loss: in `UserSharing.vue`, the falsy arm of `v-if="currentUser && isConfigLoaded"` is no longer reached, because the test now seeds the user before mounting. A fix has been handed to the readability loop. Medium cost.
+4. **Mutation score on a stratified sample.** Stryker, or hand-written mutants as in PLAY_LOG, on 8–10 utils and composables at both refs. The only measure that shows assertions kept their strength. High cost.
+5. **Duplication.** `jscpd` over the changed tests plus helpers at both refs. Low to medium cost.
+6. **Runtime and shuffle stability.** Five shuffled seeds at both refs on the changed files. Probe on 19 files: wall time is flat (7.4s vs 6.8s). Medium cost; run serially.
+7. **Sliceability.** Probe: 247 commits, median churn 75 lines, p90 248. Trivial, from `git log --numstat`.
+8. **Test defects found.** Hand-tallied from the review notes: dead mocks, vacuous assertions, order dependence, synthetic-emit artifacts. Keep these separate from product bugs, which all came from the story and play lanes.
 
 **Gaps.**
 - Wall time for the full suite, dev against the tip.
