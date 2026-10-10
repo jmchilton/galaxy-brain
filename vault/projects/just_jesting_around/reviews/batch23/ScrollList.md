@@ -1,0 +1,15 @@
+# ScrollList
+
+Selected originator: `client/src/components/ScrollList/ScrollList.test.ts`. Baseline **6 tests**, final **8 tests**.
+
+The three describe-level `beforeEach` mounts and the shared module-level `testLoader`, with its optional `wrapper` parameter and global `expectedTotalItemCount`, are now one `mountScrollList` helper and two named arrangements. `mountWithLocalLoader` lets ScrollList keep the items itself. `mountWithStoreLoader` has the parent own `propItems`, the way a store would. Each mount gets its own loader spy and its own expected-count closure, so shuffled order can't leak call counts. The store-backed loader keeps the original external-change arithmetic exactly. Each test mounts its own wrapper, `enableAutoUnmount` cleans up, and `getLocalVue()` is called once per mount instead of twice.
+
+`scrollOnce` waited on a 10 ms `setTimeout` and silently did nothing if no callback had been captured. It is now `scrollToEnd(times)`. It awaits the promise the captured `useInfiniteScroll` callback returns, then calls `flushPromises()`, and it throws if ScrollList never registered a callback. The captured callback is reset before each test, because ScrollList's unmount registers a no-op that would otherwise stay in place. The Load More click also flushes promises instead of waiting a single `nextTick`. The two unbounded `while (count < TOTAL)` loops now scroll exactly `SCROLLS_TO_LOAD_ALL` times, which removes the risk of an endless loop.
+
+Preserved: every item count, loader call count and footer/progress text assertion survives. The long "loads items on scroll" case is split into "one page per scroll" and "stops once every item is loaded". The count/footer case is split into the in-progress counts plus Load More presence, and the all-loaded footer plus Load More absence plus `showCountInFooter`. Both store-backed cases are intact, including the `propItems` length checks and the before, during and after checks of the `adjustForTotalCountChanges` toggle. The prop-items-only case asserted `testLoader` was never called, but no loader was passed to that mount, so it could not fail. It is replaced by `emitted("load-more")` being undefined, which is how ScrollList asks for more items when it has no loader. Mutation sanity check: with `propTotalCount` set to one more than the supplied items, the new assertion fails with one `load-more` emission.
+
+Reuse: `getLocalVue`, `enableAutoUnmount` and `flushPromises`. No other client test mocks `useInfiniteScroll` or mounts ScrollList, so the scroll capture and mount helpers stay local. `mount` stays because Load More is exercised through the real GButton click. The `ScrollList as object` cast stays: without it vue-tsc infers the generic `T` as `Record<string, any>` and rejects the typed `itemKey`.
+
+Validation: 8 tests pass shuffled with seed `230101` (`NODE_OPTIONS=--no-webstorage`). Scoped ESLint (`--max-warnings 0`) and Prettier pass. Full client `vue-tsc --noEmit` passes.
+
+Guidance: none. The README's async section already covers awaiting returned promises and `flushPromises` over timed waits.

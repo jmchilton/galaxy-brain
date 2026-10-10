@@ -398,6 +398,7 @@
 - file: client/src/components/RuleBuilder/SavedRulesSelector.test.js
 - file: client/src/components/RuleCollectionBuilder.test.js
 - file: client/src/components/ScrollList/ScrollList.test.ts
+  iterated: 1
 - file: client/src/components/SelectionDialog/DatasetCollectionDialog.test.js
 - file: client/src/components/SelectionDialog/SelectionDialog.test.js
   iterated: 1

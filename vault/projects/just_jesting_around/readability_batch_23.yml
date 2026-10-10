@@ -1,0 +1,35 @@
+iteration: 23
+seed: 2610923
+inventory_sha256: 427a278520d91e98704c6445eac60a9ec6425463e06ee347b8b259125f5d98bc
+branch: vitest_readability
+base_commit: fc4b3dc90e21fb730d90032df0587c047935ee10
+status: reviewed
+selection:
+- file: client/src/components/ScrollList/ScrollList.test.ts
+baseline:
+  selected_cases: 6
+  selected_passed: 6
+  selected_skipped: 0
+  selected_suites: 1
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: f20a449d92d349c68d01bde0c1062df65af3ad32
+  subject: Improve readability of ScrollList tests
+validation:
+  passed_cases: 8
+  skipped_cases: 0
+  total_cases: 8
+  affected_suites: 1
+  selected_cases: 8
+  supporting_cases: 0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved
+  shuffle_seed: 230101
+  test_environment: NODE_OPTIONS=--no-webstorage
