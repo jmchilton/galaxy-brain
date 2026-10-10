@@ -11,15 +11,16 @@ Rebase `vitest_story_play` onto `jmchilton/vitest_stories`. The story lane rewri
 
 ## Select
 
-Pick the most recent (in lane commit order) test commit on `vitest_stories` whose `jest_tests.yml` entry has `storified: true` and no `storybook_play` field, and that has no play commit on the lane yet (one whose push was refused waits for the driver).
+Pick the most recent (in lane commit order, by each test's story commit, not its readability commit) test commit on `vitest_stories` whose `jest_tests.yml` entry has `storified: true` and no `storybook_play` field, and that has no play commit on the lane yet (one whose push was refused waits for the driver).
 
 ## Decide, case by case
 
 - **Move:** component behavior a user would perform and see, such as filling forms, clicking through dialogs and wizards, or visible results.
-- **Keep in vitest:** edge-case matrices, emitted-payload details, timing and logic, which read better as unit cases. A class selector that names a variant (`.alert-success`) is a variant check; rewriting it as a role query drops it, so it stays. A matrix that reads as one fill-in script (ExportForm's disabled states) may move as one play.
+- **Keep in vitest:** edge-case matrices, emitted-payload details, timing and logic, which read better as unit cases. A class selector that names a variant (`.alert-success`) is a variant check; rewriting it as a role query drops it, so it stays. A matrix that reads as one fill-in script (ExportForm's disabled states) may move as one play, reaching each row's state by its own path when the inputs are independent.
+- A class, id or attribute a browser test selects by (`client/src/utils/navigation/navigation.yml`) stays checked in vitest. One nothing selects by may be rewritten as a user-visible check.
 - **Don't measure layout:** no pixel sizes or computed styles. Those couple a play to global CSS; a class or prop check in vitest is enough. Waiting on layout (until a list can scroll) is fine.
 - **Negative checks** ("no extra fetch") need a positive sync point to wait on first, or they pass by racing; without one they stay in vitest.
-- A case may split: its user-visible assertions move and the rest stay. A check may end up in both places when each half needs it. A half left with only negative checks ("nothing sent") keeps a positive check that the action ran (the refusal alert), or it passes when nothing happens.
+- A case may split: its user-visible assertions move and the rest stay. A check may end up in both places when each half needs it. A half left with only negative checks ("nothing sent") keeps a positive check that the action ran (the refusal alert), or it passes when nothing happens. A kept payload check keeps the starting-state check that makes it meaningful.
 - Behavior that depends on the platform (cmd vs ctrl from the userAgent) stays; a play would pass on a Mac and fail in Linux CI.
 - A case stays when no user-visible check fails under its break (a `focus()` spy where the browser keeps focus anyway).
 - **Assertions:** a moved case keeps its assertions, rewritten as user-visible equivalents ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)).
