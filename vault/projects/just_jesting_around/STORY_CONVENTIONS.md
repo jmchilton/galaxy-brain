@@ -18,7 +18,16 @@ A list of handlers replaces the defaults. An `/api/` request with no handler fai
 the story, as it does in unit tests. Wrap a repeated handler in a small named
 function (`fileSources(plugins)`). Reuse existing test-data factories and handlers
 before writing payloads inline. A fixture and handler that several tests share sit
-beside their feature (`ObjectStore/test_fixtures.ts`).
+beside their feature (`ObjectStore/test_fixtures.ts`). A stories file exports only
+stories, so data the test also needs goes in `test_fixtures.ts` too, or the test
+repeats the literal it asserts on.
+
+The no-handler guard covers only `/api/`; a request elsewhere (`/user/change_password`)
+silently reaches the network, so give it a named handler. Give a search picker its
+search handler even when no test searches, or a viewer typing in it fails the story.
+Error stories answer with Galaxy's real error bodies (`err_code` and `err_msg`), each
+distinct, so a test mounting the wrong story fails. Handlers that refuse or save
+echo the request's fields rather than a fixed value.
 
 If the component needs a parent, such as one driving v-model, add a small harness
 component to the stories file (`FormDataWithModel`). When the parent's state change

@@ -7,6 +7,8 @@ Reuse the same branch and worktree for every iteration.
 Rebase `vitest_stories` onto `jmchilton/vitest_readability`. Commands are in [PIPELINE_BRANCHES.md](PIPELINE_BRANCHES.md#lanes).
 - Resolve conflicts so that both lanes' intent survives.
 - Don't select a test until the lane is green: from `client/`, with the pinned node and env, `git grep -l useStoryMount -- '*.test.*' | xargs pnpm exec vitest run --project unit` and the whole `--project storybook` pass, and `pnpm type-check` is clean. If neither the lane nor its base moved since the last green gate, skip it.
+- `git grep` sees only tracked files, so `git add -N` a new test before running the gate.
+- A new test's first run can take minutes while other sessions run vitest. Give it a long timeout or run it in the background; don't kill it, which orphans its workers.
 
 ## Select
 
@@ -39,7 +41,7 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 - Re-run the rebase gate, which now includes the converted test and its stories.
 - The render check only proves a story doesn't throw. For stories whose content is conditional, confirm each shows what it claims with throwaway play assertions, then remove them.
 - Run type-checking, lint and formatting.
-- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own. Re-run the checks after applying its fixes (the touched test and stories, lint and type-check are enough for small fixes), and ask for a second review if a fix changed what an assertion checks.
+- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own. Re-run the checks after applying its fixes (the touched test and stories, lint and type-check are enough for small fixes), and ask for a second review if a fix changed what an assertion checks. Tightening a reviewed check (`.alert` to `.alert-warning`) doesn't need one; changing a story's data or the message a check expects does.
 
 ## Record
 

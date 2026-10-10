@@ -6,12 +6,12 @@ Each test file moves through stacked branches ("lanes"). Each lane adds one kind
 
 Stack order, bottom to top:
 
-|   # | Branch                   | Adds                                                                                         | State                                                                                      |
-| --: | ------------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-|   1 | `vitest_readability`     | Readability and reuse rewrites ([READABILITY_LOOP_ITERATION.md](READABILITY_LOOP_ITERATION.md))| Per-test commits, split from `jest_readability_batch_01` ([prompt](REBASE_READABILITY.md)) |
-|   2 | `vitest_stories`         | Storybook and its Vitest browser project; test mounts composed stories with mocks            | Infra plus per-test commits; progress in [STORY_LOG.md](STORY_LOG.md)                     |
-|   3 | `vitest_story_play`      | Cases moved to `play` functions ([plan](plan_vitest_addon.md))                              | Per-test commits only; progress in [PLAY_LOG.md](PLAY_LOG.md)                              |
-|   4 | `vitest_real_api_calls`  | Real API responses replace hand-written mock payloads                                        | Not started                                                                                |
+|   # | Branch                  | Adds                                                                                            | State                                                                                      |
+| --: | ----------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+|   1 | `vitest_readability`    | Readability and reuse rewrites ([READABILITY_LOOP_ITERATION.md](READABILITY_LOOP_ITERATION.md)) | Per-test commits, split from `jest_readability_batch_01` ([prompt](REBASE_READABILITY.md)) |
+|   2 | `vitest_stories`        | Storybook and its Vitest browser project; test mounts composed stories with mocks               | Infra plus per-test commits; progress in [STORY_LOG.md](STORY_LOG.md)                      |
+|   3 | `vitest_story_play`     | Cases moved to `play` functions ([plan](plan_vitest_addon.md))                                  | Per-test commits only; progress in [PLAY_LOG.md](PLAY_LOG.md)                              |
+|   4 | `vitest_real_api_calls` | Real API responses replace hand-written mock payloads                                           | Not started                                                                                |
 
 Worktrees live under `~/projects/worktrees/galaxy/branch/`: `vitest_readability`, `storybook_prototype` (lane 2) and `storybook_interactions` (lane 3); the last two keep their old names until they're moved. Lanes push to the `jmchilton` remote.
 
@@ -47,8 +47,8 @@ CI runs only the `unit` project. Story render checks and play functions aren't i
 - For `storified: skip`, use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for): logic, stores, composables and API-client tests stay in happy-dom.
 - No `false` value: a missing field already means pending.
 - `storified: skip` is enough on its own. The play lane selects only `storified: true`, so it leaves `storybook_play` unset (the bulk row set both; that's harmless).
-- Shared-code commits may carry a `Test-File:` trailer for the test that motivated them. Selection skips a trailer whose commit doesn't touch that file.
-- A test file with no entry is new upstream. Any lane adds a bare `- file:` entry in sorted order, committed on its own.
+- Lane 1's shared-code commits may carry a `Test-File:` trailer for the test that motivated them. Selection skips a trailer whose commit doesn't touch that file. In lanes 2 and up, shared-code commits carry no trailer, so a fixup by trailer finds one commit.
+- A test file with no entry is new upstream. Any lane adds a bare `- file:` entry in sorted order, committed on its own. A lane adds its field to a bare entry on the line after `- file:`.
 - The ledger can run ahead of a pushed branch; select from what the pushed branch contains.
 
 ## Invariants
@@ -56,7 +56,7 @@ CI runs only the `unit` project. Story render checks and play functions aren't i
 - **One commit per test file per lane.** Each commit carries a `Test-File: <path>` trailer. The trailer survives rebases, so it's how workers find a test's commits, not the SHA. If the test already has a commit in the lane, fold new work into it (`git commit --fixup` then a non-interactive autosquash: `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash <base SHA you started from>`). Never autosquash onto a remote ref: another session's fetch can move it mid-iteration and silently replant the lane.
 - **Record the start.** Before rebasing, note your lane's remote SHA and the lower lane's SHA. They are your push lease and autosquash base, and you push on that base even if the lower lane moves mid-iteration; the next iteration picks the move up.
 - **Push plainly when you can.** If the rebase rewrote nothing, the push is a fast-forward and needs no force. Otherwise use `--force-with-lease=<branch>:<recorded remote SHA>`; a bare lease checks a remote-tracking ref that another session's fetch can move.
-- **The driver rebases when workers can't.** The auto-mode classifier refuses rebases and some pushes from worker agents, so the driver rebases each lane between batches, runs its gate and pushes; workers then skip the rebase, keep the whole batch on that base, and push fast-forwards only.
+- **The driver rebases when workers can't.** The auto-mode classifier refuses rebases and some pushes from worker agents, so the driver rebases each lane between batches, runs its gate and pushes; workers then skip the rebase, keep the whole batch on that base, and push fast-forwards only. If the lower lane rewrote itself (the old base isn't its ancestor), rebase `--onto` its tip from the old base, or the old base's commits replay.
 - **A blocked push stops the iteration.** If the push is refused, leave the ledger field unset, keep the log row and commits local, and report the exact push command to the driver.
 - **The ledger says what's ready.** A lane selects from the ledger field of the lane below, not from that lane's branch; a commit without its ledger write isn't done.
 - **Shared code is committed first.** Helpers, fixtures, mock handlers and story infra each go in their own commits, before the test commits that use them.
