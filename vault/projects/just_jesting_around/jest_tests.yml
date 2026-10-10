@@ -110,6 +110,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/CommandPalette/CommandPalette.test.ts
+  storified: true
 - file: client/src/components/CommandPalette/providers/actions.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/providers/categories.test.ts
