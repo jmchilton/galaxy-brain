@@ -36,7 +36,13 @@ is worth seeing, give the harness a visible control (`ScrollListWithStore`'s "Ad
 item" button) rather than an exposed method. List an exported harness in the meta's
 `excludeStories`, or it renders as a story. A harness several stories files share goes
 in the feature's `test_fixtures.ts` (`Collections/test_fixtures.ts`); a helper only
-unit tests share goes in its `test-utils.ts`, which stories never import. Slot content can come from an extra arg
+unit tests share goes in its `test-utils.ts`, which stories never import. A decorator or
+play helper used across features goes under `tests/test-data/` (`toasts.ts`), in its own
+commit, on first use when a queued test will clearly need it too.
+
+When an arg needs a type the prop doesn't declare (`null` for an untyped prop with a `""`
+default), type the meta `satisfies Meta<Args>` with `Args` overriding that prop, and
+`type Story = StoryObj<Args>` (`FormOptionalText.stories.ts`). Slot content can come from an extra arg
 that the story's `render` passes into the slot (`GButton.stories.ts`'s `label`).
 
 #### Tests Build on Stories
@@ -131,6 +137,14 @@ dialog stays open, wait for its `getAnimations()` to finish (`CommandPalette`).
 `t:` scope token) differs from a value set whole; `paste` what the unit test set
 whole. The browser project renders at 414px wide, so content hidden below a
 breakpoint stays in vitest.
+
+Show toasts with `withToasts` and check them with `seeToasts` (`tests/test-data/toasts.ts`):
+toasts share role `alert` with `GAlert`, so they're found within their region, and they
+dismiss themselves after 3s, so a "no toast" check runs at once after a positive wait.
+A component that renders off the main thread (`FormSelectMany`'s worker) can show stale DOM
+right after an action; follow it with an action whose result must include the earlier state.
+Where a list has no role or name, read it from its heading (`heading.parentElement`). A
+button can hold another `role=button` with the same name; click the outer one explicitly.
 
 A play's first wait on data a decorator loads gets a longer timeout
 (`{ timeout: 5000 }`); the 1s default flakes when the whole project runs.

@@ -19,7 +19,7 @@ Walk back from the tip of `vitest_readability` through its `Test-File:` trailers
 Decide whether the test should become stories. Use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for):
 - **Storify:** components whose setup (stores, API mocks, router, props) describes scenarios a person would want to look at.
   Props alone count when they produce visibly different states (QuotaUsageSummary: finite total vs unlimited). A form counts even when it's empty on mount, since play functions fill it.
-- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, wrappers whose only variation is a size or style passed to children, and components whose content comes from something Storybook doesn't serve (a visualization plugin's script). Tests outside `client/` (the tool shed frontend) have no Storybook yet.
+- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, wrappers whose only variation is a size or style passed to children, style-contract tests that mount several components minimally (`publicClasses`), and components whose content comes from something Storybook doesn't serve (a visualization plugin's script). Tests outside `client/` (the tool shed frontend) have no Storybook yet.
 
 When skipping, set `storified: skip` (only that field), log the reason, and end the iteration.
 
@@ -43,7 +43,7 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 - Re-run the rebase gate, which now includes the converted test and its stories.
 - The render check only proves a story doesn't throw. For stories whose content is conditional, confirm each shows what it claims with throwaway play assertions, then remove them.
 - Run type-checking, lint and formatting.
-- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own, and wait for its report before going on. Re-run the checks after applying its fixes (the touched test and stories, lint and type-check are enough for small fixes), and ask for a second review if a fix changed what an assertion checks. Tightening a reviewed check (`.alert` to `.alert-warning`) or a cosmetic data fix no assertion reads doesn't need one; changing data an assertion reads or the message a check expects does.
+- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own, and wait for its report before going on. Don't run the gate while a reviewer breaks files in the same worktree. Re-run the checks after applying its fixes (the touched test and stories, lint and type-check are enough for small fixes), and ask for a second review if a fix changed what an assertion checks. Tightening a reviewed check (`.alert` to `.alert-warning`) or a cosmetic data fix no assertion reads doesn't need one; changing data an assertion reads or the message a check expects does.
 
 ## Record
 

@@ -22,6 +22,7 @@ Run client commands from `client/` with the pinned node and `VITE_CONFIG_NATIVE_
 - `... pnpm exec eslint <files>` and `... pnpm exec prettier --check <files>`
 - zsh doesn't split a variable holding several paths; pipe through `xargs` instead.
 - macOS has no `timeout`; use the tool's own timeout or a background run.
+- Galaxy's pre-commit hook sets unstaged files aside in its own patch file while it runs; that isn't `git stash`.
 - To read a run's result, filter with `2>&1 | grep -E "Test Files|Tests |Errors|FAIL"` and check the exit code; an unhandled error fails the run while every test passes. For type-check, check the exit code.
 
 `jest_readability_batch_01` (one commit per iteration, draft PR #24015) is the historical source for lane 1. It's frozen and no longer receives work.
@@ -63,4 +64,4 @@ CI runs only the `unit` project. Story render checks and play functions aren't i
 - **Shared code is committed first.** Helpers, fixtures, mock handlers and story infra each go in their own commits, before the test commits that use them.
 - **Tests can enter mid-stack.** A test can be storified with no `iterated` count (FormData, FilesDialog and HistoryExportWizard already were). Lanes are a stacking order, not a gate every test must pass through.
 - **Lanes build on pushed tips.** A lane rebases onto the lane below's `jmchilton/` branch, never the local one. A driver pushes only after its iteration is validated and reviewed; until then it may amend freely.
-- **Downstream wins.** Once a lane above has changed a test, lanes below leave that file alone. If a shared helper changes below, the lanes above rebase and adapt. A lane may edit a lower lane's shared helper in its own shared-code commit, and keeps that edit through rebases.
+- **Downstream wins.** Once a lane above has changed a test, lanes below leave that file alone. If a shared helper changes below, the lanes above rebase and adapt. A lane may edit a lower lane's shared helper in its own shared-code commit, and keeps that edit through rebases. Folding a new shared fixture into a stories file a higher lane has changed is the driver's job; workers report it.

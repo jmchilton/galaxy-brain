@@ -16,7 +16,7 @@ Pick the most recent (in lane commit order, by each test's story commit, not its
 ## Decide, case by case
 
 - **Move:** component behavior a user would perform and see, such as filling forms, clicking through dialogs and wizards, or visible results.
-- **Keep in vitest:** edge-case matrices, emitted-payload details, timing and logic, which read better as unit cases. A class selector that names a variant (`.alert-success`) is a variant check; rewriting it as a role query drops it, so it stays. A matrix that reads as one fill-in script (ExportForm's disabled states) may move as one play, reaching each row's state by its own path when the inputs are independent.
+- **Keep in vitest:** edge-case matrices, emitted-payload details (including a click whose only result is a payload), timing and logic, which read better as unit cases. A class selector that names a variant (`.alert-success`) is a variant check; rewriting it as a role query drops it, so it stays. A matrix that reads as one fill-in script (ExportForm's disabled states) may move as one play, reaching each row's state by its own path when the inputs are independent.
 - A class, id or attribute a browser test selects by (`client/src/utils/navigation/navigation.yml`) stays checked in vitest. One nothing selects by may be rewritten as a user-visible check.
 - **Don't measure layout:** no pixel sizes or computed styles. Those couple a play to global CSS; a class or prop check in vitest is enough. Waiting on layout (until a list can scroll) is fine.
 - **Negative checks** ("no extra fetch") need a positive sync point to wait on first, or they pass by racing; without one they stay in vitest.
@@ -35,7 +35,7 @@ If no case moves, set `storybook_play: skip`, log the reason, and end the iterat
 - Remove the vitest case only after its play function passes. If every case moves, time the unit file first, then delete it; the commit keeps its `Test-File:` trailer.
 - If a user has to reveal content (expand a section, open a dialog), the play reveals it too and checks it was hidden before.
 - Before committing, show each play function fails for the right reason: break the behavior locally (restore only the file you broke, not your uncommitted plays), in the component or in a dependency the story runs for real but unit tests mock (`sanitizeHtml.ts`), and watch the play fail. A brand-new check only needs to fail under its break. For a strengthened check, pick a break that separates old from new (if the obvious one fails both, find a subtler one), and show the old check still passes under it (copy the old test to a sibling `<name>.old.test.<ext>`, run it, delete it; one run with every break applied together is enough). If the play commit changes the stories file in a way the old test depends on, point the copy at an old stories copy too; that copy must not end in `.stories.ts`, or Storybook indexes it and fails on the duplicate title.
-- New checks a play makes possible are welcome, including a new story whose data exposes a weak check (an all-off config next to all-on); log them as strengthening.
+- New checks a play makes possible are welcome, including a new story whose data exposes a weak check (an all-off config next to all-on); log them as strengthening. A story may also add data only to give a play something to wait on.
 
 If the strongest check would fail on a pre-existing component bug, don't fix the component in this lane: write the check to tolerate it, mark it in the play with a comment, and add the bug to [BUGS_FOUND.md](BUGS_FOUND.md).
 
