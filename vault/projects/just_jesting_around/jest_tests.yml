@@ -848,6 +848,7 @@
   storified: skip
 - file: client/src/components/Workflow/WorkflowAnnotation.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/Workflow/WorkflowExport.test.js
   iterated: 1
   split_commit: true
