@@ -44,8 +44,14 @@ still applies to story mounts.
 Don't call `setProps` on a composed story, because that remounts it. Change state
 through the harness instead. A check that a story can't express, such as a prop
 toggled on a live mount, stays as a plain mount in the test; never drop it. The
-plain mount can be the stories file's harness (`ScrollList.test.ts`); unmount it
-yourself, since `useStoryMount` only cleans up its own mounts.
+plain mount can be the stories file's harness or the component with a story's
+`args` (`ScrollList.test.ts`); unmount it yourself, since `useStoryMount` only
+cleans up its own mounts.
+
+A component that reads the config store when it's created needs the config set
+before it mounts: a decorator that calls `setConfiguration()`, plus a matching
+`configuration` handler (`InstallationSettings.stories.ts`). Storybook gives each
+story a fresh pinia.
 
 Stores, composables, utilities and API clients don't get stories.
 

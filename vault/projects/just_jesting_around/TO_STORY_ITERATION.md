@@ -27,6 +27,8 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 - Keep every original assertion. Splitting a case or strengthening a weak check is welcome (note it in the log); weakening or dropping one needs John's approval.
 - Reuse existing handlers, fixtures and story helpers before adding new ones.
 - Drop old setup the story mount replaces (`getLocalVue`, popover mocks) unless an assertion depends on it.
+- Cases or rows the conversion itself added may be dropped once another case covers them; original ones may not.
+- Keep the test's language; moving `.js` to TypeScript is separate work.
 
 If the conversion needs a Storybook change (preview, story-mount helper, shared mock handlers), commit that first, separately, and check that existing stories still render.
 
