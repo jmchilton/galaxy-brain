@@ -103,6 +103,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/common/useElementReconciliation.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/Collections/pairing.test.ts
   storified: skip
@@ -130,6 +131,7 @@
 - file: client/src/components/CommandPalette/providers/navigation.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/providers/refresh.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/reports.test.ts
   storified: skip
@@ -248,6 +250,7 @@
 - file: client/src/components/Form/Elements/FormRadio.test.js
 - file: client/src/components/Form/Elements/FormRulesEdit.test.ts
 - file: client/src/components/Form/Elements/FormSelect.test.js
+  iterated: 1
 - file: client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts
   iterated: 1
   split_commit: true
@@ -849,6 +852,7 @@
 - file: client/src/components/admin/JobsTable.test.ts
 - file: client/src/components/admin/Notifications/BroadcastForm.test.ts
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
+  iterated: 1
 - file: client/src/components/admin/Notifications/NotificationForm.test.ts
 - file: client/src/components/admin/Notifications/NotificationsManagement.test.ts
   iterated: 1

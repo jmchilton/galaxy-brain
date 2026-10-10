@@ -1,0 +1,45 @@
+iteration: 36
+seed: '2610936 (useElementReconciliation: follow-through from iteration 35)'
+inventory_sha256: f10c876948a384fcd8db60c651d497e9b7701e144fb2782d9ecf1372151dd81a
+branch: vitest_readability
+base_commit: 3c66a971847270917c7b249eaf4a4ba9dd75c5f8
+status: reviewed
+selection:
+- file: client/src/components/Collections/common/useElementReconciliation.test.ts
+- file: client/src/components/admin/Notifications/BroadcastsList.test.ts
+- file: client/src/components/Form/Elements/FormSelect.test.js
+- file: client/src/components/CommandPalette/providers/refresh.test.ts
+baseline:
+  selected_cases: 24
+  selected_passed: 24
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: 405fa12b46294cae56a3f67f302296645f45ac2a
+  subject: Improve readability of useElementReconciliation tests
+- sha: 35b03e3a9e0269da28161f1f033b429ed9d58eb4
+  subject: Improve readability of BroadcastsList tests
+- sha: 10aedd853d7419ffdd7e6925cb0ca20cbb4b4d1b
+  subject: Improve readability of FormSelect tests
+- sha: b46d3658d3cad216c5fe4838d0e509c19d8a0ac1
+  subject: Improve readability of refresh tests
+validation:
+  passed_cases: 31
+  skipped_cases: 0
+  total_cases: 31
+  affected_suites: 4
+  selected_cases: 31
+  supporting_cases: 0
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved (4/4 commits)
+  shuffle_seed: 360101
+  test_environment: NODE_OPTIONS=--no-webstorage
