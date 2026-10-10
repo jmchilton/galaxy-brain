@@ -1,0 +1,35 @@
+iteration: 20
+seed: 2610920
+inventory_sha256: 51b3dba564d9434f7ef124c226daa1f03afa635958bc3105784db231bf8821fa
+branch: vitest_readability
+base_commit: 4ffeac0f766ab75c3382349b663c0e94df6d27e9
+status: reviewed
+selection:
+- file: client/src/components/ObjectStore/ObjectStoreBadges.test.ts
+baseline:
+  selected_cases: 2
+  selected_passed: 2
+  selected_skipped: 0
+  selected_suites: 1
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: 87ff9d81cfcd9fe258e31ee74c15ba47a93b1b51
+  subject: Improve readability of ObjectStoreBadges tests
+validation:
+  passed_cases: 2
+  skipped_cases: 0
+  total_cases: 2
+  affected_suites: 1
+  selected_cases: 2
+  supporting_cases: 0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved
+  shuffle_seed: 200101
+  test_environment: NODE_OPTIONS=--no-webstorage

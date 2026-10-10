@@ -333,6 +333,7 @@
   split_commit: true
 - file: client/src/components/ObjectStore/ObjectStoreBadge.test.ts
 - file: client/src/components/ObjectStore/ObjectStoreBadges.test.ts
+  iterated: 1
 - file: client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js
 - file: client/src/components/ObjectStore/ShowSelectedObjectStore.test.js
 - file: client/src/components/ObjectStore/Templates/TemplateSummaryPopover.test.ts
