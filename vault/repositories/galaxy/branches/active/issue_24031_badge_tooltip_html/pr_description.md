@@ -4,33 +4,33 @@ Hovering a storage badge that has an admin `message` (the sample `object_store_c
 
 | | Before | After |
 | --- | --- | --- |
-| Tooltip | `This storage has been marked as routinely purged by the Galaxy administrator.`<br>`<p>The data stored here is purged after a month.</p>` ❌ | The stock sentence, then the message as its own paragraph, with Markdown bold and link styling rendered ✅ |
-| `aria-label` (screen readers) | The same string, tags included ❌ | `This storage has been marked as routinely purged by the Galaxy administrator. The data stored here is purged after a month.` ✅ |
+| What users see | `This storage has been marked as routinely purged by the Galaxy administrator.`<br>`<p>The data stored here is purged after a month.</p>` ❌ | A popover with the stock sentence, then the admin's message as its own paragraph, Markdown rendered ✅ |
+| Links in the message | Literal `<a href="…">…</a>` text ❌ | Real links you can click, or Tab to from the badge ✅ |
+| Screen readers | The whole string, tags included, as the badge's `aria-label` ❌ | The stock sentence names the badge; the message is the popover's content ✅ |
 
-![Storage badge tooltip rendering an admin Markdown message with bold text and a link](screenshots/badge-markdown.png)
+![The backed_up badge's popover on a dataset's details page, showing the admin message with an Archive Tier Storage link](screenshots/objectstore_badge_admin_message.png)
 
-***These captures come from a small Vite page that mounts this branch's real `ObjectStoreBadge.vue` and `v-g-tooltip` with Galaxy's CSS. The page heading and storage names around the badges are made up; it isn't a full Galaxy page.***
+<details><summary>About this screenshot</summary>
 
-<details><summary>More captures</summary>
-
-Stock message only, no admin message:
-
-![Storage badge tooltip with only the stock sentence](screenshots/badge-stock.png)
-
-An admin message with several paragraphs and a line break:
-
-![Storage badge tooltip with separate paragraphs and a line break](screenshots/badge-html-paragraphs.png)
+It comes from the extended `test_objectstore_selection.py` E2E test: a real Galaxy configured with the MSI sample object stores, on a dataset's details page, with the `backed_up` badge hovered.
 
 </details>
 
-This affects every badge with an admin message, wherever badges appear: storage pickers, dataset relocation, the history storage wizard, storage descriptions, and object store template and instance lists. The links in the message are styled but not clickable, as before this change, because the tooltip doesn't take pointer events.
+This affects every badge with an admin message: storage pickers, dataset relocation, the history storage wizard, storage descriptions, and object store template and instance lists.
 
-The fix has two parts:
+***This brings back what badges did before 25.0.*** Until #19521 the badge showed a popover that rendered the message through `ConfigurationMarkdown`. That PR moved it to a plain-text tooltip, which is where the tags and dead links came from. The badge now uses `GPopover` with `ConfigurationMarkdown` again:
 
-- **The badge** renders its tooltip as HTML. The stock sentence is escaped into its own `<p>`, and the admin's message is appended as the Markdown it already rendered. ***This doesn't give admins anything new: `markup()` already let a badge message carry raw HTML on dev, and dev just showed it as text. The HTML now goes through the directive's existing DOMPurify sanitizing for `.html` tooltips, so it can't inject script.***
-- **The shared `v-g-tooltip` directive**, in `.html` mode, now builds `aria-label` from the sanitized DOM's text instead of the raw HTML string, with a space at paragraph, line-break, list and table boundaries so sentences don't run together. ***Plain-text tooltips are unchanged; only 2 of about 290 `v-g-tooltip` uses are `.html`. The other is JobInformation's metadata help, where only the `error_level` text has markup, and its label loses its literal `</br>` tags the same way.***
+- ***Admin messages get the same `links` sanitizing as storage descriptions***, because they go through the same `ConfigurationMarkdown` component. Admins already author those descriptions in the same config file, so this doesn't give them anything new.
+- **Keyboard users can reach the links.** The badge is now a `<button>` named by its stock sentence. Hovering or focusing it opens the popover, and Tab moves into it.
+- ***Badges stay hover-only where a focusable popover can't work:*** inside dropdown options (the target storage pickers in the history storage wizard and selector) and inside other hover popovers (template summaries and the tool and workflow preferred-storage popovers). A new `interactive` prop on `ObjectStoreBadges` turns it off there.
 
-***`jsdom` is a test-only addition, used per file by the two changed test files because the global `sanitizeHtml` stub doesn't reach this code: the directive calls DOMPurify directly.*** Under happy-dom, DOMPurify drops the first `<p>` and keeps `<script>`, and happy-dom's own parser drops `</br>`, so these tests can't run there. jsdom 28.1.0 was already in the lockfile, and `packages/api-client`'s tests already run under it; the root `package.json` now declares it. The global vitest environment stays happy-dom.
+<details><summary>The shared tooltip directive's screen-reader labels</summary>
+
+#24031 also covers the label side: in `.html` mode `v-g-tooltip` copied the raw HTML string into `aria-label`. The badge no longer uses the directive, but JobInformation's metadata help still does, so the directive now builds the label from the sanitized DOM's text. It puts a space at paragraph, line-break, list and table boundaries so sentences don't run together. Plain-text tooltips are unchanged. JobInformation's `error_level` help now uses `<br>` instead of the invalid `</br>`.
+
+The directive's unit tests stub DOMPurify with a pass-through, the way the global `sanitizeHtml` mock already works for other unit tests, because DOMPurify misbehaves under happy-dom. ***No new dependency: an earlier version of this branch added jsdom for these tests, and that is gone.***
+
+</details>
 
 ## Risks
 
@@ -38,47 +38,44 @@ Risks are minimal - this change doesn't lock Galaxy into particular difficult to
 
 ## Context
 
-Regression from 🔀 #19521 (25.0), which swapped the badge's popover, which rendered the message through `ConfigurationMarkdown`, for a plain-text tooltip. Found while writing Storybook play tests for `ObjectStoreBadges` on 🌿[vitest_story_play](https://github.com/jmchilton/galaxy/tree/vitest_story_play).
+Regression from 🔀 #19521 (25.0). Found while writing Storybook play tests for `ObjectStoreBadges` on 🌿[vitest_story_play](https://github.com/jmchilton/galaxy/tree/vitest_story_play).
 
 ## Agentic Checks
 
 ### ✅ [Scope Evaluation](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md)
 
-<details><summary>Keep the scope: fix the badge and the shared directive's HTML labels together.</summary>
+<details><summary>Evaluated the earlier tooltip version; the popover, `links` sanitizing and E2E test were added afterwards.</summary>
 
-- Plain-text badge messages were rejected. They drop the Markdown bold and links the sample config uses, and leave the directive's HTML labels broken.
-- A badge-only label workaround was rejected. It duplicates label extraction outside the directive and leaves JobInformation's label with literal tags.
-- A general HTML-to-accessible-text policy plus full object-store Selenium coverage was left for separate work. It adds infrastructure for behaviour the component and directive tests already exercise.
+- It recommended fixing the badge and the shared directive's labels together, which this PR still does.
+- A badge-only label workaround was rejected: it would duplicate label extraction and leave JobInformation's label with literal tags.
+- It left full object store Selenium coverage and a stricter sanitizing policy for later. Both are now in this PR.
 
 </details>
 
 ### ✅ [Cursor's Thermo Nuclear Review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md)
 
-<details><summary>No blocking structural or maintainability problems.</summary>
+<details><summary>No blocking problems in the directive change; it predates the popover.</summary>
 
-- The directive owns HTML label extraction; the badge just opts into the existing `.html` mode.
-- A general HTML-to-text utility and a recursive DOM walker were both considered and rejected as abstraction without a second owner. Cloning the sanitized DOM and spacing a fixed set of block boundaries is shorter and easier to audit, and never touches the displayed tooltip.
-- Production changes are 18 lines added and 4 removed across two files.
+- The directive owns HTML label extraction.
+- A general HTML-to-text utility and a recursive DOM walker were rejected as abstraction without a second owner. Cloning the sanitized DOM and spacing a fixed set of block boundaries is shorter and never touches the displayed tooltip.
 
 </details>
 
 ### ✅ [John's Galaxy Test Challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md)
 
-<details><summary>All added tests are meaningful; none removed or weakened.</summary>
+<details><summary>The earlier tests were meaningful and kept; the E2E gap it noted is now closed.</summary>
 
-- The badge tests mount the real component with the real directive and sanitizer, hover, and check the rendered tooltip DOM and exact `aria-label`.
-- The directive tests go through a mounted component and never call the label helper directly. They cover paragraphs, line breaks, lists, entities, reactive updates, empty content and unchanged text mode.
-- Stubbing the directive would reproduce the blind spot that let this bug through, so `mount` is justified.
-- Extending `test_objectstore_selection.py` to hover a custom badge was considered. It needs a built client and integration server for a component-level rendering bug, so it wasn't added.
+- Component tests mount the real badge and check the rendered DOM; directive tests go through a mounted component and never call the label helper.
+- It noted `test_objectstore_selection.py` only checked that badges existed. That test now hovers the `backed_up` badge and checks the message and link.
 
 </details>
 
 ## John's Checklist
 
 - [ ] Did a human read every test and every comment? (Requires human author to check)
-- [x] What does the user see when it fails? Admin markup that DOMPurify strips simply doesn't appear; the escaped stock sentence always remains, so the badge still has a tooltip and a name.
+- [x] What does the user see when it fails? Markup the `links` sanitizer strips just doesn't appear; the stock sentence always shows, so every badge keeps a popover and a name.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. They assert the rendered tooltip DOM and the exact `aria-label`, never the label helper's boundary logic.
+- [x] Are unit tests not just testing the literal implementation? Yes. They hover the badge and check the rendered popover, its role and its ARIA wiring, not the component's internals.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 
@@ -87,9 +84,10 @@ Regression from 🔀 #19521 (25.0), which swapped the badge's popover, which ren
 
 <details><summary>Tests run</summary>
 
-- With dev's `ObjectStoreBadge.vue` and `vGTooltip.ts`, 6 of the 8 new tests fail at the bug's assertions (raw tags in `aria-label`, message not rendered as HTML). The other two guard behaviour that was already right: the stock-only badge test (it fails on dev only because it expects the new `<p>` wrapper) and the text-mode directive test (passes on dev).
-- `ObjectStoreBadge`, `ObjectStoreBadges`, `vGTooltip` and `configurationMarkdown` suites: 30 tests pass on the pinned Node 22.20.0.
-- eslint, prettier and the shared UI package type-check are clean.
+- `test_objectstore_selection.py::test_0_tools_to_default` passes locally on both the Playwright and Selenium backends.
+- With dev's `vGTooltip.ts`, the four new directive label tests fail at their `aria-label` assertions.
+- Client suites for ObjectStore, History, ConfigTemplates, Tool, Workflow/Run, JobInformation, DatasetStorage, FileSources and the directives: 585 tests pass on the pinned Node 22.20.0.
+- eslint, prettier and `vue-tsc` are clean.
 
 </details>
 

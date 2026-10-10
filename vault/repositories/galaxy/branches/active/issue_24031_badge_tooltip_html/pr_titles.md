@@ -1,4 +1,4 @@
-- Fix storage badge tooltips showing admin messages as literal HTML
-- Render storage badge messages as Markdown and give HTML tooltips readable labels
-- Fix literal HTML in storage badge tooltips and HTML tooltip accessible names
-- Show storage badge admin messages as formatted text, not raw HTML
+- Fix storage badge messages showing as literal HTML; restore their clickable popover
+- Show storage badge admin messages in a popover with working links
+- Restore storage badge popovers so admin messages render as Markdown with links
+- Fix literal HTML in storage badge messages and HTML tooltip labels

@@ -24,3 +24,32 @@ Polished 2026-10-10. Branch now at `1a0b0fa24e6` (one polish commit on top of `7
     - Restore an interactive popover so admin links are clickable again (they were before 25.0)?
     - Tighten `vitest_story_play`'s tag-tolerant tooltip regex once this merges?
     - JobInformation's `aria-label` overrides the span's visible text. That predates this branch.
+
+## Second pass: approved scope additions (2026-10-10)
+
+John approved three additions after the first polish:
+1. `links` sanitizing for badge messages.
+2. Clickable links via a popover.
+3. An E2E hover check.
+
+For jsdom he said "IF we can drop a dependency … remove the dependency", which I read as keep the directive fix but drop jsdom.
+
+- **Commits:**
+  - `a3147d22149`: popover, `links` sanitizing, `interactive` prop, jsdom dropped, E2E test.
+  - `ac407009418`: E2E test finds the popover through its trigger's `aria-controls`.
+  - `54f50d01d3a`: E2E test saves a screenshot.
+  - `25c077e8323`: the popover gets an accessible name, and badges inside hover popovers are non-interactive.
+- **Rerunning the checklist** found two failures, both fixed in `25c077e8323`:
+  - The dialog popover had no accessible name.
+  - Badges in `TemplateSummary` and `ShowSelectedObjectStore` would have nested an interactive popover inside a hover popover.
+  - It also suggested ARIA assertions, the default cursor and a comment rewording; all done.
+- **Verification:**
+  - The E2E test passes on both Playwright and Selenium against a client built from `25c077e8323`.
+  - 585 client tests pass, and eslint, prettier and vue-tsc are clean.
+  - The worktree was bootstrapped for this (`.venv`, built client).
+- **Description** rewritten for the popover version. The hero screenshot now comes from the E2E test on a real Galaxy page; the harness captures are obsolete. The Agentic Checks entries note that those reviews covered the earlier tooltip version.
+- **Not repeated:** the strengthening round. POLISH_BRANCH allows only one.
+- **Still open:**
+  - A "before" screenshot.
+  - Tightening `vitest_story_play`'s tooltip regex.
+  - JobInformation's `aria-label` overriding visible text, which predates this branch.
