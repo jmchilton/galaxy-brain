@@ -76,6 +76,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#23983](https://github.com/galaxyproject/galaxy/issues/23983) — TEMP SSE/notification overrides left in E2E workflows; two are dead keys; next: revert PR (coordinate with #23976). [notes](../../repositories/galaxy/issues/queued/23983/index.md)
 - [#24031](https://github.com/galaxyproject/galaxy/issues/24031) — storage badge tooltips and `.html` tooltip `aria-label`s show literal HTML tags; next: badge `.html` + directive label fix, red vitest. [notes](../../repositories/galaxy/issues/queued/24031/index.md)
 - [#24035](https://github.com/galaxyproject/galaxy/issues/24035) — nested `GTooltip` text joins `GButton`/`GLink` accessible names; next: shared relocate composable from `GPopover`, red vitest. [notes](../../repositories/galaxy/issues/queued/24035/index.md)
+- [#24036](https://github.com/galaxyproject/galaxy/issues/24036) — collapsible `Heading` toggle button has no accessible name or `aria-expanded`; next: `useUid` id + `aria-labelledby`/`aria-expanded`, red vitest. [notes](../../repositories/galaxy/issues/queued/24036/index.md)
 
 
 ## Blocked on others (`blocked`)
