@@ -868,6 +868,7 @@
 - file: client/src/components/admin/ResetUserPasswordForm.test.ts
 - file: client/src/components/admin/RoleForm.test.ts
   storified: true
+  storybook_play: true
 - file: client/src/components/admin/UserRolesGroupsForm.test.ts
 - file: client/src/components/providers/InvocationsProvider.test.js
   iterated: 1
