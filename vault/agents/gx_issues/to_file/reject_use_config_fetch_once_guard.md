@@ -14,6 +14,10 @@ Prepared 2026-10-09. Source: `vault/projects/just_jesting_around/BUGS_FOUND.md`,
 - The story lane noted the store's own load at creation (see STORY_LOG InstallationSettings row), so its config decorator workaround is still correct.
 - No duplicate issue (searched "isConfigLoaded", "useConfig fetchOnce").
 
+## Outcome
+
+John asked for a cleanup branch rather than an issue (2026-10-09): [`use_config_drop_fetch_once`](../../../repositories/galaxy/branches/active/use_config_drop_fetch_once/index.md) drops the parameter.
+
 ## Recommendation
 
 Don't file this as an issue. At most it is a cleanup PR: drop the `fetchOnce` parameter and update its 20 callers to `useConfig()`, or change the guard to `isConfigLoaded.value`. Either way, nothing users see changes, apart from the retry-after-failure edge case. The BUGS_FOUND row should be corrected to "dead guard; store self-loads", not "never loads config".
