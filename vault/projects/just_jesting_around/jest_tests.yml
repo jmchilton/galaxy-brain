@@ -13,6 +13,7 @@
 - file: client/packages/ui/src/components/GTable.test.ts
 - file: client/packages/ui/src/components/vModelContract.test.ts
 - file: client/packages/ui/src/composables/floatingPosition.test.ts
+  iterated: 1
   storified: skip
 - file: client/packages/ui/src/composables/toastHost.test.ts
   storified: skip
@@ -413,6 +414,7 @@
   iterated: 1
 - file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.ts
 - file: client/src/components/Login/ChangePassword.test.ts
+  iterated: 1
 - file: client/src/components/Login/LoginForm.test.ts
 - file: client/src/components/Login/LoginIndex.test.js
 - file: client/src/components/Login/NewUserConfirmation.test.ts
@@ -454,6 +456,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Masthead/Masthead.test.js
+  iterated: 1
 - file: client/src/components/Masthead/MastheadDropdown.test.ts
 - file: client/src/components/Masthead/QuotaMeter.test.ts
 - file: client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts
@@ -834,6 +837,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/admin/QuotaForm.test.ts
+  iterated: 1
 - file: client/src/components/admin/ResetUserPasswordForm.test.ts
 - file: client/src/components/admin/RoleForm.test.ts
 - file: client/src/components/admin/UserRolesGroupsForm.test.ts

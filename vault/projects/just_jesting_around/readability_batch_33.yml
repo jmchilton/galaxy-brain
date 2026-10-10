@@ -1,0 +1,57 @@
+iteration: 33
+seed: '2610933 (Masthead: follow-through from iteration 32)'
+inventory_sha256: 9614c8c88817c6a5974b866068ece44341677e82e39d14be45bebaae9c2cec67
+branch: vitest_readability
+base_commit: 1e6d8358e8f9c9f67cf3243e61cc7348afb44225
+status: reviewed
+selection:
+- file: client/src/components/Masthead/Masthead.test.js
+- file: client/src/components/admin/QuotaForm.test.ts
+- file: client/packages/ui/src/composables/floatingPosition.test.ts
+- file: client/src/components/Login/ChangePassword.test.ts
+baseline:
+  selected_cases: 36
+  selected_passed: 36
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/Tool/ToolSuccess.test.ts
+- client/src/components/admin/RoleForm.test.ts
+supporting_suites:
+- client/src/components/Tool/ToolSuccess.test.ts
+- client/src/components/admin/RoleForm.test.ts
+helper_files: []
+documentation_files:
+- client/README.md
+commits:
+- sha: 366c441c3ba671932721b949d1e8b3aa7a30afd6
+  subject: Improve readability of Masthead tests
+- sha: c7f2f2babb1b30abc209de6ebcd719abed671f4a
+  subject: Use user factories in ToolSuccess tests
+- sha: 64db7104fc740f647295fbc133a6d425ad97035d
+  subject: Improve readability of QuotaForm tests
+- sha: 7ee3c9f5605cfd13580026aa88a45273f086ff6d
+  subject: Use shared filter mock in RoleForm tests
+- sha: de9a256d5fa871c5b4b92a1b85bf2a7fb275f9ff
+  subject: Improve readability of floatingPosition tests
+- sha: c74998065396b98584b15263d819977be9fd3b92
+  subject: Improve readability of ChangePassword tests
+- sha: af169c23ba997d9316dfd78453283f7af0e27861
+  subject: Use ref-backed config mock in client testing README example
+validation:
+  passed_cases: 55
+  skipped_cases: 0
+  total_cases: 55
+  affected_suites: 6
+  selected_cases: 39
+  supporting_cases: 16
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  galaxy_ui_type_check: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved (6/6 test commits); README commit by driver
+  shuffle_seed: 330101
+  test_environment: NODE_OPTIONS=--no-webstorage
