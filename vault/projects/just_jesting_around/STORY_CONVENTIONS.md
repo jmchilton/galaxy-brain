@@ -86,4 +86,10 @@ requests, such as opening a dialog, that story adds handlers for them. Clicking 
 
 `GButton` disables with `aria-disabled` only, so `toBeEnabled()` always passes on
 it. Assert `toHaveAttribute("aria-disabled", "true")` and that clicking it calls
-nothing.
+nothing. `GTooltip` stays in the DOM and hides with `sr-only`, so `toBeVisible()`
+passes either way; check the `sr-only` class, the one class check allowed. Wrap
+hover-delayed or re-rendered results in `waitFor`. `toHaveAccessibleDescription`
+picks up a native `title`.
+
+A harness that forwards listeners through `attrs` needs `compatConfig: { MODE: 3 }`,
+or compat mode drops them (`GButton.stories.ts`'s `ClickableRow`).
