@@ -14,7 +14,7 @@ John finds the client unit tests hard to hold in context: long files, mostly per
 
 ## Done
 
-Base: `vitest_readability` (rebased 2026-10-09). Commits: `6b0a3a4f00c` infra, then FormData `11d2cdf59c3`, FilesDialog `0e4adfe73cb`, HistoryExportWizard `e658b309bce`. Unmocked `/api/` requests fail stories; `useStoryMount` options are typed (see [infra review](infra_review.md#resolved)). The one rebase conflict (HistoryExportWizard.test.ts) kept the storified test; readability's `getFakeFileSource` adoption moved into its stories. [Infra review](infra_review.md). The sections below describe the original prototype commits.
+Base: `vitest_readability`. Infra commit `61f27ee52ad` (2026-10-09) now also carries the Vitest browser project from [vitest_story_play](../vitest_story_play/index.md) and per-test unmounting in `useStoryMount`; per-test commits follow (progress in [STORY_LOG](../../../../../projects/just_jesting_around/STORY_LOG.md)). Unmocked `/api/` requests fail stories; `useStoryMount` options are typed (see [infra review](infra_review.md#resolved)). The one rebase conflict (HistoryExportWizard.test.ts) kept the storified test; readability's `getFakeFileSource` adoption moved into its stories. [Infra review](infra_review.md). The sections below describe the original prototype commits.
 
 Original `54d6b535b92`: Storybook 10.6 (`@storybook/vue3-vite`) plus `msw-storybook-addon` 3 on the client, with FormData as the first component.
 

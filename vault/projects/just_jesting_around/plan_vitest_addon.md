@@ -28,7 +28,7 @@ Mixed mode is out of scope: the existing suite depends on Node-side shims (the t
 
 ## Experiment
 
-1. Done on `vitest_story_play` (infra `b4b0c93a433`): the `unit`/`storybook` split, 26 stories plus one play function (HistoryExportWizard `ExportsDirectDownload`) pass in Chromium. The optional `browser` project isn't added yet. See the [branch record](../../repositories/galaxy/branches/active/vitest_story_play/index.md).
+1. Done; the infra now lives in `vitest_stories`' infra commit: the `unit`/`storybook` split, 26 stories plus one play function (HistoryExportWizard `ExportsDirectDownload`) pass in Chromium. The optional `browser` project isn't added yet. See the [branch record](../../repositories/galaxy/branches/active/vitest_story_play/index.md).
 2. Move 3–4 FormData tests to `play` functions: multiple datasets, linked/unlinked batch mode, and the drag-and-drop rejections. Use `onInput: fn()` args instead of `wrapper.emitted()`, and role/title/text queries instead of `.multiselect__*` classes.
 3. Measure wall time against the happy-dom run of the same cases.
 4. Check whether the compat deprecation console error fails the render smoke test for every story.

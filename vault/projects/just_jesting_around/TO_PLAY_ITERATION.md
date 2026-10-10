@@ -29,7 +29,7 @@ If no case moves, set `storybook_play: skip`, log the reason, and end the iterat
 - Remove the vitest case only after its play function passes.
 - Before committing, show each play function fails for the right reason, for example by breaking one expectation locally.
 
-If the conversion needs a browser-project change (the vitest storybook config, the setup file, or how browser mocks are wired), commit that first, separately, and check that every story still passes.
+Storybook and browser-project infra lives in `vitest_stories`. If the conversion needs a change there, stop and report it to the driver.
 
 ## Validate
 

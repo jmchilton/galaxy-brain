@@ -11,9 +11,9 @@ Worktree: `~/projects/worktrees/galaxy/branch/storybook_interactions` (`git work
 
 ## Done
 
-Commits (rebased onto `vitest_stories` 2026-10-09): `b4b0c93a433` infra, then HistoryExportWizard play `5b045ee5f7c`. At the tip: unit 564 files / 4682 tests, browser 27/27, `vue-tsc` clean. [Infra review](../vitest_stories/infra_review.md).
+2026-10-09: the browser-project infra moved down into `vitest_stories`' infra commit, so this lane holds only play commits, one per test (progress in [PLAY_LOG](../../../../../projects/just_jesting_around/PLAY_LOG.md)). Tip `47cb8ba80ae` (HistoryExportWizard, 12 of 14 cases as plays): browser 34/34. [Infra review](../vitest_stories/infra_review.md).
 
-Infra: Storybook's Vitest addon plus browser mode.
+Infra (originally `b4b0c93a433` here, now in `vitest_stories`): Storybook's Vitest addon plus browser mode.
 
 - `vitest.config.mts` has `test.projects`: `unit`, which is the existing happy-dom config unchanged (`extends: true`), and `./vitest.storybook.config.mts`.
 - `vitest.storybook.config.mts` builds on `vite.config.mjs` instead of the unit config: none of the unit config's test-only aliases or mocks apply in the browser. It adds `storybookTest()`, `@vitest/browser-playwright` with headless Chromium (the separate `vitest.setup.ts` was removed in the polish).

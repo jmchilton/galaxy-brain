@@ -13,7 +13,8 @@ answer the requests every page makes, and a story replaces one by using its name
 A list of handlers replaces the defaults. An `/api/` request with no handler fails
 the story, as it does in unit tests. Wrap a repeated handler in a small named
 function (`fileSources(plugins)`). Reuse existing test-data factories and handlers
-before writing payloads inline.
+before writing payloads inline. A fixture and handler that several tests share sit
+beside their feature (`ObjectStore/test_fixtures.ts`).
 
 If the component needs a parent, such as one driving v-model, add a small harness
 component to the stories file (`FormDataWithModel`).

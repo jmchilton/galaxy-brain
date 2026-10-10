@@ -6,7 +6,7 @@ Reuse the same branch and worktree for every iteration.
 
 Rebase `vitest_stories` onto `jmchilton/vitest_readability`.
 - Resolve conflicts so that both lanes' intent survives.
-- Don't select a test until the lane is green: every story-backed test (`git grep -l useStoryMount -- '*.test.*'`) passes and `vue-tsc` is clean.
+- Don't select a test until the lane is green: from `client/`, `git grep -l useStoryMount -- '*.test.*' | xargs pnpm exec vitest run --project unit` and `--project storybook` pass, and `pnpm type-check` is clean.
 
 ## Select
 
@@ -26,19 +26,20 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 - Follow [STORY_CONVENTIONS.md](STORY_CONVENTIONS.md). FormData, FilesDialog and HistoryExportWizard are the reference conversions.
 - Keep every original assertion. Splitting a case or strengthening a weak check is welcome (note it in the log); weakening or dropping one needs John's approval.
 - Reuse existing handlers, fixtures and story helpers before adding new ones.
+- Drop old setup the story mount replaces (`getLocalVue`, popover mocks) unless an assertion depends on it.
 
 If the conversion needs a Storybook change (preview, story-mount helper, shared mock handlers), commit that first, separately, and check that existing stories still render.
 
 ## Validate
 
-- Run the converted test with `vitest run` (this lane has no projects yet).
-- Render its stories in the `storybook` browser project, which lives on `vitest_story_play`. Cherry-pick the commit into a disposable worktree cut from that branch, give it its own `pnpm install --frozen-lockfile --offline` (a symlinked `node_modules` doesn't work), run `--project storybook`, then remove the worktree.
+- Run the converted test in the `unit` project.
+- Render its stories in the `storybook` browser project.
 - Run type-checking, lint and formatting.
-- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own.
+- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own. Re-run the checks after applying its fixes.
 
 ## Record
 
-- Commit the test and its stories together, with a `Test-File: <path>` trailer. Push the lane once validation and review pass.
+- Commit the test and its stories together, with a `Test-File: <path>` trailer. Push the lane once validation and review pass, with `--force-with-lease` since the rebase rewrites it.
 - Set `storified: true` in `jest_tests.yml`, and change no other field.
 - Append a row to [STORY_LOG.md](STORY_LOG.md) with the test, the decision, the reason and the line counts before and after.
 - Put pattern lessons in the row too. The driver decides whether a recurring lesson belongs in client testing guidance.
