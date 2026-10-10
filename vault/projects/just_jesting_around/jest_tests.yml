@@ -802,6 +802,7 @@
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
   iterated: 1
   storified: true
