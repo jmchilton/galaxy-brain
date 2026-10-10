@@ -861,6 +861,7 @@
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/admin/Notifications/NotificationForm.test.ts
 - file: client/src/components/admin/Notifications/NotificationsManagement.test.ts
   iterated: 1
