@@ -43,7 +43,9 @@ still applies to story mounts.
 
 Don't call `setProps` on a composed story, because that remounts it. Change state
 through the harness instead. A check that a story can't express, such as a prop
-toggled on a live mount, stays as a plain mount in the test; never drop it.
+toggled on a live mount, stays as a plain mount in the test; never drop it. The
+plain mount can be the stories file's harness (`ScrollList.test.ts`); unmount it
+yourself, since `useStoryMount` only cleans up its own mounts.
 
 Stores, composables, utilities and API clients don't get stories.
 

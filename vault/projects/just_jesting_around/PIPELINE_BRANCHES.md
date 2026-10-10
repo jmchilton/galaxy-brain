@@ -45,6 +45,8 @@ CI runs only the `unit` project. Story render checks and play functions aren't i
 - `skip` means the stage doesn't apply to that test. The reason goes in the stage's batch report, not in the ledger.
 - For `storified: skip`, use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for): logic, stores, composables and API-client tests stay in happy-dom.
 - No `false` value: a missing field already means pending.
+- `storified: skip` is enough on its own. The play lane selects only `storified: true`, so it leaves `storybook_play` unset (the bulk row set both; that's harmless).
+- Shared-code commits may carry a `Test-File:` trailer for the test that motivated them. Selection skips a trailer whose commit doesn't touch that file.
 - A test file with no entry is new upstream. Any lane adds a bare `- file:` entry in sorted order, committed on its own.
 - The ledger can run ahead of a pushed branch; select from what the pushed branch contains.
 
