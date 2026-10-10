@@ -6,3 +6,4 @@ Upstream Galaxy bugs the lanes found while converting tests. Lanes don't fix the
 | --- | --- | --- | --- |
 | Tooltip shows literal `<p>…</p>`: `markup()` returns HTML, but `v-g-tooltip.hover` has no `.html`, so users and `aria-label` get the tags | `ObjectStore/ObjectStoreBadge.vue` | Play lane, ObjectStoreBadges | Confirmed on dev; play regex tolerates it |
 | `useConfig(true)` never loads config: the guard tests the `isConfigLoaded` computed ref (always truthy), not `.value` | `composables/config.ts` | Story lane, InstallationSettings | Confirmed on dev |
+| Collapse toggle has no accessible name: icon-only `GButton` in a separated `GHeading`, so a play has to click the heading text | `Toolshed/RepositoryDetails/InstallationSettings.vue` (galaxy-ui `GHeading`?) | Play lane, InstallationSettings | Unconfirmed |

@@ -28,9 +28,10 @@ If no case moves, set `storybook_play: skip`, log the reason, and end the iterat
 ## Convert
 
 - Write each moved case as a `play` function on its own story ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)). A play that only reads, or leaves the story in its initial state (hover), may sit on the base story.
-- Remove the vitest case only after its play function passes. If every case moves, delete the unit file; the commit keeps its `Test-File:` trailer.
-- Before committing, show each play function fails for the right reason: break the behavior in the component locally and watch the play fail. For a strengthened check, show the old check still passes under that break (copy the old test to a sibling `<name>.old.test.ts`, run it, delete it).
-- New checks a play makes possible are welcome; log them as strengthening.
+- Remove the vitest case only after its play function passes. If every case moves, time the unit file first, then delete it; the commit keeps its `Test-File:` trailer.
+- If a user has to reveal content (expand a section, open a dialog), the play reveals it too and checks it was hidden before.
+- Before committing, show each play function fails for the right reason: break the behavior in the component locally and watch the play fail. For a strengthened check, show the old check still passes under that break (copy the old test to a sibling `<name>.old.test.<ext>`, run it, delete it).
+- New checks a play makes possible are welcome, including a new story whose data exposes a weak check (an all-off config next to all-on); log them as strengthening.
 
 If the strongest check would fail on a pre-existing component bug, don't fix the component in this lane: write the check to tolerate it, mark it in the play with a comment, and add the bug to [BUGS_FOUND.md](BUGS_FOUND.md).
 
@@ -46,5 +47,5 @@ Storybook and browser-project infra lives in `vitest_stories`. If the conversion
 ## Record
 
 - Commit the stories and the test together, with a `Test-File: <path>` trailer, before the review; amend with its fixes. Push with `--force-with-lease` once validation and review pass.
-- After the push, set `storybook_play: true` in `jest_tests.yml`, and change no other field. If the lane below moved during the iteration, push anyway; the next rebase picks it up.
+- After the push, set `storybook_play: true` in `jest_tests.yml`, and change no other field. Commit it with the log row (`git commit -o`); don't push galaxy-brain. If the lane below moved during the iteration, push anyway; the next rebase picks it up.
 - Append a row to [PLAY_LOG.md](PLAY_LOG.md) with the test, the cases moved and kept, the reasons and the warm vitest `Tests` time of the stories and unit files, before and after.
