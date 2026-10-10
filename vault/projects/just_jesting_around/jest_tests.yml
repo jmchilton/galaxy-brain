@@ -332,6 +332,7 @@
 - file: client/src/components/Notifications/NotificationsList.test.ts
 - file: client/src/components/ObjectStore/ConfigurationMarkdown.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/ObjectStore/DescribeObjectStore.test.js
 - file: client/src/components/ObjectStore/Instances/CreateForm.test.ts
   iterated: 1
