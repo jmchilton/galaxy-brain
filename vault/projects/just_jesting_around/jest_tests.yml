@@ -837,6 +837,7 @@
 - file: client/src/components/Workflow/List/CuratedWorkflowList.test.ts
 - file: client/src/components/Workflow/List/WorkflowCardList.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/Workflow/List/WorkflowList.test.ts
   iterated: 1
 - file: client/src/components/Workflow/List/WorkflowListTabs.test.ts
