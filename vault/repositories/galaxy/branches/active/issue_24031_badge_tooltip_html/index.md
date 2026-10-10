@@ -12,4 +12,4 @@ Issue: [24031 — Storage badge tooltips show administrator messages as literal 
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24031_badge_tooltip_html`.
 Branch: `issue_24031_badge_tooltip_html`, based on upstream dev `20f365a2654`.
-Status: READY; `branches_implemented_needs_ci`. Pushed commit: `7893845ae2bac3da776525b74dc158af06b22765`. CI has not been assessed. No PR opened.
+Status: `branches_need_polish`. Pushed commit: `7893845ae2bac3da776525b74dc158af06b22765`. No PR opened.

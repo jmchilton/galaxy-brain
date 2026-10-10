@@ -43,7 +43,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`issue_24031_badge_tooltip_html`](../../repositories/galaxy/branches/active/issue_24031_badge_tooltip_html/index.md) — Renders storage badge Markdown and derives readable HTML tooltip labels (#24031); reviewed and locally validated.
 - [`integration_ci_scope`](../../repositories/galaxy/branches/active/integration_ci_scope/index.md) — Selects costly plugin suites from changed paths; helpers and guide live beside integration tests. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:integration_ci_scope).
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes parameter framework tools XSD-valid and checks them in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
 - [`issue_20900_invocation_validation`](../../repositories/galaxy/branches/active/issue_20900_invocation_validation/index.md) — Validates workflow invocation requests before creating histories or other side effects (#20900). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_20900_invocation_validation?expand=1).
@@ -72,7 +71,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`issue_24031_badge_tooltip_html`](../../repositories/galaxy/branches/active/issue_24031_badge_tooltip_html/index.md) — Renders storage badge Markdown and derives readable HTML tooltip labels (#24031). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24031_badge_tooltip_html?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
