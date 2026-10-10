@@ -606,6 +606,7 @@
   split_commit: true
 - file: client/src/components/SelectionField/SelectionField.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/Sharing/UserSharing.test.ts
   iterated: 1
 - file: client/src/components/SingleItemSelector.test.ts
