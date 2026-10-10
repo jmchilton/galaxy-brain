@@ -1,0 +1,35 @@
+iteration: 22
+seed: 2610922
+inventory_sha256: 71bd8521089e6d38f1cacb76a95e7181e67f3e622fb8c684cb6ed1fa9699d4be
+branch: vitest_readability
+base_commit: 923d47881f5ce5a22035a93a5d38bb730b2b77f8
+status: reviewed
+selection:
+- file: client/src/components/Markdown/Utilities/requirements.test.js
+baseline:
+  selected_cases: 16
+  selected_passed: 16
+  selected_skipped: 0
+  selected_suites: 1
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: fc4b3dc90e21fb730d90032df0587c047935ee10
+  subject: Improve readability of requirements tests
+validation:
+  passed_cases: 28
+  skipped_cases: 0
+  total_cases: 28
+  affected_suites: 1
+  selected_cases: 28
+  supporting_cases: 0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved
+  shuffle_seed: 220101
+  test_environment: NODE_OPTIONS=--no-webstorage
