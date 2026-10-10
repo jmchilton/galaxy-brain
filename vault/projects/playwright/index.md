@@ -6,22 +6,24 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-09-16
-revised: 2026-10-06
-revision: 34
+revised: 2026-10-09
+revision: 35
 ai_generated: true
-summary: "Migrate the full Galaxy Selenium suite to Playwright and recover the core of PR #21199, via small atomic PRs."
+summary: "Recover the core of PR #21199 via small atomic PRs; the Selenium-to-Playwright migration is done (#24020 drops the last selenium_only)."
 ---
 
 # Playwright Migration
 
 ## Overview
 
-Move the entire Galaxy Selenium test suite onto Playwright so no `selenium_only`
-decorators remain, using small, atomic, obviously correct PRs.
+Recover the core of PR #21199 using small, atomic, obviously correct PRs.
+
+The Selenium-to-Playwright migration is done:
+[galaxyproject/galaxy#24020](https://github.com/galaxyproject/galaxy/pull/24020)
+removes the last `selenium_only` decorator. It is no longer a goal.
 
 ## Goals
 
-- Run every Selenium test under Playwright; drop `selenium_only`.
 - Recover the core functionality and tests from
   [galaxyproject/galaxy#21199](https://github.com/galaxyproject/galaxy/pull/21199),
   minus the Jupyter notebook work.
@@ -39,6 +41,6 @@ decorators remain, using small, atomic, obviously correct PRs.
 - `GALAXY_UI_SKILL_LOOP.md` — setup/drive/verify/report/triage loop over GTN tutorials and IWC workflows, with arm comparison and token measurement.
 - `GESTURE_ABSTRACTION_DESIGN.md` — design for the backend-neutral input/gesture vocabulary replacing `action_chains()`.
 - `BRANCHES.md` — branches and PRs for this project; mirrors `vault/agents/gx_branches/MY_BRANCHES.md`.
-- `SELENIUM_ONLY_SURVEY.md` — breakdown of the remaining 140 `@selenium_only` tests, diagnosed blockers, and the local state-accumulation trap.
+- `SELENIUM_ONLY_SURVEY.md` — historical: the 2026-09 breakdown of `@selenium_only` tests, diagnosed blockers, and the local state-accumulation trap.
 - `TEST_STORIES_RESCUE.md` — plan for recovering PR #21199's Test Stories feature as small branches off dev, minus the Jupyter work.
-- `WORKFLOW_EDITOR_PLAYWRIGHT_STATUS.md` — salvaged `playwright_backlog` triage; remaining workflow-editor `selenium_only` tests and established Playwright patterns.
+- `WORKFLOW_EDITOR_PLAYWRIGHT_STATUS.md` — historical: salvaged `playwright_backlog` triage of workflow-editor `selenium_only` tests, plus established Playwright patterns.
