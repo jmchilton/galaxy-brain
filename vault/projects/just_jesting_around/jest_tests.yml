@@ -96,6 +96,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/ListCollectionCreator.test.ts
+  iterated: 1
 - file: client/src/components/Collections/PairCollectionCreator.test.ts
 - file: client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts
 - file: client/src/components/Collections/common/stripExtension.test.ts
@@ -353,6 +354,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/Graph/useHistoryGraphData.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/History/HistoryOptions.test.ts
 - file: client/src/components/History/HistoryView.test.js
@@ -476,6 +478,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/ObjectStore/DescribeObjectStore.test.js
+  iterated: 1
 - file: client/src/components/ObjectStore/Instances/CreateForm.test.ts
   iterated: 1
   split_commit: true
@@ -541,6 +544,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Panels/Upload/uploadProgressUi.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/Panels/Upload/uploadState.test.ts
   iterated: 1

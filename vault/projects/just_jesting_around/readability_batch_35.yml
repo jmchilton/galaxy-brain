@@ -1,0 +1,79 @@
+iteration: 35
+seed: '2610935'
+inventory_sha256: 3d4f6891728c0b470921a9d2b560389dda193ba6c6b47eeec27b78c1c1d6f849
+branch: vitest_readability
+base_commit: f9113edf20c649bea9d826786392dca1a8ed407a
+status: reviewed
+selection:
+- file: client/src/components/Panels/Upload/uploadProgressUi.test.ts
+- file: client/src/components/Collections/ListCollectionCreator.test.ts
+- file: client/src/components/History/Graph/useHistoryGraphData.test.ts
+- file: client/src/components/ObjectStore/DescribeObjectStore.test.js
+baseline:
+  selected_cases: 18
+  selected_passed: 18
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/Collections/PairCollectionCreator.test.ts
+- client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts
+- client/src/components/CommandPalette/providers/datasets.test.ts
+- client/src/components/CommandPalette/useScrollEdges.test.ts
+- client/src/components/History/Graph/useHistoryGraph.test.ts
+- client/src/components/Panels/Upload/UploadFileRow.test.ts
+- client/src/components/Workflow/Editor/Lint.test.ts
+- client/src/composables/upload/testHelpers/uploadFixtures.ts
+- client/src/composables/useHistoryDatasets.test.ts
+- client/src/stores/datasetListStore.test.ts
+- client/tests/test-data/datasets.ts
+- client/tests/vitest/effectScope.ts
+supporting_suites:
+- client/src/components/Collections/PairCollectionCreator.test.ts
+- client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts
+- client/src/components/CommandPalette/providers/datasets.test.ts
+- client/src/components/CommandPalette/useScrollEdges.test.ts
+- client/src/components/History/Graph/useHistoryGraph.test.ts
+- client/src/components/Panels/Upload/UploadFileRow.test.ts
+- client/src/components/Workflow/Editor/Lint.test.ts
+- client/src/composables/useHistoryDatasets.test.ts
+- client/src/stores/datasetListStore.test.ts
+helper_files:
+- client/src/composables/upload/testHelpers/uploadFixtures.ts
+- client/tests/test-data/datasets.ts
+- client/tests/vitest/effectScope.ts
+documentation_files:
+- client/README.md
+commits:
+- sha: 3e7a66e8c3cdbf895dc4d0c6d444a4ee104186c1
+  subject: Extend src/composables/upload/testHelpers/uploadFixtures.ts for client unit tests
+- sha: a5f591d8f454985356afe4ca3e2e0913e931e134
+  subject: Improve readability of uploadProgressUi tests
+- sha: 8b64020792919e2cad8215f6b029130a76744284
+  subject: Add tests/test-data/datasets.ts for client unit tests
+- sha: f0659f1cf0d69a8e17011bc3b4ef5489b02c3891
+  subject: Improve readability of ListCollectionCreator tests
+- sha: 7308a07d5c26d1e128031e59c6ff6b5e13b06a22
+  subject: Add tests/vitest/effectScope.ts for client unit tests
+- sha: e5ecca1f6a482b4801bc846397d3c2d302a3d35d
+  subject: Improve readability of useHistoryGraphData tests
+- sha: c95f3f6f519d7755f4c8ef248654f907f8f16641
+  subject: Improve readability of DescribeObjectStore tests
+- sha: 3c66a971847270917c7b249eaf4a4ba9dd75c5f8
+  subject: Document runInTestScope in client testing README
+validation:
+  passed_cases: 95
+  skipped_cases: 0
+  total_cases: 95
+  affected_suites: 13
+  selected_cases: 28
+  supporting_cases: 67
+  per_commit_vitest: passed
+  helper_consumers_at_tip: 'uploadFixtures: 7 suites / 84 cases passed (driver)'
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved (7/7 test commits); README commit by driver
+  shuffle_seed: 350101
+  test_environment: NODE_OPTIONS=--no-webstorage
