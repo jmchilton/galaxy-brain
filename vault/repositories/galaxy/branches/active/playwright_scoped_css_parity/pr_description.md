@@ -37,11 +37,11 @@ Risks are minimal - this change only touches one test, so it doesn't lock Galaxy
 
 ## Context
 
-Builds on 🔀 #23820 and 🔀 #23808, part of moving the Selenium suite onto Playwright. With 🌿[playwright_text_table_parity](https://github.com/jmchilton/galaxy/tree/playwright_text_table_parity) (`test_library_contents`) and 🌿[playwright_drag_over_feedback](https://github.com/jmchilton/galaxy/tree/playwright_drag_over_feedback) (`test_history_pages`), this removes the last `@selenium_only` decorator on a test. This branch is stacked on `playwright_text_table_parity`.
+Builds on 🔀 #23820 and 🔀 #23808, part of moving the Selenium suite onto Playwright. With 🔀 #24009 (merged) and 🔀 #24010 (`test_history_pages`), this removes the last `@selenium_only` decorator on a test.
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? If the tag editor doesn't render, `add_tag` fails to find `.toggle-button` inside the tags cell.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A. No unit tests. The E2E test still checks that searching by the new tag filters the histories list.
