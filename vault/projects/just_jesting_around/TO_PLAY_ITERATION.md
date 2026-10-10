@@ -4,7 +4,7 @@ Reuse the same branch and worktree for every iteration.
 
 ## Rebase
 
-Rebase `vitest_story_play` onto `jmchilton/vitest_stories`.
+Rebase `vitest_story_play` onto `jmchilton/vitest_stories`. The story lane rewrites itself on every rebase, so replay only the play commits: `git rebase --onto jmchilton/vitest_stories <parent of the first play commit>`.
 - Resolve conflicts so that both lanes' intent survives.
 - Run the `storybook` browser project and the affected unit tests.
 - Don't select a test until the rebased lane is green.
