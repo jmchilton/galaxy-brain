@@ -29,6 +29,7 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 - Drop old setup the story mount replaces (`getLocalVue`, popover mocks) unless an assertion depends on it.
 - Cases or rows the conversion itself added may be dropped once another case covers them; original ones may not.
 - Keep the test's language; moving `.js` to TypeScript is separate work.
+- Don't fix component bugs in this lane; add them to [BUGS_FOUND.md](BUGS_FOUND.md).
 
 If the conversion needs a Storybook change (preview, story-mount helper, shared mock handlers), commit that first, separately, and check that existing stories still render.
 

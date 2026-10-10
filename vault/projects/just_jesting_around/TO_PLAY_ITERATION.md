@@ -32,7 +32,7 @@ If no case moves, set `storybook_play: skip`, log the reason, and end the iterat
 - Before committing, show each play function fails for the right reason: break the behavior in the component locally and watch the play fail. For a strengthened check, show the old check still passes under that break (copy the old test to a sibling `<name>.old.test.ts`, run it, delete it).
 - New checks a play makes possible are welcome; log them as strengthening.
 
-If the strongest check would fail on a pre-existing component bug, don't fix the component in this lane: write the check to tolerate it, mark it in the play with a comment, and report the bug.
+If the strongest check would fail on a pre-existing component bug, don't fix the component in this lane: write the check to tolerate it, mark it in the play with a comment, and add the bug to [BUGS_FOUND.md](BUGS_FOUND.md).
 
 Storybook and browser-project infra lives in `vitest_stories`. If the conversion needs a change there, stop and report it to the driver.
 
