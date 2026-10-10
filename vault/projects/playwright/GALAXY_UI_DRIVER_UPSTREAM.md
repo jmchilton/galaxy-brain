@@ -28,10 +28,10 @@ Commit numbers follow the queue in `GALAXY_UI_SKILL_DESIGN.md` ("Prerequisite PR
 | Tool Shed ids in `tool_open` | 4a | vitest + unit | none possible in CI (no shed tools) |
 | Single retry on Playwright timeout | 7b | unit | none needed |
 | `galaxy_url` path prefix | 7n | unit | none needed |
-| Go up with gxui | 2, 5b, 5c, 5d, 7k, 7l, 7m | unit | n/a |
+| Upload helpers into `galaxy.selenium` | 7k | upload E2E suite, import-isolation unit test | none needed; undecided whether it goes up alone or inside a larger PR |
+| Go up with gxui | 2, 5b, 5c, 5d, 7l, 7m | unit | n/a |
 
 ## Open questions
 
-- Is 7k (upload helpers lift) a standalone refactor PR, or does it go with gxui?
 - 5d (docstrings): ship alone, or fold each docstring into the PR that touches its method?
 - What order? Fixes with no coverage gap first, or the coverage-adding PRs first?

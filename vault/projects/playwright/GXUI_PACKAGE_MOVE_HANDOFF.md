@@ -37,6 +37,8 @@ against `f561c00528d`: the verb and daemon ASTs match that snapshot exactly.
 - Canonical upload module: `lib/galaxy/selenium/upload_activity_helpers.py`.
   The old `galaxy_test.selenium.upload_activity_helpers` explicitly re-exports
   the same public classes and types, so existing E2E imports and MROs keep working.
+  Superseded 2026-10-09 (John): the re-export module is gone and every E2E test
+  imports from `galaxy.selenium.upload_activity_helpers`.
 - `RunsWorkflows` stays in the test framework for its YAML fixture staging and
   test-populator methods. Its UI-only `workflow_run_wait_for_ok` is inherited
   from `NavigatesGalaxy` now. Moving the whole class would preserve the unwanted

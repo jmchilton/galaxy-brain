@@ -299,7 +299,8 @@ without gxui. Restacking this way and force-pushing `galaxy_ui_driver` to `jmchi
 Restacked 2026-10-06 (John's OK): tip `9ffb7bda18c`. Its base is PR 1's base `8f9ef7c7de2`,
 9 dev commits older than the old merge's `253a4cb0b9c`; nothing gxui needs.
 
-Commit queue (✅ = on the branch):
+Commit queue (✅ = on the branch). Hashes predate the 2026-10-09 rebase onto dev; the tip is now
+`381f47837e3`.
 
 | # | Commit | Kind |
 |---|---|---|
@@ -329,7 +330,7 @@ Commit queue (✅ = on the branch):
 | 7h | `workflow_editor_click_run` clicks the editor's Run activity; new `workflow_editor.tool_bar.run` (`8e579923247`) | fix ✅ |
 | 7i | `workflow_index_open_with_name` / `workflow_run_with_name` search a colon-free part of the name (`workflow_search_term`; the list search read `GTN Training:` as a filter) (`3a8d859dab9`) | fix ✅ |
 | 7j | `navigation.yml` `invocations.cancel_button` (`b98e9c42974`) | enhancement ✅ |
-| 7k | Upload Activity helpers lifted into `galaxy.selenium.upload_activity_helpers` (old module re-exports); `workflow_run_wait_for_ok` on `NavigatesGalaxy` (`8edb951379a`, Codex) | enhancement ✅ |
+| 7k | Upload Activity helpers moved into `galaxy.selenium.upload_activity_helpers`, every test importing them from there, no re-export module (reworked 2026-10-09); `workflow_run_wait_for_ok` on `NavigatesGalaxy` (`8edb951379a`, Codex) | enhancement ✅ |
 | 7l | Test-framework context checks split from the `galaxy-selenium` package suite (`192796b6b22`, Codex) | enhancement ✅ |
 | 7m | `ConfiguredDriver(storage_state=...)`: a Playwright page starts with saved cookies + localStorage (`72ac4722d69`) | enhancement ✅ |
 | 7n | `galaxy_url` keeps a path prefix (`https://x/galaxy` + `api/...`); standalone + CLI contexts use it, gxui's own override dropped (`49df973ad0c`) | fix ✅ |
