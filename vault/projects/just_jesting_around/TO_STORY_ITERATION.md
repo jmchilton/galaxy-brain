@@ -24,7 +24,7 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 ## Convert
 
 - Follow [STORY_CONVENTIONS.md](STORY_CONVENTIONS.md). FormData, FilesDialog and HistoryExportWizard are the reference conversions.
-- Keep every original assertion. Splitting a case is fine; weakening or dropping one is not.
+- Keep every original assertion. Splitting a case or strengthening a weak check is welcome (note it in the log); weakening or dropping one needs John's approval.
 - Reuse existing handlers, fixtures and story helpers before adding new ones.
 
 If the conversion needs a Storybook change (preview, story-mount helper, shared mock handlers), commit that first, separately, and check that existing stories still render.

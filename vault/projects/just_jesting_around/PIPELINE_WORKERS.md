@@ -45,7 +45,7 @@ Runs [TO_PLAY_ITERATION.md](TO_PLAY_ITERATION.md); decisions are logged in [PLAY
 
 Moves component-behavior cases out of a storified test and into `play` functions.
 
-- **Assertions:** a case whose assertions would change what they check stays in vitest until John approves the change.
+- **Assertions:** strengthening is welcome; a case that would lose or weaken a check stays in vitest until John approves.
 - Edge-case-heavy tests stay in vitest and get `storybook_play: skip`.
 
 ### Real-API driver (lane 4)
