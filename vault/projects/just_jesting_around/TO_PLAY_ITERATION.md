@@ -45,7 +45,7 @@ Storybook and browser-project infra lives in `vitest_stories`. If the conversion
 - Run the story file in the `storybook` browser project.
 - Run what remains of the test in the `unit` project.
 - Run type-checking, lint and formatting.
-- Have an independent subagent confirm that every original assertion lives in a play function or in the remaining test.
+- Have an independent subagent confirm that every original assertion lives in a play function or in the remaining test; run it in the foreground and wait for its report.
 
 ## Record
 
