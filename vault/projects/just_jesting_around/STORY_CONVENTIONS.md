@@ -3,7 +3,8 @@
 #### Stories Are Scenarios
 
 Place `Component.stories.ts` beside the component, with a title that mirrors its
-path, collapsing a repeated folder (`ScrollList`, not `ScrollList/ScrollList`). For
+path, collapsing a repeated folder (`ScrollList`, not `ScrollList/ScrollList`) unless
+another component in that folder has stories, since a title can't also be a group. For
 a `generic="T"` component, type the meta from its props instead of `typeof Component`
 (`ScrollList.stories.ts`). Each story is a state worth looking at, named for that state
 (`DownloadOnly`, `WithZenodo`). Shared props go in the meta `args`. Stories for a
@@ -53,7 +54,11 @@ Listeners (`on*`) don't reach a composed story's args, so assert what they cause
 instead, or `getComponent(Component).emitted()`. With a `render` story the wrapper
 root is the story, so `wrapper.emitted()` is always empty. Module-level `vi.mock`
 and the global mocks in `tests/vitest/setup.ts` still apply to story mounts;
-Storybook runs the real modules.
+Storybook runs the real modules. `vi.mock(path, { spy: true })` keeps call and
+payload assertions while the request still reaches the story's handler; reset it
+with `mockReset`, which also drops queued one-off results. To watch a story's
+requests, call `useServerMock()` beside `useStoryMount()` and add a pass-through
+handler after mounting (`UserDeletion.test.ts`).
 
 Don't call `setProps` on a composed story, because that remounts it. Change state
 through the harness instead. A check that a story can't express, such as a prop
@@ -64,16 +69,22 @@ cleans up its own mounts.
 
 Storybook passes `reactive(args)`, which unwraps refs inside an object arg, while
 the unit mount doesn't; `markRaw` an arg object that holds refs (a task monitor).
-Compute time-relative fixtures when the story renders, not at module load. Story
+Compute time-relative fixtures when the story renders, not at module load; the
+browser project runs in UTC. Story
 code can't import `vitest`, so keep shared fakes vitest-free under
 `tests/test-data/`. Seed browser storage in a decorator and remove only your own
 keys. Put non-prop story inputs in `parameters`, set through a typed helper so a
-typo fails type-check.
+typo fails type-check. Storybook deep-merges object parameters, so a meta default
+merges into a story's value; keep the default in the decorator instead. When the
+component loads store data asynchronously, the decorator renders the story only once
+it has loaded, or a "renders nothing" check can pass before the data arrives
+(`WorkflowInvocationShare.stories.ts`).
 
 A component that reads the config store when it's created needs the config set
 before it mounts: a decorator that calls `setConfiguration()`, plus a matching
-`configuration` handler (`InstallationSettings.stories.ts`). Storybook gives each
-story a fresh pinia.
+`configuration` handler (`InstallationSettings.stories.ts`). One that reads it
+through `useConfig` computeds needs only the handler; the test waits on
+`useConfigStore().isLoaded`. Storybook gives each story a fresh pinia.
 
 Stores, composables, utilities and API clients don't get stories.
 
@@ -88,7 +99,10 @@ emitted events. Name each step so the panel reads like a script.
 
 Put a play on its own story named for what it does (`ExportsDirectDownload`), so
 the base stories still show the initial state. If an interaction makes more
-requests, such as opening a dialog, that story adds handlers for them. Clicking a
+requests, such as opening a dialog, that story adds handlers for them. `GModal`
+keeps its body in the DOM while closed, so check `queryByRole("dialog")`, not text.
+Storybook runs real side effects: a successful delete in `UserDeletion` logs out and
+navigates the top window, so a play stops before it. Clicking a
 `FilesInput` opens FilesDialog, so type into it with focus and the keyboard.
 
 `GButton` disables with `aria-disabled` only, so `toBeEnabled()` always passes on

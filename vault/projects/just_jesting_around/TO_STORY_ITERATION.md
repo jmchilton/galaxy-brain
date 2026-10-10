@@ -45,6 +45,6 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 
 - Commit the test and its stories together, with a `Test-File: <path>` trailer, before the review; amend with its fixes. Push the lane once validation and review pass ([how](PIPELINE_BRANCHES.md#invariants)).
 - After the push, set `storified: true` in `jest_tests.yml`, and change no other field. Commit it with the log row (`git commit -o`); don't push galaxy-brain.
-- Append a row to [STORY_LOG.md](STORY_LOG.md) with the test, the decision, the reason and the line counts before (at the `vitest_readability` tip) and after.
+- Append a row to [STORY_LOG.md](STORY_LOG.md) with the test, the decision, the reason and the line counts before (at the lane's merge-base with `vitest_readability`) and after.
 - To fix an earlier conversion, fold the fix into that test's commit (fixup and autosquash), re-run the gate, have a subagent review it if assertions changed, and update its log row in place.
 - Put pattern lessons in the row too. The driver decides whether a recurring lesson belongs in client testing guidance.
