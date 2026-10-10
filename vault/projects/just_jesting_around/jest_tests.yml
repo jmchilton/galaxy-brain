@@ -334,6 +334,7 @@
 - file: client/src/components/ObjectStore/ConfigurationMarkdown.test.ts
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/ObjectStore/DescribeObjectStore.test.js
 - file: client/src/components/ObjectStore/Instances/CreateForm.test.ts
   iterated: 1
