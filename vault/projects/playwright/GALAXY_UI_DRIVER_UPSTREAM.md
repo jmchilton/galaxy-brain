@@ -18,7 +18,9 @@ dev. Replaces the old "decide what to pull out at the end" rule.
 Easiest first. Commit numbers follow the queue in `GALAXY_UI_SKILL_DESIGN.md` ("Prerequisite
 PRs").
 
-**1. Two standalone fixes, in parallel.**
+**1. Two standalone fixes, in parallel.** Both branched, tested and pushed 2026-10-09:
+[`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md),
+[`playwright_timeout_retry_once`](../../repositories/galaxy/branches/active/playwright_timeout_retry_once/index.md).
 - **Tool Shed ids in `tool_open`** (4a). A real tool panel bug: searching by a Tool Shed id finds
   nothing. Tested by vitest and unit tests; CI has no shed tools for an E2E test.
 - **Retry a Playwright timeout once** (7b). Its own PR because it changes timing for every
