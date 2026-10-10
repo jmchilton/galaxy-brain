@@ -39,7 +39,7 @@ removes the last `selenium_only` decorator. It is no longer a goal.
 - `GALAXY_UI_SKILL.md` — brief for an agent skill that drives the Galaxy UI, plus a tutorial/IWC feedback loop.
 - `GALAXY_UI_SKILL_RESEARCH.md` — playwright-cli vs playwright-mcp findings; decision: CLI skill, no MCP yet; skill best practices.
 - `GALAXY_UI_SKILL_DESIGN.md` — **start here for the UI skill**: status/next steps, `gxui` daemon + CLI over `NavigatesGalaxy`, playwright-cli escape hatch, prerequisite PRs, spikes S1–S3.
-- `GALAXY_UI_DRIVER_UPSTREAM.md` — long-running task: break `galaxy_ui_driver` into PRs off dev; first-cut grouping and coverage to add.
+- `GALAXY_UI_DRIVER_UPSTREAM.md` — long-running task: break `galaxy_ui_driver` into PRs off dev; agreed breakdown, order and coverage to add.
 - `GXUI_POLISH.md` — long-running task: finish gxui and the skill; points at the planned work and drafts what "done" means.
 - `galaxy_ui_loop/` — loop harness source (Codex runner, prompt, metrics, verify), spike scripts, the `gxui` MVP (`gxui/`, `bin/gxui`, tests) and the `galaxy-ui-driver` skill (`skill/`); state lives in `~/.cache/gxui-loop` and `~/.cache/gxui`.
 - `GALAXY_UI_SKILL_RUNS.md` — run ledger: per-run metrics, verification, and findings for the skill, abstractions and training.

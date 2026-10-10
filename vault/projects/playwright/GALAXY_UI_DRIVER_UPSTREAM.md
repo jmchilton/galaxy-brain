@@ -9,29 +9,37 @@ dev. Replaces the old "decide what to pull out at the end" rule.
 - Prefer PRs that grow E2E coverage. A fix or abstraction lands with a Selenium/Playwright test
   that uses it, so the suite becomes its regression test and the PR has a non-gxui motivation.
 - Once a PR merges, rebase `galaxy_ui_driver` onto dev and drop its commits. gxui stays the tip.
-- Commits only gxui motivates (CDP port, storage state, public locator APIs) go up with gxui.
-  They don't get separate PRs.
+- Commits only gxui motivates (CDP port, storage state) go up with gxui. They don't get
+  separate PRs.
 - Branch records, PR descriptions and opening follow `vault/agents/gx_branches/`.
 
-## First-cut grouping (draft, 2026-10-09)
+## Breakdown (John, 2026-10-09)
 
-Commit numbers follow the queue in `GALAXY_UI_SKILL_DESIGN.md` ("Prerequisite PRs").
+Easiest first. Commit numbers follow the queue in `GALAXY_UI_SKILL_DESIGN.md` ("Prerequisite
+PRs").
 
-| PR candidate | Commits | Tests today | Coverage to add |
-|---|---|---|---|
-| Tool-form filler on `NavigatesGalaxy` | 6a, 6a′, 7a, 7e, 7f | tool-form E2E suite, stub-form unit tests | an E2E test filling a workflow editor step's form (7a) |
-| `tool_form_parameters` | 6b, 6c | unit + one E2E | an E2E test describing a rerun form (6c) |
-| Open workflows by exact title | 7c, 7g, 7i | unit | E2E tests: open or run a workflow whose name has a prefix sibling or a ":" |
-| Workflow editor/run navigation | 4b, 7d, 7h, 7j | none | E2E tests: simplified run form inputs, a second subworkflow insert, run from the editor, cancel an invocation |
-| Extraction helpers on `NavigatesGalaxy` | 5a | `test_extract_rename_input` | none needed |
-| Multiview copy + hooks | 4c, 5e | E2E | none needed |
-| Tool Shed ids in `tool_open` | 4a | vitest + unit | none possible in CI (no shed tools) |
-| Single retry on Playwright timeout | 7b | unit | none needed |
-| `galaxy_url` path prefix | 7n | unit | none needed |
-| Upload helpers into `galaxy.selenium` | 7k | upload E2E suite, import-isolation unit test | none needed; undecided whether it goes up alone or inside a larger PR |
-| Go up with gxui | 2, 5b, 5c, 5d, 7l, 7m | unit | n/a |
+**1. Tool Shed ids in `tool_open`** (4a). A real tool panel bug: searching by a Tool Shed id finds
+nothing. Tested by vitest and unit tests; CI has no shed tools for an E2E test.
+
+**2. Coverage PRs.** Each one is framed as new E2E coverage and brings the fixes its test needs.
+
+| PR | Commits | Coverage to add |
+|---|---|---|
+| Run a workflow from the editor and cancel the invocation | 7h, 7j, 4b | run from the editor's Run activity, fill the simplified run form, cancel |
+| Open workflows by exact title | 7c, 7g, 7i | open and run a workflow that has a prefix sibling or a ":" in its name |
+| Insert a second subworkflow | 7d | insert two subworkflows from the editor's Workflows panel |
+
+**3. Area PRs.**
+
+| PR | Commits | Tests |
+|---|---|---|
+| Tool-form abstractions on `NavigatesGalaxy` | 6a, 6a′, 6b, 6c, 7a, 7e, 7f | tool-form E2E suite and unit tests; add E2E tests filling a workflow editor step's form (7a) and describing a rerun form (6c) |
+| Small fixes | 4c, 5e, 7b | Multiview E2E, retry unit test |
+| `galaxy.selenium` usable outside the test suite | 7k, 5a, 5b, 5c, 5d, 7l, 7n | upload and extraction E2E suites, unit tests; give it a consumer by mixing `UsesUploadActivity` into `GalaxySeleniumContext` |
+
+**4. gxui** with 2 (CDP port) and 7m (storage state).
 
 ## Open questions
 
-- 5d (docstrings): ship alone, or fold each docstring into the PR that touches its method?
-- What order? Fixes with no coverage gap first, or the coverage-adding PRs first?
+- Does 7b need its own PR, or is it fine riding with the Multiview fixes?
+- Is the standalone-selenium PR too big? 7k alone moves about 1,000 lines.
