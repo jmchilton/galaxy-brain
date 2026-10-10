@@ -4,7 +4,7 @@ Evidence that the lanes in [PIPELINE_BRANCHES.md](PIPELINE_BRANCHES.md) make Gal
 
 ## Headline numbers
 
-**Lane 1 (readability):** the standing table is in [REFACTORING_METRICS.md](REFACTORING_METRICS.md), which the script regenerates (`--update`). As of 2026-10-10: 237 test files, test lines down 9%, casts down 95%, `wrapper.vm` down 42%.
+**Lane 1 (readability):** the standing table is in [REFACTORING_METRICS.md](REFACTORING_METRICS.md), which the script regenerates (`--update`). As of 2026-10-10: 243 test files, executed tests 2,305 → 2,726 with no file losing a test, casts down 83%, `.vm` reach-ins down 41%.
 
 **Lane 2 (stories):** 14 tests. Setup moves out of the test and into 71 browsable stories. Test plus stories grows +230 lines in total, but the tests themselves shrink: FormData 611 → 342 (+158 story), HistoryExportWizard 460 → 179 (+72), PersistentTaskProgressMonitorAlert 221 → 81 (+131). Cases go 123 → 128 and module mocks 8 → 3.
 
@@ -26,7 +26,7 @@ Lane 1 shows −44 cases and −414 `expect`s, which looks like deleted tests. T
 | `uploadState` | 43 → 44 | 43 → 44 | `expect`s 109 → 92: field checks grouped into object assertions |
 | `parseBool` | 7 → 3 | 7 → 13 | see the example below |
 
-Sources are the review notes under `reviews/` (parseBool is counted from the file). Executed counts exist only for the originators; follow-through edits to other suites record pass/fail, not before/after counts.
+Sources are the review notes under `reviews/` (parseBool is counted from the file). `vitest list` at both refs now measures this for every file: none of the 243 lost an executed test ([REFACTORING_METRICS.md](REFACTORING_METRICS.md)). Executed counts exist only for the originators; follow-through edits to other suites record pass/fail, not before/after counts.
 
 Other safeguards:
 - **Strengthening is policy.** Lanes may strengthen assertions freely; weakening one needs John's approval ([PIPELINE_WORKERS.md](PIPELINE_WORKERS.md)).
@@ -141,7 +141,6 @@ Seven cases with ad-hoc grouping (`"True"` and `"TRUE"` share one case; `"yes"`,
 
 ## Gaps to close
 
-- **Executed case counts for every file:** `vitest list --project unit` at dev and at the tip. The review notes cover only originators.
 - **Interactions-panel screenshots:** for two or three plays (step 5 of [plan_vitest_addon.md](plan_vitest_addon.md)).
 - **Full `unit` suite wall time:** at dev against the readability tip.
 - **Guidance fed back:** a tally of lessons that made it into `client/README.md#client-side-unit-testing`, since the loop exists partly to improve conventions.
