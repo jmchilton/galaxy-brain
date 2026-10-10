@@ -154,6 +154,7 @@
 - file: client/src/components/Common/ItemListEditor.test.ts
 - file: client/src/components/Common/ListHeader.test.ts
 - file: client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts
+  storified: true
 - file: client/src/components/Common/RDMDestinationSelector.test.ts
 - file: client/src/components/Common/RenameModal.test.ts
 - file: client/src/components/Common/SaveChangesModal.test.ts
