@@ -1,0 +1,49 @@
+iteration: 38
+seed: '2610938 (WorkflowInvocationInputOutputTabs, WorkflowAnnotation: follow-through from iteration 37)'
+inventory_sha256: 433994cf115869f92e9c000f0f647a47423ae94c0810381239b2f809dfc1ad61
+branch: vitest_readability
+base_commit: ab1a53a3a01ee9fecb87e7f6786953311713ed4e
+status: reviewed
+selection:
+- file: client/src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts
+- file: client/src/components/Workflow/WorkflowAnnotation.test.ts
+- file: client/src/components/WorkflowInvocationState/WorkflowStepIcon.test.ts
+- file: client/src/components/SelectionField/SelectionField.test.js
+baseline:
+  selected_cases: 21
+  selected_passed: 21
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files:
+- client/README.md
+commits:
+- sha: 739fb3d048ebb82e74e6098278b1c000baf1e41a
+  subject: Improve readability of WorkflowInvocationInputOutputTabs tests
+- sha: b5d9bcde23b1321941280decec64bbfc97ca09fc
+  subject: Improve readability of WorkflowAnnotation tests
+- sha: 1feef341313c8c0e54db13e48354b71fefd98c14
+  subject: Improve readability of WorkflowStepIcon tests
+- sha: 067304c7861fdb39c741beac45686ecbf693fae8
+  subject: Improve readability of SelectionField tests
+- sha: 871ef3bed23fca3b9800e4134b81272b97bd231e
+  subject: Document unreturned setup-store state in client testing README
+validation:
+  passed_cases: 25
+  skipped_cases: 0
+  total_cases: 25
+  affected_suites: 4
+  selected_cases: 25
+  supporting_cases: 0
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  per_test_coverage: no source file lost covered lines or branches
+  independent_review: approved after one fix (InputOutputTabs cast)
+  shuffle_seed: 380101
+  test_environment: NODE_OPTIONS=--no-webstorage
