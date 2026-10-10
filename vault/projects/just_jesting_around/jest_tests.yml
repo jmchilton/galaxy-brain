@@ -71,6 +71,7 @@
   storybook_play: skip
 - file: client/src/components/ActivityBar/ActivityBar.test.js
 - file: client/src/components/ActivityBar/ActivityItem.test.js
+  iterated: 1
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
 - file: client/src/components/BaseComponents/Form/GForm.test.ts
 - file: client/src/components/BaseComponents/GAlert.test.ts
@@ -174,6 +175,7 @@
 - file: client/src/components/ConfigTemplates/EditSecretsForm.test.ts
 - file: client/src/components/ConfigTemplates/InstanceDropdown.test.ts
 - file: client/src/components/ConfigTemplates/InstanceForm.test.ts
+  iterated: 1
 - file: client/src/components/ConfigTemplates/TemplateSummaryPopover.test.ts
 - file: client/src/components/ConfigTemplates/VaultSecret.test.ts
   iterated: 1
@@ -228,6 +230,7 @@
   storybook_play: skip
 - file: client/src/components/Form/Elements/FormHidden.test.js
 - file: client/src/components/Form/Elements/FormInput.test.js
+  iterated: 1
 - file: client/src/components/Form/Elements/FormNumber.test.js
   iterated: 1
   split_commit: true
@@ -1279,6 +1282,7 @@
 - file: lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/RegisterPage.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts
+  iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/pages/AdminControls.test.ts

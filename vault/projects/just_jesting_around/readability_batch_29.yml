@@ -1,0 +1,54 @@
+iteration: 29
+seed: '2610929'
+inventory_sha256: 26875e9917c87fda6569d1c4fd5e2f9222aa55ff1b6c30b927c565f57629d35d
+branch: vitest_readability
+base_commit: 841d83bc78f1c5f5242eaafc7a29ac80e132e11f
+status: reviewed
+selection:
+- file: client/src/components/ActivityBar/ActivityItem.test.js
+- file: client/src/components/ConfigTemplates/InstanceForm.test.ts
+- file: client/src/components/Form/Elements/FormInput.test.js
+- file: lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts
+baseline:
+  selected_cases: 12
+  selected_passed: 12
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- lib/tool_shed/webapp/frontend/src/test-utils.ts
+- lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts
+- lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts
+supporting_suites:
+- lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts
+- lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts
+helper_files:
+- lib/tool_shed/webapp/frontend/src/test-utils.ts
+documentation_files: []
+commits:
+- sha: 5ba950e8784e3e63777993ac546412bb6b2bbe01
+  subject: Improve readability of ActivityItem tests
+- sha: 184e68580dd20ab922d69c985456919f1f332ed3
+  subject: Improve readability of InstanceForm tests
+- sha: 40451c8e2f0cb5e6c1447a62ea3f4edbc5e54065
+  subject: Improve readability of FormInput tests
+- sha: a39999b27bf6dd253ec6cfd8b4082dbf098ccdf6
+  subject: Add src/test-utils.ts for client unit tests
+- sha: f43c5a1ce758082c943e8252fe801c7c50cfbb2c
+  subject: Improve readability of RepositoryMenus tests
+validation:
+  passed_cases: 24
+  skipped_cases: 0
+  total_cases: 24
+  affected_suites: 6
+  selected_cases: 19
+  supporting_cases: 5
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  toolshed_typecheck: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved (5/5 commits)
+  shuffle_seed: 290101
+  test_environment: NODE_OPTIONS=--no-webstorage
