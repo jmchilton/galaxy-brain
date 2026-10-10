@@ -1,0 +1,35 @@
+iteration: 21
+seed: 2610921
+inventory_sha256: 6abb9cdc6f23d61a863a58a6c1540ccdc33053f680f1d910d26f1c1416079866
+branch: vitest_readability
+base_commit: 87ff9d81cfcd9fe258e31ee74c15ba47a93b1b51
+status: reviewed
+selection:
+- file: client/src/components/Workflow/Editor/modules/activities.test.ts
+baseline:
+  selected_cases: 12
+  selected_passed: 12
+  selected_skipped: 0
+  selected_suites: 1
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: 923d47881f5ce5a22035a93a5d38bb730b2b77f8
+  subject: Improve readability of activities tests
+validation:
+  passed_cases: 13
+  skipped_cases: 0
+  total_cases: 13
+  affected_suites: 1
+  selected_cases: 13
+  supporting_cases: 0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved
+  shuffle_seed: 210101
+  test_environment: NODE_OPTIONS=--no-webstorage
