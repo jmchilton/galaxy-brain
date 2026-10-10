@@ -1,0 +1,66 @@
+iteration: 34
+seed: 'none (all four: setupMockConfig follow-through from iteration 33)'
+inventory_sha256: 4f5b146cd09ee65bf5849d23931f162b2ed3fe7b7c69ee98ed3aed6b00d17184
+branch: vitest_readability
+base_commit: af169c23ba997d9316dfd78453283f7af0e27861
+status: reviewed
+selection:
+- file: client/src/components/Masthead/QuotaMeter.test.ts
+- file: client/src/components/Grid/GridList.test.ts
+- file: client/src/components/Tool/ToolCard.test.js
+- file: client/src/composables/useRegistrationTarget.test.ts
+baseline:
+  selected_cases: 17
+  selected_passed: 17
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/tests/vitest/mockConfig.js
+- client/src/components/StsDownloadButton.test.js
+- client/src/components/Form/Elements/FormDirectory.test.js
+- client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
+- client/src/components/History/Multiple/MultipleView.test.js
+- client/src/components/Workflow/List/WorkflowListTabs.test.ts
+- client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js
+- client/src/components/History/HistoryView.test.js
+- client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts
+supporting_suites:
+- client/src/components/StsDownloadButton.test.js
+- client/src/components/Form/Elements/FormDirectory.test.js
+- client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
+- client/src/components/History/Multiple/MultipleView.test.js
+- client/src/components/Workflow/List/WorkflowListTabs.test.ts
+- client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js
+- client/src/components/History/HistoryView.test.js
+- client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts
+helper_files:
+- client/tests/vitest/mockConfig.js
+documentation_files: []
+commits:
+- sha: 783d3e03c7dcbe031f5a5d05ce994541b235c069
+  subject: Fix tests/vitest/mockConfig.js for client unit tests
+- sha: 16298061fde1af29f7a32f5ce667304a2c27436f
+  subject: Improve readability of QuotaMeter tests
+- sha: 86489dcbf6cdea2a35f7bea4db7be1c97eed4d83
+  subject: Improve readability of GridList tests
+- sha: 22d1b41b3d8823ebd9b8b53ae62f8548f8dbe182
+  subject: Improve readability of ToolCard tests
+- sha: f324bca585c3de1bd46d4d110f69f44c86b6d978
+  subject: Improve readability of useRegistrationTarget tests
+validation:
+  passed_cases: 95
+  skipped_cases: 0
+  total_cases: 95
+  affected_suites: 12
+  selected_cases: 28
+  supporting_cases: 67
+  per_commit_vitest: passed
+  helper_consumers_at_tip: 12 suites / 95 cases passed (driver)
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved 4/5; ToolCard configuration handler restored at review request, folded in by fixup and re-verified
+  shuffle_seed: 340101
+  test_environment: NODE_OPTIONS=--no-webstorage

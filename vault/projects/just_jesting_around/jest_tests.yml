@@ -299,6 +299,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Grid/GridList.test.ts
+  iterated: 1
 - file: client/src/components/Grid/configs/adminUsers.test.js
   storified: skip
   storybook_play: skip
@@ -462,6 +463,7 @@
   iterated: 1
 - file: client/src/components/Masthead/MastheadDropdown.test.ts
 - file: client/src/components/Masthead/QuotaMeter.test.ts
+  iterated: 1
 - file: client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts
 - file: client/src/components/Notifications/NotificationCard.test.ts
   iterated: 1
@@ -590,6 +592,7 @@
 - file: client/src/components/Tool/Buttons/ToolTourGeneratorItem.test.ts
 - file: client/src/components/Tool/CustomToolEditorWorkspace.test.ts
 - file: client/src/components/Tool/ToolCard.test.js
+  iterated: 1
 - file: client/src/components/Tool/ToolFooter.test.js
 - file: client/src/components/Tool/ToolForm.test.ts
 - file: client/src/components/Tool/ToolHelpMarkdown.test.ts
@@ -1001,6 +1004,7 @@
 - file: client/src/composables/useRecentPaletteItems.test.ts
   storified: skip
 - file: client/src/composables/useRegistrationTarget.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/composables/useSidebarSelection.test.ts
   iterated: 1
