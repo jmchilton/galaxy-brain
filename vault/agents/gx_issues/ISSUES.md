@@ -77,6 +77,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#24031](https://github.com/galaxyproject/galaxy/issues/24031) — storage badge tooltips and `.html` tooltip `aria-label`s show literal HTML tags; next: badge `.html` + directive label fix, red vitest. [notes](../../repositories/galaxy/issues/queued/24031/index.md)
 - [#24035](https://github.com/galaxyproject/galaxy/issues/24035) — nested `GTooltip` text joins `GButton`/`GLink` accessible names; next: shared relocate composable from `GPopover`, red vitest. [notes](../../repositories/galaxy/issues/queued/24035/index.md)
 - [#24036](https://github.com/galaxyproject/galaxy/issues/24036) — collapsible `Heading` toggle button has no accessible name or `aria-expanded`; next: `useUid` id + `aria-labelledby`/`aria-expanded`, red vitest. [notes](../../repositories/galaxy/issues/queued/24036/index.md)
+- [#24037](https://github.com/galaxyproject/galaxy/issues/24037) — `GModal` `<dialog>` and its × close button have no accessible name; next: `titleId` + `aria-labelledby`, name close, red vitest. [notes](../../repositories/galaxy/issues/queued/24037/index.md)
 
 
 ## Blocked on others (`blocked`)

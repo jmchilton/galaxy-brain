@@ -16,4 +16,4 @@ Found by the just_jesting_around play lane (`vitest_story_play`). Once fixed, `I
 
 ## Related
 
-- GModal accessible-name proposal (`to_file/proposed_gmodal_dialog_unnamed.md`, unposted): also passes an `id` to its title `GHeading`. Compatible; one id on the `<h*>` can serve both.
+- #24037 (GModal accessible name): also passes an `id` to its title `GHeading`. Compatible; one id on the `<h*>` can serve both.
