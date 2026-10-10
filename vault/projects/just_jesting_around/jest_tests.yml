@@ -717,6 +717,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Visualizations/VisualizationFrame.test.js
+  storified: skip
 - file: client/src/components/Visualizations/VisualizationHeader.test.js
 - file: client/src/components/Visualizations/VisualizationUnsavedChanges.test.js
 - file: client/src/components/Visualizations/utilities.test.js
