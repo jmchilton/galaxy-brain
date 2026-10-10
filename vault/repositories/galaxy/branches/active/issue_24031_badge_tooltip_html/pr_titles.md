@@ -1,0 +1,4 @@
+- Fix storage badge tooltips showing admin messages as literal HTML
+- Render storage badge messages as Markdown and give HTML tooltips readable labels
+- Fix literal HTML in storage badge tooltips and HTML tooltip accessible names
+- Show storage badge admin messages as formatted text, not raw HTML
