@@ -425,6 +425,7 @@
 - file: client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Tool/ToolSuccessMessage.test.ts
 - file: client/src/components/Tool/extractEmbeddedJs.test.ts
   storified: skip
