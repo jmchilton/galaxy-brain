@@ -17,7 +17,7 @@ Evidence that the lanes in [PIPELINE_BRANCHES.md](PIPELINE_BRANCHES.md) make Gal
 | Class-name selectors (`.find(".x")`) | 264 | 222 | −42 |
 | `eslint-disable` | 5 | 1 | −4 |
 
-The shared helpers this needed add up to 25 non-test files, +668/−182. Test lines and helper lines together are still about −3,300.
+Shared helpers and docs add 25 non-test files, +668/−182. Test lines plus helpers and docs still come to about −3,300.
 
 **Lane 2 (stories):** 14 tests. Setup moves out of the test and into 71 browsable stories. Test plus stories grows +230 lines in total, but the tests themselves shrink: FormData 611 → 342 (+158 story), HistoryExportWizard 460 → 179 (+72), PersistentTaskProgressMonitorAlert 221 → 81 (+131). Cases go 123 → 128 and module mocks 8 → 3.
 
@@ -25,21 +25,35 @@ The shared helpers this needed add up to 25 non-test files, +668/−182. Test li
 
 ## Did coverage hold?
 
-A reviewer will see −44 cases and −414 `expect`s in lane 1 and assume tests were deleted. They weren't:
-- **Tables, not deletions.** Each of the largest drops (`filtering`, `filterConversion`, `url`, `redirect`, `parseBool`, `api/index`, `useInvocationGraph`) swapped copy-pasted cases for `.each` tables. A table row runs as its own test but is counted as one case and one `expect`.
-- **Exact beats many.** Several field-by-field `toBe`s often collapse into a single exact `toEqual`, which is stricter.
-- **Strengthening is policy.** Lanes may strengthen assertions freely; weakening one needs John's approval ([PIPELINE_WORKERS.md](PIPELINE_WORKERS.md)). The play lane shows each strengthened check passing the old test and failing a mutation ([PLAY_LOG.md](PLAY_LOG.md)).
+Lane 1 shows −44 cases and −414 `expect`s, which looks like deleted tests. The script counts `it(` and `expect(` as they appear in the source, though, and an `.each` table counts once however many rows it runs. Every originator's review note records the executed count from a real vitest run. For each of the largest drops that has one, the executed count held or grew:
 
-Executed test counts (`vitest list`, at dev and at the tip) would settle the question; see Gaps below.
+| Test | Static cases | Executed cases | What happened |
+| --- | --- | --- | --- |
+| `filterConversion` | 16 → 14 | 16 → 39 | 11 tables, one row per input |
+| `collectionTypeDescription` | 9 → 8 | 9 → 18 | multi-assertion cases split into tables |
+| `tool-version` | 14 → 6 | 14 → 21 | extraction and parsing variations split |
+| `CollectionDescription` | 2 → 1 | 2 → 13 | one row per collection shape |
+| `SwitchToHistoryLink` | 7 → 3 | 7 → 12 | positional-arg helper → named scenario table |
+| `JsonDiffViewer` | 13 → 3 | 13 → 13 | ten repeated mounts → one table |
+| `canvasDraw` | 11 → 7 | 11 → 11 | five header combinations → typed table |
+| `uploadState` | 43 → 44 | 43 → 44 | `expect`s 109 → 92: field checks grouped into object assertions |
+| `parseBool` | 7 → 3 | 7 → 13 | see the example below |
+
+Sources are the review notes under `reviews/` (parseBool is counted from the file). Executed counts exist only for the originators; follow-through edits to other suites record pass/fail, not before/after counts.
+
+Other safeguards:
+- **Strengthening is policy.** Lanes may strengthen assertions freely; weakening one needs John's approval ([PIPELINE_WORKERS.md](PIPELINE_WORKERS.md)).
+- **Exact beats many.** Truthy checks become exact `toEqual`s, which is how UserSharing's double event surfaced (example below).
+- **Mutation checks in the play lane.** [PLAY_LOG.md](PLAY_LOG.md) shows strengthened plays failing a mutation that the old test passed, for example dropping ObjectStoreBadges' `:size`, and InstallationSettings' dependency checks.
 
 ## Bugs found
 
-Six upstream issues so far ([BUGS_FOUND.md](BUGS_FOUND.md)), none of which the old tests could see. Some highlights:
+Six upstream issues so far ([BUGS_FOUND.md](BUGS_FOUND.md)):
 - **Tooltip shows literal `<p>…</p>`:** `ObjectStoreBadge` (confirmed on dev).
 - **`useConfig(true)` never loads config:** the guard tests the ref, not `.value`. It's being fixed on its own branch.
-- **"Error: User does not own…":** `WorkflowInvocationState` interpolates the `ApiError` object instead of its message.
-- **Unreachable `errorMessage` branch:** `useKeyedCache` swallows the rejection.
-- **Accessibility gaps** that a role-based play exposes right away: an icon-only collapse toggle with no name, and `GTooltip` text leaking into button names.
+- **"Error: User does not own…":** `WorkflowInvocationState` interpolates the `ApiError` object instead of its message (same code on dev).
+- **Unreachable `errorMessage` branch:** `useKeyedCache` swallows the rejection (same code on dev).
+- **Accessibility gaps** that role-based plays exposed: `GTooltip` text leaks into button names (same code on dev), and an icon-only collapse toggle has no accessible name (unconfirmed).
 
 ## Examples
 
@@ -129,18 +143,18 @@ The old test couldn't tell "checked because the server said so" from "always che
 
 ### parseBool: the smallest version of the pattern (lane 1)
 
-Seven cases with ad-hoc grouping (`"True"` and `"TRUE"` share one case; `"yes"`, `"1"` and `""` share another) become three tables: booleans, strings and everything else. The file went 39 → 28 lines, and every input now gets its own test name.
+Seven cases with ad-hoc grouping (`"True"` and `"TRUE"` share one case; `"yes"`, `"1"` and `""` share another) become three tables: booleans, strings and everything else. The file went 39 → 28 lines. The static count drops 7 → 3 while the executed tests go 7 → 13, one per input, which is the counting effect from the coverage section in miniature.
 
 ## Costs, stated plainly
 
-- **Browser time.** Play functions are slower per test (GButton 0.15 → 0.9s, ScrollList 0.1 → 2.4s, mostly from real hover and scroll delays). File wall time stays roughly flat because setup dominates ([PLAY_LOG.md](PLAY_LOG.md)).
+- **Browser time.** Moving cases into plays saves a little unit time and adds more browser time. GButton: unit tests ≈67 → 52ms, stories ≈150 → 900ms. ScrollList: unit ≈150 → 120ms, stories ≈0.1 → 2.4s. Most of the added time is real hover and scroll delays. Per-file wall time stays roughly flat because setup dominates ([PLAY_LOG.md](PLAY_LOG.md)).
 - **No browser CI yet.** Stories and plays don't run in CI, so lanes 2–3 can't go upstream until a job exists.
 - **Lines move rather than vanish in lanes 2–3.** The payoff is browsable states and user-level checks, not a smaller line count.
 - **Review is the bottleneck.** Per-test commits make the work sliceable into PRs, but someone still has to review 200+ files.
 
 ## Gaps to close
 
-- **Executed case counts:** `vitest list --project unit` at dev and at the tip, to replace the static `it(` count.
+- **Executed case counts for every file:** `vitest list --project unit` at dev and at the tip. The review notes cover only originators.
 - **Interactions-panel screenshots:** for two or three plays (step 5 of [plan_vitest_addon.md](plan_vitest_addon.md)).
 - **Full `unit` suite wall time:** at dev against the readability tip.
 - **Guidance fed back:** a tally of lessons that made it into `client/README.md#client-side-unit-testing`, since the loop exists partly to improve conventions.
