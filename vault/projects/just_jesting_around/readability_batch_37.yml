@@ -1,0 +1,47 @@
+iteration: 37
+seed: 2610937
+inventory_sha256: b9d6ab745996a1914a34c3444d3c251a67b2a7ed7cab3ee7d2c6d1a0f786b512
+branch: vitest_readability
+base_commit: 077ef1738405681619c2a857fe66b4dbe8a78e7f
+status: reviewed
+selection:
+- file: client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts
+- file: client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js
+- file: client/src/components/Form/Elements/FormOptionalText.test.js
+- file: client/packages/ui/src/publicClasses.test.ts
+baseline:
+  selected_cases: 12
+  selected_passed: 12
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: 285e3f58498d0d0f440069dc4093727eff265fd4
+  subject: Improve readability of FolderDetails tests
+- sha: 38befa074ddbdd25e2a3090975ac0734a5f57511
+  subject: Improve readability of WorkflowInvocationOverview tests
+- sha: d41ee9a09c2db926c4978d050c7acb76849cd9e9
+  subject: Improve readability of FormOptionalText tests
+- sha: ab1a53a3a01ee9fecb87e7f6786953311713ed4e
+  subject: Improve readability of publicClasses tests
+validation:
+  passed_cases: 15
+  skipped_cases: 0
+  total_cases: 15
+  affected_suites: 4
+  selected_cases: 15
+  supporting_cases: 0
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  ui_package_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  per_test_coverage: no source file lost covered lines or branches
+  independent_review: approved (4/4 commits)
+  shuffle_seed: 370101
+  test_environment: NODE_OPTIONS=--no-webstorage
