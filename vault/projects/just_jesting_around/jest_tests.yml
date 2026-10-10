@@ -338,6 +338,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/Graph/historyNodeColor.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/Graph/useHistoryGraph.test.ts
@@ -408,6 +409,7 @@
 - file: client/src/components/Libraries/LibraryFolder/TopToolbar/import-to-history/import-dataset.test.js
   storified: skip
 - file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js
+  iterated: 1
 - file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.ts
 - file: client/src/components/Login/ChangePassword.test.ts
 - file: client/src/components/Login/LoginForm.test.ts
@@ -476,6 +478,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js
+  iterated: 1
 - file: client/src/components/ObjectStore/ShowSelectedObjectStore.test.js
 - file: client/src/components/ObjectStore/Templates/TemplateSummaryPopover.test.ts
 - file: client/src/components/Page/PageView.test.ts
@@ -948,6 +951,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/composables/useCommandPalette.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/composables/useCreatingJob.test.ts
   iterated: 1

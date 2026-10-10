@@ -1,0 +1,71 @@
+iteration: 32
+seed: '2610932 (plus WorkflowRun seed fix: follow-through from iteration 31)'
+inventory_sha256: b65cb3a6c07ec658c061e963c97247be26cfe6b022014ef8eb1cb0820695507f
+branch: vitest_readability
+base_commit: f8463741af243daba216efa945d0830a53e8b378
+status: reviewed
+selection:
+- file: client/src/composables/useCommandPalette.test.ts
+- file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js
+- file: client/src/components/History/Graph/historyNodeColor.test.ts
+- file: client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js
+baseline:
+  selected_cases: 15
+  selected_passed: 15
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/src/components/Workflow/Run/WorkflowRun.test.js
+- client/src/components/CommandPalette/CommandPalette.test.ts
+- client/src/components/History/CurrentHistory/HistoryNavigation.test.ts
+- client/src/components/History/HistoryOptions.test.ts
+- client/src/components/ToolsList/ToolsListCard.test.ts
+- client/src/components/Workflow/List/CuratedWorkflowCard.test.ts
+- client/src/components/Workflow/List/WorkflowListTabs.test.ts
+- client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts
+- client/src/composables/userToolCredentials.test.ts
+- client/src/stores/unprivilegedToolStore.test.ts
+- client/tests/test-data/index.ts
+supporting_suites:
+- client/src/components/Workflow/Run/WorkflowRun.test.js
+- client/src/components/CommandPalette/CommandPalette.test.ts
+- client/src/components/History/CurrentHistory/HistoryNavigation.test.ts
+- client/src/components/History/HistoryOptions.test.ts
+- client/src/components/ToolsList/ToolsListCard.test.ts
+- client/src/components/Workflow/List/CuratedWorkflowCard.test.ts
+- client/src/components/Workflow/List/WorkflowListTabs.test.ts
+- client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts
+- client/src/composables/userToolCredentials.test.ts
+- client/src/stores/unprivilegedToolStore.test.ts
+helper_files:
+- client/tests/test-data/index.ts
+documentation_files: []
+commits:
+- sha: 00b6f3f26de2c30f0d295ae3065bb91ce85c899b
+  subject: Fix user store seed in WorkflowRun tests
+- sha: d8487c1f13afaab4c00b4017b1cf0d28e5ba6c03
+  subject: Extend tests/test-data/index.ts for client unit tests
+- sha: f9089bd0ed7c4b8eabaa78dd6c14f14c23386c1a
+  subject: Improve readability of useCommandPalette tests
+- sha: 63064fcb2f2dd0025e9d82a402af8a57f12ef1b2
+  subject: Improve readability of PermissionsInputField tests
+- sha: f2df22ee2694095be4ca147460f785cda0617ebc
+  subject: Improve readability of historyNodeColor tests
+- sha: 1e6d8358e8f9c9f67cf3243e61cc7348afb44225
+  subject: Improve readability of ObjectStoreRestrictionSpan tests
+validation:
+  passed_cases: 197
+  skipped_cases: 0
+  total_cases: 197
+  affected_suites: 14
+  selected_cases: 20
+  supporting_cases: 177
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved (6/6 commits)
+  shuffle_seed: 320101
+  test_environment: NODE_OPTIONS=--no-webstorage
