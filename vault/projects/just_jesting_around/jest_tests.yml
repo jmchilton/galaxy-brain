@@ -466,6 +466,7 @@
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts
   iterated: 1
   split_commit: true
+  storified: true
 - file: client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts
   iterated: 1
   split_commit: true
