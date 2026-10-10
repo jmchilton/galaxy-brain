@@ -1,0 +1,35 @@
+iteration: 17
+seed: 2610917
+inventory_sha256: f6a41e762834f352af13c9351bb6d9912f640c4ca6c6294aed63611905f67c20
+branch: vitest_readability
+base_commit: 150b60992437affed49dd1b55ba5bc18cea0a2a8
+status: reviewed
+selection:
+- file: client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
+baseline:
+  selected_cases: 1
+  selected_passed: 1
+  selected_skipped: 0
+  selected_suites: 1
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: 943eec1a1ef647bfbb02d4d3a587880f72c77681
+  subject: Improve readability of WorkflowSelectPreferredObjectStore tests
+validation:
+  passed_cases: 3
+  skipped_cases: 0
+  total_cases: 3
+  affected_suites: 1
+  selected_cases: 3
+  supporting_cases: 0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved
+  shuffle_seed: 170101
+  test_environment: NODE_OPTIONS=--no-webstorage

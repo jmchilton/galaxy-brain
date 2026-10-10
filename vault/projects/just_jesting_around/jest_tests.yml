@@ -559,6 +559,7 @@
 - file: client/src/components/Workflow/List/WorkflowList.test.ts
 - file: client/src/components/Workflow/Run/WorkflowRun.test.js
 - file: client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.js
 - file: client/src/components/Workflow/Run/model.test.js
   storified: skip
