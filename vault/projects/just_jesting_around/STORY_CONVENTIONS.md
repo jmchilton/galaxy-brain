@@ -99,5 +99,11 @@ hover-delayed or re-rendered results in `waitFor`. `toHaveAccessibleDescription`
 picks up a native `title`. A play's `console.log` doesn't reach vitest's output;
 to read rendered text while debugging, use a failing `expect`.
 
+Composables the unit test mocks run for real in a play (`useInfiniteScroll` loads
+until the list can scroll), so count relative to what loaded and leave fixed counts
+under the mock in vitest. Global CSS sets smooth scrolling; scroll with
+`scrollTo({ behavior: "instant" })`. A generic SFC's `Args` takes listeners by their
+kebab name (`"onLoad-more"`).
+
 A harness that forwards listeners through `attrs` needs `compatConfig: { MODE: 3 }`,
 or compat mode drops them (`GButton.stories.ts`'s `ClickableRow`).

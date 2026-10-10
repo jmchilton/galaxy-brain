@@ -11,14 +11,15 @@ Rebase `vitest_story_play` onto `jmchilton/vitest_stories`. The story lane rewri
 
 ## Select
 
-Pick the most recent test commit on `vitest_stories` whose `jest_tests.yml` entry has `storified: true` and no `storybook_play` field.
+Pick the most recent (in lane commit order) test commit on `vitest_stories` whose `jest_tests.yml` entry has `storified: true` and no `storybook_play` field.
 
 ## Decide, case by case
 
 - **Move:** component behavior a user would perform and see, such as filling forms, clicking through dialogs and wizards, or visible results.
 - **Keep in vitest:** edge-case matrices, emitted-payload details, timing and logic, which read better as unit cases. A matrix that reads as one fill-in script (ExportForm's disabled states) may move as one play.
-- **Don't measure layout:** no pixel sizes or computed styles. Those couple a play to global CSS; a class or prop check in vitest is enough.
-- A case may split: its user-visible assertions move and the rest stay.
+- **Don't measure layout:** no pixel sizes or computed styles. Those couple a play to global CSS; a class or prop check in vitest is enough. Waiting on layout (until a list can scroll) is fine.
+- **Negative checks** ("no extra fetch") need a positive sync point to wait on first, or they pass by racing; without one they stay in vitest.
+- A case may split: its user-visible assertions move and the rest stay. A check may end up in both places when each half needs it.
 - **Assertions:** a moved case keeps its assertions, rewritten as user-visible equivalents ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)).
   - Strengthen weak assertions (OR-checks, ones that pass without the behavior) as you go, and note it in the log.
   - Weakening or dropping a check needs John's approval. If a case can't move without that, keep it in vitest and log why.
@@ -30,7 +31,7 @@ If no case moves, set `storybook_play: skip`, log the reason, and end the iterat
 - Write each moved case as a `play` function on its own story ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)). A play that only reads, or acts without changing what the story shows (hover, a click that only calls a spy), may sit on the base story. Harness changes in the test's own stories file belong in the play commit.
 - Remove the vitest case only after its play function passes. If every case moves, time the unit file first, then delete it; the commit keeps its `Test-File:` trailer.
 - If a user has to reveal content (expand a section, open a dialog), the play reveals it too and checks it was hidden before.
-- Before committing, show each play function fails for the right reason: break the behavior locally, in the component or in a dependency the story runs for real but unit tests mock (`sanitizeHtml.ts`), and watch the play fail. A brand-new check only needs to fail under its break. For a strengthened check, pick a break that separates old from new (if the obvious one fails both, find a subtler one), and show the old check still passes under it (copy the old test to a sibling `<name>.old.test.<ext>`, run it, delete it).
+- Before committing, show each play function fails for the right reason: break the behavior locally, in the component or in a dependency the story runs for real but unit tests mock (`sanitizeHtml.ts`), and watch the play fail. A brand-new check only needs to fail under its break. For a strengthened check, pick a break that separates old from new (if the obvious one fails both, find a subtler one), and show the old check still passes under it (copy the old test to a sibling `<name>.old.test.<ext>`, run it, delete it). An old stories copy must not end in `.stories.ts`, or Storybook indexes it and fails on the duplicate title.
 - New checks a play makes possible are welcome, including a new story whose data exposes a weak check (an all-off config next to all-on); log them as strengthening.
 
 If the strongest check would fail on a pre-existing component bug, don't fix the component in this lane: write the check to tolerate it, mark it in the play with a comment, and add the bug to [BUGS_FOUND.md](BUGS_FOUND.md).

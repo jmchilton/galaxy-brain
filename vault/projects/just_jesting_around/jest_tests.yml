@@ -649,6 +649,7 @@
   iterated: 1
   split_commit: true
   storified: true
+  storybook_play: true
 - file: client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts
   iterated: 1
   split_commit: true
