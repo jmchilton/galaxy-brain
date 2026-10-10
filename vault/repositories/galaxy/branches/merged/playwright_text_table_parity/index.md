@@ -1,6 +1,6 @@
 # playwright_text_table_parity
 
-Status: `ci_wait`. Base: `dev`. [PR #24009](https://github.com/galaxyproject/galaxy/pull/24009) (draft).
+Status: merged 2026-10-09. Base: `dev`. [PR #24009](https://github.com/galaxyproject/galaxy/pull/24009).
 
 Fixes `test_import_dataset_from_path` under Playwright by reading table cells instead of splitting row text.
 

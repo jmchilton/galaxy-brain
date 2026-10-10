@@ -23,7 +23,6 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
-- [`playwright_text_table_parity`](../../repositories/galaxy/branches/active/playwright_text_table_parity/index.md) — Fixes `test_import_dataset_from_path` under Playwright by reading table cells instead of splitting row text. [#24009](https://github.com/galaxyproject/galaxy/pull/24009).
 - [`zizmor_self_repository`](../../repositories/galaxy/branches/active/zizmor_self_repository/index.md) — Uses GitHub's `$/` self-repository syntax for in-repo workflows and actions, fixing zizmor alerts. [#24016](https://github.com/galaxyproject/galaxy/pull/24016).
 - [`jest_readability_batch_01`](../../repositories/galaxy/branches/active/jest_readability_batch_01/index.md) — Improves client test readability and shares typed page and Tool fixtures across concrete consumers. [#24015](https://github.com/galaxyproject/galaxy/pull/24015).
 - [`playwright_drag_over_feedback`](../../repositories/galaxy/branches/active/playwright_drag_over_feedback/index.md) — Adds drag_over feedback checks and runs test_drag_drop_visual_feedback under Playwright. [#24010](https://github.com/galaxyproject/galaxy/pull/24010).
