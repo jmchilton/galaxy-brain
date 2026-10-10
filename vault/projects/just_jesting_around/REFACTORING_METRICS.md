@@ -4,25 +4,25 @@ Two sections - the pitch - a concise, empirical case for the vitest_readability 
 `vitest_readability` rewrites Galaxy's client and Tool Shed frontend unit tests one file at a time, for readability and reuse, keeping what each test checks. Each selected test gets its own commit and a review note. Tests are drawn at random with a recorded seed.
 
 <!-- case_metrics:lane1:start -->
-243 test files, dev merge-base `df3932ed4ba` → `vitest_readability` `af169c23ba9`, as of 2026-10-10.
+247 test files, dev merge-base `df3932ed4ba` → `vitest_readability` `f324bca585c`, as of 2026-10-10.
 
 | Signal | Before | After | Δ | Δ with helpers |
 | --- | ---: | ---: | ---: | ---: |
-| Executed tests (`vitest list`) | 2,305 | 2,726 | +421 (+18%) | |
-| Test lines | 44,641 | 40,884 | −3,757 (−8%) | −3,260 (−7%) |
-| `toBeTruthy`/`toBeFalsy` checks | 274 | 86 | −188 (−69%) | −188 (−68%) |
-| Exact `toEqual`/`toStrictEqual` checks | 584 | 662 | +78 (+13%) | +78 (+13%) |
-| Imports of shared `@tests/test-data` fixtures | 19 | 75 | +56 (+295%) | +57 (+285%) |
-| Direct `mount`/`shallowMount` calls | 348 | 203 | −145 (−42%) | −144 (−41%) |
-| `.vm` reach-ins | 266 | 156 | −110 (−41%) | −108 (−40%) |
-| `as any`/`as unknown`/`as never` casts | 205 | 34 | −171 (−83%) | −171 (−83%) |
-| `flushPromises`/`setTimeout` calls | 609 | 399 | −210 (−34%) | −207 (−34%) |
-| `vi.mock` module mocks | 214 | 172 | −42 (−20%) | −31 (−14%) |
+| Executed tests (`vitest list`) | 2,322 | 2,754 | +432 (+19%) | |
+| Test lines | 45,121 | 41,355 | −3,766 (−8%) | −3,268 (−7%) |
+| Strong Checks - exact `toEqual`/`toStrictEqual` | 591 | 671 | +80 (+14%) | +80 (+14%) |
+| Weak Checks - `toBeTruthy`/`toBeFalsy` | 281 | 86 | −195 (−69%) | −195 (−69%) |
+| Imports of shared `@tests/test-data` fixtures | 20 | 77 | +57 (+285%) | +58 (+276%) |
+| Direct `mount`/`shallowMount` calls | 351 | 206 | −145 (−41%) | −144 (−40%) |
+| `.vm` reach-ins | 269 | 156 | −113 (−42%) | −111 (−41%) |
+| `as any`/`as unknown`/`as never` casts | 209 | 34 | −175 (−84%) | −175 (−83%) |
+| `flushPromises`/`setTimeout` calls | 621 | 409 | −212 (−34%) | −209 (−33%) |
+| `vi.mock` module mocks | 218 | 172 | −46 (−21%) | −35 (−16%) |
 | `eslint-disable` | 5 | 1 | −4 (−80%) | −3 (−60%) |
 
-Files that lost an executed test: 0 of 243; 66 gained tests and the rest kept the same count.
+Files that lost an executed test: 0 of 247; 70 gained tests and the rest kept the same count.
 
-Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): 25 files changed, 686 insertions(+), 189 deletions(-).
+Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): 26 files changed, 689 insertions(+), 191 deletions(-).
 <!-- case_metrics:lane1:end -->
 
 What the numbers mean:

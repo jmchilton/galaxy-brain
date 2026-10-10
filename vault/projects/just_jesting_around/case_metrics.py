@@ -58,8 +58,8 @@ SIGNALS = {
 COMPILED = {name: re.compile(rx, re.MULTILINE) for name, rx in SIGNALS.items()}
 PITCH_ROWS = {
     "lines": "Test lines",
-    "truthy checks": "`toBeTruthy`/`toBeFalsy` checks",
-    "exact equality": "Exact `toEqual`/`toStrictEqual` checks",
+    "exact equality": "Strong Checks - exact `toEqual`/`toStrictEqual`",
+    "truthy checks": "Weak Checks - `toBeTruthy`/`toBeFalsy`",
     "test-data imports": "Imports of shared `@tests/test-data` fixtures",
     "direct mounts": "Direct `mount`/`shallowMount` calls",
     "wrapper.vm": "`.vm` reach-ins",
