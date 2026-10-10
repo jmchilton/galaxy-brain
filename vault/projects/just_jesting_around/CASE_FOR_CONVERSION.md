@@ -4,20 +4,7 @@ Evidence that the lanes in [PIPELINE_BRANCHES.md](PIPELINE_BRANCHES.md) make Gal
 
 ## Headline numbers
 
-**Lane 1 (readability):** 227 test files, dev `df3932ed4ba` → `vitest_readability` `f8463741af2`.
-
-| Signal | Before | After | Δ |
-| --- | ---: | ---: | ---: |
-| Test lines | 40,857 | 37,085 | −3,772 (−9%) |
-| `it.each`/`test.each` tables | 12 | 162 | +150 |
-| `wrapper.vm` reach-ins | 248 | 138 | −110 (−44%) |
-| `as any`/`as unknown` casts | 162 | 8 | −154 (−95%) |
-| `flushPromises`/`setTimeout`/timer pokes | 641 | 449 | −192 (−30%) |
-| `vi.mock` module mocks | 194 | 155 | −39 |
-| Class-name selectors (`.find(".x")`) | 264 | 222 | −42 |
-| `eslint-disable` | 5 | 1 | −4 |
-
-Shared helpers and docs add 25 non-test files, +668/−182. Test lines plus helpers and docs still come to about −3,300.
+**Lane 1 (readability):** the standing table is in [REFACTORING_METRICS.md](REFACTORING_METRICS.md), which the script regenerates (`--update`). As of 2026-10-10: 237 test files, test lines down 9%, casts down 95%, `wrapper.vm` down 42%.
 
 **Lane 2 (stories):** 14 tests. Setup moves out of the test and into 71 browsable stories. Test plus stories grows +230 lines in total, but the tests themselves shrink: FormData 611 → 342 (+158 story), HistoryExportWizard 460 → 179 (+72), PersistentTaskProgressMonitorAlert 221 → 81 (+131). Cases go 123 → 128 and module mocks 8 → 3.
 

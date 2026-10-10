@@ -12,7 +12,9 @@ import argparse
 import re
 import subprocess
 from collections import Counter
+from datetime import date
 from pathlib import Path
+from typing import NamedTuple
 
 DEFAULT_REPO = Path.home() / "projects/worktrees/galaxy/branch/vitest_readability"
 REMOTE = "jmchilton"
@@ -36,6 +38,19 @@ SIGNALS = {
     "manual flush/sleep": r"\bflushPromises\(|\bsetTimeout\(|\bvi\.advanceTimers",
 }
 COMPILED = {name: re.compile(rx, re.MULTILINE) for name, rx in SIGNALS.items()}
+PITCH_ROWS = {
+    "lines": "Test lines",
+    "wrapper.vm": "`wrapper.vm` reach-ins",
+    "casts": "`as any`/`as unknown` casts",
+    "manual flush/sleep": "`flushPromises`/`setTimeout`/timer pokes",
+    "vi.mock": "`vi.mock` module mocks",
+    "class selectors": 'Class-name selectors (`.find(".x")`)',
+    "eslint-disable": "`eslint-disable`",
+}
+BLOCK = re.compile(
+    r"(<!-- case_metrics:lane1:start -->\n).*?(<!-- case_metrics:lane1:end -->)",
+    re.DOTALL,
+)
 GOOD = {"cases", ".each tables", "stories", "plays", "expects", "role/label queries"}
 
 
@@ -71,21 +86,40 @@ def measure_pair(repo, ref, test_path):
     return test, story
 
 
+class Support(NamedTuple):
+    """Non-test files changed alongside the tests: helpers, fixtures, docs."""
+
+    shortstat: str
+    before: Counter
+    after: Counter
+
+
 def lane1(repo, base, tip):
-    files = [
-        f
-        for f in git(repo, "diff", "--name-only", base, tip).split()
-        if TEST_FILE.search(f)
-    ]
+    changed = git(repo, "diff", "--name-only", base, tip).split()
+    files = [f for f in changed if TEST_FILE.search(f)]
     before, after, rows = Counter(), Counter(), []
     for f in files:
         b, a = measure(show(repo, base, f)), measure(show(repo, tip, f))
         before.update(b)
         after.update(a)
         rows.append((f, b, a))
-    support = git(
-        repo, "diff", "--shortstat", base, tip, "--", ".", *[f":!{f}" for f in files]
-    ).strip()
+    support = Support(
+        git(
+            repo,
+            "diff",
+            "--shortstat",
+            base,
+            tip,
+            "--",
+            ".",
+            *[f":!{f}" for f in files],
+        ).strip(),
+        Counter(),
+        Counter(),
+    )
+    for f in set(changed) - set(files):
+        support.before.update(measure(show(repo, base, f)))
+        support.after.update(measure(show(repo, tip, f)))
     return rows, before, after, support
 
 
@@ -139,6 +173,31 @@ def signal_table(before, after):
     return "\n".join(lines)
 
 
+def delta(b, a):
+    d = f"{a - b:+,d}".replace("-", "\u2212")
+    return f"{d} ({(a - b) / b:+.0%})".replace("-", "\u2212") if b else d
+
+
+def pitch_block(base, tip, files, before, after, support, today):
+    lines = [
+        f"{len(files)} test files, dev `{base[:11]}` → `vitest_readability` `{tip[:11]}`, as of {today}.",
+        "",
+        "| Signal | Before | After | Δ | Δ with helpers |",
+        "| --- | ---: | ---: | ---: | ---: |",
+    ]
+    for name, label in PITCH_ROWS.items():
+        b, a = before[name], after[name]
+        with_b, with_a = b + support.before[name], a + support.after[name]
+        lines.append(
+            f"| {label} | {b:,} | {a:,} | {delta(b, a)} | {delta(with_b, with_a)} |"
+        )
+    lines += [
+        "",
+        f"Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): {support.shortstat}.",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def file_table(rows):
     lines = [
         "| Test | Test lines | Story lines | Cases | Plays | Expects | Brittle signals |",
@@ -164,6 +223,11 @@ def main():
         "--drops", type=int, default=12, help="rows in the lane-1 drop tables"
     )
     parser.add_argument(
+        "--update",
+        type=Path,
+        help="rewrite the lane-1 pitch table between the case_metrics markers in this file, print nothing else",
+    )
+    parser.add_argument(
         "--fetch", action="store_true", help="fetch dev and the lane branches first"
     )
     args = parser.parse_args()
@@ -175,11 +239,25 @@ def main():
     base1 = git(repo, "merge-base", args.dev, readability).strip()
 
     files, before, after, support = lane1(repo, base1, readability)
+    if args.update:
+        tip = git(repo, "rev-parse", readability).strip()
+        block = pitch_block(
+            base1, tip, files, before, after, support, date.today().isoformat()
+        )
+        text = args.update.read_text()
+        if not BLOCK.search(text):
+            parser.error(f"no case_metrics:lane1 markers in {args.update}")
+        args.update.write_text(
+            BLOCK.sub(lambda m: m.group(1) + block + m.group(2), text)
+        )
+        return
     print(
         f"## Lane 1: readability ({len(files)} test files, `{base1[:11]}` → `{git(repo, 'rev-parse', '--short', readability).strip()}`)\n"
     )
     print(signal_table(before, after))
-    print(f"\nSupporting (non-test) changes: {support}\n")
+    print(f"\nSupporting (non-test) changes: {support.shortstat}\n")
+    print(signal_table(support.before, support.after))
+    print()
     for signal in ("expects", "cases"):
         print(f"Largest `{signal}` drops (each needs an explanation in the case):\n")
         print(drops_table(files, signal, args.drops))
