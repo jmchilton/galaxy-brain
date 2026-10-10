@@ -15,3 +15,5 @@ Reuse: `setMockConfig`/`resetMockConfig` from `@/composables/__mocks__/config`; 
 Validation, from `client/`: 6 tests pass shuffled with seed `300101` and with seeds 1, 2, 3, 7 and 8. ESLint (`--max-warnings 0`), Prettier and `vue-tsc --noEmit` pass.
 
 Guidance: a JSON fixture imported into a test is one shared module object. If the code under test mutates what it is given, as `WorkflowRunModel` does, have the mock return `structuredClone(fixture)`, or the suite depends on test order. Only shuffled runs show it.
+
+Coverage follow-up (2026-10-10): two `model.js` branches (an input connected twice; a required input left empty) were reached at base only because the shared run fixture was mutated between loads, which the rewrite deliberately stopped. The existing fixture is untouched. Instead, `model.test.js` (unchanged by the lane until now; own commit) gains two cases on small hand-built run data: a data input connected from two steps lists both connections in its help and `step_linked`, and a filled required parameter gets a collapsible preview while an empty one doesn't. `model.js` branches 86 → 90.

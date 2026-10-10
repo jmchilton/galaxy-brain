@@ -16,6 +16,7 @@ import re
 import subprocess
 import tempfile
 from collections import Counter
+from contextlib import contextmanager
 from datetime import date
 from pathlib import Path
 from typing import NamedTuple
@@ -171,13 +172,14 @@ def lane1(repo, base, tip):
     return rows, before, after, support
 
 
-class RefRun(NamedTuple):
-    tests: Counter  # executed tests per repo-relative test file
-    coverage: dict  # repo-relative source file -> {metric: (covered, total)}
+class Checkout(NamedTuple):
+    worktree: Path
+    env: dict
 
 
-def measure_ref(repo, ref, tmp, client_tests):
-    """``vitest list`` everywhere plus client coverage of ``client_tests``, in a throwaway worktree of ``ref``."""
+@contextmanager
+def checkout(repo, ref, tmp):
+    """A throwaway worktree of ``ref`` sharing the main worktree's ``node_modules``."""
     worktree = (
         Path(tmp).resolve() / ref[:11]
     )  # vitest filters must match its resolved root (/var -> /private/var)
@@ -192,65 +194,109 @@ def measure_ref(repo, ref, tmp, client_tests):
             .strip(),
             "VITE_CONFIG_NATIVE_IGNORE_WARNING": "true",
         }
-        tests = Counter()
-        for d in VITEST_DIRS:
-            out = Path(tmp) / f"{ref[:11]}-{d.replace('/', '_')}.json"
-            subprocess.run(
-                ["pnpm", "exec", "vitest", "list", f"--json={out}"],
-                cwd=worktree / d,
-                env=env,
-                check=True,
-                capture_output=True,
-            )
-            for test in json.loads(out.read_text()):
-                tests[relative(test["file"], worktree)] += 1
-        return RefRun(
-            tests,
-            client_coverage(
-                worktree, env, Path(tmp) / f"{ref[:11]}-coverage", client_tests
-            ),
-        )
+        yield Checkout(worktree, env)
     finally:
         git(repo, "worktree", "remove", "--force", str(worktree))
+
+
+def listed_tests(co, out_dir):
+    """Executed tests per repo-relative test file, from ``vitest list`` in every vitest project."""
+    tests = Counter()
+    for d in VITEST_DIRS:
+        out = out_dir / f"{co.worktree.name}-{d.replace('/', '_')}.json"
+        subprocess.run(
+            ["pnpm", "exec", "vitest", "list", f"--json={out}"],
+            cwd=co.worktree / d,
+            env=co.env,
+            check=True,
+            capture_output=True,
+        )
+        for test in json.loads(out.read_text()):
+            tests[relative(test["file"], co.worktree)] += 1
+    return tests
 
 
 def relative(path, worktree):
     return str(Path(path).resolve().relative_to(worktree.resolve()))
 
 
-def client_coverage(worktree, env, out, tests):
-    """Per-source-file line and branch counts from running ``tests`` with v8 coverage."""
+def client_coverage(co, out, tests, include=()):
+    """Istanbul hit maps per repo-relative source file from running ``tests`` with v8 coverage."""
     run = subprocess.run(
         [
             "pnpm",
             "exec",
             "vitest",
             "run",
-            *[str(worktree / t) for t in tests],
+            *[str(co.worktree / t) for t in tests],
             "--coverage.enabled",
-            "--coverage.reporter=json-summary",
+            "--coverage.reporter=json",
             f"--coverage.reportsDirectory={out}",
             "--coverage.reportOnFailure",
+            *[f"--coverage.include={p.removeprefix('client/')}" for p in include],
         ],
-        cwd=worktree / "client",
-        env=env,
+        cwd=co.worktree / "client",
+        env=co.env,
         check=False,
         capture_output=True,
         text=True,
     )
-    summary = json.loads((out / "coverage-summary.json").read_text())
-    coverage = {}
-    for path, metrics in summary.items():
-        if path == "total" or TEST_SUPPORT.search(rel := relative(path, worktree)):
-            continue
-        coverage[rel] = {
-            m: (metrics[m]["covered"], metrics[m]["total"]) for m in COVERAGE_METRICS
-        }
-    if not coverage:
+    hits = {}
+    for path, data in json.loads((out / "coverage-final.json").read_text()).items():
+        if not TEST_SUPPORT.search(rel := relative(path, co.worktree)):
+            hits[rel] = data
+    if not hits:
         raise SystemExit(
             f"coverage run measured no source files:\n{run.stdout[-2000:]}"
         )
-    return coverage
+    return hits
+
+
+def merge_hits(first, second):
+    """Union of two runs' hit maps; a statement or branch arm counts if either run reached it."""
+    merged = dict(first)
+    for path, data in second.items():
+        if path not in merged:
+            # --coverage.include also reports included files the run never loaded; keep those absent
+            if any(data["s"].values()):
+                merged[path] = data
+            continue
+        old = merged[path]
+        merged[path] = {
+            **old,
+            "s": {k: max(v, data["s"].get(k, 0)) for k, v in old["s"].items()},
+            "b": {
+                k: [max(x, y) for x, y in zip(v, data["b"].get(k, v))]
+                for k, v in old["b"].items()
+            },
+        }
+    return merged
+
+
+def coverage_counts(hits):
+    """{source: {metric: (covered, total)}}, counted the way istanbul's summary counts them."""
+    counts = {}
+    for path, data in hits.items():
+        lines = {}
+        for sid, loc in data["statementMap"].items():
+            line = loc["start"]["line"]
+            lines[line] = max(lines.get(line, 0), data["s"][sid])
+        arms = [n for counts_ in data["b"].values() for n in counts_]
+        counts[path] = {
+            "lines": (sum(n > 0 for n in lines.values()), len(lines)),
+            "branches": (sum(n > 0 for n in arms), len(arms)),
+        }
+    return counts
+
+
+def sibling_tests(worktree, source):
+    """Test files named after ``source`` in its own directory, e.g. ``Foo.test.ts`` for ``Foo.vue``."""
+    path = Path(source)
+    return sorted(
+        str(t.relative_to(worktree))
+        for t in (worktree / path.parent).glob(f"{path.stem}.test.*")
+        if TEST_FILE.search(t.name)
+    )
 
 
 def coverage_percent(base_cov, tip_cov, metric):
@@ -265,37 +311,109 @@ def coverage_percent(base_cov, tip_cov, metric):
 
 
 def coverage_losses(base_cov, tip_cov):
-    """Markdown table of source files whose covered lines or branches fell between the refs."""
+    """Markdown table of source files whose covered lines or branches fell between the refs.
+
+    A file the tip run never loaded is listed apart: only a dynamic ``import()`` can be missing
+    from one run, and whether it resolves before the run ends is timing, not the tests.
+    """
     lines = [
         "| Source file | Lines covered | Branches covered |",
         "| --- | --- | --- |",
     ]
-    for path in sorted(base_cov.keys() | tip_cov.keys()):
-        b, a = base_cov.get(path, {}), tip_cov.get(path, {})
+    unloaded = []
+    for path in lost(base_cov, tip_cov):
+        if path not in tip_cov:
+            unloaded.append(f"`{path}`")
+            continue
+        b, a = base_cov.get(path, {}), tip_cov[path]
         cells = [(b.get(m, (0, 0))[0], a.get(m, (0, 0))[0]) for m in COVERAGE_METRICS]
-        if any(after < before for before, after in cells):
-            lines.append(
-                f"| `{path}` | " + " | ".join(f"{x} → {y}" for x, y in cells) + " |"
-            )
+        lines.append(
+            f"| `{path}` | " + " | ".join(f"{x} → {y}" for x, y in cells) + " |"
+        )
+    if unloaded:
+        lines.append(
+            f"\nLoaded at base only (dynamic import timing; check by hand): {', '.join(unloaded)}"
+        )
     return "\n".join(lines)
 
 
+class Measured(NamedTuple):
+    runs: list  # (base path, tip path, executed at base, executed at tip)
+    base_cov: dict  # counts from the changed client tests, for the pitch
+    tip_cov: dict
+    client_tests: int
+    loss_base: dict  # counts with unchanged sibling tests of lost files added, for the loss list
+    loss_tip: dict
+    siblings: list
+
+
+def lost(base_cov, tip_cov):
+    """Source files whose covered lines or branches fell between the refs."""
+    return [
+        path
+        for path in sorted(base_cov.keys() | tip_cov.keys())
+        if any(
+            tip_cov.get(path, {}).get(m, (0, 0))[0]
+            < base_cov.get(path, {}).get(m, (0, 0))[0]
+            for m in COVERAGE_METRICS
+        )
+    ]
+
+
 def executed(repo, base, tip, files):
-    """Executed tests per changed test file, plus both refs' client coverage; tooling must match to share node_modules."""
+    """Executed tests per changed test file, plus both refs' client coverage; tooling must match to share node_modules.
+
+    A file that lost coverage is rechecked with its own unchanged sibling test added at both refs: a parent
+    test that now stubs a child loses nothing the child's own test still covers.
+    """
     if git(repo, "diff", "--name-only", base, tip, "--", *SAME_TOOLING).strip():
         raise SystemExit(
             "client tooling differs between base and tip; executed counts need separate installs"
         )
     client_tests_b = [old for old, _ in files if old.startswith("client/")]
     client_tests_a = [new for _, new in files if new.startswith("client/")]
-    with tempfile.TemporaryDirectory() as tmp:
-        at_base = measure_ref(repo, base, tmp, client_tests_b)
-        at_tip = measure_ref(repo, tip, tmp, client_tests_a)
+    changed = {path for pair in files for path in pair}
+    with (
+        tempfile.TemporaryDirectory() as tmp,
+        checkout(repo, base, tmp) as co_b,
+        checkout(repo, tip, tmp) as co_a,
+    ):
+        out = Path(tmp)
+        tests_b, tests_a = listed_tests(co_b, out), listed_tests(co_a, out)
+        hits_b = client_coverage(co_b, out / "base-coverage", client_tests_b)
+        hits_a = client_coverage(co_a, out / "tip-coverage", client_tests_a)
+        losses = lost(coverage_counts(hits_b), coverage_counts(hits_a))
+        siblings = sorted(
+            {
+                t
+                for path in losses
+                for t in sibling_tests(co_a.worktree, path)
+                if t not in changed and (co_b.worktree / t).exists()
+            }
+        )
+        loss_b, loss_a = hits_b, hits_a
+        if siblings:
+            loss_b = merge_hits(
+                hits_b,
+                client_coverage(co_b, out / "base-siblings", siblings, losses),
+            )
+            loss_a = merge_hits(
+                hits_a,
+                client_coverage(co_a, out / "tip-siblings", siblings, losses),
+            )
     runs = [
-        (old, new, at_base.tests[old] if old else 0, at_tip.tests[new] if new else 0)
+        (old, new, tests_b[old] if old else 0, tests_a[new] if new else 0)
         for old, new in files
     ]
-    return runs, at_base.coverage, at_tip.coverage, len(client_tests_a)
+    return Measured(
+        runs,
+        coverage_counts(hits_b),
+        coverage_counts(hits_a),
+        len(client_tests_a),
+        coverage_counts(loss_b),
+        coverage_counts(loss_a),
+        siblings,
+    )
 
 
 def drops_table(rows, signal, limit):
@@ -354,7 +472,7 @@ def delta(b, a):
 
 
 def pitch_block(base, tip, files, before, after, support, measured, today):
-    runs, base_cov, tip_cov, client_tests = measured
+    runs, base_cov, tip_cov, client_tests, *_ = measured
     run_b, run_a = sum(r[2] for r in runs), sum(r[3] for r in runs)
     lost = [r for r in runs if r[3] < r[2]]
     grew = sum(r[3] > r[2] for r in runs)
@@ -458,7 +576,11 @@ def main():
             BLOCK.sub(lambda m: m.group(1) + block + m.group(2), text)
         )
         print("Coverage losses (fix these in the tests rather than reporting them):\n")
-        print(coverage_losses(measured[1], measured[2]))
+        print(coverage_losses(measured.loss_base, measured.loss_tip))
+        if measured.siblings:
+            print(
+                f"\nRechecked with unchanged sibling tests: {', '.join(measured.siblings)}"
+            )
         return
     print(
         f"## Lane 1: readability ({len(files)} test files, `{base1[:11]}` → `{git(repo, 'rev-parse', '--short', readability).strip()}`)\n"

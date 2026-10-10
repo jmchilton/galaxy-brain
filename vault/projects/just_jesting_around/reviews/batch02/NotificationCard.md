@@ -34,3 +34,5 @@ No new README guidance proposed. Existing factory, parameterized-case, and mount
 - `pnpm exec prettier --check src/components/Notifications/NotificationCard.test.ts`: passed.
 - `pnpm exec eslint src/components/Notifications/NotificationCard.test.ts`: passed (existing Browserslist data notice only).
 - Full client type-check and combined-suite checks are coordinated by the driver.
+
+Coverage follow-up (2026-10-10): no case used an urgent notification any more, so the `urgent → danger` variant arm went unreached. A three-row table checks the title icon class for urgent, warning and info: 56/78 → 57/79 lines/branches. The fixup is folded into the `test-utils.ts` commit that also carries this Test-File trailer, because it uses that commit's factory overrides.

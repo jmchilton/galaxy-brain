@@ -22,3 +22,18 @@ Guidance: none.
 31 cases across 4 suites pass; the baseline was 24. Each commit's tests pass at that commit, shuffled with seed `360101`; full client vue-tsc passes at the tip; ESLint, Prettier and hooks pass. [Independent review](reviews/batch36/review.md) approved all four commits.
 
 Commits: `405fa12b462` (useElementReconciliation), `35b03e3a9e0` (BroadcastsList), `10aedd853d7` (FormSelect), `b46d3658d3c` (refresh).
+
+## Later fold: coverage losses (2026-10-10)
+
+A coverage check against the dev merge-base (`case_metrics.py`) found source files that rewritten tests no longer reached. Production code is identical at both refs. Each fix is folded into its test's lane commit. The tests that each review note's "Coverage follow-up" covers:
+- CleanupResultDialog: `Alert`
+- MarkdownVitessce: `VisualizationWrapper`, `VisualizationFrame`
+- WorkflowList: card badges, indicators and tags
+- NotificationCard: urgent variant
+- HistoryArchiveWizard: pre-load breadcrumb
+- WorkflowRun: `model.js`
+- QuotaMeter: user not loaded
+
+Three child tests got their own commits at the tip: new `VisualizationWrapper.test.ts`, plus extensions to `VisualizationFrame.test.js` and `Workflow/Run/model.test.js`. Not fixed: MultipleView's `userTagsStore` path, which was timing only; see its review note.
+
+The earliest fold targets are batch 3 commits (NotificationCard's `test-utils.ts` commit, CleanupResultDialog), so every lane SHA after it changed: the tip went from `b46d3658d3c` to `077ef173840`. SHAs in batch reports up to here predate the fold; find a test's commit by its `Test-File:` trailer. Every commit touching the 8 test files passes its test at that commit, shuffled with seed `360101`, and full client vue-tsc passes.

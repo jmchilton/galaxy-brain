@@ -21,3 +21,5 @@ Reuse: `getFakeWorkflowSummary`, `getFakeRegisteredUser`, `expectConfigurationRe
 Validation: 4 tests pass shuffled (seed `280101`, `NODE_OPTIONS=--no-webstorage`). Scoped ESLint and Prettier pass; full `vue-tsc --noEmit` passes after the deletion.
 
 Guidance: none.
+
+Coverage follow-up (2026-10-10): replacing `generateRandomWorkflowList` with fixed fakes stopped reaching tag, badge and indicator branches that the random data used to hit by chance (`useWorkflowCardBadges` 30 → 26 branches, `useWorkflowCardIndicators` 17 → 13, `StatelessTags` 26 → 14, `GCard` 96 → 83). Two deterministic cases replace the chance. First: a published, tagged, bookmarked workflow plus one imported from a URL, checking the description, the visible and overflow tags, the bookmark buttons, and the published and imported indicators. Second: a deleted workflow whose tags are read-only. Every file is now at or above base (e.g. `GCard` 97 branches, `StatelessTags` 33).

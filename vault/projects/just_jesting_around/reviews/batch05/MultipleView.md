@@ -9,3 +9,5 @@ Uses the existing `getFakeHistorySummary` and registered-user factory, explicit 
 Reuse search: other history components already consume the shared summary/user factories; no new wrapper abstraction improves their different child boundaries. No supporting migrations originate here. Existing guidance covers these improvements; no README addition or marginal advice proposed.
 
 Validation: the 11 affected client suites pass 63 cases, including all 6 here; scoped ESLint passes. Root performs final combined checks and type checking.
+
+Coverage note (2026-10-10), not fixed: `userTagsStore.ts` fell from 23/3 to 18/2 lines/branches in this test. The lost code is the "no new tags" path of `onMultipleNewTagsSeen` after `until(dbLoaded)`; base reached it only because its slower test let the IndexedDB load finish before unmount (a 200ms sleep restores it). Nothing visible depends on it; a `userTagsStore` unit test is the right place if it should be covered.

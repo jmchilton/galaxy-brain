@@ -4,29 +4,29 @@ Two sections - the pitch - a concise, empirical case for the vitest_readability 
 `vitest_readability` rewrites Galaxy's client and Tool Shed frontend unit tests one file at a time, for readability and reuse, keeping what each test checks. Each selected test gets its own commit and a review note. Tests are drawn at random with a recorded seed.
 
 <!-- case_metrics:lane1:start -->
-247 test files, dev merge-base `df3932ed4ba` → `vitest_readability` `f9113edf20c`, as of 2026-10-10.
+264 test files, dev merge-base `df3932ed4ba` → `vitest_readability` `077ef173840`, as of 2026-10-10.
 
 | Signal | Before | After | Δ | Δ with helpers |
 | --- | ---: | ---: | ---: | ---: |
-| Executed tests (`vitest list`) | 2,322 | 2,756 | +434 (+19%) | |
-| Line coverage (source the tests load) | 41.6% | 41.6% | −0.1 pp | |
-| Branch coverage (source the tests load) | 33.8% | 33.7% | −0.1 pp | |
-| Test lines | 45,121 | 41,387 | −3,734 (−8%) | −3,236 (−7%) |
-| Strong Checks - exact `toEqual`/`toStrictEqual` | 591 | 674 | +83 (+14%) | +83 (+14%) |
-| Weak Checks - `toBeTruthy`/`toBeFalsy` | 281 | 86 | −195 (−69%) | −195 (−69%) |
-| Imports of shared `@tests/test-data` fixtures | 20 | 77 | +57 (+285%) | +58 (+276%) |
-| Direct `mount`/`shallowMount` calls | 351 | 206 | −145 (−41%) | −144 (−40%) |
-| `.vm` reach-ins | 269 | 156 | −113 (−42%) | −111 (−41%) |
-| `as any`/`as unknown`/`as never` casts | 209 | 34 | −175 (−84%) | −175 (−83%) |
-| `flushPromises`/`setTimeout` calls | 621 | 409 | −212 (−34%) | −209 (−33%) |
-| `vi.mock` module mocks | 218 | 171 | −47 (−22%) | −36 (−16%) |
+| Executed tests (`vitest list`) | 2,412 | 2,878 | +466 (+19%) | |
+| Line coverage (source the tests load) | 44.0% | 44.1% | +0.1 pp | |
+| Branch coverage (source the tests load) | 35.8% | 36.0% | +0.2 pp | |
+| Test lines | 47,030 | 43,646 | −3,384 (−7%) | −2,829 (−6%) |
+| Strong Checks - exact `toEqual`/`toStrictEqual` | 654 | 764 | +110 (+17%) | +110 (+17%) |
+| Weak Checks - `toBeTruthy`/`toBeFalsy` | 292 | 94 | −198 (−68%) | −198 (−68%) |
+| Imports of shared `@tests/test-data` fixtures | 20 | 84 | +64 (+320%) | +65 (+310%) |
+| Direct `mount`/`shallowMount` calls | 360 | 216 | −144 (−40%) | −143 (−39%) |
+| `.vm` reach-ins | 276 | 161 | −115 (−42%) | −113 (−41%) |
+| `as any`/`as unknown`/`as never` casts | 220 | 38 | −182 (−83%) | −182 (−82%) |
+| `flushPromises`/`setTimeout` calls | 663 | 454 | −209 (−32%) | −206 (−31%) |
+| `vi.mock` module mocks | 228 | 181 | −47 (−21%) | −36 (−16%) |
 | `eslint-disable` | 5 | 1 | −4 (−80%) | −3 (−60%) |
 
-Files that lost an executed test: 0 of 247; 71 gained tests and the rest kept the same count.
+Files that lost an executed test: 0 of 264; 82 gained tests and the rest kept the same count.
 
-Coverage runs the 235 client test files at both refs (the Tool Shed frontend has no coverage provider) and measures the 1131 non-test source files they load; production code is identical at both refs.
+Coverage runs the 252 client test files at both refs (the Tool Shed frontend has no coverage provider) and measures the 1136 non-test source files they load; production code is identical at both refs.
 
-Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): 26 files changed, 689 insertions(+), 191 deletions(-).
+Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): 29 files changed, 746 insertions(+), 191 deletions(-).
 <!-- case_metrics:lane1:end -->
 
 What the numbers mean:
@@ -54,7 +54,12 @@ This rewrites only the block between the `case_metrics:lane1` markers. Don't han
 - Before is `merge-base(origin/dev, jmchilton/vitest_readability)`; after is the pushed tip.
 - Test files are the changed `*.test.[jt]s(x)` files, following renames. The signals read them at both refs with `git show`.
 - Executed tests: `--update` adds a temporary `git worktree` for each ref, symlinks `node_modules` from the main worktree, and runs `vitest list --json` in `client/` and in the tool shed frontend. `vitest list` collects tests without running them. The worktrees are removed afterwards.
-- Coverage: in the same worktrees, `--update` runs the changed client test files with v8 coverage (`--coverage.reporter=json-summary`). The Tool Shed frontend has no coverage provider. The percentages are over the union of non-test source files that either run loads. A file loaded on only one side counts as uncovered on the other, and test helpers, fixtures and stories are excluded. Production code is identical at both refs, so any change comes from the tests. `--update` prints every source file whose covered lines or branches fell. Fix those in the tests: restore the behaviour with a user-visible assertion, or extend the child component's own test when a parent test no longer renders it. Don't add a mount just to raise the number. A full `--update` takes about 6 minutes. The script refuses to run if `package.json`, the lockfile or the vitest config differ between the refs, because the shared `node_modules` would then be wrong.
+- Coverage: in the same worktrees, `--update` runs the changed client test files with v8 coverage (`--coverage.reporter=json`; lines and branches are counted the way istanbul's summary counts them). The Tool Shed frontend has no coverage provider. The percentages are over the union of non-test source files that either run loads. A file loaded on only one side counts as uncovered on the other, and test helpers, fixtures and stories are excluded. Production code is identical at both refs, so any change comes from the tests. A full `--update` takes about 6 minutes. The script refuses to run if `package.json`, the lockfile or the vitest config differ between the refs, because the shared `node_modules` would then be wrong.
+- Coverage losses: `--update` prints every source file whose covered lines or branches fell.
+  - Each lost file's unchanged sibling test (`Foo.test.ts` beside `Foo.vue`) is rerun at both refs and its hits merged in first, since the main run loads only changed tests. A parent that now stubs a child loses nothing the child's own test still covers. The pitch percentages leave these reruns out.
+  - A file the tip run never loaded is listed apart: only a dynamic `import()` can go missing, and whether it resolves before the run ends is timing. `JobMetrics.vue`'s `awsEc2ReferenceData.js` flips between runs at both refs.
+  - Fix losses in the tests: restore the behaviour with a user-visible assertion, or extend the child's own test when a parent no longer renders it. Don't add a mount just to raise the number. Run candidate tests one at a time at both refs with `--coverage.include=<source>` to find which test lost it.
+  - Known and accepted: `userTagsStore.ts` (24 → 20 lines) through MultipleView, from timing alone; see its review note.
 - "Δ with helpers" adds back every other changed file (helpers, fixtures, `client/README.md`), so the reductions can't hide in shared code.
 
 **Signals.** Each is a regex count over raw source, defined in `SIGNALS`:

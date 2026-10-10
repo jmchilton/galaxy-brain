@@ -24,3 +24,5 @@ Reuse: `setupMockConfig` (fixed in this batch), `getFakeRegisteredUser`, `withPl
 Validation: 7 tests pass shuffled (seed `340101`, `NODE_OPTIONS=--no-webstorage`). ESLint (`--max-warnings 0`), Prettier and `vue-tsc --noEmit` pass.
 
 Guidance: none new. Follow-up: the anonymous branch (login link and title) has no case.
+
+Coverage follow-up (2026-10-10): the `?? 0` arms for a missing `total_disk_usage` used to be reached through `Masthead.test.js`, whose ad-hoc anonymous user lacked the field; `getFakeAnonymousUser` now supplies it. Those arms are what users see before their user loads, so the case belongs here: "shows no usage before the user has loaded" checks "Using 0 b" and a zero bar. Branches with Masthead 32 → 34, matching base.

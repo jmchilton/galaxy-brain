@@ -31,3 +31,5 @@ Scoped ESLint passes with two existing `any` warnings in the supporting `ReviewC
 ## Guidance
 
 No README addition recommended. Existing guidance already covers scenario-local inputs, typed shared factories, selective stubbing, cleanup, visible output, and awaiting the relevant operation. This suite supplies a concrete selective-stubbing example: render the table because the parent test promises real row output, while stubbing the surrounding modal/alerts through their default slots. This does not warrant another generic rule.
+
+Coverage follow-up (2026-10-10): the move to `shallowMount` stubbed `Alert` and `GAlert`, so `Alert.vue` fell from 11 to 1 covered lines. Both are unstubbed beside `GTable`, so the error-alert check reads real `GAlert` markup. A new case checks the "only unique items" note renders: `Alert.vue` 1/0 → 11/5 lines/branches, matching base.
