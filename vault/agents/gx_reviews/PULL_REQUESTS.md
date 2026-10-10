@@ -1,4 +1,6 @@
 PRs To Review:
+- [#24017](https://github.com/galaxyproject/galaxy/pull/24017) — Initial review in progress. [notes](../../repositories/galaxy/reviews/active/24017/index.md)
+- [#24003](https://github.com/galaxyproject/galaxy/pull/24003) — Initial review in progress. [notes](../../repositories/galaxy/reviews/active/24003/index.md)
 - [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — John's reply and/or merge decision after Sergey's response. [notes](../../repositories/galaxy/reviews/active/23223/index.md)
 - [#23560](https://github.com/galaxyproject/galaxy/pull/23560) — Draft; re-review when it leaves draft. [notes](../../repositories/galaxy/reviews/active/23560/index.md)
 - [#22976](https://github.com/galaxyproject/galaxy/pull/22976) — Parked for author/Marius follow-up; local draft unposted. [notes](../../repositories/galaxy/reviews/active/22976/index.md)
