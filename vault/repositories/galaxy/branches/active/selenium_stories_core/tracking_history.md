@@ -1,5 +1,0 @@
-# Tracking history
-
-Imported from the branch agent on 2026-10-09; this preserves the recorded decisions and evidence. CI has not been refreshed by this migration.
-
-- Branch `selenium_stories_core` (`e2bccb03545`, was approved at `6f1f67e0cd2` by John 2026-10-05; first commit is `move_markdown_conversion_to_util`) — Description: With `GALAXY_TEST_STORIES_DIRECTORY` set, each `@selenium_test` writes its screenshots out as a markdown/HTML/PDF story; title: "Generate documentation stories from Selenium/Playwright test runs"; blockers: back from `branches_need_pr` — rebased onto dev 2026-10-07 with one conflict (`markdown_util.py` imports: dev's notebook extraction added `dataclass`/`field`, the branch drops the moved `shutil`/`tempfile`; 54 markdown unit tests pass), so the approval lapsed; John re-approves the new SHA; fork CI on `e2bccb03545`; PR D of the #21199 rescue. [Description](pr_description.md), [titles](pr_titles.md), [polish debrief](polish_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_stories_core?expand=1).
