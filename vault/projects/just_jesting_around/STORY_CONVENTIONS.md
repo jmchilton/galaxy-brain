@@ -94,7 +94,9 @@ requests, such as opening a dialog, that story adds handlers for them. Clicking 
 `GButton` disables with `aria-disabled` only, so `toBeEnabled()` always passes on
 it. Assert `toHaveAttribute("aria-disabled", "true")` and that clicking it calls
 nothing. `GTooltip` stays in the DOM and hides with `sr-only`, so `toBeVisible()`
-passes either way; check the `sr-only` class, the one class check allowed. Wrap
+passes either way; check the `sr-only` class, the one class check allowed. A role
+can't tell a `GAlert`'s info from success or danger from warning, so variant checks
+stay in vitest. Wrap
 hover-delayed or re-rendered results in `waitFor`. `toHaveAccessibleDescription`
 picks up a native `title`. A play's `console.log` doesn't reach vitest's output;
 to read rendered text while debugging, use a failing `expect`.
