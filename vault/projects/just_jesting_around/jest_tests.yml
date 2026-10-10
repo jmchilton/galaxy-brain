@@ -462,6 +462,7 @@
 - file: client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js
 - file: client/src/components/Toolshed/SearchList/Categories.test.js
 - file: client/src/components/Toolshed/SearchList/Repositories.test.js
