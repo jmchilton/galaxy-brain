@@ -1,0 +1,15 @@
+# LoginForm
+
+Selected originator: `client/src/components/Login/LoginForm.test.ts`. Baseline **8 tests** → final **9 tests**.
+
+Every case now mounts through one `mountLoginForm(props)` factory (the reset-link case had its own copy of the mount options), with selectors in a `SELECTORS` constant and behaviour-named cases. `MountTarget` becomes `LoginForm`, the deprecated `injectTestRouter` becomes `createTestRouter()`, and the two `router.push` spies come from `stubRouterPush()` and are restored in `afterEach` instead of a trailing `mockRestore()` that a failing assertion would skip. The query-string cases share `visitLoginPage(query)`, which sets `window.location.href`; the external-provider case used `Object.defineProperty(window.location, "search", ...)` and both styles restored the location by hand at the end of the test. `vitest-location-mock` (loaded in `tests/vitest/setup.ts`) already replaces `window.location` before every test, and `LoginForm` reads `search` once at setup, so the restores go.
+
+Restored: the "props" case carried the same stale "GLink change" TODO as LoginIndex, with its register-toggle assertions commented out. It splits into the initial render (disabled message present, toggle absent) and the `setProps` transition with the exact original prop set (`allowUserCreation`, `enableOidc`, `showWelcomeWithLogin`, `welcomeUrl`), which now asserts the toggle's text ("Register here.") and `href` (`/register/start`) again, plus the stubbed `ExternalLogin` that `enableOidc` reveals (new). The selector became `#register-toggle`. Shown to fail: a wrong expected `href` fails the transition case, and `enableOidc: false` fails the new `ExternalLogin` check. "Hides the register link when local accounts are disabled" asserted `findAll(toggle).length === 0`, which could never fail while the toggle was believed unrenderable; it now reads `exists() === false` and fails when `disableLocalAccounts` is flipped to `false`. The trailing `flushPromises()` after the props assertions went; coverage is unchanged without it.
+
+Every original assertion survives: header text, two inputs with their types, posted login and password, both router pushes, disabled message before and after, welcome iframe `src`, the external-provider alert, disabled prefilled username, empty password and posted URL, the query-string message and its `alert-info` variant, and the `v-sanitize-html` call. `ExternalLogin` stays stubbed as before; nothing newly stubbed.
+
+Reuse: `createTestRouter`, `getLocalVue`, `nth`, `withPlugins` from `@tests/vitest/helpers`, `useServerMock`; no new shared helper.
+
+Validation: 9 tests pass shuffled (seed `430101`, `NODE_OPTIONS=--no-webstorage`). Per-file coverage across `src/**` is identical at base and tip (`LoginForm.vue` 63/70 statements, 68/81 branches). ESLint, Prettier and full client vue-tsc pass.
+
+Guidance: `window.location` is reset per test by `vitest-location-mock`, so tests can set `window.location.href` to drive a query string without restoring it. Possibly worth a README line if more tests are found doing manual restores.

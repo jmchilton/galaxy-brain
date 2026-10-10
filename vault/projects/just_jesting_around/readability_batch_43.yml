@@ -1,0 +1,46 @@
+iteration: 43
+seed: 'none (follow-through from iteration 42: LoginForm GLink TODO; unresolved vi.mock("app") holders)'
+inventory_sha256: 8f6075c1a909d644d0e57254b6e9bde0bd13bd105101a9b2af210269d937ed75
+branch: vitest_readability
+base_commit: 5c8e96d88306b65e32a503aa628b08bb5e2cc296
+status: reviewed
+selection:
+- file: client/src/components/Login/LoginForm.test.ts
+- file: client/src/components/JobInformation/JobInformation.test.js
+- file: client/src/components/Toolshed/InstalledList/Index.test.js
+- file: client/src/components/Tour/Tour.test.js
+baseline:
+  selected_cases: 17
+  selected_passed: 17
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: e40c9bcf0ca2d52ccaf163a56e73d67375766a18
+  subject: Improve readability of LoginForm tests
+- sha: 9ce186985b0afb6608b4ab67396e08906c6e3333
+  subject: Improve readability of JobInformation tests
+- sha: 266e16dc25201381b6c30ae7a0adbf48f5e3ee1d
+  subject: Improve readability of InstalledList/Index tests
+- sha: b77cd65c2275266ff71bd66483a3f437620abd32
+  subject: Improve readability of Tour tests
+validation:
+  passed_cases: 21
+  skipped_cases: 0
+  total_cases: 21
+  affected_suites: 4
+  selected_cases: 21
+  supporting_cases: 0
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  per_test_coverage: no source file lost covered lines or branches
+  independent_review: approved (4/4 commits)
+  shuffle_seed: 430101
+  test_environment: NODE_OPTIONS=--no-webstorage
