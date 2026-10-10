@@ -160,6 +160,7 @@
 - file: client/src/components/Common/ListHeader.test.ts
 - file: client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts
   storified: true
+  storybook_play: true
 - file: client/src/components/Common/RDMDestinationSelector.test.ts
 - file: client/src/components/Common/RenameModal.test.ts
   iterated: 1
