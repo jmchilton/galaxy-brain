@@ -863,6 +863,7 @@
 - file: client/src/components/admin/QuotaForm.test.ts
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/admin/ResetUserPasswordForm.test.ts
 - file: client/src/components/admin/RoleForm.test.ts
   storified: true
