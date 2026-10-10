@@ -97,6 +97,7 @@
   storybook_play: skip
 - file: client/src/components/Collections/ListCollectionCreator.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/Collections/PairCollectionCreator.test.ts
 - file: client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts
 - file: client/src/components/Collections/common/stripExtension.test.ts
