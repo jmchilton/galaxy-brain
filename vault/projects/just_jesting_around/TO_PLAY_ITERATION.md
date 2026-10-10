@@ -20,6 +20,7 @@ Pick the most recent (in lane commit order) test commit on `vitest_stories` whos
 - **Don't measure layout:** no pixel sizes or computed styles. Those couple a play to global CSS; a class or prop check in vitest is enough. Waiting on layout (until a list can scroll) is fine.
 - **Negative checks** ("no extra fetch") need a positive sync point to wait on first, or they pass by racing; without one they stay in vitest.
 - A case may split: its user-visible assertions move and the rest stay. A check may end up in both places when each half needs it.
+- Behavior that depends on the platform (cmd vs ctrl from the userAgent) stays; a play would pass on a Mac and fail in Linux CI.
 - A case stays when no user-visible check fails under its break (a `focus()` spy where the browser keeps focus anyway).
 - **Assertions:** a moved case keeps its assertions, rewritten as user-visible equivalents ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)).
   - Strengthen weak assertions (OR-checks, ones that pass without the behavior) as you go, and note it in the log.
