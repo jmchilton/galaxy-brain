@@ -753,6 +753,7 @@
 - file: client/src/entry/analysis/modules/Register.test.ts
   iterated: 1
   split_commit: true
+- file: client/src/entry/analysis/modules/ResetPassword.test.ts
 - file: client/src/entry/analysis/router-push.test.js
   iterated: 1
   split_commit: true
