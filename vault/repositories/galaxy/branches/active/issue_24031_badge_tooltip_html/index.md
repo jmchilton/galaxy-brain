@@ -14,4 +14,6 @@ Issue: [24031 — Storage badge tooltips show administrator messages as literal 
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24031_badge_tooltip_html`.
 Branch: `issue_24031_badge_tooltip_html`, based on upstream dev `20f365a2654`.
-Status: `branches_ready_for_final_review`. Pushed commit: `1a0b0fa24e6` (polished 2026-10-10). No PR opened.
+Status: `branches_need_polish`. Pushed commit: `1a0b0fa24e6`. No PR opened.
+
+Back in polish 2026-10-10: John approved three scope additions after the first polish. (1) Sanitize badge messages with the `links` profile. (2) Make admin links clickable again with a popover, as before 25.0. (3) Add a hover check to `test_objectstore_selection.py`. The description and screenshots predate these and need redoing.
