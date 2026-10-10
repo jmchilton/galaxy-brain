@@ -20,6 +20,7 @@
 - file: client/packages/ui/src/portableImports.test.ts
 - file: client/packages/ui/src/publicClasses.test.ts
   iterated: 1
+  storified: skip
 - file: client/packages/ui/src/utils/escapeStack.test.ts
   storified: skip
 - file: client/packages/ui/src/utils/focusOrder.test.ts
