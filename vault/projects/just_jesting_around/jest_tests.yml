@@ -48,6 +48,7 @@
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
 - file: client/src/components/BaseComponents/GButton.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/Citation/CitationsList.test.ts
 - file: client/src/components/Citation/services.test.ts
   storified: skip
