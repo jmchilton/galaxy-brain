@@ -6,7 +6,7 @@ Reuse the same branch and worktree for every iteration.
 
 Rebase `vitest_stories` onto `jmchilton/vitest_readability`. Commands are in [PIPELINE_BRANCHES.md](PIPELINE_BRANCHES.md#lanes).
 - Resolve conflicts so that both lanes' intent survives.
-- Don't select a test until the lane is green: from `client/`, with the pinned node and env, `git grep -l useStoryMount -- '*.test.*' | xargs pnpm exec vitest run --project unit` and the whole `--project storybook` pass, and `pnpm type-check` is clean.
+- Don't select a test until the lane is green: from `client/`, with the pinned node and env, `git grep -l useStoryMount -- '*.test.*' | xargs pnpm exec vitest run --project unit` and the whole `--project storybook` pass, and `pnpm type-check` is clean. If neither the lane nor its base moved since the last green gate, skip it.
 
 ## Select
 
@@ -17,7 +17,7 @@ Walk back from the tip of `vitest_readability` through its `Test-File:` trailers
 Decide whether the test should become stories. Use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for):
 - **Storify:** components whose setup (stores, API mocks, router, props) describes scenarios a person would want to look at.
   Props alone count when they produce visibly different states (QuotaUsageSummary: finite total vs unlimited). A form counts even when it's empty on mount, since play functions fill it.
-- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, and wrappers whose only variation is a size or style passed to children.
+- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, and wrappers whose only variation is a size or style passed to children. Tests outside `client/` (the tool shed frontend) have no Storybook yet.
 
 When skipping, set `storified: skip` (only that field), log the reason, and end the iteration.
 

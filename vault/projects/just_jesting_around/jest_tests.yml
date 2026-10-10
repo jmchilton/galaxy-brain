@@ -1265,45 +1265,70 @@
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/LandingSearchBox.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/LoginForm.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts
   iterated: 1
   split_commit: true
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts
   iterated: 1
   split_commit: true
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts
   iterated: 1
   split_commit: true
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts
   iterated: 1
   split_commit: true
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts
   iterated: 1
   split_commit: true
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts
   iterated: 1
   split_commit: true
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts
   iterated: 1
   split_commit: true
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/RegisterPage.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts
   iterated: 1
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts
   iterated: 1
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/AdminControls.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ChangePassword.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ForgotPassword.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ManageApiKey.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/MetadataInspectorPage.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ToolVersionPage.test.ts
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/util.test.ts
   storified: skip

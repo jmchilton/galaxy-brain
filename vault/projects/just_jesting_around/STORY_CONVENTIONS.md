@@ -35,7 +35,14 @@ shows. A test should read as: pick a scenario, act, assert. Type a helper that t
 any story as `StoryOf<typeof stories>`.
 
 A story mount renders children, so a `shallowMount` stub check like
-`attributes("size")` becomes `props("size")` on the child component.
+`attributes("size")` becomes `props("size")` on the child component. A functional
+child (`BNavItem`) has no `props()`; check what it renders instead.
+
+A test that `vi.mock`s a store to count action calls can count on the testing
+pinia's pass-through spies instead. Where the real store fetches on its own, preload
+it in a decorator so the original counts stay exact
+(`WorkflowInvocationState.stories.ts`). A state the real store can't produce stays
+as a plain mount with overridden getters.
 
 Pass extra `global` options to `mountStory`; they add to the defaults rather than
 replace them. Pass `router` for a test that needs real routes, `pinia` to stub
@@ -89,7 +96,8 @@ it. Assert `toHaveAttribute("aria-disabled", "true")` and that clicking it calls
 nothing. `GTooltip` stays in the DOM and hides with `sr-only`, so `toBeVisible()`
 passes either way; check the `sr-only` class, the one class check allowed. Wrap
 hover-delayed or re-rendered results in `waitFor`. `toHaveAccessibleDescription`
-picks up a native `title`.
+picks up a native `title`. A play's `console.log` doesn't reach vitest's output;
+to read rendered text while debugging, use a failing `expect`.
 
 A harness that forwards listeners through `attrs` needs `compatConfig: { MODE: 3 }`,
 or compat mode drops them (`GButton.stories.ts`'s `ClickableRow`).
