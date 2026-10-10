@@ -251,6 +251,7 @@
 - file: client/src/components/Form/Elements/FormRulesEdit.test.ts
 - file: client/src/components/Form/Elements/FormSelect.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts
   iterated: 1
   split_commit: true
