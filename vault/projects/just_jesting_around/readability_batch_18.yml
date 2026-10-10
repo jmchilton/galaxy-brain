@@ -1,0 +1,35 @@
+iteration: 18
+seed: follow-through from iteration 17 (no draw)
+inventory_sha256: f6a41e762834f352af13c9351bb6d9912f640c4ca6c6294aed63611905f67c20
+branch: vitest_readability
+base_commit: 943eec1a1ef647bfbb02d4d3a587880f72c77681
+status: reviewed
+selection:
+- file: client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts
+baseline:
+  selected_cases: 1
+  selected_passed: 1
+  selected_skipped: 0
+  selected_suites: 1
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: 36644f2c37d0af55e8f5670a8816fe084c537cb3
+  subject: Improve readability of ToolSelectPreferredObjectStore tests
+validation:
+  passed_cases: 3
+  skipped_cases: 0
+  total_cases: 3
+  affected_suites: 1
+  selected_cases: 3
+  supporting_cases: 0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved
+  shuffle_seed: 180101
+  test_environment: NODE_OPTIONS=--no-webstorage
