@@ -49,7 +49,7 @@ Reviewed all 22 changed files plus the config store, its tests, `App.vue`'s erro
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Same as before: App.vue's "Unable to load the Galaxy configuration" banner. The 20 former `useConfig(true)` components now retry on mount, and a successful retry clears the banner.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A. No tests added; `configurationStore.test.ts` covers the store's failure and retry paths.

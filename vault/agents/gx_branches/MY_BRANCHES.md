@@ -27,6 +27,7 @@ None yet.
 - [`jest_readability_batch_01`](../../repositories/galaxy/branches/active/jest_readability_batch_01/index.md) — Improves client test readability and shares typed page and Tool fixtures across concrete consumers. [#24015](https://github.com/galaxyproject/galaxy/pull/24015).
 - [`playwright_drag_over_feedback`](../../repositories/galaxy/branches/active/playwright_drag_over_feedback/index.md) — Adds drag_over feedback checks and runs test_drag_drop_visual_feedback under Playwright. [#24010](https://github.com/galaxyproject/galaxy/pull/24010).
 - [`playwright_scoped_css_parity`](../../repositories/galaxy/branches/active/playwright_scoped_css_parity/index.md) — Fixes tag-editor selectors so test_tags runs under Playwright. [#24020](https://github.com/galaxyproject/galaxy/pull/24020).
+- [`use_config_drop_fetch_once`](../../repositories/galaxy/branches/active/use_config_drop_fetch_once/index.md) — Drops `useConfig`'s dead `fetchOnce` flag (its guard tested the ref, not `.value`); 21 callers updated. [#24022](https://github.com/galaxyproject/galaxy/pull/24022).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
@@ -74,7 +75,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`use_config_drop_fetch_once`](../../repositories/galaxy/branches/active/use_config_drop_fetch_once/index.md) — Drops `useConfig`'s dead `fetchOnce` flag (its guard tested the ref, not `.value`); 21 callers updated. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:use_config_drop_fetch_once?expand=1).
 
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs, and lets the run form submit an allowed `""` (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_23977_client_api_fanout_26.1?expand=1).

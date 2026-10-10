@@ -1,6 +1,6 @@
 # use_config_drop_fetch_once
 
-Status: `branches_ready_for_final_review`. Base: `dev`. Polished at `6045fcb730d`.
+Status: `ci_wait`. Base: `dev`. Draft PR [#24022](https://github.com/galaxyproject/galaxy/pull/24022), title "Drop useConfig's dead fetchOnce flag", opened 2026-10-09 at `6045fcb730d`.
 
 Drops `useConfig`'s dead `fetchOnce` flag; every caller now retries config load on mount.
 
