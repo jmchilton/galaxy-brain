@@ -855,6 +855,7 @@
 - file: client/src/components/admin/Notifications/BroadcastForm.test.ts
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/admin/Notifications/NotificationForm.test.ts
 - file: client/src/components/admin/Notifications/NotificationsManagement.test.ts
   iterated: 1
