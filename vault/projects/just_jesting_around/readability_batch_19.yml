@@ -1,0 +1,45 @@
+iteration: 19
+seed: 2610919
+inventory_sha256: 98301f44ed7865fe188c9b2634762aee222cdae51203cefda47fa3dffa84e855
+branch: vitest_readability
+base_commit: 36644f2c37d0af55e8f5670a8816fe084c537cb3
+status: reviewed
+selection:
+- file: client/src/components/Common/ExportForm.test.ts
+baseline:
+  selected_cases: 7
+  selected_passed: 7
+  selected_skipped: 0
+  selected_suites: 1
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files:
+- client/types/vitest-setup.d.ts
+- client/tests/vitest/matchers.d.ts
+- client/src/entry/analysis/modules/ResetPassword.test.ts
+- client/src/components/Register/RegisterForm.test.ts
+supporting_suites:
+- client/src/entry/analysis/modules/ResetPassword.test.ts
+- client/src/components/Register/RegisterForm.test.ts
+helper_files:
+- client/types/vitest-setup.d.ts
+- client/tests/vitest/matchers.d.ts
+documentation_files: []
+commits:
+- sha: fa7fb88e5f25bca029bc9687a27ab612154852e4
+  subject: Fix custom matcher types for client unit tests
+- sha: 4ffeac0f766ab75c3382349b663c0e94df6d27e9
+  subject: Improve readability of ExportForm tests
+validation:
+  passed_cases: 14
+  skipped_cases: 0
+  total_cases: 14
+  affected_suites: 3
+  selected_cases: 7
+  supporting_cases: 7
+  client_vue_tsc: passed; canary confirms real expect/matcher types
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved
+  shuffle_seed: 190101
+  test_environment: NODE_OPTIONS=--no-webstorage
