@@ -84,7 +84,9 @@ A component that reads the config store when it's created needs the config set
 before it mounts: a decorator that calls `setConfiguration()`, plus a matching
 `configuration` handler (`InstallationSettings.stories.ts`). One that reads it
 through `useConfig` computeds needs only the handler; the test waits on
-`useConfigStore().isLoaded`. Storybook gives each story a fresh pinia.
+`useConfigStore().isLoaded`. Storybook gives each story a fresh pinia. A component
+opened through shared state (the command palette) gets a decorator that opens it on
+mount and closes it on unmount (`CommandPalette.stories.ts`).
 
 Stores, composables, utilities and API clients don't get stories.
 
@@ -106,6 +108,11 @@ every later story in the file. `GModal` keeps its body in the DOM while closed, 
 check `queryByRole("dialog")`, not text, and any "X is gone" check inside a closed
 dialog passes either way; reopen it to check. It reports closing on the native
 `close` event a moment after it hides, so wait for that before reopening.
+
+A play's first wait on data a decorator loads gets a longer timeout
+(`{ timeout: 5000 }`); the 1s default flakes when the whole project runs.
+`vue-multiselect` has no `combobox` role and renders its control only after its
+options load, so wait for it and find it by label.
 
 A negative check needs something visible to wait on first. A decorator may render
 context from the same loaded data, such as a heading naming the item
