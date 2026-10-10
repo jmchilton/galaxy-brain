@@ -24,9 +24,8 @@ PRs").
 - **Retry a Playwright timeout once** (7b). Its own PR because it changes timing for every
   `@retry_during_transitions` caller. A stuck Playwright action now fails after 2 action timeouts,
   not 11. The PR says upfront that it partly reverts `2825bb09e42` ("Try to fix transiently failing
-  test?", 2026-03-22), which made Playwright timeouts retryable. It names the risk that the flake
-  that commit targeted comes back, and leaves open whether a Playwright timeout should count as a
-  transition at all.
+  test?", 2026-03-22), which made Playwright timeouts retryable. That commit's CI run is gone and
+  John isn't worried about the flake returning: the change justifies itself.
 
 **2. Coverage PRs.** Each one is framed as new E2E coverage and brings the fixes its test needs.
 
@@ -46,7 +45,18 @@ PRs").
 
 **4. gxui** with 2 (CDP port) and 7m (storage state).
 
+## Starting a PR
+
+- Pick the commit off the current `galaxy_ui_driver` by subject; hashes change on every restack.
+- Branch off a freshly fetched `origin/dev` and cherry-pick it there. Re-run its tests on the new
+  base.
+- Step 1 branches: `tool_open_tool_shed_ids` (4a, "Let tool_open find Tool Shed tools by id") and
+  `playwright_timeout_retry_once` (7b, "Retry a Playwright timeout once during transitions, not
+  ten times"). Neither needs an E2E run, so a per-branch worktree under `WORKTREES.md` is fine.
+- Hand off per `vault/agents/_shared/GX_IMPLEMENTATION_HANDOFF.md`: branch record, a
+  `MY_BRANCHES.md` line, push to `jmchilton`. Note in the record that the commit comes from
+  `galaxy_ui_driver` and gets dropped from it on merge.
+
 ## Open questions
 
-- Which test did `2825bb09e42` fix? Search CI history around 2026-03-22 before opening 7b.
 - Is the standalone-selenium PR too big? 7k alone moves about 1,000 lines.
