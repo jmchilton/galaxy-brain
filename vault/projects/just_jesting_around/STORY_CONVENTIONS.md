@@ -27,7 +27,9 @@ The no-handler guard covers only `/api/`; a request elsewhere (`/user/change_pas
 silently reaches the network, so give it a named handler. Give a search picker its
 search handler even when no test searches, or a viewer typing in it fails the story.
 Error stories answer with Galaxy's real error bodies (`err_code` and `err_msg`), each
-distinct, so a test mounting the wrong story fails. Handlers that refuse or save
+distinct, so a test mounting the wrong story fails. Where the original used a placeholder
+error, pick the one the endpoint really raises for that case (a 403 for an inaccessible
+history). Handlers that refuse or save
 echo the request's fields rather than a fixed value.
 
 If the component needs a parent, such as one driving v-model, add a small harness
@@ -106,7 +108,10 @@ before it mounts: a decorator that calls `setConfiguration()`, plus a matching
 through `useConfig` computeds needs only the handler; the test waits on
 `useConfigStore().isLoaded`. If its template reads the config before it loads, a
 decorator renders the story once `isLoaded` is true (`ToolCard.stories.ts`). Set
-the signed-in user with `withCurrentUser` from `tests/test-data/currentUser.ts`. Storybook gives each story a fresh pinia. A component
+the signed-in user with `withCurrentUser` from `tests/test-data/currentUser.ts` and the
+current history with `withCurrentHistory` from `tests/test-data/currentHistory.ts`. Before
+writing a store-seeding decorator, look for a vitest-free helper to call
+(`seedCurrentHistory` in `stores/testUtils.ts`). Storybook gives each story a fresh pinia. A component
 opened through shared state (the command palette) gets a decorator that opens it on
 mount and closes it on unmount (`CommandPalette.stories.ts`).
 

@@ -19,7 +19,7 @@ Walk back from the tip of `vitest_readability` through its `Test-File:` trailers
 Decide whether the test should become stories. Use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for):
 - **Storify:** components whose setup (stores, API mocks, router, props) describes scenarios a person would want to look at.
   Props alone count when they produce visibly different states (QuotaUsageSummary: finite total vs unlimited). A form counts even when it's empty on mount, since play functions fill it.
-- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, wrappers whose only variation is a size or style passed to children, style-contract tests that mount several components minimally (`publicClasses`), and components whose content comes from something Storybook doesn't serve (a visualization plugin's script). Tests outside `client/` (the tool shed frontend) have no Storybook yet.
+- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, wrappers whose only variation is a size or style passed to children, style-contract tests that mount several components minimally (`publicClasses`), lookups that only pick which icon or badge a child shows (`WorkflowStepIcon`), and components whose content comes from something Storybook doesn't serve (a visualization plugin's script). Tests outside `client/` (the tool shed frontend) have no Storybook yet.
 
 When skipping, set `storified: skip` (only that field), log the reason, and end the iteration.
 
@@ -27,7 +27,7 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 
 - Follow [STORY_CONVENTIONS.md](STORY_CONVENTIONS.md). FormData, FilesDialog and HistoryExportWizard are the reference conversions.
 - Keep every original assertion. Splitting a case or strengthening a weak check is welcome (note it in the log); weakening or dropping one needs John's approval.
-- Reuse existing handlers, fixtures and story helpers before adding new ones.
+- Reuse existing handlers, fixtures and story helpers before adding new ones. Before adding a decorator to one stories file, check the next couple of candidates; if they need it too, make it shared from the start.
 - Drop old setup the story mount replaces (`getLocalVue`, popover mocks, a fake clock) unless an assertion depends on it.
 - Cases or rows the conversion itself added may be dropped once another case covers them; original ones may not.
 - Story args may replace a test's inputs if every feature the old inputs exercised is still exercised, with exact expectations recomputed. Prefer realistic values to placeholders. Note it in the log.
@@ -40,7 +40,7 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 
 ## Validate
 
-- Re-run the rebase gate, which now includes the converted test and its stories.
+- Re-run the rebase gate, which now includes the converted test and its stories. Running type-check and lint before the review and the full gate once after it is enough.
 - The render check only proves a story doesn't throw. For stories whose content is conditional, confirm each shows what it claims with throwaway play assertions, then remove them.
 - Run type-checking, lint and formatting.
 - Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own, and wait for its report before going on. Don't run the gate while a reviewer breaks files in the same worktree. Re-run the checks after applying its fixes (the touched test and stories, lint and type-check are enough for small fixes), and ask for a second review if a fix changed what an assertion checks. Tightening a reviewed check (`.alert` to `.alert-warning`) or a cosmetic data fix no assertion reads doesn't need one; changing data an assertion reads or the message a check expects does.
