@@ -163,10 +163,11 @@ button can hold another `role=button` with the same name; click the outer one ex
 A play's first wait on data a decorator loads gets a longer timeout
 (`{ timeout: 5000 }`); the 1s default flakes when the whole project runs.
 `vue-multiselect` renders its `combobox` only after its options load, so wait for
-it. Its option list fades in; wait for it to be visible, then click the option's
-text. The list's text stays inside the picker after it closes, and its "no options"
-and "no results" notes are always in the DOM, so check a closed picker's whole text
-anchored (`RoleForm.stories.ts`).
+it, and drive it with `openOptions`/`expectOptions`/`pickOption` from
+`tests/test-data/multiselect.ts`. Whether a closed picker keeps its list's text differs by
+form (RoleForm's does, SelectionField's doesn't), so look before anchoring a closed
+picker's whole text. It filters options itself, so typing into it proves nothing about a
+server search.
 
 Content fed by its own request (FilesDialog's "Create new" button waits on templates)
 needs a `findBy` even after another sync point; a `queryBy` races and flakes when the

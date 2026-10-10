@@ -23,6 +23,7 @@ Run client commands from `client/` with the pinned node and `VITE_CONFIG_NATIVE_
 - zsh doesn't split a variable holding several paths; pipe through `xargs` instead.
 - macOS has no `timeout`; use the tool's own timeout or a background run.
 - Galaxy's pre-commit hook sets unstaged files aside in its own patch file while it runs; that isn't `git stash`.
+- To gate a commit while a later draft is open, copy the draft to your scratchpad, check out the committed file, gate, and copy it back.
 - To read a run's result, filter with `2>&1 | grep -E "Test Files|Tests |Errors|FAIL"` and check the exit code; an unhandled error fails the run while every test passes. For type-check, check the exit code.
 
 `jest_readability_batch_01` (one commit per iteration, draft PR #24015) is the historical source for lane 1. It's frozen and no longer receives work.
