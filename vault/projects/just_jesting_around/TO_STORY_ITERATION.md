@@ -38,11 +38,11 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 
 - Re-run the rebase gate, which now includes the converted test and its stories.
 - Run type-checking, lint and formatting.
-- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own. Re-run the checks after applying its fixes.
+- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own. Re-run the checks after applying its fixes, and ask for a second review if a fix changed what an assertion checks.
 
 ## Record
 
-- Commit the test and its stories together, with a `Test-File: <path>` trailer, before the review; amend with its fixes. Push the lane once validation and review pass, with `--force-with-lease` since the rebase rewrites it.
+- Commit the test and its stories together, with a `Test-File: <path>` trailer, before the review; amend with its fixes. Push the lane once validation and review pass ([how](PIPELINE_BRANCHES.md#invariants)).
 - After the push, set `storified: true` in `jest_tests.yml`, and change no other field. Commit it with the log row (`git commit -o`); don't push galaxy-brain.
 - Append a row to [STORY_LOG.md](STORY_LOG.md) with the test, the decision, the reason and the line counts before (at the `vitest_readability` tip) and after.
 - To fix an earlier conversion, fold the fix into that test's commit (fixup and autosquash), re-run the gate, have a subagent review it if assertions changed, and update its log row in place.

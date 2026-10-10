@@ -6,7 +6,8 @@ Place `Component.stories.ts` beside the component, with a title that mirrors its
 path, collapsing a repeated folder (`ScrollList`, not `ScrollList/ScrollList`). For
 a `generic="T"` component, type the meta from its props instead of `typeof Component`
 (`ScrollList.stories.ts`). Each story is a state worth looking at, named for that state
-(`DownloadOnly`, `WithZenodo`). Shared props go in the meta `args`.
+(`DownloadOnly`, `WithZenodo`). Shared props go in the meta `args`. Stories for a
+`packages/ui` component sit beside its client re-export (`GButton.stories.ts`).
 
 Answer API requests in `parameters.msw.handlers` with the typed `http` handlers
 from `@/api/client/__mocks__/http`. Give each handler a name
@@ -21,7 +22,9 @@ beside their feature (`ObjectStore/test_fixtures.ts`).
 If the component needs a parent, such as one driving v-model, add a small harness
 component to the stories file (`FormDataWithModel`). When the parent's state change
 is worth seeing, give the harness a visible control (`ScrollListWithStore`'s "Add
-item" button) rather than an exposed method.
+item" button) rather than an exposed method. List an exported harness in the meta's
+`excludeStories`, or it renders as a story. Slot content can come from an extra arg
+that the story's `render` passes into the slot (`GButton.stories.ts`'s `label`).
 
 #### Tests Build on Stories
 
@@ -37,8 +40,11 @@ A story mount renders children, so a `shallowMount` stub check like
 Pass extra `global` options to `mountStory`; they add to the defaults rather than
 replace them. Pass `router` for a test that needs real routes, `pinia` to stub
 actions, `instrumentLocalization` for `toBeLocalizationOf`, and `props` for a value
-no story needs (`clearInputAfterExport`). To spy on a function the story provides,
-wrap it in a test-local `vi.fn` and pass that as a prop. Module-level `vi.mock`
+no story needs (`clearInputAfterExport`). To spy on a function prop the story
+provides (`loader`), wrap it in a test-local `vi.fn` and pass that as a prop.
+Listeners (`on*`) don't reach a composed story's args, so assert what they cause
+instead, or `getComponent(Component).emitted()`. With a `render` story the wrapper
+root is the story, so `wrapper.emitted()` is always empty. Module-level `vi.mock`
 and the global mocks in `tests/vitest/setup.ts` still apply to story mounts;
 Storybook runs the real modules.
 
@@ -60,8 +66,10 @@ Stores, composables, utilities and API clients don't get stories.
 
 A `play` function is a test that runs in the browser and replays in Storybook's
 Interactions panel. Use it for things a user does and sees. Query by role, label or
-text, not CSS classes. Assert on `fn()` args instead of emitted events. Name each
-step so the panel reads like a script.
+text, not CSS classes; `emphasis` and `paragraph` roles work, and an element with
+no role (`<b>`) can be checked by `tagName`. `toHaveTextContent("…")` matches a
+substring, so use an anchored regex for exact text. Assert on `fn()` args instead of
+emitted events. Name each step so the panel reads like a script.
 
 Put a play on its own story named for what it does (`ExportsDirectDownload`), so
 the base stories still show the initial state. If an interaction makes more
