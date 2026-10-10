@@ -4,7 +4,8 @@
 
 Place `Component.stories.ts` beside the component, with a title that mirrors its
 path, collapsing a repeated folder (`ScrollList`, not `ScrollList/ScrollList`) unless
-another component in that folder has stories, since a title can't also be a group. For
+another component in that folder has stories, since a title can't also be a group; a
+component beside a folder of its own name takes that folder (`GalaxyAI/GalaxyAI`). For
 a `generic="T"` component, type the meta from its props instead of `typeof Component`
 (`ScrollList.stories.ts`). Leave `component` out of the meta when the args aren't its
 props, such as a harness standing in for its page (`Lint.stories.ts`). Each story is a state worth looking at, named for that state
@@ -30,7 +31,11 @@ Error stories answer with Galaxy's real error bodies (`err_code` and `err_msg`),
 distinct, so a test mounting the wrong story fails. Where the original used a placeholder
 error, pick the one the endpoint really raises for that case (a 403 for an inaccessible
 history). Handlers that refuse or save
-echo the request's fields rather than a fixed value.
+echo the request's fields rather than a fixed value. A response that doesn't come from
+Galaxy (a proxy's 504 page) uses plain `msw`, since the typed `http` stamps Galaxy's
+request id on failures. A full mount makes its children's requests too (a run count per
+workflow card), so answer them. A story shows a state Galaxy can reach: a feature only
+signed-in users see has a signed-in user.
 
 If the component needs a parent, such as one driving v-model, add a small harness
 component to the stories file; a plain v-model parent comes from `withModel`
@@ -39,7 +44,9 @@ is worth seeing, give the harness a visible control (`ScrollListWithStore`'s "Ad
 item" button) rather than an exposed method. List an exported harness in the meta's
 `excludeStories`, or it renders as a story. A harness several stories files share goes
 in the feature's `test_fixtures.ts` (`Collections/test_fixtures.ts`); a helper only
-unit tests share goes in its `test-utils.ts`, which stories never import. A decorator or
+unit tests share goes in its `test-utils.ts`, which stories never import. A story-backed
+test can't import a `test-utils.ts` that sets module-level `vi.mock`s; split the mocks
+out first. A decorator or
 play helper used across features goes under `tests/test-data/` (`toasts.ts`), in its own
 commit, on first use when a queued test will clearly need it too.
 

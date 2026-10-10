@@ -27,7 +27,7 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 
 - Follow [STORY_CONVENTIONS.md](STORY_CONVENTIONS.md). FormData, FilesDialog and HistoryExportWizard are the reference conversions.
 - Keep every original assertion. Splitting a case or strengthening a weak check is welcome (note it in the log); weakening or dropping one needs John's approval.
-- Reuse existing handlers, fixtures and story helpers before adding new ones. Before adding a decorator to one stories file, check the next couple of candidates; if they need it too, make it shared from the start.
+- Reuse existing handlers, fixtures and story helpers before adding new ones. Before adding a decorator to one stories file, check the ledger for pending tests of the same feature; if they need it too, make it shared from the start.
 - Drop old setup the story mount replaces (`getLocalVue`, popover mocks, a fake clock) unless an assertion depends on it.
 - Cases or rows the conversion itself added may be dropped once another case covers them; original ones may not.
 - Story args may replace a test's inputs if every feature the old inputs exercised is still exercised, with exact expectations recomputed. Prefer realistic values to placeholders. Note it in the log.
