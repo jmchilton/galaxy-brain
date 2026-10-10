@@ -99,8 +99,18 @@ emitted events. Name each step so the panel reads like a script.
 
 Put a play on its own story named for what it does (`ExportsDirectDownload`), so
 the base stories still show the initial state. If an interaction makes more
-requests, such as opening a dialog, that story adds handlers for them. `GModal`
-keeps its body in the DOM while closed, so check `queryByRole("dialog")`, not text.
+requests, such as opening a dialog, that story adds handlers for them. To check a
+pending state, hold the request on a promise the play releases
+(`WorkflowMissingToolsRequest.stories.ts`), not `delay("infinite")`, which slows
+every later story in the file. `GModal` keeps its body in the DOM while closed, so
+check `queryByRole("dialog")`, not text, and any "X is gone" check inside a closed
+dialog passes either way; reopen it to check. It reports closing on the native
+`close` event a moment after it hides, so wait for that before reopening.
+
+A negative check needs something visible to wait on first. A decorator may render
+context from the same loaded data, such as a heading naming the item
+(`WorkflowInvocationShare.stories.ts`). A box the play just clicked is ticked by the
+browser, so check one that follows the app's state (select-all).
 Storybook runs real side effects: a successful delete in `UserDeletion` logs out and
 navigates the top window, so a play stops before it. Clicking a
 `FilesInput` opens FilesDialog, so type into it with focus and the keyboard.
