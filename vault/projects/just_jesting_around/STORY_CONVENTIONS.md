@@ -130,8 +130,11 @@ breakpoint stays in vitest.
 
 A play's first wait on data a decorator loads gets a longer timeout
 (`{ timeout: 5000 }`); the 1s default flakes when the whole project runs.
-`vue-multiselect` has no `combobox` role and renders its control only after its
-options load, so wait for it and find it by label.
+`vue-multiselect` renders its `combobox` only after its options load, so wait for
+it. Its option list fades in; wait for it to be visible, then click the option's
+text. The list's text stays inside the picker after it closes, and its "no options"
+and "no results" notes are always in the DOM, so check a closed picker's whole text
+anchored (`RoleForm.stories.ts`).
 
 A negative check needs something visible to wait on first. A decorator may render
 context from the same loaded data, such as a heading naming the item
@@ -144,7 +147,8 @@ navigates the top window, so a play stops before it. Clicking a
 `GButton` disables with `aria-disabled` only, so `toBeEnabled()` always passes on
 it. Assert `toHaveAttribute("aria-disabled", "true")` and that clicking it calls
 nothing. `GTooltip` stays in the DOM and hides with `sr-only`, so `toBeVisible()`
-passes either way; check the `sr-only` class, the one class check allowed. A role
+passes either way; check the `sr-only` class, the one class check allowed. Every
+`GTooltip` on the page is in the DOM, so find one with `findByRole("tooltip", { name })`. A role
 can't tell a `GAlert`'s info from success or danger from warning, so variant checks
 stay in vitest. Wrap
 hover-delayed or re-rendered results in `waitFor`. `toHaveAccessibleDescription`
