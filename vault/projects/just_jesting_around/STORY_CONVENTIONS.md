@@ -55,6 +55,14 @@ plain mount can be the stories file's harness or the component with a story's
 `args` (`ScrollList.test.ts`); unmount it yourself, since `useStoryMount` only
 cleans up its own mounts.
 
+Storybook passes `reactive(args)`, which unwraps refs inside an object arg, while
+the unit mount doesn't; `markRaw` an arg object that holds refs (a task monitor).
+Compute time-relative fixtures when the story renders, not at module load. Story
+code can't import `vitest`, so keep shared fakes vitest-free under
+`tests/test-data/`. Seed browser storage in a decorator and remove only your own
+keys. Put non-prop story inputs in `parameters`, set through a typed helper so a
+typo fails type-check.
+
 A component that reads the config store when it's created needs the config set
 before it mounts: a decorator that calls `setConfiguration()`, plus a matching
 `configuration` handler (`InstallationSettings.stories.ts`). Storybook gives each

@@ -10,7 +10,7 @@ Rebase `vitest_stories` onto `jmchilton/vitest_readability`. Commands are in [PI
 
 ## Select
 
-Walk back from the tip of `vitest_readability` through its `Test-File:` trailers and pick the first test whose `jest_tests.yml` entry has no `storified` field. A commit with several trailers names several candidates.
+Walk back from the tip of `vitest_readability` through its `Test-File:` trailers and pick the first test whose `jest_tests.yml` entry has no `storified` field. A commit with several trailers names several candidates, and a supporting test touched by a shared-code commit counts.
 
 ## Decide
 
@@ -37,6 +37,7 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 ## Validate
 
 - Re-run the rebase gate, which now includes the converted test and its stories.
+- The render check only proves a story doesn't throw. For stories whose content is conditional, confirm each shows what it claims with throwaway play assertions, then remove them.
 - Run type-checking, lint and formatting.
 - Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own. Re-run the checks after applying its fixes, and ask for a second review if a fix changed what an assertion checks.
 

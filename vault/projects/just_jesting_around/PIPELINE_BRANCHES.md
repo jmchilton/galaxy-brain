@@ -39,9 +39,9 @@ Lane 4 has two parts:
 | `storified` | `true` \| `skip` | Story driver |
 | `storybook_play` | `true` \| `skip` | Play driver |
 | `real_api_calls` | `true` \| `skip` | Real-API driver |
+| `split_commit` | `true` | Splitter (done; informational) |
 
 CI runs only the `unit` project. Story render checks and play functions aren't in CI yet, so the play lane can't go upstream until a browser CI job exists (undecided: a step in `client-unit.yaml` or its own workflow).
-| `split_commit` | `true` | Splitter (done; informational) |
 
 - `skip` means the stage doesn't apply to that test. The reason goes in the stage's batch report, not in the ledger.
 - For `storified: skip`, use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for): logic, stores, composables and API-client tests stay in happy-dom.
