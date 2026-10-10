@@ -207,6 +207,7 @@
 - file: client/src/components/DataDialog/DataDialog.test.js
 - file: client/src/components/Dataset/DatasetCopy.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts
 - file: client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
   iterated: 1
