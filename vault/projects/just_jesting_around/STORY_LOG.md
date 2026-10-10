@@ -1,6 +1,6 @@
 # Story log
 
-Append-only, one row per [TO_STORY_ITERATION.md](TO_STORY_ITERATION.md) iteration.
+One row per [TO_STORY_ITERATION.md](TO_STORY_ITERATION.md) iteration. SHAs are as logged and go stale on rebase; find a test's commit by its `Test-File:` trailer. When later work changes a test's commit, update its row in place.
 
 | Test | Decision | Reason / lessons | Test lines | Story lines |
 | --- | --- | --- | --- | --- |

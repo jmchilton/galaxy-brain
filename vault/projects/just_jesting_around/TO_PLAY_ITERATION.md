@@ -4,7 +4,7 @@ Reuse the same branch and worktree for every iteration.
 
 ## Rebase
 
-Rebase `vitest_story_play` onto `jmchilton/vitest_stories`. The story lane rewrites itself on every rebase, so replay only the play commits: `git rebase --onto jmchilton/vitest_stories <parent of the first play commit>`.
+Rebase `vitest_story_play` onto `jmchilton/vitest_stories`. The story lane rewrites itself on every rebase, so let git find the old base from the remote ref's reflog: `git fetch jmchilton vitest_stories && git rebase --fork-point jmchilton/vitest_stories`. Commands are in [PIPELINE_BRANCHES.md](PIPELINE_BRANCHES.md#lanes).
 - Resolve conflicts so that both lanes' intent survives.
 - Run the `storybook` browser project and the affected unit tests.
 - Don't select a test until the rebased lane is green.
@@ -27,7 +27,8 @@ If no case moves, set `storybook_play: skip`, log the reason, and end the iterat
 
 - Write each moved case as a `play` function on an existing or new story.
 - Remove the vitest case only after its play function passes.
-- Before committing, show each play function fails for the right reason, for example by breaking one expectation locally.
+- Before committing, show each play function fails for the right reason: break the behavior in the component locally and watch the play fail. For a strengthened check, show the old check still passes under that break.
+- New checks a play makes possible are welcome; log them as strengthening.
 
 Storybook and browser-project infra lives in `vitest_stories`. If the conversion needs a change there, stop and report it to the driver.
 
@@ -40,6 +41,6 @@ Storybook and browser-project infra lives in `vitest_stories`. If the conversion
 
 ## Record
 
-- Commit the stories and the test together, with a `Test-File: <path>` trailer.
+- Commit the stories and the test together, with a `Test-File: <path>` trailer, before the review; amend with its fixes. Push with `--force-with-lease` once validation and review pass.
 - Set `storybook_play: true` in `jest_tests.yml`, and change no other field.
 - Append a row to [PLAY_LOG.md](PLAY_LOG.md) with the test, the cases moved and kept, the reasons and the wall time against the old unit run.

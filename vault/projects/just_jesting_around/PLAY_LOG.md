@@ -1,6 +1,6 @@
 # Play log
 
-Append-only, one row per [TO_PLAY_ITERATION.md](TO_PLAY_ITERATION.md) iteration.
+One row per [TO_PLAY_ITERATION.md](TO_PLAY_ITERATION.md) iteration. SHAs are as logged and go stale on rebase; find a test's commit by its `Test-File:` trailer. When later work changes a test's commit, update its row in place.
 
 | Test | Cases moved | Cases kept | Reasons | Wall time (play vs unit) |
 | --- | --- | --- | --- | --- |
