@@ -13,13 +13,17 @@
 - file: client/packages/ui/src/components/GTable.test.ts
 - file: client/packages/ui/src/components/vModelContract.test.ts
 - file: client/packages/ui/src/composables/floatingPosition.test.ts
+  storified: skip
 - file: client/packages/ui/src/composables/toastHost.test.ts
+  storified: skip
 - file: client/packages/ui/src/portableImports.test.ts
 - file: client/packages/ui/src/publicClasses.test.ts
 - file: client/packages/ui/src/utils/escapeStack.test.ts
+  storified: skip
 - file: client/packages/ui/src/utils/focusOrder.test.ts
 - file: client/packages/ui/src/utils/hoverBridge.test.ts
 - file: client/src/api/client/errorResponseMiddleware.test.ts
+  storified: skip
 - file: client/src/api/client/rateLimiter.test.ts
   iterated: 1
   split_commit: true
@@ -31,12 +35,14 @@
   storified: skip
   storybook_play: skip
 - file: client/src/api/client/staleCacheRetryMiddleware.test.ts
+  storified: skip
 - file: client/src/api/datasets.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/api/histories.test.ts
+  storified: skip
 - file: client/src/api/index.test.ts
   iterated: 1
   split_commit: true
@@ -48,8 +54,11 @@
   storified: skip
   storybook_play: skip
 - file: client/src/api/staleCacheRetry.test.ts
+  storified: skip
 - file: client/src/api/visualizations.test.ts
+  storified: skip
 - file: client/src/api/workflows.test.ts
+  storified: skip
 - file: client/src/app/app.test.js
   iterated: 1
   split_commit: true
@@ -87,6 +96,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/common/useElementReconciliation.test.ts
+  storified: skip
 - file: client/src/components/Collections/pairing.test.ts
   storified: skip
   storybook_play: skip
@@ -95,22 +105,39 @@
   storybook_play: skip
 - file: client/src/components/CommandPalette/CommandPalette.test.ts
 - file: client/src/components/CommandPalette/providers/actions.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/categories.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/datasets.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/histories.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/index.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/interactiveTools.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/invocations.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/navigation.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/refresh.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/reports.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/scopes.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/storeFirst.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/tools.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/visualizations.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/providers/workflows.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/usePaletteMachine.test.ts
+  storified: skip
 - file: client/src/components/CommandPalette/useScrollEdges.test.ts
+  storified: skip
 - file: client/src/components/Common/BreadcrumbHeading.test.ts
 - file: client/src/components/Common/ChangesIndicator.test.ts
 - file: client/src/components/Common/DatasetPopoverLink.test.ts
@@ -151,6 +178,7 @@
 - file: client/src/components/ConfigTemplates/formUtil.test.ts
   storified: skip
 - file: client/src/components/ConfigTemplates/useConfigurationTesting.test.ts
+  storified: skip
 - file: client/src/components/ConfirmDialog.test.ts
 - file: client/src/components/DataDialog/DataDialog.test.js
 - file: client/src/components/Dataset/DatasetCopy.test.js
@@ -340,6 +368,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/useHistoryCardActions.test.ts
+  storified: skip
 - file: client/src/components/HistoryExport/Index.test.js
 - file: client/src/components/HistoryExport/ToLink.test.js
 - file: client/src/components/HistoryExport/ToRemoteFile.test.js
@@ -349,6 +378,7 @@
 - file: client/src/components/ImportData/zip/resultsRoute.test.ts
 - file: client/src/components/ImportData/zip/views/RoCrateZipView.test.ts
 - file: client/src/components/ImportData/zip/views/rocrate.utils.test.ts
+  storified: skip
 - file: client/src/components/Indices/SharingIndicators.test.js
 - file: client/src/components/InteractiveTools/InteractiveTools.test.js
 - file: client/src/components/JobDestinationParams/JobDestinationParams.test.ts
@@ -366,6 +396,7 @@
 - file: client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts
 - file: client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js
 - file: client/src/components/Libraries/LibraryFolder/TopToolbar/import-to-history/import-dataset.test.js
+  storified: skip
 - file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js
 - file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.ts
 - file: client/src/components/Login/ChangePassword.test.ts
@@ -481,6 +512,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Panels/Upload/uploadProgressUi.test.ts
+  storified: skip
 - file: client/src/components/Panels/Upload/uploadState.test.ts
   iterated: 1
   split_commit: true
@@ -545,11 +577,14 @@
 - file: client/src/components/Tool/ToolSuccess.test.ts
 - file: client/src/components/Tool/ToolSuccessMessage.test.ts
 - file: client/src/components/Tool/authoringHelp.test.ts
+  storified: skip
 - file: client/src/components/Tool/customToolEditorDefaults.test.ts
+  storified: skip
 - file: client/src/components/Tool/extractEmbeddedJs.test.ts
   storified: skip
   storybook_play: skip
 - file: client/src/components/Tool/schemaMarkdown.test.ts
+  storified: skip
 - file: client/src/components/Tool/utilities.test.ts
   storified: skip
   storybook_play: skip
@@ -585,6 +620,7 @@
 - file: client/src/components/Tour/TourStep.test.ts
 - file: client/src/components/Upload/UploadSelect.test.ts
 - file: client/src/components/User/APIKey/model/service.test.ts
+  storified: skip
 - file: client/src/components/User/DiskUsage/DiskUsageSummary.test.ts
 - file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts
 - file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts
@@ -701,8 +737,11 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/modules/utilities.test.ts
+  storified: skip
 - file: client/src/components/Workflow/Editor/modules/whenExpression.test.ts
+  storified: skip
 - file: client/src/components/Workflow/Editor/modules/workflowInputPath.test.ts
+  storified: skip
 - file: client/src/components/Workflow/Import/FromFileOrUrl.test.ts
 - file: client/src/components/Workflow/Import/TrsTool.test.ts
 - file: client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts
@@ -713,6 +752,7 @@
 - file: client/src/components/Workflow/List/WorkflowList.test.ts
 - file: client/src/components/Workflow/List/WorkflowListTabs.test.ts
 - file: client/src/components/Workflow/List/useWorkflowCardActions.test.ts
+  storified: skip
 - file: client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts
 - file: client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts
 - file: client/src/components/Workflow/Run/WorkflowRun.test.js
@@ -726,6 +766,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Run/services.test.js
+  storified: skip
 - file: client/src/components/Workflow/WorkflowAnnotation.test.ts
 - file: client/src/components/Workflow/WorkflowExport.test.js
   iterated: 1
@@ -790,11 +831,13 @@
   iterated: 1
   split_commit: true
 - file: client/src/composables/datasetPermissions.test.ts
+  storified: skip
 - file: client/src/composables/fileSources.test.ts
   storified: skip
   iterated: 1
   split_commit: true
 - file: client/src/composables/filter/filterFunction.test.ts
+  storified: skip
 - file: client/src/composables/keyedCache.test.ts
   iterated: 1
   split_commit: true
@@ -819,6 +862,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/composables/persistentToggle.test.ts
+  storified: skip
 - file: client/src/composables/pollUntil.test.ts
   iterated: 1
   split_commit: true
@@ -847,6 +891,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/composables/toolTrainingMaterial.test.ts
+  storified: skip
 - file: client/src/composables/upload/uploadItemTypes.test.ts
   iterated: 1
   split_commit: true
@@ -859,6 +904,7 @@
   storybook_play: skip
 - file: client/src/composables/upload/useUploadMethodModal.test.ts
 - file: client/src/composables/upload/useUploadStaging.test.ts
+  storified: skip
 - file: client/src/composables/upload/useUploadSubmission.test.ts
   storified: skip
   iterated: 1
@@ -875,6 +921,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/composables/useCommandPalette.test.ts
+  storified: skip
 - file: client/src/composables/useCreatingJob.test.ts
   iterated: 1
   split_commit: true
@@ -906,26 +953,32 @@
   storified: skip
   storybook_play: skip
 - file: client/src/composables/useRankedSearch.test.ts
+  storified: skip
 - file: client/src/composables/useRecentPaletteItems.test.ts
+  storified: skip
 - file: client/src/composables/useRegistrationTarget.test.ts
+  storified: skip
 - file: client/src/composables/useSidebarSelection.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/userMultiToolCredentials.test.ts
+  storified: skip
 - file: client/src/composables/userToolCredentials.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/windowAwareNavigation.test.ts
+  storified: skip
 - file: client/src/composables/zipExplorer.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/directives/sanitizeHtml.test.ts
+  storified: skip
 - file: client/src/directives/vGTooltip.test.ts
   iterated: 1
   split_commit: true
@@ -957,6 +1010,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/stores/activitySetup.test.ts
+  storified: skip
 - file: client/src/stores/activityStore.test.ts
   iterated: 1
   split_commit: true
@@ -978,18 +1032,21 @@
   storified: skip
   storybook_play: skip
 - file: client/src/stores/configurationStore.test.ts
+  storified: skip
 - file: client/src/stores/datasetCollectionStore.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/datasetListStore.test.ts
+  storified: skip
 - file: client/src/stores/entryPointStore.test.js
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/historyStore.lists.test.ts
+  storified: skip
 - file: client/src/stores/historyStore.test.ts
   iterated: 1
   split_commit: true
@@ -1025,7 +1082,9 @@
   storified: skip
   storybook_play: skip
 - file: client/src/stores/pageStore.test.ts
+  storified: skip
 - file: client/src/stores/services/history.services.test.ts
+  storified: skip
 - file: client/src/stores/storageOperationsStore.test.ts
   iterated: 1
   split_commit: true
@@ -1037,14 +1096,18 @@
   storified: skip
   storybook_play: skip
 - file: client/src/stores/unprivilegedToolStore.test.ts
+  storified: skip
 - file: client/src/stores/uploadDatasetMonitorStore.test.ts
+  storified: skip
 - file: client/src/stores/userStore.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/userToolsServiceCredentialsStore.test.ts
+  storified: skip
 - file: client/src/stores/visualizationStore.test.ts
+  storified: skip
 - file: client/src/stores/windowManagerStore.test.ts
   iterated: 1
   split_commit: true
@@ -1082,6 +1145,7 @@
   storybook_play: skip
 - file: client/src/style/headingScale.test.ts
 - file: client/src/style/tokensContract.test.ts
+  storified: skip
 - file: client/src/utils/color.test.js
   iterated: 1
   split_commit: true
@@ -1113,6 +1177,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/utils/logout.test.js
+  storified: skip
 - file: client/src/utils/parseBool.test.ts
   iterated: 1
   split_commit: true
@@ -1124,6 +1189,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/utils/slug.test.ts
+  storified: skip
 - file: client/src/utils/strings.test.ts
   iterated: 1
   split_commit: true
@@ -1165,6 +1231,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/utils/webhooks.test.ts
+  storified: skip
 - file: client/src/watch/watchHistory.test.js
   iterated: 1
   split_commit: true
@@ -1213,3 +1280,4 @@
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ToolVersionPage.test.ts
 - file: lib/tool_shed/webapp/frontend/src/util.test.ts
+  storified: skip
