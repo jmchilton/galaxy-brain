@@ -24,8 +24,8 @@ PRs").
 - **Tool Shed ids in `tool_open`** (4a). A real tool panel bug: searching by a Tool Shed id finds
   nothing. Tested by vitest and unit tests; CI has no shed tools for an E2E test.
 - **Retry a Playwright timeout once** (7b). Its own PR because it changes timing for every
-  `@retry_during_transitions` caller. A stuck Playwright action now fails after 2 action timeouts,
-  not 11. The PR says upfront that it partly reverts `2825bb09e42` ("Try to fix transiently failing
+  caller of `retry_call_during_transitions`. A stuck Playwright action now fails after 2 action
+  timeouts, not 12. The PR says upfront that it partly reverts `2825bb09e42` ("Try to fix transiently failing
   test?", 2026-03-22), which made Playwright timeouts retryable. That commit's CI run is gone and
   John isn't worried about the flake returning: the change justifies itself.
 

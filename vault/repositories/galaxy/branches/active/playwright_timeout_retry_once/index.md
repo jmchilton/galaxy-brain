@@ -4,7 +4,7 @@ Status: `branches_implemented_needs_ci`. Base: `dev`. No PR.
 
 `retry_call_during_transitions` retries a Playwright timeout once rather than ten times.
 
-[Implementation](implementation_debrief.md)
+[Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Review](subagents/normal_review.md) · [Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Scope](scope_evaluation.md)
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (commit 7b, "Retry a Playwright timeout once during transitions, not ten times") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop the commit from `galaxy_ui_driver` once this merges.
 
