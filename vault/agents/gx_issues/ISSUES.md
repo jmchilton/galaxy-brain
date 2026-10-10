@@ -75,6 +75,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#23981](https://github.com/galaxyproject/galaxy/issues/23981) — workflow rename `#{name }` with padding silently renders empty (hits IWC VGP5); next: always strip + flip parity test row. [notes](../../repositories/galaxy/issues/queued/23981/index.md)
 - [#23983](https://github.com/galaxyproject/galaxy/issues/23983) — TEMP SSE/notification overrides left in E2E workflows; two are dead keys; next: revert PR (coordinate with #23976). [notes](../../repositories/galaxy/issues/queued/23983/index.md)
 - [#24031](https://github.com/galaxyproject/galaxy/issues/24031) — storage badge tooltips and `.html` tooltip `aria-label`s show literal HTML tags; next: badge `.html` + directive label fix, red vitest. [notes](../../repositories/galaxy/issues/queued/24031/index.md)
+- [#24035](https://github.com/galaxyproject/galaxy/issues/24035) — nested `GTooltip` text joins `GButton`/`GLink` accessible names; next: shared relocate composable from `GPopover`, red vitest. [notes](../../repositories/galaxy/issues/queued/24035/index.md)
 
 
 ## Blocked on others (`blocked`)
