@@ -567,6 +567,7 @@
   split_commit: true
 - file: client/src/components/Panels/Upload/UploadFileRow.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/Panels/Upload/UploadMethodView.test.ts
 - file: client/src/components/Panels/Upload/UploadMethodViewInline.test.ts
 - file: client/src/components/Panels/Upload/methods/PasteLinksUpload.test.ts
