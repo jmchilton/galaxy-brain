@@ -763,6 +763,7 @@
   iterated: 1
   split_commit: true
   storified: true
+  storybook_play: true
 - file: client/src/components/Workflow/Editor/Node.test.ts
 - file: client/src/components/Workflow/Editor/NodeInvocationText.test.ts
 - file: client/src/components/Workflow/Editor/NodeOutput.test.ts
