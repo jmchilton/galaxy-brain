@@ -480,6 +480,7 @@
   storybook_play: true
 - file: client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/ObjectStore/ShowSelectedObjectStore.test.js
 - file: client/src/components/ObjectStore/Templates/TemplateSummaryPopover.test.ts
 - file: client/src/components/Page/PageView.test.ts
