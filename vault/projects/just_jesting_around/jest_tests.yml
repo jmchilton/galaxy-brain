@@ -74,6 +74,7 @@
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
 - file: client/src/components/BaseComponents/Form/GForm.test.ts
 - file: client/src/components/BaseComponents/GAlert.test.ts
+  iterated: 1
 - file: client/src/components/BaseComponents/GButton.test.ts
   iterated: 1
   storified: true
@@ -418,6 +419,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Markdown/Sections/Elements/JobElements.test.ts
+  iterated: 1
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowDisplay.test.js
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js
   iterated: 1
@@ -699,6 +701,7 @@
 - file: client/src/components/Workflow/Editor/Forms/FormSection.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormTool.test.js
 - file: client/src/components/Workflow/Editor/Index.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/Lint.test.ts
   iterated: 1
   split_commit: true
@@ -756,6 +759,7 @@
 - file: client/src/components/Workflow/List/CuratedWorkflowList.test.ts
 - file: client/src/components/Workflow/List/WorkflowCardList.test.ts
 - file: client/src/components/Workflow/List/WorkflowList.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/List/WorkflowListTabs.test.ts
 - file: client/src/components/Workflow/List/useWorkflowCardActions.test.ts
   storified: skip

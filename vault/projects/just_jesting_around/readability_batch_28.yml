@@ -1,0 +1,49 @@
+iteration: 28
+seed: '2610928 (Workflow Editor Index: follow-through from iteration 27)'
+inventory_sha256: d5eb3cc9fb7e2ed7d502cab24aa13f32918558d0e838b1e40b7cbc05a107194d
+branch: vitest_readability
+base_commit: 7abeb84114ce81061a138354a3e0a59ead22e012
+status: reviewed
+selection:
+- file: client/src/components/Workflow/Editor/Index.test.ts
+- file: client/src/components/BaseComponents/GAlert.test.ts
+- file: client/src/components/Markdown/Sections/Elements/JobElements.test.ts
+- file: client/src/components/Workflow/List/WorkflowList.test.ts
+baseline:
+  selected_cases: 48
+  selected_passed: 48
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files:
+- client/src/components/Workflow/testUtils.ts
+documentation_files:
+- client/README.md
+commits:
+- sha: 9320a3ee34ea598cc920ac6edd124a13846c27d2
+  subject: Improve readability of Editor/Index tests
+- sha: 27cc2970ca2e42e3eb41a8ca3843b498e5ab104d
+  subject: Improve readability of GAlert tests
+- sha: 56d3a97269af9e0b379896314c0fabf2c0c869ba
+  subject: Improve readability of JobElements tests
+- sha: 6e590ea8b82ac0cfc3d0b57a8dc0778e46c6530f
+  subject: Improve readability of WorkflowList tests
+- sha: 841d83bc78f1c5f5242eaafc7a29ac80e132e11f
+  subject: Fix stub examples in client testing README
+validation:
+  passed_cases: 48
+  skipped_cases: 0
+  total_cases: 48
+  affected_suites: 4
+  selected_cases: 48
+  supporting_cases: 0
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved (4/4 test commits; README rows spot-checked)
+  shuffle_seed: 280101
+  test_environment: NODE_OPTIONS=--no-webstorage
