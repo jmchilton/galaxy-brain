@@ -1,0 +1,11 @@
+READY: issue [24031](https://github.com/galaxyproject/galaxy/issues/24031) is implemented, independently reviewed, validated and pushed to `jmchilton/galaxy:issue_24031_badge_tooltip_html` at `7893845ae2bac3da776525b74dc158af06b22765`. Upstream CI has not been assessed; handoff goes to `branches_implemented_needs_ci`. No PR was opened.
+
+Badge messages now render Markdown paragraphs, emphasis and links instead of literal HTML. The stock sentence is escaped and placed in its own paragraph. Shared HTML tooltip accessible names come from the sanitized DOM with spaces at paragraph, line and other block boundaries; text-mode labels retain existing behavior.
+
+The scoped test setup adds jsdom as a direct development dependency already present in the lockfile and selects it only for the two affected suites. This is necessary to exercise real DOMPurify reliably. All original badge assertions remain; they compare decoded text rather than the HTML directive input.
+
+Validation used repository-pinned Node 22.20.0. Coordinator regression/adjacent runs passed 29 tests across badge, badges, directive and GTooltip suites. An independent test-challenge run passed 30 tests across badge, badges, directive and configurationMarkdown suites. Before implementation, the new regressions failed (7 failures, 17 passes). Changed-file lint, formatting, shared UI package type-check, pre-commit checks and diff whitespace checks pass. Vault validation passes with 0 errors and 15 existing advisory warnings.
+
+Normal and strict quality reviews found no blockers. Test challenges retained all tests. Scope review explicitly recommends keeping this implementation; no user scope decision is needed. Three actual-source Chromium captures confirm Markdown, stock-only and configured-HTML tooltip rendering and readable accessible names. Full Galaxy integration Selenium was not run; component harness provenance and limits are recorded in the screenshot/test debriefs. Optional extra menu/table cases and full-server E2E were not required for this rendering defect.
+
+Supporting evidence is linked from [the branch record](index.md). The Galaxy worktree is clean. Screenshots and their reproducible harness remain local and gitignored.
