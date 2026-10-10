@@ -68,9 +68,11 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`use_config_drop_fetch_once`](../../repositories/galaxy/branches/active/use_config_drop_fetch_once/index.md) — Drops `useConfig`'s dead `fetchOnce` flag (its guard tested the ref, not `.value`); 21 callers updated. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:use_config_drop_fetch_once?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
+
+- [`use_config_drop_fetch_once`](../../repositories/galaxy/branches/active/use_config_drop_fetch_once/index.md) — Drops `useConfig`'s dead `fetchOnce` flag (its guard tested the ref, not `.value`); 21 callers updated. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:use_config_drop_fetch_once?expand=1).
 
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs, and lets the run form submit an allowed `""` (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_23977_client_api_fanout_26.1?expand=1).

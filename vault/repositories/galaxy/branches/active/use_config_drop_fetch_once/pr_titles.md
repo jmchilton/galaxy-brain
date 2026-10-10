@@ -1,0 +1,4 @@
+- Drop useConfig's dead fetchOnce flag
+- Remove useConfig's fetchOnce flag, whose guard never worked
+- Drop useConfig's fetchOnce flag so every caller retries config load the same way
+- Simplify useConfig: drop the never-working fetchOnce flag

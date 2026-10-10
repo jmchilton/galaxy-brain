@@ -1,6 +1,6 @@
 # Scope evaluation: use_config_drop_fetch_once
 
-**Recommendation: keep the scope as implemented. Don't change it.** Commit `6045fcb730d` drops the dead `fetchOnce` parameter from `useConfig` and updates its 21 callers. That is the smallest change that removes the misleading API, rather than just repairing a flag nobody needs. The only behaviour change is the retry after a failed initial config load, and it brings those 21 callers in line with the other ~61. No reviewer asked to widen or narrow the scope. Two small follow-ups sit outside the branch, in the vault: correct BUGS_FOUND row 2, and fix the stale hash in `implementation_debrief.md`.
+**Recommendation: keep the scope as implemented. Don't change it.** Commit `6045fcb730d` drops the dead `fetchOnce` parameter from `useConfig` and updates its 21 callers. That is the smallest change that removes the misleading API, rather than just repairing a flag nobody needs. The only behaviour change is the retry after a failed initial config load, and it brings those 21 callers in line with the other ~39. No reviewer asked to widen or narrow the scope. Two small follow-ups sit outside the branch, in the vault: correct BUGS_FOUND row 2, and fix the stale hash in `implementation_debrief.md`.
 
 Inputs: the branch diff (22 files, +24/-25), `index.md`, `implementation_debrief.md`, `codex_review.md`, `subagents/normal_review.md`, `gx_issues/to_file/reject_use_config_fetch_once_guard.md`, and BUGS_FOUND row 2.
 
@@ -40,7 +40,7 @@ The store's own setup already loads the config, so the composable becomes a pure
 
 | Pros | Cons |
 | --- | --- |
-| <ul><li>Simplest composable</li><li>No mount-time call at all</li></ul> | <ul><li>Changes behaviour for all ~82 callers in the *opposite* direction: no component would retry after a failed load</li><li>Recovering from an error would then rest only on App.vue's banner and a reload</li><li>Needs product judgement, which a dead-flag cleanup shouldn't need</li></ul> |
+| <ul><li>Simplest composable</li><li>No mount-time call at all</li></ul> | <ul><li>Changes behaviour for all ~60 callers in the *opposite* direction: no component would retry after a failed load</li><li>Recovering from an error would then rest only on App.vue's banner and a reload</li><li>Needs product judgement, which a dead-flag cleanup shouldn't need</li></ul> |
 
 ## 5. Expand: replace `useConfig` with direct `useConfigStore()` / `storeToRefs`
 
@@ -61,7 +61,7 @@ This adds a `config.test.ts` that mounts a component after a failed store load a
 <details>
 <summary>Details</summary>
 
-**Why 1 beats 2.** Both fix the guard bug. But with option 2, `fetchOnce` would *start* doing something for the first time since 2023: it would block the retry after a failure on 20 components. Nobody has asked for that, and nothing shows those components need to differ from the other ~61. Option 1 removes the question instead of answering it.
+**Why 1 beats 2.** Both fix the guard bug. But with option 2, `fetchOnce` would *start* doing something for the first time since 2023: it would block the retry after a failure on 20 components. Nobody has asked for that, and nothing shows those components need to differ from the other ~39. Option 1 removes the question instead of answering it.
 
 **Why not 4.** Today, retry on mount after a failure is the de facto behaviour for most callers. Removing it to simplify the code would change how the app behaves while pretending to be a cleanup. If anyone wants it, it belongs in its own discussion.
 

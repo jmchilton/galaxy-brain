@@ -8,7 +8,7 @@ STATUS: READY. Commit `6045fcb730d` on `jmchilton/use_config_drop_fetch_once`, b
   - The guard tested the `isConfigLoaded` ref, not `.value`, so `useConfig(true)` never loaded config on mount.
   - `onMounted` now always calls `store.loadConfig()`. That call is a no-op once the config is loaded or while a load is in flight.
 - 21 callers changed to `useConfig()`: 20 used `useConfig(true)` and 1 used `useConfig(false)` (`Sharing/UserSharing.vue`).
-- Behaviour change: after a failed initial `/api/configuration` request, the former `true` callers now retry on mount, matching the other ~61 callers. The store dedups requests while a load is in flight.
+- Behaviour change: after a failed initial `/api/configuration` request, the former `true` callers now retry on mount, matching the other ~39 callers. The store dedups requests while a load is in flight.
 
 ## Verification
 
