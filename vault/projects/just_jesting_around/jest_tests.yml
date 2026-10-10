@@ -217,6 +217,7 @@
 - file: client/src/components/FileSources/Instances/InstanceDropdown.test.ts
 - file: client/src/components/FilesDialog/FilesDialog.test.ts
   storified: true
+  storybook_play: true
 - file: client/src/components/FilesDialog/FilesInput.test.ts
 - file: client/src/components/Form/Elements/FormBoolean.test.js
 - file: client/src/components/Form/Elements/FormCheck.test.js
