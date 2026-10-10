@@ -48,3 +48,17 @@ I didn't add a sample tool with a `.`/`+`/`/` id instead.
 ## Not done
 
 `tools_list.tool_card` id selectors are still a recorded follow-up.
+
+## E2E run (orchestrator, 2026-10-10)
+
+The test-challenge agent left the E2E test unrun. I ran it once on the Playwright backend, which is the one CI's `integration_selenium` lane uses. The run used this worktree's own client build and the main repo's venv, with that venv's `bin` on PATH: the Tool Shed install shells out to `hg`, and without it the clone fails.
+
+The original test's final step fails, and not because of this branch. After `tool_open`, it asserted the tool form's version inside the main page. But `compose_text_param` is an expression tool (`form_style: special`), so `ToolBox.onToolClick` doesn't intercept the click. The link loads, through `target="galaxy_main"`, into the hidden `galaxy_main` iframe, and nothing changes in the main page.
+
+This already happens on dev: clicking a special-form tool in the panel loads it into a hidden frame. It is a possible separate bug and out of scope here.
+
+The test now checks what this branch fixes: `tool_open(<full Tool Shed id>)`. That searches `id:<full id>` and waits for the link, matched by `data-tool-id`. A screenshot follows, taken after a `UX_RENDER` wait. Amended into `2821dd089bf` and pushed.
+
+- **Green:** 1 passed (23–34s).
+- **Red,** with the old `navigation.yml`: 1 failed. It times out on `a[href$="/?tool_id=toolshed.g2.bx.psu.edu/repos/…/0.1.1&version=latest"]`, because the href holds the URL-encoded id.
+- **Not red-checked end to end:** the search half. That would need a second client build from the old `utilities.ts`. The vitest case covers it, red and green.
