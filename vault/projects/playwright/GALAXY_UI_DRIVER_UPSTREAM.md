@@ -18,8 +18,15 @@ dev. Replaces the old "decide what to pull out at the end" rule.
 Easiest first. Commit numbers follow the queue in `GALAXY_UI_SKILL_DESIGN.md` ("Prerequisite
 PRs").
 
-**1. Tool Shed ids in `tool_open`** (4a). A real tool panel bug: searching by a Tool Shed id finds
-nothing. Tested by vitest and unit tests; CI has no shed tools for an E2E test.
+**1. Two standalone fixes, in parallel.**
+- **Tool Shed ids in `tool_open`** (4a). A real tool panel bug: searching by a Tool Shed id finds
+  nothing. Tested by vitest and unit tests; CI has no shed tools for an E2E test.
+- **Retry a Playwright timeout once** (7b). Its own PR because it changes timing for every
+  `@retry_during_transitions` caller. A stuck Playwright action now fails after 2 action timeouts,
+  not 11. The PR says upfront that it partly reverts `2825bb09e42` ("Try to fix transiently failing
+  test?", 2026-03-22), which made Playwright timeouts retryable. It names the risk that the flake
+  that commit targeted comes back, and leaves open whether a Playwright timeout should count as a
+  transition at all.
 
 **2. Coverage PRs.** Each one is framed as new E2E coverage and brings the fixes its test needs.
 
@@ -34,12 +41,12 @@ nothing. Tested by vitest and unit tests; CI has no shed tools for an E2E test.
 | PR | Commits | Tests |
 |---|---|---|
 | Tool-form abstractions on `NavigatesGalaxy` | 6a, 6a′, 6b, 6c, 7a, 7e, 7f | tool-form E2E suite and unit tests; add E2E tests filling a workflow editor step's form (7a) and describing a rerun form (6c) |
-| Small fixes | 4c, 5e, 7b | Multiview E2E, retry unit test |
+| Multiview copy + hooks | 4c, 5e | Multiview E2E |
 | `galaxy.selenium` usable outside the test suite | 7k, 5a, 5b, 5c, 5d, 7l, 7n | upload and extraction E2E suites, unit tests; give it a consumer by mixing `UsesUploadActivity` into `GalaxySeleniumContext` |
 
 **4. gxui** with 2 (CDP port) and 7m (storage state).
 
 ## Open questions
 
-- Does 7b need its own PR, or is it fine riding with the Multiview fixes?
+- Which test did `2825bb09e42` fix? Search CI history around 2026-03-22 before opening 7b.
 - Is the standalone-selenium PR too big? 7k alone moves about 1,000 lines.
