@@ -669,6 +669,7 @@
 - file: client/src/components/User/UserDatasetPermissions.test.ts
 - file: client/src/components/User/UserDeletion.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/User/UserOidcProfile.test.ts
 - file: client/src/components/User/UserPreferences.test.ts
 - file: client/src/components/User/UserPreferencesModel.test.ts
