@@ -16,7 +16,7 @@ Pick the most recent test commit on `vitest_stories` whose `jest_tests.yml` entr
 ## Decide, case by case
 
 - **Move:** component behavior a user would perform and see, such as filling forms, clicking through dialogs and wizards, or visible results.
-- **Keep in vitest:** edge-case matrices, emitted-payload details, timing and logic, which read better as unit cases.
+- **Keep in vitest:** edge-case matrices, emitted-payload details, timing and logic, which read better as unit cases. A matrix that reads as one fill-in script (ExportForm's disabled states) may move as one play.
 - **Don't measure layout:** no pixel sizes or computed styles. Those couple a play to global CSS; a class or prop check in vitest is enough.
 - A case may split: its user-visible assertions move and the rest stay.
 - **Assertions:** a moved case keeps its assertions, rewritten as user-visible equivalents ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)).
@@ -27,7 +27,7 @@ If no case moves, set `storybook_play: skip`, log the reason, and end the iterat
 
 ## Convert
 
-- Write each moved case as a `play` function on its own story ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)). A play that leaves the story in its initial state (hover only) may sit on the base story.
+- Write each moved case as a `play` function on its own story ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)). A play that only reads, or leaves the story in its initial state (hover), may sit on the base story.
 - Remove the vitest case only after its play function passes. If every case moves, delete the unit file; the commit keeps its `Test-File:` trailer.
 - Before committing, show each play function fails for the right reason: break the behavior in the component locally and watch the play fail. For a strengthened check, show the old check still passes under that break (copy the old test to a sibling `<name>.old.test.ts`, run it, delete it).
 - New checks a play makes possible are welcome; log them as strengthening.

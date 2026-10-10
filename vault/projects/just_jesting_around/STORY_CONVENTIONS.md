@@ -58,4 +58,9 @@ step so the panel reads like a script.
 
 Put a play on its own story named for what it does (`ExportsDirectDownload`), so
 the base stories still show the initial state. If an interaction makes more
-requests, such as opening a dialog, that story adds handlers for them.
+requests, such as opening a dialog, that story adds handlers for them. Clicking a
+`FilesInput` opens FilesDialog, so type into it with focus and the keyboard.
+
+`GButton` disables with `aria-disabled` only, so `toBeEnabled()` always passes on
+it. Assert `toHaveAttribute("aria-disabled", "true")` and that clicking it calls
+nothing.

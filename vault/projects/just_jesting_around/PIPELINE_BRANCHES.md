@@ -52,7 +52,8 @@ CI runs only the `unit` project. Story render checks and play functions aren't i
 
 ## Invariants
 
-- **One commit per test file per lane.** Each commit carries a `Test-File: <path>` trailer. The trailer survives rebases, so it's how workers find a test's commits, not the SHA. If the test already has a commit in the lane, fold new work into it (`git commit --fixup` then a non-interactive autosquash: `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash`).
+- **One commit per test file per lane.** Each commit carries a `Test-File: <path>` trailer. The trailer survives rebases, so it's how workers find a test's commits, not the SHA. If the test already has a commit in the lane, fold new work into it (`git commit --fixup` then a non-interactive autosquash: `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash <base SHA you started from>`). Never autosquash onto a remote ref: another session's fetch can move it mid-iteration and silently replant the lane.
+- **A blocked push stops the iteration.** If the push is refused, leave the ledger field unset, keep the log row and commits local, and report the exact push command to the driver.
 - **The ledger says what's ready.** A lane selects from the ledger field of the lane below, not from that lane's branch; a commit without its ledger write isn't done.
 - **Shared code is committed first.** Helpers, fixtures, mock handlers and story infra each go in their own commits, before the test commits that use them.
 - **Tests can enter mid-stack.** A test can be storified with no `iterated` count (FormData, FilesDialog and HistoryExportWizard already were). Lanes are a stacking order, not a gate every test must pass through.
