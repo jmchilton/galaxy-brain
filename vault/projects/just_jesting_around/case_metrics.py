@@ -33,6 +33,10 @@ SAME_TOOLING = (
     "lib/tool_shed/webapp/frontend/package.json",
     "lib/tool_shed/webapp/frontend/vitest.config.ts",
 )
+COVERAGE_METRICS = {"lines": "Line coverage", "branches": "Branch coverage"}
+TEST_SUPPORT = re.compile(
+    r"(^|/)(tests?|__mocks__|_testing)/|test-?utils|testUtils|test-?data|testData|\.stories\."
+)
 TEST_FILE = re.compile(r"\.test\.[jt]sx?$")
 STORY_LANE = re.compile(r"^Move .* test setup into Storybook stories$")
 PLAY_LANE = re.compile(r"^Move .* into (a )?play functions?$")
@@ -167,9 +171,16 @@ def lane1(repo, base, tip):
     return rows, before, after, support
 
 
-def vitest_list(repo, ref, tmp):
-    """Executed tests per repo-relative file at ``ref``, from ``vitest list`` in a throwaway worktree."""
-    worktree = Path(tmp) / ref[:11]
+class RefRun(NamedTuple):
+    tests: Counter  # executed tests per repo-relative test file
+    coverage: dict  # repo-relative source file -> {metric: (covered, total)}
+
+
+def measure_ref(repo, ref, tmp, client_tests):
+    """``vitest list`` everywhere plus client coverage of ``client_tests``, in a throwaway worktree of ``ref``."""
+    worktree = (
+        Path(tmp).resolve() / ref[:11]
+    )  # vitest filters must match its resolved root (/var -> /private/var)
     git(repo, "worktree", "add", "-q", "--detach", str(worktree), ref)
     try:
         for d in NODE_MODULES:
@@ -181,7 +192,7 @@ def vitest_list(repo, ref, tmp):
             .strip(),
             "VITE_CONFIG_NATIVE_IGNORE_WARNING": "true",
         }
-        counts = Counter()
+        tests = Counter()
         for d in VITEST_DIRS:
             out = Path(tmp) / f"{ref[:11]}-{d.replace('/', '_')}.json"
             subprocess.run(
@@ -192,26 +203,99 @@ def vitest_list(repo, ref, tmp):
                 capture_output=True,
             )
             for test in json.loads(out.read_text()):
-                counts[
-                    str(Path(test["file"]).resolve().relative_to(worktree.resolve()))
-                ] += 1
-        return counts
+                tests[relative(test["file"], worktree)] += 1
+        return RefRun(
+            tests,
+            client_coverage(
+                worktree, env, Path(tmp) / f"{ref[:11]}-coverage", client_tests
+            ),
+        )
     finally:
         git(repo, "worktree", "remove", "--force", str(worktree))
 
 
+def relative(path, worktree):
+    return str(Path(path).resolve().relative_to(worktree.resolve()))
+
+
+def client_coverage(worktree, env, out, tests):
+    """Per-source-file line and branch counts from running ``tests`` with v8 coverage."""
+    run = subprocess.run(
+        [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            *[str(worktree / t) for t in tests],
+            "--coverage.enabled",
+            "--coverage.reporter=json-summary",
+            f"--coverage.reportsDirectory={out}",
+            "--coverage.reportOnFailure",
+        ],
+        cwd=worktree / "client",
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    summary = json.loads((out / "coverage-summary.json").read_text())
+    coverage = {}
+    for path, metrics in summary.items():
+        if path == "total" or TEST_SUPPORT.search(rel := relative(path, worktree)):
+            continue
+        coverage[rel] = {
+            m: (metrics[m]["covered"], metrics[m]["total"]) for m in COVERAGE_METRICS
+        }
+    if not coverage:
+        raise SystemExit(
+            f"coverage run measured no source files:\n{run.stdout[-2000:]}"
+        )
+    return coverage
+
+
+def coverage_percent(base_cov, tip_cov, metric):
+    """Coverage % at both refs over the union of source files either run loaded; unloaded counts as uncovered."""
+    covered_b = covered_a = total = 0
+    for path in base_cov.keys() | tip_cov.keys():
+        b, a = base_cov.get(path, {}).get(metric), tip_cov.get(path, {}).get(metric)
+        total += max(x[1] for x in (b, a) if x)
+        covered_b += b[0] if b else 0
+        covered_a += a[0] if a else 0
+    return 100 * covered_b / total, 100 * covered_a / total
+
+
+def coverage_losses(base_cov, tip_cov):
+    """Markdown table of source files whose covered lines or branches fell between the refs."""
+    lines = [
+        "| Source file | Lines covered | Branches covered |",
+        "| --- | --- | --- |",
+    ]
+    for path in sorted(base_cov.keys() | tip_cov.keys()):
+        b, a = base_cov.get(path, {}), tip_cov.get(path, {})
+        cells = [(b.get(m, (0, 0))[0], a.get(m, (0, 0))[0]) for m in COVERAGE_METRICS]
+        if any(after < before for before, after in cells):
+            lines.append(
+                f"| `{path}` | " + " | ".join(f"{x} → {y}" for x, y in cells) + " |"
+            )
+    return "\n".join(lines)
+
+
 def executed(repo, base, tip, files):
-    """Executed tests per changed test file at both refs; tooling must match so node_modules can be shared."""
+    """Executed tests per changed test file, plus both refs' client coverage; tooling must match to share node_modules."""
     if git(repo, "diff", "--name-only", base, tip, "--", *SAME_TOOLING).strip():
         raise SystemExit(
             "client tooling differs between base and tip; executed counts need separate installs"
         )
+    client_tests_b = [old for old, _ in files if old.startswith("client/")]
+    client_tests_a = [new for _, new in files if new.startswith("client/")]
     with tempfile.TemporaryDirectory() as tmp:
-        at_base, at_tip = vitest_list(repo, base, tmp), vitest_list(repo, tip, tmp)
-    return [
-        (old, new, at_base[old] if old else 0, at_tip[new] if new else 0)
+        at_base = measure_ref(repo, base, tmp, client_tests_b)
+        at_tip = measure_ref(repo, tip, tmp, client_tests_a)
+    runs = [
+        (old, new, at_base.tests[old] if old else 0, at_tip.tests[new] if new else 0)
         for old, new in files
     ]
+    return runs, at_base.coverage, at_tip.coverage, len(client_tests_a)
 
 
 def drops_table(rows, signal, limit):
@@ -269,7 +353,8 @@ def delta(b, a):
     return f"{d} ({(a - b) / b:+.0%})".replace("-", "\u2212") if b else d
 
 
-def pitch_block(base, tip, files, before, after, support, runs, today):
+def pitch_block(base, tip, files, before, after, support, measured, today):
+    runs, base_cov, tip_cov, client_tests = measured
     run_b, run_a = sum(r[2] for r in runs), sum(r[3] for r in runs)
     lost = [r for r in runs if r[3] < r[2]]
     grew = sum(r[3] > r[2] for r in runs)
@@ -280,6 +365,12 @@ def pitch_block(base, tip, files, before, after, support, runs, today):
         "| --- | ---: | ---: | ---: | ---: |",
         f"| Executed tests (`vitest list`) | {run_b:,} | {run_a:,} | {delta(run_b, run_a)} | |",
     ]
+    for metric, label in COVERAGE_METRICS.items():
+        pct_b, pct_a = coverage_percent(base_cov, tip_cov, metric)
+        pp = f"{pct_a - pct_b:+.1f} pp".replace("-", "\u2212")
+        lines.append(
+            f"| {label} (source the tests load) | {pct_b:.1f}% | {pct_a:.1f}% | {pp} | |"
+        )
     for name, label in PITCH_ROWS.items():
         b, a = before[name], after[name]
         with_b, with_a = b + support.before[name], a + support.after[name]
@@ -295,6 +386,11 @@ def pitch_block(base, tip, files, before, after, support, runs, today):
             else ""
         )
         + f"; {grew} gained tests and the rest kept the same count.",
+        "",
+        (
+            f"Coverage runs the {client_tests} client test files at both refs (the Tool Shed frontend has no coverage provider) "
+            f"and measures the {len(base_cov.keys() | tip_cov.keys())} non-test source files they load; production code is identical at both refs."
+        ),
         "",
         f"Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): {support.shortstat}.",
     ]
@@ -344,9 +440,16 @@ def main():
     files, before, after, support = lane1(repo, base1, readability)
     if args.update:
         tip = git(repo, "rev-parse", readability).strip()
-        runs = executed(repo, base1, tip, [(old, new) for old, new, _, _ in files])
+        measured = executed(repo, base1, tip, [(old, new) for old, new, _, _ in files])
         block = pitch_block(
-            base1, tip, files, before, after, support, runs, date.today().isoformat()
+            base1,
+            tip,
+            files,
+            before,
+            after,
+            support,
+            measured,
+            date.today().isoformat(),
         )
         text = args.update.read_text()
         if not BLOCK.search(text):
@@ -354,6 +457,8 @@ def main():
         args.update.write_text(
             BLOCK.sub(lambda m: m.group(1) + block + m.group(2), text)
         )
+        print("Coverage losses (fix these in the tests rather than reporting them):\n")
+        print(coverage_losses(measured[1], measured[2]))
         return
     print(
         f"## Lane 1: readability ({len(files)} test files, `{base1[:11]}` → `{git(repo, 'rev-parse', '--short', readability).strip()}`)\n"

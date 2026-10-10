@@ -4,23 +4,27 @@ Two sections - the pitch - a concise, empirical case for the vitest_readability 
 `vitest_readability` rewrites Galaxy's client and Tool Shed frontend unit tests one file at a time, for readability and reuse, keeping what each test checks. Each selected test gets its own commit and a review note. Tests are drawn at random with a recorded seed.
 
 <!-- case_metrics:lane1:start -->
-247 test files, dev merge-base `df3932ed4ba` → `vitest_readability` `f324bca585c`, as of 2026-10-10.
+247 test files, dev merge-base `df3932ed4ba` → `vitest_readability` `f9113edf20c`, as of 2026-10-10.
 
 | Signal | Before | After | Δ | Δ with helpers |
 | --- | ---: | ---: | ---: | ---: |
-| Executed tests (`vitest list`) | 2,322 | 2,754 | +432 (+19%) | |
-| Test lines | 45,121 | 41,355 | −3,766 (−8%) | −3,268 (−7%) |
-| Strong Checks - exact `toEqual`/`toStrictEqual` | 591 | 671 | +80 (+14%) | +80 (+14%) |
+| Executed tests (`vitest list`) | 2,322 | 2,756 | +434 (+19%) | |
+| Line coverage (source the tests load) | 41.6% | 41.6% | −0.1 pp | |
+| Branch coverage (source the tests load) | 33.8% | 33.7% | −0.1 pp | |
+| Test lines | 45,121 | 41,387 | −3,734 (−8%) | −3,236 (−7%) |
+| Strong Checks - exact `toEqual`/`toStrictEqual` | 591 | 674 | +83 (+14%) | +83 (+14%) |
 | Weak Checks - `toBeTruthy`/`toBeFalsy` | 281 | 86 | −195 (−69%) | −195 (−69%) |
 | Imports of shared `@tests/test-data` fixtures | 20 | 77 | +57 (+285%) | +58 (+276%) |
 | Direct `mount`/`shallowMount` calls | 351 | 206 | −145 (−41%) | −144 (−40%) |
 | `.vm` reach-ins | 269 | 156 | −113 (−42%) | −111 (−41%) |
 | `as any`/`as unknown`/`as never` casts | 209 | 34 | −175 (−84%) | −175 (−83%) |
 | `flushPromises`/`setTimeout` calls | 621 | 409 | −212 (−34%) | −209 (−33%) |
-| `vi.mock` module mocks | 218 | 172 | −46 (−21%) | −35 (−16%) |
+| `vi.mock` module mocks | 218 | 171 | −47 (−22%) | −36 (−16%) |
 | `eslint-disable` | 5 | 1 | −4 (−80%) | −3 (−60%) |
 
-Files that lost an executed test: 0 of 247; 70 gained tests and the rest kept the same count.
+Files that lost an executed test: 0 of 247; 71 gained tests and the rest kept the same count.
+
+Coverage runs the 235 client test files at both refs (the Tool Shed frontend has no coverage provider) and measures the 1131 non-test source files they load; production code is identical at both refs.
 
 Δ with helpers also counts the non-test files the work changed (shared helpers, fixtures, docs): 26 files changed, 689 insertions(+), 191 deletions(-).
 <!-- case_metrics:lane1:end -->
@@ -49,7 +53,8 @@ This rewrites only the block between the `case_metrics:lane1` markers. Don't han
 - The script reads `~/projects/worktrees/galaxy/branch/vitest_readability` (override with `--repo`).
 - Before is `merge-base(origin/dev, jmchilton/vitest_readability)`; after is the pushed tip.
 - Test files are the changed `*.test.[jt]s(x)` files, following renames. The signals read them at both refs with `git show`.
-- Executed tests: `--update` adds a temporary `git worktree` for each ref, symlinks `node_modules` from the main worktree, and runs `vitest list --json` in `client/` and in the tool shed frontend. `vitest list` collects tests without running them. It takes about 3 minutes, and the worktrees are removed afterwards. The script refuses to run if `package.json`, the lockfile or the vitest config differ between the refs, because the shared `node_modules` would then be wrong.
+- Executed tests: `--update` adds a temporary `git worktree` for each ref, symlinks `node_modules` from the main worktree, and runs `vitest list --json` in `client/` and in the tool shed frontend. `vitest list` collects tests without running them. The worktrees are removed afterwards.
+- Coverage: in the same worktrees, `--update` runs the changed client test files with v8 coverage (`--coverage.reporter=json-summary`). The Tool Shed frontend has no coverage provider. The percentages are over the union of non-test source files that either run loads. A file loaded on only one side counts as uncovered on the other, and test helpers, fixtures and stories are excluded. Production code is identical at both refs, so any change comes from the tests. `--update` prints every source file whose covered lines or branches fell. Fix those in the tests: restore the behaviour with a user-visible assertion, or extend the child component's own test when a parent test no longer renders it. Don't add a mount just to raise the number. A full `--update` takes about 6 minutes. The script refuses to run if `package.json`, the lockfile or the vitest config differ between the refs, because the shared `node_modules` would then be wrong.
 - "Δ with helpers" adds back every other changed file (helpers, fixtures, `client/README.md`), so the reductions can't hide in shared code.
 
 **Signals.** Each is a regex count over raw source, defined in `SIGNALS`:
@@ -73,7 +78,7 @@ This rewrites only the block between the `case_metrics:lane1` markers. Don't han
 **Candidate measures.** Ranked by value for cost. Numbers marked "probe" are one-off counts from a review subagent at `af169c23ba9`; the script doesn't produce them yet.
 1. **More precision and reuse.** Truthy checks, exact equality, test-data imports and direct mounts are already in the table. Candidates to add: `toBe(true|false)` split from exact `toBe(x)`, `toHaveBeenCalledWith`/`Times` (probe 340 → 377), and imports of local `test-utils` (probe 150 → 196).
 2. **Production footprint.** No production files change; all 25 non-test files are helpers, fixtures or the README. Trivial: a generated line.
-3. **Branch-arm coverage per source file.** `vitest run --coverage` at both refs, diffing the `b[]` arms in `coverage-final.json`. Report arms gained and lost. A probe found one incidental loss: in `UserSharing.vue`, the falsy arm of `v-if="currentUser && isConfigLoaded"` is no longer reached, because the test now seeds the user before mounting. A fix has been handed to the readability loop. Medium cost.
+3. **Per-test coverage.** The table's coverage is suite-wide, so a branch one rewritten test stopped reaching doesn't show if another test still reaches it. One example: `UserSharing.vue`'s no-current-user arm, handed to the readability loop. Running coverage one test file at a time, at both refs, would catch these. Medium cost.
 4. **Mutation score on a stratified sample.** Stryker, or hand-written mutants as in PLAY_LOG, on 8–10 utils and composables at both refs. The only measure that shows assertions kept their strength. High cost.
 5. **Duplication.** `jscpd` over the changed tests plus helpers at both refs. Low to medium cost.
 6. **Runtime and shuffle stability.** Five shuffled seeds at both refs on the changed files. Probe on 19 files: wall time is flat (7.4s vs 6.8s). Medium cost; run serially.
