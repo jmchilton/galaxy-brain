@@ -8,10 +8,9 @@ PRs To Review:
 - [#23956](https://github.com/galaxyproject/galaxy/pull/23956) — Do not post our draft; author/Marius discussing approach. [notes](../../repositories/galaxy/reviews/active/23956/index.md)
 - [#23951](https://github.com/galaxyproject/galaxy/pull/23951) — Approved earlier head; generated-config check red. [notes](../../repositories/galaxy/reviews/active/23951/index.md)
 - [#23058](https://github.com/galaxyproject/galaxy/pull/23058) — Requested author merge of fork fixes; ball with author. [notes](../../repositories/galaxy/reviews/active/23058/index.md)
-- [#23988](https://github.com/galaxyproject/galaxy/pull/23988) — PR handed to us; MANIFEST fixes pushed to mr-c branch; guard branches A/B on fork, nothing posted. [notes](../../repositories/galaxy/reviews/active/23988/index.md)
 - [#23965](https://github.com/galaxyproject/galaxy/pull/23965) — Approved; draft; admin migration follow-up with Marius. [notes](../../repositories/galaxy/reviews/active/23965/index.md)
 - [#24006](https://github.com/galaxyproject/galaxy/pull/24006) — Approved; suggestions posted. [notes](../../repositories/galaxy/reviews/active/24006/index.md)
-- [#23989](https://github.com/galaxyproject/galaxy/pull/23989) — Approve w/ suggestions; draft review unposted. [notes](../../repositories/galaxy/reviews/active/23989/index.md)
+- [#23989](https://github.com/galaxyproject/galaxy/pull/23989) — Approved; awaiting merge. [notes](../../repositories/galaxy/reviews/active/23989/index.md)
 
 PRs to Skip For 7 Days:
 

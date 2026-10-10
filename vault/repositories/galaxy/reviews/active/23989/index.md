@@ -4,4 +4,4 @@
 
 [Review](review.md)
 
-Latest review: `8e5b3d5a462` on 2026-10-09 — approve with suggestions; draft review unposted.
+Latest review: `8e5b3d5a462` on 2026-10-09 — approve with suggestions. John approved `8e5b3d5a462` on GitHub 2026-10-09; the unposted-draft status is historical.

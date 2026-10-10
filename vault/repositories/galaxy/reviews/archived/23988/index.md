@@ -1,6 +1,6 @@
 # galaxy #23988 — packages: explictly include non-Python files for those building from sdist
 
-[PR #23988](https://github.com/galaxyproject/galaxy/pull/23988) · Status: active; open, out of draft. GitHub state checked 2026-10-09.
+[PR #23988](https://github.com/galaxyproject/galaxy/pull/23988) · Status: archived; merged 2026-10-09 by jmchilton at `678ba5cd173`. GitHub state checked 2026-10-09.
 
 [Review and history](review.md)
 
@@ -13,3 +13,5 @@ Tracking: PR handed to us; regression guard options posted.
 Prior queue tracking: mr-c expanded + handed PR to us; our follow-up commit `678ba5cd173` local, unpushed; nsoranzo wants test.sh regression guard (estimate in note)
 
 The PR now contains `678ba5cd173`. John posted the regression-guard alternatives on 2026-10-09; the earlier unpushed status is historical.
+
+Tracking ended 2026-10-09: PR merged by John at `678ba5cd173`. Guard branches A/B remain on the fork.
