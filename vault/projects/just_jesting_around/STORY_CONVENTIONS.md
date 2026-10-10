@@ -190,9 +190,12 @@ navigates the top window, so a play stops before it. Clicking a
 it. Assert `toHaveAttribute("aria-disabled", "true")` and that clicking it calls
 nothing. `GTooltip` stays in the DOM and hides with `sr-only`, so `toBeVisible()`
 passes either way; check the `sr-only` class, the one class check allowed. Every
-`GTooltip` on the page is in the DOM, so find one with `findByRole("tooltip", { name })`. A role
-can't tell a `GAlert`'s info from success or danger from warning, so variant checks
-stay in vitest. Wrap
+`GTooltip` on the page is in the DOM, so find one with `findByRole("tooltip", { name })`. A
+`GAlert` is `role=status` for info and success and `role=alert` for warning and danger; a
+role can't tell info from success or warning from danger, so those variant checks stay in
+vitest. An svg's `<title>` gives it no accessible name without `aria-labelledby`; find the
+title text and take `.closest("svg")`. `userEvent.hover` doesn't trigger CSS `:hover`, so a
+reveal on hover stays in vitest. Wrap
 hover-delayed or re-rendered results in `waitFor`. `toHaveAccessibleDescription`
 picks up a native `title`. A play's `console.log` doesn't reach vitest's output;
 to read rendered text while debugging, use a failing `expect`.

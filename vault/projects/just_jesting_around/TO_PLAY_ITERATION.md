@@ -25,10 +25,10 @@ Pick the most recent (in lane commit order, by each test's story commit, not its
 - Behavior that depends on the platform (cmd vs ctrl from the userAgent) stays; a play would pass on a Mac and fail in Linux CI.
 - A case stays when no user-visible check fails under its break (a `focus()` spy where the browser keeps focus anyway).
 - **Assertions:** a moved case keeps its assertions, rewritten as user-visible equivalents ([STORY_CONVENTIONS.md](STORY_CONVENTIONS.md#play-functions)).
-  - Strengthen weak assertions (OR-checks, ones that pass without the behavior) as you go, and note it in the log.
+  - Strengthen weak assertions (OR-checks, ones that pass without the behavior) as you go, including in cases that stay in vitest, and note it in the log.
   - Weakening or dropping a check needs John's approval. If a case can't move without that, keep it in vitest and log why.
 
-If no case moves, set `storybook_play: skip`, log the reason, and end the iteration.
+If no case moves and no play adds a visible check, set `storybook_play: skip`, log the reason, and end the iteration. Plays that only add visible checks while every original check stays (FormDrilldown's v-model results) are committed with the trailer and the unit file unchanged.
 
 ## Convert
 
@@ -38,7 +38,7 @@ If no case moves, set `storybook_play: skip`, log the reason, and end the iterat
 - Before committing, show each play function fails for the right reason: break the behavior locally (restore only the file you broke, not your uncommitted plays), in the component or in a dependency the story runs for real but unit tests mock (`sanitizeHtml.ts`), and watch the play fail. A brand-new check only needs to fail under its break. For a strengthened check, pick a break that separates old from new (if the obvious one fails both, find a subtler one), and show the old check still passes under it (copy the old test to a sibling `<name>.old.test.<ext>`, run it, delete it; one run with every break applied together is enough). If the play commit changes the stories file in a way the old test depends on, point the copy at an old stories copy too; that copy must not end in `.stories.ts`, or Storybook indexes it and fails on the duplicate title.
 - New checks a play makes possible are welcome, including a new story whose data exposes a weak check (an all-off config next to all-on); log them as strengthening. A story may also add data only to give a play something to wait on.
 
-If the strongest check would fail on a pre-existing component bug, don't fix the component in this lane: write the check to tolerate it (accept both the buggy and the fixed value, so the fix doesn't fail the play), mark it in the play with a comment, and add the bug to [BUGS_FOUND.md](BUGS_FOUND.md).
+If the strongest check would fail on a pre-existing component bug, don't fix the component in this lane: write the check to tolerate it (accept both the buggy and the fixed value, so the fix doesn't fail the play), mark it in the play with a comment that describes the bug (Galaxy's code shouldn't name vault files), and add the bug to [BUGS_FOUND.md](BUGS_FOUND.md).
 
 Storybook and browser-project infra lives in `vitest_stories`. If the conversion needs a change there, stop and report it to the driver.
 
@@ -47,7 +47,7 @@ Storybook and browser-project infra lives in `vitest_stories`. If the conversion
 - Run the story file in the `storybook` browser project.
 - Run what remains of the test in the `unit` project.
 - Run type-checking, lint and formatting.
-- Have an independent subagent confirm that every original assertion lives in a play function or in the remaining test, and wait for its report before going on.
+- Have an independent subagent confirm that every original assertion lives in a play function or in the remaining test, and wait for its report before going on. Reviewers never kill processes. After small review fixes, re-running the touched stories and unit files is enough; the whole project ran before.
 
 ## Record
 

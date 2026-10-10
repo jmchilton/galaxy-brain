@@ -43,7 +43,7 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 - Re-run the rebase gate, which now includes the converted test and its stories. Running type-check and lint before the review and the full gate once after it is enough.
 - The render check only proves a story doesn't throw. For stories whose content is conditional, confirm each shows what it claims with throwaway play assertions, then remove them.
 - Run type-checking, lint and formatting.
-- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own, and wait for its report before going on. Don't run the gate while a reviewer breaks files in the same worktree. Re-run the checks after applying its fixes (the touched test and stories, lint and type-check are enough for small fixes), and ask for a second review if a fix changed what an assertion checks. Tightening a reviewed check (`.alert` to `.alert-warning`) or a cosmetic data fix no assertion reads doesn't need one; changing data an assertion reads or the message a check expects does.
+- Have an independent subagent confirm that the original assertions survive and that the stories are readable on their own, and wait for its report before going on. Don't run the gate while a reviewer breaks files in the same worktree. Reviewers never kill processes. Re-run the checks after applying its fixes (the touched test and stories, lint and type-check are enough for small fixes), and ask for a second review if a fix changed what an assertion checks. Tightening a reviewed check (`.alert` to `.alert-warning`) or a cosmetic data fix no assertion reads doesn't need one; changing data an assertion reads or the message a check expects does.
 
 ## Record
 
