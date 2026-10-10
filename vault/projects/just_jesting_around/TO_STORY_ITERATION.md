@@ -6,7 +6,7 @@ Reuse the same branch and worktree for every iteration.
 
 Rebase `vitest_stories` onto `jmchilton/vitest_readability`. Commands are in [PIPELINE_BRANCHES.md](PIPELINE_BRANCHES.md#lanes).
 - Resolve conflicts so that both lanes' intent survives.
-- Don't select a test until the lane is green: from `client/`, `git grep -l useStoryMount -- '*.test.*' | xargs pnpm exec vitest run --project unit` and the whole `--project storybook` pass, and `pnpm type-check` is clean.
+- Don't select a test until the lane is green: from `client/`, with the pinned node and env, `git grep -l useStoryMount -- '*.test.*' | xargs pnpm exec vitest run --project unit` and the whole `--project storybook` pass, and `pnpm type-check` is clean.
 
 ## Select
 
@@ -39,6 +39,6 @@ If the conversion needs a Storybook change (preview, story-mount helper, shared 
 ## Record
 
 - Commit the test and its stories together, with a `Test-File: <path>` trailer, before the review; amend with its fixes. Push the lane once validation and review pass, with `--force-with-lease` since the rebase rewrites it.
-- Set `storified: true` in `jest_tests.yml`, and change no other field.
-- Append a row to [STORY_LOG.md](STORY_LOG.md) with the test, the decision, the reason and the line counts before and after.
+- After the push, set `storified: true` in `jest_tests.yml`, and change no other field. Commit it with the log row (`git commit -o`); don't push galaxy-brain.
+- Append a row to [STORY_LOG.md](STORY_LOG.md) with the test, the decision, the reason and the line counts before (at the `vitest_readability` tip) and after.
 - Put pattern lessons in the row too. The driver decides whether a recurring lesson belongs in client testing guidance.

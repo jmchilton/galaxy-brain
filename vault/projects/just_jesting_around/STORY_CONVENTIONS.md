@@ -3,7 +3,9 @@
 #### Stories Are Scenarios
 
 Place `Component.stories.ts` beside the component, with a title that mirrors its
-path. Each story is a state worth looking at, named for that state
+path, collapsing a repeated folder (`ScrollList`, not `ScrollList/ScrollList`). For
+a `generic="T"` component, type the meta from its props instead of `typeof Component`
+(`ScrollList.stories.ts`). Each story is a state worth looking at, named for that state
 (`DownloadOnly`, `WithZenodo`). Shared props go in the meta `args`.
 
 Answer API requests in `parameters.msw.handlers` with the typed `http` handlers
@@ -17,7 +19,9 @@ before writing payloads inline. A fixture and handler that several tests share s
 beside their feature (`ObjectStore/test_fixtures.ts`).
 
 If the component needs a parent, such as one driving v-model, add a small harness
-component to the stories file (`FormDataWithModel`).
+component to the stories file (`FormDataWithModel`). When the parent's state change
+is worth seeing, give the harness a visible control (`ScrollListWithStore`'s "Add
+item" button) rather than an exposed method.
 
 #### Tests Build on Stories
 
@@ -33,11 +37,13 @@ A story mount renders children, so a `shallowMount` stub check like
 Pass extra `global` options to `mountStory`; they add to the defaults rather than
 replace them. Pass `router` for a test that needs real routes, `pinia` to stub
 actions, `instrumentLocalization` for `toBeLocalizationOf`, and `props` for a value
-no story needs (`clearInputAfterExport`).
+no story needs (`clearInputAfterExport`). To spy on a function the story provides,
+wrap it in a test-local `vi.fn` and pass that as a prop. Module-level `vi.mock`
+still applies to story mounts.
 
 Don't call `setProps` on a composed story, because that remounts it. Change state
-through the harness instead. Edge cases that nobody would want to look at stay as
-plain mounts in the test.
+through the harness instead. A check that a story can't express, such as a prop
+toggled on a live mount, stays as a plain mount in the test; never drop it.
 
 Stores, composables, utilities and API clients don't get stories.
 
