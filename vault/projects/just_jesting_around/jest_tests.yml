@@ -8,6 +8,18 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/packages/ui/src/components/Form/GFormInput.test.ts
+- file: client/packages/ui/src/components/GCheckbox.test.ts
+- file: client/packages/ui/src/components/GTable.test.ts
+- file: client/packages/ui/src/components/vModelContract.test.ts
+- file: client/packages/ui/src/composables/floatingPosition.test.ts
+- file: client/packages/ui/src/composables/toastHost.test.ts
+- file: client/packages/ui/src/portableImports.test.ts
+- file: client/packages/ui/src/publicClasses.test.ts
+- file: client/packages/ui/src/utils/escapeStack.test.ts
+- file: client/packages/ui/src/utils/focusOrder.test.ts
+- file: client/packages/ui/src/utils/hoverBridge.test.ts
+- file: client/src/api/client/errorResponseMiddleware.test.ts
 - file: client/src/api/client/rateLimiter.test.ts
   iterated: 1
   split_commit: true
@@ -18,11 +30,13 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/api/client/staleCacheRetryMiddleware.test.ts
 - file: client/src/api/datasets.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/api/histories.test.ts
 - file: client/src/api/index.test.ts
   iterated: 1
   split_commit: true
@@ -33,6 +47,9 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/api/staleCacheRetry.test.ts
+- file: client/src/api/visualizations.test.ts
+- file: client/src/api/workflows.test.ts
 - file: client/src/app/app.test.js
   iterated: 1
   split_commit: true
@@ -46,37 +63,80 @@
 - file: client/src/components/ActivityBar/ActivityBar.test.js
 - file: client/src/components/ActivityBar/ActivityItem.test.js
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
+- file: client/src/components/BaseComponents/Form/GForm.test.ts
+- file: client/src/components/BaseComponents/GAlert.test.ts
 - file: client/src/components/BaseComponents/GButton.test.ts
   iterated: 1
   storified: true
+- file: client/src/components/BaseComponents/GDropdown.test.ts
+- file: client/src/components/BaseComponents/GDropdownItem.test.ts
+- file: client/src/components/BaseComponents/GLink.test.ts
+- file: client/src/components/BaseComponents/GModal.test.ts
+- file: client/src/components/BaseComponents/GPopover.test.ts
+- file: client/src/components/BaseComponents/GTip.test.ts
+- file: client/src/components/BaseComponents/GToast.test.ts
+- file: client/src/components/BaseComponents/GTooltip.test.ts
 - file: client/src/components/Citation/CitationsList.test.ts
 - file: client/src/components/Citation/services.test.ts
   storified: skip
   storybook_play: skip
+- file: client/src/components/Collections/ListCollectionCreator.test.ts
+- file: client/src/components/Collections/PairCollectionCreator.test.ts
+- file: client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts
 - file: client/src/components/Collections/common/stripExtension.test.ts
   storified: skip
   storybook_play: skip
+- file: client/src/components/Collections/common/useElementReconciliation.test.ts
 - file: client/src/components/Collections/pairing.test.ts
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/wizard/fetchWorkbooks.test.ts
   storified: skip
   storybook_play: skip
+- file: client/src/components/CommandPalette/CommandPalette.test.ts
+- file: client/src/components/CommandPalette/providers/actions.test.ts
+- file: client/src/components/CommandPalette/providers/categories.test.ts
+- file: client/src/components/CommandPalette/providers/datasets.test.ts
+- file: client/src/components/CommandPalette/providers/histories.test.ts
+- file: client/src/components/CommandPalette/providers/index.test.ts
+- file: client/src/components/CommandPalette/providers/interactiveTools.test.ts
+- file: client/src/components/CommandPalette/providers/invocations.test.ts
+- file: client/src/components/CommandPalette/providers/navigation.test.ts
+- file: client/src/components/CommandPalette/providers/refresh.test.ts
+- file: client/src/components/CommandPalette/providers/reports.test.ts
+- file: client/src/components/CommandPalette/providers/scopes.test.ts
+- file: client/src/components/CommandPalette/providers/storeFirst.test.ts
+- file: client/src/components/CommandPalette/providers/tools.test.ts
+- file: client/src/components/CommandPalette/providers/visualizations.test.ts
+- file: client/src/components/CommandPalette/providers/workflows.test.ts
+- file: client/src/components/CommandPalette/usePaletteMachine.test.ts
+- file: client/src/components/CommandPalette/useScrollEdges.test.ts
 - file: client/src/components/Common/BreadcrumbHeading.test.ts
+- file: client/src/components/Common/ChangesIndicator.test.ts
+- file: client/src/components/Common/DatasetPopoverLink.test.ts
+- file: client/src/components/Common/DatasetPopoverLink.width.test.ts
 - file: client/src/components/Common/DelayedInput.test.ts
+- file: client/src/components/Common/EmailReportForm.test.ts
 - file: client/src/components/Common/ExportForm.test.ts
   iterated: 1
   storified: true
   storybook_play: true
+- file: client/src/components/Common/ExportIncludeOptions.test.ts
 - file: client/src/components/Common/FilterMenu.test.ts
+- file: client/src/components/Common/GCard.test.ts
+- file: client/src/components/Common/ItemListEditor.test.ts
+- file: client/src/components/Common/ListHeader.test.ts
 - file: client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts
 - file: client/src/components/Common/RDMDestinationSelector.test.ts
 - file: client/src/components/Common/RenameModal.test.ts
+- file: client/src/components/Common/SaveChangesModal.test.ts
 - file: client/src/components/Common/SidebarList.test.ts
   iterated: 1
   split_commit: true
+- file: client/src/components/Common/TextSummary.test.ts
 - file: client/src/components/Common/VegaWrapper.test.ts
 - file: client/src/components/Common/Webhook.test.ts
+- file: client/src/components/Common/Wizard/GenericWizard.test.ts
 - file: client/src/components/Common/models/exportRecordModel.test.ts
   storified: skip
   storybook_play: skip
@@ -90,6 +150,7 @@
   split_commit: true
 - file: client/src/components/ConfigTemplates/formUtil.test.ts
   storified: skip
+- file: client/src/components/ConfigTemplates/useConfigurationTesting.test.ts
 - file: client/src/components/ConfirmDialog.test.ts
 - file: client/src/components/DataDialog/DataDialog.test.js
 - file: client/src/components/Dataset/DatasetCopy.test.js
@@ -104,6 +165,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/DatasetInformation/DatasetAttributes.test.ts
+- file: client/src/components/DatasetInformation/DatasetDetails.test.ts
 - file: client/src/components/DatasetInformation/DatasetError.test.ts
   iterated: 1
   split_commit: true
@@ -117,6 +179,7 @@
 - file: client/src/components/FileSources/Instances/InstanceDropdown.test.ts
 - file: client/src/components/FilesDialog/FilesDialog.test.ts
   storified: true
+- file: client/src/components/FilesDialog/FilesInput.test.ts
 - file: client/src/components/Form/Elements/FormBoolean.test.js
 - file: client/src/components/Form/Elements/FormCheck.test.js
 - file: client/src/components/Form/Elements/FormData/FormData.test.ts
@@ -128,6 +191,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Form/Elements/FormDirectory.test.js
+- file: client/src/components/Form/Elements/FormDrilldown/FormDrilldown.test.js
 - file: client/src/components/Form/Elements/FormDrilldown/utilities.test.js
   storified: skip
   storybook_play: skip
@@ -136,8 +200,10 @@
 - file: client/src/components/Form/Elements/FormNumber.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/Form/Elements/FormNumberList.test.ts
 - file: client/src/components/Form/Elements/FormOptionalText.test.js
 - file: client/src/components/Form/Elements/FormRadio.test.js
+- file: client/src/components/Form/Elements/FormRulesEdit.test.ts
 - file: client/src/components/Form/Elements/FormSelect.test.js
 - file: client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts
   iterated: 1
@@ -154,6 +220,7 @@
 - file: client/src/components/Form/FormElement.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/Form/FormElementHelpMarkdown.test.ts
 - file: client/src/components/Form/FormElementLabel.test.js
   iterated: 1
   split_commit: true
@@ -169,6 +236,7 @@
 - file: client/src/components/GDateTime.test.ts
 - file: client/src/components/GalaxyAI.newchat.test.ts
   iterated: 1
+- file: client/src/components/GalaxyAI.routesync.test.ts
 - file: client/src/components/GalaxyAI.test.ts
 - file: client/src/components/GalaxyAI/ChatActions.test.ts
 - file: client/src/components/GalaxyAI/ChatInput.test.ts
@@ -185,6 +253,7 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/components/GalaxyWizard.test.ts
 - file: client/src/components/Graph/composables/useFocusedNodes.test.ts
   storified: skip
   storybook_play: skip
@@ -204,10 +273,12 @@
 - file: client/src/components/History/Content/ContentItem.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/History/Content/Dataset/DatasetDetails.test.ts
 - file: client/src/components/History/Content/Dataset/DatasetDownload.test.ts
   iterated: 1
   split_commit: true
 - file: client/src/components/History/Content/GenericElement.test.js
+- file: client/src/components/History/Content/GenericItem.test.ts
 - file: client/src/components/History/Content/model/states.test.js
   iterated: 1
   storified: skip
@@ -218,6 +289,7 @@
 - file: client/src/components/History/CurrentHistory/HistoryNavigation.test.ts
   iterated: 1
   split_commit: true
+- file: client/src/components/History/CurrentHistory/HistoryOperations/HistoryStorageOperationsIndicator.test.ts
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
 - file: client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts
@@ -267,12 +339,16 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/components/History/useHistoryCardActions.test.ts
 - file: client/src/components/HistoryExport/Index.test.js
 - file: client/src/components/HistoryExport/ToLink.test.js
 - file: client/src/components/HistoryExport/ToRemoteFile.test.js
   iterated: 1
   split_commit: true
 - file: client/src/components/HistoryImport.test.js
+- file: client/src/components/ImportData/zip/resultsRoute.test.ts
+- file: client/src/components/ImportData/zip/views/RoCrateZipView.test.ts
+- file: client/src/components/ImportData/zip/views/rocrate.utils.test.ts
 - file: client/src/components/Indices/SharingIndicators.test.js
 - file: client/src/components/InteractiveTools/InteractiveTools.test.js
 - file: client/src/components/JobDestinationParams/JobDestinationParams.test.ts
@@ -286,34 +362,41 @@
 - file: client/src/components/Landing/fetchModels.test.ts
   storified: skip
   storybook_play: skip
-- file: client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.js
+- file: client/src/components/Libraries/LibraryEditField.test.js
+- file: client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts
 - file: client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js
+- file: client/src/components/Libraries/LibraryFolder/TopToolbar/import-to-history/import-dataset.test.js
+- file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js
+- file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.ts
 - file: client/src/components/Login/ChangePassword.test.ts
 - file: client/src/components/Login/LoginForm.test.ts
 - file: client/src/components/Login/LoginIndex.test.js
 - file: client/src/components/Login/NewUserConfirmation.test.ts
 - file: client/src/components/Markdown/Editor/CellAdd.test.js
-- file: client/src/components/Markdown/Editor/CellButton.test.js
 - file: client/src/components/Markdown/Editor/CellOption.test.js
   iterated: 1
   split_commit: true
 - file: client/src/components/Markdown/Editor/Configurations/ConfigureHeader.test.js
 - file: client/src/components/Markdown/Editor/Configurations/ConfigureVitessce.test.js
 - file: client/src/components/Markdown/Editor/TextEditor.test.ts
+- file: client/src/components/Markdown/Sections/Elements/HistoryDatasetCollection/CollectionTree.test.js
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/Markdown/Sections/Elements/JobElements.test.ts
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowDisplay.test.js
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/Markdown/Sections/MarkdownDefault.test.ts
 - file: client/src/components/Markdown/Sections/MarkdownGalaxy.test.js
   iterated: 1
   split_commit: true
 - file: client/src/components/Markdown/Sections/MarkdownVitessce.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/Markdown/Sections/SectionWrapper.test.ts
 - file: client/src/components/Markdown/Utilities/parseInvocation.test.js
   storified: skip
   storybook_play: skip
@@ -325,6 +408,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Masthead/Masthead.test.js
+- file: client/src/components/Masthead/MastheadDropdown.test.ts
 - file: client/src/components/Masthead/QuotaMeter.test.ts
 - file: client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts
 - file: client/src/components/Notifications/NotificationCard.test.ts
@@ -353,6 +437,7 @@
 - file: client/src/components/ObjectStore/Templates/TemplateSummaryPopover.test.ts
 - file: client/src/components/Page/PageView.test.ts
 - file: client/src/components/PageDisplay/PageForm.test.js
+- file: client/src/components/PageDisplay/PageHtml.test.js
 - file: client/src/components/PageEditor/HistoryPageList.test.ts
 - file: client/src/components/PageEditor/HistoryPageView.test.ts
   iterated: 1
@@ -388,9 +473,14 @@
 - file: client/src/components/Panels/ToolPanel.test.ts
   iterated: 1
   split_commit: true
+- file: client/src/components/Panels/Upload/UploadFileRow.test.ts
+- file: client/src/components/Panels/Upload/UploadMethodView.test.ts
+- file: client/src/components/Panels/Upload/UploadMethodViewInline.test.ts
+- file: client/src/components/Panels/Upload/methods/PasteLinksUpload.test.ts
 - file: client/src/components/Panels/Upload/uploadMethodRegistry.test.ts
   storified: skip
   storybook_play: skip
+- file: client/src/components/Panels/Upload/uploadProgressUi.test.ts
 - file: client/src/components/Panels/Upload/uploadState.test.ts
   iterated: 1
   split_commit: true
@@ -405,13 +495,17 @@
   iterated: 1
   storified: skip
 - file: client/src/components/Register/RegisterForm.test.ts
+- file: client/src/components/RuleBuilder/ColumnSelector.test.ts
+- file: client/src/components/RuleBuilder/IdentifierDisplay.test.ts
 - file: client/src/components/RuleBuilder/RuleDefinitions.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/RuleBuilder/SavedRulesSelector.test.js
+- file: client/src/components/RuleBuilder/SelectBasic.test.ts
 - file: client/src/components/RuleCollectionBuilder.test.js
+- file: client/src/components/SchemaOrg/CreatorViewers.test.ts
 - file: client/src/components/ScrollList/ScrollList.test.ts
   iterated: 1
   storified: true
@@ -420,9 +514,9 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/SelectionField/SelectionField.test.js
+- file: client/src/components/Sharing/UserSharing.test.ts
 - file: client/src/components/SingleItemSelector.test.ts
 - file: client/src/components/StsDownloadButton.test.js
-- file: client/src/components/Tags/StatelessTags.test.js
 - file: client/src/components/Tags/model.test.js
   iterated: 1
   split_commit: true
@@ -433,25 +527,36 @@
   split_commit: true
 - file: client/src/components/TagsMultiselect/StatelessTags.test.js
 - file: client/src/components/TagsMultiselect/Tag.test.js
+- file: client/src/components/Tool/AuthoringHelpPanel.test.ts
 - file: client/src/components/Tool/Buttons/ToolTourGeneratorItem.test.ts
+- file: client/src/components/Tool/CustomToolEditorWorkspace.test.ts
 - file: client/src/components/Tool/ToolCard.test.js
 - file: client/src/components/Tool/ToolFooter.test.js
-- file: client/src/components/Tool/ToolForm.test.js
+- file: client/src/components/Tool/ToolForm.test.ts
+- file: client/src/components/Tool/ToolHelpMarkdown.test.ts
 - file: client/src/components/Tool/ToolHelpRst.test.js
+- file: client/src/components/Tool/ToolInstallationRequestForm.test.ts
+- file: client/src/components/Tool/ToolLinkPopover.test.ts
 - file: client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts
   iterated: 1
   storified: true
   storybook_play: true
+- file: client/src/components/Tool/ToolSourceDisplay.test.ts
+- file: client/src/components/Tool/ToolSuccess.test.ts
 - file: client/src/components/Tool/ToolSuccessMessage.test.ts
+- file: client/src/components/Tool/authoringHelp.test.ts
+- file: client/src/components/Tool/customToolEditorDefaults.test.ts
 - file: client/src/components/Tool/extractEmbeddedJs.test.ts
   storified: skip
   storybook_play: skip
+- file: client/src/components/Tool/schemaMarkdown.test.ts
 - file: client/src/components/Tool/utilities.test.ts
   storified: skip
   storybook_play: skip
 - file: client/src/components/ToolEntryPoints/ToolEntryPoints.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/ToolRecommendation.test.ts
 - file: client/src/components/ToolsList/ToolsList.test.ts
 - file: client/src/components/ToolsList/ToolsListCard.test.ts
 - file: client/src/components/ToolsView/ToolsSchemaJson/ToolsJson.test.js
@@ -477,10 +582,9 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Tour/Tour.test.js
-- file: client/src/components/Upload/CompositeBox.test.js
-- file: client/src/components/Upload/DefaultBox.test.ts
-- file: client/src/components/Upload/RulesInput.test.js
-- file: client/src/components/Upload/UploadModal.test.js
+- file: client/src/components/Tour/TourStep.test.ts
+- file: client/src/components/Upload/UploadSelect.test.ts
+- file: client/src/components/User/APIKey/model/service.test.ts
 - file: client/src/components/User/DiskUsage/DiskUsageSummary.test.ts
 - file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts
 - file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts
@@ -500,10 +604,12 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts
+- file: client/src/components/User/DiskUsage/Visualizations/util.test.ts
 - file: client/src/components/User/ExternalIdentities/ExternalRegistration.test.ts
 - file: client/src/components/User/UserBeaconSettings.test.ts
   iterated: 1
   split_commit: true
+- file: client/src/components/User/UserDatasetPermissions.test.ts
 - file: client/src/components/User/UserDeletion.test.ts
 - file: client/src/components/User/UserOidcProfile.test.ts
 - file: client/src/components/User/UserPreferences.test.ts
@@ -519,10 +625,13 @@
 - file: client/src/components/Visualizations/VisualizationCreate.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/Visualizations/VisualizationDisplay.test.js
 - file: client/src/components/Visualizations/VisualizationExamples.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/Visualizations/VisualizationFrame.test.js
 - file: client/src/components/Visualizations/VisualizationHeader.test.js
+- file: client/src/components/Visualizations/VisualizationUnsavedChanges.test.js
 - file: client/src/components/Visualizations/utilities.test.js
   storified: skip
   storybook_play: skip
@@ -535,25 +644,30 @@
 - file: client/src/components/Workflow/Editor/AreaHighlight.test.ts
 - file: client/src/components/Workflow/Editor/Comments/ColorSelector.test.js
 - file: client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
+- file: client/src/components/Workflow/Editor/DraggablePan.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormDefault.test.js
   iterated: 1
   split_commit: true
+- file: client/src/components/Workflow/Editor/Forms/FormInputCollection.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts
   iterated: 1
   split_commit: true
+- file: client/src/components/Workflow/Editor/Forms/FormSection.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormTool.test.js
 - file: client/src/components/Workflow/Editor/Index.test.ts
 - file: client/src/components/Workflow/Editor/Lint.test.ts
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/Node.test.ts
+- file: client/src/components/Workflow/Editor/NodeInvocationText.test.ts
 - file: client/src/components/Workflow/Editor/NodeOutput.test.ts
 - file: client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts
   iterated: 1
   split_commit: true
+- file: client/src/components/Workflow/Editor/SaveChangesModal.test.ts
 - file: client/src/components/Workflow/Editor/StateUpgradeModal.test.ts
   iterated: 1
   split_commit: true
@@ -586,16 +700,32 @@
 - file: client/src/components/Workflow/Editor/modules/useLinting.test.ts
   storified: skip
   storybook_play: skip
+- file: client/src/components/Workflow/Editor/modules/utilities.test.ts
+- file: client/src/components/Workflow/Editor/modules/whenExpression.test.ts
+- file: client/src/components/Workflow/Editor/modules/workflowInputPath.test.ts
 - file: client/src/components/Workflow/Import/FromFileOrUrl.test.ts
+- file: client/src/components/Workflow/Import/TrsTool.test.ts
+- file: client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts
+- file: client/src/components/Workflow/List/CuratedCollectionChips.test.ts
+- file: client/src/components/Workflow/List/CuratedWorkflowCard.test.ts
+- file: client/src/components/Workflow/List/CuratedWorkflowList.test.ts
 - file: client/src/components/Workflow/List/WorkflowCardList.test.ts
 - file: client/src/components/Workflow/List/WorkflowList.test.ts
+- file: client/src/components/Workflow/List/WorkflowListTabs.test.ts
+- file: client/src/components/Workflow/List/useWorkflowCardActions.test.ts
+- file: client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts
+- file: client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts
 - file: client/src/components/Workflow/Run/WorkflowRun.test.js
+- file: client/src/components/Workflow/Run/WorkflowRunDefaultStep.test.ts
+- file: client/src/components/Workflow/Run/WorkflowRunForm.test.ts
+- file: client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts
 - file: client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
   iterated: 1
-- file: client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.js
+- file: client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts
 - file: client/src/components/Workflow/Run/model.test.js
   storified: skip
   storybook_play: skip
+- file: client/src/components/Workflow/Run/services.test.js
 - file: client/src/components/Workflow/WorkflowAnnotation.test.ts
 - file: client/src/components/Workflow/WorkflowExport.test.js
   iterated: 1
@@ -603,11 +733,14 @@
 - file: client/src/components/Workflow/WorkflowNavigationTitle.test.ts
 - file: client/src/components/WorkflowInvocationState/JobStep.test.ts
 - file: client/src/components/WorkflowInvocationState/JobStepJobs.test.ts
+- file: client/src/components/WorkflowInvocationState/WorkflowInvocationFeedback.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
   iterated: 1
+- file: client/src/components/WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts
+- file: client/src/components/WorkflowInvocationState/WorkflowStepIcon.test.ts
 - file: client/src/components/WorkflowInvocationState/util.test.ts
   iterated: 1
   split_commit: true
@@ -617,13 +750,18 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/admin/BaseList.test.js
+- file: client/src/components/admin/GroupForm.test.ts
+- file: client/src/components/admin/JobsTable.test.ts
 - file: client/src/components/admin/Notifications/BroadcastForm.test.ts
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
 - file: client/src/components/admin/Notifications/NotificationForm.test.ts
 - file: client/src/components/admin/Notifications/NotificationsManagement.test.ts
   iterated: 1
   split_commit: true
-- file: client/src/components/admin/RoleForm.test.js
+- file: client/src/components/admin/QuotaForm.test.ts
+- file: client/src/components/admin/ResetUserPasswordForm.test.ts
+- file: client/src/components/admin/RoleForm.test.ts
+- file: client/src/components/admin/UserRolesGroupsForm.test.ts
 - file: client/src/components/providers/InvocationsProvider.test.js
   iterated: 1
   split_commit: true
@@ -636,6 +774,7 @@
   iterated: 1
   storified: skip
   storybook_play: skip
+- file: client/src/components/providers/SingleQueryProvider.test.js
 - file: client/src/components/providers/StoredWorkflowProvider.test.js
   iterated: 1
   storified: skip
@@ -650,10 +789,12 @@
 - file: client/src/composables/confirmDialog.test.ts
   iterated: 1
   split_commit: true
+- file: client/src/composables/datasetPermissions.test.ts
 - file: client/src/composables/fileSources.test.ts
   storified: skip
   iterated: 1
   split_commit: true
+- file: client/src/composables/filter/filterFunction.test.ts
 - file: client/src/composables/keyedCache.test.ts
   iterated: 1
   split_commit: true
@@ -677,6 +818,7 @@
   iterated: 1
   storified: skip
   storybook_play: skip
+- file: client/src/composables/persistentToggle.test.ts
 - file: client/src/composables/pollUntil.test.ts
   iterated: 1
   split_commit: true
@@ -704,6 +846,7 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/composables/toolTrainingMaterial.test.ts
 - file: client/src/composables/upload/uploadItemTypes.test.ts
   iterated: 1
   split_commit: true
@@ -714,10 +857,13 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/composables/upload/useUploadMethodModal.test.ts
+- file: client/src/composables/upload/useUploadStaging.test.ts
 - file: client/src/composables/upload/useUploadSubmission.test.ts
   storified: skip
   iterated: 1
   split_commit: true
+- file: client/src/composables/uploadConfigurations.test.ts
 - file: client/src/composables/urlTracker.test.ts
   iterated: 1
   split_commit: true
@@ -728,6 +874,7 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/composables/useCommandPalette.test.ts
 - file: client/src/composables/useCreatingJob.test.ts
   iterated: 1
   split_commit: true
@@ -758,24 +905,33 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/composables/useRankedSearch.test.ts
+- file: client/src/composables/useRecentPaletteItems.test.ts
+- file: client/src/composables/useRegistrationTarget.test.ts
 - file: client/src/composables/useSidebarSelection.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/composables/userMultiToolCredentials.test.ts
 - file: client/src/composables/userToolCredentials.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/composables/windowAwareNavigation.test.ts
 - file: client/src/composables/zipExplorer.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/directives/sanitizeHtml.test.ts
 - file: client/src/directives/vGTooltip.test.ts
   iterated: 1
   split_commit: true
+- file: client/src/directives/vNoSanitizeHtml.test.ts
+- file: client/src/directives/vSanitizeHtml.test.ts
+- file: client/src/entry/analysis/App.test.ts
 - file: client/src/entry/analysis/modules/Login.test.ts
   iterated: 1
   split_commit: true
@@ -783,20 +939,24 @@
   iterated: 1
   split_commit: true
 - file: client/src/entry/analysis/modules/ResetPassword.test.ts
+- file: client/src/entry/analysis/modules/WorkflowEditor.test.ts
 - file: client/src/entry/analysis/router-push.test.js
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/entry/analysis/routes/library-routes.test.ts
 - file: client/src/entry/analysis/routes/login-routes.test.ts
   storified: skip
   iterated: 1
   split_commit: true
+- file: client/src/entry/analysis/routes/storage-routes.test.ts
 - file: client/src/router/guards.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/stores/activitySetup.test.ts
 - file: client/src/stores/activityStore.test.ts
   iterated: 1
   split_commit: true
@@ -817,16 +977,19 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/stores/configurationStore.test.ts
 - file: client/src/stores/datasetCollectionStore.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/stores/datasetListStore.test.ts
 - file: client/src/stores/entryPointStore.test.js
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/stores/historyStore.lists.test.ts
 - file: client/src/stores/historyStore.test.ts
   iterated: 1
   split_commit: true
@@ -861,6 +1024,8 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/stores/pageStore.test.ts
+- file: client/src/stores/services/history.services.test.ts
 - file: client/src/stores/storageOperationsStore.test.ts
   iterated: 1
   split_commit: true
@@ -871,11 +1036,15 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/stores/unprivilegedToolStore.test.ts
+- file: client/src/stores/uploadDatasetMonitorStore.test.ts
 - file: client/src/stores/userStore.test.ts
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/stores/userToolsServiceCredentialsStore.test.ts
+- file: client/src/stores/visualizationStore.test.ts
 - file: client/src/stores/windowManagerStore.test.ts
   iterated: 1
   split_commit: true
@@ -911,6 +1080,8 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/style/headingScale.test.ts
+- file: client/src/style/tokensContract.test.ts
 - file: client/src/utils/color.test.js
   iterated: 1
   split_commit: true
@@ -941,6 +1112,7 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/utils/logout.test.js
 - file: client/src/utils/parseBool.test.ts
   iterated: 1
   split_commit: true
@@ -951,6 +1123,7 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/utils/slug.test.ts
 - file: client/src/utils/strings.test.ts
   iterated: 1
   split_commit: true
@@ -991,13 +1164,18 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/utils/webhooks.test.ts
 - file: client/src/watch/watchHistory.test.js
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/tests/vitest/setup.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
   iterated: 1
+- file: lib/tool_shed/webapp/frontend/src/components/LandingSearchBox.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/LoginForm.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts
   iterated: 1
   split_commit: true
@@ -1019,3 +1197,19 @@
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts
   iterated: 1
   split_commit: true
+- file: lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/RegisterPage.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/AdminControls.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/ChangePassword.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/ForgotPassword.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/ManageApiKey.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/MetadataInspectorPage.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/ToolVersionPage.test.ts
+- file: lib/tool_shed/webapp/frontend/src/util.test.ts
