@@ -814,6 +814,7 @@
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
   iterated: 1
   storified: true
