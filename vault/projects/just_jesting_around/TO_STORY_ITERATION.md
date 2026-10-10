@@ -28,6 +28,7 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 - Reuse existing handlers, fixtures and story helpers before adding new ones.
 - Drop old setup the story mount replaces (`getLocalVue`, popover mocks) unless an assertion depends on it.
 - Cases or rows the conversion itself added may be dropped once another case covers them; original ones may not.
+- Story args may replace a test's inputs if every feature the old inputs exercised is still exercised, with exact expectations recomputed. Note it in the log.
 - Keep the test's language; moving `.js` to TypeScript is separate work.
 - Don't fix component bugs in this lane; add them to [BUGS_FOUND.md](BUGS_FOUND.md).
 

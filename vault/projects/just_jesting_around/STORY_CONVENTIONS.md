@@ -39,7 +39,8 @@ replace them. Pass `router` for a test that needs real routes, `pinia` to stub
 actions, `instrumentLocalization` for `toBeLocalizationOf`, and `props` for a value
 no story needs (`clearInputAfterExport`). To spy on a function the story provides,
 wrap it in a test-local `vi.fn` and pass that as a prop. Module-level `vi.mock`
-still applies to story mounts.
+and the global mocks in `tests/vitest/setup.ts` still apply to story mounts;
+Storybook runs the real modules.
 
 Don't call `setProps` on a composed story, because that remounts it. Change state
 through the harness instead. A check that a story can't express, such as a prop
