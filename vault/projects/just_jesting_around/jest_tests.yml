@@ -606,6 +606,7 @@
 - file: client/src/components/Tool/ToolCard.test.js
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Tool/ToolFooter.test.js
 - file: client/src/components/Tool/ToolForm.test.ts
 - file: client/src/components/Tool/ToolHelpMarkdown.test.ts
