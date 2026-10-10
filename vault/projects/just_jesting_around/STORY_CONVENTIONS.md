@@ -27,6 +27,9 @@ uses, plus a fresh testing pinia whose actions run, so the test sees what the st
 shows. A test should read as: pick a scenario, act, assert. Type a helper that takes
 any story as `StoryOf<typeof stories>`.
 
+A story mount renders children, so a `shallowMount` stub check like
+`attributes("size")` becomes `props("size")` on the child component.
+
 Pass extra `global` options to `mountStory`; they add to the defaults rather than
 replace them. Pass `router` for a test that needs real routes, and `pinia` to stub
 actions.

@@ -19,6 +19,8 @@ Run client commands from `client/` with the pinned node and `VITE_CONFIG_NATIVE_
 - `npm_config_use_node_version=$(cat .node_version) pnpm exec vitest run --project unit <test>`
 - `... pnpm exec vitest run --project storybook <file>.stories.ts` (output is noisy with Vue compat warnings; read the summary)
 - `... pnpm type-check`
+- `... pnpm exec eslint <files>` and `... pnpm exec prettier --check <files>`
+- zsh doesn't split a variable holding several paths; pipe through `xargs` instead.
 
 `jest_readability_batch_01` (one commit per iteration, draft PR #24015) is the historical source for lane 1. It's frozen and no longer receives work.
 
