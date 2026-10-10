@@ -794,6 +794,7 @@
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowStepIcon.test.ts
 - file: client/src/components/WorkflowInvocationState/util.test.ts
