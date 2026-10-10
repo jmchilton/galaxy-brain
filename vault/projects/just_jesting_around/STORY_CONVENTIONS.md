@@ -33,7 +33,8 @@ history). Handlers that refuse or save
 echo the request's fields rather than a fixed value.
 
 If the component needs a parent, such as one driving v-model, add a small harness
-component to the stories file (`FormDataWithModel`). When the parent's state change
+component to the stories file; a plain v-model parent comes from `withModel`
+(`tests/test-data/withModel.ts`). When the parent's state change
 is worth seeing, give the harness a visible control (`ScrollListWithStore`'s "Add
 item" button) rather than an exposed method. List an exported harness in the meta's
 `excludeStories`, or it renders as a story. A harness several stories files share goes
@@ -79,7 +80,8 @@ Storybook runs the real modules. `vi.mock(path, { spy: true })` keeps call and
 payload assertions while the request still reaches the story's handler; reset it
 with `mockReset`, which also drops queued one-off results. To watch a story's
 requests, call `useServerMock()` beside `useStoryMount()` and add a pass-through
-handler after mounting (`UserDeletion.test.ts`).
+handler after mounting (`UserDeletion.test.ts`); to catch a request made on mount, add it
+before the first `flushPromises` (`DatasetCopy.test.js`).
 
 Don't call `setProps` on a composed story, because that remounts it. Change state
 through the harness instead. A check that a story can't express, such as a prop
@@ -91,7 +93,9 @@ cleans up its own mounts.
 Storybook passes `reactive(args)`, which unwraps refs inside an object arg, while
 the unit mount doesn't; `markRaw` an arg object that holds refs (a task monitor).
 Compute time-relative fixtures when the story renders or its handler answers, not
-at module load (`BroadcastsList.stories.ts`); the
+at module load (`BroadcastsList.stories.ts`); a time inside an object arg is set by the
+meta's `render` (`UploadFileRow.stories.ts`). Realistic names must still suit ids built
+from them (FormDrilldown's `#drilldown-option-${name}`). The
 browser project runs in UTC. Story
 code can't import `vitest`, so keep shared fakes vitest-free under
 `tests/test-data/`. Seed browser storage in a decorator and remove only your own
@@ -136,7 +140,8 @@ check `queryByRole("dialog")`, not text, and any "X is gone" check inside a clos
 dialog passes either way; reopen it to check. It reports closing on the native
 `close` event a moment after it hides, so wait for that before reopening.
 
-`toBeVisible()` passes while an element fades out; before checking an animated
+Bootstrap's custom checkbox and radio inputs are `opacity: 0`, so `toBeVisible()` fails
+on them; check the label. `toBeVisible()` passes while an element fades out; before checking an animated
 dialog stays open, wait for its `getAnimations()` to finish (`CommandPalette`).
 `userEvent.type` sends one key at a time, so input that converts on a key (a
 `t:` scope token) differs from a value set whole; `paste` what the unit test set

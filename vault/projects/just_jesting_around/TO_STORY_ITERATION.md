@@ -32,7 +32,7 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 - Cases or rows the conversion itself added may be dropped once another case covers them; original ones may not.
 - Story args may replace a test's inputs if every feature the old inputs exercised is still exercised, with exact expectations recomputed. Prefer realistic values to placeholders. Note it in the log.
 - Stories sit beside the component the test mounts, even when the test file is named for another; keep the test's name.
-- If the old test passes only because of its setup (stale data the real page wouldn't show), keep its expected values, mount the story that makes them true, and flag it in the report for John.
+- If the old test passes only because of its setup (stale data the real page wouldn't show), keep its expected values, mount the story that makes them true, and flag it in the report for John. If that story would need a handler answering in a way Galaxy never does, don't convert: set `storified: skip`, log it as parked for John with why, and flag it.
 - Keep the test's language; moving `.js` to TypeScript is separate work.
 - Don't fix component bugs in this lane; add them to [BUGS_FOUND.md](BUGS_FOUND.md).
 
