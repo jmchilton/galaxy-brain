@@ -83,6 +83,7 @@
 - file: client/src/components/BaseComponents/GDropdown.test.ts
 - file: client/src/components/BaseComponents/GDropdownItem.test.ts
 - file: client/src/components/BaseComponents/GLink.test.ts
+  storified: true
 - file: client/src/components/BaseComponents/GModal.test.ts
 - file: client/src/components/BaseComponents/GPopover.test.ts
 - file: client/src/components/BaseComponents/GTip.test.ts
