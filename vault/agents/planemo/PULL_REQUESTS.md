@@ -10,7 +10,7 @@ PRs To Review:
 - [#1706](https://github.com/galaxyproject/planemo/pull/1706) — Marius fix #11 reviewed and merged into feature branch; upstream open. [notes](../../repositories/planemo/reviews/active/1706/index.md)
 - [#1723](https://github.com/galaxyproject/planemo/pull/1723) — Marius fix #10 reviewed and merged into feature branch; upstream open. [notes](../../repositories/planemo/reviews/active/1723/index.md)
 - [#1700](https://github.com/galaxyproject/planemo/pull/1700) — User-key execution and missing-admin diagnostics pushed; awaiting review/CI. [notes](../../repositories/planemo/reviews/active/1700/index.md)
-- [#1725](https://github.com/galaxyproject/planemo/pull/1725) — Refresh reviewed; client fallback useful; description rewrite and CI pending. [notes](../../repositories/planemo/reviews/active/1725/index.md)
+- [#1725](https://github.com/galaxyproject/planemo/pull/1725) — Refresh reviewed; client fallback description published; awaiting CI. [notes](../../repositories/planemo/reviews/active/1725/index.md)
 - [#1710](https://github.com/galaxyproject/planemo/pull/1710) — Marius fix #6 merged; help/changelog follow-ups pushed; awaiting review/CI. [notes](../../repositories/planemo/reviews/active/1710/index.md)
 - [#1733](https://github.com/galaxyproject/planemo/pull/1733) — Approved; John confirmed publisher setup/naming; awaiting reviewer response/CI. [notes](../../repositories/planemo/reviews/active/1733/index.md)
 - [#1703](https://github.com/galaxyproject/planemo/pull/1703) — Marius fix #4 merged; John replied; awaiting renewed review. [notes](../../repositories/planemo/reviews/active/1703/index.md)
