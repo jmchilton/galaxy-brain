@@ -75,20 +75,24 @@ it in a decorator so the original counts stay exact
 as a plain mount with overridden getters.
 
 Pass extra `global` options to `mountStory`; they add to the defaults rather than
-replace them. Pass `router` for a test that needs real routes, `pinia` to stub
+replace them. Pass `router` for a test that needs real routes (a test that mocked `vue-router` spies on
+`push` of a `createTestRouter()` instead), `pinia` to stub
 actions, `instrumentLocalization` for `toBeLocalizationOf`, and `props` for a value
 no story needs (`clearInputAfterExport`). To spy on a function prop the story
 provides (`loader`), wrap it in a test-local `vi.fn` and pass that as a prop.
 Listeners (`on*`) don't reach a composed story's args, so assert what they cause
 instead, or `getComponent(Component).emitted()`. An emit named `onRefactor` listens
 as `onOnRefactor`. With a `render` story the wrapper
-root is the story, so `wrapper.emitted()` is always empty. Module-level `vi.mock`
+root is the story, so `wrapper.emitted()` is always empty. A helper taking a
+`getComponent()` result is typed `ReturnType<typeof wrapper.getComponent>`, not `VueWrapper`.
+An arg the Controls panel can't round-trip (a `Map` subclass) gets `control: false`. Module-level `vi.mock`
 and the global mocks in `tests/vitest/setup.ts` still apply to story mounts;
 Storybook runs the real modules. `vi.mock(path, { spy: true })` keeps call and
 payload assertions while the request still reaches the story's handler; reset it
 with `mockReset`, which also drops queued one-off results. To watch a story's
 requests, call `useServerMock()` beside `useStoryMount()` and add a pass-through
-handler after mounting (`UserDeletion.test.ts`); to catch a request made on mount, add it
+handler after mounting, since the mount installs the story's handlers and they win
+(`UserDeletion.test.ts`); to catch a request made on mount, add it
 before the first `flushPromises` (`DatasetCopy.test.js`).
 
 Don't call `setProps` on a composed story, because that remounts it. Change state

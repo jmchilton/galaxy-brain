@@ -20,7 +20,7 @@ Walk back from the lane's merge-base with `vitest_readability` (the base the dri
 Decide whether the test should become stories. Use the split in [plan_vitest_addon.md](plan_vitest_addon.md#split-to-aim-for):
 - **Storify:** components whose setup (stores, API mocks, router, props) describes scenarios a person would want to look at.
   Props alone count when they produce visibly different states (QuotaUsageSummary: finite total vs unlimited). A form counts even when it's empty on mount, since play functions fill it.
-- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, wrappers whose only variation is a size or style passed to children, style-contract tests that mount several components minimally (`publicClasses`), lookups that only pick which icon or badge a child shows (`WorkflowStepIcon`), and components whose content comes from something Storybook doesn't serve (a visualization plugin's script). Tests outside `client/` (the tool shed frontend) have no Storybook yet.
+- **Skip:** logic, stores, composables and API-client tests, components with one state nobody would browse, wrappers whose only variation is a size or style passed to children, style-contract tests that mount several components minimally (`publicClasses`), lookups that only pick which icon or badge a child shows (`WorkflowStepIcon`), components whose content comes from something Storybook doesn't serve (a visualization plugin's script), and a stale duplicate of an already storified test (`CollectionProgress.test.js` beside `.test.ts`). Tests outside `client/` (the tool shed frontend) have no Storybook yet.
 
 When skipping, set `storified: skip` (only that field), log the reason, and end the iteration.
 
