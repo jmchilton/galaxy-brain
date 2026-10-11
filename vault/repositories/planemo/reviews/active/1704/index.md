@@ -8,3 +8,7 @@
 ## Finding 2 design follow-up — 2026-10-11
 
 At John’s request, filed [#1738: Choose Galaxy-compatible Python defaults for older releases and local checkouts](https://github.com/galaxyproject/planemo/issues/1738). It links [Marius’s second review finding](https://github.com/galaxyproject/planemo/pull/1704#pullrequestreview-5478940924), explains why the merged missing-interpreter fallback fix does not address an available incompatible interpreter, and leaves checkout-aware defaults versus documented overrides open for design. [Tracked design context](../../../issues/needs_decision/1738/index.md).
+
+## Configuration validation research — 2026-10-11
+
+John requested a broader research pass prompted by #1704’s CLI/config choice mismatch. #1714 already restores shared Click type validation; focused probes confirm its helper rejects `3` from global config and profiles when given #1704’s choice list. Filed [#1739](https://github.com/galaxyproject/planemo/issues/1739) for remaining whole-file shape/key linting and a pure-validation contract for profile callbacks. [Research, source references and reproduction](../../../issues/needs_decision/1739/research_2026-10-11.md).

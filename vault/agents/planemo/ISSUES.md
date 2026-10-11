@@ -6,6 +6,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default. 
 
 ## Waiting on John (`needs_decision`)
 
+- [#1739](https://github.com/galaxyproject/planemo/issues/1739) — config linting from Click definitions; decide: scope, strictness, and pure validator reuse. [notes](../../repositories/planemo/issues/needs_decision/1739/index.md)
 - [#1738](https://github.com/galaxyproject/planemo/issues/1738) — Python defaults for older Galaxy; decide: checkout-aware selection or documented overrides. [notes](../../repositories/planemo/issues/needs_decision/1738/index.md)
 - [#1720](https://github.com/galaxyproject/planemo/issues/1720) — appliance: rebuild it or take its docs down; decide: which. [notes](../../repositories/planemo/issues/needs_decision/1720/index.md)
 - [#1267](https://github.com/galaxyproject/planemo/issues/1267) — workflow_lint and editor Best Practices lint different structures; not implemented; decide: close-with-ask? [notes](../../repositories/planemo/issues/needs_decision/1267/index.md)

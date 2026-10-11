@@ -1,0 +1,78 @@
+{
+  "source": "/Users/jxc755/projects/worktrees/planemo/branch/pin-supported-galaxy-python-rebased",
+  "mode": "1704",
+  "click_version": "8.4.1",
+  "results": [
+    {
+      "label": "python-cli-3",
+      "exit_code": 2,
+      "output": "Usage: command [OPTIONS]\nTry 'command --help' for help.\n\nError: Invalid value for '--galaxy_python_version': '3' is not one of '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14'.",
+      "exception": "SystemExit"
+    },
+    {
+      "label": "python-global-3",
+      "exit_code": 0,
+      "output": "{\"galaxy_python_version\": \"3\", \"checked\": null, \"port\": null}",
+      "exception": null
+    },
+    {
+      "label": "python-profile-3",
+      "exit_code": 0,
+      "output": "{\"galaxy_python_version\": \"3\", \"checked\": null, \"port\": null}",
+      "exception": null
+    },
+    {
+      "label": "unknown-key",
+      "exit_code": 0,
+      "output": "{\"galaxy_python_version\": null, \"checked\": null, \"port\": null}",
+      "exception": null
+    },
+    {
+      "label": "invalid-unused-key",
+      "exit_code": 0,
+      "output": "{\"galaxy_python_version\": null, \"checked\": null, \"port\": \"9090\"}",
+      "exception": null
+    },
+    {
+      "label": "list-root",
+      "exit_code": 0,
+      "output": "{\"galaxy_python_version\": null, \"checked\": null, \"port\": null}",
+      "exception": null
+    },
+    {
+      "label": "scalar-root",
+      "exit_code": 0,
+      "output": "{\"galaxy_python_version\": null, \"checked\": null, \"port\": null}",
+      "exception": null
+    },
+    {
+      "label": "empty-root",
+      "exit_code": 0,
+      "output": "{\"galaxy_python_version\": null, \"checked\": null, \"port\": null}",
+      "exception": null
+    },
+    {
+      "label": "callback-cli",
+      "exit_code": 2,
+      "output": "Usage: command [OPTIONS]\nTry 'command --help' for help.\n\nError: Invalid value for '--checked': must not be bad",
+      "exception": "SystemExit"
+    },
+    {
+      "label": "callback-global",
+      "exit_code": 2,
+      "output": "Usage: command [OPTIONS]\nTry 'command --help' for help.\n\nError: Invalid value for '--checked': must not be bad",
+      "exception": "SystemExit"
+    },
+    {
+      "label": "callback-profile",
+      "exit_code": 0,
+      "output": "{\"galaxy_python_version\": null, \"checked\": \"bad\", \"port\": null}",
+      "exception": null
+    },
+    {
+      "label": "native-click-default-map-choice",
+      "exit_code": 2,
+      "output": "Usage: click-defaults [OPTIONS]\nTry 'click-defaults --help' for help.\n\nError: Invalid value for '--version': '3' is not '3.14'."
+    }
+  ]
+}
