@@ -11,3 +11,5 @@ Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/23954/`. CI cache: `/Users
 Validation: 131 workflow unit tests passed, 1 skipped; both submitted API regressions passed. A saved workflow with an expression-connected conditional select runs successfully, then both extraction endpoints return 500; disabling only the new reconnect pass returns 200 for both. This is separate from an existing workflow-import discriminator limitation. CI has 58 successful checks and 1 skipped CWL job; no discussion or reviews at final check.
 
 John requested this review on 2026-10-11. No Galaxy source edits or GitHub delivery performed. See the full review for evidence, integration-test assessment and Galaxy risk assessment.
+
+Independent re-review requested by John: [Finding verification](finding-verification-2026-10-11.md) agrees with the P2 for existing saved workflows; [API probe](test_independent_selector_verification.py) imports the historical edge through the normal API and shows HEAD 500/500 versus exact parent extraction 200/200. [Single copy-ready comment](single-comment.md); delivery remains **unposted**.

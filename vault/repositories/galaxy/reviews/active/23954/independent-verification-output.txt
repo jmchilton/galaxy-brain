@@ -1,0 +1,13 @@
+HEAD: 9008c8cb17c8fc4116e3afca7da707655349812d
+Exact parent: b18269a10f84fc520aebee84d24fb7b409c4852a
+Python 3.13.12; shared existing Galaxy virtualenv; embedded API server.
+Normal workflow API import with only the c0d329d5cb3 marker-on-import call skipped.
+No direct database insertion/edit. Persisted edge and concrete selector checked.
+VERIFICATION persisted API-imported edge and concrete selector: valid
+VERIFICATION source invocation jobs: all ok; recorded selector: {'__current_case__': 0, 'options': 'default'}
+VERIFICATION HEAD workflows 500
+VERIFICATION HEAD workflows/extract 500
+VERIFICATION EXACT PARENT workflows 200
+VERIFICATION EXACT PARENT workflows/extract 200
+Both HEAD tracebacks: params_to_strings -> Conditional.value_to_basic -> Conditional.get_current_case -> ValueError ('No case matched value:', 'options', '<ConnectedValue object ...>')
+1 passed in 31.04s (probe asserts the HEAD failures and parent successes).
