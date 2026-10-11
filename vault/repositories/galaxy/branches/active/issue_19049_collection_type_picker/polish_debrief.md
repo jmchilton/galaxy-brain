@@ -1,6 +1,6 @@
 # issue_19049_collection_type_picker: polish debrief
 
-Polished 2026-10-06, then reopened the same night to build the general select-or-text element, then a Codex review round on 2026-10-07. Branch now `9f06beaa923` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes, `9f06beaa923` Codex review fixes. Round 4 (2026-10-11) added `40ff45c1a05`, `f259137147c`, `fee9979beae` and `df526dd031c`. Round 5 added `b250cc31a5c` and Round 6 `db0c351fbab`; the branch is now `db0c351fbab`.
+Polished 2026-10-06, then reopened the same night to build the general select-or-text element, then a Codex review round on 2026-10-07. Branch now `9f06beaa923` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes, `9f06beaa923` Codex review fixes. Round 4 (2026-10-11) added `40ff45c1a05`, `f259137147c`, `fee9979beae` and `df526dd031c`. Round 5 added `b250cc31a5c`, Round 6 `db0c351fbab` and Round 7 `d37a9e90303`; the branch is now `d37a9e90303`.
 
 ## CI
 
@@ -126,3 +126,15 @@ John: "add a key/value that is more of an informal label - so we keep the lower 
 - vitest: 907 pass across Form, Workflow/Editor, Collections, Toolshed and History. vue-tsc and eslint clean.
 - No E2E test matches the changed strings. `test_workflow_editor.py` still matches "list of pairs dataset collection", which is unchanged.
 - Remaining "other places" (history item line, help glossary, builder lists from `accepts`) are undecided.
+
+## Round 7: history line from the registry (2026-10-11)
+
+John chose both options for the history item line: fix its wording from the YAML and show the full label on hover.
+
+`d37a9e90303`:
+- Every type gets a `summary` with `container`, `element` and `element_plural` ("a list with 4 pairs"). It replaces `CollectionDescription.vue`'s `labels` map and per-type plurals. `findKnownCollectionType` looks up one type. Unknown types keep the old fallback ("a nested list with 3 dataset collections").
+- Hovering the line shows "List of Records (list:record)", or just the type for unknown types, using `v-g-tooltip`.
+- Red first: `record`, `list:record`, `sample_sheet:record` and `list:list:paired` all said "… dataset collections". New pins on today's sample sheet and mixed list text passed before and after.
+- vitest: 897 pass across History, Collections, Form, Workflow/Editor and RuleCollectionBuilder. vue-tsc, eslint and prettier clean. No E2E test matches the history line text.
+- Field name `summary` is open to John's naming call.
+- Left: help glossary, builder lists from `accepts`.

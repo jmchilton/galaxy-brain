@@ -20,7 +20,7 @@ On `dev` the editor asks for a collection input's type in a text box. Its sugges
 
 The select and custom mode are a new form element, `FormSelectOrText`: the "variant of a GFormInput that can fluidly switch between a text input field and a dropdown selector" suggested in the issue thread. It lists known values in a select and offers an "Other..." entry that switches to a validated text field. It emits only valid values and reports errors through `FormElement`'s alert, and options can carry help text that shows while they're selected. It's available as `FormElement` type `select_or_text`. To prove it's general, the Tool Shed install dialog's "Target Section" field moves onto it too. That field was a text box with a `datalist` of existing sections: "choose an existing tool panel section or create a new section".
 
-***Three places change: the workflow editor's collection input, the collection type cards in the list wizard and the workbook upload, and the Tool Shed install dialog's "Target Section". Elsewhere only wording changes: the tool form's collection "Create" button and alerts, and the collection builders' "Create …" button, now take their names from the same registry. Tool XML and what any input accepts are untouched.***
+***Three places change: the workflow editor's collection input, the collection type cards in the list wizard and the workbook upload, and the Tool Shed install dialog's "Target Section". Elsewhere only wording changes: the tool form's collection "Create" button and alerts, the collection builders' "Create …" button, and the line under each collection in the history ("a list with 4 pairs") now take their names from the same registry. Tool XML and what any input accepts are untouched.***
 
 ***Existing workflows load and run as before, and what a collection input accepts is unchanged. Any type the old field took can still be entered in custom mode, and a saved type the select doesn't list (e.g. `list:list:list`) opens there. The only stored difference: choosing "Any" writes `collection_type: null` where clearing the old field wrote `""`; both mean any collection type.***
 
@@ -39,6 +39,7 @@ The select and custom mode are a new form element, `FormSelectOrText`: the "vari
   - The `workflow_input` notes carry the connection rules that surprise people (from `collection_semantics.yml` and `CollectionTypeDescription.accepts`): a `list:paired_or_unpaired` input also takes a flat list or a list of paired datasets, and a sample sheet can connect to a list input but not the other way round.
   - `findKnownCollectionTypes` throws on a type the registry doesn't describe, so a wizard can't silently drop a card.
   - Each type also has a lowercase `short_label` for running text ("list of pairs", "sample sheet of pairs"). `COLLECTION_TYPE_SHORT_LABELS` replaces `buildCollectionModal.ts`'s `COLLECTION_TYPE_TO_LABEL` in the tool form's "Create" button, dropdown and alerts, and in the collection builders' footer button. That fixes "Create a new undefined" on `sample_sheet:paired`, `sample_sheet:paired_or_unpaired` and `sample_sheet:record` tool inputs, and "Create sample sheet derived".
+  - Each type also has a `summary` naming the collection and its elements for the history line ("a list with 4 pairs"). It replaces `CollectionDescription.vue`'s hand-written map, and hovering the line shows the type's label and type ("List of Records (list:record)").
 - `Collections/common/CollectionTypeCards.vue`: the card grid, used by the dialog and both wizards.
   - With no `types`, it shows every type under group headings, with the same columns in every group so cards line up from group to group.
   - With `types`, it shows just those in a single row like a wizard's card deck, plus an `extra` slot.
@@ -69,6 +70,7 @@ The select and custom mode are a new form element, `FormSelectOrText`: the "vari
   - "sample sheet derived" becomes "sample sheet".
   - Sample sheet tool inputs get "Create a new sample sheet of pairs" (was "Create a new undefined") and "No sample sheet of pairs dataset collections available" (was "No sample_sheet:paired …").
   - Builders for nested lists and sample sheet types say "Create nested list" etc. rather than "Create collection".
+- The history line changes only for types it described wrongly: `record` reads "a record with 2 datasets", `list:record` "a list with 3 records", `sample_sheet:record` "a sample sheet with 3 records" and `list:list:paired` "a nested list with 3 lists of pairs", where all four said "… dataset collections". Other types read as before, pinned by tests.
 - "Any collection type" is a menu option but still shows the existing "Typically, a value for this collection type should be specified." warning.
 - Tool Shed: picking "New section..." starts from the currently selected section's name; a name matching an existing section installs into it, as the old text box did.
 
