@@ -1,14 +1,19 @@
 Triage index for `galaxyproject/pulsar` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/pulsar/issues/`. PR reviews are tracked in [PULL_REQUESTS.md](PULL_REQUESTS.md).
 
-GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default.
+GitHub state last refreshed: 2026-10-11. Issues here are unassigned by default.
 ## Waiting on John (`needs_decision`)
 
 None yet.
 ## In motion (`wip`)
 
+- [#544](https://github.com/galaxyproject/pulsar/issues/544) — replace direct HISTORY edits with fragments; [#545](https://github.com/galaxyproject/pulsar/pull/545) introduces towncrier on release_0.15. [notes](../../repositories/pulsar/issues/wip/544/index.md)
+
 - [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) addresses part, won't close it. [notes](../../repositories/pulsar/issues/wip/465/index.md)
 
 ## Queued (`queued`)
+
+- [#416](https://github.com/galaxyproject/pulsar/issues/416) — empty `final_status` causes endless monitor failures; next: reproduce and design recovery for damaged metadata. [notes](../../repositories/pulsar/issues/queued/416/index.md)
+- [#541](https://github.com/galaxyproject/pulsar/issues/541) — SIGKILL skips Docker cleanup traps; next: test TERM-first cancellation and coordinate Galaxy's copy. [notes](../../repositories/pulsar/issues/queued/541/index.md)
 
 - (assigned) [#498](https://github.com/galaxyproject/pulsar/issues/498) — ubuntu-22.04 runner deprecation; lint/test moved to 24.04 (#508 merged); next: packaging metadata PR. [notes](../../repositories/pulsar/issues/queued/498/index.md)
 - [#263](https://github.com/galaxyproject/pulsar/issues/263) — expression tools unsupported; #266 and friends are workarounds; next: design a real fix from the research note. [notes](../../repositories/pulsar/issues/queued/263/index.md)
@@ -60,7 +65,6 @@ Grouped by title, mechanically.
 - [#355](https://github.com/galaxyproject/pulsar/issues/355) — deleted jobs not cleaned from `${manager}-preprocessing-jobs`
 - [#358](https://github.com/galaxyproject/pulsar/issues/358) — node failure with no `return_code` marked successful
 - [#408](https://github.com/galaxyproject/pulsar/issues/408) — sync slurm runner features with Galaxy's
-- [#416](https://github.com/galaxyproject/pulsar/issues/416) — `JSONDecodeError` on `launch_config` needs manual intervention
 
 ### Staging and file transfer
 

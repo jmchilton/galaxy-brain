@@ -13,6 +13,10 @@ first `FileNotFoundError`, defeating the stated NFS grace period.**
 Two commits, 7 files, +197/-13. No corresponding PR was established locally; the
 review is against the branch's merge base with `upstream/master`/`origin/master`.
 
+## Tracking refresh — 2026-10-11
+
+The live branch is now at `9223744`, following `b68bc85` (“Fix per-exception retry budget accounting”) and a documentation cleanup. This review's verdict is against the earlier commits named above; it is not a current blocker assessment. The branch is clean and published, with no corresponding open PR in the morning sweep. Review the later changes before carrying forward either finding.
+
 ## What it does
 
 The branch extends `RetryActionExecutor` with a generic `max_retries_for(exc)` hook,
