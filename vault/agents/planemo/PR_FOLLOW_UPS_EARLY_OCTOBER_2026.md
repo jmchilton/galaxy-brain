@@ -11,11 +11,11 @@ Sweep started 2026-10-11. Scope: Marius (`mvdbeek`) reviews posted October 10 an
 | [#6](https://github.com/jmchilton/planemo/pull/6) | [#1710](https://github.com/galaxyproject/planemo/pull/1710) | `shed-lint-fail-fast` | Review in progress |
 | [#7](https://github.com/jmchilton/planemo/pull/7) | [#1700](https://github.com/galaxyproject/planemo/pull/1700) | `anonymous-external-galaxy-api` | Review in progress |
 | [#8](https://github.com/jmchilton/planemo/pull/8) | [#1725](https://github.com/galaxyproject/planemo/pull/1725) | `test-data-option-fix` | Review in progress |
-| [#9](https://github.com/jmchilton/planemo/pull/9) | [#1709](https://github.com/galaxyproject/planemo/pull/1709) | `python-gc-doc-example` | Review in progress |
-| [#10](https://github.com/jmchilton/planemo/pull/10) | [#1723](https://github.com/galaxyproject/planemo/pull/1723) | `collection-output-assertions` | Review in progress |
-| [#11](https://github.com/jmchilton/planemo/pull/11) | [#1706](https://github.com/galaxyproject/planemo/pull/1706) | `modern-linters-rebased` | Review in progress |
-| [#12](https://github.com/jmchilton/planemo/pull/12) | [#1726](https://github.com/galaxyproject/planemo/pull/1726) | `skip-tests-when-external-services-down` | Review in progress |
-| [#13](https://github.com/jmchilton/planemo/pull/13) | [#1704](https://github.com/galaxyproject/planemo/pull/1704) | `pin-supported-galaxy-python-rebased` | Review in progress |
+| [#9](https://github.com/jmchilton/planemo/pull/9) | [#1709](https://github.com/galaxyproject/planemo/pull/1709) | `python-gc-doc-example` | Merged #9; XML requirement/script smoke checks pass; base/head lint findings unchanged |
+| [#10](https://github.com/jmchilton/planemo/pull/10) | [#1723](https://github.com/galaxyproject/planemo/pull/1723) | `collection-output-assertions` | Merged #10 `0f99b440bcb7`; correction pushed `b7567c0e1818`; 12 passes each on tool-util 25.1/26.0.1/26.1 |
+| [#11](https://github.com/jmchilton/planemo/pull/11) | [#1706](https://github.com/galaxyproject/planemo/pull/1706) | `modern-linters-rebased` | Merged #11 `238247f5e230`; 31 passes/6 expected skips + 38 CLI checks |
+| [#12](https://github.com/jmchilton/planemo/pull/12) | [#1726](https://github.com/galaxyproject/planemo/pull/1726) | `skip-tests-when-external-services-down` | Merged #12 `8b63b8cc8c08`; 8 online passes; offline 3 passes/5 expected skips |
+| [#13](https://github.com/jmchilton/planemo/pull/13) | [#1704](https://github.com/galaxyproject/planemo/pull/1704) | `pin-supported-galaxy-python-rebased` | Merged #13 `c38e6c179149`; 15 focused tests + 7 probes passed |
 | [#14](https://github.com/jmchilton/planemo/pull/14) | [#1714](https://github.com/galaxyproject/planemo/pull/1714) | `config-option-conversion` | Merged #14; 35 tests passed; merge `6a9c35a56c1e` |
 | [#15](https://github.com/jmchilton/planemo/pull/15) | [#1707](https://github.com/galaxyproject/planemo/pull/1707) | `test-job-files-in-tmpdir` | URI fix committed/pushed `f87c2c58e457`; 18 engine tests passed; #15 left open because its >=3.14 skip weakens coverage |
 | [#16](https://github.com/jmchilton/planemo/pull/16) | [#1724](https://github.com/galaxyproject/planemo/pull/1724) | `sanitize-invocation-test-data-paths` | Merged #16; 23 tests + supplemental output checks passed; merge `4ba96f396f0a` |
@@ -34,7 +34,7 @@ Branch: [publish-planemo-cli](https://github.com/jmchilton/planemo/tree/publish-
 
 Source: Marius’s review submitted 2026-10-10T12:27:22Z on the linked PR; reviewed parent `ba91257527413d829d0f97b0b20ff899358284d0`.
 
-**Follow-up:** the Quay availability decorator probes its homepage, while the original failure was a Quay API read timeout. Decide whether to probe the actual API endpoint; a live homepage does not prove the API works. **Dependency cleanup:** local site-probe helpers are a stopgap until the required Galaxy `unavailable_pattern` support is in the pinned `galaxy-util`; replace them after that release without dropping offline test coverage.
+**Follow-up:** the Quay availability decorator probes its homepage, while the original failure was a Quay API read timeout. Decide whether to probe the actual API endpoint; a live homepage does not prove the API works. **Dependency cleanup:** local site-probe helpers are a stopgap until the required Galaxy `unavailable_pattern` support is in the pinned `galaxy-util`; replace them after that release without dropping offline test coverage. **Optional test isolation:** version-comparison tests still invoke tool-ID validation first and can wait for network failures; isolate that unrelated lookup so the offline comparison tests stay fast.
 
 Branch: [skip-tests-when-external-services-down](https://github.com/jmchilton/planemo/tree/skip-tests-when-external-services-down).
 
@@ -58,7 +58,7 @@ Branch: [sanitize-invocation-test-data-paths](https://github.com/jmchilton/plane
 
 Source: Marius’s review submitted 2026-10-10T12:27:16Z on the linked PR; reviewed parent `d7dc4ec9cd083a1a36ab567d26d4f57044aac1b5`.
 
-**Release note:** workflow test assertions for collection type/element count now actually run, so incorrect tests that previously passed silently can fail (including IWC). This is the intended correctness change, but should be called out before release.
+**Completed compatibility correction:** Marius’s new dataset-vs-collection test failed with tool-util 26.1 because its diagnostic changed. Commit `b7567c0e181853b2ca1704381a1e2a36dd3a6c53` validates the collection shape before Galaxy verification, preserving existing assertions and avoiding a broad catch that could mislabel nested KeyErrors. **Release note:** workflow test assertions for collection type/element count now actually run, so incorrect tests that previously passed silently can fail (including IWC). This is the intended correctness change, but should be called out before release.
 
 Branch: [collection-output-assertions](https://github.com/jmchilton/planemo/tree/collection-output-assertions).
 
@@ -106,7 +106,7 @@ Branch: [test-job-files-in-tmpdir](https://github.com/jmchilton/planemo/tree/tes
 
 Source: Marius’s review submitted 2026-10-10T12:27:17Z on the linked PR; reviewed parent `e13921592cdfa6e7203bcc868da1210cec88f6e6`.
 
-**Release notes:** linter wording and per-class aggregation change ("best practice conda channel" -> "Conda", "dx.doi" -> "doi.org"); users parsing lint output need notice. **Public API:** removed `planemo.lint.lint_dois`, `is_doi`, and `find_dois_for_xml`; decide deprecation shims versus documenting removal. **No immediate action:** DOI linter reads only the first `<citations>` block; multiple blocks are invalid per XSD, so Marius’s observation does not require support for invalid XML.
+**Release notes:** linter wording and per-class aggregation change ("best practice conda channel" -> "Conda", "dx.doi" -> "doi.org"); users parsing lint output need notice. **Public API:** removed `planemo.lint.lint_dois`, `is_doi`, and `find_dois_for_xml`; decide deprecation shims versus documenting removal. **No immediate action:** DOI linter reads only the first `<citations>` block; multiple blocks are invalid per XSD, so Marius’s observation does not require support for invalid XML. **Separate pre-existing configuration bug:** `build_lint_args` receives `skip=None` from CLI and that can override the global `lint_skip` fallback; decide whether to repair it separately, with a regression covering global config as well as direct `--skip` and skip files.
 
 Branch: [modern-linters-rebased](https://github.com/jmchilton/planemo/tree/modern-linters-rebased).
 
