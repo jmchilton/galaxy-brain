@@ -14,7 +14,7 @@ Four originators, one test per commit, then one range review. vNoSanitizeHtml is
 ## Reuse and follow-through
 
 Closes batch 44's vNoSanitizeHtml follow-up. Follow-ups:
-- **Needs John's call:** `CollectionProgress.test.js` duplicates the four original cases. The 2024 TypeScript port (`96736787c84`) added the `.ts` and never removed the `.js`, which upstream `dev` still has. After this batch it covers nothing the `.ts` doesn't. Removing it means deleting a test, so it waits.
+- **Follow-up implemented separately:** Duplicate suite removal implemented with John’s authorization on [client_test_fixture_cleanup](../../repositories/galaxy/branches/active/client_test_fixture_cleanup/index.md), 2026-10-10. All four cases remain in TypeScript; integration into the readability lane is pending.
 - The sanitize-directive tests now share nearly the same host and `targetOf`. A shared helper would mean editing both; not worth it for two files yet.
 
 Guidance: none.

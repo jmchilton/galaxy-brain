@@ -16,7 +16,7 @@ Each dead mock was confirmed by swapping its factory for one that throws: the su
 ## Reuse and follow-through
 
 Closes batch 42's LoginForm follow-up and three of its `vi.mock("app")` files. Follow-ups:
-- **Needs John's call:** `JobInformation/testData/jobInformationResponse.json` has `job_messages` as strings, but the real `JobMessage` is an object, so the fixture case renders nonsense character by character. `Tool/ToolSuccessMessage.test.ts` shares the file but only reads `jobs[].id`, so making the messages object-shaped wouldn't change it. That's a test-data change, so it waits.
+- **Follow-up implemented separately:** Object-shaped messages and consolidated rendering checks implemented with John’s authorization on [client_test_fixture_cleanup](../../repositories/galaxy/branches/active/client_test_fixture_cleanup/index.md), 2026-10-10. Integration into the readability lane is pending.
 - `Toolshed/InstalledList/Details.test.js` has the same two dead mocks, and 9 other files still contain `vi.mock("app")`. 4 of those belong to later lanes.
 - `Login/NewUserConfirmation.test.ts` still restores `window.location` by hand.
 
