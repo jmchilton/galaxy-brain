@@ -1,12 +1,41 @@
 # Implementation debrief
 
-Status: READY. Head `174a43bd37a` on `jmchilton:ts_readme_render_followups`, base `dev`. Depends on [`ts_readme_render_fix_26.1`](../ts_readme_render_fix_26.1/index.md) — merged in as real history (`ae4e1c4a442`), so either PR can land first and the `release_26.1` → `dev` forward merge has no `readme_util.py` conflict (checked with `git merge-tree`). Open the 26.1 PR first and mention the dependency here.
+Status: READY. Head `5abfc5c4aad` on `jmchilton:ts_readme_render_followups`, base `dev`. It depends on [`ts_readme_render_fix_26.1`](../ts_readme_render_fix_26.1/index.md), which is merged in as real history. Open the 26.1 PR first. The earlier round (merge, dead code, old-revision README lookup) is in [earlier_drafts/1](earlier_drafts/1/implementation_debrief.md).
 
-- `ec2c345a5aa` — disk (latest) and manifest (old) reads feed one `_render_repository_readme` (`size_string` → `set_image_paths` → `render_readme`), so old-revision images use the repository image route. Dead code dropped: `app.name == "galaxy"` branch, `tool_path`, stale docstring, no-op `unicodify`.
-- `7b45e071d4e` — old revisions find the README via existing `hg_util.get_ctx_file_path_from_manifest` (README's last change ≤ revision); before, only files changed in that exact changeset were seen, so most old revisions showed no README. Typed that helper and `reversed_upper_bounded_changelog`.
-- `9aa139b386f` — test challenge: lookup must pick the nearest earlier README change.
-- `174a43bd37a` — drop unreachable try/except around `set_image_paths`.
+This round came from John asking for a Playwright test of old revisions rendering READMEs with the correct images. Writing that test turned up two bugs.
 
-Tests: `test_readme_util.py` 9 passed; `test/unit/tool_shed/` 107 passed, 12 skipped; mypy clean for touched files. Red-to-green for both behavior fixes. No UI changes.
+- `c972f2601f9`: the repository page never fetched READMEs when opened directly at a revision (permalink `/view/<owner>/<name>/<changeset>`). The README watcher only fired on revision *changes*. It is now `immediate`, with a vitest.
+- `8122d76aefb`: old revisions showed the latest image. The image route `/repository/static/images/{id}/{path}` takes an optional `changeset_revision` and reads the file from hg. `set_image_paths` gains a matching option; only old-revision READMEs pass it, so the latest revision is still served from disk. Adds test data `column_maker_with_rst_readme/{1,2,3}` (logo 16px, 16px, 24px; the README is unchanged in revision 2) and API tests.
+- `ddc7cdbef90`, `f4aecefe3e6`, `5abfc5c4aad`: Playwright test.
+  - Opens revision 2 by permalink and checks the old README is shown and the image decodes at 16px.
+  - Then opens the latest revision and checks the new README and 24px.
+  - Takes screenshots of both.
+- `a53b7f6a6bf` (normal review): the new `hg_util.get_file_data_from_manifest` reads the revision's own manifest, exact path first and then file name, and returns None for unknown revisions. The previous walk back through changed files had three problems:
+  - it could return a different file with the same name;
+  - it gave a false 404 when such a file had been deleted;
+  - it served the newest image for a garbage revision.
 
-Not done (follow-ups): old-revision images are served from the latest on-disk files — needs a changeset-aware image route ([scope evaluation](scope_evaluation.md) sketches it). Possibly-dead Galaxy-side `ToolShedRepository.has_readme_files` / `Folder.readme_files` left alone (grep-only evidence). Thermo reviewer's restore of `unicodify` in `render_readme` dropped: no forward-merge conflict, and John asked for it removed.
+  The README lookup shares this helper.
+- `174d806e156` (test challenge): the image route with a revision still rejects non-image files.
+
+## Tests
+
+| Suite | Result |
+| --- | --- |
+| `test/unit/tool_shed/` | 108 passed, 12 skipped |
+| Image route API tests | 7 passed |
+| `test_shed_galaxy_install_apis.py` + `test_shed_repositories.py` | 80 passed |
+| `test_frontend_repositories.py` (Playwright) | 7 passed |
+| RepositoryPage vitest | 6 passed |
+| mypy, touched files | clean |
+
+Every new test was checked red to green.
+
+## Open
+
+- **The new vitest overlaps the Playwright test.** It catches the same break. The test challenge suggests dropping it per the process; I kept it as fast feedback until John decides.
+- **The latest revision's on-disk image lookup** is still the pre-existing basename `os.walk`.
+- **No cache headers** on revision-pinned image responses.
+- **Possibly-dead Galaxy-side README code** is still left alone (from round 1).
+
+[Normal review](subagents/normal_review_image_route.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Screenshots](screenshot_debrief.md)

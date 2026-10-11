@@ -1,39 +1,60 @@
 # Test challenges debrief
 
-Scope: tests touched by `ec2c345a5aa` and `7b45e071d4e` in `test/unit/tool_shed/test_readme_util.py`. Merged-in `render_readme` tests were already challenged in [the 26.1 debrief](../ts_readme_render_fix_26.1/test_challenges_debrief.md). Commit `9aa139b386f` (test-only).
+Scope: tests added or changed in `174a43bd37a..a53b7f6a6bf`, covering the old-revision image route, the README load when a page opens at a revision, and the manifest lookup. The earlier challenge is archived at [earlier_drafts/1](earlier_drafts/1/test_challenges_debrief.md). One commit: `174d806e156` (test only).
 
-## `test_readmes_renders_rst_readme_of_each_downloadable_revision`: kept as is
+## `test_hg_util.py::test_get_file_data_from_manifest`: kept as is
 
-`ec2c345a5aa` added a relative `.. image::` to the README and asserted the repository image route URL. This checks behavior (rendered HTML through `readmes()`), not implementation. Red at merge `ae4e1c4a442` for the `Old` param only (relative `src="images/logo.png"`), green after. No overlap with API tests: functional `test_readmes` only checks the dict key.
-
-## `test_readmes_renders_readme_unchanged_in_old_revision`: strengthened
-
-Before: column_maker 1/2/3 with READMEs Old/Old/New, middle revision asserted `Old` present. Red at `ec2c345a5aa` (KeyError, no README). It was weak, though. With only one earlier README change, "nearest change" and "earliest change" are the same changeset. A mutation that made `reversed_upper_bounded_changelog` walk forward still passed all 9 tests.
-
-After: uploads are Old(v1), Mid(v1, README only), Mid(v2), New(v3). The README-only upload moves the first downloadable revision forward, so the v2 revision has two earlier README changes. The test asserts `Mid` is present and `Old`/`New` are absent. A precondition asserts the downloadable set is exactly the last three heads, so the test breaks loudly if the move-forward behavior changes. `_upload_revision` dirs are now `{version}_{label}` so the same version can be uploaded twice. Cost is still about 2s.
-
-Red checks (written via `git show` / `sed`, restored with `git checkout`, worktree clean):
+This tests the helper's contract against a real hg repo with no mocks: exact path first, then file name, a deleted sibling, a deleted file, and an unknown revision. It's the right layer. The API test data has no same-named files or deletions, and adding them would only re-test the helper slowly. Red checks on `get_file_data_from_manifest`:
 
 | Mutation | Result |
 |---|---|
-| `readme_util.py` at `ec2c345a5aa` (single-changeset lookup) | fails, KeyError |
-| changelog walk order flipped to earliest-first (`hg_util`) | fails, renders `Old` (old test passed this) |
-| no upper bound (`changeset_revision` → `None`) | fails, renders `New`. Test 1 `Old` param also fails |
+| file-name match only (skip the exact-path check) | fails, returns `docs` for `images/logo.png` |
+| no file-name fallback | fails on `logo.png` |
+| no unknown-revision guard | fails, `TypeError` on `None` |
 
-I considered adding `assert "New" not in html` to the old shape alone. It was redundant: the no-upper-bound mutation already failed on the `Old`-present assertion.
+`_commit_file` reopens the repo after each commit to read the tip. That's slightly wasteful, but it reads well. Left alone.
 
-## Other challenges
+## `test_readme_util.py::test_readmes_renders_rst_readme_of_each_downloadable_revision`: kept as is
 
-- Mocks / SimpleNamespace / dataclasses: N/A. Both tests use real hg repos and the DB via existing fixtures (`provides_repositories`, `new_repository`, `_util.upload`).
-- Layer: the manager-level `readmes()` test is the right size. Building multi-revision repos through the API would be slower and need a running shed. E2E not warranted for a backend lookup change.
-- Not merged into one parametrized test. That would save about 1s, and the tests guard distinct contracts.
+The changed assertion is red in both directions:
+
+- never passing the revision fails `[Old-New]`;
+- always passing it fails `[New-Old]`, because the latest revision must use disk files with no query.
+
+## API tests in `test_shed_galaxy_install_apis.py`
+
+- `test_display_image_at_changeset_revision`: kept. It compares bytes for each revision against the test data. Revisions 1 and 2 have the same logo and differ from revision 3, so serving disk files or walking to the wrong change fails it. `zip(strict=True)` pins the revision count.
+- `test_display_image_at_changeset_revision_not_found`: **strengthened**. The revision branch reads from the hg manifest and skips the on-disk path checks. Only the earlier `_image_media_type` call stops it from serving non-image files. The existing non-image test (`test_display_image_rejects_non_image_files`) covers only the disk branch. I added a `README.rst` + `changeset_revision` → 404 assertion. Red check: moving the media-type check below the revision branch made it return 200. Green after the restore.
+
+## Playwright `test_old_revision_readme_renders_with_its_images`: kept as is
+
+This is the one end-to-end path: page permalink → readmes API → `?changeset_revision=` src → image route. Red checks:
+
+- backend never passes the revision: fails `24 == 16` (latest logo served);
+- frontend without `{ immediate: true }` (rebuilt `dist`, then rebuilt again after the restore): fails, `.repository-readme` never appears.
+
+The `decode()` + `naturalWidth` check catches both broken and wrong images. Locators are scoped to `.repository-readme`. No sleeps.
+
+## vitest "loads the READMEs of the revision it is opened at": flagged, not dropped
+
+It's red without `{ immediate: true }`, but the Playwright test above fails on the same mutation. The process rule says to drop a unit test that only covers what a browser test covers. I didn't delete it without approval. Recommendation: drop it per the rule, or keep it as cheap, fast feedback (2s vs about 7s plus a server). John's call.
+
+Best practices: it follows the tool shed frontend conventions, which aren't the Galaxy client's. There's no MSW there, so `vi.mock("@/schema")` + `mount` with child stubs is the local pattern. The `revision()` factory gained a key parameter, which is fine.
+
+## Test data `column_maker_with_rst_readme/{1,2,3}`
+
+This follows the repos README convention (a full state per revision). Revision 2 changes only the tool version, so the README and logo are unchanged there, which is the case under test. The logos are 16/16/24 px, so they're distinguishable by bytes and by width. `test_readme_util` builds its own repos dynamically with a different shape (Old/Mid/Mid/New), so reusing this data there doesn't fit.
 
 ## Not tested (by design)
 
-- `LookupError` branch in `_read_readme_from_manifest` (nearest README change is a deletion). Per code reading, a revision whose README was deleted won't list it in `readme_files` metadata, so the branch is defensive.
-- Pre-existing: `get_ctx_file_path_from_manifest` matches by basename, so same-named READMEs in different dirs (or a move) can resolve to the wrong file or a deletion. Not introduced here.
-- Old-revision images served from the latest on-disk files: known, out of scope.
+- Old-revision README in a subdirectory: `_read_readme_from_manifest` passes the file name only, so the lookup is file-name based. This matches the disk path and predates this branch.
+- Path traversal via `changeset_revision`: lookups are limited to the revision manifest, so there's nothing to escape to. Not worth a dedicated test.
 
 ## Results
 
-`test_readme_util.py` 9 passed. `test/unit/tool_shed/` 107 passed, 12 skipped. black, ruff and pre-commit hooks clean. Not pushed.
+- Unit: `test_hg_util.py` + `test_readme_util.py` 18 passed.
+- vitest: `RepositoryPage.test.ts` 6 passed.
+- Functional (run one at a time): `-k display_image` 7 passed. After the change, `-k display_image_at_changeset_revision` 2 passed.
+- Playwright: `test_old_revision_readme_renders_with_its_images` passed.
+- black, isort, ruff and pre-commit hooks are clean.
+- Worktree clean, `dist` rebuilt from HEAD, not pushed.
