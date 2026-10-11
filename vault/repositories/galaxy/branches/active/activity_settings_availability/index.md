@@ -1,6 +1,6 @@
 # activity_settings_availability
 
-Status: `branches_ready_for_final_review`. Base: `dev`.
+Status: `ready`. Base: `dev`. [PR #24052](https://github.com/galaxyproject/galaxy/pull/24052) (open, not draft; CI pending).
 
 Lists only optional activities available to the current user.
 
@@ -19,3 +19,11 @@ Final head: `ab57bd6901dc429f5b189837128456313a309b67`, pushed to `jmchilton:act
 Focused local suite: 36/36 across five files; TypeScript, eslint, prettier, whitespace and commit hooks passed. The original two regressions fail against current dev at the rendered Upload and Interactive Tools assertions. Fresh fork CI is pending; prior cache and dependency-install failures are unrelated (see polish debrief). No screenshot review or fresh E2E run claimed.
 
 Description and four title options are prepared. Human-read checklist item remains unchecked; waiting for John's final review. No PR opened and no approval inferred.
+
+## Approved and PR opened — 2026-10-11
+
+John approved the polished branch and explicitly requested opening its PR. Approved SHA: `ab57bd6901dc429f5b189837128456313a309b67`. Chosen title: “Offer only available optional activities in Activity Settings” (first prepared option). Approval date: 2026-10-11. The current saved description has John's human-read checkbox checked; that user edit was preserved.
+
+Opened [PR #24052](https://github.com/galaxyproject/galaxy/pull/24052) against `dev`, from `jmchilton:activity_settings_availability`, as a regular PR per the direct request. The description was submitted verbatim from `pr_description.md`, without added mentions or assets. CI was still queued at opening; this was John's explicit request to open now rather than an automatic green-CI promotion. No rebase was needed: upstream dev still matched `3347e84bc5e9`.
+
+Verified OPEN, not draft, base `dev`, exact approved head and saved body. Moved to `ready`: no known author-side work, with upstream CI still pending. Pending checks are not recorded as passed. Prior infrastructure diagnoses remain in the polish debrief.

@@ -7,3 +7,5 @@ Imported from the branch agent on 2026-10-09; this preserves the recorded decisi
 - 2026-10-11: Polish requested; moved to `branches_need_polish`. Parent #23921 merged on 2026-10-09; replayed only the settings follow-up onto current dev without conflicts (`75120e401b0d`). Refreshing validation and CI evidence.
 
 - 2026-10-11: Polish completed and pushed at `ab57bd6901d`. Fresh checklist and one strengthening round found no blockers; reactive config/permission regressions added, 36/36 focused tests plus types/lint/style pass. Prior CI reds diagnosed as infrastructure; new-head CI pending. Moved to `branches_ready_for_final_review`, with description/titles/debrief linked and human-read item unchecked.
+
+- 2026-10-11: John approved `ab57bd6901d` and explicitly requested opening the PR. Opened regular [#24052](https://github.com/galaxyproject/galaxy/pull/24052) against dev with the first title option and current saved description verbatim (human-read checkbox checked by John). Verified head/base/body and non-draft OPEN state; fork/upstream CI pending. Moved to `ready`.

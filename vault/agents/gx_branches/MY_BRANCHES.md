@@ -1,11 +1,12 @@
 # Open PR and branch queue
 
-Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (activity_settings_availability polished head pushed, fresh CI pending; plugins_test_fake_provider draft #24051 opened, CI queued/running; sample_sheet_vue3 draft #24050 opened, waiting for CI; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (#24051; #24050 and the two PRs above; others 2026-10-09); merged PRs swept 2026-10-09.
+Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (activity_settings_availability regular PR #24052 opened, CI pending; plugins_test_fake_provider draft #24051 opened, CI queued/running; sample_sheet_vue3 draft #24050 opened, waiting for CI; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (#24052; #24051; #24050 and the two PRs above; others 2026-10-09); merged PRs swept 2026-10-09.
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`activity_settings_availability`](../../repositories/galaxy/branches/active/activity_settings_availability/index.md) — Lists only optional activities available to the current user. [#24052](https://github.com/galaxyproject/galaxy/pull/24052).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
 - [`job_files_fastapi`](../../repositories/galaxy/branches/active/job_files_fastapi/index.md) — Migrates the job files API to FastAPI behind an extracted `JobFilesManager`, writing Pulsar uploads to disk once. [#23933](https://github.com/galaxyproject/galaxy/pull/23933).
 - [`workbook_import`](../../repositories/galaxy/branches/active/workbook_import/index.md) — Tests the rule builder mapping Galaxy infers from workbook headers, under Selenium and Playwright. [#23922](https://github.com/galaxyproject/galaxy/pull/23922).
@@ -79,7 +80,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`activity_settings_availability`](../../repositories/galaxy/branches/active/activity_settings_availability/index.md) — Lists only optional activities available to the current user. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:activity_settings_availability?expand=1).
 - [`issue_24031_badge_tooltip_html`](../../repositories/galaxy/branches/active/issue_24031_badge_tooltip_html/index.md) — Restores storage badge popovers with sanitized Markdown and working links; readable HTML tooltip labels (#24031). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24031_badge_tooltip_html?expand=1).
 
 
