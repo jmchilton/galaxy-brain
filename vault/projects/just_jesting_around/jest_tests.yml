@@ -187,6 +187,7 @@
   split_commit: true
 - file: client/src/components/Common/TextSummary.test.ts
 - file: client/src/components/Common/VegaWrapper.test.ts
+  iterated: 1
 - file: client/src/components/Common/Webhook.test.ts
 - file: client/src/components/Common/Wizard/GenericWizard.test.ts
 - file: client/src/components/Common/models/exportRecordModel.test.ts
@@ -318,6 +319,7 @@
 - file: client/src/components/GalaxyAI/ChatModeSelector.test.ts
 - file: client/src/components/GalaxyAI/ClarificationCard.test.ts
 - file: client/src/components/GalaxyAI/agentTypes.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/GalaxyAI/chatUtils.test.ts
@@ -801,6 +803,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Workflow/Editor/Node.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/NodeInvocationText.test.ts
 - file: client/src/components/Workflow/Editor/NodeOutput.test.ts
 - file: client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts

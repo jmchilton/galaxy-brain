@@ -1,0 +1,44 @@
+iteration: 46
+seed: 2610946
+inventory_sha256: c835502794e399ce36a52987339cdbe000fcafcb2926f9702584c8ad89d3184a
+branch: vitest_readability
+base_commit: e1ccfc2131eb3a1036bfb11bd98a874455a28a6c
+status: reviewed
+selection:
+- file: client/src/components/GalaxyAI/agentTypes.test.ts
+- file: client/src/components/Common/VegaWrapper.test.ts
+- file: client/src/components/Workflow/Editor/Node.test.ts
+baseline:
+  selected_cases: 28
+  selected_passed: 28
+  selected_skipped: 0
+  selected_suites: 3
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: ef8caa4bc3ed8d1a6a566ea5dc10337745cb8f0c
+  subject: Improve readability of agentTypes tests
+- sha: dd1cede660cfeeab9df83782d8d205bf085124b1
+  subject: Improve readability of VegaWrapper tests
+- sha: d49bea20fac0cd23e51abcac5f9d8ea9feebe3f1
+  subject: Improve readability of Node tests
+validation:
+  passed_cases: 33
+  skipped_cases: 0
+  total_cases: 33
+  affected_suites: 3
+  selected_cases: 33
+  supporting_cases: 0
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  per_test_coverage: no source file lost covered lines or branches
+  abandoned: 'client/src/components/DataDialog/DataDialog.test.js (production bug: watch on undeclared history)'
+  independent_review: approved after one fix (Node partialStep cast helper replaced by typed literals)
+  shuffle_seed: 460101
+  test_environment: NODE_OPTIONS=--no-webstorage
