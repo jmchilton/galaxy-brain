@@ -70,7 +70,7 @@ Commit format:
   - The full suite and `vue-tsc` were already validated on that tree, so don't re-run them.
   - Run `vue-tsc` only at the end of any iteration whose plan you had to correct.
 - **Push:** push `jest_readability_split` to the `jmchilton` fork. Don't force-push the source branch. John decides whether the split replaces it and PR #24015.
-- **Debrief:** write `vault/repositories/galaxy/branches/active/jest_readability_batch_01/split_debrief.md`. Include:
+- **Debrief:** write `vault/repositories/galaxy/branches/abandoned/jest_readability_batch_01/split_debrief.md`. Include:
   - a table of iteration → commits, with the originator, shared and docs counts
   - files that needed judgment
   - tests whose commits span more than one iteration

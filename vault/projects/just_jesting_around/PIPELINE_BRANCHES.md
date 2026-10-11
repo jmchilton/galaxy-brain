@@ -27,7 +27,7 @@ Run client commands from `client/` with the pinned node and `VITE_CONFIG_NATIVE_
 - To gate a commit while a later draft is open, copy the draft to your scratchpad, check out the committed file, gate, and copy it back.
 - To read a run's result, filter with `2>&1 | grep -E "Test Files|Tests |Errors|FAIL"` and check the exit code; an unhandled error fails the run while every test passes. For type-check, check the exit code.
 
-`jest_readability_batch_01` (one commit per iteration, draft PR #24015) is the historical source for lane 1. It's frozen and no longer receives work.
+`jest_readability_batch_01` (one commit per iteration, closed PR #24015) is the historical source for lane 1. John abandoned it on 2026-10-11 after its replacement by `vitest_readability` in [PR #24038](https://github.com/galaxyproject/galaxy/pull/24038); its [archived record](../../repositories/galaxy/branches/abandoned/jest_readability_batch_01/index.md) preserves the debriefs.
 
 Lane 4 has two parts:
 - An API-test suite that runs against a live Galaxy and dumps responses as generated JSON.

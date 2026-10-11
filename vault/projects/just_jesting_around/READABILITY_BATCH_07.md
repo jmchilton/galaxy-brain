@@ -4,7 +4,7 @@ Ten existing uniterated originators selected with seed `848213636`. [Manifest](r
 
 ## Rebase
 
-Fresh upstream base: `cd6a53537e0bb28be183c4a6c134c1c0f5a4d6d1`; rebased six-iteration head: `8cd6910a856b15009722e296b69f21fbfaa42e8b`. All six previous iterations remain separate commits. Five replay identically; the only conflict keeps upstream direct numeric query parsing while preserving exact offset/limit observations in `collectionElementsStore.test.ts`. [Independent rebase review](reviews/batch07/rebase_review.md) found no concern; that suite passes its three cases and current lint. [Old/new commit mapping](../../repositories/galaxy/branches/active/jest_readability_batch_01/rebase_07.md).
+Fresh upstream base: `cd6a53537e0bb28be183c4a6c134c1c0f5a4d6d1`; rebased six-iteration head: `8cd6910a856b15009722e296b69f21fbfaa42e8b`. All six previous iterations remain separate commits. Five replay identically; the only conflict keeps upstream direct numeric query parsing while preserving exact offset/limit observations in `collectionElementsStore.test.ts`. [Independent rebase review](reviews/batch07/rebase_review.md) found no concern; that suite passes its three cases and current lint. [Old/new commit mapping](../../repositories/galaxy/branches/abandoned/jest_readability_batch_01/rebase_07.md).
 
 The rebased head was published with an exact force-with-lease on its previous remote head. Ignored API-package artifacts were rebuilt for upstream's new xrootd schema. Only the small upstream lint toolchain was installed into ignored client dependencies; existing runtime dependencies and shared Tool Shed dependencies are retained. No new worktree or production/configuration edit was introduced.
 

@@ -100,7 +100,6 @@ None yet.
 
 ## Galaxy branches — still deciding on (`branches_need_decision`)
 
-- [`jest_readability_batch_01`](../../repositories/galaxy/branches/active/jest_readability_batch_01/index.md) — Client-test readability work; [#24015](https://github.com/galaxyproject/galaxy/pull/24015) closed, unmerged. Decision: Reopen or abandon after separate replacement #24038. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:jest_readability_batch_01?expand=1).
 - [`vitest_story_a11y`](../../repositories/galaxy/branches/active/vitest_story_a11y/index.md) — Storybook axe checks and viewport review tools; reference-only prototype stacked on `vitest_story_play`. Do not PR.
 - [`galaxy_ui_driver`](../../repositories/galaxy/branches/active/galaxy_ui_driver/index.md) — Standing branch for Galaxy changes motivated by gxui. Do not PR independently. Do not polish; Playwright owns it.
 - [`move_markdown_conversion_to_util`](../../repositories/galaxy/branches/active/move_markdown_conversion_to_util/index.md) — Moves markdown HTML/PDF conversion out of `managers.markdown_util` into `galaxy.util`. Do not PR independently.
