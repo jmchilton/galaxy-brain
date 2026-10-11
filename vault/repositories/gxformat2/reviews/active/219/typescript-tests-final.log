@@ -1,0 +1,96 @@
+
+> galaxy-tool-util@ test /private/tmp/gxformat2-219-ts
+> pnpm -r --filter=!@galaxy-tool-util/gxwf-e2e test
+
+Scope: 16 of 17 workspace projects
+packages/schema test$ tsc --noEmit && vitest run
+packages/workflow-graph test$ tsc --noEmit && vitest run
+packages/workflow-graph test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/workflow-graph
+packages/workflow-graph test:  Test Files  5 passed (5)
+packages/workflow-graph test:       Tests  152 passed (152)
+packages/workflow-graph test:    Start at  12:01:49
+packages/workflow-graph test:    Duration  215ms (transform 160ms, setup 0ms, import 330ms, tests 14ms, environment 0ms)
+packages/workflow-graph test: Done
+packages/schema test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/schema
+packages/schema test:  Test Files  45 passed (45)
+packages/schema test:       Tests  5100 passed | 5 expected fail | 79 skipped (5184)
+packages/schema test:    Start at  12:01:51
+packages/schema test:    Duration  3.05s (transform 2.18s, setup 0ms, import 27.56s, tests 1.91s, environment 2ms)
+packages/schema test: Done
+packages/connection-validation test$ tsc --noEmit && vitest run
+packages/core test$ tsc --noEmit && vitest run
+packages/tool-xml test$ tsc --noEmit && vitest run
+packages/connection-validation test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/connection-validation
+packages/tool-xml test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/tool-xml
+packages/core test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/core
+packages/tool-xml test:  Test Files  5 passed (5)
+packages/tool-xml test:       Tests  109 passed (109)
+packages/tool-xml test:    Start at  12:01:56
+packages/tool-xml test:    Duration  2.23s (transform 3.20s, setup 0ms, import 9.93s, tests 235ms, environment 0ms)
+packages/connection-validation test:  Test Files  5 passed (5)
+packages/connection-validation test:       Tests  50 passed (50)
+packages/connection-validation test:    Start at  12:01:55
+packages/connection-validation test:    Duration  2.73s (transform 4.84s, setup 0ms, import 10.18s, tests 84ms, environment 0ms)
+packages/tool-xml test: Done
+packages/connection-validation test: Done
+packages/core test:  Test Files  8 passed (8)
+packages/core test:       Tests  167 passed (167)
+packages/core test:    Start at  12:01:56
+packages/core test:    Duration  2.19s (transform 6.14s, setup 0ms, import 15.02s, tests 802ms, environment 1ms)
+packages/core test: Done
+packages/integration-tests test$ tsc --noEmit && vitest run
+packages/search test$ tsc --noEmit && vitest run
+packages/tool-cache-proxy test$ tsc --noEmit && vitest run
+packages/tool-cache-proxy test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/tool-cache-proxy
+packages/search test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/search
+packages/integration-tests test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/integration-tests
+packages/search test:  Test Files  5 passed (5)
+packages/search test:       Tests  56 passed (56)
+packages/search test:    Start at  12:01:59
+packages/search test:    Duration  1.61s (transform 2.35s, setup 0ms, import 5.82s, tests 145ms, environment 0ms)
+packages/search test: Done
+packages/tool-cache-proxy test:  Test Files  2 passed (2)
+packages/tool-cache-proxy test:       Tests  22 passed (22)
+packages/tool-cache-proxy test:    Start at  12:01:59
+packages/tool-cache-proxy test:    Duration  1.84s (transform 1.20s, setup 0ms, import 3.04s, tests 182ms, environment 0ms)
+packages/tool-cache-proxy test: Done
+packages/integration-tests test:  Test Files  3 passed (3)
+packages/integration-tests test:       Tests  50 passed | 6 expected fail | 13 skipped (69)
+packages/integration-tests test:    Start at  12:02:00
+packages/integration-tests test:    Duration  1.88s (transform 1.37s, setup 0ms, import 3.70s, tests 460ms, environment 0ms)
+packages/integration-tests test: Done
+packages/cache-ui test$ vitest run
+packages/cli test$ tsc --noEmit && vitest run
+packages/cache-ui test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/cache-ui
+packages/cache-ui test:  Test Files  1 passed (1)
+packages/cache-ui test:       Tests  8 passed (8)
+packages/cache-ui test:    Start at  12:02:02
+packages/cache-ui test:    Duration  426ms (transform 46ms, setup 0ms, import 286ms, tests 28ms, environment 0ms)
+packages/cache-ui test: Done
+packages/cli test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/cli
+packages/cli test:  Test Files  40 passed | 2 skipped (42)
+packages/cli test:       Tests  398 passed | 14 skipped (412)
+packages/cli test:    Start at  12:02:04
+packages/cli test:    Duration  4.86s (transform 7.63s, setup 0ms, import 43.25s, tests 9.41s, environment 2ms)
+packages/cli test: Done
+packages/gxwf-web test$ tsc --noEmit && vitest run
+packages/gxwf-web test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/gxwf-web
+packages/gxwf-web test:  Test Files  4 passed (4)
+packages/gxwf-web test:       Tests  117 passed (117)
+packages/gxwf-web test:    Start at  12:02:10
+packages/gxwf-web test:    Duration  11.70s (transform 3.16s, setup 0ms, import 7.52s, tests 10.08s, environment 0ms)
+packages/gxwf-web test: Done
+packages/gxwf-client test$ tsc --noEmit && vitest run
+packages/gxwf-client test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/gxwf-client
+packages/gxwf-client test:  Test Files  1 passed (1)
+packages/gxwf-client test:       Tests  13 passed (13)
+packages/gxwf-client test:    Start at  12:02:23
+packages/gxwf-client test:    Duration  4.03s (transform 1.19s, setup 0ms, import 3.76s, tests 139ms, environment 0ms)
+packages/gxwf-client test: Done
+packages/gxwf-ui test$ vitest run
+packages/gxwf-ui test:  RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/gxwf-ui
+packages/gxwf-ui test:  Test Files  9 passed (9)
+packages/gxwf-ui test:       Tests  51 passed (51)
+packages/gxwf-ui test:    Start at  12:02:27
+packages/gxwf-ui test:    Duration  1.99s (transform 2.42s, setup 0ms, import 5.94s, tests 90ms, environment 0ms)
+packages/gxwf-ui test: Done
