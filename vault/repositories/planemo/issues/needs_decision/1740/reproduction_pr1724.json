@@ -1,0 +1,174 @@
+{
+  "source": "/tmp/planemo-output-sampling-1724/pr1724",
+  "results": {
+    "flat_list": {
+      "generated_outputs": {
+        "results": {
+          "element_tests": {
+            "a": {
+              "path": "test-data/results_a.txt"
+            },
+            "b": {
+              "path": "test-data/results_b.txt"
+            },
+            "c": {
+              "path": "test-data/results_c.txt"
+            }
+          }
+        }
+      },
+      "production_output_download_count": 3,
+      "production_output_downloads": [
+        {
+          "dataset_id": "a",
+          "use_default_filename": false,
+          "file_path": "test-data/results_a.txt"
+        },
+        {
+          "dataset_id": "b",
+          "use_default_filename": false,
+          "file_path": "test-data/results_b.txt"
+        },
+        {
+          "dataset_id": "c",
+          "use_default_filename": false,
+          "file_path": "test-data/results_c.txt"
+        }
+      ],
+      "canonical_output_mode": {
+        "a": {
+          "path": "test-data/results_a.txt"
+        }
+      },
+      "canonical_output_download_count": 1,
+      "input_download_count": 3,
+      "generated_job": {
+        "input": {
+          "class": "Collection",
+          "collection_type": "list",
+          "elements": [
+            {
+              "class": "File",
+              "identifier": "a",
+              "path": "test-data/input_a.txt"
+            },
+            {
+              "class": "File",
+              "identifier": "b",
+              "path": "test-data/input_b.txt"
+            },
+            {
+              "class": "File",
+              "identifier": "c",
+              "path": "test-data/input_c.txt"
+            }
+          ]
+        }
+      }
+    },
+    "list_paired": {
+      "generated_outputs": {
+        "results": {
+          "element_tests": {
+            "sample1": {
+              "elements": {
+                "forward1": {
+                  "path": "test-data/results_forward1.txt"
+                },
+                "reverse1": {
+                  "path": "test-data/results_reverse1.txt"
+                }
+              }
+            },
+            "sample2": {
+              "elements": {
+                "forward2": {
+                  "path": "test-data/results_forward2.txt"
+                },
+                "reverse2": {
+                  "path": "test-data/results_reverse2.txt"
+                }
+              }
+            }
+          }
+        }
+      },
+      "production_output_download_count": 4,
+      "production_output_downloads": [
+        {
+          "dataset_id": "forward1",
+          "use_default_filename": false,
+          "file_path": "test-data/results_forward1.txt"
+        },
+        {
+          "dataset_id": "reverse1",
+          "use_default_filename": false,
+          "file_path": "test-data/results_reverse1.txt"
+        },
+        {
+          "dataset_id": "forward2",
+          "use_default_filename": false,
+          "file_path": "test-data/results_forward2.txt"
+        },
+        {
+          "dataset_id": "reverse2",
+          "use_default_filename": false,
+          "file_path": "test-data/results_reverse2.txt"
+        }
+      ],
+      "canonical_output_mode": {
+        "sample1": {
+          "elements": {
+            "forward1": {
+              "path": "test-data/results_forward1.txt"
+            }
+          }
+        }
+      },
+      "canonical_output_download_count": 1,
+      "input_download_count": 4,
+      "generated_job": {
+        "input": {
+          "class": "Collection",
+          "collection_type": "list:paired",
+          "elements": [
+            {
+              "class": "Collection",
+              "type": "paired",
+              "identifier": "sample1",
+              "elements": [
+                {
+                  "class": "File",
+                  "identifier": "forward1",
+                  "path": "test-data/input_forward1.txt"
+                },
+                {
+                  "class": "File",
+                  "identifier": "reverse1",
+                  "path": "test-data/input_reverse1.txt"
+                }
+              ]
+            },
+            {
+              "class": "Collection",
+              "type": "paired",
+              "identifier": "sample2",
+              "elements": [
+                {
+                  "class": "File",
+                  "identifier": "forward2",
+                  "path": "test-data/input_forward2.txt"
+                },
+                {
+                  "class": "File",
+                  "identifier": "reverse2",
+                  "path": "test-data/input_reverse2.txt"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

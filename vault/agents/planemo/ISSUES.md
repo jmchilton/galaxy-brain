@@ -6,6 +6,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default. 
 
 ## Waiting on John (`needs_decision`)
 
+- [#1740](https://github.com/galaxyproject/planemo/issues/1740) — invocation outputs bypass collection sampling; decide: sample/all policy, including paired mates. [notes](../../repositories/planemo/issues/needs_decision/1740/index.md)
 - [#1739](https://github.com/galaxyproject/planemo/issues/1739) — config linting from Click definitions; decide: scope, strictness, and pure validator reuse. [notes](../../repositories/planemo/issues/needs_decision/1739/index.md)
 - [#1738](https://github.com/galaxyproject/planemo/issues/1738) — Python defaults for older Galaxy; decide: checkout-aware selection or documented overrides. [notes](../../repositories/planemo/issues/needs_decision/1738/index.md)
 - [#1720](https://github.com/galaxyproject/planemo/issues/1720) — appliance: rebuild it or take its docs down; decide: which. [notes](../../repositories/planemo/issues/needs_decision/1720/index.md)
