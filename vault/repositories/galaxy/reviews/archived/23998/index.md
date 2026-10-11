@@ -1,6 +1,6 @@
 # galaxy #23998 — Keep uploaded files paired with their list collection elements
 
-[PR #23998](https://github.com/galaxyproject/galaxy/pull/23998) · Status: active; initial review complete 2026-10-11. Recommendation: **approve**. Delivery: approval draft unposted; no GitHub comments or reviews submitted.
+[PR #23998](https://github.com/galaxyproject/galaxy/pull/23998) · Status: archived; **merged 2026-10-11T19:49:14Z**. Initial recommendation: **approve**. John merged the reviewed HEAD; local approval draft remains unposted.
 
 Reviewed HEAD: `68639a37fbb8f4f9ed06be67f7ad691746de933c` (base `dev`; exact pre-PR parent `08ec4d81a173535b9ffa7865d56bc5ce0c1619b4`). Author: davelopez. Final GitHub check: open, out of draft, unchanged HEAD, 30 successful checks, no existing comments/reviews.
 
@@ -14,3 +14,7 @@ John explicitly requested this review on 2026-10-11 alongside #24013, overriding
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/23998/`; clean and retained while PR is open. Local tests used an isolated temporary client copy with exact locked dependencies. No Galaxy source or shared environment was edited. Temporary source copy/dependencies removed after recording evidence; no test server or browser was started. CI artifact cache had no artifacts because its runs succeeded; successful job logs were read directly.
 
 Risk: narrow, reversible client correction with a scientifically significant benefit: collection labels match actual uploaded content. Reverting code cannot repair histories already imported with wrong sample labels; neither does this patch repair historical affected uploads. It creates no new API or persisted schema contract. Details and remaining limits are in the review.
+
+## Merge and cleanup — 2026-10-11
+
+John reported merging the PR; GitHub confirms merge at 2026-10-11T19:49:14Z with the reviewed HEAD. Tracking ended on merge. The clean worktree (no upstream; exact merged HEAD), terminal session, and CI artifact cache were removed. Evidence is preserved here.
