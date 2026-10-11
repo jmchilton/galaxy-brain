@@ -13,3 +13,7 @@ Retained implementation/review record outside the review queue.
 ## Marius companion #5 — 2026-10-11
 
 [Independent fix review](marius_followup_5_2026-10-11.md). Companion #5 merged into publish-planemo-cli as bc6e1a7bbe19dbd06c1d14aa89d518303274b62d. Source import, lock checks and default/SKIP/custom-VENV Makefile dryruns passed. Upstream PR remains open. Decisions and follow-ups: [October ledger](../../../../../agents/planemo/PR_FOLLOW_UPS_EARLY_OCTOBER_2026.md).
+
+## John’s reply — 2026-10-11
+
+John [confirmed pending publisher setup predates the PR and kept planemo-cli naming](https://github.com/galaxyproject/planemo/pull/1733#issuecomment-6111222352). Naming decision resolved; verify publisher readiness before release, and handle remaining publishing details after merge. Back with reviewers.
