@@ -2,6 +2,8 @@
 
 Migrated 2026-10-09. Live GitHub PR metadata and checks refreshed 2026-10-11 by TICK; merged PRs swept the same day. Fork CI checked on live branch SHAs for implemented-needs-CI and approved entries. [TICK findings and actions](TICK_2026-10-11.md) record classifications, CI limits, rebases and reruns.
 
+PR #24046 repair head and queued CI verified 2026-10-11; details in its branch record.
+
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
@@ -27,12 +29,12 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin proxy and AI agents against a local provider; fixes live LLM tests using static responses. [#24051](https://github.com/galaxyproject/galaxy/pull/24051).
 - [`ts_readme_render_fix_26.1`](../../repositories/galaxy/branches/active/ts_readme_render_fix_26.1/index.md) — Renders Tool Shed READMEs without Mako evaluation and sanitizes them, old revisions included; backport of the deployed Tool Shed patch, against `release_26.1`. [#24053](https://github.com/galaxyproject/galaxy/pull/24053).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
-- [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 - [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
 - [`tool_parameter_references`](../../repositories/galaxy/branches/active/tool_parameter_references/index.md) — Developer reference for the inconsistent ways tools, APIs and workflows reference nested tool parameters. [#23877](https://github.com/galaxyproject/galaxy/pull/23877).
 - [`subworkflow_mapping`](../../repositories/galaxy/branches/active/subworkflow_mapping/index.md) — Brings subworkflow mapping inline between the workflow editor and the backend. [#23676](https://github.com/galaxyproject/galaxy/pull/23676).

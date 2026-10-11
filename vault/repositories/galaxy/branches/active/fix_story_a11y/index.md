@@ -1,11 +1,11 @@
 # fix_story_a11y
 
-Status: Open draft PR, needs author work (`author_work`): related browser-test selector updates required.
+Status: Open draft PR, waiting for CI (`ci_wait`): browser-driver repairs pushed; 16 focused live browser cases pass.
 PR: [#24046 — Repair accessibility issues across shared controls and forms](https://github.com/galaxyproject/galaxy/pull/24046), opened by John; verified 2026-10-11.
-PR base: `dev`; head: `0d7e194649453a63c6f18f54feb8549ce4e6b4c3` (matches polished SHA).
+PR base: `dev`; head: `96bd157af90d51595b5d8f4195d13699bc72846e` (browser-driver repair following polished component SHA).
 Base: upstream `dev` at `b406ead2e4eb55b94d1ba437af8f60ebe4983947` (2026-10-10).
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/fix_story_a11y`.
-Pushed to `jmchilton/fix_story_a11y` at `0d7e194649453a63c6f18f54feb8549ce4e6b4c3` on 2026-10-10.
+Pushed to `jmchilton/fix_story_a11y` at `96bd157af90d51595b5d8f4195d13699bc72846e` on 2026-10-11.
 
 User requested a new dev worktree and subagent repair batches for the accessibility findings from `vitest_story_a11y`. This branch contains production repairs and focused unit regressions, independent of the running migration lanes. All 236 frozen audit stories pass with accessibility checks set to error and no exceptions in the disposable harness. Eight independent Chromium keyboard/focus probes pass.
 
@@ -14,7 +14,8 @@ User requested a new dev worktree and subagent repair batches for the accessibil
 - [Polish debrief](polish_debrief.md)
 - [Independent polish checklist](polish_checklist.md)
 - [Single strengthening round](polish_strengthening.md)
-- [PR browser CI triage](ci_triage_24046.md)
+- [PR browser CI repair and validation](ci_repair_24046.md)
+- [Initial PR browser CI triage](ci_triage_24046.md)
 - [Polish CI evidence](ci_polish.md)
 - [Repair batches](repair_batches.md)
 - [Initial implementation](initial_implementation_debrief.md)
@@ -40,3 +41,9 @@ Live GitHub state: OPEN, draft, MERGEABLE; review decision unset. CI remains in 
 ## Related browser CI failure — 2026-10-11
 
 Completed Playwright shard 1 fails on two stale driver assumptions: 46 failed cases plus two setup errors wait for the removed fixed ClickToEdit input ID; one case searches for a caret inside the now-correctly labeled combobox input. CI DOM snapshots confirm the input and enclosing multiselect caret exist. These are test-driver adaptations required by the markup changes, with no user-behavior bug established in this shard. See the linked triage. Moved to `author_work`; no branch edits, test changes, or GitHub posts made during diagnosis.
+
+## Browser-driver repair — 2026-10-11
+
+John requested checking for unpushed work and repairing the related CI failures. No unpushed driver repair existed. Inspected every failed browser-suite log and additional CI DOM snapshots; all observed failures map to fixed-ID, wrapper/combobox, native-button, or folder-opening assumptions in the driver. Updated shared navigation and select helpers, preserving component code and existing test assertions. Sixteen existing live Playwright cases pass (nine application flows, three integration cases, four tool-form harness cases), as do 15 focused component tests and formatting/lint hooks. No app regression was established in those flows.
+
+Pushed `96bd157af90d51595b5d8f4195d13699bc72846e` to the fork; live PR head matches and new CI is queued/running. Moved to `ci_wait`, retaining draft status until CI settles. See [repair evidence](ci_repair_24046.md). No PR description, comments, or review settings changed.
