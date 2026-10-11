@@ -9,10 +9,11 @@ Rebase `vitest_stories` onto `jmchilton/vitest_readability`. Commands are in [PI
 - Don't select a test until the lane is green: from `client/`, with the pinned node and env, `git grep -l useStoryMount -- '*.test.*' | xargs pnpm exec vitest run --project unit` and the whole `--project storybook` pass, and `pnpm type-check` is clean. If neither the lane nor its base moved since the last green gate, skip it.
 - `git grep` sees only tracked files, so `git add -N` a new test before running the gate.
 - A new test's first run can take minutes while other sessions run vitest. Give it a long timeout or run it in the background; don't kill it, which orphans its workers.
+- Under load, pass `--maxWorkers=3` and check the run counted as many files as `git grep` found; a worker that never starts shows only as an unhandled error. Re-running just the files that timed out or never started, and seeing them pass, counts as green.
 
 ## Select
 
-Walk back from the tip of `vitest_readability` through its `Test-File:` trailers and pick the first test whose `jest_tests.yml` entry has no `storified` field. A commit with several trailers names several candidates, in trailer order, and a supporting test touched by a shared-code commit counts.
+Walk back from the lane's merge-base with `vitest_readability` (the base the driver rebased onto, not the remote tip, which may have moved) through its `Test-File:` trailers and pick the first test whose `jest_tests.yml` entry has no `storified` field. A commit with several trailers names several candidates, in trailer order, and a supporting test touched by a shared-code commit counts.
 
 ## Decide
 
@@ -34,6 +35,7 @@ When skipping, set `storified: skip` (only that field), log the reason, and end 
 - Stories sit beside the component the test mounts, even when the test file is named for another; keep the test's name.
 - If the old test passes only because of its setup (stale data the real page wouldn't show), keep its expected values, mount the story that makes them true, and flag it in the report for John. If that story would need a handler answering in a way Galaxy never does, don't convert: set `storified: skip`, log it as parked for John with why, and flag it.
 - Keep the test's language; moving `.js` to TypeScript is separate work.
+- Before converting, check that each fixture field a test asserts on exists in the endpoint's response model; a field Galaxy never sends falls under the park rule above.
 - Don't fix component bugs in this lane; add them to [BUGS_FOUND.md](BUGS_FOUND.md).
 
 If the conversion needs a Storybook change (preview, story-mount helper, shared mock handlers), commit that first, separately, and check that existing stories still render (the `storybook` project run is enough).

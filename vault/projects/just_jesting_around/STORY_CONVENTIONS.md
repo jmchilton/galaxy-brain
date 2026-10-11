@@ -34,7 +34,8 @@ history). Handlers that refuse or save
 echo the request's fields rather than a fixed value. A response that doesn't come from
 Galaxy (a proxy's 504 page) uses plain `msw`, since the typed `http` stamps Galaxy's
 request id on failures. A full mount makes its children's requests too (a run count per
-workflow card), so answer them. A story shows a state Galaxy can reach: a feature only
+workflow card), so answer them. A click that opens another feature's page (a repository's
+details) needn't be answered; log the gap. A story shows a state Galaxy can reach: a feature only
 signed-in users see has a signed-in user.
 
 If the component needs a parent, such as one driving v-model, add a small harness
