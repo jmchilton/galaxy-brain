@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (activity_settings_availability regular PR #24052 opened, CI pending; plugins_test_fake_provider draft #24051 opened, CI queued/running; sample_sheet_vue3 draft #24050 opened, waiting for CI; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (#24052; #24051; #24050 and the two PRs above; others 2026-10-09); merged PRs swept 2026-10-09.
+Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (activity_settings_availability regular PR #24052 opened, CI pending; plugins_test_fake_provider draft #24051 opened, CI queued/running; sample_sheet_vue3 draft #24050 opened, waiting for CI; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (#24016 confirmed closed and explicitly abandoned; #24052; #24051; #24050 and the two PRs above; others 2026-10-09); merged PRs swept 2026-10-09.
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
@@ -27,7 +27,6 @@ None yet.
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin proxy and AI agents against a local provider; fixes live LLM tests using static responses. [#24051](https://github.com/galaxyproject/galaxy/pull/24051).
 - [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
 - [`client_test_fixture_cleanup`](../../repositories/galaxy/branches/active/client_test_fixture_cleanup/index.md) — Corrects JobInformation message fixtures and removes duplicate CollectionProgress tests. [#24045](https://github.com/galaxyproject/galaxy/pull/24045).
-- [`zizmor_self_repository`](../../repositories/galaxy/branches/active/zizmor_self_repository/index.md) — Uses GitHub's `$/` self-repository syntax for in-repo workflows and actions, fixing zizmor alerts. [#24016](https://github.com/galaxyproject/galaxy/pull/24016).
 - [`jest_readability_batch_01`](../../repositories/galaxy/branches/active/jest_readability_batch_01/index.md) — Improves client test readability and shares typed page and Tool fixtures across concrete consumers. [#24015](https://github.com/galaxyproject/galaxy/pull/24015).
 - [`playwright_drag_over_feedback`](../../repositories/galaxy/branches/active/playwright_drag_over_feedback/index.md) — Adds drag_over feedback checks and runs test_drag_drop_visual_feedback under Playwright. [#24010](https://github.com/galaxyproject/galaxy/pull/24010).
 - [`playwright_scoped_css_parity`](../../repositories/galaxy/branches/active/playwright_scoped_css_parity/index.md) — Fixes tag-editor selectors so test_tags runs under Playwright. [#24020](https://github.com/galaxyproject/galaxy/pull/24020).
