@@ -1,0 +1,4 @@
+- Test the AI plugin proxy with a shared local provider
+- Exercise plugin and agent integration tests through real HTTP
+- Replace AI integration mocks with a reusable fake provider
+- Use a local AI provider in integration tests and make live tests reach the LLM

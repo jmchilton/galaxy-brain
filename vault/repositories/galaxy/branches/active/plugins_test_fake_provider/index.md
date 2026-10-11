@@ -1,15 +1,19 @@
 # plugins_test_fake_provider
 
-Status: `branches_need_polish`. Base: `dev` (`45df66e08ed`). Head `9166f4a8620` on `jmchilton/plugins_test_fake_provider` (3 commits). No PR.
+Status: `branches_ready_for_final_review`. Base: `dev` (`3347e84bc5e9`). Head: `688840f83b60d812c2a958f07a3b313908bfd269` on `jmchilton/plugins_test_fake_provider` (4 commits). No PR; no final approval recorded. Polished 2026-10-11; new-head fork CI queued/pending.
+
+[PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist review](checklist_review.md) · [Strengthening review](strengthening_review.md) · [Implementation debrief](implementation_debrief.md)
 
 Replaces AI mocks and patches in integration tests with local HTTP servers:
-- `test/integration/test_plugins.py` (from merged 🔀 #24032): proxy tests run against `FakeAIProvider` instead of `@patch("...plugins.AsyncOpenAI")`.
-- `test/integration/test_agents.py`: the TRS `requests.get` patch is gone, live mode now actually reaches the LLM, and a fake-provider test runs a real agent.
 
-[Implementation debrief](implementation_debrief.md)
+- `test/integration/test_plugins.py` (from merged 🔀 #24032): proxy tests run through the real OpenAI SDK against shared `FakeAIProvider` in `app_unittest_utils`.
+- `test/integration/test_agents.py`: TRS descriptor served locally, opt-in live tests bypass the static backend, and one real error-analysis agent uses the fake provider.
+- Polish fixes: exception-safe provider/TRS shutdown, TRS state isolation, and live chat assertions rejecting API errors and agent fallback responses.
 
-John asked for this on 2026-10-11, after disliking the mocks in #24032's test file. He then asked for the fake to live in `app_unittest_utils` and to be applied to `test_agents.py`.
+John requested this on 2026-10-11 after disliking the mocks in #24032, then asked for the fake to live in `app_unittest_utils` and for its use in `test_agents.py`. The remaining streaming close spy delegates to the real method; the choice to retain it is left for the human read-through.
 
-## Polish started — 2026-10-11
+## Review and CI evidence
 
-Live fork CI on `9166f4a8620` has no failed checks; integration and other suites remain running/queued. Rebased cleanly onto actual `dev` (`3347e84bc5e9`), producing `94edbb32faf`. Fresh checklist review identified exception-safe server cleanup and a live-chat assertion that accepts API error text; both are being corrected before the PR description is written. No PR exists.
+Fresh checklist review plus re-review pass; the human-read item remains unchecked. One description-strengthening round completed, with its coverage clarification applied. Deterministic integration tests: 40 passed, 6 skipped. Cleanup fault controls: 4 passed after reproducing 4 failures. Unreachable-provider control: all five inference tests fail, history-only passes. Lint/format pass; targeted helper typing passes with imported-module diagnostics suppressed. Full local import-following mypy reports errors only in unchanged imports; see the debrief for limits.
+
+[Integration CI](https://github.com/jmchilton/galaxy/actions/runs/38152628142) and [Python lint CI](https://github.com/jmchilton/galaxy/actions/runs/38152628131) were queued/pending on the polished SHA when queried. No failed checks were reported. Old-head CI had no failures when polish began. The branch is pushed and its worktree is clean.
