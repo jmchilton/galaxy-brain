@@ -704,6 +704,7 @@
   storybook_play: skip
 - file: client/src/components/Tour/Tour.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/Tour/TourStep.test.ts
 - file: client/src/components/Upload/UploadSelect.test.ts
 - file: client/src/components/User/APIKey/model/service.test.ts
