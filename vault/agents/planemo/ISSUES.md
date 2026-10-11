@@ -6,6 +6,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default. 
 
 ## Waiting on John (`needs_decision`)
 
+- [#1738](https://github.com/galaxyproject/planemo/issues/1738) — Python defaults for older Galaxy; decide: checkout-aware selection or documented overrides. [notes](../../repositories/planemo/issues/needs_decision/1738/index.md)
 - [#1720](https://github.com/galaxyproject/planemo/issues/1720) — appliance: rebuild it or take its docs down; decide: which. [notes](../../repositories/planemo/issues/needs_decision/1720/index.md)
 - [#1267](https://github.com/galaxyproject/planemo/issues/1267) — workflow_lint and editor Best Practices lint different structures; not implemented; decide: close-with-ask? [notes](../../repositories/planemo/issues/needs_decision/1267/index.md)
 - [#1535](https://github.com/galaxyproject/planemo/issues/1535) — `mulled-search` GitHub 401; live bug filed in the wrong repo; decide: transfer to galaxy-tool-util? [notes](../../repositories/planemo/issues/needs_decision/1535/index.md)
