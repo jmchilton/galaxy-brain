@@ -1,0 +1,26 @@
+PR 24001 validation, 2026-10-11
+HEAD: 373ef0eae9ec68a747f98ab09db5075ccdc99133
+Parent: b8b33e5732876aa6880c507b931dfbf79ec4b1a4
+Working directory: /Users/jxc755/projects/worktrees/galaxy/pr/24001
+Interpreter: /Users/jxc755/projects/repositories/galaxy/.venv/bin/python
+Python 3.13.12; pytest 9.1.1.
+
+Isolated dependency overlay setup (shared virtualenv unchanged):
+uv pip install --python /Users/jxc755/projects/repositories/galaxy/.venv/bin/python --target /tmp/galaxy-24001-deps --no-deps gxformat2==0.21.0 tuswsgi==0.5.5
+
+API test command:
+PYTHONPATH=lib:/tmp/galaxy-24001-deps GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false GALAXY_CONFIG_ENABLE_BETA_WORKFLOW_MODULES=true GALAXY_CONFIG_OVERRIDE_ENABLE_BETA_TOOL_FORMATS=true GALAXY_TEST_TOOL_CONF='lib/galaxy/config/sample/tool_conf.xml.sample,test/functional/tools/sample_tool_conf.xml' /Users/jxc755/projects/repositories/galaxy/.venv/bin/python -m pytest lib/galaxy_test/api/test_tools.py -k allow_uri_if_protocol -v --tb=short
+Result: 4 passed, 156 deselected, 199 warnings in 30.95s.
+
+Unit test command:
+PYTHONPATH=lib:/tmp/galaxy-24001-deps /Users/jxc755/projects/repositories/galaxy/.venv/bin/python -m pytest test/unit/app/tools/test_evaluation.py test/unit/data/test_dataset_materialization.py -q --tb=short
+Result: 38 passed, 100 warnings in 6.98s.
+
+Baseline sensitivity command:
+Copy baseline_plugin.py to /tmp/galaxy_24001_baseline_plugin.py. Same API environment, append /tmp to PYTHONPATH, add -p galaxy_24001_baseline_plugin, use -k 'on_single_deferred_zarr_input or materializes_other_protocols'.
+Result: 1 failed, 1 passed, 158 deselected, 77 warnings in 25.41s.
+URI regression failed at history assert_ok (job error); parent attempted to materialize two HTTPS sources, received 403, and produced cat with an empty filename. Base64 materialization control passed.
+This plugin executes the exact parent method source in the PR evaluator module's globals; it replaces only the two changed evaluator methods. No Galaxy source changes.
+
+GitHub final state: OPEN, not draft, base release_25.1, unchanged head.
+Checks: 55 SUCCESS, 5 FAILURE, 2 SKIPPED. See review for triage.

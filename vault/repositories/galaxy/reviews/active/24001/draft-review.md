@@ -1,0 +1,5 @@
+The scalar and nested input handling looks good to me. Reusing the existing URI policy with the visitor's parameter object fixes the lookup, and the `uri_inputs` guard keeps the flat fallback scan from undoing that decision.
+
+The four focused API cases passed locally, along with 38 evaluator/materialization tests. I also ran the two new cases with the parent evaluator methods substituted: the URI regression failed and the materialization control passed. These API tests already exercise actual Galaxy job preparation and execution, so I think the integration coverage is appropriate here.
+
+Risk is low: this restores the existing tool declaration's behavior, with coverage for both allowed URIs and protocols that must still materialize. The remaining red CI jobs do not demonstrate a regression in this patch: BCO schema requests receive HTML, package tests fail on anonymous GCS credentials, and the release script fails its upstream master version-file check. The API report also includes the existing marked-xfail metadata-validator case.
