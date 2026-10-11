@@ -1,0 +1,639 @@
+PR #23998 validation, 2026-10-11
+HEAD: 68639a37fbb8f4f9ed06be67f7ad691746de933c
+Exact parent: 08ec4d81a173535b9ffa7865d56bc5ce0c1619b4
+Local client copy: /private/tmp/galaxy-pr23998-review/client (removed after review)
+Node v25.6.1; pnpm v10.26.1 (workspace pins this), Vitest v4.1.11.
+Offline frozen install initially lacked @citation-js/core tarball; online exact frozen install succeeded in isolated temp copy, --ignore-scripts.
+NODE_OPTIONS=--no-experimental-webstorage avoids Node 25 native localStorage interfering with happy-dom.
+
+Head command:
+NODE_OPTIONS=--no-experimental-webstorage pnpm exec vitest run src/utils/upload.test.ts src/utils/tusUpload.test.ts src/composables/upload/useUploadSubmission.test.ts src/composables/upload/useUploadBatchOperations.test.ts src/utils/upload.review23998.test.ts --reporter=verbose
+
+Parent control: replace only temp-copy upload.ts with exact parent's tracked file, leaving tests/dependencies untouched.
+NODE_OPTIONS=--no-experimental-webstorage pnpm exec vitest run src/utils/upload.test.ts src/utils/upload.review23998.test.ts -t 'pairs each list element with its own local file|independent collection submission checks' --reporter=verbose
+Restore HEAD upload.ts and repeat selected control.
+
+Successful Playwright CI log excerpts (direct logs, not artifacts):
+Test (3.10, 0)	UNKNOWN STEP	2026-10-09T08:03:58.6792578Z lib/galaxy_test/selenium/test_uploads.py::TestUploads::test_upload_list_multiple_files_keeps_element_content PASSED [ 67%]
+Test (3.10, 0)	UNKNOWN STEP	2026-10-09T08:04:04.1027715Z lib/galaxy_test/selenium/test_uploads.py::TestUploads::test_upload_pair PASSED [ 67%]
+Test (3.10, 2)	UNKNOWN STEP	2026-10-09T08:12:17.1430736Z lib/galaxy_test/selenium/test_uploads.py::TestUploads::test_upload_list PASSED [ 70%]
+
+Final GitHub check: OPEN, out of draft, exact unchanged HEAD, 30 SUCCESS, no comments/reviews.
+
+=== head-tests.log ===
+
+ RUN  v4.1.11 /private/tmp/galaxy-pr23998-review/client
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should successfully upload a file
+Starting chunked upload for upload.txt [chunkSize=1024].
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should successfully upload a file
+Upload of upload.txt to http://localhost/upload/session123 took 0.0007456250000004729 seconds
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should handle progress updates with rounding
+Starting chunked upload for progress.txt [chunkSize=1024].
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should handle progress updates with rounding
+50 100 50.00%
+33 100 33.00%
+66.66 100 66.66%
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should reject on 403 authorization error
+Starting chunked upload for forbidden.txt [chunkSize=1024].
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should retry on non-403 errors
+Starting chunked upload for retry.txt [chunkSize=1024].
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should retry on non-403 errors
+Failed because: Error: Network error
+, will retry in 10 seconds
+Upload of retry.txt to http://localhost/upload/session456 took 0.00011879199999930279 seconds
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should resume from previous upload if available
+Starting chunked upload for resume.txt [chunkSize=1024].
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should resume from previous upload if available
+previous Upload [ { uploadUrl: 'http://localhost/upload/previous123' } ]
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should resume from previous upload if available
+Upload of resume.txt to http://localhost/upload/session789 took 0.05193629200000032 seconds
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should not call start after the signal aborts while previous uploads are being fetched
+Starting chunked upload for cancelled.txt [chunkSize=1024].
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should handle FileStream by extracting reader
+Starting chunked upload for stream.bin [chunkSize=1024].
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should reject if no session ID is returned
+Starting chunked upload for no-session.txt [chunkSize=1024].
+
+stdout | src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should reject if no session ID is returned
+Upload of no-session.txt to null took 0.000053667000000132245 seconds
+
+ ✓ src/utils/tusUpload.test.ts > tusUpload > buildUploadFingerprint > should build fingerprint for File 1ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > buildUploadFingerprint > should build fingerprint for Blob with name 0ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > buildUploadFingerprint > should build fingerprint for FileStream 0ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > buildUploadFingerprint > should handle missing optional fields 0ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should successfully upload a file 1ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should handle progress updates with rounding 1ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should reject on 403 authorization error 1ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should retry on non-403 errors 0ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should resume from previous upload if available 52ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should not call start after the signal aborts while previous uploads are being fetched 1ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should handle FileStream by extracting reader 0ms
+ ✓ src/utils/tusUpload.test.ts > tusUpload > createTusUpload > should reject if no session ID is returned 0ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > matches three contents, progress and signals without mutating caller arrays 9ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > preserves depth-first paired contents and signal identity 3ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > keeps interleaved local, URL and pasted list sources matched 1ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > keeps singleton bytes unchanged 1ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > prunes original A after cancellation before reversal 1ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > prunes original A when its TUS upload is cancelled 1ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > does not submit an atomically aborted batch 0ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > keeps the low-level builder's files and mixed elements in supplied order 0ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > basic validation 2ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > unknown file mode returns null and triggers validation error 0ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > empty fileContent validation 0ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > invalid URL validation 0ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > pasted content payload 1ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > local file payload 0ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > URL payload 0ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > multiple URLs from new mode 0ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > Galaxy filename stripping 0ms
+ ✓ src/utils/upload.test.ts > buildLegacyPayload > composite payload 0ms
+ ✓ src/utils/upload.test.ts > isGalaxyFileName > recognizes Galaxy file names 0ms
+ ✓ src/utils/upload.test.ts > isGalaxyFileName > rejects non-Galaxy file names 0ms
+ ✓ src/utils/upload.test.ts > stripGalaxyFilePrefix > strips Galaxy prefix 0ms
+ ✓ src/utils/upload.test.ts > stripGalaxyFilePrefix > returns original if no match 0ms
+ ✓ src/utils/upload.test.ts > cleanUrlFilename > removes URL path and query parameters 0ms
+ ✓ src/utils/upload.test.ts > cleanUrlFilename > decodes URL-encoded characters 0ms
+ ✓ src/utils/upload.test.ts > cleanUrlFilename > handles both encoding and query parameters 0ms
+ ✓ src/utils/upload.test.ts > cleanUrlFilename > returns original for normal filenames 0ms
+ ✓ src/utils/upload.test.ts > cleanUrlFilename > handles malformed URL encoding gracefully 0ms
+ ✓ src/utils/upload.test.ts > cleanUrlFilename > handles empty query string 0ms
+ ✓ src/utils/upload.test.ts > cleanUrlFilename > returns null for empty filename 0ms
+ ✓ src/utils/upload.test.ts > cleanUrlFilename > returns null for URL with no filename 0ms
+ ✓ src/utils/upload.test.ts > createFileUploadItem > creates file upload item with defaults 0ms
+ ✓ src/utils/upload.test.ts > createFileUploadItem > creates file upload item with custom options 0ms
+ ✓ src/utils/upload.test.ts > createPastedUploadItem > creates pasted upload item with defaults 0ms
+ ✓ src/utils/upload.test.ts > createPastedUploadItem > creates pasted upload item with custom name 0ms
+ ✓ src/utils/upload.test.ts > createPastedUploadItem > creates pasted upload item with custom auto_decompress 0ms
+ ✓ src/utils/upload.test.ts > createUrlUploadItem > creates URL upload item with defaults 0ms
+ ✓ src/utils/upload.test.ts > createUrlUploadItem > extracts filename from URL path 0ms
+ ✓ src/utils/upload.test.ts > createUrlUploadItem > creates URL upload item with custom options 0ms
+ ✓ src/utils/upload.test.ts > createUrlUploadItem > trims surrounding whitespace from URL 0ms
+ ✓ src/utils/upload.test.ts > parseContentToUploadItems > throws on empty content 0ms
+ ✓ src/utils/upload.test.ts > parseContentToUploadItems > parses plain text as pasted content 0ms
+ ✓ src/utils/upload.test.ts > parseContentToUploadItems > parses URLs when first line is a URL 0ms
+ ✓ src/utils/upload.test.ts > parseContentToUploadItems > throws on invalid URL in URL list 0ms
+ ✓ src/utils/upload.test.ts > parseContentToUploadItems > throws on network URL with empty DNS labels 0ms
+ ✓ src/utils/upload.test.ts > parseContentToUploadItems > accepts Galaxy file-source URIs 0ms
+ ✓ src/utils/upload.test.ts > parseContentToUploadItems > handles whitespace around URLs 0ms
+ ✓ src/utils/upload.test.ts > buildUploadPayload > throws on empty items 0ms
+ ✓ src/utils/upload.test.ts > buildUploadPayload > throws on mixed history IDs 0ms
+ ✓ src/utils/upload.test.ts > buildUploadPayload > builds payload with file upload items 0ms
+ ✓ src/utils/upload.test.ts > buildUploadPayload > builds payload preserving item auto_decompress setting 0ms
+ ✓ src/utils/upload.test.ts > buildUploadPayload > builds composite payload 0ms
+ ✓ src/utils/upload.test.ts > buildUploadPayload > validates empty file data 0ms
+ ✓ src/utils/upload.test.ts > buildUploadPayload > validates empty pasted content 0ms
+ ✓ src/utils/upload.test.ts > buildUploadPayload > validates invalid URL 0ms
+ ✓ src/utils/upload.test.ts > buildUploadPayload > rejects network URL with empty DNS labels 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > throws on empty items 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > throws on mixed history IDs 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list collection payload with URL items 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list collection payload with local file items 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list:paired collection payload with nested elements 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list:paired with multiple pairs 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > files array order matches depth-first element traversal for list:paired 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > handles mixed element types (files + URLs) 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > handles pasted content in collection 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > validates empty file data 0ms
+ ✓ src/utils/upload.test.ts > buildCollectionUploadPayload > validates invalid URL 0ms
+ ✓ src/utils/upload.test.ts > upload submission > fetchDatasets > should successfully send payload to API 6ms
+ ✓ src/utils/upload.test.ts > upload submission > fetchDatasets > should handle API errors 3ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should immediately fail if error_message is present 0ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should upload files via TUS when files are present 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should upload via TUS for composite uploads even without files 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should directly submit URL uploads without TUS 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should convert pasted content to blob and upload via TUS 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should keep pasted upload tracking aligned with per-file signals 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should not report URL upload success after a later URL fails 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should use custom chunk size if provided 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should handle multiple file uploads sequentially 0ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should skip a cancelled file via per-file signals and still submit the rest 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should not submit anything when every file is cancelled via per-file signals 0ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should still fail the whole submission on a genuine (non-cancellation) error with per-file signals 0ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should skip a file aborted mid-upload in per-file mode and still submit the rest 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should invoke progress callback during upload 1ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should handle TUS upload errors 0ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should directly submit HDCA collection target with URLs (no TUS) 0ms
+ ✓ src/utils/upload.test.ts > upload submission > submitUpload > should upload HDCA collection with local files via TUS 0ms
+ ✓ src/utils/upload.test.ts > upload submission > uploadCollectionDatasets > pairs each list element with its own local file 1ms
+3:41:02 PM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+129|          :aria-disabled="props.disabled || undefined"
+130|          :aria-busy="props.loading || undefined"
+131|          v-bind="{ ...anchorAttributes, ...$attrs }"
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+132|          @click="onClick">
+133|          <FontAwesomeIcon v-if="props.loading" :icon="faSpinner" spin aria-hidden="true" />
+  Plugin: vite:vue
+  File: /private/tmp/galaxy-pr23998-review/client/packages/ui/src/components/GButton.vue
+3:41:02 PM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+353|              :aria-expanded="isOpen ? 'true' : 'false'"
+354|              :aria-controls="shouldRenderMenu ? menuId : undefined"
+355|              v-bind="toggleLabelAttrs"
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^
+356|              @click="onToggleClick"
+357|              @keydown="onKeydown">
+  Plugin: vite:vue
+  File: /private/tmp/galaxy-pr23998-review/client/packages/ui/src/components/GDropdown.vue
+3:41:03 PM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+87 |          :title="props.tooltip ? undefined : currentTitle"
+88 |          :aria-disabled="props.disabled || undefined"
+89 |          v-bind="{ ...anchorAttributes, ...$attrs }"
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+90 |          @click="onClick">
+91 |          <slot></slot>
+  Plugin: vite:vue
+  File: /private/tmp/galaxy-pr23998-review/client/packages/ui/src/components/GLink.vue
+3:41:03 PM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+795|              :role="isDialog ? 'dialog' : 'tooltip'"
+796|              :tabindex="isDialog ? -1 : undefined"
+797|              v-bind="isDialog ? dialogName(Boolean(title || $slots.title)) : {}"
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+798|              :style="{ transform: `translate(${x}px, ${y}px)` }">
+799|              <span
+  Plugin: vite:vue
+  File: /private/tmp/galaxy-pr23998-review/client/packages/ui/src/components/GPopover.vue
+3:41:03 PM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+193|                          :aria-disabled="tab.disabled"
+194|                          :data-tab-title="tab.title"
+195|                          v-bind="tab.titleLinkAttributes"
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+196|                          @click.prevent="!tab.disabled && setActive(index)">
+197|                          <TabTitleContent v-if="tab.titleRenderer" :tab="tab" />
+  Plugin: vite:vue
+  File: /private/tmp/galaxy-pr23998-review/client/packages/ui/src/components/GTabs.vue
+3:41:03 PM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+221|                      :aria-disabled="tab.disabled"
+222|                      :data-tab-title="tab.title"
+223|                      v-bind="tab.titleLinkAttributes"
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+224|                      @click.prevent="!tab.disabled && setActive(index)">
+225|                      <TabTitleContent v-if="tab.titleRenderer" :tab="tab" />
+  Plugin: vite:vue
+  File: /private/tmp/galaxy-pr23998-review/client/packages/ui/src/components/GTabs.vue
+3:41:04 PM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+618|                                                  class="inline-icon-button"
+619|                                                  :title="localize(indicator.title)"
+620|                                                  v-bind="variantToColor(indicator.variant || 'link')"
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+621|                                                  :size="sizeToGSize(indicator.size || 'sm')"
+622|                                                  :to="indicator.to"
+  Plugin: vite:vue
+  File: /private/tmp/galaxy-pr23998-review/client/src/components/Common/GCard.vue
+3:41:04 PM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+711|                                              :disabled="sa.disabled"
+712|                                              :title="localize(sa.title)"
+713|                                              v-bind="variantToColor(sa.variant || 'outline-primary')"
+   |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+714|                                              :size="sizeToGSize(sa.size || 'sm')"
+715|                                              :to="sa.to"
+  Plugin: vite:vue
+  File: /private/tmp/galaxy-pr23998-review/client/src/components/Common/GCard.vue
+3:41:04 PM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+740|                                                  :disabled="pa.disabled"
+741|                                                  :title="localize(pa.title)"
+742|                                                  v-bind="variantToColor(pa.variant || 'primary')"
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+743|                                                  :size="sizeToGSize(pa.size || 'sm')"
+744|                                                  :to="pa.to"
+  Plugin: vite:vue
+  File: /private/tmp/galaxy-pr23998-review/client/src/components/Common/GCard.vue
+stderr | src/composables/upload/useUploadSubmission.test.ts
+[Vue warn]: (deprecation GLOBAL_EXTEND) Vue.extend() has been removed in Vue 3. Use defineComponent() instead.
+  Details: https://vuejs.org/api/general.html#definecomponent
+
+stderr | src/composables/upload/useUploadBatchOperations.test.ts
+[Vue warn]: (deprecation GLOBAL_EXTEND) Vue.extend() has been removed in Vue 3. Use defineComponent() instead.
+  Details: https://vuejs.org/api/general.html#definecomponent
+
+stderr | src/composables/upload/useUploadSubmission.test.ts
+[Vue warn]: (deprecation GLOBAL_MOUNT) The global app bootstrapping API has changed: vm.$mount() and the "el" option have been removed. Use createApp(RootComponent).mount() instead.
+  Details: https://v3-migration.vuejs.org/breaking-changes/global-api.html#mounting-app-instance
+[Vue warn]: (deprecation WATCH_ARRAY) "watch" option or vm.$watch on an array value will no longer trigger on array mutation unless the "deep" option is specified. If current usage is intended, you can disable the compat behavior and suppress this warning with:
+
+  configureCompat({ WATCH_ARRAY: false })
+
+  Details: https://v3-migration.vuejs.org/breaking-changes/watch.html
+
+stderr | src/composables/upload/useUploadBatchOperations.test.ts
+[Vue warn]: (deprecation GLOBAL_MOUNT) The global app bootstrapping API has changed: vm.$mount() and the "el" option have been removed. Use createApp(RootComponent).mount() instead.
+  Details: https://v3-migration.vuejs.org/breaking-changes/global-api.html#mounting-app-instance
+[Vue warn]: (deprecation WATCH_ARRAY) "watch" option or vm.$watch on an array value will no longer trigger on array mutation unless the "deep" option is specified. If current usage is intended, you can disable the compat behavior and suppress this warning with:
+
+  configureCompat({ WATCH_ARRAY: false })
+
+  Details: https://v3-migration.vuejs.org/breaking-changes/watch.html
+
+ ✓ src/composables/upload/useUploadBatchOperations.test.ts > useUploadBatchOperations > processes the direct collection path atomically 13ms
+ ✓ src/composables/upload/useUploadBatchOperations.test.ts > useUploadBatchOperations > retries collection creation after an earlier two-step failure 2ms
+ ✓ src/composables/upload/useUploadBatchOperations.test.ts > useUploadBatchOperations > recovers interrupted two-step collection creation from persisted state 1ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > submits mixed uploads, tracks completion, and flattens nested fetch outputs 25ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > preserves every dataset from standalone URL uploads 3ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > marks only the fetched uploads as errored when the fetch request fails 105ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > marks the failed and remaining library copies as errored when a copy request fails 2ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > falls back to the staged library item name when the copy response omits metadata 2ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > resolves the submission promise promptly when a tracked upload is cancelled 2ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > groups direct collection uploads into a batch in upload state 2ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > forwards the selected preferred object store id to fetch uploads 1ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > creates a two-step collection for library-only uploads 2ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > fails the collection batch when a library copy fails 2ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > creates a two-step collection for mixed api and library uploads 1ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > surfaces two-step collection creation failures after uploads succeed 1ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > falls back to the default chunk size when the server config reports 0 1ms
+ ✓ src/composables/upload/useUploadSubmission.test.ts > useUploadSubmission > scopes AbortSignals per file for standalone uploads and shared for collection batches 2ms
+
+ Test Files  5 passed (5)
+      Tests  115 passed (115)
+   Start at  15:40:54
+   Duration  12.59s (transform 12.13s, setup 6.27s, import 20.08s, tests 277ms, environment 9.51s)
+
+
+
+=== base-tests.log ===
+
+ RUN  v4.1.11 /private/tmp/galaxy-pr23998-review/client
+
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > basic validation
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > unknown file mode returns null and triggers validation error
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > empty fileContent validation
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > invalid URL validation
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > pasted content payload
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > local file payload
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > URL payload
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > multiple URLs from new mode
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > Galaxy filename stripping
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > composite payload
+ ↓ src/utils/upload.test.ts > isGalaxyFileName > recognizes Galaxy file names
+ ↓ src/utils/upload.test.ts > isGalaxyFileName > rejects non-Galaxy file names
+ ↓ src/utils/upload.test.ts > stripGalaxyFilePrefix > strips Galaxy prefix
+ ↓ src/utils/upload.test.ts > stripGalaxyFilePrefix > returns original if no match
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > removes URL path and query parameters
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > decodes URL-encoded characters
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > handles both encoding and query parameters
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > returns original for normal filenames
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > handles malformed URL encoding gracefully
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > handles empty query string
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > returns null for empty filename
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > returns null for URL with no filename
+ ↓ src/utils/upload.test.ts > createFileUploadItem > creates file upload item with defaults
+ ↓ src/utils/upload.test.ts > createFileUploadItem > creates file upload item with custom options
+ ↓ src/utils/upload.test.ts > createPastedUploadItem > creates pasted upload item with defaults
+ ↓ src/utils/upload.test.ts > createPastedUploadItem > creates pasted upload item with custom name
+ ↓ src/utils/upload.test.ts > createPastedUploadItem > creates pasted upload item with custom auto_decompress
+ ↓ src/utils/upload.test.ts > createUrlUploadItem > creates URL upload item with defaults
+ ↓ src/utils/upload.test.ts > createUrlUploadItem > extracts filename from URL path
+ ↓ src/utils/upload.test.ts > createUrlUploadItem > creates URL upload item with custom options
+ ↓ src/utils/upload.test.ts > createUrlUploadItem > trims surrounding whitespace from URL
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > throws on empty content
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > parses plain text as pasted content
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > parses URLs when first line is a URL
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > throws on invalid URL in URL list
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > throws on network URL with empty DNS labels
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > accepts Galaxy file-source URIs
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > handles whitespace around URLs
+ ↓ src/utils/upload.test.ts > buildUploadPayload > throws on empty items
+ ↓ src/utils/upload.test.ts > buildUploadPayload > throws on mixed history IDs
+ ↓ src/utils/upload.test.ts > buildUploadPayload > builds payload with file upload items
+ ↓ src/utils/upload.test.ts > buildUploadPayload > builds payload preserving item auto_decompress setting
+ ↓ src/utils/upload.test.ts > buildUploadPayload > builds composite payload
+ ↓ src/utils/upload.test.ts > buildUploadPayload > validates empty file data
+ ↓ src/utils/upload.test.ts > buildUploadPayload > validates empty pasted content
+ ↓ src/utils/upload.test.ts > buildUploadPayload > validates invalid URL
+ ↓ src/utils/upload.test.ts > buildUploadPayload > rejects network URL with empty DNS labels
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > throws on empty items
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > throws on mixed history IDs
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list collection payload with URL items
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list collection payload with local file items
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list:paired collection payload with nested elements
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list:paired with multiple pairs
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > files array order matches depth-first element traversal for list:paired
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > handles mixed element types (files + URLs)
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > handles pasted content in collection
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > validates empty file data
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > validates invalid URL
+ ↓ src/utils/upload.test.ts > upload submission > fetchDatasets > should successfully send payload to API
+ ↓ src/utils/upload.test.ts > upload submission > fetchDatasets > should handle API errors
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should immediately fail if error_message is present
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should upload files via TUS when files are present
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should upload via TUS for composite uploads even without files
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should directly submit URL uploads without TUS
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should convert pasted content to blob and upload via TUS
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should keep pasted upload tracking aligned with per-file signals
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should not report URL upload success after a later URL fails
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should use custom chunk size if provided
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should handle multiple file uploads sequentially
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should skip a cancelled file via per-file signals and still submit the rest
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should not submit anything when every file is cancelled via per-file signals
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should still fail the whole submission on a genuine (non-cancellation) error with per-file signals
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should skip a file aborted mid-upload in per-file mode and still submit the rest
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should invoke progress callback during upload
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should handle TUS upload errors
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should directly submit HDCA collection target with URLs (no TUS)
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should upload HDCA collection with local files via TUS
+ × src/utils/upload.test.ts > upload submission > uploadCollectionDatasets > pairs each list element with its own local file 9ms
+   → expected { session_id: 'session-A.txt', …(1) } to match object { session_id: 'session-B.txt' }
+(1 matching property omitted from actual)
+ × src/utils/upload.review23998.test.ts > independent collection submission checks > matches three contents, progress and signals without mutating caller arrays 8ms
+   → expected 'bytes:A.txt' to be 'bytes:C.txt' // Object.is equality
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > preserves depth-first paired contents and signal identity 3ms
+ × src/utils/upload.review23998.test.ts > independent collection submission checks > keeps interleaved local, URL and pasted list sources matched 1ms
+   → expected 'bytes:A.txt' to be 'bytes:C.txt' // Object.is equality
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > keeps singleton bytes unchanged 0ms
+ × src/utils/upload.review23998.test.ts > independent collection submission checks > prunes original A after cancellation before reversal 1ms
+   → expected [ 'B.txt', 'A.txt' ] to deeply equal [ 'C.txt', 'B.txt' ]
+ × src/utils/upload.review23998.test.ts > independent collection submission checks > prunes original A when its TUS upload is cancelled 1ms
+   → expected [ 'B.txt', 'A.txt' ] to deeply equal [ 'C.txt', 'B.txt' ]
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > does not submit an atomically aborted batch 0ms
+ × src/utils/upload.review23998.test.ts > independent collection submission checks > keeps the low-level builder's files and mixed elements in supplied order 1ms
+   → expected [ 'B.txt', 'remote.txt', 'A.txt' ] to deeply equal [ 'A.txt', 'remote.txt', 'B.txt' ]
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/utils/upload.review23998.test.ts > independent collection submission checks > matches three contents, progress and signals without mutating caller arrays
+AssertionError: expected 'bytes:A.txt' to be 'bytes:C.txt' // Object.is equality
+
+Expected: "bytes:C.txt"
+Received: "bytes:A.txt"
+
+ ❯ src/utils/upload.review23998.test.ts:28:79
+     26|     const entries = flatten(body.targets[0].elements).filter(e => e.sr…
+     27|     expect(entries.map(e => e.name)).toEqual(names);
+     28|     entries.forEach((e, i) => expect(body[`files_${i}|file_data`].sess…
+       |                                                                               ^
+     29| }
+     30| describe("independent collection submission checks", () => {
+ ❯ assertNamesAndBytes src/utils/upload.review23998.test.ts:28:13
+ ❯ src/utils/upload.review23998.test.ts:40:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/utils/upload.review23998.test.ts > independent collection submission checks > keeps interleaved local, URL and pasted list sources matched
+AssertionError: expected 'bytes:A.txt' to be 'bytes:C.txt' // Object.is equality
+
+Expected: "bytes:C.txt"
+Received: "bytes:A.txt"
+
+ ❯ src/utils/upload.review23998.test.ts:28:79
+     26|     const entries = flatten(body.targets[0].elements).filter(e => e.sr…
+     27|     expect(entries.map(e => e.name)).toEqual(names);
+     28|     entries.forEach((e, i) => expect(body[`files_${i}|file_data`].sess…
+       |                                                                               ^
+     29| }
+     30| describe("independent collection submission checks", () => {
+ ❯ assertNamesAndBytes src/utils/upload.review23998.test.ts:28:13
+ ❯ src/utils/upload.review23998.test.ts:62:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/utils/upload.review23998.test.ts > independent collection submission checks > prunes original A after cancellation before reversal
+AssertionError: expected [ 'B.txt', 'A.txt' ] to deeply equal [ 'C.txt', 'B.txt' ]
+
+- Expected
++ Received
+
+  [
+-   "C.txt",
+    "B.txt",
++   "A.txt",
+  ]
+
+ ❯ assertNamesAndBytes src/utils/upload.review23998.test.ts:27:38
+     25| function assertNamesAndBytes(names: string[]) {
+     26|     const entries = flatten(body.targets[0].elements).filter(e => e.sr…
+     27|     expect(entries.map(e => e.name)).toEqual(names);
+       |                                      ^
+     28|     entries.forEach((e, i) => expect(body[`files_${i}|file_data`].sess…
+     29| }
+ ❯ src/utils/upload.review23998.test.ts:73:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/utils/upload.review23998.test.ts > independent collection submission checks > prunes original A when its TUS upload is cancelled
+AssertionError: expected [ 'B.txt', 'A.txt' ] to deeply equal [ 'C.txt', 'B.txt' ]
+
+- Expected
++ Received
+
+  [
+-   "C.txt",
+    "B.txt",
++   "A.txt",
+  ]
+
+ ❯ assertNamesAndBytes src/utils/upload.review23998.test.ts:27:38
+     25| function assertNamesAndBytes(names: string[]) {
+     26|     const entries = flatten(body.targets[0].elements).filter(e => e.sr…
+     27|     expect(entries.map(e => e.name)).toEqual(names);
+       |                                      ^
+     28|     entries.forEach((e, i) => expect(body[`files_${i}|file_data`].sess…
+     29| }
+ ❯ src/utils/upload.review23998.test.ts:84:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/utils/upload.review23998.test.ts > independent collection submission checks > keeps the low-level builder's files and mixed elements in supplied order
+AssertionError: expected [ 'B.txt', 'remote.txt', 'A.txt' ] to deeply equal [ 'A.txt', 'remote.txt', 'B.txt' ]
+
+- Expected
++ Received
+
+  [
+-   "A.txt",
+-   "remote.txt",
+    "B.txt",
++   "remote.txt",
++   "A.txt",
+  ]
+
+ ❯ src/utils/upload.review23998.test.ts:96:72
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/utils/upload.test.ts > upload submission > uploadCollectionDatasets > pairs each list element with its own local file
+AssertionError: expected { session_id: 'session-A.txt', …(1) } to match object { session_id: 'session-B.txt' }
+(1 matching property omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "session_id": "session-B.txt",
++   "session_id": "session-A.txt",
+  }
+
+ ❯ src/utils/upload.test.ts:1657:60
+    1655|             // The server pairs the k-th `src: "files"` element with `…
+    1656|             elements.forEach((element, index) => {
+    1657|                 expect(body?.[`files_${index}|file_data`]).toMatchObje…
+       |                                                            ^
+    1658|             });
+    1659|             expect(progressByUploadId).toEqual({ "upload-A": "A.txt", …
+ ❯ src/utils/upload.test.ts:1656:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  6 failed | 3 passed | 77 skipped (86)
+   Start at  15:41:27
+   Duration  1.10s (transform 781ms, setup 805ms, import 597ms, tests 28ms, environment 461ms)
+
+
+
+=== restored-head-tests.log ===
+
+ RUN  v4.1.11 /private/tmp/galaxy-pr23998-review/client
+
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > basic validation
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > unknown file mode returns null and triggers validation error
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > empty fileContent validation
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > invalid URL validation
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > pasted content payload
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > local file payload
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > URL payload
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > multiple URLs from new mode
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > Galaxy filename stripping
+ ↓ src/utils/upload.test.ts > buildLegacyPayload > composite payload
+ ↓ src/utils/upload.test.ts > isGalaxyFileName > recognizes Galaxy file names
+ ↓ src/utils/upload.test.ts > isGalaxyFileName > rejects non-Galaxy file names
+ ↓ src/utils/upload.test.ts > stripGalaxyFilePrefix > strips Galaxy prefix
+ ↓ src/utils/upload.test.ts > stripGalaxyFilePrefix > returns original if no match
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > removes URL path and query parameters
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > decodes URL-encoded characters
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > handles both encoding and query parameters
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > returns original for normal filenames
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > handles malformed URL encoding gracefully
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > handles empty query string
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > returns null for empty filename
+ ↓ src/utils/upload.test.ts > cleanUrlFilename > returns null for URL with no filename
+ ↓ src/utils/upload.test.ts > createFileUploadItem > creates file upload item with defaults
+ ↓ src/utils/upload.test.ts > createFileUploadItem > creates file upload item with custom options
+ ↓ src/utils/upload.test.ts > createPastedUploadItem > creates pasted upload item with defaults
+ ↓ src/utils/upload.test.ts > createPastedUploadItem > creates pasted upload item with custom name
+ ↓ src/utils/upload.test.ts > createPastedUploadItem > creates pasted upload item with custom auto_decompress
+ ↓ src/utils/upload.test.ts > createUrlUploadItem > creates URL upload item with defaults
+ ↓ src/utils/upload.test.ts > createUrlUploadItem > extracts filename from URL path
+ ↓ src/utils/upload.test.ts > createUrlUploadItem > creates URL upload item with custom options
+ ↓ src/utils/upload.test.ts > createUrlUploadItem > trims surrounding whitespace from URL
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > throws on empty content
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > parses plain text as pasted content
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > parses URLs when first line is a URL
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > throws on invalid URL in URL list
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > throws on network URL with empty DNS labels
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > accepts Galaxy file-source URIs
+ ↓ src/utils/upload.test.ts > parseContentToUploadItems > handles whitespace around URLs
+ ↓ src/utils/upload.test.ts > buildUploadPayload > throws on empty items
+ ↓ src/utils/upload.test.ts > buildUploadPayload > throws on mixed history IDs
+ ↓ src/utils/upload.test.ts > buildUploadPayload > builds payload with file upload items
+ ↓ src/utils/upload.test.ts > buildUploadPayload > builds payload preserving item auto_decompress setting
+ ↓ src/utils/upload.test.ts > buildUploadPayload > builds composite payload
+ ↓ src/utils/upload.test.ts > buildUploadPayload > validates empty file data
+ ↓ src/utils/upload.test.ts > buildUploadPayload > validates empty pasted content
+ ↓ src/utils/upload.test.ts > buildUploadPayload > validates invalid URL
+ ↓ src/utils/upload.test.ts > buildUploadPayload > rejects network URL with empty DNS labels
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > throws on empty items
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > throws on mixed history IDs
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list collection payload with URL items
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list collection payload with local file items
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list:paired collection payload with nested elements
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > builds list:paired with multiple pairs
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > files array order matches depth-first element traversal for list:paired
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > handles mixed element types (files + URLs)
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > handles pasted content in collection
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > validates empty file data
+ ↓ src/utils/upload.test.ts > buildCollectionUploadPayload > validates invalid URL
+ ↓ src/utils/upload.test.ts > upload submission > fetchDatasets > should successfully send payload to API
+ ↓ src/utils/upload.test.ts > upload submission > fetchDatasets > should handle API errors
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should immediately fail if error_message is present
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should upload files via TUS when files are present
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should upload via TUS for composite uploads even without files
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should directly submit URL uploads without TUS
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should convert pasted content to blob and upload via TUS
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should keep pasted upload tracking aligned with per-file signals
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should not report URL upload success after a later URL fails
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should use custom chunk size if provided
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should handle multiple file uploads sequentially
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should skip a cancelled file via per-file signals and still submit the rest
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should not submit anything when every file is cancelled via per-file signals
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should still fail the whole submission on a genuine (non-cancellation) error with per-file signals
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should skip a file aborted mid-upload in per-file mode and still submit the rest
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should invoke progress callback during upload
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should handle TUS upload errors
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should directly submit HDCA collection target with URLs (no TUS)
+ ↓ src/utils/upload.test.ts > upload submission > submitUpload > should upload HDCA collection with local files via TUS
+ ✓ src/utils/upload.test.ts > upload submission > uploadCollectionDatasets > pairs each list element with its own local file 7ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > matches three contents, progress and signals without mutating caller arrays 7ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > preserves depth-first paired contents and signal identity 3ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > keeps interleaved local, URL and pasted list sources matched 1ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > keeps singleton bytes unchanged 1ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > prunes original A after cancellation before reversal 1ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > prunes original A when its TUS upload is cancelled 1ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > does not submit an atomically aborted batch 0ms
+ ✓ src/utils/upload.review23998.test.ts > independent collection submission checks > keeps the low-level builder's files and mixed elements in supplied order 0ms
+
+ Test Files  2 passed (2)
+      Tests  9 passed | 77 skipped (86)
+   Start at  15:41:54
+   Duration  1.10s (transform 830ms, setup 740ms, import 585ms, tests 25ms, environment 487ms)
+
