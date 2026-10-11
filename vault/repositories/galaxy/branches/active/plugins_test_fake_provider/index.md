@@ -1,6 +1,6 @@
 # plugins_test_fake_provider
 
-Status: `branches_ready_for_final_review`. Base: `dev` (`3347e84bc5e9`). Head: `688840f83b60d812c2a958f07a3b313908bfd269` on `jmchilton/plugins_test_fake_provider` (4 commits). No PR; no final approval recorded. Polished 2026-10-11; new-head fork CI queued/pending.
+Status: `ci_wait`. [Draft PR #24051](https://github.com/galaxyproject/galaxy/pull/24051), targeting `dev` (`3347e84bc5e9`). Head: `688840f83b60d812c2a958f07a3b313908bfd269` on `jmchilton/plugins_test_fake_provider` (4 commits). Polished and published as a draft 2026-10-11; upstream CI queued/running.
 
 [PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist review](checklist_review.md) · [Strengthening review](strengthening_review.md) · [Implementation debrief](implementation_debrief.md)
 
@@ -14,6 +14,12 @@ John requested this on 2026-10-11 after disliking the mocks in #24032, then aske
 
 ## Review and CI evidence
 
-Fresh checklist review plus re-review pass; the human-read item remains unchecked. One description-strengthening round completed, with its coverage clarification applied. Deterministic integration tests: 40 passed, 6 skipped. Cleanup fault controls: 4 passed after reproducing 4 failures. Unreachable-provider control: all five inference tests fail, history-only passes. Lint/format pass; targeted helper typing passes with imported-module diagnostics suppressed. Full local import-following mypy reports errors only in unchanged imports; see the debrief for limits.
+Fresh checklist review plus re-review pass; the published description preserves the supplied human-read checkbox state. One description-strengthening round completed, with its coverage clarification applied. Deterministic integration tests: 40 passed, 6 skipped. Cleanup fault controls: 4 passed after reproducing 4 failures. Unreachable-provider control: all five inference tests fail, history-only passes. Lint/format pass; targeted helper typing passes with imported-module diagnostics suppressed. Full local import-following mypy reports errors only in unchanged imports; see the debrief for limits.
 
 [Integration CI](https://github.com/jmchilton/galaxy/actions/runs/38152628142) and [Python lint CI](https://github.com/jmchilton/galaxy/actions/runs/38152628131) were queued/pending on the polished SHA when queried. No failed checks were reported. Old-head CI had no failures when polish began. The branch is pushed and its worktree is clean.
+
+## Draft publication — 2026-10-11
+
+John explicitly requested a draft PR titled **Exercise plugin and agent integration tests through real HTTP**. Publication was authorized for `688840f83b60d812c2a958f07a3b313908bfd269` as a draft; this does not authorize taking it out of draft. The prepared `pr_description.md` was published verbatim, including its supplied checkbox state. No branch code changed or rebase was needed: the actual base is still `3347e84bc5e9`.
+
+Verified [#24051](https://github.com/galaxyproject/galaxy/pull/24051) is open, draft, mergeable, targets `dev`, has the requested title and the exact prepared body, and uses the authorized head. Fork CI has no failures but remains queued/running; upstream PR CI has started with no failures reported. Moved the queue entry to `ci_wait`.
