@@ -22,7 +22,8 @@ PRs").
 [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md),
 [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/active/playwright_timeout_retry_once/index.md).
 - **Tool Shed ids in `tool_open`** (4a). A real tool panel bug: searching by a Tool Shed id finds
-  nothing. Tested by vitest and an `integration_selenium` E2E test that installs a real Tool Shed
+  nothing. The `tools_list` card selectors (invalid CSS for a Tool Shed id) were folded in on
+  2026-10-11. Tested by vitest and by `integration_selenium` E2E tests that install a real Tool Shed
   tool, in the same way `test_workflow_repository_tool_update.py` already does.
 - **Retry a Playwright timeout once** (7b). Its own PR because it changes timing for every
   caller of `retry_call_during_transitions`. A stuck Playwright action now fails after 2 action
