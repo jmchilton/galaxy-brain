@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (plugins_test_fake_provider polished head pushed, CI queued; sample_sheet_vue3 draft #24050 opened, waiting for CI; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (#24050 and the two PRs above; others 2026-10-09); merged PRs swept 2026-10-09.
+Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (activity_settings_availability polish started; prior reds diagnosed as infrastructure; plugins_test_fake_provider polished head pushed, CI queued; sample_sheet_vue3 draft #24050 opened, waiting for CI; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (#24050 and the two PRs above; others 2026-10-09); merged PRs swept 2026-10-09.
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
@@ -53,7 +53,6 @@ None yet.
 - [`issue_20657_input_processing_mode`](../../repositories/galaxy/branches/active/issue_20657_input_processing_mode/index.md) — Explains tool input batching and collection mapping, and fixes collection-type matching (#20657). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_20657_input_processing_mode?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`toolshed_repository_contents`](../../repositories/galaxy/branches/active/toolshed_repository_contents/index.md) — Adds a bounded repository-files API and Tool Shed contents browser (#22598). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:toolshed_repository_contents?expand=1).
-- [`activity_settings_availability`](../../repositories/galaxy/branches/active/activity_settings_availability/index.md) — Lists only optional activities available to the current user. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:activity_settings_availability?expand=1).
 - [`pulsar_mq_status_poll`](../../repositories/galaxy/branches/active/pulsar_mq_status_poll/index.md) — Opt-in `status_poll_interval` asks Pulsar MQ to resend lost job statuses; stops double finishes (revives #9911). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:pulsar_mq_status_poll?expand=1).
 - [`cwl_fixes_5`](../../repositories/galaxy/branches/active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
 - [`licenses`](../../repositories/galaxy/branches/active/licenses/index.md) — Adds `<license_agreement>` tool requirements that users must accept before running the tool. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
@@ -75,7 +74,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`activity_settings_availability`](../../repositories/galaxy/branches/active/activity_settings_availability/index.md) — Lists only optional activities available to the current user. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:activity_settings_availability?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
