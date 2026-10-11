@@ -925,6 +925,7 @@
 - file: client/src/components/admin/BaseList.test.js
 - file: client/src/components/admin/GroupForm.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/admin/JobsTable.test.ts
 - file: client/src/components/admin/Notifications/BroadcastForm.test.ts
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
