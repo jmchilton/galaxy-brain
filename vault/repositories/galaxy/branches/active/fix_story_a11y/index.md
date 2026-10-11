@@ -1,6 +1,8 @@
 # fix_story_a11y
 
-Status: Polished; awaiting John’s final review (`branches_ready_for_final_review`). Fork client CI remains pending; no approval recorded.
+Status: Open draft PR, waiting for CI (`ci_wait`).
+PR: [#24046 — Repair accessibility issues across shared controls and forms](https://github.com/galaxyproject/galaxy/pull/24046), opened by John; verified 2026-10-11.
+PR base: `dev`; head: `0d7e194649453a63c6f18f54feb8549ce4e6b4c3` (matches polished SHA).
 Base: upstream `dev` at `b406ead2e4eb55b94d1ba437af8f60ebe4983947` (2026-10-10).
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/fix_story_a11y`.
 Pushed to `jmchilton/fix_story_a11y` at `0d7e194649453a63c6f18f54feb8549ce4e6b4c3` on 2026-10-10.
@@ -26,6 +28,10 @@ User requested a new dev worktree and subagent repair batches for the accessibil
 - [Collections implementation](subagents/collections_implementation.md)
 - [Workflow implementation](subagents/workflow_implementation.md)
 
-No PR opened or GitHub comments/check reruns posted during polishing. The description and four titles await John’s read-through; the human-read checklist item remains unchecked. Fork CI was assessed during polishing: client checks queued, release-script failure diagnosed as unrelated (see CI evidence). Original a11y prototype still retains its todo annotations; this branch repairs dev independently. Production SHA is unchanged.
+No PR was opened or GitHub comments/check reruns posted during polishing. John subsequently opened the draft PR; its published description marks the human-read checklist item complete. Fork CI was assessed during polishing: client checks queued, release-script failure diagnosed as unrelated (see CI evidence). Original a11y prototype still retains its todo annotations; this branch repairs dev independently. Production SHA is unchanged.
 
 Polish tracking changes are committed locally on galaxy-brain main. Sync is pending because unrelated outgoing commits would be published by a push; other staged/unstaged work was preserved.
+
+## PR verification — 2026-10-11
+
+Live GitHub state: OPEN, draft, MERGEABLE; review decision unset. CI remains in progress with no failed checks at verification. Upstream client unit/lint checks are running; client API and Tool Shed frontend checks pass. Published title matches the first proposed option, and the published description marks John’s human-read item complete. Queue moved from final review to `ci_wait`; the active record stays in place. No PR settings or comments changed by this verification.

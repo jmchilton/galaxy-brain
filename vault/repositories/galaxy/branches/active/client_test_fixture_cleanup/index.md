@@ -15,12 +15,19 @@
 - [Screenshot assessment](screenshot_debrief.md)
 - [Superseded readability-based draft](earlier_drafts/1/implementation_debrief.md)
 
+PR: [#24045 — Clean up shared job fixtures and duplicate collection progress coverage](https://github.com/galaxyproject/galaxy/pull/24045), opened by John; verified 2026-10-11.
+PR base: `dev`; head: `64fb97a22c770d18f5305fc4e902ce74a53ce15a` (matches polished SHA).
+
 Branch: `client_test_fixture_cleanup`; remote: `jmchilton`.
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/client_test_fixture_cleanup`.
-Base: `origin/dev` at `e55aa453edf`; three cleanup commits only. John requested the base change on 2026-10-11. Workflow status: polished; awaiting John’s final review (`branches_ready_for_final_review`). Fresh checkout-local validation and required reviews passed. Fork branch updated at `64fb97a22c7` using an exact lease on the prior tip; relevant fork client CI is green; other checks remain unsettled with no failures observed. Tracking records committed locally; sync pending because main has unrelated outgoing commits.
+Base: `origin/dev` at `e55aa453edf`; three cleanup commits only. John requested the base change on 2026-10-11. Workflow status: open draft PR, waiting for CI (`ci_wait`). Fresh checkout-local validation and required reviews passed. Fork branch updated at `64fb97a22c7` using an exact lease on the prior tip; relevant fork client CI is green; other checks remain unsettled with no failures observed. Tracking records committed locally; sync pending because main has unrelated outgoing commits.
 
 Requested work: fix the string-shaped shared JobInformation messages and remove the redundant JavaScript CollectionProgress suite after verifying its TypeScript replacement retains all coverage.
 
-Polishing started 2026-10-11. Live dev remains `e55aa453edf36c723f878f57e3a68edfabec502f`. Current-SHA fork client unit, lint, and API checks pass; no failures reported. Other checks remain running/queued. No PR exists.
+Polishing started 2026-10-11. Live dev remains `e55aa453edf36c723f878f57e3a68edfabec502f`. Current-SHA fork client unit, lint, and API checks pass; no failures reported. Other checks remained running/queued. No PR existed at that polishing snapshot.
 
-Polishing completed 2026-10-11 with no branch changes. Both fresh polishing reviews passed; strengthening returned nothing to add. Proposed description and four title options are linked above. Human-read item remains unchecked, no approval recorded, and no PR or GitHub comments posted.
+Polishing completed 2026-10-11 with no branch changes. Both fresh polishing reviews passed; strengthening returned nothing to add. Proposed description and four title options are linked above. At polish handoff the human-read item remained unchecked; no PR or GitHub comments were posted by the polishing agent.
+
+## PR verification — 2026-10-11
+
+Live GitHub state: OPEN, draft, MERGEABLE; review decision unset. Upstream client unit and lint checks pass; Tool Shed, Selenium and Playwright checks remain running, with no failed checks at verification. Published title matches the fourth proposed option. The published description marks John’s human-read checklist item complete. Queue moved from final review to `ci_wait`; the active record stays in place. No PR settings or comments changed by this verification.
