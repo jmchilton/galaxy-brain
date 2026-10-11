@@ -1,0 +1,47 @@
+Reviewed HEAD: 9f975eb967f6a0aa19f925fabf7bec79a5778784
+Environment: macOS arm64, Python 3.13.12; shared venv /Users/jxc755/projects/repositories/galaxy/.venv; PYTHONPATH=lib and PYTHONDONTWRITEBYTECODE=1, from the PR worktree.
+
+Focused unit tests:
+python -m pytest -p no:cacheprovider test/unit/app/tools/test_runtime.py test/unit/app/tools/test_data_fetch.py test/unit/data/datatypes/test_data.py -q --tb=short --basetemp=/private/tmp/pr24005-unit-unrestricted
+95 passed, 2 warnings in 8.91s.
+First sandbox attempt: 71 passed / 24 local-HTTP fixture errors (PermissionError on socket bind), resolved by unrestricted rerun.
+
+Framework defaults:
+GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false
+GALAXY_CONFIG_ENABLE_BETA_WORKFLOW_MODULES=true
+GALAXY_CONFIG_OVERRIDE_ENABLE_BETA_TOOL_FORMATS=true
+GALAXY_TEST_TOOL_CONF=test/functional/tools/sample_tool_conf.xml
+python -m pytest -p no:cacheprovider test/functional/test_toolbox_pytest.py -k 'zarr_store_in_wrapper_folder or zarr_store_root_compat or directory_or_file_user_defined' -m tool -q --tb=short --basetemp=/private/tmp/pr24005-framework
+5 passed, 639 deselected, 59 warnings in 44.10s.
+
+Shared-input real-model probe:
+python shared-input-probe.py
+{'as_fasta': {'format': 'fasta', 'path': '/job/inputs/dataset_1.dat'}, 'as_tabular': {'format': 'fasta', 'path': '/job/inputs/dataset_1.dat'}}
+AssertionError: Tabular input incorrectly resolves to original FASTA.
+
+Shared-input framework probe (distinct output names; strict history checks):
+python run-shared-framework.py
+Original equivalent temporary-config run: 1 failed, 644 deselected, 3 warnings in 38.29s.
+Generated command: echo 'formats: fasta fasta'
+Output as_tabular_out: Expected line 'hg17' in output ('>hg17\ngtttgccatctt...')
+Both YAML parameters read the original FASTA, despite successful conversion.
+
+Legacy metadata probe:
+python legacy-metadata-probe.py
+Before reset: wrapped.zarr True
+After reset: wrapped.zarr False
+Metadata: {'store_root': 'wrapped.zarr', 'zarr_format': 2, 'dbkey': ['?']} Extra files: ['.zgroup']
+AssertionError: Published store_root wrapper still points at removed wrapper folder after reset.
+
+Normal API reset and XML consumer diagnostic:
+python -m pytest -p no:cacheprovider -p galaxy_test.conftest test_legacy_reset.py -q -s --tb=short --basetemp=/private/tmp/pr24005-legacy-reset-reproduce
+Original temporary test run: 1 passed in 30.76s (diagnostic asserts the incorrect job-error result, rather than expecting correct behavior).
+After API metadata reset, persisted metadata: {'dbkey': '?', 'store_root': 'wrapped.zarr', 'zarr_format': 2}
+Published-wrapper job state: error
+Published-wrapper stderr: ls: .../dataset_<uuid>_files/wrapped.zarr: No such file or directory
+The file tree contains .zgroup at root after reset. Test uses ordinary API metadata job and existing zarr_store_root_compat tool. It seeds a persisted historical HDA layout/metadata in the test app database, not arbitrary API metadata.
+First temporary-test attempt lacked Galaxy's Celery plugin; rerun above loaded galaxy_test.conftest and succeeded.
+
+Final GitHub check: head unchanged; no comments/reviews; 55 checks success, 3 skipped (CWL, Pulsar packages, title maintenance).
+Vizarr PR galaxyproject/galaxy-visualizations#235 merged 2026-10-10T08:42:15Z. npm registry latest @galaxyproject/vizarr is 0.1.9; Galaxy client/visualizations.yml still pins 0.1.8.
+Git worktree clean; no Galaxy source edits.
