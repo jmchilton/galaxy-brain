@@ -348,6 +348,7 @@
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.js
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/History/Content/ContentItem.test.js
   iterated: 1
   split_commit: true
