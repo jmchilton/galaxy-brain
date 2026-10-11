@@ -1,0 +1,7 @@
+production template parses and resolves
+display-name query, URI identity, pagination and cache reuse pass
+recursive non-root listing and exact file bytes pass
+recursive root listing refused
+write refused before I/O
+explicit folder permission error remains visible
+missing optional dependency reports the correct package

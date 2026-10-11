@@ -1,0 +1,18 @@
+Reviewed fa120b50a74e945593ba7cd261fc79fbb3526b06; 2026-10-11.
+Galaxy interpreter: Python 3.13.12; existing environment, unchanged.
+Isolated new adapter: nomad-fsspec 0.1.1, fsspec 2026.9.0, requests 2.34.2.
+Galaxy focused unit command:
+PYTHONPATH=lib:<isolated-adapter-site-packages> <existing-Galaxy-python> -m pytest -q -p no:cacheprovider test/unit/app/dependencies/test_deps.py test/unit/files/test_template_models.py test/unit/files/test_template_manager.py test/unit/app/managers/test_user_file_sources.py --tb=short
+Result: 106 passed, 4 advisory collection warnings in 13.66s.
+Integration command:
+PYTHONPATH=lib:<isolated-adapter-site-packages> GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false GALAXY_CONFIG_ENABLE_BETA_WORKFLOW_MODULES=true GALAXY_CONFIG_OVERRIDE_ENABLE_BETA_TOOL_FORMATS=true GALAXY_TEST_TOOL_CONF=lib/galaxy/config/sample/tool_conf.xml.sample,test/functional/tools/sample_tool_conf.xml <existing-Galaxy-python> -m pytest -q test/integration/test_remote_files_nomad.py --tb=short
+Result: 2 passed in 36.19s; neither test skipped.
+Adapter offline command: <isolated-python> -m pytest -q -m 'not live' <upstream-checkout>/tests --tb=short
+Result: 35 passed, 2 deselected in 0.64s.
+Upstream HEAD eac1322c46d2f91828e3f991a89d0cdbb8530d29; installed and upstream filesystem source compare equal.
+Contract probe: all seven printed contract groups passed (see contract-output.txt).
+Live GitHub checks: 56 SUCCESS, 2 SKIPPED, 1 FAILURE.
+API run37917053167 attempt1 failed; shard0 job113775710525 failed, shard1 passed.
+Cached API report nested JSON: 875passed, 3skipped, 1failed; sole failure TestWorkflowsApi::test_error_outputs_with_purged_inputs, error vs paused.
+Final git HEAD matches requested/current remote; git status --porcelain empty.
+A preliminary unit invocation used a nonexistent test_templates.py path, collecting nothing. Corrected invocation above passed.

@@ -1,0 +1,42 @@
+PR 23999 validation, 2026-10-11
+HEAD 5daad696899b2ad2224cb904555219a78282d5d9
+Base/merge-base 919f4f28403d34dcf15e0ef8924c8bdfdb15d079
+Toolchain uv 0.12.23 installed in temporary isolated environment.
+All validation used git-archive temporary copies, never the original Galaxy worktree/environment.
+
+PASS: PATH=<pinned uv>/bin:$PATH sh lib/galaxy/dependencies/update.sh --check
+Five locked resolutions (check and four exports): each 496 packages; all exported files identical.
+PASS: uv lock --check --python 3.10; 496 packages.
+PASS: root workspace member set exactly matches 26 editable lock entries.
+
+Python 3.14.3:
+make test TESTS='tests/util/test_bool_expressions.py tests/util/test_json.py tests/util/test_properties.py'
+59 passed, 1 existing pytest unknown asyncio_mode option warning, 2.98s.
+Python 3.10.19:
+uv sync --locked --package galaxy-util --all-extras --python 3.10
+uv run --locked --package galaxy-util --python 3.10 pytest [same 3 files]
+59 passed, 1 same warning, 3.59s.
+PASS: make lint (galaxy-auth); All checks passed!
+PASS: uv build --package galaxy-util --out-dir <temporary dist>
+Both galaxy_util-26.1.dev0.tar.gz and galaxy_util-26.1.dev0-py3-none-any.whl built.
+Wheel contains galaxy/util/__init__.py and galaxy/version/__init__.py.
+
+LIMITATION: make mypy (galaxy-util) installed pinned typecheck tools but returned error:
+Source file found twice under different module names: src.galaxy.util.resources and galaxy.util.resources.
+CONTROL: exact base root/nested manifests restored only in same temporary copy, same installed environment,
+uv run --no-sync mypy . reproduces same namespace-duplicate error. Not reported as a new regression.
+Initial requested test filename test_bunch.py did not exist; corrected to existing tests listed above.
+Initial _mypy shortcut had no installed mypy yet; full make mypy installed it before the namespace check.
+A separate full base archive with the PR editable paths installed yielded unrelated namespace/type errors;
+that mismatched-path control was rejected in favor of restoring manifests in the same temporary copy.
+
+Filter probe: all 9 existing source-only paths match exact base filters and none match PR filters.
+The probe covers 8 workflows; BioBlend has both schema and API examples.
+Relevant package source aliases are Git mode 120000 symlinks.
+Primary documentation: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#git-diff-comparisons
+
+Final live GitHub: HEAD unchanged, comments 0, submitted reviews 0, successful check jobs 61, skipped 2,
+failed 0. Skipped jobs are CWL conformance and Test Galaxy packages for Pulsar.
+No downloaded CI artifacts available; no artifact results invented.
+Original worktree clean, no Galaxy code edits or external review/comment submitted.
+Temporary copies, venvs, dist and logs removed after retaining this evidence and filter-probe.py.
