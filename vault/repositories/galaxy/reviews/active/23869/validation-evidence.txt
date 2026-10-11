@@ -1,0 +1,13 @@
+PR 23869 HEAD a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43, final unchanged 2026-10-11.
+Worktree /Users/jxc755/projects/worktrees/galaxy/pr/23869; git status --short empty; git diff --check HEAD^ HEAD passed.
+Command: PYTHONPATH=lib /Users/jxc755/projects/repositories/galaxy/.venv/bin/python -m pytest test/unit/data/datatypes/test_datatypes_registry.py test/unit/app/visualizations/plugins/ -q --disable-warnings
+Result: 11 passed, 3 warnings in 40.64s; Python3.13.12. Post-result mirakuru atexit process enumeration PermissionError is a sandbox cleanup warning, not a test failure.
+Pinned-package fetch initially blocked by sandbox DNS; approved escalated read/download into /private/tmp succeeded. No auth failure.
+Chromium initial sandbox launch blocked by macOS bootstrap Mach-port permission; approved escalated browser run succeeded.
+35 added tags, 34 changed datatype definitions, 21 newly mapped plugin IDs; 23 exact packages verified including existing Aladin/OpenLayers defaults in changed declarations. All loaded by actual VisualizationsRegistry skip_bad_plugins=False.
+Complete sample datatype registry comparison: 104 changed effective defaults; 58 newly selected preferences rejected by real is_object_applicable checks. Parent/head API samples in api-results.json.
+Browser: exact alignment0.0.9 pinned bundle, plain aligned and unequal-length FASTA loaded; same aligned content compressed with gzip/bzip2, served through actual datatype display_data semantics, failed with Cannot read properties of undefined (reading 'seq'). See browser-results.json.
+API probe calls real FastAPIDatatypes.show without a live HTTP server. Browser uses routed fixture responses; not a full Galaxy application session. All Galaxy code and shared venv remain untouched.
+GitHub final: OPEN non-draft, comments0 reviews0;55 SUCCESS,1 FAILURE,2 SKIPPED.
+Mulled results actual nested JSON:27 passed2failed. test_quay_search=live Quay ReadTimeout12s; test_live_multi_resolves_unpinned_versions=live catalog NAME_ONLY versus EXACT_VERSION. Neither reads changed datatype config. CWL and Pulsar jobs skipped.
+Reproduce scripts from worktree with PYTHONPATH=lib and existing venv python; run fetch-plugins.py first to populate /private/tmp/pr23869-plugins. Browser needs local Playwright Chromium and permission to launch on this macOS sandbox. Retained evidence has no full package/third-party CI debug logs.

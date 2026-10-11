@@ -1,9 +1,19 @@
 # galaxy #23869 — Update datatypes_conf with visualization tags already supported
 
-[PR #23869](https://github.com/galaxyproject/galaxy/pull/23869) · Status: active; initial review being launched. Open, out of draft; GitHub checked 2026-10-11. Delivery: unposted.
+[PR #23869](https://github.com/galaxyproject/galaxy/pull/23869) · Status: active; initial review complete. Recommendation: request changes (two P2 findings). Delivery: unposted. Open, out of draft; GitHub checked 2026-10-11.
 
-Requested HEAD: `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43` (base `dev`). Author: mertydn.
+Reviewed HEAD: `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`, base `dev`. Author: mertydn. Final HEAD unchanged.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/23869/`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/23869/`; clean, retained while open.
 
-John explicitly requested this review on 2026-10-11. One dedicated subagent reviews mapping/plugin compatibility; coordinator handles queue and vault sync.
+- [Review and risks](review-2026-10-11.md)
+- [Unposted draft](draft-review.md)
+- [Validation evidence](validation-evidence.txt)
+- [Registry/API reproduction](registry-api-probe.py)
+- [Chromium reproduction](browser-probe.py)
+- [Exact pinned-package fetch](fetch-plugins.py)
+- [Effective mapping comparison](registry-results.json)
+- [Actual API-handler comparison](api-results.json)
+- [Browser results](browser-results.json)
+
+The new specialized defaults leak to unrelated binary/archive formats through class-name inheritance; compressed FASTA also inherits a viewer that cannot decode its bytes. 11 focused existing tests pass; exact-parent registry/API and actual-bundle browser controls confirm both findings. CI has 55 successful, one failed, two skipped checks; the failure contains two unrelated live Quay catalog tests. All notes remain unposted.

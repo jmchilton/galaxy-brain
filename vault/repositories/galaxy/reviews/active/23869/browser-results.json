@@ -1,0 +1,30 @@
+[
+  {
+    "plugin": "alignment",
+    "kind": "aligned",
+    "pageerrors": [],
+    "body": "1.0\n3.0\na\nb",
+    "viewer": "1.0\n3.0\na\nb"
+  },
+  {
+    "plugin": "alignment",
+    "kind": "unaligned",
+    "pageerrors": [],
+    "body": "1.0\n3.0\nshort\nlong",
+    "viewer": "1.0\n3.0\nshort\nlong"
+  },
+  {
+    "plugin": "alignment",
+    "kind": "gzip",
+    "pageerrors": [],
+    "body": "Error loading dataset: Cannot read properties of undefined (reading 'seq')",
+    "viewer": ""
+  },
+  {
+    "plugin": "alignment",
+    "kind": "bzip2",
+    "pageerrors": [],
+    "body": "Error loading dataset: Cannot read properties of undefined (reading 'seq')",
+    "viewer": ""
+  }
+]

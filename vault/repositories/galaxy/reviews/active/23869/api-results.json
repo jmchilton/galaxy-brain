@@ -1,0 +1,42 @@
+{
+  "parent": {
+    "tar": null,
+    "hep.root": null,
+    "bai": null,
+    "fasta.gz": null,
+    "fasta.bz2": null,
+    "fits": {
+      "visualization": "aladin"
+    },
+    "geojson": {
+      "visualization": "openlayers"
+    },
+    "nii1": null
+  },
+  "head": {
+    "tar": {
+      "visualization": "locuszoom"
+    },
+    "hep.root": {
+      "visualization": "rerunio"
+    },
+    "bai": {
+      "visualization": "rerunio"
+    },
+    "fasta.gz": {
+      "visualization": "alignment"
+    },
+    "fasta.bz2": {
+      "visualization": "alignment"
+    },
+    "fits": {
+      "visualization": "fitsgraph"
+    },
+    "geojson": {
+      "visualization": "kepler"
+    },
+    "nii1": {
+      "visualization": "nora"
+    }
+  }
+}
