@@ -1,6 +1,6 @@
 # galaxy #23999 — Unify root uv workspace
 
-[PR #23999](https://github.com/galaxyproject/galaxy/pull/23999) · Status: active; initial review complete; request-changes draft unposted. Open, out of draft; GitHub checked 2026-10-11.
+[PR #23999](https://github.com/galaxyproject/galaxy/pull/23999) · Status: active; initial review complete; CI-filter finding commented by John; ball with author. Open, out of draft; GitHub checked 2026-10-11.
 
 - [Review and risks](review-2026-10-11.md)
 - [Draft review](draft-review.md)
@@ -19,4 +19,8 @@ Pinned uv 0.12.23 verifies the lock and all four requirements exports; all 26 wo
 
 Worktree `/Users/jxc755/projects/worktrees/galaxy/pr/23999/` remains clean at the reviewed HEAD. Validation used isolated temporary copies and environments; those temporary resources were removed after retaining ordinary evidence. No Galaxy source edits, GitHub comments, or reviews were posted. No new private security report was created.
 
-John requested this review on 2026-10-11. Coordinator handles the queue and vault sync. Review is awaiting John's delivery.
+John requested this review on 2026-10-11. Coordinator handles the queue and vault sync. Review finding was delivered by John; see delivery below.
+
+## Delivery — 2026-10-11
+
+John [posted the CI-filter finding](https://github.com/galaxyproject/galaxy/pull/23999#issuecomment-6112464099) at 2026-10-11T18:50:54Z, with a broadly positive assessment and a question about whether the workspace change addresses #21811. This was a comment, not a formal request-changes review. Open, out of draft, HEAD unchanged. Ball with author; resources retained.

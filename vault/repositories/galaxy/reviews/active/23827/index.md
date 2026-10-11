@@ -1,6 +1,6 @@
 # galaxy #23827 — Import datasets and collections from another Galaxy with a link
 
-[PR #23827](https://github.com/galaxyproject/galaxy/pull/23827) · Status: active; initial review and independent confirmation complete. **Request changes; draft unposted.** GitHub checked 2026-10-11: open, out of draft.
+[PR #23827](https://github.com/galaxyproject/galaxy/pull/23827) · Status: active; initial review and independent confirmation complete. **Both confirmed findings posted by John; ball with author.** Initial recommendation: request changes. GitHub checked 2026-10-11: open, out of draft.
 
 Reviewed HEAD: `f6278fb4e50a4289def49b73d29a77745883afb4` (base `dev`). Author: arash77.
 
@@ -18,6 +18,10 @@ Validation: 54 model-store tests passed (1 expected failure), 2 integration test
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/23827/`.
 
-John added this review on 2026-10-11 alongside #23999 and #23975. Review performed by one dedicated subagent; coordinator handles queue and vault sync. No GitHub comment or review submitted. Next action belongs to John while the draft remains unposted.
+John added this review on 2026-10-11 alongside #23999 and #23975. Review performed by one dedicated subagent; coordinator handles queue and vault sync. The review agents submitted no GitHub comment or review. John delivered both findings; see delivery below.
 
-Independent double-check completed at John's request on 2026-10-11: both findings confirmed. Correct-behavior regressions fail on unchanged HEAD and pass with isolated controls. The API probe exercises eight combinations, including the omitted default; the UI probe closes after a resolved PENDING response, fails afterward, and mounts the real Recent Exports card. No new GitHub delivery.
+Independent double-check completed at John's request on 2026-10-11: both findings confirmed. Correct-behavior regressions fail on unchanged HEAD and pass with isolated controls. The API probe exercises eight combinations, including the omitted default; the UI probe closes after a resolved PENDING response, fails afterward, and mounts the real Recent Exports card. The independent reviewer posted nothing.
+
+## Delivery — 2026-10-11
+
+John [posted both independently confirmed findings](https://github.com/galaxyproject/galaxy/pull/23827#issuecomment-6112733349) at 2026-10-11T19:18:22Z, requested fixing or pushing back on them, and noted the App.vue conflict after #23991 merged. He prefers this approach to a file source but wants the user story discussed at Tuesday's developer meeting, including whether an API-key-based import could remove the export preparation step. This was a comment, not a formal request-changes review. Open, out of draft, HEAD unchanged. Ball with author; resources retained.
