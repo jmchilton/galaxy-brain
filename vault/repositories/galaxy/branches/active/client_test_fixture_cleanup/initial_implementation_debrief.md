@@ -1,7 +1,9 @@
-# Initial implementation
+# Dev-base revision
 
-The shared JobInformation fixture now uses RegexJobMessage objects with the original four descriptions, type, log error level (`StdioErrorLevel.LOG = 1`), and nullable match/stream fields matching the generated API schema. The component test checks both numbering and the complete visible field list against that fixture; the separate inline structured-message case was consolidated. The stream-read diagnostic case stays intact.
+John requested this branch be based directly on dev. Replayed only the three cleanup commits onto current `origin/dev` at `e55aa453edf36c723f878f57e3a68edfabec502f`, dropping the inherited readability stack. Old fork tip recorded for exact push lease: `ffe3550c588f2d555885682ea84fcc262bdc313b`.
 
-Removed CollectionProgress.test.js. Its four scenarios (running, mixed states, updates, queued) remain in the TypeScript suite, with exact bar sets plus terminal-job hiding. ToolSuccessMessage is the fixture’s only other consumer and reads job IDs.
+The shared JSON fixture correction and duplicate JavaScript suite removal replay unchanged. Resolved the JobInformation test conflict by retaining dev’s existing setup and changing only its message test: the matcher-less expectation now checks every numbered heading and exact visible type/description/error-level field list. No readability helpers or unrelated test restructuring were imported.
 
-Confirmed red before correcting the fixture: the strengthened assertion received character entries such as `0: t`, `1: e`. Focused green run: 15 tests across three suites passed. Changed-file ESLint/Prettier and full client vue-tsc passed. No application source or browser-visible behavior changed. Existing unrelated readability commits are outside the review range `d49bea20fac..HEAD`.
+Dev’s TypeScript CollectionProgress suite already covers all four deleted scenarios (running, mixed states, summary updates, queued); its original four tests remain unchanged. Unlike the previous readability-based draft, there is no terminal-hiding test and no separate inline message case to consolidate. The three retained suites have 14 tests; the four duplicate cases account for the decrease from 18.
+
+New commits: `df01a3fbc2f` (fixture), `b31480ccbef` (message assertion), `64fb97a22c7` (duplicate removal). Fresh checkout-local validation passed: 14 tests across three suites, ESLint, Prettier and full client typing. Required reviews approved the dev-based range. Previous debriefs and reviews are archived under `earlier_drafts/1/` and are not current validation evidence.

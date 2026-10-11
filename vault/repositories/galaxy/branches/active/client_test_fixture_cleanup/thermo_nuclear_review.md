@@ -1,13 +1,13 @@
-# Code quality review
+# Code quality review of dev-base revision
 
-Approved. The three-file cleanup directly corrects the shared fixture contract and deletes an obsolete duplicate suite; no actionable structural or maintainability findings remain. No implementation changes were requested. Review scope was the working diff against `d49bea20fac`, excluding inherited readability commits.
+Approved. The three cleanup commits directly correct the fixture contract, replace an ineffective assertion, and remove duplicate tests. No actionable structural or maintainability findings remain, and no code changes were requested. Review scope is `e55aa453edf36c723f878f57e3a68edfabec502f..64fb97a22c7`; this is a fresh review of the dev-based revision.
 
 ## Details
 
-- The fixture now matches the generated `RegexJobMessage` contract, including nullable `match` and `stream`. Keeping the original four descriptions preserves the existing numbering scenario.
-- The consolidated JobInformation test checks every message number and the complete rendered field list. This strengthens the existing numbering case and preserves the inline structured-message test's purpose without duplicate setup. The existing diagnostic case remains intact.
-- Every removed CollectionProgress JavaScript scenario maps to the canonical TypeScript suite: running, mixed running/failed/ok, queued, and reactive updates. Exact rendered bar sets in TypeScript are stronger than the removed individual bar assertions; terminal hiding remains covered. Deleting the duplicate suite removes complexity without removing distinct coverage.
-- ToolSuccessMessage is the fixture's only other importer. Its component consumes job ids; the fixture correction does not affect those ids or link behavior.
-- No application source changes, extra abstractions, casts, branches, or layering changes were introduced. The changed JobInformation test is 136 lines; no file approaches the 1000-line threshold.
+- Each fixture message matches the generated `RegexJobMessage` contract, including required nullable `match` and `stream` fields. The original four descriptions and all job ids are preserved.
+- The JobInformation change replaces a matcher-less expectation with explicit numbered-heading and exact visible-field assertions. It checks every message's type, description, and error level and verifies that null metadata is omitted. Dev's existing setup and other assertions remain intact; no readability refactoring was imported.
+- All four removed JavaScript CollectionProgress scenarios remain in the unchanged TypeScript suite, with matching state inputs and assertions: running counts, mixed running/failed/ok counts, updates from running to ok, and queued counts. The update case's explicitly initialized `ok: 0` makes its initial input type clearer without changing tested behavior. Removal deletes duplicate coverage only. There is no terminal-hiding case in this dev-based revision.
+- The fixture's only other importer is ToolSuccessMessage.test.ts. Its component reads job ids for links, so the new message shape does not alter that consumer's behavior.
+- No application source changes, new branches, casts, helpers, wrappers, or architecture-boundary changes are introduced. JobInformation.test.js is 168 lines; the change does not approach the 1000-line threshold. The direct fixture correction and suite deletion already achieve the relevant structural simplification.
 
-Validation in this review consisted of source, schema, consumer, and assertion comparison. Runtime validation is owned by the implementation agent and is not represented here as independently run.
+This review compared the exact committed diff, generated schema, component rendering, fixture consumers, and retained assertions. `git diff --check` passed. Runtime tests are owned by the implementation agent; no independent runtime run is claimed here. Archived reviews under earlier_drafts/1 are not validation evidence for this revision.

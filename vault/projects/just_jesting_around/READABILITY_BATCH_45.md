@@ -14,7 +14,7 @@ Four originators, one test per commit, then one range review. vNoSanitizeHtml is
 ## Reuse and follow-through
 
 Closes batch 44's vNoSanitizeHtml follow-up. Follow-ups:
-- **Follow-up implemented separately:** Duplicate suite removal implemented with John’s authorization on [client_test_fixture_cleanup](../../repositories/galaxy/branches/active/client_test_fixture_cleanup/index.md), 2026-10-10. All four cases remain in TypeScript; integration into the readability lane is pending.
+- **Follow-up implemented separately:** Duplicate suite removal implemented with John’s authorization on [client_test_fixture_cleanup](../../repositories/galaxy/branches/active/client_test_fixture_cleanup/index.md), 2026-10-10; branch moved directly onto dev at John’s request on 2026-10-11. All four cases remain in dev’s TypeScript suite; the readability lane remains unchanged.
 - The sanitize-directive tests now share nearly the same host and `targetOf`. A shared helper would mean editing both; not worth it for two files yet.
 
 Guidance: none.

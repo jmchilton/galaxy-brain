@@ -1,53 +1,49 @@
-Keep the scope as implemented: correct the shared JobInformation fixture, strengthen its existing rendering assertion, and remove the redundant CollectionProgress JavaScript suite. No expansion or contraction is recommended; retain the independent cleanup branch based on the fixed `d49bea20fac` readability tip so the moving readability lane remains intact.
+Keep the scope as implemented on the direct `dev` base requested by John: correct the shared JobInformation message fixture, strengthen its existing rendering assertion, and remove the duplicate CollectionProgress JavaScript suite. No expansion or contraction is recommended. Moving the cleanup onto `dev` corrects its delivery base; it does not expand the requested work or justify importing the earlier readability stack.
 
-## As implemented — recommended
+## As implemented on dev — recommended
 
-The cleanup changes three test files: four string messages become schema-shaped RegexJobMessage objects, two overlapping JobInformation cases become one exact visible-fields/numbering assertion, and CollectionProgress.test.js is deleted. Its four scenarios remain in the TypeScript suite, which also asserts exact bar sets and terminal-job hiding; ToolSuccessMessage remains covered as the only other shared-fixture consumer.
-
-| Pros | Cons |
-| --- | --- |
-| • Resolves both requested issues. <br> • Removes duplicate execution while preserving the covered behaviors. <br> • Keeps application code and inherited readability commits outside this change. | • Reduces the reported case count, requiring the retained-case mapping for review. <br> • Shared fixture edits require checking both consumers. |
-
-## Narrower: fixture shape only
-
-Correct the JSON fixture while preserving the prior JobInformation cases and leaving CollectionProgress.test.js for a later cleanup. This addresses the immediate nonsense rendering but leaves the duplicate suite and overlapping field assertions unresolved.
+The review range is `e55aa453edf36c723f878f57e3a68edfabec502f..64fb97a22c7`: three cleanup commits touching three intended files. Four string messages become schema-shaped regex message objects; JobInformation's existing matcher-less message expectation becomes an assertion of every numbered heading and exact visible fields; the duplicate CollectionProgress JavaScript file is removed while dev's four TypeScript scenarios remain unchanged.
 
 | Pros | Cons |
 | --- | --- |
-| • Smallest immediate edit. <br> • Avoids any removed-case discussion in this branch. | • Completes only one of the two requested cleanups. <br> • Leaves a redundant suite and weaker fixture coverage. |
+| • Completes both requested cleanups. <br> • Makes the existing message test enforce meaningful rendering. <br> • Preserves all four distinct CollectionProgress scenarios. <br> • Keeps dev's existing setup and unrelated tests intact. | • Deletes four duplicate case executions, so reviewers need the retained-case mapping. <br> • Changes a shared fixture, requiring validation of both consumers. |
 
-## Preserve the duplicate until another port review
+## Narrower: correct the fixture without strengthening its test
 
-Correct the fixture and strengthen JobInformation, but keep both CollectionProgress suites until a separate review authorizes deletion. The existing TypeScript coverage already includes every JavaScript scenario, so this additional staging step supplies little value.
-
-| Pros | Cons |
-| --- | --- |
-| • Retains the current case count temporarily. | • Leaves the second requested issue unresolved. <br> • Repeats equivalent execution despite stronger retained assertions. <br> • Requires another cleanup and review. |
-
-## Broader: migrate JobInformation tests or model more message variants
-
-Convert JobInformation.test.js to TypeScript and/or introduce fixtures for other supported message variants and stronger schema checks. Those could be useful follow-up work but are unnecessary to correct these four shared messages; the existing stream-read diagnostic case remains intact.
+Change the JSON message shape and remove the duplicate suite, but retain the existing JobInformation expectation. This reduces the diff by a few lines while leaving a matcher-less expectation that cannot verify the corrected data's visible content.
 
 | Pros | Cons |
 | --- | --- |
-| • Could detect future API/fixture drift earlier. <br> • Could broaden variant coverage. | • Adds migration and fixture-design decisions unrelated to this request. <br> • Increases validation and review costs for a small cleanup. |
+| • Slightly smaller assertion diff. | • Leaves the identified rendering problem without an effective regression assertion. <br> • Saves little work after the current checks and reviews. |
 
-## Delivery: independent branch from the fixed readability tip — recommended
+## Narrower: retain CollectionProgress.test.js temporarily
 
-Deliver the three-file diff independently from `d49bea20fac`; inherited readability commits are its base, not part of this cleanup review. This keeps the lane available for subsequent batches and gives reviewers a fixed comparison point.
-
-| Pros | Cons |
-| --- | --- |
-| • Preserves the moving readability lane and its history. <br> • Makes this cleanup independently reviewable. | • Branch management must account for the inherited base when delivering the change. |
-
-## Delivery: fold changes into an existing readability commit
-
-Amend or rewrite the relevant readability lane commit rather than retain a separate cleanup branch. This may group related work, but would change an already moving lane and complicate the boundary between the original batch and this request.
+Correct the fixture and strengthen JobInformation, but defer deletion of the JavaScript suite. The unchanged dev TypeScript suite already retains running-count, mixed-state, state-update, and queued-state coverage, so a second deletion review would not resolve a remaining coverage gap.
 
 | Pros | Cons |
 | --- | --- |
-| • Groups cleanup with the earlier test-readability work. | • Requires history changes and coordination beyond the authorized cleanup. <br> • Makes the original review boundary less stable. |
+| • Preserves the current reported case count temporarily. | • Leaves the second requested cleanup incomplete. <br> • Continues four duplicate executions. <br> • Requires another review for an already mapped removal. |
 
-## Review context and validation boundary
+## Broader: import readability refactoring or add more variants
 
-Normal review approved the implementation without code or security findings. Its documentation correction identifies `error_level: 1` as LOG, not WARNING; this changes the debrief wording, not the implementation scope. The reported focused run passed 15 tests and formatting/lint checks; type checking and independent quality/test-challenge reviews were underway when this scope evaluation was prepared. Their completion belongs to final readiness validation, and no additional test or application scope is needed on the evidence available here.
+Port JobInformation to TypeScript, introduce broader fixture validation or additional message variants, or strengthen CollectionProgress assertions and add terminal-state coverage. These could be separate improvements, but none is needed to repair the shared message shape or remove a suite whose existing scenarios are preserved on dev.
+
+| Pros | Cons |
+| --- | --- |
+| • Could catch additional future regressions or schema drift. <br> • Could improve surrounding test structure. | • Adds decisions and validation unrelated to these two issues. <br> • Imports work deliberately excluded by the dev-base decision. <br> • Makes this small cleanup less isolated. |
+
+## Delivery correction: use dev directly
+
+The current branch replays only the fixture, message-assertion, and duplicate-removal commits onto the fixed dev base. This implements John's explicit decision; the prior readability-based delivery is historical context rather than a proposed alternative awaiting approval.
+
+| Pros | Cons |
+| --- | --- |
+| • Honors the requested base. <br> • Delivers only the three intended cleanup files. <br> • Provides a stable review range without inherited readability commits. | • Previous draft reviews cannot validate this changed base; fresh checks and reviews are required. |
+
+## Review evidence and final validation boundary
+
+Fresh normal review approves this revision. The current test-challenge and code-quality reports recommend no additional implementation or test changes and raise no reason to expand or contract scope. The test-challenge report maps each deleted case to its retained TypeScript counterpart; retained suites contain six JobInformation, four CollectionProgress, and four ToolSuccessMessage cases, for 14 total rather than 18. ToolSuccessMessage is the shared fixture's only other importer and consumes job ids.
+
+The coordinator reports an initial fresh 14-test run plus ESLint, Prettier, and full type-check success, and is preparing the final checkout-local dependency run. Final handoff should record that run's result. Archived documents in `earlier_drafts/1/` are not current validation evidence: this revision introduces no readability helper, terminal-hiding test, or consolidation of a separate inline message case. No application source or browser-visible behavior changes, so additional UI or E2E work would expand this cleanup without addressing a remaining requirement.
+
+Coordinator validation update: checkout-local dependency verification completed successfully after this review — 14 tests, ESLint, Prettier and full client typing passed. No scope change resulted.
