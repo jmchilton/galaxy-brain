@@ -1,0 +1,3 @@
+Approve — the restored methods preserve their historical behavior and the existing import alias used by the IUC manual/rsync data-manager hooks. The focused unit coverage passed (29 tests), and the existing manual/refgenie integration cases passed in CI. I also checked parent attachment, extra-field XML escaping, and repository-specific table loading/reloading.
+
+Risks are minimal: this restores an established hook API and XML format without new irreversible choices. The merge-forward integration run described in the PR is especially relevant because #24003 changes which files are eligible and exposes this branch.
