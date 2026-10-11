@@ -1,4 +1,7 @@
 PRs To Review:
+- [#23999](https://github.com/galaxyproject/galaxy/pull/23999) — Initial review running. [notes](../../repositories/galaxy/reviews/active/23999/index.md)
+- [#23975](https://github.com/galaxyproject/galaxy/pull/23975) — Initial review running. [notes](../../repositories/galaxy/reviews/active/23975/index.md)
+- [#23827](https://github.com/galaxyproject/galaxy/pull/23827) — Initial review running. [notes](../../repositories/galaxy/reviews/active/23827/index.md)
 - [#24005](https://github.com/galaxyproject/galaxy/pull/24005) — Findings commented by John with caveats; ball with author. [notes](../../repositories/galaxy/reviews/active/24005/index.md)
 - [#23966](https://github.com/galaxyproject/galaxy/pull/23966) — Approved by John with encoding finding commented; ball with author. [notes](../../repositories/galaxy/reviews/active/23966/index.md)
 - [#23954](https://github.com/galaxyproject/galaxy/pull/23954) — Approved with finding posted; author decision on dev approach pending. [notes](../../repositories/galaxy/reviews/active/23954/index.md)
