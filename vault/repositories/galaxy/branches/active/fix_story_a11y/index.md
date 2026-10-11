@@ -1,6 +1,6 @@
 # fix_story_a11y
 
-Status: Open draft PR, waiting for CI (`ci_wait`).
+Status: Open draft PR, needs author work (`author_work`): related browser-test selector updates required.
 PR: [#24046 — Repair accessibility issues across shared controls and forms](https://github.com/galaxyproject/galaxy/pull/24046), opened by John; verified 2026-10-11.
 PR base: `dev`; head: `0d7e194649453a63c6f18f54feb8549ce4e6b4c3` (matches polished SHA).
 Base: upstream `dev` at `b406ead2e4eb55b94d1ba437af8f60ebe4983947` (2026-10-10).
@@ -14,6 +14,7 @@ User requested a new dev worktree and subagent repair batches for the accessibil
 - [Polish debrief](polish_debrief.md)
 - [Independent polish checklist](polish_checklist.md)
 - [Single strengthening round](polish_strengthening.md)
+- [PR browser CI triage](ci_triage_24046.md)
 - [Polish CI evidence](ci_polish.md)
 - [Repair batches](repair_batches.md)
 - [Initial implementation](initial_implementation_debrief.md)
@@ -35,3 +36,7 @@ Polish tracking changes are committed locally on galaxy-brain main. Sync is pend
 ## PR verification — 2026-10-11
 
 Live GitHub state: OPEN, draft, MERGEABLE; review decision unset. CI remains in progress with no failed checks at verification. Upstream client unit/lint checks are running; client API and Tool Shed frontend checks pass. Published title matches the first proposed option, and the published description marks John’s human-read item complete. Queue moved from final review to `ci_wait`; the active record stays in place. No PR settings or comments changed by this verification.
+
+## Related browser CI failure — 2026-10-11
+
+Completed Playwright shard 1 fails on two stale driver assumptions: 46 failed cases plus two setup errors wait for the removed fixed ClickToEdit input ID; one case searches for a caret inside the now-correctly labeled combobox input. CI DOM snapshots confirm the input and enclosing multiselect caret exist. These are test-driver adaptations required by the markup changes, with no user-behavior bug established in this shard. See the linked triage. Moved to `author_work`; no branch edits, test changes, or GitHub posts made during diagnosis.
