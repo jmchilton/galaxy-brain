@@ -1,6 +1,6 @@
 # issue_19049_collection_type_picker: polish debrief
 
-Polished 2026-10-06, then reopened the same night to build the general select-or-text element, then a Codex review round on 2026-10-07. Branch now `9f06beaa923` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes, `9f06beaa923` Codex review fixes. Round 4 (2026-10-11) added `40ff45c1a05`, `f259137147c`, `fee9979beae` and `df526dd031c`. Round 5 added `b250cc31a5c`; the branch is now `b250cc31a5c`.
+Polished 2026-10-06, then reopened the same night to build the general select-or-text element, then a Codex review round on 2026-10-07. Branch now `9f06beaa923` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes, `9f06beaa923` Codex review fixes. Round 4 (2026-10-11) added `40ff45c1a05`, `f259137147c`, `fee9979beae` and `df526dd031c`. Round 5 added `b250cc31a5c` and Round 6 `db0c351fbab`; the branch is now `db0c351fbab`.
 
 ## CI
 
@@ -114,3 +114,15 @@ John asked to roll the [registry sync](registry_sync_breakdown.md) into this PR 
 - vitest: 638 pass. vue-tsc clean.
 - Not run: no E2E test drives the workbook upload's collection type cards, so they're covered by vitest only.
 - Stale screenshots: `e2e_custom_type.png` and `e2e_sample_sheet_label_wrap.png` still show the old "Dataset Pairs" labels.
+
+## Round 6: short labels for running text (2026-10-11)
+
+John: "add a key/value that is more of an informal label - so we keep the lower casing and shorter descriptions" for the tool form strings.
+
+`db0c351fbab`:
+- Every type gets a `short_label` ("list of pairs", "nested list", "sample sheet of pairs").
+- `COLLECTION_TYPE_SHORT_LABELS` replaces `COLLECTION_TYPE_TO_LABEL` in `FormDataContextButtons.vue`, `FormData.vue` and `CollectionCreator.vue`.
+- Red first: `FormDataContextButtons.test.ts` (new) reproduced "Create a new undefined" for a `sample_sheet:paired` input. `FormData.test.ts` reproduced "No sample_sheet:paired dataset collections available".
+- vitest: 907 pass across Form, Workflow/Editor, Collections, Toolshed and History. vue-tsc and eslint clean.
+- No E2E test matches the changed strings. `test_workflow_editor.py` still matches "list of pairs dataset collection", which is unchanged.
+- Remaining "other places" (history item line, help glossary, builder lists from `accepts`) are undecided.
