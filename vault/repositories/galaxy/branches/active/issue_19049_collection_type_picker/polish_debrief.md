@@ -1,6 +1,6 @@
 # issue_19049_collection_type_picker: polish debrief
 
-Polished 2026-10-06, then reopened the same night to build the general select-or-text element, then a Codex review round on 2026-10-07. Branch now `9f06beaa923` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes, `9f06beaa923` Codex review fixes.
+Polished 2026-10-06, then reopened the same night to build the general select-or-text element, then a Codex review round on 2026-10-07. Branch now `9f06beaa923` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes, `9f06beaa923` Codex review fixes. Round 4 (2026-10-11) added `40ff45c1a05`, `f259137147c`, `fee9979beae` and `df526dd031c`; the branch is now `df526dd031c`.
 
 ## CI
 
@@ -77,3 +77,17 @@ Also added: E2E `test_collection_input_custom_and_any_collection_type_round_trip
 
 Codex's other high-level point is still open (also in Questions): let `CollectionTypeCards` take a subset of types so `WhichBuilder.vue` and `WhichWorkbookCollectionType.vue` can use it and the registry descriptions.
 
+## Round 4: YAML registry, card layout, E2E polish (2026-10-11)
+
+- `40ff45c1a05`:
+  - The registry moved to `knownCollectionTypes.yml`, grouped, and read through a typed `knownCollectionTypes.ts` (consumers unchanged).
+  - New tests check the group order and shape and that every type has a label and description. They failed before the move.
+  - The cards had an empty fifth `auto-fill` column, so every row stopped about 80% of the way across. Now the column count is fixed by a container query (1, 2 or 4), so cards line up across groups.
+  - Group titles are small uppercase rules, and long types break after a colon (`<wbr>`).
+- `f259137147c` and `fee9979beae` (subagent, per `GX_PROCESS_POLISH_E2E_TESTS.md`): see [E2E polish debrief](polish_e2e_tests_debrief.md).
+  - New help-modal E2E test.
+  - Screenshots in all three collection type tests.
+  - Shared `workflow_editor_set_collection_type` helper.
+- `df526dd031c`: Galaxy's global `.multiselect__single` uses `word-break: break-all`, so long labels broke mid-word ("sam / ple_sheet"). `FormSelectOrText` now wraps between words. Re-checked via the chipseq E2E screenshot.
+- The PR description's dialog image is now the E2E capture. Superseded `e2e_*` captures were deleted.
+- [Registry sync breakdown](registry_sync_breakdown.md): sharing the YAML with the collection wizards (not built).

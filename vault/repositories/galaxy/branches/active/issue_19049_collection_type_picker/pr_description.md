@@ -8,7 +8,7 @@ On `dev` the editor asks for a collection input's type in a text box. Its sugges
 
 | "Not sure which collection type to use?" opens a dialog of cards; clicking one picks it |
 | --- |
-| ![The collection types dialog](screenshots/04_help_modal.png) |
+| ![The collection types dialog](screenshots/e2e_help_modal_nested_list_selected.png) |
 
 | Custom mode for anything else, validated as you type | |
 | --- | --- |
@@ -20,7 +20,7 @@ The select and custom mode are a new form element, `FormSelectOrText`: the "vari
 
 ***Existing workflows load and run as before, and what a collection input accepts is unchanged. Any type the old field took can still be entered in custom mode, and a saved type the select doesn't list (e.g. `list:list:list`) opens there. The only stored difference: choosing "Any" writes `collection_type: null` where clearing the old field wrote `""`; both mean any collection type.***
 
-***The collection types, labels and descriptions live in a new registry, `knownCollectionTypes.ts`, meant to become the one place the client describes collection types. The upload wizards' own type cards aren't moved onto it here.***
+***The collection types, labels and descriptions live in a new YAML registry, `knownCollectionTypes.yml`, meant to become the one place the client describes collection types. The upload wizards' own type cards aren't moved onto it here.***
 
 <details><summary>Implementation</summary>
 
@@ -30,11 +30,11 @@ The select and custom mode are a new form element, `FormSelectOrText`: the "vari
   - A value the options don't list opens the text field. Typing through a listed value (`list` on the way to `list:list`) keeps it open. A value changed from outside, such as a dialog pick or undo, is followed.
   - The select holds generated values, not the options' own, so no option value collides with "Other..." and a null-valued option stays distinct from `FormSelect`'s `null` on deselect; re-clicking the selected option never clears the value.
 - `Form/FormElement.vue`: type `select_or_text` maps the `data`, `other_label`, `other_help`, `other_placeholder` and `validate` attributes and routes `@alert` into the element's alerts.
-- `Collections/common/knownCollectionTypes.ts`: 12 types (the list, pair, record, nested list and sample sheet families), each with a label, a description and a group. Descriptions include the connection rules that surprise people (from `collection_semantics.yml` and `CollectionTypeDescription.accepts`): a `list:paired_or_unpaired` input also takes a plain `list` or a `list:paired`, and a sample sheet can connect to a list input but not the other way round.
-- `Collections/common/CollectionTypeCards.vue`: the grouped card grid used in the dialog. Cards respond to click, Enter and Space, and the current type's card is highlighted.
+- `Collections/common/knownCollectionTypes.yml`, read through a typed `knownCollectionTypes.ts`: 12 types in four groups (lists, pairs and records, nested lists, sample sheets), each with a label and a description. Descriptions include the connection rules that surprise people (from `collection_semantics.yml` and `CollectionTypeDescription.accepts`): a `list:paired_or_unpaired` input also takes a plain `list` or a `list:paired`, and a sample sheet can connect to a list input but not the other way round.
+- `Collections/common/CollectionTypeCards.vue`: the grouped card grid used in the dialog. Every group uses the same columns, so cards line up from group to group. Cards respond to click, Enter and Space, and the current type's card is highlighted.
 - `Workflow/Editor/Forms/FormCollectionType.vue`: a `select_or_text` `FormElement` ("Any collection type" plus the known types, each described, then "Custom collection type...") validated with `isValidCollectionTypeStr`, and the `GModal` dialog. A pick from the dialog also drops custom text being typed.
 - `Toolshed/RepositoryDetails/InstallationSettings.vue`: "Target Section" lists "No section" and the existing sections, with "New section..." to type a name. Ok is disabled while a new section's name is empty. The install request is unchanged (`findSection` still resolves names).
-- Selenium/Playwright tests that set a collection type use `select_set_value` on a new `collection_type_select` selector, replacing `collection_type_input`; `collection_type_selected` and `collection_type_custom_input` read it back.
+- Selenium/Playwright tests set a collection type through a new `NavigatesGalaxy.workflow_editor_set_collection_type` helper, which replaces the `collection_type_input` selector and waits for the exact type to show. New `navigation.yml` targets cover the select, the custom input, the help link, the dialog and its cards.
 
 </details>
 
@@ -54,7 +54,7 @@ The select and custom mode are a new form element, `FormSelectOrText`: the "vari
 
 <details><summary>Risk Review Advice</summary>
 
-Review `FormSelectOrText.vue` as a shared element: is its contract one the next consumer (a text tool parameter with suggestions) could adopt without breaking these two? Then read the descriptions in `knownCollectionTypes.ts` as user documentation: are they accurate, and are the connection rules they state the ones Galaxy enforces?
+Review `FormSelectOrText.vue` as a shared element: is its contract one the next consumer (a text tool parameter with suggestions) could adopt without breaking these two? Then read the descriptions in `knownCollectionTypes.yml` as user documentation: are they accurate, and are the connection rules they state the ones Galaxy enforces?
 
 </details>
 
@@ -87,6 +87,7 @@ Builds on 🔀 #20403 (allow any collection type in this field) and 🔀 #19305 
   - `InstallationSettings.test.js`: existing section, new section, no section, empty new section (Ok disabled).
   - `CollectionTypeCards.test.ts` and `knownCollectionTypes.test.ts`.
 - `test_workflow_editor.py::test_collection_input_sample_sheet_chipseq_example` sets the type through the new select and asserts the saved type is `sample_sheet:paired`. The two chipseq tests in `test_workflow_run.py` set it the same way.
+- `test_workflow_editor.py::test_collection_input_collection_type_help_modal` opens the dialog, checks that the current type's card is highlighted, and picks another card. It then checks that the dialog closes and that the select and saved workflow show the new type.
 - `test_workflow_editor.py::test_collection_input_custom_and_any_collection_type_round_trip` saves a custom `list:list:list` and then "Any", checking the saved `collection_type` (`null` for "Any") and what the editor shows after a reload.
 
 Manually:
