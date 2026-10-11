@@ -1,0 +1,21 @@
+PR #23991, HEAD cff0496be74306386719684c0ba0df86fee7d221
+Node v25.6.1; pnpm 10.26.1; Vitest 4.1.11
+Isolated offline dependencies, exact PR lockfile; NODE_OPTIONS=--no-experimental-webstorage
+
+HEAD — eight focused suites:
+Test Files  8 passed (8)
+Tests       44 passed (44)
+Duration    16.85s
+
+Pre-PR merge base c35feb587eb8738a2d94cfb91769d0fbd14839bf:
+Exact App.vue, Home.vue, admin-routes.js, library-routes.js production source;
+PR test files retained; route filenames mapped to .ts for unchanged test imports.
+Test Files  1 failed | 3 passed (4)
+Tests       1 failed | 21 passed (22)
+Duration    7.49s
+Only failure: shows the inactivity warning for an inactive user when activation is on.
+This is the intentional banner change described in the PR, not a regression.
+
+GitHub final read 2026-10-11:
+HEAD unchanged; OPEN; isDraft false; comments 0; reviews 0; 23 SUCCESS checks.
+Worktree git status --short: empty.
