@@ -1,15 +1,17 @@
 # galaxy #23956 — Add `$input.path` for directory datatypes, shared with the YAML runtime
 
-[PR #23956](https://github.com/galaxyproject/galaxy/pull/23956) · Status: active; open draft. GitHub state checked 2026-10-09.
+[PR #23956](https://github.com/galaxyproject/galaxy/pull/23956) · Status: active; open draft. GitHub state checked 2026-10-11.
 
 [Review and history](review.md)
 
 Recorded review snapshot: `4a81462fae5`. Later review rounds and delivery history remain in the linked notes.
 
-Current PR head: `55d3ed310bb`. The migration refreshed tracking, not the code review.
+PR head at the migration: `55d3ed310bb`. The migration refreshed tracking, not the code review.
 
 Tracking: Do not post our draft; author/Marius discussing approach.
 
 Prior queue tracking: reviewed at `4a81462fae5` (paired w/ 23953); Marius reviewed 10-08 asking author to relook — do not post our draft; ball with author
 
 Marius's 2026-10-09 comment questions the `content_path` abstraction after the author's fixes. Preserve the instruction not to post our older draft.
+
+Morning check 2026-10-11: live HEAD `4bf89d638bd49c4ebb2e08b75bdef3d4f58bda27`; still draft. Keep the instruction not to post our older draft. #24005 is a separate untracked PR implementing the alternative described in this discussion; offering it for selection does not launch a review. No new code review was performed here.
