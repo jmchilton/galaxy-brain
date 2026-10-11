@@ -1,6 +1,6 @@
 # issue_19049_collection_type_picker: polish debrief
 
-Polished 2026-10-06, then reopened the same night to build the general select-or-text element, then a Codex review round on 2026-10-07. Branch now `9f06beaa923` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes, `9f06beaa923` Codex review fixes. Round 4 (2026-10-11) added `40ff45c1a05`, `f259137147c`, `fee9979beae` and `df526dd031c`; the branch is now `df526dd031c`.
+Polished 2026-10-06, then reopened the same night to build the general select-or-text element, then a Codex review round on 2026-10-07. Branch now `9f06beaa923` (off dev `4fe00d9e7ab`): `d2430ae96e9` implementation, `abde3641309` polish tests/copy, `046ad1f9c4e` `FormSelectOrText`, `1c87e5c1ebd` review fixes, `9f06beaa923` Codex review fixes. Round 4 (2026-10-11) added `40ff45c1a05`, `f259137147c`, `fee9979beae` and `df526dd031c`. Round 5 added `b250cc31a5c`; the branch is now `b250cc31a5c`.
 
 ## CI
 
@@ -75,7 +75,7 @@ Three bugs, all confirmed, red-checked, and fixed in `9f06beaa923`:
 
 Also added: E2E `test_collection_input_custom_and_any_collection_type_round_trip` (custom `list:list:list` and "Any" save, download and reload). Passes under Playwright against this worktree's Galaxy on 8083 (bind restored to 8081). Mutation check: emitting `undefined` for "Any" fails it with `'list' is None`. vitest 699 across the same directories; vue-tsc and eslint clean.
 
-Codex's other high-level point is still open (also in Questions): let `CollectionTypeCards` take a subset of types so `WhichBuilder.vue` and `WhichWorkbookCollectionType.vue` can use it and the registry descriptions.
+Codex's other high-level point, since done in Round 5: let `CollectionTypeCards` take a subset of types so `WhichBuilder.vue` and `WhichWorkbookCollectionType.vue` can use it and the registry descriptions.
 
 ## Round 4: YAML registry, card layout, E2E polish (2026-10-11)
 
@@ -90,4 +90,27 @@ Codex's other high-level point is still open (also in Questions): let `Collectio
   - Shared `workflow_editor_set_collection_type` helper.
 - `df526dd031c`: Galaxy's global `.multiselect__single` uses `word-break: break-all`, so long labels broke mid-word ("sam / ple_sheet"). `FormSelectOrText` now wraps between words. Re-checked via the chipseq E2E screenshot.
 - The PR description's dialog image is now the E2E capture. Superseded `e2e_*` captures were deleted.
-- [Registry sync breakdown](registry_sync_breakdown.md): sharing the YAML with the collection wizards (not built).
+- [Registry sync breakdown](registry_sync_breakdown.md): sharing the YAML with the collection wizards (built in Round 5).
+
+## Round 5: wizards on the shared registry (2026-10-11)
+
+John asked to roll the [registry sync](registry_sync_breakdown.md) into this PR and to use the wizard labels, with "Nested List of Paired Datasets".
+
+`b250cc31a5c`:
+- Labels:
+  - Flat List
+  - List of Paired Datasets
+  - Nested List of Paired Datasets
+  - Sample Sheet of Paired Datasets (agent's call, to match)
+- Descriptions are split into the shared text plus `notes.workflow_input` (connection rules) and `notes.builder` ("Use this option if all of your data should be paired off.").
+- `CollectionTypeCards` gains `types`, `context`, `hide-type` and an `extra` slot. `findKnownCollectionTypes` throws on a type the registry doesn't describe.
+- `WhichBuilder.vue` and `WhichWorkbookCollectionType.vue` use it. The Rule Builder card goes in the slot.
+- Characterization tests (`WhichBuilder.test.ts`, `WhichWorkbookCollectionType.test.ts`) were written against the old cards first. All passed except the intended rename.
+- E2E:
+  - `which_builder` now matches `data-collection-type` inside `.wizard-container`, and the new `which_builder_rules` matches the Rule Builder card.
+  - `test_build_list_of_lists` screenshots the builder step.
+  - These pass under Playwright, one at a time: `test_build_list_of_lists`, `test_build_paired_list_auto_matched`, `test_build_paired_unpaired_list`, `test_build_simple_list_via_rules_hidden` and `test_collection_input_collection_type_help_modal`.
+- Layout bug caught by that screenshot: a size container (`container-type`) has no width of its own, and the wizard step shrinks to its content, so the cards collapsed to one narrow column. In subset mode the cards are now a flex row like the old card deck; only grouped mode is a size container.
+- vitest: 638 pass. vue-tsc clean.
+- Not run: no E2E test drives the workbook upload's collection type cards, so they're covered by vitest only.
+- Stale screenshots: `e2e_custom_type.png` and `e2e_sample_sheet_label_wrap.png` still show the old "Dataset Pairs" labels.

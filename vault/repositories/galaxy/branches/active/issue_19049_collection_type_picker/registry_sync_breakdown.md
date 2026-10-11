@@ -1,6 +1,15 @@
 # Sharing `knownCollectionTypes.yml` with the collection wizards
 
-A sketch, not built. As of `40ff45c1a05` the registry is `client/src/components/Collections/common/knownCollectionTypes.yml`, read through `knownCollectionTypes.ts`, and only the workflow editor uses it.
+**Built in `b250cc31a5c` (2026-10-11).** John's calls:
+- Roll it into this PR.
+- Use the wizard labels, with "Nested List of Dataset Pairs" becoming "Nested List of Paired Datasets". The agent also renamed `sample_sheet:paired` to "Sample Sheet of Paired Datasets" to match.
+
+Differences from the sketch:
+- Notes live under `notes: {workflow_input, builder}`.
+- The prop is `context`, and wizards pass `hide-type`.
+- An unknown type in `types` throws.
+
+The original sketch follows.
 
 ## Today: three copies of the same cards
 
@@ -10,9 +19,9 @@ A sketch, not built. As of `40ff45c1a05` the registry is `client/src/components/
 
 The three disagree on labels and wording:
 
-| type | registry | wizards |
-| --- | --- | --- |
-| `list` | List of Datasets | Flat List |
+| type          | registry              | wizards                 |
+| ------------- | --------------------- | ----------------------- |
+| `list`        | List of Datasets      | Flat List               |
 | `list:paired` | List of Dataset Pairs | List of Paired Datasets |
 
 ## Split the backbone from each surface's text
