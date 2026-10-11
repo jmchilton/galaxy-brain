@@ -1,0 +1,18 @@
+Galaxy PR #24013 — validation 2026-10-11
+HEAD 484ec3bc63652699ac41b489f91381fb1e0faec1
+Pre-PR merge base 5deaa44ee72e52f09fccdd529ab7ce0182d3a024
+Original worktree clean; all tests and harness changes isolated under /private/tmp/gx-pr24013-review.
+
+Offline frozen-lockfile install in copied client, without lifecycle scripts; pnpm 10.26.1 (packageManager-selected), Node 25.6.1, Vue compatibility 3.5.43, Vitest 4.1.11.
+NODE_OPTIONS=--no-experimental-webstorage avoids Node 25 native localStorage shadowing happy-dom.
+Command: pnpm exec vitest run src/components/Common/GCard.test.ts src/components/Common/gCardHeaderLayout.test.ts src/components/ToolsList/ToolsListCard.test.ts src/components/Workflow/List/WorkflowCardList.test.ts src/components/Workflow/List/CuratedWorkflowCard.test.ts src/components/PageEditor/PageCard.test.ts --reporter=dot
+Result: 6 suites passed, 55 tests passed, 19.09 seconds. Existing Vue compatibility warnings; no failed suite.
+
+Browser: headless Chromium, installed Playwright read-only; real GCard and production SCSS rendered through Vite with the Galaxy API proxy disabled in the temporary harness. Normal Vue router and Pinia installed. Only history counts network response and g-tooltip/sanitize-html directives substituted.
+17 HEAD geometry samples: six small-pill widths, seven actual HistoryDatasetsBadge widths, four multiple-pill widths. 13 pre-PR samples: same six/seven small/history cases. All 17 HEAD samples asserted caret right edge <= header right edge + 1px and first-row y difference < 3px.
+Stable header: zero class mutations over one second. Actual tab order: select, title link, rename, badge, bookmark, menu toggle. Real dropdown opens and sets g-card-dropdown-open. Root font 24px versus 16px triggers appropriate stacking. Dynamic badges, header control removal and unmount/remount render without page errors.
+Residual single-wide-history-pill clipping below its natural width is reproduced on base as well; no new regression. Multiple ordinary badge pills wrap within their row.
+Browser output and probe retained alongside record. Tooltip behavior, all consumer end-to-end paths and non-Chromium engines not locally tested.
+
+Final GitHub state: OPEN, draft=False, HEAD unchanged. Check conclusions: {'SKIPPED': 1, 'SUCCESS': 25}. Comments=0, reviews=0. No submitted review. Existing broad CI client/lint/build/Selenium/Playwright checks successful; no downloaded artifact evidence.
+Initial localhost/browser starts were sandbox-restricted; authorized escalated retries succeeded.
