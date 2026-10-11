@@ -1,9 +1,9 @@
 # galaxy #24018 — [WIP] Multiplatform compute support
 
-[PR #24018](https://github.com/galaxyproject/galaxy/pull/24018) · Status: active; initial review complete, **request-changes draft unposted**. Open, GitHub draft flag false; title marks WIP. GitHub state and HEAD rechecked 2026-10-10.
+[PR #24018](https://github.com/galaxyproject/galaxy/pull/24018) · Status: active; initial review delivered by John as a PR comment. Open and draft; ball with author. GitHub state and unchanged HEAD rechecked 2026-10-11.
 
 - [Initial review, findings, validation, and risk assessment](review-2026-10-10.md)
-- [Unposted review draft](draft-review.md)
+- [Review draft posted by John as a comment](draft-review.md)
 - [Three correctness reproductions](reproduce.py) · [observed output](reproduction-output.txt)
 
 Reviewed commit: `0adbdb6655216e7a04c3d9e47816d3f06747fc31` (base `dev`).
@@ -14,4 +14,4 @@ Five findings: one P1 for sequential activation of separately installed foreign 
 
 Validation: 109 focused tests passed, 3 failed because fixtures hardcode `/bin/true`, which is absent on this macOS host. Three targeted correctness probes reproduced the runtime/validation issues; actual foreign hardware, NFS concurrency, and signing were not retested. No source changes.
 
-Delivery: nothing has been posted. John explicitly requested this review on 2026-10-10. No follow-up or author contact was promised.
+Delivery: John [posted our review as a PR comment](https://github.com/galaxyproject/galaxy/pull/24018#issuecomment-6109129388) on 2026-10-11 at 12:41:38 UTC and converted the PR to draft. This was a comment, not a formal request-changes review. Author may mark ready after green tests and removal of WIP. Keep record and worktree while open; no follow-up or author contact was promised.

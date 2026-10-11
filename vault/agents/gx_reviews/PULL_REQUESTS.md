@@ -1,6 +1,7 @@
 PRs To Review:
-- [#24018](https://github.com/galaxyproject/galaxy/pull/24018) — Reviewed; request-changes draft unposted; title marks WIP. [notes](../../repositories/galaxy/reviews/active/24018/index.md)
-- [#24032](https://github.com/galaxyproject/galaxy/pull/24032) — Reviewed; approval draft unposted. [notes](../../repositories/galaxy/reviews/active/24032/index.md)
+- [#24042](https://github.com/galaxyproject/galaxy/pull/24042) — Initial review running. [notes](../../repositories/galaxy/reviews/active/24042/index.md)
+- [#24043](https://github.com/galaxyproject/galaxy/pull/24043) — Initial review running. [notes](../../repositories/galaxy/reviews/active/24043/index.md)
+- [#24018](https://github.com/galaxyproject/galaxy/pull/24018) — Review comment posted by John; draft; ball with author. [notes](../../repositories/galaxy/reviews/active/24018/index.md)
 - [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — John's reply and/or merge decision after Sergey's response. [notes](../../repositories/galaxy/reviews/active/23223/index.md)
 - [#23560](https://github.com/galaxyproject/galaxy/pull/23560) — Draft; re-review when it leaves draft. [notes](../../repositories/galaxy/reviews/active/23560/index.md)
 - [#22976](https://github.com/galaxyproject/galaxy/pull/22976) — Parked for author/Marius follow-up; local draft unposted. [notes](../../repositories/galaxy/reviews/active/22976/index.md)
@@ -18,4 +19,4 @@ PRs to Skip For 7 Days:
 PRs Blocked:
 None yet.
 
-GitHub state last refreshed: 2026-10-10.
+GitHub state last refreshed: 2026-10-11.
