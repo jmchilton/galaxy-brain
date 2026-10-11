@@ -1,5 +1,5 @@
 PRs To Review:
-- [#24042](https://github.com/galaxyproject/galaxy/pull/24042) — Initial review running. [notes](../../repositories/galaxy/reviews/active/24042/index.md)
+- [#24042](https://github.com/galaxyproject/galaxy/pull/24042) — Reviewed; request-changes draft unposted. [notes](../../repositories/galaxy/reviews/active/24042/index.md)
 - [#24043](https://github.com/galaxyproject/galaxy/pull/24043) — Reviewed; approval draft unposted. [notes](../../repositories/galaxy/reviews/active/24043/index.md)
 - [#24018](https://github.com/galaxyproject/galaxy/pull/24018) — Review comment posted by John; draft; ball with author. [notes](../../repositories/galaxy/reviews/active/24018/index.md)
 - [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — John's reply and/or merge decision after Sergey's response. [notes](../../repositories/galaxy/reviews/active/23223/index.md)
