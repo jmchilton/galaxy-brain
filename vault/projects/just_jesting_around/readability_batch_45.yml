@@ -1,0 +1,46 @@
+iteration: 45
+seed: '2610945 (vNoSanitizeHtml: follow-through from iteration 44)'
+inventory_sha256: 22c88b448f272e5b7f515129c835a72203222831c0e13ba805571973e7f688aa
+branch: vitest_readability
+base_commit: 3c6afc65dd2db0ef8fae352eb44ac47d61430ec1
+status: reviewed
+selection:
+- file: client/src/directives/vNoSanitizeHtml.test.ts
+- file: client/src/components/History/Content/Collection/CollectionProgress.test.ts
+- file: client/src/components/admin/GroupForm.test.ts
+- file: client/src/components/Form/Elements/FormNumberList.test.ts
+baseline:
+  selected_cases: 14
+  selected_passed: 14
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: NODE_OPTIONS=--no-webstorage
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: 90792076b37d951037c3f342116ffcde680ff0f3
+  subject: Improve readability of vNoSanitizeHtml tests
+- sha: 0738d720ced7c0e06ad8615ff7b5f7809e73b903
+  subject: Improve readability of CollectionProgress tests
+- sha: 412e60961efa633ee7b11cf7befdd6da060fbaed
+  subject: Improve readability of GroupForm tests
+- sha: e1ccfc2131eb3a1036bfb11bd98a874455a28a6c
+  subject: Improve readability of FormNumberList tests
+validation:
+  passed_cases: 23
+  skipped_cases: 0
+  total_cases: 23
+  affected_suites: 4
+  selected_cases: 23
+  supporting_cases: 0
+  per_commit_vitest: passed
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  per_test_coverage: no source file lost covered lines or branches
+  independent_review: approved after one fix (GroupForm stubs spread restored)
+  shuffle_seed: 450101
+  test_environment: NODE_OPTIONS=--no-webstorage
