@@ -24,3 +24,9 @@ Recorded 2026-10-08 under Playwright (headless) from branch head `5b921635fb2`. 
 - **No screenshot of the duplicate-identifier toast.** No E2E renames identifiers. Adding a rename-to-duplicate flow just for a screenshot would bend the chipseq tests. The unit test `SampleSheetGrid.test.ts` covers the toast.
 - **`table_empty` shows the stepper mid-animation.** This is cosmetic, comes from the existing test, and was left alone.
 - **Shutdown gotcha:** `run.sh stop` without `GALAXY_SKIP_CLIENT_BUILD=1` started a production client build and hung. That build and the Galaxy, celery and Vite processes were stopped by PID. Ports 8081 and 5174 are free. The 8080 server was not touched.
+
+## Visual review — 2026-10-11
+
+Re-inspected all 11 existing PNGs from `5b921635fb2`. No blocking grid layout or rendering issues: the sheet rows, identifiers and metadata render clearly, and the load error appears as an alert. These captures predate the three follow-up polish changes; no new screenshots or browser runs were taken in this pass. Toasts and workbook extra-column validation are covered by component tests.
+
+The original mid-animation stepper caveat remains. The source-step capture also shows a pre-existing “Create a new undefined” tooltip on the workflow input’s Create button. Its source, `FormDataContextButtons.vue`, indexes `COLLECTION_TYPE_TO_LABEL` without a fallback and is unchanged against dev. This is outside the grid polish; the PR’s screenshot claim is limited to blocking layout/rendering issues, not an assertion that every visible label is correct.

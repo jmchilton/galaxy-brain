@@ -30,6 +30,22 @@
   - Added bold lines for "the reshape is the fix" and "MODE 3 reaches all five grids".
 - The checklist subagent was not re-run. The test change only added a case and didn't change any verdict; the "unit tests" answer was reworded by hand.
 
-## Left for John
+## Original handoff (superseded by John’s 2026-10-11 scope decision)
 - Rejected edits revert silently, as on dev, and stricter float parsing makes that happen more often. A one-line toast in `setCellValue` would fix it, but it changes visible behaviour, so it's John's call.
 - Follow-ups, out of scope: `useGridHelpers` validation for `file_type`/`dbkey` extra columns, and an `AgRowData` union type.
+
+## Follow-up polish — 2026-10-11
+
+John approved all three previously deferred changes. Rebased without conflicts onto dev `3347e84bc5e` before editing.
+
+- Rejected metadata edits now show a one-line toast naming the column while preserving the previous value. Required-int clearing and stricter float rejection have assertions for the feedback.
+- Workbook `file_type`/`dbkey` extra columns reuse `useGridHelpers` validators. The helper accepts the sheet’s existing upload configuration, avoiding duplicate loads and retaining its effective datatype restrictions. A small setter wrapper preserves blank/null cells as upload-default fallbacks; known values including `auto` and `?` remain accepted. These extra columns have their own setters, so metadata parsing is not overwritten.
+- `AgRowData` is now `UriRow | ModelObjectRow`. Identifier and URI reads narrow from the row’s model-object field, and create payloads use the API object discriminator. Only the open-ended workbook-row schema needs an assertion at its input boundary; dynamic metadata fields still use their existing casts.
+- Added paired existing-collection payload coverage. The new fixture includes the API’s `model_class` discriminator.
+- The new behavior assertions fail on the pre-polish component: missing feedback for integer/float rejection and acceptance of unknown extra-column values. Final relevant Vitest: 160/160 across Collections, Landing, RuleBuilder and upload configurations, using `NODE_OPTIONS=--no-experimental-webstorage` on Node 25.6.1. The flag avoids Node’s experimental localStorage conflicting with the browser test environment.
+- Fresh GENERAL + WORKFLOW_RELATED checklist review found no blockers. The one strengthening round requested clearer historical evidence labels and the paired fixture correction; both were applied. Human-read item remains unchecked.
+- PR description now includes the requested Agentic Checks section and screenshot findings. Re-inspected all 11 existing captures; no blocking grid layout/rendering issues. Browser results and captures are explicitly historical. The tooltip caveat is recorded in the screenshot debrief.
+
+No new E2E/browser runs were needed for these setter/type changes; current behavior is covered at component level. The prior independent review, test challenge, and scope evaluation are retained as historical checks, with John’s new scope decision recorded separately.
+
+Handoff: pushed `6f8cb56e61d` to `jmchilton/sample_sheet_vue3` with an explicit lease after the conflict-free rebase. vue-tsc and prettier pass, eslint reports no errors and two existing warnings, and commit hooks pass. New-head fork CI is queued. Queue and record are back in `branches_ready_for_final_review`; final human read-through remains pending. Vault validation: 122 files, 0 errors, 15 advisory warnings.
