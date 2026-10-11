@@ -1,0 +1,4 @@
+- Correct job-message fixtures and remove duplicate CollectionProgress tests
+- Make client job-message assertions effective and remove duplicate progress tests
+- Fix structured job-message test data and retain one collection progress suite
+- Clean up shared job fixtures and duplicate collection progress coverage
