@@ -1,0 +1,66 @@
+PR 24004 validation — 2026-10-11
+HEAD 6ea906adf6b4bc3863d1765ba0e3b58fbb2a8f82
+Python 3.13.12 from shared Galaxy environment; checkout source unchanged.
+
+Unit suites: test/unit/app/tools/test_runtime.py and test/unit/tool_util/test_parameter_convert.py
+31 passed in 1.79s
+
+Real-model runtime probes:
+DCE dataset conversion and identifier: PASS
+HDCA conversion and element identifier: PASS
+DCE subcollection conversion: PASS
+Multiple dataset conversion and optional None: PASS
+
+Exact-alias Python 3.8.20 probe:
+Both AST-extracted aliases raise TypeError: 'type' object is not subscriptable.
+Both typing.List[str] substitutions pass.
+
+Pulsar CI real import trace (run 37958242344, job 113914155911):
+src/galaxy/tool_util/parameters/convert.py:613: in <module>
+    DatasetToRuntimeJson = Callable[[DataJobInternalT, list[str]], DataInternalJson]
+E   TypeError: 'type' object is not subscriptable
+Interrupted: 130 errors during collection
+10 warnings, 130 errors in 12.41s
+
+Framework runs:
+pr24004-framework.log
+================ 1 passed, 615 deselected, 3 warnings in 33.00s ================
+pr24004-framework-strict.log
+========== 1 failed, 3 passed, 612 deselected, 66 warnings in 43.89s ===========
+pr24004-framework-trace2.log
+================ 1 failed, 615 deselected, 4 warnings in 32.82s ================
+pr24004-framework-renamed2.log
+================ 1 passed, 615 deselected, 4 warnings in 32.53s ================
+
+Output-constructor trace:
+REVIEW ORPHAN HDA implicit_conversion_shared_input_y on dataset 1 txt None None None
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/celery/__init__.py", line 233, in wrapper
+    rval = app.magic_partial(func)(*args, **kwds)
+  File "/Users/jxc755/projects/repositories/galaxy/.venv/lib/python3.13/site-packages/lagom/wrapping.py", line 29, in _bound_func
+    return inner_func(*bound_args, **bound_kwargs)
+  File "/Users/jxc755/projects/repositories/galaxy/.venv/lib/python3.13/site-packages/lagom/wrapping.py", line 46, in _error_handling_func
+    return func(*args, **kwargs)
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/celery/tasks.py", line 543, in queue_jobs
+    job_submitter.queue_jobs(
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/managers/jobs.py", line 2321, in queue_jobs
+    execution_tracker = tool.handle_input_async(
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/tools/__init__.py", line 2486, in handle_input_async
+    return execute_async(
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/tools/execute.py", line 192, in execute_async
+    return _execute(
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/tools/execute.py", line 380, in _execute
+    execute_single_job(execution_slice, completed_jobs[i], skip=skip)
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/tools/execute.py", line 315, in execute_single_job
+    job, result = tool.handle_single_execution(
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/tools/__init__.py", line 2608, in handle_single_execution
+    rval = self._execute(
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/tools/__init__.py", line 2746, in _execute
+    return self.tool_action.execute(
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/tools/actions/__init__.py", line 766, in execute
+    handle_output(name, output)
+  File "/Users/jxc755/projects/worktrees/galaxy/pr/24004/lib/galaxy/tools/actions/__init__.py", line 624, in handle_output
+    data = HistoryDatasetAssociation(
+  File "/private/tmp/pr24004-trace-hda.py", line 7, in traced_init
+    self._review_creation_trace=''.join(traceback.format_stack(limit=14))
+
+Two downloaded CI HTML reports each contain 615 Passed, 1 Failed; new YAML fixture is the only failure. Reports represent the same failed snapshot.
