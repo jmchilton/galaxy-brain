@@ -10,3 +10,5 @@ Recommendation: **request changes** for one P2 regression involving XML-incompat
 Validation: full object-store suite **188 passed, 16 skipped**; all 21 new tests pass. Independent real-boto3 HTTP probe reproduces the batch failure and verifies pre-change individual deletion succeeds for the same keys. Final GitHub checks: 53 success, 2 skipped; John’s finding comment is posted; no formal reviews; reviewed SHA unchanged.
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24042/`; tracked source untouched. John requested this review on 2026-10-11. Production performance and live AWS behavior were not tested. Integration-test building blocks and specific suggested coverage are recorded in the review.
+
+Delivery check 2026-10-11: new live HEAD `0310835ec8b7084a0368c55f032a6099dc13df53`, while the finding above remains evidence for reviewed `8a45fc7103882a3aa04826c3c88706cd67a42351`. CI is running; current changes have not been verified. Follow-up verification remains ours; do not treat the older finding as a confirmed blocker on the new head.
