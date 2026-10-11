@@ -1,0 +1,4 @@
+- Offer only available optional activities in Activity Settings
+- Apply shared availability checks in Activity Settings
+- Hide unavailable activities from Activity Settings
+- Keep always-on and unavailable activities out of Activity Settings

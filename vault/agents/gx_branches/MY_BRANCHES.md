@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (activity_settings_availability polish started; prior reds diagnosed as infrastructure; plugins_test_fake_provider draft #24051 opened, CI queued/running; sample_sheet_vue3 draft #24050 opened, waiting for CI; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (#24051; #24050 and the two PRs above; others 2026-10-09); merged PRs swept 2026-10-09.
+Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (activity_settings_availability polished head pushed, fresh CI pending; plugins_test_fake_provider draft #24051 opened, CI queued/running; sample_sheet_vue3 draft #24050 opened, waiting for CI; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (#24051; #24050 and the two PRs above; others 2026-10-09); merged PRs swept 2026-10-09.
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
@@ -75,10 +75,11 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`activity_settings_availability`](../../repositories/galaxy/branches/active/activity_settings_availability/index.md) — Lists only optional activities available to the current user. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:activity_settings_availability?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`activity_settings_availability`](../../repositories/galaxy/branches/active/activity_settings_availability/index.md) — Lists only optional activities available to the current user. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:activity_settings_availability?expand=1).
 - [`issue_24031_badge_tooltip_html`](../../repositories/galaxy/branches/active/issue_24031_badge_tooltip_html/index.md) — Restores storage badge popovers with sanitized Markdown and working links; readable HTML tooltip labels (#24031). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24031_badge_tooltip_html?expand=1).
 
 

@@ -18,3 +18,7 @@ Settings lists `a.optional && isActivityAvailable(a.id, { canUseUnprivilegedTool
 ## Open
 - Not polished; needs fork CI, then polish after its parent.
 - PR should go after `shared_activity_availability` merges (or be stacked on it).
+
+## Status update — 2026-10-11
+
+The parent has merged; the branch was restacked on dev and polished. The historical Open section above is superseded by the [polish debrief](polish_debrief.md). Final head `ab57bd6901d`; prepared description and titles wait for John’s final review, with fresh fork CI pending.
