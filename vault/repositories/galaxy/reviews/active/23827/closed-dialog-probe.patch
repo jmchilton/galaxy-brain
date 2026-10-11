@@ -1,0 +1,48 @@
+--- a/client/src/components/History/Content/ExportToAnotherGalaxyDialog.test.ts
++++ b/client/src/components/History/Content/ExportToAnotherGalaxyDialog.test.ts
+@@ -11,6 +11,10 @@
+     type MonitoringRequest,
+ } from "@/composables/persistentProgressMonitor";
+ import { type ExportableItem, useExportToAnotherGalaxyStore } from "@/stores/exportToAnotherGalaxyStore";
++
++import { usePersistentProgressTaskMonitor } from "@/composables/persistentProgressMonitor";
++import { useShortTermStorageMonitor } from "@/composables/shortTermStorageMonitor";
++import flushPromises from "flush-promises";
+ 
+ import ExportToAnotherGalaxyDialog from "./ExportToAnotherGalaxyDialog.vue";
+ 
+@@ -145,3 +149,34 @@
+         expect(wrapper.text()).toContain("download this collection");
+     });
+ });
++
++
++describe("review probe: closed export failure", () => {
++    it("records an invalid export as READY after the dialog closes", async () => {
++        let finishExport = () => {};
++        exportEndsIn("FAILURE", "Source disappeared");
++        server.use(
++            http.get("/api/tasks/{task_id}/state", async ({ response }) => {
++                await new Promise<void>((resolve) => (finishExport = resolve));
++                return response(200).json("FAILURE");
++            }),
++            http.get("/api/short_term_storage/{storage_request_id}/ready", ({ response }) => response(200).json(true)),
++        );
++        const { store } = mountDialog();
++        store.open(dataset("d1"));
++        await vi.waitFor(() => expect(recentExportRecord("d1")).toBeDefined());
++        await flushPromises();
++        store.close();
++        await flushPromises();
++        finishExport();
++        await flushPromises();
++        const recorded = recentExportRecord("d1")!;
++        expect(recorded.isFinal).toBe(false);
++        const recentExportMonitor = usePersistentProgressTaskMonitor(recorded.request, useShortTermStorageMonitor(), recorded);
++        await recentExportMonitor.start();
++        await flushPromises();
++        expect(recentExportMonitor.isCompleted.value).toBe(true);
++        expect(recentExportRecord("d1")).toMatchObject({ taskStatus: "READY" });
++        expect(recentExportMonitor.hasFailed.value).toBe(false);
++    });
++});

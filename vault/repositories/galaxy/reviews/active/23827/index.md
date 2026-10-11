@@ -1,9 +1,23 @@
 # galaxy #23827 — Import datasets and collections from another Galaxy with a link
 
-[PR #23827](https://github.com/galaxyproject/galaxy/pull/23827) · Status: active; initial review being launched. Open, out of draft; GitHub checked 2026-10-11. Delivery: unposted.
+[PR #23827](https://github.com/galaxyproject/galaxy/pull/23827) · Status: active; initial review and independent confirmation complete. **Request changes; draft unposted.** GitHub checked 2026-10-11: open, out of draft.
 
-Requested HEAD: `f6278fb4e50a4289def49b73d29a77745883afb4` (base `dev`). Author: arash77.
+Reviewed HEAD: `f6278fb4e50a4289def49b73d29a77745883afb4` (base `dev`). Author: arash77.
+
+- [Initial review and risk assessment](review-2026-10-11.md)
+- [Draft review for John to post](draft-review.md)
+- [Validation evidence](validation-evidence.txt)
+- [Real API policy comparison](test-options-probe.py) and [runner](run-options-probe.py)
+- [Closed-dialog failure diagnostic patch](closed-dialog-probe.patch)
+- [Independent confirmation of both P2 findings](confirmation-2026-10-11.md) and [confirmation evidence](confirmation-evidence.txt)
+- [Confirmed two-finding comment for John to post](confirmed-comment.md)
+
+Two P2 findings: the new asynchronous API drops `discarded_data`, changing the documented/default import policy; closing the export dialog discards task-failure tracking, allowing failed exports to appear READY in Recent Exports. The normal dataset and paired-collection round trips, including contents/type/build/tags, passed.
+
+Validation: 54 model-store tests passed (1 expected failure), 2 integration tests passed, 2 new API cases passed, 51 client tests passed. Additional diagnostics confirmed both findings. Final live head unchanged, 56 successful checks and 2 skips, no comments/reviews. No Galaxy source or shared virtualenv edits; worktree clean.
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/23827/`.
 
-John added this review on 2026-10-11 alongside #23999 and #23975. One dedicated subagent reviews the PR; coordinator handles queue and vault sync.
+John added this review on 2026-10-11 alongside #23999 and #23975. Review performed by one dedicated subagent; coordinator handles queue and vault sync. No GitHub comment or review submitted. Next action belongs to John while the draft remains unposted.
+
+Independent double-check completed at John's request on 2026-10-11: both findings confirmed. Correct-behavior regressions fail on unchanged HEAD and pass with isolated controls. The API probe exercises eight combinations, including the omitted default; the UI probe closes after a resolved PENDING response, fails afterward, and mounts the real Recent Exports card. No new GitHub delivery.

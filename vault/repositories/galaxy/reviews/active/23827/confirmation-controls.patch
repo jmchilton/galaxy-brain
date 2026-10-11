@@ -1,0 +1,73 @@
+--- a/lib/galaxy/schema/tasks.py
++++ b/lib/galaxy/schema/tasks.py
+@@ -11,6 +11,7 @@
+ from .schema import (
+     BcoGenerationParametersMixin,
+     DatasetSourceType,
++    DiscardedDataType,
+     HistoryContentType,
+     Model,
+     ModelStoreFormat,
+@@ -87,6 +88,7 @@
+ 
+ 
+ class ImportModelStoreTaskRequest(Model):
++    discarded_data: DiscardedDataType = DiscardedDataType.FORBID
+     user: RequestUser
+     history_id: int | None = None
+     source_uri: str
+--- a/lib/galaxy/webapps/galaxy/services/history_contents.py
++++ b/lib/galaxy/webapps/galaxy/services/history_contents.py
+@@ -622,6 +622,7 @@
+             source_uri=source_uri,
+             for_library=False,
+             model_store_format=payload.model_store_format,
++            discarded_data=payload.discarded_data,
+         )
+         result = import_model_store.delay(request=request, task_user_id=getattr(trans.user, "id", None))
+         return async_task_summary(result)
+--- a/lib/galaxy/managers/model_stores.py
++++ b/lib/galaxy/managers/model_stores.py
+@@ -362,6 +362,7 @@
+     def import_model_store(self, request: ImportModelStoreTaskRequest):
+         import_options = ImportOptions(
+             allow_library_creation=request.for_library,
++            discarded_data=ImportDiscardedDataType(request.discarded_data),
+         )
+         if history_id := request.history_id:
+             history = self._sa_session.get(model.History, history_id)
+--- a/client/src/components/History/Content/ExportToAnotherGalaxyDialog.vue
++++ b/client/src/components/History/Content/ExportToAnotherGalaxyDialog.vue
+@@ -36,6 +36,24 @@
+ // This dialog lives as long as the page, so reopening an item shows its export again.
+ const preparedExports = new Map<string, { storageRequestId: string; taskId: string; startedAt: number }>();
+ const trackedExports = new Map<string, MonitoringData>();
++const outcomeMonitors = new Set<ReturnType<typeof useTaskMonitor>>();
++
++// Independent control: outcomes belong to exports, not the currently open item.
++function monitorExportOutcome(exportable: ExportableItem, taskId: string) {
++    const monitor = useTaskMonitor();
++    outcomeMonitors.add(monitor);
++    const stopWatch = watch([monitor.isCompleted, monitor.hasFailed, monitor.failureReason], ([completed, failed, reason]) => {
++        if (completed || (failed && reason !== undefined)) {
++            finishTracking(exportable, { taskStatus: completed ? READY_STATE : "FAILURE", failureReason: reason });
++            monitor.stopWaitingForTask();
++            outcomeMonitors.delete(monitor);
++            stopWatch();
++        }
++    });
++    monitor.waitForTask(taskId, POLL_DELAY);
++}
++
++onUnmounted(() => outcomeMonitors.forEach((monitor) => monitor.stopWaitingForTask()));
+ 
+ const storageRequestId = ref<string>();
+ const startError = ref<string>();
+@@ -163,6 +181,7 @@
+     };
+     trackedExports.set(key, tracked);
+     trackDownloadRequestWithData(tracked);
++    monitorExportOutcome(exportable, data.task.id);
+     // The dialog may have been closed or opened for another item while the request was on its way.
+     if (isShown(key)) {
+         storageRequestId.value = data.storage_request_id;

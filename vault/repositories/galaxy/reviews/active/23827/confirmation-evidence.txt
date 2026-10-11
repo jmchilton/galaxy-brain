@@ -1,0 +1,38 @@
+HEAD f6278fb4e50a4289def49b73d29a77745883afb4
+Independent real API regression: four mismatches on HEAD; all eight combinations agree after temporary control.
+
+API unchanged HEAD
+INDEPENDENT_POLICY_RESULT {"files": false, "policy": "omitted/default", "expected": {"state": "discarded", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "discarded", "deleted": true, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": false, "policy": "allow", "expected": {"state": "discarded", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "discarded", "deleted": true, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": false, "policy": "forbid", "expected": {"state": "discarded", "deleted": true, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": true, "visible": true}, "contents_from_store_async": {"state": "discarded", "deleted": true, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": false, "policy": "force", "expected": {"state": "discarded", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "discarded", "deleted": true, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": true, "policy": "omitted/default", "expected": {"state": "ok", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "ok", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "ok", "deleted": false, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": true, "policy": "allow", "expected": {"state": "ok", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "ok", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "ok", "deleted": false, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": true, "policy": "forbid", "expected": {"state": "ok", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "ok", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "ok", "deleted": false, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": true, "policy": "force", "expected": {"state": "discarded", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "ok", "deleted": false, "visible": true}}}
+============================== 1 failed in 44.45s ==============================
+
+API temporary forwarding/conversion control
+INDEPENDENT_POLICY_RESULT {"files": false, "policy": "omitted/default", "expected": {"state": "discarded", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "discarded", "deleted": false, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": false, "policy": "allow", "expected": {"state": "discarded", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "discarded", "deleted": false, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": false, "policy": "forbid", "expected": {"state": "discarded", "deleted": true, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": true, "visible": true}, "contents_from_store_async": {"state": "discarded", "deleted": true, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": false, "policy": "force", "expected": {"state": "discarded", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "discarded", "deleted": false, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": true, "policy": "omitted/default", "expected": {"state": "ok", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "ok", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "ok", "deleted": false, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": true, "policy": "allow", "expected": {"state": "ok", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "ok", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "ok", "deleted": false, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": true, "policy": "forbid", "expected": {"state": "ok", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "ok", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "ok", "deleted": false, "visible": true}}}
+INDEPENDENT_POLICY_RESULT {"files": true, "policy": "force", "expected": {"state": "discarded", "deleted": false, "visible": true}, "results": {"contents_from_store": {"state": "discarded", "deleted": false, "visible": true}, "contents_from_store_async": {"state": "discarded", "deleted": false, "visible": true}}}
+============================== 1 passed in 36.63s ==============================
+
+Dialog unchanged HEAD
+INDEPENDENT_CLOSED_EXPORT {"taskStatus":"READY","taskPolls":1,"ready":true,"copyLink":true,"failed":false}
+      Tests  1 failed | 7 passed (8)
+   Duration  16.14s (transform 4.78s, setup 1.08s, import 8.62s, tests 3.84s, environment 1.83s)
+
+Dialog temporary per-export monitoring control
+      Tests  8 passed (8)
+   Duration  6.52s (transform 1.67s, setup 306ms, import 2.15s, tests 3.83s, environment 166ms)
+
+Actual short-term storage suite
+============================== 7 passed in 1.34s ===============================
+
+Live GitHub: OPEN, non-draft, unchanged HEAD; 56 SUCCESS, 2 SKIPPED; no comments/reviews. Original Galaxy worktree clean.

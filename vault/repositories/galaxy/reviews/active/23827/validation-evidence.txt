@@ -1,0 +1,20 @@
+Reviewed HEAD: f6278fb4e50a4289def49b73d29a77745883afb4
+
+Original suites:
+Model store: 54 passed, 1 xfailed in 14.97s.
+Round-trip integration: 2 passed in 34.05s.
+New API cases: 2 passed in 23.52s.
+Client: 51 passed, 9 files, 9.34s.
+
+Diagnostics (assert observed bugs, not fixed behavior):
+Closed-dialog failure: 8 passed (7 existing + 1 diagnostic) in 2.77s.
+After stopping task monitor before FAILURE response, storage monitor reported completed=true, hasFailed=false, taskStatus=READY.
+Options comparison: 1 passed in 27.30s.
+{"include_files": false, "policy": "allow", "results": {"contents_from_store": [{"state": "discarded", "deleted": false, "visible": true}], "contents_from_store_async": [{"state": "discarded", "deleted": true, "visible": true}]}}
+{"include_files": true, "policy": "force", "results": {"contents_from_store": [{"state": "discarded", "deleted": false, "visible": true}], "contents_from_store_async": [{"state": "ok", "deleted": false, "visible": true}]}}
+
+Run the saved backend probe from the Galaxy worktree with its read-only venv Python, PYTHONPATH=lib, the standard backend-test environment flags and local-port permissions. The runner replaces one collected method in memory so the normal integration fixtures are preserved and source remains unchanged. Apply the saved client patch only in a temporary exact-HEAD client copy and run that dialog suite.
+
+Initial local-server attempt was blocked by sandbox port binding and passed with escalation. Temporary runner development had collection/import errors and one child-process recursion; those isolated processes were terminated, the runner was corrected, and the final successful probe used the normal fixtures.
+
+Final live GitHub state: OPEN, non-draft, same HEAD; 56 SUCCESS and 2 SKIPPED checks; no comments/reviews. Skips are CWL conformance and Galaxy packages for Pulsar. CI artifact cache empty.

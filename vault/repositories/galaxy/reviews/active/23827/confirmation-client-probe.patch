@@ -1,0 +1,75 @@
+--- a/client/src/components/History/Content/ExportToAnotherGalaxyDialog.test.ts
++++ b/client/src/components/History/Content/ExportToAnotherGalaxyDialog.test.ts
+@@ -11,6 +11,9 @@
+     type MonitoringRequest,
+ } from "@/composables/persistentProgressMonitor";
+ import { type ExportableItem, useExportToAnotherGalaxyStore } from "@/stores/exportToAnotherGalaxyStore";
++
++import flushPromises from "flush-promises";
++import DownloadItemCard from "@/components/Downloads/DownloadItemCard.vue";
+ 
+ import ExportToAnotherGalaxyDialog from "./ExportToAnotherGalaxyDialog.vue";
+ 
+@@ -58,7 +61,7 @@
+     const wrapper = mount(ExportToAnotherGalaxyDialog as object, {
+         global: withPlugins(getLocalVue(), pinia),
+     });
+-    return { wrapper, store: useExportToAnotherGalaxyStore(pinia) };
++    return { wrapper, pinia, store: useExportToAnotherGalaxyStore(pinia) };
+ }
+ 
+ const linkInput = (wrapper: VueWrapper) => wrapper.find('[data-description="galaxy export link"]');
+@@ -145,3 +148,53 @@
+         expect(wrapper.text()).toContain("download this collection");
+     });
+ });
++
++describe("independent confirmation: export failure after close", () => {
++    it("a fresh Recent Exports card cannot recover a failure occurring after close", async () => {
++        let taskState = "PENDING";
++        let requests = 0;
++        const pendingReplies: (() => void)[] = [];
++        let holdPending = true;
++        exportEndsIn("FAILURE", "Export failed after closing");
++        server.use(
++            http.get("/api/tasks/{task_id}/state", async ({ response }) => {
++                requests += 1;
++                if (holdPending) {
++                    await new Promise<void>((resolve) => pendingReplies.push(resolve));
++                }
++                return response(200).json(taskState as never);
++            }),
++            http.get("/api/short_term_storage/{storage_request_id}/ready", ({ response }) =>
++                response(200).json(taskState === "FAILURE"),
++            ),
++        );
++        const { wrapper, store, pinia } = mountDialog();
++        store.open(dataset("d-independent"));
++        await vi.waitFor(() => expect(requests).toBeGreaterThanOrEqual(1));
++        await flushPromises();
++        holdPending = false;
++        pendingReplies.forEach((resolve) => resolve());
++        await flushPromises();
++        expect(recentExportRecord("d-independent")?.isFinal).toBe(false);
++        // The PENDING HTTP response has resolved before close. The task fails later.
++        store.close();
++        await flushPromises();
++        taskState = "FAILURE";
++        await new Promise((resolve) => setTimeout(resolve, 3300));
++        const recorded = recentExportRecord("d-independent")!;
++        expect(recorded.taskId).toBe("req1");
++        expect(JSON.stringify(recorded)).not.toContain("task1");
++        const card = mount(DownloadItemCard as object, {
++            props: { monitoringData: recorded, updateTaskId: "req1" },
++            global: withPlugins(getLocalVue(), pinia),
++        });
++        await flushPromises();
++        console.log("INDEPENDENT_CLOSED_EXPORT", JSON.stringify({ taskStatus: recentExportRecord("d-independent")?.taskStatus, taskPolls: requests, ready: card.text().includes("Ready"), copyLink: card.text().includes("Copy Link"), failed: card.text().includes("has failed") }));
++        // Regression assertion: it should retain FAILURE, never READY/downloadable.
++        expect(recentExportRecord("d-independent")?.taskStatus).toBe("FAILURE");
++        expect(card.text()).toContain("has failed");
++        expect(card.text()).not.toContain("Copy Link");
++        card.unmount();
++        wrapper.unmount();
++    });
++});
