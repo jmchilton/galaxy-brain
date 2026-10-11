@@ -1,5 +1,22 @@
 # Planemo #1700
 
+## Rebase — 2026-10-11
+
+Rebased onto upstream master `48725d692ee3371ace6a042b70ec3dc84a3b0ba6`
+and pushed [head `d4772119`](https://github.com/jmchilton/planemo/commit/d4772119f763a136119287e96139f3565303c231)
+to [anonymous-external-galaxy-api](https://github.com/jmchilton/planemo/tree/anonymous-external-galaxy-api).
+The push used an explicit force-with-lease against the previously verified
+remote head `03873c5c`. Conflicts in activity.py and its tests came from the
+merged no-wait fix; resolution retains submission response initialization,
+uses the available credential for waited job details, and preserves both the
+no-wait and credential regression tests. Range-diff confirms the other three
+feature commits are unchanged.
+
+Validation: all 25 focused activity, engine, API, profile, and configuration
+tests passed. Black, isort, Flake8, and diff whitespace checks passed. The
+authoring worktree is clean. Earlier commit references below describe the
+pre-rebase history; the current credential-fix commit is `d4772119`.
+
 ## Execution credential follow-up — 2026-10-11
 
 John requested Marius's second review point be addressed and pushed. Commit
