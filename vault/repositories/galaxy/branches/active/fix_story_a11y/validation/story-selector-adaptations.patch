@@ -1,0 +1,135 @@
+--- a/client/src/components/ScrollList/ScrollList.stories.ts
++++ b/client/src/components/ScrollList/ScrollList.stories.ts
+@@ -128,7 +128,7 @@
+ 
+ /** Scrolls the list to its end, as a user would to see more; instantly, since the list scrolls smoothly. */
+ function scrollToEnd({ canvas }: PlayContext) {
+-    const list = canvas.getByRole("list");
++    const list = canvas.getByRole("region", { name: "datasets" });
+     list.scrollTo({ top: list.scrollHeight, behavior: "instant" });
+ }
+ 
+@@ -142,7 +142,7 @@
+  * waits for that and counts the rows instead of assuming a number.
+  */
+ async function waitUntilFilled(context: PlayContext) {
+-    const list = context.canvas.getByRole("list");
++    const list = context.canvas.getByRole("region", { name: "datasets" });
+     await waitFor(() => expect(list.scrollHeight).toBeGreaterThan(list.clientHeight));
+     // The list jumps back to the top a frame after it first can scroll; let that happen before scrolling.
+     await nextFrames();
+--- a/client/src/components/WorkflowInvocationState/WorkflowInvocationState.stories.ts
++++ b/client/src/components/WorkflowInvocationState/WorkflowInvocationState.stories.ts
+@@ -202,7 +202,7 @@
+         await seeWorkflowLoaded(context);
+         await seeReportAndExportTabs(context, true);
+         await context.step("See no note about unavailable tabs", async () => {
+-            await expect(context.canvas.queryByLabelText(/disabled tabs/i)).not.toBeInTheDocument();
++            await expect(context.canvas.queryByTitle(/disabled tabs/i)).not.toBeInTheDocument();
+         });
+         await seeRunningAndDebug(context, false, false);
+     },
+@@ -222,7 +222,8 @@
+         await seeWorkflowLoaded(context);
+         await seeReportAndExportTabs(context, false);
+         await context.step("See a note saying why the tabs wait", async () => {
+-            await expect(context.canvas.getByLabelText(NOT_SCHEDULED_YET)).toBeVisible();
++            const notes = context.canvas.getAllByTitle(NOT_SCHEDULED_YET);
++            await expect(notes.find((note) => note.matches(".badge"))).toBeVisible();
+         });
+         await seeRunningAndDebug(context, true, false);
+     },
+--- a/client/src/components/SelectionField/SelectionField.stories.ts
++++ b/client/src/components/SelectionField/SelectionField.stories.ts
+@@ -44,8 +44,8 @@
+ async function seeChosen({ canvas, step }: PlayContext, name: string) {
+     await step(`See "${name}" chosen`, async () => {
+         const picker = await canvas.findByRole("combobox", {}, { timeout: 5000 });
+-        await expect(picker).toHaveTextContent(exactly(name));
+-        await expect(within(picker).getByText(name)).toBeVisible();
++        await expect(picker.closest(".multiselect")!).toHaveTextContent(exactly(name));
++        await expect(within(picker.closest(".multiselect")!).getByText(name)).toBeVisible();
+     });
+ }
+ 
+@@ -86,7 +86,7 @@
+         await context.step("See the picker labelled by what it selects", async () => {
+             const label = "Select a History Dataset Id:";
+             await expect(context.canvas.getByText(exactly(label))).toBeVisible();
+-            await expect(context.canvas.getByRole("textbox", { name: label })).toBeInTheDocument();
++            await expect(context.canvas.getByRole("combobox", { name: label })).toBeInTheDocument();
+         });
+     },
+ };
+--- a/client/src/components/admin/QuotaForm.stories.ts
++++ b/client/src/components/admin/QuotaForm.stories.ts
+@@ -103,8 +103,7 @@
+ /**
+  * The control under the form field titled `title`.
+  *
+- * Pre-existing bug, tolerated here: `FormElementLabel` renders its title as a plain span, not a
+- * label for the control, so the form's inputs and pickers have no accessible name.
++ * The editable combobox now owns its ARIA role; selected display text remains in its surrounding group.
+  */
+ function field({ canvas }: PlayContext, title: string, role: "textbox" | "combobox" = "textbox") {
+     const fieldTitle = canvas.getByText(title, { selector: "span" });
+@@ -113,7 +112,7 @@
+ 
+ /** Checks the picker under the field titled `title` shows `value` chosen; its closed option list doesn't count. */
+ async function expectChosen(context: PlayContext, title: string, value: string) {
+-    const picker = field(context, title, "combobox");
++    const picker = field(context, title, "combobox").closest(".multiselect")!;
+     const options = '[role="option"], [role="option"] *, script, style';
+     await expect(await within(picker).findByText(value, { ignore: options })).toBeVisible();
+ }
+--- a/client/src/components/admin/RoleForm.stories.ts
++++ b/client/src/components/admin/RoleForm.stories.ts
+@@ -57,8 +57,7 @@
+ /**
+  * The control under the form field titled `title`.
+  *
+- * Pre-existing bug, tolerated here: `FormElementLabel` renders its title as a plain span, not a
+- * label for the control, so the form's inputs and pickers have no accessible name.
++ * The editable combobox now owns its ARIA role; selected display text remains in its surrounding group.
+  */
+ function field({ canvas }: PlayContext, title: string, role: "textbox" | "combobox" = "textbox") {
+     const fieldTitle = canvas.getByText(title, { selector: "span" });
+@@ -67,7 +66,7 @@
+ 
+ /** Checks the closed picker under the field titled `title` shows only `value` chosen. */
+ async function expectOnlyChosen(context: PlayContext, title: string, value: string) {
+-    const picker = field(context, title, "combobox");
++    const picker = field(context, title, "combobox").closest(".multiselect")!;
+     await expect(await within(picker).findByText(value)).toBeVisible();
+     await expect(picker).toHaveTextContent(new RegExp(`^${escapeRegExp(value)}$`));
+ }
+@@ -175,7 +174,7 @@
+             const picker = field(context, "Users", "combobox");
+             await userEvent.click(picker);
+             // The picker keeps its "no options" and "no results" notes in the DOM and shows one.
+-            const notes = await within(picker).findAllByText("Enter at least 3 characters to search");
++            const notes = await within(picker.closest(".multiselect")!).findAllByText("Enter at least 3 characters to search");
+             await expect(notes.filter((note) => note.checkVisibility())).toHaveLength(1);
+             await expect(canvas.queryByRole("option", { name: ADMIN_USER.email })).not.toBeInTheDocument();
+         });
+--- a/client/src/components/Collections/ListCollectionCreator.stories.ts
++++ b/client/src/components/Collections/ListCollectionCreator.stories.ts
+@@ -73,7 +73,8 @@
+         await seeColumn(canvas, "Selected", []);
+         for (const [index, dataset] of datasets.entries()) {
+             // The option's button, not the dataset view inside it, which shares its name.
+-            const [option] = canvas.getAllByRole("button", { name: dataset });
++            const name = dataset.replace(/^\d+: /, "").replace(/ \([^)]*\)$/, "");
++            const option = canvas.getByRole("button", { name: `Select ${name}` });
+             await userEvent.click(option!);
+             await seeColumn(canvas, "Selected", datasets.slice(0, index + 1));
+         }
+@@ -119,7 +120,7 @@
+             // The columns show the refreshed list only once worked out again, and this click's
+             // result comes after the refresh's: the list must read in the user's order with it.
+             // Keep these waits short: a toast from the refresh dismisses itself after 3s.
+-            await userEvent.click(canvas.getAllByRole("button", { name: RESCUED })[0]!);
++            await userEvent.click(canvas.getByRole("button", { name: "Select rescued" }));
+             await seeColumn(canvas, "Selected", [TREATED, CONTROL, RESCUED]);
+             await seeColumn(canvas, "Unselected", []);
+             await seeToasts(canvas, []);

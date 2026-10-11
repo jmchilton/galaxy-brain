@@ -1,0 +1,184 @@
+{
+  "auditSource": "vitest_story_a11y@f43e9950dca7c322cfbb66def9961b301e854345",
+  "devBase": "b406ead2e4eb55b94d1ba437af8f60ebe4983947",
+  "passed": 236,
+  "failed": 0,
+  "testMode": "error for all stories",
+  "files": [
+    {
+      "file": "src/components/BaseComponents/GButton.stories.ts",
+      "passed": 10,
+      "failed": 0
+    },
+    {
+      "file": "src/components/BaseComponents/GLink.stories.ts",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Collections/ListCollectionCreator.stories.ts",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Collections/PairCollectionCreator.stories.ts",
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Collections/PairedOrUnpairedListCollectionCreator.stories.ts",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "file": "src/components/CommandPalette/CommandPalette.stories.ts",
+      "passed": 29,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Common/ExportForm.stories.ts",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Common/PersistentTaskProgressMonitorAlert.stories.ts",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "file": "src/components/FilesDialog/FilesDialog.stories.ts",
+      "passed": 14,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Login/ChangePassword.stories.ts",
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "file": "src/components/ObjectStore/ConfigurationMarkdown.stories.ts",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "file": "src/components/ObjectStore/DescribeObjectStore.stories.ts",
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "file": "src/components/ObjectStore/ObjectStoreBadges.stories.ts",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "file": "src/components/ObjectStore/ObjectStoreRestrictionSpan.stories.ts",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "file": "src/components/ScrollList/ScrollList.stories.ts",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "file": "src/components/SelectionField/SelectionField.stories.ts",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Tool/ToolCard.stories.ts",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Tool/ToolSelectPreferredObjectStore.stories.ts",
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "file": "src/components/User/UserDeletion.stories.ts",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "file": "src/components/WorkflowInvocationState/WorkflowInvocationOverview.stories.ts",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "file": "src/components/WorkflowInvocationState/WorkflowInvocationShare.stories.ts",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "src/components/WorkflowInvocationState/WorkflowInvocationState.stories.ts",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Workflow/WorkflowAnnotation.stories.ts",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "file": "src/components/admin/QuotaForm.stories.ts",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "file": "src/components/admin/RoleForm.stories.ts",
+      "passed": 10,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Form/Elements/FormOptionalText.stories.ts",
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Form/Elements/FormSelection.stories.ts",
+      "passed": 10,
+      "failed": 0
+    },
+    {
+      "file": "src/components/History/Export/HistoryExportWizard.stories.ts",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Libraries/LibraryPermissions/PermissionsInputField.stories.ts",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Toolshed/RepositoryDetails/InstallationSettings.stories.ts",
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Workflow/Editor/Lint.stories.ts",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Workflow/Run/WorkflowMissingToolsRequest.stories.ts",
+      "passed": 14,
+      "failed": 0
+    },
+    {
+      "file": "src/components/admin/Notifications/BroadcastsList.stories.ts",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "file": "src/components/Form/Elements/FormData/FormData.stories.ts",
+      "passed": 18,
+      "failed": 0
+    },
+    {
+      "file": "src/components/User/DiskUsage/Quota/QuotaUsageSummary.stories.ts",
+      "passed": 2,
+      "failed": 0
+    }
+  ]
+}

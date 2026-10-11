@@ -1,0 +1,37 @@
+{
+  "base": "http://localhost:6028",
+  "results": [
+    {
+      "name": "Column select native Space and Enter emit exactly once per select/deselect",
+      "status": "passed"
+    },
+    {
+      "name": "Rename sibling Space opens editor and saves without selecting its row",
+      "status": "passed"
+    },
+    {
+      "name": "Pair dataset row native Space selects once and Remove Space removes without reselecting",
+      "status": "passed"
+    },
+    {
+      "name": "Folder native Space opens once without selecting a table row",
+      "status": "passed"
+    },
+    {
+      "name": "Visible RoleForm labels focus actual inputs including multiselect controls",
+      "status": "passed"
+    },
+    {
+      "name": "Visible password labels focus their associated input",
+      "status": "passed"
+    },
+    {
+      "name": "Patched multiselect native Space and Enter remove exactly one named selection",
+      "status": "passed"
+    },
+    {
+      "name": "Visible QuotaForm labels focus real inputs including multiselect controls",
+      "status": "passed"
+    }
+  ]
+}

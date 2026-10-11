@@ -1,0 +1,7 @@
+# Initial implementation debrief
+
+Implemented the user's request in `fix_story_a11y`, forked from upstream dev at `b406ead2e4eb55b94d1ba437af8f60ebe4983947`. Three subagents owned forms/selection, collections/file browsing, and storage/workflow controls; the coordinator repaired shared tooltip/modal/heading controls, tool dropdowns and export wizard forms. [Batch ownership](repair_batches.md) and [agent debriefs](subagents/) record the boundaries.
+
+Production repairs use native independent controls, real input label associations, correctly placed combobox/list/progress semantics, visible names that survive tooltips, darker hints/links and minimum 24px hit targets. The vue-multiselect dependency remains at 3.5.0, extending its existing patch; lockfile changes only its three patch hashes. No Storybook dependency or migration test conversion was imported onto dev.
+
+Frozen Storybook stories from the a11y prototype were exercised in a disposable harness with every todo changed to error. All 236 pass without exclusions. Semantic story selectors needed adaptation for native selection buttons, input-owned comboboxes, the scroll region and tooltip descriptions; every behavior assertion remains. Reviews identified and resolved manual pair keyboard selection and duplicate hover hints. A new heading regression also caught compat-mode false-attribute stripping, fixed with explicit ARIA string values.
