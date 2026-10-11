@@ -1,6 +1,6 @@
 # Codex review
 
-Codex (read-only, `origin/release_26.1...3c56ef0d1b1`) returned one finding: confirmed, not acted on. No code changes made from this review.
+Codex (read-only, `origin/release_26.1...129b96a7ae8`) returned one finding: confirmed, not acted on. No code changes made from this review.
 
 Not acted on:
 - **Old-revision READMEs skip `set_image_paths`** (`lib/tool_shed/util/readme_util.py:88`). Confirmed: the disk branch rewrites `.. image::` relative paths to the repository image endpoint before rendering; the manifest (old-revision) branch doesn't, so relative images in old revisions resolve against the page and break. Not a regression — before this patch old revisions weren't rendered at all (raw text). Left out to keep `readme_util.py` identical to the deployed patch and its sibling branches; good small follow-up (hoist the image rewrite into shared preprocessing for both branches).

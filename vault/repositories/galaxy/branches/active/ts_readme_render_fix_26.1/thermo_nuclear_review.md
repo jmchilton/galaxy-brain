@@ -1,6 +1,6 @@
 # Thermo-nuclear review
 
-I changed one thing: the test helper now takes the column_maker version as an explicit argument (commit `39bc700e527`, test-only). I made no implementation changes because `readme_util.py` is frozen to match the deployed patch. The implementation items below are follow-ups.
+I changed one thing: the test helper now takes the column_maker version as an explicit argument (commit `95c83c5d1e5`, test-only). I made no implementation changes because `readme_util.py` is frozen to match the deployed patch. The implementation items below are follow-ups.
 
 Not acted on:
 - **Restructure `build_readme_files_dict` (structural, frozen).** Each branch should only produce the text, from disk or from the manifest. One shared step should then run `size_string`, then `set_image_paths`, then `render_readme`. That deletes the duplicated size and render calls and fixes the old-revision image gap (see [codex_review.md](codex_review.md)). It is the main follow-up.

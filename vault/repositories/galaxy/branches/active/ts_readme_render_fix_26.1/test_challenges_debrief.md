@@ -1,6 +1,6 @@
 # Test challenges debrief
 
-Commit `c3bb87e8cab` (test-only; `readme_util.py` untouched, still identical to deployed patch).
+Commit `2abe25a16d3` (test-only; `readme_util.py` untouched, still identical to deployed patch).
 
 ## Existing `render_readme` unit tests — all kept
 

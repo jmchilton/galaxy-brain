@@ -4,7 +4,7 @@
 
 ## As implemented: release_26.1, frozen fix and test strengthening
 
-Four commits. `3c56ef0d1b1` adds `render_readme()`, which renders `.rst` without template evaluation, substitutes the placeholders literally and sanitizes the output. Old-revision READMEs now go through it too. Three test-only commits follow: placeholder and formatting tests, a manager-level `readmes()` test covering both the latest-revision and old-revision branches, and a helper cleanup.
+Four commits. `129b96a7ae8` adds `render_readme()`, which renders `.rst` without template evaluation, substitutes the placeholders literally and sanitizes the output. Old-revision READMEs now go through it too. Three test-only commits follow: placeholder and formatting tests, a manager-level `readmes()` test covering both the latest-revision and old-revision branches, and a helper cleanup.
 
 | Pros | Cons |
 |---|---|
