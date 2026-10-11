@@ -1,0 +1,18 @@
+Reviewed HEAD: 9008c8cb17c8fc4116e3afca7da707655349812d
+Python 3.13.12; existing Galaxy virtualenv; local embedded Galaxy server.
+Saved workflow source connection seeded with ordinary Galaxy models, then topologically ordered.
+Invocation used allow_tool_state_corrections=true for an independent existing discriminator-state limitation.
+Workflow invocation completed successfully; every history job was in state ok.
+
+PR HEAD: workflows 500 {"err_msg": "Uncaught exception in exposed API method:", "err_code": 0}
+PR HEAD: workflows/extract 500 Internal Server Error
+Both tracebacks end in Conditional.value_to_basic -> Conditional.get_current_case:
+ValueError: ('No case matched value:', 'options', '<galaxy.tools.parameters.workflow_utils.ConnectedValue object ...>')
+
+NEW PASS DISABLED: workflows 200
+NEW PASS DISABLED: workflows/extract 200
+
+The script restores the original helper after the comparison.
+Its final assertion intentionally checks [200,200] at HEAD, so the regression run fails:
+AssertionError: assert [500,500] == [200,200]
+1 failed, 2 warnings in 51.28s
