@@ -1,16 +1,16 @@
 # Planemo PR follow-ups — early October 2026
 
-Sweep started 2026-10-11. Scope: Marius (`mvdbeek`) reviews posted October 10 and 13 companion PRs against `jmchilton/planemo`. Companion merges update John’s feature branches and therefore the existing upstream PRs; they do not merge those upstream PRs into `galaxyproject/planemo/master`.
+Sweep completed 2026-10-11. Scope: Marius (`mvdbeek`) reviews posted October 10 and 13 companion PRs against `jmchilton/planemo`. Companion merges update John’s feature branches and therefore the existing upstream PRs; they do not merge those upstream PRs into `galaxyproject/planemo/master`.
 
 ## Companion fix status
 
 | Fix PR | Upstream PR | Branch | Status |
 | --- | --- | --- | --- |
-| [#4](https://github.com/jmchilton/planemo/pull/4) | [#1703](https://github.com/galaxyproject/planemo/pull/1703) | `list-all-invocations-rebased` | Review in progress |
-| [#5](https://github.com/jmchilton/planemo/pull/5) | [#1733](https://github.com/galaxyproject/planemo/pull/1733) | `publish-planemo-cli` | Review in progress |
-| [#6](https://github.com/jmchilton/planemo/pull/6) | [#1710](https://github.com/galaxyproject/planemo/pull/1710) | `shed-lint-fail-fast` | Review in progress |
-| [#7](https://github.com/jmchilton/planemo/pull/7) | [#1700](https://github.com/galaxyproject/planemo/pull/1700) | `anonymous-external-galaxy-api` | Review in progress |
-| [#8](https://github.com/jmchilton/planemo/pull/8) | [#1725](https://github.com/galaxyproject/planemo/pull/1725) | `test-data-option-fix` | Review in progress |
+| [#4](https://github.com/jmchilton/planemo/pull/4) | [#1703](https://github.com/galaxyproject/planemo/pull/1703) | `list-all-invocations-rebased` | Merged #4 `5c4a6defd60b5`; 9 passes + filtered/unfiltered raw JSON/stderr probes |
+| [#5](https://github.com/jmchilton/planemo/pull/5) | [#1733](https://github.com/galaxyproject/planemo/pull/1733) | `publish-planemo-cli` | Merged #5 `bc6e1a7bbe19`; Makefile/source/lock checks pass |
+| [#6](https://github.com/jmchilton/planemo/pull/6) | [#1710](https://github.com/galaxyproject/planemo/pull/1710) | `shed-lint-fail-fast` | Merged #6 `cac00fc00b18`; 23 passes/7 skips + 2 sibling CLI probes |
+| [#7](https://github.com/jmchilton/planemo/pull/7) | [#1700](https://github.com/galaxyproject/planemo/pull/1700) | `anonymous-external-galaxy-api` | Merged #7 `b6f5af76209b`; 9 focused passes |
+| [#8](https://github.com/jmchilton/planemo/pull/8) | [#1725](https://github.com/galaxyproject/planemo/pull/1725) | `test-data-option-fix` | Merged #8 `c95fd681c979`; 48 passes/3 skips + 6 client/config probes; managed-Galaxy CI pending |
 | [#9](https://github.com/jmchilton/planemo/pull/9) | [#1709](https://github.com/galaxyproject/planemo/pull/1709) | `python-gc-doc-example` | Merged #9; XML requirement/script smoke checks pass; base/head lint findings unchanged |
 | [#10](https://github.com/jmchilton/planemo/pull/10) | [#1723](https://github.com/galaxyproject/planemo/pull/1723) | `collection-output-assertions` | Merged #10 `0f99b440bcb7`; correction pushed `b7567c0e1818`; 12 passes each on tool-util 25.1/26.0.1/26.1 |
 | [#11](https://github.com/jmchilton/planemo/pull/11) | [#1706](https://github.com/galaxyproject/planemo/pull/1706) | `modern-linters-rebased` | Merged #11 `238247f5e230`; 31 passes/6 expected skips + 38 CLI checks |
@@ -19,6 +19,8 @@ Sweep started 2026-10-11. Scope: Marius (`mvdbeek`) reviews posted October 10 an
 | [#14](https://github.com/jmchilton/planemo/pull/14) | [#1714](https://github.com/galaxyproject/planemo/pull/1714) | `config-option-conversion` | Merged #14; 35 tests passed; merge `6a9c35a56c1e` |
 | [#15](https://github.com/jmchilton/planemo/pull/15) | [#1707](https://github.com/galaxyproject/planemo/pull/1707) | `test-job-files-in-tmpdir` | URI fix committed/pushed `f87c2c58e457`; 18 engine tests passed; #15 left open because its >=3.14 skip weakens coverage |
 | [#16](https://github.com/jmchilton/planemo/pull/16) | [#1724](https://github.com/galaxyproject/planemo/pull/1724) | `sanitize-invocation-test-data-paths` | Merged #16; 23 tests + supplemental output checks passed; merge `4ba96f396f0a` |
+
+Twelve companion PRs were merged into their feature branches. For #15, the URI correction was committed and pushed separately while preserving the original secondary-file integration tests. A further source correction for #10 was pushed after testing against Galaxy tool-util 25.1, 26.0.1, and 26.1. No upstream PR was merged into master during this sweep.
 
 ## Decisions and follow-ups
 
@@ -42,7 +44,7 @@ Branch: [skip-tests-when-external-services-down](https://github.com/jmchilton/pl
 
 Source: Marius’s review submitted 2026-10-10T12:27:15Z on the linked PR; reviewed parent `72eb17b232c961aa31574a56118f6b3575199154`.
 
-**Validation:** the fix restores the old server config and keeps client-side `test_data` fallback. Managed-Galaxy `test_test_data_option` needs CI confirmation; local code review alone is not an end-to-end run. Also verify a tool using stock Galaxy data such as `1.bed` still resolves without `--test_data`.
+**PR description follow-up:** rewrite #1725 around the final client-only change; it still describes the now-reverted server override. **Validation:** the fix restores the old server config and keeps client-side `test_data` fallback. Managed-Galaxy `test_test_data_option` needs CI confirmation; local code review alone is not an end-to-end run. Also verify a tool using stock Galaxy data such as `1.bed` still resolves without `--test_data`.
 
 Branch: [test-data-option-fix](https://github.com/jmchilton/planemo/tree/test-data-option-fix).
 
@@ -82,7 +84,7 @@ Branch: [deduplicate-wait-on](https://github.com/jmchilton/planemo/tree/deduplic
 
 Source: Marius’s review submitted 2026-10-10T12:25:56Z on the linked PR; reviewed parent `63736179136c926f934cd9f9f31ed42a3186be46`.
 
-**Docs follow-up:** regenerate command reference help after the shared `--fail_fast` text changes from "Stop on first job failure" to "Stop on first failure". **Release note:** with default `--fail_level warn`, the first warning now stops a `shed_lint --fail_fast` run. Other shed commands must continue visiting repositories unless they opt into `stop_on_failure`.
+**Docs follow-up:** regenerate command reference help after the shared `--fail_fast` text changes from "Stop on first job failure" to "Stop on first failure". **Release note:** with default `--fail_level warn`, the first warning now stops a `shed_lint --fail_fast` run. Other shed commands must continue visiting repositories unless they opt into `stop_on_failure`. **Separate pre-existing bug:** recursive `shed_diff` stores its first temporary output filename in shared `kwds["output"]`; later comparisons run but stdout can show only the first diff. Repair output-file ownership separately with a two-repository CLI regression.
 
 Branch: [shed-lint-fail-fast](https://github.com/jmchilton/planemo/tree/shed-lint-fail-fast).
 
@@ -122,7 +124,7 @@ Branch: [pin-supported-galaxy-python-rebased](https://github.com/jmchilton/plane
 
 Source: Marius’s review submitted 2026-10-10T12:24:49Z on the linked PR; reviewed parent `8da2c41046a54da18d0a5d0cc8dc107d70968edf`.
 
-**Display decision:** output groups by workflow instance/version ID; multiple versions can appear as separate headings with the same workflow name. Decide between grouping by stored workflow ID and showing version/instance identity in headings. **Validation:** rerun the external-Galaxy list-invocations integration after the fix, including the no-workflow call and raw JSON with pagination warning; autospec unit tests cover the unsupported-keyword regression.
+**Actor-selection decision:** when a profile has admin and user keys belonging to different accounts, the command still prefers the admin key and scopes to that admin account in both filtered/unfiltered modes. The fix stops listing every user, but does not switch to the explicit user account. Choose whether to prefer the user key for user-facing listing or document current admin preference. **Display decision:** output groups by workflow instance/version ID; multiple versions can appear as separate headings with the same workflow name. Decide between grouping by stored workflow ID and showing version/instance identity in headings. **Validation:** rerun the external-Galaxy list-invocations integration after the fix, including the no-workflow call and raw JSON with pagination warning; autospec unit tests cover the unsupported-keyword regression. The external test class is currently skipped, so the added call does not supply active live-Galaxy coverage.
 
 Branch: [list-all-invocations-rebased](https://github.com/jmchilton/planemo/tree/list-all-invocations-rebased).
 
@@ -133,3 +135,11 @@ Source: Marius’s review submitted 2026-10-10T12:27:04Z on the linked PR; revie
 **Optional diagnostics:** with a user key but no admin key, admin-only calls now fail anonymously rather than with a fabricated invalid key. Consider clearer permission messages without removing intentional anonymous access. **Accepted behavior:** tool test-data downloads may now succeed anonymously; this fits the feature and needs no immediate fix.
 
 Branch: [anonymous-external-galaxy-api](https://github.com/jmchilton/planemo/tree/anonymous-external-galaxy-api).
+
+## Handoff state — 2026-10-11 16:07 UTC
+
+All 13 companion fixes were independently reviewed. Fork PRs #4–#14 and #16 are merged; #15 remains open with the URI change separately pushed and its permanent Python >=3.14 test skip unaccepted. The original change-request reviews on upstream #1703, #1706 and #1725 still show on GitHub and were written against earlier heads; their identified companion fixes are now present. Upstream #1733 remains approved. New upstream CI runs are pending on all 13 changed PRs, with no failed checks at the final snapshot; a pending run is not a completed end-to-end validation. #1711 had no companion and its dependency/API decisions remain above.
+
+Eleven clean authoring worktrees were fast-forwarded to their updated fork branches. The main checkout on `sanitize-invocation-test-data-paths` was left untouched because it has an untracked `.DS_Store`; its remote references were refreshed to merged commit `4ba96f396f0a1e870322b16213fe0022a16c89d3`. No worktree was removed. There is no existing authoring worktree for `collection-output-assertions`; its corrected branch is pushed. Unrelated galaxy-brain staged/unstaged work was preserved.
+
+Validation: focused tests/checks are listed in the table and individual review notes. Actual collection-checker dependency variants passed on 25.1.0, 26.0.1 and 26.1.0. Managed-Galaxy/live invocation tests were not rerun locally; skipped integration coverage and remaining decisions are recorded above. Vault validation passed with zero errors and 15 existing advisory warnings.
