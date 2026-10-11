@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (plugins_test_fake_provider checked during polish; sample_sheet_vue3 new-head CI queued; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (these two PRs; others 2026-10-09); merged PRs swept 2026-10-09.
+Migrated 2026-10-09; existing workflow classifications preserved. CI snapshot: 2026-10-11 (plugins_test_fake_provider checked during polish; sample_sheet_vue3 draft #24050 opened, waiting for CI; PR #24046 failures triaged; #24045 prior check retained; other entries retain their prior snapshots). PR metadata checked 2026-10-11 (#24050 and the two PRs above; others 2026-10-09); merged PRs swept 2026-10-09.
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
@@ -23,6 +23,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
 - [`client_test_fixture_cleanup`](../../repositories/galaxy/branches/active/client_test_fixture_cleanup/index.md) — Corrects JobInformation message fixtures and removes duplicate CollectionProgress tests. [#24045](https://github.com/galaxyproject/galaxy/pull/24045).
 - [`zizmor_self_repository`](../../repositories/galaxy/branches/active/zizmor_self_repository/index.md) — Uses GitHub's `$/` self-repository syntax for in-repo workflows and actions, fixing zizmor alerts. [#24016](https://github.com/galaxyproject/galaxy/pull/24016).
 - [`jest_readability_batch_01`](../../repositories/galaxy/branches/active/jest_readability_batch_01/index.md) — Improves client test readability and shares typed page and Tool fixtures across concrete consumers. [#24015](https://github.com/galaxyproject/galaxy/pull/24015).
@@ -83,7 +84,6 @@ None yet.
 
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs, and lets the run form submit an allowed `""` (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_23977_client_api_fanout_26.1?expand=1).
-- [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:sample_sheet_vue3?expand=1).
 - [`issue_19391_file_source_templates_config_dir`](../../repositories/galaxy/branches/active/issue_19391_file_source_templates_config_dir/index.md) — Adds drop-in configuration directories for file source and object store templates (#19391). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19391_file_source_templates_config_dir?expand=1).
 - [`issue_23897_xml_collection_output`](../../repositories/galaxy/branches/active/issue_23897_xml_collection_output/index.md) — Fixes XML `<output type="collection">` parsing and lets the XSD accept its static elements (#23897). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23897_xml_collection_output?expand=1).
 - [`issue_23914_page_card_actions`](../../repositories/galaxy/branches/active/issue_23914_page_card_actions/index.md) — Makes notebook card title and Edit/Share actions follow the current user and page, so a late user load shows Share. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23914_page_card_actions?expand=1).
