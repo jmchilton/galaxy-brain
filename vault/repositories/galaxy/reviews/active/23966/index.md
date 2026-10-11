@@ -1,6 +1,6 @@
 # galaxy #23966 — Materialize deferred directory datasets (remote Zarr)
 
-[PR #23966](https://github.com/galaxyproject/galaxy/pull/23966) · Status: active; initial review complete. **Recommendation: request changes**. Delivery: unposted.
+[PR #23966](https://github.com/galaxyproject/galaxy/pull/23966) · Status: active; initial review complete. **Recommendation: request changes**. Delivery: **finding commented and PR approved by John**.
 
 [Review and risk assessment](review-2026-10-11.md) · [Draft review](draft-review.md) · [Full materializer reproduction](reproduce.py) · [Reproduction output](reproduction-output.txt) · [Reference format compatibility probe](compatibility-probe.py)
 
@@ -11,3 +11,7 @@ One reproduced P2: literal Zarr node names are appended to HTTP URLs without enc
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/23966/`.
 
 John requested this review on 2026-10-11; #23991 launched first. No Galaxy source edits, GitHub comments/reviews, commits, or pushes were made by the review agent. Review/queue Git operations remain with the coordinator.
+
+## Delivery — 2026-10-11
+
+John [posted the P2 encoding finding](https://github.com/galaxyproject/galaxy/pull/23966#issuecomment-6112240326) at 2026-10-11T18:26:44Z and approved the reviewed HEAD at 2026-10-11T18:26:55Z. His approval is the current GitHub decision; the initial request-changes recommendation is preserved as review history. Open, out of draft, HEAD unchanged. Ball with the author; resources retained.

@@ -1,6 +1,6 @@
 # galaxy #24005 — Keep directory dataset content at the root of extra files and expose it to YAML tools
 
-[PR #24005](https://github.com/galaxyproject/galaxy/pull/24005) · Status: active; initial review complete. Recommendation: **request changes**. Open, out of draft; GitHub checked 2026-10-11. Delivery: **unposted**.
+[PR #24005](https://github.com/galaxyproject/galaxy/pull/24005) · Status: active; initial review complete. Recommendation: **request changes**. Open, out of draft; GitHub checked 2026-10-11. Delivery: **findings posted by John as a comment**; formal request-changes draft remains unsubmitted.
 
 [Review and risk assessment](review-2026-10-11.md) · [Unposted review draft](draft-review.md) · [Validation evidence](validation-evidence.txt)
 
@@ -26,3 +26,7 @@ John requested this review on 2026-10-11, with #23991 launched first.
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24005/` (clean; no Galaxy source edits).
 CI cache: `/Users/jxc755/projects/ci-artifacts/galaxy/pr/24005/`; artifact catalog empty, live check statuses inspected. Resources retained while open. Coordinator handles queue/commits/sync; reviewer posted nothing.
+
+## Delivery — 2026-10-11
+
+John [posted the three findings](https://github.com/galaxyproject/galaxy/pull/24005#issuecomment-6112215305) at 2026-10-11T18:24:04Z, with his caveat that he is unsure how much is relevant and a question about the Vizarr prerequisite. This was a comment, not a formal request-changes review. HEAD unchanged; open, out of draft. Ball with the author; resources retained.

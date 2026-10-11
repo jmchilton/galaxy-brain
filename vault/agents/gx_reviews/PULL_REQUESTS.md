@@ -1,7 +1,6 @@
 PRs To Review:
-- [#23991](https://github.com/galaxyproject/galaxy/pull/23991) — Reviewed; approval draft unposted. [notes](../../repositories/galaxy/reviews/active/23991/index.md)
-- [#24005](https://github.com/galaxyproject/galaxy/pull/24005) — Reviewed; request-changes draft unposted. [notes](../../repositories/galaxy/reviews/active/24005/index.md)
-- [#23966](https://github.com/galaxyproject/galaxy/pull/23966) — Reviewed; request-changes draft unposted. [notes](../../repositories/galaxy/reviews/active/23966/index.md)
+- [#24005](https://github.com/galaxyproject/galaxy/pull/24005) — Findings commented by John with caveats; ball with author. [notes](../../repositories/galaxy/reviews/active/24005/index.md)
+- [#23966](https://github.com/galaxyproject/galaxy/pull/23966) — Approved by John with encoding finding commented; ball with author. [notes](../../repositories/galaxy/reviews/active/23966/index.md)
 - [#23954](https://github.com/galaxyproject/galaxy/pull/23954) — Approved with finding posted; author decision on dev approach pending. [notes](../../repositories/galaxy/reviews/active/23954/index.md)
 - [#24004](https://github.com/galaxyproject/galaxy/pull/24004) — Both findings commented by John; ball with author. [notes](../../repositories/galaxy/reviews/active/24004/index.md)
 - [#24042](https://github.com/galaxyproject/galaxy/pull/24042) — New head after posted finding; CI running; verification pending. [notes](../../repositories/galaxy/reviews/active/24042/index.md)
