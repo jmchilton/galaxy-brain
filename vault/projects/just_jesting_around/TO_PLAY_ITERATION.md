@@ -28,7 +28,7 @@ Pick the most recent (in lane commit order, by each test's story commit, not its
   - Strengthen weak assertions (OR-checks, ones that pass without the behavior) as you go, including in cases that stay in vitest, and note it in the log.
   - Weakening or dropping a check needs John's approval. If a case can't move without that, keep it in vitest and log why.
 
-If no case moves and no play adds a visible check, set `storybook_play: skip`, log the reason, and end the iteration. Plays that only add visible checks while every original check stays (FormDrilldown's v-model results) are committed with the trailer and the unit file unchanged.
+If no case moves and no play adds a visible check, set `storybook_play: skip`, log the reason, and end the iteration. Plays that only add visible checks while every original check stays (FormDrilldown's v-model results) are committed with the trailer and the unit file unchanged; that's the expected outcome when a test's checks all read browser-test selectors or payloads. A kept case's starting-state check stays with it. A new check that only a dependency's break can fail (GButton's own click guard) is dropped; the dependency's stories cover it.
 
 ## Convert
 

@@ -145,7 +145,8 @@ pending state, hold the request on a promise the play releases
 (`WorkflowMissingToolsRequest.stories.ts`), not `delay("infinite")`, which slows
 every later story in the file. `GModal` keeps its body in the DOM while closed, so
 check `queryByRole("dialog")`, not text, and any "X is gone" check inside a closed
-dialog passes either way; reopen it to check. It reports closing on the native
+dialog passes either way; reopen it to check. Where another `GModal` is always mounted, check the closed one by its
+heading (`queryByRole("heading", { name, hidden: true })`). It reports closing on the native
 `close` event a moment after it hides, so wait for that before reopening.
 
 Bootstrap's custom checkbox and radio inputs are `opacity: 0`, so `toBeVisible()` fails
