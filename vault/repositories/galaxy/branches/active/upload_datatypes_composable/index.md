@@ -8,4 +8,6 @@ Adds `useUploadDatatypes` and `useUploadDbKeys` composables over store-owned loa
 - [PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md)
 - [Normal review](subagents/normal_review.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md)
 
-Stacked on [#23995](../issue_23977_datatypes_fanout_26.1/index.md): its first three commits are cherry-picks of that PR. Once #23995 merges and `release_26.1` forward-merges to `dev`, rebase onto `dev` to drop them; keep `333b511c6d4` unless the forward-merge already ported those tests.
+Stacked on [#23995](../../merged/issue_23977_datatypes_fanout_26.1/index.md): its first three commits are cherry-picks of that PR. Once #23995 merges and `release_26.1` forward-merges to `dev`, rebase onto `dev` to drop them; keep `333b511c6d4` unless the forward-merge already ported those tests.
+
+TICK 2026-10-11: parent #23995 merged to release_26.1 and its record moved to merged/. Its head is not an ancestor of current dev c8708636c2f, so the recorded forward-merge prerequisite for dropping the three parent commits is not met; no restack performed.

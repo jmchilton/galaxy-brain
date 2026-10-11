@@ -10,3 +10,7 @@ Open decision for John: keep the E2E-only test change, or restore the dropped se
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (commit 4a, "Let tool_open find Tool Shed tools by id") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop the commit from `galaxy_ui_driver` once this merges.
 
+
+## TICK — 2026-10-11
+
+Live fork tip is now `5daa04de0879e17b6038d009cadbd4553730a5a0`; current-SHA workflows are queued/pending without failures. Retain needs CI and the existing test-scope decision.

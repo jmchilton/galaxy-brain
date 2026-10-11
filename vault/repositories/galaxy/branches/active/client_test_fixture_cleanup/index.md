@@ -20,7 +20,7 @@ PR base: `dev`; head: `64fb97a22c770d18f5305fc4e902ce74a53ce15a` (matches polish
 
 Branch: `client_test_fixture_cleanup`; remote: `jmchilton`.
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/client_test_fixture_cleanup`.
-Base: `origin/dev` at `e55aa453edf`; three cleanup commits only. John requested the base change on 2026-10-11. Workflow status: open draft PR, waiting for CI (`ci_wait`). Fresh checkout-local validation and required reviews passed. Fork branch updated at `64fb97a22c7` using an exact lease on the prior tip; relevant fork client CI is green; other checks remain unsettled with no failures observed. Tracking records committed locally; sync pending because main has unrelated outgoing commits.
+Base: `origin/dev` at `e55aa453edf`; three cleanup commits only. John requested the base change on 2026-10-11. Workflow status: regular PR, ready from our side (`ready`). Fresh checkout-local validation and required reviews passed. Fork branch updated at `64fb97a22c7` using an exact lease on the prior tip; relevant fork client CI is green; other checks remain unsettled with no failures observed. Tracking records committed locally; sync pending because main has unrelated outgoing commits.
 
 Requested work: fix the string-shaped shared JobInformation messages and remove the redundant JavaScript CollectionProgress suite after verifying its TypeScript replacement retains all coverage.
 
@@ -31,3 +31,7 @@ Polishing completed 2026-10-11 with no branch changes. Both fresh polishing revi
 ## PR verification — 2026-10-11
 
 Live GitHub state: OPEN, draft, MERGEABLE; review decision unset. Upstream client unit and lint checks pass; Tool Shed, Selenium and Playwright checks remain running, with no failed checks at verification. Published title matches the fourth proposed option. The published description marks John’s human-read checklist item complete. Queue moved from final review to `ci_wait`; the active record stays in place. No PR settings or comments changed by this verification.
+
+## TICK — 2026-10-11
+
+PR #24045 had 24 settled checks with no failures. Its only blocker was CI. Rebasing `64fb97a22c770d18f5305fc4e902ce74a53ce15a` onto current dev `c8708636c2f29a233dcce4b9c1fa75f2c5aea24f` replayed all three patches identically without conflicts; new head `91618e026c85845dd1fbaaa22891993167e35d18`. JobInformation (6) and retained CollectionProgress (4) tests pass on the rebased head. Force-pushed with an exact lease and took the PR out of draft under standing authorization. Fresh CI runs on the rebased head are pending; the previous head’s green checks are not claimed for it.

@@ -4,7 +4,7 @@ Status: `abandoned`. Base: `dev`. Tip `10ed99e36b46e3bb2e52acb1937635fbbafcaaf1`
 
 Switches in-repo `uses:` references to GitHub's self-repository syntax (`$/...`), which fixes zizmor's `self-repository` code-scanning alerts on `dev`.
 
-John asked for this on 2026-10-09 as a follow-up to [selenium_scheduled_ci](../../active/selenium_scheduled_ci/index.md) (#24014). In that PR, the bot flagged the new `selenium.yaml`, which was fixed in place.
+John asked for this on 2026-10-09 as a follow-up to [selenium_scheduled_ci](../../merged/selenium_scheduled_ci/index.md) (#24014). In that PR, the bot flagged the new `selenium.yaml`, which was fixed in place.
 
 ## Change
 

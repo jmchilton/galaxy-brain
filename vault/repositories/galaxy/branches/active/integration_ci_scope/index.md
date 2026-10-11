@@ -7,3 +7,7 @@ Fork CI on `c6d90c4f585` was red. Python linting failed on isort in `test/integr
 Selects costly plugin suites from changed paths; helpers and guide live beside integration tests.
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
+
+## TICK — 2026-10-11
+
+Current fork integration-Selenium fails collection with `ModuleNotFoundError: integration_selenium.integration_selection_pytest`; the selection plugin/import is this branch’s change, so CI is not greenish. Docker-pull failures in eight unrelated workflows and the fork release-script failure were rerun. Playwright workflow-input/history-list timeouts remain separate. No promotion or code fix undertaken by TICK.

@@ -16,7 +16,7 @@ Prepared 2026-10-09. Source: `vault/projects/just_jesting_around/BUGS_FOUND.md`,
 
 ## Outcome
 
-John asked for a cleanup branch rather than an issue (2026-10-09): [`use_config_drop_fetch_once`](../../../repositories/galaxy/branches/active/use_config_drop_fetch_once/index.md) drops the parameter.
+John asked for a cleanup branch rather than an issue (2026-10-09): [`use_config_drop_fetch_once`](../../../repositories/galaxy/branches/merged/use_config_drop_fetch_once/index.md) drops the parameter.
 
 ## Recommendation
 

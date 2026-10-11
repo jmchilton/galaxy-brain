@@ -26,7 +26,7 @@ Reply to mvdbeek not posted yet.
 - Move `CollectionEditView` (`<script setup>`) to the composable. `SelectionOperations` and `LibraryDataset` are Options API; they keep the provider until converted, then it can go.
 - Same treatment for `DbKeyProvider`/`dbKeyStore`, which also catch and log.
 
-Started as [`upload_datatypes_composable`](../upload_datatypes_composable/index.md) (2026-10-09).
+Started as [`upload_datatypes_composable`](../../active/upload_datatypes_composable/index.md) (2026-10-09).
 
 ## Forward-merge warning
 

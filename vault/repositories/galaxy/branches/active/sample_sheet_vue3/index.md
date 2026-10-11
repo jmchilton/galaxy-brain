@@ -1,6 +1,6 @@
 # sample_sheet_vue3
 
-Status: `ci_wait`. Base: `dev`. Draft PR: [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
+Status: `ready`. Base: `dev`. [PR #24050](https://github.com/galaxyproject/galaxy/pull/24050) (open, not draft; fresh CI pending).
 
 Moves sample sheet grids to Vue 3 patterns and fixes editing bugs.
 
@@ -19,3 +19,7 @@ CI checked before edits: browser workflows on `5b921635fb2` passed ([Playwright]
 John explicitly requested a draft PR waiting for CI. Opened [#24050](https://github.com/galaxyproject/galaxy/pull/24050) against `dev` from `jmchilton:sample_sheet_vue3` at `6f8cb56e61d3ebed4853c1ce90b6fe9b7950ff89`, titled “Move sample sheet grids to Vue 3 patterns, fix editing bugs”. The description was submitted verbatim from the current local `pr_description.md`, including John’s checked human-read item. No mentions or embedded screenshot assets were added.
 
 Verified open/draft, mergeable, correct base/head and matching body. At the check, 44 of 46 upstream checks were pending; fork client and browser CI remained queued. Moved the queue entry to `ci_wait`. This records authorization to open the draft; CI is still awaited.
+
+## TICK — 2026-10-11
+
+All 60 upstream checks on `6f8cb56e61d3ebed4853c1ce90b6fe9b7950ff89` settled successfully/skipped with no failures; CI was the sole draft blocker. Rebased onto actual dev `c8708636c2f29a233dcce4b9c1fa75f2c5aea24f` without conflicts; range-diff confirms all six patches identical. Existing approval carries to `9474de6d78b123e35ab144883e189fd7e4cffad3`. Reran all 160 affected Vitest cases across 17 files: all pass. Force-pushed with an exact fork lease and undrafted under standing TICK authorization. Fresh checks run on the rebased head; old green results are not claimed for it.
