@@ -1,0 +1,35 @@
+node scripts/sync-fixtures.mjs --check --group workflow-fixtures
+
+=== workflow fixtures (gxformat2) ===
+  EXTRA     packages/schema/test/fixtures/workflows/format2/synthetic-import-run.gxwf.yml  (local addition, not in gxformat2)
+  OK        gxformat2/examples/format2/draft/
+  OK        gxformat2/examples/native/
+
+All fixture groups in sync.
+node scripts/sync-fixtures.mjs --check --group workflow-expectations
+
+=== workflow expectations (gxformat2) ===
+  EXTRA     packages/schema/test/fixtures/expectations/cytoscape_ts_extras.yml  (local addition, not in gxformat2)
+  EXTRA     packages/schema/test/fixtures/expectations/mermaid_ts_extras.yml  (local addition, not in gxformat2)
+  EXTRA     packages/schema/test/fixtures/expectations/normalized_format2_ts_extras.yml  (local addition, not in gxformat2)
+
+All fixture groups in sync.
+node scripts/sync-fixtures.mjs --check --group cytoscape-template
+
+=== cytoscape HTML template (gxformat2) ===
+  OK        gxformat2/cytoscape/
+
+All fixture groups in sync.
+node scripts/sync-fixtures.mjs --check --group schema-rules
+
+=== schema-rule catalog (gxformat2) ===
+  OK        gxformat2/
+
+All fixture groups in sync.
+node scripts/sync-fixtures.mjs --check --group lint-profiles
+
+=== lint profile catalog (gxformat2) ===
+  OK        gxformat2/
+
+All fixture groups in sync.
+draft-sentinel: TS constants match upstream snapshot.

@@ -1,0 +1,194 @@
+
+> @galaxy-tool-util/schema@1.13.1 test /private/tmp/gxformat2-219-ts/packages/schema
+> tsc --noEmit && vitest run
+
+
+ RUN  v4.1.4 /private/tmp/gxformat2-219-ts/packages/schema
+
+ ❯ test/declarative-normalized.test.ts (441 tests | 9 failed | 1 skipped) 516ms
+     × test_draft_unlabeled_list_step_planned_node 3ms
+     × test_detect_draft_unlabeled_list_steps_index_paths 2ms
+     × test_extract_draft_slash_label_cascades 2ms
+     × test_extract_draft_mixed_case_codepoint_order 2ms
+     × test_draft_unlabeled_list_step_planned_class 1ms
+     × test_next_draft_step_list_form_in_todo_is_work 1ms
+     × test_validate_draft_implicit_subworkflow_allows_plan_fields 1ms
+     × test_validate_draft_list_form_in_malformed_todo 1ms
+     × test_validate_draft_unlabeled_list_steps_resolve_by_index 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/declarative-normalized.test.ts > declarative normalized workflow tests > test_draft_unlabeled_list_step_planned_node
+AssertionError: expected undefined to deeply equal true
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ assertValue test/declarative-test-utils.ts:125:18
+    123|   // Python models default unset optional fields to None; TS models om…
+    124|   if (expected === null && actual === undefined) return;
+    125|   expect(actual).toEqual(expected);
+       |                  ^
+    126| }
+    127|
+ ❯ runAssertions test/declarative-test-utils.ts:289:7
+ ❯ test/declarative-normalized.test.ts:212:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  test/declarative-normalized.test.ts > declarative normalized workflow tests > test_detect_draft_unlabeled_list_steps_index_paths
+AssertionError: expected [ '' ] to deeply equal [ '2' ]
+
+- Expected
++ Received
+
+  [
+-   "2",
++   "",
+  ]
+
+ ❯ assertValue test/declarative-test-utils.ts:125:18
+    123|   // Python models default unset optional fields to None; TS models om…
+    124|   if (expected === null && actual === undefined) return;
+    125|   expect(actual).toEqual(expected);
+       |                  ^
+    126| }
+    127|
+ ❯ runAssertions test/declarative-test-utils.ts:289:7
+ ❯ test/declarative-normalized.test.ts:212:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  test/declarative-normalized.test.ts > declarative normalized workflow tests > test_extract_draft_slash_label_cascades
+AssertionError: expected 1 to deeply equal 2
+
+- Expected
++ Received
+
+- 2
++ 1
+
+ ❯ assertValue test/declarative-test-utils.ts:125:18
+    123|   // Python models default unset optional fields to None; TS models om…
+    124|   if (expected === null && actual === undefined) return;
+    125|   expect(actual).toEqual(expected);
+       |                  ^
+    126| }
+    127|
+ ❯ runAssertions test/declarative-test-utils.ts:289:7
+ ❯ test/declarative-normalized.test.ts:212:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  test/declarative-normalized.test.ts > declarative normalized workflow tests > test_extract_draft_mixed_case_codepoint_order
+AssertionError: expected 'alpha' to deeply equal 'Alpha'
+
+Expected: "Alpha"
+Received: "alpha"
+
+ ❯ assertValue test/declarative-test-utils.ts:125:18
+    123|   // Python models default unset optional fields to None; TS models om…
+    124|   if (expected === null && actual === undefined) return;
+    125|   expect(actual).toEqual(expected);
+       |                  ^
+    126| }
+    127|
+ ❯ runAssertions test/declarative-test-utils.ts:289:7
+ ❯ test/declarative-normalized.test.ts:212:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  test/declarative-normalized.test.ts > declarative normalized workflow tests > test_draft_unlabeled_list_step_planned_class
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ assertValueAnyContains test/declarative-test-utils.ts:141:17
+    139|     return typeof coerced === "string" && coerced.includes(expected);
+    140|   });
+    141|   expect(found).toBe(true);
+       |                 ^
+    142| }
+    143|
+ ❯ runAssertions test/declarative-test-utils.ts:293:7
+ ❯ test/declarative-normalized.test.ts:212:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  test/declarative-normalized.test.ts > declarative normalized workflow tests > test_next_draft_step_list_form_in_todo_is_work
+AssertionError: expected 'TODO[out.TODO_x]: assign the real wra…' to deeply equal 'TODO[in.TODO_input]: assign the real …'
+
+Expected: "TODO[in.TODO_input]: assign the real wrapper input port name (semantic hint: 'input')"
+Received: "TODO[out.TODO_x]: assign the real wrapper output port name (semantic hint: 'x')"
+
+ ❯ assertValue test/declarative-test-utils.ts:125:18
+    123|   // Python models default unset optional fields to None; TS models om…
+    124|   if (expected === null && actual === undefined) return;
+    125|   expect(actual).toEqual(expected);
+       |                  ^
+    126| }
+    127|
+ ❯ runAssertions test/declarative-test-utils.ts:289:7
+ ❯ test/declarative-normalized.test.ts:212:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  test/declarative-normalized.test.ts > declarative normalized workflow tests > test_validate_draft_implicit_subworkflow_allows_plan_fields
+ FAIL  test/declarative-normalized.test.ts > declarative normalized workflow tests > test_validate_draft_unlabeled_list_steps_resolve_by_index
+AssertionError: expected false to deeply equal true
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ assertValue test/declarative-test-utils.ts:125:18
+    123|   // Python models default unset optional fields to None; TS models om…
+    124|   if (expected === null && actual === undefined) return;
+    125|   expect(actual).toEqual(expected);
+       |                  ^
+    126| }
+    127|
+ ❯ runAssertions test/declarative-test-utils.ts:289:7
+ ❯ test/declarative-normalized.test.ts:212:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  test/declarative-normalized.test.ts > declarative normalized workflow tests > test_validate_draft_list_form_in_malformed_todo
+AssertionError: expected +0 to deeply equal 1
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ assertValue test/declarative-test-utils.ts:125:18
+    123|   // Python models default unset optional fields to None; TS models om…
+    124|   if (expected === null && actual === undefined) return;
+    125|   expect(actual).toEqual(expected);
+       |                  ^
+    126| }
+    127|
+ ❯ runAssertions test/declarative-test-utils.ts:289:7
+ ❯ test/declarative-normalized.test.ts:212:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+
+ Test Files  1 failed | 44 passed (45)
+      Tests  9 failed | 5081 passed | 5 expected fail | 79 skipped (5174)
+   Start at  10:55:20
+   Duration  3.10s (transform 3.44s, setup 0ms, import 26.65s, tests 1.61s, environment 2ms)
+
+/private/tmp/gxformat2-219-ts/packages/schema:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @galaxy-tool-util/schema@1.13.1 test: `tsc --noEmit && vitest run`
+Exit status 1

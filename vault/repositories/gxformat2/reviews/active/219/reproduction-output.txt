@@ -1,0 +1,73 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_____________ test_extract_preserves_unlabeled_list_step_identity ______________
+
+    def test_extract_preserves_unlabeled_list_step_identity():
+        workflow = {
+            "class": "GalaxyWorkflowDraft",
+            "inputs": {"reads": {"type": "data"}},
+            "outputs": {"result": {"outputSource": "3/output"}},
+            "steps": [
+                {"tool_id": "TODO", "in": {"input1": "reads"}, "out": ["output"]},
+                {"tool_id": "cat1", "in": {"input1": "reads"}, "out": ["output"]},
+                {"tool_id": "cat1", "in": {"input1": "2/output"}, "out": ["output"]},
+            ],
+        }
+        assert validate_draft(workflow).ok
+        extracted = extract_draft_subset(workflow).workflow
+        assert len(extracted["steps"]) == 2
+        result = validate_draft(extracted)
+>       assert result.ok, result.model_dump()
+E       AssertionError: {'ok': False, 'semantic_errors': [], 'structure_errors': [], 'survey': {'is_draft': True, 'plan_fields': [], 'todos': []}, ...}
+E       assert False
+E        +  where False = DraftValidationResult(ok=False, structure_errors=[], topology_errors=[DraftValidationDiagnostic(path=[], message='work...nces unknown step "3"')], semantic_errors=[], warnings=[], survey=DraftSurvey(is_draft=True, todos=[], plan_fields=[])).ok
+
+../gxformat2-219-reproductions.py:24: AssertionError
+____________ test_draft_validator_preserves_shared_state_invariant _____________
+
+    def test_draft_validator_preserves_shared_state_invariant():
+        workflow = {
+            "class": "GalaxyWorkflowDraft",
+            "inputs": {},
+            "outputs": {},
+            "steps": {
+                "cat": {
+                    "tool_id": "cat1",
+                    "state": {"a": 1},
+                    "tool_state": {"a": 2},
+                    "out": ["output"],
+                }
+            },
+        }
+        with pytest.raises(ValueError, match="both 'state' and 'tool_state'"):
+            validate_format2_draft(workflow)
+>       assert not validate_draft(workflow).ok
+E       AssertionError: assert not True
+E        +  where True = DraftValidationResult(ok=True, structure_errors=[], topology_errors=[], semantic_errors=[], warnings=[], survey=DraftSurvey(is_draft=True, todos=[], plan_fields=[])).ok
+E        +    where DraftValidationResult(ok=True, structure_errors=[], topology_errors=[], semantic_errors=[], warnings=[], survey=DraftSurvey(is_draft=True, todos=[], plan_fields=[])) = validate_draft({'class': 'GalaxyWorkflowDraft', 'inputs': {}, 'outputs': {}, 'steps': {'cat': {'out': ['output'], 'state': {'a': 1}, 'tool_id': 'cat1', 'tool_state': {'a': 2}}}})
+
+../gxformat2-219-reproductions.py:43: AssertionError
+____________ test_draft_validator_rejects_todo_input_type_shorthand ____________
+
+    def test_draft_validator_rejects_todo_input_type_shorthand():
+        workflow = {
+            "class": "GalaxyWorkflowDraft",
+            "inputs": {"reads": "TODO"},
+            "outputs": {},
+            "steps": {
+                "trim": {"tool_id": "TODO", "in": {"TODO_in": "reads"}, "out": ["TODO_out"]}
+            },
+        }
+        expanded = {**workflow, "inputs": {"reads": {"type": "TODO"}}}
+        assert not validate_draft(expanded).ok
+>       assert not validate_draft(workflow).ok
+E       AssertionError: assert not True
+E        +  where True = DraftValidationResult(ok=True, structure_errors=[], topology_errors=[], semantic_errors=[], warnings=[], survey=DraftS...), TodoHit(path=['trim'], location=OutIdLocation(kind='out_id', id='TODO_out'), sentinel='TODO_out')], plan_fields=[])).ok
+E        +    where DraftValidationResult(ok=True, structure_errors=[], topology_errors=[], semantic_errors=[], warnings=[], survey=DraftS...), TodoHit(path=['trim'], location=OutIdLocation(kind='out_id', id='TODO_out'), sentinel='TODO_out')], plan_fields=[])) = validate_draft({'class': 'GalaxyWorkflowDraft', 'inputs': {'reads': 'TODO'}, 'outputs': {}, 'steps': {'trim': {'in': {'TODO_in': 'reads'}, 'out': ['TODO_out'], 'tool_id': 'TODO'}}})
+
+../gxformat2-219-reproductions.py:57: AssertionError
+=========================== short test summary info ============================
+FAILED ../gxformat2-219-reproductions.py::test_extract_preserves_unlabeled_list_step_identity
+FAILED ../gxformat2-219-reproductions.py::test_draft_validator_preserves_shared_state_invariant
+FAILED ../gxformat2-219-reproductions.py::test_draft_validator_rejects_todo_input_type_shorthand
+3 failed in 0.26s
