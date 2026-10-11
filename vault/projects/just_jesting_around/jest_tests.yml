@@ -688,6 +688,7 @@
   split_commit: true
 - file: client/src/components/Toolshed/InstalledList/Index.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/Toolshed/InstalledList/Monitor.test.js
 - file: client/src/components/Toolshed/RepositoryDetails/Index.test.ts
 - file: client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js
