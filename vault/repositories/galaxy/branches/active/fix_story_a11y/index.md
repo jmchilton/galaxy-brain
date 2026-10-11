@@ -1,12 +1,17 @@
 # fix_story_a11y
 
-Status: Polishing in progress (`branches_need_polish`); fork CI queued on 2026-10-10.
+Status: Polished; awaiting John’s final review (`branches_ready_for_final_review`). Fork client CI remains pending; no approval recorded.
 Base: upstream `dev` at `b406ead2e4eb55b94d1ba437af8f60ebe4983947` (2026-10-10).
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/fix_story_a11y`.
 Pushed to `jmchilton/fix_story_a11y` at `0d7e194649453a63c6f18f54feb8549ce4e6b4c3` on 2026-10-10.
 
 User requested a new dev worktree and subagent repair batches for the accessibility findings from `vitest_story_a11y`. This branch contains production repairs and focused unit regressions, independent of the running migration lanes. All 236 frozen audit stories pass with accessibility checks set to error and no exceptions in the disposable harness. Eight independent Chromium keyboard/focus probes pass.
 
+- [PR description](pr_description.md)
+- [PR title options](pr_titles.md)
+- [Polish debrief](polish_debrief.md)
+- [Independent polish checklist](polish_checklist.md)
+- [Single strengthening round](polish_strengthening.md)
 - [Polish CI evidence](ci_polish.md)
 - [Repair batches](repair_batches.md)
 - [Initial implementation](initial_implementation_debrief.md)
@@ -21,4 +26,6 @@ User requested a new dev worktree and subagent repair batches for the accessibil
 - [Collections implementation](subagents/collections_implementation.md)
 - [Workflow implementation](subagents/workflow_implementation.md)
 
-No PR opened or description prepared. Fork CI has not been assessed in this implementation session. Original a11y prototype still retains its todo annotations; this branch repairs dev rather than modifying that prototype.
+No PR opened or GitHub comments/check reruns posted during polishing. The description and four titles await John’s read-through; the human-read checklist item remains unchecked. Fork CI was assessed during polishing: client checks queued, release-script failure diagnosed as unrelated (see CI evidence). Original a11y prototype still retains its todo annotations; this branch repairs dev independently. Production SHA is unchanged.
+
+Polish tracking changes are committed locally on galaxy-brain main. Sync is pending because unrelated outgoing commits would be published by a push; other staged/unstaged work was preserved.
