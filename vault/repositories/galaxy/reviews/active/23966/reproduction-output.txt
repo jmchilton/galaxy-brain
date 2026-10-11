@@ -1,0 +1,12 @@
+Failed to materialize deferred dataset with exception: URL contains unencoded characters (e.g. spaces): http://127.0.0.1:57687/store.zarr/a b/zarr.json. The URL source should properly percent-encode the path.
+Failed to materialize deferred dataset with exception: 1 Zarr metadata files listed in the consolidated metadata could not be fetched
+Failed to materialize deferred dataset with exception: 1 Zarr metadata files listed in the consolidated metadata could not be fetched
+Failed to materialize deferred dataset with exception: 1 Zarr metadata files listed in the consolidated metadata could not be fetched
+{"name": "a b", "encoded_control": false, "state": "error", "info": "Failed to materialize deferred dataset with exception: URL contains unencoded characters (e.g. spaces): http://127.0.0.1:57687/store.zarr/a b/zarr.json. The URL source should properly percent-encode the path.", "partial_files_exist": false}
+{"name": "a b", "encoded_control": true, "state": "ok", "info": "my cool info", "values": [1, 2, 3]}
+{"name": "a#b", "encoded_control": false, "state": "error", "info": "Failed to materialize deferred dataset with exception: 1 Zarr metadata files listed in the consolidated metadata could not be fetched", "partial_files_exist": false}
+{"name": "a#b", "encoded_control": true, "state": "ok", "info": "my cool info", "values": [1, 2, 3]}
+{"name": "a?b", "encoded_control": false, "state": "error", "info": "Failed to materialize deferred dataset with exception: 1 Zarr metadata files listed in the consolidated metadata could not be fetched", "partial_files_exist": false}
+{"name": "a?b", "encoded_control": true, "state": "ok", "info": "my cool info", "values": [1, 2, 3]}
+{"name": "a%20b", "encoded_control": false, "state": "error", "info": "Failed to materialize deferred dataset with exception: 1 Zarr metadata files listed in the consolidated metadata could not be fetched", "partial_files_exist": false}
+{"name": "a%20b", "encoded_control": true, "state": "ok", "info": "my cool info", "values": [1, 2, 3]}
