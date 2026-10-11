@@ -1,4 +1,5 @@
 PRs To Review:
+- [#546](https://github.com/galaxyproject/pulsar/pull/546) — Fixes all four Ruff 0.17 datetime alias errors on master; local lint and 40 tests pass, CI queued. [notes](../../repositories/pulsar/reviews/active/546/index.md)
 - [#545](https://github.com/galaxyproject/pulsar/pull/545) — Changelog migration needs `no changelog` exemption; review drafted. [notes](../../repositories/pulsar/reviews/active/545/index.md)
 - [#530](https://github.com/galaxyproject/pulsar/pull/530) — Rebased onto release_0.15; 58 local tests pass, fresh CI queued. [notes](../../repositories/pulsar/reviews/active/530/index.md)
 - [#518](https://github.com/galaxyproject/pulsar/pull/518) — Review fixes pushed; now conflicting, needs rebase. [notes](../../repositories/pulsar/reviews/active/518/index.md)
