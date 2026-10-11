@@ -9,10 +9,12 @@
 
 ## Current assessment after fixes — 2026-10-11
 
-Original hold findings are resolved in Python `025bc24` and [TypeScript #190](https://github.com/jmchilton/galaxy-tool-util-ts/pull/190) at `0dc940df`. Independent fix reviews found no outstanding blocker; full local suites and sync checks pass. Both GitHub CI runs remain queued. Neither PR merged.
+Original hold findings are resolved in Python `025bc24` and [TypeScript #190](https://github.com/jmchilton/galaxy-tool-util-ts/pull/190) at `0dc940df`. Python CI subsequently failed on three Ruff 0.17.0 lint findings; the narrow fix is published at `7b52756`. Exact CI lint versions and the 1,857-test local Python suite pass. New CI is queued. Neither PR merged.
 
 - [Implementation and validation follow-up](follow-up.md)
 - [Independent Python fix review](fix-review.md)
+- [CI failure diagnosis and fix](ci-follow-up.md)
+- [Independent CI fix review](ci-review.md)
 
 ## Initial assessment — 2026-10-11 (superseded by fixes)
 
@@ -31,4 +33,4 @@ Fix Python extraction so deleting list steps preserves or remaps numeric referen
 
 ## Worktrees and scope
 
-Canonical PR worktree creation was unavailable because the PR branch is already checked out in an existing branch worktree. Review used isolated temporary checkouts at `/private/tmp/gxformat2-pr219-review` and `/private/tmp/gxformat2-219-ts`; existing development checkouts were not modified. The TS sync changed fixtures and expectations only in its temporary checkout, not published code.
+Canonical PR worktree creation was unavailable because the PR branch is already checked out in an existing branch worktree. Review used isolated temporary checkouts at `/private/tmp/gxformat2-pr219-review` and `/private/tmp/gxformat2-219-ts`; existing development checkouts were not modified. The initial review synchronized TS fixtures in a temporary checkout. The coordinated implementation was subsequently published as TypeScript #190; see the follow-up above.
