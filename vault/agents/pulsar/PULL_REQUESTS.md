@@ -1,6 +1,6 @@
 PRs To Review:
 - [#545](https://github.com/galaxyproject/pulsar/pull/545) — Changelog migration needs `no changelog` exemption; review drafted. [notes](../../repositories/pulsar/reviews/active/545/index.md)
-- [#530](https://github.com/galaxyproject/pulsar/pull/530) — Framework failures match master; current head still needs code review. [notes](../../repositories/pulsar/reviews/active/530/index.md)
+- [#530](https://github.com/galaxyproject/pulsar/pull/530) — Rebased onto release_0.15; 58 local tests pass, fresh CI queued. [notes](../../repositories/pulsar/reviews/active/530/index.md)
 - [#518](https://github.com/galaxyproject/pulsar/pull/518) — Review fixes pushed; now conflicting, needs rebase. [notes](../../repositories/pulsar/reviews/active/518/index.md)
 - [#529](https://github.com/galaxyproject/pulsar/pull/529) — Draft stacked on #518; rebase after its parent. [notes](../../repositories/pulsar/reviews/active/529/index.md)
 - [#523](https://github.com/galaxyproject/pulsar/pull/523) — Draft version-source work; conflicting, needs rebase. [notes](../../repositories/pulsar/reviews/active/523/index.md)
