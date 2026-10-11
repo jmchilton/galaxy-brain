@@ -1,0 +1,10 @@
+available ['linux-64', 'linux-aarch64']
+routing arm
+resolved [('samtools', 'MergedCondaDependency', '/var/folders/9s/vsw_l7l116qfk1qtck33prdr0000gq/T/pr24018-probe-z_g5xmzl/conda/platforms/linux-aarch64/envs/__samtools@1.0'), ('bwa', 'MergedCondaDependency', '/var/folders/9s/vsw_l7l116qfk1qtck33prdr0000gq/T/pr24018-probe-z_g5xmzl/conda/platforms/linux-aarch64/envs/__bwa@1.0')]
+activation result 0 bwa
+statuses:127,0
+ /bin/bash: line 36: samtools: command not found
+
+native tool shell commands ['PACKAGE_BASE=/var/folders/9s/vsw_l7l116qfk1qtck33prdr0000gq/T/pr24018-context-qnuzjub5/deps/bwa/1.0/owner/repo/revision; export PACKAGE_BASE; PATH="/var/folders/9s/vsw_l7l116qfk1qtck33prdr0000gq/T/pr24018-context-qnuzjub5/deps/bwa/1.0/owner/repo/revision/bin:$PATH"; export PATH']
+native wrapper error Failed to resolve the tool requirements [bwa=1.0] for platform 'linux-64' on job destination 'native'. No conda environment for this platform is installed, contact the Galaxy admin.
+container-enabled but unresolved bare commands []

@@ -1,5 +1,5 @@
 PRs To Review:
-- [#24018](https://github.com/galaxyproject/galaxy/pull/24018) — Initial review in progress; title marks WIP. [notes](../../repositories/galaxy/reviews/active/24018/index.md)
+- [#24018](https://github.com/galaxyproject/galaxy/pull/24018) — Reviewed; request-changes draft unposted; title marks WIP. [notes](../../repositories/galaxy/reviews/active/24018/index.md)
 - [#24032](https://github.com/galaxyproject/galaxy/pull/24032) — Reviewed; approval draft unposted. [notes](../../repositories/galaxy/reviews/active/24032/index.md)
 - [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — John's reply and/or merge decision after Sergey's response. [notes](../../repositories/galaxy/reviews/active/23223/index.md)
 - [#23560](https://github.com/galaxyproject/galaxy/pull/23560) — Draft; re-review when it leaves draft. [notes](../../repositories/galaxy/reviews/active/23560/index.md)
