@@ -957,6 +957,7 @@
   split_commit: true
 - file: client/src/components/admin/BaseList.test.js
 - file: client/src/components/admin/GroupForm.test.ts
+  storybook_play: true
   iterated: 1
   storified: true
 - file: client/src/components/admin/JobsTable.test.ts
