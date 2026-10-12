@@ -360,6 +360,7 @@
   split_commit: true
 - file: client/src/components/History/Content/GenericElement.test.js
 - file: client/src/components/History/Content/GenericItem.test.ts
+  iterated: 1
 - file: client/src/components/History/Content/model/states.test.js
   iterated: 1
   storified: skip
@@ -438,6 +439,7 @@
 - file: client/src/components/Indices/SharingIndicators.test.js
 - file: client/src/components/InteractiveTools/InteractiveTools.test.js
 - file: client/src/components/JobDestinationParams/JobDestinationParams.test.ts
+  iterated: 1
 - file: client/src/components/JobInformation/JobInformation.test.js
   iterated: 1
   storified: skip
@@ -452,6 +454,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Libraries/LibraryEditField.test.js
+  iterated: 1
 - file: client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts
   iterated: 1
 - file: client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js
@@ -652,6 +655,7 @@
 - file: client/src/components/TagsMultiselect/StatelessTags.test.js
 - file: client/src/components/TagsMultiselect/Tag.test.js
 - file: client/src/components/Tool/AuthoringHelpPanel.test.ts
+  iterated: 1
 - file: client/src/components/Tool/Buttons/ToolTourGeneratorItem.test.ts
 - file: client/src/components/Tool/CustomToolEditorWorkspace.test.ts
 - file: client/src/components/Tool/ToolCard.test.js

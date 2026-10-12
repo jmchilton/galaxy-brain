@@ -1,0 +1,90 @@
+iteration: 47
+seed: 2610947
+inventory_sha256: f6a4b14ed2fcb141a927ad2df1a905f827dc44ce7d56e9234ab65648390d9a3d
+branch: vitest_readability
+base_commit: e1570742723b0ea164652d6d40f417a53bf4de27
+remote_start_commit: e1570742723b0ea164652d6d40f417a53bf4de27
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/JobDestinationParams/JobDestinationParams.test.ts
+- file: client/src/components/History/Content/GenericItem.test.ts
+- file: client/src/components/Tool/AuthoringHelpPanel.test.ts
+- file: client/src/components/Libraries/LibraryEditField.test.js
+selection_notes: N=4 approved by John mid-iteration; uniterated and no later-lane
+  true field. Known DataDialog production-bug candidate excluded.
+supporting_files: []
+supporting_suites: []
+helper_files: []
+documentation_files:
+- client/README.md
+new_inventory_files:
+- client/src/components/Common/gCardHeaderLayout.test.ts
+- client/src/components/Help/HelpText.test.ts
+- client/src/components/Upload/utils.test.ts
+- client/src/components/providers/storeProviders.test.js
+- client/src/entry/analysis/modules/Home.test.ts
+- client/src/entry/analysis/routes/admin-routes.test.ts
+- client/src/stores/datatypeStore.test.ts
+- client/src/stores/helpTermsStore.test.ts
+- client/src/utils/sharedPromise.test.ts
+- client/src/utils/simple-error.test.ts
+- client/tests/vitest/check-style-imports.test.js
+commits:
+- sha: e74496decd3176e3b86f7a7b963ca47d5ab04477
+  subject: Make job destination parameter assertions complete and readable
+- sha: 8666e9815c54203f0be0d1efafc882754c805055
+  subject: Improve readability of authoring help panel tests
+- sha: dee5138da78c41eb690c788b5de06383bb79b06e
+  subject: Clarify GenericItem fetch and refresh scenarios
+- sha: 2796b93bb83a84571b8cd3177020be15acc94c6a
+  subject: Clarify library description sanitization and expansion tests
+- sha: 5838667ee6e1d2f89bf995f9eb6fab0ebabd5472
+  subject: Update client testing examples for native VTU2 mount options
+baseline:
+  selected_cases: 19
+  selected_passed: 19
+  selected_skipped: 0
+  selected_suites: 4
+  test_environment: Node 22.20.0; VITE_CONFIG_NATIVE_IGNORE_WARNING=true
+validation:
+  passed_cases: 24
+  skipped_cases: 0
+  total_cases: 24
+  affected_suites: 4
+  selected_cases: 24
+  supporting_cases: 0
+  per_commit_vitest: passed in worker checkouts; GenericItem compile fix is runtime-equivalent
+  client_vue_tsc: passed after explicit detailed fixture type correction
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  per_test_coverage: no source line/branch count loss; GenericItem checked with unchanged
+    GenericElement and ContentItem siblings
+  independent_review: approved; no blockers
+  test_challenge: passed
+  maintainability_review: passed
+  scope_evaluation: retain four originators plus native VTU2 example correction
+  shuffle_seed: 470101
+  test_environment: Node 22.20.0; VITE_CONFIG_NATIVE_IGNORE_WARNING=true; final combined
+    gate --maxWorkers=1
+  initial_combined_run: failed to start three threads workers (timeouts), one suite
+    passed; rerun uses one worker
+coverage_sibling_suites:
+- client/src/components/History/Content/GenericElement.test.js
+- client/src/components/History/Content/ContentItem.test.js
+coverage_sibling_validation:
+  baseline_cases: 14
+  final_cases: 14
+  source_files_compared: 219
+  losses: 0
+pushed_head: 5838667ee6e1d2f89bf995f9eb6fab0ebabd5472
+push: fast-forward
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  workflow_status: ci_wait
+  queued_checks: 39
+  running_checks: 1
+  completed_checks: 2
