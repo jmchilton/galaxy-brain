@@ -364,6 +364,7 @@
   split_commit: true
 - file: client/src/components/History/Content/GenericElement.test.js
 - file: client/src/components/History/Content/GenericItem.test.ts
+  storified: true
   iterated: 1
 - file: client/src/components/History/Content/model/states.test.js
   iterated: 1
