@@ -1,0 +1,7 @@
+# WorkflowHelpDisplay independent normal review — batch72
+
+Approve `65268c6c55045c3985d8d70866546edd00e73469` against pinned `27e6eaab10040eec5866dd9614ba44b7547c110d`. Independent Node22.20 shuffled720201 passes the original one case/eight checks. Reviewed full diff, component readme/help markdown/directive paths and original sanitizer ownership.
+
+Both exact markdown literals remain, alongside original call count/order, links profile for both calls, strong/link-target/escaped raw HTML checks and second rendered help emphasis. The local Pick checks only the supplied readme/help fields; its documented prop assertion retains deliberately omitted workflow metadata without invented identities/defaults. Native inferred mount and canonical positional helper preserve the complete observation contract. Existing automatic unmount still runs before resetting/restoring the captured sanitizer implementation.
+
+Independently reran source-location comparisons: native16files/51 and actual external UI26files/13 exact, no lost statement/function/branch-arm locations. This fixture renders the Bootstrap card, while external UI is imported setup; no shared alert/loading rendering claim. Evidence /private/tmp/readability72-help-independent.log and before/after[-ui]/coverage-final.json. Author lint/format/absolute hooks pass; driver owns integrated full types. No correctness/clarity/scope finding, fabricated fixture defaults or new evidenced guidance gap.

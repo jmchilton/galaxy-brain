@@ -1,0 +1,11 @@
+# CustomToolEditorWorkspace — batch72
+
+Originator `54335754598854f5f476c8827e75745378da7ae2`, pinned base `27e6eaab10040eec5866dd9614ba44b7547c110d`.
+
+All five original cases/12 checks retain hidden/split/expanded documentation, editor/documentation element identity through reopening, and exact620px drag update. Props, slot markup, click/emission actions, setProps and nextTick order remain identical. Required observations/actions use native get/getComponent while the original absence check remains find/exists. Real FlexPanel/DraggableSeparator/GButton stay mounted; no store fixture, fake frame or new helper is needed.
+
+Each mount owns an attachment div so happy-dom visibility keeps its original attached-document behavior. Automatic unmount runs before removing only that captured host, including failed assertions. A teardown-only await waits for an actual requestAnimationFrame callback while mounts remain alive, then unmount removes registered separator callbacks/listeners. The sensor schedules its animation loop on separator mount; this lets its current frame run without adding delay to any original observation. It does not claim the shared global animation-loop singleton itself stops.
+
+Pristine main/UI runs completed before edits. Immediate auto-unmount initially lost five actual animation-frame/throttle callback locations despite equal total counts. Source inspection proved original unowned mounts allowed those callbacks to execute after cases; waiting for the real current frame before unmount retains them. Stable final Node22.20 shuffled720101 passes five cases. Native V8 retains11files207→212 covered statement/function/branch-arm locations, zero loss; additions are real scope-disposal stop paths. Actual external UI26files109→111 locations, zero loss; gains are button cleanup. Broad imported UI setup is not a claim every template renders.
+
+Native ESLint/Prettier and absolute sample hooks passed before commit. Driver owns integrated full types. Evidence /private/tmp/readability72-workspace-{before,after}/coverage-final.json, corresponding -ui captures/logs and -eslint/-prettier/-hooks.log. Existing asynchronous ownership and location-comparison guidance caught the issue; no new evidenced guidance gap. No production/support/shared/later-lane edit.

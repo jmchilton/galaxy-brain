@@ -171,6 +171,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/scopes.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/storeFirst.test.ts
   iterated: 1
@@ -355,6 +356,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/GalaxyAI.routesync.test.ts
+  iterated: 1
 - file: client/src/components/GalaxyAI.test.ts
 - file: client/src/components/GalaxyAI/ChatActions.test.ts
 - file: client/src/components/GalaxyAI/ChatInput.test.ts
@@ -548,6 +550,7 @@
 - file: client/src/components/Markdown/Editor/Configurations/ConfigureHeader.test.js
 - file: client/src/components/Markdown/Editor/Configurations/ConfigureVitessce.test.js
 - file: client/src/components/Markdown/Editor/TextEditor.test.ts
+  iterated: 1
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetCollection/CollectionTree.test.js
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js
   iterated: 1
@@ -698,6 +701,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Popper/Popper.test.js
+  iterated: 1
 - file: client/src/components/Popper/usePopper.test.js
   iterated: 1
   storified: skip
@@ -747,6 +751,7 @@
   iterated: 1
 - file: client/src/components/Tool/Buttons/ToolTourGeneratorItem.test.ts
 - file: client/src/components/Tool/CustomToolEditorWorkspace.test.ts
+  iterated: 1
 - file: client/src/components/Tool/ToolCard.test.js
   iterated: 1
   storified: true
@@ -1002,6 +1007,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts
   iterated: 1
   storified: true
@@ -1023,6 +1029,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Run/services.test.js
+  iterated: 1
   storified: skip
 - file: client/src/components/Workflow/WorkflowAnnotation.test.ts
   iterated: 1
@@ -1624,6 +1631,7 @@
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts
+  iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts
   iterated: 1

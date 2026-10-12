@@ -1,0 +1,75 @@
+iteration: 72
+seed: 2610972
+inventory_sha256: a424983c5744213a098c3e506bc516d762dc0aa6e74a4a1c107bb4d36cc9bad5
+eligible: 197
+base_commit: 27e6eaab10040eec5866dd9614ba44b7547c110d
+remote_start_commit: 27e6eaab10040eec5866dd9614ba44b7547c110d
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/Popper/Popper.test.js
+- file: client/src/components/Markdown/Editor/TextEditor.test.ts
+- file: client/src/components/Tool/CustomToolEditorWorkspace.test.ts
+- file: client/src/components/GalaxyAI.routesync.test.ts
+- file: client/src/components/CommandPalette/providers/scopes.test.ts
+- file: client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts
+- file: client/src/components/Workflow/Run/services.test.js
+- file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 66
+  intended_assertions: 189
+  count_note: Registry key/token loops and workflow URL/helper/editor repeated executions
+    included.
+commits:
+- a454ecaea1a5798c2e556625ee18db4798d0f785 Type TextEditor mounts and own drag test
+  stores
+- cb4d82c37298e8fd4a34d2b4471c8b5683c9472f Use native typed mounts for workflow help
+  rendering
+- 4bf05383ab84c6a7cb74f7aea6e31f98ae32298e Name history search cases and prove workflow
+  errors reject
+- c074ac54e5bb8b10a7658f04bc4eda496718dc2d Own Popper mounts and make outside dismissal
+  coverage explicit
+- 862ecad1235fcc9ac24260e8520bb633ba77d884 Own search page mounts and pending debounce
+  timers
+- 8e6d52e4fd52636b7423ecdfc2ac05feaeab9695 Own editor workspace mounts and preserve
+  frame cleanup
+- 334e5c1bb981950ee67002e7680cbe493d3b4cb3 Name scope lookup cases and require registered
+  fixtures
+- fd2788ba3be2d6e0c0c8d3d3bc0893b49397053a Own route-sync chat mounts and delayed
+  history cleanup
+validation:
+  passed_cases: 75
+  assertions: 194
+  skipped_cases: 0
+  shuffle_seed: 720101
+  independent_seed: 720201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed
+  toolshed_vue_tsc: passed
+  eslint: passed both native frontends
+  prettier: passed
+  hooks: passed absolute sample config
+  coverage: zero covered source locations lost; actual UI and imported setup qualifications
+    in report
+  mutations: 'outside-click no-op and resolved workflow Error: original pass, final
+    fail, restored suites pass'
+  independent_review: all eight approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain eight origins; screenshots not relevant
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; unrelated
+    empty scratch note preserved
+push: fast-forward
+pushed_head: a454ecaea1a5798c2e556625ee18db4798d0f785
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait
