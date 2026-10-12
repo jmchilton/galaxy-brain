@@ -1,0 +1,5 @@
+# Escape stack — independent review, batch 65
+
+Approve author commit `fd47afe19109419b8ce1b82be18548ab4d182176` against pinned base `98e8e836455918807d7c2c7c09a8ca64be807f02`. Independent shuffled seed 650201 passes five cases. All seven original checks remain, with two new reopen/close assertions establishing that reopening removes the previous registration rather than retaining a hidden duplicate.
+
+The checks use the public stack contract: after closing the reopened layer the other layer is top, and after closing that layer the first is absent. Existing fixture cleanup resets both layers and eligibility state. The bounded mutation logs show removal of the duplicate-registration cleanup passing all five original cases, failing the added check, then restored source passing five cases. Source/test restoration uses finally, and no mutation is committed. Author coverage retains all four files/20 covered locations exactly. No extra helper, mock, production change, or useful new guidance gap found.

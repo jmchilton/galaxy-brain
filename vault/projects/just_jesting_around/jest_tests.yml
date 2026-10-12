@@ -24,6 +24,7 @@
   iterated: 1
   storified: skip
 - file: client/packages/ui/src/utils/escapeStack.test.ts
+  iterated: 1
   storified: skip
 - file: client/packages/ui/src/utils/focusOrder.test.ts
 - file: client/packages/ui/src/utils/hoverBridge.test.ts
@@ -141,6 +142,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/datasets.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/histories.test.ts
   storified: skip
@@ -344,6 +346,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/GalaxyAI/ChatModeSelector.test.ts
+  iterated: 1
 - file: client/src/components/GalaxyAI/ClarificationCard.test.ts
 - file: client/src/components/GalaxyAI/agentTypes.test.ts
   iterated: 1
@@ -426,6 +429,7 @@
   storified: skip
 - file: client/src/components/History/HistoryOptions.test.ts
 - file: client/src/components/History/HistoryView.test.js
+  iterated: 1
 - file: client/src/components/History/Layout/DetailsLayout.test.js
   iterated: 1
 - file: client/src/components/History/Modals/CopyModal.test.ts
@@ -552,6 +556,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Markdown/parse.test.js
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Masthead/Masthead.test.js
@@ -747,6 +752,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/Tool/utilities.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/ToolEntryPoints/ToolEntryPoints.test.js
@@ -861,6 +867,7 @@
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/AreaHighlight.test.ts
 - file: client/src/components/Workflow/Editor/Comments/ColorSelector.test.js
+  iterated: 1
 - file: client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
 - file: client/src/components/Workflow/Editor/DraggablePan.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormDefault.test.js
@@ -1222,6 +1229,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/directives/sanitizeHtml.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/directives/vGTooltip.test.ts
   iterated: 1

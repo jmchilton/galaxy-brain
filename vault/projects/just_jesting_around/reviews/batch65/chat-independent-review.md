@@ -1,0 +1,7 @@
+# ChatModeSelector — independent review, batch 65
+
+Approve; no blocking findings. Compared `5f8eca333887bb65feb10eea675783c9a0ba7f09` with base `98e8e836455918807d7c2c7c09a8ca64be807f02`, inspected selector/store/route boundaries, and applied current client/shared review guidance. Independent shuffled seed 650201 passes all 24 cases (`/private/tmp/readability65-chat-independent.log`).
+
+All 25 original assertions remain unchanged: six pressed-state conditions, notebook/non-notebook button counts, full-view actions/routes, docking navigation and routed/active/history/null ID precedence including the negative routed-ID assertion. Original router mock, real store actions, chat-history factory and nth-button interactions remain.
+
+Native mounting installs the owned testing Pinia and original icon stub through canonical global options. The store is explicitly selected from that Pinia; wrapper inference removes the object cast and narrows the existing button helper. Automatic unmount precedes action-spy restoration, then Pinia disposal. The corrected helper comment accounts for notebook context, and removing the incorrect setup-action-spying explanation does not remove action observations. Author coverage retains default 36 files/252 locations and all 101 actual shared UI locations, adding two tooltip unmount locations. File gates pass; integrated types are driver-owned. No weakened assertion, production/supporting edit, unnecessary abstraction, or useful new guidance gap found.

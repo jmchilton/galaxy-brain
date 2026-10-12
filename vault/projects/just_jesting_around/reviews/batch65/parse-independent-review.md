@@ -1,0 +1,7 @@
+# Markdown parse — independent review, batch 65
+
+Approve; no blocking findings. Compared `87903b8a8dba504671c51507bc7947881fbadc64` with base `98e8e836455918807d7c2c7c09a8ca64be807f02`, inspected parser/replacement logic and fixtures, and applied current client/shared review priorities. Independent shuffled seed 650201 passes all 24 cases (`/private/tmp/readability65-parse-independent.log`).
+
+All original cases and 36 executed checks remain. Four input-equality checks add actual unchanged-document contracts beside the retained original self-comparisons, producing 40 checks. The recorded bounded mutation confirms the original suite missed trailing corruption and precisely these four checks detect it. The local markdown fixture preserves the original prefix, backticks, fence and trailing newline while exposing each directive's quoting/argument/space variants. Special regex/newline fixtures stay literal. The corrected parseMarkdown group matches the called function.
+
+No parser behavior, production/supporting file, original input/output, or existing assertion is changed. The local literal helper earns its reuse across many documents without reproducing parser logic or creating a shared framework. Author V8 retains exactly four files/146 locations; file lint, formatting and explicit hooks pass. No shared UI/resource cleanup is involved, and no useful new generic guidance is required.

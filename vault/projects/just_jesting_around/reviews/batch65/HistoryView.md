@@ -1,0 +1,11 @@
+# HistoryView — batch 65 author review
+
+All eight original executed cases and 114 executed assertions remain. This count includes both recursive-deletion rows (15 checks each), five seven-check layout-helper calls, and twenty per-dataset ID/name checks. Original partial history/content payloads, counts, ordering, ownership/current/purged/archived combinations, service responses, and rate-limit/retry contracts remain unchanged.
+
+Each native mount owns real Pinia and memory-router instances through canonical withPlugins. Test and fixture store lookups use that Pinia explicitly. Automatic unmount precedes restoring spies/resetting the two owned service mocks; Pinia disposal follows. The obsolete adapter comment/top-level router option are removed. Local fixtures retain their exact partial semantics: canonical history/dataset factories were inspected but would add default fields not present in these inputs. The existing registered-user factory remains reused, and local fixture names use ordinary camelCase.
+
+Canonical deferred replaces the hand-written deletion resolver. Both rate-limit rows preserve the original pending loading state, optimistic removal, failure restoration/error dialog, hide action, successful retry, and final explicit unmount. Finally cleanup unmounts a remaining wrapper, releases the pending response, and flushes promises if an earlier assertion fails. Required action/content targets use get/getComponent; presence/absence checks remain find-based. No original assertion is removed or weakened.
+
+Pristine and final shuffled seed 650101 pass all eight cases. Default V8 retains all 2,791 original covered statement/function/branch-arm locations across 340 files, adding six from notification-SSE watcher/scope cleanup; zero losses. Supplemental actual shared UI coverage retains exactly 23 files/516 locations with zero losses/additions. Evidence is `/private/tmp/readability65-history-{before,after}*`, compared with the canonical source-location script.
+
+File ESLint/Prettier and explicit absolute-config hooks pass; driver owns integrated full types. No production, supporting/shared-helper, dependency, or README edits. Existing ownership/deferred guidance suffices; no new useful guidance gap found.

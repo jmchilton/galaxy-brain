@@ -1,0 +1,71 @@
+iteration: 65
+seed: 2610965
+inventory_sha256: 876b2e18f08f07cd03019247ced183dcdac5a49886305a96b1569e41a368fa2e
+eligible: 253
+base_commit: 98e8e836455918807d7c2c7c09a8ca64be807f02
+remote_start_commit: 98e8e836455918807d7c2c7c09a8ca64be807f02
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+sampling_pool: 254
+selection_note: Seeded pool included the known DataDialog bug, which was not drawn;
+  all eight selected files pass the full eligibility audit. The valid eligible pool
+  is 253.
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/Markdown/parse.test.js
+- file: client/src/components/Tool/utilities.test.ts
+- file: client/src/components/Workflow/Editor/Comments/ColorSelector.test.js
+- file: client/src/components/History/HistoryView.test.js
+- file: client/packages/ui/src/utils/escapeStack.test.ts
+- file: client/src/components/GalaxyAI/ChatModeSelector.test.ts
+- file: client/src/directives/sanitizeHtml.test.ts
+- file: client/src/components/CommandPalette/providers/datasets.test.ts
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 86
+  intended_assertions: 275
+validation:
+  shuffle_seed: 650101
+  independent_seed: 650201
+  max_workers: 1
+  node: 22.20.0
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings;
+    shared vault retains unrelated empty reviews/Untitled.md
+  passed_cases: 86
+  assertions: 281
+  skipped_cases: 0
+  coverage: zero actual covered source locations lost; actual external UI retained
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  test_challenge: passed
+  scope: retain eight origins
+  independent_review: approved
+  maintainability: passed
+commits:
+- a0dc0eccc9e8be67715f0390337c0e2f969cc022 Own color selector wrappers and await prop
+  updates
+- c2b98ac682d1be4ae9d1b3cef39eb7bd59157fc9 Clarify Markdown label fixtures and unchanged-input
+  checks
+- 2818ec39fede690f0c3610459e7321761bce2f18 Type sanitizer test hook capture without
+  casts
+- e6bc057046ca02a33c945c8f7a48288caf0320f4 Own history view test stores and deferred
+  response cleanup
+- 1d4b123c9e1769c61faeab8393506703b32f1b3c Use typed owned fixtures for dataset palette
+  tests
+- d05698226e7296fc64f73cf6cb251f825a6be727 Own chat mode selector test mounts and
+  stores
+- e27a8c8741babec7016220f0368203c66ab2edfa Verify reopened escape layer removes its
+  old registration
+- 52297d4c534dfec7fcf20add04f018a0559e8c34 Scope tool link clipboard mock and restore
+  its descriptor
+push: fast-forward
+pushed_head: a0dc0eccc9e8be67715f0390337c0e2f969cc022
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

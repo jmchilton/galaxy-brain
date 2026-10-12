@@ -1,0 +1,7 @@
+# sanitizeHtml — independent review, batch 65
+
+Approve; no blocking findings. Compared `dafef0dc438d30742b34969675d7f71972c0f6f9` with base `98e8e836455918807d7c2c7c09a8ca64be807f02`, inspected sanitizer and captured-hook boundaries, and applied current client/shared review priorities. Independent shuffled seed 650201 passes ten cases (`/private/tmp/readability65-sanitize-independent.log`).
+
+All 43 executed checks retain their original configuration, URI, target, rel-token, profile and instance-lifetime expectations, including each loop iteration and all three two-check helper calls. The DOMPurify stand-in now types the observed hook name/callback directly. Captured callback inference removes the cast/non-null assertions; the registration-count/name checks remain and an explicit missing-hook failure narrows its presence. Node is an intentional test boundary for the retained text-node guard, rather than a claim to implement every DOMPurify overload.
+
+Existing module-lifetime lazy registration and call-history resets remain unchanged. Unattached DOM nodes and a pure stand-in need no wrapper/store cleanup. These tests verify profile delegation and hook behavior; the stand-in does not demonstrate DOMPurify's actual sanitization algorithm. No policy, production/supporting file, original assertion, or shared helper changed. Author V8 retains exactly four files/45 locations; file lint, formatting and explicit hooks pass. Integrated types belong to the driver, with no useful new guidance gap identified.
