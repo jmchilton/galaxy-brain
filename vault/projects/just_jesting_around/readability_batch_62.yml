@@ -1,0 +1,57 @@
+iteration: 62
+seed: 2610962
+inventory_sha256: 4b6d3b40ab5e3d5796b189eee6006be52cacd6f1f6f3639539263bae90c04fbd
+branch: vitest_readability
+base_commit: 4451d737bde7225529f3c476ef48299c6e921b27
+remote_start_commit: 4451d737bde7225529f3c476ef48299c6e921b27
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/entry/analysis/routes/library-routes.test.ts
+- file: client/src/components/Visualizations/VisualizationUnsavedChanges.test.js
+- file: client/src/components/StsDownloadButton.test.js
+- file: client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts
+selection_notes: N=4; seeded 269 eligible existing uniterated files; later-lane true
+  and known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 17
+  assertions: 40
+validation:
+  passed_cases: 18
+  assertions: 46
+  skipped_cases: 0
+  shuffle_seed: 620101
+  independent_seed: 620201
+  max_workers: 1
+  node: 22.20.0
+  eslint: passed
+  prettier: passed
+  coverage: zero covered source locations lost; incidental leaked poll-error coverage
+    replaced with asserted scenario; actual UI retained
+  independent_review: approved
+  scope: retain four origins
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings;
+    shared vault retains unrelated empty reviews/Untitled.md
+  client_vue_tsc: passed
+  hooks: passed
+  test_challenge: passed
+  maintainability: passed
+push: fast-forward
+pushed_head: 463e67451e71ef0e753cdd28a73c20279d294723
+github:
+  pr: 24038
+  draft: true
+  mergeable: UNKNOWN
+  status: ci_wait
+commits:
+- 463e67451e71ef0e753cdd28a73c20279d294723 Clarify DatasetIndex table contracts and
+  mock ownership
+- a912cdfb5dfeeca81935d2424521128a7954f502 Own download polling test cleanup and assert
+  poll failures
+- 34c82e00652fe8b609074b17409ef593ec16cf88 Narrow library route props before typed
+  invocation
+- 313d652d79415b09650a978d28c9aa3f02487035 Own unsaved visualization iframe hosts
+  and cleanup

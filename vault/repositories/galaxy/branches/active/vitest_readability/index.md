@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `4451d737bde7225529f3c476ef48299c6e921b27`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `463e67451e71ef0e753cdd28a73c20279d294723`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -135,3 +135,10 @@ Fast-forward pushed `9b952a0b874de984c631e217445e3298042500eb`; exact GitHub hea
 Continuous run, four origins: schemaMarkdown, CuratedWorkflowList, FormMessage, NotificationForm. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_61.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_61.yml). All31cases and94originalchecks preserved, plus mutation-proven nested non-mutation assertion (95finalchecks). Owned native mounts, wrappers/timers/Pinia/router cleanup, canonical partial-response boundary; no production/helper/support/docs changes. Every covered source location retained including actual sharedUI; final shuffled run, full integratedtypes, hooks, independent normal/strict/challenge/scope approve. Screenshots/E2E not relevant.
 
 Fast-forward published `4451d737bde7225529f3c476ef48299c6e921b27`, GitHub exacthead/draft confirmed; ci_wait. Four origin counters afterpush, downstream unchanged, vaultlocalonly. Sharedvault unrelatedUntitled error preserved; isolatedsnapshot122files/zeroerrors/15existingwarnings.
+
+
+## Readability loop batch 62 — 2026-10-12
+
+Continuous run, four origins: library-routes, VisualizationUnsavedChanges, StsDownloadButton, DatasetIndex. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_62.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_62.yml). All17originalcases/40checks retained→18finalcases/46checks. Ownednative wrapper/Pinia/timer/iframe/deferred cleanup; typedcallback/computed boundaries. Explicit poll-error case replaces proven leakederrorcoverage; mutation-proven table-item props and namedtablelookup fix fragilegeneratedID. EveryoriginalcoveredLOCretained inclactualUI. Finalcombinedrun, fulltypes, hooks, independentnormal/strict/challenge/scope approve. Noimpl/shared/support/docs changes; noE2E/screenshots.
+
+Fast-forward pushed `463e67451e71ef0e753cdd28a73c20279d294723`, exactGitHubhead/draft verified; ci_wait. Four origin counters afterpush, downstream unchanged, vaultlocalonly. SharedvaultunrelatedemptyUntitled preserved; isolatedsnapshot122files/zeroerrors/15existingwarnings.

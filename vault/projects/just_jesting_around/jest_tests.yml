@@ -231,6 +231,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts
+  iterated: 1
 - file: client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
   iterated: 1
   split_commit: true
@@ -689,6 +690,7 @@
 - file: client/src/components/SingleItemSelector.test.ts
   iterated: 1
 - file: client/src/components/StsDownloadButton.test.js
+  iterated: 1
 - file: client/src/components/Tags/model.test.js
   iterated: 1
   split_commit: true
@@ -833,6 +835,7 @@
   storified: skip
 - file: client/src/components/Visualizations/VisualizationHeader.test.js
 - file: client/src/components/Visualizations/VisualizationUnsavedChanges.test.js
+  iterated: 1
 - file: client/src/components/Visualizations/utilities.test.js
   storified: skip
   storybook_play: skip
@@ -1229,6 +1232,7 @@
   storybook_play: skip
 - file: client/src/entry/analysis/routes/admin-routes.test.ts
 - file: client/src/entry/analysis/routes/library-routes.test.ts
+  iterated: 1
 - file: client/src/entry/analysis/routes/login-routes.test.ts
   storified: skip
   iterated: 1

@@ -1,0 +1,7 @@
+# DatasetIndex — independent review, batch 62
+
+Approve; no blocking findings. Reviewed originator `c428a3389f8` against base `4451d737bde7225529f3c476ef48299c6e921b27`, the component and composable boundary, current client guidance, and shared REVIEW_FOCUS. Independently ran shuffled seed 620201: all seven cases pass (`/private/tmp/readability62-index-independent.log`).
+
+All seven original cases and 18 original assertions remain, including HTML smoke checks, fields presence, each error message, and table absence. Named GTable component lookup preserves the intended presence/absence contract while removing the generated-ID order dependency and incorrect assumed stub spelling. The two added assertions check exact sortable column props and exact prefix-stripped subdirectory items at the public child boundary. The recorded bounded mutation demonstrates that the item assertion detects a behavior missed by the original suite.
+
+Native props/global options remove the component object casts. The mock function signature derives from the real composable; creating its computed return within the composable mock implementation gives the mounted component ownership of that scope. Automatic unmount runs before resetting the owned mocks. No production or shared-helper change, assertion weakening, unnecessary abstraction, or additional guidance requirement found. Author coverage retains all 91 covered locations across 31 files; author full types, lint/format, and explicit hooks passed.
