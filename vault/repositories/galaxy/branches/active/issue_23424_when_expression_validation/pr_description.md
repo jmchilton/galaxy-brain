@@ -44,7 +44,7 @@ Builds on 🔀 #23409, which removed flat nested tool-input aliases, and 🔀 #2
 
 <details><summary>Validation</summary>
 
-The targeted suite passes 29 cases: 28 real workflow API cases plus the shared analyzer specification. Sixteen accepted expressions also evaluate successfully through Galaxy's actual JavaScript evaluator. The original rejection test was run with `dev`'s unmodified workflow manager in the same API harness and failed at the HTTP 400 assertion because it received HTTP 200. Python lint, formatting/import checks, analyzer type checking and commit hooks pass. Fork CI on the pushed head is pending.
+The targeted suite passes 29 cases: six real workflow API tests and 23 fast analyzer tests (22 backend regressions plus the shared specification). Sixteen accepted expressions also evaluate successfully through Galaxy's actual JavaScript evaluator. The original rejection test was run with `dev`'s unmodified workflow manager in the same API harness and failed at the HTTP 400 assertion because it received HTTP 200. Python lint, formatting/import checks, analyzer type checking and commit hooks pass. Fork CI on the pushed head is pending.
 
 </details>
 
@@ -68,9 +68,9 @@ Removed an unused Python port of client matching policy, corrected quoted-arrow 
 
 ### ✅ [John's Galaxy Test Challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md)
 
-<details><summary>Real API regressions cover compatibility, rejection and failed-update persistence.</summary>
+<details><summary>Exhaustive analyzer regressions complement six representative API tests.</summary>
 
-New tests exercise supported and uncertain expressions at the import boundary. The shared static/dynamic specification remains intact. Browser coverage is inapplicable to this server change; editor-format HTTP updates cover the save contract.
+Syntax combinations use fast analyzer tests; API tests cover import diagnostics, mixed static/dynamic rejection, accepted expressions, legal subworkflow pipe labels and failed-update persistence. The shared static/dynamic specification remains intact. Browser coverage is inapplicable to this server change; editor-format HTTP updates cover the save contract.
 
 </details>
 
@@ -95,7 +95,7 @@ New tests exercise supported and uncertain expressions at the import boundary. T
 ```shell
 pytest -q test/unit/workflows/test_when_expression.py
 ./run_tests.sh -api lib/galaxy_test/api/test_workflows.py::TestWorkflowsApi \
-  -- -k 'import_rejects_flat_nested_tool_when_reference or import_allows_dynamic_tool_when_reference or import_allows_nested_tool_when_references or import_allows_flat_subworkflow_when_reference or import_preserves_when_expressions_outside_static_analysis or import_rejects_static_flat_when_root_with_dynamic_properties or update_rejects_flat_nested_tool_when_reference'
+  -- -k 'import_rejects_flat_nested_tool_when_reference or import_allows_dynamic_tool_when_reference or import_allows_nested_tool_when_references or import_allows_flat_subworkflow_when_reference or update_rejects_flat_nested_tool_when_reference'
 ```
 
 </details>

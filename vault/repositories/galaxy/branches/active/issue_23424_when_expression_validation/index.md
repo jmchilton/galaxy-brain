@@ -4,7 +4,7 @@ Status: `branches_ready_for_final_review`. Base: `dev`. [PR #23817](https://gith
 
 Validates workflow `when` expression input references at import.
 
-Current pushed head: `d47f83c407c71649356c27065ea80e9ee360c531`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_23424_when_expression_validation`.
+Current pushed head: `9b008a0f5199e4a434cf3373d9ece44d0db6ad22`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_23424_when_expression_validation`.
 
 [Implementation handoff](implementation_debrief.md) · [Recovered initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review_2026-10-12.md) · [Test challenges](test_challenges_debrief.md) · [Code-quality review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md)
 
@@ -41,3 +41,11 @@ Fork CI snapshot at 2026-10-12T11:14:50-04:00: 19 queued, one pending and two sk
 ## Polish completed — 2026-10-12
 
 The general and workflow checklist review passes, with the human-read item deliberately unchecked. One fresh strengthening round found only the test runner's missing `--` separator; the proposed description now uses `-- -k`. It recommends no additional implementation work. Description, four titles and all applicable debriefs are linked above. Final human approval and PR disposition remain John's choices; fork CI remains pending with no observed failures.
+
+## Requested test cleanup — 2026-10-12
+
+John requested reducing expensive API combinations in favor of the exhaustive analyzer contract. Commit `9b008a0f5199e4a434cf3373d9ece44d0db6ad22` moves all 22 variations into fast backend analyzer parametrizations and leaves six representative API methods. The shared cross-language fixture and production behavior are unchanged. The accepted computed-access API test now explicitly verifies round-trip preservation.
+
+[Normal revision review](subagents/test_cleanup_review_2026-10-12.md) and the fresh [test challenge](test_challenges_debrief.md) found no further work. General and workflow checklists were reevaluated and pass; the human-read item remains unchecked. Targeted tests: 29 passed (six API plus 23 fast tests); Ruff, Black, isort, whitespace checks and commit hooks pass. The fork head matches the pushed commit. New-head fork CI: 17 queued, three pending, two skipped, no observed failures.
+
+The previous challenge and implementation handoff are archived in [earlier_drafts/1](earlier_drafts/1/implementation_debrief.md). The revised description reflects the new test split and runner selector. Status remains `branches_ready_for_final_review` because these user-requested edits require a fresh read-through; no SHA approval is recorded. Closed #23817 was not reopened and no PR was created for this branch.

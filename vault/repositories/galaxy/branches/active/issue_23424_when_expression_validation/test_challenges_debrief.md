@@ -1,29 +1,41 @@
-# Test challenges — 2026-10-12
+# Test challenges — test cleanup, 2026-10-12
 
-Reviewed Galaxy's `doc/source/dev/writing_tests.md`, client testing guidance, and both vault E2E writing/component references. The branch changes server workflow import/update validation; tests should primarily exercise those HTTP boundaries.
+Reviewed the working revision against `HEAD`, the previous challenge debrief, Galaxy's `doc/source/dev/writing_tests.md`, `client/README.md#client-side-unit-testing`, and both vault E2E writing/component references. This fresh challenge applies to the test-only cleanup requested after implementation recovery.
 
-## Changes and findings
+## Test layer decision
 
-The original six API tests already exercised rejection, mixed dynamic access, child-property reads, supported nested spellings, fully computed accesses and legitimate subworkflow pipe labels. They use real imported workflows and no mocks, so they remain. The small format2 fixture constructs actual tool-state/connection input rather than a fake manager or request object.
+John explicitly asked to clean up expensive API combinations that duplicate the exhaustive expression contract. That instruction takes precedence over the shared challenge checklist's general preference to move easily expressible unit cases to API/integration/browser tests. Galaxy's testing guide also recommends isolated unit tests for complex components that need no server or database. The expression scanner is such a component; the HTTP write boundary still needs representative API coverage.
 
-Added 22 parametrized/API cases: sixteen valid expressions outside the strict static subset must import and round-trip unchanged; five cases must still reject a proved flat root even with computed/escaped children, separate template access or a quoted arrow string; and an editor-style update must reject the obsolete spelling while preserving the prior persisted workflow. Parametrization identifies each expression independently in failures.
+The revision reduces the focused API collection from 28 cases to six test methods, while retaining all 22 moved expression regressions as fast parametrized analyzer contracts. The shared cross-language YAML fixture remains unchanged. Backend-only conservative handling stays in the Python tests because editor edge matching intentionally has different, permissive policy; imposing these backend expectations on the client specification would conflate those policies.
 
-The initial sixteen-case regression run failed ten valid import examples before the fixes and passed six controls. Scope declarations/functions, a Unicode identifier suffix, templates and escaped literal keys were being mistaken for proved global input paths. Further independent review exposed nested-template text leaking through interpolation braces in regexes/comments, input rebinding without a declaration, and a quoted arrow incorrectly disabling static checking. The backend now handles these unsupported constructs conservatively rather than interpreting arbitrary JavaScript scopes/escape rules. Proven pipe roots preceding ordinary dynamic children or alongside ordinary dynamic template accesses remain rejected.
+## Coverage preservation
 
-All sixteen permissive examples were also evaluated using Galaxy's real `do_eval` with nested input state: every example is valid and returns `True`. This establishes actual compatibility examples rather than inventing unsupported strings only to satisfy an analyzer test.
+An AST comparison of the original API parametrizations with the new Python parametrizations confirms all 21 expression strings occur unchanged in the replacement tests. The separate property-read rejection contributes the twenty-second case. No expression category disappeared:
 
-## Unit-test challenge
+- Sixteen permissive cases cover `const`/`let`/`var` bindings, assignment rebinding, function/arrow/method bindings, Unicode identifiers, simple/interpolated/nested templates, regex/comment content within nested templates, and hex/Unicode escapes. Each requires no proved input path and conservative dynamic classification.
+- Six retained-root cases cover computed children, a quoted arrow, template children, escaped children, a separate template access, and a static child property. Exact path expectations ensure that unsupported children do not discard a proved root; the quoted-arrow and static-child controls require static classification.
 
-Retained the shared YAML reference-analysis contract. Exact static-path and dynamic-access expectations document the analyzer's supported subset and check agreement with the independently implemented client analyzer; HTTP import tests cannot express that cross-language contract. Every shared `static_paths`/`dynamic` assertion remains intact, and the fixture itself is unchanged.
+These tests assert the public analyzer's reference-analysis contract. They do not inspect tokens, call private scanner helpers, derive expectations using implementation functions, or mirror the algorithm. Their regression cases originated from valid expression examples that exposed false import rejections during the prior review. That review also evaluated the sixteen permissive examples with Galaxy's real JavaScript evaluator; this cleanup does not add JavaScript evaluation to every analyzer test.
 
-Removed the unused Python `expression_references_input` helper, prefix matcher and associated client-only `references_input` assertions. Production Python only consumes `analyze_input_references`; input-to-edge matching is editor policy. The Python fixture consumer explicitly skips cases containing only that client policy. This removes a test-only port instead of carrying unused APIs or conflating permissive editor matching with strict server rejection. New compatibility regressions are API tests, not additional implementation-oriented unit tests. No mocks, `SimpleNamespace` fixtures or patched manager internals were introduced.
+The six remaining API tests exercise behavior that analyzer tests cannot establish:
 
-## Browser E2E decision
+- An obsolete flat tool reference returns HTTP 400 with the step, offending reference and replacement spelling.
+- A proved obsolete root still rejects when the expression also has a computed access.
+- A fully computed expression imports and now explicitly round-trips unchanged.
+- Both documented nested spellings import successfully within one test method.
+- A rejected editor-style update leaves the prior persisted expression intact.
+- A literal pipe in a legitimate subworkflow input label remains accepted.
 
-No new browser test is warranted for this change. The behavior is a backend write-boundary contract, reached by imports and editor saves, and the new real HTTP update test uses editor-format workflow content and verifies persistence after a rejected save. There are no client rendering, navigation or interaction changes to exercise. A browser test would repeat this server coverage while adding unrelated page setup. If a future change introduces an editor repair flow or error presentation, that visible behavior should receive a smart-component E2E test. Existing nested-input runtime workflow fixtures remain unchanged; this review did not add duplicate execution or browser coverage.
+The retained mixed-access API case proves that the manager does not ignore all static paths just because analysis also reports dynamic access. The accepted computed round-trip gives representative HTTP preservation coverage, while the backend-only variants verify the analyzer result that the manager consumes. Repeating each syntax variant through workflow creation/download would add server operations without testing another write-boundary behavior.
 
-## Validation
+## Other checklist challenges
 
-Final targeted run: **29 passed**, 398 deselected, in 21.20 seconds. This comprises the six existing API tests, twenty-two new API cases and the shared analyzer contract test. The run uses the existing Galaxy root virtualenv, `PYTHONPATH=lib:test`, the backend-test skill defaults, and functional sample tools; no dependencies were installed into that environment. Two existing namespace-package deprecation warnings were emitted.
+The analyzer tests and shared fixture use no mocks, monkeypatches, `SimpleNamespace`, fake managers or fake request objects. No mock replacement, dataclass fixture rewrite or production restructuring is needed. The API cases use real workflows and the existing API/populator helpers; the small workflow fixture remains real Format2 workflow content. No assertions were weakened to make failing tests pass; the moved tests preserve the regression cases and directly assert their relevant contract.
 
-Additional compatibility check: all sixteen permissive examples evaluate `True` through Galaxy's real JavaScript evaluator and have no proved static input paths. `git diff --check` passes. No API behavior was weakened to make these checks pass; unsupported syntax is explicitly conservative, while proved obsolete roots remain covered by rejection tests.
+No client source or Vitest test changes are part of this cleanup. The existing client fixture consumer remains subject to the previously reviewed client testing guidance. No new browser test is warranted: this revision changes test placement only, and the feature's import/save boundary and failed-save persistence already have real HTTP tests. There is no new rendering, navigation, interaction or error presentation to test through smart components. No duplicate workflow execution test is needed for a static reference-analysis change.
+
+## Validation and conclusion
+
+Inspected the completed focused run in `/tmp/when_test_cleanup.log`: **29 passed**, 398 deselected, in 31.59 seconds, with two existing namespace-package deprecation warnings. The 29 selected cases are 22 new analyzer parametrizations, the unchanged shared-spec consumer and six API tests. This preserves the focused regression count while removing 22 expensive API cases; the nested-spelling API method intentionally still performs two imports. The total run time includes server setup and is not a before/after performance benchmark.
+
+No additional test edits are recommended. The user-directed balance of exhaustive fast contracts and representative HTTP tests is appropriate, and the cleanup retains every discovered regression category.
