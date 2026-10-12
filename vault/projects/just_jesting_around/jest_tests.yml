@@ -138,6 +138,7 @@
 - file: client/src/components/CommandPalette/providers/index.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/providers/interactiveTools.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/invocations.test.ts
   storified: skip
@@ -171,6 +172,7 @@
 - file: client/src/components/Common/DatasetPopoverLink.width.test.ts
 - file: client/src/components/Common/DelayedInput.test.ts
 - file: client/src/components/Common/EmailReportForm.test.ts
+  iterated: 1
 - file: client/src/components/Common/ExportForm.test.ts
   iterated: 1
   storified: true
@@ -195,6 +197,7 @@
   iterated: 1
 - file: client/src/components/Common/Webhook.test.ts
 - file: client/src/components/Common/Wizard/GenericWizard.test.ts
+  iterated: 1
 - file: client/src/components/Common/gCardHeaderLayout.test.ts
 - file: client/src/components/Common/models/exportRecordModel.test.ts
   storified: skip
@@ -538,6 +541,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Notifications/NotificationsList.test.ts
+  iterated: 1
 - file: client/src/components/ObjectStore/ConfigurationMarkdown.test.ts
   iterated: 1
   storified: true

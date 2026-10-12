@@ -1,0 +1,59 @@
+iteration: 54
+seed: 2610954
+inventory_sha256: b040f12fc4aa14f827d4cea39f1d86699f386fe173d1b436326257fed26ba832
+branch: vitest_readability
+base_commit: e1eecdf4f1a92feeeb2d590cfc6aba6bd8c64674
+remote_start_commit: e1eecdf4f1a92feeeb2d590cfc6aba6bd8c64674
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/CommandPalette/providers/interactiveTools.test.ts
+- file: client/src/components/Notifications/NotificationsList.test.ts
+- file: client/src/components/Common/EmailReportForm.test.ts
+- file: client/src/components/Common/Wizard/GenericWizard.test.ts
+selection_notes: N=4; seeded eligible existing uniterated files; no later-lane true
+  fields; known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  cases: 13
+  assertions: 34
+validation:
+  passed_cases: 13
+  assertions: 34
+  skipped_cases: 0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: no covered source location lost; explicit actual shared GButton/GAlert
+    coverage identical
+  shuffle_seed: 540101
+  max_workers: 1
+  node: 22.20.0
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain four origins
+  vault_validation: 122 files, zero errors, 15 existing warnings
+commits:
+- sha: 6703c8585a33af0f0be276265a18fa4800358c80
+  test: Clarify notification list scenarios and own store cleanup
+- sha: c95e244b8a18d3eacaadcb120ba23c7015da7974
+  test: Own email report test plugins and teardown
+- sha: c04c83b23cd3d9e02d70aae8a1d295634b28c692
+  test: Use native wizard mounts and automatic cleanup
+- sha: d2d109c6307d139d462d26b35d9488ef30fb006b
+  test: Clarify interactive-tool provider fixtures and required actions
+push: fast-forward
+pushed_head: d2d109c6307d139d462d26b35d9488ef30fb006b
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait
+  checks:
+    QUEUED: 39
+    COMPLETED: 2
+    IN_PROGRESS: 1
