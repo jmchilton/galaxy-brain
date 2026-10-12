@@ -82,6 +82,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/ActivityBar/ActivityBar.test.js
+  iterated: 1
 - file: client/src/components/ActivityBar/ActivityItem.test.js
   iterated: 1
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
@@ -364,6 +365,7 @@
 - file: client/src/components/GalaxyAI/ChatModeSelector.test.ts
   iterated: 1
 - file: client/src/components/GalaxyAI/ClarificationCard.test.ts
+  iterated: 1
 - file: client/src/components/GalaxyAI/agentTypes.test.ts
   iterated: 1
   storified: skip
@@ -789,6 +791,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/ToolsList/ToolsList.test.ts
+  iterated: 1
 - file: client/src/components/ToolsList/ToolsListCard.test.ts
   iterated: 1
 - file: client/src/components/ToolsView/ToolsSchemaJson/ToolsJson.test.js
@@ -850,6 +853,7 @@
 - file: client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts
   iterated: 1
 - file: client/src/components/User/DiskUsage/Visualizations/util.test.ts
+  iterated: 1
 - file: client/src/components/User/ExternalIdentities/ExternalRegistration.test.ts
 - file: client/src/components/User/UserBeaconSettings.test.ts
   iterated: 1
@@ -875,6 +879,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Visualizations/VisualizationDisplay.test.js
+  iterated: 1
 - file: client/src/components/Visualizations/VisualizationExamples.test.js
   iterated: 1
   split_commit: true
@@ -1276,6 +1281,7 @@
 - file: client/src/directives/vSanitizeHtml.test.ts
   iterated: 1
 - file: client/src/entry/analysis/App.test.ts
+  iterated: 1
 - file: client/src/entry/analysis/modules/Home.test.ts
 - file: client/src/entry/analysis/modules/Login.test.ts
   iterated: 1
@@ -1336,6 +1342,7 @@
 - file: client/src/stores/datasetListStore.test.ts
   storified: skip
 - file: client/src/stores/datatypeStore.test.ts
+  iterated: 1
 - file: client/src/stores/entryPointStore.test.js
   iterated: 1
   split_commit: true
@@ -1587,6 +1594,7 @@
   split_commit: true
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts
+  iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/RegisterPage.test.ts
   storified: skip

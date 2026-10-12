@@ -1,0 +1,9 @@
+# PaginatedRepositoriesGrid independent review — batch71
+
+Approve `f2d0db91bac9ef88f957443474fc8eb7998de0bb` against pinned base `923ac5312656dc6aafbf8f78f2701945cc2aa4b4`. No blocking finding or edit.
+
+All ten cases/23 original checks retain filter presence/absence,300ms typing debounce, forward/back paging, page-one filter reset, stale response suppression, empty/count/loading headings, request failure and invalid URL defaults. Every original row value, request result, router mock, filter string and action/wait/observation order is unchanged. Request mocks and item factory use the actual native Query/OnRequest/QueryResults/RepositoryGridItem contracts.
+
+The two delayed responses reuse the existing dependency-free deferred helper, with no support edit. Inspected the actual request sequence and latest-request guard: original resolutions still precede their checks, while finally releases and flushes on failures before automatic unmount. Unmount then precedes pending fake timer clearing and real timer restoration. Selective timeout faking retains flushPromises behavior; no new fabricated UI/store fixture or application cleanup claim is introduced.
+
+Independent native Tool Shed Vitest3.2.7, Node22.20 shuffled710201 passes ten cases (/private/tmp/readability71-repository-independent.log). Independently reran V8 locations: native89files3416 and supplemental UI43files2706 exact, zero loss/addition. Independently byte-verified all58 installed UI source files against the temporary outside-node_modules alias copies. The native runner excludes installed UI source; the supplement measures actual shared buttons/input/row UI with import setup separately qualified. Scratch configuration is removed and worker clean. Author native full types, lint/format and absolute hooks passed; driver owns final integration. No new evidenced guidance gap.

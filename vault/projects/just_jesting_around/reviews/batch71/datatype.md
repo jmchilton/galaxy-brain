@@ -1,0 +1,3 @@
+Approved author result: descriptive store factory retains original module reset before importing upload datatype caches and unchanged untyped partial 500 response. Capture create/dispose/setActivePinia from the same freshly imported module and register owned cleanup before importing the store. Bind the store to that exact Pinia; dispose and clear its active binding even on assertion/import failure.
+
+One case/two checks passes pristine and final shuffled710101; default V8 19 files/157 covered source locations exact, zero loss. ESLint/Prettier and absolute sample-config pre-commit hooks pass. Worker origin97df8c3d086; canonical b14abbeb215. No helper, production, supporting or guidance edits.

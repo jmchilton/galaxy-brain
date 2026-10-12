@@ -1,0 +1,9 @@
+# App independent review — batch71
+
+Approve `ce728d0092f810667aae93795f51e45231ef7104` against pinned base `923ac5312656dc6aafbf8f78f2701945cc2aa4b4`. No blocking finding or edit.
+
+All ten original cases/33 checks remain: user/configuration retry, theme fallback, masthead/window/history behavior, enabled/disabled entry point/notification watchers, embedding, unload/route confirmation, tour and inactive user. Original configurations, routes, getter overrides, failures, explicit unmounts and event/promise timing are unchanged. Inspected actual App router confirmation extension; the optional typed extension describes its real boolean/null behavior. The narrow Galaxy fixture replaces any while retaining exact fields; writable testing-Pinia getter annotations retain their actual boundary.
+
+The existing setup installs its captured testing Pinia and router through native canonical plugins. Every store observation explicitly selects the corresponding instance, including both watcher-case mounts. Automatic unmount covers assertion failure before completion disposes stores and restores the exact prior unload handler. This improves ownership over the previous unconditional null reset without disturbing unrelated handler state. Required targets use get; all original explicit presence/absence checks remain find/exists. Shallow and module mocks remain unchanged.
+
+Independent Node22.20 shuffled710201 passes ten cases (/private/tmp/readability71-app-independent.log). Independently reran native152files848→854 covered statement/function/branch-arm locations, zero loss; gains are actual notification-SSE disposal. Supplemental UI43files37 exact is shallow/import setup evidence, not rendered shared child coverage. Author lint/format/absolute hooks passed; integrated types are driver-owned. No new evidenced guidance gap.

@@ -1,0 +1,9 @@
+# VisualizationDisplay independent normal review — batch71
+
+Approve `0d752fc3a7749ae353142bad558302a4ea91da2c` against pinned `923ac5312656dc6aafbf8f78f2701945cc2aa4b4`. Independent Node22.20 shuffled710201 passes all10cases/17 original checks. Reviewed complete diff and actual VisualizationDisplay request, owner/config/frame identity, beforeunload and Vue Router guard behavior.
+
+Original signed-in/anonymous ownership, saved title/config and dataset/plugin fixtures remain. Unsaved/save events, guard cancellation, explicit pending-request unmount/resolve/listener observation, and fresh frame identity assertions retain their order and exact expected values. Required mocked-frame observations use get without replacing checks. The same frame and LoadingSpan boundaries remain; native global options install the owned Pinia without shared mutable wrapper/user/response variables.
+
+Deferred requests are local to each mount. Completion settles/flushed pending responses before disposing their captured store, while automatic unmount removes listeners before spy restoration. The original explicit pending-request unmount still precedes response resolution. Confirmation restores its exact preexisting descriptor instead of deleting unrelated state; dedicated hoisted guard/API controls reset between cases. No asynchronous path adds a listener after awaiting its response in the actual component.
+
+Independently recomputed coverage comparisons: native143files/392locations and actual external UI43files/37locations exactly retained, no lost statement/function/branch-arm locations. Supplemental UI coverage represents import/setup with the selected child mocks, not browser frame rendering. Evidence /private/tmp/readability71-display-independent.log and before/after JSON plus ui-before/ui-after JSON. No correctness/clarity findings, new guidance gap or reason to alter scope. Full integrated type checks remain driver-owned.

@@ -1,0 +1,11 @@
+# PaginatedRepositoriesGrid — batch71
+
+Originator `f2d0db91bac9ef88f957443474fc8eb7998de0bb`, pinned base `923ac5312656dc6aafbf8f78f2701945cc2aa4b4`.
+
+All ten original cases/23 checks remain, including the 300ms filter debounce, page/query defaults, forward/back paging, filter reset, stale response suppression, empty label, pending heading and rejected-request loading/error behavior. Every row value, mocked router export, page/filter/count and original action/assertion order remains. Request mocks and rows now use existing OnRequest/Query/QueryResults/RepositoryGridItem contracts. Both manually captured optional promise resolvers reuse the existing dependency-free client/tests/vitest/deferred helper with native result typing; finally settles and flushes responses even when an earlier check fails. Driver approved this cross-frontend helper reuse; no support file changes.
+
+Automatic unmount owns all real mounted grids/rows. Reverse afterEach registration unmounts first, then discards outstanding fake timers and restores real timers; existing selective setTimeout/clearTimeout fake configuration remains. Original response settling still occurs before its original checks.
+
+Pristine/final native Tool Shed Vitest3.2.7, Node22.20 shuffled710101 pass10cases. V8 native src/** retains89files/3416 covered statement/function/branch-arm locations exactly. Vitest3 omits installed node_modules UI sources even with allowExternal, so a supplemental temporary alias to 58 byte-verified installed UI source copies outside node_modules captures43files/2706locations exactly before/after. Real GButton/GFormInput and row UI render; broad UI totals also include imported setup. The scratch config was removed before commit. Native full Tool Shed vue-tsc, file ESLint/Prettier and explicit absolute sample hooks pass; hook client ESLint skips Tool Shed, so native lint was run separately. Worker contains only the committed originator.
+
+Evidence /private/tmp/readability71-repository-{before,after}, corresponding -ui JSON/logs and -lint/-format/-typecheck/-hooks logs; verified source copies /private/tmp/readability71-repository-ui-source/src. No production/helper/support/later-lane edits. Existing dependency-free deferred reuse and ownership guidance suffices; no new evidenced guidance gap.

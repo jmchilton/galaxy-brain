@@ -1,0 +1,72 @@
+iteration: 71
+seed: 2610971
+inventory_sha256: b47b5d15ccd5ed59d6356431ad2a3e32e6da71f1750867451bac782edfcabce1
+eligible: 205
+base_commit: 923ac5312656dc6aafbf8f78f2701945cc2aa4b4
+remote_start_commit: 923ac5312656dc6aafbf8f78f2701945cc2aa4b4
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/ToolsList/ToolsList.test.ts
+- file: client/src/components/User/DiskUsage/Visualizations/util.test.ts
+- file: client/src/components/GalaxyAI/ClarificationCard.test.ts
+- file: client/src/entry/analysis/App.test.ts
+- file: client/src/stores/datatypeStore.test.ts
+- file: client/src/components/ActivityBar/ActivityBar.test.js
+- file: client/src/components/Visualizations/VisualizationDisplay.test.js
+- file: lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 53
+  intended_assertions: 126
+  count_note: ToolsList five-input helper executions included; all original checks
+    preserved.
+commits:
+- 27e6eaab10040eec5866dd9614ba44b7547c110d Type ClarificationCard mounts and clean
+  up option scenarios
+- b4e820e0802d0611de9cc58c28bd0e5812681945 Localize visualization test requests and
+  own native mount cleanup
+- c8420aa8ba460065f2f1569c7f0ce844c0bedb22 Clarify ActivityBar test ownership and
+  activity scenarios
+- b14abbeb215e00fd95197c3ff8659427e312c5c9 Own datatype test Pinia across module reloads
+- ae477e9901eb45f62c695607535afd3f305a6733 Reuse canonical toast observation and own
+  loader test mount
+- 93f1e436510a5954531d4523aa00bc19d6d43cfe Refine paginated repository grid test ownership
+  and request typing
+- 0441dec338ff870ee82cb55a944efab3dc43ee28 Own App test plugins and unload-handler
+  restoration
+- 7f9f160a2233750b535a3e42e10859b47b429a76 Consolidate ToolsList native mounts and
+  own resource cleanup
+validation:
+  passed_cases: 53
+  assertions: 126
+  skipped_cases: 0
+  shuffle_seed: 710101
+  independent_seed: 710201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed
+  toolshed_vue_tsc: passed
+  eslint: passed both native frontends
+  prettier: passed
+  hooks: passed absolute sample config
+  coverage: zero covered source locations lost; actual UI and imported setup qualifications
+    in report
+  independent_review: all eight approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain eight origins; screenshots not relevant
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; unrelated
+    empty scratch note preserved
+push: fast-forward
+pushed_head: 27e6eaab10040eec5866dd9614ba44b7547c110d
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait
