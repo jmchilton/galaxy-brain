@@ -808,6 +808,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Workflow/Editor/Node.test.ts
+  storified: true
   iterated: 1
 - file: client/src/components/Workflow/Editor/NodeInvocationText.test.ts
 - file: client/src/components/Workflow/Editor/NodeOutput.test.ts
