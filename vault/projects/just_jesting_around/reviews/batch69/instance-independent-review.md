@@ -1,0 +1,5 @@
+# CreateInstance — independent normal review, batch 69
+
+Approve `a64efa5d3de8a45049ae482e234518bb683b0993` against pinned base `e63463facff284a96094cc1b78a109f66af1fc9b`. Independent Node22 shuffled690201 passes two cases/two original checks. True/false loading flags, exact loading message, original shallow stubs and LoadingSpan presence/absence remain unchanged.
+
+Native inferred component mounting removes the object cast; synchronous tests/direct assertions remove incidental setup without claiming new loading-message or slot behavior. Automatic unmount owns each wrapper on failed assertions. Source uses props/children/slot only, so extra store/router fixtures or a two-mode helper would add indirection. Independently reran V8 comparison:14files/26 covered locations exact, zero addition/loss. Shallow children are not a rendered shared UI claim. Log `/private/tmp/readability69-instance-independent.log`. Author file gates pass; driver owns types. No production/support change, weakened check, structural finding or evidenced guidance gap.

@@ -1,0 +1,7 @@
+# GModal — batch 69
+
+The original case/two checks remain: mounting shown invokes the native dialog opening exactly once, and invoking the real exposed showModal method again does not open an already open dialog. Original show/title props, promise settling, dialog spy and successful explicit unmount timing remain unchanged. The package explicitly declares showModal/hideModal with defineExpose, so native inferred wrapper.vm.showModal removes a fabricated public-instance cast.
+
+The case owns a dedicated attached div instead of mounting directly to the whole body. Automatic unmount covers failed assertions and runs before restoring dialog spies; completion removes only the owned div afterward. The original explicit success-path unmount stays in place. No body clearing, unnecessary Pinia/router arrangement, new shared fixture/helper or production change is introduced.
+
+Pristine/final Node22 shuffled690101 pass one case. Main V8 matches13files/21 covered statement/function/branch-arm locations exactly; actual external shared UI26files/190 also matches exactly, zero loss/addition. Real GModal/dialog children render; broader supplemental imports are not all credited as rendering contracts. Evidence: `/private/tmp/readability69-modal-{before,after}` JSON/logs and corresponding -ui captures. Native ESLint/Prettier and absolute sample hooks gate the separate originator commit; final outcome/SHA supplied to driver. Driver owns integrated types. No production/support/shared/later-lane edits or evidenced new guidance gap.

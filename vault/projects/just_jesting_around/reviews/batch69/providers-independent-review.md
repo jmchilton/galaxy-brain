@@ -1,0 +1,5 @@
+# storeProviders — independent normal review, batch 69
+
+Approve `33b852cf232a6816ef07f6557637ed18aa227f02` against pinned base `e63463facff284a96094cc1b78a109f66af1fc9b`. Independent Node22 shuffled690201 passes two cases/five original checks. Exact datatypes endpoint/id,500 unavailable payload, empty success list, scoped-slot HTML and promise settling remain unchanged; failed request count/loading/error and successful loading/no-error observations remain.
+
+Native props/global plugins install captured real Pinia and preserve real provider/store actions. Automatic unmount replaces the mutable shared wrapper and precedes store disposal on assertion failures. Local wrapper variables and required span targets express the same rendered scoped-slot boundary without new fixtures or transport mocks. Independently reran V8 comparison:31files/239 covered locations exact, zero addition/loss; no shared UI renders. Log `/private/tmp/readability69-providers-independent.log`. Author file gates pass; driver owns integrated types. No production/support change, weakened check, structural finding or evidenced guidance gap.

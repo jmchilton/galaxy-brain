@@ -1,0 +1,82 @@
+iteration: 69
+seed: 2610969
+inventory_sha256: f8cda42e6b3da0bd4bf5d6b084646c7a59a7e79b4ecfd936bb3d195e331e7194
+eligible: 221
+base_commit: e63463facff284a96094cc1b78a109f66af1fc9b
+remote_start_commit: e63463facff284a96094cc1b78a109f66af1fc9b
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts
+- file: client/src/components/providers/storeProviders.test.js
+- file: client/src/components/GalaxyAI/ChatInput.test.ts
+- file: client/src/components/Toolshed/SearchList/Categories.test.js
+- file: client/src/components/ConfigTemplates/CreateInstance.test.ts
+- file: client/src/components/BaseComponents/GModal.test.ts
+- file: client/src/utils/webhooks.test.ts
+- file: client/src/stores/userToolsServiceCredentialsStore.test.ts
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 33
+  intended_assertions: 55
+prior_head_ci:
+  head: e63463facff284a96094cc1b78a109f66af1fc9b
+  draft: true
+  mergeable: MERGEABLE
+  success: 28
+  in_progress: 26
+  skipped: 2
+  failure: 0
+  source: actual gh pr view snapshot /private/tmp/readability69-ci-start.json
+commits:
+- e18fb0be8360e47ed3e682eddf0192d3589f5bf5 Keep reactive credentials test setup and
+  ownership local
+- 0bf1a88224742bebcfdf49696ba2a9144b9b153a Own modal attachment and infer exposed
+  dialog methods
+- 94aa43cee7c2b3c7d58aabad235f8152613d7d03 Name webhook failure and preserve diagnostic
+  error context
+- 56d9e94b1039387f6a352569cf00152fd70f3026 Name category table scenarios and own native
+  mounts
+- 9c65fe136e7ab2cf9405861066664c478493c6c7 Own chat input wrappers and type native
+  interactions
+- c6a1e5a5612f6369bef274a1af7c9f226a402383 Own category page test mounting and store
+  cleanup
+- 37425d82615d885390b5eded3bffad6efb660789 Use inferred loading instance mounts with
+  owned teardown
+- 6589bee7a4abaa6649cdd2b22f8fab496efb37ac Own datatype provider test stores and mounts
+validation:
+  passed_cases: 33
+  assertions: 56
+  skipped_cases: 0
+  shuffle_seed: 690101
+  independent_seed: 690201
+  max_workers: 1
+  node: 22.20.0
+  client_suites: 7
+  client_cases: 32
+  toolshed_suites: 1
+  toolshed_cases: 1
+  toolshed_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: zero covered source locations lost; supplemental UI imported paths qualified
+  scope: retain eight origins
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; unrelated
+    empty scratch note preserved
+  client_vue_tsc: passed
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+push: fast-forward
+pushed_head: e18fb0be8360e47ed3e682eddf0192d3589f5bf5
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

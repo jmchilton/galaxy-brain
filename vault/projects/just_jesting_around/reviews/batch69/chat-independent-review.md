@@ -1,0 +1,9 @@
+# ChatInput independent review — batch69
+
+Approve `69d258913c277a758fdade1dbbc95cb4d397cd0e` against pinned `e63463facff284a96094cc1b78a109f66af1fc9b`. Reviewed current client guidance/REVIEW_FOCUS, original/final assertion inventory, actual ChatInput/MentionDropdown event, resize and FloatingUI cleanup paths. No blocking finding or edit.
+
+All23 original cases/30 checks remain with exact input values, mention cursor positions, stub boundaries, key events, heights, placeholder and icon observations. Native public props/global stubs retain real mention cases without fabricated any typing. Typed required textarea lookups observe actual DOM values/disabled state, and canonical emittedArg observes the same original last input argument while retaining the original emission-presence check. Prototype restoration captures the exact prior descriptor and occurs after automatic unmount; owned element overrides disappear with their wrapper.
+
+Reverse afterEach registration deliberately flushes positioning promises while the real dropdown remains mounted, then unmounts/stops actual autoUpdate tracking. Inspection confirms the positioning continuation only writes when dropdownEl remains present, explaining why premature unmount would lose original executed coverage. No extra application behavior, store fixtures or production support is added.
+
+Independent Node22.20 shuffled690201 passes23cases (/private/tmp/readability69-chat-independent.log). Reran location comparisons: native18→27files/179→190 locations, zero loss; actual shared UI26files/68 locations exact. Gains comprise genuine dropdown cleanup and canonical helper setup imports; no claim every imported UI component renders. Author gates pass; integrated types are driver-owned. Existing teardown/native inference guidance suffices, with no new evidenced guidance gap.

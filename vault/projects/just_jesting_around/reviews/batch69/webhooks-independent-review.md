@@ -1,0 +1,7 @@
+# Webhooks independent normal review
+
+Approved `66e4c4a78f3` against pinned `e63463facff284a96094cc1b78a109f66af1fc9b`. Inspected full final/pristine test and production module-cache/retry/warning behavior under current client/shared review guidance. The original case/three checks remain, with one added check for the complete warning diagnostic: fixed message plus the rejected request Error. The same Error value/message, failed-then-successful Axios sequence, app root, webhook fixture and call count are preserved.
+
+The observed warning spy is restored on all paths. Module reset before dynamic import retains deliberate isolation of cached webhook data. This exercises failure-tolerant public loader output, retry and diagnostic behavior; no UI or backend server is needed. The added diagnostic is meaningful: author bounded mutation omitting the warning error argument passes originals, fails the new check, then restored final passes. That evidence is author-run and inspected; this independent reviewer did not rerun a production mutation during driver gates.
+
+Independent Node22 shuffled690201 single-worker run passes one case/four checks (`/private/tmp/readability69-webhooks-independent.log`). Independently reran V8 comparison:four files22 covered statement/function/branch-arm locations exact, zero loss/addition. No production/helper/support change remains. No findings; final integrated types/hooks are driver-owned.

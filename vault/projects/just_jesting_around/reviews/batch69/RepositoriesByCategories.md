@@ -1,0 +1,9 @@
+# RepositoriesByCategories — batch69
+
+Originator `55bbffb76b2947cfb687c30df1cc44e63ee64055`, pinned base `e63463facff284a96094cc1b78a109f66af1fc9b`.
+
+The single original case/four checks remain: one visible row, exact category route, description and caption. Both category fixtures retain every id/name/description/repository count, including the hidden dependency-package name. The existing no-fetch getAll spy and slot-preserving PageContainer stub remain. The case owns a real Pinia installed with its canonical memory router through native global plugins; store selection is explicit. Automatic unmount precedes spy restoration, and completion disposes Pinia on assertion failure. Required row/link get lookups replace unsafe indexing after the unchanged one-row count check.
+
+Pristine/final native Tool Shed Vitest3.2.7/Node22.20 shuffled690101 pass one case. Main src/** V8 retains89files/160 covered statement/function/branch-arm locations exactly. Because this provider excludes installed raw UI inside node_modules, supplemental capture aliases a fresh outside-node_modules copy of all58 installed source files, individually verified byte-identical and linked to the same dependencies. Actual GTable source is included:43files/2569 covered locations exactly, zero loss/addition. Imported UI totals do not imply every component renders. Temporary config removed after the captures; worker contains only the committed originator change.
+
+Native frontend ESLint/Prettier/full vue-tsc and explicit absolute sample-config hooks pass. The client-eslint hook skips Tool Shed, so its separate native lint gate is required. Driver owns integrated final frontend types. Evidence /private/tmp/readability69-repository-{before,after}, corresponding -ui captures/logs and -eslint/-prettier/-types/-hooks logs. Existing cleanup/native lookup guidance and documented Vitest3 provider limitation suffice; no new evidenced guidance gap or helper/support/production edit.
