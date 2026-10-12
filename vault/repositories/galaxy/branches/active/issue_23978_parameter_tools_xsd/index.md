@@ -11,3 +11,7 @@ The parent PR opens first; preserve the recorded parent dependency when opening 
 ## TICK — 2026-10-11
 
 Current head has green tool/workflow framework, API, lint, Selenium and integration-Selenium checks; Playwright workflow runtime-parameter timeout and social-core package failure remain. The recorded key coverage is CircleCI `validate_test_tools`; no successful current-head status for that check was found, so retain needs CI rather than claiming XML validation ran.
+
+## TICK — 2026-10-12
+
+Requested failed-job reruns for the recorded unrelated failures: [run 37879977381](https://github.com/jmchilton/galaxy/actions/runs/37879977381). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.

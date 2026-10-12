@@ -9,3 +9,7 @@ Validates workflow invocation requests before creating histories or other side e
 ## TICK — 2026-10-11
 
 Current-SHA fork workflow framework reports many request-500 failures, and both browser engines reject the nested-collection extraction request (400, list:paired supplied to list). Integration rejects dataset supplied to collection input. These exercise the changed validation; do not label them unrelated or promote.
+
+## TICK — 2026-10-12
+
+Current fork tip `9b18c329c8f28d2063113f249438dc47e43254cf` conflicts with dev in `lib/galaxy/workflow/run_request.py`, `lib/galaxy_test/api/test_workflows.py`. The overlapping production behavior/schema or linter changes require a substantive reconciliation; left branch intact under the automatic small/mechanical-conflict limit. Existing workflow status and review decisions remain.

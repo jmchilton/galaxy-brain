@@ -1,6 +1,6 @@
 # playwright_scoped_css_parity
 
-Status: `ready`. Base: `dev`. Draft PR [#24020](https://github.com/galaxyproject/galaxy/pull/24020), title "Run test_tags under Playwright", opened 2026-10-09 at `a4bd44ebb2c`.
+Status: merged 2026-10-12. [PR #24020](https://github.com/galaxyproject/galaxy/pull/24020).
 
 Fixes tag-editor selectors so test_tags runs under Playwright.
 
@@ -11,3 +11,7 @@ Parent `playwright_text_table_parity` merged as #24009; branch rebased off it on
 ## TICK — 2026-10-11
 
 Live #24020 is already OPEN and non-draft, mergeable; all 21 settled checks are successful/skipped with no failures. Reclassified to ready without changing PR settings.
+
+## TICK — 2026-10-12
+
+Live PR merged at `2026-10-12T08:13:53Z`, with head `a4bd44ebb2c897dce94b4b2ec12b3a706f0028b1`. Removed from the active queue and archived here. The worktree was clean, had zero commits ahead of its upstream, and matched the merged PR head. Existing user description edits are preserved locally and excluded from this maintenance commit.

@@ -11,3 +11,7 @@ John converted the PR to draft on 2026-10-08 without recording the reason. That 
 ## TICK — 2026-10-11
 
 Live #23973 is mergeable but still draft. Its macOS 3.14 red fails `Restore client cache`, key `galaxy-static-97c9356...`, before startup tests. Diagnosed unrelated and reran failed jobs in [run 37773026992](https://github.com/galaxyproject/galaxy/actions/runs/37773026992). John’s unexplained draft conversion remains a blocker independent of CI, so no undraft.
+
+## TICK — 2026-10-12
+
+Requested failed-job reruns for the recorded unrelated failures: [run 37773026992](https://github.com/galaxyproject/galaxy/actions/runs/37773026992). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.

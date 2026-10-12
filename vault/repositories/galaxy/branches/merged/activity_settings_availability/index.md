@@ -1,12 +1,12 @@
 # activity_settings_availability
 
-Status: `ready`. Base: `dev`. [PR #24052](https://github.com/galaxyproject/galaxy/pull/24052) (open, not draft; CI pending).
+Status: merged 2026-10-12. [PR #24052](https://github.com/galaxyproject/galaxy/pull/24052).
 
 Lists only optional activities available to the current user.
 
 [Polish](polish_debrief.md) · [Checklist review](checklist_review.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Implementation](implementation_debrief.md) · [Tracking history](tracking_history.md)
 
-Builds on merged [shared_activity_availability](../../merged/shared_activity_availability/index.md) ([#23921](https://github.com/galaxyproject/galaxy/pull/23921)). Restacked without conflicts onto `dev` (`3347e84bc5e9`) on 2026-10-11; restacked head `75120e401b0d`.
+Builds on merged [shared_activity_availability](../shared_activity_availability/index.md) ([#23921](https://github.com/galaxyproject/galaxy/pull/23921)). Restacked without conflicts onto `dev` (`3347e84bc5e9`) on 2026-10-11; restacked head `75120e401b0d`.
 
 ## Polish started — 2026-10-11
 
@@ -27,3 +27,7 @@ John approved the polished branch and explicitly requested opening its PR. Appro
 Opened [PR #24052](https://github.com/galaxyproject/galaxy/pull/24052) against `dev`, from `jmchilton:activity_settings_availability`, as a regular PR per the direct request. The description was submitted verbatim from `pr_description.md`, without added mentions or assets. CI was still queued at opening; this was John's explicit request to open now rather than an automatic green-CI promotion. No rebase was needed: upstream dev still matched `3347e84bc5e9`.
 
 Verified OPEN, not draft, base `dev`, exact approved head and saved body. Moved to `ready`: no known author-side work, with upstream CI still pending. Pending checks are not recorded as passed. Prior infrastructure diagnoses remain in the polish debrief.
+
+## TICK — 2026-10-12
+
+Live PR merged at `2026-10-12T12:32:04Z`, with head `ab57bd6901dc429f5b189837128456313a309b67`. Removed from the active queue and archived here. The worktree was clean, had zero commits ahead of its upstream, and matched the merged PR head. Existing user description edits are preserved locally and excluded from this maintenance commit.

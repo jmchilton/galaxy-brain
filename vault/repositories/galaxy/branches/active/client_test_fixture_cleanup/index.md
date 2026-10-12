@@ -35,3 +35,7 @@ Live GitHub state: OPEN, draft, MERGEABLE; review decision unset. Upstream clien
 ## TICK — 2026-10-11
 
 PR #24045 had 24 settled checks with no failures. Its only blocker was CI. Rebasing `64fb97a22c770d18f5305fc4e902ce74a53ce15a` onto current dev `c8708636c2f29a233dcce4b9c1fa75f2c5aea24f` replayed all three patches identically without conflicts; new head `91618e026c85845dd1fbaaa22891993167e35d18`. JobInformation (6) and retained CollectionProgress (4) tests pass on the rebased head. Force-pushed with an exact lease and took the PR out of draft under standing authorization. Fresh CI runs on the rebased head are pending; the previous head’s green checks are not claimed for it.
+
+## TICK — 2026-10-12
+
+Live regular PR is mergeable at `91618e026c85845dd1fbaaa22891993167e35d18`; all 23 checks have settled without failures. Remains ready from our side. No stale rebase or PR-setting change.

@@ -1,5 +1,7 @@
 # ts_readme_render_followups
 
+Status: `branches_implemented_needs_ci`. Base: `dev`.
+
 Base: `dev`. Branch: [`jmchilton:ts_readme_render_followups`](https://github.com/jmchilton/galaxy/tree/ts_readme_render_followups). Worktree: `~/projects/worktrees/galaxy/branch/ts_readme_render_followups`.
 
 Merges [`ts_readme_render_fix_26.1`](../ts_readme_render_fix_26.1/index.md) into `dev`, then fixes old-revision READMEs (found when unchanged in that changeset; images served as of that revision via a `changeset_revision` option on the image route), makes revision permalinks load READMEs, and drops dead README code. Playwright test with screenshots.
@@ -11,3 +13,9 @@ Depends on `ts_readme_render_fix_26.1` (merged in as real history, so either ord
 ## TICK — 2026-10-11
 
 Live fork tip `5abfc5c4aadf69c422a3b863a6a22b076d2b9aed` has queued/pending CI and no failures; retain needs CI. Its existing release-base dependency is now represented by draft #24053.
+
+## TICK — 2026-10-12
+
+Fork SHA `5abfc5c4aadf69c422a3b863a6a22b076d2b9aed` is settled. [Python lint](https://github.com/jmchilton/galaxy/actions/runs/38163420790) and [package tests](https://github.com/jmchilton/galaxy/actions/runs/38163420762) report a relevant `str | None` argument to `readmes()` at the new test_readme_util.py:97. [OpenAPI lint](https://github.com/jmchilton/galaxy/actions/runs/38163420657) also detects generated client schema drift; its relation to the changed route still needs diagnosis. [Integration](https://github.com/jmchilton/galaxy/actions/runs/38163420663) fails before tests downloading kubeadm (TLS handshake timeout), unrelated. Tool Shed, Playwright, integration-Selenium, API and unit workflows pass. Retain needs CI; the earlier “open after #24053” dependency remains. No code fixes inferred.
+
+Requested failed-job reruns for the recorded unrelated failures: [run 38163420663](https://github.com/jmchilton/galaxy/actions/runs/38163420663). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.

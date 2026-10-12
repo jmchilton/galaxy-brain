@@ -1,6 +1,6 @@
 # plugins_test_fake_provider
 
-Status: `ci_wait`. [Draft PR #24051](https://github.com/galaxyproject/galaxy/pull/24051), targeting `dev` (`3347e84bc5e9`). Head: `688840f83b60d812c2a958f07a3b313908bfd269` on `jmchilton/plugins_test_fake_provider` (4 commits). Polished and published as a draft 2026-10-11; upstream CI queued/running.
+Status: `author_work`. Draft [PR #24051](https://github.com/galaxyproject/galaxy/pull/24051), base `dev`, head `688840f83b60d812c2a958f07a3b313908bfd269`.
 
 [PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist review](checklist_review.md) · [Strengthening review](strengthening_review.md) · [Implementation debrief](implementation_debrief.md)
 
@@ -23,3 +23,7 @@ Fresh checklist review plus re-review pass; the published description preserves 
 John explicitly requested a draft PR titled **Exercise plugin and agent integration tests through real HTTP**. Publication was authorized for `688840f83b60d812c2a958f07a3b313908bfd269` as a draft; this does not authorize taking it out of draft. The prepared `pr_description.md` was published verbatim, including its supplied checkbox state. No branch code changed or rebase was needed: the actual base is still `3347e84bc5e9`.
 
 Verified [#24051](https://github.com/galaxyproject/galaxy/pull/24051) is open, draft, mergeable, targets `dev`, has the requested title and the exact prepared body, and uses the authorized head. Fork CI has no failures but remains queued/running; upstream PR CI has started with no failures reported. Moved the queue entry to `ci_wait`.
+
+## TICK — 2026-10-12
+
+All upstream checks have settled. Integration shards 0 and 1 fail in this branch’s changed tests: `test_plugin_specific_config_used` and `TestAgentsApiFakeProvider::test_error_analysis_endpoint` trigger aiocop high-severity blocking-I/O assertions (os.stat while requests run through the real SDK/agent). [Failed run](https://github.com/galaxyproject/galaxy/actions/runs/38153953198). These are relevant failures, not diagnosed infrastructure reds. Keep draft and move to author work. The explicit draft-publication instruction also withholds undraft authorization; no implementation fix or undraft inferred.

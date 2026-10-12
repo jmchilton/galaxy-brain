@@ -13,3 +13,7 @@ Recovered 2026-10-09. The fork has `233a2dc31e8`, rebased onto dev. The approval
 ## TICK — 2026-10-11
 
 Current head has a relevant package mypy failure in `tests/seleniumtests/test_selenium_test_decorator.py:25` (“Class cannot subclass …”); no promotion. Tool-framework shapefile test times out and Playwright workflow step-parameter test times out; release-script fork-master failure is separate.
+
+## TICK — 2026-10-12
+
+Requested failed-job reruns for the recorded unrelated failures: [run 38018966250](https://github.com/jmchilton/galaxy/actions/runs/38018966250). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.

@@ -1,8 +1,8 @@
 # fix_story_a11y
 
-Status: Open draft PR, waiting for CI (`ci_wait`): browser-driver repairs pushed; 16 focused live browser cases pass.
+Status: `ready`. Base: `dev`. [PR #24046](https://github.com/galaxyproject/galaxy/pull/24046) (open, not draft; fresh CI pending).
 PR: [#24046 — Repair accessibility issues across shared controls and forms](https://github.com/galaxyproject/galaxy/pull/24046), opened by John; verified 2026-10-11.
-PR base: `dev`; head: `96bd157af90d51595b5d8f4195d13699bc72846e` (browser-driver repair following polished component SHA).
+PR base: `dev`; current head: `175e7d5a1831836dd9b360a4cb1dad5e0874fa85`.
 Base: upstream `dev` at `b406ead2e4eb55b94d1ba437af8f60ebe4983947` (2026-10-10).
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/fix_story_a11y`.
 Pushed to `jmchilton/fix_story_a11y` at `96bd157af90d51595b5d8f4195d13699bc72846e` on 2026-10-11.
@@ -47,3 +47,7 @@ Completed Playwright shard 1 fails on two stale driver assumptions: 46 failed ca
 John requested checking for unpushed work and repairing the related CI failures. No unpushed driver repair existed. Inspected every failed browser-suite log and additional CI DOM snapshots; all observed failures map to fixed-ID, wrapper/combobox, native-button, or folder-opening assumptions in the driver. Updated shared navigation and select helpers, preserving component code and existing test assertions. Sixteen existing live Playwright cases pass (nine application flows, three integration cases, four tool-form harness cases), as do 15 focused component tests and formatting/lint hooks. No app regression was established in those flows.
 
 Pushed `96bd157af90d51595b5d8f4195d13699bc72846e` to the fork; live PR head matches and new CI is queued/running. Moved to `ci_wait`, retaining draft status until CI settles. See [repair evidence](ci_repair_24046.md). No PR description, comments, or review settings changed.
+
+## TICK — 2026-10-12
+
+All 60 prior-head upstream checks settled. Client, Playwright, integration-Selenium and harness checks passed; the only failures were package collection importing removed `pulsar.client.build_client_manager`, outside the a11y and driver change. [Package run](https://github.com/galaxyproject/galaxy/actions/runs/38178840247). CI was the sole remaining draft blocker. Cleanly rebased both patches onto actual dev `6831f768a637d148d941a3477db0a14e21573c1d`; range-diff confirms both patches identical. All **196 affected Vitest cases across 23 files pass**. Published to `jmchilton:fix_story_a11y` with an exact old-head lease and took the PR out of draft under standing authorization. Verified OPEN, non-draft, correct base and head `175e7d5a1831836dd9b360a4cb1dad5e0874fa85`. Fresh upstream CI is queued/running; prior green results are not claimed for this head. No description or comment changed.

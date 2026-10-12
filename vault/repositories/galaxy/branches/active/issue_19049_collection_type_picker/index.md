@@ -1,7 +1,13 @@
 # issue_19049_collection_type_picker
 
-Status: `ci_wait`. Base: `dev`. Draft [#24055](https://github.com/galaxyproject/galaxy/pull/24055), opened 2026-10-11 at John's request on `d37a9e90303`, before his final read-through. Title from [titles](pr_titles.md); body is `pr_description.md` with screenshots hosted on the fork's `pr-assets-issue_19049_collection_type_picker` branch.
+Status: `draft_ready`. Base: `dev`. Draft [PR #24055](https://github.com/galaxyproject/galaxy/pull/24055), head `d37a9e903038064bbc1ed9eb2830ef013150a48d`.
 
 Adds a select-or-text field for workflow collection types and Tool Shed targets.
 
 [Implementation](implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tracking history](tracking_history.md) · [Registry sync breakdown](registry_sync_breakdown.md)
+
+## TICK — 2026-10-12
+
+All 60 upstream checks settled; client and browser checks passed. The only two failures are package-test collection importing removed `pulsar.client.build_client_manager`, outside this client/selector change. [Package run](https://github.com/galaxyproject/galaxy/actions/runs/38179027765). This is greenish and mergeable. Reclassified to draft-ready; preserve John’s draft request before final read-through and the recorded UX/scope questions. The published human-read item is checked, but the record does not say those remaining decisions are resolved; no undraft inferred.
+
+Requested failed-job reruns for the recorded unrelated failures: [run 38179027765](https://github.com/galaxyproject/galaxy/actions/runs/38179027765). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.

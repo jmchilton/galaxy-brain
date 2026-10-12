@@ -11,3 +11,7 @@ Selects costly plugin suites from changed paths; helpers and guide live beside i
 ## TICK — 2026-10-11
 
 Current fork integration-Selenium fails collection with `ModuleNotFoundError: integration_selenium.integration_selection_pytest`; the selection plugin/import is this branch’s change, so CI is not greenish. Docker-pull failures in eight unrelated workflows and the fork release-script failure were rerun. Playwright workflow-input/history-list timeouts remain separate. No promotion or code fix undertaken by TICK.
+
+## TICK — 2026-10-12
+
+Requested failed-job reruns for the recorded unrelated failures: [run 37976218891](https://github.com/jmchilton/galaxy/actions/runs/37976218891). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.
