@@ -812,6 +812,7 @@
 - file: client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js
 - file: client/src/components/Toolshed/SearchList/Categories.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/Toolshed/SearchList/Repositories.test.js
   iterated: 1
   split_commit: true
