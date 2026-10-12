@@ -1,0 +1,7 @@
+# Tool Shed grid CI repair independent review
+
+Approved correction `8b905cb1447218998113f7b386f72d8d647d2771`; no driver action beyond folding into the original iteration71 origin.
+
+Inspected the exact six-line delta: remove the client test-helper import and replace its two deferred factories with native Promise.withResolvers<QueryResults>. Its promise/resolve contract preserves all10 original cases/23 checks, request values/order and existing finally settlement, automatic unmount and timer cleanup. The native Tool Shed tsconfig includes esnext and the pinned Node22.20 runner supports this standard API. The replacement removes the accidental dependency on a separately installed frontend's TypeScript configuration without a new helper, schema assertion or production change.
+
+Independent native Tool Shed Vitest3.2.7 shuffled730201 single-worker run passes10 cases from the corrected worker with client node_modules absent (`/private/tmp/readability73-ci-grid-independent.log`). Inspected author's exact old TSConfckParseError reproduction and final frontend-only scratch run, which contains no client directory. Independently compared native89files3416 and actual UI43files2706 covered statement/function/branch-arm locations exactly; installed UI byte-copy alias evidence remains qualified. Author full native types/lint/format/absolute hooks pass. Concrete guidance implication: helper reuse across independently installed frontends must be checked with the consumer's isolated runner/config, even for an import-free helper. No source or guidance edit by reviewer.

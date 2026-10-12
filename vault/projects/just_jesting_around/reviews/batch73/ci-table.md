@@ -1,0 +1,7 @@
+Author repaired an actual published-head CI failure from batch70: the UI package's independent tsconfig has no client @tests alias. Reproduce the exact TS2307 with its own pnpm type-check, then remove that client-only import. Native required selectors address the same first/second rows and first/second/third headers; every10cases/27checks, input, event, identity and assertion remains.
+
+Final isolated UI package vue-tsc exits0; shuffled73010110cases, file ESLint/Prettier/absolute sample hooks pass. Worker repair41110336e3e in73-ci-table. No production/helper/support abstraction added.
+
+Compared to the original batch70 baseline,14files/402covered statement/function/branch-arm source locations are exact. Compared to the published helper-import version,23/409→14/402 removes exactly seven incidental client localization import/setup locations; those are explicitly not claimed as retained. Actual adjacent UI8files/399locations is exact before/after. Removing unavailable client helper imports restores the native package boundary while preserving every originally covered behavior location. Coverage comparison failure against the published totals is qualified, never hidden by counts.
+
+Evidence /private/tmp/readability73-ci-table-{before,after,type-before,type-after,hooks}; actual GitHub job115052673958/run38322211790 on publisheda454. Driver folds repair into original70 test commit, rewrites only that and71Grid among earlier source trees, and uses explicit recordeda454 push lease. Isolated package gates will remain part of subsequent loop validation.

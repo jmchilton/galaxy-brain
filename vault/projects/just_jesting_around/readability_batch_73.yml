@@ -1,0 +1,79 @@
+iteration: 73
+seed: 2610973
+inventory_sha256: 91e8b4e38620eba176b83abe501cb9a2bcec4824a922621eadded6ec02a53531
+eligible: 189
+base_commit: a454ecaea1a5798c2e556625ee18db4798d0f785
+remote_start_commit: a454ecaea1a5798c2e556625ee18db4798d0f785
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/ObjectStore/ShowSelectedObjectStore.test.js
+- file: client/src/composables/toolTrainingMaterial.test.ts
+- file: client/src/components/admin/UserRolesGroupsForm.test.ts
+- file: client/src/stores/helpTermsStore.test.ts
+- file: client/src/components/Tool/ToolSourceDisplay.test.ts
+- file: client/src/components/Form/FormElementHelpMarkdown.test.ts
+- file: client/src/components/WorkflowInvocationState/JobStep.test.ts
+- file: client/src/components/CommandPalette/providers/histories.test.ts
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: &id001
+- client/packages/ui/src/components/GTable.test.ts
+- lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts
+helper_files: []
+documentation_files: []
+history_rewrite:
+  prior_head: 69c5199a218037158af9a115c3e392f4da3dbd3b
+  selection_base: a454ecaea1a5798c2e556625ee18db4798d0f785
+  recorded_remote_lease: a454ecaea1a5798c2e556625ee18db4798d0f785
+  published_rebase_base: e18fb0be8360e47ed3e682eddf0192d3589f5bf5
+  reason: CI isolated UI alias and Tool Shed cross-client tsconfig failures
+  supporting_files: *id001
+  review_base: d4693b600c7d1a59db631477ee46466672c58ac9
+  final_head: 3533c26be42734c937d57c3fd4805e14b81da286
+  origin_commits: &id002
+  - e4bd9e47195bc3c66db56cbc2891f84d30cc61c9
+  - db81a7903eaf0cb61c4d0c735cfc648ae758d009
+  - 65ada7f77caf041639926ae8fe3aebfaa600f6df
+  - ca92ca68d9bc1e359a077790cd4e62ae460d907c
+  - 6958a435838cbef089a337354fd394cb8914ad6c
+  - 4188fb404b17513f17e2d564b28c1839c7102933
+  - 00a196970a0300960aded02a5e8e36c80a7756ea
+  - 3533c26be42734c937d57c3fd4805e14b81da286
+push: force-with-lease
+baseline:
+  declared_cases: 61
+  intended_assertions: 250
+commits: *id002
+validation:
+  passed_cases: 61
+  assertions: 250
+  affected_passed_cases: 81
+  affected_assertions: 300
+  skipped_cases: 0
+  shuffle_seed: 730101
+  independent_seed: 730201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed
+  isolated_ui_vue_tsc: passed
+  toolshed_vue_tsc: passed
+  isolated_toolshed_no_client: passed 10 cases
+  eslint: passed both native frontends
+  prettier: passed
+  hooks: passed absolute sample config all ten files
+  coverage: Eight selected suites lose zero covered locations; support Grid exact;
+    GTable original70 and UI exact, published import-only minus7 qualified in report
+  independent_review: all eight origins and two repairs approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain eight origins and two reviewed CI repairs; screenshots irrelevant
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; unrelated
+    empty scratch note preserved
+pushed_head: 3533c26be42734c937d57c3fd4805e14b81da286
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

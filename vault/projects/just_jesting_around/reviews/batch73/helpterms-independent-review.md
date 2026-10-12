@@ -1,0 +1,9 @@
+# Help terms independent normal review
+
+Approve final amended origin `98858aa7c236a6c72ab6cc15ca9c8433e3f2d4f7` against `a454ecaea1a5798c2e556625ee18db4798d0f785`. Reviewed complete final diff, actual store/consumer watcher behavior, canonical runInTestScope helper and current client/shared review guidance.
+
+All four original scenarios/74 successful checks remain, including ten-consumer loops: YAML-only no request, concurrent datatype descriptions loaded once, reactive term changes and later retry after failure. Exact partial datatype payload, 500 body, terms, request cardinalities, help/loading checks and original waits remain. Required first-observer accesses use ensureDefined without replacing any existing check. No fabricated datatype schema defaults or production algorithm-derived expectations are introduced.
+
+Original resetModules remains necessary for module-level upload cache and fresh reactive references. Dynamic imports capture create/dispose/setActivePinia from the same fresh Pinia module, and import canonical runInTestScope only after reset so its effectScope uses the same fresh Vue as the consumer refs/store. Each public useHelpForTerm runs in a captured owned consumer scope. Completion registration stops those scopes before disposing Pinia/resetting its active binding; disposal is registered before potentially failing imports. This reuses actual existing infrastructure instead of a new local/shared scope abstraction.
+
+Independent pinned Node22.20 single-worker shuffled730201 passes four cases (`/private/tmp/readability73-helpterms-independent.log`). Independently recomputed V8 covered statement/function/branch-arm locations21files281→22files289, zero loss; eight gains are canonical assertion paths. No shared UI rendering claim. Author file lint/format/absolute hooks pass; driver owns integrated full types. No actionable finding or evidenced new guidance gap.

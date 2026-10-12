@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `a454ecaea1a5798c2e556625ee18db4798d0f785`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `3533c26be42734c937d57c3fd4805e14b81da286`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -212,3 +212,10 @@ Fast-forward published `27e6eaab10040eec5866dd9614ba44b7547c110d`; exact GitHub 
 Continued eight origins while John is away. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_72.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_72.yml) record separate originator commits, preserved original checks, source-location coverage comparisons and passing final validation. All independent normal, strict, challenge and scope reviews approve. Full client types, combined shuffled suites, native file lint/format and absolute hooks pass. No production/helper/support/guidance edits; screenshots/E2E not applicable. Coverage qualifications remain explicit in the report.
 
 Fast-forward published `a454ecaea1a5798c2e556625ee18db4798d0f785`; exact GitHub head and draft verified. Eight counters written after publication; downstream unchanged. Completed vault snapshot excluding unrelated empty scratch note passes 122 files, zero errors and 15 existing warnings. Local vault records only; ci_wait.
+
+
+## Readability loop batch 73 — 2026-10-12
+
+Continued eight origins while John is away. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_73.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_73.yml) record separate originator commits, preserved original checks, source-location coverage comparisons and passing final validation. All independent normal, strict, challenge and scope reviews approve. Full client types, combined shuffled suites, native file lint/format and absolute hooks pass. No production/helper/guidance edits; two CI repairs were folded into their original commits and supporting counters remain unchanged; screenshots/E2E not applicable. Coverage qualifications remain explicit in the report.
+
+Published with an explicit recorded remote lease `3533c26be42734c937d57c3fd4805e14b81da286`; exact GitHub head and draft verified. Eight counters written after publication; downstream unchanged. Completed vault snapshot excluding unrelated empty scratch note passes 122 files, zero errors and 15 existing warnings. Local vault records only; ci_wait.

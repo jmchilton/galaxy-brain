@@ -1,0 +1,5 @@
+Author approves unchanged five cases/nine checks for read-only initialization, code/language updates, explicit disposal and unproxied Monaco method contexts. Preserve the exact controlled editor/model/loader objects, code literals, public props, asynchronous flush and both explicit unmounts.
+
+Automatic unmount now owns every other editor; register it after clearing mocks so reverse hooks dispose the component before clearing mock observations. Existing next-test mock clearing remains. Required container uses get without changing the original create argument check. No broader editor mock typing or fixture abstraction is needed.
+
+Pristine/final shuffled730101 pass5cases. V8 covered statement/function/branch-arm locations4files40 exactly retained. The real component renders its plain container; this is no shared UI-rendering claim. File ESLint/Prettier and absolute sample-config hooks pass. Evidence /private/tmp/readability73-source-{before,after}. No helper, production, support or guidance edit.

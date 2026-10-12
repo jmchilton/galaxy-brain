@@ -153,6 +153,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/histories.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/index.test.ts
   storified: skip
@@ -336,6 +337,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Form/FormElementHelpMarkdown.test.ts
+  iterated: 1
 - file: client/src/components/Form/FormElementLabel.test.js
   iterated: 1
   split_commit: true
@@ -626,6 +628,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/ObjectStore/ShowSelectedObjectStore.test.js
+  iterated: 1
 - file: client/src/components/ObjectStore/Templates/TemplateSummaryPopover.test.ts
 - file: client/src/components/Page/PageView.test.ts
 - file: client/src/components/PageDisplay/PageForm.test.js
@@ -774,6 +777,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Tool/ToolSourceDisplay.test.ts
+  iterated: 1
 - file: client/src/components/Tool/ToolSuccess.test.ts
 - file: client/src/components/Tool/ToolSuccessMessage.test.ts
 - file: client/src/components/Tool/authoringHelp.test.ts
@@ -1042,6 +1046,7 @@
   split_commit: true
 - file: client/src/components/Workflow/WorkflowNavigationTitle.test.ts
 - file: client/src/components/WorkflowInvocationState/JobStep.test.ts
+  iterated: 1
 - file: client/src/components/WorkflowInvocationState/JobStepJobs.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationFeedback.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts
@@ -1099,6 +1104,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/admin/UserRolesGroupsForm.test.ts
+  iterated: 1
 - file: client/src/components/providers/InvocationsProvider.test.js
   iterated: 1
   split_commit: true
@@ -1192,6 +1198,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/composables/toolTrainingMaterial.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/composables/upload/uploadItemTypes.test.ts
   iterated: 1
@@ -1360,6 +1367,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/stores/helpTermsStore.test.ts
+  iterated: 1
 - file: client/src/stores/historyStore.lists.test.ts
   iterated: 1
   storified: skip

@@ -1,0 +1,9 @@
+# JobStep independent review
+
+Approved origin `46523aaaff3f6df2bfc6bb2aa8dd18cd93722b6f` against immutable `a454ecaea1a5798c2e556625ee18db4798d0f785`; no driver action required.
+
+All three original cases/31 executed checks survive, including the three state iterations/four row observations, reactive new→running update and shallow single-job details contract. Exact imported jobs, IDs, ordering, labels, state counts and original click/setProps/flush timing remain. Object.entries preserves key iteration order while removing key/count assertions. Required nav/table/cell observations use get; explicit absence/presence checks remain unchanged. The existing documented JSON state-widening boundary stays intact.
+
+The local options helper consolidates three real testing-Pinia arrangements and registers disposal before each original native full/shallow mount. Reverse afterEach order flushes mounted table/store/render work before automatic unmount, with completion store disposal afterward. Inspection of JobStepJobs/invocationStore confirms the closed-over metrics getter can schedule internal fetch work despite testing-Pinia action spies. The original suite lacks those background localhost handlers; caught ECONNREFUSED diagnostics remain visible and no successful metrics endpoint contract is claimed. No arbitrary delay, altered assertion timing, fabricated response or production workaround is introduced.
+
+Independent pinned Node22.20 shuffled730201 single-worker run passes3 cases (`/private/tmp/readability73-job-independent.log`) without unhandled test failures. Independently compared covered locations: native242files863 exact; external shared UI23files252→258 zero loss, genuine button cleanup additions with imported setup qualified. Author file lint/format/absolute hooks pass; driver owns integrated full types. No substantive finding, helper proposal or new evidenced guidance gap.

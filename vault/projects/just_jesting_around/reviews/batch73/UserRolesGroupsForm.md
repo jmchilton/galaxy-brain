@@ -1,0 +1,9 @@
+# UserRolesGroupsForm — batch73
+
+Originator `d73d6b606b7ce63fb12ca72ecf5868b3d8df22d8`, pinned base `a454ecaea1a5798c2e556625ee18db4798d0f785`.
+
+All eight original cases/21 checks remain: loaded private-role exclusion and group selection, initial assignable-role search, first-character filtering, unchanged/changed saves, failed load suppression and role/group save failures. Every original MSW payload including deliberate partial group selection/handler responses, exact user/role/group IDs/names, request parameters, event emissions and promise timing remains. Real Multiselect stays mounted; no fabricated complete selection/default fixture is introduced.
+
+Native inferred mount/global options remove the component cast/legacy options and preserve the original FontAwesome stub. Each mount owns an attached div and removes only that host after automatic unmount, including failed assertions. Required actions/components use get; original submit absence remains find/exists. Canonical nth replaces unchecked first/last search captures and username split access. The exact detailed-user fixture is checked by its real schema, and captured save bodies use actual UserRolesUpdatePayload/UserGroupsUpdatePayload rather than unknown.
+
+Pristine/final Node22.20 single-worker shuffled730101 pass8cases. V8 native29files/292 and actual shared UI43files/179 covered statement/function/branch-arm locations match exactly. Real form/multiselect/button paths remain; broad UI totals also include imported setup, not proof every shared UI component renders. File ESLint/Prettier and explicit absolute sample hooks pass; driver owns integrated full types. Evidence /private/tmp/readability73-roles-{before,after}, corresponding -ui JSON/logs and -eslint/-prettier/-hooks.log. Only originator changes; existing inference/ownership/canonical helper guidance suffices with no new evidenced gap.

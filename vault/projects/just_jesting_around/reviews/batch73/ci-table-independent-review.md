@@ -1,0 +1,9 @@
+# GTable CI repair independent review
+
+Approved correction `41110336e3e5015f22a866675bd20402bd1e6b7c`; no driver action beyond folding into original iteration70 origin.
+
+The UI package's own tsconfig does not define the client @tests alias. The repair removes that unavailable import and replaces canonical nth calls with native required CSS queries for the same first/second rows and first/second/third headers. Fixture DOM has the same direct tr/th children and no selected detail/empty rows or extra selection headers in the sorting fixtures, so the positional selectors preserve original observations. All10 cases/27 executed checks, data, emitted events, keyboard cancellation, identity and owned host/unmount behavior remain. This reviewer's earlier original author work is separately distinguished from the driver's new CI correction.
+
+Independent pinned Node22.20 shuffled730201 single-worker runtime passes10 cases (`/private/tmp/readability73-ci-table-independent.log`). Independently ran isolated UI package vue-tsc with its own tsconfig: exit0 (`/private/tmp/readability73-ci-table-independent-types.log`), directly verifying the config boundary missed by full-client checking. Author reproduces old CI TS2307 and passes final file gates/absolute hooks.
+
+Independently compared original iteration70 baseline:14files402 covered statement/function/branch-arm locations exact. Published helper-import version23files409→14files402 loses seven incidental client localization import/setup locations; this is expressly qualified, not reported as raw zero loss against publication. Actual adjacent shared UI8files399 locations remain exact. Removed locations arise solely from the invalid client helper import, with no production or original UI behavior location lost. No production, support or helper abstraction change appears. Concrete guidance implication is validation against the independent UI package tsconfig as well as full-client types.
