@@ -65,3 +65,10 @@ Fast-forward pushed `3fea81e4cd891cb7956898210def1d9bd50a7285`; GitHub confirms 
 ## Readability loop batch 51 — 2026-10-12
 
 Four origins (history card actions, ToolShed toolbar, SelectionStatus and DefaultStep); [report](../../../../../projects/just_jesting_around/READABILITY_BATCH_51.md), [manifest](../../../../../projects/just_jesting_around/readability_batch_51.yml). All46original checks/18cases preserved; final combined client14 + ToolShed4cases, full both frontend type checks, lint/format/hooks and exact source-location coverage pass. Final typing corrections independently reviewed/folded; scope retains four tests only, no supporting/production/docs/E2E/screenshots changes. Fast-forward pushed2da8d6a3251dfc4e5179120b87341fa667aa7484; originating ledger counters written after push; downstream unchanged. GitHub verifies current head/draft/mergeability; ci_wait. Vault local only.
+
+
+## Readability loop batch 52 — 2026-10-12
+
+Four origins: GDropdownItem, useScrollEdges, SectionPatchView and sectionDiffUtils. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_52.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_52.yml) record final source and reviews. All 98 original checks retained; three explicit scroll preconditions strengthen transition sensitivity. Reviewer caught a potential sticky-fade blind spot, repaired it and verified with a failing temporary mutation; production restored. Final 44 cases, integrated full client vue-tsc, lint/format/hooks and exact source-location coverage pass. Scope retains four tests only; no supporting/shared/production/docs changes or screenshots/E2E needed.
+
+Fast-forward pushed `f3ffc6aaa4572195229049ce2b3e7ac7a203c191`; GitHub confirms exact head and MERGEABLE, draft retained, 39 queued checks / one running / two skipped. Four origin counters written after push; downstream lanes unchanged. Status remains ci_wait. Vault local only.

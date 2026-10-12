@@ -86,6 +86,7 @@
   storybook_play: true
 - file: client/src/components/BaseComponents/GDropdown.test.ts
 - file: client/src/components/BaseComponents/GDropdownItem.test.ts
+  iterated: 1
 - file: client/src/components/BaseComponents/GLink.test.ts
   storified: true
   storybook_play: true
@@ -160,6 +161,7 @@
 - file: client/src/components/CommandPalette/usePaletteMachine.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/useScrollEdges.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/Common/BreadcrumbHeading.test.ts
 - file: client/src/components/Common/ChangesIndicator.test.ts
@@ -578,12 +580,14 @@
   iterated: 1
 - file: client/src/components/PageEditor/ProposalDiffView.test.ts
 - file: client/src/components/PageEditor/SectionPatchView.test.ts
+  iterated: 1
 - file: client/src/components/PageEditor/object-permission-composables.test.js
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/PageEditor/sectionDiffUtils.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Panels/Buttons/FavoritesButton.test.js
