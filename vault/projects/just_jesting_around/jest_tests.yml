@@ -309,6 +309,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/GDateTime.test.ts
+  iterated: 1
 - file: client/src/components/GalaxyAI.newchat.test.ts
   iterated: 1
   storified: true
@@ -570,6 +571,7 @@
 - file: client/src/components/PageEditor/PageEditorView.test.ts
 - file: client/src/components/PageEditor/PageRevisionList.test.ts
 - file: client/src/components/PageEditor/PageRevisionView.test.ts
+  iterated: 1
 - file: client/src/components/PageEditor/ProposalDiffView.test.ts
 - file: client/src/components/PageEditor/SectionPatchView.test.ts
 - file: client/src/components/PageEditor/object-permission-composables.test.js
@@ -806,6 +808,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/Forms/FormSection.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/Forms/FormTool.test.js
   iterated: 1
   storified: true
@@ -993,6 +996,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/composables/datasetPermissions.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/composables/fileSources.test.ts
   storified: skip

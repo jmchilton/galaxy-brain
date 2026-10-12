@@ -1,0 +1,58 @@
+iteration: 50
+seed: 2610950
+inventory_sha256: 977a21c9ed64d779970fb0d5827f5b8e43426423b56ddda1731036bb10b555ac
+branch: vitest_readability
+base_commit: 15ba2c4a57710c6b0715adbda5319465cfc44cc9
+remote_start_commit: 15ba2c4a57710c6b0715adbda5319465cfc44cc9
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/GDateTime.test.ts
+- file: client/src/components/Workflow/Editor/Forms/FormSection.test.ts
+- file: client/src/components/PageEditor/PageRevisionView.test.ts
+- file: client/src/composables/datasetPermissions.test.ts
+selection_notes: N=4; uniterated, existing files, no later-lane true fields; known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+new_inventory_files: []
+commits:
+- sha: 7498b490d9495ffe292e01702b9130f4c76eaf02
+  test: FormSection
+- sha: 048d78ebe2d3f8209e1c652368ac662cebd208ef
+  test: GDateTime
+- sha: 20e39b6308ba67a3ba2e899a87d3c500bfdc6291
+  test: PageRevisionView
+- sha: 3fea81e4cd891cb7956898210def1d9bd50a7285
+  test: datasetPermissions
+baseline:
+  selected_cases: 30
+  selected_passed: 30
+  selected_suites: 4
+validation:
+  passed_cases: 30
+  skipped_cases: 0
+  affected_suites: 4
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  coverage: no previously covered statement/function/branch location lost
+  independent_review: approved
+  test_challenge: passed after deferred reload strengthening
+  maintainability_review: passed
+  scope_evaluation: retain four originators only
+  shuffle_seed: 500101
+  max_workers: 1
+  test_environment: Node 22.20.0; VITE_CONFIG_NATIVE_IGNORE_WARNING=true
+  mutation_check: Removing onSuccess await load fails callback-pending assertion; production restored and normal shuffle passes
+push: fast-forward
+pushed_head: 3fea81e4cd891cb7956898210def1d9bd50a7285
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  workflow_status: ci_wait
+  queued_checks: 39
+  running_checks: 1
+  skipped_checks: 2

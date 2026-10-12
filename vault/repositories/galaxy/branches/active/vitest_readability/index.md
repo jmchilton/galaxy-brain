@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `15ba2c4a57710c6b0715adbda5319465cfc44cc9`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `3fea81e4cd891cb7956898210def1d9bd50a7285`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -53,3 +53,10 @@ Continued four originators: Tool Shed ResetPassword, DatasetPopoverLink, TrsTool
 LibraryEditField became storified through concurrent later-lane work before final audit; excluded its prepared supporting cleanup before push. Original published history restored and preserved, library diffzero; no downstream branches edited. Retired prior polling teardown marginal advice into evidenced lifecycle guidance.
 
 Fast-forward pushed `15ba2c4a57710c6b0715adbda5319465cfc44cc9`, four originating counters updated afterpush, supporting counters untouched. Vault validation zeroerrors/15existingwarnings; records localonly. GitHub verification records latesthead/draft/mergeability; status remains ci_wait.
+
+
+## Readability loop batch 50 — 2026-10-12
+
+Continued four originators: GDateTime, FormSection, PageRevisionView and datasetPermissions. [Batch report](../../../../../projects/just_jesting_around/READABILITY_BATCH_50.md), [manifest](../../../../../projects/just_jesting_around/readability_batch_50.yml) and [review](../../../../../projects/just_jesting_around/reviews/batch50/review.md) record final source and evidence. Thirty cases pass before/after and in the final shuffled canonical gate; full client vue-tsc, lint/format/hooks and source-location coverage comparisons pass. All original assertions preserved, page mode/action repetition parameterized, typed native mounts/fixtures and cleanup improved. Permissions' deferred reload strengthens the public promise contract and catches a missing-await mutation; production restored and normal tests pass. Scope stays on four originating files; no shared/supporting/README/production changes or screenshots/E2E needed.
+
+Fast-forward pushed `3fea81e4cd891cb7956898210def1d9bd50a7285`; GitHub confirms exact head and MERGEABLE, draft retained, 39 queued checks / one running / two skipped. Four originating counters written after push; supporting counters and downstream branches unchanged. Status remains ci_wait. Vault records local only.
