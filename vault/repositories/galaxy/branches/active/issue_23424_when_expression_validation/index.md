@@ -1,6 +1,6 @@
 # issue_23424_when_expression_validation
 
-Status: `branches_need_decision`. Base: `dev`. [PR #23817](https://github.com/galaxyproject/galaxy/pull/23817) (closed).
+Status: `branches_need_polish`. Base: `dev`. [PR #23817](https://github.com/galaxyproject/galaxy/pull/23817) (closed).
 
 Validates workflow `when` expression input references at import.
 
@@ -21,3 +21,7 @@ Rebased and pushed at John's request before his decision on the closed PR.
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_23424_when_expression_validation`.
 
 Opened [PR #23817](https://github.com/galaxyproject/galaxy/pull/23817) and the [updated branch comparison](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23424_when_expression_validation?expand=1) in John's browser. The PR remains closed and the queue remains `branches_need_decision`, pending his choice to reopen it or open a fresh PR.
+
+## Recovery and polish in progress — 2026-10-12
+
+John requested applying the current gx_workhorse implementation handoff process and POLISH_BRANCH.md to this older branch, including fixing discovered issues. Preparing a reviewed branch and proposed description; no approval to reopen or create a PR is inferred. The choice between reopening #23817 and a fresh PR remains for final review.
