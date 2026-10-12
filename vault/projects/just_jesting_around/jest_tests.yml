@@ -190,6 +190,7 @@
   iterated: 1
 - file: client/src/components/Common/Webhook.test.ts
 - file: client/src/components/Common/Wizard/GenericWizard.test.ts
+- file: client/src/components/Common/gCardHeaderLayout.test.ts
 - file: client/src/components/Common/models/exportRecordModel.test.ts
   storified: skip
   storybook_play: skip
@@ -338,6 +339,7 @@
   iterated: 1
   storified: skip
   storybook_play: skip
+- file: client/src/components/Help/HelpText.test.ts
 - file: client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts
 - file: client/src/components/History/Archiving/HistoryArchiveWizard.test.ts
   iterated: 1
@@ -716,6 +718,7 @@
   storified: true
 - file: client/src/components/Tour/TourStep.test.ts
 - file: client/src/components/Upload/UploadSelect.test.ts
+- file: client/src/components/Upload/utils.test.ts
 - file: client/src/components/User/APIKey/model/service.test.ts
   storified: skip
 - file: client/src/components/User/DiskUsage/DiskUsageSummary.test.ts
@@ -963,6 +966,7 @@
   iterated: 1
   storified: skip
   storybook_play: skip
+- file: client/src/components/providers/storeProviders.test.js
 - file: client/src/components/providers/utils.test.js
   storified: skip
   storybook_play: skip
@@ -1132,6 +1136,7 @@
 - file: client/src/directives/vSanitizeHtml.test.ts
   iterated: 1
 - file: client/src/entry/analysis/App.test.ts
+- file: client/src/entry/analysis/modules/Home.test.ts
 - file: client/src/entry/analysis/modules/Login.test.ts
   iterated: 1
   split_commit: true
@@ -1145,6 +1150,7 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/entry/analysis/routes/admin-routes.test.ts
 - file: client/src/entry/analysis/routes/library-routes.test.ts
 - file: client/src/entry/analysis/routes/login-routes.test.ts
   storified: skip
@@ -1187,11 +1193,13 @@
   storybook_play: skip
 - file: client/src/stores/datasetListStore.test.ts
   storified: skip
+- file: client/src/stores/datatypeStore.test.ts
 - file: client/src/stores/entryPointStore.test.js
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/stores/helpTermsStore.test.ts
 - file: client/src/stores/historyStore.lists.test.ts
   iterated: 1
   storified: skip
@@ -1338,6 +1346,8 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/src/utils/sharedPromise.test.ts
+- file: client/src/utils/simple-error.test.ts
 - file: client/src/utils/slug.test.ts
   storified: skip
 - file: client/src/utils/strings.test.ts
@@ -1387,6 +1397,7 @@
   split_commit: true
   storified: skip
   storybook_play: skip
+- file: client/tests/vitest/check-style-imports.test.js
 - file: client/tests/vitest/setup.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
   iterated: 1
