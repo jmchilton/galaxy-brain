@@ -584,6 +584,7 @@
   iterated: 1
 - file: client/src/components/PageEditor/ProposalDiffView.test.ts
 - file: client/src/components/PageEditor/SectionPatchView.test.ts
+  storified: true
   iterated: 1
 - file: client/src/components/PageEditor/object-permission-composables.test.js
   iterated: 1
