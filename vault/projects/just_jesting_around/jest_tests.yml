@@ -62,6 +62,7 @@
 - file: client/src/api/staleCacheRetry.test.ts
   storified: skip
 - file: client/src/api/visualizations.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/api/workflows.test.ts
   iterated: 1
@@ -81,6 +82,7 @@
   iterated: 1
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
 - file: client/src/components/BaseComponents/Form/GForm.test.ts
+  iterated: 1
 - file: client/src/components/BaseComponents/GAlert.test.ts
   iterated: 1
 - file: client/src/components/BaseComponents/GButton.test.ts
@@ -682,6 +684,7 @@
 - file: client/src/components/Sharing/UserSharing.test.ts
   iterated: 1
 - file: client/src/components/SingleItemSelector.test.ts
+  iterated: 1
 - file: client/src/components/StsDownloadButton.test.js
 - file: client/src/components/Tags/model.test.js
   iterated: 1
@@ -1471,6 +1474,7 @@
 - file: lib/tool_shed/webapp/frontend/src/components/LoginForm.test.ts
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts
+  iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts
   iterated: 1

@@ -1,0 +1,55 @@
+iteration: 59
+seed: 2610959
+inventory_sha256: 6444a014090ce93b2bec5bf4552f8d23d1591f91d21b7905114ecccb8e813bbc
+branch: vitest_readability
+base_commit: ee56ad6a3715b5b792d5537e84dc9f2446920d2e
+remote_start_commit: ee56ad6a3715b5b792d5537e84dc9f2446920d2e
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/api/visualizations.test.ts
+- file: client/src/components/SingleItemSelector.test.ts
+- file: client/src/components/BaseComponents/Form/GForm.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts
+selection_notes: N=4; seeded eligible existing uniterated files; later-lane true and known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 21
+  assertions: 33
+validation:
+  passed_cases: 21
+  assertions: 34
+  skipped_cases: 0
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: no covered source location lost in four originator comparisons
+  shuffle_seed: 590101
+  independent_seed: 590201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed
+  toolshed_vue_tsc: passed
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain four origins
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings; shared vault has unrelated empty reviews/Untitled.md
+push: fast-forward
+pushed_head: bc3b5f773a059d2a19aa2be333d06ba53eaf246e
+github:
+  pr: 24038
+  draft: true
+  mergeable: UNKNOWN
+  status: ci_wait
+commits:
+- sha: bc3b5f773a059d2a19aa2be333d06ba53eaf246e
+  test: "Own selector test wrappers and clarify loading scenario"
+- sha: 83afd0640d0ae1481b51d0fadded3b843a5a8b2f
+  test: "Own push access test stores and component teardown"
+- sha: f18feb6a190d65a7ba84984e87e6585ef2314dc9
+  test: "Check complete visualization request captures"
+- sha: c374ce38d6c1ca627340cb37c4c796f7cde5a8f6
+  test: "test: Own form hosts and assert native submit event handoff"
