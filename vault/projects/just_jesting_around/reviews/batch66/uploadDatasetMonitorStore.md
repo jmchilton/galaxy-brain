@@ -1,0 +1,9 @@
+# Upload dataset monitor — batch 66
+
+All eighteen original cases and 26 assertions remain unchanged, covering dataset completion/error/pending/cancellation, current-history fallback polling, reactive upload/batch registration, collection states, unfiltered hidden-content lookup and the original missing-content timeout. Existing mock history/watch boundaries, local paste fixture and partial dataset/collection fields retain their semantics.
+
+Each case now owns the full Pinia; createMonitor explicitly selects it. Failure-safe afterEach disposes the store scope before clearing module-level upload state, then cancels any remaining fake timers and restores real time. This corrects the timeout case's former real-timer restoration before store disposal while retaining its exact 31-minute advance and three checks. No broad storage cleanup or shared helper is added. The original unknown-as API fixture boundaries remain justified: the dataset omits dataset_id/genome_build, and the collection omits collection_id/contents_url/elements_* fields. Canonical builders add defaults absent from these inputs. The driver restored those boundaries after integrated TypeScript rejected the attempted single assertions with TS2352; ownership and all fixture values remain unchanged.
+
+Pristine/final shuffled seed 660101 passes all eighteen cases. V8 covered source locations are exact across 22 files/441 statement/function/branch-arm locations, zero lost or added. This store suite renders no shared UI. Evidence: `/private/tmp/readability66-upload-{before,after}` and logs. File ESLint/Prettier and explicit absolute-config hooks pass (`/private/tmp/readability66-upload-hooks.log`); driver owns integrated types.
+
+No production/support/shared-helper/documentation changes or useful new guidance gap. Commit SHA supplied to driver; worker `/private/tmp/galaxy-readability66-upload`.

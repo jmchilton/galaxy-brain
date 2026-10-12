@@ -1,0 +1,7 @@
+# CollectionProgress — independent normal review, batch66
+
+Approve `fabb1a433b858d7d118b89a7c1d6adfabe19630b` against pinned `a0dc0eccc9e8be67715f0390337c0e2f969cc022`. All four original cases/eight checks remain: running count3, mixed running3/ok1/failed1, running3 transitioning to running1/ok2 through a new summary prop, and queued count3 remaining visible. Exact partial payloads/populated_state objects remain and the actual JobStateSummary plus Bootstrap progress children render.
+
+Source inspection confirms terminal visibility and warning/success/danger/secondary segments derive from those summary counts. A local native mount helper retains the original initial nextTick boundary and gives each case its own wrapper. Awaited setProps replaces the additional tick without changing the observed summary replacement. Required descendant segment get lookups observe the same single progress container. Auto-unmount handles success and assertion failure; no store/router/shared abstraction is needed.
+
+Independent shuffled660201 passes four cases. Author V8 evidence29files/106covered statement/function/branch-arm locations is exact before/after, zero loss/addition. Bootstrap children render; no Galaxy shared UI component is omitted. No original check is weakened, no production/support or neighboring test is changed, and existing ownership/awaited-update guidance suffices. No remaining finding or evidence-backed new guidance gap.

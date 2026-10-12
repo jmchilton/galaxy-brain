@@ -92,6 +92,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/BaseComponents/GDropdown.test.ts
+  iterated: 1
 - file: client/src/components/BaseComponents/GDropdownItem.test.ts
   storybook_play: true
   storified: true
@@ -107,6 +108,7 @@
 - file: client/src/components/BaseComponents/GTooltip.test.ts
 - file: client/src/components/Citation/CitationsList.test.ts
 - file: client/src/components/Citation/services.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/ListCollectionCreator.test.ts
@@ -376,6 +378,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.js
+  iterated: 1
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.ts
   storybook_play: true
   iterated: 1
@@ -408,6 +411,7 @@
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
   iterated: 1
 - file: client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts
+  iterated: 1
 - file: client/src/components/History/Export/HistoryExport.test.ts
 - file: client/src/components/History/Export/HistoryExportWizard.test.ts
   storified: true
@@ -936,6 +940,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/modules/useLinting.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/modules/utilities.test.ts
@@ -1132,6 +1137,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/composables/shortTermStorageMonitor.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/composables/taskMonitor.test.ts
@@ -1268,6 +1274,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/stores/activitySetup.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/stores/activityStore.test.ts
   iterated: 1
@@ -1361,6 +1368,7 @@
 - file: client/src/stores/unprivilegedToolStore.test.ts
   storified: skip
 - file: client/src/stores/uploadDatasetMonitorStore.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/stores/userStore.test.ts
   iterated: 1

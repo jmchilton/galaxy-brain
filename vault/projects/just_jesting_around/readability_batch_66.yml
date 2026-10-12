@@ -1,0 +1,77 @@
+iteration: 66
+seed: 2610966
+inventory_sha256: 0af0977496fa7a09d8cd27bc7a49385d4856ee45c37cf346e7e011e88935bb3e
+eligible: 245
+base_commit: a0dc0eccc9e8be67715f0390337c0e2f969cc022
+remote_start_commit: a0dc0eccc9e8be67715f0390337c0e2f969cc022
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/Workflow/Editor/modules/useLinting.test.ts
+- file: client/src/components/History/Content/Collection/CollectionProgress.test.js
+- file: client/src/stores/activitySetup.test.ts
+- file: client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts
+- file: client/src/components/BaseComponents/GDropdown.test.ts
+- file: client/src/composables/shortTermStorageMonitor.test.ts
+- file: client/src/stores/uploadDatasetMonitorStore.test.ts
+- file: client/src/components/Citation/services.test.ts
+selection_notes: N=8; seeded eligible existing uniterated files; later-lane true and
+  known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 101
+  intended_assertions: 275
+  count_note: Storage waitFor observations counted at successful evaluations; retries
+    may execute additional assertions.
+validation:
+  passed_cases: 102
+  assertions: 278
+  skipped_cases: 0
+  shuffle_seed: 660101
+  independent_seed: 660201
+  max_workers: 1
+  node: 22.20.0
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings;
+    shared vault retains unrelated empty reviews/Untitled.md
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: zero actual covered source locations lost; external shared UI retained
+    as qualified
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain eight origins
+  client_vue_tsc: passed
+driver_corrections:
+- Preserve explicit preferred-option exists checks through find lookups
+- Return void from storage monitor test-finished cleanup
+- Retain documented original partial API schema assertions after TS2352 rejects narrower
+  assertions
+commits:
+- 1aefd1948d079abfc2d179f62c4d07a323b8daa0 Own collection progress wrappers and clarify
+  state updates
+- 317668d2bc8c2bb132e5d03a4fb30833fea087ac Own dropdown test mounts mocks and pending
+  positioning
+- a86b65950ae9db1b470a66aa87eee18ce21df53d Use an owned native preferred-store test
+  fixture
+- b3dbf8e72aa5cda74515e32e641a3dbf14e3a407 Scope linting test effects and share typed
+  metadata arrangement
+- 2353582c32d670396f186d228288561070ace5a0 Clarify citation fixture fields and preserve
+  complete warnings
+- f69c91e0c099cdceac7ce02163445cdb034b7e16 Clarify activity availability fixture and
+  omitted configuration flags
+- 0b0e20fff41a468c9e1b671b3da0274857e3a867 Own storage monitor polling and deferred
+  cleanup
+- f2c92aa673ae06df299196cbe2c67fa7af10f358 Own upload monitor test stores state and
+  timers
+push: fast-forward
+pushed_head: 1aefd1948d079abfc2d179f62c4d07a323b8daa0
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

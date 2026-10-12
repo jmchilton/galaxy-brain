@@ -1,0 +1,5 @@
+# Activity availability — independent review, batch 66
+
+Approve author commit `8432f05a40e58af60cd307a0b7699587c4e2258e` against pinned base `a0dc0eccc9e8be67715f0390337c0e2f969cc022`. Independent shuffled seed 660201 passes six cases. All five original cases/nine checks remain; the extra loaded-but-empty configuration case adds two checks distinct from explicitly false flags and entirely unloaded configuration.
+
+The descriptive enabled fixture satisfies the production ActivityAvailability interface without casting. Both absent optional flags are expected to keep their activities hidden. Verified bounded mutation evidence: treating an omitted interactive-tools flag as enabled passes the original five cases, fails the added case, and restored source passes six. These are public availability-policy checks, not framework behavior; no server or mock is needed. Author coverage remains exact across five files/23 actual covered source locations. No blockers or new shared-guidance recommendation.

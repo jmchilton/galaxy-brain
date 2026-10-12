@@ -1,0 +1,11 @@
+# GDropdown — batch 66
+
+All 41 original executed cases and 129 executed checks remain (88 assertion source lines plus repeated placement/focus rows, openMenu observations and control-key loops). Menu/button/group accessibility, split/link behavior, floating position/cleanup, keyboard focus/propagation, disabled behavior and explicit in-flight/open unmount cases retain their original inputs and expectations.
+
+Native mounting removes component object casts and legacy localVue/router/propsData options. A reusable local plain-dropdown mount owns the repeated setup; the template component uses defineComponent and canonical withPlugins. Every mount has its own attached host, removed after wrapper cleanup, without whole-body clearing. Automatic unmount covers direct mounts that the former single global wrapper missed on failures. Real FloatingUI implementations and document spies are restored after unmount, clearing queued one-off responses between cases.
+
+The public show/hide methods are inferred from the real component instead of a fabricated wrapper cast. The positioning observation requires a recorded call rather than a non-null assertion. Canonical deferred owns both delayed-position cases; finally unmounts, releases the response and flushes pending work if a check fails. All original successful positioning and explicit unmount observations remain.
+
+Pristine/final shuffled seed 660101 passes all 41 cases. Default V8 matches exactly across 17 files/25 covered locations; explicit actual shared dropdown/menu/button/tooltip coverage matches exactly across seven files/319 locations. Both comparisons lose/add zero statement/function/branch-arm locations. Evidence: `/private/tmp/readability66-dropdown-{before,after}` and corresponding `-ui` JSON/logs.
+
+Prettier passes. Initial ESLint/hooks flagged template-before-methods ordering after introducing defineComponent; correcting that option order makes final explicit absolute-config hooks, including ESLint and formatting, pass (`/private/tmp/readability66-dropdown-hooks-final.log`). Driver owns integrated types for native exposed APIs. No production/shared/support/documentation changes or useful new guidance gap. Commit SHA supplied to driver; worker `/private/tmp/galaxy-readability66-dropdown`.

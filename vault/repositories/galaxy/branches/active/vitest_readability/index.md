@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `a0dc0eccc9e8be67715f0390337c0e2f969cc022`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `1aefd1948d079abfc2d179f62c4d07a323b8daa0`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -163,3 +163,10 @@ Fast-forward pushed `98e8e836455918807d7c2c7c09a8ca64be807f02`; exact GitHub hea
 Continuous run, eight origins: Markdown parse, Tool utilities, ColorSelector, HistoryView, escapeStack, ChatModeSelector, sanitizeHtml and datasets provider. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_65.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_65.yml). All 86 original cases and 275 executed checks retained, plus six mutation-proven parser/escape checks. Native owned stores/router/wrapper/deferred/global cleanup and honest narrow fixture typing; every actual covered source location remains, including imported/rendered shared UI as qualified. Combined tests, full client types, hooks and independent normal/strict/challenge/scope reviews pass. No production, helper, support or guidance changes; screenshots/E2E not relevant.
 
 Fast-forward published `a0dc0eccc9e8be67715f0390337c0e2f969cc022`; exact GitHub head and draft verified, ci_wait. Eight counters written after publication; downstream unchanged and vault records local only. Shared vault retains unrelated empty Untitled.md; isolated snapshot passes 122 files with zero errors and 15 existing warnings.
+
+
+## Readability loop batch 66 — 2026-10-12
+
+Continuous run, eight origins: useLinting, CollectionProgress, activitySetup, SelectPreferredStore, GDropdown, shortTermStorageMonitor, uploadDatasetMonitorStore and Citation services. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_66.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_66.yml). All 101 original cases and 275 intended successful checks retained, plus one case/three mutation-proven checks. Typed arrangement removes repeated lint setup; native wrappers, owned scopes/stores/hosts/deferred/globals and cleanup ordering preserve source coverage including actual shared UI. Full types exposed three fixture/lookup/callback boundaries; corrected, reviewed and folded into origin commits. Final 102 cases, full types, hooks and independent normal/strict/challenge/scope reviews pass. No production, helper, support or guidance changes; screenshots/E2E not relevant.
+
+Fast-forward published `1aefd1948d079abfc2d179f62c4d07a323b8daa0`; exact GitHub head and draft verified, ci_wait. Eight counters written after publication; downstream unchanged, vault records local only. Shared vault retains unrelated empty Untitled.md; isolated snapshot passes 122 files with zero errors and 15 existing warnings.
