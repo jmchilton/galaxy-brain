@@ -1,0 +1,76 @@
+iteration: 67
+seed: 2610967
+inventory_sha256: 1098863736c8f9c38828b8557e19b2d44823260dce9dea65310b43416ad0c24f
+eligible: 237
+base_commit: 1aefd1948d079abfc2d179f62c4d07a323b8daa0
+remote_start_commit: 1aefd1948d079abfc2d179f62c4d07a323b8daa0
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/Common/models/exportRecordModel.test.ts
+- file: client/src/components/Tool/ToolHelpMarkdown.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts
+- file: client/src/style/headingScale.test.ts
+- file: client/packages/ui/src/components/vModelContract.test.ts
+- file: client/src/components/Collections/pairing.test.ts
+- file: client/src/stores/unprivilegedToolStore.test.ts
+- file: client/src/components/Workflow/List/CuratedCollectionChips.test.ts
+selection_notes: N=8; seeded eligible existing uniterated files; later-lane true and
+  known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 40
+  intended_assertions: 138
+  count_note: Heading includes collection guard; store waitFor checks counted at successful
+    evaluations.
+validation:
+  passed_cases: 51
+  assertions: 143
+  skipped_cases: 0
+  shuffle_seed: 670101
+  independent_seed: 670201
+  max_workers: 1
+  node: 22.20.0
+  client_suites: 7
+  client_cases: 46
+  toolshed_suites: 1
+  toolshed_cases: 5
+  client_vue_tsc: passed
+  toolshed_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: zero actual covered source locations lost; external UI and source-text-only
+    evidence qualified in report
+  independent_review: approved
+  maintainability: passed
+  scope: retain eight origins
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings excluding
+    only unrelated empty reviews/Untitled.md
+  test_challenge: passed
+commits:
+- a716c7d6a82a497f52a1831309c67531451c35fa Clarify markdown tool help test setup and
+  cleanup
+- 46ac5d6860b879fc567c7bec58844ead61d64ad2 Improve unprivileged tool store test ownership
+- d7b55ae35070396ab7baeba68ff437c6c53be3b4 Improve curated collection chips test ownership
+  and lookups
+- f71252dc1e08922bdea0a4a369ab96222fd2ab76 Own export model clock and test exact expiration
+  boundary
+- 08e1d0117321e6b03a71b50e2821c7a84bb7ac1b Own repository page test stores and type
+  partial fixtures
+- 452deadb8345d6b6d8aea99e832cba8771d5003c Use guarded theme capture in heading scale
+  test
+- 47d7022500f76e9ce77d43cc719e68c6c80f904f Use inferred v-model bindings and own parent
+  wrappers
+- ca359c0dd2d429a7c13ab25eac2b37573358e046 Name pairing fixtures and isolate specification
+  examples
+push: fast-forward
+pushed_head: a716c7d6a82a497f52a1831309c67531451c35fa
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

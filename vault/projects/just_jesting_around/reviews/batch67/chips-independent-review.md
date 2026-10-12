@@ -1,0 +1,7 @@
+# CuratedCollectionChips — independent normal review, batch 67
+
+Approve `00cd1586be900abe0315a85beef8120f347cd0a2` against pinned base `1aefd1948d079abfc2d179f62c4d07a323b8daa0`. Independent Node22 shuffled670201 passes five cases. All12 original checks retain collapsed hidden ordering/tabindex, more-button text/pressed state, expand/collapse transitions, all-fit absence, folded active collection and exact toggle emission. Collection names/counts, active case folding and simulated first-row layout values remain unchanged.
+
+Native inferred mount uses existing canonical global plugins and the actual typed curated collection input. Required present targets use get; genuine absence observations retain find().exists(). Each local wrapper automatically unmounts before prototype offset spies restore, so the resize observer/watchers retain their layout dependencies through disposal. The small local layout helper earns its reuse across three offset getters; no extra store ownership, generated fixture or global DOM wipe is introduced.
+
+Independently reran V8 comparisons: default14files/121 and actual shared UI2files/54 covered locations remain exact, zero loss/addition. Real GButton still renders the retained accessibility/selection behavior. Log `/private/tmp/readability67-chips-independent.log`. Author lint/format/explicit hooks pass; driver owns integrated types. No production/support changes, weakened contract, substantive maintainability finding or evidence-backed guidance gap.

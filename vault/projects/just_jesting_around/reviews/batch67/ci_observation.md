@@ -1,0 +1,3 @@
+# Prior-head CI observation
+
+Previous published head `1aefd1948d079abfc2d179f62c4d07a323b8daa0` is draft and mergeable. Actual GitHub check snapshot has28successes,25in progress,2skipped and one failure. [Mulled Unit Tests / Test (3.10)](https://github.com/galaxyproject/galaxy/actions/runs/38315768225/job/115031891235) fails `test_singularity_search` with requests ReadTimeout fetching depot.galaxyproject.org/singularity/ after12seconds. This backend external-service timeout does not exercise the client/Tool Shed frontend test-only changes. Failed-job log inspected directly in /private/tmp/readability67-prior-mulled-failure.log. No client check failure inferred; remaining CI has not settled.

@@ -1,0 +1,11 @@
+# RepositoryPage — batch67
+
+Originator commit: `3114bbdc6bce02a5f19e8cbd2c9c4ec51d7193d3`.
+
+All five original cases/nine checks remain: deprecated/malicious alerts, healthy absence, exact newest-revision README request and rendered nonbreaking space, header description with no redundant About card, and distinct long description. The original store payload fields, empty tools/invalid-tools arrays and post-mount metadata timing remain unchanged. Owned per-mount real Pinia is installed through native global plugins and selected explicitly by the store; auto-unmount precedes spy restoration and store disposal.
+
+Schema-derived partial repository fields and malicious-revision overrides replace broad records. The local metadata input remains deliberately partial: the inspected canonical real-fixture factory adds tools/defaults absent from these inputs. Its inferred exact fixture type avoids fabricating recursive complete metadata or casting the store patch. Native required README paragraph lookup replaces find before text reading. No production/support/shared changes.
+
+Own Tool Shed Vitest3.2.7/Node22.20 shuffled670101 pristine/final both pass five cases. Main src/** V8 retains89files/3385covered statement/function/branch-arm locations exactly. Actual GAlert comes from installed raw shared UI inside node_modules, which this provider excludes even with external include; a supplemental temporary alias uses a byte-identical outside-node_modules copy of all58 installed source files and the same dependency links. Pristine/final supplemental43files/2636covered source locations match exactly, including actual GAlert; no empty direct-provider report is counted. These totals include transitively imported UI modules and do not claim all components render. Test restoration and scratch-config removal use finally.
+
+Own frontend ESLint/Prettier/full vue-tsc and explicit absolute-config repository hooks pass (the repository client-eslint hook does not target Tool Shed, hence its separate native lint gate). Driver owns final integrated Tool Shed types. Evidence: /private/tmp/readability67-repository-{before,after}, corresponding -ui JSON/logs and types/lint/hooks logs. No new useful guidance gap: prior batch59 already documents the provider limitation, and existing ownership/partial-fixture guidance applies.

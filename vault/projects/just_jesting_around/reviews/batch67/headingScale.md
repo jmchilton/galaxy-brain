@@ -1,0 +1,5 @@
+# Heading scale — batch 67
+
+The source-contract test already expresses its drift check clearly: global SCSS utilities and package-local heading sizes must match the theme scale, with non-empty inventories preventing vacuous success. Retain all three cases and six intended checks (five case checks plus the original theme-capture presence check during collection). The only edit removes a non-null claim when reading that capture; the same preceding presence assertion guards the optional read. Required regex capture casts elsewhere stay local and justified; no abstraction or new case is needed.
+
+Pristine/final shuffled670101 pass three cases. V8 retains three imported setup files/three covered locations exactly; the SCSS and GHeading are read as text, so that map is not a claim to render/instrument heading UI. Their source contract is verified by the retained comparisons. No production/helper/support/guidance change. File lint/format passed; driver owns integrated types and independent review.

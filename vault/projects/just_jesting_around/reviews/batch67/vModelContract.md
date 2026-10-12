@@ -1,0 +1,9 @@
+# v-model contract — batch 67
+
+All two original cases/four checks remain: GTabs initially renders tab Two, clicking the first tab updates the actual parent active binding to0; GCollapse initially lacks its open class and gains it when the actual parent open binding changes to true. The existing compatibility-boundary comment remains. No new closure or bidirectional collapse behavior is claimed beyond these original observations.
+
+defineComponent already supplies inferred parent binding types, so fabricated unknown-as wrapper shapes are removed. Required get of the first nav link replaces array indexing/non-null assertion while preserving the same tab click. Automatic unmount owns both parents, children, watchers and collapse resources on success or assertion failure. No Pinia/router/plugin fixture is required by these adjacent real shared UI components; no production/support helper change is made.
+
+Pristine/final Node22 shuffled670101 pass two cases. Default V8 directly includes the actual worker-local GCollapse/GTab/GTabs sources:6files140→151 covered statement/function/branch-arm locations, zero loss. The11 additions are GCollapse/GTab unmount callbacks and GTabs unregister-tab execution during owned child disposal. No external package alias substitutes another copy, so supplemental external UI coverage is unnecessary. Evidence: `/private/tmp/readability67-model-{before,after}.log` and corresponding JSON directories.
+
+File ESLint/Prettier and explicit absolute-config hooks pass (`/private/tmp/readability67-model-hooks.log`); ESLint retains the pre-existing two one-component-per-file warnings for literal test parents. Driver owns integrated types. No evidence-backed new guidance gap; existing inferred native typing and owned cleanup guidance suffices. Commit SHA supplied to driver.

@@ -1,0 +1,7 @@
+# unprivilegedToolStore — independent normal review, batch 67
+
+Approve `9a620c7df6c8cfb8d73531c59c06cca13d20e9cd` against pinned base `1aefd1948d079abfc2d179f62c4d07a323b8daa0`. Independent Node22 shuffled670201 passes five cases. All23 intended successful checks remain, including three failure/retry rows; waitFor retries can evaluate assertions additional times. Network/403/server response differences, exact error-reporting title/no forbidden toast, access/loading state after retry, anonymous no-fetch and late registered-user load retain their original actions/expectations.
+
+Owned real Pinia is captured for disposal and selected explicitly by both user and tool stores, preserving the actual immediate user watcher and later-registration transition. Existing canonical registered/anonymous user fixtures and MSW handlers remain unchanged. The canonical toast mock returns the same object observed through Toast.error; inspected that implementation, so replacing the bespoke error-only mock does not create an unobserved spy. Only the observed error calls are cleared without resetting the mock implementation. No UI, scope factory, generated fixture defaults or production workaround is introduced.
+
+Independently reran author V8 comparison:142files/495 covered source locations exact, zero loss/addition. No actual shared UI renders. Log `/private/tmp/readability67-tool-independent.log`; author lint/format/absolute hooks pass and driver owns integrated types. No weakened check, blocking finding, unnecessary abstraction or evidence-backed new guidance gap.

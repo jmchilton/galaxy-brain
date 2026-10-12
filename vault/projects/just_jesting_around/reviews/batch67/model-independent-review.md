@@ -1,0 +1,7 @@
+# vModelContract independent review — batch67
+
+Approve `cb5110f7083ae2518a9f31ad28655ad72009f8f7` against pinned `1aefd1948d079abfc2d179f62c4d07a323b8daa0`. Reviewed REVIEW_FOCUS, client testing/teardown guidance, original/final checks and actual GCollapse, GTab and GTabs model and unmount paths. No blocking finding or edit.
+
+Both cases/four original checks remain: GTabs initially selects Two, clicking the first actual nav link updates the parent binding to zero, and changing the parent's collapse binding changes its rendered open class. Required first-element get preserves the original indexed first-link click. defineComponent infers the actual parent bindings, removing fabricated wrapper casts; observing that parent is justified by this specific model contract. The existing case title is broader than the checks: it does not establish closing behavior, and this patch does not claim new coverage for closing. Automatic unmount owns both parents and executes genuine tab unregister/collapse teardown; no unnecessary Pinia or router fixture is added.
+
+Independent pinned Node22.20 shuffled670201 passes both cases; /private/tmp/readability67-model-independent.log. Existing GTabs compat compilation warnings accompany successful runs. Reran author's V8 source-location comparison: six files/140→151 covered locations, zero loss and eleven genuine teardown additions. Actual UI sources are worker-local direct imports, so no external alias is needed. Existing cleanup/inferred typing guidance suffices; no new evidenced guidance gap.

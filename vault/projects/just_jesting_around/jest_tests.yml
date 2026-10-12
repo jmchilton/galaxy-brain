@@ -13,6 +13,7 @@
   iterated: 1
 - file: client/packages/ui/src/components/GTable.test.ts
 - file: client/packages/ui/src/components/vModelContract.test.ts
+  iterated: 1
 - file: client/packages/ui/src/composables/floatingPosition.test.ts
   iterated: 1
   storified: skip
@@ -129,6 +130,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/Collections/pairing.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/wizard/fetchWorkbooks.test.ts
@@ -214,6 +216,7 @@
   iterated: 1
 - file: client/src/components/Common/gCardHeaderLayout.test.ts
 - file: client/src/components/Common/models/exportRecordModel.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/ConfigTemplates/CreateInstance.test.ts
@@ -734,6 +737,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Tool/ToolHelpMarkdown.test.ts
+  iterated: 1
 - file: client/src/components/Tool/ToolHelpRst.test.js
   iterated: 1
   storified: skip
@@ -955,6 +959,7 @@
   iterated: 1
 - file: client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts
 - file: client/src/components/Workflow/List/CuratedCollectionChips.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/List/CuratedWorkflowCard.test.ts
 - file: client/src/components/Workflow/List/CuratedWorkflowList.test.ts
   iterated: 1
@@ -1367,6 +1372,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/stores/unprivilegedToolStore.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/stores/uploadDatasetMonitorStore.test.ts
   iterated: 1
@@ -1417,6 +1423,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/style/headingScale.test.ts
+  iterated: 1
 - file: client/src/style/tokensContract.test.ts
   storified: skip
 - file: client/src/utils/color.test.js
@@ -1582,6 +1589,7 @@
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts
+  iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts
   iterated: 1
