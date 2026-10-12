@@ -603,6 +603,7 @@
 - file: client/src/components/Panels/MyToolsLanding.test.ts
   iterated: 1
 - file: client/src/components/Panels/ToolBox.test.js
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Panels/ToolBoxSearch.test.ts
@@ -683,6 +684,7 @@
   storybook_play: true
 - file: client/src/components/Tool/ToolFooter.test.js
 - file: client/src/components/Tool/ToolForm.test.ts
+  iterated: 1
 - file: client/src/components/Tool/ToolHelpMarkdown.test.ts
 - file: client/src/components/Tool/ToolHelpRst.test.js
 - file: client/src/components/Tool/ToolInstallationRequestForm.test.ts
@@ -775,6 +777,7 @@
   iterated: 1
   storified: true
 - file: client/src/components/User/UserOidcProfile.test.ts
+  iterated: 1
 - file: client/src/components/User/UserPreferences.test.ts
 - file: client/src/components/User/UserPreferencesModel.test.ts
   storified: skip
@@ -1084,6 +1087,7 @@
   storybook_play: skip
 - file: client/src/composables/upload/useUploadMethodModal.test.ts
 - file: client/src/composables/upload/useUploadStaging.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/composables/upload/useUploadSubmission.test.ts
   storified: skip

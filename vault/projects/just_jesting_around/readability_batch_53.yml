@@ -1,0 +1,58 @@
+iteration: 53
+seed: 2610953
+inventory_sha256: 253acc01308024fe2db0730136426eb0871a0d06377f48af64197ec700dc9eab
+branch: vitest_readability
+base_commit: f3ffc6aaa4572195229049ce2b3e7ac7a203c191
+remote_start_commit: f3ffc6aaa4572195229049ce2b3e7ac7a203c191
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/Panels/ToolBox.test.js
+- file: client/src/components/User/UserOidcProfile.test.ts
+- file: client/src/composables/upload/useUploadStaging.test.ts
+- file: client/src/components/Tool/ToolForm.test.ts
+selection_notes: N=4; seeded eligible existing uniterated files; no later-lane true
+  fields; known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  cases: 12
+  assertions: 23
+validation:
+  passed_cases: 14
+  assertions: 28
+  coverage: Three suites identical; ToolForm target/services preserved, 15 unasserted
+    asynchronous child/store tail locations excluded by lifecycle cleanup; independently
+    reviewed
+  shuffle_seed: 530101
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  independent_review: approved with documented ancillary coverage exceptions
+  test_challenge: passed
+  maintainability: passed
+  scope: retain four origins
+commits:
+- sha: c74765f53e004a051027b11f467c7ca3fb8231b4
+  test: Clarify staged upload fixtures and own reactive test scope
+- sha: e4a9932629e67bdca97186e581dc9f4dff9cc588
+  test: Improve OIDC profile test fixtures and cleanup
+- sha: 7392f5cbfd7bada6b7739738762fdfbef941b16b
+  test: Clarify toolbox filtering and panel grouping assertions
+- sha: e1eecdf4f1a92feeeb2d590cfc6aba6bd8c64674
+  test: Clarify ToolForm scenarios and own mounted store state
+push: fast-forward
+pushed_head: e1eecdf4f1a92feeeb2d590cfc6aba6bd8c64674
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait
+  checks:
+    QUEUED: 39
+    COMPLETED: 1
+    IN_PROGRESS: 1

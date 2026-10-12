@@ -1,0 +1,11 @@
+# Batch 53 — independent upload review
+
+Approve `4c2f33660389aec972257187ba1eb0a42d4b1566` against `f3ffc6aaa4572195229049ce2b3e7ac7a203c191`. No correctness, regression-detection, or maintainability findings.
+
+All three cases and five original assertions remain: empty staging is false; pasted URL staging is true and clearing it is false; whitespace-only content is false and replacement with data is true. Both transition scenarios retain one computed instance throughout their mutations. A stale computed, uncleared URL list, or whitespace counting regression still fails the same checks; scenarios were not flattened into isolated endpoint fixtures.
+
+`setupStaging` groups lifecycle ownership without hiding any scenario inputs. The composable's nested computeds are created inside the existing `runInTestScope`; its cleanup is registered after owned Pinia disposal and executes first under Vitest's stacked test-finished callbacks. Explicit Pinia access matches the active instance used by the composable. Each content fixture receives fresh spread defaults. Added type-required fields do not affect countStagedItems, which reads only content or array length. No unsafe casts, new shared helpers, ad hoc branches, or production changes remain.
+
+Independent focused shuffled run (Node 22.20.0, one worker, seed 530201) passed all three cases; log `/private/tmp/readability53-upload-independent.log`. Author coverage evidence reports identical normalized covered locations (46 across five source files), and full types, formatting, lint, and hooks pass. Scope and assertion inspection give independent evidence beyond the green test result.
+
+Challenge review: these assertions test client staging policy—especially trimming blank content and reactive transition behavior—using the real store and composable. They do not merely mock and echo a function return. API tests cannot directly exercise this in-memory client state; browser tests would add unrelated upload UI/server setup without improving these precise transition checks. Keep the cases and existing reusable scope utility. No screenshot or E2E additions are needed for this test-only rewrite. Existing README guidance covers the ownership and fixtures; no new generic advice is proposed.

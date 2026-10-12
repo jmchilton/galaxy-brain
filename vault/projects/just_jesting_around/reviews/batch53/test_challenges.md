@@ -1,0 +1,14 @@
+# Batch 53 — test challenge debrief
+
+Compared the reports and original assertion inventories against Galaxy's test-layer guidance and the client testing practices. The user's readability loop requires retaining original behavior and checks, so generic challenge advice to remove tests does not authorize deleting them.
+
+- ToolBox tests actual filtering, ranking order, and section grouping using shared inventory fixtures. It retains all three original checks and adds exact expected tool IDs and section membership. These checks cover domain transformation rather than mocking its result or restating framework behavior.
+- Upload tests client staging policy with the real composable and store. Its existing computed instance still observes URL addition/clear and whitespace/content transitions; splitting those into isolated fixtures would weaken regression detection. The three cases and five checks remain.
+- OIDC tests rendered profile details and the real button's configured URL. Ordered email/username checks remain guarded indexed values. Shared config and user factories provide input seams, while the actual rendered component is exercised. Both cases and four checks remain.
+- ToolForm keeps all six original scenarios and 11 assertions, including validation event ordering, actual backend error clearing, returned submission errors, the exact toast, and form re-enablement. The new pending-build and recent-tool-deduplication scenarios add three checks, making inherited-state transitions explicit. Real child rendering remains where the original test needed it; FormDisplay stays an event-emitting stub to isolate the parent's error/update contract.
+
+Final batch totals: 14 cases and 28 assertions (ToolBox five, upload five, OIDC four, ToolForm fourteen); 23 original assertions retained plus five additions. Counts are supporting inventory, not proof of preserved coverage or transition sensitivity.
+
+API tests cannot directly exercise the in-memory computed staging transition or these small rendered client contracts. New browser tests would require unrelated server/UI setup without improving the precise behaviors checked here. This is a test-only readability batch with no production feature or UI change, so no new E2E test or screenshot is warranted. Existing mock/factory/effect-scope utilities were reused; no production restructuring or new universal fixture helper is justified.
+
+Coverage comparisons use source locations rather than line percentages. Three suites retain exact covered sets. ToolForm preserves all original target/service locations and reports 15 removed ancillary deferred tag/watcher/assertion-helper locations, alongside 20 additions. Cleanup and store isolation plausibly explain the changed asynchronous execution, but that timing cause was not instrumented. Its independent reviewer approved the retained contracts and the explicit ancillary exception; this report does not hide the exception behind the total gain.
