@@ -368,6 +368,7 @@
   iterated: 1
 - file: client/src/components/GalaxyAI/ClarificationCard.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/GalaxyAI/agentTypes.test.ts
   iterated: 1
   storified: skip
