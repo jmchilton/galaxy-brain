@@ -93,6 +93,7 @@
 - file: client/src/components/BaseComponents/GPopover.test.ts
 - file: client/src/components/BaseComponents/GTip.test.ts
 - file: client/src/components/BaseComponents/GToast.test.ts
+  iterated: 1
 - file: client/src/components/BaseComponents/GTooltip.test.ts
 - file: client/src/components/Citation/CitationsList.test.ts
 - file: client/src/components/Citation/services.test.ts
@@ -451,6 +452,7 @@
   iterated: 1
 - file: client/src/components/JobParameters/JobParameters.test.ts
 - file: client/src/components/JobStates/JobState.test.ts
+  iterated: 1
 - file: client/src/components/Landing/fetchModels.test.ts
   storified: skip
   storybook_play: skip
@@ -694,6 +696,7 @@
 - file: client/src/components/ToolRecommendation.test.ts
 - file: client/src/components/ToolsList/ToolsList.test.ts
 - file: client/src/components/ToolsList/ToolsListCard.test.ts
+  iterated: 1
 - file: client/src/components/ToolsView/ToolsSchemaJson/ToolsJson.test.js
 - file: client/src/components/Toolshed/InstalledList/Details.test.js
   iterated: 1
@@ -890,6 +893,7 @@
 - file: client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Run/model.test.js
   storified: skip
   storybook_play: skip

@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `5838667ee6e1d2f89bf995f9eb6fab0ebabd5472`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `e1f3ed5dce2da8ccd93324fd6b536db3269a8810`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -37,3 +37,10 @@ John requested continuing `READABILITY_LOOP_ITERATION.md` and approved batching.
 Baseline 19 cases; final 24 pass shuffled with one worker. The first combined run timed out starting three threads workers; individual worker runs and the final one-worker run pass. Client vue-tsc, targeted lint/format and hooks pass. Per-test coverage retained or improved; GenericItem's corrected typed responses needed unchanged GenericElement/ContentItem consumers to reconcile two incidental child branches (14 cases at both refs, no count loss across 219 source files). The fixture's literal `type: "file"` correction is folded into its originating commit. Eleven new upstream inventory entries registered separately; only the four originators marked iterated after push.
 
 Normal fast-forward push from `e1570742723` to `5838667ee6e`; GitHub confirms the head and mergeability. Draft retained; new-head CI has 39 queued, one running and two completed checks. Status remains `ci_wait`. No downstream lane rebases in this iteration. Vault batch records committed locally only, following PIPELINE_WORKERS.md's instruction not to push galaxy-brain.
+
+
+## Readability loop batch 48 — 2026-10-12
+
+Continued at John's request to keep batching. Four originators: JobState, ToolsListCard, GToast and WorkflowStorageConfiguration; no production/shared/supporting changes. [Batch report](../../../../../projects/just_jesting_around/READABILITY_BATCH_48.md), [manifest](../../../../../projects/just_jesting_around/readability_batch_48.yml), and [review](../../../../../projects/just_jesting_around/reviews/batch48/review.md) record exact selection, commits and evidence. Original assertions retained; 32 baseline cases become 35 through named terminal states. Final shuffled combined run, full client vue-tsc, lint/format/hooks and coverage comparisons pass. Actual toast UI package covered through explicit external-source runs. Review corrections for reverse teardown registration and deferred failure cleanup are folded into originators. Scope retained; no screenshots/E2E needed.
+
+Fast-forward pushed `e1f3ed5dce2da8ccd93324fd6b536db3269a8810`. GitHub confirms exact head and MERGEABLE, draft retained; 39 queued checks, one running and two skipped at snapshot. Four originating counters updated after push; vault records local only. Status remains ci_wait. Downstream lanes unchanged.

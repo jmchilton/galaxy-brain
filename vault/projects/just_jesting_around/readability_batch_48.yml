@@ -1,0 +1,52 @@
+iteration: 48
+seed: 2610948
+inventory_sha256: c5a5440e2bb664c17369664dedfdee98d25b9f60546945565b7ce9f3d4845baa
+branch: vitest_readability
+base_commit: 5838667ee6e1d2f89bf995f9eb6fab0ebabd5472
+remote_start_commit: 5838667ee6e1d2f89bf995f9eb6fab0ebabd5472
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/JobStates/JobState.test.ts
+- file: client/src/components/ToolsList/ToolsListCard.test.ts
+- file: client/src/components/BaseComponents/GToast.test.ts
+- file: client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts
+selection_notes: N=4; uniterated, existing files, no later-lane true fields; known DataDialog bug excluded.
+supporting_files: []
+helper_files: []
+documentation_files: []
+new_inventory_files: []
+commits:
+- sha: 099282b32ed8567965ed397b347bde9de3d3b5f0
+  test: WorkflowStorageConfiguration
+- sha: 63cf70ffe7607278067e6c32bc4a8ae02b3d1c87
+  test: JobState
+- sha: 7bacbef51c1340f36a3ddf9ef8783db065da8c15
+  test: ToolsListCard
+- sha: e1f3ed5dce2da8ccd93324fd6b536db3269a8810
+  test: GToast
+baseline:
+  selected_cases: 32
+  selected_passed: 32
+  selected_suites: 4
+validation:
+  passed_cases: 35
+  skipped_cases: 0
+  affected_suites: 4
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  source_commit_hooks: passed
+  independent_review: approved after cleanup corrections
+  test_challenge: passed
+  maintainability_review: passed after cleanup correction
+  scope_evaluation: retain four originators only
+  shuffle_seed: 480101
+  test_environment: Node 22.20.0; VITE_CONFIG_NATIVE_IGNORE_WARNING=true; maxWorkers=1
+  coverage: no previously covered source locations lost in worker comparisons; canonical tool check also has no covered-count loss
+  toast_package_coverage: paired allowExternal runs verify actual UI package implementation behind dependency symlink
+review_fixes:
+- JobState deferred request resolved and flushed in finally
+- ToolsListCard auto-unmount registered after custom cleanup for reverse hook order
+pushed_head: e1f3ed5dce2da8ccd93324fd6b536db3269a8810
+push: fast-forward
