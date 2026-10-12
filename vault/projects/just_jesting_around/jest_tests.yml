@@ -705,6 +705,7 @@
 - file: client/src/components/Tool/ToolForm.test.ts
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Tool/ToolHelpMarkdown.test.ts
 - file: client/src/components/Tool/ToolHelpRst.test.js
 - file: client/src/components/Tool/ToolInstallationRequestForm.test.ts
