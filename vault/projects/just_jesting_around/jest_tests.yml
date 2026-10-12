@@ -773,6 +773,7 @@
 - file: client/src/components/Tour/Tour.test.js
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Tour/TourStep.test.ts
 - file: client/src/components/Upload/UploadSelect.test.ts
 - file: client/src/components/Upload/utils.test.ts
