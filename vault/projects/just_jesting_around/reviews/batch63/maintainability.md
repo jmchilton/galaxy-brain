@@ -1,0 +1,13 @@
+# Batch 63 — strict maintainability review
+
+Approve; no substantive structural findings or driver changes required. Applied the shared thermo-nuclear-code-quality-review prompt to canonical `463e67451e71ef0e753cdd28a73c20279d294723..846fdc7466e`, all four diffs, component/composable/helper sources, author evidence, and available independent reviews. My Confirmation originator has an independent services-agent approval; I independently reviewed StorageIndicator. PersistentToggle also has an independent approval; the driver is completing the stripExtension normal review and integrated gates separately.
+
+All 33 original assertions remain. Original ten grouped cases become 21 cases solely because stripExtension reports each of its seventeen original filename/output examples independently. No production, supporting helper, configuration, or dependency changes enter the batch. Final files are 62, 33, 103, and 33 lines, with no size/decomposition concern.
+
+stripExtension replaces repeated function/assertion syntax with typed tables while retaining the six meaningful behavior groups and every original pair. Its single nested parameterized assertion is direct, and quoted case labels expose empty-string results. The small local tuple model gives the data a useful type boundary without introducing a reusable framework or hiding domain examples.
+
+persistentToggle reuses the canonical effect-scope helper rather than adding another lifetime abstraction. It owns Pinia, stops composable effects before store disposal, and restores only the actual salt key after both. This narrows the original broad storage.clear side effect. The anonymous-user scenarios remain default/toggle checks; neither report nor assertions claim an untested persistence round trip.
+
+Confirmation removes the object cast and deprecated uninstalled router arrangement. Its native plugin options make the per-case memory router and real Pinia explicit; wrapper cleanup precedes exact search-descriptor restoration and store disposal. Keeping the original account-consent/details workflow together preserves its ordered actions and all ten checks. Splitting it into repeated mount factories or parameterized modes would add concepts without materially reducing complexity in this focused originator edit.
+
+StorageIndicator keeps the actual child boundary and explicit successful unmount while adding automatic failure cleanup and owned store disposal. Required lookups clarify existing invariants without changing expected accessibility props. No new branching policy, thin wrapper, duplicate canonical helper, cast-heavy API, or layer leak needs restructuring. The driver owns final combined tests/types/hooks; this review does not claim pending integration gates have passed.

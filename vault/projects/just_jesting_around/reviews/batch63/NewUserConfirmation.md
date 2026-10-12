@@ -1,0 +1,9 @@
+# NewUserConfirmation — batch 63 author review
+
+One original case and all ten assertions remain: header, one checkbox and its type, no request before consent, one request after consent, provider/token URL fragments, registration warning, terms iframe URL, and login-link text. The case title now describes its workflow; required DOM lookups use get. Full child rendering and the original MSW response/request recorder remain because checkbox and button behavior are part of the tested integration.
+
+The component wrapper is typed with its real InstanceType, removing the object cast. Each mount owns a real Pinia and memory router passed through canonical withPlugins. The deprecated injectTestRouter previously returned a separate router that was never installed in the mount; the new router is installed and starts on the original confirmation route without a swallowed navigation rejection. Automatic unmount precedes exact restoration of the original location.search descriptor, and test-finished cleanup disposes the owned Pinia. Restoration also removes only the temporary own property if no original descriptor exists. No shared helper, supporting test, or production edit.
+
+Pristine and final shuffled seed 630101 each pass the original case. Default V8 covered statement/function/branch-arm locations match exactly: 20 files/113 locations, zero lost or added. Separate actual shared GAlert/GButton coverage also matches exactly: two files/135 locations. Evidence is `/private/tmp/readability63-confirmation-{before,after}*`; comparison uses the canonical source-location comparator. File ESLint/Prettier and explicit absolute-config hooks pass. The driver owns integrated full client types.
+
+No fixture factory is needed for the empty POST response or two-string request parameters; canonical nth and plugin helpers already cover the useful reuse. Existing guidance supports the ownership/type cleanup, and no new README or marginal advice proposal is warranted.

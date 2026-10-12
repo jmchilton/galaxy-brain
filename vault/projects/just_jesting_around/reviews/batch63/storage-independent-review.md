@@ -1,0 +1,7 @@
+# Storage operations indicator — independent review, batch 63
+
+Approve; no blocking findings. Reviewed final author file against base `463e67451e71ef0e753cdd28a73c20279d294723`, the component's store/watch/unmount behavior, and current client/shared review guidance. Independent shuffled seed 630201 passes the one case (`/private/tmp/readability63-storage-independent.log`).
+
+All three original checks remain unchanged: interactive popover, exact popover aria label, and exact spinner-link aria label. Required child and DOM lookups now fail directly if the targets disappear. The real GPopover mount and original watcher mock retain the accessibility delegation boundary; the test does not claim an actual keyboard-navigation traversal or polling behavior.
+
+Native inferred component mounting removes the object cast. The testing Pinia is now explicitly owned and disposed after wrapper cleanup. The original explicit successful unmount remains at the same point, retaining its covered lifecycle behavior; automatic unmount adds a cleanup path when an earlier assertion fails. No production, shared helper, or supporting test changes, weakened checks, or useful new guidance gap found. Author coverage retains exactly 17 files/78 default covered locations and three actual shared UI files/192 locations, with no losses or additions; file lint and formatting pass, with author explicit hooks completing separately.

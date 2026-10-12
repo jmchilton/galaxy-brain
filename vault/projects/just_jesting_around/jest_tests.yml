@@ -118,6 +118,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Collections/common/stripExtension.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/common/useElementReconciliation.test.ts
@@ -397,6 +398,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/History/CurrentHistory/HistoryOperations/HistoryStorageOperationsIndicator.test.ts
+  iterated: 1
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
   iterated: 1
@@ -508,6 +510,7 @@
 - file: client/src/components/Login/LoginIndex.test.js
   iterated: 1
 - file: client/src/components/Login/NewUserConfirmation.test.ts
+  iterated: 1
 - file: client/src/components/Markdown/Editor/CellAdd.test.js
 - file: client/src/components/Markdown/Editor/CellOption.test.js
   iterated: 1
@@ -1088,6 +1091,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/composables/persistentToggle.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/composables/pollUntil.test.ts
   iterated: 1

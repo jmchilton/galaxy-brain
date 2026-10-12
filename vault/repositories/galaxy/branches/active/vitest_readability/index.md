@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `463e67451e71ef0e753cdd28a73c20279d294723`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `846fdc7466ed145ef8bab8fdf76a10bdb2c0476e`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -142,3 +142,10 @@ Fast-forward published `4451d737bde7225529f3c476ef48299c6e921b27`, GitHub exacth
 Continuous run, four origins: library-routes, VisualizationUnsavedChanges, StsDownloadButton, DatasetIndex. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_62.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_62.yml). All17originalcases/40checks retained→18finalcases/46checks. Ownednative wrapper/Pinia/timer/iframe/deferred cleanup; typedcallback/computed boundaries. Explicit poll-error case replaces proven leakederrorcoverage; mutation-proven table-item props and namedtablelookup fix fragilegeneratedID. EveryoriginalcoveredLOCretained inclactualUI. Finalcombinedrun, fulltypes, hooks, independentnormal/strict/challenge/scope approve. Noimpl/shared/support/docs changes; noE2E/screenshots.
 
 Fast-forward pushed `463e67451e71ef0e753cdd28a73c20279d294723`, exactGitHubhead/draft verified; ci_wait. Four origin counters afterpush, downstream unchanged, vaultlocalonly. SharedvaultunrelatedemptyUntitled preserved; isolatedsnapshot122files/zeroerrors/15existingwarnings.
+
+
+## Readability loop batch 63 — 2026-10-12
+
+Continuous run, four origins: stripExtension, NewUserConfirmation, HistoryStorageOperationsIndicator, persistentToggle. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_63.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_63.yml). All 33 original checks retained; ten grouped cases become 21 by naming each of 17 extension pairs independently. Native owned mounts, Pinia/router/wrapper/effect cleanup and exact location/salt restoration; original synchronous popover unmount timing retained. Default and actual shared UI source coverage exact. Final combined tests, full client types, hooks, independent normal/strict/challenge/scope reviews pass. No production, helper, support or guidance changes; screenshots/E2E not relevant.
+
+Fast-forward pushed `846fdc7466ed145ef8bab8fdf76a10bdb2c0476e`; exact GitHub head and draft verified, ci_wait. Four origin counters written after publication; downstream unchanged, vault records local only. Shared vault preserves unrelated empty Untitled.md; isolated snapshot passes 122 files with zero errors and 15 existing warnings.

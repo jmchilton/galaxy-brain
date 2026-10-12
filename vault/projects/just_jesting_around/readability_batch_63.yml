@@ -1,0 +1,54 @@
+iteration: 63
+seed: 2610963
+inventory_sha256: 02cd367e73d73fef0e10ae9193e8985fdd17a45253fe2006c5ebda0da355f989
+branch: vitest_readability
+base_commit: 463e67451e71ef0e753cdd28a73c20279d294723
+remote_start_commit: 463e67451e71ef0e753cdd28a73c20279d294723
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/Collections/common/stripExtension.test.ts
+- file: client/src/components/Login/NewUserConfirmation.test.ts
+- file: client/src/components/History/CurrentHistory/HistoryOperations/HistoryStorageOperationsIndicator.test.ts
+- file: client/src/composables/persistentToggle.test.ts
+selection_notes: N=4; seeded 265 eligible existing uniterated files; later-lane true
+  and known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 10
+  assertions: 33
+validation:
+  passed_cases: 21
+  assertions: 33
+  skipped_cases: 0
+  shuffle_seed: 630101
+  independent_seed: 630201
+  max_workers: 1
+  node: 22.20.0
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: zero covered source locations lost; actual shared UI retained
+  scope: retain four origins
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings;
+    shared vault retains unrelated empty reviews/Untitled.md
+  client_vue_tsc: passed
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+push: fast-forward
+pushed_head: 846fdc7466ed145ef8bab8fdf76a10bdb2c0476e
+github:
+  pr: 24038
+  draft: true
+  mergeable: UNKNOWN
+  status: ci_wait
+commits:
+- 846fdc7466ed145ef8bab8fdf76a10bdb2c0476e Own storage operations indicator test cleanup
+- 1104654d8285eefb03405bf60877b2754b0f6576 Own confirmation test mount and location
+  cleanup
+- b2954bb532b5396b3111bb2309e89abb24d6654d Scope persistent toggle effects and restore
+  owned storage
+- 826f495f19ad0f1db4320a4b6c25464fd9c332bd Report filename extension examples independently
