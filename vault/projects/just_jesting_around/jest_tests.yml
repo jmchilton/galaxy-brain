@@ -579,6 +579,7 @@
 - file: client/src/components/PageEditor/PageEditorView.test.ts
 - file: client/src/components/PageEditor/PageRevisionList.test.ts
 - file: client/src/components/PageEditor/PageRevisionView.test.ts
+  storybook_play: true
   storified: true
   iterated: 1
 - file: client/src/components/PageEditor/ProposalDiffView.test.ts
