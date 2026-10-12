@@ -986,6 +986,7 @@
   storybook_play: true
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts
   iterated: 1
+  storified: skip
 - file: client/src/components/WorkflowInvocationState/WorkflowStepIcon.test.ts
   iterated: 1
   storified: skip
