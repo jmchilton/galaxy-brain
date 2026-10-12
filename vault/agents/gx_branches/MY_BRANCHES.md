@@ -45,6 +45,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`workflow_multiple_parameter_review_followups`](../../repositories/galaxy/branches/active/workflow_multiple_parameter_review_followups/index.md) — Marius review follow-ups stacked on PR #23992: completes float lists and fixes text defaults/validation; local tests and required reviews pass, CI pending.
 - [`pulsar-explicit-imports`](../../repositories/galaxy/branches/active/pulsar-explicit-imports/index.md) — Updates the existing draft to published Pulsar 0.16.0 and removes temporary source-build settings. [#23898](https://github.com/galaxyproject/galaxy/pull/23898).
 - [`integration_ci_scope`](../../repositories/galaxy/branches/active/integration_ci_scope/index.md) — Selects costly plugin suites from changed paths; helpers and guide live beside integration tests. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:integration_ci_scope).
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes parameter framework tools XSD-valid and checks them in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
