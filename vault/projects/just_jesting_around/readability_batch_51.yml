@@ -1,0 +1,45 @@
+iteration: 51
+seed: 2610951
+inventory_sha256: a13f0480e3e6b60b908e81097b248ae7a84c5a2f29253f2b24bc4b0b4849ef72
+branch: vitest_readability
+base_commit: 3fea81e4cd891cb7956898210def1d9bd50a7285
+remote_start_commit: 3fea81e4cd891cb7956898210def1d9bd50a7285
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/History/useHistoryCardActions.test.ts
+- file: lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts
+- file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
+- file: client/src/components/Workflow/Run/WorkflowRunDefaultStep.test.ts
+selection_notes: N=4; seeded eligible existing uniterated files; no later-lane true fields; DataDialog known bug excluded. ShedToolbar has an earlier supporting shared-helper adoption, not an originating review.
+supporting_files: []
+helper_files: []
+documentation_files: []
+commits:
+- sha: 40eff6e5de5bcefc8ac71ab86683ee6d2e5a3eaf
+  test: SelectionStatus
+- sha: 4bbdc02971b3b12c5ec4defa9efbe0027b11e238
+  test: ShedToolbar
+- sha: fb36bbcaf1e148e52845374e689ab840615250f2
+  test: WorkflowRunDefaultStep
+- sha: 2da8d6a3251dfc4e5179120b87341fa667aa7484
+  test: useHistoryCardActions
+baseline_cases: 18
+validation:
+  passed_cases: 18
+  skipped_cases: 0
+  client_cases: 14
+  toolshed_cases: 4
+  client_vue_tsc: passed
+  toolshed_typecheck: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: no covered source location lost
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain four origins
+  shuffle_seed: 510101
+push: fast-forward
+pushed_head: 2da8d6a3251dfc4e5179120b87341fa667aa7484

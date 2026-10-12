@@ -379,6 +379,7 @@
 - file: client/src/components/History/CurrentHistory/HistoryOperations/HistoryStorageOperationsIndicator.test.ts
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
+  iterated: 1
 - file: client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts
 - file: client/src/components/History/Export/HistoryExport.test.ts
 - file: client/src/components/History/Export/HistoryExportWizard.test.ts
@@ -430,6 +431,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/useHistoryCardActions.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/HistoryExport/Index.test.js
 - file: client/src/components/HistoryExport/ToLink.test.js
@@ -896,6 +898,7 @@
 - file: client/src/components/Workflow/Run/WorkflowRun.test.js
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowRunDefaultStep.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowRunForm.test.ts
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts
@@ -1465,6 +1468,7 @@
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts
+  iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts
   iterated: 1
