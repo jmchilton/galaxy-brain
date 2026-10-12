@@ -10,6 +10,7 @@
   storybook_play: skip
 - file: client/packages/ui/src/components/Form/GFormInput.test.ts
 - file: client/packages/ui/src/components/GCheckbox.test.ts
+  iterated: 1
 - file: client/packages/ui/src/components/GTable.test.ts
 - file: client/packages/ui/src/components/vModelContract.test.ts
 - file: client/packages/ui/src/composables/floatingPosition.test.ts
@@ -175,6 +176,7 @@
   storified: skip
 - file: client/src/components/Common/BreadcrumbHeading.test.ts
 - file: client/src/components/Common/ChangesIndicator.test.ts
+  iterated: 1
 - file: client/src/components/Common/DatasetPopoverLink.test.ts
   iterated: 1
 - file: client/src/components/Common/DatasetPopoverLink.width.test.ts
@@ -484,6 +486,7 @@
 - file: client/src/components/JobStates/JobState.test.ts
   iterated: 1
 - file: client/src/components/Landing/fetchModels.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Libraries/LibraryEditField.test.js
@@ -635,6 +638,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Panels/ToolBoxSearch.test.ts
+  iterated: 1
 - file: client/src/components/Panels/ToolPanel.test.ts
   iterated: 1
   split_commit: true
@@ -665,6 +669,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/Register/RegisterForm.test.ts
+  iterated: 1
 - file: client/src/components/RuleBuilder/ColumnSelector.test.ts
 - file: client/src/components/RuleBuilder/IdentifierDisplay.test.ts
 - file: client/src/components/RuleBuilder/RuleDefinitions.test.ts
@@ -840,6 +845,7 @@
 - file: client/src/components/Visualizations/VisualizationFrame.test.js
   storified: skip
 - file: client/src/components/Visualizations/VisualizationHeader.test.js
+  iterated: 1
 - file: client/src/components/Visualizations/VisualizationUnsavedChanges.test.js
   iterated: 1
 - file: client/src/components/Visualizations/utilities.test.js
@@ -1014,6 +1020,7 @@
   iterated: 1
   storified: true
 - file: client/src/components/admin/JobsTable.test.ts
+  iterated: 1
 - file: client/src/components/admin/Notifications/BroadcastForm.test.ts
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
   iterated: 1
@@ -1487,6 +1494,7 @@
   storified: skip
   storybook_play: skip
 - file: client/tests/vitest/check-style-imports.test.js
+  iterated: 1
 - file: client/tests/vitest/setup.test.ts
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
   iterated: 1

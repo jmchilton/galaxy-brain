@@ -1,0 +1,64 @@
+iteration: 64
+seed: 2610964
+inventory_sha256: c5d571864cfe6f67267896d4c8f0bb985f34836a5bbed5e2ab12f4c24dbc4f66
+branch: vitest_readability
+base_commit: 846fdc7466ed145ef8bab8fdf76a10bdb2c0476e
+remote_start_commit: 846fdc7466ed145ef8bab8fdf76a10bdb2c0476e
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/Common/ChangesIndicator.test.ts
+- file: client/src/components/Visualizations/VisualizationHeader.test.js
+- file: client/src/components/Register/RegisterForm.test.ts
+- file: client/src/components/Landing/fetchModels.test.ts
+- file: client/packages/ui/src/components/GCheckbox.test.ts
+- file: client/tests/vitest/check-style-imports.test.js
+- file: client/src/components/admin/JobsTable.test.ts
+- file: client/src/components/Panels/ToolBoxSearch.test.ts
+selection_notes: N=8; seeded 261 eligible existing uniterated files; later-lane true
+  and known DataDialog bug excluded; separate disposable worktree and originator commit
+  per test
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 65
+  intended_assertions: 179
+  note: pristine search seed640101 fails1/20 cases through inherited recent-tools
+    state; other origins pass
+validation:
+  passed_cases: 66
+  assertions: 180
+  skipped_cases: 0
+  shuffle_seed: 640101
+  independent_seed: 640201
+  max_workers: 1
+  node: 22.20.0
+  coverage: no actual covered source location lost; style script comparison excludes
+    five verified generated statements mapped to a comment
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings;
+    shared vault retains unrelated empty reviews/Untitled.md
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain eight origins
+push: fast-forward
+pushed_head: 98e8e836455918807d7c2c7c09a8ca64be807f02
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait
+commits:
+- 98e8e836455918807d7c2c7c09a8ca64be807f02 Narrow fetch model test helpers and document omitted defaults
+- 4cfd9b5d3b906ef7afcd53829f76fb25cbcd6614 Use owned native fixtures in ToolBoxSearch tests
+- e035bef7f6fec2522bd015bd7388e1eaf346f848 Clarify VisualizationHeader fixtures and cleanup
+- bb3d89ace266e67f79ee4c543493c415709f4503 Verify complete style import violation reporting
+- 685355721d6f0991384bcdd96c451c20877a1dc8 Own checkbox test wrappers and use inferred DOM types
+- 942689f93ca5ec2c777242e69b7eb561ee0adefd Own changes indicator wrapper timer and attachment cleanup
+- abb113661e971bf71ed30bdad9f4375683651b8e Improve JobsTable test mounting and cleanup
+- 459ac079e4af77a1ca66b2b0ed5d5b85fb18b8e1 Own registration form test resources and typed mount

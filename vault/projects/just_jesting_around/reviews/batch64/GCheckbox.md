@@ -1,0 +1,9 @@
+# GCheckbox — batch 64 author review
+
+All five original scenarios and twelve assertions remain unchanged: bound modelValue and absence of a value attribute, native checked state, toggling the bound ref in both directions with the original model-update payload, one change emission carrying an Event, indeterminate true-to-false, and switch class/slider presence. The real parent/ref/render-function fixture remains because it observes actual two-way binding rather than merely setting child props. No assertion is removed or weakened; the change test retains its original Event-instance contract without claiming identity with a separately captured event.
+
+Automatic unmount now owns every parent and direct-component wrapper. Required child/input targets use getComponent/get. Literal input lookup gives HTMLInputElement through Vue Test Utils' native overload, removing the casts around checked and indeterminate access. Optional indexing replaces event-payload non-null assertions; the preceding length and Event assertions still fail if the emission is missing. No plugin, store, custom fixture helper, or shared abstraction is needed for this standalone UI component.
+
+Pristine and final shuffled seed 640101 each pass five cases. V8 covered statement/function/branch-arm locations match exactly: four files/23 locations, zero losses or additions. The JSON explicitly includes the worker's adjacent `client/packages/ui/src/components/GCheckbox.vue`, so actual shared UI source is already measured and a separate external-path comparison is unnecessary. Evidence: `/private/tmp/readability64-checkbox-{before,after}` and matching logs.
+
+File ESLint/Prettier and explicit absolute-config pre-commit hooks pass. The driver owns integrated full types. No production, supporting-file, helper, dependency, or README edits; current ownership and native typing guidance covers this change, with no new useful guidance gap.

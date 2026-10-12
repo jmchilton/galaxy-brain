@@ -1,0 +1,7 @@
+# fetchModels — independent review, batch 64
+
+Approve author commit `802ff7145686b52b6f7e0cbbc5b2af03bb55c37b` against pinned base `846fdc7466ed145ef8bab8fdf76a10bdb2c0476e`. Independent shuffled seed 640201 passes all seven original cases. The twelve assertion source lines still execute all 36 original checks: eleven two-check row observations, five round-trip comparisons, and nine other expectations. All input properties, intentional omissions, expected values and error patterns remain unchanged.
+
+The CellValueType parameter and inferred optional row access narrow the local assertion helper while retaining its separate row-presence check. Single API-type assertions remain justified for omission and malformed-input fixtures: the canonical api/tools builders add backend defaults that would change those cases. The missing URL still reaches runtime validation rather than acquiring a default value.
+
+The moved sortTagsDeep helper clones each plain fixture through structuredClone and traverses unknown values to sort only tags arrays. Its five consumers retain the original non-mutating, tag-order-normalized comparisons; no additional arrays or collection identifiers are normalized. No API schema, production signature, shared helper, or case changes. Author coverage is exact across 13 files/399 covered source locations; no shared UI is rendered. No blocking findings or new guidance recommendation.
