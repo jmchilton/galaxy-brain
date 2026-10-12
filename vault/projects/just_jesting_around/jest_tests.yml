@@ -12,6 +12,7 @@
 - file: client/packages/ui/src/components/GCheckbox.test.ts
   iterated: 1
 - file: client/packages/ui/src/components/GTable.test.ts
+  iterated: 1
 - file: client/packages/ui/src/components/vModelContract.test.ts
   iterated: 1
 - file: client/packages/ui/src/composables/floatingPosition.test.ts
@@ -171,6 +172,7 @@
 - file: client/src/components/CommandPalette/providers/scopes.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/providers/storeFirst.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/tools.test.ts
   storified: skip
@@ -319,6 +321,7 @@
   split_commit: true
 - file: client/src/components/Form/Elements/FormText.test.js
 - file: client/src/components/Form/Elements/FormUpload.test.js
+  iterated: 1
 - file: client/src/components/Form/FormCard.test.js
   iterated: 1
   split_commit: true
@@ -443,6 +446,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/History/HistoryOptions.test.ts
+  iterated: 1
 - file: client/src/components/History/HistoryView.test.js
   iterated: 1
 - file: client/src/components/History/Layout/DetailsLayout.test.js
@@ -499,6 +503,7 @@
   storified: skip
 - file: client/src/components/JobInformation/JobOutputs.test.js
 - file: client/src/components/JobMetrics/AwsEstimate.test.js
+  iterated: 1
 - file: client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js
 - file: client/src/components/JobMetrics/JobMetrics.test.js
   iterated: 1
@@ -618,6 +623,7 @@
 - file: client/src/components/ObjectStore/Templates/TemplateSummaryPopover.test.ts
 - file: client/src/components/Page/PageView.test.ts
 - file: client/src/components/PageDisplay/PageForm.test.js
+  iterated: 1
 - file: client/src/components/PageDisplay/PageHtml.test.js
 - file: client/src/components/PageEditor/HistoryPageList.test.ts
 - file: client/src/components/PageEditor/HistoryPageView.test.ts
@@ -842,6 +848,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts
+  iterated: 1
 - file: client/src/components/User/DiskUsage/Visualizations/util.test.ts
 - file: client/src/components/User/ExternalIdentities/ExternalRegistration.test.ts
 - file: client/src/components/User/UserBeaconSettings.test.ts
@@ -896,6 +903,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/Forms/FormInputCollection.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js
   iterated: 1
   split_commit: true

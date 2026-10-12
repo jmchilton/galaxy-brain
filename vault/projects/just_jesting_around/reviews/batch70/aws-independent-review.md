@@ -1,0 +1,7 @@
+# AWS estimate independent normal review
+
+Approved `3cbfa0be2aa` against pinned `e18fb0be8360e47ed3e682eddf0192d3589f5bf5`. Inspected complete original/final test and real computed estimate/rendering boundary under current client/shared review guidance. Two aggregate cases become four named cases while preserving all12 checks: no instance for invalid/no reference data, small/large exact names/costs and three reference details each, and excessive-resources empty result. Every numeric string, conversion, random job-ID call, reference fixture and promise/tick timing remains.
+
+Reusable rendered-estimate/reference helpers expose the two meaningful resource examples; the guarded reference lookup is only reached after each exact expected instance-name check. Required gets preserve rendered content, and genuine absence remains find/exists. Automatic unmount owns wrappers on failed checks. Expected names and prices remain literals independent of subject calculations; reference details retain original data-driven comparisons. No production, fixture or shared helper change.
+
+Independent Node22 shuffled700201 one-worker run passes four cases (`/private/tmp/readability70-aws-independent.log`). Independently reran native16→17files81→89 and actual UI43files158 exact location comparisons, zero loss; additions are canonical assertion setup/cleanup rather than new domain checks. Real Heading renders; broad imports are not all rendered UI claims. No findings; final integrated types/hooks are driver-owned.

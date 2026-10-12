@@ -1,0 +1,7 @@
+# Store-first palette searches — batch 70
+
+All12original cases/25checks remain. The local stateful fake list now satisfies the actual StoreFirstList contract while preserving concrete mock methods, mutable loaded/complete state, identity key and all original rows. Shared refresh bookkeeping resets before and after each case instead of duplicating setup across two describes. Every query, limit, expected order/deduplication, rejection and fetch/search observation remains unchanged.
+
+Debounce/abort cases retain their original fake-timer advancement and observations. Each started answer is now aborted and awaited in finally, covering early assertion failures before the settle timer resolves. The original abort action remains in the replacement-search scenario. Pending fake timers clear before real timers restore, after those promises settle. No synthetic provider abstraction or production change is introduced.
+
+Pristine/final Node22 shuffled700101 pass12cases. Native covered statement/function/branch-arm source locations retain24files255exact, zero loss/addition; this pure provider algorithm renders no UI. Native file gates/absolute sample hooks precede commit; full integrated types driver-owned. Evidence /private/tmp/readability70-storefirst-{before,after}/coverage-final.json and corresponding test/file logs. Existing typed-contract/promise ownership guidance suffices; no support/helper/guidance edits or new marginal advice.

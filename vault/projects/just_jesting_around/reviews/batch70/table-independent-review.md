@@ -1,0 +1,9 @@
+# GTable independent review — batch70
+
+Approve `86485646696ca6a959735162e3d33db16f151d3b` against pinned `e18fb0be8360e47ed3e682eddf0192d3589f5bf5`. Reviewed current client guidance/REVIEW_FOCUS, original/final assertions, real GTable selection/keyboard/sort paths and actual GCheckbox propagation/DOM properties. No blocking finding or edit.
+
+All10 original cases/27 executed checks remain: each of two title rows retains all three accessible-name observations, and all original selected/indeterminate properties, payloads, click propagation, header attributes, keyboard sequence, row order, Space cancellation and nested-control behavior remain. Callable component props supply the local selectable overrides; native mounts/typed input lookups remove fabricated component/checkbox casts. Canonical nth observes the same first/second rows and ordered headers. Existing local selectable/sortable helpers still express concrete shared arrangements.
+
+All three mount sites own a specific attachment div, registered for removal before mounting. Existing automatic unmount runs before target removal on failures; no unrelated body clear or artificial store setup is added. Actual adjacent GTable/GCheckbox remain rendered, so the native provider directly captures their sources without an external alias.
+
+Independent Node22.20 shuffled700201 passes10cases (/private/tmp/readability70-table-independent.log). Reran full location comparison:14→23files402→409 covered statement/function/branch-arm locations, zero loss; seven additions are localization/helper import setup. Independently filtered actual adjacent UI retains399locations exactly across eight files with positive coverage (eleven report entries, three unexecuted). Author file gates pass; integrated types are driver-owned. Existing native DOM/index/attachment guidance suffices; no new evidence-backed guidance gap.

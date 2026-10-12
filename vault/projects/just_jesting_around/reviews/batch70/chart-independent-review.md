@@ -1,0 +1,9 @@
+# BarChart independent review — batch70
+
+Approve `f258eea51022883514a6e8e20849b357dc5aad96` against pinned `e18fb0be8360e47ed3e682eddf0192d3589f5bf5`. Reviewed current client guidance/REVIEW_FOCUS, original/final check inventory, actual BarChart and VegaWrapper embed/view/finalize paths. No blocking finding or edit.
+
+All15 original cases/20 checks remain with exact data and zero-value fixtures, palette colors/fallback, explicit new-view emissions, legend order/text/cursor, selection-disabled observations and selection-info presence. Native inferred public props replace the duplicated interface/object cast. Canonical nth guards palette indexing; the partial mocked Vega API remains the original behavioral boundary, using unknown for an unused input array. Each case starts with its own default mock view/call history and retains original explicit data-view arrangements.
+
+Actual testing Pinia is installed through canonical plugins and captured for disposal. Reverse afterEach ordering flushes the already resolved embed while the real VegaWrapper remains mounted, then automatic unmount finalizes the owned view before store disposal. This preserves original assertion/event timing while covering synchronous/failure cases; no production cleanup workaround or broader Vega integration is introduced.
+
+Independent Node22.20 shuffled700201 passes15cases (/private/tmp/readability70-chart-independent.log). Reran covered statement/function/branch-arm comparisons: native144files380→384 with zero loss, four actual VegaWrapper unmount/finalize additions; shared UI26files/13locations exact. The latter is imported setup, not rendered GAlert/GCard behavior. Author file gates pass; integrated full types are driver-owned. Existing ownership/native inference guidance suffices; no new evidence-backed guidance gap.

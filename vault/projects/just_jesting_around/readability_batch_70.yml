@@ -1,0 +1,76 @@
+iteration: 70
+seed: 2610970
+inventory_sha256: 01188f6fcc1a3bcb318f156b01374f474e831605d69c0288dc5e807b50458c0f
+eligible: 213
+base_commit: e18fb0be8360e47ed3e682eddf0192d3589f5bf5
+remote_start_commit: e18fb0be8360e47ed3e682eddf0192d3589f5bf5
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/PageDisplay/PageForm.test.js
+- file: client/src/components/JobMetrics/AwsEstimate.test.js
+- file: client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts
+- file: client/src/components/History/HistoryOptions.test.ts
+- file: client/src/components/Form/Elements/FormUpload.test.js
+- file: client/packages/ui/src/components/GTable.test.ts
+- file: client/src/components/CommandPalette/providers/storeFirst.test.ts
+- file: client/src/components/Workflow/Editor/Forms/FormInputCollection.test.ts
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 67
+  intended_assertions: 153
+  count_note: Expanded PageForm request-handler and GTable title-variant/helper executions
+    included.
+commits:
+- 923ac5312656dc6aafbf8f78f2701945cc2aa4b4 Own upload form wrappers and name visible
+  content
+- c39280bba9f2dc3cce8079df00feace52050443e Type store-first fixtures and settle owned
+  pending searches
+- 7a55106ebb05830edf9f6e49dc3e9f0d5b998235 Name AWS estimate examples and own rendered
+  wrappers
+- 6fe4e4968ef078b65f46048161c24fa53876ce13 Use native GTable test targets and scoped
+  attachment cleanup
+- b33b4058047e40a1fcdaeac2099db60cd67924f3 Clarify collection form fixtures and timer
+  ownership
+- 2812689ea0fae51fc39dee99bd947979fd4d7b88 Own page form tests and preserve native
+  rendering boundaries
+- 2116bce7b0b3fa2a57a153830b47a377f1b9a200 Own BarChart test views and infer native
+  mount boundaries
+- d519a8d2c18e914827f3abe265917df76193d2f6 Own history option test stores and required
+  lookups
+driver_corrections:
+- Check test-only list state through StoreFirstList intersection
+- Verify supplied collection-step fields through Pick and document original omitted
+  required fields at complete-Step boundary
+validation:
+  passed_cases: 69
+  assertions: 153
+  skipped_cases: 0
+  shuffle_seed: 700101
+  independent_seed: 700201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed after documented fixture type corrections
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: zero covered source locations lost; actual UI and imported setup qualifications
+    in report
+  independent_review: approved; corrected two suites15cases passed independently
+  test_challenge: passed
+  maintainability: passed
+  scope: retain eight origins; repinned after type-only corrections
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; unrelated
+    empty scratch note preserved
+push: fast-forward
+pushed_head: 923ac5312656dc6aafbf8f78f2701945cc2aa4b4
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait
