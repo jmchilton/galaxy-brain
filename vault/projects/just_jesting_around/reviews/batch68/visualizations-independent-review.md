@@ -1,0 +1,9 @@
+# Visualization provider independent review — batch68
+
+Approve `aedc8a580acb254af0218e8276dde9f8438ebfd7` against pinned `a716c7d6a82a497f52a1831309c67531451c35fa`. Reviewed current client guidance/REVIEW_FOCUS, full original/final assertions, actual provider/store, canonical summary factory and background refresh implementation. No blocking finding or edit.
+
+All10 original cases/29 checks remain with exact routes, subtitle/date timezone, query flags/counts, row titles/IDs, totalMatches and MRU fallback behavior. Removing the thin two-argument fixture wrapper exposes identical canonical factory overrides; the list response helper usefully couples rows and their counts, while incomplete-cache/backend responses retain visible distinct totals. Checked provider capability bindings prevent optional-call vacuity without changing the contracts. Direct store selections use the captured real Pinia.
+
+Completion flushes immediate background responses before store disposal and refresh/MRU cleanup; reverse callback registration restores the original timezone afterward. Restoration is registered before applying the timezone mock, including setup failure paths. No unnecessary timers, storage reset, UI fixture or shared abstraction is introduced; original mocked API and recent-item boundaries stay intact.
+
+Independent Node22.20 shuffled680201 passes all10cases (/private/tmp/readability68-visualizations-independent.log). Independently reran V8 source-location comparison:154files/656 covered statement/function/branch-arm locations exact, zero loss/addition. This provider/store suite renders no UI; imported setup coverage is not a rendered-UI claim. Author file gates pass; integrated types remain driver-owned. No evidence-backed new guidance gap beyond existing native typing, canonical fixture and ownership guidance.

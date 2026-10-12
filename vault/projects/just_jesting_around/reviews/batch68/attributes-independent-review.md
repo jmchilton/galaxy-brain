@@ -1,0 +1,7 @@
+# WorkflowAttributes — independent normal review, batch 68
+
+Approve `8dc1d3c9e3846ebc699d34254cb2c63517913ad5` against pinned base `a716c7d6a82a497f52a1831309c67531451c35fa`. Independent Node22 shuffled680201 passes the original case/18 executed checks, including both date-label checks. Every original annotation/name/tag/version/date/step/parameter value and post-mount tag mocking remains unchanged.
+
+Actual version type and required generic input/textarea lookups remove invented DOM casts. Canonical nth retains both original indexed parameter observations; third-party multiselect option typing remains a narrow justified boundary. Native existing plugin arrangement owns real Pinia and selects the tag store explicitly. Auto-unmount precedes timeout discard/real-time restoration and warning/getter-spy restoration; completion disposes the store scope. Limited timeout mocking contains the original four-second highlight watcher without advancing or removing any original observation. The obsolete unresolved bare app mock is removed under existing guidance.
+
+Independently reran V8 comparisons: main180files/719 exact; actual shared UI43files373→387, zero loss. Additions are owned GPopover/escape-stack cleanup. Log `/private/tmp/readability68-attributes-independent.log`. Author lint/format/absolute hooks pass; driver owns types. No weakened check, production/support edit, blocking finding or evidenced guidance gap.

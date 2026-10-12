@@ -156,6 +156,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/invocations.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/navigation.test.ts
   storified: skip
@@ -172,6 +173,7 @@
 - file: client/src/components/CommandPalette/providers/tools.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/providers/visualizations.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/workflows.test.ts
   storified: skip
@@ -253,6 +255,7 @@
   split_commit: true
 - file: client/src/components/DatasetInformation/DatasetAttributes.test.ts
 - file: client/src/components/DatasetInformation/DatasetDetails.test.ts
+  iterated: 1
 - file: client/src/components/DatasetInformation/DatasetError.test.ts
   iterated: 1
   split_commit: true
@@ -483,6 +486,7 @@
   storified: skip
 - file: client/src/components/Indices/SharingIndicators.test.js
 - file: client/src/components/InteractiveTools/InteractiveTools.test.js
+  iterated: 1
 - file: client/src/components/JobDestinationParams/JobDestinationParams.test.ts
   iterated: 1
 - file: client/src/components/JobInformation/JobInformation.test.js
@@ -572,6 +576,7 @@
 - file: client/src/components/Masthead/QuotaMeter.test.ts
   iterated: 1
 - file: client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts
+  iterated: 1
 - file: client/src/components/Notifications/NotificationCard.test.ts
   iterated: 1
   split_commit: true
@@ -917,6 +922,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/WorkflowAttributes.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/ZoomControl.test.js
   iterated: 1
 - file: client/src/components/Workflow/Editor/composables/workflowBoundingBox.test.ts
@@ -991,6 +997,7 @@
 - file: client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts
   iterated: 1
 - file: client/src/components/Workflow/Run/model.test.js
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Run/services.test.js
@@ -1042,6 +1049,7 @@
 - file: client/src/components/admin/JobsTable.test.ts
   iterated: 1
 - file: client/src/components/admin/Notifications/BroadcastForm.test.ts
+  iterated: 1
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
   iterated: 1
   storified: true

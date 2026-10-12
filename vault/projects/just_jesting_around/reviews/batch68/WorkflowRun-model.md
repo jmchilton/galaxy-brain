@@ -1,0 +1,5 @@
+# Workflow run model — batch68
+
+All five original cases/11 checks remain. The replacement scenario now names its linked tool inputs, upstream data and workflow parameters directly, and its title describes both replacement paths. Synchronous pure-model cases no longer imply asynchronous work. The imported run JSON is cloned for the full-sample case because WorkflowRunModel annotates nested input objects; input bytes/values remain unchanged and the case owns the mutable model data. Distinct optional-input and connection/help/preview fixtures remain explicit, with their local domain builders unchanged. No generic helper, production or supporting edit is warranted.
+
+Pristine/final Node22 shuffled680101 pass five cases; covered statement/function/branch-arm locations retain28files299exact. This pure model does not render UI. Native ESLint/Prettier and absolute sample hooks pass; integrated full types remain driver-owned. Existing scenario/fixture ownership guidance suffices. Evidence /private/tmp/readability68-model-{before,after}/coverage-final.json and matching test/lint/format/hook logs.

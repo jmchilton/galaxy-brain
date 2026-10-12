@@ -1,0 +1,7 @@
+# BroadcastsOverlay — independent normal review, batch 68
+
+Approve `94a754b2c3f781b6c2cb5de3b767c49221e761a1` against pinned base `a716c7d6a82a497f52a1831309c67531451c35fa`. Independent Node22 shuffled680201 passes eight cases/24 original checks. Empty/expired/unpublished absence, single message, dismissal, urgent→warning→info priority, both-direction wrapping and exact sanitizer links profile/output all retain their original fixtures/actions/checks.
+
+Owned testing Pinia is installed natively and selected explicitly. Automatic unmount precedes dismissal-spy restoration and sanitizer call-history cleanup; disposal covers assertion failures. Required message/button lookups use get without replacing original count/existence checks. The existing asynchronous dismissal stand-in updates the actual reactive broadcast array with identical filtering/timing; persistent dismissal policy remains its original stub boundary. Fixed dates and deterministic overlay IDs are unchanged; replacing this generator with the admin's random/publication generator would alter the scenarios. Sanitizer implementation stays intact.
+
+Independently reran V8 comparisons: main35files/191 and actual UI23files/114 covered locations exact, zero loss/addition. Real button/tooltip behavior remains, while imported setup modules are not all claimed to render. Log `/private/tmp/readability68-overlay-independent.log`; author lint/format/absolute hooks pass, driver owns types. No weakened check, production/support edit, unnecessary abstraction, blocking finding or evidenced guidance gap.

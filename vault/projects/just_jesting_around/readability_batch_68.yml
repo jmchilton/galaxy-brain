@@ -1,0 +1,72 @@
+iteration: 68
+seed: 2610968
+inventory_sha256: 4e93ea1cba591f67b4107e600d73fff89422612db08af179908c70098728312c
+eligible: 229
+base_commit: a716c7d6a82a497f52a1831309c67531451c35fa
+remote_start_commit: a716c7d6a82a497f52a1831309c67531451c35fa
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/DatasetInformation/DatasetDetails.test.ts
+- file: client/src/components/CommandPalette/providers/invocations.test.ts
+- file: client/src/components/Workflow/Editor/WorkflowAttributes.test.ts
+- file: client/src/components/admin/Notifications/BroadcastForm.test.ts
+- file: client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts
+- file: client/src/components/Workflow/Run/model.test.js
+- file: client/src/components/InteractiveTools/InteractiveTools.test.js
+- file: client/src/components/CommandPalette/providers/visualizations.test.ts
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 52
+  intended_assertions: 167
+  count_note: waitFor checks counted at successful evaluations; retries can evaluate
+    additional times
+commits:
+- e63463facff284a96094cc1b78a109f66af1fc9b Own broadcast overlay test state and required
+  interactions
+- 6735ee55775da3af3928a174342ea11cba81b7c9 Own dataset detail mounts timers and sanitizer
+  restoration
+- bf0ada4ce1c774d18bac93de914cb3147c8f790f Own visualization provider cleanup and
+  expose canonical fixtures
+- f61ea49232c1f709bb8f1e9ff4f08e80d4ed305f Own interactive tool test mounts and store
+  instances
+- f620cfce807a1f3679e72b1dadd4c0c6aa78fcf5 Clarify workflow run model scenarios and
+  own sample input
+- 8a675cc643bbc4c49bbd26173b6f20cb5941b00a Own broadcast form test mounts and clarify
+  input types
+- 159b38e09b015fba1b0935b2b8f41b5f3844094b Own invocation provider resources and type
+  fixture boundaries
+- c22a0a73407c96ddcdcb5b96ed00020b1d44c6a5 Clarify workflow attribute test ownership
+  and lookups
+validation:
+  passed_cases: 52
+  assertions: 167
+  skipped_cases: 0
+  shuffle_seed: 680101
+  independent_seed: 680201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: zero covered source locations lost; actual UI import/setup qualifications
+    in report
+  independent_review: approved
+  scope: retain eight origins
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; unrelated
+    empty scratch note preserved
+  test_challenge: passed
+  maintainability: passed
+push: fast-forward
+pushed_head: e63463facff284a96094cc1b78a109f66af1fc9b
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

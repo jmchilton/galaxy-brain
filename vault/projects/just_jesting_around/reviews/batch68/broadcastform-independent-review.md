@@ -1,0 +1,7 @@
+# BroadcastForm — independent normal review, batch 68
+
+Approve `f2e6481d9cefcaf1ee1f56b0856337fa3f95bd3a` against pinned base `a716c7d6a82a497f52a1831309c67531451c35fa`. Independent Node22 shuffled680201 passes all seven cases/30 executed checks. Six executions of the three-check submit helper, router observations, loaded fields/action-link presence and published/scheduled warning states retain all original checks. Random fixture generation and response-handler timing remain unchanged.
+
+Native inferred public props and canonical plugins install owned testing Pinia with original real-action behavior. Automatic unmount precedes disposal. Required interactions use get while original existence/absence checks remain find().exists(); actual input/textarea generic types remove DOM casts without replacing controls. FormElement remains real; date/loading/broadcast child stubs and useRouter mock remain at their original boundaries. Existing create/submit helpers earn reuse across the scenarios, and no incompatible overlay/admin generator consolidation is introduced.
+
+Independently reran V8 comparisons: main349files/1264 and actual shared UI23files/238 covered locations exact, zero additions/losses. Actual button/alert/tooltip behavior remains; imported modules are not all claimed to render. Log `/private/tmp/readability68-broadcastform-independent.log`. Author lint/format/absolute hooks pass; driver owns types. No weakened check, production/support edit, unnecessary abstraction, blocking finding or evidenced guidance gap.
