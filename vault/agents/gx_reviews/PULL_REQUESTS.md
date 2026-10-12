@@ -6,8 +6,6 @@ PRs To Review:
 - [#24005](https://github.com/galaxyproject/galaxy/pull/24005) — New head; now draft; findings delivered; ball with author until ready. [notes](../../repositories/galaxy/reviews/active/24005/index.md)
 - [#23966](https://github.com/galaxyproject/galaxy/pull/23966) — Approved; author reports encoding fix on new head; verification pending. [notes](../../repositories/galaxy/reviews/active/23966/index.md)
 - [#23954](https://github.com/galaxyproject/galaxy/pull/23954) — Approved with finding posted; author decision on dev approach pending. [notes](../../repositories/galaxy/reviews/active/23954/index.md)
-- [#24004](https://github.com/galaxyproject/galaxy/pull/24004) — Author reports type/CI fixes on new head; verification pending; two CI failures. [notes](../../repositories/galaxy/reviews/active/24004/index.md)
-- [#24042](https://github.com/galaxyproject/galaxy/pull/24042) — Author reports fix; green CI; requested follow-up verification pending. [notes](../../repositories/galaxy/reviews/active/24042/index.md)
 - [#24018](https://github.com/galaxyproject/galaxy/pull/24018) — New head; still draft; delivered review; ball with author until ready. [notes](../../repositories/galaxy/reviews/active/24018/index.md)
 - [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — John's reply and/or merge decision after Sergey's response. [notes](../../repositories/galaxy/reviews/active/23223/index.md)
 - [#23560](https://github.com/galaxyproject/galaxy/pull/23560) — Draft; re-review when it leaves draft. [notes](../../repositories/galaxy/reviews/active/23560/index.md)
@@ -19,7 +17,6 @@ PRs To Review:
 - [#23058](https://github.com/galaxyproject/galaxy/pull/23058) — Author merged our fixes; CI ran with failures; verification/approval pending. [notes](../../repositories/galaxy/reviews/active/23058/index.md)
 - [#23965](https://github.com/galaxyproject/galaxy/pull/23965) — Approved; draft; admin migration follow-up with Marius. [notes](../../repositories/galaxy/reviews/active/23965/index.md)
 - [#24006](https://github.com/galaxyproject/galaxy/pull/24006) — Approved; suggestions posted. [notes](../../repositories/galaxy/reviews/active/24006/index.md)
-- [#23989](https://github.com/galaxyproject/galaxy/pull/23989) — Approved; green CI; mergeable; awaiting John’s merge. [notes](../../repositories/galaxy/reviews/active/23989/index.md)
 
 PRs to Skip For 7 Days:
 

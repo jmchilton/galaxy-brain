@@ -1,6 +1,6 @@
 # galaxy #24004 — [26.1] Resolve implicitly converted inputs in the YAML tool runtime
 
-[PR #24004](https://github.com/galaxyproject/galaxy/pull/24004) · Status: active; initial review complete. Initial recommendation **request changes**; findings delivered by John as a PR comment. Open, out of draft; GitHub checked 2026-10-11.
+[PR #24004](https://github.com/galaxyproject/galaxy/pull/24004) · Status: archived; merged 2026-10-12T14:14:31Z. Tracking ended after merge.
 
 [Review and risk assessment](review-2026-10-11.md) · [Original review draft](draft-review.md) · [Validation evidence](validation-evidence.txt)
 
@@ -30,3 +30,8 @@ CI cache: `/Users/jxc755/projects/ci-artifacts/galaxy/pr/24004/`; actual artifac
 ## Morning check — 2026-10-12
 
 Open, ready; live HEAD `c9c7e803e0eebdc47e0feeb9edfe155c97867ffd`. CI snapshot: 2 failure, 1 skipped, 56 success. New head `c9c7e803e0ee`; author says type fixes and release CI fixes should resolve the previous failures. Verification pending. Two checks still fail; this refresh does not establish whether either older finding remains on the current code.
+
+
+## Archived — 2026-10-12
+
+GitHub reports MERGED at 2026-10-12T14:14:31Z; merge commit `fe18fd8b8b9b916b0ece2e6bbb761097e53302e9`. Removed from the review queue. Clean worktree retained: no upstream is configured and its older review HEAD diverges from the merged PR head (5 commits on the old side). Per WORKTREES.md, removal requires John’s confirmation. This is a cleanup hold, not an outstanding code review.

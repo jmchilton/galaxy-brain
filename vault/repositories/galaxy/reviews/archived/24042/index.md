@@ -1,6 +1,6 @@
 # galaxy #24042 — Batch S3 extra-file cleanup with a compatibility fallback
 
-[PR #24042](https://github.com/galaxyproject/galaxy/pull/24042) · Status: active; initial review complete. Open, out of draft; GitHub checked 2026-10-11.
+[PR #24042](https://github.com/galaxyproject/galaxy/pull/24042) · Status: archived; merged 2026-10-12T14:13:00Z. Tracking ended after merge.
 
 [Review and risk assessment](review-2026-10-11.md) · [Draft posted by John as a comment](draft-review.md) · [Independent HTTP reproduction](control_key_probe.py)
 
@@ -16,3 +16,8 @@ Delivery check 2026-10-11: new live HEAD `0310835ec8b7084a0368c55f032a6099dc13df
 ## Morning check — 2026-10-12
 
 Open, ready; live HEAD `0310835ec8b7084a0368c55f032a6099dc13df53`. CI snapshot: 2 skipped, 52 success. [Marius reports the fix and asks for another look](https://github.com/galaxyproject/galaxy/pull/24042#issuecomment-6120725753): individual deletion for XML-invalid keys and carriage returns, plus real-client and pagination regressions. Live head `0310835ec8b7`, 52 successful checks and two skipped. Independent verification remains pending; do not reuse the old-head finding as a current blocker.
+
+
+## Archived — 2026-10-12
+
+GitHub reports MERGED at 2026-10-12T14:13:00Z; merge commit `2671a6d5d63ca13ad554ac68cfd6739d4a881780`. Removed from the review queue. Clean worktree retained: no upstream is configured and its older review HEAD diverges from the merged PR head (1 commit on the old side). Per WORKTREES.md, removal requires John’s confirmation. This is a cleanup hold, not an outstanding code review.
