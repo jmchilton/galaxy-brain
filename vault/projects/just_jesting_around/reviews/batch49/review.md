@@ -1,0 +1,21 @@
+Driver final gates: source approved at pushed tip `15ba2c4a57710c6b0715adbda5319465cfc44cc9`; final retained scope15client +2ToolShed cases passes shuffled490101, both frontend typechecks and all applicable hooks/lint/format pass. Library excluded under downstream ownership; original published history preserved and push fast-forward. Conditions below are satisfied.
+
+# Batch 49 independent review
+
+Base: `e1f3ed5dce2da8ccd93324fd6b536db3269a8810`. Reviewed canonical originating diffs through `aede9179ffe` and pending worker ResetPassword/supporting cleanup diffs. I authored WorkflowRunInputStep; it is supplemental here. Independent scope: DatasetPopoverLink, TrsTool, Tool Shed ResetPassword, and WorkflowHelpDisplay/NodeInvocationText cleanup plus README advice.
+
+No code blocker found. All original assertions and exact values survive. DatasetPopoverLink separates generic/cached accessible naming while preserving interactive=true. Its `Pick<HDADetailed, "id" | "name">` is intentional shallow-boundary data: the details child is stubbed, and this test only reads its name/identity; it does not claim a full API response. Parent wrappers remain tracked even though the helper returns a child wrapper.
+
+TrsTool uses its canonical model, native mounting, and nth. Original markdown target/escaped markup/profile/rendered marker checks remain; the added one-call guard makes the inspected call unambiguous. Sanitizer restoration captures the globally mocked function's initial implementation and restores it after unmount. Supporting cleanup keeps all assertions and mounting scopes intact while adding the same failure-safe restoration. LibraryEditField cleanup is deferred because the final ownership audit found its later lane marked storified=true. Its final diff is zero.
+
+All sanitizer restoration hooks precede auto-unmount registration in the same suite scope, which makes unmount run first under installed Vitest stack ordering. README explains this rule accurately without creating a helper solely for these small local arrangements. ResetPassword hoists all mock handles, resets mock implementations per case, interacts with actual fields/form/alert, and unmounts each wrapper. Router and schema mocks remain component boundary collaborators. Tool Shed's own setup and config supply its native frontend environment; Galaxy client options are not imposed on it.
+
+Independent coverage-location comparison: DatasetPopoverLink165 source files,383→383 covered locations; TrsTool15files,73→73; ToolShedReset90files,126→126; supporting sanitizer cleanup173files,362→362. No previously covered statement/function/branch operand lost. WorkflowHelpDisplay and NodeInvocationText were reviewed as cleanup changes rather than new readability originators. The earlier 173-file supporting coverage run included deferred LibraryEditField; final gates must exercise the retained scope.
+
+Final approval is conditional only on completing final combined/type/hook gates. No security finding identified.
+
+## Driver typecheck finding and inspected correction
+
+Full canonical typecheck found the captured sanitizer implementation can be undefined, which is not accepted by mockImplementation. The driver guarded restoration in TrsTool, WorkflowHelpDisplay and NodeInvocationText: first mockReset, then reinstall the captured implementation only when defined. I inspected all three exact guards. They restore the function when present and preserve the empty mock baseline when absent, without changing unmount/restoration ordering or any assertion. This is a justified boundary check, not a new behavior mode.
+
+Final retained scope is four originators, two supporting cleanup files (WorkflowHelpDisplay and NodeInvocationText), and README. At tip `15ba2c4a57710c6b0715adbda5319465cfc44cc9`, I verified LibraryEditField has zero diff against recorded remote base `e1f3ed5dce2da8ccd93324fd6b536db3269a8810`, and that base is an ancestor of HEAD. The unpublished historical rewrite was abandoned before push; all original published commits remain ancestral, enabling a plain fast-forward push. README references retained TRS/Help examples. Final source scope is approved; only final 15-client/2-Tool-Shed cases, typecheck and hooks remain validation gates.

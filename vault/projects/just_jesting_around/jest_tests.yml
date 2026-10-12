@@ -164,6 +164,7 @@
 - file: client/src/components/Common/BreadcrumbHeading.test.ts
 - file: client/src/components/Common/ChangesIndicator.test.ts
 - file: client/src/components/Common/DatasetPopoverLink.test.ts
+  iterated: 1
 - file: client/src/components/Common/DatasetPopoverLink.width.test.ts
 - file: client/src/components/Common/DelayedInput.test.ts
 - file: client/src/components/Common/EmailReportForm.test.ts
@@ -867,6 +868,7 @@
   storified: skip
 - file: client/src/components/Workflow/Import/FromFileOrUrl.test.ts
 - file: client/src/components/Workflow/Import/TrsTool.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts
 - file: client/src/components/Workflow/List/CuratedCollectionChips.test.ts
 - file: client/src/components/Workflow/List/CuratedWorkflowCard.test.ts
@@ -891,6 +893,7 @@
 - file: client/src/components/Workflow/Run/WorkflowRunForm.test.ts
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts
@@ -1477,6 +1480,7 @@
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts
+  iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ToolVersionPage.test.ts
   storified: skip

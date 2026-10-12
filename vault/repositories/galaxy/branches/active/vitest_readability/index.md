@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `e1f3ed5dce2da8ccd93324fd6b536db3269a8810`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `15ba2c4a57710c6b0715adbda5319465cfc44cc9`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -44,3 +44,12 @@ Normal fast-forward push from `e1570742723` to `5838667ee6e`; GitHub confirms th
 Continued at John's request to keep batching. Four originators: JobState, ToolsListCard, GToast and WorkflowStorageConfiguration; no production/shared/supporting changes. [Batch report](../../../../../projects/just_jesting_around/READABILITY_BATCH_48.md), [manifest](../../../../../projects/just_jesting_around/readability_batch_48.yml), and [review](../../../../../projects/just_jesting_around/reviews/batch48/review.md) record exact selection, commits and evidence. Original assertions retained; 32 baseline cases become 35 through named terminal states. Final shuffled combined run, full client vue-tsc, lint/format/hooks and coverage comparisons pass. Actual toast UI package covered through explicit external-source runs. Review corrections for reverse teardown registration and deferred failure cleanup are folded into originators. Scope retained; no screenshots/E2E needed.
 
 Fast-forward pushed `e1f3ed5dce2da8ccd93324fd6b536db3269a8810`. GitHub confirms exact head and MERGEABLE, draft retained; 39 queued checks, one running and two skipped at snapshot. Four originating counters updated after push; vault records local only. Status remains ci_wait. Downstream lanes unchanged.
+
+
+## Readability loop batch 49 — 2026-10-12
+
+Continued four originators: Tool Shed ResetPassword, DatasetPopoverLink, TrsTool and WorkflowRunInputStep, plus two concrete sanitizer cleanup consumers (WorkflowHelpDisplay and NodeInvocationText) and ten-line README teardown guidance. [Batch report](../../../../../projects/just_jesting_around/READABILITY_BATCH_49.md), [manifest](../../../../../projects/just_jesting_around/readability_batch_49.yml) and [review](../../../../../projects/just_jesting_around/reviews/batch49/review.md) record the final scope. Original assertions and covered source locations preserved;17final cases pass (15client,2ToolShed), both frontend type checks, own lint/format and hooks pass. Optional sanitizer implementation type error fixed with guarded restoration. Scope retained; no E2E/screenshots.
+
+LibraryEditField became storified through concurrent later-lane work before final audit; excluded its prepared supporting cleanup before push. Original published history restored and preserved, library diffzero; no downstream branches edited. Retired prior polling teardown marginal advice into evidenced lifecycle guidance.
+
+Fast-forward pushed `15ba2c4a57710c6b0715adbda5319465cfc44cc9`, four originating counters updated afterpush, supporting counters untouched. Vault validation zeroerrors/15existingwarnings; records localonly. GitHub verification records latesthead/draft/mergeability; status remains ci_wait.

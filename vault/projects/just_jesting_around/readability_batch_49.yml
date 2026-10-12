@@ -1,0 +1,63 @@
+iteration: 49
+seed: 2610949
+inventory_sha256: 64dafdffff1dba78804d6d49144fb305f7036449e625c1fd2c0dbf864cfd0efd
+branch: vitest_readability
+base_commit: e1f3ed5dce2da8ccd93324fd6b536db3269a8810
+remote_start_commit: e1f3ed5dce2da8ccd93324fd6b536db3269a8810
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts
+- file: client/src/components/Common/DatasetPopoverLink.test.ts
+- file: client/src/components/Workflow/Import/TrsTool.test.ts
+- file: client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts
+selection_notes: N=4; uniterated, existing files, no later-lane true fields; known DataDialog bug excluded.
+supporting_files:
+- client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts
+- client/src/components/Workflow/Editor/NodeInvocationText.test.ts
+helper_files: []
+documentation_files:
+- client/README.md
+new_inventory_files: []
+baseline:
+  selected_cases: 14
+  supporting_cases: 2
+  selected_passed: 14
+  supporting_passed: 2
+validation:
+  selected_cases: 15
+  supporting_cases: 2
+  client_cases: 15
+  toolshed_cases: 2
+  skipped_cases: 0
+  shuffle_seed: 490101
+  max_workers: 1
+  client_vue_tsc: passed after optional sanitizer restoration guard
+  toolshed_vue_tsc: passed
+  coverage: all source locations retained in isolated paired comparisons
+  independent_review: approved, final gates passed
+excluded_supporting_files:
+- file: client/src/components/Libraries/LibraryEditField.test.js
+  reason: Became storified in concurrent later-lane work before final ownership audit; excluded from pushed batch
+history:
+  pinned_autosquash_base: e1f3ed5dce2da8ccd93324fd6b536db3269a8810
+  published_history_preserved: true
+  library_diff: none
+  expected_push: fast-forward
+commits:
+- sha: 143c862925a5f95bfa7ea4c443616754f4c92d9d
+  test: DatasetPopoverLink
+- sha: 7a8ffc8431695b9d8b26f5e63fa8bacf044f76bf
+  test: TrsTool
+- sha: 2c71e67af900472d79125a244e083f2c13ae0805
+  test: WorkflowRunInputStep
+- sha: 18f4c80cd1d9edb53cf887cbaf5e38145c2fae68
+  test: ResetPassword
+- sha: 28b56f1983acd41b83f5fb94bfa43ac1c659cc18
+  documentation: client/README.md
+- sha: fa688c19badefd9bd4a2991d7f99294baad5a75f
+  supporting_test: WorkflowHelpDisplay
+- sha: 15ba2c4a57710c6b0715adbda5319465cfc44cc9
+  supporting_test: NodeInvocationText
+pushed_head: 15ba2c4a57710c6b0715adbda5319465cfc44cc9
+push: fast-forward
