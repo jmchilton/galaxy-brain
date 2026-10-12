@@ -460,6 +460,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Libraries/LibraryEditField.test.js
+  storybook_play: true
   storified: true
   iterated: 1
 - file: client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts
