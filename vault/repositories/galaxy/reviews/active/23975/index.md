@@ -16,3 +16,7 @@ John requested this review on 2026-10-11. David already reviewed the same HEAD o
 ## Delivery — 2026-10-11
 
 John submitted a [COMMENTED review](https://github.com/galaxyproject/galaxy/pull/23975#pullrequestreview-5484524053) with one inline comment at 2026-10-11T19:01:49Z. This records delivery, not approval. Open, out of draft, HEAD unchanged. Ball with author; resources retained.
+
+## Morning check — 2026-10-12
+
+Open, ready; live HEAD `9999511119a772be31d756aaf522a668348a02d4`. CI snapshot: 2 failure, 9 in progress, 5 skipped, 49 success. Author reports both reviews addressed, with nomad-fsspec 0.3.0 and new offline tests, at head `9999511119a7`. David also gave a further review on 2026-10-12. John’s original inline dependency question was delivered; verification of the new changes remains pending while CI runs. No unposted initial-review action is due.

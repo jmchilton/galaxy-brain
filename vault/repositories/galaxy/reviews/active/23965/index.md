@@ -13,3 +13,7 @@ Tracking: Approved; draft; admin migration follow-up with Marius.
 Prior queue tracking: reviewed at `34de076d569`: comment, approve once CI green; draft review unposted
 
 John approved `34de076d569` on 2026-10-09. Marius subsequently offered to revisit finding 3 and an admin script for existing data. The PR remains draft.
+
+## Morning check — 2026-10-12
+
+Open, draft; live HEAD `34de076d569a0ab0781e61cbf51af4e39169acb5`. CI snapshot: 1 failure, 2 skipped, 60 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.

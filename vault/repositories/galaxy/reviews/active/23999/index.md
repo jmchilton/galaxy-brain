@@ -24,3 +24,7 @@ John requested this review on 2026-10-11. Coordinator handles the queue and vaul
 ## Delivery — 2026-10-11
 
 John [posted the CI-filter finding](https://github.com/galaxyproject/galaxy/pull/23999#issuecomment-6112464099) at 2026-10-11T18:50:54Z, with a broadly positive assessment and a question about whether the workspace change addresses #21811. This was a comment, not a formal request-changes review. Open, out of draft, HEAD unchanged. Ball with author; resources retained.
+
+## Morning check — 2026-10-12
+
+Open, ready; live HEAD `5daad696899b2ad2224cb904555219a78282d5d9`. CI snapshot: 2 skipped, 61 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.

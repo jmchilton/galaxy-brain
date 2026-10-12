@@ -13,3 +13,7 @@ Tracking: Approved; suggestions posted.
 Prior queue tracking: reviewed at `4c75dddee45`: comment, approve w/ suggestions; draft review unposted
 
 John posted suggestions and approved `4c75dddee45` on 2026-10-09; the older unposted-draft status is historical.
+
+## Morning check — 2026-10-12
+
+Open, ready; live HEAD `4c75dddee45795dda04ed243fa94c3983d8d3268`. CI snapshot: 1 failure, 24 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.

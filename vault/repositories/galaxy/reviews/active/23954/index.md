@@ -15,3 +15,7 @@ John requested this review on 2026-10-11. No Galaxy source edits or GitHub deliv
 Independent re-review requested by John: [Finding verification](finding-verification-2026-10-11.md) agrees with the P2 for existing saved workflows; [API probe](test_independent_selector_verification.py) imports the historical edge through the normal API and shows HEAD 500/500 versus exact parent extraction 200/200. [Single copy-ready comment](single-comment.md); John included the single-comment finding in his approval review.
 
 John’s approval also expresses a preference to tackle the parameter-extraction work and this issue on `dev`, in light of notebook-extraction changes. This is a preference expressed to the author, not authorization to implement or retarget the PR. Preserve the P2 evidence and initial recommendation; the latest formal review state is APPROVED. No later author reply at the delivery check.
+
+## Morning check — 2026-10-12
+
+Open, ready; live HEAD `9008c8cb17c8fc4116e3afca7da707655349812d`. CI snapshot: 1 skipped, 58 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.

@@ -15,3 +15,7 @@ Prior queue tracking: reviewed at `4a81462fae5` (paired w/ 23953); Marius review
 Marius's 2026-10-09 comment questions the `content_path` abstraction after the author's fixes. Preserve the instruction not to post our older draft.
 
 Morning check 2026-10-11: live HEAD `4bf89d638bd49c4ebb2e08b75bdef3d4f58bda27`; still draft. Keep the instruction not to post our older draft. #24005 is a separate untracked PR implementing the alternative described in this discussion; offering it for selection does not launch a review. No new code review was performed here.
+
+## Morning check — 2026-10-12
+
+Open, draft; live HEAD `4bf89d638bd49c4ebb2e08b75bdef3d4f58bda27`. CI snapshot: 6 failure, 2 skipped, 48 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.

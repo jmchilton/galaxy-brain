@@ -13,3 +13,7 @@ Prior queue tracking: author converted to draft 10-03; user requested changes (p
 Morning check 2026-10-11: live HEAD `dbfcec59a427eb40a3d05ce13d93aa7f258fb58e`; still draft, 58 successful checks and 3 skipped. John [replied on 2026-10-10](https://github.com/galaxyproject/galaxy/pull/23866#issuecomment-6103113910) that falling back to `data` is acceptable if applied uniformly. No newer reply; ball with author. This refresh is not a re-review of the changed head.
 
 Delivery check 2026-10-11: PR is now ready for review, live HEAD still `dbfcec59a427eb40a3d05ce13d93aa7f258fb58e`. Marius [reports that job messages identify the wrong extension and all finish modalities are covered](https://github.com/galaxyproject/galaxy/pull/23866#issuecomment-6110418028). Latest CI: 59 successful checks, 3 skipped. Follow-up verification is pending; the previous draft hold no longer applies.
+
+## Morning check — 2026-10-12
+
+Open, ready; live HEAD `dbfcec59a427eb40a3d05ce13d93aa7f258fb58e`. CI snapshot: 3 skipped, 59 success. Ready, unchanged head `dbfcec59a427`; all checks successful or skipped. Author’s reported uniform handling/job-message fixes still need verification. No new reply is required merely because a requested re-review remains outstanding.

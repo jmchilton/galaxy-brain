@@ -26,3 +26,7 @@ CI: 53 successful, 2 failed, 2 cancelled, 1 skipped. Current failures align with
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24004/` (clean after review).
 
 CI cache: `/Users/jxc755/projects/ci-artifacts/galaxy/pr/24004/`; actual artifact HTML was inspected because the generated summary did not unwrap nested JSON. Worktree and cache retained while the PR is open.
+
+## Morning check — 2026-10-12
+
+Open, ready; live HEAD `c9c7e803e0eebdc47e0feeb9edfe155c97867ffd`. CI snapshot: 2 failure, 1 skipped, 56 success. New head `c9c7e803e0ee`; author says type fixes and release CI fixes should resolve the previous failures. Verification pending. Two checks still fail; this refresh does not establish whether either older finding remains on the current code.

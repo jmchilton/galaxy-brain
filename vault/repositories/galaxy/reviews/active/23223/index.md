@@ -9,3 +9,7 @@ The original review covers upstream `1a0b6f0470b`. The latest recorded merge-rea
 John commented on the upstream PR through 2026-09-27; Sergey's 2026-09-28 reply about TPV versus real-user execution remains unanswered. The recorded hold until Tuesday 2026-09-29 has passed. The queue calls for John's decision to reply and/or merge.
 
 The hardening follow-up was opened as [SergeyYakubov/galaxy#1](https://github.com/SergeyYakubov/galaxy/pull/1). Its implementation history and verification are in the follow-up notes; its current GitHub state was not refreshed here.
+
+## Morning check — 2026-10-12
+
+Open, ready; live HEAD `8afbc3efc09ca3d746dfc315320be5570a801de6`. CI snapshot: 2 skipped, 57 success. No new commits or discussion since the recorded September exchange. CI is green (57 successful, two skipped). John’s reply and/or merge decision after Sergey’s response remains pending; no author nudge is proposed.

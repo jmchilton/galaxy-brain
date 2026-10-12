@@ -25,3 +25,7 @@ Independent double-check completed at John's request on 2026-10-11: both finding
 ## Delivery — 2026-10-11
 
 John [posted both independently confirmed findings](https://github.com/galaxyproject/galaxy/pull/23827#issuecomment-6112733349) at 2026-10-11T19:18:22Z, requested fixing or pushing back on them, and noted the App.vue conflict after #23991 merged. He prefers this approach to a file source but wants the user story discussed at Tuesday's developer meeting, including whether an API-key-based import could remove the export preparation step. This was a comment, not a formal request-changes review. Open, out of draft, HEAD unchanged. Ball with author; resources retained.
+
+## Morning check — 2026-10-12
+
+Open, ready; live HEAD `5c59cde64a2a7bce94c0a171f6f118eadbf97309`. CI snapshot: 17 in progress, 10 queued, 2 skipped, 27 success. Author reports both findings fixed and the App.vue conflict resolved on new head `5c59cde64a2a`; verification remains pending while CI runs. [Author reply](https://github.com/galaxyproject/galaxy/pull/23827#issuecomment-6125296399) is in the live PR discussion; two questions need John’s scope decision: fix the analogous `histories/from_store_async` policy gap here or separately, and persist task IDs in Recent Exports to survive reloads. This status refresh does not verify either fix.

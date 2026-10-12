@@ -11,3 +11,7 @@ Current PR head: `9ac1627fc79`. The migration refreshed tracking, not the code r
 Tracking: Draft; approval draft with nits unposted.
 
 Prior queue tracking: reviewed at `9ac1627fc79` (draft; paired w/ 23956): approve w/ nits (own range parser vs starlette/webob; stale body); draft review unposted
+
+## Morning check — 2026-10-12
+
+Open, draft; live HEAD `9ac1627fc79ac7950c009e98794adf72088e2c00`. CI snapshot: 1 failure, 1 skipped, 58 success. Still draft, head unchanged, no comments or reviews by John. Approval-with-nits draft is unposted, but the draft hold remains. Report remains available for John without proposing delivery now.

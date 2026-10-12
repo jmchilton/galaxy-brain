@@ -30,3 +30,7 @@ CI cache: `/Users/jxc755/projects/ci-artifacts/galaxy/pr/24005/`; artifact catal
 ## Delivery — 2026-10-11
 
 John [posted the three findings](https://github.com/galaxyproject/galaxy/pull/24005#issuecomment-6112215305) at 2026-10-11T18:24:04Z, with his caveat that he is unsure how much is relevant and a question about the Vizarr prerequisite. This was a comment, not a formal request-changes review. HEAD unchanged; open, out of draft. Ball with the author; resources retained.
+
+## Morning check — 2026-10-12
+
+Open, draft; live HEAD `03e38ae61aa0e822e5814ce19cc9c75309da3faf`. CI snapshot: 5 in progress, 1 neutral, 38 queued, 3 skipped. New head `03e38ae61aa0`; author converted the PR to draft, CI queued/running, no new discussion reply. Findings already delivered; ball with author until ready. Do not present old-head findings as verified current blockers.

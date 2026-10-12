@@ -11,3 +11,7 @@ Current PR head: `b08845626e1`. The migration refreshed tracking, not the code r
 Tracking: Parked for author/Marius follow-up; local draft unposted.
 
 Prior queue tracking: tabled until author responds to Marius's review comments; our draft review unposted (needs update to reflect merged fixes)
+
+## Morning check — 2026-10-12
+
+Open, ready; live HEAD `b08845626e16ce56fb8696ac1a7282167fd179ea`. CI snapshot: 3 failure, 2 skipped, 51 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.

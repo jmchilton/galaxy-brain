@@ -15,3 +15,7 @@ Five findings: one P1 for sequential activation of separately installed foreign 
 Validation: 109 focused tests passed, 3 failed because fixtures hardcode `/bin/true`, which is absent on this macOS host. Three targeted correctness probes reproduced the runtime/validation issues; actual foreign hardware, NFS concurrency, and signing were not retested. No source changes.
 
 Delivery: John [posted our review as a PR comment](https://github.com/galaxyproject/galaxy/pull/24018#issuecomment-6109129388) on 2026-10-11 at 12:41:38 UTC and converted the PR to draft. This was a comment, not a formal request-changes review. Author may mark ready after green tests and removal of WIP. Keep record and worktree while open; no follow-up or author contact was promised.
+
+## Morning check — 2026-10-12
+
+Open, draft; live HEAD `711d2e4f1a701b4063ab5eaf991fe9b4ce7d2d56`. CI snapshot: 2 failure, 2 skipped, 51 success. New head `711d2e4f1a70`, still draft; two checks fail. Review was delivered and no follow-up was promised. Ball with author until ready; older findings are not revalidated by this status refresh.
