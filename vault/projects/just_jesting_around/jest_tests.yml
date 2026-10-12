@@ -578,6 +578,7 @@
 - file: client/src/components/PageEditor/PageEditorView.test.ts
 - file: client/src/components/PageEditor/PageRevisionList.test.ts
 - file: client/src/components/PageEditor/PageRevisionView.test.ts
+  storified: true
   iterated: 1
 - file: client/src/components/PageEditor/ProposalDiffView.test.ts
 - file: client/src/components/PageEditor/SectionPatchView.test.ts
