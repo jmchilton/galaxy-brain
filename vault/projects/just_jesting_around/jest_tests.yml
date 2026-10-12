@@ -754,6 +754,7 @@
   split_commit: true
 - file: client/src/components/ToolRecommendation.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/ToolsList/ToolsList.test.ts
 - file: client/src/components/ToolsList/ToolsListCard.test.ts
   iterated: 1
