@@ -1,0 +1,5 @@
+Driver acted on native auto-unmount, scenario-local wrappers, deterministic saved sessions, and a small repeated rule fixture. Removed undeclared prefix/user/header attributes after inspecting the component: it has only savedRules and never reads local storage. No shared helper or documentation change needed.
+
+Three cases and seven checks remain. Session-count checks now use exact lengths; the selection event check now includes the original presence condition and exact payload/count. Sorting still starts from older-before-newer input and clicks the first rendered item; the newer rule has a distinct mapped column. Tests await click promises. All original scenarios and checks are retained or strengthened.
+
+Pristine/final shuffled seed570101 pass three cases. V8 covered locations are identical: 16 files, 105 locations, zero lost/added. Full client types and explicit repository hooks passed before the originator commit. Local rule builder has two concrete scenario consumers; no new cross-file abstraction is warranted. Existing README guidance covers these changes.

@@ -221,6 +221,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/ConfirmDialog.test.ts
+  iterated: 1
 - file: client/src/components/DataDialog/DataDialog.test.js
 - file: client/src/components/Dataset/DatasetCopy.test.js
   iterated: 1
@@ -660,6 +661,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/RuleBuilder/SavedRulesSelector.test.js
+  iterated: 1
 - file: client/src/components/RuleBuilder/SelectBasic.test.ts
 - file: client/src/components/RuleCollectionBuilder.test.js
 - file: client/src/components/SchemaOrg/CreatorViewers.test.ts
@@ -819,6 +821,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/WindowManager/WindowManagerWindow.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/Actions/actions.test.ts
   iterated: 1
   split_commit: true
@@ -1294,6 +1297,7 @@
   iterated: 1
   storified: skip
 - file: client/src/stores/services/history.services.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/stores/storageOperationsStore.test.ts
   iterated: 1

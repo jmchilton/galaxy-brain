@@ -1,0 +1,54 @@
+iteration: 57
+seed: 2610957
+inventory_sha256: e03be066c52c2b6cf0fad077f1429111019ff5bda78c6e43c3e9ae71e7656130
+branch: vitest_readability
+base_commit: 5eeeb57ef4d887b72b64c71377eb72e3dc5def08
+remote_start_commit: 5eeeb57ef4d887b72b64c71377eb72e3dc5def08
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/stores/services/history.services.test.ts
+- file: client/src/components/WindowManager/WindowManagerWindow.test.ts
+- file: client/src/components/ConfirmDialog.test.ts
+- file: client/src/components/RuleBuilder/SavedRulesSelector.test.js
+selection_notes: N=4; seeded eligible existing uniterated files; later-lane true and known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 17
+  assertions: 46
+validation:
+  passed_cases: 17
+  assertions: 48
+  skipped_cases: 0
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: no covered source location lost in four originator comparisons
+  shuffle_seed: 570101
+  independent_seed: 570201
+  max_workers: 1
+  node: 22.20.0
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain four origins
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings; shared vault has unrelated empty reviews/Untitled.md
+push: fast-forward
+pushed_head: 59f471a92924266a30e4aa849b7b15e9539c16e7
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait
+commits:
+- sha: 59f471a92924266a30e4aa849b7b15e9539c16e7
+  test: "Clarify confirmation dialog test ownership and lifecycle"
+- sha: ed43c4a46109dbc3a49e3c94a2fa4df1c6d98c74
+  test: "Test history service queries through typed HTTP handlers"
+- sha: a75d1afa0aa99c609e6d89d82f09f0ca9cb82139
+  test: "Clarify window pointer test ownership and teardown"
+- sha: 5bfad5699e3437d3559d5ab6e8772b3743f91a47
+  test: "test: Clarify saved rule selection scenarios and own wrapper cleanup"
