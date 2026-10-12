@@ -1,25 +1,22 @@
-Screenshots successfully obtained.
+Screenshots successfully obtained. Four fresh captures on text-only head `299a59367472389cd2aa8eda1b69c2f8b5b4b543` were visually inspected and show the expected editable rows and runtime values. No screenshot blocker or implementation change was needed.
 
-# issue_21015_multiple_text_param — screenshots
+## Capture index
 
-Recorded 2026-10-08 under Playwright (headless), from branch head `c8f9c40bae0`, after the `FormValueList` layout fix. Galaxy ran on 8081 and Vite on 5175, with `GALAXY_TEST_SCREENSHOTS_DIRECTORY` set. The files are in `screenshots/`, which git ignores.
+| Screenshot | Verified behavior |
+| --- | --- |
+| [Scalar newline editor](screenshots/workflow_editor_multiple_text_newline_scalar_rows.png) | Imported scalar default displays two text rows, multiple selection enabled, and comma retained in the first row. Browser assertions verify exact initial values `[' a,b', 'c ']`. |
+| [Scalar edited runtime](screenshots/workflow_run_multiple_text_newline_scalar_edited.png) | Editing the second row, saving, and opening the runtime form preserves separate values `[' a,b', 'd']` with valid field state. |
+| [Wrapped newline editor](screenshots/workflow_editor_multiple_text_newline_wrapped_rows.png) | An imported one-element list containing the same newline default displays the same two editable rows. Exact values, commas, and whitespace are verified by assertions. |
+| [Wrapped edited runtime](screenshots/workflow_run_multiple_text_newline_wrapped_edited.png) | The corrected wrapped default persists as separate text values after editing and saving, with valid runtime field state. |
 
-| File | Test | Shows |
-| --- | --- | --- |
-| `workflow_editor_multiple_integer_parameter_invalid_connection.png` | `test_workflow_editor.py::test_multiple_integer_parameter_connections` | Multiple integer input refused by a single-integer tool input |
-| `workflow_editor_multiple_integer_parameter_multiple_column_connection.png` | same | Multiple integer input connected to a multiple column select (new) |
-| `workflow_editor_multiple_integer_parameter_list_default.png` | `test_multiple_integer_parameter_list_default` | Integer list default, one field per value |
-| `workflow_editor_multiple_integer_parameter_range_list_default.png` | `test_multiple_integer_parameter_with_range` (new test) | Integer list default with min 1 and max 5 set |
-| `workflow_run_multiple_integer_parameter_range.png` | same | Run form for that input: default rows `1`, `2` |
-| `workflow_editor_multiple_text_parameter_invalid_connection.png` | `test_multiple_text_parameter_connections` | Multiple text input refused by a single text input (new) |
-| `workflow_editor_multiple_text_parameter_multi_select_connection.png` | same | Multiple text input connected to `multi_select` (#21015) |
-| `workflow_editor_multiple_text_parameter_list_default.png` | same | Text list default `--ex1,ex2` / `--ex3` (new) |
-| `workflow_run_multiple_integer_parameter.png` | `test_workflow_run.py::test_execution_with_multiple_integer_parameter` | Integer run form with two rows |
-| `workflow_run_multiple_text_parameter.png` | `test_execution_with_multiple_text_parameter` | Text run form with two rows |
-| `value_list_style_before_after.png` | composite (not from a test) | Row styling before/after `c8f9c40bae0`: editor text default (crops scaled 2x) and run form with an integer range, cropped from the pre-fix and post-fix recordings |
+## Process and validation
 
-## Notes
+Followed `vault/agents/_shared/GX_PROCESS_SCREENSHOTS.md` and read `vault/research/Component - E2E Tests - Writing.md`. These captures replace the combined follow-up evidence after the user-approved split; archived screenshots remain historical evidence only.
 
-- **The first test after a cold Vite start times out on `#masthead`.** Rerunning it once fixed this every time.
-- **No range slider for workflow integer parameters.** The editor stores min/max as an `in_range` validator, not as the parameter's own `min`/`max`, so the runtime field gets no `attrs.min`/`attrs.max` and `FormNumber` draws no slider. The editor's default field doesn't get them either. So `FormValueList` rows never show a slider for workflow parameters.
-- **Layout fix (`c8f9c40bae0`).** You asked for the × buttons to be centered and the rows given more room. Rows now use `align-items-center mb-2` and the remove button `ml-2`. All screenshots were re-recorded after the change.
+Started dedicated local services from this original worktree using its existing backend port 8081 and Vite port 5177. Used Galaxy's headless Playwright E2E infrastructure, timeout multiplier 2, and a temporary pytest plugin setting a 1280 by 1400 viewport. The plugin adds two temporary screenshot checks to the existing workflow-editor test class and uses its smart-component helpers; it adds no committed test or production code. Both checks import scalar/list-wrapped newline defaults, assert exact rows, edit the second row, save, and assert the resulting runtime rows.
+
+Result: **2 passed in 45.28s**, including existing E2E accessibility checks. The only warning was an unrelated Google SDK deprecation. All four PNGs were inspected with `view_image` and copied to this branch's ignored `screenshots/` directory. The verification agent stops only the local services it started.
+
+These captures cover editor/runtime presentation and persistence. Numeric option preselection and API validation are covered by the coordinator's separate API/backend checks.
+
+Raw run output: [text screenshot verification log](screenshots/verification.log).

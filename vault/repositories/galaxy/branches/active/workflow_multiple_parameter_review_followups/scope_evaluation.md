@@ -1,56 +1,49 @@
-Recommendation: **keep the current scope**. The branch implements Marius’s bounded float and text recommendations against PR #23992 head `c8f9c40bae0d98c02fd2056dd5abeafab7dd9b15`, with direct browser and API coverage for the affected paths. Documenting the empty-valued restricted-option limitation follows the review’s permitted alternative; runtime/subworkflow default normalization and static restriction defaults should remain separate work.
+Recommendation: **keep the current float-only dependent follow-up scope**. The user explicitly approved moving text fixes onto `issue_21015_multiple_text_param` and rebasing this branch onto that result. This report confirms that decision and recommends no further expansion or contraction.
 
-## As implemented: bounded float and text follow-ups
+## As implemented: float support above the improved text branch
 
-Expose float multiplicity in the workflow editor, preserve list defaults through editing and reloading, and support float runtime inputs. Fix text default presentation, numeric default preselection, boolean rejection, required missing-value validation, and newline error guidance. The normal review’s wrapped-list newline finding and numeric-preselection coverage gap have both been addressed.
-
-| Pros | Cons |
-| --- | --- |
-| • Covers the actionable bounded recommendations in one reviewable branch. | • Empty-valued restricted options remain unsupported and must be documented in the eventual PR. |
-| • Tests exercise editor persistence, runtime forms, submitted values, and numeric option preselection. | • Default/subworkflow normalization remains a known, separately queued follow-up. |
-| • Preserves the improved upstream PR and avoids duplicating independent work. | • New UI and API coverage adds some test maintenance. |
-
-## Expand to allow empty-valued restricted options
-
-Make multiple-text validation aware of restrictions and connected option values so an allowed empty option can be distinguished from a blank free-text row. This requires additional runtime validation plumbing and compatibility cases; Marius explicitly allowed documenting the limitation instead.
+Expose float multiplicity in the editor/default field and preserve decimal list defaults through save, reopen, and the run form. The four-file delta adds focused float API coverage and a shared numeric E2E flow that retains integer coverage; inherited text fixes belong to the original branch.
 
 | Pros | Cons |
 | --- | --- |
-| • Supports valid tool options whose stored value is empty. | • Broadens validation beyond the bounded review fixes. |
-| • Removes the documented compatibility limitation. | • Connection-free validation currently lacks the context needed to distinguish these cases safely. |
+| • Keeps new float support independently reviewable. | • Remains dependent on the updated original branch. |
+| • Builds directly on the approved text fixes without duplication. | • Maintains a small amount of new API/E2E coverage. |
 
-## Expand to runtime and subworkflow default normalization
+## Recombine text and float changes
 
-Normalize imported defaults at invocation and subworkflow boundaries, including the already identified integer/text cases. This is recorded separately in `vault/agents/gx_issues/to_file/workflow_multiple_parameter_default_not_normalized.md`, and the reviewer explicitly accepted deferring it.
-
-| Pros | Cons |
-| --- | --- |
-| • Aligns default-only invocation behavior with explicitly submitted values. | • Adds shared execution-path changes and broader regression requirements. |
-| • Addresses an existing follow-up affecting more than this branch’s float editor fixes. | • Discards the reviewer-approved separation of work. |
-
-## Expand to static restriction default preselection
-
-Include default selection for workflow-defined static restrictions. This is distinct from the connected tool-option numeric preselection fixed here and already has independent work on `issue_23980_static_restriction_default`.
+Return both sets of recommendations to one combined follow-up. This simplifies branch count but reverses the user's explicit review-boundary preference.
 
 | Pros | Cons |
 | --- | --- |
-| • Makes default behavior more consistent across restriction sources. | • Duplicates an independent branch and creates integration conflicts. |
-| • Could reduce the number of eventual review surfaces. | • Adds unrelated implementation and validation to this handoff. |
+| • Single review/handoff surface. | • Conflicts with the approved split and obscures original text-PR attribution. |
 
-## Contract to float editor changes only
+## Expand to runtime/subworkflow default normalization
 
-Keep float multiplicity and its end-to-end/API coverage, and split all text recommendations into another branch. The text changes are small, directly requested, and have no unresolved review concern that would justify postponement.
+Address default-only invocation/subworkflow normalization for numeric and text values. This separately queued cross-cutting work was explicitly deferred by the reviewer.
 
 | Pros | Cons |
 | --- | --- |
-| • Produces a smaller production delta. | • Leaves several accepted recommendations unimplemented. |
-| • Isolates numeric editor work from text behavior. | • Requires another branch, review, and handoff without a demonstrated correctness benefit. |
+| • Aligns omitted-default execution with explicit-list submission. | • Adds shared runtime plumbing and broader tests beyond float editor support. |
+
+## Expand to text option edge cases
+
+Add contextual empty-valued option support or static-restriction default selection. These belong to text behavior, and static selection already has independent work.
+
+| Pros | Cons |
+| --- | --- |
+| • Could make option behavior more uniform. | • Duplicates separate work and crosses the user-approved float boundary. |
+
+## Contract to production float editor changes only
+
+Remove the focused API and browser additions, retaining only the checkbox/default factory edits. This would reduce test diff size at the cost of explicit conversion, persistence, and reopened-form coverage.
+
+| Pros | Cons |
+| --- | --- |
+| • Minimal production-only delta. | • Loses valuable public-boundary regression coverage for the requested support. |
 
 <details>
-<summary>Evaluation basis and validation boundary</summary>
+<summary>Evaluation basis</summary>
 
-Reviewed the original request, initial implementation notes, delta from the reviewed PR head, normal review findings, and subsequent test additions. The normal review found that scalar newline defaults reach the runtime form as one-element lists; the client now handles both shapes, and boundary tests cover edits emitting corrected lists. Numeric connected-default preselection now has an API fixture with numeric option values. Explicit newline-containing API list entries remain invalid.
-
-The coordinator reports passing float browser coverage; the focused numeric API test is still being run at the time of this evaluation. Final test-challenge, E2E polish, code-quality review, screenshots, and handoff evidence remain the coordinator’s responsibility. These are validation tasks for the current scope, not reasons to expand it. No unresolved recommendation from the normal review requires a scope change.
+Reviewed the user-approved split, prior normal/quality/test reviews, archived combined scope evaluation, and the new delta above original head `299a59367472389cd2aa8eda1b69c2f8b5b4b543`. The follow-up tree is unchanged from the validated combined implementation. All prior alternatives remain accounted for, and no unresolved finding warrants a new scope decision.
 
 </details>

@@ -1,10 +1,10 @@
 # Thermo-nuclear code quality review
 
-The production delta meets the strict maintainability bar. No actionable structural findings or code changes are recommended. This review made no implementation edits and no commits.
+The float-only follow-up meets the strict maintainability bar. No actionable structural findings or implementation changes are recommended. Reviewed `299a59367472389cd2aa8eda1b69c2f8b5b4b543..67c403649842f32d534a148cd1384d8e297c0fea`; inherited text fixes are attributed to the original branch rather than this follow-up.
 
-## Review scope
+## Scope and process
 
-Reviewed the current production diff against improved PR head `c8f9c40bae0d98c02fd2056dd5abeafab7dd9b15` in `/Users/jxc755/projects/worktrees/galaxy/branch/workflow_multiple_parameter_review_followups`, following `vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md`. Read the initial implementation debrief, full affected components and nearby parameter conversion, validation, workflow editor, and connected-option paths. Read the associated unit, API, and initial Selenium changes for intent and contract coverage. Test challenge work was still in progress; this review does not certify the final test additions or replace their execution.
+Followed `vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md`. Re-inspected the four-file delta after the user-approved split: two production modules, float API coverage, and the numeric editor E2E helper plus float case. The final tree equals the previously validated combined follow-up tree. Prior quality and correctness reviews remain applicable to unchanged code; this report records the new comparison boundary.
 
 ## Findings
 
@@ -12,19 +12,17 @@ None.
 
 ## Structural assessment
 
-- The float editor change reuses the existing numeric multiple-checkbox path and the existing default-parameter factory. It introduces no parallel float-specific configuration mechanism or new state flags. Moving the pre-existing integer/float range-field duplication into a new helper would be unrelated churn for this small extension.
-- The frontend newline handling sits in `FormValueList.toValues`, which already owns incoming value-to-row conversion. The direct scalar-or-array normalization plus `flatMap` handles the server's array-wrapped scalar defaults through one flow. It preserves commas and whitespace without scattering text-specific conditions into callers. No additional component or generic parsing abstraction would simplify this change.
-- Text conversion and validation remain in `TextToolParameter`'s existing hooks. Explicit boolean rejection addresses Python's `bool`/`int` subtype relationship; the required-`None` guard makes the missing-value rule clear while preserving optional values. Correcting the newline error message adds one small, locally justified condition rather than leaking mode handling into a shared orchestration path.
-- String conversion of connected-option list defaults is at the comparison boundary inside `restrict_options`. That path constructs a `SelectToolParameter` and bypasses `TextToolParameter.get_initial_value`; the second conversion is justified by ownership of a separate boundary rather than accidental duplicate business logic. A cross-cutting normalization refactor would broaden this branch into the explicitly deferred runtime-default work.
-- No new casts, `any`/`unknown` contracts, optional modes, pass-through helpers, asynchronous orchestration, or partially applied state mutations are introduced.
-- No file crosses the 1,000-line threshold. `basic.py` and `modules.py` already substantially exceed it; the delta adds approximately fourteen and one net lines respectively, within existing class methods. `FormValueList.vue` remains 163 lines and the default-parameter factory remains 46 lines. This change does not justify a broad decomposition of the pre-existing files.
+- Float multiplicity reuses the existing numeric editor checkbox and default-parameter factory. It introduces no float-specific mode, parallel state mechanism, cast, or loosely typed API contract.
+- The checkbox now applies to both integer and float while the existing range-parameter classes retain their respective ownership. Refactoring pre-existing min/max field duplication would add unrelated churn without simplifying this extension.
+- The numeric E2E helper replaces duplicated integer/float workflows with one direct configuration, persistence, reopen, and run-form flow. It reduces repetition, retains the original integer coverage, and lets decimal inputs test the float behavior through the same public UI.
+- Float API coverage checks explicit list submission and conversion independently of editor presentation. No production test bypasses or feature-specific branches are added for it.
+- No file crosses 1,000 lines. `modules.py` and the E2E module were already above that boundary; the production extension is one net line in `modules.py`. The default-parameter factory stays small. No broad decomposition is warranted for this bounded follow-up.
+- No ad-hoc cross-layer feature checks, unnecessary wrappers, new orchestration, or non-atomic updates are introduced.
 
-## Recommendations deliberately not made
+## Deliberately excluded restructuring
 
-- Do not broaden this follow-up to centralize all runtime-default normalization or fix static-restriction preselection. Those are recorded independent concerns, and rewriting their ownership would obscure the bounded review fixes.
-- Do not replace the short, direct frontend normalization or numeric-checkbox extension with new abstractions; they would add concepts without deleting meaningful complexity.
-- Retain the documented empty-valued restricted-option limitation for the branch handoff. Changing the empty-entry policy would require a different validation contract and is outside this implementation's chosen alternative from Marius's review.
+Do not duplicate text fixes already inherited from the original branch, or pull runtime/subworkflow normalization and static-restriction defaults into this follow-up. The user explicitly approved the split into text fixes on the original branch and float support on this dependent branch.
 
-## Validation limit
+## Validation boundary
 
-This is a read-only quality audit. No tests were run by this reviewer. Behavioral verification, final E2E polishing, screenshot verification, and scope evaluation remain the implementing agent's separate checks.
+This is a read-only quality audit. Existing correctness, test-challenge, and E2E-polish evidence applies to the unchanged tree. Fresh focused API and browser checks and screenshot verification are recorded separately by the coordinator and screenshot debrief.

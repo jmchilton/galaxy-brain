@@ -1,30 +1,30 @@
-# Test challenges
+# Test challenges — float-only follow-up
 
-Added browser coverage for float multiple defaults and connected-option API coverage for numeric text defaults; replaced the new float module unit case with the browser regression and retained small tests of distinct parameter and component contracts.
+The split leaves float runtime API coverage and shared integer/float editor browser coverage on this follow-up; both test layers remain appropriate and no additional test code was warranted.
 
-## Review decisions
+## Reviewed scope
 
-- Read `doc/source/dev/writing_tests.md`, the client unit testing guidance in `client/README.md`, and the vault notes on E2E writing and Smart Components.
-- Restored the original integer-only module round-trip test. The added float unit parametrization duplicated the editor save/reload/run-form browser coverage and relied on test transaction scaffolding; the browser now exercises the complete float editor path.
-- Retained the new `FormValueList` scalar/list newline cases. They check rendered editable rows and emitted user edits, preserve commas and whitespace, and have no mocks. A full mount is justified because these assertions require the actual child text fields rather than stub internals.
-- Retained direct text parameter doctests for boolean rejection and required/optional `validate(None)`: they exercise the parameter contract without assuming a workflow request passes higher-level request validation first. Added a list-with-newline error-message example to verify that an existing list is not advised to pass a list.
-- Retained the numeric text `get_initial_value` example. It verifies text initial-value normalization; the connected-select API follows a separate option-preselection path, so neither test substitutes for the other.
-- Added a generic `multi_select_numeric` sample fixture, registered in `sample_tool_conf.xml`, with static string option values `1` and `2`. Its API regression imports an integer-valued text default list and asserts both runtime string defaults and matching selected options. Existing numeric options were nested single-selects and could not exercise the multiple selection path.
-- Added the float browser case and consolidated it with the existing integer range case. Both toggle multiple/default controls, enter distinct default rows and bounds, save, check persisted state, reopen the editor, and inspect run-form rows. These tests verify range persistence, not runtime rejection of an out-of-range value.
+Reviewed commit `67c403649842f32d534a148cd1384d8e297c0fea` against text correction parent `299a59367472389cd2aa8eda1b69c2f8b5b4b543`. The incremental delta contains exactly four files: the workflow module, workflow parameter input definitions, workflow API tests and workflow editor browser tests. Its full tree is identical to the previously validated combined commit `55ea1ee8f42ae8b6426c662184f38a844693b132`; the split changes ownership/base, not runtime behavior.
 
-## Validation
+The prior combined challenge and polish reports are archived in `earlier_drafts/1/`. Galaxy's writing-tests documentation, client unit testing guidance and the vault E2E/Smart Component notes informed those decisions and this refreshed attribution.
 
-- Initial float browser case: **1 passed** against Galaxy on port 8083 through Vite on port 5176, with three screenshots.
-- Connected numeric-text option API: **1 passed** with explicit `GALAXY_TEST_TOOL_CONF=test/functional/tools/sample_tool_conf.xml`. The first attempt skipped because default API startup lacked sample tools; the explicit configuration rerun exercised the regression.
-- `basic.py` doctests after the newline-list addition: **15 passed**.
-- Browser consolidation verification is recorded in `polish_e2e_tests_debrief.md`.
-- `git diff --check` passed.
+## Test decisions
 
-## Deliberately unchanged
+- Keep `test_run_with_multiple_float_parameter` at the API layer. It checks run-form type/multiple/default metadata, submits mixed numeric/string float entries, asserts persisted values are floats, and rejects a malformed entry with a named input error. These are observable workflow contracts rather than helper internals.
+- Keep `test_multiple_float_parameter_with_range` and its shared integer regression flow at the browser layer. They exercise the multiple/default controls, decimal bounds/default entries, persisted state, editor reopen and runtime rows. Fractional inputs distinguish the float behavior from integer handling. Browser checks verify range persistence; they do not claim runtime rejection of out-of-range values.
+- The old proposed float unit parametrization was already removed in favor of this complete editor browser coverage. No unit test files change in the final float-only delta, and no new mocks require replacement.
+- Preserve the existing integer test name and assertions through the shared helper. Its added reopening check provides regression coverage while avoiding duplicated numeric editor flows.
+- No new tests or implementation edits were needed during the fresh split review.
 
-- Existing upstream unit tests outside the new float parametrization were preserved; this pass does not redesign unrelated test suites.
-- The default/subworkflow normalization follow-up remains outside this branch's agreed scope.
+## Inherited coverage belongs to the original text PR
 
-## Coordinator follow-up
+The scalar/wrapped-list newline component cases, text boolean/None/error-guidance and initial-value doctests, numeric text connected-option API regression, and `multi_select_numeric` fixture/framework test are inherited unchanged from the parent. They are documented in the original text branch's fresh `test_challenges_debrief.md` and must not be represented as changes introduced by this float follow-up.
 
-A framework execution test caught a Cheetah builtin collision with the fixture parameter name `values`. Renamed it to `select_numeric`, including XML command/test references and the workflow API connection. The framework fixture test then passed; the final API suite validates the renamed fixture. This corrects the fixture without changing the branch scope.
+## Validation and attribution
+
+- Fresh post-rebase float API test: **1 passed in 24.06 seconds**, 401 deselected (`/private/tmp/gx-split-float-api.log`).
+- Previous shared integer/float Playwright run on the identical final tree: **2 passed in 39.28 seconds** (`/private/tmp/workflow_multiple_parameter_numeric_e2e_polish.log`). These remain valid same-tree regression evidence.
+- Previous test-file Black check passed. Fresh `git diff --check` against the text parent passed.
+- Float screenshots are regenerated separately for this split branch; that process records fresh browser execution and visual evidence in the screenshot review.
+
+The split does not reopen deferred default/subworkflow normalization or restricted empty-option handling.

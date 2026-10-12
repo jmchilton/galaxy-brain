@@ -11,12 +11,15 @@ PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e157
 - [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
 - [`workbook_import`](../../repositories/galaxy/branches/active/workbook_import/index.md) — Tests the rule builder mapping Galaxy infers from workbook headers, under Selenium and Playwright. [#23922](https://github.com/galaxyproject/galaxy/pull/23922).
-- [`issue_21015_multiple_text_param`](../../repositories/galaxy/branches/active/issue_21015_multiple_text_param/index.md) — Supports multiple text workflow parameters end to end (#21015). [#23992](https://github.com/galaxyproject/galaxy/pull/23992).
 - [`issue_19325_optional_select_test_docs`](../../repositories/galaxy/branches/active/issue_19325_optional_select_test_docs/index.md) — Documents unset optional selects and empty multiple-select lists in tool tests (#19325), with tests for each form. [#23959](https://github.com/galaxyproject/galaxy/pull/23959).
 - [`client_test_fixture_cleanup`](../../repositories/galaxy/branches/active/client_test_fixture_cleanup/index.md) — Corrects JobInformation message fixtures and removes duplicate CollectionProgress tests. [#24045](https://github.com/galaxyproject/galaxy/pull/24045).
 - [`playwright_drag_over_feedback`](../../repositories/galaxy/branches/active/playwright_drag_over_feedback/index.md) — Adds drag_over feedback checks and runs test_drag_drop_visual_feedback under Playwright. [#24010](https://github.com/galaxyproject/galaxy/pull/24010).
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 - [`ts_readme_render_fix_26.1`](../../repositories/galaxy/branches/active/ts_readme_render_fix_26.1/index.md) — Backports Tool Shed README rendering and sanitization, including old revisions, to release_26.1. [#24053](https://github.com/galaxyproject/galaxy/pull/24053).
+
+## Open Galaxy PRs — waiting for CI (`ci_wait`)
+
+- [`issue_21015_multiple_text_param`](../../repositories/galaxy/branches/active/issue_21015_multiple_text_param/index.md) — Supports multiple text workflow parameters; approved text review fixes pushed, new-head CI pending. [#23992](https://github.com/galaxyproject/galaxy/pull/23992).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -45,7 +48,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`workflow_multiple_parameter_review_followups`](../../repositories/galaxy/branches/active/workflow_multiple_parameter_review_followups/index.md) — Marius review follow-ups stacked on PR #23992: completes float lists and fixes text defaults/validation; local tests and required reviews pass, CI pending.
+- [`workflow_multiple_parameter_review_followups`](../../repositories/galaxy/branches/active/workflow_multiple_parameter_review_followups/index.md) — Float-only follow-up stacked on updated PR #23992; text fixes moved into the original PR as approved. Local checks and required reviews pass; new-head CI pending.
 - [`pulsar-explicit-imports`](../../repositories/galaxy/branches/active/pulsar-explicit-imports/index.md) — Updates the existing draft to published Pulsar 0.16.0 and removes temporary source-build settings. [#23898](https://github.com/galaxyproject/galaxy/pull/23898).
 - [`integration_ci_scope`](../../repositories/galaxy/branches/active/integration_ci_scope/index.md) — Selects costly plugin suites from changed paths; helpers and guide live beside integration tests. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:integration_ci_scope).
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes parameter framework tools XSD-valid and checks them in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).

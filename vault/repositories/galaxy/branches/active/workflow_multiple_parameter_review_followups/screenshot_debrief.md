@@ -1,23 +1,19 @@
-# Screenshot verification
-
-Screenshots successfully obtained. All five final captures were visually inspected and show the expected controls, values, and layout. No implementation fixes or committed test additions were needed for this verification.
+Screenshots successfully obtained. Three fresh captures on float-only head `67c403649842f32d534a148cd1384d8e297c0fea`, based on text head `299a59367472389cd2aa8eda1b69c2f8b5b4b543`, were visually inspected and show the expected float controls, saved decimal defaults, range values, and runtime rows. No blocker or implementation change was needed.
 
 ## Capture index
 
-| Screenshot | Verified content |
+| Screenshot | Verified behavior |
 | --- | --- |
-| [Float editor defaults](screenshots/workflow_editor_multiple_float_parameter_range_list_default.png) | Float type; multiple values enabled; separate 0.5 and 1.5 default rows; minimum 0.25 and maximum 2.5 visible together. |
-| [Float editor reopened](screenshots/workflow_editor_multiple_float_parameter_range_reloaded.png) | Saved version 2; float multiple setting, both default rows, and both decimal range bounds persist on reopening. |
-| [Float runtime form](screenshots/workflow_run_multiple_float_parameter_range.png) | Separate 0.5 and 1.5 runtime rows, Add value control, and valid field state. |
-| [Text newline default](screenshots/workflow_editor_multiple_text_newline_default_rows.png) | Imported scalar newline default renders as two editable text rows; comma remains part of the first entry. Browser assertions verify the leading and trailing spaces remain intact. |
-| [Text edited runtime form](screenshots/workflow_run_multiple_text_newline_default_edited.png) | After editing the second row and saving, runtime form presents distinct text rows with a comma retained in the first entry; browser assertions verify values are exactly `[' a,b', 'd']`. |
+| [Float editor defaults](screenshots/workflow_editor_multiple_float_parameter_range_list_default.png) | Float type; multiple values enabled; default rows 0.5 and 1.5; minimum 0.25 and maximum 2.5 visible together. |
+| [Float editor reopened](screenshots/workflow_editor_multiple_float_parameter_range_reloaded.png) | Saved version 2 retains the multiple setting, both decimal default rows, and both range bounds after reopening. |
+| [Float runtime form](screenshots/workflow_run_multiple_float_parameter_range.png) | Separate decimal runtime rows 0.5 and 1.5, Add value control, and valid field state. |
 
 ## Process and validation
 
-Read `vault/agents/_shared/GX_PROCESS_SCREENSHOTS.md` and `vault/research/Component - E2E Tests - Writing.md`. Used the Galaxy Playwright test infrastructure against the worktree's existing Vite server on port 5176 and Galaxy backend on port 8083.
+Followed `vault/agents/_shared/GX_PROCESS_SCREENSHOTS.md` and read `vault/research/Component - E2E Tests - Writing.md`. These captures replace the combined branch's screenshot evidence after the explicitly user-approved split; text normalization captures now belong to the original branch.
 
-The three initial float screenshots came from a successful focused E2E run, but the standard 1,000px viewport clipped range controls. A temporary pytest plugin changed only the capture-process viewport to 1,280 by 1,400 pixels and reran `test_multiple_float_parameter_with_range`, producing the three replacement float captures above. The same plugin added a temporary `test_screenshot_text_newline_default` method using the existing workflow-editor smart-component helpers. It imports a text-list input with scalar default `" a,b\nc "`, verifies the two initial rows, edits the second row to `d`, saves, and verifies the runtime form. This adds visual evidence for the frontend newline normalization without adding committed test scope.
+Started dedicated local Galaxy and Vite services from this rebased worktree on ports 8083 and 5176. Ran the committed `test_multiple_float_parameter_with_range` through Galaxy's headless Playwright infrastructure with timeout multiplier 2 and a temporary capture-only plugin setting a 1280 by 1400 viewport. The taller viewport keeps both bounds visible and avoids the clipping observed in earlier 1000px captures. No production code or committed tests were changed.
 
-Result: **2 passed in 37.24s**. The sole warning was an unrelated Google SDK deprecation warning. Both tests also passed the existing E2E decorator's accessibility checks. Captures were copied into this branch's ignored `screenshots/` directory and inspected with `view_image`.
+Result: **1 passed in 33.25s**, including the existing E2E accessibility check. The sole warning was an unrelated Google SDK deprecation. Inspected all three PNGs with `view_image` and copied them to this branch's ignored `screenshots/` directory. Raw run output: [float screenshot verification log](screenshots/verification.log). The verification agent stops only the local services it started.
 
-No screenshot blocker remains. These images verify editor and runtime presentation, not workflow execution; API and module checks cover submitted-list conversion and persistence separately.
+These images verify editor/runtime presentation and saved defaults; the coordinator's separate float API test verifies submitted-list conversion. The inherited text UI is documented and captured on `issue_21015_multiple_text_param`.
