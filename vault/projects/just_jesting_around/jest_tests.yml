@@ -103,6 +103,7 @@
   storybook_play: true
 - file: client/src/components/BaseComponents/GModal.test.ts
   iterated: 1
+  storified: skip
 - file: client/src/components/BaseComponents/GPopover.test.ts
 - file: client/src/components/BaseComponents/GTip.test.ts
 - file: client/src/components/BaseComponents/GToast.test.ts
