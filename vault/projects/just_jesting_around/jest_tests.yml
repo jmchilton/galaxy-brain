@@ -86,6 +86,7 @@
   storybook_play: true
 - file: client/src/components/BaseComponents/GDropdown.test.ts
 - file: client/src/components/BaseComponents/GDropdownItem.test.ts
+  storybook_play: true
   storified: true
   iterated: 1
 - file: client/src/components/BaseComponents/GLink.test.ts
