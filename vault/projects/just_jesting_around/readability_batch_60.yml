@@ -1,0 +1,54 @@
+iteration: 60
+seed: 2610960
+inventory_sha256: fe5b9303539c584173741b3bb3b5aa5123828432d03bbaa7489baf1f5289bab9
+branch: vitest_readability
+base_commit: bc3b5f773a059d2a19aa2be333d06ba53eaf246e
+remote_start_commit: bc3b5f773a059d2a19aa2be333d06ba53eaf246e
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts
+- file: client/src/components/Tool/ToolHelpRst.test.js
+- file: client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts
+- file: client/src/components/ToolRecommendation.test.ts
+selection_notes: N=4; seeded 277 eligible existing uniterated files; later-lane true
+  and known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 10
+  assertions: 30
+validation:
+  passed_cases: 10
+  assertions: 30
+  skipped_cases: 0
+  shuffle_seed: 600101
+  independent_seed: 600201
+  max_workers: 1
+  node: 22.20.0
+  coverage: no covered source location lost; actual GPopover separately retained
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings;
+    shared vault retains unrelated empty reviews/Untitled.md
+  client_vue_tsc: passed
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain four origins
+push: fast-forward
+pushed_head: 9b952a0b874de984c631e217445e3298042500eb
+github:
+  pr: 24038
+  draft: true
+  mergeable: UNKNOWN
+  status: ci_wait
+commits:
+- 9b952a0b874de984c631e217445e3298042500eb Own step header accessibility test lifecycle
+- 24a57b3a455e20d4e3b0585f8bbbf1b474412d62 Own object store dropdown mounts and request
+  captures
+- 275b9a5cf4ab193e475747b60daf42434827ed0f Own tool help test cleanup and native mounts
+- b3f88bddbd704c8ccda4351c12e6a55df7b50a62 Own recommendation test wrappers and use
+  a real datatype fixture

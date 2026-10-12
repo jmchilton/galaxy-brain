@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `bc3b5f773a059d2a19aa2be333d06ba53eaf246e`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `9b952a0b874de984c631e217445e3298042500eb`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -121,3 +121,10 @@ Fast-forward pushed `ee56ad6a3715b5b792d5537e84dc9f2446920d2e`; GitHub confirms 
 Four origins: visualizations API, SingleItemSelector, GForm and Tool Shed ManagePushAccess. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_59.md), [manifest](../../../../../projects/just_jesting_around/readability_batch_59.yml) and [reviews](../../../../../projects/just_jesting_around/reviews/batch59/test_challenges.md). All 33 original checks retained; one strict native-event identity check added. Twenty client cases plus one Tool Shed case pass, both frontend types and file lint/format/hooks pass. Every covered source location retained, including actual shared form and supplemental identical installed button source. Normal review requested strict identity instead of deep event matching; corrected and folded before publication. Selector title corrected to its original loading-message assertion. Independent normal, challenge, strict and scope reviews approve four tests only. No shared/helper/supporting/production/documentation/E2E/screenshot changes or new advice.
 
 Fast-forward pushed `bc3b5f773a059d2a19aa2be333d06ba53eaf246e`; GitHub confirms exact head and draft, checks and mergeability initially recalculating; ci_wait. Origin counters after push; downstream unchanged. Shared vault retains the unrelated empty reviews/Untitled.md validation error; isolated Markdown snapshot excluding only that scratch note passes 122 files with zero errors and 15 existing warnings. Records local only.
+
+
+## Readability loop batch 60 — 2026-10-12
+
+John authorized continuous loops while away. Four originators (invocation step header, ToolHelpRst, object-store dropdown, ToolRecommendation); [report](../../../../../projects/just_jesting_around/READABILITY_BATCH_60.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_60.yml). All ten cases and 30 original checks retained; source coverage exact or increased, including actual shared GPopover. Native typed mounts, owned wrapper/Pinia/DOM cleanup, real datatype fixture and complete request capture improve readability without production/shared changes. Integrated shuffled gate, full client types, hooks, independent normal/strict/challenge/scope reviews pass. No screenshots/E2E needed.
+
+Fast-forward pushed `9b952a0b874de984c631e217445e3298042500eb`; exact GitHub head/draft verified, CI recalculating. Prior-head backend reds diagnosed as Pulsar dependency import errors and a tool timeout; [evidence](../../../../../projects/just_jesting_around/reviews/batch60/ci_observation.md). Four counters updated only after push. Vault local only; isolated snapshot passes122files/zeroerrors/15existingwarnings, preserving unrelated empty Untitled.md in shared vault. Downstream unchanged; ci_wait.

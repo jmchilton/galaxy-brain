@@ -1,0 +1,17 @@
+# Batch 60 — strict maintainability review
+
+Driver action: approve; no structural or type-boundary changes needed. Reviewed all four originators at canonical 9b952a0b874 against pinned base bc3b5f773a059d2a19aa2be333d06ba53eaf246e under the shared thermo-nuclear code-quality prompt, current README, and REVIEW_FOCUS. The four independent normal reviews are complete, including ToolHelpRst reviewed by a different agent from its author. All ten cases and 30 original checks remain.
+
+## Details
+
+Recommendation replaces shared mutable wrapper ownership with a returned local wrapper and automatic unmount. Native inferred mounting removes casts. The existing real DatatypesMapperModel replaces the empty-object type assertion, preserving the separate compatibility-filter mock and prediction fixture. This makes the type boundary truthful without adding a new factory or a needless fixture abstraction. Failure scenarios still override only the dependency under test and retain their original messages and zero-node checks.
+
+Object-store dropdown keeps its two short arrangements and canonical instance factory. Native shallow mounting and required stub lookup make the component boundary direct. Capturing an array of unknown JSON bodies rather than overwriting one cast result removes unchecked assumptions and requires exactly one request with the original body. Unknown is appropriate at this unvalidated request boundary; deep equality supplies the shape check. The redundant server reset is removed in favor of canonical useServerMock teardown. Module mocks remain unchanged, so there is no wider abstraction or mocking churn.
+
+ToolHelpRst keeps complete readable input/output HTML fixtures and two direct mounts. Native mount options, a precise scenario name, and required help lookup improve clarity. Clearing owned sanitizer call history preserves the shared pass-through implementation, and automatic unmount runs before that restoration hook. A separate fixture builder or mount factory would add indirection to two short, different arrangements. The independent normal review confirms both complete original checks remain.
+
+Workflow invocation header makes DOM ownership explicit with a dedicated attachment node, native typed props, and a testing Pinia that is disposed after unmount. Removing only its own node replaces blanket body deletion. Completing required workflow-step fields closes the declared type boundary without changing the tool-popover branch. The trigger lookup is scoped to the wrapper, while the actual teleported popover retains its role/ID/ARIA checks. No bespoke lifecycle framework or new shared helper is justified for this single focused mount.
+
+All changed files remain small: 89, 62, 86, and 54 lines respectively. No production code, shared helpers, supporting tests, dependencies, ad-hoc feature branches, nullable modes, or orchestration layers are added. Existing canonical helpers provide mounting, fixtures, MSW, and wrapper cleanup. Additional generalization would obscure four distinct contracts rather than delete meaningful complexity. No obvious ambitious restructuring within this scope would improve the resulting design.
+
+Independent shuffled checks retain each suite's contracts; driver combined verification passes ten cases, full client types, and explicit hooks. Coverage retains every original covered source location. No substantive maintainability findings, unresolved review actions, or evidence-backed README additions remain.
