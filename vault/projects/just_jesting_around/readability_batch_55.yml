@@ -1,0 +1,54 @@
+iteration: 55
+seed: 2610955
+inventory_sha256: 92fd656ce73462f970d52e69b9049d567b4ce6b5f6f5e2120eb3589322eb6c81
+branch: vitest_readability
+base_commit: d2d109c6307d139d462d26b35d9488ef30fb006b
+remote_start_commit: d2d109c6307d139d462d26b35d9488ef30fb006b
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js
+- file: lib/tool_shed/webapp/frontend/src/util.test.ts
+- file: client/src/components/Form/Elements/FormHidden.test.js
+- file: client/src/api/histories.test.ts
+selection_notes: N=4; seeded eligible existing uniterated files; no later-lane true
+  fields; known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  cases: 18
+  assertions: 36
+validation:
+  passed_cases: 18
+  assertions: 36
+  skipped_cases: 0
+  client_vue_tsc: passed
+  toolshed_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: No covered source location lost in all four originator comparisons
+  shuffle_seed: 550101
+  max_workers: 1
+  node: 22.20.0
+  independent_review: approved after preserving original exposed-value assertions
+  test_challenge: passed
+  maintainability: passed
+  scope: retain four origins
+push: fast-forward
+pushed_head: 883b6e0bef7c594ed1b16f5ea22922535803e48d
+github:
+  pr: 24038
+  draft: true
+  mergeable: UNKNOWN
+  status: ci_wait
+commits:
+- sha: 883b6e0bef7c594ed1b16f5ea22922535803e48d
+  test: Isolate Tool Shed utility test browser state
+- sha: dabcd17de82e709c49fc74e8bd4d4e13cd8e4384
+  test: Clarify dataset detail transitions and own mount cleanup
+- sha: 8d93219cfe27daab0c407327d9ac7573d04dec06
+  test: Use typed history fixtures and assert single listing requests
+- sha: fae76007986dc9cf9260bb6116e7def2bcc70cb1
+  test: 'test: Clarify hidden form value transition and own teardown'
