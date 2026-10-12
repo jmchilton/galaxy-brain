@@ -1,0 +1,54 @@
+iteration: 58
+seed: 2610958
+inventory_sha256: 6c3be84c423f2313dc39eb2e910ffb3cf30eaafebc53461b4875b45e6a37c59a
+branch: vitest_readability
+base_commit: 59f471a92924266a30e4aa849b7b15e9539c16e7
+remote_start_commit: 59f471a92924266a30e4aa849b7b15e9539c16e7
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/User/DiskUsage/DiskUsageSummary.test.ts
+- file: client/src/components/Workflow/List/useWorkflowCardActions.test.ts
+- file: client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts
+- file: client/packages/ui/src/portableImports.test.ts
+selection_notes: N=4; seeded eligible existing uniterated files; later-lane true and known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 16
+  assertions: 38
+validation:
+  passed_cases: 16
+  assertions: 38
+  skipped_cases: 0
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: no covered source location lost in all four originator comparisons
+  shuffle_seed: 580101
+  independent_seed: 580201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain four origins
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings; shared vault has unrelated empty reviews/Untitled.md
+push: fast-forward
+pushed_head: ee56ad6a3715b5b792d5537e84dc9f2446920d2e
+github:
+  pr: 24038
+  draft: true
+  mergeable: UNKNOWN
+  status: ci_wait
+commits:
+- sha: ee56ad6a3715b5b792d5537e84dc9f2446920d2e
+  test: "Own disk usage summary test state and timers"
+- sha: 68bd0658d6eeb8510b100b46c517011ca6dcd740
+  test: "Own workflow card action test stores and effects"
+- sha: e5c15d390e4fdc28dc69b05d939fd426d4558d7d
+  test: "Use typed native mounts for quota usage scenarios"
+- sha: 22d88ba551e5d49e94d3bbc7251a95d2fcaf5972
+  test: "test: Type portable UI sources and scan file-content pairs"

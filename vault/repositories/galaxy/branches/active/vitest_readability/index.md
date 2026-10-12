@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `59f471a92924266a30e4aa849b7b15e9539c16e7`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `ee56ad6a3715b5b792d5537e84dc9f2446920d2e`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -107,3 +107,10 @@ Fast-forward pushed `5eeeb57ef4d887b72b64c71377eb72e3dc5def08`; GitHub exacthead
 Four origins: history services, WindowManagerWindow, ConfirmDialog and SavedRulesSelector. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_57.md), [manifest](../../../../../projects/just_jesting_around/readability_batch_57.yml) and [reviews](../../../../../projects/just_jesting_around/reviews/batch57/test_challenges.md). All46original checks preserved/strengthened plus2requestcounts;17cases pass. Fullclienttypes/lint/format/hooks pass; all coveredlocations retained, three window-unmountlocations added. Independent normal/challenge/strict/scope approve fourtests only. Review's inherited save-timer observation resolved with scoped fake timers discarded after unmount. No helper/supporting/production/docs/E2E/screenshots changes or new advice.
 
 Fast-forward pushed `59f471a92924266a30e4aa849b7b15e9539c16e7`; GitHub verifies exacthead/draft/MERGEABLE, checks queued/running; ci_wait. Origin counters afterpush; downstream unchanged. Vault workspace has unrelated empty reviews/Untitled.md validation error; isolated snapshot excluding only that scratch note passes122fileszeroerrors15existingwarnings. Records localonly.
+
+
+## Readability loop batch 58 — 2026-10-12
+
+Four origins: DiskUsageSummary, workflow card actions, QuotaUsageBar and portable UI imports. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_58.md), [manifest](../../../../../projects/just_jesting_around/readability_batch_58.yml) and [reviews](../../../../../projects/just_jesting_around/reviews/batch58/test_challenges.md). All38original checks/16cases preserved; fullclienttypes/lint/format/hooks pass. No coveredlocations lost; actualmonitor-disposal addsnine. Staticportability probes eachcatchtheir intendedregression, productionrestored. Independent normal/challenge/strict/scope approve fourtests only; no helper/supporting/production/docs/E2E/screenshots changes or new advice.
+
+Fast-forward pushed `ee56ad6a3715b5b792d5537e84dc9f2446920d2e`; GitHub exacthead/draft confirmed, checks/mergeability initiallyrecalculating; ci_wait. Origin counters afterpush; downstream unchanged. Sharedvault retainsunrelatedemptyreviews/Untitled.md validationerror; isolated Markdown snapshot excludingonlythatscratchnote passes122fileszeroerrors15existingwarnings. Records localonly.

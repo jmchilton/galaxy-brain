@@ -1,0 +1,13 @@
+# Batch 58 — strict maintainability review
+
+Reviewed canonical `59f471a92924266a30e4aa849b7b15e9539c16e7..ee56ad6a3715b5b792d5537e84dc9f2446920d2e` under the shared thermo-nuclear code-quality prompt, including relevant component/composable source and shared ownership helpers. Approve; no blocking structural, abstraction, boundary, branching, or file-size findings. Four test files change, with 68 inserted and 67 removed lines; production and shared helpers are unchanged.
+
+Portable import checks replace a whole-result cast with Vite's typed raw glob and iterate source entries directly, eliminating repeated indexing and non-null assertions. The source inventory, exclusion pattern, banned-specifier data, regexes, minimum inventory-size guard, and offender diagnostics remain. Keeping the existing checks inline avoids creating an unnecessary portability-scanner abstraction for this small suite.
+
+QuotaUsageBar keeps all original exposed-state and rendered-output assertions while removing the component/object and instance/any casts through native inferred mount types. Global plugin configuration is now supplied through the supported mount boundary. Auto-unmount owns wrapper teardown. The exposed computed checks were not removed merely because rendered checks also exist; deleting them would reduce the original contract.
+
+DiskUsageSummary uses an owned real Pinia through withPlugins, targets its user store explicitly, and disposes it on completion. Fake timers are scoped per test, and auto-unmount precedes clearing timers and restoring real timers. The four scenarios remain direct, including the meaningful PENDING-to-SUCCESS polling transition. The local mount helper earns its scope by gathering typed server responses and store setup needed by every case, without hiding expected display values.
+
+Workflow card actions preserve setup-before-user-load timing and exact ordered list/editor arrays, including duplicate external-link IDs. The existing workflow/user factories and runInTestScope own typed fixtures and computed lifetimes. Real Pinia creation/disposal is explicit at each scenario boundary; the local setup/user helpers are small domain arrangements rather than new shared layers. Keeping both layouts in the original test retains its list-to-editor comparison context.
+
+No file approaches 1,000 lines, no production condition is added, and no canonical helper is duplicated. These distinct source-scanning, mounted-component, polling, and pure-composable contracts do not justify a generalized test harness. No worthwhile missing guidance was demonstrated; no README or marginal advice addition requested.
