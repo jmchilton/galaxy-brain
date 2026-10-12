@@ -1,0 +1,55 @@
+iteration: 61
+seed: 2610961
+inventory_sha256: d3bba14a5be3d1fa45c211c44134d3c9d35ce1d22d99bbd504acd200264d121d
+branch: vitest_readability
+base_commit: 9b952a0b874de984c631e217445e3298042500eb
+remote_start_commit: 9b952a0b874de984c631e217445e3298042500eb
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/Tool/schemaMarkdown.test.ts
+- file: client/src/components/Workflow/List/CuratedWorkflowList.test.ts
+- file: client/src/components/Form/FormMessage.test.js
+- file: client/src/components/admin/Notifications/NotificationForm.test.ts
+selection_notes: N=4; seeded 273 eligible existing uniterated files; later-lane true
+  and known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 31
+  assertions: 94
+validation:
+  passed_cases: 31
+  assertions: 95
+  skipped_cases: 0
+  shuffle_seed: 610101
+  independent_seed: 610201
+  max_workers: 1
+  node: 22.20.0
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: zero covered source locations lost; actual shared UI separately retained
+  independent_review: approved
+  test_challenge: passed
+  scope: retain four origins
+  client_vue_tsc: passed
+  maintainability: passed
+  vault_validation: isolated snapshot 122 files, zero errors, 15 existing warnings;
+    shared vault retains unrelated empty reviews/Untitled.md
+push: fast-forward
+pushed_head: 4451d737bde7225529f3c476ef48299c6e921b27
+github:
+  pr: 24038
+  draft: true
+  mergeable: UNKNOWN
+  status: ci_wait
+commits:
+- 4451d737bde7225529f3c476ef48299c6e921b27 Own notification form test mounting and
+  cleanup
+- 952ff44baab67642caa421a4df218f46893b6ddf Own curated list test stores routers and
+  component cleanup
+- cbdb2a7838ffc419cd8592206b8bd8b7261136cc Check nested schema descriptions remain
+  unmodified
+- 97dacf6c335c8f615ced65bd9ff6f84cf56a4b68 Own form message timers and scenario wrappers

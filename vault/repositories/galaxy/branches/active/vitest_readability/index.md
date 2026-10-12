@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `9b952a0b874de984c631e217445e3298042500eb`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `4451d737bde7225529f3c476ef48299c6e921b27`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -128,3 +128,10 @@ Fast-forward pushed `bc3b5f773a059d2a19aa2be333d06ba53eaf246e`; GitHub confirms 
 John authorized continuous loops while away. Four originators (invocation step header, ToolHelpRst, object-store dropdown, ToolRecommendation); [report](../../../../../projects/just_jesting_around/READABILITY_BATCH_60.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_60.yml). All ten cases and 30 original checks retained; source coverage exact or increased, including actual shared GPopover. Native typed mounts, owned wrapper/Pinia/DOM cleanup, real datatype fixture and complete request capture improve readability without production/shared changes. Integrated shuffled gate, full client types, hooks, independent normal/strict/challenge/scope reviews pass. No screenshots/E2E needed.
 
 Fast-forward pushed `9b952a0b874de984c631e217445e3298042500eb`; exact GitHub head/draft verified, CI recalculating. Prior-head backend reds diagnosed as Pulsar dependency import errors and a tool timeout; [evidence](../../../../../projects/just_jesting_around/reviews/batch60/ci_observation.md). Four counters updated only after push. Vault local only; isolated snapshot passes122files/zeroerrors/15existingwarnings, preserving unrelated empty Untitled.md in shared vault. Downstream unchanged; ci_wait.
+
+
+## Readability loop batch 61 — 2026-10-12
+
+Continuous run, four origins: schemaMarkdown, CuratedWorkflowList, FormMessage, NotificationForm. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_61.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_61.yml). All31cases and94originalchecks preserved, plus mutation-proven nested non-mutation assertion (95finalchecks). Owned native mounts, wrappers/timers/Pinia/router cleanup, canonical partial-response boundary; no production/helper/support/docs changes. Every covered source location retained including actual sharedUI; final shuffled run, full integratedtypes, hooks, independent normal/strict/challenge/scope approve. Screenshots/E2E not relevant.
+
+Fast-forward published `4451d737bde7225529f3c476ef48299c6e921b27`, GitHub exacthead/draft confirmed; ci_wait. Four origin counters afterpush, downstream unchanged, vaultlocalonly. Sharedvault unrelatedUntitled error preserved; isolatedsnapshot122files/zeroerrors/15existingwarnings.
