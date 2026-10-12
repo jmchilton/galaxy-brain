@@ -1,0 +1,4 @@
+- Reject obsolete flat nested inputs in workflow `when` expressions
+- Catch obsolete workflow `when` input paths on import and update
+- Prevent silent `when` errors from flat nested tool-input references
+- Validate obsolete nested tool-input spellings when saving workflows
