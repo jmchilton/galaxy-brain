@@ -660,6 +660,7 @@
   storybook_play: skip
 - file: client/src/components/Panels/ToolBoxSearch.test.ts
   iterated: 1
+  storified: true
 - file: client/src/components/Panels/ToolPanel.test.ts
   iterated: 1
   split_commit: true
