@@ -19,3 +19,7 @@ Browser E2E polishing and screenshots are inapplicable: there are no added/modif
 ## Handoff
 
 Ready for final human review. The human must read tests/comments, select a title and decide whether to reopen closed #23817 or use a fresh PR. No PR was reopened or created, no PR body or comment was posted to GitHub, and no SHA approval was inferred. All code fixes are committed and pushed; tracking artifacts are being synced separately to galaxy-brain main.
+
+## User-requested test cleanup — 2026-10-12
+
+After polish, John requested reducing expensive API combinations. All 22 variants now live in backend analyzer parametrizations, leaving six representative API methods. The 29-test focused suite, lint/format/import checks and commit hooks pass. Fresh normal review, test challenge and general/workflow checklist reevaluation found no remaining issues. Pushed head: `9b008a0f5199e4a434cf3373d9ece44d0db6ad22`; fork CI is pending. Updated the description's counts, challenge summary and runner selectors. The one strengthening round was not repeated. Branch remains ready for final human review, with no SHA approval.
