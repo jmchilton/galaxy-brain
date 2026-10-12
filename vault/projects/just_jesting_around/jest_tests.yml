@@ -454,6 +454,7 @@
 - file: client/src/components/HistoryExport/Index.test.js
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/HistoryExport/ToLink.test.js
 - file: client/src/components/HistoryExport/ToRemoteFile.test.js
   iterated: 1
