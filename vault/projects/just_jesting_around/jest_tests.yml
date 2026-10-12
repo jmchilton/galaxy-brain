@@ -63,6 +63,7 @@
 - file: client/src/api/visualizations.test.ts
   storified: skip
 - file: client/src/api/workflows.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/app/app.test.js
   iterated: 1
@@ -123,6 +124,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/wizard/fetchWorkbooks.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/CommandPalette/CommandPalette.test.ts
@@ -216,6 +218,7 @@
 - file: client/src/components/ConfigTemplates/formUtil.test.ts
   storified: skip
 - file: client/src/components/ConfigTemplates/useConfigurationTesting.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/ConfirmDialog.test.ts
 - file: client/src/components/DataDialog/DataDialog.test.js
@@ -444,6 +447,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/HistoryExport/Index.test.js
+  iterated: 1
 - file: client/src/components/HistoryExport/ToLink.test.js
 - file: client/src/components/HistoryExport/ToRemoteFile.test.js
   iterated: 1

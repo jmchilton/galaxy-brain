@@ -1,0 +1,11 @@
+# Batch 56 test challenges
+
+Approved after reviewing the four originator diffs, relevant source, Galaxy's writing-tests guidance and client practices against the test-challenge prompt. The user's explicit instruction to preserve existing tests and assertions takes precedence over the prompt's suggestion to drop small tests. No original check or state transition was removed or weakened.
+
+Configuration testing still awaits submission through the real API client and checks failed connection or failed request errors, force-action availability and absence of the update request. These are user-facing submission outcomes, rather than assertions of private methods. Its narrow routing mock replaces a cast without changing behavior, and computed effects now belong to the test scope. The factory supplies exactly the original instance values.
+
+Workflow tests inspect the actual intercepted request, retaining omitted and explicit `show_shared` plus search passthrough. Requiring one request prevents missing or duplicate calls from passing parameter checks. Workbook tests retain the exact row, mapping and target assertions and every specification entry, while retaining the original null-to-undefined conditional (the current forty YAML rows all specify non-null targets). Separate cases make later entries execute even if an earlier entry fails; this improves failure isolation without duplicating the mapping implementation.
+
+History Export retains its original smoke-test boundary: export tabs exist with writable file sources. This is a limited render check and does not claim to verify export execution, real child content or downloads. Its shallow children and file-sources mock remain appropriate for the retained contract; the rewrite improves owned plugins and teardown. There is no new feature or production change that warrants adding browser flows in this readability batch.
+
+No noop mock, new helper, production restructuring, API/integration replacement or mutation is needed for these changes. Existing shared factories, MSW lifecycle, effect scope and native plugin helpers already address the concrete setup needs. Baseline/final coverage comparisons and independent normal-review runs are the preservation evidence; no unresolved challenge remains.

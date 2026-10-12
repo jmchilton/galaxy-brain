@@ -1,0 +1,55 @@
+iteration: 56
+seed: 2610956
+inventory_sha256: ce5134d000249fe15af32c7cfbb607c0214e714dde50d092dd935b117f9851d4
+branch: vitest_readability
+base_commit: 883b6e0bef7c594ed1b16f5ea22922535803e48d
+remote_start_commit: 883b6e0bef7c594ed1b16f5ea22922535803e48d
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+status: reviewed
+selection:
+- file: client/src/components/ConfigTemplates/useConfigurationTesting.test.ts
+- file: client/src/components/Collections/wizard/fetchWorkbooks.test.ts
+- file: client/src/components/HistoryExport/Index.test.js
+- file: client/src/api/workflows.test.ts
+selection_notes: N=4; seeded eligible existing uniterated files; no later-lane true
+  fields; known DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 8
+  assertions: 56
+validation:
+  passed_cases: 47
+  assertions: 58
+  skipped_cases: 0
+  case_count_note: forty original YAML rows now independently reported cases
+  client_vue_tsc: passed
+  eslint: passed
+  prettier: passed
+  hooks: passed
+  coverage: No covered source location lost in all four originator comparisons
+  shuffle_seed: 560101
+  max_workers: 1
+  node: 22.20.0
+  independent_review: approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain four origins
+  vault_validation: 122 files, zero errors, 15 existing warnings
+push: fast-forward
+pushed_head: 5eeeb57ef4d887b72b64c71377eb72e3dc5def08
+github:
+  pr: 24038
+  draft: true
+  mergeable: UNKNOWN
+  status: ci_wait
+commits:
+- sha: 5eeeb57ef4d887b72b64c71377eb72e3dc5def08
+  test: Report shared workbook column specifications as named cases
+- sha: 0cd1f33fad6bdd45844b59bb2cb17df266a482d9
+  test: 'test: Own configuration composable effects and reuse object store fixture'
+- sha: 6ca6f8fef366502e3651caee67e01dfbf92b358d
+  test: Own History Export test plugins and teardown
+- sha: 77f0e050878b3e4b11fd484fb7898674ecfa5d2d
+  test: 'test: Type workflow query mocks and require one request'

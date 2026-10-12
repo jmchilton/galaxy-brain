@@ -1,0 +1,9 @@
+# Fetch workbooks readability review — batch 56
+
+Converted the existing shared YAML specification loop into `it.each<SpecificationTest>` cases named by their existing human-authored `doc` descriptions. Each of the forty original rows retains the same call and the same `toBeUndefined` or `toBe` assertion, while failures identify the individual row and remaining rows still run after another row fails. The original specification file, also consumed by backend tests, is unchanged. Using its distinct descriptions also distinguishes rows with the same header and expected mapping, as the driver review noted.
+
+Renamed the builder scenario to describe mapping dataset rows and column positions into the rule builder. Its complete typed workbook fixture and all three assertions are unchanged. No suitable shared workbook factory exists among the current concrete consumers, and this single inline arrangement needs no new helper.
+
+Original: 2 declared cases, 43 executed assertions (3 builder assertions plus 40 specification rows). Rewritten: 41 independently reported cases, the same 43 executed assertions. Baseline and final pass under shuffled seed 560101 with one worker. V8 Istanbul-format coverage JSON retains all 50 covered statement/function/branch-arm locations across 4 files, with zero lost or added locations. Evidence: `/private/tmp/readability56-workbooks-{before,after}/coverage-final.json`, `/private/tmp/readability56-workbooks-{baseline,final}.log`.
+
+The README already recommends `it.each` for independent combinations and keeping inputs and expected results visible. No guidance change, supporting edit, production edit or shared abstraction is warranted. Full client `vue-tsc --noEmit --pretty false` and all required repository hooks passed (exit 0) before commit; logs: `/private/tmp/readability56-workbooks-{typecheck,hooks}.log`.
