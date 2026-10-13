@@ -8,6 +8,7 @@ PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e157
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515). [#24106](https://github.com/galaxyproject/galaxy/pull/24106).
 - [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
 - [`workbook_import`](../../repositories/galaxy/branches/active/workbook_import/index.md) — Tests the rule builder mapping Galaxy infers from workbook headers, under Selenium and Playwright. [#23922](https://github.com/galaxyproject/galaxy/pull/23922).
@@ -31,6 +32,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`dangling_when_lint`](../../repositories/galaxy/branches/active/dangling_when_lint/index.md) — Warns about disconnected workflow when-inputs and gives them editor ports. [#24107](https://github.com/galaxyproject/galaxy/pull/24107).
 - [`workflow_multiple_parameter_review_followups`](../../repositories/galaxy/branches/active/workflow_multiple_parameter_review_followups/index.md) — Adds multiple float workflow parameters and decimal list defaults in the editor. [#24108](https://github.com/galaxyproject/galaxy/pull/24108).
 
 - [`workbook_import_followups`](../../repositories/galaxy/branches/active/workbook_import_followups/index.md) — Strengthens workbook import tests with exact template parameters, split-row contents, and collection-mode checks. [#24105](https://github.com/galaxyproject/galaxy/pull/24105).
@@ -80,11 +82,12 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/active/playwright_timeout_retry_once/index.md) — `retry_call_during_transitions` retries a Playwright timeout once, not ten times (partly reverts `2825bb09e42`); pulled from `galaxy_ui_driver`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:playwright_timeout_retry_once?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-
+- [`upload_datatypes_composable`](../../repositories/galaxy/branches/active/upload_datatypes_composable/index.md) — Replaces upload datatype/dbkey providers with composables and shows load failures instead of empty selectors. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upload_datatypes_composable?expand=1).
+- [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/active/playwright_timeout_retry_once/index.md) — Retries Playwright timeouts once during transitions; partly reverts 2825bb09e42. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:playwright_timeout_retry_once?expand=1).
 - [`issue_23424_when_expression_validation`](../../repositories/galaxy/branches/active/issue_23424_when_expression_validation/index.md) — Rejects obsolete flat nested tool-input references when importing or updating workflows. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23424_when_expression_validation?expand=1).
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs, and lets the run form submit an allowed `""` (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_23977_client_api_fanout_26.1?expand=1).
@@ -94,10 +97,7 @@ None yet.
 - [`issue_23521_conditional_case_resolution`](../../repositories/galaxy/branches/active/issue_23521_conditional_case_resolution/index.md) — Rejects conditional cases that resolve to nothing instead of running the last when-case (#23521). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_23521_conditional_case_resolution?expand=1).
 - [`it_container_epilog_docs`](../../repositories/galaxy/branches/active/it_container_epilog_docs/index.md) — Documents a Slurm epilog for killing leftover Interactive Tool containers (#13511). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:it_container_epilog_docs?expand=1).
 - [`issue_23891_output_reference_resolver`](../../repositories/galaxy/branches/active/issue_23891_output_reference_resolver/index.md) — Resolves format_source and metadata_source against declared inputs at tool load (#23891). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23891_output_reference_resolver?expand=1).
-- [`dangling_when_lint`](../../repositories/galaxy/branches/active/dangling_when_lint/index.md) — Warns about disconnected workflow when-inputs and gives them editor ports. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:dangling_when_lint?expand=1).
 - [`issue_18642_framework_tool_coverage`](../../repositories/galaxy/branches/active/issue_18642_framework_tool_coverage/index.md) — Adds drill_down framework coverage, fixes relative from_file modeling and deprecates from_file (#18642). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_18642_framework_tool_coverage?expand=1).
-- [`upload_datatypes_composable`](../../repositories/galaxy/branches/active/upload_datatypes_composable/index.md) — Replaces upload datatype/dbkey providers with composables and shows load failures instead of empty selectors; stacked on #23995. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upload_datatypes_composable?expand=1).
-- [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_15515_related_filter_copied_items?expand=1).
 
 ## Galaxy branches — approved, opens when green (`branches_need_pr`)
 

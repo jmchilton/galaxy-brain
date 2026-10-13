@@ -1,6 +1,6 @@
 # playwright_timeout_retry_once
 
-Status: `branches_need_polish`. Base: `dev` (`63192fd64e4`). No PR. Head: `28a5648195e8427555d362edb46ea4dd2edf9a9f`.
+Status: `branches_ready_for_final_review`. Base: `dev` (`63192fd64e4`). No PR. Head: `28a5648195e8427555d362edb46ea4dd2edf9a9f`.
 
 `retry_call_during_transitions` retries a Playwright timeout once rather than ten times.
 
@@ -20,4 +20,6 @@ Previous head `7682a9a4e09`: 48 successful fork checks, two skipped, no failures
 
 Both retry tests pass. An isolated pytest plugin replaced only the helper with the actual current `dev` function: timeout test fails at `assert 12 == 2`, stale-element test passes. No project files were edited for the red check. Black, isort and diff whitespace checks pass.
 
-[Polishing checklist](polish_checklist.md) · [Strengthening round](polish_strengthening.md) · [PR description](pr_description.md) · [Titles](pr_titles.md). Independent checklist passed; one strengthening round found nothing to add. Broader shared-driver tests are running; no description-driven code changes were required.
+[Polishing checklist](polish_checklist.md) · [Strengthening round](polish_strengthening.md) · [PR description](pr_description.md) · [Titles](pr_titles.md). Independent checklist passed; one strengthening round found nothing to add. The shared-driver/retry run finished with 390 passed and one skipped. No description-driven code changes were required. [Final polishing debrief](polish_debrief.md).
+
+Final-review handoff: fork CI on `28a5648195e` has seven successful checks, two skipped, nine running, and 30 queued, with no failures at the final refresh. Human-read checklist remains unchecked; no PR opened.

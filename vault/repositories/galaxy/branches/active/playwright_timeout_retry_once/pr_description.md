@@ -76,7 +76,7 @@ The review inspected the driver backends, proxy, elements, wait helpers, unit te
 
 <details><summary>Validation</summary>
 
-Run `pytest test/unit/selenium/test_retry_during_transitions.py`. Both tests pass on the rebased branch. The implementation records the failing-base check and broader driver-suite coverage. All checks that ran on the previous head passed; the conflict-free rebase starts fresh fork CI.
+Run `pytest test/unit/selenium/test_retry_during_transitions.py`. Both tests pass on the rebased branch. A fresh isolated run with the current `dev` helper fails at `assert 12 == 2`, while the stale-element test passes. The shared-driver/retry run passed 390 tests with one skipped. Black, isort and whitespace checks passed. All checks that ran on the previous head passed; fresh fork CI after the clean rebase has no failures so far and remains queued/in progress.
 
 </details>
 
