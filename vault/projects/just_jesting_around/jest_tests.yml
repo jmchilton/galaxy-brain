@@ -220,6 +220,7 @@
 - file: client/src/components/Common/RenameModal.test.ts
   iterated: 1
 - file: client/src/components/Common/SaveChangesModal.test.ts
+  storified: true
   iterated: 1
 - file: client/src/components/Common/SidebarList.test.ts
   iterated: 1
