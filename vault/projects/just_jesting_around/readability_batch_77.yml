@@ -1,0 +1,65 @@
+iteration: 77
+seed: 2610977
+inventory_sha256: 06261dc5453001c6f47b0df27a29603c7edb4b114bf65c04f9d8dbc09dab6997
+eligible: 157
+base_commit: b6b8df13f844194c52467c06b2a51632c3481b2c
+remote_start_commit: b6b8df13f844194c52467c06b2a51632c3481b2c
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/Tool/customToolEditorDefaults.test.ts
+- file: client/src/components/Tool/ToolSuccess.test.ts
+- file: client/src/components/Common/TextSummary.test.ts
+- file: client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js
+- file: client/src/components/HistoryImport.test.js
+- file: client/src/components/DatasetInformation/DatasetAttributes.test.ts
+- file: client/src/components/Common/SaveChangesModal.test.ts
+- file: client/src/components/JobInformation/JobOutputs.test.js
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+review_skips:
+- file: client/src/components/Tool/customToolEditorDefaults.test.ts
+  reason: already concise public schema-derived example and exact skeleton checks;
+    validated byte-identical review
+validation:
+  node: 22.20.0
+  shuffle_seed: 770101
+  independent_seed: 770201
+  max_workers: 1
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; full
+    vault123error1 unrelated empty Untitled preserved
+  passed_cases: 43
+  assertions: 117
+  skipped_cases: 0
+  hooks: passed absolute sample all eight
+  isolated_ui_vue_tsc: passed
+  client_vue_tsc: passed
+  eslint: passed native file gates
+  prettier: passed native file gates
+  coverage: zero covered source locations lost; UI/import/stub qualifications in report
+  independent_review: all eight approved
+  test_challenge: passed
+  maintainability: passed
+  scope: passed
+baseline:
+  declared_cases: 43
+  intended_assertions: 117
+commits:
+- c8eb1538e3674dd08a1eaa94c88467906d54a018
+- 7a490183f80c6aee3e3f8d45eb8e7e6dc5989cf3
+- 90ec3803af945d96b37e29d3289ff8049129b346
+- b9ef45dccb6a06d045f956ea3b5a5cb0827ba39d
+- 708073c818fe49ebb443d1f0627e72801b0a3be0
+- 7a64d433ca9e153f35af6156328c3e5da263f598
+- 510a2d39a920f6d4dfe10c88e77602c10007b4b4
+push: fast-forward
+pushed_head: 510a2d39a920f6d4dfe10c88e77602c10007b4b4
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

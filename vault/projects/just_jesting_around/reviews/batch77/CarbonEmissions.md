@@ -1,0 +1,9 @@
+Originator `d2ad3166c5601d6fb69f42259d7fc7f05b9af5e1`, pinned base `b6b8df13f844194c52467c06b2a51632c3481b2c`.
+
+All seven original cases/15 checks remain: CPU/memory emissions and energy units, omitted memory estimates, zero PUE/intensity behavior, global/configured location explanations and global PUE explanation. Exact1024MiB/3600seconds/server name/model/core count/TDP, all per-case allocation/runtime/intensity/PUE values (including Italy's original worldwideCarbonIntensity PUE), text/unit expectations and omitted memory prop remain. No added fixture defaults or check changes.
+
+A repeated full-mount helper accepts each exact original props object and installs its captured real Pinia/fresh memory router via native withPlugins. Automatic unmount precedes completion store disposal/active-binding cleanup/history destruction. Native required text/element gets retain explicit absent-memory find/exists observations. Concise scenario names describe the existing observations. Original global persistence mocks and full child rendering remain; no mocked storage/global state clearing or new toggle/persistence claim.
+
+Pristine native and actual UI captures completed before edits. Final pinnedNode22.20 single-worker shuffled770101 passes7 cases. Covered statement/function/branch-arm source locations native19files262 exact and actual shared UI43files158 exact. Full rendering retains actual chart/card/control setup alongside imported shared UI setup; totals do not imply every imported template renders. Full worker client types, native ESLint/Prettier, absolute sample file hooks and diff check all exit0 before commit. Worker clean. Evidence `/private/tmp/readability77-carbon-{before,after}` and corresponding -ui JSON/logs, -types/-hooks logs.
+
+No shared/helper/support/production/later-lane/guidance edit or evidenced guidance gap; existing native inference/required observation/resource ownership guidance suffices.

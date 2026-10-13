@@ -218,10 +218,12 @@
 - file: client/src/components/Common/RenameModal.test.ts
   iterated: 1
 - file: client/src/components/Common/SaveChangesModal.test.ts
+  iterated: 1
 - file: client/src/components/Common/SidebarList.test.ts
   iterated: 1
   split_commit: true
 - file: client/src/components/Common/TextSummary.test.ts
+  iterated: 1
 - file: client/src/components/Common/VegaWrapper.test.ts
   iterated: 1
 - file: client/src/components/Common/Webhook.test.ts
@@ -267,6 +269,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/DatasetInformation/DatasetAttributes.test.ts
+  iterated: 1
 - file: client/src/components/DatasetInformation/DatasetDetails.test.ts
   iterated: 1
 - file: client/src/components/DatasetInformation/DatasetError.test.ts
@@ -507,6 +510,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/HistoryImport.test.js
+  iterated: 1
 - file: client/src/components/ImportData/zip/resultsRoute.test.ts
 - file: client/src/components/ImportData/zip/views/RoCrateZipView.test.ts
 - file: client/src/components/ImportData/zip/views/rocrate.utils.test.ts
@@ -520,9 +524,11 @@
   iterated: 1
   storified: skip
 - file: client/src/components/JobInformation/JobOutputs.test.js
+  iterated: 1
 - file: client/src/components/JobMetrics/AwsEstimate.test.js
   iterated: 1
 - file: client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js
+  iterated: 1
 - file: client/src/components/JobMetrics/JobMetrics.test.js
   iterated: 1
 - file: client/src/components/JobParameters/JobParameters.test.ts
@@ -795,10 +801,12 @@
 - file: client/src/components/Tool/ToolSourceDisplay.test.ts
   iterated: 1
 - file: client/src/components/Tool/ToolSuccess.test.ts
+  iterated: 1
 - file: client/src/components/Tool/ToolSuccessMessage.test.ts
 - file: client/src/components/Tool/authoringHelp.test.ts
   storified: skip
 - file: client/src/components/Tool/customToolEditorDefaults.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/Tool/extractEmbeddedJs.test.ts
   storified: skip
