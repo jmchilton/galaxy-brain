@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-13
+
+PR **merged** at `2026-10-13T14:56:02Z`; final GitHub head `f1e412e75c49932376d81e3964893687e00da6b6`. Removed from the review queue and archived. The clean worktree was removed after verifying no unpublished commits, or that its head was included in the merged PR. Historical reviews and delivery states below retain their original dates and commits.
+
 # galaxy #23058 — Validate matched multi-input expansion errors before async job prep
 
 [PR #23058](https://github.com/galaxyproject/galaxy/pull/23058) · Status: active; open, out of draft. GitHub state checked 2026-10-11.

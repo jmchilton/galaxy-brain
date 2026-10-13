@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-13
+
+PR **merged** at `2026-10-13T15:44:59Z`; final GitHub head `20cff59a4ab5ed99aa91dbbe2644c2180544885a`. Removed from the review queue and archived. The worktree was already absent. Historical reviews and delivery states below retain their original dates and commits.
+
 # galaxy #23898 — Use explicit Pulsar implementation imports
 
 [PR #23898](https://github.com/galaxyproject/galaxy/pull/23898) · Status: active; open draft. GitHub state checked 2026-10-11.

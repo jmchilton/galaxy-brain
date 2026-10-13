@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-13
+
+PR **closed** at `2026-10-13T16:09:30Z`; final GitHub head `b08845626e16ce56fb8696ac1a7282167fd179ea`. Removed from the review queue and archived. The clean worktree was removed after verifying no unpublished commits, or that its head was included in the merged PR. Historical reviews and delivery states below retain their original dates and commits.
+
 # galaxy #22976 — Enhance Parquet Datatype with Bidirectional Tabular Conversion Support
 
 [PR #22976](https://github.com/galaxyproject/galaxy/pull/22976) · Status: active; open, out of draft. GitHub state checked 2026-10-09.

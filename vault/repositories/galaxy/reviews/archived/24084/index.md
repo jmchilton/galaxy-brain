@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-13
+
+PR **merged** at `2026-10-13T16:45:53Z`; final GitHub head `533f524353f95b95ee1e5c4035017a518813eaa0`. Removed from the review queue and archived. The clean worktree was removed after verifying no unpublished commits, or that its head was included in the merged PR. Historical reviews and delivery states below retain their original dates and commits.
+
 # Galaxy #24084 — Bind OIDC account confirmation to the authenticated browser flow
 
 [PR #24084](https://github.com/galaxyproject/galaxy/pull/24084) · Status: active; initial review complete. Recommendation: **approve**, pending remaining integration CI. Delivery: **unposted**. Open, ready; checked 2026-10-13.

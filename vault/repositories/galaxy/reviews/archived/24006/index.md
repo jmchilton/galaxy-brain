@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-13
+
+PR **merged** at `2026-10-13T10:59:00Z`; final GitHub head `7e86c0c48ae85947757222e51740068c4ad9d1d0`. Removed from the review queue and archived. The clean worktree was removed after verifying no unpublished commits, or that its head was included in the merged PR. Historical reviews and delivery states below retain their original dates and commits.
+
 # galaxy #24006 — Bring GCheckbox to BFormCheckbox parity and add GCheckboxGroup
 
 [PR #24006](https://github.com/galaxyproject/galaxy/pull/24006) · Status: active; open, out of draft. GitHub state checked 2026-10-09.

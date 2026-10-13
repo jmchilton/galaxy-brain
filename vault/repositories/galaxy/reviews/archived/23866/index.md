@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-13
+
+PR **merged** at `2026-10-13T17:15:13Z`; final GitHub head `dbfcec59a427eb40a3d05ce13d93aa7f258fb58e`. Removed from the review queue and archived. The clean worktree was removed after verifying no unpublished commits, or that its head was included in the merged PR. Historical reviews and delivery states below retain their original dates and commits.
+
 # Galaxy #23866 — Set unknown output extensions to data; sniff or infer discovered datasets
 
 [PR #23866](https://github.com/galaxyproject/galaxy/pull/23866) · Status: active; re-review complete. Recommendation: **approve with two completeness nits**. Delivery: **unposted**. Open, ready; checked 2026-10-13.

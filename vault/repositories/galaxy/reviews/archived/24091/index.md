@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-13
+
+PR **merged** at `2026-10-13T18:05:04Z`; final GitHub head `18f8a9ce419a092b8df5b6abf8b28edecccb486e`. Removed from the review queue and archived. The clean worktree was removed after verifying no unpublished commits, or that its head was included in the merged PR. Historical reviews and delivery states below retain their original dates and commits.
+
 # Galaxy #24091 — Add GSelect and use it in place of BFormSelect
 
 [PR #24091](https://github.com/galaxyproject/galaxy/pull/24091) · Status: active; initial review complete. Recommendation: approve; non-blocking notes, settle wrapper-path convention before follow-up swaps. Delivery: **unposted**. Open, not draft, by itisAliRH; GitHub checked 2026-10-13, all 25 checks green.

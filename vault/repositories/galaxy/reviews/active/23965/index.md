@@ -1,6 +1,6 @@
 # galaxy #23965 — change config default for new_user_dataset_access_role
 
-[PR #23965](https://github.com/galaxyproject/galaxy/pull/23965) · Status: active; open draft. GitHub state checked 2026-10-09.
+[PR #23965](https://github.com/galaxyproject/galaxy/pull/23965) · Status: active; open, ready on new head; earlier approval predates changes. GitHub state checked 2026-10-09.
 
 [Review and history](review.md)
 
@@ -17,3 +17,7 @@ John approved `34de076d569` on 2026-10-09. Marius subsequently offered to revisi
 ## Morning check — 2026-10-12
 
 Open, draft; live HEAD `34de076d569a0ab0781e61cbf51af4e39169acb5`. CI snapshot: 1 failure, 2 skipped, 60 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.
+
+## Tick check — 2026-10-13
+
+PR is now ready and open at new head `2fa8a517b8c90cadd13524ee241dd0d623ce0f8f`. John’s previous approval was on `34de076d569a0ab0781e61cbf51af4e39169acb5`; it does not verify the new changes. The existing admin-migration follow-up remains recorded. No new code verification performed.

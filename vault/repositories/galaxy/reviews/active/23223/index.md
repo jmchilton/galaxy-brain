@@ -1,6 +1,6 @@
 # Galaxy #23223 — Docker user from OIDC token claims
 
-[PR #23223](https://github.com/galaxyproject/galaxy/pull/23223) · Status: waiting on John's reply and/or merge decision. GitHub state checked 2026-10-09: open, out of draft.
+[PR #23223](https://github.com/galaxyproject/galaxy/pull/23223) · Status: draft; recorded reply/scope decision remains, merge on hold. GitHub state checked 2026-10-09: open, out of draft.
 
 [Original review and merge-readiness assessment](review.md) · [Follow-up implementation and reviews](followup_branch_review.md) · [Latest-commits review](latest_commits_review.md) · [Follow-up PR description](pr_description.md)
 
@@ -13,3 +13,7 @@ The hardening follow-up was opened as [SergeyYakubov/galaxy#1](https://github.co
 ## Morning check — 2026-10-12
 
 Open, ready; live HEAD `8afbc3efc09ca3d746dfc315320be5570a801de6`. CI snapshot: 2 skipped, 57 success. No new commits or discussion since the recorded September exchange. CI is green (57 successful, two skipped). John’s reply and/or merge decision after Sergey’s response remains pending; no author nudge is proposed.
+
+## Tick check — 2026-10-13
+
+PR remains open but is now draft; head remains `8afbc3efc09ca3d746dfc315320be5570a801de6`. Preserve the recorded reply/scope context; the draft state puts a merge decision on hold. No code re-review or author contact performed.
