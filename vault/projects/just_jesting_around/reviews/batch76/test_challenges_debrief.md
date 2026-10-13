@@ -1,0 +1,35 @@
+# Batch76 test challenge
+
+Approve exact range `902c90bfc444596ceef3f8ffcdb4ff4a32020fbc..b6b8df13f844194c52467c06b2a51632c3481b2c`. All eight selected originals retain100 cases and176 executed checks. Six changed-origin commits plus two byte-identical reviewed-without-change tests are intentional. No assertion, specification row, duplicate case, expected array, partial fixture field or timing observation was dropped. No production, helper, supporting test or guidance source changed.
+
+Reviewed GX_PROCESS_CHALLENGE_TESTS, REVIEW_FOCUS, Galaxy writing_tests and client unit-testing guidance. The user's preserve-all readability scope overrides generic requests to drop tests or move existing cases to another layer. These isolated logic, component and test-infrastructure contracts do not require a live server; new E2E work or production restructuring is not justified by this range. Existing mock/shallow boundaries remain, with their coverage limits qualified rather than rewritten merely for uniformity.
+
+| Selected file | Cases/checks | Challenge and conclusion |
+| --- | --- | --- |
+| historyGraphMapper | 17/30 | Exact node labels, fallbacks, tool execution order, badges/connectors/domain data and edge identities remain. nth/ensureDefined require the same nodes/data; public edge-field types improve fixture boundaries without adding defaults. Corrected title describes key/src/itemId assertions rather than unobserved hid storage. Observable graph mapping contracts remain useful pure logic tests. |
+| WorkflowInvocationSteps | 1/1 | Same429 failed graph load, IDs/empty steps/jobs, controlled graph/workflow refs and flush timing. Public Pick checks supplied invocation fields and documents omitted unused metadata; native mounts own Pinia. Required first danger alert preserves the text observation without a rendered child/browser load claim. |
+| AreaHighlight | 4/10 | Component's actual exposed show API is called directly via inferred wrapper. Original100ms/1000ms clock observations and all bounds/style/reset values stay. Finite pending animations drain on the owned fake clock only after observations, while mounted, then auto-unmount before timer clearing/clock restoration. Cleanup does not substitute for timing assertions. |
+| Vitest setup | 2/4 | Exact first/second model value and emitted update/nextTick stay. The actual createStubs hook retains the real GFormInput that opts out of compat v-model; its setup/computed behavior participates. The compatibility Child remains controlled stub HTML with absence of real text. Native parent inference/required component lookup and auto-unmount improve the existing infrastructure regression test. No global hook change. |
+| SelectionOperations | 29/57 | Includes original duplicate delete scenario, every selection Map/filter/config literal and complete operation-running/last-selection emission argument arrays. Native plugin ownership and required captures retain all menu presence/absence checks. Config implementation/debug restoration follows owned store disposal; immediate mocked operations still settle before observations. Shallow storage wizard is controlled. |
+| HistoryPageList | 11/15 | Exact existing page fixtures, partial history/no-user_id case, user mocks, labels/alert qualifiers and flush timing remain. Public props/inferred wrapper remove erased boundaries; captured testing stores and automatic unmount improve failure safety. Child PageCard/UI templates remain shallow. |
+| filterFunction | 8/10, unchanged | Existing typed reusable build/rank arrangements and explicit ordered arrays already express empty/whitespace, ranking tiers, normalization, best-field and nested-array contracts. No casts/mocks/resources need repair; cosmetic helper/case churn would add no evidenced benefit. Validated no-change review creates no empty commit. |
+| whenExpression | 28/49, unchanged | All27 YAML docs name cases;16 static-path,16 dynamic-access,16 reference expectations and one absent-expression check remain. Optional fields and exact string/pipe/numeric-path values stay partial. Imported YAML type assertion represents its fixture schema, not runtime validation. requireInput/public analyzer boundary is already clear; no schema/helper churn warranted. |
+
+Native covered statement/function/branch-arm locations preserve every original location:
+
+| File | Native locations | Actual external shared UI |
+| --- | --- | --- |
+| historyGraphMapper | 193→208, zero lost | Pure logic; no rendered UI |
+| WorkflowInvocationSteps | 913→921, zero lost | 37 exact, shallow import/setup |
+| AreaHighlight | 62 exact | 0/0, own highlight div |
+| Vitest setup | 4 exact | 49 exact, real opt-out input setup/computeds plus controlled compat stub and other imported setup |
+| SelectionOperations | 1120 exact | 13 exact, shallow import/setup |
+| HistoryPageList | 124 exact | 13 exact, shallow import/setup |
+| filterFunction | 64 exact | Pure logic; no rendered UI |
+| whenExpression | 198 exact | Pure logic; no rendered UI |
+
+Canonical required-helper/import paths and captured-store disposal account for additions. Imported totals are not evidence all UI templates render. The setup suite genuinely retains its opt-out input component, but assertions still establish model/stub-hook behavior rather than browser typing or validation behavior. No mutation was performed or credited, and no production source repair is committed.
+
+All eight independent normals approve, including both byte-identical no-change selections. I independently ran Selection29 and HistoryPageList11 cases with shuffled760201 and recomputed their native/external coverage exact; reports pin originators and source/cleanup qualifications. Selection's first invocation used an incorrect path and selected no tests; corrected full-path run passes, explicitly distinguished from a source failure. Author suites, native lint/format and absolute sample hooks pass for all selected files. Driver clean/trailer/ownership and no-change byte checks pass.
+
+Corrected final driver gates at this exact pin all complete with actual exit0: eight suites/100 cases with shuffled760101, all eight file absolute hooks, full client types and isolated shared UI types. Evidence `/private/tmp/readability76-final-client.log`, `readability76-hooks.log`, `readability76-final-client-types.log`, `readability76-final-ui-types.log`. The initial full client type gate failed with TS2352 at the deliberately partial invocation boundary. The final correction uses an explicit Pick annotation instead of satisfies, widening only the existing empty steps array to its public schema array type; every runtime field/value and assertion is byte-equivalent. Independently inspected the exact correction and approve it without fabricated defaults. The invocation originator was folded into f48c50a61c0626981d57d231674afc52946a19b4 on the immutable base. All final driver gates rerun at this corrected pin pass; this approval includes the final type correction and exact integrated source. No blocking source finding or evidenced guidance expansion.

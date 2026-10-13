@@ -1,0 +1,5 @@
+Approve graph mapper `5a3064d3aec6c232a1c8762a3208e1a9aa466601`, base `902c90bfc444596ceef3f8ffcdb4ff4a32020fbc`. No blocking finding; full types remain the driver integrated gate.
+
+All17 original cases/30 checks remain with exact IDs, labels, ordering, fallback omissions, edge types and factory defaults. Canonical nth and ensureDefined replace unchecked assertions at actual required index/finder/data boundaries. Schema-derived edge endpoint types preserve the supplied source/target shape; no cast, new default, helper or unrelated case is introduced. Renamed node-data scenario accurately describes existing key/src/itemId observations without claiming an unasserted hid check. This pure mapper suite needs no resource teardown or rendered UI claim.
+
+Independent pinnedNode22.20 single-worker shuffled760201 passes17 cases/exit0; log `/private/tmp/readability76-graph-independent.log`. Independently recomputed pristine/final covered statement/function/branch-arm locations19→29files193→208, zero loss;15 added locations are canonical helper/import setup. Author native lint/format/absolute hooks pass. No structural regression or evidenced new guidance gap.

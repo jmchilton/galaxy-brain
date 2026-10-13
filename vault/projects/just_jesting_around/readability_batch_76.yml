@@ -1,0 +1,68 @@
+iteration: 76
+seed: 2610976
+inventory_sha256: 3a04b20e8fc8c65ba7e388d0a74ad4dcf65353320ae1f0b87d16b8e8412b9667
+eligible: 165
+base_commit: 902c90bfc444596ceef3f8ffcdb4ff4a32020fbc
+remote_start_commit: 902c90bfc444596ceef3f8ffcdb4ff4a32020fbc
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js
+- file: client/src/components/PageEditor/HistoryPageList.test.ts
+- file: client/src/composables/filter/filterFunction.test.ts
+- file: client/src/components/History/Graph/historyGraphMapper.test.ts
+- file: client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts
+- file: client/src/components/Workflow/Editor/modules/whenExpression.test.ts
+- file: client/tests/vitest/setup.test.ts
+- file: client/src/components/Workflow/Editor/AreaHighlight.test.ts
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+review_skips:
+- file: client/src/composables/filter/filterFunction.test.ts
+  reason: already focused public behavior, typed reused domain arrangements; validated
+    byte-identical review
+- file: client/src/components/Workflow/Editor/modules/whenExpression.test.ts
+  reason: already focused typed YAML specification runner and public guard; validated
+    byte-identical review
+baseline:
+  declared_cases: 100
+  intended_assertions: 176
+validation:
+  passed_cases: 100
+  assertions: 176
+  skipped_cases: 0
+  shuffle_seed: 760101
+  independent_seed: 760201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed corrected final pin
+  isolated_ui_vue_tsc: passed corrected final pin
+  eslint: passed native file gates
+  prettier: passed native file gates
+  hooks: passed absolute sample config all eight files
+  coverage: zero covered source locations lost; actual UI/import/stub qualifications
+    in report
+  independent_review: all eight approved
+  test_challenge: passed
+  maintainability: passed
+  scope: passed
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; unrelated
+    empty scratch note preserved
+commits:
+- 6a67eef2399e4d6821d4bb21f77f47694462f7e3
+- b10b717d1bcdc03b81fd306a4712a3d5f6d854d9
+- b0e75128b3e81e001d200dcb5e1b69fdb38b34c0
+- 58236d18aeb6291ddb8d539ffbd4c49e0b56205c
+- f48c50a61c0626981d57d231674afc52946a19b4
+- b6b8df13f844194c52467c06b2a51632c3481b2c
+push: fast-forward
+pushed_head: b6b8df13f844194c52467c06b2a51632c3481b2c
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

@@ -1,0 +1,5 @@
+# Vitest stub setup — batch76
+
+Original two cases/four checks remain: exact first/second modelValue, explicit update:modelValue emit/nextTick order, compat child-stub HTML and absence of real text. Native parent inference removes the unknown VM shape assertion; required getComponent locates the same controlled child. Automatic unmount owns both shallow arrangements on failure. The public parent model and stub-compat boundary stay, without changing the global stub hook or rendered component sources.
+
+Pristine/final shuffled Node22.20 single-worker760101 pass. Covered statement/function/individual branch-arm sets4files4locations exact; external actual shared UI43files49locations exact. The createStubs hook retains the real GFormInput for its compat-v-model opt-out, exercising actual setup/computeds in the first parent; the second compat Child stays a controlled stub. Totals also include imported setup. Observations establish exact model props/emission and compat child-stub behavior. Native ESLint/Prettier and absolute sample hooks pass. No helper/support/production/guidance edits or evidenced new advice gap; independent normal and integrated types remain gates.

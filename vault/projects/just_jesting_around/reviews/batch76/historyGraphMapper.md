@@ -1,0 +1,9 @@
+Originator `5a3064d3aec6c232a1c8762a3208e1a9aa466601`, pinned base `902c90bfc444596ceef3f8ffcdb4ff4a32020fbc`.
+
+All17 original cases/30 checks remain: node keys, hid/name/extension/collection/tool fallback labels, execution order, badges/css, merged collection connectors, disconnected null connectors, input/output summary, node key/domain data, edge variants and stable IDs. Exact IDs, hid values, tool URL, edge types/order and omitted metadata remain. Original hda/hdca/tool-request factory defaults are retained; no new defaults or fields are manufactured. The metadata scenario title now describes the key/src/itemId checks it actually contains rather than claiming an unobserved hid assertion.
+
+Existing canonical nth replaces unchecked indexed/destructured captures; ensureDefined checks actual finder/data results. ToolNode/mappedEdges names replace abbreviated captures. Edge fixture source/target types derive directly from public ApiGraphEdge fields. No new helper, resource arrangement, mocks or production change is needed for this pure mapper suite.
+
+Pristine capture finished before editing. Final Node22.20 single-worker shuffled760101 passes17 cases. Native covered statement/function/branch-arm locations19→29files193→208, zero loss;15 gains are canonical helper/import setup. This logic suite makes no rendered UI claim and needs no supplemental rendered-UI capture. Native ESLint/Prettier, explicit absolute sample hooks and diff check pass; driver owns integrated full types. Worker clean. Evidence `/private/tmp/readability76-graph-{before,after}` JSON/logs and hooks log. An intermediate validation caught a wrong helper module import; final uses the actual utils/assertions export and passes.
+
+No shared/support/production/later-lane edit or evidenced guidance gap; existing required-value and schema-field guidance suffices.

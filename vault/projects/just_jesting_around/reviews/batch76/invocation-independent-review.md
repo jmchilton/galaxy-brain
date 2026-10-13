@@ -1,0 +1,13 @@
+Approve WorkflowInvocationSteps `67404ee09c20610eb098d4cb1e0e98558b7f5bd9`, base `902c90bfc444596ceef3f8ffcdb4ff4a32020fbc`. No blocking finding; corrected integrated full types pass at the final pin below.
+
+The original one case/one check remains: same first danger alert text after the same failed graph-load promise settles. Invocation/workflow IDs, empty steps/job summaries, version0, false loading/null error, graph mocks and shallow children remain exact. Explicit public-schema Pick annotation checks and types the three supplied invocation fields; the prop assertion documents the intentionally omitted unused metadata rather than padding defaults. Native inferred mount/global options install the captured testing Pinia, with automatic unmount before completion disposal and clearing only its active binding. ensureDefined/finder retains original first danger-variant alert order. No hidden graph/API success contract is claimed.
+
+Independent pinnedNode22.20 single-worker shuffled760201 passes1 case/exit0, log `/private/tmp/readability76-invocation-independent.log`. Independently recomputed pristine/final covered V8 statement/function/branch-arm locations: native508files913→921 zero loss,8 owned cleanup/import setup gains; external sharedUI43files37exact, import/setup evidence under shallow boundaries rather than rendered alert coverage. Author native lint/format/absolute hooks pass. No structural regression, source edit or evidenced new guidance gap.
+
+Integrated full types caught TS2352 in the earlier satisfies-only binding, which retained steps:never[]. Re-reviewed amended origin changes only the variable’s explicit Pick annotation: all runtime fields/empty steps and original assertion remain. Full corrected worker client types exits0; independently recomputed native/UI coverage remains as above. Corrected independent760201 runtime confirmation and final integrated pin are recorded below.
+
+Corrected stable worker independently passes shuffled760201 one case/one original check, actualexit0. Source comparison against the earlier origin confirms only the Pick annotation differs; no production/fixture/check mutation or current type blocker remains. Driver final corrected pin/type gate subsequently passed at the pin below.
+
+Corrected canonical fold is `f48c50a61c0626981d57d231674afc52946a19b4`, final batch pin `b6b8df13f844194c52467c06b2a51632c3481b2c`. Independently inspected old/final canonical diff: only the already reviewed explicit Pick annotation differs; no further source change.
+
+Final driver client runtime100 cases, all selected absolute hooks, full client types and isolated UI types completed actualexit0 at unchanged corrected final pin. Type-boundary finding is resolved.

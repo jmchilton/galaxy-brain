@@ -1,0 +1,7 @@
+# filterFunction reviewed without change
+
+Reviewed byte-identical `client/src/composables/filter/filterFunction.test.ts` at `902c90bfc444596ceef3f8ffcdb4ff4a32020fbc`; return reviewed_no_change without an empty originator commit. All eight cases and ten original checks remain.
+
+The fixture explicitly preserves extension order. Named cases and exact arrays already communicate empty/whitespace behavior, exact/prefix/substring ranking, case normalization, absent results, best-field matching and nested string-array access. Generic runFilter checks the actual exported build/rank boundary and is reused across multiple concrete fixtures; rank names the repeated extension-ID projection. No casts, mocks, external state or failure cleanup require repair. Splitting concise paired examples or inventing another helper would add churn without a demonstrated readability benefit. No literals, expected order or fixture fields change.
+
+Pristine and unchanged final pinned Node22.20 single-worker shuffled760101 runs pass8 cases. Covered statement/function/branch-arm source locations4files64 exact, zero lost. This is pure search logic; no rendered UI claim or external UI glob. Native file ESLint/Prettier, absolute sample hooks and clean status pass. Evidence `/private/tmp/readability76-filter-{before,after,eslint,prettier,hooks}.log`, native before/after coverage JSON. No production/shared/support/later-lane/guidance change or evidenced guidance gap.
