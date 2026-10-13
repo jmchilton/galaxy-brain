@@ -807,6 +807,7 @@
 - file: client/src/components/Tool/ToolSourceDisplay.test.ts
   iterated: 1
 - file: client/src/components/Tool/ToolSuccess.test.ts
+  storified: true
   iterated: 1
 - file: client/src/components/Tool/ToolSuccessMessage.test.ts
 - file: client/src/components/Tool/authoringHelp.test.ts
