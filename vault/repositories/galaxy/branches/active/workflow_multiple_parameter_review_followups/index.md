@@ -1,6 +1,6 @@
 # workflow_multiple_parameter_review_followups
 
-Status: `branches_ready_for_final_review`. Float editor/default follow-up to merged [PR #23992](https://github.com/galaxyproject/galaxy/pull/23992), targeting `dev`. Fresh checklist and strengthening review complete; human read-through and new-head CI remain pending.
+Status: `ci_wait`. Draft [PR #24108](https://github.com/galaxyproject/galaxy/pull/24108) targets `dev` at head `9a6a71ff062fdb33cc33427324b0160e8ca662ed`; current-head CI remains queued.
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/workflow_multiple_parameter_review_followups`.
 
@@ -15,3 +15,7 @@ Pushed head: `9a6a71ff062fdb33cc33427324b0160e8ca662ed` on [jmchilton/galaxy](ht
 ## Polish — 2026-10-13
 
 Completed polishing with fresh checklist and one strengthening review; no implementation changes needed. Conflict-free rebase onto `dev` at `63192fd64e46234a7a1aa933e44d8e0930112ccf`; pushed head `9a6a71ff062fdb33cc33427324b0160e8ca662ed`. Fresh float/integer API checks: 2 passed. Prior-head relevant CI passed; isolated Selenium-package import failure remains unrelated. New-head CI queued. Human-read checklist awaits John; no PR publication or approval inferred.
+
+## Draft PR opened — 2026-10-13
+
+John explicitly requested a draft PR after polishing. Opened [#24108](https://github.com/galaxyproject/galaxy/pull/24108) against `dev`, titled “Enable multiple float workflow inputs in the editor”, using `pr_description.md` verbatim. Published head: `9a6a71ff062fdb33cc33427324b0160e8ca662ed`. This instruction authorizes draft publication; no ready-for-review transition was requested. Current-head fork CI remains queued, with Tool Shed frontend and unit/postgres checks passed and two unrelated suites skipped.
