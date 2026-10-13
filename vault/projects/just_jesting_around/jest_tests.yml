@@ -573,6 +573,7 @@
 - file: client/src/components/Markdown/Editor/TextEditor.test.ts
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetCollection/CollectionTree.test.js
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js
   iterated: 1
