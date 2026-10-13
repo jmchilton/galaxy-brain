@@ -1706,6 +1706,7 @@
       iteration: 76
       score: 2
   iterated: 1
+  storified: true
 - file: client/src/components/PageEditor/HistoryPageView.test.ts
   readability_score: 4
   readability_reviews:
