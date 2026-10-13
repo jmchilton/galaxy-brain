@@ -1,10 +1,10 @@
 # vitest_readability
 
-Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
+Status: `author_work`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `510a2d39a920f6d4dfe10c88e77602c10007b4b4`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `3d593f929a95ba27a67bf11c0c8f242acfa1766c`.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -247,3 +247,21 @@ Fast-forward published `b6b8df13f844194c52467c06b2a51632c3481b2c`; exact GitHub 
 Continued eight origins while John is away. [Report](../../../../../projects/just_jesting_around/READABILITY_BATCH_77.md) and [manifest](../../../../../projects/just_jesting_around/readability_batch_77.yml) record seven changed-origin commits and one validated review without code changes, preserved original checks, source-location coverage comparisons and passing final validation. All independent normal, strict, challenge and scope reviews approve. Full client types, combined shuffled suites, native file lint/format and absolute hooks pass. No production/helper/support/guidance edits; screenshots/E2E not applicable. Coverage qualifications remain explicit in the report.
 
 Fast-forward published `510a2d39a920f6d4dfe10c88e77602c10007b4b4`; exact GitHub head and draft verified. Eight counters written after publication; downstream unchanged. Completed vault snapshot excluding unrelated empty scratch note passes 122 files, zero errors and 15 existing warnings. Local vault records only; ci_wait.
+
+## Rebased onto fix_story_a11y — 2026-10-13
+
+John clarified the stacking order: `vitest_readability` goes above `fix_story_a11y`. The initially reversed rebase was undone; `fix_story_a11y` is restored locally and on the fork to original head `175e7d5a1831836dd9b360a4cb1dad5e0874fa85`.
+
+Rebased readability with `--rebase-merges` onto that accessibility head and published `3d593f929a95ba27a67bf11c0c8f242acfa1766c` with an exact lease on prior readability head `510a2d39a920f6d4dfe10c88e77602c10007b4b4`. Both remote heads were verified, and both worktrees are clean. The PR base remains `dev`; no PR settings were changed.
+
+All 522 commits (including 12 merges), messages, and trailers are preserved. Eleven overlapping test files reuse reviewed combined resolutions at their final readability commits. The final tree `ced8cd69256a05aec5259a5fa25e5272f51e1f0c` exactly equals the earlier combined tree that passed all **204 affected tests in 23 suites**, affected-test ESLint, and formatting/commit hooks; no repeated test run was needed. Normal review confirms correct ancestry, preserved history and assertions, and tree equality, with no findings to act on. Backup refs: `codex-backup-readability-before-a11y` and `codex-backup-a11y-readability-combined`.
+
+Tracking sync remains pending because vault validation reports unrelated missing frontmatter in `vault/reviews/Untitled.md`.
+
+## GOOD_MORNING — 2026-10-13
+
+Live draft head `3d593f929a95` conflicts with dev. Eight conflicts span GCheckbox, deleted FormNumberList/CollectionProgress tests, FormElement, SelectionOperations, JobInformation, JobElements and HeadlessMultiselect. These combine newly merged behavior/tests with rewritten assertions and require deliberate reconciliation; no mechanical rebase attempted. The sole current-head check is a failed CircleCI get_code_and_test status, with no fresh Actions coverage. Classified author work; implementation work from other sessions preserved.
+
+## Clean rebase onto latest dev — 2026-10-13
+
+The earlier `--rebase-merges` rebase had replayed 29 dev commits (12 merges) between `fix_story_a11y` and the readability commits. John asked for a clean stack. Rebased `fix_story_a11y` onto dev `63192fd64e4`, then only the 493 readability commits onto it, dropping the dev copies. Reconciled the eight known dev conflicts deliberately, keeping upstream's new cases in the lane's style. Dropped the FormNumberList and CollectionProgress.js commits, whose files upstream deleted. Also fixed a latent ZoomControl label expectation that a11y had broken. 491 commits, no merges. The full unit suite and type-check pass. Pushed `7f2db5e5941` with lease on `3d593f929a9`. Details: [cascade record](subagents/rebase_cascade_2026-10-13.md).

@@ -42,6 +42,10 @@ Original `8f1bf1d6e5e`: FilesDialog and HistoryExportWizard migrated.
 - Stories log Vue compat deprecation warnings plus one "compat behavior is disabled" error (COMPONENT_V_MODEL). It's not checked whether the app logs the same.
 - Run with the pinned node: `npm_config_use_node_version=22.20.0 pnpm storybook` (port 6006).
 
+## Rebased onto the clean readability — 2026-10-13
+
+Rebased the 109 story commits from old readability `510a2d39a92` onto `7f2db5e5941`, which now sits on `fix_story_a11y` and latest dev. Kept a11y's new checks in the storified tests: InstallationSettings, WorkflowInvocationState, ListCollectionCreator, QuotaForm, RoleForm, ChangePassword, ScrollList, FormOptionalText and ToolCard now mount stories. FormSelect's default-id case mounts FormSelect directly again. Dropped the FormNumberList story commit (component deleted upstream). 108 commits. Type-check passes; unit 586 files / 5231 tests; browser 65 files / 260 tests. Pushed `1c13e48dc19` with lease on `20c515a9661`. [Cascade record](../vitest_readability/subagents/rebase_cascade_2026-10-13.md).
+
 ## Next
 
 John to review the three migrations. Browser-mode work continues on [vitest_story_play](../vitest_story_play/index.md).
