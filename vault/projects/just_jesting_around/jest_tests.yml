@@ -89,6 +89,7 @@
   iterated: 1
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
   iterated: 1
+  storified: true
 - file: client/src/components/BaseComponents/Form/GForm.test.ts
   iterated: 1
 - file: client/src/components/BaseComponents/GAlert.test.ts
