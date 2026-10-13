@@ -3983,6 +3983,7 @@
       iteration: 76
       score: 4
   iterated: 1
+  storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
   readability_score: 4
   readability_reviews:
