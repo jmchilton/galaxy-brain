@@ -1,4 +1,6 @@
 PRs To Review:
+- [#24091](https://github.com/galaxyproject/galaxy/pull/24091) — Reviewed; approval draft with non-blocking nits unposted; CI green. [notes](../../repositories/galaxy/reviews/active/24091/index.md)
+- [#24089](https://github.com/galaxyproject/galaxy/pull/24089) — Reviewed; approve-with-follow-ups draft unposted; 3 CI jobs pending. [notes](../../repositories/galaxy/reviews/active/24089/index.md)
 - [#23869](https://github.com/galaxyproject/galaxy/pull/23869) — Request-changes draft unposted; Marius independently posted overlapping findings. [notes](../../repositories/galaxy/reviews/active/23869/index.md)
 - [#23999](https://github.com/galaxyproject/galaxy/pull/23999) — CI-filter finding commented by John; ball with author. [notes](../../repositories/galaxy/reviews/active/23999/index.md)
 - [#23975](https://github.com/galaxyproject/galaxy/pull/23975) — Author reports both reviews addressed on new head; verification pending; CI running. [notes](../../repositories/galaxy/reviews/active/23975/index.md)
