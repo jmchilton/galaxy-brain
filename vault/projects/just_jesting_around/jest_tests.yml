@@ -2637,6 +2637,7 @@
       iteration: 76
       score: 2
   iterated: 1
+  storified: true
 - file: client/src/components/Workflow/List/CuratedCollectionChips.test.ts
   readability_score: 3
   readability_reviews:
