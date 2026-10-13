@@ -34,6 +34,10 @@ Infra (originally `b4b0c93a433` here, now in `vitest_stories`): Storybook's Vite
 - The browser run warns `Invalid input options ... "define"` (rolldown optimizer); it's harmless, and the cause isn't chased.
 - Config loading prints native-config warnings; set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true`.
 
+## Rebased onto the clean stack — 2026-10-13
+
+Rebased the 68 play commits onto the new `vitest_stories`, which now sits on readability, `fix_story_a11y` and latest dev. A11y checks were moved into plays or kept beside them. 27 plays in 9 files broke on a11y's markup and were repaired in their owning commits. Dropped the FormNumberList plays commit. 67 commits. Type-check passes; unit 582 files; browser 67 files / 419 tests. Pushed `b9d034bf9f1` with lease on `8f8725d5bf4`, then `c4941bce373` on stories `1d8c99cd058`. [Cascade record](../vitest_readability/subagents/rebase_cascade_2026-10-13.md).
+
 ## Next
 
 - Plan steps 2–5: port 3–4 FormData cases to play functions, compare wall time, decide on compat console errors, and take Interactions-panel screenshots.

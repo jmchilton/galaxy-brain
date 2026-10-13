@@ -15,7 +15,7 @@ Backups: `backup/<branch>-pre-dev-rebase-20261013` for all four branches.
 | `fix_story_a11y` | `175e7d5a183` | `cfb0e376ba3` | dev `63192fd64e4` |
 | `vitest_readability` | `3d593f929a9` | `7f2db5e5941` | `cfb0e376ba3` |
 | `vitest_stories` | `20c515a9661` | `1c13e48dc19` | `7f2db5e5941` |
-| `vitest_story_play` | `8f8725d5bf4` | pending | `1c13e48dc19` |
+| `vitest_story_play` | `8f8725d5bf4` | `b9d034bf9f1` | `05f4ef17c79` (stories after its first new iteration) |
 
 Each push used `--force-with-lease=<branch>:<old head>`.
 
@@ -49,6 +49,13 @@ Play:
 - CommandPalette: empty-state checks (outside the listbox, no group) became steps of `SearchesScopeFromScratch`.
 - WorkflowInvocationState, ToolCard, RoleForm, FormOptionalText, ChangePassword: a11y cases stay in vitest beside the plays.
 - Dropped the FormNumberList plays commit.
+- 27 plays in 9 stories files then failed in the browser: a11y's markup changed what they queried. A repair subagent adapted every one in its owning play commit, with no production changes:
+  - QuotaForm, RoleForm, DatasetCopy, SelectionField: the combobox role moved to the input inside a role=group picker, and labels now point at their controls.
+  - ChangePassword: real `<label for>`s.
+  - ScrollList: the scroll region is named.
+  - ListCollectionCreator: "Select <name>" buttons.
+  - Node, WorkflowInvocationState: vGTooltip no longer overrides explicit names.
+  - Most rewrites strengthen the checks. Each new check was shown to fail under a simulated break; an independent review found nothing weakened.
 
 All 98 a11y-added `expect` lines survive verbatim in stories; in play the five that moved are the ported ones above.
 
@@ -56,7 +63,11 @@ All 98 a11y-added `expect` lines survive verbatim in stories; in play the five t
 
 - readability: full unit suite 586 files pass except ZoomControl (then fixed, 7/7); type-check, eslint and prettier on resolved files pass.
 - stories: type-check; unit 586 files / 5231 tests; browser 65 files / 260 tests; eslint/prettier on changed tests and stories.
-- play: type-check and unit (582 files) pass; 27 plays in 9 stories files fail against the a11y markup underneath them. Repair in progress before the push.
+- play: after the repair and on stories `05f4ef17c79`: type-check; unit 582 files / 5079 tests; browser 67 files / 419 tests. Pushed `b9d034bf9f1` with lease on `8f8725d5bf4`. Then moved onto stories `1d8c99cd058`, which only adds HistoryPageList's stories and test (its browser files pass), and pushed `c4941bce373`.
+
+## Possibly obsolete BUGS_FOUND rows
+
+The play repair dropped the plays' tolerance for three accessibility bugs that `fix_story_a11y` now fixes. These are the FormElementLabel title that isn't a label, ChangePassword's missing `label-for`, and vGTooltip replacing a button's accessible name. John to confirm and mark them. `WorkflowAnnotation.stories.ts` comments at lines 75 and 131 may be stale for the same reason.
 
 ## Ledger
 
