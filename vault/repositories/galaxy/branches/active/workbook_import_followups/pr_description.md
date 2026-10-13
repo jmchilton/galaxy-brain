@@ -29,7 +29,7 @@ Builds on merged 🔀 #23922 and addresses the three optional suggestions in [mv
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Browser tests report mismatched values or time out waiting for collection mode.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes; browser assertions check fixture-derived values and visible import mode.

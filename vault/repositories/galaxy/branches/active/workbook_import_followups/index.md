@@ -1,6 +1,6 @@
 # workbook_import_followups
 
-Status: `branches_ready_for_final_review`. Base: `dev` (`0d7309fa5a5`). No PR. Head `debd555d9cd` on `jmchilton/workbook_import_followups`.
+Status: `ci_wait`. Base: `dev` (`0d7309fa5a5`). Draft PR: [#24105](https://github.com/galaxyproject/galaxy/pull/24105). Head `debd555d9cd` on `jmchilton/workbook_import_followups`.
 
 Tightens the workbook import browser tests from merged [#23922](https://github.com/galaxyproject/galaxy/pull/23922) ([archived branch](../../merged/workbook_import/index.md)), addressing all three optional suggestions in [mvdbeek's review](https://github.com/galaxyproject/galaxy/pull/23922#pullrequestreview-5491654666). Test-only; no production code changes.
 
@@ -8,4 +8,8 @@ Tightens the workbook import browser tests from merged [#23922](https://github.c
 
 Built in the long-lived playwright worktree (`~/projects/worktrees/galaxy/branch/selenium_stories_core`), which was bootstrapped for this (`.venv`, client deps, `config/galaxy.yml`).
 
-Polished 2026-10-13 with no code changes. Fresh browser verification: 6/6 Playwright and 6/6 Selenium pass. Fork CI: 45 success, two skipped, five running, no failures. Human checklist and title selection await John; no approval or PR.
+Polished 2026-10-13 with no code changes. Fresh browser verification: 6/6 Playwright and 6/6 Selenium pass. Fork CI: 45 success, two skipped, five running, no failures. John selected the title and checked the human-read item before requesting the draft PR.
+
+## Draft PR — 2026-10-13
+
+Opened draft [#24105](https://github.com/galaxyproject/galaxy/pull/24105) at John’s explicit request, against `dev`, with the selected title **Strengthen workbook import browser assertions after #23922** and `pr_description.md` verbatim. Head: `debd555d9cd8a66efd0f3fe6597f32043ce3d83d`. Verified draft and mergeable; upstream CI is queued/in progress with no failures at creation. This request authorized draft creation, not taking the PR out of draft.
