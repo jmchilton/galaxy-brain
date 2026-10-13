@@ -1123,6 +1123,7 @@
       iteration: 76
       score: 2
   iterated: 1
+  storified: true
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
   readability_score: 3
   readability_reviews:
