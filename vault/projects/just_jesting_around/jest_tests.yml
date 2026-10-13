@@ -580,6 +580,7 @@
       iteration: 77
       score: 3
   iterated: 1
+  storified: true
 - file: client/src/components/Common/VegaWrapper.test.ts
   readability_score: 4
   readability_reviews:
