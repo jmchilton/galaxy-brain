@@ -530,6 +530,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/JobInformation/JobOutputs.test.js
+  storified: true
   iterated: 1
 - file: client/src/components/JobMetrics/AwsEstimate.test.js
   iterated: 1
