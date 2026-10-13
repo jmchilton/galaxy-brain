@@ -14,7 +14,7 @@ Issue: [24031 — Storage badge tooltips show administrator messages as literal 
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24031_badge_tooltip_html`.
 Branch: `issue_24031_badge_tooltip_html`, based on upstream dev `20f365a2654`.
-Status: draft `ci_wait`. [PR #24069](https://github.com/galaxyproject/galaxy/pull/24069), opened 2026-10-12 against `dev`. Pushed commit: `dfc97457e202ff8789a5026c9ab9d1f07f171f0c`.
+Status: `ready`. Base: `dev`.
 
 Back in polish 2026-10-10: John approved three scope additions after the first polish. (1) Sanitize badge messages with the `links` profile. (2) Make admin links clickable again with a popover, as before 25.0. (3) Add a hover check to `test_objectstore_selection.py`. The description and screenshots predate these and need redoing.
 
@@ -44,3 +44,7 @@ Hosted the E2E screenshot on fork branch `pr-assets-issue_24031_badge_tooltip_ht
 - **Not done here:** `GPopover` still doesn't rewire when its `interactive`/`triggers` props change on the same target. Badges no longer hit it; it's a latent galaxy-ui issue.
 
 Icon layers moved to new `ObjectStoreBadgeIcon.vue`, so the button and span triggers share them without a dynamic-component directive. Client suites (727 tests), eslint, prettier and `vue-tsc` are clean. E2E not rerun locally; the fork push triggers PR CI. `pr_description.md` is updated for the tooltip/popover split. The human-read checkbox is unchecked for the new tests and the GitHub body has not been updated.
+
+## TICK — 2026-10-13 evening
+
+GitHub now reports OPEN, non-draft and mergeable at `b21056e70b8`; this TICK did not change draft status. Fresh CI remains queued/running, with no failures in the snapshot. Reclassified to `ready`; this is not a claim that current-head CI has finished.

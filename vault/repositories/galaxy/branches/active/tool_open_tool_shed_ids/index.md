@@ -20,3 +20,7 @@ Live fork tip is now `5daa04de0879e17b6038d009cadbd4553730a5a0`; current-SHA wor
 Current fork SHA `5daa04de0879e17b6038d009cadbd4553730a5a0` has settled CI. [Integration Selenium](https://github.com/jmchilton/galaxy/actions/runs/38167310436), [Playwright](https://github.com/jmchilton/galaxy/actions/runs/38167310478), harness, API, Python lint and client checks pass. Its only red workflow is [package tests](https://github.com/jmchilton/galaxy/actions/runs/38167310135), which fails collecting the Pulsar runner because `pulsar.client.build_client_manager` was removed; this is unrelated to tool selector lookup. Promoted to implemented under the standing greenish-CI rule. John’s choice between E2E-only coverage and restoring a selector unit test remains for polish; no PR or polish started.
 
 Requested failed-job reruns for the recorded unrelated failures: [run 38167310135](https://github.com/jmchilton/galaxy/actions/runs/38167310135). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.
+
+## TICK — 2026-10-13 evening
+
+Requested failed-job reruns for recorded unrelated failures: [run 38167310135](https://github.com/jmchilton/galaxy/actions/runs/38167310135). All requests accepted. These reruns are pending coverage, not passing results; branch classification is unchanged.

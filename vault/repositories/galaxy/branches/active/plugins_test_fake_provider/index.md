@@ -1,6 +1,6 @@
 # plugins_test_fake_provider
 
-Status: `author_work`. Draft [PR #24051](https://github.com/galaxyproject/galaxy/pull/24051), base `dev`, head `688840f83b60d812c2a958f07a3b313908bfd269`.
+Status: `ready`. Base: `dev`.
 
 [PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist review](checklist_review.md) · [Strengthening review](strengthening_review.md) · [Implementation debrief](implementation_debrief.md)
 
@@ -27,3 +27,7 @@ Verified [#24051](https://github.com/galaxyproject/galaxy/pull/24051) is open, d
 ## TICK — 2026-10-12
 
 All upstream checks have settled. Integration shards 0 and 1 fail in this branch’s changed tests: `test_plugin_specific_config_used` and `TestAgentsApiFakeProvider::test_error_analysis_endpoint` trigger aiocop high-severity blocking-I/O assertions (os.stat while requests run through the real SDK/agent). [Failed run](https://github.com/galaxyproject/galaxy/actions/runs/38153953198). These are relevant failures, not diagnosed infrastructure reds. Keep draft and move to author work. The explicit draft-publication instruction also withholds undraft authorization; no implementation fix or undraft inferred.
+
+## TICK — 2026-10-13 evening
+
+GitHub now reports OPEN, non-draft and mergeable at `cc3fe81fbc50`; this TICK did not change draft status. Relevant Integration coverage passes. The only failed workflow is the previously diagnosed unrelated Pulsar package-import failure. Reclassified to `ready`.

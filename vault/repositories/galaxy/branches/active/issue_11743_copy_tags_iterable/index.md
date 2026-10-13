@@ -1,6 +1,6 @@
 # issue_11743_copy_tags_iterable
 
-Status: `author_work`. Base: `dev`. [PR #23973](https://github.com/galaxyproject/galaxy/pull/23973) (open).
+Status: `ready`. Base: `dev`.
 
 Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743).
 
@@ -15,3 +15,7 @@ Live #23973 is mergeable but still draft. Its macOS 3.14 red fails `Restore clie
 ## TICK — 2026-10-12
 
 Requested failed-job reruns for the recorded unrelated failures: [run 37773026992](https://github.com/galaxyproject/galaxy/actions/runs/37773026992). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.
+
+## TICK — 2026-10-13 evening
+
+GitHub now reports OPEN, non-draft and mergeable at its unchanged head; this TICK did not change draft status. The sole failure remains the diagnosed macOS 3.14 client-cache restoration failure. Reclassified to `ready` and requested its failed-job rerun.
