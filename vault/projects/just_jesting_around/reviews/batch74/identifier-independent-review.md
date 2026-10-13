@@ -1,0 +1,5 @@
+# IdentifierDisplay independent normal review — batch74
+
+Approve `5a1d3fd2c80` against pinned `3533c26be42734c937d57c3fd4805e14b81da286`. Independent Node22.20 shuffled740201 passes the original one case/two checks. Inspected full diff and actual root-li hover emissions: native inferred mount retains exact list_identifiers/column0/headerA props and listener spies, original mouseover then mouseout order and one-call assertions. Required get targets enforce the same root element. Automatic unmount owns failure cleanup without new plugins/store/defaults or changed observations.
+
+Independently recomputed V8 locations: native13files/57exact; supplemental actual shared UI0files/0locations exact. This component renders its own li/spans; no shared UI rendering claim. Evidence /private/tmp/readability74-identifier-independent.log and before/after plus ui-before/ui-after coverage-final.json. Author native file gates/hooks pass; driver owns integrated types. No correctness/clarity/scope finding or new evidenced guidance gap.

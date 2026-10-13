@@ -1,0 +1,13 @@
+# WorkflowComment author review
+
+Originator `921d33ca0d55c268dba1b0683d8c59d6369d7ab4`, base `3533c26be42734c937d57c3fd4805e14b81da286`.
+
+All seven original cases/22 checks remain: position/size reactivity6, type visibility2, forwarded store events5, pan payload1, text/frame sanitization2 each and markdown profile/link/raw escaping4. Every original comment ID/color/position/size/data literal, incomplete position-only data, newly empty rootOffset object at each arrangement, transform ref, mock action behavior and emit/setProps/nextTick order remains.
+
+Native inferred mount/shallowMount props and global provider replace component any assertions and legacy props/provide. Supplied base fields are checked against the public TextWorkflowComment subset; its deliberate empty data is documented only at the position-only prop boundaries. Empty bounding-ref/update metadata remains omitted with an explicit UseElementBoundingReturn boundary. Complete typed rendering comments remove the broad discriminator/data helper boundary without adding defaults. Required child and sanitizer call lookups use getComponent/nth; explicit sanitized presence checks remain.
+
+Each actual testing Pinia is captured before setup, installed in native globals and disposed on completion with active binding cleared. Automatic unmount runs before restoring the exact original sanitizer implementation and mock spies, then store disposal follows. The original custom-icon suppression is restored instead of persisting its console spy. A teardown-only wait lets the currently scheduled real draggable resize/frame callbacks execute while mounted, before unmount; original assertions are not delayed or moved. Initial immediate unmount lost18 actual animation-frame/resize/throttle locations; this source-inspected callback settle retains every original location, without an arbitrary timeout or claiming to shut down the production singleton scheduler.
+
+Pristine native/UI captures completed before editing. Final Node22.20 single-worker shuffled740101 passes7 cases. Covered statement/function/branch-arm locations: native70files536 exact; actual shared UI26files67 exact. Actual comment controls render alongside imported shared UI setup; no claim every imported template renders. File ESLint/Prettier, explicit absolute sample hooks and diff check pass. Full client types on the final file pass; driver owns integrated types. Evidence `/private/tmp/readability74-comment-{before,after}` and corresponding -ui JSON/logs, -types/-eslint/-prettier/-hooks.log.
+
+No shared/support/production/later-lane edit, new schema defaults or evidenced guidance gap. Existing native boundary/partial fixture/resource ownership guidance suffices.

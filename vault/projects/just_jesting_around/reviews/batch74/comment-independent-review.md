@@ -1,0 +1,9 @@
+# WorkflowComment independent review
+
+Approve originator `921d33ca0d55c268dba1b0683d8c59d6369d7ab4` against `3533c26be42734c937d57c3fd4805e14b81da286`. Independently inspected the complete diff, public component/comment types, actual transform injection, resize listener behavior and author coverage evidence. No source changes requested.
+
+All seven cases and 22 original checks remain, including all reactive position/size values, five store event payloads, pan payload, type visibility and text/frame/markdown sanitizer checks. The position-only empty data and every fresh empty rootOffset stay deliberately partial with documented public type boundaries; complete rendering fixtures receive no invented defaults. Native global provide now matches Draggable's transform injection. Required child/call lookups retain the original visibility, argument and explicit presence checks.
+
+Owned testing Pinia is disposed on completion. Reverse afterEach registration settles the current real scheduled frame while mounted, then unmounts before restoring the captured sanitizer implementation and spies; store disposal follows. This preserves the observed resize/frame paths without an arbitrary timeout or a claim to terminate the production singleton scheduler. Sanitizer call-through remains controlled, so these checks establish profile/markup forwarding rather than DOMPurify browser security guarantees.
+
+Independent Node22.20 single-worker shuffled740201 run passes all seven cases, exit0 (`/private/tmp/readability74-comment-independent.log`). Independently recomputed covered statement/function/branch-arm locations: native70 files536 exact; actual external shared UI26 files67 exact. Imported UI setup is distinguished from rendered controls. Author file lint/format/hooks and driver integrated types are separately reported as passed. Existing compiler warnings are not failed tests. No weakened check, production/support edit or evidenced guidance gap.

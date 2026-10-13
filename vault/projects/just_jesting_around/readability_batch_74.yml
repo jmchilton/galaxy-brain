@@ -1,0 +1,69 @@
+iteration: 74
+seed: 2610974
+inventory_sha256: f143abedf429da34b6be90da880d51bacbb0f6818489d9eb83e57e300c108af0
+eligible: 181
+base_commit: 3533c26be42734c937d57c3fd4805e14b81da286
+remote_start_commit: 3533c26be42734c937d57c3fd4805e14b81da286
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/Datatypes/index.test.ts
+- file: client/src/components/RuleBuilder/IdentifierDisplay.test.ts
+- file: client/src/components/Visualizations/VisualizationFrame.test.js
+- file: client/src/components/Common/DelayedInput.test.ts
+- file: client/src/components/Panels/Upload/UploadMethodViewInline.test.ts
+- file: client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
+- file: client/src/api/staleCacheRetry.test.ts
+- file: client/src/components/ConfigTemplates/formUtil.test.ts
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+baseline:
+  declared_cases: 74
+  intended_assertions: 152
+validation:
+  passed_cases: 74
+  assertions: 152
+  skipped_cases: 0
+  shuffle_seed: 740101
+  independent_seed: 740201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed
+  isolated_ui_vue_tsc: passed
+  eslint: passed native client
+  prettier: passed
+  hooks: passed absolute sample config
+  coverage: zero covered source locations lost; UI/import/setup qualifications in
+    report
+  independent_review: all eight approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain eight origins; screenshots irrelevant
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; unrelated
+    empty scratch note preserved
+commits:
+- d2458bcf57f3d917f45122eb25a4b87e51462a13
+- d0e82fae8537830a74bb3c94e498dbc6bc606b25
+- 843e597459fef41b8e1ea6c17c11f33e1b93a6b7
+- 84efb8c7a00867ed066236546b017ff23c06a99f
+- f285c0e33ff9b58ce6c23b0db58ca676ec7b19d5
+- 8e6b41c5fdc0cd0b63dcd9b3e074022dc506af6f
+- 4a55bb857cc4f35b69509792c5a081fbf39eef21
+- b366b7803452c6adc687b81c10569da392106099
+ci_predecessor:
+  head: 3533c26be42734c937d57c3fd4805e14b81da286
+  client_unit: passed both checks
+  toolshed_lint_unit: passed
+  unrelated_failure: Test(3.10,0) kubectl TLS download timeout during minikube setup
+    before tests
+push: fast-forward
+pushed_head: b366b7803452c6adc687b81c10569da392106099
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

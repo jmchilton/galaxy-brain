@@ -64,6 +64,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/api/staleCacheRetry.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/api/visualizations.test.ts
   iterated: 1
@@ -196,6 +197,7 @@
   iterated: 1
 - file: client/src/components/Common/DatasetPopoverLink.width.test.ts
 - file: client/src/components/Common/DelayedInput.test.ts
+  iterated: 1
 - file: client/src/components/Common/EmailReportForm.test.ts
   iterated: 1
 - file: client/src/components/Common/ExportForm.test.ts
@@ -239,6 +241,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/ConfigTemplates/formUtil.test.ts
+  iterated: 1
   storified: skip
 - file: client/src/components/ConfigTemplates/useConfigurationTesting.test.ts
   iterated: 1
@@ -269,6 +272,7 @@
   split_commit: true
 - file: client/src/components/DatasetInformation/DatasetInformation.test.ts
 - file: client/src/components/Datatypes/index.test.ts
+  iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Downloads/DownloadItemCard.test.ts
@@ -688,6 +692,7 @@
   storybook_play: true
 - file: client/src/components/Panels/Upload/UploadMethodView.test.ts
 - file: client/src/components/Panels/Upload/UploadMethodViewInline.test.ts
+  iterated: 1
 - file: client/src/components/Panels/Upload/methods/PasteLinksUpload.test.ts
 - file: client/src/components/Panels/Upload/uploadMethodRegistry.test.ts
   storified: skip
@@ -713,6 +718,7 @@
   iterated: 1
 - file: client/src/components/RuleBuilder/ColumnSelector.test.ts
 - file: client/src/components/RuleBuilder/IdentifierDisplay.test.ts
+  iterated: 1
 - file: client/src/components/RuleBuilder/RuleDefinitions.test.ts
   iterated: 1
   split_commit: true
@@ -897,6 +903,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Visualizations/VisualizationFrame.test.js
+  iterated: 1
   storified: skip
 - file: client/src/components/Visualizations/VisualizationHeader.test.js
   iterated: 1
@@ -916,6 +923,7 @@
 - file: client/src/components/Workflow/Editor/Comments/ColorSelector.test.js
   iterated: 1
 - file: client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
+  iterated: 1
 - file: client/src/components/Workflow/Editor/DraggablePan.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormDefault.test.js
   iterated: 1
