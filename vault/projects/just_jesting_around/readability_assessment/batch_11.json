@@ -1,0 +1,243 @@
+{
+  "batch": 11,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Form/FormMessage.test.js",
+      "commits": [
+        {
+          "commit": "0c585a3840ba9a8188cfda5de3a656f088e22eb7",
+          "iteration": "61",
+          "subject": "Own form message timers and scenario wrappers",
+          "test_files": [
+            "client/src/components/Form/FormMessage.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/FormMessage.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0c585a3840ba9a8188cfda5de3a656f088e22eb7.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/composables/useFormState.test.js",
+      "commits": [
+        {
+          "commit": "5f91dcb2106185b0ef6c6c14b1b4dadf666c239b",
+          "iteration": "05",
+          "subject": "Improve readability of useFormState tests",
+          "test_files": [
+            "client/src/components/Form/composables/useFormState.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/composables/useFormState.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5f91dcb2106185b0ef6c6c14b1b4dadf666c239b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GDateTime.test.ts",
+      "commits": [
+        {
+          "commit": "52376731a37167732fe8818a8223f5c2155373b0",
+          "iteration": "50",
+          "subject": "Clarify date and time input event scenarios",
+          "test_files": [
+            "client/src/components/GDateTime.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GDateTime.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/52376731a37167732fe8818a8223f5c2155373b0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI.newchat.test.ts",
+      "commits": [
+        {
+          "commit": "90317fb1a0e210f2f405f46ee81b5aea259c6452",
+          "iteration": "24",
+          "subject": "Improve readability of GalaxyAI.newchat tests",
+          "test_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/90317fb1a0e210f2f405f46ee81b5aea259c6452.txt"
+        },
+        {
+          "commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+          "iteration": "40",
+          "subject": "Add tests/vitest/deferred.ts for client unit tests",
+          "test_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts",
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts",
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI/test-utils.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/tests/vitest/deferred.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6fe1e23274a46e74967506d7ca86900d1f3bdab0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI.routesync.test.ts",
+      "commits": [
+        {
+          "commit": "f1e4109f9bdce6a8cdd49bee6b50a1345fc1bf02",
+          "iteration": "24",
+          "subject": "Add src/components/GalaxyAI/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/GalaxyAI.routesync.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f1e4109f9bdce6a8cdd49bee6b50a1345fc1bf02.txt"
+        },
+        {
+          "commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+          "iteration": "40",
+          "subject": "Add tests/vitest/deferred.ts for client unit tests",
+          "test_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts",
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts",
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI/test-utils.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/tests/vitest/deferred.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6fe1e23274a46e74967506d7ca86900d1f3bdab0.txt"
+        },
+        {
+          "commit": "f06d7ae80220a2d8576b4fa2548a33074804b591",
+          "iteration": "72",
+          "subject": "Own route-sync chat mounts and delayed history cleanup",
+          "test_files": [
+            "client/src/components/GalaxyAI.routesync.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI.routesync.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f06d7ae80220a2d8576b4fa2548a33074804b591.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/ChatInput.test.ts",
+      "commits": [
+        {
+          "commit": "d5f659dffaac2bb070eaaff789d4e16990c3df92",
+          "iteration": "69",
+          "subject": "Own chat input wrappers and type native interactions",
+          "test_files": [
+            "client/src/components/GalaxyAI/ChatInput.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI/ChatInput.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d5f659dffaac2bb070eaaff789d4e16990c3df92.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/ChatMessageCell.test.ts",
+      "commits": [
+        {
+          "commit": "3941ab47e6d39677858ec6485d20de927bb19c4d",
+          "iteration": "16",
+          "subject": "Improve readability of ChatMessageCell tests",
+          "test_files": [
+            "client/src/components/GalaxyAI/ChatMessageCell.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI/ChatMessageCell.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3941ab47e6d39677858ec6485d20de927bb19c4d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/ChatModeSelector.test.ts",
+      "commits": [
+        {
+          "commit": "8fc0d8371889c924adc8afa78f4bb079570e03ac",
+          "iteration": "08",
+          "subject": "Add tests/test-data/chat.ts for client unit tests",
+          "test_files": [
+            "client/src/components/GalaxyAI/ChatModeSelector.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI/ChatModeSelector.test.ts",
+            "client/tests/test-data/chat.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8fc0d8371889c924adc8afa78f4bb079570e03ac.txt"
+        },
+        {
+          "commit": "081242d919f0fe65fa8011c44231895b0086008f",
+          "iteration": "65",
+          "subject": "Own chat mode selector test mounts and stores",
+          "test_files": [
+            "client/src/components/GalaxyAI/ChatModeSelector.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI/ChatModeSelector.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/081242d919f0fe65fa8011c44231895b0086008f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/ClarificationCard.test.ts",
+      "commits": [
+        {
+          "commit": "b22a8217ce37b60cda77a8c10c2496225d8c0382",
+          "iteration": "71",
+          "subject": "Type ClarificationCard mounts and clean up option scenarios",
+          "test_files": [
+            "client/src/components/GalaxyAI/ClarificationCard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI/ClarificationCard.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b22a8217ce37b60cda77a8c10c2496225d8c0382.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/agentTypes.test.ts",
+      "commits": [
+        {
+          "commit": "db32c5d0d3b9510650d0a05627ee29b9d1ef2d3c",
+          "iteration": "46",
+          "subject": "Improve readability of agentTypes tests",
+          "test_files": [
+            "client/src/components/GalaxyAI/agentTypes.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI/agentTypes.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/db32c5d0d3b9510650d0a05627ee29b9d1ef2d3c.txt"
+        }
+      ]
+    }
+  ]
+}

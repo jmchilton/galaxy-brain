@@ -1,0 +1,160 @@
+{
+  "batch": 2,
+  "tests": [
+    {
+      "file": "client/src/api/client/rateLimiter.test.ts",
+      "reviews": [
+        {
+          "commit": "ccad3b3ccb66de0248eaae4f0001549d1df23307",
+          "iteration": "05",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Renames 429 spy/helper and cases, moves clear to beforeEach, removes comments restating assertions; same status, retry messages, call count and no-retry checks. Most hunks only rename.",
+          "caps": [
+            "no defect from gate list",
+            "most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/client/serverMock.test.ts",
+      "reviews": [
+        {
+          "commit": "91291be0d47314a6511143628c512cb5a3e2371f",
+          "iteration": "01",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Splits four existing API scenarios into named tests and adopts canonical history factory; beforeEach reinstalls handlers appropriately for split cases. All assertions preserved, but original single test had no leak or weak check.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/datasets.test.ts",
+      "reviews": [
+        {
+          "commit": "727dedadb6440497736dba614870d54b527c1db0",
+          "iteration": "03",
+          "score": 4,
+          "defect": "weak target-history check",
+          "rationale": "Single receivedHistoryId allowed an earlier copy request to target another history; captures both IDs and asserts exact pair. Removes permissive any/never response casts with explicit untyped minimal responses, retaining concurrency/result checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/histories.test.ts",
+      "reviews": [
+        {
+          "commit": "ad07a25657498e219d827c3800757318e988e275",
+          "iteration": "55",
+          "score": 4,
+          "defect": "as unknown as fixture cast soup and missing request counts",
+          "rationale": "Uses canonical history fixture to remove double cast and any response; query array equality now rejects extra requests while preserving every previous partial query property. Additional nesting is justified by cardinality.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/index.test.ts",
+      "reviews": [
+        {
+          "commit": "cb2e352ef64833ccb3fac6a7b5c8444ef141e357",
+          "iteration": "04",
+          "score": 5,
+          "defect": "misleading anonymous-user cases exercise registered predicate",
+          "rationale": "isAnonymousUser suite actually called isRegisteredUser; now calls correct function with independent expected values. Typed canonical history fixture removes generic return-as-T coercion, and userOwnsHistory table retains all eight scenarios.",
+          "caps": []
+        },
+        {
+          "commit": "ac595e3260181d93d60a6b0de5e5bc4c1c80a465",
+          "iteration": "15",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Introduces getFakeHistorySummaryExtended for one API consumer while retaining a local historyWithOwner wrapper; saves two defaults locally at cost of new export. Batch15 validates consumers, but this commit itself fixes no gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/pages.test.ts",
+      "reviews": [
+        {
+          "commit": "edc2e1663a162ca506914ccbbb53bc950d37718d",
+          "iteration": "02",
+          "score": 5,
+          "defect": "untested request paths and bodies despite endpoint fixtures",
+          "rationale": "Adds captured history/page IDs and exact create/update/save payload checks where static handlers formerly accepted any payload; names slug-conflict outcomes and adopts canonical page fixtures. Preserves error and query semantics.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/staleCacheRetry.test.ts",
+      "reviews": [
+        {
+          "commit": "3766b31a184d1632b64bdce33fd3715ec611c214",
+          "iteration": "74",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds satisfies and Axios return/header types, replaces existing length-guarded request indexing with nth. Previous checks already fail on absent requests/wrong headers; no wrong hidden type identified.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/visualizations.test.ts",
+      "reviews": [
+        {
+          "commit": "bacca43f4d996cb63e5e5b7e3faa501ea010b52c",
+          "iteration": "41",
+          "score": 4,
+          "defect": "duplicate visualization fixture factories",
+          "rationale": "New shared visualization factory replaces duplicated identical literals in two consumers and checks its return type; batch41 records seven affected suites including both API and palette. Existing requests/results preserved.",
+          "caps": []
+        },
+        {
+          "commit": "dd8a4f97f469a599b6a3fe76df30835baf4dfe5d",
+          "iteration": "59",
+          "score": 4,
+          "defect": "weak first-request-only assertions",
+          "rationale": "Whole queries array equality rejects duplicate or additional requests previously ignored by queries[0]. Retains all partial field checks; comment corrected from last to every request.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/workflows.test.ts",
+      "reviews": [
+        {
+          "commit": "fcad1197fb98a204ae4429e1a5b2ebb1894ab95f",
+          "iteration": "56",
+          "score": 4,
+          "defect": "untested request cardinality",
+          "rationale": "Adds exactly one request requirement to both workflow query cases, removes any handler casts, keeps show_shared/search values and absence check. Small query-object adaptation supports readable assertions.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/app/app.test.js",
+      "reviews": [
+        {
+          "commit": "eedd1a16d44a0a85828230d8147d7a5f16d30b5c",
+          "iteration": "06",
+          "score": 3,
+          "defect": "misleading patchExisting name and wrong user type check",
+          "rationale": "Fixes expect(app.user && typeof app.config === \"object\") to check user type and renames contradictory patchExisting case. Assertions retained; sessionStorage branching and mock/global cleanup add costs without observed leak, reducing otherwise proportionate gain. Removed exported helper had no external consumers at parent commit.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

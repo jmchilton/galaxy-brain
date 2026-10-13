@@ -1,0 +1,219 @@
+{
+  "batch": 41,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/stores/pageStore.test.ts",
+      "commits": [
+        {
+          "commit": "9f4465e3c8e2c1e8ed83188b37a44d7780306279",
+          "iteration": "41",
+          "subject": "Improve readability of pageStore tests",
+          "test_files": [
+            "client/src/stores/pageStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/pageStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9f4465e3c8e2c1e8ed83188b37a44d7780306279.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/services/history.services.test.ts",
+      "commits": [
+        {
+          "commit": "0a90a26712cd53d8653c1e32168b2f925ed8d963",
+          "iteration": "57",
+          "subject": "Test history service queries through typed HTTP handlers",
+          "test_files": [
+            "client/src/stores/services/history.services.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/services/history.services.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0a90a26712cd53d8653c1e32168b2f925ed8d963.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/storageOperationsStore.test.ts",
+      "commits": [
+        {
+          "commit": "13e5ae8768784d6b3d93f35af7eedc740b5fb0ab",
+          "iteration": "04",
+          "subject": "Improve readability of storageOperationsStore tests",
+          "test_files": [
+            "client/src/stores/storageOperationsStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/storageOperationsStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/13e5ae8768784d6b3d93f35af7eedc740b5fb0ab.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/toolStore.test.ts",
+      "commits": [
+        {
+          "commit": "b3699620eb3f8f3ed7472b38eaac5918d5253077",
+          "iteration": "02",
+          "subject": "Improve readability of toolStore tests",
+          "test_files": [
+            "client/src/stores/toolStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/toolStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b3699620eb3f8f3ed7472b38eaac5918d5253077.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/unprivilegedToolStore.test.ts",
+      "commits": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "subject": "Extend tests/test-data/index.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts",
+            "client/tests/test-data/index.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/65fc286e8b7a5f01da895c0155ddb4244d39a2a5.txt"
+        },
+        {
+          "commit": "18c6717c25b24dddbf65370899018b11957c485f",
+          "iteration": "67",
+          "subject": "Improve unprivileged tool store test ownership",
+          "test_files": [
+            "client/src/stores/unprivilegedToolStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/unprivilegedToolStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/18c6717c25b24dddbf65370899018b11957c485f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/uploadDatasetMonitorStore.test.ts",
+      "commits": [
+        {
+          "commit": "72626f7110f59b5aa49e66e2e7511baf6d84a1e2",
+          "iteration": "66",
+          "subject": "Own upload monitor test stores state and timers",
+          "test_files": [
+            "client/src/stores/uploadDatasetMonitorStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/uploadDatasetMonitorStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/72626f7110f59b5aa49e66e2e7511baf6d84a1e2.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/userStore.test.ts",
+      "commits": [
+        {
+          "commit": "3f0210ef72c19f7556ac8ceb7fa910942350d69f",
+          "iteration": "12",
+          "subject": "Improve readability of userStore tests",
+          "test_files": [
+            "client/src/stores/userStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/userStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3f0210ef72c19f7556ac8ceb7fa910942350d69f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+      "commits": [
+        {
+          "commit": "5ec62a2a0003c5635a24a9b0e7f946bc5b6009fb",
+          "iteration": "04",
+          "subject": "Add tests/test-data/userCredentials.ts for client unit tests",
+          "test_files": [
+            "client/src/stores/userToolsServiceCredentialsStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+            "client/tests/test-data/userCredentials.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5ec62a2a0003c5635a24a9b0e7f946bc5b6009fb.txt"
+        },
+        {
+          "commit": "fffdab26b21c0bdc546fa2ceb0ffdde636e68d84",
+          "iteration": "69",
+          "subject": "Keep reactive credentials test setup and ownership local",
+          "test_files": [
+            "client/src/stores/userToolsServiceCredentialsStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/userToolsServiceCredentialsStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fffdab26b21c0bdc546fa2ceb0ffdde636e68d84.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/visualizationStore.test.ts",
+      "commits": [
+        {
+          "commit": "fb2d45ae244b13e3c82be2d6869e3ed4e3100806",
+          "iteration": "41",
+          "subject": "Improve readability of visualizationStore tests",
+          "test_files": [
+            "client/src/stores/visualizationStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/visualizationStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fb2d45ae244b13e3c82be2d6869e3ed4e3100806.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/windowManagerStore.test.ts",
+      "commits": [
+        {
+          "commit": "06c8fd2bbe89524216d4787c38d4d86f1734447f",
+          "iteration": "09",
+          "subject": "Improve readability of windowManagerStore tests",
+          "test_files": [
+            "client/src/stores/windowManagerStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/windowManagerStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/06c8fd2bbe89524216d4787c38d4d86f1734447f.txt"
+        }
+      ]
+    }
+  ]
+}

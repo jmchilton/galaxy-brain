@@ -1,0 +1,145 @@
+{
+  "batch": 33,
+  "tests": [
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowStepIcon.test.ts",
+      "reviews": [
+        {
+          "commit": "29a72027f88e5154c0496ad2c5ee7ddea8e13f8f",
+          "iteration": "38",
+          "score": 4,
+          "defect": "untested rotation behaviour",
+          "rationale": "Adds expected rotation for all existing icon fixtures; typed tuple and props modernisation are small and every icon check retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/util.test.ts",
+      "reviews": [
+        {
+          "commit": "8b1a5217275b4b605ef80819d918469dc4c85304",
+          "iteration": "13",
+          "score": 4,
+          "defect": "as unknown as cast soup",
+          "rationale": "Supplies missing populated_state on typed StepJobSummary objects instead of double casts; table retains all exact title cases though much of its churn is neutral.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/AdminPanel.test.js",
+      "reviews": [
+        {
+          "commit": "4c675322463a262fdcda2f106e3dd1ea0cbcba2b",
+          "iteration": "12",
+          "score": 4,
+          "defect": "opaque loop-driven scenarios",
+          "rationale": "Replaces nested available/options loops with named independent config rows and adopts canonical config mock; visibility assertions retain both flags/states.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/GroupForm.test.ts",
+      "reviews": [
+        {
+          "commit": "a5ff3f366dc74f064c1841112f320c46e8235da4",
+          "iteration": "45",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Existing request/title/error checks remain; constants/selectors and split title test add ceremony, two new load-failure endpoints are useful but no existing fixture defect is named.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/JobsTable.test.ts",
+      "reviews": [
+        {
+          "commit": "001120b046f6eb9902aefe8ca204248534c208e9",
+          "iteration": "64",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Replaces header index with update_time selector and adds auto-unmount; sorting checks already reject wrong results, cast was only as object.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/Notifications/BroadcastForm.test.ts",
+      "reviews": [
+        {
+          "commit": "beb6fd039ba189123543a0aeb5df075fd83a8ea3",
+          "iteration": "68",
+          "score": 3,
+          "defect": "misleading textarea type and test name",
+          "rationale": "Corrects textarea HTMLInputElement cast and published published name; most diff is lifecycle/options and equivalent get selectors, without an observed leak.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/Notifications/BroadcastsList.test.ts",
+      "reviews": [
+        {
+          "commit": "2d160bc8d7a91c2f34a8e4f2245ff82c0beab6b2",
+          "iteration": "36",
+          "score": 5,
+          "defect": "weak count-only filtering and timing flakiness",
+          "rationale": "Count-only checks accepted wrong broadcast identities; fixed Date and distinct subjects prove each isolated and cumulative filter result, preserving all-off alert.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/Notifications/NotificationForm.test.ts",
+      "reviews": [
+        {
+          "commit": "cfcedfbf4ee7cd13ab080f86ca80ad1195def27e",
+          "iteration": "61",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Only mount plugin wiring, as object removal and unmount/Pinia disposal; original notification behaviour assertions unchanged and no observed leak.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/Notifications/NotificationsManagement.test.ts",
+      "reviews": [
+        {
+          "commit": "050fecb3342c8b79f5919220a44f83ee292af4b3",
+          "iteration": "09",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Consolidates two already-clear enabled/disabled cases into expected-value table; boolean helper and auto-unmount do not address a gate defect.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/QuotaForm.test.ts",
+      "reviews": [
+        {
+          "commit": "271a7cfbf571e734cac95aed38c66cb4dc978f7b",
+          "iteration": "33",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adopts canonical filter mock and typed quota fixture, keeps all request/field checks and strengthens title negative check; widespread selector renames dominate. Deletes worker-environment why comment.",
+          "caps": [
+            "cap 3: why comment deleted; most hunks renames/reordering"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "batch": 10,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Form/Elements/FormSelect.test.js",
+      "commits": [
+        {
+          "commit": "84bbf657639460932cea3f6b37cf31384cbe5e62",
+          "iteration": "36",
+          "subject": "Improve readability of FormSelect tests",
+          "test_files": [
+            "client/src/components/Form/Elements/FormSelect.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormSelect.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/84bbf657639460932cea3f6b37cf31384cbe5e62.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts",
+      "commits": [
+        {
+          "commit": "a7aa05c6c49f6d9117f23a4f93f0bd0df1a7d810",
+          "iteration": "16",
+          "subject": "Improve readability of FormSelectMany tests",
+          "test_files": [
+            "client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a7aa05c6c49f6d9117f23a4f93f0bd0df1a7d810.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormText.test.js",
+      "commits": [
+        {
+          "commit": "06b05caf21bf7893ff5ccdacb9db437bacb8a23b",
+          "iteration": "75",
+          "subject": "Clarify FormText rendering checks and own test mounts",
+          "test_files": [
+            "client/src/components/Form/Elements/FormText.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormText.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/06b05caf21bf7893ff5ccdacb9db437bacb8a23b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormUpload.test.js",
+      "commits": [
+        {
+          "commit": "302555cd46f55d061a3d174fbe3c2cac34b57bb6",
+          "iteration": "70",
+          "subject": "Own upload form wrappers and name visible content",
+          "test_files": [
+            "client/src/components/Form/Elements/FormUpload.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormUpload.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/302555cd46f55d061a3d174fbe3c2cac34b57bb6.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormCard.test.js",
+      "commits": [
+        {
+          "commit": "d13c9c994aa75f2c06e4e64f8faec90b72b86d2c",
+          "iteration": "15",
+          "subject": "Improve readability of FormCard tests",
+          "test_files": [
+            "client/src/components/Form/FormCard.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/FormCard.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d13c9c994aa75f2c06e4e64f8faec90b72b86d2c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormCardSticky.test.js",
+      "commits": [
+        {
+          "commit": "6f225506bb3383a1e65653251ec7dba77c769a32",
+          "iteration": "42",
+          "subject": "Improve readability of FormCardSticky tests",
+          "test_files": [
+            "client/src/components/Form/FormCardSticky.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/FormCardSticky.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6f225506bb3383a1e65653251ec7dba77c769a32.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormDisplay.test.js",
+      "commits": [
+        {
+          "commit": "cd0768807f4d1a1efcf043e44956f43a0bc75f5d",
+          "iteration": "07",
+          "subject": "Improve readability of FormDisplay tests",
+          "test_files": [
+            "client/src/components/Form/FormDisplay.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/FormDisplay.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cd0768807f4d1a1efcf043e44956f43a0bc75f5d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormElement.test.js",
+      "commits": [
+        {
+          "commit": "ec5c9ad5fca6dbe29116b8ff3584f5825b8d3457",
+          "iteration": "11",
+          "subject": "Improve readability of FormElement tests",
+          "test_files": [
+            "client/src/components/Form/FormElement.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/FormElement.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ec5c9ad5fca6dbe29116b8ff3584f5825b8d3457.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormElementHelpMarkdown.test.ts",
+      "commits": [
+        {
+          "commit": "a525cdc84d527eec530f382311f80beabde06068",
+          "iteration": "73",
+          "subject": "Own help markdown mounts and require sanitizer observations",
+          "test_files": [
+            "client/src/components/Form/FormElementHelpMarkdown.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Form/FormElementHelpMarkdown.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a525cdc84d527eec530f382311f80beabde06068.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormElementLabel.test.js",
+      "commits": [
+        {
+          "commit": "d6b074c822599cbd0ddd93f69e24ec7e9f419056",
+          "iteration": "15",
+          "subject": "Improve readability of FormElementLabel tests",
+          "test_files": [
+            "client/src/components/Form/FormElementLabel.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/FormElementLabel.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d6b074c822599cbd0ddd93f69e24ec7e9f419056.txt"
+        }
+      ]
+    }
+  ]
+}

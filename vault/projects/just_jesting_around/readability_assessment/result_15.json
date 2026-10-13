@@ -1,0 +1,164 @@
+{
+  "batch": 15,
+  "tests": [
+    {
+      "file": "client/src/components/History/TargetObjectStoreSelector.test.ts",
+      "reviews": [
+        {
+          "commit": "ac71c1edf2bd407269342cadfa9ba4671d2eb4fa",
+          "iteration": "07",
+          "score": 4,
+          "defect": "Sharable warning absence can pass with no selected store",
+          "rationale": "Adds positive Sharable Store text and adopts canonical object-store factory; named privacy choice keeps warning conditions explicit, retains private/sharable checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/WorkflowExtractionForm.test.ts",
+      "reviews": [
+        {
+          "commit": "ffcddc7a0a7726630ba18663bb0d46bb381ea605",
+          "iteration": "16",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Uses typed wrapper/router/output and card/rename/payload helpers, inlines one-use fixture variants; all extraction/star/name/seed assertions preserved but broad API/indexing churn without a gate-list defect.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/model/queries.test.ts",
+      "reviews": [
+        {
+          "commit": "3416f4871733bf5810c367cb2e42444483f51479",
+          "iteration": "04",
+          "score": 2,
+          "defect": "none",
+          "rationale": "One typed storage-run literal moves to new shared factory with one consumer; defaults hide run shape, no wrong original check or copied three-case setup.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        },
+        {
+          "commit": "5eff1587570209e48d94d482d2cbf307a8e68905",
+          "iteration": "13",
+          "score": 4,
+          "defect": "Partial response checks accept incorrect eligibility/run metadata",
+          "rationale": "Exact preview/execute/status responses plus request-body/ID checks strengthen all endpoints; watcher tracking stops polling. MSW handler assertions add diagnostic cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/useHistoryCardActions.test.ts",
+      "reviews": [
+        {
+          "commit": "535a9f6db7895908b602bab3e1571a9c0368b478",
+          "iteration": "51",
+          "score": 5,
+          "defect": "as unknown as history fixture and optional action checks",
+          "rationale": "Canonical complete history/user models and getAction throw on missing action; preserves all owner-load visibility transitions and scopes composable.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/HistoryExport/Index.test.js",
+      "reviews": [
+        {
+          "commit": "d36bab70cabf672e2ce0237743bf292169a0d38f",
+          "iteration": "56",
+          "score": 2,
+          "defect": "none",
+          "rationale": "One tabs-smoke test gains mock implementation save/reset/conditional restore and Pinia disposal, native plugin options; unchanged exists check, ownership dominates.",
+          "caps": [
+            "cap 2: teardown at least half of changed lines without observed leak",
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/HistoryExport/ToLink.test.js",
+      "reviews": [
+        {
+          "commit": "5195eeb3eaed872700d81d6c2e6e1e0af8dda20b",
+          "iteration": "75",
+          "score": 2,
+          "defect": "Vacuous export-link wrapper truthiness",
+          "rationale": "Adds exportLink.exists but leaves truthy and adds deferred with try/finally plus active-Pinia cleanup; explicit control-flow cap overrides small fidelity fix.",
+          "caps": [
+            "cap 2: net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/HistoryExport/ToRemoteFile.test.js",
+      "reviews": [
+        {
+          "commit": "6dbdfaaccbaf6430a346c490677d2c583e4f6e38",
+          "iteration": "08",
+          "score": 4,
+          "defect": "Weak last-request capture and no job-ID check",
+          "rationale": "Exact one-call export JSON and waitOnJob(TEST_JOB_ID) replace individual last-body fields; actual ExportForm event replaces vm.doExport, success alert retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/HistoryImport.test.js",
+      "reviews": [
+        {
+          "commit": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+          "iteration": "77",
+          "score": 2,
+          "defect": "Real-time debounce waiting and pending completion ownership",
+          "rationale": "Canonical deferred and fake-clock 210ms improve deterministic wait, but introduces test-body try/finally and many conditional resource hooks; form/import/error checks retained.",
+          "caps": [
+            "cap 2: net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/InteractiveTools/InteractiveTools.test.js",
+      "reviews": [
+        {
+          "commit": "90e1a555059060f76fa9cc9600473cfe4a3f9c2b",
+          "iteration": "68",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Returns local wrapper/Pinia and captures delete requests locally; preserves table/info/stop/network checks. structuredClone/nth/global/disposal substitutions marginal.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobDestinationParams/JobDestinationParams.test.ts",
+      "reviews": [
+        {
+          "commit": "daa8014bda771d49bbdb2c9e4deb732ea1ef1ce4",
+          "iteration": "47",
+          "score": 5,
+          "defect": "Loop skips final destination parameter row",
+          "rationale": "Exact rendered rows to all Object.entries removes responseKeys.length-1 gap and conditional value comparison; retains blank-null rendering and adds nonadmin/null-user hiding.",
+          "caps": []
+        },
+        {
+          "commit": "617cf1bbeafa7b49aba85d1a93885fa0b292d150",
+          "iteration": "47",
+          "score": 4,
+          "defect": "Misleading legacy mount examples in shared documentation",
+          "rationale": "README corrects localVue/pinia/propsData examples to props/global/withPlugins with explanatory plugin preservation; no test checks change.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

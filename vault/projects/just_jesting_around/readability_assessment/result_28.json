@@ -1,0 +1,147 @@
+{
+  "batch": 28,
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/Editor/Actions/actions.test.ts",
+      "reviews": [
+        {
+          "commit": "19ac9ce1ce68baa9134de4d9a999e13ddeeb8dd5",
+          "iteration": "05",
+          "score": 4,
+          "defect": "Shared mutable action stores and local deepToRaw copy",
+          "rationale": "Fresh stores per case align snapshot/actions; canonical cloneRaw/toRawDeep remove 17-line recursive any helper and ensure positions before mixed move. Rename-heavy hunks limit proportion.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/AreaHighlight.test.ts",
+      "reviews": [
+        {
+          "commit": "c9cb70fb937f60c4f4c1e5c5958b988ce3561866",
+          "iteration": "76",
+          "score": 4,
+          "defect": "as unknown as public highlight instance casts",
+          "rationale": "Inferred mount exposes show directly in three cases; keeps blink timing/bounds/restart assertions. Added settle/unmount clock hooks cost more than core cast removal.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Comments/ColorSelector.test.js",
+      "reviews": [
+        {
+          "commit": "2020883b00da16aa2074b0734d17e5dc99770d83",
+          "iteration": "65",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Awaits setProps instead of setProps then awaited nextTick; for-of/get simplify indexed loops with same selected-color/event checks. Old sequencing already waited correctly.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts",
+      "reviews": [
+        {
+          "commit": "a7419418a9056803c5a52065a7caaf5c3d85bea0",
+          "iteration": "74",
+          "score": 2,
+          "defect": "Sanitizer implementation can persist into later cases",
+          "rationale": "Restores original sanitizer and fresh Pinia but adds many rootOffset/comment casts and animation-frame lifecycle. Repeated type ceremony leaves incomplete fixtures, reducing net reader benefit.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormDefault.test.js",
+      "reviews": [
+        {
+          "commit": "e5c85a820a672cd87804aea6211197fb6278af4d",
+          "iteration": "12",
+          "score": 3,
+          "defect": "Misleading initial-value/value-change title",
+          "rationale": "Corrects rendering-only title and uses canonical step/native mount; removes extra default mount in refresh case, but two local cases already had valid checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormInputCollection.test.ts",
+      "reviews": [
+        {
+          "commit": "1ab49b227946615e94fe1fe73dc82e607b3e2dbd",
+          "iteration": "70",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Moves three cases to local mounts and adds typed column/ensureDefined, but introduces as unknown as Step for partial fixture and conditional timer cleanup. Original emitted-state checks preserved.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js",
+      "reviews": [
+        {
+          "commit": "e847648121d9444aa5123bb6570c9a40ff1538f4",
+          "iteration": "11",
+          "score": 3,
+          "defect": "Misleading initial-value/value-change name",
+          "rationale": "Names output-specific detail vs duplicate-label behavior and clones per-step outputs; nested mount helper adds indirection to already local two-wrapper setup.",
+          "caps": [
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts",
+      "reviews": [
+        {
+          "commit": "42c2cfe10a7813ea94b5e9a3601e94db4bbfa994",
+          "iteration": "14",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Infers FormPickValue props/datatype model and removes as-any/inference casts; keeps spare-terminal comment but drops explanation why nonlast disconnect keeps count.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormSection.test.ts",
+      "reviews": [
+        {
+          "commit": "d7a24e41f9bfa0c05ca3a8fb86e41f8910e08e0a",
+          "iteration": "50",
+          "score": 4,
+          "defect": "Count-only action check accepts wrong controls",
+          "rationale": "Adds exact Email notification/Output cleanup titles while retaining two-count and no-action cases; minimal native mount/types/cleanup changes.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormTool.test.js",
+      "reviews": [
+        {
+          "commit": "1b62848a8239086e23e14eb618e7ddb0e0ed1deb",
+          "iteration": "41",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Uses child FormDisplay inputs instead of vm inputs and splits rules checks; preserves nested/UI/runtime assertions but deletes #18741 rationale and mostly reorganizes existing good checks.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: why comment deleted without replacement"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "batch": 32,
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/Run/model.test.js",
+      "reviews": [
+        {
+          "commit": "fadc0dd693bc8271b2d1d388c06c754b40501259",
+          "iteration": "36",
+          "score": 4,
+          "defect": "untested input behaviour",
+          "rationale": "Adds direct hidden-input help/link and collapse-preview assertions; fixtures exercise real WorkflowRunModel branches with visible expectations.",
+          "caps": []
+        },
+        {
+          "commit": "a73dc0ddeb99096ddd2af94290c86965575e1b24",
+          "iteration": "68",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Renames step_1/wpData and removes unnecessary async; structuredClone isolates input but no demonstrated order failure. Most hunks are renames.",
+          "caps": [
+            "cap 3: most hunks renames; no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/services.test.js",
+      "reviews": [
+        {
+          "commit": "3a88f2aac932bf540e610d7f52d38eb849669df7",
+          "iteration": "72",
+          "score": 4,
+          "defect": "weak rejection check",
+          "rationale": "catch(e=>e) also accepts resolved Error-shaped values; explicit rejects proves failure while preserving error type/message/tool IDs. Table uses expected filters only.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/WorkflowAnnotation.test.ts",
+      "reviews": [
+        {
+          "commit": "1878716cac6912a8cb4cbf9408e4a9679a5ed6e5",
+          "iteration": "38",
+          "score": 4,
+          "defect": "opaque positional ownership argument",
+          "rationale": "Replaces view,false with {owned:false}, removes branching checks and fake workflow getter, seeds real stores; retains badge/time/history assertions.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/WorkflowExport.test.js",
+      "reviews": [
+        {
+          "commit": "1ff74b3cc6103a767543c78cdfbc3abae47ab8c8",
+          "iteration": "13",
+          "score": 4,
+          "defect": "weak link-list check",
+          "rationale": "Individual indexed href checks accepted extra links; exact ordered href arrays now reject extras and scenarios name private versus importable workflows. MSW-handler expect is a reader cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/JobStep.test.ts",
+      "reviews": [
+        {
+          "commit": "29eeda3698769843907f7c17c6d4c84db9116146",
+          "iteration": "73",
+          "score": 3,
+          "defect": "setup copied across three cases",
+          "rationale": "Extracts identical Pinia/props mount setup, but most remaining changes are lifecycle ceremony and find-to-get; loop still preserves state/count checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts",
+      "reviews": [
+        {
+          "commit": "c401b80547acadd76df0053e5f2c27ac4a2e6a32",
+          "iteration": "38",
+          "score": 4,
+          "defect": "opaque positional arguments",
+          "rationale": "Replaces outputs,false with named tab/terminal options, real store/download fixture replaces mocked getter, exact input-label array retains input values; output checks remain intact.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js",
+      "reviews": [
+        {
+          "commit": "c8dd938b6c1bfce24f9c703e8b0fedcb21547522",
+          "iteration": "37",
+          "score": 4,
+          "defect": "untested fixture behaviour",
+          "rationale": "Real seeded workflow store replaces ID-dispatch module mock; graph workflow prop, absent alert, fetch parameters and danger/info variants are now checked.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts",
+      "reviews": [
+        {
+          "commit": "c6888f569578dd8308ee05acd76c7054a23b851b",
+          "iteration": "31",
+          "score": 5,
+          "defect": "opaque positional booleans and mocked store coverage",
+          "rationale": "Three booleans and ID-dependent getters become named ownership options and real stores; modal Share click replaces direct emitted event and clipboard call is verified. Existing ownership/toast checks survive.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts",
+      "reviews": [
+        {
+          "commit": "0671cc231f3995ede8a9d5b402afbbed76a90ca5",
+          "iteration": "26",
+          "score": 4,
+          "defect": "opaque positional arguments and weak terminal-state observation",
+          "rationale": "Names isFullPage/renderNavigation and exposes each case fixture locally; typed Overview prop replaces HTML substring, fetch args strengthened and all polling/tab/error expectations retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts",
+      "reviews": [
+        {
+          "commit": "020d4efe43f8293f52b0d7502d405694bfb82ffb",
+          "iteration": "60",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds owned attachment target, Pinia disposal, complete typed fixture and get selector; accessibility checks were already meaningful and no leak demonstrated.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    }
+  ]
+}

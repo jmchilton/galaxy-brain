@@ -1,0 +1,177 @@
+{
+  "batch": 9,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/DatasetInformation/DatasetDetails.test.ts",
+      "commits": [
+        {
+          "commit": "e61173cae07f862587aab60f5ece819c044c9dc2",
+          "iteration": "68",
+          "subject": "Own dataset detail mounts timers and sanitizer restoration",
+          "test_files": [
+            "client/src/components/DatasetInformation/DatasetDetails.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/DatasetInformation/DatasetDetails.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e61173cae07f862587aab60f5ece819c044c9dc2.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/DatasetInformation/DatasetError.test.ts",
+      "commits": [
+        {
+          "commit": "326873e5dcfb25604db1c1300d3efc14221facb0",
+          "iteration": "13",
+          "subject": "Improve readability of DatasetError tests",
+          "test_files": [
+            "client/src/components/DatasetInformation/DatasetError.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/DatasetInformation/DatasetError.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/326873e5dcfb25604db1c1300d3efc14221facb0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Datatypes/index.test.ts",
+      "commits": [
+        {
+          "commit": "0e12a1c9c796e7265989c0c591d296843482dbaf",
+          "iteration": "74",
+          "subject": "Await datatype mapper before hierarchy checks",
+          "test_files": [
+            "client/src/components/Datatypes/index.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Datatypes/index.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0e12a1c9c796e7265989c0c591d296843482dbaf.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Downloads/DownloadItemCard.test.ts",
+      "commits": [
+        {
+          "commit": "383f8977c4d71cbbbe964cfff517f42abf66f38e",
+          "iteration": "04",
+          "subject": "Improve readability of DownloadItemCard tests",
+          "test_files": [
+            "client/src/components/Downloads/DownloadItemCard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Downloads/DownloadItemCard.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/383f8977c4d71cbbbe964cfff517f42abf66f38e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormData/FormDataUri.test.ts",
+      "commits": [
+        {
+          "commit": "3543db45dc65f0f1e990f8c4741cc30f6e8ce02e",
+          "iteration": "16",
+          "subject": "Improve readability of FormDataUri tests",
+          "test_files": [
+            "client/src/components/Form/Elements/FormData/FormDataUri.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormData/FormDataUri.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3543db45dc65f0f1e990f8c4741cc30f6e8ce02e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormDrilldown/FormDrilldown.test.js",
+      "commits": [
+        {
+          "commit": "6f29efebdf17a864da210c8984b5677ebb83bc54",
+          "iteration": "39",
+          "subject": "Improve readability of FormDrilldown tests",
+          "test_files": [
+            "client/src/components/Form/Elements/FormDrilldown/FormDrilldown.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormDrilldown/FormDrilldown.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6f29efebdf17a864da210c8984b5677ebb83bc54.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormHidden.test.js",
+      "commits": [
+        {
+          "commit": "322f853fc6ed125611916eb4cea4384fe4a7bf82",
+          "iteration": "55",
+          "subject": "test: Clarify hidden form value transition and own teardown",
+          "test_files": [
+            "client/src/components/Form/Elements/FormHidden.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormHidden.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/322f853fc6ed125611916eb4cea4384fe4a7bf82.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormInput.test.js",
+      "commits": [
+        {
+          "commit": "6a201ad5eb9e7ca5fe8d6f9f6cb95008389449ed",
+          "iteration": "29",
+          "subject": "Improve readability of FormInput tests",
+          "test_files": [
+            "client/src/components/Form/Elements/FormInput.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormInput.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6a201ad5eb9e7ca5fe8d6f9f6cb95008389449ed.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormNumber.test.js",
+      "commits": [
+        {
+          "commit": "44fc0d991b09d0c2ce32d8f7e4ad5691e8122b6b",
+          "iteration": "16",
+          "subject": "Improve readability of FormNumber tests",
+          "test_files": [
+            "client/src/components/Form/Elements/FormNumber.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormNumber.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/44fc0d991b09d0c2ce32d8f7e4ad5691e8122b6b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormOptionalText.test.js",
+      "commits": [
+        {
+          "commit": "687f4fad5ff183cc7cceb3e7312bc2ca5006dd25",
+          "iteration": "37",
+          "subject": "Improve readability of FormOptionalText tests",
+          "test_files": [
+            "client/src/components/Form/Elements/FormOptionalText.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Form/Elements/FormOptionalText.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/687f4fad5ff183cc7cceb3e7312bc2ca5006dd25.txt"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "batch": 9,
+  "tests": [
+    {
+      "file": "client/src/components/DatasetInformation/DatasetDetails.test.ts",
+      "reviews": [
+        {
+          "commit": "e61173cae07f862587aab60f5ece819c044c9dc2",
+          "iteration": "68",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Native typed mounting/get and explicitly untyped partial job preserve peek/error checks; adds captured sanitizer implementation and callback restoration, Pinia disposal and timer cleanup. Mostly ownership without observed defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/DatasetInformation/DatasetError.test.ts",
+      "reviews": [
+        {
+          "commit": "326873e5dcfb25604db1c1300d3efc14221facb0",
+          "iteration": "13",
+          "score": 5,
+          "defect": "vacuous find-wrapper toBeDefined checks and opaque booleans",
+          "rationale": "Two diagnostic wrapper objects were always defined even when DOM absent; exists now tests real empty/duplicate warnings. mount(false,false,\"user_email\") becomes named options, real user seeded before mount, report flow retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Datatypes/index.test.ts",
+      "reviews": [
+        {
+          "commit": "0e12a1c9c796e7265989c0c591d296843482dbaf",
+          "iteration": "74",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Replaces already-awaited getDatatypesMapper().then with direct await and names; all four hierarchy checks identical. No unawaited assertion existed.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Downloads/DownloadItemCard.test.ts",
+      "reviews": [
+        {
+          "commit": "383f8977c4d71cbbbe964cfff517f42abf66f38e",
+          "iteration": "04",
+          "score": 3,
+          "defect": "shared mutable monitor state and weak navigation check",
+          "rationale": "Fresh monitor per mount removes shared ref/default-spy state, exact history URL replaces ID substring and fixtures are canonical. Deletes reactive-proxy why comment while changing delete expectation to mounted prop request; cap3 despite useful cleanup.",
+          "caps": [
+            "why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormData/FormDataUri.test.ts",
+      "reviews": [
+        {
+          "commit": "3543db45dc65f0f1e990f8c4741cc30f6e8ce02e",
+          "iteration": "16",
+          "score": 2,
+          "defect": "opaque conditional assertion helpers and unawaited flush",
+          "rationale": "Removes complex identifier/location helpers and ineffective unawaited flush; direct file/list assertions retain labels, order and counts. New guards now live in test bodies (location/type branches) cap2, even though helper control flow was reduced.",
+          "caps": [
+            "net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormDrilldown/FormDrilldown.test.js",
+      "reviews": [
+        {
+          "commit": "6f29efebdf17a864da210c8984b5677ebb83bc54",
+          "iteration": "39",
+          "score": 4,
+          "defect": "opaque positional boolean mount arguments",
+          "rationale": "mountDrilldown(true,[\"ba\"]) becomes named multiple/value options and required get; preserves all descendant deselection/selection expectations. Compact diff proportionate to multiple boolean calls.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormHidden.test.js",
+      "reviews": [
+        {
+          "commit": "322f853fc6ed125611916eb4cea4384fe4a7bf82",
+          "iteration": "55",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Moves one-case beforeEach mount into case, auto-unmount and descriptive name; value update/info checks unchanged. Original one short case had no gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormInput.test.js",
+      "reviews": [
+        {
+          "commit": "6a201ad5eb9e7ca5fe8d6f9f6cb95008389449ed",
+          "iteration": "29",
+          "score": 4,
+          "defect": "untested removal of input when switching textarea",
+          "rationale": "Adds absent input check during actual setProps transition while retaining textarea initial/edited value and input emission. Mount helper and explicit case names modest costs.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormNumber.test.js",
+      "reviews": [
+        {
+          "commit": "44fc0d991b09d0c2ce32d8f7e4ad5691e8122b6b",
+          "iteration": "16",
+          "score": 2,
+          "defect": "unawaited step assertions",
+          "rationale": "Old loop invoked async expectStep without awaiting, allowing assertions to outlive test; synchronous named table now checks rendered number/range step. Copied arrangements simplified, but new blocked-column if selects assertion and caps2; real inputs/alert explicitly unstubbed.",
+          "caps": [
+            "it.each column selects which assertion runs",
+            "net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormOptionalText.test.js",
+      "reviews": [
+        {
+          "commit": "687f4fad5ff183cc7cceb3e7312bc2ca5006dd25",
+          "iteration": "37",
+          "score": 4,
+          "defect": "untested text-input visibility in null/value transition",
+          "rationale": "Adds absent text input for null then present input after value set; splits initialization from off/on events, preserving exact null/empty emissions. Named selectors and synchronous mount modest cost.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

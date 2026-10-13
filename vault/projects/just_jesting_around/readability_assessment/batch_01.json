@@ -1,0 +1,177 @@
+{
+  "batch": 1,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/packages/api-client/src/client.test.ts",
+      "commits": [
+        {
+          "commit": "44d704a326917eab91594912438d3ae7d22367f2",
+          "iteration": "05",
+          "subject": "Improve readability of api-client/client tests",
+          "test_files": [
+            "client/packages/api-client/src/client.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/api-client/src/client.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/44d704a326917eab91594912438d3ae7d22367f2.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/packages/api-client/src/integration.test.ts",
+      "commits": [
+        {
+          "commit": "f3cc1d86c1b59ecbe3088c2b19efbcd12bfd2d62",
+          "iteration": "04",
+          "subject": "Improve readability of api-client/integration tests",
+          "test_files": [
+            "client/packages/api-client/src/integration.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/api-client/src/integration.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f3cc1d86c1b59ecbe3088c2b19efbcd12bfd2d62.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/components/GCheckbox.test.ts",
+      "commits": [
+        {
+          "commit": "63fb44749e11c77a918c980bffb2699d6bf50873",
+          "iteration": "64",
+          "subject": "Own checkbox test wrappers and use inferred DOM types",
+          "test_files": [
+            "client/packages/ui/src/components/GCheckbox.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/ui/src/components/GCheckbox.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/63fb44749e11c77a918c980bffb2699d6bf50873.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/components/GTable.test.ts",
+      "commits": [
+        {
+          "commit": "60755a78abde1b86debc950e8e80309a58b07705",
+          "iteration": "70",
+          "subject": "Use native GTable test targets and scoped attachment cleanup",
+          "test_files": [
+            "client/packages/ui/src/components/GTable.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/ui/src/components/GTable.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/60755a78abde1b86debc950e8e80309a58b07705.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/components/vModelContract.test.ts",
+      "commits": [
+        {
+          "commit": "8bf79b7d018b84e25abe5d36c44b86496777ba2c",
+          "iteration": "67",
+          "subject": "Use inferred v-model bindings and own parent wrappers",
+          "test_files": [
+            "client/packages/ui/src/components/vModelContract.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/ui/src/components/vModelContract.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8bf79b7d018b84e25abe5d36c44b86496777ba2c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/composables/floatingPosition.test.ts",
+      "commits": [
+        {
+          "commit": "619f842d0ec2ba2d86bf1206c2b111470bb467a3",
+          "iteration": "33",
+          "subject": "Improve readability of floatingPosition tests",
+          "test_files": [
+            "client/packages/ui/src/composables/floatingPosition.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/ui/src/composables/floatingPosition.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/619f842d0ec2ba2d86bf1206c2b111470bb467a3.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/portableImports.test.ts",
+      "commits": [
+        {
+          "commit": "24053f4e66256a4926963715aad77bc1ccd85a26",
+          "iteration": "58",
+          "subject": "test: Type portable UI sources and scan file-content pairs",
+          "test_files": [
+            "client/packages/ui/src/portableImports.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/ui/src/portableImports.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/24053f4e66256a4926963715aad77bc1ccd85a26.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/publicClasses.test.ts",
+      "commits": [
+        {
+          "commit": "be7b9fccc9baa47650b7c8dd8f9c893a5e0b7232",
+          "iteration": "37",
+          "subject": "Improve readability of publicClasses tests",
+          "test_files": [
+            "client/packages/ui/src/publicClasses.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/ui/src/publicClasses.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/be7b9fccc9baa47650b7c8dd8f9c893a5e0b7232.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/utils/escapeStack.test.ts",
+      "commits": [
+        {
+          "commit": "cf3b565d35bea514b2b22628d144540a4c410873",
+          "iteration": "65",
+          "subject": "Verify reopened escape layer removes its old registration",
+          "test_files": [
+            "client/packages/ui/src/utils/escapeStack.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/ui/src/utils/escapeStack.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cf3b565d35bea514b2b22628d144540a4c410873.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/utils/hoverBridge.test.ts",
+      "commits": [
+        {
+          "commit": "4fff84d9077be06103f432ca07636dcf0694837d",
+          "iteration": "44",
+          "subject": "Improve readability of hoverBridge tests",
+          "test_files": [
+            "client/packages/ui/src/utils/hoverBridge.test.ts"
+          ],
+          "changed_files": [
+            "client/packages/ui/src/utils/hoverBridge.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4fff84d9077be06103f432ca07636dcf0694837d.txt"
+        }
+      ]
+    }
+  ]
+}

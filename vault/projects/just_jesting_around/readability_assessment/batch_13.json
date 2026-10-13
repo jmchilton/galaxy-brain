@@ -1,0 +1,209 @@
+{
+  "batch": 13,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/History/Content/model/states.test.js",
+      "commits": [
+        {
+          "commit": "41220004980b525a3663f4eeec200bad51ed1baa",
+          "iteration": "24",
+          "subject": "Improve readability of states tests",
+          "test_files": [
+            "client/src/components/History/Content/model/states.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/History/Content/model/states.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/41220004980b525a3663f4eeec200bad51ed1baa.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryCounter.test.ts",
+      "commits": [
+        {
+          "commit": "a81faac8daeba8a06c4f465a4a5c3138b53033d3",
+          "iteration": "15",
+          "subject": "Improve readability of HistoryCounter tests",
+          "test_files": [
+            "client/src/components/History/CurrentHistory/HistoryCounter.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/CurrentHistory/HistoryCounter.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a81faac8daeba8a06c4f465a4a5c3138b53033d3.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+      "commits": [
+        {
+          "commit": "53fe1c6e4b52e522d4326a494bea48cf3e7c225e",
+          "iteration": "05",
+          "subject": "Improve readability of HistoryNavigation tests",
+          "test_files": [
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/53fe1c6e4b52e522d4326a494bea48cf3e7c225e.txt"
+        },
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "subject": "Extend tests/test-data/index.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts",
+            "client/tests/test-data/index.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/65fc286e8b7a5f01da895c0155ddb4244d39a2a5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryOperations/HistoryStorageOperationsIndicator.test.ts",
+      "commits": [
+        {
+          "commit": "d110ccb21f783c8d1d2d84f75b1c8043df95aeb1",
+          "iteration": "63",
+          "subject": "Own storage operations indicator test cleanup",
+          "test_files": [
+            "client/src/components/History/CurrentHistory/HistoryOperations/HistoryStorageOperationsIndicator.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/CurrentHistory/HistoryOperations/HistoryStorageOperationsIndicator.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d110ccb21f783c8d1d2d84f75b1c8043df95aeb1.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js",
+      "commits": [
+        {
+          "commit": "58080eec1b185b388d57f239664a82eb0b559c5e",
+          "iteration": "76",
+          "subject": "Own selection operation mounts and preserve required event captures",
+          "test_files": [
+            "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/58080eec1b185b388d57f239664a82eb0b559c5e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts",
+      "commits": [
+        {
+          "commit": "420c4a8c9901013516f4a3e584d21c0256663d6e",
+          "iteration": "51",
+          "subject": "Clarify history selection status scenarios",
+          "test_files": [
+            "client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/420c4a8c9901013516f4a3e584d21c0256663d6e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts",
+      "commits": [
+        {
+          "commit": "577b9280db22057dc8cb00f7c700f2ef4e9c61f2",
+          "iteration": "66",
+          "subject": "Use an owned native preferred-store test fixture",
+          "test_files": [
+            "client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/577b9280db22057dc8cb00f7c700f2ef4e9c61f2.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Export/HistoryExportWizard.test.ts",
+      "commits": [
+        {
+          "commit": "2b9efa9bff61628ad1d73793b28f0e9557a802ac",
+          "iteration": "05",
+          "subject": "Add tests/test-data/fileSources.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Common/RDMDestinationSelector.test.ts",
+            "client/src/components/History/Export/HistoryExportWizard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/RDMDestinationSelector.test.ts",
+            "client/src/components/History/Export/HistoryExportWizard.test.ts",
+            "client/tests/test-data/fileSources.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2b9efa9bff61628ad1d73793b28f0e9557a802ac.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Graph/historyGraphMapper.test.ts",
+      "commits": [
+        {
+          "commit": "550b7420ccdf5a42dc838cf4af8b6cb448ee244d",
+          "iteration": "76",
+          "subject": "Require graph mapper test captures through canonical helpers",
+          "test_files": [
+            "client/src/components/History/Graph/historyGraphMapper.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/Graph/historyGraphMapper.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/550b7420ccdf5a42dc838cf4af8b6cb448ee244d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Graph/historyNodeColor.test.ts",
+      "commits": [
+        {
+          "commit": "ba61fe2c37c770a14ea3dbbb1b17544ebad1d51b",
+          "iteration": "32",
+          "subject": "Improve readability of historyNodeColor tests",
+          "test_files": [
+            "client/src/components/History/Graph/historyNodeColor.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/Graph/historyNodeColor.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ba61fe2c37c770a14ea3dbbb1b17544ebad1d51b.txt"
+        }
+      ]
+    }
+  ]
+}

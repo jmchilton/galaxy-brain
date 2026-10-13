@@ -1,0 +1,153 @@
+{
+  "batch": 36,
+  "tests": [
+    {
+      "file": "client/src/composables/shortTermStorageMonitor.test.ts",
+      "reviews": [
+        {
+          "commit": "5689a6ee7a898ecc09a3d49880fd5bbe11a281de",
+          "iteration": "66",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds monitor/scope ownership helpers, deferred release cleanup and restoration; stopping/in-flight assertions remain the same and no observed leak is recorded.",
+          "caps": [
+            "cap 2: teardown/restore dominates without observed leak; cap 3: no gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/taskMonitor.test.ts",
+      "reviews": [
+        {
+          "commit": "f1ca93e74d79c98a0e709c8889e09414d9022a84",
+          "iteration": "11",
+          "score": 4,
+          "defect": "misleading FAILED name and opaque shared handler switch",
+          "rationale": "Names FAILURE accurately and installs each task outcome at the case, awaits waitForTask rather than flush-only orchestration; retains status/failure/final checks, handler expect is a cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/toolTrainingMaterial.test.ts",
+      "reviews": [
+        {
+          "commit": "b17b4316bcda1d1a5dc0bc58db28841481b5070e",
+          "iteration": "41",
+          "score": 4,
+          "defect": "untested configuration-loaded condition",
+          "rationale": "Existing loaded-config fixture never tested waiting; new reactive false/true case proves no fetch before load and configured URL afterwards.",
+          "caps": []
+        },
+        {
+          "commit": "96dd93de476a89fe4a56a18161418bded3c7eda5",
+          "iteration": "73",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Only scopes two composable calls and moves global restoration to onTestFinished; no outcome/assertion changes or observed watcher leak.",
+          "caps": [
+            "cap 2: teardown/restore dominates without observed leak; cap 3: no gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/upload/uploadItemTypes.test.ts",
+      "reviews": [
+        {
+          "commit": "99f0f826800752c7ceca950ba48b5e51a66a14b7",
+          "iteration": "13",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Reuses existing local-file factory for two cases and satisfies table typing; checks were already exact validation failures, no three-case duplication or wrong type identified.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/upload/useUploadBatchOperations.test.ts",
+      "reviews": [
+        {
+          "commit": "5d70e266084041ed7942d82c322f3d2da82d43a3",
+          "iteration": "09",
+          "score": 4,
+          "defect": "vacuous every check and missing-item undefined check",
+          "rationale": "Exact two processing statuses rejects empty item list; retried item existence precedes undefined error check, so missing item cannot pass. Uses existing Pinia/factory helpers.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/upload/useUploadStaging.test.ts",
+      "reviews": [
+        {
+          "commit": "90e16609775a681b0f7942d01637de9c4880d4dc",
+          "iteration": "53",
+          "score": 4,
+          "defect": "casts hide incomplete upload fixture types",
+          "rationale": "Partial pasted URL/content casts omitted required upload fields; supplies typed defaults and named content fixture while preserving false/true/cleared checks. Lifecycle scaffolding is a proportion cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/upload/useUploadSubmission.test.ts",
+      "reviews": [
+        {
+          "commit": "97e034b77317b22812987759714619476236a92f",
+          "iteration": "13",
+          "score": 2,
+          "defect": "weak serialized result and cancellation checks",
+          "rationale": "Direct composable results/rejects remove synthetic DOM/try-catch harness and pending-response cancellation now proves completion; however adds try/finally in cancellation test body.",
+          "caps": [
+            "cap 2: net new control flow in test body"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/urlTracker.test.ts",
+      "reviews": [
+        {
+          "commit": "cb307deac3a15a75e543c57e00e9fd620f825a74",
+          "iteration": "03",
+          "score": 3,
+          "defect": "none",
+          "rationale": "All navigation expectations preserved; changes rename item1/url1 to folder/result and expand test descriptions, remove generic annotations/comment.",
+          "caps": [
+            "cap 3: most hunks renames; no gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useActiveContext.test.ts",
+      "reviews": [
+        {
+          "commit": "c061ecf95ad8d5e1aebea728b2ac0efce59c1a06",
+          "iteration": "13",
+          "score": 4,
+          "defect": "weak branch checks hidden by cast",
+          "rationale": "Former typed-cast toolName/version field checks accepted wrong contextType/toolId; partial object checks verify discriminant and ID plus value, removing two body try/finally blocks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useCommandPalette.test.ts",
+      "reviews": [
+        {
+          "commit": "3f7b79d682b1c4ffc9c7e4c78b0dc0d14cc96a01",
+          "iteration": "32",
+          "score": 4,
+          "defect": "opaque positional loaded boolean and untested opening condition",
+          "rationale": "Removes setupConfig(config,false), seeds config null explicitly and proves openPalette stays closed before configuration arrives; canonical anonymous fixture and module-state why retained.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

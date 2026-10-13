@@ -1,0 +1,177 @@
+{
+  "batch": 34,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/admin/RoleForm.test.ts",
+      "commits": [
+        {
+          "commit": "fdecf97910a491f63d4e3262141f22b119230e07",
+          "iteration": "33",
+          "subject": "Use shared filter mock in RoleForm tests",
+          "test_files": [
+            "client/src/components/admin/RoleForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/admin/RoleForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fdecf97910a491f63d4e3262141f22b119230e07.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/UserRolesGroupsForm.test.ts",
+      "commits": [
+        {
+          "commit": "cb9466667b5857ca560637a92c83b20a7f2ae56b",
+          "iteration": "73",
+          "subject": "Own admin roles form mounts and type request fixtures",
+          "test_files": [
+            "client/src/components/admin/UserRolesGroupsForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/admin/UserRolesGroupsForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cb9466667b5857ca560637a92c83b20a7f2ae56b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/providers/InvocationsProvider.test.js",
+      "commits": [
+        {
+          "commit": "545a08b7d26584df769ab428b72ba885d1790ba9",
+          "iteration": "14",
+          "subject": "Improve readability of InvocationsProvider tests",
+          "test_files": [
+            "client/src/components/providers/InvocationsProvider.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/providers/InvocationsProvider.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/545a08b7d26584df769ab428b72ba885d1790ba9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/providers/PageProvider.test.js",
+      "commits": [
+        {
+          "commit": "d03ca8fe7fb7b1fb0db62434b5d1c064e22d8f06",
+          "iteration": "26",
+          "subject": "Improve readability of PageProvider tests",
+          "test_files": [
+            "client/src/components/providers/PageProvider.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/providers/PageProvider.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d03ca8fe7fb7b1fb0db62434b5d1c064e22d8f06.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/providers/StoredWorkflowProvider.test.js",
+      "commits": [
+        {
+          "commit": "52813a204b7477e376b7a962428f667c2e7bc3e3",
+          "iteration": "25",
+          "subject": "Improve readability of StoredWorkflowProvider tests",
+          "test_files": [
+            "client/src/components/providers/StoredWorkflowProvider.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/providers/StoredWorkflowProvider.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/52813a204b7477e376b7a962428f667c2e7bc3e3.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/providers/storeProviders.test.js",
+      "commits": [
+        {
+          "commit": "1687cec6eca6be808c6fd594d159588ba1e97e7b",
+          "iteration": "69",
+          "subject": "Own datatype provider test stores and mounts",
+          "test_files": [
+            "client/src/components/providers/storeProviders.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/providers/storeProviders.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1687cec6eca6be808c6fd594d159588ba1e97e7b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/accessibleHover.test.ts",
+      "commits": [
+        {
+          "commit": "e613d4d670d480b505688efb8e31a8b6b916ebc0",
+          "iteration": "08",
+          "subject": "Improve readability of accessibleHover tests",
+          "test_files": [
+            "client/src/composables/accessibleHover.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/accessibleHover.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e613d4d670d480b505688efb8e31a8b6b916ebc0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/confirmDialog.test.ts",
+      "commits": [
+        {
+          "commit": "3cfd3c99affc426c5d731cbcd339a38d01a7369b",
+          "iteration": "07",
+          "subject": "Improve readability of confirmDialog tests",
+          "test_files": [
+            "client/src/composables/confirmDialog.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/confirmDialog.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3cfd3c99affc426c5d731cbcd339a38d01a7369b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/datasetPermissions.test.ts",
+      "commits": [
+        {
+          "commit": "d97389485041c740e0611850c3c254d06d93d524",
+          "iteration": "50",
+          "subject": "Clarify permission request outcomes and type the save response",
+          "test_files": [
+            "client/src/composables/datasetPermissions.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/datasetPermissions.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d97389485041c740e0611850c3c254d06d93d524.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/fileSources.test.ts",
+      "commits": [
+        {
+          "commit": "0d3a56a53283139e97a4194b633b4783e5ff2bf2",
+          "iteration": "05",
+          "subject": "Improve readability of fileSources tests",
+          "test_files": [
+            "client/src/composables/fileSources.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/fileSources.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0d3a56a53283139e97a4194b633b4783e5ff2bf2.txt"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "batch": 46,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/ForgotPassword.test.ts",
+      "commits": [
+        {
+          "commit": "c8dacc82e20d4e2f0815ecdf312a369370075f59",
+          "iteration": "40",
+          "subject": "Improve readability of ForgotPassword tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/ForgotPassword.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/ForgotPassword.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c8dacc82e20d4e2f0815ecdf312a369370075f59.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts",
+      "commits": [
+        {
+          "commit": "ecf030c27410fd0c36ffb2dcd0829afdd17508b3",
+          "iteration": "29",
+          "subject": "Add src/test-utils.ts for client unit tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts",
+            "lib/tool_shed/webapp/frontend/src/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ecf030c27410fd0c36ffb2dcd0829afdd17508b3.txt"
+        },
+        {
+          "commit": "fa7d7b93b1ced29b428746b8c60e78f7208a61a6",
+          "iteration": "69",
+          "subject": "Own category page test mounting and store cleanup",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fa7d7b93b1ced29b428746b8c60e78f7208a61a6.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts",
+      "commits": [
+        {
+          "commit": "a673a0acc70f1f4136e1968320922002ba7440d6",
+          "iteration": "72",
+          "subject": "Own search page mounts and pending debounce timers",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a673a0acc70f1f4136e1968320922002ba7440d6.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts",
+      "commits": [
+        {
+          "commit": "891d9deef88a55471a4151003202c994588396dc",
+          "iteration": "67",
+          "subject": "Own repository page test stores and type partial fixtures",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/891d9deef88a55471a4151003202c994588396dc.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts",
+      "commits": [
+        {
+          "commit": "c965c70418b1717729b74bf8ce199fec0a1f1bfe",
+          "iteration": "49",
+          "subject": "Clarify reset password test interactions and isolate mocks",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c965c70418b1717729b74bf8ce199fec0a1f1bfe.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/util.test.ts",
+      "commits": [
+        {
+          "commit": "bf73971bbb55bc5eb5c62d7c022f985557daba6b",
+          "iteration": "55",
+          "subject": "Isolate Tool Shed utility test browser state",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/util.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/util.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/bf73971bbb55bc5eb5c62d7c022f985557daba6b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/Collection/CollectionProgress.test.js",
+      "commits": [
+        {
+          "commit": "91618e026c85845dd1fbaaa22891993167e35d18",
+          "iteration": null,
+          "subject": "Remove duplicate CollectionProgress JavaScript tests",
+          "test_files": [
+            "client/src/components/History/Content/Collection/CollectionProgress.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/History/Content/Collection/CollectionProgress.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/91618e026c85845dd1fbaaa22891993167e35d18.txt"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "batch": 26,
+  "tests": [
+    {
+      "file": "client/src/components/User/DiskUsage/DiskUsageSummary.test.ts",
+      "reviews": [
+        {
+          "commit": "dfcc8bc89dec4700595cecc85dd9bb65f25d1b58",
+          "iteration": "58",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Scopes fake timers and Pinia/wrapper cleanup; names recalculation transition and preserves 1MB/2MB, quota/basic and refreshing checks. No failure/leak evidence in commit.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+      "reviews": [
+        {
+          "commit": "92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6",
+          "iteration": "03",
+          "score": 4,
+          "defect": "Copied cleanable item records across cleanup suites",
+          "rationale": "Shared typed item factory supplies fixed timestamp/512-byte defaults to both immediate consumers and CleanupResultDialog in batch; IDs/names/size checks preserved.",
+          "caps": []
+        },
+        {
+          "commit": "0dfd33147b06bf572965a7ba90eac0d03fb859ab",
+          "iteration": "09",
+          "score": 4,
+          "defect": "Copied cleanup-operation metadata and empty methods",
+          "rationale": "Existing shared fixture module gains operation factory; three summary scenarios adopt it and ReviewCleanupDialog is second consumer in batch, preserving overrides and expected results.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts",
+      "reviews": [
+        {
+          "commit": "4f206b297b86823b1632effe111bf9ccb41ecfb8",
+          "iteration": "03",
+          "score": 4,
+          "defect": "Partial-result fixture error text/freed amounts unasserted",
+          "rationale": "Exact Dataset X/Y error rows and 512b/1.5KB text check preexisting result fixture; canonical item factory and inline partial result make conditions visible. Real alerts/table retained in shallow mount.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+      "reviews": [
+        {
+          "commit": "92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6",
+          "iteration": "03",
+          "score": 4,
+          "defect": "Copied cleanable item records across cleanup suites",
+          "rationale": "Canonical typed fixed-timestamp item factory immediately used by both summary and review suites; identifiers and 512-byte sizes retained.",
+          "caps": []
+        },
+        {
+          "commit": "cb9bfacf639d970fbbeee3a958c14a39142bbec2",
+          "iteration": "09",
+          "score": 4,
+          "defect": "Weak confirmation event count lacks selected payload",
+          "rationale": "Exact [[EXPECTED_ITEMS]] replaces existence/count-only confirmation; named modal lookup and shared operation fixture keep agreement/delete/table behavior.",
+          "caps": []
+        },
+        {
+          "commit": "5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f",
+          "iteration": "31",
+          "score": 4,
+          "defect": "Modal helper accepted ambiguous or disabled matches",
+          "rationale": "Shared native clickModalButton migrates three suites and checks unique/enabled footer control; deletion confirmation still asserts exact selected-items payload.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts",
+      "reviews": [
+        {
+          "commit": "6ec0d63b80d74132127ac46bd058e8c8d0614deb",
+          "iteration": "58",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Infers mount wrapper so three vm-as-any workarounds disappear; names/reorders tests and preserves quota label/value/accessibility checks. Inference workaround alone not rubric defect.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts",
+      "reviews": [
+        {
+          "commit": "c928f465b26bc3f87568f5f47ba1f8e98df54fd8",
+          "iteration": "16",
+          "score": 4,
+          "defect": "Quota bar count allows wrong per-source payloads",
+          "rationale": "Exact child quotaUsage list and rendered finite total 723.3MB strengthen preexisting mixed fixture checks; unlimited summary retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts",
+      "reviews": [
+        {
+          "commit": "8fc9393dfbe6c805bf07a193a52be67ca0dc5357",
+          "iteration": "11",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Moves quota conversions into cases and tables labels/unlimited status with equivalent exact values; original short tests already readable.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts",
+      "reviews": [
+        {
+          "commit": "16f70f52185457de7f4f45dd5525fd8c27db6849",
+          "iteration": "70",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Derives props, unknown data, nth/get and adds mock reset, flush/unmount/disposal; existing legend/render/selection assertions unchanged. No wrong original output identified.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Visualizations/util.test.ts",
+      "reviews": [
+        {
+          "commit": "367ea7f7aeeb9cf716cad8b57d17617d80591524",
+          "iteration": "71",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Reuses canonical Toast mock but adds before/after clear and auto-unmount around one loader-error test; identical isLoading/error-call assertions, extra lifecycle ceremony.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/UserBeaconSettings.test.ts",
+      "reviews": [
+        {
+          "commit": "86121dd4fe2137c2ee9f3fe65d05093fd1779da9",
+          "iteration": "11",
+          "score": 4,
+          "defect": "as unknown as histories cast soup and copied beacon fixtures",
+          "rationale": "Uses explicit untyped BeaconHistory response and canonical created history, preserving shape instead of falsely asserting HistorySummary; named buttons and beaconHistory reduce repeated cases.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

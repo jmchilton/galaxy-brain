@@ -1,0 +1,105 @@
+{
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "commits": [
+    {
+      "commit": "2684699a7254e74c6a6fdf213f7df0ac67e9673c",
+      "iteration": "01",
+      "subject": "Document readability guidance in client testing README",
+      "test_files": [],
+      "changed_files": [
+        "client/README.md"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2684699a7254e74c6a6fdf213f7df0ac67e9673c.txt"
+    },
+    {
+      "commit": "20e76fd8855fa72dd0a5bf79f46c6589f8159204",
+      "iteration": "11",
+      "subject": "Document task monitoring example in client testing README",
+      "test_files": [],
+      "changed_files": [
+        "client/README.md"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/20e76fd8855fa72dd0a5bf79f46c6589f8159204.txt"
+    },
+    {
+      "commit": "4e643f2977bdb8eb38119282e92a5933d7242866",
+      "iteration": "14",
+      "subject": "Extend src/components/PageEditor/testData.ts for client unit tests",
+      "test_files": [],
+      "changed_files": [
+        "client/src/components/PageEditor/testData.ts"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4e643f2977bdb8eb38119282e92a5933d7242866.txt"
+    },
+    {
+      "commit": "e9f28820029847943462a20efa4664b387fd7d69",
+      "iteration": "28",
+      "subject": "Fix stub examples in client testing README",
+      "test_files": [],
+      "changed_files": [
+        "client/README.md"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e9f28820029847943462a20efa4664b387fd7d69.txt"
+    },
+    {
+      "commit": "917d25ddcea32d3a9734b0a30fd5aece73ee11a8",
+      "iteration": "31",
+      "subject": "Document GModal clicks and Pinia store ids in client testing README",
+      "test_files": [],
+      "changed_files": [
+        "client/README.md"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/917d25ddcea32d3a9734b0a30fd5aece73ee11a8.txt"
+    },
+    {
+      "commit": "6f55ccf643c253b6f00666677f473cffd6e97572",
+      "iteration": "33",
+      "subject": "Use ref-backed config mock in client testing README example",
+      "test_files": [],
+      "changed_files": [
+        "client/README.md"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6f55ccf643c253b6f00666677f473cffd6e97572.txt"
+    },
+    {
+      "commit": "1bf68f3c46f71a03bc108c22afb9a8acbb038c68",
+      "iteration": "35",
+      "subject": "Document runInTestScope in client testing README",
+      "test_files": [],
+      "changed_files": [
+        "client/README.md"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1bf68f3c46f71a03bc108c22afb9a8acbb038c68.txt"
+    },
+    {
+      "commit": "e14ae1a82d96e3a0a0f9aa3fa2e92b11fb173bc0",
+      "iteration": "38",
+      "subject": "Document unreturned setup-store state in client testing README",
+      "test_files": [],
+      "changed_files": [
+        "client/README.md"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e14ae1a82d96e3a0a0f9aa3fa2e92b11fb173bc0.txt"
+    },
+    {
+      "commit": "b7274f871e5d75d6b8badbb3c886002b25de3ef7",
+      "iteration": "39",
+      "subject": "Document seedCurrentHistory in client testing README",
+      "test_files": [],
+      "changed_files": [
+        "client/README.md"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b7274f871e5d75d6b8badbb3c886002b25de3ef7.txt"
+    },
+    {
+      "commit": "ffaf49ad3491639b9ed362eaff32a65f8e0ba4a1",
+      "iteration": "42",
+      "subject": "Document unresolved vi.mock ids in client testing README",
+      "test_files": [],
+      "changed_files": [
+        "client/README.md"
+      ],
+      "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ffaf49ad3491639b9ed362eaff32a65f8e0ba4a1.txt"
+    }
+  ]
+}

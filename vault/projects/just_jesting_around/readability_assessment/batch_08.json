@@ -1,0 +1,177 @@
+{
+  "batch": 8,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/ConfigTemplates/VaultSecret.test.ts",
+      "commits": [
+        {
+          "commit": "f52eca1777197efd6c35c012f9a3602500a1fde3",
+          "iteration": "04",
+          "subject": "Improve readability of VaultSecret tests",
+          "test_files": [
+            "client/src/components/ConfigTemplates/VaultSecret.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ConfigTemplates/VaultSecret.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f52eca1777197efd6c35c012f9a3602500a1fde3.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfigTemplates/formUtil.test.ts",
+      "commits": [
+        {
+          "commit": "c86c82b1370f6255852aa68dae1396474ef5ec55",
+          "iteration": "74",
+          "subject": "Clarify required template form entries and fixture types",
+          "test_files": [
+            "client/src/components/ConfigTemplates/formUtil.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ConfigTemplates/formUtil.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c86c82b1370f6255852aa68dae1396474ef5ec55.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfigTemplates/useConfigurationTesting.test.ts",
+      "commits": [
+        {
+          "commit": "fca496deffc7bef99a888e4b4db403abae52569b",
+          "iteration": "56",
+          "subject": "test: Own configuration composable effects and reuse object store fixture",
+          "test_files": [
+            "client/src/components/ConfigTemplates/useConfigurationTesting.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ConfigTemplates/useConfigurationTesting.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fca496deffc7bef99a888e4b4db403abae52569b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfirmDialog.test.ts",
+      "commits": [
+        {
+          "commit": "ff26a4cfbc4368f697a01a837cee8307a0bd62ca",
+          "iteration": "57",
+          "subject": "Clarify confirmation dialog test ownership and lifecycle",
+          "test_files": [
+            "client/src/components/ConfirmDialog.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ConfirmDialog.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ff26a4cfbc4368f697a01a837cee8307a0bd62ca.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/DatasetCopy.test.js",
+      "commits": [
+        {
+          "commit": "fc356a6bb9c47c8b55a1f433e8b29a868df6e451",
+          "iteration": "39",
+          "subject": "Improve readability of DatasetCopy tests",
+          "test_files": [
+            "client/src/components/Dataset/DatasetCopy.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Dataset/DatasetCopy.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fc356a6bb9c47c8b55a1f433e8b29a868df6e451.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts",
+      "commits": [
+        {
+          "commit": "63a8926c0722b026db055a7a31c1fccefc369753",
+          "iteration": "62",
+          "subject": "Clarify DatasetIndex table contracts and mock ownership",
+          "test_files": [
+            "client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/63a8926c0722b026db055a7a31c1fccefc369753.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts",
+      "commits": [
+        {
+          "commit": "30eea2aa07fa16a6dfe1cc7552034bed130f089f",
+          "iteration": "06",
+          "subject": "Improve readability of DatasetStorage tests",
+          "test_files": [
+            "client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/30eea2aa07fa16a6dfe1cc7552034bed130f089f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/DatasetView.test.js",
+      "commits": [
+        {
+          "commit": "543ff11bd309e891322dde074fc2b0fe1d7e262a",
+          "iteration": "10",
+          "subject": "Improve readability of DatasetView tests",
+          "test_files": [
+            "client/src/components/Dataset/DatasetView.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Dataset/DatasetView.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/543ff11bd309e891322dde074fc2b0fe1d7e262a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/Tabular/TabularChunkedView.test.ts",
+      "commits": [
+        {
+          "commit": "f2bcfabc7011612054f4bc730856a92f8db72590",
+          "iteration": "16",
+          "subject": "Improve readability of TabularChunkedView tests",
+          "test_files": [
+            "client/src/components/Dataset/Tabular/TabularChunkedView.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Dataset/Tabular/TabularChunkedView.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f2bcfabc7011612054f4bc730856a92f8db72590.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/DatasetInformation/DatasetAttributes.test.ts",
+      "commits": [
+        {
+          "commit": "46854777d96703cb7e4f24396d33db83333b5f2f",
+          "iteration": "77",
+          "subject": "Infer dataset attribute mounts and own their stores",
+          "test_files": [
+            "client/src/components/DatasetInformation/DatasetAttributes.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/DatasetInformation/DatasetAttributes.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/46854777d96703cb7e4f24396d33db83333b5f2f.txt"
+        }
+      ]
+    }
+  ]
+}

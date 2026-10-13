@@ -1,0 +1,145 @@
+{
+  "batch": 1,
+  "tests": [
+    {
+      "file": "client/packages/api-client/src/client.test.ts",
+      "reviews": [
+        {
+          "commit": "44d704a326917eab91594912438d3ae7d22367f2",
+          "iteration": "05",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Replaces delete (window as any).location and as-any reconstruction with scoped vi.stubGlobal; retains exact client options and HTTP properties. No wrong result enabled by those casts or observed leak is identified; other changes remove unused locals and rename.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/packages/api-client/src/integration.test.ts",
+      "reviews": [
+        {
+          "commit": "f3cc1d86c1b59ecbe3088c2b19efbcd12bfd2d62",
+          "iteration": "04",
+          "score": 5,
+          "defect": "integration suite tests its own mock",
+          "rationale": "Removes mocked openapi-fetch and path-routing mock; real factory now parses Response.json and substitutes IDs through fetch, with exact request count, method, URL and status checks. Old mock-specific null expectations become real-client undefined semantics.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/components/GCheckbox.test.ts",
+      "reviews": [
+        {
+          "commit": "63fb44749e11c77a918c980bffb2699d6bf50873",
+          "iteration": "64",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds auto-unmount and replaces find/casts with get/inferred input types; native change payload and model assertions retain strength. Existing checks already failed on absent inputs or wrong state.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/components/GTable.test.ts",
+      "reviews": [
+        {
+          "commit": "60755a78abde1b86debc950e8e80309a58b07705",
+          "iteration": "70",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds attachmentTarget with cleanup and replaces as-object casts, indexed wrappers and checkbox casts with selectors and generic input types; no observed leak or hidden wrong-type cast is shown. Larger selector rewrite has marginal reader gain.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/components/vModelContract.test.ts",
+      "reviews": [
+        {
+          "commit": "8bf79b7d018b84e25abe5d36c44b86496777ba2c",
+          "iteration": "67",
+          "score": 4,
+          "defect": "as unknown as cast soup",
+          "rationale": "Removes two wrapper.vm as unknown as casts while preserving active/open v-model state checks. Auto-unmount and first-element get are small incidental costs.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/composables/floatingPosition.test.ts",
+      "reviews": [
+        {
+          "commit": "619f842d0ec2ba2d86bf1206c2b111470bb467a3",
+          "iteration": "33",
+          "score": 4,
+          "defect": "opaque positional setup and incomplete exercised position checks",
+          "rationale": "setup(true/false) becomes setupFloatingPosition({active}); checks full initial position and stale y/placement, uses flushPromises for deferred resolution, and verifies tracking was not stopped before act. Deferred helper has two consumers.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/portableImports.test.ts",
+      "reviews": [
+        {
+          "commit": "24053f4e66256a4926963715aad77bc1ccd85a26",
+          "iteration": "58",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Types raw glob directly and scans Object.entries instead of keyed lookup; forbidden-import regex and offender equality checks are preserved. Single Record cast was not hiding a demonstrated wrong type.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/publicClasses.test.ts",
+      "reviews": [
+        {
+          "commit": "be7b9fccc9baa47650b7c8dd8f9c893a5e0b7232",
+          "iteration": "37",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Separates three public-class components into cases and removes as-object inference workarounds; same classes and existence assertions remain. Original short case had no gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/utils/escapeStack.test.ts",
+      "reviews": [
+        {
+          "commit": "cf3b565d35bea514b2b22628d144540a4c410873",
+          "iteration": "65",
+          "score": 4,
+          "defect": "untested duplicate registration despite reopening fixture",
+          "rationale": "Adds close-first/close-second checks after reopening first, proving reopened layer does not leave an older registration. Five lines catch a duplicate-stack implementation that old top-only check allowed.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/packages/ui/src/utils/hoverBridge.test.ts",
+      "reviews": [
+        {
+          "commit": "4fff84d9077be06103f432ca07636dcf0694837d",
+          "iteration": "44",
+          "score": 4,
+          "defect": "setup copied across three or more cases",
+          "rationale": "Centralizes repeated geometry in LAYOUTS consumed by far-edge, diagonal, straight-path and gap cases; all coordinates and polygon checks remain. Named placements reduce repeated numeric payload despite lookup indirection.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "batch": 16,
+  "tests": [
+    {
+      "file": "client/src/components/JobInformation/JobInformation.test.js",
+      "reviews": [
+        {
+          "commit": "4b1aa9c405f168a3c9a86fd099d6251cf7589289",
+          "iteration": "43",
+          "score": 4,
+          "defect": "Copied job mounts and vacuous table-wrapper truthiness",
+          "rationale": "exists verifies table directly; one local mount/serveJob removes default remount and invocation-handler duplication. All message/ID/stream/error checks retained, extra structured case partly duplicates existing stronger checks.",
+          "caps": []
+        },
+        {
+          "commit": "be6bb81cc4f0e6387dee462cd1d3b87c06163e5c",
+          "iteration": null,
+          "score": 5,
+          "defect": "Job messages expect(...) has no matcher",
+          "rationale": "Exact per-message li list and numbering replace matcherless includes expectation; every type/desc/error_level must render, small proportional repair.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobInformation/JobOutputs.test.js",
+      "reviews": [
+        {
+          "commit": "dda276cfc2f2a3b09ec06142ea066514d329876a",
+          "iteration": "77",
+          "score": 4,
+          "defect": "Three copied output table mounts",
+          "rationale": "One mount helper consolidates stub-slot arrangement; required table get and named pagination rows retain title/hidden output/10-to-15 checks. Existing wrapper-truthiness remains redundant.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobMetrics/AwsEstimate.test.js",
+      "reviews": [
+        {
+          "commit": "a1834aeb9e3164347eaf3559d4a254df6b804633",
+          "iteration": "70",
+          "score": 4,
+          "defect": "Opaque cores/seconds/memory calls",
+          "rationale": "Named each-row resource inputs and expected EC2 name/cost replace sequential positional call blocks; identical CPU/memory/vCPU details and no-match assertions preserved.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js",
+      "reviews": [
+        {
+          "commit": "4452bb7d3db130e6ac8493b1e4aeb06a40f93057",
+          "iteration": "77",
+          "score": 4,
+          "defect": "Mount/router setup copied across seven emissions cases",
+          "rationale": "Shared native mount leaves each resource scenario visible and preserves every emissions/energy/location/PUE check; disposal/router ownership introduces moderate cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobMetrics/JobMetrics.test.js",
+      "reviews": [
+        {
+          "commit": "33d4fdedcd41772b8a5eaade191ec5715f32cf60",
+          "iteration": "30",
+          "score": 4,
+          "defect": "No-metrics branch unasserted plugin absence",
+          "rationale": "Adds no-plugin and no-alert checks; exact plugin title/row array preserves two-plugin grouping while shorter shared mount removes unused broad axios mock.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobStates/JobState.test.ts",
+      "reviews": [
+        {
+          "commit": "9b84743a288969ff28a52ea0a88add729ec7e489",
+          "iteration": "48",
+          "score": 2,
+          "defect": "Unawaited stop click and opaque deferred resolver",
+          "rationale": "Awaited native stop and canonical deferred improve sequencing; terminal-state table preserves all states, but new try/finally in test body caps score.",
+          "caps": [
+            "cap 2: net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Landing/fetchModels.test.ts",
+      "reviews": [
+        {
+          "commit": "a3bcfaa238cda748128545f38eefafed21a2342b",
+          "iteration": "64",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Types cell helper and moves tag-sorting clone helper outside loop; omission fixtures retain assertions through narrower casts and why note. Already valid intentional defaults are not wrong types.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Libraries/LibraryEditField.test.js",
+      "reviews": [
+        {
+          "commit": "a2e5c0acab97f1fb3b2b348f291e5094b59ea5c5",
+          "iteration": "47",
+          "score": 4,
+          "defect": "Sanitizer partial-call checks miss order/extra calls",
+          "rationale": "Exact two-call raw/linkified arrays and actual shortened text/title strengthen existing fixtures; expansion/toggle cases retain text sanitization while restore/shallow changes add cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts",
+      "reviews": [
+        {
+          "commit": "67f38132cbbe9c8bca09bb889c448a38b1a3decf",
+          "iteration": "37",
+          "score": 4,
+          "defect": "Fixture exercised parent-library request but never asserted request identity",
+          "rationale": "Captures exact [LIBRARY_ID] and visible library/folder names; native dialog open replaces internal modal prop while preserving tables/error checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js",
+      "reviews": [
+        {
+          "commit": "efdc48a9a18bb881ba3ec39feec0a06f8256ebf1",
+          "iteration": "42",
+          "score": 4,
+          "defect": "Opaque five-position mount arguments and three copied provider stubs",
+          "rationale": "Named isAdmin/datatypesProvider and one loadedProviderStub clarify scenarios; preserves compat why comment, all ten detail fields, peek sanitizer, permissions/edit/error behavior.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

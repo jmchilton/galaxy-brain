@@ -1,0 +1,165 @@
+{
+  "batch": 19,
+  "tests": [
+    {
+      "file": "client/src/components/Notifications/NotificationCard.test.ts",
+      "reviews": [
+        {
+          "commit": "72206742908b32d568aa883bb81b35ed56bd21d9",
+          "iteration": "02",
+          "score": 4,
+          "defect": "Random category selection and weak action-call checks",
+          "rationale": "Math.random category choice becomes deterministic describe.each; awaited prop updates plus exact seen/deleted payloads preserve rendering checks and expose both categories.",
+          "caps": []
+        },
+        {
+          "commit": "ac9c0931d43b3367ca433a353e8e1bc02333a428",
+          "iteration": "03",
+          "score": 5,
+          "defect": "Random shared notification helper fixtures and malformed seen timestamps",
+          "rationale": "Deterministic defaults and typed content overrides remove random strings/category/variant/read state; both consumers adopt them and all supporting suites are recorded run. Enumerates every shared type and icon variant.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Notifications/NotificationsList.test.ts",
+      "reviews": [
+        {
+          "commit": "ac9c0931d43b3367ca433a353e8e1bc02333a428",
+          "iteration": "03",
+          "score": 5,
+          "defect": "Random notification fixtures can make unread filter pass vacuously",
+          "rationale": "Shared deterministic helper supplies six unread of ten and explicit mixed categories; adds fixed unread count alongside derived count. Batch03 records both consumers tested.",
+          "caps": []
+        },
+        {
+          "commit": "399cb52da6a96c2a8d446ab43447e09d96e731b5",
+          "iteration": "54",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Returns the owned store instead of active global lookup; preserves card/unread/empty-state checks. Names, nextTick/get and disposal changes are marginal.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/ConfigurationMarkdown.test.ts",
+      "reviews": [
+        {
+          "commit": "6f474382e1d7f1e6b8695d2ba4316f3d297ef09f",
+          "iteration": "25",
+          "score": 4,
+          "defect": "Weak non-admin HTML rejection allows lost text",
+          "rationale": "Adds exact escaped visible text while retaining no-b markup and sanitizer profile; extracts four copied mounts, though positional admin boolean hides meaning.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/DescribeObjectStore.test.js",
+      "reviews": [
+        {
+          "commit": "ff7ff01c63c98f9cfe99df0a4e049d17f83d56cd",
+          "iteration": "35",
+          "score": 4,
+          "defect": "Self-prop assertions and three copied storage setups",
+          "rationale": "Checks rendered id/name and restriction child prop instead of echoing wrapper.vm.storageInfo; exact span-count table retains display modes and replaces loading-stub absence with actual quota spinner absence.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/Instances/CreateForm.test.ts",
+      "reviews": [
+        {
+          "commit": "639e574d498f2aca1737fde752fe9c331bbe3446",
+          "iteration": "14",
+          "score": 5,
+          "defect": "Vacuous wrapper truthiness and duplicated form templates",
+          "rationale": "Two toBeTruthy wrapper checks become exists; canonical object-store fixture and one cloned mount remove repeated setup; awaited name update and exact created event strengthen fidelity.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts",
+      "reviews": [
+        {
+          "commit": "ab522033d9e7982a97c1fa9e0bf19d75d7743b9a",
+          "iteration": "06",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Moves one object fixture to a new shared export with only one immediate consumer; defaults are shorter locally but add a parallel file without gate-list defect.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        },
+        {
+          "commit": "0985f705d01b8e0aeb23192e06f84ac25772fccd",
+          "iteration": "60",
+          "score": 4,
+          "defect": "Single requestBody lets duplicate removal requests pass",
+          "rationale": "Captures all request bodies and asserts exact one-element array; keeps success event/error toast checks. Remaining mount/get/cleanup changes are small.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/Instances/UpgradeForm.test.ts",
+      "reviews": [
+        {
+          "commit": "dae65f3c2af9580924caed91c80c7e3b42b2ce78",
+          "iteration": "16",
+          "score": 5,
+          "defect": "Vacuous wrapper checks and four copied mounts",
+          "rationale": "exists replaces two vacuous wrapper truthiness checks; shared fixture/mount reduces setup; preserves old/new field values, redirect query and failure/no-event assertions.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/ObjectStoreBadges.test.ts",
+      "reviews": [
+        {
+          "commit": "b416f11b7f723d829e3b2824dad1745beb922614",
+          "iteration": "20",
+          "score": 4,
+          "defect": "Second badge payload and size never asserted",
+          "rationale": "Projects both child props/sizes into exact two-element arrays, preserving badge count and verifying both badges; removes repeated mounts.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js",
+      "reviews": [
+        {
+          "commit": "32cfad1ad9f640d053ad33c4626a1e914f0c6dfd",
+          "iteration": "32",
+          "score": 4,
+          "defect": "Weak tooltip existence and substring label checks",
+          "rationale": "Exact private/sharable text and specific explanations replace arbitrary nonempty title; concise value-only table retains both cases.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/ShowSelectedObjectStore.test.js",
+      "reviews": [
+        {
+          "commit": "80a00d266b4124eb10c494207c99a4ec16fc7cd3",
+          "iteration": "73",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Simplifies stale loading variable reassignment into fresh find; all loading/Describe assertions unchanged. Ownership/plugin migration adds no gate-list defect.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    }
+  ]
+}

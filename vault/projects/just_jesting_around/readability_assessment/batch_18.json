@@ -1,0 +1,177 @@
+{
+  "batch": 18,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js",
+      "commits": [
+        {
+          "commit": "888f75ee0a2695f0f2cdd1a0e8701d5a614f8f5a",
+          "iteration": "12",
+          "subject": "Improve readability of WorkflowLicense tests",
+          "test_files": [
+            "client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/888f75ee0a2695f0f2cdd1a0e8701d5a614f8f5a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/MarkdownGalaxy.test.js",
+      "commits": [
+        {
+          "commit": "2df26fd3c9f048dcfb0d8252de76772c7d2dbbbb",
+          "iteration": "15",
+          "subject": "Improve readability of MarkdownGalaxy tests",
+          "test_files": [
+            "client/src/components/Markdown/Sections/MarkdownGalaxy.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Sections/MarkdownGalaxy.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2df26fd3c9f048dcfb0d8252de76772c7d2dbbbb.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/MarkdownVitessce.test.js",
+      "commits": [
+        {
+          "commit": "65ca05e8c05ea3acb67897e4613bb24732dcdc5f",
+          "iteration": "14",
+          "subject": "Improve readability of MarkdownVitessce tests",
+          "test_files": [
+            "client/src/components/Markdown/Sections/MarkdownVitessce.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Sections/MarkdownVitessce.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/65ca05e8c05ea3acb67897e4613bb24732dcdc5f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/VisualizationWrapper.test.ts",
+      "commits": [
+        {
+          "commit": "83304885a3f3f7ec312e8ad95842f3b0cdefb2c9",
+          "iteration": "36",
+          "subject": "Add VisualizationWrapper unit tests",
+          "test_files": [
+            "client/src/components/Markdown/Sections/VisualizationWrapper.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Sections/VisualizationWrapper.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/83304885a3f3f7ec312e8ad95842f3b0cdefb2c9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Utilities/parseInvocation.test.js",
+      "commits": [
+        {
+          "commit": "2d9de5240899a93dec17c1b56e856c4c5066c10e",
+          "iteration": "27",
+          "subject": "Improve readability of parseInvocation tests",
+          "test_files": [
+            "client/src/components/Markdown/Utilities/parseInvocation.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Utilities/parseInvocation.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2d9de5240899a93dec17c1b56e856c4c5066c10e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Utilities/requirements.test.js",
+      "commits": [
+        {
+          "commit": "09f8501ec27a2cd6baee9f4d0c240c910e156058",
+          "iteration": "22",
+          "subject": "Improve readability of requirements tests",
+          "test_files": [
+            "client/src/components/Markdown/Utilities/requirements.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Utilities/requirements.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/09f8501ec27a2cd6baee9f4d0c240c910e156058.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/parse.test.js",
+      "commits": [
+        {
+          "commit": "2f69bde5438d2d78ac4ff654c5e50f47cefd6234",
+          "iteration": "65",
+          "subject": "Clarify Markdown label fixtures and unchanged-input checks",
+          "test_files": [
+            "client/src/components/Markdown/parse.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/parse.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2f69bde5438d2d78ac4ff654c5e50f47cefd6234.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Masthead/Masthead.test.js",
+      "commits": [
+        {
+          "commit": "3970882fbc23670db8b86684847d7808473f80d2",
+          "iteration": "33",
+          "subject": "Improve readability of Masthead tests",
+          "test_files": [
+            "client/src/components/Masthead/Masthead.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Masthead/Masthead.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3970882fbc23670db8b86684847d7808473f80d2.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Masthead/QuotaMeter.test.ts",
+      "commits": [
+        {
+          "commit": "a47d16c0bd7ef306366c86ea64b29b3563d5bc9b",
+          "iteration": "34",
+          "subject": "Improve readability of QuotaMeter tests",
+          "test_files": [
+            "client/src/components/Masthead/QuotaMeter.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Masthead/QuotaMeter.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a47d16c0bd7ef306366c86ea64b29b3563d5bc9b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts",
+      "commits": [
+        {
+          "commit": "8163cdd831e69df55a112dacc9156b150cf88792",
+          "iteration": "68",
+          "subject": "Own broadcast overlay test state and required interactions",
+          "test_files": [
+            "client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8163cdd831e69df55a112dacc9156b150cf88792.txt"
+        }
+      ]
+    }
+  ]
+}

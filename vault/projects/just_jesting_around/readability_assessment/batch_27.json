@@ -1,0 +1,189 @@
+{
+  "batch": 27,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/User/UserDeletion.test.ts",
+      "commits": [
+        {
+          "commit": "9d49ea354d6bcaf959dbd2457afda1e0c9d3c183",
+          "iteration": "31",
+          "subject": "Improve readability of UserDeletion tests",
+          "test_files": [
+            "client/src/components/User/UserDeletion.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/UserDeletion.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9d49ea354d6bcaf959dbd2457afda1e0c9d3c183.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/UserOidcProfile.test.ts",
+      "commits": [
+        {
+          "commit": "22de4353ea277b020ae50dbf46033ea2d28744df",
+          "iteration": "53",
+          "subject": "Improve OIDC profile test fixtures and cleanup",
+          "test_files": [
+            "client/src/components/User/UserOidcProfile.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/UserOidcProfile.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/22de4353ea277b020ae50dbf46033ea2d28744df.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/UtcDate.test.js",
+      "commits": [
+        {
+          "commit": "7cbd86b1fd6fe78d6b4d7cdb5dcb87d2c11427b5",
+          "iteration": "13",
+          "subject": "Improve readability of UtcDate tests",
+          "test_files": [
+            "client/src/components/UtcDate.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/UtcDate.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7cbd86b1fd6fe78d6b4d7cdb5dcb87d2c11427b5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationCreate.test.js",
+      "commits": [
+        {
+          "commit": "790e3475cb9b375316a7f6ce710845d2a054eb2a",
+          "iteration": "14",
+          "subject": "Improve readability of VisualizationCreate tests",
+          "test_files": [
+            "client/src/components/Visualizations/VisualizationCreate.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Visualizations/VisualizationCreate.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/790e3475cb9b375316a7f6ce710845d2a054eb2a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationDisplay.test.js",
+      "commits": [
+        {
+          "commit": "e0d2a9463c09b9cb81ba5c515a43aa2414086ca8",
+          "iteration": "71",
+          "subject": "Localize visualization test requests and own native mount cleanup",
+          "test_files": [
+            "client/src/components/Visualizations/VisualizationDisplay.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Visualizations/VisualizationDisplay.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e0d2a9463c09b9cb81ba5c515a43aa2414086ca8.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationExamples.test.js",
+      "commits": [
+        {
+          "commit": "b51abc444628cf9ee88e91ee01874445209b7456",
+          "iteration": "01",
+          "subject": "Improve readability of VisualizationExamples tests",
+          "test_files": [
+            "client/src/components/Visualizations/VisualizationExamples.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Visualizations/VisualizationExamples.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b51abc444628cf9ee88e91ee01874445209b7456.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationFrame.test.js",
+      "commits": [
+        {
+          "commit": "b0546b47e16ee92bd14ff73cb9984fb5617bc0f6",
+          "iteration": "36",
+          "subject": "Extend VisualizationFrame unit tests",
+          "test_files": [
+            "client/src/components/Visualizations/VisualizationFrame.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Visualizations/VisualizationFrame.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b0546b47e16ee92bd14ff73cb9984fb5617bc0f6.txt"
+        },
+        {
+          "commit": "4f2e77c1dadf1cbaaab90f656641672c4ec318f5",
+          "iteration": "74",
+          "subject": "Own visualization frame mounts and messaging cleanup",
+          "test_files": [
+            "client/src/components/Visualizations/VisualizationFrame.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Visualizations/VisualizationFrame.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4f2e77c1dadf1cbaaab90f656641672c4ec318f5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationHeader.test.js",
+      "commits": [
+        {
+          "commit": "4cfbe51b3bfd93fc573adf036e169ec96df9124d",
+          "iteration": "64",
+          "subject": "Clarify VisualizationHeader fixtures and cleanup",
+          "test_files": [
+            "client/src/components/Visualizations/VisualizationHeader.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Visualizations/VisualizationHeader.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4cfbe51b3bfd93fc573adf036e169ec96df9124d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationUnsavedChanges.test.js",
+      "commits": [
+        {
+          "commit": "8b3f5ad9d0b1ab2506bc895a37b00db4c6296da4",
+          "iteration": "62",
+          "subject": "Own unsaved visualization iframe hosts and cleanup",
+          "test_files": [
+            "client/src/components/Visualizations/VisualizationUnsavedChanges.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Visualizations/VisualizationUnsavedChanges.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8b3f5ad9d0b1ab2506bc895a37b00db4c6296da4.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WindowManager/WindowManagerWindow.test.ts",
+      "commits": [
+        {
+          "commit": "dd488d2e27359fea5ee3c5bafb9ff3abd7f0df6f",
+          "iteration": "57",
+          "subject": "Clarify window pointer test ownership and teardown",
+          "test_files": [
+            "client/src/components/WindowManager/WindowManagerWindow.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/WindowManager/WindowManagerWindow.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/dd488d2e27359fea5ee3c5bafb9ff3abd7f0df6f.txt"
+        }
+      ]
+    }
+  ]
+}

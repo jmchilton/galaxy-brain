@@ -1,0 +1,175 @@
+{
+  "batch": 21,
+  "tests": [
+    {
+      "file": "client/src/components/PageEditor/sectionDiffUtils.test.ts",
+      "reviews": [
+        {
+          "commit": "4da8364ba7655f1b7d18718f52fb6991ac3740e9",
+          "iteration": "52",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Uses nth and named sections instead of non-null indexes, renames documents and removes separators. Exact heading/content/line assertions remain equivalent; no wrong result newly excluded.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Common/ToolSection.test.ts",
+      "reviews": [
+        {
+          "commit": "954aa0cb78fe8909446e0f2a7785344a9ad9db8a",
+          "iteration": "02",
+          "score": 5,
+          "defect": "Incomplete Tool casts and as unknown as cast soup",
+          "rationale": "Canonical getFakeTool immediately serves ToolSection, MyToolsLanding and toolStore; replaces partial records and validates JSON hidden flags while retaining behavioral checks.",
+          "caps": []
+        },
+        {
+          "commit": "1383369160be8ce6c757b3b8e3921ca1c239ada3",
+          "iteration": "05",
+          "score": 4,
+          "defect": "Unawaited optional tool click and weak event existence",
+          "rationale": "Required get click is awaited and emittedArg checks clicked tool payload; section factory consolidates copied labeled sections and retains sort/collapse/filter behavior.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/MyToolsLanding.test.ts",
+      "reviews": [
+        {
+          "commit": "954aa0cb78fe8909446e0f2a7785344a9ad9db8a",
+          "iteration": "02",
+          "score": 5,
+          "defect": "as unknown as Tool mock factory",
+          "rationale": "Shared typed getFakeTool removes double casts across three consumers, including MyToolsLanding tools; identifiers and ordering checks preserved.",
+          "caps": []
+        },
+        {
+          "commit": "dc9bbd861613c04b27bc12f08dad7d9f8d88aad0",
+          "iteration": "27",
+          "score": 2,
+          "defect": "none",
+          "rationale": "A single reordering test gains mount, item and generalized drag helpers with direction branching while retaining existing Sortable cast soup; same drag/order assertion, much more indirection.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/ToolBox.test.js",
+      "reviews": [
+        {
+          "commit": "1b7c4d334f52b9ce5163eebb442b98be7a5a7b20",
+          "iteration": "53",
+          "score": 4,
+          "defect": "Only filter/section counts checked, allowing wrong IDs/groups",
+          "rationale": "Adds exact matchingToolIds and expected liftOver/collection_operations grouping; removes unused sections input with little churn.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/ToolBoxSearch.test.ts",
+      "reviews": [
+        {
+          "commit": "013a52b1fdc755b83fcd4b8758ae25ecdd433780",
+          "iteration": "64",
+          "score": 4,
+          "defect": "Copied search setup and incomplete user casts",
+          "rationale": "Reuses existing searchFor across repeated cases and typed canonical users; keeps favorites/recent/request-installation checks and adds unknown recent ID scenario. Router/disposal work adds cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/ToolPanel.test.ts",
+      "reviews": [
+        {
+          "commit": "8b8d372bf1757f1206fc5c165845b386974c0540",
+          "iteration": "08",
+          "score": 2,
+          "defect": "Opaque six-argument wrapper and vacuous wrong discover selector",
+          "rationale": "Named options and fixed Discover 5 count improve fidelity, but view table selects whether title assertion executes; retains conditional test flow and deletes My-Tools-only rationale.",
+          "caps": [
+            "cap 2: it.each data selects which assertion runs",
+            "cap 3: why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+      "reviews": [
+        {
+          "commit": "fd9e06e4a64af87249046e3887a44e4d9e1e9b43",
+          "iteration": "35",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Promotes a small single-consumer row state wrapper into shared withUploadState; second uploadProgressUi consumer arrives same batch, but original wrapper lacked no observed behavior defect.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        },
+        {
+          "commit": "d8207cc35c1d137ee4fad5c371a1e43a1e70a057",
+          "iteration": "39",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adopts canonical history fixture/seedCurrentHistory and native mount stubs; one source-URL test already had local typed setup and valid checks.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Upload/UploadMethodViewInline.test.ts",
+      "reviews": [
+        {
+          "commit": "f91f930b1e67f34bb2fafdcd458b5e419304f8fe",
+          "iteration": "74",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Single selected-method render test gains Pinia creation/disposal and automatic unmount; actual component-warning assertions remain, no observed leak.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Upload/uploadProgressUi.test.ts",
+      "reviews": [
+        {
+          "commit": "01808a1b6cb8a7bb9f8c4e56965f70aeaf5bd9ee",
+          "iteration": "35",
+          "score": 4,
+          "defect": "Derived expected URL includes undefined branch",
+          "rationale": "Explicit HTTP/FTP expected values replace conditional expectation; existing shared withUploadState removes duplicate helper and library-URL omission is checked.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Upload/uploadState.test.ts",
+      "reviews": [
+        {
+          "commit": "a04219d9297cef4cbcebc029fe22c4c6315af163",
+          "iteration": "15",
+          "score": 3,
+          "defect": "Misleading unique-ID/allCompleted test names",
+          "rationale": "Canonical upload fixtures and findUpload simplify repeated indexing, but many hunks rename IDs and merge property checks neutrally; corrected test names give modest gain relative to large diff.",
+          "caps": [
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    }
+  ]
+}

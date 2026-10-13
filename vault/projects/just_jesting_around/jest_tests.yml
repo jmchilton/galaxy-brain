@@ -1,45 +1,105 @@
 - file: client/packages/api-client/src/client.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 44d704a326917eab91594912438d3ae7d22367f2
+      iteration: 5
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/packages/api-client/src/integration.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: f3cc1d86c1b59ecbe3088c2b19efbcd12bfd2d62
+      iteration: 4
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/packages/ui/src/components/Form/GFormInput.test.ts
 - file: client/packages/ui/src/components/GCheckbox.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 63fb44749e11c77a918c980bffb2699d6bf50873
+      iteration: 64
+      score: 3
   iterated: 1
 - file: client/packages/ui/src/components/GTable.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 60755a78abde1b86debc950e8e80309a58b07705
+      iteration: 70
+      score: 2
   iterated: 1
 - file: client/packages/ui/src/components/vModelContract.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 8bf79b7d018b84e25abe5d36c44b86496777ba2c
+      iteration: 67
+      score: 4
   iterated: 1
 - file: client/packages/ui/src/composables/floatingPosition.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 619f842d0ec2ba2d86bf1206c2b111470bb467a3
+      iteration: 33
+      score: 4
   iterated: 1
   storified: skip
 - file: client/packages/ui/src/composables/toastHost.test.ts
   iterated: 1
   storified: skip
 - file: client/packages/ui/src/portableImports.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 24053f4e66256a4926963715aad77bc1ccd85a26
+      iteration: 58
+      score: 3
   iterated: 1
 - file: client/packages/ui/src/publicClasses.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: be7b9fccc9baa47650b7c8dd8f9c893a5e0b7232
+      iteration: 37
+      score: 3
   iterated: 1
   storified: skip
 - file: client/packages/ui/src/utils/escapeStack.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: cf3b565d35bea514b2b22628d144540a4c410873
+      iteration: 65
+      score: 4
   iterated: 1
   storified: skip
 - file: client/packages/ui/src/utils/focusOrder.test.ts
 - file: client/packages/ui/src/utils/hoverBridge.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 4fff84d9077be06103f432ca07636dcf0694837d
+      iteration: 44
+      score: 4
   iterated: 1
 - file: client/src/api/client/errorResponseMiddleware.test.ts
   storified: skip
 - file: client/src/api/client/rateLimiter.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: ccad3b3ccb66de0248eaae4f0001549d1df23307
+      iteration: 5
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/api/client/serverMock.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 91291be0d47314a6511143628c512cb5a3e2371f
+      iteration: 1
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
@@ -47,164 +107,423 @@
 - file: client/src/api/client/staleCacheRetryMiddleware.test.ts
   storified: skip
 - file: client/src/api/datasets.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 727dedadb6440497736dba614870d54b527c1db0
+      iteration: 3
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/api/histories.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: ad07a25657498e219d827c3800757318e988e275
+      iteration: 55
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/api/index.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: cb2e352ef64833ccb3fac6a7b5c8444ef141e357
+      iteration: 4
+      score: 5
+    - commit: ac595e3260181d93d60a6b0de5e5bc4c1c80a465
+      iteration: 15
+      score: 2
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/api/pages.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: edc2e1663a162ca506914ccbbb53bc950d37718d
+      iteration: 2
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/api/staleCacheRetry.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 3766b31a184d1632b64bdce33fd3715ec611c214
+      iteration: 74
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/api/visualizations.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: bacca43f4d996cb63e5e5b7e3faa501ea010b52c
+      iteration: 41
+      score: 4
+    - commit: dd8a4f97f469a599b6a3fe76df30835baf4dfe5d
+      iteration: 59
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/api/workflows.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: fcad1197fb98a204ae4429e1a5b2ebb1894ab95f
+      iteration: 56
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/app/app.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: eedd1a16d44a0a85828230d8147d7a5f16d30b5c
+      iteration: 6
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/app/utils.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 96c31c67ded3d8b91e6887f44099c6fede7bc89f
+      iteration: 5
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/ActivityBar/ActivityBar.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 52d8f2f6d37bb64704bd69590abe5e1afb2b7450
+      iteration: 71
+      score: 2
   iterated: 1
 - file: client/src/components/ActivityBar/ActivityItem.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: f4df82a2d3af6dae334a0f58bd89d174c983c624
+      iteration: 29
+      score: 2
   iterated: 1
 - file: client/src/components/ActivityBar/ActivitySettings.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: fbbe3764bd3647ea2b86327ab7db64b16392a886
+      iteration: 75
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/BaseComponents/Form/GForm.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: cd08db95fdfbea38efe81165830974eb62374aab
+      iteration: 59
+      score: 4
   iterated: 1
 - file: client/src/components/BaseComponents/GAlert.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 43b44c497920d48e189f410cd7b27d6e36e41246
+      iteration: 28
+      score: 4
   iterated: 1
 - file: client/src/components/BaseComponents/GButton.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: d98126ee3f836e05fb2ee360cf62b8917c07c05b
+      iteration: 25
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/BaseComponents/GDropdown.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: fb820ca2cc03ad696d95fafb640b63339a982707
+      iteration: 66
+      score: 2
   iterated: 1
 - file: client/src/components/BaseComponents/GDropdownItem.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 520e76a4d84b80e17a4f55d5d46a9cf8336c8485
+      iteration: 52
+      score: 3
   storybook_play: true
   storified: true
   iterated: 1
 - file: client/src/components/BaseComponents/GLink.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: df30823cecf3da321be9bb2a199ecd7ac042dbe5
+      iteration: 25
+      score: 4
   storified: true
   storybook_play: true
 - file: client/src/components/BaseComponents/GModal.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 79989d79a66a4fea5d26c363638ea78a29f9d552
+      iteration: 69
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/BaseComponents/GPopover.test.ts
 - file: client/src/components/BaseComponents/GTip.test.ts
 - file: client/src/components/BaseComponents/GToast.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: df30823cecf3da321be9bb2a199ecd7ac042dbe5
+      iteration: 25
+      score: 4
+    - commit: e96a544dc983fdaeac176961365b4edae2b8dc42
+      iteration: 48
+      score: 4
   iterated: 1
 - file: client/src/components/BaseComponents/GTooltip.test.ts
 - file: client/src/components/Citation/CitationsList.test.ts
 - file: client/src/components/Citation/services.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 79929e39f7ab04da1b2f963c7162576df15cca2a
+      iteration: 66
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/ListCollectionCreator.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: a5f5b734714a1c95c5e09c955b7f244a5dd6531b
+      iteration: 35
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Collections/PairCollectionCreator.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 4441dd22f5822e007bf44a953d746f635df7534d
+      iteration: 35
+      score: 5
   storified: true
   storybook_play: true
 - file: client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 4441dd22f5822e007bf44a953d746f635df7534d
+      iteration: 35
+      score: 5
   storified: true
   storybook_play: true
 - file: client/src/components/Collections/common/stripExtension.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 5f3f318a22e1ca3f041bd6c19f000b60c05d49ad
+      iteration: 63
+      score: 2
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/common/useElementReconciliation.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: e01af65c9752982cb74ba0f3fc53d0a2849062d6
+      iteration: 36
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/components/Collections/pairing.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 2ee6cf63efe8588d05e8ce25cdde4d0f1f6c5f9f
+      iteration: 67
+      score: 3
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Collections/wizard/fetchWorkbooks.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: b926254bb51fb4800bb32128e3565fdba3527c8d
+      iteration: 56
+      score: 2
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/CommandPalette/CommandPalette.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5
+      iteration: 32
+      score: 4
   storified: true
   storybook_play: true
 - file: client/src/components/CommandPalette/providers/actions.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: abd6312d8e558ef0882edecf70abb131bc4e8978
+      iteration: 10
+      score: 4
   storified: skip
 - file: client/src/components/CommandPalette/providers/categories.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 456b5a6694f3b4b1268f8977596cb5166ee9546b
+      iteration: 39
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/datasets.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 4441dd22f5822e007bf44a953d746f635df7534d
+      iteration: 35
+      score: 5
+    - commit: 25dee4edba28de2ec24270fd5d3ec1776fe80606
+      iteration: 65
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/histories.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942
+      iteration: 42
+      score: 4
+    - commit: a88057a6ebdc1bb59045d8e007af81c15efe1f2c
+      iteration: 73
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/index.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/providers/interactiveTools.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 3bf56617597a8c33e4b471a4b689cf3963915052
+      iteration: 54
+      score: 2
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/invocations.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 98b4a98140c46cf91c96f2da189e05bcdb6b9905
+      iteration: 68
+      score: 2
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/navigation.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/providers/refresh.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 1d3c92a77b86101434e33005f100f5a454600835
+      iteration: 36
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/reports.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 8471906f73131d50d301a3db5369dcdb570af5f2
+      iteration: 42
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/scopes.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: a28e14f1baff808708196bccfcdf75da6e3089cc
+      iteration: 72
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/storeFirst.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 3fc3a5c24ed02717b5c438d10d419bdb4b118af4
+      iteration: 70
+      score: 2
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/tools.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/providers/visualizations.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: bacca43f4d996cb63e5e5b7e3faa501ea010b52c
+      iteration: 41
+      score: 4
+    - commit: cdb2381d83a1556fddba02f2c181640f44388480
+      iteration: 68
+      score: 2
   iterated: 1
   storified: skip
 - file: client/src/components/CommandPalette/providers/workflows.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: abd6312d8e558ef0882edecf70abb131bc4e8978
+      iteration: 10
+      score: 4
+    - commit: eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942
+      iteration: 42
+      score: 4
   storified: skip
 - file: client/src/components/CommandPalette/usePaletteMachine.test.ts
   storified: skip
 - file: client/src/components/CommandPalette/useScrollEdges.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 7da0a4379244a4b6ca25202b7c66b29b5a3d950b
+      iteration: 35
+      score: 4
+    - commit: b6a0ff860a7aad2154544391654f1a7a29d4a0c2
+      iteration: 52
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/Common/BreadcrumbHeading.test.ts
 - file: client/src/components/Common/ChangesIndicator.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 1b7652ca99332ed53b63bb45e7e9fa54332b06d9
+      iteration: 64
+      score: 3
   iterated: 1
 - file: client/src/components/Common/DatasetPopoverLink.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: be6ad2d3d7d2cb8f97259b37f83c4a175759dfc9
+      iteration: 49
+      score: 3
   iterated: 1
 - file: client/src/components/Common/DatasetPopoverLink.width.test.ts
 - file: client/src/components/Common/DelayedInput.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 75bce7c738d020976534f25236ad7b20211b3fe8
+      iteration: 74
+      score: 2
   iterated: 1
 - file: client/src/components/Common/EmailReportForm.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: ce7c6fbed40fc8401bde519540d6ccfc6fc7d3c7
+      iteration: 54
+      score: 2
   iterated: 1
 - file: client/src/components/Common/ExportForm.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: b40f987b0cdd43b6d30be685e31e23e72df666e2
+      iteration: 19
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
@@ -214,77 +533,206 @@
 - file: client/src/components/Common/ItemListEditor.test.ts
 - file: client/src/components/Common/ListHeader.test.ts
 - file: client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: f01e9180e5add5f97d35fa884b1c19088e92a0c6
+      iteration: 4
+      score: 4
+    - commit: 2ce122cdb161b08068e9557a687e94082a57673f
+      iteration: 26
+      score: 4
   storified: true
   storybook_play: true
 - file: client/src/components/Common/RDMDestinationSelector.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 2b9efa9bff61628ad1d73793b28f0e9557a802ac
+      iteration: 5
+      score: 4
 - file: client/src/components/Common/RenameModal.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 2fd70a68fd0b9aab9f404569a3cf0402a94ce91f
+      iteration: 31
+      score: 3
   iterated: 1
 - file: client/src/components/Common/SaveChangesModal.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 85d74c278e05121c7a1685f601da7a0d84c7f26a
+      iteration: 77
+      score: 3
   storified: true
   storybook_play: true
   iterated: 1
 - file: client/src/components/Common/SidebarList.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 845f835110834faf17162e4dc111e58650a45db1
+      iteration: 14
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Common/TextSummary.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 30cbc9e6fb1f0d9932f302eedeb34939e9cc98b0
+      iteration: 77
+      score: 3
   iterated: 1
 - file: client/src/components/Common/VegaWrapper.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 278173f9e1356a8a4fa5ab4d5169d38fb16755be
+      iteration: 46
+      score: 4
   iterated: 1
 - file: client/src/components/Common/Webhook.test.ts
 - file: client/src/components/Common/Wizard/GenericWizard.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: b3e60e2fdb768fd5db87e464880e010017e6a38d
+      iteration: 54
+      score: 3
   iterated: 1
 - file: client/src/components/Common/gCardHeaderLayout.test.ts
 - file: client/src/components/Common/models/exportRecordModel.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: c4281081894ba957e9abe59a1bd8480fe4a6686d
+      iteration: 67
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/ConfigTemplates/CreateInstance.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 004882096783feae0f565ea85d0097f432cd6fa6
+      iteration: 69
+      score: 3
   iterated: 1
 - file: client/src/components/ConfigTemplates/EditSecretsForm.test.ts
 - file: client/src/components/ConfigTemplates/InstanceDropdown.test.ts
 - file: client/src/components/ConfigTemplates/InstanceForm.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 9a9ac3849b9b87c3eac94f520cc8c1fa0691e81a
+      iteration: 29
+      score: 4
   iterated: 1
 - file: client/src/components/ConfigTemplates/TemplateSummaryPopover.test.ts
 - file: client/src/components/ConfigTemplates/VaultSecret.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: f52eca1777197efd6c35c012f9a3602500a1fde3
+      iteration: 4
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/ConfigTemplates/formUtil.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: c86c82b1370f6255852aa68dae1396474ef5ec55
+      iteration: 74
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/ConfigTemplates/useConfigurationTesting.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: fca496deffc7bef99a888e4b4db403abae52569b
+      iteration: 56
+      score: 2
   iterated: 1
   storified: skip
 - file: client/src/components/ConfirmDialog.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: ff26a4cfbc4368f697a01a837cee8307a0bd62ca
+      iteration: 57
+      score: 3
   iterated: 1
 - file: client/src/components/DataDialog/DataDialog.test.js
 - file: client/src/components/Dataset/DatasetCopy.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: fc356a6bb9c47c8b55a1f433e8b29a868df6e451
+      iteration: 39
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 63a8926c0722b026db055a7a31c1fccefc369753
+      iteration: 62
+      score: 4
   iterated: 1
 - file: client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 30eea2aa07fa16a6dfe1cc7552034bed130f089f
+      iteration: 6
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Dataset/DatasetView.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 543ff11bd309e891322dde074fc2b0fe1d7e262a
+      iteration: 10
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/Dataset/Tabular/TabularChunkedView.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: f2bcfabc7011612054f4bc730856a92f8db72590
+      iteration: 16
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/DatasetInformation/DatasetAttributes.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 46854777d96703cb7e4f24396d33db83333b5f2f
+      iteration: 77
+      score: 2
   iterated: 1
+  storified: true
 - file: client/src/components/DatasetInformation/DatasetDetails.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: e61173cae07f862587aab60f5ece819c044c9dc2
+      iteration: 68
+      score: 2
   iterated: 1
 - file: client/src/components/DatasetInformation/DatasetError.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 326873e5dcfb25604db1c1300d3efc14221facb0
+      iteration: 13
+      score: 5
   iterated: 1
   split_commit: true
 - file: client/src/components/DatasetInformation/DatasetInformation.test.ts
 - file: client/src/components/Datatypes/index.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 0e12a1c9c796e7265989c0c591d296843482dbaf
+      iteration: 74
+      score: 3
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Downloads/DownloadItemCard.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 383f8977c4d71cbbbe964cfff517f42abf66f38e
+      iteration: 4
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/FileSources/Instances/InstanceDropdown.test.ts
@@ -298,6 +746,11 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Form/Elements/FormData/FormDataUri.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 3543db45dc65f0f1e990f8c4741cc30f6e8ce02e
+      iteration: 16
+      score: 2
   iterated: 1
   split_commit: true
 - file: client/src/components/Form/Elements/FormData/collections.test.ts
@@ -305,6 +758,11 @@
   storybook_play: skip
 - file: client/src/components/Form/Elements/FormDirectory.test.js
 - file: client/src/components/Form/Elements/FormDrilldown/FormDrilldown.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 6f29efebdf17a864da210c8984b5677ebb83bc54
+      iteration: 39
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
@@ -312,10 +770,25 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Form/Elements/FormHidden.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 322f853fc6ed125611916eb4cea4384fe4a7bf82
+      iteration: 55
+      score: 3
   iterated: 1
 - file: client/src/components/Form/Elements/FormInput.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 6a201ad5eb9e7ca5fe8d6f9f6cb95008389449ed
+      iteration: 29
+      score: 4
   iterated: 1
 - file: client/src/components/Form/Elements/FormNumber.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 44fc0d991b09d0c2ce32d8f7e4ad5691e8122b6b
+      iteration: 16
+      score: 2
   iterated: 1
   split_commit: true
 - file: client/src/components/Form/Elements/FormNumberList.test.ts
@@ -323,41 +796,106 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Form/Elements/FormOptionalText.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 687f4fad5ff183cc7cceb3e7312bc2ca5006dd25
+      iteration: 37
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Form/Elements/FormRadio.test.js
 - file: client/src/components/Form/Elements/FormRulesEdit.test.ts
 - file: client/src/components/Form/Elements/FormSelect.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 84bbf657639460932cea3f6b37cf31384cbe5e62
+      iteration: 36
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: a7aa05c6c49f6d9117f23a4f93f0bd0df1a7d810
+      iteration: 16
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Form/Elements/FormText.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 06b05caf21bf7893ff5ccdacb9db437bacb8a23b
+      iteration: 75
+      score: 2
   iterated: 1
 - file: client/src/components/Form/Elements/FormUpload.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 302555cd46f55d061a3d174fbe3c2cac34b57bb6
+      iteration: 70
+      score: 3
   iterated: 1
 - file: client/src/components/Form/FormCard.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: d13c9c994aa75f2c06e4e64f8faec90b72b86d2c
+      iteration: 15
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/Form/FormCardSticky.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 6f225506bb3383a1e65653251ec7dba77c769a32
+      iteration: 42
+      score: 3
   iterated: 1
 - file: client/src/components/Form/FormDisplay.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: cd0768807f4d1a1efcf043e44956f43a0bc75f5d
+      iteration: 7
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Form/FormElement.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: ec5c9ad5fca6dbe29116b8ff3584f5825b8d3457
+      iteration: 11
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/Form/FormElementHelpMarkdown.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: a525cdc84d527eec530f382311f80beabde06068
+      iteration: 73
+      score: 3
   iterated: 1
 - file: client/src/components/Form/FormElementLabel.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: d6b074c822599cbd0ddd93f69e24ec7e9f419056
+      iteration: 15
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Form/FormMessage.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 0c585a3840ba9a8188cfda5de3a656f088e22eb7
+      iteration: 61
+      score: 2
   iterated: 1
 - file: client/src/components/Form/composables/useFormState.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 5f91dcb2106185b0ef6c6c14b1b4dadf666c239b
+      iteration: 5
+      score: 2
   iterated: 1
   split_commit: true
   storified: skip
@@ -366,31 +904,88 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/GDateTime.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 52376731a37167732fe8818a8223f5c2155373b0
+      iteration: 50
+      score: 3
   iterated: 1
 - file: client/src/components/GalaxyAI.newchat.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 90317fb1a0e210f2f405f46ee81b5aea259c6452
+      iteration: 24
+      score: 5
+    - commit: 6fe1e23274a46e74967506d7ca86900d1f3bdab0
+      iteration: 40
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/GalaxyAI.routesync.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: f1e4109f9bdce6a8cdd49bee6b50a1345fc1bf02
+      iteration: 24
+      score: 5
+    - commit: 6fe1e23274a46e74967506d7ca86900d1f3bdab0
+      iteration: 40
+      score: 4
+    - commit: f06d7ae80220a2d8576b4fa2548a33074804b591
+      iteration: 72
+      score: 2
   iterated: 1
 - file: client/src/components/GalaxyAI.test.ts
 - file: client/src/components/GalaxyAI/ChatActions.test.ts
 - file: client/src/components/GalaxyAI/ChatInput.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: d5f659dffaac2bb070eaaff789d4e16990c3df92
+      iteration: 69
+      score: 3
   iterated: 1
 - file: client/src/components/GalaxyAI/ChatMessageCell.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 3941ab47e6d39677858ec6485d20de927bb19c4d
+      iteration: 16
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/GalaxyAI/ChatModeSelector.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 8fc0d8371889c924adc8afa78f4bb079570e03ac
+      iteration: 8
+      score: 2
+    - commit: 081242d919f0fe65fa8011c44231895b0086008f
+      iteration: 65
+      score: 3
   iterated: 1
 - file: client/src/components/GalaxyAI/ClarificationCard.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: b22a8217ce37b60cda77a8c10c2496225d8c0382
+      iteration: 71
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/GalaxyAI/agentTypes.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: db32c5d0d3b9510650d0a05627ee29b9d1ef2d3c
+      iteration: 46
+      score: 3
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/GalaxyAI/chatUtils.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: f69cf3704a3d8f1d2861ed4967016415fbf5512f
+      iteration: 11
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
@@ -400,120 +995,325 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Grid/GridList.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 4a0566d71aa83dedd1ecc651d5085398462d0172
+      iteration: 34
+      score: 4
   iterated: 1
 - file: client/src/components/Grid/configs/adminUsers.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 37c8b039dfa241e4ea4ec51c25dcc75ddcb0c00c
+      iteration: 40
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Help/HelpText.test.ts
 - file: client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 31b21f244d47c68e380e793e3308e9181eadb6bc
+      iteration: 13
+      score: 3
 - file: client/src/components/History/Archiving/HistoryArchiveWizard.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: ffb42f43704815c2d7a3edf8ae6a6cb34c3676e2
+      iteration: 13
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/History/Content/Collection/CollectionDescription.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 3f427ce7ec09a8735f7c411477c0ea32ddd10c19
+      iteration: 13
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 91618e026c85845dd1fbaaa22891993167e35d18
+      iteration: null
+      score: 2
   iterated: 1
 - file: client/src/components/History/Content/Collection/CollectionProgress.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: b1e90ac7a4430533515d07d97438b3d12b02108f
+      iteration: 45
+      score: 4
   storybook_play: true
   iterated: 1
   storified: true
 - file: client/src/components/History/Content/ContentItem.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 36d83ffb508b70a87eea46fa47c10ca8897473a9
+      iteration: 15
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/History/Content/Dataset/DatasetDetails.test.ts
 - file: client/src/components/History/Content/Dataset/DatasetDownload.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: ae7782e8f24faeb021381cb54936978150a240be
+      iteration: 12
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/History/Content/GenericElement.test.js
 - file: client/src/components/History/Content/GenericItem.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 08f5aecb82c2d16d3adf90aed3155014cdfb30cf
+      iteration: 16
+      score: 2
+    - commit: acd420abe5416828e5f06b494c657d1b5eb14d48
+      iteration: 47
+      score: 3
   storybook_play: true
   storified: true
   iterated: 1
 - file: client/src/components/History/Content/model/states.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 41220004980b525a3663f4eeec200bad51ed1baa
+      iteration: 24
+      score: 3
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/CurrentHistory/HistoryCounter.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: a81faac8daeba8a06c4f465a4a5c3138b53033d3
+      iteration: 15
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/History/CurrentHistory/HistoryNavigation.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 53fe1c6e4b52e522d4326a494bea48cf3e7c225e
+      iteration: 5
+      score: 3
+    - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5
+      iteration: 32
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/History/CurrentHistory/HistoryOperations/HistoryStorageOperationsIndicator.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: d110ccb21f783c8d1d2d84f75b1c8043df95aeb1
+      iteration: 63
+      score: 2
   iterated: 1
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 58080eec1b185b388d57f239664a82eb0b559c5e
+      iteration: 76
+      score: 2
   iterated: 1
 - file: client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 420c4a8c9901013516f4a3e584d21c0256663d6e
+      iteration: 51
+      score: 3
   iterated: 1
 - file: client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 577b9280db22057dc8cb00f7c700f2ef4e9c61f2
+      iteration: 66
+      score: 3
   iterated: 1
 - file: client/src/components/History/Export/HistoryExport.test.ts
 - file: client/src/components/History/Export/HistoryExportWizard.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 2b9efa9bff61628ad1d73793b28f0e9557a802ac
+      iteration: 5
+      score: 4
   storified: true
   storybook_play: true
 - file: client/src/components/History/Graph/historyGraphMapper.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 550b7420ccdf5a42dc838cf4af8b6cb448ee244d
+      iteration: 76
+      score: 2
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/Graph/historyNodeColor.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: ba61fe2c37c770a14ea3dbbb1b17544ebad1d51b
+      iteration: 32
+      score: 3
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/Graph/useHistoryGraph.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 50f8ee1f263d9845d67e1baae995c4c4cb8042ef
+      iteration: 14
+      score: 4
+    - commit: 7da0a4379244a4b6ca25202b7c66b29b5a3d950b
+      iteration: 35
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/Graph/useHistoryGraphData.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: bed5f00ee10148514eb37136460b73f964faa6fd
+      iteration: 35
+      score: 5
   iterated: 1
   storified: skip
 - file: client/src/components/History/HistoryOptions.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5
+      iteration: 32
+      score: 4
+    - commit: d2f5f91010e3cbc755ee6f9ee23aed43d03c6114
+      iteration: 70
+      score: 2
   iterated: 1
 - file: client/src/components/History/HistoryView.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: e5ab65b054b5737d1c53af0e732756eb68543456
+      iteration: 65
+      score: 2
   iterated: 1
 - file: client/src/components/History/Layout/DetailsLayout.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 56949f4566d821f1cf776db2a2e1c1bb69a11980
+      iteration: 40
+      score: 4
   iterated: 1
 - file: client/src/components/History/Modals/CopyModal.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 22f3e17233456b48f2dec253f3a1810d69b31857
+      iteration: 5
+      score: 2
   iterated: 1
   split_commit: true
 - file: client/src/components/History/Modals/SelectorModal.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 431babca4cab4584367f39bbfa5dfb1187076542
+      iteration: 12
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/History/Multiple/MultipleView.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 791122d135ac583fe0325a7d13b2f79cbb0b4c0b
+      iteration: 5
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/History/SwitchToHistoryLink.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: b699eb2e178b99d840caad1ebcd156282c60c576
+      iteration: 15
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/History/TargetHistorySelector.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: e4bad5a4e40945b3a3ae0a867d6604d1be294a68
+      iteration: 16
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/History/TargetObjectStoreSelector.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: ac71c1edf2bd407269342cadfa9ba4671d2eb4fa
+      iteration: 7
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/History/WorkflowExtractionForm.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: ffcddc7a0a7726630ba18663bb0d46bb381ea605
+      iteration: 16
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/History/model/queries.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 3416f4871733bf5810c367cb2e42444483f51479
+      iteration: 4
+      score: 2
+    - commit: 5eff1587570209e48d94d482d2cbf307a8e68905
+      iteration: 13
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/History/useHistoryCardActions.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 535a9f6db7895908b602bab3e1571a9c0368b478
+      iteration: 51
+      score: 5
   iterated: 1
   storified: skip
 - file: client/src/components/HistoryExport/Index.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: d36bab70cabf672e2ce0237743bf292169a0d38f
+      iteration: 56
+      score: 2
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/HistoryExport/ToLink.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 5195eeb3eaed872700d81d6c2e6e1e0af8dda20b
+      iteration: 75
+      score: 2
   iterated: 1
 - file: client/src/components/HistoryExport/ToRemoteFile.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 6dbdfaaccbaf6430a346c490677d2c583e4f6e38
+      iteration: 8
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/HistoryImport.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 7a5aa84d83dce57572a67450020a5fd0177a97af
+      iteration: 77
+      score: 2
   iterated: 1
   storified: true
   storybook_play: true
@@ -523,293 +1323,764 @@
   storified: skip
 - file: client/src/components/Indices/SharingIndicators.test.js
 - file: client/src/components/InteractiveTools/InteractiveTools.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 90e1a555059060f76fa9cc9600473cfe4a3f9c2b
+      iteration: 68
+      score: 3
   iterated: 1
 - file: client/src/components/JobDestinationParams/JobDestinationParams.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: daa8014bda771d49bbdb2c9e4deb732ea1ef1ce4
+      iteration: 47
+      score: 5
+    - commit: 617cf1bbeafa7b49aba85d1a93885fa0b292d150
+      iteration: 47
+      score: 4
   iterated: 1
 - file: client/src/components/JobInformation/JobInformation.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 4b1aa9c405f168a3c9a86fd099d6251cf7589289
+      iteration: 43
+      score: 4
+    - commit: be6bb81cc4f0e6387dee462cd1d3b87c06163e5c
+      iteration: null
+      score: 5
   iterated: 1
   storified: skip
 - file: client/src/components/JobInformation/JobOutputs.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: dda276cfc2f2a3b09ec06142ea066514d329876a
+      iteration: 77
+      score: 4
   storified: true
   iterated: 1
   storybook_play: true
 - file: client/src/components/JobMetrics/AwsEstimate.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: a1834aeb9e3164347eaf3559d4a254df6b804633
+      iteration: 70
+      score: 4
   iterated: 1
 - file: client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 4452bb7d3db130e6ac8493b1e4aeb06a40f93057
+      iteration: 77
+      score: 4
   iterated: 1
 - file: client/src/components/JobMetrics/JobMetrics.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 33d4fdedcd41772b8a5eaade191ec5715f32cf60
+      iteration: 30
+      score: 4
   iterated: 1
 - file: client/src/components/JobParameters/JobParameters.test.ts
 - file: client/src/components/JobStates/JobState.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 9b84743a288969ff28a52ea0a88add729ec7e489
+      iteration: 48
+      score: 2
   iterated: 1
 - file: client/src/components/Landing/fetchModels.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: a3bcfaa238cda748128545f38eefafed21a2342b
+      iteration: 64
+      score: 3
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Libraries/LibraryEditField.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: a2e5c0acab97f1fb3b2b348f291e5094b59ea5c5
+      iteration: 47
+      score: 4
   storybook_play: true
   storified: true
   iterated: 1
 - file: client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 67f38132cbbe9c8bca09bb889c448a38b1a3decf
+      iteration: 37
+      score: 4
   iterated: 1
 - file: client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: efdc48a9a18bb881ba3ec39feec0a06f8256ebf1
+      iteration: 42
+      score: 4
   iterated: 1
 - file: client/src/components/Libraries/LibraryFolder/TopToolbar/import-to-history/import-dataset.test.js
   storified: skip
 - file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: ff656fd56b72bfeedd74a7c948a59d7a258ce966
+      iteration: 32
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.ts
 - file: client/src/components/Login/ChangePassword.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 01f82b868e58136c473e533cb197e34027b9a1dc
+      iteration: 33
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Login/LoginForm.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 94837f7a838594fb40151ce9a13c1967cde70dfc
+      iteration: 43
+      score: 4
   iterated: 1
 - file: client/src/components/Login/LoginIndex.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 1ff8e09b57e2acfc1b74596886b907f85eb81b97
+      iteration: 42
+      score: 4
   iterated: 1
 - file: client/src/components/Login/NewUserConfirmation.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 9829e3dfaaa021d93cc2515e839cfbd5bd99b260
+      iteration: 63
+      score: 2
   iterated: 1
 - file: client/src/components/Markdown/Editor/CellAdd.test.js
 - file: client/src/components/Markdown/Editor/CellOption.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: cb0cbfda4b30c8242f98cd60bf0243446a55747c
+      iteration: 12
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/Markdown/Editor/Configurations/ConfigureHeader.test.js
 - file: client/src/components/Markdown/Editor/Configurations/ConfigureVitessce.test.js
 - file: client/src/components/Markdown/Editor/TextEditor.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 4296e187177f7562112e74d581c59585d686341e
+      iteration: 72
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetCollection/CollectionTree.test.js
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: d23a8bfadc713db1b976f65ffae315f7e7472365
+      iteration: 55
+      score: 3
   iterated: 1
 - file: client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 39d34e1dc809fa98b3451c80e43329920016c318
+      iteration: 13
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/Markdown/Sections/Elements/JobElements.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 421237ca5187672ca24aac0fba8ae7029c6ed82c
+      iteration: 28
+      score: 3
   iterated: 1
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowDisplay.test.js
 - file: client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 888f75ee0a2695f0f2cdd1a0e8701d5a614f8f5a
+      iteration: 12
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Markdown/Sections/MarkdownDefault.test.ts
 - file: client/src/components/Markdown/Sections/MarkdownGalaxy.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 2df26fd3c9f048dcfb0d8252de76772c7d2dbbbb
+      iteration: 15
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/Markdown/Sections/MarkdownVitessce.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 65ca05e8c05ea3acb67897e4613bb24732dcdc5f
+      iteration: 14
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Markdown/Sections/SectionWrapper.test.ts
 - file: client/src/components/Markdown/Sections/VisualizationWrapper.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 83304885a3f3f7ec312e8ad95842f3b0cdefb2c9
+      iteration: 36
+      score: 3
   storified: skip
 - file: client/src/components/Markdown/Utilities/parseInvocation.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 2d9de5240899a93dec17c1b56e856c4c5066c10e
+      iteration: 27
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Markdown/Utilities/requirements.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 09f8501ec27a2cd6baee9f4d0c240c910e156058
+      iteration: 22
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Markdown/parse.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 2f69bde5438d2d78ac4ff654c5e50f47cefd6234
+      iteration: 65
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Masthead/Masthead.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 3970882fbc23670db8b86684847d7808473f80d2
+      iteration: 33
+      score: 4
   iterated: 1
 - file: client/src/components/Masthead/MastheadDropdown.test.ts
 - file: client/src/components/Masthead/QuotaMeter.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: a47d16c0bd7ef306366c86ea64b29b3563d5bc9b
+      iteration: 34
+      score: 4
   iterated: 1
 - file: client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 8163cdd831e69df55a112dacc9156b150cf88792
+      iteration: 68
+      score: 3
   iterated: 1
 - file: client/src/components/Notifications/NotificationCard.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 72206742908b32d568aa883bb81b35ed56bd21d9
+      iteration: 2
+      score: 4
+    - commit: ac9c0931d43b3367ca433a353e8e1bc02333a428
+      iteration: 3
+      score: 5
   iterated: 1
   split_commit: true
 - file: client/src/components/Notifications/NotificationsList.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: ac9c0931d43b3367ca433a353e8e1bc02333a428
+      iteration: 3
+      score: 5
+    - commit: 399cb52da6a96c2a8d446ab43447e09d96e731b5
+      iteration: 54
+      score: 3
   iterated: 1
 - file: client/src/components/ObjectStore/ConfigurationMarkdown.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 6f474382e1d7f1e6b8695d2ba4316f3d297ef09f
+      iteration: 25
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/ObjectStore/DescribeObjectStore.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: ff7ff01c63c98f9cfe99df0a4e049d17f83d56cd
+      iteration: 35
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/ObjectStore/Instances/CreateForm.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 639e574d498f2aca1737fde752fe9c331bbe3446
+      iteration: 14
+      score: 5
   iterated: 1
   split_commit: true
 - file: client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: ab522033d9e7982a97c1fa9e0bf19d75d7743b9a
+      iteration: 6
+      score: 2
+    - commit: 0985f705d01b8e0aeb23192e06f84ac25772fccd
+      iteration: 60
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/ObjectStore/Instances/UpgradeForm.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: dae65f3c2af9580924caed91c80c7e3b42b2ce78
+      iteration: 16
+      score: 5
   iterated: 1
   split_commit: true
 - file: client/src/components/ObjectStore/ObjectStoreBadge.test.ts
 - file: client/src/components/ObjectStore/ObjectStoreBadges.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: b416f11b7f723d829e3b2824dad1745beb922614
+      iteration: 20
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 32cfad1ad9f640d053ad33c4626a1e914f0c6dfd
+      iteration: 32
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/ObjectStore/ShowSelectedObjectStore.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 80a00d266b4124eb10c494207c99a4ec16fc7cd3
+      iteration: 73
+      score: 3
   iterated: 1
 - file: client/src/components/ObjectStore/Templates/TemplateSummaryPopover.test.ts
 - file: client/src/components/Page/PageView.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 4350772f82fcdc54d3123ff8b60474ba7ddb396b
+      iteration: 75
+      score: 2
   iterated: 1
 - file: client/src/components/PageDisplay/PageForm.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: a3e81818606d907a6e34e5c08659e2062f6f9253
+      iteration: 70
+      score: 3
   iterated: 1
 - file: client/src/components/PageDisplay/PageHtml.test.js
 - file: client/src/components/PageEditor/HistoryPageList.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: ccfdf6795af49614be4d439ca606da411a8666e7
+      iteration: 76
+      score: 2
   iterated: 1
 - file: client/src/components/PageEditor/HistoryPageView.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: b7e1c2980b7694d4902df296207485efc901df30
+      iteration: 14
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/PageEditor/PageCard.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 0ba6a80c7d02dfbfb637660b4c8e8953bce37f28
+      iteration: 14
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/PageEditor/PageDisplayToolbar.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 329e15fcdf6dbcee5c27e617a6078b3889e7ba50
+      iteration: 27
+      score: 4
   iterated: 1
 - file: client/src/components/PageEditor/PageEditorView.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 2273237802acf2a17176f121a100c83e5f13cd15
+      iteration: 27
+      score: 4
 - file: client/src/components/PageEditor/PageRevisionList.test.ts
 - file: client/src/components/PageEditor/PageRevisionView.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 25925ddea32c3937d39422a958e391d8656b1103
+      iteration: 50
+      score: 4
   storybook_play: true
   storified: true
   iterated: 1
 - file: client/src/components/PageEditor/ProposalDiffView.test.ts
 - file: client/src/components/PageEditor/SectionPatchView.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 501b988fd409a9051185e1d7137ddc92de1e793c
+      iteration: 52
+      score: 3
   storybook_play: true
   storified: true
   iterated: 1
 - file: client/src/components/PageEditor/object-permission-composables.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 7e68fb58eb98e532582305b77661b791bcabac55
+      iteration: 10
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/PageEditor/sectionDiffUtils.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 4da8364ba7655f1b7d18718f52fb6991ac3740e9
+      iteration: 52
+      score: 3
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Panels/Buttons/FavoritesButton.test.js
 - file: client/src/components/Panels/Common/Tool.test.ts
 - file: client/src/components/Panels/Common/ToolSection.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 954aa0cb78fe8909446e0f2a7785344a9ad9db8a
+      iteration: 2
+      score: 5
+    - commit: 1383369160be8ce6c757b3b8e3921ca1c239ada3
+      iteration: 5
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Panels/InteractiveToolsPanel.test.ts
 - file: client/src/components/Panels/MyToolsLanding.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 954aa0cb78fe8909446e0f2a7785344a9ad9db8a
+      iteration: 2
+      score: 5
+    - commit: dc9bbd861613c04b27bc12f08dad7d9f8d88aad0
+      iteration: 27
+      score: 2
   iterated: 1
 - file: client/src/components/Panels/ToolBox.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 1b7c4d334f52b9ce5163eebb442b98be7a5a7b20
+      iteration: 53
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Panels/ToolBoxSearch.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 013a52b1fdc755b83fcd4b8758ae25ecdd433780
+      iteration: 64
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Panels/ToolPanel.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 8b8d372bf1757f1206fc5c165845b386974c0540
+      iteration: 8
+      score: 2
   iterated: 1
   split_commit: true
 - file: client/src/components/Panels/Upload/UploadFileRow.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: fd9e06e4a64af87249046e3887a44e4d9e1e9b43
+      iteration: 35
+      score: 3
+    - commit: d8207cc35c1d137ee4fad5c371a1e43a1e70a057
+      iteration: 39
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Panels/Upload/UploadMethodView.test.ts
 - file: client/src/components/Panels/Upload/UploadMethodViewInline.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: f91f930b1e67f34bb2fafdcd458b5e419304f8fe
+      iteration: 74
+      score: 2
   iterated: 1
 - file: client/src/components/Panels/Upload/methods/PasteLinksUpload.test.ts
 - file: client/src/components/Panels/Upload/uploadMethodRegistry.test.ts
   storified: skip
   storybook_play: skip
 - file: client/src/components/Panels/Upload/uploadProgressUi.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 01808a1b6cb8a7bb9f8c4e56965f70aeaf5bd9ee
+      iteration: 35
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/components/Panels/Upload/uploadState.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: a04219d9297cef4cbcebc029fe22c4c6315af163
+      iteration: 15
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/Panels/utilities.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 9f8c2dfe55dac10dc73265fc3ec2f1d7bc1e2cd9
+      iteration: 11
+      score: 4
   storified: skip
   iterated: 1
   split_commit: true
 - file: client/src/components/Popper/Popper.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 48030daa528ebb775a747f27ecd322401fd7288e
+      iteration: 72
+      score: 3
   iterated: 1
 - file: client/src/components/Popper/usePopper.test.js
+  readability_score: 5
+  readability_reviews:
+    - commit: c43094ea4c1a577f2f1e3610aa5f6a05d4f8579d
+      iteration: 24
+      score: 5
   iterated: 1
   storified: skip
 - file: client/src/components/Register/RegisterForm.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: b1baa2e665ebb9d7d11780056612e9db3a93e2bb
+      iteration: 19
+      score: 5
+    - commit: 9f9520b2891a0e4705877fb84890a1c34713f13b
+      iteration: 64
+      score: 3
   iterated: 1
 - file: client/src/components/RuleBuilder/ColumnSelector.test.ts
 - file: client/src/components/RuleBuilder/IdentifierDisplay.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 8cd946b9a2a8c81038c3efb7ec5ee662b6ac106a
+      iteration: 74
+      score: 3
   iterated: 1
 - file: client/src/components/RuleBuilder/RuleDefinitions.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: b9248c063a54a290f56a33d50f9d0384b43c7447
+      iteration: 16
+      score: 2
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/RuleBuilder/SavedRulesSelector.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: e360c5f9b2314864b4b7eea772635b0a76ba1000
+      iteration: 57
+      score: 4
   iterated: 1
 - file: client/src/components/RuleBuilder/SelectBasic.test.ts
 - file: client/src/components/RuleCollectionBuilder.test.js
 - file: client/src/components/SchemaOrg/CreatorViewers.test.ts
 - file: client/src/components/ScrollList/ScrollList.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: dd6a0642b36bb01e69d28198fb2854bee6762273
+      iteration: 23
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/SelectionDialog/DatasetCollectionDialog.test.js
 - file: client/src/components/SelectionDialog/SelectionDialog.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 9d542e9fc627200d1c0ceb579a2819c8db033c0e
+      iteration: 13
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/SelectionField/SelectionField.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 98bca297b4d1f48f86dd6998a373a212c5134f7e
+      iteration: 38
+      score: 5
+    - commit: fd36f739f9497eea8eac53bf5a967874718f6156
+      iteration: 39
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Sharing/UserSharing.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 8535943668a80b7752e48eeea34ae4d96ef0dff1
+      iteration: 30
+      score: 4
+    - commit: 5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f
+      iteration: 31
+      score: 4
   iterated: 1
 - file: client/src/components/SingleItemSelector.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 08e8b5234c0f35f552e581e81e2c6d661751406e
+      iteration: 59
+      score: 3
   iterated: 1
 - file: client/src/components/StsDownloadButton.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: b18d8ad17674afd752f27a79b0e4bc463ace723c
+      iteration: 62
+      score: 2
   iterated: 1
 - file: client/src/components/Tags/model.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: ea03e3e557f87058cf04ae3949d8634b275f1104
+      iteration: 13
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/TagsMultiselect/HeadlessMultiselect.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: aabbf6f0ff0a518bbc479d4b04313e2d2d3f8773
+      iteration: 14
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/TagsMultiselect/StatelessTags.test.js
 - file: client/src/components/TagsMultiselect/Tag.test.js
 - file: client/src/components/Tool/AuthoringHelpPanel.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 6467f23543888ff3a1b90bfd61ba6f7866954d54
+      iteration: 47
+      score: 4
   iterated: 1
 - file: client/src/components/Tool/Buttons/ToolTourGeneratorItem.test.ts
 - file: client/src/components/Tool/CustomToolEditorWorkspace.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: dad26b69931289c9f5e47313b8551e9989efbedb
+      iteration: 72
+      score: 3
   iterated: 1
 - file: client/src/components/Tool/ToolCard.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 496c7949b22889fbbd26cd10b7f718fe0be53f0c
+      iteration: 34
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Tool/ToolFooter.test.js
 - file: client/src/components/Tool/ToolForm.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 3b4755069ffee54b1ccbc84ff8875f3b93c34ff8
+      iteration: 53
+      score: 2
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Tool/ToolHelpMarkdown.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 2b024f511179fb30acc4b4abcefac461c530fc86
+      iteration: 67
+      score: 2
   iterated: 1
 - file: client/src/components/Tool/ToolHelpRst.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 6c5892f0259ba12dd110fa5f780bb6c00bee5a0d
+      iteration: 60
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/Tool/ToolInstallationRequestForm.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f
+      iteration: 31
+      score: 4
 - file: client/src/components/Tool/ToolLinkPopover.test.ts
 - file: client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: b44ee6cedaf567f9277c792b7f9bf165c87496cb
+      iteration: 18
+      score: 5
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Tool/ToolSourceDisplay.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: b3849986377a2653e32f8ead105f42713fc6b082
+      iteration: 73
+      score: 2
   iterated: 1
 - file: client/src/components/Tool/ToolSuccess.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: a2cd202fc700aac0af13f597cefe1a6423f52fbe
+      iteration: 33
+      score: 3
+    - commit: 2a8ae9e22cbbaba2b4d9517a182f5bd898bd2685
+      iteration: 77
+      score: 2
   storified: true
   storybook_play: true
   iterated: 1
@@ -823,54 +2094,135 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Tool/schemaMarkdown.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 1d18a0fc6d85827530eff4632da59c88375b0050
+      iteration: 61
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/components/Tool/utilities.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: b058b1e1251d80b74d84c968e4bef7f1dbb8b7dd
+      iteration: 65
+      score: 2
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/ToolEntryPoints/ToolEntryPoints.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 7c824feca8d4173e3330bb38f6f84a32ee6a93cf
+      iteration: 12
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/ToolRecommendation.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: fc5e9577402a2c42322d02f995e4e8d2f65f757f
+      iteration: 60
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/ToolsList/ToolsList.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 954aa0cb78fe8909446e0f2a7785344a9ad9db8a
+      iteration: 2
+      score: 5
+    - commit: c6a6101118a49efba8f88525273aae76b4bf239b
+      iteration: 71
+      score: 4
   iterated: 1
 - file: client/src/components/ToolsList/ToolsListCard.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5
+      iteration: 32
+      score: 4
+    - commit: 266f36f64af83bbccd1a923c6a759f9cb261c36e
+      iteration: 48
+      score: 4
   iterated: 1
 - file: client/src/components/ToolsView/ToolsSchemaJson/ToolsJson.test.js
 - file: client/src/components/Toolshed/InstalledList/Details.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 4bb7765f083f2e4b543f8bcfb6c5272a83d52044
+      iteration: 15
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Toolshed/InstalledList/Index.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 247bdc82783b3dc90e9205f1df4131fa5d21dbc7
+      iteration: 43
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Toolshed/InstalledList/Monitor.test.js
 - file: client/src/components/Toolshed/RepositoryDetails/Index.test.ts
 - file: client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: f498722439e193dd6245b99f153c14b94a333904
+      iteration: 24
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 6527db1f9faddf9fa25d8673e52cee00633daa7f
+      iteration: 75
+      score: 3
   iterated: 1
 - file: client/src/components/Toolshed/SearchList/Categories.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 2a571859a8182214908d954f090559334ea70006
+      iteration: 69
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Toolshed/SearchList/Repositories.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 75ee6e429de371fc1d6b443591a372b342f87e16
+      iteration: 15
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Toolshed/SearchList/ServerSelection.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: ec39326bd63f8146684fb272506041eb6cf471ce
+      iteration: 13
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Toolshed/services.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 048c815255f48801081674795da9fd57c4728b87
+      iteration: 75
+      score: 3
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Tour/Tour.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 8a21094070986f930406dc3dc65f7034b0b61f2d
+      iteration: 43
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
@@ -880,40 +2232,109 @@
 - file: client/src/components/User/APIKey/model/service.test.ts
   storified: skip
 - file: client/src/components/User/DiskUsage/DiskUsageSummary.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: dfcc8bc89dec4700595cecc85dd9bb65f25d1b58
+      iteration: 58
+      score: 3
   iterated: 1
 - file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6
+      iteration: 3
+      score: 4
+    - commit: 0dfd33147b06bf572965a7ba90eac0d03fb859ab
+      iteration: 9
+      score: 4
 - file: client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 4f206b297b86823b1632effe111bf9ccb41ecfb8
+      iteration: 3
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6
+      iteration: 3
+      score: 4
+    - commit: cb9bfacf639d970fbbeee3a958c14a39142bbec2
+      iteration: 9
+      score: 4
+    - commit: 5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f
+      iteration: 31
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 6ec0d63b80d74132127ac46bd058e8c8d0614deb
+      iteration: 58
+      score: 3
   iterated: 1
 - file: client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: c928f465b26bc3f87568f5f47ba1f8e98df54fd8
+      iteration: 16
+      score: 4
   iterated: 1
   split_commit: true
   storified: true
   storybook_play: true
 - file: client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 8fc9393dfbe6c805bf07a193a52be67ca0dc5357
+      iteration: 11
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 16f70f52185457de7f4f45dd5525fd8c27db6849
+      iteration: 70
+      score: 3
   iterated: 1
 - file: client/src/components/User/DiskUsage/Visualizations/util.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 367ea7f7aeeb9cf716cad8b57d17617d80591524
+      iteration: 71
+      score: 2
   iterated: 1
 - file: client/src/components/User/ExternalIdentities/ExternalRegistration.test.ts
 - file: client/src/components/User/UserBeaconSettings.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 86121dd4fe2137c2ee9f3fe65d05093fd1779da9
+      iteration: 11
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/User/UserDatasetPermissions.test.ts
 - file: client/src/components/User/UserDeletion.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 9d49ea354d6bcaf959dbd2457afda1e0c9d3c183
+      iteration: 31
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/User/UserOidcProfile.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 22de4353ea277b020ae50dbf46033ea2d28744df
+      iteration: 53
+      score: 3
   iterated: 1
 - file: client/src/components/User/UserPreferences.test.ts
 - file: client/src/components/User/UserPreferencesModel.test.ts
@@ -921,99 +2342,255 @@
   storybook_play: skip
 - file: client/src/components/User/UserPreferredObjectStore.test.ts
 - file: client/src/components/UtcDate.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 7cbd86b1fd6fe78d6b4d7cdb5dcb87d2c11427b5
+      iteration: 13
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Visualizations/DisplayApplication.test.js
 - file: client/src/components/Visualizations/DisplayApplications.test.js
 - file: client/src/components/Visualizations/VisualizationCreate.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 790e3475cb9b375316a7f6ce710845d2a054eb2a
+      iteration: 14
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Visualizations/VisualizationDisplay.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: e0d2a9463c09b9cb81ba5c515a43aa2414086ca8
+      iteration: 71
+      score: 3
   iterated: 1
 - file: client/src/components/Visualizations/VisualizationExamples.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: b51abc444628cf9ee88e91ee01874445209b7456
+      iteration: 1
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Visualizations/VisualizationFrame.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: b0546b47e16ee92bd14ff73cb9984fb5617bc0f6
+      iteration: 36
+      score: 3
+    - commit: 4f2e77c1dadf1cbaaab90f656641672c4ec318f5
+      iteration: 74
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/Visualizations/VisualizationHeader.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 4cfbe51b3bfd93fc573adf036e169ec96df9124d
+      iteration: 64
+      score: 3
   iterated: 1
 - file: client/src/components/Visualizations/VisualizationUnsavedChanges.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 8b3f5ad9d0b1ab2506bc895a37b00db4c6296da4
+      iteration: 62
+      score: 2
   iterated: 1
 - file: client/src/components/Visualizations/utilities.test.js
   storified: skip
   storybook_play: skip
 - file: client/src/components/WindowManager/WindowManagerWindow.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: dd488d2e27359fea5ee3c5bafb9ff3abd7f0df6f
+      iteration: 57
+      score: 2
   iterated: 1
 - file: client/src/components/Workflow/Editor/Actions/actions.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 19ac9ce1ce68baa9134de4d9a999e13ddeeb8dd5
+      iteration: 5
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/AreaHighlight.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: c9cb70fb937f60c4f4c1e5c5958b988ce3561866
+      iteration: 76
+      score: 4
   iterated: 1
 - file: client/src/components/Workflow/Editor/Comments/ColorSelector.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 2020883b00da16aa2074b0734d17e5dc99770d83
+      iteration: 65
+      score: 3
   iterated: 1
 - file: client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: a7419418a9056803c5a52065a7caaf5c3d85bea0
+      iteration: 74
+      score: 2
   iterated: 1
 - file: client/src/components/Workflow/Editor/DraggablePan.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormDefault.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: e5c85a820a672cd87804aea6211197fb6278af4d
+      iteration: 12
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/Forms/FormInputCollection.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 1ab49b227946615e94fe1fe73dc82e607b3e2dbd
+      iteration: 70
+      score: 2
   iterated: 1
 - file: client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: e847648121d9444aa5123bb6570c9a40ff1538f4
+      iteration: 11
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 42c2cfe10a7813ea94b5e9a3601e94db4bbfa994
+      iteration: 14
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/Forms/FormSection.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: d7a24e41f9bfa0c05ca3a8fb86e41f8910e08e0a
+      iteration: 50
+      score: 4
   iterated: 1
 - file: client/src/components/Workflow/Editor/Forms/FormTool.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 1b62848a8239086e23e14eb618e7ddb0e0ed1deb
+      iteration: 41
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Workflow/Editor/Index.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 06e3b163f6d48657dc12cf710bb46d7216cb7012
+      iteration: 28
+      score: 4
   iterated: 1
 - file: client/src/components/Workflow/Editor/Lint.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 8b8af4b46679bde3eeb4ee257db623c541e0db38
+      iteration: 13
+      score: 4
+    - commit: 7da0a4379244a4b6ca25202b7c66b29b5a3d950b
+      iteration: 35
+      score: 4
   iterated: 1
   split_commit: true
   storified: true
   storybook_play: true
 - file: client/src/components/Workflow/Editor/Node.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 50437c2bbb8502fe9d7c4eefbf86d3e49617c248
+      iteration: 46
+      score: 4
   storybook_play: true
   storified: true
   iterated: 1
 - file: client/src/components/Workflow/Editor/NodeInvocationText.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: bb3f967ed364a8482b9b9b49bcc03e42aedb991a
+      iteration: 49
+      score: 2
 - file: client/src/components/Workflow/Editor/NodeOutput.test.ts
 - file: client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: b7feb0d68ae6d96328ae6deb9a27cda57bf95585
+      iteration: 12
+      score: 5
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/SaveChangesModal.test.ts
 - file: client/src/components/Workflow/Editor/StateUpgradeModal.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 0bd6688c605d1ce43aeb86d4b21ca020c8fbddb6
+      iteration: 15
+      score: 5
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/WorkflowAttributes.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 4c19605c5651b0d32fdcdfb6f707cf01dd78dfdb
+      iteration: 68
+      score: 3
   iterated: 1
 - file: client/src/components/Workflow/Editor/ZoomControl.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 032026037a5e9d51741075d780a77a47a2aefee1
+      iteration: 44
+      score: 4
   iterated: 1
 - file: client/src/components/Workflow/Editor/composables/workflowBoundingBox.test.ts
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/modules/activities.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: a9af62fe5b12ee971de6dc4daca28b29038cfbc8
+      iteration: 21
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/modules/canvasDraw.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 6dfe47af3ee2479a6b68cab28b6ded2428c084d5
+      iteration: 12
+      score: 5
   storified: skip
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/Editor/modules/collectionTypeDescription.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 0c0af7e024b85910a2e7d95ce993f40e472c3d6e
+      iteration: 25
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/modules/layout.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: b7e7de5178070aad952a21d0532a2c9517859b48
+      iteration: 27
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
@@ -1024,6 +2601,11 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Editor/modules/useLinting.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 53fe348ac9211ef916d2daeb81c9df7a8f67ddc9
+      iteration: 66
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
@@ -1036,119 +2618,343 @@
   storified: skip
 - file: client/src/components/Workflow/Import/FromFileOrUrl.test.ts
 - file: client/src/components/Workflow/Import/TrsTool.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 06bb332468e67d8a9713c9966a2b04f388582353
+      iteration: 49
+      score: 3
+    - commit: cf083c3b403ad3ac4e4ef104a85306be5e042581
+      iteration: 49
+      score: 3
   iterated: 1
 - file: client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: fae6b2e80149e307116d0427715657806b72a663
+      iteration: 76
+      score: 2
   iterated: 1
 - file: client/src/components/Workflow/List/CuratedCollectionChips.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 59e10961623f72f4570df4b4e6931720751ab817
+      iteration: 67
+      score: 3
   iterated: 1
 - file: client/src/components/Workflow/List/CuratedWorkflowCard.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5
+      iteration: 32
+      score: 4
+    - commit: 0080c322b7f2f6bd94cfca483ce0a3ffa8ddc3cc
+      iteration: 75
+      score: 2
   iterated: 1
 - file: client/src/components/Workflow/List/CuratedWorkflowList.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 6fe1e23274a46e74967506d7ca86900d1f3bdab0
+      iteration: 40
+      score: 4
+    - commit: cb2358bc64fc2c7c4f4148ff6dc29045a473817a
+      iteration: 61
+      score: 3
   iterated: 1
 - file: client/src/components/Workflow/List/WorkflowCardList.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 46a0f6bad514a65d6982bd479f18a33abaa864bd
+      iteration: 41
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Workflow/List/WorkflowList.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 0603d244d98fb687c5f07cfd3a4c2ae21ecca8f2
+      iteration: 28
+      score: 5
   iterated: 1
 - file: client/src/components/Workflow/List/WorkflowListTabs.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5
+      iteration: 32
+      score: 4
+    - commit: b7f38ee639223bc59535b70eaf4182df917b7be9
+      iteration: 34
+      score: 5
 - file: client/src/components/Workflow/List/useWorkflowCardActions.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: abd6312d8e558ef0882edecf70abb131bc4e8978
+      iteration: 10
+      score: 4
+    - commit: 3a8bafecdda7dae97b8bd4670bcb4231a82c5957
+      iteration: 58
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: afa8a8d8d1fae6b492b1f28d865e158bd3f4290c
+      iteration: 49
+      score: 2
+    - commit: a8d43c7cd3e3e33b3df0f2a2ff77f4101362ad82
+      iteration: 72
+      score: 3
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 0a1d55950086993a9460e8d0b30ded633b7c8205
+      iteration: 31
+      score: 4
+    - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5
+      iteration: 32
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Workflow/Run/WorkflowRun.test.js
+  readability_score: 5
+  readability_reviews:
+    - commit: c05b57840e890dd48db60eb17249a62797ca2540
+      iteration: 30
+      score: 5
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowRunDefaultStep.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 62e810dabd8ec047be626420d472bd00c96e221d
+      iteration: 51
+      score: 3
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowRunForm.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 5eed1383032a7ade2bb94f66bbfb562eaf1fd377
+      iteration: 44
+      score: 4
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 28f3e0e10dc6326abfe107f7e2777245254a9784
+      iteration: 49
+      score: 3
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: a26801665faf3479fb4d28694cfcb6004d6fef7e
+      iteration: 17
+      score: 5
   iterated: 1
 - file: client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 9d74c11a4bb8cfdab18fab8394d5152197a8a676
+      iteration: 48
+      score: 3
   iterated: 1
 - file: client/src/components/Workflow/Run/model.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: fadc0dd693bc8271b2d1d388c06c754b40501259
+      iteration: 36
+      score: 4
+    - commit: a73dc0ddeb99096ddd2af94290c86965575e1b24
+      iteration: 68
+      score: 3
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/Workflow/Run/services.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 3a88f2aac932bf540e610d7f52d38eb849669df7
+      iteration: 72
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/components/Workflow/WorkflowAnnotation.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 1878716cac6912a8cb4cbf9408e4a9679a5ed6e5
+      iteration: 38
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/Workflow/WorkflowExport.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 1ff74b3cc6103a767543c78cdfbc3abae47ab8c8
+      iteration: 13
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/Workflow/WorkflowNavigationTitle.test.ts
 - file: client/src/components/WorkflowInvocationState/JobStep.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 29eeda3698769843907f7c17c6d4c84db9116146
+      iteration: 73
+      score: 3
   iterated: 1
 - file: client/src/components/WorkflowInvocationState/JobStepJobs.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationFeedback.test.ts
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: c401b80547acadd76df0053e5f2c27ac4a2e6a32
+      iteration: 38
+      score: 4
   iterated: 1
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: c8dd938b6c1bfce24f9c703e8b0fedcb21547522
+      iteration: 37
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: c6888f569578dd8308ee05acd76c7054a23b851b
+      iteration: 31
+      score: 5
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 0671cc231f3995ede8a9d5b402afbbed76a90ca5
+      iteration: 26
+      score: 4
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 020d4efe43f8293f52b0d7502d405694bfb82ffb
+      iteration: 60
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/components/WorkflowInvocationState/WorkflowStepIcon.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 29a72027f88e5154c0496ad2c5ee7ddea8e13f8f
+      iteration: 38
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/components/WorkflowInvocationState/util.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 8b1a5217275b4b605ef80819d918469dc4c85304
+      iteration: 13
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/components/admin/AdminPanel.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 4c675322463a262fdcda2f106e3dd1ea0cbcba2b
+      iteration: 12
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/components/admin/BaseList.test.js
 - file: client/src/components/admin/GroupForm.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: a5ff3f366dc74f064c1841112f320c46e8235da4
+      iteration: 45
+      score: 3
   storybook_play: true
   iterated: 1
   storified: true
 - file: client/src/components/admin/JobsTable.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 001120b046f6eb9902aefe8ca204248534c208e9
+      iteration: 64
+      score: 3
   iterated: 1
 - file: client/src/components/admin/Notifications/BroadcastForm.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: beb6fd039ba189123543a0aeb5df075fd83a8ea3
+      iteration: 68
+      score: 3
   iterated: 1
 - file: client/src/components/admin/Notifications/BroadcastsList.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 2d160bc8d7a91c2f34a8e4f2245ff82c0beab6b2
+      iteration: 36
+      score: 5
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/admin/Notifications/NotificationForm.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: cfcedfbf4ee7cd13ab080f86ca80ad1195def27e
+      iteration: 61
+      score: 2
   iterated: 1
 - file: client/src/components/admin/Notifications/NotificationsManagement.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 050fecb3342c8b79f5919220a44f83ee292af4b3
+      iteration: 9
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/components/admin/QuotaForm.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 271a7cfbf571e734cac95aed38c66cb4dc978f7b
+      iteration: 33
+      score: 3
   iterated: 1
   storified: true
   storybook_play: true
 - file: client/src/components/admin/ResetUserPasswordForm.test.ts
 - file: client/src/components/admin/RoleForm.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: fdecf97910a491f63d4e3262141f22b119230e07
+      iteration: 33
+      score: 3
   storified: true
   storybook_play: true
 - file: client/src/components/admin/UserRolesGroupsForm.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: cb9466667b5857ca560637a92c83b20a7f2ae56b
+      iteration: 73
+      score: 3
   iterated: 1
 - file: client/src/components/providers/InvocationsProvider.test.js
+  readability_score: 5
+  readability_reviews:
+    - commit: 545a08b7d26584df769ab428b72ba885d1790ba9
+      iteration: 14
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
@@ -1157,30 +2963,65 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/providers/PageProvider.test.js
+  readability_score: 5
+  readability_reviews:
+    - commit: d03ca8fe7fb7b1fb0db62434b5d1c064e22d8f06
+      iteration: 26
+      score: 5
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/providers/SingleQueryProvider.test.js
 - file: client/src/components/providers/StoredWorkflowProvider.test.js
+  readability_score: 5
+  readability_reviews:
+    - commit: 52813a204b7477e376b7a962428f667c2e7bc3e3
+      iteration: 25
+      score: 5
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/components/providers/storeProviders.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 1687cec6eca6be808c6fd594d159588ba1e97e7b
+      iteration: 69
+      score: 3
   iterated: 1
 - file: client/src/components/providers/utils.test.js
   storified: skip
   storybook_play: skip
 - file: client/src/composables/accessibleHover.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: e613d4d670d480b505688efb8e31a8b6b916ebc0
+      iteration: 8
+      score: 3
   storified: skip
   iterated: 1
   split_commit: true
 - file: client/src/composables/confirmDialog.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 3cfd3c99affc426c5d731cbcd339a38d01a7369b
+      iteration: 7
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/composables/datasetPermissions.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: d97389485041c740e0611850c3c254d06d93d524
+      iteration: 50
+      score: 2
   iterated: 1
   storified: skip
 - file: client/src/composables/fileSources.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 0d3a56a53283139e97a4194b633b4783e5ff2bf2
+      iteration: 5
+      score: 4
   storified: skip
   iterated: 1
   split_commit: true
@@ -1188,120 +3029,262 @@
   iterated: 1
   storified: skip
 - file: client/src/composables/keyedCache.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 12b5c4ac99b0fc3d7ee414d18fb1364b518c900f
+      iteration: 10
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/keyedObjects.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 2975f801a24eaae73299e4fbce96bd7c198fbc91
+      iteration: 10
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/markdown.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 0b457dc8406f1e0f98d922b55b33a25d9eca24d7
+      iteration: 1
+      score: 4
   storified: skip
   iterated: 1
   split_commit: true
 - file: client/src/composables/pagination.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: c533668328449b1e5887ef28e951ada544c23680
+      iteration: 12
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/persistentProgressMonitor.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: f01e9180e5add5f97d35fa884b1c19088e92a0c6
+      iteration: 4
+      score: 4
+    - commit: 7295a540fb0d4ff0b7ebefbb672ac1229b71012c
+      iteration: 26
+      score: 4
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/composables/persistentToggle.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 442df8bb6e90c71b85c6ff76562d658cdcc6ae2a
+      iteration: 63
+      score: 2
   iterated: 1
   storified: skip
 - file: client/src/composables/pollUntil.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 42c2bccb9bc90e32f090aa5c5d68c4f22f1737d8
+      iteration: 11
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/resourceWatcher.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 66a7965aa6490cdc328f2c2eaf089770fca8eafd
+      iteration: 2
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/roundRobinSelector.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 87fd0ee68d6387bd92640eb772051cc9b2a3a9e6
+      iteration: 5
+      score: 4
   storified: skip
   iterated: 1
   split_commit: true
 - file: client/src/composables/selectedItems/selectedItems.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 6e52bb89aa82be003ed4b177fba43ea6212d7917
+      iteration: 6
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/shortTermStorageMonitor.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 5689a6ee7a898ecc09a3d49880fd5bbe11a281de
+      iteration: 66
+      score: 2
   iterated: 1
   storified: skip
   storybook_play: skip
 - file: client/src/composables/taskMonitor.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: f1ca93e74d79c98a0e709c8889e09414d9022a84
+      iteration: 11
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/toolTrainingMaterial.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: b17b4316bcda1d1a5dc0bc58db28841481b5070e
+      iteration: 41
+      score: 4
+    - commit: 96dd93de476a89fe4a56a18161418bded3c7eda5
+      iteration: 73
+      score: 2
   iterated: 1
   storified: skip
 - file: client/src/composables/upload/uploadItemTypes.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 99f0f826800752c7ceca950ba48b5e51a66a14b7
+      iteration: 13
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/upload/useUploadBatchOperations.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 5d70e266084041ed7942d82c322f3d2da82d43a3
+      iteration: 9
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/upload/useUploadMethodModal.test.ts
 - file: client/src/composables/upload/useUploadStaging.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 90e16609775a681b0f7942d01637de9c4880d4dc
+      iteration: 53
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/composables/upload/useUploadSubmission.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 97e034b77317b22812987759714619476236a92f
+      iteration: 13
+      score: 2
   storified: skip
   iterated: 1
   split_commit: true
 - file: client/src/composables/uploadConfigurations.test.ts
 - file: client/src/composables/urlTracker.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: cb307deac3a15a75e543c57e00e9fd620f825a74
+      iteration: 3
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/useActiveContext.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: c061ecf95ad8d5e1aebea728b2ac0efce59c1a06
+      iteration: 13
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/useCommandPalette.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 3f7b79d682b1c4ffc9c7e4c78b0dc0d14cc96a01
+      iteration: 32
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/composables/useCreatingJob.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 42010d8cbe2e3da41ee02cd7362c675feadbc35e
+      iteration: 5
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/useEntityMentions.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 19ac6ed93f6f7aa02644fefbc79824f1bcb909e1
+      iteration: 7
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/useHistoryDatasets.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 512f38df1c8083a47e3381d9955ad2162a30f453
+      iteration: 12
+      score: 3
+    - commit: 4441dd22f5822e007bf44a953d746f635df7534d
+      iteration: 35
+      score: 5
+    - commit: 7da0a4379244a4b6ca25202b7c66b29b5a3d950b
+      iteration: 35
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/useInvocationGraph.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: ebe0182b640f248159443f248e4f342c13e149c8
+      iteration: 8
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/useNotificationSSE.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 65cd2baa9248b9fb5fbe47c6f89d4ed7d52c3ebe
+      iteration: 5
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/composables/usePageProposals.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 15f48ea5374ea4393ac9ef1f4011e05a8bac81e6
+      iteration: 12
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
@@ -1311,9 +3294,19 @@
 - file: client/src/composables/useRecentPaletteItems.test.ts
   storified: skip
 - file: client/src/composables/useRegistrationTarget.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 0f19129679534571914742cc2176a58029db647a
+      iteration: 34
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/composables/useSidebarSelection.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 17b4e4382c7fd9fc5fa3539a21b144a16dad414b
+      iteration: 9
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
@@ -1321,6 +3314,14 @@
 - file: client/src/composables/userMultiToolCredentials.test.ts
   storified: skip
 - file: client/src/composables/userToolCredentials.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 90495554347d6b9f59ef38aeaf4336e624d680d0
+      iteration: 4
+      score: 3
+    - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5
+      iteration: 32
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
@@ -1328,68 +3329,158 @@
 - file: client/src/composables/windowAwareNavigation.test.ts
   storified: skip
 - file: client/src/composables/zipExplorer.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 5ced9eb8671639188406c12d93142eae0e6dcde5
+      iteration: 4
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/directives/sanitizeHtml.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 346f8746668395182589f6ab67ea5c21e989b1f6
+      iteration: 65
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/directives/vGTooltip.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 95ac64935e27eedd6507d18dbf75a36f9d374d2d
+      iteration: 8
+      score: 5
   iterated: 1
   split_commit: true
 - file: client/src/directives/vNoSanitizeHtml.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: ed70255c7c593161d59b0c930619330fa939357c
+      iteration: 45
+      score: 4
   iterated: 1
 - file: client/src/directives/vSanitizeHtml.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 9c89fe712730cd12bac8bceb8e972898e6c07195
+      iteration: 44
+      score: 4
   iterated: 1
 - file: client/src/entry/analysis/App.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 3bfa8ce61b0f753f989af82fe4f57732b580aa49
+      iteration: 71
+      score: 3
   iterated: 1
 - file: client/src/entry/analysis/modules/Home.test.ts
 - file: client/src/entry/analysis/modules/Login.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 17895d78b5984fd4c316c0d40945345435252a67
+      iteration: 9
+      score: 4
   iterated: 1
   split_commit: true
 - file: client/src/entry/analysis/modules/Register.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: e949130679773fd9375c3ecae2e6e95c857030ef
+      iteration: 7
+      score: 3
   iterated: 1
   split_commit: true
 - file: client/src/entry/analysis/modules/ResetPassword.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: b1baa2e665ebb9d7d11780056612e9db3a93e2bb
+      iteration: 19
+      score: 5
 - file: client/src/entry/analysis/modules/WorkflowEditor.test.ts
 - file: client/src/entry/analysis/router-push.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: b6dda390e29e941f0a72571f17073270de152e8d
+      iteration: 12
+      score: 2
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/entry/analysis/routes/admin-routes.test.ts
 - file: client/src/entry/analysis/routes/library-routes.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: ea3b07d4f2925b80a655c0624431a5b829029c8f
+      iteration: 62
+      score: 2
   iterated: 1
 - file: client/src/entry/analysis/routes/login-routes.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 34f58432619533931094a0253c6e90558800b685
+      iteration: 11
+      score: 3
   storified: skip
   iterated: 1
   split_commit: true
 - file: client/src/entry/analysis/routes/storage-routes.test.ts
 - file: client/src/router/guards.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 3a842b9477e1bffe8a0b42dec218317639dfdaa1
+      iteration: 11
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/activitySetup.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 1feface0a68d6791d46fa406d02d90eef3fb297f
+      iteration: 66
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/stores/activityStore.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 7eb2da0bc3ecd997e0103ab169af32279b1e78af
+      iteration: 11
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/chatStore.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 29713ad738f4345f6f7f46fb7afbd2d797ed6066
+      iteration: 8
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/collectionAttributesStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: be7487ae1d2af59ef41c3ea6efcf875a6bd7f182
+      iteration: 3
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/collectionElementsStore.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: a3b0a38ee89d87b7c88d7e00818eecb27950f527
+      iteration: 5
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
@@ -1397,156 +3488,354 @@
 - file: client/src/stores/configurationStore.test.ts
   storified: skip
 - file: client/src/stores/datasetCollectionStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 3b4f8f2d5852eba7686c1eb08de3cf7b9a95d8b6
+      iteration: 5
+      score: 3
+    - commit: 7adb1104ddb656c5b3de96b4156715c42f215de4
+      iteration: 11
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/datasetListStore.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 4441dd22f5822e007bf44a953d746f635df7534d
+      iteration: 35
+      score: 5
   storified: skip
 - file: client/src/stores/datatypeStore.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: ee5a1d33394ecb7dbbceef765279f49111852a76
+      iteration: 71
+      score: 2
   iterated: 1
 - file: client/src/stores/entryPointStore.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: e888ad697e50d85ecdcfb210637acf1097b7ec77
+      iteration: 12
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/helpTermsStore.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: e4c95194efb452c15890963c606cb1562bf0fb11
+      iteration: 73
+      score: 2
   iterated: 1
 - file: client/src/stores/historyStore.lists.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 8c1e2968b70952c07343a0496bbc650ad86e3ae3
+      iteration: 40
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/stores/historyStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: a479ee51871c3e2bbc2f1408cd82ff28a97ea926
+      iteration: 7
+      score: 3
+    - commit: a260fe6de9dc3eec2f2f7dc42dffb117d5b12d10
+      iteration: 8
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/invocationStore.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 87a70e3b88da35c20186bbb39a72dd28f1b7ba47
+      iteration: 9
+      score: 5
   storified: skip
   iterated: 1
   split_commit: true
 - file: client/src/stores/jobMetricsStore.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: d46ab4ce7cf24c663e3784292362dbc1ebd06a42
+      iteration: 5
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/notificationsStore.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 9fd7467fbce8c49f23c83a7d0d737ce1c973a7da
+      iteration: 8
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/objectStoreInstancesStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: e49c7d72291ed79351c90287513517ea4a2937ce
+      iteration: 6
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/objectStoreTemplatesStore.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: e3d7fcb1ffe41ac0b49f22d44951b0fba88ea45b
+      iteration: 10
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/pageEditorStore.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 85fd81f99e9998e88ac7dce10fc35c2e7a8ad7f5
+      iteration: 1
+      score: 5
+    - commit: d6e0eb2e5019230ddd971983d3610e8da27fc5f0
+      iteration: 2
+      score: 2
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/pageStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 9f4465e3c8e2c1e8ed83188b37a44d7780306279
+      iteration: 41
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/stores/services/history.services.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 0a90a26712cd53d8653c1e32168b2f925ed8d963
+      iteration: 57
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/stores/storageOperationsStore.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 13e5ae8768784d6b3d93f35af7eedc740b5fb0ab
+      iteration: 4
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/toolStore.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: b3699620eb3f8f3ed7472b38eaac5918d5253077
+      iteration: 2
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/unprivilegedToolStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5
+      iteration: 32
+      score: 4
+    - commit: 18c6717c25b24dddbf65370899018b11957c485f
+      iteration: 67
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/stores/uploadDatasetMonitorStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 72626f7110f59b5aa49e66e2e7511baf6d84a1e2
+      iteration: 66
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/stores/userStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 3f0210ef72c19f7556ac8ceb7fa910942350d69f
+      iteration: 12
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/userToolsServiceCredentialsStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 5ec62a2a0003c5635a24a9b0e7f946bc5b6009fb
+      iteration: 4
+      score: 3
+    - commit: fffdab26b21c0bdc546fa2ceb0ffdde636e68d84
+      iteration: 69
+      score: 3
   iterated: 1
   storified: skip
 - file: client/src/stores/visualizationStore.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: fb2d45ae244b13e3c82be2d6869e3ed4e3100806
+      iteration: 41
+      score: 5
   iterated: 1
   storified: skip
 - file: client/src/stores/windowManagerStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 06c8fd2bbe89524216d4787c38d4d86f1734447f
+      iteration: 9
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/workflowConnectionStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 2491bad72c21a001513a5f893dfe723fb681015b
+      iteration: 5
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/workflowEditorCommentStore.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 702e52542b1cbd1e37e8db6d1ea0a131f176dd2c
+      iteration: 7
+      score: 2
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/workflowEditorToolbarStore.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: cf1d5096208c8c3ec66629c9389d904f6d93bbdb
+      iteration: 4
+      score: 2
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/workflowSearchStore.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 106a7c5c832125742989d6f6901cfdc77b2d8d02
+      iteration: 11
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/workflowStepStore.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 2e9ff49daff7b1890ef5b3c0a93a5c588a2dc2b0
+      iteration: 5
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/stores/workflowStore.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: b6b754c3c051941f5c66976d80ad1c42d1823448
+      iteration: 10
+      score: 4
+    - commit: 6fe1e23274a46e74967506d7ca86900d1f3bdab0
+      iteration: 40
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/style/headingScale.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 06710cbdf8248d8f6e77a5f54a4cbccaf105587e
+      iteration: 67
+      score: 3
   iterated: 1
 - file: client/src/style/tokensContract.test.ts
   storified: skip
 - file: client/src/utils/color.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 75cc1da599ac8fabc83c36937cb898c64826a9b0
+      iteration: 4
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/dates.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 3325250441afa5e363d212799699ca0a7fb52c0f
+      iteration: 5
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/filterConversion.test.js
+  readability_score: 2
+  readability_reviews:
+    - commit: 776d72eddb153c9d80d11f14e34e5022af350eb8
+      iteration: 9
+      score: 2
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/filtering.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: 6a25dab6d29b1620984bcf907d775314f4b08ba9
+      iteration: 2
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/historyUpload.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: e9809ba5e374931014e8841cd81ab31bcb53a6a0
+      iteration: 11
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/lastQueue.test.js
+  readability_score: 5
+  readability_reviews:
+    - commit: 7b64b23b10ab14c48981110986cb3a67409c3362
+      iteration: 7
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
@@ -1554,11 +3843,21 @@
 - file: client/src/utils/logout.test.js
   storified: skip
 - file: client/src/utils/parseBool.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 3d2a4cc75c847d0e57b2afe44251a9811f0568d9
+      iteration: 1
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/redirect.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 48fbf9aac73dae64bd16bf4559d1cfb10048c39a
+      iteration: 7
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
@@ -1568,58 +3867,123 @@
 - file: client/src/utils/slug.test.ts
   storified: skip
 - file: client/src/utils/strings.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: e534ea06b8c2df53b3bca23c9253993d850e4476
+      iteration: 8
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/tool-version.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: f239fe1b512ad5765ae69e4b5b880baab9b05b13
+      iteration: 10
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/tusUpload.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: fa88c9f859ef4f08e29374cc45af3f379ef7bd1f
+      iteration: 6
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/upload-queue.test.js
+  readability_score: 4
+  readability_reviews:
+    - commit: d699b5441df900cebbb44570acec1df39ab5788a
+      iteration: 11
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/upload.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: ebc8a2f21164a5b04769f07e43b466f3e3bb6b01
+      iteration: 8
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/url.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: ea2a9b692f621f0666761cb9ce250f54ca5d0943
+      iteration: 3
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/utils.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 379db5f60d3c2e82f5ac773bf9c0c2e8468dd477
+      iteration: 10
+      score: 3
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/utils.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: da7995c70adcfc54f3029e105088782bd771dd20
+      iteration: 9
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/src/utils/webhooks.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 65f6b3944dde07fc7ea639e23e90bd10e00ba7af
+      iteration: 69
+      score: 4
   iterated: 1
   storified: skip
 - file: client/src/watch/watchHistory.test.js
+  readability_score: 5
+  readability_reviews:
+    - commit: e298c531ce0f2da1807bfb3d84f90ec171f1f027
+      iteration: 9
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
   storybook_play: skip
 - file: client/tests/vitest/check-style-imports.test.js
+  readability_score: 3
+  readability_reviews:
+    - commit: 292f7d16b0d2f67f785df6389a1368f5d5b1c1f9
+      iteration: 64
+      score: 3
   iterated: 1
 - file: client/tests/vitest/setup.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 42bcc23eeceb9f180c42b826c1bcb653e769bc57
+      iteration: 76
+      score: 4
   iterated: 1
 - file: lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: d1ae66d356944d0bbd89a5bad8afe355350e2f7d
+      iteration: 26
+      score: 4
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/LandingSearchBox.test.ts
@@ -1627,48 +3991,114 @@
 - file: lib/tool_shed/webapp/frontend/src/components/LoginForm.test.ts
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 5493ba85edeafd8724a79d909602831eb9ec3430
+      iteration: 59
+      score: 3
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 07bc0ae4db1df9746f472726f8b0dc933d0138f7
+      iteration: 8
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 7904083639bcc57bedc456fae98897df55872f7e
+      iteration: 4
+      score: 2
   iterated: 1
   split_commit: true
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 228a941542109bc414931bb2528cb478a107d04e
+      iteration: 7
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 2771481094486451303742753619707f6efe38b9
+      iteration: 5
+      score: 4
+    - commit: 9d74a54d6cb9a1419a5d5d7d274a3ae832bd495e
+      iteration: 10
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: e3676045f80b06e8223d81b67a41b15f7d10887f
+      iteration: 10
+      score: 4
   iterated: 1
   split_commit: true
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: f35980feefdc4c4869754783c7d0f606695a3186
+      iteration: 5
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts
+  readability_score: 5
+  readability_reviews:
+    - commit: 4a2f671b0235ab0862abb128097c8a7336530318
+      iteration: 5
+      score: 5
   iterated: 1
   split_commit: true
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: 904afde123d07200c96fd10dd7831274d0c3ab8c
+      iteration: 71
+      score: 2
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/RegisterPage.test.ts
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: cd3ec37250ea08780b37fff51233d8fe2f4baa9a
+      iteration: 29
+      score: 4
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: ecf030c27410fd0c36ffb2dcd0829afdd17508b3
+      iteration: 29
+      score: 4
+    - commit: 21322c80b597578affbe5bdceb19bba30d5b926c
+      iteration: 51
+      score: 2
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: 71d067d1b5f4950271ccf81f473e0f3ee88bc708
+      iteration: 30
+      score: 4
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/AdminControls.test.ts
@@ -1676,6 +4106,11 @@
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ChangePassword.test.ts
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ForgotPassword.test.ts
+  readability_score: 4
+  readability_reviews:
+    - commit: c8dacc82e20d4e2f0815ecdf312a369370075f59
+      iteration: 40
+      score: 4
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ManageApiKey.test.ts
@@ -1683,19 +4118,47 @@
 - file: lib/tool_shed/webapp/frontend/src/components/pages/MetadataInspectorPage.test.ts
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: ecf030c27410fd0c36ffb2dcd0829afdd17508b3
+      iteration: 29
+      score: 4
+    - commit: fa7d7b93b1ced29b428746b8c60e78f7208a61a6
+      iteration: 69
+      score: 3
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: a673a0acc70f1f4136e1968320922002ba7440d6
+      iteration: 72
+      score: 3
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: 891d9deef88a55471a4151003202c994588396dc
+      iteration: 67
+      score: 3
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts
+  readability_score: 3
+  readability_reviews:
+    - commit: c965c70418b1717729b74bf8ce199fec0a1f1bfe
+      iteration: 49
+      score: 3
   iterated: 1
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/components/pages/ToolVersionPage.test.ts
   storified: skip
 - file: lib/tool_shed/webapp/frontend/src/util.test.ts
+  readability_score: 2
+  readability_reviews:
+    - commit: bf73971bbb55bc5eb5c62d7c022f985557daba6b
+      iteration: 55
+      score: 2
   iterated: 1
   storified: skip

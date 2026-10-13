@@ -1,0 +1,177 @@
+{
+  "batch": 17,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js",
+      "commits": [
+        {
+          "commit": "ff656fd56b72bfeedd74a7c948a59d7a258ce966",
+          "iteration": "32",
+          "subject": "Improve readability of PermissionsInputField tests",
+          "test_files": [
+            "client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ff656fd56b72bfeedd74a7c948a59d7a258ce966.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Login/ChangePassword.test.ts",
+      "commits": [
+        {
+          "commit": "01f82b868e58136c473e533cb197e34027b9a1dc",
+          "iteration": "33",
+          "subject": "Improve readability of ChangePassword tests",
+          "test_files": [
+            "client/src/components/Login/ChangePassword.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Login/ChangePassword.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/01f82b868e58136c473e533cb197e34027b9a1dc.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Login/LoginForm.test.ts",
+      "commits": [
+        {
+          "commit": "94837f7a838594fb40151ce9a13c1967cde70dfc",
+          "iteration": "43",
+          "subject": "Improve readability of LoginForm tests",
+          "test_files": [
+            "client/src/components/Login/LoginForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Login/LoginForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/94837f7a838594fb40151ce9a13c1967cde70dfc.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Login/LoginIndex.test.js",
+      "commits": [
+        {
+          "commit": "1ff8e09b57e2acfc1b74596886b907f85eb81b97",
+          "iteration": "42",
+          "subject": "Improve readability of LoginIndex tests",
+          "test_files": [
+            "client/src/components/Login/LoginIndex.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Login/LoginIndex.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1ff8e09b57e2acfc1b74596886b907f85eb81b97.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Login/NewUserConfirmation.test.ts",
+      "commits": [
+        {
+          "commit": "9829e3dfaaa021d93cc2515e839cfbd5bd99b260",
+          "iteration": "63",
+          "subject": "Own confirmation test mount and location cleanup",
+          "test_files": [
+            "client/src/components/Login/NewUserConfirmation.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Login/NewUserConfirmation.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9829e3dfaaa021d93cc2515e839cfbd5bd99b260.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Editor/CellOption.test.js",
+      "commits": [
+        {
+          "commit": "cb0cbfda4b30c8242f98cd60bf0243446a55747c",
+          "iteration": "12",
+          "subject": "Improve readability of CellOption tests",
+          "test_files": [
+            "client/src/components/Markdown/Editor/CellOption.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Editor/CellOption.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cb0cbfda4b30c8242f98cd60bf0243446a55747c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Editor/TextEditor.test.ts",
+      "commits": [
+        {
+          "commit": "4296e187177f7562112e74d581c59585d686341e",
+          "iteration": "72",
+          "subject": "Type TextEditor mounts and own drag test stores",
+          "test_files": [
+            "client/src/components/Markdown/Editor/TextEditor.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Editor/TextEditor.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4296e187177f7562112e74d581c59585d686341e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js",
+      "commits": [
+        {
+          "commit": "d23a8bfadc713db1b976f65ffae315f7e7472365",
+          "iteration": "55",
+          "subject": "Clarify dataset detail transitions and own mount cleanup",
+          "test_files": [
+            "client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d23a8bfadc713db1b976f65ffae315f7e7472365.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js",
+      "commits": [
+        {
+          "commit": "39d34e1dc809fa98b3451c80e43329920016c318",
+          "iteration": "13",
+          "subject": "Improve readability of HistoryDatasetDisplay tests",
+          "test_files": [
+            "client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/39d34e1dc809fa98b3451c80e43329920016c318.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/Elements/JobElements.test.ts",
+      "commits": [
+        {
+          "commit": "421237ca5187672ca24aac0fba8ae7029c6ed82c",
+          "iteration": "28",
+          "subject": "Improve readability of JobElements tests",
+          "test_files": [
+            "client/src/components/Markdown/Sections/Elements/JobElements.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Markdown/Sections/Elements/JobElements.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/421237ca5187672ca24aac0fba8ae7029c6ed82c.txt"
+        }
+      ]
+    }
+  ]
+}

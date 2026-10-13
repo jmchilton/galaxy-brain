@@ -1,0 +1,173 @@
+{
+  "batch": 37,
+  "tests": [
+    {
+      "file": "client/src/composables/useCreatingJob.test.ts",
+      "reviews": [
+        {
+          "commit": "42010d8cbe2e3da41ee02cd7362c675feadbc35e",
+          "iteration": "05",
+          "score": 3,
+          "defect": "setup copied across ten reset calls",
+          "rationale": "Moves reset to beforeEach and state to hoisted object; many hunks rename IDs/errors or reorder mocks.",
+          "caps": [
+            "cap 3: most hunks renames/reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useEntityMentions.test.ts",
+      "reviews": [
+        {
+          "commit": "19ac6ed93f6f7aa02644fefbc79824f1bcb909e1",
+          "iteration": "07",
+          "score": 4,
+          "defect": "weak parsed-mention checks",
+          "rationale": "Exact arrays replace identifier/type-only checks and prove every mention offset; typed mock data.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useHistoryDatasets.test.ts",
+      "reviews": [
+        {
+          "commit": "512f38df1c8083a47e3381d9955ad2162a30f453",
+          "iteration": "12",
+          "score": 3,
+          "defect": "as unknown as fixture cast soup",
+          "rationale": "Completes HDASummary and real history fixture; spy now proves cache update-time argument, but deletes why cache invalidation requires changed filter.",
+          "caps": [
+            "cap 3: why comment deleted"
+          ]
+        },
+        {
+          "commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+          "iteration": "35",
+          "score": 5,
+          "defect": "cast soup in repeated dataset builders",
+          "rationale": "Shared complete HDASummary factory replaces double casts across five suites; explicit ID/time/name inputs retained. Batch35 records all adopter runs.",
+          "caps": []
+        },
+        {
+          "commit": "7da0a4379244a4b6ca25202b7c66b29b5a3d950b",
+          "iteration": "35",
+          "score": 4,
+          "defect": "setup copied across scope consumers",
+          "rationale": "Shared runInTestScope replaces repeated scope lists/cleanup across four suites; inline cleanup now runs after assertion failure. Batch35 records all adopter runs.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useInvocationGraph.test.ts",
+      "reviews": [
+        {
+          "commit": "ebe0182b640f248159443f248e4f342c13e149c8",
+          "iteration": "08",
+          "score": 3,
+          "defect": "casts hide incomplete invocation fixture",
+          "rationale": "Typed invocation/step fields and named states replace partial casts; tables preserve all mapping cases. Deletes why stop fallback remains uninitialized.",
+          "caps": [
+            "cap 3: why comment deleted"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useNotificationSSE.test.ts",
+      "reviews": [
+        {
+          "commit": "65cd2baa9248b9fb5fbe47c6f89d4ed7d52c3ebe",
+          "iteration": "05",
+          "score": 3,
+          "defect": "weak duplicate-subscription request check",
+          "rationale": "Exact request array strengthens duplicate POST case and helpers shorten reconnect setup; deletes CLOSED/native-retry and background-wake rationale.",
+          "caps": [
+            "cap 3: why comments deleted"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/usePageProposals.test.ts",
+      "reviews": [
+        {
+          "commit": "15f48ea5374ea4393ac9ef1f4011e05a8bac81e6",
+          "iteration": "12",
+          "score": 4,
+          "defect": "misleading patch test name and weak content checks",
+          "rationale": "Names missing-heading append scenario correctly and proves exact original-plus-appended Methods content; typed response fixture.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useRegistrationTarget.test.ts",
+      "reviews": [
+        {
+          "commit": "0f19129679534571914742cc2176a58029db647a",
+          "iteration": "34",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Extracts local-registration result constant and splits two cases; expectations were already exact and setup local.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useSidebarSelection.test.ts",
+      "reviews": [
+        {
+          "commit": "17b4e4382c7fd9fc5fa3539a21b144a16dad414b",
+          "iteration": "09",
+          "score": 4,
+          "defect": "setup copied across many selection cases",
+          "rationale": "createSelection consolidates item refs/key/composable arrangement; real MouseEvent replaces partial cast events, all shift/pruning checks preserved.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/userToolCredentials.test.ts",
+      "reviews": [
+        {
+          "commit": "90495554347d6b9f59ef38aeaf4336e624d680d0",
+          "iteration": "04",
+          "score": 3,
+          "defect": "misleading generic credential test names",
+          "rationale": "Fresh canonical credential fixtures shorten setup; most remaining changes rename names/constants or drop redundant flush/comments; behavior checks retained.",
+          "caps": [
+            "cap 3: most hunks renames/reordering"
+          ]
+        },
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "score": 4,
+          "defect": "setup copied across anonymous-user consumers",
+          "rationale": "Typed anonymous factory adopted across nine supporting suites; anonymous no-fetch expectation retained, changed disk display unasserted.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/zipExplorer.test.ts",
+      "reviews": [
+        {
+          "commit": "5ced9eb8671639188406c12d93142eae0e6dcde5",
+          "iteration": "04",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Flattens describe and tables already-short URL cases; every accepted/rejected input remains.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "batch": 26,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/User/DiskUsage/DiskUsageSummary.test.ts",
+      "commits": [
+        {
+          "commit": "dfcc8bc89dec4700595cecc85dd9bb65f25d1b58",
+          "iteration": "58",
+          "subject": "Own disk usage summary test state and timers",
+          "test_files": [
+            "client/src/components/User/DiskUsage/DiskUsageSummary.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/DiskUsageSummary.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/dfcc8bc89dec4700595cecc85dd9bb65f25d1b58.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+      "commits": [
+        {
+          "commit": "92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6",
+          "iteration": "03",
+          "subject": "Add src/components/User/DiskUsage/Management/Cleanup/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6.txt"
+        },
+        {
+          "commit": "0dfd33147b06bf572965a7ba90eac0d03fb859ab",
+          "iteration": "09",
+          "subject": "Extend src/components/User/DiskUsage/Management/Cleanup/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0dfd33147b06bf572965a7ba90eac0d03fb859ab.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts",
+      "commits": [
+        {
+          "commit": "4f206b297b86823b1632effe111bf9ccb41ecfb8",
+          "iteration": "03",
+          "subject": "Improve readability of CleanupResultDialog tests",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4f206b297b86823b1632effe111bf9ccb41ecfb8.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+      "commits": [
+        {
+          "commit": "92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6",
+          "iteration": "03",
+          "subject": "Add src/components/User/DiskUsage/Management/Cleanup/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6.txt"
+        },
+        {
+          "commit": "cb9bfacf639d970fbbeee3a958c14a39142bbec2",
+          "iteration": "09",
+          "subject": "Improve readability of ReviewCleanupDialog tests",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cb9bfacf639d970fbbeee3a958c14a39142bbec2.txt"
+        },
+        {
+          "commit": "5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f",
+          "iteration": "31",
+          "subject": "Extend src/components/BaseComponents/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Sharing/UserSharing.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+            "client/src/components/Tool/ToolInstallationRequestForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/test-utils.ts",
+            "client/src/components/Sharing/UserSharing.test.ts",
+            "client/src/components/Tool/ToolInstallationRequestForm.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts",
+      "commits": [
+        {
+          "commit": "6ec0d63b80d74132127ac46bd058e8c8d0614deb",
+          "iteration": "58",
+          "subject": "Use typed native mounts for quota usage scenarios",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Quota/QuotaUsageBar.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6ec0d63b80d74132127ac46bd058e8c8d0614deb.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts",
+      "commits": [
+        {
+          "commit": "c928f465b26bc3f87568f5f47ba1f8e98df54fd8",
+          "iteration": "16",
+          "subject": "Improve readability of QuotaUsageSummary tests",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c928f465b26bc3f87568f5f47ba1f8e98df54fd8.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts",
+      "commits": [
+        {
+          "commit": "8fc9393dfbe6c805bf07a193a52be67ca0dc5357",
+          "iteration": "11",
+          "subject": "Improve readability of QuotaUsage tests",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Quota/model/QuotaUsage.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8fc9393dfbe6c805bf07a193a52be67ca0dc5357.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts",
+      "commits": [
+        {
+          "commit": "16f70f52185457de7f4f45dd5525fd8c27db6849",
+          "iteration": "70",
+          "subject": "Own BarChart test views and infer native mount boundaries",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/16f70f52185457de7f4f45dd5525fd8c27db6849.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/DiskUsage/Visualizations/util.test.ts",
+      "commits": [
+        {
+          "commit": "367ea7f7aeeb9cf716cad8b57d17617d80591524",
+          "iteration": "71",
+          "subject": "Reuse canonical toast observation and own loader test mount",
+          "test_files": [
+            "client/src/components/User/DiskUsage/Visualizations/util.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/DiskUsage/Visualizations/util.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/367ea7f7aeeb9cf716cad8b57d17617d80591524.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/UserBeaconSettings.test.ts",
+      "commits": [
+        {
+          "commit": "86121dd4fe2137c2ee9f3fe65d05093fd1779da9",
+          "iteration": "11",
+          "subject": "Improve readability of UserBeaconSettings tests",
+          "test_files": [
+            "client/src/components/User/UserBeaconSettings.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/User/UserBeaconSettings.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/86121dd4fe2137c2ee9f3fe65d05093fd1779da9.txt"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "batch": 20,
+  "tests": [
+    {
+      "file": "client/src/components/Page/PageView.test.ts",
+      "reviews": [
+        {
+          "commit": "4350772f82fcdc54d3123ff8b60474ba7ddb396b",
+          "iteration": "75",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds Pinia disposal plus conditional active-store clearing and typed URL mock to already working mounts; all behavior checks remain. Deleted displayOnly comment explains suppression, so knowledge is reduced.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageDisplay/PageForm.test.js",
+      "reviews": [
+        {
+          "commit": "a3e81818606d907a6e34e5c08659e2062f6f9253",
+          "iteration": "70",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Moves stubs into native global and changes required find queries to get; form loading/field/route/toast assertions unchanged. Existing real mount stays real.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/HistoryPageList.test.ts",
+      "reviews": [
+        {
+          "commit": "ccfdf6795af49614be4d439ca606da411a8666e7",
+          "iteration": "76",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Introduces derived wrapper aliases and conditional active-Pinia teardown around existing typed props; expected list/ownership checks stay unchanged. Extra ceremony exceeds small type gain.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/HistoryPageView.test.ts",
+      "reviews": [
+        {
+          "commit": "b7e1c2980b7694d4902df296207485efc901df30",
+          "iteration": "14",
+          "score": 4,
+          "defect": "Casts conceal incomplete page records",
+          "rationale": "Canonical typed page factories replace any pages/currentPage/createPage results; removes redundant computed getter spy and consolidates async mount waiting across many cases. Preserves edit/display/lifecycle assertions.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/PageCard.test.ts",
+      "reviews": [
+        {
+          "commit": "0ba6a80c7d02dfbfb637660b4c8e8953bce37f28",
+          "iteration": "14",
+          "score": 4,
+          "defect": "Weak emitted-event checks and five copied mounts",
+          "rationale": "Exact [[]] replaces event truthiness, canonical fixture clone and one mount reduce repeated setup; keeps tooltip, untitled, time and revision checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/PageDisplayToolbar.test.ts",
+      "reviews": [
+        {
+          "commit": "329e15fcdf6dbcee5c27e617a6078b3889e7ba50",
+          "iteration": "27",
+          "score": 4,
+          "defect": "as unknown as cast and component-name mutation",
+          "rationale": "Removes imported component mutation/cast, uses canonical page/revision fixtures and typed real mount. Saved-indicator spy helper has two consumers; preserves success/failure and toolbar events.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/PageEditorView.test.ts",
+      "reviews": [
+        {
+          "commit": "2273237802acf2a17176f121a100c83e5f13cd15",
+          "iteration": "27",
+          "score": 4,
+          "defect": "Repeated revision fixture records in three or more cases",
+          "rationale": "Existing pages fixture module gains typed revision factories and PageEditorView adopts them in five cases; repeated metadata and casts disappear while revision event assertions remain.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/PageRevisionView.test.ts",
+      "reviews": [
+        {
+          "commit": "25925ddea32c3937d39422a958e391d8656b1103",
+          "iteration": "50",
+          "score": 4,
+          "defect": "Copied toggle/action setup across three or more cases",
+          "rationale": "Value-only tables consolidate pressed-mode, emitted-mode, restore and back cases without conditional assertions; preserves diff/no-change/visibility checks and types mount overrides.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/SectionPatchView.test.ts",
+      "reviews": [
+        {
+          "commit": "501b988fd409a9051185e1d7137ddc92de1e793c",
+          "iteration": "52",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Renames OLD/NEW and mount/scenarios, types props and uses get; preserves section count/diff/reject/apply-disabled checks. Most hunks neutral.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/object-permission-composables.test.js",
+      "reviews": [
+        {
+          "commit": "7e68fb58eb98e532582305b77661b791bcabac55",
+          "iteration": "10",
+          "score": 4,
+          "defect": "Three copied reference-source cases",
+          "rationale": "One table preserves empty-before-cache and exact mapped history values for jobs/invocations/collections; merge and dedup cases retain length/membership strength.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

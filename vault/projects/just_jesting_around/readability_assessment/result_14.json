@@ -1,0 +1,159 @@
+{
+  "batch": 14,
+  "tests": [
+    {
+      "file": "client/src/components/History/Graph/useHistoryGraph.test.ts",
+      "reviews": [
+        {
+          "commit": "50f8ee1f263d9845d67e1baae995c4c4cb8042ef",
+          "iteration": "14",
+          "score": 4,
+          "defect": "vacuous computed-ref sanity assertion",
+          "rationale": "Old computed(()=>graphNodes.length) was always defined regardless of returned graph behavior; replaces with exact empty graph and identity of loading/error/refetch. Defaulted local factory removes repeated ref(undefined) setup; all existing projection/watch/SSE checks remain.",
+          "caps": []
+        },
+        {
+          "commit": "7da0a4379244a4b6ca25202b7c66b29b5a3d950b",
+          "iteration": "35",
+          "score": 4,
+          "defect": "scope setup copied across three or more suites",
+          "rationale": "Same runInTestScope extraction as batch06: four consumers eliminate repeated scope/run/stop tracking, retaining watcher lifetime why notes and behavior checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Graph/useHistoryGraphData.test.ts",
+      "reviews": [
+        {
+          "commit": "bed5f00ee10148514eb37136460b73f964faa6fd",
+          "iteration": "35",
+          "score": 5,
+          "defect": "weak refetch loading snapshot and as unknown as query soup",
+          "rationale": "Old one-shot loading snapshot missed transient true; real synchronous watch now records every change and requires none. Typed request fields remove double cast, exact EMPTY_GRAPH/error replace broad checks, and explicit initial/loading/error-recovery/refetch-failure scenarios preserve why comment.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/HistoryOptions.test.ts",
+      "reviews": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "score": 4,
+          "defect": "wrong anonymous type and duplicate user fixtures",
+          "rationale": "Same shared anonymous factory commit as batch05, nine consumers replacing copied incomplete fixtures; all user/menu checks remain.",
+          "caps": []
+        },
+        {
+          "commit": "d2f5f91010e3cbc755ee6f9ee23aed43d03c6114",
+          "iteration": "70",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds store disposal/spies restore and auto-unmount; explicit Pinia and get replace existing state/lookups. Same modal titles, purge flags and changing-history checks, no observed wrong result; no gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/HistoryView.test.js",
+      "reviews": [
+        {
+          "commit": "e5ab65b054b5737d1c53af0e732756eb68543456",
+          "iteration": "65",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Many createHistory/createDatasets/get replacements, owned Pinia and memory router changes preserve real delete retry/filter/history checks. Adds try/finally and conditional unmount to delayed deletion test, explicit cap2.",
+          "caps": [
+            "net new control flow in test bodies",
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Layout/DetailsLayout.test.js",
+      "reviews": [
+        {
+          "commit": "56949f4566d821f1cf776db2a2e1c1bb69a11980",
+          "iteration": "40",
+          "score": 4,
+          "defect": "opaque positional unwritable boolean and weak tooltip checks",
+          "rationale": "Named props/user options replace component/localVue/userData/unwritable calls; exact login/noneditable tooltip and aria-disabled strengthen old substrings. Canonical users/native plugins retain annotation/save/summary paths; optional setup guard is minor cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Modals/CopyModal.test.ts",
+      "reviews": [
+        {
+          "commit": "22f3e17233456b48f2dec253f3a1810d69b31857",
+          "iteration": "05",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Only adds auto-unmount/mock restore and fresh localVue, deletes trivial owner comment. Ownership without observed leak; checks unchanged.",
+          "caps": [
+            "no defect from gate list",
+            "teardown/restore hunks dominate without observed leak"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Modals/SelectorModal.test.js",
+      "reviews": [
+        {
+          "commit": "431babca4cab4584367f39bbfa5dfb1187076542",
+          "iteration": "12",
+          "score": 4,
+          "defect": "pagination test bypasses UI and weak multiselect payload",
+          "rationale": "Clicks actual Load More instead of direct store loading; exact full two-ID selection replaces first-ID-only assertion and verifies once single selection. Consolidated canonical fixture/setup shortens file substantially with same current-row/instruction cases.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Multiple/MultipleView.test.js",
+      "reviews": [
+        {
+          "commit": "791122d135ac583fe0325a7d13b2f79cbb0b4c0b",
+          "iteration": "05",
+          "score": 3,
+          "defect": "ambiguous equal timestamps in ordered-history fixture",
+          "rationale": "Sequential fixed timestamps make oldest/current-history ordering explicit instead of nearly-equal current times. Retains all display counts/load-more transitions; many neutral matcher/name/plugin changes dilute small deterministic-fixture gain.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/SwitchToHistoryLink.test.ts",
+      "reviews": [
+        {
+          "commit": "b699eb2e178b99d840caad1ebcd156282c60c576",
+          "iteration": "15",
+          "score": 4,
+          "defect": "opaque six positional history action booleans and duplicate public case",
+          "rationale": "Named actionCases expose switch/filter/tab counts and real filters; ten rows retain normal/Ctrl-click semantics, fix duplicated public case to genuinely apply filters, and verify exact resolved URL/_blank. Canonical histories/users remove repeated partial data; uniform assertions do not branch by table.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/TargetHistorySelector.test.ts",
+      "reviews": [
+        {
+          "commit": "e4bad5a4e40945b3a3ae0a867d6604d1be294a68",
+          "iteration": "16",
+          "score": 4,
+          "defect": "untested target-link ID and warning component despite fixture",
+          "rationale": "Canonical fixture removes large history literals/dead routes/flushes; active case asserts TargetHistoryLink ID and absent GAlert, warning cases assert actual alert text. Retains seeded-store/stub why comment and exact warnings, shorter setup.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

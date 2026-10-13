@@ -1,0 +1,177 @@
+{
+  "batch": 28,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/Editor/Actions/actions.test.ts",
+      "commits": [
+        {
+          "commit": "19ac9ce1ce68baa9134de4d9a999e13ddeeb8dd5",
+          "iteration": "05",
+          "subject": "Improve readability of Actions/actions tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Actions/actions.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Actions/actions.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/19ac9ce1ce68baa9134de4d9a999e13ddeeb8dd5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/AreaHighlight.test.ts",
+      "commits": [
+        {
+          "commit": "c9cb70fb937f60c4f4c1e5c5958b988ce3561866",
+          "iteration": "76",
+          "subject": "Infer public highlight calls and settle owned fake-clock work",
+          "test_files": [
+            "client/src/components/Workflow/Editor/AreaHighlight.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/AreaHighlight.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c9cb70fb937f60c4f4c1e5c5958b988ce3561866.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Comments/ColorSelector.test.js",
+      "commits": [
+        {
+          "commit": "2020883b00da16aa2074b0734d17e5dc99770d83",
+          "iteration": "65",
+          "subject": "Own color selector wrappers and await prop updates",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Comments/ColorSelector.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Comments/ColorSelector.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2020883b00da16aa2074b0734d17e5dc99770d83.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts",
+      "commits": [
+        {
+          "commit": "a7419418a9056803c5a52065a7caaf5c3d85bea0",
+          "iteration": "74",
+          "subject": "Own typed workflow comment mounts and sanitizer cleanup",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a7419418a9056803c5a52065a7caaf5c3d85bea0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormDefault.test.js",
+      "commits": [
+        {
+          "commit": "e5c85a820a672cd87804aea6211197fb6278af4d",
+          "iteration": "12",
+          "subject": "Improve readability of FormDefault tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Forms/FormDefault.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Forms/FormDefault.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e5c85a820a672cd87804aea6211197fb6278af4d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormInputCollection.test.ts",
+      "commits": [
+        {
+          "commit": "1ab49b227946615e94fe1fe73dc82e607b3e2dbd",
+          "iteration": "70",
+          "subject": "Clarify collection form fixtures and timer ownership",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Forms/FormInputCollection.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Forms/FormInputCollection.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1ab49b227946615e94fe1fe73dc82e607b3e2dbd.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js",
+      "commits": [
+        {
+          "commit": "e847648121d9444aa5123bb6570c9a40ff1538f4",
+          "iteration": "11",
+          "subject": "Improve readability of FormOutputLabel tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e847648121d9444aa5123bb6570c9a40ff1538f4.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts",
+      "commits": [
+        {
+          "commit": "42c2cfe10a7813ea94b5e9a3601e94db4bbfa994",
+          "iteration": "14",
+          "subject": "Improve readability of FormPickValue tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Forms/FormPickValue.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/42c2cfe10a7813ea94b5e9a3601e94db4bbfa994.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormSection.test.ts",
+      "commits": [
+        {
+          "commit": "d7a24e41f9bfa0c05ca3a8fb86e41f8910e08e0a",
+          "iteration": "50",
+          "subject": "Clarify workflow section action capability tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Forms/FormSection.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Forms/FormSection.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d7a24e41f9bfa0c05ca3a8fb86e41f8910e08e0a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Forms/FormTool.test.js",
+      "commits": [
+        {
+          "commit": "1b62848a8239086e23e14eb618e7ddb0e0ed1deb",
+          "iteration": "41",
+          "subject": "Improve readability of FormTool tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Forms/FormTool.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Forms/FormTool.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1b62848a8239086e23e14eb618e7ddb0e0ed1deb.txt"
+        }
+      ]
+    }
+  ]
+}

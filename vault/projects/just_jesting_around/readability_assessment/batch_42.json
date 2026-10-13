@@ -1,0 +1,197 @@
+{
+  "batch": 42,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/stores/workflowConnectionStore.test.ts",
+      "commits": [
+        {
+          "commit": "2491bad72c21a001513a5f893dfe723fb681015b",
+          "iteration": "05",
+          "subject": "Improve readability of workflowConnectionStore tests",
+          "test_files": [
+            "client/src/stores/workflowConnectionStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/workflowConnectionStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2491bad72c21a001513a5f893dfe723fb681015b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowEditorCommentStore.test.ts",
+      "commits": [
+        {
+          "commit": "702e52542b1cbd1e37e8db6d1ea0a131f176dd2c",
+          "iteration": "07",
+          "subject": "Improve readability of workflowEditorCommentStore tests",
+          "test_files": [
+            "client/src/stores/workflowEditorCommentStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/workflowEditorCommentStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/702e52542b1cbd1e37e8db6d1ea0a131f176dd2c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowEditorToolbarStore.test.ts",
+      "commits": [
+        {
+          "commit": "cf1d5096208c8c3ec66629c9389d904f6d93bbdb",
+          "iteration": "04",
+          "subject": "Improve readability of workflowEditorToolbarStore tests",
+          "test_files": [
+            "client/src/stores/workflowEditorToolbarStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/workflowEditorToolbarStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cf1d5096208c8c3ec66629c9389d904f6d93bbdb.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowSearchStore.test.ts",
+      "commits": [
+        {
+          "commit": "106a7c5c832125742989d6f6901cfdc77b2d8d02",
+          "iteration": "11",
+          "subject": "Improve readability of workflowSearchStore tests",
+          "test_files": [
+            "client/src/stores/workflowSearchStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/workflowSearchStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/106a7c5c832125742989d6f6901cfdc77b2d8d02.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowStepStore.test.ts",
+      "commits": [
+        {
+          "commit": "2e9ff49daff7b1890ef5b3c0a93a5c588a2dc2b0",
+          "iteration": "05",
+          "subject": "Improve readability of workflowStepStore tests",
+          "test_files": [
+            "client/src/stores/workflowStepStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/workflowStepStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2e9ff49daff7b1890ef5b3c0a93a5c588a2dc2b0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowStore.test.ts",
+      "commits": [
+        {
+          "commit": "b6b754c3c051941f5c66976d80ad1c42d1823448",
+          "iteration": "10",
+          "subject": "Improve readability of workflowStore tests",
+          "test_files": [
+            "client/src/stores/workflowStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/workflowStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b6b754c3c051941f5c66976d80ad1c42d1823448.txt"
+        },
+        {
+          "commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+          "iteration": "40",
+          "subject": "Add tests/vitest/deferred.ts for client unit tests",
+          "test_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts",
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts",
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI/test-utils.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/tests/vitest/deferred.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6fe1e23274a46e74967506d7ca86900d1f3bdab0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/style/headingScale.test.ts",
+      "commits": [
+        {
+          "commit": "06710cbdf8248d8f6e77a5f54a4cbccaf105587e",
+          "iteration": "67",
+          "subject": "Use guarded theme capture in heading scale test",
+          "test_files": [
+            "client/src/style/headingScale.test.ts"
+          ],
+          "changed_files": [
+            "client/src/style/headingScale.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/06710cbdf8248d8f6e77a5f54a4cbccaf105587e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/color.test.js",
+      "commits": [
+        {
+          "commit": "75cc1da599ac8fabc83c36937cb898c64826a9b0",
+          "iteration": "04",
+          "subject": "Improve readability of color tests",
+          "test_files": [
+            "client/src/utils/color.test.js"
+          ],
+          "changed_files": [
+            "client/src/utils/color.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/75cc1da599ac8fabc83c36937cb898c64826a9b0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/dates.test.ts",
+      "commits": [
+        {
+          "commit": "3325250441afa5e363d212799699ca0a7fb52c0f",
+          "iteration": "05",
+          "subject": "Improve readability of dates tests",
+          "test_files": [
+            "client/src/utils/dates.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/dates.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3325250441afa5e363d212799699ca0a7fb52c0f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/filterConversion.test.js",
+      "commits": [
+        {
+          "commit": "776d72eddb153c9d80d11f14e34e5022af350eb8",
+          "iteration": "09",
+          "subject": "Improve readability of filterConversion tests",
+          "test_files": [
+            "client/src/utils/filterConversion.test.js"
+          ],
+          "changed_files": [
+            "client/src/utils/filterConversion.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/776d72eddb153c9d80d11f14e34e5022af350eb8.txt"
+        }
+      ]
+    }
+  ]
+}

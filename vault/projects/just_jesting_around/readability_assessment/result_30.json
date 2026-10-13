@@ -1,0 +1,171 @@
+{
+  "batch": 30,
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/Editor/modules/collectionTypeDescription.test.ts",
+      "reviews": [
+        {
+          "commit": "0c0af7e024b85910a2e7d95ce993f40e472c3d6e",
+          "iteration": "25",
+          "score": 4,
+          "defect": "Repeated identical collection comparisons across three or more cases",
+          "rationale": "Value-only tables make asymmetric accepts vs symmetric compatible pairs visible; both directions and all original same/disjoint/subtype checks retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/modules/layout.test.ts",
+      "reviews": [
+        {
+          "commit": "b7e7de5178070aad952a21d0532a2c9517859b48",
+          "iteration": "27",
+          "score": 4,
+          "defect": "Copied store/step-position setup across four layout cases",
+          "rationale": "layOutSteps helper keeps per-step heights and connections explicit, reduces 190-line setup to 73; orphan-import and missing-port rationale retained alongside edge/warn checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/modules/useLinting.test.ts",
+      "reviews": [
+        {
+          "commit": "53fe348ac9211ef916d2daeb81c9df7a8f67ddc9",
+          "iteration": "66",
+          "score": 4,
+          "defect": "Repeated eight-argument lint metadata arrangement",
+          "rationale": "Named createLintData options expose missing/changed metadata while canonical scope helper and fixture clone remove shared effects; every issue-count/flag/reactivity assertion retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Import/TrsTool.test.ts",
+      "reviews": [
+        {
+          "commit": "06bb332468e67d8a9713c9966a2b04f388582353",
+          "iteration": "49",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Typed registry fixture and exact sanitizer call count modestly improve two tests, but descriptor-like implementation restoration/clear/unmount adds ceremony without observed leak.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        },
+        {
+          "commit": "cf083c3b403ad3ac4e4ef104a85306be5e042581",
+          "iteration": "49",
+          "score": 3,
+          "defect": "none",
+          "rationale": "README-only teardown-order advice does not change any test assertion or original readability defect; useful documentation outside the single-test rubric.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts",
+      "reviews": [
+        {
+          "commit": "fae6b2e80149e307116d0427715657806b72a663",
+          "iteration": "76",
+          "score": 2,
+          "defect": "none",
+          "rationale": "One error-alert test gains partial invocation type assertion, conditional active-Pinia teardown and ensureDefined; same 429 text check, much more setup.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/CuratedCollectionChips.test.ts",
+      "reviews": [
+        {
+          "commit": "59e10961623f72f4570df4b4e6931720751ab817",
+          "iteration": "67",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Types collection records and uses props/global/get plus auto-unmount; preserves all overflow/expanded/tabindex/selected/filter cases with no assertion improvement.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+      "reviews": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "score": 4,
+          "defect": "Incomplete anonymous records hidden by casts",
+          "rationale": "Canonical anonymous factory adopted across nine consumers including curated card; typed shape preserves signed-in/anonymous behavior while removing copied records.",
+          "caps": []
+        },
+        {
+          "commit": "0080c322b7f2f6bd94cfca483ce0a3ffa8ddc3cc",
+          "iteration": "75",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Existing card action helpers already fail on missing handler; nested ensureDefined and per-case toast/history/Pinia cleanup add ceremony. In-flight deferred reused but no original wrong output named.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/CuratedWorkflowList.test.ts",
+      "reviews": [
+        {
+          "commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+          "iteration": "40",
+          "score": 4,
+          "defect": "Deferred helper duplicated across three modules",
+          "rationale": "Canonical deferred immediately used by four suites; removes three local Promise resolver copies without altering pending-response assertions.",
+          "caps": []
+        },
+        {
+          "commit": "cb2358bc64fc2c7c4f4148ff6dc29045a473817a",
+          "iteration": "61",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Preserves catalog queries, paging/sort/chip/error/loading checks; native get/options and per-mount Pinia/router cleanup dominate. Config response any cast replaced by untyped seam is marginal.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/WorkflowCardList.test.ts",
+      "reviews": [
+        {
+          "commit": "46a0f6bad514a65d6982bd479f18a33abaa864bd",
+          "iteration": "41",
+          "score": 4,
+          "defect": "Existing rename fixture never checked refresh/persistence",
+          "rationale": "Canonical workflow records and requestRename keep selection clear; adds exact refreshList event on abort and second-workflow update payload after rename.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/WorkflowList.test.ts",
+      "reviews": [
+        {
+          "commit": "0603d244d98fb687c5f07cfd3a4c2ae21ecca8f2",
+          "iteration": "28",
+          "score": 5,
+          "defect": "Random workflow fixtures and count-only rendering checks",
+          "rationale": "Canonical deterministic workflow fixture removes random strings/tags/published/bookmarks; explicit cards test descriptions/read-only tags/bookmark/source while preserving loaded-user/deleted filtering.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

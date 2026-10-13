@@ -1,0 +1,143 @@
+{
+  "batch": 38,
+  "tests": [
+    {
+      "file": "client/src/directives/sanitizeHtml.test.ts",
+      "reviews": [
+        {
+          "commit": "346f8746668395182589f6ab67ea5c21e989b1f6",
+          "iteration": "65",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Typed hook mock and explicit missing-hook error replace single cast; existing hook count/name and invocation already failed missing/wrong hooks.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/directives/vGTooltip.test.ts",
+      "reviews": [
+        {
+          "commit": "95ac64935e27eedd6507d18dbf75a36f9d374d2d",
+          "iteration": "08",
+          "score": 5,
+          "defect": "as unknown as directive binding/VNode cast soup",
+          "rationale": "Mounts real Vue directive callers instead of fabricated bindings and undefined VNode; preserves hover/focus/menu/accessibility and moves aria cleanup check to real unmount.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/directives/vNoSanitizeHtml.test.ts",
+      "reviews": [
+        {
+          "commit": "ed70255c7c593161d59b0c930619330fa939357c",
+          "iteration": "45",
+          "score": 4,
+          "defect": "untested directive lifecycle behavior",
+          "rationale": "Separates mount/update/null checks and adds same-content preservation plus destruction assertions using existing bound-markup fixture; keeps explicit sanitizer never-called checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/directives/vSanitizeHtml.test.ts",
+      "reviews": [
+        {
+          "commit": "9c89fe712730cd12bac8bceb8e972898e6c07195",
+          "iteration": "44",
+          "score": 4,
+          "defect": "weak non-string sanitizer-call check",
+          "rationale": "Replaces every(empty html) with exact one-call shape per invalid input, verifies warn value/count, preserves bound update/same DOM/unmount checks and names profile directly.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/App.test.ts",
+      "reviews": [
+        {
+          "commit": "3bfa8ce61b0f753f989af82fe4f57732b580aa49",
+          "iteration": "71",
+          "score": 3,
+          "defect": "as unknown as router cast soup",
+          "rationale": "Types Galaxy fixture and confirmable router, removes double casts; explicit Pinia accesses and mount wiring touch nearly every case without additional behavior checks. Gain is marginal after broad ceremony.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/modules/Login.test.ts",
+      "reviews": [
+        {
+          "commit": "17895d78b5984fd4c316c0d40945345435252a67",
+          "iteration": "09",
+          "score": 4,
+          "defect": "weak stringified boolean prop checks",
+          "rationale": "Asserting child typed props now rejects string true for boolean flags; retains each redirect/CSRF/welcome field and explicit element IDs. Route mock why remains.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/modules/Register.test.ts",
+      "reviews": [
+        {
+          "commit": "e949130679773fd9375c3ecae2e6e95c857030ef",
+          "iteration": "07",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Removes unused router/Pinia setup and checks same seven props together; modest noise reduction but original exact prop checks had no gate defect.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/modules/ResetPassword.test.ts",
+      "reviews": [
+        {
+          "commit": "b1baa2e665ebb9d7d11780056612e9db3a93e2bb",
+          "iteration": "19",
+          "score": 5,
+          "defect": "Broken shared Vitest matcher declarations shadowed real test types",
+          "rationale": "Deletes conflicting ambient matcher declaration and Vitest function reexports; real module augmentation restores strong expect/describe and custom-matcher types. Negative type canary demonstrates previously accepted wrong arguments/unknown matchers now fail; all three typed localization consumers validated.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/router-push.test.js",
+      "reviews": [
+        {
+          "commit": "b6dda390e29e941f0a72571f17073270de152e8d",
+          "iteration": "12",
+          "score": 2,
+          "defect": "weak forced-route path check",
+          "rationale": "Adds exact forced path and tables navigation cases but wraps listener scenario in new try/finally; all existing route/key/listener assertions survive.",
+          "caps": [
+            "cap 2: net new control flow in test body"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/routes/library-routes.test.ts",
+      "reviews": [
+        {
+          "commit": "ea3b07d4f2925b80a655c0624431a5b829029c8f",
+          "iteration": "62",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds typeof guard after existing function-type expectation and invokes without cast; exact folder/page behavior check unchanged.",
+          "caps": [
+            "cap 2: net new control flow in test body; cap 3: no gate defect"
+          ]
+        }
+      ]
+    }
+  ]
+}

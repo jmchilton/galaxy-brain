@@ -1,0 +1,177 @@
+{
+  "batch": 43,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/utils/filtering.test.js",
+      "commits": [
+        {
+          "commit": "6a25dab6d29b1620984bcf907d775314f4b08ba9",
+          "iteration": "02",
+          "subject": "Improve readability of filtering tests",
+          "test_files": [
+            "client/src/utils/filtering.test.js"
+          ],
+          "changed_files": [
+            "client/src/utils/filtering.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6a25dab6d29b1620984bcf907d775314f4b08ba9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/historyUpload.test.ts",
+      "commits": [
+        {
+          "commit": "e9809ba5e374931014e8841cd81ab31bcb53a6a0",
+          "iteration": "11",
+          "subject": "Improve readability of historyUpload tests",
+          "test_files": [
+            "client/src/utils/historyUpload.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/historyUpload.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e9809ba5e374931014e8841cd81ab31bcb53a6a0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/lastQueue.test.js",
+      "commits": [
+        {
+          "commit": "7b64b23b10ab14c48981110986cb3a67409c3362",
+          "iteration": "07",
+          "subject": "Improve readability of lastQueue tests",
+          "test_files": [
+            "client/src/utils/lastQueue.test.js"
+          ],
+          "changed_files": [
+            "client/src/utils/lastQueue.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7b64b23b10ab14c48981110986cb3a67409c3362.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/parseBool.test.ts",
+      "commits": [
+        {
+          "commit": "3d2a4cc75c847d0e57b2afe44251a9811f0568d9",
+          "iteration": "01",
+          "subject": "Improve readability of parseBool tests",
+          "test_files": [
+            "client/src/utils/parseBool.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/parseBool.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3d2a4cc75c847d0e57b2afe44251a9811f0568d9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/redirect.test.ts",
+      "commits": [
+        {
+          "commit": "48fbf9aac73dae64bd16bf4559d1cfb10048c39a",
+          "iteration": "07",
+          "subject": "Improve readability of redirect tests",
+          "test_files": [
+            "client/src/utils/redirect.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/redirect.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/48fbf9aac73dae64bd16bf4559d1cfb10048c39a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/strings.test.ts",
+      "commits": [
+        {
+          "commit": "e534ea06b8c2df53b3bca23c9253993d850e4476",
+          "iteration": "08",
+          "subject": "Improve readability of utils/strings tests",
+          "test_files": [
+            "client/src/utils/strings.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/strings.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e534ea06b8c2df53b3bca23c9253993d850e4476.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/tool-version.test.ts",
+      "commits": [
+        {
+          "commit": "f239fe1b512ad5765ae69e4b5b880baab9b05b13",
+          "iteration": "10",
+          "subject": "Improve readability of tool-version tests",
+          "test_files": [
+            "client/src/utils/tool-version.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/tool-version.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f239fe1b512ad5765ae69e4b5b880baab9b05b13.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/tusUpload.test.ts",
+      "commits": [
+        {
+          "commit": "fa88c9f859ef4f08e29374cc45af3f379ef7bd1f",
+          "iteration": "06",
+          "subject": "Improve readability of tusUpload tests",
+          "test_files": [
+            "client/src/utils/tusUpload.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/tusUpload.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fa88c9f859ef4f08e29374cc45af3f379ef7bd1f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/upload-queue.test.js",
+      "commits": [
+        {
+          "commit": "d699b5441df900cebbb44570acec1df39ab5788a",
+          "iteration": "11",
+          "subject": "Improve readability of upload-queue tests",
+          "test_files": [
+            "client/src/utils/upload-queue.test.js"
+          ],
+          "changed_files": [
+            "client/src/utils/upload-queue.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d699b5441df900cebbb44570acec1df39ab5788a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/upload.test.ts",
+      "commits": [
+        {
+          "commit": "ebc8a2f21164a5b04769f07e43b466f3e3bb6b01",
+          "iteration": "08",
+          "subject": "Improve readability of utils/upload tests",
+          "test_files": [
+            "client/src/utils/upload.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/upload.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ebc8a2f21164a5b04769f07e43b466f3e3bb6b01.txt"
+        }
+      ]
+    }
+  ]
+}

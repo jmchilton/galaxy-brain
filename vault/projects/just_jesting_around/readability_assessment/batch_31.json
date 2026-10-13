@@ -1,0 +1,265 @@
+{
+  "batch": 31,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+      "commits": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "subject": "Extend tests/test-data/index.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts",
+            "client/tests/test-data/index.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/65fc286e8b7a5f01da895c0155ddb4244d39a2a5.txt"
+        },
+        {
+          "commit": "b7f38ee639223bc59535b70eaf4182df917b7be9",
+          "iteration": "34",
+          "subject": "Fix tests/vitest/mockConfig.js for client unit tests",
+          "test_files": [
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/tests/vitest/mockConfig.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b7f38ee639223bc59535b70eaf4182df917b7be9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+      "commits": [
+        {
+          "commit": "abd6312d8e558ef0882edecf70abb131bc4e8978",
+          "iteration": "10",
+          "subject": "Add tests/test-data/workflows.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/actions.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/actions.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+            "client/tests/test-data/workflows.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/abd6312d8e558ef0882edecf70abb131bc4e8978.txt"
+        },
+        {
+          "commit": "3a8bafecdda7dae97b8bd4670bcb4231a82c5957",
+          "iteration": "58",
+          "subject": "Own workflow card action test stores and effects",
+          "test_files": [
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3a8bafecdda7dae97b8bd4670bcb4231a82c5957.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts",
+      "commits": [
+        {
+          "commit": "afa8a8d8d1fae6b492b1f28d865e158bd3f4290c",
+          "iteration": "49",
+          "subject": "Restore sanitizer state after workflow help tests unmount",
+          "test_files": [
+            "client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/afa8a8d8d1fae6b492b1f28d865e158bd3f4290c.txt"
+        },
+        {
+          "commit": "a8d43c7cd3e3e33b3df0f2a2ff77f4101362ad82",
+          "iteration": "72",
+          "subject": "Use native typed mounts for workflow help rendering",
+          "test_files": [
+            "client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a8d43c7cd3e3e33b3df0f2a2ff77f4101362ad82.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+      "commits": [
+        {
+          "commit": "0a1d55950086993a9460e8d0b30ded633b7c8205",
+          "iteration": "31",
+          "subject": "Improve readability of WorkflowMissingToolsRequest tests",
+          "test_files": [
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0a1d55950086993a9460e8d0b30ded633b7c8205.txt"
+        },
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "subject": "Extend tests/test-data/index.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts",
+            "client/tests/test-data/index.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/65fc286e8b7a5f01da895c0155ddb4244d39a2a5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowRun.test.js",
+      "commits": [
+        {
+          "commit": "c05b57840e890dd48db60eb17249a62797ca2540",
+          "iteration": "30",
+          "subject": "Improve readability of WorkflowRun tests",
+          "test_files": [
+            "client/src/components/Workflow/Run/WorkflowRun.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/WorkflowRun.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c05b57840e890dd48db60eb17249a62797ca2540.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowRunDefaultStep.test.ts",
+      "commits": [
+        {
+          "commit": "62e810dabd8ec047be626420d472bd00c96e221d",
+          "iteration": "51",
+          "subject": "Clarify workflow tool-step setup and teardown",
+          "test_files": [
+            "client/src/components/Workflow/Run/WorkflowRunDefaultStep.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/WorkflowRunDefaultStep.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/62e810dabd8ec047be626420d472bd00c96e221d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowRunForm.test.ts",
+      "commits": [
+        {
+          "commit": "5eed1383032a7ade2bb94f66bbfb562eaf1fd377",
+          "iteration": "44",
+          "subject": "Improve readability of WorkflowRunForm tests",
+          "test_files": [
+            "client/src/components/Workflow/Run/WorkflowRunForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/WorkflowRunForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5eed1383032a7ade2bb94f66bbfb562eaf1fd377.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts",
+      "commits": [
+        {
+          "commit": "28f3e0e10dc6326abfe107f7e2777245254a9784",
+          "iteration": "49",
+          "subject": "Clarify workflow input fixtures and debounce lifecycle tests",
+          "test_files": [
+            "client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/28f3e0e10dc6326abfe107f7e2777245254a9784.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts",
+      "commits": [
+        {
+          "commit": "a26801665faf3479fb4d28694cfcb6004d6fef7e",
+          "iteration": "17",
+          "subject": "Improve readability of WorkflowSelectPreferredObjectStore tests",
+          "test_files": [
+            "client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a26801665faf3479fb4d28694cfcb6004d6fef7e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts",
+      "commits": [
+        {
+          "commit": "9d74c11a4bb8cfdab18fab8394d5152197a8a676",
+          "iteration": "48",
+          "subject": "Clarify workflow storage selection scenarios",
+          "test_files": [
+            "client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9d74c11a4bb8cfdab18fab8394d5152197a8a676.txt"
+        }
+      ]
+    }
+  ]
+}

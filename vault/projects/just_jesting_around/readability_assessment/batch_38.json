@@ -1,0 +1,181 @@
+{
+  "batch": 38,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/directives/sanitizeHtml.test.ts",
+      "commits": [
+        {
+          "commit": "346f8746668395182589f6ab67ea5c21e989b1f6",
+          "iteration": "65",
+          "subject": "Type sanitizer test hook capture without casts",
+          "test_files": [
+            "client/src/directives/sanitizeHtml.test.ts"
+          ],
+          "changed_files": [
+            "client/src/directives/sanitizeHtml.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/346f8746668395182589f6ab67ea5c21e989b1f6.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/directives/vGTooltip.test.ts",
+      "commits": [
+        {
+          "commit": "95ac64935e27eedd6507d18dbf75a36f9d374d2d",
+          "iteration": "08",
+          "subject": "Improve readability of vGTooltip tests",
+          "test_files": [
+            "client/src/directives/vGTooltip.test.ts"
+          ],
+          "changed_files": [
+            "client/src/directives/vGTooltip.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/95ac64935e27eedd6507d18dbf75a36f9d374d2d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/directives/vNoSanitizeHtml.test.ts",
+      "commits": [
+        {
+          "commit": "ed70255c7c593161d59b0c930619330fa939357c",
+          "iteration": "45",
+          "subject": "Improve readability of vNoSanitizeHtml tests",
+          "test_files": [
+            "client/src/directives/vNoSanitizeHtml.test.ts"
+          ],
+          "changed_files": [
+            "client/src/directives/vNoSanitizeHtml.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ed70255c7c593161d59b0c930619330fa939357c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/directives/vSanitizeHtml.test.ts",
+      "commits": [
+        {
+          "commit": "9c89fe712730cd12bac8bceb8e972898e6c07195",
+          "iteration": "44",
+          "subject": "Improve readability of vSanitizeHtml tests",
+          "test_files": [
+            "client/src/directives/vSanitizeHtml.test.ts"
+          ],
+          "changed_files": [
+            "client/src/directives/vSanitizeHtml.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9c89fe712730cd12bac8bceb8e972898e6c07195.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/App.test.ts",
+      "commits": [
+        {
+          "commit": "3bfa8ce61b0f753f989af82fe4f57732b580aa49",
+          "iteration": "71",
+          "subject": "Own App test plugins and unload-handler restoration",
+          "test_files": [
+            "client/src/entry/analysis/App.test.ts"
+          ],
+          "changed_files": [
+            "client/src/entry/analysis/App.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3bfa8ce61b0f753f989af82fe4f57732b580aa49.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/modules/Login.test.ts",
+      "commits": [
+        {
+          "commit": "17895d78b5984fd4c316c0d40945345435252a67",
+          "iteration": "09",
+          "subject": "Improve readability of Login tests",
+          "test_files": [
+            "client/src/entry/analysis/modules/Login.test.ts"
+          ],
+          "changed_files": [
+            "client/src/entry/analysis/modules/Login.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/17895d78b5984fd4c316c0d40945345435252a67.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/modules/Register.test.ts",
+      "commits": [
+        {
+          "commit": "e949130679773fd9375c3ecae2e6e95c857030ef",
+          "iteration": "07",
+          "subject": "Improve readability of Register tests",
+          "test_files": [
+            "client/src/entry/analysis/modules/Register.test.ts"
+          ],
+          "changed_files": [
+            "client/src/entry/analysis/modules/Register.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e949130679773fd9375c3ecae2e6e95c857030ef.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/modules/ResetPassword.test.ts",
+      "commits": [
+        {
+          "commit": "b1baa2e665ebb9d7d11780056612e9db3a93e2bb",
+          "iteration": "19",
+          "subject": "Fix custom matcher types for client unit tests",
+          "test_files": [
+            "client/src/entry/analysis/modules/ResetPassword.test.ts",
+            "client/src/components/Register/RegisterForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Register/RegisterForm.test.ts",
+            "client/src/entry/analysis/modules/ResetPassword.test.ts",
+            "client/tests/vitest/matchers.d.ts",
+            "client/types/vitest-setup.d.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b1baa2e665ebb9d7d11780056612e9db3a93e2bb.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/router-push.test.js",
+      "commits": [
+        {
+          "commit": "b6dda390e29e941f0a72571f17073270de152e8d",
+          "iteration": "12",
+          "subject": "Improve readability of router-push tests",
+          "test_files": [
+            "client/src/entry/analysis/router-push.test.js"
+          ],
+          "changed_files": [
+            "client/src/entry/analysis/router-push.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b6dda390e29e941f0a72571f17073270de152e8d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/entry/analysis/routes/library-routes.test.ts",
+      "commits": [
+        {
+          "commit": "ea3b07d4f2925b80a655c0624431a5b829029c8f",
+          "iteration": "62",
+          "subject": "Narrow library route props before typed invocation",
+          "test_files": [
+            "client/src/entry/analysis/routes/library-routes.test.ts"
+          ],
+          "changed_files": [
+            "client/src/entry/analysis/routes/library-routes.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ea3b07d4f2925b80a655c0624431a5b829029c8f.txt"
+        }
+      ]
+    }
+  ]
+}

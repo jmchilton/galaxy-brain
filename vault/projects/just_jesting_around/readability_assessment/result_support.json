@@ -1,0 +1,88 @@
+{
+  "reviews": [
+    {
+      "commit": "2684699a7254e74c6a6fdf213f7df0ac67e9673c",
+      "iteration": "01",
+      "score": 4,
+      "defect": "misleading blanket async/component testing advice",
+      "rationale": "Documentation scope: replaces always flushPromises with await returned operation, clarifies direct versus lifecycle composables and canonical reuse; initializes server/example handler correctly. No test assertion changed.",
+      "caps": []
+    },
+    {
+      "commit": "20e76fd8855fa72dd0a5bf79f46c6589f8159204",
+      "iteration": "11",
+      "score": 3,
+      "defect": "misleading task-monitor switch example description",
+      "rationale": "Documentation scope: updates obsolete switch-statement description to actual task outcomes, but reformats whole16-row table for one-row semantic change; no coverage change.",
+      "caps": [
+        "cap 3: most hunks formatting/reordering"
+      ]
+    },
+    {
+      "commit": "4e643f2977bdb8eb38119282e92a5933d7242866",
+      "iteration": "14",
+      "score": 3,
+      "defect": "none",
+      "rationale": "Supporting fixture scope: delegates already typed PageEditor summary/untitled fixtures to existing page factory, preserving all values. Batch14 verifies both PageCard and HistoryPageList, but no original weak assertion/type defect.",
+      "caps": [
+        "cap 3: no named original gate defect"
+      ]
+    },
+    {
+      "commit": "e9f28820029847943462a20efa4664b387fd7d69",
+      "iteration": "28",
+      "score": 4,
+      "defect": "misleading stub reference path and expose claim",
+      "rationale": "Documentation scope: corrects ToolForm.test.js reference to existing .ts and describes methods actually used through template refs, removing incorrect expose requirement; two-line proportional fix.",
+      "caps": []
+    },
+    {
+      "commit": "917d25ddcea32d3a9734b0a30fd5aece73ee11a8",
+      "iteration": "31",
+      "score": 4,
+      "defect": "misleading modal interaction and Pinia seeding guidance",
+      "rationale": "Documentation scope: names real GModal button helper, explains duplicate cancel from synthetic emits and silent wrong store-ID keys; concrete guidance preserves mounted-versus-shallow boundary.",
+      "caps": []
+    },
+    {
+      "commit": "6f55ccf643c253b6f00666677f473cffd6e97572",
+      "iteration": "33",
+      "score": 4,
+      "defect": "broken plain-object config mock example",
+      "rationale": "Documentation scope: replaces useConfig plain config object with canonical ref-backed mock plus reset/set beforeEach; real template expects ref value, so old copyable example hid config.",
+      "caps": []
+    },
+    {
+      "commit": "1bf68f3c46f71a03bc108c22afb9a8acbb038c68",
+      "iteration": "35",
+      "score": 4,
+      "defect": "missing scope requirement in direct-composable guidance",
+      "rationale": "Documentation scope: qualifies direct composable calls that create watchers/computeds with existing runInTestScope helper and failure-safe disposal; four-line concrete API guidance, no new helper or tests.",
+      "caps": []
+    },
+    {
+      "commit": "e14ae1a82d96e3a0a0f9aa3fa2e92b11fb173bc0",
+      "iteration": "38",
+      "score": 3,
+      "defect": "misleading private setup-store seeding guidance",
+      "rationale": "Documentation scope: correctly warns unreturned state ignored and directs setCurrentHistoryId; incomplete because historical computed currentHistoryId still falls back unless that history is stored. Next iteration fixes this prerequisite.",
+      "caps": []
+    },
+    {
+      "commit": "b7274f871e5d75d6b8badbb3c886002b25de3ef7",
+      "iteration": "39",
+      "score": 4,
+      "defect": "broken setter-only current-history guidance",
+      "rationale": "Documentation scope: explicitly explains stored-history prerequisite and canonical seedCurrentHistory does setHistory plus setCurrentHistoryId; batch39 confirms all34 testUtils importers pass, precise one-line repair.",
+      "caps": []
+    },
+    {
+      "commit": "ffaf49ad3491639b9ed362eaff32a65f8e0ba4a1",
+      "iteration": "42",
+      "score": 4,
+      "defect": "misleading unresolved Jest mock identifiers",
+      "rationale": "Documentation scope: warns vi.mock must resolve actual imported module and app bare identifier mocks nothing; actionable migration failure description added in one paragraph, no test assertions changed.",
+      "caps": []
+    }
+  ]
+}

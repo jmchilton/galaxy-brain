@@ -1,0 +1,189 @@
+{
+  "batch": 36,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/composables/shortTermStorageMonitor.test.ts",
+      "commits": [
+        {
+          "commit": "5689a6ee7a898ecc09a3d49880fd5bbe11a281de",
+          "iteration": "66",
+          "subject": "Own storage monitor polling and deferred cleanup",
+          "test_files": [
+            "client/src/composables/shortTermStorageMonitor.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/shortTermStorageMonitor.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5689a6ee7a898ecc09a3d49880fd5bbe11a281de.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/taskMonitor.test.ts",
+      "commits": [
+        {
+          "commit": "f1ca93e74d79c98a0e709c8889e09414d9022a84",
+          "iteration": "11",
+          "subject": "Improve readability of taskMonitor tests",
+          "test_files": [
+            "client/src/composables/taskMonitor.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/taskMonitor.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f1ca93e74d79c98a0e709c8889e09414d9022a84.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/toolTrainingMaterial.test.ts",
+      "commits": [
+        {
+          "commit": "b17b4316bcda1d1a5dc0bc58db28841481b5070e",
+          "iteration": "41",
+          "subject": "Extend toolTrainingMaterial tests",
+          "test_files": [
+            "client/src/composables/toolTrainingMaterial.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/toolTrainingMaterial.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b17b4316bcda1d1a5dc0bc58db28841481b5070e.txt"
+        },
+        {
+          "commit": "96dd93de476a89fe4a56a18161418bded3c7eda5",
+          "iteration": "73",
+          "subject": "Own training recommendation watcher scopes in tests",
+          "test_files": [
+            "client/src/composables/toolTrainingMaterial.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/toolTrainingMaterial.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/96dd93de476a89fe4a56a18161418bded3c7eda5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/upload/uploadItemTypes.test.ts",
+      "commits": [
+        {
+          "commit": "99f0f826800752c7ceca950ba48b5e51a66a14b7",
+          "iteration": "13",
+          "subject": "Improve readability of uploadItemTypes tests",
+          "test_files": [
+            "client/src/composables/upload/uploadItemTypes.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/upload/uploadItemTypes.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/99f0f826800752c7ceca950ba48b5e51a66a14b7.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/upload/useUploadBatchOperations.test.ts",
+      "commits": [
+        {
+          "commit": "5d70e266084041ed7942d82c322f3d2da82d43a3",
+          "iteration": "09",
+          "subject": "Improve readability of useUploadBatchOperations tests",
+          "test_files": [
+            "client/src/composables/upload/useUploadBatchOperations.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/upload/useUploadBatchOperations.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5d70e266084041ed7942d82c322f3d2da82d43a3.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/upload/useUploadStaging.test.ts",
+      "commits": [
+        {
+          "commit": "90e16609775a681b0f7942d01637de9c4880d4dc",
+          "iteration": "53",
+          "subject": "Clarify staged upload fixtures and own reactive test scope",
+          "test_files": [
+            "client/src/composables/upload/useUploadStaging.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/upload/useUploadStaging.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/90e16609775a681b0f7942d01637de9c4880d4dc.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/upload/useUploadSubmission.test.ts",
+      "commits": [
+        {
+          "commit": "97e034b77317b22812987759714619476236a92f",
+          "iteration": "13",
+          "subject": "Improve readability of useUploadSubmission tests",
+          "test_files": [
+            "client/src/composables/upload/useUploadSubmission.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/upload/useUploadSubmission.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/97e034b77317b22812987759714619476236a92f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/urlTracker.test.ts",
+      "commits": [
+        {
+          "commit": "cb307deac3a15a75e543c57e00e9fd620f825a74",
+          "iteration": "03",
+          "subject": "Improve readability of urlTracker tests",
+          "test_files": [
+            "client/src/composables/urlTracker.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/urlTracker.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cb307deac3a15a75e543c57e00e9fd620f825a74.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useActiveContext.test.ts",
+      "commits": [
+        {
+          "commit": "c061ecf95ad8d5e1aebea728b2ac0efce59c1a06",
+          "iteration": "13",
+          "subject": "Improve readability of useActiveContext tests",
+          "test_files": [
+            "client/src/composables/useActiveContext.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/useActiveContext.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c061ecf95ad8d5e1aebea728b2ac0efce59c1a06.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/useCommandPalette.test.ts",
+      "commits": [
+        {
+          "commit": "3f7b79d682b1c4ffc9c7e4c78b0dc0d14cc96a01",
+          "iteration": "32",
+          "subject": "Improve readability of useCommandPalette tests",
+          "test_files": [
+            "client/src/composables/useCommandPalette.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/useCommandPalette.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3f7b79d682b1c4ffc9c7e4c78b0dc0d14cc96a01.txt"
+        }
+      ]
+    }
+  ]
+}

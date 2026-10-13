@@ -1,0 +1,177 @@
+{
+  "batch": 44,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/utils/url.test.js",
+      "commits": [
+        {
+          "commit": "ea2a9b692f621f0666761cb9ce250f54ca5d0943",
+          "iteration": "03",
+          "subject": "Improve readability of url tests",
+          "test_files": [
+            "client/src/utils/url.test.js"
+          ],
+          "changed_files": [
+            "client/src/utils/url.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ea2a9b692f621f0666761cb9ce250f54ca5d0943.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/utils.test.js",
+      "commits": [
+        {
+          "commit": "379db5f60d3c2e82f5ac773bf9c0c2e8468dd477",
+          "iteration": "10",
+          "subject": "Improve readability of utils/utils tests",
+          "test_files": [
+            "client/src/utils/utils.test.js"
+          ],
+          "changed_files": [
+            "client/src/utils/utils.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/379db5f60d3c2e82f5ac773bf9c0c2e8468dd477.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/utils.test.ts",
+      "commits": [
+        {
+          "commit": "da7995c70adcfc54f3029e105088782bd771dd20",
+          "iteration": "09",
+          "subject": "Improve readability of utils/utils tests",
+          "test_files": [
+            "client/src/utils/utils.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/utils.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/da7995c70adcfc54f3029e105088782bd771dd20.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/webhooks.test.ts",
+      "commits": [
+        {
+          "commit": "65f6b3944dde07fc7ea639e23e90bd10e00ba7af",
+          "iteration": "69",
+          "subject": "Name webhook failure and preserve diagnostic error context",
+          "test_files": [
+            "client/src/utils/webhooks.test.ts"
+          ],
+          "changed_files": [
+            "client/src/utils/webhooks.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/65f6b3944dde07fc7ea639e23e90bd10e00ba7af.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/watch/watchHistory.test.js",
+      "commits": [
+        {
+          "commit": "e298c531ce0f2da1807bfb3d84f90ec171f1f027",
+          "iteration": "09",
+          "subject": "Improve readability of watchHistory tests",
+          "test_files": [
+            "client/src/watch/watchHistory.test.js"
+          ],
+          "changed_files": [
+            "client/src/watch/watchHistory.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e298c531ce0f2da1807bfb3d84f90ec171f1f027.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/tests/vitest/check-style-imports.test.js",
+      "commits": [
+        {
+          "commit": "292f7d16b0d2f67f785df6389a1368f5d5b1c1f9",
+          "iteration": "64",
+          "subject": "Verify complete style import violation reporting",
+          "test_files": [
+            "client/tests/vitest/check-style-imports.test.js"
+          ],
+          "changed_files": [
+            "client/tests/vitest/check-style-imports.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/292f7d16b0d2f67f785df6389a1368f5d5b1c1f9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/tests/vitest/setup.test.ts",
+      "commits": [
+        {
+          "commit": "42bcc23eeceb9f180c42b826c1bcb653e769bc57",
+          "iteration": "76",
+          "subject": "Infer stub model parent and own compatibility test mounts",
+          "test_files": [
+            "client/tests/vitest/setup.test.ts"
+          ],
+          "changed_files": [
+            "client/tests/vitest/setup.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/42bcc23eeceb9f180c42b826c1bcb653e769bc57.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts",
+      "commits": [
+        {
+          "commit": "d1ae66d356944d0bbd89a5bad8afe355350e2f7d",
+          "iteration": "26",
+          "subject": "Improve readability of ErrorBanner tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d1ae66d356944d0bbd89a5bad8afe355350e2f7d.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts",
+      "commits": [
+        {
+          "commit": "5493ba85edeafd8724a79d909602831eb9ec3430",
+          "iteration": "59",
+          "subject": "Own push access test stores and component teardown",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5493ba85edeafd8724a79d909602831eb9ec3430.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts",
+      "commits": [
+        {
+          "commit": "07bc0ae4db1df9746f472726f8b0dc933d0138f7",
+          "iteration": "08",
+          "subject": "Improve readability of ChangesetSummaryTable tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/07bc0ae4db1df9746f472726f8b0dc933d0138f7.txt"
+        }
+      ]
+    }
+  ]
+}

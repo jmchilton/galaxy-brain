@@ -1,0 +1,189 @@
+{
+  "batch": 16,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/JobInformation/JobInformation.test.js",
+      "commits": [
+        {
+          "commit": "4b1aa9c405f168a3c9a86fd099d6251cf7589289",
+          "iteration": "43",
+          "subject": "Improve readability of JobInformation tests",
+          "test_files": [
+            "client/src/components/JobInformation/JobInformation.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/JobInformation/JobInformation.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4b1aa9c405f168a3c9a86fd099d6251cf7589289.txt"
+        },
+        {
+          "commit": "be6bb81cc4f0e6387dee462cd1d3b87c06163e5c",
+          "iteration": null,
+          "subject": "Check structured fixture messages in JobInformation tests",
+          "test_files": [
+            "client/src/components/JobInformation/JobInformation.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/JobInformation/JobInformation.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/be6bb81cc4f0e6387dee462cd1d3b87c06163e5c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobInformation/JobOutputs.test.js",
+      "commits": [
+        {
+          "commit": "dda276cfc2f2a3b09ec06142ea066514d329876a",
+          "iteration": "77",
+          "subject": "Clarify job output table cases and own their mounts",
+          "test_files": [
+            "client/src/components/JobInformation/JobOutputs.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/JobInformation/JobOutputs.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/dda276cfc2f2a3b09ec06142ea066514d329876a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobMetrics/AwsEstimate.test.js",
+      "commits": [
+        {
+          "commit": "a1834aeb9e3164347eaf3559d4a254df6b804633",
+          "iteration": "70",
+          "subject": "Name AWS estimate examples and own rendered wrappers",
+          "test_files": [
+            "client/src/components/JobMetrics/AwsEstimate.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/JobMetrics/AwsEstimate.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a1834aeb9e3164347eaf3559d4a254df6b804633.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js",
+      "commits": [
+        {
+          "commit": "4452bb7d3db130e6ac8493b1e4aeb06a40f93057",
+          "iteration": "77",
+          "subject": "Own carbon emissions mounts and clarify estimate scenarios",
+          "test_files": [
+            "client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4452bb7d3db130e6ac8493b1e4aeb06a40f93057.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobMetrics/JobMetrics.test.js",
+      "commits": [
+        {
+          "commit": "33d4fdedcd41772b8a5eaade191ec5715f32cf60",
+          "iteration": "30",
+          "subject": "Improve readability of JobMetrics tests",
+          "test_files": [
+            "client/src/components/JobMetrics/JobMetrics.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/JobMetrics/JobMetrics.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/33d4fdedcd41772b8a5eaade191ec5715f32cf60.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobStates/JobState.test.ts",
+      "commits": [
+        {
+          "commit": "9b84743a288969ff28a52ea0a88add729ec7e489",
+          "iteration": "48",
+          "subject": "Clarify job state ownership and stop-request scenarios",
+          "test_files": [
+            "client/src/components/JobStates/JobState.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/JobStates/JobState.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9b84743a288969ff28a52ea0a88add729ec7e489.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Landing/fetchModels.test.ts",
+      "commits": [
+        {
+          "commit": "a3bcfaa238cda748128545f38eefafed21a2342b",
+          "iteration": "64",
+          "subject": "Narrow fetch model test helpers and document omitted defaults",
+          "test_files": [
+            "client/src/components/Landing/fetchModels.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Landing/fetchModels.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a3bcfaa238cda748128545f38eefafed21a2342b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Libraries/LibraryEditField.test.js",
+      "commits": [
+        {
+          "commit": "a2e5c0acab97f1fb3b2b348f291e5094b59ea5c5",
+          "iteration": "47",
+          "subject": "Clarify library description sanitization and expansion tests",
+          "test_files": [
+            "client/src/components/Libraries/LibraryEditField.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Libraries/LibraryEditField.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a2e5c0acab97f1fb3b2b348f291e5094b59ea5c5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts",
+      "commits": [
+        {
+          "commit": "67f38132cbbe9c8bca09bb889c448a38b1a3decf",
+          "iteration": "37",
+          "subject": "Improve readability of FolderDetails tests",
+          "test_files": [
+            "client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Libraries/LibraryFolder/FolderDetails/FolderDetails.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/67f38132cbbe9c8bca09bb889c448a38b1a3decf.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js",
+      "commits": [
+        {
+          "commit": "efdc48a9a18bb881ba3ec39feec0a06f8256ebf1",
+          "iteration": "42",
+          "subject": "Improve readability of LibraryDataset tests",
+          "test_files": [
+            "client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/efdc48a9a18bb881ba3ec39feec0a06f8256ebf1.txt"
+        }
+      ]
+    }
+  ]
+}

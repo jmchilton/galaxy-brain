@@ -1,0 +1,176 @@
+{
+  "batch": 6,
+  "tests": [
+    {
+      "file": "client/src/components/CommandPalette/providers/storeFirst.test.ts",
+      "reviews": [
+        {
+          "commit": "3fc3a5c24ed02717b5c438d10d419bdb4b118af4",
+          "iteration": "70",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds satisfies and global refresh resets, then try/finally abort/settlement around both debounce tests. Same results/call checks; resource ceremony without original gate defect.",
+          "caps": [
+            "net new control flow in test bodies",
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/visualizations.test.ts",
+      "reviews": [
+        {
+          "commit": "bacca43f4d996cb63e5e5b7e3faa501ea010b52c",
+          "iteration": "41",
+          "score": 4,
+          "defect": "duplicate visualization fixtures",
+          "rationale": "Same shared typed visualization factory as batch02: two immediate consumers replace duplicate literals, assertions preserved; batch41 runs both.",
+          "caps": []
+        },
+        {
+          "commit": "cdb2381d83a1556fddba02f2c181640f44388480",
+          "iteration": "68",
+          "score": 2,
+          "defect": "weak optional scoped-search fallback",
+          "rationale": "Required provider callbacks prevent absent callback silently yielding empty list in negative checks. Most hunks rename response helper and replace compact local positional fixtures with longer overrides plus store/timezone cleanup; cost overwhelms narrow fix.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/workflows.test.ts",
+      "reviews": [
+        {
+          "commit": "abd6312d8e558ef0882edecf70abb131bc4e8978",
+          "iteration": "10",
+          "score": 4,
+          "defect": "Incomplete WorkflowSummary fixtures hidden by as unknown as double casts",
+          "rationale": "Three incomplete double-cast fixtures become a complete typed 26-line workflow factory with three immediate suite consumers and fresh nested defaults. Scenario overrides and all assertions remain; useful proportionate reuse, while the modest cast removal does not reach the rubric large-noise/broken-helper clear-win threshold.",
+          "caps": []
+        },
+        {
+          "commit": "eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942",
+          "iteration": "42",
+          "score": 4,
+          "defect": "copied incomplete user setup",
+          "rationale": "Same shared signIn commit as batch05; two partial as-never user helpers adopt canonical typed factory, preserving context assertions.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/useScrollEdges.test.ts",
+      "reviews": [
+        {
+          "commit": "7da0a4379244a4b6ca25202b7c66b29b5a3d950b",
+          "iteration": "35",
+          "score": 4,
+          "defect": "scope setup/cleanup copied across three or more suites",
+          "rationale": "runInTestScope removes repeated effectScope/run/stop tracking in four consumers, keeping watcher-lifetime why comment and assertions; shared helper adopted in same commit.",
+          "caps": []
+        },
+        {
+          "commit": "b6a0ff860a7aad2154544391654f1a7a29d4a0c2",
+          "iteration": "52",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Names three scroll positions separately, primes start state in each and preserves true-to-false end fade transition. Named expected object is plainer, but original short three-step test already detected wrong fades.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/ChangesIndicator.test.ts",
+      "reviews": [
+        {
+          "commit": "1b7652ca99332ed53b63bb45e7e9fa54332b06d9",
+          "iteration": "64",
+          "score": 3,
+          "defect": "as unknown as wrapper cast soup",
+          "rationale": "Removes fabricated ComponentPublicInstance/double cast with inferred mount and preserves timer/visibility checks. Attachment host and timer/auto-unmount setup add costs disproportionate to one type inference fix.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/DatasetPopoverLink.test.ts",
+      "reviews": [
+        {
+          "commit": "be6ad2d3d7d2cb8f97259b37f83c4a175759dfc9",
+          "iteration": "49",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Splits cached/uncached dialog label checks and adds typed partial dataset mount, getComponent and auto-unmount. Same strong labels/interactive expectations; no original defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/DelayedInput.test.ts",
+      "reviews": [
+        {
+          "commit": "75bce7c738d020976534f25236ad7b20211b3fe8",
+          "iteration": "74",
+          "score": 2,
+          "defect": "misleading refocus test name",
+          "rationale": "Title now accurately describes clearing text; no focus assertion was present or removed. Adds fake timers and teardown to a tiny test, replaces ordinary casts/find; ceremony exceeds naming gain.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/EmailReportForm.test.ts",
+      "reviews": [
+        {
+          "commit": "ce7c6fbed40fc8401bde519540d6ccfc6fc7d3c7",
+          "iteration": "54",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds Pinia disposal, before/after mock clearing and auto-unmount to a single straightforward sanitize/link test; native mounting/get and alias provide little gain. Same profile/href/text checks.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/ExportForm.test.ts",
+      "reviews": [
+        {
+          "commit": "b40f987b0cdd43b6d30be685e31e23e72df666e2",
+          "iteration": "19",
+          "score": 3,
+          "defect": "weak export event/disabled checks",
+          "rationale": "Exact export event array and aria-disabled=\"true\" strengthen old per-argument/truthy checks, and clear-input case now checks both cleared values. Conditional fillInputs helper and table add indirection while replacing already-local setup; costs dilute the fidelity gain. Its conditionals are in a helper, not test bodies, so the literal cap2 does not apply.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+      "reviews": [
+        {
+          "commit": "f01e9180e5add5f97d35fa884b1c19088e92a0c6",
+          "iteration": "04",
+          "score": 4,
+          "defect": "monitoring setup copied across three or more cases",
+          "rationale": "Shared monitoring data factory removes repeated typed task/request/time/final-state literals in Alert and composable, with request-derived taskType. All task IDs, expiry override and final-state flags remain.",
+          "caps": []
+        },
+        {
+          "commit": "2ce122cdb161b08068e9557a687e94082a57673f",
+          "iteration": "26",
+          "score": 4,
+          "defect": "shared mutable monitor fixture order dependence",
+          "rationale": "Fresh task-monitor refs/spies replace module-level FAKE_MONITOR spread across Alert cases; batch26 documents leaked isRunning in second consumer and runs both. Existing alert states and expiration contract preserved; second consumer adopts in same batch.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "batch": 13,
+  "tests": [
+    {
+      "file": "client/src/components/History/Content/model/states.test.js",
+      "reviews": [
+        {
+          "commit": "41220004980b525a3663f4eeec200bad51ed1baa",
+          "iteration": "24",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds dataset-state registry cases alongside existing job-state checks and spells status path with nonnull matcher. Original job fixtures were sound; dataset fixtures are newly introduced, so this is added coverage rather than a defect already exercised by original fixture.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryCounter.test.ts",
+      "reviews": [
+        {
+          "commit": "a81faac8daeba8a06c4f465a4a5c3138b53033d3",
+          "iteration": "15",
+          "score": 3,
+          "defect": "as unknown as history counter component soup and weak emitted shape",
+          "rationale": "Removes component double casts, uses canonical typed history/user fixtures, exact [[]] reload event and fixed clock. Long rewritten fixture/setup hunks and removal of logged-in refresh-gate why comment cap3.",
+          "caps": [
+            "why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+      "reviews": [
+        {
+          "commit": "53fe1c6e4b52e522d4326a494bea48cf3e7c225e",
+          "iteration": "05",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Explicit complete user/history fixture before mount replaces state-merging setup and unused histories prop; native plugins/get and absence/presence disabled checks preserve login behavior. No concrete old wrong result or cast-soup defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        },
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "score": 4,
+          "defect": "wrong anonymous user type and duplicated fixtures",
+          "rationale": "Same anonymous factory commit as batch05; nine consumers replace copied partial/ID-bearing anonymous fixtures with canonical user shape, checks unchanged.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryOperations/HistoryStorageOperationsIndicator.test.ts",
+      "reviews": [
+        {
+          "commit": "d110ccb21f783c8d1d2d84f75b1c8043df95aeb1",
+          "iteration": "63",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Captures/disposes Pinia and auto-unmounts one-test popover, replaces ordinary cast/find with inferred/get. Same exact interactive/label checks; cleanup dominates no demonstrated original failure.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js",
+      "reviews": [
+        {
+          "commit": "58080eec1b185b388d57f239664a82eb0b559c5e",
+          "iteration": "76",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds Pinia disposal/active reset, config implementation capture/restore, mock restoration and auto-unmount; nth/get replace already failing required accesses. Original request/event/storage checks unchanged, mostly ownership ceremony.",
+          "caps": [
+            "no defect from gate list",
+            "teardown/restore hunks dominate without observed leak"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionStatus.test.ts",
+      "reviews": [
+        {
+          "commit": "420c4a8c9901013516f4a3e584d21c0256663d6e",
+          "iteration": "51",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Simplifies zero/one selection fixtures and synchronous mount, inlines two generic event helpers, adds auto-unmount/names. Same visibility prop transitions and event existence checks, no gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/CurrentHistory/SelectPreferredStore.test.ts",
+      "reviews": [
+        {
+          "commit": "577b9280db22057dc8cb00f7c700f2ef4e9c61f2",
+          "iteration": "66",
+          "score": 3,
+          "defect": "misleading galaxyDefaultOption name for arbitrary stores",
+          "rationale": "Renames selected option accurately, reuses mount for error case, narrows request payload type and owns Pinia/wrappers. No stronger assertion; ownership and native mount costs limit small naming/setup gain.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Export/HistoryExportWizard.test.ts",
+      "reviews": [
+        {
+          "commit": "2b9efa9bff61628ad1d73793b28f0e9557a802ac",
+          "iteration": "05",
+          "score": 4,
+          "defect": "file-source setup copied across three or more fixtures",
+          "rationale": "Same canonical file-source factory as batch07: two suites replace repeated supports flags while preserving IDs, writable/browsable and per-source capability overrides.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Graph/historyGraphMapper.test.ts",
+      "reviews": [
+        {
+          "commit": "550b7420ccdf5a42dc838cf4af8b6cb448ee244d",
+          "iteration": "76",
+          "score": 2,
+          "defect": "misleading hid-in-node-data test name",
+          "rationale": "Corrects title to actually asserted node key/src/itemId, but large wholesale nth/ensureDefined rewrite replaces accesses already failing on absent nodes. Same graph edge/label/badge/connectors; name gain does not pay for churn.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Graph/historyNodeColor.test.ts",
+      "reviews": [
+        {
+          "commit": "ba61fe2c37c770a14ea3dbbb1b17544ebad1d51b",
+          "iteration": "32",
+          "score": 3,
+          "defect": "misleading cache reset comment",
+          "rationale": "Explains actual module-lifetime color cache and shared beforeAll properties instead of claiming each-test spy controls cache. Named fixtures remove nested ternaries, add failed_metadata->dashed CSS check. Original checks sound; much table restructuring for modest gain.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "batch": 21,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/PageEditor/sectionDiffUtils.test.ts",
+      "commits": [
+        {
+          "commit": "4da8364ba7655f1b7d18718f52fb6991ac3740e9",
+          "iteration": "52",
+          "subject": "Clarify required markdown sections in diff tests",
+          "test_files": [
+            "client/src/components/PageEditor/sectionDiffUtils.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/PageEditor/sectionDiffUtils.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4da8364ba7655f1b7d18718f52fb6991ac3740e9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Common/ToolSection.test.ts",
+      "commits": [
+        {
+          "commit": "954aa0cb78fe8909446e0f2a7785344a9ad9db8a",
+          "iteration": "02",
+          "subject": "Add tests/test-data/tools.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Panels/Common/ToolSection.test.ts",
+            "client/src/components/Panels/MyToolsLanding.test.ts",
+            "client/src/components/ToolsList/ToolsList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/Common/ToolSection.test.ts",
+            "client/src/components/Panels/MyToolsLanding.test.ts",
+            "client/src/components/ToolsList/ToolsList.test.ts",
+            "client/tests/test-data/tools.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/954aa0cb78fe8909446e0f2a7785344a9ad9db8a.txt"
+        },
+        {
+          "commit": "1383369160be8ce6c757b3b8e3921ca1c239ada3",
+          "iteration": "05",
+          "subject": "Improve readability of ToolSection tests",
+          "test_files": [
+            "client/src/components/Panels/Common/ToolSection.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/Common/ToolSection.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1383369160be8ce6c757b3b8e3921ca1c239ada3.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/MyToolsLanding.test.ts",
+      "commits": [
+        {
+          "commit": "954aa0cb78fe8909446e0f2a7785344a9ad9db8a",
+          "iteration": "02",
+          "subject": "Add tests/test-data/tools.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Panels/Common/ToolSection.test.ts",
+            "client/src/components/Panels/MyToolsLanding.test.ts",
+            "client/src/components/ToolsList/ToolsList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/Common/ToolSection.test.ts",
+            "client/src/components/Panels/MyToolsLanding.test.ts",
+            "client/src/components/ToolsList/ToolsList.test.ts",
+            "client/tests/test-data/tools.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/954aa0cb78fe8909446e0f2a7785344a9ad9db8a.txt"
+        },
+        {
+          "commit": "dc9bbd861613c04b27bc12f08dad7d9f8d88aad0",
+          "iteration": "27",
+          "subject": "Improve readability of MyToolsLanding tests",
+          "test_files": [
+            "client/src/components/Panels/MyToolsLanding.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/MyToolsLanding.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/dc9bbd861613c04b27bc12f08dad7d9f8d88aad0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/ToolBox.test.js",
+      "commits": [
+        {
+          "commit": "1b7c4d334f52b9ce5163eebb442b98be7a5a7b20",
+          "iteration": "53",
+          "subject": "Clarify toolbox filtering and panel grouping assertions",
+          "test_files": [
+            "client/src/components/Panels/ToolBox.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/ToolBox.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1b7c4d334f52b9ce5163eebb442b98be7a5a7b20.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/ToolBoxSearch.test.ts",
+      "commits": [
+        {
+          "commit": "013a52b1fdc755b83fcd4b8758ae25ecdd433780",
+          "iteration": "64",
+          "subject": "Use owned native fixtures in ToolBoxSearch tests",
+          "test_files": [
+            "client/src/components/Panels/ToolBoxSearch.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/ToolBoxSearch.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/013a52b1fdc755b83fcd4b8758ae25ecdd433780.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/ToolPanel.test.ts",
+      "commits": [
+        {
+          "commit": "8b8d372bf1757f1206fc5c165845b386974c0540",
+          "iteration": "08",
+          "subject": "Improve readability of ToolPanel tests",
+          "test_files": [
+            "client/src/components/Panels/ToolPanel.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/ToolPanel.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8b8d372bf1757f1206fc5c165845b386974c0540.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+      "commits": [
+        {
+          "commit": "fd9e06e4a64af87249046e3887a44e4d9e1e9b43",
+          "iteration": "35",
+          "subject": "Extend src/composables/upload/testHelpers/uploadFixtures.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Panels/Upload/UploadFileRow.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+            "client/src/composables/upload/testHelpers/uploadFixtures.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fd9e06e4a64af87249046e3887a44e4d9e1e9b43.txt"
+        },
+        {
+          "commit": "d8207cc35c1d137ee4fad5c371a1e43a1e70a057",
+          "iteration": "39",
+          "subject": "Improve readability of UploadFileRow tests",
+          "test_files": [
+            "client/src/components/Panels/Upload/UploadFileRow.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/Upload/UploadFileRow.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d8207cc35c1d137ee4fad5c371a1e43a1e70a057.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Upload/UploadMethodViewInline.test.ts",
+      "commits": [
+        {
+          "commit": "f91f930b1e67f34bb2fafdcd458b5e419304f8fe",
+          "iteration": "74",
+          "subject": "Own inline upload view stores and native mounts",
+          "test_files": [
+            "client/src/components/Panels/Upload/UploadMethodViewInline.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/Upload/UploadMethodViewInline.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f91f930b1e67f34bb2fafdcd458b5e419304f8fe.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Upload/uploadProgressUi.test.ts",
+      "commits": [
+        {
+          "commit": "01808a1b6cb8a7bb9f8c4e56965f70aeaf5bd9ee",
+          "iteration": "35",
+          "subject": "Improve readability of uploadProgressUi tests",
+          "test_files": [
+            "client/src/components/Panels/Upload/uploadProgressUi.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/Upload/uploadProgressUi.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/01808a1b6cb8a7bb9f8c4e56965f70aeaf5bd9ee.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Panels/Upload/uploadState.test.ts",
+      "commits": [
+        {
+          "commit": "a04219d9297cef4cbcebc029fe22c4c6315af163",
+          "iteration": "15",
+          "subject": "Improve readability of uploadState tests",
+          "test_files": [
+            "client/src/components/Panels/Upload/uploadState.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/Upload/uploadState.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a04219d9297cef4cbcebc029fe22c4c6315af163.txt"
+        }
+      ]
+    }
+  ]
+}

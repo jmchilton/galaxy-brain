@@ -1,0 +1,151 @@
+{
+  "batch": 12,
+  "tests": [
+    {
+      "file": "client/src/components/GalaxyAI/chatUtils.test.ts",
+      "reviews": [
+        {
+          "commit": "f69cf3704a3d8f1d2861ed4967016415fbf5512f",
+          "iteration": "11",
+          "score": 4,
+          "defect": "weak scroll call check and as unknown as element",
+          "rationale": "Real DOM div replaces fabricated HTMLElement double cast; exact once {top:500,behavior:\"auto\"} rejects wrong position/animation formerly accepted by called-only. Small undefined notToThrow spelling neutral.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Grid/GridList.test.ts",
+      "reviews": [
+        {
+          "commit": "4a0566d71aa83dedd1ecc651d5085398462d0172",
+          "iteration": "34",
+          "score": 4,
+          "defect": "weak operation/request shapes and multipurpose basic case",
+          "rationale": "Exact whole request sequence and operation arguments strengthen sliced/partial calls; names separate load/action/cells/sort/operation scenarios with reused loaded mount. All pagination/filter/result contracts retained; selector/helper scaffolding costs but bodies easier.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Grid/configs/adminUsers.test.js",
+      "reviews": [
+        {
+          "commit": "37c8b039dfa241e4ea4ec51c25dcc75ddcb0c00c",
+          "iteration": "40",
+          "score": 4,
+          "defect": "opaque nested positional booleans and weak operation titles",
+          "rationale": "Named deleted/purged/config tables replace nested a/b/c loops, preserving all truth combinations; exact field keys and complete titles replace length/substring checks. Title lookup fails explicitly rather than relying on numeric operation positions.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts",
+      "reviews": [
+        {
+          "commit": "31b21f244d47c68e380e793e3308e9181eadb6bc",
+          "iteration": "13",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Canonical complete history default replaces repeated casted fixture in eight calls, with fresh getLocalVue and auto-unmount. Original partial history intentionally required ID/name/archive only; no hidden wrong type or weak check demonstrated.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Archiving/HistoryArchiveWizard.test.ts",
+      "reviews": [
+        {
+          "commit": "ffb42f43704815c2d7a3edf8ae6a6cb34c3676e2",
+          "iteration": "13",
+          "score": 3,
+          "defect": "untested breadcrumb loading and simple mode fixture",
+          "rationale": "Adds real breadcrumb until-load/title transition and simple child presence; canonical histories/file-source fixture reduce setup. Deletes computed-getter/cache-seeding why comment without replacement, capping3.",
+          "caps": [
+            "why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/Collection/CollectionDescription.test.ts",
+      "reviews": [
+        {
+          "commit": "3f427ce7ec09a8735f7c411477c0ea32ddd10c19",
+          "iteration": "13",
+          "score": 4,
+          "defect": "setup copied across thirteen description cases",
+          "rationale": "Named data table removes repeated setProps objects and full fixture defaults via canonical collection; each row still performs real prop update before exact description. Original type/count/datatype values retained; short leaf shallow mount appropriate.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/Collection/CollectionProgress.test.ts",
+      "reviews": [
+        {
+          "commit": "b1e90ac7a4430533515d07d97438b3d12b02108f",
+          "iteration": "45",
+          "score": 4,
+          "defect": "weak positive-only progress bars and untested terminal state",
+          "rationale": "Captures rendered variant/value map and asserts exact expected bars instead of checking only selected colors; retains state update, adds terminal-hidden check. Object.fromEntries could conceal duplicate variant bars, but old checks also ignored extras.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/ContentItem.test.js",
+      "reviews": [
+        {
+          "commit": "36d83ffb508b70a87eea46fa47c10ca8897473a9",
+          "iteration": "15",
+          "score": 3,
+          "defect": "weak collapse event payload and copied sequence",
+          "rationale": "Fresh item fixtures/native plugins and separate render/tag/remove/collapse/select cases preserve original props/transitions. Exact collapse false improves defined-only event; deletes SVG replacement why comment, capping3.",
+          "caps": [
+            "why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/Dataset/DatasetDownload.test.ts",
+      "reviews": [
+        {
+          "commit": "ae7782e8f24faeb021381cb54936978150a240be",
+          "iteration": "12",
+          "score": 4,
+          "defect": "weak emitted event cardinality and untested direct href",
+          "rationale": "Exact whole download event arrays reject extra emissions; direct download href now checked after metadata disappears. Named URL cases preserve old three links and dependent fourth click transition; modest extra mounts.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/GenericItem.test.ts",
+      "reviews": [
+        {
+          "commit": "08f5aecb82c2d16d3adf90aed3155014cdfb30cf",
+          "iteration": "16",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds full 32-line IntersectionObserver implementation for formerly adequate visible callback stub; adopts it in GenericItem and same-batch Tabular. Original partial cast did not hide demonstrated wrong behavior; interface ceremony exceeds gain.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        },
+        {
+          "commit": "acd420abe5416828e5f06b494c657d1b5eb14d48",
+          "iteration": "47",
+          "score": 3,
+          "defect": "wrong hybrid dataset/collection fixture type",
+          "rationale": "Splits shared hybrid item as-never into actual typed detailed dataset and canonical collection, retaining initial/poll error paths and explicit unmount. Large added dataset defaults and mount/name restructuring dominate focused type fix; fixture fields changed to domain defaults without new behavior check.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

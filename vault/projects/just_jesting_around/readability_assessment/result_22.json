@@ -1,0 +1,165 @@
+{
+  "batch": 22,
+  "tests": [
+    {
+      "file": "client/src/components/Panels/utilities.test.ts",
+      "reviews": [
+        {
+          "commit": "9f8c2dfe55dac10dc73265fc3ec2f1d7bc1e2cd9",
+          "iteration": "11",
+          "score": 4,
+          "defect": "Cast soup in tool/panel fixtures and opaque resize arguments",
+          "rationale": "Canonical tools/satisfies remove double casts; resize input table names min/max/current, and loop search cases become named each cases. Equivalent exact search results retained; duplicate fuzzy case remains.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Popper/Popper.test.js",
+      "reviews": [
+        {
+          "commit": "48030daa528ebb775a747f27ecd322401fd7288e",
+          "iteration": "72",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds outside-click case, but most hunks rename mount and change find to get; old fixture did not already exercise an outside click. Existing hover/title/disabled checks retained.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Popper/usePopper.test.js",
+      "reviews": [
+        {
+          "commit": "c43094ea4c1a577f2f1e3610aa5f6a05d4f8579d",
+          "iteration": "24",
+          "score": 5,
+          "defect": "Vacuous negative check captures initial visible primitive",
+          "rationale": "Old const { visible } from wrapper.vm stayed false after click; checks now read live wrapper.vm.visible before and after. Removes shared-element setup with concise mount helper.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Register/RegisterForm.test.ts",
+      "reviews": [
+        {
+          "commit": "b1baa2e665ebb9d7d11780056612e9db3a93e2bb",
+          "iteration": "19",
+          "score": 5,
+          "defect": "Broken shared Vitest matcher declarations shadowed real test types",
+          "rationale": "Deletes conflicting ambient matcher declaration and Vitest function reexports; real module augmentation restores strong expect/describe and custom-matcher types. Negative type canary demonstrates previously accepted wrong arguments/unknown matchers now fail; all three typed localization consumers validated.",
+          "caps": []
+        },
+        {
+          "commit": "9f9520b2891a0e4705877fb84890a1c34713f13b",
+          "iteration": "64",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Types wrapper/component and moves plugins into global, adds router/disposal/unmount hooks; email rename and test title clarify little relative to full mount ceremony.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/RuleBuilder/IdentifierDisplay.test.ts",
+      "reviews": [
+        {
+          "commit": "8cd946b9a2a8c81038c3efb7ec5ee662b6ac106a",
+          "iteration": "74",
+          "score": 3,
+          "defect": "none",
+          "rationale": "One short hover-forwarding test changes as object/find to inferred mount/get and auto-unmount. Call-count assertions and why comment remain.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/RuleBuilder/RuleDefinitions.test.ts",
+      "reviews": [
+        {
+          "commit": "b9248c063a54a290f56a33d50f9d0384b43c7447",
+          "iteration": "16",
+          "score": 2,
+          "defect": "Error-case catch can swallow failed data assertions",
+          "rationale": "Checks returned rule.error and clones mutated rules/spec data, but heterogeneous it.each branches choose entirely different assertions, explicitly capped despite fidelity improvement.",
+          "caps": [
+            "cap 2: it.each data selects which assertion runs"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/RuleBuilder/SavedRulesSelector.test.js",
+      "reviews": [
+        {
+          "commit": "e360c5f9b2314864b4b7eea772635b0a76ba1000",
+          "iteration": "57",
+          "score": 4,
+          "defect": "Unawaited selected-session click and weak event truthiness",
+          "rationale": "Awaits clicks, exact selected-rule payload replaces event existence and fixed savedRule fixture removes copied JSON; newest-rule sorting and disabled-history checks preserved.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ScrollList/ScrollList.test.ts",
+      "reviews": [
+        {
+          "commit": "dd6a0642b36bb01e69d28198fb2854bee6762273",
+          "iteration": "23",
+          "score": 4,
+          "defect": "Silent no-op scroll helper and arbitrary timer delay",
+          "rationale": "Missing callback now throws; awaits callback instead of 10ms sleep. Separates local/store loaders and bounds all-loaded iterations, preserving pagination/retry/external-count checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/SelectionDialog/SelectionDialog.test.js",
+      "reviews": [
+        {
+          "commit": "9d542e9fc627200d1c0ceb579a2819c8db033c0e",
+          "iteration": "13",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Cancel click is awaited and exact event count added, but emission was synchronous and already checked; most hunks add local mount/rename/reorder. Loading/selection/accessibility checks preserved.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/SelectionField/SelectionField.test.js",
+      "reviews": [
+        {
+          "commit": "98bca297b4d1f48f86dd6998a373a212c5134f7e",
+          "iteration": "38",
+          "score": 5,
+          "defect": "Tests mostly intercept service/store mocks",
+          "rationale": "Uses real dataset service/history/event stores with MSW and captured history/search params; canonical fixtures and child modelValue/rendered text replace internal-currentValue checks. Preserves errors/drop/custom-query behavior.",
+          "caps": []
+        },
+        {
+          "commit": "fd36f739f9497eea8eac53bf5a967874718f6156",
+          "iteration": "39",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds seedCurrentHistory next to canonical store helpers and replaces already correct stored-history/current-ID arrangement. Useful reuse but no broken original helper in this diff.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    }
+  ]
+}

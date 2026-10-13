@@ -1,0 +1,189 @@
+{
+  "batch": 32,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/Run/model.test.js",
+      "commits": [
+        {
+          "commit": "fadc0dd693bc8271b2d1d388c06c754b40501259",
+          "iteration": "36",
+          "subject": "Extend WorkflowRunModel unit tests",
+          "test_files": [
+            "client/src/components/Workflow/Run/model.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/model.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fadc0dd693bc8271b2d1d388c06c754b40501259.txt"
+        },
+        {
+          "commit": "a73dc0ddeb99096ddd2af94290c86965575e1b24",
+          "iteration": "68",
+          "subject": "Clarify workflow run model scenarios and own sample input",
+          "test_files": [
+            "client/src/components/Workflow/Run/model.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/model.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a73dc0ddeb99096ddd2af94290c86965575e1b24.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/services.test.js",
+      "commits": [
+        {
+          "commit": "3a88f2aac932bf540e610d7f52d38eb849669df7",
+          "iteration": "72",
+          "subject": "Name history search cases and prove workflow errors reject",
+          "test_files": [
+            "client/src/components/Workflow/Run/services.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Run/services.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3a88f2aac932bf540e610d7f52d38eb849669df7.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/WorkflowAnnotation.test.ts",
+      "commits": [
+        {
+          "commit": "1878716cac6912a8cb4cbf9408e4a9679a5ed6e5",
+          "iteration": "38",
+          "subject": "Improve readability of WorkflowAnnotation tests",
+          "test_files": [
+            "client/src/components/Workflow/WorkflowAnnotation.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/WorkflowAnnotation.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1878716cac6912a8cb4cbf9408e4a9679a5ed6e5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/WorkflowExport.test.js",
+      "commits": [
+        {
+          "commit": "1ff74b3cc6103a767543c78cdfbc3abae47ab8c8",
+          "iteration": "13",
+          "subject": "Improve readability of WorkflowExport tests",
+          "test_files": [
+            "client/src/components/Workflow/WorkflowExport.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/WorkflowExport.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1ff74b3cc6103a767543c78cdfbc3abae47ab8c8.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/JobStep.test.ts",
+      "commits": [
+        {
+          "commit": "29eeda3698769843907f7c17c6d4c84db9116146",
+          "iteration": "73",
+          "subject": "Own job-step mounts and require ordered state observations",
+          "test_files": [
+            "client/src/components/WorkflowInvocationState/JobStep.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/WorkflowInvocationState/JobStep.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/29eeda3698769843907f7c17c6d4c84db9116146.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts",
+      "commits": [
+        {
+          "commit": "c401b80547acadd76df0053e5f2c27ac4a2e6a32",
+          "iteration": "38",
+          "subject": "Improve readability of WorkflowInvocationInputOutputTabs tests",
+          "test_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c401b80547acadd76df0053e5f2c27ac4a2e6a32.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js",
+      "commits": [
+        {
+          "commit": "c8dd938b6c1bfce24f9c703e8b0fedcb21547522",
+          "iteration": "37",
+          "subject": "Improve readability of WorkflowInvocationOverview tests",
+          "test_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c8dd938b6c1bfce24f9c703e8b0fedcb21547522.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts",
+      "commits": [
+        {
+          "commit": "c6888f569578dd8308ee05acd76c7054a23b851b",
+          "iteration": "31",
+          "subject": "Improve readability of WorkflowInvocationShare tests",
+          "test_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c6888f569578dd8308ee05acd76c7054a23b851b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts",
+      "commits": [
+        {
+          "commit": "0671cc231f3995ede8a9d5b402afbbed76a90ca5",
+          "iteration": "26",
+          "subject": "Improve readability of WorkflowInvocationState tests",
+          "test_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0671cc231f3995ede8a9d5b402afbbed76a90ca5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts",
+      "commits": [
+        {
+          "commit": "020d4efe43f8293f52b0d7502d405694bfb82ffb",
+          "iteration": "60",
+          "subject": "Own step header accessibility test lifecycle",
+          "test_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/020d4efe43f8293f52b0d7502d405694bfb82ffb.txt"
+        }
+      ]
+    }
+  ]
+}

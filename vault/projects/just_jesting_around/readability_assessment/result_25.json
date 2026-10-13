@@ -1,0 +1,153 @@
+{
+  "batch": 25,
+  "tests": [
+    {
+      "file": "client/src/components/ToolsList/ToolsListCard.test.ts",
+      "reviews": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "score": 4,
+          "defect": "Incomplete anonymous records hidden by any/never casts",
+          "rationale": "Typed getFakeAnonymousUser shared by nine consumers replaces copied records/casts and types card user options; existing behavior checks retained with substantial reuse.",
+          "caps": []
+        },
+        {
+          "commit": "266f36f64af83bbccd1a923c6a759f9cb261c36e",
+          "iteration": "48",
+          "score": 4,
+          "defect": "Observed relocated-popover leakage and optional action triggers",
+          "rationale": "Old comment explicitly says other tests leave body popovers; auto-unmount/owned hosts address it. Required button counts and get queries retain exact filter/favorite payload checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/InstalledList/Details.test.js",
+      "reviews": [
+        {
+          "commit": "4bb7765f083f2e4b543f8bcfb6c5272a83d52044",
+          "iteration": "15",
+          "score": 4,
+          "defect": "Assertions inside async mocked service",
+          "rationale": "Moves URL/name/owner checks to one exact once-call assertion after flushPromises; retains loading/detail/no-alert checks and removes failure hiding in mock.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/InstalledList/Index.test.js",
+      "reviews": [
+        {
+          "commit": "247bdc82783b3dc90e9205f1df4131fa5d21dbc7",
+          "iteration": "43",
+          "score": 4,
+          "defect": "Newer-version fixture not checked for absence on current repository",
+          "rationale": "Adds no-badge assertion on second link and loading disappearance; splits list/table phases while preserving exact repository names, message and Tool Shed column.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js",
+      "reviews": [
+        {
+          "commit": "f498722439e193dd6245b99f153c14b94a333904",
+          "iteration": "24",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Reads dependency checkbox state from DOM instead of wrapper internals; values unchanged, original three booleans valid. Single-use projection helper and split mount add modest ceremony.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js",
+      "reviews": [
+        {
+          "commit": "6527db1f9faddf9fa25d8673e52cee00633daa7f",
+          "iteration": "75",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Replaces dollar-prefixed wrappers with named rows/nth/get; same IDs, versions and expand/collapse counts retained. Broad rename diff for already local tests.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/SearchList/Categories.test.js",
+      "reviews": [
+        {
+          "commit": "2a571859a8182214908d954f090559334ea70006",
+          "iteration": "69",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Names two cases and uses nth/get plus auto-unmount; original loading message/name/description/repository checks already meaningful.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/SearchList/Repositories.test.js",
+      "reviews": [
+        {
+          "commit": "75ee6e429de371fc1d6b443591a372b342f87e16",
+          "iteration": "15",
+          "score": 4,
+          "defect": "Empty-state test directly wrote component internals",
+          "rationale": "Returns [] from service rather than mutating repositories/pageState; exact request shape and rendered link list added, preserving loading/no-results checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/SearchList/ServerSelection.test.js",
+      "reviews": [
+        {
+          "commit": "ec39326bd63f8146684fb272506041eb6cf471ce",
+          "iteration": "13",
+          "score": 4,
+          "defect": "Loose server event arrayContaining check",
+          "rationale": "Exact first emitted payload plus count one verifies selection; visible server/menu observations replace showDropdown internal check and retain names/count.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/services.test.js",
+      "reviews": [
+        {
+          "commit": "048c815255f48801081674795da9fd57c4728b87",
+          "iteration": "75",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Names latest/other repositories and filters, uses nth; unchanged exact URL/name/revision values in a short local test.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tour/Tour.test.js",
+      "reviews": [
+        {
+          "commit": "8a21094070986f930406dc3dc65f7034b0b61f2d",
+          "iteration": "43",
+          "score": 4,
+          "defect": "Link-count-only test allowed wrong tour names",
+          "rationale": "Adds both visible tour names to count; local mount fixture prevents unintended second mount in sanitization case and retains markup/profile checks.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

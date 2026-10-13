@@ -1,0 +1,180 @@
+{
+  "batch": 3,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/app/utils.test.ts",
+      "commits": [
+        {
+          "commit": "96c31c67ded3d8b91e6887f44099c6fede7bc89f",
+          "iteration": "05",
+          "subject": "Improve readability of app/utils tests",
+          "test_files": [
+            "client/src/app/utils.test.ts"
+          ],
+          "changed_files": [
+            "client/src/app/utils.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/96c31c67ded3d8b91e6887f44099c6fede7bc89f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ActivityBar/ActivityBar.test.js",
+      "commits": [
+        {
+          "commit": "52d8f2f6d37bb64704bd69590abe5e1afb2b7450",
+          "iteration": "71",
+          "subject": "Clarify ActivityBar test ownership and activity scenarios",
+          "test_files": [
+            "client/src/components/ActivityBar/ActivityBar.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/ActivityBar/ActivityBar.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/52d8f2f6d37bb64704bd69590abe5e1afb2b7450.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ActivityBar/ActivityItem.test.js",
+      "commits": [
+        {
+          "commit": "f4df82a2d3af6dae334a0f58bd89d174c983c624",
+          "iteration": "29",
+          "subject": "Improve readability of ActivityItem tests",
+          "test_files": [
+            "client/src/components/ActivityBar/ActivityItem.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/ActivityBar/ActivityItem.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f4df82a2d3af6dae334a0f58bd89d174c983c624.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ActivityBar/ActivitySettings.test.js",
+      "commits": [
+        {
+          "commit": "fbbe3764bd3647ea2b86327ab7db64b16392a886",
+          "iteration": "75",
+          "subject": "Own activity settings stores and require observed targets",
+          "test_files": [
+            "client/src/components/ActivityBar/ActivitySettings.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/ActivityBar/ActivitySettings.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fbbe3764bd3647ea2b86327ab7db64b16392a886.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/Form/GForm.test.ts",
+      "commits": [
+        {
+          "commit": "cd08db95fdfbea38efe81165830974eb62374aab",
+          "iteration": "59",
+          "subject": "test: Own form hosts and assert native submit event handoff",
+          "test_files": [
+            "client/src/components/BaseComponents/Form/GForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/Form/GForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cd08db95fdfbea38efe81165830974eb62374aab.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GAlert.test.ts",
+      "commits": [
+        {
+          "commit": "43b44c497920d48e189f410cd7b27d6e36e41246",
+          "iteration": "28",
+          "subject": "Improve readability of GAlert tests",
+          "test_files": [
+            "client/src/components/BaseComponents/GAlert.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/GAlert.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/43b44c497920d48e189f410cd7b27d6e36e41246.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GButton.test.ts",
+      "commits": [
+        {
+          "commit": "d98126ee3f836e05fb2ee360cf62b8917c07c05b",
+          "iteration": "25",
+          "subject": "Improve readability of GButton tests",
+          "test_files": [
+            "client/src/components/BaseComponents/GButton.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/GButton.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d98126ee3f836e05fb2ee360cf62b8917c07c05b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GDropdown.test.ts",
+      "commits": [
+        {
+          "commit": "fb820ca2cc03ad696d95fafb640b63339a982707",
+          "iteration": "66",
+          "subject": "Own dropdown test mounts mocks and pending positioning",
+          "test_files": [
+            "client/src/components/BaseComponents/GDropdown.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/GDropdown.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fb820ca2cc03ad696d95fafb640b63339a982707.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GDropdownItem.test.ts",
+      "commits": [
+        {
+          "commit": "520e76a4d84b80e17a4f55d5d46a9cf8336c8485",
+          "iteration": "52",
+          "subject": "Use typed native mounting for dropdown navigation tests",
+          "test_files": [
+            "client/src/components/BaseComponents/GDropdownItem.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/GDropdownItem.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/520e76a4d84b80e17a4f55d5d46a9cf8336c8485.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GLink.test.ts",
+      "commits": [
+        {
+          "commit": "df30823cecf3da321be9bb2a199ecd7ac042dbe5",
+          "iteration": "25",
+          "subject": "Add src/components/BaseComponents/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/BaseComponents/GLink.test.ts",
+            "client/src/components/BaseComponents/GToast.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/GLink.test.ts",
+            "client/src/components/BaseComponents/GToast.test.ts",
+            "client/src/components/BaseComponents/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/df30823cecf3da321be9bb2a199ecd7ac042dbe5.txt"
+        }
+      ]
+    }
+  ]
+}

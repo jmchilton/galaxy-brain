@@ -1,0 +1,202 @@
+{
+  "batch": 15,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/History/TargetObjectStoreSelector.test.ts",
+      "commits": [
+        {
+          "commit": "ac71c1edf2bd407269342cadfa9ba4671d2eb4fa",
+          "iteration": "07",
+          "subject": "Improve readability of TargetObjectStoreSelector tests",
+          "test_files": [
+            "client/src/components/History/TargetObjectStoreSelector.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/TargetObjectStoreSelector.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ac71c1edf2bd407269342cadfa9ba4671d2eb4fa.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/WorkflowExtractionForm.test.ts",
+      "commits": [
+        {
+          "commit": "ffcddc7a0a7726630ba18663bb0d46bb381ea605",
+          "iteration": "16",
+          "subject": "Improve readability of WorkflowExtractionForm tests",
+          "test_files": [
+            "client/src/components/History/WorkflowExtractionForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/WorkflowExtractionForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ffcddc7a0a7726630ba18663bb0d46bb381ea605.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/model/queries.test.ts",
+      "commits": [
+        {
+          "commit": "3416f4871733bf5810c367cb2e42444483f51479",
+          "iteration": "04",
+          "subject": "Add tests/test-data/storageOperations.ts for client unit tests",
+          "test_files": [
+            "client/src/components/History/model/queries.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/model/queries.test.ts",
+            "client/tests/test-data/storageOperations.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3416f4871733bf5810c367cb2e42444483f51479.txt"
+        },
+        {
+          "commit": "5eff1587570209e48d94d482d2cbf307a8e68905",
+          "iteration": "13",
+          "subject": "Improve readability of model/queries tests",
+          "test_files": [
+            "client/src/components/History/model/queries.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/model/queries.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5eff1587570209e48d94d482d2cbf307a8e68905.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/useHistoryCardActions.test.ts",
+      "commits": [
+        {
+          "commit": "535a9f6db7895908b602bab3e1571a9c0368b478",
+          "iteration": "51",
+          "subject": "Improve history card ownership action test readability",
+          "test_files": [
+            "client/src/components/History/useHistoryCardActions.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/useHistoryCardActions.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/535a9f6db7895908b602bab3e1571a9c0368b478.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/HistoryExport/Index.test.js",
+      "commits": [
+        {
+          "commit": "d36bab70cabf672e2ce0237743bf292169a0d38f",
+          "iteration": "56",
+          "subject": "Own History Export test plugins and teardown",
+          "test_files": [
+            "client/src/components/HistoryExport/Index.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/HistoryExport/Index.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d36bab70cabf672e2ce0237743bf292169a0d38f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/HistoryExport/ToLink.test.js",
+      "commits": [
+        {
+          "commit": "5195eeb3eaed872700d81d6c2e6e1e0af8dda20b",
+          "iteration": "75",
+          "subject": "Own ToLink test mounts and pending job completion",
+          "test_files": [
+            "client/src/components/HistoryExport/ToLink.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/HistoryExport/ToLink.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5195eeb3eaed872700d81d6c2e6e1e0af8dda20b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/HistoryExport/ToRemoteFile.test.js",
+      "commits": [
+        {
+          "commit": "6dbdfaaccbaf6430a346c490677d2c583e4f6e38",
+          "iteration": "08",
+          "subject": "Improve readability of ToRemoteFile tests",
+          "test_files": [
+            "client/src/components/HistoryExport/ToRemoteFile.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/HistoryExport/ToRemoteFile.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6dbdfaaccbaf6430a346c490677d2c583e4f6e38.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/HistoryImport.test.js",
+      "commits": [
+        {
+          "commit": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+          "iteration": "77",
+          "subject": "Own history import job completion and debounce cleanup",
+          "test_files": [
+            "client/src/components/HistoryImport.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/HistoryImport.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7a5aa84d83dce57572a67450020a5fd0177a97af.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/InteractiveTools/InteractiveTools.test.js",
+      "commits": [
+        {
+          "commit": "90e1a555059060f76fa9cc9600473cfe4a3f9c2b",
+          "iteration": "68",
+          "subject": "Own interactive tool test mounts and store instances",
+          "test_files": [
+            "client/src/components/InteractiveTools/InteractiveTools.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/InteractiveTools/InteractiveTools.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/90e1a555059060f76fa9cc9600473cfe4a3f9c2b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/JobDestinationParams/JobDestinationParams.test.ts",
+      "commits": [
+        {
+          "commit": "daa8014bda771d49bbdb2c9e4deb732ea1ef1ce4",
+          "iteration": "47",
+          "subject": "Make job destination parameter assertions complete and readable",
+          "test_files": [
+            "client/src/components/JobDestinationParams/JobDestinationParams.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/JobDestinationParams/JobDestinationParams.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/daa8014bda771d49bbdb2c9e4deb732ea1ef1ce4.txt"
+        },
+        {
+          "commit": "617cf1bbeafa7b49aba85d1a93885fa0b292d150",
+          "iteration": "47",
+          "subject": "Update client testing examples for native VTU2 mount options",
+          "test_files": [
+            "client/src/components/JobDestinationParams/JobDestinationParams.test.ts"
+          ],
+          "changed_files": [
+            "client/README.md"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/617cf1bbeafa7b49aba85d1a93885fa0b292d150.txt"
+        }
+      ]
+    }
+  ]
+}

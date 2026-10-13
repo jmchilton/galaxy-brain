@@ -1,0 +1,203 @@
+{
+  "batch": 40,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/stores/entryPointStore.test.js",
+      "commits": [
+        {
+          "commit": "e888ad697e50d85ecdcfb210637acf1097b7ec77",
+          "iteration": "12",
+          "subject": "Improve readability of entryPointStore tests",
+          "test_files": [
+            "client/src/stores/entryPointStore.test.js"
+          ],
+          "changed_files": [
+            "client/src/stores/entryPointStore.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e888ad697e50d85ecdcfb210637acf1097b7ec77.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/helpTermsStore.test.ts",
+      "commits": [
+        {
+          "commit": "e4c95194efb452c15890963c606cb1562bf0fb11",
+          "iteration": "73",
+          "subject": "Own help-term consumers and stores across module reloads",
+          "test_files": [
+            "client/src/stores/helpTermsStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/helpTermsStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e4c95194efb452c15890963c606cb1562bf0fb11.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/historyStore.lists.test.ts",
+      "commits": [
+        {
+          "commit": "8c1e2968b70952c07343a0496bbc650ad86e3ae3",
+          "iteration": "40",
+          "subject": "Improve readability of historyStore.lists tests",
+          "test_files": [
+            "client/src/stores/historyStore.lists.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/historyStore.lists.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8c1e2968b70952c07343a0496bbc650ad86e3ae3.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/historyStore.test.ts",
+      "commits": [
+        {
+          "commit": "a479ee51871c3e2bbc2f1408cd82ff28a97ea926",
+          "iteration": "07",
+          "subject": "Improve readability of historyStore tests",
+          "test_files": [
+            "client/src/stores/historyStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/historyStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a479ee51871c3e2bbc2f1408cd82ff28a97ea926.txt"
+        },
+        {
+          "commit": "a260fe6de9dc3eec2f2f7dc42dffb117d5b12d10",
+          "iteration": "08",
+          "subject": "Extend stores/_testing/sseStoreSupport.ts for client unit tests",
+          "test_files": [
+            "client/src/stores/historyStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/_testing/sseStoreSupport.ts",
+            "client/src/stores/historyStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a260fe6de9dc3eec2f2f7dc42dffb117d5b12d10.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/invocationStore.test.ts",
+      "commits": [
+        {
+          "commit": "87a70e3b88da35c20186bbb39a72dd28f1b7ba47",
+          "iteration": "09",
+          "subject": "Improve readability of invocationStore tests",
+          "test_files": [
+            "client/src/stores/invocationStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/invocationStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/87a70e3b88da35c20186bbb39a72dd28f1b7ba47.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/jobMetricsStore.test.ts",
+      "commits": [
+        {
+          "commit": "d46ab4ce7cf24c663e3784292362dbc1ebd06a42",
+          "iteration": "05",
+          "subject": "Improve readability of jobMetricsStore tests",
+          "test_files": [
+            "client/src/stores/jobMetricsStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/jobMetricsStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d46ab4ce7cf24c663e3784292362dbc1ebd06a42.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/notificationsStore.test.ts",
+      "commits": [
+        {
+          "commit": "9fd7467fbce8c49f23c83a7d0d737ce1c973a7da",
+          "iteration": "08",
+          "subject": "Improve readability of notificationsStore tests",
+          "test_files": [
+            "client/src/stores/notificationsStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/notificationsStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9fd7467fbce8c49f23c83a7d0d737ce1c973a7da.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/objectStoreInstancesStore.test.ts",
+      "commits": [
+        {
+          "commit": "e49c7d72291ed79351c90287513517ea4a2937ce",
+          "iteration": "06",
+          "subject": "Improve readability of objectStoreInstancesStore tests",
+          "test_files": [
+            "client/src/stores/objectStoreInstancesStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/objectStoreInstancesStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e49c7d72291ed79351c90287513517ea4a2937ce.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/objectStoreTemplatesStore.test.ts",
+      "commits": [
+        {
+          "commit": "e3d7fcb1ffe41ac0b49f22d44951b0fba88ea45b",
+          "iteration": "10",
+          "subject": "Improve readability of objectStoreTemplatesStore tests",
+          "test_files": [
+            "client/src/stores/objectStoreTemplatesStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/objectStoreTemplatesStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e3d7fcb1ffe41ac0b49f22d44951b0fba88ea45b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/pageEditorStore.test.ts",
+      "commits": [
+        {
+          "commit": "85fd81f99e9998e88ac7dce10fc35c2e7a8ad7f5",
+          "iteration": "01",
+          "subject": "Improve readability of pageEditorStore tests",
+          "test_files": [
+            "client/src/stores/pageEditorStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/pageEditorStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/85fd81f99e9998e88ac7dce10fc35c2e7a8ad7f5.txt"
+        },
+        {
+          "commit": "d6e0eb2e5019230ddd971983d3610e8da27fc5f0",
+          "iteration": "02",
+          "subject": "Add tests/test-data/pages.ts for client unit tests",
+          "test_files": [
+            "client/src/stores/pageEditorStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/pageEditorStore.test.ts",
+            "client/tests/test-data/pages.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/d6e0eb2e5019230ddd971983d3610e8da27fc5f0.txt"
+        }
+      ]
+    }
+  ]
+}

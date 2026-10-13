@@ -1,0 +1,192 @@
+{
+  "batch": 35,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/composables/keyedCache.test.ts",
+      "commits": [
+        {
+          "commit": "12b5c4ac99b0fc3d7ee414d18fb1364b518c900f",
+          "iteration": "10",
+          "subject": "Improve readability of keyedCache tests",
+          "test_files": [
+            "client/src/composables/keyedCache.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/keyedCache.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/12b5c4ac99b0fc3d7ee414d18fb1364b518c900f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/keyedObjects.test.ts",
+      "commits": [
+        {
+          "commit": "2975f801a24eaae73299e4fbce96bd7c198fbc91",
+          "iteration": "10",
+          "subject": "Improve readability of keyedObjects tests",
+          "test_files": [
+            "client/src/composables/keyedObjects.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/keyedObjects.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2975f801a24eaae73299e4fbce96bd7c198fbc91.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/markdown.test.js",
+      "commits": [
+        {
+          "commit": "0b457dc8406f1e0f98d922b55b33a25d9eca24d7",
+          "iteration": "01",
+          "subject": "Improve readability of markdown tests",
+          "test_files": [
+            "client/src/composables/markdown.test.js"
+          ],
+          "changed_files": [
+            "client/src/composables/markdown.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0b457dc8406f1e0f98d922b55b33a25d9eca24d7.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/pagination.test.ts",
+      "commits": [
+        {
+          "commit": "c533668328449b1e5887ef28e951ada544c23680",
+          "iteration": "12",
+          "subject": "Improve readability of pagination tests",
+          "test_files": [
+            "client/src/composables/pagination.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/pagination.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c533668328449b1e5887ef28e951ada544c23680.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/persistentProgressMonitor.test.ts",
+      "commits": [
+        {
+          "commit": "f01e9180e5add5f97d35fa884b1c19088e92a0c6",
+          "iteration": "04",
+          "subject": "Add tests/test-data/monitoring.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+            "client/src/composables/persistentProgressMonitor.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+            "client/src/composables/persistentProgressMonitor.test.ts",
+            "client/tests/test-data/monitoring.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f01e9180e5add5f97d35fa884b1c19088e92a0c6.txt"
+        },
+        {
+          "commit": "7295a540fb0d4ff0b7ebefbb672ac1229b71012c",
+          "iteration": "26",
+          "subject": "Improve readability of persistentProgressMonitor tests",
+          "test_files": [
+            "client/src/composables/persistentProgressMonitor.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/persistentProgressMonitor.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7295a540fb0d4ff0b7ebefbb672ac1229b71012c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/persistentToggle.test.ts",
+      "commits": [
+        {
+          "commit": "442df8bb6e90c71b85c6ff76562d658cdcc6ae2a",
+          "iteration": "63",
+          "subject": "Scope persistent toggle effects and restore owned storage",
+          "test_files": [
+            "client/src/composables/persistentToggle.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/persistentToggle.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/442df8bb6e90c71b85c6ff76562d658cdcc6ae2a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/pollUntil.test.ts",
+      "commits": [
+        {
+          "commit": "42c2bccb9bc90e32f090aa5c5d68c4f22f1737d8",
+          "iteration": "11",
+          "subject": "Improve readability of pollUntil tests",
+          "test_files": [
+            "client/src/composables/pollUntil.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/pollUntil.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/42c2bccb9bc90e32f090aa5c5d68c4f22f1737d8.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/resourceWatcher.test.ts",
+      "commits": [
+        {
+          "commit": "66a7965aa6490cdc328f2c2eaf089770fca8eafd",
+          "iteration": "02",
+          "subject": "Improve readability of resourceWatcher tests",
+          "test_files": [
+            "client/src/composables/resourceWatcher.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/resourceWatcher.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/66a7965aa6490cdc328f2c2eaf089770fca8eafd.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/roundRobinSelector.test.ts",
+      "commits": [
+        {
+          "commit": "87fd0ee68d6387bd92640eb772051cc9b2a3a9e6",
+          "iteration": "05",
+          "subject": "Improve readability of roundRobinSelector tests",
+          "test_files": [
+            "client/src/composables/roundRobinSelector.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/roundRobinSelector.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/87fd0ee68d6387bd92640eb772051cc9b2a3a9e6.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/selectedItems/selectedItems.test.ts",
+      "commits": [
+        {
+          "commit": "6e52bb89aa82be003ed4b177fba43ea6212d7917",
+          "iteration": "06",
+          "subject": "Improve readability of selectedItems tests",
+          "test_files": [
+            "client/src/composables/selectedItems/selectedItems.test.ts"
+          ],
+          "changed_files": [
+            "client/src/composables/selectedItems/selectedItems.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6e52bb89aa82be003ed4b177fba43ea6212d7917.txt"
+        }
+      ]
+    }
+  ]
+}

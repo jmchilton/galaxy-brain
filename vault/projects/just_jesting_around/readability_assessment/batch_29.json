@@ -1,0 +1,196 @@
+{
+  "batch": 29,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/Editor/Index.test.ts",
+      "commits": [
+        {
+          "commit": "06e3b163f6d48657dc12cf710bb46d7216cb7012",
+          "iteration": "28",
+          "subject": "Improve readability of Editor/Index tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Index.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Index.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/06e3b163f6d48657dc12cf710bb46d7216cb7012.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Lint.test.ts",
+      "commits": [
+        {
+          "commit": "8b8af4b46679bde3eeb4ee257db623c541e0db38",
+          "iteration": "13",
+          "subject": "Improve readability of Lint tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Lint.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Lint.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8b8af4b46679bde3eeb4ee257db623c541e0db38.txt"
+        },
+        {
+          "commit": "7da0a4379244a4b6ca25202b7c66b29b5a3d950b",
+          "iteration": "35",
+          "subject": "Add tests/vitest/effectScope.ts for client unit tests",
+          "test_files": [
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/components/Workflow/Editor/Lint.test.ts",
+            "client/src/components/History/Graph/useHistoryGraph.test.ts",
+            "client/src/components/CommandPalette/useScrollEdges.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/useScrollEdges.test.ts",
+            "client/src/components/History/Graph/useHistoryGraph.test.ts",
+            "client/src/components/Workflow/Editor/Lint.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/tests/vitest/effectScope.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7da0a4379244a4b6ca25202b7c66b29b5a3d950b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Node.test.ts",
+      "commits": [
+        {
+          "commit": "50437c2bbb8502fe9d7c4eefbf86d3e49617c248",
+          "iteration": "46",
+          "subject": "Improve readability of Node tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/Node.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/Node.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/50437c2bbb8502fe9d7c4eefbf86d3e49617c248.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/NodeInvocationText.test.ts",
+      "commits": [
+        {
+          "commit": "bb3f967ed364a8482b9b9b49bcc03e42aedb991a",
+          "iteration": "49",
+          "subject": "Restore sanitizer state after invocation text tests unmount",
+          "test_files": [
+            "client/src/components/Workflow/Editor/NodeInvocationText.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/NodeInvocationText.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/bb3f967ed364a8482b9b9b49bcc03e42aedb991a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts",
+      "commits": [
+        {
+          "commit": "b7feb0d68ae6d96328ae6deb9a27cda57bf95585",
+          "iteration": "12",
+          "subject": "Improve readability of RefactorConfirmationModal tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b7feb0d68ae6d96328ae6deb9a27cda57bf95585.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/StateUpgradeModal.test.ts",
+      "commits": [
+        {
+          "commit": "0bd6688c605d1ce43aeb86d4b21ca020c8fbddb6",
+          "iteration": "15",
+          "subject": "Improve readability of StateUpgradeModal tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/StateUpgradeModal.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/StateUpgradeModal.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0bd6688c605d1ce43aeb86d4b21ca020c8fbddb6.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/WorkflowAttributes.test.ts",
+      "commits": [
+        {
+          "commit": "4c19605c5651b0d32fdcdfb6f707cf01dd78dfdb",
+          "iteration": "68",
+          "subject": "Clarify workflow attribute test ownership and lookups",
+          "test_files": [
+            "client/src/components/Workflow/Editor/WorkflowAttributes.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/WorkflowAttributes.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4c19605c5651b0d32fdcdfb6f707cf01dd78dfdb.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/ZoomControl.test.js",
+      "commits": [
+        {
+          "commit": "032026037a5e9d51741075d780a77a47a2aefee1",
+          "iteration": "44",
+          "subject": "Improve readability of ZoomControl tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/ZoomControl.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/ZoomControl.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/032026037a5e9d51741075d780a77a47a2aefee1.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/modules/activities.test.ts",
+      "commits": [
+        {
+          "commit": "a9af62fe5b12ee971de6dc4daca28b29038cfbc8",
+          "iteration": "21",
+          "subject": "Improve readability of activities tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/modules/activities.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/modules/activities.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a9af62fe5b12ee971de6dc4daca28b29038cfbc8.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/modules/canvasDraw.test.ts",
+      "commits": [
+        {
+          "commit": "6dfe47af3ee2479a6b68cab28b6ded2428c084d5",
+          "iteration": "12",
+          "subject": "Improve readability of canvasDraw tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/modules/canvasDraw.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/modules/canvasDraw.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6dfe47af3ee2479a6b68cab28b6ded2428c084d5.txt"
+        }
+      ]
+    }
+  ]
+}

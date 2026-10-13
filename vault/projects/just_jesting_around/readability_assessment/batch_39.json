@@ -1,0 +1,199 @@
+{
+  "batch": 39,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/entry/analysis/routes/login-routes.test.ts",
+      "commits": [
+        {
+          "commit": "34f58432619533931094a0253c6e90558800b685",
+          "iteration": "11",
+          "subject": "Improve readability of login-routes tests",
+          "test_files": [
+            "client/src/entry/analysis/routes/login-routes.test.ts"
+          ],
+          "changed_files": [
+            "client/src/entry/analysis/routes/login-routes.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/34f58432619533931094a0253c6e90558800b685.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/router/guards.test.ts",
+      "commits": [
+        {
+          "commit": "3a842b9477e1bffe8a0b42dec218317639dfdaa1",
+          "iteration": "11",
+          "subject": "Improve readability of guards tests",
+          "test_files": [
+            "client/src/router/guards.test.ts"
+          ],
+          "changed_files": [
+            "client/src/router/guards.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3a842b9477e1bffe8a0b42dec218317639dfdaa1.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/activitySetup.test.ts",
+      "commits": [
+        {
+          "commit": "1feface0a68d6791d46fa406d02d90eef3fb297f",
+          "iteration": "66",
+          "subject": "Clarify activity availability fixture and omitted configuration flags",
+          "test_files": [
+            "client/src/stores/activitySetup.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/activitySetup.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1feface0a68d6791d46fa406d02d90eef3fb297f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/activityStore.test.ts",
+      "commits": [
+        {
+          "commit": "7eb2da0bc3ecd997e0103ab169af32279b1e78af",
+          "iteration": "11",
+          "subject": "Improve readability of activityStore tests",
+          "test_files": [
+            "client/src/stores/activityStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/activityStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7eb2da0bc3ecd997e0103ab169af32279b1e78af.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/chatStore.test.ts",
+      "commits": [
+        {
+          "commit": "29713ad738f4345f6f7f46fb7afbd2d797ed6066",
+          "iteration": "08",
+          "subject": "Improve readability of chatStore tests",
+          "test_files": [
+            "client/src/stores/chatStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/chatStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/29713ad738f4345f6f7f46fb7afbd2d797ed6066.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/collectionAttributesStore.test.ts",
+      "commits": [
+        {
+          "commit": "be7487ae1d2af59ef41c3ea6efcf875a6bd7f182",
+          "iteration": "03",
+          "subject": "Improve readability of collectionAttributesStore tests",
+          "test_files": [
+            "client/src/stores/collectionAttributesStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/collectionAttributesStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/be7487ae1d2af59ef41c3ea6efcf875a6bd7f182.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/collectionElementsStore.test.ts",
+      "commits": [
+        {
+          "commit": "a3b0a38ee89d87b7c88d7e00818eecb27950f527",
+          "iteration": "05",
+          "subject": "Improve readability of collectionElementsStore tests",
+          "test_files": [
+            "client/src/stores/collectionElementsStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/collectionElementsStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a3b0a38ee89d87b7c88d7e00818eecb27950f527.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/datasetCollectionStore.test.ts",
+      "commits": [
+        {
+          "commit": "3b4f8f2d5852eba7686c1eb08de3cf7b9a95d8b6",
+          "iteration": "05",
+          "subject": "Add tests/test-data/collections.ts for client unit tests",
+          "test_files": [
+            "client/src/stores/datasetCollectionStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/datasetCollectionStore.test.ts",
+            "client/tests/test-data/collections.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3b4f8f2d5852eba7686c1eb08de3cf7b9a95d8b6.txt"
+        },
+        {
+          "commit": "7adb1104ddb656c5b3de96b4156715c42f215de4",
+          "iteration": "11",
+          "subject": "Improve readability of datasetCollectionStore tests",
+          "test_files": [
+            "client/src/stores/datasetCollectionStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/datasetCollectionStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7adb1104ddb656c5b3de96b4156715c42f215de4.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/datasetListStore.test.ts",
+      "commits": [
+        {
+          "commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+          "iteration": "35",
+          "subject": "Add tests/test-data/datasets.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Collections/PairCollectionCreator.test.ts",
+            "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/stores/datasetListStore.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Collections/PairCollectionCreator.test.ts",
+            "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/stores/datasetListStore.test.ts",
+            "client/tests/test-data/datasets.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4441dd22f5822e007bf44a953d746f635df7534d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/datatypeStore.test.ts",
+      "commits": [
+        {
+          "commit": "ee5a1d33394ecb7dbbceef765279f49111852a76",
+          "iteration": "71",
+          "subject": "Own datatype test Pinia across module reloads",
+          "test_files": [
+            "client/src/stores/datatypeStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/stores/datatypeStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ee5a1d33394ecb7dbbceef765279f49111852a76.txt"
+        }
+      ]
+    }
+  ]
+}

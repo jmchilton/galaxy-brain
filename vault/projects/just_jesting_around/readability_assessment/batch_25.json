@@ -1,0 +1,206 @@
+{
+  "batch": 25,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/ToolsList/ToolsListCard.test.ts",
+      "commits": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "subject": "Extend tests/test-data/index.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts",
+            "client/tests/test-data/index.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/65fc286e8b7a5f01da895c0155ddb4244d39a2a5.txt"
+        },
+        {
+          "commit": "266f36f64af83bbccd1a923c6a759f9cb261c36e",
+          "iteration": "48",
+          "subject": "Clarify ToolsListCard test setup and lifecycle",
+          "test_files": [
+            "client/src/components/ToolsList/ToolsListCard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ToolsList/ToolsListCard.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/266f36f64af83bbccd1a923c6a759f9cb261c36e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/InstalledList/Details.test.js",
+      "commits": [
+        {
+          "commit": "4bb7765f083f2e4b543f8bcfb6c5272a83d52044",
+          "iteration": "15",
+          "subject": "Improve readability of Details tests",
+          "test_files": [
+            "client/src/components/Toolshed/InstalledList/Details.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Toolshed/InstalledList/Details.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4bb7765f083f2e4b543f8bcfb6c5272a83d52044.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/InstalledList/Index.test.js",
+      "commits": [
+        {
+          "commit": "247bdc82783b3dc90e9205f1df4131fa5d21dbc7",
+          "iteration": "43",
+          "subject": "Improve readability of InstalledList/Index tests",
+          "test_files": [
+            "client/src/components/Toolshed/InstalledList/Index.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Toolshed/InstalledList/Index.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/247bdc82783b3dc90e9205f1df4131fa5d21dbc7.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js",
+      "commits": [
+        {
+          "commit": "f498722439e193dd6245b99f153c14b94a333904",
+          "iteration": "24",
+          "subject": "Improve readability of InstallationSettings tests",
+          "test_files": [
+            "client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Toolshed/RepositoryDetails/InstallationSettings.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f498722439e193dd6245b99f153c14b94a333904.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js",
+      "commits": [
+        {
+          "commit": "6527db1f9faddf9fa25d8673e52cee00633daa7f",
+          "iteration": "75",
+          "subject": "Name required repository rows and own tool table mounts",
+          "test_files": [
+            "client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6527db1f9faddf9fa25d8673e52cee00633daa7f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/SearchList/Categories.test.js",
+      "commits": [
+        {
+          "commit": "2a571859a8182214908d954f090559334ea70006",
+          "iteration": "69",
+          "subject": "Name category table scenarios and own native mounts",
+          "test_files": [
+            "client/src/components/Toolshed/SearchList/Categories.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Toolshed/SearchList/Categories.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2a571859a8182214908d954f090559334ea70006.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/SearchList/Repositories.test.js",
+      "commits": [
+        {
+          "commit": "75ee6e429de371fc1d6b443591a372b342f87e16",
+          "iteration": "15",
+          "subject": "Improve readability of Repositories tests",
+          "test_files": [
+            "client/src/components/Toolshed/SearchList/Repositories.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Toolshed/SearchList/Repositories.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/75ee6e429de371fc1d6b443591a372b342f87e16.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/SearchList/ServerSelection.test.js",
+      "commits": [
+        {
+          "commit": "ec39326bd63f8146684fb272506041eb6cf471ce",
+          "iteration": "13",
+          "subject": "Improve readability of ServerSelection tests",
+          "test_files": [
+            "client/src/components/Toolshed/SearchList/ServerSelection.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Toolshed/SearchList/ServerSelection.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ec39326bd63f8146684fb272506041eb6cf471ce.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Toolshed/services.test.js",
+      "commits": [
+        {
+          "commit": "048c815255f48801081674795da9fd57c4728b87",
+          "iteration": "75",
+          "subject": "Name Tool Shed grouping and URL mapping observations",
+          "test_files": [
+            "client/src/components/Toolshed/services.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Toolshed/services.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/048c815255f48801081674795da9fd57c4728b87.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tour/Tour.test.js",
+      "commits": [
+        {
+          "commit": "8a21094070986f930406dc3dc65f7034b0b61f2d",
+          "iteration": "43",
+          "subject": "Improve readability of Tour tests",
+          "test_files": [
+            "client/src/components/Tour/Tour.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Tour/Tour.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8a21094070986f930406dc3dc65f7034b0b61f2d.txt"
+        }
+      ]
+    }
+  ]
+}

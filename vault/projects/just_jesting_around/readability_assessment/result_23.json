@@ -1,0 +1,157 @@
+{
+  "batch": 23,
+  "tests": [
+    {
+      "file": "client/src/components/Sharing/UserSharing.test.ts",
+      "reviews": [
+        {
+          "commit": "8535943668a80b7752e48eeea34ae4d96ef0dff1",
+          "iteration": "30",
+          "score": 4,
+          "defect": "Copied permission fixtures and weak event existence",
+          "rationale": "Consolidates repeated permission-change records and clicks real modal footer; exact share/cancel arrays and restored email tags strengthen existing cases, user/config gating adds checks.",
+          "caps": []
+        },
+        {
+          "commit": "5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f",
+          "iteration": "31",
+          "score": 4,
+          "defect": "Shared modal click helper did not reject ambiguous or disabled matches",
+          "rationale": "Adds one canonical clickModalButton used by three suites, with unique/enabled checks and promise flush; migrates local sharing helper and two synthetic-event consumers.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/SingleItemSelector.test.ts",
+      "reviews": [
+        {
+          "commit": "08e8b5234c0f35f552e581e81e2c6d661751406e",
+          "iteration": "59",
+          "score": 3,
+          "defect": "Misleading loading test title",
+          "rationale": "Renames does not show selector to loading message actually asserted; all other hunks find/get and mount reuse, so original assertion gaps remain.",
+          "caps": [
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/StsDownloadButton.test.js",
+      "reviews": [
+        {
+          "commit": "b18d8ad17674afd752f27a79b0e4bc463ace723c",
+          "iteration": "62",
+          "score": 2,
+          "defect": "Pending-poll test leaves work on early failure",
+          "rationale": "Uses canonical deferred and fake timers, adds poll-failure toast/navigation checks, but introduces try/finally and conditional unmount in test bodies.",
+          "caps": [
+            "cap 2: net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tags/model.test.js",
+      "reviews": [
+        {
+          "commit": "ea03e3e557f87058cf04ae3949d8634b275f1104",
+          "iteration": "13",
+          "score": 3,
+          "defect": "Misleading duplicate-removal name",
+          "rationale": "Renames diffTags to unselected source order and uses regex value tables. Equal boolean matcher swaps dominate; deletes autocomplete-use explanation.",
+          "caps": [
+            "cap 3: why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/TagsMultiselect/HeadlessMultiselect.test.ts",
+      "reviews": [
+        {
+          "commit": "aabbf6f0ff0a518bbc479d4b04313e2d2d3f8773",
+          "iteration": "14",
+          "score": 4,
+          "defect": "Copied default props across many cases and unawaited triggers",
+          "rationale": "Default typed mount removes repeated options/selected literals; awaits key/open triggers and scopes teleports to appRoot. All filtering/highlight/selection checks retained and invalid text exact.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/AuthoringHelpPanel.test.ts",
+      "reviews": [
+        {
+          "commit": "6467f23543888ff3a1b90bfd61ba6f7866954d54",
+          "iteration": "47",
+          "score": 4,
+          "defect": "as unknown as exposed API cast soup",
+          "rationale": "Uses typed openSection API and strengthens return/defaultPrevented checks; repeated section lookups become helpers. Clipboard restore and broad renames add proportion cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/CustomToolEditorWorkspace.test.ts",
+      "reviews": [
+        {
+          "commit": "dad26b69931289c9f5e47313b8551e9989efbedb",
+          "iteration": "72",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Required get and attachment-target ownership add cleanup with a requestAnimationFrame wait; original visibility/element-identity/resize tests already had real mount and valid checks.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolCard.test.js",
+      "reviews": [
+        {
+          "commit": "496c7949b22889fbbd26cd10b7f718fe0be53f0c",
+          "iteration": "34",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Splits props omnibus and adopts canonical admin/local router; old title/description/options/backdrop/latest checks already meaningful. Most hunks reorganize setup.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolForm.test.ts",
+      "reviews": [
+        {
+          "commit": "3b4755069ffee54b1ccbc84ff8875f3b93c34ff8",
+          "iteration": "53",
+          "score": 2,
+          "defect": "Partial history cast hides missing required fixture fields",
+          "rationale": "Canonical history and seed helper replace cast; local mount preserves form/validation/toast checks. New pending-build scenario adds try/finally in test body, capped despite added coverage.",
+          "caps": [
+            "cap 2: net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolHelpMarkdown.test.ts",
+      "reviews": [
+        {
+          "commit": "2b024f511179fb30acc4b4abcefac461c530fc86",
+          "iteration": "67",
+          "score": 2,
+          "defect": "none",
+          "rationale": "One help sanitizer test gains before/after clears, disposal and unmount; nth replaces non-null indexes and native mounts retain checks. Teardown ceremony exceeds modest gain.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    }
+  ]
+}

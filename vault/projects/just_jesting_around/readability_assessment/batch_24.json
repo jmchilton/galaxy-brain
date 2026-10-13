@@ -1,0 +1,211 @@
+{
+  "batch": 24,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Tool/ToolHelpRst.test.js",
+      "commits": [
+        {
+          "commit": "6c5892f0259ba12dd110fa5f780bb6c00bee5a0d",
+          "iteration": "60",
+          "subject": "Own tool help test cleanup and native mounts",
+          "test_files": [
+            "client/src/components/Tool/ToolHelpRst.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/ToolHelpRst.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6c5892f0259ba12dd110fa5f780bb6c00bee5a0d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolInstallationRequestForm.test.ts",
+      "commits": [
+        {
+          "commit": "5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f",
+          "iteration": "31",
+          "subject": "Extend src/components/BaseComponents/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Sharing/UserSharing.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+            "client/src/components/Tool/ToolInstallationRequestForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/test-utils.ts",
+            "client/src/components/Sharing/UserSharing.test.ts",
+            "client/src/components/Tool/ToolInstallationRequestForm.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts",
+      "commits": [
+        {
+          "commit": "b44ee6cedaf567f9277c792b7f9bf165c87496cb",
+          "iteration": "18",
+          "subject": "Improve readability of ToolSelectPreferredObjectStore tests",
+          "test_files": [
+            "client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b44ee6cedaf567f9277c792b7f9bf165c87496cb.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolSourceDisplay.test.ts",
+      "commits": [
+        {
+          "commit": "b3849986377a2653e32f8ead105f42713fc6b082",
+          "iteration": "73",
+          "subject": "Own Monaco source-display mounts and required container reads",
+          "test_files": [
+            "client/src/components/Tool/ToolSourceDisplay.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/ToolSourceDisplay.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b3849986377a2653e32f8ead105f42713fc6b082.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolSuccess.test.ts",
+      "commits": [
+        {
+          "commit": "a2cd202fc700aac0af13f597cefe1a6423f52fbe",
+          "iteration": "33",
+          "subject": "Use user factories in ToolSuccess tests",
+          "test_files": [
+            "client/src/components/Tool/ToolSuccess.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/ToolSuccess.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a2cd202fc700aac0af13f597cefe1a6423f52fbe.txt"
+        },
+        {
+          "commit": "2a8ae9e22cbbaba2b4d9517a182f5bd898bd2685",
+          "iteration": "77",
+          "subject": "Own tool success recommendation mounts and configuration",
+          "test_files": [
+            "client/src/components/Tool/ToolSuccess.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/ToolSuccess.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2a8ae9e22cbbaba2b4d9517a182f5bd898bd2685.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/schemaMarkdown.test.ts",
+      "commits": [
+        {
+          "commit": "1d18a0fc6d85827530eff4632da59c88375b0050",
+          "iteration": "61",
+          "subject": "Check nested schema descriptions remain unmodified",
+          "test_files": [
+            "client/src/components/Tool/schemaMarkdown.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/schemaMarkdown.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1d18a0fc6d85827530eff4632da59c88375b0050.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/utilities.test.ts",
+      "commits": [
+        {
+          "commit": "b058b1e1251d80b74d84c968e4bef7f1dbb8b7dd",
+          "iteration": "65",
+          "subject": "Scope tool link clipboard mock and restore its descriptor",
+          "test_files": [
+            "client/src/components/Tool/utilities.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/utilities.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b058b1e1251d80b74d84c968e4bef7f1dbb8b7dd.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ToolEntryPoints/ToolEntryPoints.test.js",
+      "commits": [
+        {
+          "commit": "7c824feca8d4173e3330bb38f6f84a32ee6a93cf",
+          "iteration": "12",
+          "subject": "Improve readability of ToolEntryPoints tests",
+          "test_files": [
+            "client/src/components/ToolEntryPoints/ToolEntryPoints.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/ToolEntryPoints/ToolEntryPoints.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7c824feca8d4173e3330bb38f6f84a32ee6a93cf.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ToolRecommendation.test.ts",
+      "commits": [
+        {
+          "commit": "fc5e9577402a2c42322d02f995e4e8d2f65f757f",
+          "iteration": "60",
+          "subject": "Own recommendation test wrappers and use a real datatype fixture",
+          "test_files": [
+            "client/src/components/ToolRecommendation.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ToolRecommendation.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fc5e9577402a2c42322d02f995e4e8d2f65f757f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ToolsList/ToolsList.test.ts",
+      "commits": [
+        {
+          "commit": "954aa0cb78fe8909446e0f2a7785344a9ad9db8a",
+          "iteration": "02",
+          "subject": "Add tests/test-data/tools.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Panels/Common/ToolSection.test.ts",
+            "client/src/components/Panels/MyToolsLanding.test.ts",
+            "client/src/components/ToolsList/ToolsList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/Common/ToolSection.test.ts",
+            "client/src/components/Panels/MyToolsLanding.test.ts",
+            "client/src/components/ToolsList/ToolsList.test.ts",
+            "client/tests/test-data/tools.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/954aa0cb78fe8909446e0f2a7785344a9ad9db8a.txt"
+        },
+        {
+          "commit": "c6a6101118a49efba8f88525273aae76b4bf239b",
+          "iteration": "71",
+          "subject": "Consolidate ToolsList native mounts and own resource cleanup",
+          "test_files": [
+            "client/src/components/ToolsList/ToolsList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ToolsList/ToolsList.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c6a6101118a49efba8f88525273aae76b4bf239b.txt"
+        }
+      ]
+    }
+  ]
+}

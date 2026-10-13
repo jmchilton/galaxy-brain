@@ -1,0 +1,206 @@
+{
+  "batch": 22,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Panels/utilities.test.ts",
+      "commits": [
+        {
+          "commit": "9f8c2dfe55dac10dc73265fc3ec2f1d7bc1e2cd9",
+          "iteration": "11",
+          "subject": "Improve readability of utilities tests",
+          "test_files": [
+            "client/src/components/Panels/utilities.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Panels/utilities.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9f8c2dfe55dac10dc73265fc3ec2f1d7bc1e2cd9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Popper/Popper.test.js",
+      "commits": [
+        {
+          "commit": "48030daa528ebb775a747f27ecd322401fd7288e",
+          "iteration": "72",
+          "subject": "Own Popper mounts and make outside dismissal coverage explicit",
+          "test_files": [
+            "client/src/components/Popper/Popper.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Popper/Popper.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/48030daa528ebb775a747f27ecd322401fd7288e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Popper/usePopper.test.js",
+      "commits": [
+        {
+          "commit": "c43094ea4c1a577f2f1e3610aa5f6a05d4f8579d",
+          "iteration": "24",
+          "subject": "Improve readability of usePopper tests",
+          "test_files": [
+            "client/src/components/Popper/usePopper.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Popper/usePopper.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c43094ea4c1a577f2f1e3610aa5f6a05d4f8579d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Register/RegisterForm.test.ts",
+      "commits": [
+        {
+          "commit": "b1baa2e665ebb9d7d11780056612e9db3a93e2bb",
+          "iteration": "19",
+          "subject": "Fix custom matcher types for client unit tests",
+          "test_files": [
+            "client/src/entry/analysis/modules/ResetPassword.test.ts",
+            "client/src/components/Register/RegisterForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Register/RegisterForm.test.ts",
+            "client/src/entry/analysis/modules/ResetPassword.test.ts",
+            "client/tests/vitest/matchers.d.ts",
+            "client/types/vitest-setup.d.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b1baa2e665ebb9d7d11780056612e9db3a93e2bb.txt"
+        },
+        {
+          "commit": "9f9520b2891a0e4705877fb84890a1c34713f13b",
+          "iteration": "64",
+          "subject": "Own registration form test resources and typed mount",
+          "test_files": [
+            "client/src/components/Register/RegisterForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Register/RegisterForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9f9520b2891a0e4705877fb84890a1c34713f13b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/RuleBuilder/IdentifierDisplay.test.ts",
+      "commits": [
+        {
+          "commit": "8cd946b9a2a8c81038c3efb7ec5ee662b6ac106a",
+          "iteration": "74",
+          "subject": "Infer identifier mount and own hover test cleanup",
+          "test_files": [
+            "client/src/components/RuleBuilder/IdentifierDisplay.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/RuleBuilder/IdentifierDisplay.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8cd946b9a2a8c81038c3efb7ec5ee662b6ac106a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/RuleBuilder/RuleDefinitions.test.ts",
+      "commits": [
+        {
+          "commit": "b9248c063a54a290f56a33d50f9d0384b43c7447",
+          "iteration": "16",
+          "subject": "Improve readability of RuleDefinitions tests",
+          "test_files": [
+            "client/src/components/RuleBuilder/RuleDefinitions.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/RuleBuilder/RuleDefinitions.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b9248c063a54a290f56a33d50f9d0384b43c7447.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/RuleBuilder/SavedRulesSelector.test.js",
+      "commits": [
+        {
+          "commit": "e360c5f9b2314864b4b7eea772635b0a76ba1000",
+          "iteration": "57",
+          "subject": "test: Clarify saved rule selection scenarios and own wrapper cleanup",
+          "test_files": [
+            "client/src/components/RuleBuilder/SavedRulesSelector.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/RuleBuilder/SavedRulesSelector.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e360c5f9b2314864b4b7eea772635b0a76ba1000.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ScrollList/ScrollList.test.ts",
+      "commits": [
+        {
+          "commit": "dd6a0642b36bb01e69d28198fb2854bee6762273",
+          "iteration": "23",
+          "subject": "Improve readability of ScrollList tests",
+          "test_files": [
+            "client/src/components/ScrollList/ScrollList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ScrollList/ScrollList.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/dd6a0642b36bb01e69d28198fb2854bee6762273.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/SelectionDialog/SelectionDialog.test.js",
+      "commits": [
+        {
+          "commit": "9d542e9fc627200d1c0ceb579a2819c8db033c0e",
+          "iteration": "13",
+          "subject": "Improve readability of SelectionDialog tests",
+          "test_files": [
+            "client/src/components/SelectionDialog/SelectionDialog.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/SelectionDialog/SelectionDialog.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9d542e9fc627200d1c0ceb579a2819c8db033c0e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/SelectionField/SelectionField.test.js",
+      "commits": [
+        {
+          "commit": "98bca297b4d1f48f86dd6998a373a212c5134f7e",
+          "iteration": "38",
+          "subject": "Improve readability of SelectionField tests",
+          "test_files": [
+            "client/src/components/SelectionField/SelectionField.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/SelectionField/SelectionField.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/98bca297b4d1f48f86dd6998a373a212c5134f7e.txt"
+        },
+        {
+          "commit": "fd36f739f9497eea8eac53bf5a967874718f6156",
+          "iteration": "39",
+          "subject": "Extend src/stores/testUtils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/SelectionField/SelectionField.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/SelectionField/SelectionField.test.js",
+            "client/src/stores/testUtils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fd36f739f9497eea8eac53bf5a967874718f6156.txt"
+        }
+      ]
+    }
+  ]
+}

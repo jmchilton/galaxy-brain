@@ -1,0 +1,116 @@
+{
+  "batch": 46,
+  "tests": [
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/ForgotPassword.test.ts",
+      "reviews": [
+        {
+          "commit": "c8dacc82e20d4e2f0815ecdf312a369370075f59",
+          "iteration": "40",
+          "score": 4,
+          "defect": "untested submitted/error form visibility",
+          "rationale": "Existing success/failure fixtures now prove mutually exclusive form/sent/error visibility and Login route; named submit helper reduces repetition, all email/request checks retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts",
+      "reviews": [
+        {
+          "commit": "ecf030c27410fd0c36ffb2dcd0829afdd17508b3",
+          "iteration": "29",
+          "score": 4,
+          "defect": "setup copied across router consumers",
+          "rationale": "Canonical memory router adopted by toolbar/category plus same-batch menu consumer; URL/category row checks unchanged, concrete reuse.",
+          "caps": []
+        },
+        {
+          "commit": "fa7d7b93b1ced29b428746b8c60e78f7208a61a6",
+          "iteration": "69",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Single category test gains owned explicit plugin Pinia, disposal/restoration and get selector; original one-row/href/title/caption checks unchanged.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesBySearch.test.ts",
+      "reviews": [
+        {
+          "commit": "a673a0acc70f1f4136e1968320922002ba7440d6",
+          "iteration": "72",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds auto-unmount/timer clearing and typed get input; existing debounce/one-character expectations unchanged, no observed leak.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/RepositoryPage.test.ts",
+      "reviews": [
+        {
+          "commit": "891d9deef88a55471a4151003202c994588396dc",
+          "iteration": "67",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Types intentional partial repository metadata, owns Pinia/spies/mount cleanup and changes nested find to get; assertions retain same deprecated/malicious/readme/about behavior.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/pages/ResetPassword.test.ts",
+      "reviews": [
+        {
+          "commit": "c965c70418b1717729b74bf8ce199fec0a1f1bfe",
+          "iteration": "49",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Hoists all mocks, resets implementations, adds auto-unmount and get selectors; same route-token/password/request/success/error expectations already meaningful.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/util.test.ts",
+      "reviews": [
+        {
+          "commit": "bf73971bbb55bc5eb5c62d7c022f985557daba6b",
+          "iteration": "55",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Moves hook restoration globally and deletes cookies after each case, adds hoisted toast/static import; assertions unchanged and no recorded leak.",
+          "caps": [
+            "cap 2: teardown/restore at least half changed lines without observed leak"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/Collection/CollectionProgress.test.js",
+      "reviews": [
+        {
+          "commit": "91618e026c85845dd1fbaaa22891993167e35d18",
+          "iteration": null,
+          "score": 2,
+          "defect": "duplicate JavaScript and TypeScript suites",
+          "rationale": "Historical TS at91618e retains running3, mixed3/1/1, state change1/2 and queued3 checks, so deletion loses no scenarios. Note additionally claims terminal-job hiding, absent in that four-test TS file.",
+          "caps": [
+            "cap 2: note claim contradicted by historical after-file"
+          ]
+        }
+      ]
+    }
+  ]
+}

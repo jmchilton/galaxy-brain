@@ -1,0 +1,143 @@
+{
+  "batch": 44,
+  "tests": [
+    {
+      "file": "client/src/utils/url.test.js",
+      "reviews": [
+        {
+          "commit": "ea2a9b692f621f0666761cb9ce250f54ca5d0943",
+          "iteration": "03",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Tables/grouping retain all URL schemes, malformed hostnames and whitespace inputs; original checks were meaningful and names adequate.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/utils.test.js",
+      "reviews": [
+        {
+          "commit": "379db5f60d3c2e82f5ac773bf9c0c2e8468dd477",
+          "iteration": "10",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Moves inline case comments to table descriptions and renames list1/list2; isEmpty/JSON/linkify/UID/merge exact expectations unchanged.",
+          "caps": [
+            "cap 3: no named original gate defect; most hunks renames/reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/utils.test.ts",
+      "reviews": [
+        {
+          "commit": "da7995c70adcfc54f3029e105088782bd771dd20",
+          "iteration": "09",
+          "score": 4,
+          "defect": "weak deepEach visit-count checks",
+          "rationale": "Exact visited traversal arrays replace counts that allowed visiting wrong objects/order; pruning proves actual child/grandchild absent, both recurse-return cases retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/webhooks.test.ts",
+      "reviews": [
+        {
+          "commit": "65f6b3944dde07fc7ea639e23e90bd10e00ba7af",
+          "iteration": "69",
+          "score": 4,
+          "defect": "untested diagnostic context on failed request",
+          "rationale": "Names the rejected Error and verifies warning contains that same error/context while retaining empty response, successful retry and two HTTP calls; tiny proportionate addition.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/watch/watchHistory.test.js",
+      "reviews": [
+        {
+          "commit": "e298c531ce0f2da1807bfb3d84f90ec171f1f027",
+          "iteration": "09",
+          "score": 5,
+          "defect": "order-dependent module cursor and conditional error assertion",
+          "rationale": "Fresh-module watcher/store registry resets cursor previously manually advanced0.1 across cases; direct stores remove artificial UI harness, explicit rejects proves500 and retained items/recovery count.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/tests/vitest/check-style-imports.test.js",
+      "reviews": [
+        {
+          "commit": "292f7d16b0d2f67f785df6389a1368f5d5b1c1f9",
+          "iteration": "64",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds useful multiple-forbidden-import case with exact line numbers; existing single-import checks had no identifiable wrong-result gap within their fixtures.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/tests/vitest/setup.test.ts",
+      "reviews": [
+        {
+          "commit": "42bcc23eeceb9f180c42b826c1bcb653e769bc57",
+          "iteration": "76",
+          "score": 4,
+          "defect": "as unknown as parent-model cast soup",
+          "rationale": "Inferred wrapper.vm.name removes double cast around model update; getComponent/auto-unmount are minor costs, same compatibility update check retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/ErrorBanner.test.ts",
+      "reviews": [
+        {
+          "commit": "d1ae66d356944d0bbd89a5bad8afe355350e2f7d",
+          "iteration": "26",
+          "score": 4,
+          "defect": "weak special-markup and dismiss-event checks",
+          "rationale": "Full escaped special error plus no script node replaces Error:/quotes substrings; exact dismiss [[]] strengthens count-only event and common mount/dismiss reduces repetition.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/ManagePushAccess.test.ts",
+      "reviews": [
+        {
+          "commit": "5493ba85edeafd8724a79d909602831eb9ec3430",
+          "iteration": "59",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Single owner/manager case gains explicit Pinia plugin/store arguments and disposal/unmount; original list assertions unchanged, no demonstrated leak.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ChangesetSummaryTable.test.ts",
+      "reviews": [
+        {
+          "commit": "07bc0ae4db1df9746f472726f8b0dc933d0138f7",
+          "iteration": "08",
+          "score": 5,
+          "defect": "weak labels and dash-anywhere checks",
+          "rationale": "Labels independently matched exact comparison cells, null-comparison and missing-snapshot dash scoped to proper columns; empty error cell and zero rows reject false positives without dropping original scenarios.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

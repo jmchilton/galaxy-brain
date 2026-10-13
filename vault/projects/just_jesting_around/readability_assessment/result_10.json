@@ -1,0 +1,149 @@
+{
+  "batch": 10,
+  "tests": [
+    {
+      "file": "client/src/components/Form/Elements/FormSelect.test.js",
+      "reviews": [
+        {
+          "commit": "84bbf657639460932cea3f6b37cf31384cbe5e62",
+          "iteration": "36",
+          "score": 4,
+          "defect": "weak first-selected-item checks and copied options",
+          "rationale": "Complete ordered selected/list label arrays reject extra selected options; click helper awaits formerly unawaited trigger actions. Splits independent single/multi scenarios while keeping full deselect/reselect chain and dropdown why note.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts",
+      "reviews": [
+        {
+          "commit": "a7aa05c6c49f6d9117f23a4f93f0bd0df1a7d810",
+          "iteration": "16",
+          "score": 4,
+          "defect": "opaque generic fixture algorithm and copied nested setup",
+          "rationale": "Replaces Cartesian generator with direct ordered emails and flattens repeated scoped blocks; async debounce flushing awaited, emittedArg removes silent missing-event fallback. All column/count/search/highlight transitions remain; batch16 documents deliberate shallow rendering with actual input/buttons and worker filtering.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormText.test.js",
+      "reviews": [
+        {
+          "commit": "06b05caf21bf7893ff5ccdacb9db437bacb8a23b",
+          "iteration": "75",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Mostly renames cases/locals and removes needless async mounts while adding Pinia capture/disposal and auto-unmount. Exact input/area/datalist/style/value transitions retained; ownership without observed leak dominates.",
+          "caps": [
+            "no defect from gate list",
+            "most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/Elements/FormUpload.test.js",
+      "reviews": [
+        {
+          "commit": "302555cd46f55d061a3d174fbe3c2cac34b57bb6",
+          "iteration": "70",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Renames v/el to fileContent/textarea, drops async and uses get plus auto-unmount. Original two tiny text/disabled/display checks already sound.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormCard.test.js",
+      "reviews": [
+        {
+          "commit": "d13c9c994aa75f2c06e4e64f8faec90b72b86d2c",
+          "iteration": "15",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Moves one mount into sole case, uses shallowMount and terse direct title/description/icon checks; batch15 notes leaf markup. No assertion lost, but no original gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormCardSticky.test.js",
+      "reviews": [
+        {
+          "commit": "6f225506bb3383a1e65653251ec7dba77c769a32",
+          "iteration": "42",
+          "score": 3,
+          "defect": "weak whole-wrapper description/version checks",
+          "rationale": "Scopes description/version to exact actual elements, and error text to alert. Much larger SELECTORS/defaults relocation and renaming outweighs this narrow fidelity gain; original why knowledge absent.",
+          "caps": [
+            "most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormDisplay.test.js",
+      "reviews": [
+        {
+          "commit": "cd0768807f4d1a1efcf043e44956f43a0bc75f5d",
+          "iteration": "07",
+          "score": 4,
+          "defect": "untested repeat count and unnecessarily global dataset mock",
+          "rationale": "Adds three-repeat count after repeated insertion; localizes FormData stub to dedicated event cases, removing unused/default props noise. Original errors/conditional/repeat/section contracts remain with clearer case names.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormElement.test.js",
+      "reviews": [
+        {
+          "commit": "ec5c9ad5fca6dbe29116b8ff3584f5825b8d3457",
+          "iteration": "11",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Replaces beforeEach mutable wrapper with per-case mount, splits visibility/collapse sequence and names behaviors; same input/event/type/multiple-number checks retained. Many renamed/reordered hunks, no concrete original wrong output.",
+          "caps": [
+            "no defect from gate list",
+            "most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormElementHelpMarkdown.test.ts",
+      "reviews": [
+        {
+          "commit": "a525cdc84d527eec530f382311f80beabde06068",
+          "iteration": "73",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Native mount/get and nth replace ordinary casts/find/non-null accesses; adds mock clearing/auto-unmount. Exact sanitizer profile, HTML and gxhelp href preserved; no original gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/FormElementLabel.test.js",
+      "reviews": [
+        {
+          "commit": "d6b074c822599cbd0ddd93f69e24ec7e9f419056",
+          "iteration": "15",
+          "score": 4,
+          "defect": "vacuous absent danger indicator selector and misleading icon name",
+          "rationale": "No-required check used span.text-danger while real indicators are small; now checks real asterisk/danger selectors and rendered label. Fixes check-icon name to actual asterisk; rest is modest rename/fixture cleanup.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "batch": 19,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Notifications/NotificationCard.test.ts",
+      "commits": [
+        {
+          "commit": "72206742908b32d568aa883bb81b35ed56bd21d9",
+          "iteration": "02",
+          "subject": "Improve readability of NotificationCard tests",
+          "test_files": [
+            "client/src/components/Notifications/NotificationCard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Notifications/NotificationCard.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/72206742908b32d568aa883bb81b35ed56bd21d9.txt"
+        },
+        {
+          "commit": "ac9c0931d43b3367ca433a353e8e1bc02333a428",
+          "iteration": "03",
+          "subject": "Extend src/components/Notifications/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Notifications/NotificationCard.test.ts",
+            "client/src/components/Notifications/NotificationsList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Notifications/NotificationCard.test.ts",
+            "client/src/components/Notifications/NotificationsList.test.ts",
+            "client/src/components/Notifications/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ac9c0931d43b3367ca433a353e8e1bc02333a428.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Notifications/NotificationsList.test.ts",
+      "commits": [
+        {
+          "commit": "ac9c0931d43b3367ca433a353e8e1bc02333a428",
+          "iteration": "03",
+          "subject": "Extend src/components/Notifications/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Notifications/NotificationCard.test.ts",
+            "client/src/components/Notifications/NotificationsList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Notifications/NotificationCard.test.ts",
+            "client/src/components/Notifications/NotificationsList.test.ts",
+            "client/src/components/Notifications/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ac9c0931d43b3367ca433a353e8e1bc02333a428.txt"
+        },
+        {
+          "commit": "399cb52da6a96c2a8d446ab43447e09d96e731b5",
+          "iteration": "54",
+          "subject": "Clarify notification list scenarios and own store cleanup",
+          "test_files": [
+            "client/src/components/Notifications/NotificationsList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Notifications/NotificationsList.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/399cb52da6a96c2a8d446ab43447e09d96e731b5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/ConfigurationMarkdown.test.ts",
+      "commits": [
+        {
+          "commit": "6f474382e1d7f1e6b8695d2ba4316f3d297ef09f",
+          "iteration": "25",
+          "subject": "Improve readability of ConfigurationMarkdown tests",
+          "test_files": [
+            "client/src/components/ObjectStore/ConfigurationMarkdown.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ObjectStore/ConfigurationMarkdown.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6f474382e1d7f1e6b8695d2ba4316f3d297ef09f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/DescribeObjectStore.test.js",
+      "commits": [
+        {
+          "commit": "ff7ff01c63c98f9cfe99df0a4e049d17f83d56cd",
+          "iteration": "35",
+          "subject": "Improve readability of DescribeObjectStore tests",
+          "test_files": [
+            "client/src/components/ObjectStore/DescribeObjectStore.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/ObjectStore/DescribeObjectStore.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ff7ff01c63c98f9cfe99df0a4e049d17f83d56cd.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/Instances/CreateForm.test.ts",
+      "commits": [
+        {
+          "commit": "639e574d498f2aca1737fde752fe9c331bbe3446",
+          "iteration": "14",
+          "subject": "Improve readability of CreateForm tests",
+          "test_files": [
+            "client/src/components/ObjectStore/Instances/CreateForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ObjectStore/Instances/CreateForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/639e574d498f2aca1737fde752fe9c331bbe3446.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts",
+      "commits": [
+        {
+          "commit": "ab522033d9e7982a97c1fa9e0bf19d75d7743b9a",
+          "iteration": "06",
+          "subject": "Add tests/test-data/objectStores.ts for client unit tests",
+          "test_files": [
+            "client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts",
+            "client/tests/test-data/objectStores.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ab522033d9e7982a97c1fa9e0bf19d75d7743b9a.txt"
+        },
+        {
+          "commit": "0985f705d01b8e0aeb23192e06f84ac25772fccd",
+          "iteration": "60",
+          "subject": "Own object store dropdown mounts and request captures",
+          "test_files": [
+            "client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0985f705d01b8e0aeb23192e06f84ac25772fccd.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/Instances/UpgradeForm.test.ts",
+      "commits": [
+        {
+          "commit": "dae65f3c2af9580924caed91c80c7e3b42b2ce78",
+          "iteration": "16",
+          "subject": "Improve readability of UpgradeForm tests",
+          "test_files": [
+            "client/src/components/ObjectStore/Instances/UpgradeForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ObjectStore/Instances/UpgradeForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/dae65f3c2af9580924caed91c80c7e3b42b2ce78.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/ObjectStoreBadges.test.ts",
+      "commits": [
+        {
+          "commit": "b416f11b7f723d829e3b2824dad1745beb922614",
+          "iteration": "20",
+          "subject": "Improve readability of ObjectStoreBadges tests",
+          "test_files": [
+            "client/src/components/ObjectStore/ObjectStoreBadges.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ObjectStore/ObjectStoreBadges.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b416f11b7f723d829e3b2824dad1745beb922614.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js",
+      "commits": [
+        {
+          "commit": "32cfad1ad9f640d053ad33c4626a1e914f0c6dfd",
+          "iteration": "32",
+          "subject": "Improve readability of ObjectStoreRestrictionSpan tests",
+          "test_files": [
+            "client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/ObjectStore/ObjectStoreRestrictionSpan.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/32cfad1ad9f640d053ad33c4626a1e914f0c6dfd.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ObjectStore/ShowSelectedObjectStore.test.js",
+      "commits": [
+        {
+          "commit": "80a00d266b4124eb10c494207c99a4ec16fc7cd3",
+          "iteration": "73",
+          "subject": "Own selected object-store mounts and clarify loading observations",
+          "test_files": [
+            "client/src/components/ObjectStore/ShowSelectedObjectStore.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/ObjectStore/ShowSelectedObjectStore.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/80a00d266b4124eb10c494207c99a4ec16fc7cd3.txt"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "batch": 11,
+  "tests": [
+    {
+      "file": "client/src/components/Form/FormMessage.test.js",
+      "reviews": [
+        {
+          "commit": "0c585a3840ba9a8188cfda5de3a656f088e22eb7",
+          "iteration": "61",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Moves beforeEach mount into factory, adds timer clearing/restoration and auto-unmount; changes locals/names/get/nextTick. Exact persistent/transient/dismiss/next-message checks remain, with no observed timer leak or gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Form/composables/useFormState.test.js",
+      "reviews": [
+        {
+          "commit": "5f91dcb2106185b0ef6c6c14b1b4dadf666c239b",
+          "iteration": "05",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Mostly removes comments and renames every form-state case/local; redundant JSON clone removed before freezing. Original checks already strong; clone implementation why note deleted and programmatic-edit debt reframed without added coverage.",
+          "caps": [
+            "no defect from gate list",
+            "most hunks are renames or reordering",
+            "why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GDateTime.test.ts",
+      "reviews": [
+        {
+          "commit": "52376731a37167732fe8818a8223f5c2155373b0",
+          "iteration": "50",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Tables two date/time edits, makes mount synchronous and native typed, adds auto-unmount. emittedArg equality retains existence implication; original two short cases were sound.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI.newchat.test.ts",
+      "reviews": [
+        {
+          "commit": "90317fb1a0e210f2f405f46ee81b5aea259c6452",
+          "iteration": "24",
+          "score": 5,
+          "defect": "duplicated chat harness and weak partial conversation checks",
+          "rationale": "Adopts same-batch harness to remove ~100 lines duplicate mocks/mount/send/deferred setup; exact complete message arrays strengthen count/index checks while preserving stale-reply/loading/error scenarios. Batch24 verifies both suites; removed jsdom scrollTo/app mocks explicitly documented dead setup.",
+          "caps": []
+        },
+        {
+          "commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+          "iteration": "40",
+          "score": 4,
+          "defect": "deferred setup copied across three or more consumers",
+          "rationale": "Canonical deferred replaces identical factories in GalaxyAI harness and two workflow suites; all promise resolution points preserved. Batch40 records five consumer suites/68 tests, removing repeated implementations without behavior change.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI.routesync.test.ts",
+      "reviews": [
+        {
+          "commit": "f1e4109f9bdce6a8cdd49bee6b50a1345fc1bf02",
+          "iteration": "24",
+          "score": 5,
+          "defect": "duplicated chat harness",
+          "rationale": "New shared GalaxyAI harness extracts two ~100-line copies and repeated prefill mount; two consumers retain their distinct router mocks and real chat store. Batch24 runs both, keeps child mock/runtime why comments at helper, explicitly verifies dead scrollTo/app setup removal.",
+          "caps": []
+        },
+        {
+          "commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+          "iteration": "40",
+          "score": 4,
+          "defect": "deferred setup copied across three or more consumers",
+          "rationale": "Same deferred commit as newchat: replaces duplicated promise/resolver factories with canonical typed export, preserving resolution timing; batch40 runs all five consumers.",
+          "caps": []
+        },
+        {
+          "commit": "f06d7ae80220a2d8576b4fa2548a33074804b591",
+          "iteration": "72",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Wraps canonical mountChat with mountOwnedChat plus active-Pinia capture/disposal, auto-unmount, pending-history settlement and getComponent. Same route/prefill/loading assertions; ownership wrapper adds one-file indirection without named original failure.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/ChatInput.test.ts",
+      "reviews": [
+        {
+          "commit": "d5f659dffaac2bb070eaaff789d4e16990c3df92",
+          "iteration": "69",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Native typed textarea/get and emittedArg preserve all input/mention/resize assertions; replaces existing try/finally with completion callback, so control flow decreases. Adds flush/unmount ownership; ordinary DOM/as-any typing alone is not gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/ChatMessageCell.test.ts",
+      "reviews": [
+        {
+          "commit": "3941ab47e6d39677858ec6485d20de927bb19c4d",
+          "iteration": "16",
+          "score": 3,
+          "defect": "weak action event shape and untested absence of stub",
+          "rationale": "Exact whole handle-action array rejects extra args, actual missing action-card-stub now checked, repeated agent-response fixtures consolidated. Original reactive-proxy why note deleted without replacement caps3; many get/mount swaps neutral.",
+          "caps": [
+            "why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/ChatModeSelector.test.ts",
+      "reviews": [
+        {
+          "commit": "8fc0d8371889c924adc8afa78f4bb079570e03ac",
+          "iteration": "08",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds shared complete chat-history factory for only ChatModeSelector at this commit; old ID-only casts were intentional partials with no named wrong type. 12-line export to replace three IDs adds ceremony.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        },
+        {
+          "commit": "081242d919f0fe65fa8011c44231895b0086008f",
+          "iteration": "65",
+          "score": 3,
+          "defect": "misleading buttons helper comment",
+          "rationale": "Corrects three-buttons invariant to acknowledge notebook conditional; native store injection and inferred wrapper replace old mounting plus Pinia ownership. Drops setup-store automatic spying why note, keeps explicit spies; no stronger check.",
+          "caps": [
+            "why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/ClarificationCard.test.ts",
+      "reviews": [
+        {
+          "commit": "b22a8217ce37b60cda77a8c10c2496225d8c0382",
+          "iteration": "71",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Native typed mount/nth/get and auto-unmount preserve question/options, selected emission and button states. Existing lookups already failed on missing targets; no gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/GalaxyAI/agentTypes.test.ts",
+      "reviews": [
+        {
+          "commit": "db32c5d0d3b9510650d0a05627ee29b9d1ef2d3c",
+          "iteration": "46",
+          "score": 3,
+          "defect": "weak response shape check",
+          "rationale": "Exact empty response object strengthens old separate fields by rejecting extra keys; tables icon/label/model examples retain all values. Most diff reshapes already clear small pure tests and types known literal, so gain marginal.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

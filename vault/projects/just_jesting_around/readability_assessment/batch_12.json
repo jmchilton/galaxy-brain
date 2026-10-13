@@ -1,0 +1,190 @@
+{
+  "batch": 12,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/GalaxyAI/chatUtils.test.ts",
+      "commits": [
+        {
+          "commit": "f69cf3704a3d8f1d2861ed4967016415fbf5512f",
+          "iteration": "11",
+          "subject": "Improve readability of chatUtils tests",
+          "test_files": [
+            "client/src/components/GalaxyAI/chatUtils.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI/chatUtils.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f69cf3704a3d8f1d2861ed4967016415fbf5512f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Grid/GridList.test.ts",
+      "commits": [
+        {
+          "commit": "4a0566d71aa83dedd1ecc651d5085398462d0172",
+          "iteration": "34",
+          "subject": "Improve readability of GridList tests",
+          "test_files": [
+            "client/src/components/Grid/GridList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Grid/GridList.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4a0566d71aa83dedd1ecc651d5085398462d0172.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Grid/configs/adminUsers.test.js",
+      "commits": [
+        {
+          "commit": "37c8b039dfa241e4ea4ec51c25dcc75ddcb0c00c",
+          "iteration": "40",
+          "subject": "Improve readability of adminUsers tests",
+          "test_files": [
+            "client/src/components/Grid/configs/adminUsers.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Grid/configs/adminUsers.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/37c8b039dfa241e4ea4ec51c25dcc75ddcb0c00c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts",
+      "commits": [
+        {
+          "commit": "31b21f244d47c68e380e793e3308e9181eadb6bc",
+          "iteration": "13",
+          "subject": "Improve readability of HistoryArchiveExportSelector tests",
+          "test_files": [
+            "client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/31b21f244d47c68e380e793e3308e9181eadb6bc.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Archiving/HistoryArchiveWizard.test.ts",
+      "commits": [
+        {
+          "commit": "ffb42f43704815c2d7a3edf8ae6a6cb34c3676e2",
+          "iteration": "13",
+          "subject": "Improve readability of HistoryArchiveWizard tests",
+          "test_files": [
+            "client/src/components/History/Archiving/HistoryArchiveWizard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/Archiving/HistoryArchiveWizard.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ffb42f43704815c2d7a3edf8ae6a6cb34c3676e2.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/Collection/CollectionDescription.test.ts",
+      "commits": [
+        {
+          "commit": "3f427ce7ec09a8735f7c411477c0ea32ddd10c19",
+          "iteration": "13",
+          "subject": "Improve readability of CollectionDescription tests",
+          "test_files": [
+            "client/src/components/History/Content/Collection/CollectionDescription.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/Content/Collection/CollectionDescription.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3f427ce7ec09a8735f7c411477c0ea32ddd10c19.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/Collection/CollectionProgress.test.ts",
+      "commits": [
+        {
+          "commit": "b1e90ac7a4430533515d07d97438b3d12b02108f",
+          "iteration": "45",
+          "subject": "Improve readability of CollectionProgress tests",
+          "test_files": [
+            "client/src/components/History/Content/Collection/CollectionProgress.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/Content/Collection/CollectionProgress.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b1e90ac7a4430533515d07d97438b3d12b02108f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/ContentItem.test.js",
+      "commits": [
+        {
+          "commit": "36d83ffb508b70a87eea46fa47c10ca8897473a9",
+          "iteration": "15",
+          "subject": "Improve readability of ContentItem tests",
+          "test_files": [
+            "client/src/components/History/Content/ContentItem.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/History/Content/ContentItem.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/36d83ffb508b70a87eea46fa47c10ca8897473a9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/Dataset/DatasetDownload.test.ts",
+      "commits": [
+        {
+          "commit": "ae7782e8f24faeb021381cb54936978150a240be",
+          "iteration": "12",
+          "subject": "Improve readability of DatasetDownload tests",
+          "test_files": [
+            "client/src/components/History/Content/Dataset/DatasetDownload.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/Content/Dataset/DatasetDownload.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ae7782e8f24faeb021381cb54936978150a240be.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/History/Content/GenericItem.test.ts",
+      "commits": [
+        {
+          "commit": "08f5aecb82c2d16d3adf90aed3155014cdfb30cf",
+          "iteration": "16",
+          "subject": "Add tests/vitest/visibleIntersectionObserver.ts for client unit tests",
+          "test_files": [
+            "client/src/components/History/Content/GenericItem.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/Content/GenericItem.test.ts",
+            "client/tests/vitest/visibleIntersectionObserver.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/08f5aecb82c2d16d3adf90aed3155014cdfb30cf.txt"
+        },
+        {
+          "commit": "acd420abe5416828e5f06b494c657d1b5eb14d48",
+          "iteration": "47",
+          "subject": "Clarify GenericItem fetch and refresh scenarios",
+          "test_files": [
+            "client/src/components/History/Content/GenericItem.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/History/Content/GenericItem.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/acd420abe5416828e5f06b494c657d1b5eb14d48.txt"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "batch": 24,
+  "tests": [
+    {
+      "file": "client/src/components/Tool/ToolHelpRst.test.js",
+      "reviews": [
+        {
+          "commit": "6c5892f0259ba12dd110fa5f780bb6c00bee5a0d",
+          "iteration": "60",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Preserves heading/link HTML and sanitizer links profile; names behavior, moves clear to hooks and props to native API. Existing checks already failed on wrong markup.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolInstallationRequestForm.test.ts",
+      "reviews": [
+        {
+          "commit": "5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f",
+          "iteration": "31",
+          "score": 4,
+          "defect": "Shared modal helper accepted ambiguous/disabled matches",
+          "rationale": "Canonical clickModalButton rejects duplicate/disabled footer buttons and replaces synthetic modal ok across three suites; payload, validation and success/error checks retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts",
+      "reviews": [
+        {
+          "commit": "b44ee6cedaf567f9277c792b7f9bf165c87496cb",
+          "iteration": "18",
+          "score": 5,
+          "defect": "Vacuous undefined event slot negative check",
+          "rationale": "Old updated?.[0]?.[1] false passed when no event existed; exact [[object_store_1]] now verifies correct first payload and adds resetting to default null.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolSourceDisplay.test.ts",
+      "reviews": [
+        {
+          "commit": "b3849986377a2653e32f8ead105f42713fc6b082",
+          "iteration": "73",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds afterEach clear and auto-unmount plus one find/get conversion to a working Monaco create assertion; no observed leak and cleanup is majority of tiny diff.",
+          "caps": [
+            "cap 2: teardown at least half of changed lines without observed leak",
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolSuccess.test.ts",
+      "reviews": [
+        {
+          "commit": "a2cd202fc700aac0af13f597cefe1a6423f52fbe",
+          "iteration": "33",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Replaces short anonymous/registered records with canonical factories; value-only recommendation gating table and assertions unchanged.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        },
+        {
+          "commit": "2a8ae9e22cbbaba2b4d9517a182f5bd898bd2685",
+          "iteration": "77",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Same four recommendation cases gain config implementation save/conditional restore, router-history destruction and conditional active-Pinia teardown; no assertion improvement.",
+          "caps": [
+            "cap 2: teardown at least half of changed lines without observed leak",
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/schemaMarkdown.test.ts",
+      "reviews": [
+        {
+          "commit": "1d18a0fc6d85827530eff4632da59c88375b0050",
+          "iteration": "61",
+          "score": 4,
+          "defect": "Nested schema mutation unasserted despite nested fixture",
+          "rationale": "One proportional assertion checks schema.properties.inputs lacks markdownDescription; retains root immutability check.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/utilities.test.ts",
+      "reviews": [
+        {
+          "commit": "b058b1e1251d80b74d84c968e4bef7f1dbb8b7dd",
+          "iteration": "65",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Seven-line clipboard setup becomes descriptor save/conditional restore lifecycle; writeText direct setup is small gain, no observed isolation leak.",
+          "caps": [
+            "cap 2: teardown at least half of changed lines without observed leak",
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ToolEntryPoints/ToolEntryPoints.test.js",
+      "reviews": [
+        {
+          "commit": "7c824feca8d4173e3330bb38f6f84a32ee6a93cf",
+          "iteration": "12",
+          "score": 4,
+          "defect": "Copied mount/store setup in three entrypoint cases",
+          "rationale": "Adopts existing entrypoints fixture and named active/jobId options; halves file while preserving disabled buttons, exact links and single-session new-tab behavior.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ToolRecommendation.test.ts",
+      "reviews": [
+        {
+          "commit": "fc5e9577402a2c42322d02f995e4e8d2f65f757f",
+          "iteration": "60",
+          "score": 4,
+          "defect": "Cast conceals non-model datatype fixture",
+          "rationale": "Real empty DatatypesMapperModel replaces {} asserted as model; local returned wrappers simplify shared state while preserving prediction/failure/no-model checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ToolsList/ToolsList.test.ts",
+      "reviews": [
+        {
+          "commit": "954aa0cb78fe8909446e0f2a7785344a9ad9db8a",
+          "iteration": "02",
+          "score": 5,
+          "defect": "as unknown as Tool[] plus incomplete Tool mocks",
+          "rationale": "Shared getFakeTool immediately serves three suites, validating hidden field rather than double-casting JSON and partial records; assertions retained.",
+          "caps": []
+        },
+        {
+          "commit": "c6a6101118a49efba8f88525273aae76b4bf239b",
+          "iteration": "71",
+          "score": 4,
+          "defect": "Mount setup copied across more than three search cases",
+          "rationale": "Single typed native mount removes repeated plugin/props structures and DOM casts; exact search/router/autocomplete/legacy checks and why notes remain. Teardown adds moderate cost.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

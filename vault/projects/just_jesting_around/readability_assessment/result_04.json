@@ -1,0 +1,150 @@
+{
+  "batch": 4,
+  "tests": [
+    {
+      "file": "client/src/components/BaseComponents/GModal.test.ts",
+      "reviews": [
+        {
+          "commit": "79989d79a66a4fea5d26c363638ea78a29f9d552",
+          "iteration": "69",
+          "score": 3,
+          "defect": "as unknown as modal VM cast soup",
+          "rationale": "Removes exposed showModal double cast while retaining call count/close-label checks. Adds attachment div/removal and auto-unmount despite existing explicit unmount; cleanup is disproportionate to one inferred access.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GToast.test.ts",
+      "reviews": [
+        {
+          "commit": "df30823cecf3da321be9bb2a199ecd7ac042dbe5",
+          "iteration": "25",
+          "score": 4,
+          "defect": "router setup copied across three or more cases",
+          "rationale": "Shared router factory removes repeated router construction in GLink and GToast with two consumers; custom history-view paths and router base preserved. Same commit assessment as batch03 GLink.",
+          "caps": []
+        },
+        {
+          "commit": "e96a544dc983fdaeac176961365b4edae2b8dc42",
+          "iteration": "48",
+          "score": 4,
+          "defect": "opaque positional realTransitions argument and misleading modal-host name",
+          "rationale": "mountGToast({}, true) becomes named realTransitions and host/router options; fixes contradictory modal title, adds root-return checks after unregister, and captures host restoration. Preserves real transition and navigation behavior; some teardown cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Citation/services.test.ts",
+      "reviews": [
+        {
+          "commit": "79929e39f7ab04da1b2f963c7162576df15cca2a",
+          "iteration": "66",
+          "score": 4,
+          "defect": "weak warning substring check",
+          "rationale": "Adds exact entire warning array where length plus missing_tool substring allowed arbitrary surrounding message; multiline BibTeX join preserves content while exposing fields. Fixture reformat is larger than matcher gain but useful.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/ListCollectionCreator.test.ts",
+      "reviews": [
+        {
+          "commit": "a5f5b734714a1c95c5e09c955b7f244a5dd6531b",
+          "iteration": "35",
+          "score": 4,
+          "defect": "as unknown as fixture cast soup and silent optional selection",
+          "rationale": "Uses canonical complete dataset instead of double cast; optional option?.trigger now throws on missing selection, and pre-removal ID checks prove fixture selected both datasets. Preserves order, identity and toast checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/PairCollectionCreator.test.ts",
+      "reviews": [
+        {
+          "commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+          "iteration": "35",
+          "score": 5,
+          "defect": "as unknown as dataset fixture soup duplicated across suites",
+          "rationale": "Canonical typed dataset factory replaces three double-cast incomplete fixtures plus other duplicate fixtures across five immediate consumers. ID-derived URL defaults keep scenarios coherent; assertions untouched and repeated fixture noise substantially removed.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+      "reviews": [
+        {
+          "commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+          "iteration": "35",
+          "score": 5,
+          "defect": "as unknown as dataset fixture soup duplicated across suites",
+          "rationale": "Same shared factory commit removes incomplete double-cast fixtures from Pair/Paired creators and palette plus duplicate store/composable defaults. Five immediate consumers, typed overrides and unchanged assertion logic provide clear noise reduction.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/common/stripExtension.test.ts",
+      "reviews": [
+        {
+          "commit": "5f3f318a22e1ca3f041bd6c19f000b60c05d49ad",
+          "iteration": "63",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Expands 39-line direct filename examples into 61-line nested typed scenario tables. All exact pairs preserved, but original assertions were already clear and no duplication/setup defect is addressed.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/common/useElementReconciliation.test.ts",
+      "reviews": [
+        {
+          "commit": "e01af65c9752982cb74ba0f3fc53d0a2849062d6",
+          "iteration": "36",
+          "score": 4,
+          "defect": "as unknown as fakeDataset cast soup",
+          "rationale": "Four-property fixture double cast becomes canonical getFakeDatasetSummary({id,hid,name}); preserves scenarios and why comment while making complete typed fixtures, with very small diff.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/pairing.test.ts",
+      "reviews": [
+        {
+          "commit": "2ee6cf63efe8588d05e8ce25cdde4d0f1f6c5f9f",
+          "iteration": "67",
+          "score": 3,
+          "defect": "weak duplicated bar assertion omits foo",
+          "rationale": "Adds foo membership previously absent next to duplicate bar check and reports specification rows separately; all original pair checks remain. Most changed lines rename fixture constants and inflate call wrapping, capping meaningful isolated gain.",
+          "caps": [
+            "most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/wizard/fetchWorkbooks.test.ts",
+      "reviews": [
+        {
+          "commit": "b926254bb51fb4800bb32128e3565fdba3527c8d",
+          "iteration": "56",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Turns specification forEach into named it.each, preserving both undefined/null and exact mapping checks. maps_to still chooses which assertion runs, now a table assertion-selector column; main example only renamed.",
+          "caps": [
+            "it.each column selects which assertion runs",
+            "no defect from gate list"
+          ]
+        }
+      ]
+    }
+  ]
+}

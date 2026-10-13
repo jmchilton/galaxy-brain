@@ -1,0 +1,157 @@
+{
+  "batch": 45,
+  "tests": [
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts",
+      "reviews": [
+        {
+          "commit": "7904083639bcc57bedc456fae98897df55872f7e",
+          "iteration": "04",
+          "score": 2,
+          "defect": "weak diff-text checks",
+          "rationale": "Scopes rendered text and adds old/new values, including quoted c replacing HTML c substring, but table introduces for(expectedText) assertion loop in body.",
+          "caps": [
+            "cap 2: net new control flow in test body"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts",
+      "reviews": [
+        {
+          "commit": "228a941542109bc414931bb2528cb478a107d04e",
+          "iteration": "07",
+          "score": 4,
+          "defect": "misleading renderer coverage and weak depth check",
+          "rationale": "Names mocked renderer forwarding honestly, typed stub plus exact child props proves nonvirtual/showLength/default depth and explicit depth5; common mount removes repeated setup.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts",
+      "reviews": [
+        {
+          "commit": "2771481094486451303742753619707f6efe38b9",
+          "iteration": "05",
+          "score": 4,
+          "defect": "setup copied across metadata viewer consumers",
+          "rationale": "Shared typed MetadataJsonViewerStub adopted by Overview and two same-batch tab consumers; common mount removes repeated arrangements and preserves tool/version forwarding assertions.",
+          "caps": []
+        },
+        {
+          "commit": "9d74a54d6cb9a1419a5d5d7d274a3ae832bd495e",
+          "iteration": "10",
+          "score": 4,
+          "defect": "weak newest-revision substring check",
+          "rationale": "Exact child data fixture proves newest revision rather than any text1.3.0; null/empty table and explicit revision keys replace derived expected fixture selections.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts",
+      "reviews": [
+        {
+          "commit": "e3676045f80b06e8223d81b67a41b15f7d10887f",
+          "iteration": "10",
+          "score": 4,
+          "defect": "setup copied across many preview/apply cases and weak reset event",
+          "rationale": "Common named button getter/click exposes each preview/apply/clear act; exact resetComplete [[]] and required toggle clicks strengthen checks, all dry-run/loading/error cases retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts",
+      "reviews": [
+        {
+          "commit": "f35980feefdc4c4869754783c7d0f606695a3186",
+          "iteration": "05",
+          "score": 5,
+          "defect": "conditional sorting and weak invalid-tool counts",
+          "rationale": "Exact complete revision/hash/order and invalid badges replaces conditional index sort and generic number regex; explicit fixture paths prove expanded errors, shared viewer stub removes duplicated mock.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts",
+      "reviews": [
+        {
+          "commit": "4a2f671b0235ab0862abb128097c8a7336530318",
+          "iteration": "05",
+          "score": 5,
+          "defect": "conditional sorting and weak revision/event assertions",
+          "rationale": "Exact versions/revision badges/IDs and goToRevision payload replaces skipped missing-version sort and truthy events; distinct same-version entries now verified per revision, mount/stub reused.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts",
+      "reviews": [
+        {
+          "commit": "904afde123d07200c96fd10dd7831274d0c3ab8c",
+          "iteration": "71",
+          "score": 2,
+          "defect": "optional deferred resolver could silently do nothing",
+          "rationale": "Typed Promise.withResolvers replaces optional resolver calls, but adds two body try/finally blocks plus mock typing everywhere without stronger output checks.",
+          "caps": [
+            "cap 2: net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts",
+      "reviews": [
+        {
+          "commit": "cd3ec37250ea08780b37fff51233d8fe2f4baa9a",
+          "iteration": "29",
+          "score": 4,
+          "defect": "weak health-list completeness and optional action target",
+          "rationale": "Exact pill array rejects extra entries; required menu item helper and exact emitted [[]] preserve clicked actions, canonical router reused.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "reviews": [
+        {
+          "commit": "ecf030c27410fd0c36ffb2dcd0829afdd17508b3",
+          "iteration": "29",
+          "score": 4,
+          "defect": "setup copied across router consumers",
+          "rationale": "Extracts identical memory-router wiring and adopts in toolbar/category test; same-batch menu consumer adds reuse, all route-link behavior unchanged.",
+          "caps": []
+        },
+        {
+          "commit": "21322c80b597578affbe5bdceb19bba30d5b926c",
+          "iteration": "51",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds typed partial user, owned host set, plugin Pinia and teardown loop to short toolbar suite; original menu/logout checks unchanged, no observed leak.",
+          "caps": [
+            "cap 2: teardown/restore at least half changed lines without observed leak"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts",
+      "reviews": [
+        {
+          "commit": "71d067d1b5f4950271ccf81f473e0f3ee88bc708",
+          "iteration": "30",
+          "score": 4,
+          "defect": "as unknown as parent model cast soup",
+          "rationale": "Direct typed modelValue/update:modelValue mounts remove parent double casts and add exact emitted [[0]], feedback active-One and initially-closed checks. Batch30 explicitly records plain Vue3 compile equivalence; compat twin retains parent template, so coverage-loss cap is not applicable.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "batch": 43,
+  "tests": [
+    {
+      "file": "client/src/utils/filtering.test.js",
+      "reviews": [
+        {
+          "commit": "6a25dab6d29b1620984bcf907d775314f4b08ba9",
+          "iteration": "02",
+          "score": 4,
+          "defect": "uncalled deleted-default assertion",
+          "rationale": "Old expect(queryDict[deleted]).toBeUndefined never invoked matcher; exact dictionaries now enforce absent defaults and ordered filter arrays; expected-value tables remove nested loops, though F/JF renames add churn.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/historyUpload.test.ts",
+      "reviews": [
+        {
+          "commit": "e9809ba5e374931014e8841cd81ab31bcb53a6a0",
+          "iteration": "11",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Combines two small archive/deleted cases into expected-value table; same reason and warning/action substrings retained, no original gate defect.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/lastQueue.test.js",
+      "reviews": [
+        {
+          "commit": "7b64b23b10ab14c48981110986cb3a67409c3362",
+          "iteration": "07",
+          "score": 5,
+          "defect": "vacuous throttle timing and misleading skipped-action test",
+          "rationale": "Exact [0,50] stamps reject zero-delay/one-call pass; true three-action scenario proves skipped undefined, replacing permissive either1or2 result. Fake clock removes waits, preserves errors/abort/key checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/parseBool.test.ts",
+      "reviews": [
+        {
+          "commit": "3d2a4cc75c847d0e57b2afe44251a9811f0568d9",
+          "iteration": "01",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Tables all boolean/string/non-string inputs without changing expectations; original short plain cases meaningful already.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/redirect.test.ts",
+      "reviews": [
+        {
+          "commit": "48fbf9aac73dae64bd16bf4559d1cfb10048c39a",
+          "iteration": "07",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Tables paths and names double prefix accurately; all local/external/control/array inputs retained, browser normalization rationale remains.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/strings.test.ts",
+      "reviews": [
+        {
+          "commit": "e534ea06b8c2df53b3bca23c9253993d850e4476",
+          "iteration": "08",
+          "score": 4,
+          "defect": "as unknown as cast hides runtime null fixture",
+          "rationale": "Uses documented ts-expect-error for intentional null runtime case, preserving exact empty result; tables four same-output cases in compact form.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/tool-version.test.ts",
+      "reviews": [
+        {
+          "commit": "f239fe1b512ad5765ae69e4b5b880baab9b05b13",
+          "iteration": "10",
+          "score": 4,
+          "defect": "opaque positional tool fixture arguments",
+          "rationale": "Canonical getFakeTool names ID/version/name instead of createMockTool positional values and removes duplicate full Tool builder; all parsing/local/shed/version cases remain in expected-value tables.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/tusUpload.test.ts",
+      "reviews": [
+        {
+          "commit": "fa88c9f859ef4f08e29374cc45af3f379ef7bd1f",
+          "iteration": "06",
+          "score": 5,
+          "defect": "as unknown as Upload constructor/callback cast soup",
+          "rationale": "Typed FakeUpload and callbacks eliminate repeated constructor/options casts; direct fingerprint equality and9999/10000ms retry boundary strengthen old weak checks, every progress/resume/abort/session/stream expectation retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/upload-queue.test.js",
+      "reviews": [
+        {
+          "commit": "d699b5441df900cebbb44570acec1df39ab5788a",
+          "iteration": "11",
+          "score": 4,
+          "defect": "local submission mocked instead of queue submission path",
+          "rationale": "Stops replacing _processSubmit with recursive _process double; real queue calls mocked external submitUpload twice, exact remote payload/count and opts.error spy preserve outcome checks. Many q renames reduce proportion.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/upload.test.ts",
+      "reviews": [
+        {
+          "commit": "ebc8a2f21164a5b04769f07e43b466f3e3bb6b01",
+          "iteration": "08",
+          "score": 3,
+          "defect": "misleading composite-TUS name and weak error callback check",
+          "rationale": "Corrects empty composite description and strengthens API/TUS errors, preserves file identity and cancellation order/length in object matchers. Much of39418-char diff is neutral matcher swaps, endpoint wrapper changes and names, so gain disproportionate.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

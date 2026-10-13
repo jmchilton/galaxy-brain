@@ -1,0 +1,178 @@
+{
+  "batch": 20,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Page/PageView.test.ts",
+      "commits": [
+        {
+          "commit": "4350772f82fcdc54d3123ff8b60474ba7ddb396b",
+          "iteration": "75",
+          "subject": "Refine PageView test mounts and resource ownership",
+          "test_files": [
+            "client/src/components/Page/PageView.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Page/PageView.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4350772f82fcdc54d3123ff8b60474ba7ddb396b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageDisplay/PageForm.test.js",
+      "commits": [
+        {
+          "commit": "a3e81818606d907a6e34e5c08659e2062f6f9253",
+          "iteration": "70",
+          "subject": "Own page form tests and preserve native rendering boundaries",
+          "test_files": [
+            "client/src/components/PageDisplay/PageForm.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/PageDisplay/PageForm.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a3e81818606d907a6e34e5c08659e2062f6f9253.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/HistoryPageList.test.ts",
+      "commits": [
+        {
+          "commit": "ccfdf6795af49614be4d439ca606da411a8666e7",
+          "iteration": "76",
+          "subject": "Infer history notebook list mounts and own their stores",
+          "test_files": [
+            "client/src/components/PageEditor/HistoryPageList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/PageEditor/HistoryPageList.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ccfdf6795af49614be4d439ca606da411a8666e7.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/HistoryPageView.test.ts",
+      "commits": [
+        {
+          "commit": "b7e1c2980b7694d4902df296207485efc901df30",
+          "iteration": "14",
+          "subject": "Improve readability of HistoryPageView tests",
+          "test_files": [
+            "client/src/components/PageEditor/HistoryPageView.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/PageEditor/HistoryPageView.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b7e1c2980b7694d4902df296207485efc901df30.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/PageCard.test.ts",
+      "commits": [
+        {
+          "commit": "0ba6a80c7d02dfbfb637660b4c8e8953bce37f28",
+          "iteration": "14",
+          "subject": "Improve readability of PageCard tests",
+          "test_files": [
+            "client/src/components/PageEditor/PageCard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/PageEditor/PageCard.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0ba6a80c7d02dfbfb637660b4c8e8953bce37f28.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/PageDisplayToolbar.test.ts",
+      "commits": [
+        {
+          "commit": "329e15fcdf6dbcee5c27e617a6078b3889e7ba50",
+          "iteration": "27",
+          "subject": "Improve readability of PageDisplayToolbar tests",
+          "test_files": [
+            "client/src/components/PageEditor/PageDisplayToolbar.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/PageEditor/PageDisplayToolbar.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/329e15fcdf6dbcee5c27e617a6078b3889e7ba50.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/PageEditorView.test.ts",
+      "commits": [
+        {
+          "commit": "2273237802acf2a17176f121a100c83e5f13cd15",
+          "iteration": "27",
+          "subject": "Extend tests/test-data/pages.ts for client unit tests",
+          "test_files": [
+            "client/src/components/PageEditor/PageEditorView.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/PageEditor/PageEditorView.test.ts",
+            "client/tests/test-data/pages.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2273237802acf2a17176f121a100c83e5f13cd15.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/PageRevisionView.test.ts",
+      "commits": [
+        {
+          "commit": "25925ddea32c3937d39422a958e391d8656b1103",
+          "iteration": "50",
+          "subject": "Clarify page revision scenarios and type mount props",
+          "test_files": [
+            "client/src/components/PageEditor/PageRevisionView.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/PageEditor/PageRevisionView.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/25925ddea32c3937d39422a958e391d8656b1103.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/SectionPatchView.test.ts",
+      "commits": [
+        {
+          "commit": "501b988fd409a9051185e1d7137ddc92de1e793c",
+          "iteration": "52",
+          "subject": "Clarify section patch view scenarios and native mount setup",
+          "test_files": [
+            "client/src/components/PageEditor/SectionPatchView.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/PageEditor/SectionPatchView.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/501b988fd409a9051185e1d7137ddc92de1e793c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/PageEditor/object-permission-composables.test.js",
+      "commits": [
+        {
+          "commit": "7e68fb58eb98e532582305b77661b791bcabac55",
+          "iteration": "10",
+          "subject": "Improve readability of object-permission-composables tests",
+          "test_files": [
+            "client/src/components/PageEditor/object-permission-composables.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/PageEditor/object-permission-composables.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7e68fb58eb98e532582305b77661b791bcabac55.txt"
+        }
+      ]
+    }
+  ]
+}

@@ -44,6 +44,19 @@ Lane 4 has two parts:
 | `storybook_play` | `true` \| `skip` | Play driver |
 | `real_api_calls` | `true` \| `skip` | Real-API driver |
 | `split_commit` | `true` | Splitter (done; informational) |
+| `readability_score` | integer 1–5 | Retrospective rubric review; lowest assessed commit score for this test |
+| `readability_reviews` | list of commit SHA, iteration (or `null`), and score | Retrospective rubric review; every readability commit for this test |
+
+Readability scores apply to the frozen branch snapshot in
+[`readability_assessment/inventory.json`](readability_assessment/inventory.json).
+They use [READABILITY_RUBRIC.md](READABILITY_RUBRIC.md); per-commit evidence and
+reasons live in `readability_assessment/result_*.json`. A missing score means no
+commit was assessed, including tests left unchanged by the readability loop.
+The summary takes the minimum so a later good commit does not hide an earlier
+low-value change; it is not a rating of the final test file. Rebases change SHAs,
+so these review records retain their snapshot SHAs rather than following a live
+branch ref. Supporting commits without test trailers have separate scores in
+`readability_assessment/result_support.json`.
 
 CI runs only the `unit` project. Story render checks and play functions aren't in CI yet, so the play lane can't go upstream until a browser CI job exists (undecided: a step in `client-unit.yaml` or its own workflow).
 

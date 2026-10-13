@@ -1,0 +1,148 @@
+{
+  "batch": 3,
+  "tests": [
+    {
+      "file": "client/src/app/utils.test.ts",
+      "reviews": [
+        {
+          "commit": "96c31c67ded3d8b91e6887f44099c6fede7bc89f",
+          "iteration": "05",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Flattens describe nesting and distinguishes root/path case names; exact URL checks unchanged. Both original cases were short and correctly asserted behavior.",
+          "caps": [
+            "no defect from gate list",
+            "most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ActivityBar/ActivityBar.test.js",
+      "reviews": [
+        {
+          "commit": "52d8f2f6d37bb64704bd69590abe5e1afb2b7450",
+          "iteration": "71",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds ownedPinia factory, disposal, fake timers and flush/10ms teardown, plus native plugin options/get lookups and names. Batch71 documents real debounce but no original failure/leak; no assertion is strengthened. Ownership machinery dominates small naming gain.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ActivityBar/ActivityItem.test.js",
+      "reviews": [
+        {
+          "commit": "f4df82a2d3af6dae334a0f58bd89d174c983c624",
+          "iteration": "29",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Splits rendering/indicator chains into eight mounts and SELECTORS/factory ceremony. Percentage update remains but status and indicator update checks become initial-prop checks. Batch29 author/reviewer explicitly disclose and accept lost success-to-danger transition; no unstated-loss cap1, yet readability gain does not justify churn.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ActivityBar/ActivitySettings.test.js",
+      "reviews": [
+        {
+          "commit": "fbbe3764bd3647ea2b86327ab7db64b16392a886",
+          "iteration": "75",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Awaits triggers but original immediately awaited nextTick before assertions, so no unawaited assertion defect. Adds capture/disposal/config restoration and mount helper for two arrangements; ensureDefined/nth replace accesses already failing on absence. No check loss, but costs dominate.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/Form/GForm.test.ts",
+      "reviews": [
+        {
+          "commit": "cd08db95fdfbea38efe81165830974eb62374aab",
+          "iteration": "59",
+          "score": 4,
+          "defect": "weak native-event handoff check",
+          "rationale": "Old onSubmit count accepted a different event argument; adds identity to actual dispatched submit event. Keeps preventDefault and count checks; native get and auto-unmount are minor costs.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GAlert.test.ts",
+      "reviews": [
+        {
+          "commit": "43b44c497920d48e189f410cd7b27d6e36e41246",
+          "iteration": "28",
+          "score": 4,
+          "defect": "setup copied across three or more cases",
+          "rationale": "mountAlert replaces repeated localVue/props arrangements across five cases; countdownValues removes repeated event mapping while preserving exact [2,1,0], dismissal and role checks. SELECTORS/isShown add some indirection, but body noise decreases.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GButton.test.ts",
+      "reviews": [
+        {
+          "commit": "d98126ee3f836e05fb2ee360cf62b8917c07c05b",
+          "iteration": "25",
+          "score": 4,
+          "defect": "setup copied across three or more router cases",
+          "rationale": "Consolidates repeated router-aware mounts through mountGButton/createMemoryRouter, tables three root click cases and keeps navigation/base/tooltips why comments. Every root count and disabled-route assertion retained; table varies arrangement/target, not which assertion executes.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GDropdown.test.ts",
+      "reviews": [
+        {
+          "commit": "fb820ca2cc03ad696d95fafb640b63339a982707",
+          "iteration": "66",
+          "score": 2,
+          "defect": "as unknown as dropdown VM cast soup",
+          "rationale": "Removes double cast and adopts deferred plus reused mounts, while all positioning/focus checks remain. New try/finally in delayed-position test explicitly caps2; resource-reset/attachment/type changes add considerable cost.",
+          "caps": [
+            "net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GDropdownItem.test.ts",
+      "reviews": [
+        {
+          "commit": "520e76a4d84b80e17a4f55d5d46a9cf8336c8485",
+          "iteration": "52",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Uses typed partial props, native props/global mounting, nextTick and auto-unmount. Existing navigation event and defaultPrevented assertions unchanged; as-object was inference workaround, no gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GLink.test.ts",
+      "reviews": [
+        {
+          "commit": "df30823cecf3da321be9bb2a199ecd7ac042dbe5",
+          "iteration": "25",
+          "score": 4,
+          "defect": "router setup copied across three or more cases",
+          "rationale": "Extracts repeated createMemoryHistory/createRouter blocks in GLink and GToast into shared configurable factory with two immediate consumers; preserves base/path navigation and all link checks/why comments.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

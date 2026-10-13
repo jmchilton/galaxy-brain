@@ -1,0 +1,235 @@
+{
+  "batch": 5,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/CommandPalette/CommandPalette.test.ts",
+      "commits": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "subject": "Extend tests/test-data/index.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts",
+            "client/tests/test-data/index.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/65fc286e8b7a5f01da895c0155ddb4244d39a2a5.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/actions.test.ts",
+      "commits": [
+        {
+          "commit": "abd6312d8e558ef0882edecf70abb131bc4e8978",
+          "iteration": "10",
+          "subject": "Add tests/test-data/workflows.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/actions.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/actions.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+            "client/tests/test-data/workflows.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/abd6312d8e558ef0882edecf70abb131bc4e8978.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/categories.test.ts",
+      "commits": [
+        {
+          "commit": "456b5a6694f3b4b1268f8977596cb5166ee9546b",
+          "iteration": "39",
+          "subject": "Improve readability of categories tests",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/categories.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/categories.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/456b5a6694f3b4b1268f8977596cb5166ee9546b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/datasets.test.ts",
+      "commits": [
+        {
+          "commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+          "iteration": "35",
+          "subject": "Add tests/test-data/datasets.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Collections/PairCollectionCreator.test.ts",
+            "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/stores/datasetListStore.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Collections/PairCollectionCreator.test.ts",
+            "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/stores/datasetListStore.test.ts",
+            "client/tests/test-data/datasets.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4441dd22f5822e007bf44a953d746f635df7534d.txt"
+        },
+        {
+          "commit": "25dee4edba28de2ec24270fd5d3ec1776fe80606",
+          "iteration": "65",
+          "subject": "Use typed owned fixtures for dataset palette tests",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/datasets.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/datasets.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/25dee4edba28de2ec24270fd5d3ec1776fe80606.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/histories.test.ts",
+      "commits": [
+        {
+          "commit": "eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942",
+          "iteration": "42",
+          "subject": "Extend src/components/CommandPalette/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/histories.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/histories.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/CommandPalette/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942.txt"
+        },
+        {
+          "commit": "a88057a6ebdc1bb59045d8e007af81c15efe1f2c",
+          "iteration": "73",
+          "subject": "Own history provider fixtures and deferred request cleanup",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/histories.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/histories.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a88057a6ebdc1bb59045d8e007af81c15efe1f2c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/interactiveTools.test.ts",
+      "commits": [
+        {
+          "commit": "3bf56617597a8c33e4b471a4b689cf3963915052",
+          "iteration": "54",
+          "subject": "Clarify interactive-tool provider fixtures and required actions",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/interactiveTools.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/interactiveTools.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3bf56617597a8c33e4b471a4b689cf3963915052.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/invocations.test.ts",
+      "commits": [
+        {
+          "commit": "98b4a98140c46cf91c96f2da189e05bcdb6b9905",
+          "iteration": "68",
+          "subject": "Own invocation provider resources and type fixture boundaries",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/invocations.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/invocations.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/98b4a98140c46cf91c96f2da189e05bcdb6b9905.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/refresh.test.ts",
+      "commits": [
+        {
+          "commit": "1d3c92a77b86101434e33005f100f5a454600835",
+          "iteration": "36",
+          "subject": "Improve readability of refresh tests",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/refresh.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/refresh.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1d3c92a77b86101434e33005f100f5a454600835.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/reports.test.ts",
+      "commits": [
+        {
+          "commit": "8471906f73131d50d301a3db5369dcdb570af5f2",
+          "iteration": "42",
+          "subject": "Improve readability of reports tests",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/reports.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/reports.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8471906f73131d50d301a3db5369dcdb570af5f2.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/scopes.test.ts",
+      "commits": [
+        {
+          "commit": "a28e14f1baff808708196bccfcdf75da6e3089cc",
+          "iteration": "72",
+          "subject": "Name scope lookup cases and require registered fixtures",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/scopes.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/scopes.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a28e14f1baff808708196bccfcdf75da6e3089cc.txt"
+        }
+      ]
+    }
+  ]
+}

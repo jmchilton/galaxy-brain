@@ -1,0 +1,159 @@
+{
+  "batch": 40,
+  "tests": [
+    {
+      "file": "client/src/stores/entryPointStore.test.js",
+      "reviews": [
+        {
+          "commit": "e888ad697e50d85ecdcfb210637acf1097b7ec77",
+          "iteration": "12",
+          "score": 4,
+          "defect": "weak removal check",
+          "rationale": "Exact remaining IDs proves unrelated entry retained, not merely targeted entry absent; explicit running=true query checks request. Existing canonical sseMockFactory remains reused, all update/job/dataset checks retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/helpTermsStore.test.ts",
+      "reviews": [
+        {
+          "commit": "e4c95194efb452c15890963c606cb1562bf0fb11",
+          "iteration": "73",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds fresh-module Pinia disposal and scope wrapper plus ensureDefined; concurrent help/request assertions unchanged, no observed leak.",
+          "caps": [
+            "cap 2: teardown/restore dominates without observed leak"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/historyStore.lists.test.ts",
+      "reviews": [
+        {
+          "commit": "8c1e2968b70952c07343a0496bbc650ad86e3ae3",
+          "iteration": "40",
+          "score": 4,
+          "defect": "weak concurrent-fetch identity and search-cache check",
+          "rationale": "Uses canonical deferred instead of no-op resolvers; proves same array reference plus expected IDs and search-hit name, retains canonical total/recording checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/historyStore.test.ts",
+      "reviews": [
+        {
+          "commit": "a479ee51871c3e2bbc2f1408cd82ff28a97ea926",
+          "iteration": "07",
+          "score": 3,
+          "defect": "weak ignored-history SSE fixture",
+          "rationale": "Registers current history and asserts computed ID before ignoring another event, preventing no-current-history false pass; removes SSE-vs-polling regression and real-refresh coverage why comments amid broad renames.",
+          "caps": [
+            "cap 3: why comments deleted"
+          ]
+        },
+        {
+          "commit": "a260fe6de9dc3eec2f2f7dc42dffb117d5b12d10",
+          "iteration": "08",
+          "score": 4,
+          "defect": "order dependence of shared retry IDs",
+          "rationale": "Batch08 reports shuffled seed failures from module-level retry counters surviving Pinia reset; distinct retryable/exhausted/awaited IDs retain four-request limit and outcomes. Shared listener extraction has second notification consumer.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/invocationStore.test.ts",
+      "reviews": [
+        {
+          "commit": "87a70e3b88da35c20186bbb39a72dd28f1b7ba47",
+          "iteration": "09",
+          "score": 5,
+          "defect": "cast soup and real-time metrics-race flakiness",
+          "rationale": "Completes StepJobSummary/JobMetric/invocation types and replaces50ms delayed race with held first-response handshake; exact steps expectations retained and proves runtimes after real completion.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/jobMetricsStore.test.ts",
+      "reviews": [
+        {
+          "commit": "d46ab4ce7cf24c663e3784292362dbc1ebd06a42",
+          "iteration": "05",
+          "score": 4,
+          "defect": "setup copied across three metric cases",
+          "rationale": "Direct cache property assignment removes repeated entire empty state reconstruction; exact [] replaces length0, every job/HDA/LDDA metric expectation retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/notificationsStore.test.ts",
+      "reviews": [
+        {
+          "commit": "9fd7467fbce8c49f23c83a7d0d737ce1c973a7da",
+          "iteration": "08",
+          "score": 4,
+          "defect": "casts hide notification payload shape and watcher state",
+          "rationale": "Canonical notification and typed status fixture replace casts, explicit visible setup and shared listener cleanup remove watcher state dependence; retains all SSE/catch-up/poll cases.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/objectStoreInstancesStore.test.ts",
+      "reviews": [
+        {
+          "commit": "e49c7d72291ed79351c90287513517ea4a2937ce",
+          "iteration": "06",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Reuses existing typed instance factory and awaits lifecycle handlers; most hunks rename objectStoreInstancesStore to store, all expectations unchanged.",
+          "caps": [
+            "cap 3: most hunks renames; no gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/objectStoreTemplatesStore.test.ts",
+      "reviews": [
+        {
+          "commit": "e3d7fcb1ffe41ac0b49f22d44951b0fba88ea45b",
+          "iteration": "10",
+          "score": 4,
+          "defect": "setup copied across three template versions",
+          "rationale": "Typed factory exposes only id/version/name differences, tables keep both lookup versions and all three upgrade states; initialized templates now checked exactly.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/pageEditorStore.test.ts",
+      "reviews": [
+        {
+          "commit": "85fd81f99e9998e88ac7dce10fc35c2e7a8ad7f5",
+          "iteration": "01",
+          "score": 5,
+          "defect": "cast soup and setup copied across many page cases",
+          "rationale": "Removes repeated any handlers and patch casts, supplies complete typed revision fixtures and context store helper; local endpoint handlers preserve error/saving/loading/revision/standalone behavior with less duplicated setup.",
+          "caps": []
+        },
+        {
+          "commit": "d6e0eb2e5019230ddd971983d3610e8da27fc5f0",
+          "iteration": "02",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Moves two already typed page literals to newly exported factories whose sole consumer in commit is pageEditorStore; adds public helper ceremony without asserted improvement.",
+          "caps": [
+            "cap 3: no named original gate defect; one-consumer shared helper cost"
+          ]
+        }
+      ]
+    }
+  ]
+}

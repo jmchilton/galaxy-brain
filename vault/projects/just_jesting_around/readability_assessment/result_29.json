@@ -1,0 +1,148 @@
+{
+  "batch": 29,
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/Editor/Index.test.ts",
+      "reviews": [
+        {
+          "commit": "06e3b163f6d48657dc12cf710bb46d7216cb7012",
+          "iteration": "28",
+          "score": 4,
+          "defect": "Component-name mutation cast soup and copied editor mounts",
+          "rationale": "Removes three imported-name mutations and consolidates four mount arrangements; value-only attribute table retains changed/unchanged transitions and local stores follow actual editor ID. Saves/queues/navigation checks stay.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Lint.test.ts",
+      "reviews": [
+        {
+          "commit": "8b8af4b46679bde3eeb4ee257db623c541e0db38",
+          "iteration": "13",
+          "score": 4,
+          "defect": "Misleading disconnected-input test name and shared mutable lint fixture",
+          "rationale": "Clones incomplete fixture per mount and scopes useLintData; accurately names retained autofix behavior while preserving passing/warning link order and exact refactor arrays.",
+          "caps": []
+        },
+        {
+          "commit": "7da0a4379244a4b6ca25202b7c66b29b5a3d950b",
+          "iteration": "35",
+          "score": 4,
+          "defect": "Repeated scope tracking/stop setup across composable consumers",
+          "rationale": "Shared runInTestScope replaces local arrays/afterEach in lint, history datasets and graph suites; maintains effect scope cleanup with four immediate consumers in batch.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/Node.test.ts",
+      "reviews": [
+        {
+          "commit": "50437c2bbb8502fe9d7c4eefbf86d3e49617c248",
+          "iteration": "46",
+          "score": 4,
+          "defect": "Opaque mount arguments and repeated recommendation try/finally",
+          "rationale": "Named mounter/props/connections/toolRecommendations simplify real/shallow modes and remove test-body control flow; typed Steps and active-class assertion preserve missing-tool/accessibility/inspector checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/NodeInvocationText.test.ts",
+      "reviews": [
+        {
+          "commit": "bb3f967ed364a8482b9b9b49bcc03e42aedb991a",
+          "iteration": "49",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Single sanitizer test gains original implementation save, reset/conditional restore, beforeEach and auto-unmount; unchanged profile/render assertion, no observed leak.",
+          "caps": [
+            "cap 2: teardown at least half of changed lines without observed leak",
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/RefactorConfirmationModal.test.ts",
+      "reviews": [
+        {
+          "commit": "b7feb0d68ae6d96328ae6deb9a27cda57bf95585",
+          "iteration": "12",
+          "score": 5,
+          "defect": "as unknown as response cast soup and weak call slots",
+          "rationale": "Typed response/action/version factories remove cast-backed Promise boilerplate; exact once/nth request arguments and exact emitted error/execution payload strengthen all existing dry-run/confirm/version cases while shortening file.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/StateUpgradeModal.test.ts",
+      "reviews": [
+        {
+          "commit": "0bd6688c605d1ce43aeb86d4b21ca020c8fbddb6",
+          "iteration": "15",
+          "score": 5,
+          "defect": "as unknown as UpgradeMessage[] casts hide numeric/string mismatch",
+          "rationale": "Typed makeMessage corrects stepIndex and required fields; exact Step 3 text/details assertions strengthen preexisting fixture and value-only visibility table preserves dismissal/reopen behavior.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/WorkflowAttributes.test.ts",
+      "reviews": [
+        {
+          "commit": "4c19605c5651b0d32fdcdfb6f707cf01dd78dfdb",
+          "iteration": "68",
+          "score": 3,
+          "defect": "none",
+          "rationale": "One attribute test gets typed versions/DOM elements, nth/get and scoped timers/Pinia; name/version/parameter/date/annotation assertions unchanged.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/ZoomControl.test.js",
+      "reviews": [
+        {
+          "commit": "032026037a5e9d51741075d780a77a47a2aefee1",
+          "iteration": "44",
+          "score": 4,
+          "defect": "Index-based event checks miss duplicate emissions",
+          "rationale": "Named accessible-button selectors and exact one-event arrays preserve zoom outputs; adds reset-from-2 and bound disabled checks. Some extra scenarios exceed original readability scope.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/modules/activities.test.ts",
+      "reviews": [
+        {
+          "commit": "a9af62fe5b12ee971de6dc4daca28b29038cfbc8",
+          "iteration": "21",
+          "score": 4,
+          "defect": "Opaque positional booleans/counts and LintData double cast",
+          "rationale": "Named totalPriority/resolvedPriority/totalAttribute/resolvedAttribute options make expected remaining counts visible; preserves reactive save/undo/custom-tools behavior with canonical Pinia.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/modules/canvasDraw.test.ts",
+      "reviews": [
+        {
+          "commit": "6dfe47af3ee2479a6b68cab28b6ded2428c084d5",
+          "iteration": "12",
+          "score": 5,
+          "defect": "CSSStyle/Step/GraphStep/store double-cast soup",
+          "rationale": "Uses real CSSStyleDeclaration and workflow state store plus canonical step/position fixture; color table preserves all five states and exact draw call counts strengthen checks.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

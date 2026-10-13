@@ -1,0 +1,165 @@
+{
+  "batch": 41,
+  "tests": [
+    {
+      "file": "client/src/stores/pageStore.test.ts",
+      "reviews": [
+        {
+          "commit": "9f4465e3c8e2c1e8ed83188b37a44d7780306279",
+          "iteration": "41",
+          "score": 3,
+          "defect": "weak concurrent-fetch equality and partial page casts",
+          "rationale": "Canonical page fixtures remove partial casts, same-reference plus exact ID strengthens concurrency; deletes why complete r: cache must show newly created page.",
+          "caps": [
+            "cap 3: why comment deleted"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/services/history.services.test.ts",
+      "reviews": [
+        {
+          "commit": "0a90a26712cd53d8653c1e32168b2f925ed8d963",
+          "iteration": "57",
+          "score": 4,
+          "defect": "casts hide fake response type and weak request count",
+          "rationale": "Real Axios/HTTP interception replaces mocked get and cast response; exact one request and all ownership/paging/filter flags remain observed outside handlers.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/storageOperationsStore.test.ts",
+      "reviews": [
+        {
+          "commit": "13e5ae8768784d6b3d93f35af7eedc740b5fb0ab",
+          "iteration": "04",
+          "score": 5,
+          "defect": "conditional completed-run checks",
+          "rationale": "Old if(completedRun) skipped final state/count assertions on absent entry; now requires entry then checks all fields, typed canonical run and fixed dates make age visible.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/toolStore.test.ts",
+      "reviews": [
+        {
+          "commit": "b3699620eb3f8f3ed7472b38eaac5918d5253077",
+          "iteration": "02",
+          "score": 4,
+          "defect": "untested recovery-format/logging behavior",
+          "rationale": "Checks exact logged Error and recovered markdown helpFormat using existing failure fixture; canonical tool removes incomplete cast, retry count and failed cached state retained.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/unprivilegedToolStore.test.ts",
+      "reviews": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "score": 4,
+          "defect": "setup copied across anonymous-user consumers",
+          "rationale": "Typed anonymous factory replaces literals in nine supporting suites; unprivileged store keeps no-request assertion, batch32 reports all consumers.",
+          "caps": []
+        },
+        {
+          "commit": "18c6717c25b24dddbf65370899018b11957c485f",
+          "iteration": "67",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adopts existing toast mock and explicit owned Pinia; forbidden/server reporting and retry assertions unchanged, no observed leak.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/uploadDatasetMonitorStore.test.ts",
+      "reviews": [
+        {
+          "commit": "72626f7110f59b5aa49e66e2e7511baf6d84a1e2",
+          "iteration": "66",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Moves timeout try/finally out of body into shared teardown and disposes Pinia, clears upload state; double-cast fixtures remain with why comments, original outcomes unchanged.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/userStore.test.ts",
+      "reviews": [
+        {
+          "commit": "3f0210ef72c19f7556ac8ceb7fa910942350d69f",
+          "iteration": "12",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Splits addRecentTool empty/new/reused flow into three named cases; same exact tool-order checks plus repeated arrange code, original name accurate.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+      "reviews": [
+        {
+          "commit": "5ec62a2a0003c5635a24a9b0e7f946bc5b6009fb",
+          "iteration": "04",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Extracts typed credentials literals into shared factories, adopted by second same-batch composable; producer original full typed fields/checks had no gate defect.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        },
+        {
+          "commit": "fffdab26b21c0bdc546fa2ceb0ffdde636e68d84",
+          "iteration": "69",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Moves single test setup into its body, replaces secret[0]! with nth and owns Pinia; exact sent body and unmodified placeholder checks preserved.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/visualizationStore.test.ts",
+      "reviews": [
+        {
+          "commit": "fb2d45ae244b13e3c82be2d6869e3ed4e3100806",
+          "iteration": "41",
+          "score": 5,
+          "defect": "weak limited-search and concurrent-result checks",
+          "rationale": "Exact viz2 replaces count1 and overlapping-a search proves limit rather than merely unique match; concurrent results require same reference and ID, canonical typed fixtures/deferred simplify duplicated setup.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/windowManagerStore.test.ts",
+      "reviews": [
+        {
+          "commit": "06c8fd2bbe89524216d4787c38d4d86f1734447f",
+          "iteration": "09",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Groups same field checks into equivalent toMatchObject, renames a/b and reuses savedWindow; timer/storage cleanup has no observed leak, assertions retain same fields.",
+          "caps": [
+            "cap 3: no named original gate defect; most hunks renames"
+          ]
+        }
+      ]
+    }
+  ]
+}

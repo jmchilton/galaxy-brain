@@ -1,0 +1,147 @@
+{
+  "batch": 8,
+  "tests": [
+    {
+      "file": "client/src/components/ConfigTemplates/VaultSecret.test.ts",
+      "reviews": [
+        {
+          "commit": "f52eca1777197efd6c35c012f9a3602500a1fde3",
+          "iteration": "04",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Uses BFormTextarea identity instead of stub HTML string; native mount options and mock reset/auto-unmount retained help/label/profile checks. Existing positive textarea markup check was not vacuous.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfigTemplates/formUtil.test.ts",
+      "reviews": [
+        {
+          "commit": "c86c82b1370f6255852aa68dae1396474ef5ec55",
+          "iteration": "74",
+          "score": 3,
+          "defect": "as unknown as partial-template cast soup",
+          "rationale": "Models original partial template with Pick and documents boundary cast; names form entries and replaces indexes/optional positive fields with nth/ensureDefined. Most hunks only change existing required lookups and names, capping gain.",
+          "caps": [
+            "most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfigTemplates/useConfigurationTesting.test.ts",
+      "reviews": [
+        {
+          "commit": "fca496deffc7bef99a888e4b4db403abae52569b",
+          "iteration": "56",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adopts object-store fixture and effect-scope helper, types router callback instead of as-never. Wrapping three long calls in scope only adds indentation/cleanup; no demonstrated original failure, wrong type or weak check.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfirmDialog.test.ts",
+      "reviews": [
+        {
+          "commit": "ff26a4cfbc4368f697a01a837cee8307a0bd62ca",
+          "iteration": "57",
+          "score": 3,
+          "defect": "as unknown as dialog component cast soup",
+          "rationale": "Infers mounted dialog VM and settles presentation-only confirmation; existing resolve/cancel/close checks retained. Mount-target Set/loop and repeated per-case calls add ownership ceremony disproportionate to cast removal.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/DatasetCopy.test.js",
+      "reviews": [
+        {
+          "commit": "fc356a6bb9c47c8b55a1f433e8b29a868df6e451",
+          "iteration": "39",
+          "score": 4,
+          "defect": "copied server setup and weak request verification",
+          "rationale": "Consolidates repeated history/content/copy routes across many cases; exact captured source/body/no-request checks reject wrong history/payload. DOM checkbox selection replaces VM manipulation, result links become exact arrays. Original errors/toggle/accessibility behavior retained; new conditional setup helper is cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/DatasetIndex/DatasetIndex.test.ts",
+      "reviews": [
+        {
+          "commit": "63a8926c0722b026db055a7a31c1fccefc369753",
+          "iteration": "62",
+          "score": 4,
+          "defect": "vacuous absent-table stub queries and untested table data",
+          "rationale": "find(\"gtable-stub\") could miss actual GTable and falsely pass absence; component identity fixes negatives. Adds exact fields/items where serialized HTML checks allowed incorrect table content; typed mock/ownership/native mount hunks moderate cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/DatasetStorage/DatasetStorage.test.ts",
+      "reviews": [
+        {
+          "commit": "30eea2aa07fa16a6dfe1cc7552034bed130f089f",
+          "iteration": "06",
+          "score": 4,
+          "defect": "untested child storage payload despite response fixture",
+          "rationale": "Adds exact DescribeObjectStore.storageInfo equality for null-ID response; replaces opaque simulateError handler branch with explicit route and component queries. Same loading/error text/count observations preserved.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/DatasetView.test.js",
+      "reviews": [
+        {
+          "commit": "543ff11bd309e891322dde074fc2b0fe1d7e262a",
+          "iteration": "10",
+          "score": 3,
+          "defect": "tautological URL checks and prop-only tab checks",
+          "rationale": "Replaces locally constructed expected URLs with actual rendered navigation hrefs and verifies actual child datasetId for each tab, removing duplicate loading mount. Deletes loading-v-else/never-resolve why comments without replacement; cap3 despite major fidelity gain.",
+          "caps": [
+            "why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Dataset/Tabular/TabularChunkedView.test.ts",
+      "reviews": [
+        {
+          "commit": "f2bcfabc7011612054f4bc730856a92f8db72590",
+          "iteration": "16",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adopts existing visible observer, modernizes mounts and tables two header props; preserves terminal retry waits and adds why comments. Local observer itself worked; no demonstrated original wrong result.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/DatasetInformation/DatasetAttributes.test.ts",
+      "reviews": [
+        {
+          "commit": "46854777d96703cb7e4f24396d33db83333b5f2f",
+          "iteration": "77",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Adds Pinia capture/disposal, auto-unmount and native props/attrs/stubs; name/get swaps preserve success/error/conversion checks. Large resource factory/branch without observed leak buys little.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    }
+  ]
+}

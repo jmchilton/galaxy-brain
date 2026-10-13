@@ -1,0 +1,239 @@
+{
+  "batch": 30,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/Editor/modules/collectionTypeDescription.test.ts",
+      "commits": [
+        {
+          "commit": "0c0af7e024b85910a2e7d95ce993f40e472c3d6e",
+          "iteration": "25",
+          "subject": "Improve readability of collectionTypeDescription tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/modules/collectionTypeDescription.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/modules/collectionTypeDescription.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0c0af7e024b85910a2e7d95ce993f40e472c3d6e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/modules/layout.test.ts",
+      "commits": [
+        {
+          "commit": "b7e7de5178070aad952a21d0532a2c9517859b48",
+          "iteration": "27",
+          "subject": "Improve readability of layout tests",
+          "test_files": [
+            "client/src/components/Workflow/Editor/modules/layout.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/modules/layout.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b7e7de5178070aad952a21d0532a2c9517859b48.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Editor/modules/useLinting.test.ts",
+      "commits": [
+        {
+          "commit": "53fe348ac9211ef916d2daeb81c9df7a8f67ddc9",
+          "iteration": "66",
+          "subject": "Scope linting test effects and share typed metadata arrangement",
+          "test_files": [
+            "client/src/components/Workflow/Editor/modules/useLinting.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Editor/modules/useLinting.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/53fe348ac9211ef916d2daeb81c9df7a8f67ddc9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Import/TrsTool.test.ts",
+      "commits": [
+        {
+          "commit": "06bb332468e67d8a9713c9966a2b04f388582353",
+          "iteration": "49",
+          "subject": "Clarify TRS description rendering and restore sanitizer state",
+          "test_files": [
+            "client/src/components/Workflow/Import/TrsTool.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Import/TrsTool.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/06bb332468e67d8a9713c9966a2b04f388582353.txt"
+        },
+        {
+          "commit": "cf083c3b403ad3ac4e4ef104a85306be5e042581",
+          "iteration": "49",
+          "subject": "Document component teardown dependencies in client tests",
+          "test_files": [
+            "client/src/components/Workflow/Import/TrsTool.test.ts"
+          ],
+          "changed_files": [
+            "client/README.md"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cf083c3b403ad3ac4e4ef104a85306be5e042581.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts",
+      "commits": [
+        {
+          "commit": "fae6b2e80149e307116d0427715657806b72a663",
+          "iteration": "76",
+          "subject": "Type invocation error test and own its mounted store",
+          "test_files": [
+            "client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fae6b2e80149e307116d0427715657806b72a663.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/CuratedCollectionChips.test.ts",
+      "commits": [
+        {
+          "commit": "59e10961623f72f4570df4b4e6931720751ab817",
+          "iteration": "67",
+          "subject": "Improve curated collection chips test ownership and lookups",
+          "test_files": [
+            "client/src/components/Workflow/List/CuratedCollectionChips.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/List/CuratedCollectionChips.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/59e10961623f72f4570df4b4e6931720751ab817.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+      "commits": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "subject": "Extend tests/test-data/index.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts",
+            "client/tests/test-data/index.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/65fc286e8b7a5f01da895c0155ddb4244d39a2a5.txt"
+        },
+        {
+          "commit": "0080c322b7f2f6bd94cfca483ce0a3ffa8ddc3cc",
+          "iteration": "75",
+          "subject": "Improve curated workflow card test ownership and native mounts",
+          "test_files": [
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0080c322b7f2f6bd94cfca483ce0a3ffa8ddc3cc.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/CuratedWorkflowList.test.ts",
+      "commits": [
+        {
+          "commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+          "iteration": "40",
+          "subject": "Add tests/vitest/deferred.ts for client unit tests",
+          "test_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts",
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/GalaxyAI.newchat.test.ts",
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI/test-utils.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/tests/vitest/deferred.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6fe1e23274a46e74967506d7ca86900d1f3bdab0.txt"
+        },
+        {
+          "commit": "cb2358bc64fc2c7c4f4148ff6dc29045a473817a",
+          "iteration": "61",
+          "subject": "Own curated list test stores routers and component cleanup",
+          "test_files": [
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cb2358bc64fc2c7c4f4148ff6dc29045a473817a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/WorkflowCardList.test.ts",
+      "commits": [
+        {
+          "commit": "46a0f6bad514a65d6982bd479f18a33abaa864bd",
+          "iteration": "41",
+          "subject": "Improve readability of WorkflowCardList tests",
+          "test_files": [
+            "client/src/components/Workflow/List/WorkflowCardList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/List/WorkflowCardList.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/46a0f6bad514a65d6982bd479f18a33abaa864bd.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/WorkflowList.test.ts",
+      "commits": [
+        {
+          "commit": "0603d244d98fb687c5f07cfd3a4c2ae21ecca8f2",
+          "iteration": "28",
+          "subject": "Improve readability of WorkflowList tests",
+          "test_files": [
+            "client/src/components/Workflow/List/WorkflowList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Workflow/List/WorkflowList.test.ts",
+            "client/src/components/Workflow/testUtils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/0603d244d98fb687c5f07cfd3a4c2ae21ecca8f2.txt"
+        }
+      ]
+    }
+  ]
+}

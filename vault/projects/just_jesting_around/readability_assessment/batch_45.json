@@ -1,0 +1,205 @@
+{
+  "batch": 45,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts",
+      "commits": [
+        {
+          "commit": "7904083639bcc57bedc456fae98897df55872f7e",
+          "iteration": "04",
+          "subject": "Improve readability of JsonDiffViewer tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/JsonDiffViewer.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7904083639bcc57bedc456fae98897df55872f7e.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts",
+      "commits": [
+        {
+          "commit": "228a941542109bc414931bb2528cb478a107d04e",
+          "iteration": "07",
+          "subject": "Improve readability of MetadataJsonViewer tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/MetadataJsonViewer.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/228a941542109bc414931bb2528cb478a107d04e.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts",
+      "commits": [
+        {
+          "commit": "2771481094486451303742753619707f6efe38b9",
+          "iteration": "05",
+          "subject": "Add src/components/MetadataInspector/test-utils.ts for client unit tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2771481094486451303742753619707f6efe38b9.txt"
+        },
+        {
+          "commit": "9d74a54d6cb9a1419a5d5d7d274a3ae832bd495e",
+          "iteration": "10",
+          "subject": "Improve readability of OverviewTab tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9d74a54d6cb9a1419a5d5d7d274a3ae832bd495e.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts",
+      "commits": [
+        {
+          "commit": "e3676045f80b06e8223d81b67a41b15f7d10887f",
+          "iteration": "10",
+          "subject": "Improve readability of ResetMetadataTab tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ResetMetadataTab.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e3676045f80b06e8223d81b67a41b15f7d10887f.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts",
+      "commits": [
+        {
+          "commit": "f35980feefdc4c4869754783c7d0f606695a3186",
+          "iteration": "05",
+          "subject": "Improve readability of RevisionsTab tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f35980feefdc4c4869754783c7d0f606695a3186.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts",
+      "commits": [
+        {
+          "commit": "4a2f671b0235ab0862abb128097c8a7336530318",
+          "iteration": "05",
+          "subject": "Improve readability of ToolHistoryTab tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4a2f671b0235ab0862abb128097c8a7336530318.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts",
+      "commits": [
+        {
+          "commit": "904afde123d07200c96fd10dd7831274d0c3ab8c",
+          "iteration": "71",
+          "subject": "Refine paginated repository grid test ownership and request typing",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/904afde123d07200c96fd10dd7831274d0c3ab8c.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts",
+      "commits": [
+        {
+          "commit": "cd3ec37250ea08780b37fff51233d8fe2f4baa9a",
+          "iteration": "29",
+          "subject": "Improve readability of RepositoryMenus tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cd3ec37250ea08780b37fff51233d8fe2f4baa9a.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "commits": [
+        {
+          "commit": "ecf030c27410fd0c36ffb2dcd0829afdd17508b3",
+          "iteration": "29",
+          "subject": "Add src/test-utils.ts for client unit tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts",
+            "lib/tool_shed/webapp/frontend/src/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ecf030c27410fd0c36ffb2dcd0829afdd17508b3.txt"
+        },
+        {
+          "commit": "21322c80b597578affbe5bdceb19bba30d5b926c",
+          "iteration": "51",
+          "subject": "Clarify Tool Shed toolbar fixtures and teardown",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/21322c80b597578affbe5bdceb19bba30d5b926c.txt"
+        }
+      ]
+    },
+    {
+      "file": "lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts",
+      "commits": [
+        {
+          "commit": "71d067d1b5f4950271ccf81f473e0f3ee88bc708",
+          "iteration": "30",
+          "subject": "Improve readability of galaxyUi tests",
+          "test_files": [
+            "lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts"
+          ],
+          "changed_files": [
+            "lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/71d067d1b5f4950271ccf81f473e0f3ee88bc708.txt"
+        }
+      ]
+    }
+  ]
+}

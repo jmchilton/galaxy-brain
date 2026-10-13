@@ -1,0 +1,210 @@
+{
+  "batch": 4,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/BaseComponents/GModal.test.ts",
+      "commits": [
+        {
+          "commit": "79989d79a66a4fea5d26c363638ea78a29f9d552",
+          "iteration": "69",
+          "subject": "Own modal attachment and infer exposed dialog methods",
+          "test_files": [
+            "client/src/components/BaseComponents/GModal.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/GModal.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/79989d79a66a4fea5d26c363638ea78a29f9d552.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/BaseComponents/GToast.test.ts",
+      "commits": [
+        {
+          "commit": "df30823cecf3da321be9bb2a199ecd7ac042dbe5",
+          "iteration": "25",
+          "subject": "Add src/components/BaseComponents/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/BaseComponents/GLink.test.ts",
+            "client/src/components/BaseComponents/GToast.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/GLink.test.ts",
+            "client/src/components/BaseComponents/GToast.test.ts",
+            "client/src/components/BaseComponents/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/df30823cecf3da321be9bb2a199ecd7ac042dbe5.txt"
+        },
+        {
+          "commit": "e96a544dc983fdaeac176961365b4edae2b8dc42",
+          "iteration": "48",
+          "subject": "Clarify toast host setup and isolate singleton teardown",
+          "test_files": [
+            "client/src/components/BaseComponents/GToast.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/GToast.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e96a544dc983fdaeac176961365b4edae2b8dc42.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Citation/services.test.ts",
+      "commits": [
+        {
+          "commit": "79929e39f7ab04da1b2f963c7162576df15cca2a",
+          "iteration": "66",
+          "subject": "Clarify citation fixture fields and preserve complete warnings",
+          "test_files": [
+            "client/src/components/Citation/services.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Citation/services.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/79929e39f7ab04da1b2f963c7162576df15cca2a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/ListCollectionCreator.test.ts",
+      "commits": [
+        {
+          "commit": "a5f5b734714a1c95c5e09c955b7f244a5dd6531b",
+          "iteration": "35",
+          "subject": "Improve readability of ListCollectionCreator tests",
+          "test_files": [
+            "client/src/components/Collections/ListCollectionCreator.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Collections/ListCollectionCreator.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/a5f5b734714a1c95c5e09c955b7f244a5dd6531b.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/PairCollectionCreator.test.ts",
+      "commits": [
+        {
+          "commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+          "iteration": "35",
+          "subject": "Add tests/test-data/datasets.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Collections/PairCollectionCreator.test.ts",
+            "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/stores/datasetListStore.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Collections/PairCollectionCreator.test.ts",
+            "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/stores/datasetListStore.test.ts",
+            "client/tests/test-data/datasets.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4441dd22f5822e007bf44a953d746f635df7534d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+      "commits": [
+        {
+          "commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+          "iteration": "35",
+          "subject": "Add tests/test-data/datasets.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Collections/PairCollectionCreator.test.ts",
+            "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/stores/datasetListStore.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Collections/PairCollectionCreator.test.ts",
+            "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/stores/datasetListStore.test.ts",
+            "client/tests/test-data/datasets.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/4441dd22f5822e007bf44a953d746f635df7534d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/common/stripExtension.test.ts",
+      "commits": [
+        {
+          "commit": "5f3f318a22e1ca3f041bd6c19f000b60c05d49ad",
+          "iteration": "63",
+          "subject": "Report filename extension examples independently",
+          "test_files": [
+            "client/src/components/Collections/common/stripExtension.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Collections/common/stripExtension.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5f3f318a22e1ca3f041bd6c19f000b60c05d49ad.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/common/useElementReconciliation.test.ts",
+      "commits": [
+        {
+          "commit": "e01af65c9752982cb74ba0f3fc53d0a2849062d6",
+          "iteration": "36",
+          "subject": "Improve readability of useElementReconciliation tests",
+          "test_files": [
+            "client/src/components/Collections/common/useElementReconciliation.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Collections/common/useElementReconciliation.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/e01af65c9752982cb74ba0f3fc53d0a2849062d6.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/pairing.test.ts",
+      "commits": [
+        {
+          "commit": "2ee6cf63efe8588d05e8ce25cdde4d0f1f6c5f9f",
+          "iteration": "67",
+          "subject": "Name pairing fixtures and isolate specification examples",
+          "test_files": [
+            "client/src/components/Collections/pairing.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Collections/pairing.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2ee6cf63efe8588d05e8ce25cdde4d0f1f6c5f9f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Collections/wizard/fetchWorkbooks.test.ts",
+      "commits": [
+        {
+          "commit": "b926254bb51fb4800bb32128e3565fdba3527c8d",
+          "iteration": "56",
+          "subject": "Report shared workbook column specifications as named cases",
+          "test_files": [
+            "client/src/components/Collections/wizard/fetchWorkbooks.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Collections/wizard/fetchWorkbooks.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b926254bb51fb4800bb32128e3565fdba3527c8d.txt"
+        }
+      ]
+    }
+  ]
+}

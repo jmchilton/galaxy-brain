@@ -1,0 +1,150 @@
+{
+  "batch": 17,
+  "tests": [
+    {
+      "file": "client/src/components/Libraries/LibraryPermissions/PermissionsInputField.test.js",
+      "reviews": [
+        {
+          "commit": "ff656fd56b72bfeedd74a7c948a59d7a258ce966",
+          "iteration": "32",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Single local test already cleared the spy; props/global migration and GAlert-scoped lookup preserve working checks.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Login/ChangePassword.test.ts",
+      "reviews": [
+        {
+          "commit": "01f82b868e58136c473e533cb197e34027b9a1dc",
+          "iteration": "33",
+          "score": 4,
+          "defect": "Unasserted redirect already exercised by successful password submission",
+          "rationale": "Replaces catch-all endpoint capture with /user/change_password; preserves password/type/message checks and adds actual home-route assertions with local routers.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Login/LoginForm.test.ts",
+      "reviews": [
+        {
+          "commit": "94837f7a838594fb40151ce9a13c1967cde70dfc",
+          "iteration": "43",
+          "score": 4,
+          "defect": "Enabled registration fixture never checked its link",
+          "rationale": "Replaces commented-out GLink checks with exact register text/href and external-login existence; location helper removes descriptor ceremony. Selector/rename churn limits the gain.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Login/LoginIndex.test.js",
+      "reviews": [
+        {
+          "commit": "1ff8e09b57e2acfc1b74596886b907f85eb81b97",
+          "iteration": "42",
+          "score": 4,
+          "defect": "Enabled registration fixture never checked its link",
+          "rationale": "Former switching test only checked absence of disabled message; now checks Register here. and /register/start while preserving disabled-state checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Login/NewUserConfirmation.test.ts",
+      "reviews": [
+        {
+          "commit": "9829e3dfaaa021d93cc2515e839cfbd5bd99b260",
+          "iteration": "63",
+          "score": 2,
+          "defect": "none",
+          "rationale": "A single confirmation test gains descriptor save/conditional restore, a hand-built router and Pinia disposal; original assertions already worked and find/get changes are neutral.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Editor/CellOption.test.js",
+      "reviews": [
+        {
+          "commit": "cb0cbfda4b30c8242f98cd60bf0243446a55747c",
+          "iteration": "12",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Splits title/description and icon transitions while retaining all checks; original short test was already legible. New fixed-props helper hides local inputs.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Editor/TextEditor.test.ts",
+      "reviews": [
+        {
+          "commit": "4296e187177f7562112e74d581c59585d686341e",
+          "iteration": "72",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Types props and textarea and replaces nested emitted non-null indexing with canonical emittedArg; most edits rename mounts and add ownership hooks. as object and Event inference casts alone are not rubric defects.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/Elements/HistoryDatasetDetails.test.js",
+      "reviews": [
+        {
+          "commit": "d23a8bfadc713db1b976f65ffae315f7e7472365",
+          "iteration": "55",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Retains peek/name/blurb/datatype and sanitization assertions; names and props/global APIs become clearer but disposal and duplicate spy clears add ceremony.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.test.js",
+      "reviews": [
+        {
+          "commit": "39d34e1dc809fa98b3451c80e43329920016c318",
+          "iteration": "13",
+          "score": 3,
+          "defect": "Misleading embedded-header name",
+          "rationale": "Corrects should render header with embedded true to hides header and preserves true-to-false transition; local wrappers/plugin migration dominate a small naming gain.",
+          "caps": [
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/Elements/JobElements.test.ts",
+      "reviews": [
+        {
+          "commit": "421237ca5187672ca24aac0fba8ae7029c6ed82c",
+          "iteration": "28",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Replaces existing explicit unmount with auto-unmount and extracts aria-label selector; all accessibility checks stay intact, no original gate-list defect.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "batch": 18,
+  "tests": [
+    {
+      "file": "client/src/components/Markdown/Sections/Elements/Workflow/WorkflowLicense.test.js",
+      "reviews": [
+        {
+          "commit": "888f75ee0a2695f0f2cdd1a0e8701d5a614f8f5a",
+          "iteration": "12",
+          "score": 4,
+          "defect": "Loading transition exercised but disappearance unasserted",
+          "rationale": "Inlines single-use mount; adds loading disappearance and exact anchor text while preserving license URL. Assertions in MSW handlers add reader cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/MarkdownGalaxy.test.js",
+      "reviews": [
+        {
+          "commit": "2df26fd3c9f048dcfb0d8252de76772c7d2dbbbb",
+          "iteration": "15",
+          "score": 3,
+          "defect": "Misleading missing-label test name",
+          "rationale": "Names unknown-component scenario honestly, uses DOM heading click and fixed date, but most hunks are mount/test renames and API migration.",
+          "caps": [
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/MarkdownVitessce.test.js",
+      "reviews": [
+        {
+          "commit": "65ca05e8c05ea3acb67897e4613bb24732dcdc5f",
+          "iteration": "14",
+          "score": 4,
+          "defect": "Label-resolution flakiness from single setTimeout wait",
+          "rationale": "Replaces one timer tick with waitFor child config and consolidates repeated mounts; exact file object retains URL and marker-removal checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Sections/VisualizationWrapper.test.ts",
+      "reviews": [
+        {
+          "commit": "83304885a3f3f7ec312e8ad95842f3b0cdefb2c9",
+          "iteration": "36",
+          "score": 3,
+          "defect": "none",
+          "rationale": "New tests cover real wrapper props/styles, maximize/minimize and forwarded events through a stubbed child; there is no original test defect for this readability review.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Utilities/parseInvocation.test.js",
+      "reviews": [
+        {
+          "commit": "2d9de5240899a93dec17c1b56e856c4c5066c10e",
+          "iteration": "27",
+          "score": 4,
+          "defect": "Mapped-over fixture job_id never asserted",
+          "rationale": "Splits omnibus assertions into named cases and workflow table; preserves collection/dataset exclusion and adds job_id_2 assertion.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/Utilities/requirements.test.js",
+      "reviews": [
+        {
+          "commit": "09f8501ec27a2cd6baee9f4d0c240c910e156058",
+          "iteration": "22",
+          "score": 4,
+          "defect": "Misleading at-least-one label name",
+          "rationale": "Clarifies exactly-one label semantics and adds both-label rejection; value-only tables retain known/unknown/name/object checks. Composed label lookup decomposes into equivalent exact null and empty-label assertions.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Markdown/parse.test.js",
+      "reviews": [
+        {
+          "commit": "2f69bde5438d2d78ac4ff654c5e50f47cefd6234",
+          "iteration": "65",
+          "score": 4,
+          "defect": "Vacuous expect(result).toBe(result) checks",
+          "rationale": "Adds toBe(input) to four unaffected-input scenarios and extracts repeated Markdown shell. Tautologies remain alongside corrected assertions, limiting clarity.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Masthead/Masthead.test.js",
+      "reviews": [
+        {
+          "commit": "3970882fbc23670db8b86684847d7808473f80d2",
+          "iteration": "33",
+          "score": 4,
+          "defect": "Window-manager test primarily checked its own onclick mutation",
+          "rationale": "Uses onclick spy plus actual nav-note visibility; seeds local stores and adds registered/anonymous/single-user menu checks. Preserves destination-order and safety assertions.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Masthead/QuotaMeter.test.ts",
+      "reviews": [
+        {
+          "commit": "a47d16c0bd7ef306366c86ea64b29b3563d5bc9b",
+          "iteration": "34",
+          "score": 4,
+          "defect": "Weak tooltip substring and repeated quota-case setup",
+          "rationale": "Uses exact Storage and Usage Details title, explicit named mount options and one color table; retains all quota/no-quota values and adds unloaded-user state.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts",
+      "reviews": [
+        {
+          "commit": "8163cdd831e69df55a112dacc9156b150cf88792",
+          "iteration": "68",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Preserves message ordering/dismiss/cycling/expiry/sanitizer checks; props/global/get migrations and cleanup hooks dominate with no observed leak.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    }
+  ]
+}

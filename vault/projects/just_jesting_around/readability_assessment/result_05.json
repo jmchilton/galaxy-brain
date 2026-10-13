@@ -1,0 +1,161 @@
+{
+  "batch": 5,
+  "tests": [
+    {
+      "file": "client/src/components/CommandPalette/CommandPalette.test.ts",
+      "reviews": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "score": 4,
+          "defect": "wrong anonymous fixture type and copied setup",
+          "rationale": "Replaces {id:\"anon\",isAnonymous:true} as never and repeated user literals in nine suites with typed anonymous/registered factories; assertions untouched.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/actions.test.ts",
+      "reviews": [
+        {
+          "commit": "abd6312d8e558ef0882edecf70abb131bc4e8978",
+          "iteration": "10",
+          "score": 4,
+          "defect": "Incomplete WorkflowSummary fixtures hidden by as unknown as double casts",
+          "rationale": "Three incomplete double-cast fixtures become a complete typed 26-line workflow factory with three immediate suite consumers and fresh nested defaults. Scenario overrides and all assertions remain; useful proportionate reuse, while the modest cast removal does not reach the rubric large-noise/broken-helper clear-win threshold.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/categories.test.ts",
+      "reviews": [
+        {
+          "commit": "456b5a6694f3b4b1268f8977596cb5166ee9546b",
+          "iteration": "39",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Extracts category ID mapping and reports category rows separately; same exact registry/scope/availability checks. Small repeated expressions do not justify helper/table ceremony.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/datasets.test.ts",
+      "reviews": [
+        {
+          "commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+          "iteration": "35",
+          "score": 5,
+          "defect": "as unknown as dataset fixture soup",
+          "rationale": "Same canonical dataset factory commit assessed in batch04; multiple incomplete double-cast fixtures removed across five consumers, with no assertions changed.",
+          "caps": []
+        },
+        {
+          "commit": "25dee4edba28de2ec24270fd5d3ec1776fe80606",
+          "iteration": "65",
+          "score": 4,
+          "defect": "collection cast to wrong dataset type",
+          "rationale": "getFakeCollectionSummary replaces dataset_collection as unknown as HDASummary; list mock accepts HistoryItemSummary union. Canonical history/scoped callback setup preserves checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/histories.test.ts",
+      "reviews": [
+        {
+          "commit": "eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942",
+          "iteration": "42",
+          "score": 4,
+          "defect": "copied incomplete registered-user fixtures",
+          "rationale": "Two signIn helpers using partial user as never become shared canonical typed registered-user factory with two immediate consumers. Existing makeCtx/renderedSections exports unchanged; calls and assertions unchanged.",
+          "caps": []
+        },
+        {
+          "commit": "a88057a6ebdc1bb59045d8e007af81c15efe1f2c",
+          "iteration": "73",
+          "score": 3,
+          "defect": "weak negative optional item/action checks",
+          "rationale": "Required nth/ensureDefined access rejects missing sections/items in toBeUndefined and negative-subtitle checks formerly silently passing. Large neutral replacements of positive optional comparisons plus ownership/type scaffolding reduce proportionate gain.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/interactiveTools.test.ts",
+      "reviews": [
+        {
+          "commit": "3bf56617597a8c33e4b471a4b689cf3963915052",
+          "iteration": "54",
+          "score": 2,
+          "defect": "weak optional scoped provider fallback",
+          "rationale": "Required scoped callback and typed tool fixtures improve setup; all API/cache checks remain. New if(!stopAction?.run) in test body caps2; added nth/disposal ceremony is costly.",
+          "caps": [
+            "net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/invocations.test.ts",
+      "reviews": [
+        {
+          "commit": "98b4a98140c46cf91c96f2da189e05bcdb6b9905",
+          "iteration": "68",
+          "score": 2,
+          "defect": "weak missing-provider fallback",
+          "rationale": "Required scoped/empty callbacks and explicit partial invocation fixtures retain checks; deferred replaces executor assignment. Added try/finally in name-lookup test caps2.",
+          "caps": [
+            "net new control flow in test bodies"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/refresh.test.ts",
+      "reviews": [
+        {
+          "commit": "1d3c92a77b86101434e33005f100f5a454600835",
+          "iteration": "36",
+          "score": 3,
+          "defect": "weak list identity check",
+          "rationale": "Separate mine/shared spies reject wrong-list call formerly passing aggregate count; exact debug payload now checked. Most other hunks are constant/helper renames.",
+          "caps": [
+            "most hunks are renames or reordering"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/reports.test.ts",
+      "reviews": [
+        {
+          "commit": "8471906f73131d50d301a3db5369dcdb570af5f2",
+          "iteration": "42",
+          "score": 4,
+          "defect": "copied scoped setup and incomplete user fixture",
+          "rationale": "Adopts canonical signIn/page factories and abstracts repeated scoped invocation, preserving ownership why comment and cache/paging/error checks. Optional callback fallback remains.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/scopes.test.ts",
+      "reviews": [
+        {
+          "commit": "a28e14f1baff808708196bccfcdf75da6e3089cc",
+          "iteration": "72",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Tables key/expected field and requires scopes via ensureDefined; same lookup/login/availability results. Original positive label comparisons already failed on absent scopes; no gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    }
+  ]
+}

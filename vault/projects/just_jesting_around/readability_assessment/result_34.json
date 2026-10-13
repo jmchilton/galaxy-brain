@@ -1,0 +1,143 @@
+{
+  "batch": 34,
+  "tests": [
+    {
+      "file": "client/src/components/admin/RoleForm.test.ts",
+      "reviews": [
+        {
+          "commit": "fdecf97910a491f63d4e3262141f22b119230e07",
+          "iteration": "33",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Reuses canonical filter mock and removes eight local mock lines, but deletes why web-worker filtering needs mocking; no assertion changes.",
+          "caps": [
+            "cap 3: why comment deleted without replacement; no gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/admin/UserRolesGroupsForm.test.ts",
+      "reviews": [
+        {
+          "commit": "cb9466667b5857ca560637a92c83b20a7f2ae56b",
+          "iteration": "73",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Typed request payloads, nth and get selectors preserve existing checks; owned DOM/auto-unmount adds lifecycle ceremony without observed leak.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/providers/InvocationsProvider.test.js",
+      "reviews": [
+        {
+          "commit": "545a08b7d26584df769ab428b72ba885d1790ba9",
+          "iteration": "14",
+          "score": 5,
+          "defect": "vacuous callback-only request check",
+          "rationale": "Old callback boolean passed even when handler returned [] for wrong params; exact query, items, callback count/data/total_matches now prove the request and result. Handler expect carries network-error cost.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/providers/PageProvider.test.js",
+      "reviews": [
+        {
+          "commit": "d03ca8fe7fb7b1fb0db62434b5d1c064e22d8f06",
+          "iteration": "26",
+          "score": 5,
+          "defect": "vacuous callback-only request check",
+          "rationale": "Old wrong-query path returned [] yet callback still passed; captures query outside handler and verifies exact search/paging, return data and callback headers/count in a shorter test.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/providers/StoredWorkflowProvider.test.js",
+      "reviews": [
+        {
+          "commit": "52813a204b7477e376b7a962428f667c2e7bc3e3",
+          "iteration": "25",
+          "score": 5,
+          "defect": "vacuous callback-only request check",
+          "rationale": "Old callback boolean accepted [] when paging/search/skip_step_counts were wrong; exact captured params and returned/callback workflow data plus total_matches fix this plainly.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/providers/storeProviders.test.js",
+      "reviews": [
+        {
+          "commit": "1687cec6eca6be808c6fd594d159588ba1e97e7b",
+          "iteration": "69",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Replaces active Pinia/manual wrapper cleanup with mounted plugins, disposal and get; error/loading checks were meaningful already.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/accessibleHover.test.ts",
+      "reviews": [
+        {
+          "commit": "e613d4d670d480b505688efb8e31a8b6b916ebc0",
+          "iteration": "08",
+          "score": 3,
+          "defect": "setup copied across three cases",
+          "rationale": "Shares button attachment and auto-unmount; checks unchanged, but timer clearing replaces pending run and much diff is teardown hygiene rather than reading gain.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/confirmDialog.test.ts",
+      "reviews": [
+        {
+          "commit": "3cfd3c99affc426c5d731cbcd339a38d01a7369b",
+          "iteration": "07",
+          "score": 4,
+          "defect": "untested abort-signal behaviour",
+          "rationale": "Old only checked promise false from abort-aware double; checks real caller signal before/after unmount as well as false result, removes fallback confirm reassignment and explains instance cast.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/datasetPermissions.test.ts",
+      "reviews": [
+        {
+          "commit": "d97389485041c740e0611850c3c254d06d93d524",
+          "iteration": "50",
+          "score": 2,
+          "defect": "cast hides wrong save-response type",
+          "rationale": "Completes typed Axios response and proves pending reload wait, but adds saveCallbackCompleted flag and try/finally in test body.",
+          "caps": [
+            "cap 2: net new control flow in test body"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/fileSources.test.ts",
+      "reviews": [
+        {
+          "commit": "0d3a56a53283139e97a4194b633b4783e5ff2bf2",
+          "iteration": "05",
+          "score": 4,
+          "defect": "opaque positional writable arguments",
+          "rationale": "buildFakeFileSource(foo,false) becomes canonical factory with named writable:false; removes duplicate fixture implementation and inferred wrapper type exposes composable results. All load/writability checks retained.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

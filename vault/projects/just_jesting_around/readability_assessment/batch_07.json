@@ -1,0 +1,180 @@
+{
+  "batch": 7,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Common/RDMDestinationSelector.test.ts",
+      "commits": [
+        {
+          "commit": "2b9efa9bff61628ad1d73793b28f0e9557a802ac",
+          "iteration": "05",
+          "subject": "Add tests/test-data/fileSources.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Common/RDMDestinationSelector.test.ts",
+            "client/src/components/History/Export/HistoryExportWizard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/RDMDestinationSelector.test.ts",
+            "client/src/components/History/Export/HistoryExportWizard.test.ts",
+            "client/tests/test-data/fileSources.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2b9efa9bff61628ad1d73793b28f0e9557a802ac.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/RenameModal.test.ts",
+      "commits": [
+        {
+          "commit": "2fd70a68fd0b9aab9f404569a3cf0402a94ce91f",
+          "iteration": "31",
+          "subject": "Improve readability of RenameModal tests",
+          "test_files": [
+            "client/src/components/Common/RenameModal.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/RenameModal.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2fd70a68fd0b9aab9f404569a3cf0402a94ce91f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/SaveChangesModal.test.ts",
+      "commits": [
+        {
+          "commit": "85d74c278e05121c7a1685f601da7a0d84c7f26a",
+          "iteration": "77",
+          "subject": "Type save-change guard captures and own modal cleanup",
+          "test_files": [
+            "client/src/components/Common/SaveChangesModal.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/SaveChangesModal.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/85d74c278e05121c7a1685f601da7a0d84c7f26a.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/SidebarList.test.ts",
+      "commits": [
+        {
+          "commit": "845f835110834faf17162e4dc111e58650a45db1",
+          "iteration": "14",
+          "subject": "Improve readability of SidebarList tests",
+          "test_files": [
+            "client/src/components/Common/SidebarList.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/SidebarList.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/845f835110834faf17162e4dc111e58650a45db1.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/TextSummary.test.ts",
+      "commits": [
+        {
+          "commit": "30cbc9e6fb1f0d9932f302eedeb34939e9cc98b0",
+          "iteration": "77",
+          "subject": "Infer text summary mounts and require rendered elements",
+          "test_files": [
+            "client/src/components/Common/TextSummary.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/TextSummary.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/30cbc9e6fb1f0d9932f302eedeb34939e9cc98b0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/VegaWrapper.test.ts",
+      "commits": [
+        {
+          "commit": "278173f9e1356a8a4fa5ab4d5169d38fb16755be",
+          "iteration": "46",
+          "subject": "Improve readability of VegaWrapper tests",
+          "test_files": [
+            "client/src/components/Common/VegaWrapper.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/VegaWrapper.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/278173f9e1356a8a4fa5ab4d5169d38fb16755be.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/Wizard/GenericWizard.test.ts",
+      "commits": [
+        {
+          "commit": "b3e60e2fdb768fd5db87e464880e010017e6a38d",
+          "iteration": "54",
+          "subject": "Use native wizard mounts and automatic cleanup",
+          "test_files": [
+            "client/src/components/Common/Wizard/GenericWizard.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/Wizard/GenericWizard.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b3e60e2fdb768fd5db87e464880e010017e6a38d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/models/exportRecordModel.test.ts",
+      "commits": [
+        {
+          "commit": "c4281081894ba957e9abe59a1bd8480fe4a6686d",
+          "iteration": "67",
+          "subject": "Own export model clock and test exact expiration boundary",
+          "test_files": [
+            "client/src/components/Common/models/exportRecordModel.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/models/exportRecordModel.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/c4281081894ba957e9abe59a1bd8480fe4a6686d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfigTemplates/CreateInstance.test.ts",
+      "commits": [
+        {
+          "commit": "004882096783feae0f565ea85d0097f432cd6fa6",
+          "iteration": "69",
+          "subject": "Use inferred loading instance mounts with owned teardown",
+          "test_files": [
+            "client/src/components/ConfigTemplates/CreateInstance.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ConfigTemplates/CreateInstance.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/004882096783feae0f565ea85d0097f432cd6fa6.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfigTemplates/InstanceForm.test.ts",
+      "commits": [
+        {
+          "commit": "9a9ac3849b9b87c3eac94f520cc8c1fa0691e81a",
+          "iteration": "29",
+          "subject": "Improve readability of InstanceForm tests",
+          "test_files": [
+            "client/src/components/ConfigTemplates/InstanceForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/ConfigTemplates/InstanceForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/9a9ac3849b9b87c3eac94f520cc8c1fa0691e81a.txt"
+        }
+      ]
+    }
+  ]
+}

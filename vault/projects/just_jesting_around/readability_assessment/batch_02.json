@@ -1,0 +1,205 @@
+{
+  "batch": 2,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/api/client/rateLimiter.test.ts",
+      "commits": [
+        {
+          "commit": "ccad3b3ccb66de0248eaae4f0001549d1df23307",
+          "iteration": "05",
+          "subject": "Improve readability of rateLimiter tests",
+          "test_files": [
+            "client/src/api/client/rateLimiter.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/client/rateLimiter.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ccad3b3ccb66de0248eaae4f0001549d1df23307.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/client/serverMock.test.ts",
+      "commits": [
+        {
+          "commit": "91291be0d47314a6511143628c512cb5a3e2371f",
+          "iteration": "01",
+          "subject": "Improve readability of serverMock tests",
+          "test_files": [
+            "client/src/api/client/serverMock.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/client/serverMock.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/91291be0d47314a6511143628c512cb5a3e2371f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/datasets.test.ts",
+      "commits": [
+        {
+          "commit": "727dedadb6440497736dba614870d54b527c1db0",
+          "iteration": "03",
+          "subject": "Improve readability of datasets tests",
+          "test_files": [
+            "client/src/api/datasets.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/datasets.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/727dedadb6440497736dba614870d54b527c1db0.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/histories.test.ts",
+      "commits": [
+        {
+          "commit": "ad07a25657498e219d827c3800757318e988e275",
+          "iteration": "55",
+          "subject": "Use typed history fixtures and assert single listing requests",
+          "test_files": [
+            "client/src/api/histories.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/histories.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ad07a25657498e219d827c3800757318e988e275.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/index.test.ts",
+      "commits": [
+        {
+          "commit": "cb2e352ef64833ccb3fac6a7b5c8444ef141e357",
+          "iteration": "04",
+          "subject": "Improve readability of api/index tests",
+          "test_files": [
+            "client/src/api/index.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/index.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cb2e352ef64833ccb3fac6a7b5c8444ef141e357.txt"
+        },
+        {
+          "commit": "ac595e3260181d93d60a6b0de5e5bc4c1c80a465",
+          "iteration": "15",
+          "subject": "Extend tests/test-data/index.ts for client unit tests",
+          "test_files": [
+            "client/src/api/index.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/index.test.ts",
+            "client/tests/test-data/index.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ac595e3260181d93d60a6b0de5e5bc4c1c80a465.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/pages.test.ts",
+      "commits": [
+        {
+          "commit": "edc2e1663a162ca506914ccbbb53bc950d37718d",
+          "iteration": "02",
+          "subject": "Improve readability of pages tests",
+          "test_files": [
+            "client/src/api/pages.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/pages.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/edc2e1663a162ca506914ccbbb53bc950d37718d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/staleCacheRetry.test.ts",
+      "commits": [
+        {
+          "commit": "3766b31a184d1632b64bdce33fd3715ec611c214",
+          "iteration": "74",
+          "subject": "Check retry scenario tables and required request captures",
+          "test_files": [
+            "client/src/api/staleCacheRetry.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/staleCacheRetry.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3766b31a184d1632b64bdce33fd3715ec611c214.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/visualizations.test.ts",
+      "commits": [
+        {
+          "commit": "bacca43f4d996cb63e5e5b7e3faa501ea010b52c",
+          "iteration": "41",
+          "subject": "Add tests/test-data/visualizations.ts for client unit tests",
+          "test_files": [
+            "client/src/api/visualizations.test.ts",
+            "client/src/components/CommandPalette/providers/visualizations.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/visualizations.test.ts",
+            "client/src/components/CommandPalette/providers/visualizations.test.ts",
+            "client/tests/test-data/visualizations.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/bacca43f4d996cb63e5e5b7e3faa501ea010b52c.txt"
+        },
+        {
+          "commit": "dd8a4f97f469a599b6a3fe76df30835baf4dfe5d",
+          "iteration": "59",
+          "subject": "Check complete visualization request captures",
+          "test_files": [
+            "client/src/api/visualizations.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/visualizations.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/dd8a4f97f469a599b6a3fe76df30835baf4dfe5d.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/api/workflows.test.ts",
+      "commits": [
+        {
+          "commit": "fcad1197fb98a204ae4429e1a5b2ebb1894ab95f",
+          "iteration": "56",
+          "subject": "test: Type workflow query mocks and require one request",
+          "test_files": [
+            "client/src/api/workflows.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/workflows.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/fcad1197fb98a204ae4429e1a5b2ebb1894ab95f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/app/app.test.js",
+      "commits": [
+        {
+          "commit": "eedd1a16d44a0a85828230d8147d7a5f16d30b5c",
+          "iteration": "06",
+          "subject": "Improve readability of app tests",
+          "test_files": [
+            "client/src/app/app.test.js"
+          ],
+          "changed_files": [
+            "client/src/app/app.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/eedd1a16d44a0a85828230d8147d7a5f16d30b5c.txt"
+        }
+      ]
+    }
+  ]
+}

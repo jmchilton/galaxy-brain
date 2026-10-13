@@ -1,0 +1,194 @@
+{
+  "batch": 23,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/Sharing/UserSharing.test.ts",
+      "commits": [
+        {
+          "commit": "8535943668a80b7752e48eeea34ae4d96ef0dff1",
+          "iteration": "30",
+          "subject": "Improve readability of UserSharing tests",
+          "test_files": [
+            "client/src/components/Sharing/UserSharing.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Sharing/UserSharing.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/8535943668a80b7752e48eeea34ae4d96ef0dff1.txt"
+        },
+        {
+          "commit": "5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f",
+          "iteration": "31",
+          "subject": "Extend src/components/BaseComponents/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Sharing/UserSharing.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+            "client/src/components/Tool/ToolInstallationRequestForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/BaseComponents/test-utils.ts",
+            "client/src/components/Sharing/UserSharing.test.ts",
+            "client/src/components/Tool/ToolInstallationRequestForm.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/SingleItemSelector.test.ts",
+      "commits": [
+        {
+          "commit": "08e8b5234c0f35f552e581e81e2c6d661751406e",
+          "iteration": "59",
+          "subject": "Own selector test wrappers and clarify loading scenario",
+          "test_files": [
+            "client/src/components/SingleItemSelector.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/SingleItemSelector.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/08e8b5234c0f35f552e581e81e2c6d661751406e.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/StsDownloadButton.test.js",
+      "commits": [
+        {
+          "commit": "b18d8ad17674afd752f27a79b0e4bc463ace723c",
+          "iteration": "62",
+          "subject": "Own download polling test cleanup and assert poll failures",
+          "test_files": [
+            "client/src/components/StsDownloadButton.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/StsDownloadButton.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b18d8ad17674afd752f27a79b0e4bc463ace723c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tags/model.test.js",
+      "commits": [
+        {
+          "commit": "ea03e3e557f87058cf04ae3949d8634b275f1104",
+          "iteration": "13",
+          "subject": "Improve readability of Tags/model tests",
+          "test_files": [
+            "client/src/components/Tags/model.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Tags/model.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ea03e3e557f87058cf04ae3949d8634b275f1104.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/TagsMultiselect/HeadlessMultiselect.test.ts",
+      "commits": [
+        {
+          "commit": "aabbf6f0ff0a518bbc479d4b04313e2d2d3f8773",
+          "iteration": "14",
+          "subject": "Improve readability of HeadlessMultiselect tests",
+          "test_files": [
+            "client/src/components/TagsMultiselect/HeadlessMultiselect.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/TagsMultiselect/HeadlessMultiselect.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/aabbf6f0ff0a518bbc479d4b04313e2d2d3f8773.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/AuthoringHelpPanel.test.ts",
+      "commits": [
+        {
+          "commit": "6467f23543888ff3a1b90bfd61ba6f7866954d54",
+          "iteration": "47",
+          "subject": "Improve readability of authoring help panel tests",
+          "test_files": [
+            "client/src/components/Tool/AuthoringHelpPanel.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/AuthoringHelpPanel.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/6467f23543888ff3a1b90bfd61ba6f7866954d54.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/CustomToolEditorWorkspace.test.ts",
+      "commits": [
+        {
+          "commit": "dad26b69931289c9f5e47313b8551e9989efbedb",
+          "iteration": "72",
+          "subject": "Own editor workspace mounts and preserve frame cleanup",
+          "test_files": [
+            "client/src/components/Tool/CustomToolEditorWorkspace.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/CustomToolEditorWorkspace.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/dad26b69931289c9f5e47313b8551e9989efbedb.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolCard.test.js",
+      "commits": [
+        {
+          "commit": "496c7949b22889fbbd26cd10b7f718fe0be53f0c",
+          "iteration": "34",
+          "subject": "Improve readability of ToolCard tests",
+          "test_files": [
+            "client/src/components/Tool/ToolCard.test.js"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/ToolCard.test.js"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/496c7949b22889fbbd26cd10b7f718fe0be53f0c.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolForm.test.ts",
+      "commits": [
+        {
+          "commit": "3b4755069ffee54b1ccbc84ff8875f3b93c34ff8",
+          "iteration": "53",
+          "subject": "Clarify ToolForm scenarios and own mounted store state",
+          "test_files": [
+            "client/src/components/Tool/ToolForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/ToolForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3b4755069ffee54b1ccbc84ff8875f3b93c34ff8.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Tool/ToolHelpMarkdown.test.ts",
+      "commits": [
+        {
+          "commit": "2b024f511179fb30acc4b4abcefac461c530fc86",
+          "iteration": "67",
+          "subject": "Clarify markdown tool help test setup and cleanup",
+          "test_files": [
+            "client/src/components/Tool/ToolHelpMarkdown.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Tool/ToolHelpMarkdown.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2b024f511179fb30acc4b4abcefac461c530fc86.txt"
+        }
+      ]
+    }
+  ]
+}

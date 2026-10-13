@@ -1,0 +1,247 @@
+{
+  "batch": 6,
+  "snapshot": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+  "repository": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability",
+  "tests": [
+    {
+      "file": "client/src/components/CommandPalette/providers/storeFirst.test.ts",
+      "commits": [
+        {
+          "commit": "3fc3a5c24ed02717b5c438d10d419bdb4b118af4",
+          "iteration": "70",
+          "subject": "Type store-first fixtures and settle owned pending searches",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/storeFirst.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/storeFirst.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/3fc3a5c24ed02717b5c438d10d419bdb4b118af4.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/visualizations.test.ts",
+      "commits": [
+        {
+          "commit": "bacca43f4d996cb63e5e5b7e3faa501ea010b52c",
+          "iteration": "41",
+          "subject": "Add tests/test-data/visualizations.ts for client unit tests",
+          "test_files": [
+            "client/src/api/visualizations.test.ts",
+            "client/src/components/CommandPalette/providers/visualizations.test.ts"
+          ],
+          "changed_files": [
+            "client/src/api/visualizations.test.ts",
+            "client/src/components/CommandPalette/providers/visualizations.test.ts",
+            "client/tests/test-data/visualizations.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/bacca43f4d996cb63e5e5b7e3faa501ea010b52c.txt"
+        },
+        {
+          "commit": "cdb2381d83a1556fddba02f2c181640f44388480",
+          "iteration": "68",
+          "subject": "Own visualization provider cleanup and expose canonical fixtures",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/visualizations.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/visualizations.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/cdb2381d83a1556fddba02f2c181640f44388480.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/providers/workflows.test.ts",
+      "commits": [
+        {
+          "commit": "abd6312d8e558ef0882edecf70abb131bc4e8978",
+          "iteration": "10",
+          "subject": "Add tests/test-data/workflows.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/actions.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/actions.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+            "client/tests/test-data/workflows.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/abd6312d8e558ef0882edecf70abb131bc4e8978.txt"
+        },
+        {
+          "commit": "eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942",
+          "iteration": "42",
+          "subject": "Extend src/components/CommandPalette/test-utils.ts for client unit tests",
+          "test_files": [
+            "client/src/components/CommandPalette/providers/histories.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/providers/histories.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/CommandPalette/test-utils.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/CommandPalette/useScrollEdges.test.ts",
+      "commits": [
+        {
+          "commit": "7da0a4379244a4b6ca25202b7c66b29b5a3d950b",
+          "iteration": "35",
+          "subject": "Add tests/vitest/effectScope.ts for client unit tests",
+          "test_files": [
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/components/Workflow/Editor/Lint.test.ts",
+            "client/src/components/History/Graph/useHistoryGraph.test.ts",
+            "client/src/components/CommandPalette/useScrollEdges.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/useScrollEdges.test.ts",
+            "client/src/components/History/Graph/useHistoryGraph.test.ts",
+            "client/src/components/Workflow/Editor/Lint.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/tests/vitest/effectScope.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/7da0a4379244a4b6ca25202b7c66b29b5a3d950b.txt"
+        },
+        {
+          "commit": "b6a0ff860a7aad2154544391654f1a7a29d4a0c2",
+          "iteration": "52",
+          "subject": "Name scroll edge cases and expected fades",
+          "test_files": [
+            "client/src/components/CommandPalette/useScrollEdges.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/CommandPalette/useScrollEdges.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b6a0ff860a7aad2154544391654f1a7a29d4a0c2.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/ChangesIndicator.test.ts",
+      "commits": [
+        {
+          "commit": "1b7652ca99332ed53b63bb45e7e9fa54332b06d9",
+          "iteration": "64",
+          "subject": "Own changes indicator wrapper timer and attachment cleanup",
+          "test_files": [
+            "client/src/components/Common/ChangesIndicator.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/ChangesIndicator.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/1b7652ca99332ed53b63bb45e7e9fa54332b06d9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/DatasetPopoverLink.test.ts",
+      "commits": [
+        {
+          "commit": "be6ad2d3d7d2cb8f97259b37f83c4a175759dfc9",
+          "iteration": "49",
+          "subject": "Clarify dataset popover naming and lifecycle tests",
+          "test_files": [
+            "client/src/components/Common/DatasetPopoverLink.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/DatasetPopoverLink.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/be6ad2d3d7d2cb8f97259b37f83c4a175759dfc9.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/DelayedInput.test.ts",
+      "commits": [
+        {
+          "commit": "75bce7c738d020976534f25236ad7b20211b3fe8",
+          "iteration": "74",
+          "subject": "Own delayed-input mounts and type clear-search observations",
+          "test_files": [
+            "client/src/components/Common/DelayedInput.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/DelayedInput.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/75bce7c738d020976534f25236ad7b20211b3fe8.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/EmailReportForm.test.ts",
+      "commits": [
+        {
+          "commit": "ce7c6fbed40fc8401bde519540d6ccfc6fc7d3c7",
+          "iteration": "54",
+          "subject": "Own email report test plugins and teardown",
+          "test_files": [
+            "client/src/components/Common/EmailReportForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/EmailReportForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/ce7c6fbed40fc8401bde519540d6ccfc6fc7d3c7.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/ExportForm.test.ts",
+      "commits": [
+        {
+          "commit": "b40f987b0cdd43b6d30be685e31e23e72df666e2",
+          "iteration": "19",
+          "subject": "Improve readability of ExportForm tests",
+          "test_files": [
+            "client/src/components/Common/ExportForm.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/ExportForm.test.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/b40f987b0cdd43b6d30be685e31e23e72df666e2.txt"
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+      "commits": [
+        {
+          "commit": "f01e9180e5add5f97d35fa884b1c19088e92a0c6",
+          "iteration": "04",
+          "subject": "Add tests/test-data/monitoring.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+            "client/src/composables/persistentProgressMonitor.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+            "client/src/composables/persistentProgressMonitor.test.ts",
+            "client/tests/test-data/monitoring.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/f01e9180e5add5f97d35fa884b1c19088e92a0c6.txt"
+        },
+        {
+          "commit": "2ce122cdb161b08068e9557a687e94082a57673f",
+          "iteration": "26",
+          "subject": "Add tests/vitest/fakeTaskMonitor.ts for client unit tests",
+          "test_files": [
+            "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts"
+          ],
+          "changed_files": [
+            "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+            "client/tests/vitest/fakeTaskMonitor.ts"
+          ],
+          "evidence_path": "/Users/jxc755/projects/repositories/galaxy-brain/vault/projects/just_jesting_around/readability_assessment/commits/2ce122cdb161b08068e9557a687e94082a57673f.txt"
+        }
+      ]
+    }
+  ]
+}

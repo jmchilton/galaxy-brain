@@ -1,0 +1,157 @@
+{
+  "batch": 27,
+  "tests": [
+    {
+      "file": "client/src/components/User/UserDeletion.test.ts",
+      "reviews": [
+        {
+          "commit": "9d49ea354d6bcaf959dbd2457afda1e0c9d3c183",
+          "iteration": "31",
+          "score": 4,
+          "defect": "Delete flow never asserted which user was deleted",
+          "rationale": "Captures exact one deleted user ID and logout-once; canonical native modal helper replaces synthetic ok and keeps email agreement/warnings.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/User/UserOidcProfile.test.ts",
+      "reviews": [
+        {
+          "commit": "22de4353ea277b020ae50dbf46033ea2d28744df",
+          "iteration": "53",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Canonical config mock and typed user options replace local mock; combines existing nextTick into mount, nth/get and cleanup. Two profile/email/username cases unchanged.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/UtcDate.test.js",
+      "reviews": [
+        {
+          "commit": "7cbd86b1fd6fe78d6b4d7cdb5dcb87d2c11427b5",
+          "iteration": "13",
+          "score": 4,
+          "defect": "Clock-dependent elapsed substring accepts wrong year count",
+          "rationale": "Fixed 2025 system time and exact about 10 years ago retain ISO-to-elapsed-to-pretty transition, enabling stable specific check.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationCreate.test.js",
+      "reviews": [
+        {
+          "commit": "790e3475cb9b375316a7f6ce710845d2a054eb2a",
+          "iteration": "14",
+          "score": 4,
+          "defect": "Repeated mounts and fake history ref setup",
+          "rationale": "Shared mount uses explicit Pinia and child objectQuery instead of vm.doQuery; preserves plugin/help/HID/no-dataset behavior while removing repeated setup.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationDisplay.test.js",
+      "reviews": [
+        {
+          "commit": "e0d2a9463c09b9cb81ba5c515a43aa2414086ca8",
+          "iteration": "71",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Local deferred requests/returned wrapper remove suite globals and preserve pending-unmount/guard/ownership cases; descriptor restore and disposal add overhead with no named wrong original output.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationExamples.test.js",
+      "reviews": [
+        {
+          "commit": "b51abc444628cf9ee88e91ee01874445209b7456",
+          "iteration": "01",
+          "score": 4,
+          "defect": "Weak any-svg loading check and repeated mounts",
+          "rationale": "Scopes spinner selector and checks disappearance; one real-dropdown mount/selection helper consolidates seven cases and exact once-upload assertions retain callback toast checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationFrame.test.js",
+      "reviews": [
+        {
+          "commit": "b0546b47e16ee92bd14ff73cb9984fb5617bc0f6",
+          "iteration": "36",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds plugin-404 failure case asserting no iframe/no load and exact error; no original failing/vacuous test or already-exercised failure fixture.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        },
+        {
+          "commit": "4f2e77c1dadf1cbaaab90f656641672c4ec318f5",
+          "iteration": "74",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Consolidates two duplicate messaging setups/settle functions, adds owned hosts/ensureDefined and cleanup. All messaging/source/config/saved assertions unchanged.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationHeader.test.js",
+      "reviews": [
+        {
+          "commit": "4cfbe51b3bfd93fc573adf036e169ec96df9124d",
+          "iteration": "64",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds Plugin typing plus name/href fields, renames mockPlugin and find/get; icon/logo/HTML/description assertions unchanged.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Visualizations/VisualizationUnsavedChanges.test.js",
+      "reviews": [
+        {
+          "commit": "8b3f5ad9d0b1ab2506bc895a37b00db4c6296da4",
+          "iteration": "62",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Existing iframe-unsaved tests gain target ownership, Pinia disposal and conditional timer teardown; native APIs preserve events, but teardown dominates without observed leak.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/WindowManager/WindowManagerWindow.test.ts",
+      "reviews": [
+        {
+          "commit": "dd488d2e27359fea5ee3c5bafb9ff3abd7f0df6f",
+          "iteration": "57",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Descriptor restoration, fake timers and owned Pinia replace pointer stub deletion; drag/resize/cancel/focus assertions unchanged. Ownership ceremony is majority gain claim without observed leak.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    }
+  ]
+}

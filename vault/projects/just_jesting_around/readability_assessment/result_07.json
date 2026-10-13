@@ -1,0 +1,143 @@
+{
+  "batch": 7,
+  "tests": [
+    {
+      "file": "client/src/components/Common/RDMDestinationSelector.test.ts",
+      "reviews": [
+        {
+          "commit": "2b9efa9bff61628ad1d73793b28f0e9557a802ac",
+          "iteration": "05",
+          "score": 4,
+          "defect": "file-source setup copied across three or more fixtures",
+          "rationale": "Shared getFakeFileSource removes repeated supports defaults in RDM/history-export fixtures; two consumers and typed partial overrides retain plugins and capability settings.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/RenameModal.test.ts",
+      "reviews": [
+        {
+          "commit": "2fd70a68fd0b9aab9f404569a3cf0402a94ce91f",
+          "iteration": "31",
+          "score": 3,
+          "defect": "weak close-event and request-count checks",
+          "rationale": "Exact once update payload and close event arrays plus exact toast records strengthen old truthy/called checks; canonical real Rename button click replaces manual child emission. Deleted finally/parent-dismiss why comment is not fully replaced by names.",
+          "caps": [
+            "why comment deleted without replacement"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/SaveChangesModal.test.ts",
+      "reviews": [
+        {
+          "commit": "85d74c278e05121c7a1685f601da7a0d84c7f26a",
+          "iteration": "77",
+          "score": 3,
+          "defect": "as unknown as guard exposed-method soup",
+          "rationale": "Infers actual guardNavigation and captures typed route guards instead of double casts; same routes, footer behavior and navigation checks. Pinia/toast cleanup and typed mock scaffolding substantially enlarge diff, reducing gain.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/SidebarList.test.ts",
+      "reviews": [
+        {
+          "commit": "845f835110834faf17162e4dc111e58650a45db1",
+          "iteration": "14",
+          "score": 4,
+          "defect": "weak emitted argument shape",
+          "rationale": "Replaces separate emitted indices with exact whole [item,index,MouseEvent/KeyboardEvent] arrays, adding keyboard event type and rejecting extra payload args. Remaining nth/mount typing keeps checks; auto-unmount small.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/TextSummary.test.ts",
+      "reviews": [
+        {
+          "commit": "30cbc9e6fb1f0d9932f302eedeb34939e9cc98b0",
+          "iteration": "77",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Native typed props/global, get lookups and auto-unmount replace inference workaround and find. Same sanitization/plain HTML checks; no wrong original check or type is identified.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/VegaWrapper.test.ts",
+      "reviews": [
+        {
+          "commit": "278173f9e1356a8a4fa5ab4d5169d38fb16755be",
+          "iteration": "46",
+          "score": 4,
+          "defect": "weak embed/reembed checks and copied mount setup",
+          "rationale": "Exact container/spec/svg calls and counts replace broad called/count-increase checks; verifies view emission/finalization and exercises resize listener already installed. Reused mount removes four repeated arrangements; resize callback guard local helper.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/Wizard/GenericWizard.test.ts",
+      "reviews": [
+        {
+          "commit": "b3e60e2fdb768fd5db87e464880e010017e6a38d",
+          "iteration": "54",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Renames Host and sanitize capture, modernizes mounts/get and hoists mock clearing/auto-unmount. Original sanitize content/profile and container checks retained, no gate defect.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Common/models/exportRecordModel.test.ts",
+      "reviews": [
+        {
+          "commit": "c4281081894ba957e9abe59a1bd8480fe4a6686d",
+          "iteration": "67",
+          "score": 4,
+          "defect": "untested expiration boundary despite temporal fixture",
+          "rationale": "Pins Date.now to fixture time and adds equality/nonexpired versus +1ms/expired canDownload checks. Original model cases retained and instantiated locally; relative RECENT_EXPORT_DATE had no short-run issue but boundary is now explicit.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfigTemplates/CreateInstance.test.ts",
+      "reviews": [
+        {
+          "commit": "004882096783feae0f565ea85d0097f432cd6fa6",
+          "iteration": "69",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Drops async/temporary exists locals and ordinary component cast, adds auto-unmount; same present/absent LoadingSpan assertions. Original tiny tests sound.",
+          "caps": [
+            "no defect from gate list"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/ConfigTemplates/InstanceForm.test.ts",
+      "reviews": [
+        {
+          "commit": "9a9ac3849b9b87c3eac94f520cc8c1fa0691e81a",
+          "iteration": "29",
+          "score": 4,
+          "defect": "untested loading message despite fixture",
+          "rationale": "Adds actual LoadingSpan message equality and undefined input alongside null; shared mount removes two repeated five-prop literals, preserves loaded submit title/absence. Typed null workaround documented.",
+          "caps": []
+        }
+      ]
+    }
+  ]
+}

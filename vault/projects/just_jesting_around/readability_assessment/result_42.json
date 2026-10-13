@@ -1,0 +1,159 @@
+{
+  "batch": 42,
+  "tests": [
+    {
+      "file": "client/src/stores/workflowConnectionStore.test.ts",
+      "reviews": [
+        {
+          "commit": "2491bad72c21a001513a5f893dfe723fb681015b",
+          "iteration": "05",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Names connection add/remove/index behavior and swaps length to toHaveLength; all exact index checks unchanged.",
+          "caps": [
+            "cap 3: no named original gate defect; most hunks renames"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowEditorCommentStore.test.ts",
+      "reviews": [
+        {
+          "commit": "702e52542b1cbd1e37e8db6d1ea0a131f176dd2c",
+          "iteration": "07",
+          "score": 2,
+          "defect": "opaque index-based validation scenarios",
+          "rationale": "Names data/comment combinations but acceptedTypes table selects toThrow versus not.toThrow through new if in body; all twelve combinations retained.",
+          "caps": [
+            "cap 2: assertion-selecting table column and net new control flow"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowEditorToolbarStore.test.ts",
+      "reviews": [
+        {
+          "commit": "cf1d5096208c8c3ec66629c9389d904f6d93bbdb",
+          "iteration": "04",
+          "score": 2,
+          "defect": "weak event payload checks",
+          "rationale": "Exact emitted event objects now include position/type, but adds registration for loop in body where four calls were plain.",
+          "caps": [
+            "cap 2: net new control flow in test body"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowSearchStore.test.ts",
+      "reviews": [
+        {
+          "commit": "106a7c5c832125742989d6f6901cfdc77b2d8d02",
+          "iteration": "11",
+          "score": 4,
+          "defect": "setup copied across searches and weak result identity",
+          "rationale": "Canonical step fixture/shared DOM setup replaces repeated arrange code; result now proves matching step ID and input label, keeps no-match/cache checks and Ref regression explanation.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowStepStore.test.ts",
+      "reviews": [
+        {
+          "commit": "2e9ff49daff7b1890ef5b3c0a93a5c588a2dc2b0",
+          "iteration": "05",
+          "score": 3,
+          "defect": "misleading Connection Store suite name",
+          "rationale": "Corrects suite to Workflow Step Store and removes irrelevant mock restore; most remaining hunks rename names or matcher equivalents and drops output-source explanation.",
+          "caps": [
+            "cap 3: most hunks renames; why comment deleted"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/stores/workflowStore.test.ts",
+      "reviews": [
+        {
+          "commit": "b6b754c3c051941f5c66976d80ad1c42d1823448",
+          "iteration": "10",
+          "score": 4,
+          "defect": "duplicate two/five concurrent cases and opaque deferred setup",
+          "rationale": "Unifies same dedup behavior as count table, typed deferred replaces any resolve vars, removes redundant flush; partial summary preserves tag-merge regression with explanatory comment.",
+          "caps": []
+        },
+        {
+          "commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+          "iteration": "40",
+          "score": 4,
+          "defect": "setup copied across deferred consumers",
+          "rationale": "Canonical deferred replaces three local implementations and existing GalaxyAI shared helper across four tests; no assertion or request timing changes, concrete multi-consumer reuse.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/style/headingScale.test.ts",
+      "reviews": [
+        {
+          "commit": "06710cbdf8248d8f6e77a5f54a4cbccaf105587e",
+          "iteration": "67",
+          "score": 3,
+          "defect": "none",
+          "rationale": "base![1] becomes base?.[1] after same truthy regex assertion; single neutral TypeScript syntax change.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/color.test.js",
+      "reviews": [
+        {
+          "commit": "75cc1da599ac8fabc83c36937cb898c64826a9b0",
+          "iteration": "04",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Only changes describe/test titles and test-to-it import; three exact color values remain unchanged.",
+          "caps": [
+            "cap 3: no named original gate defect; most hunks renames"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/dates.test.ts",
+      "reviews": [
+        {
+          "commit": "3325250441afa5e363d212799699ca0a7fb52c0f",
+          "iteration": "05",
+          "score": 3,
+          "defect": "real-time relative timestamp dependence",
+          "rationale": "Fixed Date.now timestamp makes3-day case explicit, tables retain every missing/time-zone input; most hunks rename tests and regroup already-valid checks.",
+          "caps": [
+            "cap 3: most hunks renames"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/utils/filterConversion.test.js",
+      "reviews": [
+        {
+          "commit": "776d72eddb153c9d80d11f14e34e5022af350eb8",
+          "iteration": "09",
+          "score": 2,
+          "defect": "misleading normalization coverage claim",
+          "rationale": "Clarifies helper checks real Filtering instances rather than component wiring, tables preserve conversion cases; published boolean now chooses deletion through new body if.",
+          "caps": [
+            "cap 2: net new control flow in test body"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "batch": 31,
+  "tests": [
+    {
+      "file": "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+      "reviews": [
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "score": 4,
+          "defect": "Incomplete anonymous fixture records hidden by casts",
+          "rationale": "Shared typed anonymous factory replaces records across nine consumers; WorkflowListTabs retains anonymous/registered/source tab checks.",
+          "caps": []
+        },
+        {
+          "commit": "b7f38ee639223bc59535b70eaf4182df917b7be9",
+          "iteration": "34",
+          "score": 5,
+          "defect": "Broken shared config helper exposes boolean instead of Ref",
+          "rationale": "Repairs setupMockConfig at root with ref config/loading and removes parallel tabs mock; batch34 records all 12 helper consumer suites/95 cases passed.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+      "reviews": [
+        {
+          "commit": "abd6312d8e558ef0882edecf70abb131bc4e8978",
+          "iteration": "10",
+          "score": 4,
+          "defect": "Incomplete WorkflowSummary fixtures hidden by as unknown as double casts",
+          "rationale": "Three incomplete double-cast fixtures become a complete typed 26-line workflow factory with three immediate suite consumers and fresh nested defaults. Scenario overrides and all assertions remain; useful proportionate reuse, while the modest cast removal does not reach the rubric large-noise/broken-helper clear-win threshold.",
+          "caps": []
+        },
+        {
+          "commit": "3a8bafecdda7dae97b8bd4670bcb4231a82c5957",
+          "iteration": "58",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Canonical owner fixture and scoped Pinia/effects preserve two existing owner-action/layout cases; original RegisteredUser inference cast alone not gate defect.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowHelpDisplay.test.ts",
+      "reviews": [
+        {
+          "commit": "afa8a8d8d1fae6b492b1f28d865e158bd3f4290c",
+          "iteration": "49",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Single help-render test adds saved sanitizer implementation/conditional restore and auto-unmount; no observed leak, unchanged assertions.",
+          "caps": [
+            "cap 2: teardown at least half of changed lines without observed leak",
+            "cap 3: no gate-list defect"
+          ]
+        },
+        {
+          "commit": "a8d43c7cd3e3e33b3df0f2a2ff77f4101362ad82",
+          "iteration": "72",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Native inferred mount, partial StoredWorkflowDetailed assertion and nth replace indexing; retains two sanitizer calls/link escaping and rendered help, introduces explicit incomplete fixture cast.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+      "reviews": [
+        {
+          "commit": "0a1d55950086993a9460e8d0b30ded633b7c8205",
+          "iteration": "31",
+          "score": 4,
+          "defect": "Wrong userStore initialState key and repeated synthetic modal setup",
+          "rationale": "Correct userStore seed and canonical native footer helper consolidate repeated open/send paths; typed exact request payload/all 50 names preserve and strengthen success/error/truncation checks.",
+          "caps": []
+        },
+        {
+          "commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+          "iteration": "32",
+          "score": 4,
+          "defect": "Incomplete anonymous fixture records hidden by casts",
+          "rationale": "Shared canonical anonymous factory used across nine consumers, retaining missing-tools anonymous hide/transition cases without changing checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowRun.test.js",
+      "reviews": [
+        {
+          "commit": "c05b57840e890dd48db60eb17249a62797ca2540",
+          "iteration": "30",
+          "score": 5,
+          "defect": "Shared run data mutated across loads and redundant default mount",
+          "rationale": "Clones fixture per getRunData, removes fake setTimeout and nested extra mount; actual child form model/error event observations retain loading/model/expanded/missing-tools/reload assertions.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowRunDefaultStep.test.ts",
+      "reviews": [
+        {
+          "commit": "62e810dabd8ec047be626420d472bd00c96e221d",
+          "iteration": "51",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Adds ToolStepModel/DataOption types and local history store return, native get/nth and teardown; all form/credentials/refresh/event/debounce checks retained. Original already awaited meaningful checks.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowRunForm.test.ts",
+      "reviews": [
+        {
+          "commit": "5eed1383032a7ade2bb94f66bbfb562eaf1fd377",
+          "iteration": "44",
+          "score": 4,
+          "defect": "Opaque mount boolean and positional FormDisplay selection",
+          "rationale": "Named canMutateCurrentHistory and FormCard-title lookup clarify immutable-history/parameter setup; adds positive-before-negative render check, preserves exact invocation/error/validation payloads.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts",
+      "reviews": [
+        {
+          "commit": "28f3e0e10dc6326abfe107f7e2777245254a9784",
+          "iteration": "49",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Typed input model/canonical dataset and exact options container strengthen shape slightly; majority get/nextTick/cleanup changes keep existing debounce and cancel checks.",
+          "caps": [
+            "cap 3: no gate-list defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts",
+      "reviews": [
+        {
+          "commit": "a26801665faf3479fb4d28694cfcb6004d6fef7e",
+          "iteration": "17",
+          "score": 5,
+          "defect": "Vacuous missing updated event second-slot check",
+          "rationale": "Exact [[selected]] replaces updated?.[0]?.[1] falsy; first payload and count now required for storage selection, plus null-default reset retains listing/no-error checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/components/Workflow/Run/WorkflowStorageConfiguration.test.ts",
+      "reviews": [
+        {
+          "commit": "9d74c11a4bb8cfdab18fab8394d5152197a8a676",
+          "iteration": "48",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Renames split/primary/intermediate scenarios and moves existing flush to mount; exact [storage123,false/true] emitted checks preserved with get/native/auto-unmount changes.",
+          "caps": [
+            "cap 3: no gate-list defect",
+            "cap 3: most hunks are renames or reordering"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "batch": 35,
+  "tests": [
+    {
+      "file": "client/src/composables/keyedCache.test.ts",
+      "reviews": [
+        {
+          "commit": "12b5c4ac99b0fc3d7ee414d18fb1364b518c900f",
+          "iteration": "10",
+          "score": 3,
+          "defect": "vacuous delayed-fetch assertion and misleading shouldFetch mock",
+          "rationale": "Replaces expect(true).toBe(true) with loading/count/stored-item checks and correct boolean-return predicate wiring; however most file hunks rename names or swap boolean matchers.",
+          "caps": [
+            "cap 3: most hunks renames"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/keyedObjects.test.ts",
+      "reviews": [
+        {
+          "commit": "2975f801a24eaae73299e4fbce96bd7c198fbc91",
+          "iteration": "10",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Splits structured-clone and object identity checks, all retained; names and declaration type replace already-short readable tests.",
+          "caps": [
+            "cap 3: no named original gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/markdown.test.js",
+      "reviews": [
+        {
+          "commit": "0b457dc8406f1e0f98d922b55b33a25d9eca24d7",
+          "iteration": "01",
+          "score": 4,
+          "defect": "weak Markdown structure checks",
+          "rationale": "<h1> alone accepted wrong heading content and negative _blank accepted missing link; now checks complete heading and link markup plus existing target checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/pagination.test.ts",
+      "reviews": [
+        {
+          "commit": "c533668328449b1e5887ef28e951ada544c23680",
+          "iteration": "12",
+          "score": 3,
+          "defect": "none",
+          "rationale": "Tables page expectations and renames every test; existing exact pages, totals, empty and partial-page checks remain. Original had no weak check or duplicated cases.",
+          "caps": [
+            "cap 3: no named original gate defect; most hunks renames"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/persistentProgressMonitor.test.ts",
+      "reviews": [
+        {
+          "commit": "f01e9180e5add5f97d35fa884b1c19088e92a0c6",
+          "iteration": "04",
+          "score": 4,
+          "defect": "setup copied across three monitoring cases",
+          "rationale": "New getFakeMonitoringData removes repeated fields across alert/composable consumers; overrides preserve task IDs, final-state and expired timestamp. Batch04 review reports both consumers retained tests/assertions.",
+          "caps": []
+        },
+        {
+          "commit": "7295a540fb0d4ff0b7ebefbb672ac1229b71012c",
+          "iteration": "26",
+          "score": 4,
+          "defect": "shared mutable mock order dependence",
+          "rationale": "Replaces one module-level monitor mutated by start with fresh canonical TaskMonitor per test and asserts waitForTask task ID; retains reset/refusing-start/running checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/persistentToggle.test.ts",
+      "reviews": [
+        {
+          "commit": "442df8bb6e90c71b85c6ff76562d658cdcc6ae2a",
+          "iteration": "63",
+          "score": 2,
+          "defect": "none",
+          "rationale": "Two tiny tests gain salt snapshot/conditional restore, effect scope and Pinia disposal; behaviour checks unchanged and no observed leak.",
+          "caps": [
+            "cap 2: teardown/restore is at least half changed lines without observed leak; cap 3: no gate defect"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/pollUntil.test.ts",
+      "reviews": [
+        {
+          "commit": "42c2bccb9bc90e32f090aa5c5d68c4f22f1737d8",
+          "iteration": "11",
+          "score": 5,
+          "defect": "weak interval check and real-time timing dependence",
+          "rationale": "elapsed>=80 accepted a short interval and depended on wall clock; fake clock proves no second call at99ms and completion at100ms, counts timeout polls/no retries, keeps all results/errors.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/resourceWatcher.test.ts",
+      "reviews": [
+        {
+          "commit": "66a7965aa6490cdc328f2c2eaf089770fca8eafd",
+          "iteration": "02",
+          "score": 4,
+          "defect": "misleading listener test and synthetic document bypass",
+          "rationale": "Uses real document dispatch/spies instead of manually invoking recorded callback, corrects only once name to per-instance, reuses slow-handler wait; preserves polling/stop/dispose checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/roundRobinSelector.test.ts",
+      "reviews": [
+        {
+          "commit": "87fd0ee68d6387bd92640eb772051cc9b2a3a9e6",
+          "iteration": "05",
+          "score": 4,
+          "defect": "misleading no-op exposed methods and unawaited next actions",
+          "rationale": "Removes no-op placeholders/Object.assign harness in favour of actual composable return; await next makes action completion explicit and scoped timers/mounts retain all cycle/reset/empty checks.",
+          "caps": []
+        }
+      ]
+    },
+    {
+      "file": "client/src/composables/selectedItems/selectedItems.test.ts",
+      "reviews": [
+        {
+          "commit": "6e52bb89aa82be003ed4b177fba43ea6212d7917",
+          "iteration": "06",
+          "score": 3,
+          "defect": "order dependence from shared reactive props",
+          "rationale": "Fresh props/effect scope removes mutable cross-case query count dependency, exposes direct selection calls and retains function/size/query checks. Deletes explanation that selection enabling differs by consumer.",
+          "caps": [
+            "cap 3: why comment deleted without replacement"
+          ]
+        }
+      ]
+    }
+  ]
+}
