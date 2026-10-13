@@ -515,6 +515,7 @@
 - file: client/src/components/HistoryImport.test.js
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/ImportData/zip/resultsRoute.test.ts
 - file: client/src/components/ImportData/zip/views/RoCrateZipView.test.ts
 - file: client/src/components/ImportData/zip/views/rocrate.utils.test.ts
