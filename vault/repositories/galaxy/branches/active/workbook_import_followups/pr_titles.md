@@ -1,0 +1,4 @@
+- Strengthen workbook import browser assertions after #23922
+- Check workbook pair contents and import mode in browser tests
+- Cover workbook split rows, collection mode, and template parameters
+- Tighten workbook import regression coverage

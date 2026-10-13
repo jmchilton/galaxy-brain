@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Live GitHub PR metadata and exact-head fork CI refreshed 2026-10-12 by GOOD_MORNING/TICK. [Morning findings and actions](TICK_2026-10-12.md) record classifications, CI limits, rebases and reruns.
+Live GitHub PR metadata and exact-head fork CI refreshed 2026-10-13 by GOOD_MORNING/TICK. [Morning findings and actions](TICK_2026-10-12.md) record classifications, CI limits, rebases and reruns.
 
 PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e1570742723`, awaiting new-head CI.
 
@@ -83,6 +83,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`workbook_import_followups`](../../repositories/galaxy/branches/active/workbook_import_followups/index.md) — Strengthens workbook import tests with exact template parameters, split-row contents, and collection-mode checks. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:workbook_import_followups?expand=1).
 - [`issue_23424_when_expression_validation`](../../repositories/galaxy/branches/active/issue_23424_when_expression_validation/index.md) — Rejects obsolete flat nested tool-input references when importing or updating workflows. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23424_when_expression_validation?expand=1).
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects defaults for statically restricted workflow text inputs, and lets the run form submit an allowed `""` (#23980). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23980_static_restriction_default?expand=1).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_23977_client_api_fanout_26.1?expand=1).
