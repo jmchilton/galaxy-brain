@@ -1,0 +1,7 @@
+# toastHost reviewed without change
+
+Reviewed pristine `client/packages/ui/src/composables/toastHost.test.ts` at `b366b7803452c6adc687b81c10569da392106099`; return a readability skip, with no empty originator commit. Both original cases and two checks remain byte-identical.
+
+The two concise arrangements express the observable active-host stack contract. Names distinguish newest-host selection from closing that host and restoring the previous host. Failure-safe afterEach removes exactly the two registered test IDs. There are no casts, mocks, wrappers, stores, client aliases or duplicated complicated arrangements to improve. A helper or renamed incidental variable would manufacture churn. Source inspection confirms public register/unregister and computed active-host behavior; this is not a rendered modal test.
+
+Pristine and unchanged final Node22.20 single-worker shuffled750101 coverage runs both pass2 cases. Adjacent native UI source coverage4files17 covered statement/function/branch-arm locations exact, zero loss. No supplemental canonical UI glob is appropriate for this own-package composable. Own package `vue-tsc --noEmit -p tsconfig.json`, native file ESLint/Prettier and absolute sample hooks all exit0. Logs `/private/tmp/readability75-toast-{before,after,ui-types,eslint,prettier,hooks}.log`, JSON before/after dirs. No client @tests imports introduced. No production/shared/later-lane edit or evidenced guidance gap.

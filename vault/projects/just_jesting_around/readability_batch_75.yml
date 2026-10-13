@@ -1,0 +1,69 @@
+iteration: 75
+seed: 2610975
+inventory_sha256: 3833c07bd52f862aa1abc927fd9ca288b6efc8ad2604d77d2c9ff11e51105a69
+eligible: 173
+base_commit: b366b7803452c6adc687b81c10569da392106099
+remote_start_commit: b366b7803452c6adc687b81c10569da392106099
+lower_lane_commit: 9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6
+branch: vitest_readability
+status: reviewed
+selection:
+- file: client/src/components/Toolshed/RepositoryDetails/RepositoryTools.test.js
+- file: client/src/components/HistoryExport/ToLink.test.js
+- file: client/packages/ui/src/composables/toastHost.test.ts
+- file: client/src/components/Toolshed/services.test.js
+- file: client/src/components/Form/Elements/FormText.test.js
+- file: client/src/components/Workflow/List/CuratedWorkflowCard.test.ts
+- file: client/src/components/Page/PageView.test.ts
+- file: client/src/components/ActivityBar/ActivitySettings.test.js
+selection_notes: N=8; seeded existing uniterated tests; later-lane true and known
+  DataDialog bug excluded
+supporting_files: []
+helper_files: []
+documentation_files: []
+review_skips:
+- file: client/packages/ui/src/composables/toastHost.test.ts
+  reason: already concise named public behavior and owned cleanup; no beneficial code
+    change
+baseline:
+  declared_cases: 52
+  intended_assertions: 155
+validation:
+  passed_cases: 52
+  assertions: 156
+  skipped_cases: 0
+  shuffle_seed: 750101
+  independent_seed: 750201
+  max_workers: 1
+  node: 22.20.0
+  client_vue_tsc: passed
+  isolated_ui_vue_tsc: passed
+  eslint: passed native client
+  prettier: passed
+  hooks: passed absolute sample config all eight files
+  coverage: zero covered source locations lost; actual UI and cleanup/import qualifications
+    in report
+  independent_review: all eight approved
+  test_challenge: passed
+  maintainability: passed
+  scope: retain seven changed origins plus validated unchanged toast; screenshots
+    irrelevant
+  vault_validation: completed snapshot122files zeroerrors15existingwarnings; unrelated
+    empty scratch note preserved
+  mutations: 'missing export-link class: original passes/final presence fails; exact
+    restored source final suites pass'
+commits:
+- 4bd6fea0e6bc7c3de4f36d18032bc7cf58393e29
+- 62f3c799d1ff845975d70af467afba71d0ee118c
+- 6ebaf2247d20df7823afc35fc0c98a72cfee3c4d
+- f964d41f09a69b5138975c5c2100d87fa2e7000c
+- ed0dedfee4e9a2bcc91cb3df3fdb0fd09c0f7342
+- 041146fb3b498375910e81ba052a64162c105d66
+- 902c90bfc444596ceef3f8ffcdb4ff4a32020fbc
+push: fast-forward
+pushed_head: 902c90bfc444596ceef3f8ffcdb4ff4a32020fbc
+github:
+  pr: 24038
+  draft: true
+  mergeable: MERGEABLE
+  status: ci_wait

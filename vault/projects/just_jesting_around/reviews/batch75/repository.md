@@ -1,0 +1,5 @@
+# RepositoryTools — batch75
+
+Native required row/cell captures use canonical nth and get, with ID/version and expanded/collapsed row names instead of opaque dollar-prefixed variables. The two scenario names describe the observed listing and expansion. Automatic unmount owns all mounts, including failed checks. All original two cases/17 checks retain the exact guid/id/version partial props, row/cell index choices, row counts, empty control cells, Show more/less values and click timing. First-case configured globals and second-case original plain mount remain distinct.
+
+Pristine/final native Node22.20 single-worker shuffled750101 pass. Covered statement/function/individual branch-arm sets exact13files61locations. Actual shared UI0files0locations: the component renders its own native table/control elements. Native ESLint/Prettier and absolute sample hooks pass. No added fixture fields, shared/helper/support/production/guidance edits or evidenced new advice gap; independent normal review remains required.

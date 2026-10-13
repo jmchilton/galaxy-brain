@@ -1,0 +1,5 @@
+Approve FormText at `daa182e55a3b75cc70cbb60a7944427bc1f94934`, base `b366b7803452c6adc687b81c10569da392106099`. No blocking finding; driver integrated types remain the final gate.
+
+All eight cases/20 executed checks remain, including both undefined/empty datalist rows, exact input types, colors/classes, string and array values, and newlines. Removing await from synchronous mounts preserves mounted state and explicit subsequent setProps waits. Native required input/textarea lookups retain explicit find/exists presence and absence checks. Each test owns real Pinia captured before mount; automatic unmount precedes completion disposal and active-binding cleanup. No implementation/default/stub change or weakened assertion.
+
+Independent Node22.20 single-worker shuffled750201 run passes8 cases (exit0), log `/private/tmp/readability75-text-independent.log`. Independently recomputed pristine/final V8 statements/functions/branch-arm locations:13files72 exact, zero loss. No rendered shared UI coverage claim. Author native lint/format/absolute hooks passed. No evidenced new guidance gap.

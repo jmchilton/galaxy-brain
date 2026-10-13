@@ -1,0 +1,5 @@
+Approve PageView at `012e11dba5e45a04a176afa3d48ea40a5009ea23`, base `b366b7803452c6adc687b81c10569da392106099`. No blocking finding; driver integrated types remain the final gate.
+
+Eight cases/12 original checks and all page/config/router/mock literals remain. Native public prop inference removes component-as-object; typed importOriginal and urlData parameter forwarding match real public APIs. Each mount captures its actual testing Pinia before mounting and disposes it after automatic unmount; unmount precedes mock restoration. Explicit child-presence/absence checks remain find/exists. Existing shallow boundaries and all child stubs remain, with native local global stubs preserved. No production or fixture padding.
+
+Independent Node22.20 single-worker shuffled750201 run passes8 cases (exit0), log `/private/tmp/readability75-page-independent.log`. Independently recomputed covered V8 locations: native519files989 exact; sharedUI43files37 exact, explicitly import/setup evidence under shallow stubs rather than rendered-template coverage. Author lint/format/absolute hooks passed. No evidenced new guidance gap.

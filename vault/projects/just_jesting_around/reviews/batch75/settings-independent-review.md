@@ -1,0 +1,9 @@
+# ActivitySettings independent review
+
+Approve originator `5cff48b5b21` against immutable `b366b7803452c6adc687b81c10569da392106099`. Inspected the complete diff, real component filtering/visibility/remove behavior and activity store synchronization. No changes requested.
+
+All ten cases and41 successful checks are preserved:21 outer checks including three testSearch executions,20 config/permission-gate checks. Exact fixture values, query casing,403 wire response, two store scope names and config/visibility transitions remain. Presence/absence assertions still use find/exists; nth and ensureDefined make required rows/store items explicit. Required actions use get; awaiting their public trigger retains the original subsequent nextTick observation. Native reused mount options install the same real-action testing Pinia and original FontAwesome stub, not a new mock boundary.
+
+Automatic unmount precedes completion disposal of every captured Pinia. Configuration restoration is registered first, so reverse completion order disposes both outer and nested stores before changing the shared ref on failure. The actual10ms sync call remains awaited in each arrangement; disposal is not claimed to cancel arbitrary raw debounce timers or reset all browser local storage.
+
+Independent Node22.20 single-worker shuffled750201 passes all ten cases, exit0, `/private/tmp/readability75-settings-independent.log`. Independently recomputed native149files541→549 covered statement/function/branch-arm locations, zero lost; actual external shared UI43files291 exact. Real settings buttons render alongside imported UI setup; this is not a claim all imported templates render. Author native lint/format/absolute hooks pass; driver owns final integrated types. No weakened assertion, fabricated fixture fields, production/support change or evidenced guidance gap.
