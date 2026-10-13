@@ -32,3 +32,15 @@ John explicitly requested a draft PR. Keep it draft until he asks to mark it rea
 Rebased all six commits without conflicts onto `dev` at `9ac3cd2eb304f2860c0daf3afea0cc777f9e5cd6`; `git range-diff` confirms identical patches. Force-pushed only to the `jmchilton` fork with an explicit old-head lease. Before the rebase, client lint/unit tests, macOS and first startup, Tool Shed, Integration Selenium and Playwright workflows all passed on `25c077e8323`. New-head PR CI: 43 queued, one in progress, two skipped at creation.
 
 Hosted the E2E screenshot on fork branch `pr-assets-issue_24031_badge_tooltip_html`, commit `b3e7163d8235f9bcb0db14b3f13394196c1d7c8c`. Its immutable raw URL is in the PR body. No images were committed to galaxy-brain.
+
+## Marius review follow-ups — 2026-10-13
+
+[Review](https://github.com/galaxyproject/galaxy/pull/24069#pullrequestreview-5501066796) approved with four optional notes. Addressed in `b21056e70b8` (pushed to the fork; PR still draft):
+
+- **Nested popovers / orphaned badge popover** — fixed. A badge opens a `GPopover` only when `interactive` and it has an admin message. Every other badge uses `v-g-tooltip.hover.html`, which is non-hoverable and closes on `mouseleave`. Inside template-summary and preferred-storage popovers it can no longer outlive the outer popover. Links in non-interactive mode render but are inert (pointer-events none, no Tab stop); the same storage's interactive badge elsewhere is the way to follow them.
+- **Message changes after mount** — fixed structurally. The popover is `v-if`'d on that mode, so a change remounts it with fresh ARIA/keyboard wiring. Tested both directions with `setProps` on a mounted badge, which models `ObjectStoreBadges`' index-keyed reuse and `DatasetStorage`'s in-place replacement.
+- **Badges without messages** — Tab stop removed (`span role="img"`, no popover). The duplicate spoken sentence remains for every `v-g-tooltip` user (it sets `aria-label` and `aria-describedby` to the same text). **Tabled** as a directive-wide question.
+- **Tests** — added Tab from the trigger into the message link, a linked message in non-interactive mode (inert tooltip, closes on leave), the no-message tooltip, and the mode swap. Red-checked: the three new behaviour tests fail with the previous badge. **Tabled:** a unit-level real-sanitizer check, since DOMPurify is unreliable under happy-dom (project-wide mock). The real `ConfigurationMarkdown`/`links` path is exercised by the `test_objectstore_selection.py` E2E (rendered Markdown, link href, no literal `<p>`).
+- **Not done here:** `GPopover` still doesn't rewire when its `interactive`/`triggers` props change on the same target. Badges no longer hit it; it's a latent galaxy-ui issue.
+
+Icon layers moved to new `ObjectStoreBadgeIcon.vue`, so the button and span triggers share them without a dynamic-component directive. Client suites (727 tests), eslint, prettier and `vue-tsc` are clean. E2E not rerun locally; the fork push triggers PR CI. `pr_description.md` is updated for the tooltip/popover split. The human-read checkbox is unchecked for the new tests and the GitHub body has not been updated.

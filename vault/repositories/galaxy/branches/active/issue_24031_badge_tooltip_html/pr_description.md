@@ -6,7 +6,7 @@ Hovering a storage badge that has an admin `message` (the sample `object_store_c
 | --- | --- | --- |
 | What users see | `This storage has been marked as routinely purged by the Galaxy administrator.`<br>`<p>The data stored here is purged after a month.</p>` ❌ | A popover with the stock sentence, then the admin's message as its own paragraph, Markdown rendered ✅ |
 | Links in the message | Literal `<a href="…">…</a>` text ❌ | Real links you can click, or Tab to from the badge ✅ |
-| Screen readers | The whole string, tags included, as the badge's `aria-label` ❌ | The stock sentence names the badge; the message is the popover's content ✅ |
+| Screen readers | The whole string, tags included, as the badge's `aria-label` ❌ | Readable text: the stock sentence names a badge with a popover, and the popover holds the message ✅ |
 
 ![The backed_up badge's popover on a dataset's details page, showing the admin message with an Archive Tier Storage link](screenshots/objectstore_badge_admin_message.png)
 
@@ -21,12 +21,12 @@ This affects every badge with an admin message: storage pickers, dataset relocat
 ***This brings back what badges did before 25.0.*** Until #19521 the badge showed a popover that rendered the message through `ConfigurationMarkdown`. That PR moved it to a plain-text tooltip, which is where the tags and dead links came from. The badge now uses `GPopover` with `ConfigurationMarkdown` again:
 
 - ***Admin messages get the same `links` sanitizing as storage descriptions***, because they go through the same `ConfigurationMarkdown` component. Admins already author those descriptions in the same config file, so this doesn't give them anything new.
-- **Keyboard users can reach the links.** The badge is now a `<button>` named by its stock sentence. Hovering or focusing it opens the popover, and Tab moves into it.
-- ***Badges stay hover-only where a focusable popover can't work:*** inside dropdown options (the target storage pickers in the history storage wizard and selector) and inside other hover popovers (template summaries and the tool and workflow preferred-storage popovers). A new `interactive` prop on `ObjectStoreBadges` turns it off there.
+- **Keyboard users can reach the links.** A badge with an admin message is now a `<button>` named by its stock sentence. Hovering or focusing it opens the popover, and Tab moves into it.
+- ***Every other badge keeps the plain hover tooltip*** (`v-g-tooltip.html`, now rendered properly): badges without an admin message, and badges where a focusable popover can't work, inside dropdown options (the target storage pickers in the history storage wizard and selector) and inside other hover popovers (template summaries and the tool and workflow preferred-storage popovers). These add no Tab stop, and the tooltip closes when the pointer leaves the badge, so it can't outlive an enclosing popover. A new `interactive` prop on `ObjectStoreBadges` turns popovers off in those places.
 
 <details><summary>The shared tooltip directive's screen-reader labels</summary>
 
-#24031 also covers the label side: in `.html` mode `v-g-tooltip` copied the raw HTML string into `aria-label`. The badge no longer uses the directive, but JobInformation's metadata help still does, so the directive now builds the label from the sanitized DOM's text. It puts a space at paragraph, line-break, list and table boundaries so sentences don't run together. Plain-text tooltips are unchanged. JobInformation's `error_level` help now uses `<br>` instead of the invalid `</br>`.
+#24031 also covers the label side: in `.html` mode `v-g-tooltip` copied the raw HTML string into `aria-label`. Badge tooltips and JobInformation's metadata help both use that mode, so the directive now builds the label from the sanitized DOM's text. It puts a space at paragraph, line-break, list and table boundaries so sentences don't run together. Plain-text tooltips are unchanged. JobInformation's `error_level` help now uses `<br>` instead of the invalid `</br>`.
 
 The directive's unit tests stub DOMPurify with a pass-through, the way the global `sanitizeHtml` mock already works for other unit tests, because DOMPurify misbehaves under happy-dom. ***No new dependency: an earlier version of this branch added jsdom for these tests, and that is gone.***
 
@@ -73,9 +73,9 @@ Regression from 🔀 #19521 (25.0). Found while writing Storybook play tests for
 ## John's Checklist
 
 - [ ] Did a human read every test and every comment? (Requires human author to check)
-- [x] What does the user see when it fails? Markup the `links` sanitizer strips just doesn't appear; the stock sentence always shows, so every badge keeps a popover and a name.
+- [x] What does the user see when it fails? Markup the `links` sanitizer strips just doesn't appear; the stock sentence always shows, so every badge keeps its tooltip or popover and a name.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. They hover the badge and check the rendered popover, its role and its ARIA wiring, not the component's internals.
+- [x] Are unit tests not just testing the literal implementation? Yes. They hover the badge and check the rendered popover or tooltip, its role and its ARIA wiring, Tab into a message link, and swap a mounted badge's message both ways, not the component's internals.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 
@@ -88,6 +88,7 @@ Regression from 🔀 #19521 (25.0). Found while writing Storybook play tests for
 - With dev's `vGTooltip.ts`, the four new directive label tests fail at their `aria-label` assertions.
 - Client suites for ObjectStore, History, ConfigTemplates, Tool, Workflow/Run, JobInformation, DatasetStorage, FileSources and the directives: 585 tests pass on the pinned Node 22.20.0.
 - eslint, prettier and `vue-tsc` are clean.
+- After review: the three new badge tests for the plain tooltip and for swapping a mounted badge's message fail with the previous badge. ObjectStore, History, DatasetStorage, Tool, Workflow/Run, DiskUsage, ConfigTemplates, directive and GPopover suites pass (727 tests). The E2E test was not rerun locally for this change.
 
 </details>
 
