@@ -1,6 +1,8 @@
 PRs To Review:
+- [#24084](https://github.com/galaxyproject/galaxy/pull/24084) — Reviewed; approval draft unposted; remaining integration CI pending. [notes](../../repositories/galaxy/reviews/active/24084/index.md)
 - [#24091](https://github.com/galaxyproject/galaxy/pull/24091) — Reviewed; approval draft with non-blocking nits unposted; CI green. [notes](../../repositories/galaxy/reviews/active/24091/index.md)
 - [#24089](https://github.com/galaxyproject/galaxy/pull/24089) — Reviewed; approve-with-follow-ups draft unposted; 3 CI jobs pending. [notes](../../repositories/galaxy/reviews/active/24089/index.md)
+- [#24097](https://github.com/galaxyproject/galaxy/pull/24097) — Reviewed; approval draft unposted; inheritance policy and CI pending. [notes](../../repositories/galaxy/reviews/active/24097/index.md)
 - [#23869](https://github.com/galaxyproject/galaxy/pull/23869) — Request-changes draft unposted; Marius independently posted overlapping findings. [notes](../../repositories/galaxy/reviews/active/23869/index.md)
 - [#23999](https://github.com/galaxyproject/galaxy/pull/23999) — CI-filter finding commented by John; ball with author. [notes](../../repositories/galaxy/reviews/active/23999/index.md)
 - [#23975](https://github.com/galaxyproject/galaxy/pull/23975) — Author reports both reviews addressed on new head; verification pending; CI running. [notes](../../repositories/galaxy/reviews/active/23975/index.md)
@@ -12,7 +14,7 @@ PRs To Review:
 - [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — John's reply and/or merge decision after Sergey's response. [notes](../../repositories/galaxy/reviews/active/23223/index.md)
 - [#23560](https://github.com/galaxyproject/galaxy/pull/23560) — Draft; re-review when it leaves draft. [notes](../../repositories/galaxy/reviews/active/23560/index.md)
 - [#22976](https://github.com/galaxyproject/galaxy/pull/22976) — Parked for author/Marius follow-up; local draft unposted. [notes](../../repositories/galaxy/reviews/active/22976/index.md)
-- [#23866](https://github.com/galaxyproject/galaxy/pull/23866) — Now ready; author reports fixes; verification pending. [notes](../../repositories/galaxy/reviews/active/23866/index.md)
+- [#23866](https://github.com/galaxyproject/galaxy/pull/23866) — Re-reviewed; approval draft with empty/auto completeness nits unposted; CI green. [notes](../../repositories/galaxy/reviews/active/23866/index.md)
 - [#23898](https://github.com/galaxyproject/galaxy/pull/23898) — Published Pulsar pins pushed; package CI missing pykube; conflicts; Nicola asks about package bumps. [notes](../../repositories/galaxy/reviews/active/23898/index.md)
 - [#23953](https://github.com/galaxyproject/galaxy/pull/23953) — Draft; approval draft with nits unposted. [notes](../../repositories/galaxy/reviews/active/23953/index.md)
 - [#23956](https://github.com/galaxyproject/galaxy/pull/23956) — Do not post our draft; author/Marius discussing approach. [notes](../../repositories/galaxy/reviews/active/23956/index.md)
@@ -25,4 +27,4 @@ PRs to Skip For 7 Days:
 PRs Blocked:
 None yet.
 
-GitHub state last refreshed: 2026-10-12.
+GitHub state last refreshed: 2026-10-12 (full queue); #24097, #23869, #24084, #23866, #24091 and #24089 checked 2026-10-13.

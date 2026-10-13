@@ -1,0 +1,28 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/jxc755/projects/worktrees/galaxy/pr/24084
+configfile: pytest.ini
+plugins: mock-3.16.0, platformdirs-4.12.2, shard-0.1.2, cov-7.1.0, playwright-0.9.0, logfire-5.1.1, json-report-1.5.0, asyncio-1.4.0, metadata-3.1.1, html-4.2.0, pytest_httpserver-1.1.5, postgresql-9.1.0, base-url-2.1.0, darkgraylib-2.4.1, anyio-4.15.1, cwltest-2.7.20260814150058
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 59 items
+Running 59 items in this shard
+
+test/unit/authnz/test_flow_state.py .....................                [ 35%]
+test/unit/authnz/test_custos_confirmation.py ...................         [ 67%]
+test/unit/authnz/test_authnz_controller.py ..............                [ 91%]
+test/unit/app/authnz/test_custos_authnz.py .....                         [100%]
+
+======================= 59 passed, 93 warnings in 14.34s =======================
+Exception ignored in atexit callback <function cleanup_subprocesses at 0x10d0d5620>:
+Traceback (most recent call last):
+  File "/Users/jxc755/projects/repositories/galaxy/.venv/lib/python3.13/site-packages/mirakuru/base.py", line 78, in cleanup_subprocesses
+    pids = processes_with_env(ENV_UUID, str(os.getpid()))
+  File "/Users/jxc755/projects/repositories/galaxy/.venv/lib/python3.13/site-packages/mirakuru/base_env.py", line 52, in processes_with_env_psutil
+    for proc in psutil.process_iter():
+  File "/Users/jxc755/projects/repositories/galaxy/.venv/lib/python3.13/site-packages/psutil/__init__.py", line 1541, in process_iter
+    a = set(pids())
+  File "/Users/jxc755/projects/repositories/galaxy/.venv/lib/python3.13/site-packages/psutil/__init__.py", line 1485, in pids
+    ret = sorted(_psplatform.pids())
+  File "/Users/jxc755/projects/repositories/galaxy/.venv/lib/python3.13/site-packages/psutil/_psosx.py", line 320, in pids
+    ls = cext.pids()
+PermissionError: [Errno 1] Operation not permitted (originated from sysctl() malloc 1/3)

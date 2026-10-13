@@ -1,0 +1,6 @@
+<tool id="discover_empty_ext" name="discover_empty_ext" version="0.1.0">
+<command><![CDATA[mkdir out && printf 'hello\n' > out/README]]></command>
+<inputs />
+<outputs><collection name="output" type="list"><discover_datasets directory="out" pattern="(?P&lt;name&gt;[^.]+)\.?(?P&lt;ext&gt;.*)" /></collection></outputs>
+<tests><test expect_num_outputs="1"><output_collection name="output" type="list" count="1"><element name="README" ftype="data"><assert_contents><has_text text="hello" /></assert_contents></element></output_collection></test></tests>
+</tool>

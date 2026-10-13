@@ -1,3 +1,21 @@
+# Galaxy #23866 — Set unknown output extensions to data; sniff or infer discovered datasets
+
+[PR #23866](https://github.com/galaxyproject/galaxy/pull/23866) · Status: active; re-review complete. Recommendation: **approve with two completeness nits**. Delivery: **unposted**. Open, ready; checked 2026-10-13.
+
+Reviewed HEAD: `dbfcec59a427eb40a3d05ce13d93aa7f258fb58e`, base `dev`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/23866/`; clean, retained while open.
+
+- [Current review and risks](review-2026-10-13.md)
+- [Current unposted draft](draft-review-2026-10-13.md)
+- [Validation evidence](validation-evidence-2026-10-13.txt)
+- [Dotless-file regression](discover_empty_ext.xml) and [non-deferred auto regression](discover_auto_ext.xml)
+- [Isolated in-memory control](extension-control.py)
+- [Historical initial review](review.md)
+
+The broader finish/failure helper addresses John's consistency objection. 166 unit tests and both submitted framework tests pass; all CI checks succeed or skip. Empty-string and non-deferred auto extensions still escape the helper; both expected-data regressions fail and pass with a guard-only control. These are completeness nits; an independent downstream consumer completed successfully, so no downstream rejection or new blocker is claimed. No source edits or GitHub delivery performed.
+
+## Historical tracking
+
 # galaxy #23866 — Coerce pattern-discovered extensions that are not datatypes to data
 
 [PR #23866](https://github.com/galaxyproject/galaxy/pull/23866) · Status: active; open draft. GitHub state checked 2026-10-11.
@@ -17,3 +35,7 @@ Delivery check 2026-10-11: PR is now ready for review, live HEAD still `dbfcec59
 ## Morning check — 2026-10-12
 
 Open, ready; live HEAD `dbfcec59a427eb40a3d05ce13d93aa7f258fb58e`. CI snapshot: 3 skipped, 59 success. Ready, unchanged head `dbfcec59a427`; all checks successful or skipped. Author’s reported uniform handling/job-message fixes still need verification. No new reply is required merely because a requested re-review remains outstanding.
+
+## Vault sync — 2026-10-13
+
+The validation blocker was resolved on 2026-10-13 after John requested removal of the empty `vault/reviews/Untitled.md`. Required `make validate` passes: 122 files, zero errors, 15 advisory warnings. This review and its queue update are included in the review checkpoint; unrelated workspace changes were preserved.

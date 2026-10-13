@@ -1,0 +1,13 @@
+HEAD dbfcec59a427eb40a3d05ce13d93aa7f258fb58e, Python 3.13.12, worktree /Users/jxc755/projects/worktrees/galaxy/pr/23866.
+Unit command: PYTHONPATH=lib /Users/jxc755/projects/repositories/galaxy/.venv/bin/python -m pytest test/unit/app/jobs/test_job_wrapper.py test/unit/app/tools/test_collect_primary_datasets.py test/unit/tool_util/test_tool_linters.py -q --disable-warnings
+Unit result: 166 passed, 1 skipped, 5 warnings in 34.92s.
+Framework command: existing venv python -m pytest test/functional/test_toolbox_pytest.py -m tool -q --tb=short
+Environment: PYTHONPATH=lib; shared venv bin on PATH; GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false; GALAXY_CONFIG_ENABLE_BETA_WORKFLOW_MODULES=true; GALAXY_CONFIG_OVERRIDE_ENABLE_BETA_TOOL_FORMATS=true; GALAXY_TEST_TOOL_CONF=/private/tmp/gx23866-framework/tool_conf.xml; GALAXY_TEST_FILE_DIR=test-data.
+Fixture directory contains copies of the two submitted fixtures plus the two retained regression fixtures.
+Framework result: 2 passed, 2 failed, 27 warnings in 29.16s.
+Failure 1: Dataset metadata verification for [file_ext] failed, expected [data] but found []. Actual extension/file_ext empty string, state ok, data_type galaxy.datatypes.data.Data.
+Failure 2: Dataset metadata verification for [file_ext] failed, expected [data] but found [auto]. Actual extension/file_ext auto, state ok, data_type galaxy.datatypes.data.Data.
+Guard-only in-memory control result: 2 passed, 2 deselected, 13 warnings in 27.84s.
+Independent API downstream consumer: response 200, consumer job finishes ok. Diagnostic expecting rejection fails; no downstream blocker established.
+CI: 59 success, 3 skipped, no failure. Clean worktree; git diff --check HEAD^ HEAD passes.
+No raw full-server logs copied to vault; fixtures and summarized ordinary evidence retained.

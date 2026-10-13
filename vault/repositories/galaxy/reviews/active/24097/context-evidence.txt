@@ -1,0 +1,17 @@
+SAMPLE: 799 extensions; changed: {"anvio_state": {"after": null, "before": {"visualization": "hyphyvision"}}, "d3_hierarchy": {"after": null, "before": {"visualization": "hyphyvision"}}, "freq.json": {"after": null, "before": {"visualization": "hyphyvision"}}, "hivtrace": {"after": null, "before": {"visualization": "hyphyvision"}}, "mzqc": {"after": null, "before": {"visualization": "hyphyvision"}}}
+EXACT PARENT: test_preferred_visualization_direct_mapping passes
+EXACT PARENT: test_preferred_visualization_not_inherited_by_sibling_subclass FAILS
+EXACT PARENT: test_preferred_visualization_inherited_from_parent_datatype passes
+NEAREST ANCESTOR: old= {'visualization': 'broad'} new= {'visualization': 'near'}
+23869 CONFIG: rrd {"before": {"visualization": "rerunio"}, "after": {"visualization": "rerunio"}}
+23869 CONFIG: gwas_bgzip {"before": {"visualization": "locuszoom"}, "after": {"visualization": "locuszoom"}}
+23869 CONFIG: hep.root {"before": {"visualization": "rerunio"}, "after": null}
+23869 CONFIG: bai {"before": {"visualization": "rerunio"}, "after": null}
+23869 CONFIG: tabix {"before": {"visualization": "rerunio"}, "after": null}
+23869 CONFIG: gz {"before": {"visualization": "rerunio"}, "after": null}
+23869 CONFIG: tar {"before": {"visualization": "locuszoom"}, "after": null}
+23869 CONFIG: tar.gz {"before": {"visualization": "locuszoom"}, "after": null}
+23869 CONFIG: fasta {"before": {"visualization": "alignment"}, "after": {"visualization": "alignment"}}
+23869 CONFIG: fasta.gz {"before": {"visualization": "alignment"}, "after": {"visualization": "alignment"}}
+23869 CONFIG: fasta.bz2 {"before": {"visualization": "alignment"}, "after": {"visualization": "alignment"}}
+CONTEXT ASSERTIONS: all passed
