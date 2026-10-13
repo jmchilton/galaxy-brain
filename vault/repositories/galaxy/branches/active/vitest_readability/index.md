@@ -4,7 +4,7 @@ Status: `author_work`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests to
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `3d593f929a95ba27a67bf11c0c8f242acfa1766c`.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `7f2db5e59415f07c09fec5be75ff4885fbad047e` (on `fix_story_a11y` `cfb0e376ba3`).
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
