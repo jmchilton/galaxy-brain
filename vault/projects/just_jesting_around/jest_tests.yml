@@ -221,6 +221,7 @@
   iterated: 1
 - file: client/src/components/Common/SaveChangesModal.test.ts
   storified: true
+  storybook_play: true
   iterated: 1
 - file: client/src/components/Common/SidebarList.test.ts
   iterated: 1
