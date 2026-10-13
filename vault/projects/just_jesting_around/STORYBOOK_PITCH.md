@@ -13,14 +13,17 @@ flowchart LR
     STORIES -->|"what a user can see"| PLAYS
     STORIES -->|"spies, payloads, timing"| UNIT
 ```
+## The Process / Loop
 
-## The Process
+<details>
 
 Each component test goes through two passes, one commit each.
 - **Story pass.** Setup moves into a `.stories.ts` file beside the component. Each story is a state worth looking at, named for that state, and API requests are answered by typed MSW handlers. The test still runs in happy-dom, but it now mounts those composed stories, so the states a developer browses and the states the test checks are the same objects.
 - **Play pass.** Every check whose result a user can see moves into a play function on a story. It queries by role and label, in real Chromium. Checks about spies, request payloads or timing stay in vitest.
 
 Every moved check is run against a deliberate break, so the play has to fail on the step it claims. Where a play claims to be stronger, the old test is shown passing that same break. An independent review then confirms every original assertion still has a home.
+
+</details>
 
 ## Metrics
 
@@ -221,21 +224,11 @@ Plays query by role and name, which is how a screen reader sees the page, so acc
 | Load error reads "Error: User does not own…" | `WorkflowInvocationState.vue` | Same code on `dev` |
 | `useConfig(true)` never loads config | `composables/config.ts` | Fix on its own branch |
 
-Five more are smaller, such as a dead "Select this folder" label and a stray space before a period ([BUGS_FOUND.md](BUGS_FOUND.md)).
+Five more are smaller, such as a dead "Select this folder" label and a stray space before a period.
 
-## Visual checks protect the migration
+## Visual checks could protect future migrations
 
-The strongest case for Galaxy is the BootstrapVue replacement and Vue 3 transition: keep a catalog of the same user-visible states before and after changing the implementation. A screenshot comparison could flag an unintended spacing, wrapping, clipping, icon, or overlay change even when every click and text assertion still passes. That is an inference about the kinds of regressions these migrations can introduce, not evidence that Storybook would have prevented a specific past Galaxy bug.
-
-A migration review could pair an enabled, disabled and loading button; a validation error and long label; an open modal or dropdown; and a narrow history panel. Keep fixtures, fonts, viewport and browser fixed. Review intentional differences, then accept the new appearance. Capture the baseline before swapping the component: adopting screenshots afterward cannot reconstruct the old appearance.
-
-Stories already give us the reproducible states. **Rendering a story and passing its play are not screenshot tests.** A separate capture-and-compare step is needed. Storybook's documented integration is the Chromatic visual-test addon, with hosted baselines and an accept/reject review workflow; it requires a Chromatic account and linked project. [Storybook visual testing](https://storybook.js.org/docs/writing-tests/visual-testing).
-
-Chromatic captures after the play completes, not after every step. A wizard play that opens a modal and later closes it will therefore miss the open state visually. Give migration-critical states their own stories or plays that leave the state on screen. Wait for fetched content and fonts; avoid fixtures driven by the current date or randomness. [Chromatic interaction snapshots](https://www.chromatic.com/docs/interactions/).
-
-A local option is Vitest Browser Mode's `toMatchScreenshot`, using the Playwright provider already in this branch. That avoids a hosted service, but we own baseline storage, a consistent capture environment, diff artifacts and review. A useful pilot would cover a few migrated primitives and one real form at desktop and narrow-panel widths, then deliberately break CSS to demonstrate a red visual check while the behavior check stays green. [Vitest visual regression testing](https://main.vitest.dev/guide/browser/visual-regression-testing).
-
-Visual diffs cannot establish keyboard operation, accessible names or focus management. Keep the role/label plays, add automated axe checks, and manually review keyboard and screen-reader behavior for important interactions. The layers answer different questions: what it looks like, how it behaves, and which accessibility rules its rendered DOM violates.
+The story catalog also opens up [visual regression testing](https://storybook.js.org/docs/writing-tests/visual-testing) as a future option. For migrations such as replacing BootstrapVue components, we could capture the same states before and after a change and review screenshot differences for spacing, wrapping, clipping or overlay regressions that behavioral tests might miss. Chromatic or local Vitest screenshot comparisons could build on these stories; adding capture, baselines and a review workflow would be separate follow-up work beyond this branch.
 
 ## Accessibility checks alongside the plays
 
@@ -247,7 +240,25 @@ This experiment does not add Chromatic credentials or a visual CI gate, and it d
 
 ## Costs
 
-- **Browser time.** Unit time drops and browser time grows. CommandPalette's unit file went from about 76s to 54s, and its stories from 3s to 13s. Most of the added time is real hover delays and scrolling. In most files, setup dominates per-file wall time.
+### CLI runtime
+
+The last three comparisons average **68.94s before → 77.25s after**, an increase of **8.31s (12.1%)**. The remaining unit tests average 54.21s and the browser stories add 23.04s. Moving checks into plays saves unit time, which offsets much of the browser cost.
+
+| Run | Before: original units | After: remaining units | After: Chromium stories | After: combined | Change |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | 81.16s | 69.31s | 36.64s | 105.95s | +30.5% |
+| 2 | 81.10s | 54.79s | 23.71s | 78.50s | −3.2% |
+| 3 | 69.23s | 54.62s | 23.09s | 77.71s | +12.2% |
+| 4 | 68.69s | 54.01s | 22.93s | 76.94s | +12.0% |
+| 5 | 68.89s | 54.00s | 23.09s | 77.09s | +11.9% |
+| **Mean, runs 3–5** | **68.94s** | **54.21s** | **23.04s** | **77.25s** | **+12.1%** |
+
+Measured on 2026-10-12–13 using fixed snapshots: pre-Storybook base `27e6eaab100` versus Play tip `81c4987360d`. Before runs the 59 original unit files in the conversion range: **482 tests**. After runs their 55 remaining unit files (**345 tests**) plus all 59 story files (**379 browser tests**). All five comparisons pass. The after suite includes additional rendered states and checks, so the test counts are not equivalent workloads. This measures the conversion range, not the entire repository's test suite.
+
+Times are end-to-end CLI wall time, including startup. Units and browser stories run sequentially, so the combined column is their sum; Vitest's summed parallel test durations are not used. Both snapshots use pinned Node 22.20.0, three workers and an 8 GB Node heap, with coverage and a11y excluded. Runs 3–5 alternate which snapshot runs first. The first two comparisons show startup/cache variability; the final three are steadier, but this is a local benchmark rather than a CI performance guarantee.
+
+### Other costs
+
 - **A new CI job.** Stories and plays need a browser job (`pnpm test:browser`, Playwright Chromium). The existing `unit` job is unchanged.
 - **New dev dependencies.** Storybook 10.6, `@storybook/addon-vitest`, `msw-storybook-addon`, `@vitest/browser-playwright` and `playwright`.
 - **Size.** About 29 test files plus shared story infrastructure. The infrastructure commits come first. After that, each test has a story commit and a play commit, so the PR can be reviewed one test at a time.
