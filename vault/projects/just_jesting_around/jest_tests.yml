@@ -2642,6 +2642,7 @@
       score: 2
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Workflow/List/CuratedCollectionChips.test.ts
   readability_score: 3
   readability_reviews:
