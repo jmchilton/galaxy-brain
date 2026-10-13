@@ -2429,6 +2429,7 @@
       iteration: 76
       score: 4
   iterated: 1
+  storified: skip
 - file: client/src/components/Workflow/Editor/Comments/ColorSelector.test.js
   readability_score: 3
   readability_reviews:
