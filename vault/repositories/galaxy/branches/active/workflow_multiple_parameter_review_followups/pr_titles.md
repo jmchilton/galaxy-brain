@@ -1,0 +1,4 @@
+- Enable multiple float workflow inputs in the editor
+- Preserve decimal list defaults in workflow input forms
+- Add float list controls and defaults to the workflow editor
+- Extend numeric workflow input editing to float lists
