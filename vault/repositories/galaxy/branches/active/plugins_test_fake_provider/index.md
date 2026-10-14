@@ -1,6 +1,6 @@
 # plugins_test_fake_provider
 
-Status: `attention`. Base: `dev`.
+Status: `branches_ready_for_final_review`. Base: `dev`.
 
 [PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist review](checklist_review.md) · [Strengthening review](strengthening_review.md) · [Implementation debrief](implementation_debrief.md)
 
@@ -35,3 +35,7 @@ GitHub now reports OPEN, non-draft and mergeable at `cc3fe81fbc50`; this TICK di
 ## TICK — 2026-10-14
 
 Live PR #24051 conflicts with dev in api/plugins.py and test_plugins.py. Upstream adds configurable inference settings and new mocked tests; reconciling them with the real-provider tests requires behavioral adaptation beyond a mechanical rebase. Left branch intact and moved to attention. Remaining package-import reds are the recorded unrelated Pulsar failure.
+
+## Requested rebase and repair — 2026-10-14
+
+[Rebase/repair evidence](rebase_2026-10-14.md). Pushed `bb84aeee05a345d00219d5688d5a9349491b3aa2` to the jmchilton fork after successful targeted validation. Status: `branches_ready_for_final_review`; new-head CI pending. Conflicted rebase requires fresh review of the adapted inference tests.

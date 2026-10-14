@@ -1,6 +1,6 @@
 # issue_19049_collection_type_picker
 
-Status: `author_work`. Base: `dev`. Draft [PR #24055](https://github.com/galaxyproject/galaxy/pull/24055), head `d37a9e903038064bbc1ed9eb2830ef013150a48d`.
+Status: `branches_ready_for_final_review`. Base: `dev`. Draft [PR #24055](https://github.com/galaxyproject/galaxy/pull/24055), head `f169ab950dc212003a8f12a3830f5771d5c8d2db`.
 
 Adds a select-or-text field for workflow collection types and Tool Shed targets.
 
@@ -15,3 +15,7 @@ Requested failed-job reruns for the recorded unrelated failures: [run 3817902776
 ## TICK — 2026-10-14
 
 Current head 18cb34074127 is mergeable but Playwright run 38439282446 fails test_collection_workbook_template_is_typed waiting for [data-which-builder="list:paired"]. This intersects collection type/workbook behavior and has not been diagnosed as unrelated. Moved to author_work; preserve draft/final-read-through instructions. No implementation fix inferred.
+
+## Requested rebase and repair — 2026-10-14
+
+[Rebase/repair evidence](ci_repair_2026-10-14.md). Pushed `f169ab950dc212003a8f12a3830f5771d5c8d2db` to the jmchilton fork after successful targeted validation. Status: `branches_ready_for_final_review`; new-head CI pending. Workbook selector repaired; new regression requires fresh human read. Preserve the explicit draft hold.

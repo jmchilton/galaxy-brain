@@ -44,7 +44,8 @@ Queue snapshot refreshed from GitHub 2026-10-14. [TICK findings and actions](TIC
 - [`issue_21015_multiple_text_param`](../../repositories/galaxy/branches/active/issue_21015_multiple_text_param/index.md) — Supports multiple text workflow parameters; approved text review fixes pushed, new-head CI pending. [#23992](https://github.com/galaxyproject/galaxy/pull/23992).
 
 ## Open Galaxy PRs — needs attention (`attention`)
-- [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin proxy and AI agents against a local provider; fixes live LLM tests using static responses. [#24051](https://github.com/galaxyproject/galaxy/pull/24051).
+
+None yet.
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 - [`ci_tracked_source_filters`](../../repositories/galaxy/branches/active/ci_tracked_source_filters/index.md) — Restores tracked source CI triggers and Selenium exclusions after #23999. [#24120](https://github.com/galaxyproject/galaxy/pull/24120).
@@ -66,7 +67,6 @@ Queue snapshot refreshed from GitHub 2026-10-14. [TICK findings and actions](TIC
 - [`fix_copied_datasets`](../../repositories/galaxy/branches/active/fix_copied_datasets/index.md) — Fixes workflow extraction for datasets copied across histories. [#21806](https://github.com/galaxyproject/galaxy/pull/21806).
 - [`collection_restructure_panel`](../../repositories/galaxy/branches/active/collection_restructure_panel/index.md) — Adds a panel for transforming dataset collection layouts. [#12238](https://github.com/galaxyproject/galaxy/pull/12238).
 - [`pulsar-mq-pull`](../../repositories/galaxy/branches/active/pulsar-mq-pull/index.md) — Polls for Pulsar MQ jobs missed by normal event handling. [#9911](https://github.com/galaxyproject/galaxy/pull/9911).
-- [`issue_19049_collection_type_picker`](../../repositories/galaxy/branches/active/issue_19049_collection_type_picker/index.md) — Adds a select-or-text field for workflow collection types and Tool Shed targets. [#24055](https://github.com/galaxyproject/galaxy/pull/24055).
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
@@ -102,6 +102,9 @@ Queue snapshot refreshed from GitHub 2026-10-14. [TICK findings and actions](TIC
 None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
+
+- [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin and agent HTTP inference with a local provider; preserves configurable inference settings. [#24051](https://github.com/galaxyproject/galaxy/pull/24051). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:plugins_test_fake_provider?expand=1).
+- [`issue_19049_collection_type_picker`](../../repositories/galaxy/branches/active/issue_19049_collection_type_picker/index.md) — Adds select-or-text collection types and fixes workbook template browser selection. [#24055](https://github.com/galaxyproject/galaxy/pull/24055). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19049_collection_type_picker?expand=1).
 
 
 
