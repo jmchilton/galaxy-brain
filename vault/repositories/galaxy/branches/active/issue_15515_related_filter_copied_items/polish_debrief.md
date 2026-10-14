@@ -48,3 +48,8 @@ John asked whether the API tests made `test_JobConnectionsManager.py` redundant.
 - jobs run on copies, two copy levels deep (the only test that the CTE actually recurses)
 
 Both became API tests at `2cce6b3cfb5`, and the unit-test changes were reverted to the base. Collections are covered too: outputs are copied before their inputs, so each related pair's hids come out reversed. All 5 `related` API tests pass on SQLite. With dev's `job_connections.py` swapped in, all four copied-history tests fail at their related-hids assertion. Every test now runs on Postgres in CI.
+
+
+## Review revision — 2026-10-14
+
+Marius' comments prompted a substantive revision with guarded copy boundaries, a two-query metadata fast path, batched hidden-element ownership, and expanded regressions. The [follow-up debrief](review_followups_2026-10-14.md) supersedes the implementation and validation claims above for current head `f9b57ed5793`. Fresh checklist inspections pass all agent-answerable items; the one strengthening round clarified intermediate-copy consumers and missing individual collection-element job associations. All requested fixes are pushed; new-head CI and a fresh human read remain.

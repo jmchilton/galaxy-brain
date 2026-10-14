@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #24106 refreshed 2026-10-14 after review fixes: draft, mergeable, new-head CI pending.
+
 PR #24119 refreshed 2026-10-14: requested draft opened against `release_26.2`; head `042902f139e`, CI pending.
 
 Clipboard E2E base/CI refreshed 2026-10-14 after polishing; #24104 merged and fork head `042902f139e` awaits CI and final human review.
@@ -14,7 +16,6 @@ PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e157
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
-- [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515). [#24106](https://github.com/galaxyproject/galaxy/pull/24106).
 - [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
 - [`workbook_import`](../../repositories/galaxy/branches/active/workbook_import/index.md) — Tests the rule builder mapping Galaxy infers from workbook headers, under Selenium and Playwright. [#23922](https://github.com/galaxyproject/galaxy/pull/23922).
@@ -42,6 +43,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515). [#24106](https://github.com/galaxyproject/galaxy/pull/24106).
 - [`dangling_when_lint`](../../repositories/galaxy/branches/active/dangling_when_lint/index.md) — Warns about disconnected workflow when-inputs and gives them editor ports. [#24107](https://github.com/galaxyproject/galaxy/pull/24107).
 - [`workflow_multiple_parameter_review_followups`](../../repositories/galaxy/branches/active/workflow_multiple_parameter_review_followups/index.md) — Adds multiple float workflow parameters and decimal list defaults in the editor. [#24108](https://github.com/galaxyproject/galaxy/pull/24108).
 

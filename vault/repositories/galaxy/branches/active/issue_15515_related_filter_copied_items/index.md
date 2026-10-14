@@ -1,10 +1,10 @@
 # issue_15515_related_filter_copied_items
 
-Status: `ready`. Base: `dev`.
+Status: `ci_wait` — draft PR review fixes pushed; fresh human read and new-head CI pending. Base: `dev`.
 
 Makes the related filter work on imported and copied history items (#15515).
 
-[Implementation](implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tracking history](tracking_history.md)
+[Implementation](implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tracking history](tracking_history.md) · [Marius review follow-ups](review_followups_2026-10-14.md)
 
 Previous approved SHA (superseded by conflicted rebase): `96218cbe647` (John, 2026-10-06 at `c44206d0535`; carried across a clean rebase onto dev 2026-10-09). Chosen title: **Make the related filter work on imported and copied history items**.
 
@@ -21,3 +21,12 @@ Post-rebase local API validation: `pytest lib/galaxy_test/api/test_history_conte
 John explicitly requested a non-draft PR, renewing approval for `1c9c02451093a2fa0ac1e4ae0f323c6f928aa3c8`. Its CI had 50 successes, two skipped, and three unrelated failures: both package jobs could not import `build_client_manager` from published `pulsar.client` ([run](https://github.com/jmchilton/galaxy/actions/runs/38168074106)); generated-config setup hit wheels.galaxyproject.org HTTP 503 fetching edam-ontology ([run](https://github.com/jmchilton/galaxy/actions/runs/38168074103)). Neither exercises the changed related-filter code.
 
 Clean pre-PR rebase onto dev `63192fd64e4`: all five patches identical per range-diff. Approval carries to `43b0f3e2c44435952625c0710d4ad5e2e498e92f`; pushed only to jmchilton with an explicit lease. Opened [#24106](https://github.com/galaxyproject/galaxy/pull/24106) **out of draft**, with the chosen title and `pr_description.md` verbatim. Verified non-draft and mergeable, new upstream CI queued/in progress. No known author-side work at opening.
+
+
+## Review follow-ups — 2026-10-14
+
+John requested Marius' review fixes with thorough polish and an explanation of any copy-boundary clash. Prior head `43b0f3e2c44435952625c0710d4ad5e2e498e92f` had 54 successful checks and two skipped. Clean polish rebase onto actual upstream dev `8ef56943b78`; no conflicts. New implementation changes supersede the old approved SHA and require a fresh human read. No GitHub comments or description edits are authorized by the polish workflow; revised description is local.
+
+Relationship lookup now uses two fixed SQL queries: a metadata fast path and one guarded relationship query. Association ancestry replaces shared `dataset_id` mapping. The current-item creating-job boundary preserves intermediate copy consumers. Batched collection membership detects hidden outputs without individual job associations, with exact-input reuse exceptions. **23 manager tests, 8 SQLite API tests, 8 PostgreSQL 18 API tests, and 17 standalone PostgreSQL boundary cases pass**. All Galaxy pre-commit hooks pass. Mypy has seven pre-existing annotation errors versus nine on the base. See the [debrief](review_followups_2026-10-14.md) for the detailed boundary explanation, final analyzed query timings, and remaining limits.
+
+Final SHA: `f9b57ed5793cd3e3b929bfcb37daef9e2b880bcb`. Pushed only to the jmchilton fork with an exact lease on the previous approved head. GitHub confirms the new SHA, mergeability, and **draft** state, with CI queued/in progress. This session did not alter draft state. No new-head browser pass is claimed. The description was updated locally; no review replies or live description edit were posted. Fresh human-read approval remains unchecked.

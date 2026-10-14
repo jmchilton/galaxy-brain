@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-14",
+  "database": "PostgreSQL 18",
+  "commit": "f9b57ed5793cd3e3b929bfcb37daef9e2b880bcb",
+  "notes": "Synthetic fixtures with committed ANALYZE. Timings exclude Python/client overhead. Two SQL statements per fetch.",
+  "fixtures": [
+    {
+      "fixture": "imported_shared_datasets",
+      "metadata_execution_ms": 0.029,
+      "graph_execution_ms": 1.004,
+      "metadata_planning_ms": 0.109,
+      "graph_planning_ms": 1.644,
+      "jit": false,
+      "recursive_nodes": [
+        {
+          "Subplan Name": "CTE possible_dataset_copy_ancestors",
+          "Actual Rows": 4.0,
+          "Actual Loops": 1
+        },
+        {
+          "Subplan Name": "CTE copy_element_collections",
+          "Actual Rows": 0.0,
+          "Actual Loops": 1
+        },
+        {
+          "Subplan Name": "CTE clicked_history_dataset_association",
+          "Actual Rows": 2.0,
+          "Actual Loops": 1
+        },
+        {
+          "Subplan Name": "CTE copies_history_dataset_association",
+          "Actual Rows": 4.0,
+          "Actual Loops": 1
+        }
+      ]
+    },
+    {
+      "fixture": "ordinary_history_2002_collections",
+      "metadata_execution_ms": 0.356,
+      "graph_execution_ms": 0.101,
+      "metadata_planning_ms": 0.093,
+      "graph_planning_ms": 0.315,
+      "jit": false,
+      "recursive_nodes": []
+    },
+    {
+      "fixture": "imported_history_2002_collections",
+      "metadata_execution_ms": 0.1,
+      "graph_execution_ms": 3.153,
+      "metadata_planning_ms": 0.094,
+      "graph_planning_ms": 0.459,
+      "jit": false,
+      "recursive_nodes": [
+        {
+          "Subplan Name": "CTE clicked_history_dataset_collection_association",
+          "Actual Rows": 2.0,
+          "Actual Loops": 1
+        },
+        {
+          "Subplan Name": "CTE copies_history_dataset_collection_association",
+          "Actual Rows": 4004.0,
+          "Actual Loops": 1
+        }
+      ]
+    },
+    {
+      "fixture": "imported_populated_collections",
+      "metadata_execution_ms": 0.044,
+      "graph_execution_ms": 12.755,
+      "metadata_planning_ms": 0.107,
+      "graph_planning_ms": 1.803,
+      "jit": false,
+      "recursive_nodes": [
+        {
+          "Subplan Name": "CTE possible_dataset_copy_ancestors",
+          "Actual Rows": 2254.0,
+          "Actual Loops": 1
+        },
+        {
+          "Subplan Name": "CTE copy_element_collections",
+          "Actual Rows": 1500.0,
+          "Actual Loops": 1
+        },
+        {
+          "Subplan Name": "CTE clicked_history_dataset_association",
+          "Actual Rows": 2.0,
+          "Actual Loops": 1
+        },
+        {
+          "Subplan Name": "CTE copies_history_dataset_association",
+          "Actual Rows": 1504.0,
+          "Actual Loops": 1
+        },
+        {
+          "Subplan Name": "CTE copies_history_dataset_collection_association",
+          "Actual Rows": 0.0,
+          "Actual Loops": 1
+        }
+      ]
+    }
+  ]
+}
