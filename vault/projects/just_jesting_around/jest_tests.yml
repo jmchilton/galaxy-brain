@@ -2455,6 +2455,7 @@
       iteration: 74
       score: 2
   iterated: 1
+  storified: true
 - file: client/src/components/Workflow/Editor/DraggablePan.test.ts
 - file: client/src/components/Workflow/Editor/Forms/FormDefault.test.js
   readability_score: 3
