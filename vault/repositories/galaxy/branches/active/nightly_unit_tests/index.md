@@ -1,12 +1,12 @@
 # nightly_unit_tests
 
-Status: `branches_ready_for_final_review`. Base: `dev`. Pushed to `jmchilton/nightly_unit_tests`.
+Status: `ci_wait`. Base: `dev`. [Draft PR #24131](https://github.com/galaxyproject/galaxy/pull/24131), head `321f8b4c0f288a17c3861602e92e635ea76d8844`, pushed to `jmchilton/nightly_unit_tests`.
 
 Rebalances dev PR CI: unit and Tool Shed tests run on Python3.14, tool framework tests use the tool request API, and performance tests leave CI. Dev nightlies cover Python3.10–3.14 for unit/Tool Shed and both framework APIs. Release PR matrices stay intact.
 
 [Alternative rejected by John for verbosity](../nightly_release_targets_alternative/index.md) · [Rollback debrief](release_nightlies_rejection.md) · [Original description backup](pr_description_before_release_nightlies.md)
 
-[PR description](pr_description.md) · [Title choices](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Polish checklist](polish_checklist.md) · [Description strengthening](polish_strengthening.md)
+[Draft-opening debrief](draft_opened_2026-10-14.md) · [PR description](pr_description.md) · [Title choices](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Polish checklist](polish_checklist.md) · [Description strengthening](polish_strengthening.md)
 
 [Implementation debrief](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Rename review](subagents/rename_review.md) · [Tool Shed review](subagents/toolshed_review.md) · [Tool framework + performance review](subagents/framework_tools_review.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md) · [Reporter harness](report_harness.mjs)
 
@@ -38,3 +38,13 @@ John requested release26.0/26.1/26.2 plus dev, one nightly Python per branch, an
 ## Alternative rejected — 2026-10-14
 
 John rejected the cross-release implementation as unreadable/too verbose and asked that it be kept separately for Marius to assess. Preserved `a13b016c0ff` on `jmchilton/nightly_release_targets_alternative`, then reverted it on this branch in `2ac1e9cc820`. The restored tree exactly matches `b2a792c206d`. Restored the pre-extension description and title options, adding an explicit link to the rejected alternative. The alternative's snapshots retain John's latest edits. No PR, issue or GitHub comment was posted. Status remains branches_ready_for_final_review; no approval SHA is assigned.
+
+## Draft PR opened — 2026-10-14
+
+John explicitly requested a draft PR. Opened [#24131](https://github.com/galaxyproject/galaxy/pull/24131) against dev with title **Move older-Python and legacy tool API CI to tracked nightly runs**, using pr_description.md verbatim. No mentions, reviewer assignments or comments were added.
+
+A conflict-free rebase onto current dev `b62d06dcdce` produced head `321f8b4c0f288a17c3861602e92e635ea76d8844`; the branch diff is byte-for-byte identical before/after. The fork was updated with force-with-lease. The rejected cross-release alternative remains unchanged on its separate fork branch.
+
+Live state: draft, mergeable, CI queued/in progress. Expected unit3.14, both Tool Shed3.14 clients and framework3.10/never jobs are present; no startup_failure observed. Full runtime results remain pending. The reporter harness passes all seven cases.
+
+Standing instruction: this is an explicitly requested draft for discussion, including Marius's assessment of the rejected alternative. Keep it draft until John requests promotion; there is no non-draft approval pinned to this SHA.

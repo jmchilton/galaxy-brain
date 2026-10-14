@@ -18,7 +18,7 @@ Live GitHub PR metadata and exact-head fork CI refreshed 2026-10-13 by GOOD_MORN
 
 PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e1570742723`, awaiting new-head CI.
 
-nightly_unit_tests CI and base refreshed from GitHub 2026-10-14.
+nightly_unit_tests refreshed 2026-10-14: draft #24131 opened against dev at `321f8b4c0f2`; mergeable, CI pending.
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
@@ -52,6 +52,7 @@ nightly_unit_tests CI and base refreshed from GitHub 2026-10-14.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Reduces dev PR CI and tracks nightly failures; keeps a rejected cross-release alternative for discussion. [#24131](https://github.com/galaxyproject/galaxy/pull/24131).
 - [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515). [#24106](https://github.com/galaxyproject/galaxy/pull/24106).
 - [`dangling_when_lint`](../../repositories/galaxy/branches/active/dangling_when_lint/index.md) — Warns about disconnected workflow when-inputs and gives them editor ports. [#24107](https://github.com/galaxyproject/galaxy/pull/24107).
 - [`workflow_multiple_parameter_review_followups`](../../repositories/galaxy/branches/active/workflow_multiple_parameter_review_followups/index.md) — Adds multiple float workflow parameters and decimal list defaults in the editor. [#24108](https://github.com/galaxyproject/galaxy/pull/24108).
@@ -104,7 +105,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Reduces dev PR CI and tracks dev nightly failures; cross-release extension retained as a rejected alternative. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:nightly_unit_tests?expand=1).
 
 
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
