@@ -12,7 +12,7 @@ Editing `packages/schema/src/galaxy/schema/history.py` changes `lib/galaxy/schem
 
 Eight workflows regain tracked source/dependency inclusions, and seventeen regain Selenium exclusions. Source filters use the current tracked layout; broad package filters and package Selenium exclusions remain for real package changes.
 
-***The source tree stays in place: these filters must be revisited when the files actually move into packages.***
+***The source tree stays in place: these filters must be revisited if the files actually move into packages somday.***
 
 ## Risks
 
@@ -42,7 +42,7 @@ The initial review found no actionable code-quality issues. A subsequent indepen
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Maintainers see missing expected CI runs or unnecessary runs; failures in triggered jobs retain their existing GitHub Actions logs.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A: no unit tests changed; recorded validation exercises scheduling decisions against actual tracked source paths.
@@ -53,7 +53,7 @@ The initial review found no actionable code-quality issues. A subsequent indepen
 
 - [x] Instructions for manual testing are as follows:
   1. Use `git ls-files -s packages/schema/src/` to confirm the schema source alias is a tracked symlink. Temporarily edit a file through it and inspect `git diff --name-only`; restore the edit afterward.
-  2. Compare the changed paths in the table with the corresponding workflow's ordered `paths`/`paths-ignore` lists on `dev` and this branch. Repeat for push and pull-request declarations where present.
+  2. Compare the changed paths in the table with the corresponding workflow's ordered `paths`/`paths-ignore` lists on `release_26.2` and this branch. Repeat for push and pull-request declarations where present.
   3. Inspect CI runs for workflow validity and job failures. Runs triggered by edits to workflow files do not demonstrate source-only selection.
 
 <details><summary>Local validation passed; fork CI is still pending.</summary>

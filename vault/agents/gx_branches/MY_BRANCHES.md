@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-ci_tracked_source_filters CI refreshed 2026-10-14: queued/skipped, no failures; polished for final human review.
+PR #24120 refreshed 2026-10-14: requested draft opened against `release_26.2`; head `b0a8d368d60`, CI pending.
 
 PR #24106 refreshed 2026-10-14 after review fixes: draft, mergeable, new-head CI pending.
 
@@ -30,6 +30,8 @@ PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e157
 - [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
 
 ## Open Galaxy PRs — waiting for CI (`ci_wait`)
+
+- [`ci_tracked_source_filters`](../../repositories/galaxy/branches/active/ci_tracked_source_filters/index.md) — Restores tracked source CI triggers and Selenium exclusions after #23999. [#24120](https://github.com/galaxyproject/galaxy/pull/24120).
 
 - [`copy_to_clipboard_e2e`](../../repositories/galaxy/branches/active/copy_to_clipboard_e2e/index.md) — Adds clipboard capture and an API key copy browser regression test after #24104. [#24119](https://github.com/galaxyproject/galaxy/pull/24119).
 
@@ -96,7 +98,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`ci_tracked_source_filters`](../../repositories/galaxy/branches/active/ci_tracked_source_filters/index.md) — Restores tracked source CI triggers and Selenium exclusions after #23999. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ci_tracked_source_filters?expand=1).
 
 
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
