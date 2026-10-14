@@ -1,4 +1,5 @@
 PRs To Review:
+- [#24123](https://github.com/galaxyproject/galaxy/pull/24123) — Reviewed; approve draft unposted; 45 tests pass; CI green. [notes](../../repositories/galaxy/reviews/active/24123/index.md)
 - [#24132](https://github.com/galaxyproject/galaxy/pull/24132) — Reviewed; approve draft unposted; 4 API tests pass; CI pending. [notes](../../repositories/galaxy/reviews/active/24132/index.md)
 - [#24130](https://github.com/galaxyproject/galaxy/pull/24130) — Reviewed; approve draft unposted; 288 tests pass; unrelated CI failures. [notes](../../repositories/galaxy/reviews/active/24130/index.md)
 - [#24129](https://github.com/galaxyproject/galaxy/pull/24129) — Reviewed; approve draft unposted; 69 tests pass; existing caveats recorded; CI pending. [notes](../../repositories/galaxy/reviews/active/24129/index.md)
