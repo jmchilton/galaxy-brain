@@ -28,7 +28,7 @@ PR: [galaxyproject/foundry#605](https://github.com/galaxyproject/foundry/pull/60
 
 ## Follow-ups
 
-- Land `rfc/workflow-brief` on `main` (16 ahead, 101 behind; no PR yet). Expect conflicts on paper/CWL pipeline files; regenerate casts/assemblies from sources. The note-schema minor releases then.
+- Land `rfc/workflow-brief` on `main`: draft #682 ([notes](../rfc-workflow-brief/index.md)). Expect conflicts on paper/CWL pipeline files; regenerate casts/assemblies from sources. The note-schema minor releases then.
 - #3: #605's `PipelineRoutes` replaced the matrix. Decide whether that closes #3 or the hero fan widget is still wanted.
 - Landing header overflows by 40px at 390px (also on `main`?); untracked.
 - Revisit merging the freeform/brief Mold families once the brief route has real runs.
