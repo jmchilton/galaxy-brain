@@ -1202,6 +1202,7 @@
   iterated: 1
   storified: skip
 - file: client/src/components/History/HistoryOptions.test.ts
+  storified: true
   readability_score: 2
   readability_reviews:
     - commit: 65fc286e8b7a5f01da895c0155ddb4244d39a2a5

@@ -1,0 +1,15 @@
+# HistoryOptions story conversion review
+
+Date: 2026-10-14. Immutable original baseline: `42588b9750f030911a6c065f141f313938ddd8e3`. Shared prerequisite: `074998e17a5`. Pushed conversion: `2482ce2f1a1d59157cd77e59438e81aade9179be`.
+
+Independent read-only reviewer `historyoptions_review` returned PASS with no actionable findings. All 13 original cases and 19 assertion sites survive (26 runtime checks because eight disabled anonymous options each check the login prompt). Original arrays, IDs, names and user setup are retained. The full-mount delete-modal helper distinguishes the real delete modal from CopyModal's modal. Original purge selector identifies the real input; native setValue preserves manual purge behavior.
+
+The final case retains one live component instance and setProps. It now opens the real delete modal and adds show=true before preserving the original current-name, deleted-name and exact delete(history_b, true) checks. First 12 cases use composed scenes and return actual HistoryOptions. Explicit Pinia disposal and automatic plain/composed unmounting remain.
+
+Four readable scenarios describe owned, deleted, anonymous and accessible unowned histories. Shared fixtures reset per mount, restore count, retain copied names/resource URLs and assign copies to the viewer, with null ownership for anonymous-created histories. Own listings/counts exclude unowned histories, and an unowned history is not selected as current. Specific count handler precedes generic history route. The copy POST, count refresh and current-history selection follow the store; backend confirms JSON acceptance despite form-only generated request typing. Response views match the detailed copy request and legacy dev-detailed serializer. Review found no new cleanup defect for the settled interactions covered.
+
+Driver proofs found and corrected the generic route shadowing count before review. Temporary Chromium probes passed 5/5: menus, real delete modal states/purge checkbox, anonymous/unowned restrictions, actual copy completion/count increase and exact copied name in selected-history store. They were removed before committing. The unnamed GModal issue is already logged and filed as Galaxy issue 24037; probe queries use the visible heading and enclosing dialog.
+
+Shared infrastructure was committed separately and existing browser stories validated before consumer commit. Final prerequisite gate: 356 tests/94 files. Final focused unit: 13/13. Final complete unit: 763 tests/96 files, matching 96 selected files. Final complete browser: 360 tests/95 files with two workers. Types, formatting, lint and normal hooks passed; both commits pushed fast-forward. No production fix or new bug row.
+
+Logs: `/tmp/stories-historyoptions-unit-final.log`, `/tmp/stories-historyoptions-types-final.log`, `/tmp/stories-historyoptions-shared-browser-final2.log`, `/tmp/stories-historyoptions-shared-types-final2.log`, `/tmp/stories-historyoptions-copy-probe-final.log`, `/tmp/stories-historyoptions-full-unit.log`, `/tmp/stories-historyoptions-full-browser.log`. Test lines 227 to 260; stories 48; shared helper 155.
