@@ -201,6 +201,7 @@
       iteration: 71
       score: 2
   iterated: 1
+  storified: true
 - file: client/src/components/ActivityBar/ActivityItem.test.js
   readability_score: 2
   readability_reviews:
