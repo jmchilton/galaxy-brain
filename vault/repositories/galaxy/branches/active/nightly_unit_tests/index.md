@@ -1,6 +1,6 @@
 # nightly_unit_tests
 
-Status: `ci_wait`. Base: `dev`. [Draft PR #24131](https://github.com/galaxyproject/galaxy/pull/24131), head `321f8b4c0f288a17c3861602e92e635ea76d8844`, pushed to `jmchilton/nightly_unit_tests`.
+Status: `ci_wait`. Base: `dev`. [Draft PR #24131](https://github.com/galaxyproject/galaxy/pull/24131), head `a311e41f2c312706293b722490e5b8f72669d239`, pushed to `jmchilton/nightly_unit_tests`.
 
 Rebalances dev PR CI: unit and Tool Shed tests run on Python3.14, tool framework tests use the tool request API, and performance tests leave CI. Dev nightlies cover Python3.10–3.14 for unit/Tool Shed and both framework APIs. Release PR matrices stay intact.
 
@@ -48,3 +48,9 @@ A conflict-free rebase onto current dev `b62d06dcdce` produced head `321f8b4c0f2
 Live state: draft, mergeable, CI queued/in progress. Expected unit3.14, both Tool Shed3.14 clients and framework3.10/never jobs are present; no startup_failure observed. Full runtime results remain pending. The reporter harness passes all seven cases.
 
 Standing instruction: this is an explicitly requested draft for discussion, including Marius's assessment of the rejected alternative. Keep it draft until John requests promotion; there is no non-draft approval pinned to this SHA.
+
+## Reusable client build references — 2026-10-14
+
+John asked about missed build_client references on #24131. All filenames had already been renamed, but five callers still used `./.github/workflows/_build_client.yaml`. The PR's zizmor annotations requested GitHub's `$/...` self-repository syntax. Updated first_startup, integration_selenium, osx_startup, playwright and tool_form_harness in [a311e41f2c3](https://github.com/jmchilton/galaxy/commit/a311e41f2c312706293b722490e5b8f72669d239), pushed to the existing draft. Selenium already used that syntax.
+
+Verification: all six callers now use `$/...`; a tracked-file search finds no old build_client.yaml filename in workflows/docs. GitHub workflow schema and configured zizmor checks pass on the five changed workflows; commit-hook workflow validation passes. No tests/comments or PR description changed. Live PR head matches the fix and remains draft; fresh CI is queued/running, so status remains ci_wait. The explicit draft hold remains in effect.

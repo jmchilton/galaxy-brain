@@ -18,7 +18,7 @@ Live GitHub PR metadata and exact-head fork CI refreshed 2026-10-13 by GOOD_MORN
 
 PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e1570742723`, awaiting new-head CI.
 
-nightly_unit_tests refreshed 2026-10-14: draft #24131 opened against dev at `321f8b4c0f2`; mergeable, CI pending.
+nightly_unit_tests refreshed 2026-10-14: draft #24131 updated at `a311e41f2c3` with client-build reference lint fixes; CI pending.
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
