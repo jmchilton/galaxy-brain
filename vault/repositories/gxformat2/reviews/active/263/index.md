@@ -14,6 +14,8 @@ Pushed fix-up `fbd5c44` to Marius's branch (John asked to fix up issues):
 
 Local: full suite 787 passed / 8 skipped; mypy, pyrefly, ruff/flake8/black on changed files clean. `make lint` still fails ruff E402 in `docs/conf.py`, `scripts/bootstrap_history.py` — pre-existing on main.
 
+2026-10-14 later: merged `origin/main` (#219 draft ops) into branch at `06495cb` to clear conflict; only `tests/test_interop_tests.py` OPERATIONS dict conflicted, kept both. 888 passed / 8 skipped, mypy clean. PR mergeable.
+
 No GitHub review/comment posted. Shared fixture/expectation unchanged.
 
 Not addressed (in review; shared with Galaxy `trs_proxy`, would need both repos + fixture): version with `?query`/`/`, `+` not idempotent on re-encode, CWL/relative descriptor URLs rewritten to GALAXY, resolver ignores `content_source`, cycle detection keyed on raw URL, `is_trs_url` now uncalled.
