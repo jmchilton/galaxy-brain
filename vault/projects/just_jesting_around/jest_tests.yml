@@ -3423,6 +3423,7 @@
       iteration: 71
       score: 3
   iterated: 1
+  storified: skip
 - file: client/src/entry/analysis/modules/Home.test.ts
 - file: client/src/entry/analysis/modules/Login.test.ts
   readability_score: 4
