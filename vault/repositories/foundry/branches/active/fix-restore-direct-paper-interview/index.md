@@ -14,11 +14,12 @@ PR: [galaxyproject/foundry#605](https://github.com/galaxyproject/foundry/pull/60
 
 - Restore verified: four `freeform-summary-to-galaxy-*` Mold dirs byte-identical to `main`; no leftover #567 wording in the paper/interview pipelines, glossary, or research note.
 - CI was red on `check-generated` (Dashboard drift), and hid a second red: `check-casts` (12 casts drifted after commit 3 edited shared patterns/research). Fixed in `03b7c5d8` (regen + `make casts`). All CI gates pass locally except `check-vendored`, which compares against local Galaxy/galaxy-tool-util clones and is unrelated to this branch.
-- Open points (decisions, not blockers):
-  - Duplicate Galaxy design Mold families (freeform vs brief), 52–78% similar; shared ref edits must be recast into both. See pros/cons below.
-  - `journey/existing-workflow` overlaps `lifecycle` + `source/galaxy`.
-  - Journey rule lives in published `gxwf-foundry-note-schema`; changeset releases nothing.
-- UI nits: Plan & Build command boxes on Usage clip at desktop width (indented column, e.g. `…pipeline-interview-to-workflow-bri`). Landing header overflows at 390px, but that predates this branch (same on base).
+- Resolved:
+  - `journey` vs `lifecycle` overlap: kept both; `meta_tags.yml` journey description now says journey drives navigation and complements `lifecycle` (`2aad8174`).
+  - Plan & Build command boxes on Usage scrolled at desktop width (indented column). Harness rows now give commands `minmax(29rem, 0.7fr)` and stack below 960px; verified at 1400/1000/961/390 with no command overflow (`536c138e`). Usage screenshot refreshed on the screenshots branch.
+  - Brief Mold `axis: target-specific`: left as is. `source-specific` needs a `source` from `sourceKinds`, which has no `workflow-brief`; the brief Molds accept briefs from any source with optional summaries as evidence, the same shape as target-specific `summary-to-cwl-template`. My earlier "really source-specific" call was wrong.
+- Open: journey rule lives in published `gxwf-foundry-note-schema`, but the changeset releases nothing. Recommended a minor bump; awaiting John.
+- Not this branch: the landing header overflows at 390px; the base branch has the same problem.
 
 ## Mold families: keep both vs merge
 
