@@ -3,6 +3,7 @@
 [Issue](https://github.com/galaxyproject/foundry/issues/476)
 
 - [Resume plan (2026-10-14)](PLAN_2026-10-14.md)
+- [#569 + #476 joint work set (2026-10-14)](WORK_SET_569_2026-10-14.md): #569 rebased locally, all gates green
 
 Labels at seeding (2026-10-06): `priority/mvp`, `roadmap/main`.
 
