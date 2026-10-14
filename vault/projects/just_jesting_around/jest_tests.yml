@@ -33,6 +33,7 @@
       iteration: 70
       score: 2
   iterated: 1
+  storified: true
 - file: client/packages/ui/src/components/vModelContract.test.ts
   readability_score: 4
   readability_reviews:
