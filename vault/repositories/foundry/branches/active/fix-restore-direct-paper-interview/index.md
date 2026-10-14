@@ -22,6 +22,18 @@ PR: [galaxyproject/foundry#605](https://github.com/galaxyproject/foundry/pull/60
   - The journey rule lives in published `gxwf-foundry-note-schema`. With John's OK, the changeset now releases it as a minor (`e7598c5a`); `foundry-site` gets an automatic dependent patch and is private.
 - Not this branch: the landing header overflows at 390px; the base branch has the same problem.
 
+## Merged
+
+2026-10-14 into `rfc/workflow-brief` (`7883ef99`). Keep `jmchilton/foundry:pr-605-screenshots`; the PR description still loads its images.
+
+## Follow-ups
+
+- Land `rfc/workflow-brief` on `main` (16 ahead, 101 behind; no PR yet). Expect conflicts on paper/CWL pipeline files; regenerate casts/assemblies from sources. The note-schema minor releases then.
+- #3: #605's `PipelineRoutes` replaced the matrix. Decide whether that closes #3 or the hero fan widget is still wanted.
+- Landing header overflows by 40px at 390px (also on `main`?); untracked.
+- Revisit merging the freeform/brief Mold families once the brief route has real runs.
+- Cleanup: delete `fix/restore-direct-paper-interview` on origin and the `workflow-brief-pipelines` worktree.
+
 ## Mold families: keep both vs merge
 
 Keep both (current):
