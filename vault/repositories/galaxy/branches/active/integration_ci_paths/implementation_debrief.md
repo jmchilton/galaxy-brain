@@ -15,7 +15,7 @@ The split was folded into the refactor commit (`6e5b382f3b7`), so `shared_api_te
 
 - Collected node IDs for `test/integration` + `lib/galaxy_test/api` match the previous head exactly (3564).
 - isort, black, ruff and flake8 are clean. mypy is at the dev baseline (23 errors, none in galaxy_test).
-- Tests run locally: integration upload sample-sheet 2/2, `test_legacy_store_by` 2/2, API `test_dataset_collections -k sample_sheet` 9/9.
+- Tests run locally: integration upload sample-sheet 2/2, `test_legacy_store_by` 2/2, API `test_dataset_collections -k sample_sheet` 9/9. API `TestImportExportHistory` 8/8. Integration `test_history_import_export`: 24 passed, 1 skipped, 1 failed. The failure was `TestImportExportHistoryViaTasksIntegration::test_import_export`, a 60s job-state timeout during a slow run (7.5 min). It passed on rerun (6/6 for `-k "ViaTasks and test_import_export"`).
 - [Round-3 review](subagents/normal_review_split.md): nits only. I acted on 2 of them and kept John's names.
 
 Test challenges were not rerun: no tests were added or removed, only one dead helper was deleted.
