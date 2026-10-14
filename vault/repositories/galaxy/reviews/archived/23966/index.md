@@ -1,6 +1,6 @@
 # galaxy #23966 — Materialize deferred directory datasets (remote Zarr)
 
-[PR #23966](https://github.com/galaxyproject/galaxy/pull/23966) · Status: active; initial review complete. **Recommendation: request changes**. Delivery: **finding commented and PR approved by John**.
+[PR #23966](https://github.com/galaxyproject/galaxy/pull/23966) · Status: archived; merged 2026-10-14; initial review complete. **Recommendation: request changes**. Delivery: **finding commented and PR approved by John**.
 
 [Review and risk assessment](review-2026-10-11.md) · [Draft review](draft-review.md) · [Full materializer reproduction](reproduce.py) · [Reproduction output](reproduction-output.txt) · [Reference format compatibility probe](compatibility-probe.py)
 
@@ -23,3 +23,9 @@ Open, ready; live HEAD `20f9b0cdcca4555325a08f2fe0c5d0232de8a100`. CI snapshot: 
 ## Morning check — 2026-10-14
 
 Open, ready; live head `1e6c3efda7e8f18169ffab1ec74e2969270d7187`. CI: 39 queued, 2 skipped, 1 success. Fresh head changes directory downloads to sequential fetching at Marius’s request. Marius approved the prior head and author reports completion; fresh CI is still queued. John’s encoding fix verification remains pending; earlier approval does not verify the latest changes.
+
+## Tracking ended — 2026-10-14
+
+GitHub confirms MERGED at `2026-10-14T13:57:54Z`, PR head `1e6c3efda7e8f18169ffab1ec74e2969270d7187`. Removed from the active queue. The later author changes were not re-reviewed in this cleanup.
+
+Worktree retained: clean, but branch `reject_deferred_directory_materialization` has no upstream, and its HEAD `0216fb3c845dfd90e754f3fb03345dcc1177fe5b` is not an ancestor of the final PR head. The worktree removal safety rule therefore requires John’s confirmation before deletion.
