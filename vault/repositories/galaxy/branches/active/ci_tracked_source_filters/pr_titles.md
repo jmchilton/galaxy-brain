@@ -1,0 +1,4 @@
+- Restore CI filters for tracked source paths after the uv workspace migration
+- Fix source-only CI selection and Selenium exclusions after #23999
+- Match CI source filters to the tracked lib layout
+- Restore source validation triggers after #23999
