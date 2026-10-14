@@ -1377,6 +1377,7 @@
       score: 4
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/JobMetrics/JobMetrics.test.js
   readability_score: 4
   readability_reviews:
