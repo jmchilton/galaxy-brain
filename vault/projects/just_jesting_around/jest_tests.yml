@@ -1303,6 +1303,7 @@
       iteration: 75
       score: 2
   iterated: 1
+  storified: true
 - file: client/src/components/HistoryExport/ToRemoteFile.test.js
   readability_score: 4
   readability_reviews:
