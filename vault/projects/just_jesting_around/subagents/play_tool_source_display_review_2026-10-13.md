@@ -1,0 +1,3 @@
+Independent review approved `c9511d05388` without changes. Every original assertion remains unchanged; no findings required action.
+
+Details: all five unit cases retain creation count/container identity/exact value/language/readOnly options, live updates, disposal and genuine-instance callback identity. Browser role=code checks add visible XML source characters and YAML opening eight lines plus command key. Normalization checks characters rather than indentation/format/bytes; YAML coverage is explicitly partial. No highlighting, measured layout or keyboard-prevention assertion remains. YAML-only source corruption passes all original units but fails its play; blank source fails both. Worktree clean verified.

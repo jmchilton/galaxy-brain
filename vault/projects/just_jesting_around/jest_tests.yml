@@ -2089,6 +2089,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/Tool/ToolSourceDisplay.test.ts
+  storybook_play: true
   storified: true
   readability_score: 2
   readability_reviews:
