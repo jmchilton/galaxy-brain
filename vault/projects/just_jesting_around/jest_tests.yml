@@ -2340,6 +2340,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/User/DiskUsage/Visualizations/Charts/BarChart.test.ts
+  storified: true
   readability_score: 3
   readability_reviews:
     - commit: 16f70f52185457de7f4f45dd5525fd8c27db6849
