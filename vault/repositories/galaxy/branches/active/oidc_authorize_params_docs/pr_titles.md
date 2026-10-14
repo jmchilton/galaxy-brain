@@ -1,0 +1,4 @@
+- Document OIDC authorization request parameters for administrators
+- Explain provider-specific OIDC login request settings
+- Add an OIDC authorization parameter configuration guide
+- Document OIDC Setter prefixes, examples, and verification
