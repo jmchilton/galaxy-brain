@@ -1,10 +1,10 @@
 # sample_sheet_vue3
 
-Status: `ready`. Base: `dev`. [PR #24050](https://github.com/galaxyproject/galaxy/pull/24050) (open, not draft; fresh CI pending).
+Status: `attention`. Base: `release_26.2`. [PR #24050](https://github.com/galaxyproject/galaxy/pull/24050) (open, not draft; fresh CI pending).
 
 Moves sample sheet grids to Vue 3 patterns and fixes editing bugs.
 
-[Codex review](codex_review.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
+[Latest review fixes](review_followups_2026-10-14.md) · [Vue 3 migration guide](../../../../../agents/gx_branches/VUE3_COMPONENT_MIGRATION.md) · [Codex review](codex_review.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
 
 2026-10-11: John authorized rejected-edit feedback, extra-column validation, and the `AgRowData` union; implemented and pushed at `6f8cb56e61d`; John subsequently requested opening a draft while CI runs.
 
@@ -27,3 +27,10 @@ All 60 upstream checks on `6f8cb56e61d3ebed4853c1ce90b6fe9b7950ff89` settled suc
 ## TICK — 2026-10-12
 
 Live regular PR is mergeable at `9474de6d78b123e35ab144883e189fd7e4cffad3`; all 59 checks have settled without failures. Remains ready from our side. No stale rebase or PR-setting change.
+
+
+## Review follow-ups — 2026-10-14
+
+Addressed both inline comments in [Ali’s review](https://github.com/galaxyproject/galaxy/pull/24050#pullrequestreview-5517646707), pushed `88ac10202d82e5e4dc79605e748fae7b458a1e8f`. FetchGrid tests assert new row-array identity for both supported replacements; an in-place splice mutation fails the assertion. Collection-load errors remain visible without a dismiss button. Corrected both outdated real-ag-grid claims in the live PR body and local description. [Verification](review_followups_2026-10-14.md) and the [one-page migration guide](../../../../../agents/gx_branches/VUE3_COMPONENT_MIGRATION.md) collect this round and the earlier work.
+
+168/168 affected Vitest tests, vue-tsc, formatting, diff checks and commit hooks pass; lint has zero errors and one existing event-hyphenation warning in the touched files. No new browser run or public reply. Live base is `release_26.2`; PR is mergeable, non-draft, with fresh CI queued. Remains attention pending fresh CI/review; changed SHA has no carried approval. Vault validation now passes (122 files, zero errors, 15 advisory warnings), superseding the previous sync blocker.

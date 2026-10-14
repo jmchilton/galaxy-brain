@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #24050 refreshed 2026-10-14: latest review fixes pushed at `88ac10202d8`; mergeable against `release_26.2`, fresh CI queued. [Vue 3 migration guide](VUE3_COMPONENT_MIGRATION.md).
+
 PR #23815 refreshed 2026-10-14: rebased onto latest `release_26.2`, import-order CI fix pushed at `7f32c166400`; mergeable, CI queued.
 
 PR #24120 refreshed 2026-10-14: requested draft opened against `release_26.2`; head `b0a8d368d60`, CI pending.
@@ -20,7 +22,6 @@ PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e157
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
-- [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
 - [`workbook_import`](../../repositories/galaxy/branches/active/workbook_import/index.md) — Tests the rule builder mapping Galaxy infers from workbook headers, under Selenium and Playwright. [#23922](https://github.com/galaxyproject/galaxy/pull/23922).
 - [`issue_19325_optional_select_test_docs`](../../repositories/galaxy/branches/active/issue_19325_optional_select_test_docs/index.md) — Documents unset optional selects and empty multiple-select lists in tool tests (#19325), with tests for each form. [#23959](https://github.com/galaxyproject/galaxy/pull/23959).
@@ -41,7 +42,7 @@ PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e157
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
-None yet.
+- [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 

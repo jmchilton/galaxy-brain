@@ -52,7 +52,7 @@ The grids now use ordinary Vue 3 patterns, and each bug got a red test first:
 
 The client runs `@vue/compat` with global `MODE: 2`, which rewrites a component's `v-model` to `value`/`input`. ag-grid-vue3 expects `modelValue`/`update:modelValue`, so `v-model` silently does nothing. Compat decides per vnode from that vnode's own component, so the opt-in, `compatConfig: { MODE: 3 }`, goes on the `defineAsyncComponent` wrapper that the parent's `v-model` targets. Remove it and the `SampleSheetGrid` editing tests go red. The inner `AgGridVue` opts in too, so it receives only the Vue 3 props instead of the legacy `value`/`input` pair as well. This follows the `SortableList.ts` precedent.
 
-It applies to all five grids that use `useAgGrid` (sample sheet, display-as-sheet, `FetchGrid`, the paired/unpaired list builder and the rule builder). The wrapper deep-watches all its props, so array watch behaviour doesn't change. The list builder, rule builder and sample sheet E2E tests cover the other grids, and `FetchGrid.test.ts` mounts `FetchGrid` on the real ag-grid.
+It applies to all five grids that use `useAgGrid` (sample sheet, display-as-sheet, `FetchGrid`, the paired/unpaired list builder and the rule builder). The wrapper deep-watches all its props, so array watch behaviour doesn't change. The list builder, rule builder and sample sheet E2E tests cover the other grids, and `FetchGrid.test.ts` mounts `FetchGrid` with `ag-grid-vue3` stubbed to check target replacement and row-array identity.
 
 </details>
 
@@ -126,7 +126,7 @@ Review of the 11 existing screenshot captures covering the sheet view, load-erro
 
 - New `SampleSheetGrid.test.ts`: editing regressions, rejected-edit toasts and workbook datatype/genome validation, including blank-cell upload defaults. The original four create-payload tests also pass on the pre-change component; an additional payload test covers existing paired collections.
 - New `useSampleSheetGrid.test.ts`: input/output tables for `parseSampleSheetValue`.
-- New `FetchGrid.test.ts`: the real ag-grid, nothing stubbed, shows the rows of each replaced target. On `dev` a replaced target never showed; an in-place refill showed the second target but not the third.
+- New `FetchGrid.test.ts`: uses an `ag-grid-vue3` stub and the real `useAgGrid` async wrapper to check target replacement, a fresh `rowData` array for each supported target, and clearing stale state for unsupported targets. Reverting fresh-array assignment to an in-place splice fails the identity assertion. The original stale third-target behavior was reproduced against real ag-grid during the earlier review.
 - New E2E `test_collection_sheet.py`: `test_view_sample_sheet` checks every cell of an API-created sample sheet in the "View Sheet" grid, and `test_view_sample_sheet_load_error` checks that a load error shows the error alert, not a spinner (it times out on `dev`'s branch order). Both pass under Playwright and Selenium.
 - The `SampleSheetGrid` tests mock only `ag-grid-vue3`, not `useAgGrid`, so they go through the real async wrapper and its compat opt-in.
 - Clearing a required int: the grid test uses `null`, the value the number editor (inferred from the starting `0`) hands over, and the parser table covers both `""` and `null`. On `dev` both stored `NaN`.
