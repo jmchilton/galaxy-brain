@@ -1,0 +1,24 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/jxc755/projects/worktrees/galaxy/pr/24101
+configfile: pytest.ini
+plugins: mock-3.16.0, platformdirs-4.12.2, shard-0.1.2, cov-7.1.0, playwright-0.9.0, logfire-5.1.1, json-report-1.5.0, asyncio-1.4.0, metadata-3.1.1, html-4.2.0, pytest_httpserver-1.1.5, postgresql-9.1.0, base-url-2.1.0, darkgraylib-2.4.1, anyio-4.15.1, cwltest-2.7.20260814150058
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 1 item
+Running 1 items in this shard
+
+lib/galaxy_test/api/test_widgets.py .                                    [100%]
+
+=============================== warnings summary ===============================
+lib/galaxy_test/api/test_widgets.py::TestWidgetsApi::test_index
+  /Users/jxc755/projects/repositories/galaxy/.venv/lib/python3.13/site-packages/fs/__init__.py:4: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('fs')`.
+  Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+    __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
+
+lib/galaxy_test/api/test_widgets.py::TestWidgetsApi::test_index
+  /Users/jxc755/projects/repositories/galaxy/.venv/lib/python3.13/site-packages/fs/opener/__init__.py:6: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('fs.opener')`.
+  Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages
+    __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 1 passed, 2 warnings in 24.53s ========================

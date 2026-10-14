@@ -1,0 +1,5 @@
+Reviewed 5a5cc5bda5b203c2a21b7e1454b95ff844175065
+
+API: 1 passed. Existing graph tests: 42 passed. Router: 4 passed on 30-second cold-import recheck. Production Vite build: passed; widgets.bundled.js emitted. Truncation regression: HEAD fails, isolated control passes. CI 64 success / 8 skip.
+
+To reproduce, copy `truncation-probe.test.ts` to `client/src/entry/widgets/review-truncation.test.ts`, and control-config.mts to client/.review-control-config.mts. Run pnpm exec vitest run on the probe, then repeat with --config .review-control-config.mts. Controls transform modules in memory; they do not edit PR source files.

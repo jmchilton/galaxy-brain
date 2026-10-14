@@ -1,0 +1,5 @@
+Reviewed d86df284fbe61dfe3a0f3c837c37359865a43369
+
+Unit: 10 passed. API integration: 3 passed. Client: 11 passed. Relative-URL regression: HEAD one failing case (both anchor and iframe) / two passing controls; isolated control three passed. Duplicate IDs accepted and lookup selects first item. CI 57 success / 2 skip.
+
+To reproduce, copy `relative-url-probe.test.ts` to `client/src/components/admin/review-relative-urls.test.ts`, and control-config.mts to client/.review-control-config.mts. Run pnpm exec vitest run on the probe, then repeat with --config .review-control-config.mts. Controls transform modules in memory; they do not edit PR source files.

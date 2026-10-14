@@ -1,0 +1,112 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./tests/vitest/test-plugin" without a file extension (vitest.config.mts:7:28). Add the file extension
+  - import "./tests/vitest/yaml-plugin" without a file extension (vitest.config.mts:8:28). Add the file extension
+  - ESM syntax in a file loaded as CommonJS (tests/vitest/yaml-plugin.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+  - ESM syntax in a file loaded as CommonJS (tests/vitest/test-plugin.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.11 /Users/jxc755/projects/worktrees/galaxy/pr/24095/client
+
+4:53:20 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+129|          :aria-disabled="props.disabled || undefined"
+130|          :aria-busy="props.loading || undefined"
+131|          v-bind="{ ...anchorAttributes, ...$attrs }"
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+132|          @click="onClick">
+133|          <FontAwesomeIcon v-if="props.loading" :icon="faSpinner" spin aria-hidden="true" />
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24095/client/packages/ui/src/components/GButton.vue
+4:53:21 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+353|              :aria-expanded="isOpen ? 'true' : 'false'"
+354|              :aria-controls="shouldRenderMenu ? menuId : undefined"
+355|              v-bind="toggleLabelAttrs"
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^
+356|              @click="onToggleClick"
+357|              @keydown="onKeydown">
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24095/client/packages/ui/src/components/GDropdown.vue
+4:53:21 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+87 |          :title="props.tooltip ? undefined : currentTitle"
+88 |          :aria-disabled="props.disabled || undefined"
+89 |          v-bind="{ ...anchorAttributes, ...$attrs }"
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+90 |          @click="onClick">
+91 |          <slot></slot>
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24095/client/packages/ui/src/components/GLink.vue
+4:53:21 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+795|              :role="isDialog ? 'dialog' : 'tooltip'"
+796|              :tabindex="isDialog ? -1 : undefined"
+797|              v-bind="isDialog ? dialogName(Boolean(title || $slots.title)) : {}"
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+798|              :style="{ transform: `translate(${x}px, ${y}px)` }">
+799|              <span
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24095/client/packages/ui/src/components/GPopover.vue
+4:53:21 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+193|                          :aria-disabled="tab.disabled"
+194|                          :data-tab-title="tab.title"
+195|                          v-bind="tab.titleLinkAttributes"
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+196|                          @click.prevent="!tab.disabled && setActive(index)">
+197|                          <TabTitleContent v-if="tab.titleRenderer" :tab="tab" />
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24095/client/packages/ui/src/components/GTabs.vue
+4:53:21 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+221|                      :aria-disabled="tab.disabled"
+222|                      :data-tab-title="tab.title"
+223|                      v-bind="tab.titleLinkAttributes"
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+224|                      @click.prevent="!tab.disabled && setActive(index)">
+225|                      <TabTitleContent v-if="tab.titleRenderer" :tab="tab" />
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24095/client/packages/ui/src/components/GTabs.vue
+ ❯ src/components/admin/review-relative-urls.test.ts (3 tests | 1 failed) 40ms
+     × resolves static/welcome.html for both targets 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/admin/review-relative-urls.test.ts > admin extension root-relative contract > resolves static/welcome.html for both targets
+AssertionError: expected 'static/welcome.html' to be '/galaxy/static/welcome.html' // Object.is equality
+
+Expected: "/galaxy/static/welcome.html"
+Received: "static/welcome.html"
+
+ ❯ src/components/admin/review-relative-urls.test.ts:18:79
+     16|   store.loaded=true;
+     17|   const panel=mount(AdminPanel,{global:getLocalVue(true),pinia,stubs:{…
+     18|   expect.soft(panel.find('a#admin-link-ext-example-page').attributes('…
+       |                                                                               ^
+     19|   const frame=mount(CenterFrame,{global:getLocalVue(true),props:{src:u…
+     20|   expect(frame.find('iframe').attributes('src')).toBe(expected);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/components/admin/review-relative-urls.test.ts > admin extension root-relative contract > resolves static/welcome.html for both targets
+AssertionError: expected 'static/welcome.html' to be '/galaxy/static/welcome.html' // Object.is equality
+
+Expected: "/galaxy/static/welcome.html"
+Received: "static/welcome.html"
+
+ ❯ src/components/admin/review-relative-urls.test.ts:20:50
+     18|   expect.soft(panel.find('a#admin-link-ext-example-page').attributes('…
+     19|   const frame=mount(CenterFrame,{global:getLocalVue(true),props:{src:u…
+     20|   expect(frame.find('iframe').attributes('src')).toBe(expected);
+       |                                                  ^
+     21|  });
+     22| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  04:53:16
+   Duration  4.95s (transform 1.91s, setup 779ms, import 2.84s, tests 40ms, environment 1.09s)
+

@@ -1,0 +1,123 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./tests/vitest/test-plugin" without a file extension (vitest.config.mts:7:28). Add the file extension
+  - import "./tests/vitest/yaml-plugin" without a file extension (vitest.config.mts:8:28). Add the file extension
+  - ESM syntax in a file loaded as CommonJS (tests/vitest/yaml-plugin.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+  - ESM syntax in a file loaded as CommonJS (tests/vitest/test-plugin.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.11 /Users/jxc755/projects/worktrees/galaxy/pr/24101/client
+
+4:49:21 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+129|          :aria-disabled="props.disabled || undefined"
+130|          :aria-busy="props.loading || undefined"
+131|          v-bind="{ ...anchorAttributes, ...$attrs }"
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+132|          @click="onClick">
+133|          <FontAwesomeIcon v-if="props.loading" :icon="faSpinner" spin aria-hidden="true" />
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24101/client/packages/ui/src/components/GButton.vue
+4:49:21 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+353|              :aria-expanded="isOpen ? 'true' : 'false'"
+354|              :aria-controls="shouldRenderMenu ? menuId : undefined"
+355|              v-bind="toggleLabelAttrs"
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^
+356|              @click="onToggleClick"
+357|              @keydown="onKeydown">
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24101/client/packages/ui/src/components/GDropdown.vue
+4:49:22 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+87 |          :title="props.tooltip ? undefined : currentTitle"
+88 |          :aria-disabled="props.disabled || undefined"
+89 |          v-bind="{ ...anchorAttributes, ...$attrs }"
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+90 |          @click="onClick">
+91 |          <slot></slot>
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24101/client/packages/ui/src/components/GLink.vue
+4:49:22 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+795|              :role="isDialog ? 'dialog' : 'tooltip'"
+796|              :tabindex="isDialog ? -1 : undefined"
+797|              v-bind="isDialog ? dialogName(Boolean(title || $slots.title)) : {}"
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+798|              :style="{ transform: `translate(${x}px, ${y}px)` }">
+799|              <span
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24101/client/packages/ui/src/components/GPopover.vue
+4:49:22 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+193|                          :aria-disabled="tab.disabled"
+194|                          :data-tab-title="tab.title"
+195|                          v-bind="tab.titleLinkAttributes"
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+196|                          @click.prevent="!tab.disabled && setActive(index)">
+197|                          <TabTitleContent v-if="tab.titleRenderer" :tab="tab" />
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24101/client/packages/ui/src/components/GTabs.vue
+4:49:22 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+221|                      :aria-disabled="tab.disabled"
+222|                      :data-tab-title="tab.title"
+223|                      v-bind="tab.titleLinkAttributes"
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+224|                      @click.prevent="!tab.disabled && setActive(index)">
+225|                      <TabTitleContent v-if="tab.titleRenderer" :tab="tab" />
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24101/client/packages/ui/src/components/GTabs.vue
+4:49:23 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+689|                                              class="inline-icon-button"
+690|                                              :title="localize(indicator.title)"
+691|                                              v-bind="variantToColor(indicator.variant || 'link')"
+   |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+692|                                              :size="sizeToGSize(indicator.size || 'sm')"
+693|                                              :to="indicator.to"
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24101/client/src/components/Common/GCard.vue
+4:49:23 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+846|                                              :disabled="sa.disabled"
+847|                                              :title="localize(sa.title)"
+848|                                              v-bind="variantToColor(sa.variant || 'outline-primary')"
+   |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+849|                                              :size="sizeToGSize(sa.size || 'sm')"
+850|                                              :to="sa.to"
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24101/client/src/components/Common/GCard.vue
+4:49:23 AM [vite] (client) warning: (deprecation COMPILER_V_BIND_OBJECT_ORDER) v-bind="obj" usage is now order sensitive and behaves like JavaScript object spread: it will now overwrite an existing non-mergeable attribute that appears before v-bind in the case of conflict. To retain 2.x behavior, move v-bind to make it the first attribute. You can also suppress this warning if the usage is intended.
+  Details: https://v3-migration.vuejs.org/breaking-changes/v-bind.html
+875|                                                  :disabled="pa.disabled"
+876|                                                  :title="localize(pa.title)"
+877|                                                  v-bind="variantToColor(pa.variant || 'primary')"
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+878|                                                  :size="sizeToGSize(pa.size || 'sm')"
+879|                                                  :to="pa.to"
+  Plugin: vite:vue
+  File: /Users/jxc755/projects/worktrees/galaxy/pr/24101/client/src/components/Common/GCard.vue
+ ❯ src/entry/widgets/router.test.ts (4 tests | 1 failed) 7276ms
+     × maps a history graph with its seed 7273ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/entry/widgets/router.test.ts > widget routes > maps a history graph with its seed
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/entry/widgets/router.test.ts:15:5
+     13|
+     14| describe("widget routes", () => {
+     15|     it("maps a history graph with its seed", async () => {
+       |     ^
+     16|         const route = await resolve("/histories/b2/graph?seed_src=hda&…
+     17|         const props = route.matched[0]!.props.default as (r: typeof ro…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 45 passed (46)
+   Start at  04:49:13
+   Duration  16.17s (transform 11.92s, setup 8.88s, import 11.72s, tests 7.31s, environment 12.78s)
+

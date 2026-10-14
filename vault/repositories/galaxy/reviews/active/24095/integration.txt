@@ -1,0 +1,11 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/jxc755/projects/worktrees/galaxy/pr/24095
+configfile: pytest.ini
+plugins: mock-3.16.0, platformdirs-4.12.2, shard-0.1.2, cov-7.1.0, playwright-0.9.0, logfire-5.1.1, json-report-1.5.0, asyncio-1.4.0, metadata-3.1.1, html-4.2.0, pytest_httpserver-1.1.5, postgresql-9.1.0, base-url-2.1.0, darkgraylib-2.4.1, anyio-4.15.1, cwltest-2.7.20260814150058
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 3 items
+
+test/integration/test_admin_extensions.py ...                            [100%]
+
+============================== 3 passed in 30.03s ==============================

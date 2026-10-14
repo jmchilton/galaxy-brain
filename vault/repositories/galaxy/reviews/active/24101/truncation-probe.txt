@@ -1,0 +1,39 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./tests/vitest/test-plugin" without a file extension (vitest.config.mts:7:28). Add the file extension
+  - import "./tests/vitest/yaml-plugin" without a file extension (vitest.config.mts:8:28). Add the file extension
+  - ESM syntax in a file loaded as CommonJS (tests/vitest/test-plugin.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+  - ESM syntax in a file loaded as CommonJS (tests/vitest/yaml-plugin.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.11 /Users/jxc755/projects/worktrees/galaxy/pr/24101/client
+
+ ❯ src/entry/widgets/review-truncation.test.ts (1 test | 1 failed) 16ms
+     × warns when the graph response is capped 16ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/entry/widgets/review-truncation.test.ts > widget truncated provenance > warns when the graph response is capped
+AssertionError: expected '' to match /truncat|first .*execution|capped/i
+
+- Expected:
+/truncat|first .*execution|capped/i
+
++ Received:
+""
+
+ ❯ src/entry/widgets/review-truncation.test.ts:19:26
+     17|   const wrapper=mount(HistoryGraph, {props: {historyId: "a1"}, global:…
+     18|   expect(wrapper.find('[data-graph="true"]').exists()).toBe(true);
+     19|   expect(wrapper.text()).toMatch(/truncat|first .*execution|capped/i);
+       |                          ^
+     20|  });
+     21| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  04:50:53
+   Duration  2.71s (transform 311ms, setup 430ms, import 68ms, tests 16ms, environment 1.96s)
+

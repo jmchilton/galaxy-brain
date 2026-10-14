@@ -1,0 +1,5 @@
+The links-only scope and reuse of DI, admin routes and CenterFrame look good. One P2: could both targets normalize path-relative URLs against Galaxy's root? The schema accepts and describes `url: static/welcome.html`, but `withPrefix` prefixes only leading-slash paths. The real panel and CenterFrame both leave it unchanged, so a prefixed deployment navigates to `/galaxy/admin/static/welcome.html` or `/galaxy/admin/extensions/example/static/welcome.html` instead of `/galaxy/static/welcome.html`. A three-case render probe confirms both failures; leading-slash and HTTPS controls pass. Normalizing the path-relative input makes all cases pass. A helper at the extension boundary could keep the two targets consistent.
+
+Non-blocking: consider rejecting duplicate item IDs within one extension. Both lookup paths currently return the first matching item, so two framed links with the same ID cannot reach distinct URLs.
+
+All 10 backend unit, 3 real API integration, and 11 supplied client tests pass; CI is green. The API/YAML format is the main lasting contract here, so URL and ID semantics are worth settling before adoption.
