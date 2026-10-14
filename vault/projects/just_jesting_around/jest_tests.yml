@@ -943,6 +943,7 @@
       iteration: 72
       score: 2
   iterated: 1
+  storified: true
 - file: client/src/components/GalaxyAI.test.ts
 - file: client/src/components/GalaxyAI/ChatActions.test.ts
 - file: client/src/components/GalaxyAI/ChatInput.test.ts
