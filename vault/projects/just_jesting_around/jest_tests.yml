@@ -956,6 +956,7 @@
 - file: client/src/components/GalaxyAI/ChatActions.test.ts
 - file: client/src/components/GalaxyAI/ChatInput.test.ts
   storified: true
+  storybook_play: true
   readability_score: 3
   readability_reviews:
     - commit: d5f659dffaac2bb070eaaff789d4e16990c3df92
