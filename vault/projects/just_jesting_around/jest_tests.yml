@@ -1895,6 +1895,7 @@
   iterated: 1
   split_commit: true
 - file: client/src/components/Popper/Popper.test.js
+  storybook_play: true
   storified: true
   readability_score: 3
   readability_reviews:
