@@ -1383,6 +1383,7 @@
       iteration: 70
       score: 4
   iterated: 1
+  storified: true
 - file: client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js
   readability_score: 4
   readability_reviews:
