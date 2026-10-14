@@ -6,12 +6,12 @@ Selecting a dataset, renaming it, and removing it need independent keyboard cont
 | --- | --- | --- |
 | Collection selection and editing | Rename/remove actions nested inside selection controls | Separate native selection, rename, and removal controls; Space and Enter activate once |
 | Role, quota, and password forms | Visible labels did not identify the actual inputs | Labels focus their corresponding controls, including searchable multiselects |
-| Searchable multiselect | Combobox state on the wrapper; unnamed removal icons with positive tab order | State on the focused input; named native removal buttons in normal tab order |
+| Searchable multiselect | Combobox state on the wrapper; unnamed removal icons with positive tab order | State on the focused input; named native removal buttons in normal tab order, with focus retained after removal |
 | Progress, menus, and scrolling | Unnamed segments, nested menu buttons, and unreachable scroll regions | Named progress segments, one menu toggle, and keyboard-reachable scrolling |
 
 ***These repairs benefit people using Galaxy's existing UI with a keyboard or assistive technology; Storybook supplies the test fixtures, while the production fixes run independently of it.***
 
-The frozen audit now passes **236/236 story checks**, including all **121 previously excepted states**, with accessibility failures set to `error` and no rule or subtree exclusions. Eight separate Chromium probes check native activation, exactly-once events, label focus, and independence of selection from rename/remove. The polishing run passes **220 tests in 26 affected client suites**.
+The frozen audit now passes **236/236 story checks**, including all **121 previously excepted states**, with accessibility failures set to `error` and no rule or subtree exclusions. Eight separate Chromium probes check native activation, exactly-once events, label focus, and independence of selection from rename/remove. The review follow-up passes **223 tests in 26 affected client suites**.
 
 ***This is a bounded repair of the audited component states, not a claim of complete Galaxy accessibility or manual screen-reader verification.***
 
@@ -21,9 +21,9 @@ The frozen audit now passes **236/236 story checks**, including all **121 previo
 
 - Shared fixes preserve visible/explicit tooltip names, associate labels with inputs, name modal/heading/wizard controls, correct list structure, and improve audited contrast and target sizing.
 - Galaxy's existing vue-multiselect dependency patch owns combobox and removal semantics; the redundant wrapper-state composable is removed. The lockfile changes update that patch's hash.
-- Permanent client regressions exercise the patched dependency, public ARIA semantics, label associations, emitted actions, and selection/editing independence.
+- Permanent client regressions exercise the patched dependency, public ARIA semantics, label associations, emitted actions, and selection/editing independence. Review follow-ups explicitly name history action/count buttons, preserve editable heading typography, omit selection controls where selection is unavailable, and retain focus when a tag is removed.
 - Strict axe and native keyboard probes use a disposable harness with frozen prototype stories; this PR adds no Storybook dependencies or permanent axe CI. [Reproduction instructions and results](https://github.com/jmchilton/galaxy-brain/tree/main/vault/repositories/galaxy/branches/active/fix_story_a11y/validation).
-- The implementation pass also completed client type checking, changed-file lint/format checks, and desktop/narrow component screenshot review. These are component results; live Galaxy Selenium flows and manual assistive-technology review were not run.
+- The implementation pass completed client type checking, changed-file lint/format checks, and desktop/narrow component screenshot review. On 2026-10-11, 16 live browser cases passed against the driver-repair client: nine application flows, three integration cases, and four tool-form harness cases. The 2026-10-14 review follow-up passes 223 affected Vitest cases plus six native Chromium tag-removal scenarios and a computed heading-style comparison. Manual assistive-technology review has not been run.
 - Workflow definitions, scheduling, and outputs retain their existing behavior. Workflow-facing changes concern zoom controls, progress announcements, and invocation navigation markup.
 
 </details>
@@ -49,7 +49,7 @@ Review collection selection/rename/remove with both mouse and keyboard, searchab
 
 ## Context
 
-Motivated by the accessibility findings in the reference-only [vitest_story_a11y prototype](https://github.com/jmchilton/galaxy/tree/vitest_story_a11y). Production repairs are based directly on `dev`, and the running story migrations remain separate.
+Motivated by the accessibility findings in the reference-only [vitest_story_a11y prototype](https://github.com/jmchilton/galaxy/tree/vitest_story_a11y). Production repairs started directly on `dev`; this PR now targets `release_26.2`, and the running story migrations remain separate.
 
 ## Agentic Checks
 
@@ -95,7 +95,7 @@ Retained tests of accessible names, associations, list/combobox semantics, and i
 
 <details><summary>Client regressions and reproducible browser checks</summary>
 
-Run the affected client Vitest suites, particularly `MultiselectAccessibility`, `FormSelectMany`, `ListDatasetCollectionElementView`, `ClickToEdit`, `RoleForm`, `QuotaForm`, `ChangePassword`, `GHeading`, and `WorkflowInvocationState`. The validation directory linked above describes the separate frozen-story audit and native Chromium probes. Fork client CI was still pending during polishing; local results should not be read as completed fork CI.
+Run the affected client Vitest suites, particularly `MultiselectAccessibility`, `FormSelectMany`, `ListDatasetCollectionElementView`, `ClickToEdit`, `RoleForm`, `QuotaForm`, `ChangePassword`, `GHeading`, and `WorkflowInvocationState`. The validation directory linked above describes the separate frozen-story audit and native Chromium probes. On the pre-review head `801a8f293fc`, upstream Playwright, Integration Selenium, tool-form harness, and lint checks passed. The client-unit run had one CommandPalette no-results failure after a fixed wait, with 4,596 other tests passing; the local suite passes, and timing is suspected. New-head CI must confirm the review follow-up at `58849d66e99`.
 
 </details>
 

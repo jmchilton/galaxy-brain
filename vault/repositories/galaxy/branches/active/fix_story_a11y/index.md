@@ -1,14 +1,16 @@
 # fix_story_a11y
 
-Status: `branches_ready_for_final_review` (conflict-resolving rebase; PR remains open and non-draft). Base: `dev`.
+Status: `branches_ready_for_final_review` (review fixes pushed; PR remains open and non-draft). Base: `release_26.2`.
 PR: [#24046 — Repair accessibility issues across shared controls and forms](https://github.com/galaxyproject/galaxy/pull/24046), opened by John; verified 2026-10-11.
-PR base: `dev`; current head: `801a8f293fc5755a20dabb8a4cb3d97614f104ad`.
+PR base: `release_26.2`; current head: `58849d66e99e47903b48856382ea362a7510d765`.
 Base: upstream `dev` at `8b729ff0050c32573ad0fa999e5e1b4d015dca8c` (2026-10-14).
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/fix_story_a11y`.
 Pushed to `jmchilton/fix_story_a11y` at `96bd157af90d51595b5d8f4195d13699bc72846e` on 2026-10-11.
 
 User requested a new dev worktree and subagent repair batches for the accessibility findings from `vitest_story_a11y`. This branch contains production repairs and focused unit regressions, independent of the running migration lanes. All 236 frozen audit stories pass with accessibility checks set to error and no exceptions in the disposable harness. Eight independent Chromium keyboard/focus probes pass.
 
+- [Review comment repairs — 2026-10-14](review_comments_2026-10-14.md)
+- [Review polish checklist](review_polish_checklist_2026-10-14.md)
 - [PR description](pr_description.md)
 - [PR title options](pr_titles.md)
 - [Polish debrief](polish_debrief.md)
@@ -75,3 +77,13 @@ Rebased both commits from `cfb0e376ba3880e0a61471f187332d6d526e5e3a` onto actual
 All 205 Vitest cases across the 23 affected files pass using `NODE_OPTIONS=--no-experimental-webstorage` (Node 25 otherwise collides with happy-dom localStorage). Client type-check passes after rebuilding ignored API-client declarations for the current schema. Prettier checks for all three conflict files and `git diff --check` pass. Worktree is clean.
 
 Pushed `801a8f293fc5755a20dabb8a4cb3d97614f104ad` to `jmchilton:fix_story_a11y` with an exact lease on the previous PR head. GitHub confirms OPEN, non-draft, MERGEABLE on `dev`; new-head CI is queued/running. Per the conflict-resolution approval rule, moved tracking to `branches_ready_for_final_review`. PR settings and description are unchanged. Tracking sync remains pending because main has unrelated outgoing commits that this task has not reviewed.
+
+## Review comments repaired — 2026-10-14
+
+John requested addressing the four inline comments and polishing PR #24046. All four concerns are supported by the code; none is recommended for refutation. Added explicit action/count labels to history counters and converted-item controls (including storage size), scoped font inheritance to native ClickToEdit buttons, made collection selection explicitly opt-in at the two real selection callers, and restored focus after tag removal to the next/previous remaining tag or input/control. No tooltip digit heuristic was added.
+
+New regressions first failed at six assertions on the old head. Final validation: 223 tests across 26 affected files pass, final changed-test subset passes 14/14, client type-check passes, Prettier and commit hooks pass, ESLint has zero errors and seven existing event-name warnings. Chromium passes six native Enter/Space removals in searchable/nonsearchable mode; computed scoped CSS retains editable h3 size/weight at 28px/500 and button inheritance at 16px/400. Independent checklist and one fresh strengthening round found no remaining development requirement; the human-read item remains unchecked for the new changes.
+
+The actual live base is now `release_26.2`, fetched at `8b729ff0050`, identical to the branch's current base; no rebase was needed. Old-head checks: 57 successes, two skips, one client-unit failure. Its sole failed test found no CommandPalette result after a fixed wait (4,596 tests passed); the full local CommandPalette suite passes. A timing issue is suspected, not established. Existing upstream browser/lint checks pass; those results are not asserted for the new head.
+
+Pushed `58849d66e99e47903b48856382ea362a7510d765` to `jmchilton:fix_story_a11y` with a normal fast-forward push. PR base, description, review threads, comments and draft setting were not changed by this task. Updated local description and debrief await final review; new-head CI remains pending. See [review repairs](review_comments_2026-10-14.md).

@@ -1,4 +1,4 @@
-- Repair accessibility issues across shared controls and forms
-- Make collection actions and shared pickers accessible by keyboard
-- Fix audited labels, keyboard controls, and progress announcements
-- Repair accessibility findings from Galaxy component stories
+- [26.2] Repair accessibility issues across shared controls and forms
+- [26.2] Make collection actions and shared pickers accessible by keyboard
+- [26.2] Fix audited labels, keyboard controls, and progress announcements
+- [26.2] Repair accessibility findings from Galaxy component stories
