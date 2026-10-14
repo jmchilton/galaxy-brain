@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #23815 refreshed 2026-10-14: rebased onto latest `release_26.2`, import-order CI fix pushed at `7f32c166400`; mergeable, CI queued.
+
 PR #24120 refreshed 2026-10-14: requested draft opened against `release_26.2`; head `b0a8d368d60`, CI pending.
 
 PR #24106 refreshed 2026-10-14 after review fixes: draft, mergeable, new-head CI pending.
