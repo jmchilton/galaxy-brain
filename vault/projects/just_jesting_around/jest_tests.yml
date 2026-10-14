@@ -2196,6 +2196,7 @@
       iteration: 75
       score: 3
   iterated: 1
+  storified: true
 - file: client/src/components/Toolshed/SearchList/Categories.test.js
   readability_score: 3
   readability_reviews:
