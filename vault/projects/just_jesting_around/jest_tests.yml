@@ -704,6 +704,7 @@
       score: 2
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/DatasetInformation/DatasetDetails.test.ts
   readability_score: 2
   readability_reviews:
