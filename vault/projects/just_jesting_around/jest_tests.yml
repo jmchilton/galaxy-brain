@@ -2977,6 +2977,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/admin/UserRolesGroupsForm.test.ts
+  storybook_play: true
   storified: true
   readability_score: 3
   readability_reviews:

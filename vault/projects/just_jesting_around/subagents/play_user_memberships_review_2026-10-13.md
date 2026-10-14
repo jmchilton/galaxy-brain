@@ -1,0 +1,3 @@
+Independent review approved `99a96725571` without changes. Every original assertion remains unchanged; no findings required action.
+
+Details: all eight unit cases retain selector/selected-tag/submit-absence checks, request parameters, save payloads, router calls and errors. Negative save/navigation checks retain positive error partners. Browser plays add exact titles/errors, failed-load editing guards, actual membership changes and form visibility after both save failures. Existing picker helpers and handler scenarios are reused; types and synchronization are appropriate. Mutation logs fail intended checks, including stronger checks whose breaks pass all eight original units. No production changes.
