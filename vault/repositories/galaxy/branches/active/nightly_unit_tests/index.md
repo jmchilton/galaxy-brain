@@ -2,9 +2,9 @@
 
 Status: `branches_implemented_needs_ci`. Base: `dev`. Pushed to `jmchilton/nightly_unit_tests`.
 
-Unit tests run on Python 3.14 only for PRs and pushes. A nightly run on `dev` covers 3.10–3.14 and tracks failures in an issue, reusing the Selenium weekly reporter, which is now extracted into a `workflow_call`.
+Unit and Tool Shed tests run on Python 3.14 only for PRs and `dev` pushes. Nightly runs on `dev` cover 3.10–3.14 and track failures in issues, using the Selenium weekly reporter, now the reusable `_report_scheduled_result.yaml`. Reusable workflows get a `_` prefix (`_build_client.yaml`).
 
-[Implementation debrief](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md) · [Reporter harness](report_harness.mjs)
+[Implementation debrief](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Rename review](subagents/rename_review.md) · [Tool Shed review](subagents/toolshed_review.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md) · [Reporter harness](report_harness.mjs)
 
 ## Origin — 2026-10-14
 
@@ -13,6 +13,11 @@ From a chat with Marius about CI speed: drop one per-PR unit Python version (abo
 ## Decisions
 
 - **Keep 3.14 per-PR, not 3.10** (John, 2026-10-14). 3.10 is the slower job (about 30 min vs about 22), so this shortens PR wall-clock time. Too-new code is caught statically on 3.10: ruff 0.17.0 flags too-new syntax, and mypy on 3.10 in the lint matrix flags too-new stdlib attributes (both checked with probe files). Gap: a whole new stdlib module (`import tomllib`) passes mypy because of `ignore_missing_imports = True`. The 3.10 runtime suites (API/integration/etc.) and the nightly cover it.
-- Release branches run the full 3.10–3.14 matrix on PRs and pushes (`758d072b3da`), because schedules only fire on `dev`. Existing release branches keep their own 3.10 + 3.14 `unit.yaml`, since merges flow release → dev, not back.
+- Release branches keep 3.10 + 3.14 (`f18cff94279`), because schedules only fire on `dev`. `758d072b3da` briefly ran all five versions there; reverted to avoid a 10-job Tool Shed matrix per release PR.
 - First upstream PR run: confirm "Unit tests" on the fork PR doesn't hit `startup_failure`; see the [normal review](subagents/normal_review.md) #2.
 - Reporter extracted into a reusable workflow. This is the second consumer the #24014 debrief named as the trigger.
+
+## Changes — 2026-10-14
+
+- John: prefix reusable workflows with `_`, including `build_client.yaml` (`d449d938617`, `a97ecd968ad`).
+- John: apply the same split to the Tool Shed tests (`7d8dad4d980`). Review fixes are in `f18cff94279`.
