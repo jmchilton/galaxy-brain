@@ -1856,6 +1856,7 @@
       iteration: 74
       score: 2
   iterated: 1
+  storified: true
 - file: client/src/components/Panels/Upload/methods/PasteLinksUpload.test.ts
 - file: client/src/components/Panels/Upload/uploadMethodRegistry.test.ts
   storified: skip
