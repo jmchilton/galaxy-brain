@@ -840,6 +840,7 @@
   iterated: 1
   storified: true
 - file: client/src/components/Form/Elements/FormUpload.test.js
+  storybook_play: true
   readability_score: 3
   readability_reviews:
     - commit: 302555cd46f55d061a3d174fbe3c2cac34b57bb6

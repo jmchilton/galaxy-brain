@@ -1,0 +1,5 @@
+Independent review approved `93f5898557a` without changes. All five original assertions survive: two CSV native value/disabled sites move to SpacedCsvPreview with identical original spaced payload; three null inline-display/text/label sites stay together. No fixes needed.
+
+Both CSV previews check complete native contents, visibility and disabled state. Added null native empty-value assertion distinguishes stale hidden contents that empty textContent misses. Empty base waits visible label before no visible textbox. No selector loss, layout measurements or successful file-selection claim; known native read defect remains untouched.
+
+Own hidden-picker/preview mutation passes original two units but fails all three plays; disabled removal fails CSV plays; space normalization fails original-payload story only. Stale hidden native value passes original cases but fails new kept assertion. Components restored. Final unit1/story3 pass twice (best Tests17ms/84ms); full browser525/90 and unit493/81 green on reviewed repaired base, all prior ToolForm plays/guards retained. Type/lint/hooks passed; worktree clean, no security findings. Review was read-only.
