@@ -8,6 +8,7 @@ PR: [galaxyproject/foundry#605](https://github.com/galaxyproject/foundry/pull/60
 ## Decisions
 
 - 2026-10-14: John confirmed the UI scope (journey taxonomy, landing route chooser, Usage grouping, catalog Journey column) belongs in this PR; it's not split out.
+- 2026-10-14: John chose to keep both Galaxy design Mold families (freeform and brief) for now; revisit a merge after the brief route has real runs.
 
 ## Review (2026-10-14)
 
