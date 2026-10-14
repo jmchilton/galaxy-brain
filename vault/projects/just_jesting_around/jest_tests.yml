@@ -2964,6 +2964,7 @@
       score: 3
   iterated: 1
 - file: client/src/components/admin/Notifications/BroadcastForm.test.ts
+  storified: true
   readability_score: 3
   readability_reviews:
     - commit: beb6fd039ba189123543a0aeb5df075fd83a8ea3
