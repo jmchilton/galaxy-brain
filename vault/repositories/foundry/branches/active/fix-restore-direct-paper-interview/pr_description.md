@@ -4,7 +4,7 @@ Follow-up to 🔀 #567 - keep Workflow Brief planning opt-in and make every buil
 
 | Before: landing page | After: landing page |
 | --- | --- |
-| <img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/before-landing-matrix.png" width="480"> | <img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/after-landing-routes.png" width="480"> |
+| <img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/before-landing-matrix.png" width="480"> | <img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/after-landing-routes.png?v=2" width="480"> |
 
 The old source × target matrix had no slot for INTERVIEW → GALAXY, the three source-to-brief planners, WORKFLOW BRIEF → GALAXY or the existing-workflow routes. The new chooser shows every route, grouped by what the user is trying to do. ***Direct Build isn't unattended. It can still pause for expert input or stop on blockers.***
 
@@ -12,15 +12,15 @@ The old source × target matrix had no slot for INTERVIEW → GALAXY, the three 
 
 | Before | After |
 | --- | --- |
-| <img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/before-usage-run.png" width="420"> | <img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/after-usage-run.png" width="420"> |
+| <img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/before-usage-run.png" width="420"> | <img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/after-usage-run.png?v=2" width="420"> |
 
 </details>
 
 <details><summary>Pipelines catalog with a Journey column, and the landing chooser at phone width</summary>
 
-<img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/after-pipelines-catalog.png" width="720">
+<img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/after-pipelines-catalog.png?v=2" width="720">
 
-<img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/after-landing-routes-mobile.png" width="300">
+<img src="https://raw.githubusercontent.com/jmchilton/foundry/pr-605-screenshots/after-landing-routes-mobile.png?v=2" width="300">
 
 </details>
 
