@@ -1,6 +1,6 @@
 # Spike debrief: workflow_rerun_step_parameters
 
-Spike for `vault/agents/gx_issues/local/workflow_rerun_drops_step_parameters.md`. Branch `jmchilton/workflow_rerun_step_parameters` off `dev` @ `b62d06dcdce`, 2 commits (server, client).
+Spike for `vault/agents/gx_issues/local/workflow_rerun_drops_step_parameters.md`. Branch `jmchilton/workflow_rerun_step_parameters` off `dev` @ `b62d06dcdce`, 3 commits: server, client, then review fixes.
 
 ## Q1: break it into more issues?
 
@@ -18,7 +18,9 @@ Yes. Split by root cause, not by row in the issue's table. The replacement, reso
    - Red→green: `test_workflow_request_step_parameters_after_invocation_import`.
 3. **Bug (client), small: rerun prefers the simple form, which never submits `parameters`.**
    - The overrides are dropped silently. This is the issue's "nothing tells them" complaint.
-   - The fix forces the full form, with an explanation, whenever the export carries step, replacement or resource params.
+   - The fix forces the full form, with an explanation and the simple toggle hidden, when the export carries tool step params.
+   - The simple form *does* submit replacement params and object stores, so the fix prefills those in the simple form rather than forcing the full form. Resource params already force the full form.
+   - UX shift: the full form submits every unconnected param of every tool step, so *every* run that started in the full form will rerun in the full form.
 4. **Feature: prefill the full run form from the invocation.**
    - Server: `GET /api/workflows/{id}/download?style=run&invocation_id=…` seeds tool step state through the same `compute_runtime_state(step_args)` path the scheduler uses, and seeds subworkflow runtime inputs.
    - Client: prefills input steps, workflow parameters, resource parameters and job re-use from the export.
@@ -46,16 +48,21 @@ No, and one wouldn't help much.
 
 ## Evidence
 
-- API: 18 related `test_workflows.py` tests pass. 3 were new reds that are now green, and 2 more are new seeding tests.
-  - The rerun baseline for a top-level tool step was already green. The top-level export works.
+- API: 18 related `test_workflows.py` tests pass, and none fail. The new ones:
+  - 2 were reds that are now green: subworkflow rerun, and import → export.
+  - The import test also runs with a nested subworkflow.
+  - 1 baseline was already green. It reruns a top-level tool step, so the top-level export works.
+  - 3 seeding tests: a tool step, a subworkflow step, and a recorded dataset that was deleted and purged. The page still loads in that last case.
+  - The `${}` guard is load-bearing: with it removed, the test fails with `'moo' != '${seedme}'`.
 - Unit: `test/unit/data/model/test_model_store.py` and `test/unit/workflows` pass.
 - Client: vitest for `Workflow/Run/` passes (71 tests), and `vue-tsc` is clean. eslint has warnings only, none of them new.
 - Not done: no browser check of the rerun page.
 
 ## Gaps / follow-ups
 
-- **Preferred object stores:** the full form has no UI for them and never submits them, so a rerun still drops them. This is not new, but it is one of the issue's rows.
-- **No `WorkflowRun` component test for the forced-full-form path:** run1's fixture already forces the full form. Only the `rerunHasStepSettings` predicate is unit-tested.
+- **Preferred object stores in the full form:** the full form has no UI for them and never submits them, so a full-form rerun still drops them. The simple form now prefills them. This is not new, but it is one of the issue's rows.
+- **No component tests for the new rerun paths:** neither the forced-full-form path in `WorkflowRun` nor the simple form's replacement and object-store prefill has one. run1's fixture already forces the full form. Only the `rerunHasStepParameters` predicate is unit-tested.
+- **`_normalize_step_parameters` is now stricter:** an unknown or non-numeric inner subworkflow index used to be silently ignored. It now returns a 400 `RequestParameterInvalidException`.
 - **Latent bug:** `workflow_run_config_to_request` looks up `run_config.param_map.get(step.order_index)` for subworkflows, but `param_map` is keyed by `step.id`.
   - It's harmless today, because subworkflow values reach scheduling via `step_states`.
   - It could collide in small-id test DBs. One-line fix, but it changes what gets persisted on the sub-invocation.
