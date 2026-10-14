@@ -1,6 +1,6 @@
 # galaxy #23999 — Unify root uv workspace
 
-[PR #23999](https://github.com/galaxyproject/galaxy/pull/23999) · Status: active; initial review complete; CI-filter finding commented by John; ball with author. Open, out of draft; GitHub checked 2026-10-11.
+[PR #23999](https://github.com/galaxyproject/galaxy/pull/23999) · Status: archived; merged 2026-10-14; tracking ended. Initial review and delivery history retained below.
 
 - [Review and risks](review-2026-10-11.md)
 - [Draft review](draft-review.md)
@@ -32,3 +32,7 @@ Open, ready; live HEAD `5daad696899b2ad2224cb904555219a78282d5d9`. CI snapshot: 
 ## Morning check — 2026-10-14
 
 Open, ready; live head `097f25bdbee0e4cd3483dd6d23e87caa1e77c813`. CI: 2 skipped, 61 success. Latest commit is John’s merge `097f25bdbee0e4cd3483dd6d23e87caa1e77c813`, committed 2026-10-13T17:12:36Z, within the last 24 hours. CI is green (61 success, two skipped). The delivered CI-filter finding remains with the author; green CI does not verify its resolution.
+
+## Merged cleanup — 2026-10-14
+
+GitHub confirms merged at 2026-10-14T08:31:04Z, head `097f25bdbee0e4cd3483dd6d23e87caa1e77c813`. Removed from the queue and archived. The worktree was clean, had no upstream, and matched the merged PR head; removed with `ghwt rm galaxy 23999`.
