@@ -2,7 +2,7 @@
 
 PR: [galaxyproject/foundry#605](https://github.com/galaxyproject/foundry/pull/605) → `rfc/workflow-brief`. Follow-up to #567 (mandatory Workflow Brief in PAPER/INTERVIEW → GALAXY). Toward #3.
 
-- Proposed description: [pr_description.md](pr_description.md)
+- Description: [pr_description.md](pr_description.md), applied to #605 on 2026-10-14 at John's request.
 - Screenshots: local `screenshots/` (ignored); hosted for the PR on the orphan branch `jmchilton/foundry:pr-605-screenshots`.
 
 ## Decisions
