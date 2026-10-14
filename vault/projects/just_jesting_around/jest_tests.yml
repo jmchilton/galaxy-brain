@@ -1850,6 +1850,7 @@
   storybook_play: true
 - file: client/src/components/Panels/Upload/UploadMethodView.test.ts
 - file: client/src/components/Panels/Upload/UploadMethodViewInline.test.ts
+  storybook_play: true
   readability_score: 2
   readability_reviews:
     - commit: f91f930b1e67f34bb2fafdcd458b5e419304f8fe
@@ -1915,6 +1916,7 @@
   iterated: 1
 - file: client/src/components/RuleBuilder/ColumnSelector.test.ts
 - file: client/src/components/RuleBuilder/IdentifierDisplay.test.ts
+  storified: true
   readability_score: 3
   readability_reviews:
     - commit: 8cd946b9a2a8c81038c3efb7ec5ee662b6ac106a
