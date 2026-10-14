@@ -1,0 +1,3 @@
+Independent review approved `b61bd77c10e` without changes. Every original assertion is preserved; no findings required action.
+
+Details: static TextComment/MarkdownComment visibility moved to visible browser content checks. All seven remaining unit cases retain their assertions unchanged, including live type changes, layout, store events, pan payload and sanitizer contracts. Exact text and Markdown checks strengthen coverage. Both hidden branches fail browser plays; strengthened checks fail while all eight original tests pass under the same mutations. The negative raw-HTML check follows positive rendered-content assertions. Worktree clean and diff whitespace check passed.

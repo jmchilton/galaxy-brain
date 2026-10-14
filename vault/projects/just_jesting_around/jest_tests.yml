@@ -2456,6 +2456,7 @@
       score: 3
   iterated: 1
 - file: client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts
+  storybook_play: true
   readability_score: 2
   readability_reviews:
     - commit: a7419418a9056803c5a52065a7caaf5c3d85bea0
