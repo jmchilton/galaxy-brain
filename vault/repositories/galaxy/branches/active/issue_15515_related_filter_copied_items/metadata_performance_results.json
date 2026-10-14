@@ -1,0 +1,170 @@
+{
+  "ordinary": [
+    {
+      "unrelated_datasets": 2000,
+      "unrelated_collections": 2000,
+      "metadata_ms": 0.393,
+      "graph_ms": 0.129,
+      "five_runs_median_wall_ms": {
+        "base": 3.735,
+        "review_revision": 3.188,
+        "consolidated": 2.63
+      },
+      "metadata_scans": [
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "history_dataset_association",
+          "Actual Total Time": 0.124,
+          "Actual Rows": 2004.0,
+          "Rows Removed by Filter": 0,
+          "Filter": "(history_id = 1)"
+        },
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "history_dataset_collection_association",
+          "Actual Total Time": 0.092,
+          "Actual Rows": 2000.0,
+          "Rows Removed by Filter": 0,
+          "Filter": "(history_id = 1)"
+        }
+      ],
+      "late_clicked_median_wall_ms": {
+        "base": 2.896,
+        "review_revision": 2.919,
+        "consolidated": 2.423
+      }
+    },
+    {
+      "unrelated_datasets": 20000,
+      "unrelated_collections": 20000,
+      "metadata_ms": 3.151,
+      "graph_ms": 0.088,
+      "five_runs_median_wall_ms": {
+        "base": 4.735,
+        "review_revision": 5.873,
+        "consolidated": 4.501
+      },
+      "metadata_scans": [
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "history_dataset_association",
+          "Actual Total Time": 0.848,
+          "Actual Rows": 20006.0,
+          "Rows Removed by Filter": 0,
+          "Filter": "(history_id = 1)"
+        },
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "history_dataset_collection_association",
+          "Actual Total Time": 0.921,
+          "Actual Rows": 20000.0,
+          "Rows Removed by Filter": 0,
+          "Filter": "(history_id = 1)"
+        }
+      ],
+      "late_clicked_median_wall_ms": {
+        "base": 4.587,
+        "review_revision": 5.271,
+        "consolidated": 4.569
+      }
+    },
+    {
+      "unrelated_datasets": 100000,
+      "unrelated_collections": 100000,
+      "metadata_ms": 15.018,
+      "graph_ms": 0.052,
+      "five_runs_median_wall_ms": {
+        "base": 9.302,
+        "review_revision": 10.994,
+        "consolidated": 10.496
+      },
+      "metadata_scans": [
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "history_dataset_association",
+          "Actual Total Time": 4.239,
+          "Actual Rows": 100008.0,
+          "Rows Removed by Filter": 0,
+          "Filter": "(history_id = 1)"
+        },
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "history_dataset_collection_association",
+          "Actual Total Time": 4.222,
+          "Actual Rows": 100000.0,
+          "Rows Removed by Filter": 0,
+          "Filter": "(history_id = 1)"
+        }
+      ],
+      "late_clicked_median_wall_ms": {
+        "base": 9.64,
+        "review_revision": 17.174,
+        "consolidated": 14.843
+      }
+    },
+    {
+      "unrelated_datasets": 500000,
+      "unrelated_collections": 500000,
+      "metadata_ms": 33.882,
+      "graph_ms": 0.069,
+      "five_runs_median_wall_ms": {
+        "base": 21.172,
+        "review_revision": 27.978,
+        "consolidated": 28.526
+      },
+      "metadata_scans": [
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "history_dataset_association",
+          "Actual Total Time": 8.8,
+          "Actual Rows": 166670.0,
+          "Rows Removed by Filter": 0,
+          "Filter": "(history_id = 1)"
+        },
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "history_dataset_collection_association",
+          "Actual Total Time": 8.188,
+          "Actual Rows": 166666.67,
+          "Rows Removed by Filter": 0,
+          "Filter": "(history_id = 1)"
+        }
+      ],
+      "late_clicked_median_wall_ms": {
+        "base": 20.877,
+        "review_revision": 35.623,
+        "consolidated": 27.369
+      }
+    }
+  ],
+  "copied": [
+    {
+      "unrelated_copied_datasets": 2000,
+      "unrelated_copied_collections": 2000,
+      "early_median_wall_ms": {
+        "review_revision": 11.66,
+        "consolidated": 11.107
+      },
+      "late_median_wall_ms": {
+        "review_revision": 12.538,
+        "consolidated": 12.018
+      },
+      "metadata_ms": 0.456,
+      "graph_ms": 6.765
+    },
+    {
+      "unrelated_copied_datasets": 20000,
+      "unrelated_copied_collections": 20000,
+      "early_median_wall_ms": {
+        "review_revision": 136.181,
+        "consolidated": 141.515
+      },
+      "late_median_wall_ms": {
+        "review_revision": 147.541,
+        "consolidated": 146.12
+      },
+      "metadata_ms": 3.928,
+      "graph_ms": 168.063
+    }
+  ]
+}

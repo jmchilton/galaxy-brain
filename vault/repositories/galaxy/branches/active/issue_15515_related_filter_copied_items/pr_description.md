@@ -16,12 +16,12 @@ Importing a published history is how people study someone else's analysis, but t
 
 <details><summary>Query design and cost</summary>
 
-- Two fixed SQL queries per fetch: a small metadata query resolves the clicked association IDs and which item types have copies, then one relationship query joins guarded ancestry to job inputs/outputs and maps back to hids. Intermediate copies' consumers remain included. Related IDs stay in SQL.
+- Two fixed SQL queries per fetch: a metadata query resolves the clicked association IDs and which item types have copies in one pass per association type, then one relationship query joins guarded ancestry to job inputs/outputs and maps back to hids. Intermediate copies' consumers remain included. Related IDs stay in SQL.
 - Direct item IDs are matched first. Absent item types and types without copies omit their recursion entirely. Histories without copies use the direct relationship query.
 - Both HDA and HDCA mapping use association IDs and explicit copy ancestry. No lookup fans out across importers sharing a `dataset_id`.
 - Ancestry uses primary-key joins, with the creating-job guard on the current item before its next hop. Hidden collection ownership is computed once across possible copy ancestors, including nested membership. Distinct work sets keep downstream joins manageable.
 - Ordinary job joins use `UNION ALL`; recursive ancestry keeps `UNION` so malformed cycles terminate. Mapping stops when it reaches a related association.
-- The filter is recomputed on contents refreshes and pagination. Work still scales with candidate copies, copy depth, and containing collections. One statement does not imply constant work.
+- The filter is recomputed on contents refreshes and pagination. Metadata scans scale with the current history size; relationship work scales with candidate copies, copy depth, and containing collections. One statement does not imply constant work.
 
 </details>
 
@@ -33,6 +33,7 @@ This is a reversible query change, but relationship boundaries and repeated-fetc
 
 - SQLite and PostgreSQL 18 both pass all eight related-filter API tests. Unit regressions cover pass-through/cache boundaries, nested hidden outputs, reused imported inputs, cyclic links, and query count.
 - PostgreSQL `EXPLAIN ANALYZE` probes cover 10,000 importers sharing two datasets, 2,002 ordinary collections, 2,002 copied collections, and nonempty copied collections. These are synthetic fixtures rather than a production performance guarantee.
+- A second PostgreSQL comparison checks ordinary histories up to 500,000 datasets plus 500,000 collections and copied histories up to 20,000 of each. Consolidating metadata reduced a large ordinary late-click median from 35.6 to 27.4 ms; the original implementation measured 20.9 ms. Early-click improvements are not consistent. Copied-history timings remain close to the prior revision. These are warm synthetic measurements; residual scan and relationship costs remain.
 - Chains through library datasets remain unsupported. Existing gaps in implicit mapped-output collection connections remain.
 - Input/output arrows still follow hid order, so copying individual items with reordered hids can reverse an arrow. Whole-history imports preserve hids.
 
@@ -57,7 +58,7 @@ Builds on 🔀 #15210. Alternative to 🔀 #15573, which hides the button for co
 
 <details><summary>Tests</summary>
 
-- `pytest test/unit/app/managers/test_JobConnectionsManager.py`: 23 tests, including 17 new regression/behavior cases.
+- `pytest test/unit/app/managers/test_JobConnectionsManager.py`: 27 tests, including 21 new regression/behavior cases.
 - `pytest lib/galaxy_test/api/test_history_contents.py -k index_filter_by_related`: eight real-tool API tests; run on SQLite and PostgreSQL 18.
 - `test_history_related_filter_copied_history`: existing browser regression copies a history, switches to it, and checks the highlight button includes the related item and excludes the unrelated one. It is unchanged in this revision; new-head browser CI remains to run.
 

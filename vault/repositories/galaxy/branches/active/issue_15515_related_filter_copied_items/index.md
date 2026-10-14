@@ -1,10 +1,10 @@
 # issue_15515_related_filter_copied_items
 
-Status: `ci_wait` — draft PR review fixes pushed; fresh human read and new-head CI pending. Base: `dev`.
+Status: `ci_wait` — draft PR review and metadata performance fixes pushed; fresh human read and new-head CI pending. Base: `dev`.
 
 Makes the related filter work on imported and copied history items (#15515).
 
-[Implementation](implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tracking history](tracking_history.md) · [Marius review follow-ups](review_followups_2026-10-14.md)
+[Implementation](implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tracking history](tracking_history.md) · [Marius review follow-ups](review_followups_2026-10-14.md) · [Performance follow-up](performance_followups_2026-10-14.md)
 
 Previous approved SHA (superseded by conflicted rebase): `96218cbe647` (John, 2026-10-06 at `c44206d0535`; carried across a clean rebase onto dev 2026-10-09). Chosen title: **Make the related filter work on imported and copied history items**.
 
@@ -30,3 +30,7 @@ John requested Marius' review fixes with thorough polish and an explanation of a
 Relationship lookup now uses two fixed SQL queries: a metadata fast path and one guarded relationship query. Association ancestry replaces shared `dataset_id` mapping. The current-item creating-job boundary preserves intermediate copy consumers. Batched collection membership detects hidden outputs without individual job associations, with exact-input reuse exceptions. **23 manager tests, 8 SQLite API tests, 8 PostgreSQL 18 API tests, and 17 standalone PostgreSQL boundary cases pass**. All Galaxy pre-commit hooks pass. Mypy has seven pre-existing annotation errors versus nine on the base. See the [debrief](review_followups_2026-10-14.md) for the detailed boundary explanation, final analyzed query timings, and remaining limits.
 
 Final SHA: `f9b57ed5793cd3e3b929bfcb37daef9e2b880bcb`. Pushed only to the jmchilton fork with an exact lease on the previous approved head. GitHub confirms the new SHA, mergeability, and **draft** state, with CI queued/in progress. This session did not alter draft state. No new-head browser pass is claimed. The description was updated locally; no review replies or live description edit were posted. Fresh human-read approval remains unchecked.
+
+## Performance pass and description publication — 2026-10-14
+
+John requested the extra metadata performance pass and had explicitly requested live description publication. Consolidated metadata into one scan per association type, added four aggregate edge-case instances, and fixed six related CI type errors. Cleanly rebased onto `6801a80e2ad`, committed `4d82165af62e9faad48326137b5bcf4df1ead0a0`, and pushed only to jmchilton with an exact lease. **27 manager tests and eight API tests on each SQLite and PostgreSQL 18 pass**, as do applicable pre-commit hooks. Ordinary late-click performance improves; residual overhead and copied-history scaling remain documented. Copied benchmarks and real nonempty `History.copy()` probe pass. The independent reviewer found no remaining correctness or performance blocker. See the [performance follow-up](performance_followups_2026-10-14.md) for comparisons and corrected CI-equivalent type evidence. The PR description is published and synchronized; prior local-only statements above describe the earlier handoff. Fresh human-read approval and new-head upstream CI remain pending; PR stays draft.
