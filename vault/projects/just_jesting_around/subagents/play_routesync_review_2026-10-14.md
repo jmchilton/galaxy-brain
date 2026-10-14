@@ -1,0 +1,5 @@
+Independent review approved `31ed0824a93` without changes. All 12 original assertion sites survive across three unit cases plus positive historyStarted synchronization, 13 current sites total. Unit file byte unchanged and all prior GalaxyAI plays preserved. No fixes required.
+
+Route/API omissions, replacement payloads, live prop clearing and deferred race logic remain unit. New read-only PrefilledCompactConversation waits actual notice with 5-second initial timeout then checks real visible textbox, exact seeded question and enabled state; no browser request/routing claims. Own busy-binding and prefill-assignment mutations fail separate checks; busy break leaves all original three cases passing. Implementation restored.
+
+Final unit3/story7 pass twice (best Tests86ms/1.24s); full unit484/78 and actual terminal unchanged browser retry518/87 passed. Interrupted transport-failed gate evidence retained separately. Type/lint/hooks passed, clean worktree. No new cleanup, race or security findings. Reviewer changed no files or processes.

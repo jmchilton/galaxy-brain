@@ -932,6 +932,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/GalaxyAI.routesync.test.ts
+  storybook_play: true
   readability_score: 2
   readability_reviews:
     - commit: f1e4109f9bdce6a8cdd49bee6b50a1345fc1bf02
