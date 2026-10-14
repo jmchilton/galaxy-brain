@@ -24,8 +24,12 @@ Nightly release coverage needs only the dispatcher and called workflows on dev; 
 - Live resolver smoke test returns upstream dev36fe2ce8428, release26.0e69583662de, release26.1 933e342ad1d, release26.2 d28efb94ed9, all configured with Python3.10.
 - Independent GENERAL review of the final full diff passes; human read-through remains unchecked. Review corrected Codecov attribution and preserved26.1's historical framework API modes.
 - JavaScript was formatted by repository hooks. Unrelated whole-file Markdown reflow was removed; the formatter alone was skipped during amendment to preserve the existing documentation style. Substantive tests and schema/security checks passed.
-- Fork CI on a13b016c0ff is queued/pending at refresh. No complete release-runtime or upstream reporter execution is claimed. After merge, dispatch the nightly workflow on upstream dev and inspect each configured branch.
+- Fork security CI on a13b016c0ff is [green](https://github.com/jmchilton/galaxy/actions/runs/38605173521); remaining runtime suites and [nightly preparation](https://github.com/jmchilton/galaxy/actions/runs/38605173831) are queued or running at refresh. No complete release-runtime or upstream reporter execution is claimed. After merge, dispatch the nightly workflow on upstream dev and inspect each configured branch.
 
 ## Description backup
 
 [Previous description](pr_description_before_release_nightlies.md) is an exact backup taken before rewriting, including John's checked human-read item on the old diff. The rewritten description resets that item because the extension adds tests/comments that need a fresh read.
+
+## Handoff
+
+The description and four title choices are rewritten. One fresh strengthening round returned nothing to add; see [strengthening](release_nightlies_strengthening.md). Final status is branches_ready_for_final_review, with no PR opened. Vault validation passed with zero errors and fifteen existing advisory warnings. Tracking artifacts are excluded from frontmatter validation; no index/dashboard generation was needed.

@@ -100,10 +100,11 @@ nightly_unit_tests CI and base refreshed from GitHub 2026-10-14.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Adds tracked Python 3.10 nightlies for dev and releases 26.0–26.2; reduces dev PR CI. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:nightly_unit_tests?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Adds tracked Python 3.10 nightlies for dev and releases 26.0–26.2; reduces dev PR CI. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:nightly_unit_tests?expand=1).
 
 
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
