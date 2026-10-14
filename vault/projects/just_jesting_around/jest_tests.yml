@@ -1916,6 +1916,7 @@
   iterated: 1
 - file: client/src/components/RuleBuilder/ColumnSelector.test.ts
 - file: client/src/components/RuleBuilder/IdentifierDisplay.test.ts
+  storybook_play: skip
   storified: true
   readability_score: 3
   readability_reviews:
