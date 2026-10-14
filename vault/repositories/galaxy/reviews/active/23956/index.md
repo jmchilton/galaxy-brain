@@ -19,3 +19,7 @@ Morning check 2026-10-11: live HEAD `4bf89d638bd49c4ebb2e08b75bdef3d4f58bda27`; 
 ## Morning check — 2026-10-12
 
 Open, draft; live HEAD `4bf89d638bd49c4ebb2e08b75bdef3d4f58bda27`. CI snapshot: 6 failure, 2 skipped, 48 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.
+
+## Morning check — 2026-10-14
+
+Open, draft; live head `4bf89d638bd49c4ebb2e08b75bdef3d4f58bda27`. CI: 6 failure, 2 skipped, 48 success. Still draft; preserve the explicit instruction not to post the older draft. Author/Marius discussion remains the controlling context.

@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-14
+
+PR **merged** at `2026-10-14T07:35:06Z`; final head `70f0fde40a3662d19def548bb5fb8999df4693c8`. Removed from the queue and archived. Clean worktree removed after confirming its head is included in the merged PR. Historical findings below retain their original reviewed commits; this state check does not verify the final fixes.
+
 # galaxy #23975 — Add a NOMAD file source
 
 [PR #23975](https://github.com/galaxyproject/galaxy/pull/23975) · Status: active; initial review complete. Open, out of draft; GitHub checked 2026-10-11. Delivery: John submitted a **COMMENTED review with one inline comment**; no formal approval.

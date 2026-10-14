@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-14
+
+PR **merged** at `2026-10-14T06:10:56Z`; final head `2fa8a517b8c90cadd13524ee241dd0d623ce0f8f`. Removed from the queue and archived. Clean worktree removed after confirming its head is included in the merged PR. Historical findings below retain their original reviewed commits; this state check does not verify the final fixes.
+
 # galaxy #23965 — change config default for new_user_dataset_access_role
 
 [PR #23965](https://github.com/galaxyproject/galaxy/pull/23965) · Status: active; open, ready on new head; earlier approval predates changes. GitHub state checked 2026-10-09.

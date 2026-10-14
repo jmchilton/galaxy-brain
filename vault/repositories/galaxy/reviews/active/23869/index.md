@@ -24,4 +24,8 @@ Open, ready; live HEAD `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`. CI snapshot: 
 
 ## Prerequisite review — 2026-10-13
 
-[#24097 reviewed directly](../24097/index.md) at `68e2b47adb929b77de3333f6d1bf4d5826d2123a`, using this PR's unchanged config at `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`. Real-class/MRO lookup removes the rrd/gwas_bgzip sibling leakage; compressed FASTA still inherits alignment. This prerequisite resolves the mechanism for the first finding once incorporated, not the compressed-viewer finding. [Ayslam proposes explicit-only preferences](https://github.com/galaxyproject/galaxy/pull/23869#issuecomment-6147278065); #24097 instead retains legitimate inheritance. No GitHub review/comment posted.
+[#24097 reviewed directly](../../archived/24097/index.md) at `68e2b47adb929b77de3333f6d1bf4d5826d2123a`, using this PR's unchanged config at `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`. Real-class/MRO lookup removes the rrd/gwas_bgzip sibling leakage; compressed FASTA still inherits alignment. This prerequisite resolves the mechanism for the first finding once incorporated, not the compressed-viewer finding. [Ayslam proposes explicit-only preferences](https://github.com/galaxyproject/galaxy/pull/23869#issuecomment-6147278065); #24097 instead retains legitimate inheritance. No GitHub review/comment posted.
+
+## Morning check — 2026-10-14
+
+Open, ready; live head `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`. CI: 1 failure, 2 skipped, 55 success. The request-changes draft remains unposted and John has not commented/reviewed this PR. Marius posted overlapping findings. #24097 has now merged; its sibling-inheritance fix does not address compressed FASTA defaults. Avoid posting the original two-finding draft unchanged. No new renderer or combined-branch verification performed.

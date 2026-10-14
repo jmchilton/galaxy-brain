@@ -19,3 +19,7 @@ John [posted the P2 encoding finding](https://github.com/galaxyproject/galaxy/pu
 ## Morning check — 2026-10-12
 
 Open, ready; live HEAD `20f9b0cdcca4555325a08f2fe0c5d0232de8a100`. CI snapshot: 2 failure, 2 skipped, 53 success. [David reports the encoding fix](https://github.com/galaxyproject/galaxy/pull/23966#issuecomment-6123667399) at new head `20f9b0cdcca4`. John’s approval remains recorded; the old finding is evidence for `0216fb3c845d`, not a verified blocker on the new head. Verification pending; two CI checks fail.
+
+## Morning check — 2026-10-14
+
+Open, ready; live head `1e6c3efda7e8f18169ffab1ec74e2969270d7187`. CI: 39 queued, 2 skipped, 1 success. Fresh head changes directory downloads to sequential fetching at Marius’s request. Marius approved the prior head and author reports completion; fresh CI is still queued. John’s encoding fix verification remains pending; earlier approval does not verify the latest changes.

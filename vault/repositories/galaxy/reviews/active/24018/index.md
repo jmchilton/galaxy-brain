@@ -19,3 +19,7 @@ Delivery: John [posted our review as a PR comment](https://github.com/galaxyproj
 ## Morning check — 2026-10-12
 
 Open, draft; live HEAD `711d2e4f1a701b4063ab5eaf991fe9b4ce7d2d56`. CI snapshot: 2 failure, 2 skipped, 51 success. New head `711d2e4f1a70`, still draft; two checks fail. Review was delivered and no follow-up was promised. Ball with author until ready; older findings are not revalidated by this status refresh.
+
+## Morning check — 2026-10-14
+
+Open, draft; live head `711d2e4f1a701b4063ab5eaf991fe9b4ce7d2d56`. CI: 2 failure, 2 skipped, 51 success. Still draft; review delivered, no newer discussion. Ball with author until ready.

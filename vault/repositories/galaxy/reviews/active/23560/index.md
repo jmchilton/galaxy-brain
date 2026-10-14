@@ -15,3 +15,7 @@ Prior queue tracking: still draft; re-review when it leaves draft
 ## Morning check — 2026-10-12
 
 Open, draft; live HEAD `c5384b3eb3fcae051a9d273aaf7aa657d8028e0e`. CI snapshot: 8 failure, 2 skipped, 49 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.
+
+## Morning check — 2026-10-14
+
+Open, draft; live head `c5384b3eb3fcae051a9d273aaf7aa657d8028e0e`. CI: 8 failure, 2 skipped, 49 success. Still draft; prior review delivered and head unchanged. Ball with author; no new user action identified.

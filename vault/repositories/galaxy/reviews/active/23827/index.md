@@ -29,3 +29,7 @@ John [posted both independently confirmed findings](https://github.com/galaxypro
 ## Morning check — 2026-10-12
 
 Open, ready; live HEAD `5c59cde64a2a7bce94c0a171f6f118eadbf97309`. CI snapshot: 17 in progress, 10 queued, 2 skipped, 27 success. Author reports both findings fixed and the App.vue conflict resolved on new head `5c59cde64a2a`; verification remains pending while CI runs. [Author reply](https://github.com/galaxyproject/galaxy/pull/23827#issuecomment-6125296399) is in the live PR discussion; two questions need John’s scope decision: fix the analogous `histories/from_store_async` policy gap here or separately, and persist task IDs in Recent Exports to survive reloads. This status refresh does not verify either fix.
+
+## Morning check — 2026-10-14
+
+Open, ready; live head `a113532f91e8bbe071d45e17e6fcd87a19d220d6`. CI: 2 failure, 2 skipped, 54 success. Author reports both fixes and says the link-based scope was agreed at Tuesday’s meeting, with the picker and scoped tokens later. John’s explicit decision is requested: can the analogous `histories/from_store_async` discarded-data policy fix and persisting task IDs across reloads both be separate PRs? Author fixes remain unverified; current failed checks have not been attributed in this refresh.

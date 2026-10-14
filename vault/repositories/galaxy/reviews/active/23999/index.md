@@ -28,3 +28,7 @@ John [posted the CI-filter finding](https://github.com/galaxyproject/galaxy/pull
 ## Morning check — 2026-10-12
 
 Open, ready; live HEAD `5daad696899b2ad2224cb904555219a78282d5d9`. CI snapshot: 2 skipped, 61 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.
+
+## Morning check — 2026-10-14
+
+Open, ready; live head `097f25bdbee0e4cd3483dd6d23e87caa1e77c813`. CI: 2 skipped, 61 success. Latest commit is John’s merge `097f25bdbee0e4cd3483dd6d23e87caa1e77c813`, committed 2026-10-13T17:12:36Z, within the last 24 hours. CI is green (61 success, two skipped). The delivered CI-filter finding remains with the author; green CI does not verify its resolution.

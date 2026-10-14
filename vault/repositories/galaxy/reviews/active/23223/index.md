@@ -17,3 +17,7 @@ Open, ready; live HEAD `8afbc3efc09ca3d746dfc315320be5570a801de6`. CI snapshot: 
 ## Tick check — 2026-10-13
 
 PR remains open but is now draft; head remains `8afbc3efc09ca3d746dfc315320be5570a801de6`. Preserve the recorded reply/scope context; the draft state puts a merge decision on hold. No code re-review or author contact performed.
+
+## Morning check — 2026-10-14
+
+Open, draft; live head `8afbc3efc09ca3d746dfc315320be5570a801de6`. CI: 2 skipped, 57 success. Still draft. Marius recommends TPV and removed the milestone; no reply or merge action is due merely because the older thread is stale.

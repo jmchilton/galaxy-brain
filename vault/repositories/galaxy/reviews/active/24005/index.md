@@ -34,3 +34,7 @@ John [posted the three findings](https://github.com/galaxyproject/galaxy/pull/24
 ## Morning check — 2026-10-12
 
 Open, draft; live HEAD `03e38ae61aa0e822e5814ce19cc9c75309da3faf`. CI snapshot: 5 in progress, 1 neutral, 38 queued, 3 skipped. New head `03e38ae61aa0`; author converted the PR to draft, CI queued/running, no new discussion reply. Findings already delivered; ball with author until ready. Do not present old-head findings as verified current blockers.
+
+## Morning check — 2026-10-14
+
+Open, ready; live head `0acdecef3ce4ee30a63735f49422b68e8bce11ec`. CI: 2 failure, 3 skipped, 56 success. Ready, new reviewed-by-Marius head. Author reports legacy metadata cleanup, the final #24004 dependency, and Vizarr 0.1.9 included. Marius delivered a new review and opened davelopez/galaxy#8 for compatibility with published store_root wrappers; await author handling. This refresh does not verify those fixes or assign CI failures.

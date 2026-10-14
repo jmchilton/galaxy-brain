@@ -1,3 +1,7 @@
+## Tracking ended — 2026-10-14
+
+PR **merged** at `2026-10-14T06:38:12Z`; final head `c1ccdf4f511905cf61f4b4abd3984aa3447e2f3b`. Removed from the queue and archived. Worktree retained: clean at `9008c8cb17c8fc4116e3afca7da707655349812d`, no upstream, and that old head is not an ancestor of the merged head. WORKTREES.md requires John’s confirmation before removing it. Historical findings below retain their original reviewed commits; this state check does not verify the final fixes.
+
 # galaxy #23954 — [26.1] Fix expression parameter connections in extracted workflows
 
 [PR #23954](https://github.com/galaxyproject/galaxy/pull/23954) · [Initial review](review-2026-10-11.md) · [Unposted draft](draft-review.md) · [API reproduction](test_saved_conditional_selector.py) · [Sanitized output](reproduction-output.txt)

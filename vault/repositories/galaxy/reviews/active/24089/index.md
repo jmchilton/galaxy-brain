@@ -14,3 +14,7 @@ Follow-up to #23669/#23755: adds `is:runnable` + "Ready to run here" toggle, ord
 ## Tick check — 2026-10-13
 
 John delivered the review findings in a PR comment at 2026-10-13T16:40:05Z. He treats the duplicated logic as a probable blocker and asks about the smaller follow-ups. This supersedes the unposted delivery status above; ball with author. The head is unchanged. No new code verification was performed.
+
+## Morning check — 2026-10-14
+
+Open, ready; live head `0cbea855736f52a43d9db630a4d4a5ee1b92d030`. CI: 2 failure, 4 skipped, 57 success. John’s review findings were delivered; no later author reply or head change. Ball with author.
