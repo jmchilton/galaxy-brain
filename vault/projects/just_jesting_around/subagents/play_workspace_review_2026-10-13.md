@@ -1,0 +1,5 @@
+Independent review approved `af0d07e75b8` without changes. All 12 original assertion sites survive: five moved to plays and seven retained across three unit cases. No required fixes.
+
+Initial state two sites move to EditorOnly, including hidden:true article absence to detect premature hidden mounts; opening two sites move to OpensDocumentation. Expansion moves editor-hidden while visible-document positive partner and documentation-only class stay unit. Reopening retains all four identity/visibility sites; resize retains emitted position and width-style site. ReopensSplitView adds genuine browser interaction. Component-owned aria-pressed checks and positive sync protect new flows; no layout measurements.
+
+Initial/open/expand/reopen mutation failures confirmed; always-false pressed state passes original5 but fails new expansion/reopen. Final unit3/browser5 probes pass twice, bestTests148ms/271ms; full browser514/87 and unit481/77 green. Component unchanged, worktree clean, lint/type/hooks passed. Reviewer changed no files or processes.

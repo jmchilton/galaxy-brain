@@ -2035,6 +2035,7 @@
   iterated: 1
 - file: client/src/components/Tool/Buttons/ToolTourGeneratorItem.test.ts
 - file: client/src/components/Tool/CustomToolEditorWorkspace.test.ts
+  storybook_play: true
   readability_score: 3
   readability_reviews:
     - commit: dad26b69931289c9f5e47313b8551e9989efbedb
