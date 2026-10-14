@@ -1351,6 +1351,7 @@
 - file: client/src/components/Indices/SharingIndicators.test.js
 - file: client/src/components/InteractiveTools/InteractiveTools.test.js
   storified: true
+  storybook_play: true
   readability_score: 3
   readability_reviews:
     - commit: 90e1a555059060f76fa9cc9600473cfe4a3f9c2b
