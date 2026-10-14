@@ -1,0 +1,3 @@
+Independent review approved `12212c080c7` without changes. All original assertions remain unchanged; no findings required action.
+
+Details: the retained unit case preserves markdown sanitizer profile, serialized gxhelp link, escaped raw HTML and rewritten /galaxy/ href. Plays add real rendered link visibility/href, exact complete help paragraphs, plain help without links and a glossary explanation revealed by hover. Unhover cleans up without asserting dependency behavior. Appended text fails all three plays while the original unit passes; real sanitizer rejecting gxhelp also escapes the mocked unit. Removing component popover registration fails only the hover play after its link/text checks pass.
