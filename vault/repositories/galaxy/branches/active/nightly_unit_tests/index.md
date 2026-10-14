@@ -1,8 +1,10 @@
 # nightly_unit_tests
 
-Status: `branches_implemented_needs_ci`. Base: `dev`. Pushed to `jmchilton/nightly_unit_tests`.
+Status: `branches_ready_for_final_review`. Base: `dev`. Pushed to `jmchilton/nightly_unit_tests`.
 
 Rebalances per-PR CI. Unit and Tool Shed tests run on Python 3.14 only for PRs and `dev` pushes; tool framework tests run only the tool request API (`never`); performance tests leave CI. Nightly runs on `dev` cover the rest and track failures in issues, using the Selenium weekly reporter, now the reusable `_report_scheduled_result.yaml`. Reusable workflows get a `_` prefix (`_build_client.yaml`).
+
+[PR description](pr_description.md) · [Title choices](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Polish checklist](polish_checklist.md) · [Description strengthening](polish_strengthening.md)
 
 [Implementation debrief](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Rename review](subagents/rename_review.md) · [Tool Shed review](subagents/toolshed_review.md) · [Tool framework + performance review](subagents/framework_tools_review.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md) · [Reporter harness](report_harness.mjs)
 
@@ -22,3 +24,7 @@ From a chat with Marius about CI speed: drop one per-PR unit Python version (abo
 - John: prefix reusable workflows with `_`, including `build_client.yaml` (`d449d938617`, `a97ecd968ad`).
 - John: apply the same split to the Tool Shed tests (`7d8dad4d980`). Review fixes are in `f18cff94279`.
 - John: drop the performance workflow (`ff639dd464b`). Tool framework: keep `never` (tool request API) per-PR, and move `always` (legacy API) to a daily run (`e0573f6bf2a`, review fixes in `694f69c4eab`).
+
+## Polish — 2026-10-14
+
+Final head `b2a792c206ded6040be900adef9b4b52f3819719` is pushed. No rebase was needed against current dev. Fixed three inaccurate nightly issue descriptions, completed the independent checklist and one strengthening round, and prepared the description/four titles. Human read-through remains unchecked. Final-head zizmor is green; unit, Tool Shed and framework CI remain in progress with no reported failures. See the [polish debrief](polish_debrief.md) for evidence and remaining upstream verification. No PR opened; approval remains unassigned.

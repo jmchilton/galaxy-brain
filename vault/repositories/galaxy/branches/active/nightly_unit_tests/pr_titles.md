@@ -1,0 +1,4 @@
+- Move older-Python and legacy tool API CI to tracked nightly runs
+- Reduce per-PR CI matrices with nightly compatibility coverage
+- Run compatibility suites nightly and remove performance CI
+- Rebalance unit, Tool Shed, and tool framework CI with failure tracking
