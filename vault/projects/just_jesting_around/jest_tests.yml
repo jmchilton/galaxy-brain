@@ -195,6 +195,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/ActivityBar/ActivityBar.test.js
+  storybook_play: true
   readability_score: 2
   readability_reviews:
     - commit: 52d8f2f6d37bb64704bd69590abe5e1afb2b7450
