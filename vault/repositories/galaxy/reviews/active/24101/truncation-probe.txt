@@ -36,4 +36,3 @@ AssertionError: expected '' to match /truncat|first .*execution|capped/i
       Tests  1 failed (1)
    Start at  04:50:53
    Duration  2.71s (transform 311ms, setup 430ms, import 68ms, tests 16ms, environment 1.96s)
-
