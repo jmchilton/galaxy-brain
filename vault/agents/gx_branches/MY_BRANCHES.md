@@ -104,7 +104,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Adds tracked Python 3.10 nightlies for dev and releases 26.0–26.2; reduces dev PR CI. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:nightly_unit_tests?expand=1).
+- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Reduces dev PR CI and tracks dev nightly failures; cross-release extension retained as a rejected alternative. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:nightly_unit_tests?expand=1).
 
 
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
@@ -128,6 +128,7 @@ None yet.
 
 ## Galaxy branches — still deciding on (`branches_need_decision`)
 
+- [`nightly_release_targets_alternative`](../../repositories/galaxy/branches/active/nightly_release_targets_alternative/index.md) — Cross-release nightly alternative John rejected as too verbose; retained for Marius feedback. Reference only; do not PR.
 - [`vitest_readability_with_churn`](../../repositories/galaxy/branches/active/vitest_readability_with_churn/index.md) — Preserves the readability history before score-2 pruning. Reference only; do not PR.
 - [`vitest_story_a11y`](../../repositories/galaxy/branches/active/vitest_story_a11y/index.md) — Storybook axe checks and viewport review tools; reference-only prototype stacked on `vitest_story_play`. Do not PR.
 - [`galaxy_ui_driver`](../../repositories/galaxy/branches/active/galaxy_ui_driver/index.md) — Standing branch for Galaxy changes motivated by gxui. Do not PR independently. Do not polish; Playwright owns it.

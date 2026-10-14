@@ -10,5 +10,6 @@ Skips the Integration workflow when a PR only changes test suites that run in ot
 
 - John asked for this branch on 2026-10-14 after the CI timing analysis recorded in the [initial debrief](initial_implementation_debrief.md).
 - First version allowlisted the 6 `lib/galaxy_test/api` modules integration tests imported (no measured CI difference vs refactoring). John then asked for the refactor so the include/exclude list is robust: shared code moved to `galaxy_test.base`, allowlist removed.
-- No enforced import guard (John, 2026-10-14); PR description must state the import rule and residual risk (see implementation debrief).
+- No enforced import guard (John, 2026-10-14); PR description must state the import rule and residual risk (see [earlier debrief](earlier_drafts/1/implementation_debrief.md)).
 - `lib/galaxy/navigation/` stays on the trigger list: `lib/galaxy/tours` imports it at runtime.
+- Shared module split into `base/api_mixins.py` + `base/api_helpers.py` (John, 2026-10-14); folded into the refactor commit.
