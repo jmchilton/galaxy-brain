@@ -1,5 +1,7 @@
 # Readability churn pruning — 2026-10-13
 
+**Updated 2026-10-14:** the duplicate JS suite restoration below is superseded by the correction at the end. Current local head: `4290a9186155a299c7621c65f5196dd83bc3be21`; upstream deduplication is retained.
+
 John requested preserving a `_with_churn` branch and removing the 77 assessed score-2 changes, while summarizing score-3 work.
 
 Preserved `vitest_readability_with_churn` at `7f2db5e59415f07c09fec5be75ff4885fbad047e`. It is reference only, do not PR; registered in MY_BRANCHES.md. Rebuilt local `vitest_readability` at `5d87d32b2af316cf4de657ff9f033b51d60fdb40`, retaining its current upstream and accessibility base. No remote push, PR change, or downstream cascade.
@@ -20,7 +22,7 @@ Final client run: 90 suites / 832 tests pass, exit 0. Tool Shed: four suites / 3
 
 The first client typecheck exposed missing shared definitions; that run is superseded by the passing run after dependency recovery. The first test command used the pipeline's `--project unit` guidance, but lane 1 has a single-project configuration; the final passing run uses its actual configuration. Tool Shed uses `typecheck`, not the client's `type-check` script.
 
-[Normal review](../../../../../projects/just_jesting_around/readability_assessment/prune_review.md) and [test challenge](test_challenges_debrief.md) are complete; acted on the missing dependencies, kept the explicitly requested restored duplicate suite, and made no unrelated test changes. Status: ready for human review locally; existing draft remains `author_work` until the rewritten branch is published and CI settles. No approval to open another PR inferred.
+[Normal review](../../../../../projects/just_jesting_around/readability_assessment/prune_review.md) and [test challenge](test_challenges_debrief.md) are complete; acted on the missing dependencies, initially restored the duplicate suite under an overly literal score-cutoff interpretation (corrected below), and made no unrelated test changes. Status: ready for human review locally; existing draft remains `author_work` until the rewritten branch is published and CI settles. No approval to open another PR inferred.
 
 ## Evidence and marginal examples
 
@@ -32,3 +34,12 @@ The first client typecheck exposed missing shared definitions; that run is super
 - [Twelve representative marginal changes](../../../../../projects/just_jesting_around/readability_assessment/marginal_examples.md)
 
 The marginal collection spans renames; already-awaited promise syntax; equivalent regex/query/matcher changes; lifecycle hygiene without an observed leak; tables for already short cases; useful fidelity fixes diluted by renaming; stronger checks capped by deleted explanation; and new coverage outside the narrow readability gate. Some warrant narrowing rather than wholesale removal. There are 177 unique score-3 commits; this is a selected collection, not measured pattern frequencies.
+
+
+## Duplicate-suite correction — 2026-10-14
+
+John clarified that the repeated CollectionProgress JavaScript suite should stay deleted. The prior literal score-cutoff interpretation was incorrect: the deletion was scored 2 for a contradicted commit-note claim, not because deleting duplicate tests was undesirable. Removed unpublished restoration commit `258813e6d73` by rebasing only the dependency repair onto its parent. Local head is now `4290a9186155a299c7621c65f5196dd83bc3be21`; the preserved `_with_churn` branch is unchanged.
+
+Compared with the previously validated `5d87d32b2af`, the tree differs only by deleting the 74-line JavaScript duplicate. The TypeScript suite and shared dependencies are byte-identical. The 76 branch-local score-2 commits remain removed; the one upstream deduplication is an explicit exception and remains effective. No push or downstream changes.
+
+Correction validation: retained TypeScript CollectionProgress suite passes all five tests. Independent review confirms only the duplicate JS file was deleted; the history verifier passes with upstream deduplication retained.

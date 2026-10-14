@@ -18,7 +18,7 @@ drops = set(plan['rebase_drops'])
 kept = [commit for commit in old_order if commit not in drops]
 assert len(drops) == 76
 assert len(plan['upstream_score2']) == 1
-assert len(new_order) == len(kept) + 2
+assert len(new_order) == len(kept) + 1
 mapping, changed = [], []
 for old, new in zip(kept, new_order[:len(kept)]):
     message = git('show', '-s', '--format=%B', old)
@@ -29,17 +29,17 @@ for old, new in zip(kept, new_order[:len(kept)]):
         changed.append({**record, 'subject': message.splitlines()[0]})
 ancestors = set(git('rev-list', head).splitlines())
 assert not drops.intersection(ancestors)
-revert, repair = new_order[-2:]
-assert plan['upstream_score2'][0] in git('show', '-s', '--format=%B', revert)
+repair = new_order[-1]
 assert git('show', '-s', '--format=%s', repair) == 'Preserve shared dependencies needed by retained readability commits'
-restored = 'client/src/components/History/Content/Collection/CollectionProgress.test.js'
-assert git('show', head + ':' + restored) == git('show', plan['upstream_score2'][0] + '^:' + restored)
+removed = 'client/src/components/History/Content/Collection/CollectionProgress.test.js'
+assert not git('ls-tree', head, '--', removed)
+assert plan['upstream_score2'][0] in ancestors
 report = {
     'pruned_head': head, 'preserved_head': plan['original_head'],
     'retained_branch_commits': len(kept), 'removed_branch_commits': len(drops),
-    'upstream_revert': revert, 'dependency_repair': repair,
+    'upstream_revert': None, 'upstream_deduplication_kept': plan['upstream_score2'][0], 'dependency_repair': repair,
     'changed_retained_patches': changed, 'commit_mapping': mapping,
 }
 (HERE / 'prune_result.json').write_text(json.dumps(report, indent=2) + '\n')
-print(f'Preserved backup; removed {len(drops)} branch commits; retained {len(kept)} messages/trailers; upstream undo and dependency repair verified.')
+print(f'Preserved backup; removed {len(drops)} branch commits; retained {len(kept)} messages/trailers; upstream deduplication kept and dependency repair verified.')
 print(f'{len(changed)} retained patches adapted; final head {head}')

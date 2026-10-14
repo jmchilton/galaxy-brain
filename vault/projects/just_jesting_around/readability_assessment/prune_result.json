@@ -1,10 +1,11 @@
 {
-  "pruned_head": "5d87d32b2af316cf4de657ff9f033b51d60fdb40",
+  "pruned_head": "4290a9186155a299c7621c65f5196dd83bc3be21",
   "preserved_head": "7f2db5e59415f07c09fec5be75ff4885fbad047e",
   "retained_branch_commits": 417,
   "removed_branch_commits": 76,
-  "upstream_revert": "258813e6d73d74e48bc53cbe3628e9dd0a73a9f1",
-  "dependency_repair": "5d87d32b2af316cf4de657ff9f033b51d60fdb40",
+  "upstream_revert": null,
+  "upstream_deduplication_kept": "91618e026c85845dd1fbaaa22891993167e35d18",
+  "dependency_repair": "4290a9186155a299c7621c65f5196dd83bc3be21",
   "changed_retained_patches": [
     {
       "old_commit": "5eff1587570209e48d94d482d2cbf307a8e68905",

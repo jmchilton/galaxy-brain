@@ -274,3 +274,14 @@ John requested preserving the current work as `vitest_readability_with_churn` an
 Local head `5d87d32b2af316cf4de657ff9f033b51d60fdb40`: 76 branch commits dropped, one upstream deletion explicitly reverted, and one dependency-only repair retains shared definitions required by surviving tests. All 417 retained branch commit messages/trailers preserved. Final 94 suites / 866 tests, both frontend type checks and changed-file lint/format pass. The restored JavaScript CollectionProgress suite duplicates four retained TypeScript cases. Original history preserved at `7f2db5e59415f07c09fec5be75ff4885fbad047e`; backup is reference only, do not PR.
 
 Not pushed. Existing pushed head and draft PR remain unchanged, so status stays `author_work`; downstream lanes untouched. Original YAML scores remain tied to their frozen review snapshot.
+
+
+## Duplicate-suite correction — 2026-10-14
+
+John clarified that the repeated CollectionProgress JavaScript suite should stay deleted. The prior literal score-cutoff interpretation was incorrect: the deletion was scored 2 for a contradicted commit-note claim, not because deleting duplicate tests was undesirable. Removed unpublished restoration commit `258813e6d73` by rebasing only the dependency repair onto its parent. Local head is now `4290a9186155a299c7621c65f5196dd83bc3be21`; the preserved `_with_churn` branch is unchanged.
+
+Compared with the previously validated `5d87d32b2af`, the tree differs only by deleting the 74-line JavaScript duplicate. The TypeScript suite and shared dependencies are byte-identical. The 76 branch-local score-2 commits remain removed; the one upstream deduplication is an explicit exception and remains effective. No push or downstream changes.
+
+[Updated pruning evidence](../../../../../projects/just_jesting_around/readability_assessment/prune_result.json) verifies the retained upstream deduplication and all surviving commit messages/trailers.
+
+Correction validation: retained TypeScript CollectionProgress suite passes all five tests. Independent review confirms only the duplicate JS file was deleted; the history verifier passes with upstream deduplication retained.
