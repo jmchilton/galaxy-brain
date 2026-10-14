@@ -1722,6 +1722,7 @@
       iteration: 70
       score: 3
   iterated: 1
+  storified: skip
 - file: client/src/components/PageDisplay/PageHtml.test.js
 - file: client/src/components/PageEditor/HistoryPageList.test.ts
   readability_score: 2
