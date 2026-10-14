@@ -81,6 +81,7 @@ nightly_unit_tests CI and base refreshed from GitHub 2026-10-14.
 - [`licenses`](../../repositories/galaxy/branches/active/licenses/index.md) — Adds `<license_agreement>` tool requirements that users must accept before running the tool. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
 - [`selenium_stories_core`](../../repositories/galaxy/branches/active/selenium_stories_core/index.md) — Writes Selenium and Playwright test screenshots as Markdown, HTML and PDF stories; recovered and rebased 2026-10-09 (`233a2dc31e8`). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_stories_core?expand=1).
 - [`ts_readme_render_followups`](../../repositories/galaxy/branches/active/ts_readme_render_followups/index.md) — Shows old-revision READMEs and images, loads revision permalinks, and removes dead README code. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ts_readme_render_followups?expand=1).
+- [`integration_ci_paths`](../../repositories/galaxy/branches/active/integration_ci_paths/index.md) — Skips Integration for changes only to other test suites (~22% of PRs); moves API test code integration imported into `galaxy_test.base`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:integration_ci_paths?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
