@@ -1,0 +1,3619 @@
+{
+  "original_head": "7f2db5e59415f07c09fec5be75ff4885fbad047e",
+  "remote_lease": "7f2db5e59415f07c09fec5be75ff4885fbad047e",
+  "preserved_branch": "vitest_readability_with_churn",
+  "replay_base": "63192fd64e46234a7a1aa933e44d8e0930112ccf",
+  "records": [
+    {
+      "snapshot_commit": "34f58432619533931094a0253c6e90558800b685",
+      "current_commit": "34f58432619533931094a0253c6e90558800b685",
+      "score": 3,
+      "subject": "Improve readability of login-routes tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3a842b9477e1bffe8a0b42dec218317639dfdaa1",
+      "current_commit": "3a842b9477e1bffe8a0b42dec218317639dfdaa1",
+      "score": 3,
+      "subject": "Improve readability of guards tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1feface0a68d6791d46fa406d02d90eef3fb297f",
+      "current_commit": "30e2bde0992f014b5224b515c1c6d4d58e5c4966",
+      "score": 3,
+      "subject": "Clarify activity availability fixture and omitted configuration flags",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7eb2da0bc3ecd997e0103ab169af32279b1e78af",
+      "current_commit": "7eb2da0bc3ecd997e0103ab169af32279b1e78af",
+      "score": 5,
+      "subject": "Improve readability of activityStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "29713ad738f4345f6f7f46fb7afbd2d797ed6066",
+      "current_commit": "29713ad738f4345f6f7f46fb7afbd2d797ed6066",
+      "score": 4,
+      "subject": "Improve readability of chatStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "be7487ae1d2af59ef41c3ea6efcf875a6bd7f182",
+      "current_commit": "be7487ae1d2af59ef41c3ea6efcf875a6bd7f182",
+      "score": 3,
+      "subject": "Improve readability of collectionAttributesStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a3b0a38ee89d87b7c88d7e00818eecb27950f527",
+      "current_commit": "a3b0a38ee89d87b7c88d7e00818eecb27950f527",
+      "score": 4,
+      "subject": "Improve readability of collectionElementsStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3b4f8f2d5852eba7686c1eb08de3cf7b9a95d8b6",
+      "current_commit": "3b4f8f2d5852eba7686c1eb08de3cf7b9a95d8b6",
+      "score": 3,
+      "subject": "Add tests/test-data/collections.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7adb1104ddb656c5b3de96b4156715c42f215de4",
+      "current_commit": "7adb1104ddb656c5b3de96b4156715c42f215de4",
+      "score": 4,
+      "subject": "Improve readability of datasetCollectionStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+      "current_commit": "4441dd22f5822e007bf44a953d746f635df7534d",
+      "score": 5,
+      "subject": "Add tests/test-data/datasets.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ee5a1d33394ecb7dbbceef765279f49111852a76",
+      "current_commit": "73ee5c8a5b5ae3c937c7227bb8b56451f46183fc",
+      "score": 2,
+      "subject": "Own datatype test Pinia across module reloads",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2491bad72c21a001513a5f893dfe723fb681015b",
+      "current_commit": "2491bad72c21a001513a5f893dfe723fb681015b",
+      "score": 3,
+      "subject": "Improve readability of workflowConnectionStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "702e52542b1cbd1e37e8db6d1ea0a131f176dd2c",
+      "current_commit": "702e52542b1cbd1e37e8db6d1ea0a131f176dd2c",
+      "score": 2,
+      "subject": "Improve readability of workflowEditorCommentStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cf1d5096208c8c3ec66629c9389d904f6d93bbdb",
+      "current_commit": "cf1d5096208c8c3ec66629c9389d904f6d93bbdb",
+      "score": 2,
+      "subject": "Improve readability of workflowEditorToolbarStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "106a7c5c832125742989d6f6901cfdc77b2d8d02",
+      "current_commit": "106a7c5c832125742989d6f6901cfdc77b2d8d02",
+      "score": 4,
+      "subject": "Improve readability of workflowSearchStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2e9ff49daff7b1890ef5b3c0a93a5c588a2dc2b0",
+      "current_commit": "2e9ff49daff7b1890ef5b3c0a93a5c588a2dc2b0",
+      "score": 3,
+      "subject": "Improve readability of workflowStepStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b6b754c3c051941f5c66976d80ad1c42d1823448",
+      "current_commit": "b6b754c3c051941f5c66976d80ad1c42d1823448",
+      "score": 4,
+      "subject": "Improve readability of workflowStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+      "current_commit": "6fe1e23274a46e74967506d7ca86900d1f3bdab0",
+      "score": 4,
+      "subject": "Add tests/vitest/deferred.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "06710cbdf8248d8f6e77a5f54a4cbccaf105587e",
+      "current_commit": "a54998d71fb96e88d75a7f994d468a397eeb7406",
+      "score": 3,
+      "subject": "Use guarded theme capture in heading scale test",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "75cc1da599ac8fabc83c36937cb898c64826a9b0",
+      "current_commit": "75cc1da599ac8fabc83c36937cb898c64826a9b0",
+      "score": 3,
+      "subject": "Improve readability of color tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3325250441afa5e363d212799699ca0a7fb52c0f",
+      "current_commit": "3325250441afa5e363d212799699ca0a7fb52c0f",
+      "score": 3,
+      "subject": "Improve readability of dates tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "776d72eddb153c9d80d11f14e34e5022af350eb8",
+      "current_commit": "776d72eddb153c9d80d11f14e34e5022af350eb8",
+      "score": 2,
+      "subject": "Improve readability of filterConversion tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ac71c1edf2bd407269342cadfa9ba4671d2eb4fa",
+      "current_commit": "ac71c1edf2bd407269342cadfa9ba4671d2eb4fa",
+      "score": 4,
+      "subject": "Improve readability of TargetObjectStoreSelector tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ffcddc7a0a7726630ba18663bb0d46bb381ea605",
+      "current_commit": "ffcddc7a0a7726630ba18663bb0d46bb381ea605",
+      "score": 3,
+      "subject": "Improve readability of WorkflowExtractionForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3416f4871733bf5810c367cb2e42444483f51479",
+      "current_commit": "3416f4871733bf5810c367cb2e42444483f51479",
+      "score": 2,
+      "subject": "Add tests/test-data/storageOperations.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5eff1587570209e48d94d482d2cbf307a8e68905",
+      "current_commit": "5eff1587570209e48d94d482d2cbf307a8e68905",
+      "score": 4,
+      "subject": "Improve readability of model/queries tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "535a9f6db7895908b602bab3e1571a9c0368b478",
+      "current_commit": "d74bcad77adda5b1026613223596ae2c5bd17df7",
+      "score": 5,
+      "subject": "Improve history card ownership action test readability",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d36bab70cabf672e2ce0237743bf292169a0d38f",
+      "current_commit": "fa598b0893f008375e10f53e6d65f7cadf79d24b",
+      "score": 2,
+      "subject": "Own History Export test plugins and teardown",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5195eeb3eaed872700d81d6c2e6e1e0af8dda20b",
+      "current_commit": "c5de0846b1ff598ba037ae0b793b397acf465fcd",
+      "score": 2,
+      "subject": "Own ToLink test mounts and pending job completion",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6dbdfaaccbaf6430a346c490677d2c583e4f6e38",
+      "current_commit": "6dbdfaaccbaf6430a346c490677d2c583e4f6e38",
+      "score": 4,
+      "subject": "Improve readability of ToRemoteFile tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7a5aa84d83dce57572a67450020a5fd0177a97af",
+      "current_commit": "7f2db5e59415f07c09fec5be75ff4885fbad047e",
+      "score": 2,
+      "subject": "Own history import job completion and debounce cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "90e1a555059060f76fa9cc9600473cfe4a3f9c2b",
+      "current_commit": "d9798eb95001f3eb011a9891b790ff67c6157557",
+      "score": 3,
+      "subject": "Own interactive tool test mounts and store instances",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "daa8014bda771d49bbdb2c9e4deb732ea1ef1ce4",
+      "current_commit": "6d45c67d0f3134eb2e8b83831079e67e51d2b214",
+      "score": 5,
+      "subject": "Make job destination parameter assertions complete and readable",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "617cf1bbeafa7b49aba85d1a93885fa0b292d150",
+      "current_commit": "4a4b6095867d50bc700bed2c9b61b44e279379b3",
+      "score": 4,
+      "subject": "Update client testing examples for native VTU2 mount options",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "96c31c67ded3d8b91e6887f44099c6fede7bc89f",
+      "current_commit": "96c31c67ded3d8b91e6887f44099c6fede7bc89f",
+      "score": 3,
+      "subject": "Improve readability of app/utils tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "52d8f2f6d37bb64704bd69590abe5e1afb2b7450",
+      "current_commit": "4be84f9972399b7b0afbc19a1e8d0319806d5204",
+      "score": 2,
+      "subject": "Clarify ActivityBar test ownership and activity scenarios",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f4df82a2d3af6dae334a0f58bd89d174c983c624",
+      "current_commit": "f4df82a2d3af6dae334a0f58bd89d174c983c624",
+      "score": 2,
+      "subject": "Improve readability of ActivityItem tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fbbe3764bd3647ea2b86327ab7db64b16392a886",
+      "current_commit": "40e915b008cb1791484db7202e5bbcb70a4b3c8f",
+      "score": 3,
+      "subject": "Own activity settings stores and require observed targets",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cd08db95fdfbea38efe81165830974eb62374aab",
+      "current_commit": "c5e450b55307226f34d9b79143254a479a9ea521",
+      "score": 4,
+      "subject": "test: Own form hosts and assert native submit event handoff",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "43b44c497920d48e189f410cd7b27d6e36e41246",
+      "current_commit": "43b44c497920d48e189f410cd7b27d6e36e41246",
+      "score": 4,
+      "subject": "Improve readability of GAlert tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d98126ee3f836e05fb2ee360cf62b8917c07c05b",
+      "current_commit": "d98126ee3f836e05fb2ee360cf62b8917c07c05b",
+      "score": 4,
+      "subject": "Improve readability of GButton tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fb820ca2cc03ad696d95fafb640b63339a982707",
+      "current_commit": "23bed593cee1c2b61518c65968ca0f6973f8b8dd",
+      "score": 2,
+      "subject": "Own dropdown test mounts mocks and pending positioning",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "520e76a4d84b80e17a4f55d5d46a9cf8336c8485",
+      "current_commit": "b25b51cca19e5ba2f84b7949d26943be412a8565",
+      "score": 3,
+      "subject": "Use typed native mounting for dropdown navigation tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "df30823cecf3da321be9bb2a199ecd7ac042dbe5",
+      "current_commit": "df30823cecf3da321be9bb2a199ecd7ac042dbe5",
+      "score": 4,
+      "subject": "Add src/components/BaseComponents/test-utils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8535943668a80b7752e48eeea34ae4d96ef0dff1",
+      "current_commit": "8535943668a80b7752e48eeea34ae4d96ef0dff1",
+      "score": 4,
+      "subject": "Improve readability of UserSharing tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f",
+      "current_commit": "5854db0e0ca5bffa8e0f2b3ef7149ccf9f4d398f",
+      "score": 4,
+      "subject": "Extend src/components/BaseComponents/test-utils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "08e8b5234c0f35f552e581e81e2c6d661751406e",
+      "current_commit": "571bbbeafbee5649be23fa0c4fd4b1caa5f116dc",
+      "score": 3,
+      "subject": "Own selector test wrappers and clarify loading scenario",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b18d8ad17674afd752f27a79b0e4bc463ace723c",
+      "current_commit": "93da63594a585c426622e20a247b465eee173d09",
+      "score": 2,
+      "subject": "Own download polling test cleanup and assert poll failures",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ea03e3e557f87058cf04ae3949d8634b275f1104",
+      "current_commit": "ea03e3e557f87058cf04ae3949d8634b275f1104",
+      "score": 3,
+      "subject": "Improve readability of Tags/model tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "aabbf6f0ff0a518bbc479d4b04313e2d2d3f8773",
+      "current_commit": "aabbf6f0ff0a518bbc479d4b04313e2d2d3f8773",
+      "score": 4,
+      "subject": "Improve readability of HeadlessMultiselect tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6467f23543888ff3a1b90bfd61ba6f7866954d54",
+      "current_commit": "0d38b4bd4148fd43ac4a305a07a06a6b493fbc7f",
+      "score": 4,
+      "subject": "Improve readability of authoring help panel tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "dad26b69931289c9f5e47313b8551e9989efbedb",
+      "current_commit": "60cb9cb85a3f8fa89beb999cb2bbe3b22a0bd751",
+      "score": 3,
+      "subject": "Own editor workspace mounts and preserve frame cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "496c7949b22889fbbd26cd10b7f718fe0be53f0c",
+      "current_commit": "496c7949b22889fbbd26cd10b7f718fe0be53f0c",
+      "score": 3,
+      "subject": "Improve readability of ToolCard tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3b4755069ffee54b1ccbc84ff8875f3b93c34ff8",
+      "current_commit": "e962361afd90815cbc7ab8f5a5add01b442fb353",
+      "score": 2,
+      "subject": "Clarify ToolForm scenarios and own mounted store state",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2b024f511179fb30acc4b4abcefac461c530fc86",
+      "current_commit": "a4d56b3d45b049b9c7e8ac864da25084bd0bf2c7",
+      "score": 2,
+      "subject": "Clarify markdown tool help test setup and cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "12b5c4ac99b0fc3d7ee414d18fb1364b518c900f",
+      "current_commit": "12b5c4ac99b0fc3d7ee414d18fb1364b518c900f",
+      "score": 3,
+      "subject": "Improve readability of keyedCache tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2975f801a24eaae73299e4fbce96bd7c198fbc91",
+      "current_commit": "2975f801a24eaae73299e4fbce96bd7c198fbc91",
+      "score": 3,
+      "subject": "Improve readability of keyedObjects tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0b457dc8406f1e0f98d922b55b33a25d9eca24d7",
+      "current_commit": "0b457dc8406f1e0f98d922b55b33a25d9eca24d7",
+      "score": 4,
+      "subject": "Improve readability of markdown tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c533668328449b1e5887ef28e951ada544c23680",
+      "current_commit": "c533668328449b1e5887ef28e951ada544c23680",
+      "score": 3,
+      "subject": "Improve readability of pagination tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f01e9180e5add5f97d35fa884b1c19088e92a0c6",
+      "current_commit": "f01e9180e5add5f97d35fa884b1c19088e92a0c6",
+      "score": 4,
+      "subject": "Add tests/test-data/monitoring.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7295a540fb0d4ff0b7ebefbb672ac1229b71012c",
+      "current_commit": "7295a540fb0d4ff0b7ebefbb672ac1229b71012c",
+      "score": 4,
+      "subject": "Improve readability of persistentProgressMonitor tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "442df8bb6e90c71b85c6ff76562d658cdcc6ae2a",
+      "current_commit": "d65b756d02adcea7b79c349e0cf97bbe0c065f20",
+      "score": 2,
+      "subject": "Scope persistent toggle effects and restore owned storage",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "42c2bccb9bc90e32f090aa5c5d68c4f22f1737d8",
+      "current_commit": "42c2bccb9bc90e32f090aa5c5d68c4f22f1737d8",
+      "score": 5,
+      "subject": "Improve readability of pollUntil tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "66a7965aa6490cdc328f2c2eaf089770fca8eafd",
+      "current_commit": "66a7965aa6490cdc328f2c2eaf089770fca8eafd",
+      "score": 4,
+      "subject": "Improve readability of resourceWatcher tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "87fd0ee68d6387bd92640eb772051cc9b2a3a9e6",
+      "current_commit": "87fd0ee68d6387bd92640eb772051cc9b2a3a9e6",
+      "score": 4,
+      "subject": "Improve readability of roundRobinSelector tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6e52bb89aa82be003ed4b177fba43ea6212d7917",
+      "current_commit": "6e52bb89aa82be003ed4b177fba43ea6212d7917",
+      "score": 3,
+      "subject": "Improve readability of selectedItems tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "72206742908b32d568aa883bb81b35ed56bd21d9",
+      "current_commit": "72206742908b32d568aa883bb81b35ed56bd21d9",
+      "score": 4,
+      "subject": "Improve readability of NotificationCard tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ac9c0931d43b3367ca433a353e8e1bc02333a428",
+      "current_commit": "ac9c0931d43b3367ca433a353e8e1bc02333a428",
+      "score": 5,
+      "subject": "Extend src/components/Notifications/test-utils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "399cb52da6a96c2a8d446ab43447e09d96e731b5",
+      "current_commit": "c98ffeeae1007221f0df4a65df349ad6226a09af",
+      "score": 3,
+      "subject": "Clarify notification list scenarios and own store cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6f474382e1d7f1e6b8695d2ba4316f3d297ef09f",
+      "current_commit": "6f474382e1d7f1e6b8695d2ba4316f3d297ef09f",
+      "score": 4,
+      "subject": "Improve readability of ConfigurationMarkdown tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ff7ff01c63c98f9cfe99df0a4e049d17f83d56cd",
+      "current_commit": "ff7ff01c63c98f9cfe99df0a4e049d17f83d56cd",
+      "score": 4,
+      "subject": "Improve readability of DescribeObjectStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "639e574d498f2aca1737fde752fe9c331bbe3446",
+      "current_commit": "639e574d498f2aca1737fde752fe9c331bbe3446",
+      "score": 5,
+      "subject": "Improve readability of CreateForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ab522033d9e7982a97c1fa9e0bf19d75d7743b9a",
+      "current_commit": "ab522033d9e7982a97c1fa9e0bf19d75d7743b9a",
+      "score": 2,
+      "subject": "Add tests/test-data/objectStores.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0985f705d01b8e0aeb23192e06f84ac25772fccd",
+      "current_commit": "92fef9131489d62d9415d375edd5ec5bef3730ab",
+      "score": 4,
+      "subject": "Own object store dropdown mounts and request captures",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "dae65f3c2af9580924caed91c80c7e3b42b2ce78",
+      "current_commit": "dae65f3c2af9580924caed91c80c7e3b42b2ce78",
+      "score": 5,
+      "subject": "Improve readability of UpgradeForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b416f11b7f723d829e3b2824dad1745beb922614",
+      "current_commit": "b416f11b7f723d829e3b2824dad1745beb922614",
+      "score": 4,
+      "subject": "Improve readability of ObjectStoreBadges tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "32cfad1ad9f640d053ad33c4626a1e914f0c6dfd",
+      "current_commit": "32cfad1ad9f640d053ad33c4626a1e914f0c6dfd",
+      "score": 4,
+      "subject": "Improve readability of ObjectStoreRestrictionSpan tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "80a00d266b4124eb10c494207c99a4ec16fc7cd3",
+      "current_commit": "7abf92286b2049016db7829db9df929e4c4cc642",
+      "score": 3,
+      "subject": "Own selected object-store mounts and clarify loading observations",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "888f75ee0a2695f0f2cdd1a0e8701d5a614f8f5a",
+      "current_commit": "888f75ee0a2695f0f2cdd1a0e8701d5a614f8f5a",
+      "score": 4,
+      "subject": "Improve readability of WorkflowLicense tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2df26fd3c9f048dcfb0d8252de76772c7d2dbbbb",
+      "current_commit": "2df26fd3c9f048dcfb0d8252de76772c7d2dbbbb",
+      "score": 3,
+      "subject": "Improve readability of MarkdownGalaxy tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "65ca05e8c05ea3acb67897e4613bb24732dcdc5f",
+      "current_commit": "65ca05e8c05ea3acb67897e4613bb24732dcdc5f",
+      "score": 4,
+      "subject": "Improve readability of MarkdownVitessce tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "83304885a3f3f7ec312e8ad95842f3b0cdefb2c9",
+      "current_commit": "83304885a3f3f7ec312e8ad95842f3b0cdefb2c9",
+      "score": 3,
+      "subject": "Add VisualizationWrapper unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2d9de5240899a93dec17c1b56e856c4c5066c10e",
+      "current_commit": "2d9de5240899a93dec17c1b56e856c4c5066c10e",
+      "score": 4,
+      "subject": "Improve readability of parseInvocation tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "09f8501ec27a2cd6baee9f4d0c240c910e156058",
+      "current_commit": "09f8501ec27a2cd6baee9f4d0c240c910e156058",
+      "score": 4,
+      "subject": "Improve readability of requirements tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2f69bde5438d2d78ac4ff654c5e50f47cefd6234",
+      "current_commit": "55cec9bdb496f0c2e6f116229cd1215bde8c4dd7",
+      "score": 4,
+      "subject": "Clarify Markdown label fixtures and unchanged-input checks",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3970882fbc23670db8b86684847d7808473f80d2",
+      "current_commit": "3970882fbc23670db8b86684847d7808473f80d2",
+      "score": 4,
+      "subject": "Improve readability of Masthead tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a47d16c0bd7ef306366c86ea64b29b3563d5bc9b",
+      "current_commit": "a47d16c0bd7ef306366c86ea64b29b3563d5bc9b",
+      "score": 4,
+      "subject": "Improve readability of QuotaMeter tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8163cdd831e69df55a112dacc9156b150cf88792",
+      "current_commit": "b1e367feaf7c840fddb575828b9dec5803da378a",
+      "score": 3,
+      "subject": "Own broadcast overlay test state and required interactions",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fdecf97910a491f63d4e3262141f22b119230e07",
+      "current_commit": "fdecf97910a491f63d4e3262141f22b119230e07",
+      "score": 3,
+      "subject": "Use shared filter mock in RoleForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cb9466667b5857ca560637a92c83b20a7f2ae56b",
+      "current_commit": "ec985c0dd29fc2067183da645ad000e731e7f723",
+      "score": 3,
+      "subject": "Own admin roles form mounts and type request fixtures",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "545a08b7d26584df769ab428b72ba885d1790ba9",
+      "current_commit": "545a08b7d26584df769ab428b72ba885d1790ba9",
+      "score": 5,
+      "subject": "Improve readability of InvocationsProvider tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d03ca8fe7fb7b1fb0db62434b5d1c064e22d8f06",
+      "current_commit": "d03ca8fe7fb7b1fb0db62434b5d1c064e22d8f06",
+      "score": 5,
+      "subject": "Improve readability of PageProvider tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "52813a204b7477e376b7a962428f667c2e7bc3e3",
+      "current_commit": "52813a204b7477e376b7a962428f667c2e7bc3e3",
+      "score": 5,
+      "subject": "Improve readability of StoredWorkflowProvider tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1687cec6eca6be808c6fd594d159588ba1e97e7b",
+      "current_commit": "88ecabbb52a6a79b76ed2fe8ec13f24562d7ab22",
+      "score": 3,
+      "subject": "Own datatype provider test stores and mounts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e613d4d670d480b505688efb8e31a8b6b916ebc0",
+      "current_commit": "e613d4d670d480b505688efb8e31a8b6b916ebc0",
+      "score": 3,
+      "subject": "Improve readability of accessibleHover tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3cfd3c99affc426c5d731cbcd339a38d01a7369b",
+      "current_commit": "3cfd3c99affc426c5d731cbcd339a38d01a7369b",
+      "score": 4,
+      "subject": "Improve readability of confirmDialog tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d97389485041c740e0611850c3c254d06d93d524",
+      "current_commit": "4b095719ba39d765efb59f7dfb20964e77c94f1a",
+      "score": 2,
+      "subject": "Clarify permission request outcomes and type the save response",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0d3a56a53283139e97a4194b633b4783e5ff2bf2",
+      "current_commit": "0d3a56a53283139e97a4194b633b4783e5ff2bf2",
+      "score": 4,
+      "subject": "Improve readability of fileSources tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9f8c2dfe55dac10dc73265fc3ec2f1d7bc1e2cd9",
+      "current_commit": "9f8c2dfe55dac10dc73265fc3ec2f1d7bc1e2cd9",
+      "score": 4,
+      "subject": "Improve readability of utilities tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "48030daa528ebb775a747f27ecd322401fd7288e",
+      "current_commit": "0a03cf4a9cbc3105441172e81f2fd53cffbb5296",
+      "score": 3,
+      "subject": "Own Popper mounts and make outside dismissal coverage explicit",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c43094ea4c1a577f2f1e3610aa5f6a05d4f8579d",
+      "current_commit": "c43094ea4c1a577f2f1e3610aa5f6a05d4f8579d",
+      "score": 5,
+      "subject": "Improve readability of usePopper tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b1baa2e665ebb9d7d11780056612e9db3a93e2bb",
+      "current_commit": "b1baa2e665ebb9d7d11780056612e9db3a93e2bb",
+      "score": 5,
+      "subject": "Fix custom matcher types for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9f9520b2891a0e4705877fb84890a1c34713f13b",
+      "current_commit": "d43b99166b94ea399567cfc1f2b7e95d581b0940",
+      "score": 3,
+      "subject": "Own registration form test resources and typed mount",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8cd946b9a2a8c81038c3efb7ec5ee662b6ac106a",
+      "current_commit": "9855921def1b56d2f345a17266de3fb16bc28360",
+      "score": 3,
+      "subject": "Infer identifier mount and own hover test cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b9248c063a54a290f56a33d50f9d0384b43c7447",
+      "current_commit": "b9248c063a54a290f56a33d50f9d0384b43c7447",
+      "score": 2,
+      "subject": "Improve readability of RuleDefinitions tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e360c5f9b2314864b4b7eea772635b0a76ba1000",
+      "current_commit": "eb6bb1e14f29ea5b354c0a77283120651dc66cb5",
+      "score": 4,
+      "subject": "test: Clarify saved rule selection scenarios and own wrapper cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "dd6a0642b36bb01e69d28198fb2854bee6762273",
+      "current_commit": "dd6a0642b36bb01e69d28198fb2854bee6762273",
+      "score": 4,
+      "subject": "Improve readability of ScrollList tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9d542e9fc627200d1c0ceb579a2819c8db033c0e",
+      "current_commit": "9d542e9fc627200d1c0ceb579a2819c8db033c0e",
+      "score": 3,
+      "subject": "Improve readability of SelectionDialog tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "98bca297b4d1f48f86dd6998a373a212c5134f7e",
+      "current_commit": "98bca297b4d1f48f86dd6998a373a212c5134f7e",
+      "score": 5,
+      "subject": "Improve readability of SelectionField tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fd36f739f9497eea8eac53bf5a967874718f6156",
+      "current_commit": "fd36f739f9497eea8eac53bf5a967874718f6156",
+      "score": 3,
+      "subject": "Extend src/stores/testUtils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ccad3b3ccb66de0248eaae4f0001549d1df23307",
+      "current_commit": "ccad3b3ccb66de0248eaae4f0001549d1df23307",
+      "score": 3,
+      "subject": "Improve readability of rateLimiter tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "91291be0d47314a6511143628c512cb5a3e2371f",
+      "current_commit": "91291be0d47314a6511143628c512cb5a3e2371f",
+      "score": 3,
+      "subject": "Improve readability of serverMock tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "727dedadb6440497736dba614870d54b527c1db0",
+      "current_commit": "727dedadb6440497736dba614870d54b527c1db0",
+      "score": 4,
+      "subject": "Improve readability of datasets tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ad07a25657498e219d827c3800757318e988e275",
+      "current_commit": "1cfab9ba10d604c90d424e9f38c50380f539f2ca",
+      "score": 4,
+      "subject": "Use typed history fixtures and assert single listing requests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cb2e352ef64833ccb3fac6a7b5c8444ef141e357",
+      "current_commit": "cb2e352ef64833ccb3fac6a7b5c8444ef141e357",
+      "score": 5,
+      "subject": "Improve readability of api/index tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ac595e3260181d93d60a6b0de5e5bc4c1c80a465",
+      "current_commit": "ac595e3260181d93d60a6b0de5e5bc4c1c80a465",
+      "score": 2,
+      "subject": "Extend tests/test-data/index.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "edc2e1663a162ca506914ccbbb53bc950d37718d",
+      "current_commit": "edc2e1663a162ca506914ccbbb53bc950d37718d",
+      "score": 5,
+      "subject": "Improve readability of pages tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3766b31a184d1632b64bdce33fd3715ec611c214",
+      "current_commit": "3a878bec4c747dc53c71e8ce5ef935d66b7a8898",
+      "score": 3,
+      "subject": "Check retry scenario tables and required request captures",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "bacca43f4d996cb63e5e5b7e3faa501ea010b52c",
+      "current_commit": "bacca43f4d996cb63e5e5b7e3faa501ea010b52c",
+      "score": 4,
+      "subject": "Add tests/test-data/visualizations.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "dd8a4f97f469a599b6a3fe76df30835baf4dfe5d",
+      "current_commit": "dadb0054628c718239cfba29139c485df24feec0",
+      "score": 4,
+      "subject": "Check complete visualization request captures",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fcad1197fb98a204ae4429e1a5b2ebb1894ab95f",
+      "current_commit": "a971753ab09743d1dfad45efe3d80a6981d1887e",
+      "score": 4,
+      "subject": "test: Type workflow query mocks and require one request",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "eedd1a16d44a0a85828230d8147d7a5f16d30b5c",
+      "current_commit": "eedd1a16d44a0a85828230d8147d7a5f16d30b5c",
+      "score": 3,
+      "subject": "Improve readability of app tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "50f8ee1f263d9845d67e1baae995c4c4cb8042ef",
+      "current_commit": "50f8ee1f263d9845d67e1baae995c4c4cb8042ef",
+      "score": 4,
+      "subject": "Improve readability of useHistoryGraph tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7da0a4379244a4b6ca25202b7c66b29b5a3d950b",
+      "current_commit": "7da0a4379244a4b6ca25202b7c66b29b5a3d950b",
+      "score": 4,
+      "subject": "Add tests/vitest/effectScope.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "bed5f00ee10148514eb37136460b73f964faa6fd",
+      "current_commit": "bed5f00ee10148514eb37136460b73f964faa6fd",
+      "score": 5,
+      "subject": "Improve readability of useHistoryGraphData tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+      "current_commit": "65fc286e8b7a5f01da895c0155ddb4244d39a2a5",
+      "score": 4,
+      "subject": "Extend tests/test-data/index.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d2f5f91010e3cbc755ee6f9ee23aed43d03c6114",
+      "current_commit": "4bf42c4996b36a496199b5b83f5b9de5aac26075",
+      "score": 2,
+      "subject": "Own history option test stores and required lookups",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e5ab65b054b5737d1c53af0e732756eb68543456",
+      "current_commit": "9b73e30e82c20b0304b30d5e4b389385fb4c338a",
+      "score": 2,
+      "subject": "Own history view test stores and deferred response cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "56949f4566d821f1cf776db2a2e1c1bb69a11980",
+      "current_commit": "56949f4566d821f1cf776db2a2e1c1bb69a11980",
+      "score": 4,
+      "subject": "Improve readability of DetailsLayout tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "22f3e17233456b48f2dec253f3a1810d69b31857",
+      "current_commit": "22f3e17233456b48f2dec253f3a1810d69b31857",
+      "score": 2,
+      "subject": "Improve readability of CopyModal tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "431babca4cab4584367f39bbfa5dfb1187076542",
+      "current_commit": "431babca4cab4584367f39bbfa5dfb1187076542",
+      "score": 4,
+      "subject": "Improve readability of SelectorModal tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "791122d135ac583fe0325a7d13b2f79cbb0b4c0b",
+      "current_commit": "791122d135ac583fe0325a7d13b2f79cbb0b4c0b",
+      "score": 3,
+      "subject": "Improve readability of MultipleView tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b699eb2e178b99d840caad1ebcd156282c60c576",
+      "current_commit": "b699eb2e178b99d840caad1ebcd156282c60c576",
+      "score": 4,
+      "subject": "Improve readability of SwitchToHistoryLink tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e4bad5a4e40945b3a3ae0a867d6604d1be294a68",
+      "current_commit": "e4bad5a4e40945b3a3ae0a867d6604d1be294a68",
+      "score": 4,
+      "subject": "Improve readability of TargetHistorySelector tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6a25dab6d29b1620984bcf907d775314f4b08ba9",
+      "current_commit": "6a25dab6d29b1620984bcf907d775314f4b08ba9",
+      "score": 4,
+      "subject": "Improve readability of filtering tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e9809ba5e374931014e8841cd81ab31bcb53a6a0",
+      "current_commit": "e9809ba5e374931014e8841cd81ab31bcb53a6a0",
+      "score": 3,
+      "subject": "Improve readability of historyUpload tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7b64b23b10ab14c48981110986cb3a67409c3362",
+      "current_commit": "7b64b23b10ab14c48981110986cb3a67409c3362",
+      "score": 5,
+      "subject": "Improve readability of lastQueue tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3d2a4cc75c847d0e57b2afe44251a9811f0568d9",
+      "current_commit": "3d2a4cc75c847d0e57b2afe44251a9811f0568d9",
+      "score": 3,
+      "subject": "Improve readability of parseBool tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "48fbf9aac73dae64bd16bf4559d1cfb10048c39a",
+      "current_commit": "48fbf9aac73dae64bd16bf4559d1cfb10048c39a",
+      "score": 3,
+      "subject": "Improve readability of redirect tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e534ea06b8c2df53b3bca23c9253993d850e4476",
+      "current_commit": "e534ea06b8c2df53b3bca23c9253993d850e4476",
+      "score": 4,
+      "subject": "Improve readability of utils/strings tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f239fe1b512ad5765ae69e4b5b880baab9b05b13",
+      "current_commit": "f239fe1b512ad5765ae69e4b5b880baab9b05b13",
+      "score": 4,
+      "subject": "Improve readability of tool-version tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fa88c9f859ef4f08e29374cc45af3f379ef7bd1f",
+      "current_commit": "fa88c9f859ef4f08e29374cc45af3f379ef7bd1f",
+      "score": 5,
+      "subject": "Improve readability of tusUpload tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d699b5441df900cebbb44570acec1df39ab5788a",
+      "current_commit": "d699b5441df900cebbb44570acec1df39ab5788a",
+      "score": 4,
+      "subject": "Improve readability of upload-queue tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ebc8a2f21164a5b04769f07e43b466f3e3bb6b01",
+      "current_commit": "ebc8a2f21164a5b04769f07e43b466f3e3bb6b01",
+      "score": 3,
+      "subject": "Improve readability of utils/upload tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "346f8746668395182589f6ab67ea5c21e989b1f6",
+      "current_commit": "92a843219c6db53cc7b521affe9fc3250cd7554c",
+      "score": 3,
+      "subject": "Type sanitizer test hook capture without casts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "95ac64935e27eedd6507d18dbf75a36f9d374d2d",
+      "current_commit": "95ac64935e27eedd6507d18dbf75a36f9d374d2d",
+      "score": 5,
+      "subject": "Improve readability of vGTooltip tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ed70255c7c593161d59b0c930619330fa939357c",
+      "current_commit": "56f704a039ffa0727bc33741db9f9ae1304caaf3",
+      "score": 4,
+      "subject": "Improve readability of vNoSanitizeHtml tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9c89fe712730cd12bac8bceb8e972898e6c07195",
+      "current_commit": "4795dad432fd530fa395a72a9c827f23ca65a006",
+      "score": 4,
+      "subject": "Improve readability of vSanitizeHtml tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3bfa8ce61b0f753f989af82fe4f57732b580aa49",
+      "current_commit": "4c71d6f92ea997c4b8277054735f0634ea027fea",
+      "score": 3,
+      "subject": "Own App test plugins and unload-handler restoration",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "17895d78b5984fd4c316c0d40945345435252a67",
+      "current_commit": "17895d78b5984fd4c316c0d40945345435252a67",
+      "score": 4,
+      "subject": "Improve readability of Login tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e949130679773fd9375c3ecae2e6e95c857030ef",
+      "current_commit": "e949130679773fd9375c3ecae2e6e95c857030ef",
+      "score": 3,
+      "subject": "Improve readability of Register tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b6dda390e29e941f0a72571f17073270de152e8d",
+      "current_commit": "b6dda390e29e941f0a72571f17073270de152e8d",
+      "score": 2,
+      "subject": "Improve readability of router-push tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ea3b07d4f2925b80a655c0624431a5b829029c8f",
+      "current_commit": "2fe6dd3530fb372e608447222a83ac55b1a55745",
+      "score": 2,
+      "subject": "Narrow library route props before typed invocation",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "266f36f64af83bbccd1a923c6a759f9cb261c36e",
+      "current_commit": "5b77ce88182d4437bfb969fc9aa5c83f35f3a9cf",
+      "score": 4,
+      "subject": "Clarify ToolsListCard test setup and lifecycle",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4bb7765f083f2e4b543f8bcfb6c5272a83d52044",
+      "current_commit": "4bb7765f083f2e4b543f8bcfb6c5272a83d52044",
+      "score": 4,
+      "subject": "Improve readability of Details tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "247bdc82783b3dc90e9205f1df4131fa5d21dbc7",
+      "current_commit": "247bdc82783b3dc90e9205f1df4131fa5d21dbc7",
+      "score": 4,
+      "subject": "Improve readability of InstalledList/Index tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f498722439e193dd6245b99f153c14b94a333904",
+      "current_commit": "f498722439e193dd6245b99f153c14b94a333904",
+      "score": 3,
+      "subject": "Improve readability of InstallationSettings tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6527db1f9faddf9fa25d8673e52cee00633daa7f",
+      "current_commit": "70e327c628f472294bd877650ca2b3fa1b32fe14",
+      "score": 3,
+      "subject": "Name required repository rows and own tool table mounts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2a571859a8182214908d954f090559334ea70006",
+      "current_commit": "38a693415ec8457b928d517e583a06acba811cc9",
+      "score": 3,
+      "subject": "Name category table scenarios and own native mounts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "75ee6e429de371fc1d6b443591a372b342f87e16",
+      "current_commit": "75ee6e429de371fc1d6b443591a372b342f87e16",
+      "score": 4,
+      "subject": "Improve readability of Repositories tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ec39326bd63f8146684fb272506041eb6cf471ce",
+      "current_commit": "ec39326bd63f8146684fb272506041eb6cf471ce",
+      "score": 4,
+      "subject": "Improve readability of ServerSelection tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "048c815255f48801081674795da9fd57c4728b87",
+      "current_commit": "33c8ec8097114e917c73a7a04fbf952ecff26780",
+      "score": 3,
+      "subject": "Name Tool Shed grouping and URL mapping observations",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8a21094070986f930406dc3dc65f7034b0b61f2d",
+      "current_commit": "8a21094070986f930406dc3dc65f7034b0b61f2d",
+      "score": 4,
+      "subject": "Improve readability of Tour tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "29a72027f88e5154c0496ad2c5ee7ddea8e13f8f",
+      "current_commit": "29a72027f88e5154c0496ad2c5ee7ddea8e13f8f",
+      "score": 4,
+      "subject": "Improve readability of WorkflowStepIcon tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8b1a5217275b4b605ef80819d918469dc4c85304",
+      "current_commit": "8b1a5217275b4b605ef80819d918469dc4c85304",
+      "score": 4,
+      "subject": "Improve readability of WorkflowInvocationState/util tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4c675322463a262fdcda2f106e3dd1ea0cbcba2b",
+      "current_commit": "4c675322463a262fdcda2f106e3dd1ea0cbcba2b",
+      "score": 4,
+      "subject": "Improve readability of AdminPanel tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a5ff3f366dc74f064c1841112f320c46e8235da4",
+      "current_commit": "6e994506e45babcd3f7269d66bc7aac7f7eb18e1",
+      "score": 3,
+      "subject": "Improve readability of GroupForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "001120b046f6eb9902aefe8ca204248534c208e9",
+      "current_commit": "fd39a81864853c0b478c097118a57c662ec11819",
+      "score": 3,
+      "subject": "Improve JobsTable test mounting and cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "beb6fd039ba189123543a0aeb5df075fd83a8ea3",
+      "current_commit": "453216abf7a3f3a15f1f045d6dd8c04da62f6858",
+      "score": 3,
+      "subject": "Own broadcast form test mounts and clarify input types",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2d160bc8d7a91c2f34a8e4f2245ff82c0beab6b2",
+      "current_commit": "2d160bc8d7a91c2f34a8e4f2245ff82c0beab6b2",
+      "score": 5,
+      "subject": "Improve readability of BroadcastsList tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cfcedfbf4ee7cd13ab080f86ca80ad1195def27e",
+      "current_commit": "6012934b2cf21db2f8ae560a99cd1edd54b1805c",
+      "score": 2,
+      "subject": "Own notification form test mounting and cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "050fecb3342c8b79f5919220a44f83ee292af4b3",
+      "current_commit": "050fecb3342c8b79f5919220a44f83ee292af4b3",
+      "score": 3,
+      "subject": "Improve readability of NotificationsManagement tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "271a7cfbf571e734cac95aed38c66cb4dc978f7b",
+      "current_commit": "271a7cfbf571e734cac95aed38c66cb4dc978f7b",
+      "score": 3,
+      "subject": "Improve readability of QuotaForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2684699a7254e74c6a6fdf213f7df0ac67e9673c",
+      "current_commit": "2684699a7254e74c6a6fdf213f7df0ac67e9673c",
+      "score": 4,
+      "subject": "Document readability guidance in client testing README",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "20e76fd8855fa72dd0a5bf79f46c6589f8159204",
+      "current_commit": "20e76fd8855fa72dd0a5bf79f46c6589f8159204",
+      "score": 3,
+      "subject": "Document task monitoring example in client testing README",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4e643f2977bdb8eb38119282e92a5933d7242866",
+      "current_commit": "4e643f2977bdb8eb38119282e92a5933d7242866",
+      "score": 3,
+      "subject": "Extend src/components/PageEditor/testData.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e9f28820029847943462a20efa4664b387fd7d69",
+      "current_commit": "e9f28820029847943462a20efa4664b387fd7d69",
+      "score": 4,
+      "subject": "Fix stub examples in client testing README",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "917d25ddcea32d3a9734b0a30fd5aece73ee11a8",
+      "current_commit": "917d25ddcea32d3a9734b0a30fd5aece73ee11a8",
+      "score": 4,
+      "subject": "Document GModal clicks and Pinia store ids in client testing README",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6f55ccf643c253b6f00666677f473cffd6e97572",
+      "current_commit": "6f55ccf643c253b6f00666677f473cffd6e97572",
+      "score": 4,
+      "subject": "Use ref-backed config mock in client testing README example",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1bf68f3c46f71a03bc108c22afb9a8acbb038c68",
+      "current_commit": "1bf68f3c46f71a03bc108c22afb9a8acbb038c68",
+      "score": 4,
+      "subject": "Document runInTestScope in client testing README",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e14ae1a82d96e3a0a0f9aa3fa2e92b11fb173bc0",
+      "current_commit": "e14ae1a82d96e3a0a0f9aa3fa2e92b11fb173bc0",
+      "score": 3,
+      "subject": "Document unreturned setup-store state in client testing README",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b7274f871e5d75d6b8badbb3c886002b25de3ef7",
+      "current_commit": "b7274f871e5d75d6b8badbb3c886002b25de3ef7",
+      "score": 4,
+      "subject": "Document seedCurrentHistory in client testing README",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ffaf49ad3491639b9ed362eaff32a65f8e0ba4a1",
+      "current_commit": "ffaf49ad3491639b9ed362eaff32a65f8e0ba4a1",
+      "score": 4,
+      "subject": "Document unresolved vi.mock ids in client testing README",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e61173cae07f862587aab60f5ece819c044c9dc2",
+      "current_commit": "f76b18b04e6425c21a28fb744543377b53cc3390",
+      "score": 2,
+      "subject": "Own dataset detail mounts timers and sanitizer restoration",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "326873e5dcfb25604db1c1300d3efc14221facb0",
+      "current_commit": "326873e5dcfb25604db1c1300d3efc14221facb0",
+      "score": 5,
+      "subject": "Improve readability of DatasetError tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0e12a1c9c796e7265989c0c591d296843482dbaf",
+      "current_commit": "19f7b91198677b9d38b683d88aa57256b60bcfd6",
+      "score": 3,
+      "subject": "Await datatype mapper before hierarchy checks",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "383f8977c4d71cbbbe964cfff517f42abf66f38e",
+      "current_commit": "383f8977c4d71cbbbe964cfff517f42abf66f38e",
+      "score": 3,
+      "subject": "Improve readability of DownloadItemCard tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3543db45dc65f0f1e990f8c4741cc30f6e8ce02e",
+      "current_commit": "3543db45dc65f0f1e990f8c4741cc30f6e8ce02e",
+      "score": 2,
+      "subject": "Improve readability of FormDataUri tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6f29efebdf17a864da210c8984b5677ebb83bc54",
+      "current_commit": "6f29efebdf17a864da210c8984b5677ebb83bc54",
+      "score": 4,
+      "subject": "Improve readability of FormDrilldown tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "322f853fc6ed125611916eb4cea4384fe4a7bf82",
+      "current_commit": "ccad79382ff28b99225664388457d0dab4c26d58",
+      "score": 3,
+      "subject": "test: Clarify hidden form value transition and own teardown",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6a201ad5eb9e7ca5fe8d6f9f6cb95008389449ed",
+      "current_commit": "6a201ad5eb9e7ca5fe8d6f9f6cb95008389449ed",
+      "score": 4,
+      "subject": "Improve readability of FormInput tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "44fc0d991b09d0c2ce32d8f7e4ad5691e8122b6b",
+      "current_commit": "44fc0d991b09d0c2ce32d8f7e4ad5691e8122b6b",
+      "score": 2,
+      "subject": "Improve readability of FormNumber tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "687f4fad5ff183cc7cceb3e7312bc2ca5006dd25",
+      "current_commit": "687f4fad5ff183cc7cceb3e7312bc2ca5006dd25",
+      "score": 4,
+      "subject": "Improve readability of FormOptionalText tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "06e3b163f6d48657dc12cf710bb46d7216cb7012",
+      "current_commit": "06e3b163f6d48657dc12cf710bb46d7216cb7012",
+      "score": 4,
+      "subject": "Improve readability of Editor/Index tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8b8af4b46679bde3eeb4ee257db623c541e0db38",
+      "current_commit": "8b8af4b46679bde3eeb4ee257db623c541e0db38",
+      "score": 4,
+      "subject": "Improve readability of Lint tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "50437c2bbb8502fe9d7c4eefbf86d3e49617c248",
+      "current_commit": "da58b5ccf4dbeab94d7d6577f23b736583437c48",
+      "score": 4,
+      "subject": "Improve readability of Node tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "bb3f967ed364a8482b9b9b49bcc03e42aedb991a",
+      "current_commit": "11ca067e0eb5d8cec1baa76a40cff3eab2ab4d3f",
+      "score": 2,
+      "subject": "Restore sanitizer state after invocation text tests unmount",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b7feb0d68ae6d96328ae6deb9a27cda57bf95585",
+      "current_commit": "b7feb0d68ae6d96328ae6deb9a27cda57bf95585",
+      "score": 5,
+      "subject": "Improve readability of RefactorConfirmationModal tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0bd6688c605d1ce43aeb86d4b21ca020c8fbddb6",
+      "current_commit": "0bd6688c605d1ce43aeb86d4b21ca020c8fbddb6",
+      "score": 5,
+      "subject": "Improve readability of StateUpgradeModal tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4c19605c5651b0d32fdcdfb6f707cf01dd78dfdb",
+      "current_commit": "9aa116e05c72130e0128a7816f75be8593003720",
+      "score": 3,
+      "subject": "Clarify workflow attribute test ownership and lookups",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "032026037a5e9d51741075d780a77a47a2aefee1",
+      "current_commit": "200c68cca6f4f31915051eac66bce7e6f266180b",
+      "score": 4,
+      "subject": "Improve readability of ZoomControl tests",
+      "identical_patch": false
+    },
+    {
+      "snapshot_commit": "a9af62fe5b12ee971de6dc4daca28b29038cfbc8",
+      "current_commit": "a9af62fe5b12ee971de6dc4daca28b29038cfbc8",
+      "score": 4,
+      "subject": "Improve readability of activities tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6dfe47af3ee2479a6b68cab28b6ded2428c084d5",
+      "current_commit": "6dfe47af3ee2479a6b68cab28b6ded2428c084d5",
+      "score": 5,
+      "subject": "Improve readability of canvasDraw tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ea2a9b692f621f0666761cb9ce250f54ca5d0943",
+      "current_commit": "ea2a9b692f621f0666761cb9ce250f54ca5d0943",
+      "score": 3,
+      "subject": "Improve readability of url tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "379db5f60d3c2e82f5ac773bf9c0c2e8468dd477",
+      "current_commit": "379db5f60d3c2e82f5ac773bf9c0c2e8468dd477",
+      "score": 3,
+      "subject": "Improve readability of utils/utils tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "da7995c70adcfc54f3029e105088782bd771dd20",
+      "current_commit": "da7995c70adcfc54f3029e105088782bd771dd20",
+      "score": 4,
+      "subject": "Improve readability of utils/utils tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "65f6b3944dde07fc7ea639e23e90bd10e00ba7af",
+      "current_commit": "cba0df571f700e005d147ffb36ef7f10d104f408",
+      "score": 4,
+      "subject": "Name webhook failure and preserve diagnostic error context",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e298c531ce0f2da1807bfb3d84f90ec171f1f027",
+      "current_commit": "e298c531ce0f2da1807bfb3d84f90ec171f1f027",
+      "score": 5,
+      "subject": "Improve readability of watchHistory tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "292f7d16b0d2f67f785df6389a1368f5d5b1c1f9",
+      "current_commit": "e4c9927749f790aebf37aeecd073882f14c3c028",
+      "score": 3,
+      "subject": "Verify complete style import violation reporting",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "42bcc23eeceb9f180c42b826c1bcb653e769bc57",
+      "current_commit": "1b7ae5d70dcb7cf44cc3f6f75952e0fb7523fd3f",
+      "score": 4,
+      "subject": "Infer stub model parent and own compatibility test mounts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d1ae66d356944d0bbd89a5bad8afe355350e2f7d",
+      "current_commit": "d1ae66d356944d0bbd89a5bad8afe355350e2f7d",
+      "score": 4,
+      "subject": "Improve readability of ErrorBanner tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5493ba85edeafd8724a79d909602831eb9ec3430",
+      "current_commit": "0a4ff5ecd8e4623dd2b447e320d35abb75ae5d12",
+      "score": 3,
+      "subject": "Own push access test stores and component teardown",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "07bc0ae4db1df9746f472726f8b0dc933d0138f7",
+      "current_commit": "07bc0ae4db1df9746f472726f8b0dc933d0138f7",
+      "score": 5,
+      "subject": "Improve readability of ChangesetSummaryTable tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "41220004980b525a3663f4eeec200bad51ed1baa",
+      "current_commit": "41220004980b525a3663f4eeec200bad51ed1baa",
+      "score": 3,
+      "subject": "Improve readability of states tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a81faac8daeba8a06c4f465a4a5c3138b53033d3",
+      "current_commit": "a81faac8daeba8a06c4f465a4a5c3138b53033d3",
+      "score": 3,
+      "subject": "Improve readability of HistoryCounter tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "53fe1c6e4b52e522d4326a494bea48cf3e7c225e",
+      "current_commit": "53fe1c6e4b52e522d4326a494bea48cf3e7c225e",
+      "score": 3,
+      "subject": "Improve readability of HistoryNavigation tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d110ccb21f783c8d1d2d84f75b1c8043df95aeb1",
+      "current_commit": "f0644a69534aa892d5044cb5afd50ead6adaec45",
+      "score": 2,
+      "subject": "Own storage operations indicator test cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "58080eec1b185b388d57f239664a82eb0b559c5e",
+      "current_commit": "c4101eb029e245265e97946361e6be96cf31669a",
+      "score": 2,
+      "subject": "Own selection operation mounts and preserve required event captures",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "420c4a8c9901013516f4a3e584d21c0256663d6e",
+      "current_commit": "8e455a021be7ed7c0739cf34ab1bb60dad607d8b",
+      "score": 3,
+      "subject": "Clarify history selection status scenarios",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "577b9280db22057dc8cb00f7c700f2ef4e9c61f2",
+      "current_commit": "03dbe8355339c491b95e66bdd81386e8748ce764",
+      "score": 3,
+      "subject": "Use an owned native preferred-store test fixture",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2b9efa9bff61628ad1d73793b28f0e9557a802ac",
+      "current_commit": "2b9efa9bff61628ad1d73793b28f0e9557a802ac",
+      "score": 4,
+      "subject": "Add tests/test-data/fileSources.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "550b7420ccdf5a42dc838cf4af8b6cb448ee244d",
+      "current_commit": "9219f0709f26dc05ef9fef7aa0ae853ff68a98b4",
+      "score": 2,
+      "subject": "Require graph mapper test captures through canonical helpers",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ba61fe2c37c770a14ea3dbbb1b17544ebad1d51b",
+      "current_commit": "ba61fe2c37c770a14ea3dbbb1b17544ebad1d51b",
+      "score": 3,
+      "subject": "Improve readability of historyNodeColor tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "abd6312d8e558ef0882edecf70abb131bc4e8978",
+      "current_commit": "abd6312d8e558ef0882edecf70abb131bc4e8978",
+      "score": 4,
+      "subject": "Add tests/test-data/workflows.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "456b5a6694f3b4b1268f8977596cb5166ee9546b",
+      "current_commit": "456b5a6694f3b4b1268f8977596cb5166ee9546b",
+      "score": 3,
+      "subject": "Improve readability of categories tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "25dee4edba28de2ec24270fd5d3ec1776fe80606",
+      "current_commit": "ef0b6cc612cce49a9208cbe324ec44471bcb2432",
+      "score": 4,
+      "subject": "Use typed owned fixtures for dataset palette tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942",
+      "current_commit": "eed9d33c6e0d2cfc0904fef00fc6cd3ee8078942",
+      "score": 4,
+      "subject": "Extend src/components/CommandPalette/test-utils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a88057a6ebdc1bb59045d8e007af81c15efe1f2c",
+      "current_commit": "e78d96031ea53f3233b6a9ed238dd449e5b9f84c",
+      "score": 3,
+      "subject": "Own history provider fixtures and deferred request cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3bf56617597a8c33e4b471a4b689cf3963915052",
+      "current_commit": "21a960c4544c67d4a09f82cb482367a1b3ced5df",
+      "score": 2,
+      "subject": "Clarify interactive-tool provider fixtures and required actions",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "98b4a98140c46cf91c96f2da189e05bcdb6b9905",
+      "current_commit": "4eb9b0a6fb0b1b3f92705b63d3e46f59e93c340e",
+      "score": 2,
+      "subject": "Own invocation provider resources and type fixture boundaries",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1d3c92a77b86101434e33005f100f5a454600835",
+      "current_commit": "1d3c92a77b86101434e33005f100f5a454600835",
+      "score": 3,
+      "subject": "Improve readability of refresh tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8471906f73131d50d301a3db5369dcdb570af5f2",
+      "current_commit": "8471906f73131d50d301a3db5369dcdb570af5f2",
+      "score": 4,
+      "subject": "Improve readability of reports tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a28e14f1baff808708196bccfcdf75da6e3089cc",
+      "current_commit": "6cfec4aebe53657ef02c7471e794cfbc18c409cb",
+      "score": 3,
+      "subject": "Name scope lookup cases and require registered fixtures",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "79989d79a66a4fea5d26c363638ea78a29f9d552",
+      "current_commit": "dee0bda6e18cd52d9ca257595ae291666e2d937b",
+      "score": 3,
+      "subject": "Own modal attachment and infer exposed dialog methods",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e96a544dc983fdaeac176961365b4edae2b8dc42",
+      "current_commit": "7af92810f9b11cc42a48adb55826fff820ca11fe",
+      "score": 4,
+      "subject": "Clarify toast host setup and isolate singleton teardown",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "79929e39f7ab04da1b2f963c7162576df15cca2a",
+      "current_commit": "1e65eeba8cfac94b3c326ebeb0e36655a7f7d8c8",
+      "score": 4,
+      "subject": "Clarify citation fixture fields and preserve complete warnings",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a5f5b734714a1c95c5e09c955b7f244a5dd6531b",
+      "current_commit": "a5f5b734714a1c95c5e09c955b7f244a5dd6531b",
+      "score": 4,
+      "subject": "Improve readability of ListCollectionCreator tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5f3f318a22e1ca3f041bd6c19f000b60c05d49ad",
+      "current_commit": "687e8347926042f9e0ee28918740a465bf8a1e96",
+      "score": 2,
+      "subject": "Report filename extension examples independently",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e01af65c9752982cb74ba0f3fc53d0a2849062d6",
+      "current_commit": "e01af65c9752982cb74ba0f3fc53d0a2849062d6",
+      "score": 4,
+      "subject": "Improve readability of useElementReconciliation tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2ee6cf63efe8588d05e8ce25cdde4d0f1f6c5f9f",
+      "current_commit": "78f6958ad6143f4ca41e64eb7f84ee42269ad5bc",
+      "score": 3,
+      "subject": "Name pairing fixtures and isolate specification examples",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b926254bb51fb4800bb32128e3565fdba3527c8d",
+      "current_commit": "1597231a3450a1b1fb10ead3d1a7894f583de128",
+      "score": 2,
+      "subject": "Report shared workbook column specifications as named cases",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f69cf3704a3d8f1d2861ed4967016415fbf5512f",
+      "current_commit": "f69cf3704a3d8f1d2861ed4967016415fbf5512f",
+      "score": 4,
+      "subject": "Improve readability of chatUtils tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4a0566d71aa83dedd1ecc651d5085398462d0172",
+      "current_commit": "4a0566d71aa83dedd1ecc651d5085398462d0172",
+      "score": 4,
+      "subject": "Improve readability of GridList tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "37c8b039dfa241e4ea4ec51c25dcc75ddcb0c00c",
+      "current_commit": "37c8b039dfa241e4ea4ec51c25dcc75ddcb0c00c",
+      "score": 4,
+      "subject": "Improve readability of adminUsers tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "31b21f244d47c68e380e793e3308e9181eadb6bc",
+      "current_commit": "31b21f244d47c68e380e793e3308e9181eadb6bc",
+      "score": 3,
+      "subject": "Improve readability of HistoryArchiveExportSelector tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ffb42f43704815c2d7a3edf8ae6a6cb34c3676e2",
+      "current_commit": "ffb42f43704815c2d7a3edf8ae6a6cb34c3676e2",
+      "score": 3,
+      "subject": "Improve readability of HistoryArchiveWizard tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3f427ce7ec09a8735f7c411477c0ea32ddd10c19",
+      "current_commit": "3f427ce7ec09a8735f7c411477c0ea32ddd10c19",
+      "score": 4,
+      "subject": "Improve readability of CollectionDescription tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b1e90ac7a4430533515d07d97438b3d12b02108f",
+      "current_commit": "7547c128a23991309c34f05a9ddfed84e923d0a6",
+      "score": 4,
+      "subject": "Improve readability of CollectionProgress tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "36d83ffb508b70a87eea46fa47c10ca8897473a9",
+      "current_commit": "36d83ffb508b70a87eea46fa47c10ca8897473a9",
+      "score": 3,
+      "subject": "Improve readability of ContentItem tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ae7782e8f24faeb021381cb54936978150a240be",
+      "current_commit": "ae7782e8f24faeb021381cb54936978150a240be",
+      "score": 4,
+      "subject": "Improve readability of DatasetDownload tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "08f5aecb82c2d16d3adf90aed3155014cdfb30cf",
+      "current_commit": "08f5aecb82c2d16d3adf90aed3155014cdfb30cf",
+      "score": 2,
+      "subject": "Add tests/vitest/visibleIntersectionObserver.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "acd420abe5416828e5f06b494c657d1b5eb14d48",
+      "current_commit": "0a80852c28bff93726dacc39df07b1a3a66316de",
+      "score": 3,
+      "subject": "Clarify GenericItem fetch and refresh scenarios",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7904083639bcc57bedc456fae98897df55872f7e",
+      "current_commit": "7904083639bcc57bedc456fae98897df55872f7e",
+      "score": 2,
+      "subject": "Improve readability of JsonDiffViewer tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "228a941542109bc414931bb2528cb478a107d04e",
+      "current_commit": "228a941542109bc414931bb2528cb478a107d04e",
+      "score": 4,
+      "subject": "Improve readability of MetadataJsonViewer tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2771481094486451303742753619707f6efe38b9",
+      "current_commit": "2771481094486451303742753619707f6efe38b9",
+      "score": 4,
+      "subject": "Add src/components/MetadataInspector/test-utils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9d74a54d6cb9a1419a5d5d7d274a3ae832bd495e",
+      "current_commit": "9d74a54d6cb9a1419a5d5d7d274a3ae832bd495e",
+      "score": 4,
+      "subject": "Improve readability of OverviewTab tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e3676045f80b06e8223d81b67a41b15f7d10887f",
+      "current_commit": "e3676045f80b06e8223d81b67a41b15f7d10887f",
+      "score": 4,
+      "subject": "Improve readability of ResetMetadataTab tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f35980feefdc4c4869754783c7d0f606695a3186",
+      "current_commit": "f35980feefdc4c4869754783c7d0f606695a3186",
+      "score": 5,
+      "subject": "Improve readability of RevisionsTab tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4a2f671b0235ab0862abb128097c8a7336530318",
+      "current_commit": "4a2f671b0235ab0862abb128097c8a7336530318",
+      "score": 5,
+      "subject": "Improve readability of ToolHistoryTab tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "904afde123d07200c96fd10dd7831274d0c3ab8c",
+      "current_commit": "2bc6ddee6d3af3a9345158acfb137e5b2e073d95",
+      "score": 2,
+      "subject": "Refine paginated repository grid test ownership and request typing",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cd3ec37250ea08780b37fff51233d8fe2f4baa9a",
+      "current_commit": "cd3ec37250ea08780b37fff51233d8fe2f4baa9a",
+      "score": 4,
+      "subject": "Improve readability of RepositoryMenus tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ecf030c27410fd0c36ffb2dcd0829afdd17508b3",
+      "current_commit": "ecf030c27410fd0c36ffb2dcd0829afdd17508b3",
+      "score": 4,
+      "subject": "Add src/test-utils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "21322c80b597578affbe5bdceb19bba30d5b926c",
+      "current_commit": "2ecee1aca5ad5a7f5c6cf7fd53e500332c0a56c7",
+      "score": 2,
+      "subject": "Clarify Tool Shed toolbar fixtures and teardown",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "71d067d1b5f4950271ccf81f473e0f3ee88bc708",
+      "current_commit": "71d067d1b5f4950271ccf81f473e0f3ee88bc708",
+      "score": 4,
+      "subject": "Improve readability of galaxyUi tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "19ac9ce1ce68baa9134de4d9a999e13ddeeb8dd5",
+      "current_commit": "19ac9ce1ce68baa9134de4d9a999e13ddeeb8dd5",
+      "score": 4,
+      "subject": "Improve readability of Actions/actions tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c9cb70fb937f60c4f4c1e5c5958b988ce3561866",
+      "current_commit": "7437f56cde8a666eb17351b970a13736122a2afe",
+      "score": 4,
+      "subject": "Infer public highlight calls and settle owned fake-clock work",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2020883b00da16aa2074b0734d17e5dc99770d83",
+      "current_commit": "5572d67f6d68307b0f4c6ae77a54021efd5f6a72",
+      "score": 3,
+      "subject": "Own color selector wrappers and await prop updates",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a7419418a9056803c5a52065a7caaf5c3d85bea0",
+      "current_commit": "b1b2dda6521233784c1b8eddd032337ffed4b75e",
+      "score": 2,
+      "subject": "Own typed workflow comment mounts and sanitizer cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e5c85a820a672cd87804aea6211197fb6278af4d",
+      "current_commit": "e5c85a820a672cd87804aea6211197fb6278af4d",
+      "score": 3,
+      "subject": "Improve readability of FormDefault tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1ab49b227946615e94fe1fe73dc82e607b3e2dbd",
+      "current_commit": "dd520ec81c057b178e28625b71683d29164657a2",
+      "score": 2,
+      "subject": "Clarify collection form fixtures and timer ownership",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e847648121d9444aa5123bb6570c9a40ff1538f4",
+      "current_commit": "e847648121d9444aa5123bb6570c9a40ff1538f4",
+      "score": 3,
+      "subject": "Improve readability of FormOutputLabel tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "42c2cfe10a7813ea94b5e9a3601e94db4bbfa994",
+      "current_commit": "42c2cfe10a7813ea94b5e9a3601e94db4bbfa994",
+      "score": 3,
+      "subject": "Improve readability of FormPickValue tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d7a24e41f9bfa0c05ca3a8fb86e41f8910e08e0a",
+      "current_commit": "717785a1825f7b6914c4aa2c0b67553b9b26cfad",
+      "score": 4,
+      "subject": "Clarify workflow section action capability tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1b62848a8239086e23e14eb618e7ddb0e0ed1deb",
+      "current_commit": "1b62848a8239086e23e14eb618e7ddb0e0ed1deb",
+      "score": 3,
+      "subject": "Improve readability of FormTool tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f52eca1777197efd6c35c012f9a3602500a1fde3",
+      "current_commit": "f52eca1777197efd6c35c012f9a3602500a1fde3",
+      "score": 3,
+      "subject": "Improve readability of VaultSecret tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c86c82b1370f6255852aa68dae1396474ef5ec55",
+      "current_commit": "3d1a9bad0ee1d7f4472399eefee1773dc7d95b99",
+      "score": 3,
+      "subject": "Clarify required template form entries and fixture types",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fca496deffc7bef99a888e4b4db403abae52569b",
+      "current_commit": "493f324f9613b46fdc92211a69a3304be1751f9f",
+      "score": 2,
+      "subject": "test: Own configuration composable effects and reuse object store fixture",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ff26a4cfbc4368f697a01a837cee8307a0bd62ca",
+      "current_commit": "9f204c4944a4f0f2fe650caf2680b19063d1604e",
+      "score": 3,
+      "subject": "Clarify confirmation dialog test ownership and lifecycle",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fc356a6bb9c47c8b55a1f433e8b29a868df6e451",
+      "current_commit": "fc356a6bb9c47c8b55a1f433e8b29a868df6e451",
+      "score": 4,
+      "subject": "Improve readability of DatasetCopy tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "63a8926c0722b026db055a7a31c1fccefc369753",
+      "current_commit": "3801acaed580320b76050dfe2b52a7b6c8a7bf13",
+      "score": 4,
+      "subject": "Clarify DatasetIndex table contracts and mock ownership",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "30eea2aa07fa16a6dfe1cc7552034bed130f089f",
+      "current_commit": "30eea2aa07fa16a6dfe1cc7552034bed130f089f",
+      "score": 4,
+      "subject": "Improve readability of DatasetStorage tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "543ff11bd309e891322dde074fc2b0fe1d7e262a",
+      "current_commit": "543ff11bd309e891322dde074fc2b0fe1d7e262a",
+      "score": 3,
+      "subject": "Improve readability of DatasetView tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f2bcfabc7011612054f4bc730856a92f8db72590",
+      "current_commit": "f2bcfabc7011612054f4bc730856a92f8db72590",
+      "score": 3,
+      "subject": "Improve readability of TabularChunkedView tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "46854777d96703cb7e4f24396d33db83333b5f2f",
+      "current_commit": "ce17de3eef2ec9ee032f5f84f9782a9b5a2724e7",
+      "score": 2,
+      "subject": "Infer dataset attribute mounts and own their stores",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fadc0dd693bc8271b2d1d388c06c754b40501259",
+      "current_commit": "fadc0dd693bc8271b2d1d388c06c754b40501259",
+      "score": 4,
+      "subject": "Extend WorkflowRunModel unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a73dc0ddeb99096ddd2af94290c86965575e1b24",
+      "current_commit": "004e4389a4c6fb0a4eabc234ef5a131338cd0d10",
+      "score": 3,
+      "subject": "Clarify workflow run model scenarios and own sample input",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3a88f2aac932bf540e610d7f52d38eb849669df7",
+      "current_commit": "a2f172be3f31878afd284151a608c4ce7bfb90af",
+      "score": 4,
+      "subject": "Name history search cases and prove workflow errors reject",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1878716cac6912a8cb4cbf9408e4a9679a5ed6e5",
+      "current_commit": "1878716cac6912a8cb4cbf9408e4a9679a5ed6e5",
+      "score": 4,
+      "subject": "Improve readability of WorkflowAnnotation tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1ff74b3cc6103a767543c78cdfbc3abae47ab8c8",
+      "current_commit": "1ff74b3cc6103a767543c78cdfbc3abae47ab8c8",
+      "score": 4,
+      "subject": "Improve readability of WorkflowExport tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "29eeda3698769843907f7c17c6d4c84db9116146",
+      "current_commit": "9fb414e080a7107f5e78a7f592c731c1dabae8d5",
+      "score": 3,
+      "subject": "Own job-step mounts and require ordered state observations",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c401b80547acadd76df0053e5f2c27ac4a2e6a32",
+      "current_commit": "c401b80547acadd76df0053e5f2c27ac4a2e6a32",
+      "score": 4,
+      "subject": "Improve readability of WorkflowInvocationInputOutputTabs tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c8dd938b6c1bfce24f9c703e8b0fedcb21547522",
+      "current_commit": "c8dd938b6c1bfce24f9c703e8b0fedcb21547522",
+      "score": 4,
+      "subject": "Improve readability of WorkflowInvocationOverview tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c6888f569578dd8308ee05acd76c7054a23b851b",
+      "current_commit": "c6888f569578dd8308ee05acd76c7054a23b851b",
+      "score": 5,
+      "subject": "Improve readability of WorkflowInvocationShare tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0671cc231f3995ede8a9d5b402afbbed76a90ca5",
+      "current_commit": "0671cc231f3995ede8a9d5b402afbbed76a90ca5",
+      "score": 4,
+      "subject": "Improve readability of WorkflowInvocationState tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "020d4efe43f8293f52b0d7502d405694bfb82ffb",
+      "current_commit": "0c6f489f2bf929d6fd00b109ad645e232fb8d363",
+      "score": 3,
+      "subject": "Own step header accessibility test lifecycle",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6c5892f0259ba12dd110fa5f780bb6c00bee5a0d",
+      "current_commit": "da5e70e2db7024c9de4b85fd39402ccea3a776f9",
+      "score": 3,
+      "subject": "Own tool help test cleanup and native mounts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b44ee6cedaf567f9277c792b7f9bf165c87496cb",
+      "current_commit": "b44ee6cedaf567f9277c792b7f9bf165c87496cb",
+      "score": 5,
+      "subject": "Improve readability of ToolSelectPreferredObjectStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b3849986377a2653e32f8ead105f42713fc6b082",
+      "current_commit": "d7b420856bcf289c60b8635124302239892af815",
+      "score": 2,
+      "subject": "Own Monaco source-display mounts and required container reads",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a2cd202fc700aac0af13f597cefe1a6423f52fbe",
+      "current_commit": "a2cd202fc700aac0af13f597cefe1a6423f52fbe",
+      "score": 3,
+      "subject": "Use user factories in ToolSuccess tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2a8ae9e22cbbaba2b4d9517a182f5bd898bd2685",
+      "current_commit": "89ae8673b9ab26d02a17d0f566d9bb78a1ba6a06",
+      "score": 2,
+      "subject": "Own tool success recommendation mounts and configuration",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1d18a0fc6d85827530eff4632da59c88375b0050",
+      "current_commit": "6c4db0d2ee4a008f23242b40d8d85a28d760d189",
+      "score": 4,
+      "subject": "Check nested schema descriptions remain unmodified",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b058b1e1251d80b74d84c968e4bef7f1dbb8b7dd",
+      "current_commit": "cd2aaf0c91dad1081690536b5cc66f7692bf3976",
+      "score": 2,
+      "subject": "Scope tool link clipboard mock and restore its descriptor",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7c824feca8d4173e3330bb38f6f84a32ee6a93cf",
+      "current_commit": "7c824feca8d4173e3330bb38f6f84a32ee6a93cf",
+      "score": 4,
+      "subject": "Improve readability of ToolEntryPoints tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fc5e9577402a2c42322d02f995e4e8d2f65f757f",
+      "current_commit": "7cd2e1b0f6e88d28d3a86703d4774403731fcc02",
+      "score": 4,
+      "subject": "Own recommendation test wrappers and use a real datatype fixture",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "954aa0cb78fe8909446e0f2a7785344a9ad9db8a",
+      "current_commit": "954aa0cb78fe8909446e0f2a7785344a9ad9db8a",
+      "score": 5,
+      "subject": "Add tests/test-data/tools.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c6a6101118a49efba8f88525273aae76b4bf239b",
+      "current_commit": "83f4a1f1a5b691859be4767f2291e5dacf9443d1",
+      "score": 4,
+      "subject": "Consolidate ToolsList native mounts and own resource cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b7f38ee639223bc59535b70eaf4182df917b7be9",
+      "current_commit": "b7f38ee639223bc59535b70eaf4182df917b7be9",
+      "score": 5,
+      "subject": "Fix tests/vitest/mockConfig.js for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3a8bafecdda7dae97b8bd4670bcb4231a82c5957",
+      "current_commit": "ef317fd5adb5b549e2dcfe84e26bdb2615cfdad2",
+      "score": 3,
+      "subject": "Own workflow card action test stores and effects",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "afa8a8d8d1fae6b492b1f28d865e158bd3f4290c",
+      "current_commit": "6ef2a811c1a7f7e10a32ab17ccb4aed2edef1468",
+      "score": 2,
+      "subject": "Restore sanitizer state after workflow help tests unmount",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a8d43c7cd3e3e33b3df0f2a2ff77f4101362ad82",
+      "current_commit": "0268ff30aacae21475afc9c3a34f9656794eb1bd",
+      "score": 3,
+      "subject": "Use native typed mounts for workflow help rendering",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0a1d55950086993a9460e8d0b30ded633b7c8205",
+      "current_commit": "0a1d55950086993a9460e8d0b30ded633b7c8205",
+      "score": 4,
+      "subject": "Improve readability of WorkflowMissingToolsRequest tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c05b57840e890dd48db60eb17249a62797ca2540",
+      "current_commit": "c05b57840e890dd48db60eb17249a62797ca2540",
+      "score": 5,
+      "subject": "Improve readability of WorkflowRun tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "62e810dabd8ec047be626420d472bd00c96e221d",
+      "current_commit": "a26d603aa6db83cf35799a13715be66d05af2a6a",
+      "score": 3,
+      "subject": "Clarify workflow tool-step setup and teardown",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5eed1383032a7ade2bb94f66bbfb562eaf1fd377",
+      "current_commit": "ec049572ab6ec52be39ae35ab732495b8f3e0109",
+      "score": 4,
+      "subject": "Improve readability of WorkflowRunForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "28f3e0e10dc6326abfe107f7e2777245254a9784",
+      "current_commit": "964b5be75e516f094b523e4c024099c0c251a2d7",
+      "score": 3,
+      "subject": "Clarify workflow input fixtures and debounce lifecycle tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a26801665faf3479fb4d28694cfcb6004d6fef7e",
+      "current_commit": "a26801665faf3479fb4d28694cfcb6004d6fef7e",
+      "score": 5,
+      "subject": "Improve readability of WorkflowSelectPreferredObjectStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9d74c11a4bb8cfdab18fab8394d5152197a8a676",
+      "current_commit": "865957dc940a0f09ba1413e18dfc36996101a7d3",
+      "score": 3,
+      "subject": "Clarify workflow storage selection scenarios",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9d49ea354d6bcaf959dbd2457afda1e0c9d3c183",
+      "current_commit": "9d49ea354d6bcaf959dbd2457afda1e0c9d3c183",
+      "score": 4,
+      "subject": "Improve readability of UserDeletion tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "22de4353ea277b020ae50dbf46033ea2d28744df",
+      "current_commit": "7ebf63fcf48072c472bbcf79fca6724e5e07339c",
+      "score": 3,
+      "subject": "Improve OIDC profile test fixtures and cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7cbd86b1fd6fe78d6b4d7cdb5dcb87d2c11427b5",
+      "current_commit": "7cbd86b1fd6fe78d6b4d7cdb5dcb87d2c11427b5",
+      "score": 4,
+      "subject": "Improve readability of UtcDate tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "790e3475cb9b375316a7f6ce710845d2a054eb2a",
+      "current_commit": "790e3475cb9b375316a7f6ce710845d2a054eb2a",
+      "score": 4,
+      "subject": "Improve readability of VisualizationCreate tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e0d2a9463c09b9cb81ba5c515a43aa2414086ca8",
+      "current_commit": "5c57dfeab6fdbff7cf37a28702aa6f9abf6aed65",
+      "score": 3,
+      "subject": "Localize visualization test requests and own native mount cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b51abc444628cf9ee88e91ee01874445209b7456",
+      "current_commit": "b51abc444628cf9ee88e91ee01874445209b7456",
+      "score": 4,
+      "subject": "Improve readability of VisualizationExamples tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b0546b47e16ee92bd14ff73cb9984fb5617bc0f6",
+      "current_commit": "b0546b47e16ee92bd14ff73cb9984fb5617bc0f6",
+      "score": 3,
+      "subject": "Extend VisualizationFrame unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4f2e77c1dadf1cbaaab90f656641672c4ec318f5",
+      "current_commit": "bf2c6334de8e9123e0605d9175ee4cf36bc66285",
+      "score": 3,
+      "subject": "Own visualization frame mounts and messaging cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4cfbe51b3bfd93fc573adf036e169ec96df9124d",
+      "current_commit": "f95c4ef5e7d4af8ae6aaeb44ee19ef7ccc7a3a86",
+      "score": 3,
+      "subject": "Clarify VisualizationHeader fixtures and cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8b3f5ad9d0b1ab2506bc895a37b00db4c6296da4",
+      "current_commit": "147904ef13e169c9a11efa9893efd41c903eefdc",
+      "score": 2,
+      "subject": "Own unsaved visualization iframe hosts and cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "dd488d2e27359fea5ee3c5bafb9ff3abd7f0df6f",
+      "current_commit": "4ccca10d5fe77159907913fa8ed140bc4087e940",
+      "score": 2,
+      "subject": "Clarify window pointer test ownership and teardown",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2fd70a68fd0b9aab9f404569a3cf0402a94ce91f",
+      "current_commit": "2fd70a68fd0b9aab9f404569a3cf0402a94ce91f",
+      "score": 3,
+      "subject": "Improve readability of RenameModal tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "85d74c278e05121c7a1685f601da7a0d84c7f26a",
+      "current_commit": "ad5d9fd5ab587c97a7ded754e49c75d66aeea505",
+      "score": 3,
+      "subject": "Type save-change guard captures and own modal cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "845f835110834faf17162e4dc111e58650a45db1",
+      "current_commit": "845f835110834faf17162e4dc111e58650a45db1",
+      "score": 4,
+      "subject": "Improve readability of SidebarList tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "30cbc9e6fb1f0d9932f302eedeb34939e9cc98b0",
+      "current_commit": "7eb7d570fc80268c39e061e6d9981653c7f21d14",
+      "score": 3,
+      "subject": "Infer text summary mounts and require rendered elements",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "278173f9e1356a8a4fa5ab4d5169d38fb16755be",
+      "current_commit": "e435d7c7bf9525beeb4ff03fff5b2efb3c53e970",
+      "score": 4,
+      "subject": "Improve readability of VegaWrapper tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b3e60e2fdb768fd5db87e464880e010017e6a38d",
+      "current_commit": "54b85dda6e9c3b39951239bb404de58a8c4ba240",
+      "score": 3,
+      "subject": "Use native wizard mounts and automatic cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c4281081894ba957e9abe59a1bd8480fe4a6686d",
+      "current_commit": "2a955eb63bb2b13127bf9bd697a9cf578f98f509",
+      "score": 4,
+      "subject": "Own export model clock and test exact expiration boundary",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "004882096783feae0f565ea85d0097f432cd6fa6",
+      "current_commit": "da4d7c4288d72d038e9c561107321c8878fbc319",
+      "score": 3,
+      "subject": "Use inferred loading instance mounts with owned teardown",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9a9ac3849b9b87c3eac94f520cc8c1fa0691e81a",
+      "current_commit": "9a9ac3849b9b87c3eac94f520cc8c1fa0691e81a",
+      "score": 4,
+      "subject": "Improve readability of InstanceForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0c585a3840ba9a8188cfda5de3a656f088e22eb7",
+      "current_commit": "5e4f2159b161463445e7691e0b1a1ebd0ee59005",
+      "score": 2,
+      "subject": "Own form message timers and scenario wrappers",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5f91dcb2106185b0ef6c6c14b1b4dadf666c239b",
+      "current_commit": "5f91dcb2106185b0ef6c6c14b1b4dadf666c239b",
+      "score": 2,
+      "subject": "Improve readability of useFormState tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "52376731a37167732fe8818a8223f5c2155373b0",
+      "current_commit": "896fe2764e253f2e2e32bbb8cdb79be77f4beb03",
+      "score": 3,
+      "subject": "Clarify date and time input event scenarios",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "90317fb1a0e210f2f405f46ee81b5aea259c6452",
+      "current_commit": "90317fb1a0e210f2f405f46ee81b5aea259c6452",
+      "score": 5,
+      "subject": "Improve readability of GalaxyAI.newchat tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f1e4109f9bdce6a8cdd49bee6b50a1345fc1bf02",
+      "current_commit": "f1e4109f9bdce6a8cdd49bee6b50a1345fc1bf02",
+      "score": 5,
+      "subject": "Add src/components/GalaxyAI/test-utils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f06d7ae80220a2d8576b4fa2548a33074804b591",
+      "current_commit": "54d1228492bbb2918f02e30e032834aee0a77d6d",
+      "score": 2,
+      "subject": "Own route-sync chat mounts and delayed history cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d5f659dffaac2bb070eaaff789d4e16990c3df92",
+      "current_commit": "551938ef9710e42058049064b3d04c9a8d7c69c2",
+      "score": 3,
+      "subject": "Own chat input wrappers and type native interactions",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3941ab47e6d39677858ec6485d20de927bb19c4d",
+      "current_commit": "3941ab47e6d39677858ec6485d20de927bb19c4d",
+      "score": 3,
+      "subject": "Improve readability of ChatMessageCell tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8fc0d8371889c924adc8afa78f4bb079570e03ac",
+      "current_commit": "8fc0d8371889c924adc8afa78f4bb079570e03ac",
+      "score": 2,
+      "subject": "Add tests/test-data/chat.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "081242d919f0fe65fa8011c44231895b0086008f",
+      "current_commit": "b8d4a4f2f8376f8ce0d26d3f0519421078f75eda",
+      "score": 3,
+      "subject": "Own chat mode selector test mounts and stores",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b22a8217ce37b60cda77a8c10c2496225d8c0382",
+      "current_commit": "d159629f805cec4805a6729ccd4f280e92992ddc",
+      "score": 3,
+      "subject": "Type ClarificationCard mounts and clean up option scenarios",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "db32c5d0d3b9510650d0a05627ee29b9d1ef2d3c",
+      "current_commit": "5bc4e9ead86c51c265d84a3e1eb1d43912f234a9",
+      "score": 3,
+      "subject": "Improve readability of agentTypes tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c8dacc82e20d4e2f0815ecdf312a369370075f59",
+      "current_commit": "c8dacc82e20d4e2f0815ecdf312a369370075f59",
+      "score": 4,
+      "subject": "Improve readability of ForgotPassword tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fa7d7b93b1ced29b428746b8c60e78f7208a61a6",
+      "current_commit": "77db438a8ad9515290f1c66ba217702153b67857",
+      "score": 3,
+      "subject": "Own category page test mounting and store cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a673a0acc70f1f4136e1968320922002ba7440d6",
+      "current_commit": "29b2c3cd732a9bfae977b9f01373071825db1f3c",
+      "score": 3,
+      "subject": "Own search page mounts and pending debounce timers",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "891d9deef88a55471a4151003202c994588396dc",
+      "current_commit": "c4fe187e6606f03d23b5cdfa665e102c96b0e298",
+      "score": 3,
+      "subject": "Own repository page test stores and type partial fixtures",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c965c70418b1717729b74bf8ce199fec0a1f1bfe",
+      "current_commit": "3fb63a806407157076190ffe267f66ce1b93a9c6",
+      "score": 3,
+      "subject": "Clarify reset password test interactions and isolate mocks",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "bf73971bbb55bc5eb5c62d7c022f985557daba6b",
+      "current_commit": "fc39d1b9007851eac3a1c8306388eb5d52091a19",
+      "score": 2,
+      "subject": "Isolate Tool Shed utility test browser state",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "91618e026c85845dd1fbaaa22891993167e35d18",
+      "current_commit": "91618e026c85845dd1fbaaa22891993167e35d18",
+      "score": 2,
+      "subject": "Remove duplicate CollectionProgress JavaScript tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "84bbf657639460932cea3f6b37cf31384cbe5e62",
+      "current_commit": "84bbf657639460932cea3f6b37cf31384cbe5e62",
+      "score": 4,
+      "subject": "Improve readability of FormSelect tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a7aa05c6c49f6d9117f23a4f93f0bd0df1a7d810",
+      "current_commit": "a7aa05c6c49f6d9117f23a4f93f0bd0df1a7d810",
+      "score": 4,
+      "subject": "Improve readability of FormSelectMany tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "06b05caf21bf7893ff5ccdacb9db437bacb8a23b",
+      "current_commit": "dbf78d62b66af5a2a713b5c2993733e57050668a",
+      "score": 2,
+      "subject": "Clarify FormText rendering checks and own test mounts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "302555cd46f55d061a3d174fbe3c2cac34b57bb6",
+      "current_commit": "75075425dd155d3a5e38be721cefa108db31d1c5",
+      "score": 3,
+      "subject": "Own upload form wrappers and name visible content",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d13c9c994aa75f2c06e4e64f8faec90b72b86d2c",
+      "current_commit": "d13c9c994aa75f2c06e4e64f8faec90b72b86d2c",
+      "score": 3,
+      "subject": "Improve readability of FormCard tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6f225506bb3383a1e65653251ec7dba77c769a32",
+      "current_commit": "6f225506bb3383a1e65653251ec7dba77c769a32",
+      "score": 3,
+      "subject": "Improve readability of FormCardSticky tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cd0768807f4d1a1efcf043e44956f43a0bc75f5d",
+      "current_commit": "cd0768807f4d1a1efcf043e44956f43a0bc75f5d",
+      "score": 4,
+      "subject": "Improve readability of FormDisplay tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ec5c9ad5fca6dbe29116b8ff3584f5825b8d3457",
+      "current_commit": "ec5c9ad5fca6dbe29116b8ff3584f5825b8d3457",
+      "score": 3,
+      "subject": "Improve readability of FormElement tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a525cdc84d527eec530f382311f80beabde06068",
+      "current_commit": "2c3570beb982c68a9fe7917cef24214d240ce8ac",
+      "score": 3,
+      "subject": "Own help markdown mounts and require sanitizer observations",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d6b074c822599cbd0ddd93f69e24ec7e9f419056",
+      "current_commit": "d6b074c822599cbd0ddd93f69e24ec7e9f419056",
+      "score": 4,
+      "subject": "Improve readability of FormElementLabel tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3fc3a5c24ed02717b5c438d10d419bdb4b118af4",
+      "current_commit": "f0483b29eb838941d998ea7d1dc5aaec94c39a6a",
+      "score": 2,
+      "subject": "Type store-first fixtures and settle owned pending searches",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cdb2381d83a1556fddba02f2c181640f44388480",
+      "current_commit": "445820eacbdca51ec943f61ab68f13e52a3fa653",
+      "score": 2,
+      "subject": "Own visualization provider cleanup and expose canonical fixtures",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b6a0ff860a7aad2154544391654f1a7a29d4a0c2",
+      "current_commit": "0c31622c15cb58c98d880139508d188319fe6fb4",
+      "score": 3,
+      "subject": "Name scroll edge cases and expected fades",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1b7652ca99332ed53b63bb45e7e9fa54332b06d9",
+      "current_commit": "7c177cb68391b1eb5641607431d276edecd0e8ce",
+      "score": 3,
+      "subject": "Own changes indicator wrapper timer and attachment cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "be6ad2d3d7d2cb8f97259b37f83c4a175759dfc9",
+      "current_commit": "0213705686ea8266ecf10bf085312e5c7a1c136c",
+      "score": 3,
+      "subject": "Clarify dataset popover naming and lifecycle tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "75bce7c738d020976534f25236ad7b20211b3fe8",
+      "current_commit": "b3a20d4a9f8c107523838a3dcc08e08830e88c42",
+      "score": 2,
+      "subject": "Own delayed-input mounts and type clear-search observations",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ce7c6fbed40fc8401bde519540d6ccfc6fc7d3c7",
+      "current_commit": "ee81f2dabfd51ed0d8fa5d5c5856966c887c810f",
+      "score": 2,
+      "subject": "Own email report test plugins and teardown",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b40f987b0cdd43b6d30be685e31e23e72df666e2",
+      "current_commit": "b40f987b0cdd43b6d30be685e31e23e72df666e2",
+      "score": 3,
+      "subject": "Improve readability of ExportForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2ce122cdb161b08068e9557a687e94082a57673f",
+      "current_commit": "2ce122cdb161b08068e9557a687e94082a57673f",
+      "score": 4,
+      "subject": "Add tests/vitest/fakeTaskMonitor.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "dfcc8bc89dec4700595cecc85dd9bb65f25d1b58",
+      "current_commit": "f05892f2695166c51ade349295862749643907cf",
+      "score": 3,
+      "subject": "Own disk usage summary test state and timers",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6",
+      "current_commit": "92cea607e95e47adfbd96fb1ec0ef5b57f20ffb6",
+      "score": 4,
+      "subject": "Add src/components/User/DiskUsage/Management/Cleanup/test-utils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0dfd33147b06bf572965a7ba90eac0d03fb859ab",
+      "current_commit": "0dfd33147b06bf572965a7ba90eac0d03fb859ab",
+      "score": 4,
+      "subject": "Extend src/components/User/DiskUsage/Management/Cleanup/test-utils.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4f206b297b86823b1632effe111bf9ccb41ecfb8",
+      "current_commit": "4f206b297b86823b1632effe111bf9ccb41ecfb8",
+      "score": 4,
+      "subject": "Improve readability of CleanupResultDialog tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cb9bfacf639d970fbbeee3a958c14a39142bbec2",
+      "current_commit": "cb9bfacf639d970fbbeee3a958c14a39142bbec2",
+      "score": 4,
+      "subject": "Improve readability of ReviewCleanupDialog tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "6ec0d63b80d74132127ac46bd058e8c8d0614deb",
+      "current_commit": "c33f21375100151f42ec4d57db02a81be596e70d",
+      "score": 3,
+      "subject": "Use typed native mounts for quota usage scenarios",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c928f465b26bc3f87568f5f47ba1f8e98df54fd8",
+      "current_commit": "c928f465b26bc3f87568f5f47ba1f8e98df54fd8",
+      "score": 4,
+      "subject": "Improve readability of QuotaUsageSummary tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8fc9393dfbe6c805bf07a193a52be67ca0dc5357",
+      "current_commit": "8fc9393dfbe6c805bf07a193a52be67ca0dc5357",
+      "score": 3,
+      "subject": "Improve readability of QuotaUsage tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "16f70f52185457de7f4f45dd5525fd8c27db6849",
+      "current_commit": "422fe656b8fa3cca0e8d1bc93e47ae83653e0615",
+      "score": 3,
+      "subject": "Own BarChart test views and infer native mount boundaries",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "367ea7f7aeeb9cf716cad8b57d17617d80591524",
+      "current_commit": "045fb114f12d29391b5061bfb9de5fbca8dc9313",
+      "score": 2,
+      "subject": "Reuse canonical toast observation and own loader test mount",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "86121dd4fe2137c2ee9f3fe65d05093fd1779da9",
+      "current_commit": "86121dd4fe2137c2ee9f3fe65d05093fd1779da9",
+      "score": 4,
+      "subject": "Improve readability of UserBeaconSettings tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0c0af7e024b85910a2e7d95ce993f40e472c3d6e",
+      "current_commit": "0c0af7e024b85910a2e7d95ce993f40e472c3d6e",
+      "score": 4,
+      "subject": "Improve readability of collectionTypeDescription tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b7e7de5178070aad952a21d0532a2c9517859b48",
+      "current_commit": "b7e7de5178070aad952a21d0532a2c9517859b48",
+      "score": 4,
+      "subject": "Improve readability of layout tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "53fe348ac9211ef916d2daeb81c9df7a8f67ddc9",
+      "current_commit": "28d5df17bf3f7cb6429f74f80f8cbae9b2148374",
+      "score": 4,
+      "subject": "Scope linting test effects and share typed metadata arrangement",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "06bb332468e67d8a9713c9966a2b04f388582353",
+      "current_commit": "2685ccbc2d3eb434a8b049df74131bc4f0e265ab",
+      "score": 3,
+      "subject": "Clarify TRS description rendering and restore sanitizer state",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cf083c3b403ad3ac4e4ef104a85306be5e042581",
+      "current_commit": "a6f73079a2f5dc6a26e6f8a16b39f77fec6ba058",
+      "score": 3,
+      "subject": "Document component teardown dependencies in client tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fae6b2e80149e307116d0427715657806b72a663",
+      "current_commit": "366825324302f04095712c0ba85b572d1e4f07fd",
+      "score": 2,
+      "subject": "Type invocation error test and own its mounted store",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "59e10961623f72f4570df4b4e6931720751ab817",
+      "current_commit": "8947be83611bf7b01cb71d1b9c511f63dbd97158",
+      "score": 3,
+      "subject": "Improve curated collection chips test ownership and lookups",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0080c322b7f2f6bd94cfca483ce0a3ffa8ddc3cc",
+      "current_commit": "006cd63d9e0f940afddbc3292fd55827866a020c",
+      "score": 2,
+      "subject": "Improve curated workflow card test ownership and native mounts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cb2358bc64fc2c7c4f4148ff6dc29045a473817a",
+      "current_commit": "5fe89dce982a5ff0bdb841711697b63e0318c81a",
+      "score": 3,
+      "subject": "Own curated list test stores routers and component cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "46a0f6bad514a65d6982bd479f18a33abaa864bd",
+      "current_commit": "46a0f6bad514a65d6982bd479f18a33abaa864bd",
+      "score": 4,
+      "subject": "Improve readability of WorkflowCardList tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0603d244d98fb687c5f07cfd3a4c2ae21ecca8f2",
+      "current_commit": "0603d244d98fb687c5f07cfd3a4c2ae21ecca8f2",
+      "score": 5,
+      "subject": "Improve readability of WorkflowList tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "44d704a326917eab91594912438d3ae7d22367f2",
+      "current_commit": "44d704a326917eab91594912438d3ae7d22367f2",
+      "score": 3,
+      "subject": "Improve readability of api-client/client tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f3cc1d86c1b59ecbe3088c2b19efbcd12bfd2d62",
+      "current_commit": "f3cc1d86c1b59ecbe3088c2b19efbcd12bfd2d62",
+      "score": 5,
+      "subject": "Improve readability of api-client/integration tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "63fb44749e11c77a918c980bffb2699d6bf50873",
+      "current_commit": "23f179e24c27d27d86ab401e9ef50b8c35ec7363",
+      "score": 3,
+      "subject": "Own checkbox test wrappers and use inferred DOM types",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "60755a78abde1b86debc950e8e80309a58b07705",
+      "current_commit": "45f8bb52323a12635359dfd5a16edc8bff5f5fe9",
+      "score": 2,
+      "subject": "Use native GTable test targets and scoped attachment cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8bf79b7d018b84e25abe5d36c44b86496777ba2c",
+      "current_commit": "69ba4b73ff3a6ce331a8e65689d9df8fad517f72",
+      "score": 4,
+      "subject": "Use inferred v-model bindings and own parent wrappers",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "619f842d0ec2ba2d86bf1206c2b111470bb467a3",
+      "current_commit": "619f842d0ec2ba2d86bf1206c2b111470bb467a3",
+      "score": 4,
+      "subject": "Improve readability of floatingPosition tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "24053f4e66256a4926963715aad77bc1ccd85a26",
+      "current_commit": "f16d8129d2b864b9348c5bf4bbf9ea4e90bc1d8b",
+      "score": 3,
+      "subject": "test: Type portable UI sources and scan file-content pairs",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "be7b9fccc9baa47650b7c8dd8f9c893a5e0b7232",
+      "current_commit": "be7b9fccc9baa47650b7c8dd8f9c893a5e0b7232",
+      "score": 3,
+      "subject": "Improve readability of publicClasses tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cf3b565d35bea514b2b22628d144540a4c410873",
+      "current_commit": "7efaf9981af7b4601a1a8da619a9be2b527aa4c0",
+      "score": 4,
+      "subject": "Verify reopened escape layer removes its old registration",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4fff84d9077be06103f432ca07636dcf0694837d",
+      "current_commit": "30bfae3ca218268c84e8a9316d7212d47ebbed8c",
+      "score": 4,
+      "subject": "Improve readability of hoverBridge tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ff656fd56b72bfeedd74a7c948a59d7a258ce966",
+      "current_commit": "ff656fd56b72bfeedd74a7c948a59d7a258ce966",
+      "score": 3,
+      "subject": "Improve readability of PermissionsInputField tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "01f82b868e58136c473e533cb197e34027b9a1dc",
+      "current_commit": "01f82b868e58136c473e533cb197e34027b9a1dc",
+      "score": 4,
+      "subject": "Improve readability of ChangePassword tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "94837f7a838594fb40151ce9a13c1967cde70dfc",
+      "current_commit": "94837f7a838594fb40151ce9a13c1967cde70dfc",
+      "score": 4,
+      "subject": "Improve readability of LoginForm tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1ff8e09b57e2acfc1b74596886b907f85eb81b97",
+      "current_commit": "1ff8e09b57e2acfc1b74596886b907f85eb81b97",
+      "score": 4,
+      "subject": "Improve readability of LoginIndex tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9829e3dfaaa021d93cc2515e839cfbd5bd99b260",
+      "current_commit": "c8cc801715302006eed3f42501d81d008e5d8ccb",
+      "score": 2,
+      "subject": "Own confirmation test mount and location cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cb0cbfda4b30c8242f98cd60bf0243446a55747c",
+      "current_commit": "cb0cbfda4b30c8242f98cd60bf0243446a55747c",
+      "score": 3,
+      "subject": "Improve readability of CellOption tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4296e187177f7562112e74d581c59585d686341e",
+      "current_commit": "6861ec0099654771452b92eaca273904412586a4",
+      "score": 3,
+      "subject": "Type TextEditor mounts and own drag test stores",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d23a8bfadc713db1b976f65ffae315f7e7472365",
+      "current_commit": "bef3b786eca7d1dc2663c6625ef5a7c1985967bd",
+      "score": 3,
+      "subject": "Clarify dataset detail transitions and own mount cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "39d34e1dc809fa98b3451c80e43329920016c318",
+      "current_commit": "39d34e1dc809fa98b3451c80e43329920016c318",
+      "score": 3,
+      "subject": "Improve readability of HistoryDatasetDisplay tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "421237ca5187672ca24aac0fba8ae7029c6ed82c",
+      "current_commit": "421237ca5187672ca24aac0fba8ae7029c6ed82c",
+      "score": 3,
+      "subject": "Improve readability of JobElements tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e888ad697e50d85ecdcfb210637acf1097b7ec77",
+      "current_commit": "e888ad697e50d85ecdcfb210637acf1097b7ec77",
+      "score": 4,
+      "subject": "Improve readability of entryPointStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e4c95194efb452c15890963c606cb1562bf0fb11",
+      "current_commit": "3d5d7f28601133f5bf66048f66ac599454c472c4",
+      "score": 2,
+      "subject": "Own help-term consumers and stores across module reloads",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8c1e2968b70952c07343a0496bbc650ad86e3ae3",
+      "current_commit": "8c1e2968b70952c07343a0496bbc650ad86e3ae3",
+      "score": 4,
+      "subject": "Improve readability of historyStore.lists tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a479ee51871c3e2bbc2f1408cd82ff28a97ea926",
+      "current_commit": "a479ee51871c3e2bbc2f1408cd82ff28a97ea926",
+      "score": 3,
+      "subject": "Improve readability of historyStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a260fe6de9dc3eec2f2f7dc42dffb117d5b12d10",
+      "current_commit": "a260fe6de9dc3eec2f2f7dc42dffb117d5b12d10",
+      "score": 4,
+      "subject": "Extend stores/_testing/sseStoreSupport.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "87a70e3b88da35c20186bbb39a72dd28f1b7ba47",
+      "current_commit": "87a70e3b88da35c20186bbb39a72dd28f1b7ba47",
+      "score": 5,
+      "subject": "Improve readability of invocationStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d46ab4ce7cf24c663e3784292362dbc1ebd06a42",
+      "current_commit": "d46ab4ce7cf24c663e3784292362dbc1ebd06a42",
+      "score": 4,
+      "subject": "Improve readability of jobMetricsStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9fd7467fbce8c49f23c83a7d0d737ce1c973a7da",
+      "current_commit": "9fd7467fbce8c49f23c83a7d0d737ce1c973a7da",
+      "score": 4,
+      "subject": "Improve readability of notificationsStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e49c7d72291ed79351c90287513517ea4a2937ce",
+      "current_commit": "e49c7d72291ed79351c90287513517ea4a2937ce",
+      "score": 3,
+      "subject": "Improve readability of objectStoreInstancesStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "e3d7fcb1ffe41ac0b49f22d44951b0fba88ea45b",
+      "current_commit": "e3d7fcb1ffe41ac0b49f22d44951b0fba88ea45b",
+      "score": 4,
+      "subject": "Improve readability of objectStoreTemplatesStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "85fd81f99e9998e88ac7dce10fc35c2e7a8ad7f5",
+      "current_commit": "85fd81f99e9998e88ac7dce10fc35c2e7a8ad7f5",
+      "score": 5,
+      "subject": "Improve readability of pageEditorStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d6e0eb2e5019230ddd971983d3610e8da27fc5f0",
+      "current_commit": "d6e0eb2e5019230ddd971983d3610e8da27fc5f0",
+      "score": 2,
+      "subject": "Add tests/test-data/pages.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "42010d8cbe2e3da41ee02cd7362c675feadbc35e",
+      "current_commit": "42010d8cbe2e3da41ee02cd7362c675feadbc35e",
+      "score": 3,
+      "subject": "Improve readability of useCreatingJob tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "19ac6ed93f6f7aa02644fefbc79824f1bcb909e1",
+      "current_commit": "19ac6ed93f6f7aa02644fefbc79824f1bcb909e1",
+      "score": 4,
+      "subject": "Improve readability of useEntityMentions tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "512f38df1c8083a47e3381d9955ad2162a30f453",
+      "current_commit": "512f38df1c8083a47e3381d9955ad2162a30f453",
+      "score": 3,
+      "subject": "Improve readability of useHistoryDatasets tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ebe0182b640f248159443f248e4f342c13e149c8",
+      "current_commit": "ebe0182b640f248159443f248e4f342c13e149c8",
+      "score": 3,
+      "subject": "Improve readability of useInvocationGraph tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "65cd2baa9248b9fb5fbe47c6f89d4ed7d52c3ebe",
+      "current_commit": "65cd2baa9248b9fb5fbe47c6f89d4ed7d52c3ebe",
+      "score": 3,
+      "subject": "Improve readability of useNotificationSSE tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "15f48ea5374ea4393ac9ef1f4011e05a8bac81e6",
+      "current_commit": "15f48ea5374ea4393ac9ef1f4011e05a8bac81e6",
+      "score": 4,
+      "subject": "Improve readability of usePageProposals tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0f19129679534571914742cc2176a58029db647a",
+      "current_commit": "0f19129679534571914742cc2176a58029db647a",
+      "score": 3,
+      "subject": "Improve readability of useRegistrationTarget tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "17b4e4382c7fd9fc5fa3539a21b144a16dad414b",
+      "current_commit": "17b4e4382c7fd9fc5fa3539a21b144a16dad414b",
+      "score": 4,
+      "subject": "Improve readability of useSidebarSelection tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "90495554347d6b9f59ef38aeaf4336e624d680d0",
+      "current_commit": "90495554347d6b9f59ef38aeaf4336e624d680d0",
+      "score": 3,
+      "subject": "Improve readability of userToolCredentials tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5ced9eb8671639188406c12d93142eae0e6dcde5",
+      "current_commit": "5ced9eb8671639188406c12d93142eae0e6dcde5",
+      "score": 3,
+      "subject": "Improve readability of zipExplorer tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4da8364ba7655f1b7d18718f52fb6991ac3740e9",
+      "current_commit": "f8323d445f44ca51b057ac4bbf623e6ebc94f71d",
+      "score": 3,
+      "subject": "Clarify required markdown sections in diff tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1383369160be8ce6c757b3b8e3921ca1c239ada3",
+      "current_commit": "1383369160be8ce6c757b3b8e3921ca1c239ada3",
+      "score": 4,
+      "subject": "Improve readability of ToolSection tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "dc9bbd861613c04b27bc12f08dad7d9f8d88aad0",
+      "current_commit": "dc9bbd861613c04b27bc12f08dad7d9f8d88aad0",
+      "score": 2,
+      "subject": "Improve readability of MyToolsLanding tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "1b7c4d334f52b9ce5163eebb442b98be7a5a7b20",
+      "current_commit": "2c5bc203668dec923b98330cb5501dddab3214e1",
+      "score": 4,
+      "subject": "Clarify toolbox filtering and panel grouping assertions",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "013a52b1fdc755b83fcd4b8758ae25ecdd433780",
+      "current_commit": "bf75d9c36722a3a0dc267b53b3e85fc32e0dfb6e",
+      "score": 4,
+      "subject": "Use owned native fixtures in ToolBoxSearch tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "8b8d372bf1757f1206fc5c165845b386974c0540",
+      "current_commit": "8b8d372bf1757f1206fc5c165845b386974c0540",
+      "score": 2,
+      "subject": "Improve readability of ToolPanel tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fd9e06e4a64af87249046e3887a44e4d9e1e9b43",
+      "current_commit": "fd9e06e4a64af87249046e3887a44e4d9e1e9b43",
+      "score": 3,
+      "subject": "Extend src/composables/upload/testHelpers/uploadFixtures.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "d8207cc35c1d137ee4fad5c371a1e43a1e70a057",
+      "current_commit": "d8207cc35c1d137ee4fad5c371a1e43a1e70a057",
+      "score": 3,
+      "subject": "Improve readability of UploadFileRow tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f91f930b1e67f34bb2fafdcd458b5e419304f8fe",
+      "current_commit": "d6ecf20504de2d828307c4f360ff6deda6413f31",
+      "score": 2,
+      "subject": "Own inline upload view stores and native mounts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "01808a1b6cb8a7bb9f8c4e56965f70aeaf5bd9ee",
+      "current_commit": "01808a1b6cb8a7bb9f8c4e56965f70aeaf5bd9ee",
+      "score": 4,
+      "subject": "Improve readability of uploadProgressUi tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a04219d9297cef4cbcebc029fe22c4c6315af163",
+      "current_commit": "a04219d9297cef4cbcebc029fe22c4c6315af163",
+      "score": 3,
+      "subject": "Improve readability of uploadState tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4350772f82fcdc54d3123ff8b60474ba7ddb396b",
+      "current_commit": "d692e9e8151b98628b50c5dc60044add02d6083e",
+      "score": 2,
+      "subject": "Refine PageView test mounts and resource ownership",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a3e81818606d907a6e34e5c08659e2062f6f9253",
+      "current_commit": "743225b14e7e0cb989f5da0353f6be92afb3d9fc",
+      "score": 3,
+      "subject": "Own page form tests and preserve native rendering boundaries",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "ccfdf6795af49614be4d439ca606da411a8666e7",
+      "current_commit": "7127b0424125845632ff97cf5ffe387772c30286",
+      "score": 2,
+      "subject": "Infer history notebook list mounts and own their stores",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b7e1c2980b7694d4902df296207485efc901df30",
+      "current_commit": "b7e1c2980b7694d4902df296207485efc901df30",
+      "score": 4,
+      "subject": "Improve readability of HistoryPageView tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0ba6a80c7d02dfbfb637660b4c8e8953bce37f28",
+      "current_commit": "0ba6a80c7d02dfbfb637660b4c8e8953bce37f28",
+      "score": 4,
+      "subject": "Improve readability of PageCard tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "329e15fcdf6dbcee5c27e617a6078b3889e7ba50",
+      "current_commit": "329e15fcdf6dbcee5c27e617a6078b3889e7ba50",
+      "score": 4,
+      "subject": "Improve readability of PageDisplayToolbar tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "2273237802acf2a17176f121a100c83e5f13cd15",
+      "current_commit": "2273237802acf2a17176f121a100c83e5f13cd15",
+      "score": 4,
+      "subject": "Extend tests/test-data/pages.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "25925ddea32c3937d39422a958e391d8656b1103",
+      "current_commit": "706badadadf681936dd9b49a64c7d3bdfb817c13",
+      "score": 4,
+      "subject": "Clarify page revision scenarios and type mount props",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "501b988fd409a9051185e1d7137ddc92de1e793c",
+      "current_commit": "cd0f5db3086be4add51611b215d35f5fcafab82d",
+      "score": 3,
+      "subject": "Clarify section patch view scenarios and native mount setup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "7e68fb58eb98e532582305b77661b791bcabac55",
+      "current_commit": "7e68fb58eb98e532582305b77661b791bcabac55",
+      "score": 4,
+      "subject": "Improve readability of object-permission-composables tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5689a6ee7a898ecc09a3d49880fd5bbe11a281de",
+      "current_commit": "8d9acff8808db858d7b7f385e99b266513df8e7e",
+      "score": 2,
+      "subject": "Own storage monitor polling and deferred cleanup",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "f1ca93e74d79c98a0e709c8889e09414d9022a84",
+      "current_commit": "f1ca93e74d79c98a0e709c8889e09414d9022a84",
+      "score": 4,
+      "subject": "Improve readability of taskMonitor tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b17b4316bcda1d1a5dc0bc58db28841481b5070e",
+      "current_commit": "b17b4316bcda1d1a5dc0bc58db28841481b5070e",
+      "score": 4,
+      "subject": "Extend toolTrainingMaterial tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "96dd93de476a89fe4a56a18161418bded3c7eda5",
+      "current_commit": "aeaf19ea221f169416dab6fdf2639f60d21ca8c7",
+      "score": 2,
+      "subject": "Own training recommendation watcher scopes in tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "99f0f826800752c7ceca950ba48b5e51a66a14b7",
+      "current_commit": "99f0f826800752c7ceca950ba48b5e51a66a14b7",
+      "score": 3,
+      "subject": "Improve readability of uploadItemTypes tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5d70e266084041ed7942d82c322f3d2da82d43a3",
+      "current_commit": "5d70e266084041ed7942d82c322f3d2da82d43a3",
+      "score": 4,
+      "subject": "Improve readability of useUploadBatchOperations tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "90e16609775a681b0f7942d01637de9c4880d4dc",
+      "current_commit": "1bf2dadf9c6a4346c103d5bc070d985613e72daf",
+      "score": 4,
+      "subject": "Clarify staged upload fixtures and own reactive test scope",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "97e034b77317b22812987759714619476236a92f",
+      "current_commit": "97e034b77317b22812987759714619476236a92f",
+      "score": 2,
+      "subject": "Improve readability of useUploadSubmission tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "cb307deac3a15a75e543c57e00e9fd620f825a74",
+      "current_commit": "cb307deac3a15a75e543c57e00e9fd620f825a74",
+      "score": 3,
+      "subject": "Improve readability of urlTracker tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "c061ecf95ad8d5e1aebea728b2ac0efce59c1a06",
+      "current_commit": "c061ecf95ad8d5e1aebea728b2ac0efce59c1a06",
+      "score": 4,
+      "subject": "Improve readability of useActiveContext tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3f7b79d682b1c4ffc9c7e4c78b0dc0d14cc96a01",
+      "current_commit": "3f7b79d682b1c4ffc9c7e4c78b0dc0d14cc96a01",
+      "score": 4,
+      "subject": "Improve readability of useCommandPalette tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9f4465e3c8e2c1e8ed83188b37a44d7780306279",
+      "current_commit": "9f4465e3c8e2c1e8ed83188b37a44d7780306279",
+      "score": 3,
+      "subject": "Improve readability of pageStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "0a90a26712cd53d8653c1e32168b2f925ed8d963",
+      "current_commit": "48279ac63b9529b979848b4e7b6d201a140d6333",
+      "score": 4,
+      "subject": "Test history service queries through typed HTTP handlers",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "13e5ae8768784d6b3d93f35af7eedc740b5fb0ab",
+      "current_commit": "13e5ae8768784d6b3d93f35af7eedc740b5fb0ab",
+      "score": 5,
+      "subject": "Improve readability of storageOperationsStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "b3699620eb3f8f3ed7472b38eaac5918d5253077",
+      "current_commit": "b3699620eb3f8f3ed7472b38eaac5918d5253077",
+      "score": 4,
+      "subject": "Improve readability of toolStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "18c6717c25b24dddbf65370899018b11957c485f",
+      "current_commit": "d9a9b2d7115ccd2350c9d820450e3a5beca2397f",
+      "score": 3,
+      "subject": "Improve unprivileged tool store test ownership",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "72626f7110f59b5aa49e66e2e7511baf6d84a1e2",
+      "current_commit": "a8d0b9933ab1640fad9ae1efb010d6a1ef6f1df4",
+      "score": 3,
+      "subject": "Own upload monitor test stores state and timers",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "3f0210ef72c19f7556ac8ceb7fa910942350d69f",
+      "current_commit": "3f0210ef72c19f7556ac8ceb7fa910942350d69f",
+      "score": 3,
+      "subject": "Improve readability of userStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "5ec62a2a0003c5635a24a9b0e7f946bc5b6009fb",
+      "current_commit": "5ec62a2a0003c5635a24a9b0e7f946bc5b6009fb",
+      "score": 3,
+      "subject": "Add tests/test-data/userCredentials.ts for client unit tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fffdab26b21c0bdc546fa2ceb0ffdde636e68d84",
+      "current_commit": "4608b81b530d12ebbe33209a8c6cd349512d1b54",
+      "score": 3,
+      "subject": "Keep reactive credentials test setup and ownership local",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "fb2d45ae244b13e3c82be2d6869e3ed4e3100806",
+      "current_commit": "fb2d45ae244b13e3c82be2d6869e3ed4e3100806",
+      "score": 5,
+      "subject": "Improve readability of visualizationStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "06c8fd2bbe89524216d4787c38d4d86f1734447f",
+      "current_commit": "06c8fd2bbe89524216d4787c38d4d86f1734447f",
+      "score": 3,
+      "subject": "Improve readability of windowManagerStore tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4b1aa9c405f168a3c9a86fd099d6251cf7589289",
+      "current_commit": "4b1aa9c405f168a3c9a86fd099d6251cf7589289",
+      "score": 4,
+      "subject": "Improve readability of JobInformation tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "be6bb81cc4f0e6387dee462cd1d3b87c06163e5c",
+      "current_commit": "be6bb81cc4f0e6387dee462cd1d3b87c06163e5c",
+      "score": 5,
+      "subject": "Check structured fixture messages in JobInformation tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "dda276cfc2f2a3b09ec06142ea066514d329876a",
+      "current_commit": "555bd738fa870dcd37e43315e5dbc5ada71f175c",
+      "score": 4,
+      "subject": "Clarify job output table cases and own their mounts",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a1834aeb9e3164347eaf3559d4a254df6b804633",
+      "current_commit": "4b4ad0878956cd3906d907ba29442574a05e4116",
+      "score": 4,
+      "subject": "Name AWS estimate examples and own rendered wrappers",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "4452bb7d3db130e6ac8493b1e4aeb06a40f93057",
+      "current_commit": "9bb1640e1caf587facb2fe904af4547dd5386471",
+      "score": 4,
+      "subject": "Own carbon emissions mounts and clarify estimate scenarios",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "33d4fdedcd41772b8a5eaade191ec5715f32cf60",
+      "current_commit": "33d4fdedcd41772b8a5eaade191ec5715f32cf60",
+      "score": 4,
+      "subject": "Improve readability of JobMetrics tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "9b84743a288969ff28a52ea0a88add729ec7e489",
+      "current_commit": "dc4678796c7b034b9f34eef13c1b8a2191b897b1",
+      "score": 2,
+      "subject": "Clarify job state ownership and stop-request scenarios",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a3bcfaa238cda748128545f38eefafed21a2342b",
+      "current_commit": "71922fb731170029da3955fdaf3ce8e88cbecf30",
+      "score": 3,
+      "subject": "Narrow fetch model test helpers and document omitted defaults",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "a2e5c0acab97f1fb3b2b348f291e5094b59ea5c5",
+      "current_commit": "b3947c9fc3377e321afb967f4940e3596aabc864",
+      "score": 4,
+      "subject": "Clarify library description sanitization and expansion tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "67f38132cbbe9c8bca09bb889c448a38b1a3decf",
+      "current_commit": "67f38132cbbe9c8bca09bb889c448a38b1a3decf",
+      "score": 4,
+      "subject": "Improve readability of FolderDetails tests",
+      "identical_patch": true
+    },
+    {
+      "snapshot_commit": "efdc48a9a18bb881ba3ec39feec0a06f8256ebf1",
+      "current_commit": "efdc48a9a18bb881ba3ec39feec0a06f8256ebf1",
+      "score": 4,
+      "subject": "Improve readability of LibraryDataset tests",
+      "identical_patch": true
+    }
+  ],
+  "dropped_commits": [
+    "73ee5c8a5b5ae3c937c7227bb8b56451f46183fc",
+    "702e52542b1cbd1e37e8db6d1ea0a131f176dd2c",
+    "cf1d5096208c8c3ec66629c9389d904f6d93bbdb",
+    "776d72eddb153c9d80d11f14e34e5022af350eb8",
+    "3416f4871733bf5810c367cb2e42444483f51479",
+    "fa598b0893f008375e10f53e6d65f7cadf79d24b",
+    "c5de0846b1ff598ba037ae0b793b397acf465fcd",
+    "7f2db5e59415f07c09fec5be75ff4885fbad047e",
+    "4be84f9972399b7b0afbc19a1e8d0319806d5204",
+    "f4df82a2d3af6dae334a0f58bd89d174c983c624",
+    "23bed593cee1c2b61518c65968ca0f6973f8b8dd",
+    "93da63594a585c426622e20a247b465eee173d09",
+    "e962361afd90815cbc7ab8f5a5add01b442fb353",
+    "a4d56b3d45b049b9c7e8ac864da25084bd0bf2c7",
+    "d65b756d02adcea7b79c349e0cf97bbe0c065f20",
+    "ab522033d9e7982a97c1fa9e0bf19d75d7743b9a",
+    "4b095719ba39d765efb59f7dfb20964e77c94f1a",
+    "b9248c063a54a290f56a33d50f9d0384b43c7447",
+    "ac595e3260181d93d60a6b0de5e5bc4c1c80a465",
+    "4bf42c4996b36a496199b5b83f5b9de5aac26075",
+    "9b73e30e82c20b0304b30d5e4b389385fb4c338a",
+    "22f3e17233456b48f2dec253f3a1810d69b31857",
+    "b6dda390e29e941f0a72571f17073270de152e8d",
+    "2fe6dd3530fb372e608447222a83ac55b1a55745",
+    "6012934b2cf21db2f8ae560a99cd1edd54b1805c",
+    "f76b18b04e6425c21a28fb744543377b53cc3390",
+    "3543db45dc65f0f1e990f8c4741cc30f6e8ce02e",
+    "44fc0d991b09d0c2ce32d8f7e4ad5691e8122b6b",
+    "11ca067e0eb5d8cec1baa76a40cff3eab2ab4d3f",
+    "f0644a69534aa892d5044cb5afd50ead6adaec45",
+    "c4101eb029e245265e97946361e6be96cf31669a",
+    "9219f0709f26dc05ef9fef7aa0ae853ff68a98b4",
+    "21a960c4544c67d4a09f82cb482367a1b3ced5df",
+    "4eb9b0a6fb0b1b3f92705b63d3e46f59e93c340e",
+    "687e8347926042f9e0ee28918740a465bf8a1e96",
+    "1597231a3450a1b1fb10ead3d1a7894f583de128",
+    "08f5aecb82c2d16d3adf90aed3155014cdfb30cf",
+    "7904083639bcc57bedc456fae98897df55872f7e",
+    "2bc6ddee6d3af3a9345158acfb137e5b2e073d95",
+    "2ecee1aca5ad5a7f5c6cf7fd53e500332c0a56c7",
+    "b1b2dda6521233784c1b8eddd032337ffed4b75e",
+    "dd520ec81c057b178e28625b71683d29164657a2",
+    "493f324f9613b46fdc92211a69a3304be1751f9f",
+    "ce17de3eef2ec9ee032f5f84f9782a9b5a2724e7",
+    "d7b420856bcf289c60b8635124302239892af815",
+    "89ae8673b9ab26d02a17d0f566d9bb78a1ba6a06",
+    "cd2aaf0c91dad1081690536b5cc66f7692bf3976",
+    "6ef2a811c1a7f7e10a32ab17ccb4aed2edef1468",
+    "147904ef13e169c9a11efa9893efd41c903eefdc",
+    "4ccca10d5fe77159907913fa8ed140bc4087e940",
+    "5e4f2159b161463445e7691e0b1a1ebd0ee59005",
+    "5f91dcb2106185b0ef6c6c14b1b4dadf666c239b",
+    "54d1228492bbb2918f02e30e032834aee0a77d6d",
+    "8fc0d8371889c924adc8afa78f4bb079570e03ac",
+    "fc39d1b9007851eac3a1c8306388eb5d52091a19",
+    "91618e026c85845dd1fbaaa22891993167e35d18",
+    "dbf78d62b66af5a2a713b5c2993733e57050668a",
+    "f0483b29eb838941d998ea7d1dc5aaec94c39a6a",
+    "445820eacbdca51ec943f61ab68f13e52a3fa653",
+    "b3a20d4a9f8c107523838a3dcc08e08830e88c42",
+    "ee81f2dabfd51ed0d8fa5d5c5856966c887c810f",
+    "045fb114f12d29391b5061bfb9de5fbca8dc9313",
+    "366825324302f04095712c0ba85b572d1e4f07fd",
+    "006cd63d9e0f940afddbc3292fd55827866a020c",
+    "45f8bb52323a12635359dfd5a16edc8bff5f5fe9",
+    "c8cc801715302006eed3f42501d81d008e5d8ccb",
+    "3d5d7f28601133f5bf66048f66ac599454c472c4",
+    "d6e0eb2e5019230ddd971983d3610e8da27fc5f0",
+    "dc9bbd861613c04b27bc12f08dad7d9f8d88aad0",
+    "8b8d372bf1757f1206fc5c165845b386974c0540",
+    "d6ecf20504de2d828307c4f360ff6deda6413f31",
+    "d692e9e8151b98628b50c5dc60044add02d6083e",
+    "7127b0424125845632ff97cf5ffe387772c30286",
+    "8d9acff8808db858d7b7f385e99b266513df8e7e",
+    "aeaf19ea221f169416dab6fdf2639f60d21ca8c7",
+    "97e034b77317b22812987759714619476236a92f",
+    "dc4678796c7b034b9f34eef13c1b8a2191b897b1"
+  ],
+  "upstream_score2": [
+    "91618e026c85845dd1fbaaa22891993167e35d18"
+  ],
+  "rebase_drops": [
+    "73ee5c8a5b5ae3c937c7227bb8b56451f46183fc",
+    "702e52542b1cbd1e37e8db6d1ea0a131f176dd2c",
+    "cf1d5096208c8c3ec66629c9389d904f6d93bbdb",
+    "776d72eddb153c9d80d11f14e34e5022af350eb8",
+    "3416f4871733bf5810c367cb2e42444483f51479",
+    "fa598b0893f008375e10f53e6d65f7cadf79d24b",
+    "c5de0846b1ff598ba037ae0b793b397acf465fcd",
+    "7f2db5e59415f07c09fec5be75ff4885fbad047e",
+    "4be84f9972399b7b0afbc19a1e8d0319806d5204",
+    "f4df82a2d3af6dae334a0f58bd89d174c983c624",
+    "23bed593cee1c2b61518c65968ca0f6973f8b8dd",
+    "93da63594a585c426622e20a247b465eee173d09",
+    "e962361afd90815cbc7ab8f5a5add01b442fb353",
+    "a4d56b3d45b049b9c7e8ac864da25084bd0bf2c7",
+    "d65b756d02adcea7b79c349e0cf97bbe0c065f20",
+    "ab522033d9e7982a97c1fa9e0bf19d75d7743b9a",
+    "4b095719ba39d765efb59f7dfb20964e77c94f1a",
+    "b9248c063a54a290f56a33d50f9d0384b43c7447",
+    "ac595e3260181d93d60a6b0de5e5bc4c1c80a465",
+    "4bf42c4996b36a496199b5b83f5b9de5aac26075",
+    "9b73e30e82c20b0304b30d5e4b389385fb4c338a",
+    "22f3e17233456b48f2dec253f3a1810d69b31857",
+    "b6dda390e29e941f0a72571f17073270de152e8d",
+    "2fe6dd3530fb372e608447222a83ac55b1a55745",
+    "6012934b2cf21db2f8ae560a99cd1edd54b1805c",
+    "f76b18b04e6425c21a28fb744543377b53cc3390",
+    "3543db45dc65f0f1e990f8c4741cc30f6e8ce02e",
+    "44fc0d991b09d0c2ce32d8f7e4ad5691e8122b6b",
+    "11ca067e0eb5d8cec1baa76a40cff3eab2ab4d3f",
+    "f0644a69534aa892d5044cb5afd50ead6adaec45",
+    "c4101eb029e245265e97946361e6be96cf31669a",
+    "9219f0709f26dc05ef9fef7aa0ae853ff68a98b4",
+    "21a960c4544c67d4a09f82cb482367a1b3ced5df",
+    "4eb9b0a6fb0b1b3f92705b63d3e46f59e93c340e",
+    "687e8347926042f9e0ee28918740a465bf8a1e96",
+    "1597231a3450a1b1fb10ead3d1a7894f583de128",
+    "08f5aecb82c2d16d3adf90aed3155014cdfb30cf",
+    "7904083639bcc57bedc456fae98897df55872f7e",
+    "2bc6ddee6d3af3a9345158acfb137e5b2e073d95",
+    "2ecee1aca5ad5a7f5c6cf7fd53e500332c0a56c7",
+    "b1b2dda6521233784c1b8eddd032337ffed4b75e",
+    "dd520ec81c057b178e28625b71683d29164657a2",
+    "493f324f9613b46fdc92211a69a3304be1751f9f",
+    "ce17de3eef2ec9ee032f5f84f9782a9b5a2724e7",
+    "d7b420856bcf289c60b8635124302239892af815",
+    "89ae8673b9ab26d02a17d0f566d9bb78a1ba6a06",
+    "cd2aaf0c91dad1081690536b5cc66f7692bf3976",
+    "6ef2a811c1a7f7e10a32ab17ccb4aed2edef1468",
+    "147904ef13e169c9a11efa9893efd41c903eefdc",
+    "4ccca10d5fe77159907913fa8ed140bc4087e940",
+    "5e4f2159b161463445e7691e0b1a1ebd0ee59005",
+    "5f91dcb2106185b0ef6c6c14b1b4dadf666c239b",
+    "54d1228492bbb2918f02e30e032834aee0a77d6d",
+    "8fc0d8371889c924adc8afa78f4bb079570e03ac",
+    "fc39d1b9007851eac3a1c8306388eb5d52091a19",
+    "dbf78d62b66af5a2a713b5c2993733e57050668a",
+    "f0483b29eb838941d998ea7d1dc5aaec94c39a6a",
+    "445820eacbdca51ec943f61ab68f13e52a3fa653",
+    "b3a20d4a9f8c107523838a3dcc08e08830e88c42",
+    "ee81f2dabfd51ed0d8fa5d5c5856966c887c810f",
+    "045fb114f12d29391b5061bfb9de5fbca8dc9313",
+    "366825324302f04095712c0ba85b572d1e4f07fd",
+    "006cd63d9e0f940afddbc3292fd55827866a020c",
+    "45f8bb52323a12635359dfd5a16edc8bff5f5fe9",
+    "c8cc801715302006eed3f42501d81d008e5d8ccb",
+    "3d5d7f28601133f5bf66048f66ac599454c472c4",
+    "d6e0eb2e5019230ddd971983d3610e8da27fc5f0",
+    "dc9bbd861613c04b27bc12f08dad7d9f8d88aad0",
+    "8b8d372bf1757f1206fc5c165845b386974c0540",
+    "d6ecf20504de2d828307c4f360ff6deda6413f31",
+    "d692e9e8151b98628b50c5dc60044add02d6083e",
+    "7127b0424125845632ff97cf5ffe387772c30286",
+    "8d9acff8808db858d7b7f385e99b266513df8e7e",
+    "aeaf19ea221f169416dab6fdf2639f60d21ca8c7",
+    "97e034b77317b22812987759714619476236a92f",
+    "dc4678796c7b034b9f34eef13c1b8a2191b897b1"
+  ]
+}

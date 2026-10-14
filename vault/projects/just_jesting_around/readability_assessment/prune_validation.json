@@ -1,0 +1,14 @@
+{
+  "head": "5d87d32b2af316cf4de657ff9f033b51d60fdb40",
+  "client_tests": {"suites": 90, "tests": 832, "exit_code": 0, "log": "/private/tmp/readability-pruned-client-final.log"},
+  "tool_shed_tests": {"suites": 4, "tests": 34, "exit_code": 0, "log": "/private/tmp/readability-pruned-shed.log"},
+  "client_type_check": {"exit_code": 0, "log": "/private/tmp/readability-pruned-client-types-final.log"},
+  "tool_shed_type_check": {"exit_code": 0, "log": "/private/tmp/readability-pruned-shed-types.log"},
+  "client_eslint": {"exit_code": 0, "log": "/private/tmp/readability-prune-eslint.log"},
+  "client_prettier": {"exit_code": 0, "log": "/private/tmp/readability-prune-prettier.log"},
+  "tool_shed_eslint": {"exit_code": 0, "log": "/private/tmp/readability-prune-shed-eslint.log"},
+  "tool_shed_prettier": {"exit_code": 0, "log": "/private/tmp/readability-prune-shed-prettier.log"},
+  "history_audit": {"retained": 417, "dropped": 76, "retained_patches_adapted": 7, "upstream_score2_reverted": 1, "dependency_repair_commits": 1},
+  "net_diff_from_backup": {"files": 77, "insertions": 2679, "deletions": 2903},
+  "published": false
+}

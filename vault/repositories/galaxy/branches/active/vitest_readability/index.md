@@ -265,3 +265,12 @@ Live draft head `3d593f929a95` conflicts with dev. Eight conflicts span GCheckbo
 ## Clean rebase onto latest dev — 2026-10-13
 
 The earlier `--rebase-merges` rebase had replayed 29 dev commits (12 merges) between `fix_story_a11y` and the readability commits. John asked for a clean stack. Rebased `fix_story_a11y` onto dev `63192fd64e4`, then only the 493 readability commits onto it, dropping the dev copies. Reconciled the eight known dev conflicts deliberately, keeping upstream's new cases in the lane's style. Dropped the FormNumberList and CollectionProgress.js commits, whose files upstream deleted. Also fixed a latent ZoomControl label expectation that a11y had broken. 491 commits, no merges. The full unit suite and type-check pass. Pushed `7f2db5e5941` with lease on `3d593f929a9`. Details: [cascade record](subagents/rebase_cascade_2026-10-13.md).
+
+
+## Score-2 churn removed locally — 2026-10-13
+
+John requested preserving the current work as `vitest_readability_with_churn` and removing the 77 assessed score-2 changes. [Pruning debrief](churn_pruning_2026-10-13.md) records the exact mapping, retained dependencies, conflict resolutions and validation; [test challenge](test_challenges_debrief.md) and [marginal examples](../../../../../projects/just_jesting_around/readability_assessment/marginal_examples.md) are complete.
+
+Local head `5d87d32b2af316cf4de657ff9f033b51d60fdb40`: 76 branch commits dropped, one upstream deletion explicitly reverted, and one dependency-only repair retains shared definitions required by surviving tests. All 417 retained branch commit messages/trailers preserved. Final 94 suites / 866 tests, both frontend type checks and changed-file lint/format pass. The restored JavaScript CollectionProgress suite duplicates four retained TypeScript cases. Original history preserved at `7f2db5e59415f07c09fec5be75ff4885fbad047e`; backup is reference only, do not PR.
+
+Not pushed. Existing pushed head and draft PR remain unchanged, so status stays `author_work`; downstream lanes untouched. Original YAML scores remain tied to their frozen review snapshot.
