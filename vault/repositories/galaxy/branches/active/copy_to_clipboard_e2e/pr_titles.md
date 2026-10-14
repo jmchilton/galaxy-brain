@@ -1,0 +1,4 @@
+- Add browser regression coverage for API key copying
+- Test API key copy behavior with shared clipboard capture
+- Share clipboard capture across Galaxy browser tests
+- Cover API key copying under Selenium and Playwright

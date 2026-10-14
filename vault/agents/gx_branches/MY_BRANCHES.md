@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+Clipboard E2E base/CI refreshed 2026-10-14 after polishing; #24104 merged and fork head `042902f139e` awaits CI and final human review.
+
 PR #24046 refreshed after its requested rebase on 2026-10-14; mergeable at `801a8f293fc`, CI pending; conflict resolutions require final review.
 
 Live GitHub PR metadata and exact-head fork CI refreshed 2026-10-13 by GOOD_MORNING/TICK. [Morning findings and actions](TICK_2026-10-12.md) record classifications, CI limits, rebases and reruns.
@@ -85,6 +87,8 @@ None yet.
 None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
+
+- [`copy_to_clipboard_e2e`](../../repositories/galaxy/branches/active/copy_to_clipboard_e2e/index.md) — Adds clipboard capture and an API key copy browser regression test after #24104. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:copy_to_clipboard_e2e?expand=1).
 
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 
