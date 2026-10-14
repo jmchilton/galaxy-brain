@@ -1689,6 +1689,7 @@
   storified: true
   storybook_play: true
 - file: client/src/components/ObjectStore/ShowSelectedObjectStore.test.js
+  storified: true
   readability_score: 3
   readability_reviews:
     - commit: 80a00d266b4124eb10c494207c99a4ec16fc7cd3
