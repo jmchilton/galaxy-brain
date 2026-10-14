@@ -18,6 +18,8 @@ Live GitHub PR metadata and exact-head fork CI refreshed 2026-10-13 by GOOD_MORN
 
 PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e1570742723`, awaiting new-head CI.
 
+nightly_unit_tests CI and base refreshed from GitHub 2026-10-14.
+
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
@@ -79,7 +81,6 @@ PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e157
 - [`licenses`](../../repositories/galaxy/branches/active/licenses/index.md) — Adds `<license_agreement>` tool requirements that users must accept before running the tool. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
 - [`selenium_stories_core`](../../repositories/galaxy/branches/active/selenium_stories_core/index.md) — Writes Selenium and Playwright test screenshots as Markdown, HTML and PDF stories; recovered and rebased 2026-10-09 (`233a2dc31e8`). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_stories_core?expand=1).
 - [`ts_readme_render_followups`](../../repositories/galaxy/branches/active/ts_readme_render_followups/index.md) — Shows old-revision READMEs and images, loads revision permalinks, and removes dead README code. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ts_readme_render_followups?expand=1).
-- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Rebalances per-PR CI: unit and Tool Shed tests run on Python 3.14 only, tool framework tests run only the tool request API, and performance tests leave CI; nightly runs on dev cover the rest and track failures in issues via the Selenium reporter, now a reusable workflow; reusable workflows get a `_` prefix. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:nightly_unit_tests?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
@@ -102,6 +103,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Moves older Python and legacy tool API CI coverage to tracked nightly runs; removes performance CI. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:nightly_unit_tests?expand=1).
 
 
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
