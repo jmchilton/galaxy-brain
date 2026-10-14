@@ -614,6 +614,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/ConfigTemplates/CreateInstance.test.ts
+  storified: skip
   readability_score: 3
   readability_reviews:
     - commit: 004882096783feae0f565ea85d0097f432cd6fa6
@@ -1389,6 +1390,7 @@
       score: 4
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/JobMetrics/CarbonEmissions/CarbonEmissions.test.js
   readability_score: 4
   readability_reviews:
@@ -3046,6 +3048,7 @@
   storified: skip
   storybook_play: skip
 - file: client/src/components/providers/storeProviders.test.js
+  storified: skip
   readability_score: 3
   readability_reviews:
     - commit: 1687cec6eca6be808c6fd594d159588ba1e97e7b
