@@ -1,9 +1,9 @@
 # fix_story_a11y
 
-Status: `ready`. Base: `dev`.
+Status: `branches_ready_for_final_review` (conflict-resolving rebase; PR remains open and non-draft). Base: `dev`.
 PR: [#24046 — Repair accessibility issues across shared controls and forms](https://github.com/galaxyproject/galaxy/pull/24046), opened by John; verified 2026-10-11.
-PR base: `dev`; current head: `175e7d5a1831836dd9b360a4cb1dad5e0874fa85`.
-Base: upstream `dev` at `b406ead2e4eb55b94d1ba437af8f60ebe4983947` (2026-10-10).
+PR base: `dev`; current head: `801a8f293fc5755a20dabb8a4cb3d97614f104ad`.
+Base: upstream `dev` at `8b729ff0050c32573ad0fa999e5e1b4d015dca8c` (2026-10-14).
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/fix_story_a11y`.
 Pushed to `jmchilton/fix_story_a11y` at `96bd157af90d51595b5d8f4195d13699bc72846e` on 2026-10-11.
 
@@ -67,3 +67,11 @@ GitHub now reports OPEN, non-draft and mergeable at `175e7d5a183`; this TICK did
 ## Rebased onto latest dev — 2026-10-13
 
 John asked for the whole lane stack (this branch at the bottom, then `vitest_readability`, `vitest_stories`, `vitest_story_play`) to be rebased cleanly onto latest dev. Rebased both patches onto dev `63192fd64e4` with no conflicts; range-diff differs only by one upstream `navigation.yml` context line. The 23 affected Vitest files (196 tests) and client type-check pass. Pushed `cfb0e376ba3` with lease on `175e7d5a183`. New-head CI not yet observed; PR settings unchanged. [Cascade record](../vitest_readability/subagents/rebase_cascade_2026-10-13.md).
+
+## Requested PR rebase — 2026-10-14
+
+Rebased both commits from `cfb0e376ba3880e0a61471f187332d6d526e5e3a` onto actual PR base `dev` at `8b729ff0050c32573ad0fa999e5e1b4d015dca8c`. Resolved three overlapping files: retained upstream storage badge popovers and extracted icons, adapted the badge accessibility regression to the non-interactive path, and combined the branch's accessible-name preservation with upstream sanitized HTML tooltip labels. Range-diff confirms the browser-driver patch is unchanged; other differences are the described conflict adaptations and upstream context.
+
+All 205 Vitest cases across the 23 affected files pass using `NODE_OPTIONS=--no-experimental-webstorage` (Node 25 otherwise collides with happy-dom localStorage). Client type-check passes after rebuilding ignored API-client declarations for the current schema. Prettier checks for all three conflict files and `git diff --check` pass. Worktree is clean.
+
+Pushed `801a8f293fc5755a20dabb8a4cb3d97614f104ad` to `jmchilton:fix_story_a11y` with an exact lease on the previous PR head. GitHub confirms OPEN, non-draft, MERGEABLE on `dev`; new-head CI is queued/running. Per the conflict-resolution approval rule, moved tracking to `branches_ready_for_final_review`. PR settings and description are unchanged. Tracking sync remains pending because main has unrelated outgoing commits that this task has not reviewed.

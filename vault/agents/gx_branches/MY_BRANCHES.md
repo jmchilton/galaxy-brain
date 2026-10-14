@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #24046 refreshed after its requested rebase on 2026-10-14; mergeable at `801a8f293fc`, CI pending; conflict resolutions require final review.
+
 Live GitHub PR metadata and exact-head fork CI refreshed 2026-10-13 by GOOD_MORNING/TICK. [Morning findings and actions](TICK_2026-10-12.md) record classifications, CI limits, rebases and reruns.
 
 PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e1570742723`, awaiting new-head CI.
@@ -18,7 +20,6 @@ PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e157
 - [`ts_readme_render_fix_26.1`](../../repositories/galaxy/branches/active/ts_readme_render_fix_26.1/index.md) — Backports Tool Shed README rendering and sanitization, including old revisions, to release_26.1. [#24053](https://github.com/galaxyproject/galaxy/pull/24053).
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin proxy and AI agents against a local provider; fixes live LLM tests using static responses. [#24051](https://github.com/galaxyproject/galaxy/pull/24051).
 - [`issue_24031_badge_tooltip_html`](../../repositories/galaxy/branches/active/issue_24031_badge_tooltip_html/index.md) — Restores storage badge popovers with sanitized Markdown and working links; readable HTML tooltip labels (#24031). [#24069](https://github.com/galaxyproject/galaxy/pull/24069).
-- [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 - [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
 
 ## Open Galaxy PRs — waiting for CI (`ci_wait`)
@@ -84,6 +85,8 @@ None yet.
 None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
+
+- [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 
 - [`upload_datatypes_composable`](../../repositories/galaxy/branches/active/upload_datatypes_composable/index.md) — Replaces upload datatype/dbkey providers with composables and shows load failures instead of empty selectors. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upload_datatypes_composable?expand=1).
 - [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/active/playwright_timeout_retry_once/index.md) — Retries Playwright timeouts once during transitions; partly reverts 2825bb09e42. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:playwright_timeout_retry_once?expand=1).
