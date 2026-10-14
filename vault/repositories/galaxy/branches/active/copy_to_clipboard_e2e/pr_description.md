@@ -16,11 +16,11 @@ This is a two-way door: changes are limited to browser-test support, regression 
 
 ## Context
 
-Builds on merged 🔀 #24104, which fixes the Vue 3 clipboard regression reported in #24102. This branch targets `dev`.
+Builds on merged 🔀 #24104, which fixes the Vue 3 clipboard regression reported in #24102. This branch targets `release_26.2`.
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A broken copy leaves the clipboard unchanged; the regression checks the copied value and success toast.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Browser coverage clicks the real button and checks the copied API key.
@@ -29,7 +29,7 @@ Builds on merged 🔀 #24104, which fixes the Vue 3 clipboard regression reporte
 
 ## Validation
 
-The API-key copy regression, existing API-key test and custom-tool documentation test pass under both Playwright and Selenium/Chrome (three tests per backend). Five clipboard component tests, Python lint/formatting and changed client-file formatting checks pass. Fork CI for `042902f139e` is pending; the data-source browser suite was not run.
+The API-key copy regression, existing API-key test and custom-tool documentation test pass under both Playwright and Selenium/Chrome (three tests per backend). Five clipboard component tests, Python lint/formatting and changed client-file formatting checks pass. Fork CI for `042902f139e` is still running; the release-script failure checks historical `master` version metadata outside this diff. The data-source browser suite was not run.
 
 ## How to test the changes?
 

@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #24119 refreshed 2026-10-14: requested draft opened against `release_26.2`; head `042902f139e`, CI pending.
+
 Clipboard E2E base/CI refreshed 2026-10-14 after polishing; #24104 merged and fork head `042902f139e` awaits CI and final human review.
 
 PR #24046 refreshed after its requested rebase on 2026-10-14; mergeable at `801a8f293fc`, CI pending; conflict resolutions require final review.
@@ -25,6 +27,8 @@ PR #24038 refreshed after its requested rebase on 2026-10-12: mergeable at `e157
 - [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
 
 ## Open Galaxy PRs — waiting for CI (`ci_wait`)
+
+- [`copy_to_clipboard_e2e`](../../repositories/galaxy/branches/active/copy_to_clipboard_e2e/index.md) — Adds clipboard capture and an API key copy browser regression test after #24104. [#24119](https://github.com/galaxyproject/galaxy/pull/24119).
 
 - [`issue_21015_multiple_text_param`](../../repositories/galaxy/branches/active/issue_21015_multiple_text_param/index.md) — Supports multiple text workflow parameters; approved text review fixes pushed, new-head CI pending. [#23992](https://github.com/galaxyproject/galaxy/pull/23992).
 
@@ -88,7 +92,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`copy_to_clipboard_e2e`](../../repositories/galaxy/branches/active/copy_to_clipboard_e2e/index.md) — Adds clipboard capture and an API key copy browser regression test after #24104. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:copy_to_clipboard_e2e?expand=1).
 
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 
