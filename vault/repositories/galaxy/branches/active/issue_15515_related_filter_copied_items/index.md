@@ -1,6 +1,6 @@
 # issue_15515_related_filter_copied_items
 
-Status: `ci_wait` — draft PR review and metadata performance fixes pushed; fresh human read and new-head CI pending. Base: `dev`.
+Status: `draft_ready` — draft PR review and metadata performance fixes pushed; fresh human read and new-head CI pending. Base: `dev`.
 
 Makes the related filter work on imported and copied history items (#15515).
 
@@ -34,3 +34,7 @@ Final SHA: `f9b57ed5793cd3e3b929bfcb37daef9e2b880bcb`. Pushed only to the jmchil
 ## Performance pass and description publication — 2026-10-14
 
 John requested the extra metadata performance pass and had explicitly requested live description publication. Consolidated metadata into one scan per association type, added four aggregate edge-case instances, and fixed six related CI type errors. Cleanly rebased onto `6801a80e2ad`, committed `4d82165af62e9faad48326137b5bcf4df1ead0a0`, and pushed only to jmchilton with an exact lease. **27 manager tests and eight API tests on each SQLite and PostgreSQL 18 pass**, as do applicable pre-commit hooks. Ordinary late-click performance improves; residual overhead and copied-history scaling remain documented. Copied benchmarks and real nonempty `History.copy()` probe pass. The independent reviewer found no remaining correctness or performance blocker. See the [performance follow-up](performance_followups_2026-10-14.md) for comparisons and corrected CI-equivalent type evidence. The PR description is published and synchronized; prior local-only statements above describe the earlier handoff. Fresh human-read approval and new-head upstream CI remain pending; PR stays draft.
+
+## TICK — 2026-10-14
+
+Current head 4d82165af62e is mergeable, with relevant API/browser checks passing. Only two package jobs fail mypy at unchanged galaxy/security/ssh_util.py:18 (untyped publickey call), unrelated to relationship lookup. Failed jobs rerun. Moved to draft_ready; fresh human-read approval remains pending, so no undraft.

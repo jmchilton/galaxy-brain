@@ -1,6 +1,6 @@
 # plugins_test_fake_provider
 
-Status: `ready`. Base: `dev`.
+Status: `attention`. Base: `dev`.
 
 [PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist review](checklist_review.md) · [Strengthening review](strengthening_review.md) · [Implementation debrief](implementation_debrief.md)
 
@@ -31,3 +31,7 @@ All upstream checks have settled. Integration shards 0 and 1 fail in this branch
 ## TICK — 2026-10-13 evening
 
 GitHub now reports OPEN, non-draft and mergeable at `cc3fe81fbc50`; this TICK did not change draft status. Relevant Integration coverage passes. The only failed workflow is the previously diagnosed unrelated Pulsar package-import failure. Reclassified to `ready`.
+
+## TICK — 2026-10-14
+
+Live PR #24051 conflicts with dev in api/plugins.py and test_plugins.py. Upstream adds configurable inference settings and new mocked tests; reconciling them with the real-provider tests requires behavioral adaptation beyond a mechanical rebase. Left branch intact and moved to attention. Remaining package-import reds are the recorded unrelated Pulsar failure.

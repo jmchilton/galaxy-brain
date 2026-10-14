@@ -1,6 +1,6 @@
 # copy_to_clipboard_e2e
 
-Status: `ci_wait`. Base: `release_26.2`.
+Status: `draft_ready`. Base: `release_26.2`.
 PR: [#24119 — [26.2] Add browser regression coverage for API key copying](https://github.com/galaxyproject/galaxy/pull/24119), OPEN and draft at `042902f139e62194204c36cd6b404eae4fe2518e` (verified 2026-10-14).
 
 Adds an E2E clipboard abstraction and a browser regression test for #24102 (`CopyToClipboard` did nothing after the Vue 3 migration).
@@ -29,3 +29,7 @@ John requested rebasing onto the newly created upstream `release_26.2` and openi
 Opened [draft PR #24119](https://github.com/galaxyproject/galaxy/pull/24119) against `release_26.2` titled **[26.2] Add browser regression coverage for API key copying**. Published prepared description with its target and live CI evidence updated, retaining John's checked human-read item. No mentions or comments added. Draft status was explicitly requested; preserve it until John requests progression.
 
 Fork CI on this SHA remains queued/running. [Release-script run 38538091345](https://github.com/jmchilton/galaxy/actions/runs/38538091345) fails its synthetic release exercise when validating the historical upstream `master` minor version (`VERSION_MINOR = None`); this seven-file clipboard/test diff changes no release code or version metadata. Other observed completed checks: postgres unit and mulled tests pass; Pulsar-package and CWL runs skipped. Moved tracking to `ci_wait`. Tracking commit remains local because unrelated outgoing galaxy-brain commits have not been reviewed for publication.
+
+## TICK — 2026-10-14
+
+Current head 042902f139e6 is mergeable on release_26.2, with browser checks passing. Only two package jobs fail mypy at unchanged galaxy/security/ssh_util.py:18 (untyped publickey call), unrelated to clipboard tests; failed jobs rerun. Moved to draft_ready. Preserve the explicit hold until John requests progression.

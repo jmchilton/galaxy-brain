@@ -1,6 +1,6 @@
 # workflow_multiple_parameter_review_followups
 
-Status: `ci_wait`. Draft [PR #24108](https://github.com/galaxyproject/galaxy/pull/24108) targets `dev` at head `9a6a71ff062fdb33cc33427324b0160e8ca662ed`; current-head CI remains queued.
+Status: `merged`.
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/workflow_multiple_parameter_review_followups`.
 
@@ -19,3 +19,7 @@ Completed polishing with fresh checklist and one strengthening review; no implem
 ## Draft PR opened — 2026-10-13
 
 John explicitly requested a draft PR after polishing. Opened [#24108](https://github.com/galaxyproject/galaxy/pull/24108) against `dev`, titled “Enable multiple float workflow inputs in the editor”, using `pr_description.md` verbatim. Published head: `9a6a71ff062fdb33cc33427324b0160e8ca662ed`. This instruction authorizes draft publication; no ready-for-review transition was requested. Current-head fork CI remains queued, with Tool Shed frontend and unit/postgres checks passed and two unrelated suites skipped.
+
+## TICK — 2026-10-14
+
+PR #24108 merged at 2026-10-14T08:25:20Z. Archived record under merged and removed from the queue. Clean worktree and zero unpushed commits verified. Retained worktree because a running Celery beat process still uses its database/gravity/celerybeat-schedule path; no process was stopped.

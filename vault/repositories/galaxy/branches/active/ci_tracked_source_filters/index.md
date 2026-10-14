@@ -1,6 +1,6 @@
 # ci_tracked_source_filters
 
-Status: DRAFT — `ci_wait`. Requested by John on 2026-10-14 following merged PR [#23999](https://github.com/galaxyproject/galaxy/pull/23999). Draft PR [#24120](https://github.com/galaxyproject/galaxy/pull/24120) opened against `release_26.2` at John's request.
+Status: DRAFT — `draft_ready`. Requested by John on 2026-10-14 following merged PR [#23999](https://github.com/galaxyproject/galaxy/pull/23999). Draft PR [#24120](https://github.com/galaxyproject/galaxy/pull/24120) opened against `release_26.2` at John's request.
 
 - [Release draft handoff](release_draft_2026-10-14.md)
 - [PR description](pr_description.md)
@@ -24,3 +24,7 @@ Restore real lib source triggers and Selenium exclusions; remove symlink-alias s
 Handoff and polish notes and queue updates committed locally. Vault push deferred to preserve the pre-existing unpublished backlog from unrelated work.
 
 Chosen title: `[26.2] Restore CI filters for tracked source paths after the uv workspace migration`. John requested rebase and draft creation on 2026-10-14 at reviewed SHA `b0a8d368d607d2d86300a28d0c9f284516750abf`. Keep this PR in draft pending further instruction; the user explicitly requested a draft.
+
+## TICK — 2026-10-14
+
+All 52 checks settled: 50 successful, two skipped. Mergeable on release_26.2 at b0a8d368d607. Moved to draft_ready; preserve the explicit instruction to keep draft pending further instruction.

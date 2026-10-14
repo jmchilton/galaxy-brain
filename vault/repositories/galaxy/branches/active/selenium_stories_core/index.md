@@ -1,6 +1,6 @@
 # selenium_stories_core
 
-Status: `branches_implemented_needs_ci`. Base: `dev`.
+Status: `branches_implemented`. Base: `dev`.
 
 Writes Selenium and Playwright test screenshots as Markdown, HTML and PDF stories.
 
@@ -17,3 +17,7 @@ Current head has a relevant package mypy failure in `tests/seleniumtests/test_se
 ## TICK — 2026-10-12
 
 Requested failed-job reruns for the recorded unrelated failures: [run 38018966250](https://github.com/jmchilton/galaxy/actions/runs/38018966250). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.
+
+## TICK — 2026-10-14
+
+Fork head 593434f661e639c59bad167038531f2d8e700aa0 has passing browser, unit and Python lint checks. Package run 38538152875 logs successful story artifact/state tests and all nine selenium-test-decorator tests; its only failures are later collection errors importing removed pulsar.client.build_client_manager, unrelated to stories. Promoted to branches_implemented and reran failed package jobs. No polish or PR approval inferred.

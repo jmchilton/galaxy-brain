@@ -1,6 +1,6 @@
 # sample_sheet_vue3
 
-Status: `attention`. Base: `release_26.2`. [PR #24050](https://github.com/galaxyproject/galaxy/pull/24050) (open, not draft; fresh CI pending).
+Status: `ready`. Base: `release_26.2`. [PR #24050](https://github.com/galaxyproject/galaxy/pull/24050) (open, not draft; fresh CI pending).
 
 Moves sample sheet grids to Vue 3 patterns and fixes editing bugs.
 
@@ -34,3 +34,7 @@ Live regular PR is mergeable at `9474de6d78b123e35ab144883e189fd7e4cffad3`; all 
 Addressed both inline comments in [Ali’s review](https://github.com/galaxyproject/galaxy/pull/24050#pullrequestreview-5517646707), pushed `88ac10202d82e5e4dc79605e748fae7b458a1e8f`. FetchGrid tests assert new row-array identity for both supported replacements; an in-place splice mutation fails the assertion. Collection-load errors remain visible without a dismiss button. Corrected both outdated real-ag-grid claims in the live PR body and local description. [Verification](review_followups_2026-10-14.md) and the [one-page migration guide](../../../../../agents/gx_branches/VUE3_COMPONENT_MIGRATION.md) collect this round and the earlier work.
 
 168/168 affected Vitest tests, vue-tsc, formatting, diff checks and commit hooks pass; lint has zero errors and one existing event-hyphenation warning in the touched files. No new browser run or public reply. Live base is `release_26.2`; PR is mergeable, non-draft, with fresh CI queued. Remains attention pending fresh CI/review; changed SHA has no carried approval. Vault validation now passes (122 files, zero errors, 15 advisory warnings), superseding the previous sync blocker.
+
+## TICK — 2026-10-14
+
+Current head 88ac10202d82 is non-draft and mergeable against release_26.2. Client/browser checks pass. Both package jobs fail mypy at unchanged galaxy/security/ssh_util.py:18 (untyped publickey call), unrelated to sample-sheet changes; failed jobs rerun. Recorded review fixes are complete, so moved to ready. No review reply or PR description change.

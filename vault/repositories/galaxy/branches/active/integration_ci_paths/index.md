@@ -13,3 +13,7 @@ Skips the Integration workflow when a PR only changes test suites that run in ot
 - No enforced import guard (John, 2026-10-14); PR description must state the import rule and residual risk (see [earlier debrief](earlier_drafts/1/implementation_debrief.md)).
 - `lib/galaxy/navigation/` stays on the trigger list: `lib/galaxy/tours` imports it at runtime.
 - Shared module split into `base/api_mixins.py` + `base/api_helpers.py` (John, 2026-10-14); folded into the refactor commit.
+
+## TICK — 2026-10-14
+
+Current fork head fb7c6a96a759 still has an in-progress check. The two package reds are mypy at unchanged galaxy/security/ssh_util.py:18 (untyped publickey call), unrelated to import relocation; failed jobs rerun. Retain branches_implemented_needs_ci until runtime coverage settles.

@@ -14,7 +14,7 @@ Issue: [24031 — Storage badge tooltips show administrator messages as literal 
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24031_badge_tooltip_html`.
 Branch: `issue_24031_badge_tooltip_html`, based on upstream dev `20f365a2654`.
-Status: `ready`. Base: `dev`.
+Status: `merged`.
 
 Back in polish 2026-10-10: John approved three scope additions after the first polish. (1) Sanitize badge messages with the `links` profile. (2) Make admin links clickable again with a popover, as before 25.0. (3) Add a hover check to `test_objectstore_selection.py`. The description and screenshots predate these and need redoing.
 
@@ -48,3 +48,7 @@ Icon layers moved to new `ObjectStoreBadgeIcon.vue`, so the button and span trig
 ## TICK — 2026-10-13 evening
 
 GitHub now reports OPEN, non-draft and mergeable at `b21056e70b8`; this TICK did not change draft status. Fresh CI remains queued/running, with no failures in the snapshot. Reclassified to `ready`; this is not a claim that current-head CI has finished.
+
+## TICK — 2026-10-14
+
+PR #24069 merged at 2026-10-14T06:25:30Z. Archived record under merged and removed from the queue. Clean worktree and zero unpushed commits verified; initial ghwt cleanup failed ENOTEMPTY on regenerated ignored files; retry succeeded, removed the worktree and pruned its registration.
