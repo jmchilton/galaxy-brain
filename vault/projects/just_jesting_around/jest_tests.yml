@@ -1610,6 +1610,7 @@
       score: 4
   iterated: 1
 - file: client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts
+  storified: true
   readability_score: 3
   readability_reviews:
     - commit: 8163cdd831e69df55a112dacc9156b150cf88792
