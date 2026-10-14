@@ -714,6 +714,7 @@
   storybook_play: true
 - file: client/src/components/DatasetInformation/DatasetDetails.test.ts
   storified: true
+  storybook_play: true
   readability_score: 2
   readability_reviews:
     - commit: e61173cae07f862587aab60f5ece819c044c9dc2
