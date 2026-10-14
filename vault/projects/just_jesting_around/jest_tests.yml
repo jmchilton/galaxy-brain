@@ -2506,6 +2506,7 @@
       score: 2
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Workflow/Editor/Forms/FormOutputLabel.test.js
   readability_score: 3
   readability_reviews:
