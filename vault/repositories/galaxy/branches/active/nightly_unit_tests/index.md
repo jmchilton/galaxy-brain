@@ -1,8 +1,10 @@
 # nightly_unit_tests
 
-Status: `branches_ready_for_final_review`. Base: `dev`. Pushed to `jmchilton/nightly_unit_tests`.
+Status: `branches_need_polish`. Base: `dev`. Pushed to `jmchilton/nightly_unit_tests`.
 
-Rebalances per-PR CI. Unit and Tool Shed tests run on Python 3.14 only for PRs and `dev` pushes; tool framework tests run only the tool request API (`never`); performance tests leave CI. Nightly runs on `dev` cover the rest and track failures in issues, using the Selenium weekly reporter, now the reusable `_report_scheduled_result.yaml`. Reusable workflows get a `_` prefix (`_build_client.yaml`).
+Rebalances dev PR CI and adds tracked nightly unit, Tool Shed and framework coverage for dev and release_26.0/26.1/26.2. Each branch has one configurable Python version (initially 3.10). Existing release PR matrices remain unchanged; reducing them needs a separate policy backport. Performance tests leave CI.
+
+[Release nightly extension](release_nightlies_debrief.md) · [Extension checklist](release_nightlies_checklist.md) · [Description backup](pr_description_before_release_nightlies.md)
 
 [PR description](pr_description.md) · [Title choices](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Polish checklist](polish_checklist.md) · [Description strengthening](polish_strengthening.md)
 
@@ -28,3 +30,7 @@ From a chat with Marius about CI speed: drop one per-PR unit Python version (abo
 ## Polish — 2026-10-14
 
 Final head `b2a792c206ded6040be900adef9b4b52f3819719` is pushed. No rebase was needed against current dev. Fixed three inaccurate nightly issue descriptions, completed the independent checklist and one strengthening round, and prepared the description/four titles. Human read-through remains unchecked. Final-head zizmor is green; unit, Tool Shed and framework CI remain in progress with no reported failures. See the [polish debrief](polish_debrief.md) for evidence and remaining upstream verification. No PR opened; approval remains unassigned.
+
+## Release nightly extension — 2026-10-14
+
+John requested release26.0/26.1/26.2 plus dev, one nightly Python per branch, and selected3.10 for all four. Implemented in one reversible commit `a13b016c0ff` on top of `b2a792c206d`; pushed to the fork. Nightly infrastructure runs from dev without release backports. Existing release PR checks retain their matrices; no release policy backport was made. Independent final checklist passed, CI is queued/pending, and the description backup preserves John's prior human-read mark. Rewrite/strengthening in progress; new tests/comments require a fresh human read.
