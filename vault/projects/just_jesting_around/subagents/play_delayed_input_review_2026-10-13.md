@@ -1,0 +1,3 @@
+Independent review approved `435cd54e77f` without changes. Every original assertion is preserved; no findings required action.
+
+Details: initial fastp value, post-click input presence and empty value survive in the play through accessible textbox queries, visibility and waitFor. Focus adds coverage; original unit test passes without focus restoration while the play fails. Navigation's `.search-clear` consumer does not prevent moving a case that only clicks it; navigation does not select `input.g-form-input`. No weakened assertion or race identified. Both direct component mutations fail intended checks; restored component and clean worktree verified.
