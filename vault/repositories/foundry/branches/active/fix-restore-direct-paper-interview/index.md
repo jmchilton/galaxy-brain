@@ -18,7 +18,7 @@ PR: [galaxyproject/foundry#605](https://github.com/galaxyproject/foundry/pull/60
   - `journey` vs `lifecycle` overlap: kept both; `meta_tags.yml` journey description now says journey drives navigation and complements `lifecycle` (`2aad8174`).
   - Plan & Build command boxes on Usage scrolled at desktop width (indented column). Harness rows now give commands `minmax(29rem, 0.7fr)` and stack below 960px; verified at 1400/1000/961/390 with no command overflow (`536c138e`). Usage screenshot refreshed on the screenshots branch.
   - Brief Mold `axis: target-specific`: left as is. `source-specific` needs a `source` from `sourceKinds`, which has no `workflow-brief`; the brief Molds accept briefs from any source with optional summaries as evidence, the same shape as target-specific `summary-to-cwl-template`. My earlier "really source-specific" call was wrong.
-- Open: journey rule lives in published `gxwf-foundry-note-schema`, but the changeset releases nothing. Recommended a minor bump; awaiting John.
+  - The journey rule lives in published `gxwf-foundry-note-schema`. With John's OK, the changeset now releases it as a minor (`e7598c5a`); `foundry-site` gets an automatic dependent patch and is private.
 - Not this branch: the landing header overflows at 390px; the base branch has the same problem.
 
 ## Mold families: keep both vs merge

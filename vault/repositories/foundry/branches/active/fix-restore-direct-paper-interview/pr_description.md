@@ -49,7 +49,7 @@ The one-way piece is the journey taxonomy: every pipeline now needs exactly one 
 
 <details><summary>Risk Details</summary>
 
-- The pipeline schema now rejects pipeline notes without exactly one `journey/*` tag. The changeset releases no package, so the published 0.3.0 doesn't enforce this until the next release.
+- The pipeline schema now rejects pipeline notes without exactly one `journey/*` tag. The changeset ships this as a minor release of `@galaxy-foundry/gxwf-foundry-note-schema`, so other repositories' pipeline notes need a journey tag before they upgrade.
 - `journey/existing-workflow` overlaps the existing `lifecycle` facet and `source/galaxy`.
 - The journey list in `pipeline-journeys.ts` mirrors `meta_tags.yml`. A test keeps them aligned.
 - The site changes themselves are two-way and easy to revise.
