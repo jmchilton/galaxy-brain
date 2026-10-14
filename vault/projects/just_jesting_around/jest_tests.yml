@@ -34,6 +34,7 @@
       score: 2
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/packages/ui/src/components/vModelContract.test.ts
   readability_score: 4
   readability_reviews:
