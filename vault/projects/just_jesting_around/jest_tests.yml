@@ -2343,6 +2343,7 @@
       iteration: 71
       score: 2
   iterated: 1
+  storified: skip
 - file: client/src/components/User/ExternalIdentities/ExternalRegistration.test.ts
 - file: client/src/components/User/UserBeaconSettings.test.ts
   readability_score: 4
@@ -3561,6 +3562,7 @@
       iteration: 71
       score: 2
   iterated: 1
+  storified: skip
 - file: client/src/stores/entryPointStore.test.js
   readability_score: 4
   readability_reviews:
