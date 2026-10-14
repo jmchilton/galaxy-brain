@@ -2197,6 +2197,7 @@
       score: 3
   iterated: 1
   storified: true
+  storybook_play: true
 - file: client/src/components/Toolshed/SearchList/Categories.test.js
   readability_score: 3
   readability_reviews:
