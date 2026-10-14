@@ -53,3 +53,7 @@ The navy accent and stacked spacing look consistent with the existing tokens and
 All 45 focused checkbox, checkbox-group, and table tests passed locally, including the new markup regression test. All reported CI checks are green. I inspected the supplied before/after images; I could not run a fresh interactive browser check in this environment. No blocking findings.
 
 Risk is low: this is a reversible CSS change with no new API or data-format contract.
+
+## Tracking ended — 2026-10-14
+
+GitHub confirms MERGED at `2026-10-14T21:20:27Z`, head `cf771b5285d479f9cd1fa659d708b18df5c86a73`. Archived after merge and removed from the queue. The clean worktree matched the merged head exactly and was removed with `ghwt rm galaxy 24123`.
