@@ -29,7 +29,7 @@ STATUS: READY. Fork head `e4e6349dc7b` (2 commits on `origin/dev` `36fe2ce8428`)
 
 [Round-1 review](subagents/normal_review_round1.md) · [Round-2 review](subagents/normal_review.md) · [Codex round 1](codex_review_round1.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md) — no scope change.
 
-## Open for John
+## Decisions after review
 
-- Regression guard: nothing but the YAML comment stops a future `test/integration`/`base`/`driver` import from `galaxy_test.api` (or selenium/workflow). Options: a `git grep` check in the tox `lint` env or a `.ci/` script like `check_test_class_names.sh`. If skipped, the PR description should state the rule and the residual risk.
+- Regression guard — John decided 2026-10-14: no guard. The PR description must state the rule (code shared with integration tests lives in `lib/galaxy_test/base`; integration, base, driver and the conftests don't import from `galaxy_test.api`/`selenium`/`workflow`) and the residual risk (a violating import would let API-only edits skip Integration on PRs and dev pushes until the weekly cron).
 - Follow-ups: same treatment for `api.yaml`/`unit.yaml`/`framework_*.yaml`; refresh `shard_durations.json`.
