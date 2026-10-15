@@ -1,6 +1,6 @@
 # rfc/workflow-brief
 
-PR: [galaxyproject/foundry#682](https://github.com/galaxyproject/foundry/pull/682) (draft) → `main`. Toward #563. Opened 2026-10-14 at John's request to track landing the branch.
+PR: [galaxyproject/foundry#682](https://github.com/galaxyproject/foundry/pull/682) (ready) → `main`. Toward #563. Opened 2026-10-14 at John's request to track landing the branch.
 
 - Description: [pr_description.md](pr_description.md).
 - Carries #567 and #605 (see [#605 notes](../fix-restore-direct-paper-interview/index.md)). #565 already merged to `main` from this branch.
@@ -15,8 +15,8 @@ PR: [galaxyproject/foundry#682](https://github.com/galaxyproject/foundry/pull/68
 - Antigravity (#593) folded into the journey layout: `PipelineHarnessList` gets the third command line. It overflowed 4 rows by up to 22px at 1400, so the command column went from `minmax(29rem, …)` to `31rem`. No overflow at 1400/1000/961; at 390 commands scroll inside `pre`, and the page overflow there is the known header issue.
 - Casts, assemblies, Dashboard/Index/README regenerated after `npm run packages-build` (the stale build broke `make casts`).
 - All 17 local CI gates pass. `packages-test` timed out once on the nf-core/rnaseq integration test (8.9s vs 5s), then passed on rerun; that test doesn't touch this branch.
-- [pr_description.md](pr_description.md) updated (banner dropped, merge notes, Validation); not yet applied to the PR.
+- [pr_description.md](pr_description.md) updated (banner dropped, merge notes, Validation) and applied to #682 at John's request.
 
 ## Next
 
-- Apply the updated description to #682 and mark it ready (John's call).
+- 2026-10-15: GitHub CI green (`test`, `changeset`); #682 marked ready at John's request. Awaiting review/merge; the note-schema minor releases on merge.
