@@ -6,3 +6,5 @@ Review if we have important work to do on PROJECT:
 - Outstanding work from earlier in the session (if applicable).
 
 If none of these offer some issues to start to work on.
+
+Do not record documents for the triage process. 
