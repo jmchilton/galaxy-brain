@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { KIND_LABELS, RECORD_KINDS, buildRepositories } from '../../lib/repository-records';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const repos = buildRepositories(await getCollection('repositoryFiles'));
+const rows = repos.map(repo => ({
+  name: repo.name,
+  slug: repo.slug,
+  counts: RECORD_KINDS.map(kind => repo.records.filter(r => r.kind === kind).length),
+}));
+---
+<Base title="Repositories" pageTitle="Repositories">
+  <h1 class="mb-2 text-2xl font-bold">Repositories</h1>
+  <p class="mb-4 text-sm text-(--color-text-secondary)">
+    Branch, issue, and review records tracked by the agents. Record URLs stay the same as records change status.
+  </p>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Repository</th>
+        {RECORD_KINDS.map(kind => <th>{KIND_LABELS[kind]}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map(row => (
+        <tr>
+          <td><a href={`${base}/${row.slug}/`}>{row.name}</a></td>
+          {row.counts.map((count, i) => (
+            <td>
+              {count > 0
+                ? <a href={`${base}/${row.slug}/#${RECORD_KINDS[i]}`}>{count}</a>
+                : <span class="text-(--color-text-muted)">0</span>}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</Base>

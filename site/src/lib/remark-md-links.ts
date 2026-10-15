@@ -3,31 +3,22 @@ import path from 'node:path';
 import { visit } from 'unist-util-visit';
 import type { Root, Link } from 'mdast';
 import type { VFile } from 'vfile';
+import { findMovedRecord, vaultPathToSlug } from './vault-urls';
 
 interface Options {
   vaultDir: string;
   base: string;
 }
 
-function slugify(name: string): string {
-  return name.toLowerCase()
-    .replace(/\s+-\s+/g, '-')
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9\-]/g, '')
-    .replace(/-+/g, '-');
-}
-
-function slugifyPath(rel: string): string {
-  return rel.replace(/\.md$/, '').split('/').map(slugify).join('/');
-}
-
 /**
  * Rewrites relative markdown links (e.g. `[X](FOO.md)`, `[Y](../bar/baz.md#anchor)`)
  * into published site URLs. Resolves the link's path against the source file's
- * directory, then maps it through the same slugify logic Astro's content
- * collection uses. Leaves the link untouched if the target file isn't in the
+ * directory, then maps it through the same slug logic Astro's content
+ * collections use. Leaves the link untouched if the target file isn't in the
  * vault on disk — so existing 404s stay visible rather than being rewritten
- * into a different 404.
+ * into a different 404. Exception: a link to a repository record that has since
+ * moved status directories resolves to the record's (status-free) URL, with a
+ * build warning so the vault link can be fixed.
  */
 export default function remarkMdLinks(opts: Options) {
   const vaultAbs = path.resolve(opts.vaultDir);
@@ -60,13 +51,15 @@ export default function remarkMdLinks(opts: Options) {
 
       const absTarget = path.resolve(sourceDir, decoded);
       if (!absTarget.startsWith(vaultAbs + path.sep)) return;
-      if (!fs.existsSync(absTarget)) return;
 
-      const relFromVault = path.relative(vaultAbs, absTarget);
-      let slug = slugifyPath(relFromVault);
-      if (slug.endsWith('/index')) slug = slug.slice(0, -'/index'.length);
+      const relFromVault = path.relative(vaultAbs, absTarget).split(path.sep).join('/');
+      if (!fs.existsSync(absTarget)) {
+        const moved = findMovedRecord(vaultAbs, relFromVault);
+        if (!moved) return;
+        console.warn(`[remark-md-links] stale record link in ${path.relative(vaultAbs, sourcePath)}: ${relFromVault} -> ${moved}`);
+      }
 
-      node.url = `${baseTrim}/${slug}/${suffix}`;
+      node.url = `${baseTrim}/${vaultPathToSlug(relFromVault)}/${suffix}`;
     });
   };
 }

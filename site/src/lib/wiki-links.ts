@@ -1,4 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
+import { slugify } from './vault-urls';
 
 export interface WikiLinkTarget {
   id: string;
@@ -14,15 +15,6 @@ export function buildWikiLinkMap(entries: CollectionEntry<'vault'>[]): Map<strin
     map.set(basename, { id: entry.id, summary: entry.data.summary });
   }
   return map;
-}
-
-/** Slugify a wiki link target the same way generateId does */
-function slugify(name: string): string {
-  return name.toLowerCase()
-    .replace(/\s+-\s+/g, '-')
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9\-]/g, '')
-    .replace(/-+/g, '-');
 }
 
 /** Strip [[...]] brackets from a wiki link string */

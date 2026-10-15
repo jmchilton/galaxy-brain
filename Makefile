@@ -1,4 +1,4 @@
-.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test
+.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test site-test
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -48,6 +48,9 @@ site-build:
 
 site-preview:
 	cd site && npm run preview
+
+site-test:
+	cd site && npm test
 
 plugin-build:
 	cd obsidian-plugin && npm run build

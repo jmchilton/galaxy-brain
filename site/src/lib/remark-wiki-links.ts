@@ -3,6 +3,7 @@ import path from 'node:path';
 import yaml from 'js-yaml';
 import { visit, SKIP } from 'unist-util-visit';
 import type { Root, Text, PhrasingContent } from 'mdast';
+import { slugify, vaultPathToSlug } from './vault-urls';
 
 interface Target {
   id: string;
@@ -12,18 +13,6 @@ interface Target {
 interface Options {
   vaultDir: string;
   base: string;
-}
-
-function slugify(name: string): string {
-  return name.toLowerCase()
-    .replace(/\s+-\s+/g, '-')
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9\-]/g, '')
-    .replace(/-+/g, '-');
-}
-
-function slugifyPath(rel: string): string {
-  return rel.replace(/\.md$/, '').split('/').map(slugify).join('/');
 }
 
 const SKIP_TOP = new Set(['Dashboard.md', 'Index.md', 'log.md']);
@@ -63,8 +52,7 @@ function buildMap(vaultDir: string): Map<string, Target> {
   walk(abs, abs, files);
   const map = new Map<string, Target>();
   for (const rel of files) {
-    let id = slugifyPath(rel);
-    if (id.endsWith('/index')) id = id.slice(0, -'/index'.length);
+    const id = vaultPathToSlug(rel.split(path.sep).join('/'));
     const basename = id.split('/').pop()!;
     let summary: string | undefined;
     try {

@@ -7,6 +7,7 @@ const navLinks = [
   { href: `${base}/`, label: 'Dashboard', match: (p: string) => p === (base || '') || p === '/' },
   { href: `${base}/catalog/`, label: 'Catalog', match: (p: string) => p.startsWith(`${base}/catalog`) },
   { href: `${base}/tags/`, label: 'Tags', match: (p: string) => p.startsWith(`${base}/tags`) },
+  { href: `${base}/repositories/`, label: 'Repositories', match: (p: string) => p.startsWith(`${base}/repositories`) },
   { href: `${base}/log/`, label: 'Log', match: (p: string) => p.startsWith(`${base}/log`) },
 ];
 ---

@@ -1,29 +1,20 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { slugifyPath, vaultPathToSlug } from './lib/vault-urls';
 
 const noteTypeSchema = z.enum(['research', 'plan', 'plan-section', 'concept', 'moc', 'project', 'paper']);
 const statusSchema = z.enum(['draft', 'reviewed', 'revised', 'stale', 'archived']);
 const paperStageSchema = z.enum(['idea', 'outline', 'evidence', 'drafting', 'preprint', 'submitted', 'published']);
 const paperKindSchema = z.enum(['application-note', 'software', 'methods', 'perspective', 'white-paper', 'review']);
 
-function slugifyPath(entry: string): string {
-  return entry.replace(/\.md$/, '').split('/')
-    .map(s => s.toLowerCase().replace(/\s+-\s+/g, '-').replace(/\s+/g, '-')
-      .replace(/[^a-z0-9\-]/g, '').replace(/-+/g, '-'))
-    .join('/');
-}
-
 const vault = defineCollection({
   loader: glob({
     pattern: ['**/*.md', '!Dashboard.md', '!Index.md', '!log.md',
               '!.obsidian/**', '!templates/**', '!agents/**', '!repositories/**',
-              '!projects/**/!(index).md', '!papers/**/!(index).md'],
+              '!projects/**/!(index.md)', '!papers/**/!(index.md)'],
     base: '../vault',
     generateId({ entry }) {
-      let id = slugifyPath(entry);
-      // Strip /index from workspace directory entries
-      if (id.endsWith('/index')) id = id.slice(0, -'/index'.length);
-      return id;
+      return vaultPathToSlug(entry);
     }
   }),
   schema: z.object({
@@ -72,7 +63,7 @@ const vault = defineCollection({
 
 const projectFiles = defineCollection({
   loader: glob({
-    pattern: ['projects/**/!(index).md'],
+    pattern: ['projects/**/*.md', '!projects/**/index.md'],
     base: '../vault',
     generateId({ entry }) {
       return slugifyPath(entry);
@@ -83,7 +74,7 @@ const projectFiles = defineCollection({
 
 const paperFiles = defineCollection({
   loader: glob({
-    pattern: ['papers/**/!(index).md'],
+    pattern: ['papers/**/*.md', '!papers/**/index.md'],
     base: '../vault',
     generateId({ entry }) {
       return slugifyPath(entry);
@@ -92,4 +83,17 @@ const paperFiles = defineCollection({
   schema: z.object({}).passthrough()
 });
 
-export const collections = { vault, projectFiles, paperFiles };
+// Branch, issue, and review records. Ids drop the status directory so a
+// record's URL survives moves between statuses.
+const repositoryFiles = defineCollection({
+  loader: glob({
+    pattern: ['repositories/**/*.md'],
+    base: '../vault',
+    generateId({ entry }) {
+      return vaultPathToSlug(entry);
+    }
+  }),
+  schema: z.object({}).passthrough()
+});
+
+export const collections = { vault, projectFiles, paperFiles, repositoryFiles };

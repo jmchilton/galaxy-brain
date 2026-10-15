@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import {
+  KIND_LABELS,
+  RECORD_KINDS,
+  buildRepositories,
+  groupByStatus,
+  isTerminalStatus,
+  statusBadgeClass,
+  statusLabel,
+} from '../../../lib/repository-records';
+import { originalRelPath } from '../../../lib/project-paths';
+
+export async function getStaticPaths() {
+  const repos = buildRepositories(await getCollection('repositoryFiles'));
+  return repos.map(repo => ({ params: { repo: repo.slug.split('/')[1] }, props: { repo } }));
+}
+
+const { repo } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const sections = RECORD_KINDS.map(kind => ({
+  kind,
+  label: KIND_LABELS[kind],
+  groups: groupByStatus(repo.records, kind).map(group => ({
+    ...group,
+    hasTitles: group.records.some(r => r.title !== r.name),
+  })),
+}));
+---
+<Base title={repo.name} pageTitle={repo.name}>
+  <nav class="mb-4 text-sm text-(--color-text-secondary)">
+    <a href={`${base}/`} class="text-(--color-link) hover:underline">Home</a>
+    <span class="mx-1">&rsaquo;</span>
+    <a href={`${base}/repositories/`} class="text-(--color-link) hover:underline">Repositories</a>
+    <span class="mx-1">&rsaquo;</span>
+    <span>{repo.name}</span>
+  </nav>
+
+  <h1 class="mb-2 text-2xl font-bold">{repo.name}</h1>
+  <p class="mb-4 text-sm text-(--color-text-secondary)">
+    {sections.filter(s => s.groups.length > 0).map((s, i) => (
+      <>
+        {i > 0 && <span class="mx-1">·</span>}
+        <a href={`#${s.kind}`} class="text-(--color-link) hover:underline">
+          {s.label} ({s.groups.reduce((n, g) => n + g.records.length, 0)})
+        </a>
+      </>
+    ))}
+  </p>
+
+  {sections.filter(s => s.groups.length > 0).map(section => (
+    <section aria-labelledby={section.kind}>
+      <h2 id={section.kind} class="mt-8 mb-3 text-xl font-bold border-b-2 border-(--color-accent)/20 pb-2">
+        {section.label}
+      </h2>
+      {section.groups.map(group => (
+        <details open={!isTerminalStatus(group.status)} class="mb-3">
+          <summary class="cursor-pointer select-none py-1 font-semibold">
+            <span class={statusBadgeClass(group.status)}>{statusLabel(group.status)}</span>
+            <span class="ml-2 text-sm font-normal text-(--color-text-muted)">({group.records.length})</span>
+          </summary>
+          <table class="data-table">
+            <thead><tr><th>Record</th>{group.hasTitles && <th>Title</th>}</tr></thead>
+            <tbody>
+              {group.records.map(record => (
+                <tr>
+                  <td><a href={`${base}/${record.slug}/`}>{record.name}</a></td>
+                  {group.hasTitles && <td class="text-sm text-(--color-text-muted)">{record.title === record.name ? '' : record.title}</td>}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </details>
+      ))}
+    </section>
+  ))}
+
+  {repo.otherFiles.length > 0 && (
+    <section aria-labelledby="other-files">
+      <h2 id="other-files" class="mt-8 mb-3 text-xl font-bold border-b-2 border-(--color-accent)/20 pb-2">Other files</h2>
+      <ul>
+        {repo.otherFiles.map(f => (
+          <li><a href={`${base}/${f.id}/`} class="text-(--color-link) hover:underline">{originalRelPath(f).split('/').slice(2).join('/')}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

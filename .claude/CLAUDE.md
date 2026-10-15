@@ -15,7 +15,7 @@ Obsidian vault + validation tooling for AI-generated Galaxy development notes. N
 - `generate_index.py` - generates Index.md (prose catalog of every note + summary); `--check` for drift
 - `tasks_sync.yml` - config for the `/sync-tasks` command (PR scope, staleness cutoff, repo excludes, project mapping)
 - `vault/log.md` - append-only vault operations log; written by `/ingest` (and future `/ask`, `/lint-vault`); excluded from validator and site
-- `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make index`, `make check-index`, `make site-dev`, `make site-build`
+- `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make index`, `make check-index`, `make site-dev`, `make site-build`, `make site-test`
 - `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
 - `site/` - Astro static site rendering vault notes for GitHub Pages
 - `obsidian-plugin/` - our own Obsidian plugin (TS + esbuild); builds into `vault/.obsidian/plugins/galaxy-brain/`. Pure logic in plain modules with vitest tests; `make plugin-build`, `make plugin-dev` (watch), `make plugin-test`
@@ -34,6 +34,7 @@ make check-index                   # exit 1 if Index.md drifts from vault
 make site-dev                      # start Astro dev server
 make site-build                    # build static site to site/dist/
 make site-preview                  # preview production build
+make site-test                     # site vitest suite (vault-urls, repository-records)
 ```
 
 ## Architecture
@@ -52,7 +53,8 @@ make site-preview                  # preview production build
 - Tailwind CSS v4 via `@tailwindcss/vite` plugin; theme tokens in `site/src/styles/global.css`
 - Dark mode: class-based toggle, auto-detects OS preference
 - `@tailwindcss/typography` for markdown prose rendering
-- Pages: dashboard (`index.astro`), note detail (`[...slug].astro`), project sub-file detail (`projects/[project]/[...file].astro`), tag index + tag detail (`tags/`), raw markdown endpoints (`raw/`)
+- Pages: dashboard (`index.astro`), note detail (`[...slug].astro`), project sub-file detail (`projects/[project]/[...file].astro`), tag index + tag detail (`tags/`), raw markdown endpoints (`raw/`), repository records (`repositories/`)
+- Vault path → URL mapping lives in `site/src/lib/vault-urls.ts`; repository record URLs drop the status directory so they survive moves (see `LIBRARY_REPOSITORY_RECORDS.md`)
 - Wiki links (`[[...]]`) resolved to site URLs via `site/src/lib/wiki-links.ts`
 - GitHub Actions deploys on push to `main` (`.github/workflows/deploy.yml`)
 
