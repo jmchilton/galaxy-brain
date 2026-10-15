@@ -78,6 +78,8 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#24035](https://github.com/galaxyproject/galaxy/issues/24035) — nested `GTooltip` text joins `GButton`/`GLink` accessible names; next: shared relocate composable from `GPopover`, red vitest. [notes](../../repositories/galaxy/issues/queued/24035/index.md)
 - [#24036](https://github.com/galaxyproject/galaxy/issues/24036) — collapsible `Heading` toggle button has no accessible name or `aria-expanded`; next: `useUid` id + `aria-labelledby`/`aria-expanded`, red vitest. [notes](../../repositories/galaxy/issues/queued/24036/index.md)
 - [#24037](https://github.com/galaxyproject/galaxy/issues/24037) — `GModal` `<dialog>` and its × close button have no accessible name; next: `titleId` + `aria-labelledby`, name close, red vitest. [notes](../../repositories/galaxy/issues/queued/24037/index.md)
+- [#24138](https://github.com/galaxyproject/galaxy/issues/24138) — invocation Steps tab step headers freeze while invocation runs (regression #20719); next: watcher in `useInvocationGraph`, red component vitest. [notes](../../repositories/galaxy/issues/queued/24138/index.md)
+- [#22745](https://github.com/galaxyproject/galaxy/issues/22745) — invocation graph freezes mid run; O(n²) 3 s refresh measured, comment posted; next: hoist PR + idle-refresh test. [notes](../../repositories/galaxy/issues/queued/22745/index.md)
 
 
 ## Blocked on others (`blocked`)
