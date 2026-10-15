@@ -4,10 +4,10 @@ Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24174_invocation
 
 Isolated dependencies cloned from a recent worktree, with executable prefixes relocated. `pnpm install --offline --frozen-lockfile --ignore-scripts` completed successfully against the current lockfile. Python 3.14.3 imports `galaxy.model` from this worktree. No other worktree environments or servers were changed.
 
-Running services:
+Services used for validation (restarted under coordinator ownership after initial setup):
 
-- Backend: `http://127.0.0.1:8417`, PID 67451, exec session 89244. Log `/tmp/issue24174-backend.log`.
-- Vite: `http://127.0.0.1:5417`, PID 67242, exec session 76848; proxies backend8417. Current `client/vite.config.mjs` reads `GALAXY_URL`.
+- Backend: `http://127.0.0.1:8417`, coordinator PID 74712. Log `/tmp/issue24174-backend.log`.
+- Vite: `http://127.0.0.1:5417`, coordinator PID 74669; proxies backend8417. Current `client/vite.config.mjs` reads `GALAXY_URL`.
 - Ignored local server configuration: `config/issue24174.yml`. Isolated SQLite and job/data files: `database/issue24174/`.
 
 Backend API version returns `27.0.dev0`. Vite home returns HTTP200 and injects `/@vite/client` and current source entrypoints. Cached Playwright Chromium153 launched successfully. Focused existing migration smoke: one passed (`test_migrations.py -k test_is_at_revision__one_head_one_revision`).
@@ -46,6 +46,20 @@ GALAXY_TEST_TIMEOUT_MULTIPLIER=2 GALAXY_TEST_FILE_DIR="$PWD/test-data" \
 .venv/bin/python -m pytest lib/galaxy_test/selenium/TEST_PATH -v --tb=short
 ```
 
-For API tests targeting this running server, set `GALAXY_TEST_EXTERNAL=http://127.0.0.1:8417/` and retain the exported key. Existing login smoke is running in exec session10602; output `/tmp/issue24174-browser-smoke.log`. Check its final result before relying on browser readiness. Local API client package build is session5267 (JS artifacts built; declarations finishing at handoff).
+For API tests targeting this running server, set `GALAXY_TEST_EXTERNAL=http://127.0.0.1:8417/` and retain the exported key. Existing login smoke passed. API client package build, including declarations regenerated after the schema change, passed.
 
 Only terminate PIDs belonging to this task. Do not disturb other Galaxy/Vite services.
+
+Client verification on Node 25 requires disabling experimental Web Storage to avoid its conflict with happy-dom:
+
+```sh
+NODE_OPTIONS=--no-experimental-webstorage pnpm exec vitest run \
+  src/components/Workflow/Run/WorkflowRunForm.test.ts \
+  src/components/Workflow/Run/WorkflowRun.test.js \
+  src/components/WorkflowInvocationState/WorkflowInvocationInputOutputTabs.test.ts \
+  src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts
+pnpm --filter @galaxyproject/galaxy-api-client build
+pnpm type-check
+```
+
+Final related Vitest run: 4 files / 29 tests passed. Final type check passed. Fresh self-hosted lineage API test run: 2 passed, including the required-context serializer cleanup, without depending on the browser server runtime.

@@ -1,3 +1,5 @@
+Follow-up: the backend implementer added the previously optional inaccessible-newest/accessible-older successor case, and final API validation passed it. No deferred correctness or coverage recommendation remains from this phase review.
+
 Acted on: the element-serialization consistency fix, unnecessary tool-skip cleanup, and batch/latest-ordering coverage were implemented and verified by diff inspection. Deferred: the narrower inaccessible-newest/accessible-older fallback test remains optional additional coverage; existing tests cover inaccessible-only links and ordinary newest selection. No outstanding backend correctness blocker found. Review is read-only; broader validation continues with the coordinator.
 
 # Backend normal review
