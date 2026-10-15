@@ -81,6 +81,7 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Checks workflow tool compatibility before creating histories/invocations; preserves missing-tool precedence; reviewed, 5 API cases pass. Base `release_26.2`.
 - [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Rejects unknown completion actions before creating histories/invocations; reviewed, 3 API cases pass. Base `release_26.2`.
 - [`invocation_object_store_validation`](../../repositories/galaxy/branches/active/invocation_object_store_validation/index.md) — Rejects invalid invocation object-store preferences before history creation; reviewed, 3 API and 2 positive integration cases pass. Base `release_26.2`.
 - [`vitest_real_api_calls`](../../repositories/galaxy/branches/active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
