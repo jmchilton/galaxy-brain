@@ -24,9 +24,15 @@ Description fixes from the same round:
 - The Overview screenshots show it still updates, not a before/after; reworded.
 - Added bold-italic answers for "new requests?", "why the new helper?" and "why release_26.2?".
 
-## Left for John
+## John's decisions (2026-10-15) and follow-up commit
 
-- `InvocationGraph.test.ts:54` counts calls on a mock; the next assertion (alert gone) already proves the retry. Replace or drop it?
+John: remove the dead prop, keep both the Steps component test and the E2E, keep `release_26.2` (probably), clean up the mock call count. Done in `854c12654bd`:
+- Dropped the Overview's `invocationAndJobTerminal` prop and its binding. `WorkflowInvocationState.test.ts` probed it via the stub's HTML; the probe now checks the cancel button (`data-description='cancel invocation button'`, `v-if="!invocationAndJobTerminal"`) is gone. The button lives in the full-page nav, so the probe's tests now mount full page with the nav rendered. Mutation check: button never shown → 4 red; always shown → 2 red.
+- `InvocationGraph.test.ts`: `toHaveBeenCalledTimes(2)` on the load mock replaced by the graph (`WorkflowGraph`) rendering after the retry. Disabling the retry watcher turns both cases red.
+- 46 files / 418 tests green, eslint/prettier/vue-tsc clean.
+
+## Still open
+
 - Fix the dropped rerun in `rerunWhileBusy` itself instead (rerun after rejection when a call is pending)? It'd flip a `sharedPromise.test.ts` assertion. The composable fix was taken instead.
-- Carried from earlier notes: remove the dead `invocationAndJobTerminal` Overview prop; keep both the Steps component test and the E2E; `release_26.2` vs `release_26.1`; ping ahmedhamidawan (#22745 assignee).
+- Ping ahmedhamidawan (#22745 assignee)?
 - Out of scope: zoom/pan profile, retry in the composable for Steps/Debug, per-step polling fan-out.

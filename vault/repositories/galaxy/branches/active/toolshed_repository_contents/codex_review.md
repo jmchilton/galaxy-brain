@@ -12,6 +12,7 @@ Codex reviewed `a8553cff3ca...6f115b07e29`, read-only. It reported 3 findings: 1
 - **CORS hides `ETag` and blocks `If-None-Match` preflight** (`APICorsRoute`, `cors_preflight`). The claim is true, but it comes from Galaxy's shared CORS policy, which deliberately allows only safelisted headers.
   - Browser HTTP-cache revalidation still works cross-origin. Only JS that sets validators by hand is affected.
   - Widening the policy would change core Galaxy CORS behaviour, which is out of scope here.
+  - Follow-up on 2026-10-15, after a decision by John: `ETag` stays deferred until a consumer exists. A related gap was fixed in `6521d02fde2`: the reflected Origin plus `Cache-Control: public` needed `Vary: Origin`.
 
 <details>
 <summary>Full Codex findings</summary>

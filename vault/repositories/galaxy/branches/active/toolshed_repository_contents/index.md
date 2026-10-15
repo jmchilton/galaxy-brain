@@ -1,6 +1,6 @@
 # toolshed_repository_contents
 
-Status: `branches_implemented_needs_ci`. Base: `dev`. Head `8da4d6854a9`.
+Status: `branches_implemented_needs_ci`. Base: `release_26.2`. Head `7fe3b228ee7`.
 
 Adds a bounded repository-files API and Tool Shed contents browser (#22598).
 
@@ -19,3 +19,7 @@ Requested failed-job reruns for recorded unrelated failures: [run 37950058968](h
 ## Recovery — 2026-10-15
 
 Ran the missing after-plan steps. Scope kept as implemented. Pushed 10 fast-forward commits, `682b8a68fbf..8da4d6854a9`, including a fix for the `RepositoryPage` revision regression Codex found. The TICK CI evidence above covers `682b8a68fbf` only, so the branch is back in `branches_implemented_needs_ci` until the new head's CI runs.
+
+## Retarget to release_26.2 — 2026-10-15
+
+Rebased the 26 commits cleanly onto `origin/release_26.2` and force-pushed with lease (`8da4d6854a9` → `2effc539aff`). Added `6521d02fde2` (`Vary: Origin` from `APICorsRoute`), because the files routes are the first ones that are both CORS-enabled and publicly cacheable. After the [review](subagents/vary_origin_review.md), the head is `7fe3b228ee7`. No CI has run on it yet. Details: [implementation debrief](implementation_debrief.md).

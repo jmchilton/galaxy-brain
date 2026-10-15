@@ -37,13 +37,14 @@ Timed in vitest on node 22, not profiled in a browser. ***This doesn't claim to 
   - A failed input dataset fetch no longer stops the later steps from updating. That input is retried on the next poll, and a failure on first load still shows the error. `updateSteps` returns the input error rather than throwing it, so a failing input doesn't cancel the rerun for a poll that landed during its fetch.
 - `utils/sharedPromise.ts`: new `rerunWhileBusy`, next to `dedupeInFlight` and `memoizeUntilRejected`. It runs refreshes one at a time; calls made while one runs share a single rerun with the latest data.
 - `InvocationGraph.vue`: deletes its own 3 s `pollInvocationGraph` loop, its timer and the `isTerminal` prop. A failed load is retried when the parent polls new data.
+- `WorkflowInvocationOverview.vue`: drops its `invocationAndJobTerminal` prop, which only fed `isTerminal`. `WorkflowInvocationState.test.ts` probed that prop to detect terminal states; it now checks that the cancel button is gone.
 - `WorkflowInvocationFeedback.vue` (the Debug tab, shown once the invocation is terminal): uses `stepJobSummaryLookup` instead of its own copy of the lookup.
 
 </details>
 
 ## Risks
 
-Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door). It changes no API, and only drops the internal `isTerminal` prop of `InvocationGraph`.
+Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door). It changes no API, and only drops two internal component props (`InvocationGraph`'s `isTerminal` and the Overview's `invocationAndJobTerminal`).
 
 <details><summary>Risk Review Advice</summary>
 
@@ -69,7 +70,7 @@ Following the poll makes each refresh run every 3 s on the Steps tab, which neve
 
 <details><summary>No structural issues; the diff deletes more concepts than it adds.</summary>
 
-It removes the Overview's poll loop and `isTerminal` prop, `lastStepsJobsSummary`, the whole-summary comparison and its TODO, and Feedback's copy of the lookup. It adds one watcher, one retry watcher and one tested helper beside its siblings. One fix was applied: an input's header class guard moved to its only caller. A synchronous `updateSteps` that would drop `rerunWhileBusy` came out about the same size and relies on unwritten ordering rules, so it wasn't taken.
+It removes the Overview's poll loop and both terminal props, `lastStepsJobsSummary`, the whole-summary comparison and its TODO, and Feedback's copy of the lookup. It adds one watcher, one retry watcher and one tested helper beside its siblings. One fix was applied: an input's header class guard moved to its only caller. A synchronous `updateSteps` that would drop `rerunWhileBusy` came out about the same size and relies on unwritten ordering rules, so it wasn't taken.
 
 </details>
 
@@ -115,7 +116,8 @@ A synchronous throw from the wrapped function left its rejection cached, so late
 - vitest:
   - `WorkflowInvocationSteps.test.ts`: mounts the Steps tab, changes the jobs summary the way the parent's poll does, and checks that the header goes to `header-ok` while the step stays expanded. It fails on the base composable.
   - `useInvocationGraph.test.ts`: in both load modes (Overview and Steps), a new summary, an invocation-only change, a newly scheduled step, a poll landing during an input fetch, a failed input fetch, a poll landing during a failing input fetch, an unchanged poll and an input without a value. Also `stepJobSummaryLookup`.
-  - `InvocationGraph.test.ts`: a failed load is retried on a new jobs summary or a new invocation.
+  - `InvocationGraph.test.ts`: a failed load is retried on a new jobs summary or a new invocation, and the graph replaces the error.
+  - `WorkflowInvocationState.test.ts`: the terminal-state cases now detect terminal by the cancel button being gone; hiding or always showing that button turns them red.
   - `sharedPromise.test.ts`: `rerunWhileBusy`.
 - `test_workflow_invocation_details.py::test_steps_follow_running_invocation` runs an input → 20 s `cat_data_and_sleep` workflow, opens the Steps tab, expands the step, checks it isn't `ok` yet, then waits for its header to turn `ok` with the job details still shown.
 - Manually: run a workflow with a slow step, open the invocation's Steps tab and expand that step. The header should go from queued to running to successful without leaving the tab.

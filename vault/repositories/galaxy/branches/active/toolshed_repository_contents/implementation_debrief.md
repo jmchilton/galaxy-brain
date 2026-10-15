@@ -1,51 +1,44 @@
 # toolshed_repository_contents — implementation debrief
 
-**STATUS: READY.** Recovered on 2026-10-14/15 by running the after-plan process steps the branch was missing. Fixes galaxyproject/galaxy#22598.
-- Head `8da4d6854a9` was pushed to `jmchilton/toolshed_repository_contents` as a fast-forward from `682b8a68fbf`. 10 commits were added and no history was rewritten.
-- The fork CI recorded in [index.md](index.md) covers `682b8a68fbf` only; the new head needs a fresh run.
-- Original design and implementation: [initial_implementation_debrief.md](initial_implementation_debrief.md).
+**STATUS: READY.** Retargeted to `release_26.2` on 2026-10-15. Fixes galaxyproject/galaxy#22598.
+- Head is `7fe3b228ee7` on `jmchilton/toolshed_repository_contents`, base `release_26.2`. It needs fork CI.
+- Previous debrief (recovery steps, scope decision, process links): [earlier_drafts/1/implementation_debrief.md](earlier_drafts/1/implementation_debrief.md).
+- Scope is unchanged: keep it as implemented, in one PR. The core `allow_cors` preflight fix can be split out if a reviewer asks. See [scope_evaluation.md](scope_evaluation.md).
 
-## Scope decision
+## Changes this round
 
-**Keep the scope as implemented**, as one PR: the bounded files API, the contents browser, and the 4-line core `allow_cors` preflight fix (`aea2dd7a745`).
-- In the PR description, note that the core fix can be split out if a core reviewer asks.
-- Dropping the install-count icon change is an optional trim.
-- Follow-ups stay separate. `tool_source` is first, since it 500s live today. Full queue: [scope_evaluation.md](scope_evaluation.md).
+- **Rebase:** the 26 commits rebased cleanly from `a8553cff3ca` (dev) onto `origin/release_26.2`.
+  - Force-pushed with lease from `8da4d6854a9`. The old head is kept locally as `backup/toolshed_repository_contents-pre-26.2`.
+  - `range-diff` shows every patch unchanged.
+  - Overlapping release changes don't interact with the branch: the `readme_util` sanitizing, the shed eslint flat config, and `catch {}` cleanups.
+- **`Vary: Origin`** (`6521d02fde2`, red-first):
+  - `APICorsRoute` copies the request Origin into `Access-Control-Allow-Origin`.
+  - The files routes are the first ones that are both CORS-enabled and `Cache-Control: public`. Without `Vary`, a shared cache could serve origin A's copy to origin B for up to a day.
+  - It also covers 304s, error responses and the per-route preflight. Galaxy's landing endpoints now also send the header, which is harmless.
+  - `test_shed_cors.py` asserts it for the 200 and 304 responses.
+- **Review:** [subagents/vary_origin_review.md](subagents/vary_origin_review.md) found no blockers. Took nit 1: `7fe3b228ee7` drops test comments that repeated the code comment.
 
-## What recovery changed
+## Not acted on
 
-- **Tests** ([test_challenges_debrief.md](test_challenges_debrief.md)):
-  - Dropped the manager unit tests that duplicated functional coverage, and replaced a monkeypatch with real state.
-  - Dropped and trimmed overlapping vitest cases. Vitest went from 231 to 217.
-  - Added a Playwright test for switching revision.
-- **E2E polish** ([polish_e2e_tests_debrief.md](polish_e2e_tests_debrief.md)):
-  - Shed Playwright selectors now go through the `Locators` and `PlaywrightShedBrowser` helpers.
-  - `select_revision` waits for the menu to close.
-  - Added contents and explore-menu screenshots.
-- **Codex** ([codex_review.md](codex_review.md)) found a regression, fixed in `e52392b4c12` with a red-first vitest case. `RepositoryPage` lost its revision, tools and READMEs on return from Contents. Making both watchers `immediate` fixes it, and also fixes a gap already on dev where a page mounted with a revision prop never fetched READMEs.
-- **Thermo-nuclear** ([thermo_nuclear_review.md](thermo_nuclear_review.md)):
-  - api2 caching now runs through a single `CacheableResult` path; install-info ETags are byte-identical.
-  - The files-API tests moved to `test_shed_repository_files.py`.
-  - The downloadable-revisions lookup is now one helper, `ToolShedPopulator.get_downloadable_revisions`.
-  - Added a reusable `useLatestLoad` composable for latest-wins loads.
-- **Screenshots** ([screenshot_debrief.md](screenshot_debrief.md)):
-  - All 7 captures look right.
-  - The showcase captures make the sticky masthead static, so it no longer covers the cards.
-  - Added a logged-in explore-menu test (Changelog link).
+- **`ETag` not exposed, `If-None-Match` not preflight-allowed:** deferred until a cross-origin JS consumer exists.
+  - Browser-managed revalidation already works cross-origin.
+  - Galaxy's client reaches the shed through its own server.
+  - A fix would be either a global 2-line change (`cors_preflight` and `APICorsRoute`) or an opt-in `CacheableCorsRoute`.
+- **`Vary: Origin, Origin` on Galaxy when `allowed_origin_hostnames` is set** (review nit 2). Starlette's CORSMiddleware adds the header again. It does no harm, and Starlette doesn't dedupe either.
+- **Other items still open** from the earlier debrief:
+  - Non-UTF-8 filenames are listed but return 404.
+  - `RepositoryContentsBrowser` takes 12 flat props.
+  - `managers/repositories.py` has grown.
+  - `PaginatedRepositoriesGrid` should adopt `useLatestLoad`.
 
-## Validation (local, one suite at a time)
+## Validation (local, on the rebased branch, one suite at a time)
 
-- `pytest test/unit/tool_shed`: 122 passed, 12 skipped.
-- Shed vitest: 217 passed. Typecheck clean, lint 0 errors, prettier clean.
-- Functional: `test_shed_repository_files.py` 8, `test_shed_repositories.py` 41, `test_shed_cors.py` 5, `test_frontend_repositories.py` 10, `test_component_showcase.py` 16, all passing.
-  - These were run after the commits that touched each file.
-  - After `8da4d6854a9`, only the screenshot agent's subset (`TestFrontendRepositoryContents` + explore menu) was rerun.
-
-## Left for John / follow-up
-
-- Non-UTF-8 filenames are listed but return 404.
-- CORS doesn't expose `ETag` or allow `If-None-Match`. This is shared Galaxy CORS policy.
-- `RepositoryContentsBrowser` takes 12 flat props.
-- `managers/repositories.py` has grown.
-- `PaginatedRepositoriesGrid` should adopt `useLatestLoad`.
-- `readme_util` has changed on dev since the merge base, so re-scope that follow-up against current dev.
+- `pytest test/unit/tool_shed`: 132 passed, 12 skipped.
+- Shed vitest: 217 passed. Typecheck clean, lint 0 errors.
+- Functional:
+  - `test_shed_repository_files.py` 8 passed.
+  - `test_shed_repositories.py` 41 passed.
+  - `test_frontend_repositories.py` 11 passed, after a fresh build.
+  - `test_shed_cors.py`: 5 passed, then 2 failing after the new assertions (red), then 5 passed with the fix.
+- mypy on `galaxy/webapps/galaxy/api/__init__.py` reports the same 23 errors as the baseline, none of them in that file.
+- Not run locally: `test_component_showcase.py` and Galaxy's `test_landing.py`; CI covers them.

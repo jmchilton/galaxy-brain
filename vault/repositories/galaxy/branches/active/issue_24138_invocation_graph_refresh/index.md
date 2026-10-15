@@ -12,14 +12,18 @@ Worktree: `~/projects/worktrees/galaxy/branch/issue_24138_invocation_graph_refre
 
 **[PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist](checklist_evaluation.md)**
 
-Head `ba66af56c5c` (8 commits, rebased onto `release_26.2` 2026-10-15). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
+Head `854c12654bd` (9 commits, rebased onto `release_26.2` 2026-10-15). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
 
 ## CI
 
 Fork CI 2026-10-15. Backend workflows ran on `3498376357c`; the last two commits are client-only, so those results stand.
 - Test Galaxy packages (run 38678935300), unrelated: mypy `galaxy/security/ssh_util.py:18` untyped `publickey`, outside the diff. Fixed on base by `c4a38b08eae` (#24136); cleared by a rebase.
 - Integration (run 38678935272), unrelated: Launchpad `GPGKeyTemporarilyNotFoundError` (HTTP 500), infra.
-- Client unit, client lint, toolshed, startup green on `27d72f8b62d`; its Playwright and Integration Selenium runs were cancelled by the polish force-push. Fresh run pending on `ba66af56c5c`; the new E2E has local runs only so far.
+- Client unit, client lint, toolshed, startup green on `27d72f8b62d`; its Playwright and Integration Selenium runs were cancelled by the polish force-push. Fresh run pending on `854c12654bd`; the new E2E has local runs only so far.
+
+## Decisions
+
+- 2026-10-15, John: remove the dead Overview `invocationAndJobTerminal` prop (done, `854c12654bd`); keep both the Steps component test and the E2E; keep `release_26.2` as the base ("probably"); clean up the `InvocationGraph.test.ts` mock call count (done).
 
 ## Notes
 
