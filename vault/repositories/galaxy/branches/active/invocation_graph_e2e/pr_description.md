@@ -1,23 +1,19 @@
-Toward 🎯 #3241 - browser tests for the workflow invocation Overview graph, which had none.
+Toward 🎯 #3241 - browser tests for the workflow invocation Overview graph.
 
-The invocation graph gained several interactive features in 2026, each with unit tests and none with a browser test. Tests that open an invocation land on Overview and go straight to another tab without checking the graph.
+One test per interactive feature of the graph:
 
-| Overview graph feature | Added in | Browser test before | This PR |
-| --- | --- | --- | --- |
-| Node state colours (a step with any failed job is red) | before 2026 | ✗ | `test_failed_step_is_marked` |
-| Step card title, step icon, **Prev / Next / Hide** | before 2026 | ✗ | `test_step_card_navigation` |
-| Isolate mode: other branches dim | 🔀 #22142 | ✗ | `test_isolate_selected_step_lineage` |
-| **Show Connections** toggle | 🔀 #22159 | ✗ | `test_show_connections` |
-| Read-only **Step Config** tab | 🔀 #22144 | ✗ | `test_step_config_is_read_only` |
-| Graph search | 🔀 #22476 | ✗ | `test_search_selects_step` |
+| Overview graph feature | Added in | Test |
+| --- | --- | --- |
+| Node state colours (a step with any failed job is red) | before 2026 | `test_failed_step_is_marked` |
+| Step card title, step icon, **Prev / Next / Hide** | before 2026 | `test_step_card_navigation` |
+| Isolate mode: other branches dim | 🔀 #22142 | `test_isolate_selected_step_lineage` |
+| **Show Connections** toggle | 🔀 #22159 | `test_show_connections` |
+| Read-only **Step Config** tab | 🔀 #22144 | `test_step_config_is_read_only` |
+| Graph search | 🔀 #22476 | `test_search_selects_step` |
 
 ![Isolate mode: left_cat selected, right branch dimmed](screenshots/invocation_graph_isolated_step.png)
 
-These regressions do go unnoticed. 🔀 #20334 (merged November 2025) stopped step icons from rendering in the step card and the Steps tab. An existing test opened those headers but only checked the title text, and the fix (🔀 #23778) came eleven months later. `test_step_card_navigation` checks the icon. The graph also draws the workflow editor's `WorkflowGraph.vue` / `Node.vue` read-only, so editor work can break it without touching invocation code.
-
 ***This PR adds tests and test helpers only. The client changes are `data-description` attributes and one tab class, with no behaviour change.*** All 6 tests pass under both the Selenium and Playwright backends. Under Playwright, I broke each covered feature in the client (10 mutations), and every mutation turned the matching test red.
-
-***Unit tests cover each feature in isolation. Only a browser test drives the editor's graph components with a real invocation's job states, step card and search together.***
 
 ***These tests open the invocation after its jobs finish and wait for polling to stop, so they don't depend on live updates.*** A variant that opens the invocation mid-run failed once in 6 local Selenium runs on `dev`: nodes stayed at "1 job running" after the jobs finished. The likely cause is the Overview's own poll loop, which the fix branch for 🎯 #24138 removes. That variant is parked until the fix merges forward.
 
@@ -57,7 +53,7 @@ Risks are minimal - this change doesn't lock Galaxy into particular difficult to
 
 ## Context
 
-Follows the 2026 invocation graph work (🔀 #22142, #22159, #22144, #22476), none of which added browser tests. Upcoming work on this view (🎯 #21989, #22075, #22745) will now run against these tests.
+Covers the 2026 invocation graph work (🔀 #22142, #22159, #22144, #22476). Upcoming work on this view (🎯 #21989, #22075, #22745) will run against these tests.
 
 ## Agentic Checks
 
@@ -86,7 +82,7 @@ Follows the 2026 invocation graph work (🔀 #22142, #22159, #22144, #22476), no
 
 <details><summary>10 client mutations, each turned the matching test red under Playwright; no test changes needed.</summary>
 
-- Mutations covered: Node dimming off, upstream lineage skipped, Next/Hide no-ops, step icon removed (the #20334 class of bug), Show Connections stuck off or on for every node, error state reclassified, Step Config fieldset enabled, and search click not selecting the step.
+- Mutations covered: Node dimming off, upstream lineage skipped, Next/Hide no-ops, step icon removed, Show Connections stuck off or on for every node, error state reclassified, Step Config fieldset enabled, and search click not selecting the step.
 - Not acted on: Prev/Next disabled state at the ends (already guarded in code), and `managed_history` or shared setup for the two-branch tests.
 
 </details>
@@ -108,7 +104,7 @@ It reviewed an earlier head (`73fcf359e6c`, before the thermo-nuclear simplifica
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 - [x] Which existing workflows change behavior (if any)? None. The fixture change adds only node positions.
-- [x] Who hits this in practice and what is the evidence? Galaxy developers changing the invocation view or the editor's graph components. #20334's missing icons lasted eleven months.
+- [x] Who hits this in practice and what is the evidence? Galaxy developers changing the invocation view or the editor's graph components, which the graph draws read-only.
 - [x] Were simpler or existing approaches considered? Yes. Vitest component tests already cover the pieces, but not the graph, step card and search working together against a real invocation. Folding checks into the existing tab tests would report graph failures under the wrong test.
 
 ## How to test the changes?
