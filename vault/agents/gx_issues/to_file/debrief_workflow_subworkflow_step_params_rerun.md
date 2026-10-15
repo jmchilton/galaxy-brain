@@ -55,4 +55,13 @@ The UI rerun does **not** hit the 500. `WorkflowRerun.vue` passes `requestData.i
 
 ## Reviewer
 
-pending
+One fresh subagent, one round. Verdict: polished, no pushback. **Exception demonstrated by direct call** (no server): scratch script, spike `.venv` python `-I` with dev `lib` first on `sys.path` (traceback confirms dev code); stand-in steps → dev `_normalize_step_parameters` on `{"1": {"1|num_lines": 2}}` stores `{"101": {"4321": {...}}}`; export built as `serialize_workflow_invocation_to_request` does → `{"1": {"4321": {...}}}`; posting back raises `ValueError: not enough values to unpack (expected 2, got 1)` at run_request.py:188. 500 from code read: FastAPI route, no try/except in between, `add_exception_handler` (api.py L333-345) handles only `MessageException` + `RequestValidationError`, `parameters` typed `dict[str, dict[str, Any]]` so nested body validates. Also verified `get_runtime_inputs` keys (modules.py L1024), UI rerun only passes inputs + `use_cached_job` (`WorkflowRerun.vue` sole client consumer), `except TypeError` claim, #18985/#18981/#20032, fork commits `f4b9540`/`1ad053b` (latter has 400 mapping).
+
+Edits in place:
+- Opener: "fails with a 500" → "raises an unhandled `ValueError` (a 500)".
+- Repro details: "read from code, not captured" note → direct-call explanation + minimal output/traceback.
+- Spike test link pinned to `1ad053b` L5686-L5701; notes the test stops before posting back.
+- `ValueError` not a `MessageException` bullet now cites handler registration + body typing.
+- Context branch name backticked.
+
+Left over: no live-server 500 captured (one API test run: spike test minus first assertion); `param_map.get(step.order_index)` latent bug + Sentry/`log.error` note debrief-only.

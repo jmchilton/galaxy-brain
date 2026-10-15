@@ -80,4 +80,15 @@ No duplicate. Search was rate-limited: GitHub's search API was exhausted by para
 
 ## Reviewer
 
-pending
+One fresh subagent, one round. Verdict: polished, no pushback. Cites confirmed (#20032 merged, fixes #11340; #18696 open; #23776 merged, `<script setup>` conversion). **Repeats question:** writer right — `visit_input_values` (`tools/parameters/__init__.py` L244-256) only visits existing repeat entries; original request computed state via the same `compute_runtime_state(step, step_args)` (`populate_module_and_state`, run.py L143); full form renders with `sustain-repeats`/`sustain-conditionals`. Neither path adds instances. Reviewer further found the draft overstated client-merge cost: a pre-render merge using the client's existing `visitInputs` (Form/utilities.js L27-67, already used by `WorkflowRunModel`) handles a conditional case switch in one pass (`populate_model` emits every case's inputs); the "second pass" only applies to a post-render `replaceParams` route. Real tradeoff: server = `check_param` fidelity + tool model (dependent options) built from recorded values; client = no new API param, one data source, simpler `${name}` guard (`wp_linked`).
+
+Edits in place:
+- Forced-full-form bullet matches `model.js`: unconnected tool-step input that is a required dataset or set "at run time".
+- Subworkflow inputs overlaid directly on input models (not "seeded the same way").
+- "Why seed on the server": `check_param` fidelity + recorded-value tool model first; case switch secondary, API-only.
+- Alternatives: one-pass `visitInputs` merge described; "rebuilds conditional logic" dropped; fair tradeoff, reviewer question kept.
+- Stored-runtime-state alternative: dropped "decoding is new code" (`decode_runtime_state` exists); now a real option that survives import, with actual downsides.
+
+Other claims checked correct: loss table; `FormData` auto-selects first dataset for required single input (L189-195); "Expanded workflow form" button; export contents; `${name}` guard matches `_untemplated_step_args`.
+
+Left over: "dependent options from recorded vs saved values" is code-read only (client refresh may recompute); `on_complete` not in export, not raised; spike lacks the proposed API tests for conditional case switch + standalone `${name}` param. Coordinator checked post-review file: reviewer edits present and coherent.

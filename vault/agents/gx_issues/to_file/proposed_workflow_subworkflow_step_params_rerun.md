@@ -1,6 +1,6 @@
 # Invocation request export can't be posted back when a subworkflow step had runtime parameters
 
-Posting the output of `GET /api/invocations/{id}/request` back to the invoke API fails with a 500 when the original run set a parameter inside a subworkflow.
+Posting the output of `GET /api/invocations/{id}/request` back to the invoke API raises an unhandled `ValueError` (a 500) when the original run set a parameter inside a subworkflow.
 
 The export and the invoke API disagree on the shape of a subworkflow step's parameters. Here the original run set `num_lines` on the tool at index 1 inside the subworkflow at index 1:
 
@@ -24,10 +24,21 @@ POST /api/workflows/{workflow_id}/invocations
 GET  /api/invocations/{invocation_id}/request
   parameters: {"1": {"<inner step id>": {"num_lines": 2}}}                 ← nested by step id
 POST /api/workflows/{workflow_id}/invocations   (body = the export)
-  → 500
+  → ValueError → 500
 ```
 
-An API test that asserts the export equals `{"1": {"1|num_lines": 2}}` ([`test_workflow_request_subworkflow_step_parameters_rerun`](https://github.com/jmchilton/galaxy/blob/workflow_rerun_step_parameters/lib/galaxy_test/api/test_workflows.py) on the branch below) fails on dev with the nested-by-id shape above. The 500 on post-back follows from the call path below; it was read from the code, not captured from a running server.
+An API test that asserts the export equals `{"1": {"1|num_lines": 2}}` ([`test_workflow_request_subworkflow_step_parameters_rerun`](https://github.com/jmchilton/galaxy/blob/1ad053b1fb3d297f5a0819943b8e1a80cf6c864a/lib/galaxy_test/api/test_workflows.py#L5686-L5701) on the branch below) fails on dev with the nested-by-id shape above, so it stops before posting back.
+
+The post-back failure below comes from calling dev's `_normalize_step_parameters` directly, not from a running server. It uses stand-in step objects (outer subworkflow step id 101 at index 1, inner tool step id 4321 at index 1), first normalizing the run-form shape and then posting back the export built from it.
+
+```text
+normalized/stored:   {"101": {"4321": {"num_lines": 2}}}
+exported parameters: {"1": {"4321": {"num_lines": 2}}}
+Traceback (most recent call last):
+  File "lib/galaxy/workflow/run_request.py", line 188, in _normalize_step_parameters
+    step_index, param_name = key.split("|", 1)
+ValueError: not enough values to unpack (expected 2, got 1)
+```
 
 </details>
 
@@ -62,7 +73,7 @@ POST /api/workflows/{workflow_id}/invocations
 
 - Links: [`_normalize_step_parameters`](https://github.com/galaxyproject/galaxy/blob/c63ffc2ccae4875976677b468dce3ac3e1ba74d8/lib/galaxy/workflow/run_request.py#L167-L203), [step parameter persistence](https://github.com/galaxyproject/galaxy/blob/c63ffc2ccae4875976677b468dce3ac3e1ba74d8/lib/galaxy/workflow/run_request.py#L635-L640), [`serialize_workflow_invocation_to_request`](https://github.com/galaxyproject/galaxy/blob/c63ffc2ccae4875976677b468dce3ac3e1ba74d8/lib/galaxy/webapps/galaxy/services/invocations.py#L370-L377).
 - The `"<index>|name"` form is the one the server builds the run form from: [`SubWorkflowModule.get_runtime_inputs`](https://github.com/galaxyproject/galaxy/blob/c63ffc2ccae4875976677b468dce3ac3e1ba74d8/lib/galaxy/workflow/modules.py#L1024) names subworkflow runtime inputs `f"{step.order_index}|{prefixed_name}"`, and [`test_run_subworkflow_runtime_parameters`](https://github.com/galaxyproject/galaxy/blob/c63ffc2ccae4875976677b468dce3ac3e1ba74d8/lib/galaxy_test/api/test_workflows.py#L4785) invokes with it.
-- `ValueError` is not a `MessageException`, so nothing maps it to a 4xx.
+- Nothing between the route and `_normalize_step_parameters` catches it, and the app registers [exception handlers](https://github.com/galaxyproject/galaxy/blob/c63ffc2ccae4875976677b468dce3ac3e1ba74d8/lib/galaxy/webapps/base/api.py#L333-L345) only for `MessageException` and request validation errors, so the `ValueError` becomes a 500. The request body passes validation, since `parameters` is typed `dict[str, dict[str, Any]]`.
 - Existing tests round-trip only top-level step parameters ([`test_run_replace_params_over_default`](https://github.com/galaxyproject/galaxy/blob/c63ffc2ccae4875976677b468dce3ac3e1ba74d8/lib/galaxy_test/api/test_workflows.py#L10396) exports and reruns `num_lines` on a top-level tool step). None uses a subworkflow.
 - Small tidy-up in the same block: `int(parameter.name)` is wrapped in `except TypeError`, which misses the `ValueError` a non-numeric name would raise. Galaxy always writes `str(step.id)` there, so this is not reachable today.
 
@@ -70,7 +81,7 @@ POST /api/workflows/{workflow_id}/invocations
 
 ## Context
 
-Bug discovered while working on 🌿 [workflow_rerun_step_parameters](https://github.com/jmchilton/galaxy/tree/workflow_rerun_step_parameters), a spike that carries run-time step parameters through workflow rerun. A follow-up to 🔀 #18985, which added the request export along with the subworkflow TODO. Related to 🎯 #18981, which asked for workflow tests to rerun from the recovered request; that check would have caught this. Related to 🔀 #20032, whose rerun page loads this export. Companion issues cover the rerun simple form dropping step parameters, prefilling the full run form from an invocation, and the same export failing for imported invocations; that last one can share the re-keying helpers proposed here.
+Bug discovered while working on 🌿 [`workflow_rerun_step_parameters`](https://github.com/jmchilton/galaxy/tree/workflow_rerun_step_parameters), a spike that carries run-time step parameters through workflow rerun. A follow-up to 🔀 #18985, which added the request export along with the subworkflow TODO. Related to 🎯 #18981, which asked for workflow tests to rerun from the recovered request; that check would have caught this. Related to 🔀 #20032, whose rerun page loads this export. Companion issues cover the rerun simple form dropping step parameters, prefilling the full run form from an invocation, and the same export failing for imported invocations; that last one can share the re-keying helpers proposed here.
 
 ## Proposed Approach
 

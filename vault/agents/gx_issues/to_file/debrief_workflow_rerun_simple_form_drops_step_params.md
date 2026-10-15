@@ -40,4 +40,17 @@ Proposed, not rejected. Premise holds for tool step params + object stores. **Dr
 
 ## Reviewer
 
-pending
+One fresh subagent, one round. Verdict: polished, no pushback. **`replacement_dict` bug independently confirmed** on dev `c63ffc2ccae`: `WorkflowRunFormSimple.onExecute` (L474) sends `replacement_dict`, full form sends `replacement_params` (WorkflowRunForm.vue L312); `InvokeWorkflowPayload` has only `replacement_params`, base `Model` config has no `extra=forbid`/alias → unknown keys dropped; `services/workflows.py` L330 `model_dump(exclude_unset=True)` → `run_request.py` L533 `payload.get("replacement_params")`; pydantic check against dev `lib/` shows `replacement_dict` gone after dump; no mapping anywhere in `lib/galaxy`. Introduced client-side in `4626f714bb2` (#9151, 2020-08-14), server never read it → simplified-form `${name}` values never applied. Selenium replacement-param tests call `workflow_run_ensure_expanded()` → path untested. Belongs in its own issue (not drafted).
+
+Also confirmed: rerun hard-codes `prefer-simple-form` ignoring `simplified_workflow_run_ui` (router/Home.vue honor it); expanded form records every unconnected param (FormDisplay L155 emits on setup); must land with/after full-form prefill (`WorkflowRunForm` gets nothing from export). Cites/permalinks checked.
+
+Edits in place:
+- Workflow-params note → footnote ¹ under table, labelled separate bug.
+- Code walk: "no field or alias, ignores unknown keys" + `model_dump` link.
+- Context: #22601 wording fixed (falsy *parameter input* values, not `${}` params); `replacement_dict` bug listed as tracked separately.
+- Proposed Approach: dependency next to forced expanded form; "hidden loss → empty form" corrected to "saved tool values, no inputs selected, loses existing input prefill".
+- Object stores: now out of scope (sibling excludes them), not "tracked with full-form prefill".
+- "Warn only" alternative: "expanded form that starts from saved values".
+- Simple-form prefill detail points to footnote ¹.
+
+Left over: file the `replacement_dict` bug separately (fix = key rename + simplified-form test) — John; example `parameters` shape inferred from code, not captured live.
