@@ -84,7 +84,6 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 - [`cwl_fixes_5`](../../repositories/galaxy/branches/active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
 - [`licenses`](../../repositories/galaxy/branches/active/licenses/index.md) — Adds `<license_agreement>` tool requirements that users must accept before running the tool. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
 - [`ts_readme_render_followups`](../../repositories/galaxy/branches/active/ts_readme_render_followups/index.md) — Shows old-revision READMEs and images, loads revision permalinks, and removes dead README code. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ts_readme_render_followups?expand=1).
-- [`toolshed_repository_contents`](../../repositories/galaxy/branches/active/toolshed_repository_contents/index.md) — Adds a bounded repository-files API and Tool Shed contents browser (#22598); rebased onto `release_26.2` + `Vary: Origin` fix, new head needs CI. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:toolshed_repository_contents?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
@@ -105,6 +104,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`toolshed_repository_contents`](../../repositories/galaxy/branches/active/toolshed_repository_contents/index.md) — Adds a bounded repository-files API and Tool Shed contents browser (#22598). Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:toolshed_repository_contents?expand=1).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:container_tool_env?expand=1).
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_parameter_expected_failure?expand=1).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_unknown_scheduler?expand=1).
