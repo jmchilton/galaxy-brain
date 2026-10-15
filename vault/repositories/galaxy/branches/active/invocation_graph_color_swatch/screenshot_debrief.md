@@ -1,25 +1,39 @@
 # Screenshot debrief
 
-**BLOCKER: port contention.** No screenshots captured. Ports 8080 and 5173 were held for the whole window by another session's Galaxy and Vite, from the `invocation_graph_e2e` worktree (gunicorn PIDs 61181/61286, vite PID 58969). Per the one-Galaxy-at-a-time rule I didn't kill them and didn't start a server on other ports. I waited about 35 minutes and the ports never freed. The fix itself is fine; nothing is wrong with the implementation. Rerun this step once the machine is free.
+**Screenshots successfully obtained.** I have a before/after pair of the invocation Overview graph for a workflow with a `color` parameter input. On the branch, the input node shows `#e31a1c:` followed by a red color swatch. On origin/dev, it shows the bold text `#e31a1c`. The live server's editor payload has the declared type the fix relies on.
 
-## Relevance
+No E2E test was added, and no existing test was modified. No test runs a workflow with a color parameter (see test_challenges_debrief.md), so I drove the UI by hand with Playwright MCP.
 
-The screenshots are relevant: the change is visible on the invocation Overview graph. The branch has no E2E screenshot steps, and no existing Selenium or Playwright test runs a workflow with a `color` parameter (see test_challenges_debrief.md), so there is no test to extend. The plan was to drive the UI by hand. I added no E2E test.
+## Screenshots (`screenshots/`, gitignored)
 
-## Done so far
+| File | What |
+|---|---|
+| `after_invocation_overview.png` | Branch: the full Overview tab. The "1: Highlight color" node shows `#e31a1c:` and a red swatch. It connects to "2: Echo color" (`gx_color`, 1 job successful). |
+| `after_graph_closeup.png` | Branch: close-up of the two graph nodes. |
+| `before_invocation_overview.png` | origin/dev composable: the same invocation. The node shows the bold hex text `#e31a1c` and no swatch. |
+| `before_graph_closeup.png` | origin/dev composable: close-up of the same nodes. |
 
-- Bootstrapped the worktree with `jmchilton:galaxy-bootstrap`: `.venv`, Playwright, client deps, `config/galaxy.yml`. The worktree is still clean (`git status --short` is empty).
-- Confirmed `gx_color` loads under `GALAXY_RUN_WITH_TEST_TOOLS=1`, through `<tool_dir dir="parameters/"/>` in `sample_tool_conf.xml`.
+The DOM confirms both states: there is 1 `input[type=color]` on the branch and 0 with the origin/dev composable. The swatch isn't clipped by `.truncate` at the default 75% graph zoom.
 
-## Recipe for the retry
+## Real-server payload check
 
-1. Check `lsof -i :8080 -i :5173` again right before starting.
-2. Start Galaxy: `GALAXY_CONFIG_OVERRIDE_BOOTSTRAP_ADMIN_API_KEY=colorswatchbootkey123 NO_PROXY=* GALAXY_SKIP_CLIENT_BUILD=1 GALAXY_RUN_WITH_TEST_TOOLS=1 sh run.sh --skip-wheels`.
-3. Start Vite from this worktree: `npm_config_use_node_version=22.20.0 make client-dev-server`.
-4. Set up the data: create the user `jmchilton@gmail.com` with the bootstrap key, upload the workflow below, and invoke it with a vivid color (`#e31a1c`) for step 0.
-5. "After": open `http://localhost:5173/workflows/invocations/<id>` on the Overview tab. Screenshot the parameter node, at element level or zoomed in, because `.truncate` can clip the swatch. If it still shows bold hex, inspect `steps[0].outputs[0].type` in the full-workflow payload. The unit tests mocked that value; nothing has yet checked it against a real server.
-6. "Before": `git show origin/dev:client/src/composables/useInvocationGraph.ts > client/src/composables/useInvocationGraph.ts`, wait for HMR to reload, take the screenshot, then `git restore` the file. Don't use `git stash` or `git checkout origin/dev -- path`.
-7. Save the images to `screenshots/`, stop only the servers you started, and confirm the worktree is clean.
+`GET /api/workflows/{id}/download?style=editor` is the request `getFullWorkflowCached` → `getWorkflowFull` makes. The response has these steps:
+
+- step 0 `parameter_input` "Highlight color": `outputs = [{"name": "output", "type": "color", "parameter": true, "optional": false, "multiple": false, "label": "Highlight color"}]`
+- step 1 `tool` "Echo color": `outputs[0].type = "data"`
+
+So `steps[0].outputs[0].type === "color"` holds on a real server, not only in the mocked unit tests. The invocation's `input_step_parameters` were `{"Highlight color": {"parameter_value": "#e31a1c", ...}}`.
+
+## How
+
+- Started Galaxy from this worktree: `GALAXY_RUN_WITH_TEST_TOOLS=1 GALAXY_SKIP_CLIENT_BUILD=1`, with a bootstrap admin key override for user setup. Started Vite with `npm_config_use_node_version=22.20.0 make client-dev-server`. Ports 8080 and 5173 were free when I started.
+- Fixture: a native `.ga` with a color `parameter_input` connected to the `gx_color` test tool. I uploaded it and invoked it over the API with `#e31a1c`, then logged in as `jmchilton@gmail.com` and opened `/workflows/invocations/<id>`.
+- "Before": `git show origin/dev:client/src/composables/useInvocationGraph.ts > …`, let HMR reload, captured, then `git checkout -- …`. origin/dev had moved to `e06e349a91e` by then, but neither `useInvocationGraph.ts` nor `NodeInvocationText.vue` changed since the base `c63ffc2ccae`. The "before" view is therefore exactly the pre-fix code.
+- Console: only Vue compat deprecation warnings from `BFormInput` (bootstrap-vue compat, pre-existing) and unrelated 403/404s (`/api/unprivileged_tools`, `base.css` in dev mode). There were no errors from the changed code.
+
+## Cleanup
+
+I stopped the Galaxy and Vite I started; both ports are free. The worktree is clean (`git status` empty) and nothing was committed. Earlier I bootstrapped `.venv` and `config/galaxy.yml`; git doesn't show them as changes.
 
 <details><summary>Demo workflow (native .ga)</summary>
 
@@ -40,6 +54,6 @@ The screenshots are relevant: the change is visible on the invocation Overview g
 }
 ```
 
-Invoke with `POST /api/workflows/{id}/invocations` and `{"history_id": ..., "inputs": {"0": "#e31a1c"}, "inputs_by": "step_index"}`. If the tool step causes trouble, drop step 1; the parameter node alone is enough to show the swatch.
+Invoke with `POST /api/workflows/{id}/invocations` and `{"history_id": ..., "inputs": {"0": "#e31a1c"}, "inputs_by": "step_index"}`.
 
 </details>

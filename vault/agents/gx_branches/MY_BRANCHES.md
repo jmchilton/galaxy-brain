@@ -67,6 +67,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`invocation_graph_color_swatch`](../../repositories/galaxy/branches/active/invocation_graph_color_swatch/index.md) — Shows the color swatch for color parameter inputs in the invocation graph. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_color_swatch?expand=1).
 - [`invocation_graph_e2e`](../../repositories/galaxy/branches/active/invocation_graph_e2e/index.md) — Browser tests for the invocation Overview graph (states, step card, isolate, Show Connections, Step Config, search); 6 pass on both backends. Base `dev`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_e2e?expand=1).
 - [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24138_invocation_graph_refresh?expand=1).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown scheduler IDs before invocation setup; independent #20900 extraction, reviewed with 3 API cases passing.
@@ -122,7 +123,6 @@ None yet.
 
 ## Galaxy branches — still deciding on (`branches_need_decision`)
 
-- [`invocation_graph_color_swatch`](../../repositories/galaxy/branches/active/invocation_graph_color_swatch/index.md) — Shows the color swatch for color parameter inputs in the invocation graph. Code/reviews done; blocked only on screenshots (ports held by another session) — rerun screenshot step, then treat as implemented. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_color_swatch?expand=1).
 - [`nightly_release_targets_alternative`](../../repositories/galaxy/branches/active/nightly_release_targets_alternative/index.md) — Cross-release nightly alternative John rejected as too verbose; retained for Marius feedback. Reference only; do not PR.
 - [`vitest_readability_with_churn`](../../repositories/galaxy/branches/active/vitest_readability_with_churn/index.md) — Preserves the readability history before score-2 pruning. Reference only; do not PR.
 - [`vitest_story_a11y`](../../repositories/galaxy/branches/active/vitest_story_a11y/index.md) — Storybook axe checks and viewport review tools; reference-only prototype stacked on `vitest_story_play`. Do not PR.
