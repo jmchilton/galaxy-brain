@@ -1,0 +1,7 @@
+Verified the preparation branch's state-driven invocation screenshot wait with an independent passing browser baseline and inspected screenshot.
+
+Followed `GX_PROCESS_POLISH_E2E_TESTS.md` and the E2E writing and smart component guidance. This preparation branch modifies only the existing `test_job_details` screenshot timing: the screenshot now follows `invocations.step_job_information(...).wait_for_visible()` instead of a fixed UX-render sleep. UI interactions already use `navigation.yml` smart targets, and no additional shared abstraction or selector is needed. No assertions were removed or weakened.
+
+Ran `TestWorkflowInvocationDetails::test_job_details` from the preparation worktree at commit `60dc8ddf5987fdceb5a9de8f13af17579072ec58`, with explicit `PYTHONPATH=lib`, the shared Python 3.12 environment, Playwright headless, and timeout multiplier 2. The preparation branch's own Vite server served port 5174 and proxied the unchanged local Galaxy backend on port 8080. Result: **1 passed in 71.85s**. Log: `/tmp/issue24173-prep-baseline-e2e.log`.
+
+The test exercises invocation opening, the Steps tab, successful job information, and output collection expansion. Its independently generated `screenshots/invocation_step_jobs.png` was opened and visually inspected. The expected successful job information is legible. The preparation worktree remains clean; no further source changes were required.

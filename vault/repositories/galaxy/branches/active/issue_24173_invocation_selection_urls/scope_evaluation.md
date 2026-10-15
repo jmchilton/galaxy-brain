@@ -1,67 +1,49 @@
-Keep the scope as implemented for issue #24173; no scope change or user scope decision is recommended. The full step, mapped-job, and output URL contract is the requested feature, and the supporting graph, tab, route-lifecycle, and order_index work is necessary to make that contract usable. Browser validation, E2E polish, screenshots, and final consolidated checks remain handoff gates owned by the coordinating agent; their unfinished status does not justify reducing the feature or expanding its design.
+Retain the user-approved prep/feature split and the complete issue #24173 selection contract; no further scope change or user decision is recommended. The independent prep is now five commits ending at `60dc8ddf598`, while this feature is 1,442 changed lines across 24 files above prep and ends at `a0482b43e0c`. GenericItem's new expansion API remains together with its first production consumers, and the final combined tree is identical to pre-extraction head `43167c36a4c`.
 
-## As implemented: complete invocation selection URLs — recommended
+## As implemented: complete selection feature above independent prep — recommended
 
-The routed invocation owns selection query parsing and serialization for the three step selectors, named card tabs, mapped-job dialogs, and step/workflow outputs; Overview, Steps, Share, and subworkflow error jumps participate. Embedded views remain local, query changes preserve the invocation component, and report query behavior, imported-step lookup, graph measurements, and dynamic tab lifecycle are handled within the affected boundaries.
+The feature owns routed step index/number/label selectors, named card tabs, mapped-job dialogs and pagination, step/workflow output expansion, readable sharing, and subworkflow error targets. Scoped selection, complete cached workflow labels, route lifetime compatibility, and focused unit/browser coverage support that requested behavior; independent lookup/readiness fixes and baseline tests are delivered by prep.
 
 | Pros | Cons |
 | --- | --- |
-| • Meets the issue's explicit examples and consumer changes.<br>• Shared selection ownership keeps related interactions consistent.<br>• Includes compatibility safeguards required by persistent component lifetime. | • Touches several existing presentation components.<br>• Local GTabs lifecycle guards require focused regression coverage.<br>• Full browser and screenshot gates must finish before READY. |
+| • Preserves the full issue contract and the user's approved split.<br>• Keeps new APIs beside their consumers.<br>• Exact final-tree equality preserves earlier combined-feature acceptance evidence. | • Feature still spans several presentation boundaries.<br>• Depends on prep integration.<br>• Prep's fresh validation and final handoff records must complete. |
 
-<details><summary>Review basis and boundary</summary>
+## Reduce feature to step selectors and defer jobs/outputs
 
-Read the live issue body and comments through GitHub, branch plan and initial debrief, both implementation and normal-review records, test challenge debrief, strict code quality review, and the current implementation surface against base 88127f42979, including new untracked files. This is a scope assessment, not another correctness review or test run. The phase reviews found graph measurement readiness, conditional tab registration order, and teardown-driven model updates; the challenge strengthened integration coverage and adjusted lifecycle handling; the strict review narrowed query reuse to the consolidated route through route metadata. These are corrections needed to deliver the requested scope rather than separate feature proposals. No reviewer proposed an unresolved expansion or contraction.
+Deliver only step selection, tab naming, and sharing, leaving mapped jobs and outputs for a later change. This reduces one review surface at the cost of removing central examples from the requested issue.
 
-The issue explicitly leaves the standalone job page's invocation row bare because resolving a job's step is a follow-up. Retaining that behavior is therefore consistent with scope. The route-only provider, shared graph scrolling boundary, optional GenericItem expansion control, and targeted order_index lookups are supporting changes, not a broad redesign. Report notebook switching and legacy report remounting are compatibility requirements of changing route lifetime.
+| Pros | Cons |
+| --- | --- |
+| • Smaller immediate feature patch. | • Drops failed-job and result-sharing use cases.<br>• Splits an already implemented coherent contract.<br>• Would require a new user decision and revalidation. |
 
-At review time, the test challenge records 44 focused client tests passing and the strict review records one additional real-layout regression passing; the coordinator reports a clean full typecheck before that layout test. E2E setup/polish and screenshots are still in progress. Those results must be recorded by their owners; this document does not claim that browser acceptance has passed.
+## Recombine prep and feature
+
+Return the independent fixes and tests to the original combined branch. The combined behavior would remain identical, but this reverses the user's explicit organizational choice.
+
+| Pros | Cons |
+| --- | --- |
+| • Removes a stacked integration dependency. | • Violates the requested split.<br>• Restores a larger review diff.<br>• Provides no additional user capability. |
+
+## Expand to shared semantic tabs or job-only invocation links
+
+Redesign GTabs around semantic identities, or infer an invocation step from a standalone job id. Prior review considered the shared tab direction and accepted the local compatibility boundary; the issue explicitly leaves job-only invocation linking for follow-up.
+
+| Pros | Cons |
+| --- | --- |
+| • Could simplify other conditional-tab consumers.<br>• Could improve additional entry links. | • Broadens API, migration, and regression obligations.<br>• Not required to satisfy the current contract.<br>• No unresolved review finding requires expansion. |
+
+## Move unused interfaces into prep
+
+Extract GenericItem controlled expansion or selection/tab state before its production callers. The user rejected this boundary, and the completed split deliberately keeps those changes feature-side.
+
+| Pros | Cons |
+| --- | --- |
+| • Reduces the numerical feature diff. | • Leaves new interfaces without consumers.<br>• Violates the approved split.<br>• Adds integration overhead without simplifying ownership. |
+
+<details><summary>Assessment basis and evidence applicability</summary>
+
+Read the shared scope procedure, archived prior scope review, extraction/initial debriefs, prior implementation/review findings, and both actual commit ranges. This is a scope review rather than repeated correctness work or another test run. Prior findings about geometry, tab registration/disposal, route reuse, and label metadata were implementation corrections within the original contract, and no unresolved expansion or contraction was proposed. The new user direction is the already-approved extraction, not a reduction of delivered capability.
+
+Verified original and rebased feature heads both resolve to tree `83035b1de9443da8e780488afb0d933aaee65729`; a direct diff is empty. Existing combined-feature tests/screenshots therefore remain applicable to identical content. Prep is +158/-46 across 12 files; the dependent feature is +1398/-44 across 24 files. Independent prep validation, challenge, browser evidence, and final tracking handoff remain responsibilities of their owners and are not claimed complete here.
 
 </details>
-
-## Contract only for steps, with jobs and outputs deferred
-
-Deliver the three step selectors, Overview/Steps positioning, named card tabs, and sharing first, leaving mapped-job dialogs and output expansion for a later change. This reduces the initial review surface but removes several central acceptance examples.
-
-| Pros | Cons |
-| --- | --- |
-| • Smaller feature and browser matrix per delivery.<br>• Fewer job/output component changes initially. | • Fails the requested single failed-job and result-link use cases.<br>• Splits an already implemented shared contract.<br>• Requires rework and an explicit user decision rather than completing current validation. |
-
-## Same feature split into multiple deliveries
-
-Keep the complete design but ship the route/step contract and then job/output integration as separate dependent changes. The implementation phases already provide conceptual review boundaries; turning them into separate deliverables would change release sequencing rather than the final capability.
-
-| Pros | Cons |
-| --- | --- |
-| • Smaller individual reviews.<br>• Can isolate deployment risk if requested by maintainers. | • Temporary partial support for the documented URL contract.<br>• Additional branch, integration, and validation overhead.<br>• No review finding currently requires this split. |
-
-## Expand to a shared semantic GTabs redesign
-
-Replace the shared UI library's position-based tab identity with semantic identities, then simplify invocation card integration around that new contract. The strict review explicitly considered this direction and accepted the local compatibility guards instead.
-
-| Pros | Cons |
-| --- | --- |
-| • Could remove the invocation's registration-order adapter.<br>• May benefit other conditional-tab consumers. | • Broadens risk and migration work across unrelated callers.<br>• Requires independent library design and regression coverage.<br>• Not required for issue #24173; optional follow-up only. |
-
-## Expand job links to resolve a step from a job alone
-
-Make a standalone job page's invocation link select its job automatically, or accept invocation URLs containing only a job id and resolve the owning step. The issue explicitly identifies this as a follow-up because that consumer lacks a step selector.
-
-| Pros | Cons |
-| --- | --- |
-| • Improves another entry point into an invocation.<br>• Avoids requiring callers to know the step. | • Adds lookup, loading, and failure behavior beyond the proposed contract.<br>• Potential API/data dependency absent from the existing consumer.<br>• Optional follow-up; not a reason to hold this feature. |
-
-## Replace the query contract with one step key or nested paths
-
-Use one overloaded step value or introduce deeper routes for step/job/output selection. These are architecture alternatives discussed in the issue rather than useful reductions to the current implementation.
-
-| Pros | Cons |
-| --- | --- |
-| • One key or path may appear shorter in simple links.<br>• Nested routes could encode some hierarchy. | • One key loses explicit index/number/label meaning or makes numeric labels ambiguous.<br>• Paths compete with existing invocation tab routing.<br>• Requires redesign without solving an unresolved implementation constraint. |
-
-## Keep only standalone job and dataset links
-
-Retain the existing standalone object views and omit in-context selection URLs. This is the lowest implementation effort alternative, but it does not address the issue's purpose.
-
-| Pros | Cons |
-| --- | --- |
-| • Uses existing navigation with minimal feature work. | • Loses run, step, and mapped-job context.<br>• Cannot share the requested graph/card/output state.<br>• Does not satisfy issue #24173. |

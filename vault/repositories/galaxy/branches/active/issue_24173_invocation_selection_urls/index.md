@@ -3,10 +3,12 @@
 - Issue: https://github.com/galaxyproject/galaxy/issues/24173
 - Branch: `issue_24173_invocation_selection_urls`
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24173_invocation_selection_urls`
-- Base: `88127f42979` (`origin/dev`; corrected ghwt's initial stale checkout base before implementation)
-- Status: READY — reviewed, pushed, local checks green; CI pending
-- Head: `43167c36a4c`
+- Base: `issue_24173_invocation_selection_prep` at `60dc8ddf598`; prep is based on `dev` at `88127f42979`
+- Status: READY — stacked on prep, reviewed and pushed; CI pending
+- Head: `a0482b43e0c` (pushed)
 - [Implementation handoff](implementation_debrief.md)
+- [Prep extraction and user decision](extraction_debrief.md)
+- [Prep branch](../issue_24173_invocation_selection_prep/index.md)
 - [Plan](plan.md)
 - [Initial implementation debrief](initial_implementation_debrief.md)
 - [Phase 1 review](subagents/phase1_review.md)
@@ -20,4 +22,4 @@
 - [Final browser-test review](subagents/final_e2e_review.md)
 - [Screenshots](screenshot_debrief.md)
 
-Shareable step, job and output selections are implemented. Both implementation phases and normal reviews, strict quality review, fresh test challenge, scope evaluation, E2E polish and screenshot review are complete. The final affected client run passes 83 tests across 11 suites; both real-browser checks pass. Full TypeScript checking, production client build and pre-commit checks pass. The implementation and browser commits are pushed to the fork, and the branch is queued under `branches_implemented_needs_ci`. No PR requested or opened.
+The user-approved split is complete. Prep contains five independent commits (+158/-46 lines, 12 files), and the feature above it is +1398/-44 across 24 files. GenericItem stays with its feature consumers. The rebased feature has exactly the previously validated Git tree; prior 83-test/type/build/two-browser/seven-screenshot evidence remains valid. Prep independently passes 41 tests, typecheck, build, hooks and browser validation. Both branches are pushed and queued with CI pending. No PR opened.

@@ -1,34 +1,23 @@
-# Invocation selection URLs — implementation handoff
+# Stacked invocation selection URLs — implementation handoff
 
-STATUS: READY — reviewed implementation ready for human handoff; CI pending.
+STATUS: READY — extraction reviewed and both branches pushed; CI pending.
 
-Issue [#24173](https://github.com/galaxyproject/galaxy/issues/24173) is implemented on `issue_24173_invocation_selection_urls`, based on `88127f42979` (`dev`). Implementation commit `585d65817ed` and browser-test commit `43167c36a4c` are pushed to `jmchilton/galaxy`. Final branch head: `43167c36a4c`. No PR was opened.
+The user requested a separate prep branch for independently useful fixes and baseline tests, with new APIs kept beside their consumers. [Prep](../issue_24173_invocation_selection_prep/index.md) is pushed at `60dc8ddf598`, based on `dev` at `88127f42979`. This feature is rebased onto prep and pushed at **`a0482b43e0c`**. Review its feature-only range as `issue_24173_invocation_selection_prep...issue_24173_invocation_selection_urls`.
 
-## Result and choices
+| Range | Files | Additions | Deletions |
+| --- | ---: | ---: | ---: |
+| Independent prep | 12 | 158 | 46 |
+| Feature above prep | 24 | 1398 | 44 |
+| Original combined change | 31 | 1556 | 90 |
 
-The invocation Overview and Steps views accept zero-based `step_index`, one-based `step_number`, or an unambiguous `step_label`, with that precedence. Selection writes a unique readable label or falls back to a step number. Named card tabs (`jobs`, `outputs`, `config`), mapped-job dialogs, step outputs, and workflow outputs restore from URLs and update the URL as the user navigates. Share copies the current selection URL. Subworkflow error links preserve actual step indexes, including zero.
+The extraction removes 204 changed lines (about 12%) and seven files from the feature's review surface. Prep contains five atomic commits for order-index lookup fixes, measured graph centering, real-router notebook baseline coverage, metrics test isolation, and the existing screenshot wait. GenericItem's controlled-expansion API remains with its feature callers because existing callers do not consume that new API. URL selection, named tabs, jobs, outputs, sharing, route lifetime and mapped-job acceptance coverage remain together here.
 
-A route-only injected selection context owns synchronization; embedded invocation views retain local behavior. Query replacements keep the consolidated invocation component mounted. An explicit route metadata opt-in protects legacy query-driven report routes. Report notebook ids remain independent of selection fields.
+## Preservation and validation
 
-Complete labels come from the workflow store's deduplicated editor-style workflow download, shared with graph/list loading. The summary API omits labels and incremental invocation records cannot define all unscheduled steps, so the final tests deliberately model those boundaries. Invocation records are matched by `order_index`, not array position. Graph centering waits for positive viewport and node dimensions. Step cards adapt named tabs to existing positional GTabs behavior with scoped rebuild/disposal guards; a shared tabs redesign is outside this issue. GenericItem exposes optional controlled expansion while preserving uncontrolled dataset/collection behavior.
+The rebase completed without conflicts. Both original feature head `43167c36a4c` and rebased head `a0482b43e0c` have Git tree **`83035b1de9443da8e780488afb0d933aaee65729`**; `git diff --exit-code 43167c36a4c HEAD` passes. No implementation or test content changed in the combined result. A local recovery ref `refs/backup/issue_24173_before_prep` preserves the old head; the fork update used an exact old-head force-with-lease.
 
-The [scope evaluation](scope_evaluation.md) recommends retaining this scope. Standalone job-page links that would need to discover the job's step remain the issue's explicit follow-up. No other scope change or user decision is proposed.
+Prior validation remains applicable to that identical final tree: **83 client tests across 11 suites**, graph confirmation after import cleanup, full typecheck, production build, both real-browser tests, and seven inspected screenshots passed. The earlier 92-test consolidated run also remains recorded; overlapping counts are not additive. [Fresh split test challenge](test_challenges_debrief.md) rechecks ownership and tree equality without repeating the unchanged feature suite. Prep separately passes **41 tests across six suites**, full types/build, all hooks and an independent browser test (71.85s).
 
-## Validation
+[Extraction review](subagents/extraction_review.md) confirms no unintended change. [Scope evaluation](scope_evaluation.md) recommends retaining the user-approved split. The earlier phase reviews, strict review, label-resolution review, E2E polish and screenshots still cover the same final implementation; their details remain linked from [index](index.md). Original handoff/test/scope reports are archived in `earlier_drafts/3/`.
 
-- Fresh independent [test challenge](test_challenges_debrief.md): **83 tests across 11 client suites pass**, including all 26 final selector cases, real router/Pinia/MSW workflow loading, modal filtering/paging, dynamic tabs, output expansion, embedded behavior, imported-step order, graph measurements, and route component lifetime. Graph-only confirmation after mechanical import cleanup also passes.
-- Earlier consolidated client run: **92 tests across 15 suites pass**; the fresh run covers the final changed selector/lifecycle surfaces. These overlapping counts are not additive.
-- Full `vue-tsc --noEmit` and production `vite build`: pass after the complete-workflow label remedy.
-- Prettier and the implementation commit's pre-commit hooks, including client ESLint: pass. Python Black/Ruff checks and whitespace checks pass for the browser test.
-- Existing browser `test_job_details`: passes (96.70 seconds), with an inspected step-job screenshot.
-- Final browser `test_mapped_job_selection_urls`: **passes (82.35 seconds)**. Real API-created mixed-state mapped jobs verify all three aliases, state filter, page two, matching job dialog, Previous/query synchronization, close, and graph-node selection with unchanged invocation DOM identity. See `/tmp/issue24173-polish-mapped-verified-e2e.log`.
-- Seven useful screenshots recorded; coordinator additionally inspected the baseline, final label-dialog, and changed-node captures. Full image QA and inventory: [screenshot debrief](screenshot_debrief.md).
-- Vault `make validate`: 124 files, zero errors, 15 pre-existing advisory warnings. `make check-dashboard`: passes. The vault index already had unrelated drift; this work adds branch records without note frontmatter and does not regenerate unrelated catalog content.
-
-All normal phase reviews, the [strict quality review](thermo_nuclear_review.md), [label-resolution follow-up review](subagents/label_resolution_review.md), and [final E2E delta review](subagents/final_e2e_review.md) have no outstanding recommendations. Browser details belong in [E2E polish](polish_e2e_tests_debrief.md). Environment and repeatable commands are recorded in [validation environment](validation_environment.md).
-
-## Practical limits
-
-CI has not run. Local acceptance uses headless Playwright with a real Galaxy development backend and API-created workflow jobs. Early runs exposed an unrealistic summary-label fixture, then a graph target clipped by the tool panel; the fixture boundary and browser zoom setup were corrected and independently reviewed. An intermittent upload setup timeout required a task-backend restart and successful disposable upload warmup. Screenshots remain local and gitignored.
-
-The branch is registered in `branches_implemented_needs_ci`. READY means ready for review, with upstream CI still outstanding; no approval to open a PR was inferred.
+The prior feature screenshots were retained because no UI content changed; prep recorded its own browser evidence. No new scope decision is required. Both branches are registered under `branches_implemented_needs_ci`; the feature depends on prep. CI has not run, and no PR was opened. [Detailed extraction record](extraction_debrief.md).
