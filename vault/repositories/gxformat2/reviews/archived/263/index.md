@@ -2,7 +2,7 @@
 
 - [PR](https://github.com/galaxyproject/gxformat2/pull/263) (mvdbeek)
 - [Independent review](review.md) — reviewed `e8dc2da`
-- TS companion: [galaxy-tool-util-ts#191](https://github.com/jmchilton/galaxy-tool-util-ts/pull/191) — [notes](../../../../galaxy-tool-util-ts/reviews/active/191/index.md)
+- TS companion: [galaxy-tool-util-ts#191](https://github.com/jmchilton/galaxy-tool-util-ts/pull/191) — [notes](../../../../galaxy-tool-util-ts/reviews/archived/191/index.md)
 
 ## Current status — 2026-10-14
 
@@ -23,3 +23,7 @@ No GitHub review/comment posted. Shared fixture/expectation unchanged.
 Not addressed (in review; shared with Galaxy `trs_proxy`, would need both repos + fixture): version with `?query`/`/`, `+` not idempotent on re-encode, CWL/relative descriptor URLs rewritten to GALAXY, resolver ignores `content_source`, cycle detection keyed on raw URL, `is_trs_url` now uncalled.
 
 Worktree: `~/projects/worktrees/gxformat2/pr/263`.
+
+## Archived — 2026-10-15
+
+Merged on GitHub 2026-10-15 (15:34Z); tracking ended. Worktree `~/projects/worktrees/gxformat2/pr/263` still present; removal pending cleanliness check.

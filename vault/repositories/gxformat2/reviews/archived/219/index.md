@@ -34,3 +34,7 @@ Fix Python extraction so deleting list steps preserves or remaps numeric referen
 ## Worktrees and scope
 
 Canonical PR worktree creation was unavailable because the PR branch is already checked out in an existing branch worktree. Review used isolated temporary checkouts at `/private/tmp/gxformat2-pr219-review` and `/private/tmp/gxformat2-219-ts`; existing development checkouts were not modified. The initial review synchronized TS fixtures in a temporary checkout. The coordinated implementation was subsequently published as TypeScript #190; see the follow-up above.
+
+## Archived — 2026-10-15
+
+Merged on GitHub 2026-10-14; tracking ended.

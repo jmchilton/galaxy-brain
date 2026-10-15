@@ -2,7 +2,7 @@
 
 - [PR](https://github.com/jmchilton/galaxy-tool-util-ts/pull/190)
 - [Independent review](review.md)
-- [Coordinated implementation and validation](../../../../gxformat2/reviews/active/219/follow-up.md)
+- [Coordinated implementation and validation](../../../../gxformat2/reviews/archived/219/follow-up.md)
 - [Python PR #219](https://github.com/galaxyproject/gxformat2/pull/219)
 
 ## Current status — 2026-10-11

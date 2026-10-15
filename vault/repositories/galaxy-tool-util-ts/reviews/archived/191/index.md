@@ -2,7 +2,7 @@
 
 - [PR](https://github.com/jmchilton/galaxy-tool-util-ts/pull/191) (mvdbeek)
 - [Independent review](review.md) — reviewed `9b15a74c`
-- Python PR: [gxformat2#263](https://github.com/galaxyproject/gxformat2/pull/263) — [notes](../../../../gxformat2/reviews/active/263/index.md)
+- Python PR: [gxformat2#263](https://github.com/galaxyproject/gxformat2/pull/263) — [notes](../../../../gxformat2/reviews/archived/263/index.md)
 
 ## Current status — 2026-10-14
 
@@ -18,3 +18,7 @@ Local: `make check` passes; resolver tests 7 passed; `pnpm test` all green excep
 Not done: N1 duplicate tests (`expansion.test.ts:99`, `it.each` in url-resolver test) left in place — removing tests needs John's ok.
 
 Worktree: `~/projects/worktrees/galaxy-tool-util-ts/pr/191`.
+
+## Archived — 2026-10-15
+
+Merged on GitHub 2026-10-14; tracking ended.
