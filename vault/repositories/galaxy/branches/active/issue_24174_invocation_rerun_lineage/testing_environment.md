@@ -4,7 +4,7 @@ Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24174_invocation
 
 Isolated dependencies cloned from a recent worktree, with executable prefixes relocated. `pnpm install --offline --frozen-lockfile --ignore-scripts` completed successfully against the current lockfile. Python 3.14.3 imports `galaxy.model` from this worktree. No other worktree environments or servers were changed.
 
-Services used for validation (restarted under coordinator ownership after initial setup):
+Services used for validation (stopped after successful tests and screenshots; commands below restart them):
 
 - Backend: `http://127.0.0.1:8417`, coordinator PID 74712. Log `/tmp/issue24174-backend.log`.
 - Vite: `http://127.0.0.1:5417`, coordinator PID 74669; proxies backend8417. Current `client/vite.config.mjs` reads `GALAXY_URL`.
@@ -63,3 +63,5 @@ pnpm type-check
 ```
 
 Final related Vitest run: 4 files / 29 tests passed. Final type check passed. Fresh self-hosted lineage API test run: 2 passed, including the required-context serializer cleanup, without depending on the browser server runtime.
+
+Final screenshot replay passed (1 test, 107.84s); six captures inspected and saved locally under `screenshots/`. Both isolated servers were stopped after validation. Source branch head `e929301db3b` is pushed and clean.

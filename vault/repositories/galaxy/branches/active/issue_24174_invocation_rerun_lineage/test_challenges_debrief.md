@@ -20,7 +20,7 @@ Validation:
 - The first recovery browser run reached the simple rerun link assertion and exposed a cross-driver assertion issue: Playwright returns relative href values while Selenium returns absolute href values. Both comparisons now normalize through `urllib.parse.urljoin`, preserving exact destination checks.
 - The next browser replay passed both form submissions, reload persistence, both link directions and card-list badge (five screenshots), then stalled in the existing full-grid navigation helper because it toggled an already-open panel closed. Interrupted only that task-owned pytest process, preserved its log and archived the five captures; changed the scenario to expand the already-open panel directly. Screenshot review also added semantic readiness waits for stable detail captures.
 - A subsequent replay reached and passed both grid rerun labels, then exposed that the intentionally blank original Run type element has zero dimensions. Grid assertions now wait for DOM presence inside the visible table before reading text, preserving the exact two `Rerun` and one empty-string expectations. This corrects test synchronization, without changing the feature.
-- Final combined browser/screenshot replay is owned by the E2E polish agent; final result to be recorded below.
+- Final combined browser/screenshot replay: **1 passed** in 103.05s, `/tmp/issue24174-screenshot-e2e-final2.log`. All six captures generated, including the full grid markers. Validates both form submissions, reload persistence, both lineage link directions, card-list badge, and exact grid marker text for both reruns and the original invocation.
 - Whitespace: `git diff --check` passed after the challenge changes.
 
 No feature scope changes requested by this review.

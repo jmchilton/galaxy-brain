@@ -48,6 +48,8 @@ Queue snapshot refreshed from live GitHub 2026-10-15. [TICK findings, actions an
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage with a migration, API links, both run forms and list markers (#24174); reviewed, local API/DB/client/E2E checks pass, six screenshots inspected. Base `dev`; CI pending.
+
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs before invocation, preserving defaults/optionality; reviewed, 10 API and 193 workflow unit cases pass (2 skipped). Base `release_26.2`.
 - [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Checks workflow tool compatibility before creating histories/invocations; preserves missing-tool precedence; reviewed, 5 API cases pass. Base `release_26.2`.
 - [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Rejects unknown completion actions before creating histories/invocations; reviewed, 3 API cases pass. Base `release_26.2`.
