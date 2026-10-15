@@ -1,7 +1,7 @@
 # gxformat2 #264 — Text parameter input validators are dropped in format2 conversion
 
 - [Issue](https://github.com/galaxyproject/gxformat2/issues/264) (filed by Claude for John)
-- Fix: [gxformat2#265](https://github.com/galaxyproject/gxformat2/pull/265), branch `jmchilton:text_input_validators`, worktree `~/projects/worktrees/gxformat2/branch/text_input_validators`
+- Fix: [gxformat2#265](https://github.com/galaxyproject/gxformat2/pull/265) (CI green 2026-10-15), branch `jmchilton:text_input_validators`, worktree `~/projects/worktrees/gxformat2/branch/text_input_validators`
 - Origin: Galaxy branch [invocation_parameter_expected_failure](../../../../galaxy/branches/active/invocation_parameter_expected_failure/index.md) had to patch a native export because of this bug
 
 ## 2026-10-15 — confirmed and PR opened
