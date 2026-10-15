@@ -1,0 +1,4 @@
+- [26.2] Show the color swatch for color parameter inputs in the invocation graph
+- [26.2] Fix color parameter inputs rendering as bold hex text in the invocation graph
+- [26.2] Invocation graph: render color parameter inputs as swatches, like the run form
+- [26.2] Fix missing color swatch on invocation graph color inputs

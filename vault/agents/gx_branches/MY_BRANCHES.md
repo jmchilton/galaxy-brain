@@ -67,7 +67,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`invocation_graph_color_swatch`](../../repositories/galaxy/branches/active/invocation_graph_color_swatch/index.md) — Shows the color swatch for color parameter inputs in the invocation graph. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_color_swatch?expand=1).
 - [`invocation_graph_e2e`](../../repositories/galaxy/branches/active/invocation_graph_e2e/index.md) — Browser tests for the invocation Overview graph (states, step card, isolate, Show Connections, Step Config, search); 6 pass on both backends. Base `dev`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_e2e?expand=1).
 - [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Returns 404 for missing HDA, LDDA, library dataset, and history collection inputs; independent #20900 extraction, reviewed with 5 API checks passing.
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Classifies invalid workflow parameters as expected scheduler failures; independent #20900 extraction, reviewed with 194 workflow unit tests passing.
@@ -101,6 +100,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`invocation_graph_color_swatch`](../../repositories/galaxy/branches/active/invocation_graph_color_swatch/index.md) — Shows the color swatch for color parameter inputs in the invocation graph. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_graph_color_swatch?expand=1).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_unknown_scheduler?expand=1).
 - [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24138_invocation_graph_refresh?expand=1).
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin and agent HTTP inference with a local provider; preserves configurable inference settings. [#24051](https://github.com/galaxyproject/galaxy/pull/24051). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:plugins_test_fake_provider?expand=1).

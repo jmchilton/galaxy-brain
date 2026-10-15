@@ -39,3 +39,7 @@ Red check: with `nodeText: "<b>#ff0000</b>"` (the pre-fix value) the test fails 
 - There are no `type: color` workflow parameters in `lib/galaxy_test`.
 
 </details>
+
+## Polish update (2026-10-15)
+
+The swatch test now uses `mount` and asserts a rendered `input[type=color]` with value `#ff0000`, not a stubbed `BFormInput`'s props. The old form also failed vue-tsc (`TS2345`, `props("value")` on `never`). Red check redone: with `nodeText: "<b>#ff0000</b>"` it fails at `expect(swatch.exists()).toBe(true)`. 21/21, vue-tsc clean.
