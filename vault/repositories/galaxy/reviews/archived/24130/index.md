@@ -36,3 +36,7 @@ Risks are minimal: this is a sample configuration, documentation, and test chang
 Looks good to me. The optional integer preserves the distinction between leaving GPUs unset and explicitly requesting zero, and both sample job configuration formats include the field consistently. I ran the job configuration and GCP Batch runner tests: 288 passed, and separately checked blank/zero parameter persistence and range validation against the sample XML.
 
 Risks are minimal: this extends opt-in sample configuration and documentation using the existing resource-parameter mechanism, with no runner or API behavior change.
+
+## Tracking ended — 2026-10-15
+
+GitHub confirms MERGED at `2026-10-15T08:45:40Z`, final PR head `67ec6b8cd56506dee166e280320e82eddba21d10`. Archived after merge and removed from the queue. The clean worktree HEAD matched or was an ancestor of the final PR head and was removed with `ghwt rm galaxy 24130`. Cleanup did not re-review later commits or post the draft.

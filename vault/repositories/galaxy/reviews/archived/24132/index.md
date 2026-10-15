@@ -51,3 +51,7 @@ Reviewed the WSGI transaction and FastAPI middleware paths. Using `setdefault` k
 The four focused X-Frame-Options API tests passed locally, including both WSGI routes and embed omission. I also checked actual a2wsgi responses with `SAMEORIGIN` and `DENY`, with and without an existing header; each produced exactly one configured value. No blocking findings. Remaining CI checks were still running when reviewed.
 
 Risk is low: this is a reversible middleware correction with no new API or persistent-data contract.
+
+## Tracking ended — 2026-10-15
+
+GitHub confirms MERGED at `2026-10-15T08:42:57Z`, final PR head `fb8480eeadff0c678cf8448ec423c1fea2852040`. Archived after merge and removed from the queue. The clean worktree HEAD matched or was an ancestor of the final PR head and was removed with `ghwt rm galaxy 24132`. Cleanup did not re-review later commits or post the draft.

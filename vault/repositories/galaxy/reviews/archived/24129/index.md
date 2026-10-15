@@ -60,3 +60,7 @@ New account usernames persist in the database and may become public URLs, so cho
 Confirm the operator-facing choice to retain the historical email-derived default, and review the two username-creation paths together. For dev, specifically reconsider the position of inference relative to association and profile synchronization. No schema migration or existing-account rename is introduced here.
 
 </details>
+
+## Tracking ended — 2026-10-15
+
+GitHub confirms MERGED at `2026-10-15T15:11:35Z`, final PR head `fdcd8c359848648b8c2bc0cb7c6129f414d14202`. Archived after merge and removed from the queue. The clean worktree HEAD matched or was an ancestor of the final PR head and was removed with `ghwt rm galaxy 24129`. Cleanup did not re-review later commits or post the draft.
