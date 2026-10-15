@@ -67,6 +67,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown scheduler IDs before invocation setup; independent #20900 extraction, reviewed with 3 API cases passing.
 - [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Returns 404 for missing HDA, LDDA, library dataset, and history collection inputs; independent #20900 extraction, reviewed with 5 API checks passing.
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Classifies invalid workflow parameters as expected scheduler failures; independent #20900 extraction, reviewed with 194 workflow unit tests passing.
 - [`invocation_no_add_to_history_false`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false/index.md) — Honors explicit false when copying workflow inputs across histories; independent #20900 extraction, reviewed with 3 API cases passing.

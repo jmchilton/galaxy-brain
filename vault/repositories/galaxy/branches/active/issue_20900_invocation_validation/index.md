@@ -28,4 +28,6 @@ John requested four independent dev-based fixes before the larger validation bra
 
 - [Missing invocation input 404s](../invocation_missing_input_404/index.md): pushed as `invocation_missing_input_404`; reviewed, four missing-input cases and a valid collection invocation passed.
 
-Unknown-scheduler rejection is being extracted separately. These extractions do not resolve the broader branch's recorded validation regressions or conflicts.
+- [Unknown scheduler rejection](../invocation_unknown_scheduler/index.md): pushed as `invocation_unknown_scheduler`; reviewed and 3 API cases passed.
+
+All four branches start independently at dev `c63ffc2ccae`, are pushed to the fork, and are handed off under `branches_implemented_needs_ci`. The source branch was not rewritten; eventual reconciliation can drop the extracted patches once upstream contains them. These extractions do not resolve the broader branch's recorded validation regressions or conflicts.
