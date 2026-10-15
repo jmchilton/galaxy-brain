@@ -1,0 +1,5 @@
+1:  3a02570627e = 1:  c859938ca72 Test plugin chat proxy against a fake AI provider instead of mocks
+2:  81fc5e79e72 = 2:  04a335e0885 Share the fake AI provider, built on Galaxy's test HTTP server
+3:  de6652f2b01 = 3:  cdb6c1e711d test_agents: drop the TRS patch, make live mode live, add fake-provider test
+4:  53572019693 = 4:  5961d4def0c Make fake-provider fixtures exception-safe and reject live chat failures
+5:  9acb0b2b8a4 = 5:  0bc8047f61a Keep AI client and agent initialization off the event loop

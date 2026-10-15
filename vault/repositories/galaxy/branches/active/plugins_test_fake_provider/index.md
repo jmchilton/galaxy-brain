@@ -1,6 +1,6 @@
 # plugins_test_fake_provider
 
-Status: `branches_ready_for_final_review`. Base: `dev`.
+Status: `branches_ready_for_final_review`. Base: `release_26.2`. [PR #24051](https://github.com/galaxyproject/galaxy/pull/24051) (open, non-draft), head `0bc8047f61a89b756de575338573bf710d3e32c7`.
 
 [PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist review](checklist_review.md) · [Strengthening review](strengthening_review.md) · [Implementation debrief](implementation_debrief.md)
 
@@ -63,3 +63,9 @@ Live PR #24051 conflicts with dev in api/plugins.py and test_plugins.py. Upstrea
 ## TICK — 2026-10-15
 
 Resolved the small conflict against actual `origin/dev` at `88127f42979425ef316b5bb0fd07fd67ce2f16bc`. Combined independent `functools`/`json` imports in the shared test HTTP server. Focused agent tests: 135 passed, 15 skipped. Published `9acb0b2b8a44018d6c04205486e330acb1487e6c` to jmchilton with an exact old-head lease. This was a conflicted rebase: previous approval does not carry; remain `branches_ready_for_final_review` pending a fresh human read and new-head CI. Existing development worktree was left intact at its prior head.
+
+## Whole PR moved to release_26.2 — 2026-10-15
+
+[Target history, rebase and validation](release_26.2_retarget_2026-10-15.md). John explicitly selected moving the whole PR. All five patches replayed unchanged onto `release_26.2` (`7690068b48a`), with no conflicts or extra dev commits; published `0bc8047f61a` with an exact fork lease and changed GitHub's PR base. Tests with aiocop: **178 passed, 21 skipped**; all changed-file hooks pass. Original clean worktree is synchronized to the release head; pre-move heads are backed up locally. Preserve non-draft state and the existing final-review hold; fresh CI pending.
+
+Standing base: **release_26.2**, per John. Future automatic rebases/queue refreshes must retain this release target unless John requests a different base. Marius briefly changed the PR target to this release and then back to dev himself, 32 seconds later; our later dev rebase did not reverse his target change.
