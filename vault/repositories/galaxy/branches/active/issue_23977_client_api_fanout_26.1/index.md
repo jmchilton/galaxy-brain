@@ -1,6 +1,6 @@
 # issue_23977_client_api_fanout_26.1
 
-Status: `branches_ready_for_final_review`. Base: `release_26.1`.
+Status: `ci_wait`. Base: `release_26.1`. PR: [#24141](https://github.com/galaxyproject/galaxy/pull/24141) (draft).
 
 Spaces out client retries and removes hidden counts requests (#23977).
 
@@ -12,7 +12,9 @@ Sibling [issue_23977_datatypes_fanout_26.1](../../merged/issue_23977_datatypes_f
 
 Head: `5ce39226753`; base: latest `release_26.1` (`933e342ad1d`). Added a detailed history-switch failure toast and coverage, reviewed the complete diff, and rewrote the fork to three commits: passing component baselines, failing regressions, then the green fix and new-helper tests. [Reading order and evidence](review_and_history_2026-10-14.md).
 
-Final validation: 14 changed suites / 123 tests pass; surrounding suites 121 files / 980 tests pass; typecheck and pre-commit pass. Fork CI is queued on the new head. No upstream PR exists for this branch as of the 2026-10-14 query. Remains `branches_ready_for_final_review`; newly added tests need human review, and approval must be pinned to the new SHA.
+Final validation: 14 changed suites / 123 tests pass; surrounding suites 121 files / 980 tests pass; typecheck and pre-commit pass. Opened draft [#24141](https://github.com/galaxyproject/galaxy/pull/24141) at the user’s request on 2026-10-14, using `pr_description.md` verbatim. Title: **[26.1] Jittered backoff for client API retries; skip hidden workflow counts**. Head: `5ce39226753ae23245f89b0b698477c4c6b5d60f`. Live state: draft, mergeable, CI queued/in progress.
+
+Standing instruction: the user requested a draft; keep it draft until the user asks to mark it ready. This request authorizes opening the draft, not automatic undrafting.
 
 ## Problem and resulting behavior
 

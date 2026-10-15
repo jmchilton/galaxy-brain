@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #24141 refreshed 2026-10-14: requested draft opened against `release_26.1`; head `5ce39226753`, CI pending. Keep draft until requested otherwise.
+
 PR #24050 refreshed 2026-10-14: latest review fixes pushed at `88ac10202d8`; mergeable against `release_26.2`, fresh CI queued. [Vue 3 migration guide](VUE3_COMPONENT_MIGRATION.md).
 
 PR #23815 refreshed 2026-10-14: rebased onto latest `release_26.2`, import-order CI fix pushed at `7f32c166400`; mergeable, CI queued.
@@ -40,6 +42,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [#24141](https://github.com/galaxyproject/galaxy/pull/24141).
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects restricted text-input defaults and permits allowed empty options on 26.2. [#24140](https://github.com/galaxyproject/galaxy/pull/24140).
 - [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/active/playwright_timeout_retry_once/index.md) — Retries Playwright timeouts once during transitions; partly reverts 2825bb09e42. [#24139](https://github.com/galaxyproject/galaxy/pull/24139).
 - [`selenium_stories_core`](../../repositories/galaxy/branches/active/selenium_stories_core/index.md) — Writes Selenium and Playwright screenshots as Markdown, HTML and PDF stories; narrates tours. [#24137](https://github.com/galaxyproject/galaxy/pull/24137).
@@ -97,7 +100,6 @@ None yet.
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 - [`upload_datatypes_composable`](../../repositories/galaxy/branches/active/upload_datatypes_composable/index.md) — Replaces upload datatype/dbkey providers with composables and shows load failures instead of empty selectors. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upload_datatypes_composable?expand=1).
 - [`issue_23424_when_expression_validation`](../../repositories/galaxy/branches/active/issue_23424_when_expression_validation/index.md) — Rejects obsolete flat nested tool-input references when importing or updating workflows. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23424_when_expression_validation?expand=1).
-- [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_23977_client_api_fanout_26.1?expand=1).
 - [`issue_19391_file_source_templates_config_dir`](../../repositories/galaxy/branches/active/issue_19391_file_source_templates_config_dir/index.md) — Adds drop-in configuration directories for file source and object store templates (#19391). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19391_file_source_templates_config_dir?expand=1).
 - [`issue_23897_xml_collection_output`](../../repositories/galaxy/branches/active/issue_23897_xml_collection_output/index.md) — Fixes XML `<output type="collection">` parsing and lets the XSD accept its static elements (#23897). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23897_xml_collection_output?expand=1).
 - [`issue_23914_page_card_actions`](../../repositories/galaxy/branches/active/issue_23914_page_card_actions/index.md) — Makes notebook card title and Edit/Share actions follow the current user and page, so a late user load shows Share. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23914_page_card_actions?expand=1).
