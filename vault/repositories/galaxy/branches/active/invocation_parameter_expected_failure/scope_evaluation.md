@@ -28,3 +28,7 @@ Leave invalid workflow parameters classified as unexpected while upstreaming oth
 
 | Pros | Cons |
 | One fewer branch to review. | Retains unnecessarily severe logs for existing user-actionable validation failures. |
+
+## Update while polishing (2026-10-15)
+
+"Runtime already emits the reason" was wrong for the parameter-input emitter. Since #20980 ([25.0]) it passed the unflushed `invocation_step.workflow_step_id` (`None`), so the failure model raised and invocations failed as `unexpected_failure`. The branch now also restores a real step id (`3e2bc827a99`) with a red→green API test, which stays within the goal. Left out, as a question for John: closing out the orphaned child subworkflow invocation, which the poller re-runs into an ERROR and `unexpected_failure`. It affects every subworkflow failure reason.

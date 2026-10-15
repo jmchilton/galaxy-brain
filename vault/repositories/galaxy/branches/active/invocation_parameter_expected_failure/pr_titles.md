@@ -1,0 +1,4 @@
+- [26.1] Report invalid subworkflow parameters as expected invocation failures
+- [26.1] Fix subworkflow parameter validation failing as "unexpected failure"
+- [26.1] Treat invalid workflow parameters as expected invocation failures
+- [26.1] Show the real reason when a subworkflow parameter fails validation
