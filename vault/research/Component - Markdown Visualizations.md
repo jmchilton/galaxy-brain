@@ -7,13 +7,14 @@ tags:
   - galaxy/client
 status: draft
 created: 2026-02-25
-revised: 2026-04-22
-revision: 2
+revised: 2026-10-14
+revision: 3
 ai_generated: true
 github_repo: galaxyproject/galaxy
 summary: "Five fenced block types for galaxy directives, Vega charts, visualizations, Vitessce dashboards"
 related_notes:
   - "[[Component - Invocation Report to Pages]]"
+  - "[[Component - Dataset Display]]"
 ---
 
 # Galaxy Markdown Visualizations: Complete Reference
@@ -444,9 +445,9 @@ A directory is a valid plugin if it contains `static/{directory_name}.xml`. Two-
 | `disabled` (attr) | No | If present, plugin is skipped entirely |
 | `data_sources` | Yes | Which Galaxy object types are compatible |
 | `model_class` | Yes | `HistoryDatasetAssociation`, `LibraryDatasetDatasetAssociation`, or `Visualization` |
-| `test` | No | Filter by file attributes (e.g., `ext=tabular`) |
+| `test` | Effectively yes for datasets | Filter by file attributes (e.g., `ext=tabular`); a `data_source` with no `<test>` never matches a dataset (see [[Component - Dataset Display]]) |
 | `params` | No | Required/optional parameters |
-| `entry_point` | Yes | JavaScript module or Mako template |
+| `entry_point` | Yes | JavaScript module (`script`); Mako/html entry points removed in #21133 |
 | `settings` | No | Configuration inputs (axes, colors, etc.) |
 | `tracks` | No | Data series/track definitions |
 | `specs` | No | Custom config (e.g., `ai_prompt` for LLM-assisted charting) |
@@ -486,18 +487,21 @@ Clicking a toolbar entry inserts a ` ```visualization ` block with initial JSON 
 
 ### Shipped Plugins
 
-The Galaxy core repository ships only the `example` plugin (hidden by default). Real visualization plugins are distributed separately and installed into `config/plugins/visualizations/`. Known plugins from the Galaxy ecosystem include:
+The Galaxy core repository ships only the `example` plugin (hidden by default) as source. Real plugins are `@galaxyproject/<id>` npm packages pinned in `client/visualizations.yml` (~50 entries); the client build (`client/scripts/build.mjs`) installs them into `config/plugins/visualizations/<id>/`. Representative ids:
 
-| Plugin | Description | Data Types |
-|--------|-------------|------------|
-| **charts** | Bar, line, scatter, pie charts | tabular, csv |
-| **trackster** | Genome browser | BAM, BED, BigWig, VCF |
-| **graphviz** | Network graphs (cytoscape.js) | graphml, json |
-| **chiraviz** | Chimeric RNA visualization | tabular |
-| **csg** | Chemical structure viewer | SDF, MOL2, PDB |
-| **jupyterlite** | JupyterLite notebooks | various |
+| Plugin | Description |
+|--------|-------------|
+| **plotly_*** (`plotly`, `plotly_box`, `plotly_pie`, …) | Charting |
+| **igv** | Genome browser (preferred viz for BAM) |
+| **h5web** | HDF5 browser (preferred viz for h5 and subclasses) |
+| **cytoscape** | Network graphs |
+| **chiraviz** | Chimeric RNA visualization |
+| **molstar** | Molecular structures (preferred viz for sdf/mol/pdb/…) |
+| **jupyterlite** | JupyterLite notebooks |
+| **tabulator** | Tables |
+| **vitessce** | Single-cell/spatial dashboards |
 
-The Charts plugin (at [charts.galaxyproject.org](https://charts.galaxyproject.org)) provides the primary charting capability and is the most widely used visualization plugin.
+Trackster was removed in #20974; `charts`, `graphviz` and `csg` are not in `visualizations.yml` at `origin/dev` `b62d06dc`. See [[Component - Dataset Display]] for packaging, datatype matching and the preferred-visualization mapping.
 
 ---
 
@@ -576,7 +580,7 @@ Saved visualizations can be shared, published, and annotated. They're distinct f
 | Chart from a Galaxy dataset | Plugin visualization | ` ```visualization ` + JSON config |
 | Dataset table/preview | Galaxy directive | ` ```galaxy ` + `history_dataset_as_table(...)` |
 | Dataset as rendered image | Galaxy directive | ` ```galaxy ` + `history_dataset_as_image(...)` |
-| Genome browser view | Plugin (trackster) | ` ```visualization ` + `"visualization_name": "trackster"` |
+| Genome browser view | Plugin (igv) | ` ```visualization ` + `"visualization_name": "igv"` |
 | Single-cell spatial dashboard | Vitessce | ` ```vitessce ` + JSON config |
 | Inline dataset name/type in prose | Inline directive | `${galaxy history_dataset_name(...)}` |
 

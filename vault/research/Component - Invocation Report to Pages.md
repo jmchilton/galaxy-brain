@@ -8,8 +8,8 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-02-11
-revised: 2026-04-22
-revision: 2
+revised: 2026-10-14
+revision: 3
 ai_generated: true
 component: Invocation Report to Pages
 github_repo: galaxyproject/galaxy
@@ -18,6 +18,7 @@ related_notes:
   - "[[Component - Invocation Graph View]]"
   - "[[Component - Markdown Visualizations]]"
   - "[[Component - Workflow API]]"
+  - "[[Component - Dataset Display]]"
 ---
 # Workflow Invocation Reports to Pages: Architecture Overview
 

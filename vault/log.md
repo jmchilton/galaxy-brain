@@ -289,3 +289,19 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - E2E Tests - Writing]] — backlink; test_change_password.py is a live @selenium_only holdout
   - [[Component - Tool Shed Data Model]] — backlink; shed keeps a parallel User/PasswordResetToken with SHA-1 hashing
   - [[Component - API Tests]] — backlink; password endpoints have zero API-test coverage
+
+## 2026-10-14 ingest — Component - Dataset Display
+- **source**: /Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-Dataset-Display.md
+- **created**: [[Component - Dataset Display]]
+- **updated**:
+  - [[Component - Markdown Visualizations]] — backlink; flipped stale plugin list (trackster/charts/csg/graphviz gone, npm packages via visualizations.yml), Mako entry point removed in #21133, `<test>` effectively required
+  - [[Component - Window Manager]] — backlink; eye icon pushes `?displayOnly=true` into WinBox frames
+  - [[Component - CORS Handling]] — backlink; GEDA `allow_cors` on the display-app callback route
+  - [[Component - Implicit Dataset Conversion]] — backlink; display-app `format=` params trigger hidden conversions
+  - [[PR 21463 - Jupyternaut Adapter for JupyterLite]] — backlink; chat-completions proxy is part of the viz plugin API
+  - [[Component - Invocation Report to Pages]] — backlink; Page dataset directives use the Markdown display dispatcher
+
+## 2026-10-14 manual — Component - Invocation Graph View (re-verify + expand)
+- **source**: Galaxy origin/dev @ c63ffc2c
+- **updated-target**: [[Component - Invocation Graph View]] — rev 4; corrected stale facts (shared not per-instance stores, 4 polling levels, step card now GTabs w/ Step Config, styling map, test inventory); added 26.x features (focus mode, Show Connections, minimap colors, search), WorkflowGraph vs generic GraphView comparison, recent-activity PR table, open issues (#22745, #21989, #22075, #20864), new inferred bugs, where-to-change guide
+- **updated**: none

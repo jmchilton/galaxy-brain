@@ -7,12 +7,13 @@ tags:
 component: Window Manager
 status: draft
 created: 2026-02-11
-revised: 2026-04-22
-revision: 2
+revised: 2026-10-14
+revision: 3
 ai_generated: true
 summary: "Floating window system using WinBox.js, intercepting router.push to render iframe overlays"
 related_notes:
   - "[[Component - Agents UX]]"
+  - "[[Component - Dataset Display]]"
 ---
 
 # Galaxy Window Manager System - Research Report

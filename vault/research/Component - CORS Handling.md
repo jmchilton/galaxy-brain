@@ -6,8 +6,8 @@ component: "CORS Handling"
 galaxy_areas: [api, security]
 status: draft
 created: 2026-06-18
-revised: 2026-09-10
-revision: 3
+revised: 2026-10-14
+revision: 4
 ai_generated: true
 summary: "Five CORS mechanisms — global origin-validated middleware, per-route reflected-origin landings, OPTIONS catch-all, legacy WSGI path, display-app proxy"
 sources: ["/Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-CORS-Handling.md"]
@@ -17,6 +17,7 @@ related_notes:
   - "[[PR 21942 - Shared Agent Operations and MCP Server]]"
   - "[[Component - DRS Support]]"
   - "[[Component - User Password Management]]"
+  - "[[Component - Dataset Display]]"
 ---
 
 # CORS Handling

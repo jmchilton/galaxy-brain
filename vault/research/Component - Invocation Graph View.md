@@ -8,358 +8,369 @@ tags:
 component: Invocation Graph View
 status: draft
 created: 2026-02-11
-revised: 2026-05-13
-revision: 3
+revised: 2026-10-14
+revision: 4
 ai_generated: true
-summary: "Visual DAG rendering of workflow invocation with real-time job state, readonly editor canvas"
+summary: "Readonly workflow-editor canvas overlaying live job state on invocation steps, plus its step card, search, polling and the generic GraphView alternative"
 related_notes:
   - "[[Component - Invocation Report to Pages]]"
   - "[[Component - Workflow Editor Terminals]]"
   - "[[PR 17413 - Invocation Graph View]]"
   - "[[PR 21932 - History Graph API]]"
+related_prs:
+  - 17413
+  - 20719
+  - 20912
+  - 22105
+  - 22142
+  - 22144
+  - 22159
+  - 22335
+  - 22476
+  - 21932
+  - 22769
+  - 23436
+  - 23791
+  - 23844
+  - 23861
 ---
 
 # Component Architecture: Invocation Graph View
 
+Verified against Galaxy `origin/dev` @ `c63ffc2c` (2026-10-14). Line numbers are at that SHA.
+
 ## Overview
 
-The invocation graph view renders a visual DAG (directed acyclic graph) of a workflow invocation, reusing the workflow editor canvas in readonly mode. Each node displays real-time job state information (running, ok, error, paused, queued, skipped, etc.) with color-coded headers and state icons. Clicking a node expands step details in a card below the graph.
+The invocation graph renders a workflow invocation as a DAG by reusing the workflow editor canvas (`WorkflowGraph.vue`) readonly with `isInvocation=true`. Step headers are colored by a state derived from job summaries; clicking a node opens a tabbed step card (Jobs / Outputs / Step Config) below the graph. Since revision 3 the view gained: lineage focus mode, a "Show Connections" toggle, a readonly step form, state-colored minimap, graph + steps search, and a schema-derived `GraphStepState` type.
 
-The feature spans ~25 files across components, composables, stores, styles, and tests.
+**Scope**: the Overview-tab graph and what it shares with the Steps/Debug tabs and run-form graph. Out of scope: invocation report/Pages ([[Component - Invocation Report to Pages]]), export plugins, metrics charts.
+
+**Key fact for new work**: Galaxy now has **two DAG renderers** — the editor-derived `WorkflowGraph` (used here) and the generic ELK-laid-out `components/Graph/GraphView` from [[PR 21932 - History Graph API]]. See [Two Graph Renderers](#two-graph-renderers).
 
 ## Component Hierarchy
 
 ```
-WorkflowInvocationState (top-level, route-mounted)
-  +-- WorkflowNavigationTitle (header bar w/ workflow name, actions)
-  +-- WorkflowAnnotation (annotation, progress bars)
-  +-- BNav pills (tab navigation via router: Overview|Steps|Inputs|Outputs|Report|Export|Metrics|Debug)
+WorkflowInvocationState                 (route-mounted full page, OR embedded: GridInvocation, WorkflowRunSuccess)
+  +-- WorkflowNavigationTitle           (isFullPage only; actions slot: Cancel + WorkflowInvocationShare)
+  |     +-- #collapsible: WorkflowAnnotation (progress bars in middle-content slot)
+  |         header collapse persisted via usePersistentToggle("invocation-header-collapsed")
+  +-- BNav pills (isFullPage only): Overview|Steps|Inputs|Outputs|Report|Export|Metrics|Debug
+  |     right side: WorkflowInvocationSearch (Overview only), polling spinner badge, Cancel Workflow
   |
-  +-- [Overview tab] WorkflowInvocationOverview
+  +-- [Overview]  WorkflowInvocationOverview
   |     +-- SubworkflowAlert (if subworkflow)
-  |     +-- WorkflowInvocationError (per invocation message)
-  |     +-- InvocationGraph
-  |           +-- WorkflowGraph (readonly editor canvas)
-  |           |     +-- Node (per step, with isInvocation=true)
-  |           |           +-- NodeInvocationText (job state counts / input preview)
-  |           |           +-- NodeInput (blank=true, invisible labels)
-  |           |           +-- NodeOutput (blank=true, invisible labels)
-  |           +-- [step detail card below graph]
-  |                 +-- WorkflowInvocationStepHeader
-  |                 +-- WorkflowInvocationStep (expanded, inGraphView=true)
-  |
-  +-- [Steps tab] WorkflowInvocationSteps
-  |     +-- WorkflowInvocationStep (per step, collapsible)
-  |           +-- WorkflowInvocationStepHeader
-  |           +-- JobStep / ParameterStep / GenericHistoryItem / SubworkflowAlert
-  |
-  +-- [Inputs/Outputs tab] WorkflowInvocationInputOutputTabs
-  +-- [Report tab] InvocationReport
-  +-- [Export tab] WorkflowInvocationExportOptions
-  +-- [Metrics tab] WorkflowInvocationMetrics (Vega charts)
-  +-- [Debug tab] WorkflowInvocationFeedback
+  |     +-- WorkflowInvocationError (per message, gets store-id)
+  |     +-- InvocationGraph               (hidden when isSubworkflow)
+  |           +-- WorkflowGraph (readonly, is-invocation)
+  |           |     +-- Node (per step) -> NodeInvocationText / NodeInput blank / NodeOutput blank
+  |           +-- "Show Connections" toggle (only when a node is active)
+  |           +-- step card: WorkflowInvocationStepHeader + WorkflowInvocationStep(expanded, in-graph-view)
+  +-- [Steps]     WorkflowInvocationSteps  ("not available" for subworkflow invocations)
+  +-- [Inputs/Outputs] WorkflowInvocationInputOutputTabs -> WorkflowInvocationInputs/Outputs
+  +-- [Report]    InvocationReport, or HistoryPageView for notebook reports (reports?id=)
+  +-- [Export]    WorkflowInvocationExportOptions
+  +-- [Metrics]   WorkflowInvocationMetrics (Vega)
+  +-- [Debug]     WorkflowInvocationFeedback (only if canSubmitFeedback && stepsJobsSummary)
 ```
+
+Report and Export are disabled until terminal (or `success`), showing `TabsDisabledAlert` (`WorkflowInvocationState.vue:410-425`). Invalid `:tab` falls back to Overview.
 
 ## Routing
 
-Single consolidated route in `client/src/entry/analysis/router.js`:
+`client/src/entry/analysis/router.js:829-836`:
+
 ```
 path: "workflows/invocations/:invocationId/:tab?"
 props: { invocationId, tab, isFullPage: true, success }
 component: WorkflowInvocationState
 ```
 
-Tab navigation uses `BNav` pills with `<router-link>` (`:to`) -- each tab is a sub-path (e.g., `/workflows/invocations/{id}/steps`). The Overview tab is the default (when `:tab` is absent).
+Tabs are `<router-link>` sub-paths (`/workflows/invocations/{id}/steps`). Title + BNav render only when `isFullPage` (`WorkflowInvocationState.vue:317,388`), so the embedded uses (invocation grid row expansion, post-run success page) show content without tabs.
 
 ## Core Composable: `useInvocationGraph`
 
-**File:** `client/src/composables/useInvocationGraph.ts` (366 lines)
+**File**: `client/src/composables/useInvocationGraph.ts` (399 lines)
 
-Central logic for creating a readonly invocation graph. Takes four Ref params:
-- `invocation` -- the full invocation element view
-- `stepsJobsSummary` -- per-step job summaries (provided by parent, not fetched internally)
-- `workflowId`, `workflowVersion` -- for fetching the correct workflow version
+Signature: `useInvocationGraph(invocation, stepsJobsSummary, workflowId, workflowVersion)` — all Refs. Returns `{ storeId, steps, loadInvocationGraph, loading }`.
 
-### Key exports
+| Export | Description |
+|--------|-------------|
+| `GraphStepState` | `JobState \| DatasetState \| InvocationStepState \| "uninitialized"` from the OpenAPI schema (`:35-39`) |
+| `GraphStep` | `Step` + `state`, `jobs`, `headerClass`, `headerIcon`, `headerIconSpin`, `nodeText` |
+| `iconClasses` | `Record<GraphStepState, {icon, spin?, class?}>` — exhaustive over all states incl. `finishing`, `deferred`, `stop`, `uninitialized` (`:54-88`) |
+| `statePlaceholders` | human labels (`ok`→"successful", `error`→"failed", …) |
+| `getHeaderClass(state)` | `{ "node-header-invocation": true, "header-{state}": !!state }` (`:394-399`) |
 
-| Export | Type | Description |
-|--------|------|-------------|
-| `GraphStep` | interface | Extends `Step` with `state`, `jobs`, `headerClass`, `headerIcon`, `headerIconSpin`, `nodeText` |
-| `iconClasses` | Record | Maps states to FontAwesome icons (ok->check, error->triangle, running->spinner, etc.) |
-| `statePlaceholders` | Record | Human-readable state labels ("ok"->"successful", "error"->"failed") |
-| `getHeaderClass` | function | Returns CSS class object `{ "node-header-invocation": true, "header-{state}": true }` |
-| `useInvocationGraph()` | composable | Returns `{ storeId, steps, loadInvocationGraph, loading }` |
+### State derivation (`updateStep`, `:241-314`)
 
-### State derivation logic
+1. Workflow step with no invocation step → `queued`.
+2. Subworkflow step → `populated_state = invocationStep.state` (no job-based state; TODO `:259`).
+3. Other steps with a matching job summary (matched by `implicit_collection_jobs_id` or `job_id`):
+   - **single-instance** (`error`, `running`, `paused`, `deleting`): any job in it wins; `deleting` → `deleted`.
+   - **all-instances** (`deleted`, `skipped`, `new`, `queued`): every job must be in it.
+4. No summary for the step's job → `waiting` (TODO `:282`).
+5. Still undetermined → `populated_state` mapping: `scheduled`/`ready`→`queued`, `resubmitted`→`new`, `failed`→`error`, `deleting`→`deleted`; any other value except `stop`/`stopped` passes through.
+6. Still undetermined → keep previous state (`:309`). New steps start `uninitialized` (`:195`).
 
-The composable derives a single visual state per step from job states using priority:
-1. **Single-instance states** (`error`, `running`, `paused`, `deleting`): if *any* job has this state, the step gets it
-2. **All-instances states** (`deleted`, `skipped`, `new`, `queued`): *all* jobs must be in this state
-3. Falls back to `populated_state` from the invocation step summary, with mapping: `scheduled`/`ready` -> `queued`, `resubmitted` -> `new`, `failed` -> `error`, `deleting` -> `deleted`
-4. If no invocation step exists for a workflow step, defaults to `queued`
+Covered by `client/src/composables/useInvocationGraph.test.ts` (162 lines, one case per branch above).
 
-### Workflow loading
+### Loading
 
-On first call to `loadInvocationGraph()`:
-1. Fetches the specific workflow version via `workflowStore.getFullWorkflowCached(workflowId, version)`
-2. Creates an `invocationGraph` ref (workflow structure with `id = "invocation-{invocationId}"`)
-3. Initializes `GraphStep` objects from workflow steps + invocation step data
-4. Calls `fromSimple(storeId, invocationGraph)` to load into scoped editor stores
-5. On subsequent calls, only updates step states (doesn't reload the editor)
+`loadInvocationGraph(loadOntoEditor = true)`:
+1. First call: `workflowStore.getFullWorkflowCached(workflowId, version)`; builds `invocationGraph = {...workflow, id: storeId, steps: null}`.
+2. `updateSteps(stepsJobsSummary)` — recomputes non-input steps only if the summary's `JSON.stringify` changed (`:206-208`, evaluated **inside the per-step loop**).
+3. First call with `loadOntoEditor`: `fromSimple(storeId, invocationGraph)` loads steps into the scoped editor stores.
 
-### Input step handling
+### Input steps (`initializeGraphInput`, `:350-373`)
 
-Input steps (data_input, data_collection_input, parameter_input) are handled separately:
-- Dataset inputs: fetches HDA/HDCA details, displays `{hid}: {name}` as `nodeText`
-- Parameter inputs: displays the parameter value directly
-- Boolean inputs: displayed as checkbox icon
-- Color inputs: displayed with a color swatch
+- HDA → `fetchDatasetDetails`; HDCA → `fetchCollectionSummary`. State from `getContentItemState`; `nodeText = "{hid}: <b>{name}</b>"`.
+- Parameter inputs: boolean → raw boolean; anything else → `"<b>{value}</b>"`.
 
 ## Scoped Workflow Stores
 
-**File:** `client/src/composables/workflowStores.ts`
+`client/src/composables/workflowStores.ts` — `provideScopedWorkflowStores(storeId)` provides 7 scoped Pinia stores (connection, state, step, comment, toolbar, undo/redo, search). Disposal is ref-counted with a 1 s timeout (`client/src/composables/timeoutStoreDispose.ts:11-30`).
 
-Each invocation graph gets isolated Pinia stores via `provideScopedWorkflowStores(storeId)` where `storeId = "invocation-{invocationId}"`. This creates scoped instances of:
-- `useConnectionStore` -- graph connections/edges
-- `useWorkflowStateStore` -- active node, scale, dragging state
-- `useWorkflowStepStore` -- step data
-- `useWorkflowCommentStore` -- (unused in invocation mode)
-- `useWorkflowEditorToolbarStore` -- (unused in invocation mode)
-- `useUndoRedoStore` -- (unused in invocation mode)
-- `useWorkflowSearchStore` -- (unused in invocation mode)
+Four providers all use the same id `invocation-{invocationId}`, so they **share** one set of stores; only the `steps` ref is per-`useInvocationGraph` instance, and only `InvocationGraph` calls `fromSimple`:
 
-All stores are auto-disposed via `useTimeoutStoreDispose` on scope disposal. This scoping prevents conflicts between the invocation graph view and any concurrently open workflow editor.
+| Provider | Purpose |
+|----------|---------|
+| `InvocationGraph.vue:72` | canvas |
+| `WorkflowInvocationSteps.vue:79-88` | step states for list (`loadOntoEditor=false`) |
+| `WorkflowInvocationFeedback.vue:28` | Debug tab |
+| `WorkflowInvocationSearch.vue:20` | search store, `pendingHighlight`, `activeNodeId` |
 
-The `activeNodeId` from the state store drives which step's detail card is displayed below the graph.
+`activeNodeId` in the state store drives the step card and is set by search results. TODO at `WorkflowInvocationOverview.vue:32` still wants one storeId owner.
 
-## Data Flow & Polling Architecture
+## Data Flow & Polling
 
 ```
 invocationStore (Pinia)
-  |
-  |-- fetchInvocationById()          --> invocation data
-  |-- fetchInvocationJobsSummaryForId()  --> aggregate job summary
-  |-- fetchInvocationStepJobsSummaryForId()  --> per-step job summaries
-  |
-  v
-WorkflowInvocationState (orchestrator)
-  |-- polls invocation until scheduling terminal (3s interval)
-  |-- polls job summaries until all jobs terminal (3s interval)
-  |-- provides: invocation, stepsJobsSummary, invocationAndJobTerminal
-  |
-  v
-WorkflowInvocationOverview
-  |-- useWorkflowInstance() --> fetches StoredWorkflowDetailed
-  |
-  v
-InvocationGraph
-  |-- useInvocationGraph(invocation, stepsJobsSummary, workflowId, workflowVersion)
-  |-- polls loadInvocationGraph() every 3s until terminal (redundant w/ parent)
-  |-- renders WorkflowGraph with GraphStep objects
+  fetchInvocationById / fetchInvocationJobsSummaryForId / fetchInvocationStepJobsSummaryForId
+        |
+WorkflowInvocationState  -- polls invocation (3s) until scheduling terminal
+        |                -- polls job summaries (3s) until all jobs terminal
+        |                -- provides invocation, stepsJobsSummary, isTerminal
+WorkflowInvocationOverview  -- useWorkflowInstance() -> StoredWorkflowDetailed
+        |
+InvocationGraph  -- re-runs loadInvocationGraph() every 3s until isTerminal
+        |
+WorkflowInvocationStep (each mounted) -- polls fetchInvocationStepById every 3s until step terminal
 ```
 
-### Three levels of polling
+Four polling levels, all `setTimeout` chains cleared on unmount:
+1. Invocation until scheduling terminal (`WorkflowInvocationState.vue:122-142`).
+2. Job summaries until jobs terminal (`:285-294`); restarts if scheduling flips back to non-terminal (`:251-259`).
+3. `InvocationGraph` reprocessing the already-polled `stepsJobsSummary` (`InvocationGraph.vue:155-163`) — redundant fetch-free loop.
+4. Per-step `fetchInvocationStepById` in every mounted `WorkflowInvocationStep` (`WorkflowInvocationStep.vue:112-137`) — on the Steps tab that is every step (perf TODO `WorkflowInvocationSteps.vue:147-152`).
 
-1. **WorkflowInvocationState** polls `invocationStore.fetchInvocationById` until `invocationSchedulingTerminal` (state is scheduled/cancelled/failed/completed)
-2. **WorkflowInvocationState** polls `invocationStore.fetchInvocationJobsSummaryForId` + `fetchInvocationStepJobsSummaryForId` until all jobs are terminal
-3. **InvocationGraph** polls `loadInvocationGraph()` every 3s until `isTerminal` prop is true -- this re-processes the `stepsJobsSummary` (already being polled by parent) to update step visual states
-
-All polling uses `setTimeout` chains (not `setInterval`) and cleans up via `onUnmounted` / `clearTimeout`.
+Metrics use stale-while-revalidate keyed on terminal job counts (`invocationStore.ts:153-250`).
 
 ## Editor Canvas Reuse
 
-The invocation graph reuses `WorkflowGraph.vue` in readonly mode with `isInvocation=true`:
+### Props passed to `WorkflowGraph` (`InvocationGraph.vue:204-217`)
 
-### Props passed to WorkflowGraph
-- `steps`: GraphStep objects (with state/jobs/headerClass/nodeText)
-- `readonly`: true
-- `isInvocation`: true
-- `fixedHeight`: 60 (vh units)
-- `showMinimap`: depends on `isFullPage`
-- `showZoomControls`: true
-- `initialPosition`: `{ x: -40 * zoom, y: -40 * zoom }`
+`steps`, `datatypes-mapper`, `initial-position` (`{x: -initialX*zoom, y: -initialY*zoom}`, defaults `initialX/Y=-40`, `zoom=0.75`), `scroll-to-id=activeNodeId`, `show-minimap` (default true), `show-zoom-controls`, `detailed-view`, `fixed-height=60` (vh), `is-invocation`, `readonly`, `@stepClicked`.
 
-### How Node.vue adapts for invocation mode
+On mount, after loading: `fitWorkflow(0.25, 1.0, 20.0)` — max zoom capped at 100% (#22105). Vertical scroll is prevented (#22769).
 
-When `isInvocation=true`:
-- **Header**: uses `invocationStep.headerClass` (state-colored) instead of default `node-header`; cursor is `pointer` not `move`
-- **Header icon**: shows state icon (spinner for running, check for ok, etc.)
-- **Body**: shows `NodeInvocationText` instead of normal step content
-- **Inputs**: rendered with `position-absolute` and `blank=true` (invisible labels, but connection points preserved for edge rendering)
-- **Outputs**: rendered with `blank=true`, positioned absolutely to overlay
-- **Rule divider**: hidden
-- **Click behavior**: `onActivate` emits to set `activeNodeId` in state store
+### Node.vue in invocation mode
 
-### NodeInvocationText rendering
+- **Header**: `invocationStep.headerClass` merged in; `node-header` only when no headerClass; `cursor-move` only when `!readonly && !isInvocation` (`Node.vue:297-304`). State icon from `headerIcon`/`headerIconSpin`.
+- **Body**: `NodeInvocationText`; inputs `position-absolute` + `blank` (connection points kept); outputs `blank`; rule hidden (`:126-141`).
+- **Error steps** still render terminals/connections (`:118`, #23861).
+- The same invocation styling applies to populated **run-form** inputs via `isPopulatedInput` (`:99,142-150,273-279`).
+- Click → `onActivate` → `stateStore.activeNodeId` (`WorkflowGraph.vue:175-180`). Clean background click deselects (`:205-223`).
 
-For tool/subworkflow steps with jobs:
-- Renders `InvocationStepStateDisplay` per job state (e.g., "2 jobs successful", "1 job failed")
+### Features added in 26.x
 
-For input steps:
-- Boolean: checkbox icon + value
-- Color: hex string + color swatch input
-- Other: sanitized HTML (e.g., `{hid}: <b>{name}</b>`)
+| Feature | Mechanism | PR |
+|---------|-----------|----|
+| Focus / isolate mode | `useFocusedNodes` (now `components/Graph/composables/`) dims nodes outside active node's upstream+downstream lineage; separate directional traversals exclude sibling branches (`WorkflowGraph.vue:63-82,310`, `Node.vue:287`) | #22142 |
+| Show Connections | `detailedView` renders the **active** node with `isInvocation=false`, i.e. full editor terminals (`WorkflowGraph.vue:308`) | #22159 |
+| Minimap state colors | `getStepColor` in `modules/canvasDraw.ts:26-48` reads `--state-color-*` CSS vars derived from the node's `headerClass` | #22335 |
+| Graph search | `WorkflowInvocationSearch` reuses editor `GraphSearch`, sets `pendingHighlight`/`activeNodeId` | #22476 |
 
-## Step Detail Card (below graph)
+### NodeInvocationText
 
-When a node is clicked (`activeNodeId !== null`):
-1. A `BCard` appears below the graph with:
-   - **Header**: `WorkflowInvocationStepHeader` (step title, state badge, icon) + navigation (Prev/Next/Close buttons)
-   - **Body**: `WorkflowInvocationStep` with `expanded=true` and `inGraphView=true`
-2. Navigation: Prev/Next buttons increment/decrement `activeNodeId`
-3. Scroll-to-view: clicking a step scrolls the card header into view; a "scroll to step" button also exists
+- Steps with `jobs`: one `InvocationStepStateDisplay` per state ("2 jobs successful").
+- Inputs: boolean → checkbox icon; `isColor` (`^#[0-9a-f]{6}$`) → swatch; else `purify.sanitize(v, {ALLOWED_TAGS: ["b"]})` via `v-sanitize-html` (#23791).
+- Fallbacks: "This is an input", "This is a subworkflow.", "This step has no jobs as of yet."
 
-`WorkflowInvocationStep` handles different step types:
-- **Tool steps**: Shows `JobStep` (job list with state filtering, pagination) + Outputs tab
-- **Subworkflow steps**: Shows `SubworkflowAlert` with link to subworkflow invocation
-- **Data input steps**: Shows `GenericHistoryItem`
-- **Parameter input steps**: Shows `ParameterStep`
+## Step Detail Card
 
-## Steps Tab (separate from graph)
+Shown when `activeNodeId !== null` (`InvocationGraph.vue:243-292`):
+- Sticky header colored by `headerClass`: `WorkflowInvocationStepHeader` + Scroll-to, Prev/Next (by step index), Hide.
+- Body: `WorkflowInvocationStep` keyed by `activeNodeId`, `expanded`, `in-graph-view`.
 
-`WorkflowInvocationSteps.vue` (in `Workflow/Invocation/Graph/`) renders all steps in a list view:
-- Uses `useInvocationGraph` with `loadOntoEditor=false` (just computes GraphStep objects, doesn't load onto canvas)
-- Groups input steps in a collapsible "Workflow Inputs" section
-- Each step is a `WorkflowInvocationStep` with externally-managed expansion state
-- Uses `useWorkflowInstance` to fetch the workflow
+`WorkflowInvocationStep.vue` is a `GTabs` (`:273-338`):
+- Step annotation above tabs (`:222-227`).
+- **Jobs** (tool steps) — `JobStep` with state-filter navbar + paginated `JobStepJobs`.
+- **Outputs** (if any).
+- **Step Config** (lazy) — readonly `FormTool`/`FormDefault` in a disabled fieldset, falling back to `POST api/workflows/build_module` (`:154-189,319-337`; #22144).
+- Data inputs → `GenericHistoryItem`; parameters → `ParameterStep`; subworkflows → `SubworkflowAlert` link; unscheduled subworkflow steps list upstream steps (`:253-268`).
+
+## Steps Tab
+
+`client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.vue` (184 lines):
+- `useInvocationGraph(...).loadInvocationGraph(false)` — states only, no canvas (`:105`).
+- Inputs grouped in a collapsible portlet only with 2+ inputs (`:75-76`); auto-expanded while searching.
+- `DelayedInput` step search via `getStepTitle` (#22476).
+- Load-error `GAlert` (#23844).
+- Each `WorkflowInvocationStep` gets `:expanded="undefined"` → manages its own expansion.
 
 ## Sibling: Workflow Run Graph
 
-`useWorkflowRunGraph.ts` (223 lines) is a sibling composable that reuses the same graph infrastructure for the workflow **run form** (before invocation). It:
-- Imports `getHeaderClass` from `useInvocationGraph`
-- Shows input state on the graph as users fill in the run form (populated/unpopulated/error)
-- Uses the same `fromSimple` pattern to load onto scoped editor stores
-- Does NOT show job states (no invocation exists yet)
+`client/src/composables/useWorkflowRunGraph.ts` (227 lines) — same canvas for the run form:
+- Fetches via `getWorkflowFull` (not the store); `fromSimple(workflowId, …)` scoped to the raw workflow id (provided by `WorkflowRunFormSimple.vue:79`).
+- Imports `getHeaderClass`: `ok` when populated, `paused` when unpopulated/invalid, none when optional (`:195`).
+- Passes raw hex for color params (`:165-167`), so the swatch branch of `NodeInvocationText` fires here.
 
-This establishes a pattern where the editor canvas is a reusable visualization layer, with composables providing different data overlays (invocation states vs. run-form states).
+## Two Graph Renderers
+
+| | `Workflow/Editor/WorkflowGraph.vue` (this view) | `components/Graph/GraphView.vue` (#21932) |
+|---|---|---|
+| Consumers | editor (`Index.vue`), invocation graph, run form (`WorkflowRunGraph.vue`), published workflow (`WorkflowPublished.vue`) | history graph (`histories/:historyId/graph/:tab?`) |
+| Layout | stored step `position` from workflow JSON | ELK layered, left→right; measure-then-layout (`layoutGraph.ts`) |
+| Data model | `Step`/`GraphStep` in scoped Pinia stores via `fromSimple` | plain `GraphNode<TData>[]` / `GraphEdge[]` props (`types.ts`) |
+| Nodes | `Node.vue` with editor terminals, `isInvocation`/`blank` switches | `GraphNode.vue` + single merged connector (`single`/`multiple`) |
+| Coloring | `headerClass` → `.node-header-invocation.header-{state}` | `nodeColor(node)` callback prop |
+| Minimap | `WorkflowMinimap` (canvas) | `GraphMinimap` |
+| Shared | `useD3Zoom`, `useViewportBoundingBox`, `useFocusedNodes`, `Graph/ZoomControl.vue` (editor's `ZoomControl.vue` is a re-export) | same |
+
+Implication: features that only need nodes + edges + color (cardinality badges, subworkflow expansion, collapsed views) are cheaper on `GraphView`; features that need step terminals, the tool form or editor parity (Show Connections, Step Config) need `WorkflowGraph`.
 
 ## Styling
 
-### State-colored headers (`base.scss:195`)
+`client/src/style/scss/base.scss`:
+- `$galaxy-state-bg` (`:145-168`) now includes `paused`, `skipped`, `uninitialized`, `finishing`, `resubmitted`, `failed`, `deleting`, `stop`, `stopped` — the old per-class `header-paused`/`header-skipped` overrides are gone.
+- `:root` exposes each as `--state-color-{state}` (`:182-186`) for canvas rendering.
+- `.node-header-invocation` (`:225-232`) loops the map into `&.header-{state}`.
 
-```scss
-.node-header-invocation {
-    color: $text-color;
-    @each $state in map-keys($galaxy-state-bg) {
-        &.header-#{$state} {
-            background-color: map-get($galaxy-state-bg, $state) !important;
-        }
-    }
-    &.header-paused { background-color: $state-info-bg !important; }
-    &.header-skipped { background-color: map-get($galaxy-state-bg, "hidden") !important; }
-}
-```
-
-Uses the `$galaxy-state-bg` SCSS map (defined in theme) to derive colors for each state. The `getHeaderClass` function returns `{ "node-header-invocation": true, "header-{state}": true }`.
-
-### Component-scoped styles
-
-- **InvocationGraph.vue**: `.graph-scroll-overlay` (semi-transparent edge overlays when step selected), `.invocation-graph` (z-index for minimap/zoom), `.invocation-step-card` (min-height 500px)
-- **Node.vue**: `.invocation-node-output` (absolutely positioned outputs), `.node-header` variants
-- **NodeInvocationText.vue**: `.truncate` (overflow handling), `.color-input` (color swatch sizing)
+Scoped: `InvocationGraph.vue` has `.graph-scroll-overlay`, `.invocation-graph` (z-index for minimap/zoom), `.invocation-step-card` (min-height 500px), `.detailed-view-button`, sticky `.invocation-step-header`.
 
 ## API Dependencies
 
-### Invocation Store endpoints
+| Store method | Endpoint |
+|--------------|----------|
+| `fetchInvocationById` | `GET /api/invocations/{id}` |
+| `fetchInvocationJobsSummaryForId` | `GET /api/invocations/{id}/jobs_summary` |
+| `fetchInvocationStepJobsSummaryForId` | `GET /api/invocations/{id}/step_jobs_summary` |
+| `fetchInvocationStepById` | `GET /api/invocations/steps/{step_id}` |
+| `cancelWorkflowScheduling` | `DELETE /api/invocations/{id}` (`invocationStore.ts:103`) |
+| (Feedback tab) | `POST /api/invocations/{id}/error` |
+| (Step Config fallback) | `POST /api/workflows/build_module` |
 
-| Method | Endpoint | Used for |
-|--------|----------|----------|
-| `fetchInvocationById` | `GET /api/invocations/{invocation_id}` | Full invocation data |
-| `fetchInvocationJobsSummaryForId` | `GET /api/invocations/{invocation_id}/jobs_summary` | Aggregate job states |
-| `fetchInvocationStepJobsSummaryForId` | `GET /api/invocations/{invocation_id}/step_jobs_summary` | Per-step job summaries |
-| `fetchInvocationStepById` | `GET /api/invocations/steps/{step_id}` | Individual step details |
-| `cancelWorkflowScheduling` | `DELETE /api/invocations/{invocation_id}` | Cancel invocation |
-
-### Key API Types (`client/src/api/invocations.ts`)
-
-- `WorkflowInvocationElementView` -- full invocation with steps, inputs, outputs
-- `StepJobSummary` -- union of `InvocationStepJobsResponseStepModel | ...JobModel | ...CollectionJobsModel`
-- `InvocationJobsSummary` -- aggregate job state counts
-- `InvocationStep` -- individual step with `job_id`, `implicit_collection_jobs_id`, `state`
-
-### Workflow Store
-
-- `getFullWorkflowCached(workflowId, version)` -- fetches and caches the specific workflow version
-- `getStoredWorkflowByInstanceId(workflowId)` -- gets stored workflow metadata
-- `fetchWorkflowForInstanceId(workflowId)` -- fetches workflow if not cached
+Types in `client/src/api/invocations.ts:6-23`: `WorkflowInvocationElementView`, `StepJobSummary`, `InvocationJobsSummary`, `InvocationStep`. Workflow store: `getFullWorkflowCached`, `getStoredWorkflowByInstanceId`, `fetchWorkflowForInstanceId` (`workflowStore.ts:197,227,266`).
 
 ## Test Coverage
 
-### Unit Tests
+### Unit (vitest)
 
-| File | What it tests |
-|------|---------------|
-| `WorkflowInvocationState.test.ts` | Tab rendering, terminal/non-terminal states, fetch call counts |
-| `WorkflowInvocationOverview.test.js` | Overview rendering with invocation graph |
-| `JobStep.test.ts` | Job listing, state filtering |
-| `JobStepJobs.test.ts` | Job pagination, sorting |
-| `WorkflowInvocationInputOutputTabs.test.ts` | Input/output tab rendering |
-| `WorkflowInvocationShare.test.ts` | Share functionality |
+| File | Covers |
+|------|--------|
+| `composables/useInvocationGraph.test.ts` | state derivation, every branch |
+| `Workflow/Editor/modules/canvasDraw.test.ts` | minimap color from headerClass |
+| `Workflow/Editor/NodeInvocationText.test.ts` | sanitized rendering |
+| `Workflow/Editor/Node.test.ts` | error-step terminals |
+| `Graph/composables/useFocusedNodes.test.ts` | lineage traversal |
+| `Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts` | load error |
+| `WorkflowInvocationState/WorkflowInvocationState.test.ts` | tabs, terminal states, fetch counts |
+| `WorkflowInvocationState/WorkflowInvocationOverview.test.js` | overview |
+| `WorkflowInvocationState/WorkflowInvocationFeedback.test.ts` | load error |
+| `WorkflowInvocationState/WorkflowInvocationStepHeader.test.ts` | popover |
+| `WorkflowInvocationState/WorkflowStepIcon.test.ts`, `util.test.ts` | icons, `getStepTitle`, terminal counts |
+| `JobStep.test.ts`, `JobStepJobs.test.ts`, `WorkflowInvocationInputOutputTabs.test.ts`, `WorkflowInvocationShare.test.ts` | step jobs, tabs, share |
+| `stores/invocationStore.test.ts` | store caching |
 
-### Selenium Test
+### E2E
 
-`lib/galaxy_test/selenium/test_workflow_invocation_details.py` (143 lines, 2 tests):
-1. `test_job_details` -- Verifies progress bars, inputs tab, steps tab, job details, outputs tab
-2. `test_invocation_step_jobs_with_failed_jobs` -- Verifies mixed ok/error job state counters, error filtering, Debug tab
+`lib/galaxy_test/selenium/test_workflow_invocation_details.py` (142 lines): `test_job_details`, `test_invocation_step_jobs_with_failed_jobs` — both go through the Steps tab. **No selenium/Playwright test touches the Overview graph canvas**; `navigation.yml` has no invocation-graph selectors beyond generic `workflow_editor.node.by_id` (`:1060`). Graph features (focus, Show Connections, Step Config, minimap colors, search) are unit-tested at best.
 
-## File Inventory (27 files)
+## Recent Activity
 
-### Core graph components
+| PR | Merged | Change |
+|----|--------|--------|
+| #20719 | 2025-08 | Routable tabs; Steps tab uses `useInvocationGraph` |
+| #20870 | 2025-09 | Lazy tabs; HDCA collection-summary fetch |
+| #20912 | 2025-09 | Step `GTabs`; JobStep state filter; `InvocationStepProvider` removed |
+| #21115 | 2025-10 | `TabsDisabledAlert`; invalid tab → Overview |
+| #21514 | 2026-01 | Subworkflow scheduling errors (`InvocationMessage`) |
+| #22105 | 2026-03 | Zoom-to-fit capped at 100% |
+| #22142 | 2026-03 | Focus/isolate mode; background-click deselect |
+| #22159 | 2026-03 | "Show Connections" toggle |
+| #22144 | 2026-04 | Step Config tab, step annotation, sticky header |
+| #22425 | 2026-04 | Collapsible invocation header |
+| #22335 | 2026-04 | Minimap state colors; schema-derived `GraphStepState`; `uninitialized` |
+| #22476 | 2026-04 | Graph + Steps search |
+| #21932 | 2026-05 | Generic `components/Graph/` (history graph); shared zoom utilities |
+| #22769 / #23194 | 2026-06/07 | Vertical scroll fix; node CSS fixes |
+| #22873 | 2026-06 | Notebook reports in Report tab |
+| #23436 | 2026-09 | `finishing` state color + icon |
+| #23791 | 2026-09 | `v-sanitize-html` for node text |
+| #23844 | 2026-10 | Steps/Debug graph load-failure handling |
+| #23861 | 2026-10 | Error steps keep terminals/connections (fixes #7141) |
+| #20787 | 2026-10 | Vue 3 migration (explicit WorkflowGraph event forwarding, `v-model:`, VTU2) |
+
+Umbrella issue #21086 ("More improvements to Invocation View Step Displays") is closed — its four items landed as #22142/#22144/#22159/#22335.
+
+## Open Issues / Development Hooks
+
+| Issue | Ask | Where it lands |
+|-------|-----|----------------|
+| #22745 | Graph freezes on large workflows (171 steps on EU, 26.0 + 26.1) | polling + `updateSteps`; see Known Issues |
+| #21989 | Expose subworkflow info in parent graph and step card | `updateStep` subworkflow branch (`:255-264`), `WorkflowInvocationStep` subworkflow tab |
+| #22075 | Show collection cardinality on edges; highlight scheduling-failed steps | edges are editor `WorkflowEdges`; mvdbeek: expensive, show the real error instead |
+| #20864 | Perf of Inputs/Outputs + Steps tabs (open dev items: paginate ICJ jobs, double-fetch of inputs, `GenericItem` refactor) | `WorkflowInvocationSteps`, `GenericHistoryItem` |
+
+## Known Issues & Limitations
+
+From code (TODOs in `useInvocationGraph.ts`):
+1. `:204` — state changes outside `stepsJobsSummary` (subworkflows) are not detected.
+2. `:259` — subworkflow steps sit at `scheduled` regardless of child outcome.
+3. `:282` — step with no matching job summary → `waiting`, meaning unclear.
+4. `:356`, `:361` — HDA/HDCA state cast to `GraphStep["state"]`.
+
+Found during verification (inferred from reading, not run):
+- **Color param swatch is dead in invocation mode.** `initializeGraphInput` wraps every non-boolean value as `<b>{value}</b>` (`:369`), so `NodeInvocationText.isColor` never matches; swatch only works in the run graph.
+- **Steps/Debug tab states likely freeze while running.** `WorkflowInvocationSteps` calls `loadInvocationGraph(false)` only on `workflowId` change (`:100-113`) and the composable has no watcher on `stepsJobsSummary`, so header colors stay at first-load values; only the Overview re-polls.
+- **Quadratic per-poll work.** `JSON.stringify(stepsJobsSummary)` is evaluated once per step inside the `updateSteps` loop (`:206-208`), every 3 s — O(steps × summary size). Together with redundant level-3 polling and per-step level-4 polling, a plausible contributor to #22745.
+- **Redundant polling.** `InvocationGraph` re-polls data its parent already polls.
+- **`fromSimple` overhead.** Invocation mode loads the editor's full store model; comments/undo/toolbar stores are unused.
+- **Feedback duplicates lookup.** `WorkflowInvocationFeedback.vue:56-70` re-implements the step→summary match from `useInvocationGraph.ts:213-219`.
+- **No E2E coverage of the canvas** (see Tests).
+
+## Where to Change What
+
+| Goal | Start at |
+|------|----------|
+| New step state / color | `$galaxy-state-bg` in `base.scss`, `iconClasses`, `updateStep` |
+| Subworkflow state (#21989) | `updateStep` subworkflow branch; needs child invocation data — no API on summary today |
+| Per-node extra text/badges | `NodeInvocationText.vue`, `GraphStep.nodeText` |
+| Edge annotations (#22075) | editor `WorkflowEdges` — or prototype on `GraphView` |
+| Perf (#22745) | hoist the stringify out of the loop; drop level-3 polling in favor of a watcher on `stepsJobsSummary` (would also fix Steps-tab freezing) |
+| Step card content | `WorkflowInvocationStep.vue` `GTabs` |
+| E2E tests | add `navigation.yml` selectors for graph node headers / step card; extend `test_workflow_invocation_details.py` |
+
+## File Inventory
+
+### Graph core
 | File | Lines | Role |
 |------|-------|------|
-| `composables/useInvocationGraph.ts` | 366 | Core graph state logic |
-| `composables/useWorkflowRunGraph.ts` | 223 | Sibling: run-form graph |
-| `composables/useWorkflowInstance.ts` | 31 | Workflow fetch helper |
-| `composables/workflowStores.ts` | 103 | Scoped store provisioning |
-| `Workflow/Invocation/Graph/InvocationGraph.vue` | 310 | Graph + step detail card |
-| `Workflow/Invocation/Graph/WorkflowInvocationSteps.vue` | 101 | Steps list view |
+| `composables/useInvocationGraph.ts` | 399 | state derivation, canvas load |
+| `composables/useWorkflowRunGraph.ts` | 227 | run-form sibling |
+| `composables/useWorkflowInstance.ts` | 31 | workflow fetch helper |
+| `composables/workflowStores.ts` | 103 | scoped store provisioning |
+| `composables/timeoutStoreDispose.ts` | — | ref-counted delayed dispose |
+| `components/Workflow/Invocation/Graph/InvocationGraph.vue` | 354 | canvas + step card |
+| `components/Workflow/Invocation/Graph/WorkflowInvocationSteps.vue` | 184 | Steps tab |
+| `components/Graph/composables/useFocusedNodes.ts` | 55 | lineage focus (shared) |
+| `components/Workflow/Editor/modules/canvasDraw.ts` | — | minimap colors |
 
-### Editor components (adapted for invocation)
-| File | Role |
-|------|------|
-| `Workflow/Editor/WorkflowGraph.vue` | Canvas container |
-| `Workflow/Editor/Node.vue` | Node rendering w/ `isInvocation` prop |
-| `Workflow/Editor/NodeInvocationText.vue` | In-node job state display |
-| `Workflow/Editor/NodeInput.vue` | Input terminals w/ `blank` prop |
-| `Workflow/Editor/NodeOutput.vue` | Output terminals w/ `blank` prop |
+### Editor components adapted for invocation
+`Workflow/Editor/WorkflowGraph.vue`, `Node.vue`, `NodeInvocationText.vue`, `NodeInput.vue`, `NodeOutput.vue`, `WorkflowMinimap.vue`, `Workflow/GraphSearch.vue`.
 
-### Invocation state components
-| File | Role |
-|------|------|
-| `WorkflowInvocationState/WorkflowInvocationState.vue` | Top-level page, polling, tabs |
-| `WorkflowInvocationState/WorkflowInvocationOverview.vue` | Overview tab, hosts InvocationGraph |
-| `WorkflowInvocationState/WorkflowInvocationStep.vue` | Expandable step detail |
-| `WorkflowInvocationState/WorkflowInvocationStepHeader.vue` | Step header w/ state badge |
-| `WorkflowInvocationState/WorkflowInvocationError.vue` | Error cards w/ step navigation |
-| `WorkflowInvocationState/InvocationStepStateDisplay.vue` | Job state counter (icon + count) |
-| `WorkflowInvocationState/JobStep.vue` | Job list w/ state filtering |
-| `WorkflowInvocationState/JobStepJobs.vue` | Paginated job table |
-| `WorkflowInvocationState/WorkflowInvocationInputOutputTabs.vue` | Inputs/Outputs tabs |
-| `WorkflowInvocationState/WorkflowInvocationMetrics.vue` | Vega metric charts |
-| `WorkflowInvocationState/WorkflowInvocationFeedback.vue` | Debug tab |
-| `WorkflowInvocationState/SubworkflowAlert.vue` | Subworkflow link |
-| `WorkflowInvocationState/WorkflowStepIcon.vue` | Step type icon |
-| `WorkflowInvocationState/WorkflowStepTitle.vue` | Step title display |
-| `WorkflowInvocationState/util.ts` | Job state counting helpers |
+### `components/WorkflowInvocationState/`
+`WorkflowInvocationState.vue` (page, polling, tabs), `WorkflowInvocationOverview.vue`, `WorkflowInvocationStep.vue`, `WorkflowInvocationStepHeader.vue`, `WorkflowInvocationError.vue`, `InvocationMessage.vue` (289), `InvocationStepStateDisplay.vue`, `JobStep.vue`, `JobStepJobs.vue`, `ParameterStep.vue` (79), `SubworkflowAlert.vue`, `TabsDisabledAlert.vue` (18), `WorkflowInvocationInputOutputTabs.vue`, `WorkflowInvocationInputs.vue` (26), `WorkflowInvocationOutputs.vue` (28), `WorkflowInvocationSearch.vue` (125), `WorkflowInvocationShare.vue` (154), `WorkflowInvocationExportOptions.vue` (33), `WorkflowInvocationMetrics.vue`, `WorkflowInvocationFeedback.vue`, `WorkflowStepIcon.vue`, `WorkflowStepTitle.vue`, `util.ts`.
 
 ### Stores
-| File | Role |
-|------|------|
-| `stores/invocationStore.ts` | Invocation data caching + API calls |
-| `stores/workflowStore.ts` | Workflow data + version-aware caching |
-| `stores/workflowEditorStateStore.ts` | Per-graph state (activeNodeId, scale) |
-
-## Known TODOs / Limitations
-
-5 TODOs remain in `useInvocationGraph.ts`:
-1. **L172**: "What if the state of something not in the stepsJobsSummary has changed? (e.g.: subworkflows...)"
-2. **L227**: Subworkflow steps are often `scheduled` regardless of actual output success -- could derive state from subworkflow outputs
-3. **L250**: "There is no summary for this step's `job_id`; what does this mean?" -- falls back to `waiting`
-4. **L323**: Type mismatch between HDA state and `GraphStep["state"]`
-5. **L328**: Same type mismatch for HDCA state
-
-Additional architectural concerns:
-- **Redundant polling**: InvocationGraph polls independently at 3s even though WorkflowInvocationState already polls the same data. The `stepsJobsSummary` is passed down as a prop, so the InvocationGraph poll just reprocesses already-updated data.
-- **Multiple `useInvocationGraph` instances**: The composable is called independently by InvocationGraph (Overview tab), WorkflowInvocationSteps (Steps tab), and WorkflowInvocationFeedback (Debug tab). Each creates its own scoped stores and step state. A TODO in WorkflowInvocationOverview notes: "Refactor so that `storeId` is only defined here, and then used in all children components/composables."
-- **Subworkflow state is not fully represented**: The graph shows subworkflow steps as "scheduled" even when their child invocation has completed or failed. The only way to see subworkflow details is via the SubworkflowAlert link.
-- **`fromSimple` side effect**: Loading graph data into scoped stores uses `fromSimple`, which is the same function used by the editor to deserialize workflows. In invocation mode most of the store data (connections, comments, undo/redo) goes unused.
+`stores/invocationStore.ts` (caching, polling targets, metrics SWR), `stores/workflowStore.ts` (version-aware cache), `stores/workflowEditorStateStore.ts` (`activeNodeId`, scale, `pendingHighlight`).

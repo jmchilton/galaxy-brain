@@ -9,8 +9,8 @@ github_pr: 21463
 github_repo: galaxyproject/galaxy
 status: draft
 created: 2026-02-13
-revised: 2026-05-21
-revision: 5
+revised: 2026-10-14
+revision: 6
 ai_generated: true
 summary: "OpenAI Chat Completions endpoint supports Jupyternaut AI assistant in JupyterLite visualizations"
 related_notes:
@@ -19,6 +19,7 @@ related_notes:
   - "[[PR 21434 - AI Agent Framework and ChatGXY]]"
   - "[[PR 21942 - Shared Agent Operations and MCP Server]]"
   - "[[PR 22070 - Static YAML Agent Backend for Deterministic Testing]]"
+  - "[[Component - Dataset Display]]"
 ---
 
 # PR #21463 Research Summary

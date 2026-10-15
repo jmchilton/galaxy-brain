@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*122 notes. Auto-generated — run `make index` to refresh.*
+*123 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -42,13 +42,14 @@
 - [[Component - Collection Tool Execution Semantics]] — Collection types (list, paired, record), mapping semantics, linked vs cross-product multiple inputs, element identifier flow
 - [[Component - Tool XML Collection Commands]] — DatasetCollectionWrapper objects in Cheetah command templates, paired/list iteration access
 - [[Component - Collections in Tool XML Tests]] — Test syntax for collections: nested 'collection' tags with type, elements, fields for records and paired variants
-- [[Component - Invocation Graph View]] — Visual DAG rendering of workflow invocation with real-time job state, readonly editor canvas
+- [[Component - Invocation Graph View]] — Readonly workflow-editor canvas overlaying live job state on invocation steps, plus its step card, search, polling and the generic GraphView alternative
 - [[Component - API Tests Tools]] — Tool API testing split: ~3500 lines legacy unittest tests + ~775 lines modern fluent pytest with input parametrization
 - [[Component - Collection Adapters]] — Ephemeral wrappers promoting datasets/pairs to collections at tool runtime (PromoteDatasetToCollection family)
 - [[Component - CORS Handling]] — Five CORS mechanisms — global origin-validated middleware, per-route reflected-origin landings, OPTIONS catch-all, legacy WSGI path, display-app proxy
 - [[Component - CWL Ephemeral Collections]] — Lightweight non-persisted collections created during CWL execution for MultipleInputFeatureRequirement merge strategies
 - [[Component - CWL Workflow State]] — CWL workflow import to persistence to execution: parsed via WorkflowProxy, state encoded/decoded, tool_inputs dict
 - [[Component - Collection Creation API]] — Two-path collection creation: direct POST with element identifiers or fetch API uploading new data atomically
+- [[Component - Dataset Display]] — Catalog of the eight ways the UI renders dataset contents, from datatype display_data and viz plugins to display apps, peek and Markdown embeds
 - [[Component - DRS Support]] — Client and server for GA4GH DRS URIs — file-source plugin, identifiers.org compact-identifier resolution, OIDC bearer token attachment
 - [[Component - Agents Backend]] — Multi-agent AI framework with pydantic-ai, five specialized agents, registry pattern, and async execution
 - [[Component - Agents UX]] — Four agent UX surfaces: ChatGXY full-page chat, GalaxyWizard error widget, tool generator, Jupyternaut proxy
