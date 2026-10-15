@@ -1,10 +1,10 @@
 # integration_ci_paths
 
-Status: `branches_need_polish`. Base: `dev`. Fork: `jmchilton/integration_ci_paths`.
+Status: `branches_ready_for_final_review`. Base: `dev`. Fork: `jmchilton/integration_ci_paths`.
 
 Skips the Integration workflow when a PR only changes test suites that run in other workflows (unit, API, Selenium, workflow framework). Companion to `integration_ci_scope`; independent of it.
 
-[PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish checklist](polish_checklist.md)
+[PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish checklist](polish_checklist.md) · [Strengthening](polish_strengthening.md) · [Polish debrief](polish_debrief.md)
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Codex](codex_review.md)
 
@@ -22,4 +22,6 @@ Current fork head fb7c6a96a759 still has an in-progress check. The two package r
 
 ## Polish — 2026-10-14
 
-In progress. Original head `fb7c6a96a759d5f0255dac31cb632a4c5a494b26` passed Integration, API, workflow framework, lint and other runtime workflows. Package run [38625245560](https://github.com/jmchilton/galaxy/actions/runs/38625245560) fails mypy at unchanged `galaxy/security/ssh_util.py:18` on Python 3.10 and 3.14 (`publickey` untyped call), verified in failed logs; unrelated to this branch. Rebased without conflicts onto current `origin/dev`; new head `ec49da686a6e7551c6e9b50f14d948cde87d037f`.
+Completed. Original head `fb7c6a96a759d5f0255dac31cb632a4c5a494b26` passed Integration, API, workflow framework, lint and other runtime workflows. Package run [38625245560](https://github.com/jmchilton/galaxy/actions/runs/38625245560) fails mypy at unchanged `galaxy/security/ssh_util.py:18` on Python 3.10 and 3.14 (`publickey` untyped call), verified in failed logs; unrelated to this branch. Rebased without conflicts onto current `origin/dev`; new head `ec49da686a6e7551c6e9b50f14d948cde87d037f`.
+
+Fresh checklist passed; one strengthening round returned “nothing to add”. No code changes beyond the conflict-free rebase. Current head CI remains queued ([Integration](https://github.com/jmchilton/galaxy/actions/runs/38661010332)); previous-head passing results are not claimed for the new head. Human-read checkbox remains unchecked. See the linked description, titles and polish debrief for final review.
