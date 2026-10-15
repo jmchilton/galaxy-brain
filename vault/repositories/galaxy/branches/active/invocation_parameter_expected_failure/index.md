@@ -17,7 +17,7 @@ Tests: workflow unit suite 120 passed, 2 skipped; new API test red→green; ruff
 
 - The child subworkflow invocation is left `new` after the parent fails. The poller re-runs it, which logs an ERROR (`TypeError ... 'NoReplacement'`), and it ends `failed` / `unexpected_failure` (verified by an API probe). The step badges link to it. `release_26.1` does the same. Fix it here or in a separate PR?
 - The regression is in `release_25.0` onward. Is `release_26.1` still the target?
-- The new test patches the validator into a native export because gxformat2 silently drops text-parameter `validators` in both directions. Filed galaxyproject/gxformat2#264 at John's request. The test comment is slightly imprecise: numeric `min`/`max` round-trip on gxformat2 main (`ee79365`, unreleased). It's left as is pending John.
+- The new test patches the validator into a native export because gxformat2 silently drops text-parameter `validators` in both directions. Filed galaxyproject/gxformat2#264 at John's request. The fix is in [gxformat2#265](https://github.com/galaxyproject/gxformat2/pull/265), which is unreleased. The test comment is slightly imprecise: numeric `min`/`max` round-trip on gxformat2 main (`ee79365`, unreleased). It's left as is pending John.
 - `test_run_with_validated_parameter_connection_invalid` doesn't reach `workflow_parameter_invalid` (the workflow schedules, and the job errors).
 
 ## CI

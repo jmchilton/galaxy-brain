@@ -16,6 +16,8 @@ Local: full suite 787 passed / 8 skipped; mypy, pyrefly, ruff/flake8/black on ch
 
 2026-10-14 later: merged `origin/main` (#219 draft ops) into branch at `06495cb` to clear conflict; only `tests/test_interop_tests.py` OPERATIONS dict conflicted, kept both. 888 passed / 8 skipped, mypy clean. PR mergeable.
 
+2026-10-15: CI run 38586201483 on `06495cb` failed on `py310-lint`. Ruff 0.17.0 flagged SIM117 (nested `with`) in `test_default_url_resolver_trs_missing_content`, which came from my `fbd5c44` fix-up. The earlier "lint clean" claim used the lint group's older ruff, not the version CI installs. I pushed `7d0e5af`, which combines the two context managers into one parenthesized `with`. Latest `uvx ruff check` and black pass, and the options tests pass.
+
 No GitHub review/comment posted. Shared fixture/expectation unchanged.
 
 Not addressed (in review; shared with Galaxy `trs_proxy`, would need both repos + fixture): version with `?query`/`/`, `+` not idempotent on re-encode, CWL/relative descriptor URLs rewritten to GALAXY, resolver ignores `content_source`, cycle detection keyed on raw URL, `is_trs_url` now uncalled.
