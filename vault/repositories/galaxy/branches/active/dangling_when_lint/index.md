@@ -1,6 +1,6 @@
 # dangling_when_lint
 
-Status: `ready`. Base: `dev`.
+Status: `ready`. Base: `release_26.2`.
 
 Warns about disconnected workflow when-inputs and gives them editor ports.
 
@@ -19,3 +19,7 @@ All 59 prior-head checks settled: 57 successful, two skipped. The human-read ite
 ## TICK reruns — 2026-10-15
 
 Requested failed-job reruns for recorded unrelated failures: [run 38640172253](https://github.com/galaxyproject/galaxy/actions/runs/38640172253). Requests accepted; reruns are pending evidence, not green results. Existing classification and review holds remain.
+
+## Retargeted to release_26.2 — 2026-10-15
+
+At John's request (Marius asked on the PR to retarget to 26.2). Cherry-picked both commits onto `origin/release_26.2` `7690068b48a` in new worktree `worktrees/galaxy/branch/dangling_when_lint_26.2`; clean, range-diff identical, diff check clean. Touched files identical between old dev base and release_26.2, so no local test rerun. #23816 dependency confirmed in release_26.2. Force-pushed `c13dd4dced9` to jmchilton with lease on old head `0b981e90eea`. PR base → `release_26.2`, title prefixed `[26.2]`. Replied to Marius ([comment](https://github.com/galaxyproject/galaxy/pull/24107#issuecomment-6204049432)). Fresh CI pending. Old `dangling_when_lint` worktree still on stale dev-based head `f985392361a`.
