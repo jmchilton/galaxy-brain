@@ -33,6 +33,13 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 
 ## Queued (`queued`)
 
+- [#24172](https://github.com/galaxyproject/galaxy/issues/24172) — column param on not-ready dataset shows "No options available.", blocks queuing; next: red test for `textable`. [notes](../../repositories/galaxy/issues/queued/24172/index.md)
+- [#24173](https://github.com/galaxyproject/galaxy/issues/24173) — invocation view selections (step/job/input/output) have no shareable URL; next: route query params. [notes](../../repositories/galaxy/issues/queued/24173/index.md)
+- [#24174](https://github.com/galaxyproject/galaxy/issues/24174) — rerun doesn't record which invocation it came from; next: implement from proposal. [notes](../../repositories/galaxy/issues/queued/24174/index.md)
+- [#24175](https://github.com/galaxyproject/galaxy/issues/24175) — rerun of imported invocation 500s on step params; next: port spike fix after #24178 helpers. [notes](../../repositories/galaxy/issues/queued/24175/index.md)
+- [#24176](https://github.com/galaxyproject/galaxy/issues/24176) — full run form ignores invocation on rerun; next: server-seeded prefill from spike. [notes](../../repositories/galaxy/issues/queued/24176/index.md)
+- [#24177](https://github.com/galaxyproject/galaxy/issues/24177) — simplified rerun form silently drops tool step params; next: after #24176, route to full form. [notes](../../repositories/galaxy/issues/queued/24177/index.md)
+- [#24178](https://github.com/galaxyproject/galaxy/issues/24178) — subworkflow step params in request export can't be posted back (500); next: PR spike's re-keying helpers. [notes](../../repositories/galaxy/issues/queued/24178/index.md)
 - (large) [#22709](https://github.com/galaxyproject/galaxy/issues/22709) — meta-issue: workflow extraction overhaul (notebook → graph → workflow); next: track individual bugs separately. [notes](../../repositories/galaxy/issues/queued/22709/index.md)
 - (large) [#21659](https://github.com/galaxyproject/galaxy/issues/21659) — progress towards a History Graph View; next: scope a first increment. [notes](../../repositories/galaxy/issues/queued/21659/index.md)
 - (large) [#22954](https://github.com/galaxyproject/galaxy/issues/22954) — Format 2 workflows have no layout round-trip; next: scope across gxformat2, editor and IWC. [notes](../../repositories/galaxy/issues/queued/22954/index.md)

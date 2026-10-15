@@ -1,6 +1,6 @@
 # Spike debrief: workflow_rerun_step_parameters
 
-Spike for `vault/agents/gx_issues/local/workflow_rerun_drops_step_parameters.md`. Branch `jmchilton/workflow_rerun_step_parameters` off `dev` @ `b62d06dcdce`, 3 commits: server, client, then review fixes.
+Spike for `workflow_rerun_drops_step_parameters` (since split and filed as galaxy#24175–#24178). Branch `jmchilton/workflow_rerun_step_parameters` off `dev` @ `b62d06dcdce`, 3 commits: server, client, then review fixes.
 
 ## Q1: break it into more issues?
 

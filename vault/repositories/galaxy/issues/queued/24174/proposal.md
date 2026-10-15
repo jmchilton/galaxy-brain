@@ -1,4 +1,4 @@
-# RFC: Record which invocation a workflow rerun came from
+# Record which invocation a workflow rerun came from
 
 When a user clicks **Rerun** on a workflow invocation, Galaxy does not record which invocation the new one was rerun from.
 
