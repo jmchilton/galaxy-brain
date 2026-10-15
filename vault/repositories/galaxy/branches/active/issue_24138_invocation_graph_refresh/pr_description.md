@@ -34,8 +34,8 @@ Timed in vitest on node 22, not profiled in a browser. ***This doesn't claim to 
   - Watches the `invocation` and `stepsJobsSummary` refs the parent polls, and re-derives step states without toggling `loading`. Toggling `loading` would unmount the step list and collapse expanded steps every 3 s.
   - It watches `invocation` as well as the jobs summary, so steps whose state doesn't come from a job (subworkflows, newly scheduled steps) update too. That replaces the whole-summary comparison and its subworkflow TODO.
   - `stepJobSummaryLookup` indexes the summaries once per refresh, replacing a `find` per step. The loop bound is hoisted, and only input steps take the input branch. `updateStep` already only writes what changed, and an input's header class is now only set when its state changes.
-  - A failed input dataset fetch no longer stops the later steps from updating. That input is retried on the next poll, and a failure on first load still shows the error. `updateSteps` returns the input error rather than throwing it, so a failing input doesn't cancel the rerun for a poll that landed during its fetch.
-- `utils/sharedPromise.ts`: new `rerunWhileBusy`, next to `dedupeInFlight` and `memoizeUntilRejected`. It runs refreshes one at a time; calls made while one runs share a single rerun with the latest data.
+  - A failed input dataset fetch no longer stops the later steps from updating. That input is retried on the next poll, and a failure on first load still shows the error.
+- `utils/sharedPromise.ts`: new `rerunWhileBusy`, next to `dedupeInFlight` and `memoizeUntilRejected`. It runs refreshes one at a time; calls made while one runs share a single rerun with the latest data. A failed run doesn't cancel that rerun, and callers get the last run's result.
 - `InvocationGraph.vue`: deletes its own 3 s `pollInvocationGraph` loop, its timer and the `isTerminal` prop. A failed load is retried when the parent polls new data.
 - `WorkflowInvocationOverview.vue`: drops its `invocationAndJobTerminal` prop, which only fed `isTerminal`. `WorkflowInvocationState.test.ts` probed that prop to detect terminal states; it now checks that the cancel button is gone.
 - `WorkflowInvocationFeedback.vue` (the Debug tab, shown once the invocation is terminal): uses `stepJobSummaryLookup` instead of its own copy of the lookup.
@@ -48,7 +48,7 @@ Risks are minimal - this change doesn't lock Galaxy into particular difficult to
 
 <details><summary>Risk Review Advice</summary>
 
-Check `rerunWhileBusy`'s contract in `sharedPromise.ts` (one run at a time, calls made while busy share one rerun, a rejection reaches the callers already waiting and the next call runs again). Also note that the Overview now updates only when the parent replaces the `invocation` or `stepsJobsSummary` objects. The watch is shallow, and the parent's poll stores a new object on each fetch, as before.
+Check `rerunWhileBusy`'s contract in `sharedPromise.ts` (one run at a time, calls made while busy share one rerun, a failed run doesn't cancel that rerun, callers get the last run's result, and the next call runs again). Also note that the Overview now updates only when the parent replaces the `invocation` or `stepsJobsSummary` objects. The watch is shallow, and the parent's poll stores a new object on each fetch, as before.
 
 </details>
 
@@ -118,7 +118,7 @@ A synchronous throw from the wrapped function left its rejection cached, so late
   - `useInvocationGraph.test.ts`: in both load modes (Overview and Steps), a new summary, an invocation-only change, a newly scheduled step, a poll landing during an input fetch, a failed input fetch, a poll landing during a failing input fetch, an unchanged poll and an input without a value. Also `stepJobSummaryLookup`.
   - `InvocationGraph.test.ts`: a failed load is retried on a new jobs summary or a new invocation, and the graph replaces the error.
   - `WorkflowInvocationState.test.ts`: the terminal-state cases now detect terminal by the cancel button being gone; hiding or always showing that button turns them red.
-  - `sharedPromise.test.ts`: `rerunWhileBusy`.
+  - `sharedPromise.test.ts`: `rerunWhileBusy`, including a call made during a failing run.
 - `test_workflow_invocation_details.py::test_steps_follow_running_invocation` runs an input → 20 s `cat_data_and_sleep` workflow, opens the Steps tab, expands the step, checks it isn't `ok` yet, then waits for its header to turn `ok` with the job details still shown.
 - Manually: run a workflow with a slow step, open the invocation's Steps tab and expand that step. The header should go from queued to running to successful without leaving the tab.
 

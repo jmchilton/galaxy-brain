@@ -31,8 +31,16 @@ John: remove the dead prop, keep both the Steps component test and the E2E, keep
 - `InvocationGraph.test.ts`: `toHaveBeenCalledTimes(2)` on the load mock replaced by the graph (`WorkflowGraph`) rendering after the retry. Disabling the retry watcher turns both cases red.
 - 46 files / 418 tests green, eslint/prettier/vue-tsc clean.
 
+## Dropped rerun moved into the helper (2026-10-15)
+
+John: "I want the right fix", churn doesn't matter. Done in `cd820238598`:
+- `rerunWhileBusy` catches each run's failure and keeps looping while a call is pending; the shared promise settles with the last run's result. Trade-off: an earlier run's error is dropped when a later run succeeds, which suits refresh-to-latest functions, and the docstring says so.
+- The composable's workaround is gone (`lastInputError`, the `refreshSteps` wrapper, `updateSteps` returning its error). `refreshSteps` is now the `rerunWhileBusy` function and `updateSteps` throws its first input error after updating every step.
+- `sharedPromise.test.ts`: John approved flipping "rejects every waiting caller and runs again on the next call". It became "still runs for a call made during a failing run, and callers get the last run's result" and "rejects every waiting caller with the last run's error, then runs again on the next call". Both were red on the old helper.
+- Mutation check: the old helper with the new composable turns "applies a jobs summary that arrives while an input fetch is failing" red in both modes.
+- 148 files / 1300 tests (composables, stores, Workflow, Upload, WorkflowInvocationState, JobStates) green; eslint (pre-existing `any` warnings only), prettier, vue-tsc clean.
+
 ## Still open
 
-- Fix the dropped rerun in `rerunWhileBusy` itself instead (rerun after rejection when a call is pending)? It'd flip a `sharedPromise.test.ts` assertion. The composable fix was taken instead.
 - Ping ahmedhamidawan (#22745 assignee)?
 - Out of scope: zoom/pan profile, retry in the composable for Steps/Debug, per-step polling fan-out.
