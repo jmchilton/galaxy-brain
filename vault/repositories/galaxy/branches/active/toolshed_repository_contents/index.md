@@ -1,6 +1,6 @@
 # toolshed_repository_contents
 
-Status: `author_work`, draft [#24167](https://github.com/galaxyproject/galaxy/pull/24167). Base: `release_26.2`. Head `f4b0af72e73`.
+Status: `branches_ready_for_final_review` — CI fixes pushed; local validation passes, new-head CI pending. Base: `release_26.2`. [PR #24167](https://github.com/galaxyproject/galaxy/pull/24167), head `8d3dbaa0f7ea67d69ac4d17f71f67dfb8945b28f`.
 
 Adds a bounded repository-files API and Tool Shed contents browser (#22598).
 
@@ -45,3 +45,7 @@ At John's request, opened draft [#24167](https://github.com/galaxyproject/galaxy
 ## TICK — 2026-10-15
 
 CI has relevant mypy failures in the newly added `test/unit/tool_shed/test_repositories_manager.py:90`: `repositories_manager.hg_util` is not explicitly exported by `tool_shed.managers.repositories`. Both Python lint and package jobs report it. This belongs to this branch, not the prior unrelated Docker-pull failure. Move to `author_work`; no implementation change inferred by TICK.
+
+## Related CI fixes — 2026-10-15
+
+Fixed the reported branch-related mypy errors in `8d3dbaa0f7ea67d69ac4d17f71f67dfb8945b28f` and pushed normally to jmchilton. [Diagnosis, unrelated-red boundary and verification](ci_type_fixes_2026-10-15.md). Full pinned-dependency mypy passes (2526 files), 29 regressions pass, and commit hooks pass. Unchanged expression-test import ordering is the only diagnosed unrelated failure in the linked lint job. GitHub confirms the new head and mergeability; fresh CI is pending. Track in `branches_ready_for_final_review` under the changed-SHA rule; preserve draft state and require a fresh human read.

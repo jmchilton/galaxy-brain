@@ -63,4 +63,4 @@ John confirmed he drafted #24142 and requested moving the tracker to draft waiti
 
 ## TICK — 2026-10-15
 
-Current-head Python lint fails isort in unchanged `test/unit/app/tools/test_expression_basics.py` (missing import-group blank line). The four-file PR does not modify that file; unrelated failed jobs rerun. Relevant Integration Selenium/browser checks remain pending; preserve the fresh-human-read requirement recorded after the FastQC follow-up.
+Current-head Python lint fails isort in unchanged `test/unit/app/tools/test_expression_basics.py` (misordered `galaxy.util.wait` import). The four-file PR does not modify that file; unrelated failed jobs rerun. Relevant Integration Selenium/browser checks remain pending; preserve the fresh-human-read requirement recorded after the FastQC follow-up.

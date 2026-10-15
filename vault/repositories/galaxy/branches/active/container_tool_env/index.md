@@ -1,6 +1,6 @@
 # container_tool_env
 
-Status: `branches_ready_for_final_review`. Base: `release_26.2`. [PR #23815](https://github.com/galaxyproject/galaxy/pull/23815) (open).
+Status: `branches_ready_for_final_review` — CI fixes pushed; local validation passes, new-head CI pending. Base: `release_26.2`. [PR #23815](https://github.com/galaxyproject/galaxy/pull/23815), head `86aea32fe7ec7f4170ccf13fd0b37bd92c87ed43`.
 
 Adds destination job/tool environment scopes and tool-declared container runtime variables.
 
@@ -50,3 +50,7 @@ GitHub confirms head `75d878bdcf7`, base `release_26.2`, open/non-draft and `MER
 ## TICK — 2026-10-15
 
 New-head CI has relevant type failures in `lib/galaxy/tool_util/parser/xml.py:441`, `test/unit/tool_util/test_runtime_environment.py:248` and `test/unit/app/jobs/test_command_factory.py:331,388`. These overlap the environment-scope change and are not unrelated SSH typing failures. Keep `branches_ready_for_final_review` under the existing human-review hold, with this new CI blocker recorded.
+
+## Related CI fixes — 2026-10-15
+
+Fixed the reported branch-related mypy errors in `86aea32fe7ec7f4170ccf13fd0b37bd92c87ed43` and pushed normally to jmchilton. [Diagnosis, unrelated-red boundary and verification](ci_type_fixes_2026-10-15.md). Full pinned-dependency mypy passes (2523 files), 295 regressions pass, and commit hooks pass. Unchanged expression-test import ordering is the only diagnosed unrelated failure in the linked lint job. GitHub confirms the new head and mergeability; fresh CI is pending. Track in `branches_ready_for_final_review` under the changed-SHA rule; preserve non-draft state and require a fresh human read.

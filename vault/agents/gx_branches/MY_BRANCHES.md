@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PRs #24167 and #23815 refreshed 2026-10-15: related type failures fixed and pushed; 324 regression tests and full mypy pass. Fresh upstream CI pending; final-review holds preserved.
+
 Queue snapshot refreshed from live GitHub 2026-10-15. [TICK findings, actions and CI evidence](TICK_2026-10-15.md).
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
@@ -43,7 +45,6 @@ Queue snapshot refreshed from live GitHub 2026-10-15. [TICK findings, actions an
 - [`fix_copied_datasets`](../../repositories/galaxy/branches/active/fix_copied_datasets/index.md) — Fixes workflow extraction for datasets copied across histories. [#21806](https://github.com/galaxyproject/galaxy/pull/21806).
 - [`collection_restructure_panel`](../../repositories/galaxy/branches/active/collection_restructure_panel/index.md) — Adds a panel for transforming dataset collection layouts. [#12238](https://github.com/galaxyproject/galaxy/pull/12238).
 - [`pulsar-mq-pull`](../../repositories/galaxy/branches/active/pulsar-mq-pull/index.md) — Polls for Pulsar MQ jobs missed by normal event handling. [#9911](https://github.com/galaxyproject/galaxy/pull/9911).
-- [`toolshed_repository_contents`](../../repositories/galaxy/branches/active/toolshed_repository_contents/index.md) — Adds a bounded repository-files API and Tool Shed contents browser (#22598). Base `release_26.2`. [#24167](https://github.com/galaxyproject/galaxy/pull/24167).
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
@@ -80,6 +81,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`toolshed_repository_contents`](../../repositories/galaxy/branches/active/toolshed_repository_contents/index.md) — Adds a bounded repository-files API and Tool Shed contents browser (#22598). Base `release_26.2`. [#24167](https://github.com/galaxyproject/galaxy/pull/24167). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:toolshed_repository_contents?expand=1).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:container_tool_env?expand=1).
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_parameter_expected_failure?expand=1).
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin and agent HTTP inference with a local provider; preserves configurable inference settings. [#24051](https://github.com/galaxyproject/galaxy/pull/24051). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:plugins_test_fake_provider?expand=1).
