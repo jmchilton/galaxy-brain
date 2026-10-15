@@ -1,6 +1,6 @@
 # issue_24138_invocation_graph_refresh
 
-Status: ready for final review. Base: `release_26.2` (regression since 25.1; merges cleanly into `dev`).
+Status: draft PR [#24165](https://github.com/galaxyproject/galaxy/pull/24165), waiting for CI. Opened 2026-10-15 at John's request on `cd820238598`, title "[26.2] Keep invocation step states current while the invocation runs"; screenshots hosted on the fork's `pr-assets-issue_24138_invocation_graph_refresh`. Base: `release_26.2` (regression since 25.1; merges cleanly into `dev`).
 
 Fixes [#24138](https://github.com/galaxyproject/galaxy/issues/24138) (Steps tab headers freeze while an invocation runs) and the refresh-cost part of [#22745](https://github.com/galaxyproject/galaxy/issues/22745) (O(n²) graph refresh). Doesn't claim to fix #22745's zoom/pan freeze, which hasn't been browser-profiled. The PR shouldn't auto-close #22745.
 
