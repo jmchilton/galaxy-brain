@@ -5,6 +5,7 @@
 - [Resume plan (2026-10-14)](PLAN_2026-10-14.md)
 - [#569 + #476 joint work set (2026-10-14)](WORK_SET_569_2026-10-14.md): #569 rebased locally, all gates green
 - [#569 full review (2026-10-14)](REVIEW_569_2026-10-14.md): the run record agents are told to write can't be read; cleanup on `run-dashboard-cleanup`
+- [Loops and branches: controller-owned or bundled? (2026-10-15)](LOOPS_BRANCHES_2026-10-15.md): controller-owned loop, bundled branch after a `test-data-refs` contract fix
 
 Labels at seeding (2026-10-06): `priority/mvp`, `roadmap/main`.
 
