@@ -50,7 +50,7 @@ Reviewed running count 3, mixed counts 3/1/1, the update to running 1 and succes
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Application behavior is unchanged; regressions fail client assertions on message content or progress counts.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes—rendered headings, visible fields, and progress counts.

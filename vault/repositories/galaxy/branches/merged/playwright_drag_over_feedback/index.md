@@ -1,6 +1,6 @@
 # playwright_drag_over_feedback
 
-Status: `ready`. Base: `dev`. [PR #24010](https://github.com/galaxyproject/galaxy/pull/24010) (open, not draft).
+Status: `merged`. [PR #24010](https://github.com/galaxyproject/galaxy/pull/24010) merged 2026-10-13; upstream head `b77dfe4a59b23f4a329010e75262efd717933f6a`.
 
 Adds drag_over feedback checks and runs test_drag_drop_visual_feedback under Playwright.
 
@@ -17,3 +17,7 @@ Live #24010 is already OPEN and non-draft, mergeable. Remaining upstream failure
 ## TICK — 2026-10-12
 
 Requested failed-job reruns for the recorded unrelated failures: [run 37951980602](https://github.com/galaxyproject/galaxy/actions/runs/37951980602). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.
+
+## GOOD_MORNING — 2026-10-13
+
+[PR #24010](https://github.com/galaxyproject/galaxy/pull/24010) merged at 2026-10-13T09:34:47Z, upstream PR head `b77dfe4a59b23f4a329010e75262efd717933f6a`. Removed from the active queue and archived this record under merged. Worktree cleanup safety was checked; see the morning report.

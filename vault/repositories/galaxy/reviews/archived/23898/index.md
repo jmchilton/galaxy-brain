@@ -6,7 +6,7 @@ PR **merged** at `2026-10-13T15:44:59Z`; final GitHub head `20cff59a4ab5ed99aa91
 
 [PR #23898](https://github.com/galaxyproject/galaxy/pull/23898) · Status: active; open draft. GitHub state checked 2026-10-11.
 
-[Release-pin update review](release-pin-review-2026-10-11.md) · [implementation debrief](../../../branches/active/pulsar-explicit-imports/implementation_debrief.md) · [original review and history](review.md)
+[Release-pin update review](release-pin-review-2026-10-11.md) · [implementation debrief](../../../branches/merged/pulsar-explicit-imports/implementation_debrief.md) · [original review and history](review.md)
 
 Current PR head: `d2a95eff002f6ca9cb4c7040303dceea64029438`. Published Pulsar 0.16.0 replaces all three Git source pins, and temporary build settings are removed. The PR is mergeable after merging current dev; fresh CI is queued. Incremental review has no findings; 33 focused runner tests pass against the published wheel. No GitHub review/comment was posted.
 

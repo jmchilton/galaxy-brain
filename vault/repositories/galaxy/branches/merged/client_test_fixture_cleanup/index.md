@@ -1,5 +1,7 @@
 # Client test fixture cleanup
 
+Status: `merged`.
+
 - [PR description](pr_description.md)
 - [PR title options](pr_titles.md)
 - [Polish debrief](polish_debrief.md)
@@ -39,3 +41,7 @@ PR #24045 had 24 settled checks with no failures. Its only blocker was CI. Rebas
 ## TICK — 2026-10-12
 
 Live regular PR is mergeable at `91618e026c85845dd1fbaaa22891993167e35d18`; all 23 checks have settled without failures. Remains ready from our side. No stale rebase or PR-setting change.
+
+## GOOD_MORNING — 2026-10-13
+
+[PR #24045](https://github.com/galaxyproject/galaxy/pull/24045) merged at 2026-10-13T08:41:25Z, upstream PR head `91618e026c85845dd1fbaaa22891993167e35d18`. Removed from the active queue and archived this record under merged. Worktree cleanup safety was checked; see the morning report.
