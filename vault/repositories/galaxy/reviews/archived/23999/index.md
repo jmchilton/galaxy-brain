@@ -29,6 +29,16 @@ John [posted the CI-filter finding](https://github.com/galaxyproject/galaxy/pull
 
 Open, ready; live HEAD `5daad696899b2ad2224cb904555219a78282d5d9`. CI snapshot: 2 skipped, 61 success. Live head and discussion unchanged since the prior tracking refresh; existing delivery/author-wait status remains. No new action for John identified.
 
+## Requested merge update — 2026-10-13
+
+John requested a merge commit on the PR. Merged current `galaxyproject/galaxy` `dev` (`009c5a3e2b474c9a5081ee7288ba423dd431eeab`) into the unchanged author head (`5daad696899b2ad2224cb904555219a78282d5d9`) and pushed merge commit [`097f25bdbee0e4cd3483dd6d23e87caa1e77c813`](https://github.com/galaxyproject/galaxy/commit/097f25bdbee0e4cd3483dd6d23e87caa1e77c813) to `paperbenni/galaxy:unify-root-uv-workspace`.
+
+Resolved four generated requirements conflicts by updating the workspace lock for merged manifests and regenerating exports with pinned uv 0.12.23; retained the existing Python-specific lxml pins. Resolved the dynamic collection model conflict with annotation-only Pydantic field definitions while retaining the PR's `TypeForm[str]` cast.
+
+Validation: dependency lock/export check passed; all 51 tool-util-model tests and all 16 nested collection runtime tests passed on Python 3.10.19. Commit hooks passed (formatting, Python lint, conflict markers, symlink preservation, and workflow validation). Worktree is clean. This update does not constitute a new review; the earlier CI-filter finding remains with the author.
+
+Review record sync is pending: `make validate` reports an existing error in unrelated untracked `vault/reviews/Untitled.md` (missing frontmatter). Per the vault validation rule, this note was left uncommitted; other workspace changes were preserved.
+
 ## Morning check — 2026-10-14
 
 Open, ready; live head `097f25bdbee0e4cd3483dd6d23e87caa1e77c813`. CI: 2 skipped, 61 success. Latest commit is John’s merge `097f25bdbee0e4cd3483dd6d23e87caa1e77c813`, committed 2026-10-13T17:12:36Z, within the last 24 hours. CI is green (61 success, two skipped). The delivered CI-filter finding remains with the author; green CI does not verify its resolution.
