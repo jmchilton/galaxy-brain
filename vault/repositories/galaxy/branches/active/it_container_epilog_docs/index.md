@@ -1,6 +1,6 @@
 # it_container_epilog_docs
 
-Status: `branches_ready_for_final_review`. Base: `dev`.
+Status: `ci_wait`. Base: `dev`. Draft PR [#24143](https://github.com/galaxyproject/galaxy/pull/24143) at `28d78493d29`.
 
 Documents a Slurm epilog for killing leftover Interactive Tool containers (#13511).
 
