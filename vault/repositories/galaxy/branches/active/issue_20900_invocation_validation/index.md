@@ -1,10 +1,10 @@
 # issue_20900_invocation_validation
 
-Status: `branches_implemented_needs_ci`. Base: `dev`.
+Status: `branches_need_decision`. Base: `dev`. Implementation: BLOCKED by inherited validation regressions; requested rebase complete.
 
 Validates workflow invocation requests before creating histories or other side effects (#20900).
 
-[Implementation](implementation_debrief.md) · [Tracking history](tracking_history.md)
+[Implementation](implementation_debrief.md) · [Further split candidates](remaining_split_candidates.md) · [Rebase review](subagents/rebase_normal_review.md) · [Tracking history](tracking_history.md)
 
 ## TICK — 2026-10-11
 
@@ -31,3 +31,7 @@ John requested four independent dev-based fixes before the larger validation bra
 - [Unknown scheduler rejection](../invocation_unknown_scheduler/index.md): pushed as `invocation_unknown_scheduler`; reviewed and 3 API cases passed.
 
 All four branches start independently at dev `c63ffc2ccae`, are pushed to the fork, and are handed off under `branches_implemented_needs_ci`. The source branch was not rewritten; eventual reconciliation can drop the extracted patches once upstream contains them. These extractions do not resolve the broader branch's recorded validation regressions or conflicts.
+
+## Polished-fix reconciliation — 2026-10-15
+
+Published `07377e10531` on current dev `88127f42979`, incorporating all nine polished commits before replaying the larger validation work. Four polished branches unchanged. Original head preserved at `backup/issue_20900_before_polished_rebase_20261015`. Independent review passed. API: 72 passed, 4 inherited failures (mapping, cached rerun, replacement parameters); workflow/doctests: 209 distinct passed, 1 skipped; landing units: 8 passed; generator: 3 passed. Main change remains blocked for upstreaming. No further extraction or PR created.
