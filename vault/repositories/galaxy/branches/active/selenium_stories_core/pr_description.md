@@ -2,11 +2,11 @@ Revives the core of 🔀 #21199: browser tests and `gx-dump-tour` runs write the
 
 Galaxy's browser tests call `self.screenshot()` about 400 times, and 8 tests carry the `gtn_screenshot` marker because they exist to produce Galaxy Training Network screenshots. All of it lands in one flat directory of loose PNGs, with no order and no text. `gx-dump-tour` has the same problem: it writes `0.png`, `1.png`, … and leaves the tour's text behind. With this branch, set `GALAXY_TEST_STORIES_DIRECTORY` and each `@selenium_test` writes a story, and every `gx-dump-tour` run writes one. Here's `gx-dump-tour config/plugins/tours/core.history.yaml`:
 
-![story.html written by gx-dump-tour for the History tour](screenshots/story_html_core_history.png)
+![story.html written by gx-dump-tour for the History tour](https://raw.githubusercontent.com/jmchilton/galaxy/pr-assets-selenium_stories_core/screenshots/story_html_core_history.png)
 
 Each tour step becomes a screenshot with its target highlighted, captioned with the step title and followed by the step text. A test works the same way: its docstring is the introduction, each screenshot's caption is a heading, and `self.document()` adds narration between screenshots. Here's `test_run_apply_rules_tutorial`:
 
-![story.html written by test_run_apply_rules_tutorial](screenshots/story_html_apply_rules_tutorial.png)
+![story.html written by test_run_apply_rules_tutorial](https://raw.githubusercontent.com/jmchilton/galaxy/pr-assets-selenium_stories_core/screenshots/story_html_apply_rules_tutorial.png)
 
 ```
 $GALAXY_TEST_STORIES_DIRECTORY/
