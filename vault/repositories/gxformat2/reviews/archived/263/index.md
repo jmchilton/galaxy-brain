@@ -26,4 +26,4 @@ Worktree: `~/projects/worktrees/gxformat2/pr/263`.
 
 ## Archived — 2026-10-15
 
-Merged on GitHub 2026-10-15 (15:34Z); tracking ended. Worktree `~/projects/worktrees/gxformat2/pr/263` still present; removal pending cleanliness check.
+Merged on GitHub 2026-10-15 (15:34Z); tracking ended. Worktree removed (clean; HEAD = merged head `7d0e5af`).
