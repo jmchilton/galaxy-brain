@@ -1,0 +1,1 @@
+Yo agent - create a worktree locally with jmchilton's fork of galaxyproject/galaxy on the fork's vitest_story_play branch. Read https://github.com/jmchilton/galaxy-brain/blob/main/vault/projects/just_jesting_around/STORYBOOK_PITCH.md for context and then start the storybook server and open in my local browser.
