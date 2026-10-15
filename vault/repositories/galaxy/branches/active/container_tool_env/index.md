@@ -1,6 +1,6 @@
 # container_tool_env
 
-Status: `ready`. Base: `release_26.2`. [PR #23815](https://github.com/galaxyproject/galaxy/pull/23815) (open).
+Status: `branches_ready_for_final_review`. Base: `release_26.2`. [PR #23815](https://github.com/galaxyproject/galaxy/pull/23815) (open).
 
 Adds destination job/tool environment scopes and tool-declared container runtime variables.
 
@@ -29,3 +29,20 @@ Pushed to the `jmchilton` fork with an explicit lease on previous head `6ee44de1
 ## TICK — 2026-10-14
 
 Head 7f32c1664009 is mergeable on release_26.2. All relevant checks pass; both package jobs fail mypy at unchanged galaxy/security/ssh_util.py:18 (untyped publickey call), unrelated to runtime environments. Failed jobs rerun; remains ready.
+
+
+## Requested review fixes (items 2–8) — 2026-10-15
+
+Addressed the review on PR #23815 in commit `75d878bdcf770222e973442a0c7919a13c72d862`, pushed to the `jmchilton` fork. Item 1 was explicitly excluded by John; the trust policy for installed tools is unchanged. Items 2–8 were reasonable to address; item 7 partly described missing tests for existing YAML parser safeguards.
+
+- **2:** Tool loading warns and skips each invalid/reserved runtime declaration while retaining valid ones. XML/YAML authoring validation and linting remain strict.
+- **3:** Replaced runner-name matching with `runs_job_script_in_container`, set on Kubernetes, AWS Batch, Google Cloud Batch, Chronos, GoDocker, and Pulsar coexecution (inherited by its Kubernetes/TES/GCP variants). Warnings run after actual plugin loading, only for enabled destinations, once per destination despite tag aliases.
+- **4:** Required-variable checks run immediately before the tool in its actual execution environment, after dependency activation and inside wrapped containers. Runtime-specific values now satisfy declarations.
+- **5:** Singularity forwarding exports run in a subshell so later metadata/runtime commands do not inherit them.
+- **6:** Legacy scalar environment values are stringified when rendered, including raw YAML integers and booleans.
+- **7:** Added strict/tolerant XML/YAML parser coverage, real XML/YAML tool loading, YAML user-tool rejection, defensive Tool.parse/linter user-tool checks, dependency activation, runtime-specific assignments, and later-command export isolation. Runtime tests execute generated commands through fake Docker/Singularity frontends; no actual containers were run locally.
+- **8:** Reused the shared name regex, removed redundant Pulsar slicing and recovery copying, and made legacy YAML `env` consistently job-scoped even if an unsupported `type: tool` key is present. XML scoped entries retain their order.
+
+Validation: **295 passed** across command factory, job environment/configuration, runtime environment, tool loading, tool linters, and output checker unit tests. Isort and `git diff --check` passed. Vault validation passed with zero errors (15 existing advisory warnings). Commit hooks passed Black, Ruff, Flake8 and hygiene checks; Prettier/trailing-whitespace were skipped per the existing polish note to avoid unrelated admin-doc formatting changes.
+
+GitHub confirms head `75d878bdcf7`, base `release_26.2`, open/non-draft and `MERGEABLE`; fresh CI has 43 pending checks and no failures at this snapshot. PR description and its local copy now reflect the changes. The human-read checkbox is cleared because the fixes add tests/comments. Moved back to final review under the standing SHA-pinned approval rule; prior human approval does not cover this implementation change.

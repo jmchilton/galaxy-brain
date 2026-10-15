@@ -43,16 +43,16 @@ On `dev` the only way to get `_JAVA_OPTIONS` into a tool container is to set it 
 This PR:
 
 - **Splits destination environments into scopes.** `job_env` is the job-script-only scope, and `env` is now its legacy alias. `tool_env` is exported in the job script and forwarded into wrapped containers. It accepts only `name`/`value` (plus `raw`) entries, because Galaxy can't know which names a sourced `file` or `execute` sets. Both scopes work in YAML and XML job configs, and entries keep their configured order.
-- **Lets admin-loaded tools declare `runtime_environment_variable`.** Declared names are forwarded from the job environment, however the value was set. A `required` name that is unset produces a warning job message with the variable names only (never values), ***and the job still succeeds***. User-defined tools can't declare them.
+- **Lets admin-loaded tools declare `runtime_environment_variable`.** Declared names are forwarded from the job environment, however the value was set. A `required` name that is unset produces a warning job message with the variable names only (never values), ***and the job still succeeds***. User-defined tools can't declare them. Invalid declarations are warned about and ignored individually at tool load; authoring validation remains strict.
 - **Forwards by name.** Docker gets `-e NAME`, and Singularity/Apptainer gets `SINGULARITYENV_NAME`. An unset name stays unset and an empty one stays empty. The container command names the variables but never embeds their values. With `docker_sudo`, set values are expanded on the host as `-e "NAME=value"`, as on `dev`, so sudoers needs no change.
-- **Documents and lints it.** A new "Job and tool environment scopes" section in `jobs.md`, plus XSD docs for the element and its reserved names. The linter rejects reserved names and suggests `<credentials>` for secret-looking ones. Galaxy warns at config load when `job_env` is set on a container-native runner, where the scopes can't be separated.
+- **Documents and lints it.** A new "Job and tool environment scopes" section in `jobs.md`, plus XSD docs for the element and its reserved names. The linter rejects reserved names and suggests `<credentials>` for secret-looking ones. Galaxy warns when loading runner plugins if `job_env` is set on a container-native runner, where the scopes can't be separated.
 
 <details><summary>Design decisions</summary>
 
 - Container-native runners (Kubernetes, Pulsar coexecution) run the whole job script inside the tool container, so every scope reaches the tool there. The scoping only applies to runners that wrap the tool command in Docker or Singularity.
 - The same name may appear in both scopes. Later definitions win, following the job script's existing statement order.
 - An unset optional declared variable produces no message. Only a variable that isn't defined at all (`${VAR+x}`) counts as unset; an empty string counts as set.
-- The unset check runs in every job script, including container-native and non-container jobs. It runs after environment setup and before the tool command, and writes only the names to a file in the job directory. Galaxy turns that file into a typed `runtime_environment_warning` job message on both the runner finish path and the extended-metadata path. Split (tasked) jobs merge their tasks' warnings into the parent job.
+- The unset check runs immediately before the tool command in its execution environment, including container-native and non-container jobs. It runs after dependency activation and sees runtime-specific `docker_env_*` / `singularity_env_*` values, and writes only the names to a file in the job directory. Galaxy turns that file into a typed `runtime_environment_warning` job message on both the runner finish path and the extended-metadata path. Split (tasked) jobs merge their tasks' warnings into the parent job.
 - Declared names must match `[A-Za-z_][A-Za-z0-9_]*` and must not be reserved. Reserved means `PATH`, `HOME`, `USER`, `LOGNAME`, `SHELL`, `PWD`, `OLDPWD`, `HOSTNAME`, `TMPDIR`, `TMP`, `TEMP`, `PYTHONPATH`, `PYTHONHOME`, `BASH_ENV`, `ENV`, `IFS` and `PS4`, plus anything with the prefix `LD_`, `GALAXY_`, `_GALAXY_`, `SINGULARITY_`, `SINGULARITYENV_`, `APPTAINER_` or `APPTAINERENV_`. The XSD pattern checks the shape, and the loader and linter check the reserved names.
 - Admin-loaded tools (anything but user-defined tools) may declare any non-reserved name. There's no admin allow-list in this version.
 - No tool profile gating: the element is purely additive, and older Galaxy releases simply don't forward the variable.
@@ -71,7 +71,7 @@ One-way doors: the `job_env`/`tool_env` job config keys, the `<runtime_environme
 - Without `docker_sudo`, Docker now copies forwarded values from the job script environment (`-e NAME`) instead of expanding them on the command line. Standard pass-through variables such as `GALAXY_SLOTS` and `HOME` take this path too.
 - Singularity now always gets `--home "$HOME:$HOME"` quoted, because `HOME` is a default pass-through name. The value is the same as on `dev`.
 - Pass-through names that are unset on the host are now unset in the container. On `dev` they arrived as empty strings.
-- The container-native warning recognises runners by a hard-coded list of names. A new container-native runner wouldn't warn until it's added.
+- The container-native warning uses the runner's `runs_job_script_in_container` capability; new container-native runner classes must set it. Disabled runners and destinations do not warn.
 
 </details>
 
@@ -87,8 +87,8 @@ Replaces the stalled 🔀 #16666, which would have injected every job environmen
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
-- [x] What does the user see when it fails? A missing required variable is a warning on the job information page naming only the variables, and the job stays `ok`. Bad `tool_env` entries and reserved names fail config or tool load with an error naming the problem.
+- [ ] Did a human read every test and every comment? (Requires human author to check; review fixes add new tests)
+- [x] What does the user see when it fails? A missing required variable is a warning on the job information page naming only the variables, and the job stays `ok`. Bad `tool_env` entries fail config load with an error naming the problem. Invalid or reserved tool declarations produce load warnings and are ignored individually; the tool still loads, and the linter reports them as errors.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Mostly - the forwarding tests run the generated commands against fake `docker`, `singularity` and strict `sudo` binaries, and the integration tests run real containers. A few configuration tests do check the list order directly.
 - [x] Are the comments free of excess archeology? Yes.
@@ -110,9 +110,10 @@ Framework: `test_runtime_environment_warning` checks the job message on a plain 
 
 Unit:
 
-- `test/unit/tool_util/test_runtime_environment.py`: forwarding through fake runtimes, with values containing quotes, `$`, backticks and newlines. It covers unset vs empty, legacy overrides, values staying out of the script, and Docker under a `sudo` that refuses to preserve the environment. Also the generated required-variable check, XML/YAML parsing, user-tool rejection and task-warning merging.
-- `test/unit/tool_util/test_tool_linters.py`: reserved names are errors, and secret-looking names warn and suggest `<credentials>`.
-- `test/unit/app/jobs/test_job_configuration.py` and `test_environment.py`: XML and YAML scope order, rejection of invalid entries, and the container-native warning.
+- `test/unit/tool_util/test_runtime_environment.py`: forwarding through fake runtimes, with values containing quotes, `$`, backticks and newlines. It covers unset vs empty, legacy overrides, values staying out of the script, and Docker under a `sudo` that refuses to preserve the environment. Also the generated required-variable check, strict versus tolerant XML/YAML parsing, Singularity export scoping and task-warning merging.
+- `test/unit/app/jobs/test_job_configuration.py` and `test_environment.py`: XML and YAML scope order, rejection of invalid entries, legacy scalar values, and warnings through plugin loading (including disabled destinations and tag aliases).
+- `test/unit/app/jobs/test_command_factory.py`: executes generated scripts after dependency activation and through fake Docker/Singularity runtimes with runtime-specific values.
+- `test/unit/app/tools/test_runtime_environment.py`: actual XML/YAML tool loading skips bad declarations, the YAML parser rejects user-tool declarations, and `Tool.parse` rejects declarations from another source. The linter's user-tool defense is covered separately.
 
 </details>
 

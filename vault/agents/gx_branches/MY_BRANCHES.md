@@ -8,7 +8,7 @@ PR #24141 refreshed 2026-10-14: requested draft opened against `release_26.1`; h
 
 PR #24050 refreshed 2026-10-14: latest review fixes pushed at `88ac10202d8`; mergeable against `release_26.2`, fresh CI queued. [Vue 3 migration guide](VUE3_COMPONENT_MIGRATION.md).
 
-PR #23815 refreshed 2026-10-14: rebased onto latest `release_26.2`, import-order CI fix pushed at `7f32c166400`; mergeable, CI queued.
+PR #23815 refreshed 2026-10-15: review items 2–8 fixed at `75d878bdcf7`; item 1 excluded, mergeable, CI pending and fresh human read required.
 
 PR #24120 refreshed 2026-10-14: requested draft opened against `release_26.2`; head `b0a8d368d60`, CI pending.
 
@@ -22,14 +22,13 @@ PR #24046 refreshed 2026-10-14: four review fixes pushed at `58849d66e99` on `re
 
 nightly_unit_tests refreshed 2026-10-15: non-draft #24131 review fixes pushed at `191c67516c7`; CI and fresh human read pending.
 
-Queue snapshot refreshed from GitHub 2026-10-15 for #24131; other entries retain their recorded snapshots. [TICK findings and actions](TICK_2026-10-14.md).
+Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other entries retain their recorded snapshots. [TICK findings and actions](TICK_2026-10-14.md).
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
 - [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
-- [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
 - [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
 - [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
 - [`dangling_when_lint`](../../repositories/galaxy/branches/active/dangling_when_lint/index.md) — Warns about disconnected workflow when-inputs and gives them editor ports. [#24107](https://github.com/galaxyproject/galaxy/pull/24107).
@@ -100,6 +99,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:container_tool_env?expand=1).
 - [`invocation_graph_e2e`](../../repositories/galaxy/branches/active/invocation_graph_e2e/index.md) — Browser tests for the invocation Overview graph (states, step card, isolate, Show Connections, Step Config, search). Base `dev`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_e2e?expand=1).
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_parameter_expected_failure?expand=1).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_unknown_scheduler?expand=1).
