@@ -73,7 +73,6 @@ None yet.
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown scheduler IDs before invocation setup; independent #20900 extraction, reviewed with 3 API cases passing.
 - [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Returns 404 for missing HDA, LDDA, library dataset, and history collection inputs; independent #20900 extraction, reviewed with 5 API checks passing.
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Classifies invalid workflow parameters as expected scheduler failures; independent #20900 extraction, reviewed with 194 workflow unit tests passing.
-- [`invocation_no_add_to_history_false`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false/index.md) — Honors explicit false when copying workflow inputs across histories; independent #20900 extraction, reviewed with 3 API cases passing.
 - [`vitest_real_api_calls`](../../repositories/galaxy/branches/active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`integration_ci_scope`](../../repositories/galaxy/branches/active/integration_ci_scope/index.md) — Selects costly plugin suites from changed paths; helpers and guide live beside integration tests. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:integration_ci_scope).
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes parameter framework tools XSD-valid and checks them in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
@@ -100,7 +99,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`invocation_no_add_to_history_false`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false/index.md) — Honors explicit `no_add_to_history: false` when copying workflow inputs across histories. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_no_add_to_history_false?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
