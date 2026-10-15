@@ -1,0 +1,9 @@
+# Final browser test polish review
+
+Normal review complete: no concrete correctness or maintainability findings in the remaining Python/browser-navigation delta. Existing implementation and API-boundary reviews remain applicable. No scope change recommended.
+
+Reviewed the working tree delta against committed client implementation `585d65817ed`, the E2E polish debrief, relevant smart-target/wait implementations, graph zoom controls and levels, invocation graph selector boundary, and job details/loading markup. The zoom-out selector is scoped to the invocation graph; five genuine UI clicks take the URL-centered graph from 100% through 90/80/75/67 to 50%, making the fixture input accessible around the overlay. This exercises normal browser interaction without bypassing graph state. The fixture explicitly positions its nodes, so the operation is intentional setup rather than an arbitrary wait.
+
+Dialog visibility precedes selected-job assertions; the Previous check now samples all matching modal ids without nesting a long text wait inside the retry decorator, while still requiring exactly one id matching the changed URL. Loading-span absence improves snapshot readiness. Added Previous/closed-dialog snapshots make those transitions reviewable, and the final graph-node check continues to require both the readable input label and mounted invocation DOM identity. Existing `test_job_details` now waits for actual job information rather than sleeping. No assertions were weakened.
+
+`git diff --check` and Python syntax compilation passed. No browser run or source edit was performed by this reviewer. Parent-reported existing-browser and standalone-tail passes are useful supporting evidence; the final complete mapped-workflow run remains pending in the parent session and must be reported separately. No recommendations declined.

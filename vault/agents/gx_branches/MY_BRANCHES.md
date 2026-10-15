@@ -48,6 +48,7 @@ Queue snapshot refreshed from live GitHub 2026-10-15. [TICK findings, actions an
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Adds shareable invocation step, job and output selections (#24173); reviewed, 83 client tests, both browser checks, types/build and seven inspected screenshots pass. Base `dev`; CI pending.
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage with a migration, API links, both run forms and list markers (#24174); reviewed, local API/DB/client/E2E checks pass, six screenshots inspected. Base `dev`; CI pending.
 
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs before invocation, preserving defaults/optionality; reviewed, 10 API and 193 workflow unit cases pass (2 skipped). Base `release_26.2`.
