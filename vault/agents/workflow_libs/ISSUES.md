@@ -10,7 +10,7 @@ None yet.
 
 ## Queued (`queued`)
 
-None yet.
+- [gxformat2#266](https://github.com/galaxyproject/gxformat2/issues/266) — numeric min/max semantic gaps (non-numeric inputs, min > max); next: red declarative tests + `_semantic_validators` fix. [notes](../../repositories/gxformat2/issues/queued/266/index.md)
 
 ## Blocked (`blocked`)
 
