@@ -1,4 +1,4 @@
-- [26.2] Honor explicit `no_add_to_history: false` when invoking workflows
-- [26.2] Fix `no_add_to_history: false` skipping input copy on workflow invocation
-- [26.2] Copy workflow inputs into the target history unless `no_add_to_history` is true
-- [26.2] Read `no_add_to_history` by value, not presence, in workflow invocations
+- [26.2] Fix workflow invocations built to the published request types
+- [26.2] Honor `no_add_to_history: false`, accept empty `ds_map`, and stop API types requiring defaulted request fields
+- [26.2] Make defaulted request fields optional in generated API types and honor their defaults server-side
+- [26.2] Fix invocation presence checks and the generated-type bug that pushed clients into them

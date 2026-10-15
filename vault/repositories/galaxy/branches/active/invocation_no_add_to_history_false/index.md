@@ -1,13 +1,34 @@
 # invocation_no_add_to_history_false
 
-Status: `branches_ready_for_final_review`. Base: `release_26.2` (retargeted from `dev` 2026-10-15 at John's request; rebased onto `082605cade0`).
+Status: `branches_ready_for_final_review`. Base: `release_26.2` (retargeted from `dev` 2026-10-15 at John's request; now on `162b71f8185`).
 
-Honor explicit `no_add_to_history: false` (and `null`) when invoking a workflow with an input from another history or library. Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md).
+Fixes workflow invocations built to the published request types:
+- honor `no_add_to_history: false`/`null`;
+- accept a `null`/`{}` `ds_map` next to `inputs`;
+- correct the `no_add_to_history` schema description;
+- make generated client types stop requiring defaulted fields of request-only schemas (the root cause that pushed typed callers into both server bugs).
 
-**[PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist evaluation](checklist_evaluation.md)**
+Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md).
 
-[Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md)
+**[PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist evaluation](checklist_evaluation.md) · [Scope evaluation](scope_evaluation.md) · [Test challenges](test_challenges_debrief.md)**
 
-Commit: `e6121407400` (single commit; was `f9e6dde20fa` on `dev`, `de958171049` after rebase; polishing added an explicit-`null` test case). Local API regression on `release_26.2`: red without the fix (null, false fail; omitted, true pass), 4 passed with it.
+[Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md)
 
-Fork CI on `f9e6dde20fa`: all green except Test Galaxy packages (3.10, 3.14), both failing on one mypy `no-untyped-call` in `galaxy/security/ssh_util.py` (pycryptodome `publickey`) — file untouched by this branch, unrelated. CI on `e6121407400` queued at handoff.
+## Decisions (John, 2026-10-15)
+
+- Widen scope: fix the schema description and the client-type root cause here, not on `dev`.
+- Fix `ds_map` here too.
+- Shared request/response schemas: a documented partial fix, with no input/output split.
+- One PR.
+- Backport the server fixes to 26.1 separately: [invocation_no_add_to_history_false_26.1](../invocation_no_add_to_history_false_26.1/index.md).
+
+## State
+
+Head `33be985c49e`, four commits: `9e160f5cbde` (no_add_to_history), `261b0266427` (schema description), `40d5f0eeaa1` (generator), `33be985c49e` (ds_map).
+
+Local results on the current base:
+- 8/8 API cases and 3/3 generator vitest cases pass;
+- client vue-tsc and Tool Shed typecheck give 0 errors;
+- `make update-client-api-schema` gives zero drift.
+
+Fork CI on `33be985c49e` was pending at handoff. CI on the original `dev` head was green apart from an unrelated package-test mypy error in `galaxy/security/ssh_util.py`.
