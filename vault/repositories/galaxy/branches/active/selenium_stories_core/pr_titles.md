@@ -1,0 +1,5 @@
+- Write browser test and tour screenshots as Markdown/HTML/PDF stories
+- Turn Selenium/Playwright test screenshots and tour dumps into narrated stories
+- Add `GALAXY_TEST_STORIES_DIRECTORY` and story output for `gx-dump-tour`
+- Generate documentation stories from browser tests and Galaxy tours
+- Test stories: narrated screenshot documents from browser tests and tours

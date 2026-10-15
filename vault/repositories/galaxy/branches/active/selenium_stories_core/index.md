@@ -1,6 +1,8 @@
 	# selenium_stories_core
 
-Status: `branches_need_polish` (started 2026-10-14). Base: `dev`.
+Status: `branches_ready_for_final_review` (polished 2026-10-14 at `6628929522b`). Base: `dev`.
+
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md)
 
 Writes Selenium and Playwright test screenshots as Markdown, HTML and PDF stories.
 
@@ -34,3 +36,7 @@ Applied all four findings: real tour-loop coverage, clean stale-highlight except
 ## TICK — 2026-10-14
 
 Fork head 593434f661e639c59bad167038531f2d8e700aa0 has passing browser, unit and Python lint checks. Package run 38538152875 logs successful story artifact/state tests and all nine selenium-test-decorator tests; its only failures are later collection errors importing removed pulsar.client.build_client_manager, unrelated to stories. Promoted to branches_implemented and reran failed package jobs. No polish or PR approval inferred.
+
+## Polish — 2026-10-14
+
+Rebased onto dev and polished to `6628929522b`. CI on that head was queued at hand-off. The CSS move is now a pure rename, and its `MANIFEST.in` entry moved to galaxy-util. A failed test's story names its exception and error directory, and `gx-dump-tour` says where a partial story went. Live Playwright runs of `gx-dump-tour core.history` and `test_run_apply_rules_tutorial` wrote stories, and a real `story.pdf` rendered. Waiting for John's read-through. Open questions: split out the celery import fix, and keep the stale-highlight fix. See the [polish debrief](polish_debrief.md).
