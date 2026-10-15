@@ -32,7 +32,7 @@ PR: [galaxyproject/foundry#605](https://github.com/galaxyproject/foundry/pull/60
 - #3: #605's `PipelineRoutes` replaced the matrix. Decide whether that closes #3 or the hero fan widget is still wanted.
 - Landing header overflows by 40px at 390px (also on `main`?); untracked.
 - Revisit merging the freeform/brief Mold families once the brief route has real runs.
-- Cleanup: delete `fix/restore-direct-paper-interview` on origin and the `workflow-brief-pipelines` worktree.
+- Cleanup: delete `fix/restore-direct-paper-interview` on origin. The `workflow-brief-pipelines` worktree now holds `rfc/workflow-brief` for #682; keep it.
 
 ## Mold families: keep both vs merge
 
