@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #24137 refreshed 2026-10-15: draft; stale dependency-lock CI fixed at `c9cbdb03895`, exact local consistency check passes, fresh CI pending.
+
 PR #24140 refreshed 2026-10-15: draft, mergeable; numeric-default API regression diagnosed, verified local fix pending publication.
 
 PR #24164 refreshed 2026-10-15: requested non-draft PR opened against `dev`; head `7d2439be1c4`, mergeable, CI pending.

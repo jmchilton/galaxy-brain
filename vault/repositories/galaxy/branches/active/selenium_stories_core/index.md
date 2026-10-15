@@ -1,6 +1,6 @@
 	# selenium_stories_core
 
-Status: `ci_wait`. Base: `dev`. PR: [#24137](https://github.com/galaxyproject/galaxy/pull/24137) (draft). Head: `6628929522b5a947000d943701e99c2538c555d8`.
+Status: `ci_wait`. Base: `dev`. PR: [#24137](https://github.com/galaxyproject/galaxy/pull/24137) (draft). Head: `c9cbdb03895fb70c65daaf688cd4b8dfa8027182`.
 
 [PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md)
 
@@ -48,3 +48,7 @@ John requested a draft PR. Opened [#24137](https://github.com/galaxyproject/gala
 Used the prepared description verbatim except for the authorized screenshot URL replacement. Both PNGs are hosted under `screenshots/` on `jmchilton/galaxy` branch `pr-assets-selenium_stories_core` (asset commit `c24bd34`); no screenshots added to galaxy-brain. Updated the saved description to the same raw URLs. Human-read checkbox stays unchecked; no mentions added.
 
 Verified the PR is open and draft with queued/in-progress upstream checks. Fork CI has passing Python lint, workflow framework, main/tool framework, performance, mulled and postgres unit workflows; API/docs/converter checks are running and browser/Integration/package checks remain queued. Moved the queue entry to `ci_wait`. Earlier polish scope questions remain documented and are not treated as resolved by opening the draft.
+
+## Dependency-lock CI fix — 2026-10-15
+
+[Diagnosis and verification](dependency_lock_ci_2026-10-15.md). The linked dependency job correctly rejected stale workspace metadata after this PR changed three package manifests. Updated only their generated `uv.lock` blocks, preserving all registry-package versions and all four requirements exports. Exact pinned-toolchain CI check and commit hooks now pass. Published `c9cbdb03895fb70c65daaf688cd4b8dfa8027182`; PR remains draft waiting for fresh CI. Other CI failures were not assessed here.
