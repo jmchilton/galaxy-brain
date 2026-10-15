@@ -22,3 +22,7 @@ Found while working, not fixed:
 - In-repo `java/` and `typescript/` codegen is stale and doesn't build (the TS fails with `TS2339`). `make lint` skips both.
 - `directory_uri` has no Format2 type, and `_build_input_step` raises on it.
 - galaxy-tool-util-ts needs `make sync-schema-sources` plus a fixture sync to pick this up.
+
+## 2026-10-15 — closed
+
+PR #265 merged as `eb1d3ff`; GitHub closed #264. The worktree is still in place. It holds only untracked `.DS_Store` files, and its HEAD `6d4dbe4` is the merged PR head.
