@@ -14,6 +14,10 @@ Live PR #22988 has seven conflicts across Markdown/history dataset components, A
 
 Live draft remains conflicting with actual dev `6831f768a637d148d941a3477db0a14e21573c1d`. Read-only merge-tree confirms substantial conflicts in `client/src/components/Markdown/Markdown.vue`, `client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.vue`, `client/src/entry/analysis/App.vue`, `doc/source/admin/galaxy_options.rst`, `lib/galaxy/schema/schema.py`, `lib/galaxy/webapps/galaxy/api/__init__.py`, `lib/galaxy/webapps/galaxy/services/pages.py`. These require design or behavior reconciliation beyond the automatic small/mechanical-conflict scope. No worktree files, branch refs or PR settings changed; remains author work.
 
+## GOOD_MORNING — 2026-10-13
+
+Current fork head `ceb2de88808999fbfe904be9f6f978a66f960a75` conflicts with `origin/dev` in 7 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `client/src/components/Markdown/Markdown.vue` · `client/src/components/Markdown/Sections/Elements/HistoryDatasetDisplay.vue` · `client/src/entry/analysis/App.vue` · `doc/source/admin/galaxy_options.rst` · `lib/galaxy/schema/schema.py` · `lib/galaxy/webapps/galaxy/api/__init__.py` · `lib/galaxy/webapps/galaxy/services/pages.py`
+
 ## TICK — 2026-10-13 evening
 
 GitHub reports PR #22988 CLOSED and unmerged. Moved to `branches_need_decision`; closing the PR is not abandonment. The record and local branch remain active. No rebase or cleanup performed. John needs to decide whether to retain, revive, or explicitly abandon it.

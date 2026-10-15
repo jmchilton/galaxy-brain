@@ -1,10 +1,10 @@
 # sample_sheet_vue3
 
-Status: `ready`. Base: `release_26.2`. [PR #24050](https://github.com/galaxyproject/galaxy/pull/24050) (open, not draft; fresh CI pending).
+Status: `ready`. Base: `release_26.2`. [PR #24050](https://github.com/galaxyproject/galaxy/pull/24050) (open, not draft; review fixes pushed, fresh CI pending).
 
 Moves sample sheet grids to Vue 3 patterns and fixes editing bugs.
 
-[Latest review fixes](review_followups_2026-10-14.md) · [Vue 3 migration guide](../../../../../agents/gx_branches/VUE3_COMPONENT_MIGRATION.md) · [Codex review](codex_review.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
+[Latest review fixes](review_followups_2026-10-14.md) · [Vue 3 migration guide](../../../../../agents/gx_branches/VUE3_COMPONENT_MIGRATION.md) · [Marius follow-up pass](marius_followups_2026-10-13.md) · [Codex review](codex_review.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
 
 2026-10-11: John authorized rejected-edit feedback, extra-column validation, and the `AgRowData` union; implemented and pushed at `6f8cb56e61d`; John subsequently requested opening a draft while CI runs.
 
@@ -28,6 +28,16 @@ All 60 upstream checks on `6f8cb56e61d3ebed4853c1ce90b6fe9b7950ff89` settled suc
 
 Live regular PR is mergeable at `9474de6d78b123e35ab144883e189fd7e4cffad3`; all 59 checks have settled without failures. Remains ready from our side. No stale rebase or PR-setting change.
 
+
+## Marius review — 2026-10-13
+
+[Review](https://github.com/galaxyproject/galaxy/pull/24050#pullrequestreview-5500793156) requests fixing collection-backed workbook reload before merge: the generic parser omits URLs/model objects, and the grid changes to URI mode, producing invalid fetch elements. [Inline reproduction and alternatives](https://github.com/galaxyproject/galaxy/pull/24050#discussion_r4256376934). Moved to attention because this is author-side work. Four additional findings are explicitly optional follow-ups. [Per-PR TODO list](../../../../../agents/gx_branches/REVIEW_WORK_2026_10_13.md). No code changes or public reply made in this task.
+
+## Marius follow-ups implemented — 2026-10-13
+
+John requested a complete pass and authorized the warranted fixes. Addressed all five findings at `ea019fe47001ea9a6205ccd49a86701e6f219ece`; none deferred. Collection workbook reload preserves loaded dataset/pair objects and edited metadata; unsupported replacement targets clear stale table state; an internal Symbol prevents metadata-key collisions; optional restricted columns clear to null; identifier renames update references or reject restriction-breaking changes. [Detailed decisions and verification](marius_followups_2026-10-13.md).
+
+168/168 affected Vitest tests, vue-tsc, Prettier, lint (zero errors), diff checks and commit hooks pass. Confirmed the seven original regressions fail against the old source. Pushed normally to the fork; upstream head matches, remains non-draft and mergeable. Status stays attention pending fresh relevant CI; prior green CI is not attributed to the new SHA. No public reply, PR setting change, or live-browser run. Existing approval is not treated as approval of this changed SHA. Tracking sync remains blocked by existing `vault/reviews/Untitled.md` missing frontmatter.
 
 ## Review follow-ups — 2026-10-14
 

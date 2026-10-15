@@ -28,6 +28,26 @@ Verified [#24051](https://github.com/galaxyproject/galaxy/pull/24051) is open, d
 
 All upstream checks have settled. Integration shards 0 and 1 fail in this branch’s changed tests: `test_plugin_specific_config_used` and `TestAgentsApiFakeProvider::test_error_analysis_endpoint` trigger aiocop high-severity blocking-I/O assertions (os.stat while requests run through the real SDK/agent). [Failed run](https://github.com/galaxyproject/galaxy/actions/runs/38153953198). These are relevant failures, not diagnosed infrastructure reds. Keep draft and move to author work. The explicit draft-publication instruction also withholds undraft authorization; no implementation fix or undraft inferred.
 
+## Implementation fix — 2026-10-12
+
+John requested diagnosis and repair of the implementation behind #24051's CI failures. Confirmed the tests exposed production blocking I/O rather than a fake-provider defect: plugin requests lazily imported OpenAI chat resources on the event loop; agent construction read model-capability YAML and prompts, initialized provider clients, and loaded model metadata there.
+
+Pushed `cc3fe81fbc50a216cb4c1b3e9859f791526728e0` to `jmchilton/plugins_test_fake_provider`. Plugin SDK construction and chat-resource resolution now run through AnyIO workers. Agent construction, including the fallback router and nested router/tool/orchestrator handoffs, also runs in workers; async inference stays on the serving loop. Existing tests and assertions are unchanged. No rebase or force-push was needed.
+
+Verification used the shared Galaxy Python 3.13 environment with `GALAXY_TEST_AIOCOP=1` and backend-test skill defaults. Before the fix: **1 failed, 39 passed, 6 skipped** across the plugin/agent integration suites; the real error-analysis endpoint reproduced the capability/prompt/import blocking violation. The plugin CI failure was confirmed in upstream logs; it did not reproduce in the local combined run (SDK imports were already warm). After the fix, running the real error-analysis provider test first plus all plugin tests in a fresh process: **23 passed**. Agent unit suite: **135 passed, 15 skipped**. Pinned ruff, black, flake8 and commit hooks pass; diff check passes. Local logs: `/private/tmp/pr24051-before.log`, `/private/tmp/pr24051-after.log`, `/private/tmp/pr24051-unit.log`; HTML: `/private/tmp/pr24051-after.html`.
+
+Verified the PR has the new head and remains draft. [New upstream integration CI](https://github.com/galaxyproject/galaxy/actions/runs/38330158506) and [fork Python lint CI](https://github.com/jmchilton/galaxy/actions/runs/38330154618) are queued. Moved back to `ci_wait`; the earlier explicit instruction withholding undraft authorization remains in force. The description now records the production initialization fix and its validation.
+
+Tracking sync is pending: repository-wide `make validate` fails on the pre-existing untracked `vault/reviews/Untitled.md` (missing frontmatter). The vault instructions make validation errors a commit blocker. No unrelated file was changed or staged; these tracking/description edits remain local, and the prior human-read checkbox edit is preserved. Galaxy code and the GitHub PR description are already published.
+
+## GOOD_MORNING — 2026-10-13
+
+Current head `cc3fe81fbc50` has settled upstream CI: Integration passes, including the repaired fake-provider tests; no relevant failures remain. Package collection alone fails importing removed `pulsar.client.build_client_manager`, outside this change. Classified draft-ready; retain the explicit instruction withholding undraft authorization.
+
+## GOOD_MORNING — 2026-10-13
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 38330158218](https://github.com/galaxyproject/galaxy/actions/runs/38330158218). All requests accepted; reruns are pending, not passing coverage.
+
 ## TICK — 2026-10-13 evening
 
 GitHub now reports OPEN, non-draft and mergeable at `cc3fe81fbc50`; this TICK did not change draft status. Relevant Integration coverage passes. The only failed workflow is the previously diagnosed unrelated Pulsar package-import failure. Reclassified to `ready`.

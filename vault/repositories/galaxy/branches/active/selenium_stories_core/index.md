@@ -1,10 +1,10 @@
-# selenium_stories_core
+	# selenium_stories_core
 
-Status: `branches_implemented`. Base: `dev`.
+Status: `branches_need_polish` (started 2026-10-14). Base: `dev`.
 
 Writes Selenium and Playwright test screenshots as Markdown, HTML and PDF stories.
 
-[Implementation debrief](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md)
+[Decomposition debrief](decomposition_debrief.md) · [Implementation debrief](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md)
 
 Earlier: [Polish](old/polish_debrief.md) · [PR description](old/pr_description.md) · [Titles](old/pr_titles.md)
 
@@ -17,6 +17,19 @@ Current head has a relevant package mypy failure in `tests/seleniumtests/test_se
 ## TICK — 2026-10-12
 
 Requested failed-job reruns for the recorded unrelated failures: [run 38018966250](https://github.com/jmchilton/galaxy/actions/runs/38018966250). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.
+
+## GOOD_MORNING — 2026-10-13
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 38018966250](https://github.com/jmchilton/galaxy/actions/runs/38018966250). All requests accepted; reruns are pending, not passing coverage.
+
+## Decomposition — 2026-10-13
+
+Stories now reach below the framework through tours: `gx-dump-tour` and the stock tour tests narrate into stories, and galaxy-test-selenium has its own package suite. Head `69ff23fbe68`. Includes a fix for galaxy-test-base's module-level `galaxy.celery` import, which can be split into its own PR. See the [decomposition debrief](decomposition_debrief.md).
+
+
+## Review follow-ups — 2026-10-14
+
+Applied all four findings: real tour-loop coverage, clean stale-highlight exception context, CLI write failure propagation, and partial stories on Ctrl-C. Follow-up review found no new blocking issues. See [implementation and review evidence](review_followups_2026-10-14.md).
 
 ## TICK — 2026-10-14
 

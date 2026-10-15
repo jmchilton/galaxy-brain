@@ -70,7 +70,7 @@ The API test verifies conversion and invalid entries; the browser test verifies 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Invalid explicit float-list entries return an input-specific HTTP 400 error.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? API/browser tests assert public behavior; no unit tests change.

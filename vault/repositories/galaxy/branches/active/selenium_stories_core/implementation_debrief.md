@@ -39,3 +39,8 @@ The branch predated the after-plan process. It ran each step in turn, and each o
   - Disclose that capture failures fail the test with stories on.
   - Narrow the packaging risk. Only `to_html` leaves the `markdown_util` import path, and none of the three functions were in `__all__` (see the scope evaluation).
 - Open question: `write_screenshot_directory_file` (only `rules_example_4_8_text` uses it) never reaches the story. That is deferred to F.
+
+
+## Review follow-ups — 2026-10-14
+
+Applied the four review findings and reviewed the updated changes. See [follow-up implementation and review](review_followups_2026-10-14.md) for verification and compatibility notes.

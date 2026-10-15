@@ -33,6 +33,14 @@ Rebased all six commits without conflicts onto `dev` at `9ac3cd2eb304f2860c0daf3
 
 Hosted the E2E screenshot on fork branch `pr-assets-issue_24031_badge_tooltip_html`, commit `b3e7163d8235f9bcb0db14b3f13394196c1d7c8c`. Its immutable raw URL is in the PR body. No images were committed to galaxy-brain.
 
+## GOOD_MORNING — 2026-10-13
+
+Current head `dfc97457e202` is mergeable with settled upstream CI. Client and browser checks pass; the sole failed workflow is package collection importing removed `pulsar.client.build_client_manager`, unrelated to badge rendering. Classified draft-ready. Preserve John’s explicit instruction to keep draft until he asks to mark ready.
+
+## GOOD_MORNING — 2026-10-13
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 38275134221](https://github.com/galaxyproject/galaxy/actions/runs/38275134221). All requests accepted; reruns are pending, not passing coverage.
+
 ## Marius review follow-ups — 2026-10-13
 
 [Review](https://github.com/galaxyproject/galaxy/pull/24069#pullrequestreview-5501066796) approved with four optional notes. Addressed in `b21056e70b8` (pushed to the fork; PR still draft):

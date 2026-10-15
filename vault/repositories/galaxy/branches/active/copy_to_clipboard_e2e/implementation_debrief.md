@@ -1,6 +1,6 @@
 # Implementation debrief — copy_to_clipboard_e2e
 
-Head `c934fe06fc8`, one commit on top of #24104's `a46c20900d5`. Worktree `~/projects/worktrees/galaxy/branch/copy_to_clipboard_e2e`. It has no `.venv` of its own; runs borrowed `selenium_stories_core`'s.
+Current head `b9048cdecec`, one commit on top of #24104's `36837f455f8` (rebased 2026-10-14). Original head was `c934fe06fc8` on `a46c20900d5`. Worktree `~/projects/worktrees/galaxy/branch/copy_to_clipboard_e2e`. It has no `.venv` of its own; runs borrowed `selenium_stories_core`'s.
 
 ## What changed
 
@@ -20,3 +20,17 @@ Head `c934fe06fc8`, one commit on top of #24104's `a46c20900d5`. Worktree `~/pro
 ## Not done
 
 - The `libraries.folder.toast_msg*` selectors duplicate the new top-level `toast`. Their only reference is a commented-out line, so they were left alone.
+
+## Client CI fix — 2026-10-13
+
+Pushed follow-up commit `71cb644b61d` to `jmchilton:copy_to_clipboard_e2e`. [Failed job](https://github.com/jmchilton/galaxy/actions/runs/38472073787/job/115553418251) stopped at ESLint with one error: `simple-import-sort/imports` in `CopyToClipboard.vue`. Ahmed's `a46c20900d5` introduced the misordered `ComponentSize` import; the E2E commit did not modify that file. Moved the type import into the required import group without changing behavior.
+
+Validation: reproduced the original lint error; full client `eslint-precommit`, focused clipboard Vitest suite (4 tests), Prettier, `git diff --check`, and commit hooks passed. [Client lint CI](https://github.com/jmchilton/galaxy/actions/runs/38499750830) and [client unit CI](https://github.com/jmchilton/galaxy/actions/runs/38499750872) triggered by the push; remote results pending.
+
+## Rebase — 2026-10-14
+
+Ahmed's PR remains open and advanced to `36837f455f8` with workflow-copy button fixes, unit tests, the import-order fix, and a restored default clipboard title. Rebase completed without conflicts; Git dropped `71cb644b61d` because its fix is already upstream. `git range-diff` confirms the E2E commit is identical (`c934fe06fc8` → `b9048cdecec`). Force-pushed with an exact lease protecting the prior remote head.
+
+Validation: all three selected Playwright E2E tests passed (`test_copy_api_key`, `test_api_key`, `test_authoring_documentation_interactions`); clipboard and workflow-indicator Vitest suites passed (7 tests); focused client ESLint and `git diff --check` passed. Node 25's native webstorage initially broke the workflow unit tests; `NODE_OPTIONS=--no-experimental-webstorage` resolved the environment issue without source edits. The same three E2E tests passed under Selenium with explicit Chrome selection (`GALAXY_TEST_SELENIUM_BROWSER=CHROME`, `GALAXY_TEST_SELENIUM_HEADLESS=auto`); the default launcher configuration was unsuitable for this macOS environment. Galaxy/Vite used isolated ports 8092/5182 and the existing borrowed venv. Fresh remote CI has been triggered.
+
+Stopped the isolated Galaxy/Vite servers started for this verification.

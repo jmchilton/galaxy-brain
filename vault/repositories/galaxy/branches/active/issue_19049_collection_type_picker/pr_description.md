@@ -88,7 +88,7 @@ Builds on 🔀 #20403 (allow any collection type in this field) and 🔀 #19305 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? An invalid or empty custom value shows an inline error and a red field and isn't saved; the step keeps the last valid type entered, which can be a prefix typed on the way (as on `dev`). A saved type the select doesn't list opens in custom mode. In the Tool Shed dialog, an empty new section name shows an error and disables Ok.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They click real options and type into the field, and check what's rendered, what's emitted and saved (including "Any" as `null`), the Tool Shed install request, and that every listed collection type passes the validator.
@@ -116,6 +116,7 @@ Builds on 🔀 #20403 (allow any collection type in this field) and 🔀 #19305 
 - `test_workflow_editor.py::test_collection_input_collection_type_help_modal` opens the dialog, checks that the current type's card is highlighted, and picks another card. It then checks that the dialog closes and that the select and saved workflow show the new type.
 - `test_collection_builders.py` builds lists, lists of pairs, mixed lists, nested lists and rule-built lists through the wizard's cards; `test_build_list_of_lists` screenshots the builder step.
 - `test_workflow_editor.py::test_collection_input_custom_and_any_collection_type_round_trip` saves a custom `list:list:list` and then "Any", checking the saved `collection_type` (`null` for "Any") and what the editor shows after a reload.
+- `test_workflow_editor.py::test_collection_input_bare_collection_types` saves `paired` and then `list`. Both are substrings of `list:paired`, and the test failed when the helper searched for the bare type.
 
 Manually:
 - Open the workflow editor, add an "Input Dataset Collection", and try the select, the "Not sure which collection type to use?" dialog and "Custom collection type...".

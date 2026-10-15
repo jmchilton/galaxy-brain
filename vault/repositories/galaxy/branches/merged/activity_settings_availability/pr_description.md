@@ -34,7 +34,7 @@ Builds on 🔀 #23921, which merged the shared activity availability checks used
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Unavailable activities are hidden; an empty search displays “No matching activities found.” Existing unexpected Custom Tools access-check failures show a toast.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They check rendered titles, live configuration/permission changes, saved visibility and existing show/hide, deletion and search behavior.

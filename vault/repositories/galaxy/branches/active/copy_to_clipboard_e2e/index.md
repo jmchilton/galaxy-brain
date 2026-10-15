@@ -16,6 +16,10 @@ Adds an E2E clipboard abstraction and a browser regression test for #24102 (`Cop
 
 PR #24104 merged. John requested polishing this as a follow-up against `dev`; the finished description waits for final human review.
 
+## Rebase — 2026-10-14
+
+Rebased and pushed as `b9048cdecec`, one unchanged E2E commit on Ahmed's updated head `36837f455f8`. The import-order fix is now upstream and was dropped automatically. Our clipboard abstraction, API-key regression test, and migrated consumers still apply. PR #24104 remains open; the existing delivery decision still applies. See the implementation debrief for verification.
+
 ## Polish completed — 2026-10-14
 
 Head: `042902f139e62194204c36cd6b404eae4fe2518e`, rebased cleanly onto upstream dev `8b729ff0050c32573ad0fa999e5e1b4d015dca8c` after prerequisite #24104 merged. Range-diff confirms the single E2E patch is unchanged; pushed to the fork with an exact old-head lease. Independent checklist passed; the single fresh strengthening round found nothing to add. The human-read checklist item remains unchecked.

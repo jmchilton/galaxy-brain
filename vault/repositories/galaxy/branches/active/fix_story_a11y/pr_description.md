@@ -9,13 +9,9 @@ Selecting a dataset, renaming it, and removing it need independent keyboard cont
 | Searchable multiselect | Combobox state on the wrapper; unnamed removal icons with positive tab order | State on the focused input; named native removal buttons in normal tab order, with focus retained after removal |
 | Progress, menus, and scrolling | Unnamed segments, nested menu buttons, and unreachable scroll regions | Named progress segments, one menu toggle, and keyboard-reachable scrolling |
 
-***These repairs benefit people using Galaxy's existing UI with a keyboard or assistive technology; Storybook supplies the test fixtures, while the production fixes run independently of it.***
-
-The frozen audit now passes **236/236 story checks**, including all **121 previously excepted states**, with accessibility failures set to `error` and no rule or subtree exclusions. Eight separate Chromium probes check native activation, exactly-once events, label focus, and independence of selection from rename/remove. The review follow-up passes **223 tests in 26 affected client suites**.
+***These repairs benefit people using Galaxy's existing UI with a keyboard or assistive technology.***
 
 ***This is a bounded repair of the audited component states, not a claim of complete Galaxy accessibility or manual screen-reader verification.***
-
-***This PR adds no Storybook dependencies or axe CI, and leaves workflow definitions and execution unchanged.***
 
 <details><summary>Implementation and validation boundaries</summary>
 
@@ -27,7 +23,6 @@ The frozen audit now passes **236/236 story checks**, including all **121 previo
 - Workflow definitions, scheduling, and outputs retain their existing behavior. Workflow-facing changes concern zoom controls, progress announcements, and invocation navigation markup.
 
 </details>
-
 ## Risks
 
 These UI repairs are reversible and establish no new API or saved-workflow contract; the main risk is changing shared keyboard, focus, and selection behavior.

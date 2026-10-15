@@ -12,6 +12,14 @@ John explicitly approved splitting the reviewed implementation: text fixes and t
 
 Pushed head: `9a6a71ff062fdb33cc33427324b0160e8ca662ed` on [jmchilton/galaxy](https://github.com/jmchilton/galaxy/tree/workflow_multiple_parameter_review_followups). Rebased without conflicts onto current `dev`; prior split evidence and historical records remain archived in `earlier_drafts/1`.
 
+## GOOD_MORNING — 2026-10-13
+
+Fork head `67c403649842` has green API, workflow framework, Python lint, client and both browser checks. Only package tests fail: unchanged packages/selenium/tests/seleniumtests/test_context.py cannot import galaxy_test in the isolated environment. The float-only diff touches workflow definitions/runtime and API/editor tests, not Selenium package installation. Diagnosed unrelated and promoted to implemented. Parent #23992 is merged; no approval or PR publication inferred.
+
+## GOOD_MORNING — 2026-10-13
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 38269038319](https://github.com/jmchilton/galaxy/actions/runs/38269038319). All requests accepted; reruns are pending, not passing coverage.
+
 ## Polish — 2026-10-13
 
 Completed polishing with fresh checklist and one strengthening review; no implementation changes needed. Conflict-free rebase onto `dev` at `63192fd64e46234a7a1aa933e44d8e0930112ccf`; pushed head `9a6a71ff062fdb33cc33427324b0160e8ca662ed`. Fresh float/integer API checks: 2 passed. Prior-head relevant CI passed; isolated Selenium-package import failure remains unrelated. New-head CI queued. Human-read checklist awaits John; no PR publication or approval inferred.

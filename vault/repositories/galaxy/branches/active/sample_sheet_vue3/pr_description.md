@@ -109,7 +109,7 @@ Review of the 11 existing screenshot captures covering the sheet view, load-erro
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Rejected metadata, duplicate identifier and unknown datatype/genome edits show a toast and keep the old value; a load error shows the error alert.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The grid tests drive the real component through `useAgGrid`'s async wrapper with only `ag-grid-vue3` stubbed, and the payload tests also pass on the old component.

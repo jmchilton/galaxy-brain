@@ -1,6 +1,6 @@
 # Implementation debrief
 
-Status: READY. Head `5abfc5c4aad` on `jmchilton:ts_readme_render_followups`, base `dev`. It depends on [`ts_readme_render_fix_26.1`](../ts_readme_render_fix_26.1/index.md), which is merged in as real history. Open the 26.1 PR first. The earlier round (merge, dead code, old-revision README lookup) is in [earlier_drafts/1](earlier_drafts/1/implementation_debrief.md).
+Status: READY. Head `5abfc5c4aad` on `jmchilton:ts_readme_render_followups`, base `dev`. It depends on [`ts_readme_render_fix_26.1`](../../merged/ts_readme_render_fix_26.1/index.md), which is merged in as real history. Open the 26.1 PR first. The earlier round (merge, dead code, old-revision README lookup) is in [earlier_drafts/1](earlier_drafts/1/implementation_debrief.md).
 
 This round came from John asking for a Playwright test of old revisions rendering READMEs with the correct images. Writing that test turned up two bugs.
 

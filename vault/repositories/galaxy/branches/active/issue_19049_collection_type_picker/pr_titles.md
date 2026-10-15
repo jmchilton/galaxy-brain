@@ -1,5 +1,1 @@
-- Pick workflow collection input types from a described select, via a reusable select-or-text form element
-- Add FormSelectOrText and use it for workflow collection input types and Tool Shed target sections
-- Replace the free-text collection type field in the workflow editor with a described picker
-- Workflow editor: select collection input types, with descriptions and a "which type?" dialog
 - Explain collection types when defining workflow collection inputs

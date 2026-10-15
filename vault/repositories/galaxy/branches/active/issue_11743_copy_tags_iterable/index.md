@@ -16,6 +16,10 @@ Live #23973 is mergeable but still draft. Its macOS 3.14 red fails `Restore clie
 
 Requested failed-job reruns for the recorded unrelated failures: [run 37773026992](https://github.com/galaxyproject/galaxy/actions/runs/37773026992). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.
 
+## GOOD_MORNING — 2026-10-13
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 37773026992](https://github.com/galaxyproject/galaxy/actions/runs/37773026992). All requests accepted; reruns are pending, not passing coverage.
+
 ## TICK — 2026-10-13 evening
 
 GitHub now reports OPEN, non-draft and mergeable at its unchanged head; this TICK did not change draft status. The sole failure remains the diagnosed macOS 3.14 client-cache restoration failure. Reclassified to `ready` and requested its failed-job rerun.

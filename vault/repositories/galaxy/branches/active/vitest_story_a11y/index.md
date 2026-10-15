@@ -1,10 +1,10 @@
 # vitest_story_a11y
 
-Status: implemented, reviewed, reference-only prototype; do not PR independently.
+Status: rebased prototype; browser validation has failures to resolve before integration. Do not PR independently.
 Stacked on `vitest_story_play`.
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_story_a11y`.
-Base: `19b6b1a85542397c258748f6b075f4d25f4c8053` (pushed play tip at fork time).
-Pushed to `jmchilton/vitest_story_a11y` at `f43e9950dca7c322cfbb66def9961b301e854345` on 2026-10-10.
+Base: `81c4987360debdff86678e038e8035c31213a410` (pushed Play tip captured for the 2026-10-12 rebase).
+Pushed to `jmchilton/vitest_story_a11y` at `c246eb4fde308f62f817018b5ce5f41fbfba7407` on 2026-10-12; see [rebase handoff](rebase_2026-10-12.md).
 User requested an isolated fork to explore visual and accessibility testing for
 the BootstrapVue/Vue 3 migration, leaving the running conversion lanes alone.
 
@@ -20,6 +20,6 @@ the BootstrapVue/Vue 3 migration, leaving the running conversion lanes alone.
 No conversion ledger edits. No PR, cloud project, credentials, or browser CI
 workflow added. Visual screenshot comparisons remain a documented option.
 
-Validation: 236/236 browser stories, 14/14 affected unit tests, final typecheck,
+Original implementation validation (2026-10-10): 236/236 browser stories, 14/14 affected unit tests, final typecheck,
 lint, formatting, and static Storybook build pass. See final debrief for the
 121 legacy accessibility exceptions and the verified strict failure controls.

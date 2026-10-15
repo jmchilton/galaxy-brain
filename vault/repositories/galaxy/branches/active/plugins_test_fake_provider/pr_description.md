@@ -8,7 +8,7 @@ Mocked client calls can verify Python arguments while missing what the provider 
 | Agent → provider | A real error-analysis agent parses structured output and returns formatted content and confidence |
 | MCP → TRS | The existing smoke test fetches its descriptor from a local server at the expected TRS path |
 
-***This is test infrastructure for Galaxy developers; production AI endpoints and provider configuration are unchanged.***
+The real HTTP tests also exposed blocking setup in production async handlers. Plugin client construction and lazy SDK resource loading now run in worker threads, as does agent construction (capability/prompt reads and provider setup), including nested handoffs. Provider requests remain asynchronous.
 
 Opting into live LLM tests previously left the driver's static agent backend enabled. With an unreachable local provider, four of the six live-class tests passed on `dev`. This branch disables that backend in live mode and requires the chat test to reject API errors and agent fallback responses.
 
@@ -28,7 +28,7 @@ Each route returns one scripted reply. Multi-turn agent conversations and other 
 
 ## Risks
 
-Risks are minimal: this is a reversible change to test code and test helpers, with no production behavior or API changes. Opt-in live tests will now expose missing or unreachable provider configuration that static responses previously hid.
+Agent and SDK initialization now runs in worker threads, while inference remains on the serving event loop. API contracts and provider configuration are unchanged. Opt-in live tests will expose missing or unreachable provider configuration that static responses previously hid.
 
 ## Context
 
@@ -36,7 +36,7 @@ Builds on 🔀 #24032's plugin proxy tests. The shared fake also covers the exis
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Developers get failures against received HTTP requests, response bodies or agent output.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes—the tests exercise observable HTTP and API behavior.
@@ -50,13 +50,14 @@ Builds on 🔀 #24032's plugin proxy tests. The shared fake also covers the exis
 <details><summary>Run the deterministic integration tests</summary>
 
 ```sh
+GALAXY_TEST_AIOCOP=1 \
 GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false \
 GALAXY_CONFIG_ENABLE_BETA_WORKFLOW_MODULES=true \
 GALAXY_CONFIG_OVERRIDE_ENABLE_BETA_TOOL_FORMATS=true \
 ./run_tests.sh -integration test/integration/test_plugins.py -- test/integration/test_agents.py
 ```
 
-Local verification: **40 passed, 6 skipped**. Against an unreachable local provider, the five live inference tests fail and the chat-history test passes.
+Initial test-infrastructure verification: **40 passed, 6 skipped**. After the production fix: **23 passed** across all plugin tests and the real error-analysis agent test with `GALAXY_TEST_AIOCOP=1`; agent unit tests: **135 passed, 15 skipped**. Against an unreachable local provider, the five live inference tests fail and the chat-history test passes.
 
 The six live-class tests are skipped unless `GALAXY_TEST_ENABLE_LIVE_LLM=1`; configure `GALAXY_TEST_AI_API_KEY`, `GALAXY_TEST_AI_MODEL` and `GALAXY_TEST_AI_API_BASE_URL` to run them.
 
