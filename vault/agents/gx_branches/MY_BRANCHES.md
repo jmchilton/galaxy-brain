@@ -6,7 +6,7 @@ PR #24164 refreshed 2026-10-15: requested non-draft PR opened against `dev`; hea
 
 PR #24157 refreshed 2026-10-15: requested draft opened against `release_26.2`; head `46632e4c37c`, mergeable, CI pending.
 
-PR #24142 refreshed 2026-10-15: both search aliases verified; FastQC regression update tested, fresh human read and new-head CI pending. PR is draft.
+PR #24142 refreshed 2026-10-15: John confirmed draft; head `23e16d05e4f`, mergeable, checks queued. Moved to `ci_wait` as requested.
 
 PR #24141 refreshed 2026-10-14: requested draft opened against `release_26.1`; head `5ce39226753`, CI pending. Keep draft until requested otherwise.
 
@@ -50,6 +50,7 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [#24169](https://github.com/galaxyproject/galaxy/pull/24169).
 - [`toolshed_repository_contents`](../../repositories/galaxy/branches/active/toolshed_repository_contents/index.md) — Adds a bounded repository-files API and Tool Shed contents browser (#22598). Base `release_26.2`. [#24167](https://github.com/galaxyproject/galaxy/pull/24167).
 - [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [#24165](https://github.com/galaxyproject/galaxy/pull/24165).
@@ -104,7 +105,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [#24142](https://github.com/galaxyproject/galaxy/pull/24142). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:tool_open_tool_shed_ids?expand=1).
 - [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Missing HDA, LDDA, library dataset and collection workflow inputs return a 404 naming the input. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_missing_input_404?expand=1).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:container_tool_env?expand=1).
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_parameter_expected_failure?expand=1).

@@ -1,6 +1,6 @@
 # tool_open_tool_shed_ids
 
-Status: `branches_ready_for_final_review`. Base: `release_26.2`. PR: [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
+Status: `ci_wait`. Base: `release_26.2`. PR: [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
 
 Lets tool panel search, the `tool_panel` selectors, and the `tools_list` card selectors find Tool Shed tools by their full GUID id. Covered by `integration_selenium` E2E tests.
 
@@ -56,3 +56,7 @@ Both `id:` and `tool_id:` are supported aliases on the release base; both full-G
 Published commit `23e16d05e4f` changes only the two test files. Search suite 27 passed; revised browser tests 2 passed; both search alias regressions and both browser tests fail on the corresponding old implementations. All commit hooks pass with matching ESLint 10 dependencies; restored the original local dependency symlink. Updated PR description to remove outdated expression-tool screenshots/caveats and reflect the new coverage. No PR comment posted.
 
 Live PR refresh found #24142 draft and mergeable against `release_26.2`; kept draft. New-head CI is pending. Queue moved to `branches_ready_for_final_review` under the changed-branch rule; fresh human read required, checkbox reset. No old SHA approval carried forward.
+
+## Draft waiting for CI — 2026-10-15
+
+John confirmed he drafted #24142 and requested moving the tracker to draft waiting for CI. Live state: open, draft, mergeable, head `23e16d05e4fdd0db89ec970cbc2ff29b535362a2`; GitHub Actions checks queued, CircleCI green. Queue and branch status are now `ci_wait`, superseding the previous final-review placement. No GitHub draft-state change was needed.
