@@ -1,0 +1,8 @@
+diff --git a/lib/galaxy/workflow/modules.py b/lib/galaxy/workflow/modules.py
+index a24c3585419..6bc33a7f3a2 100644
+--- a/lib/galaxy/workflow/modules.py
++++ b/lib/galaxy/workflow/modules.py
+@@ -1675,0 +1676,3 @@ class InputParameterModule(WorkflowModule):
++            if isinstance(default_value, list):
++                # YAML can load numeric text defaults as numbers, while connected option values are strings.
++                default_value = [str(value) for value in default_value]

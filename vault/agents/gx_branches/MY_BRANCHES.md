@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #24140 refreshed 2026-10-15: draft, mergeable; numeric-default API regression diagnosed, verified local fix pending publication.
+
 PR #24164 refreshed 2026-10-15: requested non-draft PR opened against `dev`; head `7d2439be1c4`, mergeable, CI pending.
 
 PR #24157 refreshed 2026-10-15: requested draft opened against `release_26.2`; head `46632e4c37c`, mergeable, CI pending.
@@ -53,7 +55,6 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 - [`invocation_graph_color_swatch`](../../repositories/galaxy/branches/active/invocation_graph_color_swatch/index.md) — Shows the color swatch for color parameter inputs in the invocation graph. Base `release_26.2`. [#24157](https://github.com/galaxyproject/galaxy/pull/24157).
 - [`it_container_epilog_docs`](../../repositories/galaxy/branches/active/it_container_epilog_docs/index.md) — Documents a Slurm epilog for killing leftover Interactive Tool containers; links usegalaxy.org's (#13511). [#24143](https://github.com/galaxyproject/galaxy/pull/24143).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [#24141](https://github.com/galaxyproject/galaxy/pull/24141).
-- [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects restricted text-input defaults and permits allowed empty options on 26.2. [#24140](https://github.com/galaxyproject/galaxy/pull/24140).
 - [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/active/playwright_timeout_retry_once/index.md) — Retries Playwright timeouts once during transitions; partly reverts 2825bb09e42. [#24139](https://github.com/galaxyproject/galaxy/pull/24139).
 - [`selenium_stories_core`](../../repositories/galaxy/branches/active/selenium_stories_core/index.md) — Writes Selenium and Playwright screenshots as Markdown, HTML and PDF stories; narrates tours. [#24137](https://github.com/galaxyproject/galaxy/pull/24137).
 - [`integration_ci_paths`](../../repositories/galaxy/branches/active/integration_ci_paths/index.md) — Skips Integration for changes confined to other test suites; moves shared helpers into `galaxy_test.base`. [#24135](https://github.com/galaxyproject/galaxy/pull/24135).
@@ -61,6 +62,7 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
+- [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects restricted text-input defaults and permits allowed empty options on 26.2. [#24140](https://github.com/galaxyproject/galaxy/pull/24140).
 - [`vitest_readability`](../../repositories/galaxy/branches/active/vitest_readability/index.md) — Rewrites client tests for readability, shared fixtures and stronger assertions. [#24038](https://github.com/galaxyproject/galaxy/pull/24038).
 - [`tool_parameter_references`](../../repositories/galaxy/branches/active/tool_parameter_references/index.md) — Developer reference for the inconsistent ways tools, APIs and workflows reference nested tool parameters. [#23877](https://github.com/galaxyproject/galaxy/pull/23877).
 - [`subworkflow_mapping`](../../repositories/galaxy/branches/active/subworkflow_mapping/index.md) — Brings subworkflow mapping inline between the workflow editor and the backend. [#23676](https://github.com/galaxyproject/galaxy/pull/23676).

@@ -1,6 +1,6 @@
 # issue_23980_static_restriction_default
 
-Status: `ci_wait`. Base: `release_26.2` (`f9cf361962e`). PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140) (draft). Tip `6c9ef2e4ae2099a6c005af62ce17b6d9367782e4`.
+Status: `author_work`. Base: `release_26.2` (`f9cf361962e`). PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140) (draft). Tip `6c9ef2e4ae2099a6c005af62ce17b6d9367782e4`.
 
 Preselects defaults for statically restricted workflow text inputs (#23980). The run form can also submit an allowed `""` option.
 
@@ -25,3 +25,9 @@ Resolved the documented #23992 overlap by keeping `_is_default_option`, removing
 Validation: workflow unit suite 193 passed, 2 skipped; focused form tests 60 passed. Whitespace and cleanup commit hooks pass. API/browser execution is pending fresh CI. Verified open/draft, correct base and SHA, with 40 upstream checks queued/in progress at initial refresh. Queue moved to `ci_wait`.
 
 Description updated for the release base and merged #23992. The screenshot is hosted on fork branch `pr-assets-issue_23980_static_restriction_default` at `b321f9f`; the human-read checkbox already checked in the working description was preserved. No mentions added. See the release rebase debrief for details.
+
+## API CI diagnosis — 2026-10-15
+
+[Diagnosis and verification](numeric_default_ci_diagnosis.md) · [Local fix patch](numeric_default_fix.patch).
+
+The linked API job has one relevant regression: numeric YAML list defaults no longer match string option values after the rebase dropped #24108's conversion. Keep the test unchanged. Restored the conversion locally: red reproduction 1 failed/2 passed; corrected value-restriction API suite 8 passed; workflow units 194 passed/1 skipped. Code correction remains uncommitted/unpushed in the branch worktree; PR remains draft at `6c9ef2e4ae2`. Queue moved to `author_work`; other red workflows were not assessed.
