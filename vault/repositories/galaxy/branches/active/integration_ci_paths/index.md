@@ -1,6 +1,6 @@
 # integration_ci_paths
 
-Status: `branches_ready_for_final_review`. Base: `dev`. Fork: `jmchilton/integration_ci_paths`.
+Status: `ci_wait`. Base: `dev`. Fork: `jmchilton/integration_ci_paths`. PR: [#24135](https://github.com/galaxyproject/galaxy/pull/24135) (draft).
 
 Skips the Integration workflow when a PR only changes test suites that run in other workflows (unit, API, Selenium, workflow framework). Companion to `integration_ci_scope`; independent of it.
 
@@ -25,3 +25,9 @@ Current fork head fb7c6a96a759 still has an in-progress check. The two package r
 Completed. Original head `fb7c6a96a759d5f0255dac31cb632a4c5a494b26` passed Integration, API, workflow framework, lint and other runtime workflows. Package run [38625245560](https://github.com/jmchilton/galaxy/actions/runs/38625245560) fails mypy at unchanged `galaxy/security/ssh_util.py:18` on Python 3.10 and 3.14 (`publickey` untyped call), verified in failed logs; unrelated to this branch. Rebased without conflicts onto current `origin/dev`; new head `ec49da686a6e7551c6e9b50f14d948cde87d037f`.
 
 Fresh checklist passed; one strengthening round returned “nothing to add”. No code changes beyond the conflict-free rebase. Current head CI remains queued ([Integration](https://github.com/jmchilton/galaxy/actions/runs/38661010332)); previous-head passing results are not claimed for the new head. Human-read checkbox remains unchecked. See the linked description, titles and polish debrief for final review.
+
+## Draft PR opened — 2026-10-14
+
+John requested opening the PR as a draft and moving it to waiting on CI. Opened [#24135](https://github.com/galaxyproject/galaxy/pull/24135) against `dev` at `ec49da686a6e7551c6e9b50f14d948cde87d037f`, titled “Skip Integration CI for changes confined to other test suites”. Used `pr_description.md` verbatim, including the human-read checkbox already checked in the working file; added no mentions. No code changes or further rebase.
+
+Live GitHub verification confirms open and draft at that SHA. Upstream CI is queued/in progress, including [Integration](https://github.com/galaxyproject/galaxy/actions/runs/38661487143) and [API tests](https://github.com/galaxyproject/galaxy/actions/runs/38661486789). Fork CI remains queued. Queue entry moved to `ci_wait` as requested.

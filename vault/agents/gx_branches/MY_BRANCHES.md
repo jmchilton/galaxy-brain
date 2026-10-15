@@ -54,6 +54,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`integration_ci_paths`](../../repositories/galaxy/branches/active/integration_ci_paths/index.md) — Skips Integration for changes confined to other test suites; moves shared helpers into `galaxy_test.base`. [#24135](https://github.com/galaxyproject/galaxy/pull/24135).
 - [`oidc_authorize_params_docs`](../../repositories/galaxy/branches/active/oidc_authorize_params_docs/index.md) — Documents OIDC request parameters, provider prefixes, configuration examples, and verification. [#24133](https://github.com/galaxyproject/galaxy/pull/24133).
 - [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Reduces dev PR CI and tracks nightly failures; keeps a rejected cross-release alternative for discussion. [#24131](https://github.com/galaxyproject/galaxy/pull/24131).
 
@@ -103,7 +104,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`integration_ci_paths`](../../repositories/galaxy/branches/active/integration_ci_paths/index.md) — Skips Integration for changes confined to other test suites; moves shared helpers into `galaxy_test.base`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:integration_ci_paths?expand=1).
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin and agent HTTP inference with a local provider; preserves configurable inference settings. [#24051](https://github.com/galaxyproject/galaxy/pull/24051). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:plugins_test_fake_provider?expand=1).
 - [`issue_19049_collection_type_picker`](../../repositories/galaxy/branches/active/issue_19049_collection_type_picker/index.md) — Adds select-or-text collection types and fixes workbook template browser selection. [#24055](https://github.com/galaxyproject/galaxy/pull/24055). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19049_collection_type_picker?expand=1).
 
