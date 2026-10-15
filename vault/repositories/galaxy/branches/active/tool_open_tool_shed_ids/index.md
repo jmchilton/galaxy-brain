@@ -1,6 +1,6 @@
 # tool_open_tool_shed_ids
 
-Status: `ready`. Base: `release_26.2`. PR: [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
+Status: `branches_ready_for_final_review`. Base: `release_26.2`. PR: [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
 
 Lets tool panel search, the `tool_panel` selectors, and the `tools_list` card selectors find Tool Shed tools by their full GUID id. Covered by `integration_selenium` E2E tests.
 
@@ -46,3 +46,13 @@ Requested failed-job reruns for recorded unrelated failures: [run 38167310135](h
 - Focused search suite rerun on the release-based head: 25 passed; diff whitespace check clean.
 - Hosted the two prepared screenshots on `jmchilton/galaxy` branch `pr-assets-tool_open_tool_shed_ids` at `a2701b7`; the only description changes were replacing the relative screenshot paths with raw fork URLs.
 - Opened non-draft [PR #24142](https://github.com/galaxyproject/galaxy/pull/24142) directly as requested. Confirmed `release_26.2`, head `e9ef7bf7f1c`, open and mergeable. Initial upstream CI is queued/in progress; no new-head green CI is claimed. [Client unit tests](https://github.com/galaxyproject/galaxy/actions/runs/38675686043) · [Integration Selenium](https://github.com/galaxyproject/galaxy/actions/runs/38675685855).
+
+## Reviewer syntax and fixture follow-up — 2026-10-15
+
+[Diagnosis and test evidence](review_followup_2026-10-15.md).
+
+Both `id:` and `tool_id:` are supported aliases on the release base; both full-GUID searches reproduce the underlying bug. This was not a syntax/agent usage error. The expression-tool fixture was a poor agent choice; replaced it with pinned standard FastQC and strengthened both browser tests to verify the real tool form opens, including the card Open button.
+
+Published commit `23e16d05e4f` changes only the two test files. Search suite 27 passed; revised browser tests 2 passed; both search alias regressions and both browser tests fail on the corresponding old implementations. All commit hooks pass with matching ESLint 10 dependencies; restored the original local dependency symlink. Updated PR description to remove outdated expression-tool screenshots/caveats and reflect the new coverage. No PR comment posted.
+
+Live PR refresh found #24142 draft and mergeable against `release_26.2`; kept draft. New-head CI is pending. Queue moved to `branches_ready_for_final_review` under the changed-branch rule; fresh human read required, checkbox reset. No old SHA approval carried forward.

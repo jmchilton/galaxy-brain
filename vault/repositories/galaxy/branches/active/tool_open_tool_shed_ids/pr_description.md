@@ -1,26 +1,20 @@
 Fix full Tool Shed GUID lookup in tool panel search and the browser navigation helpers used to select tools.
 
-Pasting an installed tool’s full ID into an `id:` search should find that tool. A GUID such as `toolshed.g2.bx.psu.edu/repos/iuc/umi_tools_extract/umi_tools_extract/1.1.2+galaxy2` currently produces no result. The same IDs also break test helpers that match URL-encoded links or build CSS ID selectors from raw GUIDs.
+Pasting an installed tool’s full ID into an `id:` or `tool_id:` search should find that tool; both prefixes are supported aliases. A GUID such as `toolshed.g2.bx.psu.edu/repos/iuc/umi_tools_extract/umi_tools_extract/1.1.2+galaxy2` currently produces no result. The same IDs also break test helpers that match URL-encoded links or build CSS ID selectors from raw GUIDs.
 
 | Lookup | Before | With this change |
 | --- | --- | --- |
-| Panel `id:<full GUID>` search | No matching tool | Finds the installed tool |
-| `tool_open(<full GUID>)` | Link lookup times out | Finds and clicks the panel link |
-| Discover Tools card helper with a GUID | Invalid CSS selector | Finds card controls and expands help |
+| Panel `id:<full GUID>` or `tool_id:<full GUID>` search | No matching tool | Finds the installed tool |
+| `tool_open(<full GUID>)` | Link lookup times out | Opens the tool form |
+| Discover Tools card helper with a GUID | Invalid CSS selector | Finds card controls, expands help and opens the tool form |
 
 ***The user-facing change is literal substring matching in tool search; the selector changes support browser automation against existing tool links and cards.***
-
-![Full GUID search finds the installed Tool Shed tool](https://raw.githubusercontent.com/jmchilton/galaxy/pr-assets-tool_open_tool_shed_ids/screenshots/tool_panel_search_by_tool_shed_id.png)
-
-***The regression fixture is a special-form tool: the tests prove GUID lookup and card controls, while its existing hidden-frame form-opening behavior remains a separate issue.***
 
 <details><summary>Implementation and coverage</summary>
 
 Search uses literal substring comparisons consistently, so punctuation in Tool Shed IDs is preserved. Tool panel helpers match `data-tool-id`; card helpers use quoted attribute selectors.
 
-The search unit test includes a full GUID with `.`, `/` and `+`. Two Integration Selenium tests install `iuc/compose_text_param` 0.1.1 from the main Tool Shed, then exercise panel lookup and the Discover Tools card, version and favorite buttons, and help toggle. These tests depend on Tool Shed availability and can skip when it is unavailable. The special-form fixture has no card Open button, so that selector is not directly covered by this fixture.
-
-![Discover Tools card help reached using a full GUID selector](https://raw.githubusercontent.com/jmchilton/galaxy/pr-assets-tool_open_tool_shed_ids/screenshots/tools_list_tool_shed_tool_help.png)
+The search unit tests cover a full GUID with `.`, `/` and `+` using both `id:` and `tool_id:`. Two Integration Selenium tests install the standard command tool `devteam/fastqc` 0.73+galaxy0 (revision `3d0c7bdf12f5`) from the main Tool Shed. They assert that panel lookup opens the expected tool form, and exercise the Discover Tools card, version and favorite buttons, help toggle and Open button, then verify the expected form version. These tests depend on Tool Shed availability and can skip when it is unavailable.
 
 </details>
 
@@ -46,7 +40,7 @@ The original scope evaluation preferred keeping the search and panel helper fixe
 
 <details><summary>The regression checks fail at the search result or selector lookup on the old implementation.</summary>
 
-Recorded red/green runs cover the search unit case and panel selector; the later card test reproduces the old CSS parse error. Historical local runs passed both Integration Selenium tests and eight tool-discovery regressions. The rebased patch is identical, and the focused search suite was rerun during polish: 25 passed. The prior fork head passed client tests/lint, Integration Selenium and Playwright; fresh CI on the rebased head is pending. Browser runs were not repeated locally during polish.
+Both full-GUID search aliases fail against the original search implementation and pass with the fix. The focused search suite passes all 27 tests. Both revised FastQC Integration Selenium tests pass locally with the Playwright backend, including form opening from the panel and the card. Fresh CI for this test revision is pending.
 
 </details>
 
@@ -54,13 +48,13 @@ Recorded red/green runs cover the search unit case and panel selector; the later
 
 <details><summary>The earlier review returned no findings for the search and panel-selector changes.</summary>
 
-That review ran before the card-selector fold-in. The fold-in received a separate code review; the final four-file diff also passed the fresh polish checklist review.
+That review ran before the card-selector fold-in. The fold-in received a separate code review; the four-file implementation diff also passed the polish checklist review. The subsequent FastQC test revision has local test evidence and still needs a fresh human read.
 
 </details>
 
 ## John's Checklist
 
-- [x] Did a human read every test and every comment?
+- [ ] Did a human read every test and every comment?
 - [x] What does the user see when it fails? A full-ID search finds no matching tool; browser helpers time out or report an invalid selector.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes; the GUID case asserts the returned tool.
