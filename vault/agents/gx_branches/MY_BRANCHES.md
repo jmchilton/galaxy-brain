@@ -20,9 +20,9 @@ Clipboard E2E base/CI refreshed 2026-10-14 after polishing; #24104 merged and fo
 
 PR #24046 refreshed 2026-10-14: four review fixes pushed at `58849d66e99` on `release_26.2`; CI pending, final review required.
 
-nightly_unit_tests refreshed 2026-10-14: draft #24131 updated at `a311e41f2c3` with client-build reference lint fixes; CI pending.
+nightly_unit_tests refreshed 2026-10-15: non-draft #24131 review fixes pushed at `191c67516c7`; CI and fresh human read pending.
 
-Queue snapshot refreshed from GitHub 2026-10-14. [TICK findings and actions](TICK_2026-10-14.md).
+Queue snapshot refreshed from GitHub 2026-10-15 for #24131; other entries retain their recorded snapshots. [TICK findings and actions](TICK_2026-10-14.md).
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
@@ -37,7 +37,7 @@ Queue snapshot refreshed from GitHub 2026-10-14. [TICK findings and actions](TIC
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
-None yet.
+- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Reduces dev PR CI and tracks nightly failures; keeps a rejected cross-release alternative for discussion. [#24131](https://github.com/galaxyproject/galaxy/pull/24131).
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
@@ -55,7 +55,6 @@ None yet.
 - [`selenium_stories_core`](../../repositories/galaxy/branches/active/selenium_stories_core/index.md) — Writes Selenium and Playwright screenshots as Markdown, HTML and PDF stories; narrates tours. [#24137](https://github.com/galaxyproject/galaxy/pull/24137).
 - [`integration_ci_paths`](../../repositories/galaxy/branches/active/integration_ci_paths/index.md) — Skips Integration for changes confined to other test suites; moves shared helpers into `galaxy_test.base`. [#24135](https://github.com/galaxyproject/galaxy/pull/24135).
 - [`oidc_authorize_params_docs`](../../repositories/galaxy/branches/active/oidc_authorize_params_docs/index.md) — Documents OIDC request parameters, provider prefixes, configuration examples, and verification. [#24133](https://github.com/galaxyproject/galaxy/pull/24133).
-- [`nightly_unit_tests`](../../repositories/galaxy/branches/active/nightly_unit_tests/index.md) — Reduces dev PR CI and tracks nightly failures; keeps a rejected cross-release alternative for discussion. [#24131](https://github.com/galaxyproject/galaxy/pull/24131).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 

@@ -1,8 +1,8 @@
 # nightly_unit_tests
 
-Status: `ci_wait`. Base: `dev`. [Draft PR #24131](https://github.com/galaxyproject/galaxy/pull/24131), head `a311e41f2c312706293b722490e5b8f72669d239`, pushed to `jmchilton/nightly_unit_tests`.
+Status: `attention` (review fixes pushed; CI and fresh human read pending). Base: `dev`. [PR #24131](https://github.com/galaxyproject/galaxy/pull/24131), head `191c67516c7526646df142545ab3941295570302`, pushed to `jmchilton/nightly_unit_tests`.
 
-Rebalances dev PR CI: unit and Tool Shed tests run on Python3.14, tool framework tests use the tool request API, and performance tests leave CI. Dev nightlies cover Python3.10–3.14 for unit/Tool Shed and both framework APIs. Release PR matrices stay intact.
+Rebalances dev PR CI: unit and Tool Shed tests run on Python3.14, tool framework tests use the tool request API, and the performance workflow, unused suite and exclusive helpers are removed. Dev nightlies cover Python3.10–3.14 for unit/Tool Shed and both framework APIs. Release PR matrices stay intact.
 
 [Alternative rejected by John for verbosity](../nightly_release_targets_alternative/index.md) · [Rollback debrief](release_nightlies_rejection.md) · [Original description backup](pr_description_before_release_nightlies.md)
 
@@ -54,3 +54,17 @@ Standing instruction: this is an explicitly requested draft for discussion, incl
 John asked about missed build_client references on #24131. All filenames had already been renamed, but five callers still used `./.github/workflows/_build_client.yaml`. The PR's zizmor annotations requested GitHub's `$/...` self-repository syntax. Updated first_startup, integration_selenium, osx_startup, playwright and tool_form_harness in [a311e41f2c3](https://github.com/jmchilton/galaxy/commit/a311e41f2c312706293b722490e5b8f72669d239), pushed to the existing draft. Selenium already used that syntax.
 
 Verification: all six callers now use `$/...`; a tracked-file search finds no old build_client.yaml filename in workflows/docs. GitHub workflow schema and configured zizmor checks pass on the five changed workflows; commit-hook workflow validation passes. No tests/comments or PR description changed. Live PR head matches the fix and remains draft; fresh CI is queued/running, so status remains ci_wait. The explicit draft hold remains in effect.
+
+## Review fixes — 2026-10-15
+
+John asked to address the issues in Marius's review. Pushed `191c67516c7526646df142545ab3941295570302` to the existing PR branch. Live PR is non-draft (already promoted before this task), mergeable against dev; no rebase was needed. New CI is queued/in progress. The prior head's unit, both Tool Shed, framework and other executed checks passed.
+
+- Followed John's earlier decision to remove performance CI and Marius's alternative of removing the orphaned suite: deleted `lib/galaxy_test/performance/`, its generated API documentation/toctree entry, `--ci_test_metrics`, and the exclusive scaling/link helpers in `WorkflowPopulator`. A tracked-file search finds no remaining references. The typo disappears with the unused suite. No runtime metrics implementation was removed.
+- Moved the three new daily schedules to 00:17 / 01:17 / 02:17 UTC. The existing Tuesday extended-metadata schedule and its gates stay intact.
+- Unit and framework Codecov uploads now skip schedule and workflow_dispatch events.
+- Clarified in developer docs and the description that reporter path filters load its definition and execute caller test jobs, without testing issue reporting. No historical commit messages were rewritten.
+- Queried upstream dev protection: required_status_checks endpoint returns 404 "Required status checks not enabled"; active branch rules endpoint returns `[]`. No named required check needs updating based on current GitHub state.
+
+Validation: all seven reporter harness cases pass; workflow schema validation and configured offline zizmor pass for all three edited workflows; Ruff and Python syntax pass for populators; `bash -n run_tests.sh` and diff whitespace checks pass. Commit hooks pass except shell-lint's 12 pre-existing ShellCheck findings, confirmed identical by code/column/message against the pre-change script; skipped only that hook for the commit. Full runtime suites are left to the new CI run.
+
+Updated the PR description for schedules, suite removal, Codecov policy, reporter validation limits and prior startup evidence. Reset the human-read checkbox because comments changed. No GitHub review reply or comment was posted. These changes have no pinned approval; a fresh human read remains required. Upstream scheduled/manual reporting still needs end-to-end verification after merge.
