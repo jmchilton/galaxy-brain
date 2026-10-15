@@ -31,3 +31,11 @@ Fresh checklist passed; one strengthening round returned “nothing to add”. N
 John requested opening the PR as a draft and moving it to waiting on CI. Opened [#24135](https://github.com/galaxyproject/galaxy/pull/24135) against `dev` at `ec49da686a6e7551c6e9b50f14d948cde87d037f`, titled “Skip Integration CI for changes confined to other test suites”. Used `pr_description.md` verbatim, including the human-read checkbox already checked in the working file; added no mentions. No code changes or further rebase.
 
 Live GitHub verification confirms open and draft at that SHA. Upstream CI is queued/in progress, including [Integration](https://github.com/galaxyproject/galaxy/actions/runs/38661487143) and [API tests](https://github.com/galaxyproject/galaxy/actions/runs/38661486789). Fork CI remains queued. Queue entry moved to `ci_wait` as requested.
+
+## Integration failure diagnosis — 2026-10-15
+
+At John's request, inspected only upstream Integration [run 38661487143, shard `Test (3.10, 2)`](https://github.com/galaxyproject/galaxy/actions/runs/38661487143/job/116183600304?pr=24135) and the PR diff at `ec49da686a6e7551c6e9b50f14d948cde87d037f`. All 22 errors are setup errors in `test/integration/objectstore/test_onedata_objectstore.py`, sharing one Onedata container-readiness failure: `docker exec TestOnedataObjectStoreIntegration_op_container await-demo` exits 1 after the demo fails to initialize within 600 seconds. The shard otherwise reports 674 passed and 1 skipped; the other three Integration shards passed.
+
+Diagnosed as unrelated to this PR: the failing Onedata setup and Docker helper are unchanged, and readiness fails in `BaseOnedataObjectStoreIntegrationTestCase.setUpClass()` before `super().setUpClass()` starts Galaxy. This is an external demo-service startup failure, not an import/collection failure from the shared-helper relocation. The logs do not establish why the demo failed to initialize.
+
+Other workflow failures were not rechecked; John states they are broken on `dev`. No code changes, reruns, rebase or draft-status change made during this focused diagnosis. Existing broader-CI queue status retained pending broader workflow reconciliation.
