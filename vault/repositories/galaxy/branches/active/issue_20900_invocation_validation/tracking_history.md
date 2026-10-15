@@ -7,3 +7,7 @@ Imported from the branch agent on 2026-10-09; this preserves the recorded decisi
 ## Rebase reconciliation — 2026-10-15
 
 John requested incorporation of the four polished fixes. Published `07377e10531`; extraction branches unchanged. Focused review passed; 72 API cases passed, four previously recorded mapping/cached-rerun/replacement cases still fail. Full branch remains blocked; recorded four further split candidates and moved to `branches_need_decision`. Current implementation debrief holds validation evidence.
+
+## Further extraction handoff — 2026-10-15
+
+All four further candidates implemented independently on release_26.2 at `0c70fdd5182`, pushed and queued for CI. See current index and standalone branch records for reviews/tests. Source main code unchanged at `07377e10531`; prior rebase handoff and unresolved main-branch validation failures remain applicable.

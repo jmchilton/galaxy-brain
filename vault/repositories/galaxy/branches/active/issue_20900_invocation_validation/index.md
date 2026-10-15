@@ -35,3 +35,14 @@ All four branches start independently at dev `c63ffc2ccae`, are pushed to the fo
 ## Polished-fix reconciliation — 2026-10-15
 
 Published `07377e10531` on current dev `88127f42979`, incorporating all nine polished commits before replaying the larger validation work. Four polished branches unchanged. Original head preserved at `backup/issue_20900_before_polished_rebase_20261015`. Independent review passed. API: 72 passed, 4 inherited failures (mapping, cached rerun, replacement parameters); workflow/doctests: 209 distinct passed, 1 skipped; landing units: 8 passed; generator: 3 passed. Main change remains blocked for upstreaming. No further extraction or PR created.
+
+## Four further release 26.2 extractions — 2026-10-15
+
+John requested all four remaining candidates as standalone branches. Each starts directly at `release_26.2` commit `0c70fdd5182`, has one independent commit, is pushed and reviewed, and is queued under `branches_implemented_needs_ci`. Source branch remains `07377e10531`; its recorded blockers are unchanged.
+
+- [invocation_object_store_validation](../invocation_object_store_validation/index.md) — Validate workflow object-store preferences.
+- [invocation_completion_action_validation](../invocation_completion_action_validation/index.md) — Reject unknown completion actions.
+- [invocation_tool_compatibility](../invocation_tool_compatibility/index.md) — Reject incompatible workflow tools early.
+- [invocation_subworkflow_input_connections](../invocation_subworkflow_input_connections/index.md) — Reject disconnected required subworkflow inputs.
+
+Combined focused local runs: 216 passed, 2 skipped. All applicable hooks and branch-specific review processes passed. Fresh fork CI has not been assessed; no PRs created.
