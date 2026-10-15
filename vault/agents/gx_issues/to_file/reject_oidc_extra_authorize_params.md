@@ -1,6 +1,6 @@
 # Reject: oidc_extra_authorize_params
 
-Prepared 2026-10-14 from `local/oidc_extra_authorize_params.md`. Galaxy `dev` at `origin-https/dev` [`b62d06dcdce`](https://github.com/galaxyproject/galaxy/commit/b62d06dcdce) (the ref moved past `36fe2ce8428` during the session; `lib/galaxy/authnz` is unchanged between the two).
+Prepared 2026-10-14 from `internally_managed/oidc_extra_authorize_params.md`. Galaxy `dev` at `origin-https/dev` [`b62d06dcdce`](https://github.com/galaxyproject/galaxy/commit/b62d06dcdce) (the ref moved past `36fe2ce8428` during the session; `lib/galaxy/authnz` is unchanged between the two).
 
 ## Claim
 

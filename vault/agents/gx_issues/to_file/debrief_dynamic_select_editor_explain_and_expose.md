@@ -1,6 +1,6 @@
 # Debrief: dynamic_select_editor_explain_and_expose
 
-Source: `local/dynamic_select_editor_explain_and_expose.md`. Proposal: `proposed_dynamic_select_editor_explain_and_expose.md`. Companion (separate, prepared in parallel): `local/dynamic_select_run_form_dead_end.md`.
+Source: `internally_managed/dynamic_select_editor_explain_and_expose.md`. Proposal: `proposed_dynamic_select_editor_explain_and_expose.md`. Companion (separate, prepared in parallel): `internally_managed/dynamic_select_run_form_dead_end.md`.
 
 Checked against `origin-https/dev` at `36fe2ce8428` (2026-10-14). The draft's code claims came from a 2026-10-02 read.
 

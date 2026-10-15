@@ -1,6 +1,6 @@
 # Request export of an imported invocation 500s (step parameters keyed by stale step ids)
 
-Source: spike. Not in the original issue. Branch `jmchilton/workflow_rerun_step_parameters` (commits f4b95406098 server, ec3c52c4443 client, 1ad053b1fb3 review fixes); debrief `vault/repositories/galaxy/branches/active/workflow_rerun_step_parameters/spike_debrief.md`. Split out of `vault/agents/gx_issues/local/workflow_rerun_drops_step_parameters.md`.
+Source: spike. Not in the original issue. Branch `jmchilton/workflow_rerun_step_parameters` (commits f4b95406098 server, ec3c52c4443 client, 1ad053b1fb3 review fixes); debrief `vault/repositories/galaxy/branches/active/workflow_rerun_step_parameters/spike_debrief.md`. Split out of `vault/agents/gx_issues/internally_managed/workflow_rerun_drops_step_parameters.md`.
 
 ## Problem
 Run-time step params are persisted as `WorkflowRequestInputParameter(type="step", name=str(step.id), value=json)` - name is a raw DB step id, no FK. Invocation store export serializes them verbatim; import (`model/store/__init__.py`, ~L1214) copies `name` verbatim. The imported workflow has new step ids, so `GET /api/invocations/{imported}/request` does `steps_by_id[step_id]` -> `KeyError` -> 500 (or silently the wrong step if ids collide). Nested subworkflow values are keyed by inner DB ids too. Contrast `WorkflowRequestStepState` (FK, serialized with `order_index`, remapped by `attach_workflow_step`).

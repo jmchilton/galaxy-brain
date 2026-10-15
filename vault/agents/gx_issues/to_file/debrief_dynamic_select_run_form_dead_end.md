@@ -1,6 +1,6 @@
 # Debrief: dynamic_select_run_form_dead_end
 
-Prepared 2026-10-14 from `local/dynamic_select_run_form_dead_end.md`. Proposal: `proposed_dynamic_select_run_form_dead_end.md`. Companion drafts (separate issues): `dynamic_select_editor_explain_and_expose` (now `proposed_dynamic_select_editor_explain_and_expose.md`) and `local/step_parameter_invalid_failure.md`. The proposal links them only in an HTML comment, to be filled in once they are filed.
+Prepared 2026-10-14 from `internally_managed/dynamic_select_run_form_dead_end.md`. Proposal: `proposed_dynamic_select_run_form_dead_end.md`. Companion drafts (separate issues): `dynamic_select_editor_explain_and_expose` (now `proposed_dynamic_select_editor_explain_and_expose.md`) and `internally_managed/step_parameter_invalid_failure.md`. The proposal links them only in an HTML comment, to be filled in once they are filed.
 
 ## Research
 

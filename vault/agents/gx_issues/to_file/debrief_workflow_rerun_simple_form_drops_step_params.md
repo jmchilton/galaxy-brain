@@ -1,6 +1,6 @@
 # Debrief: workflow_rerun_simple_form_drops_step_params
 
-Source: `to_file/workflow_rerun_simple_form_drops_step_params.md` (split from `local/workflow_rerun_drops_step_parameters.md`) → `to_file/proposed_workflow_rerun_simple_form_drops_step_params.md`. Verified against read-only `dev` `c63ffc2ccae` (2026-10-14) scratch clone. Spike `workflow_rerun_step_parameters` (`1ad053b1fb3`) read only. Nothing posted.
+Source: `to_file/workflow_rerun_simple_form_drops_step_params.md` (split from `internally_managed/workflow_rerun_drops_step_parameters.md`) → `to_file/proposed_workflow_rerun_simple_form_drops_step_params.md`. Verified against read-only `dev` `c63ffc2ccae` (2026-10-14) scratch clone. Spike `workflow_rerun_step_parameters` (`1ad053b1fb3`) read only. Nothing posted.
 
 ## Verdict
 

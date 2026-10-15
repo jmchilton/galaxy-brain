@@ -1,6 +1,6 @@
 # Debrief: oidc_extra_authorize_params
 
-Prepared 2026-10-14 from `local/oidc_extra_authorize_params.md`. Outcome: **reject**, see `reject_oidc_extra_authorize_params.md`. No proposal was written.
+Prepared 2026-10-14 from `internally_managed/oidc_extra_authorize_params.md`. Outcome: **reject**, see `reject_oidc_extra_authorize_params.md`. No proposal was written.
 
 ## Research
 
@@ -57,4 +57,4 @@ One fresh-subagent adversarial review. It agreed with the reject and could not b
 
 - The generic IdP-selection gap (non-standard hint params on the generic `oidc` provider and `azure`) is real but has no requester. Decide whether that warrants an enhancement issue alongside a docs PR.
 - A docs PR for `oidc_config.xml.sample` and `authentication.md` is the suggested follow-up. It could reference #23253.
-- Nothing was posted, committed or pushed. The source, the reject note and this debrief stay in `to_file/` and `local/` pending John's decision.
+- Nothing was posted, committed or pushed. The source, the reject note and this debrief stay in `to_file/` and `internally_managed/` pending John's decision.

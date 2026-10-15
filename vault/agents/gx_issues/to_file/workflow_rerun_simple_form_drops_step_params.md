@@ -1,6 +1,6 @@
 # Workflow rerun silently drops tool step parameters (simple form can't submit them)
 
-Source: spike. Branch `jmchilton/workflow_rerun_step_parameters` (commits f4b95406098 server, ec3c52c4443 client, 1ad053b1fb3 review fixes); debrief `vault/repositories/galaxy/branches/active/workflow_rerun_step_parameters/spike_debrief.md`. Split out of `vault/agents/gx_issues/local/workflow_rerun_drops_step_parameters.md`.
+Source: spike. Branch `jmchilton/workflow_rerun_step_parameters` (commits f4b95406098 server, ec3c52c4443 client, 1ad053b1fb3 review fixes); debrief `vault/repositories/galaxy/branches/active/workflow_rerun_step_parameters/spike_debrief.md`. Split out of `vault/agents/gx_issues/internally_managed/workflow_rerun_drops_step_parameters.md`.
 
 ## Problem
 `WorkflowRerun.vue` mounts `WorkflowRun` with `prefer-simple-form` and only `request-state="requestData.inputs"` + cache flag. `WorkflowRunFormSimple` never submits `parameters` (tool step params), so a rerun of a run whose tool parameters were set in the full form resubmits saved workflow defaults. Nothing tells the user.

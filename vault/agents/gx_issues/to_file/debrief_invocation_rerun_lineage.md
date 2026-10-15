@@ -1,6 +1,6 @@
 # Debrief: invocation_rerun_lineage
 
-Source: `local/invocation_rerun_lineage.md` → `to_file/proposed_invocation_rerun_lineage.md`. Verified read-only against `origin-https/dev` `36fe2ce8428` (2026-10-14). No worktree created, nothing run, nothing posted.
+Source: `internally_managed/invocation_rerun_lineage.md` → `to_file/proposed_invocation_rerun_lineage.md`. Verified read-only against `origin-https/dev` `36fe2ce8428` (2026-10-14). No worktree created, nothing run, nothing posted.
 
 ## Verdict
 

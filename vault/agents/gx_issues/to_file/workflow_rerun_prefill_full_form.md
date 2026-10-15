@@ -1,6 +1,6 @@
 # Prefill the full workflow run form with what an invocation ran with
 
-Source: spike. Branch `jmchilton/workflow_rerun_step_parameters` (commits f4b95406098 server, ec3c52c4443 client, 1ad053b1fb3 review fixes); debrief `vault/repositories/galaxy/branches/active/workflow_rerun_step_parameters/spike_debrief.md`. Split out of `vault/agents/gx_issues/local/workflow_rerun_drops_step_parameters.md`.
+Source: spike. Branch `jmchilton/workflow_rerun_step_parameters` (commits f4b95406098 server, ec3c52c4443 client, 1ad053b1fb3 review fixes); debrief `vault/repositories/galaxy/branches/active/workflow_rerun_step_parameters/spike_debrief.md`. Split out of `vault/agents/gx_issues/internally_managed/workflow_rerun_drops_step_parameters.md`.
 
 ## Problem
 Full run form (`WorkflowRunForm.vue`) starts empty: `stepData`, `wpData`, `inputs`, `resourceData` empty, `useCachedJobs` false. A rerun forced into it (replacement params in tool steps, disconnected runtime inputs, resource params, or now tool step params) loses inputs, step params, workflow params, resource params and cache preference. Prerequisite for `rerun_single_step_from_invocation.md`.

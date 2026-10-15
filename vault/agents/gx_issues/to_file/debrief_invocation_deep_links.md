@@ -1,6 +1,6 @@
 # Debrief: invocation_deep_links
 
-Source: `local/invocation_step_deep_link.md`, which proposed `?step=<order_index>` only. John widened the scope to cover steps, jobs, inputs and outputs: everything you can select in the invocation view should have a URL. Result: `proposed_invocation_deep_links.md`. Nothing was posted, committed or pushed. The Galaxy checkout was only read, through `origin-https/dev` at `36fe2ce8428`.
+Source: `internally_managed/invocation_step_deep_link.md`, which proposed `?step=<order_index>` only. John widened the scope to cover steps, jobs, inputs and outputs: everything you can select in the invocation view should have a URL. Result: `proposed_invocation_deep_links.md`. Nothing was posted, committed or pushed. The Galaxy checkout was only read, through `origin-https/dev` at `36fe2ce8428`.
 
 ## Research
 

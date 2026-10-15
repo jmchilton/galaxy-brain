@@ -1,6 +1,6 @@
 # Debrief: workflow_rerun_prefill_full_form
 
-Source: `to_file/workflow_rerun_prefill_full_form.md` (split from `local/workflow_rerun_drops_step_parameters.md`) → `to_file/proposed_workflow_rerun_prefill_full_form.md`. Verified read-only against dev `c63ffc2ccae` (fetched 2026-10-14) plus spike branch `workflow_rerun_step_parameters` @ `1ad053b1fb3` (read only, diff vs `b62d06dcdce`). Nothing run, no server started, nothing posted. UI claims come from reading the code.
+Source: `to_file/workflow_rerun_prefill_full_form.md` (split from `internally_managed/workflow_rerun_drops_step_parameters.md`) → `to_file/proposed_workflow_rerun_prefill_full_form.md`. Verified read-only against dev `c63ffc2ccae` (fetched 2026-10-14) plus spike branch `workflow_rerun_step_parameters` @ `1ad053b1fb3` (read only, diff vs `b62d06dcdce`). Nothing run, no server started, nothing posted. UI claims come from reading the code.
 
 ## Verdict
 

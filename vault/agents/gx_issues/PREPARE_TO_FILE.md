@@ -18,7 +18,8 @@ Write a debrief of the research and the rewrite to `to_file/debrief_<short_name>
 
 ## 4. Hand off
 
-- Give the user a recommendation on whether to post the issue in its current state or whether to accept an rejection.
+- Give the user a recommendation: post the issue as it stands, keep it internal, or accept a rejection. Issues are meant to be granular, but some are too small to be worth a GitHub issue; recommend keeping those internal.
 - If the user wants it posted, post it, then triage it per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md): create its directory under `vault/repositories/galaxy/issues/STATUS/<number>/` and move the source file, the proposal and the debrief there as `issue_draft.md`, `proposal.md` and `debrief.md`, so that `to_file/` stays clean.
+- If the user keeps it internal, because it's too small for its own issue or for another reason they give (such as fixing it PR-first), move the three files to `internally_managed/`. A branch that implements it links them from its `index.md`.
 - If the user decides not to post it or accepts a rejection, move the three files to `old/`.
 - Infer from context whether John should be assigned, for example when the issue came out of his own branch or work. If so, assign John and add the issue to `ISSUES.md`.
