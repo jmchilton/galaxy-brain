@@ -1,0 +1,4 @@
+- [26.1] Reject unknown workflow scheduler IDs instead of queueing invocations that never run
+- [26.1] Return 400 for unknown workflow scheduler IDs
+- [26.1] Validate the workflow invocation scheduler ID up front
+- [26.1] Fix invocations with an unknown scheduler hanging in `new` forever
