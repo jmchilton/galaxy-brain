@@ -1,0 +1,19 @@
+---
+export interface Breadcrumb { label: string; href?: string }
+
+interface Props {
+  items: Breadcrumb[];
+}
+
+const { items } = Astro.props;
+---
+<nav class="mb-4 text-sm text-(--color-text-secondary)" aria-label="Breadcrumb">
+  {items.map((bc, i) => (
+    <>
+      {i > 0 && <span class="mx-1">&rsaquo;</span>}
+      {bc.href
+        ? <a href={bc.href} class="text-(--color-link) hover:underline">{bc.label}</a>
+        : <span>{bc.label}</span>}
+    </>
+  ))}
+</nav>

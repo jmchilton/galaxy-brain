@@ -1,6 +1,12 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { slugifyPath, vaultPathToSlug } from './lib/vault-urls';
+import {
+  PAPER_FILES_PATTERN,
+  PROJECT_FILES_PATTERN,
+  REPOSITORY_FILES_PATTERN,
+  VAULT_PATTERN,
+} from './lib/collection-patterns';
 
 const noteTypeSchema = z.enum(['research', 'plan', 'plan-section', 'concept', 'moc', 'project', 'paper']);
 const statusSchema = z.enum(['draft', 'reviewed', 'revised', 'stale', 'archived']);
@@ -9,9 +15,7 @@ const paperKindSchema = z.enum(['application-note', 'software', 'methods', 'pers
 
 const vault = defineCollection({
   loader: glob({
-    pattern: ['**/*.md', '!Dashboard.md', '!Index.md', '!log.md',
-              '!.obsidian/**', '!templates/**', '!agents/**', '!repositories/**',
-              '!projects/**/!(index.md)', '!papers/**/!(index.md)'],
+    pattern: VAULT_PATTERN,
     base: '../vault',
     generateId({ entry }) {
       return vaultPathToSlug(entry);
@@ -63,7 +67,7 @@ const vault = defineCollection({
 
 const projectFiles = defineCollection({
   loader: glob({
-    pattern: ['projects/**/*.md', '!projects/**/index.md'],
+    pattern: PROJECT_FILES_PATTERN,
     base: '../vault',
     generateId({ entry }) {
       return slugifyPath(entry);
@@ -74,7 +78,7 @@ const projectFiles = defineCollection({
 
 const paperFiles = defineCollection({
   loader: glob({
-    pattern: ['papers/**/*.md', '!papers/**/index.md'],
+    pattern: PAPER_FILES_PATTERN,
     base: '../vault',
     generateId({ entry }) {
       return slugifyPath(entry);
@@ -87,7 +91,7 @@ const paperFiles = defineCollection({
 // record's URL survives moves between statuses.
 const repositoryFiles = defineCollection({
   loader: glob({
-    pattern: ['repositories/**/*.md'],
+    pattern: REPOSITORY_FILES_PATTERN,
     base: '../vault',
     generateId({ entry }) {
       return vaultPathToSlug(entry);

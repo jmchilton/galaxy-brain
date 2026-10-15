@@ -81,20 +81,35 @@ export interface RecordCollision {
   statuses: string[];
 }
 
-/** Records present under more than one status directory (e.g. a half-finished move). */
+function containsMarkdown(dir: string): boolean {
+  try {
+    return fs.readdirSync(dir, { recursive: true, encoding: 'utf-8' }).some(name => name.endsWith('.md'));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Records that share a URL across status directories (e.g. a half-finished
+ * move). Directories without markdown are ignored; they publish nothing.
+ */
 export function findRecordCollisions(vaultDir: string): RecordCollision[] {
   const collisions: RecordCollision[] = [];
   const reposDir = path.join(vaultDir, 'repositories');
   for (const repo of subdirs(reposDir)) {
     for (const kind of RECORD_KINDS) {
       const kindDir = path.join(reposDir, repo, kind);
-      const statusesById = new Map<string, string[]>();
+      const bySlug = new Map<string, { id: string; statuses: string[] }>();
       for (const status of subdirs(kindDir)) {
         for (const id of subdirs(path.join(kindDir, status))) {
-          statusesById.set(id, [...(statusesById.get(id) ?? []), status]);
+          if (!containsMarkdown(path.join(kindDir, status, id))) continue;
+          const slug = slugify(id);
+          const seen = bySlug.get(slug) ?? { id, statuses: [] };
+          seen.statuses.push(status);
+          bySlug.set(slug, seen);
         }
       }
-      for (const [id, statuses] of statusesById) {
+      for (const { id, statuses } of bySlug.values()) {
         if (statuses.length > 1) collisions.push({ repo, kind, id, statuses });
       }
     }

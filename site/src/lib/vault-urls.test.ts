@@ -121,6 +121,22 @@ describe('filesystem helpers', () => {
       ]);
     });
 
+    it('reports ids that differ on disk but share a URL', () => {
+      touch('repositories/galaxy/branches/active/foo_bar/index.md');
+      touch('repositories/galaxy/branches/merged/foobar/index.md');
+      expect(findRecordCollisions(vault)).toEqual([
+        { repo: 'galaxy', kind: 'branches', id: 'foo_bar', statuses: ['active', 'merged'] },
+      ]);
+    });
+
+    it('ignores leftover directories without markdown', () => {
+      touch('repositories/galaxy/branches/merged/foo/index.md');
+      fs.mkdirSync(path.join(vault, 'repositories/galaxy/branches/active/foo/screenshots'), { recursive: true });
+      fs.writeFileSync(path.join(vault, 'repositories/galaxy/branches/active/foo/.DS_Store'), '');
+      fs.writeFileSync(path.join(vault, 'repositories/galaxy/branches/active/foo/screenshots/a.png'), '');
+      expect(findRecordCollisions(vault)).toEqual([]);
+    });
+
     it('ignores kind-level files and a missing repositories dir', () => {
       expect(findRecordCollisions(vault)).toEqual([]);
       touch('repositories/galaxy/branches/queue_context.md');

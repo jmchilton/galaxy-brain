@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildRepositories, groupByStatus, recordTitle } from './repository-records';
+import { buildRepositories, groupByStatus, recordTitle, repositoryPages } from './repository-records';
 import { vaultPathToSlug } from './vault-urls';
 
 function entry(rel: string, body = '') {
@@ -83,5 +83,65 @@ describe('groupByStatus', () => {
       entry('repositories/x/issues/wip/2/index.md'),
     ])[0].records;
     expect(groupByStatus(records, 'issues').map(g => g.status)).toEqual(['wip', 'someday']);
+  });
+});
+
+describe('repositoryPages', () => {
+  const pages = repositoryPages(buildRepositories([
+    entry('repositories/galaxy/branches/active/foo_bar/index.md', '# Foo bar'),
+    entry('repositories/galaxy/branches/active/foo_bar/pr_description.md'),
+    entry('repositories/galaxy/branches/active/foo_bar/earlier_drafts/1/index.md'),
+    entry('repositories/galaxy/branches/active/foo_bar/earlier_drafts/1/review.md'),
+    entry('repositories/galaxy/branches/queue_context.md'),
+  ]));
+  const bySlug = new Map(pages.map(p => [p.slug, p]));
+
+  it('creates record, folder, file, and repo-level pages', () => {
+    expect([...bySlug.keys()].sort()).toEqual([
+      'repositories/galaxy/branches/foobar',
+      'repositories/galaxy/branches/foobar/earlierdrafts',
+      'repositories/galaxy/branches/foobar/earlierdrafts/1',
+      'repositories/galaxy/branches/foobar/earlierdrafts/1/review',
+      'repositories/galaxy/branches/foobar/prdescription',
+      'repositories/galaxy/branches/queuecontext',
+    ]);
+  });
+
+  it('record root shows its index with the other files as children', () => {
+    const root = bySlug.get('repositories/galaxy/branches/foobar')!;
+    expect(root.title).toBe('Foo bar');
+    expect(root.entry?.filePath).toMatch(/foo_bar\/index\.md$/);
+    expect(root.children).toHaveLength(3);
+    expect(root.trail).toEqual([
+      { label: 'Repositories', href: 'repositories/' },
+      { label: 'galaxy', href: 'repositories/galaxy/' },
+      { label: 'Branches', href: 'repositories/galaxy/#branches' },
+      { label: 'foo_bar' },
+    ]);
+  });
+
+  it('nested folder pages link back through original folder names', () => {
+    const drafts = bySlug.get('repositories/galaxy/branches/foobar/earlierdrafts/1')!;
+    expect(drafts.title).toBe('1');
+    expect(drafts.entry?.filePath).toMatch(/earlier_drafts\/1\/index\.md$/);
+    expect(drafts.children?.map(c => c.id)).toEqual(['repositories/galaxy/branches/foobar/earlierdrafts/1/review']);
+    expect(drafts.trail.slice(3)).toEqual([
+      { label: 'foo_bar', href: 'repositories/galaxy/branches/foobar/' },
+      { label: 'earlier_drafts', href: 'repositories/galaxy/branches/foobar/earlierdrafts/' },
+      { label: '1' },
+    ]);
+  });
+
+  it('repo-level files have no record', () => {
+    const other = bySlug.get('repositories/galaxy/branches/queuecontext')!;
+    expect(other.record).toBeUndefined();
+    expect(other.title).toBe('branches/queue_context');
+  });
+
+  it('throws when two pages share a URL', () => {
+    expect(() => repositoryPages(buildRepositories([
+      entry('repositories/galaxy/branches/active/foo/notes.md'),
+      entry('repositories/galaxy/branches/active/foo/notes/index.md'),
+    ]))).toThrow(/notes/);
   });
 });

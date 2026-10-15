@@ -3,28 +3,17 @@ import path from 'node:path';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import FileTree from '../../../components/FileTree.astro';
-import { originalRelPath } from '../../../lib/project-paths';
 import {
   KIND_LABELS,
   buildRepositories,
+  repositoryPages,
   statusBadgeClass,
   statusLabel,
 } from '../../../lib/repository-records';
-import type { Repository, RepositoryRecord } from '../../../lib/repository-records';
-import { findRecordCollisions, vaultPathToSlug } from '../../../lib/vault-urls';
-
-type Entry = CollectionEntry<'repositoryFiles'>;
-
-interface PageProps {
-  repo: Repository<Entry>;
-  record?: RepositoryRecord<Entry>;
-  // Original vault-relative path of the page's file (no .md) or directory.
-  originalPath: string;
-  entry?: Entry;
-  // Directory pages only: files below the directory, excluding its own index.
-  children?: Entry[];
-}
+import type { RepositoryPage } from '../../../lib/repository-records';
+import { findRecordCollisions } from '../../../lib/vault-urls';
 
 export async function getStaticPaths() {
   const collisions = findRecordCollisions(path.resolve('../vault'));
@@ -34,89 +23,28 @@ export async function getStaticPaths() {
   }
 
   const repos = buildRepositories(await getCollection('repositoryFiles'));
-  const paths: Array<{ params: { repo: string; path: string }; props: PageProps }> = [];
-  const add = (repo: Repository<Entry>, originalPath: string, props: Omit<PageProps, 'repo' | 'originalPath'>) => {
-    const slug = vaultPathToSlug(originalPath);
-    const [, repoParam, ...rest] = slug.split('/');
-    paths.push({ params: { repo: repoParam, path: rest.join('/') }, props: { repo, originalPath, ...props } });
-  };
-
-  for (const repo of repos) {
-    for (const entry of repo.otherFiles) {
-      add(repo, originalRelPath(entry), { entry });
-    }
-    for (const record of repo.records) {
-      // Every directory in the record (root and nested) gets a page that shows
-      // its index.md, if any, plus a tree of the files below it.
-      const dirs = new Set<string>([record.originalDir]);
-      for (const entry of record.files) {
-        const parts = originalRelPath(entry).split('/');
-        for (let i = record.originalDir.split('/').length + 1; i < parts.length; i++) {
-          dirs.add(parts.slice(0, i).join('/'));
-        }
-      }
-      for (const dir of dirs) {
-        const index = record.files.find(f => originalRelPath(f) === `${dir}/index`);
-        const children = record.files.filter(f => f !== index && originalRelPath(f).startsWith(dir + '/'));
-        add(repo, dir, { record, entry: index, children });
-      }
-      for (const entry of record.files) {
-        if (path.basename(originalRelPath(entry)) === 'index') continue;
-        add(repo, originalRelPath(entry), { record, entry });
-      }
-    }
-  }
-  return paths;
+  return repositoryPages(repos).map(page => {
+    const [, repo, ...rest] = page.slug.split('/');
+    return { params: { repo, path: rest.join('/') }, props: { page } };
+  });
 }
 
-const { repo, record, originalPath, entry, children } = Astro.props as PageProps;
+const { page } = Astro.props as { page: RepositoryPage<CollectionEntry<'repositoryFiles'>> };
+const { repo, record, entry, children, title, originalPath } = page;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const isRecordRoot = record !== undefined && originalPath === record.originalDir;
-
-interface Breadcrumb { label: string; href?: string }
-const breadcrumbs: Breadcrumb[] = [
+const breadcrumbs = [
   { label: 'Home', href: `${base}/` },
-  { label: 'Repositories', href: `${base}/repositories/` },
-  { label: repo.name, href: `${base}/${repo.slug}/` },
+  ...page.trail.map(item => ({ label: item.label, href: item.href && `${base}/${item.href}` })),
 ];
-let pageTitle: string;
-if (record) {
-  breadcrumbs.push({ label: KIND_LABELS[record.kind], href: `${base}/${repo.slug}/#${record.kind}` });
-  const below = originalPath.split('/').slice(record.originalDir.split('/').length);
-  if (isRecordRoot) {
-    pageTitle = record.title;
-    breadcrumbs.push({ label: record.name });
-  } else {
-    breadcrumbs.push({ label: record.name, href: `${base}/${record.slug}/` });
-    const recordDirDepth = record.originalDir.split('/').length;
-    for (let i = 0; i < below.length - 1; i++) {
-      const dir = originalPath.split('/').slice(0, recordDirDepth + i + 1).join('/');
-      breadcrumbs.push({ label: below[i], href: `${base}/${vaultPathToSlug(dir)}/` });
-    }
-    pageTitle = below[below.length - 1];
-    breadcrumbs.push({ label: pageTitle });
-  }
-} else {
-  pageTitle = originalPath.split('/').slice(2).join('/');
-  breadcrumbs.push({ label: pageTitle });
-}
 
 let Content: any = null;
 if (entry) {
   Content = (await render(entry)).Content;
 }
 ---
-<Base title={pageTitle} pageTitle={pageTitle}>
-  <nav class="mb-4 text-sm text-(--color-text-secondary)">
-    {breadcrumbs.map((bc, i) => (
-      <>
-        {i > 0 && <span class="mx-1">&rsaquo;</span>}
-        {bc.href
-          ? <a href={bc.href} class="text-(--color-link) hover:underline">{bc.label}</a>
-          : <span>{bc.label}</span>}
-      </>
-    ))}
-  </nav>
+<Base title={title} pageTitle={title}>
+  <Breadcrumbs items={breadcrumbs} />
 
   {record && (
     <p class="mb-2 text-sm text-(--color-text-secondary)">
@@ -125,7 +53,7 @@ if (entry) {
     </p>
   )}
 
-  {!(isRecordRoot && Content) && <h1 class="mb-4 text-2xl font-bold">{pageTitle}</h1>}
+  {!(isRecordRoot && Content) && <h1 class="mb-4 text-2xl font-bold">{title}</h1>}
 
   {Content && (
     <article class="prose prose-slate max-w-none dark:prose-invert" data-pagefind-body>

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import {
   KIND_LABELS,
   RECORD_KINDS,
@@ -29,13 +30,11 @@ const sections = RECORD_KINDS.map(kind => ({
 }));
 ---
 <Base title={repo.name} pageTitle={repo.name}>
-  <nav class="mb-4 text-sm text-(--color-text-secondary)">
-    <a href={`${base}/`} class="text-(--color-link) hover:underline">Home</a>
-    <span class="mx-1">&rsaquo;</span>
-    <a href={`${base}/repositories/`} class="text-(--color-link) hover:underline">Repositories</a>
-    <span class="mx-1">&rsaquo;</span>
-    <span>{repo.name}</span>
-  </nav>
+  <Breadcrumbs items={[
+    { label: 'Home', href: `${base}/` },
+    { label: 'Repositories', href: `${base}/repositories/` },
+    { label: repo.name },
+  ]} />
 
   <h1 class="mb-2 text-2xl font-bold">{repo.name}</h1>
   <p class="mb-4 text-sm text-(--color-text-secondary)">

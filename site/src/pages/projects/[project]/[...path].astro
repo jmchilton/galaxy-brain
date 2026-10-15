@@ -2,6 +2,8 @@
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import type { Breadcrumb } from '../../../components/Breadcrumbs.astro';
 import FileTree from '../../../components/FileTree.astro';
 import { originalRelPath } from '../../../lib/project-paths';
 
@@ -88,7 +90,6 @@ if (isFolder) {
 }
 
 // Build breadcrumb segments using original names where possible.
-interface Breadcrumb { label: string; href?: string }
 const breadcrumbs: Breadcrumb[] = [
   { label: 'Home', href: `${base}/` },
   { label: projectTitle, href: `${base}/${projectSlug}/` },
@@ -141,16 +142,7 @@ if (!isFolder && entry) {
 }
 ---
 <Base title={pageTitle} pageTitle={pageTitle}>
-  <nav class="mb-4 text-sm text-(--color-text-secondary)">
-    {breadcrumbs.map((bc, i) => (
-      <>
-        {i > 0 && <span class="mx-1">&rsaquo;</span>}
-        {bc.href
-          ? <a href={bc.href} class="text-(--color-link) hover:underline">{bc.label}</a>
-          : <span>{bc.label}</span>}
-      </>
-    ))}
-  </nav>
+  <Breadcrumbs items={breadcrumbs} />
 
   <h1 class="mb-4 text-2xl font-bold">{pageTitle}</h1>
 
