@@ -18,8 +18,8 @@ Importing a published history is how people study someone else's analysis, but t
 
 - Two fixed SQL queries per fetch: a metadata query resolves the clicked association IDs and which item types have copies in one pass per association type, then one relationship query joins guarded ancestry to job inputs/outputs and maps back to hids. Intermediate copies' consumers remain included. Related IDs stay in SQL.
 - Direct item IDs are matched first. Absent item types and types without copies omit their recursion entirely. Histories without copies use the direct relationship query.
-- Both HDA and HDCA mapping use association IDs and explicit copy ancestry. No lookup fans out across importers sharing a `dataset_id`.
-- Ancestry uses primary-key joins, with the creating-job guard on the current item before its next hop. Hidden collection ownership is computed once across possible copy ancestors, including nested membership. Distinct work sets keep downstream joins manageable.
+- Dataset copies in the viewed history are candidates only when they share a related dataset's `dataset_id`; their copy ancestry must still reach the related association. Collections use explicit copy ancestry. Candidate lookup is scoped to the viewed history, so it does not fan out across importers.
+- Ancestry uses primary-key joins, with the creating-job guard on the current item before its next hop. Hidden collection ownership, including nested membership, is checked only for the clicked item's ancestors and the mapping candidates, not every copy in the history. Distinct work sets keep downstream joins manageable.
 - Ordinary job joins use `UNION ALL`; recursive ancestry keeps `UNION` so malformed cycles terminate. Mapping stops when it reaches a related association.
 - The filter is recomputed on contents refreshes and pagination. Metadata scans scale with the current history size; relationship work scales with candidate copies, copy depth, and containing collections. One statement does not imply constant work.
 
@@ -31,9 +31,11 @@ This is a reversible query change, but relationship boundaries and repeated-fetc
 
 <details><summary>Risk Details</summary>
 
-- SQLite and PostgreSQL 18 both pass all eight related-filter API tests. Unit regressions cover pass-through/cache boundaries, nested hidden outputs, reused imported inputs, cyclic links, and query count.
+- SQLite and PostgreSQL 18 both pass all eight related-filter API tests. Unit regressions cover pass-through/cache boundaries, nested hidden outputs, reused imported inputs, sibling copies of one dataset, cyclic links, and query count.
 - PostgreSQL `EXPLAIN ANALYZE` probes cover 10,000 importers sharing two datasets, 2,002 ordinary collections, 2,002 copied collections, and nonempty copied collections. These are synthetic fixtures rather than a production performance guarantee.
 - A second PostgreSQL comparison checks ordinary histories up to 500,000 datasets plus 500,000 collections and copied histories up to 20,000 of each. Consolidating metadata reduced a large ordinary late-click median from 35.6 to 27.4 ms; the original implementation measured 20.9 ms. Early-click improvements are not consistent. Copied-history timings remain close to the prior revision. These are warm synthetic measurements; residual scan and relationship costs remain.
+- Dataset clicks in histories with copied collection elements: on a synthetic fixture with filter-style copied elements, 30,000 datasets per history and 540,000 background datasets, dev takes about 5 ms, the previous revision 786 ms (original history) and 1,179 ms (copy), and this revision 13 and 14 ms. At 100,000 per history and 3.2 million background datasets: dev 9 ms, previous revision 845 and 1,830 ms, this revision 18 and 24 ms. The query-count test cannot detect this kind of regression, so the size benchmark lives outside CI.
+- An ordinary copy that does not share its source's dataset is not mapped back, matching `dev`. This includes deferred datasets materialized into a history through the API and some copy links recreated by history archive import. Clicking such a copy still follows its ancestry.
 - Chains through library datasets remain unsupported. Existing gaps in implicit mapped-output collection connections remain.
 - Input/output arrows still follow hid order, so copying individual items with reordered hids can reverse an arrow. Whole-history imports preserve hids.
 

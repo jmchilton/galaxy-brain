@@ -1,10 +1,10 @@
 # issue_15515_related_filter_copied_items
 
-Status: `draft_ready` — draft PR review and metadata performance fixes pushed; fresh human read and new-head CI pending. Base: `dev`.
+Status: `draft_ready` — second-round (mvdbeek) performance fixes pushed at `6c8b5b22a29`; review reply drafted locally, not posted; fresh human read and new-head CI pending. Base: `dev`.
 
 Makes the related filter work on imported and copied history items (#15515).
 
-[Implementation](implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tracking history](tracking_history.md) · [Marius review follow-ups](review_followups_2026-10-14.md) · [Performance follow-up](performance_followups_2026-10-14.md)
+[Implementation (v1)](earlier_drafts/1/implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tracking history](tracking_history.md) · [Marius review follow-ups](review_followups_2026-10-14.md) · [Performance follow-up](performance_followups_2026-10-14.md) · [Round-2 debrief](implementation_debrief.md) · [Round-2 reply draft](review_reply_2026-10-15.md) · [Size benchmark](history_size_results.json)
 
 Previous approved SHA (superseded by conflicted rebase): `96218cbe647` (John, 2026-10-06 at `c44206d0535`; carried across a clean rebase onto dev 2026-10-09). Chosen title: **Make the related filter work on imported and copied history items**.
 
@@ -42,3 +42,7 @@ Current head 4d82165af62e is mergeable, with relevant API/browser checks passing
 ## TICK reruns — 2026-10-15
 
 Requested failed-job reruns for recorded unrelated failures: [run 38578066014](https://github.com/galaxyproject/galaxy/actions/runs/38578066014). Requests accepted; reruns are pending evidence, not green results. Existing classification and review holds remain.
+
+## Second review round — 2026-10-15
+
+John asked to address mvdbeek's second review: dataset clicks built recursive CTEs over every copied HDA in the history, measured at ~150 ms–1.1 s versus ~9 ms on dev. Commit `6c8b5b22a29` seeds collection ownership from the clicked item and from mapping candidates. Mapping candidates are this history's copies that share a related HDA's `dataset_id`; the copy-chain boundary checks are unchanged. **Rebuilt-fixture PostgreSQL 18 dataset click at 30k/100k per history: dev 5/9 ms, prior 786–1,830 ms, now 13–24 ms.** 28 manager tests pass, and 8/8 API tests pass on SQLite and PG. Known tradeoff: copies whose dataset differs from their source are not mapped back, matching dev. These are API-only deferred materialization and some archive-import links. Normal review found no blockers; nits applied. Pushed only to jmchilton with an exact lease on `4d82165af62`; PR still draft and mergeable. No reply posted and no live description edit; both are drafted locally. See [debrief](implementation_debrief.md).

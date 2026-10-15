@@ -1,0 +1,136 @@
+{
+ "note": "PostgreSQL 18 (docker), committed ANALYZE, 7-sample warm wall medians after 2 warmups; background factor 18 (3k, 30k) and 32 (100k). Execution ms = [metadata, relationships] for worktree.",
+ "results": [
+  {
+   "datasets_per_history": 3000,
+   "hdas_by_history": {
+    "1": 54000,
+    "2": 3002,
+    "3": 3002
+   },
+   "original_median_ms": {
+    "origin/dev": 3.83,
+    "4d82165af62": 76.91,
+    "worktree": 11.59
+   },
+   "original_worktree_execution_ms": [
+    0.36,
+    1.02
+   ],
+   "original_worktree_jit": [
+    false,
+    false
+   ],
+   "copy_median_ms": {
+    "origin/dev": 2.6,
+    "4d82165af62": 112.4,
+    "worktree": 12.36
+   },
+   "copy_worktree_execution_ms": [
+    0.33,
+    0.65
+   ],
+   "copy_worktree_jit": [
+    false,
+    false
+   ],
+   "revisions": {
+    "worktree": "6c8b5b22a29"
+   }
+  },
+  {
+   "datasets_per_history": 30000,
+   "hdas_by_history": {
+    "1": 540000,
+    "2": 30002,
+    "3": 30002
+   },
+   "original_median_ms": {
+    "origin/dev": 4.99,
+    "4d82165af62": 786.05,
+    "worktree": 12.73
+   },
+   "original_worktree_execution_ms": [
+    2.76,
+    0.45
+   ],
+   "original_worktree_jit": [
+    false,
+    false
+   ],
+   "copy_median_ms": {
+    "origin/dev": 4.32,
+    "4d82165af62": 1178.63,
+    "worktree": 14.44
+   },
+   "copy_worktree_execution_ms": [
+    2.92,
+    0.45
+   ],
+   "copy_worktree_jit": [
+    false,
+    false
+   ],
+   "revisions": {
+    "worktree": "6c8b5b22a29"
+   }
+  },
+  {
+   "datasets_per_history": 100000,
+   "hdas_by_history": {
+    "1": 3200000,
+    "2": 99992,
+    "3": 99992
+   },
+   "original_median_ms": {
+    "origin/dev": 8.58,
+    "4d82165af62": 844.74,
+    "worktree": 17.71
+   },
+   "original_worktree_execution_ms": [
+    9.71,
+    1.19
+   ],
+   "original_worktree_jit": [
+    false,
+    false
+   ],
+   "copy_median_ms": {
+    "origin/dev": 8.6,
+    "4d82165af62": 1830.42,
+    "worktree": 23.73
+   },
+   "copy_worktree_execution_ms": [
+    10.4,
+    0.62
+   ],
+   "copy_worktree_jit": [
+    false,
+    false
+   ],
+   "revisions": {
+    "worktree": "6c8b5b22a29"
+   }
+  }
+ ],
+ "prior_head_30k_plan_execution_ms": {
+  "original": [
+   2.96,
+   901.82
+  ],
+  "copy": [
+   3.11,
+   1278.66
+  ],
+  "jit": [
+   [
+    false,
+    true
+   ],
+   [
+    false,
+    true
+   ]
+  ]
+ }
+}

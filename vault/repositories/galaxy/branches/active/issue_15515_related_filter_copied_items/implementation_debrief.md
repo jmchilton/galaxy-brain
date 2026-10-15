@@ -1,39 +1,59 @@
-# issue_15515_related_filter_copied_items — implementation debrief
+# Implementation debrief: second-round review (2026-10-15)
 
-Fixes galaxyproject/galaxy#15515: the history `related:<hid>` filter ("Show inputs for this item") showed only the clicked item in imported histories. Off `dev` at `4fe00d9e7ab`. Commits: fix `9d67c0c06cb`, test tightening `dc22f76dfab`, E2E test `de497533043`. Pushed to the `jmchilton/galaxy` fork. No PR opened.
+**Status: READY.** The earlier debrief is in `earlier_drafts/1/`.
 
-Background: John was assigned 2025-11-18, and Ahmed unassigned himself the same day. Ahmed's WIP #15573 (open since 2023) only hid the highlight button for copied datasets. His comment on the issue asked for the query itself to work. This branch supersedes #15573, which can be closed when the PR opens.
+## Request
 
-## Cause
+John asked to address mvdbeek's second review of `4d82165af62`. Every dataset click built two recursive CTEs over every copied HDA in the history:
+- `_collection_output_hda_ids(history_id)`;
+- the `copies_historydatasetassociation` mapping seed.
 
-`History.copy()` (shared history import) copies HDAs and HDCAs. Jobs keep referencing the originals, so `JobConnectionsManager.get_related_hids` found no job connections for the copies.
+Collection elements count as copies, and so do the outputs of filter/relabel, `pick_value` and the job cache. So never-imported histories paid this cost too.
 
-## Fix (`lib/galaxy/managers/job_connections.py`)
+## Change (`6c8b5b22a29`)
 
-- **Finding jobs:** `_copied_from_chain`, a recursive CTE, walks `copied_from_*` upward from the clicked item. Job connections are collected for every ancestor.
-- **Mapping into the history:** related HDAs are matched by shared `dataset_id`, one indexed query. Related HDCAs are matched by the same upward CTE over the history's HDCAs, because `HDCA.copy()` copies the underlying collection and the copies share no key.
-- **Upward only:** walking upward uses primary-key joins. `copied_from_*` columns have no index, so descending lookups were avoided.
-- **Fewer queries:** the per-item hid lookups (N+1) became one batched query, now scoped to the history. Dev mapped ids to hids without a history filter.
-- **Behavior change:** copies of the same dataset within one history now count as related to each other.
-- **Client:** no change. Highlighting is hid-based.
+- **Ownership check:** `_collection_output_hda_ids` takes a seed WHERE clause and a CTE prefix instead of a history id. One instance is seeded from the clicked HDA and one from the mapping candidates.
+- **HDA mapping candidates:** this history's copied HDAs with `dataset_id` in the related HDAs' datasets, as the reviewer suggested. The chain walk and the job and collection boundaries are unchanged, so pass-through outputs and sibling copies stay excluded.
+- **HDCA mapping:** unchanged. Copied collections get new `DatasetCollection` rows, so there is no narrowing key.
+- **Metadata `count(copied_from) > 0`:** kept. An `EXISTS` form measured the same (10–12 ms at 100k). The hid lookup scans the history's rows anyway, on dev too, because there is no `(history_id, hid)` index.
+- **New test:** `test_related_hids_sibling_copy_is_not_related`. It guards against reducing the logic to "a shared dataset means related". It is not red-to-green: `4d82165af62` passes it too.
 
-## Validation
+## Evidence
 
-- Unit, `test/unit/app/managers/test_JobConnectionsManager.py`: 9 pass. Red on dev for the copied-history cases.
-- Subagent mutation pass: 10 implementation mutations, 4 of which survived the original tests. All 10 fail under the rewritten tests. The main blind spot was that `History.copy()` keeps hids, which `test_related_hids_copied_items_new_hids` now covers. The double-copy test is the only depth>1 guard.
-- API `test_index_filter_by_related_items_copied_history`: red on dev (`[1] == [1, 3]`), green on the branch. The existing related test still passes.
-- E2E `test_history_related_filter_copied_history` (Selenium/Playwright): written, **not run locally** at John's request.
-- ruff, black, isort and pre-commit are clean. mypy on `job_connections.py` matches the dev baseline (9 existing errors).
-- Local runs used a symlinked `.venv` from `extract_next_followups` with SQLite only. The recursive CTEs were compiled for the Postgres dialect but never executed on Postgres.
+[history_size_probe.py](history_size_probe.py) rebuilds the reviewer's fixture on PostgreSQL 18; results are in [history_size_results.json](history_size_results.json). Dataset click, original / copied history, wall medians:
 
-## Known limits (not fixed)
+| Per history (background) | dev | 4d82165af62 | 6c8b5b22a29 |
+| --- | --- | --- | --- |
+| 3k (54k) | 3.8 / 2.6 ms | 77 / 112 ms | 11.6 / 12.4 ms |
+| 30k (540k) | 5.0 / 4.3 ms | 786 / 1,179 ms | 12.7 / 14.4 ms |
+| 100k (3.2M) | 8.6 / 8.6 ms | 845 / 1,830 ms | 17.7 / 23.7 ms |
 
-- The chain stops at a library dataset hop (`copied_from_ldda`).
-- Implicit/mapped-over job outputs are not handled. That gap is in `get_connections_graph` and predates this branch.
-- Collection-element HDAs should map through the shared `dataset_id`, but that is reasoned only: the unit tests use empty collections.
-- Possible follow-up: move `_copied_from_chain` onto the model so that `source_dataset_chain` (a Python walk with lazy loads) could reuse it.
+- **Execution:** the relationship statement now runs in 0.45–1.2 ms with no JIT. The prior head took 0.9–1.3 s and used JIT. The remaining gap to dev is planning plus SQLAlchemy compilation.
+- **Existing probes still pass:**
+  - 10k importers: 1.6 ms. The candidate lookup uses the `history_id` index, with no `dataset_id` fan-out.
+  - Real `History.copy()` with 750 hidden copies sharing the related dataset, the worst case for narrowing: 9.1 ms (6.3 ms before).
+- **Tests:**
+  - 28/28 manager tests pass.
+  - 8/8 related API tests pass on PostgreSQL 18 and on SQLite.
+  - The first two SQLite runs timed out in `_run_cat`'s 60 s `wait_for_history`, before any filter call, while machine load averaged 60–90. The rerun passed.
+- **Static checks:** mypy from `lib` shows only the 4 pre-existing TypeAdapter errors. Pre-commit hooks pass.
 
-## Blockers
+## Tradeoff for John
 
-- Fork CI, including the E2E test.
-- Postgres coverage comes from CI.
+A subagent audited the copy paths. Narrowing by `dataset_id` misses mapping back where an ordinary copy has a different dataset from its source:
+- deferred datasets materialized into a history through the API, not in place;
+- in-place materialization that uses a replacement;
+- the "sinks" relinking during model-store archive import.
+
+These cases fall back to dev behavior. Clicking such a copy still walks up its chain. The PR description and the draft reply state this.
+
+## Process
+
+- **Review:** a normal review found no blockers. Three wording nits were applied and squashed. See [subagents/review_round2_seed_narrowing.md](subagents/review_round2_seed_narrowing.md).
+- **Push:** pushed only to jmchilton with an exact lease on `4d82165af62`. The PR is still draft and mergeable.
+- **Not done:** no GitHub reply posted and no live description edit.
+  - The reply is drafted in [review_reply_2026-10-15.md](review_reply_2026-10-15.md).
+  - The local [PR description](pr_description.md) is updated: query design, risks, and the size numbers.
+- **Skipped steps:**
+  - Test challenge: only one test was added, under the more-than-3 threshold.
+  - Screenshots: no UI change.
