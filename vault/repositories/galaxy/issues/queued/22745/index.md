@@ -9,3 +9,5 @@ Comment measured (vitest, node 22, not a browser): one 3 s `useInvocationGraph` 
 Next: small PR with the diff from the comment + the "idle refresh writes nothing" unit test; then browser-profile zoom/pan on the reporter's invocation. Pairs with [#24138](../24138/index.md) (same composable).
 
 Open: coordinate with ahmedhamidawan (assignee) before opening a PR.
+
+Branch: [`issue_24138_invocation_graph_refresh`](../../../branches/active/issue_24138_invocation_graph_refresh/index.md) (2026-10-15) — refresh-cost part only; zoom/pan still unprofiled.

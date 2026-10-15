@@ -11,3 +11,5 @@ Next: watcher in `useInvocationGraph` calling `updateSteps()` without toggling `
 Related: perf comment on [#22745](../22745/index.md) — complementary, the watcher alone doesn't remove the O(n²) refresh cost; could land in one PR.
 
 Open: ping/assign ahmedhamidawan (author of #20719)? Not mentioned in the issue.
+
+Branch: [`issue_24138_invocation_graph_refresh`](../../../branches/active/issue_24138_invocation_graph_refresh/index.md) (2026-10-15, with #22745 refresh cost).
