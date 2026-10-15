@@ -1,5 +1,6 @@
 PRs To Review:
-- [#24155](https://github.com/galaxyproject/galaxy/pull/24155) — Initial review in progress. [notes](../../repositories/galaxy/reviews/active/24155/index.md)
+- [#24134](https://github.com/galaxyproject/galaxy/pull/24134) — Initial review in progress. [notes](../../repositories/galaxy/reviews/active/24134/index.md)
+- [#24155](https://github.com/galaxyproject/galaxy/pull/24155) — Reviewed; approve draft unposted; 10 API checks pass; unrelated CI failures. [notes](../../repositories/galaxy/reviews/active/24155/index.md)
 - [#24125](https://github.com/galaxyproject/galaxy/pull/24125) — Reviewed; approve draft unposted; 65 focused checks pass; CI green. [notes](../../repositories/galaxy/reviews/active/24125/index.md)
 - [#24101](https://github.com/galaxyproject/galaxy/pull/24101) — Reviewed; P2 truncation-warning draft unposted; still draft; CI green. [notes](../../repositories/galaxy/reviews/active/24101/index.md)
 - [#24095](https://github.com/galaxyproject/galaxy/pull/24095) — Reviewed; P2 relative-URL draft unposted; ready; CI green. [notes](../../repositories/galaxy/reviews/active/24095/index.md)
@@ -18,4 +19,4 @@ PRs to Skip For 7 Days:
 PRs Blocked:
 None yet.
 
-GitHub state last refreshed: 2026-10-15 (queue state checked; #24132, #24130, and #24129 merged and archived; #24155 review in progress).
+GitHub state last refreshed: 2026-10-15 (queue state checked; #24132, #24130, and #24129 merged and archived; #24155 reviewed; #24134 review in progress).
