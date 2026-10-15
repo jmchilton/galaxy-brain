@@ -1,0 +1,4 @@
+- Skip Integration CI for changes confined to other test suites
+- Move shared test helpers to base and narrow Integration CI triggers
+- Avoid redundant Integration runs for test-suite-only changes
+- Keep shared test code in base so Integration can skip other suites
