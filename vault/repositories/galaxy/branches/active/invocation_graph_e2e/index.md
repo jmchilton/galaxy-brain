@@ -1,6 +1,6 @@
 # invocation_graph_e2e
 
-Status: polished, awaiting John's final review (`branches_ready_for_final_review`). Base: `dev` (`c63ffc2ccae`). Fork branch: `jmchilton/invocation_graph_e2e` @ `7d2439be1c4`.
+Status: PR open, [#24164](https://github.com/galaxyproject/galaxy/pull/24164) (`ready`), opened 2026-10-15 at John's request, out of draft. Title: "Add E2E tests for the invocation graph". Screenshots hosted on `jmchilton/pr-assets-invocation_graph_e2e`. Base: `dev` (`c63ffc2ccae`). Fork branch: `jmchilton/invocation_graph_e2e` @ `7d2439be1c4`.
 Worktree: `~/projects/worktrees/galaxy/branch/invocation_graph_e2e`.
 
 Adds browser tests for the workflow invocation Overview graph (Selenium + Playwright). Source issue draft (PR-first, not filed): [proposed_invocation_graph_no_e2e_coverage](../../../../../agents/gx_issues/internally_managed/proposed_invocation_graph_no_e2e_coverage.md).

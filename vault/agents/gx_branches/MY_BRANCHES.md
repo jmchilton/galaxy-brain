@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #24164 refreshed 2026-10-15: requested non-draft PR opened against `dev`; head `7d2439be1c4`, mergeable, CI pending.
+
 PR #24157 refreshed 2026-10-15: requested draft opened against `release_26.2`; head `46632e4c37c`, mergeable, CI pending.
 
 PR #24142 refreshed 2026-10-14: requested non-draft bug-fix PR opened against `release_26.2`; head `e9ef7bf7f1c`, mergeable, CI pending.
@@ -28,6 +30,7 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`invocation_graph_e2e`](../../repositories/galaxy/branches/active/invocation_graph_e2e/index.md) — Browser tests for the invocation Overview graph (states, step card, isolate, Show Connections, Step Config, search). [#24164](https://github.com/galaxyproject/galaxy/pull/24164).
 - [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
 - [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
 - [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
@@ -100,7 +103,6 @@ None yet.
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:container_tool_env?expand=1).
-- [`invocation_graph_e2e`](../../repositories/galaxy/branches/active/invocation_graph_e2e/index.md) — Browser tests for the invocation Overview graph (states, step card, isolate, Show Connections, Step Config, search). Base `dev`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_e2e?expand=1).
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_parameter_expected_failure?expand=1).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_unknown_scheduler?expand=1).
 - [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24138_invocation_graph_refresh?expand=1).

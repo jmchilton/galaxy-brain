@@ -1,5 +1,1 @@
-- Add browser tests for the workflow invocation graph
-- Add Selenium/Playwright coverage for the invocation Overview graph
-- Test invocation graph states, step card, isolate, connections, config and search in the browser
-- Browser tests for workflow invocation graph interactions
-- Add E2E tests for the invocation graph; share `invocation_open_latest`
+- Add E2E tests for the invocation graph
