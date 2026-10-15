@@ -48,8 +48,17 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
   - `user-supplied` becomes a `blocked` phase status, not a fallback the controller pretends to take.
 - **Side option:** start a run at phase N from a frozen earlier run's promoted artifacts (`--from`). This tests phases 9–13 without either construct, and keeps each phase's evaluation independent of upstream noise.
 
+## Decisions (John, 2026-10-15)
+
+1. Bundle the branch in the harness (option B), not as an orchestrator Mold. It's easier and more flexible, and it can still be promoted to a Mold later.
+2. We fix the contract ourselves.
+   - Done on `origin/feat/test-data-refs-schema` (`4a8f0837`): the `test-data-refs` schema plus `foundry validate-test-data-refs`.
+   - All four producers declare it.
+   - `find-test-data` takes the earlier refs as an optional input and keeps their resolved entries.
+   - `paper-to-test-data` now reads the interface brief and leaves expected outputs to the test plan.
+   - The PR is not opened yet.
+   - Follow-up: the assembler's generic branch text ("stop at the first that yields acceptable output") doesn't describe filling gaps.
+
 ## Open questions
 
-1. OK to fold the branch into an orchestrator Mold (a content-model change across 5 pipelines), or keep it as one bundled worker in the harness only?
-2. Who owns the `test-data-refs` schema and the `find-test-data` input fix: us, or a content agent?
-3. Is `--from` (seed from a frozen run) wanted as an evaluation feature?
+1. Is `--from` (seed from a frozen run) wanted as an evaluation feature?
