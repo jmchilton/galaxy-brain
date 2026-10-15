@@ -1,6 +1,6 @@
 # invocation_missing_input_404
 
-Status: `branches_ready_for_final_review`. Implementation: READY. Base: `release_26.1` at `92e66c53394` (rebased 2026-10-15 from `dev` `c63ffc2ccae` at John's request; PR targets `release_26.1`).
+Status: `ci_wait` — draft [#24171](https://github.com/galaxyproject/galaxy/pull/24171) opened 2026-10-15 at John's request, title "[26.1] Fix 500 when invoking a workflow with a nonexistent dataset input", description verbatim from `pr_description.md`, head `99a44f7d604`. Implementation: READY. Base: `release_26.1` at `92e66c53394` (rebased 2026-10-15 from `dev` `c63ffc2ccae` at John's request; PR targets `release_26.1`).
 
 Return HTTP 404 for nonexistent HDA, LDDA, library dataset, and history collection invocation inputs. Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md).
 
