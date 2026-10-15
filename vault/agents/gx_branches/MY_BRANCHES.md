@@ -22,11 +22,11 @@ Queue snapshot refreshed from live GitHub 2026-10-15. [TICK findings, actions an
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
-- [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515). [#24106](https://github.com/galaxyproject/galaxy/pull/24106).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [#24141](https://github.com/galaxyproject/galaxy/pull/24141).
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515); second-round perf fixes at `6c8b5b22a29`, reply drafted not posted. [#24106](https://github.com/galaxyproject/galaxy/pull/24106).
 - [`invocation_graph_e2e`](../../repositories/galaxy/branches/active/invocation_graph_e2e/index.md) — Browser tests for the invocation Overview graph (states, step card, isolate, Show Connections, Step Config, search). [#24164](https://github.com/galaxyproject/galaxy/pull/24164).
 - [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [#24169](https://github.com/galaxyproject/galaxy/pull/24169).
