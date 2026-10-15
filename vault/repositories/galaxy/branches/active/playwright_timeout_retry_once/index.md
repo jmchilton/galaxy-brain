@@ -1,6 +1,6 @@
 # playwright_timeout_retry_once
 
-Status: `branches_ready_for_final_review`. Base: `dev` (`63192fd64e4`). No PR. Head: `28a5648195e8427555d362edb46ea4dd2edf9a9f`.
+Status: `ci_wait`. Base: `dev` (`c63ffc2ccae`). PR: [#24139](https://github.com/galaxyproject/galaxy/pull/24139) (draft). Head: `40595f3b1e2d54948660b21958a65fcbf3df87a9`.
 
 `retry_call_during_transitions` retries a Playwright timeout once rather than ten times.
 
@@ -23,3 +23,11 @@ Both retry tests pass. An isolated pytest plugin replaced only the helper with t
 [Polishing checklist](polish_checklist.md) · [Strengthening round](polish_strengthening.md) · [PR description](pr_description.md) · [Titles](pr_titles.md). Independent checklist passed; one strengthening round found nothing to add. The shared-driver/retry run finished with 390 passed and one skipped. No description-driven code changes were required. [Final polishing debrief](polish_debrief.md).
 
 Final-review handoff: fork CI on `28a5648195e` has seven successful checks, two skipped, nine running, and 30 queued, with no failures at the final refresh. Human-read checklist remains unchecked; no PR opened.
+
+## Draft PR opened — 2026-10-14
+
+John requested a draft PR. Opened [#24139](https://github.com/galaxyproject/galaxy/pull/24139) against `dev`, titled “Bound full-timeout retries in the Playwright test driver”, using `pr_description.md` verbatim with no mentions. Preserved the human-read checkbox already checked in the working description.
+
+Before opening, fetched `dev` at `c63ffc2ccae` and rebased without conflicts. `git range-diff 63192fd64e4..28a5648195e origin/dev..HEAD` marks the single patch identical. Pushed head `40595f3b1e2d54948660b21958a65fcbf3df87a9` to `jmchilton` with `--force-with-lease`; whitespace check passes. No implementation changes and no local runtime rerun after the identical-patch rebase.
+
+Previous-head package, unit, Python lint, Integration and Integration Selenium workflows passed. The prior release-script workflow failed separately; its failed log ends in release-version validation, outside the changed retry helper. Earlier CI is not claimed for the rebased head. Verified the new PR is open and draft at the new SHA, with 40 upstream checks queued/in progress at initial refresh. Moved the queue entry to `ci_wait`.
