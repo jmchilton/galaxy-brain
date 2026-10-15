@@ -1,6 +1,6 @@
 # invocation_graph_color_swatch
 
-Status: `branches_ready_for_final_review`. Base: `release_26.2` (`082605cade0`). Fork: `jmchilton/invocation_graph_color_swatch` @ `46632e4c37c`. No PR.
+Status: `ci_wait`. Base: `release_26.2` (`082605cade0`). Fork: `jmchilton/invocation_graph_color_swatch` @ `46632e4c37c`. Draft PR [#24157](https://github.com/galaxyproject/galaxy/pull/24157).
 
 **[PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md)** · [Checklist evaluation](checklist_evaluation.md)
 
@@ -20,3 +20,4 @@ Invocation graph shows a color parameter input as bold hex text instead of the c
 - 2026-10-15: John retargeted to `release_26.2`; rebased clean (`89f18bbc2b9` → `043eea3b218`), unit tests 21/21 (node 22.20.0). Screenshots kept from the `dev`-based run, not regenerated (John's call; `useInvocationGraph.ts`/`NodeInvocationText.vue` identical between old `dev` base and `release_26.2`). Polish started.
 - 2026-10-15: polish CI check found a branch-caused red on `89f18bbc2b9` Client linting: vue-tsc `TS2345` on `findComponent(BFormInput).props("value")` in `NodeInvocationText.test.ts` (earlier "vue-tsc clean" claim was wrong). Switched to `findComponent({ name: "BFormInput" })` (idiom from `Editor/Index.test.ts`); `pnpm run type-check` exit 0, 21/21. Amended → `d1381244d75`.
 - 2026-10-15: strengthening: swatch test now mounts and checks a real `input[type=color]` → `46632e4c37c`. Polished → READY for John's final review. Fresh fork CI pending.
+- 2026-10-15: John asked for a draft PR. Opened [#24157](https://github.com/galaxyproject/galaxy/pull/24157) against `release_26.2` at `46632e4c37c`, title option 1, `pr_description.md` verbatim except screenshots hosted on fork branch `pr-assets-invocation_graph_color_swatch`. Draft, mergeable, CI pending.
