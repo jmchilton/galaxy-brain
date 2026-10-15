@@ -53,7 +53,7 @@ It sends real invocation requests and checks the public responses, with no mocks
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A `400` naming the unknown scheduler, before anything is created. Before this change the API returned `200` and the invocation stayed `new` forever.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. It's an API test of the public responses, with the omitted, empty and `default` cases as acceptance controls.
