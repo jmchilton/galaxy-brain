@@ -46,3 +46,7 @@ Addressed the review on PR #23815 in commit `75d878bdcf770222e973442a0c7919a13c7
 Validation: **295 passed** across command factory, job environment/configuration, runtime environment, tool loading, tool linters, and output checker unit tests. Isort and `git diff --check` passed. Vault validation passed with zero errors (15 existing advisory warnings). Commit hooks passed Black, Ruff, Flake8 and hygiene checks; Prettier/trailing-whitespace were skipped per the existing polish note to avoid unrelated admin-doc formatting changes.
 
 GitHub confirms head `75d878bdcf7`, base `release_26.2`, open/non-draft and `MERGEABLE`; fresh CI has 43 pending checks and no failures at this snapshot. PR description and its local copy now reflect the changes. The human-read checkbox is cleared because the fixes add tests/comments. Moved back to final review under the standing SHA-pinned approval rule; prior human approval does not cover this implementation change.
+
+## TICK — 2026-10-15
+
+New-head CI has relevant type failures in `lib/galaxy/tool_util/parser/xml.py:441`, `test/unit/tool_util/test_runtime_environment.py:248` and `test/unit/app/jobs/test_command_factory.py:331,388`. These overlap the environment-scope change and are not unrelated SSH typing failures. Keep `branches_ready_for_final_review` under the existing human-review hold, with this new CI blocker recorded.

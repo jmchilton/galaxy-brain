@@ -12,7 +12,7 @@ Checked mvdbeek’s comments, review bodies and inline threads on **163 jmchilto
 
 ### #24050 — Sample sheet Vue 3 grids
 
-**All five findings fixed and pushed at `ea019fe4700`; fresh CI pending.** [Review](https://github.com/galaxyproject/galaxy/pull/24050#pullrequestreview-5500793156) · [Workbook-reload thread](https://github.com/galaxyproject/galaxy/pull/24050#discussion_r4256376934) · [Branch record](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md).
+**All five findings fixed and pushed at `ea019fe4700`; fresh CI pending.** [Review](https://github.com/galaxyproject/galaxy/pull/24050#pullrequestreview-5500793156) · [Workbook-reload thread](https://github.com/galaxyproject/galaxy/pull/24050#discussion_r4256376934) · [Branch record](../../repositories/galaxy/branches/merged/sample_sheet_vue3/index.md).
 
 - [x] Preserve collection-backed mode when reloading a workbook downloaded from an existing collection. The generic workbook parser returns identifiers and metadata without URLs or model objects; the grid then switches to URI mode and emits URL elements without URLs. Use the collection-specific workbook-parse endpoint, or join the parsed metadata back to the existing elements by identifier. Add a regression covering collection → downloaded workbook → edited/reloaded workbook → valid collection-create payload, with metadata edits retained.
 - [x] Follow-up: when FetchGrid’s target changes from supported to unsupported, reset to raw view and clear the old rows so edited stale URLs cannot be submitted; test the target swap.
@@ -22,7 +22,7 @@ Checked mvdbeek’s comments, review bodies and inline threads on **163 jmchilto
 
 The first item is Marius’s explicit request for this PR. The other four were described as acceptable follow-ups; they do not independently require holding this PR.
 
-Completed 2026-10-13: 168 affected tests and type/lint/format checks pass. No requested item deferred. [Implementation and verification](../../repositories/galaxy/branches/active/sample_sheet_vue3/marius_followups_2026-10-13.md).
+Completed 2026-10-13: 168 affected tests and type/lint/format checks pass. No requested item deferred. [Implementation and verification](../../repositories/galaxy/branches/merged/sample_sheet_vue3/marius_followups_2026-10-13.md).
 
 ### #24055 — Collection-type picker
 
@@ -59,7 +59,7 @@ No new code TODO from Marius: his comment supports the async-layer fix. The prod
 
 Merged 2026-10-13. All three suggestions are optional follow-up test improvements. [Review](https://github.com/galaxyproject/galaxy/pull/23922#pullrequestreview-5491654666) · [Archived branch](../../repositories/galaxy/branches/merged/workbook_import/index.md). The fetched dev snapshot still contains the loose URL assertions and mapping-only checks.
 
-All three implemented on [`workbook_import_followups`](../../repositories/galaxy/branches/active/workbook_import_followups/index.md) (`4aacb2ca03c`), awaiting CI and PR.
+All three implemented on [`workbook_import_followups`](../../repositories/galaxy/branches/merged/workbook_import_followups/index.md) (`4aacb2ca03c`), awaiting CI and PR.
 
 - [x] Parse the workbook download URL query and compare `type == ["collection"]` and `collection_type == ["list:paired"]` exactly. The current substrings also accept `collections` and `list:paired_or_unpaired`. [Thread](https://github.com/galaxyproject/galaxy/pull/23922#discussion_r4248713499).
 - [x] Assert transformed row count and representative forward/reverse identifiers in paired and nested workbook tests, beyond inferred mapping alone. [Thread](https://github.com/galaxyproject/galaxy/pull/23922#discussion_r4248713513).

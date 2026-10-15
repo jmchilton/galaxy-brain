@@ -1,6 +1,6 @@
 # integration_ci_paths
 
-Status: `ci_wait`. Base: `dev`. Fork: `jmchilton/integration_ci_paths`. PR: [#24135](https://github.com/galaxyproject/galaxy/pull/24135) (draft).
+Status: `ready`. Base: `dev`. Fork: `jmchilton/integration_ci_paths`. PR: [#24135](https://github.com/galaxyproject/galaxy/pull/24135) (draft).
 
 Skips the Integration workflow when a PR only changes test suites that run in other workflows (unit, API, Selenium, workflow framework). Companion to `integration_ci_scope`; independent of it.
 
@@ -39,3 +39,7 @@ At John's request, inspected only upstream Integration [run 38661487143, shard `
 Diagnosed as unrelated to this PR: the failing Onedata setup and Docker helper are unchanged, and readiness fails in `BaseOnedataObjectStoreIntegrationTestCase.setUpClass()` before `super().setUpClass()` starts Galaxy. This is an external demo-service startup failure, not an import/collection failure from the shared-helper relocation. The logs do not establish why the demo failed to initialize.
 
 Other workflow failures were not rechecked; John states they are broken on `dev`. No code changes, reruns, rebase or draft-status change made during this focused diagnosis. Existing broader-CI queue status retained pending broader workflow reconciliation.
+
+## TICK — 2026-10-15
+
+GitHub now reports non-draft; this tick did not change its draft setting. Relevant shared-helper/runtime checks pass apart from the already diagnosed Onedata demo readiness setup failure (before Galaxy starts). Package reds remain unchanged SSH typing. Failed jobs rerun; move to `ready` on diagnosed unrelated reds.

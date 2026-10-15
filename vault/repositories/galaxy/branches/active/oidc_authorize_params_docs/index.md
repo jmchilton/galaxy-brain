@@ -1,6 +1,6 @@
 # oidc_authorize_params_docs
 
-- Workflow status: `ci_wait` (2026-10-14); draft [#24133](https://github.com/galaxyproject/galaxy/pull/24133).
+- Workflow status: `ready` (2026-10-15); non-draft [#24133](https://github.com/galaxyproject/galaxy/pull/24133).
 - Branch: `jmchilton/oidc_authorize_params_docs`; head `2114bf52153f669b12b9e8022571ee11bcf60130`, targets `dev` (`c63ffc2ccae`).
 - Worktree: `~/projects/worktrees/galaxy/branch/oidc_authorize_params_docs`.
 - [PR description](pr_description.md) · [Title choices](pr_titles.md).
@@ -14,3 +14,7 @@
 - Related: #23253 ("OIDC documentation outdated"), #23836 (PKCE docs, the section this one follows).
 
 Docs only. No issue to close.
+
+## TICK — 2026-10-15
+
+GitHub now reports non-draft; this tick did not change its draft setting. Docs coverage passes. Unchanged package/SSH typing, container-registry resolution, and mulled conda HTTP 502 failures are unrelated to this documentation/sample XML change; failed workflows rerun. Move to `ready` based on live PR state.

@@ -1,6 +1,6 @@
 # issue_23977_client_api_fanout_26.1
 
-Status: `ci_wait`. Base: `release_26.1`. PR: [#24141](https://github.com/galaxyproject/galaxy/pull/24141) (draft).
+Status: `draft_ready`. Base: `release_26.1`. PR: [#24141](https://github.com/galaxyproject/galaxy/pull/24141) (draft).
 
 Spaces out client retries and removes hidden counts requests (#23977).
 
@@ -31,3 +31,7 @@ Owned cards on “My workflows” still fetch counts individually. Removing that
 [PR #23910 — changes](https://github.com/galaxyproject/galaxy/pull/23910/changes), merged 2026-10-06, fixes a separate `DatasetPopoverLink` defect: the scoped `:deep(.dataset-details-popover)` rule required an ancestor that no longer existed after GPopover moved its content under `body`. The intended 420px cap never applied, so the global 70%-of-viewport popover width could put content off screen. A plain scoped selector matches the slot content's retained scope id.
 
 The added `DatasetPopoverLink.width.test.ts` compiles and injects the component's actual scoped styles, mounts the component, verifies that the popover content sits outside the wrapper, and checks its computed `maxWidth` is `420px`. This is a useful testing example because ordinary Vitest mounting does not load SFC styles: the test deliberately reaches the styling boundary that caused the bug. It guards selector matching after relocation, not full browser geometry or a screenshot comparison. This branch touches the same component for retry/loading behavior; #23910 is a separate CSS repair, not part of the fan-out fix.
+
+## TICK — 2026-10-15
+
+All 29 checks succeeded and GitHub reports draft and mergeable. Move to `draft_ready`, preserving the explicit instruction to keep draft until John requests promotion.

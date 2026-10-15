@@ -19,3 +19,7 @@ Adds browser tests for the workflow invocation Overview graph (Selenium + Playwr
 John switched [#24164](https://github.com/galaxyproject/galaxy/pull/24164) to draft and explicitly requested CI monitoring and automatic promotion out of draft when CI is green. This supersedes the earlier out-of-draft opening instruction. Track in `ci_wait`; on a later queue refresh, re-query the current head and checks, take the PR out of draft once CI is green, and move it to `ready` without asking again. No separate human decision is needed for that transition.
 
 Live verification: open, draft, mergeable against `dev`, head `7d2439be1c44aa627c67e70cf255cd64d094c6b7`. GitHub Actions checks are queued; CircleCI is green. No GitHub draft-state change was needed during this tracking update.
+
+## TICK — 2026-10-15
+
+Still draft. Package jobs fail mypy at unchanged `galaxy/security/ssh_util.py:18`; installed startup fails building unchanged `packages/meta` (`egg_base`: missing `src`). Both are outside the graph/browser change; failed jobs rerun. Tool Shed standalone failure has an incomplete log ending at collection, so it is not diagnosed as unrelated. Relevant browser checks and remaining CI are still pending. Preserve automatic undraft authorization once current CI is green; no promotion now.

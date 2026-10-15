@@ -1,6 +1,6 @@
 # copy_to_clipboard_e2e
 
-Status: `draft_ready`. Base: `release_26.2`.
+Status: `ready`. Base: `release_26.2`.
 PR: [#24119 — [26.2] Add browser regression coverage for API key copying](https://github.com/galaxyproject/galaxy/pull/24119), OPEN and draft at `042902f139e62194204c36cd6b404eae4fe2518e` (verified 2026-10-14).
 
 Adds an E2E clipboard abstraction and a browser regression test for #24102 (`CopyToClipboard` did nothing after the Vue 3 migration).
@@ -37,3 +37,7 @@ Fork CI on this SHA remains queued/running. [Release-script run 38538091345](htt
 ## TICK — 2026-10-14
 
 Current head 042902f139e6 is mergeable on release_26.2, with browser checks passing. Only two package jobs fail mypy at unchanged galaxy/security/ssh_util.py:18 (untyped publickey call), unrelated to clipboard tests; failed jobs rerun. Moved to draft_ready. Preserve the explicit hold until John requests progression.
+
+## TICK — 2026-10-15
+
+GitHub now reports non-draft; this tick did not change its draft setting. Relevant browser coverage passes; only previously diagnosed unchanged SSH typing package failures remain, rerun. Move to `ready`.

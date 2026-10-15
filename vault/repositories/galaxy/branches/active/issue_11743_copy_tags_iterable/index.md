@@ -23,3 +23,7 @@ Requested failed-job reruns for diagnosed unrelated failures: [run 37773026992](
 ## TICK — 2026-10-13 evening
 
 GitHub now reports OPEN, non-draft and mergeable at its unchanged head; this TICK did not change draft status. The sole failure remains the diagnosed macOS 3.14 client-cache restoration failure. Reclassified to `ready` and requested its failed-job rerun.
+
+## TICK reruns — 2026-10-15
+
+Requested failed-job reruns for recorded unrelated failures: [run 37773026992](https://github.com/galaxyproject/galaxy/actions/runs/37773026992). Requests accepted; reruns are pending evidence, not green results. Existing classification and review holds remain.

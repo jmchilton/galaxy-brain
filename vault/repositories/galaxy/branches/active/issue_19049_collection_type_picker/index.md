@@ -1,6 +1,6 @@
 # issue_19049_collection_type_picker
 
-Status: `branches_ready_for_final_review`. Base: `dev`. Draft [PR #24055](https://github.com/galaxyproject/galaxy/pull/24055), head `f169ab950dc212003a8f12a3830f5771d5c8d2db`.
+Status: `branches_ready_for_final_review`. Base: `dev`. Draft [PR #24055](https://github.com/galaxyproject/galaxy/pull/24055), head `ecb67e386cc6bff0b068b1b80c3a77263fcfb408`.
 
 Adds a select-or-text field for workflow collection types and Tool Shed targets.
 
@@ -34,3 +34,7 @@ Current head 18cb34074127 is mergeable but Playwright run 38439282446 fails test
 ## Requested rebase and repair — 2026-10-14
 
 [Rebase/repair evidence](ci_repair_2026-10-14.md). Pushed `f169ab950dc212003a8f12a3830f5771d5c8d2db` to the jmchilton fork after successful targeted validation. Status: `branches_ready_for_final_review`; new-head CI pending. Workbook selector repaired; new regression requires fresh human read. Preserve the explicit draft hold.
+
+## TICK — 2026-10-15
+
+Resolved the small conflict against actual `origin/dev` at `88127f42979425ef316b5bb0fd07fd67ce2f16bc`. Preserved the upstream accessible label with the branch’s `FormSelectOrText` control, targeting `install-tool-section`. Updated the automatically merged upstream regression to check that label and containing combobox instead of the replaced datalist. Focused form tests: 27 passed. Published `ecb67e386cc6bff0b068b1b80c3a77263fcfb408` to jmchilton with an exact old-head lease. This was a conflicted rebase: previous approval does not carry; remain `branches_ready_for_final_review` pending a fresh human read and new-head CI. Existing development worktree was left intact at its prior head.

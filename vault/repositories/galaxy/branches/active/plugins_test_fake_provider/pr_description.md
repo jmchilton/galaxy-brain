@@ -36,7 +36,7 @@ Builds on 🔀 #24032's plugin proxy tests. The shared fake also covers the exis
 
 ## John's Checklist
 
-- [x] Did a human read every test and every comment?
+- [ ] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Developers get failures against received HTTP requests, response bodies or agent output.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes—the tests exercise observable HTTP and API behavior.

@@ -23,3 +23,7 @@ Requested failed-job reruns for diagnosed unrelated failures: [run 37976218891](
 ## TICK — 2026-10-13 evening
 
 Requested failed-job reruns for recorded unrelated failures: [run 37976218891](https://github.com/jmchilton/galaxy/actions/runs/37976218891). All requests accepted. These reruns are pending coverage, not passing results; branch classification is unchanged.
+
+## TICK reruns — 2026-10-15
+
+Requested failed-job reruns for recorded unrelated failures: [run 37976218891](https://github.com/jmchilton/galaxy/actions/runs/37976218891). Requests accepted; reruns are pending evidence, not green results. Existing classification and review holds remain.

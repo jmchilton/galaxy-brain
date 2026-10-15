@@ -88,7 +88,7 @@ Builds on 🔀 #20403 (allow any collection type in this field) and 🔀 #19305 
 
 ## John's Checklist
 
-- [x] Did a human read every test and every comment? (Requires human author to check)
+- [ ] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? An invalid or empty custom value shows an inline error and a red field and isn't saved; the step keeps the last valid type entered, which can be a prefix typed on the way (as on `dev`). A saved type the select doesn't list opens in custom mode. In the Tool Shed dialog, an empty new section name shows an error and disables Ok.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They click real options and type into the field, and check what's rendered, what's emitted and saved (including "Any" as `null`), the Tool Shed install request, and that every listed collection type passes the validator.

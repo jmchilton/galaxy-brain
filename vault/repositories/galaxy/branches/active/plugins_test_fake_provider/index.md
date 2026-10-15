@@ -59,3 +59,7 @@ Live PR #24051 conflicts with dev in api/plugins.py and test_plugins.py. Upstrea
 ## Requested rebase and repair — 2026-10-14
 
 [Rebase/repair evidence](rebase_2026-10-14.md). Pushed `bb84aeee05a345d00219d5688d5a9349491b3aa2` to the jmchilton fork after successful targeted validation. Status: `branches_ready_for_final_review`; new-head CI pending. Conflicted rebase requires fresh review of the adapted inference tests.
+
+## TICK — 2026-10-15
+
+Resolved the small conflict against actual `origin/dev` at `88127f42979425ef316b5bb0fd07fd67ce2f16bc`. Combined independent `functools`/`json` imports in the shared test HTTP server. Focused agent tests: 135 passed, 15 skipped. Published `9acb0b2b8a44018d6c04205486e330acb1487e6c` to jmchilton with an exact old-head lease. This was a conflicted rebase: previous approval does not carry; remain `branches_ready_for_final_review` pending a fresh human read and new-head CI. Existing development worktree was left intact at its prior head.

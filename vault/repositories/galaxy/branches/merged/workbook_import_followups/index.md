@@ -1,6 +1,6 @@
 # workbook_import_followups
 
-Status: `ready`. Base: `dev` (`0d7309fa5a5`). Draft PR: [#24105](https://github.com/galaxyproject/galaxy/pull/24105). Head `debd555d9cd` on `jmchilton/workbook_import_followups`.
+Status: MERGED — archived 2026-10-15.
 
 Tightens the workbook import browser tests from merged [#23922](https://github.com/galaxyproject/galaxy/pull/23922) ([archived branch](../../merged/workbook_import/index.md)), addressing all three optional suggestions in [mvdbeek's review](https://github.com/galaxyproject/galaxy/pull/23922#pullrequestreview-5491654666). Test-only; no production code changes.
 
@@ -17,3 +17,7 @@ Opened draft [#24105](https://github.com/galaxyproject/galaxy/pull/24105) at Joh
 ## TICK — 2026-10-14
 
 GitHub reports #24105 OPEN, non-draft and mergeable at debd555d9cd8, with 59 successful checks and two skipped. Moved to ready from live state; this TICK did not change its draft setting.
+
+## Merged — 2026-10-15
+
+GitHub confirms [#24105](https://github.com/galaxyproject/galaxy/pull/24105) merged at 2026-10-15T08:53:17Z. Removed from the active queue and archived this record.

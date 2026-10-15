@@ -1,6 +1,6 @@
 # toolshed_repository_contents
 
-Status: `ci_wait`, draft [#24167](https://github.com/galaxyproject/galaxy/pull/24167). Base: `release_26.2`. Head `f4b0af72e73`.
+Status: `author_work`, draft [#24167](https://github.com/galaxyproject/galaxy/pull/24167). Base: `release_26.2`. Head `f4b0af72e73`.
 
 Adds a bounded repository-files API and Tool Shed contents browser (#22598).
 
@@ -41,3 +41,7 @@ At John's request, opened draft [#24167](https://github.com/galaxyproject/galaxy
 - Title: "[26.2] Let anonymous users browse Tool Shed repository contents", the first option in `pr_titles.md`, since none had been chosen.
 - Body: `pr_description.md` verbatim, except that the screenshots are hosted on the `pr-assets-toolshed_repository_contents` branch of the fork.
 - The open questions in the polish debrief are still unanswered, including the reason for targeting the release branch.
+
+## TICK — 2026-10-15
+
+CI has relevant mypy failures in the newly added `test/unit/tool_shed/test_repositories_manager.py:90`: `repositories_manager.hg_util` is not explicitly exported by `tool_shed.managers.repositories`. Both Python lint and package jobs report it. This belongs to this branch, not the prior unrelated Docker-pull failure. Move to `author_work`; no implementation change inferred by TICK.

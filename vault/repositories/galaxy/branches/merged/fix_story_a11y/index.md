@@ -1,6 +1,6 @@
 # fix_story_a11y
 
-Status: `branches_ready_for_final_review` (review fixes pushed; PR remains open and non-draft). Base: `release_26.2`.
+Status: MERGED — archived 2026-10-15.
 PR: [#24046 — Repair accessibility issues across shared controls and forms](https://github.com/galaxyproject/galaxy/pull/24046), opened by John; verified 2026-10-11.
 PR base: `release_26.2`; current head: `58849d66e99e47903b48856382ea362a7510d765`.
 Base: upstream `dev` at `8b729ff0050c32573ad0fa999e5e1b4d015dca8c` (2026-10-14).
@@ -91,3 +91,7 @@ Pushed `58849d66e99e47903b48856382ea362a7510d765` to `jmchilton:fix_story_a11y` 
 ## TICK — 2026-10-14
 
 Head 58849d66e99e is OPEN, non-draft and mergeable on release_26.2. Relevant client/browser checks pass; two package jobs fail at unchanged galaxy/security/ssh_util.py:18 (untyped publickey call), unrelated to accessibility. Failed jobs rerun. Retain final human review for the new changes; this TICK does not move it out of final review.
+
+## Merged — 2026-10-15
+
+GitHub confirms [#24046](https://github.com/galaxyproject/galaxy/pull/24046) merged at 2026-10-15T00:29:14Z. Removed from the active queue and archived this record.

@@ -1,6 +1,6 @@
 # playwright_timeout_retry_once
 
-Status: `ci_wait`. Base: `dev` (`c63ffc2ccae`). PR: [#24139](https://github.com/galaxyproject/galaxy/pull/24139) (draft). Head: `40595f3b1e2d54948660b21958a65fcbf3df87a9`.
+Status: `ready`. Base: `dev` (`c63ffc2ccae`). PR: [#24139](https://github.com/galaxyproject/galaxy/pull/24139) (draft). Head: `40595f3b1e2d54948660b21958a65fcbf3df87a9`.
 
 `retry_call_during_transitions` retries a Playwright timeout once rather than ten times.
 
@@ -31,3 +31,7 @@ John requested a draft PR. Opened [#24139](https://github.com/galaxyproject/gala
 Before opening, fetched `dev` at `c63ffc2ccae` and rebased without conflicts. `git range-diff 63192fd64e4..28a5648195e origin/dev..HEAD` marks the single patch identical. Pushed head `40595f3b1e2d54948660b21958a65fcbf3df87a9` to `jmchilton` with `--force-with-lease`; whitespace check passes. No implementation changes and no local runtime rerun after the identical-patch rebase.
 
 Previous-head package, unit, Python lint, Integration and Integration Selenium workflows passed. The prior release-script workflow failed separately; its failed log ends in release-version validation, outside the changed retry helper. Earlier CI is not claimed for the rebased head. Verified the new PR is open and draft at the new SHA, with 40 upstream checks queued/in progress at initial refresh. Moved the queue entry to `ci_wait`.
+
+## TICK — 2026-10-15
+
+Relevant browser/driver checks pass; the only prior-head reds are mypy in unchanged `galaxy/security/ssh_util.py:18`, unrelated to the retry helper. Rebased without conflicts onto actual `origin/dev` at `88127f42979425ef316b5bb0fd07fd67ce2f16bc`; range-diff confirms the patch is identical. Published `aec8690d5646befcfaef63fca75f045cd4c0cdde` only to jmchilton with an exact old-head lease, and undrafted under standing TICK authorization. Move to `ready`; fresh CI belongs to the rebased head and is pending.

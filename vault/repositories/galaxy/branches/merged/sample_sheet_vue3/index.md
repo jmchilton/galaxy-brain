@@ -1,6 +1,6 @@
 # sample_sheet_vue3
 
-Status: `ready`. Base: `release_26.2`. [PR #24050](https://github.com/galaxyproject/galaxy/pull/24050) (open, not draft; review fixes pushed, fresh CI pending).
+Status: MERGED — archived 2026-10-15.
 
 Moves sample sheet grids to Vue 3 patterns and fixes editing bugs.
 
@@ -48,3 +48,7 @@ Addressed both inline comments in [Ali’s review](https://github.com/galaxyproj
 ## TICK — 2026-10-14
 
 Current head 88ac10202d82 is non-draft and mergeable against release_26.2. Client/browser checks pass. Both package jobs fail mypy at unchanged galaxy/security/ssh_util.py:18 (untyped publickey call), unrelated to sample-sheet changes; failed jobs rerun. Recorded review fixes are complete, so moved to ready. No review reply or PR description change.
+
+## Merged — 2026-10-15
+
+GitHub confirms [#24050](https://github.com/galaxyproject/galaxy/pull/24050) merged at 2026-10-15T08:41:30Z. Removed from the active queue and archived this record.

@@ -1,45 +1,18 @@
 # Open PR and branch queue
 
-PR #24171 refreshed 2026-10-15: requested draft opened against `release_26.1`; head `99a44f7d604`, mergeable, CI pending.
-
-PR #24137 refreshed 2026-10-15: draft; stale dependency-lock CI fixed at `c9cbdb03895`, exact local consistency check passes, fresh CI pending.
-
-PR #24140 refreshed 2026-10-15: draft, mergeable; numeric-default API regression diagnosed, verified local fix pending publication.
-
-PR #24164 refreshed 2026-10-15: John drafted it; head `7d2439be1c4`, mergeable, CI queued. Monitor in `ci_wait` and automatically undraft when CI is green.
-
-PR #24157 refreshed 2026-10-15: requested draft opened against `release_26.2`; head `46632e4c37c`, mergeable, CI pending.
-
-PR #24142 refreshed 2026-10-15: John confirmed draft; head `23e16d05e4f`, mergeable, checks queued. Moved to `ci_wait` as requested.
-
-PR #24141 refreshed 2026-10-14: requested draft opened against `release_26.1`; head `5ce39226753`, CI pending. Keep draft until requested otherwise.
-
-PR #24050 refreshed 2026-10-14: latest review fixes pushed at `88ac10202d8`; mergeable against `release_26.2`, fresh CI queued. [Vue 3 migration guide](VUE3_COMPONENT_MIGRATION.md).
-
-PR #23815 refreshed 2026-10-15: review items 2–8 fixed at `75d878bdcf7`; item 1 excluded, mergeable, CI pending and fresh human read required.
-
-PR #24120 refreshed 2026-10-14: requested draft opened against `release_26.2`; head `b0a8d368d60`, CI pending.
-
-PR #24106 refreshed 2026-10-14 after review fixes: draft, mergeable, new-head CI pending.
-
-PR #24119 refreshed 2026-10-14: requested draft opened against `release_26.2`; head `042902f139e`, CI pending.
-
-Clipboard E2E base/CI refreshed 2026-10-14 after polishing; #24104 merged and fork head `042902f139e` awaits CI and final human review.
-
-PR #24046 refreshed 2026-10-14: four review fixes pushed at `58849d66e99` on `release_26.2`; CI pending, final review required.
-
-nightly_unit_tests refreshed 2026-10-15: non-draft #24131 review fixes pushed at `191c67516c7`; CI and fresh human read pending.
-
-Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other entries retain their recorded snapshots. [TICK findings and actions](TICK_2026-10-14.md).
+Queue snapshot refreshed from live GitHub 2026-10-15. [TICK findings, actions and CI evidence](TICK_2026-10-15.md).
 
 [Shared CI context and recent history](../../repositories/galaxy/branches/queue_context.md). Branch links hold the details, approvals and standing instructions.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
 - [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
-- [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
 - [`dangling_when_lint`](../../repositories/galaxy/branches/active/dangling_when_lint/index.md) — Warns about disconnected workflow when-inputs and gives them editor ports. [#24107](https://github.com/galaxyproject/galaxy/pull/24107).
-- [`workbook_import_followups`](../../repositories/galaxy/branches/active/workbook_import_followups/index.md) — Strengthens workbook import tests with exact template parameters, split-row contents, and collection-mode checks. [#24105](https://github.com/galaxyproject/galaxy/pull/24105).
+- [`copy_to_clipboard_e2e`](../../repositories/galaxy/branches/active/copy_to_clipboard_e2e/index.md) — Adds clipboard capture and an API key copy browser regression test after #24104. [#24119](https://github.com/galaxyproject/galaxy/pull/24119).
+- [`invocation_graph_color_swatch`](../../repositories/galaxy/branches/active/invocation_graph_color_swatch/index.md) — Shows the color swatch for color parameter inputs in the invocation graph. Base `release_26.2`. [#24157](https://github.com/galaxyproject/galaxy/pull/24157).
+- [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/active/playwright_timeout_retry_once/index.md) — Retries Playwright timeouts once during transitions; partly reverts 2825bb09e42. [#24139](https://github.com/galaxyproject/galaxy/pull/24139).
+- [`integration_ci_paths`](../../repositories/galaxy/branches/active/integration_ci_paths/index.md) — Skips Integration for changes confined to other test suites; moves shared helpers into `galaxy_test.base`. [#24135](https://github.com/galaxyproject/galaxy/pull/24135).
+- [`oidc_authorize_params_docs`](../../repositories/galaxy/branches/active/oidc_authorize_params_docs/index.md) — Documents OIDC request parameters, provider prefixes, configuration examples, and verification. [#24133](https://github.com/galaxyproject/galaxy/pull/24133).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -47,9 +20,8 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
-- [`ci_tracked_source_filters`](../../repositories/galaxy/branches/active/ci_tracked_source_filters/index.md) — Restores tracked source CI triggers and Selenium exclusions after #23999. [#24120](https://github.com/galaxyproject/galaxy/pull/24120).
 - [`issue_15515_related_filter_copied_items`](../../repositories/galaxy/branches/active/issue_15515_related_filter_copied_items/index.md) — Makes the related filter work on imported and copied history items (#15515). [#24106](https://github.com/galaxyproject/galaxy/pull/24106).
-- [`copy_to_clipboard_e2e`](../../repositories/galaxy/branches/active/copy_to_clipboard_e2e/index.md) — Adds clipboard capture and an API key copy browser regression test after #24104. [#24119](https://github.com/galaxyproject/galaxy/pull/24119).
+- [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [#24141](https://github.com/galaxyproject/galaxy/pull/24141).
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
@@ -57,15 +29,8 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 - [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [#24169](https://github.com/galaxyproject/galaxy/pull/24169).
 - [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Missing HDA, LDDA, library dataset and collection workflow inputs return a 404 naming the input. Base `release_26.1`. [#24171](https://github.com/galaxyproject/galaxy/pull/24171).
-- [`toolshed_repository_contents`](../../repositories/galaxy/branches/active/toolshed_repository_contents/index.md) — Adds a bounded repository-files API and Tool Shed contents browser (#22598). Base `release_26.2`. [#24167](https://github.com/galaxyproject/galaxy/pull/24167).
 - [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [#24165](https://github.com/galaxyproject/galaxy/pull/24165).
-- [`invocation_graph_color_swatch`](../../repositories/galaxy/branches/active/invocation_graph_color_swatch/index.md) — Shows the color swatch for color parameter inputs in the invocation graph. Base `release_26.2`. [#24157](https://github.com/galaxyproject/galaxy/pull/24157).
-- [`it_container_epilog_docs`](../../repositories/galaxy/branches/active/it_container_epilog_docs/index.md) — Documents a Slurm epilog for killing leftover Interactive Tool containers; links usegalaxy.org's (#13511). [#24143](https://github.com/galaxyproject/galaxy/pull/24143).
-- [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [#24141](https://github.com/galaxyproject/galaxy/pull/24141).
-- [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/active/playwright_timeout_retry_once/index.md) — Retries Playwright timeouts once during transitions; partly reverts 2825bb09e42. [#24139](https://github.com/galaxyproject/galaxy/pull/24139).
 - [`selenium_stories_core`](../../repositories/galaxy/branches/active/selenium_stories_core/index.md) — Writes Selenium and Playwright screenshots as Markdown, HTML and PDF stories; narrates tours. [#24137](https://github.com/galaxyproject/galaxy/pull/24137).
-- [`integration_ci_paths`](../../repositories/galaxy/branches/active/integration_ci_paths/index.md) — Skips Integration for changes confined to other test suites; moves shared helpers into `galaxy_test.base`. [#24135](https://github.com/galaxyproject/galaxy/pull/24135).
-- [`oidc_authorize_params_docs`](../../repositories/galaxy/branches/active/oidc_authorize_params_docs/index.md) — Documents OIDC request parameters, provider prefixes, configuration examples, and verification. [#24133](https://github.com/galaxyproject/galaxy/pull/24133).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
@@ -78,6 +43,7 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 - [`fix_copied_datasets`](../../repositories/galaxy/branches/active/fix_copied_datasets/index.md) — Fixes workflow extraction for datasets copied across histories. [#21806](https://github.com/galaxyproject/galaxy/pull/21806).
 - [`collection_restructure_panel`](../../repositories/galaxy/branches/active/collection_restructure_panel/index.md) — Adds a panel for transforming dataset collection layouts. [#12238](https://github.com/galaxyproject/galaxy/pull/12238).
 - [`pulsar-mq-pull`](../../repositories/galaxy/branches/active/pulsar-mq-pull/index.md) — Polls for Pulsar MQ jobs missed by normal event handling. [#9911](https://github.com/galaxyproject/galaxy/pull/9911).
+- [`toolshed_repository_contents`](../../repositories/galaxy/branches/active/toolshed_repository_contents/index.md) — Adds a bounded repository-files API and Tool Shed contents browser (#22598). Base `release_26.2`. [#24167](https://github.com/galaxyproject/galaxy/pull/24167).
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
@@ -118,8 +84,6 @@ None yet.
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_parameter_expected_failure?expand=1).
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin and agent HTTP inference with a local provider; preserves configurable inference settings. [#24051](https://github.com/galaxyproject/galaxy/pull/24051). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:plugins_test_fake_provider?expand=1).
 - [`issue_19049_collection_type_picker`](../../repositories/galaxy/branches/active/issue_19049_collection_type_picker/index.md) — Adds select-or-text collection types and fixes workbook template browser selection. [#24055](https://github.com/galaxyproject/galaxy/pull/24055). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19049_collection_type_picker?expand=1).
-
-- [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 - [`upload_datatypes_composable`](../../repositories/galaxy/branches/active/upload_datatypes_composable/index.md) — Replaces upload datatype/dbkey providers with composables and shows load failures instead of empty selectors. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upload_datatypes_composable?expand=1).
 - [`issue_23424_when_expression_validation`](../../repositories/galaxy/branches/active/issue_23424_when_expression_validation/index.md) — Rejects obsolete flat nested tool-input references when importing or updating workflows. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23424_when_expression_validation?expand=1).
 - [`issue_19391_file_source_templates_config_dir`](../../repositories/galaxy/branches/active/issue_19391_file_source_templates_config_dir/index.md) — Adds drop-in configuration directories for file source and object store templates (#19391). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19391_file_source_templates_config_dir?expand=1).

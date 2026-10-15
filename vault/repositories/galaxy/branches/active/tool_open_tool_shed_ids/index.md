@@ -60,3 +60,7 @@ Live PR refresh found #24142 draft and mergeable against `release_26.2`; kept dr
 ## Draft waiting for CI — 2026-10-15
 
 John confirmed he drafted #24142 and requested moving the tracker to draft waiting for CI. Live state: open, draft, mergeable, head `23e16d05e4fdd0db89ec970cbc2ff29b535362a2`; GitHub Actions checks queued, CircleCI green. Queue and branch status are now `ci_wait`, superseding the previous final-review placement. No GitHub draft-state change was needed.
+
+## TICK — 2026-10-15
+
+Current-head Python lint fails isort in unchanged `test/unit/app/tools/test_expression_basics.py` (missing import-group blank line). The four-file PR does not modify that file; unrelated failed jobs rerun. Relevant Integration Selenium/browser checks remain pending; preserve the fresh-human-read requirement recorded after the FastQC follow-up.

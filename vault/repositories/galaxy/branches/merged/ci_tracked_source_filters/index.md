@@ -1,6 +1,6 @@
 # ci_tracked_source_filters
 
-Status: DRAFT — `draft_ready`. Requested by John on 2026-10-14 following merged PR [#23999](https://github.com/galaxyproject/galaxy/pull/23999). Draft PR [#24120](https://github.com/galaxyproject/galaxy/pull/24120) opened against `release_26.2` at John's request.
+Status: MERGED — archived 2026-10-15.
 
 - [Release draft handoff](release_draft_2026-10-14.md)
 - [PR description](pr_description.md)
@@ -28,3 +28,7 @@ Chosen title: `[26.2] Restore CI filters for tracked source paths after the uv w
 ## TICK — 2026-10-14
 
 All 52 checks settled: 50 successful, two skipped. Mergeable on release_26.2 at b0a8d368d607. Moved to draft_ready; preserve the explicit instruction to keep draft pending further instruction.
+
+## Merged — 2026-10-15
+
+GitHub confirms [#23999](https://github.com/galaxyproject/galaxy/pull/23999) merged at 2026-10-14T08:31:04Z. Removed from the active queue and archived this record.

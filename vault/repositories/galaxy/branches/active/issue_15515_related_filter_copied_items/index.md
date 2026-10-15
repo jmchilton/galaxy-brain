@@ -38,3 +38,7 @@ John requested the extra metadata performance pass and had explicitly requested 
 ## TICK — 2026-10-14
 
 Current head 4d82165af62e is mergeable, with relevant API/browser checks passing. Only two package jobs fail mypy at unchanged galaxy/security/ssh_util.py:18 (untyped publickey call), unrelated to relationship lookup. Failed jobs rerun. Moved to draft_ready; fresh human-read approval remains pending, so no undraft.
+
+## TICK reruns — 2026-10-15
+
+Requested failed-job reruns for recorded unrelated failures: [run 38578066014](https://github.com/galaxyproject/galaxy/actions/runs/38578066014). Requests accepted; reruns are pending evidence, not green results. Existing classification and review holds remain.
