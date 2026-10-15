@@ -24,4 +24,6 @@ John requested four independent dev-based fixes before the larger validation bra
 
 - [Honor no_add_to_history false](../invocation_no_add_to_history_false/index.md): pushed as `invocation_no_add_to_history_false`; reviewed and 3 API regressions passed.
 
-Expected-failure logging, missing-input 404s, and unknown-scheduler rejection are being extracted separately. These extractions do not resolve the broader branch's recorded validation regressions or conflicts.
+- [Expected parameter failures](../invocation_parameter_expected_failure/index.md): pushed as `invocation_parameter_expected_failure`; reviewed and 194 workflow unit tests passed (1 skipped).
+
+Missing-input 404s and unknown-scheduler rejection are being extracted separately. These extractions do not resolve the broader branch's recorded validation regressions or conflicts.
