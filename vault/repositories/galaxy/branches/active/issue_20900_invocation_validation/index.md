@@ -17,3 +17,11 @@ Current fork tip `9b18c329c8f28d2063113f249438dc47e43254cf` conflicts with dev i
 ## GOOD_MORNING — 2026-10-13
 
 Current fork head `9b18c329c8f28d2063113f249438dc47e43254cf` conflicts with `origin/dev` in 3 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `lib/galaxy/tools/parameters/basic.py` · `lib/galaxy/workflow/run_request.py` · `lib/galaxy_test/api/test_workflows.py`
+
+## Bug-fix extractions — 2026-10-14
+
+John requested four independent dev-based fixes before the larger validation branch. The original implementation branch remains intact.
+
+- [Honor no_add_to_history false](../invocation_no_add_to_history_false/index.md): pushed as `invocation_no_add_to_history_false`; reviewed and 3 API regressions passed.
+
+Expected-failure logging, missing-input 404s, and unknown-scheduler rejection are being extracted separately. These extractions do not resolve the broader branch's recorded validation regressions or conflicts.
