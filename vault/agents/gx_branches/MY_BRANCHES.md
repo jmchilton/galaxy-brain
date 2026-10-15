@@ -75,7 +75,6 @@ Queue snapshot refreshed from GitHub 2026-10-15 for #23815 and #24131; other ent
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Returns 404 for missing HDA, LDDA, library dataset, and history collection inputs; independent #20900 extraction, reviewed with 5 API checks passing.
 - [`vitest_real_api_calls`](../../repositories/galaxy/branches/active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`integration_ci_scope`](../../repositories/galaxy/branches/active/integration_ci_scope/index.md) — Selects costly plugin suites from changed paths; helpers and guide live beside integration tests. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:integration_ci_scope).
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes parameter framework tools XSD-valid and checks them in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
@@ -105,6 +104,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Missing HDA, LDDA, library dataset and collection workflow inputs return a 404 naming the input. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_missing_input_404?expand=1).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:container_tool_env?expand=1).
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_parameter_expected_failure?expand=1).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_unknown_scheduler?expand=1).
