@@ -12,6 +12,8 @@ Challenge each unit test in this branch:
 - Can any of the mocks be replaced if the code is restructured? If yes, please restructure and clean up the test. Examples below are not exhaustive:
 	- Often class methods can be rewritten to use helper functions that don't relay on the class and that can really improve unit testing.
 
+If the test contains Vitest unit tests - please read best practices in client/README.md#client-side-unit-testing and try to make sure we're following best practices.
+
 Challenge a lack of E2E/Selenium tests! Should this feature have an E2E test - if so please implement. Read "vault/research/Component - E2E Tests - Writing.md" and "vault/research/Component - E2E Tests Smart Components.md" before writing Selenium tests.
 
 Write a debrief about the test challenges to `BRANCH_DIRECTORY/test_challenges_debrief.md` before completing.

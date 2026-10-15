@@ -14,6 +14,10 @@ For the main body - use best judgement.
 
 (see below)
 
+## Agentic Checks
+
+(see below - exclude section if none available)
+
 ## John's Checklist
 
 (see below)
@@ -22,10 +26,34 @@ For the main body - use best judgement.
 
 ```
 
-
 ## PR checklists
 
 Before finalizing a Galaxy branch or drafting its PR description, work through `gx_pr_checklists/GENERAL.md`, and also `gx_pr_checklists/WORKFLOW_RELATED.md` if the change touches workflows (editor, scheduler, invocations, collection mapping, gxformat2). Any item that fails means the branch isn't ready: fix it, or ask John before writing the description.
+
+## Agentic Checks
+
+Check the branch folder debriefs.
+
+Each check should be the form:
+
+```
+### ✅ [CHECK_NAME](CHECK_LINK)
+
+<details><summary>TOP_LINE</summary>
+
+</details>
+```
+
+- TOP_LINE should be one short sentence - probably pulled from the debrief document for that check.
+- Summarize the details of the document concisely and add to details.
+
+Each of these files (if present in the branch) represents one check to document.
+
+- `scope_evaluation.md` CHECK_NAME = "Scope Evaluation", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md
+- `thermo_nuclear_review.md` CHECK_NAME = "Cursor's Thermo Nuclear Review", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md
+- `test_challenges_debrief.md` CHECK_NAME = "John's Galaxy Test Challenges", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md
+- `codex_review.md` CHECK_NAME = "Second Frontier Model Review" (no link)
+
 ## Openers
 
 Every PR should open with a paragraph that is a single line. 

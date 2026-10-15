@@ -10,4 +10,4 @@ The top-line of the document should be a final recommendation on scope size. Bel
 
 If there is detailed discussion to be had place it under a `details` tag below the pros and cons list.
 
-Write the final report to the branch notes directory with the name scope_evaluation.md.
+Write the final report to the branch notes directory with the name `scope_evaluation.md`.

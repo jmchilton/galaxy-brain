@@ -3,7 +3,7 @@ For a repository named PROJECT (for example, `planemo`, `pulsar`, or `galaxy`).
 
 ## For Pull Request Reviews
 
-Worktrees for PROJECT request reviews live at `~/projects/worktrees/PROJECT/pr/<PR_NUMBER>/`, managed by `ghwt`.
+Worktrees for PROJECT pull request reviews live at `~/projects/worktrees/PROJECT/pr/<PR_NUMBER>/`, managed by `ghwt`.
 
 **Add** — driven by the document.
 
@@ -22,7 +22,7 @@ Note the command is `ghwt rm`, not `ghwt remove`.
 
 ## For Bug/Feature Branches
 
-Worktrees for PROJECT request reviews live at `~/projects/worktrees/PROJECT/branch/<BRANCH_NAME>/`, managed by `ghwt`.
+Worktrees for PROJECT local development branches live at `~/projects/worktrees/PROJECT/branch/<BRANCH_NAME>/`, managed by `ghwt`.
 
 **Add** — driven by the document.
 
