@@ -14,6 +14,8 @@ On a server that rate-limits `/api/` (test.galaxyproject.org: 4 r/s, burst 40), 
 
 Every row is a test on this branch that fails on `release_26.1` at that assertion.
 
+For review, the commits separate [passing component baselines](https://github.com/jmchilton/galaxy/commit/c914bcee537), [failing regressions](https://github.com/jmchilton/galaxy/commit/2eaa5fed2ce), and [the fix with new-helper tests](https://github.com/jmchilton/galaxy/commit/5ce39226753). The regression commit has 41 failing tests on the release implementation; the final branch passes all 123 tests in the 14 changed suites, plus 980 tests across the surrounding 121 suites, typecheck, and pre-commit.
+
 ***This is the retry half of #23977. The per-row `/api/datatypes` requests are fixed in the sibling 🔀 #23995, and the two merge in either order. Owned cards on "My workflows" still fetch `/counts` one by one; batching those needs a new API field, so it's a separate `dev` change, and #23977 stays open until then.***
 
 ***Two retry layers on purpose: the middleware retries a 429 GET up to 3 times over ~3.5–7 s, then the gated stores retry the item up to 3 more times after 1–2, 2–4 and 4–8 s. A persistently rate-limited item still costs at most 16 requests, as on `release_26.1`, but spread over ~20–40 s instead of ~12 s, jittered so concurrent items don't retry together, and respecting `Retry-After`. Dropping 429 from the store layer would undo #21920's fix for #21886.***
@@ -29,10 +31,10 @@ Every row is a test on this branch that fails on `release_26.1` at that assertio
 - **Rate-limiter middleware** (`api/client/rateLimiter.ts`): jittered exponential backoff (base 1 s, ×2 per retry, cap `maxRetryDelay` 5 s); honors a numeric `Retry-After` and gives up when it exceeds the cap; an HTTP-date `Retry-After` no longer retries instantly; returns the last 429 when retries run out, keeping its `Retry-After`.
 - **`useRetryGate`** (`composables/retryGate.ts`, new): per-id failure counts plus a scheduled jittered backoff (base 2 s, cap 30 s). It reports loading while a retry is pending and hides an error until it's final. It replaces three hand-copied `retryCounts` blocks in `useKeyedCache`, `historyStore` and `collectionElementsStore`.
 - **`simple-error.ts`**: shared `parseRetryAfterMs` / `retryBackoffMs`, and `apiErrorFromResponse` so `ApiError` keeps `Retry-After` (used by the history and collection services).
-- **Loading instead of blank / not found** while a retry is pending: `WorkflowInvocationState`, `WorkflowRerun` (which also renders the form after failing to switch history, with the existing "Unable to switch" toast), markdown `HistoryDatasetDetails`, `DatasetPopoverLink` (reads the dataset through the store getter while shown and drops a history preload nothing used). `HistoryExport` uses the error `loadHistoryById` now returns, so a 503 still shows its error.
+- **Loading instead of blank / not found** while a retry is pending: `WorkflowInvocationState`, `WorkflowRerun` (which also renders the form after failing to switch history, with one "Unable to switch" toast including the failure detail), markdown `HistoryDatasetDetails`, `DatasetPopoverLink` (reads the dataset through the store getter while shown and drops a history preload nothing used). `HistoryExport` uses the error `loadHistoryById` now returns, so a 503 still shows its error.
 - **Workflow instance fetches** (`workflowStore.fetchWorkflowForInstanceId`): uses `dedupeInFlight` from `utils/sharedPromise.ts`, so concurrent callers share a failure instead of the second one silently resolving with no data. Invocation grids load histories only through the gated getter and catch fire-and-forget workflow fetches (as does `ObjectPermissions`).
 - **Workflow cards** (`useWorkflowCardBadges.ts`): the count is read only when a count badge can show, so hidden badges no longer fire `/counts`.
-- `utils/sharedPromise.ts` is byte-identical to the copy in #23995 so either merges first; `memoizeUntilRejected` is used there, `dedupeInFlight` here.
+- Uses `dedupeInFlight` from `utils/sharedPromise.ts`, already supplied by merged #23995.
 
 </details>
 
@@ -49,7 +51,7 @@ Follows 🔀 #21920 (made 429 retryable in keyed-cache stores for 🎯 #21886, w
 - [ ] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? While a 429/5xx retry is pending, a loading spinner instead of a blank form, a missing attribute or an error that is then retried; once retries run out (or `Retry-After` exceeds the cap), the existing error alert.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. They count requests at the mock server, time retries under fake timers and check rendered loading/error state; all but the new-utility tests (`retryGate`, `sharedPromise`) fail on `release_26.1`.
+- [x] Are unit tests not just testing the literal implementation? Yes. They count requests at the mock server, time retries under fake timers and check rendered loading/error state; the regression commit has 41 failing tests on `release_26.1`; baseline tests and behavior safeguards also pass there.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 - [x] Which existing workflows change behavior (if any)? None; no workflow semantics change. Workflow-related views (invocations grids, invocation view, rerun, workflow cards) only change how they fetch and what they show while retrying.

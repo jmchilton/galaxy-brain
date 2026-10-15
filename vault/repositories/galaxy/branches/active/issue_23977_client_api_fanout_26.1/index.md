@@ -4,9 +4,15 @@ Status: `branches_ready_for_final_review`. Base: `release_26.1`.
 
 Spaces out client retries and removes hidden counts requests (#23977).
 
-[Codex review](codex_review.md) · [followup workflow counts proposal](followup_workflow_counts_proposal.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
+[Latest review and commit reading order](review_and_history_2026-10-14.md) · [Codex review](codex_review.md) · [followup workflow counts proposal](followup_workflow_counts_proposal.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Polish](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
 
 Sibling [issue_23977_datatypes_fanout_26.1](../../merged/issue_23977_datatypes_fanout_26.1/index.md) merged as [#23995](https://github.com/galaxyproject/galaxy/pull/23995). The branches were split to permit either merge order.
+
+## Latest update — 2026-10-14
+
+Head: `5ce39226753`; base: latest `release_26.1` (`933e342ad1d`). Added a detailed history-switch failure toast and coverage, reviewed the complete diff, and rewrote the fork to three commits: passing component baselines, failing regressions, then the green fix and new-helper tests. [Reading order and evidence](review_and_history_2026-10-14.md).
+
+Final validation: 14 changed suites / 123 tests pass; surrounding suites 121 files / 980 tests pass; typecheck and pre-commit pass. Fork CI is queued on the new head. No upstream PR exists for this branch as of the 2026-10-14 query. Remains `branches_ready_for_final_review`; newly added tests need human review, and approval must be pinned to the new SHA.
 
 ## Problem and resulting behavior
 
