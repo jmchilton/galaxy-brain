@@ -1,0 +1,13 @@
+> Historical follow-up: the incremental invocation-label approach below was superseded by complete cached workflow metadata. See [the final follow-up review](label_resolution_review.md) and [implementation debrief](../implementation_debrief.md).
+
+# Label resolution follow-up
+
+Fixed the browser-discovered label resolution failure. The initial client test challenge used labels in the workflow summary fixture, but the actual workflow instance summary does not supply that field. Its passing tests therefore did not validate the real API data shape. The browser run correctly caught this gap after the numeric aliases worked.
+
+Backend `WorkflowInvocationStep.to_dict` always serializes `order_index` and `workflow_step_label`; `lib/galaxy/schema/invocation.py` declares the fields and the existing stored invocation fixture includes them. Existing invocation step cards already use this metadata for labels. `lib/galaxy/workflow/run.py` creates invocation step records incrementally while scheduling, so a label may arrive after the workflow summary is loaded.
+
+The selection composable now takes valid step IDs from the workflow summary and joins labels from invocation steps by `order_index`. No additional API/download path is introduced. Both URL restoration and normalization defer unresolved label queries while scheduling is incomplete, preserving subordinate job/output selectors. They retry when invocation metadata arrives or scheduling reaches a terminal state. Unknown or ambiguous labels can then be ignored and cleaned normally. Numeric selectors still use all summary step IDs before invocation step metadata arrives, and selector precedence is unchanged.
+
+Updated routed-selection fixtures to match the API: summary steps have IDs/types with no labels; invocation steps provide `workflow_step_label` and arrive in reverse order. Parameterized the existing real router/Pinia lifecycle test over all three incoming aliases. Added regressions for delayed label metadata preserving job/output query fields and unknown-label cleanup once scheduling finishes. Existing pure tests retain unique/ambiguous label and selector precedence coverage.
+
+Validation: the corrected API-shaped fixture produced **3 failed / 16 passed** against the old source (`/tmp/test-challenge-label-red.log`). After the fix, **23 tests passed** (`/tmp/test-challenge-label-green.log`). Files were formatted with Prettier. The parent session owns the fresh browser run, full typecheck and independent quality recheck. Earlier test challenge results remain applicable to their covered behaviors, but its original label fixture assumption has been explicitly corrected here.
