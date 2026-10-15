@@ -40,3 +40,12 @@ Checked against the base: the 4 regressions fail there with 500/403/403/400, and
 - Possible `dev` follow-up, not in this PR: have `__get_history_collection_instance` raise `ObjectNotFound`, which would make the HDCA pre-check unnecessary.
 - Out of scope, left as is: an `ld` whose LDDA association is missing still hits `assert ldda` and returns 403.
 - Early validation, and the empty history left behind by a failing `new_history_name` request, stay with `issue_20900_invocation_validation`.
+
+## Follow-up from John's review (test duplication)
+
+John asked to move test duplication into the workflow populator and add a `with self._different_user_history() as other_history_id:` abstraction. He confirmed the name `_different_user_history`, to match `_different_user`; his message had `_different_users_history`.
+
+- `WorkflowPopulator.invoke_single_input_workflow_raw` replaces the hand-built request dicts and the test-class workflow helper. It builds on `invoke_workflow(..., inputs_by="name")`.
+- `_different_user_history(email=None)` lives in `UsesApiTestCaseMixin`.
+- At John's request, a separate commit `99a44f7d604` converts the existing sites. 8 converted. 3 create-only sites act as the main user after the block, so they stay on `_different_user()`: `test_histories.py` `test_other_users_history_is_forbidden`, `test_workflows.py` (run into another user's history) and `test_wes.py`. Converting them would need empty `with` blocks.
+- Verified: 18 pass, covering the new tests plus all converted tests. On base code the 4 regressions still fail at the status assertion and the 4 controls pass. black, isort, ruff and pre-commit hooks pass; mypy reports no errors in `galaxy_test`.

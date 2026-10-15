@@ -25,6 +25,9 @@ Each old response points the client somewhere wrong. The HDA case is a server cr
   - `hda_manager.get_accessible` takes roles from a different source and drops the step label.
   - `library_dataset_manager.get(check_accessible=True)` would also 404 deleted library datasets, which resolve today.
   - Changing `get_dataset_collection_instance` to raise `ObjectNotFound` touches its 17 call sites and the report-rendering test that asserts its 400 text (`test_workflows.py:4530`). That could be a separate `dev` change.
+- Test helpers:
+  - `WorkflowPopulator.invoke_single_input_workflow_raw(history_id, src, input_id)` uploads a step-less workflow with one `data` or `collection` input and invokes it with that input reference, using the existing `invoke_workflow`.
+  - `_different_user_history()` (beside `_different_user()` in `galaxy_test/base/api.py`) acts as another user and yields a new history they own. A second commit uses it at the 8 existing sites that did `with self._different_user(): x = new_history()` and kept working as that user.
 
 </details>
 
