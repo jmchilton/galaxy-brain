@@ -1,0 +1,4 @@
+- Fix full Tool Shed ID lookup in tool search and browser helpers
+- Find installed Tool Shed tools by full GUID
+- Support Tool Shed GUIDs in tool panel and card selectors
+- Fix literal tool ID searches and GUID navigation selectors

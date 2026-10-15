@@ -84,7 +84,6 @@ None yet.
 - [`optional_input_gating`](../../repositories/galaxy/branches/active/optional_input_gating/index.md) — Runs workflow steps only when their optional inputs are present. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:optional_input_gating?expand=1).
 - [`api_gotchas`](../../repositories/galaxy/branches/active/api_gotchas/index.md) — Documents API client best practices for external projects, plus a review rubric for API-driven work. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:api_gotchas?expand=1).
 - [`ag_grid_36`](../../repositories/galaxy/branches/active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
-- [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_open_tool_shed_ids?expand=1).
 - [`issue_3899_pulsar_container_deps`](../../repositories/galaxy/branches/active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_3899_pulsar_container_deps?expand=1).
 - [`pulsar_mq_status_poll`](../../repositories/galaxy/branches/active/pulsar_mq_status_poll/index.md) — Opt-in `status_poll_interval` asks Pulsar MQ to resend lost job statuses; stops double finishes (revives #9911). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:pulsar_mq_status_poll?expand=1).
 
@@ -94,6 +93,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_open_tool_shed_ids?expand=1).
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin and agent HTTP inference with a local provider; preserves configurable inference settings. [#24051](https://github.com/galaxyproject/galaxy/pull/24051). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:plugins_test_fake_provider?expand=1).
 - [`issue_19049_collection_type_picker`](../../repositories/galaxy/branches/active/issue_19049_collection_type_picker/index.md) — Adds select-or-text collection types and fixes workbook template browser selection. [#24055](https://github.com/galaxyproject/galaxy/pull/24055). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19049_collection_type_picker?expand=1).
 
