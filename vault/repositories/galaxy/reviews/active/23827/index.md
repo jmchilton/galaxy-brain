@@ -1,6 +1,6 @@
 # galaxy #23827 — Import datasets and collections from another Galaxy with a link
 
-**Latest status — 2026-10-15:** Initial review delivered; author fixes unverified; John’s two follow-up scope decisions remain pending. Live head: `4216e350ea93c8f03adb06a648cb249d35a2eeeb`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+**Latest status — 2026-10-15:** John responded and approved; awaiting merge; no response due from John. GitHub comments/reviews verified; no new code validation performed.
 
 [PR #23827](https://github.com/galaxyproject/galaxy/pull/23827) · Status: active; initial review and independent confirmation complete. **Both confirmed findings posted by John; ball with author.** Initial recommendation: request changes. GitHub checked 2026-10-11: open, out of draft.
 
@@ -35,3 +35,7 @@ Open, ready; live HEAD `5c59cde64a2a7bce94c0a171f6f118eadbf97309`. CI snapshot: 
 ## Morning check — 2026-10-14
 
 Open, ready; live head `a113532f91e8bbe071d45e17e6fcd87a19d220d6`. CI: 2 failure, 2 skipped, 54 success. Author reports both fixes and says the link-based scope was agreed at Tuesday’s meeting, with the picker and scoped tokens later. John’s explicit decision is requested: can the analogous `histories/from_store_async` discarded-data policy fix and persisting task IDs across reloads both be separate PRs? Author fixes remain unverified; current failed checks have not been attributed in this refresh.
+
+## John’s response — 2026-10-15
+
+John [responded](https://github.com/galaxyproject/galaxy/pull/23827#issuecomment-6203918285) at 22:50:54 UTC and formally approved at 22:51:04 UTC on head `4216e350ea93c8f03adb06a648cb249d35a2eeeb`. He noted concerns about UI space and adjacent copy/download choices, while offering no better short-term approach. Per John’s instruction, the response/scope decision is no longer pending. Open; approved and awaiting merge. No independent fix revalidation performed.

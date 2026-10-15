@@ -1,6 +1,6 @@
 # Galaxy #24101 — Standalone widgets
 
-**Latest status — 2026-10-15:** Review delivered by John; ready with a new head; author reports truncation warning fixed, unverified. Live head: `103ef9f4a9335bb461b39957663d6d4afe3793ce`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+**Latest status — 2026-10-15:** John responded; waiting on Sam (guerler) to address mvdbeek’s review; no response due from John. GitHub comments/reviews verified; no new code validation performed.
 
 [PR #24101](https://github.com/galaxyproject/galaxy/pull/24101) · Initial review complete; **request changes for one P2 (silent graph truncation)**. Delivery: **unposted**. Open, draft; final state checked 2026-10-14.
 
@@ -16,3 +16,7 @@ John selected this PR on 2026-10-14. Review performed directly, preserving his e
 ## Vault sync
 
 `make validate` passes: 122 files, zero errors, 15 advisory warnings. This review batch is checkpointed locally. Push remains pending because 92 preceding local commits include unrelated batches, which VAULT_SYNC.md forbids publishing. Other workspace changes were preserved.
+
+## John’s response — 2026-10-15
+
+John [accepted the discovery explanation](https://github.com/galaxyproject/galaxy/pull/24101#issuecomment-6203973688) at 22:54:57 UTC and explicitly identified Sam’s response to mvdbeek’s review as the remaining dependency. Ball with Sam; no follow-up from John is due.
