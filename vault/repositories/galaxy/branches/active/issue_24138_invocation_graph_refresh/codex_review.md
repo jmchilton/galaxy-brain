@@ -2,6 +2,8 @@
 
 Acted on the only finding, which I confirmed. `rerunWhileBusy` cached a rejection forever when `fn` threw synchronously. The async IIFE's `finally` cleared `running` before the rejected promise was assigned to it. I added a red→green test and fixed it in `73ace916183`: `callAsync` + `.finally()`, the same pattern as `dedupeInFlight`. The invocation-graph caller is async, so it was never affected in practice.
 
+That first fix moved cleanup to `.finally()`. It opened a one-microtask window where a call made as the run finished was dropped. I revised it in `27d72f8b62d`: cleanup is back in the IIFE's own `finally`, `callAsync` still handles the sync throw, and a red→green late-call test covers it.
+
 Not acted on: nothing. There were no other findings.
 
 <details><summary>Full review</summary>

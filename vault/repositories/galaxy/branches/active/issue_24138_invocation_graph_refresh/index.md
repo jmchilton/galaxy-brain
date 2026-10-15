@@ -10,7 +10,7 @@ Worktree: `~/projects/worktrees/galaxy/branch/issue_24138_invocation_graph_refre
 
 [Implementation debrief](implementation_debrief.md) · [Initial debrief](initial_implementation_debrief.md) · [Review](subagents/normal_review.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Scope](scope_evaluation.md) · [Screenshots](screenshot_debrief.md)
 
-Head `ca1e78f57cf` (6 commits). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
+Head `27d72f8b62d` (7 commits). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
 
 ## Notes
 
