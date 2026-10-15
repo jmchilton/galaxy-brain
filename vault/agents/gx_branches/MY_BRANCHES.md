@@ -116,6 +116,7 @@ None yet.
 
 ## Galaxy branches — still deciding on (`branches_need_decision`)
 
+- [`invocation_graph_color_swatch`](../../repositories/galaxy/branches/active/invocation_graph_color_swatch/index.md) — Shows the color swatch for color parameter inputs in the invocation graph. Code/reviews done; blocked only on screenshots (ports held by another session) — rerun screenshot step, then treat as implemented. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_color_swatch?expand=1).
 - [`nightly_release_targets_alternative`](../../repositories/galaxy/branches/active/nightly_release_targets_alternative/index.md) — Cross-release nightly alternative John rejected as too verbose; retained for Marius feedback. Reference only; do not PR.
 - [`vitest_readability_with_churn`](../../repositories/galaxy/branches/active/vitest_readability_with_churn/index.md) — Preserves the readability history before score-2 pruning. Reference only; do not PR.
 - [`vitest_story_a11y`](../../repositories/galaxy/branches/active/vitest_story_a11y/index.md) — Storybook axe checks and viewport review tools; reference-only prototype stacked on `vitest_story_play`. Do not PR.
