@@ -1,6 +1,6 @@
 # invocation_graph_e2e
 
-Status: PR open, [#24164](https://github.com/galaxyproject/galaxy/pull/24164) (`ready`), opened 2026-10-15 at John's request, out of draft. Title: "Add E2E tests for the invocation graph". Screenshots hosted on `jmchilton/pr-assets-invocation_graph_e2e`. Base: `dev` (`c63ffc2ccae`). Fork branch: `jmchilton/invocation_graph_e2e` @ `7d2439be1c4`.
+Status: `ci_wait`. PR: [#24164](https://github.com/galaxyproject/galaxy/pull/24164) (draft; automatically undraft when CI is green, per John). Title: "Add E2E tests for the invocation graph". Screenshots hosted on `jmchilton/pr-assets-invocation_graph_e2e`. Base: `dev` (`c63ffc2ccae`). Fork branch: `jmchilton/invocation_graph_e2e` @ `7d2439be1c4`.
 Worktree: `~/projects/worktrees/galaxy/branch/invocation_graph_e2e`.
 
 Adds browser tests for the workflow invocation Overview graph (Selenium + Playwright). Source issue draft (PR-first, not filed): [proposed_invocation_graph_no_e2e_coverage](../../../../../agents/gx_issues/internally_managed/proposed_invocation_graph_no_e2e_coverage.md).
@@ -13,3 +13,9 @@ Adds browser tests for the workflow invocation Overview graph (Selenium + Playwr
 ## Decisions
 
 - Live-update graph test kept off this branch: intermittently red on dev until the [#24138 fix](../issue_24138_invocation_graph_refresh/index.md) lands.
+
+## Draft pending CI — 2026-10-15
+
+John switched [#24164](https://github.com/galaxyproject/galaxy/pull/24164) to draft and explicitly requested CI monitoring and automatic promotion out of draft when CI is green. This supersedes the earlier out-of-draft opening instruction. Track in `ci_wait`; on a later queue refresh, re-query the current head and checks, take the PR out of draft once CI is green, and move it to `ready` without asking again. No separate human decision is needed for that transition.
+
+Live verification: open, draft, mergeable against `dev`, head `7d2439be1c44aa627c67e70cf255cd64d094c6b7`. GitHub Actions checks are queued; CircleCI is green. No GitHub draft-state change was needed during this tracking update.
