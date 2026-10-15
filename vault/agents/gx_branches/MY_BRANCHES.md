@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+PR #24142 refreshed 2026-10-14: requested non-draft bug-fix PR opened against `release_26.2`; head `e9ef7bf7f1c`, mergeable, CI pending.
+
 PR #24141 refreshed 2026-10-14: requested draft opened against `release_26.1`; head `5ce39226753`, CI pending. Keep draft until requested otherwise.
 
 PR #24050 refreshed 2026-10-14: latest review fixes pushed at `88ac10202d8`; mergeable against `release_26.2`, fresh CI queued. [Vue 3 migration guide](VUE3_COMPONENT_MIGRATION.md).
@@ -24,6 +26,7 @@ Queue snapshot refreshed from GitHub 2026-10-14. [TICK findings and actions](TIC
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
 - [`issue_11743_copy_tags_iterable`](../../repositories/galaxy/branches/active/issue_11743_copy_tags_iterable/index.md) — Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743). [#23973](https://github.com/galaxyproject/galaxy/pull/23973).
 - [`sample_sheet_vue3`](../../repositories/galaxy/branches/active/sample_sheet_vue3/index.md) — Moves sample sheet grids to Vue 3 patterns and fixes editing, validation and reloads. [#24050](https://github.com/galaxyproject/galaxy/pull/24050).
@@ -93,7 +96,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md) — Finds Tool Shed tools by full GUID through tool panel search and tool card selectors. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_open_tool_shed_ids?expand=1).
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin and agent HTTP inference with a local provider; preserves configurable inference settings. [#24051](https://github.com/galaxyproject/galaxy/pull/24051). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:plugins_test_fake_provider?expand=1).
 - [`issue_19049_collection_type_picker`](../../repositories/galaxy/branches/active/issue_19049_collection_type_picker/index.md) — Adds select-or-text collection types and fixes workbook template browser selection. [#24055](https://github.com/galaxyproject/galaxy/pull/24055). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19049_collection_type_picker?expand=1).
 

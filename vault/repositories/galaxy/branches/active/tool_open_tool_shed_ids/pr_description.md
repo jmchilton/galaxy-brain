@@ -10,7 +10,7 @@ Pasting an installed tool’s full ID into an `id:` search should find that tool
 
 ***The user-facing change is literal substring matching in tool search; the selector changes support browser automation against existing tool links and cards.***
 
-![Full GUID search finds the installed Tool Shed tool](screenshots/tool_panel_search_by_tool_shed_id.png)
+![Full GUID search finds the installed Tool Shed tool](https://raw.githubusercontent.com/jmchilton/galaxy/pr-assets-tool_open_tool_shed_ids/screenshots/tool_panel_search_by_tool_shed_id.png)
 
 ***The regression fixture is a special-form tool: the tests prove GUID lookup and card controls, while its existing hidden-frame form-opening behavior remains a separate issue.***
 
@@ -20,7 +20,7 @@ Search uses literal substring comparisons consistently, so punctuation in Tool S
 
 The search unit test includes a full GUID with `.`, `/` and `+`. Two Integration Selenium tests install `iuc/compose_text_param` 0.1.1 from the main Tool Shed, then exercise panel lookup and the Discover Tools card, version and favorite buttons, and help toggle. These tests depend on Tool Shed availability and can skip when it is unavailable. The special-form fixture has no card Open button, so that selector is not directly covered by this fixture.
 
-![Discover Tools card help reached using a full GUID selector](screenshots/tools_list_tool_shed_tool_help.png)
+![Discover Tools card help reached using a full GUID selector](https://raw.githubusercontent.com/jmchilton/galaxy/pr-assets-tool_open_tool_shed_ids/screenshots/tools_list_tool_shed_tool_help.png)
 
 </details>
 
@@ -60,7 +60,7 @@ That review ran before the card-selector fold-in. The fold-in received a separat
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? A full-ID search finds no matching tool; browser helpers time out or report an invalid selector.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes; the GUID case asserts the returned tool.

@@ -1,6 +1,6 @@
 # tool_open_tool_shed_ids
 
-Status: `branches_ready_for_final_review`. Base: `dev`. No PR.
+Status: `ready`. Base: `release_26.2`. PR: [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
 
 Lets tool panel search, the `tool_panel` selectors, and the `tools_list` card selectors find Tool Shed tools by their full GUID id. Covered by `integration_selenium` E2E tests.
 
@@ -38,3 +38,11 @@ Requested failed-job reruns for recorded unrelated failures: [run 38167310135](h
 - Pre-rebase client tests/lint, Integration Selenium, Playwright and other relevant checks pass. Latest package rerun now fails on an unrelated `galaxy/security/ssh_util.py:18` call to untyped `publickey`, rather than the earlier Pulsar collection error ([run](https://github.com/jmchilton/galaxy/actions/runs/38167310135)). Skipped CWL/Pulsar-package workflows do not exercise this client/selector change. New-head CI pending.
 - Polish completed: general checklist passed except the human-read item; one fresh strengthening round returned “nothing to add.” No implementation changes beyond the conflict-free rebase. Focused search tests: 25 passed.
 - New-head CI is queued ([Integration Selenium](https://github.com/jmchilton/galaxy/actions/runs/38674312084), [client tests](https://github.com/jmchilton/galaxy/actions/runs/38674311980), [Playwright](https://github.com/jmchilton/galaxy/actions/runs/38674312188)); no PR opened. Await John's final read-through, title selection and SHA approval.
+
+## Release bug-fix PR — 2026-10-14
+
+- John explicitly requested rebasing onto `release_26.2` and opening a bug-fix PR. His reviewed description has the human-read item checked, and his selected title is `[26.2] Fix full Tool Shed ID lookup in tool search and browser helpers`.
+- Rebased without conflicts from `cddb6503a6eccfc82f57d1bf1eb96097f6535ff0` onto `release_26.2` at `f9cf361962e1f75aba94c55f6e68bb0f5ff56a15`. New head: `e9ef7bf7f1cd433fa136eed83b598064b390fc5e`. Range-diff confirms the identical four-file bug-fix patch (+66/-18), with no dev-only commits. Pushed to `jmchilton` with an explicit lease.
+- Focused search suite rerun on the release-based head: 25 passed; diff whitespace check clean.
+- Hosted the two prepared screenshots on `jmchilton/galaxy` branch `pr-assets-tool_open_tool_shed_ids` at `a2701b7`; the only description changes were replacing the relative screenshot paths with raw fork URLs.
+- Opened non-draft [PR #24142](https://github.com/galaxyproject/galaxy/pull/24142) directly as requested. Confirmed `release_26.2`, head `e9ef7bf7f1c`, open and mergeable. Initial upstream CI is queued/in progress; no new-head green CI is claimed. [Client unit tests](https://github.com/galaxyproject/galaxy/actions/runs/38675686043) · [Integration Selenium](https://github.com/galaxyproject/galaxy/actions/runs/38675685855).
