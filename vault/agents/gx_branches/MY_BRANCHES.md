@@ -67,7 +67,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`invocation_graph_e2e`](../../repositories/galaxy/branches/active/invocation_graph_e2e/index.md) — Browser tests for the invocation Overview graph (states, step card, isolate, Show Connections, Step Config, search); 6 pass on both backends. Base `dev`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_e2e?expand=1).
 - [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Returns 404 for missing HDA, LDDA, library dataset, and history collection inputs; independent #20900 extraction, reviewed with 5 API checks passing.
 - [`vitest_real_api_calls`](../../repositories/galaxy/branches/active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`integration_ci_scope`](../../repositories/galaxy/branches/active/integration_ci_scope/index.md) — Selects costly plugin suites from changed paths; helpers and guide live beside integration tests. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:integration_ci_scope).
@@ -99,6 +98,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`invocation_graph_e2e`](../../repositories/galaxy/branches/active/invocation_graph_e2e/index.md) — Browser tests for the invocation Overview graph (states, step card, isolate, Show Connections, Step Config, search). Base `dev`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_e2e?expand=1).
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_parameter_expected_failure?expand=1).
 - [`invocation_graph_color_swatch`](../../repositories/galaxy/branches/active/invocation_graph_color_swatch/index.md) — Shows the color swatch for color parameter inputs in the invocation graph. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_graph_color_swatch?expand=1).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_unknown_scheduler?expand=1).
