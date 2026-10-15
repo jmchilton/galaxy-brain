@@ -67,6 +67,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Returns 404 for missing HDA, LDDA, library dataset, and history collection inputs; independent #20900 extraction, reviewed with 5 API checks passing.
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Classifies invalid workflow parameters as expected scheduler failures; independent #20900 extraction, reviewed with 194 workflow unit tests passing.
 - [`invocation_no_add_to_history_false`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false/index.md) — Honors explicit false when copying workflow inputs across histories; independent #20900 extraction, reviewed with 3 API cases passing.
 - [`vitest_real_api_calls`](../../repositories/galaxy/branches/active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).

@@ -26,4 +26,6 @@ John requested four independent dev-based fixes before the larger validation bra
 
 - [Expected parameter failures](../invocation_parameter_expected_failure/index.md): pushed as `invocation_parameter_expected_failure`; reviewed and 194 workflow unit tests passed (1 skipped).
 
-Missing-input 404s and unknown-scheduler rejection are being extracted separately. These extractions do not resolve the broader branch's recorded validation regressions or conflicts.
+- [Missing invocation input 404s](../invocation_missing_input_404/index.md): pushed as `invocation_missing_input_404`; reviewed, four missing-input cases and a valid collection invocation passed.
+
+Unknown-scheduler rejection is being extracted separately. These extractions do not resolve the broader branch's recorded validation regressions or conflicts.
