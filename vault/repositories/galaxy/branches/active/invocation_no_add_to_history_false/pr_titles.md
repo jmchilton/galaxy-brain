@@ -1,0 +1,4 @@
+- [26.2] Honor explicit `no_add_to_history: false` when invoking workflows
+- [26.2] Fix `no_add_to_history: false` skipping input copy on workflow invocation
+- [26.2] Copy workflow inputs into the target history unless `no_add_to_history` is true
+- [26.2] Read `no_add_to_history` by value, not presence, in workflow invocations

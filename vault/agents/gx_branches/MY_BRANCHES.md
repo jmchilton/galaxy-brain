@@ -98,13 +98,14 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`invocation_no_add_to_history_false`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false/index.md) — Honors explicit `no_add_to_history: false` when copying workflow inputs across histories. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_no_add_to_history_false?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24138_invocation_graph_refresh?expand=1).
 - [`plugins_test_fake_provider`](../../repositories/galaxy/branches/active/plugins_test_fake_provider/index.md) — Tests plugin and agent HTTP inference with a local provider; preserves configurable inference settings. [#24051](https://github.com/galaxyproject/galaxy/pull/24051). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:plugins_test_fake_provider?expand=1).
 - [`issue_19049_collection_type_picker`](../../repositories/galaxy/branches/active/issue_19049_collection_type_picker/index.md) — Adds select-or-text collection types and fixes workbook template browser selection. [#24055](https://github.com/galaxyproject/galaxy/pull/24055). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_19049_collection_type_picker?expand=1).
+- [`invocation_no_add_to_history_false`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false/index.md) — Honors explicit `no_add_to_history: false`/`null` when copying workflow inputs into the target history. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_no_add_to_history_false?expand=1).
 
 - [`fix_story_a11y`](../../repositories/galaxy/branches/active/fix_story_a11y/index.md) — Repairs Storybook-audited accessibility issues across shared controls, forms, collections and workflows. [#24046](https://github.com/galaxyproject/galaxy/pull/24046).
 - [`upload_datatypes_composable`](../../repositories/galaxy/branches/active/upload_datatypes_composable/index.md) — Replaces upload datatype/dbkey providers with composables and shows load failures instead of empty selectors. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upload_datatypes_composable?expand=1).
