@@ -64,4 +64,6 @@ pnpm type-check
 
 Final related Vitest run: 4 files / 29 tests passed. Final type check passed. Fresh self-hosted lineage API test run: 2 passed, including the required-context serializer cleanup, without depending on the browser server runtime.
 
-Final screenshot replay passed (1 test, 107.84s); six captures inspected and saved locally under `screenshots/`. Both isolated servers were stopped after validation. Source branch head `e929301db3b` is pushed and clean.
+Final screenshot replay passed (1 test, 107.84s); six captures inspected and saved locally under `screenshots/`. Both isolated servers were stopped after validation. Source branch head `fae0d714906` is pushed and clean.
+
+Helper-reuse revision validation: both affected lineage API tests passed against a fresh self-hosted Galaxy instance (2 passed, 40.33 seconds; `/tmp/issue24174-helper-api.log`). Normal revision review was clean and commit hooks passed.

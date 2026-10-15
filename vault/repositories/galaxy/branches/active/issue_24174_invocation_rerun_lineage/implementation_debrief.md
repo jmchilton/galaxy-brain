@@ -1,27 +1,23 @@
 # Implementation debrief
 
-**STATUS: READY.** Implemented issue [#24174](https://github.com/galaxyproject/galaxy/issues/24174), reviewed and pushed to [`jmchilton/issue_24174_invocation_rerun_lineage`](https://github.com/jmchilton/galaxy/tree/issue_24174_invocation_rerun_lineage). Head `e929301db3b`, five commits on `dev` at `88127f42979`. Ready for human review and CI; no PR opened.
+**STATUS: READY.** Issue [#24174](https://github.com/galaxyproject/galaxy/issues/24174), pushed to [`jmchilton/issue_24174_invocation_rerun_lineage`](https://github.com/jmchilton/galaxy/tree/issue_24174_invocation_rerun_lineage). Head `fae0d714906`, six commits on `dev` at `88127f42979`. Awaiting CI and human review.
 
-## Result and decisions
+## Requested revision
 
-- A nullable indexed self foreign key records the immediate source invocation, with a reversible migration and `ON DELETE SET NULL`. Invoke requests validate source access before creating run configurations; every batch invocation gets the same source.
-- Collection responses expose an inexpensive rerun marker. Element responses return access-filtered source and latest accessible direct-rerun links. Both simple and expanded run forms submit their immediate source; invocation pages and both list views display lineage.
-- Reusable request exports omit lineage, and model-store imports discard local lineage IDs. Keep direct lineage as implemented: no transitive grouping, edited-step marker, or archive remapping in this change. The [scope evaluation](scope_evaluation.md) recommends keeping scope; no user decision is required.
+The two rerun lineage API tests now reuse existing populator helpers: `get_invocation`, `invocation_to_request`, `history_invocations`, and `update_history`. The explicit element-view listing stays direct because the history-list helper does not accept a view parameter. The history-update response still has its explicit 200 assertion. No helper implementation or production behavior changed.
 
-## Validation
+Both affected API tests passed against a fresh Galaxy instance (**2 passed**, 40.33 seconds). All commit hooks and diff checks passed. [Normal revision review](subagents/helper_revision_review.md) found no issues and verified helper return values, defaults, status checks, and switched-user authentication. Previous debrief archived at [earlier draft 4](earlier_drafts/4/implementation_debrief.md).
 
-- API: **2 passed**, including source validation/access changes, batch propagation, source/latest links, successor fallback, and independent request replay. Final fresh self-hosted run verifies the required-context serializer cleanup.
-- SQLite migration and model-store regression: **2 passed**. Covers existing rows, nullability/index/FK, delete SET NULL, downgrade, export omission, and ignored imported IDs.
-- Related client suites: **29 passed across 4 files**; final type check passed. Rebuilt generated API declarations first. This machine's Node 25 needs `NODE_OPTIONS=--no-experimental-webstorage` for happy-dom tests.
-- Final Playwright E2E: **1 passed in 107.84 seconds**. I → J through the simple form, J → K through the expanded form, reload persistence, both link directions, card badges, and exact grid markers. [Six screenshots](screenshot_debrief.md) captured and visually inspected; images are local ignored artifacts.
-- All commit hooks and final diff checks passed. Source worktree is clean and matches the pushed branch.
+## Final implementation and scope
 
-## Finalize procedure
+A nullable indexed self foreign key stores each invocation's immediate rerun source, with a reversible migration and `ON DELETE SET NULL`. Source access is validated before creating runs; batch runs share the source. Element responses expose accessible source/latest direct-rerun links, collection responses expose a rerun marker, and both workflow run forms and both invocation lists carry/display lineage.
 
-[Initial implementation](initial_implementation_debrief.md), [backend normal review](subagents/backend_review.md), [client normal review](subagents/client_review.md), [test challenges](test_challenges_debrief.md), [E2E polish](polish_e2e_tests_debrief.md), [strict quality review](thermo_nuclear_review.md), [scope evaluation](scope_evaluation.md), and [screenshots](screenshot_debrief.md) are complete. Findings were addressed: consistent element serialization, mandatory serializer context, real browser coverage replacing shallow mocks, and portable/stable browser assertions and captures. The Claude-specific Codex-review step does not apply to this Codex implementation.
+Request exports remain independent replay templates; model-store imports discard database-local lineage. The [scope evaluation](scope_evaluation.md) recommends keeping direct lineage without transitive grouping, edited-step metadata, or import remapping.
 
-## Handoff and limits
+## Validation and handoff
 
-Registered under `branches_implemented_needs_ci` in the Galaxy branch queue. CI and PostgreSQL migration execution remain pending; SQLite migration behavior was exercised locally. [Testing commands](testing_environment.md) and the worktree/dependencies are retained; the isolated test servers were stopped after validation.
+Prior feature validation remains applicable: **2 SQLite migration/model-store tests**, **29 client tests across 4 files**, type checking, and **1 Playwright E2E** passed. [Six inspected screenshots](screenshot_debrief.md) are retained; this revision changed only two API tests and did not require fresh screenshot or test-challenge stages.
 
-Vault validation passed with zero errors (15 advisory backlink warnings), and dashboard drift check passed. An index check detected unrelated drift from the separately added `workflow_applications` project; this task changed no note frontmatter and left that generated file and other agents' work untouched.
+The complete initial finalize procedure is recorded in the [initial implementation](initial_implementation_debrief.md), [backend review](subagents/backend_review.md), [client review](subagents/client_review.md), [test challenges](test_challenges_debrief.md), [E2E polish](polish_e2e_tests_debrief.md), [strict review](thermo_nuclear_review.md), [scope evaluation](scope_evaluation.md), and [screenshots](screenshot_debrief.md). The new normal review completes the revision procedure.
+
+The existing `branches_implemented_needs_ci` queue entry remains current. CI and PostgreSQL migration execution remain pending. Worktree and [testing setup](testing_environment.md) are retained; no PR was opened by this implementation session.
