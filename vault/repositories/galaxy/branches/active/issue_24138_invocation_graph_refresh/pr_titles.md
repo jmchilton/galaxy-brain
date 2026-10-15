@@ -1,0 +1,4 @@
+- [26.2] Keep invocation step states current while the invocation runs
+- [26.2] Fix Steps tab headers freezing on a running invocation
+- [26.2] Invocation step states follow the page's poll, with an O(n) graph refresh
+- [26.2] Fix frozen invocation step headers and make graph refreshes linear

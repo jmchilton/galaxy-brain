@@ -1,6 +1,6 @@
 # issue_24138_invocation_graph_refresh
 
-Status: implemented, needs CI. Base: `release_26.2` (regression since 25.1; touched files identical on `dev`).
+Status: ready for final review. Base: `release_26.2` (regression since 25.1; merges cleanly into `dev`).
 
 Fixes [#24138](https://github.com/galaxyproject/galaxy/issues/24138) (Steps tab headers freeze while an invocation runs) and the refresh-cost part of [#22745](https://github.com/galaxyproject/galaxy/issues/22745) (O(n²) graph refresh). Doesn't claim to fix #22745's zoom/pan freeze, which hasn't been browser-profiled. The PR shouldn't auto-close #22745.
 
@@ -10,7 +10,16 @@ Worktree: `~/projects/worktrees/galaxy/branch/issue_24138_invocation_graph_refre
 
 [Implementation debrief](implementation_debrief.md) · [Initial debrief](initial_implementation_debrief.md) · [Review](subagents/normal_review.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Scope](scope_evaluation.md) · [Screenshots](screenshot_debrief.md)
 
-Head `27d72f8b62d` (7 commits). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
+**[PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist](checklist_evaluation.md)**
+
+Head `ba66af56c5c` (8 commits, rebased onto `release_26.2` 2026-10-15). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
+
+## CI
+
+Fork CI 2026-10-15. Backend workflows ran on `3498376357c`; the last two commits are client-only, so those results stand.
+- Test Galaxy packages (run 38678935300), unrelated: mypy `galaxy/security/ssh_util.py:18` untyped `publickey`, outside the diff. Fixed on base by `c4a38b08eae` (#24136); cleared by a rebase.
+- Integration (run 38678935272), unrelated: Launchpad `GPGKeyTemporarilyNotFoundError` (HTTP 500), infra.
+- Client unit, client lint, toolshed, startup green on `27d72f8b62d`; its Playwright and Integration Selenium runs were cancelled by the polish force-push. Fresh run pending on `ba66af56c5c`; the new E2E has local runs only so far.
 
 ## Notes
 
