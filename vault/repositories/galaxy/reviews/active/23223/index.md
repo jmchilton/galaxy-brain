@@ -1,5 +1,7 @@
 # Galaxy #23223 — Docker user from OIDC token claims
 
+**Latest status — 2026-10-15:** Draft; TPV recommended; ball with author. Live head: `8afbc3efc09ca3d746dfc315320be5570a801de6`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 [PR #23223](https://github.com/galaxyproject/galaxy/pull/23223) · Status: draft; recorded reply/scope decision remains, merge on hold. GitHub state checked 2026-10-09: open, out of draft.
 
 [Original review and merge-readiness assessment](review.md) · [Follow-up implementation and reviews](followup_branch_review.md) · [Latest-commits review](latest_commits_review.md) · [Follow-up PR description](pr_description.md)

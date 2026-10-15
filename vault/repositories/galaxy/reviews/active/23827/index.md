@@ -1,5 +1,7 @@
 # galaxy #23827 — Import datasets and collections from another Galaxy with a link
 
+**Latest status — 2026-10-15:** Initial review delivered; author fixes unverified; John’s two follow-up scope decisions remain pending. Live head: `4216e350ea93c8f03adb06a648cb249d35a2eeeb`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 [PR #23827](https://github.com/galaxyproject/galaxy/pull/23827) · Status: active; initial review and independent confirmation complete. **Both confirmed findings posted by John; ball with author.** Initial recommendation: request changes. GitHub checked 2026-10-11: open, out of draft.
 
 Reviewed HEAD: `f6278fb4e50a4289def49b73d29a77745883afb4` (base `dev`). Author: arash77.

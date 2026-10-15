@@ -1,5 +1,7 @@
 # galaxy #24018 — [WIP] Multiplatform compute support
 
+**Latest status — 2026-10-15:** Draft; review delivered; ball with author. Live head: `711d2e4f1a701b4063ab5eaf991fe9b4ce7d2d56`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 [PR #24018](https://github.com/galaxyproject/galaxy/pull/24018) · Status: active; initial review delivered by John as a PR comment. Open and draft; ball with author. GitHub state and unchanged HEAD rechecked 2026-10-11.
 
 - [Initial review, findings, validation, and risk assessment](review-2026-10-10.md)

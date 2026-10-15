@@ -1,5 +1,7 @@
 # galaxy #23560 — Enhance RO-Crate exports with FAIR metadata and provenance
 
+**Latest status — 2026-10-15:** Draft; prior review delivered; re-review when ready. Live head: `c5384b3eb3fcae051a9d273aaf7aa657d8028e0e`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 [PR #23560](https://github.com/galaxyproject/galaxy/pull/23560) · Status: active; open draft. GitHub state checked 2026-10-09.
 
 [Review and history](review.md)

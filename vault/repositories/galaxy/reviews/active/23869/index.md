@@ -1,5 +1,7 @@
 # galaxy #23869 — Update datatypes_conf with visualization tags already supported
 
+**Latest status — 2026-10-15:** Review draft unposted; compressed-default finding overlaps Marius’s review; revise before posting. Live head: `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 [PR #23869](https://github.com/galaxyproject/galaxy/pull/23869) · Status: active; initial review complete. Recommendation: request changes (two P2 findings). Delivery: unposted. Open, out of draft; GitHub checked 2026-10-11.
 
 Reviewed HEAD: `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`, base `dev`. Author: mertydn. Final HEAD unchanged.

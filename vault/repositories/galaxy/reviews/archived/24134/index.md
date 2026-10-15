@@ -1,5 +1,7 @@
 # PR #24134 — Run Python test suites with pytest-xdist
 
+**Latest status — 2026-10-15:** Merged at 2026-10-15T15:58:43Z; tracking ended. Review draft was not posted by this agent. Clean worktree HEAD exactly matched the merged PR head; removed with `ghwt rm` under the no-upstream exception.
+
 - PR: https://github.com/galaxyproject/galaxy/pull/24134
 - Review date: 2026-10-15.
 - Reviewed commit: `63617b34db7b5f3396a9fe75779fe2136258dcff`, targeting `release_26.2`.

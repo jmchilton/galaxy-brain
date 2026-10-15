@@ -1,5 +1,7 @@
 # Galaxy #24089 — Curated workflows: run-here awareness, quieter cards, and catalog fixes
 
+**Latest status — 2026-10-15:** Approved by John; subsequent author/Marius changes unverified. Live head: `38bb39c095fd6c7b292010807772057c7781a041`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 [PR #24089](https://github.com/galaxyproject/galaxy/pull/24089) by dannon · Status: active; initial review complete. Recommendation: approve with small follow-ups (no blockers). Delivery: **posted by John as a PR comment on 2026-10-13; ball with author**. Open, not draft; GitHub state checked 2026-10-13.
 
 Reviewed HEAD: `0cbea855736f52a43d9db630a4d4a5ee1b92d030`, base `dev` (merge-base `91d93c238c0c`).

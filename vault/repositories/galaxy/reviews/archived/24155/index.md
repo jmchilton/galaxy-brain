@@ -1,5 +1,7 @@
 # PR #24155 — Let optional inputs consume filtered-out tool outputs
 
+**Latest status — 2026-10-15:** Merged at 2026-10-15T16:27:35Z; tracking ended. Review draft was not posted by this agent. Clean worktree HEAD exactly matched the merged PR head; removed with `ghwt rm` under the no-upstream exception.
+
 - PR: https://github.com/galaxyproject/galaxy/pull/24155
 - Review date: 2026-10-15
 - Reviewed head: `3b3d4b13e09bfe048391e562268b433a4f56f5ec`

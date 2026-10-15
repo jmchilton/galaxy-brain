@@ -1,5 +1,7 @@
 # Galaxy PR #24125 — Replace BFormCheckbox in upload, file browsers and libraries
 
+**Latest status — 2026-10-15:** Approved by John; awaiting merge. Live head: `1e48062ab46211e028af3b6a94787ae61391928c`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 - PR: https://github.com/galaxyproject/galaxy/pull/24125
 - Latest review: 2026-10-14
 - Reviewed commit: `1e48062ab46211e028af3b6a94787ae61391928c` (latest head rechecked after validation).

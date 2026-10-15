@@ -1,5 +1,7 @@
 # galaxy #23956 — Add `$input.path` for directory datatypes, shared with the YAML runtime
 
+**Latest status — 2026-10-15:** Ready with new head; preserve instruction not to post the older draft. Live head: `8c40d0b33269ba490628339b9fd88038f9551a27`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 [PR #23956](https://github.com/galaxyproject/galaxy/pull/23956) · Status: active; open draft. GitHub state checked 2026-10-11.
 
 [Review and history](review.md)

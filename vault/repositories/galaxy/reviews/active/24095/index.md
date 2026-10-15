@@ -1,5 +1,7 @@
 # Galaxy #24095 — Declarative Admin panel links
 
+**Latest status — 2026-10-15:** Review draft unposted; new head includes Marius’s follow-up; old relative-URL finding needs verification. Live head: `1274a56db026ec1e3fd1fff0976d7275f2b22987`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 [PR #24095](https://github.com/galaxyproject/galaxy/pull/24095) · Initial review complete; **request changes for one P2 (path-relative URL resolution)**. Delivery: **unposted**. Open, ready; final state checked 2026-10-14.
 
 Reviewed head: `d86df284fbe61dfe3a0f3c837c37359865a43369`, base `dev`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24095/`; source unchanged, retained while open.

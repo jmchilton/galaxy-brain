@@ -1,5 +1,7 @@
 # galaxy #24005 — Keep directory dataset content at the root of extra files and expose it to YAML tools
 
+**Latest status — 2026-10-15:** Initial review delivered; author reports compatibility fixes; new head unverified. Live head: `90303acde03f63ca8d2c95d019d38b2e7b932076`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+
 [PR #24005](https://github.com/galaxyproject/galaxy/pull/24005) · Status: active; initial review complete. Recommendation: **request changes**. Open, out of draft; GitHub checked 2026-10-11. Delivery: **findings posted by John as a comment**; formal request-changes draft remains unsubmitted.
 
 [Review and risk assessment](review-2026-10-11.md) · [Unposted review draft](draft-review.md) · [Validation evidence](validation-evidence.txt)
