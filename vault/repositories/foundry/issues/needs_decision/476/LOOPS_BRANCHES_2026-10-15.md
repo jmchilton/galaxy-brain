@@ -57,6 +57,7 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
    - `find-test-data` takes the earlier refs as an optional input and keeps their resolved entries.
    - `paper-to-test-data` now reads the interface brief and leaves expected outputs to the test plan.
    - Opened as [#684](https://github.com/galaxyproject/foundry/pull/684) on 2026-10-16.
+   - 2026-10-16: rebased onto main (after the #561 release and the Workflow Brief pipelines). A Codex review found two real defects, both fixed in `28a2187d`: a resolved collection could pass with elements that carry no data; `paper-to-test-data` required a Galaxy interface that PAPER → CWL never produces.
    - Follow-up: the assembler's generic branch text ("stop at the first that yields acceptable output") doesn't describe filling gaps.
 
 ## Open questions
