@@ -1,6 +1,6 @@
 # galaxy #24005 — Keep directory dataset content at the root of extra files and expose it to YAML tools
 
-**Latest status — 2026-10-15:** Initial review delivered; author reports compatibility fixes; new head unverified. Live head: `90303acde03f63ca8d2c95d019d38b2e7b932076`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+**Latest status — 2026-10-16:** Merged at 2026-10-16T06:53:23Z; tracking ended and record archived. Worktree retained: clean, no upstream, and local HEAD is not an ancestor of the merged PR head. Per WORKTREES.md, removal needs John’s confirmation. Live head: `90303acde03f63ca8d2c95d019d38b2e7b932076`. GitHub state, comments, reviews, latest commit and CI checked; no code revalidation performed.
 
 [PR #24005](https://github.com/galaxyproject/galaxy/pull/24005) · Status: active; initial review complete. Recommendation: **request changes**. Open, out of draft; GitHub checked 2026-10-11. Delivery: **findings posted by John as a comment**; formal request-changes draft remains unsubmitted.
 
@@ -40,3 +40,9 @@ Open, draft; live HEAD `03e38ae61aa0e822e5814ce19cc9c75309da3faf`. CI snapshot: 
 ## Morning check — 2026-10-14
 
 Open, ready; live head `0acdecef3ce4ee30a63735f49422b68e8bce11ec`. CI: 2 failure, 3 skipped, 56 success. Ready, new reviewed-by-Marius head. Author reports legacy metadata cleanup, the final #24004 dependency, and Vizarr 0.1.9 included. Marius delivered a new review and opened davelopez/galaxy#8 for compatibility with published store_root wrappers; await author handling. This refresh does not verify those fixes or assign CI failures.
+
+## Morning check — 2026-10-16
+
+Merged at 2026-10-16T06:53:23Z; tracking ended and record archived. Worktree retained: clean, no upstream, and local HEAD is not an ancestor of the merged PR head. Per WORKTREES.md, removal needs John’s confirmation.
+
+CI snapshot: 2 failure, 2 skipped, 52 success. Earlier findings retain their reviewed commits.

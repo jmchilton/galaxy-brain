@@ -1,6 +1,6 @@
 # galaxy #23953 — [26.1] Fix serving and downloading of directory-backed datasets (Zarr, OME-Zarr, Directory subclasses)
 
-**Latest status — 2026-10-15:** Draft; approval-with-nits report unposted; delivery on hold. Live head: `9ac1627fc79ac7950c009e98794adf72088e2c00`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+**Latest status — 2026-10-16:** Draft; approval-with-nits report unposted; delivery on hold. Live head: `9ac1627fc79ac7950c009e98794adf72088e2c00`. GitHub state, comments, reviews, latest commit and CI checked; no code revalidation performed.
 
 [PR #23953](https://github.com/galaxyproject/galaxy/pull/23953) · Status: active; open draft. GitHub state checked 2026-10-09.
 
@@ -21,3 +21,9 @@ Open, draft; live HEAD `9ac1627fc79ac7950c009e98794adf72088e2c00`. CI snapshot: 
 ## Morning check — 2026-10-14
 
 Open, draft; live head `9ac1627fc79ac7950c009e98794adf72088e2c00`. CI: 1 failure, 1 skipped, 58 success. Approval-with-nits report remains unposted; no John comment/review. Still draft and unchanged head: available for reading, with delivery on hold.
+
+## Morning check — 2026-10-16
+
+Draft; approval-with-nits report unposted; delivery on hold.
+
+CI snapshot: 1 failure, 1 skipped, 58 success. Earlier findings retain their reviewed commits.

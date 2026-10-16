@@ -1,6 +1,6 @@
 # galaxy #23869 — Update datatypes_conf with visualization tags already supported
 
-**Latest status — 2026-10-15:** Review draft unposted; compressed-default finding overlaps Marius’s review; revise before posting. Live head: `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+**Latest status — 2026-10-16:** Unposted draft is stale after new commits; Marius/Alireza review in progress; revise and verify before delivery. Live head: `917b3d4cf930ddf3bfd2404ced0d0f4bbc2286af`. GitHub state, comments, reviews, latest commit and CI checked; no code revalidation performed.
 
 [PR #23869](https://github.com/galaxyproject/galaxy/pull/23869) · Status: active; initial review complete. Recommendation: request changes (two P2 findings). Delivery: unposted. Open, out of draft; GitHub checked 2026-10-11.
 
@@ -31,3 +31,9 @@ Open, ready; live HEAD `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`. CI snapshot: 
 ## Morning check — 2026-10-14
 
 Open, ready; live head `a3b2e328f0c2e58b9c32323d4635a1fd20a1fb43`. CI: 1 failure, 2 skipped, 55 success. The request-changes draft remains unposted and John has not commented/reviewed this PR. Marius posted overlapping findings. #24097 has now merged; its sibling-inheritance fix does not address compressed FASTA defaults. Avoid posting the original two-finding draft unchanged. No new renderer or combined-branch verification performed.
+
+## Morning check — 2026-10-16
+
+Unposted draft is stale after new commits; Marius/Alireza review in progress; revise and verify before delivery.
+
+CI snapshot: 2 failure, 3 skipped, 47 success. Earlier findings retain their reviewed commits.

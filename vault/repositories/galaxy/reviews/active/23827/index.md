@@ -1,6 +1,6 @@
 # galaxy #23827 — Import datasets and collections from another Galaxy with a link
 
-**Latest status — 2026-10-15:** John responded and approved; awaiting merge; no response due from John. GitHub comments/reviews verified; no new code validation performed.
+**Latest status — 2026-10-16:** Approved by John; awaiting merge decision; two package checks fail on ssh_util typing. Live head: `4216e350ea93c8f03adb06a648cb249d35a2eeeb`. GitHub state, comments, reviews, latest commit and CI checked; no code revalidation performed.
 
 [PR #23827](https://github.com/galaxyproject/galaxy/pull/23827) · Status: active; initial review and independent confirmation complete. **Both confirmed findings posted by John; ball with author.** Initial recommendation: request changes. GitHub checked 2026-10-11: open, out of draft.
 
@@ -39,3 +39,10 @@ Open, ready; live head `a113532f91e8bbe071d45e17e6fcd87a19d220d6`. CI: 2 failure
 ## John’s response — 2026-10-15
 
 John [responded](https://github.com/galaxyproject/galaxy/pull/23827#issuecomment-6203918285) at 22:50:54 UTC and formally approved at 22:51:04 UTC on head `4216e350ea93c8f03adb06a648cb249d35a2eeeb`. He noted concerns about UI space and adjacent copy/download choices, while offering no better short-term approach. Per John’s instruction, the response/scope decision is no longer pending. Open; approved and awaiting merge. No independent fix revalidation performed.
+
+## Morning check — 2026-10-16
+
+Approved by John; awaiting merge decision; two package checks fail on ssh_util typing.
+
+CI snapshot: 2 failure, 2 skipped, 49 success. Earlier findings retain their reviewed commits.
+The two failed package jobs (Python 3.10 and 3.14) both report `galaxy/security/ssh_util.py:18: error: Call to untyped function "publickey"`. No changes or reruns submitted.

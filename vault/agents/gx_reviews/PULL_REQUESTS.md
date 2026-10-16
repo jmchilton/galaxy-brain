@@ -1,20 +1,16 @@
 PRs To Review:
-- [#24125](https://github.com/galaxyproject/galaxy/pull/24125) — Approved by John; awaiting merge. [notes](../../repositories/galaxy/reviews/active/24125/index.md)
-- [#24101](https://github.com/galaxyproject/galaxy/pull/24101) — John responded; waiting on Sam (guerler) to address mvdbeek’s review; no response due from John. [notes](../../repositories/galaxy/reviews/active/24101/index.md)
-- [#24095](https://github.com/galaxyproject/galaxy/pull/24095) — Review draft unposted; new head includes Marius’s follow-up; old relative-URL finding needs verification. [notes](../../repositories/galaxy/reviews/active/24095/index.md)
-- [#24089](https://github.com/galaxyproject/galaxy/pull/24089) — Approved by John; subsequent author/Marius changes unverified. [notes](../../repositories/galaxy/reviews/active/24089/index.md)
-- [#23869](https://github.com/galaxyproject/galaxy/pull/23869) — Review draft unposted; compressed-default finding overlaps Marius’s review; revise before posting. [notes](../../repositories/galaxy/reviews/active/23869/index.md)
-- [#23827](https://github.com/galaxyproject/galaxy/pull/23827) — John responded and approved; awaiting merge; no response due from John. [notes](../../repositories/galaxy/reviews/active/23827/index.md)
-- [#24005](https://github.com/galaxyproject/galaxy/pull/24005) — Initial review delivered; author reports compatibility fixes; new head unverified. [notes](../../repositories/galaxy/reviews/active/24005/index.md)
+- [#24101](https://github.com/galaxyproject/galaxy/pull/24101) — Ready again; Sam reports addressing Marius’s review; updated head needs follow-up verification. [notes](../../repositories/galaxy/reviews/active/24101/index.md)
+- [#23869](https://github.com/galaxyproject/galaxy/pull/23869) — Unposted draft is stale after new commits; Marius/Alireza review in progress; revise and verify before delivery. [notes](../../repositories/galaxy/reviews/active/23869/index.md)
+- [#23827](https://github.com/galaxyproject/galaxy/pull/23827) — Approved by John; awaiting merge decision; two package checks fail on ssh_util typing. [notes](../../repositories/galaxy/reviews/active/23827/index.md)
 - [#24018](https://github.com/galaxyproject/galaxy/pull/24018) — Draft; review delivered; ball with author. [notes](../../repositories/galaxy/reviews/active/24018/index.md)
 - [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — Draft; TPV recommended; ball with author. [notes](../../repositories/galaxy/reviews/active/23223/index.md)
 - [#23560](https://github.com/galaxyproject/galaxy/pull/23560) — Draft; prior review delivered; re-review when ready. [notes](../../repositories/galaxy/reviews/active/23560/index.md)
 - [#23953](https://github.com/galaxyproject/galaxy/pull/23953) — Draft; approval-with-nits report unposted; delivery on hold. [notes](../../repositories/galaxy/reviews/active/23953/index.md)
-- [#23956](https://github.com/galaxyproject/galaxy/pull/23956) — Ready with new head; preserve instruction not to post the older draft. [notes](../../repositories/galaxy/reviews/active/23956/index.md)
+- [#23956](https://github.com/galaxyproject/galaxy/pull/23956) — Ready with new head and fresh Marius review; preserve instruction not to post the older draft. [notes](../../repositories/galaxy/reviews/active/23956/index.md)
 
 PRs to Skip For 7 Days:
 
 PRs Blocked:
 None yet.
 
-GitHub state last refreshed: 2026-10-15 (tick: #24134 and #24155 merged and archived; clean worktrees removed; all remaining PRs have initial reviews).
+GitHub state last refreshed: 2026-10-16 (morning check: #24125, #24095, #24089 and #24005 merged and archived; all remaining PRs have initial reviews).

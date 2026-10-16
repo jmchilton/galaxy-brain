@@ -1,6 +1,6 @@
 # Galaxy PR #24125 — Replace BFormCheckbox in upload, file browsers and libraries
 
-**Latest status — 2026-10-15:** Approved by John; awaiting merge. Live head: `1e48062ab46211e028af3b6a94787ae61391928c`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+**Latest status — 2026-10-16:** Merged at 2026-10-16T10:33:40Z; tracking ended and record archived. Worktree removed after clean-status and published-head ancestry checks. Live head: `f3386a3b57afe16880ac1f8f846b1ca16277f49b`. GitHub state, comments, reviews, latest commit and CI checked; no code revalidation performed.
 
 - PR: https://github.com/galaxyproject/galaxy/pull/24125
 - Latest review: 2026-10-14
@@ -63,3 +63,9 @@ The migration looks consistent with `GCheckbox`'s controlled-state and event sem
 All 65 focused checks passed locally, including four additional interaction probes for source/workbook switches, the indeterminate bulk header, and directory import payloads. Formatting and diff checks pass, and all 27 reported CI checks are green. I inspected the supplied before/after images; a fresh interactive browser check was unavailable here. No blocking findings.
 
 Risk is low: this is a reversible component migration with no new API or persistent data contract.
+
+## Morning check — 2026-10-16
+
+Merged at 2026-10-16T10:33:40Z; tracking ended and record archived. Worktree removed after clean-status and published-head ancestry checks.
+
+CI snapshot: 1 skipped, 24 success. Earlier findings retain their reviewed commits.

@@ -1,6 +1,6 @@
 # Galaxy #24089 — Curated workflows: run-here awareness, quieter cards, and catalog fixes
 
-**Latest status — 2026-10-15:** Approved by John; subsequent author/Marius changes unverified. Live head: `38bb39c095fd6c7b292010807772057c7781a041`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+**Latest status — 2026-10-16:** Merged at 2026-10-16T06:09:33Z; tracking ended and record archived. Worktree retained: clean, no upstream, and local HEAD is not an ancestor of the merged PR head. Per WORKTREES.md, removal needs John’s confirmation. Live head: `38bb39c095fd6c7b292010807772057c7781a041`. GitHub state, comments, reviews, latest commit and CI checked; no code revalidation performed.
 
 [PR #24089](https://github.com/galaxyproject/galaxy/pull/24089) by dannon · Status: active; initial review complete. Recommendation: approve with small follow-ups (no blockers). Delivery: **posted by John as a PR comment on 2026-10-13; ball with author**. Open, not draft; GitHub state checked 2026-10-13.
 
@@ -20,3 +20,9 @@ John delivered the review findings in a PR comment at 2026-10-13T16:40:05Z. He t
 ## Morning check — 2026-10-14
 
 Open, ready; live head `0cbea855736f52a43d9db630a4d4a5ee1b92d030`. CI: 2 failure, 4 skipped, 57 success. John’s review findings were delivered; no later author reply or head change. Ball with author.
+
+## Morning check — 2026-10-16
+
+Merged at 2026-10-16T06:09:33Z; tracking ended and record archived. Worktree retained: clean, no upstream, and local HEAD is not an ancestor of the merged PR head. Per WORKTREES.md, removal needs John’s confirmation.
+
+CI snapshot: 2 skipped, 56 success. Earlier findings retain their reviewed commits.

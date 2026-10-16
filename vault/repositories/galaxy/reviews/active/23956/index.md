@@ -1,6 +1,6 @@
 # galaxy #23956 — Add `$input.path` for directory datatypes, shared with the YAML runtime
 
-**Latest status — 2026-10-15:** Ready with new head; preserve instruction not to post the older draft. Live head: `8c40d0b33269ba490628339b9fd88038f9551a27`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+**Latest status — 2026-10-16:** Ready with new head and fresh Marius review; preserve instruction not to post the older draft. Live head: `8c40d0b33269ba490628339b9fd88038f9551a27`. GitHub state, comments, reviews, latest commit and CI checked; no code revalidation performed.
 
 [PR #23956](https://github.com/galaxyproject/galaxy/pull/23956) · Status: active; open draft. GitHub state checked 2026-10-11.
 
@@ -25,3 +25,9 @@ Open, draft; live HEAD `4bf89d638bd49c4ebb2e08b75bdef3d4f58bda27`. CI snapshot: 
 ## Morning check — 2026-10-14
 
 Open, draft; live head `4bf89d638bd49c4ebb2e08b75bdef3d4f58bda27`. CI: 6 failure, 2 skipped, 48 success. Still draft; preserve the explicit instruction not to post the older draft. Author/Marius discussion remains the controlling context.
+
+## Morning check — 2026-10-16
+
+Ready with new head and fresh Marius review; preserve instruction not to post the older draft.
+
+CI snapshot: 4 failure, 2 skipped, 52 success. Earlier findings retain their reviewed commits.

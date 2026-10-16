@@ -1,6 +1,6 @@
 # Galaxy #23223 — Docker user from OIDC token claims
 
-**Latest status — 2026-10-15:** Draft; TPV recommended; ball with author. Live head: `8afbc3efc09ca3d746dfc315320be5570a801de6`. PR state, conversation comments, and reviews checked; no new code validation or CI refresh performed. Earlier review findings retain their reviewed commits.
+**Latest status — 2026-10-16:** Draft; TPV recommended; ball with author. Live head: `8afbc3efc09ca3d746dfc315320be5570a801de6`. GitHub state, comments, reviews, latest commit and CI checked; no code revalidation performed.
 
 [PR #23223](https://github.com/galaxyproject/galaxy/pull/23223) · Status: draft; recorded reply/scope decision remains, merge on hold. GitHub state checked 2026-10-09: open, out of draft.
 
@@ -23,3 +23,9 @@ PR remains open but is now draft; head remains `8afbc3efc09ca3d746dfc315320be557
 ## Morning check — 2026-10-14
 
 Open, draft; live head `8afbc3efc09ca3d746dfc315320be5570a801de6`. CI: 2 skipped, 57 success. Still draft. Marius recommends TPV and removed the milestone; no reply or merge action is due merely because the older thread is stale.
+
+## Morning check — 2026-10-16
+
+Draft; TPV recommended; ball with author.
+
+CI snapshot: 2 skipped, 57 success. Earlier findings retain their reviewed commits.
