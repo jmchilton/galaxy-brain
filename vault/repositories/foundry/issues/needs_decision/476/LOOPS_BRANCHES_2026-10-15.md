@@ -56,7 +56,7 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
    - All four producers declare it.
    - `find-test-data` takes the earlier refs as an optional input and keeps their resolved entries.
    - `paper-to-test-data` now reads the interface brief and leaves expected outputs to the test plan.
-   - The PR is not opened yet.
+   - Opened as [#684](https://github.com/galaxyproject/foundry/pull/684) on 2026-10-16.
    - Follow-up: the assembler's generic branch text ("stop at the first that yields acceptable output") doesn't describe filling gaps.
 
 ## Open questions
