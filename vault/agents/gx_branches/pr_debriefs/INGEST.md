@@ -1,6 +1,6 @@
 # Ingesting a PR debrief
 
-Write a debrief when a PR teaches us something: it stalled, was closed, was redone, or landed unusually well. Debriefs are raw evidence. Rules we're convinced of live in `../../_shared/gx_pr_checklists/`, `../../_shared/GX_PR_DESCRIPTIONS.md` and `../../workflow_core/TODOS.md`.
+Write a debrief when a PR teaches us something: it stalled, was closed, was redone, or landed unusually well. Debriefs are raw evidence. Rules we're convinced of live in `../../_shared/gx_pr_checklists/` and `../../_shared/GX_PR_DESCRIPTIONS.md`.
 
 ## Where
 
