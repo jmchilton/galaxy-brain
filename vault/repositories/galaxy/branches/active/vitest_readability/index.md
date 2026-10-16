@@ -4,7 +4,7 @@ Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `e06bbc4c70271aacfe27a88e315c882b5270ecaa`, rebased onto dev `5ff1e46b8c38c704be8da75b4db05b3d56f93f3d`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `vitest_readability_with_churn` (`7f2db5e5941`).
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `e06bbc4c70271aacfe27a88e315c882b5270ecaa`, rebased onto dev `5ff1e46b8c38c704be8da75b4db05b3d56f93f3d`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `backup/vitest_readability_with_churn-before-stack-20261016` (`7f2db5e5941`); `vitest_readability_with_churn` is now stacked above this cleaned branch.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -299,3 +299,7 @@ Preserved all 416 cleaned readability commit messages/trailers; excluded the two
 Final validation on tree `42648d78d9fcb679f6df722df2d4861cdad8644c`: client **612 suites / 5,345 tests pass**, one skipped, exit 0; Tool Shed **27 suites / 182 tests pass**, exit 0; both full frontend type checks, adapted-file ESLint/format and diff whitespace pass. Dependencies refreshed from both frozen lockfiles. Earlier fixture failures and load-related timeouts are superseded by the passing final runs. An intermediate run overlapped history folding and is not validation evidence. Full runs emit existing Vue/happy-dom warnings, but have no failing tests or nonzero exit. Vault validation: 124 files, zero errors, 15 advisory warnings.
 
 [Normal review](subagents/rebase_dev_2026-10-16.md) and [fresh test challenge](test_challenges_debrief.md) have no remaining findings. [History mapping](../../../../../projects/just_jesting_around/readability_assessment/rebase_dev_2026-10-16.json) connects the prior cleaned snapshot to the published history; original scoring/pruning snapshots remain historical. [Implementation debrief](implementation_debrief.md). Tracking records committed locally only per pipeline instructions.
+
+## With-churn comparison stacked above this branch — 2026-10-16
+
+At John’s request, local `vitest_readability_with_churn` now adds the 76 removed commits above cleaned head `e06bbc4c702`. This cleaned branch and its PR are unchanged. The original churn snapshot `7f2db5e5941` remains at `backup/vitest_readability_with_churn-before-stack-20261016`. [Stack record](../vitest_readability_with_churn/index.md).
