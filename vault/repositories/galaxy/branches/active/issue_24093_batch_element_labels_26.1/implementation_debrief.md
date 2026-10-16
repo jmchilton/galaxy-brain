@@ -28,6 +28,7 @@ In batch ("Multiple datasets") mode, only the first hidden collection element dr
 - [Screenshots](screenshot_debrief.md).
 
 ## Follow-ups (not in scope)
-- `DataCollectionToolParameter` pins only a single DCE. Batch-dropped subcollections may mislabel the same way; not reproduced.
+- `DataCollectionToolParameter` collapses a batch the same way, but no client sends it a multi-value batch. Probed in Playwright and recorded in [scope evaluation §3](scope_evaluation.md), so there is no symmetric fix to make.
+- Multi-dragging two HDCAs onto a single collection input silently keeps only the first, with no warning. A separate minor UX bug; not filed.
 - Selenium-backend drag parity: seletools lacks `dragenter`.
 - Forward-merge conflicts into 26.2/dev in `tools/__init__.py`/`basic.py` signatures (`Optional` vs `| None`) and next to new tests in `test_tool_form.py` are mechanical.

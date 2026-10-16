@@ -24,12 +24,20 @@ Apply the same `incoming_value` handling to `DataCollectionToolParameter.to_dict
 
 | Pros | Cons |
 |---|---|
-| <ul><li>Symmetric with the data-param fix. `populate_model` already gates `incoming_value` on `type == "data"`, so the plumbing exists.</li><li>Same root cause: `to_python` collapses the batch wrapper.</li></ul> | <ul><li>Not reported and not reproduced. The symptom is plausible but unconfirmed.</li><li>Not a one-liner. The single-DCE pin needs generalising to a list, and that changes legacy pinned-DCE JSON on a release branch.</li><li>DCE labels have no hid or filename either way (`name (as …)` vs `Selected: name`), so the user-visible gain is smaller.</li><li>Would need its own E2E with a nested collection.</li></ul> |
+| <ul><li>Symmetric with the data-param fix. `populate_model` already gates `incoming_value` on `type == "data"`, so the plumbing exists.</li><li>Same root cause: `to_python` collapses the batch wrapper.</li></ul> | <ul><li>Not reachable: no client sends a multi-value batch to a collection input (probed, see details).</li><li>Not a one-liner. The single-DCE pin needs generalising to a list, and that changes legacy pinned-DCE JSON on a release branch.</li><li>DCE labels have no hid or filename either way (`name (as …)` vs `Selected: name`), so the user-visible gain is smaller.</li><li>Would need its own E2E with a nested collection.</li></ul> |
 
 <details>
 <summary>details</summary>
 
-`basic.py` `DataCollectionToolParameter.to_dict` pins `{"hid": -1, "name": dce.element_identifier, "src": "dce"}` only when `other_values[self.name]` is a single DCE. `FormData.vue` labels server-pinned DCE options `${name} (as <source>)`. Client keep-options for drops without a hid are labelled `Selected: ${name}`. So a split like the one in this issue is plausible for batch collection inputs. Recommend filing it through `GX_QUEUING_ISSUE_CREATION.md` once someone reproduces it, as a separate fix and not on this branch.
+`basic.py` `DataCollectionToolParameter.to_dict` pins `{"hid": -1, "name": dce.element_identifier, "src": "dce"}` only when `other_values[self.name]` is a single DCE. `FormData.vue` labels server-pinned DCE options `${name} (as <source>)`. Client keep-options for drops without a hid are labelled `Selected: ${name}`. So a split like the one in this issue is plausible for batch collection inputs.
+
+**Probed 2026-10-16: not reachable.** The collapse code exists, but no client path feeds it two values:
+
+- The tool form's `data_collection` variant is single-select with batch disabled; `module_data_collection` "Multiple collections" lives only in the workflow run form's input steps, which never call `tools/*/build`.
+- DCEs drag one at a time (`CollectionPanel` has no multi-select). A throwaway Playwright probe dropped two `list:paired` sub-pairs into `collection_paired_test`; each drop replaced the selection (`{"batch": false, "values": [<one dce>]}`), label `test1 (as dataset collection)`.
+- Multi-dragging two selected HDCAs sends `{"batch": false, "values": [hdca, hdca]}`. The server keeps the first, the client adopts it, and the label is the consistent `<hid>: <name>`. The second collection is silently dropped with no warning, a separate minor UX bug, not this one.
+
+The data-only fix is not asymmetric in any way users can hit. No API test added; the user made it conditional on a reproduced collection problem.
 
 </details>
 
