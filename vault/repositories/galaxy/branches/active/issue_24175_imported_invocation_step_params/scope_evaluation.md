@@ -1,93 +1,80 @@
-**Recommendation: modest expansion.** Keep the re-keying fix and add one small change on this branch: at import, drop `type == "step"` rows that have no `order_index`, and log a warning. Those rows can never be mapped, and dropping them closes the legacy cross-server collision. It also stops a re-export from carrying a wrong step into a new-style archive. That costs about 5 lines and one red-to-green assertion. Target `release_26.2` for this branch and #24178 together. The bug is in 26.2's new Rerun button (26.1 doesn't have it), and #24178 is the only commit between `release_26.2` and this stack that touches these files. Two changes outside this branch: (1) remove the duplicate step-parameter parser now instead of waiting for "whichever lands second": restack #24176 onto #24175 so `recover_step_parameters()` delegates to `resolve_step_parameters()`; (2) fix the `param_map` lookup bug in #24178, which already edits `run_request.py`. Defer the "step params lost" notice and the 400 for unknown outer indices.
+**Recommendation: keep scope as implemented.** The branch already has the modest expansion: the first scope evaluation's in-branch items were both implemented. Import drops step rows that have no `order_index`, and import of a nested subworkflow invocation is covered. Every remaining candidate is one of three things:
+- settled by John (below);
+- owned by a sibling branch;
+- a test-only tweak or a defensive change for hand-edited archives.
 
-Evaluated at head `00f0d68ec9d`, which has been rebased onto #24178 @ `a171dbed419`. The branch's own diff is now `a171dbed419..HEAD` (4 files, +117/−8). `5cf81e75c12..HEAD` now also pulls in upstream `dev` changes.
+I checked the rest of the touched code for related bugs. No other per-step invocation record carries raw step ids. RO-Crate import goes through the same `_import_workflow_invocations`. Nothing in-branch and unsettled is left to widen.
 
-## As implemented: re-key on import, skip unknown ids at `/request`
+Evaluated at head `301e92ededd` (since pushed), stacked on #24178 @ `b53a5d9fe8b`. The branch's own diff is `b53a5d9fe8b..HEAD`: 5 files, +153/−9, of which about 37 lines are implementation.
 
-`_serialize` adds `order_index` and order-index-keyed `step_parameters` to step rows that resolve. Import re-keys those rows onto the rebuilt workflow. `/request` skips rows whose step it can't find and logs a warning. All three go through `WorkflowRequestInputParameter.resolve_step_parameters()`.
+**Settled (not evaluated as options):**
+- The stack stays on `dev`. A `release_26.2` backport is John's call after merge.
+- The shared resolver `resolve_step_parameters()` lives in #24178. #24176 stays a sibling on #24178 and is not restacked.
+- The "step parameters lost" notice is out of scope.
+- The siblings own the export (#24178), run-form seeding (#24176) and the client (#24177).
+- The `param_map` lookup fix and the 400 for unknown outer indices are done in #24178.
+
+## As implemented (recommended)
+
+- `_serialize` adds `order_index` and index-keyed `step_parameters` to step rows that resolve.
+- Import re-keys rows that have an `order_index` onto the rebuilt workflow, and drops rows without one, logging a warning.
+- `/request` skips rows whose step isn't in the workflow, logging a warning. This covers invocations imported before the fix.
 
 | Pros | Cons |
 | --- | --- |
-| • Follows the issue's Proposed Approach exactly.<br>• Store format only. No migration, and older Galaxy servers ignore the new keys.<br>• One helper does all the step id → order index conversion, built on #24178's helpers.<br>• Every review is clean: normal, Codex (no findings) and thermo (3 small fixes). | • Legacy rows are still imported verbatim. A cross-server id collision silently uses the wrong step, and re-export then records that wrong `order_index` in a new-style archive.<br>• A second near-identical parser lands in #24176.<br>• Targets `dev`, but the bug ships in 26.2. |
+| • Follows the issue's Proposed Approach, plus the first evaluation's expansion: dropping unmappable rows closes the legacy cross-server collision, and a re-export can no longer give a wrong step a valid `order_index`.<br>• Store format only. No migration, and older Galaxy servers ignore the new keys.<br>• Reuses the parent's resolver and `step_parameters_by_index`/`_by_id` unchanged.<br>• Flat and nested imports, legacy archives and re-export are all pinned red→green.<br>• Normal, Codex (no findings) and thermo (1 small fix) reviews are clean. | • The `/request` skip has no API test. The API can no longer create stale rows; it's covered by reasoning, and the PR description should say so.<br>• Collisions in invocations imported cross-server *before* the fix stay undetectable. There is no id map to recover them from. |
 
-## Expansion A (recommended, this branch): drop unmappable step rows at import
+## Related bugs in touched code: other step-id-keyed records (checked, nothing to add)
 
-In `_import_workflow_invocations`, skip `type == "step"` rows that have no `order_index` and log a warning. Keep the `/request` skip and the `_serialize` guard, because invocations imported before the fix are already in the database. This covers the "should import drop rows without `order_index`" and "cross-server collisions fixed only for new archives" follow-ups.
+I swept the invocation store and the `/request` export for other raw-step-id leaks.
 
 | Pros | Cons |
 | --- | --- |
-| • A row without `order_index` is always stale: it is either a legacy archive or a row the exporter couldn't resolve. Keeping it has no use.<br>• Closes the legacy collision for every future import. A re-export can no longer make a wrong step look valid.<br>• About 5 lines, in code this branch already touches.<br>• The `/request` outcome is unchanged (`parameters` None), so the issue's fallback behaviour is kept. | • Through the API, the only observable difference is that a re-exported archive no longer has step rows. The collision itself is only testable in unit tests.<br>• The existing legacy API test would stop exercising the `/request` skip and the `_serialize` guard. They become defensive code for rows imported before the fix.<br>• Rows stored at import would no longer show that parameters were lost. A future notice would have to be recorded at import time (see C). |
+| • Confirms the fix is complete for this bug class:<br>  – Steps, step states, input step parameters, input datasets and collections, outputs and subworkflow links all go through `attach_workflow_step(order_index)`.<br>  – `replacements`, `meta` and `resource` input parameter rows are keyed by name.<br>  – Invocation messages, which hold step ids, aren't exported.<br>• RO-Crate is a `DirectoryModelExportStore` subclass. It writes the same `invocation_attrs.txt` and imports through the same directory store and the same `_import_workflow_invocations`. | • Nothing to act on. |
 
 <details>
-<summary>Why the drop is safe, and how to test it</summary>
+<summary>Adjacent, not step-id related</summary>
 
-- The issue rejected "Drop step parameter rows on import" as the *primary* fix, because it throws away mappable data. This drops only rows that can't be mapped, which is the fallback the issue already accepts at request time.
-- Thermo F6 confirmed that a legacy archive has no id → index map (`WorkflowInvocationStep._serialize` exports only `order_index`). Nothing could recover these rows later.
-- Red-to-green: extend `test_workflow_request_after_import_of_archive_without_step_parameter_order_index` to assert that the re-exported archive has no `type == "step"` input parameters. That fails on the current head and passes with the drop.
-- Covering the now-defensive guards would need a DB-level unit test. Given John's "tiny fix, no dedicated test" preference, that is optional.
-- Collisions need an old archive (pre-fix, a shrinking set), a cross-server import, and a small-id clash, so they are rare. The fix is cheap and makes the outcome permanent-safe, so it is worth doing under the expansion bias.
+`meta` rows such as `preferred_object_store_id` are copied verbatim on import, so a rerun of a cross-server import could name an object store that doesn't exist on this server. That fails at invoke time, not as a 500 from `/request`. It is a separate concern with its own policy question: drop the row or validate it. It is not this issue's bug, so it isn't worth raising here unless a reviewer brings it up.
 
 </details>
 
-## Expansion B (recommended, stack target): `release_26.2`
+## Expansion: tolerate a bad `order_index` or inner index at import (thermo T5) — not recommended
 
-Target `release_26.2` (or backport to it) for #24178 and this branch together. #24176 and #24177 decide separately.
-
-| Pros | Cons |
-| --- | --- |
-| • `origin/release_26.2` has the bug: `WorkflowRerun.vue`, verbatim `name` import, and `steps_by_id[step_id]` in the `/request` export. `release_26.1` and `26.0` don't have `WorkflowRerun.vue`, so 26.2 is the oldest affected branch.<br>• Rebasing is cheap. The only commit touching these files between `release_26.2` and this stack is #24178's `a1692ef6c27`.<br>• The store-format addition is backward compatible. | • #24178 has to be retargeted as well, because this branch needs its helpers.<br>• Archives exported from 26.2 servers that don't have the fix are still legacy archives. |
-
-## Expansion C (defer): a "step parameters lost" notice
-
-Tell the user when legacy step parameters couldn't be mapped. The natural channel is an import-time `InvocationWarning` with a new `WarningReason`, following the `workflow_output_not_found` pattern. That works together with A. Putting a field on `WorkflowInvocationRequestModel` instead would pollute a payload that is meant to be resubmitted.
+A row with a stale `order_index` (`KeyError` in `step_by_index`) or an unknown inner index (`step_parameters_by_id`) would be dropped with a warning instead of aborting the whole import.
 
 | Pros | Cons |
 | --- | --- |
-| • Removes the silent fallback that the issue and the reviews mention.<br>• Uses an existing persisted message abstraction instead of a 4xx that would block the rerun. | • Needs a schema union member, the `InvocationMessage.vue` and `util.ts` client cases, `schema.ts` regen and screenshots. That is well beyond modest.<br>• Only helps for legacy archives, a shrinking population, on a niche import path.<br>• The rerun form's reason alert belongs to #24177, which isn't on this stack. |
+| • Matches the drop policy for rows without `order_index`. | • Only a hand-edited or mismatched archive can reach it. The exporter writes only indexes it resolved against the same workflow it exports.<br>• Inconsistent with the sibling rows (`attach_workflow_step`), which abort on a bad `order_index` too. Changing one row type alone is arbitrary, and changing all of them is a store-wide policy change.<br>• Adds untestable-through-the-API branches. |
 
-## Expansion D (recommended, #24176's area): remove the duplicate parser now
+## Expansion: end-to-end rerun submission of an imported invocation — not recommended
 
-`WorkflowInvocation.recover_step_parameters()` in #24176 parses the same rows as `resolve_step_parameters()`. Restack #24176 (and #24177) onto this branch, and make `recover_step_parameters()` a loop over `parameter.resolve_step_parameters()` that skips `None` and `ValueError` and keys by `step.id`. This branch doesn't change.
-
-| Pros | Cons |
-| --- | --- |
-| • A reviewer of #24176 would otherwise see two parsers for the same rows. The note "whichever lands second reconciles" defers a known cleanup.<br>• An invocation-level method on top of the per-row one fits the existing `recover_inputs()` pattern.<br>• #24176's imported-invocation seed test could then assert that new-style archives actually prefill, not just that the form loads. | • #24176 can no longer land before #24175. Since #24175 is small and READY, that costs little.<br>• It reverses the previously approved sibling split, so #24176 and #24177 need a fresh human read after the restack.<br>• The two error policies differ (`/request` raises `InconsistentDatabase` on a malformed row, #24176 skips it) and still live with the callers. |
-
-<details>
-<summary>Rejected alternative: move `resolve_step_parameters()` into #24178</summary>
-
-That would make it a shared base helper without restacking. But #24178's `/request` export would then have to decide what to do with `None`. Skipping it would silently drop every imported invocation's step parameters, which is the rejected "drop" alternative applied to *mappable* data. Raising keeps the 500 that this branch exists to fix. Moving the helper drags this branch's semantics into the parent, so the restack is the cleaner boundary.
-
-</details>
-
-## Expansion E (recommended, #24178's area): fix the latent `param_map` lookup
-
-`workflow_run_config_to_request` builds each subworkflow's run config with `run_config.param_map.get(step.order_index)`, but `param_map` is keyed by `step.id`. The fix is one line in `run_request.py`, which #24178 already edits.
+Extend the import test so it actually submits the `/request` payload and checks the new run's step parameters, with `include_files=True` so that the inputs are usable.
 
 | Pros | Cons |
 | --- | --- |
-| • A real bug. On a small-id database, an outer step id can equal a subworkflow step's `order_index`. The subworkflow invocation then persists an unrelated step's flat params as rows (for example `name="num_lines"`). `workflow_request_to_run_config` does `int(parameter.name)` on them during subworkflow scheduling.<br>• Passing `{}` keeps production persistence the same, because on large-id servers the lookup already misses. That answers #24178's "changes what gets persisted" concern. | • It belongs to invoke-side persistence, not import. This branch only sees the garbage rows, and `_serialize` already tolerates them through `ValueError`.<br>• Choosing between `{}` and `.get(step.id)` is a design choice for #24178. Inner parameters are already captured in `step_states`, and decoding `step_states` overwrites `step.state` at scheduling time.<br>• It needs its own red test in #24178. |
+| • Exercises the user's full flow: Rerun, then Run. | • Test-only, so it doesn't change scope.<br>• Adds little for step parameters. Equality of `/request` with the original's payload, which is keyed by order index, already proves the rows were re-keyed. The parent's `*_rerun` tests prove that payload resubmits.<br>• Needs file import and job runs, so it's slow. Its failures would most likely come from imported datasets or workflows, not from this bug. |
 
-## Expansion F (not here; #24178's call): 400 for unknown outer step indices on invoke
+## Expansion: model-side encoder for the import re-key (thermo T3) — not recommended
 
-With `parameters_normalized`, `_normalize_step_parameters` silently ignores outer keys that don't match any step's `order_index`. #24178 made unknown *inner* indices a 400.
-
-| Pros | Cons |
-| --- | --- |
-| • Matches the inner-index 400 that #24178 introduced. | • Has nothing to do with import. The `/request` export of this branch emits only known indices.<br>• Could break API clients that send extra keys today. That decision belongs in #24178's PR. |
-
-## Contraction: re-keying only, no legacy skip
-
-Drop the `/request` skip and let pre-fix archives keep returning a 500.
+A `set_step_parameters(step, params)` on the row, the inverse of `resolve_step_parameters()`.
 
 | Pros | Cons |
 | --- | --- |
-| • Slightly smaller diff. | • Leaves Rerun broken for every invocation already imported, and for every existing archive.<br>• The issue explicitly asks for the skip. |
+| • Keeps encode and decode next to each other. | • It would be a thin wrapper with one caller. `run_request` already writes rows keyed by id.<br>• It would land on the parent's model class, which is settled to live in #24178. |
 
-## Larger alternative: FK column or a `WorkflowRequestStepState`-derived export
+## Contraction: remove the `/request` skip and the `_serialize` guard — not recommended
 
-The issue's own alternatives: add a `workflow_step_id` FK with a migration, or build `parameters` from step states.
+Now that import drops unmappable rows, these two might look dead.
 
 | Pros | Cons |
 | --- | --- |
-| • A structural fix for the outer step. | • Needs a migration and backfill, and inner subworkflow ids still sit in the JSON.<br>• Deriving from step states changes what `parameters` means.<br>• The issue rejected both, and John's issue note says this fix must not involve a migration. |
+| • A slightly smaller diff. | • Invocations imported before the fix already have stale ids in their databases. Without the skip, Rerun on those returns a 500 again (same server), and without the guard their export fails.<br>• The issue explicitly asks for the skip. |
+
+## Contraction: drop the legacy-archive API test (thermo T2) — not recommended
+
+`test_import_export_invocation` already drives the drop on import. The API test adds about 45 lines of tar helpers.
+
+| Pros | Cons |
+| --- | --- |
+| • A smaller test file. | • It is the only test of the user's scenario: an old archive, a 200 from `/request`, and a re-export with no stale rows.<br>• Removing a test needs John's approval. |

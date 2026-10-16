@@ -1,57 +1,54 @@
-# Normal review (raw): issue_24175_imported_invocation_step_params @ 4e8d55e874f
+# Normal review (raw) - issue_24175_imported_invocation_step_params @ aacc3ea3198
 
-Scope: top commit only (`git show HEAD`). Parent helpers `WorkflowStep.step_parameters_by_index` / `step_parameters_by_id` treated as context.
+Reviewed `git diff 8f358dbb341 HEAD` (5 commits, 4 files, +130/-5). Read-only; ruff/black/isort clean on touched files. No API/integration tests run. No security issues.
 
-**Verdict: correct, matches the issue's Proposed Approach, no blockers.** Findings below are low severity; mostly test hygiene and a couple of notes for the PR description.
+**Verdict: no blockers.** The import drop is correct and safe. One "should" (coverage of the now-defensive guards), the rest nits.
 
-Unit suite run: `test/unit/data/model/test_model_store.py` -> 56 passed, 1 xfailed. No API tests run (per instructions).
+## Correctness of the import drop (verified)
 
-## Correctness walk (verified, no finding)
+- **Never discards a mappable row.** `_import_workflow_invocations` always builds a new `Workflow` via `read_workflow_from_path`, even on same-server import, so a raw source step id can never be valid on the imported workflow. A row without `order_index` is always stale.
+- **Other param types untouched.** The drop is gated on `type == STEP_PARAMETERS`; replacements/meta/resource rows copy name/value verbatim as before. Only `_serialize` of step rows ever emits `order_index`, so the ungated `"order_index" in attrs` re-key branch is safe in practice (see nit 2).
+- **Rows the exporter couldn't resolve** (stale id from a pre-fix import on the source, or malformed -> `ValueError`) export without `order_index` and are dropped on import. Consistent with legacy archives.
+- **Subworkflow invocations.** Each nested invocation is exported as its own `included_invocations` entry with its own workflow artifact, and re-keyed against its own imported workflow. The outer row's inner ids are re-keyed through the outer imported workflow's `step.subworkflow`, which is what `/request` on the outer invocation reads. Round-trip format matches `run_request.py` (`name=str(step.id)`, `value=json.dumps(param_dict)`, subworkflow nested by inner step id). New nested parametrize case asserts the imported subworkflow invocation's own `/request`.
+- **History-level exports.** Same `included_invocations` serializer and same `_import_workflow_invocations` path, so covered by the same code.
+- **Malformed new-style archives.** `step_by_index` / `step_parameters_by_id` raising aborts the import. Same as the existing `attach_workflow_step` for step/step-state rows; consistent, no action.
+- **Older Galaxy importing a new archive** ignores the extra keys and behaves as before. Fine.
 
-- **Serialize -> import re-keying.** `_serialize` adds `order_index` + order-index-keyed `step_parameters` only when the row resolves; import re-keys with `workflow.step_by_index(order_index)` + `step.step_parameters_by_id(...)`. `dumps` turns the int inner-id keys back into strings, matching the original `json.dumps(param_dict)` storage shape. Step ids exist at import time (`read_workflow_from_path` builds and commits the workflow; mock does `add_and_commit`).
-- **Subworkflow invocations.** `export_workflow_invocation` recurses into subworkflow invocations, each exported with its own workflow key, and `_import_workflow_invocations` rebuilds one workflow per key. `resolve_step_parameters` resolves against `self.workflow_invocation.workflow`, so a subworkflow invocation's own rows (only present via the latent `param_map.get(step.order_index)` collision in `workflow_run_config_to_request`) resolve against the subworkflow and re-key against that invocation's imported copy. Same per-invocation rule as `attach_workflow_step`. Correct.
-- **Re-export of an imported legacy invocation.** Stale `name` -> `steps_by_id.get` miss -> `None` -> no `order_index` -> re-import copies verbatim -> request export skips. Export never fails (TypeError/ValueError also swallowed in `_serialize`). Correct.
-- **Re-export of an imported new-style invocation.** `name` was re-keyed to a valid id, so it resolves exactly like the original. Correct.
-- **Cross-server collisions.** Fixed for new archives (import never keeps the old id). Legacy archives: residual, see finding 5.
-- **Malformed rows.** `int(None)`/`json.loads(None)` -> TypeError; non-numeric name or bad JSON -> ValueError (JSONDecodeError subclasses ValueError); both -> `InconsistentDatabase` in the request export, swallowed in `_serialize`. Only the `steps_by_id[int(...)]` lookup in the parent helper raises KeyError, so the `except KeyError` is not over-broad.
-- **Import strictness.** A new-style archive whose `order_index` doesn't exist in the rebuilt workflow raises KeyError and aborts the import. Same as `attach_workflow_step` for step states / inputs / outputs, so consistent. Order-index stability across the format2 roundtrip is a pre-existing assumption shared by all those records.
-- **Other consumers.** Only `workflow_request_to_run_config` (`run_request.py:707`) still reads `int(parameter.name)`; it's only used for scheduling and imported invocations are terminal/cancelled, so not affected. No store-format schema or client consumer of `input_parameters` keys (client `zipExplorer.ts` only lists the filename).
-- **Imports.** `json`, `cast` (model), `dumps` (store), `tarfile` (API test) all module-top. Removed `import json` in `services/invocations.py` is unused after the change.
+## Export-side / `/request` skip - reasonable?
+
+Yes. Invocations imported before this fix already sit in databases with stale step ids. Without the `_serialize` `resolved is not None` guard, exporting any of them would crash on tuple-unpack; without the `/request` skip, Rerun 500s for them. Both are needed. Residual hazard (documented in scope eval): for those already-imported rows, a stale id that collides with a real step id of the *same* imported workflow is silently used. Unfixable without the source mapping; not this branch's job.
 
 ## Findings
 
-1. **Low - test value: `test_import_invocation_step_parameters_from_archive_without_order_index`** (`test/unit/data/model/test_model_store.py:504`).
-   Its red was `KeyError: 'order_index'` from the test's own `del` in `strip_portable_step_parameters`, not a behavioural failure. What it pins (name copied verbatim, `resolve_step_parameters() is None`) is the pre-existing import behaviour plus the `None` branch, and the API test `test_workflow_request_after_import_of_archive_without_step_parameter_order_index` covers the same path end to end (and was mutation-checked). Suggest dropping it and the `rewrite_invocations_attrs` hook in `_export_import_invocation`; if kept, at least note it's a pin, not a red-to-green test.
+1. **should (optional) - the two defensive guards are now uncovered.** With the import drop, the legacy API test no longer reaches the `_serialize` guard or the `/request` skip (the earlier mutation checks in implementation_debrief.md no longer hold). The `_serialize` guard is not trivial: removing it would make *export* fail for every pre-fix imported invocation. Stale DB rows can't be created through the API anymore, so the cheapest cover is to strengthen the existing `test_import_export_invocation` in `test/unit/data/model/test_model_store.py` (not a new test): add a `WorkflowRequestInputParameter(type="step", name="999999", value="{}")` to the invocation from `_setup_invocation`, then assert the export succeeds and the imported invocation has no `type == "step"` rows. That covers the `_serialize` guard and the import drop in one existing test. The `/request` skip stays uncovered; accept that and note it in the PR description / debrief. If John prefers no unit coverage, at least update implementation_debrief.md so it doesn't claim mutation coverage for these guards.
 
-2. **Low - reuse in test helpers** (`test_model_store.py:534` `_export_import_invocation`).
-   It duplicates the body of `test_import_export_invocation` (line 471) and most of `_perform_import_from_directory` (line 1785). Suggest having `_perform_import_from_directory` return the `ObjectImportTracker` and using it from the new helper, and/or rewriting `test_import_export_invocation` on top of `_export_import_invocation`. Small, optional.
+2. **nit - fold the import loop into one type branch.** `order_index` is checked twice and the re-key branch isn't gated on type. Clearer:
+   ```python
+   input_parameter = model.WorkflowRequestInputParameter()
+   if input_parameter_attrs["type"] == model.WorkflowRequestInputParameter.types.STEP_PARAMETERS:
+       if "order_index" not in input_parameter_attrs:
+           log.warning(...)
+           continue
+       step = workflow.step_by_index(input_parameter_attrs["order_index"])
+       input_parameter.name = str(step.id)
+       input_parameter.value = dumps(step.step_parameters_by_id(input_parameter_attrs["step_parameters"]))
+   else:
+       input_parameter.name = input_parameter_attrs["name"]
+       input_parameter.value = input_parameter_attrs["value"]
+   ```
+   (Construct the model object after the `continue`, or keep it where it is; either way one branch.) This also lets the second comment go.
 
-3. **Low - `MockWorkflowContentsManager` change** (`test_model_store.py:1815-1836`). Reasonable.
-   It's strictly more faithful: the old mock always rebuilt a lone `data_input` at index 0, so no invocation with a tool step could be imported. JSON is valid YAML, so the `.gxwf.yml` name is still honest. The only other reader of that file is the RO-crate test asserting the id suffix (line 671), which is unaffected. Full file passes. No change needed.
+3. **nit - drop comment/log wording undersells the case.** The comment says "Archives exported before order_index was recorded hold a step id from the source server", but new exporters also omit `order_index` for rows they couldn't resolve. Suggest comment: `# Rows without order_index (older archives, or rows the exporter couldn't resolve) only carry a source-server step id.` Log: `"Dropping step parameters of imported invocation %s: step id %s from the archive has no order_index to map onto the imported workflow"`. The current "for unmappable step id %s" is fine but doesn't say why.
 
-4. **Low - skip scope slightly wider than the issue** (`services/invocations.py:369-380`, `model/__init__.py:11086-11089`).
-   The issue proposes skipping an outer step id the workflow doesn't contain. `resolve_step_parameters` also returns `None` (so the row is skipped) when the outer step resolves but an inner subworkflow step id doesn't. On the parent tip that was an uncaught KeyError 500. That's a sensible extension, since it's the same stale-id situation one level down, but mention it in the PR description. The skip stays invisible to the user (the request model has no warnings channel); that's already in the branch Decisions as the 4xx alternative.
+4. **nit - `_serialize` swallows `ValueError` silently.** A malformed row then gets dropped at import with a "step id" message that hides the real cause. Low value; optionally `log.warning` in `_serialize` on `ValueError`, or leave it (the `/request` path already logs malformed rows on the source server).
 
-5. **Low / question - legacy cross-server residual can be "laundered"** (`model/__init__.py:11096-11104`).
-   For a legacy archive imported on another server where the stale id happens to match a step of the rebuilt workflow, `resolve_step_parameters` succeeds against the wrong step. The request export then misassigns, as documented. A re-export now also stamps that wrong step's `order_index` into a new-style archive, so the misassignment survives every later import. The rows are known stale at import time (no `order_index` = ids from the source server). Dropping or neutralising them at import, with a warning, would close the collision for future legacy imports. The request-time skip would still be needed for invocations imported before the fix. The issue rejected drop-on-import as the *primary* fix, but for unmappable legacy rows the /request outcome is the same. John's call; fine to leave as is and document.
+5. **nit - test helper duplication.** `_invocations_attrs` and `_without_step_parameter_order_index` both scan the tar for `os.path.basename(member.name) == "invocation_attrs.txt"`. Small; a module constant `INVOCATION_ATTRS_FILENAME = "invocation_attrs.txt"` (galaxy_test/api doesn't import `galaxy.model.store`, so hardcoding is right) or an `_is_invocation_attrs(member)` helper removes the repeat. Not worth more abstraction than that. `mkdtemp()` leak matches existing populator behaviour; fine.
 
-6. **Nit - comment wording** (`model/__init__.py:11097`).
-   `# ``name`` and nested subworkflow keys are step ids, add a form import can re-key.` reads garbled. Suggest `# name and nested subworkflow keys are step ids - also export an order-index form import can re-key.`
+6. **nit - test comment.** In the legacy test, `# The stale step id can't be mapped onto the imported workflow, so its parameters are dropped.` is now explained by import, not `/request`; reads fine, could say "import drops them". The re-export assertion comment is accurate. Otherwise no obvious comments.
 
-7. **Nit - optional typing/guard** (`model/__init__.py:11074`).
-   `resolve_step_parameters` lives on a class that also holds replacement/meta/resource rows and has no type guard. `assert self.type == self.types.STEP_PARAMETERS` would make misuse loud. A `NamedTuple` return (`step`, `parameters`) would read better than a bare tuple at both call sites. Neither is required. The docstring could also lose a line (concise docstrings).
+## Other checks
 
-8. **Info (pre-existing, not this commit)** (`services/invocations.py:371`).
-   `raise InconsistentDatabase(...)` inside `except` has no `from` and no `log.error`. A typed 500 is handled, so it doesn't reach Sentry. Leave it unless touching it anyway.
-
-## Placement of `resolve_step_parameters`
-
-Good. It's the single "stored step-id row -> (step, portable params)" conversion that both the serializer (model layer) and the request export (service) need, and it sits next to `_serialize`, which consumes it. It reuses the parent's `step_parameters_by_index` rather than re-implementing the subworkflow recursion. The alternative, an invocation-level `step_parameters_by_order_index()` map, would fit the service but not the per-row `_serialize`, so the per-row method is the right granularity.
-
-## Tests
-
-- API parametrized test (`tool_step` / `subworkflow_tool_step`). Strong: it asserts the exact `parameters` dict after export -> import -> /request, and was red on the parent with KeyError 500s. It covers the nested `"1|num_lines"` re-key that unit tests can't (the mock has no subworkflows).
-- API legacy-archive test. Strong. `_without_step_parameter_order_index` asserts it stripped something, the mutation check was red, and it checks `inputs` still round-trip. The tar rewrite correctly resets `member.size`.
-- Unit `test_import_export_invocation_rekeys_step_parameters`. Meaningful red (`'2' == '4'`) and it asserts `imported_tool_step.id != tool_step.id`, so it can't pass vacuously. It gives fast feedback for the serialize/import pair. Keep.
-- Unit legacy test: see finding 1.
-- No tests weakened or removed.
+- Imports at module top (`tarfile` in test; `dumps`/`log` already top-level in store). OK.
+- Reuse: re-key uses the parent's `resolve_step_parameters` / `step_parameters_by_id` and the existing `step_by_index` (same mechanism `attach_workflow_step` uses). Good; nothing new accreted.
+- Tests are API tests, red-to-green per debrief; parametrize with conditional subworkflow assertion mirrors the sibling `test_workflow_request_subworkflow_step_parameters_rerun`. Acceptable.
+- Typing: nothing to add; `step_by_index` is untyped upstream, out of scope.

@@ -1,37 +1,43 @@
-# Test challenges debrief
+# Test challenges debrief (re-scope)
 
-Scope: only this branch's tests (`git diff 5cf81e75c12..HEAD`). The parent #24178 tests are out of scope. I dropped one unit test, strengthened one API test, and kept the other API test as it was. Commit `37dda97e31c` is pushed to `jmchilton`.
+Scope: this branch's own tests (`git diff b53a5d9fe8b..HEAD`). I made one small change in commit `0836b29c98e`, since pushed. The legacy-archive helper now checks that the archive has step-parameter rows, where it used to check that it stripped an `order_index`. With the old check, the legacy test went red on the parent inside the helper, because the parent never writes `order_index`. Now it goes red at `/request` with the bug's 500. I also pulled the "step rows" filter into `_step_parameter_rows()`, which the helper and the re-export assertion share. Everything else stays as it was.
 
-## Unit tests
+Not acted on:
+- **The `/request` skip in the service has no test.** The API can no longer create stale rows, because import drops them, and a service-level unit test would need heavy fixtures. It stays covered by reasoning, as the normal review decided.
+- **The hard-coded `invocation["steps"][1]` in the subworkflow case.** Order index 1 is the only subworkflow step in `WORKFLOW_NESTED_RUNTIME_PARAMETER`, so the index is stable.
+- **E2E.** The change is server-only and the bug is entirely in the `/request` response, which the API tests pin.
 
-- **Dropped `test_import_export_invocation_rekeys_step_parameters`** (`test/unit/data/model/test_model_store.py`).
-  - The parametrized API test drives the same chain: export, re-key on import, `resolve_step_parameters`, `/request`. It covers more than the unit test did, because it also covers the subworkflow inner-key re-key.
-  - The extra assertion in the unit test (`name == str(imported_tool_step.id)`) checks how the row is stored, which is an implementation detail.
-  - The normal review dropped the sibling legacy-archive unit test for the same reason.
-- **Reverted the test infrastructure that existed only for that test.**
-  - The `MockWorkflowContentsManager` `.gxwf.yml` JSON round-trip of the steps' `order_index`/`type` is gone.
-  - So is the `return` added to `_perform_import_from_directory`.
-  - `test_model_store.py` is now byte-identical to the parent branch.
+<details>
+<summary>Details</summary>
 
-## API tests
+## Unit test: strengthened `test_import_export_invocation` (`test_model_store.py`)
 
-- **Kept `test_workflow_request_step_parameters_after_invocation_import[tool_step|subworkflow_tool_step]`.** It is the regression test for the bug (red on the parent tip with `KeyError`), and it covers both the flat and the nested re-key.
-- **Strengthened `test_workflow_request_after_import_of_archive_without_step_parameter_order_index`.** It now re-exports the imported legacy invocation with `download_invocation_to_store`.
-  - This covers the `_serialize` branch where `resolve_step_parameters()` returns `None`. No test covered it before, even though the implementation debrief claims that an export never fails because of a bad row.
-  - Mutation check: I removed the `if resolved is not None:` guard. The test failed with a `TypeError` in the `prepare_invocation_download` task, which surfaced as a 500 on `short_term_storage`. I then restored the guard.
-- **Kept the `_without_step_parameter_order_index` tar-rewrite helper at module level.** It is used once, it is self-checking (it asserts that it stripped something), and nothing in the populators does the same job.
+- It isn't testing the implementation directly. It checks observable store behaviour: export succeeds, and the imported invocation has no step rows.
+- It covers two paths the API can no longer reach:
+  - The `_serialize` guard for a row that doesn't resolve.
+  - The import drop for a row without `order_index`.
+- It strengthens an existing test rather than adding a dedicated one, which is what John prefers. It adds no new mocks; it uses the existing `_mock_app`.
+- **Red on parent impl** (I swapped in the parent's three implementation files with `git show`): `assert not [<WorkflowRequestInputParameter(2)>]`. That is its own assertion, as required.
+- An earlier mutation check is in the re-scope debrief: without the `_serialize` guard, export raises `TypeError`.
 
-## Not tested, deliberately
+## API tests (`test_workflows.py`)
 
-- **The `(TypeError, ValueError)` swallow in `_serialize`, and `InconsistentDatabase` for a malformed or non-numeric id.** Neither can be reached through the API without corrupting the DB, and a unit test for either would just be testing the implementation.
-- **E2E.** The fix is server-only and the bug was entirely in the `/request` response, which the API tests pin. The Rerun button has no client change, so there's no E2E test.
+- **All HTTP calls go through populators:** `run_workflow`, `download_invocation_to_store`, `create_invocation_from_store`, `invocation_to_request` and `get_invocation`. No URL is hit raw, so no new helper is needed.
+- **The tar helpers stay at module level.** Nothing in the populators rewrites an archive, and `reupload_contents` only checks member names. `_invocations_attrs` and `_is_invocations_attrs` follow the store's own `invocations_attrs` naming, even though the file is called `invocation_attrs.txt`. That mismatch is intentional, not a typo.
+- **`test_workflow_request_step_parameters_after_invocation_import[tool_step|subworkflow_tool_step]`:** kept. This is the regression test for the bug.
+  - Red on the parent: both cases return a 500 with `saved workflow step parameters reference an unknown workflow step`.
+- **`test_workflow_request_after_import_of_archive_without_step_parameter_order_index`:** kept, with the helper fix described above.
+  - The re-export assertion is the only one that tells "dropped at import" apart from "skipped at `/request`". The re-scope mutation check confirmed it fails when the drop is disabled.
+  - Red on the parent: the same 500 at `/request`. Before the fix it failed with `archive had no step parameters with an order_index` inside the helper.
+- **Overlap between the unit test and the legacy API test on the import drop:** acceptable.
+  - The API test covers the user's scenario: an old archive, then a rerun that returns 200.
+  - The unit test adds the `_serialize` guard, which nothing else can reach.
 
 ## Runs
 
-- `test_model_store.py`, after the revert: 54 passed and 1 xfailed.
-- The API run, under the lock: the 2 parametrized cases and the legacy test, 3 passed.
-- The mutant run: 1 failed, as expected.
+- **Green** (new head, under the lock): 3 API cases, 3 passed.
+- **Red** (parent's `model/__init__.py`, `model/store/__init__.py` and `services/invocations.py` swapped in, tests from the new head): 3 API cases, 3 failed with a 500 at `/request`. The unit test also failed, at its own assertion.
+- After restoring: `test_model_store.py` gives 54 passed and 1 xfailed.
+- black, ruff and isort, plus pre-commit on the commit, are clean.
 
-## For the coordinator
-
-`index.md`, `initial_implementation_debrief.md` and `subagents/normal_review.md` still describe the unit test, the mock change and the `_perform_import_from_directory` reuse. All of those are now gone.
+</details>

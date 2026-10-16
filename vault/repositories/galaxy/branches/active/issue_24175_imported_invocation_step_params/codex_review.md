@@ -1,10 +1,13 @@
-# Codex review debrief
+# Codex review (re-scope) — debrief
 
-Codex found no defects in `5cf81e75c12..37dda97e31c`, so there was nothing to act on and nothing to decline.
+Codex (`codex exec -s read-only`, structured findings) reviewed `git diff b53a5d9fe8b 0836b29c98e`, which is this branch on top of #24178 @ `b53a5d9fe8b`. It returned **no findings**, so I made no code changes. The brief described the intended behaviour only, with no reasoning or earlier review findings.
 
-It ran as a plain `codex exec` in a read-only sandbox and was given only the issue's intent, not our reasoning or the earlier reviews. Besides the diff it read `run_request.py`, `managers/workflows.py`, `test_model_store.py` and `test_run_parameters.py`. It checked in memory with tool parameters, two levels of nested subworkflow parameters and legacy rows. It didn't run the tests, because the read-only sandbox blocks temp files.
+Not acted on: nothing.
 
-<details><summary>Raw output</summary>
+Codex also read `managers/workflows.py`, `workflow/run_request.py` and `workflow/steps.py`, and the related unit tests (`test_run_parameters.py`, `conftest.py`). It ran 14 focused unit tests, which passed. It didn't run the API tests; those ran separately under the lock (see `implementation_rescope_debrief.md` and `test_challenges_debrief.md`).
+
+<details>
+<summary>Raw output</summary>
 
 ```json
 {
@@ -13,13 +16,16 @@ It ran as a plain `codex exec` in a read-only sandbox and was given only the iss
       "lib/galaxy/model/__init__.py",
       "lib/galaxy/model/store/__init__.py",
       "lib/galaxy/webapps/galaxy/services/invocations.py",
-      "lib/galaxy_test/api/test_workflows.py",
-      "lib/galaxy/workflow/run_request.py",
       "lib/galaxy/managers/workflows.py",
+      "lib/galaxy/workflow/run_request.py",
+      "lib/galaxy/workflow/steps.py",
+      "lib/galaxy_test/api/test_workflows.py",
       "test/unit/data/model/test_model_store.py",
-      "test/unit/workflows/test_run_parameters.py"
+      "test/unit/workflows/test_run_parameters.py",
+      "test/unit/data/model/conftest.py",
+      "conftest.py"
     ],
-    "notes": "Reviewed the full scoped diff and surrounding code. In-memory checks passed for tool parameters, two-level nested parameters, and legacy rows. Full tests were not run because the read-only sandbox prevents temporary-file creation."
+    "notes": "Reviewed the full branch diff and relevant surrounding code. All 14 focused unit tests passed. API tests were reviewed but not run; they require a running Galaxy test server."
   },
   "findings": []
 }
