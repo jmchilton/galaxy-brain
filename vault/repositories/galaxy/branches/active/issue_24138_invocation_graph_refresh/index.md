@@ -1,6 +1,6 @@
 # issue_24138_invocation_graph_refresh
 
-Status: `author_work` (refreshed 2026-10-16).
+Status: `ci_wait` (refreshed 2026-10-16).
 
 Fixes [#24138](https://github.com/galaxyproject/galaxy/issues/24138) (Steps tab headers freeze while an invocation runs) and the refresh-cost part of [#22745](https://github.com/galaxyproject/galaxy/issues/22745) (O(n²) graph refresh). Doesn't claim to fix #22745's zoom/pan freeze, which hasn't been browser-profiled. The PR shouldn't auto-close #22745.
 
@@ -12,7 +12,7 @@ Worktree: `~/projects/worktrees/galaxy/branch/issue_24138_invocation_graph_refre
 
 **[PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist](checklist_evaluation.md)**
 
-Head `cd820238598` (10 commits, rebased onto `release_26.2` 2026-10-15). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
+Head `6473c7cc0178f676d5d032e661cece548110d0bc` (10 commits, rebased onto `release_26.2` 2026-10-16). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
 
 ## CI
 
@@ -39,3 +39,11 @@ Current-head Python lint fails isort in unchanged `test/unit/app/tools/test_expr
 Current #24165 conflicts with release_26.2 in client/src/composables/useInvocationGraph.test.ts. Both sides change the workflow-store mock and setupComposable arguments and add assertions; this needs deliberate test reconciliation. Left the branch intact under the small/mechanical conflict limit; moved to `author_work`. Its lint red is unrelated isort in unchanged test/unit/app/tools/test_expression_basics.py.
 
 Requested failed-job reruns for diagnosed unrelated failures: [run 38777479091](https://github.com/galaxyproject/galaxy/actions/runs/38777479091). All requests accepted; reruns are pending evidence, not passing results or recovered cache coverage.
+
+## Requested rebase — 2026-10-16
+
+John requested rebasing #24165 onto `release_26.2`. Rebased all ten commits from `cd820238598dcf06466a76cf7cf5c394c5959877` onto `579ca73440d776002b7099538cef000838687d8e`; new head `6473c7cc0178f676d5d032e661cece548110d0bc`, pushed to the jmchilton fork with an exact force-with-lease. GitHub reports MERGEABLE; remains draft while fresh CI runs.
+
+Resolved the single conflict in `useInvocationGraph.test.ts` by preserving upstream color-versus-text parameter assertions and the branch's polling assertions, adapting the upstream setup to the branch's workflow fixture. Runtime code merged automatically; range-diff changes are the test reconciliation and upstream color-handling context. No design decision or scope change.
+
+Validation: six affected client test files, **71 passed**; reconciled test ESLint, formatting and `git diff --check` pass. Browser E2E was not rerun for this test-only conflict resolution.
