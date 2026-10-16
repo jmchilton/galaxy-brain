@@ -1,6 +1,6 @@
 # issue_24175_imported_invocation_step_params
 
-Status: re-scoped 2026-10-16; proposed `branches_implemented_needs_ci`. Head: `301e92ededdf1f2a640b37061086321d23b153a5`. Fork CI pending.
+Status: re-scoped 2026-10-16; proposed `branches_implemented_needs_ci`. Head: `10eed573535e36265ca50b03e6338b389003caaa`. Fork CI pending.
 
 Fixes [galaxyproject/galaxy#24175](https://github.com/galaxyproject/galaxy/issues/24175): `GET /api/invocations/{id}/request` (the **Rerun** button) returned a 500 for an imported invocation whose run had tool step parameters. Import copied the step parameter rows' raw step ids verbatim.
 
@@ -47,3 +47,5 @@ John approved the first scope evaluation's in-branch expansion. Import now drops
 Reviews were rerun: normal, test challenges, Codex (no findings), thermo, and a second scope evaluation (keep as implemented). See the [re-scope debrief](implementation_rescope_debrief.md) and the [implementation debrief](implementation_debrief.md).
 
 Pushed `301e92ededd` (force-with-lease). No PR was opened.
+
+Coordinator rebased onto #24178 @ `57bf3eebd77` (docs-only expansion D: schema descriptions + `schema.ts`). No conflicts; `git range-diff` shows all 8 commits identical. Pushed `10eed573535` (force-with-lease). Tests not re-run for this docs-only parent change.

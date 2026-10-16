@@ -1,107 +1,73 @@
-# Scope evaluation
+# Scope evaluation (re-scope, second pass)
 
-**Recommendation: keep the scope as implemented.** The branch fixes exactly #24178: the export's re-keying, the normalizer's inverse, and the proposed 400. It also preserves the inner `parameter_input` check that the helper swap would otherwise have dropped. It adds the `WorkflowStep` helper pair that #24176 already stacks on and #24175 plans to reuse. None of the alternatives below is a scope change for this branch:
-- Retargeting to `release_26.2` is a maintainer call at PR time.
-- The latent `param_map` keyed-by-id bug should be a separate follow-up.
-- The export-side 500 for unknown inner ids belongs to #24175, which should not be folded in.
+**Recommendation: a modest docs-only expansion; otherwise keep the scope as implemented.** Document the step-parameter contract this branch now enforces in the shared schema descriptions in `lib/galaxy/schema/workflows.py`. `STEP_PARAMETERS_DESCRIPTION` gets the subworkflow key form `"<inner step index>|<name>"`, and `"<i>|<j>|<name>"` when nested. `STEP_PARAMETERS_NORMALIZED_DESCRIPTION` gets the rule that keys matching no step are rejected with a 400, on normalized requests only. While there, fix the "we the resulting" typo at `schema/invocation.py:647`, then regenerate `client/packages/api-client/src/schema/schema.ts` with `make update-client-api-schema`, which the OpenAPI lint CI enforces. Everything else stays as is: the fix, A (`param_map.get(step.id)`), B (unknown outer index gives a 400) and C (the shared resolver). Nothing touches `model/__init__.py`, the resolver or the `run_request.py` hunks, so the resolver contract and the restacking #24175/#24176 are unaffected.
 
-Evaluated at `5cf81e75c12` on `dev` @ `88127f42979`: 5 commits, +187/−19 across 5 files.
+Evaluated at head `b53a5d9fe8b` against base `5bf7abf5e32`. The settled decisions (base `dev`, backport after merge, the resolver living here, the "step params lost" notice being out of scope) are not re-opened.
 
-## As implemented
+## As implemented (fix + A + B + C)
 
-Inverse helpers `WorkflowStep.step_parameters_by_index` / `step_parameters_by_id`. The export re-keys inner step ids to `"<inner order_index>|name"`, and `_normalize_step_parameters` uses the inverse. Malformed, unknown or non-numeric inner keys now get a 400. The `parameter_input` "must specify 'input'" check now recurses into subworkflows through `_validate_normalized_step_parameters`.
+The export re-keys stored subworkflow params to `"<inner index>|name"` through `WorkflowStep.step_parameters_by_index`, via the shared `WorkflowRequestInputParameter.resolve_step_parameters()`. Invoke reverses that with `step_parameters_by_id`. Bad inner keys and unknown outer indices on normalized requests return a 400. Subworkflow invocations now record their own step params.
 
 | Pros | Cons |
 | --- | --- |
-| It matches the issue's Proposed Approach item for item: the helpers, the export change, the `(TypeError, ValueError)` catch, the 400 and the tests. | Unknown or non-numeric *inner* indices now get a 400, but unknown *outer* order indices are still silently ignored (`param_map.get(str(step.order_index), {})` loops over steps). A reviewer may ask about the asymmetry. |
-| No migration and no change to stored data. Existing invocations export correctly because the re-keying happens at read time. | It changes behaviour in two ways (an ignored key becomes a 400, a 500 becomes a 400), and the PR description must spell both out. |
-| It deletes the inline split-and-recurse loop and the export TODO. One definition of the key format serves both directions. | The 40 helper lines land in the 13.6k-line `model/__init__.py`. They sit next to `steps_by_id` and `step_by_index`, so this is acceptable. |
-| The helpers are the reusable unit for the siblings. #24176 already stacks on them, and #24175 needs `by_id` at import. | |
-| The Codex finding (the inner `parameter_input` check was silently dropped) was confirmed red, then fixed and tested. The narrowing was dealt with, not left behind. | |
+| • Fixes the issue as proposed, plus the persistence bug (A) on the same call path.<br>• Inner and outer unknown-index handling is now symmetric (B).<br>• One row resolver for the whole stack (C), with its contract pinned by unit tests and hardened by the Codex finding.<br>• Reviewed five ways (normal, test challenges, Codex, two thermo passes). No open must-fix. | • B tightens a public API, and the behaviour change is described only in the PR description. Neither the OpenAPI docs nor the field descriptions say what key shapes are valid or what is rejected.<br>• The resolver has two failure signals that three of four stack callers fold together. Frozen for now (see follow-ups). |
+
+## D. Document the step-parameter key contract in the API schema (recommended)
+
+Extend the two shared description constants in `schema/workflows.py`.
+
+- **`STEP_PARAMETERS_DESCRIPTION`:** subworkflow step params are keyed `"<inner step index>|<name>"`, and `"<i>|<j>|<name>"` when nested. This is the same form as the run form and the `/request` export.
+- **`STEP_PARAMETERS_NORMALIZED_DESCRIPTION`:** when true, keys must be existing step indices, and unknown or malformed keys are rejected. The legacy path is unchanged.
+
+Fix the "we the resulting" typo in the export model's `parameters` description, then run `make update-client-api-schema`.
+
+This is not extending the legacy feature, which the issue's note limits. It documents behaviour that this branch itself changed: the inner-key 400s, B's outer-index 400, and the export's new key form.
+
+| Pros | Cons |
+| --- | --- |
+| • The issue's root cause was an undocumented shape mismatch between export and invoke. This writes the shape down at the API boundary.<br>• One constant feeds both ends of the round trip: the invoke payload (`schema/workflows.py:191`) and the export model (`schema/invocation.py:647`, as an f-string prefix).<br>• Documents B's API tightening for bioblend and external callers, beyond the PR description.<br>• No sibling touches `schema/workflows.py`, `schema/invocation.py` or `schema.ts` (checked by name against all three sibling heads), so restacking is conflict-free.<br>• No code-path or contract change, and no new tests. | • Forces a regen of the generated `schema.ts` (4 JSDoc lines) and one more restack of #24175/#24176, though a conflict-free one.<br>• The descriptions are labelled "Legacy". Reviewers may see documenting a legacy field as low value.<br>• Easy to drop at review if a reviewer objects; it is independent of everything else. |
 
 <details><summary>Details</summary>
 
-- The diff is small, server-only and on the request path. An end-to-end test is in place: export, rerun, the rerun produces 2 lines, and the rerun's own export matches.
-- The `_validate_normalized_step_parameters` walk was not scope creep. It keeps validation from d8c6b0c76fa (2026-10-03) that the helper swap would otherwise have regressed.
-- The outer/inner asymmetry existed on dev, where both levels were lenient. Only the inner level gets stricter here. Making the outer level strict would be a new behaviour change for top-level callers, so it is not suggested.
+- Nested form verified against the recursion. For a nested subworkflow, `step_parameters_by_index` returns `"<j>|name"`, which the outer level prefixes to `"<i>|<j>|name"`. `step_parameters_by_id` splits on the first `|` and recurses.
+- `schema.ts` currently carries the text at lines ~18418/18428 (invoke payload) and ~28823/28830 (request model).
+- CI enforces the regeneration. `.github/workflows/lint_openapi_schema.yml` runs `make update-client-api-schema` and fails on any `git status` change. It also runs codespell over the dumped schema, so new wording gets spell-checked. Regenerate locally instead of hand-editing `schema.ts`.
+- Suggested wording stays short. Avoid restating the 400 message text, so the docs don't pin error strings.
 
 </details>
 
-## Contract: export-only fix
+## E. Contraction: drop B, the unknown outer index → 400 (rejected)
 
-Change only `serialize_workflow_invocation_to_request` to call `step_parameters_by_index`, and leave `_normalize_step_parameters` and its inline `split("|")` loop alone.
-
-| Pros | Cons |
-| --- | --- |
-| It is the smallest diff that makes the round trip work, with no behaviour change on invoke. | A key without `\|` stays an unhandled `ValueError`, which is a 500. The issue explicitly asks for a 400. |
-| | The key format would be defined in two places, with parse and format drifting apart. |
-| | #24175 needs `step_parameters_by_id` anyway (to re-key against the target step at import), so the inverse would just land later, on another branch. |
-
-## Contract: drop the 400 behaviour change
-
-Keep the helper pair, but leave unknown and non-numeric inner indices silently ignored, either by skipping in the normalizer or by having the helper tolerate them. Only the no-pipe 500 would become a 400.
+Revert to silently dropping top-level keys that match no step on normalized invokes.
 
 | Pros | Cons |
 | --- | --- |
-| No new rejections. A hand-saved request replayed against an edited workflow keeps "working". | It contradicts the issue text, which proposes the 400 by name. |
-| It avoids a user-visible change that reviewers might debate. | Silently dropping user-set parameters is exactly the failure that #24177 and #24176 complain about. |
-| | A tolerant helper is a worse contract for #24175's import re-keying, where an unknown index means corrupt data. |
-| | The run form and the export only emit valid indices, so legitimate callers are unaffected. The change only bites stale or hand-built requests, and a loud failure is better there. |
+| • Smallest public-API blast radius. External clients that send stale keys keep working. | • John approved B. The normal review confirmed that every in-tree producer (run form, export, populators, batch) sends only valid indices.<br>• Re-creates the inner/outer asymmetry this branch fixed.<br>• It is already flagged for the PR description, and D documents it. |
 
-## Expand: fix the latent `param_map` keyed-by-id lookup
+## F. Contraction: original scope only (rejected)
 
-In `workflow_run_config_to_request`, the sub-invocation's `param_map` reads `run_config.param_map.get(step.order_index)`, but that map is keyed by `step.id`.
+Ship `a171dbed419`, which is kept as `jmchilton/issue_24178_subworkflow_step_params_export_alt_original_scope`.
 
 | Pros | Cons |
 | --- | --- |
-| It is a one-line correctness fix in neighbouring code. | It is not on #24178's path. The bug affects what is persisted on the *sub*-invocation, while this issue concerns the top-level request export. |
-| Small-id test databases could hit collisions, and this would remove that. | The spike notes the fix changes what gets persisted on sub-invocations. That cuts against the issue's "changes no stored data" premise, and John's note says he took on these issues only on that basis. |
-| | It is harmless today, because subworkflow values reach scheduling through `step_states`. There is no red user-facing test to anchor it. |
-| | It is better as its own tiny issue or PR, where the persistence change can be discussed on its own. |
+| • Pre-re-scope reviewed diff, with no persistence change. | • Re-opens the approved re-scope.<br>• Breaks the resolver dependency that #24175/#24176 are restacking onto.<br>• Leaves the `param_map` collision bug in place. |
 
-## Expand: wrap the export-side 500 for unknown inner step ids
+## Backport
 
-An unknown inner step id in stored params still raises `KeyError` from `step_parameters_by_index`, which is a 500. The outer `steps_by_id[step_id]` lookup behaves the same way.
+Settled: the base stays `dev`, and a `release_26.2` cherry-pick is decided after merge. D adds no reason to change that. A backport would carry the description change and a hand-regenerated `schema.ts` on the release branch.
 
-| Pros | Cons |
-| --- | --- |
-| It would make the export fail more cleanly, for example with `InconsistentDatabase` or a skip-and-warn. | It is only reachable for imported (or corrupt) invocations, which is #24175's bug. |
-| | Whether to skip or to error is a design decision for #24175. The spike skips pre-fix store rows with a warning. Deciding it here would preempt that design. |
-| | The normal, Codex and thermo-nuclear reviews all deferred it to #24175. |
+## Belongs elsewhere / follow-ups
 
-## Expand: fold in #24175
-
-Add the model-store import re-keying (serialize `order_index` plus index-keyed params, then re-key on import) to this branch, as the spike's "1+2 as one server PR" option.
-
-| Pros | Cons |
-| --- | --- |
-| One server PR for "step params aren't portable", with a single review of the key format. | The spike calls #24175 the part reviewers will debate. It adds to the store format and leaves pre-fix archives degraded. Folding it in would tie a straightforward bug fix to that debate. |
-| The export-side unknown-id 500 would be handled in the same place. | #24176 is already stacked on this branch. Growing the base would churn the stack. |
-| | No #24175 branch record exists yet, so there is no reviewed work to fold in. It would be new scope, not a merge. |
-| | It goes against the deliberate 4-way split John chose. |
-
-## Retarget or backport: `release_26.2`
-
-Target `release_26.2` (or backport to it) instead of shipping on `dev` only.
-
-| Pros | Cons |
-| --- | --- |
-| The bug is present on 26.2: the export still has the `# TODO: test subworkflows` line. | #24176 is a `dev` feature stacked on this branch. Retargeting the base means #24176 waits for a forward merge or gets restacked. |
-| 26.2 is not tagged yet (the latest tag is v26.1.1). The three lib files are identical between this branch's base and `origin/release_26.2`, and `d8c6b0c76fa` is in 26.2, so the implementation would apply cleanly. Only `test_workflows.py` differs, by about 59 lines, so expect test-hunk context fuzz. | It puts the behaviour change (ignored keys becoming a 400) on a frozen branch. |
-| Galaxy usually sends bug fixes to the oldest affected supported release. | The issue frames this as a legacy run-form path, which John took on reluctantly. That makes it a low-urgency candidate for a stable branch. |
-
-<details><summary>Details</summary>
-
-This is a decision about the PR's target, not about the size of the work, and it doesn't change what the branch contains. Keep it on `dev`. If a maintainer asks for 26.2, rebase this branch alone onto `release_26.2` and let the forward merge carry it to `dev`, then restack #24176. Whichever target is chosen, mention it in the PR description.
-
-</details>
-
-## Minor test contraction: drop `test_workflow_request_step_parameters_rerun`
-
-The normal review suggested dropping the top-level baseline or folding it into `test_run_replace_params_over_default`, since it already passes on dev.
-
-| Pros | Cons |
-| --- | --- |
-| It saves two workflow runs on CI. | The issue explicitly proposes it as the top-level baseline. |
-| | It is the only check that a top-level conditional key containing `\|` (`seed_source\|seed`) passes through `step_parameters_by_index` unchanged, which is the no-op path. |
-| | It was declined in both the normal review and the test-challenge pass, each with a stated reason. |
+| Candidate | Owner | Why not here |
+| --- | --- | --- |
+| Single "unusable row" signal from the resolver (thermo #1) | post-merge follow-up, after #24175/#24176 land | Changes the frozen resolver contract (`None` for an unknown step, `ValueError` for a malformed row) that the siblings are restacking onto. Three of the four call sites would lose their try/except-to-`None` blocks. |
+| Export delegates to `WorkflowInvocation.recover_step_parameters()` with a strict mode (thermo #2) | post-merge, #24176 owns `recover_step_parameters` | The function lives on a sibling and its policy differs (skip vs raise). After merge, the export's STEP_PARAMETERS branch shrinks to about one line. |
+| Batch detection inside subworkflow step params | own issue (not filed; unverified end to end) | `expand_workflow_inputs` (`tools/parameters/meta.py:114`) checks only one level deep, so a `{"batch": true, ...}` value nested under an inner step id is never expanded. It predates this branch, is a feature rather than part of the export/invoke round trip, and no in-tree producer is known to send it. |
+| Legacy `parameter_input` `"input"` values inside subworkflows stay in `param_map` instead of becoming formal input step parameters | own issue, if anyone cares | The top-level pop in `build_workflow_run_configs` only walks `workflow.steps`. This is legacy-form behaviour, and the issue's note limits the legacy run form work to this fix. |
+| `parametrize` the `test_resolve_step_parameters_malformed_row` loop; `from e` on the subworkflow re-raise in `run_request.py`; "No-op for other step types" docstring wording | post-restack polish | Cosmetic. Each touches a hunk #24175/#24176 are restacking, so doing them now only causes conflicts. |
+| Import re-keying, the export's skip-with-warning for imported invocations, and the nested-invocation import case | #24175 | Sibling scope. A makes the nested import case newly reachable, and #24175 already has it flagged. |
+| Run-form seeding from an invocation's step params | #24176 | Sibling scope. |
+| Client rerun forms, `withRerunValues` duplication | #24177 / #24176 | Client-only. |
+| "Step params lost" notice | #24175/#24177 | Settled as out of scope. |
+| `replacement_dict` key for the client simple form | its own issue (not filed) | Not on this branch's code path. |
+| Legacy unlabeled input steps not prefilled; full-form object store UI | #24176 follow-up; its own feature | Input keying and UI, not step params. |

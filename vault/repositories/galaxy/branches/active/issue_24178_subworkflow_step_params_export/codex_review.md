@@ -1,25 +1,28 @@
-# Codex review debrief
+# Codex review debrief (re-scope)
 
-Codex reviewed `88127f42979...b03ec938bc6` with a read-only sandbox and structured findings, and found 1 issue, P2 with "certain" confidence. I confirmed it with a red API test and fixed it in `118dfeb6d94`. Nothing was left unaddressed.
+I ran Codex (read-only, `codex exec` with a findings schema) over `5bf7abf5e32..HEAD` at `b9b5d16b1d9`, with emphasis on the re-scope `a171dbed419..HEAD`. It reported one P2 finding. I confirmed it and fixed it red to green in `b53a5d9fe8b`.
 
-## Acted on
-
-- **The `parameter_input` "must specify an 'input' value" check was skipped for steps inside a subworkflow.** It is at `lib/galaxy/workflow/run_request.py` `_normalize_step_parameters`.
-  - **Confirmed.** `test_run_with_invalid_legacy_parameter_input_in_subworkflow` sends `{"0": {"0|parameter_value": 100}}` to a subworkflow that wraps an optional integer input. It got a 200 before the fix; with the fix it gets the 400 it got on dev.
-  - The normal review had judged this narrowing immaterial. Codex reproduced a concrete acceptance, which is the same top-level validation from d8c6b0c76fa silently regressing.
-  - **Fix.** The check now lives in a new `_validate_normalized_step_parameters(step, param_dict)`. It recurses through subworkflow param dicts nested by inner step id, after `step_parameters_by_id`.
-  - **No change to `WorkflowStep.step_parameters_by_index` / `step_parameters_by_id`.** Their signatures and semantics are unchanged.
+- **Finding.** `resolve_step_parameters()` did not check that stored JSON is a dict, so a malformed row fell outside the documented `ValueError` contract in two ways:
+  - Subworkflow `null`, or `{"<inner id>": null}`, raised `AttributeError`.
+  - A tool or input step with value `42` came back as `(step, 42)`.
+- **Who it affects.** #24176's skip loop would let the `AttributeError` escape. The test-challenge pass flagged the same thing.
+- **Fix.** `WorkflowStep.step_parameters_by_index` raises `ValueError` when `param_dict` isn't a dict. The check runs before the subworkflow branch and recurses, so nested entries are covered too. The docstring is updated.
+- **Contract.** Unchanged. This makes the resolver honour its documented contract: `None` for an unknown step, `ValueError` for a malformed row. The signatures of `step_parameters_by_index` and `step_parameters_by_id` are also unchanged.
+- **Tests.** `test_resolve_step_parameters_malformed_row` gains three cases: input step `42`, subworkflow `null`, and inner entry `null`. All three were red and are now green.
+  - **API tests re-run under the lock:** the 9 request and subworkflow-runtime-parameter cases pass.
+  - **Unit tests:** `test/unit/workflows` gives 198 passed, 1 skipped. mypy is clean on the touched files.
 
 ## Not acted on
 
-- Nothing.
+- **The symmetric request-side guard (`step_parameters_by_id`).** I tried a red API case, `{"1": 2}`. The request schema already rejects it ("Input should be a valid dictionary"), so the guard would be dead code. I dropped the case.
 
-<details><summary>Full Codex output</summary>
+<details><summary>Codex output</summary>
 
-Coverage: model/__init__.py, services/invocations.py, workflow/run_request.py, workflow/modules.py, schema/workflows.py, model/store/__init__.py, test_workflows.py, workflow_fixtures.py, populators.py, test_run_parameters.py, workflow_support.py. Codex did not run the API tests because its environment was read-only. It reproduced the regression by calling normalization directly.
-
-> **P2 api-contract, run_request.py:187: Preserve parameter-input validation inside subworkflows.** Replacing recursive `_normalize_step_parameters` with `step_parameters_by_id` bypasses the `parameter_input` validation for every inner step. The helper only rekeys dictionaries, so inner parameter dictionaries missing `input` are now accepted. Runtime state computation ignores unknown fields, potentially using the input's default instead of rejecting the request.
->
-> Failure: a subworkflow at index 0 contains an unconnected parameter_input at index 0 with default 5. Submit `parameters_normalized=true` and `parameters={"0":{"0|value":2}}`. Previously normalization returned a 400 because `input` was missing. It now accepts the dictionary, and runtime computation ignores `value` and uses default 5.
+- **Coverage:** `model/__init__.py`, `services/invocations.py`, `run_request.py`, `test_workflows.py`, `test_run_parameters.py`, `workflow_support.py`, `modules.py`, `schema/workflows.py`, `tools/parameters/meta.py`. Codex could not run tests in its sandbox; it confirmed the finding with direct model probes.
+- **P2 api-contract, `lib/galaxy/model/__init__.py:11087`: "Validate stored parameter shapes before returning a resolved row."**
+  - `resolve_step_parameters()` decodes JSON without checking that the result, or each nested step's value, is a dict.
+  - For subworkflows, `step_parameters_by_index()` then raises `AttributeError` on `.items()`. For other steps it returns the malformed value unchanged.
+  - Scenario: value `'null'` on a subworkflow row, or `'{"11": null}'`, raises `AttributeError`. A tool step with value `'42'` returns `(step, 42)`.
+  - Confidence: certain.
 
 </details>
