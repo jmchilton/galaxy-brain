@@ -1,6 +1,6 @@
 # invocation_object_store_validation
 
-Status: `branches_ready_for_final_review` — expanded head polished 2026-10-16; fork CI pending, human read-through required.
+Status: `ci_wait` — draft PR #24197 opened at John's explicit request on 2026-10-16; fork CI pending.
 
 Reject invalid workflow object-store preferences with HTTP 400 before creating a target history; preserve valid single-store and split-store selections.
 
@@ -33,3 +33,9 @@ Head `000233d81ebccaea171682cc5bdeb00b99da8ac4`, actual base `release_26.2` at `
 Fresh negative API cases: **6 passed**. Formatting and whitespace checks pass. Vault validation: 0 errors, 15 advisory warnings. Fresh valid-routing integration verification: **8 passed**, covering four controls with normal and extended metadata. Fork CI snapshot: 19 queued, 1 pending, 2 skipped, no failures; API and integration runs are pending, not passing coverage. Recommended kind/bug plus workflow/API/objectstore areas; labeler matches testing/testing-api/workflows paths, while semantic storage/API labels remain central.
 
 Test environment note: run_tests.sh rejected the skill-documented --skip-common-startup flag after startup updated packages in the shared virtualenv; direct pytest is used for fresh verification. No automatic rollback of shared packages was attempted. No PR, comments, reviews or labels were posted.
+
+## Draft PR opened — 2026-10-16
+
+John requested opening a draft PR after polishing ("Looks great!"). Opened [#24197](https://github.com/galaxyproject/galaxy/pull/24197) against `release_26.2` at head `000233d81ebccaea171682cc5bdeb00b99da8ac4`, using the first polished title: `[26.2] Reject invalid invocation storage routing before creating histories`. Used `pr_description.md` verbatim, including John's existing checked human-read item, and applied `kind/bug`, `area/workflows`, `area/API`, `area/objectstore`. No mentions added.
+
+Fork CI on this head remains 19 queued, 1 pending, 2 skipped with no failures observed. Relevant API and integration coverage is still pending. No code changes or rebase needed. **Keep this PR draft as explicitly requested by John; do not automatically undraft on green CI without a later instruction.** Approval is for opening this draft at the recorded SHA; no merge authorization implied.
