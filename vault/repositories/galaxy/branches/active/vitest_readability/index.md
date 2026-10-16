@@ -1,10 +1,10 @@
 # vitest_readability
 
-Status: `author_work`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
+Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `7f2db5e59415f07c09fec5be75ff4885fbad047e` (on `fix_story_a11y` `cfb0e376ba3`).
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `e06bbc4c70271aacfe27a88e315c882b5270ecaa`, rebased onto dev `5ff1e46b8c38c704be8da75b4db05b3d56f93f3d`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `vitest_readability_with_churn` (`7f2db5e5941`).
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -289,3 +289,13 @@ Correction validation: retained TypeScript CollectionProgress suite passes all f
 ## Morning refresh — 2026-10-16
 
 Conflict preview against `origin/dev` at `7f2db5e59415f07c09fec5be75ff4885fbad047e` found overlapping changes in 43 paths (`client/packages/ui/src/components/GCheckbox.test.ts`, `client/packages/ui/src/directives/vGTooltip.ts`, `client/patches/vue-multiselect@3.5.0.patch`, `client/pnpm-lock.yaml`, `client/src/components/BaseComponents/GModal.test.ts`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.
+
+## Cleaned branch rebased onto fresh dev — 2026-10-16
+
+John requested fresh dev and confirmation that the marginal-change removal remains tracked. Published the cleaned branch as `e06bbc4c70271aacfe27a88e315c882b5270ecaa` onto freshly fetched `dev` `5ff1e46b8c38c704be8da75b4db05b3d56f93f3d`, using an exact lease on old fork head `7f2db5e59415f07c09fec5be75ff4885fbad047e`. Fork and PR heads verified; draft PR #24038 still targets dev. Fresh GitHub CI is pending.
+
+Preserved all 416 cleaned readability commit messages/trailers; excluded the two a11y base commits now upstream. All 76 pruned branch-local score-2 changes stay excluded; upstream CollectionProgress deduplication stays effective. Two narrow controlled-checkbox test compatibility commits are additional. Rebase repairs are folded into originating retained test/factory commits. The reference-only `vitest_readability_with_churn` stays at `7f2db5e5941`; the prior cleaned head `4290a918615` is preserved at `backup/vitest_readability-pruned-before-dev-20261016`. No downstream cascade.
+
+Final validation on tree `42648d78d9fcb679f6df722df2d4861cdad8644c`: client **612 suites / 5,345 tests pass**, one skipped, exit 0; Tool Shed **27 suites / 182 tests pass**, exit 0; both full frontend type checks, adapted-file ESLint/format and diff whitespace pass. Dependencies refreshed from both frozen lockfiles. Earlier fixture failures and load-related timeouts are superseded by the passing final runs. An intermediate run overlapped history folding and is not validation evidence. Full runs emit existing Vue/happy-dom warnings, but have no failing tests or nonzero exit. Vault validation: 124 files, zero errors, 15 advisory warnings.
+
+[Normal review](subagents/rebase_dev_2026-10-16.md) and [fresh test challenge](test_challenges_debrief.md) have no remaining findings. [History mapping](../../../../../projects/just_jesting_around/readability_assessment/rebase_dev_2026-10-16.json) connects the prior cleaned snapshot to the published history; original scoring/pruning snapshots remain historical. [Implementation debrief](implementation_debrief.md). Tracking records committed locally only per pipeline instructions.
