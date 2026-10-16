@@ -54,11 +54,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
-- [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs while preserving defaults and optionality. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_subworkflow_input_connections?expand=1).
-- [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Checks workflow tool compatibility before creating histories or invocations. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_tool_compatibility?expand=1).
-- [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Rejects unknown completion actions before creating histories or invocations. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_completion_action_validation?expand=1).
-- [`invocation_object_store_validation`](../../repositories/galaxy/branches/active/invocation_object_store_validation/index.md) — Rejects invalid invocation object-store preferences before creating histories. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_object_store_validation?expand=1).
-- [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
 - [`issue_23902_qualified_output_references`](../../repositories/galaxy/branches/active/issue_23902_qualified_output_references/index.md) — From 26.2, unqualified `format_source`/`metadata_source` fail tool load; runtime skips legacy aliases (fixes #23902). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23902_qualified_output_references?expand=1).
 - [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:extract_next_followups?expand=1).
 - [`resubmit_static_chain_test_26.1`](../../repositories/galaxy/branches/active/resubmit_static_chain_test_26.1/index.md) — Tests repeated resubmission through static destinations with per-hop environment values. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:resubmit_static_chain_test_26.1?expand=1).
@@ -71,7 +66,11 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs while preserving defaults and optionality. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_subworkflow_input_connections?expand=1).
+- [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Checks workflow tool compatibility before creating histories or invocations. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_tool_compatibility?expand=1).
+- [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Rejects unknown completion actions before creating histories or invocations. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_completion_action_validation?expand=1).
+- [`invocation_object_store_validation`](../../repositories/galaxy/branches/active/invocation_object_store_validation/index.md) — Rejects invalid invocation object-store preferences before creating histories. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_object_store_validation?expand=1).
+- [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 

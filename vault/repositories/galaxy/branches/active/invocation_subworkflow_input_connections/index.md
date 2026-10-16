@@ -1,6 +1,6 @@
 # invocation_subworkflow_input_connections
 
-Status: `branches_implemented` (refreshed 2026-10-16).
+Status: `branches_need_polish` — polish started 2026-10-16.
 
 Reject disconnected required subworkflow inputs with HTTP 400 before creating histories or invocations, including nested step paths, while preserving optional and defaulted inputs.
 

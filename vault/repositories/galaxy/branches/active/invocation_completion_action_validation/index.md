@@ -1,6 +1,6 @@
 # invocation_completion_action_validation
 
-Status: `branches_implemented` (refreshed 2026-10-16).
+Status: `branches_need_polish` — polish started 2026-10-16.
 
 Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
 

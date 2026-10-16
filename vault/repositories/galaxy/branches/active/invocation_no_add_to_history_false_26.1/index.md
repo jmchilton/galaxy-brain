@@ -1,6 +1,6 @@
 # invocation_no_add_to_history_false_26.1
 
-Status: `branches_implemented` (refreshed 2026-10-16).
+Status: `branches_need_polish` — polish started 2026-10-16.
 
 Backport of the two server fixes from [invocation_no_add_to_history_false](../invocation_no_add_to_history_false/index.md) (26.2): honor explicit `no_add_to_history: false`/`null`, and accept a `null`/`{}` `ds_map` next to `inputs`. The bugs date to 2024 and are exposed by the published 26.1.1 api-client types. The generator and schema-description commits stay on 26.2 only.
 

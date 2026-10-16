@@ -1,6 +1,6 @@
 # invocation_object_store_validation
 
-Status: `branches_implemented` (refreshed 2026-10-16).
+Status: `branches_need_polish` — polish started 2026-10-16.
 
 Reject invalid workflow object-store preferences with HTTP 400 before creating a target history; preserve valid single-store and split-store selections.
 

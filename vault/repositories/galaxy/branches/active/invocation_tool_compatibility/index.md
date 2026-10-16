@@ -1,6 +1,6 @@
 # invocation_tool_compatibility
 
-Status: `branches_implemented` (refreshed 2026-10-16).
+Status: `branches_need_polish` — polish started 2026-10-16.
 
 Reject workflow-incompatible tools before creating histories or invocations, preserving existing missing-tool lookup behavior and diagnostics.
 
