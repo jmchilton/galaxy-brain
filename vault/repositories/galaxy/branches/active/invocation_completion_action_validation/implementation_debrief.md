@@ -1,23 +1,17 @@
-# invocation_completion_action_validation — implementation handoff
+# invocation_completion_action_validation — rescope handoff
 
 STATUS: READY
 
-Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
+Validate required completion-hook configuration before creating invocation state. The user's requested reevaluation recommended a modest expansion, implemented and independently reviewed.
 
-Independent branch directly from `release_26.2` at `0c70fdd5182c7425efecf7c8e76d6bd313de88b9`. Published head: `5a3307250474a7371ce3e734995186f7f54e84a8` on `jmchilton/galaxy`. No dependency on the original validation branch or the other extractions; no changes to their refs.
+Published head: `9f04be9b5ad7012178c1aac68f66f1894fa329f7`. Independent base: `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Original polished scope is preserved remotely as `invocation_completion_action_validation_alt_original_scope`. Existing refs were advanced without rewriting history; each branch has its original fix plus one rescope commit and no dependency on the other extractions.
 
-## Validation and review
+## Validation and decisions
 
-Unknown-action API regression: failed on release baseline with 200, then passed with 400, no history and no invocation. Existing registered-export and ordinary no-hook completion API controls: 2 passed. Full installed hooks and diff checks passed. Logs: `/private/tmp/invocation-completion-action-red.log`, `-green.log`, `-positive.log`, `-hooks.log`.
+28 cases passed, including 8 new invalid-export cases, 2 notification positives, unknown-name and valid-export/no-hook controls, and 15 completion unit tests. Independent helper-cleanup rerun: 28 passed. Installed hooks passed. Baseline all 8 new cases returned 200; a separate baseline worker teardown timeout is recorded in the implementation report. Logs: `/private/tmp/completion-rescope-{red,green,hooks}.log`, `/private/tmp/completion-rescope-review-{tests,hooks}.log`.
 
-Independent normal review and test challenge found no changes needed. Scope evaluation recommends retaining this extraction.
+Normal review, fresh test challenge and strict quality review completed; acted on test helper reuse, with no declined recommendations. Second scope evaluation recommends keeping the expanded scope. No UI changes or screenshot requirement. New-head fork CI has not been assessed; prior polish/CI evidence applies to the old head.
 
-No UI or browser-test changes; API/integration tests exercise the affected behavior. Fork CI has not been assessed.
+Handed back under `branches_implemented_needs_ci`. No PR created or edited.
 
-## Scope and handoff
-
-Validate submitted action names against the existing registry, with singleton registration and constructor injection of that same registry. Scope review recommends retaining this extraction. Hook configuration, target URI validation and execution behavior remain the existing contract.
-
-Handed off under `branches_implemented_needs_ci`; no PR created. User requested four standalone fixes on `release_26.2`.
-
-[Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Code-quality review](thermo_nuclear_review.md)
+[Rescope details](implementation_rescope_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Quality review](thermo_nuclear_review.md) · [Previous handoff](earlier_drafts/2/implementation_debrief.md)

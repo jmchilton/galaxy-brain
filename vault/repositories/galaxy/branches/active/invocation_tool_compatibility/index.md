@@ -1,6 +1,6 @@
 # invocation_tool_compatibility
 
-Status: `branches_ready_for_final_review` — polished 2026-10-16; human read pending.
+Status: `branches_implemented_needs_ci` — rescope completed 2026-10-16; new-head CI pending.
 
 Reject workflow-incompatible tools before creating histories or invocations, preserving existing missing-tool lookup behavior and diagnostics.
 
@@ -21,3 +21,7 @@ Base: `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Final publis
 [PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist evaluation](checklist_evaluation.md) · [One strengthening review](strengthening_review.md)
 
 Conflict-free pre-polish rebase; every commit patch unchanged. Independent checklist and one strengthening round pass with no design decision or scope expansion. 5 focused API cases pass; formatting/whitespace checks pass. Fresh fork CI is pending. Human-read item remains unchecked; no SHA approval/title choice assigned and no PR opened.
+
+## Revised scope — 2026-10-16
+
+Deduplicate identical nested tool references while retaining distinct versions and UUIDs. Published head `77fe189f505160101d2d087248ad83c645aeb220`; [rescope handoff](implementation_rescope_debrief.md). Fresh normal/test/quality reviews completed; the second scope evaluation recommends KEEP. Original polished scope is preserved as `invocation_tool_compatibility_alt_original_scope` on the fork. New-head CI is pending; earlier polish/CI and draft PR prose above are historical and require reassessment against this changed head.

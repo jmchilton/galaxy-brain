@@ -1,18 +1,12 @@
-Independent review found no actionable changes. No recommendations were declined.
+Parent disposition: acted on test helper reuse; no recommendations declined. Independent review found no remaining blocker.
 
 <details>
-<summary>Full review</summary>
+<summary>Full independent review</summary>
 
-# Normal review
+Independent normal review: no production correctness findings remain. Inspected the full release-base diff plus expansion, toolbox has_tool/get_tool delegation, eager/lazy compatibility metadata, recursive reference collector and its workflow-list/agent consumers.
 
-No actionable findings in the independent tool-compatibility extraction against `release_26.2` base `0c70fdd5182`. `git diff --check` passes.
+The request service resolves each complete tool reference before constructing histories, retaining user, exact-version and UUID lookup options. Missing tools still take diagnostic precedence over incompatible tools. Shared collection now applies its existing full-reference equality consistently when merging children, preserving first encounter order and distinct versions/UUIDs. Other consumers require reference identity rather than occurrence counts.
 
-The service checks tool references before building run configurations. Existing missing-tool reporting and its exact-version/plain formatting are preserved, with missing tools still taking precedence over incompatible tools. Each reference is resolved once using unchanged tool ID, version, UUID, exactness, and user arguments. `AbstractToolBox.has_tool` already delegates to precisely this `get_tool(...) is not None` lookup, so the replacement does not alter resolution policy or exception behavior.
-
-The service reuses the existing recursive `get_all_tools` traversal, retaining nested workflow checks. `ToolLike.is_workflow_compatible` documents a property already provided by eager `Tool` and lazy `CachedTool`; the cached implementation reads stored metadata and does not materialize a definition. Runtime compatibility rejection in `ToolModule` remains unchanged as a backstop.
-
-API coverage checks incompatible tools against existing and newly named histories, plus workflows containing both missing and incompatible tools with exactness true/false. It verifies rejection, no invocation/history side effects, missing-tool precedence, and exact error formatting. Compatible-tool and existing hook tests are being run as positive controls by the implementation agent. Reviewer made no code changes or duplicate test runs.
-
-Final validation reported by the implementation agent: all 5 focused API cases passed (four new regressions plus existing compatible-tool positive control); existing hook tests and diff checks passed. No review action remains.
+Test-review action: changed the three new invocation POST sites to `WorkflowPopulator.invoke_workflow_raw`, preserving payloads and all assertions. All 10 invalid-request cases pass after the adjustment; the prior expanded run passed 11 including compatible execution. Red evidence proves nested duplicate diagnostics were observable before the collector correction. Hooks pass. No declined correctness recommendations.
 
 </details>

@@ -1,23 +1,17 @@
-# invocation_object_store_validation — implementation handoff
+# invocation_object_store_validation — rescope handoff
 
 STATUS: READY
 
-Reject invalid workflow object-store preferences with HTTP 400 before creating a target history; preserve valid single-store and split-store selections.
+Complete early storage-routing validation, including caller-supplied effective outputs. The user's requested reevaluation recommended a modest expansion, implemented and independently reviewed.
 
-Independent branch directly from `release_26.2` at `0c70fdd5182c7425efecf7c8e76d6bd313de88b9`. Published head: `f862f9f9f4dbb6732834591da053c42ba48afbce` on `jmchilton/galaxy`. No dependency on the original validation branch or the other extractions; no changes to their refs.
+Published head: `000233d81ebccaea171682cc5bdeb00b99da8ac4`. Independent base: `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Original polished scope is preserved remotely as `invocation_object_store_validation_alt_original_scope`. Existing refs were advanced without rewriting history; each branch has its original fix plus one rescope commit and no dependency on the other extractions.
 
-## Validation and review
+## Validation and decisions
 
-New API regressions: 3 failed on the release baseline (all returned 200), then 3 passed with the fix, including no-history assertions. Existing selectable-store and mapped split-store integration tests: 2 passed. Installed lint hooks and diff checks passed. Logs: `/private/tmp/invocation-object-store-red.log`, `-green.log`, `-positive-integration.log`, `-hooks.log`.
+7 API cases and 4 object-store integration cases passed. After invocation-helper cleanup, all 6 negative API cases passed again; installed hooks passed. Baseline demonstrated 1 failing no-history regression and 2 already-passing conflict controls. Logs: `/private/tmp/object-store-rescope-{red,green,integration,hooks}.log`, `/private/tmp/object-store-rescope-review-{green,hooks}.log`.
 
-Independent normal review and test challenge found no changes needed. Scope evaluation recommends retaining this extraction.
+Normal review, fresh test challenge and strict quality review completed; acted on test helper reuse, with no declined recommendations. Second scope evaluation recommends keeping the expanded scope. No UI changes or screenshot requirement. New-head fork CI has not been assessed; prior polish/CI evidence applies to the old head.
 
-46 changed implementation/test lines with reuse of an existing validator; the additional substantial-plumbing/code-size review threshold is not met. API/integration coverage is appropriate for this server request fix; no UI changes. Fork CI has not been assessed.
+Handed back under `branches_implemented_needs_ci`. No PR created or edited.
 
-## Scope and handoff
-
-Validate all three preference fields through the existing selection-policy helper and move their existing mutual-exclusion guard before history creation. Scope review recommends keeping this independent extraction.
-
-Handed off under `branches_implemented_needs_ci`; no PR created. User requested four standalone fixes on `release_26.2`.
-
-[Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md)
+[Rescope details](implementation_rescope_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Quality review](thermo_nuclear_review.md) · [Previous handoff](earlier_drafts/2/implementation_debrief.md)

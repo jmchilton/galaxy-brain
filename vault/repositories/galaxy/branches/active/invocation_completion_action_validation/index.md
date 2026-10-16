@@ -1,6 +1,6 @@
 # invocation_completion_action_validation
 
-Status: `branches_ready_for_final_review` — polished 2026-10-16; human read pending.
+Status: `branches_implemented_needs_ci` — rescope completed 2026-10-16; new-head CI pending.
 
 Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
 
@@ -21,3 +21,7 @@ Base: `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Final publis
 [PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist evaluation](checklist_evaluation.md) · [One strengthening review](strengthening_review.md)
 
 Conflict-free pre-polish rebase; every commit patch unchanged. Independent checklist and one strengthening round pass with no design decision or scope expansion. 3 focused API cases pass; formatting/whitespace checks pass. Workflow completion unit suite: **15 passed**. Fresh fork CI is pending. Human-read item remains unchecked; no SHA approval/title choice assigned and no PR opened.
+
+## Revised scope — 2026-10-16
+
+Validate required completion-hook configuration before creating invocation state. Published head `9f04be9b5ad7012178c1aac68f66f1894fa329f7`; [rescope handoff](implementation_rescope_debrief.md). Fresh normal/test/quality reviews completed; the second scope evaluation recommends KEEP. Original polished scope is preserved as `invocation_completion_action_validation_alt_original_scope` on the fork. New-head CI is pending; earlier polish/CI and draft PR prose above are historical and require reassessment against this changed head.

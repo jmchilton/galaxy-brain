@@ -1,23 +1,17 @@
-# invocation_tool_compatibility — implementation handoff
+# invocation_tool_compatibility — rescope handoff
 
 STATUS: READY
 
-Reject workflow-incompatible tools before creating histories or invocations, preserving existing missing-tool lookup behavior and diagnostics.
+Deduplicate identical nested tool references while retaining distinct versions and UUIDs. The user's requested reevaluation recommended a modest expansion, implemented and independently reviewed.
 
-Independent branch directly from `release_26.2` at `0c70fdd5182c7425efecf7c8e76d6bd313de88b9`. Published head: `8c8c67e4ae55a913be660e8912fd87a752e6ad9c` on `jmchilton/galaxy`. No dependency on the original validation branch or the other extractions; no changes to their refs.
+Published head: `77fe189f505160101d2d087248ad83c645aeb220`. Independent base: `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Original polished scope is preserved remotely as `invocation_tool_compatibility_alt_original_scope`. Existing refs were advanced without rewriting history; each branch has its original fix plus one rescope commit and no dependency on the other extractions.
 
-## Validation and review
+## Validation and decisions
 
-Four new API cases failed on the release baseline: incompatible tools were accepted, and missing-tool requests left histories. Final selection: 5 passed, including compatible workflow execution, new/existing history targets, missing-tool precedence and exact/plain error messages. Full installed hooks and diff checks passed. Logs: `/private/tmp/invocation-tool-compatibility-red.log`, `-green.log`, `-hooks.log`.
+11 API cases passed, including compatible execution. Independent helper-cleanup rerun: all 10 invalid-request cases passed. Installed hooks passed. Baseline 6 failed on repeated diagnostics and 4 top-level controls passed. Logs: `/private/tmp/tools-rescope-{red,green,hooks}.log`, `/private/tmp/tools-rescope-review-{green,hooks}.log`.
 
-Independent normal review and test challenge found no changes needed. Scope evaluation recommends retaining this extraction.
+Normal review, fresh test challenge and strict quality review completed; acted on test helper reuse, with no declined recommendations. Second scope evaluation recommends keeping the expanded scope. No UI changes or screenshot requirement. New-head fork CI has not been assessed; prior polish/CI evidence applies to the old head.
 
-No UI or browser-test changes; API/integration tests exercise the affected behavior. Fork CI has not been assessed.
+Handed back under `branches_implemented_needs_ci`. No PR created or edited.
 
-## Scope and handoff
-
-Resolve each workflow tool reference once with the same version/UUID/exact/user options as the existing availability check. Use cached compatibility metadata and retain the scheduling backstop. Scope and strict code-quality reviews recommend retaining this extraction.
-
-Handed off under `branches_implemented_needs_ci`; no PR created. User requested four standalone fixes on `release_26.2`.
-
-[Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Code-quality review](thermo_nuclear_review.md)
+[Rescope details](implementation_rescope_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Quality review](thermo_nuclear_review.md) · [Previous handoff](earlier_drafts/2/implementation_debrief.md)

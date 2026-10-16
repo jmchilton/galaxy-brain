@@ -1,13 +1,13 @@
-# Test challenge
+Fresh test challenge: retain the API coverage and the three runtime regression cases; no rewrites or deletions are warranted. No test or implementation changes were required.
 
-Keep the API tests and shared assertion helper. They exercise the public request contract with actual imported workflows, persisted connections, histories, datasets, and invocation/job endpoints. There are no new mocks or implementation-mirroring unit assertions to remove or rewrite.
+Reviewed `doc/source/dev/writing_tests.md` and challenged the full branch test diff, including the scope expansion.
 
-The four negative cases are meaningful: wholly disconnected required input with a requested existing history, the same with a new history, partially connected sibling inputs, and a disconnected required input nested two subworkflows deep. Assertions cover HTTP status/error code/path, absence of invocations, unchanged preexisting job counts where a history exists, and no named new history. Reported baseline reds accepted all four with HTTP 200.
+- The API negative helper centralizes repeated invocation submission/assertions and uses existing workflow/dataset populators and history-job helpers. Assertions cover observable status, error code/context and persistence effects rather than private helper structure.
+- The parameterized runtime cases distinguish no connection (existing behavior control), a ready sibling (previous misleading output attribution), and a pending sibling (previous delay hiding a structural failure). The unchanged baseline produced 2 failures and 1 passing control; these cases are not vacuous copies of the implementation.
+- These units cannot be replaced by ordinary API submission tests: the new early guard rejects the malformed graph before runtime. A server integration that inserts malformed persisted invocations could test the same fallback, but would still bypass normal submission and require scheduler/persistence harness code unrelated to this diagnostic. Real ORM graphs persisted by the established unit application directly exercise the canonical fallback with less scaffolding.
+- Existing `MockApp`/`MockModuleInjector` test utilities are reused. The missing-input detector and connection resolver are real; no monkeypatch or bespoke namespace is introduced. The injected noop bookkeeping is not the behavior under test.
+- Whole-object diagnostic assertions verify the failing subworkflow step and prevent fabricated output/dependency attribution. API and runtime cases cover distinct entry points.
+- Positive optional, default, falsy default and connected API cases are retained. No existing assertions were weakened.
+- Browser E2E adds no necessary coverage for a backend saved-graph validation/fallback change; no UI code changed.
 
-Updating the old late-failure test is justified: the new contract rejects submission before an invocation exists. Keeping its old expected failed-invocation record would contradict that contract. The replacement checks more relevant side effects and retains the required-input diagnostic; it does not hide an unexplained runtime failure by weakening assertions.
-
-The three falsy-default cases (false, zero, empty text) protect sentinel behavior against accidental truthiness checks. Existing required-default, optional-disconnected, and connected-but-omitted-optional tests provide execution-level positive controls. These are better than isolated mocked assertions of the shared predicate. The unchanged runtime backstop still covers entrypoints that bypass request validation.
-
-No browser/E2E test is warranted: rejection and persistence effects are fully visible through the API, and no client behavior changes. Workflow units and existing hooks are being run by the implementation agent alongside the focused API selection. Reviewer did not duplicate them or modify code during execution; final runtime outcomes should be recorded in the handoff.
-
-Final validation reported by the implementation agent: focused API selection 10 passed; workflow units 193 passed, 2 skipped; existing hooks and diff checks passed. No review action remains.
+Independent workflow-progress run: 12 passed, log `/private/tmp/subworkflow-rescope-review-units.log`. Reviewed implementation logs: baseline 2 failed/1 passed, complete workflow units 197 passed/1 skipped, API selection 10 passed. No new test execution is claimed beyond the independent 12-case module run.

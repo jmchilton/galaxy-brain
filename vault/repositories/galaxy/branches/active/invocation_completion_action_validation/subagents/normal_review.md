@@ -1,18 +1,21 @@
-Independent review found no actionable changes. No recommendations were declined.
+Parent disposition: acted on test helper reuse; no recommendations declined. Independent review found no remaining blocker.
 
 <details>
-<summary>Full review</summary>
+<summary>Full independent review</summary>
 
-# Normal review
+Independent normal review: no correctness blocker found in the expanded completion-action validation. Acted on the test-helper improvement described below; no implementation changes requested or declined.
 
-No actionable findings in the independent `release_26.2` extraction based on `0c70fdd5182`. `git diff --check` passes. The change rejects unknown completion-action names before building run configurations, histories, or invocations.
+<details>
+<summary>Full independent review</summary>
 
-Validation uses the actual application's `WorkflowCompletionHookRegistry.get_available_hooks()`, including discovered plugin names, rather than maintaining a second hardcoded action list. Every key in every submitted action object is visited; known actions and their configuration values are unchanged. Target URI validation/execution remains with the existing hook path.
+Reviewed the full release-base-to-working-tree change, archived first-pass scope report, implementation evidence, request schema, registry discovery, hook base/export/notification implementations, completion API controls and test-writing guidance. The service checks every submitted action through the existing registry before run configuration/history creation, then delegates configuration validation to the matching hook instance. The shared registered singleton remains the same registry used by the monitor.
 
-The app registers its already-created registry through the existing singleton mechanism and keeps assigning that same instance to `workflow_completion_hook_registry`; the completion monitor still receives that instance. Constructor injection follows the existing scheduling-manager pattern in `WorkflowsService` and avoids an accidental second registry. Initialization still happens in its original order before application services handle requests.
+The new base method is optional and accepting, so existing subclasses need not implement it; notification None/{} remains accepted. Export rejects only malformed object/required target URI shapes; it neither rewrites configuration nor looks up destinations. Existing export format fallback and execution remain unchanged. Registry lookup returns typed hook instances and the local assertion documents the name-validation invariant.
 
-The new API test asserts the diagnostic, HTTP 400, zero workflow invocations, and no newly named history. Existing export-config acceptance and no-hook completion response tests supply positive controls; implementation agent owns their runtime results. No code changes or duplicate tests were performed by this reviewer.
+Test challenge replaced three new repeated raw POST constructions with WorkflowPopulator.invoke_workflow_raw. API tests exercise real request parsing, DI, discovered hooks, status/message and absence of created histories/invocations. No mocks, weakened assertions or client changes were introduced.
 
-Final validation reported by the implementation agent: new unknown-action API regression passed (1); existing registered-export and no-hook API controls passed (2); full existing hook tests passed. No review action remains.
+Validation: focused test execution after the helper cleanup is recorded in test_challenges_debrief.md. Independent review found no need to change export execution, repeated-action semantics or destination access timing as part of this bounded fix.
+
+</details>
 
 </details>

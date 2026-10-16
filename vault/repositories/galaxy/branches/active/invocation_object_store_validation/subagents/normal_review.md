@@ -1,18 +1,12 @@
-Independent review found no actionable changes. No recommendations were declined.
+Parent disposition: acted on test helper reuse; no recommendations declined. Independent review found no remaining blocker.
 
 <details>
-<summary>Full review</summary>
+<summary>Full independent review</summary>
 
-# Normal review
+Independent normal review: no production correctness findings remain. Reviewed the complete release-base diff and uncommitted expansion, request schema, shared selection validator, run-config construction/serialization and distributed-store integration controls.
 
-No actionable findings. Reviewed the two-file extraction against exact `release_26.2` base `0c70fdd5182`; `git diff --check` passes.
+The three explicit preferences and general/split exclusivity are checked before history creation. The relocated effective-output rejection preserves its original truthiness and message; internally derived subworkflow outputs are still computed later. Null/empty omitted behavior and valid split routing retain their existing predicates. Invalid option precedence changes are confined to requests with multiple errors.
 
-All three invocation preference fields use the existing `validate_preferred_object_store_id` helper, shared with history/user preference validation and backed by the object store's selection policy. Unknown/disallowed selections fail before `_get_target_history` can create a history. The existing general-vs-split preference guard moves to the same early check without changing its predicate; its grammar is corrected. Preference values continue to be passed unchanged to `WorkflowRunConfig`.
-
-The change preserves omitted/null/empty preference handling and valid general or split selections. It introduces no new resolver, runtime-state construction, parameter validation, service dependency, or scheduler behavior. Imports remain at module scope. The small API test directly exercises all three sibling fields and checks both HTTP 400 and absence of the requested history.
-
-Validation is being run by the implementation agent: reported baseline reds returned 200 for all three fields; final focused API and existing selectable-store/split-store integration outcomes should be included in the handoff. Reviewer did not duplicate those running suites or modify code. No UI changes or browser tests are needed.
-
-The change comprises 46 changed implementation/test lines (36 additions, 10 removals). Reusing a validator and moving an existing local guard does not constitute substantial plumbing, so the additional thermo-nuclear review threshold is not met.
+Test-review action: replaced both new direct invocation POSTs with existing `WorkflowPopulator.invoke_workflow_raw`; retained all assertions. Fresh focused requests passed 6/6 after this adjustment. Prior expanded selection including compatible invocation passed 7/7; four real distributed-store workflow integration controls passed, including nested/split routing. Repository hooks pass. No declined correctness recommendations.
 
 </details>

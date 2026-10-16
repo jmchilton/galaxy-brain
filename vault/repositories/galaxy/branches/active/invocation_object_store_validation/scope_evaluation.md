@@ -1,27 +1,35 @@
-Keep the implemented narrow scope: early validation of the three invocation object-store preference fields, including moving their existing mutual-exclusion guard before history creation. This is an independent `release_26.2` bug fix and does not require the larger invocation-validation refactor.
+Keep the expanded scope. The branch now completes early storage-routing validation: all explicit preferred stores, their existing exclusivity rule and the adjacent caller-supplied effective-output prohibition are checked before target-history creation. The first recommended modest expansion is implemented, and no further scope change is warranted by the remaining adjacent behavior.
 
-## As implemented
+## As implemented: complete early storage-routing checks
 
-Validate each explicitly selected store through Galaxy's existing preference validator before request histories are created. Keep the existing general/split exclusivity rule alongside it and verify rejection through a parametrized API test.
-
-| Pros | Cons |
-| --- | --- |
-| Covers all three sibling fields consistently; preserves existing policy; independently reviewable; prevents an observable history side effect. | Broad invocation validation still has separate remaining work. |
-
-## Smaller: validate stores without moving the existing exclusivity guard
-
-Add the preference checks early but leave general/split conflicts checked after history creation.
+Use the existing selection policy for all three fields; move both storage-routing guards before history/input preparation. Preserve omitted/null/empty semantics and internally derived effective outputs; real request regressions cover every rejection family and configured-store integration controls retain valid nested/split behavior.
 
 | Pros | Cons |
 | --- | --- |
-| Slightly fewer moved lines. | Leaves closely related validation in two places and preserves avoidable history creation for an invalid preference combination. |
+| • Completes the concrete contiguous validation boundary.<br>• Reuses policy and preserves accepted requests.<br>• Side effects and successful storage routing are observable in real requests. | • Invalid requests with multiple errors can report an earlier storage error.<br>• API rejection fixtures use selection-disabled configuration. |
 
-## Larger: generalized invocation preflight
+## Modest additional expansion: configured nonselectable-store rejection matrix
 
-Introduce shared request validation or move the wider data resolution/runtime-state checks before all history changes.
+Add unknown and nonselectable backend cases under the distributed-store integration fixture across all three fields. This would supply additional policy evidence, but the branch already delegates to the shared policy and exercises all preference sources negatively plus configured stores positively; there is no additional storage-routing behavior to fix here.
 
 | Pros | Cons |
 | --- | --- |
-| Could eventually cover additional invalid-request side effects. | Reintroduces the broad resolver scope being split apart; adds unrelated regressions and dependencies; obscures this simple fix. |
+| • Additional configured-backend coverage. | • Repeats existing canonical selection-policy behavior.<br>• Adds integration setup and runtime without resolving a remaining adjacent defect. |
 
-No scope change is recommended. The planned existing integration positive controls are validation of the chosen scope rather than an expansion of production behavior.
+## Smaller: revert the effective-output movement
+
+Return caller metadata rejection to the late run-config loop while retaining preferred-store checks.
+
+| Pros | Cons |
+| --- | --- |
+| • Slightly smaller diff. | • Restores a proven invalid-request history side effect.<br>• Separates related storage-routing validation. |
+
+## Larger: complete invocation preflight
+
+Include resource parameters, tool state and dataset resolution in a universal mutation-free preflight stage.
+
+| Pros | Cons |
+| --- | --- |
+| • Potentially addresses other invalid-request side effects. | • Requires independent resolver/runtime design decisions.<br>• Adds unrelated behaviors beyond this now-complete storage boundary. |
+
+This second evaluation follows the revised bias toward modest expansion and explicitly considers another small alternative, rather than using release targeting or original issue wording as reasons to stay narrow. Earlier expansion rationale is archived in earlier_drafts/2/scope_evaluation.md. Correctness/test evidence was reviewed separately; this report evaluates the final behavior boundary.

@@ -1,6 +1,6 @@
 # invocation_object_store_validation
 
-Status: `branches_ready_for_final_review` — polished 2026-10-16; human read pending.
+Status: `branches_implemented_needs_ci` — rescope completed 2026-10-16; new-head CI pending.
 
 Reject invalid workflow object-store preferences with HTTP 400 before creating a target history; preserve valid single-store and split-store selections.
 
@@ -21,3 +21,7 @@ Base: `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Final publis
 [PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist evaluation](checklist_evaluation.md) · [One strengthening review](strengthening_review.md)
 
 Conflict-free pre-polish rebase; every commit patch unchanged. Independent checklist and one strengthening round pass with no design decision or scope expansion. 3 focused API cases pass; formatting/whitespace checks pass. Valid selectable general and mapped split-store integration controls: **2 passed**. The shared virtualenv lacked pytest-xdist after the base refresh; loaded pinned pytest-xdist 3.8.0 and execnet 2.1.2 under /tmp, leaving the shared environment unchanged. Fresh fork CI is pending. Human-read item remains unchecked; no SHA approval/title choice assigned and no PR opened.
+
+## Revised scope — 2026-10-16
+
+Complete early storage-routing validation, including caller-supplied effective outputs. Published head `000233d81ebccaea171682cc5bdeb00b99da8ac4`; [rescope handoff](implementation_rescope_debrief.md). Fresh normal/test/quality reviews completed; the second scope evaluation recommends KEEP. Original polished scope is preserved as `invocation_object_store_validation_alt_original_scope` on the fork. New-head CI is pending; earlier polish/CI and draft PR prose above are historical and require reassessment against this changed head.
