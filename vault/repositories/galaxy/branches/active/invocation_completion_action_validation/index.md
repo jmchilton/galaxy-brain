@@ -1,6 +1,6 @@
 # invocation_completion_action_validation
 
-Status: `branches_implemented_needs_ci` — rescope completed 2026-10-16; new-head CI pending.
+Status: `branches_need_polish` — expanded-head polish in progress 2026-10-16; fork CI running without observed failures.
 
 Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
 
@@ -25,3 +25,9 @@ Conflict-free pre-polish rebase; every commit patch unchanged. Independent check
 ## Revised scope — 2026-10-16
 
 Validate required completion-hook configuration before creating invocation state. Published head `9f04be9b5ad7012178c1aac68f66f1894fa329f7`; [rescope handoff](implementation_rescope_debrief.md). Fresh normal/test/quality reviews completed; the second scope evaluation recommends KEEP. Original polished scope is preserved as `invocation_completion_action_validation_alt_original_scope` on the fork. New-head CI is pending; earlier polish/CI and draft PR prose above are historical and require reassessment against this changed head.
+
+## Expanded-head polish — 2026-10-16
+
+Current published head `ddfbb3b991c185779b0f4e200801d6f4d443d8c2`, actual base `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Fetch/rebase confirmed already current. The fresh checklist found the two new notification acceptance cases needed a leading baseline-test commit; reordered mechanically into `993613b8a9e` (baseline), `8d60f4e6a09` (unknown-name guard), `ddfbb3b991c` (required export configuration). Final tree exactly matches prior expanded head `9f04be9b5ad`. Published only to jmchilton with an exact old-head force-with-lease. No code or behavior changes during polish.
+
+Fresh independent checklist now passes all agent-answerable items; human-read remains unchecked. [Current description](pr_description.md) · [Titles](pr_titles.md) · [Labels](pr_tags.md) · [Checklist](checklist_evaluation.md) · [Strengthening review](strengthening_review.md) · [Polish debrief](polish_debrief.md). These supersede the old names-only polish evidence above. Fresh 28-case API/unit run and two-case baseline-only run are in progress. Black/isort/whitespace checks pass. Pre-reorder CI had no failures; workflow framework, OpenAPI, postgres units, main tools, converters, performance and mulled units passed while API/general units were running. New-head CI must be assessed separately.

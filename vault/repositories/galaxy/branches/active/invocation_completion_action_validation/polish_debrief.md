@@ -1,31 +1,13 @@
-# Polish debrief — 2026-10-16
+# Expanded-head polish — 2026-10-16
 
-Status: `branches_ready_for_final_review`. No approval SHA or chosen PR title is assigned.
+Status: branches_need_polish; final verification in progress. No approval SHA or title chosen.
 
-- Branch: `invocation_completion_action_validation`
-- Actual base: `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`
-- Final published head: `163b1b36f6f44bd9bae875f7fa396921fffa483e`
-- [PR description](pr_description.md) · [Three title options](pr_titles.md)
-- [Independent checklist evaluation](checklist_evaluation.md) · [One fresh strengthening review](strengthening_review.md)
+Head `ddfbb3b991c185779b0f4e200801d6f4d443d8c2`; actual base release_26.2 at `579ca73440d776002b7099538cef000838687d8e`. Earlier expanded head `9f04be9b5ad` has exactly the same final tree.
 
-## Preparation and CI
+The current GENERAL checklist requires baseline controls in leading commits. Fresh independent review identified two new notification acceptance cases sharing the implementation commit. Split these into leading `993613b8a9e`, followed by unknown-name fix `8d60f4e6a09` and required export configuration fix `ddfbb3b991c`. Unknown-name/eight malformed-export tests remain with their fixes. Re-review confirms all agent-answerable items pass; human-read stays unchecked. Published to jmchilton fork with exact old-head force-with-lease. No production/test content change from the reviewed expanded scope.
 
-Rechecked prior-head fork CI. Relevant runtime/API checks had passed; morning reruns for the recorded unrelated failures were queued, not passing new evidence. Per the standing pre-polish rule, rebased onto the actual release base without conflicts. Range-diff marks every commit patch identical; no production or test implementation change was introduced by polishing. Published only to the jmchilton fork with an exact old-head force-with-lease.
+[Description](pr_description.md), [three release-prefixed titles](pr_titles.md), [labels](pr_tags.md), [checklist](checklist_evaluation.md), [one strengthening review](strengthening_review.md). Label recommendation is kind/bug + area/workflows + area/API: fixes accepted unusable completion requests. Bot would apply workflow/testing/testing-api path labels; semantic API/workflow areas are central.
 
-Fresh final-head fork snapshot: 28 workflows found, 0 successful, 26 not completed, no observed red. Fresh CI remains pending; previous-head coverage is not claimed as final-head coverage. No browser run is claimed for these server-only changes.
+Pre-reorder fork CI had no failures; seven workflows succeeded, API/docs/general units were running, remaining checks pending/queued or skipped. Fresh head requires separate CI. Local verification: Black, isort and whitespace pass for five changed Python files. 28 focused API/unit cases running against identical final contents; two notification cases running against the leading base-only test commit. Reports /tmp/completion-polish-tests.html and /tmp/completion-polish-baseline.html; logs use matching .log names. Direct pytest avoids dependency-mutating runner startup.
 
-## Checklist and strengthening
-
-Fresh independent review answered every general and workflow checklist item with evidence. No failed item, code blocker or design decision. John's human-read checkbox remains unchecked. Completed exactly one fresh strengthening round: Highlighted invocation API callers and the unchanged hook-payload/URI/execution boundary. No scope expansion or follow-up code task remains from that round.
-
-## Final local validation
-
-- Focused API regression/positive controls: **3 passed** against the rebased head.
-- Black, isort and diff whitespace checks pass for all changed Python files.
-- Workflow completion unit suite: **15 passed**.
-
-API report: `/tmp/gx-polish-invocation_completion_action_validation-api.html`. Logs are local validation artifacts; the checked-in description summarizes the results.
-
-## Handoff
-
-Human read-through and title selection remain for John. No PR was opened, no description/comment/review was posted to GitHub, and no reviewers or mentions were added.
+No PR or GitHub discussion created or edited. Description covers hook-owned configuration validation, preserves accepting defaults, and explicitly bounds optional options/destination checks. Human review/title choice remain for John.

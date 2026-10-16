@@ -1,18 +1,11 @@
-# Fresh strengthening review — invocation_completion_action_validation
+# One fresh strengthening round — expanded scope
 
-Reviewed the supplied rebased diff/checklist, current PR description, registry source, implementation evidence and review debriefs. Read-only review; no Git operations or tests run.
+Nothing to add. No further development within the stated motivation would materially strengthen the pitch or remove hedging. Reviewed refreshed description and exact release-base diff at ddfbb3b991c185779b0f4e200801d6f4d443d8c2, whose final tree matches the expanded implementation.
 
-No necessary in-scope code development identified. The pitch has a concrete invalid request, baseline HTTP 200 evidence, a distinct HTTP 400/no-history/no-invocation regression, and registered/no-hook positive controls. Additional payload validation, hook execution changes or a generalized preflight mechanism would broaden the agreed fix. No unsupported scope hedge needs a code change; “Toward #20900” accurately describes an independent partial fix.
+Highlighted sentences answer likely misreadings:
 
-One small prose task before finalizing: make the audience explicit in the highlighted scope sentence. Suggested replacement:
+- Audience: invocation API callers and submission-time feedback, rather than an editor feature.
+- Scope: configuration shape does not guarantee destination existence, accessibility or successful export.
+- Compatibility: valid completion handling and optional export-option semantics remain unchanged.
 
-> ***For invocation API callers, this checks completion-action names before submission creates a history or invocation. Hook configuration, target URIs and execution semantics keep their existing validation.***
-
-Misreadings checked:
-
-- Audience: this fixes API submission feedback, rather than adding a workflow-editor feature or changing hook-author interfaces. The opener/body and request table imply the correct audience, but the existing highlighted sentence only states scope; the replacement names the API audience directly.
-- Scope: this does not completely validate hook payloads or fix all invocation-validation cases. The existing highlighted “Only action names are checked here” sentence, Context and “Toward” opener already address this; the replacement retains the boundary.
-- Execution: accepting a registered export configuration does not prove an export succeeds. Risk Review Advice states this explicitly; no further change needed.
-- Extensions: the guard uses discovered registered names rather than only built-ins. The registry paragraph and risk details address this, supported by the unchanged discovery mechanism and shared singleton wiring.
-
-Keep historical baseline/positive-control evidence distinct from fresh post-rebase results in the final handoff, as the existing draft already intends. No design decision required.
+Registry-based lookup, hook-owned validation with accepting default, and required export checks precede run-state creation. Real API regressions assert responses and no persistence side effects. Notification compatibility controls and existing valid-export/completion controls support acceptance claims. Read-only review; no additional task or scope proposal.

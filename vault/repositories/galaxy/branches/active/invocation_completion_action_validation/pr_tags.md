@@ -1,3 +1,3 @@
-- kind/enhancement
+- kind/bug
 - area/workflows
 - area/API
