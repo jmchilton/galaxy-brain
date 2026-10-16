@@ -1,6 +1,6 @@
 # vitest_readability_with_churn
 
-Status: `branches_need_decision`; published comparison stack, do not PR. Base: `vitest_readability` (`e06bbc4c70271aacfe27a88e315c882b5270ecaa`).
+Status: `branches_reference`; published comparison stack, do not PR. Base: `vitest_readability` (`e06bbc4c70271aacfe27a88e315c882b5270ecaa`).
 
 Current pushed head: `488693a2611de20c50ec5f990311a6d676c0c989`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn`.
 

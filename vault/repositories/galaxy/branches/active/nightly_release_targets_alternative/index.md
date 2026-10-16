@@ -1,6 +1,6 @@
 # nightly_release_targets_alternative
 
-Status: `branches_need_decision`. Base: `dev`. Reference-only alternative; do not open a PR or promote automatically.
+Status: `branches_reference`. Base: `dev`. Reference-only alternative; do not open a PR or promote automatically.
 
 **John rejected this implementation on 2026-10-14 for being too verbose and unreadable.** Keep it available for Marius to assess whether cross-release nightly coverage justifies the added machinery. No endorsement or feedback from Marius is recorded; no message or comment was posted to him.
 

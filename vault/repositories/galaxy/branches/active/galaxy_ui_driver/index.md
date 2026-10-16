@@ -1,6 +1,6 @@
 # galaxy_ui_driver
 
-Status: `branches_need_decision`.
+Status: `branches_reference`.
 
 Standing branch for Galaxy changes motivated by gxui.
 

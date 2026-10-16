@@ -1,6 +1,6 @@
 # issue_20900_invocation_validation
 
-Status: `branches_need_decision`. Base: `dev`. Implementation: BLOCKED by inherited validation regressions; requested rebase complete.
+Status: `branches_reference` — waiting on smaller PRs to be pulled out of it (John, 2026-10-16). Base: `dev`. Implementation: BLOCKED by inherited validation regressions; requested rebase complete.
 
 Validates workflow invocation requests before creating histories or other side effects (#20900).
 

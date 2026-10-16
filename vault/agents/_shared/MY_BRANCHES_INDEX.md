@@ -17,7 +17,8 @@ Keep these sections in this order. Write `None yet.` under an empty one. Each he
 7. `branches_need_polish`: polishing in progress. The entry moves here when polishing starts and on to `branches_ready_for_final_review` when it ends.
 8. `branches_ready_for_final_review`: polished. The description is in the branch directory's `pr_description.md`, linked from `index.md`, and the branch waits for the user's read-through, including the human-read checklist item. Only the user moves an entry out.
 9. `branches_need_pr`: the user approved it. The branch record holds the approved SHA, approval date and chosen title; retain the SHA in the queue entry too. Agents open the PR once fork CI on that SHA is greenish (see Automatic Actions in `gx_branches/AGENTS.md`).
-10. `branches_need_decision`: the user has to choose (scope, an alternative, drop it) or it's reference only.
+10. `branches_need_decision`: the user has to choose (scope, an alternative, drop it).
+11. `branches_reference`: kept for reference, as a standing branch, or as part of another effort. No PR intended; agents don't act on these.
 
 Classify from live GitHub state, never from a PR's age or title. Put a branch in a `branches_*` section only when there's a documented intent to open a PR; a worktree on its own isn't one.
 

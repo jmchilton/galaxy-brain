@@ -1,6 +1,6 @@
 # move_markdown_conversion_to_util
 
-Status: `branches_need_decision`.
+Status: `branches_reference`.
 
 Moves markdown HTML/PDF conversion out of `managers.markdown_util` into `galaxy.util`.
 

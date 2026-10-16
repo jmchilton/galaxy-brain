@@ -14,3 +14,4 @@
 - [`zizmor_self_repository`](../../repositories/galaxy/branches/abandoned/zizmor_self_repository/index.md) (`10ed99e36b4`, PR #24016 closed) — abandoned: John has closed out the work (2026-10-11); clean, fully pushed worktree removed.
 - [`jest_readability_batch_01`](../../repositories/galaxy/branches/abandoned/jest_readability_batch_01/index.md) (`1e6d8358e8f`, PR #24015 closed) — abandoned: replaced by `vitest_readability` in #24038 (John, 2026-10-11); clean, fully pushed worktree removed.
 - [`notebook_iframe`](../../repositories/galaxy/branches/abandoned/notebook_iframe/index.md) (`ceb2de888089`, PR #22988 closed) — abandoned at John’s explicit request after closure (2026-10-13); clean worktree retained because no upstream is configured.
+- [`integration_ci_scope`](../../repositories/galaxy/branches/abandoned/integration_ci_scope/index.md) (`ca6a99dd6d9`) — abandoned at John’s request (2026-10-16); clean, fully pushed worktree removed.
