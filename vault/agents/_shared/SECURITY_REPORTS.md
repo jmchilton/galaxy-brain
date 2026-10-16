@@ -5,7 +5,8 @@ Write suspected security findings and sensitive evidence directly to a unique
 (`0600`). Tell John privately where it was saved.
 
 - Never record sensitive findings or private report paths in repositories
-  (including ignored files), commit messages, or public outputs.
+  (including ignored files), commit messages, or public outputs. Exception: retro
+  session dumps (`PROCESS_DUMP_SESSION_FOR_RETRO.md`).
 - Keep ordinary review findings in normal notes. This overrides repository output
   instructions. Give subagents this policy before starting; their returned
   summaries must be non-sensitive.

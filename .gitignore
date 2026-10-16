@@ -9,3 +9,4 @@ site/.astro/
 /vault/agents/**/screenshots/
 /vault/repositories/**/branches/**/screenshots/
 /vault/repositories/**/reviews/**/screenshots/
+/vault/agents/factory/sessions_for_retro/
