@@ -1,10 +1,10 @@
 # vitest_readability_with_churn
 
-Status: `branches_need_decision`; local comparison stack, do not PR. Base: `vitest_readability` (`e06bbc4c70271aacfe27a88e315c882b5270ecaa`).
+Status: `branches_need_decision`; published comparison stack, do not PR. Base: `vitest_readability` (`e06bbc4c70271aacfe27a88e315c882b5270ecaa`).
 
-Current local head: `488693a2611de20c50ec5f990311a6d676c0c989`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn`.
+Current pushed head: `488693a2611de20c50ec5f990311a6d676c0c989`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn`.
 
-John requested this backup on 2026-10-13 before removing the 77 score-2 readability commits. Originally it preserved the complete `vitest_readability` history at `7f2db5e59415f07c09fec5be75ff4885fbad047e`, including its `fix_story_a11y` base. That original head is now preserved at `backup/vitest_readability_with_churn-before-stack-20261016`. The named branch is now a local stack with a worktree; no separate PR or remote branch.
+John requested this backup on 2026-10-13 before removing the 77 score-2 readability commits. Originally it preserved the complete `vitest_readability` history at `7f2db5e59415f07c09fec5be75ff4885fbad047e`, including its `fix_story_a11y` base. That original head is now preserved at `backup/vitest_readability_with_churn-before-stack-20261016`. The named branch is now a comparison stack with a worktree; published on the fork at John’s request, no separate PR.
 
 The original assessment refers to snapshot `7a5aa84d83dce57572a67450020a5fd0177a97af`. [Pruning manifest](../../../../../projects/just_jesting_around/readability_assessment/prune_plan.json) maps all 493 assessed commits to the preserved history; reviewed score-2 patches are unchanged. [Marginal examples](../../../../../projects/just_jesting_around/readability_assessment/marginal_examples.md) summarize retained score-3 changes.
 
@@ -21,3 +21,11 @@ Final head `488693a2611de20c50ec5f990311a6d676c0c989` has 76 commits above clean
 Local comparison branch only. No remote publication, PR changes, downstream cascade, or changes to the cleaned branch.
 
 [Implementation debrief](implementation_debrief.md). Tracking committed locally only per pipeline instructions.
+
+## Published comparison and story restack plan — 2026-10-16
+
+John explicitly requested publication. Pushed `488693a2611de20c50ec5f990311a6d676c0c989` as new `jmchilton/vitest_readability_with_churn`, set its upstream, and verified exact remote SHA. No PR opened; reference-only status retained.
+
+Read-only ancestry audit: current stories `b1ba6eac0fd36c58256f9e8cdda9061cb7713697` contains old churn-inclusive readability `7f2db5e59415f07c09fec5be75ff4885fbad047e`, with 159 story-only commits above it. Current play `5673676726e0ae2430cb0d73f28cf61b60eaae0b` inherits stories through `f2a726da91a19e070a60d6d42cfa6f946ea06a47`, with 99 play-only commits above that point. Neither contains cleaned readability `e06bbc4c702`. Stories overlaps the historical churn delta in 25 test paths; play overlaps it in 12. The separate a11y and real-API branches also lack clean-head ancestry and require their own boundary audit.
+
+Recommended sequence (plan only; story refs untouched): freeze worker loops and record exact remote heads/backups; rebase only stories’ 159 commits from old readability onto published cleaned readability via `--onto`; inspect the 25 overlapping migrated tests plus their stories for churn carried in content, preserving migration behavior/assertions and required fixtures; validate unit/browser/type/build gates and review before publishing stories with the recorded lease; then replay only play’s 99 commits from its actual captured stories parent `f2a726da91a` onto the newly published stories tip, audit its 12 overlapping test paths plus plays, validate/review and push with its exact lease. Preserve `Test-File` trailers and per-test commits. Verify new layer ancestry and diff each layer against its parent. Audit a11y/real-API boundaries separately after the core stack. The with-churn branch is a comparison reference, not a parent for the cleaned story stack.

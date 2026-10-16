@@ -90,7 +90,7 @@
   ],
   "comparison_tree": "0a43f4f235c57524d6ddd9dc9b87b8c93da44a66",
   "test_only": true,
-  "published": false,
+  "published": true,
   "tree": "b49c7c40c6474ec96cbded0cbc0791375f294c42",
   "worktree": "/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn",
   "normal_review": "passed",
@@ -116,5 +116,7 @@
     "shed": "/private/tmp/churn-stack-shed-vitest.log",
     "client_types": "/private/tmp/churn-stack-types-final.log",
     "shed_types": "/private/tmp/churn-stack-shed-types.log"
-  }
+  },
+  "remote_branch": "jmchilton/vitest_readability_with_churn",
+  "verified_remote_head": "488693a2611de20c50ec5f990311a6d676c0c989"
 }
