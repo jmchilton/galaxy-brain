@@ -1,0 +1,3 @@
+- [26.1] Honor invocation request defaults for input copying and ds_map
+- [26.1] Fix false no_add_to_history and empty ds_map handling
+- [26.1] Backport value-based workflow invocation request checks

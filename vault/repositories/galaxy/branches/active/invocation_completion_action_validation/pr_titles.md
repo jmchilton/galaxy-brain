@@ -1,0 +1,3 @@
+- [26.2] Reject unknown workflow completion actions before invocation
+- [26.2] Validate completion-action names before creating run state
+- [26.2] Check invocation completion actions against the registered hooks

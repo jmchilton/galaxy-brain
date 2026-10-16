@@ -6,6 +6,8 @@ No untracked open PRs by jmchilton were found from the last three days. [Shared 
 
 Stack/CI repairs completed 2026-10-16: selection and rerun children integrated with their named parents; lineage typing fixed. Local targeted tests pass; fresh fork CI pending.
 
+Polished 2026-10-16: four 26.2 invocation-validation fixes and the 26.1 input-copying/ds_map backport await human read-through and title selection. Final-head fork CI is pending; descriptions and validation are linked from each record.
+
 ## Open Galaxy PRs — ready from our side (`ready`)
 
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [#24141](https://github.com/galaxyproject/galaxy/pull/24141).
@@ -66,14 +68,15 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
+None yet.
+
+## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
+
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs while preserving defaults and optionality. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_subworkflow_input_connections?expand=1).
 - [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Checks workflow tool compatibility before creating histories or invocations. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_tool_compatibility?expand=1).
 - [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Rejects unknown completion actions before creating histories or invocations. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_completion_action_validation?expand=1).
 - [`invocation_object_store_validation`](../../repositories/galaxy/branches/active/invocation_object_store_validation/index.md) — Rejects invalid invocation object-store preferences before creating histories. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_object_store_validation?expand=1).
 - [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
-
-## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
-
 - [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24173_invocation_selection_prep...jmchilton:galaxy:issue_24173_invocation_selection_urls?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
 - [`issue_24175_imported_invocation_step_params`](../../repositories/galaxy/branches/active/issue_24175_imported_invocation_step_params/index.md) — Preserves tool step parameters when importing invocation archives so Rerun works (#24175). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24178_subworkflow_step_params_export...jmchilton:galaxy:issue_24175_imported_invocation_step_params?expand=1).

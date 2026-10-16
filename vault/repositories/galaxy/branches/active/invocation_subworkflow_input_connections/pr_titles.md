@@ -1,0 +1,3 @@
+- [26.2] Reject disconnected required subworkflow inputs before invocation
+- [26.2] Report missing subworkflow input connections at submission
+- [26.2] Validate required subworkflow connections before creating run state
