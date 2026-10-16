@@ -19,3 +19,7 @@ Current fork head `113a63bb6920de19f81aaba7f83d9b53b695a911` conflicts with `ori
 ## Morning refresh — 2026-10-16
 
 Conflict preview against `origin/dev` at `113a63bb6920de19f81aaba7f83d9b53b695a911` found overlapping changes in 2 paths (`client/src/components/Common/GCard.test.ts`, `client/src/components/Common/GCard.vue`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.
+
+## Re-harden — 2026-10-16
+
+Rebased onto dev `5ff1e46b8c3` (GCard conflict was mechanical: dev re-indented the header; kept dev's markup + `icon-only color="red"`, appended the clear-title tests). Head `3c5a53c2c4f` pushed to fork; GCard/extraction/PageEditor vitest 267 and extract unit 55 pass. Earlier debrief moved to `earlier_drafts/1/`; hardening steps in progress.
