@@ -1,6 +1,6 @@
 PRs To Review:
-- [#24186](https://github.com/galaxyproject/galaxy/pull/24186) — Initial review in progress. [notes](../../repositories/galaxy/reviews/active/24186/index.md)
-- [#24190](https://github.com/galaxyproject/galaxy/pull/24190) — Initial review in progress. [notes](../../repositories/galaxy/reviews/active/24190/index.md)
+- [#24186](https://github.com/galaxyproject/galaxy/pull/24186) — Initial review complete; approve; draft unposted. [notes](../../repositories/galaxy/reviews/active/24186/index.md)
+- [#24190](https://github.com/galaxyproject/galaxy/pull/24190) — Initial review complete; three P2 findings; draft unposted. [notes](../../repositories/galaxy/reviews/active/24190/index.md)
 - [#24101](https://github.com/galaxyproject/galaxy/pull/24101) — Ready again; Sam reports addressing Marius’s review; updated head needs follow-up verification. [notes](../../repositories/galaxy/reviews/active/24101/index.md)
 - [#23869](https://github.com/galaxyproject/galaxy/pull/23869) — Unposted draft is stale after new commits; Marius/Alireza review in progress; revise and verify before delivery. [notes](../../repositories/galaxy/reviews/active/23869/index.md)
 - [#23827](https://github.com/galaxyproject/galaxy/pull/23827) — Approved by John; awaiting merge decision; two package checks fail on ssh_util typing. [notes](../../repositories/galaxy/reviews/active/23827/index.md)

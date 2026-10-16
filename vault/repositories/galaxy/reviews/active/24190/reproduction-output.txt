@@ -1,0 +1,16 @@
+Command (run from PR worktree):
+PYTHONPATH=lib /Users/jxc755/projects/repositories/galaxy/.venv/bin/python /private/tmp/review_24190.py
+
+Exit status: 0
+
+XML output type: list:list
+Nest list (0 elements): list:list
+Nest list:paired (1 elements): list:list:paired
+Nest list:paired (0 elements): list:list
+bare paired before: direct=True, map=False
+bare paired after: direct=False, map=False
+Predicted per-job output type for mapping: list:list
+Predicted mapped output type for list:list:paired input: list:list:list
+Expected actual mapped structure: list:list:list:paired
+
+The saved reproduce.py is the same script, and may be run by replacing the final script path in this command.
