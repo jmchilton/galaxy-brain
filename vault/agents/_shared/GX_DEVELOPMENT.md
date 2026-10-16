@@ -3,6 +3,8 @@
 Please read "vault/agents/gx_branches/PROJECT_MANAGEMENT.md" for information on branch and PR management for work done on this project.
 
 BRANCH_DIRECTORY is `vault/repositories/galaxy/branches/active/<branch_name>/`; follow `vault/agents/_shared/REPOSITORY_BRANCHES.md` for its record and supporting files. WORKING_DIRECTORY is the path to the worktree/branch we're working out of.
+
+Before branching, pick the base and record the base in the branch record. The Galaxy policy is the oldest supported branch that has the bug (1 year since release) - the user's preference is that more intricate fixes push us toward targeting a more recent release and more serious issues or simpler/cleaner fixes push us toward targeting an older release. Generally fixes shouldn't target dev - but if the bug fix requires a serious API change or a database migration - dev may be the appropriate target.
 ## Issues
 
 If you're asked by the user to file an issue or record an issue or file a bug report or record a feature request, etc... - do not do this directly. Follow the process in ``vault/agents/_shared/GX_QUEUING_ISSUE_CREATION.md``.
