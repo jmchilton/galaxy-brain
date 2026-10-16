@@ -1,14 +1,10 @@
-# Fresh strengthening review
+# Fresh strengthening review — expanded head
 
-No necessary code or prose strengthening tasks. The narrow two-file change supports the pitch: three real API requests previously returned 200, and the fix rejects them before target-history creation using the existing selectable-store validator. Existing integration positive controls cover valid general and split preferences. Further development would not materially strengthen this already concrete claim.
+Exactly one independent strengthening round at head `000233d81ebccaea171682cc5bdeb00b99da8ac4`: Nothing to add. The complete storage-routing boundary reuses existing selection policy, with negative API regressions and configured routing controls. Additional configured-backend rejection cases would repeat policy coverage without supporting a stronger behavior claim. No code or prose task remains.
 
-Likely audience/scope misreadings:
+Likely misreadings addressed by highlighted sentences in the description:
 
-- **A new storage policy or changed valid-job routing.** The highlighted sentence explicitly says this applies the existing policy and does not change valid-job selection. Addressed above the folds.
-- **A general solution to invalid invocation side effects / all of #20900.** The highlighted “validation timing” sentence establishes the local mechanism; the opener names object-store preferences and uses “Toward,” while Context explicitly excludes broader invocation validation. Together these adequately bound the claim.
-- **Only unknown identifiers change behavior; conflicting preference combinations remain late.** The visible table explicitly includes the general/split conflict and its earlier rejection; the following paragraph repeats the relocated guard. Addressed without needing another highlighted sentence.
-- **This fixes a UI-specific problem.** The table identifies HTTP 400 and the testing section identifies API regressions. The public invocation API audience is clear enough; no UI claim is made.
+- Audience: valid workflow authors might expect required changes. First highlighted sentence names invocation API options and preserves valid storage routing.
+- Scope: universal invocation preflight or scheduler-derived metadata changes. Second highlighted sentence explicitly bounds the change and preserves internally derived effective-output handling.
 
-No unsupported hedging needs removal. The owner should replace the pending post-rebase validation handoff wording when fresh results are final, as already planned; that is evidence bookkeeping rather than a scope/code task.
-
-Reviewed the supplied exact diff, checklist, branch description, index, scope evaluation, test challenge, and implementation handoff. No tests or mutations beyond this report were performed.
+The qualified Toward #20900 opener remains appropriate: the branch does not demonstrate resolution of every invocation-validation case. Read-only review; no tests or mutations by reviewer.

@@ -45,7 +45,6 @@ None yet.
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Report partial and wholly disconnected required subworkflow inputs consistently at runtime. Rescoped and reviewed; fresh CI pending.
 - [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Deduplicate identical nested tool references while retaining distinct versions and UUIDs. Rescoped and reviewed; fresh CI pending.
 - [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Validate required completion-hook configuration before creating invocation state. Rescoped and reviewed; fresh CI pending.
-- [`invocation_object_store_validation`](../../repositories/galaxy/branches/active/invocation_object_store_validation/index.md) — Complete early storage-routing validation, including caller-supplied effective outputs. Rescoped and reviewed; fresh CI pending.
 - [`issue_24177_rerun_step_params_full_form`](../../repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/index.md) — Keeps reruns with tool step params in the expanded form and prefills simple-form settings (#24177). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24176_rerun_full_form_prefill...jmchilton:galaxy:issue_24177_rerun_step_params_full_form?expand=1).
 - [`vitest_real_api_calls`](../../repositories/galaxy/branches/active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`integration_ci_scope`](../../repositories/galaxy/branches/active/integration_ci_scope/index.md) — Selects costly plugin suites from changed paths; helpers and guide live beside integration tests. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:integration_ci_scope?expand=1).
@@ -71,7 +70,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`invocation_object_store_validation`](../../repositories/galaxy/branches/active/invocation_object_store_validation/index.md) — Complete early storage-routing validation, including caller-supplied effective outputs. Rescoped and reviewed; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_object_store_validation?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 

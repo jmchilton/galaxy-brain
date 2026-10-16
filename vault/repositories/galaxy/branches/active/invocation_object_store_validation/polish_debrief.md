@@ -1,31 +1,13 @@
-# Polish debrief — 2026-10-16
+# Expanded-head polish — 2026-10-16
 
-Status: `branches_ready_for_final_review`. No approval SHA or chosen PR title is assigned.
+Head: `000233d81ebccaea171682cc5bdeb00b99da8ac4`. Actual base: release_26.2 at `579ca73440d776002b7099538cef000838687d8e`. This supersedes the original-scope polish.
 
-- Branch: `invocation_object_store_validation`
-- Actual base: `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`
-- Final published head: `90ef0b0382b6614a1bcea0204300d813baa2091e`
-- [PR description](pr_description.md) · [Three title options](pr_titles.md)
-- [Independent checklist evaluation](checklist_evaluation.md) · [One fresh strengthening review](strengthening_review.md)
+Fetch and rebase found the branch already current. Worktree clean; no code change, extra commit or fork push needed. Current fork head matches local HEAD.
 
-## Preparation and CI
+Fresh independent [checklist evaluation](checklist_evaluation.md): no blockers, human-read unchecked. Exactly one [strengthening round](strengthening_review.md): nothing to add, no scope expansion. Refreshed [description](pr_description.md), [three release-prefixed titles](pr_titles.md), and [labels](pr_tags.md) cover effective-output rejection as well as all store preferences and general/split conflicts. kind/bug follows the documented distinction: existing requests accepted invalid preferences or left a history on rejection. Labeler would match area/workflows, area/testing and area/testing/api; recommended semantic areas are workflows/API/objectstore.
 
-Rechecked prior-head fork CI. Relevant runtime/API checks had passed; morning reruns for the recorded unrelated failures were queued, not passing new evidence. Per the standing pre-polish rule, rebased onto the actual release base without conflicts. Range-diff marks every commit patch identical; no production or test implementation change was introduced by polishing. Published only to the jmchilton fork with an exact old-head force-with-lease.
+Fresh verification: 6 API regressions passed; Black, isort and diff whitespace checks pass. Integration controls in progress. Vault validation: 124 files, 0 errors, 15 advisory warnings. API report: /tmp/object-store-polish-api.html; log: /tmp/object-store-polish-api-direct.log. Integration report/log: /tmp/object-store-polish-integration.{html,log}.
 
-Fresh final-head fork snapshot: 28 workflows found, 0 successful, 26 not completed, no observed red. Fresh CI remains pending; previous-head coverage is not claimed as final-head coverage. No browser run is claimed for these server-only changes.
+Runner/environment incident: first run rejected options after test path; corrected run triggered startup, updated shared virtualenv packages, then passed unsupported --skip-common-startup to pytest. No regression tests ran in those attempts. Switched to direct pytest with standard skill environment variables and existing tool configuration. Startup details: /tmp/object-store-polish-api.log. Shared packages were not automatically rolled back; the environment change is recorded explicitly.
 
-## Checklist and strengthening
-
-Fresh independent review answered every general and workflow checklist item with evidence. No failed item, code blocker or design decision. John's human-read checkbox remains unchecked. Completed exactly one fresh strengthening round: Nothing to add; kept both invalid-store rejection and earlier general/split conflict detection explicit. No scope expansion or follow-up code task remains from that round.
-
-## Final local validation
-
-- Focused API regression/positive controls: **3 passed** against the rebased head.
-- Black, isort and diff whitespace checks pass for all changed Python files.
-- Valid selectable general and mapped split-store integration controls: **2 passed**. The shared virtualenv lacked pytest-xdist after the base refresh; loaded pinned pytest-xdist 3.8.0 and execnet 2.1.2 under /tmp, leaving the shared environment unchanged.
-
-API report: `/tmp/gx-polish-invocation_object_store_validation-api.html`. Logs are local validation artifacts; the checked-in description summarizes the results.
-
-## Handoff
-
-Human read-through and title selection remain for John. No PR was opened, no description/comment/review was posted to GitHub, and no reviewers or mentions were added.
+Fork CI snapshot for exact published head: 19 queued, 1 pending, 2 skipped; no current failures. Relevant API/integration CI is pending, not passing. No PR or GitHub discussion was created or edited. Human review/title choice remain for John; no approval assigned.

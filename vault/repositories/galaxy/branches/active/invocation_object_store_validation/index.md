@@ -1,6 +1,6 @@
 # invocation_object_store_validation
 
-Status: `branches_implemented_needs_ci` — rescope completed 2026-10-16; new-head CI pending.
+Status: `branches_need_polish` — expanded-head polish in progress 2026-10-16; fork CI queued.
 
 Reject invalid workflow object-store preferences with HTTP 400 before creating a target history; preserve valid single-store and split-store selections.
 
@@ -25,3 +25,11 @@ Conflict-free pre-polish rebase; every commit patch unchanged. Independent check
 ## Revised scope — 2026-10-16
 
 Complete early storage-routing validation, including caller-supplied effective outputs. Published head `000233d81ebccaea171682cc5bdeb00b99da8ac4`; [rescope handoff](implementation_rescope_debrief.md). Fresh normal/test/quality reviews completed; the second scope evaluation recommends KEEP. Original polished scope is preserved as `invocation_object_store_validation_alt_original_scope` on the fork. New-head CI is pending; earlier polish/CI and draft PR prose above are historical and require reassessment against this changed head.
+
+## Expanded-head polish — 2026-10-16
+
+Head `000233d81ebccaea171682cc5bdeb00b99da8ac4`, actual base `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Fetch/rebase confirmed already current; no code changes or branch push required. Fresh independent checklist passes and exactly one strengthening round returned nothing to add. Human-read stays unchecked. Current [description](pr_description.md), [titles](pr_titles.md), [labels](pr_tags.md), [checklist](checklist_evaluation.md), [strengthening review](strengthening_review.md) and [debrief](polish_debrief.md) supersede the original-scope polish evidence above.
+
+Fresh negative API cases: **6 passed**. Formatting and whitespace checks pass. Vault validation: 0 errors, 15 advisory warnings. Valid-routing integration verification in progress. Fork CI snapshot: 19 queued, 1 pending, 2 skipped, no failures; API and integration runs are pending, not passing coverage. Recommended kind/bug plus workflow/API/objectstore areas; labeler matches testing/testing-api/workflows paths, while semantic storage/API labels remain central.
+
+Test environment note: run_tests.sh rejected the skill-documented --skip-common-startup flag after startup updated packages in the shared virtualenv; direct pytest is used for fresh verification. No automatic rollback of shared packages was attempted. No PR, comments, reviews or labels were posted.

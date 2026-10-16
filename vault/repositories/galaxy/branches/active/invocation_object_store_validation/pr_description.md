@@ -1,85 +1,87 @@
-Toward 🎯 #20900 — validate invocation object-store preferences before creating a target history.
+Toward 🎯 #20900 — reject invalid invocation storage-routing options before creating a target history.
 
-An invocation can currently accept an invalid preferred object store, and conflicting general/split preferences are checked only after a requested history has been created. Validate these preferences before building run state, using the existing selectable-store policy.
+Invocation requests can accept an unselectable preferred object store, while other invalid storage options are rejected only after the requested history has been created. Apply the existing store-selection policy and move the related request guards ahead of run setup.
 
-| Request preference | With this fix |
+| Request option | With this fix |
 | --- | --- |
-| Invalid general, output or intermediate store | HTTP 400 from the existing selection-policy validator; no new target history |
-| General store combined with split output/intermediate preferences | Existing mutual-exclusion rule rejects before history creation |
-| Valid selectable general or split stores | Existing selection behavior |
+| Unselectable general, output or intermediate store | HTTP 400 from the existing selection-policy validator; no new target history |
+| General store combined with output/intermediate store preferences | Existing mutual-exclusion error before history creation |
+| Caller-supplied nonempty `effective_outputs` | Existing rejection before history creation |
+| Valid selectable general or split stores | Existing storage routing |
 
-***This changes validation timing and applies the existing store-selection policy; it does not introduce a new storage policy or change how valid jobs select stores.***
+***This validates storage options submitted through the invocation API; valid workflows keep their existing storage routing.***
 
-All three fields use the existing validator. The general-versus-split guard moves alongside those checks, so the related errors are detected before history construction.
+***The scope is early storage-routing validation, including caller-supplied effective outputs; broader invocation preflight and internally derived effective outputs retain their existing handling.***
 
 ## Risks
 
-Invocation callers now receive immediate HTTP 400 for invalid store preferences, and conflicting preferences no longer leave a newly created target history.
+API callers using invalid storage preferences now receive HTTP 400 immediately; invalid routing options no longer leave a newly created target history.
 
 <details><summary>Risk Details</summary>
 
-- Callers relying on a previously accepted invalid store identifier must now choose a selectable store or omit the preference.
-- General-versus-split exclusivity must retain its existing meaning, and valid selectable stores must still reach jobs and request exports.
+- Previously accepted unselectable identifiers must be replaced with a selectable store or omitted.
+- Requests with multiple independent errors can report a storage error earlier.
+- Existing truthiness and general/split exclusivity rules must stay intact, including valid mapped and nested routing.
 
 </details>
 
 <details><summary>Risk Review Advice</summary>
 
-Review the existing preference validator reuse and the relocated mutual-exclusion predicate. The selectable-store integration tests are the positive controls against blanket rejection of every explicit preference.
+Review the shared preference-validator reuse and the relocated request guards before history construction. Compare configured general, split, mapped and nested integration controls to confirm that valid jobs still reach the intended stores.
 
 </details>
 
 ## Context
 
-Independent extraction from 🌿[issue_20900_invocation_validation](https://github.com/jmchilton/galaxy/tree/issue_20900_invocation_validation), targeting `release_26.2`. Broader invocation validation is outside this fix.
+Independent extraction from 🌿[issue_20900_invocation_validation](https://github.com/jmchilton/galaxy/tree/issue_20900_invocation_validation), targeting `release_26.2`. The effective-output guard completes the adjacent storage-validation boundary without introducing a general preflight framework.
 
 ## Agentic Checks
 
 ### ✅ [Scope Evaluation](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md)
 
-<details><summary>Keep all three preference fields and the early mutual-exclusion check together; no general preflight framework.</summary>
+<details><summary>Keep the complete early storage-routing boundary together.</summary>
 
-Recorded in the branch’s existing review debrief. The pre-polish rebase preserves the reviewed commit patch.
+The current scope evaluation considers retaining the expanded guard, adding configured-backend negative cases, reverting the movement, and universal preflight. Existing policy reuse and real storage-routing controls support the present boundary.
 
 </details>
 
-### ✅ [John’s Galaxy Test Challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md)
+### ✅ [Cursor's Thermo Nuclear Review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md)
 
-<details><summary>Three real API requests cover the sibling preference fields, with selectable/split-store integration positive controls.</summary>
+<details><summary>The complete diff has no remaining structural blocker.</summary>
 
-Recorded in the branch’s existing review debrief. The pre-polish rebase preserves the reviewed commit patch.
+The selection policy remains in its existing validator; request guards stay explicit at the pre-mutation boundary. No new preflight abstraction is introduced.
+
+</details>
+
+### ✅ [John's Galaxy Test Challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md)
+
+<details><summary>Six negative API cases and four configured-store integration controls cover rejection and valid routing.</summary>
+
+Tests reuse the existing raw-invocation helper. Original invalid-ID requests returned HTTP 200; the effective-output no-history assertion fails on the original scope. General/split conflicts are compatibility controls that already passed there.
 
 </details>
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
-- [x] What does the user see when it fails? HTTP 400 reports the existing store-selection or mutual-exclusion error before a new history is created.
+- [ ] Did a human read every test and every comment? Requires John.
+- [x] What does the user see when it fails? HTTP 400 with the shared selection-policy or existing routing error, before a requested history is created.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. API tests exercise observable request behavior and persistence effects.
-- [x] Are the comments free of excess archeology? Yes.
-- [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
-- [x] Which existing workflows change behavior (if any)? Invalid preferences reject early; valid general and split store selections retain the existing behavior.
-- [x] Who hits this in practice and what is the evidence? Three public API regressions returned 200 on the original release baseline; existing integration cases exercise valid selectable stores.
-- [x] Were simpler or existing approaches considered? If yes, describe which and why they weren't pursued. If no, why not? Yes. Reusing the existing validator avoids a second policy; leaving the exclusivity guard late would preserve avoidable history side effects.
+- [x] Are unit tests not just testing the literal implementation? Yes; real API requests assert rejection and persisted side effects.
+- [x] Are the comments free of excess archeology? Yes; no comments added.
+- [x] If comments contain some description of previous implementation, bugs, etc., what purpose do they serve? N/A.
+- [x] Which existing workflows change behavior (if any)? Invalid explicit storage preferences, conflicting general/split preferences and caller-supplied effective outputs fail before history creation; valid workflows retain storage routing.
+- [x] Who hits this in practice and what is the evidence? Invocation API callers submitting these options; six API regressions cover rejection without stray histories.
+- [x] Were simpler or existing approaches considered? Yes; reuse the shared selection validator and move existing routing guards. Narrower scope retained the demonstrated history side effect; universal invocation preflight needs separate design.
 
 ## How to test the changes?
 
 - [x] I've included appropriate [automated tests](https://docs.galaxyproject.org/en/latest/dev/writing_tests.html).
 
-<details><summary>API regression coverage and validation</summary>
+<details><summary>API regressions and configured-store positive controls</summary>
 
-All three invalid-store API cases failed on the original release baseline with HTTP 200. Positive integration coverage exercises default, general, and output/intermediate store choices and mapped split-store execution.
+Run `TestWorkflowsApi.test_run_with_unselectable_object_store_creates_no_history` and `TestWorkflowsApi.test_run_with_invalid_storage_routing_creates_no_history` in `lib/galaxy_test/api/test_workflows.py`.
 
-```sh
-GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false \
-GALAXY_CONFIG_ENABLE_BETA_WORKFLOW_MODULES=true \
-GALAXY_CONFIG_OVERRIDE_ENABLE_BETA_TOOL_FORMATS=true \
-GALAXY_TEST_TOOL_CONF='lib/galaxy/config/sample/tool_conf.xml.sample,test/functional/tools/sample_tool_conf.xml' \
-.venv/bin/python -m pytest lib/galaxy_test/api/test_workflows.py -k run_with_unselectable_object_store_creates_no_history -v
-```
-
-Fresh polish verification: **3 API cases passed**. Valid selectable general and mapped split-store integration controls: **2 passed**. The shared virtualenv lacked pytest-xdist after the base refresh; loaded pinned pytest-xdist 3.8.0 and execnet 2.1.2 under /tmp, leaving the shared environment unchanged. Fork CI on the final SHA remains pending at handoff.
+Implementation validation at the published head: **6 negative API cases passed** after helper cleanup, and **4 object-store integration cases passed**, covering default/general, split, mapped and nested routing. Fork CI remains queued; these local results do not imply completed fork CI.
 
 </details>
 

@@ -1,3 +1,3 @@
-- [26.2] Validate workflow object-store preferences before creating histories
-- [26.2] Reject invalid invocation storage preferences before run setup
-- [26.2] Check invocation store choices before creating run state
+- [26.2] Reject invalid invocation storage routing before creating histories
+- [26.2] Validate workflow storage options before run setup
+- [26.2] Check invocation store choices and effective outputs before history creation
