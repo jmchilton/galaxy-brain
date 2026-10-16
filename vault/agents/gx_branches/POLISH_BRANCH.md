@@ -35,6 +35,10 @@ Always use [`GENERAL.md`](../_shared/gx_pr_checklists/GENERAL.md). Add [`WORKFLO
 
 Place 3-5 title options as a simple markdown list in `BRANCH_DIRECTORY/pr_titles.md`. For a release-branch target, prefix every title with Galaxy's version tag (`[26.0]` for `release_26.0`).
 
-## 8. Hand off
+## 8. PR Tags
 
-Move the entry from `branches_need_polish` to `branches_ready_for_final_review`, linking the branch's `index.md`, per [`MY_BRANCHES_INDEX.md`](../_shared/MY_BRANCHES_INDEX.md). Write a debrief of the polishing process to `BRANCH_DIRECTORY/polish_debrief.md` and link it, the description, and titles from `index.md`.
+Recommend labels in `BRANCH_DIRECTORY/pr_tags.md`: exactly one `kind/` label and the `area/` labels that fit, per Galaxy's `doc/source/project/issues.rst`. Check what Galaxy's bot would apply from `.github/labeler.yml`, but it over-tags; keep only areas central to the change.
+
+## 9. Hand off
+
+Move the entry from `branches_need_polish` to `branches_ready_for_final_review`, linking the branch's `index.md`, per [`MY_BRANCHES_INDEX.md`](../_shared/MY_BRANCHES_INDEX.md). Write a debrief of the polishing process to `BRANCH_DIRECTORY/polish_debrief.md` and link it, the description, titles, and tags from `index.md`.

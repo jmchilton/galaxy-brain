@@ -1,0 +1,3 @@
+- kind/enhancement
+- area/testing/integration
+- area/jobs

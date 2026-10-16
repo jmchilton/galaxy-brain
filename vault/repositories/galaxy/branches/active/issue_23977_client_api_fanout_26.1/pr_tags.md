@@ -1,0 +1,3 @@
+- kind/bug
+- area/UI-UX
+- area/performance

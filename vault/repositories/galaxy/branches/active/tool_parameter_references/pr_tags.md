@@ -1,0 +1,3 @@
+- kind/enhancement
+- area/documentation
+- area/tool-framework

@@ -1,0 +1,3 @@
+- kind/bug
+- area/tool-framework
+- area/testing

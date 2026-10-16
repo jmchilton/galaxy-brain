@@ -1,0 +1,4 @@
+- kind/bug
+- area/workflows
+- area/UI-UX
+- area/performance

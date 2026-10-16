@@ -1,0 +1,3 @@
+- kind/enhancement
+- area/configuration
+- area/objectstore
