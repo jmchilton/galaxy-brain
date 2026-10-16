@@ -1,154 +1,95 @@
 # Scope evaluation
 
-**Recommendation: keep the scope as implemented. No scope change.** The branch covers what the issue's Proposed Approach assigns to #24177. A rerun whose export carries step `parameters` stays in the expanded form, shows the reason, and has no **Simple Form** toggle. The simple form also prefills object stores and `replacement_params` from the export. The pieces the issue lists as excluded stay out: expanded-form object stores, the `replacement_dict` bug (footnote ¹), and the `param_map` bug. Every expansion raised by a reviewer is one of three things: pre-existing on dev, its own issue, or code owned by #24176, which the coordinator said this branch must not edit. None of them is a reason to reopen scope or block. Four bookkeeping items remain, and none of them gates READY:
-- the two #24176-to-#24177 handoffs, which this branch only partly met;
-- a deferred cleanup commit, to be made after #24176 merges;
-- the still-unfiled `replacement_dict` bug.
+**Recommendation: expand the scope modestly. (1) Fold in the `replacement_dict` fix (issue footnote ¹).** In `WorkflowRunFormSimple.vue` `onExecute`, rename the key to `replacement_params`, which is the key the expanded form already sends. Without it, this branch's simple-form workflow-parameter prefill has no effect, and every simple-form and landing run silently ignores workflow parameters. **(2) Move `withRerunValues` into `model.js` and use it from both forms.** In the same change, merge the two `mountRerun` helpers in `WorkflowRun.test.js`. Item 2 edits #24176's code (`WorkflowRunForm.vue` and its test), so the coordinator must approve it; the fix itself is mechanical. Item 1 touches no sibling. Everything else stays out: the object-store work and the "step params lost" notice (which belongs to #24175 and needs it in the stack) become follow-ups.
 
-Each is spelled out below.
+Evaluated `d10e8cfbf41..7f57142acd3`, the branch's single commit on the #24176 tip. The implementation debrief's `8141bfccf87..1d8829ef22d` is the same patch before the stack repair.
 
-Evaluated at `18bc9a95136`, which sits on parent tip `21bc27af25d`. That is 4 commits: `9072725f51e`, `23e25b08a92`, `a0249fd31bc` and `18bc9a95136`.
-- Implementation is about +51/−9, client only, across 4 files.
-- Tests are about +222, across 2 vitest files and 1 Selenium test.
+## 1. As implemented
 
-**Stale references in the debriefs.** The initial debrief and the normal review cite `fa466393aea` over `d14f5eaa60b`, which were rebased since. The test-challenge and E2E-polish debriefs call their changes "uncommitted", but they are now commits `a0249fd31bc` and `18bc9a95136`.
-
-**Parent flag resolved.** #24176's scope evaluation flagged that a malformed row could raise `InconsistentDatabase` and fail the whole run form. Parent commit `21bc27af25d` fixed that: `recover_step_parameters()` now skips `TypeError`/`ValueError`/`KeyError` rows with a warning.
-
-## Proposed Approach coverage
-
-| Issue bullet | Where | Status |
-| --- | --- | --- |
-| `rerunHasStepParameters` predicate in `model.js`, plus a unit test | #24176 | Done (guard and `model.test.js`) |
-| Export passed whole to `WorkflowRun` (`rerun-request`) | #24176 | Done |
-| Fourth `disableSimpleFormReason`, explained by an alert, toggle hidden | this branch | Done |
-| Simple form seeds 3 object store ids | this branch | Done (split iff outputs or intermediate id) |
-| Simple form seeds `wpInputs` from `replacement_params` | this branch | Done. Has no effect until ¹ is fixed |
-| Shared lookup moved to `model.js` | #24176 (`rerunInputValue`) | Inputs done. The `replacement_params` lookup is still duplicated (`withRerunValues` in #24176 plus an inline copy here). Deferred |
-| Component tests: with params → expanded, reason, no toggle; without → simple; simple prefills object stores | #24176 + this branch | All present (`WorkflowRun.test.js`, `WorkflowRunFormSimple.test.ts`) |
-| Selenium: change a tool value, rerun, assert the export keeps it | this branch | Present, on a runtime-input fixture rather than the issue's saved-value scenario (see below) |
-| Known gap: object stores in the expanded form | none | Out of scope by decision |
-
-## As implemented
-
-The guard from #24176 now also disables the simple form, with reason `rerunHasStepParameters`. It is lowest priority, so a structural reason such as open tool steps, `${}` or resource params keeps its own text. `WorkflowRunForm` explains the new reason and hides the toggle. `WorkflowRunFormSimple` takes `rerunRequest` and seeds the object store refs and workflow-parameter inputs from it. This branch adds no server change.
+When the rerun request export has non-empty `parameters`, the rerun opens the expanded form. It shows a reason alert and hides the Simple Form toggle, and the reason comes from `simpleFormDisabledReason()`. When the simple form is used for a rerun, it prefills the object stores and `replacement_params` from the export.
 
 | Pros | Cons |
 | --- | --- |
-| <ul><li>Matches the issue's Proposed Approach and its approved UX trade.</li><li>Small, client-only, and confined to the three run components already involved.</li><li>Completes the half-behaviour #24176's guard left: the reason text and the hidden toggle.</li><li>Leaves #24176 untouched apart from extending its guard, as the coordinator asked.</li><li>The object store prefill has value now, for simple-form or API runs that recorded stores.</li></ul> | <ul><li>The `replacement_params` prefill is display-only until ¹ is fixed, and ¹ is unfiled.</li><li>The UX shift: every expanded-form run now reruns in the expanded form, with no way back.</li><li>Rare case: an API run that recorded both `parameters` and object stores now reruns where object stores cannot be picked at all. On dev, the user could re-pick them in the simple form.</li><li>The `replacement_params` lookup is duplicated, and some prop cleanup is deferred until #24176 merges.</li></ul> |
+| Covers everything the issue's proposed approach asks for. | The simple form's workflow-parameter prefill fills a field the form then fails to submit (footnote ¹), so the code ships with no effect. |
+| Client only; no sibling overlap. | A UI-origin run never records `replacement_params`, so the prefill is reachable only for API-origin runs. |
+| Reviewed, test-challenged and mutation-checked. | Leaves the 3-line `withRerunValues` duplicate, which three reviewers flagged. |
 
-<details><summary>Parent handoffs: what #24176's scope evaluation assigned here</summary>
+## 2. Recommended: as implemented, plus the `replacement_dict` fix and the shared `withRerunValues`
 
-#24176's `scope_evaluation.md` handed this branch two jobs. Neither landed as written.
+Change `replacement_dict: replacementParams` to `replacement_params: replacementParams` in the simple form's `onExecute`. Move `withRerunValues` next to `rerunInputValue` in `model.js`, and call it from both forms. Merge the two `mountRerun` helpers in the tests.
 
-**(a) "Assert the original tool value is shown before editing it."** Not done.
-- The rerun's tool step renders collapsed, so the value isn't visible without expanding the step (polish debrief).
-- The test proves the value survives in two other ways instead:
-  - the rerun's request export has `num_lines == "3"`;
-  - the output has 3 lines.
-- Both depend on #24176's seeding. With the runtime-input fixture, the field would otherwise be empty and the run would not produce 3 lines. So the end-to-end proof for #24176's pass-through exists, only through a different assertion.
-- Verdict: adequate. It doesn't block.
+| Pros | Cons |
+| --- | --- |
+| Makes this branch's prefill live. A simple-form run with `${name}` renames then records `replacement_params`, and its rerun round-trips them. The issue's "workflow parameters once it actually submits them" is then delivered, not deferred. | Changes behavior for every simple-form run and for workflow landing runs, which mount `WorkflowRun` with `prefer-simple-form`: renames now apply. The PR description must say so. |
+| A general fix for a bug that has been silent since 2020 (`4626f714bb2`, the commit that added the simplified form). The file is one this branch already edits. | A small, backportable fix now waits behind #24178 and #24176. |
+| It is a key rename to match the expanded form (`WorkflowRunForm.vue` sends `replacement_params: wpData`), not new server behavior. Nothing in `lib/galaxy` reads `replacement_dict` from an invoke payload. | The `withRerunValues` move edits #24176 code (`WorkflowRunForm.vue`, plus its `mountRerun` test), so it is coordinator-gated. |
+| Resolves the only reviewer should-fix still open, and it lands here because this branch adds the helper's second caller. | |
 
-**(b) "Collapse the `WorkflowRerun` prop slices and the redundant `isRerun &&`."** Declined, and half of it was never feasible.
-- `WorkflowRun`'s `requestState` and `simpleFormUseJobCache` props are also used by `WorkflowLanding.vue`, `Home.vue` and `router.js`, so they have to stay.
-- The remaining parts all touch #24176 code:
-  - the fold inside `WorkflowRunFormSimple` (read `requestState`/`useJobCache` from `rerunRequest`);
-  - dropping `isRerun &&`;
-  - moving `withRerunValues` to `model.js`;
-  - merging the two `mountRerun` helpers in `WorkflowRun.test.js`.
-- **Owner:** one cleanup commit on #24177 after #24176 merges, when the no-edit constraint lapses. Or, if #24177 is already in review by then, a follow-up PR.
-- The #24176 record's handoff note should say this, so (b) isn't treated as done.
+<details><summary>Tests and placement</summary>
+
+- **Unit test, red to green.** Extend `WorkflowRunFormSimple.test.ts` "prefills workflow parameters from the original run" so it also submits. Assert that `request.replacement_params` is `{sample: "s1"}` and that `replacement_dict` is absent. This fails on the current tip.
+- **E2E: one test, no more.** The best option is a rerun test in `test_workflow_rerun.py`:
+  1. Run `WORKFLOW_RENAME_ON_REPLACEMENT_PARAM` from the simple form with `replaceme=moocow`, and assert the output name `moocow suffix`.
+  2. Rerun. Assert that the simple form shows `moocow`, submit, and assert the second output's name.
+
+  That one test proves both the fix and this branch's prefill. If it costs too much, use a simple-form twin of `test_workflow_run.py::test_replacement_parameters` that skips `workflow_run_ensure_expanded()`. Every existing `test_replacement_parameters*` test calls it, which is why the bug went unnoticed.
+- **Why not a standalone branch off `dev`.** That would ship and backport sooner. But it leaves this branch's prefill dead in its own PR, and the process doc says to fold related bugs in touched code. If John wants the fix released independently, split it into its own branch off `dev`, and this branch's unit assertion moves with it.
+- **File the footnote ¹ issue anyway** (it is still unfiled) so the PR can reference it, or describe it in the PR body.
 
 </details>
 
-## Fold this branch into #24176 (or ship #24176 + #24177 as one PR)
+## 3. Contraction: drop the dead workflow-parameter prefill
 
-Land the reason text, the hidden toggle and the simple-form prefill with #24176's seeding and guard. **Settled: the split is deliberate.** Listed for completeness only.
-
-| Pros | Cons |
-| --- | --- |
-| <ul><li>No intermediate UX (#24176's guard with no reason text).</li><li>Removes the cross-branch handoffs and the deferred cleanup.</li></ul> | <ul><li>Mixes a server feature (seeding) with a client policy change (forced form). Reviewers may accept one and not the other.</li><li>Contradicts John's settled four-branch split.</li><li>No new reason has emerged: #24176's guard already prevents a regression on its own.</li></ul> |
-
-## Contract: drop the simple-form `replacement_params` prefill until ¹ is fixed
-
-Remove the 4-line `wpInputs` seeding (and its test). Ship it with the ¹ fix instead.
+Remove the `replacement_params` seeding from the simple form, and keep only the object-store prefill and the forced expanded form.
 
 | Pros | Cons |
 | --- | --- |
-| <ul><li>No code that has no effect on what is submitted.</li><li>Removes the duplicated `withRerunValues` lookup without touching #24176.</li></ul> | <ul><li>The issue's Proposed Approach asks for it explicitly, noting it is inert until ¹.</li><li>The ¹ fix would then have to touch two concerns (submit key plus rerun prefill).</li><li>It does no harm: the displayed value matches the original run, and dev drops it on submit anyway.</li></ul> |
+| No code that has no effect. | Contradicts the issue's approach. Fixing the underlying bug (scope 2) is strictly better. |
 
-## Expand: fix footnote ¹ (`replacement_dict` → `replacement_params`) here
+## 4. Fold `requestState` / `simpleFormUseJobCache` into `rerunRequest`
 
-Rename the simple form's submit key so that `${name}` workflow parameters are actually applied, which makes this branch's prefill live.
-
-| Pros | Cons |
-| --- | --- |
-| <ul><li>About a one-line fix, and it gives this branch's prefill real value.</li><li>It is the same component.</li></ul> | <ul><li>It changes **every** simple-form run, not only reruns. The bug dates from 2020 (#9151), and it needs its own simple-form Selenium/API test.</li><li>It is a backport candidate, which a stacked feature branch can't be.</li><li>The issue and coordinator explicitly exclude it.</li><li>**Not yet filed.** `gh search` finds only #24177, and the queued/24177 debrief leaves filing to John. It should be queued through `GX_QUEUING_ISSUE_CREATION.md` (coordinator or John), or it may get lost.</li></ul> |
-
-## Contract: keep the Simple Form toggle, warn on it
-
-Force the expanded form and show the reason, but keep the toggle. Add a warning that switching drops the recorded tool parameters.
+Read `rerunRequest?.inputs ?? requestState` and `rerunRequest?.use_cached_job` inside the simple form, and drop the duplicate bindings from `WorkflowRerun`.
 
 | Pros | Cons |
 | --- | --- |
-| <ul><li>Softens the UX shift: users who want the simple form, for example to pick object stores, can still get it.</li></ul> | <ul><li>Brings back the silent-loss path the issue fixes, made explicit but one click away.</li><li>The issue specifies a hidden toggle.</li><li>Needs a confirm or warning state in the simple form, so more UI than the current approach.</li></ul> |
+| One source of rerun state. It mirrors #24176's expanded form, which already reads `rerunRequest.use_cached_job`. | `WorkflowRun`'s props must stay for Landing, Home and the router, so the gain is only internal precedence logic. No bug is fixed. |
+| | Reviewers rated it a nit or a follow-up. |
 
-## Expand: object stores in the expanded form
+Not recommended. It can ride along in scope 2 if it turns out to be a few lines.
 
-Add object store controls to `WorkflowRunForm`, plus the submit and rerun prefill. **Out of scope by decision** (the issue's "known gap").
-
-| Pros | Cons |
-| --- | --- |
-| <ul><li>Closes the last row of the issue table.</li><li>Removes the rare both-recorded case from "As implemented".</li></ul> | <ul><li>A new expanded-form feature, not a prefill. The form never sends stores, even on normal runs.</li><li>The case it fixes is rare: expanded-form runs never record stores, so only API runs carry both.</li><li>Its own issue.</li></ul> |
-
-## Expand: honour `simplified_workflow_run_ui` on rerun
-
-`WorkflowRerun.vue` still hard-codes `prefer-simple-form`. So on servers with the simplified UI off, a rerun with no step params still opens the simple form.
+## 5. Narrow the predicate to tool-step rows only
 
 | Pros | Cons |
 | --- | --- |
-| <ul><li>The issue's "who hits this" calls out admins' setting being ignored.</li><li>Small (a config read).</li></ul> | <ul><li>Pre-existing, and nothing is lost: reruns without step params lose nothing in the simple form.</li><li>The data-loss half of that bullet is already fixed by the guard.</li><li>Separate concern; its own small issue if wanted.</li></ul> |
+| The alert's "tool step parameters" wording would match exactly. | The simple form drops subworkflow-step rows too, and #24176 seeds them into the expanded form. Narrowing would bring back silent loss for nested workflows. |
 
-## Narrow the predicate to tool-step rows only
+Not recommended. The current predicate is correct.
 
-Exclude subworkflow-step rows from `rerunHasStepParameters`.
+## 6. Object stores in the forced expanded form
 
-| Pros | Cons |
-| --- | --- |
-| <ul><li>Fewer forced expanded-form reruns.</li></ul> | <ul><li>The simple form drops subworkflow-step rows too, and #24176 seeds them into the expanded form. Narrowing would silently lose them again.</li><li>Recorded as a decision in the branch record.</li></ul> |
-
-## Issue's rejected alternatives (forward `parameters` / force only on diff / warn only)
-
-These are the issue's three alternatives:
-- forward the export's `parameters` unchanged from the simple form;
-- force the expanded form only when recorded values differ from the saved ones;
-- keep the simple form and only warn.
+There are two options. (a) Add object store controls to the expanded form. (b) Add a smaller line to the reason alert when the export has object store preferences, saying they are not kept.
 
 | Pros | Cons |
 | --- | --- |
-| <ul><li>Forwarding avoids the UX shift. #24178 now removes its subworkflow 500.</li><li>Diff-only would avoid most forced reruns.</li><li>Warn-only is the smallest change.</li></ul> | <ul><li>Forwarding applies values the user can't see or edit.</li><li>Diff-only compares flat `a\|b` strings to nested typed state, which is fragile on the client and too much machinery on the server.</li><li>Warn-only still runs different settings.</li><li>The issue argues all three are worse. No reviewer reopened them.</li></ul> |
+| Closes the issue's "known gap". | (a) is a feature of its own, and the issue explicitly excludes it. |
+| (b) costs about one span and one computed. | Both are reachable only for API-origin runs: the expanded form never records object stores, and the simple form never records `parameters`. |
 
-<details><summary>Selenium on the issue's exact scenario</summary>
+Not recommended here. Track (a) as a follow-up issue.
 
-The issue's test spec is: change a *saved* `num_lines` through **Expanded workflow form**, rerun, and assert the export. The branch instead uses `WORKFLOW_RUNTIME_PARAMETER_SIMPLE`, a runtime input.
+## 7. "Step params lost" notice
 
-The original run lands in the expanded form via `hasDisconnectedInputs`. On rerun, #24176's seeding fills that input, so only the recorded parameters keep the form expanded. A comment in the test documents this coupling.
+The server would mark a request export whose step rows were skipped (#24175's legacy-archive path), and the rerun page would show a non-blocking notice.
 
-The saved-value variant would exercise the more common real-world path, a user opening the expanded form deliberately. The normal review called it fiddly, because a collapsed saved step has to be expanded and edited. It doesn't change scope. It is a possible test follow-up if #24176's seeding ever stops clearing runtime inputs, which would make this fixture land on `hasDisconnectedInputs` instead.
+| Pros | Cons |
+| --- | --- |
+| Makes #24175's silent skip honest. | The signal comes from #24175's server code. This branch stacks on #24176, not #24175, so landing the notice here would mean restacking. |
+| | It is a niche path: imported pre-fix archives only. |
 
-</details>
+Not recommended here. It is a cross-branch follow-up, with the server half in #24175's area and the client half after both land.
 
-## Follow-ups (not scope changes)
+## 8. Other noted items (out)
 
-1. Queue the `replacement_dict` bug (¹) through `GX_QUEUING_ISSUE_CREATION.md`. Owner: John or the coordinator.
-2. After #24176 merges, make one cleanup commit:
-   - move `withRerunValues` to `model.js` and share it with the simple form;
-   - fold `requestState`/`useJobCache` reads inside `WorkflowRunFormSimple`;
-   - drop `isRerun &&`;
-   - merge the `mountRerun` helpers;
-   - share a `DisableSimpleFormReason` type.
-3. Correct #24176's record: handoff (b) is deferred, not done, and handoff (a) is met by the export and output asserts.
-4. Mention the UX shift in the PR description (expanded-form runs rerun expanded, with no toggle).
-5. Optional:
-   - a `RunsWorkflows` submit/rerun helper for `test_workflow_rerun.py` (polish debrief);
-   - a separate issue for `simplified_workflow_run_ui` on rerun.
+- **`param_map` keyed-by-id bug** (`workflow_run_config_to_request`): server code this branch never touches. File it on its own or take it with #24175.
+- **Simple-form object-store screenshot or E2E:** needs a multi-object-store integration-selenium config, which is out of proportion here. The vitest payload tests cover it.
+- **Shared `DisableSimpleFormReason` type and a typed `WorkflowRunForm` prop:** cheap type hygiene on a chain this branch extends. It is optional and can ride along with scope 2.
+- **Shared Selenium submit/rerun helper** (from the E2E polish): this is test-file hygiene across tests that existed before this branch. Do it as a follow-up.
