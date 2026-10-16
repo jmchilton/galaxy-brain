@@ -5,6 +5,7 @@
 - [ ] What does the user see when it fails?
 - [ ] Is the diff free of unrelated or stale generated changes?
 - [ ] Are unit tests not just testing the literal implementation?
+- [ ] Are baseline tests in their own leading commits (if applicable)?
 - [ ] Are the comments free of excess archeology?
 - [ ] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve?
 

@@ -53,6 +53,7 @@ Each of these files (if present in the branch) represents one check to document.
 - `thermo_nuclear_review.md` CHECK_NAME = "Cursor's Thermo Nuclear Review", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md
 - `test_challenges_debrief.md` CHECK_NAME = "John's Galaxy Test Challenges", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md
 - `codex_review.md` CHECK_NAME = "Second Frontier Model Review" (no link)
+- `baseline_refactor.md` CHECK_NAME = "Refactoring of base branch", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md
 
 ## Openers
 
@@ -85,6 +86,7 @@ Combine sentences into one short paragraphs in a "## Context" section above the 
 
 - A test cited as failing on the base branch must fail at the bug's assertion, not on an API the branch adds.
 - If it reads a new field first, run it on the base with that check removed.
+- When the branch changes after the description is written, re-check every claim and update `pr_description.md` and any open PR's body to match.
 ## DO: Use details liberally.
 
 In main body:

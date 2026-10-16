@@ -10,6 +10,9 @@ If you're given a small plan (maybe it doesn't have multiple large steps or phas
 If you're given a larger multi-step plan - please have subagents do the phases sequentially one at a time but launch another "normal subagent review" between each step.
 
 If you're given an issue or an initial request with no plan, treat it as a small plan and do the work directly. If you feel a subagent doing turning the issue or request into a concrete plan would be helpful - please feel free to launch one.
+## Baseline Tests
+
+When adding a new test file or a new set of tests for an existing component or feature, first commit tests that pin down its current behavior, on their own and ahead of the change, with a commit message starting "Baseline tests". They should pass before the change. Keep these commits first through re-scopes and rebases, so they can be split into their own PR.
 ## After your plan is done
 
 Place an initial implementation debrief in `BRANCH_DIRECTORY/implementation_initial_debrief.md`.
@@ -24,7 +27,8 @@ If at any point in the following list STATUS becomes BLOCKED or ABANDON - please
 - If an implementation on a new branch has added any new test code please have a subagent run `_shared/GX_PROCESS_CHALLENGE_TESTS.md` and supply it with BRANCH_DIRECTORY and WORKING_DIRECTORY and implement the changes directly. It should write a debrief to `BRANCH_DIRECTORY/test_challenges_debrief.md`. If test changes are needed but cannot be implemented or ran correctly - status is BLOCKED.
 - If an implementation added any E2E/Selenium/Playwright tests (either before or after the test challenges above), please have a subagent run `_shared/GX_PROCESS_POLISH_E2E_TESTS.md` and supply it with BRANCH_DIRECTORY and WORKING_DIRECTORY and implement the changes directly. It should write a debrief to `BRANCH_DIRECTORY/polish_e2e_tests_debrief.md`.
 - If you're a Claude/Opus/Fable agent - please run `/codex-review` on this branch and this time and fix up recommendations Codex believes you should make unless you feel they don't make sense. Write a review debrief to `BRANCH_DIRECTORY/codex_review.md`.
-- If this branch has more than 50 lines of implementation or test code or is touching intricate or substantial pieces of plumbing - please have a subagent run `_shared/prompts/thermo-nuclear-code-quality-review.md` and address the review comments. Have the agent write a debrief of the process to `BRANCH_DIRECTORY/thermo_nuclear_review.md`
+- If this branch has more than 50 lines of implementation or test code or is touching intricate or substantial pieces of plumbing - please have a subagent run `_shared/prompts/thermo-nuclear-code-quality-review.md` and address the review comments. Have the agent write a debrief of the process to `BRANCH_DIRECTORY/thermo_nuclear_review.md`.
+- Have a subagent run `_shared/GX_PROCESS_REFACTOR_BASELINE.md` with BRANCH_DIRECTORY and WORKING_DIRECTORY - this should result in a baseline refactor document being written to the `BRANCH_DIRECTORY`.
 - Have a subagent run `_shared/GX_PROCESS_SCOPE_EVALUATION.md` with BRANCH_DIRECTORY and WORKING_DIRECTORY - this should result in a scope evaluation document being written to the `BRANCH_DIRECTORY`.
 - Read the first paragraph of the scoping agent's evaluation. If it recommends expanding scope, follow "Handling a Re-Scope" below and stop this list. If it recommends contracting scope, follow "Parking on a Scope Decision" below.
 - If this work touches the UI/client of Galaxy, please have a subagent run through `_shared/GX_PROCESS_SCREENSHOTS.md`. Please supply the subagent with BRANCH_DIRECTORY and WORKING_DIRECTORY. If screenshots are expected but cannot be generated - status is BLOCKED.
@@ -36,7 +40,7 @@ Checkout the original implementation as `<BRANCH_NAME>_alt_original_scope` and m
 
 Upon scope correction completion - perform another "normal subagent review" and address results.
 
-Move any of these `BRANCH_DIRECTORY` files into `BRANCH_DIRECTORY/earlier_drafts/N/` - `test_challenges_debrief.md`, `polish_e2e_tests_debrief.md`, `thermo_nuclear_review.md`, `codex_review.md`, `scope_evaluation.md`.
+Move any of these `BRANCH_DIRECTORY` files into `BRANCH_DIRECTORY/earlier_drafts/N/` - `test_challenges_debrief.md`, `polish_e2e_tests_debrief.md`, `thermo_nuclear_review.md`, `codex_review.md`, `scope_evaluation.md`, `baseline_refactor.md`.
 
 Write out a summary of the rescoping process to `BRANCH_DIRECTORY/implementation_rescope_debrief.md`.
 

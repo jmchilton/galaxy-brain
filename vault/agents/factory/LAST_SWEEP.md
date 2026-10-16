@@ -1,1 +1,1 @@
-Never swept. The first sweep covers the last two weeks.
+2026-10-16
