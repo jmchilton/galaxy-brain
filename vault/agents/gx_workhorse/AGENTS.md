@@ -12,7 +12,7 @@ If you're given a larger multi-step plan - please have subagents do the phases s
 If you're given an issue or an initial request with no plan, treat it as a small plan and do the work directly. If you feel a subagent doing turning the issue or request into a concrete plan would be helpful - please feel free to launch one.
 ## After your plan is done
 
-Place an initial implementation debrief in `BRANCH_DIRECTORY/initial_implementation_debrief.md`.
+Place an initial implementation debrief in `BRANCH_DIRECTORY/implementation_initial_debrief.md`.
 
 The final hand-off will need a decision about its STATUS - whether this work is:
 - READY: ready to be reviewed by a human (everything went great - with decisions outlined but we have an MVP)
@@ -26,9 +26,25 @@ If at any point in the following list STATUS becomes BLOCKED or ABANDON - please
 - If you're a Claude/Opus/Fable agent - please run `/codex-review` on this branch and this time and fix up recommendations Codex believes you should make unless you feel they don't make sense. Write a review debrief to `BRANCH_DIRECTORY/codex_review.md`.
 - If this branch has more than 50 lines of implementation or test code or is touching intricate or substantial pieces of plumbing - please have a subagent run `_shared/prompts/thermo-nuclear-code-quality-review.md` and address the review comments. Have the agent write a debrief of the process to `BRANCH_DIRECTORY/thermo_nuclear_review.md`
 - Have a subagent run `_shared/GX_PROCESS_SCOPE_EVALUATION.md` with BRANCH_DIRECTORY and WORKING_DIRECTORY - this should result in a scope evaluation document being written to the `BRANCH_DIRECTORY`.
-- Read the first paragraph of the scoping agent's evaluation. If it recommends changing the scope of the problem. Set STATUS to BLOCKED for a user decision. Summarize what should be change, which prior reviews and tests still apply, and what validation remains. Write the final debrief and hand off under branches_need_decision.
+- Read the first paragraph of the scoping agent's evaluation. If it recommends expanding scope, follow "Handling a Re-Scope" below and stop this list. If it recommends contracting scope, follow "Parking on a Scope Decision" below.
 - If this work touches the UI/client of Galaxy, please have a subagent run through `_shared/GX_PROCESS_SCREENSHOTS.md`. Please supply the subagent with BRANCH_DIRECTORY and WORKING_DIRECTORY. If screenshots are expected but cannot be generated - status is BLOCKED.
 - Finally write a quick summary of the choices and the final implementation and scope decision in `BRANCH_DIRECTORY/implementation_debrief.md`, then hand off as above.
+
+## Handling a Re-Scope
+
+Checkout the original implementation as `<BRANCH_NAME>_alt_original_scope` and modify the working branch to implement the expanded scope. Do not create a new worktree for the original scope or track the original branch in `MY_BRANCHES.md`. Later on we will have a process for `_alt_` branches but for now - the branch sitting in user's remote is sufficient.
+
+Upon scope correction completion - perform another "normal subagent review" and address results.
+
+Move any of these `BRANCH_DIRECTORY` files into `BRANCH_DIRECTORY/earlier_drafts/N/` - `test_challenges_debrief.md`, `polish_e2e_tests_debrief.md`, `thermo_nuclear_review.md`, `codex_review.md`, `scope_evaluation.md`.
+
+Write out a summary of the rescoping process to `BRANCH_DIRECTORY/implementation_rescope_debrief.md`.
+
+Rerun the 'After your plan is done' steps (keep the existing initial debrief). If the second scope evaluation recommends any scope change, follow "Parking on a Scope Decision" instead of re-scoping again.
+
+## Parking on a Scope Decision
+
+Set STATUS to BLOCKED for a user decision. Summarize what should be changed, which prior reviews and tests still apply, and what validation remains. Write the final debrief and hand off under branches_need_decision.
 
 ## Changes
 
