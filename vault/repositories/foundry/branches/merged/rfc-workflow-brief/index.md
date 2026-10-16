@@ -24,7 +24,8 @@ PR: [galaxyproject/foundry#682](https://github.com/galaxyproject/foundry/pull/68
 
 ## Follow-ups
 
-- Release: merge #561 when ready; check it lists `gxwf-foundry-note-schema` minor.
+- Release: #561 merged 2026-10-16. Published `gxwf-foundry@0.2.0`, `gxwf-foundry-note-schema@0.4.0`, `gxwf-pi-harness@0.4.2`, `summarize-nextflow@0.4.0`. The Release run failed on the new `@galaxy-foundry/nfcore-tool-lab@0.1.0` (npm E404 on PUT: the publisher can't create that package yet). Needs a first publish or trusted-publisher setup on npm.
+- #563 run plan: [queued/563](../../../issues/queued/563/index.md).
 - `foundry-pattern` snapshots this repo's `meta_tags.yml`/`kinds.json` (`site/src/data/instances/galaxy-workflow-foundry/`); its copy has no `journey` facet. Refresh it.
 - #563 (Workflow Plan): the pipelines it asked for are on `main`. Decide close vs keep open until a real brief run.
 - First real agent-driven brief run (PAPER/NEXTFLOW → BRIEF → GALAXY); nothing has run end to end yet.
