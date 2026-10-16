@@ -22,17 +22,9 @@ The final hand-off will need a decision about its STATUS - whether this work is:
 - BLOCKED: there is a serious blocker and we cannot reach an MVP, user needs to step in and resolve something.
 - ABANDON: this work should be abandoned.
 
-If at any point in the following list STATUS becomes BLOCKED or ABANDON - please skip to the last step.
+Run `_shared/GX_PROCESS_HARDEN_BRANCH.md` with BRANCH_DIRECTORY and WORKING_DIRECTORY. If it stops on a scope recommendation to expand, follow "Handling a Re-Scope" below; to contract, follow "Parking on a Scope Decision" below.
 
-- If an implementation on a new branch has added any new test code please have a subagent run `_shared/GX_PROCESS_CHALLENGE_TESTS.md` and supply it with BRANCH_DIRECTORY and WORKING_DIRECTORY and implement the changes directly. It should write a debrief to `BRANCH_DIRECTORY/test_challenges_debrief.md`. If test changes are needed but cannot be implemented or ran correctly - status is BLOCKED.
-- If an implementation added any E2E/Selenium/Playwright tests (either before or after the test challenges above), please have a subagent run `_shared/GX_PROCESS_POLISH_E2E_TESTS.md` and supply it with BRANCH_DIRECTORY and WORKING_DIRECTORY and implement the changes directly. It should write a debrief to `BRANCH_DIRECTORY/polish_e2e_tests_debrief.md`.
-- If you're a Claude/Opus/Fable agent - please run `/codex-review` on this branch and this time and fix up recommendations Codex believes you should make unless you feel they don't make sense. Write a review debrief to `BRANCH_DIRECTORY/codex_review.md`.
-- If this branch has more than 50 lines of implementation or test code or is touching intricate or substantial pieces of plumbing - please have a subagent run `_shared/prompts/thermo-nuclear-code-quality-review.md` and address the review comments. Have the agent write a debrief of the process to `BRANCH_DIRECTORY/thermo_nuclear_review.md`.
-- Have a subagent run `_shared/GX_PROCESS_REFACTOR_BASELINE.md` with BRANCH_DIRECTORY and WORKING_DIRECTORY - this should result in a baseline refactor document being written to the `BRANCH_DIRECTORY`.
-- Have a subagent run `_shared/GX_PROCESS_SCOPE_EVALUATION.md` with BRANCH_DIRECTORY and WORKING_DIRECTORY - this should result in a scope evaluation document being written to the `BRANCH_DIRECTORY`.
-- Read the first paragraph of the scoping agent's evaluation. If it recommends expanding scope, follow "Handling a Re-Scope" below and stop this list. If it recommends contracting scope, follow "Parking on a Scope Decision" below.
-- If this work touches the UI/client of Galaxy, please have a subagent run through `_shared/GX_PROCESS_SCREENSHOTS.md`. Please supply the subagent with BRANCH_DIRECTORY and WORKING_DIRECTORY. If screenshots are expected but cannot be generated - status is BLOCKED.
-- Finally write a quick summary of the choices and the final implementation and scope decision in `BRANCH_DIRECTORY/implementation_debrief.md`, then hand off as above.
+Finally write a quick summary of the choices and the final implementation and scope decision in `BRANCH_DIRECTORY/implementation_debrief.md`, then hand off as above.
 
 ## Handling a Re-Scope
 
@@ -40,11 +32,9 @@ Checkout the original implementation as `<BRANCH_NAME>_alt_original_scope` and m
 
 Upon scope correction completion - perform another "normal subagent review" and address results.
 
-Move any of these `BRANCH_DIRECTORY` files into `BRANCH_DIRECTORY/earlier_drafts/N/` - `test_challenges_debrief.md`, `polish_e2e_tests_debrief.md`, `thermo_nuclear_review.md`, `codex_review.md`, `scope_evaluation.md`, `baseline_refactor.md`.
-
 Write out a summary of the rescoping process to `BRANCH_DIRECTORY/implementation_rescope_debrief.md`.
 
-Rerun the 'After your plan is done' steps (keep the existing initial debrief). If the second scope evaluation recommends any scope change, follow "Parking on a Scope Decision" instead of re-scoping again.
+Then follow "Re-harden" below. If the second scope evaluation recommends any scope change, follow "Parking on a Scope Decision" instead of re-scoping again.
 
 ## Parking on a Scope Decision
 
@@ -61,4 +51,7 @@ If any UI changes were made and we have screenshots recorded, move them to `BRAN
 Finally, move `BRANCH_DIRECTORY/implementation_debrief.md` into `BRANCH_DIRECTORY/earlier_drafts/N/implementation_debrief.md` if present and write a new implementation debrief. We've got the old debrief in place - so you don't need to keep a lot of archeology around.
 ## Recover
 
-A branch may have been implemented and recorded but be missing some of the debriefs above because the process didn't happen, we stopped early, or the branch predates the current process.  If I ask you to recover a branch - please walk through the "after the plan" steps above and do the ones that make sense for this branch.
+A branch may have been implemented and recorded but be missing some of the debriefs above because the process didn't happen, we stopped early, or the branch predates the current process.  If I ask you to recover a branch - please walk through `_shared/GX_PROCESS_HARDEN_BRANCH.md` and do the steps that make sense for this branch.
+## Re-harden
+
+Move every existing debrief the hardening process writes, plus `implementation_debrief.md`, together into a new `BRANCH_DIRECTORY/earlier_drafts/N/`. Then rerun the 'After your plan is done' steps (keep the existing initial debrief), doing every applicable step fresh rather than trusting earlier results.
