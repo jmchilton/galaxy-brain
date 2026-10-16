@@ -25,3 +25,7 @@ Verified: `make check-release` OK, tree still clean after; 897 passed / 8 skippe
 
 - Bump gxformat2 pin in Galaxy (`invocation_parameter_expected_failure` patches around missing #265).
 - galaxy-tool-util-ts: `make sync-schema-sources` for `validators`.
+
+## Archived — 2026-10-16
+
+Merged 2026-10-16 as `dce2692`. `make check-release` re-run on merged main: OK; 897 passed / 8 skipped. Worktree removed (clean, pushed).
