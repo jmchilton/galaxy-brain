@@ -81,7 +81,7 @@ Tests reuse the existing raw-invocation helper. Original invalid-ID requests ret
 
 Run `TestWorkflowsApi.test_run_with_unselectable_object_store_creates_no_history` and `TestWorkflowsApi.test_run_with_invalid_storage_routing_creates_no_history` in `lib/galaxy_test/api/test_workflows.py`.
 
-Implementation validation at the published head: **6 negative API cases passed** after helper cleanup, and **4 object-store integration cases passed**, covering default/general, split, mapped and nested routing. Fork CI remains queued; these local results do not imply completed fork CI.
+Implementation validation at the published head: **6 negative API cases passed** after helper cleanup, and **4 object-store integration cases passed**, covering default/general, split, mapped and nested routing. Fresh polish verification: **6 API cases and 8 integration controls passed**, including normal and extended metadata configurations. Black, isort and whitespace checks pass. Fork CI remains queued; these local results do not imply completed fork CI.
 
 </details>
 

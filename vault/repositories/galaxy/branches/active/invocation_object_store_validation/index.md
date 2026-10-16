@@ -1,6 +1,6 @@
 # invocation_object_store_validation
 
-Status: `branches_need_polish` — expanded-head polish in progress 2026-10-16; fork CI queued.
+Status: `branches_ready_for_final_review` — expanded head polished 2026-10-16; fork CI pending, human read-through required.
 
 Reject invalid workflow object-store preferences with HTTP 400 before creating a target history; preserve valid single-store and split-store selections.
 
@@ -30,6 +30,6 @@ Complete early storage-routing validation, including caller-supplied effective o
 
 Head `000233d81ebccaea171682cc5bdeb00b99da8ac4`, actual base `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Fetch/rebase confirmed already current; no code changes or branch push required. Fresh independent checklist passes and exactly one strengthening round returned nothing to add. Human-read stays unchecked. Current [description](pr_description.md), [titles](pr_titles.md), [labels](pr_tags.md), [checklist](checklist_evaluation.md), [strengthening review](strengthening_review.md) and [debrief](polish_debrief.md) supersede the original-scope polish evidence above.
 
-Fresh negative API cases: **6 passed**. Formatting and whitespace checks pass. Vault validation: 0 errors, 15 advisory warnings. Valid-routing integration verification in progress. Fork CI snapshot: 19 queued, 1 pending, 2 skipped, no failures; API and integration runs are pending, not passing coverage. Recommended kind/bug plus workflow/API/objectstore areas; labeler matches testing/testing-api/workflows paths, while semantic storage/API labels remain central.
+Fresh negative API cases: **6 passed**. Formatting and whitespace checks pass. Vault validation: 0 errors, 15 advisory warnings. Fresh valid-routing integration verification: **8 passed**, covering four controls with normal and extended metadata. Fork CI snapshot: 19 queued, 1 pending, 2 skipped, no failures; API and integration runs are pending, not passing coverage. Recommended kind/bug plus workflow/API/objectstore areas; labeler matches testing/testing-api/workflows paths, while semantic storage/API labels remain central.
 
 Test environment note: run_tests.sh rejected the skill-documented --skip-common-startup flag after startup updated packages in the shared virtualenv; direct pytest is used for fresh verification. No automatic rollback of shared packages was attempted. No PR, comments, reviews or labels were posted.
