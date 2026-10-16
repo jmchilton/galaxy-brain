@@ -1,6 +1,6 @@
 # container_tool_env
 
-Status: `branches_ready_for_final_review` — CI fixes pushed; local validation passes, new-head CI pending. Base: `release_26.2`. [PR #23815](https://github.com/galaxyproject/galaxy/pull/23815), head `86aea32fe7ec7f4170ccf13fd0b37bd92c87ed43`.
+Status: `branches_ready_for_final_review` — requested rebase pushed; 328 targeted regressions pass, fresh CI pending. Base: `release_26.2`. [PR #23815](https://github.com/galaxyproject/galaxy/pull/23815), head `e6fa5fa7fd970d9330bf03ab23b1924815b00a41`. PR is draft; human review hold remains.
 
 Adds destination job/tool environment scopes and tool-declared container runtime variables.
 
@@ -54,3 +54,13 @@ New-head CI has relevant type failures in `lib/galaxy/tool_util/parser/xml.py:44
 ## Related CI fixes — 2026-10-15
 
 Fixed the reported branch-related mypy errors in `86aea32fe7ec7f4170ccf13fd0b37bd92c87ed43` and pushed normally to jmchilton. [Diagnosis, unrelated-red boundary and verification](ci_type_fixes_2026-10-15.md). Full pinned-dependency mypy passes (2523 files), 295 regressions pass, and commit hooks pass. Unchanged expression-test import ordering is the only diagnosed unrelated failure in the linked lint job. GitHub confirms the new head and mergeability; fresh CI is pending. Track in `branches_ready_for_final_review` under the changed-SHA rule; preserve non-draft state and require a fresh human read.
+
+## Requested rebase and change explanation — 2026-10-16
+
+John requested rebasing #23815 and a readable explanation of all changes since “Fix job output checker import ordering” (`7f32c166400`). Fetched the fork first, preserving Marius's two commits merged through fork PR #88. Rebased from `bcaed07c4dcfd3e23499a5a61138493cda223e7e` onto `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`; new head `e6fa5fa7fd970d9330bf03ab23b1924815b00a41`, pushed with an exact force-with-lease.
+
+Only conflict: additive tests at the end of `test_runner_output_collection.py`. Retained both upstream remote tool-evaluation error coverage and Marius's declared-variable warning test. Range-diff preserves all 21 substantive commits; only that additive test context differs. The fork PR merge commit is flattened by the rebase; both authored commits remain.
+
+Validation: **328 passed** across command factory, destination environment/configuration, job-finish/output collection, XML/YAML tool loading, runtime environments, output checker and tool linters. Isort, Black and whitespace checks pass for the reconciled file. Used the existing main Galaxy virtualenv because this worktree's pre-existing `.venv` symlink points to a removed worktree. Tests use fake Docker/Singularity frontends, not real containers; fresh CI remains pending.
+
+Reviewed changes after the named checkpoint: John's `75d878bdcf7` makes tool loading tolerant per declaration, detects container-native runners by capability after plugin load, checks required names in the actual tool environment, isolates Singularity forwarding, preserves legacy YAML behavior, adds regression coverage and removes redundant copies. John's `86aea32fe7e` fixes static typing without changing behavior. Marius's `bec2fabc299` fixes writable warning paths and Pulsar staging, makes warning checks nonfatal, filters messages to declared required names throughout job/task/metadata paths, bounds and validates warning-file reads, and documents destination-wide `tool_env` access. Marius's `13a962266d9` strengthens file identity/symlink handling on platforms without `O_NOFOLLOW` and adds job-finish/size-limit regressions. Existing installed-tool trust policy is unchanged; no new design decision was made during this rebase.
