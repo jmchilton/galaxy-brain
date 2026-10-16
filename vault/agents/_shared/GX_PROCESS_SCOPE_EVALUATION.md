@@ -23,4 +23,6 @@ The top-line of the document should be a final recommendation on scope size. Bel
 
 If there is detailed discussion to be had place it under a `details` tag below the pros and cons list.
 
+If the branch has more than 100 lines of non-generated code, add a "Possible Decompositions" section right below the top-line. Lay out how the branch as implemented could split into logical PRs: what each piece contains and the order they'd land in. Don't recommend a split; it's for John to decide on later. Above 1000 lines, spend extra time and lay out several options.
+
 Write the final report to the branch notes directory with the name `scope_evaluation.md`.
