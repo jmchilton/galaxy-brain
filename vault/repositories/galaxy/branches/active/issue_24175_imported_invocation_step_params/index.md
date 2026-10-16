@@ -1,5 +1,7 @@
 # issue_24175_imported_invocation_step_params
 
+Status: `branches_ready_for_final_review`. Head: `00f0d68ec9d2e2d90fbd191f8124ca3d335c4a96`. Fork CI pending after repair.
+
 Fixes [galaxyproject/galaxy#24175](https://github.com/galaxyproject/galaxy/issues/24175): `GET /api/invocations/{id}/request` (the **Rerun** button) returned a 500 for an imported invocation whose run had tool step parameters. Import copied the step parameter rows' raw step ids verbatim.
 
 - Branch: `jmchilton/issue_24175_imported_invocation_step_params`.
@@ -24,3 +26,13 @@ Fixes [galaxyproject/galaxy#24175](https://github.com/galaxyproject/galaxy/issue
 ## Morning refresh — 2026-10-16
 
 Attempted to carry the branch onto its rebased named parent, but the child rebase needed additional reconciliation. Aborted the isolated rebase and left the fork and original development worktree unchanged. Parent integration remains pending.
+
+## Stack/CI repair — 2026-10-16
+
+Base: `issue_24178_subworkflow_step_params_export` at `a171dbed4194a2de0e93b488381129c75a7dad1d`.
+
+Integrated onto the new export-parent head. Preserved the legacy-archive helper and reused the parent's shared `WORKFLOW_SIMPLE` fixture instead of resurrecting the removed local definition. Verified that shared fixture is byte-for-byte identical to the old local fixture. Range-diff confirms all other child commits are unchanged. Archive fallback and rerun behavior remain as previously decided.
+
+Validation: **8 API cases pass** against a fresh self-started Galaxy server, covering tool/subworkflow step parameters, imported archives, legacy-archive re-export and malformed keys. Isort and diff whitespace checks pass. No design decision was required.
+
+Published `00f0d68ec9d2e2d90fbd191f8124ca3d335c4a96` to `jmchilton/issue_24175_imported_invocation_step_params`. Fresh fork CI is pending. Conflict resolutions or code fixes require a fresh human read; no prior SHA approval is carried forward. No PR was opened.

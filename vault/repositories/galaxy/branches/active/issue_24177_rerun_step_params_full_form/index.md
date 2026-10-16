@@ -1,5 +1,7 @@
 # issue_24177_rerun_step_params_full_form
 
+Status: `branches_implemented_needs_ci`. Head: `7f57142acd377019b6924d27d2196c93fc30ea9d`. Fork CI pending after repair.
+
 Fixes [galaxyproject/galaxy#24177](https://github.com/galaxyproject/galaxy/issues/24177): rerunning from the simplified form silently dropped the tool step parameters the original run set.
 
 - Branch: `jmchilton/issue_24177_rerun_step_params_full_form`, **stacked on `issue_24176_rerun_full_form_prefill`** ([parent record](../issue_24176_rerun_full_form_prefill/index.md)), itself on `issue_24178_subworkflow_step_params_export` ([record](../issue_24178_subworkflow_step_params_export/index.md)) → `dev`.
@@ -14,3 +16,13 @@ Fixes [galaxyproject/galaxy#24177](https://github.com/galaxyproject/galaxy/issue
 - Predicate unchanged from #24176 (`rerunHasStepParameters`: export `parameters` non-empty). Not narrowed to tool-only rows: subworkflow step rows are dropped by the simple form too and #24176 seeds them in the expanded form.
 - Out of scope: object stores in the expanded form (no UI); `replacement_dict` bug (issue footnote ¹) so simple-form workflow-param prefill has no effect yet; latent `param_map` keyed-by-id bug; server seeding (#24176); import (#24175); export re-keying (#24178).
 - Pending coordinator decision: move #24176's `withRerunValues` into `model.js` and reuse it in the simple form (flagged by normal review, Codex, thermo).
+
+## Stack/CI repair — 2026-10-16
+
+Base: `issue_24176_rerun_full_form_prefill` at `d10e8cfbf414a35f3e3362406f1dc190c049d206`.
+
+Carried the existing child commit onto the integrated prefill parent without conflicts. Range-diff marks the child patch identical. Kept the established expanded-form guard, explanation and simple-form prefill behavior. The pre-existing helper-reuse follow-up is outside this mechanical integration; no new design decision was introduced.
+
+Validation: the final stack's Workflow/Run client suite passes **83 tests in 12 files**. Parent server coverage passes 11 API cases. Isort and diff whitespace checks pass. No browser test rerun is claimed. This conflict-free child rebase retains its previous needs-CI classification.
+
+Published `7f57142acd377019b6924d27d2196c93fc30ea9d` to `jmchilton/issue_24177_rerun_step_params_full_form`. Fresh fork CI is pending. No approval or new PR was inferred.

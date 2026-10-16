@@ -3,9 +3,9 @@
 - Issue: https://github.com/galaxyproject/galaxy/issues/24173
 - Branch: `issue_24173_invocation_selection_urls`
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24173_invocation_selection_urls`
-- Base: `issue_24173_invocation_selection_prep` at `60dc8ddf598`; prep is based on `dev` at `88127f42979`
-- Status: READY — stacked on prep, reviewed and pushed; CI pending
-- Head: `a0482b43e0c` (pushed)
+- Base: `issue_24173_invocation_selection_prep` at `13e92c00bc0ab1014c4a722b72cab29623237e0c`.
+Status: `branches_ready_for_final_review`. Head: `978ff1c92536be5355c967ecbf911742b43fe0bb`. Fork CI pending after repair.
+- Head: `978ff1c92536be5355c967ecbf911742b43fe0bb` (pushed).
 - [Implementation handoff](implementation_debrief.md)
 - [Prep extraction and user decision](extraction_debrief.md)
 - [Prep branch](../issue_24173_invocation_selection_prep/index.md)
@@ -29,3 +29,13 @@ The user-approved split is complete. Prep contains five independent commits (+15
 Fork Python lint fails isort in the changed lib/galaxy_test/selenium/test_workflow_invocation_details.py. Browser checks also fail restoring the client cache before tests. Retain a CI blocker; this is not greenish coverage.
 
 The isolated attempt to rebase onto the newly rebased prep parent conflicted in WorkflowInvocationStep.vue and was aborted. The fork and original development worktree remain unchanged; parent integration is pending.
+
+## Stack/CI repair — 2026-10-16
+
+Base: `issue_24173_invocation_selection_prep` at `13e92c00bc0ab1014c4a722b72cab29623237e0c`.
+
+Integrated the feature onto its already-rebased prep parent, preserving the upstream `invocation-step-config-tab` selector and the feature's watcher that loads config for URL-selected tabs. Preserved the mapped-job URL browser test, without resurrecting the local `invocation_open_latest` helper superseded by the inherited helper. Fixed the changed browser test's isort failure. Range-diff changes are limited to those conflict resolutions and import formatting.
+
+Validation: 5 selection/graph/state client files, **61 tests passed**. Full client typecheck passes after rebuilding the local API-client declarations (the first attempt used stale declarations and reported unrelated file-source capability types). Browser-test isort and diff whitespace checks pass. No new browser run was performed in this repair. No design or behavior choice was changed.
+
+Published `978ff1c92536be5355c967ecbf911742b43fe0bb` to `jmchilton/issue_24173_invocation_selection_urls`. Fresh fork CI is pending. Conflict resolutions or code fixes require a fresh human read; no prior SHA approval is carried forward. No PR was opened.
