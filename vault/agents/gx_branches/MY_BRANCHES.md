@@ -43,6 +43,8 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`form_checkbox_controlled_tests`](../../repositories/galaxy/branches/active/form_checkbox_controlled_tests/index.md) — Repairs the three upstream controlled-checkbox test failures on dev `5ff1e46b8c3`; 151 related tests pass, independent review complete; fork CI pending.
+
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Report partial and wholly disconnected required subworkflow inputs consistently at runtime. Rescoped and reviewed; fresh CI pending.
 - [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Deduplicate identical nested tool references while retaining distinct versions and UUIDs. Rescoped and reviewed; fresh CI pending.
 - [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Validate required completion-hook configuration before creating invocation state. Rescoped and reviewed; fresh CI pending.
