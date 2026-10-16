@@ -17,3 +17,7 @@ Live draft remains conflicting with actual dev `6831f768a637d148d941a3477db0a14e
 ## GOOD_MORNING — 2026-10-13
 
 Current fork head `fee153951d5582af91bdeb15933760b53d797586` conflicts with `origin/dev` in 3 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `lib/galaxy/workflow/extract.py` · `lib/galaxy_test/api/test_workflow_extraction.py` · `test/unit/workflows/test_extract_summary.py`
+
+## Morning refresh — 2026-10-16
+
+Conflict preview against `origin/dev` at `fee153951d5582af91bdeb15933760b53d797586` found overlapping changes in 3 paths (`lib/galaxy/workflow/extract.py`, `lib/galaxy_test/api/test_workflow_extraction.py`, `test/unit/workflows/test_extract_summary.py`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.

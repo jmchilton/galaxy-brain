@@ -1,6 +1,6 @@
 # tool_open_tool_shed_ids
 
-Status: `ci_wait`. Base: `release_26.2`. PR: [#24142](https://github.com/galaxyproject/galaxy/pull/24142).
+Status: `draft_ready` (refreshed 2026-10-16).
 
 Lets tool panel search, the `tool_panel` selectors, and the `tools_list` card selectors find Tool Shed tools by their full GUID id. Covered by `integration_selenium` E2E tests.
 
@@ -64,3 +64,9 @@ John confirmed he drafted #24142 and requested moving the tracker to draft waiti
 ## TICK — 2026-10-15
 
 Current-head Python lint fails isort in unchanged `test/unit/app/tools/test_expression_basics.py` (misordered `galaxy.util.wait` import). The four-file PR does not modify that file; unrelated failed jobs rerun. Relevant Integration Selenium/browser checks remain pending; preserve the fresh-human-read requirement recorded after the FastQC follow-up.
+
+## Morning refresh — 2026-10-16
+
+Current #24142 is mergeable. Relevant browser/Integration Selenium checks pass; the two Python-lint failures are isort in unchanged test/unit/app/tools/test_expression_basics.py, outside this four-file diff. Moved to `draft_ready`; preserve the explicit fresh-human-read hold, so no undraft.
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 38780926613](https://github.com/galaxyproject/galaxy/actions/runs/38780926613). All requests accepted; reruns are pending evidence, not passing results or recovered cache coverage.

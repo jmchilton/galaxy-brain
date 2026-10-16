@@ -20,3 +20,7 @@ Fixes [galaxyproject/galaxy#24175](https://github.com/galaxyproject/galaxy/issue
 - This is one of four deliberate sibling branches: #24178 (parent), #24175 (this one), #24176 run-form seeding and #24177 client.
 - Archives exported before this fix, which have no `order_index`, get a skip with a logged warning instead of a 500, as the issue proposes. Reviewers may prefer a 4xx that tells the user the step parameters were lost. That would also block the rerun.
 - The latent `param_map` keyed-by-id bug in `workflow_run_config_to_request` is noted and not fixed, per the coordinator.
+
+## Morning refresh — 2026-10-16
+
+Attempted to carry the branch onto its rebased named parent, but the child rebase needed additional reconciliation. Aborted the isolated rebase and left the fork and original development worktree unchanged. Parent integration remains pending.

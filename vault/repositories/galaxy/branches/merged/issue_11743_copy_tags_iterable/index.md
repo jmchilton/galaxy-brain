@@ -1,6 +1,6 @@
 # issue_11743_copy_tags_iterable
 
-Status: `ready`. Base: `dev`.
+Status: `merged` (refreshed 2026-10-16).
 
 Types copy_tags as an iterable and preserves nested element tags when copying collections (#11743).
 
@@ -27,3 +27,7 @@ GitHub now reports OPEN, non-draft and mergeable at its unchanged head; this TIC
 ## TICK reruns — 2026-10-15
 
 Requested failed-job reruns for recorded unrelated failures: [run 37773026992](https://github.com/galaxyproject/galaxy/actions/runs/37773026992). Requests accepted; reruns are pending evidence, not green results. Existing classification and review holds remain.
+
+## Morning refresh — 2026-10-16
+
+GitHub confirms [#23973](https://github.com/galaxyproject/galaxy/pull/23973) merged at 2026-10-16T07:03:35Z, head `5bc71db5779fe3edbc4f5e07ecc802bb7afb9bce`. Removed from the active queue and archived this record under `merged/`. Clean worktree removed with ghwt after verifying pushed history.

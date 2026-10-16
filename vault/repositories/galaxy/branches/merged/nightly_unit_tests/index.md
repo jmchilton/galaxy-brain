@@ -1,10 +1,10 @@
 # nightly_unit_tests
 
-Status: `attention` (review fixes pushed; CI and fresh human read pending). Base: `dev`. [PR #24131](https://github.com/galaxyproject/galaxy/pull/24131), head `191c67516c7526646df142545ab3941295570302`, pushed to `jmchilton/nightly_unit_tests`.
+Status: `merged` (refreshed 2026-10-16).
 
 Rebalances dev PR CI: unit and Tool Shed tests run on Python3.14, tool framework tests use the tool request API, and the performance workflow, unused suite and exclusive helpers are removed. Dev nightlies cover Python3.10–3.14 for unit/Tool Shed and both framework APIs. Release PR matrices stay intact.
 
-[Alternative rejected by John for verbosity](../nightly_release_targets_alternative/index.md) · [Rollback debrief](release_nightlies_rejection.md) · [Original description backup](pr_description_before_release_nightlies.md)
+[Alternative rejected by John for verbosity](../../active/nightly_release_targets_alternative/index.md) · [Rollback debrief](release_nightlies_rejection.md) · [Original description backup](pr_description_before_release_nightlies.md)
 
 [Draft-opening debrief](draft_opened_2026-10-14.md) · [PR description](pr_description.md) · [Title choices](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Polish checklist](polish_checklist.md) · [Description strengthening](polish_strengthening.md)
 
@@ -68,3 +68,7 @@ John asked to address the issues in Marius's review. Pushed `191c67516c7526646df
 Validation: all seven reporter harness cases pass; workflow schema validation and configured offline zizmor pass for all three edited workflows; Ruff and Python syntax pass for populators; `bash -n run_tests.sh` and diff whitespace checks pass. Commit hooks pass except shell-lint's 12 pre-existing ShellCheck findings, confirmed identical by code/column/message against the pre-change script; skipped only that hook for the commit. Full runtime suites are left to the new CI run.
 
 Updated the PR description for schedules, suite removal, Codecov policy, reporter validation limits and prior startup evidence. Reset the human-read checkbox because comments changed. No GitHub review reply or comment was posted. These changes have no pinned approval; a fresh human read remains required. Upstream scheduled/manual reporting still needs end-to-end verification after merge.
+
+## Morning refresh — 2026-10-16
+
+GitHub confirms [#24131](https://github.com/galaxyproject/galaxy/pull/24131) merged at 2026-10-16T08:02:39Z, head `a0ec8cc0d927b9119a6f908e6424b8a72e93ed2a`. Removed from the active queue and archived this record under `merged/`. Worktree retained: local HEAD differs from the merged PR history; upstream/history needs review before removal.

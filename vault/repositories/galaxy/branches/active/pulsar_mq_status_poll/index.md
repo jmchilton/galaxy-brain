@@ -1,6 +1,6 @@
 # pulsar_mq_status_poll
 
-Status: `branches_implemented`. Base: `dev`.
+Status: `branches_ready_for_final_review` (refreshed 2026-10-16).
 
 Opt-in `status_poll_interval` asks Pulsar MQ to resend lost job statuses; stops double finishes (revives #9911).
 
@@ -25,3 +25,7 @@ Rebased onto actual dev `b23da2fc8f0943d51b2cb191148464aa2297de43`. Resolved onl
 ## TICK — 2026-10-13 evening
 
 Current fork head `9d225eb5eb0dba8c4dc2fe981e453a0bebab5360` has passing Integration: `TestEmbeddedMessageQueuePulsarLostStatusUpdate::test_status_poll_recovers_lost_complete_status` passed in [run 38430282752](https://github.com/jmchilton/galaxy/actions/runs/38430282752). The earlier unreleased-Pulsar blocker is cleared on this head. Remaining reds are unrelated: mulled zlib container building fails while conda retrieves channel metadata (run 38430282896), and the release script compares old fork master `VERSION_MINOR = None` (run 38430282944). Promoted to `branches_implemented`; requested failed-job reruns. No PR approval or publication inferred.
+
+## Morning refresh — 2026-10-16
+
+Rebased onto `origin/dev` and published `401bb8191cf2bbab10e978d11274f3a1931db5e1` only to jmchilton with an exact old-head lease. Resolved only the import/additive fixture conflict; a fresh human read is required, with no approval carried forward. Kept the base per-instance AMQP queue prefix and both polling fixture arguments; Python syntax and diff whitespace checks pass. Fresh fork CI is pending. Existing local development worktrees were left at their original heads; use the new fork head when resuming.

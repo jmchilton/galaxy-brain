@@ -17,3 +17,7 @@ Live draft remains conflicting with actual dev `6831f768a637d148d941a3477db0a14e
 ## GOOD_MORNING — 2026-10-13
 
 Current fork head `cbd9c9502264cd6efb733923e184e121458cfe70` conflicts with `origin/dev` in 3 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `lib/galaxy/jobs/__init__.py` · `lib/galaxy/jobs/runners/__init__.py` · `lib/galaxy/jobs/runners/pulsar.py`
+
+## Morning refresh — 2026-10-16
+
+Conflict preview against `origin/dev` at `cbd9c9502264cd6efb733923e184e121458cfe70` found overlapping changes in 3 paths (`lib/galaxy/jobs/__init__.py`, `lib/galaxy/jobs/runners/__init__.py`, `lib/galaxy/jobs/runners/pulsar.py`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.

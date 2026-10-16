@@ -15,3 +15,7 @@ Current fork tip `113a63bb6920de19f81aaba7f83d9b53b695a911` conflicts with dev i
 ## GOOD_MORNING — 2026-10-13
 
 Current fork head `113a63bb6920de19f81aaba7f83d9b53b695a911` conflicts with `origin/dev` in 2 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `client/src/components/Common/GCard.test.ts` · `client/src/components/Common/GCard.vue`
+
+## Morning refresh — 2026-10-16
+
+Conflict preview against `origin/dev` at `113a63bb6920de19f81aaba7f83d9b53b695a911` found overlapping changes in 2 paths (`client/src/components/Common/GCard.test.ts`, `client/src/components/Common/GCard.vue`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.

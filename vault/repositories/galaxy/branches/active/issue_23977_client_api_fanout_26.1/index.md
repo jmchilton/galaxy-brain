@@ -1,6 +1,6 @@
 # issue_23977_client_api_fanout_26.1
 
-Status: `draft_ready`. Base: `release_26.1`. PR: [#24141](https://github.com/galaxyproject/galaxy/pull/24141) (draft).
+Status: `ready` (refreshed 2026-10-16).
 
 Spaces out client retries and removes hidden counts requests (#23977).
 
@@ -35,3 +35,7 @@ The added `DatasetPopoverLink.width.test.ts` compiles and injects the component'
 ## TICK — 2026-10-15
 
 All 29 checks succeeded and GitHub reports draft and mergeable. Move to `draft_ready`, preserving the explicit instruction to keep draft until John requests promotion.
+
+## Morning refresh — 2026-10-16
+
+Live #24141 is already non-draft, mergeable, approved and all 30 checks succeeded. This run did not change its draft setting. Moved to `ready` to match GitHub.

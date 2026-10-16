@@ -19,3 +19,7 @@ Current fork tip `96af0310d25a595ff3da02523b38516474892c5a` has substantial conf
 ## GOOD_MORNING — 2026-10-13
 
 Current fork head `96af0310d25a595ff3da02523b38516474892c5a` conflicts with `origin/dev` in 79 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `CONFLICT (modify/delete): .github/workflows/bioblend.yaml` · `CONFLICT (modify/delete): .github/workflows/build_client.yaml` · `CONFLICT (modify/delete): .github/workflows/build_container_image.yaml` · `CONFLICT (modify/delete): .github/workflows/check_test_class_names.yaml` · `CONFLICT (modify/delete): .github/workflows/client-unit.yaml` · `CONFLICT (modify/delete): .github/workflows/codeql-analysis.yml` · `CONFLICT (modify/delete): .github/workflows/converter_tests.yaml` · `.github/workflows/cwl_conformance.yaml` · `CONFLICT (modify/delete): .github/workflows/db_indexes.yaml` · `CONFLICT (modify/delete): .github/workflows/dependencies.yaml`
+
+## Morning refresh — 2026-10-16
+
+Conflict preview against `origin/dev` at `96af0310d25a595ff3da02523b38516474892c5a` found overlapping changes in 82 paths (`96af0310d25a595ff3da02523b38516474892c5a.`, `tree.`, `tree.`, `tree.`, `tree.`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.

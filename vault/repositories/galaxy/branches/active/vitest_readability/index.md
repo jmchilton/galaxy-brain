@@ -285,3 +285,7 @@ Compared with the previously validated `5d87d32b2af`, the tree differs only by d
 [Updated pruning evidence](../../../../../projects/just_jesting_around/readability_assessment/prune_result.json) verifies the retained upstream deduplication and all surviving commit messages/trailers.
 
 Correction validation: retained TypeScript CollectionProgress suite passes all five tests. Independent review confirms only the duplicate JS file was deleted; the history verifier passes with upstream deduplication retained.
+
+## Morning refresh — 2026-10-16
+
+Conflict preview against `origin/dev` at `7f2db5e59415f07c09fec5be75ff4885fbad047e` found overlapping changes in 43 paths (`client/packages/ui/src/components/GCheckbox.test.ts`, `client/packages/ui/src/directives/vGTooltip.ts`, `client/patches/vue-multiselect@3.5.0.patch`, `client/pnpm-lock.yaml`, `client/src/components/BaseComponents/GModal.test.ts`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.

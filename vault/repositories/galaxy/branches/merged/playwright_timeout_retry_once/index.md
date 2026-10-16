@@ -1,12 +1,12 @@
 # playwright_timeout_retry_once
 
-Status: `ready`. Base: `dev` (`c63ffc2ccae`). PR: [#24139](https://github.com/galaxyproject/galaxy/pull/24139) (draft). Head: `40595f3b1e2d54948660b21958a65fcbf3df87a9`.
+Status: `merged` (refreshed 2026-10-16).
 
 `retry_call_during_transitions` retries a Playwright timeout once rather than ten times.
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Review](subagents/normal_review.md) · [Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Scope](scope_evaluation.md)
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (commit 7b, "Retry a Playwright timeout once during transitions, not ten times") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop the commit from `galaxy_ui_driver` once this merges.
+Pulled out of [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) (commit 7b, "Retry a Playwright timeout once during transitions, not ten times") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop the commit from `galaxy_ui_driver` once this merges.
 
 The PR description must say upfront that this partly reverts `2825bb09e42` ("Try to fix transiently failing test?", 2026-03-22), which made Playwright timeouts retryable. John (2026-10-09): that commit's CI run is gone and the flake won't come back; the change justifies itself.
 
@@ -35,3 +35,7 @@ Previous-head package, unit, Python lint, Integration and Integration Selenium w
 ## TICK — 2026-10-15
 
 Relevant browser/driver checks pass; the only prior-head reds are mypy in unchanged `galaxy/security/ssh_util.py:18`, unrelated to the retry helper. Rebased without conflicts onto actual `origin/dev` at `88127f42979425ef316b5bb0fd07fd67ce2f16bc`; range-diff confirms the patch is identical. Published `aec8690d5646befcfaef63fca75f045cd4c0cdde` only to jmchilton with an exact old-head lease, and undrafted under standing TICK authorization. Move to `ready`; fresh CI belongs to the rebased head and is pending.
+
+## Morning refresh — 2026-10-16
+
+GitHub confirms [#24139](https://github.com/galaxyproject/galaxy/pull/24139) merged at 2026-10-16T05:33:50Z, head `aec8690d5646befcfaef63fca75f045cd4c0cdde`. Removed from the active queue and archived this record under `merged/`. Worktree retained: local HEAD differs from the merged PR history; upstream/history needs review before removal.

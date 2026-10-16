@@ -13,3 +13,7 @@ Current fork tip `01027324b35b860fd2136d1baf442a882c3a80f6` conflicts with dev i
 ## GOOD_MORNING — 2026-10-13
 
 Current fork head `01027324b35b860fd2136d1baf442a882c3a80f6` conflicts with `origin/dev` in 5 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `lib/galaxy/tool_util/parameters/convert.py` · `lib/galaxy/tool_util/parser/interface.py` · `lib/galaxy/tool_util/parser/util.py` · `lib/galaxy/tools/__init__.py` · `lib/galaxy_test/base/populators.py`
+
+## Morning refresh — 2026-10-16
+
+Conflict preview against `origin/dev` at `01027324b35b860fd2136d1baf442a882c3a80f6` found overlapping changes in 5 paths (`lib/galaxy/tool_util/parameters/convert.py`, `lib/galaxy/tool_util/parser/interface.py`, `lib/galaxy/tool_util/parser/util.py`, `lib/galaxy/tools/__init__.py`, `lib/galaxy_test/base/populators.py`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.

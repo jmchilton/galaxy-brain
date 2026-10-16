@@ -23,3 +23,9 @@
 - [Screenshots](screenshot_debrief.md)
 
 The user-approved split is complete. Prep contains five independent commits (+158/-46 lines, 12 files), and the feature above it is +1398/-44 across 24 files. GenericItem stays with its feature consumers. The rebased feature has exactly the previously validated Git tree; prior 83-test/type/build/two-browser/seven-screenshot evidence remains valid. Prep independently passes 41 tests, typecheck, build, hooks and browser validation. Both branches are pushed and queued with CI pending. No PR opened.
+
+## Morning refresh — 2026-10-16
+
+Fork Python lint fails isort in the changed lib/galaxy_test/selenium/test_workflow_invocation_details.py. Browser checks also fail restoring the client cache before tests. Retain a CI blocker; this is not greenish coverage.
+
+The isolated attempt to rebase onto the newly rebased prep parent conflicted in WorkflowInvocationStep.vue and was aborted. The fork and original development worktree remain unchanged; parent integration is pending.

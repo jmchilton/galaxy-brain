@@ -1,6 +1,6 @@
 	# selenium_stories_core
 
-Status: `ci_wait`. Base: `dev`. PR: [#24137](https://github.com/galaxyproject/galaxy/pull/24137) (draft). Head: `c9cbdb03895fb70c65daaf688cd4b8dfa8027182`.
+Status: `author_work` (refreshed 2026-10-16).
 
 [PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md)
 
@@ -52,3 +52,9 @@ Verified the PR is open and draft with queued/in-progress upstream checks. Fork 
 ## Dependency-lock CI fix — 2026-10-15
 
 [Diagnosis and verification](dependency_lock_ci_2026-10-15.md). The linked dependency job correctly rejected stale workspace metadata after this PR changed three package manifests. Updated only their generated `uv.lock` blocks, preserving all registry-package versions and all four requirements exports. Exact pinned-toolchain CI check and commit hooks now pass. Published `c9cbdb03895fb70c65daaf688cd4b8dfa8027182`; PR remains draft waiting for fresh CI. Other CI failures were not assessed here.
+
+## Morning refresh — 2026-10-16
+
+Current #24137 has no running checks. Package reds are unchanged SSH publickey typing; installed startup fails in unchanged packages/meta (egg_base src missing). Earlier polish/decomposition scope questions and human read remain unresolved; moved to `author_work`, keeping draft.
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 38783942104](https://github.com/galaxyproject/galaxy/actions/runs/38783942104), [run 38783942179](https://github.com/galaxyproject/galaxy/actions/runs/38783942179). All requests accepted; reruns are pending evidence, not passing results or recovered cache coverage.

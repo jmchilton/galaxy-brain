@@ -14,3 +14,7 @@ Current fork tip `051335c00d16014676ba36536437085cde720353` conflicts with dev i
 ## GOOD_MORNING — 2026-10-13
 
 Current fork head `051335c00d16014676ba36536437085cde720353` conflicts with actual dev in `lib/galaxy/tool_util/linters/output.py`, `lib/galaxy/tool_util/xsd/galaxy.xsd`. The overlapping output linter/schema changes require deliberate reconciliation; branch left intact.
+
+## Morning refresh — 2026-10-16
+
+Conflict preview against `origin/dev` at `051335c00d16014676ba36536437085cde720353` found overlapping changes in 2 paths (`lib/galaxy/tool_util/linters/output.py`, `lib/galaxy/tool_util/xsd/galaxy.xsd`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.

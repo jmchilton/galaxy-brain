@@ -4,7 +4,7 @@ Status: `branches_need_decision`. Base: `dev`. Reference-only alternative; do no
 
 **John rejected this implementation on 2026-10-14 for being too verbose and unreadable.** Keep it available for Marius to assess whether cross-release nightly coverage justifies the added machinery. No endorsement or feedback from Marius is recorded; no message or comment was posted to him.
 
-[Implementation branch](https://github.com/jmchilton/galaxy/tree/nightly_release_targets_alternative) · [Extension-only diff](https://github.com/jmchilton/galaxy/compare/b2a792c206ded6040be900adef9b4b52f3819719...nightly_release_targets_alternative) · [Main proposal](../nightly_unit_tests/index.md)
+[Implementation branch](https://github.com/jmchilton/galaxy/tree/nightly_release_targets_alternative) · [Extension-only diff](https://github.com/jmchilton/galaxy/compare/b2a792c206ded6040be900adef9b4b52f3819719...nightly_release_targets_alternative) · [Main proposal](../../merged/nightly_unit_tests/index.md)
 
 [Alternative PR description snapshot](pr_description.md) · [Title snapshot](pr_titles.md) · [Implementation/review evidence](release_nightlies_debrief.md) · [Checklist](release_nightlies_checklist.md) · [Description review](release_nightlies_strengthening.md)
 

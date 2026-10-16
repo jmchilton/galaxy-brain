@@ -1,6 +1,6 @@
 # issue_15515_related_filter_copied_items
 
-Status: `draft_ready` — second-round (mvdbeek) performance fixes pushed at `6c8b5b22a29`; review reply and updated description published; fresh human read and new-head CI pending. Base: `dev`.
+Status: `author_work` (refreshed 2026-10-16).
 
 Makes the related filter work on imported and copied history items (#15515).
 
@@ -46,3 +46,9 @@ Requested failed-job reruns for recorded unrelated failures: [run 38578066014](h
 ## Second review round — 2026-10-15
 
 John asked to address mvdbeek's second review: dataset clicks built recursive CTEs over every copied HDA in the history, measured at ~150 ms–1.1 s versus ~9 ms on dev. Commit `6c8b5b22a29` seeds collection ownership from the clicked item and from mapping candidates. Mapping candidates are this history's copies that share a related HDA's `dataset_id`; the copy-chain boundary checks are unchanged. **Rebuilt-fixture PostgreSQL 18 dataset click at 30k/100k per history: dev 5/9 ms, prior 786–1,830 ms, now 13–24 ms.** 28 manager tests pass, and 8/8 API tests pass on SQLite and PG. Known tradeoff: copies whose dataset differs from their source are not mapped back, matching dev. These are API-only deferred materialization and some archive-import links. Normal review found no blockers; nits applied. Pushed only to jmchilton with an exact lease on `4d82165af62`; PR still draft and mergeable. John then asked to respond and update the description: the top-level reply, both inline-thread replies (with Claude markers, no mentions) and the updated PR description were published 2026-10-15. See [debrief](implementation_debrief.md).
+
+## Morning refresh — 2026-10-16
+
+Current #24106 checks settled: package reds are unchanged SSH publickey typing, but API shard galaxy_api is cancelled and its log stops at collection. The missing API evidence is not diagnosed as unrelated; moved to `author_work` rather than claiming CI readiness. Fresh human-read hold remains.
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 38821897746](https://github.com/galaxyproject/galaxy/actions/runs/38821897746). All requests accepted; reruns are pending evidence, not passing results or recovered cache coverage.

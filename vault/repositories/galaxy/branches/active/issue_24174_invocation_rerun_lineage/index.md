@@ -17,3 +17,7 @@ Uses an indexed nullable self foreign key, source access validation, access-filt
 Final local validation: 2 API tests, 2 migration/model-store tests, 29 client tests, type check, commit hooks, and 1 Playwright E2E passed; six screenshots inspected. CI and PostgreSQL execution remain pending. No PR opened.
 
 Helper-reuse revision: both affected API tests passed after using existing populator helpers; [normal revision review](subagents/helper_revision_review.md) is clean. [Prior implementation debrief](earlier_drafts/4/implementation_debrief.md) archived per the revision procedure.
+
+## Morning refresh — 2026-10-16
+
+Fork Python lint/package jobs report relevant missing return annotations in the new migration upgrade/downgrade, non-exported migrations.util.context, and Row-versus-tuple assertion typing in test_invocation_rerun_migration.py. Browser cache misses remain separate. Retain `branches_implemented_needs_ci`.

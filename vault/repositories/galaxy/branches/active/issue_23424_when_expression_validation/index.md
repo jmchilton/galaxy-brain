@@ -1,6 +1,6 @@
 # issue_23424_when_expression_validation
 
-Status: `branches_ready_for_final_review`. Base: `dev`. [PR #23817](https://github.com/galaxyproject/galaxy/pull/23817) (closed).
+Status: `branches_need_decision` (refreshed 2026-10-16).
 
 Validates workflow `when` expression input references at import.
 
@@ -49,3 +49,7 @@ John requested reducing expensive API combinations in favor of the exhaustive an
 [Normal revision review](subagents/test_cleanup_review_2026-10-12.md) and the fresh [test challenge](test_challenges_debrief.md) found no further work. General and workflow checklists were reevaluated and pass; the human-read item remains unchecked. Targeted tests: 29 passed (six API plus 23 fast tests); Ruff, Black, isort, whitespace checks and commit hooks pass. The fork head matches the pushed commit. New-head fork CI: 17 queued, three pending, two skipped, no observed failures.
 
 The previous challenge and implementation handoff are archived in [earlier_drafts/1](earlier_drafts/1/implementation_debrief.md). The revised description reflects the new test split and runner selector. Status remains `branches_ready_for_final_review` because these user-requested edits require a fresh read-through; no SHA approval is recorded. Closed #23817 was not reopened and no PR was created for this branch.
+
+## Morning refresh — 2026-10-16
+
+GitHub reconfirms #23817 closed unmerged on 2026-09-30. Moved to `branches_need_decision`; no abandonment inferred. Decision: revive/reopen this proposal or explicitly abandon it.

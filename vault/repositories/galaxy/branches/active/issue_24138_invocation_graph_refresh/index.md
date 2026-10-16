@@ -1,6 +1,6 @@
 # issue_24138_invocation_graph_refresh
 
-Status: draft PR [#24165](https://github.com/galaxyproject/galaxy/pull/24165), waiting for CI. Opened 2026-10-15 at John's request on `cd820238598`, title "[26.2] Keep invocation step states current while the invocation runs"; screenshots hosted on the fork's `pr-assets-issue_24138_invocation_graph_refresh`. Base: `release_26.2` (regression since 25.1; merges cleanly into `dev`).
+Status: `author_work` (refreshed 2026-10-16).
 
 Fixes [#24138](https://github.com/galaxyproject/galaxy/issues/24138) (Steps tab headers freeze while an invocation runs) and the refresh-cost part of [#22745](https://github.com/galaxyproject/galaxy/issues/22745) (O(n²) graph refresh). Doesn't claim to fix #22745's zoom/pan freeze, which hasn't been browser-profiled. The PR shouldn't auto-close #22745.
 
@@ -33,3 +33,9 @@ Fork CI 2026-10-15. Backend workflows ran on `3498376357c`; the last two commits
 ## TICK — 2026-10-15
 
 Current-head Python lint fails isort in unchanged `test/unit/app/tools/test_expression_basics.py`, outside this client/browser change. Failed jobs rerun; no promotion while current checks remain pending.
+
+## Morning refresh — 2026-10-16
+
+Current #24165 conflicts with release_26.2 in client/src/composables/useInvocationGraph.test.ts. Both sides change the workflow-store mock and setupComposable arguments and add assertions; this needs deliberate test reconciliation. Left the branch intact under the small/mechanical conflict limit; moved to `author_work`. Its lint red is unrelated isort in unchanged test/unit/app/tools/test_expression_basics.py.
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 38777479091](https://github.com/galaxyproject/galaxy/actions/runs/38777479091). All requests accepted; reruns are pending evidence, not passing results or recovered cache coverage.

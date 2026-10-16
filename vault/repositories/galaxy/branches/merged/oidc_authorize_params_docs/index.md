@@ -1,6 +1,6 @@
 # oidc_authorize_params_docs
 
-- Workflow status: `ready` (2026-10-15); non-draft [#24133](https://github.com/galaxyproject/galaxy/pull/24133).
+- Workflow status: `merged` (refreshed 2026-10-16).
 - Branch: `jmchilton/oidc_authorize_params_docs`; head `2114bf52153f669b12b9e8022571ee11bcf60130`, targets `dev` (`c63ffc2ccae`).
 - Worktree: `~/projects/worktrees/galaxy/branch/oidc_authorize_params_docs`.
 - [PR description](pr_description.md) · [Title choices](pr_titles.md).
@@ -18,3 +18,7 @@ Docs only. No issue to close.
 ## TICK — 2026-10-15
 
 GitHub now reports non-draft; this tick did not change its draft setting. Docs coverage passes. Unchanged package/SSH typing, container-registry resolution, and mulled conda HTTP 502 failures are unrelated to this documentation/sample XML change; failed workflows rerun. Move to `ready` based on live PR state.
+
+## Morning refresh — 2026-10-16
+
+GitHub confirms [#24133](https://github.com/galaxyproject/galaxy/pull/24133) merged at 2026-10-16T06:07:38Z, head `2114bf52153f669b12b9e8022571ee11bcf60130`. Removed from the active queue and archived this record under `merged/`. Clean worktree removed with ghwt after verifying pushed history.

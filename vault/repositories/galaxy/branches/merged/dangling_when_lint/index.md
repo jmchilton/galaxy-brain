@@ -1,6 +1,6 @@
 # dangling_when_lint
 
-Status: `ready`. Base: `release_26.2`.
+Status: `merged` (refreshed 2026-10-16).
 
 Warns about disconnected workflow when-inputs and gives them editor ports.
 
@@ -23,3 +23,7 @@ Requested failed-job reruns for recorded unrelated failures: [run 38640172253](h
 ## Retargeted to release_26.2 — 2026-10-15
 
 At John's request (Marius asked on the PR to retarget to 26.2). Cherry-picked both commits onto `origin/release_26.2` `7690068b48a` in new worktree `worktrees/galaxy/branch/dangling_when_lint_26.2`; clean, range-diff identical, diff check clean. Touched files identical between old dev base and release_26.2, so no local test rerun. #23816 dependency confirmed in release_26.2. Force-pushed `c13dd4dced9` to jmchilton with lease on old head `0b981e90eea`. PR base → `release_26.2`, title prefixed `[26.2]`. Replied to Marius ([comment](https://github.com/galaxyproject/galaxy/pull/24107#issuecomment-6204049432)). Fresh CI pending. Old `dangling_when_lint` worktree still on stale dev-based head `f985392361a`.
+
+## Morning refresh — 2026-10-16
+
+GitHub confirms [#24107](https://github.com/galaxyproject/galaxy/pull/24107) merged at 2026-10-16T05:58:12Z, head `c13dd4dced9c67c9a1a93c57ce132c3eff656636`. Removed from the active queue and archived this record under `merged/`. Worktree retained: local HEAD differs from the merged PR history; upstream/history needs review before removal.

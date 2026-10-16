@@ -8,7 +8,7 @@ John: "That code is unreadable"; preserve a separate branch and identify it as a
 - Alternative is reference-only, do-not-PR, under branches_need_decision. It remains active rather than abandoned and should not be promoted automatically or deleted.
 - Older extension debriefs in this directory are historical. The active proposal again has dev-only nightlies (five unit/Tool Shed Python versions), with existing release PR matrices retained.
 
-[Alternative record](../nightly_release_targets_alternative/index.md) · [Restored description](pr_description.md)
+[Alternative record](../../active/nightly_release_targets_alternative/index.md) · [Restored description](pr_description.md)
 
 ## Verification
 

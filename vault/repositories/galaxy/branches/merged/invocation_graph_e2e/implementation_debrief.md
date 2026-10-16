@@ -44,7 +44,7 @@
 
 ## Found along the way
 
-The live-update variant (opening the invocation while jobs still run) failed 1 in 6 runs on dev. On failure the header showed "2 of 2 jobs complete", but the nodes stayed at "1 job running". The graph's own poll loop stops when `isTerminal` flips. [issue_24138_invocation_graph_refresh](../issue_24138_invocation_graph_refresh/index.md) removes that loop. The test is parked in [live_update_test_for_24138](live_update_test_for_24138.md) so this branch stays green on dev.
+The live-update variant (opening the invocation while jobs still run) failed 1 in 6 runs on dev. On failure the header showed "2 of 2 jobs complete", but the nodes stayed at "1 job running". The graph's own poll loop stops when `isTerminal` flips. [issue_24138_invocation_graph_refresh](../../active/issue_24138_invocation_graph_refresh/index.md) removes that loop. The test is parked in [live_update_test_for_24138](live_update_test_for_24138.md) so this branch stays green on dev.
 
 ## Notes for PR / merge
 

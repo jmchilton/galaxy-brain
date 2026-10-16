@@ -16,3 +16,7 @@ Fixes [galaxyproject/galaxy#24178](https://github.com/galaxyproject/galaxy/issue
 - Latent `param_map` keyed-by-id vs `order_index` lookup in `workflow_run_config_to_request`: noted, not fixed (per coordinator).
 - Behaviour change: unknown/non-numeric inner subworkflow index (`9|x`, `x|y`) was silently ignored, key without `|` was a 500; all now 400. Unknown outer index is still ignored, as on dev.
 - Inner `parameter_input` "must specify 'input'" check kept via recursive validation (Codex finding).
+
+## Morning refresh — 2026-10-16
+
+Rebased onto `origin/dev` and published `a171dbed4194a2de0e93b488381129c75a7dad1d` only to jmchilton with an exact old-head lease. Resolved only the import/additive fixture conflict; a fresh human read is required, with no approval carried forward. Kept both workflow fixture imports; changed Python syntax and whitespace checks pass. Fresh fork CI is pending. Existing local development worktrees were left at their original heads; use the new fork head when resuming.

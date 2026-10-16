@@ -1,6 +1,6 @@
 # invocation_graph_e2e
 
-Status: `ci_wait`. PR: [#24164](https://github.com/galaxyproject/galaxy/pull/24164) (draft; automatically undraft when CI is green, per John). Title: "Add E2E tests for the invocation graph". Screenshots hosted on `jmchilton/pr-assets-invocation_graph_e2e`. Base: `dev` (`c63ffc2ccae`). Fork branch: `jmchilton/invocation_graph_e2e` @ `7d2439be1c4`.
+Status: `merged` (refreshed 2026-10-16).
 Worktree: `~/projects/worktrees/galaxy/branch/invocation_graph_e2e`.
 
 Adds browser tests for the workflow invocation Overview graph (Selenium + Playwright). Source issue draft (PR-first, not filed): [proposed_invocation_graph_no_e2e_coverage](../../../../../agents/gx_issues/internally_managed/proposed_invocation_graph_no_e2e_coverage.md).
@@ -12,7 +12,7 @@ Adds browser tests for the workflow invocation Overview graph (Selenium + Playwr
 
 ## Decisions
 
-- Live-update graph test kept off this branch: intermittently red on dev until the [#24138 fix](../issue_24138_invocation_graph_refresh/index.md) lands.
+- Live-update graph test kept off this branch: intermittently red on dev until the [#24138 fix](../../active/issue_24138_invocation_graph_refresh/index.md) lands.
 
 ## Draft pending CI — 2026-10-15
 
@@ -23,3 +23,7 @@ Live verification: open, draft, mergeable against `dev`, head `7d2439be1c44aa627
 ## TICK — 2026-10-15
 
 Still draft. Package jobs fail mypy at unchanged `galaxy/security/ssh_util.py:18`; installed startup fails building unchanged `packages/meta` (`egg_base`: missing `src`). Both are outside the graph/browser change; failed jobs rerun. Tool Shed standalone failure has an incomplete log ending at collection, so it is not diagnosed as unrelated. Relevant browser checks and remaining CI are still pending. Preserve automatic undraft authorization once current CI is green; no promotion now.
+
+## Morning refresh — 2026-10-16
+
+GitHub confirms [#24164](https://github.com/galaxyproject/galaxy/pull/24164) merged at 2026-10-16T06:04:54Z, head `7d2439be1c44aa627c67e70cf255cd64d094c6b7`. Removed from the active queue and archived this record under `merged/`. Clean worktree removed with ghwt after verifying pushed history.

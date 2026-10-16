@@ -19,3 +19,7 @@ Live fork tip `5abfc5c4aadf69c422a3b863a6a22b076d2b9aed` has queued/pending CI a
 Fork SHA `5abfc5c4aadf69c422a3b863a6a22b076d2b9aed` is settled. [Python lint](https://github.com/jmchilton/galaxy/actions/runs/38163420790) and [package tests](https://github.com/jmchilton/galaxy/actions/runs/38163420762) report a relevant `str | None` argument to `readmes()` at the new test_readme_util.py:97. [OpenAPI lint](https://github.com/jmchilton/galaxy/actions/runs/38163420657) also detects generated client schema drift; its relation to the changed route still needs diagnosis. [Integration](https://github.com/jmchilton/galaxy/actions/runs/38163420663) fails before tests downloading kubeadm (TLS handshake timeout), unrelated. Tool Shed, Playwright, integration-Selenium, API and unit workflows pass. Retain needs CI; the earlier “open after #24053” dependency remains. No code fixes inferred.
 
 Requested failed-job reruns for the recorded unrelated failures: [run 38163420663](https://github.com/jmchilton/galaxy/actions/runs/38163420663). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.
+
+## Morning refresh — 2026-10-16
+
+Conflict preview against `origin/dev` at `5abfc5c4aadf69c422a3b863a6a22b076d2b9aed` found overlapping changes in 2 paths (`lib/tool_shed/util/readme_util.py`, `test/unit/tool_shed/test_readme_util.py`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.

@@ -2,7 +2,7 @@
 
 - Branch: `issue_24173_invocation_selection_prep`
 - Base: `88127f42979` (`dev`)
-- Status: READY — independently reviewed, validated and pushed; CI pending
+- Status: `branches_ready_for_final_review` (refreshed 2026-10-16).
 - Head: `60dc8ddf598`
 - Consumer: [invocation selection URLs](../issue_24173_invocation_selection_urls/index.md), rebased on this branch
 - [Implementation handoff](implementation_debrief.md)
@@ -18,3 +18,7 @@ User requested separating independently useful fixes and baseline tests before t
 - [Screenshots](screenshot_debrief.md)
 
 Independent checks: 41 client tests, full typecheck, production build, all commit hooks, and the real-browser job-details test pass. The inspected screenshot is local and ignored. No PR opened.
+
+## Morning refresh — 2026-10-16
+
+Rebased onto `origin/dev` and published `13e92c00bc0ab1014c4a722b72cab29623237e0c` only to jmchilton with an exact old-head lease. Kept the base Vue import and dropped the metrics-mock commit already supplied by the base, avoiding duplicate declarations. Three changed component suites pass (22 tests); WorkflowInvocationState cannot collect because the shared UI GRadio export is undefined. No fully green local suite claimed. Fresh human review is required. Fresh fork CI is pending. Existing local development worktrees were left at their original heads; use the new fork head when resuming.

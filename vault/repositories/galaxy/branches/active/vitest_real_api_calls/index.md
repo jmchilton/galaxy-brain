@@ -39,3 +39,9 @@ Requested failed-job reruns for recorded unrelated failures: [run 38347319493](h
 ## TICK reruns — 2026-10-15
 
 Requested failed-job reruns for recorded unrelated failures: [run 38347319493](https://github.com/jmchilton/galaxy/actions/runs/38347319493). Requests accepted; reruns are pending evidence, not green results. Existing classification and review holds remain.
+
+## Morning refresh — 2026-10-16
+
+Conflict preview against `origin/dev` at `3076db79898e5db847fe05dd521e48b80034ef72` found overlapping changes in 25 paths (`client/src/components/Collections/ListCollectionCreator.test.ts`, `client/src/components/Common/RDMDestinationSelector.test.ts`, `client/src/components/Form/Elements/FormSelectMany/FormSelectMany.test.ts`, `client/src/components/Form/FormElement.test.js`, `client/src/components/History/Archiving/HistoryArchiveWizard.test.ts`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.
+
+Requested failed-job reruns for diagnosed unrelated failures: [run 38347319493](https://github.com/jmchilton/galaxy/actions/runs/38347319493). All requests accepted; reruns are pending evidence, not passing results or recovered cache coverage.

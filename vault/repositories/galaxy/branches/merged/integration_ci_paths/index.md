@@ -1,6 +1,6 @@
 # integration_ci_paths
 
-Status: `ready`. Base: `dev`. Fork: `jmchilton/integration_ci_paths`. PR: [#24135](https://github.com/galaxyproject/galaxy/pull/24135) (draft).
+Status: `merged` (refreshed 2026-10-16).
 
 Skips the Integration workflow when a PR only changes test suites that run in other workflows (unit, API, Selenium, workflow framework). Companion to `integration_ci_scope`; independent of it.
 
@@ -43,3 +43,7 @@ Other workflow failures were not rechecked; John states they are broken on `dev`
 ## TICK — 2026-10-15
 
 GitHub now reports non-draft; this tick did not change its draft setting. Relevant shared-helper/runtime checks pass apart from the already diagnosed Onedata demo readiness setup failure (before Galaxy starts). Package reds remain unchanged SSH typing. Failed jobs rerun; move to `ready` on diagnosed unrelated reds.
+
+## Morning refresh — 2026-10-16
+
+GitHub confirms [#24135](https://github.com/galaxyproject/galaxy/pull/24135) merged at 2026-10-16T05:32:38Z, head `ec49da686a6e7551c6e9b50f14d948cde87d037f`. Removed from the active queue and archived this record under `merged/`. Clean worktree removed with ghwt after verifying pushed history.

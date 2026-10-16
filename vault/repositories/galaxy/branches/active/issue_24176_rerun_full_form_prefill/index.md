@@ -16,3 +16,7 @@ Fixes [galaxyproject/galaxy#24176](https://github.com/galaxyproject/galaxy/issue
 - Coordinator: no branch in the stack may regress alone, so the minimal `rerunHasStepParameters` guard lives here (expanded form when the export has tool step params); message/hidden toggle/simple-form prefill stay in #24177.
 - Overlap with #24175's `resolve_step_parameters()`: `recover_step_parameters()` shaped to delegate to it; whichever lands second reconciles (see implementation debrief).
 - E2E rerun test lives here; #24177's rerun test should extend it, not duplicate.
+
+## Morning refresh — 2026-10-16
+
+Attempted to carry the branch onto its rebased named parent, but the child rebase needed additional reconciliation. Aborted the isolated rebase and left the fork and original development worktree unchanged. Parent integration remains pending.
