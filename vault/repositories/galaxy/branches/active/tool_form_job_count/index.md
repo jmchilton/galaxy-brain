@@ -2,9 +2,13 @@
 
 Status: `branches_implemented_needs_ci`. Base: `dev`.
 
-Previews tool job counts before Run, with expansion and mismatch warnings.
+Previews tool job counts before Run, with expansion and mismatch warnings; Run disabled on mismatch / multi-job remap.
 
-[Implementation](implementation_debrief.md) · [Tracking history](tracking_history.md)
+[Implementation](implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Alt: original scope](alts/original_scope.md) · [Tracking history](tracking_history.md)
+
+## Re-harden — 2026-10-17
+
+The branch was rebased onto `origin/dev` `5ff1e46b8c3`, which resolved the `permutations.py` conflict. It was then re-scoped (Run is blocked on a mismatch or a remap with more than one job; batch labels are qualified) and hardened twice. The new head is `18d4e13b4eb`, force-pushed to `jmchilton`. The pre-rescope version is `tool_form_job_count_alt_original_scope`. CI has not been seen on the new head, so the fork-CI notes below refer to the old head `5d2684ace76`. STATUS READY; see [debrief](implementation_debrief.md).
 
 ## TICK — 2026-10-11
 
