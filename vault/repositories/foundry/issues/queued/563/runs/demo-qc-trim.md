@@ -48,4 +48,20 @@ Edits were applied by Claude and committed in the brief repo as `review: expert 
 - It reached phase 9, `validate-galaxy-workflow`, with phases 1–9 committed. Phase 5 took 2 iterations: `regroup_by_sample` and `validate_endedness`. Phase 6 selected `find-test-data`.
 - There's an extra harness commit, `sample_sheet preflight spike evidence`, and the agent spent long stretches "waiting on spike run". That's the sample-sheet merge requirement John kept, which is costly to prove out.
 - Artifacts present: `galaxy-workflow.gxwf.yml`, tests, an expect-failure test for mixed endedness, `open-requirements.ledger.yml`, `workflow-test-run/`.
-- Not done: phase 10 (`run-workflow-test`) and phase 11 (`debug-galaxy-workflow-output`). Resume this run; don't restart it. Not yet scored: brief hash, preflight record, ledgers.
+- Not done: phase 10 (`run-workflow-test`) and phase 11 (`debug-galaxy-workflow-output`). Resumed 2026-10-17 with `claude -p --resume` on the same session.
+
+### Gates and records through phase 9
+
+- **Preflight caught all three env gaps.** It ran `gxwf` and `galaxy-tool-cache` at 1.13.1 via `npx` and `planemo` 0.75.47 via `uvx`, and installed nothing globally. It also found that the PATH `gxwf --version` is hard-coded to `1.0.0`, though the package is 1.8.2 (filed as feedback). The brief-production agent had recorded that misleading 1.0.0.
+- **Blocker check:** recorded in `foundry-run.yml` `preflight`, exit 0. Expert review is recorded as `../review.md`.
+- **Brief hash:** unchanged (`792d56de…` in both the Galaxy run dir and the brief repo).
+- **`open-requirements.ledger.yml`:** 66 entries: 28 discoveries, 19 decisions, 0 obligations, 1 proposed brief change. The change restates the gzip filename constraint as "inputs are gzip FASTQ", since collection elements have identifiers, not names. It stays `proposed` and wasn't applied: correct behaviour.
+- **Cost of the sample-sheet semantics John kept:** spikes for multi-row regrouping, an endedness guard, and Apply Rules (`evidence/*-spike/`), and two draft-step iterations, `regroup_by_sample` and `validate_endedness`.
+- **Feedback ledger, 27 entries** (5 major):
+  - Majors:
+    - the sample-sheet note doesn't cover a repeated grouping key;
+    - no pattern for a guard step that fails the invocation;
+    - the draft-step skill never extracts at loop end;
+    - planemo workflow tests ignore `expect_failure`;
+    - nf-core snapshot gz md5 semantics are unstated.
+  - Minors cover `gxwf` validation gaps (apply-rules builtin, collection-type checks in tests), Mold silences, and test-plan schema limits.
