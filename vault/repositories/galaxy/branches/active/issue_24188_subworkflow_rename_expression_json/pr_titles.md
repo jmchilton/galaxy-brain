@@ -1,0 +1,3 @@
+- [26.1] Fix `${label}` renames in subworkflows fed by expression tools
+- [26.1] Use expression.json values for subworkflow `${label}` renames
+- [26.1] Fix rename post-job actions showing a dataset repr in subworkflows
