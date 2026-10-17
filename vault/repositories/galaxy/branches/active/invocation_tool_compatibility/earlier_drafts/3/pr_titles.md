@@ -1,0 +1,3 @@
+- [26.2] Check workflow tool compatibility before creating run state
+- [26.2] Reject incompatible workflow tools before invocation
+- [26.2] Validate workflow tool readiness before creating histories

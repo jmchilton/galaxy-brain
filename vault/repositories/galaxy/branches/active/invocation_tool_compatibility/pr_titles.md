@@ -1,3 +1,4 @@
-- [26.2] Check workflow tool compatibility before creating run state
-- [26.2] Reject incompatible workflow tools before invocation
-- [26.2] Validate workflow tool readiness before creating histories
+- [26.2] Reject incompatible workflow tools before invocation setup
+- [26.2] Validate tool readiness before creating workflow run state
+- [26.2] Check workflow tool readiness and deduplicate nested references
+- [26.2] Reject unavailable or incompatible tools before history creation
