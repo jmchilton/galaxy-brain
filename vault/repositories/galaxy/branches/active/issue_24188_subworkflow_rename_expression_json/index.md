@@ -3,9 +3,9 @@
 - [View PR #24224](https://github.com/galaxyproject/galaxy/pull/24224)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24188_subworkflow_rename_expression_json)
 
-Status: `ci_wait` — John read and approved 2026-10-17 at `e36468c480a`; opened as draft [#24224](https://github.com/galaxyproject/galaxy/pull/24224) with title "[26.1] Fix `${label}` renames in subworkflows fed by expression tools". Base: `release_26.1` (`b2b1e1deeee`). Head: `e36468c480a`. Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
+Status: `ci_wait` — John read and approved 2026-10-17 at `e36468c480a`; opened as draft [#24224](https://github.com/galaxyproject/galaxy/pull/24224) with title "[26.1] Fix `${label}` renames in subworkflows fed by expression tools". Base: `release_26.1` (`b2b1e1deeee`). Head: `de29da2c1c7` (client API schema rebuild on top of approved `e36468c480a`). Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
 
-Fork CI on `e36468c480a` mostly queued at polish; no reds yet.
+PR CI on `e36468c480a` failed "Validate OpenAPI schema" (stale `schema.ts` from the test-format `CollectionMetadata` commit); fixed by `make update-client-api-schema` in `de29da2c1c7`, rerunning.
 
 [PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
 
