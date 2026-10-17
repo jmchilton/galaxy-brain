@@ -1,12 +1,11 @@
 # issue_20657_input_processing_mode — implementation debrief (re-harden 2026-10-17)
 
-**STATUS: BLOCKED — scope decision.** Second [scope evaluation](scope_evaluation.md) (after a re-scope) again recommends modest expansion → parked per process. Branch head `10ae420a663` is **local only**: history was rebuilt (baseline/refactor reordering) and the `--force-with-lease` push to `jmchilton` was denied by the permission classifier; fork still has old tip `c97aecb4181`. Prior debrief: [earlier_drafts/1](earlier_drafts/1/implementation_debrief.md).
+**STATUS: BLOCKED — scope decision.** Second [scope evaluation](scope_evaluation.md) (after a re-scope) again recommends modest expansion → parked per process. Branch head `10ae420a663` (history rebuilt for baseline/refactor ordering) force-pushed to `jmchilton` by John, replacing `c97aecb4181`. Prior debrief: [earlier_drafts/1](earlier_drafts/1/implementation_debrief.md).
 
 ## Decision needed
 
 1. **Expand again?** Scope eval #2: pin a selected visible HDCA that sits outside the current option page in `_carry_selected_hdca` (emit `_classify_hdca` direct + map-over entries with `keep=True` into `pinned["hdca"]`, like `_pin_live_hda_inputs` for HDAs) so a form refresh doesn't silently drop/de-batch the selection; ~15–25 server lines + 1 API test. Plus one-token drop-alert fix (param side through `collectionTypeToText`). Pre-existing on base. Precondition unverified: refresh's `other_values` must hold the selected HDCA; if only the batch wrapper, it's cross-layer → keep scope and make it the first follow-up PR.
 2. **Split?** ~1700 added lines; scope eval lists decompositions A–D.
-3. Approve force-push of rebuilt history to `jmchilton`.
 
 ## Re-harden summary
 

@@ -34,4 +34,4 @@ Requested failed-job reruns for diagnosed unrelated failures: [run 37667848057](
 
 ## Re-harden — 2026-10-17
 
-Re-hardened twice around a re-scope (alt `issue_20657_input_processing_mode_alt_original_scope`). Second scope eval recommends pinning off-page HDCA selections on refresh → parked BLOCKED for decision. Rebuilt head `10ae420a663` is local only (force-push not yet approved).
+Re-hardened twice around a re-scope (alt `issue_20657_input_processing_mode_alt_original_scope`). Second scope eval recommends pinning off-page HDCA selections on refresh → parked BLOCKED for decision. Rebuilt head `10ae420a663` force-pushed to `jmchilton` 2026-10-17.
