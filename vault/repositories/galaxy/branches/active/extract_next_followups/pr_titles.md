@@ -1,0 +1,4 @@
+- [26.2] Fix notebook-to-workflow extraction: seeding, report references and copied inputs
+- [26.2] Follow-up fixes to notebook workflow extraction before 26.2.0
+- [26.2] Notebook workflow extraction fixes: copied inputs, quoted labels, clean reports
+- [26.2] Fix workflow extraction from notebooks and copied datasets; align pages extraction API
