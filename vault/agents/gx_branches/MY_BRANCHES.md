@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-17 (#24224 opened as draft; Tool Shed README PR opened; target branch CI refreshed).
+Snapshot: 2026-10-17 (#24225 opened as draft [WIP]; #24224 opened as draft; Tool Shed README PR opened; target branch CI refreshed).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -11,7 +11,7 @@ Snapshot: 2026-10-17 (#24224 opened as draft; Tool Shed README PR opened; target
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
-None yet.
+- [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
@@ -78,7 +78,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:extract_next_followups?expand=1).
 
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 

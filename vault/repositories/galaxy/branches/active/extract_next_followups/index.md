@@ -1,15 +1,15 @@
 # extract_next_followups
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:extract_next_followups?expand=1)
+- [#24225](https://github.com/galaxyproject/galaxy/pull/24225)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/extract_next_followups)
 
 Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base: `release_26.2` (retargeted from `dev` 2026-10-17; #22860 first ships in 26.2).
 
 ## Status
 
-`branches_ready_for_final_review`: polished 2026-10-17 at head `891572be9e0`, no branch changes; waits for John's read-through. See [polish debrief](polish_debrief.md).
+`attention`: opened as draft [WIP] 2026-10-17 at head `891572be9e0` at John's request, to get it up quickly while he reviews it in detail.
 
-No PR open. E5 renames a 26.2 API route, so this must merge before 26.2.0.
+Draft PR [#24225](https://github.com/galaxyproject/galaxy/pull/24225); screenshots hosted on `pr-assets-extract_next_followups`. E5 renames a 26.2 API route, so this must merge before 26.2.0.
 
 Fork CI on `891572be9e0` still queued at polish time; local API, unit and Playwright E2E suites pass.
 

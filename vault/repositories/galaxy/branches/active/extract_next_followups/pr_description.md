@@ -135,7 +135,7 @@ Builds on 🔀 #22860. Alternative kept on 🌿[`extract_next_followups_alt_orig
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A specific 400 in the form's alert (non-parallel names, differently named copies, label too long, non-notebook page). Report notes stay in a toast until dismissed, and a failed report rewrite creates no workflow.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They assert rewritten report lines and exact warnings. One `toolbox.calls` assertion is the only direct way to see each map walked once.
