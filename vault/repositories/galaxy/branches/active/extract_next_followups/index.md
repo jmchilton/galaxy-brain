@@ -1,29 +1,20 @@
 # extract_next_followups
 
-Status: `branches_implemented`. Base: `dev`.
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:extract_next_followups?expand=1)
+- [View on GitHub](https://github.com/jmchilton/galaxy/tree/extract_next_followups)
 
-Fixes notebook-to-workflow extraction, report references and editor behavior after #22860.
+Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base: `dev`.
 
-[Implementation (pre re-harden)](earlier_drafts/1/implementation_debrief.md) · [plan](plan.md) · [Tracking history](tracking_history.md)
+## Status
 
-Recorded decisions about endpoint naming, M3 and report_title are in the implementation debrief.
+`branches_need_decision`: re-hardened and re-scoped (E1–E4) on dev `5ff1e46b8c3`, head `9330c4c8feb`; the second scope evaluation recommends expanding again (E6/E7, optional E8). Retargeting to `release_26.2`, E5 API naming and Codex F2 are also open. See [implementation debrief](implementation_debrief.md).
 
-## TICK — 2026-10-12
+No PR open.
 
-Current fork tip `113a63bb6920de19f81aaba7f83d9b53b695a911` conflicts with dev in `client/src/components/Common/GCard.test.ts`, `client/src/components/Common/GCard.vue`. The overlapping production behavior/schema or linter changes require a substantive reconciliation; left branch intact under the automatic small/mechanical-conflict limit. Existing workflow status and review decisions remain.
+Fork CI not refreshed since the 2026-10-16 rebase (last green was `113a63bb692`).
 
-## GOOD_MORNING — 2026-10-13
+## Decisions and references
 
-Current fork head `113a63bb6920de19f81aaba7f83d9b53b695a911` conflicts with `origin/dev` in 2 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `client/src/components/Common/GCard.test.ts` · `client/src/components/Common/GCard.vue`
-
-## Morning refresh — 2026-10-16
-
-Conflict preview against `origin/dev` at `113a63bb6920de19f81aaba7f83d9b53b695a911` found overlapping changes in 2 paths (`client/src/components/Common/GCard.test.ts`, `client/src/components/Common/GCard.vue`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.
-
-## Re-harden — 2026-10-16
-
-Rebased onto dev `5ff1e46b8c3` (GCard conflict was mechanical: dev re-indented the header; kept dev's markup + `icon-only color="red"`, appended the clear-title tests). Head `3c5a53c2c4f` pushed to fork; GCard/extraction/PageEditor vitest 267 and extract unit 55 pass. Earlier debrief moved to `earlier_drafts/1/`; hardening steps in progress.
-
-## Re-scope — 2026-10-17
-
-First re-harden's scope evaluation recommended expanding (E1–E4); done on `d4d504fb3c1..737377a6efa`, original scope kept as `extract_next_followups_alt_original_scope` ([alt](alts/original_scope.md), [re-scope debrief](implementation_rescope_debrief.md)). First-pass hardening debriefs moved to `earlier_drafts/2/`; second hardening pass in progress.
+- Original scope kept as `extract_next_followups_alt_original_scope` ([alt](alts/original_scope.md)).
+- John: H3 accept quotes, M7 lock star (C+B), plain-history copies collapse server-side, `rebase -i` approved for this branch's history rewrites.
+- [Plan](plan.md) · [Tracking history](tracking_history.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope debrief](implementation_rescope_debrief.md) · earlier debriefs in `earlier_drafts/`.
