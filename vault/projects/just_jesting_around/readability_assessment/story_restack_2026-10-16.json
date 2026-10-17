@@ -1,0 +1,884 @@
+{
+  "stories_old_head": "b1ba6eac0fd36c58256f9e8cdda9061cb7713697",
+  "stories_old_base": "7f2db5e59415f07c09fec5be75ff4885fbad047e",
+  "readability_published_base": "e06bbc4c70271aacfe27a88e315c882b5270ecaa",
+  "stories_push_lease": "b1ba6eac0fd36c58256f9e8cdda9061cb7713697",
+  "play_old_head": "5673676726e0ae2430cb0d73f28cf61b60eaae0b",
+  "play_old_base": "f2a726da91a19e070a60d6d42cfa6f946ea06a47",
+  "play_push_lease": "5673676726e0ae2430cb0d73f28cf61b60eaae0b",
+  "status": "stories_published_play_rebasing",
+  "policy": "Preserve story-layer changes by default; overlapping paths are review pointers, not a churn-removal list.",
+  "ancillary_audit": {
+    "vitest_story_a11y": {
+      "head": "c246eb4fde308f62f817018b5ce5f41fbfba7407",
+      "base": "81c4987360debdff86678e038e8035c31213a410",
+      "own_commits": 2
+    },
+    "vitest_real_api_calls": {
+      "head": "3076db79898e5db847fe05dd521e48b80034ef72",
+      "base": "f0659f1cf0d69a8e17011bc3b4ef5489b02c3891",
+      "own_commits": 3
+    }
+  },
+  "stories": {
+    "old_base": "7f2db5e59415f07c09fec5be75ff4885fbad047e",
+    "old_head": "b1ba6eac0fd36c58256f9e8cdda9061cb7713697",
+    "new_base": "e06bbc4c70271aacfe27a88e315c882b5270ecaa",
+    "new_head": "4e60254eded0e18ae7737161fec2ce42c16c770f",
+    "commits": [
+      {
+        "original": "6bc5f48678d425afa6b35221e5bdda36ec53f9ec",
+        "rebased": "3ca01f4051f698179721f2b96a1768f7007c9cab",
+        "subject": "Add Storybook with MSW-backed stories for client unit tests"
+      },
+      {
+        "original": "975a778566f7209053e27b5bcc4f9362415e537d",
+        "rebased": "595bb84222eff7eb67683d0b3252f13b15fc9049",
+        "subject": "Share a v-model story harness"
+      },
+      {
+        "original": "7f653a0fcd3e01e46fe08710c7eb37004514866b",
+        "rebased": "399c3726c17b02fabc1d384e44fbb1b852defeb2",
+        "subject": "Share a datatypes mapping story handler"
+      },
+      {
+        "original": "8a654e574298acb69721e3a8b676698b2474234d",
+        "rebased": "e44456c4842393f721c24d1c4673039447eb3276",
+        "subject": "Move FormData test setup into Storybook stories"
+      },
+      {
+        "original": "1c12ffd9a5b7ddc99e44170ae897bde05988dbbe",
+        "rebased": "6327af60ea9efba0d314bf2d03ee907f5fde5cd6",
+        "subject": "Move FilesDialog test setup into Storybook stories"
+      },
+      {
+        "original": "bff52342b0a6ccca4d76c3d1e917292690cfb801",
+        "rebased": "8aee647626dbca0b5316cb513b5589e724125b22",
+        "subject": "Move HistoryExportWizard test setup into Storybook stories"
+      },
+      {
+        "original": "e6fa383d154f5b67ea6a1619b82cd57fe2c13432",
+        "rebased": "38aeb262635a8c7fc660b18df9a144e5d37b1cea",
+        "subject": "Move QuotaUsageSummary test setup into Storybook stories"
+      },
+      {
+        "original": "c4a938ffbe8cf00745260a4767290f574a34ea37",
+        "rebased": "59303b84c9c54dd98a7d767a65c7951ed5ee355b",
+        "subject": "Share selectable object store fixture with stories"
+      },
+      {
+        "original": "c22bff781d9055f9560aefbf961276224755bfa6",
+        "rebased": "3318972d461c4917bb79f24e8586e6539ead19c8",
+        "subject": "Move ToolSelectPreferredObjectStore test setup into Storybook stories"
+      },
+      {
+        "original": "06390219e9e306cb5ec17a0edbb88b15374bd0e7",
+        "rebased": "760a81300fed902918c37ce7f799ed97f94d414b",
+        "subject": "Move ObjectStoreBadges test setup into Storybook stories"
+      },
+      {
+        "original": "8b463ee493a8be3e9cb54ae8a3de597c5fb3c6d4",
+        "rebased": "53b7d2fb0aa163791aae083baedb8c6e705ecd15",
+        "subject": "Let story mounts instrument localization"
+      },
+      {
+        "original": "698e9c5940d58fe48b61dc37d20d708fa9048073",
+        "rebased": "31152ae0900239a81cfa56a1c523999034451570",
+        "subject": "Move ExportForm test setup into Storybook stories"
+      },
+      {
+        "original": "5c084a275b3aec82506460ecc6bbc3733ef03d90",
+        "rebased": "9fd46d47520adf264b491c5feac9cfc3aae9bc55",
+        "subject": "Move ScrollList test setup into Storybook stories"
+      },
+      {
+        "original": "29becc1dff361ee1c4a2b6b5cd5d6c01cd1996e2",
+        "rebased": "7a6d60a1267a9edff34b56ccddca056098893787",
+        "subject": "Move InstallationSettings test setup into Storybook stories"
+      },
+      {
+        "original": "99621913fc721ee93ff2f85c6dd7fc023cae0404",
+        "rebased": "9749abe119792a0ef144ce22ccaa4f1e8f343435",
+        "subject": "Move ConfigurationMarkdown test setup into Storybook stories"
+      },
+      {
+        "original": "081ecbe091f38f505864f4aeba72bc25db9e8a82",
+        "rebased": "49932a17fcdff2ee419783152dc04be29816c43c",
+        "subject": "Move GButton test setup into Storybook stories"
+      },
+      {
+        "original": "16ffc47444ab0131daf07f9d588f60f5ad31b33f",
+        "rebased": "32d161c25b187bbcd100b714f065bb0b2049cfed",
+        "subject": "Move PersistentTaskProgressMonitorAlert test setup into Storybook stories"
+      },
+      {
+        "original": "2911cc9e3059ab3ed5c5f42d4b20d821e5b6ca8d",
+        "rebased": "422fb73afb1904ce435daf4bf00ba5834cce6971",
+        "subject": "Resolve the app's build config in stories"
+      },
+      {
+        "original": "77fb026dd2a5a77a83ed45d2bd0af9bb57d29d8e",
+        "rebased": "a30cfb14fbc3d43f9c96a535e7da93188e415a51",
+        "subject": "Move WorkflowInvocationState test setup into Storybook stories"
+      },
+      {
+        "original": "e8a42f12626445ff1109dfc552261f4073eb53fb",
+        "rebased": "589a1190c659812e31e89d8b1e354dc5ac63b197",
+        "subject": "Move GLink test setup into Storybook stories"
+      },
+      {
+        "original": "bf2b53c48852292969a557841ac5335523ad63ff",
+        "rebased": "57b82674847964a316e767b91262a5a0ae0386f8",
+        "subject": "Move WorkflowInvocationShare test setup into Storybook stories"
+      },
+      {
+        "original": "8227cb01eb7bee371a9ca035e2336ed4a3d6b752",
+        "rebased": "0446fa74c549ad7ac3bfa9e18538a2d05a7c30ac",
+        "subject": "Share a current-user story decorator"
+      },
+      {
+        "original": "71abac0d85d3b2df87854738323f1227b179b88d",
+        "rebased": "7cddde98a6e52b4c7b5c32c348f6b57456294a37",
+        "subject": "Move WorkflowMissingToolsRequest test setup into Storybook stories"
+      },
+      {
+        "original": "b905d009619f1d221b5367ae413f48d6608bb395",
+        "rebased": "77ba4e25483d8ab032ae2062747873bad6ced9ee",
+        "subject": "Let a story-mounting test ask for the mock server"
+      },
+      {
+        "original": "e38dd34af5632a422c2e8952f19ec81fe4331a38",
+        "rebased": "b2366b5699867f9465e5e7dd06a8e44486eb01d1",
+        "subject": "Move UserDeletion test setup into Storybook stories"
+      },
+      {
+        "original": "254c9951f1a82e27c4c36139f58bf311f6fb69c7",
+        "rebased": "30666911439a9e5c7c033ee1b44f9e4d193a986c",
+        "subject": "Pin the story browser's time zone"
+      },
+      {
+        "original": "0dc0c884ff20344bc64b5aab17bd324d85844ab8",
+        "rebased": "3ad15ecc7a01e9b0b9594a801f976187cc72f675",
+        "subject": "Move ObjectStoreRestrictionSpan test setup into Storybook stories"
+      },
+      {
+        "original": "1c7f20b9cff32e5a8d8989d8fe011abd9dcf5282",
+        "rebased": "dff5d8f9ad4fd728ade234c435ec9cef675a9630",
+        "subject": "Move PermissionsInputField test setup into Storybook stories"
+      },
+      {
+        "original": "097bf21145028e830e33f87b917a40e7e95cc925",
+        "rebased": "277ab1020a4906060f4fbf4010ff8a3b79d6f637",
+        "subject": "Move CommandPalette test setup into Storybook stories"
+      },
+      {
+        "original": "36caad23acad70c7f76a84fc35a6eb1bdfb94910",
+        "rebased": "7ba93289dbaa7bbb9c84ca552cf1b0c12e73182b",
+        "subject": "Move ChangePassword test setup into Storybook stories"
+      },
+      {
+        "original": "1fbf3545226aee4d7b0cbfdb01ca0773205253cb",
+        "rebased": "576f73407d8b39ae6d8841ca54c84a7120f23990",
+        "subject": "Share admin group fixture with stories"
+      },
+      {
+        "original": "d42307d77a96cb8bb550d072072d3146210275d5",
+        "rebased": "6d088ea30defd858212c2a33ac9ae5fb2cefa18c",
+        "subject": "Move RoleForm test setup into Storybook stories"
+      },
+      {
+        "original": "e8d457632b3bd08aec75fc800199100bea7e32e3",
+        "rebased": "49b76c0a11a813140a4832547b92faf2a9a233fa",
+        "subject": "Share admin user search fixture with stories"
+      },
+      {
+        "original": "7044d87c5c52fa58e181d7eeb9ccde86c3dfe09f",
+        "rebased": "c3081cf10387a3e8d87ebc7463a7b545890c7b9c",
+        "subject": "Move QuotaForm test setup into Storybook stories"
+      },
+      {
+        "original": "483c6ea5e857b55003ff67753f095fa4976ca4c3",
+        "rebased": "7e2b7afa0f81ee2b26c8a37345a05f95be6f356e",
+        "subject": "Add tests/test-data/config.ts withLoadedConfig story decorator"
+      },
+      {
+        "original": "5445640b5a09e794ed2b6408b994ec0100b351ec",
+        "rebased": "de748a94bfb2c246842cd3f5c5f88445054d266b",
+        "subject": "Move ToolCard test setup into Storybook stories"
+      },
+      {
+        "original": "442d7410ee7c56234eea6568ecf8766e241ed972",
+        "rebased": "05be68cd12ac34ad11b4d5ef90031756fdb0e065",
+        "subject": "Move FormSelect test setup into Storybook stories"
+      },
+      {
+        "original": "c268a0b576d0c95574ea9eb55d5905a30ff804b2",
+        "rebased": "712504aa94d624aa59bec7ee299b3bab98583725",
+        "subject": "Move BroadcastsList test setup into Storybook stories"
+      },
+      {
+        "original": "5bf612dfb44a34f07fb154116f98665114e6b617",
+        "rebased": "02da015da9d7eec19c2d80c227154ad60ca003ba",
+        "subject": "Move DescribeObjectStore test setup into Storybook stories"
+      },
+      {
+        "original": "86a302aaca4ba8fd9c7befcb5020dc7f83b17625",
+        "rebased": "d2e86861d6916c7ed65510512d89835d23d619b8",
+        "subject": "Move Lint test setup into Storybook stories"
+      },
+      {
+        "original": "46054cad16ebf918e9bb5dc13c06a0dfb508b767",
+        "rebased": "369ef2b058fcd30b7c961a6d58010cc9ef5a8855",
+        "subject": "Share collection creator story harness and handlers"
+      },
+      {
+        "original": "823f457c61100a7d84601bf0ff1bbe5fec51e685",
+        "rebased": "59c91049e4220316e81fdd19de1c912f3688b3b9",
+        "subject": "Let collection creator stories add and clear history datasets"
+      },
+      {
+        "original": "a2b995176c808781fe162e50862709c2d8e3776d",
+        "rebased": "ec1278d6bce1179bc2b209a633d6e8095baf9ac5",
+        "subject": "Share collection creator history control helper for unit tests"
+      },
+      {
+        "original": "d21c34a485987659a6aed225e91ba376dc5dae37",
+        "rebased": "b6b39731355c4c6e1fbc400931996580f8261de6",
+        "subject": "Move ListCollectionCreator test setup into Storybook stories"
+      },
+      {
+        "original": "74a9e80c8747a1bd99f366e39efdae81e46f54b2",
+        "rebased": "fc7090f1118fd92374f21e5890d54c68a03fa6d9",
+        "subject": "Move PairCollectionCreator test setup into Storybook stories"
+      },
+      {
+        "original": "94eb9cdbdf23e2c82682217d3e306d878b762537",
+        "rebased": "2493342a62fd68dde74271922877d96814d3284e",
+        "subject": "Move PairedOrUnpairedListCollectionCreator test setup into Storybook stories"
+      },
+      {
+        "original": "af4ddda1e032cfb27598eca0d982972dbcc31e8b",
+        "rebased": "ffb015beaf710863f4f49cfc9cdd160f6d63ab34",
+        "subject": "Move FormOptionalText test setup into Storybook stories"
+      },
+      {
+        "original": "d59c3c366b01044ad90edebc75d4fb2761e2e9e2",
+        "rebased": "15ecca89045712489ffc2cff6eed7c30fc945461",
+        "subject": "Add WorkflowInvocationState/test_fixtures.ts for invocation stories"
+      },
+      {
+        "original": "83978b509cd418e7478bb7aa79bf1ad28876b226",
+        "rebased": "1dd1ac2c58045da2dc1a1074051fb472879d600f",
+        "subject": "Move WorkflowInvocationOverview test setup into Storybook stories"
+      },
+      {
+        "original": "0ebd9807f3d0624391e2088dab00b388e2c2c5f3",
+        "rebased": "fcf7bf4a31623d5255d08eded640e48d8a997290",
+        "subject": "Share a current-history story decorator"
+      },
+      {
+        "original": "cf83918ec18bbb7b7d20c3821196e95d2a277894",
+        "rebased": "ad026750a92f95591d91d8126cfb38ffbab34b51",
+        "subject": "Add SelectionField/test_fixtures.ts for selection field stories"
+      },
+      {
+        "original": "1815c4de461fec35113da8f0f6510928b6a52911",
+        "rebased": "566eeaaacc21926651e711ccb624a29d3e95871b",
+        "subject": "Move SelectionField test setup into Storybook stories"
+      },
+      {
+        "original": "7b5668f16af4de2114ee5dfdeeb15d0342b08bd2",
+        "rebased": "fdfee895d8f48d76dcd1ed2f76ea64622ac761d4",
+        "subject": "Add Workflow/test_fixtures.ts for workflow annotation stories"
+      },
+      {
+        "original": "63ce140fd15415530ee730d284456ad5134c66f5",
+        "rebased": "d057959e6600cc3570cb5afc95d77050283dacde",
+        "subject": "Move WorkflowAnnotation test setup into Storybook stories"
+      },
+      {
+        "original": "d435aebfec69243b4b02a7cd4aff272943930aa4",
+        "rebased": "f1e94099b2b97255efc3d1494ce5ee4bfd6708ef",
+        "subject": "Move FormDrilldown test setup into Storybook stories"
+      },
+      {
+        "original": "2c9b2e557ed585fc0b33945bee07e76ea0cd394e",
+        "rebased": "bbcb252678c1713f0dce3deefc8c783db1da0954",
+        "subject": "Move UploadFileRow test setup into Storybook stories"
+      },
+      {
+        "original": "0f8f185e375378ca76947affaac665546b6acd12",
+        "rebased": "13783e0a4cf8984b6c681ee75fc2dc20a1ce7daf",
+        "subject": "Add Dataset/test_fixtures.ts for dataset copy stories"
+      },
+      {
+        "original": "6813475ee7157afb1ddf2e6c7a77a77ece48da16",
+        "rebased": "bd71721fa38643567c5eeacffe13084bae925455",
+        "subject": "Move DatasetCopy test setup into Storybook stories"
+      },
+      {
+        "original": "8be2f81277bcf5a7c92e5fba4d3b82294417b4ef",
+        "rebased": "2f94d7023f6d910719205277ff0cfeb4daa0d2ef",
+        "subject": "Move WorkflowCardList test setup into Storybook stories"
+      },
+      {
+        "original": "44dcb4689114d98e36b380b2e3c6b4df90241ae2",
+        "rebased": "088f8b698ee46f1086c561571f5c0e0f00b3c09f",
+        "subject": "Add withWorkflowStores story decorator to Workflow/Editor/test_fixtures.ts"
+      },
+      {
+        "original": "d4d0707eaa6f3deb23fe93eefa8e8a16c40e7ddd",
+        "rebased": "77681804cf261284b354163ad5acbf8114f45033",
+        "subject": "Move FormTool test setup into Storybook stories"
+      },
+      {
+        "original": "3cf111531a55358a4f273da6acb7b57d72d4c87b",
+        "rebased": "5cc63c9ba1a4cb095c1b2b05c5fbbcea9e010b18",
+        "subject": "Add GalaxyAI/test_fixtures.ts for GalaxyAI chat stories"
+      },
+      {
+        "original": "309cf1223ac8f20cb7b1c40a1c61c4ab8f7a8d25",
+        "rebased": "74d0ef5b428a4376d99bd8268ea1001dbf9874f4",
+        "subject": "Move GalaxyAI.newchat test setup into Storybook stories"
+      },
+      {
+        "original": "3e8beff78510b64fe2000294aa69266093069241",
+        "rebased": "2996245ab5ba80da619abdeaf174ced618a5e215",
+        "subject": "Add Tour/test_fixtures.ts for tour list stories"
+      },
+      {
+        "original": "e9bce50588a9903a21a893833f647e549533efde",
+        "rebased": "162718cf2a54b1740e291d63693bd2fb5fc0952c",
+        "subject": "Move Tour test setup into Storybook stories"
+      },
+      {
+        "original": "1c1458ec5ec33aba424f8dc94dcddcba0f94123a",
+        "rebased": "a2e7ee76301a2287d8dfaabff1315d46d42ff433",
+        "subject": "Add tests/test-data/galaxyInstance.ts withGalaxyInstance story decorator"
+      },
+      {
+        "original": "93d83e9ac2de9aefef8b21303f4b1359962bed94",
+        "rebased": "8e57815aeadc79f4083153ffc35951071270cf42",
+        "subject": "Add Toolshed/test_fixtures.ts for installed repository stories"
+      },
+      {
+        "original": "501debf0ec3242457fd3a0dcd63ec2776a4c0b94",
+        "rebased": "740f15a484564dba7000d7fbb016dd53f0dec906",
+        "subject": "Move InstalledList/Index test setup into Storybook stories"
+      },
+      {
+        "original": "b39e557f7afa9cb4cbc484f54cbedec0d0faa567",
+        "rebased": "8ae249115fb559b3a226287615947242e99e6f11",
+        "subject": "Add admin role fixture and search handler to admin/test_fixtures.ts"
+      },
+      {
+        "original": "3cf6c5991c54b5d326347e50b99ffe3eaca9e113",
+        "rebased": "5d05e90e072df9e30c6b70a4aca4045f8d066a5a",
+        "subject": "Move GroupForm test setup into Storybook stories"
+      },
+      {
+        "original": "5a85442f9cc9e865f93a31c8dd4a409dd66e4f9f",
+        "rebased": "9ee8eec881227bbe94274c2016eab9c77afc441e",
+        "subject": "Add History/Content/Collection/test_fixtures.ts for job state summary stories"
+      },
+      {
+        "original": "8aa878758bd328485f1800388fb32debf320efe3",
+        "rebased": "abe88653dc7da7311dbff04287ccb59f50ec6d38",
+        "subject": "Move CollectionProgress test setup into Storybook stories"
+      },
+      {
+        "original": "eebfae23c532b591c4bfc15464b85716be892669",
+        "rebased": "15b73995d282e6ad53c63ca8ac2fe27504a62c03",
+        "subject": "Move workflow node scenarios into Storybook"
+      },
+      {
+        "original": "4eb537f4744a75fa91d625d090b9ed316d0a8b96",
+        "rebased": "caee757f4937bd6087d7b85f2d0c7d19eb03074d",
+        "subject": "Move library description scenarios into Storybook"
+      },
+      {
+        "original": "0fc841453ffbb7b63c6bdc31ff4c7fd9041d6ddb",
+        "rebased": "677d59d786ec92aeb50a965d8f16da3f9d89bbd2",
+        "subject": "Share a detailed dataset fixture for stories"
+      },
+      {
+        "original": "5b093d1684dabce6ebb82cc9036fdaf5bc8ff5d1",
+        "rebased": "ec9a05b428863b29ab05621c4ca62388ca3d00d7",
+        "subject": "Mount GenericItem scenarios from stories"
+      },
+      {
+        "original": "ad6db2b52f99beffa803290f3a691424eedf3cf9",
+        "rebased": "702b245ebeb6b4a5dfce01e5f3ed2627462129fb",
+        "subject": "Share page revision comparison fixtures"
+      },
+      {
+        "original": "359fb7ccf690bf7722caafa2f158b4cc82db84e1",
+        "rebased": "153155880849c6eceb65800c1b13e99fd639242f",
+        "subject": "Mount page revision comparisons from stories"
+      },
+      {
+        "original": "52ec25812d76067d140a3c21da4fe83db7167fca",
+        "rebased": "d013281350f774fbb3fffc8d38f7256044dc884b",
+        "subject": "Mount dropdown item navigation cases from stories"
+      },
+      {
+        "original": "fe851c2c218f1475fb2c82c2aa37eb0d2ef9f65f",
+        "rebased": "e6b9bbf9aea55c3ba1daee31805e9d56fb10d3d7",
+        "subject": "Share page section proposal fixtures"
+      },
+      {
+        "original": "49135fef476e4f990ca4528527fcbe4515eafdac",
+        "rebased": "f59bdb06d8b166e98f9cd31274973305c6d30253",
+        "subject": "Mount section patch proposals from stories"
+      },
+      {
+        "original": "bd04f01baca72cd0fc0a5c31dee982c4264175f7",
+        "rebased": "cdece24a00dd0e63796d8a0053a210c046a8a2dd",
+        "subject": "Share typed tool form build fixtures"
+      },
+      {
+        "original": "005b9cb4658c90d66898b84ccdeeb1b2a89641cc",
+        "rebased": "32166f8e3c3ac26cef262e879676031bde0b71f3",
+        "subject": "Render tool form scenarios as stories"
+      },
+      {
+        "original": "82633bad949e5f44d9bf6ba1bb8277d9023ecc64",
+        "rebased": "a6a50ef44e17ef16c912136dc24e01d8e14df7d2",
+        "subject": "Show history export destinations in stories"
+      },
+      {
+        "original": "c885aa4eebecbc708428c116613bd9dede19aaa3",
+        "rebased": "3d236ab9752ebb2fa46d47de6319becbae68a7af",
+        "subject": "Initialize Bootstrap controls in Storybook preview"
+      },
+      {
+        "original": "f30658553f44b197334f199dd7ebe73da5e4592e",
+        "rebased": "ab351ce4ad0e3a751933a410415c836c6093cfec",
+        "subject": "Share object store instance fixtures and story decorators"
+      },
+      {
+        "original": "7a688abca500747dd4b7a8592a5f26cc28ff53fe",
+        "rebased": "76906781006b45c886f8930943e248874e290a6f",
+        "subject": "Show object store removal scenarios in stories"
+      },
+      {
+        "original": "e17086e7a2e9782361918e4b39a3e12df150943e",
+        "rebased": "955d78208e8e0e8eb0565339d729ceb105edf130",
+        "subject": "Show tool recommendation outcomes in stories"
+      },
+      {
+        "original": "b2bf99f50e9c9b78d9fe4eeb6b254d3aa4268b5a",
+        "rebased": "8081c73ec8774efea22742c5f8e8e713f02f798b",
+        "subject": "Share toolbox catalog, viewer state and favorites handlers"
+      },
+      {
+        "original": "0966159d2b8de16840284899ce613451ea2c93e8",
+        "rebased": "b82a3bb33f6740abb167bedf1196994535888987",
+        "subject": "Build toolbox search tests on catalog and preference stories"
+      },
+      {
+        "original": "ed743322be7ade4e81c558f085348d791d5e3f93",
+        "rebased": "9641beb533e41a268224bf93ab258a315f231b5a",
+        "subject": "Share Tool Shed category responses and proxy handler"
+      },
+      {
+        "original": "6741356e9e24dea24620488d88ceca33ec3761d0",
+        "rebased": "1e9e79e21a48bfd6f2e6d0bebccd524be9eb68a1",
+        "subject": "Use category stories for Tool Shed rendering tests"
+      },
+      {
+        "original": "d322ac44720953b6a4f60fa089b4abd49540ff79",
+        "rebased": "2814fc866a8ca9a06fa95ccd13a9c8ea8f3ebc3d",
+        "subject": "Share router clarification question and quick replies"
+      },
+      {
+        "original": "f1472961a06698d2437034dab852e07e25214c09",
+        "rebased": "8f14bacaeceb64b442eda1e4bdb3776679bf08e6",
+        "subject": "Use clarification stories for quick-reply card tests"
+      },
+      {
+        "original": "c30d33d7724d15fc714e145a4c7b42685bd382cf",
+        "rebased": "936bdfbed43ce8f107699b4fa6f03f60ea9b4f72",
+        "subject": "Share Markdown history drag fixtures and toolbox handlers"
+      },
+      {
+        "original": "b0df21d0c17f367ac486fd41f7b9ebee41ab594e",
+        "rebased": "b50dbde4c993228c8e6c6c2d31ff49422271c7f7",
+        "subject": "Use TextEditor stories for toolbox and history drop tests"
+      },
+      {
+        "original": "b784b6219705b18717426d99c442c34069a85d9e",
+        "rebased": "874832fa34ab9ab5183cc5ef344ec1b29345629f",
+        "subject": "Add scoped Activity Settings story fixtures"
+      },
+      {
+        "original": "ac69ce7a0b9cf086e1abfde038094c3abcfe8312",
+        "rebased": "5264106337c369762c545b1b41d71c5143a449de",
+        "subject": "Convert ActivitySettings tests to component stories"
+      },
+      {
+        "original": "f5e4817fce731204a9c96690d0e09120e55d3a5d",
+        "rebased": "ea38b14e1d79c2323e63f0e3dd7fcae835ab841c",
+        "subject": "Build history import tests on real archive import stories"
+      },
+      {
+        "original": "9a482d448b372d52af424ba3c323bae1359538b2",
+        "rebased": "140b0093c737b711c7eb5510ad7b02f4451a6950",
+        "subject": "Limit story toast cleanup to notifications created during the mount"
+      },
+      {
+        "original": "32d20255f5d0986bb27853f6f0a9731a44ca17b5",
+        "rebased": "e49e62b3afaa070b379fc61eaf16ce22b825763f",
+        "subject": "Show unsaved page changes through guarded preview stories"
+      },
+      {
+        "original": "5af0f15028e51a3d256c736d00365ac207e955b8",
+        "rebased": "d7334e6508755c749e8e19713f3a235ea770e63f",
+        "subject": "Share tool prediction fixtures and handler"
+      },
+      {
+        "original": "67f06477de103ba04fcf1eee4de13108ba115f79",
+        "rebased": "5a50ddc48f885ca8a3f40ab0f413ad6c19da7867",
+        "subject": "Share queued tool submission fixtures and story scope"
+      },
+      {
+        "original": "6cc0213fbdc8ab2c51cd82b44d7765e11416919f",
+        "rebased": "7ba17fafae843aa74081c30f2d87d8a2c5434db9",
+        "subject": "Render ToolSuccess states through composed stories"
+      },
+      {
+        "original": "a6ed016fd673e8e64a2d75e19962a8d69d1f0d30",
+        "rebased": "31f2afe830688183c73cf743440ad0c2f6d6781d",
+        "subject": "Render job output scenarios through composed stories"
+      },
+      {
+        "original": "c3f6a16040752ec818232f901b9a77feafbf9c3d",
+        "rebased": "a416d973280eac9e1519576899289cd4a1b0e18b",
+        "subject": "Restore pinned history preferences in scoped story fixtures"
+      },
+      {
+        "original": "90addb8f24433151320617512456630d1362bf64",
+        "rebased": "6bf2d0cda4544ea1dc8f8ab7c765c6a8ea6f5722",
+        "subject": "Restore owned history state when stories unmount"
+      },
+      {
+        "original": "af78349e8996bda9091200e4ea89470a90efe5c1",
+        "rebased": "883f814d43ce011128cfc2a1c48edd8f63f87a34",
+        "subject": "Render dataset attribute editing through composed stories"
+      },
+      {
+        "original": "d656a5973ae506f85d7a5103ddcd36bc1df18c48",
+        "rebased": "9f2170d77ca49ebdc4db95b07c36d30a218b031a",
+        "subject": "Render carbon emission estimates through composed stories"
+      },
+      {
+        "original": "79a25e92f07dde6bad88af7aa6779f58d6baa472",
+        "rebased": "c590a2fa439ac3ef1eb3091cde3669d8bcda22bb",
+        "subject": "Render text summaries through composed stories"
+      },
+      {
+        "original": "e1d855db1edb66667af20aa084141444cff68dcf",
+        "rebased": "13ebbe0bb76cb385f2e1d26ca40895631814e892",
+        "subject": "Share notebook history fixtures and handler"
+      },
+      {
+        "original": "7c22b49a7a984b8181aada4c4d84453089911d57",
+        "rebased": "51733980892d08b5454c05400c11014c9ae14f62",
+        "subject": "Render history notebook lists through composed stories"
+      },
+      {
+        "original": "eb70c71b6e77d1868aee0ee55153102dbea1ee42",
+        "rebased": "cdd562f9901d34b1d341573cfc162246576af767",
+        "subject": "Share invocation step, invoked workflow and rate-limited graph handlers"
+      },
+      {
+        "original": "dd519a1c97018613fb6cdc76e27959b43255af8a",
+        "rebased": "68e35f40c2d7c28be627590fee6598260cb7e72e",
+        "subject": "Render invocation steps through composed stories"
+      },
+      {
+        "original": "3a7ea67a6ff1823e30402cdb62ca7c5dde356814",
+        "rebased": "73725cebdb648afa850e5bd3eedf6c51b42ad639",
+        "subject": "Add history selection fixtures for selection operation stories"
+      },
+      {
+        "original": "7b10535de5f636399621fb91c65abef226d48904",
+        "rebased": "ebb0a394113df7586f939620c3adb1c3697f8578",
+        "subject": "Render history selection operations through composed stories"
+      },
+      {
+        "original": "00e6cfa12024667097055ae35e96d5b44493df41",
+        "rebased": "f1c7e12023e34fa2db32f0f3210e6b10a7e80414",
+        "subject": "Render curated workflow cards through composed stories"
+      },
+      {
+        "original": "7034fb115b27805af514b3d663459d4ec4c159e2",
+        "rebased": "3ee733959f5b2636feed8f45574d283ea1ba6814",
+        "subject": "Share history export job fixtures and handler"
+      },
+      {
+        "original": "e7c2358cd2e349798147e51f6b1dd6b9990a383f",
+        "rebased": "f78ccc588fa0aac7e8b2cd53af8c4b6e4f53026d",
+        "subject": "Render history export links through composed stories"
+      },
+      {
+        "original": "157d15ff3a02f0b8fc3a4f490bcbe8528d9aae2f",
+        "rebased": "3675ed6cc07a289d28ed9e777c1a367e13997bd5",
+        "subject": "Render form text fields through composed stories"
+      },
+      {
+        "original": "b43c05d77ebf67e9d078ba3ad721432db987f183",
+        "rebased": "7aced5342b79ed1a05668ebd5d404a1d6a827fca",
+        "subject": "Share the tool panel's load handlers"
+      },
+      {
+        "original": "0aab3f63200452b967846bf98ff6bbf4928d1fbd",
+        "rebased": "78052385dd4ae026b1f6db66a5416b2067aef68b",
+        "subject": "Render published notebooks through composed stories"
+      },
+      {
+        "original": "307911acc4b96aa2337d3620607eadf767457ed9",
+        "rebased": "8ed7b4f1922030a3d722ccc83d8d497625e9bbcb",
+        "subject": "Render repository tool lists through composed stories"
+      },
+      {
+        "original": "4e71d42d66a7c5a32f7cbabef73958c6faf18245",
+        "rebased": "4d7856fe171ad0c6380872b2532b288672859483",
+        "subject": "Render workflow comments through composed stories"
+      },
+      {
+        "original": "310bdf4047b81ebe62be260b03bd59f1f155f2e7",
+        "rebased": "40e4002779e3230a8e433e69e09e31ea37fe060a",
+        "subject": "Answer upload method requests in shared story handlers"
+      },
+      {
+        "original": "2ef988e837b4e54c0335ddac605970c8f0e15aad",
+        "rebased": "b0986bce96d37d02aa55efaa56195d1db72aeacf",
+        "subject": "Render inline upload views through composed stories"
+      },
+      {
+        "original": "bc9ca8f5ebeed1f617ce6aee6a48b992a19fca31",
+        "rebased": "7e245ccbb23153192a570da251f426fa1d272134",
+        "subject": "Render rule builder column mappings through composed stories"
+      },
+      {
+        "original": "027ebbbcdd889c9e87ee8a5295fabab6ff848838",
+        "rebased": "bdd14c90c209b234645bf5b9370927de8352fa22",
+        "subject": "Render delayed tool search inputs through composed stories"
+      },
+      {
+        "original": "153e479179bb6c6a5ca13609a3ea923a6b21bbd5",
+        "rebased": "85aceebb8a19b5b2bd7bf42ec70c5a31da3e2569",
+        "subject": "Answer mapped job detail requests in shared story handlers"
+      },
+      {
+        "original": "b2b47e0d474c6aade8fa942026dd841732099276",
+        "rebased": "592f69c6773438aa0ba8eb60f485e864449c33a5",
+        "subject": "Render invocation job steps through composed stories"
+      },
+      {
+        "original": "49d6e95154571725233334986f8f27d8e5822aef",
+        "rebased": "cf5b5df58dbe8dd4826afb0d18d750ab7b3a3d1d",
+        "subject": "Render form markdown help through composed stories"
+      },
+      {
+        "original": "8181fec6dcd96b8f0412ea6993a5738a79a600cb",
+        "rebased": "df56b990d5c766f90dca1aeefba6195f3fc9fd6a",
+        "subject": "Render user role and group forms through composed stories"
+      },
+      {
+        "original": "7b2f7c5cc25683bca87b4462699f9407780412c2",
+        "rebased": "f8dc033b7cbdeaf6c53259b9895eff6a81add175",
+        "subject": "Type the explicit Monaco browser entry used by stories"
+      },
+      {
+        "original": "6a945804df36b89e8baf7135946302034e768c11",
+        "rebased": "c053f3dbec342e8592d01a655ced45b368442812",
+        "subject": "Render tool source viewers through composed stories"
+      },
+      {
+        "original": "eb12330155435e5412f51046a3dd17bf2d0662f2",
+        "rebased": "5ddf5eafb09ee2d6eea753f4ec5d36d9d3b606b7",
+        "subject": "Render selected storage descriptions through composed stories"
+      },
+      {
+        "original": "7d744f42eeedef18564a795dece2aa5901dcbf1c",
+        "rebased": "3b257ce36c87789c73971076f60584ba6103c4e9",
+        "subject": "Render workflow help panels through composed stories"
+      },
+      {
+        "original": "575d386040be361f44cf391caa285faad5406bd7",
+        "rebased": "d24beef057e10de30dc7c32fc47e18ddfdd0e181",
+        "subject": "Allow composed story mounts to attach to a DOM parent"
+      },
+      {
+        "original": "5e003a6af08a06309c5e331214b811384f4cf1a7",
+        "rebased": "6f0878857cc084e376ffc1572392e6fa2f1e7e41",
+        "subject": "Render popup interaction scenarios through composed stories"
+      },
+      {
+        "original": "f2a4924d23b9c9db239926ec5f2293e35355eafa",
+        "rebased": "c6a5d46d03a1ec202b9c85ff843b2753836f89c8",
+        "subject": "Render custom tool workspaces through composed stories"
+      },
+      {
+        "original": "e167068e32a39548b6032d45ceaaeaa9b590308e",
+        "rebased": "9b9eb251f362b0983259a96ec80796cb289aa850",
+        "subject": "Reuse GalaxyAI scenarios for route synchronization checks"
+      },
+      {
+        "original": "be15813f999ca4edf09ce8128ebe02ef4ed0d8e8",
+        "rebased": "19f6a7e3febc28ec128cdaddd1b0c4bb5ac6f9ef",
+        "subject": "Show ActivityBar configuration through composed stories"
+      },
+      {
+        "original": "2dd79de27115b76cec07282487f4db96064951d9",
+        "rebased": "a93b98e1b55e019e5fc4982734fd4ab1ef3dcbf7",
+        "subject": "Share catalog fixtures and tool build handlers for tool list stories"
+      },
+      {
+        "original": "9bcb64d52046b7bb26874ceb893e17197cac0d2d",
+        "rebased": "a4841a4123fe4a9a4df1044a4c1708501cda6326",
+        "subject": "Render tool catalog and tag search from composed stories"
+      },
+      {
+        "original": "34faab01b327f8b98ead880f8ff9e6b8a44d986f",
+        "rebased": "3e864f062dd10744e682d7d64ca7a29497613a9e",
+        "subject": "Compose empty and populated upload parameter stories"
+      },
+      {
+        "original": "094203299d37235a72f138d8b51515664a21abe3",
+        "rebased": "0f8294ba9a34d156eee5723d2a06aa093c1dc022",
+        "subject": "Compose job metric AWS estimates from resource scenarios"
+      },
+      {
+        "original": "95ba7467fff45ca45ea89989d1597ee15ea0d297",
+        "rebased": "814753558cb979edf082f010df69ed42a6b466d8",
+        "subject": "Compose shared table selection and sorting scenarios"
+      },
+      {
+        "original": "28e7b8f77a5eb57132c599d1a910842b564e7d09",
+        "rebased": "fc467bd4eeeb55c3b2defc2e70844da0a6e436da",
+        "subject": "Compose workflow collection input form scenarios"
+      },
+      {
+        "original": "42588b9750f030911a6c065f141f313938ddd8e3",
+        "rebased": "9867b197085d0443abadf07c8db80e5012d77c99",
+        "subject": "Build BarChart unit scenarios on composed stories"
+      },
+      {
+        "original": "074998e17a5921d33df0f65ee96cd48500d7d5f2",
+        "rebased": "5863e1f9b13e1ae1d6a8df27d99b765912695a1f",
+        "subject": "Share isolated history operation fixtures for menu stories"
+      },
+      {
+        "original": "2482ce2f1a1d59157cd77e59438e81aade9179be",
+        "rebased": "c5b1df222212738aa5237c8b1ecd27d5ee11acd7",
+        "subject": "Build history options contracts on realistic menu stories"
+      },
+      {
+        "original": "4e522d66ade7f8896b346aaca27fde50e03ed406",
+        "rebased": "feae23f08dbfadc8a2d9712faf0db293f418c406",
+        "subject": "Build chat composer contracts on modeled input stories"
+      },
+      {
+        "original": "06b54b7edf34ea2cd656d1e18ae6bf485ec872bf",
+        "rebased": "a18b2224c7ffe2e209534741c4071ba4320eade2",
+        "subject": "Share broadcast fixtures and scoped notice state for stories"
+      },
+      {
+        "original": "e466d94647cb5bbe987b73b2e3af40f284ee671f",
+        "rebased": "220bf21d131693d25646ba5962016c8719c65da5",
+        "subject": "Mount BroadcastsOverlay tests from composed notification stories"
+      },
+      {
+        "original": "aa414c88ecdaca37e4ca56c425fdc1f184b12d20",
+        "rebased": "cd8f0fbced832544701ce58e6a4399cdc6f86789",
+        "subject": "Share typed dataset detail provenance fixtures"
+      },
+      {
+        "original": "14b92edb18470b2f68e984b94585dfb4e638493d",
+        "rebased": "fa2927b12cf6f62f1d9e622ed48a0a29ac414ec1",
+        "subject": "Mount DatasetDetails tests from provenance stories"
+      },
+      {
+        "original": "61aa87844b8fd97c7df428768253ba8cd415148d",
+        "rebased": "d2dcdf6bdc29f54b4c77445264a153e34c821c33",
+        "subject": "Share legacy interactive tool entry point fixtures"
+      },
+      {
+        "original": "f2a726da91a19e070a60d6d42cfa6f946ea06a47",
+        "rebased": "e0c0d9e69bc4654651e0fe030c9b00bd73201126",
+        "subject": "Mount interactive tool tests from composed session stories"
+      },
+      {
+        "original": "0342fc56d59766edfb260a8c33c40b702994ba42",
+        "rebased": "148943a9811ab6394f2e1dd1c81280a23f2f712a",
+        "subject": "Share typed admin broadcast form response handlers"
+      },
+      {
+        "original": "b1ba6eac0fd36c58256f9e8cdda9061cb7713697",
+        "rebased": "4e60254eded0e18ae7737161fec2ce42c16c770f",
+        "subject": "Mount broadcast form tests from composed admin stories"
+      }
+    ],
+    "published": true,
+    "remote_verified": "4e60254eded0e18ae7737161fec2ce42c16c770f",
+    "validation": {
+      "full_unit": {
+        "head": "dca46b4eb1cef6d2ae0471465ee772bfe22e8455",
+        "files": 612,
+        "passed": 5367,
+        "skipped": 1,
+        "exit_code": 0
+      },
+      "final_affected_units": {
+        "files": 3,
+        "passed": 18,
+        "exit_code": 0
+      },
+      "full_browser": {
+        "head": "a30e1fa676ecfa19a9a192540c5afbb50b8e24cf",
+        "files": 100,
+        "passed": 379,
+        "exit_code": 0
+      },
+      "final_affected_browser": {
+        "files": 1,
+        "passed": 2,
+        "exit_code": 0
+      },
+      "types": "pass",
+      "eslint": "pass",
+      "prettier": "pass",
+      "static_storybook_build": "pass",
+      "review": "no blocking findings"
+    }
+  },
+  "validation_findings": [
+    "HistoryImport removed wait helper: corrected fake-timer/deferred cleanup",
+    "ToolBoxSearch new upstream cases: corrected async composed-story setup",
+    "FilesDialog missing directory fixture import",
+    "DatasetCopy new cases reference removed setup helper",
+    "ToolSuccess output fixture needs id and history_content_type plus live UI API handlers",
+    "JobStep mock must retain current job-details composable exports"
+  ],
+  "focused_validation": {
+    "unit": {
+      "files": 4,
+      "passed": 45
+    },
+    "tool_success_browser": 2,
+    "watch_history_isolated": 2
+  },
+  "full_unit_validation": {
+    "head": "dca46b4eb1cef6d2ae0471465ee772bfe22e8455",
+    "suites": 612,
+    "passed": 5367,
+    "skipped": 1,
+    "exit_code": 0,
+    "log": "/private/tmp/stories-restack-unit-verified.log",
+    "duration_seconds": 387.76
+  },
+  "review": "Normal review and scoped test challenge approved final source a30e1fa676; both initial findings and runtime compatibility findings corrected without assertion loss."
+}
