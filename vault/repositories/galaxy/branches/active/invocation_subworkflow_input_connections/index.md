@@ -1,6 +1,6 @@
 # invocation_subworkflow_input_connections
 
-Status: `branches_implemented_needs_ci` — rescope completed 2026-10-16; new-head CI pending.
+Status: `ci_wait` — draft PR #24203 opened at John's explicit request on 2026-10-16; remaining fork CI queued.
 
 Reject disconnected required subworkflow inputs with HTTP 400 before creating histories or invocations, including nested step paths, while preserving optional and defaulted inputs.
 
@@ -25,3 +25,9 @@ Conflict-free pre-polish rebase; every commit patch unchanged. Independent check
 ## Revised scope — 2026-10-16
 
 Report partial and wholly disconnected required subworkflow inputs consistently at runtime. Published head `14584e545aebf88552d7204ae165125b77fc3234`; [rescope handoff](implementation_rescope_debrief.md). Fresh normal/test/quality reviews completed; the second scope evaluation recommends KEEP. Original polished scope is preserved as `invocation_subworkflow_input_connections_alt_original_scope` on the fork. New-head CI is pending; earlier polish/CI and draft PR prose above are historical and require reassessment against this changed head.
+
+## Draft PR opened — 2026-10-16
+
+John explicitly requested a draft. Opened [#24203](https://github.com/galaxyproject/galaxy/pull/24203) against `release_26.2` at published head `14584e545aebf88552d7204ae165125b77fc3234`, title `[26.2] Validate required subworkflow connections and report runtime gaps consistently`. Before publication, refreshed the stale original-scope description for the current runtime diagnostic expansion and current implementation test evidence (10 API cases; 197 workflow units, 1 skipped; independent workflow-progress module 12 passed). Preserved John's existing checked human-read item. No code changes or new polish round implied.
+
+Posted current `pr_description.md` verbatim with `kind/bug`, `area/workflows`, `area/workflows/subworkflows`, `area/API`; no mentions. Updated title options and labels to reflect the complete current scope. Fork CI at creation: 13 passing workflows including API, unit, Python lint and workflow framework; 7 queued, 2 skipped; no failures. Remaining queued coverage is not a pass. **Keep this PR draft as explicitly requested by John; do not automatically undraft on green CI without a later instruction.** Authorization covers opening the draft at the recorded SHA.

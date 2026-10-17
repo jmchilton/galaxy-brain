@@ -1,4 +1,4 @@
-- kind/enhancement
+- kind/bug
 - area/workflows
 - area/workflows/subworkflows
 - area/API
