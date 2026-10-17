@@ -1,17 +1,17 @@
 # tool_form_job_count_baseline
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count_baseline?expand=1)
+- [#24217](https://github.com/galaxyproject/galaxy/pull/24217)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/tool_form_job_count_baseline)
 
 The leading baseline tests and refactor commits of [`tool_form_job_count`](../tool_form_job_count/index.md), cut at its 6th commit for a PR that lands first. Base: `dev`.
 
 ## Status
 
-`branches_ready_for_final_review`: created and lightly polished 2026-10-17 at `bd218fccaef`, an exact prefix of `tool_form_job_count`, waiting on John's read-through.
+`ci_wait`: approved by John 2026-10-17 at `bd218fccaef` (title "Branch refactoring and tests to enable tool form job counts"), an exact prefix of `tool_form_job_count`.
 
-No PR yet.
+Draft PR [#24217](https://github.com/galaxyproject/galaxy/pull/24217) opened 2026-10-17 at John's request.
 
-Fork CI is pending on `bd218fccaef`.
+CI is pending on `bd218fccaef`.
 
 ## Polish
 
