@@ -1,85 +1,79 @@
-# Thermo-nuclear review debrief
+# Thermo-nuclear review debrief (round 2, after re-scope)
 
-I reviewed `21bc27af25d..HEAD` (`18bc9a95136`) and acted on one finding, the main restructuring one. In `WorkflowRun.vue`, the four "can't use the simple form" checks in `loadRun()` are now a single function, `simpleFormDisabledReason(model, rerunRequest)`. It returns the first reason it finds, and `disableSimpleForm` is now a computed derived from the reason. The change is uncommitted, in `client/src/components/Workflow/Run/WorkflowRun.vue` only. Behavior is unchanged. There were no security findings.
+I reviewed `ced412c6248..HEAD`, the 3 commits on #24176's tip, and acted on 4 findings (two structural, two small). All 4 are folded into commit 2 ("Keep rerun in the expanded form …") with fixup + autosquash. Its message is reworded to match. The Baseline commit `708a26767b1` is untouched, so it still passes on the parent's code. Commit 3 changed only by rebase. I did not act on four smaller ideas: dropping the redundant `disableSimpleForm` prop, an exhaustive message map, an object-store seeding helper, and a test-assert helper. The reasons are below. There were no security findings.
 
-**The E2E test needs a re-run.** No template, selector or `navigation.yml` entry changed. But `loadRun()` decides which form and which alert the Selenium test sees, so re-run `test_workflow_rerun.py::test_workflow_rerun_keeps_tool_step_parameters`.
+Acted on:
+1. **Simple-form gating is now derived state.** In `WorkflowRun.vue`, `simpleForm`, `disableSimpleForm` and `disableSimpleFormReason` are all `computed` from `preferSimpleForm`, the loaded `workflowModel` and `rerunRequest`. `loadRun()` no longer has a gating block at all. Round 1 had already made `disableSimpleForm` a computed. This finishes that move.
+   - **One difference in timing.** Gating now recomputes as soon as `preferSimpleForm` or `rerunRequest` changes. Before, it ran once per `loadRun()`. `WorkflowRerun` and `WorkflowLanding` pass these props once and never change them. The router passes `Galaxy.config`, and `Home` builds them from config plus the `simplified_workflow_run_ui` query value. So a query change now takes effect right away instead of at the next history-triggered reload, which is arguably a fix.
+   - The exposed `simpleForm` is now `preferSimpleForm` before the model loads, where it used to be `false`. Its only external reader is `WorkflowRun.test.js`, which reads it after loading. Nothing renders a form before loading.
+2. **The reason is typed across the boundary.** `simpleFormDisabledReason()` and its `SimpleFormDisabledReason` union moved to a new `Run/simpleFormDisabledReason.ts`. `WorkflowRunForm`'s `disableSimpleFormReason` prop is now typed with the union instead of `string`. I checked that this earns its keep: a typo'd literal in the template's `v-else-if` chain makes vue-tsc fail with TS2367 (an unintentional comparison).
+3. **Smaller fixes:**
+   - The redundant `props.isRerun ? props.rerunRequest : undefined` gate is dropped. Only `WorkflowRerun` passes `rerunRequest`, and it always passes `is-rerun` with it. Both forms already read `rerunRequest` without a gate.
+   - The simple form's `buildFormInputs` watch now includes `props.rerunRequest`, which the function reads since commit 2.
 
 Checks:
-- Run/ vitest: 81 passed.
-- `vue-tsc --noEmit`: exit 0.
-- prettier: clean.
-- eslint: no errors; only the 6 pre-existing `v-on-event-hyphenation` warnings.
-- Mutation check: I put the rerun check first. `keeps the workflow's own reason when it cannot use the simple form anyway` went red (`expected 'rerunHasStepParameters' to be 'hasDisconnectedInputs'`). I then restored the code, so the precedence test still discriminates.
-- #24176's `opens the expanded form for a rerun whose request has tool step parameters` passes unchanged.
-
-## What changed
-
-- **Before.** There were three last-wins `if` blocks from dev, each with the same three assignments. After them came this branch's block, which used the `simpleForm.value &&` trick to make itself lowest priority. That trick made it first-wins, and it needed a comment to explain the mixed precedence (normal review nit 4).
-- **After.** One pure function lists the reasons in the order they are shown:
-  1. resource parameters
-  2. disconnected inputs
-  3. replacement parameters in a tool form
-  4. rerun tool step parameters
-
-  This list is the old last-wins order reversed, so the shown reason does not change. Each check keeps its original comment.
-- **In `loadRun()`.** It sets `simpleForm` to false and stores the reason when there is one. It still runs only when `preferSimpleForm` is set, and `isRerun` still gates the rerun request.
-- **`disableSimpleForm`** is now `computed(() => reason !== undefined)`. It was only ever written together with the reason. It stays set across `loadRun()` reloads, just as before.
-- **Type.** The reason union is now a named local alias, `SimpleFormDisabledReason`.
-- **#24176's guard line.** It was already part of this branch's diff, and it is now folded into the function. No other #24176 code was touched.
+- Run/ vitest: 82 passed.
+- vue-tsc: the 11 baseline `recursive` errors only.
+- prettier: clean on the touched client files.
+- eslint: 0 errors; only pre-existing `v-on-event-hyphenation` template warnings.
+- ruff and black: clean on `test_workflow_rerun.py`.
+- Mutation check: hoisting the rerun check to the top of `simpleFormDisabledReason()` turns "keeps the workflow's own reason …" red (`expected 'rerunHasStepParameters' to be 'hasDisconnectedInputs'`). I restored it afterwards.
+- E2E, under the lock on 8095/5185 with the Playwright backend: `test_workflow_rerun_simple_form_keeps_workflow_parameters` and `test_workflow_rerun_prefills_expanded_form` both passed. I re-ran them because `loadRun()` gating changed.
 
 ## Not acted on
 
-- **Move `withRerunValues` to `model.js` and use it in both forms** (pending coordinator decision).
-  - The duplication is real. `WorkflowRunFormSimple.vue` `buildFormInputs` repeats the `name in values` overlay for `replacement_params`.
-  - My view: do the move, next to `rerunInputValue`. It is small and mechanical. The simple form would then call `withRerunValues(Object.values(props.model.wpInputs), props.rerunRequest?.replacement_params)` and keep its local `color = undefined` copy.
-  - Not done here, because the helper is #24176 code that is in review.
-- **Overlap of `requestState`, `useJobCache` and `rerunRequest` on `WorkflowRunFormSimple`.**
-  - In the rerun case, `requestState` equals `rerunRequest.inputs`.
-  - Folding them inside the simple form is possible. `WorkflowRun`'s props must stay, because landing, home and router use them.
-  - Already deferred by the normal review with sound reasoning. Follow-up.
-- **Tighten `WorkflowRunForm`'s `disableSimpleFormReason: string` to the union.**
-  - This would type-check the `v-else-if` text chain.
-  - It needs the type exported from a `.ts` module, and the prop predates this branch.
-  - The gain is small, so the alias stays local. Follow-up together with the shared type.
-- **Object-store seeding in `WorkflowRunFormSimple.vue`.** It uses three refs and a ternary on `rerunSplitObjectStore`.
-  - A pure helper, `rerunObjectStoreState(request) -> {split, preferred, intermediate}`, would mirror the `onExecute` serialization and read a little better.
-  - It is marginal, 13 lines in an 811-line file, and the mount-level tests already exercise the real payload. Low priority.
-- **Two `mountRerun` helpers in `WorkflowRun.test.js`.** Merging them edits #24176's test. Deferred, as before.
-- **`replacement_params` prefill in the simple form.** It is reachable only for API-origin runs until the `replacement_dict` bug (issue footnote ¹) is fixed. It is cheap and correct, not debt. Kept.
-- **File sizes.** All are under 1k lines (`WorkflowRunFormSimple.vue` 811, `WorkflowRunForm.vue` 409, `WorkflowRun.vue` about 340), so there is no decomposition concern.
+- **Drop `WorkflowRunForm`'s `disableSimpleForm` boolean prop.** With a typed reason, `!disableSimpleForm` is the same as `!disableSimpleFormReason`. Dropping it would delete one concept, but it changes the props of a pre-existing component and removes `disableSimpleForm` assertions that the test challenge settled. Follow-up.
+- **Replace the alert's `v-else-if` chain with an exhaustive `Record<SimpleFormDisabledReason, string>` message map.** That would also catch a reason with no message. It rewrites dev's alert markup, which the Selenium test asserts on. Not proportionate for this branch, since the typed prop already catches typos.
+- **Object-store seeding helper in `WorkflowRunFormSimple.vue`.** Round 1's "marginal" call stands. I checked that the seeded ids are passed down to `WorkflowStorageConfiguration` as props, so the user sees what a rerun will submit. One edge: if `object_store_allows_id_selection` is now off, a rerun still resubmits the original stores without showing them. That needs a config change between runs. Noted only.
+- **A test helper (`pick` + `toStrictEqual`) for the repeated `not.toHaveProperty` object-store asserts.** It would read better, but it forces edits into the Baseline commit for a test-legibility gain. Skipped.
+- **Settled items, not reopened:**
+  - folding `requestState`/`useJobCache` into `rerunRequest`
+  - full-form object stores
+  - the "step params lost" notice
+  - first-wins precedence
+  - the dropped wp-prefill unit test
+- **`(input: any)` in `buildFormInputs`.** It matches the file's existing untyped model handling. Noted only.
 
 <details><summary>Full review</summary>
 
-### 1. Structural: mixed-precedence reason checks in `loadRun()` (acted on)
+### 1. Derived state written imperatively in an async loader (acted on)
 
-The branch added a fourth "disable simple form" block. The three existing blocks were last-wins: each overwrote `simpleForm`, `disableSimpleForm` and `disableSimpleFormReason`. The new block needed the opposite rule, because the workflow's own reason must win. The branch got it with `simpleForm.value && ...` plus a precedence comment. So one sequence of `if`s held two precedence rules and four copies of the same three-line assignment.
+After round 1, `loadRun()` still did `simpleForm.value = props.preferSimpleForm`, then called the pure reason function and wrote two refs from its result. Those three values are pure functions of `(preferSimpleForm, model, rerunRequest)`, so storing them as mutable refs set inside `loadRun()` is derived-state-as-state.
 
-The fix is to state the rule once. A pure function returns the first reason in display order, and the caller applies it. The duplicated assignments, the `simpleForm.value &&` trick and its comment all go. `disableSimpleForm` is redundant state, true exactly when a reason is set, so it becomes a computed.
+The fix makes all three `computed`, placed next to `workflowModel`. `loadRun()` now only loads. Two reasons the behaviour is unchanged:
+- Nothing else writes `simpleForm`, since the `showAdvanced` toggle uses `advancedForm`.
+- The forms render only after a successful load, behind the `loading`, `workflowError` and upgrade-warning branches.
 
-### 2. Reuse: `replacement_params` overlay duplicated (not acted on, parent code)
+On a reload after a history change, the computed recomputes from the same model and props. Before, the stale refs gave the same visible result.
 
-`WorkflowRunFormSimple.vue` `buildFormInputs` (3 lines) repeats `WorkflowRunForm.vue` `withRerunValues`. The canonical home is `model.js`, next to `rerunInputValue` and `rerunHasStepParameters`. Both Codex and the normal review flagged it. It is gated on the coordinator, because the helper is #24176 code.
+### 2. A stringly-typed reason across the parent/child boundary (acted on)
 
-### 3. Boundary: two props carry the same rerun inputs into the simple form (not acted on)
+This branch grows the reason chain from 3 literals to 4. Before this fix, the union lived in `WorkflowRun.vue`, the prop in `WorkflowRunForm.vue` was typed `string`, and nothing linked the template's literals to either. Now the union lives in a `.ts` module next to its only producer, and the consumer's prop uses it. I verified empirically that vue-tsc type-checks the template comparisons, so this is a real guard.
 
-`WorkflowRunFormSimple` now takes both `requestState` and `rerunRequest`. On a rerun, the first is a slice of the second. It is defensible while the landing and home flows pass `requestState` alone. A later cleanup could read `rerunRequest?.inputs ?? requestState` inside the simple form. Follow-up.
+### 3. Redundant `isRerun` gate (acted on)
 
-### 4. Type contract: reason is a union in the parent, a `string` in the child (not acted on)
+`isRerun ? rerunRequest : undefined` guarded a case no caller produces. It was also the only place that gated `rerunRequest` on `isRerun`. `WorkflowRunForm` and `WorkflowRunFormSimple` (object stores and wp prefill) use it directly. Removing the gate makes `rerunRequest` mean "this is a rerun" everywhere.
 
-`WorkflowRunForm.disableSimpleFormReason` is typed `string`, which predates this branch. The template's `v-else-if` chain compares against literals that nothing type-checks. Exporting the union from a `.ts` module and typing the prop would close that gap. The gain is small for a pre-existing prop, so it is a follow-up.
+### 4. Incomplete watch dependency (acted on)
 
-### 5. Legibility: object-store seeding (not acted on, low priority)
+Since commit 2, `buildFormInputs` reads `props.rerunRequest` for the wp prefill, but the watch only listed `model` and `requestState`. In practice `requestState` is `rerunRequest.inputs`, so they change together. Listing it makes the dependency explicit. The object-store refs stay seeded once, on purpose, because re-seeding them would overwrite the user's edits.
 
-`rerunSplitObjectStore` plus the ternary initializers are correct, and they respect the invoke API's mutual exclusion. A `{split, preferred, intermediate}` pure helper would read better and pair with the `onExecute` serialization, but the gain is marginal.
+### 5. Redundant `disableSimpleForm` prop (not acted on, follow-up)
 
-### 6. Tests (no action)
+See "Not acted on" above.
 
-- `WorkflowRunFormSimple.test.ts` uses `shallowMount` and asserts the real `invokeWorkflow` payload, which is good. The `as object` cast on the component is a known vue-test-utils typing workaround.
-- `WorkflowRun.test.js` precedence pair: mutation-checked again after the refactor.
-- The Selenium test waits on page state, with no sleeps.
+### 6. Message chain versus an exhaustive map (not acted on)
 
-### 7. File size
+See "Not acted on" above.
 
-No file crosses 1k lines.
+### 7. Tests (no action beyond the mutation check)
+
+- `WorkflowRunFormSimple.test.ts` asserts the real `invokeWorkflow` payload. The repeated `not.toHaveProperty` triples could collapse into one exact-shape assertion, but that would mean churn in the Baseline commit.
+- The `WorkflowRun.test.js` precedence pair still discriminates after the move into the module.
+- The Selenium tests wait on page state, with no sleeps.
+
+### 8. File size
+
+No file crosses 1k lines. `WorkflowRunFormSimple.vue` is 805 lines, `WorkflowRunForm.vue` 403, and `WorkflowRun.vue` 297 (down from 340). The new module is 41 lines.
 
 </details>

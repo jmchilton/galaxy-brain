@@ -1,26 +1,44 @@
-# Codex review debrief
+# Codex review (round 2, after re-scope)
 
-Codex (read-only, `codex exec` with the findings schema) reviewed `21bc27af25d..HEAD` after the rebase. It found no correctness defects, and its one finding is maintainability. I did not act on that finding. Codex ran 15 focused vitest tests (all passed); it reviewed the Selenium test but did not run it.
+Codex returned no findings, so nothing needed acting on. I ran Codex read-only (`codex exec -s read-only`) over `ced412c6248..df413286e52`, the 3 commits on #24176's final tip. The brief gave the issue's intent: force the expanded form for reruns with step params, prefill on simple-form reruns, and fix the `replacement_params` key. It left out any of my reasoning or the earlier review findings.
 
-## Not acted on
+Not acted on: nothing. The round-1 P3 (`withRerunValues` reuse) is resolved by the re-scope.
 
-- **P3 reuse: share `withRerunValues` between the run forms.** Confirmed: `WorkflowRunFormSimple.vue:168-171` repeats the `name in values` overlay from `WorkflowRunForm.vue`'s `withRerunValues`. The normal review raised the same point. I didn't fix it because the helper is #24176 code, and the coordinator asked that this branch not edit #24176 code while it is in review. The fix is small: move `withRerunValues` beside `rerunInputValue` in `model.js`, then import it in both forms. If the coordinator approves, do it here; otherwise do it as a follow-up once the stack lands.
+Coverage note from Codex: it reviewed every changed file plus the surrounding code (`WorkflowRerun.vue`, `model.js`, `run_request.py`, `schema/workflows.py`, `FormDisplay.vue`, the populators and the fixtures). The targeted client tests passed, 13/13. It didn't run the baseline commit or the Selenium tests on its own; this round's test-challenge and polish runs cover those.
 
-<details><summary>Raw findings</summary>
+<details><summary>Raw output</summary>
 
 ```json
 {
-  "severity": "P3",
-  "category": "reuse",
-  "file": "client/src/components/Workflow/Run/WorkflowRunFormSimple.vue",
-  "line": 168,
-  "title": "Share the existing rerun-value prefill helper between forms",
-  "detail": "The new name-membership check and value assignment duplicate withRerunValues in WorkflowRunForm.vue:403, which already overlays exported request values onto form inputs. Extract that helper into a shared module and use it in both forms, retaining the simple form's color adjustment locally.",
-  "failure_scenario": "Maintainability only: replacement_params now has two independent prefill implementations. No current incorrect output was demonstrated.",
-  "confidence": "certain"
-}
-```
-
-Coverage: WorkflowRun/WorkflowRunForm/WorkflowRunFormSimple/WorkflowRerun/WorkflowStorageConfiguration, model.js, services.js, api/invocations.ts, navigation.yml, run_request.py, selenium test + framework/populators/fixtures.
+  "coverage": {
+    "files_reviewed": [
+      "client/src/components/Workflow/Run/WorkflowRun.test.js",
+      "client/src/components/Workflow/Run/WorkflowRun.vue",
+      "client/src/components/Workflow/Run/WorkflowRunForm.vue",
+      "client/src/components/Workflow/Run/WorkflowRunFormSimple.test.ts",
+      "client/src/components/Workflow/Run/WorkflowRunFormSimple.vue",
+      "client/src/utils/navigation/navigation.yml",
+      "lib/galaxy_test/selenium/test_workflow_rerun.py",
+      "client/src/components/Workflow/Run/WorkflowRerun.vue",
+      "client/src/components/Workflow/Run/WorkflowStorageConfiguration.vue",
+      "client/src/components/Workflow/Run/model.js",
+      "client/src/components/Workflow/Run/services.js",
+      "client/src/components/Form/FormDisplay.vue",
+      "client/src/api/invocations.ts",
+      "client/src/stores/historyStore.ts",
+      "client/src/stores/userStore.ts",
+      "client/tests/vitest/helpers.js",
+      "client/vitest.config.mts",
+      "client/package.json",
+      "lib/galaxy/schema/workflows.py",
+      "lib/galaxy/workflow/run_request.py",
+      "lib/galaxy/selenium/smart_components.py",
+      "lib/galaxy_test/base/populators.py",
+      "lib/galaxy_test/base/workflow_fixtures.py"
+    ],
+    "notes": "All changed files and the baseline commit reviewed. Targeted client tests passed: 13/13 with NODE_OPTIONS=--no-experimental-webstorage. Baseline commit was not executed separately; Selenium tests were reviewed but not run."
+  },
+  "findings": []
+}```
 
 </details>

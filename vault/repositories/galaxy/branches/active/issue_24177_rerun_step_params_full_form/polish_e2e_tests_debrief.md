@@ -1,22 +1,24 @@
-# Polish E2E tests debrief
+# Polish E2E tests debrief (round 2)
 
-Replaced all three `sleep_for(UX_TRANSITION)` calls in `test_workflow_rerun_keeps_tool_step_parameters` with waits on real page state. The test still passes under Playwright, 1 passed in 47s.
+The in-scope E2E code had no sleeps or raw selectors, so the only change was to switch two raw-element calls in `test_workflow_rerun_simple_form_keeps_workflow_parameters` to the existing SmartTarget helpers (`wait_for_and_send_keys`, `wait_for_value`), folded into commit 3, and the test still passes under Playwright.
 
-## Changes (uncommitted, in WORKING_DIRECTORY)
+## Scope
+- Commit 2: the assertions this branch added to #24176's `test_workflow_rerun_prefills_expanded_form` (simple-form disabled reason text, `simple_form_link` absent, and the rerun submit checking `num_lines == 3` through the API).
+- Commit 3: the new `test_workflow_rerun_simple_form_keeps_workflow_parameters`.
+- `navigation.yml`: `workflow_run.simple_form_link` and `workflow_run.simple_form_disabled_reason`. Both are used. They were settled in round 1.
 
-`lib/galaxy_test/selenium/test_workflow_rerun.py`, new test only:
-- **After the first submit:** the sleep became `invocations.state_details.wait_for_visible()`. That element renders only in `WorkflowRunSuccess` after a successful submit, so the wait checks that the submit landed. The `state_details` wait that sat before the rerun click is now redundant and was dropped.
-- **After the rerun click:** the sleep was removed. The `workflow_run.expanded_form.wait_for_visible()` that already followed is enough. `WorkflowRerun` renders `WorkflowRun` only once the invocation request is loaded. `WorkflowRun` shows the form only after `loadRun()` sets `loading=false`. Rerun tool-step seeding (`getRunData(..., rerunInvocationId)`) and `disableSimpleForm`/`disableSimpleFormReason` are all set inside that same `loadRun()` pass. So `simple_form_link.assert_absent()` is not vacuous once the reason is visible.
-- **After the rerun submit:** the sleep became `invocations.state_details.wait_for_visible()`. The run form page has no such element, so there is no stale match.
-
-No sleeps remain in the new test.
+## Changes (folded into commit 3 with `--fixup` + autosquash)
+`lib/galaxy_test/selenium/test_workflow_rerun.py`:
+- `replaceme.wait_for_visible().send_keys("moocow")` became `replaceme.wait_for_and_send_keys("moocow")`.
+- `replaceme.wait_for_visible()` followed by `.get_attribute("value")` became `replaceme.wait_for_value()`. That helper reads through the backend-neutral `get_input_value` and matches how `test_tool_form.py` checks input values.
 
 ## Checklist
-- **Selectors:** the new test uses no raw CSS/DOM. Both new `navigation.yml` targets (`workflow_run.simple_form_link`, `workflow_run.simple_form_disabled_reason`) are in use.
-- **Screenshots:** the test already captures `workflow_rerun_keeps_tool_step_parameters`. The re-run regenerated it as `.../scratchpad/e2e/screenshots/workflow_rerun_keeps_tool_step_parameters-1.png`. It shows the legacy-form warning with the new reason text, and the "random" tool step collapsed.
-- **E2E:** run under Playwright with the global lock: PASSED. `black --check` is clean.
+- **Sleeps:** none in the in-scope code. Submits are followed by `workflow_run_wait_for_ok` or an API `wait_for_history_workflows(expected_invocation_count=2)`.
+- **Selectors:** no raw CSS/DOM. Everything goes through `navigation.yml` components.
+- **Screenshots:** both tests capture them. The new test saves `workflow_rerun_simple_form_workflow_parameters`, regenerated this run as `.../scratchpad/r24177/e2e/screenshots/workflow_rerun_simple_form_workflow_parameters-2.png`.
+- **Run:** `test_workflow_rerun_simple_form_keeps_workflow_parameters` under Playwright with the lock: 1 passed in 75.85s. `ruff@0.17.0` and `black --check` are clean. Commit 2's test was not changed in this round, so it was not re-run.
 
 ## Not acted on
-- **UI check that `num_lines` shows 3 on the rerun form:** not added. The rerun's tool step renders collapsed (see screenshot), so the input isn't visible without expanding the step. Seeding happens before render (see above). The test already asserts `num_lines == "3"` on the rerun's exported request through the API, and checks that the output has 3 lines.
-- **Shared helper:** the "submit, wait for `state_details`, wait for ok" and "`state_details`, click rerun" sequences repeat across all four tests in the file. They would make a good `RunsWorkflows` helper. Not extracted here, because the scope excludes rewriting the pre-existing tests, and a helper used only by the new test would leave the file inconsistent. Follow-up candidate.
-- **Pre-existing tests:** they still use `sleep_for(UX_TRANSITION)` after submit and rerun click, and `_assert_input_table_has_parameter` uses a raw selector. Left alone because they are out of scope.
+- **`_open_rerun(invocation_id)` helper:** the URL `workflows/rerun?invocation_id=...` now appears 3 times. Two of those are in #24176's test lines, and the settled decisions say not to edit #24176 code. It is also a one-line URL. This is a follow-up candidate on #24176.
+- **Shared submit/rerun helper:** still deferred from round 1, because the pre-existing tests are out of scope.
+- **Retry wrapper on the prefilled-value assert:** not added. `WorkflowRerun` mounts the form only after the invocation request loads, and the value is bound at render, as round 1 analysed. The test passed as written.
