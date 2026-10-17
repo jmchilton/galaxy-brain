@@ -1,6 +1,9 @@
 # issue_24188_subworkflow_rename_expression_json
 
-Status: `branches_ready_for_final_review` — polished 2026-10-17; awaits John's read-through. Base: `release_26.1` (`b2b1e1deeee`). Head: `e36468c480a`. Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
+- [View PR #24224](https://github.com/galaxyproject/galaxy/pull/24224)
+- [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24188_subworkflow_rename_expression_json)
+
+Status: `ci_wait` — John read and approved 2026-10-17 at `e36468c480a`; opened as draft [#24224](https://github.com/galaxyproject/galaxy/pull/24224) with title "[26.1] Fix `${label}` renames in subworkflows fed by expression tools". Base: `release_26.1` (`b2b1e1deeee`). Head: `e36468c480a`. Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
 
 Fork CI on `e36468c480a` mostly queued at polish; no reds yet.
 

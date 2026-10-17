@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-17 (Tool Shed README PR opened; target branch CI refreshed).
+Snapshot: 2026-10-17 (#24224 opened as draft; Tool Shed README PR opened; target branch CI refreshed).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -19,6 +19,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`issue_24188_subworkflow_rename_expression_json`](../../repositories/galaxy/branches/active/issue_24188_subworkflow_rename_expression_json/index.md) — `${label}` renames inside subworkflows use expression.json values, not HDA reprs (#24188). Base `release_26.1`. [#24224](https://github.com/galaxyproject/galaxy/pull/24224).
 - [`issue_19234_batch_mode_hint_25.1`](../../repositories/galaxy/branches/active/issue_19234_batch_mode_hint_25.1/index.md) — Tool form says when a selected collection is mapped over and names the job unit (#19234). Base `release_25.1`. [#24223](https://github.com/galaxyproject/galaxy/pull/24223). Draft requested by John.
 - [`tool_form_job_count_baseline`](../../repositories/galaxy/branches/active/tool_form_job_count_baseline/index.md) — Baseline tests, shared batch classifier and form-input path refactors ahead of `tool_form_job_count`. [#24217](https://github.com/galaxyproject/galaxy/pull/24217).
 - [`issue_24199_workflow_numeric_bounds_26.0`](../../repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/index.md) — Workflow int/float bounds reach run form + editor Default field; inverted bounds give a clear 400 and step error (#24199). Base `release_26.0`. [#24212](https://github.com/galaxyproject/galaxy/pull/24212).
@@ -50,7 +51,6 @@ None yet.
 - [`issue_24218_can_map_over_parity_26.0`](../../repositories/galaxy/branches/active/issue_24218_can_map_over_parity_26.0/index.md) — Editor `canMapOver` matches server map-over rules for `:paired_or_unpaired` inputs, `collection_type_source` outputs resolve like the server, and the compound suffix check gets a `:` boundary on both sides (#24218). Base `release_26.0`, head `d29206dcd71`; re-scoped, re-hardened, scope evaluation says keep; client-only alt kept; land with or before #24220; fork CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24218_can_map_over_parity_26.0?expand=1).
 - [`fix_data_package_tests_26_2`](../../repositories/galaxy/branches/active/fix_data_package_tests_26_2/index.md) — Removes the app-only Conditional import from standalone datatype tests. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:fix_data_package_tests_26_2?expand=1).
 - [`issue_24200_workflow_input_validators`](../../repositories/galaxy/branches/active/issue_24200_workflow_input_validators/index.md) — Keeps workflow parameter input validators as declared (negate, extra ranges, messages, order) through import, export, run and editor re-save; rejects invalid or type-unsuited validators at import with a 400 (#24200). Base `release_26.2`, head `57e1cb42c05`; hardened, re-scoped, scope evaluation says keep; fork CI pending. Must coordinate with `issue_24199_workflow_numeric_bounds_26.0` on merge order. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24200_workflow_input_validators?expand=1).
-- [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2` (retargeted), head `891572be9e0`; John's scope calls applied (E5 route rename + drop `report_title`, E6, E7, E8); must merge before 26.2.0 (API rename); fork CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:extract_next_followups?expand=1).
 - [`form_checkbox_controlled_tests`](../../repositories/galaxy/branches/active/form_checkbox_controlled_tests/index.md) — Repairs the three upstream controlled-checkbox test failures on dev `5ff1e46b8c3`; 151 related tests pass, independent review complete; fork CI pending.
 
 - [`issue_24178_subworkflow_step_params_export`](../../repositories/galaxy/branches/active/issue_24178_subworkflow_step_params_export/index.md) — Exports subworkflow step params as `<index>|name`; unknown/malformed keys 400; subworkflow invocations record their own step params; shared step-param row resolver; schema docs (#24178). Re-scoped 2026-10-16, head `57bf3eebd77`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24178_subworkflow_step_params_export?expand=1).
@@ -74,11 +74,10 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:extract_next_followups?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_24188_subworkflow_rename_expression_json`](../../repositories/galaxy/branches/active/issue_24188_subworkflow_rename_expression_json/index.md) — `${label}` renames inside subworkflows use expression.json values, not HDA reprs (#24188). Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24188_subworkflow_rename_expression_json?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
