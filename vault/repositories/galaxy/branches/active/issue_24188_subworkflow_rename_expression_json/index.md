@@ -1,6 +1,10 @@
 # issue_24188_subworkflow_rename_expression_json
 
-Status: `branches_implemented_needs_ci` — READY: re-scoped, re-hardened, scope evaluation says keep; API tests moved to framework tests (collection name assertion added); fork CI pending. Base: `release_26.1` (`b2b1e1deeee`). Head: `e36468c480a`. Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
+Status: `branches_ready_for_final_review` — polished 2026-10-17; awaits John's read-through. Base: `release_26.1` (`b2b1e1deeee`). Head: `e36468c480a`. Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
+
+Fork CI on `e36468c480a` mostly queued at polish; no reds yet.
+
+[PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
 
 Fixes [#24188](https://github.com/galaxyproject/galaxy/issues/24188): `${label}` rename inside a subworkflow gives `<galaxy.model.HistoryDatasetAssociation(...)>` when the subworkflow text input is fed by an expression tool. Assigned to John.
 

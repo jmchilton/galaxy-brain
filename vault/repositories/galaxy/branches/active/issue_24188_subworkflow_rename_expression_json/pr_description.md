@@ -12,26 +12,27 @@ The left column is the actual output from the new framework tests with `lib/gala
 
 A subworkflow's text input that is connected to an expression tool holds the tool's `expression.json` dataset, not a string. Tool steps inside the subworkflow already read the value from that file. But `WorkflowProgress.set_outputs_for_input` stored `str(dataset)` for `${label}` replacement. This branch stores `str(replace_expression_json_dataset(dataset, step))`, which is the issue's suggested fix and uses the reader tool inputs already use.
 
-***The subworkflow step already waits for its parameter datasets to be ready before any inner step runs, and fails if they fail (`SubWorkflowModule.execute` → `compute_collection_info` → `replacement_for_input`). So the storage fix needs no new dependency on dataset state. The only new gate is a read of the file itself, for shared-filesystem lag (see Implementation).***
+***Only text and other parameter inputs fed by an expression tool change: data inputs, and parameter inputs fed directly by a workflow input, store and wait exactly as before.***
+
+***The subworkflow step already waits for, and fails on, its parameter datasets, so the fix adds no new dependency on dataset state.*** That wait is in `SubWorkflowModule.execute` → `compute_collection_info` → `replacement_for_input`. The only new gate is a read of the file itself, for shared-filesystem lag. ***The pre-read is one small JSON read and adds no wait: it delays only when the file is unreadable, a wait the inner input step would hit anyway.***
 
 <details><summary>Implementation</summary>
 
 - `run.py` `set_outputs_for_input`: store the resolved value. Primitive inputs are unchanged, since `replace_expression_json_dataset` passes non-datasets through.
-- `run.py` `subworkflow_progress`: read the expression.json file for `parameter_input` subworkflow inputs while building the child progress, and throw the value away. This handles a shared filesystem that hasn't shown the file yet: the whole subworkflow step is delayed (and fails after the existing 60s grace period). Without it, only the inner input step is delayed, and an inner step that isn't connected to it, like the issue's `__BUILD_LIST__`, can schedule and rename with a literal `${Inner title}`.
+- `run.py` `subworkflow_progress`: read the expression.json file for `parameter_input` subworkflow inputs while building the child progress, and throw the value away. This handles a shared filesystem that hasn't shown the file yet: the whole subworkflow step is delayed, and fails once the dataset is more than 60s past its last update (the existing grace period). Without it, only the inner input step is delayed, so an inner step that isn't connected to it, like the issue's `__BUILD_LIST__`, can schedule and rename with a literal `${Inner title}`.
 - All runtime replacements are still resolved, not only the ones a step's PJAs reference. Renames expand `#{input}` before `${label}`, so the set of names a rename needs can't be known in advance.
 
 </details>
 
 ## Why add a test feature to 26.1
 
-***The first commit adds one key to the workflow test format: `metadata: {name: ...}` on a `class: Collection` output. The bug is a wrong collection name, and without this key the only place to check a collection name is an API test. A key added only on `dev` couldn't be used by a 26.1 fix's tests, so the fix would ship API tests now that someone later rewrites as framework tests. Adding the key here lets the fix ship with the right tests, in the right framework, once.***
+The first commit adds one key to the workflow test format: `metadata: {name: ...}` on a `class: Collection` output. It has its own unit tests and can be split into a separate PR if reviewers prefer. ***Without this key a collection name can only be checked in an API test, and a key added only on `dev` can't be used by a 26.1 fix's tests.*** So the fix would ship API tests that someone later rewrites as framework tests. Adding the key here lets it ship with the right tests once.
 
-Until now a workflow framework test could check a collection's type, element count and elements, but not its name. `doc/source/dev/writing_tests.md` sends workflow-evaluation tests to `lib/galaxy_test/workflow/`. The alternative is what this branch first had (kept on the alt): two API tests in `test_workflows.py`. Each inlines the workflow and job YAML, runs it, fetches the invocation and then the collection, and asserts by hand, which repeats what the framework runner already does. They also needed a new invocation-output helper. With the key, both collection cases are plain `.gxwf.yml`/`-tests.yml` pairs next to the existing `replacement_parameters_*` tests and the dataset case. The branch adds no API tests.
+Until now a workflow framework test could check a collection's type, element count and elements, but not its name. `doc/source/dev/writing_tests.md` sends workflow-evaluation tests to `lib/galaxy_test/workflow/`. With the key, both collection cases are plain `.gxwf.yml`/`-tests.yml` pairs next to the existing `replacement_parameters_*` tests. The branch adds no API tests.
 
 - **It mirrors the existing format.** Dataset outputs already assert their name with `metadata: {name: ...}`. A top-level `name` on an output can't be used, because the test runner (and planemo) overwrite it with the output label.
 - **It's strict and only adds.** `CollectionMetadata` declares only `name`, so test-format validation (e.g. `test_validate_workflow_tests`) rejects any other key. Collection `metadata` used to be rejected entirely, so no existing valid test file changes meaning. XML tool tests are unaffected.
 - **It's shared.** The check lives in `verify_collection`, so planemo workflow tests get it too, for outputs that also declare `element_tests` (see Risks).
-- **It can be split off.** It's the first commit, with its own unit tests, so it can become a separate PR if reviewers prefer.
 
 <details><summary>What the commit touches</summary>
 
@@ -59,13 +60,11 @@ The fix is a two-way door. The one lasting commitment is the new `metadata: {nam
 
 Check the read-and-discard pre-read in `subworkflow_progress`: it's guarded to `parameter_input` subworkflow inputs, so data inputs fed by expression.json are unaffected. On the test-format side, check that `metadata: {name:}` is the key you want to support long term.
 
-Forward merge to `release_26.2`/`dev` conflicts in 4 files. On 26.2 the test-format models moved to `galaxy/tool_util_models/_models.py`, so `CollectionMetadata` has to be added again there. `interface.py` and `test_modules.py` clash with the `X | None` typing upgrade. `ToolSourceSchema.json` needs regenerating with `rebuild.py`.
-
 </details>
 
 ## Context
 
-Targets `release_26.1`, where it was reported. `release_25.1` and `release_26.0` also have the bug but lack `read_expression_json`/`replace_expression_json_dataset`, so fixing them would mean backporting the expression.json reader too.
+Targets `release_26.1`, where it was reported. `release_25.1` and `release_26.0` also have the bug but lack `read_expression_json`/`replace_expression_json_dataset`, so fixing them would mean backporting the expression.json reader too. The forward merge to `release_26.2`/`dev` conflicts in 4 files: re-add `CollectionMetadata` in `galaxy/tool_util_models/_models.py`, take the `X | None` typing in `interface.py` and `test_modules.py`, and regenerate `ToolSourceSchema.json` with `rebuild.py`.
 
 Alternative kept on 🌿[`issue_24188_subworkflow_rename_expression_json_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/issue_24188_subworkflow_rename_expression_json_alt_original_scope) - the one-line fix without the `subworkflow_progress` pre-read, so a filesystem-lagged file can still produce a literal `${label}` in unconnected inner steps. Its collection-name cases are API tests in `test_workflows.py`, written before the `metadata: {name:}` key existed.
 
@@ -75,7 +74,7 @@ Alternative kept on 🌿[`issue_24188_subworkflow_rename_expression_json_alt_ori
 
 <details><summary>Keep the scope: the storage-line fix plus the filesystem-lag pre-read.</summary>
 
-The first evaluation added the `subworkflow_progress` pre-read. A fresh evaluation after re-hardening said to keep that scope. Going back to the one-line fix would reopen a real lag edge just to save 5 lines. Mapped expression collections need new per-job plumbing. `PickValueModule` not reporting its informal `${x}` names is a separate small 26.1 bug, better as its own PR. Both evaluations ran before the tests moved to framework tests; that move doesn't change the source scope.
+The first evaluation added the `subworkflow_progress` pre-read, and a second one after re-hardening kept it. The one-line fix alone would reopen a real lag edge just to save 5 lines. Mapped expression collections need new per-job plumbing. `PickValueModule` not reporting its informal `${x}` names is a separate small 26.1 bug, better as its own PR. Both evaluations ran before the tests moved to framework tests; that move doesn't change the source scope.
 
 </details>
 
@@ -83,12 +82,7 @@ The first evaluation added the `subworkflow_progress` pre-read. A fresh evaluati
 
 <details><summary>No blockers; the read-and-discard pre-read stays, since all three ways to remove it are worse.</summary>
 
-The earlier round cut a larger draft down to the one-line storage fix. In the latest round:
-- Resolving to a primitive in `subworkflow_progress` was rejected: it changes the recorded inner inputs and step outputs.
-- Seeding the child's `runtime_replacements` was rejected: it adds plumbing and the storage line still has to change.
-- Dropping the pre-read is the alt branch.
-
-The `parameter_input` guard is required, so data inputs fed by expression.json aren't read.
+The earlier round cut a larger draft down to the one-line storage fix. The latest round weighed three ways to drop the read-and-discard pre-read (see Approaches considered below) and kept it. The `parameter_input` guard is required, so data inputs fed by expression.json aren't read.
 
 </details>
 
@@ -106,7 +100,7 @@ The `parameter_input` guard is required, so data inputs fed by expression.json a
 
 <details><summary>One finding, the mapped expression-collection case, recorded as a follow-up.</summary>
 
-Codex ran a read-only review, with only the issue and the intended behavior as its brief. It found the HDCA repr for mapped expression collections, which is the same on base. An earlier round caught that filtering replacements to the names a PJA references broke second-order `#{input}` → `${label}` substitution, so all replacements are resolved.
+Codex ran a read-only review, with only the issue and the intended behavior as its brief. It found the HDCA repr for mapped expression collections, which is the same on base. An earlier round led to dropping the referenced-names filter (see Approaches considered below).
 
 </details>
 
@@ -121,7 +115,7 @@ The `expression_json_hda` helper moved from `test_modules.py` to the shared `tes
 ## John's Checklist
 
 - [ ] Did a human read every test and every comment? (Requires human author to check)
-- [x] What does the user see when it fails? If the expression.json file is still unreadable after the 60s grace period, the invocation fails with the existing unreadable expression.json error, as tool steps that read the value already do, instead of renaming with a repr.
+- [x] What does the user see when it fails? If the expression.json file is still unreadable once the dataset is more than 60s past its last update, the invocation fails with the existing unreadable expression.json error, as tool steps that read the value already do, instead of renaming with a repr.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The scheduler unit test checks that an unreadable expression.json delays the outer subworkflow step. It fails on the base branch and on the alt. The tool_util tests check the behavior of the new test-format key.
 - [x] Are baseline tests in their own leading commits (if applicable)? N/A: every new test covers new behavior or the fix.
@@ -135,7 +129,9 @@ The `expression_json_hda` helper moved from `test_modules.py` to the shared `tes
 
 - **Resolving at the use site** in `ToolModule`/`PickValueModule` touched `modules.py` and duplicated the readiness check the subworkflow step already does.
 - **Filtering replacements to the referenced names** broke `#{input}` → `${label}` second-order substitution.
-- **Resolving to a primitive in `subworkflow_progress`** changes the recorded inner invocation inputs.
+- **Resolving to a primitive in `subworkflow_progress`** changes the recorded inner invocation inputs and step outputs.
+- **Seeding the child's `runtime_replacements`** adds plumbing, and the storage line still has to change.
+- **Dropping the pre-read** is the alt branch (see Context).
 
 </details>
 
