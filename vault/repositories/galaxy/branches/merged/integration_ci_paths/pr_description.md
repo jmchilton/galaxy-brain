@@ -79,7 +79,7 @@ AST comparison checked the moved code. The final polish checklist independently 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? A future import-rule violation could silently skip relevant Integration runs; runtime test diagnostics are preserved.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A; existing behavioral tests are preserved.

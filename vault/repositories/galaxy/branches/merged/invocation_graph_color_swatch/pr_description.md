@@ -59,7 +59,7 @@ Reviewed the composable, its tests, `NodeInvocationText`, the run graph's `useWo
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Text instead of a swatch. The swatch needs the declared `color` type and a `#rrggbb` value; other types keep the `<b>` text, and a color value that isn't `#rrggbb` shows as plain text, as in the run graph.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They check the composable's `nodeText` output and the swatch the component renders, and one pins type over value shape.

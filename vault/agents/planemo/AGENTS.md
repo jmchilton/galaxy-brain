@@ -14,7 +14,7 @@ In the following files PROJECT is `planemo`.
 @../_shared/ISSUES_INDEX.md
 @../_shared/PULL_REQUESTS_INDEX.md
 
-The review queue is [PULL_REQUESTS.md](PULL_REQUESTS.md); detail lives under `vault/repositories/planemo/reviews/`, including archived history.
+The review queue is [PULL_REQUESTS.md](agents/planemo/PULL_REQUESTS.md); detail lives under `vault/repositories/planemo/reviews/`, including archived history.
 
 ## User Interaction
 

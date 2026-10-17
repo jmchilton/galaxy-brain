@@ -10,6 +10,6 @@ In the following files PROJECT is `docker-galaxy`.
 @../_shared/REVIEW_NOTES.md
 @../_shared/REVIEW_FOCUS.md
 
-Start with [index.md](index.md) for current development tracking and [PULL_REQUESTS.md](PULL_REQUESTS.md) for reviews. The September recovery plan is historical context; PR #635 has merged.
+Start with [index.md](index.md) for current development tracking and [PULL_REQUESTS.md](agents/docker-galaxy/PULL_REQUESTS.md) for reviews. The September recovery plan is historical context; PR #635 has merged.
 
 Review detail lives under `vault/repositories/docker-galaxy/reviews/`, including archived history.

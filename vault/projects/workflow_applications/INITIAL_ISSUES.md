@@ -1,0 +1,7 @@
+- [#24172](https://github.com/galaxyproject/galaxy/issues/24172) — Column parameters show "No options available." until their dataset finishes, so tools and workflows can't be queued on it
+- [#24173](https://github.com/galaxyproject/galaxy/issues/24173) — Give every step, job and output selected in the invocation view a shareable URL
+- [#24174](https://github.com/galaxyproject/galaxy/issues/24174) — Record which invocation a workflow rerun came from
+- [#24175](https://github.com/galaxyproject/galaxy/issues/24175) — Rerun of an imported workflow invocation fails with a 500 when the run had tool step parameters
+- [#24176](https://github.com/galaxyproject/galaxy/issues/24176) — Prefill the full workflow run form when rerunning an invocation
+- [#24177](https://github.com/galaxyproject/galaxy/issues/24177) — Workflow rerun silently drops tool parameters the original run set
+- [#24178](https://github.com/galaxyproject/galaxy/issues/24178) — Invocation request export can't be posted back when a subworkflow step had runtime parameters

@@ -1,4 +1,4 @@
-	# selenium_stories_core
+# selenium_stories_core
 
 Status: `author_work` (refreshed 2026-10-16).
 

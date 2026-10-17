@@ -9,6 +9,8 @@
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24190`
 - Reviewed: 2026-10-16
 
+The intended extra nesting predates this PR: base help/tests already preserve each pair inside a singleton list. The fix removes unintended implicit mapping that splits pair members, while changing the actual behavior of existing mapped workflows. See the semantic comparison in the review.
+
 Three P2 findings: runtime/declaration output type mismatch, removal of bare paired input, and loss of paired suffix on empty lists. Collection matching suite: 16 passed. Focused production-code reproductions confirm the behaviors; full server/browser workflow execution was not run locally.
 
 No review or comments posted. Worktree retained while PR is open. No author follow-up initiated.

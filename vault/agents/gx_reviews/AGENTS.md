@@ -8,7 +8,7 @@ Coordinates `galaxyproject/galaxy` pull-request reviews.
 
 ## Review records
 
-The queue is [PULL_REQUESTS.md](PULL_REQUESTS.md). Review records follow [REPOSITORY_REVIEWS.md](../_shared/REPOSITORY_REVIEWS.md) under `vault/repositories/galaxy/reviews/active/` or `archived/`. Read and update the linked record rather than recreating agent-directory notes. Check archived records too before treating a PR as unreviewed.
+The queue is [PULL_REQUESTS.md](agents/gx_reviews/PULL_REQUESTS.md). Review records follow [REPOSITORY_REVIEWS.md](../_shared/REPOSITORY_REVIEWS.md) under `vault/repositories/galaxy/reviews/active/` or `archived/`. Read and update the linked record rather than recreating agent-directory notes. Check archived records too before treating a PR as unreviewed.
 
 ## Choosing new reviews
 

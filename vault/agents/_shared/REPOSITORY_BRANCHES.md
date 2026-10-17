@@ -16,12 +16,18 @@ The branch-tracking agent defines finer workflow statuses in `index.md` and its 
 
 On merge or explicit abandonment, move the directory once agents working there have finished, and update the tracking index and links together. A closed, unmerged PR stays under `active/` pending a decision.
 
-## Contents
+## Directory Contents
 
-Each directory contains an `index.md` file without frontmatter. It serves as an ongoing debrief as work is done.
+Each directory contains an `index.md` file without frontmatter. It serves as a status tracker and holds action links for the user.
 
 File names follow the File Docs: `vault/repositories/_defaults/branches/FILE_DOCS.md`, with sections replaced by `vault/repositories/PROJECT/branches/FILE_DOCS.md`. Prefer a documented name over a new one; add a section when a new kind of file starts recurring. Undocumented files are fine.
 
-Implementation notes, research, plans, reviews, and other supporting files go here. Link them near the top of `index.md`; organize the rest to suit the repository's process. Keep the agent's tracking index short, with links to these details.
+Implementation notes, research, plans, reviews, and other supporting files go here.
 
-Record explicit decisions, approvals, dependencies, and standing instructions as needed. A next step is not required when it follows from the workflow status.
+## index.md
+
+Keep it minimal. Start with `# <branch title>`, followed by bullet action links for "Open PR" and "View on GitHub".
+
+Next comes `## Status`. This section should contain at most one sentence each about the branch status, PR status, and CI status, each as its own paragraph. Don't list files or keep older status updates.
+
+Additional sections can be added as needed but should remain concise and not track transient status information. Explicit decisions, approvals, dependencies, and standing instructions should be concisely stored here if useful.

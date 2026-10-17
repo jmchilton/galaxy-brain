@@ -4,8 +4,7 @@ Galaxy conventions for files in `repositories/galaxy/branches/<status>/<branch>/
 
 ## pr_description.md
 
-Proposed PR description, linked from `index.md`. Structured per [GX_PR_DESCRIPTIONS](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PR_DESCRIPTIONS.md).
-
+Proposed PR description. Structured per [GX_PR_DESCRIPTIONS](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PR_DESCRIPTIONS.md).
 ## pr_titles.md
 
 Three to five PR title options as a markdown list, written while polishing ([POLISH_BRANCH](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/POLISH_BRANCH.md)). Release-branch targets prefix each title with the version tag, e.g. `[26.0]`.
@@ -53,10 +52,6 @@ Report on refactoring the base branch ahead of the change ([GX_PROCESS_REFACTOR_
 ## screenshot_debrief.md
 
 Index of the captures in `screenshots/`, plus any problems recording them ([GX_PROCESS_SCREENSHOTS](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCREENSHOTS.md)).
-
-## tracking_history.md
-
-Decisions and evidence imported from the branch agent's tracking index during the 2026-10-09 migration. Historical; current state lives in `index.md`.
 
 ## subagents/**
 

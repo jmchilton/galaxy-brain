@@ -1,4 +1,1 @@
-- Retry Playwright timeouts once during transitions
-- Partly revert repeated Playwright timeout retries
 - Bound full-timeout retries in the Playwright test driver
-- Fail stuck Playwright actions after one transition retry

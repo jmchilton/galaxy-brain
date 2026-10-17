@@ -1,13 +1,5 @@
 # Open PR and branch queue
 
-Queue snapshot refreshed from live GitHub 2026-10-16. Ten tracked PRs merged; two green drafts rebased and marked ready. Five server-only branches promoted on passing relevant checks and diagnosed unrelated reds. Fresh rebase/rerun CI remains pending.
-
-No untracked open PRs by jmchilton were found from the last three days. [Shared CI context](../../repositories/galaxy/branches/queue_context.md); branch records hold current evidence and standing instructions.
-
-Stack/CI repairs completed 2026-10-16: selection and rerun children integrated with their named parents; lineage typing fixed. Local targeted tests pass; fresh fork CI pending.
-
-Polished 2026-10-16: four 26.2 invocation-validation fixes and the 26.1 input-copying/ds_map backport await human read-through and title selection. Final-head fork CI is pending; descriptions and validation are linked from each record.
-
 ## Open Galaxy PRs — ready from our side (`ready`)
 
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [#24141](https://github.com/galaxyproject/galaxy/pull/24141).

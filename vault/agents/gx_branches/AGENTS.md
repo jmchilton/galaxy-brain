@@ -13,7 +13,7 @@ In the following file, PROJECT is `galaxy`.
 
 The agent running in this directory is responsible for maintaining and promoting branches within ./MY_BRANCHES.md.
 
-Branch records and supporting files live in `vault/repositories/galaxy/branches/active/<branch_name>/`. Follow each queue entry's link to its `index.md` for approvals, CI evidence, dependencies, and standing instructions. Update the branch record when its workflow status changes; the directory stays under `active/` until merge or explicit abandonment.
+Branch records and supporting files live in `vault/repositories/galaxy/branches/active/<branch_name>/`.
 
 If the user asks to abandon a branch, follow the process described for that.
 If the user asks to polish a branch, follow the process described in ./POLISH_BRANCH.md.

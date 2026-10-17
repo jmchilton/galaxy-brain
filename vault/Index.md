@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*123 notes. Auto-generated — run `make index` to refresh.*
+*124 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -23,6 +23,7 @@
 - [[skills]] — Tracks canonical homes, documentation, packaging, provenance, and maintenance status for reusable agent skills.
 - [[toolshed]] — Ongoing Tool Shed maintenance, API modernization, dead-code cleanup, and feature work.
 - [[shed_reviews]] — Conveying IUC-like review authority to non-IUC Tool Shed repositories, and publishing the gates an agentic tool-maturation pipeline passes
+- [[workflow_applications]] — Project tracking work on Galaxy workflow applications.
 - [[workflow_backlog]] — Running log of Galaxy workflow backlog issues, each line pairing an issue with its PR and the next action needed
 - [[workflow_semantics]] — Formalizing Galaxy workflow evaluation semantics into a CI-validated documentation artifact, per issue #22200.
 - [[workflow_state]] — Workflow validation infrastructure: pre-execution parameter typing, format2 usability, VS Code tooling, tool search overhaul.

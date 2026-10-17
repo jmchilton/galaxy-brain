@@ -8,7 +8,7 @@ operational state, that one is the reasoning.
 
 PR #493 merged on 2026-09-08. John asked Keith to rebase #473 onto it that day, and Keith acknowledged the request. #473 remains open at the originally reviewed `8827d93`; the ball is with the author. PR #487 also merged, on 2026-09-04.
 
-The branch and implementation notes below are historical context, not a refreshed instruction to resume the naming work. Current review tracking is in [PULL_REQUESTS.md](PULL_REQUESTS.md).
+The branch and implementation notes below are historical context, not a refreshed instruction to resume the naming work. Current review tracking is in [PULL_REQUESTS.md](agents/pulsar/PULL_REQUESTS.md).
 
 ## Update — 2026-09-04 (historical)
 

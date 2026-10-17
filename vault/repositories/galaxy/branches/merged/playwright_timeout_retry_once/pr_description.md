@@ -63,7 +63,7 @@ The review inspected the driver backends, proxy, elements, wait helpers, unit te
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? The browser-test runner receives the original Playwright timeout after its second occurrence in one helper invocation.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes; they check callback counts and propagated exception types.

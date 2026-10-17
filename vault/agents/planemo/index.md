@@ -1,6 +1,6 @@
 # Planemo maintenance
 
-[Review queue](PULL_REQUESTS.md) · [Issue triage](ISSUES.md)
+[Review queue](agents/planemo/PULL_REQUESTS.md) · [Issue triage](agents/planemo/ISSUES.md)
 
 Other open implementation/review records retained outside the review queue:
 

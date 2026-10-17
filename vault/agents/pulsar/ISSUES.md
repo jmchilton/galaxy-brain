@@ -1,4 +1,4 @@
-Triage index for `galaxyproject/pulsar` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/pulsar/issues/`. PR reviews are tracked in [PULL_REQUESTS.md](PULL_REQUESTS.md).
+Triage index for `galaxyproject/pulsar` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/pulsar/issues/`. PR reviews are tracked in [PULL_REQUESTS.md](agents/pulsar/PULL_REQUESTS.md).
 
 GitHub state last refreshed: 2026-10-11. Issues here are unassigned by default.
 ## Waiting on John (`needs_decision`)

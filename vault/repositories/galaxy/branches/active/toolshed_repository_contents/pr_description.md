@@ -163,5 +163,3 @@ Builds on 🔀 #23925 (the galaxy-ui Tool Shed frontend). Follow-ups this enable
 ## License
 
 - [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
