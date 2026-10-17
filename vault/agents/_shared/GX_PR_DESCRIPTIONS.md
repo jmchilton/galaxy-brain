@@ -76,6 +76,7 @@ Combine sentences into one short paragraphs in a "## Context" section above the 
 - Part of 🌿<branch_name_and_link>, used to <function_in_that_branch>.
 - Part of 🔀 #<pr_number>, used to <function_in_that_branch>.
 - Alternative to <pr_number>.
+- Alternative kept on 🌿<alt_branch_name_and_link> - <how it differs, from `alts/<short_description>.md`>. One per file in `BRANCH_DIRECTORY/alts/`.
 
 ## DO NOT: Cite an agent as evidence.
 

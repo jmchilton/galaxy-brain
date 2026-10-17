@@ -28,7 +28,7 @@ Finally write a quick summary of the choices and the final implementation and sc
 
 ## Handling a Re-Scope
 
-Checkout the original implementation as `<BRANCH_NAME>_alt_original_scope` and modify the working branch to implement the expanded scope. Do not create a new worktree for the original scope or track the original branch in `MY_BRANCHES.md`. Later on we will have a process for `_alt_` branches but for now - the branch sitting in user's remote is sufficient.
+Checkout the original implementation as `<BRANCH_NAME>_alt_original_scope` and modify the working branch to implement the expanded scope. Treat it as an alt branch per "Alt Branches" in `vault/agents/_shared/GX_DEVELOPMENT.md` - describe it in `alts/original_scope.md`.
 
 Upon scope correction completion - perform another "normal subagent review" and address results.
 
