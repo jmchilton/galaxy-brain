@@ -1,15 +1,15 @@
 # issue_24218_can_map_over_parity_26.0
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24218_can_map_over_parity_26.0?expand=1)
+- [#24227](https://github.com/galaxyproject/galaxy/pull/24227)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24218_can_map_over_parity_26.0)
 
 ## Status
 
-Polished, waiting for John's final review (`branches_ready_for_final_review`). Head `1187e612f7d`, base `release_26.0` (`a6544be047d`).
+Polished; draft PR open at head `1187e612f7d`, base `release_26.0` (`a6544be047d`).
 
-No PR yet.
+Draft [#24227](https://github.com/galaxyproject/galaxy/pull/24227) opened 2026-10-17 at John's request (title `[26.0] Fix workflow editor map-over onto `:paired_or_unpaired` inputs the server rejects`; `area/workflows` used because `area/workflows/editor` doesn't exist upstream).
 
-Fork CI is pending on `1187e612f7d`; nothing failed on the previous head.
+PR CI is running.
 
 ## Polish
 

@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-17 (#24225 opened as draft [WIP]; #24224 opened as draft; Tool Shed README PR opened; target branch CI refreshed).
+Snapshot: 2026-10-17 (#24227 opened as draft; #24225 opened as draft [WIP]; #24224 opened as draft; Tool Shed README PR opened; target branch CI refreshed).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -19,6 +19,7 @@ Snapshot: 2026-10-17 (#24225 opened as draft [WIP]; #24224 opened as draft; Tool
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`issue_24218_can_map_over_parity_26.0`](../../repositories/galaxy/branches/active/issue_24218_can_map_over_parity_26.0/index.md) — Editor map-over checks for `:paired_or_unpaired` inputs match the server (#24218). Base `release_26.0`. [#24227](https://github.com/galaxyproject/galaxy/pull/24227).
 - [`issue_24188_subworkflow_rename_expression_json`](../../repositories/galaxy/branches/active/issue_24188_subworkflow_rename_expression_json/index.md) — `${label}` renames inside subworkflows use expression.json values, not HDA reprs (#24188). Base `release_26.1`. [#24224](https://github.com/galaxyproject/galaxy/pull/24224).
 - [`issue_19234_batch_mode_hint_25.1`](../../repositories/galaxy/branches/active/issue_19234_batch_mode_hint_25.1/index.md) — Tool form says when a selected collection is mapped over and names the job unit (#19234). Base `release_25.1`. [#24223](https://github.com/galaxyproject/galaxy/pull/24223). Draft requested by John.
 - [`tool_form_job_count_baseline`](../../repositories/galaxy/branches/active/tool_form_job_count_baseline/index.md) — Baseline tests, shared batch classifier and form-input path refactors ahead of `tool_form_job_count`. [#24217](https://github.com/galaxyproject/galaxy/pull/24217).
@@ -78,7 +79,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_24218_can_map_over_parity_26.0`](../../repositories/galaxy/branches/active/issue_24218_can_map_over_parity_26.0/index.md) — Editor map-over checks for `:paired_or_unpaired` inputs match the server (#24218). Base `release_26.0`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24218_can_map_over_parity_26.0?expand=1).
 - [`issue_24221_paged_map_over_options_26.1`](../../repositories/galaxy/branches/active/issue_24221_paged_map_over_options_26.1/index.md) — Paged collection options keep a collection's map-over entry, and it's selectable with a "(one job per …)" label (#24221). Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24221_paged_map_over_options_26.1?expand=1).
 
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).

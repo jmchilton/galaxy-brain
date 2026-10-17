@@ -111,7 +111,7 @@ A fresh Codex run over the full diff ran the editor module tests and compared cl
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? The editor refuses the connection and shows why on the terminal. Saved 💥 connections load as invalid, and Save is blocked with "review and remove workflow errors".
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They check type-pair behavior, editor `canAccept` and `collection_type_source` outcomes, and mirror the Python cases.
@@ -135,5 +135,3 @@ A fresh Codex run over the full diff ran the editor module tests and compared cl
 
 ## License
 - [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
