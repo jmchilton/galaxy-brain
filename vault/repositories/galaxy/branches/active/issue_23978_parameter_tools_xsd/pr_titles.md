@@ -1,0 +1,4 @@
+- Validate parameter test tools and every test-tool subdirectory against the XSD
+- Close XSD validation gaps in framework test tools
+- Make parameter fixtures XSD-valid and cover test-tool subdirectories in CI
+- Prevent test-tool subdirectories from silently missing XSD validation

@@ -1,5 +1,7 @@
 # Open PR and branch queue
 
+Snapshot: 2026-10-17 (target branch CI refreshed).
+
 ## Open Galaxy PRs — ready from our side (`ready`)
 
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [#24141](https://github.com/galaxyproject/galaxy/pull/24141).
@@ -46,7 +48,6 @@ None yet.
 - [`issue_24176_rerun_full_form_prefill`](../../repositories/galaxy/branches/active/issue_24176_rerun_full_form_prefill/index.md) — Prefills the expanded rerun form from the original run (server-seeded steps, inputs incl. legacy input keys, workflow settings) (#24176). Stacked on `issue_24178_subworkflow_step_params_export`; re-scoped, head `ced412c6248`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24178_subworkflow_step_params_export...jmchilton:galaxy:issue_24176_rerun_full_form_prefill?expand=1).
 - [`issue_24177_rerun_step_params_full_form`](../../repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/index.md) — Keeps reruns with tool step params in the expanded form, prefills simple-form settings and fixes simple-form workflow params (`replacement_params`) (#24177). Stacked on `issue_24176_rerun_full_form_prefill`; re-scoped, head `46db8f9d5b6`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24176_rerun_full_form_prefill...jmchilton:galaxy:issue_24177_rerun_step_params_full_form?expand=1).
 - [`vitest_real_api_calls`](../../repositories/galaxy/branches/active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
-- [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and checks every test-tool subdirectory in CI (#23978); re-hardened + re-scoped 2026-10-16, new head needs CI. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
 - [`issue_20657_input_processing_mode`](../../repositories/galaxy/branches/active/issue_20657_input_processing_mode/index.md) — Explains tool input batching and collection mapping, and fixes collection-type matching (#20657). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_20657_input_processing_mode?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`cwl_fixes_5`](../../repositories/galaxy/branches/active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
@@ -69,8 +70,10 @@ None yet.
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
 None yet.
+
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
 - [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
 - [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24173_invocation_selection_prep...jmchilton:galaxy:issue_24173_invocation_selection_urls?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
