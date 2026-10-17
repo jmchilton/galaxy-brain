@@ -2,6 +2,8 @@
 
 ## Root cause
 
+> Correction after implementation: the readiness half below is wrong. `SubWorkflowModule` plans map-over via `_find_collections_to_match`, which calls `replacement_for_input` non-data for parameter inputs, so the subworkflow step already waits for (and fails on) the expression dataset. Only the `str()` half and pre-job resolution were needed.
+
 `WorkflowProgress.set_outputs_for_input` (`lib/galaxy/workflow/run.py`) stores each labeled `parameter_input` value for `${label}` replacement with `str(output_value)`. In a subworkflow, `subworkflow_progress` passes the parent connection's value through unresolved. When that comes from an expression tool (`pick_value`), it is the `expression.json` HDA, so `str()` gives the model repr.
 
 It also does not wait for the HDA. `subworkflow_progress` picks `is_data` from the parent output step type (`pick_value` is a tool, so data, no wait). `InputParameterModule.execute` doesn't wait either (see its TODO). Inner tool params work because `replacement_for_connection(is_data=False)` delays on a pending HDA, then `replace_expression_json_dataset` reads it. Post-job actions have no such dependency. In the repro, `__BUILD_LIST__` has no inputs, so it can schedule in the same iteration that queues `pick_value`, before the file exists.
