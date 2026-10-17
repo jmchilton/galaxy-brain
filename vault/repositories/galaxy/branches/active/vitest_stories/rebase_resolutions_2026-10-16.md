@@ -1,8 +1,8 @@
 # Stories restack resolutions 2026-10-16
 
-Base e06bbc4c70271aacfe27a88e315c882b5270ecaa; old stories b1ba6eac0fd36c58256f9e8cdda9061cb7713697; old actual cut 7f2db5e59415f07c09fec5be75ff4885fbad047e. Final 3a0590b783b4021af5292188925c80013d474b0b. Backup backup/vitest_stories-before-clean-restack-20261016. Exact leases /private/tmp/story-restack-start.json.
+Base e06bbc4c70271aacfe27a88e315c882b5270ecaa; old stories b1ba6eac0fd36c58256f9e8cdda9061cb7713697; old actual cut 7f2db5e59415f07c09fec5be75ff4885fbad047e. Published final head 4e60254eded0e18ae7737161fec2ce42c16c770f. Backup backup/vitest_stories-before-clean-restack-20261016. Exact leases /private/tmp/story-restack-start.json.
 
-159 original messages/trailers matched byte-for-byte after rebase and final ToolSuccess fixup/autosquash. No tests ran during rebase. No push performed.
+159 original messages/trailers matched byte-for-byte after rebase and final ToolSuccess fixup/autosquash. No tests ran during rebase. Published to the fork after validation with the recorded old-head lease; remote verified.
 
 Policy: keep migrated story content by default; estimated churn overlap is not removal mandate. Where a complete incoming migrated file was retained, inspected current base conflict and/or old-base-to-new-base delta to ensure current assertions survived. No assertion removed to make a test pass.
 

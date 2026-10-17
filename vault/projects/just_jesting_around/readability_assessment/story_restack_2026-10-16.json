@@ -6,19 +6,24 @@
   "play_old_head": "5673676726e0ae2430cb0d73f28cf61b60eaae0b",
   "play_old_base": "f2a726da91a19e070a60d6d42cfa6f946ea06a47",
   "play_push_lease": "5673676726e0ae2430cb0d73f28cf61b60eaae0b",
-  "status": "stories_published_play_rebasing",
+  "status": "core_stack_published_ancillary_audited",
   "policy": "Preserve story-layer changes by default; overlapping paths are review pointers, not a churn-removal list.",
   "ancillary_audit": {
     "vitest_story_a11y": {
       "head": "c246eb4fde308f62f817018b5ce5f41fbfba7407",
       "base": "81c4987360debdff86678e038e8035c31213a410",
-      "own_commits": 2
+      "own_commits": 2,
+      "remote_verified": "c246eb4fde308f62f817018b5ce5f41fbfba7407",
+      "dependency": "Historical vitest_story_play; exactly two own commits affecting accessibility infrastructure and annotated story exceptions. Needs separate compatibility review on new play, including previously recorded browser failures."
     },
     "vitest_real_api_calls": {
       "head": "3076db79898e5db847fe05dd521e48b80034ef72",
       "base": "f0659f1cf0d69a8e17011bc3b4ef5489b02c3891",
-      "own_commits": 3
-    }
+      "own_commits": 3,
+      "remote_verified": "3076db79898e5db847fe05dd521e48b80034ef72",
+      "dependency": "Historical vitest_readability, not stories/play. Exactly three own fixture commits in 17 files; should be transplanted from its recorded f0659 base when separately restacked, rather than replaying inherited historical readability."
+    },
+    "next_step": "Separate restacks using each recorded cut; audit complete, no changes to either ancillary branch in this core-stack operation."
   },
   "stories": {
     "old_base": "7f2db5e59415f07c09fec5be75ff4885fbad047e",
@@ -880,5 +885,551 @@
     "log": "/private/tmp/stories-restack-unit-verified.log",
     "duration_seconds": 387.76
   },
-  "review": "Normal review and scoped test challenge approved final source a30e1fa676; both initial findings and runtime compatibility findings corrected without assertion loss."
+  "review": "Normal review and scoped test challenge approved final source a30e1fa676; both initial findings and runtime compatibility findings corrected without assertion loss.",
+  "play_start": {
+    "old_head": "5673676726e0ae2430cb0d73f28cf61b60eaae0b",
+    "old_actual_cut": "f2a726da91a19e070a60d6d42cfa6f946ea06a47",
+    "published_stories_base": "4e60254eded0e18ae7737161fec2ce42c16c770f",
+    "push_lease": "5673676726e0ae2430cb0d73f28cf61b60eaae0b",
+    "own_commits": 99
+  },
+  "play": {
+    "old_base": "f2a726da91a19e070a60d6d42cfa6f946ea06a47",
+    "old_head": "5673676726e0ae2430cb0d73f28cf61b60eaae0b",
+    "new_base": "4e60254eded0e18ae7737161fec2ce42c16c770f",
+    "new_head": "fd94d33f27719db097932206e99f32d302a3a5a9",
+    "commits": [
+      {
+        "original": "4b88779df14c52481f4c5698acf09ca1b8fa4c46",
+        "rebased": "3715a63b50aac0063bc8fd10e3ad9cee56c8225a",
+        "subject": "Move HistoryExportWizard interaction cases into play functions"
+      },
+      {
+        "original": "6101a9b6ff2df41b80a790ac00e23303743e84d6",
+        "rebased": "f4e57ef1b9996c3d4a9c28fd1659d49abb8ecf5a",
+        "subject": "Move ToolSelectPreferredObjectStore option listing into a play function"
+      },
+      {
+        "original": "5f03cc5ca1b44b2614d4e7a7162830fd80f90f6d",
+        "rebased": "2ea62b658b14c5e60b4a42b9e15a34ff1f25fd34",
+        "subject": "Move ObjectStoreBadges listing checks into play functions"
+      },
+      {
+        "original": "ee434c1bffc20f578838cf8499c09a4747ee9e40",
+        "rebased": "2c1622dce0a0e48b64fa58213bebe00d7f29d55f",
+        "subject": "Move ExportForm interaction cases into play functions"
+      },
+      {
+        "original": "49b3cf34adbcdb7ef8cf82fcfafec338e75839d8",
+        "rebased": "35cd11648d22d99a26663441733821b5de456469",
+        "subject": "Move InstallationSettings test cases into play functions"
+      },
+      {
+        "original": "5af05c1d7a712b8b781c0ba1b33daa13dafaa9f6",
+        "rebased": "a04acb07953f3656d2f730b32996f67b55df260b",
+        "subject": "Move ConfigurationMarkdown rendering checks into play functions"
+      },
+      {
+        "original": "61b30981391deb1401c6897998d796ec8a339583",
+        "rebased": "4dac4fca56158d0669e8083b5dd73829ff1503d8",
+        "subject": "Move GButton interaction cases into play functions"
+      },
+      {
+        "original": "9c0075b79c05d6bbdb4f48e9e8b414cab6f96271",
+        "rebased": "747a3b2e39856738a29099b39181b9f249fc0269",
+        "subject": "Move ScrollList paging and footer checks into play functions"
+      },
+      {
+        "original": "3e17ab6edfb3f60c2fbf34978e57710d927f02c4",
+        "rebased": "58f79e622e5fd912616bf7dd351ae6383a3ab763",
+        "subject": "Move QuotaUsageSummary display checks into play functions"
+      },
+      {
+        "original": "0d93d8ef4ea0ab5fead47a908e69a65d6804e5ff",
+        "rebased": "dc4a1c01f21752e3a8e06b8fba96bc3910e15e13",
+        "subject": "Move GLink link and click checks into play functions"
+      },
+      {
+        "original": "7af0cf97702d6d29fdbb6e0fe953c877dc4b62e2",
+        "rebased": "25e4d36126f2a827c3355001301e9b1024a05f6c",
+        "subject": "Move WorkflowInvocationState tab and error checks into play functions"
+      },
+      {
+        "original": "92bd146433724b76007018b021f5dd784244f9e3",
+        "rebased": "1a1f46b51d9f84ea28014e19d7d18b6d5cf11741",
+        "subject": "Move PersistentTaskProgressMonitorAlert text checks into play functions"
+      },
+      {
+        "original": "a6ecfd8c8a7f188265bdf0d72a9aaeef43a9d82a",
+        "rebased": "057259eddc27c4a60544ac5397221c74408ec16f",
+        "subject": "Move WorkflowMissingToolsRequest dialog checks into play functions"
+      },
+      {
+        "original": "96e9efad4482f7fed939ed6bef54d3d5c71e0348",
+        "rebased": "38aab09d290c74733fe2e204d78e8fa2f0a70631",
+        "subject": "Move WorkflowInvocationShare checks into play functions"
+      },
+      {
+        "original": "3f7e165756262ae61b3e331250194634254d2fd5",
+        "rebased": "211f4551ccd9f42287e2e7e741704c3b769bf033",
+        "subject": "Move FilesDialog browsing and selection checks into play functions"
+      },
+      {
+        "original": "c756ba16c44823cca5f047fc657778214936dd4b",
+        "rebased": "22776ea5969b50838d9a6dc829ee47986a451a61",
+        "subject": "Move CommandPalette search and filter checks into play functions"
+      },
+      {
+        "original": "9d9498fd8066f2d2087f4e2a7f29bdbb50da6e60",
+        "rebased": "2c9bac986eae91f3fd0d3ffe67c562e0913b3867",
+        "subject": "Move PermissionsInputField note check into a play function"
+      },
+      {
+        "original": "6a69de4638c72c4487e4acd17bdbe43523bbf35a",
+        "rebased": "7ec50c84150b928f53ceee0e127b01fb4be2f4a4",
+        "subject": "Move ObjectStoreRestrictionSpan checks into play functions"
+      },
+      {
+        "original": "869fed9aad1a72ba23bdfa8559a40fc4d17c1ca5",
+        "rebased": "57a1343205a5b1fc5c9fdf52bf60e3bc58aff68d",
+        "subject": "Move ToolCard heading, options and badge checks into play functions"
+      },
+      {
+        "original": "5f68754c069770649f822951b81455e2bbf8928b",
+        "rebased": "4549b81cef547bf86520785c494336b677e96d66",
+        "subject": "Move QuotaForm field and refusal checks into play functions"
+      },
+      {
+        "original": "d42cdba9f39e68334547120e51558e8be364ccf6",
+        "rebased": "04366950259a87499dc470f7eb2f8e34b2d0f5c6",
+        "subject": "Move RoleForm loading, field and refusal checks into play functions"
+      },
+      {
+        "original": "13f786a48e948ae9b6a0affc333835a3412e31d4",
+        "rebased": "e21ba07730c2ec04bcaec07885dd6dc5238bd669",
+        "subject": "Move DescribeObjectStore sentence, name and description checks into play functions"
+      },
+      {
+        "original": "c9fc28eb6e86901680ba5fb5ac4d193ba631ab3d",
+        "rebased": "0599b4d77e16582a56cd92fa30582ce95dd87538",
+        "subject": "Move BroadcastsList listing and filter checks into play functions"
+      },
+      {
+        "original": "1c8c9892029c66a757b535eea02efee3c5f99230",
+        "rebased": "6306f6c9ddd1c3014fc327a558e69e48c0effe13",
+        "subject": "Share vue-multiselect option list play helpers"
+      },
+      {
+        "original": "8959e34c6fba42fa12f97b9b9376d6fae3e68ab8",
+        "rebased": "f0d0924c140c42c002b69aec564ba3c043aef5b2",
+        "subject": "Move FormSelect option listing and selection checks into play functions"
+      },
+      {
+        "original": "481c579d0d707a4a37d1a23a86726de726ec4605",
+        "rebased": "33ca3383412581c001219d1b0f54f902c0c2460a",
+        "subject": "Share a toast check beside the toast-stack decorator"
+      },
+      {
+        "original": "4030c8ac09f31097b375e46c3fefac8725a04b6c",
+        "rebased": "3b7746f70b99ea4e26bfa33e38f46b4b99937be6",
+        "subject": "Move PairCollectionCreator pair and notification checks into play functions"
+      },
+      {
+        "original": "1edb1faeb85807c60171cc1e4810bd474e330eb4",
+        "rebased": "06f5082bbcfd3371919658d5f3e4bf5c0ae5cf93",
+        "subject": "Move ListCollectionCreator list and notification checks into play functions"
+      },
+      {
+        "original": "aeae51d677092ee1cb751ad2e909ace971fb45b4",
+        "rebased": "2575069fb85bddd44922bc134ef9663cc8f2c40d",
+        "subject": "Move Lint review listing checks into play functions"
+      },
+      {
+        "original": "14d18ef41827dda506ba0312535920d893ac940d",
+        "rebased": "45045afdda9b693d92c26ae9c236617291bc0e68",
+        "subject": "Move WorkflowInvocationOverview graph and error checks into play functions"
+      },
+      {
+        "original": "1adbca5c2f41bfd19f5bbcd7b68965708218c2a9",
+        "rebased": "21a69720e8602802d2756eefad1327ff38c3f001",
+        "subject": "Move FormOptionalText switch checks into play functions"
+      },
+      {
+        "original": "ba7c7c4f9741d844dee5921f0a16062ebdb44bf3",
+        "rebased": "3c8bca41590bac9754556c95c43e13559b8b4d88",
+        "subject": "Move PairedOrUnpairedListCollectionCreator pairing and notification checks into play functions"
+      },
+      {
+        "original": "6dc40e46fd4bdca1ef4e866973927ec3c682f80a",
+        "rebased": "08708e0ecc6edd5285a80cef3c506b248bec093c",
+        "subject": "Share an anchored-text matcher for play functions"
+      },
+      {
+        "original": "f9c5f96ae93b1f14a00ddaeb53b06b6ebb4c424c",
+        "rebased": "5330c1079bf54c0681c19a1d5708b9a7a5999f2e",
+        "subject": "Move WorkflowAnnotation run count, publisher and time checks into play functions"
+      },
+      {
+        "original": "7ae839eb34edfb567a70e46eddbf710ba5f2ee74",
+        "rebased": "9fb81237fb4112f3202a429e65bfe2e8c6b27e0a",
+        "subject": "Move SelectionField picker and alert checks into play functions"
+      },
+      {
+        "original": "482f2cc3533f070ae5fb972d4c93f1e07ab2014f",
+        "rebased": "4093291ccd3fb8035b13b0ba5bcb578d0ef29ba0",
+        "subject": "Move ChangePassword form and refusal checks into play functions"
+      },
+      {
+        "original": "2361d732e782769829fe22583f9888c50859c2a4",
+        "rebased": "af2d0795d801727243bf8b154f970564003ff595",
+        "subject": "Move DatasetCopy listing, selection and copy result checks into play functions"
+      },
+      {
+        "original": "29706089c28e90c7e7e0433a6eb2365b0d7f34c7",
+        "rebased": "782fc67d9a0b50953c4471cf754a7909181a2358",
+        "subject": "Move UploadFileRow source link checks into play functions"
+      },
+      {
+        "original": "c8fe6415609df864dc4036d82905a8e2166422d8",
+        "rebased": "2810a174527ba0dc679c86ee0b7984278d18af7f",
+        "subject": "Show FormDrilldown selection results in play functions"
+      },
+      {
+        "original": "3b54a8eec352403b625d68bf95950de211226201",
+        "rebased": "b275315169b2436ddb0312dda1e87c5de9e7debe",
+        "subject": "Show GalaxyAI chat exchanges in play functions"
+      },
+      {
+        "original": "44ba2aa9ebcf56a0ad91f9ee993d9bd33a293bd0",
+        "rebased": "839c4449a4adad1c1b07fc018a6631c0d023d89a",
+        "subject": "Show FormTool version switching and runtime toggles in play functions"
+      },
+      {
+        "original": "2253d4e579d9838f3bad1f3beb462ba564596725",
+        "rebased": "603cfdc8cc08170ee6de538f60bf2580559b0287",
+        "subject": "Move WorkflowCardList rename dialog checks into play functions"
+      },
+      {
+        "original": "ecd641fbc2f317b028d06aba7e3b6920569360a9",
+        "rebased": "fe8b86a9e227c3907d01c479ce5b1cd8859c5791",
+        "subject": "Check collection progress states in Storybook plays"
+      },
+      {
+        "original": "bf6b012efcba1331f88b734ae9a47f1f67c599f4",
+        "rebased": "3d8973d892da777ff9118f9dc852c728d5cbe5e1",
+        "subject": "Check workflow node errors and keyboard recommendations in plays"
+      },
+      {
+        "original": "c3233cf99c4020d38c13968e64fc350a3b3f36c0",
+        "rebased": "4f8422c67153ad93fee12fc5705cec7bfb54f295",
+        "subject": "Check library description links and expansion in Storybook plays"
+      },
+      {
+        "original": "f97afead3d20c165ffcf9b0e034f2d32d02d9318",
+        "rebased": "ee18cb3565731fc2b3c96be34092ba312597807a",
+        "subject": "Check generic history item success and access errors in plays"
+      },
+      {
+        "original": "58e2508b833bb87ec5bc20c323cfef5caca2a05f",
+        "rebased": "dfc752127e53e4780ce238f8f827cc72cf83bc03",
+        "subject": "Check group name editing and load refusals in Storybook plays"
+      },
+      {
+        "original": "125c9e5cf9804f3954eaaed7318d6001570c7a56",
+        "rebased": "c86dba99779ae5207235145a2ac1a6df63e9f083",
+        "subject": "Check revision comparisons and return to preview in Storybook plays"
+      },
+      {
+        "original": "9f401524b0b8a5963c04bcbf484971a87b28002a",
+        "rebased": "af38b05bf3e7a3dcdae4d1e0d1e20cd0c4a3726f",
+        "subject": "Check dropdown action closes its menu in a Storybook play"
+      },
+      {
+        "original": "ba426e451a0c375afa466b3da86ecb48349b1f7d",
+        "rebased": "ec98a34f9920329eb6346468be4c6499a3d2335e",
+        "subject": "Check live section selection and proposal diffs in a Storybook play"
+      },
+      {
+        "original": "d42bf956ec56b4dda327bbf2f5b723419486b03a",
+        "rebased": "6270cd9efa5b54c094e29a8693e7f1ba1079ef9e",
+        "subject": "Check installed repositories and installation progress in plays"
+      },
+      {
+        "original": "bc31af046f8732362cb6a5330cd3e91825f5ebc1",
+        "rebased": "a31ebc2ac7b75174c413fc4fa4267c7eebc49283",
+        "subject": "Exercise tool-form validation and failed submission in plays"
+      },
+      {
+        "original": "c9119b2dd26253090b64c9f123663aebeddf8d2b",
+        "rebased": "d8ce8048b97408b370f2f87ec94084a655c60b1e",
+        "subject": "Check history export views and repository navigation in plays"
+      },
+      {
+        "original": "eb12d3f2027412eab575ffdbfc41e7567f21d17d",
+        "rebased": "f57c8fd64de29fd5bb17eef83c7b99706a31f911",
+        "subject": "Read formatted tour links and search the tour list in plays"
+      },
+      {
+        "original": "ff3a86e8009258166893cfb14191012e46bc99b8",
+        "rebased": "c46f9524b3a595e898a4ba4b8b523239eb5b1633",
+        "subject": "Exercise account-deletion confirmation and refusal in plays"
+      },
+      {
+        "original": "7025fe67312e12d85470f1162cc225719918fe62",
+        "rebased": "e2afb08eb15254fbce2810e4f9343b566bab583b",
+        "subject": "Remove storage instances and read refusal toasts in plays"
+      },
+      {
+        "original": "53bc93a1edd04a757e3b6cdf5254ebc741e72b2e",
+        "rebased": "25fcb4b681ccc5596b55fe95d242e6057955e868",
+        "subject": "Exercise tool recommendation errors and tree toggling in stories"
+      },
+      {
+        "original": "543761f17a933c33218c283c84dc55217a42f965",
+        "rebased": "7b106df646f12931281c2b36d670e5b82f9b6cca",
+        "subject": "Exercise FormData source selection and batch linking in stories"
+      },
+      {
+        "original": "7f7d08b539a1bb137a679af3fc7b13eca43da6f0",
+        "rebased": "4271c19d5e805dbd3a8bff076959afc22152b900",
+        "subject": "Exercise toolbox search favorites and installation request interactions"
+      },
+      {
+        "original": "03b949262a61b64ae8e1315f8ad1ebbc8f0d4d03",
+        "rebased": "7db9c137444d5623399ee14c7d035fd6171ebd4e",
+        "subject": "Exercise category rows and sorting in stories"
+      },
+      {
+        "original": "147c66a44ec08c4f9eb6f9fd1044f6181c27cf50",
+        "rebased": "347dcca84dd4655c43b5a3e3cac29447e395518b",
+        "subject": "Move clarification rendering checks into browser stories"
+      },
+      {
+        "original": "d99fa6303dac0eaa3e5f5c87854652b03bb4c25a",
+        "rebased": "6a6f89e3ec0d0dc8375cce878586109b73ec1a14",
+        "subject": "Exercise TextEditor history insertion in browser plays"
+      },
+      {
+        "original": "a02129f7702006bb2fdb56dcce855ef7b114f0b3",
+        "rebased": "898b3089869afe738815befa0b32c286c0246f0d",
+        "subject": "Exercise activity shortcut visibility, bookmark deletion and search in browser"
+      },
+      {
+        "original": "5bb74d28f708a915e27313b89a2c9ec0e9d00bfe",
+        "rebased": "0e941b33133d0dcbd266f87c622b54ba63c6b3eb",
+        "subject": "Exercise archive URL warnings and completed history imports in browser"
+      },
+      {
+        "original": "9a7958850a87af272ba1a6b7023ec670446f97e7",
+        "rebased": "74369b2de422c6f98a549240c8afad365bab9479",
+        "subject": "Exercise save, discard, cancel and failed-save preview flows in browser"
+      },
+      {
+        "original": "d49412f51f968560f61a99b76a2c06ebc1fb2f70",
+        "rebased": "26c10c5ea066d9903fa87211f313abd8e16b54b4",
+        "subject": "Check forwarded tool submission details in success page browser stories"
+      },
+      {
+        "original": "e1061c2452f10467a79652f3b6e1ca2951cd740f",
+        "rebased": "e8df0d28f78e7eba5faebfda2e6bcae2895d9105",
+        "subject": "Check output metadata labels, providers and report pagination in browser"
+      },
+      {
+        "original": "2b2aedc79c8da22e5feb00a0b523bd87cd1e2515",
+        "rebased": "420c2c3c547408fb30ef9c08f123767fb82ce0c1",
+        "subject": "Check notebook list empty state, titles and ownership warnings in browser"
+      },
+      {
+        "original": "4742725cff6abdeff54d5fc2c688ff98ed8d5e63",
+        "rebased": "c270b97ee9431016a2c7edf848c64e3f41028ad4",
+        "subject": "Check plain and sanitized text summaries in browser"
+      },
+      {
+        "original": "5fe59908391f8a946fdfcd05a02889eecea13cdb",
+        "rebased": "9574c778e9c72611b9fe60b08c2d467a8e421e7b",
+        "subject": "Check invocation steps' listing, search and rate-limit error in browser"
+      },
+      {
+        "original": "84bfe56b12f3edc4284bb8fdbd199c3457f20ffd",
+        "rebased": "0c5c6e13a66250714648ec8cbbab45579a66949e",
+        "subject": "Check carbon emission estimates and their footnotes in browser"
+      },
+      {
+        "original": "36231a4f723b1492ad1457b5cbdad0461c4be443",
+        "rebased": "f51472d5c8821fe852de235ca6e09c6d3f124449",
+        "subject": "Check history selection menu items and tag dialogs in browser"
+      },
+      {
+        "original": "0cbc541bd39abd8507f66c500c81bdb8e7ea4c43",
+        "rebased": "11c7b38036434b120e0ab417ad82e97428106e48",
+        "subject": "Check dataset attribute tabs, saves and load refusal in browser"
+      },
+      {
+        "original": "fb741cab560580d0eb1e32d67090f61fa59571e5",
+        "rebased": "abae275eae366a8c484977771ab3db1ec72724bd",
+        "subject": "Check history export link states in browser"
+      },
+      {
+        "original": "7f1fbfdd2ec1140a86e6ba1fa7e766ec4c6033cd",
+        "rebased": "82ba4875e305fb1297e03966af2af6b2f345368c",
+        "subject": "Check curated workflow card actions, badges and imports in browser"
+      },
+      {
+        "original": "39effd6780c4aab72fbf5573e3ae6be7fb510248",
+        "rebased": "ae9d4cd01e0b315ecf1104ffc52fb20cc58a74a8",
+        "subject": "Check repository tool rows and Show more/less in browser"
+      },
+      {
+        "original": "00e1ed15c0bc21f09fdac644da386313a09fa368",
+        "rebased": "0385cc48cb9f12b8c04f8eb980c3122462f3076a",
+        "subject": "Check published notebook chrome and edit toolbar in browser"
+      },
+      {
+        "original": "f8852ac8bc821554f3a5f533bdf86120cbbcef23",
+        "rebased": "f10812fe7e70c119906caaca4bfe1b392e685402",
+        "subject": "Test inline upload method switching in story plays"
+      },
+      {
+        "original": "746eb0efc0cdb577fd0bc570bc7d44bded42386d",
+        "rebased": "8ff05effeab4abae5eeea0b5838de5323164a07e",
+        "subject": "Test visible workflow comment types in story plays"
+      },
+      {
+        "original": "8c26c4ea50c842a7c4775b897075bd6cf88f678f",
+        "rebased": "2c1a56adeaecae4ff2c7e295d42fe7c1a2912622",
+        "subject": "Move search clear behavior into DelayedInput story play"
+      },
+      {
+        "original": "520d39e22a13753f6fa225982f131b9b242379c8",
+        "rebased": "eef2b6ef69b981ba4a1414215a6c114ee770e874",
+        "subject": "Test visible job state filtering in story plays"
+      },
+      {
+        "original": "ec65db9256011ede87fe88a236692ec65dd7a366",
+        "rebased": "5de95f1182563836f3b1227c9d65527eb676ce79",
+        "subject": "Test visible parameter help and glossary popovers in story plays"
+      },
+      {
+        "original": "9fd9318dc4a5113f73f271b9d780c1f7eeb00e2e",
+        "rebased": "cd103912482ea1c4abe8f2311585bb3571af7404",
+        "subject": "Test visible user memberships and save failures in story plays"
+      },
+      {
+        "original": "43f273b082d8861c73fcf8a1c48be7f3bb733732",
+        "rebased": "f080e35c889051eb73387801104060aaf536693e",
+        "subject": "Test real XML and YAML source presentation in story plays"
+      },
+      {
+        "original": "e06c12132e058cfbf5db50f4ba29a17d561ab69e",
+        "rebased": "90fc3228bff78b87357dbde54ec30cd0b04396f5",
+        "subject": "Test visible workflow documentation states in story plays"
+      },
+      {
+        "original": "5e847e84d5d360bb6fb1b323eeb9c156e32829a1",
+        "rebased": "69cc0a454102c32c659dede5440bec3e3638b94b",
+        "subject": "Exercise Popper dismissal and visibility in browser stories"
+      },
+      {
+        "original": "69ed5885f9d200e121177857f1225b2b4c32ba91",
+        "rebased": "2e8bcd8bef7d0962a4852237faa1821ba1084523",
+        "subject": "Exercise custom tool workspace documentation flows in browser stories"
+      },
+      {
+        "original": "0793aff5a892cf0abecff1aa57caf648e9043979",
+        "rebased": "aa0e9257cc6fb39319221276fae953291b1031e0",
+        "subject": "Show prefilled GalaxyAI questions in browser stories"
+      },
+      {
+        "original": "53f38316fc485dfc9c21e1f8be9208c1c78b6ad8",
+        "rebased": "c324b1872ba3d44d73b75e87b97fb160ca24c0dd",
+        "subject": "Read configured ActivityBar entries in browser stories"
+      },
+      {
+        "original": "80e5fa54823813a8a3055b6991a692e1b96a7cdf",
+        "rebased": "a101f2d878dc460e59884d3a9d5861332e12c77d",
+        "subject": "Read selected storage metadata in browser stories"
+      },
+      {
+        "original": "639ac9b30666ac8c0e0995ffa21a18eedcfb36e3",
+        "rebased": "0b0cd546fe17b79c6d0a44a25e038e550e74d9c6",
+        "subject": "Read uploaded parameter previews in browser stories"
+      },
+      {
+        "original": "3366529d3a86397ff7df5aed83af95816eafa3a6",
+        "rebased": "8de4447c17cbb24f8236058cf0a9a821cb79fd34",
+        "subject": "Exercise table selection and keyboard sorting in browser stories"
+      },
+      {
+        "original": "3e3149d0abc60bf933093a37f5dc624686a1a1df",
+        "rebased": "9ad7eb06c6fa9ff6dd17e992a4908973fb4207e8",
+        "subject": "Read and edit workflow collection inputs in browser stories"
+      },
+      {
+        "original": "8fb1f2517ec92dfb0366b22d8a84639ef3e0d422",
+        "rebased": "a2ecb90b43f59f1cfc1a50a81d3f18a8ad056bff",
+        "subject": "Read disk usage charts and select histories in browser stories"
+      },
+      {
+        "original": "f605d2d84e12c73be8b6bd4d7ee730777a267e4c",
+        "rebased": "309b9ca6088d578986a16c16aaaf3ed501a54d82",
+        "subject": "Read AWS estimate details and toggle the section in browser stories"
+      },
+      {
+        "original": "3be89a8fae7a05074ea96bcc279351f1f492f312",
+        "rebased": "94561b4e90c4d601385edaa559980a327a3d7dfa",
+        "subject": "Read chat composer states and edit questions in browser stories"
+      },
+      {
+        "original": "a79420647ed39a09177895dcf2aba7f727e4792a",
+        "rebased": "210a4f203376fcd7e9dc6d19a78e0c6826d232f9",
+        "subject": "Read history deletion confirmations through browser actions"
+      },
+      {
+        "original": "666942d224c1a9f5255b026bca608f8b941ff130",
+        "rebased": "29ce1818bba2addef36f83890bf13c231f0a2107",
+        "subject": "Read dataset peeks and missing provenance in browser stories"
+      },
+      {
+        "original": "5673676726e0ae2430cb0d73f28cf61b60eaae0b",
+        "rebased": "fd94d33f27719db097932206e99f32d302a3a5a9",
+        "subject": "Read interactive sessions and exercise filtering and stopping in browser"
+      }
+    ],
+    "full_unit_validation": {
+      "head": "78c785cd7041cae44f71fddb1e66ef7d1ce9dc62",
+      "files": 606,
+      "passed": 5140,
+      "skipped": 1,
+      "exit_code": 0,
+      "duration_seconds": 298.27,
+      "log": "/private/tmp/play-restack-unit.log"
+    },
+    "published": true,
+    "remote_verified": "fd94d33f27719db097932206e99f32d302a3a5a9",
+    "validation": {
+      "full_browser": {
+        "files": 100,
+        "passed": 583,
+        "exit_code": 0
+      },
+      "types": "pass",
+      "eslint": "pass",
+      "prettier": "pass",
+      "static_storybook_build": "pass",
+      "review": "no blocking findings; final unit files byte-identical to full-unit gate"
+    },
+    "backup": "backup/vitest_story_play-before-clean-restack-20261016"
+  },
+  "ancestry_verified": {
+    "stack": [
+      "e06bbc4c70271aacfe27a88e315c882b5270ecaa",
+      "4e60254eded0e18ae7737161fec2ce42c16c770f",
+      "fd94d33f27719db097932206e99f32d302a3a5a9"
+    ],
+    "stories_commits": 159,
+    "play_commits": 99,
+    "old_churn_base_excluded": true,
+    "churn_comparison_excluded": true,
+    "both_worktrees_clean": true
+  }
 }

@@ -23,3 +23,7 @@ workflow added. Visual screenshot comparisons remain a documented option.
 Original implementation validation (2026-10-10): 236/236 browser stories, 14/14 affected unit tests, final typecheck,
 lint, formatting, and static Storybook build pass. See final debrief for the
 121 legacy accessibility exceptions and the verified strict failure controls.
+
+## Dependency audit — 2026-10-16
+
+[Exact layer boundary and core-stack restack audit](dependency_audit_2026-10-16.md). Remote head is unchanged. This branch requires its own transplant from its recorded historical cut; the stories/play core stack is now published. Existing validation and review holds remain.
