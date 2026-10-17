@@ -1,6 +1,6 @@
 # invocation_completion_action_validation
 
-Status: `branches_ready_for_final_review` — expanded scope polished 2026-10-16; final-head fork CI pending, human read-through required.
+Status: `ci_wait` — draft PR #24202 opened at John's explicit request on 2026-10-16; final-head fork CI pending.
 
 Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
 
@@ -33,3 +33,9 @@ Current published head `ddfbb3b991c185779b0f4e200801d6f4d443d8c2`, actual base `
 Fresh independent checklist now passes all agent-answerable items; human-read remains unchecked. [Current description](pr_description.md) · [Titles](pr_titles.md) · [Labels](pr_tags.md) · [Checklist](checklist_evaluation.md) · [Strengthening review](strengthening_review.md) · [Polish debrief](polish_debrief.md). These supersede the old names-only polish evidence above. Fresh 28-case API/unit run and two-case baseline-only run are in progress. Black/isort/whitespace checks pass. Pre-reorder CI had no failures; workflow framework, OpenAPI, postgres units, main tools, converters, performance and mulled units passed while API/general units were running. New-head CI must be assessed separately.
 
 Final local verification: **all 28 distinct selected API/unit cases have passing results**, plus **2 notification compatibility cases passed on the leading baseline-only commit**. Combined suite was 27 passed/1 upload timeout; isolated completion controls then passed 2/2 on both branch and baseline. The initial timeout occurred waiting for input data, before the completion behavior under test; recorded in the debrief, not counted as a passing run. Black/isort/whitespace and vault validation pass (0 errors, 15 advisory warnings). Final-head CI: 19 queued, 1 pending, 2 skipped, no observed failures. One strengthening round: nothing to add. No code/content changes during polish, no PR opened, no approval SHA/title assigned; human-read remains unchecked.
+
+## Draft PR opened — 2026-10-16
+
+John explicitly requested a draft. Opened [#24202](https://github.com/galaxyproject/galaxy/pull/24202) against `release_26.2` at head `ddfbb3b991c185779b0f4e200801d6f4d443d8c2`, using the first polished title: `[26.2] Validate completion actions and required export configuration before invocation`. Used `pr_description.md` verbatim, leaving the human-read item unchecked. Applied `kind/bug`, `area/workflows`, `area/API`; added no mentions. No code or history changes needed.
+
+Final-head fork CI snapshot at creation: 16 queued, 4 pending, 2 skipped; no failures. API and integration coverage remain pending. **Keep this PR draft as explicitly requested by John; do not automatically undraft on green CI without a later instruction.** Authorization covers opening the draft at this SHA.
