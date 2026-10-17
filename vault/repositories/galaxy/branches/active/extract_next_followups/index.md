@@ -1,9 +1,9 @@
 # extract_next_followups
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:extract_next_followups?expand=1)
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:extract_next_followups?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/extract_next_followups)
 
-Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base: `dev`.
+Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base: `release_26.2` (retargeted from `dev` 2026-10-17; #22860 first ships in 26.2).
 
 ## Status
 

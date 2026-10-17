@@ -3,3 +3,5 @@
 `jmchilton/extract_next_followups_alt_original_scope` at `d4d504fb3c1`: the branch after the 2026-10-16 re-harden (test challenges, Codex fixes, E2E polish, thermo-nuclear fixes, refactor baseline), before the scope expansion.
 
 Differs from the parent by lacking E1–E4 from [scope_evaluation](../scope_evaluation.md): name/id length 400, one home for the copies-to-one-input rule, quoted labels in `invocation_inputs()`/`invocation_outputs()` default-report expansion, complete `local_keys` for the notebook history boundary.
+
+The alt stays based on `dev` (`5ff1e46b8c3`). On 2026-10-17 the parent was retargeted to `release_26.2` and gained E5–E7 (see [implementation debrief](../implementation_debrief.md)); the alt has none of that.
