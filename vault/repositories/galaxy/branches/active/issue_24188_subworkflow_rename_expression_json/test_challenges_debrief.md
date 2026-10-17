@@ -1,39 +1,48 @@
 # Test challenges debrief
 
-I re-ran this fresh against head `248ffbab979`. There was one small helper cleanup in the API tests and no tests were dropped. One unit test meets the process's drop criterion, but I kept it because of the no-removal rule. It is listed under unresolved below. Every new test fails on base at its own assertion, and each unit test pins its own `run.py` hunk.
+Re-ran every check fresh against head `0eefb4ea6b3`. I acted on one finding: `test_collection_output_metadata_unknown_key_rejected` passed on base, so I strengthened it to pin the error location (commit `c216d8261e4`, since folded into the tooling commit, now `d388358d4a9`). Nothing was dropped. Every other new test fails on base at its own assertion.
 
-## Changes (uncommitted)
+Not acted on:
+- **`test_subworkflow_expression_json_parameter_replacement`: drop still recommended, kept.** All 3 framework tests cover the same `set_outputs_for_input` line with real objects, so it meets the "also tested by framework" drop rule. Needs John's call (unresolved since the last challenge).
+- **`test_collection_output_metadata_name_validates`: kept.** It overlaps with `test_validate_workflow_tests`, which validates the new `.gxwf-tests.yml` files, but it is the direct check that the model accepts and parses the key.
+- **Shared subworkflow setup helper: not done.** `_setup_subworkflow_parameter` repeats about 8 setup lines from the existing `test_subworkflow_progress`. Sharing them would mean editing a pre-existing test on a release branch, for little gain.
+- **No E2E test.** This is a backend scheduling fix plus a test-format key, with no UI change.
+- **No Baseline tests commit.** Every new test covers new behavior or the fix.
 
-- `lib/galaxy_test/api/test_workflows.py`: added `BaseWorkflowsApiTestCase._invocation_output_collection(summary, output_label)`. It fetches the invocation and then the HDCA for the named output. Both new API tests repeated that chain (`get_invocation` → `["output_collections"][label]["id"]` → `get_history_collection_details`), and they now use the helper. The same chain appears about 26 times elsewhere in the file, mostly with `step_details=True` or a different shape. I left those sites alone to keep the diff small on a release branch.
+<details>
 
-## Challenges
+## Changes
 
-- **Layer.** Per writing_tests.md, workflow-only behavior belongs in workflow framework tests. The dataset renames (tool `create_2` and native `pick_value`) are in `replacement_parameters_nested_expression`. Collection names can't be checked there, because `verify_collection` (`tool_util/verify/interactor.py`) never checks `name`. So the mapped implicit-collection name and the `__BUILD_LIST__` HDCA name stay as API tests. Each covers a different post-job-action path (mapped-over vs DatabaseOperationTool).
-- **API helpers.** The tests use only populator calls, with no raw HTTP against a URL. The only repetition was the chain above, which is now a helper.
-- **Unit `test_subworkflow_unreadable_expression_json_parameter_delays_subworkflow`: kept.**
-  - It is the only test of the `subworkflow_progress` pre-read.
-  - Shared-filesystem lag (dataset `ok`, file missing or empty) can't be reproduced at the API or framework layer.
-  - It adds no new mocks. It reuses the file's `MockModuleInjector`/`MockModule` and real model objects, with a real file under `tmp_path` via the shared `expression_json_hda`. No dataclass or noop rewrite applies.
-- **Unit `test_subworkflow_expression_json_parameter_replacement`: drop recommended, kept.** It pins only the `set_outputs_for_input` line. The framework test and both API tests cover that line with real objects, and all three go red on base. That meets the process's "also tested by API/Integration" drop rule. I kept it because the task rules forbid removing tests. It is cheap and is the only fast check of that line.
-- **Refactor for testability: declined.** The fix is two small `run.py` hunks, and keeping `modules.py` untouched is a recorded decision for the forward merge. Extracting a helper would grow the diff without removing any test setup.
-- **Minor, not done:** `_setup_subworkflow_parameter` repeats the session add/commit setup from the existing `test_subworkflow_progress`. Reusing it there would mean editing a pre-existing test for little gain.
-- **E2E.** Not needed. This is a backend scheduling fix with no UI change.
-- **Baseline tests.** None apply. It is a bug fix, so every new test is meant to be red on base. Moving `expression_json_hda` into `workflow_support.py` is a refactor of an existing helper, not a new pinning test.
+- `test/unit/tool_util_models/test_output_assertions.py::test_collection_output_metadata_unknown_key_rejected` now asserts a single error at `loc == (0, "outputs", "out", "Collection", "metadata", "dbkey")` with type `extra_forbidden`. This follows the style of the file's `test_unknown_field_on_file_output_yields_single_error`. Before the change, base raised `extra_forbidden` at `(..., "Collection", "metadata")` because base has no `metadata` key at all, so a bare `pytest.raises(ValidationError)` passed on base. The test now fails on base at the loc assertion ("Right contains one more item: 'dbkey'") and passes at head.
 
-## Red/green
+## Per-test challenges
 
-Red checks: I backed up `run.py` to the scratchpad and replaced it with the version from the merge base `b2b1e1deeee` (= `origin/release_26.1`). Then I replaced it with the alt branch version `87867681d6e` (the `set_outputs_for_input` fix only, with no pre-read). Tests ran one at a time. Afterwards I restored the file, and `git status` shows only `test_workflows.py` modified.
+Layer per `writing_tests.md`: workflow-only behavior goes in workflow framework tests. The branch now follows that. `test_workflows.py` has a net-zero diff against base, and the API helper from the previous challenge went away with the moved tests.
 
-| Test | Base `run.py` | Alt `run.py` | Head |
-|---|---|---|---|
-| framework `replacement_parameters_nested_expression` | fail: `expected [moocow name] but found [<galaxy.model.HistoryDatasetAssociation(1) ...> name]` | not run (alt carries this fix) | pass |
-| API `test_run_mapped_subworkflow_expression_replacement_parameter` | fail: `<...HistoryDatasetAssociation(2)...> suffix` | not run | pass |
-| API `test_run_subworkflow_expression_replacement_parameter_collection_rename` | fail: `<...HistoryDatasetAssociation(1)...> renamed` | not run | pass |
-| unit `test_subworkflow_expression_json_parameter_replacement` | fail: `{'inner_text': '<...HDA...>'} == {'inner_text': 'moocow'}` | pass | pass |
-| unit `test_subworkflow_unreadable_expression_json_parameter_delays_subworkflow` | fail: `DID NOT RAISE DelayedWorkflowEvaluation` | fail: same | pass |
+- **Framework `replacement_parameters_nested_expression{,_mapped,_collection}`: kept.** These are the right layer. Each one mirrors the existing `replacement_parameters_nested.gxwf.yml`, with the text input fed through the `pick_value` expression tool. Each covers a different rename path: tool and native `pick_value` dataset renames; the mapped implicit-collection name plus the element name; and the DatabaseOperationTool `__BUILD_LIST__` HDCA name, the reporter's case. The collection case gets its own file so that its base failure isn't hidden by `out1` (`_verify` stops at the first failure). The coordinator had already verified red on base and green at head, and I did not change these files, so I did not rerun them.
+- **`test/unit/tool_util/test_verify.py::test_verify_collection_name`: kept.** It covers the only mismatch path of the new `verify_collection` name check. Without it, a no-op check would let the framework tests pass vacuously. The `verify_dataset` argument is already a no-op lambda, and it goes through `from_yaml_test_format`, the same entry point the framework harness uses. On base it fails with `DID NOT RAISE AssertionError`.
+- **`test_collection_output_metadata_name_validates`: kept.** On base it fails with `ValidationError` at `model_validate`. Model acceptance is the behavior under test, so that is its own assertion.
+- **`test_collection_output_metadata_unknown_key_rejected`: strengthened.** See Changes.
+- **`test/unit/workflows/test_workflow_progress.py::test_subworkflow_unreadable_expression_json_parameter_delays_subworkflow`: kept.** It is the only test of the `subworkflow_progress` pre-read. Shared-filesystem lag can't be reproduced at the framework or API layer. It reuses the file's existing `MockModuleInjector`/`MockModule`, real model objects, and a real file under `tmp_path`. No noop, dataclass, or restructure rewrite would remove a mock.
+- **`test_subworkflow_expression_json_parameter_replacement`: drop recommended, kept.** It is redundant with all 3 framework tests. Its only value is speed.
+- **`test_modules.py` and `workflow_support.py`:** these only move the `expression_json_hda` helper so that both unit files can share it. There are no new tests.
+- **Not covered by any test:** `TestCollectionOutputDef.to_dict` now emits `metadata`. No consumer reads it back for collections today: XML tests never set it, and YAML tool tests ignore collection assertions. A roundtrip test would test the implementation directly, so I added none. I grepped `test/unit/tool_util/` and found no exact-dict comparison of collection test definitions. `test_parsing.py` gives 90 passed at head.
+- **Refactor for testability: none needed.** The `run.py` fix is 2 small hunks, and `modules.py` stays untouched by recorded decision.
 
-Also on head: `test/unit/workflows` 123 passed, 1 skipped. `black --check` and `isort --check-only` are clean on `test_workflows.py` and `test/unit/workflows/`.
+## Red/green (run one at a time; sources restored via `git show <rev>:path > path` then `git checkout -- path`, no stash)
 
-## Unresolved
+| Test | Source swapped in | Result |
+|---|---|---|
+| `test_verify_collection_name` | base `interface.py`, `interactor.py`, `tool_util_models/__init__.py` | fail: `DID NOT RAISE AssertionError` |
+| `test_collection_output_metadata_name_validates` | same | fail: `ValidationError` (model rejects `metadata`) |
+| `test_collection_output_metadata_unknown_key_rejected` (original) | same | **pass**, which was the finding |
+| `test_collection_output_metadata_unknown_key_rejected` (strengthened) | base `tool_util_models/__init__.py` | fail: loc lacks `'dbkey'` |
+| `test_validate_workflow_tests` (existing; validates the new yml) | base tooling | fail: `ValidationError` |
+| `test_subworkflow_expression_json_parameter_replacement` | base `run.py` | fail: `{'inner_text': '<galaxy.model.HistoryDatasetAssociation(1) ...>'} != {'inner_text': 'moocow'}` |
+| same | `9aeaec955f2` `run.py` (fix, no pre-read) | pass |
+| `test_subworkflow_unreadable_expression_json_parameter_delays_subworkflow` | base `run.py` | fail: `DID NOT RAISE DelayedWorkflowEvaluation` |
+| same | `9aeaec955f2` `run.py` | fail: same |
 
-- Drop `test_subworkflow_expression_json_parameter_replacement` (redundant with framework/API) or keep it as a fast check? This needs John's call.
+At head, `test_verify.py`, `test_output_assertions.py`, `test_test_format_model.py`, `test_workflow_progress.py`, and `test_modules.py` give 199 passed and 1 skipped. `black` and `isort` are clean on the edited file, and the pre-commit hooks pass.
+
+</details>

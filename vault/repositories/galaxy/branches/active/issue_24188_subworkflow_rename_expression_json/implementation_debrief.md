@@ -1,30 +1,32 @@
 # Implementation debrief
 
-**STATUS: READY.** Base `release_26.1`, head `5ce3acf579c`, 3 commits, pushed to `jmchilton`.
+**STATUS: READY.** Base `release_26.1` (`b2b1e1deeee`). Head `48b981a89de`, 4 commits, pushed to `jmchilton`. The previous debrief is in `earlier_drafts/2/`.
 
-The fix:
-- `WorkflowProgress.set_outputs_for_input` stores `str(replace_expression_json_dataset(value, step))`, not `str(value)`. So `${label}` in subworkflow PJAs gets the expression.json value, not the HDA repr. This covers tool, mapped-over, `__BUILD_LIST__` and native `pick_value` steps.
-- `subworkflow_progress` pre-reads expression.json for `parameter_input` subworkflow inputs. A file hidden by shared-filesystem lag then delays the whole subworkflow step, so an unconnected inner step can't rename with a literal `${label}`. This came from the first scope evaluation; the alt branch `_alt_original_scope` keeps the version without it.
-- The `expression_json_hda` test helper was moved to `workflow_support.py` as a baseline refactor commit.
+This revision, at John's request, moved the two API tests into framework workflow tests. To make that possible, the framework test format can now assert a collection's name.
+
+Commits:
+1. `d388358d4a9` **Allow output collection name assertions in test format.** A Collection output in test YAML now accepts `metadata: {name: ...}`. This mirrors File outputs.
+   - Changed: `CollectionMetadata` (strict, `name` only) in `tool_util_models`, `TestCollectionOutputDef.metadata`, the `verify_collection` name check, the regenerated `ToolSourceSchema.json`, and unit tests.
+   - It's first in the branch so it can split into its own stacked PR.
+2. `2de8ea4cc72` Move the `expression_json_hda` helper to `workflow_support.py` (refactor).
+3. `d4668d93486` **The fix:** `set_outputs_for_input` stores the expression.json value. Framework tests:
+   - `replacement_parameters_nested_expression`: tool and native pick_value renames.
+   - `_mapped`: mapped-over subworkflow, checking the collection name and the element name.
+   - `_collection`: the issue's `__BUILD_LIST__` repro.
+4. `48b981a89de` Pre-read in `subworkflow_progress`, plus 2 unit tests. Unchanged.
 
 Key choices:
-- The first plan assumed a missing scheduling dependency and built extra plumbing for it. Tests showed `SubWorkflowModule` already waits for (and fails on) its parameter datasets, via `_find_collections_to_match`. Reviews then cut the fix to one line: the issue reporter's own suggestion was right.
-- All runtime replacements are kept, not only names the PJAs reference. Filtering broke the second-order `${}` after `#{input}` expansion (Codex).
-- Base 26.1: older branches lack the expression.json reader.
-
-Accepted tradeoff: re-reading on each scheduling pass can fail an invocation if the expression dataset is manually purged while its subworkflow is still scheduling. `DeleteIntermediatesAction` skips active invocations and only deletes.
+- **Key `metadata: {name:}`:** it matches File outputs. A top-level `name` on an output is overwritten with the output label by both the harness and planemo.
+- **`__BUILD_LIST__` gets its own workflow file** (normal review). Inside the shared test, the earlier `out1` failure hid it on base.
+- `test_workflows.py` is now a net-zero diff against base.
 
 Tests:
-- framework workflow `replacement_parameters_nested_expression` (tool + native pick_value renames)
-- API: mapped-over subworkflow (implicit collection and element names), and the issue's exact `__BUILD_LIST__` repro
-- 2 unit tests (resolved replacement; lag delays the subworkflow)
+- All 3 framework tests are red on base, each at its own repr assertion, and green at head.
+- The test challenge strengthened `test_collection_output_metadata_unknown_key_rejected` to pin the error location, because it passed on base.
+- Unit tests pass: tool_util, tool_util_models and workflows (143 passed; 199 across the 5 touched files).
 
-All are red on base with the HDA repr. The delay test is also red on the alt. Last runs: unit 123, subworkflow framework 17, subworkflow/expression API 53, all passing.
+Open for John:
+- Keep or drop `test_subworkflow_expression_json_parameter_replacement`? It overlaps all 3 framework tests.
+- A test-format feature on 26.1 may get pushback. The PR description should say collection names couldn't be asserted before; the fallback is splitting commit 1 into its own PR.
 
-Scope evaluation (fresh): keep as implemented.
-
-Follow-ups (index.md):
-- a mapped expression HDCA into a subworkflow text param still renders as a repr (needs a per-job replacement dict)
-- `PickValueModule` lacks `get_informal_replacement_parameters`, as a separate small 26.1 PR
-
-Forward merge to dev: only a trivial import conflict in `test_workflow_progress.py`.
+Follow-ups (index.md): see index.md for the earlier list, plus a planemo item: `for_collections()` only recognizes `element_tests`, so a Collection output asserting only `metadata.name` fails there.
