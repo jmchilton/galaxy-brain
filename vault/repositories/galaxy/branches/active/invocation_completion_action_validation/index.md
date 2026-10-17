@@ -1,6 +1,6 @@
 # invocation_completion_action_validation
 
-Status: `branches_need_polish` — expanded-head polish in progress 2026-10-16; fork CI running without observed failures.
+Status: `branches_ready_for_final_review` — expanded scope polished 2026-10-16; final-head fork CI pending, human read-through required.
 
 Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
 
@@ -31,3 +31,5 @@ Validate required completion-hook configuration before creating invocation state
 Current published head `ddfbb3b991c185779b0f4e200801d6f4d443d8c2`, actual base `release_26.2` at `579ca73440d776002b7099538cef000838687d8e`. Fetch/rebase confirmed already current. The fresh checklist found the two new notification acceptance cases needed a leading baseline-test commit; reordered mechanically into `993613b8a9e` (baseline), `8d60f4e6a09` (unknown-name guard), `ddfbb3b991c` (required export configuration). Final tree exactly matches prior expanded head `9f04be9b5ad`. Published only to jmchilton with an exact old-head force-with-lease. No code or behavior changes during polish.
 
 Fresh independent checklist now passes all agent-answerable items; human-read remains unchecked. [Current description](pr_description.md) · [Titles](pr_titles.md) · [Labels](pr_tags.md) · [Checklist](checklist_evaluation.md) · [Strengthening review](strengthening_review.md) · [Polish debrief](polish_debrief.md). These supersede the old names-only polish evidence above. Fresh 28-case API/unit run and two-case baseline-only run are in progress. Black/isort/whitespace checks pass. Pre-reorder CI had no failures; workflow framework, OpenAPI, postgres units, main tools, converters, performance and mulled units passed while API/general units were running. New-head CI must be assessed separately.
+
+Final local verification: **all 28 distinct selected API/unit cases have passing results**, plus **2 notification compatibility cases passed on the leading baseline-only commit**. Combined suite was 27 passed/1 upload timeout; isolated completion controls then passed 2/2 on both branch and baseline. The initial timeout occurred waiting for input data, before the completion behavior under test; recorded in the debrief, not counted as a passing run. Black/isort/whitespace and vault validation pass (0 errors, 15 advisory warnings). Final-head CI: 19 queued, 1 pending, 2 skipped, no observed failures. One strengthening round: nothing to add. No code/content changes during polish, no PR opened, no approval SHA/title assigned; human-read remains unchecked.

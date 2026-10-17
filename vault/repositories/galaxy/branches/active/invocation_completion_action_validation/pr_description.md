@@ -87,7 +87,7 @@ Eight malformed-export requests returned HTTP 200 on the original baseline. Regr
 
 Run the three new tests in `TestWorkflowsApi`: `test_run_with_unknown_on_complete_action_creates_no_history`, `test_run_with_invalid_export_completion_config_creates_no_history` and `test_run_with_notification_completion_config`. Include `TestWorkflowCompletionEndpoint.test_completion_response_structure`, `test_completion_export_config_accepted` and `test/unit/workflow/test_completion.py`.
 
-Implementation verification: **28 passed** (13 API cases and 15 existing completion units). Fresh polish verification and leading-baseline execution are in progress. Final-head fork CI must be assessed separately after the history-only update.
+Implementation verification: **28 passed** (13 API cases and 15 existing completion units). Fresh polish verification covers all 28 selected cases: the combined run had 27 passes and one input-upload timeout; both existing completion controls then passed in isolation on the branch and baseline. The leading baseline-test commit passes both notification cases. Black, isort and whitespace checks pass. Fork CI on the reordered final head remains pending.
 
 </details>
 

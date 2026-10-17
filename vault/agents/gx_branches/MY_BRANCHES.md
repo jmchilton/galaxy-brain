@@ -71,9 +71,10 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Validate completion-action names and required export configuration before creating invocation state. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_completion_action_validation?expand=1).
+None yet.
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Validate completion-action names and required export configuration before creating invocation state. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_completion_action_validation?expand=1).
 - [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
 - [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24173_invocation_selection_prep...jmchilton:galaxy:issue_24173_invocation_selection_urls?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
