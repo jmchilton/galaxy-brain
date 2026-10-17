@@ -76,7 +76,7 @@ Rewrite `canMapOver` to check rules in the same order as Python: self check firs
 - Red first: the assertions in the reproduction block, plus `list:list:paired` and `list:list:list` over `list:paired_or_unpaired` staying ✅. `00e2bf07047` covers the first three. It still needs the `paired_or_unpaired` and `list:paired_or_unpaired` output cases.
 - The rewrite has no `rank <= other.rank` branch. The self check and the extra-rank check cover what it did.
 - Also run `terminals.test.ts`, the editor connection suite that uses `canMapOver`.
-- Backport: the client code is the same on `release_25.1`, apart from the `normalizeCollectionType` (sample sheet) calls on 26.0 and later. On 25.1 the server doesn't support compound `:paired_or_unpaired` map-over at all (`has_subcollections_of_type` returns false even for `list:list` over `list:paired_or_unpaired`). So a 25.1 backport removes the 💥 rows but doesn't make the two sides match fully. The 26.0 server already has the compound handling, so a 26.0 backport matches fully.
+- Backport target: `release_26.0`. Its server already has the compound `:paired_or_unpaired` handling (🔀 #22193), so the fix there makes client and server match fully. 25.1 isn't targeted: its server doesn't support compound `:paired_or_unpaired` map-over at all (`has_subcollections_of_type` returns false even for `list:list` over `list:paired_or_unpaired`), so a backport there would remove the 💥 rows but leave the two sides disagreeing.
 
 </details>
 

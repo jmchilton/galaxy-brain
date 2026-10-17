@@ -52,3 +52,7 @@ Review round (step 2 + 3 of PREPARE_TO_FILE.md), 2026-10-17. Sources: raw draft 
 ## Recommendation
 
 Post. Every row holds. The client column is now backed by a component run on `dev` code, the server column by code and an existing API test. Post it after the sibling `canMapOver` issue, or together with it, so the #TBD can be filled in.
+
+## Retarget — 2026-10-17
+
+John agreed: backport target moved from release_25.1 to release_26.0, alongside the canMapOver sibling. 25.1 porting note (`canMatch`, no sample_sheet) replaced with the 26.0 target and why 25.1 is skipped.

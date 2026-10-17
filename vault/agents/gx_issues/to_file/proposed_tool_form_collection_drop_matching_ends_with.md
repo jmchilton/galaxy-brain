@@ -53,7 +53,7 @@ Replace both suffix checks with one helper built on the client's existing `Colle
   - `FormData.test.ts`: a `list:list` element dropped on `list` emits `{batch: true, values: [{src: "dce", map_over_type: "list"}]}`.
   - `FormData.mapOver.test.ts`: `list:list:list` dropped on `list,list:list` maps over `list:list`.
   - Still to add: `paired` on `paired_or_unpaired` and `list` / `list:paired` on `list:paired_or_unpaired` accepted directly; `sample_sheet` on `list` accepted.
-- 25.1 backport: the TS method there is `canMatch` (renamed `accepts` later), and there is no `sample_sheet` normalization. `collectionMatch.ts` can move over as a small module. On 25.1 the fixed client refuses `list:paired_or_unpaired` on `paired` while the 25.1 dropdown still lists it. That is correct, since the run fails, but the two disagree until the server fix is backported too.
+- Backport target: `release_26.0`, together with the sibling `canMapOver` fix. 26.0 has the server's `:` boundary (🔀 #22193), so the fixed client agrees with the dropdown there. 25.1 isn't targeted: its listing still has the suffix bug, so a fixed client would refuse `list:paired_or_unpaired` on `paired` while the 25.1 dropdown still offers it.
 
 </details>
 

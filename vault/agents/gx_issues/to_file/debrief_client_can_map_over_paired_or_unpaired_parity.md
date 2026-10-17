@@ -31,3 +31,7 @@
 ## Recommendation
 
 Post. Real, reproduced client/server divergence with a verified fix. Could also go PR-first (fix is small and done) — keep internal if John prefers to just open the PR referencing #20657.
+
+## Retarget — 2026-10-17
+
+John agreed: backport target moved from release_25.1 to release_26.0 (26.0 server has compound support via #22193; 25.1 can't reach parity). Proposal's Backport bullet updated.
