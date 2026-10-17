@@ -32,3 +32,9 @@ One fresh [strengthening round](strengthening_review.md) requested no developmen
 Rewrote the PR pitch for the revised scope, using a request/outcome table and highlighted boundaries. Added the previously missing baseline-test checklist item, updated evidence to 11 API cases, and replaced stale original-scope review summaries. Four `[26.2]` title options and one kind label (`kind/bug`) plus `area/workflows` and `area/API` are ready. Labeler would add testing/tool-framework areas from supporting files; those are not central to the pitch.
 
 Earlier polish materials are preserved in `earlier_drafts/3/`. Original-scope alternative stays on the fork. Moved queue/record to `branches_ready_for_final_review`; no SHA approval or chosen title assigned. Human read and fresh-head CI remain outstanding.
+
+## Draft PR opened — 2026-10-17
+
+At John's explicit request, opened [draft PR #24209](https://github.com/galaxyproject/galaxy/pull/24209) against `release_26.2` at unchanged polished head `d8319abb97b0ee37c059a37ea2188b18bad61275`. The release base is unchanged, so no further rebase or test rerun was necessary. Used the current saved `pr_description.md` verbatim, including John's human-read checkbox edit, the first saved title, and labels `kind/bug`, `area/workflows`, `area/API`.
+
+CI refresh: 34 queued fork checks, two skipped, no failures. Moved queue/record to `ci_wait`. Preserve draft until John asks otherwise. The user's local description edit remains untouched and is excluded from this task's tracking commit.

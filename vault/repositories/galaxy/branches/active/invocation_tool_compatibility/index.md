@@ -1,13 +1,13 @@
 # invocation_tool_compatibility
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_tool_compatibility?expand=1)
+- [Draft PR #24209](https://github.com/galaxyproject/galaxy/pull/24209)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/invocation_tool_compatibility)
 
 ## Status
 
-Polished at `d8319abb97b0ee37c059a37ea2188b18bad61275`; `branches_ready_for_final_review`, awaiting John's read-through.
+`ci_wait` at `d8319abb97b0ee37c059a37ea2188b18bad61275`.
 
-No PR is open; independent target is `release_26.2` at `caa4acc3ad7`.
+Draft PR #24209 targets `release_26.2` at `caa4acc3ad7`; John requested draft on 2026-10-17, so preserve draft until he asks otherwise.
 
 Fresh-head CI on 2026-10-17: 34 queued checks, two skipped, no failures; local focused API validation passes all 11 cases.
 

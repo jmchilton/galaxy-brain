@@ -18,6 +18,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Rejects incompatible tools before run setup and deduplicates complete nested tool references. Base `release_26.2`. [#24209](https://github.com/galaxyproject/galaxy/pull/24209). Draft requested by John.
 - [`issue_18642_framework_tool_coverage`](../../repositories/galaxy/branches/active/issue_18642_framework_tool_coverage/index.md) — Adds drill_down framework coverage and fixes relative from_file parameter modeling (#18642). [#24208](https://github.com/galaxyproject/galaxy/pull/24208). Draft requested by John.
 - [`xsd_sample_sheet_collection_type_25.1`](../../repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/index.md) — Aligns tool XSD with sample-sheet collection syntax and adds core-tool lint coverage. Base `release_25.1`. [#24206](https://github.com/galaxyproject/galaxy/pull/24206). Draft requested by John.
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs and fixes runtime diagnostics. Base `release_26.2`. [#24203](https://github.com/galaxyproject/galaxy/pull/24203). Draft requested by John.
@@ -74,7 +75,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Rejects incompatible tools before run setup and deduplicates complete nested tool references. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:invocation_tool_compatibility?expand=1).
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
 - [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
 - [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24173_invocation_selection_prep...jmchilton:galaxy:issue_24173_invocation_selection_urls?expand=1).
