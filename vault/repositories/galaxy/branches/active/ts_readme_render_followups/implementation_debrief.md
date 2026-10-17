@@ -1,3 +1,5 @@
+> Polished 2026-10-17 at `d64a2bdfe45` on current `dev`; see [polishing debrief](polish_debrief.md) for current tests and CI. The implementation history below predates the rebase. #24053 is now merged and forward-merged; there is no remaining PR-order dependency.
+
 # Implementation debrief
 
 Status: READY. Head `5abfc5c4aad` on `jmchilton:ts_readme_render_followups`, base `dev`. It depends on [`ts_readme_render_fix_26.1`](../../merged/ts_readme_render_fix_26.1/index.md), which is merged in as real history. Open the 26.1 PR first. The earlier round (merge, dead code, old-revision README lookup) is in [earlier_drafts/1](earlier_drafts/1/implementation_debrief.md).

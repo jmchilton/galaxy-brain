@@ -1,3 +1,7 @@
+## Polish refresh — 2026-10-17
+
+Both screenshots refreshed from the rebuilt frontend at `d64a2bdfe45`. The focused Playwright test passed (1 passed, 6 deselected). Visually checked both captures: middle revision `1:5e5ebd27e56d` shows Old README and a 16px logo; latest `2:d62bc494c1b7` shows New README and a 24px logo. The earlier capture notes below describe the original run.
+
 Screenshots successfully obtained.
 
 # Screenshot Debrief

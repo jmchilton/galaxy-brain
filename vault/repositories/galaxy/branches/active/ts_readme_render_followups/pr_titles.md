@@ -1,0 +1,4 @@
+- Fix historical Tool Shed READMEs and revision-specific images
+- Load Tool Shed revision READMEs with their original images
+- Keep Tool Shed README text and images on the selected revision
+- Fix README rendering when opening Tool Shed revision links
