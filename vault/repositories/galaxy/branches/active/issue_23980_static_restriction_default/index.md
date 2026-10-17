@@ -1,6 +1,6 @@
 # issue_23980_static_restriction_default
 
-Status: `author_work`. Base: `release_26.2` (`f9cf361962e`). PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140) (draft). Tip `6c9ef2e4ae2099a6c005af62ce17b6d9367782e4`.
+Status: `ci_wait`. Base: `release_26.2` (`f9cf361962e`). PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140) (draft). Tip `a38979e45f6f652f5c1c7d84baa35f0bb86db833`.
 
 Preselects defaults for statically restricted workflow text inputs (#23980). The run form can also submit an allowed `""` option.
 
@@ -31,3 +31,7 @@ Description updated for the release base and merged #23992. The screenshot is ho
 [Diagnosis and verification](numeric_default_ci_diagnosis.md) · [Local fix patch](numeric_default_fix.patch).
 
 The linked API job has one relevant regression: numeric YAML list defaults no longer match string option values after the rebase dropped #24108's conversion. Keep the test unchanged. Restored the conversion locally: red reproduction 1 failed/2 passed; corrected value-restriction API suite 8 passed; workflow units 194 passed/1 skipped. Code correction remains uncommitted/unpushed in the branch worktree; PR remains draft at `6c9ef2e4ae2`. Queue moved to `author_work`; other red workflows were not assessed.
+
+## Numeric default fix pushed — 2026-10-16
+
+On John's request, committed the local fix unchanged as `a38979e45f6` and pushed it to the fork. It converts list defaults to strings only in `restrict_options`; doing it in `_is_default_option` would break numeric static `restrictions`. Re-verified locally: value-restriction API tests 8 passed; ruff, black and pre-commit are clean. Queue moved to `ci_wait`.
