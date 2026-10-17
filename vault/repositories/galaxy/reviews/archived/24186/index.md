@@ -1,13 +1,13 @@
 # Galaxy PR #24186 — Replace BFormCheckbox in sharing, history, dataset and account screens
 
-**Latest status — 2026-10-16:** Initial review complete. **Approve**, no actionable defects found. Review is **UNPOSTED**; nothing submitted to GitHub.
+**Latest status — 2026-10-17:** Merged on 2026-10-16 at 15:53:01 UTC; tracking ended and record archived. Initial review approved with no actionable defects; draft was never posted. Clean worktree removed after confirming HEAD matched the merged PR head.
 
 - PR: https://github.com/galaxyproject/galaxy/pull/24186
 - Reviewed head: `4113217c88e8077db12a5a705c24316ec2390439` (unchanged at completion).
 - [Review draft](review-draft.md)
 - [Additional interaction probes](migration-interactions.test.ts)
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24186` (clean after validation).
-- GitHub: open, ready, mergeable. CI: **24 successful checks, 1 skipped**, none failed or pending.
+- GitHub at initial review: open, ready, mergeable. CI: **24 successful checks, 1 skipped**, none failed or pending.
 - Declared dependency: [#24184](https://github.com/galaxyproject/galaxy/pull/24184), now merged upstream. Its final head `f809d6636163c8b58251e6eb04104e762c49eec5` is not an ancestor of this PR's launch head. Local tests below used the exact PR head; supplied screenshots include local merges of the dependency.
 
 ## Review

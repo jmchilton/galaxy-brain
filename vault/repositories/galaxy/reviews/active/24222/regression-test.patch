@@ -1,0 +1,13 @@
+--- a/client/src/components/ToolsList/ToolsList.test.ts
++++ b/client/src/components/ToolsList/ToolsList.test.ts
+@@ -94,0 +95,10 @@
++    it.each(["fastqc", "#favorites"])("review repro preserves %s when selecting a tag", async (search) => {
++        const wrapper = mount(ToolsList as object, { localVue, pinia, router, propsData: { search } });
++        await flushPromises();
++        const selector = wrapper.findComponent(ToolsListTagFilter);
++        expect(selector.props("disabled")).toBe(false);
++        selector.vm.$emit("toggle-tag", "Quality Control");
++        await flushPromises();
++        expect((wrapper.get("input.search-query").element as HTMLInputElement).value).toContain(search);
++    });
++
