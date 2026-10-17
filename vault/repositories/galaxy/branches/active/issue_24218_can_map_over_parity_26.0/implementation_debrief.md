@@ -19,7 +19,7 @@ STATUS: READY. Head `d29206dcd71`, base `release_26.0` (`a6544be047d`), pushed t
 - Merge-forward: `collectionTypeDescription.test.ts` add/add conflicts with the 26.1+ file; keep both `describe` blocks.
 
 ## Follow-ups (not done, see scope_evaluation.md)
-1. Separate 26.0 branch: effective map-over type bugs — server `effective_collection_type` for `list:list:paired_or_unpaired` over `list:paired_or_unpaired` gives `list:list`; `sample_sheet` map-overs truncate the effective type on both sides (`list:list` over `sample_sheet` → `""`).
+1. Separate 26.0 branch: effective map-over type bugs — server `effective_collection_type` for `list:list:paired_or_unpaired` over `list:paired_or_unpaired` gives `list:list`; `sample_sheet` map-overs truncate the effective type on both sides (`list:list` over `sample_sheet` → `""`). Issue queued: `vault/agents/gx_issues/to_file/effective_map_over_type_sample_sheet_and_compound.md`. PR description should name this as a known follow-up (parity claim covers `canMapOver`/`canMatch` only).
 2. Dev: shared client/server parity table with pinned expectations.
 3. Dev: one rank-sorted declared-type resolver for `_effectiveMapOver` + `getCollectionTypeFromInput`; server `create_collection` direct-match-first (client in same change).
 4. Dev: drop `_endsWith` for native `endsWith`.
