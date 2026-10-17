@@ -36,6 +36,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 
 ## Queued (`queued`)
 
+- [#24226](https://github.com/galaxyproject/galaxy/issues/24226) — server `effective_collection_type` under-strips `X:paired_or_unpaired` over matching input, too many jobs; next: red tests on 26.0. [notes](../../repositories/galaxy/issues/queued/24226/index.md)
 - [#24172](https://github.com/galaxyproject/galaxy/issues/24172) — column param on not-ready dataset shows "No options available.", blocks queuing; next: red test for `textable`. [notes](../../repositories/galaxy/issues/queued/24172/index.md)
 - [#24173](https://github.com/galaxyproject/galaxy/issues/24173) — invocation view selections (step/job/input/output) have no shareable URL; next: route query params. [notes](../../repositories/galaxy/issues/queued/24173/index.md)
 - [#24174](https://github.com/galaxyproject/galaxy/issues/24174) — rerun doesn't record which invocation it came from; next: implement from proposal. [notes](../../repositories/galaxy/issues/queued/24174/index.md)
