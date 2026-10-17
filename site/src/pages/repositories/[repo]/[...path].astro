@@ -13,7 +13,9 @@ import {
   statusLabel,
 } from '../../../lib/repository-records';
 import type { RepositoryPage } from '../../../lib/repository-records';
-import { findRecordCollisions } from '../../../lib/vault-urls';
+import { fileDocSummary, loadFileDocs, recordRelPath, resolveFileDoc } from '../../../lib/file-docs';
+import { findRecordCollisions, vaultPathToSlug } from '../../../lib/vault-urls';
+import { marked } from 'marked';
 
 export async function getStaticPaths() {
   const collisions = findRecordCollisions(path.resolve('../vault'));
@@ -42,6 +44,15 @@ let Content: any = null;
 if (entry) {
   Content = (await render(entry)).Content;
 }
+
+const isFolder = children !== undefined;
+const fileDocs = record ? loadFileDocs(path.resolve('../vault'), record.repo, record.kind) : [];
+const fileDoc = record && resolveFileDoc(fileDocs, recordRelPath(record.originalDir, originalPath, isFolder));
+const fileDocHtml = fileDoc && marked.parse(fileDoc.section.body, { async: false }) as string;
+const fileDocHint = (childPath: string, childIsFolder: boolean) => {
+  const doc = record && resolveFileDoc(fileDocs, recordRelPath(record.originalDir, childPath, childIsFolder));
+  return doc ? fileDocSummary(doc.section.body) : undefined;
+};
 ---
 <Base title={title} pageTitle={title}>
   <Breadcrumbs items={breadcrumbs} />
@@ -51,6 +62,18 @@ if (entry) {
       <span class={statusBadgeClass(record.status)}>{statusLabel(record.status)}</span>
       <span class="ml-2">{repo.name} · {KIND_LABELS[record.kind].toLowerCase()} · {record.name}</span>
     </p>
+  )}
+
+  {fileDoc && (
+    <details class="mb-4 rounded border border-(--color-border) px-3 py-2 text-sm">
+      <summary class="cursor-pointer select-none text-(--color-text-secondary)">
+        About this {isFolder && !isRecordRoot ? 'folder' : 'file'} <code>{fileDoc.section.heading}</code>
+      </summary>
+      <div class="prose prose-sm prose-slate mt-2 max-w-none dark:prose-invert" set:html={fileDocHtml} />
+      <p class="mt-2 text-xs text-(--color-text-muted)">
+        From <a href={`${base}/${vaultPathToSlug(fileDoc.source)}/`} class="text-(--color-link) hover:underline">{fileDoc.source}.md</a>
+      </p>
+    </details>
   )}
 
   {!(isRecordRoot && Content) && <h1 class="mb-4 text-2xl font-bold">{title}</h1>}
@@ -64,7 +87,7 @@ if (entry) {
   {children && children.length > 0 && (
     <section class="mt-8">
       <h2 class="mb-3 text-lg font-bold border-b-2 border-(--color-accent)/20 pb-2">Files</h2>
-      <FileTree files={children} originalBasePath={originalPath} />
+      <FileTree files={children} originalBasePath={originalPath} hint={record && fileDocHint} />
     </section>
   )}
 </Base>

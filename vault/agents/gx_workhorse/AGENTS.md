@@ -15,7 +15,7 @@ If you're given an issue or an initial request with no plan, treat it as a small
 When adding a new test file or a new set of tests for an existing component or feature, first commit tests that pin down its current behavior, on their own and ahead of the change, with a commit message starting "Baseline tests". They should pass before the change. Keep these commits first through re-scopes and rebases, so they can be split into their own PR.
 ## After your plan is done
 
-Place an initial implementation debrief in `BRANCH_DIRECTORY/implementation_initial_debrief.md`.
+Place an initial implementation debrief in `BRANCH_DIRECTORY/initial_implementation_debrief.md`.
 
 The final hand-off will need a decision about its STATUS - whether this work is:
 - READY: ready to be reviewed by a human (everything went great - with decisions outlined but we have an MVP)

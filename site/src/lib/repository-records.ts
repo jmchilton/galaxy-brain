@@ -1,3 +1,4 @@
+import { DEFAULTS_REPO } from './file-docs';
 import { originalRelPath } from './project-paths';
 import { RECORD_KINDS, parseRecordPath, vaultPathToSlug } from './vault-urls';
 import type { RecordKind } from './vault-urls';
@@ -122,6 +123,11 @@ export function buildRepositories<E extends RepoEntry>(entries: E[]): Repository
   }
 
   return [...repos.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+// `_defaults` holds only the default File Docs; it isn't a tracked repository.
+export function listedRepositories<E extends RepoEntry>(repos: Repository<E>[]): Repository<E>[] {
+  return repos.filter(repo => repo.name !== DEFAULTS_REPO);
 }
 
 function compareNames(a: string, b: string): number {

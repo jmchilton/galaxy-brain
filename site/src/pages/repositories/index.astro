@@ -1,10 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { KIND_LABELS, RECORD_KINDS, buildRepositories } from '../../lib/repository-records';
+import { KIND_LABELS, RECORD_KINDS, buildRepositories, listedRepositories } from '../../lib/repository-records';
+import { DEFAULTS_REPO } from '../../lib/file-docs';
+import { vaultPathToSlug } from '../../lib/vault-urls';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const repos = buildRepositories(await getCollection('repositoryFiles'));
+const repos = listedRepositories(buildRepositories(await getCollection('repositoryFiles')));
+const defaultsSlug = vaultPathToSlug(`repositories/${DEFAULTS_REPO}`);
 const rows = repos.map(repo => ({
   name: repo.name,
   slug: repo.slug,
@@ -15,6 +18,7 @@ const rows = repos.map(repo => ({
   <h1 class="mb-2 text-2xl font-bold">Repositories</h1>
   <p class="mb-4 text-sm text-(--color-text-secondary)">
     Branch, issue, and review records tracked by the agents. Record URLs stay the same as records change status.
+    Files inside records are described by <a href={`${base}/${defaultsSlug}/`} class="text-(--color-link) hover:underline">default File Docs</a>, overridden per repository.
   </p>
   <table class="data-table">
     <thead>

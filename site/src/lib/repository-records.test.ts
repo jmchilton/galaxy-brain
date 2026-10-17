@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildRepositories, groupByStatus, recordTitle, repositoryPages } from './repository-records';
+import { buildRepositories, groupByStatus, listedRepositories, recordTitle, repositoryPages } from './repository-records';
 import { vaultPathToSlug } from './vault-urls';
 
 function entry(rel: string, body = '') {
@@ -143,5 +143,21 @@ describe('repositoryPages', () => {
       entry('repositories/galaxy/branches/active/foo/notes.md'),
       entry('repositories/galaxy/branches/active/foo/notes/index.md'),
     ]))).toThrow(/notes/);
+  });
+});
+
+describe('listedRepositories', () => {
+  const repos = buildRepositories([
+    entry('repositories/_defaults/branches/FILE_DOCS.md'),
+    entry('repositories/galaxy/branches/FILE_DOCS.md'),
+    entry('repositories/galaxy/branches/active/foo/index.md'),
+  ]);
+
+  it('hides the File Docs defaults from the repository list', () => {
+    expect(listedRepositories(repos).map(r => r.name)).toEqual(['galaxy']);
+  });
+
+  it('still renders the defaults File Docs pages', () => {
+    expect(repositoryPages(repos).map(p => p.slug)).toContain('repositories/defaults/branches/filedocs');
   });
 });

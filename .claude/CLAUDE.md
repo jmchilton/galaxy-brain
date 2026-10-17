@@ -55,6 +55,7 @@ make site-test                     # site vitest suite (vault-urls, repository-r
 - `@tailwindcss/typography` for markdown prose rendering
 - Pages: dashboard (`index.astro`), note detail (`[...slug].astro`), project sub-file detail (`projects/[project]/[...file].astro`), tag index + tag detail (`tags/`), raw markdown endpoints (`raw/`), repository records (`repositories/`)
 - Vault path → URL mapping lives in `site/src/lib/vault-urls.ts`; repository record URLs drop the status directory so they survive moves (see `LIBRARY_REPOSITORY_RECORDS.md`)
+- Record pages show per-file help from `vault/repositories/{_defaults,<repo>}/<kind>/FILE_DOCS.md` via `site/src/lib/file-docs.ts` (see `LIBRARY_RECORD_FILE_DOCS.md`)
 - Wiki links (`[[...]]`) resolved to site URLs via `site/src/lib/wiki-links.ts`
 - GitHub Actions deploys on push to `main` (`.github/workflows/deploy.yml`)
 

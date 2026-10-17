@@ -19,12 +19,12 @@ When archiving, move the directory once agents working there have finished, remo
 
 Each directory contains an `index.md` file without frontmatter. It serves as an ongoing debrief as work is done.
 
+File names follow the File Docs: `vault/repositories/_defaults/reviews/FILE_DOCS.md`, with sections replaced by `vault/repositories/PROJECT/reviews/FILE_DOCS.md`. Prefer a documented name over a new one; add a section when a new kind of file starts recurring. Undocumented files are fine.
+
 Review findings, research, reproduction scripts, draft comments, and other supporting files go here. Link them near the top of `index.md`; organize the rest to suit the repository's process. Keep the agent's queue short, with links to these details.
 
 Make the latest review, reviewed commit, and whether it was delivered easy to find. Preserve earlier findings with their reviewed commits so they aren't mistaken for current blockers. Record explicit decisions and dependencies as needed; don't invent next steps from the status.
 
 Reviews within branch, issue, or project work can stay in those records. Link related records rather than copying their notes.
-
-Agents can use local `screenshots/` to support reviews. Screenshots are ignored and won't be committed; describe useful captures in the notes.
 
 Security findings and sensitive evidence follow [SECURITY_REPORTS.md](SECURITY_REPORTS.md).

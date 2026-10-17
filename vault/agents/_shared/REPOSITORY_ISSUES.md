@@ -25,4 +25,6 @@ When the status changes, move the directory. Until permanent URLs exist, a move 
 
 Each directory contains an `index.md` file without frontmatter. It serves as an ongoing debrief as work is done.
 
+File names follow the File Docs: `vault/repositories/_defaults/issues/FILE_DOCS.md`, with sections replaced by `vault/repositories/PROJECT/issues/FILE_DOCS.md`. Prefer a documented name over a new one; add a section when a new kind of file starts recurring. Undocumented files are fine.
+
 Track research, plans, etc. in this directory and link them toward the top of `index.md`. A `delegated/` issue's `index.md` says, near the top, to whom or what it was delegated, when, and where (plan comment, project).
