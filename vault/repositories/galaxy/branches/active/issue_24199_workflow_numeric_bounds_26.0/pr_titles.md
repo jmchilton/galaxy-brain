@@ -1,0 +1,4 @@
+- [26.0] Show workflow integer/float input bounds on the run form
+- [26.0] Send workflow numeric input bounds to the run form and editor Default Value
+- [26.0] Fix workflow numeric input bounds missing from run form
+- [26.0] Workflow numeric inputs: range slider and warning on the run form, clear error for inverted bounds

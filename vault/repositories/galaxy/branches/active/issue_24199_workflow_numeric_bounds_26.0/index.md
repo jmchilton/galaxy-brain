@@ -1,10 +1,10 @@
 # issue_24199_workflow_numeric_bounds_26.0
 
-Status: implemented, CI pending (see [implementation debrief](implementation_debrief.md)). Base: `release_26.0` (`a6544be047d`). Head: `8df2892c73f`. Fork: `jmchilton/issue_24199_workflow_numeric_bounds_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24199_workflow_numeric_bounds_26.0`.
+Status: polished, ready for John's final review (see [polish debrief](polish_debrief.md)). Fork CI on head queued at polish time. Base: `release_26.0` (`a6544be047d`). Head: `8df2892c73f`. Fork: `jmchilton/issue_24199_workflow_numeric_bounds_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24199_workflow_numeric_bounds_26.0`.
 
 Fixes [#24199](https://github.com/galaxyproject/galaxy/issues/24199): integer/float workflow input bounds were validated server-side but never sent to the run form, so no slider or range warning. Also bounds the editor's Default Value field; inverted saved bounds give a clear 400 and an editor step error.
 
-[Implementation](implementation_debrief.md) · [Initial implementation](implementation_initial_debrief.md) · [Rescope](implementation_rescope_debrief.md) · [Normal review](subagents/normal_review.md) · [Rescope review](subagents/rescope_review.md) · [K1 review](subagents/k1_review.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Refactor baseline](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Alt: original scope](alts/original_scope.md) · [Earlier hardening](earlier_drafts/1/)
+[PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [Polish debrief](polish_debrief.md) · [Implementation](implementation_debrief.md) · [Initial implementation](implementation_initial_debrief.md) · [Rescope](implementation_rescope_debrief.md) · [Normal review](subagents/normal_review.md) · [Rescope review](subagents/rescope_review.md) · [K1 review](subagents/k1_review.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Refactor baseline](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Alt: original scope](alts/original_scope.md) · [Earlier hardening](earlier_drafts/1/)
 
 ## Decisions
 
