@@ -60,6 +60,17 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
    - 2026-10-16: rebased onto main (after the #561 release and the Workflow Brief pipelines). A Codex review found two real defects, both fixed in `28a2187d`: a resolved collection could pass with elements that carry no data; `paper-to-test-data` required a Galaxy interface that PAPER → CWL never produces.
    - Follow-up: the assembler's generic branch text ("stop at the first that yields acceptable output") doesn't describe filling gaps.
 
+3. 2026-10-16: John chose one worker per branch leg, not one worker for the whole chain. The runner loads exactly one skill per worker, so a whole-chain worker would need runner changes. And the loop comes first: every pipeline's test-data branch sits right after the draft loop, and `--through` can't skip the loop.
+   - The loop is done on `origin/feat/test-pipeline-draft-loop` (`989faad1`), stacked on #683. No PR yet; the description is drafted.
+   - The controller asks `nextDraftStep` before each call and runs one worker per call, ending with the terminal call.
+   - Guards: a call that leaves the draft unchanged fails the phase, and `--max-iterations` caps it (default twice the drafty steps, plus the terminal call).
+   - A trial's calls share one tool cache. `--max-cost` and `--max-tokens` cap the run.
+   - `run.json` records `iterations[]`, and the dashboard counts them.
+   - Follow-ups:
+     - `run.json` is written once per trial, so a long loop shows no progress mid-run.
+     - The per-leg branch on top of #684.
+     - A live `--through` run past the loop.
+
 ## Open questions
 
 1. Is `--from` (seed from a frozen run) wanted as an evaluation feature?
