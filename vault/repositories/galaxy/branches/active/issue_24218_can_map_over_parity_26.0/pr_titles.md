@@ -1,0 +1,4 @@
+- [26.0] Fix workflow editor map-over onto `:paired_or_unpaired` inputs the server rejects
+- [26.0] Match workflow editor `canMapOver` to server rules for `paired_or_unpaired` inputs
+- [26.0] Stop the workflow editor drawing empty map-overs onto `list:paired_or_unpaired` inputs
+- [26.0] Align client and server map-over rules for compound `paired_or_unpaired` inputs
