@@ -1,5 +1,7 @@
 # Unposted review draft
 
+**Resolved 2026-10-17:** The P2 below was fixed and pushed in `2cc6fd033cb`; see [fix and verification](fix.md). This document preserves the initial review and is no longer a current request for changes.
+
 Reviewed commit: `afd897e4d4a93e2a0f1eefcf9a8dcf009d8adb1c`.
 
 ## [P2] Preserve plain searches when selecting a tag
