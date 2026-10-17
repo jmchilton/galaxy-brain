@@ -42,7 +42,7 @@ Edits were applied by Claude and committed in the brief repo as `review: expert 
 
 **Finding:** the brief had six open questions and an empty Blockers section, so `check-workflow-brief` said "ready". Open questions don't gate. Either the Mold should promote design-affecting questions to Blockers, or the Galaxy pipeline's review gate should require Open questions to be resolved.
 
-## Phase B: brief → Galaxy (interrupted)
+## Phase B: brief → Galaxy
 
 - Started 2026-10-16 23:05Z and ended 01:24Z, exit 1: the headless session hit John's **usage limit**. The cost recorded so far is about $30.
 - It reached phase 9, `validate-galaxy-workflow`, with phases 1–9 committed. Phase 5 took 2 iterations: `regroup_by_sample` and `validate_endedness`. Phase 6 selected `find-test-data`.
@@ -65,3 +65,24 @@ Edits were applied by Claude and committed in the brief repo as `review: expert 
     - planemo workflow tests ignore `expect_failure`;
     - nf-core snapshot gz md5 semantics are unstated.
   - Minors cover `gxwf` validation gaps (apply-rules builtin, collection-type checks in tests), Mold silences, and test-plan schema limits.
+
+### Phases 10–11 (resumed)
+
+- The resume took 36 min and cost $37.0. Phase B total: about 2h55m of agent time and $66.6. The resume re-ran the blocker and hash checks: both clean.
+- **Case 1 (skip_trim false): PASS** in planemo 0.75.47. Trimmed reads match the source nf-core snapshot after decompression; FastQC assertions pass.
+- **Case 2 (skip_trim true): no verdict.** All jobs ran `ok` or `skipped`. Then planemo crashed in `_check_output_collection` → `verify_dataset` (`TypeError`), because skipped leaves are `expression.json` `null` and planemo's CWL-style `_output_object` is `None`. The bug is also present on planemo master `d171869b`. Phase 11 reproduced it offline and confirmed the authored assertions hold against the real files.
+- **Mixed-endedness rejection: not run.** planemo has no workflow `expect_failure` support. The guard behaviour rests on `evidence/guard-spike/`.
+- **Attempt 1 failed on the environment:** the `tp_awk_tool` conda env failed to activate in the shared `~/miniforge3`. Later attempts used a private prefix, `/tmp/foundry-dqt-conda` (1 GB, left behind).
+- **Phase 11 behaved correctly:** it classified the failure (harness defect, not workflow or test), recommended repairs R1–R3, and applied none of them.
+- **Scope held:** the workflow uses fastqc, seqtk_trimfq, tp_awk, map_param_value, collection_element_identifiers, `__APPLY_RULES__` and `__FLATTEN__`; no MultiQC. The brief hash was unchanged throughout.
+- **Side effects outside the run:**
+  - conda envs `__gawk@5.4.1`, `__coreutils@9.11`, `__seqtk@1.4` and `__pigz@_uv_` in `~/miniforge3/envs`;
+  - `/tmp/foundry-dqt-conda`;
+  - `../_harness/`.
+
+  None of them have been removed.
+- Feedback ledger closed with 33 entries. The agent flagged two of them as needing weighing before filing.
+
+### Verdict
+
+Reached a correct stop. The workflow is correct on the main case. The other case is blocked by a planemo defect, and the agent diagnosed it rather than papering over it. Your choice to keep the sample-sheet semantics roughly doubled the Galaxy phase's cost.

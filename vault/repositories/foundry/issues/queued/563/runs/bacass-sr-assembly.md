@@ -42,4 +42,19 @@ Committed as `review: expert edits`. Gates still 0/0. Brief sha256 at Galaxy ent
 
 ## Phase B: brief → Galaxy
 
-Waiting for Run 1's Galaxy phase to finish, so that only one planemo Galaxy runs at a time.
+- 1h00m, 38 turns, $14.13. All 11 phases ran, each delegated to a subagent, with none handled manually. Phase 5 took 4 steps.
+- **Preflight** caught `cli` 1.8.2 and `planemo` 0.75.44 and used pinned wrappers in `_bin/`. Brief hash unchanged after every phase.
+- **Workflow:** a `list:paired` input; fastp 1.4.0+galaxy0 → Unicycler 0.5.1+galaxy0 → `__FILTER_FAILED_DATASETS__`/`__FILTER_EMPTY_DATASETS__` → QUAST 5.3.0+galaxy2 per sample with no reference. Five per-sample outputs, matching the review. Strict `gxwf` validation passes.
+- **Scope held:** only the selected tools. QUAST runs per sample, per the review.
+- **Test: FAIL on test authoring only.** All 9 jobs `ok` on arm64 Docker (the emulation risk didn't bite), and the fastp, assembly and QUAST assertions pass. The two GFA assertions use `has_line_matching '^S\t1\t'` / `'^L\t'`, but Galaxy matches whole lines, so they can never match. Phase 11 confirmed this against the real graph and proposed stricter full-line patterns. The fix isn't applied; a rerun takes about 25 min.
+
+  | Sample | Total length | N50 | Contigs | GC |
+  |---|---|---|---|---|
+  | ERR044595 | 2,767,321 | 107,384 | 53 | 32.66% |
+  | ERR064912 | 2,897,289 | 67,831 | 102 | 32.69% |
+- Feedback ledger, 22 entries. Majors: assertion guidance doesn't say `has_line_matching` is whole-line; the debug skill doesn't say whether it may repair and rerun.
+- **Side effects:** the phase-3 subagent fast-forwarded `~/projects/repositories/iwc` to `e8cd4de3d`, which is a write to your clone. Also left behind: `_scratch/` and `_scripts/runrec.py`. The setup commit subject `phase 0: setup` breaks the parsed grammar.
+
+### Verdict
+
+Reached a correct stop: the workflow is right and one test-authoring error is diagnosed. One assertion fix away from green.
