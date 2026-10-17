@@ -59,7 +59,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - (mvp) [#468](https://github.com/galaxyproject/foundry/issues/468) — author-galaxy-tool-wrapper: no validation step, no GalaxyUserTool schema, and the bundled prompt contradict…; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/468/index.md)
 - (mvp) (large) [#531](https://github.com/galaxyproject/foundry/issues/531) — Prove the IWC maturation pipeline with runnable fixtures and a .ga entry case; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/531/index.md)
 - (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/535/index.md)
-- [#563](https://github.com/galaxyproject/foundry/issues/563) — Workflow Plan (Brief): pipelines merged; no real end-to-end run yet; next: brief runs 1–2 per plan. [notes](../../repositories/foundry/issues/queued/563/index.md)
+- [#563](https://github.com/galaxyproject/foundry/issues/563) — Workflow Plan (Brief): Nextflow brief runs 1–2 done, both correct stops; next: John decides close, then paper A/B run 3. [notes](../../repositories/foundry/issues/queued/563/index.md)
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review New Paper; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/568/index.md)
 - [#621](https://github.com/galaxyproject/foundry/issues/621) — Apply Rules Tutorial Patterns; next: research and add a first comment. [notes](../../repositories/foundry/issues/queued/621/index.md)
 
