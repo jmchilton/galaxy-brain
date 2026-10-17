@@ -1,0 +1,3 @@
+- [25.1] Accept sample-sheet collection types in the tool XSD
+- [25.1] Align tool-schema collection types with sample-sheet runtime syntax
+- [25.1] Fix sample-sheet tool validation and cover core tool XML in CI

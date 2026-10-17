@@ -37,7 +37,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`xsd_sample_sheet_collection_type_25.1`](../../repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/index.md) — Tool XSD accepts `sample_sheet` collection types and the tool lint now XSD-checks core tools such as `sample_sheet_to_tabular.xml`. Base `release_25.1`, head `5d35c8c7db3`; re-scoped and hardened; fork CI pending (CircleCI `validate_test_tools` is the key job).
 - [`form_checkbox_controlled_tests`](../../repositories/galaxy/branches/active/form_checkbox_controlled_tests/index.md) — Repairs the three upstream controlled-checkbox test failures on dev `5ff1e46b8c3`; 151 related tests pass, independent review complete; fork CI pending.
 
 - [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Deduplicate identical nested tool references while retaining distinct versions and UUIDs. Rescoped and reviewed; fresh CI pending.
@@ -71,6 +70,7 @@ None yet.
 None yet.
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`xsd_sample_sheet_collection_type_25.1`](../../repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/index.md) — Aligns tool XSD with sample-sheet collection syntax and adds core-tool lint coverage. Base `release_25.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:xsd_sample_sheet_collection_type_25.1?expand=1).
 - [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
 - [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24173_invocation_selection_prep...jmchilton:galaxy:issue_24173_invocation_selection_urls?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).

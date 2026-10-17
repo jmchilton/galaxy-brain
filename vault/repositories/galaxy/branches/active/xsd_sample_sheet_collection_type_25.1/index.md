@@ -1,6 +1,6 @@
 # xsd_sample_sheet_collection_type_25.1
 
-Status: `branches_implemented_needs_ci` (READY). Base: `release_25.1` (`2ae14b0eac3`). Head: `5d35c8c7db3`. Fork: `jmchilton/xsd_sample_sheet_collection_type_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/xsd_sample_sheet_collection_type_25.1`.
+Status: `branches_ready_for_final_review` — polished 2026-10-17; human read-through and title choice pending. Base: `release_25.1` (`2ae14b0eac3`). Head: `5d35c8c7db3`. Fork: `jmchilton/xsd_sample_sheet_collection_type_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/xsd_sample_sheet_collection_type_25.1`.
 
 The tool XSD rejected `collection_type="sample_sheet..."`, which core `lib/galaxy/tools/sample_sheet_to_tabular.xml` uses. No upstream issue. Found as a follow-up in [issue_23978_parameter_tools_xsd](../issue_23978_parameter_tools_xsd/scope_evaluation.md).
 
@@ -17,3 +17,11 @@ The tool XSD rejected `collection_type="sample_sheet..."`, which core `lib/galax
 ## Dependencies
 
 - Merge-forward conflict with `issue_23978_parameter_tools_xsd` (dev) in `.ci/validate_test_tools.sh`; both now use the same `set --` loop shape. Resolution: keep 23978's `*/*.xml` loop and xsd path fix, append this branch's core-tools loop.
+
+## Polish — 2026-10-17
+
+Actual base `release_25.1` at `2ae14b0eac33c47cc87cc8941cae6270a3c10a01`; published head `5d35c8c7db348d5c9e2850876a7145ccb06976a8`. Fetch/rebase found branch current; no code or history changes. Fresh independent general checklist passes, human-read unchecked. Workflow checklist is not applicable to this schema/tool declaration/lint change.
+
+[PR description](pr_description.md) · [Title options](pr_titles.md) · [Labels](pr_tags.md) · [Checklist](checklist_evaluation.md) · [Strengthening review](strengthening_review.md) · [Polish debrief](polish_debrief.md).
+
+Fresh lint reproduction using the existing macro-expanding loader and xmllint: release baseline 280/281 passes, rejecting only sample_sheet_to_tabular.xml; current XSD 281/281 passes. Schema syntax, shell syntax, ShellCheck and whitespace pass. Lint-only scope per John's instruction; no conversion execution claimed. Description explicitly retains nested-record conversion as a follow-up and calls converter edit declaration parity. Fresh fork CI pending; no observed failures. Exactly one strengthening round: nothing to add. Final CI snapshot: 17 queued, 4 pending, 1 skipped; no observed failures. CI validation is pending, not a passing result. Vault validation passes (0 errors, 15 advisory warnings). No PR opened, approval SHA or title assigned; human-read remains unchecked.
