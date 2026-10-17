@@ -61,7 +61,14 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
    - Follow-up: the assembler's generic branch text ("stop at the first that yields acceptable output") doesn't describe filling gaps.
 
 3. 2026-10-16: John chose one worker per branch leg, not one worker for the whole chain. The runner loads exactly one skill per worker, so a whole-chain worker would need runner changes. And the loop comes first: every pipeline's test-data branch sits right after the draft loop, and `--through` can't skip the loop.
-   - The loop is done on `origin/feat/test-pipeline-draft-loop` (`989faad1`), stacked on #683. No PR yet; the description is drafted.
+   - The loop is up as [#686](https://github.com/galaxyproject/foundry/pull/686), stacked on #683. Review fixes are in `5e1c5115` and `9d973a36`.
+   - Live run `~/foundry-runs/nf2g-demo-through7-loop-2026-10-16/` (dashboard alongside):
+     - Phases 1–6 passed. The draft had 6 drafty steps.
+     - Iterations 1–3 passed, at 14–23 turns per call.
+     - Iteration 4 stalled on `restore_trimmed_sample_sheet_metadata` (no wrapper found). It reported success with the draft unchanged, so `loop_no_progress` caught it.
+     - Totals: 6.26M tokens, $3.37 estimated.
+     - Skill finding: the Mold says to fall through to wrapper authoring or open a blocking ledger entry; the agent did neither.
+     - The run needed `gxwf` pinned to the workspace 1.13.1 (Homebrew has 1.8.2) via `~/foundry-runs/bin-loop/`.
    - The controller asks `nextDraftStep` before each call and runs one worker per call, ending with the terminal call.
    - Guards: a call that leaves the draft unchanged fails the phase, and `--max-iterations` caps it (default twice the drafty steps, plus the terminal call).
    - A trial's calls share one tool cache. `--max-cost` and `--max-tokens` cap the run.
