@@ -30,6 +30,9 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#23914](https://github.com/galaxyproject/galaxy/issues/23914) — notebook card hides Share when user loads late; branch `issue_23914_page_card_actions`. [notes](../../repositories/galaxy/issues/wip/23914/index.md)
 - [#23917](https://github.com/galaxyproject/galaxy/issues/23917) — vitest auto-stubs drop `COMPONENT_V_MODEL: false`; branch `issue_23917_compat_vmodel_stubs`. [notes](../../repositories/galaxy/issues/wip/23917/index.md)
 - [#23930](https://github.com/galaxyproject/galaxy/issues/23930) — Tool Shed update swaps short/long description (26.1 regression); branch `issue_23930_shed_update_descriptions`. [notes](../../repositories/galaxy/issues/wip/23930/index.md)
+- [#24218](https://github.com/galaxyproject/galaxy/issues/24218) — client `canMapOver` allows `:paired_or_unpaired` map-overs server rejects; branch `issue_20657_input_processing_mode` (26.0 backport). [notes](../../repositories/galaxy/issues/wip/24218/index.md)
+- [#24220](https://github.com/galaxyproject/galaxy/issues/24220) — tool form drop matches collections by plain `endsWith`; branch `issue_20657_input_processing_mode` (26.0 backport). [notes](../../repositories/galaxy/issues/wip/24220/index.md)
+- [#24221](https://github.com/galaxyproject/galaxy/issues/24221) — option paging/merge drops a collection's map-over entry; branch `issue_20657_input_processing_mode` (26.1 backport). [notes](../../repositories/galaxy/issues/wip/24221/index.md)
 
 ## Queued (`queued`)
 
@@ -40,6 +43,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#24176](https://github.com/galaxyproject/galaxy/issues/24176) — full run form ignores invocation on rerun; next: server-seeded prefill from spike. [notes](../../repositories/galaxy/issues/queued/24176/index.md)
 - [#24199](https://github.com/galaxyproject/galaxy/issues/24199) — workflow numeric input bounds enforced but not sent to the run form (no slider/warning); next: red serialization test. [notes](../../repositories/galaxy/issues/queued/24199/index.md)
 - [#24200](https://github.com/galaxyproject/galaxy/issues/24200) — workflow input validators rewritten on import (negate/extra ranges/messages lost); next: land red repro. [notes](../../repositories/galaxy/issues/queued/24200/index.md)
+- [#24219](https://github.com/galaxyproject/galaxy/issues/24219) — selected collection off the first option page lost on tool form refresh (not pinned); next: red API test, server pin helper. [notes](../../repositories/galaxy/issues/queued/24219/index.md)
 - [#24177](https://github.com/galaxyproject/galaxy/issues/24177) — simplified rerun form silently drops tool step params; next: after #24176, route to full form. [notes](../../repositories/galaxy/issues/queued/24177/index.md)
 - [#24178](https://github.com/galaxyproject/galaxy/issues/24178) — subworkflow step params in request export can't be posted back (500); next: PR spike's re-keying helpers. [notes](../../repositories/galaxy/issues/queued/24178/index.md)
 - (large) [#22709](https://github.com/galaxyproject/galaxy/issues/22709) — meta-issue: workflow extraction overhaul (notebook → graph → workflow); next: track individual bugs separately. [notes](../../repositories/galaxy/issues/queued/22709/index.md)

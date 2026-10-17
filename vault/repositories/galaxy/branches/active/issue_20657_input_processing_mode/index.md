@@ -39,4 +39,4 @@ Re-hardened twice around a re-scope (alt `issue_20657_input_processing_mode_alt_
 ## Dependencies — 2026-10-17
 
 - Backport [issue_19234_batch_mode_hint_25.1](../issue_19234_batch_mode_hint_25.1/index.md) fixes #19234 minimally (map-over hint on 25.1). This branch should rebase over it after merge-forward and say "builds on" it, not "Fixes #19234".
-- Base bugs fixed here are queued as issues for 26.0/26.1 backports: `gx_issues/to_file/` `tool_form_collection_drop_matching_ends_with.md`, `client_can_map_over_paired_or_unpaired_parity.md`, `tool_options_paging_splits_map_over_entry.md`. If those backports land first, drop the matching commits here on rebase.
+- Base bugs fixed here are filed for 26.0/26.1 backports: [#24218](https://github.com/galaxyproject/galaxy/issues/24218) (canMapOver, 26.0), [#24220](https://github.com/galaxyproject/galaxy/issues/24220) (drop matching, 26.0), [#24221](https://github.com/galaxyproject/galaxy/issues/24221) (paging split, 26.1). Unfixed sibling [#24219](https://github.com/galaxyproject/galaxy/issues/24219) (off-page selection lost on refresh). If those backports land first, drop the matching commits here on rebase.

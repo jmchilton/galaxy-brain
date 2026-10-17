@@ -59,7 +59,7 @@ WorkflowRunDefaultStep -> [B, X]
 
 ## Context
 
-Bug found while working on 🌿 [`issue_20657_input_processing_mode`](https://github.com/jmchilton/galaxy/tree/issue_20657_input_processing_mode). A regression from 🔀 #22643 (26.1), which added option paging and emitted both entries per collection. 🔀 #23384 added the workflow run form merge. A sibling paging issue (#TBD) covers a selected collection that drops off the form on refresh when it isn't on the loaded page. Affects `release_26.1`, `release_26.2` and `dev`. 26.0 and older don't page options.
+Bug found while working on 🌿 [`issue_20657_input_processing_mode`](https://github.com/jmchilton/galaxy/tree/issue_20657_input_processing_mode). A regression from 🔀 #22643 (26.1), which added option paging and emitted both entries per collection. 🔀 #23384 added the workflow run form merge. Sibling paging bug 🎯 #24219 covers a selected collection that drops off the form on refresh when it isn't on the loaded page. Affects `release_26.1`, `release_26.2` and `dev`. 26.0 and older don't page options.
 
 ## Proposed Approach
 

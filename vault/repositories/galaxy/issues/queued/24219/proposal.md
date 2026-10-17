@@ -82,7 +82,7 @@ def test_build_collection_options_pinned_outside_page(self):
 
 ## Context
 
-Bug found while working on 🌿 [`issue_20657_input_processing_mode`](https://github.com/jmchilton/galaxy/tree/issue_20657_input_processing_mode) (🎯 #20657). 🔀 #22643 (26.1) added `pinned` "so selected values that fall outside the page window still render", but it only filled `pinned["hda"]`. 🔀 #23865 (26.2) added the hidden, deleted and foreign-history carry for collections, but not for visible ones off the page. The same code is on 26.1, 26.2 and `dev` (26.1 also lacks the hidden, deleted and foreign carry for `data_collection`). 26.0 has no option paging. A sibling issue covers paging splitting one collection's direct and map-over entries.
+Bug found while working on 🌿 [`issue_20657_input_processing_mode`](https://github.com/jmchilton/galaxy/tree/issue_20657_input_processing_mode) (🎯 #20657). 🔀 #22643 (26.1) added `pinned` "so selected values that fall outside the page window still render", but it only filled `pinned["hda"]`. 🔀 #23865 (26.2) added the hidden, deleted and foreign-history carry for collections, but not for visible ones off the page. The same code is on 26.1, 26.2 and `dev` (26.1 also lacks the hidden, deleted and foreign carry for `data_collection`). 26.0 has no option paging. Sibling issue 🎯 #24221 covers paging splitting one collection's direct and map-over entries.
 
 ## Proposed Approach
 
