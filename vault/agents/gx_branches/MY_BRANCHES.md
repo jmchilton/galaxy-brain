@@ -19,6 +19,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`issue_24199_workflow_numeric_bounds_26.0`](../../repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/index.md) — Workflow int/float bounds reach run form + editor Default field; inverted bounds give a clear 400 and step error (#24199). Base `release_26.0`. [#24212](https://github.com/galaxyproject/galaxy/pull/24212).
 - [`issue_24093_batch_element_labels_26.1`](../../repositories/galaxy/branches/active/issue_24093_batch_element_labels_26.1/index.md) — Labels every tool-form batch value, including dropped hidden collection elements (#24093). Base `release_26.1`. [#24211](https://github.com/galaxyproject/galaxy/pull/24211). Draft requested by John.
 - [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Rejects incompatible tools before run setup and deduplicates complete nested tool references. Base `release_26.2`. [#24209](https://github.com/galaxyproject/galaxy/pull/24209). Draft requested by John.
 - [`issue_18642_framework_tool_coverage`](../../repositories/galaxy/branches/active/issue_18642_framework_tool_coverage/index.md) — Adds drill_down framework coverage and fixes relative from_file parameter modeling (#18642). [#24208](https://github.com/galaxyproject/galaxy/pull/24208). Draft requested by John.
@@ -76,7 +77,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_24199_workflow_numeric_bounds_26.0`](../../repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/index.md) — Workflow int/float bounds reach run form + editor Default field; inverted bounds give a clear 400 and step error (#24199). Base `release_26.0`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24199_workflow_numeric_bounds_26.0?expand=1).
 
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
 - [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
