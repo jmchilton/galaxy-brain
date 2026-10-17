@@ -1,15 +1,15 @@
 # issue_19234_batch_mode_hint_25.1
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_19234_batch_mode_hint_25.1?expand=1)
-- [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_19234_batch_mode_hint_25.1)
+- [View on GitHub](https://github.com/galaxyproject/galaxy/pull/24223)
 
 ## Status
 
-Polished, `branches_ready_for_final_review`. Base `release_25.1` (`8bb256be5b1`), head `22a10b10465`, worktree `~/projects/worktrees/galaxy/branch/issue_19234_batch_mode_hint_25.1`.
+Draft PR open, `ci_wait`. Base `release_25.1` (`8bb256be5b1`), head `22a10b10465`, worktree `~/projects/worktrees/galaxy/branch/issue_19234_batch_mode_hint_25.1`.
 
-No PR yet.
+Draft [#24223](https://github.com/galaxyproject/galaxy/pull/24223) opened 2026-10-17 at John's request, title "[25.1] Restore batch info for collections mapped over a collection input"; screenshots hosted on fork branch `pr-assets-issue_19234_batch_mode_hint_25.1`.
 
-Fork CI on `954306b0bd5` was still queued at polish time with no failures; `22a10b10465` only reverts two test-selector drive-bys.
+PR CI on `22a10b10465` pending.
 
 ## About
 

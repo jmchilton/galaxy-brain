@@ -1,4 +1,1 @@
-- [25.1] Say when a selected collection is mapped over on the tool form
-- [25.1] Show the map over hint for nested collections on the tool form
-- [25.1] Tool form: show map over hint and job unit for nested collection selections
 - [25.1] Restore batch info for collections mapped over a collection input
