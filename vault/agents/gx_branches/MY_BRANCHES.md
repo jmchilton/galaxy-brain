@@ -44,6 +44,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`fix_data_package_tests_26_2`](../../repositories/galaxy/branches/active/fix_data_package_tests_26_2/index.md) — Removes the app-only Conditional import from standalone datatype tests. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:fix_data_package_tests_26_2?expand=1).
 - [`issue_24200_workflow_input_validators`](../../repositories/galaxy/branches/active/issue_24200_workflow_input_validators/index.md) — Keeps workflow parameter input validators as declared (negate, extra ranges, messages, order) through import, export, run and editor re-save; rejects invalid or type-unsuited validators at import with a 400 (#24200). Base `release_26.2`, head `57e1cb42c05`; hardened, re-scoped, scope evaluation says keep; fork CI pending. Must coordinate with `issue_24199_workflow_numeric_bounds_26.0` on merge order. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24200_workflow_input_validators?expand=1).
 - [`form_checkbox_controlled_tests`](../../repositories/galaxy/branches/active/form_checkbox_controlled_tests/index.md) — Repairs the three upstream controlled-checkbox test failures on dev `5ff1e46b8c3`; 151 related tests pass, independent review complete; fork CI pending.
 
