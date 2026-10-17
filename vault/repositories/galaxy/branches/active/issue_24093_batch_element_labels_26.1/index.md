@@ -1,10 +1,10 @@
 # issue_24093_batch_element_labels_26.1
 
-Status: implemented, CI pending. Base: `release_26.1` (`d405ebc1f4c`). Head: `a7186f5d63f`. Fork: `jmchilton/issue_24093_batch_element_labels_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24093_batch_element_labels_26.1`.
+Status: polished, ready for final review. Base: `release_26.1` (`b2b1e1deeee`). Head: `fbb1a03a9c8`. Fork CI on this head pending. Fork: `jmchilton/issue_24093_batch_element_labels_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24093_batch_element_labels_26.1`.
 
 Fixes [#24093](https://github.com/galaxyproject/galaxy/issues/24093): hidden collection elements dropped into a batch ("Multiple datasets") input get inconsistent labels. The `/build` endpoint now labels every batch value, not just the first.
 
-[Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md)
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish](polish_debrief.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md)
 
 ## Decisions
 
