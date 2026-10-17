@@ -117,7 +117,7 @@ Keep the validators a workflow declares: parse them with the existing validator 
 - Runtime and export: `get_runtime_inputs` and `get_export_state` use the stored list, not `_parse_state_into_dict()`.
 - Editor: the form keeps its regex rows and min/max fields. Validators it cannot show (negated, extra ranges, range messages, exclusive bounds) are kept on re-save rather than rewritten. The editor saves form state (`from_tool_form=True`), so they must travel in that state, e.g. as a hidden form field that `_parse_state_into_dict()` merges back. This is the largest piece. Exposing `negate` on regex rows is a small, optional follow-up.
 - Tests: the reproduction above, plus an API test that imports a `.ga` with a negated regex validator, downloads it, and runs it with a value the validator should reject.
-- Related: numeric bounds are also missing from the run form's number field, also in `get_runtime_inputs`. A fix there should read the same stored list and treat negated or repeated ranges conservatively.
+- Related: 🎯 #24199 — numeric bounds are also missing from the run form's number field, also in `get_runtime_inputs`. A fix there should read the same stored list and treat negated or repeated ranges conservatively.
 
 </details>
 
