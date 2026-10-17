@@ -27,6 +27,6 @@ Test: API test with `limit: 1`, two+ collections, select the one on page 2 (and 
 
 ## Related
 
-- galaxyproject/galaxy#19234 (map-over choice snapping back to direct — fixed on issue_20657 branch for same-page cases), #20657.
+- galaxyproject/galaxy#19234 (missing batch-mode info), #20657 — feature branch; it also fixed map-over choice snapping back to direct for same-page cases.
 - issue_20657 branch also fixed `accumulate_with_filter` splitting a row's direct + map-over entries across pages (has_more false on final row) — that removed the "map-over half on page 2" variant of this bug; the "whole HDCA on later page" case remains.
 - Branch record: vault/repositories/galaxy/branches/active/issue_20657_input_processing_mode/ (codex_review.md "Not acted on", scope_evaluation.md).
