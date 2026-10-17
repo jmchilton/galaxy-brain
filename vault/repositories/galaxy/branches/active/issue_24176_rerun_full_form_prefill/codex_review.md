@@ -1,23 +1,33 @@
-# Codex review
+# Codex review (round 2)
 
-Codex (independent, read-only, `5cf81e75c12..bab10d268ef`) reported one finding. I confirmed it but didn't act: it's pre-existing behaviour of the shared rerun input lookup and only hits legacy workflows. No code changes came out of this review.
+Codex reported one P2 finding. It's confirmed and fixed in `b5603b823cb`. Nothing went unacted. The review ran independently and read-only over `57bf3eebd77..b5c7505e1b3` (the head, on the final parent).
 
-Not acted on:
-- **Legacy unlabeled input steps aren't prefilled (P2, confirmed, pre-existing).**
-  - `WorkflowInvocation.recover_inputs()` keys inputs by `WorkflowStep.effective_label`. That falls back to `tool_inputs["name"]` for input steps without a label (`lib/galaxy/model/__init__.py:9670`).
-  - The run-style download sends only `step.label` as `step_label`, so `rerunInputValue` (`client/src/components/Workflow/Run/model.js`) looks the step up by `step_index` and misses.
-  - The rule is the simple form's existing rerun lookup, unchanged. This branch only shares it with the expanded form, so the simple form on dev already has the gap.
-  - Fixing it means sending `effective_label`, or a separate rerun key, in the run-style step model. That changes `step_label`, which the simple form uses for display and for landing request keys, or adds a new field. Better as its own follow-up than as part of this branch.
-  - Impact: old workflows whose input steps have a `name` but no label. On rerun the expanded form leaves those inputs at their default selection, the same as dev.
+**Duplicate legacy input names: the export and the run model disagreed.** Confirmed.
 
-<details><summary>Full Codex output</summary>
+- **The bug.**
+  - Review round 1 made `step_effective_label` `null` for an effective label shared by several steps.
+  - `WorkflowInvocation.recover_inputs()` still exported those steps under the shared label, so they collapsed to one key (last wins).
+  - The client then looked those steps up by index, found nothing, and left them unfilled.
+  - Calling `/request` directly had the same collision: resubmitting with `inputs_by=name` would feed one dataset to every step that shares the name.
+  - Codex's point was that the two sides implemented conflicting reference policies.
+- **The fix.**
+  - `Workflow.request_input_labels()` in `lib/galaxy/model/__init__.py` is now the single policy. A step is referenced by its effective label, or by `None` (meaning its order index) when the label is missing or shared.
+  - `recover_inputs()` and `_workflow_to_dict_run` both use it.
+  - The manager-level `_request_input_labels` helper is gone.
+  - `/request` now exports same-named legacy inputs by index under `inputs_by="name|step_index"`. That path already existed for unlabeled steps, and `_normalize_inputs` resolves it. Each step is now prefilled with, and resubmitted with, its own dataset.
+- **Client surface unchanged.** `step_effective_label` keeps the same meaning, and `withRerunValues`, `rerunInputValue` and `mountRerun` are untouched.
+- **Test.** The unit test `test_request_references_legacy_input_steps` replaces `test_request_input_labels`. It was red at the `recover_inputs` assertion first, since the shared name collapsed to one key. It pins both the labels and the `/request` keys. Legacy rows can't be created through the API.
+- **Validation.**
+  - Unit: 15 pass.
+  - API, under the lock: 25 pass across run-form, request, step-param, rerun and recover tests.
+  - black, isort and mypy (from `lib/`) are clean.
 
-Coverage: it read all changed files plus `WorkflowRunInputStep.vue`, `WorkflowRunDefaultStep.vue`, `FormData.vue`, `constants.ts`, `services/invocations.py`, `workflow/modules.py`, `run_request.py`, and `tools/parameters/{__init__,basic}.py`. It did not run the full API or component suites. It reproduced the lookup failure directly with Node.
+<details><summary>Codex output</summary>
 
-Finding (P2, correctness, certain): `client/src/components/Workflow/Run/model.js:251`, "Legacy input names are ignored when prefilling the expanded form".
-- **Detail.** `WorkflowInvocation.recover_inputs()` keys inputs by `WorkflowStep.effective_label`, which falls back to `tool_inputs['name']` for older input steps without a label. The run export supplies `step.label` as `step_label`, so the helper searches by `step_index` instead and returns `undefined`. `WorkflowRunForm` then keeps the default selection rather than the original input.
-- **Scenario.** An invocation of an older stored workflow has a data input at index 0 with `label=None` and `tool_inputs['name']='outer_input'`. Its request exports `inputs={'outer_input': {...}}`. The expanded rerun form doesn't select the original dataset. If another eligible dataset is the default selection, submitting reruns with that dataset.
+Codex reviewed all the changed files plus `services/invocations.py`, `workflow/modules.py`, `run_request.py`, `tools/__init__.py`, `tools/parameters/__init__.py` and `workflow_support.py`. It didn't run the API or browser suites.
 
-Triage: CONFIRMED (`effective_label` at `model/__init__.py:9670`; `step_model["step_label"] = step.label` in `_workflow_to_dict_run`). The lookup rule predates this branch. It moved verbatim from `WorkflowRunFormSimple.vue` into `rerunInputValue`.
+Finding P2, correctness, certain, at `lib/galaxy/managers/workflows.py:794`: "Duplicate legacy input names do not match exported request keys".
+- **What it found.** `_request_input_labels` returns `None` for duplicated effective labels. `recover_inputs` still exports those inputs under their effective label, without checking uniqueness. So `rerunInputValue` searches step indices that aren't in the request, and the saved defaults stay. The export and the run model should share one input-reference policy.
+- **Scenario.** An older workflow has two unlabeled data inputs, both with `tool_inputs.name = 'Input Dataset'`. The exported request contains `{'Input Dataset': A}`, while both run-model steps get `step_effective_label = null`. In the expanded rerun form, neither input is prefilled. Codex reproduced this with the real helper and `recover_inputs`.
 
 </details>

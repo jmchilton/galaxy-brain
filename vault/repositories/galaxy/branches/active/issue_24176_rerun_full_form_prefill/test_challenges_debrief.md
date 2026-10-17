@@ -1,54 +1,47 @@
-# Test challenges debrief
+# Test challenges debrief (round 2, after re-scope)
 
-I kept every test on the branch and dropped none. I rewrote two `WorkflowRun.test.js` cases so they check rendered components, following the client README. The guard test now asserts which form renders, simple or expanded, and no longer reads `wrapper.vm.simpleForm`. With the guard disabled it still fails, and it passes with the guard in place. The wiring test now stubs `WorkflowRunForm`, so it mounts only the component under test. I made no implementation changes and did not change any API tests. I added no E2E test. The case for one is real, but #24177's planned Selenium rerun test is the right home for it (see E2E below). The change is uncommitted in the worktree.
+I changed one test and kept the rest. `test_run_form_input_steps_carry_request_input_keys` now reads `step.get("step_effective_label")` (`8195f1794b1`). Without the branch, it now fails at its own assertion instead of with a `KeyError`. It passes under the lock. I dropped no tests, changed no implementation code, and left the exported client surface (`withRerunValues`, `rerunInputValue`, `mountRerun`, `step_effective_label`) untouched. I red-checked the re-scope's three new unit and client tests by turning off the behaviour each one guards. All three fail at that behaviour.
 
 Not acted on:
-- **E2E here.** #24177 stacks on this branch and the two are recommended to merge together. Its planned Selenium test already does the rerun round trip through the expanded form. Recommendation for #24177: before that test changes the tool value, assert that the expanded form shows the *original* value. That one extra assertion covers this branch's whole path end to end, including the untested two-line `WorkflowRerun.vue` pass-through. A second Selenium test here would duplicate that flow on a heavily loaded machine.
-- **`rerunHasStepParameters` unit test kept**, even though the `WorkflowRun` component test covers the null and non-empty paths. It pins the `{}` and `undefined` edges, and #24177 builds on the predicate.
-- **`rerunInputValue` null-drop case kept**, even though Selenium `test_workflow_rerun_with_unset_optional_data_input` covers it for the simple form. The helper is now shared with the expanded form, which no E2E test covers, and the label, index and `""` fallback keying is only tested here.
-- **Order-based `FormDisplay` lookup in `WorkflowRunForm.test.ts` kept.** The file's existing tests use the same pattern (`nth(..., 0)`), and the earlier review accepted it.
-- **API tests unchanged.** All six were seen red on the parent tip (except the purge half), and five include an unseeded baseline or a load-bearing proof. They exercise the server through the real endpoint and use the populators correctly. The shadowed builtin `input` in `_find_run_input` is a nit, left alone.
+- **#24177 duplicates the rerun mount helper.** Its `WorkflowRun.test.js` defines a nested `mountRerun(runData, rerunRequest)` at line ~162. That copy shadows the shared `mountRerun(props, runData)`, takes its arguments in the opposite order, and repeats the unmount, mock and mount setup. #24177 should call the shared helper. This is #24177's change to make, not this branch's.
+- **`test_request_input_labels` imports the private `_request_input_labels`. Kept.** API and `yaml_to_model` can't create legacy input rows, because `save_to_step` rewrites `tool_inputs`. That leaves this pure-function test as the only way to cover the duplicate-name guard.
+- **The `mountRerun` double unmount and the rerun wrappers that are never unmounted. Kept.** The re-scope review already declined these as a nit. I re-ran the file and Vue raises no warnings. Changing the helper would also put the sibling's imports at risk.
+- **`mountRerun` uses `mount` plus stubs instead of `shallowMount`, which the client README prefers. Kept.** The point is the same as above: #24177 builds on the helper, and both forms are already stubbed.
+- **The API contract test can't tell `step_effective_label` apart from `step_label`.** For workflows saved by current Galaxy the two are equal, so the test would still pass if the server sent `step.label`. It only pins two things: the field is present, and label-or-index pairs with the `/request` keys. Legacy and duplicate-name behaviour is covered by `test_request_input_labels` and the `model.test.js` legacy case.
 
 <details>
 <summary>Full challenge notes</summary>
 
 ## Scope
 
-`git diff 5cf81e75c12..HEAD`. Tests: six `test_run_form_seed*` API tests plus helpers `_find_run_input`, `_run_form_steps`, `_run_runtime_parameter_simple` (`lib/galaxy_test/api/test_workflows.py`); the `invocation_id` param on `download_workflow` (`populators.py`); vitest additions in `WorkflowRunForm.test.ts`, `WorkflowRun.test.js`, `model.test.js`.
+Merge base: `b53a5d9fe8b` (`issue_24178_subworkflow_step_params_export`). Round 1's debrief is `earlier_drafts/1/test_challenges_debrief.md`. Its keeps aren't reopened here: the six `test_run_form_seed*` API tests, `rerunHasStepParameters`, the `FormDisplay` lookup by order, and the `WorkflowRunForm.test.ts` prefill test.
 
-## API tests (`lib/galaxy_test/api/test_workflows.py`)
+## Tests that are new or changed since round 1
 
-The server-side seeding is the core of the fix, and per `writing_tests.md` the API is the right layer (needs a server, no browser, no custom config). Nothing here can move up or down a layer.
+| Test | Verdict | Red check |
+|---|---|---|
+| `test_recover_step_parameters_skips_unusable_rows` (unit) | Keep. It's the only coverage for the skip-on-`ValueError` policy, because the API can't write malformed rows. The parent's tests cover the resolver itself, not this skip loop. The valid subworkflow row is the positive control. | I removed the `try/except ValueError` from `recover_step_parameters`. The test then fails with `ValueError: invalid literal for int() ... 'num_lines'`. If the type filter is removed, the resolver's `assert` fires on the replacement row (reasoned, not run). |
+| `test_request_input_labels` (unit) | Keep. It's a pure function, so it needs no mocks. Legacy rows exist only here. | I removed the `Counter` dedup. The test then fails with `At index 2 diff: 'Input Dataset' != None`. |
+| `test_run_form_input_steps_carry_request_input_keys` (API) | Keep, **changed** to use `.get("step_effective_label")`. It uses the existing populators (`load_workflow`, `invoke_workflow_and_assert_ok`, `invocation_to_request`) and the file's `_run_form_steps` helper. | Reasoned against the parent: without the field, `[None, None] != [None, "WorkflowInput2"]`, and the key set is `{"0","1"}` instead of `{"0","WorkflowInput2"}`. Before the change, the first failure was a `KeyError`. |
+| `model.test.js` `rerunInputValue` legacy case | Keep. | I changed the label read to `step.step_label` only. The test then fails with `expected undefined to be 'c'`. |
+| `model.test.js` `""` positional case | Keep. `step_effective_label: ""` is realistic: `recover_inputs` keys a step labeled `""` under `""`. | It isn't new behaviour (the fallback predates this branch). |
+| Hoisted `mountRerun` in `WorkflowRun.test.js` | Keep. Both rerun tests use it, and both stub the two forms. | Round 1 checked the guard test red. Re-scope moved the helper without changing it. |
 
-| Test | Verdict |
-|---|---|
-| `test_run_form_seeded_from_invocation` | Keep. Seeded vs unseeded baseline, with a value inside a conditional. |
-| `..._conditional_case` | Keep. The recorded selector switches the conditional case, a distinct path in `compute_runtime_state`. |
-| `..._keeps_workflow_parameters` | Keep. `${seedme}` preservation; the guard was proven load-bearing. |
-| `..._subworkflow` | Keep. Covers the separate `_seed_subworkflow_run_inputs` path. |
-| `..._dataset` | Keep. Seeded HDA, then a purged HDA falls back to unseeded. The two halves share expensive setup, which is why they're one test. |
-| `test_run_form_seeding_requires_invocation_access` | Keep. Access check for the new query param on a public workflow. |
+Note: on the parent, these unit and client tests would only fail with `ImportError`/`AttributeError`, because they exercise symbols this branch adds. That's why I red-checked them by turning off the behaviour each one guards. All of those edits were temporary and were reverted with `git checkout -- <file>`, without using a stash.
 
-The helpers are small and reused across tests. `download_workflow(invocation_id=)` follows that function's existing optional-param pattern.
+## Whole branch, briefly
 
-## Vitest
-
-- `WorkflowRunForm.test.ts` "prefills inputs, workflow and resource parameters and job re-use from a rerun request": keep. It tests behavior through child props and the submitted payload, it is consistent with the file's stubbing approach, and it was red before the change.
-- `WorkflowRun.test.js` "seeds run data from the rerun invocation and passes its request to the expanded form": keep, **rewritten** to stub `WorkflowRunForm` (`stubs: { WorkflowRunForm: true }`). The test only reads that component's props, so the real form tree was unnecessary.
-- `WorkflowRun.test.js` "opens the expanded form for a rerun whose request has tool step parameters": keep, **rewritten** to assert `findComponent(WorkflowRunFormSimple)` / `findComponent(WorkflowRunForm)` existence instead of `vm.simpleForm` (README: avoid `wrapper.vm`, test through the template). The expanded case also asserts that `rerunRequest` is forwarded. Red check: with the guard condition forced to `false` in `WorkflowRun.vue` (temporary copy-based edit, restored afterwards), the test fails with `expected true to be false`.
-- `model.test.js` `rerunInputValue` and `rerunHasStepParameters`: keep. These are pure-function contracts, not implementation details. See "Not acted on" above.
-- Mocks: no SimpleNamespace or ad-hoc mock classes to replace. The only module mocks are `getRunData` and `invokeWorkflow`, which are the API boundary.
-
-## E2E
-
-The existing `lib/galaxy_test/selenium/test_workflow_rerun.py` covers only simple-form prefill (data input, boolean, optional data). No E2E test covers rerunning into the expanded form with seeded tool values. That is the user-visible fix for #24176, and it is the only coverage the `WorkflowRerun.vue` pass-through of `rerun-request` / `rerun-invocation-id` would get. The planned #24177 Selenium test drives exactly this flow (rerun → expanded form → change a tool value → submit → check the request export). Adding an assertion that the field shows the original value before the change covers #24176 without a second, slow browser test. Hand this to #24177.
+- **API seeding tests:** unchanged since round 1, and still the right layer for this work.
+- **`test_run_form_seeded_from_imported_invocation`:** load-only by design until #24175 or #24176 lands second (settled).
+- **E2E:** round 1 recommended handing E2E to #24177. That is now superseded: this branch has its own `test_workflow_rerun_prefills_expanded_form` (added and polished after round 1). Reasoned red: without seeding, `num_lines` is a runtime input with no saved value, so the `"3"`/`"2"` previews and the `seedme == "moo"` check would fail.
+- **Python unit tests:** no mocks or `SimpleNamespace` to replace. They build real models with `yaml_to_model`.
+- **Client tests:** they mock only the `getRunData` API boundary.
 
 ## Commands run
 
-- `cd client && npm_config_use_node_version=22.20.0 pnpm exec vitest run src/components/Workflow/Run/WorkflowRun.test.js`: 8 passed.
-- The same file with the guard temporarily disabled: 1 failed (the guard test), as expected. Restored.
-- `pnpm exec vitest run src/components/Workflow/Run/`: 10 files, 74 passed.
-- `pnpm exec prettier --check` and `pnpm exec eslint` on `WorkflowRun.test.js`: clean.
-- No API tests were run. None were changed, and the implementation debrief records them green after rebase.
+- Unit `test/unit/workflows/test_run_parameters.py`: 15 passed. Red edits: 2 failed as described above, then reverted.
+- vitest `src/components/Workflow/Run/`: 11 files, 77 passed. With the `model.js` red edit, 1 failed, then reverted.
+- API, under the lock with the sandbox disabled: `test_run_form_input_steps_carry_request_input_keys`, 1 passed (after the change).
+- Pre-commit hooks (black, ruff, flake8) passed on the commit.
 
 </details>

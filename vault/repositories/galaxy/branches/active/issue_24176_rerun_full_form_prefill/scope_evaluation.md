@@ -1,103 +1,93 @@
-# Scope evaluation
+# Scope evaluation (round 2, after re-scope)
 
-**Recommendation: modest expansion, kept inside this branch.** Keep server seeding and the coordinator's split of the four branches. Add two items. (1) Fix the legacy unlabeled input step lookup in the shared `rerunInputValue`: the run-style step model gets a separate field carrying the `/request` key derived from `effective_label`, and the helper prefers it. Leave `step_label` alone. This closes the gap in both forms, including the simple form's existing gap on dev. (2) Move `withRerunValues` from `WorkflowRunForm.vue` into `model.js` so #24177 imports it instead of inlining a copy. Don't hoist or restack for the duplicate STEP_PARAMETERS helper now. Do the five-line delegation when the second of #24175 and #24176 lands, and strengthen the imported-invocation test at the same time. Object stores, the client merge and the `param_map` bug stay out.
+**Recommendation: keep as implemented.** The expansion bias has already been spent. Round 1's expansion was applied (resolver delegation, `step_effective_label`, `withRerunValues` in `model.js`), and phase 2's Codex fix pulled in the one related bug that was left, in `/request`. I found no new reason to expand or contract. The `/request` duplicate-name change belongs here and not in a sibling. `Workflow.request_input_labels()` is one policy with two consumers, `recover_inputs()` and the run dict. Splitting them would bring back the client/server disagreement Codex found, and #24178 is final while #24175 doesn't touch input export. The PR description should call out the one visible API change: for legacy workflows whose input steps share a name, `/request` now emits index keys with `inputs_by="name|step_index"` instead of one collapsed name key.
 
-Evaluated: head `d10e8cfbf41`, own diff `a171dbed419..HEAD` (17 files, +528/−51). The branch was rebased onto the new #24178 tip `a171dbed419`. The `8141bfccf87`/`5cf81e75c12` pair I was given is stale: `5cf81e75c12` is no longer an ancestor.
+Evaluated: head `ced412c6248` on final parent `57bf3eebd77` (#24178). Branch diff `57bf3eebd77..HEAD`: 18 files, +639/−53, of which about 330 lines are implementation and about 310 are tests.
 
-## 1. As implemented
+## Possible Decompositions
 
-Server seeds the expanded run form from `style=run&invocation_id=`. Tool steps go through `compute_runtime_state(step_args=…)`, with the `${}` guard and the connected-input skip. Subworkflow run-time inputs are set directly. The client prefills input steps, workflow and resource params and job re-use, and `rerunHasStepParameters` forces the expanded form.
+This is for John to decide later. I'm not recommending a split. Whatever the split, the coordinator's rule still holds: no PR may regress on its own. In particular, the `rerunHasStepParameters` guard sends reruns to the expanded form, so it has to land together with, or after, both the server seeding and the expanded form's input prefill. Without the seeding the guard gains nothing, and without the prefill the rerun loses the input prefill the simple form gives it today.
+
+**Option A: legacy input-key fix first, three PRs.**
+1. **Legacy input references** (about 150 lines, can target `dev` directly with no #24178 dependency).
+   - `Workflow.request_input_labels()`, `recover_inputs()` using it, and the `step_effective_label` run-step field.
+   - `rerunInputValue` moved out of `WorkflowRunFormSimple.vue` into `model.js`.
+   - Tests: `test_request_references_legacy_input_steps`, the `model.test.js` `rerunInputValue` cases and `test_run_form_input_steps_carry_request_input_keys`.
+   - This stands alone: it fixes the simple form's rerun of legacy unlabeled inputs on dev, and `/request` for same-named inputs.
+2. **Server seeding** (about 290 lines, needs #24178).
+   - `invocation_id` on `style=run`, `recover_step_parameters()` over the parent's resolver, and `_compute_seeded_runtime_state` / `_seedable_step_args` / `_seed_subworkflow_run_inputs`.
+   - Tests: the six `test_run_form_seeded_from_*` API tests and `test_run_form_seeding_requires_invocation_access`, `test_recover_step_parameters_skips_unusable_rows`, and the populator kwarg.
+   - It does nothing until a client asks for it.
+3. **Full-form client prefill** (about 250 lines).
+   - `getRunData(…, invocationId)`, the `rerunRequest` props through `WorkflowRerun`/`WorkflowRun`/`WorkflowRunForm`, `withRerunValues` and the `rerunHasStepParameters` guard.
+   - Tests: the vitest cases and the Selenium/Playwright E2E with its navigation entries.
+
+**Option B: by layer, two PRs.**
+1. Server: piece 2 above plus the server half of piece 1 (`request_input_labels`, `recover_inputs` and the run-step field) and their Python tests.
+2. Client: piece 3 plus the client half of piece 1 (the `rerunInputValue` extraction and its legacy lookup).
+
+**Option C: as is, one PR.** Server and client stay together, which is the shape of the issue's proposed approach. #24177 stacks on it.
+
+## 1. As implemented (recommended)
+
+The run-style download is seeded from `invocation_id`. Tool steps go through `compute_runtime_state(step_args=…)` with the `${}` and connected-input skips, subworkflow run-time inputs are set directly, and rows come from the parent's resolver. The client prefills inputs, workflow parameters, resource parameters and job re-use, and the guard forces the expanded form. One reference policy, `request_input_labels()`, decides the keys for both the `/request` export and `step_effective_label`. A label that is missing or shared is referenced by index.
 
 | Pros | Cons |
 |---|---|
-| Covers every row of the issue's table except object stores, which the issue excludes. Follows the issue's proposed approach. | Shared `rerunInputValue` still misses legacy unlabeled input steps (Codex P2, confirmed). The expanded form now inherits the simple form's gap. |
-| Reviewed four ways, with red-first API and vitest tests and E2E on Playwright and Selenium. | `withRerunValues` is private to `WorkflowRunForm.vue`. #24177 inlines a copy, which its normal review, Codex and thermo all flagged. |
-| No regression on its own, thanks to the guard. | A second STEP_PARAMETERS row resolver beside #24175's `resolve_step_parameters()`. |
+| Covers every row of the issue's table except object stores, which the issue excludes. Follows the issue's proposed approach. | Visible `/request` output change for legacy workflows whose inputs share a name. Reviewers of a "prefill the full form" PR won't expect an export change, so the PR description has to say so. |
+| Round 1's expansion is done, and the re-scope removed code: the branch's own STEP_PARAMETERS parsing is gone, and there's one rerun-helper module. | `ced412c6248` changed `rerunInputValue`: a field that is present but `null` now looks the step up by index instead of falling back to `step_label`. #24177's merge base is `b5c7505e1b3`, which predates this change and `b5603b823cb`, so #24177 has to rebase and recheck its prefill cases. |
+| A single policy keeps the client and server consistent, and also fixes resubmitting `/request` for same-named legacy inputs, which collapsed to one dataset. | The legacy path can't be built through the API, so coverage of the duplicate-name case is unit-level only. |
+| Reviewed again after the re-scope (normal, test challenges, Codex, thermo) with red checks. | |
 
-## 2. Modest expansion, in this branch (recommended)
+<details><summary>Where the <code>/request</code> change belongs</summary>
 
-As implemented, plus: (a) a separate request-key field on the run-style step model, based on `effective_label` and set for input steps, which `rerunInputValue` prefers over `step_label`/`step_index`; (b) `withRerunValues` moved to `model.js` next to `rerunInputValue` and `rerunHasStepParameters`.
-
-| Pros | Cons |
-|---|---|
-| Fixes a related bug in code this branch owns at both ends: it adds `_workflow_to_dict_run`'s step model fields and `rerunInputValue`. | Adds a field to the run-style download, which is a small API surface addition. The field name needs John's call. |
-| Also fixes the simple form's rerun of legacy workflows on dev. Without it, a required single dataset input silently falls back to the first listed dataset. | One more API test, which needs a `.ga` fixture with an unlabeled input step that has `tool_inputs.name`, plus one more vitest case. |
-| A new field instead of changing `step_label` keeps display (`model.js:29`), `parameterInputLabels` (`model.js:48`) and the simple form's `stepLabel` unchanged. That avoids the risk Codex cited for deferring. | #24177 has to rebase onto the moved helper. Its simple form keeps its local `color = undefined` copy. |
-| `withRerunValues` gets one home. The only blocker #24177 cited was "it's parent code", and this branch is the parent. | |
-
-<details><summary>Details</summary>
-
-- Why a new field: `WorkflowInvocation.recover_inputs()` keys by `effective_label`, which falls back to `tool_inputs["name"]` for input steps without a label. `_normalize_inputs` resolves `inputs_by="name"` through `effective_label` too (`run_request.py:136`). The server is consistent, and only the client lookup is missing the key. The run step model carries `step_label = step.label`. Input modules' runtime input is named `"input"`, so nothing in the model holds the legacy name today.
-- The fix would be about one line in `_workflow_to_dict_run` and one in `rerunInputValue`. Tests, red first: an API assertion that the run download carries the key for a legacy unlabeled input, and a `model.test.js` case where `rerunInputValue` finds a legacy-named request input. The existing E2E doesn't need to change.
-- `withRerunValues(inputs, values)` is a pure function over `FormInputNode[]`, so the move is mechanical. #24177's three-line inline overlay in `buildFormInputs` becomes a call to it.
+The change sits in `WorkflowInvocation.recover_inputs()`, which exports inputs, not step parameters.
+- **Here (as implemented).** `step_effective_label` and `recover_inputs()` must agree on every step's key, or the client looks up keys the export doesn't contain. That disagreement is the Codex P2. A shared model method is the right abstraction, and this branch introduced its second consumer.
+- **Parent #24178.** It owns the `/request` fixes for subworkflow step parameters. But it's final at `57bf3eebd77`, input export is a different concern from step-parameter export, and moving the method would separate it from its run-dict consumer.
+- **#24175.** Its diff touches neither `recover_inputs` nor `effective_label`, so it's unrelated.
+- **A standalone PR below the stack.** Workable: it's Option A piece 1 above. Without it, this branch would have to send `null` for shared names and leave such steps unfilled, which is the pre-Codex state. That's no regression against dev, but it isn't consistent.
 
 </details>
 
-## 3. Consolidate STEP_PARAMETERS helpers now (hoist into #24178, or restack onto #24175)
+## 2. Contract: drop the `/request` change and the legacy field
 
-Either move `resolve_step_parameters()` down into the #24178 parent so both siblings share it, or restack this branch linearly on #24175 and have `recover_step_parameters()` delegate today.
-
-| Pros | Cons |
-|---|---|
-| Removes the duplicate before review instead of after. | Hoisting adds a design decision to a READY parent republished today. The parent would have to decide what an unknown step returns while keeping dev's 500, and then #24175 would reverse that decision. That isn't a modest change. |
-| Restacking would let the imported-invocation test assert real seeding. | Restacking makes the user-facing fix wait on the import fix and forces another four-branch restack and CI cycle. The expansion bias covers use cases and related bugs, not stack refactors. |
-
-<details><summary>Details</summary>
-
-Verdict: **not now.** When the second of #24175 and #24176 lands, `recover_step_parameters()` should loop over `parameter.resolve_step_parameters()`, skip `None` and `ValueError`, and key by `step.id`. That's about five lines. In the same change, strengthen `test_run_form_seeded_from_imported_invocation`, which today asserts only that the form loads. No branch currently tests that the combined fix actually seeds an imported invocation.
-
-</details>
-
-## 4. Switch `serialize_workflow_invocation_to_request` to `recover_step_parameters()`
-
-This was listed as a follow-up by the normal review and the thermo review.
+Revert to the pre-re-scope lookup (`step_label` or `step_index`). That leaves `recover_inputs()` and legacy unlabeled inputs as they are on dev.
 
 | Pros | Cons |
 |---|---|
-| One parser for the export. | Superseded: #24175's diff already moves that loop onto `resolve_step_parameters()`. It's #24175's code. |
-| | The other cited copy, `workflow_request_to_run_config` (`run_request.py:707`), keys by raw step id for the scheduler. Re-keying by index there would change its meaning, so it isn't a duplicate to fold in. |
+| No change to `/request` output. The PR stays purely about form prefill. | Reverses a John-approved re-scope (settled). |
+| | Brings back the expanded form inheriting the simple form's legacy-input gap. A required single dataset input silently falls back to the first listed dataset. |
+| | #24177 already builds on `step_effective_label`. |
 
-Verdict: drop it as a follow-up for this branch.
+Verdict: out. It's settled, and there's no new reason.
 
-## 5. Object stores in the expanded form
+## 3. Expand to the input side: `_normalize_inputs` uses `request_input_labels()`
 
-Add preferred object store controls to the full form and prefill them on rerun.
-
-| Pros | Cons |
-|---|---|
-| With the guard, plus #24177 hiding the toggle, a rerun of an API-submitted run that set both step params and object stores has no way to set object stores. | The issue excludes it explicitly. It's new UI, and on normal runs too, so it's a feature of the full form in its own right. |
-| | #24177 already prefills object stores in the simple form, which covers the common rerun path. |
-
-Verdict: out. Track it as its own feature.
-
-## 6. Client merge instead of server seeding
-
-Overlay the export's `parameters` onto tool step models on the client, and drop the `invocation_id` query param.
+`run_request._normalize_inputs` still resolves `inputs_by="name"` through the raw `effective_label`. So a plain `name` submission feeds one dataset to every step that shares that name. That includes a `/request` export saved before this branch, or a hand-written API request. Moving the resolution onto `request_input_labels()` would close the loop.
 
 | Pros | Cons |
 |---|---|
-| One data source, and no API change. | Recorded values skip `check_param`, and dependent options are built for the saved state. |
-| | The issue proposes server seeding, and the thermo review agreed after weighing both. Switching now would discard reviewed work. |
+| Submission and export would share one policy. | Changes which requests are accepted. A `name` key that used to bind several steps would no longer bind them, so existing API callers and saved exports could fail as "input not provided". |
+| | `run_request.py` is untouched by this branch, and the case needs a never-resaved workflow from roughly 2016-2019. |
+| | A `name` key that matches several steps is arguably the caller's ambiguity. Neither run form submits by name: the simple form uses `step_index`. |
 
-Verdict: keep server seeding. Leave the choice as a reviewer question in the PR description.
+Verdict: out. If it's wanted, it's its own small PR with an ambiguity error, not silent rebinding.
 
-## 7. Latent `param_map` keyed-by-id bug
+## 4. Server-emitted request key, replacing the client's label/index branching
 
-`workflow_run_config_to_request` reads `run_config.param_map.get(step.order_index)` for subworkflow steps, but `param_map` is keyed by step id.
-
-| Pros | Cons |
-|---|---|
-| A real bug next to the stack's theme. | It's in `run_request.py`, which this branch doesn't touch, and it only affects the subworkflow invocation's own rows. `recover_step_parameters()` reads the parent invocation's rows, so seeding is unaffected. |
-| | The fix changes what gets persisted. #24178 already records it as its own PR. |
-
-Verdict: out of this branch. It belongs with #24178 or a standalone PR.
-
-## 8. Unify tool and subworkflow seeding through `check_param`
-
-Seeded subworkflow values bypass `check_param`.
+From the thermo review. The server would send the request key itself (the label, otherwise `str(order_index)`), which would delete `rerunInputValue`'s branching.
 
 | Pros | Cons |
 |---|---|
-| One seeded path, and subworkflow values would be validated. | Needs `InputProxy.to_dict` to accept a value, which is `modules.py` plumbing. Subworkflow run inputs exclude data inputs, and recorded values were validated when they ran, so the risk is low. |
+| Less client logic, and the server owns the key outright. | The field name and meaning of `step_effective_label` are settled, and #24177 builds on them. The client still needs the positional `""` fallback for older exports. |
 
-Verdict: out. Leave it as a follow-up.
+Verdict: out (settled contract).
+
+## Considered and settled (not re-argued)
+
+- **Restack onto #24175 / hoist the resolver into #24178:** settled. This branch is a sibling of #24175 on #24178, and delegation is already done.
+- **Imported-invocation seeding assert:** deferred to whichever of #24175 and #24176 lands second.
+- **Client merge instead of server seeding:** settled. Keep server seeding, and leave it as a reviewer question in the PR description.
+- **Object stores in the expanded form:** settled out. It's a feature of the full form in its own right.
+- **Sibling split:** #24177 owns the reason message, hidden toggle, simple-form step-param prefill and `replacement_dict`.
+- **Round-1 out-of-scope items still stand:** the `param_map` keyed-by-id bug (with #24178 or standalone), unifying tool and subworkflow seeding through `check_param`, and switching `serialize_workflow_invocation_to_request` (resolved by the parent's resolver).
