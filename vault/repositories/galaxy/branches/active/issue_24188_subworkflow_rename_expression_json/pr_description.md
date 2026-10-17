@@ -22,7 +22,7 @@ A subworkflow's text input that is connected to an expression tool holds the too
 
 </details>
 
-## Why adding a test feature to 26.1
+## Why add a test feature to 26.1
 
 ***The first commit adds one key to the workflow test format: `metadata: {name: ...}` on a `class: Collection` output. The bug is a wrong collection name, and without this key the only place to check a collection name is an API test. A key added only on `dev` couldn't be used by a 26.1 fix's tests, so the fix would ship API tests now that someone later rewrites as framework tests. Adding the key here lets the fix ship with the right tests, in the right framework, once.***
 

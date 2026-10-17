@@ -17,7 +17,7 @@ Acted on (PR description):
 
 Not acted on:
 - **Optional inlining** of `_setup_subworkflow_parameter`/`_recovered_workflow_progress`, which now have one caller each. Not done: it's a preference, and the helpers read fine.
-- **Heading wording "Why adding a test feature to 26.1".** John asked for this wording. The reviewer suggests "Why add a test-format feature to 26.1?". This is a question for John.
+- **Heading wording "Why adding a test feature to 26.1".** John asked for this wording. The reviewer suggests "Why add a test-format feature to 26.1?". John chose "Why add a test feature to 26.1".
 
 <details>
 
