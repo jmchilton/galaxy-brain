@@ -16,6 +16,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`xsd_sample_sheet_collection_type_25.1`](../../repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/index.md) — Aligns tool XSD with sample-sheet collection syntax and adds core-tool lint coverage. Base `release_25.1`. [#24206](https://github.com/galaxyproject/galaxy/pull/24206). Draft requested by John.
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs and fixes runtime diagnostics. Base `release_26.2`. [#24203](https://github.com/galaxyproject/galaxy/pull/24203). Draft requested by John.
 - [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Rejects invalid completion-action names and required export configuration. Base `release_26.2`. [#24202](https://github.com/galaxyproject/galaxy/pull/24202). Draft requested by John.
 - [`invocation_object_store_validation`](../../repositories/galaxy/branches/active/invocation_object_store_validation/index.md) — Rejects invalid storage-routing options before history creation. Base `release_26.2`. [#24197](https://github.com/galaxyproject/galaxy/pull/24197). Draft requested by John.
@@ -70,7 +71,6 @@ None yet.
 None yet.
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`xsd_sample_sheet_collection_type_25.1`](../../repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/index.md) — Aligns tool XSD with sample-sheet collection syntax and adds core-tool lint coverage. Base `release_25.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:xsd_sample_sheet_collection_type_25.1?expand=1).
 - [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
 - [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24173_invocation_selection_prep...jmchilton:galaxy:issue_24173_invocation_selection_urls?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
