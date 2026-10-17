@@ -42,6 +42,10 @@ Edits were applied by Claude and committed in the brief repo as `review: expert 
 
 **Finding:** the brief had six open questions and an empty Blockers section, so `check-workflow-brief` said "ready". Open questions don't gate. Either the Mold should promote design-affecting questions to Blockers, or the Galaxy pipeline's review gate should require Open questions to be resolved.
 
-## Phase B: brief → Galaxy
+## Phase B: brief → Galaxy (interrupted)
 
-Running.
+- Started 2026-10-16 23:05Z and ended 01:24Z, exit 1: the headless session hit John's **usage limit**. The cost recorded so far is about $30.
+- It reached phase 9, `validate-galaxy-workflow`, with phases 1–9 committed. Phase 5 took 2 iterations: `regroup_by_sample` and `validate_endedness`. Phase 6 selected `find-test-data`.
+- There's an extra harness commit, `sample_sheet preflight spike evidence`, and the agent spent long stretches "waiting on spike run". That's the sample-sheet merge requirement John kept, which is costly to prove out.
+- Artifacts present: `galaxy-workflow.gxwf.yml`, tests, an expect-failure test for mixed endedness, `open-requirements.ledger.yml`, `workflow-test-run/`.
+- Not done: phase 10 (`run-workflow-test`) and phase 11 (`debug-galaxy-workflow-output`). Resume this run; don't restart it. Not yet scored: brief hash, preflight record, ledgers.
