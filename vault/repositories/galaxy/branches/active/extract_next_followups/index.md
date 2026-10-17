@@ -23,3 +23,7 @@ Conflict preview against `origin/dev` at `113a63bb6920de19f81aaba7f83d9b53b695a9
 ## Re-harden — 2026-10-16
 
 Rebased onto dev `5ff1e46b8c3` (GCard conflict was mechanical: dev re-indented the header; kept dev's markup + `icon-only color="red"`, appended the clear-title tests). Head `3c5a53c2c4f` pushed to fork; GCard/extraction/PageEditor vitest 267 and extract unit 55 pass. Earlier debrief moved to `earlier_drafts/1/`; hardening steps in progress.
+
+## Re-scope — 2026-10-17
+
+First re-harden's scope evaluation recommended expanding (E1–E4); done on `d4d504fb3c1..737377a6efa`, original scope kept as `extract_next_followups_alt_original_scope` ([alt](alts/original_scope.md), [re-scope debrief](implementation_rescope_debrief.md)). First-pass hardening debriefs moved to `earlier_drafts/2/`; second hardening pass in progress.
