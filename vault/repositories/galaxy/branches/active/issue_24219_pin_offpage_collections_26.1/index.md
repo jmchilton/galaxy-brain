@@ -12,5 +12,5 @@ Fixes galaxyproject/galaxy#24219: a selected visible collection past the first t
 ## Decisions
 
 - Base `release_26.1`: oldest supported branch with the bug (#22643 paging landed in 26.1); fix is a small server-side change.
-- Forward merge to 26.2/dev conflicts (`basic.py`, `test_tools.py`): there the collection listing is visible-only (`ee476eb5a3b`, no `visible_only` arg) → `DataCollectionToolParameter._hdca_listing_visible_only = True`, drop the arg in `_page_hdca_matches`, pin then `_carry_selected_hdca` the unpinned value. Hidden case in `test_build_collection_options_pinned_matches_page_entry` becomes a carried `(hidden)` option there.
+- Forward merge to 26.2/dev conflicts (`basic.py`, `test_tools.py`): there the collection listing is visible-only (`ee476eb5a3b`, no `visible_only` arg) → `DataCollectionToolParameter._hdca_listing_visible_only = True`, drop the arg in `_page_and_pin_hdcas`, then `_carry_selected_hdca` the unpinned values it returns. Hidden case in `test_build_collection_options_pinned_matches_page_entry` becomes a carried `(hidden)` option there.
 - Server-only; client `FormData` already shows non-`keep` pinned entries.
