@@ -1,6 +1,6 @@
 # issue_24218_can_map_over_parity_26.0
 
-Status: implemented + hardened (READY), head `d29206dcd71`; fork CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24218_can_map_over_parity_26.0?expand=1). Base: `release_26.0` (`a6544be047d`). Worktree: `~/projects/worktrees/galaxy/branch/issue_24218_can_map_over_parity_26.0`. Fork: `jmchilton/issue_24218_can_map_over_parity_26.0`.
+Status: implemented + hardened (READY), head `c217ced0660`; fork CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24218_can_map_over_parity_26.0?expand=1). Base: `release_26.0` (`a6544be047d`). Worktree: `~/projects/worktrees/galaxy/branch/issue_24218_can_map_over_parity_26.0`. Fork: `jmchilton/issue_24218_can_map_over_parity_26.0`.
 
 Fixes galaxyproject/galaxy#24218: client `CollectionTypeDescription.canMapOver` accepts `:paired_or_unpaired` map-overs the server's `has_subcollections_of_type` rejects; editor draws map-over of empty type `""`. Source fix ported from `00e2bf07047` on [issue_20657_input_processing_mode](../issue_20657_input_processing_mode/index.md). [Issue notes](../../../issues/wip/24218/index.md)
 
