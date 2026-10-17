@@ -1,0 +1,4 @@
+- Show how many jobs a batched tool run will start
+- Preview job counts on the tool form, and block batches the server would reject
+- Tool form: say how many jobs Run will start
+- Preview batched tool job counts before Run

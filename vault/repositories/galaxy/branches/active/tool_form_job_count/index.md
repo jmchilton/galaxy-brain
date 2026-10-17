@@ -1,41 +1,22 @@
 # tool_form_job_count
 
-Status: `branches_implemented_needs_ci`. Base: `dev`.
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1)
+- [View on GitHub](https://github.com/jmchilton/galaxy/tree/tool_form_job_count)
 
-Previews tool job counts before Run, with expansion and mismatch warnings; Run disabled on mismatch / multi-job remap.
+Previews tool job counts before Run, with expansion and mismatch warnings; Run disabled on mismatch / multi-job remap. Base: `dev`.
 
-[Implementation](implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Alt: original scope](alts/original_scope.md) · [Tracking history](tracking_history.md)
+## Status
 
-## Re-harden — 2026-10-17
+`branches_ready_for_final_review`: polished 2026-10-17 at `db1fba6634a` (rebased onto `origin/dev` `7c86d742327`), waiting on John's read-through.
 
-The branch was rebased onto `origin/dev` `5ff1e46b8c3`, which resolved the `permutations.py` conflict. It was then re-scoped (Run is blocked on a mismatch or a remap with more than one job; batch labels are qualified) and hardened twice. The new head is `18d4e13b4eb`, force-pushed to `jmchilton`. The pre-rescope version is `tool_form_job_count_alt_original_scope`. CI has not been seen on the new head, so the fork-CI notes below refer to the old head `5d2684ace76`. STATUS READY; see [debrief](implementation_debrief.md).
+No PR yet. The baseline commits are split out as [`tool_form_job_count_baseline`](../tool_form_job_count_baseline/index.md), meant to land first.
 
-## TICK — 2026-10-11
+Fork CI is pending on `db1fba6634a`. The Client Unit red on the previous head (FormBoolean/FormCheck/FormOptionalText) is pre-existing on dev.
 
-Current-head Python lint still reports relevant nullable union accesses in test_meta_expansion.py:140,220. Client-unit base failure and browser cache misses remain separate; no promotion.
+## Polish
 
-## TICK — 2026-10-12
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
 
-Requested failed-job reruns for the recorded unrelated failures: [run 37636764775](https://github.com/jmchilton/galaxy/actions/runs/37636764775), [run 37636764711](https://github.com/jmchilton/galaxy/actions/runs/37636764711), [run 37636764649](https://github.com/jmchilton/galaxy/actions/runs/37636764649), [run 37636764574](https://github.com/jmchilton/galaxy/actions/runs/37636764574), [run 37636764654](https://github.com/jmchilton/galaxy/actions/runs/37636764654), [run 37636764521](https://github.com/jmchilton/galaxy/actions/runs/37636764521), [run 37636763610](https://github.com/jmchilton/galaxy/actions/runs/37636763610), [run 37636763488](https://github.com/jmchilton/galaxy/actions/runs/37636763488). All requests were accepted; this does not claim a passing rerun or recover an evicted client cache/artifact.
+## Notes
 
-## GOOD_MORNING — 2026-10-13
-
-Current fork head `5d2684ace7691912634cca7cf90a33538173daef` conflicts with `origin/dev` in 1 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `lib/galaxy/util/permutations.py`
-
-## GOOD_MORNING — 2026-10-13
-
-Requested failed-job reruns for diagnosed unrelated failures: [run 37636763488](https://github.com/jmchilton/galaxy/actions/runs/37636763488), [run 37636764574](https://github.com/jmchilton/galaxy/actions/runs/37636764574), [run 37636764775](https://github.com/jmchilton/galaxy/actions/runs/37636764775), [run 37636764711](https://github.com/jmchilton/galaxy/actions/runs/37636764711), [run 37636763610](https://github.com/jmchilton/galaxy/actions/runs/37636763610), [run 37636764649](https://github.com/jmchilton/galaxy/actions/runs/37636764649), [run 37636764654](https://github.com/jmchilton/galaxy/actions/runs/37636764654), [run 37636764521](https://github.com/jmchilton/galaxy/actions/runs/37636764521). All requests accepted; reruns are pending, not passing coverage.
-
-## TICK — 2026-10-13 evening
-
-Requested failed-job reruns for recorded unrelated failures: [run 37636763488](https://github.com/jmchilton/galaxy/actions/runs/37636763488), [run 37636763610](https://github.com/jmchilton/galaxy/actions/runs/37636763610), [run 37636764649](https://github.com/jmchilton/galaxy/actions/runs/37636764649), [run 37636764521](https://github.com/jmchilton/galaxy/actions/runs/37636764521), [run 37636764574](https://github.com/jmchilton/galaxy/actions/runs/37636764574), [run 37636764775](https://github.com/jmchilton/galaxy/actions/runs/37636764775), [run 37636764711](https://github.com/jmchilton/galaxy/actions/runs/37636764711), [run 37636764654](https://github.com/jmchilton/galaxy/actions/runs/37636764654). All requests accepted. These reruns are pending coverage, not passing results; branch classification is unchanged.
-
-## TICK reruns — 2026-10-15
-
-Requested failed-job reruns for recorded unrelated failures: [run 37636763610](https://github.com/jmchilton/galaxy/actions/runs/37636763610), [run 37636764574](https://github.com/jmchilton/galaxy/actions/runs/37636764574), [run 37636764649](https://github.com/jmchilton/galaxy/actions/runs/37636764649), [run 37636764521](https://github.com/jmchilton/galaxy/actions/runs/37636764521), [run 37636764711](https://github.com/jmchilton/galaxy/actions/runs/37636764711), [run 37636764775](https://github.com/jmchilton/galaxy/actions/runs/37636764775), [run 37636764654](https://github.com/jmchilton/galaxy/actions/runs/37636764654), [run 37636763488](https://github.com/jmchilton/galaxy/actions/runs/37636763488). Requests accepted; reruns are pending evidence, not green results. Existing classification and review holds remain.
-
-## Morning refresh — 2026-10-16
-
-Conflict preview against `origin/dev` at `5d2684ace7691912634cca7cf90a33538173daef` found overlapping changes in 1 paths (`lib/galaxy/util/permutations.py`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.
-
-Requested failed-job reruns for diagnosed unrelated failures: [run 37636764711](https://github.com/jmchilton/galaxy/actions/runs/37636764711), [run 37636764775](https://github.com/jmchilton/galaxy/actions/runs/37636764775), [run 37636764574](https://github.com/jmchilton/galaxy/actions/runs/37636764574), [run 37636764521](https://github.com/jmchilton/galaxy/actions/runs/37636764521), [run 37636764654](https://github.com/jmchilton/galaxy/actions/runs/37636764654), [run 37636764649](https://github.com/jmchilton/galaxy/actions/runs/37636764649), [run 37636763488](https://github.com/jmchilton/galaxy/actions/runs/37636763488), [run 37636763610](https://github.com/jmchilton/galaxy/actions/runs/37636763610). All requests accepted; reruns are pending evidence, not passing results or recovered cache coverage.
+[Implementation](implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Baseline refactor](baseline_refactor.md) · [Alt: original scope](alts/original_scope.md) · [Tracking history](tracking_history.md)
