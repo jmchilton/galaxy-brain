@@ -37,6 +37,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`xsd_sample_sheet_collection_type_25.1`](../../repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/index.md) — Tool XSD accepts `sample_sheet` collection types and the tool lint now XSD-checks core tools such as `sample_sheet_to_tabular.xml`. Base `release_25.1`, head `5d35c8c7db3`; re-scoped and hardened; fork CI pending (CircleCI `validate_test_tools` is the key job).
 - [`form_checkbox_controlled_tests`](../../repositories/galaxy/branches/active/form_checkbox_controlled_tests/index.md) — Repairs the three upstream controlled-checkbox test failures on dev `5ff1e46b8c3`; 151 related tests pass, independent review complete; fork CI pending.
 
 - [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Deduplicate identical nested tool references while retaining distinct versions and UUIDs. Rescoped and reviewed; fresh CI pending.
