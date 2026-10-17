@@ -1,13 +1,13 @@
 # issue_24221_paged_map_over_options_26.1
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24221_paged_map_over_options_26.1?expand=1)
+- [#24228](https://github.com/galaxyproject/galaxy/pull/24228)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24221_paged_map_over_options_26.1)
 
 ## Status
 
-Polished; `branches_ready_for_final_review`. Base `release_26.1` (`dbe4f2f7e41`), head `39e4b4e9f6f`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24221_paged_map_over_options_26.1`.
+Polished; draft PR open, `ci_wait`. Base `release_26.1` (`dbe4f2f7e41`), head `39e4b4e9f6f`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24221_paged_map_over_options_26.1`.
 
-No PR.
+Draft [#24228](https://github.com/galaxyproject/galaxy/pull/24228) opened 2026-10-17 at John's request; title "[26.1] Fix paged collection options dropping a collection's map-over entry". Screenshots hosted on `pr-assets-issue_24221_paged_map_over_options_26.1`.
 
 Fork CI on `39e4b4e9f6f` pending (restarted by the polish push).
 
