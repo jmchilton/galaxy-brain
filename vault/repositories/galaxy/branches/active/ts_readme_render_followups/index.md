@@ -1,15 +1,19 @@
 # Tool Shed historical README rendering
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ts_readme_render_followups?expand=1)
+- [PR #24210](https://github.com/galaxyproject/galaxy/pull/24210)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/ts_readme_render_followups)
 
 ## Status
 
-`branches_ready_for_final_review` at `d64a2bdfe450e55449653e0758ac9e62ec2cc808`, based on `dev`; human read-through remains outstanding.
+`ready` at `c65e1fee192299b340e54f3c9f1373f6a69e944e`, based on `release_26.2`; all 12 patches rebased without conflicts and unchanged in `git range-diff`.
 
-No PR opened; [description](pr_description.md), [title options](pr_titles.md), and [labels](pr_tags.md) are ready for review.
+[PR #24210](https://github.com/galaxyproject/galaxy/pull/24210) is open, out of draft, against `release_26.2`, with the chosen title, edited description and labels.
 
-Local checks pass (108 unit, 7 API, 6 vitest, 1 browser; build, mypy and schema regeneration); fresh fork CI is queued with no failures so far.
+Post-rebase checks pass (108 Tool Shed unit tests, 12 skipped; 6 RepositoryPage tests; whitespace); upstream CI is queued/running.
+
+## Approval
+
+John requested the rebase and PR opening on 2026-10-17. Approved rebased SHA: `c65e1fee192299b340e54f3c9f1373f6a69e944e`. Chosen title: “Keep Tool Shed README text and images on the selected revision”. GitHub added the release prefix `[26.2]` to the published title. The description's human-read checklist is checked. Screenshots are hosted on fork branch `pr-assets-ts_readme_render_followups`.
 
 ## Review materials
 
@@ -21,4 +25,4 @@ Local checks pass (108 unit, 7 API, 6 vitest, 1 browser; build, mypy and schema 
 
 [Scope evaluation](scope_evaluation.md), [thermo-nuclear review](thermo_nuclear_review.md), and [Codex review](codex_review.md) predate the revision-aware image route; the description identifies their historical scope.
 
-#24053 is merged and forward-merged into dev; the former release-branch dependency is resolved. Worktree: `~/projects/worktrees/galaxy/branch/ts_readme_render_followups`.
+#24053 is merged and present in the release base; the former dependency is resolved. Worktree: `~/projects/worktrees/galaxy/branch/ts_readme_render_followups`.

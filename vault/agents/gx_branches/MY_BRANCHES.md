@@ -1,9 +1,10 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-17 (target branch CI refreshed).
+Snapshot: 2026-10-17 (Tool Shed README PR opened; target branch CI refreshed).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`ts_readme_render_followups`](../../repositories/galaxy/branches/active/ts_readme_render_followups/index.md) — Shows historical READMEs and images on revision permalinks. Base `release_26.2`. [#24210](https://github.com/galaxyproject/galaxy/pull/24210).
 - [`issue_23977_client_api_fanout_26.1`](../../repositories/galaxy/branches/active/issue_23977_client_api_fanout_26.1/index.md) — Spaces out client retries and removes hidden counts requests (#23977). [#24141](https://github.com/galaxyproject/galaxy/pull/24141).
 - [`invocation_unknown_scheduler`](../../repositories/galaxy/branches/active/invocation_unknown_scheduler/index.md) — Rejects unknown workflow scheduler IDs with HTTP 400 instead of queueing invocations that never run. Base `release_26.1`. [#24169](https://github.com/galaxyproject/galaxy/pull/24169).
 - [`invocation_missing_input_404`](../../repositories/galaxy/branches/active/invocation_missing_input_404/index.md) — Missing HDA, LDDA, library dataset and collection workflow inputs return a 404 naming the input. Base `release_26.1`. [#24171](https://github.com/galaxyproject/galaxy/pull/24171).
@@ -75,7 +76,6 @@ None yet.
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`issue_24093_batch_element_labels_26.1`](../../repositories/galaxy/branches/active/issue_24093_batch_element_labels_26.1/index.md) — Labels every tool-form batch value, including dropped hidden collection elements (#24093). Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24093_batch_element_labels_26.1?expand=1).
-- [`ts_readme_render_followups`](../../repositories/galaxy/branches/active/ts_readme_render_followups/index.md) — Shows old-revision READMEs and images, loads revision permalinks, and removes dead README code. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ts_readme_render_followups?expand=1).
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
 - [`invocation_no_add_to_history_false_26.1`](../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — Backports the `no_add_to_history` and empty-`ds_map` invocation fixes to 26.1. Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
 - [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24173_invocation_selection_prep...jmchilton:galaxy:issue_24173_invocation_selection_urls?expand=1).
