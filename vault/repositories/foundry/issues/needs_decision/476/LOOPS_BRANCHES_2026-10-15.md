@@ -66,6 +66,12 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
      - Mold: a `TODO` step nothing fits is searched on the Shed, then authored. If that fails, the call records a blocking ledger entry for the step. It also adds a "How a call ends" section, and `repair-galaxy-draft-topology` now accepts the case.
      - Controller: an unchanged draft with an open or surrendered blocking entry for the picked step fails as `loop_blocked`.
      - Gap: the single-skill Pi worker can't invoke the repair Mold. Having the controller launch a repair worker would close it.
+     - Rerun of iteration 4 alone (`~/foundry-runs/nf2g-demo-iter4-blocked-exit-2026-10-19/`, 16 turns, $0.25): draft unchanged, a new blocking entry from `advance-galaxy-draft-step` citing its searches, and no partial workflow. The controller would report `loop_blocked`. It didn't visibly try authoring a wrapper.
+   - 2026-10-19: the per-leg test-data branch is on `feat/test-pipeline-test-data-branch` (`0a9557a9`), stacked on #686, no PR yet.
+     - One worker per leg; it stops at the first leg that leaves nothing unresolved.
+     - `branch_contract` fails a leg that writes no refs, drops one, or changes a resolved one.
+     - Inputs still unresolved at `user-supplied` end the phase, trial and run `blocked`, a new status the dashboard renders.
+     - Not run live: it sits behind the draft loop, which blocks on nf-core/demo.
    - Live run `~/foundry-runs/nf2g-demo-through7-loop-2026-10-16/` (dashboard alongside):
      - Phases 1–6 passed. The draft had 6 drafty steps.
      - Iterations 1–3 passed, at 14–23 turns per call.
