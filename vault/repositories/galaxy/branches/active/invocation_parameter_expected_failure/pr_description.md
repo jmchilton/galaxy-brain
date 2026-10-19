@@ -61,7 +61,7 @@ Folding in #20900's earlier request validation would couple a reporting fix to c
 
 <details><summary>Tests and manual steps</summary>
 
-- `lib/galaxy_test/api/test_workflows.py::TestWorkflowsApi::test_subworkflow_parameter_validator_failure` uploads a parent workflow whose `text` input feeds a subworkflow `text` parameter, adds a `^moo` regex validator to the exported native subworkflow, and invokes it with `cow`. It asserts the invocation failed with `workflow_parameter_invalid`, the validator message, step path `[1]` and step `0`. With the `modules.py` change reverted it fails on `'unexpected_failure' == 'workflow_parameter_invalid'`.
+- `lib/galaxy_test/api/test_workflows.py::TestWorkflowsApi::test_subworkflow_parameter_validator_failure` uploads a format2 parent workflow whose `text` input feeds a subworkflow `text` parameter with a `^moo` regex validator (format2 validators need gxformat2 0.28.0, from #24215), and invokes it with `cow`. It asserts the invocation failed with `workflow_parameter_invalid`, the validator message, step path `[1]` and step `0`. With the `modules.py` change reverted it fails on `'unexpected_failure' == 'workflow_parameter_invalid'`.
 - Manually: in the editor, give a subworkflow's text parameter a regex validator, connect it to a text input on the parent workflow, and run the parent with a value that doesn't match. The parent invocation should report the validator message on the subworkflow's parameter step. The Galaxy log should show two `INFO` "Failed to schedule" lines (the subworkflow step, then the parent's subworkflow step). A later `ERROR` from the child invocation's re-run is expected; it also happens on `release_26.1`.
 
 </details>
