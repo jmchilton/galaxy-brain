@@ -1,10 +1,10 @@
 # Review File Docs
 
-Default conventions for files in `repositories/<repo>/reviews/<status>/<pr_number>/`. A repository's own `reviews/FILE_DOCS.md` replaces any section with the same pattern. Records may also hold other research, reproduction scripts, evidence, and notes. Older records use `review.md` and `draft-review.md`.
+Default conventions for files in `repositories/<repo>/reviews/<status>/<pr_number>/`. A repository's own `reviews/FILE_DOCS.md` replaces any section with the same pattern. Records may also hold other research, reproduction scripts, evidence, and notes. Older records use `review.md`, `draft-review.md`, and `initial_response_draft.md`.
 
 ## index.md
 
-Keep it minimal, without frontmatter. Start with `# <PROJECT>#<pr_number> — <PR title>`, then one bullet line of links: View on GitHub, each review report, verified review, fix branch, response draft, and any later rounds.
+Keep it minimal, without frontmatter. Start with `# <PROJECT>#<pr_number> — <PR title>`, then one bullet line of links: View on GitHub, each review report, verified review, fix branch, response, and any later rounds.
 
 Next comes `## Status`: at most one sentence each for the review (latest round, reviewed commit, delivered or not) and the PR (state, CI), each its own paragraph. Don't keep older status updates.
 
@@ -18,13 +18,29 @@ Findings aggregated across all review reports, and renumbered `P<priority> <n>`,
 
 A review profile's report, named by the [reviewer registry](../../../agents/_shared/reviewers/index.md). Opens with the profile, model, effort level, and reviewed commit, then findings, each labeled P1 (must fix before merge), P2 (should fix), or P3 (minor or nit).
 
-## initial_response_draft.md
+## initial_review_agents.md
 
-John's unposted response, written from `verified_review.md`. Opens with one sentence naming each review's profile, model, and effort level, then P1 and P2 findings only, linking fix branch commits where they help. No P3s, nits, or review-process archeology.
+The coordinator's collapsible list of review profiles, models, and efforts, placed at the top of the response.
+
+## highlighted_for_reviewer.md
+
+Verified findings filtered out of `verified_review.md` for John alone, such as non-actionable ones or ones that re-litigate a decision in the PR description. Only present when something was filtered.
+
+## test_challenges_debrief.md
+
+The test challenger's raw debrief and test plan, condensed into `test_challenges_review.md`.
+
+## thermo_followup_refactor_issue.md
+
+Draft follow-up issue for refactorings thermo_review judged too large for a release-branch bug fix.
+
+## initial_review_response.md
+
+John's working response, composed from `initial_review_agents.md` and `verified_review.md`; John edits it before it's posted.
 
 ## initial_response_action.md
 
-Checkbox list of what to do with `initial_response_draft.md` and any fix branch: approve, comment, review comment, request changes, open a PR from the fix branch, or push it into the PR. John checks the options.
+Checkbox list of what to do with `initial_review_response.md` and any fix branch: approve, comment, review comment, request changes, open a PR from the fix branch, push it into the PR, or open the follow-up refactor issue. John checks the options.
 
 ## review-*.md
 
