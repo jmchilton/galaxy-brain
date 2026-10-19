@@ -1,0 +1,8 @@
+- [ ] Approve the PR with the response
+- [ ] Approve and merge the PR with the response
+- [ ] Comment with the response
+- [ ] Review comment with the response
+- [ ] Request changes with the response
+- [ ] Pull request: open a PR from the review branch
+- [ ] Push: push the review branch into the PR
+- [ ] Issue: open the follow-up refactor issue
