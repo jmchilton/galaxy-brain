@@ -3,9 +3,9 @@
 - [View PR #24224](https://github.com/galaxyproject/galaxy/pull/24224)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24188_subworkflow_rename_expression_json)
 
-Status: `ci_wait` — John read and approved 2026-10-17 at `e36468c480a`; opened as draft [#24224](https://github.com/galaxyproject/galaxy/pull/24224) with title "[26.1] Fix `${label}` renames in subworkflows fed by expression tools". Base: `release_26.1` (`b2b1e1deeee`). Head: `de29da2c1c7` (client API schema rebuild on top of approved `e36468c480a`). Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
+Status: `ci_wait` — PR [#24224](https://github.com/galaxyproject/galaxy/pull/24224) ("[26.1] Fix `${label}` renames in subworkflows fed by expression tools") approved by mvdbeek 2026-10-19; re-drafted at John's request pending CI on `cbe21ccd399` (Marius' optional points). Base: `release_26.1` (`b2b1e1deeee`). Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
 
-PR CI on `e36468c480a` failed "Validate OpenAPI schema" (stale `schema.ts` from the test-format `CollectionMetadata` commit); fixed by `make update-client-api-schema` in `de29da2c1c7`, rerunning.
+CI green on `de29da2c1c7`; `cbe21ccd399` passed workflow unit tests and the 4 `replacement_parameters_nested*` framework tests locally, PR CI running.
 
 [PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
 
@@ -26,4 +26,8 @@ Fixes [#24188](https://github.com/galaxyproject/galaxy/issues/24188): `${label}`
 
 - A mapped expression collection feeding a subworkflow text input still renders `<HistoryDatasetCollectionAssociation(...)>` in `${label}` renames (needs a per-job replacement dict). Predates this branch.
 - `PickValueModule` lacks `get_informal_replacement_parameters`, so the run form doesn't prompt for informal `${x}` used only in native pick_value renames. A separate small 26.1 PR: move ToolModule's PJA scan up to `WorkflowModule`.
-- planemo `for_collections()` only recognizes `element_tests`, so a Collection output asserting only `metadata.name` goes to the file checker and fails. Planemo-side, predates this branch.
+- planemo `for_collections()` only recognizes `element_tests`, so a Collection output asserting only `metadata.name` goes to the file checker and fails; the key also needs planemo docs (Marius). [planemo#1745](https://github.com/galaxyproject/planemo/issues/1745).
+
+## Marius' review (2026-10-19)
+
+- Taken in `cbe21ccd399`: inner parameter inputs use `is_data=False`, so the pending/ok check sits next to the expression.json pre-read; pre-read limited to labeled inner inputs, matching `set_outputs_for_input`.
