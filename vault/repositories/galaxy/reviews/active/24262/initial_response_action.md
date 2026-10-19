@@ -2,5 +2,5 @@
 - [ ] Comment with the response
 - [ ] Review comment with the response
 - [ ] Request changes with the response
-- [ ] Pull request: open a PR from the fix branch
-- [ ] Push: push the fix branch into the PR
+- [ ] Pull request: open a PR from the review branch
+- [ ] Push: push the review branch into the PR
