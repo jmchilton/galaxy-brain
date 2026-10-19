@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review complete at `a8f82487b93`; two P2s and eight P3s, both P2s plus two P3s fixed on `pr_24230_fix_0`; response unposted.
+Initial review complete at `a8f82487b93`; two P2s and eight P3s, both P2s plus two P3s fixed on `pr_24230_fix_0`; approved with response 2026-10-19.
 
 PR open against `release_26.2` (milestone 27.0), by mvdbeek; three CI failures look unrelated (tool shed mypy, Playwright timeout).

@@ -1,4 +1,4 @@
-# Initial review: galaxyproject/galaxy#24230
+	# Initial review: galaxyproject/galaxy#24230
 
 - Profile: default
 - Model: Opus 5.5, high effort
