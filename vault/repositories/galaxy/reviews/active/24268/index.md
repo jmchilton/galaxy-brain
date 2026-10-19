@@ -1,9 +1,13 @@
 # galaxy#24268 — Replace BFormRadio and BFormRadioGroup with GRadio and GRadioGroup
 
-- [View on GitHub](https://github.com/galaxyproject/galaxy/pull/24268)
+- [View on GitHub](https://github.com/galaxyproject/galaxy/pull/24268) · [initial review](initial_review.md) · [thermo](thermo_review.md) · [test challenges](test_challenges_review.md) · [learning galaxy](learning_galaxy.md) · [risks](risks.md) · [verified review](verified_review.md) · [filtered](filtered_findings.md) · [branch details](review_0_branch_details.md) · [agents](initial_review_agents.md) · [response](initial_review_response.md) · [action](initial_response_action.md)
 
 ## Status
 
-Initial review in progress at `a6772eccffe`.
+Initial review complete at `a6772eccffe`; three P2s + five P3s, all addressed on `pr_24268_review_0` (jmchilton fork; P2 2 Selenium line unrun); response unposted.
 
-PR open against `dev`, by itisAliRH.
+PR open against `dev`, by itisAliRH. Branch carries open #24260's commits; only `c15826c2866..a6772eccffe` reviewed. Review branch's `description` prop touches the same ui-package files as #24260.
+
+## Notes
+
+- Verifier's FilterMenuBoolean reset scratch test (disproved thermo P3 1) was not committed; candidate to add.
