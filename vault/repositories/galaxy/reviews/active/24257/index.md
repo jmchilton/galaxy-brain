@@ -4,7 +4,7 @@
 
 ## Status
 
-Initial review complete at `d48fe03e0e7`; no P1/P2, one P3 (test gap) fixed on `pr_24257_fix_0`; response unposted.
+Initial review at `d48fe03e0e7` delivered 2026-10-19 as an [approval](https://github.com/galaxyproject/galaxy/pull/24257#pullrequestreview-5574010222) with one P3 (test gap; fix on `pr_24257_fix_0`, not offered).
 
 PR open against `release_25.1`, by davelopez; fixes #22974.
 
