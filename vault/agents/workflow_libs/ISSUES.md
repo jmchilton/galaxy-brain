@@ -6,7 +6,7 @@ None yet.
 
 ## In progress (`wip`)
 
-None yet.
+- [galaxy-tool-util-ts#193](https://github.com/jmchilton/galaxy-tool-util-ts/issues/193) — vendored tests.schema.json rejects nested collection count/min/max; next: open PR from `issue_193_nested_collection_count`. [notes](../../repositories/galaxy-tool-util-ts/issues/wip/193/index.md)
 
 ## Queued (`queued`)
 
