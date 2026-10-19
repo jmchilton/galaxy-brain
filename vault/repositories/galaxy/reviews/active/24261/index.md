@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review (medium effort) of `4d7934dc99c`: four P3s, no P1/P2; fixes on review branch; response not delivered.
+Initial review (medium effort) of `4d7934dc99c`: four P3s (John flagged P3 1–2 as potential blockers); fixes on review branch; delivered as a [comment](https://github.com/galaxyproject/galaxy/pull/24261#issuecomment-6274207664) 2026-10-19.
 
 PR open against `dev` (itisAliRH). Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24261`.

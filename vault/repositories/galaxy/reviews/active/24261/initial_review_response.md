@@ -1,4 +1,4 @@
-
+My agent labeled these as P3s but P3 1 and P3 2 seem like potential blockers? Can you review and dispute if I'm wrong? P3 3 and P3 4 look like really optional - P3 4 is a pretty small, useful assertion though I would think. -John 
 
 <details><summary>Automated Review Details</summary>
 
