@@ -1,0 +1,4 @@
+# Filtered findings
+
+- **Other `:pressed` callers passing `undefined` lose `aria-pressed`** (gx_test_challenger and gx_risk_assessment lead): disproved as a regression. In Vue 3.5, an explicitly passed `undefined` was never cast to `false`; only an absent prop was. Before this PR no caller had `aria-pressed` at all. The callers that are props one level up (`CellWrapper` `toggle`/`configure`, `FolderTopBar` `readmeVisible`, `FilterMenu` `showAdvanced`) always get booleans. The one real always-`undefined` caller is the pre-existing `DataManagerJobs.vue` `v-model:pressed="row.detailsShowing"`, which GTable's cell slot never provides. That bug predates this PR and is in code the PR doesn't touch.
+- **Test challenger P3 2 (assert CellAdd's `aria-pressed` goes `"false"` to `"true"`)**: merged into P3 1. The fix replaces `aria-pressed` with `aria-expanded` there, so that assertion would test the wrong contract. The new test asserts `aria-expanded` instead.

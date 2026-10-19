@@ -1,0 +1,8 @@
+Branch `pr_24269_review_0` starts from the reviewed commit `bb962118`. It fixes the review's two CSS problems: grouped pressed buttons now keep their own border colour, and focus no longer darkens an unpressed grey button. It moves `CellAdd` from `aria-pressed` to `aria-expanded`, adds a test for the consumer `aria-pressed` override, drops `FormSelectMany`'s redundant bindings, rewords the stale comment, and adds `aria-pressed` assertions to the existing workflow editor comments Selenium test. Vitest passes for `GButton.test.ts` (32), `CellAdd.test.js` (6, and the new case fails at `bb962118`) and `FormSelectMany.test.ts` (9). I checked the CSS fixes by computed style in Chromium. I haven't run the Selenium assertions.
+
+- `b09afaf1d74` Keep pressed GButton border colour in a GButtonGroup: the group rules set only the border width, so they no longer reset the colour to `currentcolor`.
+- `dd489a4ee52` Stop darkening a focused unpressed grey GButton: removes `:focus-visible` from the grey fill and border rules, and keeps `:active` reachable from hover and keyboard focus.
+- `9da47952f84` Announce CellAdd's popup with aria-expanded, not aria-pressed: binds a string `aria-expanded` from the popper's visibility and adds a `CellAdd.test.js` case.
+- `3b67427d22b` Test that a consumer aria-pressed overrides GButton's: adds a `GButton.vue pressed` case and removes FormSelectMany's two redundant `aria-pressed` bindings.
+- `6357fbeb10c` Reword the coloured pressed GButton comment: describes the block on its own terms instead of pointing at the grey block.
+- `32ecf691d43` Assert the comment toolbar toggles announce aria-pressed: `test_editor_place_comments` checks `"false"`, then `"true"`, around each bold and italic click (unrun).
