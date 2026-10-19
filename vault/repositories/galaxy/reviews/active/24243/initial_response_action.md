@@ -1,0 +1,6 @@
+- [ ] Approve the PR with the response
+- [ ] Comment with the response
+- [ ] Review comment with the response
+- [ ] Request changes with the response
+- [ ] Pull request: open a PR from the fix branch
+- [ ] Push: push the fix branch into the PR
