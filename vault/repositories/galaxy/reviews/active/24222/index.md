@@ -4,7 +4,7 @@
 
 ## Status
 
-Round 1 (low effort) reviewed `8e75e467e47`: five P3s, no P1/P2; fixes/tests for all but P3 5 on review branch (incl. integration + E2E tests, Playwright backend only); response not delivered. Round 0's P2 fixed via John's `2cc6fd033cb` (pushed to author's branch) plus mvdbeek follow-ups.
+Round 1 (low effort) reviewed `8e75e467e47`: five P3s, no P1/P2; fixes/tests for all but P3 5 on review branch (incl. integration + E2E tests, Playwright backend only); [approved with response](https://github.com/galaxyproject/galaxy/pull/24222#pullrequestreview-5576094438) 2026-10-19; awaiting merge. Round 0's P2 fixed via John's `2cc6fd033cb` (pushed to author's branch) plus mvdbeek follow-ups.
 
 PR open against `release_26.2` (bgruening). Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24222`.
 
