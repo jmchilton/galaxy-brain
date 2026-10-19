@@ -38,6 +38,19 @@ The user authorizes these ahead of time, but only exactly as written here. Take 
 The above linked advice is for general review notes - but for Galaxy specifically please be sure to include a risk assessment in reviews.
 
 @../_shared/GX_ASSESSING_RISK.md
+
+## Initial review
+
+Break actionable findings into P1, P2, and P3. Write the review to `initial_review.md` and John's response to `initial_response_draft.md` in the PR's record, per [Galaxy Review File Docs](../../repositories/galaxy/reviews/FILE_DOCS.md). Response template:
+
+```markdown
+Initial review by <model>, <effort> effort.
+
+**P1: <title>** — <file:line>. <problem and suggested fix>
+
+**P2: <title>** — <file:line>. <problem and suggested fix>
+```
+
 ## Delivery and follow-up
 
 Once a review is delivered, the ball is theirs. Do not propose nudging the author, bumping a
