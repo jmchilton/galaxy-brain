@@ -1,0 +1,1 @@
+- P3 (gx_test_challenger): add negative-case test (`skip_if_not_mysql_uri`, assert `supports_returning(engine)` is False). Filtered: not actionable — no `.github/workflows` file references mysql, so the test would always be skipped in CI; low value for a release-branch fix.
