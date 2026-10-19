@@ -1,6 +1,6 @@
 # invocation_subworkflow_input_connections
 
-Status: `draft_ready` — draft PR #24203 opened at John's explicit request on 2026-10-16; PR CI greenish (unrelated reds, see CI diagnosis); undraft is John's call.
+Status: `ci_wait` — draft PR #24203 (draft at John's request) rebased onto `release_26.2` 2026-10-19, head `2de0931ac07`; fresh CI running.
 
 Reject disconnected required subworkflow inputs with HTTP 400 before creating histories or invocations, including nested step paths, while preserving optional and defaulted inputs.
 
@@ -36,3 +36,7 @@ Posted current `pr_description.md` verbatim with `kind/bug`, `area/workflows`, `
 
 - Test Galaxy packages (3.10, 3.14) fail collecting `packages/data/tests/data/datatypes/test_data.py`: `ModuleNotFoundError: galaxy.tools` from the `Conditional` import. Pre-existing on `release_26.2`; fixed by unmerged [`fix_data_package_tests_26_2`](../fix_data_package_tests_26_2/index.md). Unrelated.
 - Tool framework (`never`): `shapefile_composite/1.0.0-0` timed out and output display returned 400. Branch touches workflow run code only. Unrelated; failed job rerun.
+
+## Rebase — 2026-10-19
+
+PR conflicted with `release_26.2` after #24171 merged. Rebased `14584e545ae` → `2de0931ac07`; one mechanical conflict in `run_request.py` (#24171's `_get_input_or_not_found` and this branch's `_step_name`/`_validate_subworkflow_input_connections` added at the same spot), kept both. Ruff clean, `test_workflow_progress.py` 12 passed, no mypy errors in `run_request.py`.
