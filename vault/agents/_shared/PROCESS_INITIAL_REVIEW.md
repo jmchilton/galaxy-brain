@@ -22,7 +22,7 @@ Never leave it to the subagent's default.
 
 ### Verify and fix
 
-Once all reports are in, launch one subagent to estimate the effort to fix each P1, P2, and P3. If any single fix is under about 200 changed lines (code, tests, docs) and the PR's worktree is available, the subagent creates `pr_<PR_NUMBER>_fix_0` there from the reviewed commit (next free number on later rounds) and fixes each finding under that threshold, one commit per finding. Either way it writes `verified_review.md`: findings aggregated across reports (skipping reports without P-labeled findings) with duplicates merged, and renumbered `P<priority> <n>`, flagged `(implementation verified)` when confirmed by a reproduction, test, or the fix. Sharpen findings the fix clarified; filter disproved ones (below). Write each finding as below. Include `<details>` blocks only when needed; skip evidence that is self-evident and a suggested fix the problem makes obvious. Provenance lists every review that raised the finding; the "Verified via" sentence appears only on flagged findings.
+Once all reports are in, launch one subagent to estimate the effort to fix each P1, P2, and P3. If any single fix is under about 200 changed lines (code, tests, docs) and the PR's worktree is available, the subagent creates the review branch `pr_<PR_NUMBER>_review_0` there from the reviewed commit (next free number on later rounds) and fixes each finding under that threshold, one commit per finding, then writes `REVIEW_DIRECTORY/review_<n>_branch_details.md` (matching the branch number): one readable paragraph on what the branch does, then a list of its commits, each with its short SHA, subject, and one sentence of detail. Either way it writes `verified_review.md`: findings aggregated across reports (skipping reports without P-labeled findings) with duplicates merged, and renumbered `P<priority> <n>`, flagged `(implementation verified)` when confirmed by a reproduction, test, or the fix. Sharpen findings the fix clarified; filter disproved ones (below). Write each finding as below. Include `<details>` blocks only when needed; skip evidence that is self-evident and a suggested fix the problem makes obvious. Provenance lists every review that raised the finding; the "Verified via" sentence appears only on flagged findings.
 
 ```markdown
 ### P<priority> <n>: <title> (implementation verified)
@@ -49,7 +49,11 @@ Once all reports are in, launch one subagent to estimate the effort to fix each 
 
 </details>
 
+<details><summary>Discovery & Verification Agent Details</summary>
+
 Discovered by [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/<profile>.md) via <model> at <effort> effort. Verified via <model> at <effort> effort.
+
+</details>
 ```
 
 If `REVIEW_DIRECTORY/thermo_followup_refactor_issue.md` exists, check that it still makes sense as a follow-up issue given the verified findings and fixes. If it does, end `verified_review.md` with the full issue in `<details><summary>Suggested Follow-Up Refactorings</summary>` … `</details>`; if not, filter it (below).
@@ -71,26 +75,26 @@ The coordinator, which launched every subagent and knows their models and effort
 <details><summary>Automated Review Details</summary>
 
 - Review profile [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/<profile>.md) was run via <model> at <effort> effort.
-- Verification was run as documented [here](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_INITIAL_REVIEW.md).
+- Verification was run as documented [here](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_INITIAL_REVIEW.md) via <model> at <effort> effort.
 
 </details>
 ```
 
 ### Respond
 
-Push any fix branch to John's fork; it reaches the author's branch only when John checks Push below.
+Push any review branch to John's fork; it reaches the author's branch only when John checks Push below.
 
 Have a subagent with low effort assemble an initial response from these pieces following [PROCESS_COMPOSE_INITIAL_REVIEW_RESPONSE.md](PROCESS_COMPOSE_INITIAL_REVIEW_RESPONSE.md).
 
-Then write `initial_response_action.md` for John to check one or more options; leave out Pull request and Push when there is no fix branch, the refactor Issue when `verified_review.md` has no follow-up refactorings, and the galaxy-brain Issue when `REVIEW_DIRECTORY/learning_galaxy_followup_issue.md` doesn't exist.
+Then write `initial_response_action.md` for John to check one or more options; leave out Pull request and Push when there is no review branch, the refactor Issue when `verified_review.md` has no follow-up refactorings, and the galaxy-brain Issue when `REVIEW_DIRECTORY/learning_galaxy_followup_issue.md` doesn't exist.
 
 ```markdown
 - [ ] Approve the PR with the response
 - [ ] Comment with the response
 - [ ] Review comment with the response
 - [ ] Request changes with the response
-- [ ] Pull request: open a PR from the fix branch
-- [ ] Push: push the fix branch into the PR
+- [ ] Pull request: open a PR from the review branch
+- [ ] Push: push the review branch into the PR
 - [ ] Issue: open the follow-up refactor issue
 - [ ] Issue: open the galaxy-brain research follow-up issue
 ```

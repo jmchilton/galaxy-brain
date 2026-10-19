@@ -4,7 +4,7 @@ Default conventions for files in `repositories/<repo>/reviews/<status>/<pr_numbe
 
 ## index.md
 
-Keep it minimal, without frontmatter. Start with `# <PROJECT>#<pr_number> — <PR title>`, then one bullet line of links: View on GitHub, each review report, verified review, fix branch, response, and any later rounds.
+Keep it minimal, without frontmatter. Start with `# <PROJECT>#<pr_number> — <PR title>`, then one bullet line of links: View on GitHub, each review report, verified review, review branch, response, and any later rounds.
 
 Next comes `## Status`: at most one sentence each for the review (latest round, reviewed commit, delivered or not) and the PR (state, CI), each its own paragraph. Don't keep older status updates.
 
@@ -12,7 +12,7 @@ Further sections hold only explicit decisions, dependencies, and standing instru
 
 ## verified_review.md
 
-Findings aggregated across all review reports, and renumbered `P<priority> <n>`, with confirmed findings flagged `(implementation verified)`. Sharpened by any fix branch (`pr_<pr_number>_fix_<n>`); filtered findings go to `filtered_findings.md`. Each finding names the reviews that discovered it and, when flagged, the model and effort that verified it.
+Findings aggregated across all review reports, and renumbered `P<priority> <n>`, with confirmed findings flagged `(implementation verified)`. Sharpened by any review branch (`pr_<pr_number>_review_<n>`); filtered findings go to `filtered_findings.md`. Each finding names the reviews that discovered it and, when flagged, the model and effort that verified it.
 
 ## learning_galaxy.md
 
@@ -25,6 +25,10 @@ Draft galaxy-brain issue listing research notes the PR makes stale, including po
 ## *_review.md
 
 A review profile's report, named by the [reviewer registry](../../../agents/_shared/reviewers/index.md). Opens with the profile, model, effort level, and reviewed commit, then findings, each labeled P1 (must fix before merge), P2 (should fix), or P3 (minor or nit).
+
+## review_*_branch_details.md
+
+What the review branch `pr_<pr_number>_review_<n>` does: one readable paragraph, then its commits with one sentence each.
 
 ## initial_review_agents.md
 
@@ -48,7 +52,7 @@ John's working response, composed from `initial_review_agents.md` and `verified_
 
 ## initial_response_action.md
 
-Checkbox list of what to do with `initial_review_response.md` and any fix branch: approve, comment, review comment, request changes, open a PR from the fix branch, push it into the PR, or open the follow-up refactor or galaxy-brain issue. John checks the options.
+Checkbox list of what to do with `initial_review_response.md` and any review branch: approve, comment, review comment, request changes, open a PR from the review branch, push it into the PR, or open the follow-up refactor or galaxy-brain issue. John checks the options.
 
 ## review-*.md
 
