@@ -18,6 +18,7 @@ Set every subagent's effort explicitly, both reviews and verify/fix. The default
 
 - If the PR is a bug fix against a release branch, run any selected gx_test_challenger, generic_test_challenger, or thermo_review reviewers at low effort.
 - Run any selected gx_risk_assessment or generic_risk_assessment reviewers at low effort.
+- If John requests a low effort fix and the test challenger recommends new E2E tests - please bump the effort level up to medium for the verification agent and make it clear a low effort review is an agent setting and doesn't mean we shouldn't implement missing API/Integration/E2E tests.
 
 Never leave it to the subagent's default.
 
@@ -59,7 +60,7 @@ Discovered by [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/va
 </details>
 ```
 
-If `REVIEW_DIRECTORY/thermo_followup_refactor_issue.md` exists, check that it still makes sense as a follow-up issue given the verified findings and fixes. If it does, end `verified_review.md` with the full issue in `<details><summary>Suggested Follow-Up Refactorings</summary>` … `</details>`; if not, filter it (below).
+If `REVIEW_DIRECTORY/thermo_followup_refactor_issue.md` exists, check that it still makes sense as a follow-up issue given the verified findings and fixes. If it does, write the full issue, revised to fit, to `REVIEW_DIRECTORY/followup_refactor_issue.md`; if not, filter it (below).
 
 `verified_review.md` becomes the posted response, so it holds only findings to post. The verifier filters out:
 - Findings disproved by verification.
@@ -89,7 +90,7 @@ Push any review branch to John's fork; it reaches the author's branch only when 
 
 Have a subagent with low effort assemble an initial response from these pieces following [PROCESS_COMPOSE_INITIAL_REVIEW_RESPONSE.md](PROCESS_COMPOSE_INITIAL_REVIEW_RESPONSE.md).
 
-Then write `initial_response_action.md` for John to check one or more options; leave out Pull request and Push when there is no review branch, the refactor Issue when `verified_review.md` has no follow-up refactorings, and the galaxy-brain Issue when `REVIEW_DIRECTORY/learning_galaxy_followup_issue.md` doesn't exist.
+Then write `initial_response_action.md` for John to check one or more options; leave out Pull request and Push when there is no review branch, the refactor Issue when `REVIEW_DIRECTORY/followup_refactor_issue.md` doesn't exist, and the galaxy-brain Issue when `REVIEW_DIRECTORY/learning_galaxy_followup_issue.md` doesn't exist.
 
 ```markdown
 - [ ] Approve the PR with the response

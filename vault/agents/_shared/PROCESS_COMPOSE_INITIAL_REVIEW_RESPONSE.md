@@ -4,7 +4,7 @@ The core findings in `REVIEW_DIRECTORY/verified_review.md` have already been ver
 
 Compose `REVIEW_DIRECTORY/initial_review_response.md`, the working document John edits into the posted response. Leave out any extra agent attribution markers in the response not called out in `initial_review_agents.md`.
 
-If `REVIEW_DIRECTORY/review_<n>_branch_details.md` exists (highest n), its branch `pr_<PR_NUMBER>_review_<n>` is already pushed. Fill the Review Verification Branch block with that file's contents, linking the branch name and each commit SHA on the remote it was pushed to. On each finding the branch fixes, add a link to its commit after the suggested fix. Extend findings with these links; don't rewrite them.
+If `REVIEW_DIRECTORY/review_<n>_branch_details.md` exists (highest n), its branch `pr_<PR_NUMBER>_review_<n>` is already pushed. Fill the Review Verification Branch Details block with that file's contents, linking the branch name and each commit SHA on the remote it was pushed to. On each finding the branch fixes, add a link to its commit after the suggested fix. Extend findings with these links; don't rewrite them.
 
 ```
 (space for John's free style comments - just keep empty)
@@ -18,7 +18,9 @@ REVIEW_AGENT_DETAILS
 
 </details>
 
-## Automated Review Findings (skip if no findings)
+(skip if no findings)
+
+## Automated Review Findings
 
 <details><summary>About findings</summary>
 
@@ -29,14 +31,28 @@ You're contributing to a repository John cares about and you deserve a human res
 </details>
 
 (only if review_<n>_branch_details.md is present in REVIEW_DIRECTORY)
-<details><summary>Review Verification Branch</summary>
+<details><summary>Review Verification Branch Details</summary>
+
+This [review branch](LINK_GOES_HERE) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+
+<details><summary>Branch and Commit Details</summary>
 
 (contents of review_<n>_branch_details.md, linked)
 
 </details>
 
+</details>
+
 REVIEW_FINDINGS (each as a ###, preserve formatting, detail level, and structure from verification agent)
 
-Suggested Follow-Up Refactorings block from verified_review.md, if present
+(only if followup_refactor_issue.md is present in REVIEW_DIRECTORY)
+(branch should be dev/main/master as makes sense for this project)
+<details><summary>Suggested Follow-Up Refactoring for (branch)</summary>
+
+Here's draft text for a follow-up issue covering refactorings this review recommends that don't fit this PR or its target branch. When creating the issue, feel free to assign John (jmchilton).
+
+(literal contents of followup_refactor_issue.md in a code block)
+
+</details>
 
 ```
