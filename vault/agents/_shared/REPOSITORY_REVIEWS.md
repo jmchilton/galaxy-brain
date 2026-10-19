@@ -17,7 +17,7 @@ When archiving, move the directory once agents working there have finished, remo
 
 ## Contents
 
-Each directory contains an `index.md` file without frontmatter. It serves as an ongoing debrief as work is done.
+Each directory contains a minimal `index.md` file without frontmatter, formatted per the File Docs below.
 
 File names follow the File Docs: `vault/repositories/_defaults/reviews/FILE_DOCS.md`, with sections replaced by `vault/repositories/PROJECT/reviews/FILE_DOCS.md`. Prefer a documented name over a new one; add a section when a new kind of file starts recurring. Undocumented files are fine.
 

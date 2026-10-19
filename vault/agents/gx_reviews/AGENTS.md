@@ -39,9 +39,9 @@ The above linked advice is for general review notes - but for Galaxy specificall
 
 @../_shared/GX_ASSESSING_RISK.md
 
-## Initial review
+## Galaxy initial review
 
-Break actionable findings into P1, P2, and P3. Write the review to `initial_review.md` and John's response to `initial_response_draft.md` in the PR's record, per [Galaxy Review File Docs](../../repositories/galaxy/reviews/FILE_DOCS.md). Response template:
+Replaces the generic initial review in REVIEW_NOTES.md. Break actionable findings into P1, P2, and P3. Write the review to `initial_review.md` and John's response to `initial_response_draft.md` in the PR's record, per [Galaxy Review File Docs](../../repositories/galaxy/reviews/FILE_DOCS.md). Response template:
 
 ```markdown
 Initial review by <model>, <effort> effort.
