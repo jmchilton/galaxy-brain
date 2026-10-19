@@ -4,7 +4,7 @@
 
 ## Status
 
-Quick initial review complete at `05f17d3f066`; no findings; response unposted.
+Quick initial review at `05f17d3f066` delivered 2026-10-19 as an [approval](https://github.com/galaxyproject/galaxy/pull/24258#pullrequestreview-5574515981); no findings.
 
 PR open against `release_26.2`, by itisAliRH; only CI failure (`test_export_invocation_to_ro_crate`) is unrelated.
 
