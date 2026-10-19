@@ -24,6 +24,8 @@ Never leave it to the subagent's default.
 
 Once all reports are in, launch one subagent to estimate the effort to fix each P1, P2, and P3. If any single fix is under about 200 changed lines (code, tests, docs) and the PR's worktree is available, the subagent creates the review branch `pr_<PR_NUMBER>_review_0` there from the reviewed commit (next free number on later rounds) and fixes each finding under that threshold, one commit per finding, then writes `REVIEW_DIRECTORY/review_<n>_branch_details.md` (matching the branch number): one readable paragraph on what the branch does, then a list of its commits, each with its short SHA, subject, and one sentence of detail. Either way it writes `verified_review.md`: findings aggregated across reports (skipping reports without P-labeled findings) with duplicates merged, and renumbered `P<priority> <n>`, flagged `(implementation verified)` when confirmed by a reproduction, test, or the fix. Sharpen findings the fix clarified; filter disproved ones (below). Write each finding as below. Include `<details>` blocks only when needed; skip evidence that is self-evident and a suggested fix the problem makes obvious. Provenance lists every review that raised the finding; the "Verified via" sentence appears only on flagged findings.
 
+Slow test layers (Selenium, API, integration) are no reason to skip a fix; write the test. Run only the tests the branch adds or edits, one at a time — not their whole suite or framework, and not tests the branch doesn't touch; CI covers the rest. If a written test couldn't be run, say so in its finding.
+
 ```markdown
 ### P<priority> <n>: <title> (implementation verified)
 
