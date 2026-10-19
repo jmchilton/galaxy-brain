@@ -1,5 +1,5 @@
 PRs To Review:
-- [#24261](https://github.com/galaxyproject/galaxy/pull/24261) — Initial review in progress. [notes](../../repositories/galaxy/reviews/active/24261/index.md)
+- [#24261](https://github.com/galaxyproject/galaxy/pull/24261) — Initial review complete; four P3s, fixes on fork branch; response unposted. [notes](../../repositories/galaxy/reviews/active/24261/index.md)
 - [#24262](https://github.com/galaxyproject/galaxy/pull/24262) — Review comment delivered (LGTM; asked author to integrate de-duplication); P2 fixes on review branch. [notes](../../repositories/galaxy/reviews/active/24262/index.md)
 - [#24258](https://github.com/galaxyproject/galaxy/pull/24258) — Approved, no findings; awaiting merge. [notes](../../repositories/galaxy/reviews/active/24258/index.md)
 - [#24252](https://github.com/galaxyproject/galaxy/pull/24252) — Quick initial review complete; no findings; response unposted. [notes](../../repositories/galaxy/reviews/active/24252/index.md)
