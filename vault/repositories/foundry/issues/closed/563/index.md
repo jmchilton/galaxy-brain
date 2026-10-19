@@ -7,7 +7,7 @@ Labels at triage (2026-10-16): `needs-triage`. Filed as `queued` despite that la
 - Plan: [brief-run-plan.md](brief-run-plan.md).
 - The pipelines landed on `main` in #682 (2026-10-15, `b2cdd98b`): paper, interview and Nextflow → brief, plus brief → Galaxy. [branch notes](../../../branches/merged/rfc-workflow-brief/index.md)
 - The brief CLI (`foundry validate-workflow-brief`, `check-workflow-brief`) shipped in `@galaxy-foundry/gxwf-foundry@0.2.0` with the #561 release (2026-10-16).
-- Open: no agent-driven end-to-end brief run yet. Close or keep open per the plan's decision rules.
+- Closed 2026-10-19 by John after runs 1–2 met the close rule; close comment summarizes both runs. Next: paper A/B run 3 (Mold family merge), follow-up issues from the ledgers.
 
 ## Runs 1–2 (2026-10-16/17)
 
@@ -18,7 +18,7 @@ Scorecards: [demo-qc-trim](runs/demo-qc-trim.md), [bacass-sr-assembly](runs/baca
 | 1 demo | 10 min, gates 0/0, 6 open Qs | 11/11 phases (resumed after a usage limit) | case 1 pass; case 2 hit a planemo crash on null skipped leaves | ~$70 |
 | 2 bacass | 14 min, gates 0/0, 6 open Qs | 11/11 phases, all via subagents | all jobs ok; 2 GFA assertions never match (whole-line `has_line_matching`) | ~$19 |
 
-- **Against the decision rule:** both runs reached a correct stop, the brief was unchanged, and scope held. So #563 meets the close criteria. Closing it, and posting a comment, is John's call.
+- **Against the decision rule:** both runs reached a correct stop, the brief was unchanged, and scope held. So #563 met the close criteria; closed 2026-10-19.
 - **Cross-run findings:**
   - Open questions don't gate `check-workflow-brief` (both runs).
   - `summarize-nextflow` CLI defects in both runs: null defaults, dropped booleans, silent `--profile test`.
