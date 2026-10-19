@@ -61,7 +61,11 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
    - Follow-up: the assembler's generic branch text ("stop at the first that yields acceptable output") doesn't describe filling gaps.
 
 3. 2026-10-16: John chose one worker per branch leg, not one worker for the whole chain. The runner loads exactly one skill per worker, so a whole-chain worker would need runner changes. And the loop comes first: every pipeline's test-data branch sits right after the draft loop, and `--through` can't skip the loop.
-   - The loop is up as [#686](https://github.com/galaxyproject/foundry/pull/686), stacked on #683. Review fixes are in `5e1c5115` and `9d973a36`.
+   - The loop is up as [#686](https://github.com/galaxyproject/foundry/pull/686). Review fixes are in `5e1c5115` and `9d973a36`. #683 merged 2026-10-19, so #686 was rebased and retargeted to main.
+   - 2026-10-19: the stall fix is on `fix/draft-step-blocked-exit` (`327616a1`), stacked on #686 and not opened as a PR yet.
+     - Mold: a `TODO` step nothing fits is searched on the Shed, then authored. If that fails, the call records a blocking ledger entry for the step. It also adds a "How a call ends" section, and `repair-galaxy-draft-topology` now accepts the case.
+     - Controller: an unchanged draft with an open or surrendered blocking entry for the picked step fails as `loop_blocked`.
+     - Gap: the single-skill Pi worker can't invoke the repair Mold. Having the controller launch a repair worker would close it.
    - Live run `~/foundry-runs/nf2g-demo-through7-loop-2026-10-16/` (dashboard alongside):
      - Phases 1–6 passed. The draft had 6 drafty steps.
      - Iterations 1–3 passed, at 14–23 turns per call.
