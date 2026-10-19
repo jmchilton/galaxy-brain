@@ -52,7 +52,7 @@ John's working response, composed from `initial_review_agents.md` and `verified_
 
 ## initial_response_action.md
 
-Checkbox list of what to do with `initial_review_response.md` and any review branch: approve, comment, review comment, request changes, open a PR from the review branch, push it into the PR, or open the follow-up refactor or galaxy-brain issue. John checks the options.
+Checkbox list of what to do with `initial_review_response.md` and any review branch: approve, approve and merge, comment, review comment, request changes, open a PR from the review branch, push it into the PR, or open the follow-up refactor or galaxy-brain issue. John checks the options.
 
 ## review-*.md
 
