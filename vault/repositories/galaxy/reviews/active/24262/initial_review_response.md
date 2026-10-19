@@ -21,7 +21,7 @@ These are broken into P1 (must fix), P2 (should fix), and P3 (smaller nits). The
 
 You're contributing to a repository John cares about and you deserve a human response. If any of these don't make sense or are missing important context - please push back and accept John's apology.
 
-The fixes marked below are on the review branch [`pr_24262_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24262_review_0), based on the reviewed commit; its two commits are linked on the findings they fix.
+The fixes marked below are on the review branch [`pr_24262_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24262_review_0), based on the reviewed commit; its three commits are linked on the findings they fix.
 
 ### P2 1: Tag-save queue is copied between HistoryCard and WorkflowCard (implementation verified)
 
@@ -43,15 +43,17 @@ Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vaul
 
 </details>
 
-### P2 2: No E2E test covers the editor closing on a non-first card
+### P2 2: No E2E test covers the editor closing on a non-first card (implementation verified)
 
 The second symptom in #24011 is deterministic. On the default last-updated sort, a tag save re-sorted the card to the top, the input lost focus and the editor closed. The unit tests can only check a stand-in for this: that no `refreshList` was emitted. `test_histories_list.py::test_tags` adds one tag and then filters by it, so it passes on `dev`.
 
-Add a test to `lib/galaxy_test/selenium/test_histories_list.py`, or extend `test_workflow_management.py::test_tagging`. It should open the tag editor on a history card that is not first in the list and add two tags in a row with the shared `tagging_add([a, b], auto_closes=False, parent_selector="#g-card-history-<id> ")`, which keeps using the same open input and so fails on `dev`. Then it should check that the card stayed where it was, reload the page and check that both tags are there. The race interleavings themselves should stay as unit tests, because Selenium can't time them.
+Add a test to `lib/galaxy_test/selenium/test_histories_list.py`, or extend `test_workflow_management.py::test_tagging`. It should open the tag editor on a history card that is not first in the list and add two tags in a row with the shared `tagging_add([a, b], auto_closes=False, parent_selector="#g-card-history-<id> ")`, which keeps using the same open input and so fails on `dev`. Then it should check that the card stayed where it was, reload the page and check that both tags are there. The race interleavings themselves should stay as unit tests, because Selenium can't time them. Commit `4a893c0207d` on `pr_24262_review_0` adds `test_histories_list.py::TestSavedHistories::test_tag_editor_stays_open_on_non_first_card`, which uses the last card in the list. Run under Playwright against a local Galaxy, it passes on the branch and fails with the PR's `HistoryCard.vue` swapped for the merge-base version, because the card jumps to the top after the first tag.
+
+Fixed in [4a893c0207d](https://github.com/jmchilton/galaxy/commit/4a893c0207d139357be120fe830a8d03bd179889).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at medium effort and [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Opus 5.5 at medium effort.
+Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at medium effort and [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
 
 </details>
 
