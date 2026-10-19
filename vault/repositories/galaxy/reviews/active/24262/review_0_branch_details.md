@@ -2,4 +2,4 @@
 
 - `7cf62c963ca` Extract card tag-save queue into useSerialTagSaves — adds `client/src/composables/serialTagSaves.ts` and has both cards call it instead of keeping their own copy (P2 1).
 - `73a590377f8` Always restore last saved tags after tag saves drain — drops the `sameTags` check, since writing back equal tags does no harm (P3 1).
-- `4a893c0207d` Selenium test: history tag editor stays open on non-first card — adds two tags in a row on the last history card, checks it stays in place and both tags survive a reload (P2 2).
+- `940c558fc04` Selenium test: history tag editor stays open on non-first card — adds two tags in a row on the last history card, checks it stays in place and both tags survive a reload (P2 2).
