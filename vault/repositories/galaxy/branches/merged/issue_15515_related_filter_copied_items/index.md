@@ -1,6 +1,6 @@
 # issue_15515_related_filter_copied_items
 
-Status: `author_work` (refreshed 2026-10-16).
+Status: `merged` — [#24106](https://github.com/galaxyproject/galaxy/pull/24106) merged 2026-10-17.
 
 Makes the related filter work on imported and copied history items (#15515).
 

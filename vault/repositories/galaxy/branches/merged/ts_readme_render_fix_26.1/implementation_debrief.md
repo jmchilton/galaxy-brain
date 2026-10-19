@@ -9,7 +9,7 @@ Status: READY. Head `95c83c5d1e5` on `jmchilton:ts_readme_render_fix_26.1`, base
 
 Tests: `test_readme_util.py` 8 passed; `test/unit/tool_shed/` 93 passed, 12 skipped. No UI changes, so no screenshots.
 
-Scope: unchanged ([scope evaluation](scope_evaluation.md)). Follow-ups, now done on `dev` in [`ts_readme_render_followups`](../../active/ts_readme_render_followups/index.md): run `set_image_paths` on old-revision READMEs too (shared post-processing in `build_readme_files_dict`), drop dead Galaxy-side branch/`tool_path`, drop no-op `unicodify`.
+Scope: unchanged ([scope evaluation](scope_evaluation.md)). Follow-ups, now done on `dev` in [`ts_readme_render_followups`](../ts_readme_render_followups/index.md): run `set_image_paths` on old-revision READMEs too (shared post-processing in `build_readme_files_dict`), drop dead Galaxy-side branch/`tool_path`, drop no-op `unicodify`.
 
 Decisions for John:
 - Sibling branches `ts_readme_render_fix` (25.0) and `ts_readme_render_fix_dev` stay local. Dev sibling is redundant once 26.1 merges forward; 25.1/26.0 coverage is John's call.

@@ -10,7 +10,7 @@ Renders Tool Shed READMEs without Mako evaluation and sanitizes rendered HTML, i
 
 Backport of a patch already deployed on the public Tool Shed servers; the fix commit stays identical to that patch, so `readme_util.py` changes go to a later `dev` PR. John approved pushing and normal queueing on 2026-10-11. Sibling local branches `ts_readme_render_fix` (25.0) and `ts_readme_render_fix_dev` hold the same change for other bases; only 26.1 was requested.
 
-2026-10-11: rebased onto `32b8f0a3e83` (newest `release_26.1` commit already in `dev`; same diff, merges cleanly into `release_26.1`) and force-pushed so [`ts_readme_render_followups`](../../active/ts_readme_render_followups/index.md) can merge it into `dev` for real and the later forward merge stays clean. John approved. Head `95c83c5d1e5`.
+2026-10-11: rebased onto `32b8f0a3e83` (newest `release_26.1` commit already in `dev`; same diff, merges cleanly into `release_26.1`) and force-pushed so [`ts_readme_render_followups`](../ts_readme_render_followups/index.md) can merge it into `dev` for real and the later forward merge stays clean. John approved. Head `95c83c5d1e5`.
 
 ## TICK — 2026-10-11
 

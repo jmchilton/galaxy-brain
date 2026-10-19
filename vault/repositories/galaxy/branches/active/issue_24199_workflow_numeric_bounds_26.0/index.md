@@ -1,6 +1,6 @@
 # issue_24199_workflow_numeric_bounds_26.0
 
-Status: draft PR [#24212](https://github.com/galaxyproject/galaxy/pull/24212) opened 2026-10-17 at John's request (title option 1, labels from pr_tags.md; screenshots on `pr-assets-issue_24199_workflow_numeric_bounds_26.0`); CI queued. Polish: [debrief](polish_debrief.md). Base: `release_26.0` (`a6544be047d`). Head: `8df2892c73f`. Fork: `jmchilton/issue_24199_workflow_numeric_bounds_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24199_workflow_numeric_bounds_26.0`.
+Status: `ready` — PR [#24212](https://github.com/galaxyproject/galaxy/pull/24212) undrafted by John 2026-10-19 (opened as draft 2026-10-17, title option 1, labels from pr_tags.md; screenshots on `pr-assets-issue_24199_workflow_numeric_bounds_26.0`); CI green on `8df2892c73f` (61 checks), mergeable. Polish: [debrief](polish_debrief.md). Base: `release_26.0` (`a6544be047d`). Head: `8df2892c73f`. Fork: `jmchilton/issue_24199_workflow_numeric_bounds_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24199_workflow_numeric_bounds_26.0`.
 
 Fixes [#24199](https://github.com/galaxyproject/galaxy/issues/24199): integer/float workflow input bounds were validated server-side but never sent to the run form, so no slider or range warning. Also bounds the editor's Default Value field; inverted saved bounds give a clear 400 and an editor step error.
 

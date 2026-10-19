@@ -7,11 +7,11 @@ The leading baseline tests and refactor commits of [`tool_form_job_count`](../to
 
 ## Status
 
-`ci_wait`: approved by John 2026-10-17 at `bd218fccaef` (title "Branch refactoring and tests to enable tool form job counts"), an exact prefix of `tool_form_job_count`.
+`ready`: approved by John 2026-10-17 at `bd218fccaef` (title "Branch refactoring and tests to enable tool form job counts"), an exact prefix of `tool_form_job_count`.
 
-Draft PR [#24217](https://github.com/galaxyproject/galaxy/pull/24217) opened 2026-10-17 at John's request.
+PR [#24217](https://github.com/galaxyproject/galaxy/pull/24217) undrafted by John 2026-10-19; mergeable.
 
-CI is pending on `bd218fccaef`.
+CI green on `bd218fccaef` (51 checks, no failures).
 
 ## Polish
 

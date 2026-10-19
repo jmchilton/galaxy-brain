@@ -1,6 +1,6 @@
 # xsd_sample_sheet_collection_type_25.1
 
-Status: `ci_wait` — draft PR #24206 opened at John's explicit request on 2026-10-17; fork CI pending. Base: `release_25.1` (`2ae14b0eac3`). Head: `5d35c8c7db3`. Fork: `jmchilton/xsd_sample_sheet_collection_type_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/xsd_sample_sheet_collection_type_25.1`.
+Status: `draft_ready` — draft PR #24206 opened at John's explicit request on 2026-10-17; PR CI greenish (two unrelated reds, see CI diagnosis); undraft is John's call. Base: `release_25.1` (`2ae14b0eac3`). Head: `5d35c8c7db3`. Fork: `jmchilton/xsd_sample_sheet_collection_type_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/xsd_sample_sheet_collection_type_25.1`.
 
 The tool XSD rejected `collection_type="sample_sheet..."`, which core `lib/galaxy/tools/sample_sheet_to_tabular.xml` uses. No upstream issue. Found as a follow-up in [issue_23978_parameter_tools_xsd](../issue_23978_parameter_tools_xsd/scope_evaluation.md).
 
@@ -31,3 +31,9 @@ Fresh lint reproduction using the existing macro-expanding loader and xmllint: r
 John explicitly requested a draft. Opened [#24206](https://github.com/galaxyproject/galaxy/pull/24206) against `release_25.1` at published head `5d35c8c7db348d5c9e2850876a7145ccb06976a8`, using the first polished title: `[25.1] Accept sample-sheet collection types in the tool XSD`. Used `pr_description.md` verbatim, including John's existing checked human-read item. Applied `kind/bug`, `area/tool-framework`, `area/dataset-collections`; no mentions. No code/history changes needed.
 
 Fork CI snapshot at creation: 17 queued, 4 pending, 1 skipped; no observed failures. Relevant CI validation is pending, not a passing result. **Keep this PR draft as explicitly requested by John; do not automatically undraft on green CI without a later instruction.** Authorization covers opening the draft at this SHA. Tracking record supersedes the pre-PR status above.
+
+## CI diagnosis — 2026-10-19
+
+- Converter tests: `CONVERTER_ref_to_seq_taxomony (Test #1)` failed. Branch changes only `convert_sample_sheet.xml` among converters. Unrelated.
+- Selenium shard 1: `test_histories_published.py` tag click / advanced search, timeout waiting on `.history-card-list`. Unrelated UI.
+- Both failed jobs rerun.

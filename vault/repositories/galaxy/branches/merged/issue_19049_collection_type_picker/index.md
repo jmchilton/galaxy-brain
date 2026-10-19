@@ -1,6 +1,6 @@
 # issue_19049_collection_type_picker
 
-Status: `branches_ready_for_final_review`. Base: `dev`. Draft [PR #24055](https://github.com/galaxyproject/galaxy/pull/24055), head `ecb67e386cc6bff0b068b1b80c3a77263fcfb408`.
+Status: `merged` — [#24055](https://github.com/galaxyproject/galaxy/pull/24055) merged 2026-10-17. Base: `dev`. Draft [PR #24055](https://github.com/galaxyproject/galaxy/pull/24055), head `ecb67e386cc6bff0b068b1b80c3a77263fcfb408`.
 
 Adds a select-or-text field for workflow collection types and Tool Shed targets.
 

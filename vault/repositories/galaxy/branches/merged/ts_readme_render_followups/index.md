@@ -5,11 +5,7 @@
 
 ## Status
 
-`ready` at `c65e1fee192299b340e54f3c9f1373f6a69e944e`, based on `release_26.2`; all 12 patches rebased without conflicts and unchanged in `git range-diff`.
-
-[PR #24210](https://github.com/galaxyproject/galaxy/pull/24210) is open, out of draft, against `release_26.2`, with the chosen title, edited description and labels.
-
-Post-rebase checks pass (108 Tool Shed unit tests, 12 skipped; 6 RepositoryPage tests; whitespace); upstream CI is queued/running.
+`merged` — [PR #24210](https://github.com/galaxyproject/galaxy/pull/24210) merged 2026-10-19 into `release_26.2`.
 
 ## Approval
 

@@ -1,6 +1,6 @@
 # issue_23977_client_api_fanout_26.1
 
-Status: `ready` (refreshed 2026-10-16).
+Status: `merged` — [#24141](https://github.com/galaxyproject/galaxy/pull/24141) merged 2026-10-17.
 
 Spaces out client retries and removes hidden counts requests (#23977).
 

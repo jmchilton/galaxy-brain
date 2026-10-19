@@ -1,6 +1,6 @@
 # vitest_readability
 
-Status: `ci_wait`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
+Status: `author_work` (2026-10-19) — CI green on `e06bbc4c702` but the PR now conflicts with `dev`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 

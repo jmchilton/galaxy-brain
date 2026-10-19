@@ -1,6 +1,6 @@
 # tool_open_tool_shed_ids
 
-Status: `draft_ready` (refreshed 2026-10-16).
+Status: `merged` — [#24142](https://github.com/galaxyproject/galaxy/pull/24142) merged 2026-10-16.
 
 Lets tool panel search, the `tool_panel` selectors, and the `tools_list` card selectors find Tool Shed tools by their full GUID id. Covered by `integration_selenium` E2E tests.
 
@@ -10,7 +10,7 @@ Decision — 2026-10-14: John chose to keep the current E2E and search unit cove
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Review](subagents/normal_review.md) · [Fold-in review](subagents/normal_review_tools_list.md) · [Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Scope](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Earlier drafts](earlier_drafts/1/implementation_debrief.md)
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (commit 4a, "Let tool_open find Tool Shed tools by id") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop the commit from `galaxy_ui_driver` once this merges.
+Pulled out of [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) (commit 4a, "Let tool_open find Tool Shed tools by id") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop the commit from `galaxy_ui_driver` once this merges.
 
 
 ## TICK — 2026-10-11

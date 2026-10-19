@@ -1,6 +1,6 @@
 # issue_23980_static_restriction_default
 
-Status: `ci_wait`. Base: `release_26.2` (`f9cf361962e`). PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140) (draft). Tip `a38979e45f6f652f5c1c7d84baa35f0bb86db833`.
+Status: `ready` — undrafted by John 2026-10-19; CI green on tip (51 checks), mergeable. Base: `release_26.2` (`f9cf361962e`). PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140). Tip `a38979e45f6f652f5c1c7d84baa35f0bb86db833`.
 
 Preselects defaults for statically restricted workflow text inputs (#23980). The run form can also submit an allowed `""` option.
 

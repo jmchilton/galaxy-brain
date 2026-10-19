@@ -19,7 +19,7 @@ Easiest first. Commit numbers follow the queue in `GALAXY_UI_SKILL_DESIGN.md` ("
 PRs").
 
 **1. Two standalone fixes, in parallel.** Both branched, tested and pushed 2026-10-09:
-[`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/active/tool_open_tool_shed_ids/index.md),
+[`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/merged/tool_open_tool_shed_ids/index.md),
 [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/merged/playwright_timeout_retry_once/index.md).
 - **Tool Shed ids in `tool_open`** (4a). A real tool panel bug: searching by a Tool Shed id finds
   nothing. The `tools_list` card selectors (invalid CSS for a Tool Shed id) were folded in on

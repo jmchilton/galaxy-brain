@@ -8,7 +8,7 @@ Shares client datatype requests and avoids fetching them for help terms (#23977)
 
 mvdbeek's review comment is addressed in `aaf966c2e46`; reply not yet posted.
 
-Sibling [issue_23977_client_api_fanout_26.1](../../active/issue_23977_client_api_fanout_26.1/index.md) remains active. The branches were split to permit either merge order.
+Sibling [issue_23977_client_api_fanout_26.1](../issue_23977_client_api_fanout_26.1/index.md) merged as [#24141](https://github.com/galaxyproject/galaxy/pull/24141). The branches were split to permit either merge order.
 
 ## Merged — TICK 2026-10-11
 
@@ -22,8 +22,8 @@ Merged [PR #23995](https://github.com/galaxyproject/galaxy/pull/23995) makes YAM
 
 Request-count regressions make the distinction concrete: 25 invocation-state help terms go from 25 datatype requests to zero; 10 concurrent datatype help terms go from 10 requests to one; 10 concurrent upload datatype or genome callers likewise share one request per resource. The recorded post-split validation passed 217 files / 1555 tests plus typecheck and pre-commit. Counts are from unit tests, not a fresh rate-limited-server measurement. See the [PR description](pr_description.md), [implementation debrief](implementation_debrief.md), and [datatype error review](review_datatypes_errors.md) for coverage and decisions.
 
-GitHub confirmed on 2026-10-12 that #23995 merged at `2026-10-11T06:44:03Z`. The [active sibling](../../active/issue_23977_client_api_fanout_26.1/index.md) handles retry spacing and hidden workflow-count requests. Owned workflow cards' per-card counts remain a separate backend/API follow-up; these repairs do not close all of #23977.
+GitHub confirmed on 2026-10-12 that #23995 merged at `2026-10-11T06:44:03Z`. The [sibling](../issue_23977_client_api_fanout_26.1/index.md) handles retry spacing and hidden workflow-count requests. Owned workflow cards' per-card counts remain a separate backend/API follow-up; these repairs do not close all of #23977.
 
 ## Related testing example
 
-[PR #23910 — changes](https://github.com/galaxyproject/galaxy/pull/23910/changes) highlights another boundary that simplified mocks can miss: Vue's scoped CSS after popover content moves under `body`. Its regression test compiles the actual SFC styles and checks the computed 420px width cap on the relocated element. It is a separate merged CSS fix, not a datatype-request repair. The [sibling record's detailed highlight](../../active/issue_23977_client_api_fanout_26.1/index.md#highlight-a-regression-test-that-reaches-the-real-css-boundary) explains the defect and the test's limits.
+[PR #23910 — changes](https://github.com/galaxyproject/galaxy/pull/23910/changes) highlights another boundary that simplified mocks can miss: Vue's scoped CSS after popover content moves under `body`. Its regression test compiles the actual SFC styles and checks the computed 420px width cap on the relocated element. It is a separate merged CSS fix, not a datatype-request repair. The [sibling record's detailed highlight](../issue_23977_client_api_fanout_26.1/index.md#highlight-a-regression-test-that-reaches-the-real-css-boundary) explains the defect and the test's limits.

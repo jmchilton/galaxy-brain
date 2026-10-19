@@ -5,11 +5,11 @@
 
 ## Status
 
-Draft PR open, `ci_wait`. Base `release_25.1` (`8bb256be5b1`), head `22a10b10465`, worktree `~/projects/worktrees/galaxy/branch/issue_19234_batch_mode_hint_25.1`.
+PR out of draft and approved, `ready`. Base `release_25.1` (`8bb256be5b1`), head `22a10b10465`, worktree `~/projects/worktrees/galaxy/branch/issue_19234_batch_mode_hint_25.1`.
 
 Draft [#24223](https://github.com/galaxyproject/galaxy/pull/24223) opened 2026-10-17 at John's request, title "[25.1] Restore batch info for collections mapped over a collection input"; screenshots hosted on fork branch `pr-assets-issue_19234_batch_mode_hint_25.1`.
 
-PR CI on `22a10b10465` pending.
+PR CI on `22a10b10465`: one unrelated Selenium red (see CI diagnosis).
 
 ## About
 
@@ -22,3 +22,7 @@ Fixes galaxyproject/galaxy#19234 (missing batch-mode info): when a collection se
 - Base `release_25.1` (John, 2026-10-17: 26.0 unless small and clear, then 25.1). Fix is small: widen the existing FormData hint condition to the selected value's `map_over_type`; hint logic unchanged on 26.0, merges forward cleanly; server tags `map_over_type` since before 25.1.
 - Keep it a subset of the 20657 approach (selection-driven, batch only) so 20657 can rebase over it. No new help terms, component, dropdown markers.
 - Re-scoped once (scope eval 1): hint names the job unit ("one job per dataset pair"). Scope eval 2: keep.
+
+## CI diagnosis — 2026-10-19
+
+- Selenium shard 2: `test_histories_list.py::test_permanently_delete_history`, `ElementNotInteractableException`. Saved-histories list, not the tool form. Unrelated; failed job rerun.

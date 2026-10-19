@@ -1,6 +1,6 @@
 # invocation_completion_action_validation
 
-Status: `ci_wait` — draft PR #24202 opened at John's explicit request on 2026-10-16; final-head fork CI pending.
+Status: `draft_ready` — draft PR #24202 opened at John's explicit request on 2026-10-16; PR CI greenish (unrelated reds, see CI diagnosis); undraft is John's call.
 
 Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
 
@@ -39,3 +39,7 @@ Final local verification: **all 28 distinct selected API/unit cases have passing
 John explicitly requested a draft. Opened [#24202](https://github.com/galaxyproject/galaxy/pull/24202) against `release_26.2` at head `ddfbb3b991c185779b0f4e200801d6f4d443d8c2`, using the first polished title: `[26.2] Validate completion actions and required export configuration before invocation`. Used `pr_description.md` verbatim, leaving the human-read item unchecked. Applied `kind/bug`, `area/workflows`, `area/API`; added no mentions. No code or history changes needed.
 
 Final-head fork CI snapshot at creation: 16 queued, 4 pending, 2 skipped; no failures. API and integration coverage remain pending. **Keep this PR draft as explicitly requested by John; do not automatically undraft on green CI without a later instruction.** Authorization covers opening the draft at this SHA.
+
+## CI diagnosis — 2026-10-19
+
+- Test Galaxy packages (3.10, 3.14) fail collecting `packages/data/tests/data/datatypes/test_data.py`: `ModuleNotFoundError: galaxy.tools` from the `Conditional` import. Pre-existing on `release_26.2`; fixed by unmerged [`fix_data_package_tests_26_2`](../fix_data_package_tests_26_2/index.md). Unrelated.

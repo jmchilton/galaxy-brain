@@ -1,12 +1,12 @@
 # invocation_object_store_validation
 
-Status: `ci_wait` — draft PR #24197 opened at John's explicit request on 2026-10-16; fork CI pending.
+Status: `merged` — [#24197](https://github.com/galaxyproject/galaxy/pull/24197) merged 2026-10-17.
 
 Reject invalid workflow object-store preferences with HTTP 400 before creating a target history; preserve valid single-store and split-store selections.
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md)
 
-Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md), requested 2026-10-15. Pushed to the fork, reviewed and locally validated. Original CI evidence is historical; see the current polish handoff below.
+Independent extraction from [issue_20900_invocation_validation](../../active/issue_20900_invocation_validation/index.md), requested 2026-10-15. Pushed to the fork, reviewed and locally validated. Original CI evidence is historical; see the current polish handoff below.
 
 ## Morning refresh — 2026-10-16
 

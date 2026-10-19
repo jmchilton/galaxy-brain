@@ -1,6 +1,6 @@
 # issue_24138_invocation_graph_refresh
 
-Status: `ci_wait` (refreshed 2026-10-16).
+Status: `author_work` (refreshed 2026-10-19) — client type check red in this branch's own test.
 
 Fixes [#24138](https://github.com/galaxyproject/galaxy/issues/24138) (Steps tab headers freeze while an invocation runs) and the refresh-cost part of [#22745](https://github.com/galaxyproject/galaxy/issues/22745) (O(n²) graph refresh). Doesn't claim to fix #22745's zoom/pan freeze, which hasn't been browser-profiled. The PR shouldn't auto-close #22745.
 
@@ -47,3 +47,7 @@ John requested rebasing #24165 onto `release_26.2`. Rebased all ten commits from
 Resolved the single conflict in `useInvocationGraph.test.ts` by preserving upstream color-versus-text parameter assertions and the branch's polling assertions, adapting the upstream setup to the branch's workflow fixture. Runtime code merged automatically; range-diff changes are the test reconciliation and upstream color-handling context. No design decision or scope change.
 
 Validation: six affected client test files, **71 passed**; reconciled test ESLint, formatting and `git diff --check` pass. Browser E2E was not rerun for this test-only conflict resolution.
+
+## CI diagnosis — 2026-10-19
+
+- Client linting / client-unit-test: `src/composables/useInvocationGraph.test.ts(412,71): error TS2322: Type 'number' is not assignable to type 'string'`. Relevant; needs a fix.

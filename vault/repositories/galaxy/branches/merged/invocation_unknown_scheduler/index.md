@@ -1,10 +1,10 @@
 # invocation_unknown_scheduler
 
-Status: `ready` (refreshed 2026-10-16).
+Status: `merged` — [#24169](https://github.com/galaxyproject/galaxy/pull/24169) merged 2026-10-17.
 
 **Polish:** [PR description](pr_description.md) · [PR titles](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist evaluation](checklist_evaluation.md)
 
-Reject unknown workflow scheduler IDs with HTTP 400 before building run configurations. Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md).
+Reject unknown workflow scheduler IDs with HTTP 400 before building run configurations. Independent extraction from [issue_20900_invocation_validation](../../active/issue_20900_invocation_validation/index.md).
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md)
 
