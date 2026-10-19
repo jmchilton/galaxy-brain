@@ -14,6 +14,14 @@ Further sections hold only explicit decisions, dependencies, and standing instru
 
 Findings aggregated across all review reports, and renumbered `P<priority> <n>`, with confirmed findings flagged `(implementation verified)`. Sharpened by any fix branch (`pr_<pr_number>_fix_<n>`); filtered findings go to `filtered_findings.md`. Each finding names the reviews that discovered it and, when flagged, the model and effort that verified it.
 
+## learning_galaxy.md
+
+The learning_galaxy profile's notes on what the PR teaches about Galaxy's architecture, for John. No findings; it may only say the PR isn't architecturally interesting.
+
+## learning_galaxy_followup_issue.md
+
+Draft galaxy-brain issue listing research notes the PR makes stale, including post-merge updates.
+
 ## *_review.md
 
 A review profile's report, named by the [reviewer registry](../../../agents/_shared/reviewers/index.md). Opens with the profile, model, effort level, and reviewed commit, then findings, each labeled P1 (must fix before merge), P2 (should fix), or P3 (minor or nit).
@@ -40,7 +48,7 @@ John's working response, composed from `initial_review_agents.md` and `verified_
 
 ## initial_response_action.md
 
-Checkbox list of what to do with `initial_review_response.md` and any fix branch: approve, comment, review comment, request changes, open a PR from the fix branch, push it into the PR, or open the follow-up refactor issue. John checks the options.
+Checkbox list of what to do with `initial_review_response.md` and any fix branch: approve, comment, review comment, request changes, open a PR from the fix branch, push it into the PR, or open the follow-up refactor or galaxy-brain issue. John checks the options.
 
 ## review-*.md
 
