@@ -35,12 +35,6 @@ The user authorizes these ahead of time, but only exactly as written here. Take 
 - Clean up any PRs that have been merged from PULL_REQUESTS.md and local worktrees for those. Report that these have been merged.
 - If any PRs exist in PULL_REQUESTS.md that have not had an initial review in their linked records. Launch the review process for them please.
 
-## Galaxy Review Notes
-
-The above linked advice is for general review notes - but for Galaxy specifically please be sure to include a risk assessment in reviews.
-
-@../_shared/GX_ASSESSING_RISK.md
-
 ## Delivery and follow-up
 
 Once a review is delivered, the ball is theirs. Do not propose nudging the author, bumping a

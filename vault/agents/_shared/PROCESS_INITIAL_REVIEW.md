@@ -17,6 +17,7 @@ Reading a PROJECT PR's diff plus surrounding code burns a lot of context; keep t
 Set every subagent's effort explicitly, both reviews and verify/fix. The default effort for reviewers should be high when John asks for a detailed or thorough review, low when they ask for a fast or simple one, medium otherwise. Times to override this default:
 
 - If the PR is a bug fix against a release branch, run any selected gx_test_challenger, generic_test_challenger, or thermo_review reviewers at low effort.
+- Run any selected gx_risk_assessment or generic_risk_assessment reviewers at low effort.
 
 Never leave it to the subagent's default.
 

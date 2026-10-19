@@ -16,8 +16,6 @@ Common two way doors are:
 A risk section when requested should be of the form:
 
 ```
-## Risks
-
 (one sentence summarizing the one-way risks as clearly as possible)
 
 <details><summary>Risk Details</summary>
@@ -28,7 +26,7 @@ A risk section when requested should be of the form:
 
 <details><summary>Risk Review Advice</summary>
 
-(one of two small paragraphs describing what parts of the change should be specifically considered by humans responsible for making it)
+(one or two small paragraphs describing what parts of the change should be specifically considered by humans responsible for making it)
 
 </details>
 
@@ -37,9 +35,8 @@ A risk section when requested should be of the form:
 or something similar for two-way changes
 
 ```
-## Risks
-
 Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door).
 
 ```
 
+When writing `risks.md`, use no heading. When writing a section of another document (e.g. a PR description), lead with `## Risks`.

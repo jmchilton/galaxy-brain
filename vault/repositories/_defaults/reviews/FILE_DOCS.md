@@ -30,6 +30,10 @@ A review profile's report, named by the [reviewer registry](../../../agents/_sha
 
 What the review branch `pr_<pr_number>_review_<n>` does: one readable paragraph, then its commits with one sentence each.
 
+## risks.md
+
+The risk assessment profile's one-way/two-way door assessment, with no heading, pasted into the response's Risks block.
+
 ## initial_review_agents.md
 
 The coordinator's collapsible list of review profiles, models, and efforts, placed at the top of the response.
