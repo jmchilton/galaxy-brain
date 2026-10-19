@@ -12,7 +12,7 @@ Further sections hold only explicit decisions, dependencies, and standing instru
 
 ## verified_review.md
 
-Findings aggregated across all review reports, and renumbered `P<priority> <n>`, with confirmed findings flagged `(implementation verified)`. Sharpened by any fix branch (`pr_<pr_number>_fix_<n>`); disproved findings are dropped with a reason. Each finding names the reviews that discovered it and, when flagged, the model and effort that verified it.
+Findings aggregated across all review reports, and renumbered `P<priority> <n>`, with confirmed findings flagged `(implementation verified)`. Sharpened by any fix branch (`pr_<pr_number>_fix_<n>`); filtered findings go to `filtered_findings.md`. Each finding names the reviews that discovered it and, when flagged, the model and effort that verified it.
 
 ## *_review.md
 
@@ -22,9 +22,9 @@ A review profile's report, named by the [reviewer registry](../../../agents/_sha
 
 The coordinator's collapsible list of review profiles, models, and efforts, placed at the top of the response.
 
-## highlighted_for_reviewer.md
+## filtered_findings.md
 
-Verified findings filtered out of `verified_review.md` for John alone, such as non-actionable ones or ones that re-litigate a decision in the PR description. Only present when something was filtered.
+Findings the verifier kept out of `verified_review.md`, each with a one-line reason, for John alone. Only present when something was filtered.
 
 ## test_challenges_debrief.md
 

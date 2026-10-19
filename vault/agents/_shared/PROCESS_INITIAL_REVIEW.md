@@ -22,7 +22,7 @@ Never leave it to the subagent's default.
 
 ### Verify and fix
 
-Once all reports are in, launch one subagent to estimate the effort to fix each P1, P2, and P3. If any single fix is under about 200 changed lines (code, tests, docs) and the PR's worktree is available, the subagent creates `pr_<PR_NUMBER>_fix_0` there from the reviewed commit (next free number on later rounds) and fixes each finding under that threshold, one commit per finding. Either way it writes `verified_review.md`: findings aggregated across reports with duplicates merged, and renumbered `P<priority> <n>`, flagged `(implementation verified)` when confirmed by a reproduction, test, or the fix. Sharpen findings the fix clarified; drop disproved ones with a reason. Write each finding as below. Include `<details>` blocks only when needed; skip evidence that is self-evident and a suggested fix the problem makes obvious. Provenance lists every review that raised the finding; the "Verified via" sentence appears only on flagged findings.
+Once all reports are in, launch one subagent to estimate the effort to fix each P1, P2, and P3. If any single fix is under about 200 changed lines (code, tests, docs) and the PR's worktree is available, the subagent creates `pr_<PR_NUMBER>_fix_0` there from the reviewed commit (next free number on later rounds) and fixes each finding under that threshold, one commit per finding. Either way it writes `verified_review.md`: findings aggregated across reports with duplicates merged, and renumbered `P<priority> <n>`, flagged `(implementation verified)` when confirmed by a reproduction, test, or the fix. Sharpen findings the fix clarified; filter disproved ones (below). Write each finding as below. Include `<details>` blocks only when needed; skip evidence that is self-evident and a suggested fix the problem makes obvious. Provenance lists every review that raised the finding; the "Verified via" sentence appears only on flagged findings.
 
 ```markdown
 ### P<priority> <n>: <title> (implementation verified)
@@ -52,13 +52,16 @@ Once all reports are in, launch one subagent to estimate the effort to fix each 
 Discovered by [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/<profile>.md) via <model> at <effort> effort. Verified via <model> at <effort> effort.
 ```
 
-If `REVIEW_DIRECTORY/thermo_followup_refactor_issue.md` exists, check that it still makes sense as a follow-up issue given the verified findings and fixes. If it does, end `verified_review.md` with the full issue in `<details><summary>Suggested Follow-Up Refactorings</summary>` … `</details>`; if not, leave it out and give the reason.
+If `REVIEW_DIRECTORY/thermo_followup_refactor_issue.md` exists, check that it still makes sense as a follow-up issue given the verified findings and fixes. If it does, end `verified_review.md` with the full issue in `<details><summary>Suggested Follow-Up Refactorings</summary>` … `</details>`; if not, filter it (below).
 
-Agents seem to create certain classes of findings that should be filtered out by the verifier from the core findings list.
-- Is the finding really just not actionable - regardless of effort? Keep the verified result just for the reviewer and don't include it in the findings.
-- Is the finding re-litigating a decision called out explicitly in the PR description? If so filter it and explain it to John.
+`verified_review.md` becomes the posted response, so it holds only findings to post. The verifier filters out:
+- Findings disproved by verification.
+- Findings that aren't actionable, regardless of effort.
+- Findings that re-litigate a decision called out explicitly in the PR description.
+- Findings about pre-existing code the PR doesn't touch.
+- A follow-up refactor issue that no longer makes sense.
 
-If any of these verified findings are filtered given the list above - write them to `REVIEW_DIRECTORY/highlighted_for_reviewer.md`. Don't create this file if nothing was filtered.
+Write each filtered item, with a one-line reason, to `REVIEW_DIRECTORY/filtered_findings.md` for John. Don't create this file if nothing was filtered.
 
 ### Review agent details
 
