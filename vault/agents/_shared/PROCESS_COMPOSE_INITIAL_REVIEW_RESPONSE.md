@@ -2,8 +2,7 @@ You're given a REVIEW_DIRECTORY and a WORKING_DIRECTORY that contains the review
 
 The core findings in `REVIEW_DIRECTORY/verified_review.md` have already been verified and written the way John wants to see them; call these REVIEW_FINDINGS. `REVIEW_DIRECTORY/initial_review_agents.md` holds REVIEW_AGENT_DETAILS.
 
-Compose `REVIEW_DIRECTORY/initial_review_response.md`, the working document John edits into the posted response. Leave out the Claude attribution marker ("posted by Claude on John's behalf"); [PROCESS_RESPOND_TO_INITIAL_REVIEW.md](PROCESS_RESPOND_TO_INITIAL_REVIEW.md) adds it when Claude posts.
-
+Compose `REVIEW_DIRECTORY/initial_review_response.md`, the working document John edits into the posted response. Leave out any extra agent attribution markers in the response not called out in `initial_review_agents.md`.
 
 ```
 (space for John's free style comments - just keep empty)

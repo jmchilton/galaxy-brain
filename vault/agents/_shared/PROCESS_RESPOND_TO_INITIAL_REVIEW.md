@@ -2,7 +2,7 @@ Act on the checked boxes in the PR record's `initial_response_action.md`, follow
 
 - **Approve, Comment, Review comment, Request changes** — post `initial_review_response.md` as that kind of PR response. If more than one is checked, ask John which. Never add @-mentions.
 - **Pull request** — open a PR from the fix branch on John's fork against the PR's head branch, so the author can merge the fixes. Link it from the response when both are checked.
-- **Issue (refactor)** — open the follow-up refactor issue from `verified_review.md`'s Suggested Follow-Up Refactorings on PROJECT's upstream repository, led by the Claude attribution marker, with no @-mentions. Link it from the response when both are checked.
+- **Issue (refactor)** — open the follow-up refactor issue from `verified_review.md`'s Suggested Follow-Up Refactorings on PROJECT's upstream repository, with no @-mentions. Link it from the response when both are checked.
 - **Issue (galaxy-brain)** — open an issue on jmchilton/galaxy-brain from `learning_galaxy_followup_issue.md`. Don't link it from the response.
 - **Push** — push the fix branch onto the PR's head branch. Fast-forward only; never force-push. If the push is refused, report back rather than working around it.
 
