@@ -29,10 +29,10 @@ Snapshot: 2026-10-19 (John undrafted #24217, #24212, #24140, #23815; #24228, #24
 
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [#24265](https://github.com/galaxyproject/galaxy/pull/24265). Draft requested by John.
 - [`issue_24188_subworkflow_rename_expression_json`](../../repositories/galaxy/branches/active/issue_24188_subworkflow_rename_expression_json/index.md) — `${label}` renames inside subworkflows use expression.json values, not HDA reprs (#24188). Base `release_26.1`. [#24224](https://github.com/galaxyproject/galaxy/pull/24224).
+- [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [#24165](https://github.com/galaxyproject/galaxy/pull/24165).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
-- [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [#24165](https://github.com/galaxyproject/galaxy/pull/24165).
 - [`vitest_readability`](../../repositories/galaxy/branches/active/vitest_readability/index.md) — Rewrites client tests for readability, shared fixtures and stronger assertions. [#24038](https://github.com/galaxyproject/galaxy/pull/24038).
 - [`selenium_stories_core`](../../repositories/galaxy/branches/active/selenium_stories_core/index.md) — Writes Selenium and Playwright screenshots as Markdown, HTML and PDF stories; narrates tours. [#24137](https://github.com/galaxyproject/galaxy/pull/24137).
 - [`tool_parameter_references`](../../repositories/galaxy/branches/active/tool_parameter_references/index.md) — Developer reference for the inconsistent ways tools, APIs and workflows reference nested tool parameters. [#23877](https://github.com/galaxyproject/galaxy/pull/23877).

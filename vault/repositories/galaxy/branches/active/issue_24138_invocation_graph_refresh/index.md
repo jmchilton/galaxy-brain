@@ -1,6 +1,6 @@
 # issue_24138_invocation_graph_refresh
 
-Status: `author_work` (refreshed 2026-10-19) — client type check red in this branch's own test.
+Status: `ci_wait` (refreshed 2026-10-19) — client type check fix pushed; CI rerunning.
 
 Fixes [#24138](https://github.com/galaxyproject/galaxy/issues/24138) (Steps tab headers freeze while an invocation runs) and the refresh-cost part of [#22745](https://github.com/galaxyproject/galaxy/issues/22745) (O(n²) graph refresh). Doesn't claim to fix #22745's zoom/pan freeze, which hasn't been browser-profiled. The PR shouldn't auto-close #22745.
 
@@ -12,7 +12,7 @@ Worktree: `~/projects/worktrees/galaxy/branch/issue_24138_invocation_graph_refre
 
 **[PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist](checklist_evaluation.md)**
 
-Head `6473c7cc0178f676d5d032e661cece548110d0bc` (10 commits, rebased onto `release_26.2` 2026-10-16). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
+Head `39b5efeee1c9f14f9666673d3cc6bc98b9cd83d3` (11 commits, rebased onto `release_26.2` 2026-10-16). PR text should say `Fixes #24138` and reference #22745 as "part of" only.
 
 ## CI
 
@@ -50,4 +50,4 @@ Validation: six affected client test files, **71 passed**; reconciled test ESLin
 
 ## CI diagnosis — 2026-10-19
 
-- Client linting / client-unit-test: `src/composables/useInvocationGraph.test.ts(412,71): error TS2322: Type 'number' is not assignable to type 'string'`. Relevant; needs a fix.
+- Client linting / client-unit-test: `src/composables/useInvocationGraph.test.ts(412,71): error TS2322: Type 'number' is not assignable to type 'string'`. Relevant. The rebase rewrote the base's color-swatch test to assign typed `input_step_parameters` directly (schema has `workflow_step_id: string`). Fixed in `39b5efeee1c` by passing it through `setupComposable`'s untyped `invocationFields`, like the other callers and as the base test did; test data unchanged. vitest file 38/38, eslint and prettier clean.
