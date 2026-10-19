@@ -15,4 +15,5 @@ PR description: [pr_description.md](pr_description.md). PR not opened yet.
 ## Open
 
 - `visible` is accepted though 26.1 Galaxy rejects it — schema tracks dev, so this is the usual lean; flag in PR.
+- Subagent review (2026-10-19): no P1/P2. Regenerated schema byte-identical to dev; both fixtures red on old schema; no hand-maintained copies. P3: `user-tool-source/schema.json` has same stale models, but resync from dev is ~1900 diff lines of unrelated drift (`IncomingToolOutput*`, `YamlDataParameter` min/max) — follow-up. CI doesn't run `verify-test-format-schema` (pre-existing).
 - Release after merge (changesets release PR).
