@@ -8,7 +8,7 @@ PRs To Review:
 - [#24242](https://github.com/galaxyproject/galaxy/pull/24242) — Initial review complete; no findings; approve draft unposted. [notes](../../repositories/galaxy/reviews/active/24242/index.md)
 - [#24243](https://github.com/galaxyproject/galaxy/pull/24243) — Approved with P3 suggestion; awaiting merge. [notes](../../repositories/galaxy/reviews/active/24243/index.md)
 - [#24244](https://github.com/galaxyproject/galaxy/pull/24244) — Initial review complete; one P2 (Sentry spans); fixes on fork branch; draft unposted. [notes](../../repositories/galaxy/reviews/active/24244/index.md)
-- [#24222](https://github.com/galaxyproject/galaxy/pull/24222) — Round 1 review complete; five P3s, fixes on fork branch; response unposted. [notes](../../repositories/galaxy/reviews/active/24222/index.md)
+- [#24222](https://github.com/galaxyproject/galaxy/pull/24222) — Round 1 review complete; five P3s, fixes + integration/E2E tests on fork branch; response unposted. [notes](../../repositories/galaxy/reviews/active/24222/index.md)
 - [#24190](https://github.com/galaxyproject/galaxy/pull/24190) — Initial review complete; three P2 findings; draft unposted. [notes](../../repositories/galaxy/reviews/active/24190/index.md)
 - [#24101](https://github.com/galaxyproject/galaxy/pull/24101) — Ready again; Sam reports addressing Marius’s review; updated head needs follow-up verification. [notes](../../repositories/galaxy/reviews/active/24101/index.md)
 - [#23869](https://github.com/galaxyproject/galaxy/pull/23869) — Unposted draft is stale after new commits; Marius/Alireza review in progress; revise and verify before delivery. [notes](../../repositories/galaxy/reviews/active/23869/index.md)

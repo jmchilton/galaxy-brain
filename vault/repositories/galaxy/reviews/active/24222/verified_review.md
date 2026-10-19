@@ -22,27 +22,27 @@ Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/mai
 
 </details>
 
-### P3 3: Hidden-tool filtering of `/api/tags/tool_tags` is only unit-tested
+### P3 3: Hidden-tool filtering of `/api/tags/tool_tags` is only unit-tested (implementation verified)
 
 `curated_tool_tags_by_id` now filters by what the user can see, which is an API contract. Only `test/unit/app/tools/test_toolbox.py` covers it. That test combined two cases and reset the first one with a `del tool.allow_user_access` trick.
 
-Commit `fea07df3134` splits the unit test into an access case and a hidden case. API coverage still needs a hidden or inaccessible tool that has curated tags, plus an assertion in `test_search_curated_tool_tags` that its id is absent. The API test toolbox has no such tool, so this likely needs an integration test with toolbox filters. That part is not on the branch.
+Commit `fea07df3134` splits the unit test into an access case and a hidden case. The API test toolbox has no tagged tool that is only loaded hidden, so commit `26744676021` adds `test/integration/test_curated_tool_tags.py`. It boots Galaxy with a two-tool conf (one tool hidden) and a `tool_tag_mappings_file` tagging both, then asserts `/api/tags/tool_tags` lists only the visible tool. It passes, and fails when the visibility filter is reverted.
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at low effort. Verified via claude-opus-5-5 at low effort.
+Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at low effort. Verified via claude-opus-5-5 at low effort, then claude-opus-5-5 at medium effort.
 
 </details>
 
-### P3 4: No E2E coverage for the tag picker
+### P3 4: No E2E coverage for the tag picker (implementation verified)
 
 `lib/galaxy_test/selenium/test_tool_discovery_view.py` is untouched. Unit tests mock the store, API, and router, so nothing exercises the full tag picker path.
 
-Add a case that picks a tag and asserts that the results narrow and a chip appears. It can also check that the picker is disabled under a boolean search. This needs new `tools_list` navigation selectors for the picker and chip. It was not written on the review branch.
+Commit `9cd9c8d1815` adds `tools_list` navigation selectors for the picker and chips, and two tests. `test_tool_discovery_tag_picker_filters_results` picks tags alongside free text, checks the chips, search text, and narrowed results, then removes them. `test_tool_discovery_tag_picker_disabled_for_boolean_search` checks the picker is disabled under an `OR` search; it fails if that disabling is reverted. Both pass under the Playwright backend; the Selenium backend wasn't run locally (no chromedriver).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at low effort.
+Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at low effort. Verified via claude-opus-5-5 at medium effort.
 
 </details>
 

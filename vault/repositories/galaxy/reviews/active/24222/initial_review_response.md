@@ -44,11 +44,13 @@ You're contributing to a repository John cares about and you deserve a human res
 
 # [pr_24222_review_0](https://github.com/jmchilton/galaxy/tree/pr_24222_review_0)
 
-Branch [`pr_24222_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24222_review_0) sits on reviewed head `8e75e467e47`. It makes picker-built tag clauses with quote characters round-trip through the inline parser, shares the favorite-toggle in-flight guard across components, and splits the curated-tag visibility unit test into one test per case. Each commit has a test that was run and passes. The tag-picker E2E test and API-level hidden-tool coverage are not included.
+Branch [`pr_24222_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24222_review_0) sits on reviewed head `8e75e467e47`. It makes picker-built tag clauses with quote characters round-trip through the inline parser, shares the favorite-toggle in-flight guard across components, splits the curated-tag visibility unit test into one test per case, adds an integration test that `/api/tags/tool_tags` omits hidden tools, and adds E2E tests for the tag picker. Each commit has a test that was run and passes; the E2E tests ran under the Playwright backend only.
 
 - [`262d469a70e`](https://github.com/jmchilton/galaxy/commit/262d469a70e) Quote picker tag clauses containing quotes so they round-trip: wraps values containing `'` or whitespace in `"..."` and values containing `"` in `'...'`, and adds a `ToolsList.test.ts` case.
 - [`4292c2ab4af`](https://github.com/jmchilton/galaxy/commit/4292c2ab4af) Share favorite toggle in-flight guard across consumers: hoists `pending` in `useFavoriteObjects` to module scope, and adds `useFavoriteObjects.test.ts`.
 - [`fea07df3134`](https://github.com/jmchilton/galaxy/commit/fea07df3134) Split curated tool tag visibility unit test by case: separates the access and hidden cases and drops the `del allow_user_access` reset.
+- [`26744676021`](https://github.com/jmchilton/galaxy/commit/26744676021) Integration test: /api/tags/tool_tags omits hidden tools: adds `test/integration/test_curated_tool_tags.py`, which loads one visible and one hidden tagged tool and checks only the visible one is listed.
+- [`9cd9c8d1815`](https://github.com/jmchilton/galaxy/commit/9cd9c8d1815) E2E tests for tool discovery tag picker: adds `tools_list` picker and chip selectors, a test that picking and removing tags narrows results and edits the search text, and a test that the picker is disabled under a boolean search.
 
 </details>
 
@@ -80,29 +82,31 @@ Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/mai
 
 </details>
 
-### P3 3: Hidden-tool filtering of `/api/tags/tool_tags` is only unit-tested
+### P3 3: Hidden-tool filtering of `/api/tags/tool_tags` is only unit-tested (implementation verified)
 
 `curated_tool_tags_by_id` now filters by what the user can see, which is an API contract. Only `test/unit/app/tools/test_toolbox.py` covers it. That test combined two cases and reset the first one with a `del tool.allow_user_access` trick.
 
-Commit `fea07df3134` splits the unit test into an access case and a hidden case. API coverage still needs a hidden or inaccessible tool that has curated tags, plus an assertion in `test_search_curated_tool_tags` that its id is absent. The API test toolbox has no such tool, so this likely needs an integration test with toolbox filters. That part is not on the branch.
+Commit `fea07df3134` splits the unit test into an access case and a hidden case. The API test toolbox has no tagged tool that is only loaded hidden, so commit `26744676021` adds `test/integration/test_curated_tool_tags.py`. It boots Galaxy with a two-tool conf (one tool hidden) and a `tool_tag_mappings_file` tagging both, then asserts `/api/tags/tool_tags` lists only the visible tool. It passes, and fails when the visibility filter is reverted.
 
-Fix: [`fea07df3134`](https://github.com/jmchilton/galaxy/commit/fea07df3134)
+Fix: [`fea07df3134`](https://github.com/jmchilton/galaxy/commit/fea07df3134), [`26744676021`](https://github.com/jmchilton/galaxy/commit/26744676021)
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at low effort. Verified via claude-opus-5-5 at low effort.
+Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at low effort. Verified via claude-opus-5-5 at low effort, then claude-opus-5-5 at medium effort.
 
 </details>
 
-### P3 4: No E2E coverage for the tag picker
+### P3 4: No E2E coverage for the tag picker (implementation verified)
 
 `lib/galaxy_test/selenium/test_tool_discovery_view.py` is untouched. Unit tests mock the store, API, and router, so nothing exercises the full tag picker path.
 
-Add a case that picks a tag and asserts that the results narrow and a chip appears. It can also check that the picker is disabled under a boolean search. This needs new `tools_list` navigation selectors for the picker and chip. It was not written on the review branch.
+Commit `9cd9c8d1815` adds `tools_list` navigation selectors for the picker and chips, and two tests. `test_tool_discovery_tag_picker_filters_results` picks tags alongside free text, checks the chips, search text, and narrowed results, then removes them. `test_tool_discovery_tag_picker_disabled_for_boolean_search` checks the picker is disabled under an `OR` search; it fails if that disabling is reverted. Both pass under the Playwright backend; the Selenium backend wasn't run locally (no chromedriver).
+
+Fix: [`9cd9c8d1815`](https://github.com/jmchilton/galaxy/commit/9cd9c8d1815)
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at low effort.
+Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at low effort. Verified via claude-opus-5-5 at medium effort.
 
 </details>
 
