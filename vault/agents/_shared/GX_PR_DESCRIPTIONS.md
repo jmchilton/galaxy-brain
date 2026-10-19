@@ -45,6 +45,7 @@ Each check should be the form:
 ```
 
 - TOP_LINE should be one short sentence - probably pulled from the debrief document for that check.
+- GitHub doesn't render Markdown inside `<summary>` - use HTML there (`<b>`, `<i>`, `<code>`, `<a href>`), never `**`, backticks or `[text](url)`.
 - Summarize the details of the document concisely and add to details.
 
 Each of these files (if present in the branch) represents one check to document.

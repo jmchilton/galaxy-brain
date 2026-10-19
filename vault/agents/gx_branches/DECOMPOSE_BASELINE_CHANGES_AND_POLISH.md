@@ -19,7 +19,7 @@ The PR title should be one of:
 Blah could be a very short, punchy description of the branch or just the issue number if that works. Open with the `Refactor ahead of 🌿<branch_name_and_link>` opener from [`GX_PR_DESCRIPTIONS.md`](../_shared/GX_PR_DESCRIPTIONS.md), then the second paragraph should be:
 
 ```
-<details><summary>This shouldn't change Galaxy's behavior - ***this only adds tests and refactoring aimed at making our main PR easier to review***.</summary>
+<details><summary>This shouldn't change Galaxy's behavior - <b><i>this only adds tests and refactoring aimed at making our main PR easier to review</i></b>.</summary>
 
 I'm so sorry to give you more to review but John (the human) has deemed the base branch complex and thinks the quality of the main and more important review will go up if we get these more mechanical changes out of the way ahead of time. 
 </details>
@@ -35,6 +35,8 @@ The third paragraph should be:
 (Place a short list of facts about the full branch here - at least one about implementation, at least one about scope.)
 </details>
 ```
+
+GitHub doesn't render Markdown inside `<summary>`, so write the branch link there as HTML: `<a href="BRANCH_URL">🌿<code>branch_name</code></a>`.
 
 If the branch contains refactorings - add a "## The Refactorings" section that contains just a simple list of the refactorings - (Short description of the refactor) is used by 🌿<branch_name_and_link> to (how it cleans up).
 
