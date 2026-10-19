@@ -72,6 +72,10 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
      - `branch_contract` fails a leg that writes no refs, drops one, or changes a resolved one.
      - Inputs still unresolved at `user-supplied` end the phase, trial and run `blocked`, a new status the dashboard renders.
      - Not run live: it sits behind the draft loop, which blocks on nf-core/demo.
+   - 2026-10-19: subagent reviews of both branches; confirmed findings fixed.
+     - Blocked-exit (`e83de78c`): only a blocking entry the call itself appended or changed counts. The ledger is read with `parseOpenRequirements`. The stock-tool branch now falls through to the Tool Shed.
+     - Test-data branch (`73943547`): `runLoop` and `runBranch` share a multi-worker phase helper. Unreadable refs are a controller error. Writes record their leg, and the column reads "stopped at".
+     - Open: the exit code doesn't distinguish blocked; a chain with no sentinel also ends blocked. Both branches touch `runLoop`, so the second to land needs a small rebase.
    - Live run `~/foundry-runs/nf2g-demo-through7-loop-2026-10-16/` (dashboard alongside):
      - Phases 1–6 passed. The draft had 6 drafty steps.
      - Iterations 1–3 passed, at 14–23 turns per call.
