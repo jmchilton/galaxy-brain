@@ -24,6 +24,8 @@ In these files PROJECT is galaxy.
 @../_shared/REVIEW_FOCUS.md
 @../_shared/WORKTREES.md
 
+When John asks to respond to a PR, follow [PROCESS_RESPOND_TO_INITIAL_REVIEW.md](../_shared/PROCESS_RESPOND_TO_INITIAL_REVIEW.md).
+
 `/sync-galaxy-reviews` creates missing queued worktrees and removes eligible settled ones.
 
 ## Automatic Actions
