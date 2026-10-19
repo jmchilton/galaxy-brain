@@ -7,7 +7,7 @@ Maintain the Galaxy Docker appliance at `bgruening/docker-galaxy` so it works an
 In the following files PROJECT is `docker-galaxy`.
 
 @../_shared/PULL_REQUESTS_INDEX.md
-@../_shared/REVIEW_NOTES.md
+@../_shared/PROCESS_INITIAL_REVIEW.md
 @../_shared/REVIEW_FOCUS.md
 
 Start with [index.md](index.md) for current development tracking and [PULL_REQUESTS.md](agents/docker-galaxy/PULL_REQUESTS.md) for reviews. The September recovery plan is historical context; PR #635 has merged.

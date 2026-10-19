@@ -20,7 +20,7 @@ preference; direct requests to the user or the user's explicit picks take preced
 In these files PROJECT is galaxy.
 
 @../_shared/PULL_REQUESTS_INDEX.md
-@../_shared/REVIEW_NOTES.md
+@../_shared/PROCESS_INITIAL_REVIEW.md
 @../_shared/REVIEW_FOCUS.md
 @../_shared/WORKTREES.md
 

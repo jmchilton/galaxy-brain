@@ -9,7 +9,7 @@ Review notes for `galaxyproject/planemo` pull requests, issues, feature developm
 In the following files PROJECT is `planemo`.
 
 @../_shared/WORKTREES.md
-@../_shared/REVIEW_NOTES.md
+@../_shared/PROCESS_INITIAL_REVIEW.md
 @../_shared/REVIEW_FOCUS.md
 @../_shared/ISSUES_INDEX.md
 @../_shared/PULL_REQUESTS_INDEX.md

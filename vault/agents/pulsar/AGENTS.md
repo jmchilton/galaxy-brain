@@ -9,7 +9,7 @@ Review notes for `galaxyproject/pulsar` pull requests, issues, feature developme
 In the following files PROJECT is `pulsar`.
 
 @../_shared/WORKTREES.md
-@../_shared/REVIEW_NOTES.md
+@../_shared/PROCESS_INITIAL_REVIEW.md
 @../_shared/REVIEW_FOCUS.md
 @../_shared/ISSUES_INDEX.md
 @../_shared/PULL_REQUESTS_INDEX.md

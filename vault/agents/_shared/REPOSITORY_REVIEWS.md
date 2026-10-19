@@ -2,7 +2,7 @@ Store details about reviewing pull requests in:
 
 vault/repositories/PROJECT/reviews/STATUS/PR_NUMBER/
 
-For PROJECT in (galaxy, pulsar, planemo, etc...). One agent may cover several repositories.
+For PROJECT in (galaxy, pulsar, planemo, etc...). One agent may cover several repositories. Find an existing record by PR number, including under `archived/`, before creating one.
 
 ## Statuses
 
@@ -23,7 +23,7 @@ File names follow the File Docs: `vault/repositories/_defaults/reviews/FILE_DOCS
 
 Review findings, research, reproduction scripts, draft comments, and other supporting files go here. Link them near the top of `index.md`; organize the rest to suit the repository's process. Keep the agent's queue short, with links to these details.
 
-Make the latest review, reviewed commit, and whether it was delivered easy to find. Preserve earlier findings with their reviewed commits so they aren't mistaken for current blockers. Record explicit decisions and dependencies as needed; don't invent next steps from the status.
+Make the latest review, reviewed commit, and whether it was delivered easy to find. Preserve earlier findings with their reviewed commits so they aren't mistaken for current blockers; an older finding or unposted draft is not evidence of one until checked against later rounds and PR discussion. Record explicit decisions and dependencies as needed; don't invent next steps from the status.
 
 Reviews within branch, issue, or project work can stay in those records. Link related records rather than copying their notes.
 
