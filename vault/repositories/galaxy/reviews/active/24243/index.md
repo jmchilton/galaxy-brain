@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review complete at `558dfc73014`; one P3 fixed on `pr_24243_fix_0` (`a5682fda098`); response unposted.
+Approved at `558dfc73014` on 2026-10-18 with the response draft (P3 spinner `aria-hidden` suggestion linking fork commit `a5682fda098`; fix branch not pushed into the PR).
 
 PR open against `dev`, by itisAliRH; stacked on #24241.

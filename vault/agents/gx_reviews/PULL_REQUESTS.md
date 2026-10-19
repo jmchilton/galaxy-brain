@@ -1,6 +1,6 @@
 PRs To Review:
 - [#24242](https://github.com/galaxyproject/galaxy/pull/24242) — Initial review complete; no findings; approve draft unposted. [notes](../../repositories/galaxy/reviews/active/24242/index.md)
-- [#24243](https://github.com/galaxyproject/galaxy/pull/24243) — Initial review complete; no P1/P2; P3 fix on fork branch; draft unposted. [notes](../../repositories/galaxy/reviews/active/24243/index.md)
+- [#24243](https://github.com/galaxyproject/galaxy/pull/24243) — Approved with P3 suggestion; awaiting merge. [notes](../../repositories/galaxy/reviews/active/24243/index.md)
 - [#24244](https://github.com/galaxyproject/galaxy/pull/24244) — Initial review complete; one P2 (Sentry spans); fixes on fork branch; draft unposted. [notes](../../repositories/galaxy/reviews/active/24244/index.md)
 - [#24222](https://github.com/galaxyproject/galaxy/pull/24222) — P2 fixed and pushed to author’s branch; 150 tests pass; review unposted. [notes](../../repositories/galaxy/reviews/active/24222/index.md)
 - [#24190](https://github.com/galaxyproject/galaxy/pull/24190) — Initial review complete; three P2 findings; draft unposted. [notes](../../repositories/galaxy/reviews/active/24190/index.md)
