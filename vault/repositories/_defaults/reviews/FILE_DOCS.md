@@ -4,19 +4,19 @@ Default conventions for files in `repositories/<repo>/reviews/<status>/<pr_numbe
 
 ## index.md
 
-Keep it minimal, without frontmatter. Start with `# <PROJECT>#<pr_number> — <PR title>`, then one bullet line of links: View on GitHub, initial review, response draft, and any later rounds.
+Keep it minimal, without frontmatter. Start with `# <PROJECT>#<pr_number> — <PR title>`, then one bullet line of links: View on GitHub, each review report, response draft, and any later rounds.
 
 Next comes `## Status`: at most one sentence each for the review (latest round, reviewed commit, delivered or not) and the PR (state, CI), each its own paragraph. Don't keep older status updates.
 
 Further sections hold only explicit decisions, dependencies, and standing instructions. When archived, record the GitHub state and why tracking ended.
 
-## initial_review.md
+## *_review.md
 
-The first review: findings against a stated reviewed commit, each labeled P1 (must fix before merge), P2 (should fix), or P3 (minor or nit).
+A review profile's report, named by the [reviewer registry](../../../agents/_shared/reviewers/index.md): findings against a stated reviewed commit, each labeled P1 (must fix before merge), P2 (should fix), or P3 (minor or nit).
 
 ## initial_response_draft.md
 
-John's unposted response to `initial_review.md`. Opens with one sentence naming the model and effort level that performed the review, then the P1 and P2 findings only. No P3s or nits.
+John's unposted response, aggregating P1 and P2 findings across all review reports. Opens with one sentence naming each review's profile, model, and effort level. No P3s or nits.
 
 ## review-*.md
 
