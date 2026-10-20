@@ -39,4 +39,31 @@ Vogels et al. 2024, *BMC Genomics* 25:433, DengueSeq ([DOI](https://doi.org/10.1
 
 ## Results
 
-Not run yet.
+### Brief arm, phase A: paper → brief (2026-10-20)
+
+- 7 min, 31 turns, $3.21. `validate-workflow-brief` and `check-workflow-brief` are ready, with no blockers. Unedited brief sha256 `560f0bfa…`.
+- Scope held. It excluded the multi-reference loop, the serotype tables, the co-infection filter and the publish rule at ≥50% coverage, each with a reason.
+- 10 open questions, all with `Proposed:` and `Evidence:`, low confidence first (5 low). The depth conflict (10 vs 20) was raised as predicted.
+- It also found that the paper's Fig. 6A says Florida validated the **pan-serotype** primers, which conflicts with the selection's "DENV3 primer scheme". It raised this as low confidence and proposed the expert's wording, as #688 says.
+- No GTF question. The paper uses none.
+- 3 feedback entries:
+  - `summarize-paper` (major): it never defines the freeform summary shape;
+  - `summarize-paper` (minor): no guidance on linked code or supplements;
+  - brief design (minor): the preflight result has no named artifact.
+
+### Direct arm: paper → Galaxy (2026-10-20)
+
+- 93 min, 50 turns, $23.23. All 12 phases ran and no phase was done by hand. Test data came from `paper-to-test-data` (SRR25366733 via ENA, with the ref and BED from the repo pin).
+- Workflow: `bwa_mem` 0.7.19 → `samtools_view` (exclude 4 and 2048) → `ivar_trim` 1.4.4 (`-e`) → `ivar_consensus` and `ivar_variants` → `sed` header rename. A depth branch runs `bedtools genomecov -d` → `awk`.
+  - Exposed parameters: min depth 10 and frequency 0.75.
+  - No fastp, no lofreq, no GTF or snpEff.
+- **planemo:** all 8 jobs ok, and 1 assertion fails. `has_line_matching '^REGION\tPOS\tREF\tALT\t.*\tPASS'` must match the whole line, and the iVar header has more columns. **This is the same whole-line `has_line_matching` defect as run 2's GFA assertions.**
+- Results on the test sample: consensus 10,707 bp with 2.05% N, 484 variant rows (472 PASS).
+- IWC comparison: the primary match was `sars-cov-2-pe-illumina-artic-ivar-analysis` (medium), and the generic viral workflow was secondary. The agent explicitly declined to import fastp, the proper-pair/MAPQ filter, `filter_by: yes_compute` and the reductions.
+- Divergences it documented:
+  - Galaxy's iVar wrappers run their own pileup and skip BAQ, so calls near the thresholds may differ from the source.
+  - SRA filename FL-BPHL-0005 vs sample record FL-BPHL-0001.
+- Agent decisions, made silently with no review: raw iVar table, no completeness metric, depth 10.
+- Open-requirements ledger: 10 entries, 10 discoveries, 27 decisions. Feedback ledger: 27 entries (5 major).
+- **Side effect:** the agent upgraded the global `@galaxy-tool-util/cli` from 1.8.2 to 1.14.0. As a result, the brief arm's Galaxy preflight no longer meets the same gap.
+- planemo ran via `uvx` at 0.75.47. The first attempt failed because a flag re-enabled conda (ivar 1.4.4 has no osx-arm64 conda build). The rerun used Docker only.
