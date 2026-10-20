@@ -20,3 +20,7 @@ Rebased onto `release_26.2` and pushed `d918bcf0552` 2026-10-19 with a fix for t
 - PR: [description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
 - Open question: keep E6/E7 (also on 26.1) in the 26.2 PR or split to `dev`.
 - [Plan](plan.md) · [Tracking history](tracking_history.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope debrief](implementation_rescope_debrief.md) · [Screenshots](screenshot_debrief.md) · earlier debriefs in `earlier_drafts/`.
+
+## TICK — 2026-10-20
+
+PR CI on `d918bcf0552`: Test Galaxy packages (3.10, 3.14) fail mypy at `tool_shed/webapp/fast_app.py:179` (`Unexpected keyword argument "tags"`). The PR diff touches no `tool_shed/` file, so unrelated. Draft [WIP] by John's request; stays `attention`.

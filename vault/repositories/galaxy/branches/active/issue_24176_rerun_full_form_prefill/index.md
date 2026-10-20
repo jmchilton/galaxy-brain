@@ -49,3 +49,7 @@ Phase 2 reran the after-plan process on final parent `57bf3eebd77`:
 - **Screenshots** were regenerated.
 
 Head `ced412c6248`. The PR text should call out the `/request` change for legacy duplicate-named inputs. #24177 must restack, because `rerunInputValue` changed after its base.
+
+## TICK — 2026-10-20
+
+Fork CI on current head: Client Unit Testing reds are the inherited controlled-checkbox failures (FormBoolean/FormCheck/FormOptionalText, "Expected input emission"), fixed separately by `form_checkbox_controlled_tests`; unrelated. Playwright, Integration Selenium and startup jobs stopped at Restore client cache, so browser coverage never ran. Full reruns requested for Playwright and Integration Selenium; stays `branches_implemented_needs_ci`.

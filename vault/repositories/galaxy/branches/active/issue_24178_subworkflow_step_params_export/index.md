@@ -22,3 +22,7 @@ Fixes [galaxyproject/galaxy#24178](https://github.com/galaxyproject/galaxy/issue
 ## Morning refresh — 2026-10-16
 
 Rebased onto `origin/dev` and published `a171dbed4194a2de0e93b488381129c75a7dad1d` only to jmchilton with an exact old-head lease. Resolved only the import/additive fixture conflict; a fresh human read is required, with no approval carried forward. Kept both workflow fixture imports; changed Python syntax and whitespace checks pass. Fresh fork CI is pending. Existing local development worktrees were left at their original heads; use the new fork head when resuming.
+
+## TICK — 2026-10-20
+
+Fork CI on current head: Client Unit Testing reds are the inherited controlled-checkbox failures (FormBoolean/FormCheck/FormOptionalText, "Expected input emission"), fixed separately by `form_checkbox_controlled_tests`; unrelated. Playwright, Integration Selenium and startup jobs stopped at Restore client cache, so browser coverage never ran. Full reruns requested for Playwright and Integration Selenium; stays `branches_implemented_needs_ci`.

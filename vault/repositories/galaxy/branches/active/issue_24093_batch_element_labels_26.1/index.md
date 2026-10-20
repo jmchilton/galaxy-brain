@@ -1,6 +1,6 @@
 # issue_24093_batch_element_labels_26.1
 
-Status: draft PR [#24211](https://github.com/galaxyproject/galaxy/pull/24211) opened 2026-10-17 at John's request, title "[26.1] Label every value of a batch data input in the tool form". Base: `release_26.1` (`b2b1e1deeee`). Head: `fbb1a03a9c8`. `draft_ready`: PR CI greenish (one unrelated red, see CI diagnosis); John requested draft, so undraft is his call. Fork: `jmchilton/issue_24093_batch_element_labels_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24093_batch_element_labels_26.1`.
+Status: `ready` — PR [#24211](https://github.com/galaxyproject/galaxy/pull/24211), undrafted by John by 2026-10-20; opened as draft 2026-10-17 at John's request, title "[26.1] Label every value of a batch data input in the tool form". Base: `release_26.1` (`b2b1e1deeee`). Head: `fbb1a03a9c8`. `draft_ready`: PR CI greenish (one unrelated red, see CI diagnosis); John requested draft, so undraft is his call. Fork: `jmchilton/issue_24093_batch_element_labels_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24093_batch_element_labels_26.1`.
 
 Fixes [#24093](https://github.com/galaxyproject/galaxy/issues/24093): hidden collection elements dropped into a batch ("Multiple datasets") input get inconsistent labels. The `/build` endpoint now labels every batch value, not just the first.
 
@@ -15,3 +15,7 @@ Fixes [#24093](https://github.com/galaxyproject/galaxy/issues/24093): hidden col
 ## CI diagnosis — 2026-10-19
 
 - Unit tests (3.14): `make` failed fetching CWL conformance tests (`502: Bad Gateway`, missing `conformance_tests.yaml`). Infra. Failed job rerun.
+
+## TICK — 2026-10-20
+
+John undrafted #24211. CI green (64 pass, 2 skipped), MERGEABLE/CLEAN. Moved to `ready`.

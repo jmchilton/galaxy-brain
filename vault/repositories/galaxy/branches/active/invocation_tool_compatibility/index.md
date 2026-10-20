@@ -27,5 +27,9 @@ Independent extraction from [issue_20900_invocation_validation](../issue_20900_i
 
 ## CI diagnosis — 2026-10-19
 
-- Test Galaxy packages (3.10, 3.14) fail collecting `packages/data/tests/data/datatypes/test_data.py`: `ModuleNotFoundError: galaxy.tools` from the `Conditional` import. Pre-existing on `release_26.2`; fixed by unmerged [`fix_data_package_tests_26_2`](../fix_data_package_tests_26_2/index.md). Unrelated.
+- Test Galaxy packages (3.10, 3.14) fail collecting `packages/data/tests/data/datatypes/test_data.py`: `ModuleNotFoundError: galaxy.tools` from the `Conditional` import. Pre-existing on `release_26.2`; fixed by [`fix_data_package_tests_26_2`](../../merged/fix_data_package_tests_26_2/index.md) (#24213, merged 2026-10-17). Unrelated.
 - Conflicts with `release_26.2` resolved by the 2026-10-19 rebase.
+
+## TICK — 2026-10-20
+
+PR CI on rebased head `4954720f00c` green (48 pass, 2 skipped), MERGEABLE. Only remaining item: refresh the live PR description from `pr_description.md`, which needs John's OK. Stays `attention`.

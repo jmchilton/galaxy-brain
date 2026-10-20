@@ -1,6 +1,6 @@
 # invocation_completion_action_validation
 
-Status: `ci_wait` — draft PR #24202 (draft at John's request) rebased onto `release_26.2` 2026-10-19, head `67da46bcfed`; fresh CI running.
+Status: `draft_ready` — draft PR #24202 (draft at John's request) rebased onto `release_26.2` 2026-10-19, head `67da46bcfed`; CI green 2026-10-20.
 
 Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
 
@@ -42,8 +42,12 @@ Final-head fork CI snapshot at creation: 16 queued, 4 pending, 2 skipped; no fai
 
 ## CI diagnosis — 2026-10-19
 
-- Test Galaxy packages (3.10, 3.14) fail collecting `packages/data/tests/data/datatypes/test_data.py`: `ModuleNotFoundError: galaxy.tools` from the `Conditional` import. Pre-existing on `release_26.2`; fixed by unmerged [`fix_data_package_tests_26_2`](../fix_data_package_tests_26_2/index.md). Unrelated.
+- Test Galaxy packages (3.10, 3.14) fail collecting `packages/data/tests/data/datatypes/test_data.py`: `ModuleNotFoundError: galaxy.tools` from the `Conditional` import. Pre-existing on `release_26.2`; fixed by [`fix_data_package_tests_26_2`](../../merged/fix_data_package_tests_26_2/index.md) (#24213, merged 2026-10-17). Unrelated.
 
 ## Rebase — 2026-10-19
 
 PR conflicted with `release_26.2` after #24169/#24197 merged. Rebased `ddfbb3b991c` → `67da46bcfed`. Conflicts were mechanical: adjacent new API tests in `test_workflows.py` (kept all), and in `WorkflowsService.invoke_workflow` the merged scheduler check sits next to `_check_on_complete` (kept both, scheduler check first). Ruff check and whitespace clean; no duplicate test names; no mypy errors in touched files.
+
+## TICK — 2026-10-20
+
+PR CI on `67da46bcfed` green (48 pass, 2 skipped), MERGEABLE. Draft at John's request, so left draft; moved to `draft_ready`.

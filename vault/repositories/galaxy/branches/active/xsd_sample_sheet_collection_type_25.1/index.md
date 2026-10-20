@@ -1,6 +1,6 @@
 # xsd_sample_sheet_collection_type_25.1
 
-Status: `draft_ready` — draft PR #24206 opened at John's explicit request on 2026-10-17; PR CI greenish (two unrelated reds, see CI diagnosis); undraft is John's call. Base: `release_25.1` (`2ae14b0eac3`). Head: `5d35c8c7db3`. Fork: `jmchilton/xsd_sample_sheet_collection_type_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/xsd_sample_sheet_collection_type_25.1`.
+Status: `ready` — PR #24206 (undrafted by John by 2026-10-20) opened as draft at John's explicit request on 2026-10-17; PR CI greenish (two unrelated reds, see CI diagnosis); undraft is John's call. Base: `release_25.1` (`2ae14b0eac3`). Head: `5d35c8c7db3`. Fork: `jmchilton/xsd_sample_sheet_collection_type_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/xsd_sample_sheet_collection_type_25.1`.
 
 The tool XSD rejected `collection_type="sample_sheet..."`, which core `lib/galaxy/tools/sample_sheet_to_tabular.xml` uses. No upstream issue. Found as a follow-up in [issue_23978_parameter_tools_xsd](../issue_23978_parameter_tools_xsd/scope_evaluation.md).
 
@@ -37,3 +37,7 @@ Fork CI snapshot at creation: 17 queued, 4 pending, 1 skipped; no observed failu
 - Converter tests: `CONVERTER_ref_to_seq_taxomony (Test #1)` failed. Branch changes only `convert_sample_sheet.xml` among converters. Unrelated.
 - Selenium shard 1: `test_histories_published.py` tag click / advanced search, timeout waiting on `.history-card-list`. Unrelated UI.
 - Both failed jobs rerun.
+
+## TICK — 2026-10-20
+
+John undrafted #24206. CI green (53 pass, 1 skipped), MERGEABLE. Moved to `ready`.

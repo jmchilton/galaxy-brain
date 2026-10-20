@@ -1,6 +1,6 @@
 # issue_24200_workflow_input_validators
 
-Status: READY, needs fork CI (2026-10-17). Head `57e1cb42c05`.
+Status: `branches_implemented_needs_ci`; relevant fork CI red (2026-10-20). Head `57e1cb42c05`.
 
 Keeps workflow parameter input validators as declared through import, export, run and editor re-save. Rejects invalid ones at import with a 400: `min > max`, uncompilable regex, unsafe types, and types unsuited to the input. Fixes [#24200](https://github.com/galaxyproject/galaxy/issues/24200).
 
@@ -17,3 +17,7 @@ Base: `release_26.2`. The bug dates to #19092, so older releases are affected to
 - add a negated-range runtime test.
 
 Both branches edit `workflow_parameter_input_definitions.py`.
+
+## TICK — 2026-10-20
+
+Fork CI on `57e1cb42c05`: **relevant red** — Python linting mypy error at `test/unit/workflows/test_parameter_input_validators.py:291` (the branch's new test). Other reds unrelated: Test Galaxy packages `ModuleNotFoundError: galaxy.tools` (fixed on base by #24213), Integration `test_container_resolvers` singularity, browser/startup jobs stopped at Restore client cache (unexecuted). Needs author fix; not rerun.

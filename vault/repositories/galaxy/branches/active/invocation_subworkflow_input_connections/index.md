@@ -34,9 +34,13 @@ Posted current `pr_description.md` verbatim with `kind/bug`, `area/workflows`, `
 
 ## CI diagnosis — 2026-10-19
 
-- Test Galaxy packages (3.10, 3.14) fail collecting `packages/data/tests/data/datatypes/test_data.py`: `ModuleNotFoundError: galaxy.tools` from the `Conditional` import. Pre-existing on `release_26.2`; fixed by unmerged [`fix_data_package_tests_26_2`](../fix_data_package_tests_26_2/index.md). Unrelated.
+- Test Galaxy packages (3.10, 3.14) fail collecting `packages/data/tests/data/datatypes/test_data.py`: `ModuleNotFoundError: galaxy.tools` from the `Conditional` import. Pre-existing on `release_26.2`; fixed by [`fix_data_package_tests_26_2`](../../merged/fix_data_package_tests_26_2/index.md) (#24213, merged 2026-10-17). Unrelated.
 - Tool framework (`never`): `shapefile_composite/1.0.0-0` timed out and output display returned 400. Branch touches workflow run code only. Unrelated; failed job rerun.
 
 ## Rebase — 2026-10-19
 
 PR conflicted with `release_26.2` after #24171 merged. Rebased `14584e545ae` → `2de0931ac07`; one mechanical conflict in `run_request.py` (#24171's `_get_input_or_not_found` and this branch's `_step_name`/`_validate_subworkflow_input_connections` added at the same spot), kept both. Ruff clean, `test_workflow_progress.py` 12 passed, no mypy errors in `run_request.py`.
+
+## TICK — 2026-10-20
+
+PR CI on `2de0931ac07`: one red, API tests `test_workflows.py::TestWorkflowsApi::test_parameter_substitution_sanitization` (`409001` "dataset ... is new and has no data"). Looks like a dataset-ready race, but it is a workflow API test and this branch changes workflow runtime, so it is **unconfirmed unrelated** until seen failing on base or another PR. Failed job rerun ([run 39302416630](https://github.com/galaxyproject/galaxy/actions/runs/39302416630)); stays `ci_wait`.

@@ -303,3 +303,7 @@ Final validation on tree `42648d78d9fcb679f6df722df2d4861cdad8644c`: client **61
 ## With-churn comparison stacked above this branch — 2026-10-16
 
 At John’s request, local `vitest_readability_with_churn` now adds the 76 removed commits above cleaned head `e06bbc4c702`. This cleaned branch and its PR are unchanged. The original churn snapshot `7f2db5e5941` remains at `backup/vitest_readability_with_churn-before-stack-20261016`. [Stack record](../vitest_readability_with_churn/index.md).
+
+## TICK — 2026-10-20
+
+Live #24038 is CONFLICTING with `dev` again: merge-tree shows 20+ client test files conflicting (incl. FormBoolean/FormCheck/FormOptionalText and `useInvocationGraph.test.ts`). Substantial; not rebased.

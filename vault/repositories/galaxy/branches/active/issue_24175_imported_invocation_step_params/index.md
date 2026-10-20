@@ -49,3 +49,7 @@ Reviews were rerun: normal, test challenges, Codex (no findings), thermo, and a 
 Pushed `301e92ededd` (force-with-lease). No PR was opened.
 
 Coordinator rebased onto #24178 @ `57bf3eebd77` (docs-only expansion D: schema descriptions + `schema.ts`). No conflicts; `git range-diff` shows all 8 commits identical. Pushed `10eed573535` (force-with-lease). Tests not re-run for this docs-only parent change.
+
+## TICK — 2026-10-20
+
+Fork CI on current head: Client Unit Testing reds are the inherited controlled-checkbox failures (FormBoolean/FormCheck/FormOptionalText, "Expected input emission"), fixed separately by `form_checkbox_controlled_tests`; unrelated. Playwright, Integration Selenium and startup jobs stopped at Restore client cache, so browser coverage never ran. Full reruns requested for Playwright and Integration Selenium; stays `branches_implemented_needs_ci`.

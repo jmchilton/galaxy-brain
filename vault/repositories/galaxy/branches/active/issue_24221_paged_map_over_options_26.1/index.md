@@ -25,3 +25,7 @@ Fixes [#24221](https://github.com/galaxyproject/galaxy/issues/24221): paged coll
 - Backport of the #24221 commits on [issue_20657_input_processing_mode](../issue_20657_input_processing_mode/index.md). Server commit cherry-picked; client hand-ported (26.1 forms are Options API).
 - Re-scoped so the map-over row can be selected, using the selection-identity parts of dev `05907884de9`/`9eff87c8e21`. Original scope kept as alt `issue_24221_paged_map_over_options_26.1_alt_original_scope`. Left out: dev's badge/hint, the #24220 drop picker, and the merge refactors.
 - If this lands before `issue_20657_input_processing_mode` rebases, drop the matching commits there.
+
+## TICK — 2026-10-20
+
+PR CI on `84e4857d07a`: one red, Mulled Unit Tests `test_find_anaconda_download_url`, HTTP 503 from api.anaconda.org. Infra, unrelated. Failed job rerun ([run 39353865217](https://github.com/galaxyproject/galaxy/actions/runs/39353865217)); stays `ready`.

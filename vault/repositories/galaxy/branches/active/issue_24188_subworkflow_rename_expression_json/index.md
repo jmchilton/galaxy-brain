@@ -3,7 +3,7 @@
 - [View PR #24224](https://github.com/galaxyproject/galaxy/pull/24224)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24188_subworkflow_rename_expression_json)
 
-Status: `ci_wait` — PR [#24224](https://github.com/galaxyproject/galaxy/pull/24224) ("[26.1] Fix `${label}` renames in subworkflows fed by expression tools") approved by mvdbeek 2026-10-19; re-drafted at John's request pending CI on `cbe21ccd399` (Marius' optional points). Base: `release_26.1` (`b2b1e1deeee`). Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
+Status: `ready` — PR [#24224](https://github.com/galaxyproject/galaxy/pull/24224) ("[26.1] Fix `${label}` renames in subworkflows fed by expression tools") approved by mvdbeek 2026-10-19; re-drafted at John's request pending CI on `cbe21ccd399` (Marius' optional points), undrafted 2026-10-20 on green CI. Base: `release_26.1` (`b2b1e1deeee`). Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
 
 CI green on `de29da2c1c7`; `cbe21ccd399` passed workflow unit tests and the 4 `replacement_parameters_nested*` framework tests locally, PR CI running.
 
@@ -31,3 +31,7 @@ Fixes [#24188](https://github.com/galaxyproject/galaxy/issues/24188): `${label}`
 ## Marius' review (2026-10-19)
 
 - Taken in `cbe21ccd399`: inner parameter inputs use `is_data=False`, so the pending/ok check sits next to the expression.json pre-read; pre-read limited to labeled inner inputs, matching `set_outputs_for_input`.
+
+## TICK — 2026-10-20
+
+PR CI on `cbe21ccd399` green (61 pass, 1 skipped), MERGEABLE/CLEAN. Its only blocker was CI, so undrafted #24224; moved to `ready`.

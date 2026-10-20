@@ -62,4 +62,4 @@ mvdbeek [reviewed](https://github.com/galaxyproject/galaxy/pull/24167): the list
 
 ## TICK — 2026-10-20
 
-Live #24167 is out of draft (John), CONFLICTING with `release_26.2` (`lib/galaxy/tools/source_store/populator.py`), and Python lint fails isort in unchanged `test/unit/app/tools/test_expression_basics.py`. Not rebased: the local worktree has diverged from the fork head `8d3dbaa0f7e` (local `99053330762` with a rewritten history and an unpushed "Drop size from repository files listing" commit), probably another session's work. Left intact; needs John.
+#24167 is out of draft, so it is a live PR while still listed under `branches_ready_for_final_review`. The dev retarget above is in progress in another session, so TICK did not rebase or reclassify it.

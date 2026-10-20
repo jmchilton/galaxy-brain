@@ -31,3 +31,7 @@ Fixes galaxyproject/galaxy#24218: client `CollectionTypeDescription.canMapOver` 
 - Converter tests: `CONVERTER_molecules (Test #2)` failed. Branch touches no converter or datatype. Unrelated.
 - Playwright shard 2: `test_dataset.py::test_history_dataset_update_annotation_and_info`, `ElementHandle.click: Element is not attached to the DOM`. History dataset UI, not the editor. Flake.
 - Both failed jobs rerun.
+
+## TICK — 2026-10-20
+
+PR CI on `1187e612f7d`: one red, Playwright shard 2 stopped at Restore client cache (`fail-on-cache-miss`) before tests. Infra, unrelated; those tests did not run. Failed job rerun ([run 39064402133](https://github.com/galaxyproject/galaxy/actions/runs/39064402133)); stays `ready`.

@@ -1,6 +1,6 @@
 # invocation_parameter_expected_failure
 
-Status: `ci_wait`. Draft PR [#24265](https://github.com/galaxyproject/galaxy/pull/24265) opened 2026-10-19 at John's request, at `eef6efec978`, with title `[26.1] Fix subworkflow parameter validation failing as "unexpected failure"` and `pr_description.md` verbatim (John ticked the human-read item and dropped the footer). Base: `release_26.1` at `b0d6435a432` (#24215 merge; rebased 2026-10-19, no conflicts). Rebased onto `release_26.1` 2026-10-15 at John's request; was `dev` at `c63ffc2ccae`.
+Status: `draft_ready`. Draft PR [#24265](https://github.com/galaxyproject/galaxy/pull/24265) opened 2026-10-19 at John's request, at `eef6efec978`, with title `[26.1] Fix subworkflow parameter validation failing as "unexpected failure"` and `pr_description.md` verbatim (John ticked the human-read item and dropped the footer). Base: `release_26.1` at `b0d6435a432` (#24215 merge; rebased 2026-10-19, no conflicts). Rebased onto `release_26.1` 2026-10-15 at John's request; was `dev` at `c63ffc2ccae`.
 
 Fix invalid subworkflow parameters failing as `unexpected_failure` (regression from #20980, [25.0]) and classify `workflow_parameter_invalid` as an expected failure (info, not error logs). Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md).
 
@@ -26,3 +26,7 @@ Tests: workflow unit suite 120 passed, 2 skipped; new API test red→green; ruff
 - `3e2bc827a99` (release_26.1 base): pushed 2026-10-15, superseded before CI settled.
 - `1f3a2434e97`: comment-only amend of `3e2bc827a99`, pushed 2026-10-15; superseded.
 - `eef6efec978`: rebased onto #24215 with a format2-only test, pushed 2026-10-19; CI pending.
+
+## TICK — 2026-10-20
+
+PR CI on `eef6efec978` green (59 pass, 1 skipped), MERGEABLE/CLEAN. Draft at John's request, so left draft; moved to `draft_ready`.

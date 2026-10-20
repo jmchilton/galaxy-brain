@@ -5,11 +5,9 @@
 
 ## Status
 
-PR out of draft and approved, `ready`; live description needs refresh from [pr_description.md](pr_description.md). Base `release_25.1` (`8bb256be5b1`), head `9c2404b5a59`, worktree `~/projects/worktrees/galaxy/branch/issue_19234_batch_mode_hint_25.1`.
+Merged: [#24223](https://github.com/galaxyproject/galaxy/pull/24223) into `release_25.1` 2026-10-20 at head `9c2404b5a59`; worktree removed.
 
-Draft [#24223](https://github.com/galaxyproject/galaxy/pull/24223) opened 2026-10-17 at John's request, title "[25.1] Restore batch info for collections mapped over a collection input"; screenshots hosted on fork branch `pr-assets-issue_19234_batch_mode_hint_25.1`.
-
-PR CI pending on `9c2404b5a59`; previous head had one unrelated Selenium red (see CI diagnosis).
+Title "[25.1] Restore batch info for collections mapped over a collection input"; screenshots hosted on fork branch `pr-assets-issue_19234_batch_mode_hint_25.1`.
 
 ## Review
 

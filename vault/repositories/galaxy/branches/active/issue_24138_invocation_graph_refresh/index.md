@@ -1,6 +1,6 @@
 # issue_24138_invocation_graph_refresh
 
-Status: `ci_wait` (refreshed 2026-10-19) — client type check fix pushed; CI rerunning.
+Status: `ready` (2026-10-20) — undrafted #24165 on green CI at `39b5efeee1c`.
 
 Fixes [#24138](https://github.com/galaxyproject/galaxy/issues/24138) (Steps tab headers freeze while an invocation runs) and the refresh-cost part of [#22745](https://github.com/galaxyproject/galaxy/issues/22745) (O(n²) graph refresh). Doesn't claim to fix #22745's zoom/pan freeze, which hasn't been browser-profiled. The PR shouldn't auto-close #22745.
 
@@ -51,3 +51,7 @@ Validation: six affected client test files, **71 passed**; reconciled test ESLin
 ## CI diagnosis — 2026-10-19
 
 - Client linting / client-unit-test: `src/composables/useInvocationGraph.test.ts(412,71): error TS2322: Type 'number' is not assignable to type 'string'`. Relevant. The rebase rewrote the base's color-swatch test to assign typed `input_step_parameters` directly (schema has `workflow_step_id: string`). Fixed in `39b5efeee1c` by passing it through `setupComposable`'s untyped `invocationFields`, like the other callers and as the base test did; test data unchanged. vitest file 38/38, eslint and prettier clean.
+
+## TICK — 2026-10-20
+
+Every workflow on `39b5efeee1c` passed, including Client lint/unit, Playwright, Integration Selenium and Python lint. No backend workflows ran because the PR diff is client-only. Draft was held only for CI after the 10-16 rebase, so undrafted #24165 and moved it to `ready`.
