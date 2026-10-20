@@ -95,6 +95,18 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
      - The per-leg branch on top of #684.
      - A live `--through` run past the loop.
 
+## Seeded runs (`--from`) — 2026-10-20
+
+- Built on `feat/test-pipeline-seed-run` (`6331b97a`), stacked on #690, not opened as a PR. Chosen over a repair worker: the test-data legs read nothing the loop writes, and a repair could at best drop nf-core/demo's uncomputable step.
+- `--from <phase-or-skill>` plus `--seed-run <dir>` (and `--seed-trial`, default 1). Seeds are the latest write of each artifact by a phase that passed in the seed run, hash-checked and copied into `seed/`. A selected phase reading an artifact last produced by a phase that didn't pass there is refused. Only phase 1 gets the scenario fixture. `selectPhases` checks only the selected range, so paper-to-cwl's branch is reachable.
+- Dashboard: seeded phases read "done · from seed run" (or skipped), seeded writes are marked, and a warning names the seed run.
+- Live run `~/foundry-runs/nf2g-demo-branch-seeded-2026-10-20/`, seeded from the 10-16 run, `--from test-data-resolution --through test-data-resolution`: 2m20s, 23 turns, $0.45, exit 2.
+  - Phases 1–6 seeded, phase 7 (failed there) skipped, so its partial `galaxy-workflow` wasn't carried.
+  - `nextflow-to-test-data` left 7 inputs unresolved; `find-test-data` resolved reads, the skip-trimming flag and the reference FASTA (nf-core test-datasets).
+  - Blocked on 4 optional MultiQC inputs (title, config, logo, methods description). Each ref's `reason` says the input "can be omitted" rather than invented.
+  - Finding: `test-data-refs` has no way to say "omit this optional input", so the oracle treats it as needing a person. Needs a schema decision: an omitted state the oracle counts as settled, or a rule that optional inputs with no source fixture are resolved as omitted.
+
 ## Open questions
 
-1. Is `--from` (seed from a frozen run) wanted as an evaluation feature?
+1. ~~Is `--from` (seed from a frozen run) wanted as an evaluation feature?~~ Built 2026-10-20 (above), pending John's review.
+2. How should `test-data-refs` record an optional input a test should omit?
