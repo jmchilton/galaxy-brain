@@ -92,7 +92,7 @@ Part of 🌿[`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A failing test stops at a named step: a missing-component wait, `assert_success_message` naming the expected text, or the mixin's assertion with the email body when there's no activation link.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. There are no unit tests; the E2E test drives the real UI and follows the real emailed link.

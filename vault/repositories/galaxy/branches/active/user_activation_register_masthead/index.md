@@ -1,15 +1,15 @@
 # user_activation_register_masthead
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:user_activation_register_masthead?expand=1)
+- [#24301](https://github.com/galaxyproject/galaxy/pull/24301)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/user_activation_register_masthead)
 
 ## Status
 
-Polished on `release_26.2`, head `7857f4ca51e`; ready for final review, framed as missing E2E coverage for the release.
+Polished on `release_26.2`, head `7857f4ca51e`, framed as missing E2E coverage for the release.
 
-No PR.
+Draft [#24301](https://github.com/galaxyproject/galaxy/pull/24301) opened 2026-10-20 at John's request, titled "[26.2] Test account registration from the masthead through email activation"; screenshots hosted on `pr-assets-user_activation_register_masthead`.
 
-Fork CI on `7857f4ca51e` still queued at handoff, no failures yet.
+CI pending on `7857f4ca51e`.
 
 ## Scope
 

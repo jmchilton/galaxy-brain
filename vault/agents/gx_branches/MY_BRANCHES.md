@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-20 (#24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-20 (#24301 opened as draft on request; #24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -33,6 +33,7 @@ None yet.
 
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs and fixes runtime diagnostics. Base `release_26.2`. [#24203](https://github.com/galaxyproject/galaxy/pull/24203). Draft requested by John.
 - [`fix_story_a11y_followups`](../../repositories/galaxy/branches/active/fix_story_a11y_followups/index.md) — Names chat send; Popper close is a keyboard button and close/Escape return focus. Base `release_26.2`. [#24285](https://github.com/galaxyproject/galaxy/pull/24285). Draft requested by John.
+- [`user_activation_register_masthead`](../../repositories/galaxy/branches/active/user_activation_register_masthead/index.md) — Missing E2E test: masthead Register, resend verification, emailed activation link; shared `ConfiguresMockEmails` mixin. Base `release_26.2`. [#24301](https://github.com/galaxyproject/galaxy/pull/24301). Draft requested by John.
 - [`issue_24061_24062_repository_details`](../../repositories/galaxy/branches/active/issue_24061_24062_repository_details/index.md) — Tool Shed repository page: `hg clone` command, category links, generated `.shed.yml`; API adds `categories`, `clone_url`. [#24298](https://github.com/galaxyproject/galaxy/pull/24298). Draft requested by John.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
@@ -83,7 +84,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`user_activation_register_masthead`](../../repositories/galaxy/branches/active/user_activation_register_masthead/index.md) — Missing E2E test: masthead Register, resend verification, emailed activation link; shared `ConfiguresMockEmails` mixin. Base `release_26.2`, head `7857f4ca51e`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:user_activation_register_masthead?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1).
