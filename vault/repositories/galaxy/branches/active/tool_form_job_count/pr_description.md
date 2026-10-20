@@ -5,9 +5,11 @@ Toward 🎯 #20657 - the tool form now says how many jobs Run will start, and wo
 | ![This will run 3 jobs.](screenshots/tool_form_job_count.png) | ![No jobs will run because a batch input is empty](screenshots/tool_form_job_count_empty_batch.png) | ![Batch inputs must have matching sizes](screenshots/tool_form_job_count_mismatch.png) |
 | "This will run 3 jobs." Run stays enabled, and its tooltip ends in " - 3 jobs". | Warns that nothing will run. ***Run stays enabled: mapping over an empty collection is supported on `dev` and creates an empty output collection.*** | Names both inputs with their sizes, qualified by repeat block (`1: Dataset › Select (2)`). Run is disabled, with the reason in its tooltip. |
 
-On `dev`, the tool form says an input "will be mapped over" but never says how many jobs that adds up to. Matched inputs zip, unlinked inputs multiply, and nested collections split at the depth the tool's input asks for, so a `list:list` mapped over a data input, or two unlinked lists, can launch far more jobs than the user expects. A size mismatch between batched collections is only found after Run, when `/api/tools` comes back with a 400. Client validation can't catch it, because it only sees one selection per field.
+On `dev`, the tool form says an input "will be mapped over" but never says how many jobs that adds up to. Matched inputs zip, unlinked inputs multiply, and nested collections split at the depth the tool's input asks for, so a `list:list` mapped over a data input, or two unlinked lists, can launch far more jobs than the user expects. A size mismatch between batched collections is only found after Run: `/api/tools` comes back with a 400, and a tool request fails once its task runs. Client validation can't catch it, because it only sees one selection per field.
 
-***The count comes from the server's own expansion classifier, so it can't drift from what Run actually does. It is computed from collection element counts without loading datasets.*** ***Run is blocked only where the server would reject the request anyway: a batch mismatch, or a remap that would run more than one job. Every other notice is advisory, and `/api/tools` still validates every request on submit.***
+***The count comes from the server's own expansion classifier, so it can't drift from what Run actually does. It is computed from collection element counts without loading datasets.*** ***Run is blocked only where the server would reject the request anyway: a batch mismatch, or a remap that would run more than one job. Both submission paths reject these, `/api/tools` at submit and tool requests at submit or when their task runs. Every other notice is advisory, and the server still validates every request.***
+
+***The preview counts the flat state the form sends to `build`, but the form usually submits a nested tool request (when celery and tool requests are enabled). Both go through the shared classifier, and parity tests pin the flat count against async expansion, including batches inside repeats, conditionals and sections.***
 
 ***Only the tool form uses the preview; the workflow editor and workflow runs are unchanged.*** ***`job_expansion` is a tool-form preview, not a dry-run API: it is omitted when nothing is batched, and `job_count` is null whenever the server can't be sure.***
 
@@ -16,7 +18,7 @@ On `dev`, the tool form says an input "will be mapped over" but never says how m
 <details><summary>What changes</summary>
 
 - **Server.** `/api/tools/{id}/build` returns `job_expansion` (`{job_count, reason, inputs}`) when at least one input is batched, and omits it otherwise. It is skipped in workflow-building mode.
-  - `summarize_meta_expansion` in `meta.py` reuses the classifier that `expand_meta_parameters` uses to build jobs. Tests check its counts against `expand_meta_parameters` as an oracle.
+  - `summarize_meta_expansion` in `meta.py` reuses the classifier that `expand_meta_parameters` uses to build jobs. Tests check its counts against `expand_meta_parameters`, and against `expand_meta_parameters_async` for the same request in nested form.
   - Counts come from `DatasetCollection.element_count_at_depth` and `subcollections.split_count`, not from loading elements. A child collection referenced more than once counts once per reference, as the split does.
   - Collection access is checked before anything is counted. The preview never raises: an error, an inaccessible collection or an unknown id gives `reason: "unknown"` with no count.
   - Unknown batch collection ids now raise `ObjectNotFound` (404) in the execution path too, where `dev` gave a 500.
@@ -42,12 +44,13 @@ One-way door: `job_expansion` becomes part of the `/api/tools/{id}/build` respon
 - The `meta.py` refactor moves the execution path onto the shared classifier and loader. Value forms that `__collection_multirun_parameter` already filtered out are dropped. On `dev`, those branches would have crashed anyway.
 - Known gap: switching a conditional *into* a branch with a new batched input keeps the old preview until the next rebuild. Run stays enabled, and the server still checks the request on submit.
 - Edits made while a tool version is still loading don't start their own build. The load's response replaces the form.
+- On the tool request path, a mismatch or multi-job remap that got past the preview would fail after polling, not at submit. Empty batches stay runnable, but `dev` pins them (`test_map_over_empty_collection`) on `/api/tools` only.
 
 </details>
 
 <details><summary>Risk Review Advice</summary>
 
-Review the `job_expansion` shape and the `reason` values as API surface, and check that `runBlockedReason` only blocks on cases `/api/tools` rejects. In `meta.py`, compare `summarize_meta_expansion` against `expand_meta_parameters`: they should classify inputs identically and differ only in counting rather than loading.
+Review the `job_expansion` shape and the `reason` values as API surface, and check that `runBlockedReason` only blocks on cases the server rejects on both submission paths. In `meta.py`, compare `summarize_meta_expansion` against `expand_meta_parameters` and `expand_meta_parameters_async`: they should classify inputs identically and differ only in counting rather than loading.
 
 </details>
 
@@ -123,7 +126,7 @@ The history rewrite left the final tree unchanged apart from the added tests. Ea
 
 - Selenium/Playwright (`test_tool_form.py`): `test_job_count_for_batched_collection`, `test_run_enabled_for_empty_batch`, `test_run_disabled_for_mismatched_batches`.
 - API (`test_tools.py`): `test_build_job_expansion_over_collection`, `test_build_job_expansion_over_datasets`.
-- Unit (`test_meta_expansion.py`): summaries for dataset, `hdca` and `dce` batches; nested `list:list` and `list:list:paired` splits; linked, unlinked and mixed batches; empty, mismatched, unpopulated, inaccessible and unknown collections. Each count is checked against `expand_meta_parameters`. `test_misc.py`: `element_count_at_depth`, including a shared child.
+- Unit (`test_meta_expansion.py`): summaries for dataset, `hdca` and `dce` batches; nested `list:list` and `list:list:paired` splits; linked, unlinked and mixed batches; empty, mismatched, unpopulated, inaccessible and unknown collections. Each count is checked against `expand_meta_parameters`. `TestNestedMetaExpansionParity` checks flat counts against nested async expansion for batches in repeats, conditionals and sections. `test_misc.py`: `element_count_at_depth`, including a shared child.
 - Client: `jobCount.test.ts` (notices, labels and blocking rules) and the `ToolForm.test.ts` job count tests (stale responses, failed updates, non-refreshing edits after an update or a tool load, Run state for mismatches and remaps).
 
 </details>
