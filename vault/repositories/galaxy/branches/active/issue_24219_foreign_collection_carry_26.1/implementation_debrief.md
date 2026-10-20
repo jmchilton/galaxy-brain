@@ -28,6 +28,12 @@ Re-scoped to the full #23865 backport ([rescope debrief](implementation_rescope_
 3. Cross-user carry exposure (private reports) - fix access check first or ship matching 26.1 data / 26.2 behavior.
 4. Approve force-push of the rebuilt branch (old head preserved on the alt).
 
+## If the add-on is taken
+
+- Change: classify the HDCA in `_carry_unresolved_inputs` like `hdca_filter` (`multiple`, non-`list`, `can_map_over`) + one red-to-green `/build` test.
+- Still applies: test challenge, Codex, thermo, baseline results and test runs for commits through `13c7352f165`.
+- Remaining validation: normal review of that commit; rerun `test_tools.py -k build_`, `test_jobs.py -k rerun`.
+
 ## Tests run
 
 `test_tools.py -k build_` 20 passed + known pre-existing `test_build_does_not_leak_hda_from_user_bundle` failure; `test_jobs.py -k rerun` 8 passed; parameter unit tests 212 passed; mypy no new errors; pre-commit clean.
