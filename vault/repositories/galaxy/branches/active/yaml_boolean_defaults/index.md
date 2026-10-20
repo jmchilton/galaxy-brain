@@ -1,10 +1,10 @@
 # yaml_boolean_defaults
 
-Status: `branches_implemented`.
+Status: `branches_implemented_needs_ci`.
 
 Honors explicit YAML Boolean defaults with user-tool API contract coverage (#23888).
 
-[Initial implementation](initial_implementation_debrief.md) · [Tracking history](tracking_history.md)
+[Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Tracking history](tracking_history.md)
 
 ## Hardening — 2026-10-20
 
@@ -12,7 +12,7 @@ Rebased onto `origin/release_26.1` (`6df388987b4`); old tip `01027324b35`. Only 
 
 Hardened tip `9894e813cc1` (pushed): fixture fix → Baseline tests → 2 refactor commits → 3 fix commits. Contract suite 46 passed / 4 strict xfail. First-pass debriefs in [earlier_drafts/1](earlier_drafts/1/scope_evaluation.md).
 
-**Re-scope (John, 2026-10-20):** expand to canonical YAML `repeat`/`section` loading + `yaml_origin` in `strictify` section branch. Original scope kept as `yaml_boolean_defaults_alt_original_scope` ([alt](alts/original_scope.md)). `MY_BRANCHES.md` compare link still says `dev...` — should be `release_26.1...`.
+**Re-scope (John, 2026-10-20):** expand to canonical YAML `repeat`/`section` loading + `yaml_origin` in `strictify` section branch. Original scope kept as `yaml_boolean_defaults_alt_original_scope` ([alt](alts/original_scope.md)). Re-hardened tip `58f9664c617` (pushed): repeat/section loading, strictify sections, `__current_case__` stripping; contract suite 64 passed. Second scope evaluation: keep as implemented. STATUS READY; needs CI on new tip.
 
 ## TICK — 2026-10-12
 
