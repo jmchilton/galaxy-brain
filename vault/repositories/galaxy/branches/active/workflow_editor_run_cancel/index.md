@@ -5,7 +5,7 @@
 
 ## Status
 
-Implemented on `release_26.2`, head `4a0abaaaa0f`; framed as a missing-test bug fix for the release.
+Hardened (re-scoped + re-hardened) on `release_26.2` @ `65132d40dac`, head `9a5cda91bed`; READY with two decisions (fixture key, client fix placement).
 
 No PR.
 
@@ -15,6 +15,8 @@ CI not yet observed.
 
 New E2E test: run a workflow from the editor's Run activity, select a non-default dataset in the simplified run form, cancel the invocation. Brings the helper fixes it needs: `workflow_run_specify_inputs` on the simplified form (4b), `workflow_editor_click_run` clicks the Run activity (7h), `invocations.cancel_button` selector (7j).
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop these commits from `galaxy_ui_driver` once this merges.
+Expanded scope: `workflow_run_setup_inputs` now really selects `type: File` inputs, plus a fixture key fix. Also a client fix: the editor no longer marks a loading workflow dirty, which was the source of the new test's cold-start flake. Original scope: alt `workflow_editor_run_cancel_alt_original_scope`.
 
-[Initial implementation](initial_implementation_debrief.md)
+Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Once this merges, restack `galaxy_ui_driver` on it. The commits diverged, and the fixture key fix is needed there.
+
+[Implementation debrief](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md)

@@ -47,3 +47,7 @@ It didn't bite. Every affected test uses `@managed_history`, and its setup creat
 - The shared form-mode helper (scope C).
 - The canvas wait in `workflow_index_open_with_name` (scope D).
 - The multiselect left open by `select_set_value`.
+
+## Review
+
+Normal subagent review: [subagents/rescope_review.md](subagents/rescope_review.md). It made non-data entries raise and fixed a docstring, and confirmed sibling merges are clean. Re-harden followed (pass-1 debriefs in `earlier_drafts/1/`). The second scope evaluation recommended no further change.
