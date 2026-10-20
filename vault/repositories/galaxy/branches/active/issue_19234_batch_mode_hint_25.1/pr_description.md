@@ -15,14 +15,15 @@ Megahit's paired input takes a `paired` collection. Select a `list:paired` inste
 
 </details>
 
-***Display only: the job request is unchanged. The `batch` flag the form submits uses the same expression as before, now shared with the hint (`isBatchSelection`).***
+***Display only: the job request is unchanged. The `batch` flag the form submits uses the same expression as before, extracted as `isBatchSelection`. Workflow run forms show no new hint: a collection given to a workflow input goes to the workflow whole.***
 
 ***It's a minimal fix for the batch case in the issue, aimed at `release_25.1` because it's small and the hint logic is unchanged on 26.0. A selection that fills a collection input directly (megahit's co-assembly side) still gets no hint; describing that belongs in a broader `dev` redesign, not a release branch.***
 
 <details><summary>Implementation</summary>
 
-- `variants.ts`: `isBatchSelection(variantBatch, values)` - a batch variant, or any selected value the server tagged with `map_over_type`. Extracted from `createValue` with no behavior change, then reused to decide whether the hint shows.
+- `variants.ts`: `isBatchSelection(variantBatch, values)` - a batch variant, or any selected value the server tagged with `map_over_type`. Extracted from `createValue` with no behavior change.
 - `FormData.vue`: `mapsOver` is a collection on a `data` input (the old condition) or a value with `map_over_type`. For a single selection, `mapOverUnit` names what each job gets from the existing `COLLECTION_TYPE_TO_LABEL` map ("dataset pair", "list"); "dataset" for `single_datasets` or a collection on a `data` input; `<code>type</code> collection` for unlabeled types like `paired_or_unpaired`.
+- The `map_over_type` part of the hint is skipped when `flavor` is set, as in both workflow run forms; there the line stays as on `release_25.1` ("batch mode" for batch-enabled module variants only).
 - Several selected values get the generic "mapped over" line with no unit.
 - The server has tagged options with `map_over_type` since before 25.1, so there are no backend changes.
 
@@ -105,7 +106,7 @@ Read-only review of the full diff with surrounding code, including the server's 
 
 <details><summary>Tests and manual steps</summary>
 
-- `client/src/components/Form/Elements/FormData/FormData.test.js` (`FormData batch hint`): nested `list:paired` on a `paired` input, toggling the selection, a dropped `list:paired`, `single_datasets`, an unlabeled `paired_or_unpaired` type, multiple selections, and the existing batch cases.
+- `client/src/components/Form/Elements/FormData/FormData.test.js` (`FormData batch hint`): nested `list:paired` on a `paired` input, toggling the selection, a dropped `list:paired`, `single_datasets`, an unlabeled `paired_or_unpaired` type, multiple selections, a nested collection in a workflow run form (no hint), and the existing batch cases.
 - `lib/galaxy_test/selenium/test_tool_form.py::TestToolForm::test_map_over_paired_collection_hint` (new) and `test_rerun_dataset_collection_element` (hint assertion added) check the full hint sentence in a live tool form.
 - Manually: create a list of pairs, open a tool with a `paired` collection input (e.g. `collection_paired_test`), and select the list. The form should say "The supplied input will be mapped over this tool: one job per dataset pair."
 
