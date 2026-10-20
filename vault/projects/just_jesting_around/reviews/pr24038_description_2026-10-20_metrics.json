@@ -1,0 +1,51 @@
+{
+  "base": "93b3c85e5320048b33bcc78f6f7767e06813f7e0",
+  "head": "1358d37887996e552e0fac6467c8738865618d9a",
+  "changed_files": 428,
+  "changed_test_paths": 395,
+  "changed_non_test_paths": 33,
+  "shortstat": "428 files changed, 18520 insertions(+), 20456 deletions(-)",
+  "metrics": {
+    "lines": [
+      65704,
+      63155
+    ],
+    "exact equality": [
+      970,
+      1111
+    ],
+    "truthy checks": [
+      368,
+      161
+    ],
+    "test-data imports": [
+      24,
+      105
+    ],
+    "direct mounts": [
+      540,
+      368
+    ],
+    "wrapper.vm": [
+      416,
+      263
+    ],
+    "casts": [
+      291,
+      60
+    ],
+    "manual flush/sleep": [
+      954,
+      751
+    ],
+    "vi.mock": [
+      334,
+      273
+    ],
+    "eslint-disable": [
+      7,
+      1
+    ]
+  },
+  "method": "Source-pattern counts in identical union of changed .test.[jt]sx? paths, main client and Tool Shed combined; missing files empty. Source counts, not executed tests or coverage."
+}

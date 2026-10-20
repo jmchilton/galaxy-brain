@@ -322,3 +322,20 @@ All 418 original commit messages/trailers survive in order, including two explic
 The frozen validation tree `78ba2e31ca358304cd262e32abb6ca468fa4233c` exactly equals the final branch tree. Final client: 646 files / 5,682 tests pass; one test skipped. Tool Shed: 27 files / 183 tests pass. Both complete frontend type checks, adapted-file ESLint/Prettier, whitespace, commit hooks and vault validation pass (124 files, zero errors, 15 existing advisory warnings). The first client run was superseded after its diagnosed fixture failure; only the corrected final run is passing evidence.
 
 [Independent review](subagents/rebase_dev_2026-10-20.md), [scoped test challenge](test_challenges_debrief.md), and [exact history/resolution manifest](../../../../../projects/just_jesting_around/readability_assessment/rebase_dev_2026-10-20.json). No remaining review findings. GitHub confirms exact published head and `MERGEABLE`; draft status retained, new-head CI pending. Tracking records committed locally; galaxy-brain is not pushed.
+
+
+## PR description refreshed — 2026-10-20
+
+Updated the live PR description for head `1358d378879` against dev `93b3c85e532`.
+[Canonical description](pr_description.md) replaces stale scope and metrics with
+428 changed paths (395 tests and 33 supporting files), current source-pattern
+counts, and the qualified final validation already recorded for this head.
+The previous live description is archived under earlier_drafts.
+
+Audited all twelve former example topics. Eleven remain; FormNumber's table
+rewrite was pruned with the marginal changes, while its original slider
+assertions remain unchanged. Updated Masthead's example to its current Pinia
+store setup and removed stale helper-consumer and GalaxyAI line counts.
+[Independent example/description review](../../../../../projects/just_jesting_around/reviews/pr24038_description_2026-10-20.md)
+and [recomputed static metrics](../../../../../projects/just_jesting_around/reviews/pr24038_description_2026-10-20_metrics.json).
+No code changes, new test runs, title/status changes or new approval inferred.
