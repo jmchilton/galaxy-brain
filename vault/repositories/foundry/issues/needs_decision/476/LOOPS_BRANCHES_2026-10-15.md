@@ -110,4 +110,4 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
 ## Open questions
 
 1. ~~Is `--from` (seed from a frozen run) wanted as an evaluation feature?~~ Built 2026-10-20 (above), pending John's review.
-2. How should `test-data-refs` record an optional input a test should omit?
+2. How should `test-data-refs` record an optional input a test should omit? John (2026-10-20): add an explicit omitted state, valid only for optional inputs, which the branch oracle counts as settled. Not built yet.
