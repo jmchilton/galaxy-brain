@@ -103,7 +103,7 @@ Builds on 🔀 #23925 (the galaxy-ui Tool Shed frontend). Follow-ups this enable
 
 - Splitting backend from frontend was rejected: the API alone doesn't change what anonymous users see.
 - Splitting out the preflight fix was rejected by default: the new routes are its only trigger and its only test. It's a separate first commit if a reviewer wants it.
-- An anonymous changelog, `tool_source` reuse, the `readme_util` old-revision bug, `private` enforcement, non-UTF-8 paths and CORS `ETag` exposure are follow-ups.
+- An anonymous changelog, `tool_source` reuse, `private` enforcement, non-UTF-8 paths and CORS `ETag` exposure are follow-ups.
 
 </details>
 
@@ -134,7 +134,7 @@ Builds on 🔀 #23925 (the galaxy-ui Tool Shed frontend). Follow-ups this enable
 
 <details><summary>Codex found one regression, fixed with a red-first test; two other findings are known limits.</summary>
 
-- Fixed: `RepositoryPage` showed no revision, tools or READMEs after returning from Contents. Both watchers are now `immediate`, which also fixes READMEs never loading when the page mounts with a revision prop.
+- Fixed: `RepositoryPage` showed no revision, tools or READMEs after returning from Contents. The newest-revision watcher is now `immediate`.
 - Known limits: non-UTF-8 filenames 404, and CORS doesn't expose `ETag` to scripts. Browser cache revalidation already works cross-origin.
 
 </details>
