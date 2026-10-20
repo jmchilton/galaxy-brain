@@ -4,7 +4,7 @@
 
 ## Status
 
-Initial review complete at `a6772eccffe`; three P2s + five P3s, all addressed on `pr_24268_review_0` (jmchilton fork; P2 2 Selenium line unrun); response unposted.
+Initial review complete at `a6772eccffe`; three P2s + five P3s, all addressed on `pr_24268_review_0` (jmchilton fork; P2 2 Selenium line unrun). [Approved with response](https://github.com/galaxyproject/galaxy/pull/24268#pullrequestreview-5585362162) by John, 2026-10-20T13:02:58Z, on head `a6772eccffe`; awaiting merge.
 
 PR open against `dev`, by itisAliRH. Branch carries open #24260's commits; only `c15826c2866..a6772eccffe` reviewed. Review branch's `description` prop touches the same ui-package files as #24260.
 
