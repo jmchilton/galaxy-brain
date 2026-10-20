@@ -1,7 +1,8 @@
 # PR #24280 — Ignore stale user/history object store preferences
 
 - PR: https://github.com/galaxyproject/galaxy/pull/24280 (davelopez, `release_25.1`, +96/-14, 5 files; fixes #23868)
-- Status: Initial review complete; response unposted
+- Status: Approved with response; awaiting merge
+- Delivery: [approved](https://github.com/galaxyproject/galaxy/pull/24280#pullrequestreview-5585167313) by John, 2026-10-20T12:46:37Z, on head `ff83754163b`
 - Reviewed commit: `ff83754163b26e9c19fd6d2d2fb241b69e4adf4a`
 - Reviewed: 2026-10-20 (picked by John)
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24280`
