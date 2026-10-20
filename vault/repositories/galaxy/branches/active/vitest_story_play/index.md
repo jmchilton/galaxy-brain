@@ -15,8 +15,8 @@ Published head `3eaa09792d688138b2107ee436f99431f96de0d3`; parent `fd5fd27f67aaa
 Four infrastructure/helper commits precede 96 per-test commits. The 26 annotated
 stories are folded into their owning tests; original test messages and trailers
 are retained. The exact final source tree is unchanged from the former accessibility
-tip `b6d4c40d6c42af7eb469bc7b920e69433eddee9c`. `vitest_story_a11y` is now a frozen historical
-reference; maintain only this lane. Independent `fix_story_a11y_followups` is unaffected.
+tip `b6d4c40d6c42af7eb469bc7b920e69433eddee9c`. The separate accessibility branch tracking was dropped at John’s request;
+its [historical notes](../../abandoned/vitest_story_a11y/index.md) are archived. Maintain only this lane. Independent `fix_story_a11y_followups` is unaffected.
 
 [Current implementation](implementation_debrief.md),
 [consolidation review](../../../../../projects/just_jesting_around/reviews/combine_play_a11y_2026-10-20/review_debrief.md),

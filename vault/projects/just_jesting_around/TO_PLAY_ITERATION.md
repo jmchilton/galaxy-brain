@@ -1,8 +1,7 @@
 Each iteration moves one storified test's interaction cases into Storybook `play` functions on `vitest_story_play`, which is stacked on `vitest_stories`. Lane rules and ledger fields are in [PIPELINE_BRANCHES.md](PIPELINE_BRANCHES.md). The browser project setup and open questions are in [plan_vitest_addon.md](plan_vitest_addon.md).
 
 Since 2026-10-20 this is also the accessibility lane. Keep shared infrastructure
-first and fold story-specific accessibility changes into the owning test commit;
-`vitest_story_a11y` is a frozen historical reference.
+first and fold story-specific accessibility changes into the owning test commit.
 
 Reuse the same branch and worktree for every iteration.
 

@@ -1,9 +1,9 @@
 # vitest_story_a11y
 
-Status: superseded by `vitest_story_play` on 2026-10-20. Historical reference only; do not rebase, advance or PR this branch.
+Status: dropped from tracking at John’s request on 2026-10-20 after consolidation into `vitest_story_play`. Archived history only.
 
 The accessibility infrastructure and all story annotations are now part of the
-[combined play lane](../vitest_story_play/index.md) at `3eaa09792d688138b2107ee436f99431f96de0d3`.
+[combined play lane](../../active/vitest_story_play/index.md) at `3eaa09792d688138b2107ee436f99431f96de0d3`.
 That history has exactly the same final source tree as the former accessibility
 tip `b6d4c40d6c42af7eb469bc7b920e69433eddee9c`. Known strict browser failures and historical
 exceptions remain tracked with play. The old ref and clean worktree are retained

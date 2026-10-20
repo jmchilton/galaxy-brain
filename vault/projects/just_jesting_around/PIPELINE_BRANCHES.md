@@ -35,15 +35,13 @@ Lane 4 has two parts:
 
 ## Combined play and accessibility lane — 2026-10-20
 
-`vitest_story_play` now includes the former `vitest_story_a11y` prototype. Maintain
+`vitest_story_play` combines browser interactions and accessibility. Maintain
 only play above stories: four shared infrastructure/helper commits first, followed
 by 96 per-test commits with each story's accessibility annotations folded into its
 owning test commit. Future shared changes stay at the front; future story/play/a11y
 changes for a test are folded together by `Test-File:`.
 
-The old accessibility branch is a frozen historical reference, not another lane
-to rebase or advance. Strict accessibility failures and historical TODO exceptions
-remain; consolidation grants no PR approval and adds no browser CI. The conversion
+Strict accessibility failures and historical TODO exceptions remain; consolidation grants no PR approval and adds no browser CI. The conversion
 ledger fields keep their existing meanings; there is no separate accessibility
 field. [Exact tree and commit mapping](reviews/combine_play_a11y_2026-10-20/commit_mapping.json).
 
