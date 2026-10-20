@@ -1,6 +1,6 @@
 # Debrief: duplicate workflow output labels accepted
 
-Proposal: [`proposed_duplicate_workflow_output_labels_accepted.md`](proposed_duplicate_workflow_output_labels_accepted.md). No source draft: the idea came out of the compare-runs research ([`../internally_managed/compare_outputs.md`](../internally_managed/compare_outputs.md), side findings), where a research subagent spotted the broken check.
+Proposal: [`proposal.md`](proposal.md). No source draft: the idea came out of the compare-runs research ([`../internally_managed/compare_outputs.md`](../../../../../agents/gx_issues/internally_managed/compare_outputs.md), side findings), where a research subagent spotted the broken check.
 
 ## Research
 

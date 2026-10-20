@@ -225,7 +225,7 @@ Build one read-only endpoint, a resolver per slice kind, and one props-only tabl
 <details><summary>Side findings worth their own issues [research]</summary>
 
 - **A rename-only workflow save regenerates every step uuid and output uuid** (`api/workflows.py:465-472` → `Workflow.copy`). An editor save of the same workflow keeps them, so the two disagree for no stated reason. No longer blocks this feature (labels only).
-- **The duplicate workflow-output-label check is broken** (`managers/workflows.py:2166-2175`). It tests and records the *step* `label` instead of `output_label`, and only runs for the dict form of `workflow_outputs`, not the usual list form. The editor only lints. The result is that duplicate output labels are saved, and `to_dict` silently keeps the last.
+- **The duplicate workflow-output-label check is broken** (filed as 🎯 #24305) (`managers/workflows.py:2166-2175`). It tests and records the *step* `label` instead of `output_label`, and only runs for the dict form of `workflow_outputs`, not the usual list form. The editor only lints. The result is that duplicate output labels are saved, and `to_dict` silently keeps the last.
 - **`tool_version` is stripped from job API responses** (missing from `JobBaseModel` / `EncodedJobDetails`).
 
 </details>
@@ -238,5 +238,5 @@ Build one read-only endpoint, a resolver per slice kind, and one props-only tabl
 4. Mode 3 row: one per Job/ICJ (recommended) or per ToolRequest? Include jobs run inside workflows by default?
 5. Mode 3 entry: is the job page enough, or should there be a "previous runs" panel on the tool form?
 6. Do the inputs columns in mode 2 include parameter inputs, or only datasets and collections?
-7. Should the rename-uuid side finding go to `to_file/`? It needs a reproduction first: rename, then GET to compare step uuids. (The output-label check is being prepared as `to_file/proposed_duplicate_workflow_output_labels_accepted.md`.)
+7. Should the rename-uuid side finding go to `to_file/`? It needs a reproduction first: rename, then GET to compare step uuids. (The output-label check is filed as 🎯 #24305.)
 8. The file is `compare_outputs.md`, but the doc covers comparing runs (steps, outputs and tools). Rename it to `compare_runs.md`?
