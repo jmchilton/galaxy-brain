@@ -37,13 +37,20 @@ dropped #24142's commit. #24139's commit stays because it is on dev only.
   test?", 2026-03-22), which made Playwright timeouts retryable. That commit's CI run is gone and
   John isn't worried about the flake returning: the change justifies itself.
 
-**2. Coverage PRs.** Each one is framed as new E2E coverage and brings the fixes its test needs.
+**2. Coverage PRs.** Implemented 2026-10-20 on `release_26.2`: John wants them in the release, framed
+as missing tests (a bug). Each brings the fixes its test needs, tests green under both backends
+and red without each fix. Queued in `MY_BRANCHES.md`; no PRs yet.
 
-| PR | Commits | Coverage to add |
+| Branch | Commits | Coverage added |
 |---|---|---|
-| Run a workflow from the editor and cancel the invocation | 7h, 7j, 4b | run from the editor's Run activity, fill the simplified run form, cancel |
-| Open workflows by exact title | 7c, 7g, 7i | open and run a workflow that has a prefix sibling or a ":" in its name |
-| Insert a second subworkflow | 7d | insert two subworkflows from the editor's Workflows panel |
+| [`workflow_editor_run_cancel`](../../repositories/galaxy/branches/active/workflow_editor_run_cancel/index.md) | 4b, 7h, 7j | run from the editor's Run activity, pick a non-default dataset in the simplified run form, cancel |
+| [`workflow_open_exact_title`](../../repositories/galaxy/branches/active/workflow_open_exact_title/index.md) | 7c, 7g | open and run a workflow whose title prefixes a newer one's |
+| [`workflow_editor_second_subworkflow`](../../repositories/galaxy/branches/active/workflow_editor_second_subworkflow/index.md) | 7d | insert two subworkflows from the editor's Workflows panel |
+
+- **7i moved to step 4.** On 26.2 the list search opens `X: Y`, `X:Y` and `tag:Y` titles without
+  it (dev's `filtering.ts` is the same); it only works around test.galaxyproject.org's older client.
+- **Follow-up.** `workflow_run_setup_inputs` drops `type: File` inputs, so existing
+  `workflow_run_specify_inputs` callers select nothing and pass on the form's preselected dataset.
 
 **3. Area PRs.**
 
@@ -53,7 +60,7 @@ dropped #24142's commit. #24139's commit stays because it is on dev only.
 | Multiview copy + hooks | 4c, 5e | Multiview E2E |
 | `galaxy.selenium` usable outside the test suite | 7k, 5a, 5b, 5c, 5d, 7l, 7n | upload and extraction E2E suites, unit tests; give it a consumer by mixing `UsesUploadActivity` into `GalaxySeleniumContext` |
 
-**4. gxui** with 2 (CDP port) and 7m (storage state).
+**4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
 ## Starting a PR
 
