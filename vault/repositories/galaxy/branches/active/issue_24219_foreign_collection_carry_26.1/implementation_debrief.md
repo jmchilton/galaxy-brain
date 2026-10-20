@@ -1,8 +1,8 @@
 # Implementation debrief
 
-STATUS: BLOCKED - two John decisions left: cross-user carry, force-push. Scope add-on and the 26.1 hidden-listing change approved by John 2026-10-19.
+STATUS: BLOCKED - one John decision left: cross-user carry. Scope add-on and the 26.1 hidden-listing change approved by John 2026-10-19.
 
-Branch `issue_24219_foreign_collection_carry_26.1`, base `release_26.1` (`dbe4f2f7e41`), local head `f54b3a9b9af`. Remote `jmchilton` still at `3147227b128` (= alt `_alt_original_scope`); force-push blocked by the permission classifier.
+Branch `issue_24219_foreign_collection_carry_26.1`, base `release_26.1` (`dbe4f2f7e41`), head `f54b3a9b9af`, pushed to `jmchilton` 2026-10-20 (old head on alt `_alt_original_scope`).
 
 ## Final implementation
 
@@ -20,7 +20,6 @@ Earlier hardening (test challenge, Codex, thermo, baseline, scope eval) applies 
 ## Decisions for John
 
 1. Cross-user carry exposure (private reports) - access check first, or ship matching 26.1 data / 26.2 behavior.
-2. Approve force-push of the rebuilt branch.
 
 ## Tests run
 
