@@ -5,7 +5,7 @@
 
 ## Status
 
-Re-scoped 2026-10-19 (John: bring the broader 26.2 fix). Base `release_26.1` (`dbe4f2f7e41`), local head `fd4963c2021`. Worktree `~/projects/worktrees/galaxy/branch/issue_24219_foreign_collection_carry_26.1`. Alt: [original_scope](alts/original_scope.md).
+Re-scoped 2026-10-19 (John: bring the broader 26.2 fix). Base `release_26.1` (`dbe4f2f7e41`), local head `13c7352f165` (remote still `3147227b128`; force-push pending John). Re-hardened; BLOCKED on John's decisions (see `implementation_debrief.md`). Worktree `~/projects/worktrees/galaxy/branch/issue_24219_foreign_collection_carry_26.1`. Alt: [original_scope](alts/original_scope.md).
 
 Spun out of [issue_24219_pin_offpage_collections_26.1](../issue_24219_pin_offpage_collections_26.1/index.md) scope evaluation: on 26.1 a `data_collection` input selected from another history is dropped on the tool form (rerun); `data` inputs already carry it.
 
