@@ -90,7 +90,7 @@ The accessible name, native control, focus styling and shared close handler are 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? The popover still closes. Without a focusable trigger, focus isn't returned, as before.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They check accessible names, `document.activeElement` and visibility through the real `GButton`.
@@ -104,7 +104,7 @@ The accessible name, native control, focus styling and shared close handler are 
 
 <details><summary>Automated tests</summary>
 
-`client/src/components/GalaxyAI/ChatInput.test.ts` and `client/src/components/Popper/Popper.test.js`.
+`client/src/components/GalaxyAI/ChatInput.test.ts`, `client/src/components/Popper/Popper.test.js` and `client/src/components/Markdown/Editor/CellAdd.test.js`.
 
 </details>
 

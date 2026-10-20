@@ -1,15 +1,15 @@
 # Accessibility followups from browser stories
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:fix_story_a11y_followups?expand=1)
+- [PR #24285](https://github.com/galaxyproject/galaxy/pull/24285)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/fix_story_a11y_followups)
 
 ## Status
 
-`branches_ready_for_final_review`: polished on 2026-10-20 and waiting on John's read-through. Head is `fabcc827831`.
+`ci_wait`: John approved the branch, and it was opened as a draft at his request on 2026-10-20. Head is `fabcc827831`.
 
-No PR opened.
+[#24285](https://github.com/galaxyproject/galaxy/pull/24285) is a draft against `release_26.2`, with labels `kind/bug`, `area/accessibility` and `area/UI-UX`. The screenshot is hosted on the fork's `pr-assets-fix_story_a11y_followups` branch.
 
-Fork CI on `fabcc827831` has not been assessed. On `94a34cd0b23`, nothing had failed while most checks were still queued.
+CI on `fabcc827831` is running.
 
 ## Base and scope
 

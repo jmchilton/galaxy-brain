@@ -29,6 +29,7 @@ None yet.
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs and fixes runtime diagnostics. Base `release_26.2`. [#24203](https://github.com/galaxyproject/galaxy/pull/24203). Draft requested by John.
+- [`fix_story_a11y_followups`](../../repositories/galaxy/branches/active/fix_story_a11y_followups/index.md) — Names chat send; Popper close is a keyboard button and close/Escape return focus. Base `release_26.2`. [#24285](https://github.com/galaxyproject/galaxy/pull/24285). Draft requested by John.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
@@ -71,8 +72,6 @@ None yet.
 None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
-
-- [`fix_story_a11y_followups`](../../repositories/galaxy/branches/active/fix_story_a11y_followups/index.md) — Names chat send; Popper close is a keyboard button and close/Escape return focus. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:fix_story_a11y_followups?expand=1).
 
 
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
