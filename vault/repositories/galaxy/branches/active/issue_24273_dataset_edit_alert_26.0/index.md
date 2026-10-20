@@ -13,6 +13,10 @@ Fixes [#24273](https://github.com/galaxyproject/galaxy/issues/24273): scheduled 
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Normal review](subagents/normal_review.md) · [Re-scope review](subagents/rescope_review.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · Alt: [original scope](alts/original_scope.md) · Round 1 hardening: [earlier_drafts/1/](earlier_drafts/1/)
 
+## Dependencies
+
+- Blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297) ([`_baseline`](../issue_24273_dataset_edit_alert_26.0_baseline/index.md), commits 1–7). Once it merges, rebase onto `release_26.0` so the PR carries only the fix commits.
+
 ## Decisions
 
 - Base `release_26.0`: failure seen in the weekly dev Selenium run. The same `isLoading || !dataset` gate exists on `release_25.1`, so 25.1 is likely affected too; kept 26.0 since the fix depends on watcher ordering in DatasetView, which changed between 25.1 and 26.0.

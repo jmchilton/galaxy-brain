@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-20 (John opened #24297 directly; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -16,6 +16,7 @@ Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #242
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [#24265](https://github.com/galaxyproject/galaxy/pull/24265).
 - [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Rejects incompatible tools before run setup and deduplicates complete nested tool references. Base `release_26.2`. [#24209](https://github.com/galaxyproject/galaxy/pull/24209).
 - [`issue_24093_batch_element_labels_26.1`](../../repositories/galaxy/branches/active/issue_24093_batch_element_labels_26.1/index.md) — Labels every tool-form batch value, including dropped hidden collection elements (#24093). Base `release_26.1`. [#24211](https://github.com/galaxyproject/galaxy/pull/24211).
+- [`issue_24273_dataset_edit_alert_26.0_baseline`](../../repositories/galaxy/branches/active/issue_24273_dataset_edit_alert_26.0_baseline/index.md) — Baseline tests, three refactors and the #23985 backport ahead of `issue_24273_dataset_edit_alert_26.0`. Base `release_26.0`. [#24297](https://github.com/galaxyproject/galaxy/pull/24297).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -77,8 +78,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`issue_24273_dataset_edit_alert_26.0`](../../repositories/galaxy/branches/active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Polishing with baseline decomposition. Base `release_26.0`, head `c11610da344`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
-- [`issue_24273_dataset_edit_alert_26.0_baseline`](../../repositories/galaxy/branches/active/issue_24273_dataset_edit_alert_26.0_baseline/index.md) — Baseline tests, three refactors and the #23985 backport ahead of `issue_24273_dataset_edit_alert_26.0`. Base `release_26.0`, head `498f65b48a3`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0_baseline?expand=1).
+- [`issue_24273_dataset_edit_alert_26.0`](../../repositories/galaxy/branches/active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Polishing with baseline decomposition; blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297). Base `release_26.0`, head `c11610da344`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
