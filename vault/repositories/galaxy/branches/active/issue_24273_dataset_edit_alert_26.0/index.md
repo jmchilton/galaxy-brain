@@ -5,13 +5,13 @@
 
 ## Status
 
-Status: hardening in progress (recovered from a non-workhorse session). Base: `release_26.0` (`f90a897bfbe`). Head: `e9af550063e`. Fork: `jmchilton/issue_24273_dataset_edit_alert_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24273_dataset_edit_alert_26.0`.
+Status: re-scoped; re-hardening (round 2) in progress. Recovered from a non-workhorse session. Base: `release_26.0` (`f90a897bfbe`). Head: `3fafdd31157`. Fork: `jmchilton/issue_24273_dataset_edit_alert_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24273_dataset_edit_alert_26.0`.
 
 No PR yet. CI not yet seen.
 
 Fixes [#24273](https://github.com/galaxyproject/galaxy/issues/24273): scheduled Selenium `test_dataset.py::TestDataset::test_history_dataset_rename` times out waiting for `.dataset-attributes-alert`.
 
-[Initial implementation](initial_implementation_debrief.md)
+[Initial implementation](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Normal review](subagents/normal_review.md) · [Re-scope review](subagents/rescope_review.md) · Alt: [original scope](alts/original_scope.md) · Round 1 hardening: [earlier_drafts/1/](earlier_drafts/1/)
 
 ## Decisions
 
