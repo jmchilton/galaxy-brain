@@ -7,14 +7,14 @@ An imported workflow can contain an installed tool that cannot run in workflows.
 | Installed but workflow-incompatible | HTTP 400 naming the incompatible references; no requested history or invocation |
 | Missing and incompatible | Existing missing-tool error takes precedence, before history creation |
 | Same ID/version/UUID in parent and child | One reference and diagnostic entry |
-| Same missing ID with versions 0.1 and 0.2 | Both references retained; exact-version mode names both versions |
+| Same missing ID with versions 0.1 and 0.2 | Both references retained; exact-version mode names both versions, non-exact names the ID once |
 | Available and workflow-compatible | Normal invocation |
 
 ***This validates invocation requests, including imported workflows containing installed tools that cannot run in workflows; other invocation checks remain in place.*** The scheduler's existing compatibility backstop remains in place.
 
-***Nested deduplication uses the complete ID/version/UUID reference, so distinct versions or UUIDs remain separate—even when non-exact diagnostics display the same ID twice.*** The shared collector now applies its existing local uniqueness rule while merging child workflows, also removing identical repeated entries from missing-tool listings.
+***Nested deduplication uses the complete ID/version/UUID reference, so distinct versions or UUIDs remain separate.*** Diagnostics list each displayed description once; exact mode, the API default, includes versions for both missing and incompatible tools. The shared collector now applies its existing local uniqueness rule while merging child workflows, also removing identical repeated entries from missing-tool listings.
 
-The readiness check resolves each collected reference through the canonical toolbox lookup, passing the existing version, UUID, exactness and user arguments, and reads compatibility metadata from the result.
+Availability is still decided by `has_tool`, which the cached toolbox keeps strict for exact versions; `get_tool` is called only for available references to read compatibility metadata. Missing and incompatible tools both raise `MessageException`, like the scheduler backstop.
 
 ## Risks
 
@@ -24,7 +24,7 @@ API callers receive earlier tool-readiness errors, and consumers of the shared r
 
 - Tool-readiness failures can take precedence over other invalid request fields because validation runs before run configuration and history creation.
 - Repeated nested references stop producing repeated entries; distinct versions and UUIDs must remain separate and ordered by first occurrence.
-- Compatibility now requires resolving tool metadata early; cached-tool UUID lookup follows `get_tool` semantics rather than an availability-index shortcut.
+- Compatibility now requires resolving tool metadata early for each available tool.
 
 </details>
 
@@ -66,7 +66,7 @@ The correction extends the collector's existing uniqueness rule through child me
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? HTTP 400 names incompatible tools, or returns the missing-tool error before creating run state.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. API cases verify diagnostics, distinct versions and persistence effects.
@@ -85,7 +85,9 @@ The correction extends the collector's existing uniqueness rule through child me
 
 Run `lib/galaxy_test/api/test_workflows.py` with the selection `run_with_workflow_incompatible_tool or run_with_missing_and_incompatible_tools or run_with_nested_missing_tool_versions or test_run_workflow_by_name`, using Galaxy's API test harness and the standard sample tool configuration.
 
-Fresh polish verification on `d8319abb97b`: **11 API cases passed**. Black, isort and whitespace checks pass. Fork CI is pending on the rebased head; previous-head API, workflow-framework and Python-lint suites passed. Its Python 3.14 unit failure is an unrelated request-session test race (`gx_app=None` in a background thread).
+`test/integration/test_tool_source_storage.py::TestCachedToolBoxApi::test_exact_workflow_invocation_reports_missing_tool_version` covers exact versions with the cached toolbox, which the API suites don't run.
+
+Verified on `4954720f00c`: **11 API cases and the integration test passed**; the integration test fails without the `has_tool` availability check. Ruff, black and isort pass.
 
 </details>
 

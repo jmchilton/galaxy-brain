@@ -14,7 +14,7 @@ Snapshot: 2026-10-19 (John undrafted #24217, #24212, #24140, #23815; #24228, #24
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
-- [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Rejects incompatible tools before run setup and deduplicates complete nested tool references. Base `release_26.2`. [#24209](https://github.com/galaxyproject/galaxy/pull/24209). Conflicts with base.
+- [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Rejects incompatible tools before run setup and deduplicates complete nested tool references. Base `release_26.2`. [#24209](https://github.com/galaxyproject/galaxy/pull/24209). Live description predates jmchilton/galaxy#91.
 - [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)

@@ -1,15 +1,19 @@
 # invocation_tool_compatibility
 
-- [Draft PR #24209](https://github.com/galaxyproject/galaxy/pull/24209)
+- [PR #24209](https://github.com/galaxyproject/galaxy/pull/24209)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/invocation_tool_compatibility)
 
 ## Status
 
-`attention` at `d8319abb97b0ee37c059a37ea2188b18bad61275`.
+`attention` at `4954720f00ce1ce530ba97d01fdf9633a8574e84`; live PR description needs refresh from [pr_description.md](pr_description.md).
 
-Draft PR #24209 targets `release_26.2` at `caa4acc3ad7`; out of draft as of 2026-10-19; now conflicts with its base.
+PR #24209 targets `release_26.2`, rebased onto `fe6a5540d28` 2026-10-19; mergeable.
 
-PR CI (2026-10-19): Test Galaxy packages red on 3.10 and 3.14, unrelated (see CI diagnosis).
+PR CI pending on the rebased head; previous head's Test Galaxy packages reds were unrelated (see CI diagnosis).
+
+## Review
+
+mvdbeek reviewed (comment, 2026-10-19); his fixes jmchilton/galaxy#91 fast-forwarded in 2026-10-19: `has_tool` decides availability again (cached toolbox `get_tool(exact=True)` falls back to another version), each tool description listed once, versions for incompatible tools in exact mode, `MessageException` for both pre-flight failures, stale TODO updated. New `TestCachedToolBoxApi` test red on old services code (`Workflow step has upgrade messages`), green after. Rebased head: 17 API cases (incl. upstream scheduler/storage pre-checks) and the integration test pass; ruff/black/isort clean; mypy matches base. Rebase conflicts were additive (upstream scheduler pre-check + storage tests). No further work requested.
 
 ## Review materials
 
@@ -24,4 +28,4 @@ Independent extraction from [issue_20900_invocation_validation](../issue_20900_i
 ## CI diagnosis — 2026-10-19
 
 - Test Galaxy packages (3.10, 3.14) fail collecting `packages/data/tests/data/datatypes/test_data.py`: `ModuleNotFoundError: galaxy.tools` from the `Conditional` import. Pre-existing on `release_26.2`; fixed by unmerged [`fix_data_package_tests_26_2`](../fix_data_package_tests_26_2/index.md). Unrelated.
-- Conflicts with `release_26.2`; needs a rebase.
+- Conflicts with `release_26.2` resolved by the 2026-10-19 rebase.
