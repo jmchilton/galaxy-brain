@@ -17,4 +17,4 @@ New E2E test: run a workflow from the editor's Run activity, select a non-defaul
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop these commits from `galaxy_ui_driver` once this merges.
 
-[Implementation](implementation_debrief.md)
+[Initial implementation](initial_implementation_debrief.md)
