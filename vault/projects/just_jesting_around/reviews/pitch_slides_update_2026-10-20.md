@@ -21,6 +21,12 @@ GitHub merge/status checks and the presentation build are performed by the imple
 
 </details>
 
+## Follow-up: simplified timing discussion
+
+Reviewed the user's requested simplification in both drafts. The rounded eight-second/12% summary agrees with the original evidence, and both retain the necessary limitation: an earlier smaller catalog without accessibility, not a benchmark of the current branch. Removing the per-run table, detailed configuration and obsolete October 10 counts does not alter the claims. The pitch's strict browser snapshot remains qualified and does not turn isolated timeout reruns into a green full run.
+
+One minor leftover in the slides' review-loop speaker notes still described a five-comparison summary and precise 12.1% figure after the visible benchmark slide was simplified. Reported it to the implementing agent for concise wording consistent with the user's correction. No broader validation or new measurements are needed for these prose changes.
+
 ## Driver verification
 
 Astro production build passes using the website's existing local toolchain. A local headless Chromium check visits all 21 slides with transitions disabled, reports no page errors and no visible content outside the slide bounds, and confirms slide index 4 remains the cognitive-load slide. The changed abstraction, recorded-response, HistoryExportWizard, snapshot, benchmark and accessibility slides were visually inspected at 1280×900. The connected browser runtime had no available browser, so the local check used installed Playwright/Chromium instead. Screenshots and the layout report are temporary QA artifacts, not website assets.

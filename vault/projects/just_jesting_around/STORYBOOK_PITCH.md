@@ -39,7 +39,7 @@ The conversion process calls for deliberate-break checks: the play must fail at 
 
 ## Current snapshot
 
-The October 10 counts (29 component conversions and 191 stories) described an early prototype. The October 20 stack is larger:
+As of October 20:
 
 | Evidence | Current result |
 | --- | --- |
@@ -52,7 +52,7 @@ The October 10 counts (29 component conversions and 191 stories) described an ea
 | Affected composed-story unit checks for the accessibility layer | 9 files / 128 tests pass |
 | Full types, scoped style checks and static Storybook build | Pass |
 
-Before accessibility was added, the full play run passed 578 stories and failed five. All 39 stories across those four affected files passed isolated reruns on identical source. That timing-sensitive result does not make the full run green. The combined strict run retains its failures; consolidation added no exception or disabled rule.
+Some full-run interaction timeouts pass in isolated reruns, but strict accessibility failures remain. Consolidation added no exception or disabled rule.
 
 These counts describe collected cases and validation results, not line or branch coverage. Several old unit cases can become one multi-step play; a rendered story without a play is not an equivalent interaction test. Code moves into stories and helpers rather than simply vanishing, and upstream regression tests can still require a unit file after older cases move out.
 
@@ -254,22 +254,11 @@ There is no Chromatic account, screenshot baseline workflow or browser CI gate i
 
 ## Costs
 
-### CLI runtime — historical benchmark, without accessibility
+### CLI runtime
 
-No new runtime comparison was made for the October 20 combined branch. The October 12–13 benchmark below excludes axe and uses an earlier, smaller catalog. Its last three comparisons average **68.94s before → 77.25s after**, an increase of **8.31s (12.1%)**. The remaining unit tests average 54.21s and the browser stories add 23.04s. Moving checks into plays saves unit time, which offsets much of the browser cost.
+An earlier local comparison took about **8 seconds longer overall (12%)**. Moving checks out of units offsets much of the browser cost.
 
-| Run | Before: original units | After: remaining units | After: Chromium stories | After: combined | Change |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| 1 | 81.16s | 69.31s | 36.64s | 105.95s | +30.5% |
-| 2 | 81.10s | 54.79s | 23.71s | 78.50s | −3.2% |
-| 3 | 69.23s | 54.62s | 23.09s | 77.71s | +12.2% |
-| 4 | 68.69s | 54.01s | 22.93s | 76.94s | +12.0% |
-| 5 | 68.89s | 54.00s | 23.09s | 77.09s | +11.9% |
-| **Mean, runs 3–5** | **68.94s** | **54.21s** | **23.04s** | **77.25s** | **+12.1%** |
-
-Measured on 2026-10-12–13 using fixed snapshots: pre-Storybook base `27e6eaab100` versus Play tip `81c4987360d`. Before runs the 59 original unit files in the conversion range: **482 tests**. After runs their 55 remaining unit files (**345 tests**) plus all 59 story files (**379 browser tests**). All five comparisons pass. The after suite includes additional rendered states and checks, so the test counts are not equivalent workloads. This measures the conversion range, not the entire repository's test suite.
-
-Times are end-to-end CLI wall time, including startup. Units and browser stories run sequentially, so the combined column is their sum; Vitest's summed parallel test durations are not used. Both snapshots use pinned Node 22.20.0, three workers and an 8 GB Node heap, with coverage and a11y excluded. Runs 3–5 alternate which snapshot runs first. The first two comparisons show startup/cache variability; the final three are steadier, but this is a local benchmark rather than a CI performance guarantee.
+That benchmark used a smaller catalog and excluded accessibility checks; it does not predict the current combined branch's runtime.
 
 ### Other costs
 
