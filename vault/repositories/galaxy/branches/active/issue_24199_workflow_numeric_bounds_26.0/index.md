@@ -18,7 +18,7 @@ Fixes [#24199](https://github.com/galaxyproject/galaxy/issues/24199): integer/fl
 ## Follow-ups
 
 - Editor save drops step errors (live `build_module` feedback landed via mvdbeek's #94).
-- Out-of-range saved default (e.g. 9 with bounds 1–5) shows `9` beside a slider at 5; `FormNumber` only range-checks on change. Declined clamping on load: shared with tool forms, emitting `input` on mount dirties editor state and silently changes the submitted value; server still rejects it at run.
+- [#24289](https://github.com/galaxyproject/galaxy/issues/24289): out-of-range saved default (e.g. 9 with bounds 1–5) shows `9` beside a slider at 5; `FormNumber` only range-checks on change. Declined clamping on load: shared with tool forms, emitting `input` on mount dirties editor state and silently changes the submitted value; server still rejects it at run.
 - `step_state_to_tool_state` collapses persisted `in_range` validators (drops `negate`, `exclude_*`, `message`; last wins).
 - Rejected value `0` leaves `%s` in validator messages.
 - Merge order with [#24282](https://github.com/galaxyproject/galaxy/pull/24282) (keeps declared validators — negate, multiple ranges; absorbed the abandoned `issue_24200_workflow_input_validators`): `split_numeric_bounds` assumes one collapsed inclusive `in_range`; whichever lands second must handle the other.
