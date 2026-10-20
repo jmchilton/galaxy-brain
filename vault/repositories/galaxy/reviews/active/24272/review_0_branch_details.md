@@ -1,0 +1,6 @@
+# Review branch `pr_24272_review_0`
+
+The branch is built on the reviewed commit `9a97db13`. It moves the test coverage for the new missing-selector seeding out of a Bunch-faked unit file and into the `visit_input_values` doctest, and deletes that file. The PR's unit tests aren't lost. The missing-selector case becomes a doctest that fails without the fix. The present-selector case is already covered by the first doctest's round-trip assertion that `g` is `True`, which would fail if the seed overwrote a selector already present. The branch also makes the seed tolerate selectors whose default needs a `trans`, such as genome builds, `from_url`, and data-table filters. Those fall back to the old behavior: the selector stays unset and no case is selected (`__current_case__ = -1`), where the PR as written raised `AttributeError`. The PR's integration test is unchanged and wasn't run.
+
+- `7e081456d27` Cover missing-conditional seeding in visit_input_values doctest. Adds a doctest case showing that the default case is selected and serialized, and deletes `test/unit/app/tools/test_visit_input_values.py`.
+- `5659f52b751` Keep old behavior when a missing selector's default needs a trans. Wraps the seed in a `try` and adds a doctest using a conditional keyed on `genomebuild`.

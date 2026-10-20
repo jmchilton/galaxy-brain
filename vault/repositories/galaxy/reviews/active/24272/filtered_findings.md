@@ -1,0 +1,3 @@
+# Filtered findings: galaxy#24272
+
+- **Default P3 2: `allow_case_inference` mostly dead.** Verification found the flag fully dead after this PR. When the selector is absent, `callback_helper` replaces `case_error` with "No value found…", and the second `get_current_case` call always finds the seeded selector. Filtered because it isn't actionable on a 26.1 fix: removing the walker kwarg and the `meta.py` argument is dev cleanup, and `meta.py`'s unguarded inference, which also raises for trans-dependent selectors, is pre-existing code the PR doesn't touch. Worth a dev follow-up to drop the flag.
