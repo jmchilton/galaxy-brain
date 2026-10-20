@@ -5,11 +5,13 @@
 
 ## Status
 
-Polished; PR out of draft, `ready`. Base `release_26.1` (`dbe4f2f7e41`), head `39e4b4e9f6f`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24221_paged_map_over_options_26.1`.
+Polished; PR out of draft, `ready`. Base `release_26.1` (`dbe4f2f7e41`), head `84e4857d07a`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24221_paged_map_over_options_26.1`.
+
+mvdbeek reviewed (comment, 2026-10-19): server paging + page merge OK; his keep-option duplicate-row fix jmchilton/galaxy#93 fast-forwarded in 2026-10-19 (new tests red on old `FormData.vue`; Form/Tool/Workflow-run vitest 65/65). No further work requested.
 
 Draft [#24228](https://github.com/galaxyproject/galaxy/pull/24228) opened 2026-10-17 at John's request; title "[26.1] Fix paged collection options dropping a collection's map-over entry". Screenshots hosted on `pr-assets-issue_24221_paged_map_over_options_26.1`.
 
-PR CI on `39e4b4e9f6f` green; mergeable (2026-10-19).
+PR CI rerunning on `84e4857d07a` (green on `39e4b4e9f6f`).
 
 Fixes [#24221](https://github.com/galaxyproject/galaxy/issues/24221): paged collection options drop a collection's "map over" entry. On 26.1 that entry also couldn't be selected on its own.
 
