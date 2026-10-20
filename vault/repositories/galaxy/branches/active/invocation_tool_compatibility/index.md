@@ -5,11 +5,11 @@
 
 ## Status
 
-`attention` at `4954720f00ce1ce530ba97d01fdf9633a8574e84`; live PR description needs refresh from [pr_description.md](pr_description.md).
+`ready` at `4954720f00ce1ce530ba97d01fdf9633a8574e84`; live PR description synced from [pr_description.md](pr_description.md) 2026-10-20.
 
 PR #24209 targets `release_26.2`, rebased onto `fe6a5540d28` 2026-10-19; mergeable.
 
-PR CI pending on the rebased head; previous head's Test Galaxy packages reds were unrelated (see CI diagnosis).
+PR CI green on `4954720f00c`.
 
 ## Review
 
@@ -33,3 +33,5 @@ Independent extraction from [issue_20900_invocation_validation](../issue_20900_i
 ## TICK — 2026-10-20
 
 PR CI on rebased head `4954720f00c` green (48 pass, 2 skipped), MERGEABLE. Only remaining item: refresh the live PR description from `pr_description.md`, which needs John's OK. Stays `attention`.
+
+Live description updated from `pr_description.md` with John's OK. The diff from the old body was only the jmchilton/galaxy#91 fold (has_tool availability, descriptions listed once, versions in exact mode, MessageException, cached-toolbox integration test). Each claim was checked against `4954720f00c`; nothing was reverted. Moved to `ready`.

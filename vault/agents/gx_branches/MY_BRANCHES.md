@@ -16,10 +16,10 @@ Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #242
 - [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [#24165](https://github.com/galaxyproject/galaxy/pull/24165).
 - [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Rejects invalid completion-action names and required export configuration. Base `release_26.2`. [#24202](https://github.com/galaxyproject/galaxy/pull/24202).
 - [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [#24265](https://github.com/galaxyproject/galaxy/pull/24265).
+- [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Rejects incompatible tools before run setup and deduplicates complete nested tool references. Base `release_26.2`. [#24209](https://github.com/galaxyproject/galaxy/pull/24209).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
-- [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Rejects incompatible tools before run setup and deduplicates complete nested tool references. Base `release_26.2`. [#24209](https://github.com/galaxyproject/galaxy/pull/24209). Live description predates jmchilton/galaxy#91.
 - [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
