@@ -141,7 +141,7 @@ Transposing and comparing both need the same column to mean the same thing on ev
 
 - **Mode 1.**
   - *Rows* are matched to the step by **uuid, then step label**, with position as an opt-in, and each row carries `matched_by`. This changes the client's "uuid by default", and the reason is a code fact:
-    - A **rename-only save regenerates every step uuid**. `PUT /api/workflows/{id}` with only a new name calls `old_workflow.copy()` (`api/workflows.py:465-472`), and `Workflow.copy` builds fresh `WorkflowStep()`s without copying uuids (`model/__init__.py:9285`, `copy_to` at 9588).
+    - A **rename-only save regenerates every step uuid**. The workflow list's Rename action (`WorkflowCardList.vue:132`, `updateWorkflow(id, {name})`) sends a name-only `PUT /api/workflows/{id}`. That calls `old_workflow.copy()` (`api/workflows.py:465-472`), and `Workflow.copy` builds fresh `WorkflowStep()`s that never get the old uuid (`model/__init__.py:9285`; `copy_to` at 9588 copies label but not uuid; `WorkflowOutput.copy` drops its uuid too).
     - Importing a shared or published workflow and duplicating or pasting steps in the editor also mint new uuids.
     - Editor saves and file, URL or TRS imports keep them.
     - Step labels are enforced unique within a version (`managers/workflows.py:2156-2159`), so label is a safe second key.
@@ -248,4 +248,5 @@ Build one read-only endpoint, a resolver per slice kind, and one props-only tabl
 5. Mode 3 row: one per Job/ICJ (recommended) or per ToolRequest? Include jobs run inside workflows by default?
 6. Mode 3 entry: is the job page enough, or should there be a "previous runs" panel on the tool form?
 7. Do the inputs columns in mode 2 include parameter inputs, or only datasets and collections?
-8. Should the side findings (rename uuid, output-label check) go to `to_file/` now?
+8. Should the side findings (rename uuid, output-label check) go to `to_file/` now? Each needs a reproduction first: rename, then GET to compare step uuids; and save a workflow with a duplicated output label.
+9. The file is `compare_outputs.md`, but the doc covers comparing runs (steps, outputs and tools). Rename it to `compare_runs.md`?
