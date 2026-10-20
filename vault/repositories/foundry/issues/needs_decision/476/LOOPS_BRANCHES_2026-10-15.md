@@ -77,6 +77,8 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
      - Test-data branch (`73943547`): `runLoop` and `runBranch` share a multi-worker phase helper. Unreadable refs are a controller error. Writes record their leg, and the column reads "stopped at".
      - John chose exit code 2 for a blocked run (`121954ca`). A chain with no sentinel still ends blocked. Both branches touch `runLoop`, so the second to land needs a small rebase.
    - Opened 2026-10-19, both stacked on #686: [#689](https://github.com/galaxyproject/foundry/pull/689) (blocked exit) and [#690](https://github.com/galaxyproject/foundry/pull/690) (test-data branch).
+     - 2026-10-19: the blocked-exit refinement note was dropped (`8f6ac934`); John prefers fixing the Mold directly.
+     - 2026-10-20: #689 merged into #686's branch. #686 was rebased onto main (after #688), head `2e8117a5`; only generated files conflicted. #688 adds open-question `decisions:` to the ledger, which the blocker check doesn't read. #690 was rebased onto that head (`4aeafa7b`), with `ask` renamed to `attempt` in #689's code; build-cli 280 tests.
    - Live run `~/foundry-runs/nf2g-demo-through7-loop-2026-10-16/` (dashboard alongside):
      - Phases 1–6 passed. The draft had 6 drafty steps.
      - Iterations 1–3 passed, at 14–23 turns per call.
