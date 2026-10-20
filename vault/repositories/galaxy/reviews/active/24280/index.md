@@ -1,6 +1,13 @@
 # PR #24280 — Ignore stale user/history object store preferences
 
 - PR: https://github.com/galaxyproject/galaxy/pull/24280 (davelopez, `release_25.1`, +96/-14, 5 files; fixes #23868)
-- Status: Initial review in progress (picked by John 2026-10-20)
+- Status: Initial review complete; response unposted
 - Reviewed commit: `ff83754163b26e9c19fd6d2d2fb241b69e4adf4a`
+- Reviewed: 2026-10-20 (picked by John)
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24280`
+- Response draft: [initial_review_response.md](initial_review_response.md); actions: [initial_response_action.md](initial_response_action.md)
+- Verified review: [verified_review.md](verified_review.md) — one P3 (helper typing); [filtered](filtered_findings.md)
+- Review branch: `pr_24280_review_0` on [jmchilton fork](https://github.com/jmchilton/galaxy/tree/pr_24280_review_0) ([details](review_0_branch_details.md))
+- Reports: [default](initial_review.md), [test challenger](test_challenges_review.md), [risks](risks.md); [agents](initial_review_agents.md)
+
+Main risk: silent fallback to weighted default for retired-backend preferences on a release branch (stated in PR body). Job wrapper is the only reader of stored preferences; uploads go through it. Milestone is 27.0 though base is release_25.1.

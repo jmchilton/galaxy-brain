@@ -1,0 +1,6 @@
+# Filtered findings — #24280 (reviewed `ff83754163b`)
+
+- **default P3 1: per-job warning may flood logs** — not actionable at this size. The job handler already logs several lines per job, so a level change wouldn't reduce volume much. Deduplicating once per id would need cross-job state, which is out of proportion to the fix. The warning is also what diagnoses #23868.
+- **gx_test_challenger P3 1: preference reset not in try/finally** — the default reviewer is right. Sibling tests (`test_objectstore_selection`, `test_objectstore_selection_dynamic_output_tools`) also reset at the end with no `try/finally`, so the new test follows the file's pattern. Making the shared-user cleanup robust would be a file-wide fixture change to pre-existing code.
+- **gx_test_challenger P3 2: inline closure could be a class method** — a preference nit. Siblings define the same inline `_run_tool` closures.
+- **gx_risk_assessment question (uploads / other paths reading `preferred_object_store_id` directly)** — no finding. The only readers of `history.preferred_object_store_id` / `user.preferred_object_store_id` in `lib/galaxy` are the two calls in `MinimalJobWrapper._set_object_store_ids_full`. Every other hit is a setter/deserializer (already validated) or a request/invocation-level id. Uploads go through the job wrapper.
