@@ -51,4 +51,4 @@ Try to reclaim space when we can while trying to preserve work where we can - re
 
 If there is uncommitted work - diff it into a patch and save it to ./lost_and_found/BRANCH_NAME_uncommitted.patch. If there are notes, etc... sitting in the branch - likewise move this to lost_and_found/ (up to 1MB) so the tree can be reclaimed.
 
-Remove only clean worktrees whose commits are confirmed pushed, following WORKTREES.md. If a worktree has staged, unstaged, or untracked changes, unpushed commits, or no upstream, leave it intact and report what prevents cleanup. A patch in lost_and_found/ is supplemental documentation, not sufficient grounds to remove the worktree.
+Remove only clean worktrees whose commits are confirmed pushed, following WORKTREES.md. If a worktree has staged, unstaged, or untracked changes, or commits WORKTREES.md doesn't count as pushed, leave it intact and report what prevents cleanup. A patch in lost_and_found/ is supplemental documentation, not sufficient grounds to remove the worktree.

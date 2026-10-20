@@ -51,11 +51,12 @@ git -C <WORKTREE> status --porcelain
 git -C <WORKTREE> rev-list @{u}..HEAD --count
 ```
 
-Non-empty status means uncommitted changes. A non-zero count, or no upstream at all
-(`git -C <WORKTREE> rev-parse @{u}` fails), means local commits exist nowhere else. In
-either case do **not** remove it - tell the user what's there and wait for them to confirm.
+Non-empty status means uncommitted changes. A non-zero count means local commits exist
+nowhere else. In either case do **not** remove it - tell the user what's there and wait for them to confirm.
 
-A merged PR's worktree with no upstream may be removed if clean and its HEAD is the merged PR's head commit or an ancestor of it.
+A clean worktree with no upstream may still be removed if its HEAD is a pushed remote branch's head or an ancestor of it (such as a merged PR's head commit). Otherwise treat it as unpushed.
+
+
 ## Status
 
 Check PR state with
