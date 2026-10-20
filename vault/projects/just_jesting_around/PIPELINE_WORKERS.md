@@ -44,6 +44,11 @@ Parallelizes well. The contention points are `.storybook/preview.ts`, `tests/vit
 Runs [TO_PLAY_ITERATION.md](TO_PLAY_ITERATION.md); decisions are logged in [PLAY_LOG.md](PLAY_LOG.md).
 
 Moves component-behavior cases out of a storified test and into `play` functions.
+Owns the combined play/accessibility lane: shared helpers and accessibility
+configuration go first; story-specific accessibility annotations belong in the
+same per-test commit as the plays. Do not advance the retired `vitest_story_a11y`
+branch. Preserve strict checks and report known failures without adding exceptions
+merely to make a run pass.
 
 - **Assertions:** strengthening is welcome; a case that would lose or weaken a check stays in vitest until John approves.
 - Edge-case-heavy tests stay in vitest and get `storybook_play: skip`.

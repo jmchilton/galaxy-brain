@@ -1,12 +1,15 @@
 # vitest_story_a11y
 
-Status: rebased prototype; browser validation has failures to resolve before integration. Do not PR independently.
-Stacked on `vitest_story_play`.
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_story_a11y`.
-Base: `735da91611e343c370e5150d619691ad4407b112` (published Play tip captured for the 2026-10-20 rebase).
-Pushed to `jmchilton/vitest_story_a11y` at `b6d4c40d6c42af7eb469bc7b920e69433eddee9c` on 2026-10-20. The [2026-10-12 handoff](rebase_2026-10-12.md) is historical; see the [current implementation debrief](implementation_debrief.md).
-User requested an isolated fork to explore visual and accessibility testing for
-the BootstrapVue/Vue 3 migration, leaving the running conversion lanes alone.
+Status: superseded by `vitest_story_play` on 2026-10-20. Historical reference only; do not rebase, advance or PR this branch.
+
+The accessibility infrastructure and all story annotations are now part of the
+[combined play lane](../vitest_story_play/index.md) at `3eaa09792d688138b2107ee436f99431f96de0d3`.
+That history has exactly the same final source tree as the former accessibility
+tip `b6d4c40d6c42af7eb469bc7b920e69433eddee9c`. Known strict browser failures and historical
+exceptions remain tracked with play. The old ref and clean worktree are retained
+for recovery; this branch is removed from the maintained branch index.
+
+Everything below records the former separate prototype.
 
 - [Initial implementation](initial_implementation_debrief.md)
 - [Final implementation](implementation_debrief.md)

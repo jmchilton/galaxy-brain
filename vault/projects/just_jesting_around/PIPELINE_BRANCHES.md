@@ -10,7 +10,7 @@ Stack order, bottom to top:
 | --: | ----------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 |   1 | `vitest_readability`    | Readability and reuse rewrites ([READABILITY_LOOP_ITERATION.md](READABILITY_LOOP_ITERATION.md)) | Per-test commits, split from `jest_readability_batch_01` ([prompt](REBASE_READABILITY.md)) |
 |   2 | `vitest_stories`        | Storybook and its Vitest browser project; test mounts composed stories with mocks               | Infra plus per-test commits; progress in [STORY_LOG.md](STORY_LOG.md)                      |
-|   3 | `vitest_story_play`     | Cases moved to `play` functions ([plan](plan_vitest_addon.md))                                  | Per-test commits only; progress in [PLAY_LOG.md](PLAY_LOG.md)                              |
+|   3 | `vitest_story_play`     | Browser plays, accessibility checks and viewport tools ([plan](plan_vitest_addon.md)) | Shared infrastructure first, then one commit per test; progress in [PLAY_LOG.md](PLAY_LOG.md) |
 |   4 | `vitest_real_api_calls` | Real API responses replace hand-written mock payloads                                           | Not started                                                                                |
 
 Worktrees live under `~/projects/worktrees/galaxy/branch/`: `vitest_readability`, `storybook_prototype` (lane 2) and `storybook_interactions` (lane 3); the last two keep their old names until they're moved. Lanes push to the `jmchilton` remote.
@@ -32,6 +32,20 @@ Run client commands from `client/` with the pinned node and `VITE_CONFIG_NATIVE_
 Lane 4 has two parts:
 - An API-test suite that runs against a live Galaxy and dumps responses as generated JSON.
 - Converting client tests to read that JSON.
+
+## Combined play and accessibility lane — 2026-10-20
+
+`vitest_story_play` now includes the former `vitest_story_a11y` prototype. Maintain
+only play above stories: four shared infrastructure/helper commits first, followed
+by 96 per-test commits with each story's accessibility annotations folded into its
+owning test commit. Future shared changes stay at the front; future story/play/a11y
+changes for a test are folded together by `Test-File:`.
+
+The old accessibility branch is a frozen historical reference, not another lane
+to rebase or advance. Strict accessibility failures and historical TODO exceptions
+remain; consolidation grants no PR approval and adds no browser CI. The conversion
+ledger fields keep their existing meanings; there is no separate accessibility
+field. [Exact tree and commit mapping](reviews/combine_play_a11y_2026-10-20/commit_mapping.json).
 
 ## Ledger
 

@@ -2,12 +2,25 @@
 
 Renamed from `storybook_interactions` on 2026-10-09; the worktree directory keeps the old name.
 
-Status: prototype, stacked on `vitest_stories`; not in `MY_BRANCHES.md`. No PR intent yet.
+Status: combined play/accessibility prototype, stacked on `vitest_stories`; reference-only in `MY_BRANCHES.md`. Known strict accessibility failures; no PR intent.
 
 Worktree: `~/projects/worktrees/galaxy/branch/storybook_interactions` (`git worktree add` from `vitest_stories`, not ghwt, since it's stacked). Pushed to `jmchilton/vitest_story_play`.
 
 - [Plan: Storybook Vitest addon](../../../../../projects/just_jesting_around/plan_vitest_addon.md)
 - [Pipeline branches](../../../../../projects/just_jesting_around/PIPELINE_BRANCHES.md)
+
+## Consolidated play and accessibility — 2026-10-20
+
+Published head `3eaa09792d688138b2107ee436f99431f96de0d3`; parent `fd5fd27f67aaa9d974b2d3cbc693ef8fa0a31864`.
+Four infrastructure/helper commits precede 96 per-test commits. The 26 annotated
+stories are folded into their owning tests; original test messages and trailers
+are retained. The exact final source tree is unchanged from the former accessibility
+tip `b6d4c40d6c42af7eb469bc7b920e69433eddee9c`. `vitest_story_a11y` is now a frozen historical
+reference; maintain only this lane. Independent `fix_story_a11y_followups` is unaffected.
+
+[Current implementation](implementation_debrief.md),
+[consolidation review](../../../../../projects/just_jesting_around/reviews/combine_play_a11y_2026-10-20/review_debrief.md),
+and [commit mapping](../../../../../projects/just_jesting_around/reviews/combine_play_a11y_2026-10-20/commit_mapping.json).
 
 ## Done
 

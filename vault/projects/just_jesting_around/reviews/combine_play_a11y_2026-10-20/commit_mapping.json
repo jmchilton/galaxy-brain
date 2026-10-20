@@ -1,0 +1,711 @@
+{
+  "base": "fd5fd27f67aaa9d974b2d3cbc693ef8fa0a31864",
+  "old_play": "735da91611e343c370e5150d619691ad4407b112",
+  "old_a11y": "b6d4c40d6c42af7eb469bc7b920e69433eddee9c",
+  "candidate": "3eaa09792d688138b2107ee436f99431f96de0d3",
+  "tree": "761be3416b121f9142f65c98bf459a4ae9a376ed",
+  "count": 100,
+  "infrastructure_commits": 4,
+  "story_owners": {
+    "client/src/components/Collections/ListCollectionCreator.stories.ts": "e3ca1b656b5b807041f2e7e633256f6505afd577",
+    "client/src/components/Collections/PairCollectionCreator.stories.ts": "e46cf63c7205c157bee1e21e26ad5ec5461c6e13",
+    "client/src/components/CommandPalette/CommandPalette.stories.ts": "e75b765a208e211a2cb670c7e53f3af27ed86d06",
+    "client/src/components/Common/ExportForm.stories.ts": "0b906812a9b537245db9fa3f592d0e34daab1f7f",
+    "client/src/components/FilesDialog/FilesDialog.stories.ts": "e93999077638d27df59d751299ff854b093f1f42",
+    "client/src/components/Form/Elements/FormData/FormData.stories.ts": "f751e3c6da0339a192bc21c55d62f58635fe28a2",
+    "client/src/components/Form/Elements/FormOptionalText.stories.ts": "47e74c365dcb2270c560431ea6529a13ee313fb6",
+    "client/src/components/Form/Elements/FormSelection.stories.ts": "18d7cde0135186ca83544dda9448cf4660774b43",
+    "client/src/components/History/Export/HistoryExportWizard.stories.ts": "b920c5d2e24ddd09fdbff3436b141b0c5d636155",
+    "client/src/components/Libraries/LibraryPermissions/PermissionsInputField.stories.ts": "675abae2ef167302a23316e8b7d475f9be99783b",
+    "client/src/components/Login/ChangePassword.stories.ts": "a3992c2061555de294c617c8233cb5877cd483c3",
+    "client/src/components/ObjectStore/ConfigurationMarkdown.stories.ts": "1c8fd7920d70e0bef2edae4e93e18edff0727642",
+    "client/src/components/ObjectStore/ObjectStoreBadges.stories.ts": "55ab52de1077c130f86a32b73d1fd81bafba9e9c",
+    "client/src/components/ScrollList/ScrollList.stories.ts": "ec7617954eb153dc6cd07cd33ca59efe738f7850",
+    "client/src/components/SelectionField/SelectionField.stories.ts": "bdfc4e1bde194fb2324bc607de5b7470d136c384",
+    "client/src/components/Tool/ToolCard.stories.ts": "25e82289df6826fc59016f232299f6128b5795d0",
+    "client/src/components/Toolshed/RepositoryDetails/InstallationSettings.stories.ts": "5e7ae44313b9aa967b72ef31b568f273d6e59bb1",
+    "client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.stories.ts": "1fa851abc969e224dad2d436a5412372eed566b5",
+    "client/src/components/User/UserDeletion.stories.ts": "95c2bf960502ffe601d7685156c88b8a37288a75",
+    "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.stories.ts": "ac108b4c24de7d5f30a77e52475b52867b16abd2",
+    "client/src/components/Workflow/WorkflowAnnotation.stories.ts": "26f03852375c026394e3befe62d2d79f8eba31aa",
+    "client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.stories.ts": "881010f6e34917f1972f33c5ec9e3ea794ca2de5",
+    "client/src/components/WorkflowInvocationState/WorkflowInvocationShare.stories.ts": "61f2958b95ba412e96ff956f165af53430169583",
+    "client/src/components/WorkflowInvocationState/WorkflowInvocationState.stories.ts": "fbe4d691ba004d02626ce1cc1e8ae0627cde5632",
+    "client/src/components/admin/QuotaForm.stories.ts": "8dad9077d941d3d1e714ad74d58d347ec5541392",
+    "client/src/components/admin/RoleForm.stories.ts": "ed8f8c1e5c87b9da64fd596e3b190cc972f40900"
+  },
+  "mapping": [
+    {
+      "old": "412c4ac7a1d0246af51e6a54e7e823750e141dc3",
+      "new": "d15405d2e3f837ee2800097698a8e48ac4e07068",
+      "folded_paths": [
+        "client/.storybook/A11Y_AUDIT.md"
+      ],
+      "tree": "7e93430cf8f7a5496357989e9cf60e50228e4609"
+    },
+    {
+      "old": "36feaada03422fb2d8827bbaf652f0b39e34330c",
+      "new": "b77bab409b087507dceb781685fbe4c842018ed8",
+      "folded_paths": [],
+      "tree": "673597f09a50aaceed8091f9ba449da9b970fb39"
+    },
+    {
+      "old": "b46df65bb2d8b946d88e13466cda66f96c7bbea2",
+      "new": "c430c864f4a1ca982dc9f9515ab1091559eb9faa",
+      "folded_paths": [],
+      "tree": "0851e03f47dc06843a1d4e5b08725306a54199e6"
+    },
+    {
+      "old": "a3bde9037f311e2ed116ac519ff31e5a671e5d4c",
+      "new": "a297a79363a3558f3b5e72be447e206dee0b97c3",
+      "folded_paths": [],
+      "tree": "256ca8f65ba9586fb5e7308a84e1313f4e3107db"
+    },
+    {
+      "old": "b920c5d2e24ddd09fdbff3436b141b0c5d636155",
+      "new": "fed94ab4e7aa3ed379983a82b24fbe8dfe58f137",
+      "folded_paths": [
+        "client/src/components/History/Export/HistoryExportWizard.stories.ts"
+      ],
+      "tree": "d99bfcadecf8ec48d42aff7c173d98a8a8de2e11"
+    },
+    {
+      "old": "d1873dd57243f99d9d3d4cda8ac62a07c986348e",
+      "new": "28fe83590acc9eae84ca2ae216ab8ca03fad1291",
+      "folded_paths": [],
+      "tree": "6f431d3dd5a16487c9c826656c978d204591e7f7"
+    },
+    {
+      "old": "55ab52de1077c130f86a32b73d1fd81bafba9e9c",
+      "new": "07a3718fcaaee7e96fa8e8bc5a50f58a9daeef36",
+      "folded_paths": [
+        "client/src/components/ObjectStore/ObjectStoreBadges.stories.ts"
+      ],
+      "tree": "77c73ff523f3871f9498ab6a4922fcbb93397bd6"
+    },
+    {
+      "old": "0b906812a9b537245db9fa3f592d0e34daab1f7f",
+      "new": "d8b9e85110ce373348a137dd50e9042d6dc5f2c4",
+      "folded_paths": [
+        "client/src/components/Common/ExportForm.stories.ts"
+      ],
+      "tree": "0ead8a664cbc7246ed65eabf0dbf574fb10fd3ef"
+    },
+    {
+      "old": "5e7ae44313b9aa967b72ef31b568f273d6e59bb1",
+      "new": "cee3caeabb494a7f4ea40c7d9efe3b61732a48b3",
+      "folded_paths": [
+        "client/src/components/Toolshed/RepositoryDetails/InstallationSettings.stories.ts"
+      ],
+      "tree": "18601c8b6bed96240ee24e91fb45ef840bd735d8"
+    },
+    {
+      "old": "1c8fd7920d70e0bef2edae4e93e18edff0727642",
+      "new": "66e81ab24dd944ef76167057e7ad0183c40c9e2b",
+      "folded_paths": [
+        "client/src/components/ObjectStore/ConfigurationMarkdown.stories.ts"
+      ],
+      "tree": "69fc118112e315356660b0b9e8ed76952d4f69a0"
+    },
+    {
+      "old": "4b384473c902ba76b20065673b6f77435f43d19a",
+      "new": "c7dc7cf727ab98691a1fcc0aae99b716f552113a",
+      "folded_paths": [],
+      "tree": "a81f31986d0603b921e303093435449ffb3a1d18"
+    },
+    {
+      "old": "ec7617954eb153dc6cd07cd33ca59efe738f7850",
+      "new": "6736c5eaba1569ab85ad6999e427edcc5e248b74",
+      "folded_paths": [
+        "client/src/components/ScrollList/ScrollList.stories.ts"
+      ],
+      "tree": "80af16a1c0b2a1956c00aa8d9b8b30d012f74306"
+    },
+    {
+      "old": "1fa851abc969e224dad2d436a5412372eed566b5",
+      "new": "7450ad719f84f3a1ee576e6bfbe37af8d3d72d3d",
+      "folded_paths": [
+        "client/src/components/User/DiskUsage/Quota/QuotaUsageSummary.stories.ts"
+      ],
+      "tree": "0d5e9c5bc3ffccdf1eec990d4f1e916c2817b4d4"
+    },
+    {
+      "old": "d431decaee0c026e7ae6183e63368f91c28a22cc",
+      "new": "a803e28e9fd69d72556a4eb64ecef60fcf3443c9",
+      "folded_paths": [],
+      "tree": "917bb29eb78311f54fbe89c5e3c67720c540c8e9"
+    },
+    {
+      "old": "fbe4d691ba004d02626ce1cc1e8ae0627cde5632",
+      "new": "52d7504d52b73fd3bd22e6b803f629cb02935116",
+      "folded_paths": [
+        "client/src/components/WorkflowInvocationState/WorkflowInvocationState.stories.ts"
+      ],
+      "tree": "b2a91abc0f142aebc1a35328257fa5a51029855a"
+    },
+    {
+      "old": "923e0d83436a0f8a66d3a8e10dcdb44c24e3dc22",
+      "new": "d95522c8c89b9b1c16042789da2e9db36363e93d",
+      "folded_paths": [],
+      "tree": "d84322de884d946e57659ff660e6335bc0bd9c09"
+    },
+    {
+      "old": "ac108b4c24de7d5f30a77e52475b52867b16abd2",
+      "new": "22bfc749ee392149ce6b617b590101576e817c88",
+      "folded_paths": [
+        "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.stories.ts"
+      ],
+      "tree": "531f7d1d4652d5918f023e3a8dfcf10e8eca8788"
+    },
+    {
+      "old": "61f2958b95ba412e96ff956f165af53430169583",
+      "new": "4b5d5d48c1573d54377d6c1c674e6fea5c96f48e",
+      "folded_paths": [
+        "client/src/components/WorkflowInvocationState/WorkflowInvocationShare.stories.ts"
+      ],
+      "tree": "f71ce4c8122b75f368c22ee593f55ec6411cb6f9"
+    },
+    {
+      "old": "e93999077638d27df59d751299ff854b093f1f42",
+      "new": "d6c26d6b3d895ca21162fda6cff34590dd8d7709",
+      "folded_paths": [
+        "client/src/components/FilesDialog/FilesDialog.stories.ts"
+      ],
+      "tree": "96a7bb4b784444cf3e53bcbad8f43d4c8a450837"
+    },
+    {
+      "old": "e75b765a208e211a2cb670c7e53f3af27ed86d06",
+      "new": "62f0aca4386cb246f1d3368067367af8adc7c298",
+      "folded_paths": [
+        "client/src/components/CommandPalette/CommandPalette.stories.ts"
+      ],
+      "tree": "b77510f2629fd4429edc838d2e6c0bf9c7889d3e"
+    },
+    {
+      "old": "675abae2ef167302a23316e8b7d475f9be99783b",
+      "new": "2f5c0c9773c8b01361caec8a300abf5d420c9849",
+      "folded_paths": [
+        "client/src/components/Libraries/LibraryPermissions/PermissionsInputField.stories.ts"
+      ],
+      "tree": "3e6482b24eb9cebdb14831095de008db1a36e72f"
+    },
+    {
+      "old": "08cc07d956a6a4c42722faa9f534c54456167e12",
+      "new": "c76727e2798cb759d17b38ae9f407100358a7a8a",
+      "folded_paths": [],
+      "tree": "06de1da209af022431a9a6694317aec705f33fcf"
+    },
+    {
+      "old": "25e82289df6826fc59016f232299f6128b5795d0",
+      "new": "6bdb951bc55dc1b8391749fe3a8be36b8d6d4467",
+      "folded_paths": [
+        "client/src/components/Tool/ToolCard.stories.ts"
+      ],
+      "tree": "26d120f9a9352dfa2a72ff12f1d09083ebaaaa9d"
+    },
+    {
+      "old": "8dad9077d941d3d1e714ad74d58d347ec5541392",
+      "new": "7ad8d5422d777677c7f2696cbdaef96e166b0fec",
+      "folded_paths": [
+        "client/src/components/admin/QuotaForm.stories.ts"
+      ],
+      "tree": "02a5721cb37c3160e2786bec0821c8452a6dd094"
+    },
+    {
+      "old": "ed8f8c1e5c87b9da64fd596e3b190cc972f40900",
+      "new": "b5e16001c5ce907d9de7d4959e8d940efef15415",
+      "folded_paths": [
+        "client/src/components/admin/RoleForm.stories.ts"
+      ],
+      "tree": "6268a81be9fccf3c91326efb660c5d4694d862f9"
+    },
+    {
+      "old": "25945a4418311609530b1f051796941e4baf3165",
+      "new": "12720cc7e27815087eb75fcb7ca9e81f08f37363",
+      "folded_paths": [],
+      "tree": "8ec8475005388f8107d37a6232582f9d4218c29b"
+    },
+    {
+      "old": "233b6f2c0ced7ce78bfc6529cef3190d2b0cb64c",
+      "new": "1ad4594a992f490abce641d7292fb79b3d2d6dd1",
+      "folded_paths": [],
+      "tree": "382e6cdc589eac9c056a54a5db8b9b4c3b1a9138"
+    },
+    {
+      "old": "18d7cde0135186ca83544dda9448cf4660774b43",
+      "new": "623cf854976bf0e248f83e787d44e714ff66ee04",
+      "folded_paths": [
+        "client/src/components/Form/Elements/FormSelection.stories.ts"
+      ],
+      "tree": "742c719d4419c6364b4199cf2e0dd93cc7fd7a43"
+    },
+    {
+      "old": "e46cf63c7205c157bee1e21e26ad5ec5461c6e13",
+      "new": "0771872f55af64d957090d14537dc918308af3e1",
+      "folded_paths": [
+        "client/src/components/Collections/PairCollectionCreator.stories.ts"
+      ],
+      "tree": "d509b5d4059af85e3a3e5482844fca328b73f8ba"
+    },
+    {
+      "old": "e3ca1b656b5b807041f2e7e633256f6505afd577",
+      "new": "e2d8505eead6d1da56231a33d536886ea8436a6a",
+      "folded_paths": [
+        "client/src/components/Collections/ListCollectionCreator.stories.ts"
+      ],
+      "tree": "c81f10bcccdebcbcbeb1f7b6c5fd22c97770dd88"
+    },
+    {
+      "old": "f61aa31a41c6e84a3f50d8161be39d1ccb915344",
+      "new": "3541681bc8496f19f909123c4ff7a945fd12c486",
+      "folded_paths": [],
+      "tree": "bb561265cffaa18ac09bc0a5d8e0d952a753c352"
+    },
+    {
+      "old": "881010f6e34917f1972f33c5ec9e3ea794ca2de5",
+      "new": "6e5f1cc2764412aacdc50e047220aa81e613360a",
+      "folded_paths": [
+        "client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.stories.ts"
+      ],
+      "tree": "17ad846613d37a1b55b7070554b3e71edf3b354e"
+    },
+    {
+      "old": "47e74c365dcb2270c560431ea6529a13ee313fb6",
+      "new": "4c46c27d9dcdc41e15bf6c9727dc0f0038fdc522",
+      "folded_paths": [
+        "client/src/components/Form/Elements/FormOptionalText.stories.ts"
+      ],
+      "tree": "571996eefae8e2cd2a6ccc12a70a0fe15bf2b433"
+    },
+    {
+      "old": "6bdc81651b87345aae5867b9701484c2835318ae",
+      "new": "178a81a565aa6e1a73f3ba5d7899eda94319053b",
+      "folded_paths": [],
+      "tree": "51cb046320fa4ff5fb44f41d35fbd236c7cfe9a2"
+    },
+    {
+      "old": "26f03852375c026394e3befe62d2d79f8eba31aa",
+      "new": "25f25000d5780f78ab8eeea1f9bdf0d1b330f85a",
+      "folded_paths": [
+        "client/src/components/Workflow/WorkflowAnnotation.stories.ts"
+      ],
+      "tree": "8ccf75c05fd85ae4cec0d18cf78c78e477c25ecd"
+    },
+    {
+      "old": "bdfc4e1bde194fb2324bc607de5b7470d136c384",
+      "new": "fd7befca5371ffc1747843cb1db4275041d6a1ef",
+      "folded_paths": [
+        "client/src/components/SelectionField/SelectionField.stories.ts"
+      ],
+      "tree": "b5fd9c20d1c087689456a8f7dc56ffdef54d3ec8"
+    },
+    {
+      "old": "a3992c2061555de294c617c8233cb5877cd483c3",
+      "new": "96bc914a4071fe1041c847f87f9d231b763f3653",
+      "folded_paths": [
+        "client/src/components/Login/ChangePassword.stories.ts"
+      ],
+      "tree": "751627fc3b251f28abb99e080348847116bf3d7f"
+    },
+    {
+      "old": "9ed24c0c14d003880ab3f4709c539fc75fb4e012",
+      "new": "f859fdb976d05e4c163a887f90a5a52a4e42ea17",
+      "folded_paths": [],
+      "tree": "b9489c70f75b46622ea34585fd393888649f0dd9"
+    },
+    {
+      "old": "4351ee3d2bcfcf999dbb93bcf3b3d9087c1f323b",
+      "new": "787eb63724dd4c37cb87b6ebf1cecb5cba0723f7",
+      "folded_paths": [],
+      "tree": "67290454bd9d714fc2e27129445462ed7b288ba7"
+    },
+    {
+      "old": "63d3a8f088cc8861ab8452906e1bffe5e112f2f8",
+      "new": "8f46fe40d5bd042fcf1ba200194fb96bb10a022e",
+      "folded_paths": [],
+      "tree": "e27710eecb6e82971b415a81aac9e699274e4431"
+    },
+    {
+      "old": "602549757a82c47d9992c10a1e0281cd6f5e475d",
+      "new": "d61a2ceab3ad8bb4e5f0d53314f3b79f6311c2fa",
+      "folded_paths": [],
+      "tree": "882a9c7385d69e57abac3e279b512f95e5d723fa"
+    },
+    {
+      "old": "d3f6c7179328615e35dd2e11002518b5cff79ef8",
+      "new": "4684343e21419c6205904d382bcbc57802af4e40",
+      "folded_paths": [],
+      "tree": "017ed8c01addc0aadd8e966aac56e6699b1f7c11"
+    },
+    {
+      "old": "a68f5407f68a6d7f71d028b10bf2f9c2aaf1837a",
+      "new": "8f6413fe6efbf950ea7b7ebe035e15d84a33b413",
+      "folded_paths": [],
+      "tree": "e117e65ff06a3a214ab3389696539363fee4fade"
+    },
+    {
+      "old": "b24c61197345b59fab4bb044e81ad380c3f25a04",
+      "new": "facb2cb4c209bfb0ffec6564d05a3baff818c7b2",
+      "folded_paths": [],
+      "tree": "53ec17fda11629b405d5a8cc0ab5886c441a8483"
+    },
+    {
+      "old": "d854015e0783da52b91c900a845a770b8f2a82e3",
+      "new": "42311e45d687b3201312af52b9fb003673bbd45f",
+      "folded_paths": [],
+      "tree": "c60b15761f5aefe9baddc1b985c11a114c952554"
+    },
+    {
+      "old": "4f25d15b00e0305268b1b08006ddd7583ae8b832",
+      "new": "07db17e20eae47fde4bda42f3f7249cc53f02c4b",
+      "folded_paths": [],
+      "tree": "53dd4e5f196805f99c7a94616a1d58e3fb8055d2"
+    },
+    {
+      "old": "5f2eaf08ecd2a8d143f9d93188e4c8e9241309c7",
+      "new": "6a25419160101e97a0d1f0c3b88b0d05153fc980",
+      "folded_paths": [],
+      "tree": "32ad9acbdb39fd44a79c1f6c1539198aa940f73f"
+    },
+    {
+      "old": "aeab4b5691e1e9e2d32b61aca14de0f0ec78b8c7",
+      "new": "51eae027b9d02133d58df8b1efebcc17b5165e61",
+      "folded_paths": [],
+      "tree": "49bf5e409c05a4b673d0aef98eab48f636edf373"
+    },
+    {
+      "old": "79c47214cf121484c746003559b240bc2b97a0d6",
+      "new": "d7a251b7171f1c1e3e8ad312e2c30c0b7bd0cb18",
+      "folded_paths": [],
+      "tree": "daabd34c7062b8bb3a7420741062ad36acedef41"
+    },
+    {
+      "old": "a5b4bdecc8246ee2127138b545cfa547c64e1402",
+      "new": "f39477454eab35033c8c1c900eb0dcd853d84101",
+      "folded_paths": [],
+      "tree": "08aef406618ab38787909366b92cc386a5b1b023"
+    },
+    {
+      "old": "abc93bda770b6ae539eb69d57f6f40e545de378b",
+      "new": "bc8cf466f2bc52318a4943c4421ae5e0d5cb8292",
+      "folded_paths": [],
+      "tree": "4563c95025357417fb78fdf53e58135a8e7e5ced"
+    },
+    {
+      "old": "31c98915c37f980d59d9bcf45a9bcc6968cf109b",
+      "new": "a68a091711a69c98f5294781db30cf948b7b5149",
+      "folded_paths": [],
+      "tree": "a47c75c1c949822663429d924dff7c83b64a1792"
+    },
+    {
+      "old": "ad7569df99f9b6b7e233112eac28a97288a9e85e",
+      "new": "ff1fcd66055698ba6c6237dc673bfa840eafc482",
+      "folded_paths": [],
+      "tree": "361f819f231620fb3d6c31499e01356c207e082e"
+    },
+    {
+      "old": "ce9acdc1b79625e0f7ebc334a20f640820932916",
+      "new": "734ec0ff1c45b66f30b559c268b5b3659a2203f1",
+      "folded_paths": [],
+      "tree": "fbd47c6a705d07908417ea63100fc9004eba36d8"
+    },
+    {
+      "old": "b1cca105384c2a66f7755f10732f47f8ff52b22f",
+      "new": "007fa0c20ee1d157f719819c9164a9fb3808a5bf",
+      "folded_paths": [],
+      "tree": "92cbe8d47ba2c978704f05296f307a9e814c1dbc"
+    },
+    {
+      "old": "95c2bf960502ffe601d7685156c88b8a37288a75",
+      "new": "d212fbad6f3e5ec1f8c343a3e86899bd19d3c8bf",
+      "folded_paths": [
+        "client/src/components/User/UserDeletion.stories.ts"
+      ],
+      "tree": "6ff3e8e3e8cf09c2ed5ada86efaba7f36725d342"
+    },
+    {
+      "old": "a875b4c222be1308de9d0b14cdb8f0a2cf5f571a",
+      "new": "e1d58de673bffddb32a616b79277a26562634ba2",
+      "folded_paths": [],
+      "tree": "572333e8c29425de9dad8fdc847212d075d24a3b"
+    },
+    {
+      "old": "b39f9c3c1444803a6d75a20132b33487efb4f610",
+      "new": "08c63049c9fd7562b8468a6c9cb54b4a0b13e800",
+      "folded_paths": [],
+      "tree": "58559f72efeceea0e19832e43a67be6cd49cea9a"
+    },
+    {
+      "old": "f751e3c6da0339a192bc21c55d62f58635fe28a2",
+      "new": "d5995274ba8be804675e44dfc5b9fbd57d1fa0ee",
+      "folded_paths": [
+        "client/src/components/Form/Elements/FormData/FormData.stories.ts"
+      ],
+      "tree": "1b621b162ce651abf1b3a93cda327f151538bec1"
+    },
+    {
+      "old": "d63481cc0acb7069aa07052012b9e0bd6ce4a8e2",
+      "new": "2777084060872c36b6d130fca1d44d38ca9806a4",
+      "folded_paths": [],
+      "tree": "c88fcad91f5e21f92189942278e4c2617cf11a2f"
+    },
+    {
+      "old": "7affacbd6d421478547a76f41f2870f76b32d058",
+      "new": "60de0000534631303631a74033d177dfdaaa29db",
+      "folded_paths": [],
+      "tree": "096642e12abda7a29655881cecc08f1ca7f35073"
+    },
+    {
+      "old": "2c5e2476ecee9f64ac1886dcdbc1bb9b4783a370",
+      "new": "1317b21f81e3f820d59d96a1dca605034832956e",
+      "folded_paths": [],
+      "tree": "b645e20cd2548e0a44b5c8a73ef61492eb6667b3"
+    },
+    {
+      "old": "c3f5d5b05d639154316cff3c00c212385849dba7",
+      "new": "69cc787c7e19d9736994da430ca3460baec3fefc",
+      "folded_paths": [],
+      "tree": "fd593c322a3454227a789de8f0b652535f9510b0"
+    },
+    {
+      "old": "4bce7a0a27d80707e3cee89d6de8338d539a6097",
+      "new": "ccc331fffe1017b766c9e90cb7abd763b7fc7804",
+      "folded_paths": [],
+      "tree": "b80093e6df2a46b0bf6ecd00ffa21deefea4c679"
+    },
+    {
+      "old": "dcc58d325cfa8e60eeb3e81dc39c78846fc959ef",
+      "new": "7ea20e82e7c149f334d6854db845786d06818a8f",
+      "folded_paths": [],
+      "tree": "75ed08a2672b132529222e514304631e4a4cc86d"
+    },
+    {
+      "old": "f497f013b3e8c4ad5f573677f33c067c592b9dc9",
+      "new": "65d0b8c79f2ee3a83b61990781db55a89874cbc6",
+      "folded_paths": [],
+      "tree": "b01e31454b51e2510d03ed6b9f3c818965225e23"
+    },
+    {
+      "old": "8be38b5b5bb0050caab0df3c67ebbb15f262edc4",
+      "new": "33b603a701c197ecca630d2b0a116501801b05c2",
+      "folded_paths": [],
+      "tree": "ef885fcd4c53f93517cb69d0c3ba262853f4078d"
+    },
+    {
+      "old": "9a91fe09785741663c63399f43fa00bafa8592a6",
+      "new": "9b1dfd0db6ae2518b2658d14f6afc86112de0a8f",
+      "folded_paths": [],
+      "tree": "2303c9ff44fbd43d34a517f6ba8cbe95b1da17b9"
+    },
+    {
+      "old": "cea92dd82571eb68527d4045b9fc20ceb3b0a452",
+      "new": "44822818464e49232cdeb68ba0496cdf9c5bddc1",
+      "folded_paths": [],
+      "tree": "8d7ed0ef725860c7a0bcd1c4de6de43749b008a1"
+    },
+    {
+      "old": "7dc2df6a193749c1d34442bdadbf7a05126d636d",
+      "new": "4fd2e8d4b8e1a79290af64d4a258c655f544b8f1",
+      "folded_paths": [],
+      "tree": "bed6f2fbf41d9c62fe82f264d7f0a1752d4f9fba"
+    },
+    {
+      "old": "0b66af1d563a9f7fed2f96616c60ed8f5f4c7a18",
+      "new": "758be34eed73717ae294df63e088e82e751f2d79",
+      "folded_paths": [],
+      "tree": "944164623402cdf9da7218c56c8ddac95f02d269"
+    },
+    {
+      "old": "1f02beff8fd1132a725b6e6127068ac879b5c794",
+      "new": "404a0c4acef66663d1819526f6838259aef48276",
+      "folded_paths": [],
+      "tree": "7fcdd082e2bf01a5f18e604695f61ba0c0f01e96"
+    },
+    {
+      "old": "97ae12fbda94fd615e775bbd46883a7645d77324",
+      "new": "8dd3dd441d6c14fc97854f49ec50eeedf07fec35",
+      "folded_paths": [],
+      "tree": "2992b49229df3ad7ca8ed9af615ad33fb7dba42b"
+    },
+    {
+      "old": "b2362070b938cef2a41d998110f9d4146a40c6d7",
+      "new": "b0eacb0e342e3e58d8cb933bd0bd3122f72e401b",
+      "folded_paths": [],
+      "tree": "e3dfcda974d2c48d9ed30e20ee58864543dc5737"
+    },
+    {
+      "old": "6a801465ff9982415e75984f36136746e08059a8",
+      "new": "a9a62ee52bf1de5f1adf06377f0120ec21b178c5",
+      "folded_paths": [],
+      "tree": "978897b63b90ebd3d979b105e745aa3cccf00286"
+    },
+    {
+      "old": "c4ea2b2b236683c052f20e23b0b5211644862338",
+      "new": "b64717b3cba2d776b7e11687360dc65d679acc6f",
+      "folded_paths": [],
+      "tree": "1499144ef0c6f789cbdbb5ad10bada5ce7bd6221"
+    },
+    {
+      "old": "5842d135299075337fadb6e77d45bc6409e2d763",
+      "new": "630dd441763155f69dbc0f96be59d5f2644efba2",
+      "folded_paths": [],
+      "tree": "399b1f56d8cd5e7b431d618822f71fd487fe5444"
+    },
+    {
+      "old": "2b99e08784c1466a1efee40c4df05a785fe8d7e6",
+      "new": "cf084091df6193e5c6d1215b002b59d71e3cdb99",
+      "folded_paths": [],
+      "tree": "af2cad800dfe03464507442102316729945536ab"
+    },
+    {
+      "old": "d860d5160b51b17a061352611befefa49e650421",
+      "new": "f34d5b8875646c45f6fb2f017dbaf336bb9f5799",
+      "folded_paths": [],
+      "tree": "aeb2f2dce74507d1f8e8ebaea3c4836eadcb4e88"
+    },
+    {
+      "old": "0dcf04d313b2c324ef7da23e8f050e978acc112d",
+      "new": "80b24279ec3f2bc7ff17a59c8ce0ada7e7a6a415",
+      "folded_paths": [],
+      "tree": "f7f4fb0f2f3dcc4e20b87781996a05a476f9624e"
+    },
+    {
+      "old": "703cd9ed4e317b0de20ed16f1b4c22fb979b3cb2",
+      "new": "2a534c206d5ef279ccd0d0e003e49b3e1b6e7ae6",
+      "folded_paths": [],
+      "tree": "cd1d5cfbdfc76f5d46b4a52eef3aff987b50d464"
+    },
+    {
+      "old": "1096b2e52aee4d590046376e4b85cd163ed0037b",
+      "new": "08bc86d9ae616cc2241d4ca567da61bf8a12b395",
+      "folded_paths": [],
+      "tree": "9016c43476fb3007661bef79c529e649cf9e074f"
+    },
+    {
+      "old": "044fced387cedbd1ddd09086730d4cafd7319e6b",
+      "new": "7b357e60d3d94a4fc71a3d4be027e292b154d761",
+      "folded_paths": [],
+      "tree": "964bf844da706c7dad8b2ebca92afb348743f977"
+    },
+    {
+      "old": "bbfd81b9ac75ff12b6871140198918565544b5ef",
+      "new": "22c911eb7f2e1e2e78577c2372e8e6b210d5208c",
+      "folded_paths": [],
+      "tree": "78e5da72aa7c95469d73f7897a32bc9dd1e99849"
+    },
+    {
+      "old": "af4c6387daa3c4cfe24f42b10db8f1863d23b88f",
+      "new": "952fecb10a2daaec78b1e010bf6f9dc528e4b5fb",
+      "folded_paths": [],
+      "tree": "0f1824dd3be1eb13aa8c6636cd1573e60bcfc9ea"
+    },
+    {
+      "old": "c899a6291422f96e457b3da32df6edfadb5ed158",
+      "new": "8d68afeec1b59d1cc6733a8829a120c7748bbebe",
+      "folded_paths": [],
+      "tree": "95aa7a2b15938ec90e6fbada9e6e553db746b30e"
+    },
+    {
+      "old": "7aa08f347299c69f5998b6e4f44eb1bf571a99f0",
+      "new": "8bdb328890d76441d3f1a829c976f72aba7c1587",
+      "folded_paths": [],
+      "tree": "be82e04286c7cf771b96e6f1ed11586ce97a3e00"
+    },
+    {
+      "old": "a443304a91f67328a398f1c287a2bd82e6a288ce",
+      "new": "04126de7bbfe1e7577f95725b295cf5633034afa",
+      "folded_paths": [],
+      "tree": "40479fb2a9b6a73514d4f700e0bc88a005f0ac0c"
+    },
+    {
+      "old": "cc19cce21c5344a179f97bc5c6430f787ed3cd8f",
+      "new": "7934ecae0c07c3b092d571d0619ecd706c8e6253",
+      "folded_paths": [],
+      "tree": "b0fb98ca8b5d083512eb6b65e5ef443fcadf9efa"
+    },
+    {
+      "old": "5a32d0a008db7372f72b5993c3ce02cc651fd82a",
+      "new": "67461a670e0ecef7dd6a3707c94711c7be688490",
+      "folded_paths": [],
+      "tree": "de825d152b39b9d74f8f9b576f9f4afdcc2b7306"
+    },
+    {
+      "old": "d66fa6ba420aaf7de8c77c43544d5878adc8bcf9",
+      "new": "f6d690524346d40b0e3ef977612644c698ff1439",
+      "folded_paths": [],
+      "tree": "c271b494227e3eb8a2e3104ddaddf17355f5e763"
+    },
+    {
+      "old": "39934e129de0dcaa4920de9d34db12e6d95ee747",
+      "new": "346f95da62d7eebdb8def900a073c7057e5ffb02",
+      "folded_paths": [],
+      "tree": "ab9738ed0793c2e518d660c9b8d8df5b9c75bdcc"
+    },
+    {
+      "old": "b45fd6595ad19270b248532d70f0fa0543a2b169",
+      "new": "30b653c6eecb104c10d1892d179f60ab88ce7795",
+      "folded_paths": [],
+      "tree": "b4084f1c853a0e606c4f6935d4ec0480ab4f6364"
+    },
+    {
+      "old": "345d9c828ff109d8be7868ce62e288ffcb27f095",
+      "new": "d9aa3318855542f8098c088716d4cd48c11064b4",
+      "folded_paths": [],
+      "tree": "9d1b7592e509f39b0049747504d977190d07be7a"
+    },
+    {
+      "old": "3c7beeac81b0ec9494abf55ff8edf1c283f5c70a",
+      "new": "eb87c8553d9ee06fb3377d4b85a05cf1c89ae017",
+      "folded_paths": [],
+      "tree": "213e14c038020f09429e990948055ca6e0a73ec0"
+    },
+    {
+      "old": "2fbb01b8b913f89eefb60083b4ad1a3ce10dda3a",
+      "new": "9e90cdd15c9a7488ee613dc34b23b9cfb1a55c23",
+      "folded_paths": [],
+      "tree": "e7d6bc9a1291f365de28b01ccbff82933b1f99a5"
+    },
+    {
+      "old": "9b343747c331d2631e8d4dd44ed32517f24e3c4c",
+      "new": "8a913d3075e89977aa61b27bd29c31b214580b1f",
+      "folded_paths": [],
+      "tree": "f58e888e6fe54273bfa70c20ab86deba1f94146f"
+    },
+    {
+      "old": "f8c0a459b268ca0a9f2906f05a70599aab6e1e38",
+      "new": "ce77558a640dc864f828ce5976dc7bed101403cf",
+      "folded_paths": [],
+      "tree": "5a4346a47bb65a66924db61763decabcca343601"
+    },
+    {
+      "old": "7c978622f4fa9c84e10689996e2565d47ef43029",
+      "new": "f835634a7542c22c9fa7e9ace41e038701796cf1",
+      "folded_paths": [],
+      "tree": "e65a3046fe6dd9a6530d9b58e7768d489b8afd52"
+    },
+    {
+      "old": "735da91611e343c370e5150d619691ad4407b112",
+      "new": "3eaa09792d688138b2107ee436f99431f96de0d3",
+      "folded_paths": [],
+      "tree": "761be3416b121f9142f65c98bf459a4ae9a376ed"
+    }
+  ],
+  "absorbed_annotation_commit": "b6d4c40d6c42af7eb469bc7b920e69433eddee9c",
+  "publication": {
+    "remote": "jmchilton",
+    "branch": "vitest_story_play",
+    "head": "3eaa09792d688138b2107ee436f99431f96de0d3",
+    "lease": "735da91611e343c370e5150d619691ad4407b112",
+    "remote_head_verified": true,
+    "old_a11y_ref": "frozen historical recovery reference; not maintained"
+  },
+  "verification": {
+    "exact_tree_equal_to_old_a11y": true,
+    "raw_commit_bodies_preserved": 100,
+    "infrastructure_commits_first": 4,
+    "test_commits": 96,
+    "folded_story_paths": 26,
+    "independent_review": "review_debrief.md",
+    "test_strategy": "Identical source tree; retain prior qualified accessibility validation. No broad rerun."
+  }
+}
