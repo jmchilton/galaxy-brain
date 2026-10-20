@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #24206; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -14,6 +14,8 @@ Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #242
 - [`xsd_sample_sheet_collection_type_25.1`](../../repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/index.md) — Aligns tool XSD with sample-sheet collection syntax and adds core-tool lint coverage. Base `release_25.1`. [#24206](https://github.com/galaxyproject/galaxy/pull/24206).
 - [`issue_24188_subworkflow_rename_expression_json`](../../repositories/galaxy/branches/active/issue_24188_subworkflow_rename_expression_json/index.md) — `${label}` renames inside subworkflows use expression.json values, not HDA reprs (#24188). Base `release_26.1`. [#24224](https://github.com/galaxyproject/galaxy/pull/24224).
 - [`issue_24138_invocation_graph_refresh`](../../repositories/galaxy/branches/active/issue_24138_invocation_graph_refresh/index.md) — Invocation step states follow the page's poll (fixes #24138); O(n) graph refresh, part of #22745. Base `release_26.2`. [#24165](https://github.com/galaxyproject/galaxy/pull/24165).
+- [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Rejects invalid completion-action names and required export configuration. Base `release_26.2`. [#24202](https://github.com/galaxyproject/galaxy/pull/24202).
+- [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [#24265](https://github.com/galaxyproject/galaxy/pull/24265).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -22,8 +24,7 @@ Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #242
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
-- [`invocation_completion_action_validation`](../../repositories/galaxy/branches/active/invocation_completion_action_validation/index.md) — Rejects invalid completion-action names and required export configuration. Base `release_26.2`. [#24202](https://github.com/galaxyproject/galaxy/pull/24202). Draft requested by John.
-- [`invocation_parameter_expected_failure`](../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — Invalid subworkflow parameters fail with their real reason again (#20980 regression) and log at info. Base `release_26.1`. [#24265](https://github.com/galaxyproject/galaxy/pull/24265). Draft requested by John.
+None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
