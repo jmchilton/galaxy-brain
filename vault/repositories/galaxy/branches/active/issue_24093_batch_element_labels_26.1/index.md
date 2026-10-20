@@ -1,6 +1,6 @@
 # issue_24093_batch_element_labels_26.1
 
-Status: `attention` — PR [#24211](https://github.com/galaxyproject/galaxy/pull/24211), open, title "[26.1] Label every value of a batch data input in the tool form". mvdbeek's review is addressed in code, but the replies aren't posted yet ([review response](review_response.md)). Base: `release_26.1` (`b2b1e1deeee`). Head: `3f058729bad`. CI on the new head is pending. Fork: `jmchilton/issue_24093_batch_element_labels_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24093_batch_element_labels_26.1`.
+Status: `ready` — PR [#24211](https://github.com/galaxyproject/galaxy/pull/24211), open, title "[26.1] Label every value of a batch data input in the tool form". mvdbeek's review is addressed, and replies were posted 2026-10-20 ([review response](review_response.md)); waiting on re-review. Base: `release_26.1` (`b2b1e1deeee`). Head: `3f058729bad`. CI on the new head is pending. Fork: `jmchilton/issue_24093_batch_element_labels_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24093_batch_element_labels_26.1`.
 
 Fixes [#24093](https://github.com/galaxyproject/galaxy/issues/24093): hidden collection elements dropped into a batch ("Multiple datasets") input get inconsistent labels. The `/build` endpoint now labels every batch value, not just the first.
 
