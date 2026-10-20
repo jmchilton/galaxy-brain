@@ -45,8 +45,6 @@ None yet.
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
 - [`issue_22598_login_prompt_26.2`](../../repositories/galaxy/branches/active/issue_22598_login_prompt_26.2/index.md) — Prompts anonymous shed users to log in for Changelog/Contents, then returns them (#22598). Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_22598_login_prompt_26.2?expand=1).
-- [`fix_story_a11y_followups`](../../repositories/galaxy/branches/active/fix_story_a11y_followups/index.md) — Names chat send and repairs classic Popper keyboard close/Escape focus return. Retargeted to `release_26.2`; identical patches, 74 related tests, types, lint and formatting pass; independent rebase review approved. Pushed `94a34cd0b23` on 2026-10-20; fork CI pending assessment. Original-scope alternative remains a dev-based historical reference.
-
 - [`issue_24200_workflow_input_validators`](../../repositories/galaxy/branches/active/issue_24200_workflow_input_validators/index.md) — Keeps workflow parameter input validators as declared through import, export, run and editor re-save; 400 on invalid ones (#24200). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24200_workflow_input_validators?expand=1).
 
 - [`issue_24178_subworkflow_step_params_export`](../../repositories/galaxy/branches/active/issue_24178_subworkflow_step_params_export/index.md) — Exports subworkflow step params as `<index>|name`; unknown/malformed keys 400; subworkflow invocations record their own step params; shared step-param row resolver; schema docs (#24178). Re-scoped 2026-10-16, head `57bf3eebd77`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24178_subworkflow_step_params_export?expand=1).
@@ -73,6 +71,8 @@ None yet.
 None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
+
+- [`fix_story_a11y_followups`](../../repositories/galaxy/branches/active/fix_story_a11y_followups/index.md) — Names chat send; Popper close is a keyboard button and close/Escape return focus. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:fix_story_a11y_followups?expand=1).
 
 
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).

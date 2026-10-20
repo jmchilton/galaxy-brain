@@ -1,0 +1,4 @@
+- [26.2] Name the GalaxyAI send button and return focus when popovers close
+- [26.2] Fix keyboard and screen-reader gaps in chat send and popover dismissal
+- [26.2] Accessibility fixes for chat send and popover close/Escape
+- [26.2] Return keyboard focus on popover close; name chat send button
