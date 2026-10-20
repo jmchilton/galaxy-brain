@@ -1318,6 +1318,12 @@
         "temporary_runtime_config": "Unit-project hook timeout60s for unchanged watchHistory dynamic cold imports; repository config unchanged.",
         "superseded_runs": "Initial full run exposed missing retry exports in legacy InteractiveTools fullmock and default10s hook startup timeouts; interrupted and superseded, not passing evidence.",
         "independent_review": "reviews/restack_2026-10-20/review_debrief.md"
+      },
+      "publication": {
+        "remote": "jmchilton",
+        "verified_remote_head": "fd5fd27f67aaa9d974b2d3cbc693ef8fa0a31864",
+        "exact_lease_used": "4e60254eded0e18ae7737161fec2ce42c16c770f",
+        "date": "2026-10-20"
       }
     },
     "vitest_story_play": {
@@ -1722,7 +1728,470 @@
           "sha": "fd94d33f27719db097932206e99f32d302a3a5a9",
           "message": "Read interactive sessions and exercise filtering and stopping in browser\n\nMove table, inline and external control counts, original session name and exact link destination checks into visible original-vector reads. Exercise real filtering and Stop-to-empty results while preserving store-splice synchronization, exact DELETE checks and mocked failure contracts with their starting-state partners.\n\nTest-File: client/src/components/InteractiveTools/InteractiveTools.test.js\nCo-Authored-By: Codex <noreply@openai.com>"
         }
-      ]
+      ],
+      "validation": {
+        "unit_full": {
+          "files_passed": 640,
+          "files_failed": 1,
+          "tests_passed": 5480,
+          "tests_failed": 1,
+          "skipped": 1,
+          "log": "/private/tmp/dependents-20261020-play-full-unit-final.log",
+          "exit_code": 1
+        },
+        "unit_recheck": {
+          "files": 1,
+          "passed": 2,
+          "log": "/private/tmp/dependents-20261020-play-citation-recheck.log",
+          "exit_code": 0,
+          "note": "Unchanged Citation/services test exceeded default5second cold-start allowance in full run; both pass isolated without source changes."
+        },
+        "browser_full": {
+          "files_passed": 96,
+          "files_failed": 4,
+          "tests_passed": 578,
+          "tests_failed": 5,
+          "log": "/private/tmp/dependents-20261020-play-browser-final.log",
+          "exit_code": 1
+        },
+        "browser_recheck": {
+          "files": 4,
+          "passed": 39,
+          "log": "/private/tmp/dependents-20261020-play-browser-recheck.log",
+          "exit_code": 0,
+          "note": "All five full-run failures pass on identical source in isolated one-worker rerun; remaining timing flakiness retained in record."
+        },
+        "compatibility_focused": "All10affectedunitfiles pass: initial93pass1FilesDialogtimingfailure, correctedFilesDialog3pass. Workflowcard+TextSummary15browserpasses and collection3browserpasses after picker adaptation.",
+        "full_types": "passed",
+        "static_storybook_build": "passed",
+        "temporary_runtime_config": "Unitproject hookTimeout60s for unchanged watchHistory cold dynamic imports; source configuration unchanged.",
+        "independent_review": "reviews/restack_2026-10-20/review_debrief.md",
+        "resolutions": "Preserve every new upstream unit regression alongside oldplays where needed; scopedstoryharnesses; FilesDialogflushbeforeidlecheck; workflowcardsecondarylink, collectionbadge,footer; selectcollectiontypes via realpicker and selected namedoptions.",
+        "hooks": "All normal hooks pass; source fingerprints unchanged",
+        "post_style_browser": "Collection stories3pass after import-only formatting",
+        "summary": "Complete client types, static Storybook build, final normal hooks and post-format collection plays pass. Full unit run: 640 passing files, one failing; 5,480 passing tests, one citation timeout and one skipped. Both tests in the unchanged citation suite pass on an isolated rerun of the identical source. Full Chromium run: 96 passing files and four failing; 578 passing stories and five failures. All 39 stories across the four affected files pass when rerun in isolation on the same source. The full-run failures remain documented as timing/worker flakiness; neither full gate is described as all-green. Compatibility-focused checks and independent review preserve current assertions, mocked responses, 99 original messages/trailers and the tested tree."
+      },
+      "new_base": "fd5fd27f67aaa9d974b2d3cbc693ef8fa0a31864",
+      "new_head": "735da91611e343c370e5150d619691ad4407b112",
+      "validated_tree": "b93bdc1f931297d484ef720963d20198be97a6ba",
+      "commit_mapping": [
+        {
+          "old": "3715a63b50aac0063bc8fd10e3ad9cee56c8225a",
+          "new": "b920c5d2e24ddd09fdbff3436b141b0c5d636155"
+        },
+        {
+          "old": "f4e57ef1b9996c3d4a9c28fd1659d49abb8ecf5a",
+          "new": "d1873dd57243f99d9d3d4cda8ac62a07c986348e"
+        },
+        {
+          "old": "2ea62b658b14c5e60b4a42b9e15a34ff1f25fd34",
+          "new": "55ab52de1077c130f86a32b73d1fd81bafba9e9c"
+        },
+        {
+          "old": "2c1622dce0a0e48b64fa58213bebe00d7f29d55f",
+          "new": "0b906812a9b537245db9fa3f592d0e34daab1f7f"
+        },
+        {
+          "old": "35cd11648d22d99a26663441733821b5de456469",
+          "new": "5e7ae44313b9aa967b72ef31b568f273d6e59bb1"
+        },
+        {
+          "old": "a04acb07953f3656d2f730b32996f67b55df260b",
+          "new": "1c8fd7920d70e0bef2edae4e93e18edff0727642"
+        },
+        {
+          "old": "4dac4fca56158d0669e8083b5dd73829ff1503d8",
+          "new": "4b384473c902ba76b20065673b6f77435f43d19a"
+        },
+        {
+          "old": "747a3b2e39856738a29099b39181b9f249fc0269",
+          "new": "ec7617954eb153dc6cd07cd33ca59efe738f7850"
+        },
+        {
+          "old": "58f79e622e5fd912616bf7dd351ae6383a3ab763",
+          "new": "1fa851abc969e224dad2d436a5412372eed566b5"
+        },
+        {
+          "old": "dc4a1c01f21752e3a8e06b8fba96bc3910e15e13",
+          "new": "d431decaee0c026e7ae6183e63368f91c28a22cc"
+        },
+        {
+          "old": "25e4d36126f2a827c3355001301e9b1024a05f6c",
+          "new": "fbe4d691ba004d02626ce1cc1e8ae0627cde5632"
+        },
+        {
+          "old": "1a1f46b51d9f84ea28014e19d7d18b6d5cf11741",
+          "new": "923e0d83436a0f8a66d3a8e10dcdb44c24e3dc22"
+        },
+        {
+          "old": "057259eddc27c4a60544ac5397221c74408ec16f",
+          "new": "ac108b4c24de7d5f30a77e52475b52867b16abd2"
+        },
+        {
+          "old": "38aab09d290c74733fe2e204d78e8fa2f0a70631",
+          "new": "61f2958b95ba412e96ff956f165af53430169583"
+        },
+        {
+          "old": "211f4551ccd9f42287e2e7e741704c3b769bf033",
+          "new": "e93999077638d27df59d751299ff854b093f1f42"
+        },
+        {
+          "old": "22776ea5969b50838d9a6dc829ee47986a451a61",
+          "new": "e75b765a208e211a2cb670c7e53f3af27ed86d06"
+        },
+        {
+          "old": "2c9bac986eae91f3fd0d3ffe67c562e0913b3867",
+          "new": "675abae2ef167302a23316e8b7d475f9be99783b"
+        },
+        {
+          "old": "7ec50c84150b928f53ceee0e127b01fb4be2f4a4",
+          "new": "08cc07d956a6a4c42722faa9f534c54456167e12"
+        },
+        {
+          "old": "57a1343205a5b1fc5c9fdf52bf60e3bc58aff68d",
+          "new": "25e82289df6826fc59016f232299f6128b5795d0"
+        },
+        {
+          "old": "4549b81cef547bf86520785c494336b677e96d66",
+          "new": "8dad9077d941d3d1e714ad74d58d347ec5541392"
+        },
+        {
+          "old": "04366950259a87499dc470f7eb2f8e34b2d0f5c6",
+          "new": "ed8f8c1e5c87b9da64fd596e3b190cc972f40900"
+        },
+        {
+          "old": "e21ba07730c2ec04bcaec07885dd6dc5238bd669",
+          "new": "25945a4418311609530b1f051796941e4baf3165"
+        },
+        {
+          "old": "0599b4d77e16582a56cd92fa30582ce95dd87538",
+          "new": "233b6f2c0ced7ce78bfc6529cef3190d2b0cb64c"
+        },
+        {
+          "old": "6306f6c9ddd1c3014fc327a558e69e48c0effe13",
+          "new": "36feaada03422fb2d8827bbaf652f0b39e34330c"
+        },
+        {
+          "old": "f0d0924c140c42c002b69aec564ba3c043aef5b2",
+          "new": "18d7cde0135186ca83544dda9448cf4660774b43"
+        },
+        {
+          "old": "33ca3383412581c001219d1b0f54f902c0c2460a",
+          "new": "b46df65bb2d8b946d88e13466cda66f96c7bbea2"
+        },
+        {
+          "old": "3b7746f70b99ea4e26bfa33e38f46b4b99937be6",
+          "new": "e46cf63c7205c157bee1e21e26ad5ec5461c6e13"
+        },
+        {
+          "old": "06f5082bbcfd3371919658d5f3e4bf5c0ae5cf93",
+          "new": "e3ca1b656b5b807041f2e7e633256f6505afd577"
+        },
+        {
+          "old": "2575069fb85bddd44922bc134ef9663cc8f2c40d",
+          "new": "f61aa31a41c6e84a3f50d8161be39d1ccb915344"
+        },
+        {
+          "old": "45045afdda9b693d92c26ae9c236617291bc0e68",
+          "new": "881010f6e34917f1972f33c5ec9e3ea794ca2de5"
+        },
+        {
+          "old": "21a69720e8602802d2756eefad1327ff38c3f001",
+          "new": "47e74c365dcb2270c560431ea6529a13ee313fb6"
+        },
+        {
+          "old": "3c8bca41590bac9754556c95c43e13559b8b4d88",
+          "new": "6bdc81651b87345aae5867b9701484c2835318ae"
+        },
+        {
+          "old": "08708e0ecc6edd5285a80cef3c506b248bec093c",
+          "new": "a3bde9037f311e2ed116ac519ff31e5a671e5d4c"
+        },
+        {
+          "old": "5330c1079bf54c0681c19a1d5708b9a7a5999f2e",
+          "new": "26f03852375c026394e3befe62d2d79f8eba31aa"
+        },
+        {
+          "old": "9fb81237fb4112f3202a429e65bfe2e8c6b27e0a",
+          "new": "bdfc4e1bde194fb2324bc607de5b7470d136c384"
+        },
+        {
+          "old": "4093291ccd3fb8035b13b0ba5bcb578d0ef29ba0",
+          "new": "a3992c2061555de294c617c8233cb5877cd483c3"
+        },
+        {
+          "old": "af2d0795d801727243bf8b154f970564003ff595",
+          "new": "9ed24c0c14d003880ab3f4709c539fc75fb4e012"
+        },
+        {
+          "old": "782fc67d9a0b50953c4471cf754a7909181a2358",
+          "new": "4351ee3d2bcfcf999dbb93bcf3b3d9087c1f323b"
+        },
+        {
+          "old": "2810a174527ba0dc679c86ee0b7984278d18af7f",
+          "new": "63d3a8f088cc8861ab8452906e1bffe5e112f2f8"
+        },
+        {
+          "old": "b275315169b2436ddb0312dda1e87c5de9e7debe",
+          "new": "602549757a82c47d9992c10a1e0281cd6f5e475d"
+        },
+        {
+          "old": "839c4449a4adad1c1b07fc018a6631c0d023d89a",
+          "new": "d3f6c7179328615e35dd2e11002518b5cff79ef8"
+        },
+        {
+          "old": "603cfdc8cc08170ee6de538f60bf2580559b0287",
+          "new": "a68f5407f68a6d7f71d028b10bf2f9c2aaf1837a"
+        },
+        {
+          "old": "fe8b86a9e227c3907d01c479ce5b1cd8859c5791",
+          "new": "b24c61197345b59fab4bb044e81ad380c3f25a04"
+        },
+        {
+          "old": "3d8973d892da777ff9118f9dc852c728d5cbe5e1",
+          "new": "d854015e0783da52b91c900a845a770b8f2a82e3"
+        },
+        {
+          "old": "4f8422c67153ad93fee12fc5705cec7bfb54f295",
+          "new": "4f25d15b00e0305268b1b08006ddd7583ae8b832"
+        },
+        {
+          "old": "ee18cb3565731fc2b3c96be34092ba312597807a",
+          "new": "5f2eaf08ecd2a8d143f9d93188e4c8e9241309c7"
+        },
+        {
+          "old": "dfc752127e53e4780ce238f8f827cc72cf83bc03",
+          "new": "aeab4b5691e1e9e2d32b61aca14de0f0ec78b8c7"
+        },
+        {
+          "old": "c86dba99779ae5207235145a2ac1a6df63e9f083",
+          "new": "79c47214cf121484c746003559b240bc2b97a0d6"
+        },
+        {
+          "old": "af38b05bf3e7a3dcdae4d1e0d1e20cd0c4a3726f",
+          "new": "a5b4bdecc8246ee2127138b545cfa547c64e1402"
+        },
+        {
+          "old": "ec98a34f9920329eb6346468be4c6499a3d2335e",
+          "new": "abc93bda770b6ae539eb69d57f6f40e545de378b"
+        },
+        {
+          "old": "6270cd9efa5b54c094e29a8693e7f1ba1079ef9e",
+          "new": "31c98915c37f980d59d9bcf45a9bcc6968cf109b"
+        },
+        {
+          "old": "a31ebc2ac7b75174c413fc4fa4267c7eebc49283",
+          "new": "ad7569df99f9b6b7e233112eac28a97288a9e85e"
+        },
+        {
+          "old": "d8ce8048b97408b370f2f87ec94084a655c60b1e",
+          "new": "ce9acdc1b79625e0f7ebc334a20f640820932916"
+        },
+        {
+          "old": "f57c8fd64de29fd5bb17eef83c7b99706a31f911",
+          "new": "b1cca105384c2a66f7755f10732f47f8ff52b22f"
+        },
+        {
+          "old": "c46f9524b3a595e898a4ba4b8b523239eb5b1633",
+          "new": "95c2bf960502ffe601d7685156c88b8a37288a75"
+        },
+        {
+          "old": "e2afb08eb15254fbce2810e4f9343b566bab583b",
+          "new": "a875b4c222be1308de9d0b14cdb8f0a2cf5f571a"
+        },
+        {
+          "old": "25fcb4b681ccc5596b55fe95d242e6057955e868",
+          "new": "b39f9c3c1444803a6d75a20132b33487efb4f610"
+        },
+        {
+          "old": "7b106df646f12931281c2b36d670e5b82f9b6cca",
+          "new": "f751e3c6da0339a192bc21c55d62f58635fe28a2"
+        },
+        {
+          "old": "4271c19d5e805dbd3a8bff076959afc22152b900",
+          "new": "d63481cc0acb7069aa07052012b9e0bd6ce4a8e2"
+        },
+        {
+          "old": "7db9c137444d5623399ee14c7d035fd6171ebd4e",
+          "new": "7affacbd6d421478547a76f41f2870f76b32d058"
+        },
+        {
+          "old": "347dcca84dd4655c43b5a3e3cac29447e395518b",
+          "new": "2c5e2476ecee9f64ac1886dcdbc1bb9b4783a370"
+        },
+        {
+          "old": "6a6f89e3ec0d0dc8375cce878586109b73ec1a14",
+          "new": "c3f5d5b05d639154316cff3c00c212385849dba7"
+        },
+        {
+          "old": "898b3089869afe738815befa0b32c286c0246f0d",
+          "new": "4bce7a0a27d80707e3cee89d6de8338d539a6097"
+        },
+        {
+          "old": "0e941b33133d0dcbd266f87c622b54ba63c6b3eb",
+          "new": "dcc58d325cfa8e60eeb3e81dc39c78846fc959ef"
+        },
+        {
+          "old": "74369b2de422c6f98a549240c8afad365bab9479",
+          "new": "f497f013b3e8c4ad5f573677f33c067c592b9dc9"
+        },
+        {
+          "old": "26c10c5ea066d9903fa87211f313abd8e16b54b4",
+          "new": "8be38b5b5bb0050caab0df3c67ebbb15f262edc4"
+        },
+        {
+          "old": "e8df0d28f78e7eba5faebfda2e6bcae2895d9105",
+          "new": "9a91fe09785741663c63399f43fa00bafa8592a6"
+        },
+        {
+          "old": "420c2c3c547408fb30ef9c08f123767fb82ce0c1",
+          "new": "cea92dd82571eb68527d4045b9fc20ceb3b0a452"
+        },
+        {
+          "old": "c270b97ee9431016a2c7edf848c64e3f41028ad4",
+          "new": "7dc2df6a193749c1d34442bdadbf7a05126d636d"
+        },
+        {
+          "old": "9574c778e9c72611b9fe60b08c2d467a8e421e7b",
+          "new": "0b66af1d563a9f7fed2f96616c60ed8f5f4c7a18"
+        },
+        {
+          "old": "0c5c6e13a66250714648ec8cbbab45579a66949e",
+          "new": "1f02beff8fd1132a725b6e6127068ac879b5c794"
+        },
+        {
+          "old": "f51472d5c8821fe852de235ca6e09c6d3f124449",
+          "new": "97ae12fbda94fd615e775bbd46883a7645d77324"
+        },
+        {
+          "old": "11c7b38036434b120e0ab417ad82e97428106e48",
+          "new": "b2362070b938cef2a41d998110f9d4146a40c6d7"
+        },
+        {
+          "old": "abae275eae366a8c484977771ab3db1ec72724bd",
+          "new": "6a801465ff9982415e75984f36136746e08059a8"
+        },
+        {
+          "old": "82ba4875e305fb1297e03966af2af6b2f345368c",
+          "new": "c4ea2b2b236683c052f20e23b0b5211644862338"
+        },
+        {
+          "old": "ae9d4cd01e0b315ecf1104ffc52fb20cc58a74a8",
+          "new": "5842d135299075337fadb6e77d45bc6409e2d763"
+        },
+        {
+          "old": "0385cc48cb9f12b8c04f8eb980c3122462f3076a",
+          "new": "2b99e08784c1466a1efee40c4df05a785fe8d7e6"
+        },
+        {
+          "old": "f10812fe7e70c119906caaca4bfe1b392e685402",
+          "new": "d860d5160b51b17a061352611befefa49e650421"
+        },
+        {
+          "old": "8ff05effeab4abae5eeea0b5838de5323164a07e",
+          "new": "0dcf04d313b2c324ef7da23e8f050e978acc112d"
+        },
+        {
+          "old": "2c1a56adeaecae4ff2c7e295d42fe7c1a2912622",
+          "new": "703cd9ed4e317b0de20ed16f1b4c22fb979b3cb2"
+        },
+        {
+          "old": "eef2b6ef69b981ba4a1414215a6c114ee770e874",
+          "new": "1096b2e52aee4d590046376e4b85cd163ed0037b"
+        },
+        {
+          "old": "5de95f1182563836f3b1227c9d65527eb676ce79",
+          "new": "044fced387cedbd1ddd09086730d4cafd7319e6b"
+        },
+        {
+          "old": "cd103912482ea1c4abe8f2311585bb3571af7404",
+          "new": "bbfd81b9ac75ff12b6871140198918565544b5ef"
+        },
+        {
+          "old": "f080e35c889051eb73387801104060aaf536693e",
+          "new": "af4c6387daa3c4cfe24f42b10db8f1863d23b88f"
+        },
+        {
+          "old": "90fc3228bff78b87357dbde54ec30cd0b04396f5",
+          "new": "c899a6291422f96e457b3da32df6edfadb5ed158"
+        },
+        {
+          "old": "69cc0a454102c32c659dede5440bec3e3638b94b",
+          "new": "7aa08f347299c69f5998b6e4f44eb1bf571a99f0"
+        },
+        {
+          "old": "2e8bcd8bef7d0962a4852237faa1821ba1084523",
+          "new": "a443304a91f67328a398f1c287a2bd82e6a288ce"
+        },
+        {
+          "old": "aa0e9257cc6fb39319221276fae953291b1031e0",
+          "new": "cc19cce21c5344a179f97bc5c6430f787ed3cd8f"
+        },
+        {
+          "old": "c324b1872ba3d44d73b75e87b97fb160ca24c0dd",
+          "new": "5a32d0a008db7372f72b5993c3ce02cc651fd82a"
+        },
+        {
+          "old": "a101f2d878dc460e59884d3a9d5861332e12c77d",
+          "new": "d66fa6ba420aaf7de8c77c43544d5878adc8bcf9"
+        },
+        {
+          "old": "0b0cd546fe17b79c6d0a44a25e038e550e74d9c6",
+          "new": "39934e129de0dcaa4920de9d34db12e6d95ee747"
+        },
+        {
+          "old": "8de4447c17cbb24f8236058cf0a9a821cb79fd34",
+          "new": "b45fd6595ad19270b248532d70f0fa0543a2b169"
+        },
+        {
+          "old": "9ad7eb06c6fa9ff6dd17e992a4908973fb4207e8",
+          "new": "345d9c828ff109d8be7868ce62e288ffcb27f095"
+        },
+        {
+          "old": "a2ecb90b43f59f1cfc1a50a81d3f18a8ad056bff",
+          "new": "3c7beeac81b0ec9494abf55ff8edf1c283f5c70a"
+        },
+        {
+          "old": "309b9ca6088d578986a16c16aaaf3ed501a54d82",
+          "new": "2fbb01b8b913f89eefb60083b4ad1a3ce10dda3a"
+        },
+        {
+          "old": "94561b4e90c4d601385edaa559980a327a3d7dfa",
+          "new": "9b343747c331d2631e8d4dd44ed32517f24e3c4c"
+        },
+        {
+          "old": "210a4f203376fcd7e9dc6d19a78e0c6826d232f9",
+          "new": "f8c0a459b268ca0a9f2906f05a70599aab6e1e38"
+        },
+        {
+          "old": "29ce1818bba2addef36f83890bf13c231f0a2107",
+          "new": "7c978622f4fa9c84e10689996e2565d47ef43029"
+        },
+        {
+          "old": "fd94d33f27719db097932206e99f32d302a3a5a9",
+          "new": "735da91611e343c370e5150d619691ad4407b112"
+        }
+      ],
+      "history_proof": {
+        "messages_and_trailers_preserved": 99,
+        "base_is_ancestor": true,
+        "unchanged_nonoverlap_blobs": 145,
+        "changed_nonoverlap_paths": [
+          "client/src/components/Toolshed/RepositoryDetails/InstallationSettings.stories.ts",
+          "client/src/components/Workflow/Editor/Forms/FormInputCollection.stories.ts",
+          "client/src/components/Workflow/List/CuratedWorkflowCard.stories.ts"
+        ],
+        "old_layer_paths": 159,
+        "new_layer_paths": 159,
+        "new_layer_paths_added": []
+      },
+      "status": "published",
+      "publication": {
+        "remote": "jmchilton",
+        "verified_remote_head": "735da91611e343c370e5150d619691ad4407b112",
+        "exact_lease_used": "fd94d33f27719db097932206e99f32d302a3a5a9",
+        "date": "2026-10-20"
+      }
     },
     "vitest_readability_with_churn": {
       "old_head": "488693a2611de20c50ec5f990311a6d676c0c989",
@@ -2373,6 +2842,12 @@
           "exit_code": 0,
           "log": "/private/tmp/dependents-20261020-churn-toolshed-full.log"
         }
+      },
+      "publication": {
+        "remote": "jmchilton",
+        "verified_remote_head": "e8d2b3f06e4b7842d6afee6f356ffcb0a3c05dd7",
+        "exact_lease_used": "488693a2611de20c50ec5f990311a6d676c0c989",
+        "date": "2026-10-20"
       }
     },
     "vitest_real_api_calls": {
@@ -2448,6 +2923,12 @@
         "workflow_yaml": "Both parse; current filters/retry settings and integration fixture-check mode retained.",
         "capture_note": "Recorded responses and Python recorder behavior unchanged; server capture not rerun. Existing fork CI/review holds remain.",
         "independent_review": "reviews/restack_2026-10-20/ancillary_audit.md"
+      },
+      "publication": {
+        "remote": "jmchilton",
+        "verified_remote_head": "0277a85df3954d1f83856933991cc5df0b97865c",
+        "exact_lease_used": "3076db79898e5db847fe05dd521e48b80034ef72",
+        "date": "2026-10-20"
       }
     },
     "vitest_story_a11y": {
@@ -2464,7 +2945,74 @@
           "sha": "c246eb4fde308f62f817018b5ce5f41fbfba7407",
           "message": "Document observed accessibility debt in individual stories"
         }
-      ]
+      ],
+      "new_base": "735da91611e343c370e5150d619691ad4407b112",
+      "new_head": "b6d4c40d6c42af7eb469bc7b920e69433eddee9c",
+      "validated_tree": "761be3416b121f9142f65c98bf459a4ae9a376ed",
+      "commit_mapping": [
+        {
+          "old": "a1bf2fe0c749cac71684dac3f717aae03bf2b2f8",
+          "new": "412c4ac7a1d0246af51e6a54e7e823750e141dc3"
+        },
+        {
+          "old": "c246eb4fde308f62f817018b5ce5f41fbfba7407",
+          "new": "b6d4c40d6c42af7eb469bc7b920e69433eddee9c"
+        }
+      ],
+      "history_proof": {
+        "messages_and_trailers_preserved": 2,
+        "base_is_ancestor": true,
+        "unchanged_nonoverlap_blobs": 17,
+        "changed_nonoverlap_paths": [],
+        "old_layer_paths": 32,
+        "new_layer_paths": 32,
+        "new_layer_paths_added": []
+      },
+      "status": "published",
+      "validation": {
+        "affected_unit": {
+          "files": 9,
+          "passed": 128,
+          "exit_code": 0,
+          "logs": [
+            "/private/tmp/dependents-20261020-a11y-unit.log",
+            "/private/tmp/dependents-20261020-a11y-unit-additional.log"
+          ]
+        },
+        "full_browser": {
+          "files_passed": 61,
+          "files_failed": 39,
+          "passed": 432,
+          "failed": 151,
+          "axe_failures": 149,
+          "interaction_timeouts": 2,
+          "exit_code": 1,
+          "log": "/private/tmp/dependents-20261020-a11y-browser.log"
+        },
+        "strict_configuration": "Unchanged global error mode, body context, six axe tag sets and viewport presets; existing 121 story TODOs retained, none added.",
+        "full_types": "passed",
+        "independent_review": "reviews/restack_2026-10-20/a11y_compatibility_audit.md",
+        "findings": "reviews/restack_2026-10-20/a11y_browser_findings.json",
+        "hold": "Existing prototype/reference-only/do-not-PR hold retained; current strict browser findings require separate product work.",
+        "static_storybook_build": "passed",
+        "layer_eslint_prettier": "passed",
+        "browser_recheck": {
+          "passed": 1,
+          "failed_axe": 1,
+          "skipped": 20,
+          "log": "/private/tmp/dependents-20261020-a11y-browser-recheck.log",
+          "exit_code": 1,
+          "note": "Both interaction timeouts resolved on the same source. FormData passes; XmlToolSource completes its play then fails strict color-contrast (150th known failing story including this rerun)."
+        },
+        "summary": "All 128 affected unit tests across nine files pass, as do complete client types, layer ESLint/Prettier and the static Storybook build. Strict Chromium audit: 100 files, 432 stories pass and 151 fail. Of those failures, 149 are axe findings and two are interaction timeouts. Both timed-out plays complete on same-source rerun: FormData passes, while XML tool source then fails axe color contrast. No new TODOs, rule disables or reduced checks were added; the 121 historical TODO annotations are preserved. Every current play/handler/export and both original commit bodies survive. This completes the requested rebase, while strict accessibility failures retain the prototype/do-not-PR hold."
+      },
+      "publication": {
+        "remote": "jmchilton",
+        "verified_remote_head": "b6d4c40d6c42af7eb469bc7b920e69433eddee9c",
+        "exact_lease_used": "c246eb4fde308f62f817018b5ce5f41fbfba7407",
+        "date": "2026-10-20"
+      }
     }
-  }
+  },
+  "result": "All five dependent branches rebased, reviewed and pushed; accessibility prototype hold and real-API CI/review holds retained. No conversion ledger edits, new PRs or independent release-followup changes."
 }

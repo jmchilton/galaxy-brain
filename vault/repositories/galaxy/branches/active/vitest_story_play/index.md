@@ -48,3 +48,7 @@ Rebased the 68 play commits onto the new `vitest_stories`, which now sits on rea
 Published `fd94d33f27719db097932206e99f32d302a3a5a9` on `jmchilton/vitest_story_play`, based on stories `4e60254eded0e18ae7737161fec2ce42c16c770f`. Replayed only the 99 commits above actual old stories cut `f2a726da91a19e070a60d6d42cfa6f946ea06a47`, preserving all messages and trailers. Original play head `5673676726e0ae2430cb0d73f28cf61b60eaae0b` remains at `backup/vitest_story_play-before-clean-restack-20261016`. Exact old-head lease used; remote verified.
 
 Kept play changes by default and retained current dev/story assertions. Adapted current controls, popovers and live job UI without weakening checks. [Implementation and validation](implementation_debrief.md), [normal review and scoped challenge](subagents/rebase_2026-10-16.md), [conflict resolutions](rebase_resolutions_2026-10-16.md), and [commit mapping and dependency audit](../../../../../projects/just_jesting_around/readability_assessment/story_restack_2026-10-16.json). Prototype and no-PR status remain. The separate a11y and real-API branches were audited but not rebased in this core restack.
+
+## Dependent rebase — 2026-10-20
+
+Published `735da91611e343c370e5150d619691ad4407b112` onto parent `fd5fd27f67aaa9d974b2d3cbc693ef8fa0a31864`. All 99 own-layer messages/trailers preserved, exact original remote-head lease and resulting remote SHA verified. Published prototype; no upstream PR intent. [Current validation and decisions](implementation_debrief.md); [scoped challenge](test_challenges_debrief.md).

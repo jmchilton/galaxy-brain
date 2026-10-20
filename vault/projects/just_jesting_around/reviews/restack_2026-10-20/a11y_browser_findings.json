@@ -1,0 +1,947 @@
+{
+  "counts": {
+    "axe": 149,
+    "interaction_or_setup": 2
+  },
+  "groups": [
+    {
+      "kind": "axe",
+      "stories": [
+        "components/GalaxyAI.stories.ts > New Conversation",
+        "components/GalaxyAI.stories.ts > Gateway Timeout",
+        "components/GalaxyAI.stories.ts > Session Expired",
+        "components/GalaxyAI/ChatInput.stories.ts > Empty Question",
+        "components/GalaxyAI/ChatInput.stories.ts > Waiting For Answer",
+        "components/GalaxyAI/ChatInput.stories.ts > Conversation Unavailable",
+        "components/GalaxyAI/ChatInput.stories.ts > Whitespace Draft",
+        "components/GalaxyAI/ChatInput.stories.ts > Busy Hello Draft",
+        "components/GalaxyAI/ChatInput.stories.ts > Unavailable Hello Draft",
+        "components/GalaxyAI/ChatInput.stories.ts > Custom Placeholder"
+      ],
+      "rules": [
+        "button-name"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/GalaxyAI.stories.ts > Answers Question",
+        "components/GalaxyAI.stories.ts > Explains Gateway Timeout",
+        "components/GalaxyAI.stories.ts > Explains Session Expired",
+        "components/GalaxyAI/ChatInput.stories.ts > Types And Clears Question"
+      ],
+      "rules": [
+        "button-name"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/GalaxyAI.stories.ts > Prefilled Compact Conversation",
+        "components/GalaxyAI/ChatInput.stories.ts > Question Draft",
+        "components/GalaxyAI/ChatInput.stories.ts > Multiline Question",
+        "components/GalaxyAI/ChatInput.stories.ts > Hello Draft",
+        "components/GalaxyAI/ChatInput.stories.ts > Adds Question Line"
+      ],
+      "rules": [
+        "button-name"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/HistoryImport.stories.ts > History With Repository"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/HistoryImport.stories.ts > History Without Repository"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/HistoryImport.stories.ts > Invocation With Repository"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/HistoryImport.stories.ts > Replaces Published History Url With Archive"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivityBar.stories.ts > Interactive Tools Enabled"
+      ],
+      "rules": [
+        "list",
+        "listitem"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivityBar.stories.ts > Interactive Tools Disabled"
+      ],
+      "rules": [
+        "list",
+        "listitem"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivitySettings.stories.ts > Built In Activities"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivitySettings.stories.ts > Hidden Workflow Shortcut"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivitySettings.stories.ts > Dataset Bookmark"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivitySettings.stories.ts > Filtered Bookmark"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivitySettings.stories.ts > Custom Tools Permitted"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivitySettings.stories.ts > Basic Instance"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivitySettings.stories.ts > Shows And Hides Workflow Shortcut"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivitySettings.stories.ts > Deletes Dataset Bookmark"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ActivityBar/ActivitySettings.stories.ts > Searches Activities"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/BaseComponents/GDropdownItem.stories.ts > Action"
+      ],
+      "rules": [
+        "aria-required-parent"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/BaseComponents/GDropdownItem.stories.ts > External Download"
+      ],
+      "rules": [
+        "aria-required-parent"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/BaseComponents/GDropdownItem.stories.ts > Disabled Download"
+      ],
+      "rules": [
+        "aria-required-parent"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Dataset/DatasetCopy.stories.ts > Copy From Current History",
+        "components/Dataset/DatasetCopy.stories.ts > Current History Listed Second",
+        "components/Dataset/DatasetCopy.stories.ts > Current History Not Listed",
+        "components/Dataset/DatasetCopy.stories.ts > No Current History",
+        "components/Dataset/DatasetCopy.stories.ts > Empty Current History",
+        "components/Dataset/DatasetCopy.stories.ts > Asks For Selection",
+        "components/Dataset/DatasetCopy.stories.ts > Selects And Unselects Every Item",
+        "components/Dataset/DatasetCopy.stories.ts > Shows Copy Refusal",
+        "components/Dataset/DatasetCopy.stories.ts > Copies To Ticked Histories",
+        "components/Dataset/DatasetCopy.stories.ts > Copies To New History",
+        "components/Dataset/DatasetCopy.stories.ts > No Target Copies Into Source"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/DatasetInformation/DatasetDetails.stories.ts > Completed Dataset"
+      ],
+      "rules": [
+        "color-contrast",
+        "empty-heading",
+        "link-in-text-block",
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/DatasetInformation/DatasetDetails.stories.ts > No Recorded Job"
+      ],
+      "rules": [
+        "link-in-text-block"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/DatasetInformation/DatasetDetails.stories.ts > Reads Original Peek"
+      ],
+      "rules": [
+        "color-contrast",
+        "empty-heading",
+        "link-in-text-block",
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/History/HistoryOptions.stories.ts > Opens Delete Confirmation"
+      ],
+      "rules": [
+        "color-contrast"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/History/HistoryOptions.stories.ts > Opens Permanent Delete Confirmation"
+      ],
+      "rules": [
+        "color-contrast"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/InteractiveTools/InteractiveTools.stories.ts > Running Tools",
+        "components/InteractiveTools/InteractiveTools.stories.ts > Starting Tool",
+        "components/InteractiveTools/InteractiveTools.stories.ts > No Running Tools",
+        "components/InteractiveTools/InteractiveTools.stories.ts > Reads Original Sessions",
+        "components/InteractiveTools/InteractiveTools.stories.ts > Filters Sessions",
+        "components/InteractiveTools/InteractiveTools.stories.ts > Stops Sessions"
+      ],
+      "rules": [
+        "empty-table-header"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/JobInformation/JobOutputs.stories.ts > Collection Output"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/JobInformation/JobOutputs.stories.ts > Mixed Outputs"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/JobInformation/JobOutputs.stories.ts > Many Outputs"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/JobInformation/JobOutputs.stories.ts > Reveals All Reports"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Libraries/LibraryEditField.stories.ts > Collapsed Description",
+        "components/Libraries/LibraryEditField.stories.ts > Collapses Description"
+      ],
+      "rules": [
+        "link-in-text-block"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Page/PageView.stories.ts > Published"
+      ],
+      "rules": [
+        "list",
+        "listitem",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/PageEditor/PageRevisionView.stories.ts > Preview",
+        "components/PageEditor/PageRevisionView.stories.ts > Newest Revision",
+        "components/PageEditor/PageRevisionView.stories.ts > Restoring Revision",
+        "components/PageEditor/PageRevisionView.stories.ts > Compares Current And Returns To Preview",
+        "components/PageEditor/PageRevisionView.stories.ts > Compares Previous And Returns To Preview"
+      ],
+      "rules": [
+        "color-contrast"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/PageEditor/PageRevisionView.stories.ts > Compared With Current"
+      ],
+      "rules": [
+        "color-contrast"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/PageEditor/PageRevisionView.stories.ts > Compared With Previous"
+      ],
+      "rules": [
+        "color-contrast"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/PageEditor/PageRevisionView.stories.ts > Oldest Revision"
+      ],
+      "rules": [
+        "color-contrast"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/PageEditor/SectionPatchView.stories.ts > Two Section Proposal",
+        "components/PageEditor/SectionPatchView.stories.ts > Stale Proposal",
+        "components/PageEditor/SectionPatchView.stories.ts > Selects Sections To Apply"
+      ],
+      "rules": [
+        "color-contrast"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/PageEditor/SectionPatchView.stories.ts > Single Section Proposal"
+      ],
+      "rules": [
+        "color-contrast"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Panels/ToolBox.stories.ts > Recent And Favorite Collections"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Panels/ToolBox.stories.ts > Recent Installed Versions"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Panels/ToolBox.stories.ts > Favorite Tags"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Panels/ToolBox.stories.ts > Recent Collection And Favorite Filter"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Panels/ToolBox.stories.ts > Recent Only"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Tool/CustomToolEditorWorkspace.stories.ts > With Documentation",
+        "components/Tool/CustomToolEditorWorkspace.stories.ts > Opens Documentation",
+        "components/Tool/CustomToolEditorWorkspace.stories.ts > Reopens Split View"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "interaction_or_setup",
+      "stories": [
+        "components/Tool/ToolSourceDisplay.stories.ts > Xml Tool Source"
+      ],
+      "rules": []
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Tool/ToolSuccess.stories.ts > With Recommendations"
+      ],
+      "rules": [
+        "color-contrast",
+        "empty-heading",
+        "list",
+        "listitem",
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Tool/ToolSuccess.stories.ts > Without Recommendations"
+      ],
+      "rules": [
+        "color-contrast",
+        "empty-heading",
+        "list",
+        "listitem",
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/ToolsList/ToolsList.stories.ts > Tool Catalog",
+        "components/ToolsList/ToolsList.stories.ts > Collection Tools From Legacy Link"
+      ],
+      "rules": [
+        "heading-order"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/User/UserDeletion.stories.ts > Confirms Email Before Deletion"
+      ],
+      "rules": [
+        "color-contrast"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/WorkflowInvocationState/JobStep.stories.ts > Single Job"
+      ],
+      "rules": [
+        "color-contrast",
+        "empty-heading",
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/admin/GroupForm.stories.ts > Existing Group",
+        "components/admin/GroupForm.stories.ts > Keeps Saved Name While Editing",
+        "components/admin/GroupForm.stories.ts > Refuses Empty Name"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/admin/UserRolesGroupsForm.stories.ts > Edits Memberships"
+      ],
+      "rules": [
+        "aria-input-field-name"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormText.stories.ts > Text"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormText.stories.ts > Password"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormText.stories.ts > Workflow Data Column"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormText.stories.ts > Text Area"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormText.stories.ts > Multiple Values"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormText.stories.ts > With Suggestions"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormText.stories.ts > Workflow Parameter"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormUpload.stories.ts > Csv Contents",
+        "components/Form/Elements/FormUpload.stories.ts > Spaced Csv Preview"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/History/Content/GenericItem.stories.ts > Running Dataset"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/History/Content/GenericItem.stories.ts > Populating Collection"
+      ],
+      "rules": [
+        "nested-interactive",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Markdown/Editor/TextEditor.stories.ts > Page With Toolbox",
+        "components/Markdown/Editor/TextEditor.stories.ts > Page With Existing Content",
+        "components/Markdown/Editor/TextEditor.stories.ts > Workflow Report Template",
+        "components/Markdown/Editor/TextEditor.stories.ts > Inserts Dragged History Items",
+        "components/Markdown/Editor/TextEditor.stories.ts > Inserts Chosen Dataset"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Panels/Upload/UploadFileRow.stories.ts > Link Queued"
+      ],
+      "rules": [
+        "aria-progressbar-name",
+        "nested-interactive"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Panels/Upload/UploadFileRow.stories.ts > File Uploading"
+      ],
+      "rules": [
+        "aria-progressbar-name",
+        "nested-interactive"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/List/WorkflowCardList.stories.ts > Own Workflows"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/List/WorkflowCardList.stories.ts > Renames Workflow"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/List/WorkflowCardList.stories.ts > Grid View"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/List/WorkflowCardList.stories.ts > Published"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Editor/Node.stories.ts > Tool"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Editor/Node.stories.ts > Active Tool"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Editor/Node.stories.ts > Missing Tool With Connections"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Editor/Node.stories.ts > With Recommendations"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Editor/Node.stories.ts > Opens Recommendations With Keyboard"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Run/WorkflowHelpDisplay.stories.ts > Readme And Help",
+        "components/Workflow/Run/WorkflowHelpDisplay.stories.ts > Readme Only"
+      ],
+      "rules": [
+        "link-in-text-block"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/admin/Notifications/BroadcastForm.stories.ts > New Broadcast"
+      ],
+      "rules": [
+        "empty-heading",
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/admin/Notifications/BroadcastForm.stories.ts > Scheduled Broadcast"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/admin/Notifications/BroadcastForm.stories.ts > Published Broadcast"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "interaction_or_setup",
+      "stories": [
+        "components/Form/Elements/FormData/FormData.stories.ts > Selects Dataset And Collection"
+      ],
+      "rules": []
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormData/FormData.stories.ts > Changes Batch Linking"
+      ],
+      "rules": [
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormDrilldown/FormDrilldown.stories.ts > Nothing Selected",
+        "components/Form/Elements/FormDrilldown/FormDrilldown.stories.ts > Nested Option Selected",
+        "components/Form/Elements/FormDrilldown/FormDrilldown.stories.ts > Single Choice"
+      ],
+      "rules": [
+        "button-name",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Form/Elements/FormDrilldown/FormDrilldown.stories.ts > Ticks Only The Chosen Option",
+        "components/Form/Elements/FormDrilldown/FormDrilldown.stories.ts > Keeps Other Selections",
+        "components/Form/Elements/FormDrilldown/FormDrilldown.stories.ts > Parent And Child Selected",
+        "components/Form/Elements/FormDrilldown/FormDrilldown.stories.ts > Keeps Ticked Children",
+        "components/Form/Elements/FormDrilldown/FormDrilldown.stories.ts > Picks One Option"
+      ],
+      "rules": [
+        "button-name"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/History/Content/Collection/CollectionProgress.stories.ts > Running"
+      ],
+      "rules": [
+        "aria-progressbar-name"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/History/Content/Collection/CollectionProgress.stories.ts > Failed Ok And Running"
+      ],
+      "rules": [
+        "aria-progressbar-name"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/History/Content/Collection/CollectionProgress.stories.ts > Queued"
+      ],
+      "rules": [
+        "aria-progressbar-name"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Editor/Forms/FormInputCollection.stories.ts > Dataset List",
+        "components/Workflow/Editor/Forms/FormInputCollection.stories.ts > Changes Collection Type"
+      ],
+      "rules": [
+        "scrollable-region-focusable"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Editor/Forms/FormInputCollection.stories.ts > Paired Sample Sheet"
+      ],
+      "rules": [
+        "label",
+        "scrollable-region-focusable",
+        "target-size"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Editor/Forms/FormTool.stories.ts > Older Tool Version"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/Workflow/Editor/Forms/FormTool.stories.ts > Switches Version"
+      ],
+      "rules": [
+        "label"
+      ]
+    },
+    {
+      "kind": "axe",
+      "stories": [
+        "components/User/DiskUsage/Visualizations/Charts/BarChart.stories.ts > Dataset Counts",
+        "components/User/DiskUsage/Visualizations/Charts/BarChart.stories.ts > Selectable Histories",
+        "components/User/DiskUsage/Visualizations/Charts/BarChart.stories.ts > Original Dataset Counts",
+        "components/User/DiskUsage/Visualizations/Charts/BarChart.stories.ts > Selects History From Legend"
+      ],
+      "rules": [
+        "summary-name"
+      ]
+    }
+  ],
+  "same_source_recheck": {
+    "FormData Selects Dataset And Collection": "passed",
+    "ToolSourceDisplay Xml Tool Source": "Play completes; axe color-contrast fails in Monaco syntax highlighting",
+    "interaction_timeouts_resolved": 2
+  }
+}

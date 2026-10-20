@@ -77,3 +77,15 @@ Reviewed all four dirty files after focused runtime diagnosis, while final gates
 Root reports focused Chromium passes for the card/TextSummary group (15 stories) and collection picker (three stories). This also demonstrates one previously setup-failing suite can import and run successfully in isolation; the earlier 23-suite setup parse error still requires the fresh full browser gate. Full browser/unit/types/build results and folded-history tree identity remain root's outstanding gates.
 
 Independently compared complete raw commit-message bodies via `git cat-file commit`: current play head `39fc28e8eef2f7d251212c744a20bc3b841240e5` has exactly 99 commits above published stories, and all 99 bodies/trailers are byte-identical to the original published play commits in order. Root's later folding must retain this sequence and the frozen tested tree.
+
+## Final folded play verification and runtime qualification
+
+Independently verified final play `735da91611e343c370e5150d619691ad4407b112`: its tree is exactly `b93bdc1f931297d484ef720963d20198be97a6ba`, its merge base with published stories is exactly `fd5fd27f67aaa9d974b2d3cbc693ef8fa0a31864`, and its checked-out worktree is clean. All 99 complete raw commit-message bodies, including trailers, remain byte-identical to the original published play sequence in order. Of 148 old-play-owned non-overlapping paths, 145 blobs are unchanged and only the three reviewed public-UI story adaptations differ (InstallationSettings, CuratedWorkflowCard, FormInputCollection).
+
+Root reports these final-tree runtime results; this reviewer did not execute them:
+
+- Client full unit run: 640 files passed and one failed; 5,480 tests passed, one failed and one skipped. The sole failure was an unchanged Citation timeout. Both Citation tests passed on the same tree when isolated.
+- Full Chromium story run: 96 files passed and four failed; 578 stories passed and five failed. The affected four files (ListCollectionCreator, DatasetCopy, ToolSource and FormData) passed all 39 stories when rerun on the same tree. Failures concerned collection-creator timing, the dataset-copy loading status, ToolSource's five-second budget and a FormData worker failure.
+- Client types and static Storybook build passed. The post-format FormInputCollection browser rerun passed all three stories. Normal commit hooks passed with source fingerprints unchanged.
+
+The full runs were not all green; their timing/worker failures and successful same-tree isolated reruns must remain visible in the implementation debrief and publication summary. No persistent rebase regression or additional static defect was identified. Review is approved for the exact leased publication of this verified candidate, with the above runtime qualification retained. Do not claim that the full suites passed without that qualification.

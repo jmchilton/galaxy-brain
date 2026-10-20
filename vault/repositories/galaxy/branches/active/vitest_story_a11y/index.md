@@ -3,8 +3,8 @@
 Status: rebased prototype; browser validation has failures to resolve before integration. Do not PR independently.
 Stacked on `vitest_story_play`.
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_story_a11y`.
-Base: `81c4987360debdff86678e038e8035c31213a410` (pushed Play tip captured for the 2026-10-12 rebase).
-Pushed to `jmchilton/vitest_story_a11y` at `c246eb4fde308f62f817018b5ce5f41fbfba7407` on 2026-10-12; see [rebase handoff](rebase_2026-10-12.md).
+Base: `735da91611e343c370e5150d619691ad4407b112` (published Play tip captured for the 2026-10-20 rebase).
+Pushed to `jmchilton/vitest_story_a11y` at `b6d4c40d6c42af7eb469bc7b920e69433eddee9c` on 2026-10-20. The [2026-10-12 handoff](rebase_2026-10-12.md) is historical; see the [current implementation debrief](implementation_debrief.md).
 User requested an isolated fork to explore visual and accessibility testing for
 the BootstrapVue/Vue 3 migration, leaving the running conversion lanes alone.
 
@@ -27,3 +27,7 @@ lint, formatting, and static Storybook build pass. See final debrief for the
 ## Dependency audit — 2026-10-16
 
 [Exact layer boundary and core-stack restack audit](dependency_audit_2026-10-16.md). Remote head is unchanged. This branch requires its own transplant from its recorded historical cut; the stories/play core stack is now published. Existing validation and review holds remain.
+
+## Dependent rebase — 2026-10-20
+
+Published `b6d4c40d6c42af7eb469bc7b920e69433eddee9c` onto parent `735da91611e343c370e5150d619691ad4407b112`. All 2 own-layer messages/trailers preserved, exact original remote-head lease and resulting remote SHA verified. Published rebased prototype; strict browser accessibility failures remain. Do not PR independently. [Current validation and decisions](implementation_debrief.md); [scoped challenge](test_challenges_debrief.md).
