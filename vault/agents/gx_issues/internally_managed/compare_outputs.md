@@ -82,17 +82,10 @@ class ComparisonSliceBase(Model):
     metadata_elements: list[str] = []   # extra per-cell values, e.g. ["data_lines"]
     inline_expression_values: bool = True
 
-class StepRef(Model):        # one of
-    uuid: Optional[UUID4] = None
-    label: Optional[str] = None
-    order_index: Optional[int] = None   # needs `version`
-    version: Optional[int] = None
-
 class WorkflowStepSlice(ComparisonSliceBase):
     kind: Literal["workflow_step"]
     workflow_id: DecodedDatabaseIdField   # StoredWorkflow
-    step: StepRef
-    match: Literal["uuid", "uuid_label", "uuid_label_position"] = "uuid_label"
+    step_label: str                       # the only cross-version key
 
 class WorkflowOutputsSlice(ComparisonSliceBase):
     kind: Literal["workflow_outputs"]
@@ -112,7 +105,6 @@ AnyComparisonSlice = Annotated[Union[WorkflowStepSlice, WorkflowOutputsSlice, To
 class ComparisonColumn(Model):
     key: str; label: str
     role: Literal["input", "output", "parameter"]
-    matched_by: Optional[Literal["uuid", "label", "position", "name"]] = None
     present_in_versions: Optional[list[int]] = None
 
 class ComparisonRow(Model):
@@ -120,7 +112,6 @@ class ComparisonRow(Model):
     create_time: datetime; state: str
     version: Optional[int]; tool_version: Optional[str]
     reused: Literal["no", "partial", "yes"]
-    matched_by: Optional[str]              # mode 1 row-level match
     history: HistoryRef                    # id, name, deleted
     cells: dict[str, Cell]                 # Cell = Dataset | Collection | Value | Missing (discriminated on `type`)
 
@@ -140,11 +131,10 @@ class ComparisonTable(Model):
 Transposing and comparing both need the same column to mean the same thing on every row. The rules:
 
 - **Mode 1.**
-  - *Rows* are matched to the step by **uuid, then step label**, with position as an opt-in, and each row carries `matched_by`. This changes the client's "uuid by default", and the reason is a code fact:
-    - A **rename-only save regenerates every step uuid**. The workflow list's Rename action (`WorkflowCardList.vue:132`, `updateWorkflow(id, {name})`) sends a name-only `PUT /api/workflows/{id}`. That calls `old_workflow.copy()` (`api/workflows.py:465-472`), and `Workflow.copy` builds fresh `WorkflowStep()`s that never get the old uuid (`model/__init__.py:9285`; `copy_to` at 9588 copies label but not uuid; `WorkflowOutput.copy` drops its uuid too).
-    - Importing a shared or published workflow and duplicating or pasting steps in the editor also mint new uuids.
-    - Editor saves and file, URL or TRS imports keep them.
-    - Step labels are enforced unique within a version (`managers/workflows.py:2156-2159`), so label is a safe second key.
+  - *Rows* are matched to the step by **step label only** (John, 2026-10-20). This replaces the client's "uuid by default, label/position as possible matches", and makes modes 1 and 2 use the same key: labels.
+    - Step labels are enforced unique within a version (`managers/workflows.py:2156-2159`). Labels are also what users see and control.
+    - uuids are not stable enough anyway. A **rename-only save regenerates every step uuid**: the workflow list's Rename action (`WorkflowCardList.vue:132`) sends a name-only `PUT`, which calls `Workflow.copy()` (`api/workflows.py:465-472`), and that never copies step or output uuids (`model/__init__.py:9285`, 9588, 9796). Shared-workflow import and editor duplicate/paste also mint new uuids.
+    - Cost: **an unlabelled step can't be compared.** The All runs tab is disabled there with "Label this step to compare its runs". A label added in v4 matches runs from v4 on. Renaming a label starts a new history for that step.
   - *Columns* are the job's input and output association names. A tool-version change can add or drop names. Use the union, and fill `Missing(not_in_version)` where a row lacks one.
 - **Mode 2.**
   - Columns are **workflow output labels** plus **input step labels**, as the union across the versions on the page. They're ordered by the newest version, and columns only older versions have go last with a badge.
@@ -170,10 +160,10 @@ Build one read-only endpoint, a resolver per slice kind, and one props-only tabl
 <details><summary>Resolvers [research]</summary>
 
 - **Mode 1.**
-  - Look up `stored_workflow_id`, then all `Workflow` versions, then the matching `WorkflowStep` in each version (by uuid or label, scoped to this stored workflow, because step uuids are *not* unique across stored workflows: a client "Copy" keeps them).
+  - Look up `stored_workflow_id`, then all `Workflow` versions, then the `WorkflowStep` with that label in each version.
   - Then page over `WorkflowInvocationStep` joined to `WorkflowInvocation` and `History` (owner), using the indexes on `workflow_invocation_step.workflow_step_id` and `workflow_invocation.workflow_id`.
   - Batch-load outputs (`WorkflowInvocationStepOutputDataset(Collection)Association`), the job or ICJ, job state counts, and `copied_from_job_id`.
-  - `workflow_step.uuid` isn't indexed, but the step lookup is limited to one stored workflow's versions, so that's fine.
+  - `workflow_step.label` isn't indexed, but the step lookup is limited to one stored workflow's versions, so that's fine.
 - **Mode 2.**
   - The same invocation page query, without the step join.
   - Batch-load `WorkflowInvocationOutputDataset(Collection)Association`, `WorkflowInvocationOutputValue` and `WorkflowRequestToInput*` / `WorkflowRequestInputStepParameter`.
@@ -194,7 +184,7 @@ Build one read-only endpoint, a resolver per slice kind, and one props-only tabl
 
 <details><summary>Client [research]</summary>
 
-- **Mode 1 tab.** Add an `All runs` `GTab` to `WorkflowInvocationStep.vue` (its `<GTabs>` block holds Jobs, Outputs and Step Config). Pass the encoded `workflow_step_id` or uuid, not the client step `id`, which is the `order_index`.
+- **Mode 1 tab.** Add an `All runs` `GTab` to `WorkflowInvocationStep.vue` (its `<GTabs>` block holds Jobs, Outputs and Step Config). Pass the step label, not the client step `id`, which is the `order_index`.
 - **Table component.** It is store-independent and takes props only: `ComparisonTable` plus display settings (transpose, metadata elements, value rendering). Two can sit side by side later.
 - **Row detail.** Reuse `JobDetailsTabs.vue` (Information / Parameters / Outputs) or `GenericHistoryItem` + `JobParameters`.
 - **Standalone route.** `/comparisons?slice=<json>`, linked from the stored-workflow invocation list (mode 2) and the job page (mode 3). Galaxy has no user-facing job list or "previous runs" panel on the tool form today, so the job page is the only existing place for mode 3.
@@ -204,8 +194,9 @@ Build one read-only endpoint, a resolver per slice kind, and one props-only tabl
 <details><summary>Testing (red-to-green)</summary>
 
 - **API** (`lib/galaxy_test/api/test_comparisons.py`):
-  - run a two-step workflow twice, edit it (insert a step, change a tool param), and run it again: mode 1 returns 3 rows with `matched_by=uuid`;
-  - **rename-only save + run**: the row is still found, with `matched_by=label` (red against uuid-only);
+  - run a two-step workflow twice, edit it (insert a step, change a tool param), and run it again: mode 1 returns 3 rows;
+  - **rename-only save + run**: the row is still found (red against uuid matching);
+  - a step whose label changed in v3 returns only v3+ rows;
   - a re-run with the job cache sets `reused=yes`;
   - a mapped-over step gives a collection cell and `partial`;
   - mode 2: an output label added in v2 gives `Missing(not_in_version)` in v1 rows, and an `expression.json` output inlines as a value;
@@ -221,7 +212,7 @@ Build one read-only endpoint, a resolver per slice kind, and one props-only tabl
 ## Alternative Approaches
 
 - **Per-row client fetches** (what the step card does per output today) would mean 20–100 requests per page **[client]**.
-- **Matching by uuid only** silently drops renamed, shared-import and pasted steps. **Matching by position only** breaks when a step is inserted **[client, research]**.
+- **Matching by uuid, with label/position fallbacks** **[client]**: uuids are lost on workflow rename, shared import and editor paste, and fallbacks need a `matched_by` badge that explains guesses to users. Label-only is predictable and the user controls it. **Position** breaks when a step is inserted.
 - **Three separate tables and components**, one per mode, would triple the work and still not give side-by-side diffing **[chat]**.
 - **A row per ToolRequest for mode 3** isn't universal (legacy submissions have none), so use Job/ICJ.
 
@@ -233,7 +224,7 @@ Build one read-only endpoint, a resolver per slice kind, and one props-only tabl
 
 <details><summary>Side findings worth their own issues [research]</summary>
 
-- **A rename-only workflow save regenerates every step uuid and output uuid** (`api/workflows.py:465-472` → `Workflow.copy`). An editor save of the same workflow keeps them, so the two disagree for no stated reason. Fixing it would make uuid matching much more reliable.
+- **A rename-only workflow save regenerates every step uuid and output uuid** (`api/workflows.py:465-472` → `Workflow.copy`). An editor save of the same workflow keeps them, so the two disagree for no stated reason. No longer blocks this feature (labels only).
 - **The duplicate workflow-output-label check is broken** (`managers/workflows.py:2166-2175`). It tests and records the *step* `label` instead of `output_label`, and only runs for the dict form of `workflow_outputs`, not the usual list form. The editor only lints. The result is that duplicate output labels are saved, and `to_dict` silently keeps the last.
 - **`tool_version` is stripped from job API responses** (missing from `JobBaseModel` / `EncodedJobDetails`).
 
@@ -243,10 +234,9 @@ Build one read-only endpoint, a resolver per slice kind, and one props-only tabl
 
 1. Cell display detail was lost from the chat. Is it right that "selectable metadata element" is a per-column setting, and that value rendering covers `expression.json` only, or other small text too?
 2. Endpoint: one `POST /api/comparisons/query` with a slice body, or three GETs?
-3. Mode 1 default matching is uuid + label (changed from the client's uuid-only, because of the rename bug). OK?
-4. Mode 2 unlabelled outputs: leave them out, or allow opting in with a version-unstable key?
-5. Mode 3 row: one per Job/ICJ (recommended) or per ToolRequest? Include jobs run inside workflows by default?
-6. Mode 3 entry: is the job page enough, or should there be a "previous runs" panel on the tool form?
-7. Do the inputs columns in mode 2 include parameter inputs, or only datasets and collections?
-8. Should the side findings (rename uuid, output-label check) go to `to_file/` now? Each needs a reproduction first: rename, then GET to compare step uuids; and save a workflow with a duplicated output label.
-9. The file is `compare_outputs.md`, but the doc covers comparing runs (steps, outputs and tools). Rename it to `compare_runs.md`?
+3. Mode 2 unlabelled outputs: leave them out, or allow opting in with a version-unstable key?
+4. Mode 3 row: one per Job/ICJ (recommended) or per ToolRequest? Include jobs run inside workflows by default?
+5. Mode 3 entry: is the job page enough, or should there be a "previous runs" panel on the tool form?
+6. Do the inputs columns in mode 2 include parameter inputs, or only datasets and collections?
+7. Should the rename-uuid side finding go to `to_file/`? It needs a reproduction first: rename, then GET to compare step uuids. (The output-label check is being prepared as `to_file/proposed_duplicate_workflow_output_labels_accepted.md`.)
+8. The file is `compare_outputs.md`, but the doc covers comparing runs (steps, outputs and tools). Rename it to `compare_runs.md`?
