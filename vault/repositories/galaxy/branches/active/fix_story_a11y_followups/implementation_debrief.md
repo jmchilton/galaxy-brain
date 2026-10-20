@@ -1,6 +1,6 @@
 # Accessibility followups
 
-Status: READY locally; publishing requires explicit user approval after automatic push review rejection. Fresh dev base explicitly requested by John: `0de6cc2d7fef75633ea30717162bad53d583d80e`. Implementation head `d843b804a20582bddcf90c2d2277c753a431ad47`; worktree `/Users/jxc755/projects/worktrees/galaxy/branch/fix_story_a11y_followups`.
+Status: READY; published to `jmchilton/galaxy` on 2026-10-20 after explicit user approval. Fresh dev base explicitly requested by John: `0de6cc2d7fef75633ea30717162bad53d583d80e`. Implementation head `d843b804a20582bddcf90c2d2277c753a431ad47`; worktree `/Users/jxc755/projects/worktrees/galaxy/branch/fix_story_a11y_followups`.
 
 The GalaxyAI icon-only send action now has the stable accessible name “Send message” in ready, empty, busy and disabled states. The optional classic Popper header close control is a named native non-submit button, with a visible keyboard outline and reset styles preserving its icon appearance under Bootstrap. Close activation and Escape within the popup restore focus to its invoking control only when focus belonged to the popup. Wrapped triggers and external `referenceEl` controls are covered, as is preserving focus elsewhere.
 
@@ -20,6 +20,11 @@ No server behavior changes; no server-backed E2E tests added. Production consume
 
 ## Publication
 
-Attempted the normal handoff push of `fix_story_a11y_followups` and `fix_story_a11y_followups_alt_original_scope` to `jmchilton/galaxy`. Automatic approval review rejected it before execution because it did not find explicit authorization for that external destination/publication and identified private-source publication risk. No workaround or retry was attempted. User approval has been requested; both branches remain local and the Galaxy worktree is clean. Exact intended command: `git push -u jmchilton fix_story_a11y_followups fix_story_a11y_followups_alt_original_scope`.
+John explicitly approved publishing all work on 2026-10-20. Both branches were pushed normally to `jmchilton/galaxy` and their exact remote heads verified:
 
-Vault validation passes: 124 files, zero errors, 15 advisory warnings. Tracking is committed locally; the pipeline's standing instruction forbids pushing galaxy-brain.
+- `fix_story_a11y_followups`: `d843b804a20582bddcf90c2d2277c753a431ad47`.
+- `fix_story_a11y_followups_alt_original_scope`: `d318dfd5ee3655f7d292896b6ec50dd077d9ff6c`.
+
+Both local branches now track their fork counterparts; the Galaxy worktree is clean. The prior automatic approval rejection was resolved by explicit user authorization. No PR was opened; fork CI has not yet been assessed.
+
+Vault validation passes with zero errors. Tracking updates are published to galaxy-brain under the user's instruction to make sure everything is pushed; unrelated working changes are preserved.

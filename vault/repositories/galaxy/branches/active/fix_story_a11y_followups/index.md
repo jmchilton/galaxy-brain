@@ -5,11 +5,11 @@
 
 ## Status
 
-READY locally; publication awaits explicit approval after automatic review rejected the fork push.
+READY; both reviewed branches published to `jmchilton/galaxy` on 2026-10-20.
 
 No PR opened.
 
-Local and real Chromium checks pass; fork CI has not run because neither branch was pushed.
+Local and real Chromium checks pass; fork CI has not yet been assessed.
 
 ## Base and scope
 
