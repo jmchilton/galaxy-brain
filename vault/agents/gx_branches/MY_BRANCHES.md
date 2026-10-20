@@ -44,6 +44,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`issue_24264_library_metadata_file_name_25.1`](../../repositories/galaxy/branches/active/issue_24264_library_metadata_file_name_25.1/index.md) — Library folder listing/dataset serialization no longer 500s when a nested object store can't locate a dataset (metadata file + `extra_files_path` paths degrade to null) (#24264). Base `release_25.1`, head `654118f2dd6`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24264_library_metadata_file_name_25.1?expand=1).
 - [`issue_22598_login_prompt_26.2`](../../repositories/galaxy/branches/active/issue_22598_login_prompt_26.2/index.md) — Prompts anonymous shed users to log in for Changelog/Contents, then returns them (#22598). Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_22598_login_prompt_26.2?expand=1).
 - [`issue_24200_workflow_input_validators`](../../repositories/galaxy/branches/active/issue_24200_workflow_input_validators/index.md) — Keeps workflow parameter input validators as declared through import, export, run and editor re-save; 400 on invalid ones (#24200). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24200_workflow_input_validators?expand=1).
 
