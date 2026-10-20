@@ -44,6 +44,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`issue_22598_login_prompt_26.2`](../../repositories/galaxy/branches/active/issue_22598_login_prompt_26.2/index.md) — Prompts anonymous shed users to log in for Changelog/Contents, then returns them (#22598). Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_22598_login_prompt_26.2?expand=1).
 - [`fix_story_a11y_followups`](../../repositories/galaxy/branches/active/fix_story_a11y_followups/index.md) — Names chat send and repairs classic Popper keyboard close/Escape focus return. Base `dev`; 74 related tests, types, lint and real Chromium pass; reviewed at `d843b804a20`. Both branch and original-scope alternative pushed to `jmchilton/galaxy` on 2026-10-20; fork CI pending assessment.
 
 - [`issue_24200_workflow_input_validators`](../../repositories/galaxy/branches/active/issue_24200_workflow_input_validators/index.md) — Keeps workflow parameter input validators as declared through import, export, run and editor re-save; 400 on invalid ones (#24200). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24200_workflow_input_validators?expand=1).

@@ -1,0 +1,3 @@
+- [26.2] Prompt anonymous Tool Shed users to log in for Changelog and Contents
+- [26.2] Replace the Tool Shed's anonymous "Forbidden" Contents with a login prompt
+- [26.2] Log in, then return, for Tool Shed Changelog and Contents

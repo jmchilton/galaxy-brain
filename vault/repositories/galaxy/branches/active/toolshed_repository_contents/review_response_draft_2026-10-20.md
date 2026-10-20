@@ -13,7 +13,7 @@ Something like `location ~ ^/api/repositories/[^/]+/revisions/[0-9a-f]{12}/files
 
 **Old `/repos/<owner>/<name>/file/tip` links.** On the main shed nginx answers these with 403 before the app sees them, so an in-app redirect only helps once nginx passes anonymous `/repos/*/*/file/*` through. If that's acceptable, the hg controller could send anonymous `file/<rev>[/<path>]` views to `/repositories/<id>/contents?file=<path>`, with `revision=` set when `<rev>` is a downloadable hash. I'd rather do that as a follow-up, since it touches the route that serves `hg clone`.
 
-**Login prompt for 26.2.** <!-- John: is a ~10-line "Log in to browse contents / changelog" PR coming against release_26.2? yes/no -->
+**Login prompt for 26.2.** Agreed, and it's built as a separate `release_26.2` branch (`jmchilton:issue_22598_login_prompt_26.2`). Anonymous users get "Log in to view changelog" and "Log in to browse contents", and `/login?redirect=` brings them back to the hgweb view, accepting only paths on the same site. It's a bit over your 10 lines because the login page had no return URL. A PR is coming.
 
 **Core `allow_cors` changes.** They're two separate commits, `a7bffd9cce8` (preflights don't inherit `response_model`) and `a0347a08d9f` (`Vary: Origin`), and I can split them into their own PR if you'd prefer.
 
