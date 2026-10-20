@@ -133,7 +133,7 @@ The fix commits follow. `split_numeric_bounds` couldn't be extracted first becau
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? An "N is out of range!" alert with the value corrected to the bound; for saved inverted bounds, a 400 and an editor step error naming the input and both bounds.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes - they go through `get_runtime_inputs`/`to_dict`/`validate`, `get_inputs`, `get_errors`; vitest checks emitted values and the rendered alert.
