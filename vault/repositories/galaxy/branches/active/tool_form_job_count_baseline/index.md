@@ -7,11 +7,11 @@ The leading baseline tests and refactor commits of [`tool_form_job_count`](../to
 
 ## Status
 
-`ready`: approved by John 2026-10-17 at `bd218fccaef` (title "Branch refactoring and tests to enable tool form job counts"), an exact prefix of `tool_form_job_count`.
+`ready`: rebased 2026-10-20 onto dev `93b3c85e532` at `7eabdaa4aed`, still an exact prefix of `tool_form_job_count`. To resolve the commit 6 conflict, `tool_form_select_collection` now builds on dev's `tool_form_select_data`. John approved `bd218fccaef` on 2026-10-17 with the title "Branch refactoring and tests to enable tool form job counts".
 
-PR [#24217](https://github.com/galaxyproject/galaxy/pull/24217) undrafted by John 2026-10-19; mergeable.
+PR [#24217](https://github.com/galaxyproject/galaxy/pull/24217) was approved by mvdbeek 2026-10-20 with one question and three nits ([response](pr_review_response.md)); it is mergeable.
 
-CI green on `bd218fccaef` (51 checks, no failures).
+CI is pending on `7eabdaa4aed`. `test_rerun_dataset_collection_element` hasn't been run locally since the conflict resolution.
 
 ## Polish
 

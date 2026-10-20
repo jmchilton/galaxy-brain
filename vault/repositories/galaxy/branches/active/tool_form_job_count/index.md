@@ -7,11 +7,11 @@ Previews tool job counts before Run, with expansion and mismatch warnings; Run d
 
 ## Status
 
-`branches_ready_for_final_review`: polished 2026-10-17 at `db1fba6634a` (rebased onto `origin/dev` `7c86d742327`), waiting on John's read-through.
+`branches_ready_for_final_review`: polished 2026-10-17 and rebased with the baseline 2026-10-20 onto dev `93b3c85e532` at `b1d864e0bab`; waiting on John's read-through. Open question: the form submits through async tool requests by default, so the preview's counts need to match that path too ([baseline review response](../tool_form_job_count_baseline/pr_review_response.md)).
 
 No PR yet. The baseline commits are split out as [`tool_form_job_count_baseline`](../tool_form_job_count_baseline/index.md), meant to land first.
 
-Fork CI is pending on `db1fba6634a`. The Client Unit red on the previous head (FormBoolean/FormCheck/FormOptionalText) is pre-existing on dev.
+Fork CI is pending on `b1d864e0bab`.
 
 ## Polish
 
