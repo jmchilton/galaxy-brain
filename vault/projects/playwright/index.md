@@ -44,6 +44,8 @@ removes the last `selenium_only` decorator. It is no longer a goal.
 - `GALAXY_UI_SKILL_LOOP.md` — setup/drive/verify/report/triage loop over GTN tutorials and IWC workflows, with arm comparison and token measurement.
 - `GALAXY_UI_SKILL_RUNS.md` — run ledger: per-run metrics, verification, and findings for the skill, abstractions and training.
 - `galaxy_ui_loop/` — eval harness source (Codex runner, prompt, metrics, verify) and spike scripts; gxui itself lives in Galaxy on `galaxy_ui_driver`, the skill on galaxy-skills. State lives in `~/.cache/gxui-loop` and `~/.cache/gxui`.
+- `HARDEN_AGAINST_FAQ.md` — FAQ variant of the loop: review or drive each GTN FAQ against 26.2, report GTN/Galaxy findings, save a gxui replay.
+- `faqs_26_2.yaml` + `FAQS_YAML_SCHEMA.md` — 26.2 FAQ checklist (497 FAQs) and its schema; `training_findings/26.2/` mirrors GTN paths.
 - `TEST_STORIES_RESCUE.md` — plan for recovering PR #21199's Test Stories feature as small branches off dev, minus the Jupyter work.
 
 ### Archive (`archive/`)

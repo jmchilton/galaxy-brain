@@ -5,6 +5,11 @@ tutorial or an IWC workflow), has it do the work through the UI, and gets back s
 skill, the abstractions and the training material. Skill design:
 [GALAXY_UI_SKILL_DESIGN.md](GALAXY_UI_SKILL_DESIGN.md).
 
+**Target: `release_26.2`** (John, 2026-10-20). Runs drive the `galaxy_ui_driver` branch, which is
+based on `release_26.2` so that 26.2 QA exercises the release's `navigation.yml` and UI. This
+holds until the final gxui PR, which targets dev. The FAQ variant of this loop is
+[HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md).
+
 ## One iteration
 
 ```
@@ -15,7 +20,7 @@ target ─▶ 1 setup (harness) ─▶ 2 drive (agent, one arm) ─▶ 3 verify 
 
 ### 1. Setup (scripted, not the agent)
 
-- **Galaxy.** A worktree on dev started **without** `GALAXY_RUN_WITH_TEST_TOOLS`. Use the
+- **Galaxy.** The `galaxy_ui_driver` worktree (on `release_26.2`; see above), started **without** `GALAXY_RUN_WITH_TEST_TOOLS`. Use the
   `drive-scenario` `galaxy.yml` block: Docker job conf, `conda_auto_install: false`, and job
   caching so re-runs are cheap.
 - **Tools.**
