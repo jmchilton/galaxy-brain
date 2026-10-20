@@ -15,3 +15,7 @@ No production or test changes were reviewed or needed. No broad suite or fresh b
 ## Follow-up: direct and concise argument
 
 Reviewed the subsequent opening/problem/solution rewrite. No blocking findings. The presentation link is the only remaining slide/presentation reference in the pitch. The argument now stands on its own: concise benefits, concrete review costs, then a direct explanation of the proposed workflow. It retains the accurate 283-line baseline-preparation distinction, acknowledges related refresh problems, labels the dataset stories as proposed, and preserves the browser-CI/accessibility prerequisites and unmeasured review-time claim. Shortening the CSS example does not claim that its existing test proves viewport geometry. Existing code examples remain outside the edited opening. No further test execution is warranted for this prose-only follow-up.
+
+## Follow-up: remove recorded-response section
+
+Reviewed the diff against HEAD: it removes exactly the requested recorded-response heading and its two paragraphs. The adjacent Lint example and Bugs found section remain intact, and no source changes accompany the deletion. No findings or test execution needed.

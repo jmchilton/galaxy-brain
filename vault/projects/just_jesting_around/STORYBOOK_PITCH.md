@@ -202,12 +202,6 @@ The unit test mocks `useInfiniteScroll` and calls the loader by hand. The plays 
 
 The old test linted a detached copy of the workflow before filling the step store. So a wired input looked disconnected, and a January 2026 change had baselined the expectations to that. The story renders Lint over the real store, the way the editor does, and the input reads as connected. The 2023 expectations come back. The disconnected case is now its own story.
 
-## Recorded API responses are a complementary improvement
-
-A payload can type-check and still describe a response Galaxy never sends. The separate [`vitest_real_api_calls` prototype](https://github.com/jmchilton/galaxy/tree/vitest_real_api_calls), now based directly on readability, records backend responses and loads typed fixtures for history-summary and disk-usage tests ([#24030](https://github.com/galaxyproject/galaxy/issues/24030)). It improves fixture fidelity whether a test uses stories or stays in a unit suite.
-
-The story catalog still uses typed hand-written handlers. Recording real responses is a complementary step, with live capture and CI validation still separate work.
-
 ## Bugs found and what remains
 
 Role/name queries and realistic API responses exposed product problems as well as test problems. The early reports included storage badge HTML ([#24031](https://github.com/galaxyproject/galaxy/issues/24031)), tooltip names ([#24035](https://github.com/galaxyproject/galaxy/issues/24035)), unnamed collapse controls ([#24036](https://github.com/galaxyproject/galaxy/issues/24036)) and unnamed dialogs ([#24037](https://github.com/galaxyproject/galaxy/issues/24037)). These are discovery examples, not a current list of unfixed code: shared-control and form repairs landed in [#24046](https://github.com/galaxyproject/galaxy/pull/24046), although those issue records remain open at the October 20 check.
