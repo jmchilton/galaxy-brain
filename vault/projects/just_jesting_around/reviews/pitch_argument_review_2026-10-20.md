@@ -11,3 +11,7 @@ Independent normal review of the current `STORYBOOK_PITCH.md` diff, following th
 - Reviewed the final simplifications to API-fixture provenance, the tooling cost list and the accessibility section. They make the benefits easier to follow while preserving the limits: recorded responses are a separate prototype, current handlers are hand-written, viewport presets are not a screenshot matrix, and strict failures and historical exceptions still need work. Moving accessibility configuration and exception mechanics into an expandable section does not hide the adoption requirement.
 
 No production or test changes were reviewed or needed. No broad suite or fresh benchmark was run for this prose-only revision.
+
+## Follow-up: direct and concise argument
+
+Reviewed the subsequent opening/problem/solution rewrite. No blocking findings. The presentation link is the only remaining slide/presentation reference in the pitch. The argument now stands on its own: concise benefits, concrete review costs, then a direct explanation of the proposed workflow. It retains the accurate 283-line baseline-preparation distinction, acknowledges related refresh problems, labels the dataset stories as proposed, and preserves the browser-CI/accessibility prerequisites and unmeasured review-time claim. Shortening the CSS example does not claim that its existing test proves viewport geometry. Existing code examples remain outside the edited opening. No further test execution is warranted for this prose-only follow-up.

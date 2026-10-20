@@ -2,47 +2,31 @@
 
 [Presentation: client testing and review time](https://jmchilton.net/slides/client-testing/#/4)
 
-- **See the behavior you are approving.** Open a named component state and watch its test run step by step, instead of reconstructing the screen from mocks and mount code.
-- **Make test setup reusable.** The same story supplies the state for browsing, unit checks and browser interactions.
-- **Check what users experience.** Exercise real styles, focus, scrolling, teleports and sanitization in Chromium, with assertions on visible behavior.
-- **Find accessibility problems while writing tests.** Query controls by their names and roles, and run automated accessibility checks on the rendered states.
-- **Build a catalog for future UI work.** Give developers and reviewers concrete states to inspect during component migrations, with a foundation for later visual regression checks.
+- **Review behavior directly.** Open a component state and watch its test run step by step.
+- **Reuse setup.** Browse and test the same named scenarios instead of rebuilding them in each test.
+- **Test in a real browser.** Exercise styles, focus, scrolling and interactions together in Chromium.
+- **Catch accessibility problems.** Check rendered states and find controls by the names users rely on.
+- **Make UI changes easier to inspect.** Build a catalog of states for component migrations and future visual regression checks.
 
-Galaxy needs client tests that a human can afford to review. Storybook gives us a way to turn dense setup and assertions into named, visible scenarios. A reviewer can read the intent, open the state and follow the interaction. That makes the test useful beyond the moment it turns CI green.
+Move component setup into Storybook stories and user-visible assertions into browser play functions. A reviewer should be able to open the scenario, see what changes and follow the checks. Keep unit tests for logic, request contracts and controlled timing.
 
-The proposal builds on [#24038's readability work](https://github.com/galaxyproject/galaxy/pull/24038): move component setup into browsable stories, then move user-visible checks into play functions that run in Chromium. Keep unit tests for request contracts, spies, controlled timing and logic. The prototype already demonstrates this across 100 story files; adopting it still requires browser CI and work on the accessibility findings.
+## Our tests are too much work to review
 
-## The status quo asks too much of reviewers
+Small client fixes routinely arrive with much larger tests. The [datatype request fix (#23995)](https://github.com/galaxyproject/galaxy/pull/23995) and [retry/count fix (#24141)](https://github.com/galaxyproject/galaxy/pull/24141) each carried roughly three times as much test diff as production diff. Before judging the fix, a reviewer has to reconstruct the screen from API fixtures, store setup, mocks and timing helpers. The intended behavior gets buried in the machinery used to test it.
 
-### Small fixes arrive with a second implementation to understand
+The dataset-edit alert failure in [#24273](https://github.com/galaxyproject/galaxy/issues/24273) is another example. Saving attributes triggered a background refresh that unmounted the Edit tab and lost the alert. Keeping that result visible sounds small, but preparing the fix required a separate PR, [#24297](https://github.com/galaxyproject/galaxy/pull/24297), with **283 added lines of baseline tests**, plus refactoring and a backport. These establish existing behavior before the fix; the refresh investigation also uncovered related problems. Splitting the preparation helps review, but adds another PR to understand before we can fix the original failure.
 
-The slides start with a practical problem: Galaxy's client was making enough API requests to hit rate limits. Fixing the fan-out was necessary, but reviewing those fixes meant reading roughly three times as much test diff as production diff. The [datatype fix (#23995)](https://github.com/galaxyproject/galaxy/pull/23995) and [retry/count fix (#24141)](https://github.com/galaxyproject/galaxy/pull/24141) are now merged. The review burden they illustrate remains.
+Some of this machinery exists because our unit environment does not run the UI as a browser does. The [popover-width fix (#23910)](https://github.com/galaxyproject/galaxy/pull/23910) changed one CSS selector and needed a 50-line test that reads the Vue source, compiles and injects its styles, then checks a width cap. The reviewer must understand that workaround as well as the bug, and still cannot see whether the popover fits on screen.
 
-A reviewer has to establish more than whether the assertions look plausible. They need to work out which state the mocks create, whether that state can occur in Galaxy, how the harness drives it and whether the assertions would catch the reported bug. Setup, timing machinery and expected behavior are often interleaved. The behavior can be a few lines hidden inside a much larger test.
+Better fixtures and shared helpers help. They do not make the rendered state visible, and hand-written API responses can describe states the server never sends. Difficult tests can also signal that a component needs better boundaries; an agent can instead generate an elaborate harness around it, leaving a human with two complicated pieces to understand. Generating tests faster does not make them easier to trust.
 
-Today, fixing the dataset-edit alert failure reported in [#24273](https://github.com/galaxyproject/galaxy/issues/24273) led to a separate preparation PR, [#24297](https://github.com/galaxyproject/galaxy/pull/24297). Saving dataset attributes triggered a background refresh that unmounted the Edit tab and lost its alert. The user-facing requirement is straightforward: keep the saved result visible while the dataset refreshes.
+## Make the scenario visible
 
-Before that fix could be reviewed, the preparation PR added **283 lines of baseline tests** across four test files, alongside component refactoring and an upstream backport. Those tests establish existing behavior; they are not 283 lines of assertions for the alert fix itself. Splitting them out makes the eventual fix easier to audit, but it also means another PR and another body of setup to understand before addressing the original bug. The correct fix grew as related refresh behavior was investigated; the point is how much preparation and review a small user-facing failure can demand.
+A story names a state and owns its setup. A play performs an interaction and checks the visible result in Chromium. Reviewers can inspect the same state the test uses and watch each step succeed or fail.
 
-With stories, the useful states could be explicit: an Edit tab after a successful save, the same tab during a background refresh, and a refresh that fails while existing content remains visible. A reviewer could inspect those states and watch the alert survive the refresh. Precise request-order and race checks would still belong in units. This is the kind of review experience the proposal aims to make routine; the dataset fix has not been converted here.
+For the dataset-edit bug, that could mean watching a save alert remain visible through a background refresh, with another scenario showing a failed refresh that preserves existing content. Request-order and race checks would stay in unit tests. Those dataset scenarios are proposed examples, not conversions already in this prototype.
 
-### A simulated DOM makes the harness part of the problem
-
-The slides' [popover-width fix (#23910)](https://github.com/galaxyproject/galaxy/pull/23910) changed one selector but needed a 50-line regression test. The test reads the Vue source, compiles and injects its CSS, mounts the component and checks a computed width cap. The popover content moves under `body`, where the old descendant selector no longer matches.
-
-That is useful protection, but a reviewer must understand the CSS-loading workaround as well as the selector bug. It still does not show whether the popover fits the viewport or clips its contents. Browser stories load the real styles and expose the rendered result for inspection; plays can check selected properties, and future screenshot comparisons could check appearance.
-
-### Cleaner test code helps, but the scenario should be visible too
-
-Shared fixtures and mount helpers are a worthwhile first step. The readability branch does that work. Recorded API responses are another: a hand-written payload can type-check while describing a response Galaxy never sends. Both reduce the amount a reviewer has to reconstruct.
-
-There is also a design cost. Difficult unit tests can tell a developer that a component needs better boundaries. An agent can bypass that signal by generating a more elaborate harness around the existing implementation. The result may pass while leaving a human to understand two complicated pieces. Stories do not solve poor decomposition, but they give humans and agents a shared description of the behavior that can be opened and challenged.
-
-Faster test authoring does not automatically mean faster review. We need tests that communicate why a change is correct, as well as tests that execute quickly.
-
-## Put the scenario in front of the reviewer
-
-A story names a state worth inspecting. A play describes what the user does and what they should see. The same setup can also be mounted by a unit test when the check needs a spy, an exact payload or a controlled clock.
+This builds on [#24038's readability work](https://github.com/galaxyproject/galaxy/pull/24038). The prototype spans 100 story files and already exposes behavior hidden by mocks. Adoption still needs browser CI and work on the accessibility findings. The case is for clearer, more inspectable tests; review-time savings have not been measured.
 
 ```mermaid
 flowchart LR
@@ -55,8 +39,6 @@ flowchart LR
     STORIES -->|"what a user can see"| PLAYS
     STORIES -->|"spies, payloads, timing"| UNIT
 ```
-
-The benefit is an inspectable test: read the scenario, see the state, then watch the checks. The examples below show what that changes in practice. Review-time savings are the hypothesis to evaluate, not a measurement this prototype has established.
 
 ## Stories Make Tests Easier to Review
 
