@@ -1,10 +1,10 @@
 # issue_24199_workflow_numeric_bounds_26.0
 
-Status: `ready` — PR [#24212](https://github.com/galaxyproject/galaxy/pull/24212) undrafted by John 2026-10-19 (opened as draft 2026-10-17, title option 1, labels from pr_tags.md; screenshots on `pr-assets-issue_24199_workflow_numeric_bounds_26.0`); CI green on `8df2892c73f` (61 checks), mergeable. Polish: [debrief](polish_debrief.md). Base: `release_26.0` (`a6544be047d`). Head: `8df2892c73f`. Fork: `jmchilton/issue_24199_workflow_numeric_bounds_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24199_workflow_numeric_bounds_26.0`.
+Status: `attention` — PR [#24212](https://github.com/galaxyproject/galaxy/pull/24212) undrafted by John 2026-10-19 (opened as draft 2026-10-17, title option 1, labels from pr_tags.md; screenshots on `pr-assets-issue_24199_workflow_numeric_bounds_26.0`). mvdbeek reviewed 2026-10-20 (no correctness issues); his follow-ups ([jmchilton/galaxy#94](https://github.com/jmchilton/galaxy/pull/94)) fast-forwarded in; reply and live description update pending. CI pending on `9de668ec5b4`. Polish: [debrief](polish_debrief.md). Base: `release_26.0` (`a6544be047d`). Head: `9de668ec5b4`. Fork: `jmchilton/issue_24199_workflow_numeric_bounds_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24199_workflow_numeric_bounds_26.0`.
 
 Fixes [#24199](https://github.com/galaxyproject/galaxy/issues/24199): integer/float workflow input bounds were validated server-side but never sent to the run form, so no slider or range warning. Also bounds the editor's Default Value field; inverted saved bounds give a clear 400 and an editor step error.
 
-[PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [Polish debrief](polish_debrief.md) · [Implementation](implementation_debrief.md) · [Initial implementation](implementation_initial_debrief.md) · [Rescope](implementation_rescope_debrief.md) · [Normal review](subagents/normal_review.md) · [Rescope review](subagents/rescope_review.md) · [K1 review](subagents/k1_review.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Refactor baseline](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Alt: original scope](alts/original_scope.md) · [Earlier hardening](earlier_drafts/1/)
+[PR description](pr_description.md) · [mvdbeek review reply](review_response_mvdbeek.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [Polish debrief](polish_debrief.md) · [Implementation](implementation_debrief.md) · [Initial implementation](implementation_initial_debrief.md) · [Rescope](implementation_rescope_debrief.md) · [Normal review](subagents/normal_review.md) · [Rescope review](subagents/rescope_review.md) · [K1 review](subagents/k1_review.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Refactor baseline](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Alt: original scope](alts/original_scope.md) · [Earlier hardening](earlier_drafts/1/)
 
 ## Decisions
 
@@ -17,7 +17,8 @@ Fixes [#24199](https://github.com/galaxyproject/galaxy/issues/24199): integer/fl
 
 ## Follow-ups
 
-- K2: live inverted-bounds feedback via `build_module`; editor save drops step errors.
+- Editor save drops step errors (live `build_module` feedback landed via mvdbeek's #94).
+- Out-of-range saved default (e.g. 9 with bounds 1–5) shows `9` beside a slider at 5; `FormNumber` only range-checks on change. Declined clamping on load: shared with tool forms, emitting `input` on mount dirties editor state and silently changes the submitted value; server still rejects it at run.
 - `step_state_to_tool_state` collapses persisted `in_range` validators (drops `negate`, `exclude_*`, `message`; last wins).
 - Rejected value `0` leaves `%s` in validator messages.
 - Merge order with [#24282](https://github.com/galaxyproject/galaxy/pull/24282) (keeps declared validators — negate, multiple ranges; absorbed the abandoned `issue_24200_workflow_input_validators`): `split_numeric_bounds` assumes one collapsed inclusive `in_range`; whichever lands second must handle the other.

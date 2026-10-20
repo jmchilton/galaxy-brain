@@ -5,7 +5,6 @@ Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #242
 ## Open Galaxy PRs — ready from our side (`ready`)
 
 - [`tool_form_job_count_baseline`](../../repositories/galaxy/branches/active/tool_form_job_count_baseline/index.md) — Baseline tests, shared batch classifier and form-input path refactors ahead of `tool_form_job_count`. [#24217](https://github.com/galaxyproject/galaxy/pull/24217).
-- [`issue_24199_workflow_numeric_bounds_26.0`](../../repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/index.md) — Workflow int/float bounds reach run form + editor Default field; inverted bounds give a clear 400 and step error (#24199). Base `release_26.0`. [#24212](https://github.com/galaxyproject/galaxy/pull/24212).
 - [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects restricted text-input defaults and permits allowed empty options on 26.2. [#24140](https://github.com/galaxyproject/galaxy/pull/24140).
 - [`container_tool_env`](../../repositories/galaxy/branches/active/container_tool_env/index.md) — Adds destination job/tool environment scopes and tool-declared container runtime variables. Base `release_26.2`. [#23815](https://github.com/galaxyproject/galaxy/pull/23815).
 - [`issue_24221_paged_map_over_options_26.1`](../../repositories/galaxy/branches/active/issue_24221_paged_map_over_options_26.1/index.md) — Paged collection options keep a collection's map-over entry, and it's selectable with a "(one job per …)" label (#24221). Base `release_26.1`. [#24228](https://github.com/galaxyproject/galaxy/pull/24228).
@@ -21,6 +20,7 @@ Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #242
 ## Open Galaxy PRs — needs attention (`attention`)
 
 - [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.
+- [`issue_24199_workflow_numeric_bounds_26.0`](../../repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/index.md) — Workflow int/float bounds reach run form + editor Default field; inverted bounds give a clear 400 and step error (#24199). Base `release_26.0`. [#24212](https://github.com/galaxyproject/galaxy/pull/24212).
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 

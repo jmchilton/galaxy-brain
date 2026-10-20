@@ -9,7 +9,7 @@ A workflow author can set a minimum and maximum on an integer or float input in 
 
 ***Server validation is unchanged: API and invocation requests get an equivalent range check with the same messages. This PR only gives the form the bounds Galaxy was already enforcing.*** The one server-side difference is saved inverted bounds (min > max), which now get a 400 naming the input instead of a 500.
 
-***Out-of-range values are corrected on blur with a visible "N is out of range!" alert, which is how bounded tool inputs already behave.*** ***Bounds are still stored and exported as an `in_range` validator; only the form receives them as `min`/`max`.*** ***Tool forms change only at two `FormNumber` edge cases: a min-only field now corrects to the min instead of emptying, and clearing an optional bounded field no longer snaps it to a bound.***
+***Out-of-range values are corrected on blur with a visible "N is out of range!" alert, which is how bounded tool inputs already behave.*** ***Bounds are still stored and exported as an `in_range` validator; only the form receives them as `min`/`max`.*** ***Tool forms change only at two `FormNumber` edge cases: a min-only field now corrects to the min instead of emptying, and clearing a bounded field no longer snaps it to a bound.***
 
 <details><summary>More before/after</summary>
 
@@ -25,7 +25,7 @@ A workflow author can set a minimum and maximum on an integer or float input in 
 |---|---|
 | ![](screenshots/before_editor_default_value_out_of_range.png) | ![](screenshots/after_editor_default_value_out_of_range.png) |
 
-**Saved inverted bounds (min 5, max 1).** Before: the editor loads it with no sign of a problem, and the run form fails with "Uncaught exception in exposed API method:" (a 500). After: the editor's existing "Issues loading this workflow" step error names the input, and the run form returns a 400 with the same message.
+**Saved inverted bounds (min 5, max 1).** Before: the editor loads it with no sign of a problem, and the run form fails with "Uncaught exception in exposed API method:" (a 500). After: the editor's existing "Issues loading this workflow" step error names the input, and the run form returns a 400 with the same message. While editing, the node shows the same error as soon as min > max is entered and clears it once fixed.
 
 | Before | After |
 |---|---|
@@ -38,10 +38,10 @@ A workflow author can set a minimum and maximum on an integer or float input in 
 
 - **Run form** (`InputParameterModule.get_runtime_inputs`): the editor's `in_range` validator is passed to the integer/float parameter as `min`/`max`. The parameter adds an equivalent implicit range validator, so validation runs once with the same messages (`test_parameter_input_range_is_validated_once` pins them).
 - **Editor Default Value** (`get_inputs` → `get_default_parameter`): the same bounds, using shared helpers `split_numeric_bounds` / `numeric_bounds_inverted` in `workflow_parameter_input_definitions.py`.
-- **Inverted bounds**: `get_runtime_inputs` raises `RequestParameterInvalidException` naming the input. `InputParameterModule.get_errors()` returns the same message, so the editor's existing step-error path (load modal, red node, import validation errors) reports it. The editor's Default field falls back to unbounded so the author can still open and fix the step.
+- **Inverted bounds**: `get_runtime_inputs` raises `RequestParameterInvalidException` naming the input. `InputParameterModule.get_errors()` returns the same message, so the editor's existing step-error path (load modal, red node, import validation errors) reports it. `build_module` now falls back to `module.get_errors()` when the form has no parameter errors, so the node flags it live; load already sent these step errors as a string, so the client needs no change. The editor's Default field falls back to unbounded so the author can still open and fix the step.
 - **`FormNumber.vue`**, two fixes needed once workflows send one-sided bounds and optional bounded fields:
   - Min-only fields corrected an out-of-range value to `null` (`value > this.max` with `max: null` picked the wrong branch). They now correct to the minimum.
-  - Clearing an optional bounded field warned and snapped to a bound, because `""` compared as 0. An empty field is now treated as unset.
+  - Clearing a bounded field warned and snapped to a bound, because `""` compared as 0. An empty field is now treated as unset; a required field stays empty and the form's required-value check reports it.
 
   Both also apply to tool inputs with these bounds.
 
@@ -56,7 +56,8 @@ The main one-way risk is behavioral: existing bounded workflow inputs now correc
 - Every existing workflow whose integer/float input has bounds gets the alert and value correction on its run form, and a slider if both bounds are set. A user who typed an out-of-range value used to get a server error; now the value is corrected to the bound on blur, with an alert that dismisses itself after 4 seconds.
 - Workflows with saved `min > max` now show a step error in the editor and on import (`has_errors`, a warning that blocks nothing). They could not run before either: the run form returned a 500. After the load modal, the editor also marks the workflow "(unsaved changes)".
 - `split_numeric_bounds` reads the first `in_range` validator as plain inclusive `min`/`max`. On `release_26.0`, `step_state_to_tool_state` already reduces persisted range validators to that shape (dropping `negate`/`exclude_*`), so the form shows what the server enforces. `issue_24200_workflow_input_validators` (in progress) preserves those flags, so whichever of the two lands second has to reconcile them.
-- The `FormNumber` fixes reach tool inputs: a tool parameter with only a `min` now corrects to the min instead of emptying the field, and clearing an optional bounded tool field no longer snaps it to a bound.
+- The `FormNumber` fixes reach tool inputs: a tool parameter with only a `min` now corrects to the min instead of emptying the field, and clearing a bounded tool field no longer snaps it to a bound.
+- `build_module` now returns `module.get_errors()` for every step type while editing (e.g. a tool that isn't installed, or a subworkflow's step errors). These are the messages the editor already shows on load; they now also appear after an edit instead of being cleared until reload.
 
 </details>
 
@@ -77,11 +78,11 @@ Range bounds for workflow inputs came from 🔀 #19092, which saved them as vali
 <details><summary>Expanded slightly: inverted bounds are now also flagged where they are entered (the editor), not only where they fail.</summary>
 
 - Kept: run-form bounds, the `FormNumber` fixes, the editor Default Value bounds the issue names as a related follow-up, and a 400 instead of a 500 for inverted bounds.
-- Added: `get_errors()` reports inverted bounds through the existing step-error path, in about 10 lines that reuse the branch's helpers.
+- Added: `get_errors()` reports inverted bounds through the existing step-error path, in about 10 lines that reuse the branch's helpers. Review follow-up: `build_module` reports it live while editing.
 - Deferred:
-  - live feedback while editing bounds (needs `build_module` and client work)
+  - surfacing step errors in the editor's save response (save drops them today)
   - `%s` left in validator messages when the rejected value is `0` (shared `tool_util_models`)
-  - flagging out-of-range saved defaults (would change behavior on existing data)
+  - flagging or correcting out-of-range saved defaults (would change behavior on existing data; `FormNumber` only range-checks on change, so a saved `9` with bounds 1–5 shows `9` beside a slider at `5`)
   - carrying bounds as bounds instead of round-tripping through a validator (export-contract change)
 - Contracting to the original scope was rejected: it keeps the 500 and doesn't avoid the Selenium assertion change.
 
@@ -161,14 +162,13 @@ The fix commits follow. `split_numeric_bounds` couldn't be extracted first becau
 - [x] I've included appropriate [automated tests](https://docs.galaxyproject.org/en/latest/dev/writing_tests.html).
   <details><summary>Tests</summary>
 
-  - `test/unit/workflows/test_modules.py`: bounds reach the run form (int, float, single-bound, coerced float), are validated once with unchanged messages, bound the editor Default field (including after bounds are edited, in `build_module` order), and inverted bounds raise / flag `get_errors()`.
-  - `lib/galaxy_test/api/test_workflows.py`: run-form bounds, the inverted-bounds 400, and inverted bounds flagged in the editor view.
-  - `FormNumber.test.js`: single-bound correction and clearing an optional bounded field.
+  - `test/unit/workflows/test_modules.py`: bounds reach the run form (int, float, single-bound, coerced float), are validated once with unchanged messages, bound the editor Default field (including after bounds are edited, in `build_module` order), inverted bounds raise / flag `get_errors()`, and cleared bounds count as unbounded (`split_numeric_bounds`).
+  - `lib/galaxy_test/api/test_workflows.py`: run-form bounds, the inverted-bounds 400, and inverted bounds flagged in the editor view and `.ga` export.
+  - `lib/galaxy_test/api/test_workflow_build_module.py`: `build_module` flags inverted bounds and clears the error once fixed.
+  - `FormNumber.test.js`: single-bound correction and clearing an optional or required bounded field.
   - `lib/galaxy_test/selenium/test_workflow_editor.py`: the two updated editor-to-run-form tests above, with screenshots.
 
   </details>
 
 ## License
 - [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
