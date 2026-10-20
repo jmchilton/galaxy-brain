@@ -1,0 +1,10 @@
+# Review branch `pr_24111_review_0`
+
+This branch starts at the reviewed commit `a55b2374`. It makes all three login paths use one post-login redirect check. That check lives in `galaxy.util` (`is_safe_login_redirect(..., base_url=)`) and is called through `authnz.is_allowed_login_redirect`, which also logs refused targets. Password login now refuses the same ambiguous spellings as OIDC, including surrounding whitespace. The branch also keeps the URL-safe character set in one place and adds the Keycloak tests and the password-login integration test that the PR was missing. The server and client redirect test vectors now match, and two tests are made more robust. In total it changes 11 files, +286/−129.
+
+- `74953438e2f` Share post-login redirect check across root, authnz and user controllers. Moves `_is_absolute_url_to` into `is_safe_login_redirect` as `base_url=`, so the redirect check, and its warning message, is now written in one place; a red-to-green whitespace case is added to `test_login.py`, plus `base_url` unit tests.
+- `26f9d9b5503` Share URL_SAFE_CHARACTERS via galaxy.util instead of a second copy. `authnz.py` and `files/sources/http.py` now import one constant.
+- `19937499cbb` Align server and client login-redirect test vectors; use it.each. Each side gains the cases only the other side had; both implementations agree on all of them.
+- `d450267c80f` Restore window.location.href even when LoginForm redirect test fails. Moves the restore into `try/finally`.
+- `55bf7fdd58a` Cover OIDC landing decision and external/refused destinations in Keycloak tests. Adds four Keycloak tests: deep-link first login, refused `next` that lands on `user/external_ids`, and confirmation to an allowed or a refused external host. Also asserts the `user/external_ids` path in `test_oidc_login_new_user`.
+- `7d4f7412e10` Parametrize password-login redirect test; add integration test under url prefix. Parametrizes `test_login_redirect` and adds `test/integration/test_login_redirect.py` (`galaxy_url_prefix` plus an allowlisted host).
