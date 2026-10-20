@@ -1,18 +1,48 @@
-# Storybook stories and play functions for client tests
+# Make client tests easier to review with Storybook
 
 [Presentation: client testing and review time](https://jmchilton.net/slides/client-testing/#/4)
 
-The proposal is to move component setup into browsable Storybook stories and user-visible checks into play functions that run in real Chromium. It builds on [#24038 (readability)](https://github.com/galaxyproject/galaxy/pull/24038). Stories name the states a reviewer can inspect; plays check those states through roles, labels and real interactions. Unit tests retain request contracts, spies, controlled timing and other checks that need those tools.
+- **See the behavior you are approving.** Open a named component state and watch its test run step by step, instead of reconstructing the screen from mocks and mount code.
+- **Make test setup reusable.** The same story supplies the state for browsing, unit checks and browser interactions.
+- **Check what users experience.** Exercise real styles, focus, scrolling, teleports and sanitization in Chromium, with assertions on visible behavior.
+- **Find accessibility problems while writing tests.** Query controls by their names and roles, and run automated accessibility checks on the rendered states.
+- **Build a catalog for future UI work.** Give developers and reviewers concrete states to inspect during component migrations, with a foundation for later visual regression checks.
 
-As of **2026-10-20**, the published prototype is `jmchilton/vitest_story_play` at `3eaa09792d6`, above `vitest_stories` at `fd5fd27f67a` and readability at `1358d378879`. Play and accessibility are now one maintained lane. Shared infrastructure comes first; story-specific plays and accessibility annotations are grouped by test. This is a prototype with known strict accessibility failures, not an open Storybook PR or an all-green browser gate.
+Galaxy needs client tests that a human can afford to review. Storybook gives us a way to turn dense setup and assertions into named, visible scenarios. A reviewer can read the intent, open the state and follow the interaction. That makes the test useful beyond the moment it turns CI green.
 
-## Why this is about review time
+The proposal builds on [#24038's readability work](https://github.com/galaxyproject/galaxy/pull/24038): move component setup into browsable stories, then move user-visible checks into play functions that run in Chromium. Keep unit tests for request contracts, spies, controlled timing and logic. The prototype already demonstrates this across 100 story files; adopting it still requires browser CI and work on the accessibility findings.
 
-A test has to communicate the behavior to the next person reviewing a change. In the slides' API fan-out examples, test additions and deletions were roughly three times the production diff; that is a substantial amount of code for a human to understand. Cleaner fixtures help, but a named state that the reviewer can open and exercise makes more of that work visible.
+## The status quo asks too much of reviewers
 
-Unit tests also provide design feedback. When a test needs elaborate mocks or is more complicated than the feature, that can tell a human to decompose the implementation. My concern with generated tests is that an agent can instead write around the existing implementation, leaving the reviewer to understand both complicated pieces. Stories do not replace good decomposition; they give agents and humans a shared, inspectable description of the behavior.
+### Small fixes arrive with a second implementation to understand
 
-Fast feedback still matters. The tradeoff includes authoring and human review time as well as CLI runtime. The historical benchmark below measures runtime; it does not measure a review-time saving. The reason to try this is that a reviewer can see the story in action and follow the assertions step by step.
+The slides start with a practical problem: Galaxy's client was making enough API requests to hit rate limits. Fixing the fan-out was necessary, but reviewing those fixes meant reading roughly three times as much test diff as production diff. The [datatype fix (#23995)](https://github.com/galaxyproject/galaxy/pull/23995) and [retry/count fix (#24141)](https://github.com/galaxyproject/galaxy/pull/24141) are now merged. The review burden they illustrate remains.
+
+A reviewer has to establish more than whether the assertions look plausible. They need to work out which state the mocks create, whether that state can occur in Galaxy, how the harness drives it and whether the assertions would catch the reported bug. Setup, timing machinery and expected behavior are often interleaved. The behavior can be a few lines hidden inside a much larger test.
+
+Today, fixing the dataset-edit alert failure reported in [#24273](https://github.com/galaxyproject/galaxy/issues/24273) led to a separate preparation PR, [#24297](https://github.com/galaxyproject/galaxy/pull/24297). Saving dataset attributes triggered a background refresh that unmounted the Edit tab and lost its alert. The user-facing requirement is straightforward: keep the saved result visible while the dataset refreshes.
+
+Before that fix could be reviewed, the preparation PR added **283 lines of baseline tests** across four test files, alongside component refactoring and an upstream backport. Those tests establish existing behavior; they are not 283 lines of assertions for the alert fix itself. Splitting them out makes the eventual fix easier to audit, but it also means another PR and another body of setup to understand before addressing the original bug. The correct fix grew as related refresh behavior was investigated; the point is how much preparation and review a small user-facing failure can demand.
+
+With stories, the useful states could be explicit: an Edit tab after a successful save, the same tab during a background refresh, and a refresh that fails while existing content remains visible. A reviewer could inspect those states and watch the alert survive the refresh. Precise request-order and race checks would still belong in units. This is the kind of review experience the proposal aims to make routine; the dataset fix has not been converted here.
+
+### A simulated DOM makes the harness part of the problem
+
+The slides' [popover-width fix (#23910)](https://github.com/galaxyproject/galaxy/pull/23910) changed one selector but needed a 50-line regression test. The test reads the Vue source, compiles and injects its CSS, mounts the component and checks a computed width cap. The popover content moves under `body`, where the old descendant selector no longer matches.
+
+That is useful protection, but a reviewer must understand the CSS-loading workaround as well as the selector bug. It still does not show whether the popover fits the viewport or clips its contents. Browser stories load the real styles and expose the rendered result for inspection; plays can check selected properties, and future screenshot comparisons could check appearance.
+
+### Cleaner test code helps, but the scenario should be visible too
+
+Shared fixtures and mount helpers are a worthwhile first step. The readability branch does that work. Recorded API responses are another: a hand-written payload can type-check while describing a response Galaxy never sends. Both reduce the amount a reviewer has to reconstruct.
+
+There is also a design cost. Difficult unit tests can tell a developer that a component needs better boundaries. An agent can bypass that signal by generating a more elaborate harness around the existing implementation. The result may pass while leaving a human to understand two complicated pieces. Stories do not solve poor decomposition, but they give humans and agents a shared description of the behavior that can be opened and challenged.
+
+Faster test authoring does not automatically mean faster review. We need tests that communicate why a change is correct, as well as tests that execute quickly.
+
+## Put the scenario in front of the reviewer
+
+A story names a state worth inspecting. A play describes what the user does and what they should see. The same setup can also be mounted by a unit test when the check needs a spy, an exact payload or a controlled clock.
 
 ```mermaid
 flowchart LR
@@ -25,38 +55,8 @@ flowchart LR
     STORIES -->|"what a user can see"| PLAYS
     STORIES -->|"spies, payloads, timing"| UNIT
 ```
-## The Process / Loop
 
-<details>
-
-Each component test goes through two passes, one commit each.
-- **Story pass.** Setup moves into a `.stories.ts` file beside the component. Each story is a state worth looking at, named for that state, and API requests are answered by typed MSW handlers. The test still runs in happy-dom, but it now mounts those composed stories, so the states a developer browses and the states the test checks are the same objects.
-- **Play pass.** Every check whose result a user can see moves into a play function on a story. It queries by role and label, in real Chromium. Checks about spies, request payloads or timing stay in vitest.
-
-The conversion process calls for deliberate-break checks: the play must fail at the step it claims. Claims of stronger coverage need an old-green/new-red comparison, and independent review checks that original assertions still have a home. These are verification requirements, not a guarantee that every rendered story has an interaction check. The latest consolidation only reorganized history and preserved the previously tested source tree exactly.
-
-</details>
-
-## Current snapshot
-
-As of October 20:
-
-| Evidence | Current result |
-| --- | --- |
-| Story catalog exercised by the browser run | 100 files / 583 collected story tests |
-| Combined lane history above stories | 4 infrastructure/helper commits, then 96 per-test commits |
-| Accessibility annotations folded into their test commits | 26 story files; 121 historical per-story TODO exceptions retained |
-| Full strict browser run | 432 passing / 151 failing stories |
-| Same-source reruns of the two interaction timeouts | Both interactions complete; one then fails axe contrast |
-| Known strict axe failures across those runs | 150 distinct stories, not 150 distinct bugs |
-| Affected composed-story unit checks for the accessibility layer | 9 files / 128 tests pass |
-| Full types, scoped style checks and static Storybook build | Pass |
-
-Some full-run interaction timeouts pass in isolated reruns, but strict accessibility failures remain. Consolidation added no exception or disabled rule.
-
-These counts describe collected cases and validation results, not line or branch coverage. Several old unit cases can become one multi-step play; a rendered story without a play is not an equivalent interaction test. Code moves into stories and helpers rather than simply vanishing, and upstream regression tests can still require a unit file after older cases move out.
-
-[Consolidation mapping and exact-tree proof](reviews/combine_play_a11y_2026-10-20/commit_mapping.json), [independent review](reviews/combine_play_a11y_2026-10-20/review_debrief.md), and [strict browser findings](reviews/restack_2026-10-20/a11y_browser_findings.json) record the snapshot. The code below illustrates the original migration and its current plays; historical line-count comparisons are not presented as current measurements.
+The benefit is an inspectable test: read the scenario, see the state, then watch the checks. The examples below show what that changes in practice. Review-time savings are the hypothesis to evaluate, not a measurement this prototype has established.
 
 ## Stories Make Tests Easier to Review
 
@@ -220,17 +220,11 @@ The unit test mocks `useInfiniteScroll` and calls the loader by hand. The plays 
 
 The old test linted a detached copy of the workflow before filling the step store. So a wired input looked disconnected, and a January 2026 change had baselined the expectations to that. The story renders Lint over the real store, the way the editor does, and the input reads as connected. The 2023 expectations come back. The disconnected case is now its own story.
 
-## What the browser adds beyond a DOM mock
-
-The slides' [popover-width fix (#23910)](https://github.com/galaxyproject/galaxy/pull/23910) is a useful boundary example. A one-selector change needed a 50-line regression test that reads the Vue file, compiles and injects its CSS, mounts the component and checks a computed width cap. The content is teleported under `body`, so a descendant selector no longer matches. That test protects selector matching; it does not establish actual viewport geometry, clipping or overlay placement.
-
-Browser stories exercise real styles, teleports, focus, scrolling and sanitization together. Behavioral plays can assert interactions and selected computed properties. Visual regression would add a different check for wrapping, spacing and clipping; a browser test alone does not automatically compare screenshots.
-
 ## Recorded API responses are a complementary improvement
 
 A payload can type-check and still describe a response Galaxy never sends. The separate [`vitest_real_api_calls` prototype](https://github.com/jmchilton/galaxy/tree/vitest_real_api_calls), now based directly on readability, records backend responses and loads typed fixtures for history-summary and disk-usage tests ([#24030](https://github.com/galaxyproject/galaxy/issues/24030)). It improves fixture fidelity whether a test uses stories or stays in a unit suite.
 
-Typed hand-written MSW handlers are still used throughout the story catalog; the recording lane is not a prerequisite and has not converted all those handlers. A real server is needed to capture or refresh responses. The latest rebase preserved the recordings without recapturing them, and fork CI/live-capture validation remains separate work.
+The story catalog still uses typed hand-written handlers. Recording real responses is a complementary step, with live capture and CI validation still separate work.
 
 ## Bugs found and what remains
 
@@ -244,13 +238,20 @@ The story catalog also opens up [visual regression testing](https://storybook.js
 
 ## Accessibility checks alongside the plays
 
-Accessibility checks now live in the same `vitest_story_play` branch as the plays. The version-matched addon checks rendered content including body-level teleports, with WCAG 2.2 AA alongside the existing rulesets. The standalone accessibility branch is no longer maintained. Desktop, narrow-panel and mobile presets support review; those presets alone do not run a screenshot matrix.
+The same states used for interaction tests can expose inaccessible controls. A missing label becomes a problem both for the test that needs to find a button and for the person who needs to use it. Storybook makes those findings inspectable, with violation highlighting and vision simulations alongside the rendered component.
 
-The global setting is `parameters.a11y.test: "error"`. The 121 per-story `todo` annotations are retained historical exceptions, not a newly verified list of necessary workarounds. Some correspond to fixes now upstream and need reassessment; the current 150 known failing stories also include additional states and newer markup. These are not all new regressions or all leftovers from the initial audit.
+The combined prototype checks rendered content, including body-level teleports, against automated accessibility rules including WCAG 2.2 AA. Desktop, narrow-panel and mobile presets also make it easier to inspect the UI at different sizes. These are useful checks, not a claim of complete accessibility or a screenshot matrix.
 
-`todo` shows warnings in Storybook but produces no accessibility diagnostics in CLI/CI; it also stops future violations in that story from failing the command. Each exception needs review before it can be removed. No new TODOs or disabled rules were added to make this rebase pass. In Storybook's test widget, enable the Accessibility checkbox when running component tests. The addon also provides violation highlighting and vision simulations. [Storybook accessibility testing](https://storybook.js.org/docs/writing-tests/accessibility-testing).
+Strict failures remain, and historical per-story exceptions need reassessment now that some fixes are upstream. Adopting this approach means dealing with those findings and adding browser CI. The current unit job does not run the plays or accessibility checks.
 
-There is no Chromatic account, screenshot baseline workflow or browser CI gate in this prototype. Upstream adoption needs a browser job and a decision about the outstanding accessibility failures and exceptions.
+<details>
+<summary>Accessibility configuration and existing exceptions</summary>
+
+The global setting is `parameters.a11y.test: "error"`. The 121 per-story `todo` annotations are retained historical exceptions, not a newly verified list of necessary workarounds. Some correspond to fixes now upstream; the current 150 known failing stories also include additional states and newer markup. These are not all new regressions or all leftovers from the initial audit.
+
+`todo` shows warnings in Storybook but produces no accessibility diagnostics in CLI/CI; it also stops future violations in that story from failing the command. Each exception needs review before it can be removed. No new TODOs or disabled rules were added to make this rebase pass. In Storybook's test widget, enable the Accessibility checkbox when running component tests. [Storybook accessibility testing](https://storybook.js.org/docs/writing-tests/accessibility-testing).
+
+</details>
 
 ## Costs
 
@@ -263,8 +264,50 @@ That benchmark used a smaller catalog and excluded accessibility checks; it does
 ### Other costs
 
 - **A new CI job.** Stories and plays need a browser job (`pnpm test:browser`, Playwright Chromium). The existing `unit` job is unchanged.
-- **New dev dependencies.** Storybook 10.6, `@storybook/addon-vitest`, `@storybook/addon-a11y`, `msw-storybook-addon`, `@vitest/browser-playwright` and `playwright`.
+- **More tooling to maintain.** Storybook, its testing and accessibility addons, API mocking and Playwright become part of the client development setup.
 - **Review size.** The catalog now spans 100 story files. Stories and combined play/accessibility remain separate review layers. Shared infrastructure comes first; per-test commits group the relevant stories, plays and annotations so a reviewer can take a smaller slice.
+
+## Try a review-sized slice
+
+Start with a small group of components and review their stories and plays alongside the production behavior. Ask whether the scenario is easier to understand, whether the browser check catches the regression and which checks still need unit tools. Keep the migration incremental so reviewers can judge it on concrete examples.
+
+For adoption, add the browser CI job and resolve or explicitly account for the accessibility failures and historical exceptions. The first payoff should be a clearer review of the next client change. A reusable catalog and future visual checks build on that investment.
+
+<details>
+<summary>Validation details and branch snapshot — October 20</summary>
+
+The published prototype is `jmchilton/vitest_story_play` at `3eaa09792d6`, above `vitest_stories` at `fd5fd27f67a` and readability at `1358d378879`. Play and accessibility are one maintained lane. Shared infrastructure comes first; story-specific plays and accessibility annotations are grouped by test. This is not an open Storybook PR or an all-green browser gate.
+
+| Evidence | Current result |
+| --- | --- |
+| Story catalog exercised by the browser run | 100 files / 583 collected story tests |
+| Combined lane history above stories | 4 infrastructure/helper commits, then 96 per-test commits |
+| Accessibility annotations folded into their test commits | 26 story files; 121 historical per-story TODO exceptions retained |
+| Full strict browser run | 432 passing / 151 failing stories |
+| Same-source reruns of the two interaction timeouts | Both interactions complete; one then fails axe contrast |
+| Known strict axe failures across those runs | 150 distinct stories, not 150 distinct bugs |
+| Affected composed-story unit checks for the accessibility layer | 9 files / 128 tests pass |
+| Full types, scoped style checks and static Storybook build | Pass |
+
+Some full-run interaction timeouts pass in isolated reruns, but strict accessibility failures remain. Consolidation added no exception or disabled rule.
+
+These counts describe collected cases and validation results, not line or branch coverage. Several old unit cases can become one multi-step play; a rendered story without a play is not an equivalent interaction test. Code moves into stories and helpers rather than simply vanishing, and upstream regression tests can still require a unit file after older cases move out.
+
+[Consolidation mapping and exact-tree proof](reviews/combine_play_a11y_2026-10-20/commit_mapping.json), [independent review](reviews/combine_play_a11y_2026-10-20/review_debrief.md), and [strict browser findings](reviews/restack_2026-10-20/a11y_browser_findings.json) record the snapshot. The examples above illustrate the original migration and its current plays; historical line-count comparisons are not presented as current measurements.
+
+</details>
+
+<details>
+<summary>How conversions preserve the checks</summary>
+
+Each component test goes through two passes, one commit each.
+
+- **Story pass.** Setup moves into a `.stories.ts` file beside the component. Each story is a state worth looking at, named for that state, and API requests are answered by typed MSW handlers. The test still runs in happy-dom, but it now mounts those composed stories, so the states a developer browses and the states the test checks are the same objects.
+- **Play pass.** Every check whose result a user can see moves into a play function on a story. It queries by role and label, in real Chromium. Checks about spies, request payloads or timing stay in vitest.
+
+The conversion process calls for deliberate-break checks: the play must fail at the step it claims. Claims of stronger coverage need an old-green/new-red comparison, and independent review checks that original assertions still have a home. These are verification requirements, not a guarantee that every rendered story has an interaction check. The latest consolidation only reorganized history and preserved the previously tested source tree exactly.
+
+</details>
 
 ## How to test the changes?
 
