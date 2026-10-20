@@ -14,7 +14,7 @@ What each run decides:
 |---|---|---|---|---|
 | 1 smoke | nf-core/demo 1.1.0 (`45904cb9`) | per-sample FASTQC + SEQTK_TRIM | MULTIQC aggregate | `read-preprocessing/short-read-qc-trimming` (fastp + multiqc), loose |
 | 2 main | nf-core/bacass 2.5.0 (`76e4b12c`) | short-read assembly + assembly QC: FASTP → UNICYCLER → QUAST | long-read/hybrid paths, Kraken2, kmerfinder, annotation (Prokka/Bakta/DFAST), MultiQC | `genome-assembly/bacterial-genome-assembly` (shovill + bandage) |
-| 3 A/B | paper (TBD) | one analysis from a multi-analysis paper | the rest | an IWC workflow if possible |
+| 3 A/B | DengueSeq paper (Vogels 2024) + DENV_pipeline v1.0 (`8214cfbb`) | Illumina DENV3 amplicon consensus, variants, depth | multi-reference serotype loop, ONT, phylogenetics, the rest | `virology/generic-non-segmented-viral-variant-calling` |
 
 Why these:
 
@@ -73,6 +73,6 @@ Why these:
 
 - Run 1 scope: FASTQC + SEQTK_TRIM, or FASTQC only so the brief can be diffed against the committed example?
 - bacass on arm64 Docker: run locally and see, or go straight to an x86 or remote Galaxy?
-- Which paper for run 3? It needs several analyses and an IWC equivalent.
+- ~~Which paper for run 3?~~ DengueSeq, see [runs/dengueseq-denv3.md](runs/dengueseq-denv3.md).
 - Run artifacts: keep them local only, or commit them somewhere in foundry (e.g. a `case-studies/` dir)?
 - Is `~/projects/foundry-runs/` OK as the workspace root?
