@@ -12,3 +12,7 @@
 - Reports: [default](initial_review.md), [test challenger](test_challenges_review.md), [risks](risks.md); [agents](initial_review_agents.md)
 
 Main risk: silent fallback to weighted default for retired-backend preferences on a release branch (stated in PR body). Job wrapper is the only reader of stored preferences; uploads go through it. Milestone is 27.0 though base is release_25.1.
+
+## Archived — 2026-10-20
+
+Merged by mvdbeek into `release_25.1` at 2026-10-20T12:47:57Z on head `ff83754163b`. Tracking ended on merge. Worktree removed (clean, at pushed review branch head). Review branch `pr_24280_review_0` remains on jmchilton fork.
