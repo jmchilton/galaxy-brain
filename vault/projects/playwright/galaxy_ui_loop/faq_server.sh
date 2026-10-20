@@ -75,9 +75,10 @@ case "$command" in
             echo "$profile already up at $url: $version"
             exit 0
         fi
-        # run.sh skips this check in a worktree (.git is a file), so do it here.
+        # run.sh skips this check in a worktree (.git is a file), so do it here. navigation.yml is
+        # only read by tests and gxui, so editing it needs no rebuild.
         build_hash=$GALAXY_ROOT/static/client_build_hash.txt
-        if [ ! -f "$build_hash" ] || ! git -C "$GALAXY_ROOT" diff --quiet "$(cat "$build_hash")" -- client/ config/plugins/visualizations/; then
+        if [ ! -f "$build_hash" ] || ! git -C "$GALAXY_ROOT" diff --quiet "$(cat "$build_hash")" -- client/ config/plugins/visualizations/ ':!client/src/utils/navigation/navigation.yml'; then
             echo "client out of date - building (several minutes) ..."
             make -C "$GALAXY_ROOT" client-production
         fi

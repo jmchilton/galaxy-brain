@@ -73,6 +73,9 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `4d391ac7e36`: coverage for `account_create`. It adds `register(via_masthead=True)`, an
   `inactivity_box` component and `test_user_activation.py` (register, banner, resend, activate). A
   standalone coverage PR candidate, like step 2. It is green under Playwright only so far.
+- `8d36a3bd9f3`: coverage for `activity_bar_how_to_enable`. `test_activity_bar.py` hides and shows
+  an activity from the More panel; adds `activity_bar` components. Coverage PR candidate; green under
+  Playwright only.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
