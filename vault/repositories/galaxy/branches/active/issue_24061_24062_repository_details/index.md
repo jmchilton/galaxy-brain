@@ -1,13 +1,13 @@
 # issue_24061_24062_repository_details
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24061_24062_repository_details?expand=1)
+- [#24298](https://github.com/galaxyproject/galaxy/pull/24298)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24061_24062_repository_details)
 
 ## Status
 
-`branches_ready_for_final_review`: polished 2026-10-20, awaiting John's read-through. Base `dev` (`1e6125acd93`), head `418a861ca0d`. History rewritten by the baseline refactor; old SHAs in debriefs map via [baseline_refactor.md](baseline_refactor.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
+`ci_wait`: draft PR opened 2026-10-20 at John's request. Base `dev` (`1e6125acd93`), head `418a861ca0d`. History rewritten by the baseline refactor; old SHAs in debriefs map via [baseline_refactor.md](baseline_refactor.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
 
-No PR yet.
+Draft [#24298](https://github.com/galaxyproject/galaxy/pull/24298), title is the first option in `pr_titles.md`, labels from `pr_tags.md`; screenshots hosted on `pr-assets-issue_24061_24062_repository_details`.
 
 Fork CI at head is queued with no reds; Tool Shed frontend evidence is the `1bc094fd6e6` run (identical frontend tree), also queued.
 

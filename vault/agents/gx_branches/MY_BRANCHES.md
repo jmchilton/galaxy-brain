@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-20 (John opened #24297 directly; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-20 (John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -33,6 +33,7 @@ None yet.
 
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs and fixes runtime diagnostics. Base `release_26.2`. [#24203](https://github.com/galaxyproject/galaxy/pull/24203). Draft requested by John.
 - [`fix_story_a11y_followups`](../../repositories/galaxy/branches/active/fix_story_a11y_followups/index.md) — Names chat send; Popper close is a keyboard button and close/Escape return focus. Base `release_26.2`. [#24285](https://github.com/galaxyproject/galaxy/pull/24285). Draft requested by John.
+- [`issue_24061_24062_repository_details`](../../repositories/galaxy/branches/active/issue_24061_24062_repository_details/index.md) — Tool Shed repository page: `hg clone` command, category links, generated `.shed.yml`; API adds `categories`, `clone_url`. [#24298](https://github.com/galaxyproject/galaxy/pull/24298). Draft requested by John.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
@@ -81,8 +82,6 @@ None yet.
 - [`issue_24273_dataset_edit_alert_26.0`](../../repositories/galaxy/branches/active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Polishing with baseline decomposition; blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297). Base `release_26.0`, head `c11610da344`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
-
-- [`issue_24061_24062_repository_details`](../../repositories/galaxy/branches/active/issue_24061_24062_repository_details/index.md) — Tool Shed repository page: `hg clone` command, category links, generated `.shed.yml`; API adds `categories`, `clone_url`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24061_24062_repository_details?expand=1).
 
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 
