@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Reworking the design for cleaner tests mostly and a small fix. Looks good though - thanks! -John
 
 <details><summary>Automated Review Details</summary>
 
