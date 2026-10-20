@@ -4,7 +4,11 @@ Status: `branches_implemented`.
 
 Honors explicit YAML Boolean defaults with user-tool API contract coverage (#23888).
 
-[Implementation](implementation_debrief.md) · [Tracking history](tracking_history.md)
+[Initial implementation](initial_implementation_debrief.md) · [Tracking history](tracking_history.md)
+
+## Hardening — 2026-10-20
+
+Rebased onto `origin/release_26.1` (`6df388987b4`); old tip `01027324b35`. Only conflict vs release_26.1: `tool_request_raw` kwargs in `populators.py` (kept both `preferred_object_store_id` and `tool_uuid`). The 5-path conflicts in the notes below were measured against `dev`, not the branch's target.
 
 ## TICK — 2026-10-12
 
