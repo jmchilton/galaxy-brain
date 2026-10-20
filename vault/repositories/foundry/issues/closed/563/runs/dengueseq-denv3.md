@@ -51,6 +51,14 @@ Vogels et al. 2024, *BMC Genomics* 25:433, DengueSeq ([DOI](https://doi.org/10.1
   - `summarize-paper` (minor): no guidance on linked code or supplements;
   - brief design (minor): the preflight result has no named artifact.
 
+### Brief arm, expert review (2026-10-20)
+
+- John edited 1 of the 10 questions. Claude applied the edit as `6b8b630`, and `review.md` is local. The reviewed brief's sha256 is `e52aca4e…`, and both gates pass.
+- The edit confirmed the test sample's metadata from ENA. It also passes along the FL-BPHL-0005 filename mismatch, which the direct arm found. That is a small flow of information from the direct arm to the brief arm.
+- The other 9 proposals were accepted unedited, 4 of them low confidence. This deliberately exercises #688's chain from proposal to ledger decision to Done report.
+- Environment asymmetry: John kept the global `@galaxy-tool-util/cli` at 1.14.0, the version the direct arm installed. So the brief arm's preflight won't meet the 1.8.2 gap.
+- The direct arm's red test is left as it is. A fix would count as an intervention.
+
 ### Direct arm: paper → Galaxy (2026-10-20)
 
 - 93 min, 50 turns, $23.23. All 12 phases ran and no phase was done by hand. Test data came from `paper-to-test-data` (SRR25366733 via ENA, with the ref and BED from the repo pin).
