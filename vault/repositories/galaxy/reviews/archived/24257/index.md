@@ -14,4 +14,4 @@ PR open against `release_25.1`, by davelopez; fixes #22974.
 
 ## Archived — 2026-10-20
 
-Merged by mvdbeek into `release_25.1` at 2026-10-20T05:48:13Z on head `d48fe03e0e7`. Tracking ended on merge. Fix branch `pr_24257_fix_0` remains on jmchilton fork; worktree kept pending John's OK (on unmerged fix branch).
+Merged by mvdbeek into `release_25.1` at 2026-10-20T05:48:13Z on head `d48fe03e0e7`. Tracking ended on merge. Fix branch `pr_24257_fix_0` remains on jmchilton fork; worktree removed with John's OK.

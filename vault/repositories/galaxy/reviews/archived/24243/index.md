@@ -10,4 +10,4 @@ PR open against `dev`, by itisAliRH; stacked on #24241.
 
 ## Archived — 2026-10-20
 
-Merged by itisAliRH into `dev` at 2026-10-19T14:24:19Z on head `e6e5efdd19d`. Tracking ended on merge. Fix branch `pr_24243_fix_0` remains on jmchilton fork; worktree kept pending John's OK (on unmerged fix branch).
+Merged by itisAliRH into `dev` at 2026-10-19T14:24:19Z on head `e6e5efdd19d`. Tracking ended on merge. Fix branch `pr_24243_fix_0` remains on jmchilton fork; worktree removed with John's OK.
