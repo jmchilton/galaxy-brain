@@ -52,13 +52,20 @@ and red without each fix. Queued in `MY_BRANCHES.md`; no PRs yet.
 - **Follow-up.** `workflow_run_setup_inputs` drops `type: File` inputs, so existing
   `workflow_run_specify_inputs` callers select nothing and pass on the form's preselected dataset.
 
-**3. Area PRs.**
+**3. Area PRs.** Implemented 2026-10-20 on `dev` (enhancements, so not 26.2). New tests are
+green under both backends and red without their change. Queued in `MY_BRANCHES.md`; no PRs yet.
 
-| PR | Commits | Tests |
+| Branch | Commits | Tests |
 |---|---|---|
-| Tool-form abstractions on `NavigatesGalaxy` | 6a, 6a′, 6b, 6c, 7a, 7e, 7f | tool-form E2E suite and unit tests; add E2E tests filling a workflow editor step's form (7a) and describing a rerun form (6c) |
-| Multiview copy + hooks | 4c, 5e | Multiview E2E |
-| `galaxy.selenium` usable outside the test suite | 7k, 5a, 5b, 5c, 5d, 7l, 7n | upload and extraction E2E suites, unit tests; give it a consumer by mixing `UsesUploadActivity` into `GalaxySeleniumContext` |
+| [`selenium_tool_form_helpers`](../../repositories/galaxy/branches/active/selenium_tool_form_helpers/index.md) | 6a, 6a′, 6b, 6c, 7a, 7e, 7f | new E2E: fill an editor step's form (7a), describe a rerun form (6c); `test_tool_form.py` 29/29 |
+| [`selenium_multiview_copy`](../../repositories/galaxy/branches/active/selenium_multiview_copy/index.md) | 4c, 5e | 5e's copy E2E, red without 4c's hooks; Multiview file green |
+| [`selenium_standalone_package`](../../repositories/galaxy/branches/active/selenium_standalone_package/index.md) | 5a, 5b, 5c, 5d, 7k, 7l, 7n + consumer | `GalaxySeleniumContext` includes `UsesUploadActivity`; new E2E uploads through a standalone context; upload/extraction spot checks |
+
+- The consumer commit drops every test class's own `UsesUploadActivity` mixin (MRO), and 7k
+  picked up dev's newer `test_workbook_mapping.py` import. gxui's `GxuiContext` can drop its mixin
+  once this merges.
+- These merge to dev only, so their commits stay on `galaxy_ui_driver` until it restacks onto a
+  base that has them.
 
 FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxui too. So far:
 - `c31fcb13a8e`: a docstring on `NavigatesGalaxy.register` (`inspect.getdoc` showed
