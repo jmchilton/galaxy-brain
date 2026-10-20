@@ -1,6 +1,6 @@
 # toolshed_repository_contents
 
-Status: `branches_ready_for_final_review` — CI fixes pushed; local validation passes, new-head CI pending. Base: `release_26.2`. [PR #24167](https://github.com/galaxyproject/galaxy/pull/24167), head `8d3dbaa0f7ea67d69ac4d17f71f67dfb8945b28f`.
+Status: `branches_ready_for_final_review` — retargeted to `dev` and listing `size` dropped after mvdbeek's review; new-head CI pending; [reply draft](review_response_draft_2026-10-20.md) unposted. Base: `dev`. [PR #24167](https://github.com/galaxyproject/galaxy/pull/24167), head `99053330762a8487fe06b2d7556b97d80d071ec4`.
 
 Adds a bounded repository-files API and Tool Shed contents browser (#22598).
 
@@ -49,3 +49,17 @@ CI has relevant mypy failures in the newly added `test/unit/tool_shed/test_repos
 ## Related CI fixes — 2026-10-15
 
 Fixed the reported branch-related mypy errors in `8d3dbaa0f7ea67d69ac4d17f71f67dfb8945b28f` and pushed normally to jmchilton. [Diagnosis, unrelated-red boundary and verification](ci_type_fixes_2026-10-15.md). Full pinned-dependency mypy passes (2526 files), 29 regressions pass, and commit hooks pass. Unchanged expression-test import ordering is the only diagnosed unrelated failure in the linked lint job. GitHub confirms the new head and mergeability; fresh CI is pending. Track in `branches_ready_for_final_review` under the changed-SHA rule; preserve draft state and require a fresh human read.
+
+## Review response — retarget to dev — 2026-10-20
+
+mvdbeek [reviewed](https://github.com/galaxyproject/galaxy/pull/24167): the listing opened one filelog per file for a `size` the UI never shows, a shared cache plan was needed, and the 26.2 target was questioned, then a follow-up comment said 26.2 is fine if the shed is safe. John asked to retarget to `dev`.
+- Rebased the 32 commits onto `origin/dev` (`8d3dbaa0f7e` → backup branch `backup/toolshed_repository_contents_pre_dev`). Three conflicts with dev's README work on `RepositoryPage` and `test_frontend_repositories.py`; both sides kept.
+- `99053330762` drops `size` from `RepositoryFileEntry`. A red-first unit test fails if a listing opens any file. A 3000-file revision went from 390 ms with 3000 filelog opens to 3.1 ms with none. The shed TS schema was regenerated, and only `size` changed.
+- Force-pushed with an explicit lease, then `gh pr edit --base dev` and dropped "[26.2]" from the title.
+- Verified locally: shed vitest 218/218, vue-tsc, prettier, ruff/black/isort, both shed unit modules, and `test_shed_repository_files.py` (8 passed). Local runs needed `pnpm install` to refresh galaxy-ui and `pytest-xdist` (new on dev).
+- `pr_description.md` now has the new core SHAs, the listing cost, the `proxy_cache` recommendation and an uncached-crawler risk. The live PR body is not yet synced.
+- Not built: the old `/repos/.../file/` redirect (nginx 403s before the app, and it touches the `hg clone` route) and a 26.2 login prompt. Both are offered in the reply draft or to John.
+
+## TICK — 2026-10-20
+
+Live #24167 is out of draft (John), CONFLICTING with `release_26.2` (`lib/galaxy/tools/source_store/populator.py`), and Python lint fails isort in unchanged `test/unit/app/tools/test_expression_basics.py`. Not rebased: the local worktree has diverged from the fork head `8d3dbaa0f7e` (local `99053330762` with a rewritten history and an unpushed "Drop size from repository files listing" commit), probably another session's work. Left intact; needs John.

@@ -21,7 +21,7 @@ GET /api/repositories/{id}/revisions/{changeset_revision}/files/{path}   → one
 | Deprecated or deleted repository | 404 |
 | Path not in the revision's manifest (`../x`, `.hg/hgrc`, directories) | 404 |
 
-404s carry no `ETag` and no public `Cache-Control`. Files are read from the revlog in the shed process, without cloning. A file's size comes from the revlog index, so files over 1 MiB are reported as too large without being read. ***File contents always come back as a JSON envelope, never as raw bytes, so a user-uploaded HTML or SVG file can't run as a page on the shed's origin.*** ***Text files up to 1 MiB can be viewed, copied and saved; binary and larger files are listed but not served.***
+404s carry no `ETag` and no public `Cache-Control`. Files are read from the revlog in the shed process, without cloning. A listing walks only the manifest and opens no per-file revlogs: about 3 ms for a 3000-file revision. A file's size comes from its revlog index, so files over 1 MiB are reported as too large without being read. ***File contents always come back as a JSON envelope, never as raw bytes, so a user-uploaded HTML or SVG file can't run as a page on the shed's origin.*** ***Text files up to 1 MiB can be viewed, copied and saved; binary and larger files are listed but not served.***
 
 <details><summary>Revision switching, the Explore menu and viewer states</summary>
 
@@ -39,7 +39,7 @@ Viewer states, from the component showcase:
 
 </details>
 
-***hgweb's HTML views stay behind login, and this PR needs no nginx change. Existing `/repos/.../file/tip` links still get "Forbidden"; the Contents button now opens `/repositories/<id>/contents` instead.*** ***Changelog still uses hgweb, so it's shown only to logged-in users; an anonymous changelog is a follow-up.***
+***hgweb's HTML views stay behind login. The routes work without an nginx change, but the main shed should put an nginx `proxy_cache` in front of them: responses are keyed on immutable hashes and set no cookies, so a repeat hit from any crawler address is nearly free.*** ***Existing `/repos/.../file/tip` links still get "Forbidden"; the Contents button now opens `/repositories/<id>/contents` instead.*** ***Changelog still uses hgweb, so it's shown only to logged-in users; an anonymous changelog is a follow-up.***
 
 ***Literal `tip` isn't served, by the UI or the API: clients name an exact 12-character hash of a downloadable revision.*** The page opens on the newest downloadable, non-malicious revision. That's usually the tip commit, since metadata moves forward to tip, and it's what Galaxy can install.
 
@@ -64,8 +64,8 @@ One unrelated two-line change rides along: the install-count pill uses a chart i
   - An openapi-fetch middleware keeps `/` literal in the file path, scoped to the one schema path.
   - `RepositoryPage` now selects the newest revision when it mounts with metadata already cached. Without that, coming back from Contents showed no tools or READMEs.
 - **Core Galaxy** (`lib/galaxy/webapps/galaxy/api/__init__.py`), two small changes:
-  - `083d5cccff3`: `allow_cors` preflight routes no longer inherit the route's `response_model`. The new routes are the first `allow_cors` routes with one, and their preflight returned a 500. It's the first commit and can be split out if preferred.
-  - `6521d02fde2`: `APICorsRoute` copies the request's `Origin` into `Access-Control-Allow-Origin`, so it now also sends `Vary: Origin`. The new routes are the first that are both CORS-enabled and publicly cacheable; without `Vary`, a shared cache could serve one origin's copy to another for a day. Galaxy's landing POST routes send the header too, which is harmless.
+  - `a7bffd9cce8`: `allow_cors` preflight routes no longer inherit the route's `response_model`. The new routes are the first `allow_cors` routes with one, and their preflight returned a 500. It's the first commit and can be split out if preferred.
+  - `a0347a08d9f`: `APICorsRoute` copies the request's `Origin` into `Access-Control-Allow-Origin`, so it now also sends `Vary: Origin`. The new routes are the first that are both CORS-enabled and publicly cacheable; without `Vary`, a shared cache could serve one origin's copy to another for a day. Galaxy's landing POST routes send the header too, which is harmless.
 
 </details>
 
@@ -77,6 +77,7 @@ The two new anonymous routes are public API: once clients use them, their URL sh
 
 - New public, CORS-enabled API: `GET /api/repositories/{id}/revisions/{changeset_revision}/files[/{path}]`.
 - Revisions are exact 12-character hashes only. Clients that want `tip` must look up the newest downloadable revision first.
+- An uncached request still reaches hg: the URL set is repositories × downloadable revisions (× files for contents), and `Cache-Control: public` alone doesn't help against a distributed crawler that fetches each URL once. Without a shared cache, each such hit costs one manifest walk or one file read.
 - Responses are cached publicly for a day, so a revision marked malicious or a repository deprecated can stay visible in shared caches for up to 24 hours. There's no `immutable`, so they do age out.
 - Non-UTF-8 filenames are listed with replacement characters but return 404 when fetched. Such names are rare in shed repositories; fixing it needs a path encoding scheme.
 - The `private` repository flag isn't enforced here, as nowhere else in api2.
@@ -143,7 +144,7 @@ Builds on 🔀 #23925 (the galaxy-ui Tool Shed frontend). Follow-ups this enable
 - [ ] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A specific notice for each state: binary, too large, symlink, empty, file not in this revision, revision not installable, repository deprecated or deleted. API errors are 404s with a message and no cache headers; a revision missing from hg despite its metadata is a logged 500.
 - [x] Is the diff free of unrelated or stale generated changes? Yes, apart from the two-line icon swap called out above. The regenerated shed schema matches a fresh regeneration byte for byte.
-- [x] Are unit tests not just testing the literal implementation? Yes. They run against a real hg repository. The one monkeypatch fails the test if a listing, a size check or a validator reads a file's contents.
+- [x] Are unit tests not just testing the literal implementation? Yes. They run against a real hg repository. The monkeypatches fail the test if a listing opens any file, or a size check or validator reads a file's contents.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 

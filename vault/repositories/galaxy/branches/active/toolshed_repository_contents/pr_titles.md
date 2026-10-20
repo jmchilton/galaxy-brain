@@ -1,5 +1,5 @@
-- [26.2] Let anonymous users browse Tool Shed repository contents
-- [26.2] Browse Tool Shed repository files without hgweb
-- [26.2] Add a bounded, cacheable repository files API and contents page to the Tool Shed
-- [26.2] Restore anonymous Tool Shed Contents through bounded shed API routes
-- [26.2] Tool Shed contents browser backed by a bounded repository files API
+- Let anonymous users browse Tool Shed repository contents
+- Browse Tool Shed repository files without hgweb
+- Add a bounded, cacheable repository files API and contents page to the Tool Shed
+- Restore anonymous Tool Shed Contents through bounded shed API routes
+- Tool Shed contents browser backed by a bounded repository files API
