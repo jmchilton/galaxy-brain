@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-20 (#24223, #24213 merged; John undrafted #24211, #24206; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-20 (#24223, #24213, #24198 merged; John undrafted #24211, #24206; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -57,9 +57,7 @@ Snapshot: 2026-10-20 (#24223, #24213 merged; John undrafted #24211, #24206; #242
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
-- [`issue_24220_drop_collection_matching_26.0`](../../repositories/galaxy/branches/active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections to collection inputs like the server's dropdown (#24220). Base `release_26.0`, stacked on `issue_24218_can_map_over_parity_26.0`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24220_drop_collection_matching_26.0?expand=1).
-- [`form_checkbox_controlled_tests`](../../repositories/galaxy/branches/active/form_checkbox_controlled_tests/index.md) — Repairs the three upstream controlled-checkbox test failures on dev `5ff1e46b8c3`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:form_checkbox_controlled_tests?expand=1).
-- [`issue_23902_qualified_output_references`](../../repositories/galaxy/branches/active/issue_23902_qualified_output_references/index.md) — From 26.2, unqualified `format_source`/`metadata_source` fail tool load; runtime skips legacy aliases (fixes #23902). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23902_qualified_output_references?expand=1).
+- [`issue_24220_drop_collection_matching_26.0`](../../repositories/galaxy/branches/active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections to collection inputs like the server's dropdown (#24220). Base `release_26.0`, stacked on `issue_24218_can_map_over_parity_26.0`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24220_drop_collection_matching_26.0?expand=1).- [`issue_23902_qualified_output_references`](../../repositories/galaxy/branches/active/issue_23902_qualified_output_references/index.md) — From 26.2, unqualified `format_source`/`metadata_source` fail tool load; runtime skips legacy aliases (fixes #23902). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23902_qualified_output_references?expand=1).
 - [`resubmit_static_chain_test_26.1`](../../repositories/galaxy/branches/active/resubmit_static_chain_test_26.1/index.md) — Tests repeated resubmission through static destinations with per-hop environment values. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:resubmit_static_chain_test_26.1?expand=1).
 - [`yaml_boolean_defaults`](../../repositories/galaxy/branches/active/yaml_boolean_defaults/index.md) — Honors explicit YAML Boolean defaults with user-tool API contract coverage (#23888). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:yaml_boolean_defaults?expand=1).
 - [`upgrade_advice_structured_like`](../../repositories/galaxy/branches/active/upgrade_advice_structured_like/index.md) — Moves `structured_like` qualification upgrade advice from 18.01 to a new 26.0 migration (fixes #23884). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upgrade_advice_structured_like?expand=1).

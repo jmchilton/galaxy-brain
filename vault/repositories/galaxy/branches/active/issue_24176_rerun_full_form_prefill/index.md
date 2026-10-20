@@ -52,4 +52,4 @@ Head `ced412c6248`. The PR text should call out the `/request` change for legacy
 
 ## TICK — 2026-10-20
 
-Fork CI on current head: Client Unit Testing reds are the inherited controlled-checkbox failures (FormBoolean/FormCheck/FormOptionalText, "Expected input emission"), fixed separately by `form_checkbox_controlled_tests`; unrelated. Playwright, Integration Selenium and startup jobs stopped at Restore client cache, so browser coverage never ran. Full reruns requested for Playwright and Integration Selenium; stays `branches_implemented_needs_ci`.
+Fork CI on current head: Client Unit Testing reds are the inherited controlled-checkbox failures (FormBoolean/FormCheck/FormOptionalText, "Expected input emission"), fixed on dev by #24198 (`form_checkbox_controlled_tests`, merged 2026-10-17), so they clear on the next rebase; unrelated. Playwright, Integration Selenium and startup jobs stopped at Restore client cache, so browser coverage never ran. Full reruns requested for Playwright and Integration Selenium; stays `branches_implemented_needs_ci`.

@@ -35,3 +35,5 @@ Fixes galaxyproject/galaxy#24218: client `CollectionTypeDescription.canMapOver` 
 ## TICK — 2026-10-20
 
 PR CI on `1187e612f7d`: one red, Playwright shard 2 stopped at Restore client cache (`fail-on-cache-miss`) before tests. Infra, unrelated; those tests did not run. Failed job rerun ([run 39064402133](https://github.com/galaxyproject/galaxy/actions/runs/39064402133)); stays `ready`.
+
+Next tick: if the rerun misses the cache again, the entry was evicted; use a full `gh run rerun` (not `--failed`) so `build-client` runs.
