@@ -3,9 +3,9 @@
 - Issue: https://github.com/galaxyproject/galaxy/issues/24173
 - Branch: `issue_24173_invocation_selection_urls`
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24173_invocation_selection_urls`
-- Base: `issue_24173_invocation_selection_prep` at `13e92c00bc0ab1014c4a722b72cab29623237e0c`.
-Status: `branches_ready_for_final_review`. Head: `978ff1c92536be5355c967ecbf911742b43fe0bb`. Fork CI pending after repair.
-- Head: `978ff1c92536be5355c967ecbf911742b43fe0bb` (pushed).
+- Base: `issue_24173_invocation_selection_prep` at `195bbc6c7e0f73a1dd11720ee40aaaa78628d96e`.
+Status: `branches_ready_for_final_review`. Head: `4085a88fe4839c3b9a71833434b47de3356b1af6`. Fork CI pending.
+- Head: `4085a88fe4839c3b9a71833434b47de3356b1af6` (pushed).
 - [Implementation handoff](implementation_debrief.md)
 - [Prep extraction and user decision](extraction_debrief.md)
 - [Prep branch](../issue_24173_invocation_selection_prep/index.md)
@@ -39,3 +39,7 @@ Integrated the feature onto its already-rebased prep parent, preserving the upst
 Validation: 5 selection/graph/state client files, **61 tests passed**. Full client typecheck passes after rebuilding the local API-client declarations (the first attempt used stale declarations and reported unrelated file-source capability types). Browser-test isort and diff whitespace checks pass. No new browser run was performed in this repair. No design or behavior choice was changed.
 
 Published `978ff1c92536be5355c967ecbf911742b43fe0bb` to `jmchilton/issue_24173_invocation_selection_urls`. Fresh fork CI is pending. Conflict resolutions or code fixes require a fresh human read; no prior SHA approval is carried forward. No PR was opened.
+
+## Graph centering moved to E2E — 2026-10-20
+
+User judged prep's `WorkflowGraph.test.ts` the wrong layer: it mocked `useElementBounding`, hand-set viewport refs and asserted transform strings, so it proved only that the guard existed. Dropped it from prep. The mapped-job browser test now asserts that the URL-selected node is centered within 5px for all three selector aliases (new `invocations.graph_canvas` selector). Locally (Playwright, headless) it passed with the fix and failed at that assertion against the pre-fix `WorkflowGraph.vue` (offset `[66.5, -240]`). Rebased onto the new prep and published `4085a88fe48` with an old-head lease. Open follow-ups per user review: the `scrollIntoView` spy in `WorkflowInvocationSteps.test.ts` has the same flaw; the first `JobStepSelection` test and the query-reuse half of `Analysis.test.ts` duplicate the browser test. Fresh human read required; fork CI pending.
