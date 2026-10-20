@@ -1,7 +1,7 @@
 #!/bin/sh
-# Replay of faqs/galaxy/account_create.md against a logged-out gxui session on a Galaxy with
-# user_activation_on and a readable SMTP sink. Not unattended: steps 6/9 (read the email, open
-# its link) happen outside the browser.
+# Replay of faqs/galaxy/account_create.md against a logged-out gxui session on the
+# `faq_server.sh accounts` Galaxy (activation on; mail lands in $FAQ_MAIL). Not unattended:
+# steps 6/9 (read the email, open its link) happen outside the browser.
 #   Part 1:  EMAIL=x@example.org sh account_create.gxui.sh      (register, see banner, resend)
 #   Part 2:  EMAIL=x@example.org ACTIVATION_LINK='<from the mail>' sh account_create.gxui.sh
 set -e

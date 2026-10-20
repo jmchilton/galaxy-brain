@@ -2,6 +2,11 @@ Current Galaxy version to review is 26.2 - calling it GX_VERSION below. The chec
 `./faqs_26_2.yaml`, described by [FAQS_YAML_SCHEMA.md](FAQS_YAML_SCHEMA.md). Galaxy is the
 `galaxy_ui_driver` branch, based on `release_26.2`.
 
+## Server
+
+UI runs use a local Galaxy from `galaxy_ui_driver`, started by `galaxy_ui_loop/faq_server.sh`
+(see its README section). Use the `accounts` profile for account FAQs and `main` for the rest.
+
 ## Pick a FAQ
 
 You will be supplied a GTN FAQ from `./faqs_26_2.yaml`. If you're not supplied one, then just pick the first relevant `pending` one. If picking a translation - make sure the base (same file name under `faqs/galaxy/`) has been reviewed first.

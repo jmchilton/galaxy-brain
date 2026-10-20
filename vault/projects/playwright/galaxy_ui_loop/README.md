@@ -36,7 +36,7 @@ gxui by amending that commit; Galaxy fixes go below it (policy in `../GALAXY_UI_
 The skill is `galaxy-ui-driver/` on the `gxui` branch of galaxy-skills (worktree
 `~/projects/worktrees/galaxy-skills/branch/gxui`, pushed to `jmchilton`); `run.sh` copies it from
 there (`GXUI_SKILL_DIR` overrides) and records both revisions in `$RUN/skill_rev` and
-`$RUN/gxui_rev`. The Galaxy worktree has no `.venv` of its own, so always set `GXUI_PYTHON`.
+`$RUN/gxui_rev`. Set `GXUI_PYTHON` to the Galaxy worktree's `.venv/bin/python`.
 Recreate the worktrees if they are gone:
 
     git -C ~/projects/repositories/galaxy fetch jmchilton galaxy_ui_driver
@@ -48,7 +48,7 @@ Arm A loop run (Codex; same prerequisites as arm B above). `TUTORIAL` is a GTN t
 under `topics/` (default `introduction/tutorials/galaxy-intro-short`); add its minimums to `verify.py`'s
 `EXPECTED`:
 
-    ARM=A TUTORIAL=galaxy-interface/tutorials/workflow-editor RUN_ID=refine-workflow-editor-1 GXUI_PYTHON=~/projects/worktrees/galaxy/branch/playwright_text_table_parity/.venv/bin/python ./run.sh
+    ARM=A TUTORIAL=galaxy-interface/tutorials/workflow-editor RUN_ID=refine-workflow-editor-1 GXUI_PYTHON=~/projects/worktrees/galaxy/branch/galaxy_ui_driver/.venv/bin/python ./run.sh
     uv run --no-project --python 3.12 python verify.py ~/.cache/gxui-loop/runs/refine-workflow-editor-1
 
 For arm A count calls from `metrics.json`'s `gxui_layers`/`gxui_gaps` (the gxui transcript), not the
@@ -57,7 +57,7 @@ shell-command counts: agents wrap `./gxui` in their own scripts.
 Interactive use:
 
     export GXUI_GALAXY_ROOT=~/projects/worktrees/galaxy/branch/galaxy_ui_driver   # the default
-    export GXUI_PYTHON=~/projects/worktrees/galaxy/branch/playwright_text_table_parity/.venv/bin/python
+    export GXUI_PYTHON=~/projects/worktrees/galaxy/branch/galaxy_ui_driver/.venv/bin/python
     bin/gxui start --url https://test.galaxyproject.org --storage-state ~/.cache/gxui-loop/auth/galaxy-test-auth.json
     bin/gxui help
     bin/gxui history-items
@@ -66,6 +66,16 @@ Interactive use:
 State (socket, log, transcript, screenshots, aria snapshots) is in `$GXUI_HOME` (default
 `~/.cache/gxui`), per session (`GXUI_SESSION` or `--session`, default `default`). Pass
 `--playwright-cli '<command>'` to `start` to have the daemon attach playwright-cli to its browser.
+
+FAQ loop (`../HARDEN_AGAINST_FAQ.md`) against a local `galaxy_ui_driver` Galaxy instead of
+test.galaxyproject.org. `faq_server.sh` runs one server per profile: `main` (8091) for most FAQs,
+`accounts` (8092, account activation on) for account FAQs. Config, database and captured mail live
+under `~/.cache/gxui-faq/server/<profile>`; the worktree's own config is untouched.
+
+    ./faq_server.sh start            # or: start accounts
+    eval "$(./faq_server.sh env)"    # GXUI_* for that profile, plus FAQ_MAIL
+    bin/gxui start --headless
+    ./faq_server.sh stop
 
 `run.sh` inlines the tutorial's FAQ snippets with `expand_snippets.py`
 (`uv run --no-project --with pytest python -m pytest tests/test_expand_snippets.py`).
