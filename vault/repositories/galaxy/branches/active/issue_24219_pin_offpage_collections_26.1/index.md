@@ -13,5 +13,6 @@ Fixes galaxyproject/galaxy#24219: a selected visible collection past the first t
 
 - Base `release_26.1`: oldest supported branch with the bug (#22643 paging landed in 26.1); fix is a small server-side change.
 - Forward merge to 26.2/dev conflicts (`basic.py`, `test_tools.py`): there the collection listing is visible-only (`ee476eb5a3b`, no `visible_only` arg) → `DataCollectionToolParameter._hdca_listing_visible_only = True`, drop the arg in `_page_and_pin_hdcas`, then `_carry_selected_hdca` the unpinned values it returns. Hidden-pair cases in `test_build_collection_options_pinned_matches_page_entry` (off-page pin and on-page listing) become a carried `(hidden)` option there; rewrite them on merge.
+- [issue_24219_foreign_collection_carry_26.1](../issue_24219_foreign_collection_carry_26.1/index.md) now backports `ee476eb5a3b` to 26.1 too: if it lands first, rebase this branch with the same resolution as the forward merge above. Pin requires a visible value, so no double `keep` entry once the flag is `True`.
 - Server-only; client `FormData` already shows non-`keep` pinned entries.
 - Scope evaluation recommends expansion (`scope_evaluation.md`); split into standalone branch [issue_24219_foreign_collection_carry_26.1](../issue_24219_foreign_collection_carry_26.1/index.md) (supersedes alt `_alt_foreign_carry`).

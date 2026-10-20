@@ -5,13 +5,13 @@
 
 ## Status
 
-Implemented and hardened; held for John's review. Base `release_26.1` (`dbe4f2f7e41`), head `3147227b128`. Worktree `~/projects/worktrees/galaxy/branch/issue_24219_foreign_collection_carry_26.1`.
+Re-scoped 2026-10-19 (John: bring the broader 26.2 fix). Base `release_26.1` (`dbe4f2f7e41`), local head `fd4963c2021`. Worktree `~/projects/worktrees/galaxy/branch/issue_24219_foreign_collection_carry_26.1`. Alt: [original_scope](alts/original_scope.md).
 
 Spun out of [issue_24219_pin_offpage_collections_26.1](../issue_24219_pin_offpage_collections_26.1/index.md) scope evaluation: on 26.1 a `data_collection` input selected from another history is dropped on the tool form (rerun); `data` inputs already carry it.
 
 ## Decisions
 
-- Independent of the #24219 pin fix; supersedes that branch's alt `_alt_foreign_carry`.
-- Carries only other-history HDCAs: 26.1 collection listing includes hidden HDCAs (would duplicate if carried) and deleted HDCAs never reach `to_dict`.
-- Carried entry is classified like the page (`_classify_hdca`): one entry, with `map_over_type` only when there is no direct match (client keeps one `keep` entry per id).
-- Forward merge to 26.2/dev conflicts with `ee476eb5a3b` (`_carry_selected_hdca` there): keep 26.2's wider condition plus this branch's `map_over_type` classification. `_build_tool_param(inputs=)` also added by the #24219 branch - trivial conflict.
+- Backports #23865 (`ee476eb5a3b`, `a48832e3b04`, cherry-picked `-x`): collection select lists visible HDCAs only (fixes #22734 on 26.1); a selected hidden, deleted or other-history HDCA is carried as a `keep` entry. Conflicts kept 26.1 typing.
+- On top: carried HDCA classified via `_classify_hdca`, so a map-over-only selection keeps `map_over_type` (26.2 lacks this; goes forward on merge-up).
+- Independent of the #24219 pin fix. Whichever lands second drops `visible_only` / sets `_hdca_listing_visible_only = True` (see pin branch index).
+- Cross-user carry exposure: open decision for John (private reports); not changed here.
