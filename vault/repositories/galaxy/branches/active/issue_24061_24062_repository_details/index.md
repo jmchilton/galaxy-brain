@@ -5,7 +5,7 @@
 
 ## Status
 
-Implemented and pushed 2026-10-20; hardening in progress (baseline refactor next). Base `dev` (`1e6125acd93`), head `5b696c92143`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
+Implemented and pushed 2026-10-20; hardening in progress (scope evaluation next). Base `dev` (`1e6125acd93`), head `20e7ed05fba`. History rewritten by the baseline refactor; old SHAs in debriefs map via [baseline_refactor.md](baseline_refactor.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
 
 No PR yet.
 
@@ -17,7 +17,7 @@ Tool Shed repository page work for [#24061](https://github.com/galaxyproject/gal
 
 [Initial implementation debrief](initial_implementation_debrief.md)
 
-Hardening: [review](subagents/normal_review.md) · [test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [thermo-nuclear review](thermo_nuclear_review.md)
+Hardening: [review](subagents/normal_review.md) · [test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [thermo-nuclear review](thermo_nuclear_review.md) · [baseline refactor](baseline_refactor.md)
 
 ## Notes
 
