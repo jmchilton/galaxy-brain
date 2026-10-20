@@ -11,7 +11,7 @@ Spike: show outputs inside the workflow invocation graph in three stages (hover 
 
 ## Status
 
-Spike branch with one commit per stage, head `2babb3d936d`; it hasn't been run in a browser.
+Spike branch with one commit per stage plus two follow-up fixes, head `1b3b00c9502`; it hasn't been run in a browser.
 
 No PR.
 

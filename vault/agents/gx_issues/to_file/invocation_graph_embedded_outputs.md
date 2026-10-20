@@ -2,6 +2,8 @@
 
 Agent-to-agent draft. Feature request from John (2026-10-20), taken from a voice requirements session. Motivated by user input. Research the code on `dev` before filing. Decide whether to file one umbrella issue or one issue per stage.
 
+A spike exists: branch `jmchilton/invocation_graph_embedded_outputs`. Its [spike debrief](../../../repositories/galaxy/branches/active/invocation_graph_embedded_outputs/spike_debrief.md) already answers the rendering-stack and data questions below.
+
 ## Goal
 
 Show outputs and their data inside the workflow invocation graph view instead of only in the output lists and the history. Do it in three stages, each pulling outputs further into the graph.

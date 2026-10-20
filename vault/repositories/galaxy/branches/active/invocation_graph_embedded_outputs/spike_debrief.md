@@ -1,21 +1,25 @@
 # Spike debrief: invocation_graph_embedded_outputs
 
-Branch `jmchilton/invocation_graph_embedded_outputs`, based on `dev` `2cca8565861`. One commit per stage:
+Branch `jmchilton/invocation_graph_embedded_outputs`, based on `dev` `2cca8565861`. One commit per stage, then two follow-up fixes:
 
 | Stage | Commit | What |
 |---|---|---|
 | 1 | `4054f126c5e` | Hovering an output terminal in the invocation graph pops up a preview of its dataset or collection |
-| 2 | `9e96d41b5be` | An "Embed Outputs" toggle turns workflow outputs into large nodes, shrinks steps, and nudges the layout |
-| 3 | `2babb3d936d` | New per-step `preferred_output`, with a star toggle in the editor; in embed mode the step renders as that output |
+| 2 | `5f33ad43ffa` | An "Embed Outputs" toggle turns workflow outputs into large nodes, shrinks steps, and nudges the layout |
+| 3 | `16d2ddff843` | New per-step `preferred_output`, with a star toggle in the editor; in embed mode the step renders as that output |
+| fix | `9a47ea37cb1` | Layout leaves steps the author placed closer than the gap alone; the layout reruns when measured step sizes settle |
+| fix | `1b3b00c9502` | The hover preview moved from each terminal to one popover per step that lists all of its produced outputs |
 
 Requirements: [queued issue draft](../../../../../agents/gx_issues/to_file/invocation_graph_embedded_outputs.md).
 
 ## Verification
 
-- vitest: Workflow Editor, Invocation and WorkflowInvocationState pass (48 files, 411 tests), including 6 new tests for the layout module.
+- vitest: Workflow Editor, Invocation and WorkflowInvocationState pass (48 files, 412 tests), including 7 new tests for the layout module.
 - `vue-tsc --noEmit` is clean. eslint shows no new errors. The Python files compile.
 - **Not run in a browser.** No local Galaxy is running and the worktree has no `.venv`. The go/no-go for stage 2 depends on seeing it on a real multi-output workflow, which hasn't happened yet.
 - No Python tests: the backend round-trip (editor save → `.ga` export → editor dict) was checked by reading the code only.
+  - The graph loads the `style=editor` dict (`getWorkflowFull`), which is where `preferred_output` is serialized.
+- mypy wasn't run. Assigning a dict to `WorkflowStep.config` (`Mapped[bytes | None]`) will probably need a type fix.
 
 ## Answers to the open questions in the draft
 
@@ -24,6 +28,9 @@ Requirements: [queued issue draft](../../../../../agents/gx_issues/to_file/invoc
   - Added content goes in a new named slot (`node-area`) inside the transformed layer, so it pans and zooms with the nodes.
 - **Data:** with the element view, `invocation.steps[i].outputs` and `output_collections` already map every step output to an hda or hdca. `useInvocationGraph` now copies these onto `GraphStep.outputItems`. No API change was needed.
 - **Preview reuse:** the Markdown `HistoryDatasetDisplay` (`embedded`) and `CollectionDisplay` components, wrapped in `InvocationOutputPreview.vue`. Tables, images, PDF/HTML iframes and text all come from existing code.
+- **Hover target:** in invocation mode, every output row of a step is absolutely positioned on the same spot (`.invocation-node-output`), so the terminals stack. A popover per terminal only reached the top one.
+  - The popover is now on the node: it targets the topmost terminal and lists every produced output.
+  - Hovering a single output on its own needs the terminals un-stacked, which changes how edges leave the node.
 - **Embedded-content cost:** the hover popover mounts the preview only while shown. Embedded nodes render every preview at once, with no lazy loading. Fine for a handful of outputs; a workflow with dozens of outputs would need an IntersectionObserver.
 
 ## Stage 2: nudging (the go/no-go)
@@ -51,7 +58,9 @@ Shortcuts:
 - Embedded nodes aren't in the minimap or `fitWorkflow`'s bounding box.
 - Connectors are dashed straight lines, not real terminals.
 - Node shrinking is a CSS override (`width: 9rem`, smaller font) in `InvocationGraph.vue`.
-- Embedded nodes use a fixed estimated size (360×260); steps use their measured sizes after shrinking.
+- Embedded nodes use a fixed estimated size (360×260).
+- Steps use their measured sizes. The measured width and height (not left/top) are watched, so the layout reruns from the original positions once ResizeObserver reports the shrunk sizes.
+- Preferred-output bodies have a fixed height (16rem), so loading the preview doesn't resize the node again.
 
 ## Stage 3: preferred output
 
@@ -66,7 +75,7 @@ Shortcuts:
 ## Open questions
 
 - Should stage 3 apply in the default graph view, or only in embed mode? The spike ties it to embed mode, so the default graph doesn't change.
-- `config` column vs. a dedicated `preferred_output` column with a migration. `config` avoided the migration but is vague, and it has no schema or validation.
+- `config` column vs. a dedicated `preferred_output` column with a migration. `config` avoided the migration but is vague, and it has no schema or validation. The check that `config` is unused only grepped `modules.py`, `managers/workflows.py` and `model/__init__.py`.
 - gxformat2 doesn't round-trip `preferred_output` yet. It needs a format2 field and a gxformat2 release.
 - Should embedded and preferred-output content be interactive (scrolling tables, paging) or static thumbnails? The spike stops wheel and pointer events so tables scroll; that blocks panning while over them.
 - Is the embed toggle per invocation, or a remembered user preference?
