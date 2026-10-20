@@ -62,3 +62,7 @@ For each commit, the diff against the original contains only the expected files:
 - `27be4062dab` (all baseline tests on base code) and `9eb5612045e` (after the refactors): `Dataset/` and `DatasetInformation/` give 9 files, 46 passed, 2 skipped. eslint and prettier are clean on the refactored files; the only output is the existing `v-html` warning.
 - `5deb7d7be63` (mid-history): 10 files, 62 passed, 2 skipped.
 - Tip `3db8cffc661`: 10 files, 72 passed, 2 skipped. `vue-tsc --noEmit` exits 0.
+
+## Later: backport moved into the baseline (2026-10-20)
+
+At John's direction, upstream `9cb9df41c63` (#23985) was cherry-picked fresh (`-x`, davelopez author) as commit 7, `498f65b48a3`, right after the refactors. Its conflict with "Rebuild dataset attribute forms after a save" was resolved by keeping upstream's `errorMessageAsString` line plus the branch's `return;`. The final tree matches `2844b08fb87`; head is now `c11610da344`. `issue_24273_dataset_edit_alert_26.0_baseline` is cut at `498f65b48a3`.
