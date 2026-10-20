@@ -1,13 +1,13 @@
 # Galaxy UI Skill — design
 
-Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
-[GALAXY_UI_SKILL_RESEARCH.md](GALAXY_UI_SKILL_RESEARCH.md). All Galaxy refs are against dev as of
+Task 2 of [GALAXY_UI_SKILL.md](archive/GALAXY_UI_SKILL.md). Why this shape is argued in
+[GALAXY_UI_SKILL_RESEARCH.md](archive/GALAXY_UI_SKILL_RESEARCH.md). All Galaxy refs are against dev as of
 2026-10-06.
 
 ## Status and next steps (2026-10-06)
 
 **Done:**
-- **Research.** CLI vs MCP; the decision is a CLI skill (`GALAXY_UI_SKILL_RESEARCH.md`).
+- **Research.** CLI vs MCP; the decision is a CLI skill (`archive/GALAXY_UI_SKILL_RESEARCH.md`).
 - **This design.** The skill is named `galaxy-ui-driver` (renamed from `galaxy-ui`: dev's
   `@galaxyproject/galaxy-ui` component package arrived in #23924) and its CLI `gxui`.
 - **Loop design** (`GALAXY_UI_SKILL_LOOP.md`).
@@ -16,8 +16,8 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
 - **Spikes S1–S3 are all resolved** (below).
 - **The harness** is source in `galaxy_ui_loop/`, with state in `~/.cache/gxui-loop`. See its
   README.
-- **Prerequisite PR 1** is branch `selenium_context_timeout_handler`, approved at `46aebb27457`.
-  The gx_branches process owns it from here.
+- **Prerequisite PR 1** (`selenium_context_timeout_handler`) merged as
+  [#23947](https://github.com/galaxyproject/galaxy/pull/23947).
 - **Standing branch `galaxy_ui_driver`** (John, 2026-10-06): Galaxy-side changes that don't
   justify a PR alone are collected here, unmerged, until gxui is a complete motivating example. It
   holds PR 2 (`9ffb7bda18c`, CDP port, no longer queued alone) on top of PR 1. Galaxy-side work
@@ -25,7 +25,7 @@ Task 2 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). Why this shape is argued in
 - **`gxui` lives in Galaxy now** (2026-10-07): the tip commit of `galaxy_ui_driver` (`2573f2f9f2d`,
   `lib/galaxy/selenium/gxui/`, `gxui` script of `galaxy-selenium`, tests in
   `test/unit/selenium/test_gxui*.py`). Codex's package move and config/login work
-  (`GXUI_PACKAGE_MOVE_HANDOFF.md`, `GXUI_CONFIG_LOGIN_HANDOFF.md`) were folded in 2026-10-09. The skill is on
+  (`archive/GXUI_PACKAGE_MOVE_HANDOFF.md`, `archive/GXUI_CONFIG_LOGIN_HANDOFF.md`) were folded in 2026-10-09. The skill is on
   galaxy-skills branch `gxui` (`galaxy-ui-driver/`). The vault's `galaxy_ui_loop/` keeps only the
   eval harness; how to run and recreate the worktrees is in its README. Findings below under "MVP
   findings".

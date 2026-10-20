@@ -87,7 +87,7 @@ them as dynamic tools.
    not.
 2. **The transcript is a script.** Each `gxui` call is one `NavigatesGalaxy` method call. A run's
    command log therefore compiles into a pytest test or a Test Story
-   ([TEST_STORIES_RESCUE.md](TEST_STORIES_RESCUE.md)), which feeds this project's own goal. MCP tool
+   ([TEST_STORIES_RESCUE.md](../TEST_STORIES_RESCUE.md)), which feeds this project's own goal. MCP tool
    calls are just as loggable, but the shell transcript is already replayable as written.
 3. **Composition.** Shell lets the agent loop over hids, pipe to `jq`, and keep artifacts on disk.
    The playwright-cli skill leans on exactly this (`--raw`, `snapshot > before.yml`, `diff`).
@@ -107,7 +107,7 @@ these holds:
 - The verb set has stabilised into roughly 10–15 coarse verbs that are worth paying for every turn.
 - An evaluation harness needs host-portable tool calls.
 
-Arm C of the loop ([GALAXY_UI_SKILL_LOOP.md](GALAXY_UI_SKILL_LOOP.md)) measures Playwright MCP
+Arm C of the loop ([GALAXY_UI_SKILL_LOOP.md](../GALAXY_UI_SKILL_LOOP.md)) measures Playwright MCP
 against playwright-cli on the same task. It turns the token argument above from reasoning into
 data.
 

@@ -18,7 +18,9 @@ dev. Replaces the old "decide what to pull out at the end" rule.
 Easiest first. Commit numbers follow the queue in `GALAXY_UI_SKILL_DESIGN.md` ("Prerequisite
 PRs").
 
-**1. Two standalone fixes, in parallel.** Both branched, tested and pushed 2026-10-09:
+**1. Two standalone fixes, in parallel.** Both merged: [#24142](https://github.com/galaxyproject/galaxy/pull/24142)
+and [#24139](https://github.com/galaxyproject/galaxy/pull/24139). `galaxy_ui_driver` (`381f47837e3`, 2026-10-09)
+still carries their commits and needs a restack onto dev.
 [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/merged/tool_open_tool_shed_ids/index.md),
 [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/merged/playwright_timeout_retry_once/index.md).
 - **Tool Shed ids in `tool_open`** (4a). A real tool panel bug: searching by a Tool Shed id finds

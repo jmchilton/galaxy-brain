@@ -29,6 +29,6 @@ Browser fixture checks cover password login, state reuse across daemon restarts,
 URL/profile binding, and actual headed-browser interactive login. OS keyrings were
 mocked and institutional SSO was not exercised.
 
-[Package move handoff: commits, dependency decisions and integration notes](../../../../../projects/playwright/GXUI_PACKAGE_MOVE_HANDOFF.md).
+[Package move handoff: commits, dependency decisions and integration notes](../../../../../projects/playwright/archive/GXUI_PACKAGE_MOVE_HANDOFF.md).
 
-[Configuration/login handoff: behavior, examples, verification and integration](../../../../../projects/playwright/GXUI_CONFIG_LOGIN_HANDOFF.md).
+[Configuration/login handoff: behavior, examples, verification and integration](../../../../../projects/playwright/archive/GXUI_CONFIG_LOGIN_HANDOFF.md).

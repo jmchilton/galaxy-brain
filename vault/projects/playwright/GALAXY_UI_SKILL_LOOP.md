@@ -1,6 +1,6 @@
 # Galaxy UI Skill — feedback loop
 
-Task 3 of [GALAXY_UI_SKILL.md](GALAXY_UI_SKILL.md). The loop feeds an agent one target (a GTN
+Task 3 of [GALAXY_UI_SKILL.md](archive/GALAXY_UI_SKILL.md). The loop feeds an agent one target (a GTN
 tutorial or an IWC workflow), has it do the work through the UI, and gets back suggestions for the
 skill, the abstractions and the training material. Skill design:
 [GALAXY_UI_SKILL_DESIGN.md](GALAXY_UI_SKILL_DESIGN.md).
