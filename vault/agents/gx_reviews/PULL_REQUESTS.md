@@ -1,5 +1,4 @@
 PRs To Review:
-- [#24272](https://github.com/galaxyproject/galaxy/pull/24272) — Response drafted (two P3s, fixes on fork branch); awaiting John. [notes](../../repositories/galaxy/reviews/active/24272/index.md)
 - [#24280](https://github.com/galaxyproject/galaxy/pull/24280) — Approved with response (one P3, fix on fork branch); awaiting merge. [notes](../../repositories/galaxy/reviews/active/24280/index.md)
 - [#24111](https://github.com/galaxyproject/galaxy/pull/24111) — Approved with response (four P2s + three P3s, fixes on fork branch; asked for admin-docs pass); awaiting merge. [notes](../../repositories/galaxy/reviews/active/24111/index.md)
 - [#24271](https://github.com/galaxyproject/galaxy/pull/24271) — review fixes pushed into PR; approved; awaiting merge. [notes](../../repositories/galaxy/reviews/active/24271/index.md)
