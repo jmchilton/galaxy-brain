@@ -40,6 +40,6 @@ activation email, activation link → "Your account has been successfully activa
 
 ## Replay
 
-`account_create.gxui.sh`: re-run against a fresh logged-out session with a new email
+`account_create.gxui.sh` (two parts, not unattended): re-run against a fresh logged-out session with a new email
 (`faq-replay1@example.org`): pass, with the activation link pasted in by hand. "Fresh history"
 from the process doc doesn't apply to account FAQs; a fresh logged-out session did.
