@@ -33,3 +33,7 @@ Recommended sequence (plan only; story refs untouched): freeze worker loops and 
 ## Accepted preservation policy — 2026-10-16
 
 The user clarified that estimated churn scores are review pointers, not a removal mandate. Keep migrated story/play changes by default, changing them only for concrete conflicts, assertion loss, readability problems or current-dev incompatibility. This supersedes the blanket cleanup wording in the earlier restack recommendation. Stories now published at `4e60254eded` above clean readability; play is now published above it at `fd94d33f277`. The churn comparison stays at `488693a2611` and is not the base of this story stack.
+
+## Dependent rebase — 2026-10-20
+
+Published `e8d2b3f06e4b7842d6afee6f356ffcb0a3c05dd7` onto readability `1358d37887996e552e0fac6467c8738865618d9a`. 76 own-layer commit messages/trailers preserved; exact old-head lease and remote SHA verified. Published reference-only comparison; do not PR. See [current implementation and validation](implementation_debrief.md), [test challenge](test_challenges_debrief.md), and [cascade mapping](../../../../../projects/just_jesting_around/readability_assessment/dependent_rebase_2026-10-20.json).

@@ -1,3 +1,5 @@
-Rebase challenge complete. All migration assertions retained, including current dev polling/page-stop regressions. Fixed removed timer/setup references, actual component/root wrapper ownership, real Pinia store lifecycle, complete dataset output contracts and legacy job-detail API mocks. No test was removed or weakened.
+Scoped rebase challenge — 2026-10-20.
 
-See [normal review and scoped challenge](subagents/rebase_2026-10-16.md) and [reconciliation notes](rebase_resolutions_2026-10-16.md).
+Client unit: 646 files, 5,704 passing tests and one skipped. Chromium: 100 files, 379 passing stories. Full client types, static Storybook build, layer lint/format and normal hooks pass. Unchanged watchHistory cold imports use a temporary unit-project 60-second hook allowance; repository configuration is unchanged. Preserved all new upstream assertions, scoped stores and retry behavior; repaired FilesDialog idle waiting and the partial InteractiveTools error mock.
+
+Verified exact own-layer count (159), original messages/trailers, base ancestry and tested tree. 245 nonoverlap blobs remain unchanged. Final compatibility edits preserve regressions and fixture semantics. See [independent challenge](../../../../../projects/just_jesting_around/reviews/restack_2026-10-20/test_challenges_debrief.md) and [ancillary review](../../../../../projects/just_jesting_around/reviews/restack_2026-10-20/ancillary_audit.md). Validation is scoped to this rebase and does not grant a new PR approval.

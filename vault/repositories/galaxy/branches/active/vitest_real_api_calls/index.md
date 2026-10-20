@@ -49,3 +49,7 @@ Requested failed-job reruns for diagnosed unrelated failures: [run 38347319493](
 ## Dependency audit — 2026-10-16
 
 [Exact layer boundary and core-stack restack audit](dependency_audit_2026-10-16.md). Remote head is unchanged. This branch requires its own transplant from its recorded historical cut; the stories/play core stack is now published. Existing validation and review holds remain.
+
+## Dependent rebase — 2026-10-20
+
+Published `0277a85df3954d1f83856933991cc5df0b97865c` onto readability `1358d37887996e552e0fac6467c8738865618d9a`. 3 own-layer commit messages/trailers preserved; exact old-head lease and remote SHA verified. Published; existing fork CI and human-review holds remain. See [current implementation and validation](implementation_debrief.md), [test challenge](test_challenges_debrief.md), and [cascade mapping](../../../../../projects/just_jesting_around/readability_assessment/dependent_rebase_2026-10-20.json).
