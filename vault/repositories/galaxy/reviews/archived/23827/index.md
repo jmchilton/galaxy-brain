@@ -46,3 +46,7 @@ Approved by John; awaiting merge decision; two package checks fail on ssh_util t
 
 CI snapshot: 2 failure, 2 skipped, 49 success. Earlier findings retain their reviewed commits.
 The two failed package jobs (Python 3.10 and 3.14) both report `galaxy/security/ssh_util.py:18: error: Call to untyped function "publickey"`. No changes or reruns submitted.
+
+## Archived — 2026-10-20
+
+Merged by John into `release_26.2` at 2026-10-20T02:25:26Z on head `4216e350ea9`, despite the two failing package checks (ssh_util typing; PR doesn't touch that file). Tracking ended on merge. Follow-up picker work tracked by the author in #24259.
