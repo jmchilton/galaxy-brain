@@ -2,7 +2,7 @@ Addresses 🎯 #22598 on 26.2. On a logged-out Tool Shed, Explore → Changelog 
 
 hgweb's HTML views sit behind login on the main shed because crawlers overloaded them. The issue reporter said logging in covered their use. Anonymous browsing is #24167, which targets `dev`. This PR is the release-branch stopgap suggested in that review, and it adds no server load.
 
-***`/login` accepts a `redirect` query and returns there after login. Only paths on this site are followed (a leading `/`, not `//` or `/\`); anything else falls back to the usual success page.***
+***`/login` accepts a `redirect` query and returns there after login. The value has to start with `/` and resolve to the shed's own origin, so tricks like `//host` or `/\t/host` (browsers drop the tab) fall back to the usual success page.***
 
 <details><summary>What changed</summary>
 
@@ -14,7 +14,7 @@ hgweb's HTML views sit behind login on the main shed because crawlers overloaded
 
 ## Risks
 
-- A new same-site open-redirect surface on `/login`. It's limited to paths on this site, and tests cover off-site, protocol-relative, backslash and `javascript:` values.
+- `/login` now redirects to a path given in the URL. It follows only paths that resolve to the shed's own origin. Tests cover off-site, protocol-relative, backslash, tab/newline-smuggled and `javascript:` values.
 - After login, reaching the hgweb view depends on the main shed's nginx accepting the new session. That can't be tested here.
 - When merged forward, `RepositoryExplore.vue` conflicts with #24167 on `dev`. Keep #24167's version there.
 

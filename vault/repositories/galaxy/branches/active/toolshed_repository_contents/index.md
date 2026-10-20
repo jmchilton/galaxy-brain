@@ -58,7 +58,7 @@ mvdbeek [reviewed](https://github.com/galaxyproject/galaxy/pull/24167): the list
 - Force-pushed with an explicit lease, then `gh pr edit --base dev` and dropped "[26.2]" from the title.
 - Verified locally: shed vitest 218/218, vue-tsc, prettier, ruff/black/isort, both shed unit modules, and `test_shed_repository_files.py` (8 passed). Local runs needed `pnpm install` to refresh galaxy-ui and `pytest-xdist` (new on dev).
 - `pr_description.md` now has the new core SHAs, the listing cost, the `proxy_cache` recommendation and an uncached-crawler risk. The live PR body is not yet synced.
-- Not built: the old `/repos/.../file/` redirect (nginx 403s before the app, and it touches the `hg clone` route) and a 26.2 login prompt. Both are offered in the reply draft or to John.
+- Not built: the old `/repos/.../file/` redirect (nginx 403s before the app, and it touches the `hg clone` route) and a 26.2 login prompt. Both are offered in the reply draft or to John. John then asked for the login prompt, which is built as [`issue_22598_login_prompt_26.2`](../issue_22598_login_prompt_26.2/index.md). Its PR isn't open, and the live body was synced at `66f8d7c3769`.
 - `66f8d7c3769` asserts anonymous files responses set no cookie, which backs the `proxy_cache` claim (8 passed). The description also drops two claims dev made stale: the `readme_util` follow-up and the README-on-mount fix, both of which dev already did.
 
 ## TICK — 2026-10-20
