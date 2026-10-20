@@ -25,7 +25,7 @@ Size: ~1072 lines, none generated (prod 182, test infra 183, contract module 201
 
 ## Validation
 
-Contract module 64 passed (no xfails); base production with current tests 47 failed/11 passed/6 skipped, each commit's reds owned by later commits. `test_tool_execute.py` 117, `test_unprivileged_tools.py` 17, framework `simple_constructs_y`/`gx_repeat*`/`gx_section*` pass. Unit tool_util/app/tools/workflows 2039 passed (38 known env failures: cwl/conda/mulled/watcher). ruff 0.15.13/black/isort/mypy (changed files) clean.
+Contract module 64 passed (no xfails); base production with current tests 47 failed/11 passed/6 skipped, each commit's reds owned by later commits. At tip `58f9664c617`: contract module 64, `test_unprivileged_tools.py` 17 passed. At re-scope review (`d31abb1b55b`, pre-`remap`): `test_tool_execute.py` 117, framework `simple_constructs_y`/`gx_repeat*`/`gx_section*` pass. Unit tool_util/app/tools/workflows 2039 passed (38 known env failures: cwl/conda/mulled/watcher). ruff 0.15.13/black/isort/mypy (changed files) clean.
 
 ## Debriefs
 
@@ -33,5 +33,5 @@ Contract module 64 passed (no xfails); base production with current tests 47 fai
 
 ## Follow-ups / PR notes
 
-- PR must flag YAML behavior change on a release branch and mention the conftest fixture-scope change.
+- PR must flag YAML behavior change on a release branch and mention the conftest fixture-scope change. Also user-tool changes from the re-scope: legacy/21.01 `$(inputs)` no longer contains `__index__`/`__current_case__`; null repeat `min`/`max` (API user tools) now loads instead of failing.
 - Not done: 21.01 ignores repeat `min` when omitted (shared with XML); legacy `to_cwl` path leaks top-level runtime keys into `$(inputs)`; `simple_constructs.yml` still uses `blocks:`; `meta.py` cleanup could move to `remap`.
