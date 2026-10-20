@@ -14,7 +14,9 @@ A checklist of every GTN FAQ, for walking through them during release 26.2 QA. T
   note: <optional; why the FAQ is blocked or skipped>
 ```
 
-- The top level is a list, with one entry per FAQ.
+- The top level is a list, with one entry per FAQ, in working order: `faqs/galaxy/`, topic-level,
+  tutorial-level, `faqs/gtn/`, then translations (so a translation's base comes first).
+  Alphabetical within each group.
 - `faq` is the path from the root of `galaxyproject/training-material`. It is the key. Findings
   files mirror it (see the process doc).
 - `status`:

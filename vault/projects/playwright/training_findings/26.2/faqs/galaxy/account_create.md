@@ -20,15 +20,15 @@ activation email, activation link → "Your account has been successfully activa
 
 ## Galaxy
 
-- Coverage: `test_registration.py` covers Login → Register here → Create. Not covered by E2E:
-  the masthead **Register** button (`masthead.register_masthead_button` exists in
-  `navigation.yml`, no test uses it) and the whole activation flow (banner, Resend Verification,
-  activation link; only API-level `test/integration/test_users.py`). Proposed: one
-  `test_registration_from_masthead` in `test_registration.py`, and an integration-selenium test
-  with `user_activation_on` + `smtp_server: mock_emails_to_path://...` that registers, sees the
-  banner, resends, activates and sees the banner go. Not implemented this run.
-- `navigation.yml` has no component for the inactivity banner or its Resend Verification link
-  (`App.vue`); the run used `gxui call click_label "Resend Verification"`.
+- Coverage was missing, now added (`4d391ac7e36`, below gxui). `test_registration.py` covered only
+  Login → Register here → Create. New: `test_registration_from_masthead` (via
+  `register(via_masthead=True)`) and `test/integration_selenium/test_user_activation.py`
+  (`user_activation_on` + `mock_emails_to_path://`: register, banner, Resend Verification,
+  activation link, banner gone). Green under Playwright; Selenium not run (no chromedriver here).
+  Gotcha: activation also turns on a DNS check of the email domain, so the default `@test.test`
+  random email can't register.
+- `navigation.yml` had no component for the inactivity banner; added `inactivity_box`
+  (`_`, `resend_verification`). The run used `gxui call click_label "Resend Verification"`.
 - `/user/resend_verification` and `/user/activate` render bare legacy message pages (no
   masthead); only a "Return to the home page" / "Go to login page." link. Works, looks dated.
 - gxui: `gxui methods regist` summarised `register` as "Register a virtual subclass of an ABC"

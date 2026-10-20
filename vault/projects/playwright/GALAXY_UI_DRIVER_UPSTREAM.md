@@ -60,9 +60,12 @@ and red without each fix. Queued in `MY_BRANCHES.md`; no PRs yet.
 | Multiview copy + hooks | 4c, 5e | Multiview E2E |
 | `galaxy.selenium` usable outside the test suite | 7k, 5a, 5b, 5c, 5d, 7l, 7n | upload and extraction E2E suites, unit tests; give it a consumer by mixing `UsesUploadActivity` into `GalaxySeleniumContext` |
 
-FAQ-loop fixes ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxui too. So far:
-`c31fcb13a8e` (docstring on `NavigatesGalaxy.register`; `inspect.getdoc` showed `ABC.register`'s);
-fold it into the `galaxy.selenium` PR.
+FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxui too. So far:
+- `c31fcb13a8e`: a docstring on `NavigatesGalaxy.register` (`inspect.getdoc` showed
+  `ABC.register`'s). Fold it into the `galaxy.selenium` PR.
+- `4d391ac7e36`: coverage for `account_create`. It adds `register(via_masthead=True)`, an
+  `inactivity_box` component and `test_user_activation.py` (register, banner, resend, activate). A
+  standalone coverage PR candidate, like step 2. It is green under Playwright only so far.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

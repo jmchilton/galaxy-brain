@@ -30,7 +30,7 @@ Your job in the process is three-fold - all of equal importance.
 	- the next run of gxui against that FAQ
 	- improve the galaxy test coverage
 
-Once the FAQ passes, save the `gxui` commands that carried it as a replay script (see Reporting) and re-run the script once against a fresh history to confirm it works on its own. Set `status: ui_verified`, or `blocked` with a `note` if it couldn't be finished.
+Once the FAQ passes, save the `gxui` commands that carried it as a replay script (see Reporting) and re-run the script once against a fresh history (or a fresh logged-out session for account FAQs) to confirm it works on its own. Set `status: ui_verified`, or `blocked` with a `note` if it couldn't be finished.
 
 ## Reporting
 
