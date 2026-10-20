@@ -1,6 +1,6 @@
 # invocation_no_add_to_history_false
 
-Status: `branches_ready_for_final_review`. Base: `release_26.2` (retargeted from `dev` 2026-10-15 at John's request; now on `162b71f8185`).
+Status: `branches_need_decision` — 2026-10-20 John posted a [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1) comparing this with the 26.1 branch; waiting for someone to okay one approach. Base: `release_26.2` (retargeted from `dev` 2026-10-15 at John's request; now on `162b71f8185`).
 
 Fixes workflow invocations built to the published request types:
 - honor `no_add_to_history: false`/`null`;

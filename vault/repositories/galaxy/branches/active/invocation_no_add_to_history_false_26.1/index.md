@@ -1,6 +1,6 @@
 # invocation_no_add_to_history_false_26.1
 
-Status: `branches_ready_for_final_review` — polished 2026-10-16; human read pending.
+Status: `branches_need_decision` — 2026-10-20 John posted a [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1) comparing this with the 26.2 branch; waiting for someone to okay one approach.
 
 Backport of the two server fixes from [invocation_no_add_to_history_false](../invocation_no_add_to_history_false/index.md) (26.2): honor explicit `no_add_to_history: false`/`null`, and accept a `null`/`{}` `ds_map` next to `inputs`. The bugs date to 2024 and are exposed by the published 26.1.1 api-client types. The generator and schema-description commits stay on 26.2 only.
 
