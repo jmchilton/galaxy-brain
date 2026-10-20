@@ -78,6 +78,8 @@ Generalize `summarize_meta_expansion` to `RequestInternalToolState` for `/api/jo
 |---|---|
 | <ul><li>The classifier already handles `_is_async_batch`.</li></ul> | <ul><li>Still has no consumer. The tool form posts flat state to `build`.</li><li>Needs new endpoint or field design.</li></ul> |
 
+Correction (2026-10-20): the tool form *submits* via async tool requests by default, so parity matters even though the preview stays on `/build`. The flat count agrees with async expansion; see [async_parity.md](async_parity.md).
+
 ### 6. Expansion — `match_collections` performance for linked nested collections
 Compare the structure of two or more linked nested collections in SQL rather than walking them.
 
