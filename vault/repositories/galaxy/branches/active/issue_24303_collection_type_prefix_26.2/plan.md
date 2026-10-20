@@ -6,7 +6,7 @@ Sequential phases, each by a subagent, normal review between. Red-to-green insid
 
 ## Scope boundaries
 
-- **Nest not touched by default.** On 26.2 Nest is `list,paired` → fixed `list:list` and wraps pair members; the prefix would change bare-`paired` (`list:list` → `list:paired`) and mapped `list:paired` outputs. The real Nest fix is #24190 + `pr_24190_review_0` (26.0, unmerged). Phase 7 is contingent.
+- **Replaces #24190** (John, 2026-10-20). Nest 1.1.0 accepts `list,list:paired` with `type_source="input" type_prefix="list"`; 1.0.0 unchanged (bare `paired` → `list:list`, `list:paired` maps over pairs) for existing workflows. bernt-matthias's `a6d7e445d63` cherry-picked for credit. Review-branch fixes (empty `list:paired`, mapped DCE slice via `get_collection()`) and `test_nest_*` tests ported; the `Tool.output_collection_type()` hook is not. 26.0/26.1 don't get the Nest fix.
 - **No change to `type_source` resolution order.** "Direct match before map-over" changes every `type_source` DB-op tool (filter_*, relabel, sort, tag, merge…). The prefix applies to whatever each path resolves today. Divergences recorded as follow-ups.
 - One shared helper applies + validates the prefix; no new type algebra (`CollectionTypeDescription.multiply()` server, `.append()` client).
 
@@ -35,15 +35,17 @@ Sequential phases, each by a subagent, normal review between. Red-to-green insid
 6. **collection_semantics**
    - New "Output Collection Types" section before "Type Compatibility Algebra": plain `type_source`, then `type_prefix`, extra outer levels → map-over. Examples use the test tool; `tests:` link the API test, tool id, framework workflow test (`collection_semantics_type_prefix*.gxwf.yml`), and exact `it()` names.
    - Regenerate `doc/source/dev/collection_semantics.md`; run `test/unit/data/model/test_collection_semantics.py`.
-7. **Nest (contingent on decision)** — see questions.
+7. **Nest 1.1.0**
+   - Cherry-pick `a6d7e445d63` (author bernt-matthias), then reshape: 1.0.0 XML/behavior restored; new 1.1.0 XML (`list,list:paired`, prefix); `NestTool` branches on version; inner type from declared structure / input type; `get_collection()` for mapped slices.
+   - Port review-branch tests (`test_nest_empty_list_of_pairs`, `test_nest_offers_..._inputs` adapted, `test_nest_map_over_list_of_lists_of_pairs`, matching unit test) + Nest XML `<tests>`; collection_semantics Nest example + framework workflow test.
 
 Then the hardening process (`GX_PROCESS_HARDEN_BRANCH.md`) and hand-off.
 
+## Decisions (John, 2026-10-20)
+
+- Replace #24190 here; Nest 1.1.0 + keep 1.0.0; cherry-pick bernt-matthias's commit.
+- `type_prefix` name; sample_sheet + prefix → error; profile gate 26.2; parser-only (not YAML user tools); `type_source` resolution-order bug → separate issue.
+
 ## Unresolved questions
 
-- Nest here? (a) skip, follow-up after #24190 merges forward; (b) stack on #24190/review branch; (c) adopt on 26.2 with new Nest version.
-- Attribute name: `type_prefix` OK?
-- Fix `type_source` direct-vs-map-over order here or separate issue?
-- sample_sheet input + prefix: error, or normalize to `list:` first?
-- Profile-gate third-party use at 26.2 — ok on a release branch?
-- Expose prefix to YAML user-defined tools (pydantic `UserTool…`) or parser-only?
+- What to do with #24190 (close in favor / retarget) — John's call, outward-facing.
