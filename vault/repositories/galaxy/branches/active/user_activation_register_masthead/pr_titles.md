@@ -1,0 +1,4 @@
+- [26.2] Test account registration from the masthead through email activation
+- [26.2] Add E2E coverage for masthead registration and account activation
+- [26.2] Cover the masthead Register → resend verification → activate flow in E2E tests
+- [26.2] Test the account activation flow end to end; share mock-email test setup

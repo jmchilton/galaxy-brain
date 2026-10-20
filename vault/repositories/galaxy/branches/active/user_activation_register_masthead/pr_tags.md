@@ -1,0 +1,4 @@
+- kind/bug
+- area/testing
+- area/testing/selenium
+- area/testing/integration

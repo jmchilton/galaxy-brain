@@ -5,11 +5,11 @@
 
 ## Status
 
-Implemented and hardened on `release_26.2`, head `7857f4ca51e`; READY, framed as missing E2E coverage for the release.
+Polished on `release_26.2`, head `7857f4ca51e`; ready for final review, framed as missing E2E coverage for the release.
 
 No PR.
 
-CI not yet observed.
+Fork CI on `7857f4ca51e` still queued at handoff, no failures yet.
 
 ## Scope
 
@@ -22,3 +22,5 @@ Brings `c31fcb13a8e` (one-line `register` docstring) because the test commit edi
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop `c31fcb13a8e` and `4d391ac7e36` from `galaxy_ui_driver` once this merges.
 
 [Initial implementation](initial_implementation_debrief.md) · [Implementation debrief](implementation_debrief.md)
+
+[PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
