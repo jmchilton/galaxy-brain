@@ -8,7 +8,11 @@ dev. Replaces the old "decide what to pull out at the end" rule.
 - Each PR comes off dev and holds one theme from the commits below the gxui tip.
 - Prefer PRs that grow E2E coverage. A fix or abstraction lands with a Selenium/Playwright test
   that uses it, so the suite becomes its regression test and the PR has a non-gxui motivation.
-- Once a PR merges, rebase `galaxy_ui_driver` onto dev and drop its commits. gxui stays the tip.
+- **`galaxy_ui_driver` sits on `release_26.2` for now** (John, 2026-10-20). It drives 26.2 QA,
+  so its `navigation.yml` has to match the release. Once a PR merges, restack onto
+  `release_26.2` and drop its commits if 26.2 has them. A dev-only merge keeps its commit, as
+  #24139 does. gxui stays the tip.
+- **The final gxui PR targets dev.** Rebase onto dev before opening it.
 - Commits only gxui motivates (CDP port, storage state) go up with gxui. They don't get
   separate PRs.
 - Branch records, PR descriptions and opening follow `vault/agents/gx_branches/`.
@@ -19,8 +23,8 @@ Easiest first. Commit numbers follow the queue in `GALAXY_UI_SKILL_DESIGN.md` ("
 PRs").
 
 **1. Two standalone fixes, in parallel.** Both merged: [#24142](https://github.com/galaxyproject/galaxy/pull/24142)
-and [#24139](https://github.com/galaxyproject/galaxy/pull/24139). `galaxy_ui_driver` (`381f47837e3`, 2026-10-09)
-still carries their commits and needs a restack onto dev.
+and [#24139](https://github.com/galaxyproject/galaxy/pull/24139). The 2026-10-20 rebase onto `release_26.2`
+dropped #24142's commit. #24139's commit stays because it is on dev only.
 [`tool_open_tool_shed_ids`](../../repositories/galaxy/branches/merged/tool_open_tool_shed_ids/index.md),
 [`playwright_timeout_retry_once`](../../repositories/galaxy/branches/merged/playwright_timeout_retry_once/index.md).
 - **Tool Shed ids in `tool_open`** (4a). A real tool panel bug: searching by a Tool Shed id finds
