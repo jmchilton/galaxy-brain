@@ -20,4 +20,4 @@ Fixes [#24199](https://github.com/galaxyproject/galaxy/issues/24199): integer/fl
 - K2: live inverted-bounds feedback via `build_module`; editor save drops step errors.
 - `step_state_to_tool_state` collapses persisted `in_range` validators (drops `negate`, `exclude_*`, `message`; last wins).
 - Rejected value `0` leaves `%s` in validator messages.
-- Merge order with `issue_24200_workflow_input_validators` (keeps declared validators — negate, multiple ranges): `split_numeric_bounds` assumes one collapsed inclusive `in_range`; whichever lands second must handle the other.
+- Merge order with [#24282](https://github.com/galaxyproject/galaxy/pull/24282) (keeps declared validators — negate, multiple ranges; absorbed the abandoned `issue_24200_workflow_input_validators`): `split_numeric_bounds` assumes one collapsed inclusive `in_range`; whichever lands second must handle the other.

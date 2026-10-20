@@ -1,6 +1,6 @@
 # issue_24200_workflow_input_validators
 
-Status: `branches_implemented_needs_ci`; relevant fork CI red (2026-10-20). Head `57e1cb42c05`.
+Status: abandoned 2026-10-20. mvdbeek's [#24282](https://github.com/galaxyproject/galaxy/pull/24282) (base `release_26.1`) absorbed this work. Head `57e1cb42c05`.
 
 Keeps workflow parameter input validators as declared through import, export, run and editor re-save. Rejects invalid ones at import with a 400: `min > max`, uncompilable regex, unsafe types, and types unsuited to the input. Fixes [#24200](https://github.com/galaxyproject/galaxy/issues/24200).
 
