@@ -10,9 +10,9 @@ Honors explicit YAML Boolean defaults with user-tool API contract coverage (#238
 
 Rebased onto `origin/release_26.1` (`6df388987b4`); old tip `01027324b35`. Only conflict vs release_26.1: `tool_request_raw` kwargs in `populators.py` (kept both `preferred_object_store_id` and `tool_uuid`). The 5-path conflicts in the notes below were measured against `dev`, not the branch's target.
 
-Hardened tip `9894e813cc1` (pushed): fixture fix → Baseline tests → 2 refactor commits → 3 fix commits. Contract suite 46 passed / 4 strict xfail. Debriefs: [test challenges](test_challenges_debrief.md) · [codex](codex_review.md) · [thermo-nuclear](thermo_nuclear_review.md) · [baseline refactor](baseline_refactor.md) · [scope](scope_evaluation.md).
+Hardened tip `9894e813cc1` (pushed): fixture fix → Baseline tests → 2 refactor commits → 3 fix commits. Contract suite 46 passed / 4 strict xfail. First-pass debriefs in [earlier_drafts/1](earlier_drafts/1/scope_evaluation.md).
 
-**Awaiting John:** scope evaluation recommends modest expansion (canonical YAML `repeat`/`section` loading → turn 4 structural xfails green; `yaml_origin` into `strictify` section branch). Hardening paused before re-scope; no final `implementation_debrief.md` yet. `MY_BRANCHES.md` compare link still says `dev...` — should be `release_26.1...`.
+**Re-scope (John, 2026-10-20):** expand to canonical YAML `repeat`/`section` loading + `yaml_origin` in `strictify` section branch. Original scope kept as `yaml_boolean_defaults_alt_original_scope` ([alt](alts/original_scope.md)). `MY_BRANCHES.md` compare link still says `dev...` — should be `release_26.1...`.
 
 ## TICK — 2026-10-12
 
