@@ -2,6 +2,9 @@ This RFC includes the readability work in #24038, the story catalog, browser pla
 
 [Presentation: client testing and review time](https://jmchilton.net/slides/client-testing/#/4)
 
+https://github.com/user-attachments/assets/4f4e55c9-bc1e-4555-8a96-87fb65d47b4d
+
+
 - **Review behavior directly.** Open a component state and watch its test run step by step.
 - **Reuse setup.** Browse and test the same named scenarios instead of rebuilding them in each test.
 - **Test in a real browser.** Exercise styles, focus, scrolling and interactions together in Chromium.
@@ -246,12 +249,12 @@ That benchmark used a smaller catalog and excluded accessibility checks; it does
 <details>
 <summary>Validation details and branch snapshot — October 20</summary>
 
-The published prototype is `jmchilton/vitest_story_play` at `3eaa09792d6`, above `vitest_stories` at `fd5fd27f67a` and readability at `1358d378879`. Play and accessibility are one maintained lane. Shared infrastructure comes first; story-specific plays and accessibility annotations are grouped by test. This RFC is a work in progress; the strict browser gate is not all green.
+The published prototype is `jmchilton/vitest_story_play` at `23418c76194`, above `vitest_stories` at `1a4eb0e275c` and readability at `dd0f27fb6ac`. Play and accessibility are one maintained lane. Shared infrastructure comes first; story-specific plays and accessibility annotations are grouped by test. This RFC is a work in progress; the strict browser gate is not all green.
 
 | Evidence | Current result |
 | --- | --- |
 | Story catalog exercised by the browser run | 100 files / 583 collected story tests |
-| Combined lane history above stories | 4 infrastructure/helper commits, then 96 per-test commits |
+| Combined lane history above stories | 1 infrastructure commit, then 95 per-test commits (GDropdownItem first) |
 | Accessibility annotations folded into their test commits | 26 story files; 121 historical per-story TODO exceptions retained |
 | Full strict browser run | 432 passing / 151 failing stories |
 | Same-source reruns of the two interaction timeouts | Both interactions complete; one then fails axe contrast |

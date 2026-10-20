@@ -9,9 +9,9 @@ Renamed from `storybook_interactions` on 2026-10-09; the worktree directory keep
 
 Status: `author_work` — combined play/accessibility RFC with known strict accessibility failures and missing browser CI.
 
-Draft [#24300](https://github.com/galaxyproject/galaxy/pull/24300) targets `dev`, including the readability and story layers; head `3eaa09792d688138b2107ee436f99431f96de0d3`.
+Draft [#24300](https://github.com/galaxyproject/galaxy/pull/24300) targets `dev`, including the readability and story layers; head `23418c7619409a91dccb5f01ac65433840d26f2e`.
 
-CI: no checks reported at creation.
+CI: new-head checks pending; source tree and existing validation limitations are unchanged.
 
 Worktree: `~/projects/worktrees/galaxy/branch/storybook_interactions` (`git worktree add` from `vitest_stories`, not ghwt, since it's stacked). Pushed to `jmchilton/vitest_story_play`.
 
@@ -78,3 +78,10 @@ Published `735da91611e343c370e5150d619691ad4407b112` onto parent `fd5fd27f67aaa9
 ## RFC publication — 2026-10-20
 
 John explicitly requested opening this branch with title `[RFC][WIP] Adopt Storybook for richer, easier review of client unit tests`, superseding the prior reference-only/do-not-PR instruction. Opened as a draft for discussion, not merge readiness. Preserve draft status until John asks otherwise; known accessibility failures and missing browser CI remain. Published source unchanged; no rebase or new test run. [Description](pr_description.md).
+
+
+## History organization — 2026-10-20
+
+Published `23418c7619409a91dccb5f01ac65433840d26f2e` with the exact preceding-head lease. One shared-infrastructure commit is first, followed by GDropdownItem as the example, then the remaining per-test conversions. 96 own-layer commits; final source tree is identical to the preceding head.
+
+All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.

@@ -1,6 +1,6 @@
 # vitest_real_api_calls
 
-Status: `branches_implemented_needs_ci`. No upstream PR. Intended upstream target: `dev`; stacked on historical `vitest_readability` commit `f0659f1cf0d69a8e17011bc3b4ef5489b02c3891` (dependency [PR #24038](https://github.com/galaxyproject/galaxy/pull/24038)).
+Status: `branches_implemented_needs_ci`. No upstream PR. Intended upstream target: `dev`; stacked on `vitest_readability` commit `dd0f27fb6ac76e7d477334cb0fe5088d9c6c694e` (dependency [PR #24038](https://github.com/galaxyproject/galaxy/pull/24038)).
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_real_api_calls`.
 
@@ -53,3 +53,10 @@ Requested failed-job reruns for diagnosed unrelated failures: [run 38347319493](
 ## Dependent rebase — 2026-10-20
 
 Published `0277a85df3954d1f83856933991cc5df0b97865c` onto readability `1358d37887996e552e0fac6467c8738865618d9a`. 3 own-layer commit messages/trailers preserved; exact old-head lease and remote SHA verified. Published; existing fork CI and human-review holds remain. See [current implementation and validation](implementation_debrief.md), [test challenge](test_challenges_debrief.md), and [cascade mapping](../../../../../projects/just_jesting_around/readability_assessment/dependent_rebase_2026-10-20.json).
+
+
+## History organization — 2026-10-20
+
+Published `3684d62a1e16130adfb2f2dd894e133897765ab1` with the exact preceding-head lease. Restacked the existing 3 own commits onto rewritten readability, preserving their trees, authors and exact messages.
+
+All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.

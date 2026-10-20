@@ -59,3 +59,10 @@ User clarified churn scores were estimates: preserve story content by default, r
 ## Dependent rebase — 2026-10-20
 
 Published `fd5fd27f67aaa9d974b2d3cbc693ef8fa0a31864` onto readability `1358d37887996e552e0fac6467c8738865618d9a`. 159 own-layer commit messages/trailers preserved; exact old-head lease and remote SHA verified. READY as a published prototype; no upstream PR intent. See [current implementation and validation](implementation_debrief.md), [test challenge](test_challenges_debrief.md), and [cascade mapping](../../../../../projects/just_jesting_around/readability_assessment/dependent_rebase_2026-10-20.json).
+
+
+## History organization — 2026-10-20
+
+Published `1a4eb0e275cfaa60b1112c554232d1c4e369dc8c` with the exact preceding-head lease. One shared-infrastructure commit is first, followed by GDropdownItem as the example, then the remaining per-test conversions. 102 own-layer commits; final source tree is identical to the preceding head.
+
+All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.

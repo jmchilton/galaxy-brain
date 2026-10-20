@@ -19,7 +19,9 @@ Batches draw tests at random, refactor them against the guidance and independent
 
 ## Current scope and metrics
 
-Snapshot: head `1358d378879` against `dev` at `93b3c85e532` (2026-10-20).
+Snapshot: head `dd0f27fb6ac` against `dev` at `93b3c85e532` (2026-10-20).
+
+History reorganized without source changes; validation below was run on the identical pre-rewrite tree.
 
 The diff touches **428 files: 395 test paths and 33 supporting files**, including helpers, fixtures and testing documentation. Overall diff: **18,520 insertions / 20,456 deletions**. The counts below compare the same set of changed test paths at both refs, including the main client and Tool Shed frontend; supporting files are excluded from this table.
 

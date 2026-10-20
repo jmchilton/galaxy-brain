@@ -1,10 +1,10 @@
 # vitest_readability
 
-Status: `ci_wait` (2026-10-20) — conflicts resolved; rebased head `1358d378879` pushed, new-head CI pending. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
+Status: `ci_wait` (2026-10-20) — conflicts resolved; history reorganized; head `dd0f27fb6ac7` pushed, new-head CI pending. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `1358d37887996e552e0fac6467c8738865618d9a`, rebased onto dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `backup/vitest_readability_with_churn-before-stack-20261016` (`7f2db5e5941`); `vitest_readability_with_churn` is now stacked above this cleaned branch.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `dd0f27fb6ac76e7d477334cb0fe5088d9c6c694e`, rebased onto dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `backup/vitest_readability_with_churn-before-stack-20261016` (`7f2db5e5941`); `vitest_readability_with_churn` is now stacked above this cleaned branch.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -339,3 +339,10 @@ store setup and removed stale helper-consumer and GalaxyAI line counts.
 [Independent example/description review](../../../../../projects/just_jesting_around/reviews/pr24038_description_2026-10-20.md)
 and [recomputed static metrics](../../../../../projects/just_jesting_around/reviews/pr24038_description_2026-10-20_metrics.json).
 No code changes, new test runs, title/status changes or new approval inferred.
+
+
+## History organization — 2026-10-20
+
+Published `dd0f27fb6ac76e7d477334cb0fe5088d9c6c694e` with the exact preceding-head lease. One shared-infrastructure commit is first, followed by parseBool as the example, then the remaining per-test conversions. 396 own-layer commits; final source tree is identical to the preceding head.
+
+All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.

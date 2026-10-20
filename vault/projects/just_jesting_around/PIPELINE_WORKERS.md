@@ -7,6 +7,15 @@ The driver can fan work out to **subagents**:
 - It returns a single commit, or a skip with its reason.
 - The driver applies the returned commits one at a time, so conflicts in shared files are resolved in one place.
 
+## Current history organization
+
+Keep the three existing lane branches complete. Each has one consolidated shared infrastructure
+commit first, one example second, then the remaining per-test
+conversions. Preserve this order when folding in new shared helpers. Do not cut
+domain branches or open smaller PRs until John requests the later extraction.
+The agreed eventual review size is roughly 5–10 related tests per PR, combining
+a component’s readability, stories, plays and accessibility changes.
+
 ## Common driver cycle
 
 1. Rebase the lane onto the lane below it, then validate. Lane 1 rebases onto dev.
@@ -26,7 +35,7 @@ Replayed `jest_readability_batch_01` iteration by iteration into `vitest_readabi
 The loop described in [READABILITY_LOOP_ITERATION.md](READABILITY_LOOP_ITERATION.md), changed to fit the split history:
 
 - Works on `vitest_readability` instead of `jest_readability_batch_01`.
-- Emits per-test commits plus shared-code commits, instead of one commit per iteration. Each commit carries the `Readability-Iteration: NN` trailer. The batch report replaces the iteration commit as the record of the batch.
+- Maintains one opening shared-infrastructure commit and one commit per test, instead of one commit per iteration. The reorganization manifest and batch reports retain the original iteration provenance when repeated test rewrites are consolidated.
 - Leaves alone any file that a lane above has already changed. That includes supporting edits.
 
 ### Story driver (lane 2)

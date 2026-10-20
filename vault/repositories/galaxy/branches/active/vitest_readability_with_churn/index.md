@@ -1,8 +1,8 @@
 # vitest_readability_with_churn
 
-Status: `branches_reference`; published comparison stack, do not PR. Base: `vitest_readability` (`e06bbc4c70271aacfe27a88e315c882b5270ecaa`).
+Status: `branches_reference`; published comparison stack, do not PR. Base: `vitest_readability` (`dd0f27fb6ac76e7d477334cb0fe5088d9c6c694e`).
 
-Current pushed head: `488693a2611de20c50ec5f990311a6d676c0c989`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn`.
+Current pushed head: `ca6893f93ef66b0e0478a4037fcac4bc0725db6a`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn`.
 
 John requested this backup on 2026-10-13 before removing the 77 score-2 readability commits. Originally it preserved the complete `vitest_readability` history at `7f2db5e59415f07c09fec5be75ff4885fbad047e`, including its `fix_story_a11y` base. That original head is now preserved at `backup/vitest_readability_with_churn-before-stack-20261016`. The named branch is now a comparison stack with a worktree; published on the fork at John’s request, no separate PR.
 
@@ -37,3 +37,10 @@ The user clarified that estimated churn scores are review pointers, not a remova
 ## Dependent rebase — 2026-10-20
 
 Published `e8d2b3f06e4b7842d6afee6f356ffcb0a3c05dd7` onto readability `1358d37887996e552e0fac6467c8738865618d9a`. 76 own-layer commit messages/trailers preserved; exact old-head lease and remote SHA verified. Published reference-only comparison; do not PR. See [current implementation and validation](implementation_debrief.md), [test challenge](test_challenges_debrief.md), and [cascade mapping](../../../../../projects/just_jesting_around/readability_assessment/dependent_rebase_2026-10-20.json).
+
+
+## History organization — 2026-10-20
+
+Published `ca6893f93ef66b0e0478a4037fcac4bc0725db6a` with the exact preceding-head lease. Restacked the existing 76 own commits onto rewritten readability, preserving their trees, authors and exact messages.
+
+All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.
