@@ -12,11 +12,11 @@ Show outputs and their data inside the workflow invocation graph view instead of
 - The preview depends on the datatype: tabular data as a table, an image as the image, and so on.
 - Look for existing preview and visualization components to reuse (dataset peek, tabular display, image display) rather than writing new renderers.
 
-## Stage 2: annotated workflow outputs become embedded nodes
+## Stage 2: workflow outputs become embedded nodes
 
-- Each annotated workflow output becomes its own node in the graph. These nodes are larger than normal step nodes and render the output inline.
+- Each workflow output (a step output marked as a workflow output) becomes its own node in the graph. These nodes are larger than normal step nodes and render the output inline.
 - Normal step nodes probably shrink to make room.
-- "Annotated" outputs are already marked in the workflow metadata, so no new model work is needed to identify them.
+- Workflow outputs are already in the model, so no new model work is needed to identify them.
 - **Hard requirement: no full re-layout.** Galaxy runs its own layout, not Cytoscape or similar, and has an auto-layout algorithm, but this feature must not use it on the whole graph. Room for the big nodes has to come from local nudging.
   - Why: the feature is for users who already carry the workflow's spatial layout in their heads. A full re-layout destroys that mental map. Users without it are better served by a flat list of outputs.
   - Go/no-go: if local nudging can't make room while keeping the layout recognizable, the stage (and maybe the feature) isn't worth shipping.
