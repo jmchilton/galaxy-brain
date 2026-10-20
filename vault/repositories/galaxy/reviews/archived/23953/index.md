@@ -27,3 +27,7 @@ Open, draft; live head `9ac1627fc79ac7950c009e98794adf72088e2c00`. CI: 1 failure
 Draft; approval-with-nits report unposted; delivery on hold.
 
 CI snapshot: 1 failure, 1 skipped, 58 success. Earlier findings retain their reviewed commits.
+
+## Archived — 2026-10-20
+
+Merged by davelopez into `release_26.1` at 2026-10-20T10:29:42Z on head `ec57de42b60`. Approval-with-nits draft never posted (delivery was on hold). Tracking ended on merge. Worktree removed (clean, ancestor of merged head).

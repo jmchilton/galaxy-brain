@@ -31,3 +31,7 @@ Open, draft; live head `4bf89d638bd49c4ebb2e08b75bdef3d4f58bda27`. CI: 6 failure
 Ready with new head and fresh Marius review; preserve instruction not to post the older draft.
 
 CI snapshot: 4 failure, 2 skipped, 52 success. Earlier findings retain their reviewed commits.
+
+## Archived — 2026-10-20
+
+Merged by mvdbeek into `release_26.2` at 2026-10-19T14:54:15Z on head `04ce6eb72d5`. Older draft never posted, per John's instruction. Tracking ended on merge. Worktree kept pending John's OK (detached at old reviewed head `4a81462fae5`, not an ancestor of the merged head).

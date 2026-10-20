@@ -11,3 +11,7 @@ PR open against `release_26.2`, by itisAliRH; only CI failure (`test_export_invo
 ## Decisions
 
 - John asked for a quick review.
+
+## Archived — 2026-10-20
+
+Merged by jmchilton into `release_26.2` at 2026-10-19T16:23:27Z on head `05f17d3f066`. Tracking ended on merge. Worktree removed (clean, at merged head).

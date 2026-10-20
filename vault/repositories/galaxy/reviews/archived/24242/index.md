@@ -7,3 +7,7 @@
 Initial review complete at `ea131e56e92`; no findings; response unposted.
 
 PR open against `dev`, by itisAliRH.
+
+## Archived — 2026-10-20
+
+Merged by jmchilton into `dev` at 2026-10-19T03:17:33Z on head `ea131e56e92`; John commented at merge. Tracking ended on merge. Worktree removed (clean, at merged head).

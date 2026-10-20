@@ -11,3 +11,7 @@ PR open against `release_26.0`, by mvdbeek.
 ## Decisions
 
 - John asked for a quick review without learning_galaxy.
+
+## Archived — 2026-10-20
+
+Merged by jmchilton into `release_26.0` at 2026-10-19T16:50:59Z on head `9246280e6eb`; John commented (LGTM) just before merging. Tracking ended on merge. Worktree removed (clean, at merged head).

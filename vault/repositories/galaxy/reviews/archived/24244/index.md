@@ -7,3 +7,7 @@
 Initial review complete at `334e1640d7e`; one P2 and four P3s, three fixed on `pr_24244_fix_0`; response unposted.
 
 PR open against `release_26.2`, by mvdbeek.
+
+## Archived — 2026-10-20
+
+Merged by mvdbeek into `release_26.2` at 2026-10-19T07:41:54Z on head `368e363aa66`; John approved at 2026-10-19T04:29:24Z. Tracking ended on merge. Fix branch `pr_24244_fix_0` remains on jmchilton fork; worktree kept pending John's OK (on unmerged fix branch).
