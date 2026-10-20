@@ -1,30 +1,23 @@
-# Accessibility followups
+# Accessibility followups on release_26.2
 
-Status: READY; published to `jmchilton/galaxy` on 2026-10-20 after explicit user approval. Fresh dev base explicitly requested by John: `0de6cc2d7fef75633ea30717162bad53d583d80e`. Implementation head `d843b804a20582bddcf90c2d2277c753a431ad47`; worktree `/Users/jxc755/projects/worktrees/galaxy/branch/fix_story_a11y_followups`.
+Status: READY; release-based branch published and remote verified on 2026-10-20. John requested retargeting the existing branch to `release_26.2` on 2026-10-20. Release base: `1ff2ce4cc513c9923a839fcbaa522e756bd9ab22`. New head: `94a34cd0b2330730145764d74728f07870699e40`; separate baseline commit: `bb7bfb7703ded7c1ac724a04bb330045e5fc4ea8`.
 
-The GalaxyAI icon-only send action now has the stable accessible name “Send message” in ready, empty, busy and disabled states. The optional classic Popper header close control is a named native non-submit button, with a visible keyboard outline and reset styles preserving its icon appearance under Bootstrap. Close activation and Escape within the popup restore focus to its invoking control only when focus belonged to the popup. Wrapped triggers and external `referenceEl` controls are covered, as is preserving focus elsewhere.
+## Target suitability
+
+Both defects exist on release: GalaxyAI's icon-only send control is unnamed, and classic titled Popper's close control is a mouse-only span. Both patched components, their existing tests, Popper controller, shared GButton implementation and relevant Bootstrap styles match the old dev base. Release forwards GButton attributes to the native root and supports the same Vue focus/event APIs. These local accessibility fixes need no newer API, schema or database changes. `release_26.2` is an appropriate target.
+
+## Rebase
+
+Preserved the complete dev-based head at `backup/fix_story_a11y_followups-before-release-26.2-20261020`. Replayed exactly the two commits above original dev base `0de6cc2d7fef75633ea30717162bad53d583d80e`; the rebase was conflict-free and `git range-diff` marks both patches identical. The named chat send action, native non-submit Popper Close button, visible focus outline, preserved active styling and focus restoration on close/Escape remain unchanged. No tests were added, removed or weakened during retargeting.
+
+The separately published `fix_story_a11y_followups_alt_original_scope` intentionally remains a dev-based historical alternative at `d318dfd5ee3655f7d292896b6ec50dd077d9ff6c`; it is not part of the proposed release branch. The four-file release delta contains no unrelated dev changes.
 
 ## Validation and review
 
-- Separate baseline commit `a2166f2c585` passed 36 tests before implementation.
-- The five original accessibility regressions failed on unchanged components at their name assertions; then passed with the fixes.
-- Final related unit check: 5 files / 74 tests pass, including chat, Popper, its controller, Markdown CellAdd and GButton. Log: `/private/tmp/a11y-followups-escape-unit.log`.
-- Fresh independent test challenge: 2 files / 43 tests pass. Logs and details in [test challenge](test_challenges_debrief.md).
-- Full client type check passes (`/private/tmp/a11y-followups-types-escape.log`). ESLint has zero errors and two existing warnings; Prettier passes (`/private/tmp/a11y-followups-eslint-final.log`, `/private/tmp/a11y-followups-format-final.log`). Diff whitespace and commit hooks pass.
-- Fresh independent normal review, code-quality review and baseline evaluation approved. Final scope review accepts the Escape refinement and recommends no further scope change. The pre-Escape alternative is preserved; [scope history](implementation_rescope_debrief.md).
-- Real Chromium checks pass with production CSS: Enter/Space close, Escape from nested content, focus return, no containing-form submissions, preserved active styles, named chat controls in four states, and exactly one keyboard submission. Four screenshots inspected; [browser debrief](screenshot_debrief.md).
+- Offline frozen-lockfile dependency refresh and generated API-client build pass on release.
+- Five affected/adjacent suites: 74 tests pass (`/private/tmp/a11y-26.2-units.log`).
+- Full client type check passes (`/private/tmp/a11y-26.2-types.log`); ESLint has zero errors and the same two existing warnings (`/private/tmp/a11y-26.2-eslint.log`); Prettier passes (`/private/tmp/a11y-26.2-format.log`). Diff whitespace check passes.
+- [Independent release-target review](subagents/release_26.2_rebase_review_2026-10-20.md) approves the target and unchanged patches.
+- The earlier test challenge, scope review and Chromium screenshots describe the identical implementation on dev. No new UI changes were made in this rebase; Chromium was not rerun on release. [Prior handoff](earlier_drafts/2/implementation_debrief.md).
 
-## Limits and handoff
-
-No server behavior changes; no server-backed E2E tests added. Production consumers currently omit the built-in Popper title, so its close API is exercised with component/browser fixtures. This branch does not implement broader hover/focus opening policy or shared GButton/GLink tooltip DOM changes. No assertions were weakened, no story branch rewritten, and no PR opened. Fork CI has not been assessed yet.
-
-## Publication
-
-John explicitly approved publishing all work on 2026-10-20. Both branches were pushed normally to `jmchilton/galaxy` and their exact remote heads verified:
-
-- `fix_story_a11y_followups`: `d843b804a20582bddcf90c2d2277c753a431ad47`.
-- `fix_story_a11y_followups_alt_original_scope`: `d318dfd5ee3655f7d292896b6ec50dd077d9ff6c`.
-
-Both local branches now track their fork counterparts; the Galaxy worktree is clean. The prior automatic approval rejection was resolved by explicit user authorization. No PR was opened; fork CI has not yet been assessed.
-
-Vault validation passes with zero errors. Tracking updates are published to galaxy-brain under the user's instruction to make sure everything is pushed; unrelated working changes are preserved.
+No PR exists for this branch (live GitHub check 2026-10-20), and none was opened. Published `94a34cd0b2330730145764d74728f07870699e40` to `jmchilton/fix_story_a11y_followups` using the exact old-head lease `d843b804a20582bddcf90c2d2277c753a431ad47`; verified with `git ls-remote`. The historical original-scope alternative remains unchanged remotely. Galaxy worktree is clean. Fork CI has not yet been assessed.

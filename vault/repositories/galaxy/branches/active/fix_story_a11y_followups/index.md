@@ -1,19 +1,19 @@
 # Accessibility followups from browser stories
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:fix_story_a11y_followups?expand=1)
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:fix_story_a11y_followups?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/fix_story_a11y_followups)
 
 ## Status
 
-READY; both reviewed branches published to `jmchilton/galaxy` on 2026-10-20.
+READY; rebased onto `release_26.2` and pushed to `jmchilton/galaxy` on 2026-10-20.
 
 No PR opened.
 
-Local and real Chromium checks pass; fork CI has not yet been assessed.
+74 related tests, full type checking, lint and formatting pass on release; fork CI pending assessment.
 
 ## Base and scope
 
-John explicitly requested fresh `dev` on 2026-10-19: base `0de6cc2d7fef75633ea30717162bad53d583d80e`. Head `d843b804a20582bddcf90c2d2277c753a431ad47`; baseline tests are a separate first commit.
+John requested `release_26.2` on 2026-10-20: base `1ff2ce4cc513c9923a839fcbaa522e756bd9ab22`. Head `94a34cd0b2330730145764d74728f07870699e40`; baseline tests remain a separate first commit. The original-scope alternative remains a historical dev-based reference.
 
 Names the GalaxyAI send action and repairs classic Popper keyboard dismissal, including focus return on close and Escape. Shared tooltip name pollution remains separate; story lanes are untouched.
 
