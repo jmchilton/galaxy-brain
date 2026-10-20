@@ -19,3 +19,5 @@ Reviewed the subsequent opening/problem/solution rewrite. No blocking findings. 
 ## Follow-up: remove recorded-response section
 
 Reviewed the diff against HEAD: it removes exactly the requested recorded-response heading and its two paragraphs. The adjacent Lint example and Bugs found section remain intact, and no source changes accompany the deletion. No findings or test execution needed.
+
+Reviewed the subsequent removal of “Try a review-sized slice”: the diff deletes exactly that heading and its two paragraphs, leaving Costs and the validation details intact. No findings; browser CI and accessibility prerequisites remain stated elsewhere.

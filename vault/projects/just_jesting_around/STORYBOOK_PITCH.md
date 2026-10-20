@@ -243,12 +243,6 @@ That benchmark used a smaller catalog and excluded accessibility checks; it does
 - **More tooling to maintain.** Storybook, its testing and accessibility addons, API mocking and Playwright become part of the client development setup.
 - **Review size.** The catalog now spans 100 story files. Stories and combined play/accessibility remain separate review layers. Shared infrastructure comes first; per-test commits group the relevant stories, plays and annotations so a reviewer can take a smaller slice.
 
-## Try a review-sized slice
-
-Start with a small group of components and review their stories and plays alongside the production behavior. Ask whether the scenario is easier to understand, whether the browser check catches the regression and which checks still need unit tools. Keep the migration incremental so reviewers can judge it on concrete examples.
-
-For adoption, add the browser CI job and resolve or explicitly account for the accessibility failures and historical exceptions. The first payoff should be a clearer review of the next client change. A reusable catalog and future visual checks build on that investment.
-
 <details>
 <summary>Validation details and branch snapshot — October 20</summary>
 
