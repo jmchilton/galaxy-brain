@@ -9,6 +9,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#22710](https://github.com/galaxyproject/galaxy/issues/22710) — invocations never capture validated tool request state; 4-day attempt failed; decide: restart from MINT or salvage TES shape? [notes](../../repositories/galaxy/issues/needs_decision/22710/index.md)
 - [#23444](https://github.com/galaxyproject/galaxy/issues/23444) — canonical nested parameter-reference syntax for YAML tools; decide: answer mvdbeek's two scoping questions. [notes](../../repositories/galaxy/issues/needs_decision/23444/index.md)
 - [#22739](https://github.com/galaxyproject/galaxy/issues/22739) — extract `Tool.to_json` into `ToolFormBuilder`; plan published; decide: agree on the plan before code moves. [notes](../../repositories/galaxy/issues/needs_decision/22739/index.md)
+- [#24303](https://github.com/galaxyproject/galaxy/issues/24303) — no way to declare output collection type as input type plus a list level (Nest, #24190); decide: attribute name and scope of shared `type_source` rule. [notes](../../repositories/galaxy/issues/needs_decision/24303/index.md)
 
 ## In motion (`wip`)
 
