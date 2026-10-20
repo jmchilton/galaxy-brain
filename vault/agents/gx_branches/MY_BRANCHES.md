@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-20 (John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-20 (#24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -37,6 +37,7 @@ None yet.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
+- [`vitest_story_play`](../../repositories/galaxy/branches/active/vitest_story_play/index.md) — Storybook stories, browser plays and accessibility checks for richer client-test review. [#24300](https://github.com/galaxyproject/galaxy/pull/24300). Keep draft RFC per John.
 - [`selenium_stories_core`](../../repositories/galaxy/branches/active/selenium_stories_core/index.md) — Writes Selenium and Playwright screenshots as Markdown, HTML and PDF stories; narrates tours. [#24137](https://github.com/galaxyproject/galaxy/pull/24137).
 - [`tool_parameter_references`](../../repositories/galaxy/branches/active/tool_parameter_references/index.md) — Developer reference for the inconsistent ways tools, APIs and workflows reference nested tool parameters. [#23877](https://github.com/galaxyproject/galaxy/pull/23877).
 - [`subworkflow_mapping`](../../repositories/galaxy/branches/active/subworkflow_mapping/index.md) — Brings subworkflow mapping inline between the workflow editor and the backend. [#23676](https://github.com/galaxyproject/galaxy/pull/23676).
@@ -119,6 +120,5 @@ None yet.
 - [`issue_20900_invocation_validation`](../../repositories/galaxy/branches/active/issue_20900_invocation_validation/index.md) — Parent of the invocation validation fixes; waiting on smaller PRs to be pulled out of it. Do not PR as-is.
 - [`nightly_release_targets_alternative`](../../repositories/galaxy/branches/active/nightly_release_targets_alternative/index.md) — Cross-release nightly alternative John rejected as too verbose; retained for Marius feedback. Reference only; do not PR.
 - [`vitest_readability_with_churn`](../../repositories/galaxy/branches/active/vitest_readability_with_churn/index.md) — Preserves the readability history before score-2 pruning. Reference only; do not PR.
-- [`vitest_story_play`](../../repositories/galaxy/branches/active/vitest_story_play/index.md) — Combined browser plays, Storybook axe checks and viewport review tools above `vitest_stories`. Reference-only prototype with known strict accessibility failures. Do not PR.
 - [`galaxy_ui_driver`](../../repositories/galaxy/branches/active/galaxy_ui_driver/index.md) — Standing branch for Galaxy changes motivated by gxui. Do not PR independently. Do not polish; Playwright owns it. Based on `release_26.2` for 26.2 QA (2026-10-20); the final PR targets dev.
 - [`move_markdown_conversion_to_util`](../../repositories/galaxy/branches/active/move_markdown_conversion_to_util/index.md) — Moves markdown HTML/PDF conversion out of `managers.markdown_util` into `galaxy.util`. Do not PR independently.

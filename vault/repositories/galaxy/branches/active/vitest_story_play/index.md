@@ -1,8 +1,17 @@
 # vitest_story_play
 
+- [PR #24300](https://github.com/galaxyproject/galaxy/pull/24300)
+- [View on GitHub](https://github.com/jmchilton/galaxy/tree/vitest_story_play)
+
 Renamed from `storybook_interactions` on 2026-10-09; the worktree directory keeps the old name.
 
-Status: combined play/accessibility prototype, stacked on `vitest_stories`; reference-only in `MY_BRANCHES.md`. Known strict accessibility failures; no PR intent.
+## Status
+
+Status: `author_work` — combined play/accessibility RFC with known strict accessibility failures and missing browser CI.
+
+Draft [#24300](https://github.com/galaxyproject/galaxy/pull/24300) targets `dev`, including the readability and story layers; head `3eaa09792d688138b2107ee436f99431f96de0d3`.
+
+CI: no checks reported at creation.
 
 Worktree: `~/projects/worktrees/galaxy/branch/storybook_interactions` (`git worktree add` from `vitest_stories`, not ghwt, since it's stacked). Pushed to `jmchilton/vitest_story_play`.
 
@@ -65,3 +74,7 @@ Kept play changes by default and retained current dev/story assertions. Adapted 
 ## Dependent rebase — 2026-10-20
 
 Published `735da91611e343c370e5150d619691ad4407b112` onto parent `fd5fd27f67aaa9d974b2d3cbc693ef8fa0a31864`. All 99 own-layer messages/trailers preserved, exact original remote-head lease and resulting remote SHA verified. Published prototype; no upstream PR intent. [Current validation and decisions](implementation_debrief.md); [scoped challenge](test_challenges_debrief.md).
+
+## RFC publication — 2026-10-20
+
+John explicitly requested opening this branch with title `[RFC][WIP] Adopt Storybook for richer, easier review of client unit tests`, superseding the prior reference-only/do-not-PR instruction. Opened as a draft for discussion, not merge readiness. Preserve draft status until John asks otherwise; known accessibility failures and missing browser CI remain. Published source unchanged; no rebase or new test run. [Description](pr_description.md).

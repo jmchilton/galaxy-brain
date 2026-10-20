@@ -246,7 +246,7 @@ That benchmark used a smaller catalog and excluded accessibility checks; it does
 <details>
 <summary>Validation details and branch snapshot — October 20</summary>
 
-The published prototype is `jmchilton/vitest_story_play` at `3eaa09792d6`, above `vitest_stories` at `fd5fd27f67a` and readability at `1358d378879`. Play and accessibility are one maintained lane. Shared infrastructure comes first; story-specific plays and accessibility annotations are grouped by test. This is not an open Storybook PR or an all-green browser gate.
+The published prototype is `jmchilton/vitest_story_play` at `3eaa09792d6`, above `vitest_stories` at `fd5fd27f67a` and readability at `1358d378879`. Play and accessibility are one maintained lane. Shared infrastructure comes first; story-specific plays and accessibility annotations are grouped by test. The prototype is now open as [RFC #24300](https://github.com/galaxyproject/galaxy/pull/24300); the strict browser gate is not all green.
 
 | Evidence | Current result |
 | --- | --- |

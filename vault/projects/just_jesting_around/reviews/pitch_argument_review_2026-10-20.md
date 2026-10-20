@@ -21,3 +21,7 @@ Reviewed the subsequent opening/problem/solution rewrite. No blocking findings. 
 Reviewed the diff against HEAD: it removes exactly the requested recorded-response heading and its two paragraphs. The adjacent Lint example and Bugs found section remain intact, and no source changes accompany the deletion. No findings or test execution needed.
 
 Reviewed the subsequent removal of “Try a review-sized slice”: the diff deletes exactly that heading and its two paragraphs, leaving Costs and the validation details intact. No findings; browser CI and accessibility prerequisites remain stated elsewhere.
+
+## Follow-up: RFC pull-request description
+
+Reviewed `/private/tmp/storybook-rfc-pr-description.md` as a standalone PR body for the unchanged published prototype targeting `dev`. No blocking findings. The opening explicitly includes the readability work from #24038 and the complete story/play/accessibility stack. Removed sections remain absent; no local or relative Markdown links remain. The body preserves the prototype snapshot, strict failing browser results, historical-exception caveat, missing browser CI, hypothetical dataset scenarios, and historical runtime limitations. It does not present a new rebase or new test execution, and replaces the obsolete no-open-PR claim with accurate RFC/WIP wording. The standard license checkbox is present. No tests were required for preparing this description.
