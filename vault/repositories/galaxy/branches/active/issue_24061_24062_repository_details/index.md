@@ -5,17 +5,19 @@
 
 ## Status
 
-`branches_implemented_needs_ci`: implemented and hardened 2026-10-20, status READY. Base `dev` (`1e6125acd93`), head `dbc56f23a7a`. History rewritten by the baseline refactor; old SHAs in debriefs map via [baseline_refactor.md](baseline_refactor.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
+`branches_ready_for_final_review`: polished 2026-10-20, awaiting John's read-through. Base `dev` (`1e6125acd93`), head `418a861ca0d`. History rewritten by the baseline refactor; old SHAs in debriefs map via [baseline_refactor.md](baseline_refactor.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
 
 No PR yet.
 
-Fork CI hasn't been checked.
+Fork CI at head is queued with no reds; Tool Shed frontend evidence is the `1bc094fd6e6` run (identical frontend tree), also queued.
 
 ## About
 
 Tool Shed repository page work for [#24061](https://github.com/galaxyproject/galaxy/issues/24061) (no hg repository link) and [#24062](https://github.com/galaxyproject/galaxy/issues/24062) (show `.shed.yml` and categories), together on one branch at John's request. Base is `dev` at John's request, and the change adds `categories` and `clone_url` to the published `DetailedRepository` schema.
 
 [Implementation debrief](implementation_debrief.md) · [initial implementation debrief](initial_implementation_debrief.md)
+
+PR: [description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
 
 Hardening: [review](subagents/normal_review.md) · [test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [thermo-nuclear review](thermo_nuclear_review.md) · [baseline refactor](baseline_refactor.md) · [scope evaluation](scope_evaluation.md) · [screenshots](screenshot_debrief.md)
 

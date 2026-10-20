@@ -1,0 +1,4 @@
+- Show hg clone command, categories and a generated .shed.yml on Tool Shed repository pages
+- Tool Shed repository page: clone command, category links and .shed.yml
+- Add clone command, categories and .shed.yml to Tool Shed repository pages
+- Show more repository details in the Tool Shed: hg clone, categories, .shed.yml
