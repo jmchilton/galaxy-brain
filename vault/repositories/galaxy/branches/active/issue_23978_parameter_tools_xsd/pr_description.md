@@ -45,7 +45,7 @@ Review the fixture format restrictions and the validation exclusions. Confirm th
 
 ## Context
 
-Builds on 🌿[issue_18642_framework_tool_coverage](https://github.com/jmchilton/galaxy/tree/issue_18642_framework_tool_coverage), which supplies prerequisite schema corrections. ***The parent must land first or accompany this change; until then, a comparison against `dev` includes the parent's commits.*** This review covers the four commits after `f66d1f0f97d`.
+Builds on #24208, which supplied prerequisite schema corrections.
 
 ## Agentic Checks
 
@@ -69,7 +69,7 @@ Checked exclusions, format changes, schema documentation and the existing shared
 
 <details><summary>Negative checks demonstrate that invalid tools in each covered directory fail validation.</summary>
 
-The recorded checks also exercise missing rules support and malformed-schema failure. The existing enum-message assertion fails against the parent schema.
+The recorded checks also exercise missing rules support and malformed-schema failure. The existing enum-message assertion fails against the schema as of #24208.
 
 </details>
 

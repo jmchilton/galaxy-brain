@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished at `04034197ef72e686cbb46a6f29ccb61619b08881`; `branches_ready_for_final_review`, awaiting John's read-through.
+`branches_ready_for_final_review` at `1e5ab3d909d2d8048117375338824f6f83981b48`, awaiting John's read-through; 2026-10-20 rebased its 4 own commits onto `dev` (parent `issue_18642_framework_tool_coverage` merged as #24208), replacing polished `04034197ef7`.
 
-No PR is open; upstream target is `dev`, with parent `issue_18642_framework_tool_coverage` (`f66d1f0f97d`) required to open first.
+No PR is open; upstream target is `dev`.
 
-CI refreshed 2026-10-17: 34 queued checks, one skipped check, no failures, and no CircleCI `validate_test_tools` status; local validation passes for all 431 tools and 171 unit tests (1 skipped).
+Fork CI pending on the rebased head; locally `.ci/validate_test_tools.sh` passes for 440 tools and linter/parameter-spec unit tests pass (149).
 
 ## Review materials
 
