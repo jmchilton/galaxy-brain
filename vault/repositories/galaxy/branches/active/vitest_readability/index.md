@@ -1,10 +1,10 @@
 # vitest_readability
 
-Status: `author_work` (2026-10-19) — CI green on `e06bbc4c702` but the PR now conflicts with `dev`. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
+Status: `ci_wait` (2026-10-20) — conflicts resolved; rebased head `1358d378879` pushed, new-head CI pending. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `e06bbc4c70271aacfe27a88e315c882b5270ecaa`, rebased onto dev `5ff1e46b8c38c704be8da75b4db05b3d56f93f3d`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `backup/vitest_readability_with_churn-before-stack-20261016` (`7f2db5e5941`); `vitest_readability_with_churn` is now stacked above this cleaned branch.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `1358d37887996e552e0fac6467c8738865618d9a`, rebased onto dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `backup/vitest_readability_with_churn-before-stack-20261016` (`7f2db5e5941`); `vitest_readability_with_churn` is now stacked above this cleaned branch.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -307,3 +307,18 @@ At John’s request, local `vitest_readability_with_churn` now adds the 76 remov
 ## TICK — 2026-10-20
 
 Live #24038 is CONFLICTING with `dev` again: merge-tree shows 20+ client test files conflicting (incl. FormBoolean/FormCheck/FormOptionalText and `useInvocationGraph.test.ts`). Substantial; not rebased.
+
+
+## Rebased and conflicts resolved — 2026-10-20
+
+Rebased from `e06bbc4c70271aacfe27a88e315c882b5270ecaa` onto pinned fresh dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0`. Published `1358d37887996e552e0fac6467c8738865618d9a` to `jmchilton/vitest_readability` using the exact preceding published-head lease. Backup: `backup/vitest_readability-before-dev-20261020`.
+
+Resolved 23 conflicting paths while retaining upstream retry/backoff, controlled form, invocation graph, extension/config, quota, collection, and revision-specific README regressions. Independent overlap review caught three stale-helper auto-merges in DownloadItemCard, CollectionDescription and FormElement; repaired within their owning commits. Runtime checks also caught the retry fixture's missing null initialization and an erased wrapper prop type; fixed without changing assertions.
+
+Dev PR #24270 merged during the first full validation, requiring an additional DatasetCopy conflict resolution and InteractiveTools automatic-merge repair. Retained both new GFormInput regression checks with local fixtures. The first validated head a44424a53a97 was published, then the final incremental rebase used that exact head as its lease.
+
+All 418 original commit messages/trailers survive in order, including two explicit empty checkbox compatibility entries whose behavior is now upstream. All 399 non-overlap blobs are unchanged. The diff has 428 paths versus the old 430; only the two now-upstream checkbox test diffs disappear. The 76 prior branch-local churn removals remain excluded. Downstream readability-with-churn, story, play, real-API and A11y branches were not restacked.
+
+The frozen validation tree `78ba2e31ca358304cd262e32abb6ca468fa4233c` exactly equals the final branch tree. Final client: 646 files / 5,682 tests pass; one test skipped. Tool Shed: 27 files / 183 tests pass. Both complete frontend type checks, adapted-file ESLint/Prettier, whitespace, commit hooks and vault validation pass (124 files, zero errors, 15 existing advisory warnings). The first client run was superseded after its diagnosed fixture failure; only the corrected final run is passing evidence.
+
+[Independent review](subagents/rebase_dev_2026-10-20.md), [scoped test challenge](test_challenges_debrief.md), and [exact history/resolution manifest](../../../../../projects/just_jesting_around/readability_assessment/rebase_dev_2026-10-20.json). No remaining review findings. GitHub confirms exact published head and `MERGEABLE`; draft status retained, new-head CI pending. Tracking records committed locally; galaxy-brain is not pushed.

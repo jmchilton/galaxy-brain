@@ -1,7 +1,9 @@
-# Fresh-dev readability rebase — 2026-10-16
+# Fresh-dev readability rebase — 2026-10-20
 
-READY for human review; draft PR #24038 awaits new-head CI. Published cleaned head `e06bbc4c70271aacfe27a88e315c882b5270ecaa` on dev `5ff1e46b8c38c704be8da75b4db05b3d56f93f3d`.
+Published `1358d37887996e552e0fac6467c8738865618d9a` on dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0`. Draft PR #24038 is MERGEABLE; new-head CI pending.
 
-Kept the score-2 pruning, upstream duplicate-suite deletion, all 416 retained messages/trailers, and the original with-churn reference. Reconciled upstream regression tests and schema additions; folded repairs into their retained test commits. Two additional per-test commits feed controlled checkbox values back through props. No production behavior changed and no downstream branches rebased.
+Reconciled all 23 conflict paths and repaired four stale-helper automatic merges. Preserved upstream assertions, retry/backoff behavior, shared fixtures and the accepted churn pruning. Runtime-discovered missing null fixture initialization and wrapper typing are corrected. No production behavior changed; no downstream branch was restacked.
 
-Final gates: client 612 suites / 5,345 tests pass with one skip; Tool Shed 27 suites / 182 tests pass; both frontend type checks, adapted-file lint/format, whitespace and vault validation pass. Independent normal review and test challenge have no remaining findings. CI has not settled. Details, exact base/head/backup refs and history mapping are in [the branch index](index.md).
+All 418 commit messages/trailers remain identical in order. Two compatibility entries are intentionally empty because dev supplies their changes; all 399 non-overlap file blobs remain identical. Final tree exactly matches the frozen validation tree `78ba2e31ca358304cd262e32abb6ca468fa4233c`.
+
+Validation: client 646 files / 5,682 tests pass; one test skipped; Tool Shed 27 files / 183 tests; both frontend type checks; adapted-file lint/format; hooks, whitespace and vault validation pass. Independent normal review and scoped test challenge have no remaining findings. Exact refs, history mapping, resolutions and logs are recorded in the linked manifest in [index.md](index.md). Prior debriefs are archived under earlier_drafts/2/.

@@ -1,7 +1,35 @@
-# Rebase test challenge — 2026-10-16
+# Scoped rebase test challenge — 2026-10-20
 
-No remaining findings. Challenged the tests adapted for fresh dev using Galaxy testing guidance and the client README. Preserved every upstream regression assertion and existing expectation; retained shared factories and mount helpers instead of adding mocks.
+Read Galaxy `doc/source/dev/writing_tests.md`, client README testing guidance, REVIEW_FOCUS.md, and GX_PROCESS_CHALLENGE_TESTS.md. The user's request is a rebase with conflict resolution, preserving the accepted cleaned readability policy. This is a fresh challenge of the integration, not a renewed mandate to remove tests or incidental changes.
 
-DatasetCopy explicit selection reproduces the old helper. Controlled FormBoolean, FormCheck and FormOptionalText tests now model the parent feedback required by GCheckbox. Other adaptations repair removed fixture variables and changed selectors. These are integration repairs to existing behavior, so additional E2E tests are unnecessary. The original score-2 pruning and upstream duplicate-suite deletion remain intact.
+The unit/component/MSW layer remains appropriate for cache deduplication, error/backoff state, invocation graph mapping, fixture-dependent rendering, form accessibility attributes, and request payload decisions. Their observable contracts would be obscured or made nondeterministic by replacing them wholesale with server E2E tests. No production behavior is introduced, so no additional screenshots or Selenium suite is required for this rebase. Existing server coverage remains unchanged.
 
-[Normal review details](subagents/rebase_dev_2026-10-16.md). Final validation is recorded in [the branch index](index.md).
+Challenge findings: seven overlapping files auto-merged textually despite helper changes. Three contained stale fixtures (DownloadItemCard, CollectionDescription, FormElement). Repair these tests, preserving upstream destinations, text, and label/status assertions; do not delete them or loosen expectations. Other upstream additions exercise real regressions, not redundant implementation mirrors. No test removal was recommended. The keyedCache delayed-fetch case now asserts loading, one fetch, and the stored result instead of `expect(true).toBe(true)`.
+
+Required validation: focused repaired three suites plus all conflict/retry/cache/graph suites; full client unit suite, client type check, lint/format on adapted paths; Tool Shed RepositoryPage unit test and type/style checks in its own workspace. Root coordinates all runtime gates after history normalization. Reviewer did not start a competing test process while history was being rewritten.
+
+All three challenge findings were independently verified repaired in isolated snapshot `e577538ef1d01ae7bd55fe6dffb9a6298de08898`; their original assertions remain intact. No test deletion, weakening, or new E2E is requested. Validation results and final head must be appended after root completes these gates. No independent runtime result is claimed here.
+
+## Runtime follow-up
+
+The root-run client gate found an additional fixture integration defect missed by the first static review: retrying-invocation was absent from the new per-test dictionaries, whereas upstream explicitly supplied null. `isWorkflowInvocationElementView` rejects only null before evaluating `"steps" in item`; undefined therefore throws. The independently inspected repair seeds both invocation and job-summary dictionaries with explicit null, preserving the original info-role, loading-message, and absence-of-not-found assertions. This restores the upstream fixture contract; it does not weaken the test.
+
+The client type check also found that a generic VueWrapper erased the CollectionDescription hdca prop type. The helper now accepts ReturnType<typeof mountDescription> and drops the unused VueWrapper import; all expected description/hover strings are unchanged. Both corrections were independently verified in the isolated validation checkout whose root-recorded index tree is `f4100858e1a6bca096e3db2bdef4fb632b758229`. Final full-client validation and main-branch tree identity remain root-owned gates. The initial full-client run was superseded after its known fixture failure and is not passing evidence. Root reported Tool Shed 27 files / 183 tests and its type check passed before these client-only changes.
+
+## Final independent history proof
+
+Read-only Git verification confirms final normalized HEAD `a44424a53a97d380801088269c96b5f7c15abbf4`, tree `f4100858e1a6bca096e3db2bdef4fb632b758229`, with new dev `1e6125acd93b22a682043509e9549b124546fd25` an ancestor and a clean main worktree. Exactly 418 commits remain. All 418 complete message bodies, including trailers, are byte-identical to the old cleaned branch range and the original start manifest (accounting for the display newline added by Git format output). The final two controlled-checkbox commits are explicitly empty because dev already contains their patches. The backup ref still points exactly to `e06bbc4c70271aacfe27a88e315c882b5270ecaa`.
+
+Root reports full client and Tool Shed type checks passed, the final two repaired client suites passed 28 tests, and Tool Shed passed 27 files / 183 tests. Final full-client unit and last two-file style gates are still root-owned and pending at this review update. Static review and scoped test challenge have no remaining blockers; publication requires those runtime gates.
+
+## Late dev update and second rebase
+
+The first-stage candidate was published after the root-run full client gate passed 641 files / 5661 tests, with one skipped test, and style/type gates passed. Dev advanced during validation to `93b3c85e5320048b33bcc78f6f7767e06813f7e0`, introducing the GFormInput migration. Root performed a second incremental rebase.
+
+Independent review identified exactly two overlapping readability tests: DatasetCopy and InteractiveTools. The incoming DatasetCopy test used the old setupBase helper; it now uses serveHistories/mountDatasetCopy, explicit source and target selection, and the named new-history input. It preserves the g-form-input assertion and clearing behavior and additionally proves the target checkbox was checked before typing. The incoming InteractiveTools search case referenced the removed outer wrapper; it now owns an awaited mountTools wrapper and uses nth for the fixture, retaining the migrated-input class and filtering assertions. Both repairs were independently inspected in the final candidate. No extra selector defects were found among existing collection/upload consumers. Input modelValue/event compatibility, keyboard listener fallthrough, and focus behavior are covered by the incoming component tests; full client/types are the integration gates.
+
+Read-only final proof confirms HEAD `1358d37887996e552e0fac6467c8738865618d9a`, tree `78ba2e31ca358304cd262e32abb6ca468fa4233c`, new dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0` as ancestor, and a clean worktree. All 418 complete original commit bodies/trailers remain identical to the start manifest. All 426 branch paths outside the two late overlaps remain byte-identical to first published head a44424a53a97. No extra branch diff paths were introduced. Static review is clear; final client and Tool Shed runtime/type/style gates are root-owned and still running at this update. Publication must lease against first published head `a44424a53a97d380801088269c96b5f7c15abbf4`.
+
+## Completed runtime gates
+
+Root verified client 646 files / 5,682 tests pass; one test skipped, Tool Shed 27 files / 183 tests, both frontend type checks, all adapted-file ESLint/Prettier and whitespace/hooks. Independent history/tree proof matches final published `1358d37887996e552e0fac6467c8738865618d9a`. No remaining findings. See [index.md](index.md) for publication and exact manifest.
