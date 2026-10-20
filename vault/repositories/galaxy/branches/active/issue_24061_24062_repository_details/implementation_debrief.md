@@ -1,6 +1,6 @@
 # Implementation debrief
 
-**STATUS: READY.** Branch `issue_24061_24062_repository_details`, base `dev` `1e6125acd93`, head `1bc094fd6e6`, on `jmchilton`. 14 commits: Baseline tests, then a links-list refactor, then the feature.
+**STATUS: READY.** Branch `issue_24061_24062_repository_details`, base `dev` `1e6125acd93`, head `dbc56f23a7a`, on `jmchilton`. 15 commits: Baseline tests, then a links-list refactor, then the feature.
 
 ## Final implementation
 - **API.** `DetailedRepository` (`GET`/`PUT /api/repositories/{id}`) gains two fields:
@@ -31,9 +31,9 @@ The scope evaluation recommended keeping the feature as built, plus renaming `se
 ## Verification at head
 - **Frontend:** shed vitest 187/187, plus vue-tsc, prettier and eslint (0 errors; the 13 warnings are pre-existing). `pnpm build` passes.
 - **Backend tests:**
-  - API `-k "test_show or test_update"`: 6 passed. `test_show_clone_url_clones` actually clones from the returned URL.
-  - `test_repositories_manager.py`: 3 passed.
-  - Playwright `test_repository_page_categories_clone_command_and_shed_yml`: passed.
+    - Full `test_shed_repositories.py`: 43 passed. `test_show_clone_url_clones` actually clones from the returned URL.
+  - Full `test_frontend_repositories.py` (Playwright): 9 passed, including `test_repository_aside_end_reachable_on_long_page`, which fails with `dev`'s sticky CSS.
+  - `test/unit/tool_shed`: 120 passed, 12 skipped.
 - **mypy:** the same 23 pre-existing errors as `dev`.
 - **Not done:** fork CI hasn't been checked. A merge with #24167 conflicts in three test files, each resolved by keeping both sides, and `schema.ts` needs regenerating for whichever lands second.
 

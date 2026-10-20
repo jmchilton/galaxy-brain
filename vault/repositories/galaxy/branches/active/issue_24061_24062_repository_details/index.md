@@ -5,7 +5,7 @@
 
 ## Status
 
-`branches_implemented_needs_ci`: implemented and hardened 2026-10-20, status READY. Base `dev` (`1e6125acd93`), head `1bc094fd6e6`. History rewritten by the baseline refactor; old SHAs in debriefs map via [baseline_refactor.md](baseline_refactor.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
+`branches_implemented_needs_ci`: implemented and hardened 2026-10-20, status READY. Base `dev` (`1e6125acd93`), head `dbc56f23a7a`. History rewritten by the baseline refactor; old SHAs in debriefs map via [baseline_refactor.md](baseline_refactor.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
 
 No PR yet.
 
