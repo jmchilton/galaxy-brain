@@ -23,4 +23,4 @@ Work this implies (main branch, not #24217):
 3. Drop `bool(...)` in `_is_async_batch`. One line.
 4. `sleep_for(UX_RENDER)` after the helper in `test_rerun_dataset_collection_element` was already removed by the 2026-10-20 rebase. Dev's #24223 replaced it with a wait on the map-over hint, and the conflict resolution kept that wait.
 
-Applying 1–3 changes approved commit 3 (`Share meta classifier…`) and then requires re-cutting the main branch (fixups + `rebase --autosquash --update-refs`). John decides.
+On John's request, 1–3 were folded into commit 3 (`Share meta classifier…`) on 2026-10-20, at baseline `005d75ad95d` / main `b2815e3d8d6`. `__collection_multirun_parameter` now checks only the shape of the values, and the classifier gates it on its own `batch`. The main branch's access-check commit kept the new docstring along with its `check_access` line.
