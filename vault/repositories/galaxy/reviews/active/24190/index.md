@@ -3,7 +3,7 @@
 - PR: https://github.com/galaxyproject/galaxy/pull/24190
 - Latest review: [Initial review](review.md)
 - Evidence: [Reproduction script](reproduce.py), [output](reproduction-output.txt)
-- Status: Author OK'd pushes; fixing P2s on `pr_24190_review_0`
+- Status: Author OK'd pushes; fixes on `pr_24190_review_0` ([jmchilton fork](https://github.com/jmchilton/galaxy/tree/pr_24190_review_0), head `6f36ac97004`, [details](review_0_branch_details.md)); not yet pushed into PR
 - Delivery: [posted as comment](https://github.com/galaxyproject/galaxy/pull/24190#issuecomment-6219357991) by John, 2026-10-16T15:56:22Z, on reviewed head `a6d7e445d63`
 - Reviewed commit: `a6d7e445d63003258183c3eae36bdb5430dc8d97`
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24190`
@@ -15,4 +15,4 @@ Three P2 findings: runtime/declaration output type mismatch, removal of bare pai
 
 Review delivered as John's comment with the three P2s; no author commits since. Worktree retained while PR is open.
 
-2026-10-16T16:05:28Z: author replied "Feel free to push" (maintainer edits on); reconfirmed in a meeting 2026-10-20. John asked for the three P2 fixes on `pr_24190_review_0` (in progress 2026-10-20); pushing into the PR branch still awaits John's go-ahead.
+2026-10-16T16:05:28Z: author replied "Feel free to push" (maintainer edits on); reconfirmed in a meeting 2026-10-20. Fixes on `pr_24190_review_0` (2026-10-20): P2 2 and P2 3 fixed; P2 1 fixed for mapped execution (plus a pre-existing mapped-slice parent-collection bug), workflow-editor advertised type not fixed (needs new tool-spec attribute). Author's matching unit test rewritten since bare `paired` makes `list:paired` mappable. Pushing into the PR branch awaits John's go-ahead.

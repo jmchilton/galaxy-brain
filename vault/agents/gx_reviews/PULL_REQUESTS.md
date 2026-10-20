@@ -5,7 +5,7 @@ PRs To Review:
 - [#24269](https://github.com/galaxyproject/galaxy/pull/24269) — review posted as comment; fixes on fork branch, not pushed. [notes](../../repositories/galaxy/reviews/active/24269/index.md)
 - [#24262](https://github.com/galaxyproject/galaxy/pull/24262) — Review comment delivered (LGTM; asked author to integrate de-duplication); P2 fixes on review branch. [notes](../../repositories/galaxy/reviews/active/24262/index.md)
 - [#24222](https://github.com/galaxyproject/galaxy/pull/24222) — Approved with response (five P3s; fixes + integration/E2E tests on fork branch); awaiting merge. [notes](../../repositories/galaxy/reviews/active/24222/index.md)
-- [#24190](https://github.com/galaxyproject/galaxy/pull/24190) — Author OK'd pushes; fixing three P2s on `pr_24190_review_0`. [notes](../../repositories/galaxy/reviews/active/24190/index.md)
+- [#24190](https://github.com/galaxyproject/galaxy/pull/24190) — Author OK'd pushes; P2 fixes on `pr_24190_review_0` (fork), not yet pushed into PR. [notes](../../repositories/galaxy/reviews/active/24190/index.md)
 - [#24101](https://github.com/galaxyproject/galaxy/pull/24101) — Ready again; Sam reports addressing Marius’s review; updated head needs follow-up verification. [notes](../../repositories/galaxy/reviews/active/24101/index.md)
 - [#23869](https://github.com/galaxyproject/galaxy/pull/23869) — Unposted draft is stale after new commits; Marius/Alireza review in progress; revise and verify before delivery. [notes](../../repositories/galaxy/reviews/active/23869/index.md)
 - [#24018](https://github.com/galaxyproject/galaxy/pull/24018) — Draft; review delivered; ball with author. [notes](../../repositories/galaxy/reviews/active/24018/index.md)
