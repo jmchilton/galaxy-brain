@@ -1,7 +1,8 @@
 # PR #24111 — Login redirects and allowed_login_redirect_hosts
 
 - PR: https://github.com/galaxyproject/galaxy/pull/24111 (mvdbeek, `release_26.1`, +764/-128, 30 files)
-- Status: Initial review complete; response unposted
+- Status: Approved with response; asked author to address findings and rework admin docs; awaiting merge
+- Delivery: [approved](https://github.com/galaxyproject/galaxy/pull/24111#pullrequestreview-5585285135) by John, 2026-10-20T12:56:38Z, on head `a55b237469a`
 - Reviewed commit: `a55b237469afdcf9af7ab9f19ff09ac9007b3268`
 - Reviewed: 2026-10-20 (picked by John)
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/pr/24111`

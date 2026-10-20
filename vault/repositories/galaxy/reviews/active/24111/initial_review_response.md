@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+This review process is getting better - I think these are good tests and good de-duplications. Can you review and address them? I would also maybe appreciate another pass at the admin docs? I'm not sure they are written with admins in mind - I mean they certainly aren't the worst - definitely not Opus 5.0 - but I wonder if the information could be front loaded with what an admin cares about and implementation details tucked away or dropped all together?
 
 <details><summary>Automated Review Details</summary>
 
