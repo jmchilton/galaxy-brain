@@ -119,11 +119,22 @@
 - faq: faqs/galaxy-it/tutorial_mode.md
   status: pending
 - faq: faqs/galaxy/account_create.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6c1b6093964
+  faq_findings: Step 2 "Login or Register" is now separate Login/Register masthead buttons (Register opens the form directly); stale screenshot; odd step numbering; 2 typos.
+  gx_findings: No E2E for masthead Register or the activation flow (banner, resend, activate); no navigation.yml for the inactivity banner; fixed gxui methods summary for register (c31fcb13a8e); replay needs a gxui mail verb.
+  note: Activation link read from a debug SMTP sink by hand; the replay pauses there.
 - faq: faqs/galaxy/account_multiple.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: '"User -> Preferences in the top menu bar": 26.2 masthead shows the username, not "User".'
 - faq: faqs/galaxy/account_reduce_quota_usage.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/account_single_sign_on.md
   status: pending
 - faq: faqs/galaxy/account_update_preference.md
