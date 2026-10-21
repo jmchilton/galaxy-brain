@@ -10,7 +10,7 @@ mvdbeek approved `fabcc827831`, with one inline edge case and three optional nit
 
 ## Not acted on
 
-- **Follow-up: Markdown menu item selection loses focus** (`CellAction` sets `visible` directly, and `CellAdd` closes through `.popper-close` delegation). This is outside the diff, and fixing it would widen a release-branch PR. The `pr_description.md` claim was narrowed to Escape and Close. Suggested as a separate follow-up.
+- **Follow-up: Markdown menu item selection loses focus** (`CellAction` sets `visible` directly, and `CellAdd` closes through `.popper-close` delegation). This is outside the diff, and fixing it would widen a release-branch PR. The `pr_description.md` claim was narrowed to Escape and Close. The follow-up is [#24335](https://github.com/galaxyproject/galaxy/issues/24335), assigned to John.
 
 ## Drafted replies
 
@@ -26,6 +26,6 @@ Review-level reply:
 >
 > - `close()` now goes through a new `hide()` from `usePopper`, so the open and close timers are cleared. I left the existing handlers alone to keep the release diff small.
 > - The focus target now skips disabled and `tabindex="-1"` controls, with a test.
-> - Markdown menu selection focus: agreed that it doesn't go through `close()`. I've left it for a follow-up on `dev` rather than widening this release PR, and narrowed the description to Escape and Close.
+> - Markdown menu selection focus: agreed that it doesn't go through `close()`. I opened #24335 to fix it on `dev` rather than widening this release PR, and narrowed the description to Escape and Close.
 >
 > ***Posted by model Opus 5.5 on jmchilton's behalf***
