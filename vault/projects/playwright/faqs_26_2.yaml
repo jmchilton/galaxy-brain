@@ -75,9 +75,19 @@
   gtn_commit: 45d4932d33
   faq_findings: No breakage; 3 typos.
 - faq: faqs/galaxy/analysis_jobs_keep_running.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: ef6f75182e7
+  faq_findings: No breakage; job ran on with the browser closed. Could mention the leave-page prompt while uploads are staged.
+  gx_findings: 'Cut1 dropped the last char of a final line with no newline (chop); fixed with chomp (ab809115f5e), no red tool test possible. Queued: 26.2 upload panel defaults POSIX conversion off (26.1 on).'
 - faq: faqs/galaxy/analysis_jobs_not_running.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: ef6f75182e7
+  faq_findings: 'No "User" section: separate Login/Register buttons, then a username menu; anonymous jobs work where allowed; inactive account shows a banner and uploads fail at once ("Action requires account activation."), not a stuck queue.'
+  gx_findings: 'Added E2E for an inactive user''s upload + upload_activity.progress_row_error (a67081d346c). gxui upload-paste now fails fast on a row error instead of waiting 60s (tip).'
 - faq: faqs/galaxy/analysis_regular_expressions.md
   status: pending
 - faq: faqs/galaxy/analysis_reporting_issues.md

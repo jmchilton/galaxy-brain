@@ -86,6 +86,13 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `f19d8ec90f8`: `tool_form_fill` switches a dataset field to collection mode for a collection hid
   and fails when the selection doesn't land (was a silent no-op). Test in `test_tool_form.py`, red
   without the fix. `tool_form_fill` came from 6a, so this goes with `selenium_tool_form_helpers`.
+- `a67081d346c`: coverage for `analysis_jobs_not_running`. `test_user_activation.py` checks that an
+  inactive user's upload fails with "Action requires account activation."; adds
+  `upload_activity.progress_row_error(row)` and the `UsesUploadActivity` mixin on that class. Goes
+  with `4d391ac7e36`.
+- `ab809115f5e`: Cut1 (`cutWrapper.pl`) uses `chomp`, not `chop`, so a last line with no newline
+  keeps its last character. A standalone fix for 26.2. No test: tool-test uploads always add the
+  newline. Related queued issue: `upload_posix_lines_default_off.md`.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
