@@ -7,6 +7,7 @@ Review doc/source/dev/writing_tests.md in galaxy and make sure tests follow best
 Challenge each unit test in this branch:
 - Is it just testing the implementation directly - if so drop.
 - Is it silly for any reason? If so, please drop.
+- Is it a dedicated test file for a tiny fix to test/dev infrastructure (an env default, a guard)? If so, drop it and record a one-off repro in the debrief instead.
 - Does it fake browser layout (mocked `useElementBounding`/`getBoundingClientRect`, stubbed `scrollIntoView`, hand-set sizes, asserted transforms or pixel styles)? jsdom has no layout, so it only proves a guard exists. Assert the visible result (centered, in view, scrolled to) in an E2E test and drop it.
 - Are the unit tests only testing something that is also tested by an API/Integration/Selenium test? If so, drop.
 - Are the unit tests something that could easily be tested by an API/Integration/Selenium test? If so, please rewrite it at that layer.

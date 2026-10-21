@@ -8,6 +8,12 @@ Before branching, pick the base and record the base in the branch record. The Ga
 ## Alt Branches
 
 An alt branch keeps an alternative take on a branch - e.g. its original scope after a re-scope, or a competing approach - and is named `<branch_name>_alt_<short_description>`. Describe each alt in `BRANCH_DIRECTORY/alts/<short_description>.md`: what it does and how it differs from the parent. Alts don't get their own worktrees, workspaces, or branch directories, and aren't tracked in `MY_BRANCHES.md` - the parent's branch directory tracks them. Pushing the alt to the user's remote is sufficient.
+## Unused Infrastructure
+
+When new or ported infrastructure has no caller, search the existing codebase for a real consumer it would improve before offering to park, fold or delete it. Report the sites it doesn't help, and why.
+## Local Checks
+
+Run client vitest under the node pinned in `client/.node_version` (`npm_config_use_node_version=<version> pnpm exec vitest run <path>`); the default node 25 breaks happy-dom's `localStorage` on unmodified `dev`.
 ## Issues
 
 If you're asked by the user to file an issue or record an issue or file a bug report or record a feature request, etc... - do not do this directly. Follow the process in ``vault/agents/_shared/GX_QUEUING_ISSUE_CREATION.md``.

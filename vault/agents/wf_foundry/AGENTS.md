@@ -24,3 +24,7 @@ Foundry issues carry triage labels on GitHub. Derive an issue's status from them
 5. Otherwise (triaged roadmap issue with no `agent/*` label) → `needs_decision`: John picks who drives it.
 
 Mark `priority/mvp` as `(mvp)` and `roadmap/main` as `(large)`. When our research overrides the labels (e.g. an upstream fix landed), say why in the issue's `index.md`.
+
+## Mold fixes
+
+When a run exposes a Mold problem, fix the Mold and its eval directly; don't write a `refinements/` note unless John asks. Run evidence goes in the PR description or vault tracking note.

@@ -11,3 +11,5 @@ Review profiles, when to run them, and where they write in REVIEW_DIRECTORY. Eve
 | [learning_galaxy](learning_galaxy.md)                 | Galaxy pull requests not against a release branch with more than 250 lines of diff, or when John calls out the PR | `learning_galaxy.md`        |
 | [gx_risk_assessment](gx_risk_assessment.md)           | Every Galaxy pull request                                                                                         | `risks.md`                  |
 | [generic_risk_assessment](generic_risk_assessment.md) | Every non-Galaxy pull request                                                                                     | `risks.md`                  |
+
+Thermo's 500-line threshold is deliberately higher than branch hardening's 50: John spends more context on work he authors than on PRs he reviews.

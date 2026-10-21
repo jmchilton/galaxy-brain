@@ -16,6 +16,7 @@ Reasons we've previously used to stay narrow that user has overridden:
 
 - Targets a release branch. Galaxy is fairly liberal about what goes into a release branch and what counts as a bug.
 - Outside the original issue. The issue is often one symptom of a broader bug. Reviewers usually want related bugs in touched code fixed together, and prefer a general feature over a specific one.
+- A reusable abstraction proposed in the issue thread is a follow-up. It's part of the work: build the general piece and route the issue's case through it.
 
 ## The Scope Evaluation Report
 
