@@ -36,6 +36,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#679](https://github.com/galaxyproject/foundry/issues/679) — test-plan `evidence` can't mark fixture-derived values; `family` has no home for output attributes; PR [#695](https://github.com/galaxyproject/foundry/pull/695). [notes](../../repositories/foundry/issues/wip/679/index.md)
 - [#573](https://github.com/galaxyproject/foundry/issues/573) — `implement-galaxy-tool-step` documents no binding convention for an authored UDT; draft PR [#617](https://github.com/galaxyproject/foundry/pull/617). [notes](../../repositories/foundry/issues/wip/573/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](../../repositories/foundry/issues/wip/694/index.md)
+- [#675](https://github.com/galaxyproject/foundry/issues/675) — nested sub-collection arity; schema+runtime already fixed upstream, idioms note docs gap; branch `issue-675-nested-count-docs` on `origin`. [notes](../../repositories/foundry/issues/wip/675/index.md)
 
 ## Queued (`queued`)
 
@@ -63,7 +64,6 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/535/index.md)
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review New Paper; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/568/index.md)
 - [#621](https://github.com/galaxyproject/foundry/issues/621) — Apply Rules Tutorial Patterns; next: research and add a first comment. [notes](../../repositories/foundry/issues/queued/621/index.md)
-- [#675](https://github.com/galaxyproject/foundry/issues/675) — nested sub-collection arity; schema+runtime already fixed, idioms note doesn't mention nested `count`; next: edit note, recast, PR. [notes](../../repositories/foundry/issues/queued/675/index.md)
 
 ## Blocked on others (`blocked`)
 

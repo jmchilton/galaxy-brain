@@ -1,6 +1,8 @@
 # foundry#675 — nested sub-collection arity not assertable
 
 Issue: https://github.com/galaxyproject/foundry/issues/675 (scottcain, AI-posted, `needs-triage`)
+Branch: `issue-675-nested-count-docs` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-675`, commit `275cc43f` on `89c7b9ef`. PR body: [pr_description.md](pr_description.md) (not opened).
+Issue comment posted 2026-10-21: https://github.com/galaxyproject/foundry/issues/675#issuecomment-6328805936
 
 ## Triage (2026-10-21)
 
@@ -26,3 +28,7 @@ Edit idioms line 81: top level uses `element_count:`; a nested sub-collection un
 uses `count:` (or `min:`/`max:`) for exact arity. Maybe add `count: 1` under the unpaired sample in
 the existing YAML example. Bump revision, recast (`make casts`), regenerate Dashboard. No changeset (no
 package change). Comment on #675 that item 1 is fixed upstream (needs John's OK to post).
+
+## Done (2026-10-21)
+
+Idioms line 81 edited (nested `count`/`min`/`max`, `count: 1` unpaired example, no nested `collection_type`); 8 casts + Dashboard regenerated. Vendored-schema check: nested `count: 1` valid, nested `collection_type` rejected.
