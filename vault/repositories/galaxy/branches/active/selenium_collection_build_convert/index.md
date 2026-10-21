@@ -1,15 +1,15 @@
 # selenium_collection_build_convert
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_collection_build_convert?expand=1)
+- [PR #24341](https://github.com/galaxyproject/galaxy/pull/24341)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_collection_build_convert)
 
 ## Status
 
-Polished, awaiting John's final review (`branches_ready_for_final_review`), head `c1c12b303ed`. See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Draft PR opened on John's request 2026-10-21 (`ci_wait`), head `c1c12b303ed`, title/description/labels as approved; screenshot hosted on `pr-assets-selenium_collection_build_convert`. See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
-No PR.
+[#24341](https://github.com/galaxyproject/galaxy/pull/24341), draft against `release_26.2`.
 
-Fork CI at `c1c12b303ed` queued, no failures yet.
+Upstream CI on `c1c12b303ed` running, no failures yet.
 
 ## Scope
 

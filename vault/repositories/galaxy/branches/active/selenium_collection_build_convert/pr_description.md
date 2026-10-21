@@ -93,7 +93,7 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Convert Collection stays greyed out until a converter is picked. A failing test leaves the framework's screenshot and DOM dump.
   <details><summary>Not changed</summary>
 
