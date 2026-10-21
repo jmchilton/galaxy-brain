@@ -6,6 +6,8 @@
     - faqs/galaxy/account_update_preference.md
     - faqs/galaxy/analysis_add_custom_build.md
     - faqs/galaxy/analysis_jobs_not_running.md
+    - faqs/galaxy/user_preferences_account_usage_quota.md
+    - faqs/galaxy/user_preferences_manage_information.md
   target: main
   summary: There is no "User" masthead item; the logged-in menu is labelled with the username and holds Preferences and Sign Out.
   fix: Say "click your username in the top bar, then **Preferences**".
