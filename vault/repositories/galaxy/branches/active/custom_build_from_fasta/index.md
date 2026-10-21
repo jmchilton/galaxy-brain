@@ -1,14 +1,14 @@
 # custom_build_from_fasta
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:custom_build_from_fasta?expand=1)
+- [#24312](https://github.com/galaxyproject/galaxy/pull/24312)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/custom_build_from_fasta)
 - [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
 
 ## Status
 
-Polished on `release_26.2`, head `873b4d93ae8`; awaiting John's final review.
+Polished on `release_26.2`, head `873b4d93ae8`.
 
-No PR.
+Draft [#24312](https://github.com/galaxyproject/galaxy/pull/24312) opened 2026-10-21 on John's request, titled "[26.2] Test adding a custom build from a history FASTA dataset"; screenshot hosted on the fork's `pr-assets-custom_build_from_fasta` branch.
 
 Fork CI on `873b4d93ae8` pending.
 

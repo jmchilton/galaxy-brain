@@ -73,7 +73,7 @@ The refactor commit touches only the two existing tests and their selectors and 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? No user-facing change. In tests, a timeout naming the component's selector, or pytest's diff of the actual value for the default definition, alert text and chrom count.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A. No unit tests; the new test is E2E and checks the rendered count.
