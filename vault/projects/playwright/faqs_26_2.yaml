@@ -50,7 +50,8 @@
   galaxy_commit: e64d932e12e
   used_by: [ecology/ref-based-rad-seq]
   faq_findings: '"User -> Preferences" is the username menu; "Database (dbkey)" field is labelled Key; missing step: the build lists only after its jobs finish and the page reloads; typo.'
-  gx_findings: 'No E2E/API test for the FASTA path; added E2E + custom_builds components + len/linecount framework datatypes (2782db29ee2). Queued issues: build hidden until reload, API swallows NoConverterException. gxui preferences verb used for real; added `gxui history-wait` with no HID (whole history, hidden too).'
+  gx_findings: 'No E2E/API test for the FASTA path; added E2E + custom_builds components + len/linecount framework datatypes (2782db29ee2). Issues: build hidden until reload (#24309), API swallows NoConverterException (fixed on branch custom_build_no_converter_400_26.0). gxui preferences verb used for real; added `gxui history-wait` with no HID (whole history, hidden too).'
+  galaxy_issues: [24309]
 - faq: faqs/galaxy/analysis_concatenate.md
   status: ui_verified
   mode: ui
@@ -80,7 +81,8 @@
   gtn_commit: 45d4932d33
   galaxy_commit: ef6f75182e7
   faq_findings: No breakage; job ran on with the browser closed. Could mention the leave-page prompt while uploads are staged.
-  gx_findings: 'Cut1 dropped the last char of a final line with no newline (chop); fixed with chomp (ab809115f5e), no red tool test possible. Queued: 26.2 upload panel defaults POSIX conversion off (26.1 on).'
+  gx_findings: 26.2 upload panel defaults POSIX conversion off (26.1 on), so a paste keeps no final newline; Cut1 then drops the last field's last char.
+  galaxy_issues: [24311]
 - faq: faqs/galaxy/analysis_jobs_not_running.md
   status: ui_verified
   mode: ui

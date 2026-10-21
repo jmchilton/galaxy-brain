@@ -12,6 +12,7 @@ A checklist of every GTN FAQ, for walking through them during release 26.2 QA. T
   used_by: [introduction/galaxy-intro-101]
   faq_findings: Step 2 names a button that 26.2 renamed.
   gx_findings: Added upload_choose_local to navigation.yml.
+  galaxy_issues: [24311]
   note: <optional; why the FAQ is blocked or skipped>
 ```
 
@@ -36,6 +37,8 @@ A checklist of every GTN FAQ, for walking through them during release 26.2 QA. T
   Leave it out when nothing embeds the FAQ.
 - `faq_findings` and `gx_findings` hold one-line summaries. Leave a field out when it has no
   findings.
+- `galaxy_issues` lists the `galaxyproject/galaxy` issue numbers filed from the entry's findings.
+  Add a number once the issue is filed; a draft still in `gx_issues/to_file/` doesn't count yet.
 
 Built from GTN `origin/main` at `45d4932d33` (2026-10-20). The list includes every `*.md` under any
 `faqs/` directory: `faqs/<area>/`, `topics/<topic>/faqs/` and

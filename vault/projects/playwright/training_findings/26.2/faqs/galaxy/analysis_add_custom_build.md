@@ -15,7 +15,7 @@ Embedded in `ecology/ref-based-rad-seq` (name `Stickleback`, dbkey `stickleback`
 - **Missing last step.** After **Save** the build is not listed until Galaxy has counted its
   chromosomes (two hidden jobs) and the page is reloaded; the "Successfully added" alert fades
   and the table still says "No data available". Add "wait a minute and reload the page; the
-  build appears with its number of chromosomes". Queued as a Galaxy issue (below).
+  build appears with its number of chromosomes". Filed as [#24309](https://github.com/galaxyproject/galaxy/issues/24309).
 - Typo: "Standarize".
 
 ## Galaxy
@@ -24,10 +24,10 @@ Embedded in `ecology/ref-based-rad-seq` (name `Stickleback`, dbkey `stickleback`
   from a history fasta. Added `test_build_add_from_fasta` and `custom_builds` components, plus the
   `len`/`linecount` datatypes and converters the framework test datatypes lacked (`2782db29ee2`).
   Green under Playwright.
-- Queued `gx_issues/to_file/custom_build_fasta_not_listed_until_reload.md` (the list hides a FASTA
-  build until its linecount job is ok; the page never re-polls) and
-  `custom_build_conversion_error_swallowed.md` (`users.py` turns `NoConverterException` into a bare
-  500 "Failed to convert dataset.").
+- [#24309](https://github.com/galaxyproject/galaxy/issues/24309): the list hides a FASTA build
+  until its linecount job is ok, and the page never re-polls.
+- `users.py` turns `NoConverterException` into a bare 500 "Failed to convert dataset.". Not filed;
+  fixed directly on branch `custom_build_no_converter_400_26.0`.
 - gxui: first real use of `gxui preferences` + `preferences.card(id=...)` — opened the page in 2
   commands, no snapshot needed. Waiting on the hidden converter jobs first took
   `gxui call wait_for_history`; `gxui history-wait` with no HID does it now (gxui tip).

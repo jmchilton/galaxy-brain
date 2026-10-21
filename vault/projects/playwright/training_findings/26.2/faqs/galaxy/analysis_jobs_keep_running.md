@@ -10,8 +10,7 @@ page?" while uploads are staged (`client/src/entry/analysis/App.vue`). The FAQ c
 prompt.
 
 Galaxy findings from this run:
-- **Cut1 lost the last character of a final line with no newline** (`chop`). Fixed with `chomp`
-  (`ab809115f5e`). No tool test can go red for it: tool-test uploads always convert to POSIX
-  lines, which adds the newline.
-- **26.2's upload panel no longer converts line endings by default** (26.1: on). That's why the
-  pasted table had no final newline. Queued: `gx_issues/to_file/upload_posix_lines_default_off.md`.
+- **26.2's upload panel no longer converts line endings by default** (26.1: on), so a pasted
+  table keeps no final newline, and Cut1 (`chop` in `cutWrapper.pl`) then drops the last field's
+  last character. Filed as [#24311](https://github.com/galaxyproject/galaxy/issues/24311); the
+  Cut1 side is left alone, since restoring the default fixes it.

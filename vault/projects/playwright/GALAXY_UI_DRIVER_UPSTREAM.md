@@ -90,9 +90,6 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   inactive user's upload fails with "Action requires account activation."; adds
   `upload_activity.progress_row_error(row)` and the `UsesUploadActivity` mixin on that class. Goes
   with `4d391ac7e36`.
-- `ab809115f5e`: Cut1 (`cutWrapper.pl`) uses `chomp`, not `chop`, so a last line with no newline
-  keeps its last character. A standalone fix for 26.2. No test: tool-test uploads always add the
-  newline. Related queued issue: `upload_posix_lines_default_off.md`.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
