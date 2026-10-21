@@ -1,10 +1,10 @@
-Let tests and scripts drive one Multiview history column at a time, with a helper that copies an item between columns, and fix the per-history selectors that match nothing on `dev`.
+Let tests and scripts drive one Multiview history column at a time, with a helper that copies an item between columns, and fix the per-history selectors that match nothing on `release_26.2`.
 
 ***The point is addressing one history's column, so tests and scripts can drag items between existing histories. Repointing the dead selectors is the prerequisite.***
 
-On `dev`, `multi_history_panel.switch_button` and `current_history_check` point at `#history-column-<id>`. That id belonged to the legacy multi-panel; Vue Multiview replaced it in 2022, and 🔀 #14608 deleted the old panel. No test calls either selector, so nothing noticed. With no way to address a single column, the only copy test drags onto the "new history" drop box.
+On `release_26.2`, `multi_history_panel.switch_button` and `current_history_check` point at `#history-column-<id>`. That id belonged to the legacy multi-panel; Vue Multiview replaced it in 2022, and 🔀 #14608 deleted the old panel. No test calls either selector, so nothing noticed. With no way to address a single column, the only copy test drags onto the "new history" drop box.
 
-| Selector (`multi_history_panel`) | `dev` | This PR |
+| Selector (`multi_history_panel`) | `release_26.2` | This PR |
 | --- | --- | --- |
 | `switch_button(history_id)` | `#history-column-<id> .switch-to`, matches nothing 😬 | column's `data-description="switch to history button"` ✅ |
 | `current_history_check(history_id)` | `#history-column-<id> .details .name`, matches nothing 😬 | column's `data-description="name display"` ✅ |

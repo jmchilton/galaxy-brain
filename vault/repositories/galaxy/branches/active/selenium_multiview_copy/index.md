@@ -1,12 +1,12 @@
 # selenium_multiview_copy
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_multiview_copy?expand=1)
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_multiview_copy?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_multiview_copy)
 - [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
 
 ## Status
 
-Polished on `dev`, head `13374adf3e4`; ready for final review.
+Rebased onto `release_26.2` (was `dev`), head `0edf965c80f`; hardening in progress.
 
 No PR.
 
