@@ -1,6 +1,6 @@
 # issue-694-direct-build-on-brief
 
-For [#694](https://github.com/galaxyproject/foundry/issues/694). Branch on `origin`. No PR yet. Description: [pr_description.md](pr_description.md).
+For [#694](https://github.com/galaxyproject/foundry/issues/694). Branch on `origin`. PR [#696](https://github.com/galaxyproject/foundry/pull/696) → `main`, opened 2026-10-21 on John's OK. Description: [pr_description.md](pr_description.md).
 
 - Worktree: `~/projects/worktrees/foundry/branch/issue-694`, off `origin/main` `f264e588`.
 - Commits: `5ff0c370` (direct routes on brief Molds, `unreviewed-proposal`, retire freeform Molds), `41e29cb5` (pin brief spine in test, data-flow supersede pointer).
