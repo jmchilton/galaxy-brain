@@ -19,7 +19,7 @@ Requirements: [queued issue draft](../../../../../agents/gx_issues/to_file/invoc
 
 ## Live run
 
-Local Galaxy with test tools and the Vite dev server. Screenshots are in `/Users/jxc755/projects/repositories/galaxy-brain/vault/agents/gx_spike/.playwright-mcp/` (gitignored, local only). The test workflow is [test_workflow.gxwf.yml](test_workflow.gxwf.yml), with inputs `test-data/2.tabular`, `test-data/454Score.png` and `test-data/simple_line_x2.txt`. It has 10 steps: three inputs (table, PNG, text) feed a table branch (head, cat, head, final cat), an image copy, a text split into a collection, and a two-output step. Six workflow outputs. The author's layout spans 924×480.
+Local Galaxy with test tools and the Vite dev server. Screenshots are in `/Users/jxc755/projects/repositories/galaxy-brain/vault/agents/gx_spike/.playwright-mcp/` (gitignored, local only); a renamed, committed set is in the [project](../../../../../projects/invocation_graph_embedded_outputs/index.md#screenshots). The test workflow is [test_workflow.gxwf.yml](test_workflow.gxwf.yml), with inputs `test-data/2.tabular`, `test-data/454Score.png` and `test-data/simple_line_x2.txt`. It has 10 steps: three inputs (table, PNG, text) feed a table branch (head, cat, head, final cat), an image copy, a text split into a collection, and a two-output step. Six workflow outputs. The author's layout spans 924×480.
 
 ### Bugs found only in the browser
 

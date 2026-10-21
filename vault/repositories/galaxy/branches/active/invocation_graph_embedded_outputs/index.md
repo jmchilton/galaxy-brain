@@ -8,6 +8,7 @@ Spike: show outputs inside the workflow invocation graph in three stages (hover 
 - Base: `dev` (`2cca8565861`). New feature plus new step metadata, so it targets dev.
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/invocation_graph_embedded_outputs`
 - [Spike debrief](spike_debrief.md)
+- Project: [invocation_graph_embedded_outputs](../../../../../projects/invocation_graph_embedded_outputs/index.md) (screenshots)
 
 ## Status
 

@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*125 notes. Auto-generated — run `make index` to refresh.*
+*126 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -17,6 +17,7 @@
 - [[cwl]] — Project tracking CWL implementation in Galaxy: conformance tests, conditionals, packing, tool loading.
 - [[architecture]] — Mirrored view of the galaxy-architecture repo — training topics rendered as vault-readable markdown.
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
+- [[invocation_graph_embedded_outputs]] — Outputs inside the invocation graph: hover previews, embedded workflow-output nodes, steps shown as a preferred output.
 - [[modules]] — Project for translating nf-core modules into maintainable Galaxy tool wrappers.
 - [[wf_refactor_persistence]] — Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113).
 - [[playwright]] — Recover PR #21199's core, upstream galaxy_ui_driver's fixes with E2E coverage, and finish gxui; the Selenium-to-Playwright migration is done (#24020).

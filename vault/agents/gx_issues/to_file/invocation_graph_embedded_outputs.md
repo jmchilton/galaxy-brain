@@ -35,7 +35,7 @@ Show outputs and their data inside the workflow invocation graph view instead of
 
 ## What the spike learned
 
-The spike was run in a browser against a 10-step workflow. Details and numbers are in the debrief; screenshots are in [`gx_branches/embeddisplay/`](../../gx_branches/embeddisplay/).
+The spike was run in a browser against a 10-step workflow. Details and numbers are in the debrief; screenshots are in the [project](../../../projects/invocation_graph_embedded_outputs/index.md#screenshots).
 
 - **Rendering:** the invocation graph is the editor's `WorkflowGraph.vue` in readonly mode, built from absolutely positioned DOM nodes under one transform. Node sizes are measured from the DOM, so variable-size nodes are a CSS change. Previews reuse the Markdown dataset and collection components.
 - **Data:** the invocation payload lists workflow inputs and outputs, but not other step outputs (`steps[].outputs` is empty). Hover previews and preferred outputs need one step request each, loaded on demand. No API change is needed.
