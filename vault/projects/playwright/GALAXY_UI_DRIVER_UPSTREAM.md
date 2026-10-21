@@ -137,6 +137,14 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   (`release_26.2`, 2026-10-21; green under both backends). It carries its own byte-identical copy of the wait
   helper and widens to baseline asserts on the GTN rules examples plus a column-selector target for the
   single-column rule builder helpers. On restack, drop the commit.
+- `a9b34ac894c`: coverage for `datasets_add_tag`. `test_history_panel.py` tags an expanded dataset
+  `#plus` from its Add Tags button, then checks a cat1 output shows `#plus`. Adds
+  `history_panel_item_add_tags` and `content_item.tag_area_button` / `tag_area_input` (same names as
+  `history_panel.*`). Green under Playwright. Standalone.
+- `1a9b0ccb3c2`: coverage for `dataset_tool_errors_metadata`. `test_dataset.py` edits a BED's comment
+  lines, then checks the Attributes tab's Auto-detect re-detects them (only the Datatypes tab's was
+  tested). Adds `edit_dataset_attributes.auto_detect_metadata_button` (sibling selector, no client
+  change) and `metadata_input(name)`. Green under Playwright. Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

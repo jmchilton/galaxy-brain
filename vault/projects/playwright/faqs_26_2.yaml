@@ -206,11 +206,23 @@
   mode: text
   gtn_commit: 45d4932d33
 - faq: faqs/galaxy/dataset_incomplete_download.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/dataset_tool_errors_metadata.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 1a9b0ccb3c2
+  faq_findings: [tool-errors-metadata-autodetect-tab]
+  gx_findings: 'Added E2E for the Attributes tab Auto-detect (1a9b0ccb3c2) with edit_dataset_attributes.auto_detect_metadata_button and metadata_input(name); only the Datatypes tab one was tested.'
 - faq: faqs/galaxy/datasets_add_tag.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: a9b34ac894c
+  used_by: [assembly/assembly-with-preprocessing, assembly/mrsa-nanopore, climate/climate-101, climate/fates-jupyterlab, climate/pangeo, climate/panoply, digital-humanities/introduction_to_dh, ecology/eDNA-taxonomic-analysis, ecology/gbif_cleaning, ecology/NEAL_tutorial, ecology/Obitools-metabarcoding, ecology/PAMPA-toolsuite-tutorial, ecology/panoply_ebv, ecology/phylodiversity_workflow, ecology/x-array-map-plot, epigenetics/atac-seq, epigenetics/cut_and_run, epigenetics/formation_of_super-structures_on_xi, epigenetics/tal1-binding-site-identification, galaxy-interface/history, galaxy-interface/name-tags, genome-annotation/crispr-screen, genome-annotation/secondary-metabolite-discovery, genome-annotation/tnseq, introduction/galaxy-intro-101-everyone, introduction/galaxy-intro-peaks2genes, introduction/galaxy-intro-rdm, introduction/galaxy-reproduce, metabolomics/msi-finding-nglycans, metabolomics/qcxms-predictions, proteomics/clinical-mp-1-database-generation, proteomics/clinical-mp-2-discovery, proteomics/clinical-mp-3-verification, proteomics/clinical-mp-4-quantitation, proteomics/clinical-mp-5-data-interpretation, proteomics/encyclopedia, proteomics/maxquant-msstats-dda-lfq, proteomics/neoantigen-fragpipe-discovery, proteomics/neoantigen-fusion-database-generation, proteomics/neoantigen-hla-binding-novel-peptides, proteomics/neoantigen-non-reference-database-generation, proteomics/neoantigen-peptide-verification, proteomics/neoantigen-predicting-hla-binding, proteomics/neoantigen-variant-annotation, sequence-analysis/Manage_AB1_Sanger, single-cell/bulk-deconvolution-evaluate, single-cell/bulk-music, single-cell/bulk-music-2-preparescref, single-cell/bulk-music-3-preparebulk, single-cell/bulk-music-4-compare, single-cell/scanpy_parameter_iterator, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna-ncbi-anndata, single-cell/scrna-plant, statistics/flexynesis_classification, statistics/flexynesis_survival, statistics/flexynesis_unsupervised, statistics/galaxy-ludwig, statistics/GTEx_Tissue_modeling, statistics/image_learner, statistics/loris_model, transcriptomics/full-de-novo, transcriptomics/mirna-target-finder, transcriptomics/rna-interactome, transcriptomics/rna-seq-counts-to-genes, transcriptomics/rna-seq-genes-to-pathways, transcriptomics/rna-seq-reads-to-counts, variant-analysis/beaconise_1000hg, variant-analysis/exome-seq, variant-analysis/somatic-variant-discovery, variant-analysis/somatic-variants]
+  gx_findings: 'Added E2E tagging a history item and checking #name propagation (a9b34ac894c) with history_panel_item_add_tags and content_item tag selectors. gxui: dataset-tag (tip abe4446f5bc).'
 - faq: faqs/galaxy/datasets_BAM_dataset_identifiers.md
   status: pending
 - faq: faqs/galaxy/datasets_change_datatype.md

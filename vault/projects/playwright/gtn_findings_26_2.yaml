@@ -311,3 +311,9 @@
   target: main
   summary: Nest collection shipped in 25.1.0, but the headings say "Version > 25.1" and "Version < 25.1", so 25.1 matches neither; also `list:list:` has a stray trailing colon.
   fix: Say "25.1 or later" and "before 25.1"; write `list:list`.
+
+- label: tool-errors-metadata-autodetect-tab
+  faqs: [faqs/galaxy/dataset_tool_errors_metadata.md]
+  target: main
+  summary: '"Click on the Auto-detect button" is ambiguous: Edit Attributes has two, the Attributes tab''s re-detects metadata and the Datatypes tab''s re-detects the datatype.'
+  fix: Say **Auto-detect** on the **Attributes** tab; for a wrong datatype, point to the **Datatypes** tab.
