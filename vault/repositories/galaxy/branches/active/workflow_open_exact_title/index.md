@@ -21,4 +21,4 @@ Decision (2026-10-20): 7i (colon-free search term) left out. With it reverted, t
 
 Re-scope (2026-10-20): `workflow_delete_by_name` / `workflow_bookmark_by_name` also act on the card titled NAME (the old delete clicked the first card's menu item), with an E2E test (`test_workflow_management.py::test_workflow_bookmark_and_delete_by_exact_title`). Also a 3-line Playwright `find_elements` snapshot fix (count-then-nth could stall 30s when the list shrank). The 7c unit test file was dropped (John's call). Decisions: one PR vs split the driver fix; keep the test's explicit `workflow_index_open()`.
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Drop 7c/7g from `galaxy_ui_driver` once this merges.
+Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Once this merges, restack `galaxy_ui_driver` on it rather than dropping 7c/7g: they were rewritten, and delete/bookmark plus the Playwright driver fix were added.
