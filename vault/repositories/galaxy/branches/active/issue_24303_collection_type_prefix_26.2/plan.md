@@ -49,3 +49,8 @@ Then the hardening process (`GX_PROCESS_HARDEN_BRANCH.md`) and hand-off.
 ## Unresolved questions
 
 - What to do with #24190 (close in favor / retarget) — John's call, outward-facing.
+
+## Notes during implementation
+
+- Phase 1 (`d4833259a4a`): Nest 1.0.0 mapped over `list:paired` pairs nests each slice's *parent* (declared `list:list:list`, actual `list:list:list:paired`); pinned by `test_nest_map_over_list_of_pairs`. The `get_collection()` slice fix goes into shared `NestTool` (1.0.0 too) — bug, not semantics; flip that test in phase 7.
+- `create_list_of_pairs_in_history(wait=True)` doesn't wait for population (populator bug?) — follow-up.
