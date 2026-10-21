@@ -1,0 +1,67 @@
+class: GalaxyWorkflow
+name: Embedded outputs spike
+inputs:
+  table:
+    type: data
+    position: {left: 0, top: 0}
+  image:
+    type: data
+    position: {left: 0, top: 220}
+  text:
+    type: data
+    position: {left: 0, top: 420}
+outputs:
+  top_rows:
+    outputSource: head_table/out_file1
+  summary:
+    outputSource: head_cat/out_file1
+  plot:
+    outputSource: copy_image/out_file1
+  lines:
+    outputSource: split_text/output
+  numbers_b:
+    outputSource: numbers/output_b
+  final_table:
+    outputSource: final/out_file1
+steps:
+  head_table:
+    tool_id: head
+    position: {left: 260, top: 0}
+    in:
+      input: table
+    state:
+      lineNum: 5
+  cat_table:
+    tool_id: cat
+    position: {left: 260, top: 110}
+    in:
+      input1: table
+  head_cat:
+    tool_id: head
+    position: {left: 520, top: 110}
+    in:
+      input: cat_table/out_file1
+    state:
+      lineNum: 8
+  copy_image:
+    tool_id: cat
+    position: {left: 260, top: 230}
+    in:
+      input1: image
+  split_text:
+    tool_id: split
+    position: {left: 260, top: 420}
+    in:
+      input1: text
+  numbers:
+    tool_id: output_order
+    position: {left: 520, top: 420}
+    state:
+      pa: 3
+      pb: 4
+  final:
+    tool_id: cat
+    position: {left: 780, top: 50}
+    in:
+      input1: head_cat/out_file1
+      queries_0|input2: head_table/out_file1

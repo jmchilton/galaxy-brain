@@ -13,12 +13,13 @@ Branch `jmchilton/invocation_graph_embedded_outputs`, based on `dev` `2cca856586
 | live | `e9914764686` | The graph refits to include embedded outputs; controls moved beside the zoom buttons; compact text and image previews |
 | live | `0de2c009db3` | Steps that share a row (or column) keep their order when pushed |
 | live | `9e83906a728` | Smaller cards (300×200, collections 300×140), and preferred-output steps shrunk to match |
+| live | `3e4312f7c1d` | Previews reload when the producing step changes state (outputs embedded mid-run stayed empty) |
 
 Requirements: [queued issue draft](../../../../../agents/gx_issues/to_file/invocation_graph_embedded_outputs.md).
 
 ## Live run
 
-Local Galaxy with test tools and the Vite dev server. The test workflow has 10 steps: three inputs (table, PNG, text) feed a table branch (head, cat, head, final cat), an image copy, a text split into a collection, and a two-output step. Six workflow outputs. The author's layout spans 924×480.
+Local Galaxy with test tools and the Vite dev server. Screenshots are in `/Users/jxc755/projects/repositories/galaxy-brain/vault/agents/gx_spike/.playwright-mcp/` (gitignored, local only). The test workflow is [test_workflow.gxwf.yml](test_workflow.gxwf.yml), with inputs `test-data/2.tabular`, `test-data/454Score.png` and `test-data/simple_line_x2.txt`. It has 10 steps: three inputs (table, PNG, text) feed a table branch (head, cat, head, final cat), an image copy, a text split into a collection, and a two-output step. Six workflow outputs. The author's layout spans 924×480.
 
 ### Bugs found only in the browser
 
@@ -30,11 +31,12 @@ Local Galaxy with test tools and the Vite dev server. The test workflow has 10 s
   - Overlap resolution compared current positions, so a pushed step could leap over a step it never overlapped.
   - Now steps that share a row (or column) carry ordering constraints, keeping the author's spacing. Red-to-green, with a test using this workflow's real positions in both directions.
 - **A grown step covered the step below it.** A preferred-output step in the same column grew down into the next row, and nothing pushed that row because the two steps tied on x. Red-to-green.
+- **Outputs embedded mid-run stayed empty.** The dataset stores cache by id, so a card loaded while its job ran kept showing "No content found" after the job finished. Previews now refetch when the producing step changes state.
 - **Polish:** the view didn't refit after embedding; the toggle covered the first step; text previews were 10rem boxes holding one character; images were cropped.
 
 ### Stage 1: hover
 
-Works for tables (paged), images, text, collections and multi-output steps. Screenshots: tables `04`, images `23`, text `22`, collections `06`.
+Works for tables (paged), images, text, collections and multi-output steps.
 
 ### Stage 2: nudging (the go/no-go)
 
@@ -52,6 +54,10 @@ In the browser, after the refit (graph panel about 880×600):
 - **Right, with two preferred outputs:** 40% zoom, largest move 1608px.
   - copy_image is pushed past everything to the far right. It sits in a row that the grown cat_table and the tall summary/final_table cards all overlap, so in right-only mode it has to clear all of them.
   - Pushing it down would fix it, but that mixes axes. That's a new strategy (orthogonal-order-preserving placement), not a nudge. I stopped there.
+- **Down, with two preferred outputs:** 28% zoom.
+- **Running invocation:** the layout doesn't jump mid-run. Workflow output datasets exist from scheduling, so every card is placed at once, and no step moved across samples taken 3s apart. Cards fill in as their jobs finish.
+
+Screenshots for the call: `20_v1_right.png`, `20_v1_down.png`, `21_v2pref_right.png`, `32_running_done_fixed.png`. Hover previews: `22_hover_text.png`, `23_hover_image.png`, `04_hover_table.png`, `06_hover_collection.png`.
 
 **Root cause of the spread:** cards are taller than the author's row spacing (110–200px here). A card overlaps the next row or two and pushes those rows along too. Smaller cards help in proportion to their size, not completely.
 
