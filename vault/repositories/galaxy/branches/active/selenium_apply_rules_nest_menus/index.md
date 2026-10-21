@@ -5,7 +5,7 @@
 
 ## Status
 
-Hardening in progress. Base `release_26.2`.
+Implemented and hardened (re-scoped once); ready for CI. Base `release_26.2`, head `c1dc296ac86`. See [implementation debrief](implementation_debrief.md).
 
 No PR.
 
@@ -13,10 +13,13 @@ No CI yet.
 
 ## Scope
 
-E2E coverage for Apply rules driven through the rule builder menus, framed as a missing test for 26.2. Two commits:
+E2E coverage for Apply rules driven through the rule builder menus, framed as a missing test for 26.2. Three commits:
 
-1. `test_tool_form.py::test_run_apply_rules_nest_from_menus` nests a list through Column > Basename and the list-identifiers mapping (every other Apply rules test sets the rule source JSON), then checks Sort collection maps over the `list:list`. Adds `rule_builder_add_column_basename`, `history_wait_for_new_collection` and a `rule_builder.rule_editor_column_selector` target.
-2. Re-scope: `rule_builder_sort`, `rule_builder_add_regex_groups`, `rule_builder_add_regex_replacement` and `rule_builder_remove_columns` use that target too. The two-selector helpers (concatenate, split, swap) are a dev follow-up. Original scope kept as [an alt](alts/original_scope.md).
+1. Baseline tests: GTN rules examples 3 and 4 (`test_uploads.py`) assert the rule source they build, via a new `assert_rule_builder_source`.
+2. Adds a `rule_builder.rule_editor_column_selector` target; `rule_builder_sort`, `rule_builder_add_regex_groups`, `rule_builder_add_regex_replacement` and `rule_builder_remove_columns` use it (re-scope). The two-selector helpers (concatenate, split, swap) and an editor-handle refactor are a dev follow-up.
+3. `test_tool_form.py::test_run_apply_rules_nest_from_menus` nests a list through Column > Basename and the list-identifiers mapping (every other Apply rules test sets the rule source JSON), then checks Sort collection maps over the `list:list`. Adds `rule_builder_add_column_basename` and `history_wait_for_new_collection`.
+
+Original one-commit scope kept as [an alt](alts/original_scope.md).
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commit "Test nesting a list with Apply rules from the rule builder menus") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). On 26.2 it uses `tool_set_value(..., expected_type="data_collection")` in place of dev-only `tool_form_fill`. On restack onto a 26.2 that has this branch, drop the commit from `galaxy_ui_driver`.
 
