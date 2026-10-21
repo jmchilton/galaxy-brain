@@ -1,6 +1,6 @@
-Let tests and scripts drive one Multiview history column at a time, with a helper that copies an item between columns, and fix the per-history selectors that match nothing on `release_26.2`.
+Let tests and scripts drive one Multiview history column at a time, fix the per-history selectors that match nothing on `release_26.2`, and fix the target column not refreshing after a drop.
 
-***The point is addressing one history's column, so tests and scripts can drag items between existing histories. Repointing the dead selectors is the prerequisite.***
+***The point is addressing one history's column, so tests and scripts can drag items between existing histories. Repointing the dead selectors is the prerequisite, and the first real column-to-column test exposed the refresh bug.***
 
 On `release_26.2`, `multi_history_panel.switch_button` and `current_history_check` point at `#history-column-<id>`. That id belonged to the legacy multi-panel; Vue Multiview replaced it in 2022, and 🔀 #14608 deleted the old panel. No test calls either selector, so nothing noticed. With no way to address a single column, the only copy test drags onto the "new history" drop box.
 
@@ -12,13 +12,31 @@ On `release_26.2`, `multi_history_panel.switch_button` and `current_history_chec
 | `history_column_drop_zone(history_id)` | — | drop target for that history's column 🆕 |
 | `current_label`, `switch_history` | no callers | removed |
 
-***Only test hooks change. Users could already drag between columns, and Multiview renders and behaves the same. The Vue diff adds two attributes: `data-history-id` on each column and a `data-description` on its switch button.***
+## Bug: dropped items don't show up in the target column
 
-`NavigatesGalaxy.multi_history_copy_item(hid, from_history_id, to_history_id)` drags an item between two existing columns. `test_copy_dataset_between_columns` uses it and checks through the API that the target history got the dataset and the current history didn't change. `test_switch_to_history_from_column` covers the two repointed selectors: it reads a column's name, checks both switch buttons' labels, clicks the target's, and checks that the current history and both labels flip. `test_list_list_copy` and its new-history drop box are untouched.
+Drag a dataset from one Multiview column onto another. The copy happens and a "Dataset copied to history" toast appears, but the target column keeps saying "This history is empty" until something else reloads it. Collection-only drops behave the same.
+
+The cause is one operator in `useHistoryDragDrop`. c7423339250 (🔀 #18699, on every release since 24.1) meant to load/pin the target only "if items were copied", but wrote the check as:
+
+```ts
+if (datasetCount > 0 && collectionCount > 0) {
+```
+
+So only a drop that mixes datasets *and* collections refreshes anything. This PR changes `&&` to `||`.
+
+***This also restores the pin behavior from before Aug 2024.*** Only `MultipleViewList.vue`'s "new history" drop box passes `pinHistories=true`. With `||`, a dataset-only or collection-only drop there pins the new history and the source history again when histories are pinned, as it did before c7423339250. Under `&&` the new history wasn't pinned, so it could be missing from a pinned Multiview. Columns (`HistoryPanel.vue`) only ever reach `loadHistoryById`.
+
+<details><summary>Test helpers and E2E tests</summary>
+
+The Vue diff adds two attributes: `data-history-id` on each column and a `data-description` on its switch button. Multiview renders the same.
+
+`NavigatesGalaxy.multi_history_copy_item(hid, from_history_id, to_history_id)` drags an item between two existing columns. `test_copy_dataset_between_columns` uses it, waits for the copied item to appear in the target column, screenshots it, and checks through the API that the target history got the dataset and the current history didn't change. `test_switch_to_history_from_column` covers the two repointed selectors: it reads a column's name, checks both switch buttons' labels, clicks the target's, and checks that the current history and both labels flip. `test_list_list_copy` and its new-history drop box are untouched.
+
+</details>
 
 ## Risks
 
-Risks are minimal - only test selectors and two DOM attributes change, so nothing locks Galaxy into a hard-to-change choice (a two-way door).
+Risks are minimal - the product change is a one-operator fix that makes the drop refresh work as c7423339250 intended, and the rest is test selectors and two DOM attributes, so nothing locks Galaxy into a hard-to-change choice (a two-way door). The one visible behavior change beyond the fix is that single-type drops onto the "new history" box pin again when histories are pinned, as before Aug 2024.
 
 ## Context
 
@@ -27,10 +45,10 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 ## John's Checklist
 
 - [ ] Did a human read every test and every comment? (Requires human author to check)
-- [x] What does the user see when it fails? No user-facing change. In tests, a missing hook or a drop that doesn't copy shows as a timeout naming the selector or the history and hid.
+- [x] What does the user see when it fails? After a drop, the target column now shows the copied item; the toasts are unchanged. In tests, a missing hook or a drop that doesn't render shows as a timeout naming the selector or the history and hid.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. Both are E2E tests that check results through the API and the rendered buttons, not the selectors themselves.
-- [x] Are baseline tests in their own leading commits (if applicable)? N/A. The tests need the new hooks.
+- [x] Are unit tests not just testing the literal implementation? Yes. The vitest checks which store refresh a drop triggers, mocking only the copy API, and the E2E tests check the rendered column, the API and the buttons.
+- [x] Are baseline tests in their own leading commits (if applicable)? Yes. `historyDragDrop.test.ts` lands first with the cases that already pass (mixed drop, pinned mixed drop, failed copy, same-history drop).
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 
@@ -39,7 +57,8 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 
 <details><summary>Tests</summary>
 
-- `test_history_multi_view.py::TestHistoryMultiView::test_copy_dataset_between_columns` times out on `.history-column[data-history-id=…]` with the Vue hooks reverted.
+- `historyDragDrop.test.ts`: the dataset-only, collection-only and pinned dataset-only cases fail under `&&` (`loadHistoryById`/`pinHistory` not called) and pass with `||`; 7/7 pass.
+- `test_history_multi_view.py::TestHistoryMultiView::test_copy_dataset_between_columns` times out waiting for the copied item in the target column under `&&`, and passes with `||`. It also times out on `.history-column[data-history-id=…]` with the Vue hooks reverted.
 - `test_history_multi_view.py::TestHistoryMultiView::test_switch_to_history_from_column` times out on the switch button with its `data-description` reverted.
 - Locally the whole `test_history_multi_view.py` file passes under Playwright (6/6). An earlier revision of the copy test also passed under Selenium.
 

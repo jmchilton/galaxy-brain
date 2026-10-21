@@ -1,4 +1,5 @@
-- `kind/enhancement` — new per-column test hooks and copy helper for an existing feature. The dead selectors it fixes were never called, so nothing visible was broken.
+- `kind/bug` — a dataset-only or collection-only drop onto a Multiview column didn't refresh it (`historyDragDrop.ts`, since 24.1). The per-column test hooks and copy helper ride along as the regression test's prerequisite.
+- `area/UI-UX` — the target column now shows dropped items.
 - `area/testing/selenium`
 
-The labeler also adds `area/client`, `area/UI-UX` and `area/testing` for the two Vue attributes and the test file. Drop them: no UI behavior changes, and `area/testing/selenium` already covers the test.
+The labeler also adds `area/client` and `area/testing`. Drop `area/testing`; `area/testing/selenium` covers the E2E test. `area/client` can stay for the composable fix.
