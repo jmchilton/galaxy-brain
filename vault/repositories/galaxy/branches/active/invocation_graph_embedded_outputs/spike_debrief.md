@@ -1,6 +1,6 @@
 # Spike debrief: invocation_graph_embedded_outputs
 
-Branch `jmchilton/invocation_graph_embedded_outputs`, based on `dev` `2cca8565861`. One commit per stage, then two follow-up fixes:
+Branch `jmchilton/invocation_graph_embedded_outputs`, based on `dev` `2cca8565861`. One commit per stage, then fixes, the later ones from a live browser run:
 
 | Stage | Commit | What |
 |---|---|---|
@@ -9,78 +9,91 @@ Branch `jmchilton/invocation_graph_embedded_outputs`, based on `dev` `2cca856586
 | 3 | `16d2ddff843` | New per-step `preferred_output`, with a star toggle in the editor; in embed mode the step renders as that output |
 | fix | `9a47ea37cb1` | Layout leaves steps the author placed closer than the gap alone; the layout reruns when measured step sizes settle |
 | fix | `1b3b00c9502` | The hover preview moved from each terminal to one popover per step that lists all of its produced outputs |
+| live | `06f13135728` | Output items come from the invocation; other step outputs load per step on demand (without this, nothing showed on a real server) |
+| live | `e9914764686` | The graph refits to include embedded outputs; controls moved beside the zoom buttons; compact text and image previews |
+| live | `0de2c009db3` | Steps that share a row (or column) keep their order when pushed |
+| live | `9e83906a728` | Smaller cards (300×200, collections 300×140), and preferred-output steps shrunk to match |
 
 Requirements: [queued issue draft](../../../../../agents/gx_issues/to_file/invocation_graph_embedded_outputs.md).
 
+## Live run
+
+Local Galaxy with test tools and the Vite dev server. The test workflow has 10 steps: three inputs (table, PNG, text) feed a table branch (head, cat, head, final cat), an image copy, a text split into a collection, and a two-output step. Six workflow outputs. The author's layout spans 924×480.
+
+### Bugs found only in the browser
+
+- **No previews at all.** The default invocation payload leaves `steps[].outputs` empty. The unit-test fixtures had them filled in, so tests passed.
+  - Workflow inputs and outputs are now read from `invocation.inputs`, `invocation.outputs` and `invocation.output_collections`, matched to steps by `workflow_step_id`. No extra requests.
+  - Other step outputs (hover, preferred output) load per step through the existing `fetchInvocationStepById` cache (`useStepOutputItems`).
+  - So the debrief's earlier "no API change needed" was wrong: no API change, but one request per previewed step.
+- **Steps jumped past their neighbours.** In down mode, cat_table (y=110) ended up below copy_image (y=230).
+  - Overlap resolution compared current positions, so a pushed step could leap over a step it never overlapped.
+  - Now steps that share a row (or column) carry ordering constraints, keeping the author's spacing. Red-to-green, with a test using this workflow's real positions in both directions.
+- **A grown step covered the step below it.** A preferred-output step in the same column grew down into the next row, and nothing pushed that row because the two steps tied on x. Red-to-green.
+- **Polish:** the view didn't refit after embedding; the toggle covered the first step; text previews were 10rem boxes holding one character; images were cropped.
+
+### Stage 1: hover
+
+Works for tables (paged), images, text, collections and multi-output steps. Screenshots: tables `04`, images `23`, text `22`, collections `06`.
+
+### Stage 2: nudging (the go/no-go)
+
+Largest step move and bounding box on this workflow (original 924×480), from the layout function with the real positions:
+
+| Card size | Right: largest move / bbox | Down: largest move / bbox |
+|---|---|---|
+| 360×260 | 664px / 1968×680 | 1380px / 1140×2330 |
+| 300×200 (now) | 544px / 1692×620 | 530px / 1080×1390 |
+| 260×170 | 368px / 1572×590 | 420px / 1040×1230 |
+
+In the browser, after the refit (graph panel about 880×600):
+- **Right, workflow outputs only:** 51% zoom. Rows and columns stay intact, and only 3 of 10 steps move. I think it's recognizable. Card text is small but legible.
+- **Down:** 42% zoom. Order is now kept, but the left-to-right workflow becomes a tall column of cards with long vertical edges. Not useful for horizontal workflows.
+- **Right, with two preferred outputs:** 40% zoom, largest move 1608px.
+  - copy_image is pushed past everything to the far right. It sits in a row that the grown cat_table and the tall summary/final_table cards all overlap, so in right-only mode it has to clear all of them.
+  - Pushing it down would fix it, but that mixes axes. That's a new strategy (orthogonal-order-preserving placement), not a nudge. I stopped there.
+
+**Root cause of the spread:** cards are taller than the author's row spacing (110–200px here). A card overlaps the next row or two and pushes those rows along too. Smaller cards help in proportion to their size, not completely.
+
+**Read:** "nudge only" holds up for workflow outputs in right mode on this small workflow. It breaks down once preferred outputs grow steps across rows. A bigger real workflow (IWC) is the next test before a go/no-go.
+
+### Stage 3: preferred output
+
+- The star toggle works in the editor.
+- Saved `preferred_output` comes back in both the editor dict and the `.ga` export, so the backend round trip is verified live.
+- cat_table renders as its table, and copy_image stands in for its `plot` workflow output (no duplicate card).
+- **The invocation that ran on v1 shows nothing.** The graph loads the workflow version that was invoked, and `preferred_output` was set on v2. This is display metadata stored on a versioned workflow, so it only shows on invocations of the new version.
+
 ## Verification
 
-- vitest: Workflow Editor, Invocation and WorkflowInvocationState pass (48 files, 412 tests), including 7 new tests for the layout module.
-- `vue-tsc --noEmit` is clean. eslint shows no new errors. The Python files compile.
-- **Not run in a browser.** No local Galaxy is running and the worktree has no `.venv`. The go/no-go for stage 2 depends on seeing it on a real multi-output workflow, which hasn't happened yet.
-- No Python tests: the backend round-trip (editor save → `.ga` export → editor dict) was checked by reading the code only.
-  - The graph loads the `style=editor` dict (`getWorkflowFull`), which is where `preferred_output` is serialized.
-- mypy wasn't run. Assigning a dict to `WorkflowStep.config` (`Mapped[bytes | None]`) will probably need a type fix.
+- vitest: Workflow Editor, Invocation and WorkflowInvocationState pass (48 files, 417 tests), including 12 layout tests.
+- `vue-tsc` is clean; eslint shows no errors.
+- No Python tests and no mypy. The `config` dict assignment typing is still unchecked.
 
 ## Answers to the open questions in the draft
 
-- **Rendering stack:** the invocation graph is the editor's `WorkflowGraph.vue` in readonly mode, using `isInvocation`, its own scoped stores (`invocation-<id>`), and plain absolutely positioned DOM nodes under one CSS transform.
-  - Node sizes come from the DOM: `useNodePosition` measures each node into `stateStore.stepPosition`. Variable-size nodes are easy as a result: change the CSS and the edges follow.
-  - Added content goes in a new named slot (`node-area`) inside the transformed layer, so it pans and zooms with the nodes.
-- **Data:** with the element view, `invocation.steps[i].outputs` and `output_collections` already map every step output to an hda or hdca. `useInvocationGraph` now copies these onto `GraphStep.outputItems`. No API change was needed.
-- **Preview reuse:** the Markdown `HistoryDatasetDisplay` (`embedded`) and `CollectionDisplay` components, wrapped in `InvocationOutputPreview.vue`. Tables, images, PDF/HTML iframes and text all come from existing code.
-- **Hover target:** in invocation mode, every output row of a step is absolutely positioned on the same spot (`.invocation-node-output`), so the terminals stack. A popover per terminal only reached the top one.
-  - The popover is now on the node: it targets the topmost terminal and lists every produced output.
-  - Hovering a single output on its own needs the terminals un-stacked, which changes how edges leave the node.
-- **Embedded-content cost:** the hover popover mounts the preview only while shown. Embedded nodes render every preview at once, with no lazy loading. Fine for a handful of outputs; a workflow with dozens of outputs would need an IntersectionObserver.
+- **Rendering stack:** `InvocationGraph.vue` reuses the editor's `WorkflowGraph.vue` in readonly mode, using `isInvocation`, scoped stores `invocation-<id>`, and plain absolutely positioned DOM nodes under one CSS transform.
+  - Node sizes come from the DOM (`useNodePosition`), so variable-size nodes are a CSS change.
+  - Embedded content sits in a new `node-area` slot inside the transformed layer.
+- **Data:** see the first bug above. Workflow inputs and outputs come with the invocation; other outputs need one step request each.
+- **Preview reuse:** Markdown `HistoryDatasetDisplay` (`embedded`) and `CollectionDisplay`, wrapped in `InvocationOutputPreview.vue`.
+- **Hover target:** a step's output terminals are stacked in invocation mode, so there's one popover per step listing every produced output.
+- **Embedded-content cost:** embedded cards mount all previews at once. Fine for a handful.
 
-## Stage 2: nudging (the go/no-go)
+## Shortcuts
 
-`Editor/modules/embeddedOutputLayout.ts` is a pure function and unit-tested. It works like this:
-- Each embedded node is placed beside its source step: to the right, or below with the "down" direction.
-- Overlapping nodes are then pushed along **one axis only**, and never backwards. Nodes never move on the other axis.
-- Edges that already ran along the push axis keep their original spacing. A pushed step carries its downstream chain along at the same shape instead of squeezing into it.
-- Overlaps the author already had in the original layout are left alone.
-- A step that grew (stage 3) is told apart from those author overlaps by its pre-growth size.
-- The result includes `maxDisplacement` and `movedNodeIds`. The toolbar tooltip shows the largest move, so the go/no-go can be judged by eye.
-
-Positions are computed from the original positions every time. Toggling off restores them. New position objects are written, because the originals are shared with the cached workflow.
-
-What the tests show:
-- An unrelated node outside the embedded node's band stays put.
-- A downstream chain shifts as a unit.
-- On the 37-step `parameter_steps.json` fixture with two embedded nodes, fewer than half the steps move.
-
-What's still unproven:
-- A wide workflow with a workflow output near the left edge pushes everything to its right along. It's still a translation of whole columns, not a re-layout, but it may be a big move.
-- The "down" direction may suit horizontal pipelines better. A toggle is included so both can be compared on real workflows.
-
-Shortcuts:
-- Embedded nodes aren't in the minimap or `fitWorkflow`'s bounding box.
-- Connectors are dashed straight lines, not real terminals.
-- Node shrinking is a CSS override (`width: 9rem`, smaller font) in `InvocationGraph.vue`.
-- Embedded nodes use a fixed estimated size (360×260).
-- Steps use their measured sizes. The measured width and height (not left/top) are watched, so the layout reruns from the original positions once ResizeObserver reports the shrunk sizes.
-- Preferred-output bodies have a fixed height (16rem), so loading the preview doesn't resize the node again.
-
-## Stage 3: preferred output
-
-- Stored in the existing, unused `WorkflowStep.config` JSON column through a `WorkflowStep.preferred_output` property, so no migration.
-  - Serialized in the editor dict (always) and the export dict (when set).
-  - Read in `__module_from_dict`, next to `when`.
-  - Workflow copies already copy `config`.
-- Editor: a star toggle next to each tool output, using `UpdateStepAction` so undo/redo works.
-- Invocation (embed mode only): a node with a produced preferred output widens to 22.5rem and shows the preview in place of the invocation text.
-- Dedup: a workflow output that is also the step's preferred output isn't embedded separately.
+- Embedded nodes aren't drawn in the minimap. Connectors are dashed straight lines.
+- Card sizes are constant per kind (dataset/collection). The datatype isn't known without a fetch, so a one-line text output gets a full-size card (`numbers_b`).
+- Node shrinking is a CSS override in `InvocationGraph.vue`.
 
 ## Open questions
 
-- Should stage 3 apply in the default graph view, or only in embed mode? The spike ties it to embed mode, so the default graph doesn't change.
-- `config` column vs. a dedicated `preferred_output` column with a migration. `config` avoided the migration but is vague, and it has no schema or validation. The check that `config` is unused only grepped `modules.py`, `managers/workflows.py` and `model/__init__.py`.
-- gxformat2 doesn't round-trip `preferred_output` yet. It needs a format2 field and a gxformat2 release.
-- Should embedded and preferred-output content be interactive (scrolling tables, paging) or static thumbnails? The spike stops wheel and pointer events so tables scroll; that blocks panning while over them.
-- Is the embed toggle per invocation, or a remembered user preference?
-- Subworkflow steps: outputs come from the parent invocation step, and nested subworkflow outputs aren't explored.
-
-## Suggested next step
-
-Bootstrap the worktree, run one multi-output workflow (images plus tabular), and take screenshots in both nudge directions. Make the stage 2 go/no-go from those, then decide whether to split into three PRs (stage 1 alone is shippable).
+- **Go/no-go on stage 2:** right mode only (drop the down toggle)? Try one IWC workflow first?
+- **Preferred output and versions:** resolve it against the latest workflow version, or only the invoked one (as built)?
+- **Mixed-axis nudging:** push steps below a grown node down instead of right. That keeps orthogonal order but is beyond "nudge only". In scope?
+- Should stage 3 apply in the default graph view, or only in embed mode?
+- `config` column vs. a dedicated `preferred_output` column with a migration.
+- gxformat2 doesn't round-trip `preferred_output` yet.
+- Should embedded content be interactive (it blocks panning while the pointer is over it) or static?
+- Should card size depend on the datatype? That costs a dataset-details request per card.
+- One PR or one per stage? Stage 1 could ship alone.
