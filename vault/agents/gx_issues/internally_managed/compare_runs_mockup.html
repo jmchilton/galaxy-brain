@@ -1,0 +1,705 @@
+<title>Compare Runs Mockups</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: Galaxy-flavoured frames (masthead strip + card), one per mode, switched by top tabs; notes below each frame. */
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --surface-2: #f8f9fa;
+  --fg: #2c3143;
+  --muted: #5d6478;
+  --border: #c5cad3;
+  --border-soft: #e2e5ea;
+  --primary: #25537b;
+  --primary-soft: #e3edf6;
+  --masthead: #2c3143;
+  --masthead-fg: #f8f9fa;
+  --ok-bg: #e3f5e3; --ok-fg: #1f6b1f;
+  --err-bg: #fbe2e2; --err-fg: #a31315;
+  --run-bg: #fff1dc; --run-fg: #8a4500;
+  --new-bg: #e6eef8; --new-fg: #1c4f86;
+  --warn-bg: #fff3d6; --warn-fg: #7a5200;
+  --note-bg: #fffbea;
+  --shadow: 0 6px 24px rgba(30, 40, 60, .18);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #171a22; --surface: #20242f; --surface-2: #272c38; --fg: #e4e7ee; --muted: #9aa2b4;
+  --border: #3d4454; --border-soft: #2f3542; --primary: #7fb0dd; --primary-soft: #23344a;
+  --masthead: #0f1117; --masthead-fg: #e4e7ee;
+  --ok-bg: #1e3b22; --ok-fg: #8fd68f; --err-bg: #47201f; --err-fg: #ff9c9c;
+  --run-bg: #45311a; --run-fg: #ffc47a; --new-bg: #1f3048; --new-fg: #9cc4f0;
+  --warn-bg: #43361a; --warn-fg: #f1cf7c; --note-bg: #2a2a1f; --shadow: 0 6px 24px rgba(0,0,0,.5);
+  color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --bg: #171a22; --surface: #20242f; --surface-2: #272c38; --fg: #e4e7ee; --muted: #9aa2b4;
+  --border: #3d4454; --border-soft: #2f3542; --primary: #7fb0dd; --primary-soft: #23344a;
+  --masthead: #0f1117; --masthead-fg: #e4e7ee;
+  --ok-bg: #1e3b22; --ok-fg: #8fd68f; --err-bg: #47201f; --err-fg: #ff9c9c;
+  --run-bg: #45311a; --run-fg: #ffc47a; --new-bg: #1f3048; --new-fg: #9cc4f0;
+  --warn-bg: #43361a; --warn-fg: #f1cf7c; --note-bg: #2a2a1f; --shadow: 0 6px 24px rgba(0,0,0,.5);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 14px; line-height: 1.45; }
+.page { max-width: 1240px; margin: 0 auto; padding-block: 24px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 20px; }
+h1 { font-size: 1.6rem; margin: 0; text-wrap: balance; }
+h2 { font-size: 1.05rem; margin: 0; }
+h3 { font-size: .8rem; margin: 0; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+p { margin: 0; max-width: 72ch; }
+code, .mono { font-family: var(--mono); font-size: .86em; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+.intro { display: grid; gap: 8px; }
+.intro .eyebrow { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.modetabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.modetab { border: 1px solid var(--border); background: var(--surface); border-radius: 6px; padding: 8px 14px; cursor: pointer; text-align: left; display: grid; gap: 2px; }
+.modetab small { color: var(--muted); }
+.modetab[aria-selected="true"] { border-color: var(--primary); background: var(--primary-soft); box-shadow: inset 0 -3px 0 var(--primary); }
+
+/* Galaxy-ish frame */
+.frame { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; min-width: 0; }
+.masthead { background: var(--masthead); color: var(--masthead-fg); display: flex; align-items: center; gap: 16px; padding: 7px 14px; font-size: .85rem; flex-wrap: wrap; }
+.masthead b { letter-spacing: .02em; }
+.masthead .crumb { opacity: .75; }
+.masthead .mock { margin-left: auto; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; border: 1px solid currentColor; border-radius: 3px; padding: 1px 6px; opacity: .7; }
+.ctx { padding: 14px 16px; display: grid; gap: 12px; border-bottom: 1px solid var(--border-soft); }
+.ctxrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.ctx .title { font-weight: 600; font-size: 1rem; }
+.btn { border: 1px solid var(--border); background: var(--surface-2); border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: .85rem; }
+.btn.primary { background: var(--primary); border-color: var(--primary); color: var(--surface); }
+.btn.ghost { background: transparent; }
+.btn[aria-pressed="true"] { background: var(--primary-soft); border-color: var(--primary); }
+.hint { color: var(--muted); font-size: .82rem; }
+.spot { outline: 2px dashed var(--warn-fg); outline-offset: 3px; }
+
+.steps { display: flex; flex-wrap: wrap; gap: 6px; }
+.step { border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; background: var(--surface-2); cursor: pointer; font-size: .82rem; display: flex; gap: 6px; align-items: center; }
+.step .n { color: var(--muted); font-variant-numeric: tabular-nums; }
+.step[aria-pressed="true"] { border-color: var(--primary); background: var(--primary-soft); font-weight: 600; }
+.step.unlabelled em { color: var(--muted); }
+
+.gtabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); padding: 0 16px; flex-wrap: wrap; }
+.gtab { padding: 8px 12px; border: 1px solid transparent; border-bottom: none; border-radius: 4px 4px 0 0; color: var(--muted); font-size: .88rem; margin-bottom: -1px; background: none; }
+.gtab.active { color: var(--fg); border-color: var(--border); background: var(--surface); font-weight: 600; }
+.gtab[disabled] { opacity: .5; cursor: not-allowed; }
+
+.tablebar { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 10px 16px; }
+.grow { flex: 1; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; font-size: .8rem; background: var(--surface); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--primary-soft); border-color: var(--primary); color: var(--fg); }
+label.check { display: inline-flex; gap: 6px; align-items: center; font-size: .85rem; }
+
+.tablewrap { overflow-x: auto; border-top: 1px solid var(--border-soft); }
+table.cmp { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums; }
+table.cmp th, table.cmp td { padding: 7px 10px; border-bottom: 1px solid var(--border-soft); text-align: left; vertical-align: middle; white-space: nowrap; }
+table.cmp thead th { background: var(--surface-2); font-weight: 600; position: relative; border-bottom: 1px solid var(--border); }
+table.cmp tbody tr:hover > td, table.cmp tbody tr:hover > th { background: color-mix(in srgb, var(--primary-soft) 45%, transparent); }
+table.cmp tr.current > td, table.cmp tr.current > th { background: color-mix(in srgb, var(--primary-soft) 70%, transparent); }
+table.cmp th.rowhead { font-weight: 600; background: var(--surface-2); position: sticky; left: 0; z-index: 1; }
+.colhead { display: inline-flex; align-items: center; gap: 6px; }
+.role { font-size: .66rem; text-transform: uppercase; letter-spacing: .06em; border-radius: 3px; padding: 0 4px; border: 1px solid var(--border); color: var(--muted); font-weight: 600; }
+.role.input { color: var(--new-fg); border-color: currentColor; }
+.role.output { color: var(--ok-fg); border-color: currentColor; }
+.role.parameter { color: var(--run-fg); border-color: currentColor; }
+.colmenu-btn { border: 1px solid transparent; background: none; cursor: pointer; padding: 0 4px; border-radius: 3px; color: var(--muted); }
+.colmenu-btn:hover, .colmenu-btn[aria-expanded="true"] { border-color: var(--border); color: var(--fg); }
+.showing { display: block; font-weight: 400; font-size: .72rem; color: var(--muted); }
+.menu { position: absolute; z-index: 30; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow); padding: 6px; min-width: 220px; display: grid; gap: 2px; }
+.menu h4 { margin: 4px 8px; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.menu button { text-align: left; border: none; background: none; padding: 5px 8px; border-radius: 4px; cursor: pointer; font-weight: 400; display: flex; justify-content: space-between; gap: 12px; }
+.menu button:hover { background: var(--primary-soft); }
+.menu button[aria-checked="true"]::after { content: "✓"; color: var(--primary); }
+.menu button[disabled] { opacity: .45; cursor: not-allowed; }
+
+.pill { display: inline-block; border-radius: 3px; padding: 1px 7px; font-size: .76rem; font-weight: 600; }
+.pill.ok { background: var(--ok-bg); color: var(--ok-fg); }
+.pill.error { background: var(--err-bg); color: var(--err-fg); }
+.pill.running, .pill.scheduled { background: var(--run-bg); color: var(--run-fg); }
+.badge { display: inline-block; border-radius: 3px; padding: 0 5px; font-size: .7rem; border: 1px solid var(--border); color: var(--muted); margin-left: 4px; vertical-align: 1px; }
+.badge.warn { background: var(--warn-bg); color: var(--warn-fg); border-color: transparent; }
+.badge.del { background: var(--err-bg); color: var(--err-fg); border-color: transparent; }
+.badge.reuse { background: var(--new-bg); color: var(--new-fg); border-color: transparent; }
+.star { color: var(--warn-fg); }
+
+.ds { border: none; background: none; padding: 0; cursor: pointer; color: var(--primary); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--primary) 40%, transparent); text-underline-offset: 2px; }
+.ds .hid { color: var(--muted); text-decoration: none; margin-right: 2px; }
+.ds.deleted { text-decoration-line: line-through; }
+.coll::before { content: "▤ "; color: var(--muted); }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: 0; }
+.dot.error { background: var(--err-fg); } .dot.running { background: var(--run-fg); } .dot.queued { background: var(--muted); }
+.val { font-family: var(--mono); font-size: .84rem; background: var(--surface-2); border: 1px solid var(--border-soft); border-radius: 3px; padding: 0 5px; }
+.meta { font-family: var(--mono); font-size: .84rem; }
+.missing { color: var(--muted); font-style: italic; }
+.expand { border: 1px solid var(--border); background: var(--surface); border-radius: 3px; width: 22px; height: 22px; line-height: 1; cursor: pointer; padding: 0; color: var(--muted); }
+.expand[aria-expanded="true"] { background: var(--primary-soft); color: var(--fg); }
+.runlink { color: var(--primary); text-decoration: none; }
+.runlink:hover { text-decoration: underline; }
+.sub { display: block; font-size: .74rem; color: var(--muted); }
+
+tr.detail > td { background: var(--surface-2); white-space: normal; padding: 0; }
+.detailgrid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; padding: 14px 16px 16px 48px; }
+@media (max-width: 760px) { .detailgrid { grid-template-columns: minmax(0, 1fr); padding-left: 16px; } }
+.hitem { border: 1px solid var(--border); border-left: 6px solid var(--ok-fg); background: var(--surface); border-radius: 3px; padding: 6px 10px; display: grid; gap: 4px; }
+.hitem.error { border-left-color: var(--err-fg); }
+.hitem.running { border-left-color: var(--run-fg); }
+.hitem .hrow { display: flex; gap: 8px; align-items: center; }
+.hitem .hname { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hitem .icons { display: flex; gap: 4px; color: var(--muted); }
+.hitem .icons span { border: 1px solid var(--border-soft); border-radius: 3px; padding: 0 5px; font-size: .75rem; }
+.peek { font-family: var(--mono); font-size: .76rem; color: var(--muted); white-space: pre; overflow-x: auto; background: var(--surface-2); padding: 4px 6px; border-radius: 3px; }
+.stack { display: grid; gap: 8px; align-content: start; }
+table.params { border-collapse: collapse; width: 100%; font-size: .82rem; }
+table.params td { border-bottom: 1px solid var(--border-soft); padding: 4px 6px; white-space: normal; }
+table.params td:first-child { color: var(--muted); width: 45%; }
+table.params tr.changed td:last-child { background: var(--warn-bg); color: var(--warn-fg); }
+
+.tfoot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 10px 16px; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--border-soft); }
+.pager { display: flex; gap: 4px; }
+.disabledpanel { padding: 36px 16px; text-align: center; color: var(--muted); display: grid; gap: 6px; justify-items: center; }
+.disabledpanel b { color: var(--fg); }
+
+.popover { position: absolute; z-index: 40; width: 300px; max-width: calc(100vw - 32px); background: var(--surface); border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow); padding: 10px 12px; display: grid; gap: 6px; font-size: .82rem; }
+.popover .pt { font-weight: 600; }
+.popover dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 0; }
+.popover dt { color: var(--muted); }
+.popover dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.note { background: var(--note-bg); border: 1px solid var(--border-soft); border-radius: 6px; padding: 12px 14px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.note ul, .note ol { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.toast { position: fixed; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); background: var(--masthead); color: var(--masthead-fg); padding: 8px 14px; border-radius: 6px; font-size: .85rem; box-shadow: var(--shadow); z-index: 50; max-width: calc(100vw - 32px); }
+@media (prefers-reduced-motion: no-preference) { .popover, .menu { animation: pop .12s ease-out; } @keyframes pop { from { opacity: .4; transform: translateY(-3px); } } }
+</style>
+
+<div class="page">
+  <header class="intro">
+    <span class="eyebrow">Mockup · not a running Galaxy</span>
+    <h1>Compare runs of a step, a workflow's outputs, or a tool</h1>
+    <p>One table component, three ways in. Rows are runs, columns are labelled inputs and outputs. Hover a dataset for its popover, use a column's ▾ menu to show a metadata element or a value, expand a row for history items and parameters, or flip the table with Transpose. All data is made up.</p>
+  </header>
+
+  <nav class="modetabs" role="tablist" aria-label="Comparison mode">
+    <button class="modetab" role="tab" id="tab-step" data-mode="step" aria-selected="true"><b>1 · Step across invocations</b><small>All runs tab on a step</small></button>
+    <button class="modetab" role="tab" id="tab-outputs" data-mode="outputs" aria-selected="false"><b>2 · Workflow outputs</b><small>Compare outputs on the invocation list</small></button>
+    <button class="modetab" role="tab" id="tab-tool" data-mode="tool" aria-selected="false"><b>3 · Tool across runs</b><small>Other runs of this tool on the job page</small></button>
+  </nav>
+
+  <section id="stage" class="frame" aria-live="polite"></section>
+  <section id="notes" class="notes"></section>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- data (shaped like ComparisonTable) ----------
+  const ds = (hid, name, ext, extra) => Object.assign({ type: "dataset", hid, name, ext, state: "ok", deleted: false, purged: false, metadata: {}, size: "", peek: "" }, extra || {});
+  const coll = (hid, name, ctype, n, extra) => Object.assign({ type: "collection", hid, name, collection_type: ctype, elements: n, state: "ok", deleted: false }, extra || {});
+  const val = (value) => ({ type: "value", value });
+  const miss = (reason) => ({ type: "missing", reason });
+
+  const bam = (hid, name) => ds(hid, name, "bam", { size: "1.8 GB", metadata: { bam_version: "1.6", sort_order: "coordinate" }, peek: "Binary bam alignments file" });
+  const gtf = () => ds(2, "gencode.v44.annotation.gtf", "gtf", { size: "1.5 GB", metadata: { data_lines: 3424768, columns: 9, comment_lines: 5 }, peek: "chr1  HAVANA  gene  11869  14409  .  +  .\nchr1  HAVANA  transcript  11869  14409" });
+  const counts = (hid, label, lines, extra) => ds(hid, "featureCounts on " + label + ": Counts", "tabular", Object.assign({ size: "1.1 MB", metadata: { data_lines: lines, columns: 2, comment_lines: 1 }, peek: "Geneid\tsample.bam\nENSG00000223972.5\t0\nENSG00000227232.5\t41" }, extra || {}));
+  const summ = (hid, label, extra) => ds(hid, "featureCounts on " + label + ": Summary", "tabular", Object.assign({ size: "412 B", metadata: { data_lines: 14, columns: 2, comment_lines: 1 }, peek: "Status\tsample.bam\nAssigned\t21894410\nUnassigned_NoFeatures\t2391202" }, extra || {}));
+
+  const P_NEW = { "Strand": "Reverse (2)", "Feature type": "exon", "Gene identifier": "gene_id", "Min mapping quality": "10", "Count multi-mapping reads": "No" };
+  const P_OLD = { "Strand": "Unstranded (0)", "Feature type": "exon", "Gene identifier": "gene_id", "Min mapping quality": "0", "Count multi-mapping reads": "No" };
+
+  const MODES = {
+    step: {
+      kind: "step_runs",
+      route: "/comparisons?kind=step_runs&workflow_id=f2db41e1fa331b3e&step_label=count_reads",
+      meta: ["invoked", "version", "state", "reused", "history"],
+      columns: [
+        { key: "alignment", label: "alignment", role: "input" },
+        { key: "annotation", label: "annotation", role: "input" },
+        { key: "output_short", label: "output_short", role: "output" },
+        { key: "output_summary", label: "output_summary", role: "output" }
+      ],
+      rows: [
+        { id: "a1", invoked: "2026-11-13 09:40", version: 5, state: "running", reused: "no", history: { name: "Sample batch 8" }, params: P_NEW,
+          cells: { alignment: bam(9, "s8.bam"), annotation: gtf(), output_short: counts(15, "s8", null, { state: "running", metadata: {} }), output_summary: summ(16, "s8", { state: "running", metadata: {} }) } },
+        { id: "a2", current: true, invoked: "2026-11-12 14:02", version: 5, state: "ok", reused: "no", history: { name: "Sample batch 7" }, params: P_NEW,
+          cells: { alignment: bam(14, "s7.bam"), annotation: gtf(), output_short: counts(21, "s7", 62703), output_summary: summ(22, "s7") } },
+        { id: "a3", invoked: "2026-11-10 08:15", version: 5, state: "ok", reused: "yes", history: { name: "Sample batch 7 (rerun)" }, params: P_NEW,
+          cells: { alignment: bam(14, "s7.bam"), annotation: gtf(), output_short: counts(31, "s7", 62703), output_summary: summ(32, "s7") } },
+        { id: "a4", invoked: "2026-11-03 16:47", version: 3, state: "ok", reused: "no", history: { name: "Pilot" }, params: P_OLD,
+          cells: { alignment: bam(6, "pilot_s1.bam"), annotation: gtf(), output_short: counts(11, "pilot_s1", 62703), output_summary: summ(12, "pilot_s1") } },
+        { id: "a5", invoked: "2026-10-28 11:20", version: 3, state: "error", reused: "no", history: { name: "Pilot, first try", deleted: true }, params: P_OLD,
+          cells: { alignment: bam(6, "pilot_s1.bam", ), annotation: gtf(), output_short: counts(8, "pilot_s1", null, { state: "error", metadata: {} }), output_summary: miss("no_output") } },
+        { id: "a6", invoked: "2026-10-21 10:05", version: 2, state: "ok", reused: "partial", history: { name: "Pilot batch" }, params: P_OLD, mapped: "job 1 of 3",
+          cells: { alignment: coll(4, "pilot bams", "list", 3), annotation: gtf(), output_short: coll(10, "featureCounts on pilot bams: Counts", "list", 3), output_summary: coll(11, "featureCounts on pilot bams: Summary", "list", 3) } }
+      ]
+    },
+    outputs: {
+      kind: "output_runs",
+      route: "/comparisons?kind=output_runs&workflow_id=f2db41e1fa331b3e",
+      meta: ["invoked", "version", "state", "history"],
+      columns: [
+        { key: "reads", label: "reads", role: "input" },
+        { key: "ref", label: "ref", role: "input" },
+        { key: "min_quality", label: "min_quality", role: "parameter" },
+        { key: "counts", label: "counts", role: "output" },
+        { key: "qc_report", label: "qc_report", role: "output", present_in_versions: [4, 5] },
+        { key: "n_genes", label: "n_genes", role: "output" },
+        { key: "summary", label: "summary", role: "output", duplicate: true },
+        { key: "multiqc_html", label: "multiqc_html", role: "output", present_in_versions: [3] }
+      ],
+      rows: [
+        { id: "b1", invoked: "2026-11-13 09:40", version: 5, state: "scheduled", history: { name: "Sample batch 8" },
+          cells: { reads: coll(1, "batch 8 reads", "list:paired", 6), ref: ds(3, "hg38.fa", "fasta", { size: "3.1 GB", metadata: { sequences: 455 } }), min_quality: val(30), counts: miss("not_run_yet"), qc_report: miss("not_run_yet"), n_genes: miss("not_run_yet"), summary: miss("not_run_yet"), multiqc_html: miss("not_in_version") } },
+        { id: "b2", invoked: "2026-11-12 14:02", version: 5, state: "ok", history: { name: "Sample batch 7" },
+          cells: { reads: coll(1, "batch 7 reads", "list:paired", 6), ref: ds(3, "hg38.fa", "fasta", { size: "3.1 GB", metadata: { sequences: 455 } }), min_quality: val(30), counts: counts(21, "batch 7", 62703, { name: "counts.tsv" }), qc_report: ds(24, "qc.html", "html", { size: "2.3 MB" }), n_genes: ds(25, "n_genes", "expression.json", { value: 18204, size: "6 B" }), summary: summ(22, "batch 7", { name: "summary.tsv", dupOf: 2 }), multiqc_html: miss("not_in_version") } },
+        { id: "b3", invoked: "2026-11-10 08:15", version: 5, state: "ok", history: { name: "Sample batch 7 (rerun)" },
+          cells: { reads: coll(1, "batch 7 reads", "list:paired", 6), ref: ds(3, "hg38.fa", "fasta", { size: "3.1 GB", metadata: { sequences: 455 } }), min_quality: val(30), counts: counts(31, "batch 7", 62703, { name: "counts.tsv" }), qc_report: ds(34, "qc.html", "html", { size: "2.3 MB" }), n_genes: ds(35, "n_genes", "expression.json", { value: 18204, size: "6 B" }), summary: summ(32, "batch 7", { name: "summary.tsv", dupOf: 2 }), multiqc_html: miss("not_in_version") } },
+        { id: "b4", invoked: "2026-11-03 16:47", version: 3, state: "ok", history: { name: "Pilot" },
+          cells: { reads: coll(1, "pilot reads", "list:paired", 3), ref: ds(3, "hg38.fa", "fasta", { size: "3.1 GB", metadata: { sequences: 455 } }), min_quality: val(20), counts: counts(11, "pilot", 62703, { name: "counts.tsv" }), qc_report: miss("not_in_version"), n_genes: ds(15, "n_genes", "expression.json", { value: 17950, size: "6 B" }), summary: miss("not_in_version"), multiqc_html: ds(14, "multiqc_report.html", "html", { size: "4.0 MB" }) } },
+        { id: "b5", invoked: "2026-10-28 11:20", version: 3, state: "error", history: { name: "Pilot, first try", deleted: true },
+          cells: { reads: coll(1, "pilot reads", "list:paired", 3), ref: ds(3, "hg38.fa", "fasta", { size: "3.1 GB", metadata: { sequences: 455 } }), min_quality: val(20), counts: counts(8, "pilot", null, { name: "counts.tsv", state: "error", metadata: {} }), qc_report: miss("not_in_version"), n_genes: miss("no_output"), summary: miss("not_in_version"), multiqc_html: miss("no_output") } }
+      ]
+    },
+    tool: {
+      kind: "tool_runs",
+      route: "/comparisons?kind=tool_runs&tool_id=toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts",
+      meta: ["run", "tool_version", "state", "reused", "history"],
+      columns: [
+        { key: "alignment", label: "alignment", role: "input" },
+        { key: "anno", label: "anno|reference_gene_sets", role: "input" },
+        { key: "output_short", label: "output_short", role: "output" },
+        { key: "output_summary", label: "output_summary", role: "output" }
+      ],
+      rows: [
+        { id: "c1", current: true, run: { model: "Job", id: "bbd44e69cb8906b5", via: "RNA-seq counts, step count_reads" }, invoked: "2026-11-12 14:03", tool_version: "2.0.3+galaxy2", state: "ok", reused: "no", history: { name: "Sample batch 7" }, params: P_NEW, inWorkflow: true,
+          cells: { alignment: bam(14, "s7.bam"), anno: gtf(), output_short: counts(21, "s7", 62703), output_summary: summ(22, "s7") } },
+        { id: "c2", run: { model: "Job", id: "a799d38679e985db", via: null }, invoked: "2026-11-09 17:30", tool_version: "2.0.3+galaxy2", state: "ok", reused: "no", history: { name: "Quick check" }, params: Object.assign({}, P_NEW, { "Min mapping quality": "20" }),
+          cells: { alignment: bam(3, "s7_subsample.bam"), anno: gtf(), output_short: counts(5, "s7_subsample", 60112), output_summary: summ(6, "s7_subsample") } },
+        { id: "c3", run: { model: "ImplicitCollectionJobs", id: "5969b1f7201f12ae", jobs: 6, via: null }, invoked: "2026-11-05 12:11", tool_version: "2.0.3+galaxy2", state: "ok", reused: "partial", history: { name: "Batch 6" }, params: P_NEW, mapped: "job 1 of 6",
+          cells: { alignment: coll(7, "batch 6 bams", "list", 6), anno: gtf(), output_short: coll(19, "featureCounts on batch 6 bams: Counts", "list", 6), output_summary: coll(20, "featureCounts on batch 6 bams: Summary", "list", 6) } },
+        { id: "c4", run: { model: "Job", id: "1cd8e2f6b131e891", via: null }, invoked: "2026-10-02 09:58", tool_version: "2.0.1+galaxy2", state: "ok", reused: "no", history: { name: "Old project" }, params: P_OLD,
+          cells: { alignment: bam(2, "old_s3.bam"), anno: ds(1, "gencode.v38.annotation.gtf", "gtf", { purged: true, deleted: true, metadata: { data_lines: 3245860, columns: 9 } }), output_short: counts(4, "old_s3", 60656), output_summary: summ(5, "old_s3") } },
+        { id: "c5", run: { model: "Job", id: "f597429621d6eb2b", via: "RNA-seq counts, step count_reads" }, invoked: "2026-09-15 15:22", tool_version: "2.0.1+galaxy2", state: "error", reused: "no", history: { name: "Old project" }, params: P_OLD, inWorkflow: true,
+          cells: { alignment: bam(2, "old_s3.bam"), anno: gtf(), output_short: counts(7, "old_s3", null, { state: "error", metadata: {} }), output_summary: miss("no_output") } }
+      ]
+    }
+  };
+
+  // ---------- state ----------
+  const state = {
+    mode: "step",
+    transpose: false,
+    expanded: new Set(),
+    display: {},          // `${mode}:${colKey}` -> "link" | "value" | "meta:<key>"
+    stepSel: "count_reads",
+    toolVersion: "all",
+    includeWorkflowJobs: true,
+    stateFilter: "all"
+  };
+
+  const stage = document.getElementById("stage");
+  const notesEl = document.getElementById("notes");
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const fmtNum = (n) => typeof n === "number" ? n.toLocaleString("en-US").replace(/,/g, " ") : String(n);
+
+  // ---------- helpers ----------
+  function visibleRows(m) {
+    let rows = MODES[m].rows;
+    if (m === "tool") {
+      if (state.toolVersion !== "all") rows = rows.filter((r) => r.tool_version === state.toolVersion);
+      if (!state.includeWorkflowJobs) rows = rows.filter((r) => !r.inWorkflow);
+    }
+    if (state.stateFilter !== "all") rows = rows.filter((r) => r.state === state.stateFilter);
+    return rows;
+  }
+
+  function displayFor(m, col) {
+    const k = m + ":" + col.key;
+    if (state.display[k]) return state.display[k];
+    if (col.role === "parameter") return "value";
+    const any = MODES[m].rows.some((r) => r.cells[col.key] && r.cells[col.key].ext === "expression.json");
+    return any ? "value" : "link";
+  }
+
+  function metaKeysFor(m, col) {
+    const keys = new Set();
+    MODES[m].rows.forEach((r) => { const c = r.cells[col.key]; if (c && c.metadata) Object.keys(c.metadata).forEach((k) => keys.add(k)); });
+    return [...keys];
+  }
+
+  function displayLabel(d) {
+    if (d === "link") return "name + popover";
+    if (d === "value") return "value";
+    return "metadata: " + d.slice(5);
+  }
+
+  const POP = new Map();
+  let popSeq = 0;
+  function popId(cell, row) { const id = "p" + (++popSeq); POP.set(id, { cell, row }); return id; }
+
+  function missingText(cell, row) {
+    switch (cell.reason) {
+      case "not_in_version": return "not in v" + row.version;
+      case "not_run_yet": return "not run yet";
+      case "skipped": return "skipped";
+      default: return "no output";
+    }
+  }
+
+  function cellHTML(cell, col, row) {
+    if (!cell) return '<span class="missing">—</span>';
+    if (cell.type === "missing") return '<span class="missing">— ' + esc(missingText(cell, row)) + "</span>";
+    if (cell.type === "value") return '<span class="val">' + esc(fmtNum(cell.value)) + "</span>";
+    const d = displayFor(state.mode, col);
+    const badges = (cell.purged ? '<span class="badge del">purged</span>' : cell.deleted ? '<span class="badge del">deleted</span>' : "") +
+      (cell.dupOf ? '<span class="badge warn" title="2 outputs share this label; showing the first">1 of ' + cell.dupOf + "</span>" : "");
+    if (d === "value" && cell.ext === "expression.json") return '<span class="val">' + esc(fmtNum(cell.value)) + "</span>" + badges;
+    if (d.startsWith("meta:")) {
+      const k = d.slice(5);
+      const v = cell.metadata && cell.metadata[k];
+      if (cell.type === "collection") return '<span class="missing" title="Collections have no dataset metadata">' + esc(cell.collection_type) + " · " + cell.elements + "</span>";
+      return v === undefined || v === null ? '<span class="missing" title="Not set for this dataset">not set</span>' + badges : '<span class="meta">' + esc(fmtNum(v)) + "</span>" + badges;
+    }
+    const dot = cell.state && cell.state !== "ok" ? '<span class="dot ' + esc(cell.state) + '" aria-hidden="true"></span>' : "";
+    const label = cell.type === "collection" ? '<span class="coll">' + esc(cell.name) + "</span>" : esc(cell.name);
+    return dot + '<button class="ds' + (cell.deleted ? " deleted" : "") + '" data-pop="' + popId(cell, row) + '"><span class="hid">' + cell.hid + ":</span>" + label + "</button>" + badges;
+  }
+
+  function statePill(s) { return '<span class="pill ' + esc(s) + '">' + esc(s) + "</span>"; }
+
+  function metaCell(m, key, row) {
+    switch (key) {
+      case "invoked": return '<a href="#" class="runlink" data-run="' + row.id + '">' + esc(row.invoked) + "</a>" + (row.current ? ' <span class="star" title="The invocation you are viewing">★ this one</span>' : "") + (row.mapped ? '<span class="sub">mapped over · params from ' + esc(row.mapped) + "</span>" : "");
+      case "version": return "v" + row.version + (row.version === 5 ? ' <span class="badge">latest</span>' : "");
+      case "state": return statePill(row.state);
+      case "reused": return row.reused === "yes" ? '<span class="badge reuse" title="Job cache: copied from an earlier job">reused</span>' : row.reused === "partial" ? '<span class="badge reuse" title="Some jobs in the batch were copied">partly reused</span>' : "";
+      case "history": return esc(row.history.name) + (row.history.deleted ? '<span class="badge del">deleted history</span>' : "");
+      case "tool_version": return '<span class="mono">' + esc(row.tool_version) + "</span>";
+      case "run": {
+        const r = row.run;
+        const what = r.model === "Job" ? "Job" : "Batch of " + r.jobs + " jobs";
+        return '<a href="#" class="runlink" data-run="' + row.id + '">' + esc(row.invoked) + "</a>" + (row.current ? ' <span class="star">★ this job</span>' : "") +
+          '<span class="sub">' + what + (r.via ? " · in workflow " + esc(r.via) : "") + (row.mapped ? " · params from " + esc(row.mapped) : "") + "</span>";
+      }
+    }
+    return "";
+  }
+
+  const META_LABEL = { invoked: "Invoked", version: "Version", state: "State", reused: "Reused", history: "History", tool_version: "Tool version", run: "Ran" };
+
+  function colHead(m, col) {
+    const d = displayFor(m, col);
+    const vs = col.present_in_versions ? (col.present_in_versions.length === 1 ? '<span class="badge warn" title="Only in older versions">v' + col.present_in_versions[0] + " only</span>" : '<span class="badge" title="Added in v' + col.present_in_versions[0] + '">since v' + col.present_in_versions[0] + "</span>") : "";
+    const dup = col.duplicate ? '<span class="badge warn" title="Two outputs in v5 are labelled summary (#24305)">⚠ duplicate label</span>' : "";
+    return '<span class="colhead"><span class="role ' + col.role + '">' + (col.role === "parameter" ? "param" : col.role === "input" ? "in" : "out") + "</span>" +
+      '<code>' + esc(col.label) + "</code>" + vs + dup +
+      '<button class="colmenu-btn" data-colmenu="' + esc(col.key) + '" aria-haspopup="true" aria-expanded="false" aria-label="Cell display for ' + esc(col.label) + '">▾</button></span>' +
+      '<span class="showing">' + esc(displayLabel(d)) + "</span>";
+  }
+
+  // ---------- detail panel ----------
+  function detailHTML(m, row) {
+    const items = MODES[m].columns.filter((c) => c.role === "output").map((c) => {
+      const cell = row.cells[c.key];
+      if (!cell || cell.type !== "dataset" && cell.type !== "collection") return "";
+      const st = cell.state || "ok";
+      const sub = cell.type === "collection" ? "a " + cell.collection_type + " with " + cell.elements + " datasets" : [cell.size, cell.ext, cell.metadata && cell.metadata.data_lines ? fmtNum(cell.metadata.data_lines) + " lines" : ""].filter(Boolean).join(" · ");
+      return '<div class="hitem ' + st + '"><div class="hrow"><span class="hname">' + cell.hid + ": " + esc(cell.name) + '</span><span class="icons"><span title="View">👁</span><span title="Edit attributes">✎</span><span title="Download">⤓</span></span></div>' +
+        '<span class="hint">' + esc(sub) + " · in history “" + esc(row.history.name) + "”</span>" +
+        (cell.peek && st === "ok" ? '<div class="peek">' + esc(cell.peek) + "</div>" : st === "error" ? '<span class="hint">Job failed. Open the job page for stderr.</span>' : "") + "</div>";
+    }).join("");
+    let params = "";
+    if (row.params) {
+      const base = MODES[m].rows.find((r) => r.current) || MODES[m].rows[0];
+      params = '<h3>Parameters' + (row.mapped ? " (" + esc(row.mapped) + ")" : "") + '</h3><table class="params"><tbody>' + Object.entries(row.params).map(([k, v]) => {
+        const changed = base.params && base.params[k] !== v;
+        return '<tr class="' + (changed ? "changed" : "") + '"><td>' + esc(k) + "</td><td>" + esc(v) + (changed ? " <small>(★ has " + esc(base.params[k]) + ")</small>" : "") + "</td></tr>";
+      }).join("") + "</tbody></table>";
+    } else {
+      params = "<h3>Inputs</h3><p class=\"hint\">Mode 2 rows have no single job. Workflow inputs, including parameters, are already columns.</p>";
+    }
+    const openLabel = m === "tool" ? "Open job" : m === "step" ? "Open invocation with count_reads selected" : "Open invocation";
+    return '<div class="detailgrid"><div class="stack"><h3>Outputs</h3>' + (items || '<span class="hint">No outputs.</span>') + '</div><div class="stack">' + params +
+      '<div><button class="btn" data-run="' + row.id + '">' + openLabel + " →</button></div></div></div>";
+  }
+
+  // ---------- tables ----------
+  function tableHTML(m) {
+    const mode = MODES[m];
+    const rows = visibleRows(m);
+    POP.clear();
+    if (!rows.length) return '<div class="disabledpanel"><b>No runs match these filters.</b><span>Clear a filter to see more.</span></div>';
+    const hasParams = rows.some((r) => r.params);
+    if (!state.transpose) {
+      let h = '<table class="cmp"><thead><tr><th aria-label="Expand"></th>';
+      mode.meta.forEach((k) => { h += "<th>" + META_LABEL[k] + "</th>"; });
+      mode.columns.forEach((c) => { h += "<th>" + colHead(m, c) + "</th>"; });
+      if (hasParams) h += "<th>Parameters</th>";
+      h += "</tr></thead><tbody>";
+      const ncols = 1 + mode.meta.length + mode.columns.length + (hasParams ? 1 : 0);
+      rows.forEach((r) => {
+        const open = state.expanded.has(r.id);
+        h += '<tr class="' + (r.current ? "current" : "") + '"><td><button class="expand" data-expand="' + r.id + '" aria-expanded="' + open + '" aria-label="Details">' + (open ? "▾" : "▸") + "</button></td>";
+        mode.meta.forEach((k) => { h += "<td>" + metaCell(m, k, r) + "</td>"; });
+        mode.columns.forEach((c) => { h += "<td>" + cellHTML(r.cells[c.key], c, r) + "</td>"; });
+        if (hasParams) h += '<td><button class="btn ghost" data-expand="' + r.id + '">' + Object.keys(r.params || {}).length + " params ▸</button></td>";
+        h += "</tr>";
+        if (open) h += '<tr class="detail"><td colspan="' + ncols + '">' + detailHTML(m, r) + "</td></tr>";
+      });
+      return h + "</tbody></table>";
+    }
+    // transposed: one row per meta field / column, runs across
+    let h = '<table class="cmp"><thead><tr><th class="rowhead"></th>';
+    rows.forEach((r) => { h += "<th>" + metaCell(m, m === "tool" ? "run" : "invoked", r) + "</th>"; });
+    h += "</tr></thead><tbody>";
+    mode.meta.filter((k) => k !== "invoked" && k !== "run").forEach((k) => {
+      h += '<tr><th class="rowhead">' + META_LABEL[k] + "</th>";
+      rows.forEach((r) => { h += "<td>" + metaCell(m, k, r) + "</td>"; });
+      h += "</tr>";
+    });
+    mode.columns.forEach((c) => {
+      h += '<tr><th class="rowhead" style="position:sticky">' + colHead(m, c) + "</th>";
+      rows.forEach((r) => { h += "<td>" + cellHTML(r.cells[c.key], c, r) + "</td>"; });
+      h += "</tr>";
+    });
+    if (hasParams) {
+      const keys = Object.keys(rows.find((r) => r.params).params);
+      keys.forEach((k) => {
+        h += '<tr><th class="rowhead"><span class="colhead"><span class="role parameter">param</span>' + esc(k) + "</span></th>";
+        rows.forEach((r) => { h += "<td>" + (r.params ? esc(r.params[k]) : "") + "</td>"; });
+        h += "</tr>";
+      });
+    }
+    return h + "</tbody></table>";
+  }
+
+  function toolbarHTML(m) {
+    const rows = MODES[m].rows;
+    const states = ["all", ...new Set(rows.map((r) => r.state))];
+    let h = '<div class="tablebar"><div class="chips" role="group" aria-label="Filter by state">' +
+      states.map((s) => '<button class="chip" data-statefilter="' + s + '" aria-pressed="' + (state.stateFilter === s) + '">' + (s === "all" ? "All states" : s) + "</button>").join("") + "</div>";
+    if (m === "tool") {
+      const vers = [...new Set(rows.map((r) => r.tool_version))];
+      h += '<div class="chips" role="group" aria-label="Tool version">' +
+        ['<button class="chip" data-toolver="all" aria-pressed="' + (state.toolVersion === "all") + '">All versions</button>']
+          .concat(vers.map((v) => '<button class="chip mono" data-toolver="' + v + '" aria-pressed="' + (state.toolVersion === v) + '">' + v + "</button>")).join("") + "</div>" +
+        '<label class="check"><input type="checkbox" id="incwf" ' + (state.includeWorkflowJobs ? "checked" : "") + "> Include runs inside workflows</label>";
+    }
+    h += '<span class="grow"></span><button class="btn" id="transpose" aria-pressed="' + state.transpose + '">⇄ Transpose</button>' +
+      '<button class="btn ghost" id="openroute" title="' + esc(MODES[m].route) + '">Open as full page ↗</button></div>';
+    return h;
+  }
+
+  function footHTML(m) {
+    const n = visibleRows(m).length;
+    return '<div class="tfoot"><span>Showing 1–' + n + " of " + n + " · newest first · your runs only</span>" +
+      '<span class="pager"><button class="btn" disabled>‹</button><button class="btn" disabled>›</button></span></div>';
+  }
+
+  // ---------- frames per mode ----------
+  function frameStep() {
+    const steps = [
+      { n: 1, label: "reads", t: "Input collection" },
+      { n: 2, label: "ref", t: "Input dataset" },
+      { n: 3, label: "trim", t: "fastp" },
+      { n: 4, label: "align", t: "HISAT2" },
+      { n: 5, label: null, t: "Samtools sort" },
+      { n: 6, label: "count_reads", t: "featureCounts" },
+      { n: 7, label: "n_genes", t: "Compute expression" }
+    ];
+    const sel = state.stepSel;
+    const selStep = steps.find((s) => (s.label || "#" + s.n) === sel);
+    let h = '<div class="masthead"><b>Galaxy</b><span class="crumb">Invocations › RNA-seq counts · 2026-11-12 14:02</span><span class="mock">mockup</span></div>' +
+      '<div class="ctx"><div class="ctxrow"><span class="title">Invocation of RNA-seq counts (v5)</span><span class="pill ok">ok</span></div>' +
+      '<div class="ctxrow"><span class="hint">Steps (pick one; the graph is elided here):</span></div><div class="steps">' +
+      steps.map((s) => {
+        const key = s.label || "#" + s.n;
+        return '<button class="step' + (s.label ? "" : " unlabelled") + '" data-step="' + esc(key) + '" aria-pressed="' + (sel === key) + '"><span class="n">' + s.n + "</span>" +
+          (s.label ? "<code>" + esc(s.label) + "</code>" : "<em>no label</em>") + '<span class="hint">' + esc(s.t) + "</span></button>";
+      }).join("") + "</div></div>";
+    const unlabelled = !selStep.label;
+    h += '<div class="ctx" style="padding-bottom:0;border-bottom:none"><div class="ctxrow"><span class="title">Step ' + selStep.n + ": " + (selStep.label ? "<code>" + esc(selStep.label) + "</code>" : "<em>no label</em>") + " · " + esc(selStep.t) + "</span></div></div>" +
+      '<div class="gtabs" role="tablist"><span class="gtab">Jobs</span><span class="gtab">Outputs</span><span class="gtab">Step Config</span>' +
+      '<span class="gtab active spot" title="New tab"' + (unlabelled ? ' style="opacity:.55"' : "") + ">All runs" + (unlabelled ? "" : ' <span class="badge">6</span>') + "</span></div>";
+    if (unlabelled) {
+      h += '<div class="disabledpanel"><b>Label this step to compare its runs</b><span>Runs are matched across workflow versions by step label. Add a label in the editor and runs from that version on will show here.</span><button class="btn" data-toast="Would open the workflow editor with step 5 selected">Edit workflow</button></div>';
+      return h;
+    }
+    if (sel !== "count_reads") {
+      h += '<div class="disabledpanel"><b>Example data is only filled in for <code>count_reads</code>.</b><span>Pick step 6 to see the table.</span></div>';
+      return h;
+    }
+    return h + toolbarHTML("step") + '<div class="tablewrap">' + tableHTML("step") + "</div>" + footHTML("step");
+  }
+
+  function frameOutputs() {
+    let h = '<div class="masthead"><b>Galaxy</b><span class="crumb">Workflows › RNA-seq counts › Invocations</span><span class="mock">mockup</span></div>' +
+      '<div class="ctx"><div class="ctxrow"><span class="title">Invocations of RNA-seq counts</span><span class="grow"></span>' +
+      '<button class="btn" aria-pressed="false">List</button><button class="btn spot" aria-pressed="true">Compare outputs</button></div>' +
+      '<p class="hint">Columns are labelled workflow inputs (including parameters) and labelled outputs, merged across the versions on this page. Columns that only older versions have go last.</p></div>';
+    return h + toolbarHTML("outputs") + '<div class="tablewrap">' + tableHTML("outputs") + "</div>" + footHTML("outputs");
+  }
+
+  function frameTool() {
+    let h = '<div class="masthead"><b>Galaxy</b><span class="crumb">Jobs › bbd44e69cb8906b5</span><span class="mock">mockup</span></div>' +
+      '<div class="ctx"><div class="ctxrow"><span class="title">Job information · featureCounts</span><span class="mono hint">toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/2.0.3+galaxy2</span></div>' +
+      '<div class="ctxrow"><button class="btn">Run job again</button><button class="btn spot" aria-pressed="true">Other runs of this tool</button></div></div>';
+    return h + toolbarHTML("tool") + '<div class="tablewrap">' + tableHTML("tool") + "</div>" + footHTML("tool");
+  }
+
+  const NOTES = {
+    step: [
+      ["What this shows", ["A new <b>All runs</b> tab on the step card, next to Jobs, Outputs and Step Config.", "Rows are invocations of any version of the workflow where a step is labelled <code>count_reads</code>. The ★ row is the invocation you are on.", "Run metadata: when, workflow version, state, job-cache reuse and history (deleted histories badged).", "A mapped-over run shows collections and “params from job 1 of 3”.", "Expand a row (▸) for the standard history items and parameters. Parameters that differ from the ★ run are highlighted."]],
+      ["Try", ["Pick step 5 (<em>no label</em>): the tab explains why it is empty.", "Hover a dataset name for its popover.", "▾ on <code>output_short</code> → metadata: data_lines.", "⇄ Transpose: runs become columns and parameters become rows."]]
+    ],
+    outputs: [
+      ["What this shows", ["<b>Compare outputs</b> on the stored workflow's invocation list.", "<code>min_quality</code> is a parameter input, shown as its value.", "<code>n_genes</code> is an <code>expression.json</code> output shown as its value; switch it to name + popover with ▾.", "<code>qc_report</code> was added in v4, so v3 rows say “not in v3”. <code>multiqc_html</code> only exists in v3 and goes last.", "<code>summary</code> carries a duplicate-label warning: two v5 outputs share it (#24305), so the cell shows the first."]],
+      ["Not shown", ["Unlabelled outputs and inputs. They can't be matched across versions."]]
+    ],
+    tool: [
+      ["What this shows", ["<b>Other runs of this tool</b> on the job page, spanning tool versions, with a version filter.", "A mapped-over submission is one row (a batch of 6 jobs), not six.", "Runs made inside a workflow are included and labelled with the workflow and step.", "A purged input is badged but kept in the row."]],
+      ["Unresolved", ["One row per Job/batch (shown) or per tool request?", "Include runs inside workflows by default? (Toggle above.)", "Is the job page enough as the entry point, or should the tool form get a “previous runs” panel too?"]]
+    ]
+  };
+
+  function render() {
+    closeFloating();
+    document.querySelectorAll(".modetab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.mode === state.mode)));
+    stage.innerHTML = state.mode === "step" ? frameStep() : state.mode === "outputs" ? frameOutputs() : frameTool();
+    notesEl.innerHTML = NOTES[state.mode].map(([t, items]) => '<div class="note"><h3>' + t + "</h3><ul>" + items.map((i) => "<li>" + i + "</li>").join("") + "</ul></div>").join("");
+  }
+
+  // ---------- floating UI ----------
+  let floating = null;
+  function closeFloating() {
+    if (floating) { floating.remove(); floating = null; }
+    document.querySelectorAll('[aria-expanded="true"].colmenu-btn').forEach((b) => b.setAttribute("aria-expanded", "false"));
+  }
+  function place(el, anchor) {
+    document.body.appendChild(el);
+    const r = anchor.getBoundingClientRect();
+    const w = el.offsetWidth;
+    let left = r.left + window.scrollX;
+    left = Math.max(16, Math.min(left, window.scrollX + document.documentElement.clientWidth - w - 16));
+    el.style.left = left + "px";
+    el.style.top = (r.bottom + window.scrollY + 6) + "px";
+    floating = el;
+  }
+
+  function showPopover(btn) {
+    const entry = POP.get(btn.dataset.pop);
+    if (!entry) return;
+    closeFloating();
+    const { cell, row } = entry;
+    const el = document.createElement("div");
+    el.className = "popover";
+    el.setAttribute("role", "tooltip");
+    let dl = "";
+    if (cell.type === "collection") {
+      dl = "<dt>Type</dt><dd>" + esc(cell.collection_type) + "</dd><dt>Elements</dt><dd>" + cell.elements + "</dd>";
+    } else {
+      dl = "<dt>Format</dt><dd>" + esc(cell.ext) + "</dd>" + (cell.size ? "<dt>Size</dt><dd>" + esc(cell.size) + "</dd>" : "") +
+        Object.entries(cell.metadata || {}).map(([k, v]) => "<dt>" + esc(k) + "</dt><dd>" + esc(fmtNum(v)) + "</dd>").join("");
+    }
+    dl += "<dt>State</dt><dd>" + esc(cell.state || "ok") + (cell.purged ? ", purged" : cell.deleted ? ", deleted" : "") + "</dd><dt>History</dt><dd>" + esc(row.history.name) + "</dd>";
+    el.innerHTML = '<span class="pt">' + cell.hid + ": " + esc(cell.name) + "</span><dl>" + dl + "</dl>" + (cell.peek && (cell.state || "ok") === "ok" ? '<div class="peek">' + esc(cell.peek) + "</div>" : "") + '<span class="hint">Click to open in its history</span>';
+    place(el, btn);
+  }
+
+  function showColMenu(btn) {
+    const m = state.mode;
+    const col = MODES[m].columns.find((c) => c.key === btn.dataset.colmenu);
+    const cur = displayFor(m, col);
+    closeFloating();
+    btn.setAttribute("aria-expanded", "true");
+    const el = document.createElement("div");
+    el.className = "menu";
+    el.setAttribute("role", "menu");
+    const isParam = col.role === "parameter";
+    const hasValue = isParam || MODES[m].rows.some((r) => r.cells[col.key] && r.cells[col.key].ext === "expression.json");
+    const metas = metaKeysFor(m, col);
+    let h = "<h4>Show in cells</h4>";
+    h += '<button role="menuitemradio" data-set="link" aria-checked="' + (cur === "link") + '"' + (isParam ? " disabled" : "") + ">Name with popover</button>";
+    h += '<button role="menuitemradio" data-set="value" aria-checked="' + (cur === "value") + '"' + (hasValue ? "" : ' disabled title="Only for expression.json outputs and parameters"') + ">Value</button>";
+    if (metas.length) {
+      h += "<h4>Metadata element</h4>";
+      metas.forEach((k) => { h += '<button role="menuitemradio" data-set="meta:' + esc(k) + '" aria-checked="' + (cur === "meta:" + k) + '"><span class="mono">' + esc(k) + "</span></button>"; });
+    } else if (!isParam) {
+      h += '<h4>Metadata element</h4><button disabled>None set on this page</button>';
+    }
+    el.innerHTML = h;
+    el.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-set]");
+      if (!b || b.disabled) return;
+      state.display[m + ":" + col.key] = b.dataset.set;
+      render();
+    });
+    place(el, btn);
+  }
+
+  let toastTimer = null;
+  function toast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.hidden = true; }, 2600);
+  }
+
+  // ---------- events ----------
+  document.addEventListener("click", (e) => {
+    const t = e.target;
+    const modeBtn = t.closest(".modetab");
+    if (modeBtn) { state.mode = modeBtn.dataset.mode; state.expanded.clear(); state.stateFilter = "all"; render(); return; }
+    const colBtn = t.closest("[data-colmenu]");
+    if (colBtn) { e.stopPropagation(); if (colBtn.getAttribute("aria-expanded") === "true") closeFloating(); else showColMenu(colBtn); return; }
+    if (floating && floating.contains(t)) return;
+    const ex = t.closest("[data-expand]");
+    if (ex) { const id = ex.dataset.expand; state.expanded.has(id) ? state.expanded.delete(id) : state.expanded.add(id); render(); return; }
+    const step = t.closest("[data-step]");
+    if (step) { state.stepSel = step.dataset.step; render(); return; }
+    const sf = t.closest("[data-statefilter]");
+    if (sf) { state.stateFilter = sf.dataset.statefilter; render(); return; }
+    const tv = t.closest("[data-toolver]");
+    if (tv) { state.toolVersion = tv.dataset.toolver; render(); return; }
+    if (t.closest("#transpose")) { state.transpose = !state.transpose; state.expanded.clear(); render(); return; }
+    if (t.closest("#openroute")) { toast("Would open " + MODES[state.mode].route); return; }
+    const run = t.closest("[data-run]");
+    if (run) {
+      e.preventDefault();
+      const r = MODES[state.mode].rows.find((x) => x.id === run.dataset.run);
+      toast(state.mode === "tool" ? "Would open /jobs/" + r.run.id + "/view" : state.mode === "step" ? "Would open that invocation with step count_reads selected (#24173)" : "Would open that invocation");
+      return;
+    }
+    const pop = t.closest("[data-pop]");
+    if (pop) { const e2 = POP.get(pop.dataset.pop); toast("Would open dataset " + e2.cell.hid + " in history “" + e2.row.history.name + "”"); return; }
+    const tb = t.closest("[data-toast]");
+    if (tb) { toast(tb.dataset.toast); return; }
+    closeFloating();
+  });
+  document.addEventListener("change", (e) => {
+    if (e.target.id === "incwf") { state.includeWorkflowJobs = e.target.checked; render(); }
+  });
+  document.addEventListener("mouseover", (e) => {
+    const b = e.target.closest("[data-pop]");
+    if (b && !(floating && floating.classList.contains("menu"))) showPopover(b);
+  });
+  document.addEventListener("mouseout", (e) => {
+    const b = e.target.closest("[data-pop]");
+    if (b && floating && floating.classList.contains("popover") && !b.contains(e.relatedTarget)) closeFloating();
+  });
+  document.addEventListener("focusin", (e) => { const b = e.target.closest("[data-pop]"); if (b) showPopover(b); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeFloating(); });
+  window.addEventListener("resize", closeFloating);
+
+  render();
+})();
+</script>

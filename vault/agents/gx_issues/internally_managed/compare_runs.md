@@ -4,6 +4,8 @@ A user should be able to pick one workflow step, a workflow's outputs, or a tool
 
 Today, answering "what did this step produce last week with the old parameter?" means opening invocations one at a time, finding the step in each graph, and clicking through to datasets. For tools there is no list of past runs at all.
 
+Mockups: [compare_runs_mockup.html](compare_runs_mockup.html) ([published](https://claude.ai/artifact/EnVow5Qbt2pKo8j3BUoQEK)).
+
 ## Three comparison modes
 
 | Mode | Compares | One row per | Columns | Entry point |
