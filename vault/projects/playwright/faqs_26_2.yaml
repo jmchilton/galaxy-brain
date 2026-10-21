@@ -120,7 +120,7 @@
   galaxy_commit: 6379b83d12a
   used_by: [introduction/data-manipulation-olympics, introduction/galaxy-reproduce, single-cell/GO-enrichment, single-cell/scrna_batch_correction, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_trajectories, single-cell/scrna-seurat-pbmc3k]
   faq_findings: 'Step 3 "Job Information" is now "Job Execution Details"; steps 1, 2, 4 hold (report needs the server''s error reporting set up); Matrix labels link gitter.im.'
-  gx_findings: 'Added E2E: bug icon -> error page -> Report, with mail (d58f510c7c0); dataset_error/email_report/error_button components. Report form shows even with reporting disabled (not filed). gxui: dataset-peek handles red items; new dataset-error [--report] (tip). faq_server.sh sets error_email_to.'
+  gx_findings: 'Added E2E: bug icon -> error page -> Report, with mail (d58f510c7c0); dataset_error/email_report/error_button components. Report form shows even with reporting disabled, Filter1 traceback on a missing column (both queued in gx_issues/to_file). gxui: dataset-peek handles red items; new dataset-error [--report] (tip). faq_server.sh sets error_email_to.'
 - faq: faqs/galaxy/bulk_change_datatype.md
   status: pending
 - faq: faqs/galaxy/can-i-use-a-public-galaxy-for-my-private-data.md

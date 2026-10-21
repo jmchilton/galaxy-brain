@@ -26,8 +26,8 @@ linked from Galaxy's own error page ("My job ended with an error. What can I do?
   alert). Helpers `history_panel_item_show_error`, `submit_email_report`; `navigate_to_dataset_error`
   uses the `dataset_error.tab` component. Green under Playwright.
 - **Without `error_email_to` the Report form still shows**, and submitting fails with "Error
-  reporting has been disabled for this Galaxy instance". Not filed.
-- Filter1 reports a missing column as a Python traceback (`IndexError`), not a message. Not filed.
+  reporting has been disabled for this Galaxy instance". Queued: `gx_issues/to_file/dataset_error_report_form_when_reporting_disabled.md`.
+- Filter1 reports a missing column as a Python traceback (`IndexError`), not a message. Queued: `gx_issues/to_file/filter1_missing_column_traceback.md`.
 - navigation.yml selectors go through `string.Template`, so `$=` breaks them ("Invalid placeholder");
   use `*=` or `$$`.
 - gxui (tip): `dataset-peek` waited for `ok` and timed out on a red item; it now prints the error
