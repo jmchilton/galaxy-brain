@@ -1,16 +1,16 @@
 # selenium_tool_form_helpers
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_tool_form_helpers?expand=1)
+- [#24331](https://github.com/galaxyproject/galaxy/pull/24331)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_tool_form_helpers)
 - [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
 
 ## Status
 
-Polished, ready for final review (`branches_ready_for_final_review`) on `dev`, head `d0fa949eaae` (10 commits, compacted from 22; old head kept as local `selenium_tool_form_helpers_pre_compact`).
+Polished; draft PR in `ci_wait` on `dev`, head `d0fa949eaae` (10 commits, compacted from 22; old head kept as local `selenium_tool_form_helpers_pre_compact`).
 
-No PR.
+Draft [#24331](https://github.com/galaxyproject/galaxy/pull/24331), opened 2026-10-21 at John's request (title: first option in `pr_titles.md`; labels from `pr_tags.md`).
 
-Fork CI queued on `d0fa949eaae`; "Tool form harness tests" is the check to watch.
+CI queued on `d0fa949eaae`; "Tool form harness tests" is the check to watch.
 
 ## Scope
 
