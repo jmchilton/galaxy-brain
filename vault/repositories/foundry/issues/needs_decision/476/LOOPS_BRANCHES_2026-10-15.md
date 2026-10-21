@@ -117,4 +117,9 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
 ## Open questions
 
 1. ~~Is `--from` (seed from a frozen run) wanted as an evaluation feature?~~ Built 2026-10-20 (above), pending John's review.
-2. How should `test-data-refs` record an optional input a test should omit? John (2026-10-20): add an explicit omitted state, valid only for optional inputs, which the branch oracle counts as settled. Not built yet.
+2. How should `test-data-refs` record an optional input a test should omit? John (2026-10-20): add an explicit omitted state, valid only for optional inputs, which the branch oracle counts as settled.
+   - Built on `feat/test-data-refs-omitted` (`ec1ba0b0`), stacked on the seed-run branch, no PR yet; draft in the session scratchpad (`pr_refs_omitted.md`).
+   - Schema: `omitted: true` keeps `resolved: false` (so `resolved: true` still promises data), names who omitted it and why, and carries no data. gxwf-foundry gets a minor changeset.
+   - Oracle: omitted is settled; a later leg may give it data, not reopen it.
+   - Molds: only `find-test-data` (rev 9) omits, after searching, with an eval property. The source legs never omit. `implement-galaxy-workflow-test` (rev 11) leaves omitted inputs unset.
+   - Live rerun `~/foundry-runs/nf2g-demo-branch-omitted-2026-10-20/`: **passed**, 3m04s, $0.37. Reads resolved, 6 optional inputs omitted. The reference FASTA, fetched last time, was omitted this time; that's faithful, since the source test passes only a samplesheet and the interface says no-reference is the valid path.
