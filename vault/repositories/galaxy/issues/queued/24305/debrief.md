@@ -1,6 +1,6 @@
 # Debrief: duplicate workflow output labels accepted
 
-Proposal: [`proposal.md`](proposal.md). No source draft: the idea came out of the compare-runs research ([`../internally_managed/compare_runs.md`](../../../../../agents/gx_issues/internally_managed/compare_runs.md), side findings), where a research subagent spotted the broken check.
+Proposal: [`proposal.md`](proposal.md). No source draft: the idea came out of the compare-runs research ([`projects/compare_runs/plan.md`](../../../../../projects/compare_runs/plan.md)), where a research subagent spotted the broken check.
 
 ## Research
 

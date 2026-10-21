@@ -23,3 +23,4 @@ Pick a workflow step, a workflow's outputs, or a tool, and see every past run of
 ## Files
 
 - [`plan.md`](plan.md) — the plan: modes, cells, matching across versions, three GET endpoints, tests, open questions.
+- [`compare_runs_mockup.html`](compare_runs_mockup.html) — source of the published mockup.

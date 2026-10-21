@@ -2,7 +2,7 @@
 
 [Issue](https://github.com/galaxyproject/galaxy/issues/24305)
 
-Filed 2026-10-20 from [proposal](proposal.md) ([debrief](debrief.md)); no source draft — came out of the compare-runs research ([`compare_runs.md`](../../../../../agents/gx_issues/internally_managed/compare_runs.md)). Assigned to jmchilton.
+Filed 2026-10-20 from [proposal](proposal.md) ([debrief](debrief.md)); no source draft — came out of the compare-runs research ([`projects/compare_runs/plan.md`](../../../../../projects/compare_runs/plan.md)). Assigned to jmchilton.
 
 Server duplicate output-label check in `__walk_step_dicts` only runs for the dict form nobody sends, and checks the step label. Reproduced on dev @ `2cca856`: upload and PUT return 200, and an invocation shows 1 of 2 outputs. Server-side half of #20230, which #20335 handled in the client only.
 
