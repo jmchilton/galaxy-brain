@@ -87,7 +87,7 @@ Part of 🌿[`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A timeout naming the step, e.g. "Workflows panel with a workflow titled [NAME]", or pytest's diff of the saved subworkflow names.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A. No unit tests; the E2E test checks the saved workflow through the API.

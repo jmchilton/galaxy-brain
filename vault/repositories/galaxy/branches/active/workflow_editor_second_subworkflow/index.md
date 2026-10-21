@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished, awaiting John's final review (`branches_ready_for_final_review`); rebased onto `release_26.2` `e2649e52818`, head `41125e9268d`.
+Polished and read by John; head `41125e9268d` on `release_26.2` `e2649e52818`.
 
-No PR.
+Draft [#24314](https://github.com/galaxyproject/galaxy/pull/24314) opened 2026-10-21 on John's request (`ci_wait`), title "[26.2] Test inserting two subworkflows from the workflow editor's Workflows panel".
 
-Fork CI on `41125e9268d` queued at hand-off, no reds; Playwright runs the new test on push (the Selenium workflow is weekly/manual only).
+CI on `41125e9268d` queued, no reds yet; Playwright runs the new test on push (the Selenium workflow is weekly/manual only).
 
 ## Polish
 
