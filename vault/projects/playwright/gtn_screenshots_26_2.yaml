@@ -39,3 +39,13 @@
   priority: low
   summary: The UI matches, but it includes browser chrome and French menu items ("Supprimer", "Changer le format de données").
   retake: The selection drop-down open on **Auto Build List**, in English.
+
+- image: topics/galaxy-interface/images/historyItemControls.png
+  faqs:
+    - faqs/galaxy/bulk_change_datatype.md
+    - faqs/galaxy/collections_build_list.md
+    - faqs/galaxy/collections_build_list_paired.md
+  target: main
+  priority: low
+  summary: The Select Items checkbox still matches, but the row also shows a gear at the right that 26.2's panel doesn't have.
+  retake: The history panel's select-items and collapse row, with the Select Items tooltip.

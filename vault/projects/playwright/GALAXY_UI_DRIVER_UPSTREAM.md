@@ -113,13 +113,13 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   Coverage PR candidate; green under Playwright only, red without the toggle.
 - `7bea524600b`: renames `history_panel_muli_operation_select_hid` to `..._multi_...` (3 callers).
   Goes with whichever PR lands `a51d2b9ed4a`'s caller, or alone.
-- `311918724d0`: coverage for `collections_convert_datatype` (and `collections_change_datatype`).
+- `a32e15d771d`: coverage for `collections_convert_datatype` (and `collections_change_datatype`).
   `test_collection_edit.py` converts a fasta list with "Convert FASTA to Tabular"; adds convert-tab
   components, `collection_edit_convert`, and moves the test's change-datatype steps into
   `collection_edit_change_datatype`. `history_panel_collection_edit(hid)` replaces the bare
-  `.edit-btn` `collection_menu_edit_attributes`, which hit the first pencil in the panel. Coverage
+  `.edit-btn` `collection_menu_edit_attributes`, which relied on the collection being the first item. Coverage
   PR candidate; green under Playwright only (file 3/3).
-- `1b6127bb565`: coverage for `collections_build_list`. `test_collection_builders.py` builds a list
+- `64ad58a8c2a`: coverage for `collections_build_list`. `test_collection_builders.py` builds a list
   through Advanced Build List > Flat List and renames an element; adds `list_wizard.element_name`/
   `element_name_input` and `collection_builder_rename_element`. Pairs naturally with `e31b6908bec`.
   Green under Playwright only.
