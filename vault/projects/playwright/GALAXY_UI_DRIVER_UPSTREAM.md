@@ -76,6 +76,9 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `8d36a3bd9f3`: coverage for `activity_bar_how_to_enable`. `test_activity_bar.py` hides and shows
   an activity from the More panel; adds `activity_bar` components. Coverage PR candidate; green under
   Playwright only.
+- `12c8ec3d7c7`: renames `preferences.activity` to `activity_bar.more`. It edits
+  `upload_activity_helpers.py`, which `50ac1760a58` creates, so it goes with the `galaxy.selenium`
+  PR, or with `8d36a3bd9f3` if that lands first, touching the older caller.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

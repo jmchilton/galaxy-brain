@@ -23,5 +23,6 @@ GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `e273c4f3502` (`faq_server.sh main`,
 - Coverage exists: `navigate_to_user_preferences` (masthead → Preferences) drives 8 E2E tests, and
   most cards have their own test. **Make All Data Private** and **Set Dataset Permissions for New
   Histories** have none; no change made, as the FAQ only lists them.
-- `navigation.yml` `preferences` has no entries for the permissions, credentials, notifications or
-  make-data-private cards; the replay checks those by screenshot.
+- `navigation.yml` had no entries for the permissions, credentials, notifications or
+  make-data-private cards. Added `preferences.card(id)` and `preferences.cards`, and a gxui
+  `preferences` verb that lists the cards shown (`id  title`), in the gxui tip `8e7f03546f7`.

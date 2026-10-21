@@ -11,7 +11,8 @@ UI runs use a local Galaxy from `galaxy_ui_driver`, started by `galaxy_ui_loop/f
 
 You will be supplied a GTN FAQ from `./faqs_26_2.yaml`. If you're not supplied one, then just pick the first relevant `pending` one. If picking a translation - make sure the base (same file name under `faqs/galaxy/`) has been reviewed first.
 
-Record `gtn_commit` (and `galaxy_commit` for UI runs) on the entry before you start.
+Record `gtn_commit` (and `galaxy_commit` for UI runs) on the entry before you start. Also record
+`used_by`: the tutorials that `snippet` the FAQ. Name them in findings that break them.
 
 ## Does it need UI work?
 

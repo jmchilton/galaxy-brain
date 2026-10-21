@@ -9,6 +9,7 @@ A checklist of every GTN FAQ, for walking through them during release 26.2 QA. T
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: 6c1b6093964
+  used_by: [introduction/galaxy-intro-101]
   faq_findings: Step 2 names a button that 26.2 renamed.
   gx_findings: Added upload_choose_local to navigation.yml.
   note: <optional; why the FAQ is blocked or skipped>
@@ -30,6 +31,9 @@ A checklist of every GTN FAQ, for walking through them during release 26.2 QA. T
   `translation` or `external` (it leaves Galaxy).
 - `gtn_commit` and `galaxy_commit` are the revisions reviewed against: GTN, and
   `galaxy_ui_driver` for `ui` runs.
+- `used_by` lists the tutorials (`<topic>/<tutorial>`) that embed the FAQ with
+  `{% snippet <faq> %}`, at `gtn_commit`. A finding in an embedded FAQ breaks every one of them.
+  Leave it out when nothing embeds the FAQ.
 - `faq_findings` and `gx_findings` hold one-line summaries. Leave a field out when it has no
   findings.
 
