@@ -169,7 +169,7 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 - [x] Are baseline tests in their own leading commits (if applicable)? The `select_set_value` test leads, and it's the only one that can be red on `dev`.
   <details><summary>Why the rest aren't baselines</summary>
 
-  The other tests call `tool_form_fill` or `tool_form_parameters` on `NavigatesGalaxy`, which `dev` doesn't have, so on `dev` they fail on the missing API. Each one sits in the commit with its fix. During development, the fixture tests and the Codex-finding E2E tests were each run red before their fix and green after. The other E2E red points were worked out from the code, not run.
+  The other tests call `tool_form_fill` or `tool_form_parameters` on `NavigatesGalaxy`, or import `galaxy.selenium.tool_form`, none of which `dev` has, so on `dev` they fail on the missing API. Each one sits in the commit with its fix. During development, the fixture tests and the Codex-finding E2E tests were each run red before their fix and green after. The other E2E red points were worked out from the code, not run.
 
   </details>
 - [x] Are the comments free of excess archeology? Yes.
