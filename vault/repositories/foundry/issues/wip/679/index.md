@@ -2,7 +2,7 @@
 
 Issue: https://github.com/galaxyproject/foundry/issues/679 (scottcain, AI-posted, `needs-triage`)
 Branch: `issue-679-test-plan-evidence` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-679`, commit `5692fa87` on `f264e588`.
-PR draft: [pr_description.md](pr_description.md)
+PR: https://github.com/galaxyproject/foundry/pull/695 (opened 2026-10-21; body from [pr_description.md](pr_description.md))
 
 ## Triage (2026-10-21)
 
