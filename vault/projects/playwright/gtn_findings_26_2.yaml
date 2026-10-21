@@ -8,7 +8,7 @@
     - faqs/galaxy/analysis_jobs_not_running.md
   target: main
   summary: There is no "User" masthead item; the logged-in menu is labelled with the username and holds Preferences and Sign Out.
-  fix: Say "click your username in the masthead, then **Preferences**".
+  fix: Say "click your username in the top bar, then **Preferences**".
   fixed_in: faq_fixes_26_2
 
 - label: masthead-login-register
@@ -17,7 +17,7 @@
     - faqs/galaxy/analysis_jobs_not_running.md
   target: main
   summary: '"Login or Register" is now separate Login and Register masthead buttons, and Register opens the form directly.'
-  fix: In account_create, collapse steps 2-3 to "Click **Register** in the masthead".
+  fix: In account_create, collapse steps 2-3 to "Click **Register** in the top bar".
   fixed_in: faq_fixes_26_2
 
 - label: account-create-step-numbers
@@ -255,7 +255,7 @@
   target: main
   summary: The last step (click the checkmark to leave selection mode) is obsolete; selection mode ends on Build.
   fix: Drop the step.
-  fixed_in: faq_fixes_26_2
+  skip: 'disputed: wrong, selection mode stays on after Build (see builder-selection-stays-on); its commit was dropped from faq_fixes_26_2'
 
 - label: builder-hides-originals
   faqs:
@@ -302,6 +302,7 @@
   target: main
   summary: builder-selection-ends-on-build was wrong; selection mode stays on after Build (Galaxy bug since 25.0), so the dropped "click the checkmark icon at the top of your history again" step is needed.
   fix: Restore the step that builder-selection-ends-on-build dropped on faq_fixes_26_2 (open PR 7181).
+  fixed_in: faq_fixes_26_2
 
 - label: force-mapping-nest-version
   faqs: [faqs/galaxy/collections_force_mapping_over.md]
