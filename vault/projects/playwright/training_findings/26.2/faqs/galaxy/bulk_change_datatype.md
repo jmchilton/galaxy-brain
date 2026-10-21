@@ -7,9 +7,6 @@ Two `txt` datasets changed to `tabular`. Used by imaging/dicom-anatomical-3d.
 
 - Steps hold. Step 3: with every item ticked the button reads **All N selected**, not "n of N
   selected".
-- **Change data type only shows on servers that run Celery** (`enable_celery_tasks`). usegalaxy.*
-  do; a stock local Galaxy doesn't, and the menu just lacks the entry. One line could say so and
-  point at the pencil icon (Edit attributes > Datatypes) for single datasets.
 - Step 4: the drop-down starts at "Auto-detect". Step 5's button is **Ok**.
 - The source numbers two steps "4.".
 

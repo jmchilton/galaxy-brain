@@ -128,7 +128,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: 57b4747a752
   used_by: [imaging/dicom-anatomical-3d]
-  faq_findings: 'Steps hold; Change data type only shows on servers running Celery (worth a line); button reads "All N selected" when all ticked; step 5 is "Ok"; two steps numbered 4.'
+  faq_findings: 'Steps hold; button reads "All N selected" when all ticked; step 5 is "Ok"; two steps numbered 4.'
   gx_findings: 'Added E2E for Selection > Change data type (a51d2b9ed4a): change_datatype_modal component + history_panel_change_datatype_of_selected. ${_} children resolve only via component._.child. gxui: history-change-datatype (tip). faq_server.sh runs Celery now.'
 - faq: faqs/galaxy/can-i-use-a-public-galaxy-for-my-private-data.md
   status: reviewed
