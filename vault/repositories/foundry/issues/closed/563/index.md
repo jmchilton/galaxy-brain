@@ -9,6 +9,7 @@ Labels at triage (2026-10-16): `needs-triage`. Filed as `queued` despite that la
 - The brief CLI (`foundry validate-workflow-brief`, `check-workflow-brief`) shipped in `@galaxy-foundry/gxwf-foundry@0.2.0` with the #561 release (2026-10-16).
 - Closed 2026-10-19 by John after runs 1–2 met the close rule; close comment summarizes both runs. Next: paper A/B run 3 (Mold family merge), follow-up issues from the ledgers.
 - Follow-up from runs 1–2: [foundry#688](https://github.com/galaxyproject/foundry/pull/688) (branch `brief-open-question-proposals`, worktree `~/projects/repositories/foundry-brief-oq`). Open questions stay non-blocking (John: one-shot generation must allow best guesses). Instead briefs propose answers + evidence (low confidence marked), the interface Mold records each as a ledger decision (`open_question`, `basis`), test-plan reads them, and runs report them at Done.
+- Run 3 done 2026-10-20; merge proposal drafted: [issue_draft_mold_family_merge.md](issue_draft_mold_family_merge.md) (not opened).
 - Run 3 plan: use the #688 casts, and leave some brief open questions unanswered on purpose to exercise proposals → ledger decisions → Done report. Paper: DengueSeq (Vogels 2024), picked 2026-10-20 as a non-Galaxy paper; scorecard [runs/dengueseq-denv3.md](runs/dengueseq-denv3.md). #688 merged as `f275059e`.
 
 ## Runs 1–2 (2026-10-16/17)
