@@ -24,7 +24,7 @@ The final hand-off will need a decision about its STATUS - whether this work is:
 
 Run `_shared/GX_PROCESS_HARDEN_BRANCH.md` with BRANCH_DIRECTORY and WORKING_DIRECTORY. If it stops on a scope recommendation to expand, follow "Handling a Re-Scope" below; to contract, follow "Parking on a Scope Decision" below.
 
-Finally write a quick summary of the choices and the final implementation and scope decision in `BRANCH_DIRECTORY/implementation_debrief.md`, then hand off as above.
+Finally write a quick summary of the choices and the final implementation and scope decision in `BRANCH_DIRECTORY/implementation_debrief.md`, then hand off per [`GX_IMPLEMENTATION_HANDOFF.md`](../_shared/GX_IMPLEMENTATION_HANDOFF.md).
 
 ## Handling a Re-Scope
 
