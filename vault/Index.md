@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*124 notes. Auto-generated — run `make index` to refresh.*
+*125 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -13,6 +13,7 @@
 ## Projects
 
 - [[collection_semantics]] — Project formalizing Galaxy collection semantics and their documentation.
+- [[compare_runs]] — One table of past runs for a workflow step, a workflow's outputs, or a tool, with inputs, outputs, parameters, version and reuse side by side.
 - [[cwl]] — Project tracking CWL implementation in Galaxy: conformance tests, conditionals, packing, tool loading.
 - [[architecture]] — Mirrored view of the galaxy-architecture repo — training topics rendered as vault-readable markdown.
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
