@@ -4,14 +4,14 @@
   gtn_commit: 45d4932d33
   galaxy_commit: 6c1b6093964
   used_by: [digital-humanities/grobid, digital-humanities/introduction_to_dh, introduction/galaxy-intro-101, introduction/galaxy-intro-rdm, introduction/galaxy-intro-short, microbiome/beer-data-analysis]
-  faq_findings: Step 2 "Login or Register" is now separate Login/Register masthead buttons (Register opens the form directly); stale screenshot; odd step numbering; 2 typos.
+  faq_findings: [masthead-login-register, account-create-step-numbers, account-create-resend-verification, account-create-typos]
   gx_findings: Added E2E for masthead Register + activation flow and an inactivity_box component (4d391ac7e36); fixed gxui methods summary for register (c31fcb13a8e); replay needs a gxui mail verb.
   note: Activation link read from a debug SMTP sink by hand; the replay pauses there.
 - faq: faqs/galaxy/account_multiple.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
-  faq_findings: '"User -> Preferences in the top menu bar": 26.2 masthead shows the username, not "User".'
+  faq_findings: [masthead-user-menu, account-multiple-card-names]
 - faq: faqs/galaxy/account_reduce_quota_usage.md
   status: reviewed
   mode: text
@@ -27,7 +27,7 @@
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: e273c4f3502
-  faq_findings: '"User -> Preferences" is the username menu; card list drifted (2 renamed, Cloud Authorization and Activity Bar gone, Tools Credentials new, several server-dependent); typo.'
+  faq_findings: [masthead-user-menu, preferences-card-list, account-update-preference-typo]
   gx_findings: Coverage exists (navigate_to_user_preferences, 8 tests); Make All Data Private and dataset permissions cards untested; added gxui `preferences` verb (lists cards) and preferences.card(id) (gxui tip 8e7f03546f7).
 - faq: faqs/galaxy/activity_bar_how_to_enable.md
   status: ui_verified
@@ -35,21 +35,21 @@
   gtn_commit: 45d4932d33
   galaxy_commit: e273c4f3502
   used_by: [introduction/galaxy-intro-101]
-  faq_findings: Obsolete - no Manage Activity Bar preference or enable switch in 26.2; embedded in galaxy-intro-101. Rewrite as "Customize the Activity Bar" (More -> star/unstar).
+  faq_findings: [activity-bar-faq-obsolete]
   gx_findings: Added E2E for More panel hide/show + activity_bar components (8d36a3bd9f3); GButton tooltip selectors need @data-title; renamed preferences.activity to activity_bar.more (12c8ec3d7c7).
   note: Replay verifies the 26.2 replacement flow, not the FAQ's steps.
 - faq: faqs/galaxy/add-toolshed-category-to-a-tool.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
-  faq_findings: "\"See tool in toolshed\" is \"See in Tool Shed\" in the open tool form's caret menu (shed tools only), not in search results; 2 typos."
+  faq_findings: [toolshed-see-in-tool-shed, add-toolshed-category-typos]
 - faq: faqs/galaxy/analysis_add_custom_build.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: e64d932e12e
   used_by: [ecology/ref-based-rad-seq]
-  faq_findings: '"User -> Preferences" is the username menu; "Database (dbkey)" field is labelled Key; missing step: the build lists only after its jobs finish and the page reloads; typo.'
+  faq_findings: [masthead-user-menu, custom-build-key-label, custom-build-upload-first, custom-build-reload, custom-build-typo]
   gx_findings: 'No E2E/API test for the FASTA path; added E2E + custom_builds components + len/linecount framework datatypes (2782db29ee2). Issues: build hidden until reload (#24309), API swallows NoConverterException (fixed on branch custom_build_no_converter_400_26.0). gxui preferences verb used for real; added `gxui history-wait` with no HID (whole history, hidden too).'
   galaxy_issues: [24309]
 - faq: faqs/galaxy/analysis_concatenate.md
@@ -57,30 +57,30 @@
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: e64d932e12e
-  faq_findings: Tool 1 (cat1) name and map-over claims verified (nth with nth, single recycled); tool 2 (tp_cat) not on stock servers, unverified. Could say to switch a field to collection mode.
+  faq_findings: [concatenate-collection-mode]
+  note: Tool 2 (tp_cat) isn't on stock servers; its claims are unverified.
   gx_findings: 'tool_form_fill silently ignored a collection hid in a dataset field; now switches to collection mode and asserts the selection (f19d8ec90f8). tool-describe reads the API, not the page (docstring, tip e64d932e12e). Added `gxui collection-peek HID [ELEMENT]`.'
 - faq: faqs/galaxy/analysis_cut.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
   used_by: [variant-analysis/sars-cov-2, visualisation/circos]
-  faq_findings: No breakage; Cut1 and Advanced Cut names unchanged (pinned 9.5+galaxy0 still served, 9.11 is default).
 - faq: faqs/galaxy/analysis_differential_expression_help.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
-  faq_findings: '".N" link is a site search for "olympics" - link the Data Manipulation Olympics tutorial; "Bioconductor tools" list is half non-Bioconductor; typos (Kalisto x2, Featurecounts).'
+  faq_findings: [diffexp-olympics-link, diffexp-bioconductor-claim, diffexp-typos]
 - faq: faqs/galaxy/analysis_getting_help.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
-  faq_findings: No breakage; 3 typos.
+  faq_findings: [getting-help-typos]
 - faq: faqs/galaxy/analysis_jobs_keep_running.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: ef6f75182e7
-  faq_findings: No breakage; job ran on with the browser closed. Could mention the leave-page prompt while uploads are staged.
+  faq_findings: [jobs-keep-running-leave-prompt]
   gx_findings: 26.2 upload panel defaults POSIX conversion off (26.1 on), so a paste keeps no final newline; Cut1 then drops the last field's last char.
   galaxy_issues: [24311]
 - faq: faqs/galaxy/analysis_jobs_not_running.md
@@ -88,38 +88,37 @@
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: ef6f75182e7
-  faq_findings: 'No "User" section: separate Login/Register buttons, then a username menu; anonymous jobs work where allowed; inactive account shows a banner and uploads fail at once ("Action requires account activation."), not a stuck queue.'
+  faq_findings: [masthead-user-menu, masthead-login-register, jobs-not-running-anonymous, jobs-not-running-activation-symptom]
   gx_findings: 'Added E2E for an inactive user''s upload + upload_activity.progress_row_error (a67081d346c). gxui upload-paste now fails fast on a row error instead of waiting 60s (tip).'
 - faq: faqs/galaxy/analysis_regular_expressions.md
   status: reviewed
   mode: text
   gtn_commit: e2d1765205
   used_by: [assembly/assembly-decontamination, data-science/data-manipulation-olympics-jq, data-science/data-manipulation-olympics-sql, digital-humanities/introduction_to_dh, digital-humanities/solar-eclipse-frequency, digital-humanities/text_mining_chinese, digital-humanities/Whisper_speech_recognition, ecology/openrefine_gbif, introduction/data-manipulation-olympics, microbiome/samestr-strain-detection, proteomics/neoantigen-fusion-database-generation, proteomics/neoantigen-non-reference-database-generation, sequence-analysis/Manage_AB1_Sanger, single-cell/pseudobulk-analysis]
-  faq_findings: '`&` (whole match) and `\U`/`\L` are sed/Perl only; Regex Find and Replace (regex1, used by data-manipulation-olympics, Manage_AB1_Sanger, neoantigen-fusion) is Python re: `&` literal, `\U` errors; use `\g<0>` there.'
+  faq_findings: [regex-python-re-replacement]
 - faq: faqs/galaxy/analysis_reporting_issues.md
   status: reviewed
   mode: text
   gtn_commit: e2d1765205
-  faq_findings: No breakage; typo "this [these instructions]"; GTN Search is tutorial-only; Gitter link is now Matrix, mailing list unlinked.
+  faq_findings: [reporting-issues-typo, reporting-issues-links, gitter-to-matrix]
 - faq: faqs/galaxy/analysis_results_may_vary.md
   status: reviewed
   mode: text
   gtn_commit: e2d1765205
   used_by: [admin/connect-to-compute-cluster, assembly/mrsa-illumina, assembly/mrsa-nanopore, epigenetics/atac-seq, epigenetics/cut_and_run, introduction/galaxy-intro-101, introduction/galaxy-intro-101-everyone, introduction/galaxy-intro-peaks2genes, microbiome/mothur-miseq-sop, microbiome/plasmid-metagenomics-nanopore, proteomics/biomarker_selection, transcriptomics/network-analysis-with-heinz, transcriptomics/ref-based, transcriptomics/rna-seq-counts-to-genes, transcriptomics/rna-seq-genes-to-pathways, transcriptomics/rna-seq-reads-to-counts]
-  faq_findings: No breakage.
 - faq: faqs/galaxy/analysis_troubleshooting_reporting.md
   status: reviewed
   mode: text
   gtn_commit: e2d1765205
   used_by: [single-cell/scatac-batch-correction-snapatac2]
-  faq_findings: No breakage; mismatched "(this server>", missing "make"; job id now under Details > Job Execution Details.
+  faq_findings: [job-execution-details, troubleshooting-reporting-typos]
 - faq: faqs/galaxy/analysis_troubleshooting.md
   status: ui_verified
   mode: ui
   gtn_commit: e2d1765205
   galaxy_commit: 6379b83d12a
   used_by: [introduction/data-manipulation-olympics, introduction/galaxy-reproduce, single-cell/GO-enrichment, single-cell/scrna_batch_correction, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_trajectories, single-cell/scrna-seurat-pbmc3k]
-  faq_findings: 'Step 3 "Job Information" is now "Job Execution Details"; steps 1, 2, 4 hold (report needs the server''s error reporting set up); Matrix labels link gitter.im.'
+  faq_findings: [gitter-to-matrix, job-execution-details, troubleshooting-report-admins]
   gx_findings: 'Added E2E: bug icon -> error page -> Report, with mail (d58f510c7c0); dataset_error/email_report/error_button components. Report form shows even with reporting disabled, Filter1 traceback on a missing column (galaxy#24315, #24316). gxui: dataset-peek handles red items; new dataset-error [--report] (tip). faq_server.sh sets error_email_to.'
   galaxy_issues: [24315, 24316]
 - faq: faqs/galaxy/bulk_change_datatype.md
@@ -128,20 +127,20 @@
   gtn_commit: 45d4932d33
   galaxy_commit: 57b4747a752
   used_by: [imaging/dicom-anatomical-3d]
-  faq_findings: 'Steps hold; button reads "All N selected" when all ticked; step 5 is "Ok"; two steps numbered 4.'
+  faq_findings: [all-n-selected, bulk-datatype-step-labels]
   gx_findings: 'Added E2E for Selection > Change data type (a51d2b9ed4a): change_datatype_modal component + history_panel_change_datatype_of_selected. ${_} children resolve only via component._.child. gxui: history-change-datatype (tip). faq_server.sh runs Celery now.'
 - faq: faqs/galaxy/can-i-use-a-public-galaxy-for-my-private-data.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
-  faq_findings: 'Holds; the "*" has no footnote, and linking the server''s terms of use would make "not sensitive" concrete.'
+  faq_findings: [private-data-footnote]
 - faq: faqs/galaxy/cite-tools-used-in-a-history.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: 57b4747a752
   used_by: [introduction/galaxy-cite]
-  faq_findings: 'Step 2 "Export Tool Citations" is now "Export Tool References"; tabs are "References (APA)"/"BibTeX"; tools without citations aren''t listed; Galaxy''s own paper is already first (step 4).'
+  faq_findings: [cite-export-tool-references, cite-references-tabs, cite-galaxy-paper-first]
   gx_findings: 'Added E2E for History options > Export Tool References (93b1f03b432): citations component, data-descriptions on menu item and tabs, click_history_option_tool_references. gxui: history-references [--bibtex] (tip).'
 - faq: faqs/galaxy/collections_add_tag.md
   status: ui_verified
@@ -149,7 +148,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: ea9238b123d
   used_by: [assembly/mrsa-illumina, genome-annotation/tnseq, microbiome/dada-16S, sequence-analysis/quality-contamination-control]
-  faq_findings: Steps hold; typo "outputs any tools".
+  faq_findings: [collections-add-tag-typo]
   gx_findings: 'Coverage exists (test_name_tags_display). gxui: collection-tag HID TAG... (tip).'
 - faq: faqs/galaxy/collections_autobuild_list.md
   status: ui_verified
@@ -157,7 +156,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: ea9238b123d
   used_by: [climate/ocean_qcv_analysis, digital-humanities/grobid, introduction/galaxy-intro-rdm]
-  faq_findings: 'Steps hold to Build; "All N selected" when all ticked; last step obsolete (selection ends on Build); closing paragraph stale (originals hidden by default).'
+  faq_findings: [all-n-selected, builder-selection-ends-on-build, builder-hides-originals, autobuild-letter-b]
   gx_findings: 'Remove file extensions switch untested: added test_build_list_keep_extensions (e31b6908bec) + list_wizard.remove_extensions, collection_builder_toggle_remove_extensions. gxui: collection-build --keep-extensions (tip).'
 - faq: faqs/galaxy/collections_build_list_paired.md
   status: ui_verified
@@ -165,7 +164,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: ea9238b123d
   used_by: [assembly/debruijn-graph-assembly, assembly/mrsa-illumina, assembly/mrsa-nanopore, assembly/vgp_workflow_training, ecology/bacterial-isolate-species-contamination-checking, epigenetics/atac-seq, epigenetics/cut_and_run, epigenetics/formation_of_super-structures_on_xi, galaxy-interface/history, galaxy-interface/upload-data-to-ena, genome-annotation/amr-gene-detection, microbiome/dada-16S, microbiome/dunnart_metabarcoding, microbiome/host-removal, microbiome/lotus2-identifying-fungi, microbiome/metagenomics-assembly, microbiome/metagenomics-binning, microbiome/mgnify-amplicon, microbiome/mothur-miseq-sop, microbiome/samestr-strain-detection, microbiome/taxonomic-profiling, sequence-analysis/human-reads-removal, sequence-analysis/mapping, sequence-analysis/quality-contamination-control, transcriptomics/ref-based, variant-analysis/tb-variant-analysis]
-  faq_findings: 'Steps hold; last step obsolete (selection ends on Build); say identifiers are edited by double-click; stray space in `_1 `.'
+  faq_findings: [all-n-selected, builder-selection-ends-on-build, builder-hides-originals, paired-identifier-double-click, paired-stray-space]
   gx_findings: 'Coverage exists (auto/manual pairing, identifier cell editing). gxui: collection-build --rename OLD=NEW (tip 54ad8734138).'
 - faq: faqs/galaxy/collections_build_list.md
   status: pending

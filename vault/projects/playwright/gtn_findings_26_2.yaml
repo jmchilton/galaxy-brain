@@ -1,0 +1,242 @@
+# GTN findings from the 26.2 FAQ loop. Schema: GTN_FINDINGS_YAML_SCHEMA.md.
+
+- label: masthead-user-menu
+  faqs:
+    - faqs/galaxy/account_multiple.md
+    - faqs/galaxy/account_update_preference.md
+    - faqs/galaxy/analysis_add_custom_build.md
+    - faqs/galaxy/analysis_jobs_not_running.md
+  target: main
+  summary: There is no "User" masthead item; the logged-in menu is labelled with the username and holds Preferences and Sign Out.
+  fix: Say "click your username in the masthead, then **Preferences**".
+
+- label: masthead-login-register
+  faqs:
+    - faqs/galaxy/account_create.md
+    - faqs/galaxy/analysis_jobs_not_running.md
+  target: main
+  summary: '"Login or Register" is now separate Login and Register masthead buttons, and Register opens the form directly.'
+  fix: In account_create, collapse steps 2-3 to "Click **Register** in the masthead" and replace the stale `login_register.png`.
+
+- label: account-create-step-numbers
+  faqs: [faqs/galaxy/account_create.md]
+  target: main
+  summary: The source numbers its steps 1, 2, 3, 5, 6, 9.
+
+- label: account-create-resend-verification
+  faqs: [faqs/galaxy/account_create.md]
+  target: main
+  summary: Step 6 sends people to change their email without mentioning the banner's **Resend Verification** link, which works.
+
+- label: account-create-typos
+  faqs: [faqs/galaxy/account_create.md]
+  target: main
+  summary: Typos "the the registration form" and "confimation".
+
+- label: account-multiple-card-names
+  faqs: [faqs/galaxy/account_multiple.md]
+  target: main
+  summary: The FAQ doesn't name the cards; email change is under **Manage Information**, and deletion is the **Delete Account** card (only when the server enables it).
+
+- label: preferences-card-list
+  faqs: [faqs/galaxy/account_update_preference.md]
+  target: main
+  summary: The preferences card list has drifted; two cards are renamed, two are gone, one is new and several depend on server config.
+  fix: 'Renamed: Manage Galaxy API Key, Sign Out of All Sessions. Gone: Manage Cloud Authorization, Manage Activity Bar. New: Manage Your Tools Credentials. Mark Toolbox Filters, Third-Party Identities, Color Theme and Delete Account "depending on the server".'
+
+- label: account-update-preference-typo
+  faqs: [faqs/galaxy/account_update_preference.md]
+  target: main
+  summary: Typo "notifcations".
+
+- label: activity-bar-faq-obsolete
+  faqs: [faqs/galaxy/activity_bar_how_to_enable.md]
+  target: main
+  summary: There is no Manage Activity Bar preference or enable switch any more (the bar is always on), but galaxy-intro-101 embeds this FAQ.
+  fix: Rewrite as "Customize the Activity Bar" (**More** opens Additional Activities; the star shows or hides an activity; **Reset** restores defaults), and drop the enable step from galaxy-intro-101.
+
+- label: toolshed-see-in-tool-shed
+  faqs: [faqs/galaxy/add-toolshed-category-to-a-tool.md]
+  target: main
+  summary: '"See tool in toolshed" in the search results is now **See in Tool Shed** in the open tool form''s caret menu, and only for Tool Shed tools.'
+
+- label: add-toolshed-category-typos
+  faqs: [faqs/galaxy/add-toolshed-category-to-a-tool.md]
+  target: main
+  summary: Typo "respository"; step 4 is missing its closing ")".
+
+- label: custom-build-key-label
+  faqs: [faqs/galaxy/analysis_add_custom_build.md]
+  target: main
+  summary: The "Database (dbkey)" field is labelled **Key**.
+  fix: Say "**Key** (the dbkey)".
+
+- label: custom-build-upload-first
+  faqs: [faqs/galaxy/analysis_add_custom_build.md]
+  target: main
+  summary: The page reads the current history once when it opens, so the fasta must be uploaded and green before opening Manage Custom Builds.
+
+- label: custom-build-reload
+  faqs: [faqs/galaxy/analysis_add_custom_build.md]
+  target: main
+  summary: After **Save** the build isn't listed until its two hidden jobs finish and the page is reloaded.
+  fix: Add a last step "wait a minute and reload the page". Drop it again once Galaxy fixes galaxyproject/galaxy#24309.
+
+- label: custom-build-typo
+  faqs: [faqs/galaxy/analysis_add_custom_build.md]
+  target: main
+  summary: Typo "Standarize".
+
+- label: concatenate-collection-mode
+  faqs: [faqs/galaxy/analysis_concatenate.md]
+  target: main
+  summary: The FAQ doesn't say that a collection is offered to tool 1 only after the field is switched to **Dataset collection** (folder icon).
+
+- label: diffexp-olympics-link
+  faqs: [faqs/galaxy/analysis_differential_expression_help.md]
+  target: main
+  summary: The "removing `.N`" link is a site search for "olympics".
+  fix: Link `topics/introduction/tutorials/data-manipulation-olympics/tutorial.html`, as `reference_genomes_custom_genomes.md` does.
+
+- label: diffexp-bioconductor-claim
+  faqs: [faqs/galaxy/analysis_differential_expression_help.md]
+  target: main
+  summary: '"Most if not all Bioconductor tools" lists tools that aren''t Bioconductor (StringTie, featureCounts, HTSeq-count, Salmon, Kallisto, Sailfish).'
+  fix: Say "RNA-seq quantification and differential expression tools".
+
+- label: diffexp-typos
+  faqs: [faqs/galaxy/analysis_differential_expression_help.md]
+  target: main
+  summary: Typos "Kalisto" (twice), "HTseq-clip", "Featurecounts", "must all contain".
+
+- label: getting-help-typos
+  faqs: [faqs/galaxy/analysis_getting_help.md]
+  target: main
+  summary: Typos "diffentially", "similiar", "doe exactly".
+
+- label: jobs-keep-running-leave-prompt
+  faqs: [faqs/galaxy/analysis_jobs_keep_running.md]
+  target: main
+  summary: The upload caveat could mention that Galaxy asks "Are you sure you want to leave the page?" while uploads are staged.
+
+- label: jobs-not-running-anonymous
+  faqs: [faqs/galaxy/analysis_jobs_not_running.md]
+  target: main
+  summary: Step 1 implies logged-out users can't run jobs, but servers that allow anonymous use run them.
+
+- label: jobs-not-running-activation-symptom
+  faqs: [faqs/galaxy/analysis_jobs_not_running.md]
+  target: main
+  summary: An inactive account sees a yellow banner and uploads fail at once with "Action requires account activation."; nothing waits in a queue.
+  fix: Say "if a yellow banner says your account isn't activated, open the link in the activation email (check spam) or click **Resend Verification**".
+
+- label: regex-python-re-replacement
+  faqs: [faqs/galaxy/analysis_regular_expressions.md]
+  target: main
+  summary: '`&` and `\U`/`\L` are sed/Perl only; Regex Find and Replace (used by data-manipulation-olympics, Manage_AB1_Sanger, neoantigen-fusion-database-generation) is Python `re`, where `&` is literal and `\U` errors.'
+  fix: Say those work in sed-based tools, and use `\g<0>` for the whole match in Regex Find and Replace (no case conversion).
+
+- label: reporting-issues-typo
+  faqs: [faqs/galaxy/analysis_reporting_issues.md]
+  target: main
+  summary: Typo "refer to this [these instructions]".
+
+- label: reporting-issues-links
+  faqs: [faqs/galaxy/analysis_reporting_issues.md]
+  target: main
+  summary: '"GTN Search ... across all Galaxy resources" is the tutorial search, the mailing list has no link, and "create a Github issue" doesn''t link galaxyproject/galaxy/issues.'
+
+- label: gitter-to-matrix
+  faqs:
+    - faqs/galaxy/analysis_reporting_issues.md
+    - faqs/galaxy/analysis_troubleshooting.md
+  target: main
+  summary: The Gitter/Matrix channel links point at gitter.im, which redirects to Matrix.
+  fix: Link the Matrix rooms directly and call them Matrix.
+
+- label: job-execution-details
+  faqs:
+    - faqs/galaxy/analysis_troubleshooting.md
+    - faqs/galaxy/analysis_troubleshooting_reporting.md
+  target: version
+  summary: The dataset Details page's "Job Information" section is "Job Execution Details" in 26.2; it holds the job id and logs.
+
+- label: troubleshooting-report-admins
+  faqs: [faqs/galaxy/analysis_troubleshooting.md]
+  target: main
+  summary: Step 4 doesn't say the report goes to the server's admins, and only if the server has error reports set up.
+
+- label: troubleshooting-reporting-typos
+  faqs: [faqs/galaxy/analysis_troubleshooting_reporting.md]
+  target: main
+  summary: Mismatched bracket "(this server>"; first sentence is missing "make" ("help ... more efficient").
+
+- label: private-data-footnote
+  faqs: [faqs/galaxy/can-i-use-a-public-galaxy-for-my-private-data.md]
+  target: main
+  summary: The "Of course*!" asterisk has no footnote, and "i.e. human patient" should be "e.g.".
+  fix: Point the asterisk at the sysadmin paragraph and suggest checking the server's terms of use.
+
+- label: all-n-selected
+  faqs:
+    - faqs/galaxy/bulk_change_datatype.md
+    - faqs/galaxy/collections_autobuild_list.md
+    - faqs/galaxy/collections_build_list_paired.md
+  target: main
+  summary: With every item ticked the selection button reads **All N selected**, not "n of N selected".
+
+- label: bulk-datatype-step-labels
+  faqs: [faqs/galaxy/bulk_change_datatype.md]
+  target: main
+  summary: Step 5's button is **Ok**, and the source numbers two steps "4.".
+
+- label: cite-export-tool-references
+  faqs: [faqs/galaxy/cite-tools-used-in-a-history.md]
+  target: main
+  summary: '"Export Tool Citations" is now **Export Tool References**.'
+  fix: Also rename galaxy-intro-rdm's hands-on title, which still says "Export Tool Citations" (its steps already use the new label).
+
+- label: cite-references-tabs
+  faqs: [faqs/galaxy/cite-tools-used-in-a-history.md]
+  target: main
+  summary: The page has **References (APA)** and **BibTeX** tabs and lists references, not tools; a tool without citations doesn't appear.
+
+- label: cite-galaxy-paper-first
+  faqs: [faqs/galaxy/cite-tools-used-in-a-history.md]
+  target: main
+  summary: Step 4 sends users to the citing page, but Galaxy's own paper is already first in the list.
+
+- label: collections-add-tag-typo
+  faqs: [faqs/galaxy/collections_add_tag.md]
+  target: main
+  summary: Typo "propagated to the outputs any tools" (should be "outputs of any tools").
+
+- label: builder-selection-ends-on-build
+  faqs:
+    - faqs/galaxy/collections_autobuild_list.md
+    - faqs/galaxy/collections_build_list_paired.md
+  target: main
+  summary: The last step (click the checkmark to leave selection mode) is obsolete; selection mode ends on Build.
+  fix: Drop the step.
+
+- label: builder-hides-originals
+  faqs:
+    - faqs/galaxy/collections_autobuild_list.md
+    - faqs/galaxy/collections_build_list_paired.md
+  target: main
+  summary: '**Hide original elements** is on by default, so the originals are hidden (the eye counter shows them) rather than "all files turn green".'
+
+- label: autobuild-letter-b
+  faqs: [faqs/galaxy/collections_autobuild_list.md]
+  target: main
+  summary: '"(see letter b below)" sits inside the bold button label, so it reads as part of the label.'
+
+- label: paired-identifier-double-click
+  faqs: [faqs/galaxy/collections_build_list_paired.md]
+  target: main
+  summary: '"Edit the List Identifier" doesn''t say how; double-click the cell.'
+
+- label: paired-stray-space
+  faqs: [faqs/galaxy/collections_build_list_paired.md]
+  target: main
+  summary: Stray space in `` `_1 ` ``.

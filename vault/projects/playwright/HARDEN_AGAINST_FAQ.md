@@ -45,7 +45,7 @@ Findings files mirror the FAQ's GTN path under `./training_findings/26.2/`. For 
 - `training_findings/26.2/faqs/galaxy/datasets_upload.md` - GTN suggestions and other findings. Be brief.
 - `training_findings/26.2/faqs/galaxy/datasets_upload.gxui.sh` - UI runs only: the replay script, one `gxui ...` command per line, with a `gxui note` per FAQ step. No playwright-cli or REST lines - if a step needed one, that's a `gx_findings` entry.
 
-Summarize the findings in `./faqs_26_2.yaml` - adding a `faq_findings` field to the entry (optionally add a `gx_findings` if there are skill, navigation, test findings coming from this run).
+Add each GTN problem to `./gtn_findings_26_2.yaml` ([GTN_FINDINGS_YAML_SCHEMA.md](GTN_FINDINGS_YAML_SCHEMA.md)); if an existing finding already describes it, add this FAQ to its `faqs`. List the labels in the entry's `faq_findings` in `./faqs_26_2.yaml` (optionally add a `gx_findings` if there are skill, navigation, test findings coming from this run). Run `uv run check_gtn_findings.py`. [ACT_ON_GTN_FINDINGS.md](ACT_ON_GTN_FINDINGS.md) fixes them later.
 
 If there are Galaxy bugs, please fix them in the target branch and register them using vault/agents/_shared/GX_QUEUING_ISSUE_CREATION.md.
 
