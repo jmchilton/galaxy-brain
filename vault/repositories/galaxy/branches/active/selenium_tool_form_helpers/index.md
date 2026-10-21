@@ -5,7 +5,7 @@
 
 ## Status
 
-Hardened (re-scoped once) and READY on `dev`, head `798bae4b33f`; see `implementation_debrief.md`.
+Polishing (`branches_need_polish`) on `dev`, head `798bae4b33f`; see `implementation_debrief.md`.
 
 No PR.
 
@@ -25,7 +25,7 @@ The original scope is kept as `selenium_tool_form_helpers_alt_original_scope` ([
 
 ## Decisions
 
-- Open: whether 7f stays here or moves to gxui, and whether to split this into stacked PRs (see `scope_evaluation.md`).
+- 2026-10-21, John: keep 7f here; one PR with history compacted to thematic commits (`scope_evaluation.md` Option D).
 - Every SHA was rewritten, so `galaxy_ui_driver`'s dev-only merge of the old SHAs is stale and will need a restack. On restack, take this branch's `test/unit/selenium/test_tool_form_fill.py`.
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md).
