@@ -4,7 +4,7 @@ Round 1 [scope evaluation](earlier_drafts/1/scope_evaluation.md) recommended "ex
 
 ## Taken
 
-- (2) `TabularToolDataTable.merge_tool_data_table`: bare `assert` → `DataTableColumnMismatch`, so every column-conflict path raises one type and the check survives `python -O`. New commit `929ae441c3d` + unit test `test_merge_tool_data_table_raises_column_mismatch` (red first: `AssertionError`; asserts no mutation before the raise).
+- (2) `TabularToolDataTable.merge_tool_data_table`: bare `assert` → `DataTableColumnMismatch`, so every column-conflict path raises one type and the check survives `python -O`. New commit `27060b3478e` + unit test `test_merge_tool_data_table_raises_column_mismatch` (red first: `AssertionError`; asserts no mutation before the raise).
 - (3) Dead `existing.columns is not None` in `install_tool_data_tables` dropped; folded into the `columns` refactor commit `8fbd5381555`, since declaring `columns` is what makes it dead.
 
 ## Not taken
@@ -14,4 +14,4 @@ Round 1 [scope evaluation](earlier_drafts/1/scope_evaluation.md) recommended "ex
 
 ## Result
 
-5 commits on `release_26.1`: `8fbd5381555` declare columns (refactor), `72611eb6e1d` integration helper (test refactor), `bb16bfeac15` startup skip, `8f07de3c584` don't wipe registry, `929ae441c3d` merge raises typed error. Unit 43 passed; `test_tool_data_delete.py` integration 2 passed (run before the last test-only/comment tweaks). [Re-scope review](subagents/rescope_review.md): no blockers, all findings addressed.
+5 commits on `release_26.1`: `8fbd5381555` declare columns (refactor), `1c2d354892f` integration helper (test refactor), `cd895276abe` startup skip, `b2ea2184472` don't wipe registry, `27060b3478e` merge raises typed error. Unit 43 passed; `test_tool_data_delete.py` integration 2 passed (run before the last test-only/comment tweaks). [Re-scope review](subagents/rescope_review.md): no blockers, all findings addressed.
