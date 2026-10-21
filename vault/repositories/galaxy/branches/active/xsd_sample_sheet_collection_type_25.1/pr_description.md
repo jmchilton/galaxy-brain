@@ -10,7 +10,7 @@ The core `sample_sheet_to_tabular.xml` declares `sample_sheet`, `sample_sheet:pa
 
 The XSD now matches the runtime sample-sheet forms: `sample_sheet` is outermost, with an optional `:paired`, `:paired_or_unpaired` or `:record` suffix. Existing non-sample-sheet forms remain supported. The CI lint selection now includes plain core tools, and XSD self-lint uses the real schema path and stops on failure.
 
-***The converter's duplicate `sample_sheet` entry becomes `sample_sheet:record` for declaration parity only; this PR does not implement nested-record conversion.***
+Also removes a duplicate `sample_sheet` entry from the `convert_sample_sheet.xml` input declaration.
 
 ## Risks
 
@@ -20,13 +20,12 @@ The XSD accepts the existing runtime sample-sheet syntax, and CI now fails on ma
 
 - Regex alternative ordering matters for libxml2: placing the open-ended alternative first can incorrectly accept invalid sample-sheet nesting.
 - Internal core tools using `type class` remain outside XSD validation because the schema does not describe their declarations.
-- Declaring `sample_sheet:record` on the converter does not supply the nested-record field propagation required for actual conversion; that runtime work remains a separate follow-up.
 
 </details>
 
 <details><summary>Risk Review Advice</summary>
 
-Compare the single-type and comma-list patterns with the existing runtime grammar. Review the CI file selection and fail-fast schema check, and treat the converter edit as declaration parity. Lint coverage demonstrates schema compatibility, not execution of every listed collection form.
+Compare the single-type and comma-list patterns with the existing runtime grammar. Review the CI file selection and fail-fast schema check. Lint coverage demonstrates schema compatibility, not execution of every listed collection form.
 
 </details>
 
@@ -34,15 +33,15 @@ Compare the single-type and comma-list patterns with the existing runtime gramma
 
 Follow-up identified while scoping 🌿[issue_23978_parameter_tools_xsd](https://github.com/jmchilton/galaxy/tree/issue_23978_parameter_tools_xsd). Targets `release_25.1`, where the sample-sheet tools were introduced. On merge-forward with that branch, retain its nested functional-tool XML loop and append this branch's core-tool loop; the schema-path fix is shared.
 
-Alternative kept on 🌿[xsd_sample_sheet_collection_type_25.1_alt_original_scope](https://github.com/jmchilton/galaxy/tree/xsd_sample_sheet_collection_type_25.1_alt_original_scope) — XSD support, documentation and core-tool lint coverage without the later schema self-lint fix or converter declaration correction.
+Alternative kept on 🌿[xsd_sample_sheet_collection_type_25.1_alt_original_scope](https://github.com/jmchilton/galaxy/tree/xsd_sample_sheet_collection_type_25.1_alt_original_scope) — XSD support, documentation and core-tool lint coverage without the later schema self-lint fix or converter duplicate removal.
 
 ## Agentic Checks
 
 ### ✅ [Scope Evaluation](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md)
 
-<details><summary>Keep schema parity, core-tool lint coverage and adjacent declaration/self-lint fixes together.</summary>
+<details><summary>Keep schema parity, core-tool lint coverage and adjacent duplicate/self-lint fixes together.</summary>
 
-Nested-record conversion requires collection creation and field propagation beyond this lint fix; the current scope records it as a separate runtime follow-up.
+The converter doesn't declare `sample_sheet:record`: nested-record conversion needs field propagation that isn't implemented, so it stays a separate runtime follow-up.
 
 </details>
 
@@ -50,7 +49,7 @@ Nested-record conversion requires collection creation and field propagation beyo
 
 <details><summary>No actionable findings in the complete expanded diff.</summary>
 
-Review evidence includes 3,288 collection-type validation cases, shell syntax and both newly included core-tool declarations. It distinguishes converter declaration parity from end-to-end conversion.
+Review evidence includes 3,288 collection-type validation cases, shell syntax and both newly included core-tool declarations.
 
 </details>
 

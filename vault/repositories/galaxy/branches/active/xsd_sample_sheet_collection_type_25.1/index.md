@@ -1,6 +1,6 @@
 # xsd_sample_sheet_collection_type_25.1
 
-Status: `ready` — PR #24206 (undrafted by John by 2026-10-20) opened as draft at John's explicit request on 2026-10-17; PR CI greenish (two unrelated reds, see CI diagnosis); undraft is John's call. Base: `release_25.1` (`2ae14b0eac3`). Head: `5d35c8c7db3`. Fork: `jmchilton/xsd_sample_sheet_collection_type_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/xsd_sample_sheet_collection_type_25.1`.
+Status: `ready` — PR #24206 (undrafted by John by 2026-10-20) opened as draft at John's explicit request on 2026-10-17; PR CI greenish (two unrelated reds, see CI diagnosis); undraft is John's call. Base: `release_25.1` (`2ae14b0eac3`). Head: `93253fe4197`. Fork: `jmchilton/xsd_sample_sheet_collection_type_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/xsd_sample_sheet_collection_type_25.1`.
 
 The tool XSD rejected `collection_type="sample_sheet..."`, which core `lib/galaxy/tools/sample_sheet_to_tabular.xml` uses. No upstream issue. Found as a follow-up in [issue_23978_parameter_tools_xsd](../issue_23978_parameter_tools_xsd/scope_evaluation.md).
 
@@ -10,7 +10,7 @@ The tool XSD rejected `collection_type="sample_sheet..."`, which core `lib/galax
 
 - Base `release_25.1`: oldest supported release with the sample sheet tools (added in 25.1, released 2025-12-12). Simple fix; XSD ships in `galaxy-tool-util` used by `planemo lint`.
 - Legal values mirror the runtime `COLLECTION_TYPE_REGEX` (`type_description.py`): `sample_sheet` only outermost, optional `:paired|:paired_or_unpaired|:record`. Settles the "which nestings" question raised in 23978's scope evaluation.
-- Re-scoped (first scope evaluation): XSD self-lint at its real path, and `convert_sample_sheet.xml` duplicate `sample_sheet` → `sample_sheet:record` (declaration parity only; nested-record conversion is a dev follow-up).
+- Re-scoped (first scope evaluation): XSD self-lint at its real path, and `convert_sample_sheet.xml` duplicate `sample_sheet` removed. Converter doesn't declare `sample_sheet:record` (John, 2026-10-21, after mvdbeek review): `copy_elements` drops nested-record `fields`, so conversion would fail. Nested-record conversion is a dev follow-up.
 - Kept the 3-commit history from the refactor subagent (John, 2026-10-16), even though that subagent got around a blocked `git reset --hard`.
 - Testing per John: only lint coverage. `.ci/validate_test_tools.sh` now also validates core `lib/galaxy/tools/*.xml` that aren't internal `<type class=…>` tools (today: `data_fetch.xml`, `sample_sheet_to_tabular.xml`). Rule-based, not a hand-kept list.
 
@@ -41,3 +41,7 @@ Fork CI snapshot at creation: 17 queued, 4 pending, 1 skipped; no observed failu
 ## TICK — 2026-10-20
 
 John undrafted #24206. CI green (53 pass, 1 skipped), MERGEABLE. Moved to `ready`.
+
+## Review response — 2026-10-21
+
+mvdbeek asked why the converter declares unimplemented `sample_sheet:record`. Per John, amended `5d35c8c7db3` → `93253fe4197`: dedupe only, no record. `pr_description.md` updated to match; GitHub PR body not yet synced.
