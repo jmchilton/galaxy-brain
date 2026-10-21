@@ -8,4 +8,4 @@ Delegated on 2026-10-21: posted with a proposed approach (`IntParameter` for `co
 - [proposal.md](proposal.md) — posted text
 - [debrief.md](debrief.md) — research, review round, leftovers
 
-Follow-up: the `ColumnDataProvider` median float-index bug from the debrief is being filed separately.
+Follow-up: the `ColumnDataProvider` median float-index bug from the debrief was filed as [#24345](../24345/index.md). Labeled `release-testing-26.2`.
