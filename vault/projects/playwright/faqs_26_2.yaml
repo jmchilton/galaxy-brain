@@ -47,17 +47,17 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: df4f3b65424
+  galaxy_commit: e64d932e12e
   used_by: [ecology/ref-based-rad-seq]
   faq_findings: '"User -> Preferences" is the username menu; "Database (dbkey)" field is labelled Key; missing step: the build lists only after its jobs finish and the page reloads; typo.'
-  gx_findings: 'No E2E/API test for the FASTA path; added integration_selenium test + custom_builds components (bf041856612). Queued issues: build hidden until reload, API swallows NoConverterException. gxui preferences verb used for real; wait via `gxui call wait_for_history`.'
+  gx_findings: 'No E2E/API test for the FASTA path; added E2E + custom_builds components + len/linecount framework datatypes (2782db29ee2). Queued issues: build hidden until reload, API swallows NoConverterException. gxui preferences verb used for real; added `gxui history-wait` with no HID (whole history, hidden too).'
 - faq: faqs/galaxy/analysis_concatenate.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: df4f3b65424
+  galaxy_commit: e64d932e12e
   faq_findings: Tool 1 (cat1) name and map-over claims verified (nth with nth, single recycled); tool 2 (tp_cat) not on stock servers, unverified. Could say to switch a field to collection mode.
-  gx_findings: 'tool_form_fill silently ignored a collection hid in a dataset field; now switches to collection mode and asserts the selection (db9151e2597). tool-describe reads the API, not the page (docstring, tip df4f3b65424). Gap: no verb peeks a collection element.'
+  gx_findings: 'tool_form_fill silently ignored a collection hid in a dataset field; now switches to collection mode and asserts the selection (f19d8ec90f8). tool-describe reads the API, not the page (docstring, tip e64d932e12e). Added `gxui collection-peek HID [ELEMENT]`.'
 - faq: faqs/galaxy/analysis_cut.md
   status: pending
 - faq: faqs/galaxy/analysis_differential_expression_help.md

@@ -1,6 +1,6 @@
 #!/bin/sh
 # Replay of faqs/galaxy/analysis_add_custom_build.md against a logged-in gxui session on the
-# `faq_server.sh main` Galaxy. Needs the custom_builds components (galaxy_ui_driver bf041856612 and up).
+# `faq_server.sh main` Galaxy. Needs the custom_builds components (galaxy_ui_driver 2782db29ee2 and up).
 set -e
 gxui note "step 1: a history holding the reference fasta"
 gxui history-new "custom build faq"
@@ -19,7 +19,7 @@ gxui component custom_builds.definition value
 gxui component custom_builds.fasta_file value
 gxui note "step 8: Save; the build is listed once its converter jobs finish, after a reload"
 gxui component custom_builds.save click
-gxui call wait_for_history
+gxui history-wait
 gxui preferences
 gxui component "preferences.card(id=edit-preferences-custom-builds)" click
 gxui component "custom_builds.row_count(name=FAQ Build)" text

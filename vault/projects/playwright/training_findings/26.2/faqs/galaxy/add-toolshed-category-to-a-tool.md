@@ -1,6 +1,6 @@
 # faqs/galaxy/add-toolshed-category-to-a-tool.md — 26.2, text review
 
-GTN `45d4932d33`, checked against `galaxy_ui_driver` `df4f3b65424` client source
+GTN `45d4932d33`, checked against `galaxy_ui_driver` `e64d932e12e` client source
 (`client/src/components/Tool/Buttons/ToolOptionsButton.vue`).
 
 - **Step 1 note "(A) search for the tool, then (B) select the drop-down menu See tool in toolshed".**

@@ -79,11 +79,11 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `12c8ec3d7c7`: renames `preferences.activity` to `activity_bar.more`. It edits
   `upload_activity_helpers.py`, which `50ac1760a58` creates, so it goes with the `galaxy.selenium`
   PR, or with `8d36a3bd9f3` if that lands first, touching the older caller.
-- `bf041856612`: coverage for `analysis_add_custom_build`. `test_custom_builds_fasta.py` makes a
-  build from a history fasta; adds `custom_builds` components. Coverage PR candidate. It is an
-  `integration_selenium` test because the framework datatypes lack `len`/`linecount` converters.
-  Green under Playwright only.
-- `db9151e2597`: `tool_form_fill` switches a dataset field to collection mode for a collection hid
+- `2782db29ee2`: coverage for `analysis_add_custom_build`. `test_custom_builds.py` makes a build
+  from a history fasta; adds `custom_builds` components, and `len`/`linecount` plus the
+  `fasta -> len -> linecount` converters to the framework datatypes. Coverage PR candidate. Green
+  under Playwright only; `test_datatypes.py` API tests still pass.
+- `f19d8ec90f8`: `tool_form_fill` switches a dataset field to collection mode for a collection hid
   and fails when the selection doesn't land (was a silent no-op). Test in `test_tool_form.py`, red
   without the fix. `tool_form_fill` came from 6a, so this goes with `selenium_tool_form_helpers`.
 

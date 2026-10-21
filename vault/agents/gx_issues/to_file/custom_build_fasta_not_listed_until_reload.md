@@ -1,7 +1,7 @@
 # Custom build from a FASTA dataset isn't listed until its jobs finish and the page reloads
 
 Found by the 26.2 FAQ loop (`vault/projects/playwright/HARDEN_AGAINST_FAQ.md`), FAQ
-`faqs/galaxy/analysis_add_custom_build.md`. Galaxy `release_26.2` (`galaxy_ui_driver` `df4f3b65424`).
+`faqs/galaxy/analysis_add_custom_build.md`. Galaxy `release_26.2` (`galaxy_ui_driver` `e64d932e12e`).
 
 ## Repro
 
@@ -32,6 +32,6 @@ Found by the 26.2 FAQ loop (`vault/projects/playwright/HARDEN_AGAINST_FAQ.md`), 
 
 - GTN FAQ `analysis_add_custom_build` is snippeted by `ecology/ref-based-rad-seq`; learners following
   it will think Save failed.
-- E2E coverage for the FASTA path added in `galaxy_ui_driver` (`bf041856612`,
-  `test/integration_selenium/test_custom_builds_fasta.py`); it reloads after `wait_for_history()`,
+- E2E coverage for the FASTA path added in `galaxy_ui_driver` (`2782db29ee2`,
+  `test_custom_builds.py::test_build_add_from_fasta`); it reloads after `wait_for_history()`,
   which a fix could drop.

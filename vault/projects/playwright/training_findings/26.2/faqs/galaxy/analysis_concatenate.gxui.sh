@@ -17,5 +17,7 @@ gxui tool-fill '{"input1": 8, "queries_0|input2": 11, "queries_1|input2": 5}'
 gxui screenshot analysis-concatenate-form
 gxui tool-run
 gxui history-wait 12
-gxui note "expect hid 12: a list of 2 (a<n> + b<n> + single), not one dataset"
+gxui note "expect hid 12: a list of 2 (a<n> + b<n> + single), not one dataset; a1 holds a1, b1, single"
 gxui history-items
+gxui collection-peek 12
+gxui collection-peek 12 a1
