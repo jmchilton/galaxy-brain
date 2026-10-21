@@ -47,8 +47,8 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 - [ ] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? After a drop, the target column now shows the copied item; the toasts are unchanged. In tests, a missing hook or a drop that doesn't render shows as a timeout naming the selector or the history and hid.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. The vitest checks which store refresh a drop triggers, mocking only the copy API, and the E2E tests check the rendered column, the API and the buttons.
-- [x] Are baseline tests in their own leading commits (if applicable)? Yes. `historyDragDrop.test.ts` lands first with the cases that already pass (mixed drop, pinned mixed drop, failed copy, same-history drop).
+- [x] Are unit tests not just testing the literal implementation? Yes. The vitest checks which store refresh a drop triggers, mocking the copy API and stubbing store actions with `createTestingPinia`; the pin cases use the "new history" box's real call shape, and the E2E tests check the rendered column, the API and the buttons.
+- [x] Are baseline tests in their own leading commits (if applicable)? Yes. `historyDragDrop.test.ts` lands first with the cases that already pass (mixed drop, mixed drop onto the pinned "new history" box, failed copy, same-history drop).
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 
@@ -57,7 +57,7 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 
 <details><summary>Tests</summary>
 
-- `historyDragDrop.test.ts`: the dataset-only, collection-only and pinned dataset-only cases fail under `&&` (`loadHistoryById`/`pinHistory` not called) and pass with `||`; 7/7 pass.
+- `historyDragDrop.test.ts`: the dataset-only, collection-only and dataset-only "new history" box (pinned) cases fail under `&&` (`loadHistoryById`/`pinHistory` not called) and pass with `||`; 7/7 pass.
 - `test_history_multi_view.py::TestHistoryMultiView::test_copy_dataset_between_columns` times out waiting for the copied item in the target column under `&&`, and passes with `||`. It also times out on `.history-column[data-history-id=…]` with the Vue hooks reverted.
 - `test_history_multi_view.py::TestHistoryMultiView::test_switch_to_history_from_column` times out on the switch button with its `data-description` reverted.
 - Locally the whole `test_history_multi_view.py` file passes under Playwright (6/6). An earlier revision of the copy test also passed under Selenium.
