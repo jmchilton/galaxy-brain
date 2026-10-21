@@ -91,13 +91,28 @@
   faq_findings: 'No "User" section: separate Login/Register buttons, then a username menu; anonymous jobs work where allowed; inactive account shows a banner and uploads fail at once ("Action requires account activation."), not a stuck queue.'
   gx_findings: 'Added E2E for an inactive user''s upload + upload_activity.progress_row_error (a67081d346c). gxui upload-paste now fails fast on a row error instead of waiting 60s (tip).'
 - faq: faqs/galaxy/analysis_regular_expressions.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: e2d1765205
+  used_by: [assembly/assembly-decontamination, data-science/data-manipulation-olympics-jq, data-science/data-manipulation-olympics-sql, digital-humanities/introduction_to_dh, digital-humanities/solar-eclipse-frequency, digital-humanities/text_mining_chinese, digital-humanities/Whisper_speech_recognition, ecology/openrefine_gbif, introduction/data-manipulation-olympics, microbiome/samestr-strain-detection, proteomics/neoantigen-fusion-database-generation, proteomics/neoantigen-non-reference-database-generation, sequence-analysis/Manage_AB1_Sanger, single-cell/pseudobulk-analysis]
+  faq_findings: '`&` (whole match) and `\U`/`\L` are sed/Perl only; Regex Find and Replace (regex1, used by data-manipulation-olympics, Manage_AB1_Sanger, neoantigen-fusion) is Python re: `&` literal, `\U` errors; use `\g<0>` there.'
 - faq: faqs/galaxy/analysis_reporting_issues.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: e2d1765205
+  faq_findings: No breakage; typo "this [these instructions]"; GTN Search is tutorial-only; Gitter link is now Matrix, mailing list unlinked.
 - faq: faqs/galaxy/analysis_results_may_vary.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: e2d1765205
+  used_by: [admin/connect-to-compute-cluster, assembly/mrsa-illumina, assembly/mrsa-nanopore, epigenetics/atac-seq, epigenetics/cut_and_run, introduction/galaxy-intro-101, introduction/galaxy-intro-101-everyone, introduction/galaxy-intro-peaks2genes, microbiome/mothur-miseq-sop, microbiome/plasmid-metagenomics-nanopore, proteomics/biomarker_selection, transcriptomics/network-analysis-with-heinz, transcriptomics/ref-based, transcriptomics/rna-seq-counts-to-genes, transcriptomics/rna-seq-genes-to-pathways, transcriptomics/rna-seq-reads-to-counts]
+  faq_findings: No breakage.
 - faq: faqs/galaxy/analysis_troubleshooting_reporting.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: e2d1765205
+  used_by: [single-cell/scatac-batch-correction-snapatac2]
+  faq_findings: No breakage; mismatched "(this server>", missing "make"; job id now under Details > Job Execution Details.
 - faq: faqs/galaxy/analysis_troubleshooting.md
   status: pending
 - faq: faqs/galaxy/bulk_change_datatype.md
