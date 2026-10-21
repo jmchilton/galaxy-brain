@@ -1,29 +1,39 @@
 # Implementation debrief
 
-STATUS: READY. Scope: keep (round 2 [scope evaluation](scope_evaluation.md)), after one modest re-scope.
+STATUS: READY. Change requested by John after two hardening rounds: keep halting Galaxy at startup on a conflicting shed data table, but with an actionable message. The previous skip-at-startup version is the alt [skip_at_startup](alts/skip_at_startup.md) (`27060b3478e`). Previous debrief: [earlier_drafts/2/](earlier_drafts/2/implementation_debrief.md).
 
-## Final implementation (`release_26.1`, tip `27060b3478e`, +126/-21)
+## Final implementation (`release_26.1`, tip `5ea732a9ad4`, +239/-51)
 
-1. `8fbd5381555` Declare `columns` on `ToolDataTable` (refactor): drops `getattr` fallback in `assert_data_table_consistency` and the dead `columns is not None` guard in `install_tool_data_tables`.
-2. `1c2d354892f` `_show_tool_data` / `_testbeta_fields` helpers in `test_tool_data_delete.py` (test refactor).
-3. `cd895276abe` Startup skips conflicting shed tables: `load_from_config_file` checks each table via `assert_data_table_consistency` (strict default raises `DataTableColumnMismatch`); `skip_column_mismatches=True` logs + skips, passed only by `_configure_tool_data_tables` for the shed config. Un-bricks servers already in the bad state. Integration test `TestConflictingShedToolDataTableIntegration` (red: server won't boot).
-4. `b2ea2184472` `handle_missing_data_table_entry` no longer calls `reset_tool_data_tables()` on the live Galaxy registry (root of the install-check bypass). Unit test against a real `ToolDataTableManager`.
-5. `27060b3478e` `merge_tool_data_table` raises `DataTableColumnMismatch` instead of a bare `assert`.
+1. `8fbd5381555` Declare `columns` on `ToolDataTable` (refactor).
+2. `f2d296a43eb` Extract `build_tool_data_tables(config, from_shed_config)` from `MinimalGalaxyApplication._configure_tool_data_tables` (refactor, makes startup unit-testable).
+3. `c2365bc2189` Halt startup with an actionable error:
+   - `DataTableColumnMismatch` now carries `config_filename` and `repository_info`. `assert_data_table_consistency` passes both through, and `load_from_config_file` supplies them.
+   - `_parse_tool_shed_repository` is now shared with `configure_and_load`.
+   - `build_tool_data_tables` re-raises the mismatch as a `ConfigurationError`, naming the `<table name="X">` to remove from the shed config, or the other definition. Fixes #24328.
+4. `c0fb437b395` `handle_missing_data_table_entry` no longer wipes the live registry, which is the root cause.
+5. `5ea732a9ad4` `merge_tool_data_table` raises `DataTableColumnMismatch` instead of a bare `assert`.
+
+Sample startup error, where `X` is `indexed_maf_files` and the path is shortened as `<shed conf>`:
+
+> Data table 'X' is already registered with columns {…}, refusing to register conflicting columns {…} from file '<shed conf>' (installed by repository iuc/data_manager_fetch_index_maf revision … from toolshed.g2.bx.psu.edu). To start Galaxy, remove this <table name="X"> element from '<shed conf>' or remove the other definition of 'X'; tools that rely on the removed definition will not work until the conflict is resolved.
 
 ## Choices
 
-- Base `release_26.1` (John); the install guard exists from 26.1. 26.0 backport would be a port, separate branch.
-- Strictness kept for admin `tool_data_table_config_path` and install-time loads; only the Galaxy-written shed config is tolerant at boot.
-- Declined moving `reset_tool_data_tables` to the Tool Shed on a release branch (public method; comment added instead).
-- tools-iuc `indexed_maf_files` collision out of scope — even fixed, this DM still can't install alongside core (install refuses with `DataTableColumnMismatch`).
+- Halting is defensible now that commit 4, together with the 26.1 install check, stops installs from creating the bad state. Admins aren't left with a data manager that has silently lost its table.
+- Dropped `skip_column_mismatches`, the boot integration test, and the `_show_tool_data` helper commit that only it used. Startup is now covered by a unit test of `build_tool_data_tables` against a real `GalaxyAppConfiguration`.
 
 ## Validation
 
-Unit 43 passed (`test/unit/tool_util/data`, `test_data_table_manager.py`, `test_install_manager.py`); integration `test_tool_data_delete.py` 2 passed; mypy clean on changed files; repro script against 26.1 vs branch confirms boot survives a conflicting shed table. Reviews: [normal](subagents/normal_review.md), [re-scope](subagents/rescope_review.md), [test challenges](test_challenges_debrief.md), [codex](codex_review.md), [thermo](thermo_nuclear_review.md), [baseline](baseline_refactor.md) — no blockers. Round 1: [earlier_drafts/1/](earlier_drafts/1/).
+- 45 unit tests pass: `test_tool_data_table_startup.py`, `test/unit/tool_util/data`, `test_data_table_manager.py` and `test_install_manager.py`.
+- Red check: the 5 new tests fail against the refactor-only lib; 4 of them fail with the original `AssertionError`.
+- Middle commit tested on its own.
+- mypy is clean on the changed files.
+- [Halt-at-startup review](subagents/halt_at_startup_review.md) found no blockers and all its fixes went in. [Test challenges](test_challenges_debrief.md): 1 test rewritten, the rest kept.
+- Codex, thermo and the baseline and scope reviews from round 2 ([earlier_drafts/2/](earlier_drafts/2/) and the root files) predate this change. Not rerun.
 
 ## Follow-ups (dev)
 
-- Move `reset_tool_data_tables` Tool Shed-side.
-- Atomic strict `load_from_config_file` and `reload_from_files`.
-- Surface skipped shed tables to admins (UI/API).
+- Move `reset_tool_data_tables` to the Tool Shed side.
+- Raise the swallowed install-time conflict in `add_new_entries_from_config_file` above `debug`.
+- Record each table's source config so both conflicting definitions can be named.
 - File a tools-iuc issue for the `indexed_maf_files` rename (John's call).
