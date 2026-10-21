@@ -5,11 +5,11 @@
 
 ## Status
 
-Implemented, hardened and re-scoped (`branches_implemented_needs_ci`), head `c1c12b303ed`. See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Polished, awaiting John's final review (`branches_ready_for_final_review`), head `c1c12b303ed`. See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
 No PR.
 
-No CI yet.
+Fork CI at `c1c12b303ed` queued, no failures yet.
 
 ## Scope
 

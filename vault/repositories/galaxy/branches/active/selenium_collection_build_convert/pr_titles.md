@@ -1,0 +1,4 @@
+- [26.2] Disable Convert Collection until a converter is picked; test list building and collection conversion
+- [26.2] Browser tests for building lists and converting collections, plus a Convert Collection fix
+- [26.2] Fix always-enabled Convert Collection button and cover collection build/convert in E2E tests
+- [26.2] Test collection building and conversion end to end; disable Convert Collection with no converter
