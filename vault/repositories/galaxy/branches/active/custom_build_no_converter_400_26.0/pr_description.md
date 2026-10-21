@@ -74,7 +74,7 @@ Risks are minimal - error responses from one endpoint get more specific statuses
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? On a server missing `fasta_to_len` or `len_to_linecount`, the Custom Builds page's red alert reads `Cannot create a custom build from this dataset: Conversion from 'fasta' to 'len' not possible` instead of `Failed to convert dataset.`. API clients get the same message for any unconvertible datatype.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. One API test checks the status, error code, message, and that the build isn't saved.

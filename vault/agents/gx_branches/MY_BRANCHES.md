@@ -31,6 +31,7 @@ None yet.
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
 - [`custom_build_from_fasta`](../../repositories/galaxy/branches/active/custom_build_from_fasta/index.md) — E2E test for adding a custom build from a history FASTA; custom build test helpers moved onto navigation.yml components. [#24312](https://github.com/galaxyproject/galaxy/pull/24312).
+- [`custom_build_no_converter_400_26.0`](../../repositories/galaxy/branches/active/custom_build_no_converter_400_26.0/index.md) — Custom build PUT from a dataset with no `len` converter returns 400 naming the datatypes instead of a bare 500. [#24313](https://github.com/galaxyproject/galaxy/pull/24313).
 - [`vitest_readability`](../../repositories/galaxy/branches/active/vitest_readability/index.md) — Rewrites client tests for readability, shared fixtures and stronger assertions. [#24038](https://github.com/galaxyproject/galaxy/pull/24038).
 
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs and fixes runtime diagnostics. Base `release_26.2`. [#24203](https://github.com/galaxyproject/galaxy/pull/24203). Draft requested by John.
@@ -87,7 +88,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`custom_build_no_converter_400_26.0`](../../repositories/galaxy/branches/active/custom_build_no_converter_400_26.0/index.md) — Custom build PUT from a dataset with no `len` converter returns 400 naming the datatypes instead of a bare 500. Base `release_26.0`, head `96113857dae`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:custom_build_no_converter_400_26.0?expand=1).
 - [`workflow_editor_second_subworkflow`](../../repositories/galaxy/branches/active/workflow_editor_second_subworkflow/index.md) — Missing E2E test: insert two subworkflows from the editor's Workflows panel; helper stops closing the open panel. Base `release_26.2`, head `41125e9268d`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:workflow_editor_second_subworkflow?expand=1).
 - [`selenium_multiview_copy`](../../repositories/galaxy/branches/active/selenium_multiview_copy/index.md) — Multiview per-history hooks, fixed/dropped dead selectors, `multi_history_copy_item` + two E2E tests (from `galaxy_ui_driver`). Base `release_26.2`, head `0edf965c80f`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_multiview_copy?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).

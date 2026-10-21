@@ -1,15 +1,15 @@
 # custom_build_no_converter_400_26.0
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:custom_build_no_converter_400_26.0?expand=1)
+- [PR #24313](https://github.com/galaxyproject/galaxy/pull/24313)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/custom_build_no_converter_400_26.0)
 
 ## Status
 
-Polished, ready for final review; two commits (head `96113857dae`) on `release_26.0` (`495b7fee26a`). Worktree: `~/projects/worktrees/galaxy/branch/custom_build_no_converter_400_26.0`.
+Polished; two commits (head `96113857dae`) on `release_26.0` (`495b7fee26a`). Worktree: `~/projects/worktrees/galaxy/branch/custom_build_no_converter_400_26.0`.
 
-No PR yet.
+Draft [#24313](https://github.com/galaxyproject/galaxy/pull/24313) opened 2026-10-21 on John's request, waiting on CI.
 
-Fork CI on `96113857dae` queued, no reds yet.
+CI on `96113857dae` in progress, no reds yet.
 
 ## Decisions
 
