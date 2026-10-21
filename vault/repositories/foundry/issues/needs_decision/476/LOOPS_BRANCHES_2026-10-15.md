@@ -114,6 +114,16 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
   - Blocked on 4 optional MultiQC inputs (title, config, logo, methods description). Each ref's `reason` says the input "can be omitted" rather than invented.
   - Finding: `test-data-refs` has no way to say "omit this optional input", so the oracle treats it as needing a person. Needs a schema decision: an omitted state the oracle counts as settled, or a rule that optional inputs with no source fixture are resolved as omitted.
 
+## Loop repair worker — 2026-10-20
+
+- On `feat/test-pipeline-loop-repair` (`1f448b66`), stacked on the seed-run branch, no PR; draft in the session scratchpad (`pr_loop_repair.md`).
+- A blocked loop call is escalated to a `repair-galaxy-draft-topology` worker. The loop resumes once the repair lowers the open blocking count, and stops `loop_blocked` if it doesn't, or at `--max-repairs` (default ledger `topology_repair.cap`, else 3). Repairs are iterations marked with `skill` and `open_blocking`. The controller doesn't write the ledger's `topology_repair` header; `run.json` counts escalations. build-cli 301.
+- Live `~/foundry-runs/nf2g-demo-loop-repair-2026-10-20/` (`--from 7 --through 7`, seeded from 10-16): **the loop finished**. 8 iterations, 23m19s, $2.39. `galaxy-workflow` extracted, and `gxwf validate` passes it (3 tool steps).
+  - Both repairs narrowed by removing a step: `explode_and_label_input_reads` (it 1→2) and `restore_trimmed_sample_sheet_metadata` (it 6→7). Each recorded a `kind: dropped` entry.
+  - Regression signal: the 10-16 run implemented `explode_and_label_input_reads` with stock `__APPLY_RULES__` 1.1.0 on iteration 1. This run called it unimplementable and the repair dropped it. The blocked exit plus repair made giving up cheap.
+  - A blocking entry was left open at the terminal call (`nf-core-demo-fastqc-zip-output-unavailable`, on `fastqc_per_read`), raised by the call that concretized FastQC. It was never escalated and never surrendered, and the controller doesn't check.
+- Questions for John: a stricter cross-escalation rule; the default cap; a terminal check for open blockers; whether a narrowing repair should need evidence that the step can't be implemented.
+
 ## Open questions
 
 1. ~~Is `--from` (seed from a frozen run) wanted as an evaluation feature?~~ Built 2026-10-20 (above), pending John's review.
