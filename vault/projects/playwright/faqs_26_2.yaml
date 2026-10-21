@@ -59,11 +59,21 @@
   faq_findings: Tool 1 (cat1) name and map-over claims verified (nth with nth, single recycled); tool 2 (tp_cat) not on stock servers, unverified. Could say to switch a field to collection mode.
   gx_findings: 'tool_form_fill silently ignored a collection hid in a dataset field; now switches to collection mode and asserts the selection (f19d8ec90f8). tool-describe reads the API, not the page (docstring, tip e64d932e12e). Added `gxui collection-peek HID [ELEMENT]`.'
 - faq: faqs/galaxy/analysis_cut.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [variant-analysis/sars-cov-2, visualisation/circos]
+  faq_findings: No breakage; Cut1 and Advanced Cut names unchanged (pinned 9.5+galaxy0 still served, 9.11 is default).
 - faq: faqs/galaxy/analysis_differential_expression_help.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: '".N" link is a site search for "olympics" - link the Data Manipulation Olympics tutorial; "Bioconductor tools" list is half non-Bioconductor; typos (Kalisto x2, Featurecounts).'
 - faq: faqs/galaxy/analysis_getting_help.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: No breakage; 3 typos.
 - faq: faqs/galaxy/analysis_jobs_keep_running.md
   status: pending
 - faq: faqs/galaxy/analysis_jobs_not_running.md
