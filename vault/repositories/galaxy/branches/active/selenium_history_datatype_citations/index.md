@@ -5,11 +5,11 @@
 
 ## Status
 
-READY, needs CI. Hardened, re-scoped to add Change Database/Build, re-hardened; head `50dc4ccb773`. See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Polished, ready for final review; head `c277d04f05d`. See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
 No PR.
 
-No CI yet. Locally, every new test passes under both Playwright and Selenium.
+Fork CI on `c277d04f05d` pending (no reds on `50dc4ccb773`, which differs only in assert messages). Locally, every new test passes under both Playwright and Selenium.
 
 ## Scope
 
