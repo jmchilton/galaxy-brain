@@ -59,6 +59,26 @@ Vogels et al. 2024, *BMC Genomics* 25:433, DengueSeq ([DOI](https://doi.org/10.1
 - Environment asymmetry: John kept the global `@galaxy-tool-util/cli` at 1.14.0, the version the direct arm installed. So the brief arm's preflight won't meet the 1.8.2 gap.
 - The direct arm's red test is left as it is. A fix would count as an intervention.
 
+### Brief arm, phase B: brief → Galaxy (2026-10-20)
+
+- 147 min, 59 turns, $34.05. All 11 phases ran, with no phase done by hand. The brief hash is unchanged (`e52aca4e…` in both copies).
+- **planemo: green.** The case `srr25366733-defaults` ran 7/7 jobs ok and every assertion passed, on Planemo 0.75.47 with Docker and Galaxy master `b18269a1`.
+  - The second case, on the repo's `denv3_test` reads (178 MB), is defined but wasn't run.
+  - The first attempt hung because a long temp path broke a macOS socket. The rerun used the default tmp.
+- The workflow is the same topology as the direct arm's: `bwa_mem` → `samtools_view` → `ivar_trim -e` → `ivar_consensus` → `tp_sed`, `ivar_variants -q 20 -t 0.03`, and `bedtools genomecov -d`.
+  - It uses newer wrapper revisions than the direct arm: `bwa_mem` +galaxy1, `samtools_view` +galaxy2, `tp_sed` 9.11.
+  - It has no awk step after genomecov.
+  - No GTF or snpEff, and no fastp or lofreq.
+- **#688 chain worked end to end:**
+  - 10 `open_question` decisions, all `basis: brief-proposal`, with 4 carrying `confidence: low`. None were superseded.
+  - The Done report listed them low confidence first, followed by 2 proposed brief-change recommendations (`consensus-pileup-baq-off` and `variants-pileup-baq-off`).
+- **Evidence the brief arm measured that the direct arm only asserted:**
+  - It ran the source pipeline's commands on the test sample. The consensus is byte-identical to the Galaxy output.
+  - BAQ-off in the iVar wrappers changes one consensus call on `denv3_test` (position 5591) and adds 6–8 variant rows. PASS rows are 472 vs the source's 467.
+  - Only about 16.5% of reads were primer-trimmed and 73% start outside primer regions. That fits a pan-serotype or Nextera library, so the low-confidence primer proposal is the one to recheck.
+  - The published consensus OR150748.1 (FL-BPHL-0001) sits on BioSample SAMN35803652, not the run's ...653, and differs at 34 positions. Together with the FL-BPHL-0005 filename, the test sample's identity is in doubt.
+- The open-requirements ledger has 19 entries, 25 discoveries and 34 decisions. The feedback ledger has 28 entries. One of them says no phase may write the ledger after phase 7, so two BAQ checks that the evidence would close stay open.
+
 ### Direct arm: paper → Galaxy (2026-10-20)
 
 - 93 min, 50 turns, $23.23. All 12 phases ran and no phase was done by hand. Test data came from `paper-to-test-data` (SRR25366733 via ENA, with the ref and BED from the repo pin).
@@ -75,3 +95,25 @@ Vogels et al. 2024, *BMC Genomics* 25:433, DengueSeq ([DOI](https://doi.org/10.1
 - Open-requirements ledger: 10 entries, 10 discoveries, 27 decisions. Feedback ledger: 27 entries (5 major).
 - **Side effect:** the agent upgraded the global `@galaxy-tool-util/cli` from 1.8.2 to 1.14.0. As a result, the brief arm's Galaxy preflight no longer meets the same gap.
 - planemo ran via `uvx` at 0.75.47. The first attempt failed because a flag re-enabled conda (ivar 1.4.4 has no osx-arm64 conda build). The rerun used Docker only.
+
+## Comparison (criteria fixed before the runs)
+
+| Criterion | Brief arm | Direct arm |
+|---|---|---|
+| 1 Scope | held | held |
+| 2 Depth / freq / GTF | 10 / 0.75 / none. Each is a ledger decision from a reviewed brief proposal. | 10 / 0.75 / none. Agent decisions, no review. |
+| 3 Tools vs paper and IWC | same spine as the paper's code. Declined IWC's fastp, lofreq and snpEff. | same |
+| 4 Gates | `gxwf` ok, **planemo green** | `gxwf` ok, planemo red: 1 whole-line `has_line_matching` assertion |
+| 5 Interventions | 1 brief edit (sample metadata) | none, by design |
+| 6 Wall-clock / cost | 7 + 147 min, $3.21 + $34.05 = $37.26, plus John's review | 93 min, $23.23 |
+| 7 #688 chain | 10/10 open questions → decisions → Done report | n/a |
+
+**Reading (n = 1, John's call):**
+
+- The two Mold families converged on essentially the same workflow. The design Molds aren't what separates them.
+- The brief buys two things:
+  - an expert checkpoint, with every judgment call recorded as a reviewed decision;
+  - more verification: source-command parity, the BAQ measurements and the doubt about the sample's identity.
+- It costs about 1.6× the money and wall-clock, mostly in the Galaxy phase.
+- The red/green difference comes from test-plan assertion guidance (the same defect as run 2), not from the Mold families.
+- If the families merge, `paper-to-galaxy` could become brief + Galaxy, with the review optional because unedited proposals are accepted. Then the freeform design Molds go.
