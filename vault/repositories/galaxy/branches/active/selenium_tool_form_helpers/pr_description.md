@@ -143,11 +143,11 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 
 ### ✅ [Refactoring of base branch](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md)
 
-<details><summary>The first commit is a pure move of <code>dev</code>'s filler; the extractions come before the fixes that build on them.</summary>
+<details><summary>A leading red test and its fix, then a pure move of <code>dev</code>'s filler; each later fix is its own commit.</summary>
 
 - The move commit keeps `dev`'s behavior, so later commits show each fix against it.
 - The has_driver helper is part of the move, and the `ToolFormFiller` extraction is commit 8, so the map-over and nested-repeat fixes edit `tool_form_filler.py` directly.
-- The history was then compacted from 22 commits to ten thematic ones, with the same final tree apart from one docstring line. Unit tests that stubbed private methods, and were later replaced, no longer appear anywhere in the history.
+- The history was then compacted from 22 commits to ten thematic ones, with the same final tree apart from a docstring clause and an assertion message. Unit tests that stubbed private methods, and were later replaced, no longer appear anywhere in the history.
 
 </details>
 
