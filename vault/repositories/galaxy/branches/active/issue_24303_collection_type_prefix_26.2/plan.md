@@ -44,7 +44,7 @@ Then the hardening process (`GX_PROCESS_HARDEN_BRANCH.md`) and hand-off.
 ## Decisions (John, 2026-10-20)
 
 - Replace #24190 here; Nest 1.1.0 + keep 1.0.0; cherry-pick bernt-matthias's commit.
-- `type_prefix` name; sample_sheet + prefix → error; profile gate 26.2; parser-only (not YAML user tools); `type_source` resolution-order bug → separate issue.
+- `type_prefix` name; sample_sheet + prefix → ~~error~~ normalize `sample_sheet*` → `list*` before prefixing (John, after Nest review: Nest 1.1.0 is default and its `list` inputs accept sample sheets); profile gate 26.2; parser-only (not YAML user tools); `type_source` resolution-order bug → separate issue.
 
 ## Unresolved questions
 
