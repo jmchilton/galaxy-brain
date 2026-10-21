@@ -8,6 +8,7 @@ screenshots aren't GTN findings ([GTN_FINDINGS_YAML_SCHEMA.md](GTN_FINDINGS_YAML
 - image: faqs/galaxy/images/login_register.png
   faqs: [faqs/galaxy/account_create.md]
   used_in: [topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial.md]
+  target: main
   priority: high
   summary: Shows the old masthead's single "Login or Register" item.
   retake: Logged-out masthead with the separate Login and Register buttons.
@@ -17,6 +18,8 @@ screenshots aren't GTN findings ([GTN_FINDINGS_YAML_SCHEMA.md](GTN_FINDINGS_YAML
 - `image` is the path from the GTN root. It is the key; one entry per image.
 - `faqs` lists the FAQs that show it, as in `faqs_26_2.yaml`.
 - `used_in` lists other GTN pages that show the image directly (`git grep` its file name). Optional.
+- `target` is `main` or `version`, by the same rule as a finding's `target`. Replacements land on
+  the same GTN branches as the findings ([ACT_ON_GTN_FINDINGS.md](ACT_ON_GTN_FINDINGS.md)).
 - `priority`:
   - `high`: it shows UI that is gone or contradicts the steps, so a reader looks for the wrong
     thing. Raise it when tutorials use the image too.

@@ -14,7 +14,7 @@ import yaml
 
 HERE = Path(__file__).parent
 FIELDS = {"label", "faqs", "target", "summary", "fix", "skip", "fixed_in"}
-SHOT_FIELDS = {"image", "faqs", "used_in", "priority", "summary", "retake", "fixed_in"}
+SHOT_FIELDS = {"image", "faqs", "used_in", "target", "priority", "summary", "retake", "fixed_in"}
 
 
 def main(ver: str) -> int:
@@ -55,9 +55,11 @@ def main(ver: str) -> int:
         image = s.get("image")
         if extra := set(s) - SHOT_FIELDS:
             errors.append(f"{image}: unknown fields {sorted(extra)}")
-        for field in ("image", "faqs", "priority", "summary"):
+        for field in ("image", "faqs", "target", "priority", "summary"):
             if not s.get(field):
                 errors.append(f"{image}: missing {field}")
+        if s.get("target") not in ("main", "version"):
+            errors.append(f"{image}: target must be main or version")
         if s.get("priority") not in ("high", "medium", "low"):
             errors.append(f"{image}: priority must be high, medium or low")
         errors += [f"{image}: unknown faq {faq}" for faq in s.get("faqs") or [] if faq not in faqs]

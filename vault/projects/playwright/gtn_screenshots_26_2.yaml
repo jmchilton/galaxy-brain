@@ -7,18 +7,35 @@
     - topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_DE.md
     - topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_ES.md
     - topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_IT.md
+  target: main
   priority: high
   summary: Shows the old masthead's single "Login or Register" item, which no longer exists.
   retake: Logged-out masthead with the separate Login and Register buttons.
 
 - image: shared/images/activity_bar_how_to_enable.svg
   faqs: [faqs/galaxy/activity_bar_how_to_enable.md]
+  target: main
   priority: high
   summary: Diagrams the removed Manage Activity Bar preference and enable switch.
   retake: The Additional Activities panel opened from **More**, with an activity's star highlighted.
 
 - image: faqs/galaxy/images/unverified_account.png
   faqs: [faqs/galaxy/account_create.md]
+  target: main
   priority: medium
   summary: The banner and Resend Verification link still match, but the masthead around them is the old one with a "User" menu.
   retake: An inactive user's welcome page with the activation banner.
+
+- image: topics/climate/images/bgc_calib/collection_emptyhist.png
+  faqs: [faqs/galaxy/collections_autobuild_list.md]
+  target: main
+  priority: low
+  summary: The UI matches, but the crop includes browser chrome ("Relaunch to update", bookmarks bar).
+  retake: History panel in selection mode, with the select-items toggle and Select All marked.
+
+- image: topics/climate/images/bgc_calib/build_collection.png
+  faqs: [faqs/galaxy/collections_autobuild_list.md]
+  target: main
+  priority: low
+  summary: The UI matches, but it includes browser chrome and French menu items ("Supprimer", "Changer le format de données").
+  retake: The selection drop-down open on **Auto Build List**, in English.
