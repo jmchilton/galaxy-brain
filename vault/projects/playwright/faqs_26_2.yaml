@@ -443,10 +443,12 @@
   status: pending
 - faq: faqs/galaxy/user_preferences_account_usage_quota.md
   status: pending
+  faq_findings: [masthead-user-menu]
 - faq: faqs/galaxy/user_preferences_forgot_password.md
   status: pending
 - faq: faqs/galaxy/user_preferences_manage_information.md
   status: pending
+  faq_findings: [masthead-user-menu]
 - faq: faqs/galaxy/visualisations_igb.md
   status: pending
 - faq: faqs/galaxy/visualisations_igv.md
