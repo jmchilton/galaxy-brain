@@ -16,3 +16,5 @@ Three P2 findings: runtime/declaration output type mismatch, removal of bare pai
 Review delivered as John's comment with the three P2s; no author commits since. Worktree retained while PR is open.
 
 2026-10-16T16:05:28Z: author replied "Feel free to push" (maintainer edits on); reconfirmed in a meeting 2026-10-20. Fixes on `pr_24190_review_0` (2026-10-20): P2 2 and P2 3 fixed; P2 1 fixed for mapped execution (plus a pre-existing mapped-slice parent-collection bug), workflow-editor advertised type not fixed (needs new tool-spec attribute). Author's matching unit test rewritten since bare `paired` makes `list:paired` mappable. Pushing into the PR branch awaits John's go-ahead.
+
+2026-10-20: **Superseded on 26.2** by branch [`issue_24303_collection_type_prefix_26.2`](../../../branches/active/issue_24303_collection_type_prefix_26.2/index.md) (John): `type_prefix` + Nest 1.1.0, bernt-matthias's commit cherry-picked. Do not push `pr_24190_review_0` into the PR without a new decision. What to do with #24190 itself is John's call.

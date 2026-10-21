@@ -15,3 +15,7 @@ Filed 2026-10-20, assigned jmchilton. A follow-up to #24190 (Nest `list:paired` 
 
 - Filed before #24190 merged and before the hook branch was pushed into the PR.
 - tools-iuc not surveyed. Editor behaviour inferred from code, not seen in a browser.
+
+## Implementation
+
+- Branch [`issue_24303_collection_type_prefix_26.2`](../../../branches/active/issue_24303_collection_type_prefix_26.2/index.md) (base `release_26.2`), also replaces #24190.
