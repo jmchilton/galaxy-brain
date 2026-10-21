@@ -1,15 +1,15 @@
 # workflow_open_exact_title
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:workflow_open_exact_title?expand=1)
+- [PR #24317](https://github.com/galaxyproject/galaxy/pull/24317)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/workflow_open_exact_title)
 
 ## Status
 
-Polished on `release_26.2`, head `e6b89ba6004`, ready for John's final review: [pr_description.md](pr_description.md), [pr_titles.md](pr_titles.md), [pr_tags.md](pr_tags.md), [polish_debrief.md](polish_debrief.md). Alt: `workflow_open_exact_title_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
+Polished on `release_26.2`, head `e6b89ba6004`; John approved the title and description 2026-10-21: [pr_description.md](pr_description.md), [pr_titles.md](pr_titles.md), [pr_tags.md](pr_tags.md), [polish_debrief.md](polish_debrief.md). Alt: `workflow_open_exact_title_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
 
-No PR.
+Draft [#24317](https://github.com/galaxyproject/galaxy/pull/24317) opened at John's request, labels `kind/bug`, `area/testing/selenium`.
 
-Fork CI running on `e6b89ba6004`.
+CI running on `e6b89ba6004`.
 
 ## Scope
 

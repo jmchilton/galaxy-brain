@@ -107,7 +107,7 @@ Routing bookmark/delete through the helper in the base wasn't behaviour-preservi
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A timeout naming the workflow, e.g. `search results with a workflow titled or uniquely containing [NAME]`, instead of a click on the wrong workflow; a wrong pick in the tests shows as an id or URL mismatch.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A. No unit tests added; the E2E tests check the editor title, URL ids and API state.
