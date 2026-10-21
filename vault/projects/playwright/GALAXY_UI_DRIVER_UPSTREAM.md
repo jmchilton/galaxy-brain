@@ -103,6 +103,10 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   History options > Export Tool References and checks both tabs; adds `data-description`s on the
   menu item and tabs, a `citations` component and `click_history_option_tool_references`. Coverage
   PR candidate; green under Playwright only.
+- `e31b6908bec`: coverage for `collections_autobuild_list`. `test_collection_builders.py` builds a
+  list with "Remove file extensions?" off and checks identifiers keep `.fasta`; adds a
+  `list_wizard.remove_extensions` component and `collection_builder_toggle_remove_extensions`.
+  Coverage PR candidate; green under Playwright only, red without the toggle.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
