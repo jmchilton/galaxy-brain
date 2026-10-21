@@ -7,6 +7,10 @@ Current Galaxy version to review is 26.2 - calling it GX_VERSION below. The chec
 UI runs use a local Galaxy from `galaxy_ui_driver`, started by `galaxy_ui_loop/faq_server.sh`
 (see its README section). Use the `accounts` profile for account FAQs and `main` for the rest.
 
+GTN assumes a usegalaxy.*-style server. When the FAQ server lacks a feature, tool, converter or
+datatype that such servers have, fix `faq_server.sh` (or note it in `gx_findings`); it is never a GTN
+finding, and FAQs shouldn't explain server-dependent availability.
+
 ## Pick a FAQ
 
 You will be supplied a GTN FAQ from `./faqs_26_2.yaml`. If you're not supplied one, then just pick the first relevant `pending` one. If picking a translation - make sure the base (same file name under `faqs/galaxy/`) has been reviewed first.

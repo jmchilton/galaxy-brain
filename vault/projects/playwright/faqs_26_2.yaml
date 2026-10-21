@@ -185,7 +185,6 @@
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: a32e15d771d
-  faq_findings: [convert-tab-needs-converter]
   gx_findings: 'Convert untested: added test_convert_datatype_simple_list (a32e15d771d) + convert components, collection_edit_convert. gxui: collection-convert (tip 400337ea9ec).'
 - faq: faqs/galaxy/collections_force_mapping_over.md
   status: pending

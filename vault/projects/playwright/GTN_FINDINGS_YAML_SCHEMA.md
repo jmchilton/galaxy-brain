@@ -42,4 +42,5 @@ way round. `uv run check_gtn_findings.py` checks that, unique labels and the fie
 
 Stale screenshots go in `gtn_screenshots_26_2.yaml` ([GTN_SCREENSHOTS_YAML_SCHEMA.md](GTN_SCREENSHOTS_YAML_SCHEMA.md)),
 not here. Observations that aren't problems ("no breakage", "tool not on stock servers") aren't findings;
-they belong in the findings file or the FAQ entry's `note`.
+they belong in the findings file or the FAQ entry's `note`. Nor is anything that depends on server
+setup (Celery, installed tools, converters): GTN assumes a usegalaxy.*-style server.

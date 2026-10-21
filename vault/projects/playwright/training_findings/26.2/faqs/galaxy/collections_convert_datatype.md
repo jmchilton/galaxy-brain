@@ -6,9 +6,7 @@ Not embedded in any tutorial.
 
 ## GTN
 
-- Steps and labels hold (**Convert** tab, **Converter Tool**, **Convert Collection**).
-- The Convert tab only appears when Galaxy has a converter for the elements' datatype (26.1 too);
-  a txt list has none. Worth a line, like change_datatype's "Cannot find the feature?".
+- No findings. Steps and labels hold (**Convert** tab, **Converter Tool**, **Convert Collection**).
 
 ## Galaxy
 

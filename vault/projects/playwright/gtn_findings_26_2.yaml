@@ -300,9 +300,3 @@
   target: main
   summary: '"Double clcik on the file names": a single click edits a name, and extensions are already removed by the on-by-default **Remove file extensions?** switch.'
   fix: Say "Click a name to edit it, for example to remove a common prefix or suffix".
-
-- label: convert-tab-needs-converter
-  faqs: [faqs/galaxy/collections_convert_datatype.md]
-  target: main
-  summary: The **Convert** tab only appears when Galaxy has a converter for the elements' datatype, and the FAQ doesn't say so.
-  fix: Add a short "Cannot find the tab?" note, like collections_change_datatype's.
