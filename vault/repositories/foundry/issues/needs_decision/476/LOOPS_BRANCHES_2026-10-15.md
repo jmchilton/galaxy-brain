@@ -136,7 +136,7 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
   - Iteration 1 implemented the step with `__APPLY_RULES__` 1.1.0, citing the reference page, with no Tool Shed search.
   - Two repairs narrowed, both with evidence: FastQC ZIP output (the wrapper has only html/text), and the trimmed reads' sample-sheet metadata (Apply Rules takes one collection; an upstream gap had already predicted it). No open blocking entries at the end.
   - The FastQC ZIP blocker was escalated this time, unlike 10-20.
-- Loop-repair finding: a repair worker wrote the ledger's `topology_repair` header itself, with `cap: 5` (and `escalations: 1` after 2 repairs). The controller re-reads `cap` before each repair, so a worker can raise its own budget. Read it once from the ledger the loop starts with, or ignore worker-written headers.
+- Loop-repair finding: a repair worker wrote the ledger's `topology_repair` header itself, with `cap: 5` (and `escalations: 1` after 2 repairs). The controller re-read `cap` before each repair, so a worker could raise its own budget. Fixed on the loop-repair branch (`562c7edf`): the cap is read once, from the ledger the loop is handed; two new tests, build-cli 303.
 - Not checked: the Apply Rules state assumes every row has a second identifier level, which may not hold for unpaired rows.
 
 ## Open questions
