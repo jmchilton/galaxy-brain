@@ -5,11 +5,16 @@
 
 ## Status
 
-Implemented on `release_26.2`, head `ad783d6d3e9`; framed as a missing-test bug fix for the release. Hardened (gx_workhorse, 2026-10-20): STATUS READY, see [implementation_debrief.md](implementation_debrief.md).
+Polished, awaiting John's final review (`branches_ready_for_final_review`); rebased onto `release_26.2` `e2649e52818`, head `41125e9268d`.
 
 No PR.
 
-CI not yet observed.
+Fork CI on `41125e9268d` queued at hand-off, no reds; Playwright runs the new test on push (the Selenium workflow is weekly/manual only).
+
+## Polish
+
+- [pr_description.md](pr_description.md), [pr_titles.md](pr_titles.md), [pr_tags.md](pr_tags.md)
+- [polish_debrief.md](polish_debrief.md): the `search.clear()`-only red no longer holds at HEAD; it removes a race and isn't independently red.
 
 ## Scope
 

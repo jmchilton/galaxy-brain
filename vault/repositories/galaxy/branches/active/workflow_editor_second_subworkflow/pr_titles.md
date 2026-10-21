@@ -1,0 +1,4 @@
+- [26.2] Test inserting two subworkflows from the workflow editor's Workflows panel
+- [26.2] Fix E2E helper closing the editor's Workflows panel on a second subworkflow insert
+- [26.2] Add E2E coverage for inserting a second subworkflow in the workflow editor
+- [26.2] Editor Workflows panel test helpers: insert a second subworkflow, click the exact-titled card
