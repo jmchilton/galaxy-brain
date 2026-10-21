@@ -124,6 +124,21 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
   - A blocking entry was left open at the terminal call (`nf-core-demo-fastqc-zip-output-unavailable`, on `fastqc_per_read`), raised by the call that concretized FastQC. It was never escalated and never surrendered, and the controller doesn't check.
 - Questions for John: a stricter cross-escalation rule; the default cap; a terminal check for open blockers; whether a narrowing repair should need evidence that the step can't be implemented.
 
+## Stock tool versions — 2026-10-21
+
+- Root cause of the dropped `explode_and_label_input_reads`: a Mold dead end, not cheap giving up. The step had no tool chosen; `gxwf tool-search` can't see built-ins (`'apply rules collection'` → no hits); the stock branch allowed a version only from the plan or a populated cache. 10-20 obeyed and blocked; 10-16 broke the rule by retrying `add` with 1.1.0.
+- Fix on `fix/advance-draft-stock-tool-version` (`358ac959`), stacked on #686, no PR; draft `pr_stock_tool_version.md`. `advance-galaxy-draft-step` rev 9:
+  - version sources, in order: plan pin, cache, a documented version on a reference page (`galaxy-collection-tools`);
+  - a successful `add --tool-version` confirms the version;
+  - a `TODO` step checks built-in collection ops before the Tool Shed;
+  - the cast now bundles `galaxy-collection-tools`; new eval property.
+- Live `~/foundry-runs/nf2g-demo-stock-version-2026-10-21/` (local `tmp/loop-repair-stock-tool-version` = loop-repair + this commit, seeded from 10-16): **passed**. 8 iterations, 24m14s, $2.81. 4 tool steps, `gxwf validate` OK.
+  - Iteration 1 implemented the step with `__APPLY_RULES__` 1.1.0, citing the reference page, with no Tool Shed search.
+  - Two repairs narrowed, both with evidence: FastQC ZIP output (the wrapper has only html/text), and the trimmed reads' sample-sheet metadata (Apply Rules takes one collection; an upstream gap had already predicted it). No open blocking entries at the end.
+  - The FastQC ZIP blocker was escalated this time, unlike 10-20.
+- Loop-repair finding: a repair worker wrote the ledger's `topology_repair` header itself, with `cap: 5` (and `escalations: 1` after 2 repairs). The controller re-reads `cap` before each repair, so a worker can raise its own budget. Read it once from the ledger the loop starts with, or ignore worker-written headers.
+- Not checked: the Apply Rules state assumes every row has a second identifier level, which may not hold for unpaired rows.
+
 ## Open questions
 
 1. ~~Is `--from` (seed from a frozen run) wanted as an evaluation feature?~~ Built 2026-10-20 (above), pending John's review.
