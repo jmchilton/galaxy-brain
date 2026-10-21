@@ -5,7 +5,7 @@
 
 ## Status
 
-`attention`: mvdbeek approved `fabcc827831` on 2026-10-21; the inline edge case and two nits are fixed in `bec70dfdd80`, and replies await John ([review response](review_response_mvdbeek.md)).
+`attention`: mvdbeek approved `fabcc827831` on 2026-10-21; the inline edge case and two nits are fixed in `bec70dfdd80`, replies posted 2026-10-21 ([review response](review_response_mvdbeek.md)), and the menu-selection follow-up is [#24335](https://github.com/galaxyproject/galaxy/issues/24335).
 
 [#24285](https://github.com/galaxyproject/galaxy/pull/24285) is open, not draft, against `release_26.2`, with labels `kind/bug`, `area/accessibility` and `area/UI-UX`. The screenshot is hosted on the fork's `pr-assets-fix_story_a11y_followups` branch. Live PR body predates the `pr_description.md` review update.
 
