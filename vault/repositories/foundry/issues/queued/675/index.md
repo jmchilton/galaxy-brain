@@ -1,0 +1,28 @@
+# foundry#675 — nested sub-collection arity not assertable
+
+Issue: https://github.com/galaxyproject/foundry/issues/675 (scottcain, AI-posted, `needs-triage`)
+
+## Triage (2026-10-21)
+
+Status overrides the label: the schema and runtime gaps are already fixed; only a docs gap remains.
+
+- Schema: fixed. Foundry `origin/main` @ `89c7b9ef` vendors tests-format at gxwf 1.14 (`dd2fd857`), whose
+  `TestCollectionCollectionElementAssertions` has `count`, `min`, `max`. Came from Galaxy
+  [#23554](https://github.com/galaxyproject/galaxy/pull/23554) (release_26.1, merged 2026-09-18), which fixed
+  galaxyproject/galaxy#23544 and widened only the model.
+- Runtime: never broken. `verify_collection` in released galaxy-tool-util 26.1.1 (`interactor.py`, tag
+  `v26.1.1`) already checks `count`/`min`/`max` on nested elements; planemo doesn't validate the test file
+  against the model first. So planemo 0.75.47 enforces nested `count` today.
+- Nested `collection_type`: not supported upstream; low value, since the parent's `collection_type`
+  fixes every rank. Don't pursue.
+- Remaining gap (Scott's item 2): `content/research/planemo-asserts-idioms/index.md:81` says to use
+  `element_tests:` at each level and that "`attributes:` or `element_count:` can check shape" — doesn't say
+  the nested key is `count` (not `element_count`), nor that `min`/`max` exist there.
+  Foundry#679 / PR #695 already lists `count` (nested sub-collections) as a test-plan `family`.
+
+## Proposed fix
+
+Edit idioms line 81: top level uses `element_count:`; a nested sub-collection under `element_tests:`
+uses `count:` (or `min:`/`max:`) for exact arity. Maybe add `count: 1` under the unpaired sample in
+the existing YAML example. Bump revision, recast (`make casts`), regenerate Dashboard. No changeset (no
+package change). Comment on #675 that item 1 is fixed upstream (needs John's OK to post).

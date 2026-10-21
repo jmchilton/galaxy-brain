@@ -63,6 +63,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/535/index.md)
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review New Paper; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/568/index.md)
 - [#621](https://github.com/galaxyproject/foundry/issues/621) — Apply Rules Tutorial Patterns; next: research and add a first comment. [notes](../../repositories/foundry/issues/queued/621/index.md)
+- [#675](https://github.com/galaxyproject/foundry/issues/675) — nested sub-collection arity; schema+runtime already fixed, idioms note doesn't mention nested `count`; next: edit note, recast, PR. [notes](../../repositories/foundry/issues/queued/675/index.md)
 
 ## Blocked on others (`blocked`)
 
