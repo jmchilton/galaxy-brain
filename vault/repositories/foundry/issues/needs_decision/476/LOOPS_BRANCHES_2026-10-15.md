@@ -101,6 +101,13 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
 - `--from <phase-or-skill>` plus `--seed-run <dir>` (and `--seed-trial`, default 1). Seeds are the latest write of each artifact by a phase that passed in the seed run, hash-checked and copied into `seed/`. A selected phase reading an artifact last produced by a phase that didn't pass there is refused. Only phase 1 gets the scenario fixture. `selectPhases` checks only the selected range, so paper-to-cwl's branch is reachable.
 - Dashboard: seeded phases read "done · from seed run" (or skipped), seeded writes are marked, and a warning names the seed run.
 - Follow-up commit `08921850`: a seed run that was itself seeded passes its seed on, and a seed phase whose skill differs from this pipeline's phase at that number is refused. build-cli 290 tests. PR draft is in the session scratchpad (`pr_seed_run.md`).
+- Subagent review (2026-10-20), fixes in `d4a0c56c`, build-cli 293:
+  - A chained seed started earlier than its own seed silently dropped an input. Preflight now also refuses a passed producer whose non-optional output the seed has no copy of, reading producers from `declaredOutputs`.
+  - `--from 1` with `--seed-run` is refused.
+  - The dashboard no longer counts a skipped earlier phase's outputs as missing.
+  - A shared `phaseWorkers` helper; seed copies dereference symlinks.
+  - Real-seed check: `--from 8` seeds 8 artifacts, `--from 10` is refused (phase 9 never ran).
+  - Left as follow-ups: recording what each trial carried in `run.json`, so seeding needn't re-derive it; a chained seed naming only the run it was seeded from; the phase check comparing skill names only.
 - Live run `~/foundry-runs/nf2g-demo-branch-seeded-2026-10-20/`, seeded from the 10-16 run, `--from test-data-resolution --through test-data-resolution`: 2m20s, 23 turns, $0.45, exit 2.
   - Phases 1–6 seeded, phase 7 (failed there) skipped, so its partial `galaxy-workflow` wasn't carried.
   - `nextflow-to-test-data` left 7 inputs unresolved; `find-test-data` resolved reads, the skip-trimming flag and the reference FASTA (nf-core test-datasets).
