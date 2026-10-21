@@ -1,0 +1,571 @@
+{
+  "scratch": "/private/tmp/consumer-colocation-stories-validation",
+  "check_count": 47,
+  "completed": 47,
+  "results": [
+    {
+      "kind": "infrastructure_full_unit",
+      "commit": "a77751a33d0957fd52bad23fbc780f64d0ed715c",
+      "owner": null,
+      "exit_code": 0,
+      "seconds": 277.3,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/00-infrastructure.log",
+      "summary": [
+        " Test Files  646 passed (646)",
+        "      Tests  5682 passed | 1 skipped (5683)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "cfc3c5dff6e92975c703369a77b58bc42310adf2",
+      "owner": "client/src/components/Form/Elements/FormData/FormData.test.ts",
+      "exit_code": 0,
+      "seconds": 12.6,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/01-client_src_components_Form_Elements_FormData_FormData.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  36 passed (36)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "245d85ac851d23854686e2d79914c629b66510f1",
+      "owner": "client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts",
+      "exit_code": 0,
+      "seconds": 26.0,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/02-client_src_components_Tool_ToolSelectPreferredObjectStore.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  3 passed (3)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "b8f1f6bde936f5e0a5383ce74c533dddac6f129a",
+      "owner": "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+      "exit_code": 0,
+      "seconds": 6.5,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/03-client_src_components_Workflow_Run_WorkflowMissingToolsRequest.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  17 passed (17)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "a4a14f7ebe8b5c5683232b185eaf1c19e2810c45",
+      "owner": "client/src/components/admin/RoleForm.test.ts",
+      "exit_code": 0,
+      "seconds": 6.9,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/04-client_src_components_admin_RoleForm.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  13 passed (13)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "e2f6bef1bda1b4b41146f7b89fe64aa34ef5fd86",
+      "owner": "client/src/components/Tool/ToolCard.test.js",
+      "exit_code": 0,
+      "seconds": 7.1,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/05-client_src_components_Tool_ToolCard.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  7 passed (7)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "08e5ce41b4bf3f6deb97fe884a98516a591974a0",
+      "owner": "client/src/components/Form/Elements/FormSelect.test.js",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/06-client_src_components_Form_Elements_FormSelect.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  9 passed (9)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "317ffdbc335ee135781c7b254528a0775a971b5d",
+      "owner": "client/src/components/admin/Notifications/BroadcastsList.test.ts",
+      "exit_code": 0,
+      "seconds": 6.5,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/07-client_src_components_admin_Notifications_BroadcastsList.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  6 passed (6)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "24479d1abb2da9446191366930e0073fba91cef6",
+      "owner": "client/src/components/Collections/ListCollectionCreator.test.ts",
+      "exit_code": 0,
+      "seconds": 10.6,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/08-client_src_components_Collections_ListCollectionCreator.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  3 passed (3)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "e7e3f5b47f4100567b8d979dc188cadde8c90660",
+      "owner": "client/src/components/Collections/PairCollectionCreator.test.ts",
+      "exit_code": 0,
+      "seconds": 8.2,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/09-client_src_components_Collections_PairCollectionCreator.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  3 passed (3)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "a77fde26de0b85c3012f782dc72b82cb4e1a1792",
+      "owner": "client/src/components/WorkflowInvocationState/WorkflowInvocationOverview.test.js",
+      "exit_code": 0,
+      "seconds": 15.3,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/10-client_src_components_WorkflowInvocationState_WorkflowInvocationOverview.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  3 passed (3)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "59507d347d6281dd420c87315ebb4f7ac1c9502c",
+      "owner": "client/src/components/SelectionField/SelectionField.test.js",
+      "exit_code": 0,
+      "seconds": 28.4,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/11-client_src_components_SelectionField_SelectionField.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  7 passed (7)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "2f6a7ca56b8f2d2c904490bc9143275eb56ac985",
+      "owner": "client/src/components/Workflow/WorkflowAnnotation.test.ts",
+      "exit_code": 0,
+      "seconds": 6.2,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/12-client_src_components_Workflow_WorkflowAnnotation.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "7a3ffc30f0934087276ae89fedeb1dd4df8ac8e0",
+      "owner": "client/src/components/Dataset/DatasetCopy.test.js",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/13-client_src_components_Dataset_DatasetCopy.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  15 passed (15)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "fb01af1428b0bb959b48429bb1a6439ebc406481",
+      "owner": "client/src/components/Workflow/Editor/Forms/FormTool.test.js",
+      "exit_code": 0,
+      "seconds": 7.2,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/14-client_src_components_Workflow_Editor_Forms_FormTool.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  4 passed (4)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "eceb59814e2e2bd28ebf84211fde95a3fbfefa98",
+      "owner": "client/src/components/GalaxyAI.newchat.test.ts",
+      "exit_code": 0,
+      "seconds": 5.7,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/15-client_src_components_GalaxyAI.newchat.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  6 passed (6)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "0fd70fff32f7267980d7b2e083ee1eda9103bac6",
+      "owner": "client/src/components/Tour/Tour.test.js",
+      "exit_code": 0,
+      "seconds": 4.2,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/16-client_src_components_Tour_Tour.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  2 passed (2)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "39c43dd5eba69f838cde81e5882e2e13d4f8e5de",
+      "owner": "client/src/components/Toolshed/InstalledList/Index.test.js",
+      "exit_code": 0,
+      "seconds": 5.1,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/17-client_src_components_Toolshed_InstalledList_Index.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  4 passed (4)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "d7ea4e8b576e3d87d0c77bef22340644ca1f9875",
+      "owner": "client/src/components/admin/GroupForm.test.ts",
+      "exit_code": 0,
+      "seconds": 3.5,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/18-client_src_components_admin_GroupForm.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  7 passed (7)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "6f075d77707e6eb08b322749d06e82bf80d9960b",
+      "owner": "client/src/components/History/Content/Collection/CollectionProgress.test.ts",
+      "exit_code": 0,
+      "seconds": 3.7,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/19-client_src_components_History_Content_Collection_CollectionProgress.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  5 passed (5)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "eeb06765d196dd9ca6526b4a978d6cb2f98d72c2",
+      "owner": "client/src/components/Workflow/Editor/Node.test.ts",
+      "exit_code": 0,
+      "seconds": 5.8,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/20-client_src_components_Workflow_Editor_Node.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "ead0d7f4d06eb4745486bef18a25ca784946bb8f",
+      "owner": "client/src/components/History/Content/GenericItem.test.ts",
+      "exit_code": 0,
+      "seconds": 5.3,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/21-client_src_components_History_Content_GenericItem.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "13da7371487b3cd2452a6cd4e842e3a2aa2a9c66",
+      "owner": "client/src/components/PageEditor/PageRevisionView.test.ts",
+      "exit_code": 0,
+      "seconds": 6.5,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/22-client_src_components_PageEditor_PageRevisionView.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  23 passed (23)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "f33d29e2def98d43568f8f2618c7c08f6ad75cc7",
+      "owner": "client/src/components/PageEditor/SectionPatchView.test.ts",
+      "exit_code": 0,
+      "seconds": 5.1,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/23-client_src_components_PageEditor_SectionPatchView.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "254bcaa3751d2e9bdeac67e1fbacad2a83e28477",
+      "owner": "client/src/components/Tool/ToolForm.test.ts",
+      "exit_code": 0,
+      "seconds": 8.5,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/24-client_src_components_Tool_ToolForm.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "3a5ca5f8587a306278810def66ef83e853fda724",
+      "owner": "client/src/components/ObjectStore/Instances/InstanceDropdown.test.ts",
+      "exit_code": 0,
+      "seconds": 5.0,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/25-client_src_components_ObjectStore_Instances_InstanceDropdown.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  2 passed (2)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "f14790e960a2380b66759cb2b22a0eb6fdaeb899",
+      "owner": "client/src/components/ToolRecommendation.test.ts",
+      "exit_code": 0,
+      "seconds": 5.3,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/26-client_src_components_ToolRecommendation.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  5 passed (5)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "954c8fc8e5d669c5eb2cc410bf53c6e71b17a403",
+      "owner": "client/src/components/Panels/ToolBoxSearch.test.ts",
+      "exit_code": 0,
+      "seconds": 7.7,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/27-client_src_components_Panels_ToolBoxSearch.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  22 passed (22)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "f6a197d207a7935c4936849fb04b36fd008aa926",
+      "owner": "client/src/components/Toolshed/SearchList/Categories.test.js",
+      "exit_code": 0,
+      "seconds": 5.3,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/28-client_src_components_Toolshed_SearchList_Categories.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  2 passed (2)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "e785620188f6ff2ced8fab96f138e655b2d8a20d",
+      "owner": "client/src/components/GalaxyAI/ClarificationCard.test.ts",
+      "exit_code": 0,
+      "seconds": 3.6,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/29-client_src_components_GalaxyAI_ClarificationCard.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  4 passed (4)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "8bdc6454456b61996e856fc0f8e585d2d12f1829",
+      "owner": "client/src/components/Markdown/Editor/TextEditor.test.ts",
+      "exit_code": 0,
+      "seconds": 5.9,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/30-client_src_components_Markdown_Editor_TextEditor.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  12 passed (12)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "b30376a842a3ae8864ef44fed9292e5c839e53d5",
+      "owner": "client/src/components/ActivityBar/ActivitySettings.test.js",
+      "exit_code": 0,
+      "seconds": 6.2,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/31-client_src_components_ActivityBar_ActivitySettings.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  10 passed (10)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "b48d9d4022f4715f4173edf5e644f994d51ac41c",
+      "owner": "client/src/components/Tool/ToolSuccess.test.ts",
+      "exit_code": 0,
+      "seconds": 12.7,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/32-client_src_components_Tool_ToolSuccess.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  12 passed (12)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "18624766a04ee897aa9061a732e47871eeb46ac5",
+      "owner": "client/src/components/PageEditor/HistoryPageList.test.ts",
+      "exit_code": 0,
+      "seconds": 20.4,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/33-client_src_components_PageEditor_HistoryPageList.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  11 passed (11)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "0d72e85e8055a323d2413e0b0ec391978bafab46",
+      "owner": "client/src/components/Workflow/Invocation/Graph/WorkflowInvocationSteps.test.ts",
+      "exit_code": 0,
+      "seconds": 9.1,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/34-client_src_components_Workflow_Invocation_Graph_WorkflowInvocationSteps.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  1 passed (1)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "897f70e6e7fdfd36aef4f41d0460a2ad263ac3c6",
+      "owner": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js",
+      "exit_code": 0,
+      "seconds": 9.4,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/35-client_src_components_History_CurrentHistory_HistoryOperations_SelectionOperations.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  31 passed (31)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "193866605bc1b0cd56cbbfad432594c4ea94efa0",
+      "owner": "client/src/components/HistoryExport/ToLink.test.js",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/36-client_src_components_HistoryExport_ToLink.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  2 passed (2)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "f23125a8636d32d022f48308e839c7cfa1539239",
+      "owner": "client/src/components/Page/PageView.test.ts",
+      "exit_code": 0,
+      "seconds": 8.9,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/37-client_src_components_Page_PageView.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "aa868b0ea6314af896dd31b635b73218d441d829",
+      "owner": "client/src/components/Workflow/Editor/Comments/WorkflowComment.test.ts",
+      "exit_code": 0,
+      "seconds": 4.3,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/38-client_src_components_Workflow_Editor_Comments_WorkflowComment.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "8bccbc713bd76933e1d02373c0d55ef26567aede",
+      "owner": "client/src/components/WorkflowInvocationState/JobStep.test.ts",
+      "exit_code": 0,
+      "seconds": 6.1,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/39-client_src_components_WorkflowInvocationState_JobStep.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  3 passed (3)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "d87be7e61c39f9f3c3cd921b2c6dd24e402ac5a4",
+      "owner": "client/src/components/ToolsList/ToolsList.test.ts",
+      "exit_code": 0,
+      "seconds": 5.8,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/40-client_src_components_ToolsList_ToolsList.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  12 passed (12)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "549b361053ee3da308965102ebdda672b4d43269",
+      "owner": "client/src/components/Workflow/Editor/Forms/FormInputCollection.test.ts",
+      "exit_code": 0,
+      "seconds": 6.8,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/41-client_src_components_Workflow_Editor_Forms_FormInputCollection.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  4 passed (4)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "e2c272d3835ed3c8565de5e43930519768f91441",
+      "owner": "client/src/components/History/HistoryOptions.test.ts",
+      "exit_code": 0,
+      "seconds": 5.7,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/42-client_src_components_History_HistoryOptions.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  13 passed (13)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "e70e40a086e0fdef7b9f5f7f0931b6fbeb108fdb",
+      "owner": "client/src/components/Notifications/Broadcasts/BroadcastsOverlay.test.ts",
+      "exit_code": 0,
+      "seconds": 6.0,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/43-client_src_components_Notifications_Broadcasts_BroadcastsOverlay.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "86bb473229b990c8455d9fd8fda54885c1f1d9f8",
+      "owner": "client/src/components/DatasetInformation/DatasetDetails.test.ts",
+      "exit_code": 0,
+      "seconds": 6.1,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/44-client_src_components_DatasetInformation_DatasetDetails.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  3 passed (3)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "ba24f4a9ae6e693e72b363cf1a6116bb06c3c7dd",
+      "owner": "client/src/components/InteractiveTools/InteractiveTools.test.js",
+      "exit_code": 0,
+      "seconds": 5.4,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/45-client_src_components_InteractiveTools_InteractiveTools.test.js.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  6 passed (6)"
+      ]
+    },
+    {
+      "kind": "support_owner",
+      "commit": "bf693b79ac92f3e4df42ccde03137e87a1ee88ef",
+      "owner": "client/src/components/admin/Notifications/BroadcastForm.test.ts",
+      "exit_code": 0,
+      "seconds": 6.8,
+      "log": "/private/tmp/consumer-colocation-stories-runtime-logs/46-client_src_components_admin_Notifications_BroadcastForm.test.ts.log",
+      "summary": [
+        " Test Files  1 passed (1)",
+        "      Tests  7 passed (7)"
+      ]
+    }
+  ]
+}

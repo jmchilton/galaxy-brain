@@ -9,7 +9,7 @@ Renamed from `storybook_interactions` on 2026-10-09; the worktree directory keep
 
 Status: `author_work` — combined play/accessibility RFC with known strict accessibility failures and missing browser CI.
 
-Draft [#24300](https://github.com/galaxyproject/galaxy/pull/24300) targets `dev`, including the readability and story layers; head `23418c7619409a91dccb5f01ac65433840d26f2e`.
+Draft [#24300](https://github.com/galaxyproject/galaxy/pull/24300) targets `dev`, including the readability and story layers; head `a2acdefc35ba703778e9279022f87ca98df8faf8`.
 
 CI: new-head checks pending; source tree and existing validation limitations are unchanged.
 
@@ -85,3 +85,10 @@ John explicitly requested opening this branch with title `[RFC][WIP] Adopt Story
 Published `23418c7619409a91dccb5f01ac65433840d26f2e` with the exact preceding-head lease. One shared-infrastructure commit is first, followed by GDropdownItem as the example, then the remaining per-test conversions. 96 own-layer commits; final source tree is identical to the preceding head.
 
 All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.
+
+
+## Helpers with their consumers — 2026-10-20
+
+Published `a2acdefc35ba703778e9279022f87ca98df8faf8` using the exact preceding-head lease. The opening commit contains five framework/configuration files. Its three play-helper paths now arrive with their consuming plays; completed accessibility audit evidence and its README link arrive with the final conversion.
+
+All five final source trees remain identical to their preceding heads. The full experiment remains on the existing branches; no domain branches or new PRs were created. [Helper colocation, verification and current commit links](../../../../../projects/just_jesting_around/history_reorganization/consumer_colocation_2026-10-20/README.md). Existing draft, CI and full-catalog accessibility holds remain.

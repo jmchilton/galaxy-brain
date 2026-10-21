@@ -1,6 +1,6 @@
 # vitest_real_api_calls
 
-Status: `branches_implemented_needs_ci`. No upstream PR. Intended upstream target: `dev`; stacked on `vitest_readability` commit `dd0f27fb6ac76e7d477334cb0fe5088d9c6c694e` (dependency [PR #24038](https://github.com/galaxyproject/galaxy/pull/24038)).
+Status: `branches_implemented_needs_ci`. No upstream PR. Intended upstream target: `dev`; stacked on `vitest_readability` commit `390b78fc122eb3fe11660a8c8acaf4bc5fa64c57` (dependency [PR #24038](https://github.com/galaxyproject/galaxy/pull/24038)).
 
 Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_real_api_calls`.
 
@@ -60,3 +60,10 @@ Published `0277a85df3954d1f83856933991cc5df0b97865c` onto readability `1358d3788
 Published `3684d62a1e16130adfb2f2dd894e133897765ab1` with the exact preceding-head lease. Restacked the existing 3 own commits onto rewritten readability, preserving their trees, authors and exact messages.
 
 All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.
+
+
+## Helpers with their consumers — 2026-10-20
+
+Published `a277128d39aab00f29c99e5860ffe46afdd3b987` using the exact preceding-head lease. Restacked the existing 3 own commits onto rewritten readability, preserving their exact trees, messages and author/committer metadata.
+
+All five final source trees remain identical to their preceding heads. The full experiment remains on the existing branches; no domain branches or new PRs were created. [Helper colocation, verification and current commit links](../../../../../projects/just_jesting_around/history_reorganization/consumer_colocation_2026-10-20/README.md). Existing draft, CI and full-catalog accessibility holds remain.

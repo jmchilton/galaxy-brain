@@ -249,7 +249,7 @@ That benchmark used a smaller catalog and excluded accessibility checks; it does
 <details>
 <summary>Validation details and branch snapshot — October 20</summary>
 
-The published prototype is `jmchilton/vitest_story_play` at `23418c76194`, above `vitest_stories` at `1a4eb0e275c` and readability at `dd0f27fb6ac`. Play and accessibility are one maintained lane. Shared infrastructure comes first; story-specific plays and accessibility annotations are grouped by test. This RFC is a work in progress; the strict browser gate is not all green.
+The published prototype is `jmchilton/vitest_story_play` at `a2acdefc35b`, above `vitest_stories` at `bf693b79ac9` and readability at `390b78fc122`. Play and accessibility are one maintained lane. Framework infrastructure comes first; consumer-specific helpers and fixtures arrive with their first consuming test, alongside its plays and accessibility annotations. This RFC is a work in progress; the strict browser gate is not all green.
 
 | Evidence | Current result |
 | --- | --- |

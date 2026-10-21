@@ -1,0 +1,16 @@
+{
+  "all_five_final_trees_identical": true,
+  "exact_remote_heads_verified": true,
+  "no_domain_branches_or_new_prs": true,
+  "push": "atomic with exact old-SHA force-with-lease guards",
+  "recovery_ref_prefix": "refs/archive/test-consumer-colocation-20261020/",
+  "remote_heads": {
+    "vitest_readability": "390b78fc122eb3fe11660a8c8acaf4bc5fa64c57",
+    "vitest_readability_with_churn": "7f5bf764eb0eaff8857507265e59e9881312a536",
+    "vitest_real_api_calls": "a277128d39aab00f29c99e5860ffe46afdd3b987",
+    "vitest_stories": "bf693b79ac92f3e4df42ccde03137e87a1ee88ef",
+    "vitest_story_play": "a2acdefc35ba703778e9279022f87ca98df8faf8"
+  },
+  "storybook_http_status": 200,
+  "storybook_story_count": 583
+}

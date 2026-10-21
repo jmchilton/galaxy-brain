@@ -66,3 +66,10 @@ Published `fd5fd27f67aaa9d974b2d3cbc693ef8fa0a31864` onto readability `1358d3788
 Published `1a4eb0e275cfaa60b1112c554232d1c4e369dc8c` with the exact preceding-head lease. One shared-infrastructure commit is first, followed by GDropdownItem as the example, then the remaining per-test conversions. 102 own-layer commits; final source tree is identical to the preceding head.
 
 All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.
+
+
+## Helpers with their consumers — 2026-10-20
+
+Published `bf693b79ac92f3e4df42ccde03137e87a1ee88ef` using the exact preceding-head lease. The opening commit contains 18 framework files. The 41 fixture/helper paths now move with their first consuming tests, including partial module updates where exports have different consumers.
+
+All five final source trees remain identical to their preceding heads. The full experiment remains on the existing branches; no domain branches or new PRs were created. [Helper colocation, verification and current commit links](../../../../../projects/just_jesting_around/history_reorganization/consumer_colocation_2026-10-20/README.md). Existing draft, CI and full-catalog accessibility holds remain.

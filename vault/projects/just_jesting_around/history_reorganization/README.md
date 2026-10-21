@@ -1,5 +1,7 @@
 # Existing branch history reorganization
 
+> Superseded by the [consumer-colocation correction](consumer_colocation_2026-10-20/README.md): the earlier layout below grouped too much test support into infrastructure. The current opening commits retain guidance/framework setup; helpers now arrive with their first consumers.
+
 Reorganized the existing branches in place. No domain branches or new PRs were created. The complete RFC and all final source files are preserved.
 
 | Existing branch | Published head | Own commits |

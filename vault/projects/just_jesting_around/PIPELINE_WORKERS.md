@@ -9,9 +9,11 @@ The driver can fan work out to **subagents**:
 
 ## Current history organization
 
-Keep the three existing lane branches complete. Each has one consolidated shared infrastructure
-commit first, one example second, then the remaining per-test
-conversions. Preserve this order when folding in new shared helpers. Do not cut
+Keep the three existing lane branches complete. Each has guidance or framework
+setup first, one example second, then the remaining per-test conversions. Helpers,
+fixtures and their documentation arrive with the first test that uses them.
+Split independently used exports across commits and retain old APIs until their
+callers migrate. Do not cut
 domain branches or open smaller PRs until John requests the later extraction.
 The agreed eventual review size is roughly 5–10 related tests per PR, combining
 a component’s readability, stories, plays and accessibility changes.
@@ -20,7 +22,7 @@ a component’s readability, stories, plays and accessibility changes.
 
 1. Rebase the lane onto the lane below it, then validate. Lane 1 rebases onto dev.
 2. Pick the next tests. A test is eligible when the lane below is done with it or skipped it, and this lane's field is missing.
-3. Fan out to subagents. When a subagent needs shared code, the driver commits that shared code first.
+3. Fan out to subagents. When a subagent needs shared code, the driver coordinates it with the first consuming test and applies the support and consumer together.
 4. Apply the returned commits, validate the affected suites, and write the batch report.
 5. Update this lane's field in `jest_tests.yml`, and only that field.
 
@@ -35,7 +37,7 @@ Replayed `jest_readability_batch_01` iteration by iteration into `vitest_readabi
 The loop described in [READABILITY_LOOP_ITERATION.md](READABILITY_LOOP_ITERATION.md), changed to fit the split history:
 
 - Works on `vitest_readability` instead of `jest_readability_batch_01`.
-- Maintains one opening shared-infrastructure commit and one commit per test, instead of one commit per iteration. The reorganization manifest and batch reports retain the original iteration provenance when repeated test rewrites are consolidated.
+- Maintains one opening guidance commit and one commit per test, including support changes first used by that test, instead of one commit per iteration. The reorganization manifest and batch reports retain the original iteration provenance when repeated test rewrites are consolidated.
 - Leaves alone any file that a lane above has already changed. That includes supporting edits.
 
 ### Story driver (lane 2)
@@ -53,9 +55,9 @@ Parallelizes well. The contention points are `.storybook/preview.ts`, `tests/vit
 Runs [TO_PLAY_ITERATION.md](TO_PLAY_ITERATION.md); decisions are logged in [PLAY_LOG.md](PLAY_LOG.md).
 
 Moves component-behavior cases out of a storified test and into `play` functions.
-Owns the combined play/accessibility lane: shared helpers and accessibility
-configuration go first; story-specific accessibility annotations belong in the
-same per-test commit as the plays. Preserve strict checks and report known failures without adding exceptions
+Owns the combined play/accessibility lane: accessibility configuration goes
+first; play helpers arrive with their first consuming plays, and story-specific
+accessibility annotations belong in the same per-test commit as those plays. Preserve strict checks and report known failures without adding exceptions
 merely to make a run pass.
 
 - **Assertions:** strengthening is welcome; a case that would lose or weaken a check stays in vitest until John approves.

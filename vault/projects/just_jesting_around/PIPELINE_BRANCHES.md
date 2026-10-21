@@ -5,8 +5,10 @@ Each test file moves through stacked branches ("lanes"). Each lane adds one kind
 ## History layout and eventual upstream slices
 
 Keep the complete existing lanes together for now. Each lane starts with one
-shared-infrastructure commit, followed by one representative test conversion and
-then its remaining test commits. Do not create domain branches or open a batch of
+guidance or framework commit, followed by one representative test conversion and
+then its remaining test commits. Consumer-specific helpers and fixtures belong
+with the first test that uses them, including their documentation. Split a helper
+module across commits when its exports have different first consumers. Do not create domain branches or open a batch of
 PRs as part of this reorganization. The full RFC remains the baseline people can
 explore.
 
@@ -24,7 +26,7 @@ Stack order, bottom to top:
 | --: | ----------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 |   1 | `vitest_readability`    | Readability and reuse rewrites ([READABILITY_LOOP_ITERATION.md](READABILITY_LOOP_ITERATION.md)) | Per-test commits, split from `jest_readability_batch_01` ([prompt](REBASE_READABILITY.md)) |
 |   2 | `vitest_stories`        | Storybook and its Vitest browser project; test mounts composed stories with mocks               | Infra plus per-test commits; progress in [STORY_LOG.md](STORY_LOG.md)                      |
-|   3 | `vitest_story_play`     | Browser plays, accessibility checks and viewport tools ([plan](plan_vitest_addon.md)) | One shared-infrastructure commit, one example, then the other test commits; progress in [PLAY_LOG.md](PLAY_LOG.md) |
+|   3 | `vitest_story_play`     | Browser plays, accessibility checks and viewport tools ([plan](plan_vitest_addon.md)) | Framework setup, one example, then test commits with their supporting changes; progress in [PLAY_LOG.md](PLAY_LOG.md) |
 |   4 | `vitest_real_api_calls` | Real API responses replace hand-written mock payloads                                           | Not started                                                                                |
 
 Worktrees live under `~/projects/worktrees/galaxy/branch/`: `vitest_readability`, `storybook_prototype` (lane 2) and `storybook_interactions` (lane 3); the last two keep their old names until they're moved. Lanes push to the `jmchilton` remote.
@@ -50,10 +52,11 @@ Lane 4 has two parts:
 ## Combined play and accessibility lane — 2026-10-20
 
 `vitest_story_play` combines browser interactions and accessibility. Maintain
-only play above stories: one consolidated shared-infrastructure commit first,
-followed by the GDropdownItem example and the remaining per-test commits, with
-each story's accessibility annotations folded into its owning test commit. Future shared changes stay at the front; future story/play/a11y
-changes for a test are folded together by `Test-File:`.
+only play above stories: framework and accessibility policy first, followed by
+the GDropdownItem example and the remaining per-test commits. Play helpers and
+each story's accessibility annotations are folded into the test that first uses
+them. Keep completed catalog audit evidence with the completed conversions.
+Future story/play/a11y changes for a test are folded together by `Test-File:`.
 
 Strict accessibility failures and historical TODO exceptions remain; consolidation grants no PR approval and adds no browser CI. The conversion
 ledger fields keep their existing meanings; there is no separate accessibility
@@ -102,7 +105,7 @@ CI runs only the `unit` project. Story render checks and play functions aren't i
 - **The driver rebases when workers can't.** The auto-mode classifier refuses rebases and some pushes from worker agents, so the driver rebases each lane between batches, runs its gate and pushes; workers then skip the rebase, keep the whole batch on that base, and push fast-forwards only. If the lower lane rewrote itself (the old base isn't its ancestor), rebase `--onto` its tip from the old base, or the old base's commits replay.
 - **A blocked push stops the iteration.** If the push is refused, leave the ledger field unset, keep the log row and commits local, and report the exact push command to the driver. The driver's batch prompt says whether the next iteration may build on it.
 - **The ledger says what's ready.** A lane selects from the ledger field of the lane below, not from that lane's branch; a commit without its ledger write isn't done.
-- **Shared code is committed first.** Helpers, fixtures, mock handlers and story infrastructure belong in the lane’s single opening infrastructure commit, before the example and the remaining test commits that use them. Fold subsequent shared changes into that commit rather than adding new infrastructure commits among conversions.
+- **Introduce helpers with their consumers.** The opening commit contains general guidance or framework integration. Add consumer-specific helpers, fixtures, mock scenarios and documentation in the first test commit that uses them, directly or through another helper. Split independent exports across those commits. Preserve existing helper APIs until their remaining callers migrate, and pair deletions with the corresponding consumer updates. Framework changes may be folded into the opening commit; test support belongs with its owning `Test-File:` commit.
 - **Tests can enter mid-stack.** A test can be storified with no `iterated` count (FormData, FilesDialog and HistoryExportWizard already were). Lanes are a stacking order, not a gate every test must pass through.
 - **Lanes build on pushed tips.** A lane rebases onto the lane below's `jmchilton/` branch, never the local one. A driver pushes only after its iteration is validated and reviewed; until then it may amend freely.
-- **Downstream wins.** Once a lane above has changed a test, lanes below leave that file alone. If a shared helper changes below, the lanes above rebase and adapt. A lane may edit a lower lane's shared helper in its own shared-code commit, and keeps that edit through rebases. Folding a new shared fixture into a stories file a higher lane has changed is the driver's job; workers report it.
+- **Downstream wins.** Once a lane above has changed a test, lanes below leave that file alone. If a shared helper changes below, the lanes above rebase and adapt. A lane may edit a lower lane's shared helper with its own consuming test, and keeps that edit through rebases. Folding a new shared fixture into a stories file a higher lane has changed is the driver's job; workers report it.

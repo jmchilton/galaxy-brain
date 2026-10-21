@@ -1,10 +1,10 @@
 # vitest_readability
 
-Status: `ci_wait` (2026-10-20) — conflicts resolved; history reorganized; head `dd0f27fb6ac7` pushed, new-head CI pending. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
+Status: `ci_wait` (2026-10-20) — conflicts resolved; history reorganized; head `390b78fc122e` pushed, new-head CI pending. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `dd0f27fb6ac76e7d477334cb0fe5088d9c6c694e`, rebased onto dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `backup/vitest_readability_with_churn-before-stack-20261016` (`7f2db5e5941`); `vitest_readability_with_churn` is now stacked above this cleaned branch.
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `390b78fc122eb3fe11660a8c8acaf4bc5fa64c57`, rebased onto dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `backup/vitest_readability_with_churn-before-stack-20261016` (`7f2db5e5941`); `vitest_readability_with_churn` is now stacked above this cleaned branch.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 
@@ -346,3 +346,10 @@ No code changes, new test runs, title/status changes or new approval inferred.
 Published `dd0f27fb6ac76e7d477334cb0fe5088d9c6c694e` with the exact preceding-head lease. One shared-infrastructure commit is first, followed by parseBool as the example, then the remaining per-test conversions. 396 own-layer commits; final source tree is identical to the preceding head.
 
 All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.
+
+
+## Helpers with their consumers — 2026-10-20
+
+Published `390b78fc122eb3fe11660a8c8acaf4bc5fa64c57` using the exact preceding-head lease. The opening commit is README guidance only. Helpers, fixtures and helper-specific documentation now arrive with their first consuming tests; independent exports are introduced separately.
+
+All five final source trees remain identical to their preceding heads. The full experiment remains on the existing branches; no domain branches or new PRs were created. [Helper colocation, verification and current commit links](../../../../../projects/just_jesting_around/history_reorganization/consumer_colocation_2026-10-20/README.md). Existing draft, CI and full-catalog accessibility holds remain.

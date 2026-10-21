@@ -1,0 +1,63 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "lane": "vitest_readability",
+      "commits_verified": 396,
+      "foundation_paths": [
+        "client/README.md"
+      ],
+      "messages_authors_parents_paths_verified": true,
+      "final_tree_identical": true
+    },
+    {
+      "lane": "vitest_stories",
+      "commits_verified": 102,
+      "foundation_paths": [
+        ".gitignore",
+        ".pre-commit-config.yaml.sample",
+        "client/.prettierignore",
+        "client/.storybook/main.ts",
+        "client/.storybook/msw.ts",
+        "client/.storybook/preview.ts",
+        "client/.storybook/public/mockServiceWorker.js",
+        "client/.storybook/viteConfig.ts",
+        "client/package.json",
+        "client/pnpm-lock.yaml",
+        "client/src/api/client/__mocks__/http.ts",
+        "client/src/api/client/__mocks__/index.ts",
+        "client/tests/vitest/stories.ts",
+        "client/tsconfig.json",
+        "client/types/msw-storybook-addon.d.ts",
+        "client/types/vite.d.ts",
+        "client/vitest.config.mts",
+        "client/vitest.storybook.config.mts"
+      ],
+      "messages_authors_parents_paths_verified": true,
+      "final_tree_identical": true
+    },
+    {
+      "lane": "vitest_story_play",
+      "commits_verified": 96,
+      "foundation_paths": [
+        "client/.storybook/README.md",
+        "client/.storybook/main.ts",
+        "client/.storybook/preview.ts",
+        "client/package.json",
+        "client/pnpm-lock.yaml"
+      ],
+      "messages_authors_parents_paths_verified": true,
+      "final_tree_identical": true
+    },
+    {
+      "lane": "vitest_real_api_calls",
+      "commits_verified": 3,
+      "messages_metadata_parents_trees_verified": true
+    },
+    {
+      "lane": "vitest_readability_with_churn",
+      "commits_verified": 76,
+      "messages_metadata_parents_trees_verified": true
+    }
+  ]
+}

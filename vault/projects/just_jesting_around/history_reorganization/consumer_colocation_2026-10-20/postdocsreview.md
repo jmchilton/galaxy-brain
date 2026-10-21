@@ -1,0 +1,13 @@
+# Post-publication documentation and PR-body normal review
+
+PASS. No blocking findings.
+
+Reviewed root-authored updates to this directory's README, `PIPELINE_BRANCHES.md`, `PIPELINE_WORKERS.md`, the superseded history README notice, `STORYBOOK_PITCH.md`, all five existing branch indexes, and both canonical PR descriptions. This is a documentation/publication review, not a self-review of the scheduler.
+
+The current opening commit links match the prepared manifest exactly: readability `9f0e88c2bd6359e5efc09c15dd8f8a70e102ccb1`, stories `a77751a33d0957fd52bad23fbc780f64d0ed715c`, and play `9784684e2811d8d01de67cc2751f111059dc5cd3`. The path counts are correct: readability one README core path / 32 support paths, stories 18 core / 41 support, play five core / three support. Published-head tables, pitch snapshot and branch records contain the manifest's current heads. The older README is clearly marked superseded and links to the current explanation; historical branch paragraphs remain identifiable as previous snapshots.
+
+Cross-checked runtime claims against the JSON records and summaries: readability 32 support snapshots, 50 test-file executions / 515 passing cases; stories 46 support snapshots / 399 cases, plus the framework's 646 files / 5,682 passing and one skipped case; play three snapshots / 11 remaining unit cases and 19 Chromium story cases. Both matcher cleanup and stories framework full type checks passed. Failed environment attempts are disclosed as corrected and superseded. Documentation retains strict full-catalog accessibility failures, historical TODO limitations and missing browser CI; it makes no claim that focused runtime gates clear the full catalog.
+
+Compared the two proposed live PR bodies byte-for-byte against their freshly fetched before-JSON strings after applying only the expected substitutions. PR #24038 changes only the readability head SHA. PR #24300 changes only the three snapshot head SHAs and the single framework/helper-layout sentence. All other user text, whitespace and line endings are preserved, including the RFC's video URL `https://github.com/user-attachments/assets/4f4e55c9-bc1e-4555-8a96-87fb65d47b4d`. The RFC remains CRLF as fetched; the readability body remains LF. Both proposed live bodies match their canonical local descriptions after normalizing line endings. They are approved for the requested live description updates; no title, draft, base, video or unrelated text change is involved.
+
+The scope remains the five complete existing branches. No domain branch or new PR is created. Branch metadata preserves the prior draft/CI/reference classifications and points to the current verification record. Publication instructions retain exact remote leases and recovery refs.

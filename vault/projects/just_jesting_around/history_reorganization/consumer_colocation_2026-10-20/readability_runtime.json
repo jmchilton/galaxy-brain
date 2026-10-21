@@ -1,0 +1,458 @@
+{
+  "lane": "vitest_readability",
+  "results": [
+    {
+      "commit": "89ef94403fdd11de67b3e1fcb102371be6cb4580",
+      "owner": "client/src/components/Panels/Common/ToolSection.test.ts",
+      "support_paths": [
+        "client/tests/test-data/tools.ts"
+      ],
+      "test_paths": [
+        "client/src/components/Panels/Common/ToolSection.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-00.log",
+      "exit_code": 0,
+      "seconds": 26.36
+    },
+    {
+      "commit": "ca94fac490da63b20b8de78d4eafd850abc0a6b5",
+      "owner": "client/src/api/pages.test.ts",
+      "support_paths": [
+        "client/tests/test-data/pages.ts"
+      ],
+      "test_paths": [
+        "client/src/api/pages.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-01.log",
+      "exit_code": 0,
+      "seconds": 2.58
+    },
+    {
+      "commit": "f567b63afd1cf070ad29d3e34508ed4832262763",
+      "owner": "client/src/components/Notifications/NotificationCard.test.ts",
+      "support_paths": [
+        "client/src/components/Notifications/test-utils.ts"
+      ],
+      "test_paths": [
+        "client/src/components/Notifications/NotificationCard.test.ts",
+        "client/src/components/Notifications/NotificationsList.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-02.log",
+      "exit_code": 0,
+      "seconds": 4.68
+    },
+    {
+      "commit": "b6e69007e2e8b5b3948651ec240c02a9d6843972",
+      "owner": "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+      "support_paths": [
+        "client/src/components/User/DiskUsage/Management/Cleanup/test-utils.ts"
+      ],
+      "test_paths": [
+        "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-03.log",
+      "exit_code": 0,
+      "seconds": 3.43
+    },
+    {
+      "commit": "833bf5d185d7a21939c922c7f8073762db61a58b",
+      "owner": "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+      "support_paths": [
+        "client/src/components/BaseComponents/test-utils.ts"
+      ],
+      "test_paths": [
+        "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-04.log",
+      "exit_code": 0,
+      "seconds": 3.62
+    },
+    {
+      "commit": "4d68d1a9471d6e1e13a2025ea632f6511db1a343",
+      "owner": "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+      "support_paths": [
+        "client/tests/test-data/monitoring.ts",
+        "client/tests/vitest/fakeTaskMonitor.ts"
+      ],
+      "test_paths": [
+        "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-05.log",
+      "exit_code": 0,
+      "seconds": 4.36
+    },
+    {
+      "commit": "a46337b0ca402f91c9c4f3227b1931c0aef6c794",
+      "owner": "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+      "support_paths": [
+        "client/tests/test-data/userCredentials.ts"
+      ],
+      "test_paths": [
+        "client/src/stores/userToolsServiceCredentialsStore.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-06.log",
+      "exit_code": 0,
+      "seconds": 4.73
+    },
+    {
+      "commit": "a56510c06e29117e5e844bcad309aeaeb3fe3d8e",
+      "owner": "client/src/composables/userToolCredentials.test.ts",
+      "support_paths": [
+        "client/tests/test-data/index.ts"
+      ],
+      "test_paths": [
+        "client/src/composables/userToolCredentials.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-07.log",
+      "exit_code": 0,
+      "seconds": 4.87
+    },
+    {
+      "commit": "9bd89631bcbfd90b1284df592ae04e934dadf995",
+      "owner": "client/src/stores/storageOperationsStore.test.ts",
+      "support_paths": [
+        "client/tests/test-data/storageOperations.ts"
+      ],
+      "test_paths": [
+        "client/src/stores/storageOperationsStore.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-08.log",
+      "exit_code": 0,
+      "seconds": 1.62
+    },
+    {
+      "commit": "4b83b1e0d4515cdd1717b8cf50f83e50c97d5896",
+      "owner": "client/src/stores/datasetCollectionStore.test.ts",
+      "support_paths": [
+        "client/tests/test-data/collections.ts"
+      ],
+      "test_paths": [
+        "client/src/stores/datasetCollectionStore.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-09.log",
+      "exit_code": 0,
+      "seconds": 2.24
+    },
+    {
+      "commit": "5dacee4444b79de95511e85a2f050fcfcc3f2347",
+      "owner": "client/src/components/Common/RDMDestinationSelector.test.ts",
+      "support_paths": [
+        "client/tests/test-data/fileSources.ts"
+      ],
+      "test_paths": [
+        "client/src/components/Common/RDMDestinationSelector.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-10.log",
+      "exit_code": 0,
+      "seconds": 8.01
+    },
+    {
+      "commit": "d1f2216e9faaa67f6902106062fd36cffbfe5390",
+      "owner": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts",
+      "support_paths": [
+        "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/test-utils.ts"
+      ],
+      "test_paths": [
+        "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-11.log",
+      "exit_code": 0,
+      "seconds": 18.56
+    },
+    {
+      "commit": "721f2b2d86b810ae972728711953d1f1b7bc9b1f",
+      "owner": "client/src/components/History/Multiple/MultipleView.test.js",
+      "support_paths": [
+        "client/tests/vitest/mockConfig.js"
+      ],
+      "test_paths": [
+        "client/src/components/Form/Elements/FormDirectory.test.js",
+        "client/src/components/Grid/GridList.test.ts",
+        "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js",
+        "client/src/components/History/HistoryView.test.js",
+        "client/src/components/History/Multiple/MultipleView.test.js",
+        "client/src/components/Masthead/Masthead.test.js",
+        "client/src/components/Masthead/QuotaMeter.test.ts",
+        "client/src/components/StsDownloadButton.test.js",
+        "client/src/components/Tool/ToolCard.test.js",
+        "client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts",
+        "client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts",
+        "client/src/composables/useRegistrationTarget.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-12.log",
+      "exit_code": 0,
+      "seconds": 9.94
+    },
+    {
+      "commit": "3bca13bd3524dbc1468e8ee4e7d7c6fbcfb0a110",
+      "owner": "client/src/stores/objectStoreInstancesStore.test.ts",
+      "support_paths": [
+        "client/tests/test-data/objectStores.ts"
+      ],
+      "test_paths": [
+        "client/src/stores/objectStoreInstancesStore.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-13.log",
+      "exit_code": 0,
+      "seconds": 11.24
+    },
+    {
+      "commit": "a937186b42c84091bea86edcafe8d9a72ce2cc3d",
+      "owner": "client/src/stores/historyStore.test.ts",
+      "support_paths": [
+        "client/src/stores/_testing/sseStoreSupport.ts"
+      ],
+      "test_paths": [
+        "client/src/components/CommandPalette/providers/histories.test.ts",
+        "client/src/components/History/CurrentHistory/HistoryCounter.test.ts",
+        "client/src/stores/entryPointStore.test.js",
+        "client/src/stores/historyStore.lists.test.ts",
+        "client/src/stores/historyStore.test.ts",
+        "client/src/stores/notificationsStore.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-14.log",
+      "exit_code": 0,
+      "seconds": 12.36
+    },
+    {
+      "commit": "2f74d1034dc030e05dee5eaf55d3565705a63778",
+      "owner": "client/src/stores/chatStore.test.ts",
+      "support_paths": [
+        "client/tests/test-data/chat.ts"
+      ],
+      "test_paths": [
+        "client/src/stores/chatStore.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-15.log",
+      "exit_code": 0,
+      "seconds": 2.9
+    },
+    {
+      "commit": "da66315fb69573749e32c6f5355596864d1fe65b",
+      "owner": "client/src/components/CommandPalette/providers/actions.test.ts",
+      "support_paths": [
+        "client/tests/test-data/workflows.ts"
+      ],
+      "test_paths": [
+        "client/src/components/CommandPalette/providers/actions.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-16.log",
+      "exit_code": 0,
+      "seconds": 12.21
+    },
+    {
+      "commit": "5b1c67877819ffc34aadd2a0b60b3ce16118d23f",
+      "owner": "client/src/components/CommandPalette/providers/workflows.test.ts",
+      "support_paths": [
+        "client/src/components/CommandPalette/test-utils.ts"
+      ],
+      "test_paths": [
+        "client/src/components/CommandPalette/providers/workflows.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-17.log",
+      "exit_code": 0,
+      "seconds": 5.8
+    },
+    {
+      "commit": "712dd05c75f4eace9ccf65a617c81a2bb16299ff",
+      "owner": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+      "support_paths": [
+        "client/tests/vitest/effectScope.ts"
+      ],
+      "test_paths": [
+        "client/src/components/Workflow/List/useWorkflowCardActions.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-18.log",
+      "exit_code": 0,
+      "seconds": 5.27
+    },
+    {
+      "commit": "3829f3c461c1017c1bbd186062961c6983e4e947",
+      "owner": "client/src/stores/workflowStore.test.ts",
+      "support_paths": [
+        "client/tests/vitest/deferred.ts"
+      ],
+      "test_paths": [
+        "client/src/stores/workflowStore.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-19.log",
+      "exit_code": 0,
+      "seconds": 1.97
+    },
+    {
+      "commit": "b513d34938d739afec1d2d0fcab0bab220559700",
+      "owner": "client/src/composables/useHistoryDatasets.test.ts",
+      "support_paths": [
+        "client/tests/test-data/datasets.ts"
+      ],
+      "test_paths": [
+        "client/src/composables/useHistoryDatasets.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-20.log",
+      "exit_code": 0,
+      "seconds": 5.66
+    },
+    {
+      "commit": "ce65ef240c5d26cea16eb59b787c960987c1396c",
+      "owner": "client/src/components/PageEditor/PageCard.test.ts",
+      "support_paths": [
+        "client/src/components/PageEditor/testData.ts"
+      ],
+      "test_paths": [
+        "client/src/components/PageEditor/HistoryPageList.test.ts",
+        "client/src/components/PageEditor/PageCard.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-21.log",
+      "exit_code": 0,
+      "seconds": 4.47
+    },
+    {
+      "commit": "9e0111e143251d32c3faf00bb5fbec67bc205ef5",
+      "owner": "client/src/components/History/SwitchToHistoryLink.test.ts",
+      "support_paths": [
+        "client/tests/test-data/index.ts"
+      ],
+      "test_paths": [
+        "client/src/components/History/SwitchToHistoryLink.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-22.log",
+      "exit_code": 0,
+      "seconds": 5.36
+    },
+    {
+      "commit": "30130ad0f9c45c77cb8149a7520c0296982b3496",
+      "owner": "client/src/components/Dataset/Tabular/TabularChunkedView.test.ts",
+      "support_paths": [
+        "client/tests/vitest/visibleIntersectionObserver.ts"
+      ],
+      "test_paths": [
+        "client/src/components/Dataset/Tabular/TabularChunkedView.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-23.log",
+      "exit_code": 0,
+      "seconds": 3.94
+    },
+    {
+      "commit": "b8e1ce8f857480482978097bfceec0a81f5105ee",
+      "owner": "client/src/entry/analysis/modules/ResetPassword.test.ts",
+      "support_paths": [
+        "client/tests/vitest/matchers.d.ts",
+        "client/types/vitest-setup.d.ts"
+      ],
+      "test_paths": [
+        "client/src/entry/analysis/modules/ResetPassword.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-24.log",
+      "exit_code": 0,
+      "seconds": 4.4,
+      "type_check_environment_attempt": {
+        "exit_code": 2,
+        "seconds": 69.59,
+        "log": "/private/tmp/consumer-colocation-matcher-typecheck.log"
+      },
+      "type_check": {
+        "exit_code": 0,
+        "seconds": 65.35,
+        "log": "/private/tmp/consumer-colocation-matcher-typecheck-corrected.log",
+        "environment_fix": "Linked ignored API-client dist artifact from canonical readability package, whose production sources are identical."
+      }
+    },
+    {
+      "commit": "6c87e930129c3e2557ab21219324683833175aa2",
+      "owner": "client/src/components/GalaxyAI.routesync.test.ts",
+      "support_paths": [
+        "client/src/components/GalaxyAI/test-utils.ts"
+      ],
+      "test_paths": [
+        "client/src/components/GalaxyAI.routesync.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-25.log",
+      "exit_code": 0,
+      "seconds": 38.54
+    },
+    {
+      "commit": "f33b410b15b0a8362c13a80b1502a11507fe2f39",
+      "owner": "client/src/components/BaseComponents/GLink.test.ts",
+      "support_paths": [
+        "client/src/components/BaseComponents/test-utils.ts"
+      ],
+      "test_paths": [
+        "client/src/components/BaseComponents/GLink.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-26.log",
+      "exit_code": 0,
+      "seconds": 6.97
+    },
+    {
+      "commit": "66eb586140c2d34352254b0555414056aa8565c8",
+      "owner": "client/src/components/PageEditor/PageEditorView.test.ts",
+      "support_paths": [
+        "client/tests/test-data/pages.ts"
+      ],
+      "test_paths": [
+        "client/src/components/PageEditor/PageEditorView.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-27.log",
+      "exit_code": 0,
+      "seconds": 9.53
+    },
+    {
+      "commit": "b8d832fb09cf34e155622544c1d65d5306040ab9",
+      "owner": "client/src/components/Workflow/List/WorkflowList.test.ts",
+      "support_paths": [
+        "client/src/components/Workflow/testUtils.ts"
+      ],
+      "test_paths": [
+        "client/src/components/Workflow/List/WorkflowList.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-28.log",
+      "exit_code": 0,
+      "seconds": 11.33
+    },
+    {
+      "commit": "252ef7b10a9bf72a73c351dd24b7c459c5ac28d6",
+      "owner": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "support_paths": [
+        "lib/tool_shed/webapp/frontend/src/test-utils.ts"
+      ],
+      "test_paths": [
+        "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-29.log",
+      "exit_code": 0,
+      "seconds": 15.9
+    },
+    {
+      "commit": "c0e478a0ead2b191f73ced49395e56f20d6a26be",
+      "owner": "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+      "support_paths": [
+        "client/src/composables/upload/testHelpers/uploadFixtures.ts",
+        "client/src/stores/testUtils.ts"
+      ],
+      "test_paths": [
+        "client/src/components/Panels/Upload/UploadFileRow.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-30.log",
+      "exit_code": 0,
+      "seconds": 17.71
+    },
+    {
+      "commit": "242bf2f66f76eaefa7afa8345882fb164fcbaafd",
+      "owner": "client/src/api/visualizations.test.ts",
+      "support_paths": [
+        "client/tests/test-data/visualizations.ts"
+      ],
+      "test_paths": [
+        "client/src/api/visualizations.test.ts"
+      ],
+      "log": "/private/tmp/consumer-colocation-read-31.log",
+      "exit_code": 0,
+      "seconds": 1.84
+    }
+  ],
+  "verification": {
+    "support_snapshots": 32,
+    "all_owner_unit_suites_pass": true,
+    "matcher_type_check_pass": true
+  }
+}

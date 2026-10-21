@@ -1,0 +1,923 @@
+{
+  "head": "dd0f27fb6ac76e7d477334cb0fe5088d9c6c694e",
+  "base": "93b3c85e5320048b33bcc78f6f7767e06813f7e0",
+  "note": "Candidate symbol references in final test bodies, ordered by current commit order; import resolution and transitive helper dependency closure required before construction. Includes unchanged existing exports for context.",
+  "support_paths": [
+    {
+      "path": "client/src/components/BaseComponents/test-utils.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "createMemoryRouter",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/BaseComponents/GLink.test.ts",
+          "candidate_consumers": [
+            "client/src/components/BaseComponents/GLink.test.ts",
+            "client/src/components/BaseComponents/GToast.test.ts",
+            "client/src/components/BaseComponents/GButton.test.ts"
+          ]
+        },
+        {
+          "name": "clickModalButton",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+          "candidate_consumers": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+            "client/src/components/Sharing/UserSharing.test.ts",
+            "client/src/components/Tool/ToolInstallationRequestForm.test.ts",
+            "client/src/components/Common/RenameModal.test.ts",
+            "client/src/components/User/UserDeletion.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/src/components/CommandPalette/test-utils.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "makeCtx",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/CommandPalette/providers/actions.test.ts",
+          "candidate_consumers": [
+            "client/src/components/CommandPalette/providers/actions.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/Workflow/Editor/modules/canvasDraw.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts",
+            "client/src/components/CommandPalette/providers/categories.test.ts",
+            "client/src/components/CommandPalette/providers/visualizations.test.ts",
+            "client/src/components/CommandPalette/providers/histories.test.ts",
+            "client/src/components/CommandPalette/providers/reports.test.ts",
+            "client/src/components/CommandPalette/providers/scopes.test.ts"
+          ]
+        },
+        {
+          "name": "renderedSections",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/CommandPalette/providers/workflows.test.ts",
+          "candidate_consumers": [
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts",
+            "client/src/components/CommandPalette/providers/visualizations.test.ts",
+            "client/src/components/CommandPalette/providers/histories.test.ts"
+          ]
+        },
+        {
+          "name": "signIn",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/CommandPalette/providers/workflows.test.ts",
+          "candidate_consumers": [
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/CommandPalette/providers/histories.test.ts",
+            "client/src/components/CommandPalette/providers/reports.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/src/components/GalaxyAI/test-utils.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "mockGet",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/GalaxyAI.routesync.test.ts",
+          "candidate_consumers": [
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI.newchat.test.ts"
+          ]
+        },
+        {
+          "name": "mockPost",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/GalaxyAI.routesync.test.ts",
+          "candidate_consumers": [
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI.newchat.test.ts"
+          ]
+        },
+        {
+          "name": "mountChat",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/GalaxyAI.routesync.test.ts",
+          "candidate_consumers": [
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI.newchat.test.ts"
+          ]
+        },
+        {
+          "name": "messageTexts",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/GalaxyAI.routesync.test.ts",
+          "candidate_consumers": [
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI.newchat.test.ts"
+          ]
+        },
+        {
+          "name": "sendMessage",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/GalaxyAI.routesync.test.ts",
+          "candidate_consumers": [
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI.newchat.test.ts"
+          ]
+        },
+        {
+          "name": "chatReply",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/GalaxyAI.routesync.test.ts",
+          "candidate_consumers": [
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI.newchat.test.ts"
+          ]
+        },
+        {
+          "name": "ChatInputStub",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/GalaxyAI.routesync.test.ts",
+          "candidate_consumers": [
+            "client/src/components/GalaxyAI.routesync.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/src/components/Notifications/test-utils.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "generateMessageNotification",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/Notifications/NotificationCard.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Notifications/NotificationCard.test.ts",
+            "client/src/stores/notificationsStore.test.ts"
+          ]
+        },
+        {
+          "name": "generateNewSharedItemNotification",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/Notifications/NotificationCard.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Notifications/NotificationCard.test.ts"
+          ]
+        },
+        {
+          "name": "generateToolInstallationRequestNotification",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/Notifications/NotificationCard.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Notifications/NotificationCard.test.ts"
+          ]
+        },
+        {
+          "name": "generateNotificationsList",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/Notifications/NotificationsList.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Notifications/NotificationsList.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/src/components/PageEditor/testData.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "FAKE_PAGE_SUMMARY",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/PageEditor/PageCard.test.ts",
+          "candidate_consumers": [
+            "client/src/components/PageEditor/PageCard.test.ts"
+          ]
+        },
+        {
+          "name": "FAKE_PAGE_UNTITLED",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/PageEditor/PageCard.test.ts",
+          "candidate_consumers": [
+            "client/src/components/PageEditor/PageCard.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/src/components/User/DiskUsage/Management/Cleanup/test-utils.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeCleanableItem",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+          "candidate_consumers": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupResultDialog.test.ts"
+          ]
+        },
+        {
+          "name": "getFakeCleanupOperation",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+          "candidate_consumers": [
+            "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.test.ts",
+            "client/src/components/User/DiskUsage/Management/Cleanup/ReviewCleanupDialog.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/src/components/Workflow/testUtils.ts",
+      "deleted": true,
+      "exports": []
+    },
+    {
+      "path": "client/src/composables/upload/testHelpers/uploadFixtures.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "makePastedItem",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/composables/upload/useUploadBatchOperations.test.ts",
+          "candidate_consumers": [
+            "client/src/composables/upload/useUploadBatchOperations.test.ts",
+            "client/src/composables/upload/uploadItemTypes.test.ts",
+            "client/src/components/Panels/Upload/uploadState.test.ts",
+            "client/src/stores/uploadDatasetMonitorStore.test.ts"
+          ]
+        },
+        {
+          "name": "makeUrlItem",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/composables/upload/useUploadBatchOperations.test.ts",
+          "candidate_consumers": [
+            "client/src/composables/upload/useUploadBatchOperations.test.ts",
+            "client/src/composables/upload/uploadItemTypes.test.ts",
+            "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+            "client/src/components/Panels/Upload/uploadProgressUi.test.ts"
+          ]
+        },
+        {
+          "name": "makeRemoteFilesItem",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/composables/upload/uploadItemTypes.test.ts",
+          "candidate_consumers": [
+            "client/src/composables/upload/uploadItemTypes.test.ts",
+            "client/src/components/Panels/Upload/uploadProgressUi.test.ts"
+          ]
+        },
+        {
+          "name": "makeLibraryItem",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/composables/upload/uploadItemTypes.test.ts",
+          "candidate_consumers": [
+            "client/src/composables/upload/uploadItemTypes.test.ts",
+            "client/src/components/Panels/Upload/uploadProgressUi.test.ts"
+          ]
+        },
+        {
+          "name": "makeLocalFileItem",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/composables/upload/uploadItemTypes.test.ts",
+          "candidate_consumers": [
+            "client/src/composables/upload/uploadItemTypes.test.ts",
+            "client/src/components/Panels/Upload/uploadProgressUi.test.ts"
+          ]
+        },
+        {
+          "name": "makeCollectionConfig",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/composables/upload/useUploadBatchOperations.test.ts",
+          "candidate_consumers": [
+            "client/src/composables/upload/useUploadBatchOperations.test.ts",
+            "client/src/components/Panels/Upload/uploadState.test.ts"
+          ]
+        },
+        {
+          "name": "withUploadState",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+            "client/src/components/Panels/Upload/uploadProgressUi.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/src/stores/_testing/sseStoreSupport.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "sseMockFactory",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/stores/historyStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/historyStore.test.ts",
+            "client/src/stores/notificationsStore.test.ts",
+            "client/src/stores/entryPointStore.test.js",
+            "client/src/components/History/CurrentHistory/HistoryCounter.test.ts",
+            "client/src/stores/historyStore.lists.test.ts",
+            "client/src/components/CommandPalette/providers/histories.test.ts"
+          ]
+        },
+        {
+          "name": "emitSse",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/stores/historyStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/historyStore.test.ts",
+            "client/src/stores/notificationsStore.test.ts"
+          ]
+        },
+        {
+          "name": "setSseConnected",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/History/CurrentHistory/HistoryCounter.test.ts",
+          "candidate_consumers": [
+            "client/src/components/History/CurrentHistory/HistoryCounter.test.ts"
+          ]
+        },
+        {
+          "name": "setSseHasEverConnected",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/History/CurrentHistory/HistoryCounter.test.ts",
+          "candidate_consumers": [
+            "client/src/components/History/CurrentHistory/HistoryCounter.test.ts"
+          ]
+        },
+        {
+          "name": "useVisibilityPatch",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/stores/historyStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/historyStore.test.ts",
+            "client/src/stores/notificationsStore.test.ts"
+          ]
+        },
+        {
+          "name": "trackVisibilityListeners",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/stores/historyStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/historyStore.test.ts",
+            "client/src/stores/notificationsStore.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/src/stores/testUtils.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "setupTestPinia",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/stores/collectionAttributesStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/collectionAttributesStore.test.ts",
+            "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/stores/storageOperationsStore.test.ts",
+            "client/src/stores/datasetCollectionStore.test.ts",
+            "client/src/components/Workflow/Editor/Actions/actions.test.ts",
+            "client/src/stores/workflowStepStore.test.ts",
+            "client/src/stores/collectionElementsStore.test.ts",
+            "client/src/stores/jobMetricsStore.test.ts",
+            "client/src/stores/workflowConnectionStore.test.ts",
+            "client/src/stores/objectStoreInstancesStore.test.ts",
+            "client/src/stores/historyStore.test.ts",
+            "client/src/stores/chatStore.test.ts",
+            "client/src/stores/notificationsStore.test.ts",
+            "client/src/composables/useSidebarSelection.test.ts",
+            "client/src/composables/upload/useUploadBatchOperations.test.ts",
+            "client/src/stores/invocationStore.test.ts",
+            "client/src/stores/windowManagerStore.test.ts",
+            "client/src/watch/watchHistory.test.js",
+            "client/src/stores/workflowStore.test.ts",
+            "client/src/stores/objectStoreTemplatesStore.test.ts",
+            "client/src/stores/workflowSearchStore.test.ts",
+            "client/src/stores/activityStore.test.ts",
+            "client/src/components/Workflow/Editor/modules/canvasDraw.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/stores/userStore.test.ts",
+            "client/src/stores/entryPointStore.test.js",
+            "client/src/components/Workflow/Editor/modules/activities.test.ts",
+            "client/src/stores/historyStore.lists.test.ts"
+          ]
+        },
+        {
+          "name": "seedCurrentHistory",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+            "client/src/components/SelectionField/SelectionField.test.js",
+            "client/src/components/Dataset/DatasetCopy.test.js"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/chat.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeChatHistoryItem",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/stores/chatStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/chatStore.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/collections.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeCollectionSummary",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/stores/datasetCollectionStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/datasetCollectionStore.test.ts",
+            "client/src/stores/collectionElementsStore.test.ts",
+            "client/src/components/History/Content/Collection/CollectionDescription.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts",
+            "client/src/components/History/Content/GenericItem.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/datasets.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeDatasetSummary",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/composables/useHistoryDatasets.test.ts",
+          "candidate_consumers": [
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/components/Collections/PairCollectionCreator.test.ts",
+            "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts",
+            "client/src/stores/datasetListStore.test.ts",
+            "client/src/components/Collections/ListCollectionCreator.test.ts",
+            "client/src/components/Collections/common/useElementReconciliation.test.ts",
+            "client/src/components/SelectionField/SelectionField.test.js",
+            "client/src/components/History/Content/GenericItem.test.ts",
+            "client/src/components/Workflow/Run/WorkflowRunInputStep.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/fileSources.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeFileSource",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/Common/RDMDestinationSelector.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Common/RDMDestinationSelector.test.ts",
+            "client/src/components/History/Export/HistoryExportWizard.test.ts",
+            "client/src/composables/fileSources.test.ts",
+            "client/src/components/History/Archiving/HistoryArchiveWizard.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/index.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeRegisteredUser",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/Panels/MyToolsLanding.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Panels/MyToolsLanding.test.ts",
+            "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/api/index.test.ts",
+            "client/src/components/History/Multiple/MultipleView.test.js",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+            "client/src/components/User/UserBeaconSettings.test.ts",
+            "client/src/components/History/Modals/SelectorModal.test.js",
+            "client/src/stores/userStore.test.ts",
+            "client/src/components/DatasetInformation/DatasetError.test.ts",
+            "client/src/components/History/SwitchToHistoryLink.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryCounter.test.ts",
+            "client/src/components/Workflow/List/WorkflowList.test.ts",
+            "client/src/components/Sharing/UserSharing.test.ts",
+            "client/src/components/Workflow/Run/WorkflowRun.test.js",
+            "client/src/components/User/UserDeletion.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts",
+            "client/src/composables/useCommandPalette.test.ts",
+            "client/src/components/Masthead/Masthead.test.js",
+            "client/src/components/Tool/ToolSuccess.test.ts",
+            "client/src/components/Masthead/QuotaMeter.test.ts",
+            "client/src/components/Tool/ToolCard.test.js",
+            "client/src/components/Workflow/WorkflowAnnotation.test.ts",
+            "client/src/components/History/Layout/DetailsLayout.test.js",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts",
+            "client/src/components/Libraries/LibraryFolder/LibraryFolderDataset/LibraryDataset.test.js",
+            "client/src/components/JobDestinationParams/JobDestinationParams.test.ts",
+            "client/src/components/History/useHistoryCardActions.test.ts",
+            "client/src/components/User/UserOidcProfile.test.ts",
+            "client/src/components/User/DiskUsage/DiskUsageSummary.test.ts",
+            "client/src/components/Panels/ToolBoxSearch.test.ts"
+          ]
+        },
+        {
+          "name": "getFakeAnonymousUser",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/composables/userToolCredentials.test.ts",
+          "candidate_consumers": [
+            "client/src/composables/userToolCredentials.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/components/Workflow/Run/WorkflowMissingToolsRequest.test.ts",
+            "client/src/components/CommandPalette/CommandPalette.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/ToolsList/ToolsListCard.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowCard.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/stores/unprivilegedToolStore.test.ts",
+            "client/src/composables/useCommandPalette.test.ts",
+            "client/src/components/Masthead/Masthead.test.js",
+            "client/src/components/Tool/ToolSuccess.test.ts",
+            "client/src/components/History/Layout/DetailsLayout.test.js",
+            "client/src/components/Panels/ToolBoxSearch.test.ts"
+          ]
+        },
+        {
+          "name": "getFakeHistorySummary",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/api/client/serverMock.test.ts",
+          "candidate_consumers": [
+            "client/src/api/client/serverMock.test.ts",
+            "client/src/api/index.test.ts",
+            "client/src/components/History/Multiple/MultipleView.test.js",
+            "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+            "client/src/stores/historyStore.test.ts",
+            "client/src/stores/invocationStore.test.ts",
+            "client/src/components/User/UserBeaconSettings.test.ts",
+            "client/src/components/History/Modals/SelectorModal.test.js",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/components/History/Archiving/HistoryArchiveWizard.test.ts",
+            "client/src/components/History/Archiving/HistoryArchiveExportSelector.test.ts",
+            "client/src/components/History/TargetHistorySelector.test.ts",
+            "client/src/components/History/HistoryOptions.test.ts",
+            "client/src/components/Panels/Upload/UploadFileRow.test.ts",
+            "client/src/components/CommandPalette/providers/datasets.test.ts",
+            "client/src/components/SelectionField/SelectionField.test.js",
+            "client/src/components/Dataset/DatasetCopy.test.js",
+            "client/src/components/History/useHistoryCardActions.test.ts",
+            "client/src/api/histories.test.ts"
+          ]
+        },
+        {
+          "name": "getFakeHistorySummaryExtended",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/History/SwitchToHistoryLink.test.ts",
+          "candidate_consumers": [
+            "client/src/components/History/SwitchToHistoryLink.test.ts",
+            "client/src/components/History/CurrentHistory/HistoryCounter.test.ts",
+            "client/src/components/WorkflowInvocationState/WorkflowInvocationShare.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/monitoring.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeMonitoringData",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+            "client/src/composables/persistentProgressMonitor.test.ts",
+            "client/src/components/Downloads/DownloadItemCard.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/objectStores.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeObjectStoreInstance",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/stores/objectStoreInstancesStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/objectStoreInstancesStore.test.ts",
+            "client/src/components/History/TargetObjectStoreSelector.test.ts",
+            "client/src/components/ObjectStore/Instances/CreateForm.test.ts",
+            "client/src/components/ObjectStore/Instances/UpgradeForm.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/pages.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakePageSummary",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/api/pages.test.ts",
+          "candidate_consumers": [
+            "client/src/api/pages.test.ts",
+            "client/src/components/PageEditor/PageCard.test.ts",
+            "client/src/components/PageEditor/HistoryPageView.test.ts",
+            "client/src/stores/pageStore.test.ts",
+            "client/src/components/CommandPalette/providers/reports.test.ts"
+          ]
+        },
+        {
+          "name": "getFakePageDetails",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/api/pages.test.ts",
+          "candidate_consumers": [
+            "client/src/api/pages.test.ts",
+            "client/src/components/PageEditor/HistoryPageView.test.ts",
+            "client/src/components/PageEditor/PageDisplayToolbar.test.ts",
+            "client/src/stores/pageStore.test.ts"
+          ]
+        },
+        {
+          "name": "getFakePageRevisionSummary",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/PageEditor/PageEditorView.test.ts",
+          "candidate_consumers": [
+            "client/src/components/PageEditor/PageEditorView.test.ts",
+            "client/src/components/PageEditor/PageDisplayToolbar.test.ts"
+          ]
+        },
+        {
+          "name": "getFakePageRevisionDetails",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/PageEditor/PageEditorView.test.ts",
+          "candidate_consumers": [
+            "client/src/components/PageEditor/PageEditorView.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/storageOperations.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeStorageOperationRun",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/stores/storageOperationsStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/storageOperationsStore.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/tools.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeTool",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/Panels/Common/ToolSection.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Panels/Common/ToolSection.test.ts",
+            "client/src/components/Panels/MyToolsLanding.test.ts",
+            "client/src/components/ToolsList/ToolsList.test.ts",
+            "client/src/stores/toolStore.test.ts",
+            "client/src/utils/tool-version.test.ts",
+            "client/src/components/Panels/utilities.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/userCredentials.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeServiceCredentialGroup",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+            "client/src/composables/userToolCredentials.test.ts"
+          ]
+        },
+        {
+          "name": "getFakeUserServiceCredentials",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+          "candidate_consumers": [
+            "client/src/stores/userToolsServiceCredentialsStore.test.ts",
+            "client/src/composables/userToolCredentials.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/visualizations.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeVisualizationSummary",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/api/visualizations.test.ts",
+          "candidate_consumers": [
+            "client/src/api/visualizations.test.ts",
+            "client/src/components/CommandPalette/providers/visualizations.test.ts",
+            "client/src/stores/visualizationStore.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/test-data/workflows.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeWorkflowSummary",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/CommandPalette/providers/actions.test.ts",
+          "candidate_consumers": [
+            "client/src/components/CommandPalette/providers/actions.test.ts",
+            "client/src/components/CommandPalette/providers/workflows.test.ts",
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/src/components/Workflow/WorkflowExport.test.js",
+            "client/src/components/Workflow/List/WorkflowList.test.ts",
+            "client/src/components/Workflow/List/WorkflowCardList.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/vitest/deferred.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "deferred",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/utils/upload.test.ts",
+          "candidate_consumers": [
+            "client/src/utils/upload.test.ts",
+            "client/src/stores/workflowStore.test.ts",
+            "client/src/utils/upload-queue.test.js",
+            "client/src/components/GalaxyAI.routesync.test.ts",
+            "client/src/components/GalaxyAI.newchat.test.ts",
+            "client/src/components/Workflow/List/CuratedWorkflowList.test.ts",
+            "client/src/stores/historyStore.lists.test.ts",
+            "client/src/stores/pageStore.test.ts",
+            "client/src/stores/visualizationStore.test.ts",
+            "client/src/components/CommandPalette/providers/histories.test.ts",
+            "client/src/composables/upload/useUploadStaging.test.ts",
+            "client/src/stores/uploadDatasetMonitorStore.test.ts",
+            "client/src/components/Visualizations/VisualizationDisplay.test.js"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/vitest/effectScope.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "runInTestScope",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+            "client/src/composables/useHistoryDatasets.test.ts",
+            "client/src/components/Workflow/Editor/Lint.test.ts",
+            "client/src/components/History/Graph/useHistoryGraph.test.ts",
+            "client/src/components/CommandPalette/useScrollEdges.test.ts",
+            "client/src/components/History/Graph/useHistoryGraphData.test.ts",
+            "client/src/components/History/useHistoryCardActions.test.ts",
+            "client/src/composables/upload/useUploadStaging.test.ts",
+            "client/src/components/Workflow/Editor/modules/useLinting.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/vitest/fakeTaskMonitor.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "getFakeTaskMonitor",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+            "client/src/composables/persistentProgressMonitor.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/vitest/matchers.d.ts",
+      "deleted": true,
+      "exports": []
+    },
+    {
+      "path": "client/tests/vitest/mockConfig.js",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "setupMockConfig",
+          "exists_in_base": true,
+          "first_candidate_consumer": "client/src/components/History/Multiple/MultipleView.test.js",
+          "candidate_consumers": [
+            "client/src/components/History/Multiple/MultipleView.test.js",
+            "client/src/components/Workflow/Run/WorkflowSelectPreferredObjectStore.test.ts",
+            "client/src/components/Tool/ToolSelectPreferredObjectStore.test.ts",
+            "client/src/components/Sharing/UserSharing.test.ts",
+            "client/src/components/Workflow/List/WorkflowListTabs.test.ts",
+            "client/src/components/Masthead/QuotaMeter.test.ts",
+            "client/src/components/Grid/GridList.test.ts",
+            "client/src/components/Tool/ToolCard.test.js",
+            "client/src/composables/useRegistrationTarget.test.ts",
+            "client/src/components/Workflow/Editor/Forms/FormTool.test.js"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/tests/vitest/visibleIntersectionObserver.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "VisibleIntersectionObserver",
+          "exists_in_base": false,
+          "first_candidate_consumer": "client/src/components/Dataset/Tabular/TabularChunkedView.test.ts",
+          "candidate_consumers": [
+            "client/src/components/Dataset/Tabular/TabularChunkedView.test.ts",
+            "client/src/components/History/Content/GenericItem.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "client/types/vitest-setup.d.ts",
+      "deleted": false,
+      "exports": []
+    },
+    {
+      "path": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/test-utils.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "MetadataJsonViewerStub",
+          "exists_in_base": false,
+          "first_candidate_consumer": "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts",
+          "candidate_consumers": [
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/OverviewTab.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/ToolHistoryTab.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/MetadataInspector/RevisionsTab.test.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "lib/tool_shed/webapp/frontend/src/test-utils.ts",
+      "deleted": false,
+      "exports": [
+        {
+          "name": "createMemoryRouter",
+          "exists_in_base": false,
+          "first_candidate_consumer": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+          "candidate_consumers": [
+            "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/pages/RepositoriesByCategories.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/galaxyUi.test.ts",
+            "lib/tool_shed/webapp/frontend/src/components/pages/ForgotPassword.test.ts"
+          ]
+        }
+      ]
+    }
+  ]
+}

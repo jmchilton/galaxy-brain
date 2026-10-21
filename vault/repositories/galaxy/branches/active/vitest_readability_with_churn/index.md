@@ -1,8 +1,8 @@
 # vitest_readability_with_churn
 
-Status: `branches_reference`; published comparison stack, do not PR. Base: `vitest_readability` (`dd0f27fb6ac76e7d477334cb0fe5088d9c6c694e`).
+Status: `branches_reference`; published comparison stack, do not PR. Base: `vitest_readability` (`390b78fc122eb3fe11660a8c8acaf4bc5fa64c57`).
 
-Current pushed head: `ca6893f93ef66b0e0478a4037fcac4bc0725db6a`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn`.
+Current pushed head: `7f5bf764eb0eaff8857507265e59e9881312a536`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn`.
 
 John requested this backup on 2026-10-13 before removing the 77 score-2 readability commits. Originally it preserved the complete `vitest_readability` history at `7f2db5e59415f07c09fec5be75ff4885fbad047e`, including its `fix_story_a11y` base. That original head is now preserved at `backup/vitest_readability_with_churn-before-stack-20261016`. The named branch is now a comparison stack with a worktree; published on the fork at John’s request, no separate PR.
 
@@ -44,3 +44,10 @@ Published `e8d2b3f06e4b7842d6afee6f356ffcb0a3c05dd7` onto readability `1358d3788
 Published `ca6893f93ef66b0e0478a4037fcac4bc0725db6a` with the exact preceding-head lease. Restacked the existing 76 own commits onto rewritten readability, preserving their trees, authors and exact messages.
 
 All existing branches remain complete. No smaller review branches or PRs were created. The agreed future extraction is small domain batches (roughly 5–10 tests), when John requests it. Original heads remain in local recovery refs under `refs/archive/test-history-20261020/`. [History reorganization and verification](../../../../../projects/just_jesting_around/history_reorganization/README.md). No source changes or new test runs; existing review/CI/accessibility holds remain.
+
+
+## Helpers with their consumers — 2026-10-20
+
+Published `7f5bf764eb0eaff8857507265e59e9881312a536` using the exact preceding-head lease. Restacked the existing 76 own commits onto rewritten readability, preserving their exact trees, messages and author/committer metadata.
+
+All five final source trees remain identical to their preceding heads. The full experiment remains on the existing branches; no domain branches or new PRs were created. [Helper colocation, verification and current commit links](../../../../../projects/just_jesting_around/history_reorganization/consumer_colocation_2026-10-20/README.md). Existing draft, CI and full-catalog accessibility holds remain.

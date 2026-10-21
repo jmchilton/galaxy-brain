@@ -19,7 +19,7 @@ Batches draw tests at random, refactor them against the guidance and independent
 
 ## Current scope and metrics
 
-Snapshot: head `dd0f27fb6ac` against `dev` at `93b3c85e532` (2026-10-20).
+Snapshot: head `390b78fc122` against `dev` at `93b3c85e532` (2026-10-20).
 
 History reorganized without source changes; validation below was run on the identical pre-rewrite tree.
 

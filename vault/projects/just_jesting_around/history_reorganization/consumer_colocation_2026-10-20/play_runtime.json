@@ -1,0 +1,76 @@
+{
+  "cases": [
+    {
+      "owner": "client/src/components/Form/Elements/FormSelect.test.js",
+      "commit": "f48f55949fe68ac9506997c84e0c84761a8d897a",
+      "unit": {
+        "exit_code": 0,
+        "log": "/private/tmp/consumer-colocation-play-runtime-logs/24-unit.log",
+        "seconds": 27.4,
+        "summary": [
+          " Test Files  1 passed (1)",
+          "      Tests  7 passed (7)",
+          "   Duration  17.13s (transform 8.55s, setup 1.55s, import 12.81s, tests 97ms, environment 2.36s)"
+        ]
+      },
+      "browser": {
+        "exit_code": 0,
+        "log": "/private/tmp/consumer-colocation-play-runtime-logs/24-browser.log",
+        "seconds": 27.8,
+        "summary": [
+          " Test Files  1 passed (1)",
+          "      Tests  10 passed (10)",
+          "   Duration  26.00s (transform 0ms, setup 5.16s, import 668ms, tests 1.15s, environment 0ms)"
+        ]
+      }
+    },
+    {
+      "owner": "client/src/components/Collections/PairCollectionCreator.test.ts",
+      "commit": "1ffc06284b534c61f5a414c4d3785a4d7b5bc979",
+      "unit": {
+        "exit_code": 0,
+        "log": "/private/tmp/consumer-colocation-play-runtime-logs/25-unit.log",
+        "seconds": 11.4,
+        "summary": [
+          " Test Files  1 passed (1)",
+          "      Tests  2 passed (2)",
+          "   Duration  9.55s (transform 4.55s, setup 419ms, import 8.67s, tests 146ms, environment 235ms)"
+        ]
+      },
+      "browser": {
+        "exit_code": 0,
+        "log": "/private/tmp/consumer-colocation-play-runtime-logs/25-browser.log",
+        "seconds": 19.5,
+        "summary": [
+          " Test Files  1 passed (1)",
+          "      Tests  5 passed (5)",
+          "   Duration  9.44s (transform 0ms, setup 6.63s, import 860ms, tests 741ms, environment 0ms)"
+        ]
+      }
+    },
+    {
+      "owner": "client/src/components/Workflow/WorkflowAnnotation.test.ts",
+      "commit": "dbe4cee9640b574eda1a64a76e797c4e957bb104",
+      "unit": {
+        "exit_code": 0,
+        "log": "/private/tmp/consumer-colocation-play-runtime-logs/31-unit.log",
+        "seconds": 9.6,
+        "summary": [
+          " Test Files  1 passed (1)",
+          "      Tests  2 passed (2)",
+          "   Duration  7.76s (transform 3.48s, setup 1.12s, import 4.80s, tests 127ms, environment 1.58s)"
+        ]
+      },
+      "browser": {
+        "exit_code": 0,
+        "log": "/private/tmp/consumer-colocation-play-runtime-logs/31-browser.log",
+        "seconds": 6.4,
+        "summary": [
+          " Test Files  1 passed (1)",
+          "      Tests  4 passed (4)",
+          "   Duration  4.65s (transform 0ms, setup 2.49s, import 475ms, tests 1.06s, environment 0ms)"
+        ]
+      }
+    }
+  ]
+}

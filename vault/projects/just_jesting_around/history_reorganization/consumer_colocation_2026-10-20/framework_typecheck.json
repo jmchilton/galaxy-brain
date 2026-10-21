@@ -1,0 +1,7 @@
+{
+  "lane": "vitest_stories",
+  "commit": "a77751a33d0957fd52bad23fbc780f64d0ed715c",
+  "command": "npm_config_use_node_version=22.20.0 VITE_CONFIG_NATIVE_IGNORE_WARNING=true pnpm type-check",
+  "exit_code": 0,
+  "log": "/private/tmp/consumer-colocation-story-core-typecheck.log"
+}
