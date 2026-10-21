@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review of `4471d665921` complete (one P2, three P3s, all fixed on fork review branch; its Selenium test not run locally); response drafted, not delivered.
+Initial review of `4471d665921` delivered 2026-10-21 as an approval (one P2, three P3s; John recommends including all review-branch commits). Fixes on fork review branch, not pushed into PR; its Selenium test not run locally.
 
 Open, ready for review, against `release_26.2`.
