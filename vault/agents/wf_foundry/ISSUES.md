@@ -35,6 +35,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](../../repositories/foundry/issues/wip/548/index.md)
 - [#679](https://github.com/galaxyproject/foundry/issues/679) — test-plan `evidence` can't mark fixture-derived values; `family` has no home for output attributes; PR [#695](https://github.com/galaxyproject/foundry/pull/695). [notes](../../repositories/foundry/issues/wip/679/index.md)
 - [#573](https://github.com/galaxyproject/foundry/issues/573) — `implement-galaxy-tool-step` documents no binding convention for an authored UDT; draft PR [#617](https://github.com/galaxyproject/foundry/pull/617). [notes](../../repositories/foundry/issues/wip/573/index.md)
+- [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; branch `issue-694-direct-build-on-brief` on `origin`. [notes](../../repositories/foundry/issues/wip/694/index.md)
 
 ## Queued (`queued`)
 

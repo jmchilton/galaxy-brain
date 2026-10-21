@@ -1,16 +1,16 @@
 # Issue draft: one Galaxy design Mold family
 
-Status: draft. Not opened. Open only on John's OK. No @-mentions.
+Status: posted 2026-10-21 as [#694](https://github.com/galaxyproject/foundry/issues/694), on John's OK. No @-mentions.
 
-**Title:** Build PAPER → GALAXY on the Workflow Brief Molds and retire the freeform Galaxy design Molds
+**Title:** Build the direct Galaxy routes on the Workflow Brief Molds and retire the freeform Galaxy design Molds
 
 ---
 
-🤖 *Drafted by Claude for jmchilton from the #563 brief runs. They reviewed the runs. This proposal is open for discussion.*
+🤖 *Drafted by Claude for jmchilton from the #563 brief runs. They reviewed the runs and decided the questions below.*
 
 When #605 restored the direct routes, it left two parallel Galaxy design Mold families: `freeform-summary-to-galaxy-{interface,data-flow,template,test-plan}` and `workflow-brief-to-galaxy-{interface,data-flow,template,test-plan}`. On 2026-10-14 we decided to keep both and revisit a merge once the brief route had real runs. Run 3 was that test: one paper and one scope, sent through both routes.
 
-**Proposal:** keep PAPER → GALAXY as a direct build (same route, `journey/direct-build`, no review stop), but run it on the brief Molds. Direct build would produce a Workflow Brief internally, accept its proposals without stopping, and continue into the `workflow-brief-to-galaxy-*` chain. Plan & Build keeps its expert-review stop.
+**Proposal:** keep PAPER → GALAXY and INTERVIEW → GALAXY as direct builds (same routes, `journey/direct-build`, no review stop), but run them on the brief Molds. Direct build produces a Workflow Brief internally, accepts its proposals without stopping, and continues into the `workflow-brief-to-galaxy-*` chain. Plan & Build keeps its expert-review stop. The four `freeform-summary-to-galaxy-*` Molds are then retired.
 
 This does not bring back #567. The brief stays a route you choose. Direct-build users don't get a forced pause, and the only thing that changes is which Molds run behind the route.
 
@@ -40,25 +40,26 @@ Confounds:
 - The direct arm upgraded a global CLI that the brief arm then used.
 - The budget caps differed, but neither bound.
 - Some of the extra verification traces back to brief open questions (one prompted the GenBank lookup). The rest may be run-to-run variance.
-- The Galaxy phase cost more on the brief route, so expect a merged direct route to cost more than today's.
+- No interview-sourced run has been through either route. INTERVIEW → GALAXY converts on the strength of the shared freeform handoff, since `interview-to-freeform-summary` and `summarize-paper` emit the same summary.
 
 ## Contract changes this needs
 
-- **Review gate.** `workflow-brief-to-galaxy` refuses to start without a recorded expert review. Direct build needs an explicit "no review, proposals accepted by default" path, recorded in the run record.
-- **Ledger provenance.** The ledger defines `basis: brief-proposal` only as adopting the brief's proposal, and its example says "accepted at review". In a direct run nobody reviewed anything. Pick one way to record that: a new basis value, a `reviewed: false` field, or a run-level marker.
+- **Own phase lists.** The brief pipelines can't simply be chained. `paper-to-workflow-brief` stops for expert editing, and `workflow-brief-to-galaxy` stops without a recorded review. Each direct route becomes its summarizer → `freeform-summary-to-workflow-brief` → the `workflow-brief-to-galaxy-*` chain, with its own harness notes.
+- **Review gate.** Direct build records an explicit "no review, proposals accepted by default" path in place of the expert review. The brief hash check starts when the brief is emitted.
+- **Ledger provenance.** This changes behaviour, not just a label. A Mold that finds a `brief-proposal` answer wrong must keep using it, record a brief-change recommendation, and stop if correctness depends on it. That is right for a reviewed answer. Unreviewed, it turns every wrong guess into a mid-run stop. Add `basis: unreviewed-proposal`: it adopts the brief's proposal like `brief-proposal`, but a later Mold supersedes it like an `agent` decision.
+- **Test data.** PAPER → GALAXY keeps `paper-to-test-data` in its test-data branch. Run 3's direct arm got its test data from it, and `workflow-brief-to-galaxy` doesn't have it.
 - **Done report.** Direct build reports every open-question answer and every brief-change recommendation, low confidence first. That keeps the user's feedback without making them answer anything mid-run.
 - **Blockers still stop.** This matches #605 ("can still stop on blockers"), but it changes behaviour for direct users: an ambiguous selection becomes a stop instead of a guess.
 
 ## Scope
 
-- In: PAPER → GALAXY, and retiring the four `freeform-summary-to-galaxy-*` Molds once nothing uses them.
-- INTERVIEW → GALAXY (`reviewed`) uses the same four Molds, but run 3 didn't exercise it. Convert it only after one interview-sourced run, or keep the freeform Molds until then.
-- Out: `freeform-summary-to-cwl-design` and the CWL target, and `freeform-summary-to-workflow-brief` (it stays, since it is the brief producer).
+- In: PAPER → GALAXY and INTERVIEW → GALAXY, and retiring the four `freeform-summary-to-galaxy-*` Molds along with the references to them in other Molds, schemas and research notes.
+- Out: `freeform-summary-to-cwl-design` and the CWL target. `freeform-summary-to-workflow-brief` stays, since it is the brief producer. UPDATE INTERVIEW → GALAXY uses its own changeset Molds and is unaffected.
 
-## Open questions
+## Decided
 
-- Convert INTERVIEW → GALAXY in the same change, or after an interview run?
-- How should the ledger mark unreviewed proposals: a new `basis` value, a field, or a run-level marker?
-- Is the higher direct-build cost acceptable, or should direct mode skip some of the brief-route verification?
+- Unreviewed proposals get a new `basis` value rather than reusing `agent`, so a reader can still tell an adopted proposal from a Mold's own answer.
+- INTERVIEW → GALAXY converts in the same change.
+- The higher direct-build cost is accepted for now. Measure it on later runs before trimming any verification.
 
 Refs #563, #567, #605, #688.
