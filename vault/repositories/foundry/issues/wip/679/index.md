@@ -1,7 +1,7 @@
 # foundry#679 — test-plan `evidence` / `family` gaps
 
 Issue: https://github.com/galaxyproject/foundry/issues/679 (scottcain, AI-posted, `needs-triage`)
-Branch: `issue-679-test-plan-evidence` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-679`, commit `0bc7a9fb` on `f264e588`.
+Branch: `issue-679-test-plan-evidence` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-679`, commit `5692fa87` on `f264e588`.
 PR draft: [pr_description.md](pr_description.md)
 
 ## Triage (2026-10-21)
@@ -41,3 +41,11 @@ The vendored tests-format schema needs no change.
 - #675 (nested sub-collection arity): tests-format now accepts nested `count`/`min`/`max`
   (`.changeset/gxwf-1-14-nested-count.md`), so #675 may already be fixed — check next.
 - #576 changes the same schema.
+
+## Codex review (2026-10-21)
+
+One P1, confirmed and fixed in the amended commit `5692fa87`: the Mold said snapshot-only nf-tests yield no
+`test-evidence`, but `nextflow-snapshot-to-galaxy-assertions` translates `.snap` md5 tokens into
+`checksum` — an upstream expected value. The rule now keeps md5→checksum as `test-evidence`;
+captures that record only names or paths are `fixture-derived`/`intent`, and a case with no
+`test-evidence` warns `no-upstream-expected-outputs`.

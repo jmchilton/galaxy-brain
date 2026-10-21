@@ -7,7 +7,7 @@ The test-plan schema couldn't say whether an expected value was measured or made
 **`evidence`**
 - New assertion-level value `fixture-derived`: the value was measured from upstream fixture bytes, but the source has no assertion to translate.
 - `test-evidence` now means only a value translated from an upstream assertion, checksum or expected file.
-- `nextflow-test-to-galaxy-test-plan` no longer says "prefer `test-evidence`". For snapshot-only nf-tests, it now splits assertions between `fixture-derived` and `intent`, and records the warning `no-upstream-expected-outputs`.
+- `nextflow-test-to-galaxy-test-plan` no longer says "prefer `test-evidence`". A snapshot `md5` translated to `checksum` stays `test-evidence`. Captures that record only names or paths (`stable_name`, `.nftignore`-pruned) become `fixture-derived` or `intent`, and a test case left with no `test-evidence` assertions records the warning `no-upstream-expected-outputs`.
 - The `derived_from` fields at the plan and test-case level are unchanged.
 
 **`family`**
