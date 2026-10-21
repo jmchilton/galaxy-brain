@@ -1,4 +1,4 @@
-- Fix dead Multiview selectors and add a helper to copy items between history columns
-- Point Multiview test selectors at real per-history hooks
-- Fix `multi_history_panel` selectors broken since the old multi-panel was dropped
 - Let tests drag items between Multiview history columns
+- Add per-history Multiview test hooks and a column-to-column copy helper
+- Drive Multiview one history column at a time in tests
+- Point Multiview test selectors at real per-history hooks

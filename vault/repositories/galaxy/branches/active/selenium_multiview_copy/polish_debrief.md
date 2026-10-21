@@ -1,9 +1,9 @@
 # selenium_multiview_copy polish debrief (2026-10-20)
 
-Started at `7da1f5881d7` and ended at `ecd9f95baac` (history rebuilt, force-pushed with lease).
+Started at `7da1f5881d7` and ended at `13374adf3e4` (history rebuilt, force-pushed with lease).
 
 ## CI
-Fork CI on `7da1f5881d7` had no reds; Playwright and Integration Selenium were still queued. The fork runs no Selenium E2E workflow. CI on `ecd9f95baac` was queued at hand-off.
+Fork CI on `7da1f5881d7` had no reds; Playwright and Integration Selenium were still queued. The fork runs no Selenium E2E workflow. CI on `13374adf3e4` was queued at hand-off.
 
 ## Checklist (GENERAL.md only)
 Every item passed. Outside the checklist, it found that `switch_button` and `current_history_check` were repointed but nothing exercised them, and that the new `history_column` selector was unused.
@@ -20,6 +20,8 @@ Description fixes:
 - The ids went dead when Vue Multiview replaced the legacy page; #14608 only deleted the old panel.
 - The timeout detail ("have hids [...]") is Selenium-only, so the claim was reworded.
 - Added a highlighted line on purpose and audience, and noted that `test_list_list_copy` is untouched.
+- Reframed it capability-first (opener, titles, `kind/enhancement`). The dead selectors were never called, so nothing visible was broken.
+- `current_label` (`.details .name`) is described as "no callers", not "matches nothing". `DatasetDetails` renders `.details` elements, so a match can't be ruled out. The commit message was reworded the same way (`13374adf3e4`).
 
 Not a problem: `current_history_check` relies on `name display`, but Multiview always renders the TextSummary branch, which carries it.
 

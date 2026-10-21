@@ -1,6 +1,6 @@
-Fix Multiview's per-history test selectors, which match nothing on `dev`, and add a helper that copies an item from one history column to another.
+Let tests and scripts drive one Multiview history column at a time, with a helper that copies an item between columns, and fix the per-history selectors that match nothing on `dev`.
 
-***The point is letting tests and scripts address one history's column, so they can drag items between existing histories. Repointing the dead selectors is the prerequisite.***
+***The point is addressing one history's column, so tests and scripts can drag items between existing histories. Repointing the dead selectors is the prerequisite.***
 
 On `dev`, `multi_history_panel.switch_button` and `current_history_check` point at `#history-column-<id>`. That id belonged to the legacy multi-panel; Vue Multiview replaced it in 2022, and 🔀 #14608 deleted the old panel. No test calls either selector, so nothing noticed. With no way to address a single column, the only copy test drags onto the "new history" drop box.
 
@@ -10,7 +10,7 @@ On `dev`, `multi_history_panel.switch_button` and `current_history_check` point 
 | `current_history_check(history_id)` | `#history-column-<id> .details .name`, matches nothing 😬 | column's `data-description="name display"` ✅ |
 | `history_column_item(history_id, hid)` | — | item in that history's column 🆕 |
 | `history_column_drop_zone(history_id)` | — | drop target for that history's column 🆕 |
-| `current_label`, `switch_history` | match nothing, no callers | removed |
+| `current_label`, `switch_history` | no callers | removed |
 
 ***Only test hooks change. Users could already drag between columns, and Multiview renders and behaves the same. The Vue diff adds two attributes: `data-history-id` on each column and a `data-description` on its switch button.***
 

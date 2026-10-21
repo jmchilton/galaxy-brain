@@ -6,11 +6,11 @@
 
 ## Status
 
-Polished on `dev`, head `ecd9f95baac`; ready for final review.
+Polished on `dev`, head `13374adf3e4`; ready for final review.
 
 No PR.
 
-Fork CI on `ecd9f95baac` queued; the fork runs Playwright but no Selenium E2E workflow.
+Fork CI on `13374adf3e4` queued; the fork runs Playwright but no Selenium E2E workflow.
 
 ## Scope
 
