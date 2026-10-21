@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-20 (#24302 opened as draft on request; #24301 opened as draft on request; #24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-20 (#24307 opened by accident, kept as draft with polished title/description/labels; #24302 opened as draft on request; #24301 opened as draft on request; #24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -36,6 +36,7 @@ None yet.
 - [`user_activation_register_masthead`](../../repositories/galaxy/branches/active/user_activation_register_masthead/index.md) — Missing E2E test: masthead Register, resend verification, emailed activation link; shared `ConfiguresMockEmails` mixin. Base `release_26.2`. [#24301](https://github.com/galaxyproject/galaxy/pull/24301). Draft requested by John.
 - [`issue_24061_24062_repository_details`](../../repositories/galaxy/branches/active/issue_24061_24062_repository_details/index.md) — Tool Shed repository page: `hg clone` command, category links, generated `.shed.yml`; API adds `categories`, `clone_url`. [#24298](https://github.com/galaxyproject/galaxy/pull/24298). Draft requested by John.
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [#24302](https://github.com/galaxyproject/galaxy/pull/24302). Draft requested by John.
+- [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [#24307](https://github.com/galaxyproject/galaxy/pull/24307). Opened by accident; draft, final read-through still pending.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
@@ -85,7 +86,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24173_invocation_selection_urls?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
 - [`issue_24173_invocation_selection_prep`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_prep/index.md) — Fixes invocation order-index lookup and graph centering, with component and browser baselines. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24173_invocation_selection_prep?expand=1).

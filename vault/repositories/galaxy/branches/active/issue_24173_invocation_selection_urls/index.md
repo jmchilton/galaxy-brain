@@ -1,15 +1,15 @@
 # Invocation selection URLs — issue #24173
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24173_invocation_selection_urls?expand=1)
+- [PR #24307](https://github.com/galaxyproject/galaxy/pull/24307)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24173_invocation_selection_urls)
 
 ## Status
 
-Branch is polished at `c69f43e3222` and waits in `branches_ready_for_final_review` for John's read-through, including the human-read checklist item.
+Branch is polished at `c69f43e3222`; John's final read-through (including the human-read checklist item) is still pending.
 
-No PR is open. The PR should target `dev`; the stacked base `issue_24173_invocation_selection_prep` exists only on the fork, so prep's four commits appear in the diff until prep merges.
+Draft [#24307](https://github.com/galaxyproject/galaxy/pull/24307) against `dev` was opened by accident on 2026-10-20 and sits in `ci_wait`; prep's four commits appear in its diff until prep merges.
 
-Fork CI on `c69f43e3222` is pending; the prior head's reds were diagnosed as unrelated (see [polish debrief](polish_debrief.md#ci)).
+PR CI on `c69f43e3222` is in progress; the prior head's reds were diagnosed as unrelated (see [polish debrief](polish_debrief.md#ci)).
 
 ## Branch
 
@@ -21,6 +21,7 @@ Fork CI on `c69f43e3222` is pending; the prior head's reds were diagnosed as unr
 
 - John split independently useful fixes and baselines into prep; new APIs (GenericItem controlled expansion) stay with their consumers here.
 - Graph centering and Steps-list scrolling are asserted in browser tests, not jsdom/VTU fakes.
+- Accidental PR (2026-10-20): kept #24307 as draft; title is the first `pr_titles.md` option, body is `pr_description.md` (screenshots on fork branch `pr-assets-issue_24173_invocation_selection_urls`), labels from `pr_tags.md`. Not an approval; undraft only after John's read-through.
 - Polish (2026-10-20): delete baseline-only `Analysis.test.ts`; strip unresolvable `job`/`output`/`step_tab` once the step or invocation is terminal; add a browser test for `output=` links.
 
 ## Polish
