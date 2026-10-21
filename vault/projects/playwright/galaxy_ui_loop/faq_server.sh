@@ -111,6 +111,7 @@ case "$command" in
         ;;
     env)
         echo "export GXUI_PYTHON=$GALAXY_ROOT/.venv/bin/python"
+        echo "export GXUI_GALAXY_ROOT=$GALAXY_ROOT"
         echo "export GXUI_HOME=$FAQ_HOME"
         echo "export GXUI_SESSION=$profile"
         echo "export GXUI_GALAXY_URL=$url"

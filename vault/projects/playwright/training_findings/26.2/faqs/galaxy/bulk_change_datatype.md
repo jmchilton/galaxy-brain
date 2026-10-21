@@ -26,4 +26,5 @@ Two `txt` datasets changed to `tabular`. Used by imaging/dicom-anatomical-3d.
 - gxui (tip): `history-change-datatype DATATYPE HID...` ticks the items (Select Items if needed),
   changes them and waits for the new extension.
 - `faq_server.sh` now runs Celery (gravity worker + `enable_celery_tasks`). Re-ran
-  `analysis_concatenate.gxui.sh` under it: green.
+  `analysis_concatenate.gxui.sh` (main) and `account_create.gxui.sh` (accounts) under it: green.
+  `faq_server.sh env` now exports `GXUI_GALAXY_ROOT` (the cite replay reads `test-data` from it).
