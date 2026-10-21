@@ -138,6 +138,10 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
   - The FastQC ZIP blocker was escalated this time, unlike 10-20.
 - Loop-repair finding: a repair worker wrote the ledger's `topology_repair` header itself, with `cap: 5` (and `escalations: 1` after 2 repairs). The controller re-read `cap` before each repair, so a worker could raise its own budget. Fixed on the loop-repair branch (`562c7edf`): the cap is read once, from the ledger the loop is handed; two new tests, build-cli 303.
 - Not checked: the Apply Rules state assumes every row has a second identifier level, which may not hold for unpaired rows.
+- Subagent review, both branches, 2026-10-21:
+  - Loop-repair (`4fd802e6`): no repair for a surrendered-only blocker, or after the last call `--max-iterations` allows; ledger counts and cap via `parseOpenRequirements`; README corrected; tests pin that repairs don't count toward `--max-iterations` and the consume-side preflight. build-cli 306.
+  - Stock-version (`5d6d6123`): the review's "add doesn't confirm the version" was half right. The shed serves Galaxy's declared equivalent on an exact miss (`WORKFLOW_SAFE_TOOL_VERSION_UPDATES`, `lib/galaxy/tool_util/version_updates.py`; `__APPLY_RULES__` 1.0.0–1.1.0), cached under the requested key. Rule now in the `add` CLI note: re-run `add` with the reported version and pin that. `summarize-galaxy-tool` aligned; `galaxy-collection-tools` named for collection ops only.
+  - Open for John: default iteration cap vs repair cap; progress counted ledger-wide vs on the named blockers; `cap: 0`; whether the dashboard's loop ×N counts repairs; no non-blocking exit when no version source exists; which cached version to take when several are cached.
 
 ## Open questions
 
