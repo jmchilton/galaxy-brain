@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+P3 1 looks like a nice micro optimization. The commits it offers for P3 2 & 3 makes the test more readable and I would include them. P3 4 and matching commit look like important tests. Can you merge these? None of it blocks though. -John
 
 <details><summary>Automated Review Details</summary>
 
