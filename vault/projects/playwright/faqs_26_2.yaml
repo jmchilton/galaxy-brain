@@ -39,11 +39,25 @@
   gx_findings: Added E2E for More panel hide/show + activity_bar components (8d36a3bd9f3); GButton tooltip selectors need @data-title; renamed preferences.activity to activity_bar.more (12c8ec3d7c7).
   note: Replay verifies the 26.2 replacement flow, not the FAQ's steps.
 - faq: faqs/galaxy/add-toolshed-category-to-a-tool.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: "\"See tool in toolshed\" is \"See in Tool Shed\" in the open tool form's caret menu (shed tools only), not in search results; 2 typos."
 - faq: faqs/galaxy/analysis_add_custom_build.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: df4f3b65424
+  used_by: [ecology/ref-based-rad-seq]
+  faq_findings: '"User -> Preferences" is the username menu; "Database (dbkey)" field is labelled Key; missing step: the build lists only after its jobs finish and the page reloads; typo.'
+  gx_findings: 'No E2E/API test for the FASTA path; added integration_selenium test + custom_builds components (bf041856612). Queued issues: build hidden until reload, API swallows NoConverterException. gxui preferences verb used for real; wait via `gxui call wait_for_history`.'
 - faq: faqs/galaxy/analysis_concatenate.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: df4f3b65424
+  faq_findings: Tool 1 (cat1) name and map-over claims verified (nth with nth, single recycled); tool 2 (tp_cat) not on stock servers, unverified. Could say to switch a field to collection mode.
+  gx_findings: 'tool_form_fill silently ignored a collection hid in a dataset field; now switches to collection mode and asserts the selection (db9151e2597). tool-describe reads the API, not the page (docstring, tip df4f3b65424). Gap: no verb peeks a collection element.'
 - faq: faqs/galaxy/analysis_cut.md
   status: pending
 - faq: faqs/galaxy/analysis_differential_expression_help.md
