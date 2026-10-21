@@ -1,16 +1,16 @@
 # selenium_multiview_copy
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_multiview_copy?expand=1)
+- [PR #24334](https://github.com/galaxyproject/galaxy/pull/24334)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_multiview_copy)
 - [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
 
 ## Status
 
-Polished (`branches_ready_for_final_review`) at head `d6e977c2c4f`, base `release_26.2`; awaiting John's read-through. See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Rebased onto `release_26.2`, head `3e9eaf4f887`; draft PR waiting on CI (`ci_wait`). See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
-No PR.
+Draft [#24334](https://github.com/galaxyproject/galaxy/pull/24334), opened on request 2026-10-21 with the polished title, description and labels.
 
-Fork CI queued on `d6e977c2c4f` (prior head green except an infra cache miss). No Selenium E2E workflow on the fork.
+Upstream CI running on `3e9eaf4f887`.
 
 ## Scope
 

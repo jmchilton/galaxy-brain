@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-21 (#24318 workflow_editor_run_cancel opened as draft on request; John opened #24310 directly, skipping polish; #24307 opened by accident, kept as draft with polished title/description/labels; #24302 opened as draft on request; #24301 opened as draft on request; #24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-21 (#24334 selenium_multiview_copy opened as draft on request; #24318 workflow_editor_run_cancel opened as draft on request; John opened #24310 directly, skipping polish; #24307 opened by accident, kept as draft with polished title/description/labels; #24302 opened as draft on request; #24301 opened as draft on request; #24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -30,6 +30,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`selenium_multiview_copy`](../../repositories/galaxy/branches/active/selenium_multiview_copy/index.md) — Multiview column test hooks, copy-between-columns helper + E2E tests; fixes target column not refreshing after single-type drops (26.2). [#24334](https://github.com/galaxyproject/galaxy/pull/24334).
 - [`selenium_history_datatype_citations`](../../repositories/galaxy/branches/active/selenium_history_datatype_citations/index.md) — Browser tests for bulk Change data type, Change Database/Build and history Export Tool References (26.2). [#24329](https://github.com/galaxyproject/galaxy/pull/24329).
 - [`custom_build_from_fasta`](../../repositories/galaxy/branches/active/custom_build_from_fasta/index.md) — E2E test for adding a custom build from a history FASTA; custom build test helpers moved onto navigation.yml components. [#24312](https://github.com/galaxyproject/galaxy/pull/24312).
 - [`selenium_tool_form_helpers`](../../repositories/galaxy/branches/active/selenium_tool_form_helpers/index.md) — Public tool-form fill/describe helpers on `NavigatesGalaxy`; fixes nested repeats, sections, editor steps. [#24331](https://github.com/galaxyproject/galaxy/pull/24331).
@@ -89,8 +90,6 @@ None yet.
 - [`issue_24273_dataset_edit_alert_26.0`](../../repositories/galaxy/branches/active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Polishing with baseline decomposition; blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297). Base `release_26.0`, head `c11610da344`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
-
-- [`selenium_multiview_copy`](../../repositories/galaxy/branches/active/selenium_multiview_copy/index.md) — Multiview column test hooks, copy-between-columns helper + E2E tests; fixes target column not refreshing after single-type drops. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_multiview_copy?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
 - [`issue_24173_invocation_selection_prep`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_prep/index.md) — Fixes invocation order-index lookup and graph centering, with component and browser baselines. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24173_invocation_selection_prep?expand=1).

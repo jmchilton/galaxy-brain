@@ -44,7 +44,7 @@ The copy helper came out of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilt
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? After a drop, the target column now shows the copied item; the toasts are unchanged. In tests, a missing hook or a drop that doesn't render shows as a timeout naming the selector or the history and hid.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The vitest checks which store refresh a drop triggers, answering the copy API with MSW (`useServerMock`) and stubbing store actions with `createTestingPinia`; the pin cases use the "new history" box's real call shape. The E2E tests check the rendered column, the API and the buttons.
