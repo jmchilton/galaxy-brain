@@ -1,4 +1,1 @@
-- Drive Multiview one history column at a time in tests, and refresh columns after drops
-- Add per-history Multiview test hooks and fix stale target column after copy
-- Let tests drag items between Multiview columns, and fix the column they drop into
-- Fix Multiview target column not refreshing after a drop, and add per-column test hooks
+- [26.2] Fix missing tests for Multiview drag and drop between history columns

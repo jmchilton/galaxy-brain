@@ -1,6 +1,6 @@
-Let tests and scripts drive one Multiview history column at a time, fix the per-history selectors that match nothing on `release_26.2`, and fix the target column not refreshing after a drop.
+Add the missing E2E tests for Multiview columns (dragging items between two histories' columns, switching from a column), fix the per-history selectors they need, and fix the bug the first such test found: the target column doesn't refresh after a drop.
 
-***The point is addressing one history's column, so tests and scripts can drag items between existing histories. Repointing the dead selectors is the prerequisite, and the first real column-to-column test exposed the refresh bug.***
+***Multiview had no test that touched a specific history's column, so its per-history selectors had been dead since 2022 and a refresh bug on every release since 24.1.2 went unnoticed. It targets `release_26.2` because of that bug; the selector and hook changes are what its regression tests need, and the only Vue change is two data attributes.***
 
 On `release_26.2`, `multi_history_panel.switch_button` and `current_history_check` point at `#history-column-<id>`. That id belonged to the legacy multi-panel; Vue Multiview replaced it in 2022, and 🔀 #14608 deleted the old panel. No test calls either selector, so nothing noticed. With no way to address a single column, the only copy test drags onto the "new history" drop box.
 
@@ -16,13 +16,13 @@ On `release_26.2`, `multi_history_panel.switch_button` and `current_history_chec
 
 Drag a dataset from one Multiview column onto another. The copy happens and a "Dataset copied to history" toast appears, but the target column keeps saying "This history is empty" until something else reloads it. Collection-only drops behave the same.
 
-The cause is one operator in `useHistoryDragDrop`. c7423339250 (🔀 #18699, on every release since 24.1) meant to load/pin the target only "if items were copied", but wrote the check as:
+The cause is one operator in `useHistoryDragDrop`. c7423339250 (🔀 #18699, on every release since 24.1.2) meant to load/pin the target only "if items were copied", but wrote the check as:
 
 ```ts
 if (datasetCount > 0 && collectionCount > 0) {
 ```
 
-So only a drop that mixes datasets *and* collections refreshes anything. This PR changes `&&` to `||`.
+So only a drop that mixes datasets *and* collections refreshes anything. This PR changes `&&` to `||`. `HistoryPanel.vue` also backs the main history panel, so a single-type drop there reloads its history too; the copy itself is unchanged.
 
 ***This also restores the pin behavior from before Aug 2024.*** Only `MultipleViewList.vue`'s "new history" drop box passes `pinHistories=true`. With `||`, a dataset-only or collection-only drop there pins the new history and the source history again when histories are pinned, as it did before c7423339250. Under `&&` the new history wasn't pinned, so it could be missing from a pinned Multiview. Columns (`HistoryPanel.vue`) only ever reach `loadHistoryById`.
 
@@ -40,14 +40,14 @@ Risks are minimal - the product change is a one-operator fix that makes the drop
 
 ## Context
 
-Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy_ui_driver), used to copy items between histories when driving Multiview from scripts.
+The copy helper came out of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy_ui_driver), which drives Multiview from scripts. Nothing here depends on it.
 
 ## John's Checklist
 
 - [ ] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? After a drop, the target column now shows the copied item; the toasts are unchanged. In tests, a missing hook or a drop that doesn't render shows as a timeout naming the selector or the history and hid.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. The vitest checks which store refresh a drop triggers, answering the copy API with MSW (`useServerMock`) and stubbing store actions with `createTestingPinia`; the pin cases use the "new history" box's real call shape. The dataset-onto-column case lives only in the E2E test, which checks the rendered column, the API and the buttons.
+- [x] Are unit tests not just testing the literal implementation? Yes. The vitest checks which store refresh a drop triggers, answering the copy API with MSW (`useServerMock`) and stubbing store actions with `createTestingPinia`; the pin cases use the "new history" box's real call shape. The E2E tests check the rendered column, the API and the buttons.
 - [x] Are baseline tests in their own leading commits (if applicable)? Yes. `historyDragDrop.test.ts` lands first with the cases that already pass (mixed drop, mixed drop onto the pinned "new history" box, failed copy, same-history drop).
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
@@ -57,7 +57,7 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 
 <details><summary>Tests</summary>
 
-- `historyDragDrop.test.ts`: the collection-only and dataset-only "new history" box (pinned) cases fail under `&&` (`loadHistoryById`/`pinHistory` not called) and pass with `||`; 6/6 pass.
+- `historyDragDrop.test.ts`: the dataset-only and collection-only column cases and the dataset-only "new history" box (pinned) case fail under `&&` (`loadHistoryById`/`pinHistory` not called) and pass with `||`; 7/7 pass.
 - `test_history_multi_view.py::TestHistoryMultiView::test_copy_dataset_between_columns` times out waiting for the copied item in the target column under `&&`, and passes with `||`. It also times out on `.history-column[data-history-id=…]` with the Vue hooks reverted.
 - `test_history_multi_view.py::TestHistoryMultiView::test_switch_to_history_from_column` times out on the switch button with its `data-description` reverted.
 - Locally the whole `test_history_multi_view.py` file passes under Playwright (6/6). An earlier revision of the copy test also passed under Selenium.

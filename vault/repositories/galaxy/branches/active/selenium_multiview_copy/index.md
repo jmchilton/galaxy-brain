@@ -6,17 +6,17 @@
 
 ## Status
 
-Polishing (`branches_need_polish`) on head `4352a0f4ff6`, base `release_26.2`. See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Polished (`branches_ready_for_final_review`) at head `d6e977c2c4f`, base `release_26.2`; awaiting John's read-through. See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
 No PR.
 
-Fork CI: green so far; Integration Selenium red was a client cache miss (rerun), Playwright queued. No Selenium E2E workflow on the fork.
+Fork CI queued on `d6e977c2c4f` (prior head green except an infra cache miss). No Selenium E2E workflow on the fork.
 
 ## Scope
 
 Multiview columns and switch buttons get real per-history hooks (`data-history-id`, `data-description`), and `navigation.yml` points `multi_history_panel` at them (4c). Dead `current_label`/`switch_history` selectors dropped. New `multi_history_copy_item` drags an item from one history's column onto another's (5e). E2E tests `test_history_multi_view.py::TestHistoryMultiView::test_copy_dataset_between_columns` and `test_switch_to_history_from_column`. Fix: `historyDragDrop.ts` `&&` → `||` so dataset-only/collection-only drops refresh the target column (bug since #18699), with baseline-first `historyDragDrop.test.ts`.
 
-Red → green: Playwright `test_history_multi_view.py` 6/6; vitest 6/6. Hook tests time out with their Vue hook reverted; the copy test and 2 vitest cases fail under `&&`. Nothing on `release_26.2` used the old `#history-column-<id>` selectors.
+Red → green: Playwright `test_history_multi_view.py` 6/6; vitest 7/7. Hook tests time out with their Vue hook reverted; the copy test and 3 vitest cases fail under `&&`. Nothing on `release_26.2` used the old `#history-column-<id>` selectors.
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). A dev-only merge keeps 4c/5e on `galaxy_ui_driver` until it restacks onto a base that has them; its `navigation.yml` still has `history_column`.
 

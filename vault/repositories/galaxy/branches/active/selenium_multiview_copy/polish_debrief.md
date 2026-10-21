@@ -1,37 +1,31 @@
-# selenium_multiview_copy polish debrief (2026-10-20)
+# selenium_multiview_copy polish debrief (2026-10-21)
 
-Started at `7da1f5881d7` and ended at `13374adf3e4` (history rebuilt, force-pushed with lease).
+Second polish, after the retarget to `release_26.2` and the re-scope that added the `historyDragDrop.ts` fix. The first polish debrief is in `earlier_drafts/1/`. Started at `4352a0f4ff6` and ended at `d6e977c2c4f`: the fix commit was amended and force-pushed with lease.
 
 ## CI
-Fork CI on `7da1f5881d7` had no reds; Playwright and Integration Selenium were still queued. The fork runs no Selenium E2E workflow. CI on `13374adf3e4` was queued at hand-off.
+On `4352a0f4ff6`, the only red was Integration Selenium. It failed on a `galaxy-static-<sha>` client cache miss, an infra problem rather than the branch. Playwright was still queued. Full fork CI was queued on `d6e977c2c4f` at hand-off.
 
 ## Checklist (GENERAL.md only)
-Every item passed. Outside the checklist, it found that `switch_button` and `current_history_check` were repointed but nothing exercised them, and that the new `history_column` selector was unused.
-- Added `test_switch_to_history_from_column`. It reads a column's name, checks both switch-button labels, clicks the target's, and checks that the current history and labels flip. With only the switch button's `data-description` reverted, it times out on that selector.
-- Dropped `history_column`.
+Every item the agent could answer passed. The human-read item is left for John. The baseline commit `2b530b5fb65` passes 4/4 on the unfixed `&&` code. Findings outside the checklist, none blocking:
+- `current_history_check` reads a column's name and only matches when the name renders through ClickToEdit or TextSummary.
+- `c6b0b9473cf` alone doesn't exercise the refresh. The target-column wait arrives in the fix commit.
+- The fix also reaches the main history panel (`HistoryPanel.vue`). The description now says so.
 
 ## Strengthening (one round)
-Branch changes:
-- Dropped `current_label` and `switch_history` too. Neither has callers or matches anything.
-- Rebuilt the history into three commits, so no commit adds a selector a later one deletes: hooks + selector fixes, copy helper + test, switch test.
-- Added before-click label assertions to the switch test.
+Branch: added a vitest case for a dataset-only drop onto a column. It is now 7/7, and 3 cases fail under `&&`.
 
-Description fixes:
-- The ids went dead when Vue Multiview replaced the legacy page; #14608 only deleted the old panel.
-- The timeout detail ("have hids [...]") is Selenium-only, so the claim was reworded.
-- Added a highlighted line on purpose and audience, and noted that `test_list_list_copy` is untouched.
-- Reframed it capability-first (opener, titles, `kind/enhancement`). The dead selectors were never called, so nothing visible was broken.
-- `current_label` (`.details .name`) is described as "no callers", not "matches nothing". `DatasetDetails` renders `.details` elements, so a match can't be ruled out. The commit message was reworded the same way (`13374adf3e4`).
+Description:
+- Opener is now test-led to match the title.
+- Added a highlighted sentence explaining why it targets `release_26.2`.
+- "Since 24.1" is now "since 24.1.2", the first tag containing c7423339250.
+- Fixed how the vitest cases are described.
+- The `galaxy_ui_driver` context now says nothing depends on it.
 
-Not a problem: `current_history_check` relies on `name display`, but Multiview always renders the TextSummary branch, which carries it.
+Left over: the current E2E tests weren't run under Selenium, because there's no chromedriver locally. The description keeps the "earlier revision passed under Selenium" hedge.
 
-Questions for John:
-- Restructure into a nested `multi_history_panel.history_column` sub-component (`_` / `${_}`) and rename `current_history_check` → `name`, `switch_button` → `switch`? Kept flat, which matches the sibling `history_dropdown_menu`.
+## Title
+John asked for a single title in the form "Fix missing tests for…". It got the `[26.2]` prefix.
+
+## Questions for John (carried over)
+- Nest `multi_history_panel.history_column` as a sub-component and rename `current_history_check` → `name` and `switch_button` → `switch`? Kept flat for now.
 - `empty_message_check` has no caller but isn't broken. Left alone.
-
-## Verification
-Ran locally against an isolated Galaxy (port 8082) and Vite (port 5175) from the polish worktree. The shared 8080/5173 servers belonged to another session. The whole Multiview file passed under Playwright (6/6) on the final tree. There's no `chromedriver` locally, so the switch test hasn't run under Selenium.
-
-## Housekeeping
-- The branch's own worktree has `selenium_standalone_package` checked out, so work happened in `selenium_multiview_copy_polish` (venv and node_modules symlinked; untracked `config/galaxy.yml`).
-- `galaxy_ui_driver`'s `navigation.yml` still defines `history_column` and will drift from dev after merge.

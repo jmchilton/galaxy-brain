@@ -1,4 +1,4 @@
-- `kind/bug` — a dataset-only or collection-only drop onto a Multiview column didn't refresh it (`historyDragDrop.ts`, since 24.1). The per-column test hooks and copy helper ride along as the regression test's prerequisite.
+- `kind/bug` — a dataset-only or collection-only drop onto a Multiview column didn't refresh it (`historyDragDrop.ts`, since 24.1.2). The per-column test hooks and copy helper ride along as the regression test's prerequisite.
 - `area/UI-UX` — the target column now shows dropped items.
 - `area/testing/selenium`
 
