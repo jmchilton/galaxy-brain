@@ -26,6 +26,7 @@ Run `_shared/GX_PROCESS_HARDEN_BRANCH.md` with BRANCH_DIRECTORY and WORKING_DIRE
 
 Finally write a quick summary of the choices and the final implementation and scope decision in `BRANCH_DIRECTORY/implementation_debrief.md`, then hand off per [`GX_IMPLEMENTATION_HANDOFF.md`](../_shared/GX_IMPLEMENTATION_HANDOFF.md).
 
+If this is the first handoff and we're clearly implementing a feature or bug fix in an issue and we've covered most or all of the issue - please report the work on the issue for transparency. Template for this is at `../_shared/GX_PROCESS_RECORD_IMPLEMENTATION.md`. Skip this step if the issue or fix is security-sensitive.
 ## Handling a Re-Scope
 
 Checkout the original implementation as `<BRANCH_NAME>_alt_original_scope` and modify the working branch to implement the expanded scope. Treat it as an alt branch per "Alt Branches" in `vault/agents/_shared/GX_DEVELOPMENT.md` - describe it in `alts/original_scope.md`.
