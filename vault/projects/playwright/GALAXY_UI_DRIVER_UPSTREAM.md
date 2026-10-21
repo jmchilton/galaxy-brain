@@ -90,6 +90,11 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   inactive user's upload fails with "Action requires account activation."; adds
   `upload_activity.progress_row_error(row)` and the `UsesUploadActivity` mixin on that class. Goes
   with `4d391ac7e36`.
+- `d58f510c7c0`: coverage for `analysis_troubleshooting`. `test_dataset_error_report.py` opens a red
+  dataset's error page from its bug icon and submits a report (mock SMTP + `error_email_to`); adds
+  `dataset_error`, `email_report` and `content_item.error_button` components, an
+  `email-report-result` class on `EmailReportForm`'s result alert, and two helpers. Coverage PR
+  candidate; green under Playwright only.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

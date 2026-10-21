@@ -54,6 +54,8 @@ galaxy:
   smtp_server: mock_emails_to_path://$state/email.json
   smtp_ssl: false
   email_from: galaxy-faq@example.org
+  # Turns on dataset error reports; they land in the captured mail too.
+  error_email_to: galaxy-errors@example.org
 EOF
 }
 
