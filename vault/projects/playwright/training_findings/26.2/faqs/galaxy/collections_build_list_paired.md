@@ -11,7 +11,8 @@ nothing here breaks them.
 - **List of Paired Datasets** is preselected when names pair; the wizard has three steps (What are
   you building?, Auto Pairing, Builder).
 - "Edit the List Identifier": say how — double-click the cell.
-- Last step is obsolete: selection mode ends on Build. Originals are hidden by default.
+- Last step (click the checkmark again) still holds: selection mode stays on after Build (Galaxy
+  bug, queued as `collection_build_leaves_stale_selection`). Originals are hidden by default.
 - Stray space in `` `_1 ` ``.
 
 ## Galaxy

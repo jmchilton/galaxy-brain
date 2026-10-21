@@ -8,7 +8,9 @@ digital-humanities/grobid, introduction/galaxy-intro-rdm.
 
 - Steps hold up to **Build**. With every item ticked the button reads **All N selected**; the menu
   item is **Auto Build List**; the switch is **Remove file extensions?**.
-- Last step is obsolete: selection mode ends on Build, so there is no checkmark to click again.
+- Last step (click the checkmark again) still holds: selection mode stays on after Build (a Galaxy
+  bug since 25.0, queued as `collection_build_leaves_stale_selection`). Earlier runs read it as ending
+  because `gxui home` reloads the page. Not a finding.
 - Closing paragraph is stale: **Hide original elements** is on by default, so the originals are
   hidden rather than "all files turn green"; the hidden-items (eye) counter shows them.
 - "(see letter b below)" inside the bold button label reads as part of the label.

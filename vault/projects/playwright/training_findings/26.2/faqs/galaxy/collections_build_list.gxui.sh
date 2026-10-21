@@ -10,5 +10,7 @@ gxui upload-paste "b" --ext fasta --name sample2.fasta
 gxui note "steps: Select Items, tick both, All 2 selected > Advanced Build List, Flat List (preselected), Next"
 gxui note "a single click on a name edits it; Remove file extensions is already on; name, Build"
 gxui collection-build list 1,2 --advanced --rename sample1=first --name samples
-gxui note "selection mode ends on Build; originals are hidden"
+gxui note "click the checkmark icon at the top of the history again: selection mode stays on after Build"
+gxui component history_panel.multi_operations.show_button click
+gxui note "originals are hidden"
 gxui collection-peek 5

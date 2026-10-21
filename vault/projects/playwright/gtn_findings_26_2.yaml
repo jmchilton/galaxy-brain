@@ -289,14 +289,22 @@
   summary: With every item ticked the selection button reads **All N selected**, not "n of N selected".
   fix: Same wording as all-n-selected.
 
-- label: builder-selection-ends-on-build-2
-  faqs: [faqs/galaxy/collections_build_list.md]
-  target: main
-  summary: The last step (click the checkmark at the top of the history again) is obsolete; selection mode ends on Build.
-  fix: Drop the step, as for builder-selection-ends-on-build.
-
 - label: build-list-click-to-rename
   faqs: [faqs/galaxy/collections_build_list.md]
   target: main
   summary: '"Double clcik on the file names": a single click edits a name, and extensions are already removed by the on-by-default **Remove file extensions?** switch.'
   fix: Say "Click a name to edit it, for example to remove a common prefix or suffix".
+
+- label: builder-selection-stays-on
+  faqs:
+    - faqs/galaxy/collections_autobuild_list.md
+    - faqs/galaxy/collections_build_list_paired.md
+  target: main
+  summary: builder-selection-ends-on-build was wrong; selection mode stays on after Build (Galaxy bug since 25.0), so the dropped "click the checkmark icon at the top of your history again" step is needed.
+  fix: Restore the step that builder-selection-ends-on-build dropped on faq_fixes_26_2 (open PR 7181).
+
+- label: force-mapping-nest-version
+  faqs: [faqs/galaxy/collections_force_mapping_over.md]
+  target: main
+  summary: Nest collection shipped in 25.1.0, but the headings say "Version > 25.1" and "Version < 25.1", so 25.1 matches neither; also `list:list:` has a stray trailing colon.
+  fix: Say "25.1 or later" and "before 25.1"; write `list:list`.

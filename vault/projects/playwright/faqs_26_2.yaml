@@ -156,7 +156,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: ea9238b123d
   used_by: [climate/ocean_qcv_analysis, digital-humanities/grobid, introduction/galaxy-intro-rdm]
-  faq_findings: [all-n-selected, builder-selection-ends-on-build, builder-hides-originals, autobuild-letter-b]
+  faq_findings: [all-n-selected, builder-selection-ends-on-build, builder-hides-originals, autobuild-letter-b, builder-selection-stays-on]
   gx_findings: 'Remove file extensions switch untested: added test_build_list_keep_extensions (e31b6908bec) + list_wizard.remove_extensions, collection_builder_toggle_remove_extensions. gxui: collection-build --keep-extensions (tip).'
 - faq: faqs/galaxy/collections_build_list_paired.md
   status: ui_verified
@@ -164,34 +164,47 @@
   gtn_commit: 45d4932d33
   galaxy_commit: ea9238b123d
   used_by: [assembly/debruijn-graph-assembly, assembly/mrsa-illumina, assembly/mrsa-nanopore, assembly/vgp_workflow_training, ecology/bacterial-isolate-species-contamination-checking, epigenetics/atac-seq, epigenetics/cut_and_run, epigenetics/formation_of_super-structures_on_xi, galaxy-interface/history, galaxy-interface/upload-data-to-ena, genome-annotation/amr-gene-detection, microbiome/dada-16S, microbiome/dunnart_metabarcoding, microbiome/host-removal, microbiome/lotus2-identifying-fungi, microbiome/metagenomics-assembly, microbiome/metagenomics-binning, microbiome/mgnify-amplicon, microbiome/mothur-miseq-sop, microbiome/samestr-strain-detection, microbiome/taxonomic-profiling, sequence-analysis/human-reads-removal, sequence-analysis/mapping, sequence-analysis/quality-contamination-control, transcriptomics/ref-based, variant-analysis/tb-variant-analysis]
-  faq_findings: [all-n-selected, builder-selection-ends-on-build, builder-hides-originals, paired-identifier-double-click, paired-stray-space]
+  faq_findings: [all-n-selected, builder-selection-ends-on-build, builder-hides-originals, paired-identifier-double-click, paired-stray-space, builder-selection-stays-on]
   gx_findings: 'Coverage exists (auto/manual pairing, identifier cell editing). gxui: collection-build --rename OLD=NEW (tip 54ad8734138).'
 - faq: faqs/galaxy/collections_build_list.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 64ad58a8c2a
+  galaxy_commit: cdc5c200548
   used_by: [assembly/ERGA-post-assembly-QC, assembly/mitochondrion-assembly, assembly/vgp_genome_assembly, assembly/vgp_workflow_training, ecology/ENA_Biodiv_submission, ecology/phylogeny-data-prep, epigenetics/methylation-seq, galaxy-interface/group-tags, galaxy-interface/history, galaxy-interface/workflow-editor, genome-annotation/gene-centric, genome-annotation/pangenome-annotation-with-roary, imaging/iscc-suite, imaging/stain-quantification-color-deconvolution, introduction/galaxy-reproduce, metabolomics/gc_ms_with_xcms, metabolomics/gcms, metabolomics/lcms, metabolomics/lcms-preprocessing, microbiome/diversity, microbiome/metagenomics-binning, microbiome/mgnify-amplicon, microbiome/pathogen-detection-from-nanopore-foodborne-data, microbiome/plasmid-metagenomics-nanopore, proteomics/DIA_Analysis_OSW, proteomics/DIA_lib_OSW, proteomics/encyclopedia, proteomics/metaproteomics, proteomics/metaquantome-data-creation, proteomics/proteogenomics-dbsearch, sequence-analysis/tapscan-streptophyte-algae, single-cell/scatac-batch-correction-snapatac2, single-cell/scrna-preprocessing, synthetic-biology/pathway_analysis, transcriptomics/ref-based, transcriptomics/srna, variant-analysis/trio-analysis]
-  faq_findings: [all-n-selected-2, builder-selection-ends-on-build-2, build-list-click-to-rename]
-  gx_findings: 'Flat list rename untested: added test_build_list_advanced_rename_element (64ad58a8c2a) + list_wizard.element_name, collection_builder_rename_element. gxui: collection-build --advanced, --rename for flat lists (tip 400337ea9ec).'
+  faq_findings: [all-n-selected-2, build-list-click-to-rename]
+  gx_findings: 'Flat list rename untested: added test_build_list_advanced_rename_element (cdc5c200548) + list_wizard.element_name, collection_builder_rename_element. gxui: collection-build --advanced, --rename for flat lists (tip 0450e986d59).'
 - faq: faqs/galaxy/collections_change_datatype.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: a32e15d771d
-  gx_findings: 'Coverage exists; helpers moved to NavigatesGalaxy (collection_edit_change_datatype, history_panel_collection_edit - the old bare .edit-btn relied on the collection being first) in a32e15d771d. gxui: collection-change-datatype (tip 400337ea9ec).'
+  galaxy_commit: b96ef661d45
+  gx_findings: 'Coverage exists; helpers moved to NavigatesGalaxy (collection_edit_change_datatype, history_panel_collection_edit - the old bare .edit-btn relied on the collection being first) in b96ef661d45. gxui: collection-change-datatype (tip 0450e986d59).'
 - faq: faqs/galaxy/collections_convert_datatype.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: a32e15d771d
-  gx_findings: 'Convert untested: added test_convert_datatype_simple_list (a32e15d771d) + convert components, collection_edit_convert. gxui: collection-convert (tip 400337ea9ec).'
+  galaxy_commit: b96ef661d45
+  gx_findings: 'Convert untested: added test_convert_datatype_simple_list (b96ef661d45) + convert components, collection_edit_convert. gxui: collection-convert (tip 0450e986d59).'
 - faq: faqs/galaxy/collections_force_mapping_over.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 00c72c7fa3c
+  used_by: [microbiome/metagenomics-assembly]
+  faq_findings: [force-mapping-nest-version]
+  gx_findings: 'Menu-driven Apply rules untested (tests set rule source JSON): added test_run_apply_rules_nest_from_menus (00c72c7fa3c) + rule_builder_add_column_basename; history_wait_for_new_collection (b96ef661d45). fastp, collection_column_join, metaspades not on faq_server.sh; Sort collection stood in for the map over.'
 - faq: faqs/galaxy/collections_rename.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 0450e986d59
+  used_by: [assembly/ecoli_comparison, genome-annotation/tnseq, imaging/hela-screen-analysis, microbiome/dada-16S, transcriptomics/full-de-novo]
+  gx_findings: 'Coverage exists (test_rename_collection). gxui: collection-rename (tip 0450e986d59).'
 - faq: faqs/galaxy/contribute_IWC.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/dataset_incomplete_download.md
   status: pending
 - faq: faqs/galaxy/dataset_tool_errors_metadata.md

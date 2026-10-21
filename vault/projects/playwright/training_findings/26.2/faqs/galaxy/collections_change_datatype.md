@@ -1,6 +1,6 @@
 # faqs/galaxy/collections_change_datatype.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `a32e15d771d` (`faq_server.sh main`, Celery on).
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `b96ef661d45` (`faq_server.sh main`, Celery on).
 Changed a two-element txt list to tabular. Not embedded in any tutorial.
 
 ## GTN
@@ -11,7 +11,7 @@ Changed a two-element txt list to tabular. Not embedded in any tutorial.
 ## Galaxy
 
 - Coverage exists (`test_change_datatype_simple_list`), but its steps were private to the test.
-  `a32e15d771d` moves them into `collection_edit_change_datatype` and adds
+  `b96ef661d45` moves them into `collection_edit_change_datatype` and adds
   `history_panel_collection_edit(hid)`: the old `collection_menu_edit_attributes` was a bare
   `.edit-btn`, which only found the collection because it was the newest item.
-- gxui (tip `400337ea9ec`): `collection-change-datatype HID TYPE`; waits until every element has it.
+- gxui (tip `0450e986d59`): `collection-change-datatype HID TYPE`; waits until every element has it.
