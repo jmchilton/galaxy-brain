@@ -1,13 +1,15 @@
 # better_custom_build_error_handling_25.1
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:better_custom_build_error_handling_25.1?expand=1)
+- [PR #24310](https://github.com/galaxyproject/galaxy/pull/24310)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/better_custom_build_error_handling_25.1)
 
 ## Status
 
-Implemented, one commit (`bd26faf57f3`) on `release_25.1` (`814bfd75c6c`). Worktree: `~/projects/worktrees/galaxy/branch/better_custom_build_error_handling_25.1`.
+`ready` — one commit (`bd26faf57f3`) on `release_25.1` (`814bfd75c6c`). Worktree: `~/projects/worktrees/galaxy/branch/better_custom_build_error_handling_25.1`.
 
-No PR yet. CI not yet seen.
+John opened [#24310](https://github.com/galaxyproject/galaxy/pull/24310) directly (not draft) at `bd26faf57f3` on 2026-10-20, skipping polish; title `[25.1] Better API Handling for Custom Builds`, his own short body, labels `kind/bug`, `area/API`. MERGEABLE.
+
+PR CI in progress at registration (26 pass, 2 skipped, 31 pending, no failures).
 
 [Implementation](implementation_debrief.md) · [PR description](pr_description.md)
 

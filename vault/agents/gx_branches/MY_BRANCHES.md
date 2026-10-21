@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-20 (#24307 opened by accident, kept as draft with polished title/description/labels; #24302 opened as draft on request; #24301 opened as draft on request; #24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-20 (John opened #24310 directly, skipping polish; #24307 opened by accident, kept as draft with polished title/description/labels; #24302 opened as draft on request; #24301 opened as draft on request; #24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -17,6 +17,7 @@ Snapshot: 2026-10-20 (#24307 opened by accident, kept as draft with polished tit
 - [`invocation_tool_compatibility`](../../repositories/galaxy/branches/active/invocation_tool_compatibility/index.md) — Rejects incompatible tools before run setup and deduplicates complete nested tool references. Base `release_26.2`. [#24209](https://github.com/galaxyproject/galaxy/pull/24209).
 - [`issue_24093_batch_element_labels_26.1`](../../repositories/galaxy/branches/active/issue_24093_batch_element_labels_26.1/index.md) — Labels every tool-form batch value, including dropped hidden collection elements (#24093). Base `release_26.1`. [#24211](https://github.com/galaxyproject/galaxy/pull/24211).
 - [`issue_24273_dataset_edit_alert_26.0_baseline`](../../repositories/galaxy/branches/active/issue_24273_dataset_edit_alert_26.0_baseline/index.md) — Baseline tests, three refactors and the #23985 backport ahead of `issue_24273_dataset_edit_alert_26.0`. Base `release_26.0`. [#24297](https://github.com/galaxyproject/galaxy/pull/24297).
+- [`better_custom_build_error_handling_25.1`](../../repositories/galaxy/branches/active/better_custom_build_error_handling_25.1/index.md) — Custom build PUT from a dataset checks dataset access (403 if inaccessible). Base `release_25.1`. [#24310](https://github.com/galaxyproject/galaxy/pull/24310).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -52,7 +53,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`better_custom_build_error_handling_25.1`](../../repositories/galaxy/branches/active/better_custom_build_error_handling_25.1/index.md) — Custom build PUT from a dataset loads it via `HDAManager.get_accessible`; inaccessible dataset → 403 instead of a raw id load; red-to-green API test. Fast branch per John (no harden). Base `release_25.1`, head `bd26faf57f3`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:better_custom_build_error_handling_25.1?expand=1).
 - [`custom_build_no_converter_400_26.0`](../../repositories/galaxy/branches/active/custom_build_no_converter_400_26.0/index.md) — Custom build PUT from a dataset with no `len` converter returns 400 naming the datatypes instead of a bare 500 "Failed to convert dataset."; red-to-green API test. Base `release_26.0`, head `75c806699c3`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:custom_build_no_converter_400_26.0?expand=1).
 - [`workflow_editor_run_cancel`](../../repositories/galaxy/branches/active/workflow_editor_run_cancel/index.md) — Missing E2E test: run from the editor's Run activity, pick a dataset in the simplified form, cancel the invocation; brings the helper fixes it needs (from `galaxy_ui_driver`). Hardened + re-scoped: `workflow_run_setup_inputs` File-input fix and editor dirty-on-load client fix; decisions on fixture key + client fix placement. Base `release_26.2`, head `9a5cda91bed`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:workflow_editor_run_cancel?expand=1).
 - [`workflow_open_exact_title`](../../repositories/galaxy/branches/active/workflow_open_exact_title/index.md) — Missing E2E test: open/run a workflow whose title prefixes a newer one's; open-by-name helpers wait for the exact title (from `galaxy_ui_driver`). Hardened + re-scoped: delete/bookmark-by-name also title-matched, Playwright `find_elements` snapshot fix; decisions on splitting the driver fix + test's explicit index open. Base `release_26.2`, head `fc5802715a1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:workflow_open_exact_title?expand=1).
