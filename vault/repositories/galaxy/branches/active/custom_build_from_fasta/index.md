@@ -2,14 +2,15 @@
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:custom_build_from_fasta?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/custom_build_from_fasta)
+- [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
 
 ## Status
 
-Implemented and hardened on `release_26.2`, head `364768249c4`; READY, missing-test coverage for the release.
+Polished on `release_26.2`, head `873b4d93ae8`; awaiting John's final review.
 
 No PR.
 
-CI not yet observed.
+Fork CI on `873b4d93ae8` pending.
 
 ## Scope
 

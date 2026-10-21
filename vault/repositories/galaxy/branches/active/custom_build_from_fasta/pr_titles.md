@@ -1,0 +1,4 @@
+- [26.2] Test adding a custom build from a history FASTA dataset
+- [26.2] Cover the default FASTA path of the custom builds page in E2E tests
+- [26.2] E2E test for custom builds from a history FASTA, plus custom build test helper cleanup
+- [26.2] Test the FASTA custom build path and move custom build tests onto navigation components
