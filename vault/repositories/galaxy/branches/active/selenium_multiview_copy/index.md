@@ -6,11 +6,11 @@
 
 ## Status
 
-READY, needs CI. Rebased onto `release_26.2` (was `dev`), re-scoped to include the `historyDragDrop.ts` single-type drop fix, hardened; head `4352a0f4ff6`. See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Polishing (`branches_need_polish`) on head `4352a0f4ff6`, base `release_26.2`. See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
 No PR.
 
-No CI on the new head yet; the fork runs Playwright but no Selenium E2E workflow.
+Fork CI: green so far; Integration Selenium red was a client cache miss (rerun), Playwright queued. No Selenium E2E workflow on the fork.
 
 ## Scope
 
