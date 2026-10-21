@@ -167,11 +167,26 @@
   faq_findings: [all-n-selected, builder-selection-ends-on-build, builder-hides-originals, paired-identifier-double-click, paired-stray-space]
   gx_findings: 'Coverage exists (auto/manual pairing, identifier cell editing). gxui: collection-build --rename OLD=NEW (tip 54ad8734138).'
 - faq: faqs/galaxy/collections_build_list.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 1b6127bb565
+  used_by: [assembly/ERGA-post-assembly-QC, assembly/mitochondrion-assembly, assembly/vgp_genome_assembly, assembly/vgp_workflow_training, ecology/ENA_Biodiv_submission, ecology/phylogeny-data-prep, epigenetics/methylation-seq, galaxy-interface/group-tags, galaxy-interface/history, galaxy-interface/workflow-editor, genome-annotation/gene-centric, genome-annotation/pangenome-annotation-with-roary, imaging/iscc-suite, imaging/stain-quantification-color-deconvolution, introduction/galaxy-reproduce, metabolomics/gc_ms_with_xcms, metabolomics/gcms, metabolomics/lcms, metabolomics/lcms-preprocessing, microbiome/diversity, microbiome/metagenomics-binning, microbiome/mgnify-amplicon, microbiome/pathogen-detection-from-nanopore-foodborne-data, microbiome/plasmid-metagenomics-nanopore, proteomics/DIA_Analysis_OSW, proteomics/DIA_lib_OSW, proteomics/encyclopedia, proteomics/metaproteomics, proteomics/metaquantome-data-creation, proteomics/proteogenomics-dbsearch, sequence-analysis/tapscan-streptophyte-algae, single-cell/scatac-batch-correction-snapatac2, single-cell/scrna-preprocessing, synthetic-biology/pathway_analysis, transcriptomics/ref-based, transcriptomics/srna, variant-analysis/trio-analysis]
+  faq_findings: [all-n-selected-2, builder-selection-ends-on-build-2, build-list-click-to-rename]
+  gx_findings: 'Flat list rename untested: added test_build_list_advanced_rename_element (1b6127bb565) + list_wizard.element_name, collection_builder_rename_element. gxui: collection-build --advanced, --rename for flat lists (tip a6843763b71).'
 - faq: faqs/galaxy/collections_change_datatype.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 311918724d0
+  gx_findings: 'Coverage exists; helpers moved to NavigatesGalaxy (collection_edit_change_datatype, history_panel_collection_edit - the old bare .edit-btn hit the first pencil) in 311918724d0. gxui: collection-change-datatype (tip a6843763b71).'
 - faq: faqs/galaxy/collections_convert_datatype.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 311918724d0
+  faq_findings: [convert-tab-needs-converter]
+  gx_findings: 'Convert untested: added test_convert_datatype_simple_list (311918724d0) + convert components, collection_edit_convert. gxui: collection-convert (tip a6843763b71).'
 - faq: faqs/galaxy/collections_force_mapping_over.md
   status: pending
 - faq: faqs/galaxy/collections_rename.md

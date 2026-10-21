@@ -282,3 +282,27 @@
   target: main
   summary: Stray space in `` `_1 ` ``.
   fixed_in: faq_fixes_26_2
+
+- label: all-n-selected-2
+  faqs: [faqs/galaxy/collections_build_list.md]
+  target: main
+  summary: With every item ticked the selection button reads **All N selected**, not "n of N selected".
+  fix: Same wording as all-n-selected.
+
+- label: builder-selection-ends-on-build-2
+  faqs: [faqs/galaxy/collections_build_list.md]
+  target: main
+  summary: The last step (click the checkmark at the top of the history again) is obsolete; selection mode ends on Build.
+  fix: Drop the step, as for builder-selection-ends-on-build.
+
+- label: build-list-click-to-rename
+  faqs: [faqs/galaxy/collections_build_list.md]
+  target: main
+  summary: '"Double clcik on the file names": a single click edits a name, and extensions are already removed by the on-by-default **Remove file extensions?** switch.'
+  fix: Say "Click a name to edit it, for example to remove a common prefix or suffix".
+
+- label: convert-tab-needs-converter
+  faqs: [faqs/galaxy/collections_convert_datatype.md]
+  target: main
+  summary: The **Convert** tab only appears when Galaxy has a converter for the elements' datatype, and the FAQ doesn't say so.
+  fix: Add a short "Cannot find the tab?" note, like collections_change_datatype's.
