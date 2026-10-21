@@ -44,4 +44,4 @@ Left over:
 
 - Client: 33 files / 162 tests across invocation, graph, history content and analysis suites before the last two commits. After them, the touched suites pass: 21 files / 82, then 13 GenericItem and 12 Share/Overview tests. Full `vue-tsc` clean; eslint and prettier clean.
 - Browser (Playwright, headless, one at a time): `test_simple_execution`, `test_output_urls_expand_outputs`, `test_step_url_scrolls_steps_list`, `test_mapped_job_selection_urls` and `test_job_details` pass.
-- Ran against this worktree's own Galaxy on 8081 and Vite on 5175, because another session held 8080/5173. That needed a local, gitignored `config/galaxy.yml` binding gunicorn to 8081.
+- Ran against this worktree's own Galaxy on 8081 and Vite on 5175, because another session held 8080/5173. That needed a local, gitignored `config/galaxy.yml` binding gunicorn to 8081; it and both servers were removed afterwards.
