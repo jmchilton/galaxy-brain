@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Looks good to me - these issues seem like small hygiene worth considering but they don't excite me. The pr_24283_review_0 branch has test commits I don't think are worth it and that I stripped findings for. -John 
 
 <details><summary>Automated Review Details</summary>
 
@@ -59,18 +59,6 @@ This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24283_review_0)
 
 </details>
 
-### P2 1: No test that a tuning change replaces the pooled panel search (implementation verified)
-
-`CachedToolboxSearch._sync_panel_searches` keeps a `ToolWhooshIndex`, and its searcher pool, only when the panel view's `index_dir` and `tuning` are unchanged. `test_rebuild_keeps_the_panel_searches_of_unchanged_views` covers only the "kept" branch. A weighting-only change such as `tool_help_bm25f_k1` matters most here. The corpus doesn't change, so no commit happens and `_reads_latest_commit` stays true. If the tuning comparison regressed, pooled searchers would keep serving the old weighting indefinitely, and no current test would fail.
-
-Suggested fix: add the inverse test. Rebuild with a changed `help_bm25f_k1` and assert that `cached_panel_searches["default"]` is a new instance carrying the new tuning. Fixed on the review branch in [33381095e3a](https://github.com/jmchilton/galaxy/commit/33381095e3a).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at low effort and by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort: the added test passes on the PR head and fails when `or panel_search.tuning != tuning` is removed.
-
-</details>
-
 ### P3 1: Stale idle searchers stay open after a newer commit (implementation verified)
 
 `_searcher()` pops one idle searcher. If that searcher is stale, `_searcher()` closes it and opens a fresh one, and the fresh one goes back on top of the LIFO stack. The other stale searchers below it are not checked again until concurrency reaches that depth. Until then they keep the replaced commit's segment files open. After a schema rebuild's `rmtree`, or after segment merges, those files are already deleted, so their disk space and descriptors stay held. The cost is bounded by peak concurrency × panel views × processes, so it's minor. Still, this is the one path where a pool built to hold resources leaks them.
@@ -110,17 +98,5 @@ Suggested fix: `_TOC_FILENAME = TOC._pattern(index._DEF_INDEX_NAME)`, and collec
 <details><summary>Discovery & Verification Agent Details</summary>
 
 Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort: the PR's existing `test_long_lived_index_sees_a_later_build` (same-schema and schema-change) and `test_search_before_the_index_exists` pass with the reused patterns. No dedicated test was added.
-
-</details>
-
-### P3 4: Exception path of `_searcher()` is untested (implementation verified)
-
-If a search raises, `_searcher()` closes the searcher instead of returning it to the pool. That keeps a possibly broken searcher from serving later requests, but no test covers it.
-
-Suggested fix: raise inside `with searching._searcher()`, then assert that the searcher is closed, that the next acquire returns a different searcher, and that searching still works. Fixed on the review branch in [c35e992bf6c](https://github.com/jmchilton/galaxy/commit/c35e992bf6c).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at low effort. Verified via Opus 5.5 at medium effort: the added test passes on the PR head, and fails if the `except` path re-pools the searcher.
 
 </details>
