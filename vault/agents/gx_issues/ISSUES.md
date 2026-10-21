@@ -10,6 +10,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#23444](https://github.com/galaxyproject/galaxy/issues/23444) — canonical nested parameter-reference syntax for YAML tools; decide: answer mvdbeek's two scoping questions. [notes](../../repositories/galaxy/issues/needs_decision/23444/index.md)
 - [#22739](https://github.com/galaxyproject/galaxy/issues/22739) — extract `Tool.to_json` into `ToolFormBuilder`; plan published; decide: agree on the plan before code moves. [notes](../../repositories/galaxy/issues/needs_decision/22739/index.md)
 - [#24303](https://github.com/galaxyproject/galaxy/issues/24303) — no way to declare output collection type as input type plus a list level (Nest, #24190); decide: attribute name and scope of shared `type_source` rule. [notes](../../repositories/galaxy/issues/needs_decision/24303/index.md)
+- [#24308](https://github.com/galaxyproject/galaxy/issues/24308) — `type_source` output type disagrees with bound input (direct match vs map-over); decide: concrete type for mapped outputs vs #24227. [notes](../../repositories/galaxy/issues/needs_decision/24308/index.md)
 
 ## In motion (`wip`)
 
@@ -38,6 +39,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 ## Queued (`queued`)
 
 - [#24305](https://github.com/galaxyproject/galaxy/issues/24305) — workflow API saves duplicate output labels (server check dead); invocation hides outputs; next: red API tests. [notes](../../repositories/galaxy/issues/queued/24305/index.md)
+- [#24309](https://github.com/galaxyproject/galaxy/issues/24309) — custom build from FASTA not listed until jobs finish + reload; next: red API test for pending state. [notes](../../repositories/galaxy/issues/queued/24309/index.md)
 - [#24226](https://github.com/galaxyproject/galaxy/issues/24226) — server `effective_collection_type` under-strips `X:paired_or_unpaired` over matching input, too many jobs; next: red tests on 26.0. [notes](../../repositories/galaxy/issues/queued/24226/index.md)
 - [#24172](https://github.com/galaxyproject/galaxy/issues/24172) — column param on not-ready dataset shows "No options available.", blocks queuing; next: red test for `textable`. [notes](../../repositories/galaxy/issues/queued/24172/index.md)
 - [#24173](https://github.com/galaxyproject/galaxy/issues/24173) — invocation view selections (step/job/input/output) have no shareable URL; next: route query params. [notes](../../repositories/galaxy/issues/queued/24173/index.md)

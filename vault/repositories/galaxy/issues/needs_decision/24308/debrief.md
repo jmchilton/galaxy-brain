@@ -1,6 +1,6 @@
 # Debrief: type_source direct match before map-over
 
-Source: [`type_source_direct_match_before_map_over.md`](type_source_direct_match_before_map_over.md) (from #24303 research). Proposal: [`proposed_type_source_direct_match_before_map_over.md`](proposed_type_source_direct_match_before_map_over.md).
+Source: [`issue_draft.md`](issue_draft.md) (from #24303 research). Proposal: [`proposal.md`](proposal.md).
 
 ## Research
 
