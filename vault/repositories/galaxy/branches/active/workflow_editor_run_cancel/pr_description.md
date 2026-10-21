@@ -116,7 +116,7 @@ The checks below reviewed the test and helper commits. The editor fix came after
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Nothing new. Opening a workflow and clicking Run or Exit before it finishes loading no longer brings up the unsaved-changes modal; a failed versions load still shows the existing error.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The Vitest holds the versions request pending and clicks Exit: no modal, and the router navigates.

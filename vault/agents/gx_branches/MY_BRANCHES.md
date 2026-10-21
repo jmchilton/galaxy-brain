@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-20 (John opened #24310 directly, skipping polish; #24307 opened by accident, kept as draft with polished title/description/labels; #24302 opened as draft on request; #24301 opened as draft on request; #24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
+Snapshot: 2026-10-21 (#24318 workflow_editor_run_cancel opened as draft on request; John opened #24310 directly, skipping polish; #24307 opened by accident, kept as draft with polished title/description/labels; #24302 opened as draft on request; #24301 opened as draft on request; #24300 opened as draft Storybook RFC on request; John opened #24297 directly; #24298 opened as draft on request; #24223, #24213, #24198 merged; John undrafted #24211, #24206, #24265, #24202; #24224, #24165 undrafted on green CI; unrelated reds on #24228, #24227, #24203 rerun).
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -41,6 +41,7 @@ None yet.
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [#24302](https://github.com/galaxyproject/galaxy/pull/24302). Draft requested by John.
 - [`workflow_editor_second_subworkflow`](../../repositories/galaxy/branches/active/workflow_editor_second_subworkflow/index.md) — Missing E2E test: insert two subworkflows from the editor's Workflows panel; helper stops closing the open panel. Base `release_26.2`. [#24314](https://github.com/galaxyproject/galaxy/pull/24314). Draft requested by John.
 - [`workflow_open_exact_title`](../../repositories/galaxy/branches/active/workflow_open_exact_title/index.md) — By-name workflow E2E helpers act on the exact title; Playwright `find_elements` snapshot fix. Base `release_26.2`. [#24317](https://github.com/galaxyproject/galaxy/pull/24317). Draft requested by John.
+- [`workflow_editor_run_cancel`](../../repositories/galaxy/branches/active/workflow_editor_run_cancel/index.md) — Editor no longer marks a just-opened workflow unsaved; run-from-editor + cancel E2E test; File-input helper fix. Base `release_26.2`. [#24318](https://github.com/galaxyproject/galaxy/pull/24318). Draft requested by John.
 - [`issue_24173_invocation_selection_urls`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [#24307](https://github.com/galaxyproject/galaxy/pull/24307). Opened by accident; draft, final read-through still pending.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
@@ -88,7 +89,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`workflow_editor_run_cancel`](../../repositories/galaxy/branches/active/workflow_editor_run_cancel/index.md) — Editor no longer marks a just-opened workflow unsaved; run-from-editor + cancel E2E test; File-input helper fix. Base `release_26.2`, head `3437fa198b4`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:workflow_editor_run_cancel?expand=1).
 - [`selenium_multiview_copy`](../../repositories/galaxy/branches/active/selenium_multiview_copy/index.md) — Multiview per-history hooks, fixed/dropped dead selectors, `multi_history_copy_item` + two E2E tests (from `galaxy_ui_driver`). Base `release_26.2`, head `20b3266c03d`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_multiview_copy?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).

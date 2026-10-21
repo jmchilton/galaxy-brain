@@ -1,15 +1,15 @@
 # workflow_editor_run_cancel
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:workflow_editor_run_cancel?expand=1)
+- [PR #24318](https://github.com/galaxyproject/galaxy/pull/24318)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/workflow_editor_run_cancel)
 
 ## Status
 
-Polished; ready for John's final review. Base `release_26.2` @ `e2649e52818`, head `3437fa198b4`.
+Polished. Base `release_26.2` @ `e2649e52818`, head `3437fa198b4`.
 
-No PR.
+Draft PR [#24318](https://github.com/galaxyproject/galaxy/pull/24318) opened 2026-10-21 on John's request, title "[26.2] Don't mark a just-opened workflow as unsaved in the editor; test run-from-editor and cancel".
 
-Fork CI on `3437fa198b4` pending (restarted by polish rebase).
+PR CI on `3437fa198b4` pending; screenshots hosted on `pr-assets-workflow_editor_run_cancel`.
 
 ## Scope
 
