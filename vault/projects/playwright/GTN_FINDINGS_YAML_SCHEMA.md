@@ -19,7 +19,9 @@ fixes them.
   (`custom-build-reload`) or, for a problem shared by several FAQs, with the problem
   (`masthead-user-menu`).
 - `faqs` lists the FAQ paths, as in `faqs_26_2.yaml`. Reuse a finding when the same problem turns up
-  in another FAQ; add the path rather than a second entry. Details live in each FAQ's findings file
+  in another FAQ; add the path rather than a second entry. Only reuse an open finding: once it has
+  `fixed_in` or `skip`, add a new one (`masthead-user-menu-2`) and name the old label in `fix`.
+  Details live in each FAQ's findings file
   under `training_findings/26.2/`.
 - `target`:
   - `main` when the FAQ is wrong on servers today: typos, unclear or obsolete steps, and UI changes

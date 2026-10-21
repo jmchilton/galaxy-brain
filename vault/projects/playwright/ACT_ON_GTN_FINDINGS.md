@@ -24,7 +24,8 @@ A finding is open until it has `fixed_in` or `skip`.
    edit minimal and in GTN's style. A stale screenshot gets retaken with gxui against
    `faq_server.sh`, or the finding stays open with the reason in its findings file.
 4. Commit once per finding: `<label>: <short description>`.
-5. Set `fixed_in: <branch>`.
+5. Set `fixed_in: <branch>` with the Edit tool, not by re-dumping the YAML; the FAQ loop may be
+   appending to the file at the same time.
 
 ## Finish
 
