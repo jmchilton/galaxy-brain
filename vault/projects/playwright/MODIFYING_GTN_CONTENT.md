@@ -2,9 +2,7 @@ Style rules for editing GTN (training-material) content, learned from maintainer
 
 ## Wording
 
-- Say "top bar", not "masthead" - GTN's audience is international (wm75, #7181).
 - Write UI navigation as one direct bold path: `**Top bar -> *your username* -> Preferences -> Manage Information**`. No "(click your username in the top bar)" asides. Same form in every FAQ (shiltemann, #7181).
-
 ## Links
 
 - Link every GTN-internal target with `{% link path/to/file.ext %}` - pages, FAQs, and images. Not `https://training.galaxyproject.org/...`, not `{{site.baseurl}}/...`. Broken `{% link %}`s fail the build instead of a later lint (shiltemann, #7181).

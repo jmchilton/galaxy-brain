@@ -1,3 +1,6 @@
+
+@MODIFYING_GTN_CONTENT.md
+
 Fix the open findings in `./gtn_findings_26_2.yaml` ([GTN_FINDINGS_YAML_SCHEMA.md](GTN_FINDINGS_YAML_SCHEMA.md))
 on two GTN branches:
 
