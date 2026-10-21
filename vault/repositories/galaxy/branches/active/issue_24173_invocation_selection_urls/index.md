@@ -5,11 +5,11 @@
 
 ## Status
 
-Branch is polished at `c69f43e3222`; John's final read-through (including the human-read checklist item) is still pending.
+Branch is polished at `1dd5eb07d8e`; John's final read-through (including the human-read checklist item) is still pending.
 
 Draft [#24307](https://github.com/galaxyproject/galaxy/pull/24307) against `dev` was opened by accident on 2026-10-20 and sits in `ci_wait`; prep's four commits appear in its diff until prep merges.
 
-PR CI on `c69f43e3222` is in progress; the prior head's reds were diagnosed as unrelated (see [polish debrief](polish_debrief.md#ci)).
+PR CI on `1dd5eb07d8e` is in progress; `c69f43e3222` failed Playwright `test_output_urls_expand_outputs` (smooth scroll let lazy outputs above push the target off screen), fixed by an instant jump.
 
 ## Branch
 
