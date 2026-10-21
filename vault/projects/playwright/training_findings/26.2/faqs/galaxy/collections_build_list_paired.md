@@ -19,5 +19,6 @@ nothing here breaks them.
 - Coverage exists: `test_build_paired_list_auto_matched` (auto-pair), `..._manual_matched`, and
   identifier editing via `list_wizard_click_cell_and_send_keys` (`test_build_list_of_lists`).
 - `list_wizard_click_cell_and_send_keys("identifier", 2, ...)` edits a paired row too (appends).
-- gxui: `collection-build list:paired` follows the FAQ path but can't edit identifiers; the replay
-  notes that step.
+- gxui (tip `54ad8734138`): `collection-build list:paired ... --rename OLD=NEW,...` edits guessed
+  identifiers in the grid (clears, unlike the test helper), so the replay covers that step.
+  `collection-peek` now waits out "placeholder" element states on a just-built collection.

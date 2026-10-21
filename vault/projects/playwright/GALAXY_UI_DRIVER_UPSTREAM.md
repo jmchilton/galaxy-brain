@@ -111,6 +111,8 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   list with "Remove file extensions?" off and checks identifiers keep `.fasta`; adds a
   `list_wizard.remove_extensions` component and `collection_builder_toggle_remove_extensions`.
   Coverage PR candidate; green under Playwright only, red without the toggle.
+- `7bea524600b`: renames `history_panel_muli_operation_select_hid` to `..._multi_...` (3 callers).
+  Goes with whichever PR lands `a51d2b9ed4a`'s caller, or alone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

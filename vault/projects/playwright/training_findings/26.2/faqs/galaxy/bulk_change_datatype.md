@@ -19,7 +19,7 @@ Two `txt` datasets changed to `tabular`. Used by imaging/dicom-anatomical-3d.
   `history_panel_change_datatype_of_selected`. Green under Playwright.
 - navigation.yml children written as `${_} ...` resolve only through `component._.child`;
   `component.child` raises `KeyError: '_'`.
-- `history_panel_muli_operation_select_hid` ("muli") is a rename candidate.
+- Renamed `history_panel_muli_operation_select_hid` to `..._multi_...` (`7bea524600b`).
 - gxui (tip): `history-change-datatype DATATYPE HID...` ticks the items (Select Items if needed),
   changes them and waits for the new extension.
 - `faq_server.sh` now runs Celery (gravity worker + `enable_celery_tasks`). Re-ran

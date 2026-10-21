@@ -166,8 +166,7 @@
   galaxy_commit: ea9238b123d
   used_by: [assembly/debruijn-graph-assembly, assembly/mrsa-illumina, assembly/mrsa-nanopore, assembly/vgp_workflow_training, ecology/bacterial-isolate-species-contamination-checking, epigenetics/atac-seq, epigenetics/cut_and_run, epigenetics/formation_of_super-structures_on_xi, galaxy-interface/history, galaxy-interface/upload-data-to-ena, genome-annotation/amr-gene-detection, microbiome/dada-16S, microbiome/dunnart_metabarcoding, microbiome/host-removal, microbiome/lotus2-identifying-fungi, microbiome/metagenomics-assembly, microbiome/metagenomics-binning, microbiome/mgnify-amplicon, microbiome/mothur-miseq-sop, microbiome/samestr-strain-detection, microbiome/taxonomic-profiling, sequence-analysis/human-reads-removal, sequence-analysis/mapping, sequence-analysis/quality-contamination-control, transcriptomics/ref-based, variant-analysis/tb-variant-analysis]
   faq_findings: 'Steps hold; last step obsolete (selection ends on Build); say identifiers are edited by double-click; stray space in `_1 `.'
-  gx_findings: Coverage exists (auto/manual pairing, identifier cell editing). gxui collection-build list:paired can't edit identifiers; replay notes that step.
-  note: Replay skips the identifier edit; it was done by hand in the run.
+  gx_findings: 'Coverage exists (auto/manual pairing, identifier cell editing). gxui: collection-build --rename OLD=NEW (tip 54ad8734138).'
 - faq: faqs/galaxy/collections_build_list.md
   status: pending
 - faq: faqs/galaxy/collections_change_datatype.md
