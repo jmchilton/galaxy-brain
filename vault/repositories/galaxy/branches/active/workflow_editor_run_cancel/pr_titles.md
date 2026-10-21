@@ -1,0 +1,4 @@
+- [26.2] Don't mark a just-opened workflow as unsaved in the editor; test run-from-editor and cancel
+- [26.2] Fix spurious unsaved-changes prompt on opening a workflow, and fix the run-form selenium helpers
+- [26.2] Fix editor dirty-on-load; E2E test for running from the editor and cancelling
+- [26.2] Settle the editor's unsaved-changes flag once a workflow loads; add run-and-cancel E2E test

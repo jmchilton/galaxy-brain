@@ -5,11 +5,11 @@
 
 ## Status
 
-Polishing on `release_26.2` @ `65132d40dac`, head `9a5cda91bed`.
+Polished; ready for John's final review. Base `release_26.2` @ `e2649e52818`, head `3437fa198b4`.
 
 No PR.
 
-Fork CI on `9a5cda91bed` running, no reds yet.
+Fork CI on `3437fa198b4` pending (restarted by polish rebase).
 
 ## Scope
 
@@ -22,5 +22,7 @@ Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstre
 ## Decisions
 
 - 2026-10-21: John kept the fixture key fix (`image_input_1` → `image_input`) and the editor dirty-on-load client fix in this branch.
+
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
 
 [Implementation debrief](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md)
