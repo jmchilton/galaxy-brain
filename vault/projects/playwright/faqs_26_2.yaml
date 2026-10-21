@@ -123,11 +123,26 @@
   gx_findings: 'Added E2E: bug icon -> error page -> Report, with mail (d58f510c7c0); dataset_error/email_report/error_button components. Report form shows even with reporting disabled, Filter1 traceback on a missing column (galaxy#24315, #24316). gxui: dataset-peek handles red items; new dataset-error [--report] (tip). faq_server.sh sets error_email_to.'
   galaxy_issues: [24315, 24316]
 - faq: faqs/galaxy/bulk_change_datatype.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 57b4747a752
+  used_by: [imaging/dicom-anatomical-3d]
+  faq_findings: 'Steps hold; Change data type only shows on servers running Celery (worth a line); button reads "All N selected" when all ticked; step 5 is "Ok"; two steps numbered 4.'
+  gx_findings: 'Added E2E for Selection > Change data type (a51d2b9ed4a): change_datatype_modal component + history_panel_change_datatype_of_selected. ${_} children resolve only via component._.child. gxui: history-change-datatype (tip). faq_server.sh runs Celery now.'
 - faq: faqs/galaxy/can-i-use-a-public-galaxy-for-my-private-data.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: 'Holds; the "*" has no footnote, and linking the server''s terms of use would make "not sensitive" concrete.'
 - faq: faqs/galaxy/cite-tools-used-in-a-history.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 57b4747a752
+  used_by: [introduction/galaxy-cite]
+  faq_findings: 'Step 2 "Export Tool Citations" is now "Export Tool References"; tabs are "References (APA)"/"BibTeX"; tools without citations aren''t listed; Galaxy''s own paper is already first (step 4).'
+  gx_findings: 'Added E2E for History options > Export Tool References (93b1f03b432): citations component, data-descriptions on menu item and tabs, click_history_option_tool_references. gxui: history-references [--bibtex] (tip).'
 - faq: faqs/galaxy/collections_add_tag.md
   status: pending
 - faq: faqs/galaxy/collections_autobuild_list.md

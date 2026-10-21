@@ -38,8 +38,9 @@ gravity:
   gunicorn:
     bind: 127.0.0.1:$port
     preload: false
+  # Public servers run Celery; some UI (e.g. bulk Change data type) only shows with it.
   celery:
-    enable: false
+    enable: true
     enable_beat: false
   gx_it_proxy:
     enable: false
@@ -48,6 +49,7 @@ gravity:
 galaxy:
   data_dir: $state/data
   conda_auto_init: false
+  enable_celery_tasks: true
   admin_users: $ADMIN_EMAIL
   galaxy_infrastructure_url: $url
   user_activation_on: $activation

@@ -95,6 +95,14 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   `dataset_error`, `email_report` and `content_item.error_button` components, an
   `email-report-result` class on `EmailReportForm`'s result alert, and two helpers. Coverage PR
   candidate; green under Playwright only.
+- `a51d2b9ed4a`: coverage for `bulk_change_datatype`. `test_history_panel.py` changes two selected
+  datasets' data type from the Selection menu; adds a `data-description` on the modal, a
+  `multi_operations.change_datatype_modal` component and `history_panel_change_datatype_of_selected`.
+  Coverage PR candidate; green under Playwright only.
+- `93b1f03b432`: coverage for `cite-tools-used-in-a-history`. `test_history_options.py` opens
+  History options > Export Tool References and checks both tabs; adds `data-description`s on the
+  menu item and tabs, a `citations` component and `click_history_option_tool_references`. Coverage
+  PR candidate; green under Playwright only.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
