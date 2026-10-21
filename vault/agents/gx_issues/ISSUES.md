@@ -40,6 +40,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 
 - [#24305](https://github.com/galaxyproject/galaxy/issues/24305) — workflow API saves duplicate output labels (server check dead); invocation hides outputs; next: red API tests. [notes](../../repositories/galaxy/issues/queued/24305/index.md)
 - [#24309](https://github.com/galaxyproject/galaxy/issues/24309) — custom build from FASTA not listed until jobs finish + reload; next: red API test for pending state. [notes](../../repositories/galaxy/issues/queued/24309/index.md)
+- (unassigned) [#24311](https://github.com/galaxyproject/galaxy/issues/24311) — 26.2 upload panel defaults POSIX conversion off (no trailing newline, CRLF kept); next: 26.2 branch restoring `true` + paste test. [notes](../../repositories/galaxy/issues/queued/24311/index.md)
 - [#24226](https://github.com/galaxyproject/galaxy/issues/24226) — server `effective_collection_type` under-strips `X:paired_or_unpaired` over matching input, too many jobs; next: red tests on 26.0. [notes](../../repositories/galaxy/issues/queued/24226/index.md)
 - [#24172](https://github.com/galaxyproject/galaxy/issues/24172) — column param on not-ready dataset shows "No options available.", blocks queuing; next: red test for `textable`. [notes](../../repositories/galaxy/issues/queued/24172/index.md)
 - [#24173](https://github.com/galaxyproject/galaxy/issues/24173) — invocation view selections (step/job/input/output) have no shareable URL; next: route query params. [notes](../../repositories/galaxy/issues/queued/24173/index.md)
