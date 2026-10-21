@@ -1,0 +1,8 @@
+# Review branch `pr_24299_review_0`
+
+Built on the reviewed commit `90a64400825`. The branch moves the repeated "fill the remaining column height" flex stanza into a `fill-column` SCSS mixin and uses it in the three files this PR touches. It swaps the inline `overflow-x` style on `FormTool` for the existing utility class, fixes the watcher comment, and gives the modal Teleport target a `useUid` id. It also adds a Selenium/Playwright test for the expand-to-modal flow, with selectors and `data-description` hooks. The full-page layout measured the same live before and after (graph 329px, step card 323px at a 1400x900 viewport). The new test passes on both the Playwright and Selenium backends.
+
+- `000d2e1355e` Share fill-column flex stanza via SCSS mixin: adds `@mixin fill-column` to `client/src/style/scss/mixins.scss` and replaces the five copies in `InvocationGraph.vue`, `WorkflowInvocationOverview.vue` and `WorkflowInvocationState.vue`.
+- `356c3fe3621` Use overflow-x-hidden utility class on invocation step FormTool: replaces `style="overflow-x: hidden"` with `class="overflow-x-hidden"` in `WorkflowInvocationStep.vue`.
+- `b5afaa8132a` Fix modal comment and use useUid for step modal teleport target: the watcher comment now says it closes the modal, and the Teleport target id comes from `useUid("invocation-step-modal-")` instead of the invocation id.
+- `0a08b2c8866` Add Selenium test for expanding invocation step to modal: adds `test_expand_step_to_modal` in `test_workflow_invocation_graph.py`, five `invocations.step_card_*` selectors in `navigation.yml`, and `data-description`s on the Expand button and the `GModal`.
