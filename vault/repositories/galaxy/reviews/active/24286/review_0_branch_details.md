@@ -1,0 +1,3 @@
+`pr_24286_review_0` (from `e879751951c`) strengthens the PR's new API test so it pins every input side effect of `set_skipped`, not only extension and content. It records the input HDAs before the workflow runs, then asserts each input keeps `state == "ok"`, isn't blurbed `skipped`, and keeps its original visibility. It also waits on the fetch job so the collection's elements exist before they are read. Test only; no production code changes.
+
+- `d1138c95d8e` Assert skipped nested collection inputs keep blurb, state and visibility: adds the pre-invocation snapshot, the fetch wait, and three assertions to `test_conditional_skip_on_database_operation_nested_collection_output`.

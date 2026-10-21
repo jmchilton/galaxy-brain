@@ -1,0 +1,1 @@
+- Default P3 2 (new test hand-builds inputs instead of `_run_workflow` + inline `test_data` like its sibling): purely stylistic, and the review itself calls it fine to leave on a release branch. Not worth a change to a 25.1 bug fix.
