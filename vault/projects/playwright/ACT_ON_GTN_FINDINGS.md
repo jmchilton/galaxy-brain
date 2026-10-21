@@ -21,8 +21,7 @@ A finding is open until it has `fixed_in` or `skip`.
 2. Check it still applies. If main already fixed it, set `skip: fixed upstream at <sha>`. If it
    looks wrong, set `skip: disputed: <why>` rather than guessing.
 3. Fix it in every FAQ in `faqs`, plus anything `fix` names (tutorials embedding the FAQ). Keep the
-   edit minimal and in GTN's style. Say "top bar", not "masthead" (GTN's audience is international).
-   Link GTN pages with `{% link path %}`, not `https://training.galaxyproject.org/...`; fix any on lines you touch.
+   edit minimal and follow [MODIFYING_GTN_CONTENT.md](MODIFYING_GTN_CONTENT.md).
    Leave screenshots alone; stale ones are tracked in `gtn_screenshots_26_2.yaml`.
 4. Commit once per finding: `<label>: <short description>`.
 5. Set `fixed_in: <branch>` with the Edit tool, not by re-dumping the YAML; the FAQ loop may be

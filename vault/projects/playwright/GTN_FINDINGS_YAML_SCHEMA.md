@@ -11,7 +11,7 @@ fixes them.
     - faqs/galaxy/analysis_add_custom_build.md
   target: main
   summary: There is no "User" masthead item; the menu is labelled with the username.
-  fix: Say "click your username in the masthead, then **Preferences**".
+  fix: Say "**Top bar -> *your username* -> Preferences**".
   fixed_in: faq_fixes_26_2
 ```
 
