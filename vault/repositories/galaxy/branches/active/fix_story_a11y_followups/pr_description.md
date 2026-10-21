@@ -4,12 +4,12 @@ Fix two keyboard and screen-reader defects found by Storybook accessibility chec
 | --- | --- | --- |
 | GalaxyAI chat send button | Icon only, so a screen reader announces just "button" | Named "Send message" when ready, empty, busy or disabled |
 | Escape in a click popover, e.g. the Markdown editor's add-cell search box | Popover closes, focus is lost | Popover closes, focus returns to the button that opened it |
-| Escape in a hover popover with focus inside | Nothing happens | Popover closes, focus returns to its trigger |
+| Escape in a hover popover with focus inside | Nothing happens | Popover closes and focus returns to its trigger. If the trigger can't take focus, the popover stays open |
 | Close control in a titled popover header | Clickable `<span>`, unreachable by keyboard | Native `<button type="button">` named "Close", with a visible focus outline |
 
 ![Keyboard focus on the popover Close button](screenshots/a11y-popper-close-focus.png)
 
-***Both defects are in shipped components; the Storybook checks only found them.*** ***The focus fix covers every classic `Popper`, including the Markdown editor's add-cell and cell-action menus.*** ***Focus moves back only when it was inside the popover***, so a popover closing never takes focus from somewhere else on the page.
+***Both defects are in shipped components; the Storybook checks only found them.*** ***The focus fix covers Escape and the Close button in every classic `Popper`, including Escape in the Markdown editor's add-cell and cell-action menus.*** Picking a menu item in those menus closes them through other paths, which still lose focus. ***Focus moves back only when it was inside the popover***, so a popover closing never takes focus from somewhere else on the page.
 
 No app component sets a Popper `title` today, so the new Close button isn't visible anywhere yet. ***The `title` prop exists today and renders a control keyboards can't reach; this makes it safe to use.***
 
@@ -18,7 +18,7 @@ No app component sets a Popper `title` today, so the new Close button isn't visi
 <details><summary>Implementation</summary>
 
 - `ChatInput.vue` adds `aria-label="Send message"` to its icon-only `GButton`.
-- `Popper.vue` gets one `close()` that hides the popover and, if focus was inside it, focuses `referenceEl` or the first focusable element in the reference slot. The header button's click and an Escape keydown on the popover both call it. `usePopper`'s existing document Escape listener still runs afterwards and only re-hides an already hidden popover.
+- `Popper.vue` gets one `close()` that hides the popover through a new `usePopper` `hide()`, which also clears pending open and close timers. If focus was inside the popover, it then focuses `referenceEl` or the first enabled, tabbable element in the reference slot. The header button's click and an Escape keydown on the popover both call it. Escape leaves a hover popover open when there's nothing to return focus to. `usePopper`'s existing document Escape listener still runs afterwards and only re-hides an already hidden popover.
 - The Close button resets Bootstrap's global button padding, border, background and active shadow so it keeps the icon's look. It adds a 2px `currentColor` outline on `:focus-visible`.
 - A commented `eslint-disable` covers the Escape listener on the popover container, which is not itself interactive.
 
@@ -44,9 +44,9 @@ Risks are minimal: these are local, keyboard-only UI corrections that are easy t
 
 <details><summary>Risk Details</summary>
 
-- Hover popovers now close on Escape when focus is inside them. The hover consumers that can hold focusable content are `LoginRequired` and `UploadExtension` (links), and `HelpPopover` (links in help markdown). All are informational.
+- Hover popovers now close on Escape when focus is inside them and their trigger can take focus back. The hover consumers that can hold focusable content are `LoginRequired` and `UploadExtension` (links), and `HelpPopover` (links in help markdown). All are informational. `UploadExtension`'s trigger is a bare icon, so Escape leaves it open, as before.
 - The Close button's reset styles are scoped to `Popper.vue`. `CellAdd.vue` also uses a `popper-close` class, as `usePopper`'s click-to-close hook, and isn't affected by these styles.
-- When the reference slot has no focusable element, closing still works, but focus is not returned.
+- When the trigger can't take focus, Close still hides the popover, and so does Escape in a click popover, but focus is not returned.
 
 </details>
 
@@ -68,7 +68,7 @@ The scope grew once, to give Escape the same focus return as Close. Shared toolt
 
 <details><summary>Approved with no structural changes requested.</summary>
 
-A native button avoids custom Enter/Space handling and tabindex code. One local `close()` handles both dismissal paths without extending the `usePopper` API. The send button's name lives in `ChatInput`, the component that owns its meaning. All touched files stay under 250 lines.
+A native button avoids custom Enter/Space handling and tabindex code. One local `close()` handles both dismissal paths. Review later added a `hide()` to `usePopper` so `close()` also clears its timers. The send button's name lives in `ChatInput`, the component that owns its meaning. All touched files stay under 250 lines.
 
 </details>
 

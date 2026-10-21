@@ -5,11 +5,11 @@
 
 ## Status
 
-`ci_wait`: John approved the branch, and it was opened as a draft at his request on 2026-10-20. Head is `fabcc827831`.
+`attention`: mvdbeek approved `fabcc827831` on 2026-10-21; the inline edge case and two nits are fixed in `bec70dfdd80`, and replies await John ([review response](review_response_mvdbeek.md)).
 
-[#24285](https://github.com/galaxyproject/galaxy/pull/24285) is a draft against `release_26.2`, with labels `kind/bug`, `area/accessibility` and `area/UI-UX`. The screenshot is hosted on the fork's `pr-assets-fix_story_a11y_followups` branch.
+[#24285](https://github.com/galaxyproject/galaxy/pull/24285) is open, not draft, against `release_26.2`, with labels `kind/bug`, `area/accessibility` and `area/UI-UX`. The screenshot is hosted on the fork's `pr-assets-fix_story_a11y_followups` branch. Live PR body predates the `pr_description.md` review update.
 
-CI on `fabcc827831` is running.
+CI on `fabcc827831` was green; CI on `bec70dfdd80` is running.
 
 ## Base and scope
 

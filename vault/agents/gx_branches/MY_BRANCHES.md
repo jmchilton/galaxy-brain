@@ -23,6 +23,7 @@ Snapshot: 2026-10-21 (#24334 selenium_multiview_copy opened as draft on request;
 
 - [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.
 - [`issue_24199_workflow_numeric_bounds_26.0`](../../repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/index.md) — Workflow int/float bounds reach run form + editor Default field; inverted bounds give a clear 400 and step error (#24199). Base `release_26.0`. [#24212](https://github.com/galaxyproject/galaxy/pull/24212).
+- [`fix_story_a11y_followups`](../../repositories/galaxy/branches/active/fix_story_a11y_followups/index.md) — Names chat send; Popper close is a keyboard button and close/Escape return focus. Base `release_26.2`. [#24285](https://github.com/galaxyproject/galaxy/pull/24285).
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
@@ -38,7 +39,6 @@ None yet.
 - [`vitest_readability`](../../repositories/galaxy/branches/active/vitest_readability/index.md) — Rewrites client tests for readability, shared fixtures and stronger assertions. [#24038](https://github.com/galaxyproject/galaxy/pull/24038).
 
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs and fixes runtime diagnostics. Base `release_26.2`. [#24203](https://github.com/galaxyproject/galaxy/pull/24203). Draft requested by John.
-- [`fix_story_a11y_followups`](../../repositories/galaxy/branches/active/fix_story_a11y_followups/index.md) — Names chat send; Popper close is a keyboard button and close/Escape return focus. Base `release_26.2`. [#24285](https://github.com/galaxyproject/galaxy/pull/24285). Draft requested by John.
 - [`user_activation_register_masthead`](../../repositories/galaxy/branches/active/user_activation_register_masthead/index.md) — Missing E2E test: masthead Register, resend verification, emailed activation link; shared `ConfiguresMockEmails` mixin. Base `release_26.2`. [#24301](https://github.com/galaxyproject/galaxy/pull/24301). Draft requested by John.
 - [`issue_24061_24062_repository_details`](../../repositories/galaxy/branches/active/issue_24061_24062_repository_details/index.md) — Tool Shed repository page: `hg clone` command, category links, generated `.shed.yml`; API adds `categories`, `clone_url`. [#24298](https://github.com/galaxyproject/galaxy/pull/24298). Draft requested by John.
 - [`issue_23978_parameter_tools_xsd`](../../repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [#24302](https://github.com/galaxyproject/galaxy/pull/24302). Draft requested by John.
