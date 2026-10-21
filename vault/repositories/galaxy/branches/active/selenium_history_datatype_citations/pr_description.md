@@ -92,7 +92,7 @@ Alternative kept on 🌿 [`selenium_history_datatype_citations_alt_original_scop
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Users see nothing new. In the tests, waits time out naming what they waited for (`hid 1 datatype to be [tabular]`, or the modal's/references' selector), and API asserts print the item's details or the rendered references.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The tests check results through the API, including the unselected item, and take expected references from the API rather than hardcoding them.

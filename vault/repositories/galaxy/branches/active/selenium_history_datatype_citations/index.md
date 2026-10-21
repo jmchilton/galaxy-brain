@@ -1,15 +1,15 @@
 # selenium_history_datatype_citations
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_history_datatype_citations?expand=1)
+- [PR #24329](https://github.com/galaxyproject/galaxy/pull/24329)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_history_datatype_citations)
 
 ## Status
 
-Polished, ready for final review; head `c277d04f05d`. See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Polished; opened as draft on John's request, waiting on CI; head `c277d04f05d`. See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
-No PR.
+Draft [#24329](https://github.com/galaxyproject/galaxy/pull/24329), title "[26.2] Add browser tests for bulk Change data type, Change Database/Build and Export Tool References", labels `kind/enhancement`, `area/testing/selenium`.
 
-Fork CI on `c277d04f05d` pending (no reds on `50dc4ccb773`, which differs only in assert messages). Locally, every new test passes under both Playwright and Selenium.
+PR CI on `c277d04f05d` queued (no reds on `50dc4ccb773`, which differs only in assert messages). Locally, every new test passes under both Playwright and Selenium.
 
 ## Scope
 

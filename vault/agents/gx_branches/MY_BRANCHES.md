@@ -30,6 +30,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`selenium_history_datatype_citations`](../../repositories/galaxy/branches/active/selenium_history_datatype_citations/index.md) — Browser tests for bulk Change data type, Change Database/Build and history Export Tool References (26.2). [#24329](https://github.com/galaxyproject/galaxy/pull/24329).
 - [`custom_build_from_fasta`](../../repositories/galaxy/branches/active/custom_build_from_fasta/index.md) — E2E test for adding a custom build from a history FASTA; custom build test helpers moved onto navigation.yml components. [#24312](https://github.com/galaxyproject/galaxy/pull/24312).
 - [`custom_build_no_converter_400_26.0`](../../repositories/galaxy/branches/active/custom_build_no_converter_400_26.0/index.md) — Custom build PUT from a dataset with no `len` converter returns 400 naming the datatypes instead of a bare 500. [#24313](https://github.com/galaxyproject/galaxy/pull/24313).
 - [`vitest_readability`](../../repositories/galaxy/branches/active/vitest_readability/index.md) — Rewrites client tests for readability, shared fixtures and stronger assertions. [#24038](https://github.com/galaxyproject/galaxy/pull/24038).
@@ -90,7 +91,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`selenium_history_datatype_citations`](../../repositories/galaxy/branches/active/selenium_history_datatype_citations/index.md) — Browser tests for bulk Change data type, Change Database/Build and history Export Tool References. Base `release_26.2`, head `c277d04f05d`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_history_datatype_citations?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
 - [`issue_24173_invocation_selection_prep`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_prep/index.md) — Fixes invocation order-index lookup and graph centering, with component and browser baselines. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24173_invocation_selection_prep?expand=1).
