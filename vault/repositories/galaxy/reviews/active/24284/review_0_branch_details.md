@@ -1,0 +1,6 @@
+Branch `pr_24284_review_0`, based on the reviewed head `7399ba875a9`, makes four small follow-ups. It skips the discovered-dataset query when a job discovers nothing. It moves the dataset-permission assertions the PR copied between integration files onto `DatasetPopulator`. It points the API test at that helper so it checks every history dataset. It adds an extended-metadata test that runs `all_output_types` under private defaults. No runtime behavior changes beyond dropping the empty query.
+
+- `97b2f3f37ea` Skip discovered-dataset permission query when a job discovers nothing — wraps the query, `PermissionProvider` construction, and permission loop in a walrus guard on the discovered id list.
+- `f329708da08` Share dataset permission test helpers via DatasetPopulator — adds `get_dataset_permissions` and `assert_history_datasets_permissions`, and drops the two private `_assert_history_datasets_private` copies.
+- `cc988ef3f69` Check every history dataset in fetched-list default permissions API test — swaps the elements-only loop for the shared helper with public access and a count of 2.
+- `11bd13fa13d` Test default permissions for every output kind under extended metadata — adds `test_all_output_types_get_default_permissions`, which expects 10 private datasets.

@@ -1,0 +1,2 @@
+- gx_test_challenger P2 1, sub-bullet "test discovered HDAs that share a Dataset": the dedup can't skip needed work, because permissions are per Dataset and `PermissionProvider.set_default_hda_permissions` returns early when `dataset.actions` is already set (`lib/galaxy/job_execution/output_collect.py:100`). Nothing to assert. (The rest of P2 1 became verified P3 4.)
+- gx_test_challenger P3 2, alternative "drop the API test": not taken; the API test was strengthened instead (verified P3 3).
