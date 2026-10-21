@@ -5,7 +5,7 @@
 
 ## Status
 
-In progress. Base `release_26.2`.
+Implemented and hardened (re-scoped once); ready for CI. Base `release_26.2`, head `0f23fc4cf5a`. See the [implementation debrief](implementation_debrief.md).
 
 No PR.
 
@@ -13,12 +13,19 @@ No CI yet.
 
 ## Scope
 
-Missing E2E tests for 26.2, two commits:
+Missing E2E tests for 26.2, five commits:
 
-1. `test_history_panel.py::test_item_name_tag_propagates_to_tool_output` tags one history item `#plus` from its Add Tags button and checks a cat1 output inherits the tag. Adds `history_panel_item_add_tags`, `content_item.tag_area_button` / `tag_area_input`, and `tags_add_from_button`, now shared with `history_panel_add_tags`.
-2. `test_dataset.py::test_history_dataset_auto_detect_metadata` edits a BED's comment lines, then checks the Attributes tab's Auto-detect re-detects them. Before this, only the Datatypes tab's Auto-detect had a test. Adds `edit_dataset_attributes.auto_detect_metadata_button` (a sibling selector, no client change) and `metadata_input(name)`.
+1. `tags_add_from_button` pulls the Add Tags typing loop out of `history_panel_add_tags`, which now uses it.
+2. `TestDataset._click_and_assert_success_alert` replaces the inline success-alert checks in three existing tests.
+3. The Attributes tab's Auto-detect button gets `id="dataset-attributes-autodetect-metadata"` (re-scope).
+4. `test_history_panel.py::test_item_name_tag_propagates_to_tool_output` tags one history item `#plus` from its Add Tags button and checks that a cat1 output inherits it. Adds `history_panel_item_add_tags` and `content_item.tag_area_button` / `tag_area_input`.
+5. `test_dataset.py::test_history_dataset_auto_detect_metadata` edits a BED's comment lines, then checks that the Attributes tab's Auto-detect re-detects them. Only the Datatypes tab's Auto-detect was tested before. Adds `edit_dataset_attributes.auto_detect_metadata_button` and `metadata_input(name)`.
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commits "Test tagging a history item and its name tag reaching a tool output" and "Test re-detecting metadata with Auto-detect on the Attributes tab"), per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). On restack onto a 26.2 that has this branch, drop both commits from `galaxy_ui_driver`.
+The version with no client change, which uses a sibling selector, is kept as [an alt](alts/original_scope.md).
+
+Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commits "Test tagging a history item and its name tag reaching a tool output" and "Test re-detecting metadata with Auto-detect on the Attributes tab"), following [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). On restack onto a 26.2 that has this branch, drop both commits from `galaxy_ui_driver`.
+
+Merges cleanly (`git merge-tree`) with `selenium_history_datatype_citations`, `selenium_collection_build_convert`, `selenium_apply_rules_nest_menus` and `selenium_multiview_copy`.
 
 ## Worktree
 

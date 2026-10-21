@@ -145,6 +145,13 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   lines, then checks the Attributes tab's Auto-detect re-detects them (only the Datatypes tab's was
   tested). Adds `edit_dataset_attributes.auto_detect_metadata_button` (sibling selector, no client
   change) and `metadata_input(name)`. Green under Playwright. Standalone.
+- `a9b34ac894c` and `1a9b0ccb3c2` were extracted together into
+  [`selenium_dataset_tags_auto_detect`](../../repositories/galaxy/branches/active/selenium_dataset_tags_auto_detect/index.md)
+  (`release_26.2`, 2026-10-21, green under both backends). It shares the tag loop as
+  `tags_add_from_button` and adds a success-alert helper. It also gives the Attributes tab's
+  Auto-detect button an id, so `auto_detect_metadata_button` targets
+  `#dataset-attributes-autodetect-metadata`; the alt branch keeps the sibling selector. On restack, drop both by
+  subject.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

@@ -7,3 +7,5 @@
 - I rebuilt the client in place. The Auto-detect E2E test passes under Playwright and Selenium. `DatasetAttributes.test.ts` passes under the pinned node.
 - The [post-rescope review](subagents/rescope_normal_review.md) approved. I added its suggested vitest, which checks that the new id submits `autodetect`; it passes and fails without the id.
 - Head `157d6e7c064`, pushed.
+
+Later: round 2 test challenges dropped that vitest. It passed or failed only on whether the id existed, and the E2E test already clicks the id. See [test_challenges_debrief.md](test_challenges_debrief.md). Head is now `8f0ad8b2b6e`.
