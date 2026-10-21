@@ -6,7 +6,7 @@
 
 ## Status
 
-Rebased onto `release_26.2` (was `dev`), re-scoped to include the `historyDragDrop.ts` single-type drop fix; head `8c1c7d48839`. Re-hardening in progress (test challenge done). Original scope: [alt](alts/original_scope.md); [rescope debrief](implementation_rescope_debrief.md).
+Rebased onto `release_26.2` (was `dev`), re-scoped to include the `historyDragDrop.ts` single-type drop fix; head `4352a0f4ff6`. Re-hardening in progress (test challenge, E2E polish done). Original scope: [alt](alts/original_scope.md); [rescope debrief](implementation_rescope_debrief.md).
 
 No PR.
 
