@@ -1,0 +1,4 @@
+- Give invocation steps, jobs and outputs shareable URLs
+- Shareable links for selected steps, jobs and outputs in the invocation view
+- Keep the invocation view's selection in the URL
+- Link directly to a step, mapped-over job or output of a workflow invocation
