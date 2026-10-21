@@ -21,8 +21,8 @@ A finding is open until it has `fixed_in` or `skip`.
 2. Check it still applies. If main already fixed it, set `skip: fixed upstream at <sha>`. If it
    looks wrong, set `skip: disputed: <why>` rather than guessing.
 3. Fix it in every FAQ in `faqs`, plus anything `fix` names (tutorials embedding the FAQ). Keep the
-   edit minimal and in GTN's style. A stale screenshot gets retaken with gxui against
-   `faq_server.sh`, or the finding stays open with the reason in its findings file.
+   edit minimal and in GTN's style. Leave screenshots alone; stale ones are tracked in
+   `gtn_screenshots_26_2.yaml`.
 4. Commit once per finding: `<label>: <short description>`.
 5. Set `fixed_in: <branch>` with the Edit tool, not by re-dumping the YAML; the FAQ loop may be
    appending to the file at the same time.

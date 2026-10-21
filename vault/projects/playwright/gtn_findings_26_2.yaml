@@ -16,7 +16,7 @@
     - faqs/galaxy/analysis_jobs_not_running.md
   target: main
   summary: '"Login or Register" is now separate Login and Register masthead buttons, and Register opens the form directly.'
-  fix: In account_create, collapse steps 2-3 to "Click **Register** in the masthead" and replace the stale `login_register.png`.
+  fix: In account_create, collapse steps 2-3 to "Click **Register** in the masthead".
 
 - label: account-create-step-numbers
   faqs: [faqs/galaxy/account_create.md]

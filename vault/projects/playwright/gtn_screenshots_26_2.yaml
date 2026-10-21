@@ -1,0 +1,24 @@
+# Stale GTN screenshots found by the 26.2 FAQ loop. Schema: GTN_SCREENSHOTS_YAML_SCHEMA.md.
+
+- image: faqs/galaxy/images/login_register.png
+  faqs: [faqs/galaxy/account_create.md]
+  used_in:
+    - topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial.md
+    - topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_DE.md
+    - topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_ES.md
+    - topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_IT.md
+  priority: high
+  summary: Shows the old masthead's single "Login or Register" item, which no longer exists.
+  retake: Logged-out masthead with the separate Login and Register buttons.
+
+- image: shared/images/activity_bar_how_to_enable.svg
+  faqs: [faqs/galaxy/activity_bar_how_to_enable.md]
+  priority: high
+  summary: Diagrams the removed Manage Activity Bar preference and enable switch.
+  retake: The Additional Activities panel opened from **More**, with an activity's star highlighted.
+
+- image: faqs/galaxy/images/unverified_account.png
+  faqs: [faqs/galaxy/account_create.md]
+  priority: medium
+  summary: The banner and Resend Verification link still match, but the masthead around them is the old one with a "User" menu.
+  retake: An inactive user's welcome page with the activation banner.

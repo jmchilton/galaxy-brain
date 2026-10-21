@@ -40,5 +40,6 @@ fixes them.
 Every label must appear in `faq_findings` on each of its FAQs in `faqs_26_2.yaml`, and the other
 way round. `uv run check_gtn_findings.py` checks that, unique labels and the fields.
 
-Observations that aren't problems ("no breakage", "tool not on stock servers") aren't findings;
+Stale screenshots go in `gtn_screenshots_26_2.yaml` ([GTN_SCREENSHOTS_YAML_SCHEMA.md](GTN_SCREENSHOTS_YAML_SCHEMA.md)),
+not here. Observations that aren't problems ("no breakage", "tool not on stock servers") aren't findings;
 they belong in the findings file or the FAQ entry's `note`.

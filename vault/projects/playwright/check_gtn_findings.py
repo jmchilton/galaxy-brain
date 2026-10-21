@@ -1,7 +1,10 @@
 # /// script
 # dependencies = ["pyyaml"]
 # ///
-"""Check gtn_findings_<ver>.yaml against faqs_<ver>.yaml. Usage: uv run check_gtn_findings.py [26_2]"""
+"""Check gtn_findings_<ver>.yaml and gtn_screenshots_<ver>.yaml against faqs_<ver>.yaml.
+
+Usage: uv run check_gtn_findings.py [26_2]
+"""
 
 import collections
 import sys
@@ -11,6 +14,7 @@ import yaml
 
 HERE = Path(__file__).parent
 FIELDS = {"label", "faqs", "target", "summary", "fix", "skip", "fixed_in"}
+SHOT_FIELDS = {"image", "faqs", "used_in", "priority", "summary", "retake", "fixed_in"}
 
 
 def main(ver: str) -> int:
@@ -43,10 +47,24 @@ def main(ver: str) -> int:
                 errors.append(f"{faq}: faq_findings names unknown label {label}")
             elif label not in linked[faq]:
                 errors.append(f"{faq}: {label} doesn't list this faq")
+    shots_path = HERE / f"gtn_screenshots_{ver}.yaml"
+    shots = yaml.safe_load(shots_path.read_text()) if shots_path.exists() else []
+    images = collections.Counter(s.get("image") for s in shots or [])
+    errors += [f"duplicate image {image}" for image, n in images.items() if n > 1]
+    for s in shots or []:
+        image = s.get("image")
+        if extra := set(s) - SHOT_FIELDS:
+            errors.append(f"{image}: unknown fields {sorted(extra)}")
+        for field in ("image", "faqs", "priority", "summary"):
+            if not s.get(field):
+                errors.append(f"{image}: missing {field}")
+        if s.get("priority") not in ("high", "medium", "low"):
+            errors.append(f"{image}: priority must be high, medium or low")
+        errors += [f"{image}: unknown faq {faq}" for faq in s.get("faqs") or [] if faq not in faqs]
     for error in errors:
         print(error)
     open_count = sum(1 for f in findings if "fixed_in" not in f and "skip" not in f)
-    print(f"{len(findings)} findings, {open_count} open, {len(errors)} errors")
+    print(f"{len(findings)} findings, {open_count} open; {len(images)} screenshots; {len(errors)} errors")
     return 1 if errors else 0
 
 
