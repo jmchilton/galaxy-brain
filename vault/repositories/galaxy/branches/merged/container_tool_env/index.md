@@ -1,6 +1,6 @@
 # container_tool_env
 
-Status: `ready` — undrafted by John 2026-10-19 after final review; CI green on head (53 checks), mergeable. Base: `release_26.2`. [PR #23815](https://github.com/galaxyproject/galaxy/pull/23815), head `e6fa5fa7fd970d9330bf03ab23b1924815b00a41`.
+Status: merged into `release_26.2` 2026-10-21. [PR #23815](https://github.com/galaxyproject/galaxy/pull/23815), head `e6fa5fa7fd970d9330bf03ab23b1924815b00a41`.
 
 Adds destination job/tool environment scopes and tool-declared container runtime variables.
 
