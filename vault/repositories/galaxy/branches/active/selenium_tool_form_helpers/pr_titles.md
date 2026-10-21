@@ -1,0 +1,4 @@
+- Make the tool-test form filler a public E2E helper and fill nested repeats, sections and editor steps
+- Move tool form filling onto NavigatesGalaxy and describe forms with tool_form_parameters
+- Fill and describe any tool form from E2E tests, not just the tool-test harness
+- Public tool form fill and describe helpers for galaxy.selenium, with nested repeat and section fixes

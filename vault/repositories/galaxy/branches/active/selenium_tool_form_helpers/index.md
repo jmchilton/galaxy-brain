@@ -2,14 +2,15 @@
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_tool_form_helpers?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_tool_form_helpers)
+- [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
 
 ## Status
 
-Polishing (`branches_need_polish`) on `dev`, head `798bae4b33f`; see `implementation_debrief.md`.
+Polished, ready for final review (`branches_ready_for_final_review`) on `dev`, head `d0fa949eaae` (10 commits, compacted from 22; old head kept as local `selenium_tool_form_helpers_pre_compact`).
 
 No PR.
 
-CI not yet observed.
+Fork CI queued on `d0fa949eaae`; "Tool form harness tests" is the check to watch.
 
 ## Scope
 
@@ -26,6 +27,7 @@ The original scope is kept as `selenium_tool_form_helpers_alt_original_scope` ([
 ## Decisions
 
 - 2026-10-21, John: keep 7f here; one PR with history compacted to thematic commits (`scope_evaluation.md` Option D).
+- Open for John: repeat insert needs 26.2+ (`data-repeat-name`), so no released server can insert repeats; revisit scope E1? Keep `repeat_insert_named` as an alias? See `polish_debrief.md`.
 - Every SHA was rewritten, so `galaxy_ui_driver`'s dev-only merge of the old SHAs is stale and will need a restack. On restack, take this branch's `test/unit/selenium/test_tool_form_fill.py`.
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md).
