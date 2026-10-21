@@ -124,6 +124,10 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   through Advanced Build List > Flat List and renames an element; adds `list_wizard.element_name`/
   `element_name_input` and `collection_builder_rename_element`. Pairs naturally with `e31b6908bec`.
   Green under Playwright only.
+- `e31b6908bec`, `b96ef661d45` and `cdc5c200548` were extracted into
+  [`selenium_collection_build_convert`](../../repositories/galaxy/branches/active/selenium_collection_build_convert/index.md)
+  (`release_26.2`, 2026-10-21). It also adds a refactor commit and a fix for Convert Collection always
+  being enabled. On restack, drop all three by subject; the convert commit's patch differs.
 - `00c72c7fa3c`: coverage for `collections_force_mapping_over`. `test_tool_form.py` nests a list with
   Apply rules through the Column > Basename and column definition menus (other Apply rules tests set
   the rule source JSON), then checks Sort collection maps over the `list:list`. Adds
