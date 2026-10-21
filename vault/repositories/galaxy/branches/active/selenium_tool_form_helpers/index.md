@@ -6,11 +6,11 @@
 
 ## Status
 
-Polished; draft PR in `ci_wait` on `dev`, head `d0fa949eaae` (10 commits, compacted from 22; old head kept as local `selenium_tool_form_helpers_pre_compact`).
+Polished; draft PR in `ci_wait` on `dev`, head `99f6ed772c1` (10 commits, compacted from 22; old head kept as local `selenium_tool_form_helpers_pre_compact`).
 
 Draft [#24331](https://github.com/galaxyproject/galaxy/pull/24331), opened 2026-10-21 at John's request (title: first option in `pr_titles.md`; labels from `pr_tags.md`).
 
-CI queued on `d0fa949eaae`; "Tool form harness tests" is the check to watch.
+CI queued on `99f6ed772c1` (fixes the one mypy error `d0fa949eaae` hit in Python linting); "Tool form harness tests" is the check to watch.
 
 ## Scope
 
