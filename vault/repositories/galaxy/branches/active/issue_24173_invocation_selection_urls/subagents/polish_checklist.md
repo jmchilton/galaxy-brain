@@ -173,3 +173,8 @@ Yes, see `scope_evaluation.md`.
 - **The new commits stay in the same vein:** the banner fix reuses the existing `success` prop instead of adding route state, and the terminal guards reuse the existing `stepIsTerminal` and `invocationAndJobTerminal` signals.
 
 </details>
+
+## Addendum — after `a161b912cd7` and `c69f43e3222`
+
+- **Unit tests not just testing the literal implementation: now PASS.** The `scrollIntoView` stub and its `afterEach` delete are gone (happy-dom implements it), and GenericItem calls `scrollIntoView` directly. New behavioral tests, each red without its fix: GenericItem scrolls for externally expanded items but not user toggles; Share copies the routed selection; subworkflow error links carry `step_index`; the browser test asserts `job` leaves the URL when the dialog closes.
+- Other verdicts unchanged.

@@ -3,7 +3,13 @@ Implement 🎯 #24173 - every step, job and output you select in the workflow in
 | `…?step_label=mixed_collection&job=<id>` | `…?step_label=cat_11&output=out_file1` | `…/steps?step_number=26` |
 |---|---|---|
 | ![Mapped-over job's state filter and page opened from a link](screenshots/invocation_mapped_job_table.png) | ![Step output opened from a link](screenshots/invocation_step_output_url.png) | ![Steps list scrolled to step 26](screenshots/invocation_steps_url_scrolled.png) |
-| One of a step's 12 successful mapped-over jobs (it also has a failed one). The graph centers on the step and the Jobs tab opens filtered to "successful", on page 2 where the job is, with its [job dialog](screenshots/invocation_mapped_job_step_label.png) open (closed here to show the table). | The step's Outputs tab opens with `out_file1` expanded and scrolled into view. `/outputs?output=<label>` does the same for [workflow outputs](screenshots/invocation_workflow_output_url.png). | The Steps tab opens with step 26 expanded and scrolled into view. The run here is still scheduling, which is why its card has no details yet. |
+| One of a step's 12 successful mapped-over jobs (it also has a failed one). The graph centers on the step and the Jobs tab opens filtered to "successful", on page 2 where the job is, with its job dialog open (closed here to show the table; dialog below). | The step's Outputs tab opens with `out_file1` expanded and scrolled into view. `/outputs?output=<label>` does the same for workflow outputs. | The Steps tab opens with step 26 expanded and scrolled into view. The run here is still scheduling, which is why its card has no details yet. |
+
+<details><summary>The same link with the job dialog open</summary>
+
+![Job dialog opened from a link](screenshots/invocation_mapped_job_step_label.png)
+
+</details>
 
 On `dev`, the address bar stays at `/workflows/invocations/<id>` whatever you select, and the Share button copies that bare link. To point a colleague at "the failed job in step 7", you tell them to find step 7 in the graph, open Jobs, pick the "failed" filter, page through ten at a time and click the right row. The alternative is the standalone `/jobs/<id>/view` page, which drops which run, which step and which of N jobs it was.
 
