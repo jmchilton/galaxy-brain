@@ -19,6 +19,8 @@ embedded in any tutorial.
   Added `test_history_dataset_auto_detect_metadata` (`1a9b0ccb3c2`) with
   `edit_dataset_attributes.auto_detect_metadata_button` (`#dataset-attributes-default-save + button`,
   no client rebuild) and `metadata_input(name)`.
-- A form save stores `comment_lines` as the string `"3"`; Auto-detect stores int `0`. Nothing found
-  doing arithmetic on it; noted in the test.
+- A form save stores `comment_lines` as the string `"3"`; Auto-detect stores int `0`.
+  `ColumnDataProvider` compares it to an int, so that provider would raise `TypeError` after an edit.
+  Queued as `gx_issues/to_file/edit_attributes_text_metadata_saved_as_string.md`; the test compares
+  with `int()` until fixed.
 - Replay uses `gxui call history_panel_item_edit` and `gxui component`; no edit-attributes verb yet.
