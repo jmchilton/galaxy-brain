@@ -98,11 +98,15 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `a51d2b9ed4a`: coverage for `bulk_change_datatype`. `test_history_panel.py` changes two selected
   datasets' data type from the Selection menu; adds a `data-description` on the modal, a
   `multi_operations.change_datatype_modal` component and `history_panel_change_datatype_of_selected`.
-  Coverage PR candidate; green under Playwright only.
+  Extracted with `93b1f03b432` into
+  [`selenium_history_datatype_citations`](../../repositories/galaxy/branches/active/selenium_history_datatype_citations/index.md)
+  (`release_26.2`, 2026-10-21), widened to Change Database/Build through a shared `operation_modal` /
+  `history_panel_change_selected`. On restack, drop both commits and point gxui's
+  `history-change-datatype` verb at the new helper.
 - `93b1f03b432`: coverage for `cite-tools-used-in-a-history`. `test_history_options.py` opens
   History options > Export Tool References and checks both tabs; adds `data-description`s on the
-  menu item and tabs, a `citations` component and `click_history_option_tool_references`. Coverage
-  PR candidate; green under Playwright only.
+  menu item and tabs, a `citations` component and `click_history_option_tool_references`. In
+  `selenium_history_datatype_citations` (see above).
 - `e31b6908bec`: coverage for `collections_autobuild_list`. `test_collection_builders.py` builds a
   list with "Remove file extensions?" off and checks identifiers keep `.fasta`; adds a
   `list_wizard.remove_extensions` component and `collection_builder_toggle_remove_extensions`.
