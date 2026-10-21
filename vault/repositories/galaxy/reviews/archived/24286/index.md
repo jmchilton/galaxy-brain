@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review of `e879751951c` drafted 2026-10-21, not delivered (one P3; test-only fix on fork review branch, edited API test run locally and passes).
+Initial review of `e879751951c` drafted 2026-10-21, never delivered (one P3; test-only fix on fork review branch, edited API test run locally and passes).
 
-Open, ready for review, against `release_25.1`.
+Merged by the author 2026-10-21 into `release_25.1`; tracking ended on merge.
