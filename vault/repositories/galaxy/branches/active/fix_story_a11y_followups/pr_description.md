@@ -26,7 +26,7 @@ No app component sets a Popper `title` today, so the new Close button isn't visi
 
 <details><summary>Validation</summary>
 
-- Five related client suites pass (76 tests): `ChatInput`, `Popper`, `usePopper`, `CellAdd` and `GButton`. The full client type check, ESLint (no new warnings) and Prettier also pass.
+- Five related client suites pass (79 tests): `ChatInput`, `Popper`, `usePopper`, `CellAdd` and `GButton`. The full client type check, ESLint (no new warnings) and Prettier also pass.
 - The new accessible-name, native button and focus-return tests fail on the base at those assertions. On the base, the hover Escape test fails because the popover stays open. The `CellAdd` test fails because focus stays on the hidden search input. Leading commit `bb7bfb7703d` adds baseline tests for chat busy recovery and untitled popovers, which pass on the base.
 - In headless Chromium with Galaxy's production CSS, mounting the real components:
   - Tab reaches Close, and Enter or Space closes the popover and returns focus to its trigger.
@@ -90,8 +90,8 @@ The accessible name, native control, focus styling and shared close handler are 
 
 ## John's Checklist
 
-- [x] Did a human read every test and every comment? (Requires human author to check)
-- [x] What does the user see when it fails? The popover still closes. Without a focusable trigger, focus isn't returned, as before.
+- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] What does the user see when it fails? Without a focusable trigger, Close and click-popover Escape still close it without returning focus, and hover-popover Escape leaves it open, as before.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They check accessible names, `document.activeElement` and visibility through the real `GButton`.
 - [x] Are baseline tests in their own leading commits (if applicable)? Yes, `bb7bfb7703d`.
