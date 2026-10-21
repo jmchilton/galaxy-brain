@@ -9,3 +9,5 @@ Reproduced on dev `2cca8565861`: direct `list:list` into `list,list:list` → `l
 Decide: mapped outputs take the concrete subcollection type (flips one assertion in open PR #24227) — confirm, or land #24227 first and adjust.
 
 Next after decision: red API tests (repro tools in debrief), then the shared server helper.
+
+#24303 branch Codex round 2 (2026-10-20): `type_prefix` inherits both divergences. Mapped `paired_or_unpaired` + prefix gives an implicit `list:list:paired` with `list:paired_or_unpaired` children. The editor shows `list:paired_or_unpaired` for a `paired` connected with a prefix, then rejects a valid downstream `paired` connection. See `vault/repositories/galaxy/branches/active/issue_24303_collection_type_prefix_26.2/codex_review.md`.
