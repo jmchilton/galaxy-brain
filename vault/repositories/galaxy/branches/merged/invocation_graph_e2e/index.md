@@ -12,7 +12,7 @@ Adds browser tests for the workflow invocation Overview graph (Selenium + Playwr
 
 ## Decisions
 
-- Live-update graph test kept off this branch: intermittently red on dev until the [#24138 fix](../../active/issue_24138_invocation_graph_refresh/index.md) lands.
+- Live-update graph test kept off this branch: intermittently red on dev until the [#24138 fix](../../merged/issue_24138_invocation_graph_refresh/index.md) lands.
 
 ## Draft pending CI — 2026-10-15
 

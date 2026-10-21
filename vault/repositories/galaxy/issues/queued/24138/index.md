@@ -12,4 +12,4 @@ Related: perf comment on [#22745](../22745/index.md) — complementary, the watc
 
 Open: ping/assign ahmedhamidawan (author of #20719)? Not mentioned in the issue.
 
-Branch: [`issue_24138_invocation_graph_refresh`](../../../branches/active/issue_24138_invocation_graph_refresh/index.md) (2026-10-15, with #22745 refresh cost).
+Branch: [`issue_24138_invocation_graph_refresh`](../../../branches/merged/issue_24138_invocation_graph_refresh/index.md) (2026-10-15, with #22745 refresh cost).

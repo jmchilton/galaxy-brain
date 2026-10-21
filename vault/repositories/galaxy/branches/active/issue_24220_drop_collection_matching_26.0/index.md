@@ -16,7 +16,7 @@ Fixes galaxyproject/galaxy#24220: tool form drag and drop matched collections to
 ## Decisions
 
 - Base `release_26.0`, per the issue: 26.0 has the server's `:` boundary (#22193) and `sample_sheet` normalization, so the fixed client agrees with the dropdown. 25.1 not targeted.
-- Stacked on [`issue_24218_can_map_over_parity_26.0`](../issue_24218_can_map_over_parity_26.0/index.md): #24220 needs its `canMapOver` fix. Open/merge 24218 first; rebase onto `release_26.0` once it lands, or onto 24218 if that moves again.
+- Stacked on [`issue_24218_can_map_over_parity_26.0`](../../merged/issue_24218_can_map_over_parity_26.0/index.md): #24220 needs its `canMapOver` fix. Open/merge 24218 first; rebase onto `release_26.0` once it lands, or onto 24218 if that moves again.
 - Option-dedupe changes from 20657 (`68b8d3969e5`) left out; not needed for drop matching.
 - Alt `issue_24220_drop_collection_matching_26.0_alt_original_scope` keeps the pre-re-scope fix ([alts/original_scope.md](alts/original_scope.md)).
 

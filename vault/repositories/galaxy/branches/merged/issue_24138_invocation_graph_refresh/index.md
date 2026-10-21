@@ -1,6 +1,6 @@
 # issue_24138_invocation_graph_refresh
 
-Status: `ready` (2026-10-20) — undrafted #24165 on green CI at `39b5efeee1c`.
+Status: merged into `release_26.2` 2026-10-20 ([#24165](https://github.com/galaxyproject/galaxy/pull/24165)).
 
 Fixes [#24138](https://github.com/galaxyproject/galaxy/issues/24138) (Steps tab headers freeze while an invocation runs) and the refresh-cost part of [#22745](https://github.com/galaxyproject/galaxy/issues/22745) (O(n²) graph refresh). Doesn't claim to fix #22745's zoom/pan freeze, which hasn't been browser-profiled. The PR shouldn't auto-close #22745.
 

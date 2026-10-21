@@ -5,11 +5,7 @@
 
 ## Status
 
-`ready`; PR out of draft at head `1187e612f7d`, base `release_26.0` (`a6544be047d`).
-
-Draft [#24227](https://github.com/galaxyproject/galaxy/pull/24227) opened 2026-10-17 at John's request (title `[26.0] Fix workflow editor map-over onto `:paired_or_unpaired` inputs the server rejects`; `area/workflows` used because `area/workflows/editor` doesn't exist upstream).
-
-PR CI green apart from two unrelated reds (see CI diagnosis); undrafted 2026-10-19 at John's request.
+Merged into `release_26.0` 2026-10-21 ([#24227](https://github.com/galaxyproject/galaxy/pull/24227)).
 
 ## Polish
 
@@ -17,7 +13,7 @@ PR CI green apart from two unrelated reds (see CI diagnosis); undrafted 2026-10-
 
 ## About
 
-Fixes galaxyproject/galaxy#24218: client `CollectionTypeDescription.canMapOver` accepts `:paired_or_unpaired` map-overs that the server's `has_subcollections_of_type` rejects, and the editor draws a map-over of empty type `""`. The source fix is ported from `00e2bf07047` on [issue_20657_input_processing_mode](../issue_20657_input_processing_mode/index.md). [Issue notes](../../../issues/wip/24218/index.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24218_can_map_over_parity_26.0`.
+Fixes galaxyproject/galaxy#24218: client `CollectionTypeDescription.canMapOver` accepts `:paired_or_unpaired` map-overs that the server's `has_subcollections_of_type` rejects, and the editor draws a map-over of empty type `""`. The source fix is ported from `00e2bf07047` on [issue_20657_input_processing_mode](../../active/issue_20657_input_processing_mode/index.md). [Issue notes](../../../issues/wip/24218/index.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24218_can_map_over_parity_26.0`.
 
 ## Decisions
 

@@ -2,7 +2,7 @@
 
 [Issue](https://github.com/galaxyproject/galaxy/issues/24226) · [proposal](proposal.md) · [debrief](debrief.md) · [original draft](issue_draft.md)
 
-Filed 2026-10-17, assigned jmchilton. Came from the #24218 hardening ([branch notes](../../../branches/active/issue_24218_can_map_over_parity_26.0/index.md), scope evaluation D/H).
+Filed 2026-10-17, assigned jmchilton. Came from the #24218 hardening ([branch notes](../../../branches/merged/issue_24218_can_map_over_parity_26.0/index.md), scope evaluation D/H).
 
 ## Status
 

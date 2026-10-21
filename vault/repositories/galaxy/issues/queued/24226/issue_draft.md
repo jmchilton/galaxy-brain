@@ -47,4 +47,4 @@ Client harness output also lists 89 effective-type disagreements that existed be
 ## References
 
 - galaxy#24218, branch `jmchilton/issue_24218_can_map_over_parity_26.0`
-- Evidence: `vault/repositories/galaxy/branches/active/issue_24218_can_map_over_parity_26.0/scope_evaluation.md` sections D and H
+- Evidence: `vault/repositories/galaxy/branches/merged/issue_24218_can_map_over_parity_26.0/scope_evaluation.md` sections D and H

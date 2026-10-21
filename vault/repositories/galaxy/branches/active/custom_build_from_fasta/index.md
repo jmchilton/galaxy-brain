@@ -25,4 +25,4 @@ Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstre
 ## Related
 
 - #24309: FASTA build not listed until reload. The E2E re-navigates because of it; once fixed, switch to waiting for the row.
-- [`custom_build_no_converter_400_26.0`](../custom_build_no_converter_400_26.0/index.md) and [`better_custom_build_error_handling_25.1`](../better_custom_build_error_handling_25.1/index.md) (#24310): API error handling on the same path.
+- [`custom_build_no_converter_400_26.0`](../custom_build_no_converter_400_26.0/index.md) and [`better_custom_build_error_handling_25.1`](../../merged/better_custom_build_error_handling_25.1/index.md) (#24310): API error handling on the same path.

@@ -15,7 +15,7 @@ Fixes [#24273](https://github.com/galaxyproject/galaxy/issues/24273): scheduled 
 
 ## Dependencies
 
-- Blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297) ([`_baseline`](../issue_24273_dataset_edit_alert_26.0_baseline/index.md), commits 1–7). Once it merges, rebase onto `release_26.0` so the PR carries only the fix commits.
+- Blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297) ([`_baseline`](../../merged/issue_24273_dataset_edit_alert_26.0_baseline/index.md), commits 1–7). Once it merges, rebase onto `release_26.0` so the PR carries only the fix commits.
 
 ## Decisions
 

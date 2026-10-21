@@ -5,11 +5,7 @@
 
 ## Status
 
-Polished on `release_26.2`, head `e6b89ba6004`; John approved the title and description 2026-10-21: [pr_description.md](pr_description.md), [pr_titles.md](pr_titles.md), [pr_tags.md](pr_tags.md), [polish_debrief.md](polish_debrief.md). Alt: `workflow_open_exact_title_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
-
-Draft [#24317](https://github.com/galaxyproject/galaxy/pull/24317) opened at John's request, labels `kind/bug`, `area/testing/selenium`.
-
-CI running on `e6b89ba6004`.
+Merged into `release_26.2` 2026-10-21 at `e6b89ba6004` ([#24317](https://github.com/galaxyproject/galaxy/pull/24317)): [pr_description.md](pr_description.md), [polish_debrief.md](polish_debrief.md). Alt: `workflow_open_exact_title_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
 
 ## Scope
 
@@ -21,4 +17,4 @@ Decision (2026-10-20): 7i (colon-free search term) left out. With it reverted, t
 
 Re-scope (2026-10-20): `workflow_delete_by_name` / `workflow_bookmark_by_name` also act on the card titled NAME (the old delete clicked the first card's menu item), with an E2E test (`test_workflow_management.py::test_workflow_bookmark_and_delete_by_exact_title`). Also a 3-line Playwright `find_elements` snapshot fix (count-then-nth could stall 30s when the list shrank). The 7c unit test file was dropped (John's call). Open decisions (description assumes the defaults): one PR vs split the driver fix; keep the test's explicit `workflow_index_open()`.
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Once this merges, restack `galaxy_ui_driver` on it rather than dropping 7c/7g: they were rewritten, and delete/bookmark plus the Playwright driver fix were added.
+Pulled out of [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Once this merges, restack `galaxy_ui_driver` on it rather than dropping 7c/7g: they were rewritten, and delete/bookmark plus the Playwright driver fix were added.
