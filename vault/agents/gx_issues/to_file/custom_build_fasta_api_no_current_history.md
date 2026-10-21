@@ -6,7 +6,7 @@
 
 - `lib/galaxy/webapps/galaxy/api/users.py` 578-579 call `dataset.get_converted_dataset(trans, "len")` and `new_len.get_converted_dataset(trans, "linecount")` with no `history=`.
 - `get_converted_dataset` -> `Data.convert_dataset(..., history=None)` -> `converter.execute(trans, ..., history=None)`, so the tool action falls back to `trans.history`, which is `None` for API-key requests.
-- `lib/galaxy/tools/actions/__init__.py:533` `assert history` raises a bare `AssertionError`. The `except Exception` in `users.py` 582-583 turns it into `ToolExecutionError("Failed to convert dataset.")`. That's the same swallowing as `custom_build_conversion_error_swallowed` (fixed on `custom_build_no_converter_400_26.0` for `NoConverterException` only; this `AssertionError` would still be swallowed there).
+- `lib/galaxy/tools/actions/__init__.py:533` `assert history` raises a bare `AssertionError`. The `except Exception` in `users.py` 582-583 turns it into `ToolExecutionError("Failed to convert dataset.")`. That's the same swallowing as `custom_build_conversion_error_swallowed` (`custom_build_no_converter_400_26.0` narrows the `except` to `NoConverterException`, so there this `AssertionError` surfaces as an unhandled 500 with a traceback instead).
 - Sibling path that does it right: tool-input implicit conversion, `tools/actions/__init__.py` 212-218, passes `history=history`.
 - Possibly the same omission (unverified): `services/datasets.py:984` `_get_or_create_converted` and `:1063` also call `get_converted_dataset(trans, ...)` without `history=`.
 

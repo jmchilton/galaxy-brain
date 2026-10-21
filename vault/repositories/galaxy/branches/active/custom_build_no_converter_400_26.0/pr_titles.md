@@ -1,0 +1,4 @@
+- [26.0] Return 400 when a custom build's dataset can't be converted to len
+- [26.0] Explain unconvertible datasets when adding a custom build
+- [26.0] Fix opaque 500 "Failed to convert dataset." for custom builds
+- [26.0] Map NoConverterException to 400 in the custom builds API
