@@ -1,0 +1,4 @@
+- [26.2] Make by-name workflow test helpers act on the exact title, with E2E tests
+- [26.2] Fix E2E helpers opening, running, bookmarking and deleting the wrong workflow by name
+- [26.2] Test opening, running, bookmarking and deleting a workflow whose title prefixes another's
+- [26.2] Stop by-name workflow test helpers from picking a newer workflow with a longer title
