@@ -1,0 +1,4 @@
+- kind/bug
+- area/histories
+- area/UI-UX
+- area/testing/selenium

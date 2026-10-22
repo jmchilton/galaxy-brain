@@ -1,0 +1,4 @@
+- [26.2] Keep history items listed after undelete/unhide under Include deleted/hidden
+- [26.2] Fix history items vanishing after undelete/unhide with Include deleted/hidden on
+- [26.2] Fix history panel hiding items the filter still matches; add delete/privacy E2E
+- [26.2] Fix undelete/unhide in the history panel and test delete, purge and dataset privacy
