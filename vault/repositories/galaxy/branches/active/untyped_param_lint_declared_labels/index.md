@@ -5,9 +5,9 @@
 
 ## Status
 
-Polished, ready for final review; head `e953ff7344a` on base `release_26.1`; see [polish_debrief.md](polish_debrief.md) and [implementation_debrief.md](implementation_debrief.md).
+Draft PR open, waiting on CI; head `e953ff7344a` on base `release_26.1`; see [polish_debrief.md](polish_debrief.md) and [implementation_debrief.md](implementation_debrief.md).
 
-No PR yet; [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+Draft PR [#24381](https://github.com/galaxyproject/galaxy/pull/24381) opened 2026-10-22 on John's launch approval; [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
 Fork CI on head queued 2026-10-22.
 
@@ -22,3 +22,8 @@ Fork CI on head queued 2026-10-22.
 ## Context
 
 Surfaced while writing gxformat2#271 / galaxy-tool-util-ts#195 (untyped param lint), which already exempt declared-label renames.
+
+## Notes
+
+- PR labels: `kind/bug`, `area/workflows`; `area/workflows/editor` doesn't exist upstream, dropped.
+- Screenshots hosted on fork branch `pr-assets-untyped_param_lint_declared_labels`.
