@@ -1,15 +1,15 @@
 # issue_24328_data_table_mismatch_26.1
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24328_data_table_mismatch_26.1?expand=1)
+- [PR #24349](https://github.com/galaxyproject/galaxy/pull/24349)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24328_data_table_mismatch_26.1)
 
 ## Status
 
-Polished; ready for John's final review (`branches_ready_for_final_review`). Base: `release_26.1` (`6ff6692662d`). Head: `7811fe4b0ca`. Alts: `issue_24328_data_table_mismatch_26.1_alt_original_scope`, `issue_24328_data_table_mismatch_26.1_alt_skip_at_startup`. Fork: `jmchilton/issue_24328_data_table_mismatch_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24328_data_table_mismatch_26.1`.
+Polished; opened as draft on John's request (`ci_wait`), title from `pr_titles.md` option 1. Base: `release_26.1` (`6ff6692662d`). Head: `7811fe4b0ca`. Alts: `issue_24328_data_table_mismatch_26.1_alt_original_scope`, `issue_24328_data_table_mismatch_26.1_alt_skip_at_startup`. Fork: `jmchilton/issue_24328_data_table_mismatch_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24328_data_table_mismatch_26.1`.
 
-No PR yet.
+Draft [#24349](https://github.com/galaxyproject/galaxy/pull/24349) at `7811fe4b0ca`, labels `kind/bug`, `area/admin`, `area/tool-framework`.
 
-Fork CI green on `5ea732a9ad4` apart from an unrelated Integration Selenium session crash (rerun); `7811fe4b0ca` only adds a unit test, CI pending.
+CI on `7811fe4b0ca` running; no failures so far.
 
 Fixes [#24328](https://github.com/galaxyproject/galaxy/issues/24328): installing IUC `data_manager_fetch_index_maf` leaves Galaxy unable to start (`indexed_maf_files` column mismatch with core).
 
