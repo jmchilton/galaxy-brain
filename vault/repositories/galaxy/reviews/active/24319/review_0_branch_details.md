@@ -1,0 +1,6 @@
+`pr_24319_review_0` builds on `cffdae9b5f2` and keeps the PR's fix. It narrows the lag check: a path now counts as lagging only when none of its in-memory entries holds the store's hash. Before, any entry with a different hash counted, so a leftover entry from an older version at the same path made every later call reload the index. The branch adds `ToolIndex.iter_entries()` for the all-entries walk. It moves the duplicated populate test config into `galaxy.app_unittest_utils.tool_source_support.PopulateConfig`, which both test files now import. It also adds a test that drives `_load_tool_on_demand` on the stale entry. That test fails without the PR's fix, with the reported `indexed source is missing` error.
+
+- `f29b7c86069` Don't reload the index every call for a leftover same-path entry: compares the store hash against the hashes held per path, with a new test that was red before the change.
+- `659124e5ba4` Add ToolIndex.iter_entries for the all-entries walk: replaces three loops in `cached_toolbox.py`, removing deduplicated entries and handling legacy indexes.
+- `bf10dda0490` Share the populate test config between toolbox and populate tests: one `PopulateConfig` class replaces both copies.
+- `a9a4caa5db0` Test materializing a stale entry heals after a peer populate: pins the reported user-visible symptom.
