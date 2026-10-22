@@ -1,6 +1,11 @@
 # foundry#677 — `gxwf lint` untyped-param warning on `${on_string}` renames
 
 Issue: https://github.com/galaxyproject/foundry/issues/677 (scottcain, AI-posted, `needs-triage`)
+Branch: `issue-677-rename-syntax` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-677`, commit `da00dea6`. PR not opened; body in [pr_description.md](pr_description.md).
+Gaps 2 and 3 (lint precision, Python/TS parity) handed to tooling agents by John (2026-10-22).
+
+Fix placement: `gxformat2-schema` paragraph, but only 2 casts package that note (cwl/nextflow template),
+so `implement-galaxy-tool-step` also got a one-line rule + eval property.
 
 ## Triage (2026-10-22)
 
@@ -28,4 +33,4 @@ The issue's premise is wrong; the warning caught a real authoring defect.
 3. Upstream parity: Python uses `re.match` (start-anchored), TS uses `.test` (search). Python misses
    mid-string refs (`Chromosome File for ${Haplotype}`), which is why planemo stayed silent here.
 
-decide: doc fix in foundry + upstream lint issue, and the reply to Scott.
+Next: open PR (Refs #677), reply to Scott on the premise.
