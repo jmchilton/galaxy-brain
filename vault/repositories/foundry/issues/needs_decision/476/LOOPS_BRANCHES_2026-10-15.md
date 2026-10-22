@@ -256,7 +256,11 @@ John's decisions:
   - A `needs_tool` entry must name, for each candidate, the consumer it can't serve.
   - Apply Rules uniqueness is a property of the rules, not a check to perform.
   - New eval property.
-  - Rerun `~/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/` (phase 7, seeded from the 6–7 run).
+  - Rerun `~/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/` (phase 7, seeded from the 6–7 run). **Passed**: 8 iterations, 22m14s, 144 turns, $2.73. `gxwf validate` 5/5, 0 skipped.
+    - The rule worked. It chose `__APPLY_RULES__` 1.1.0, `devteam/fastqc` 0.74+galaxy1 and IUC MultiQC 1.33+galaxy1.
+    - It recorded 3 cited `kind: dropped` entries: no FastQC ZIP (the text report feeds MultiQC), and no MultiQC config or methods-description ports.
+    - One authoring: `restore_trimmed_sample_sheet_metadata`, a two-collection join no listed tool does.
+    - The collision is still there. The call read the uniqueness rule but keyed names on `add_column_from_sample_sheet_index 0` (`sample`), using `identifier0` only for a provenance tag, so the `SAMPLE3_SE` rows still map to one `SAMPLE3_SE__R1`. Cause: the step's plan from phases 4/6 demands labels of exactly `sample__R1/R2`, which can't hold when a sample repeats. The plan and the Mold rule conflict, and nothing deterministic checks the rules against the test's rows.
 - Stacking hazard: main merged #695, which bumped `implement-galaxy-workflow-test` to rev 11. That collides with `feat/test-data-refs-omitted` (its own rev 11) and `fix/workflow-test-sample-sheet-rows` (rev 12). None of our branches is in main yet; each needs a rebase before its PR.
 
 ## Open questions
