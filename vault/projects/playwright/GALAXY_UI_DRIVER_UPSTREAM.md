@@ -68,106 +68,112 @@ green under both backends and red without their change. Queued in `MY_BRANCHES.m
   base that has them.
 
 FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxui too. So far:
-- `cd24ef31d6a`: a docstring on `NavigatesGalaxy.register` (`inspect.getdoc` showed
+- `baa2c07eaf7`: a docstring on `NavigatesGalaxy.register` (`inspect.getdoc` showed
   `ABC.register`'s). Fold it into the `galaxy.selenium` PR.
-- `06483cd415a`: coverage for `account_create`. It adds `register(via_masthead=True)`, an
+- `2c99b9abcfd`: coverage for `account_create`. It adds `register(via_masthead=True)`, an
   `inactivity_box` component and `test_user_activation.py` (register, banner, resend, activate). A
   standalone coverage PR candidate, like step 2. It is green under Playwright only so far.
-- `f29cbd6da64`: coverage for `activity_bar_how_to_enable`. `test_activity_bar.py` hides and shows
+- `861c6136d84`: coverage for `activity_bar_how_to_enable`. `test_activity_bar.py` hides and shows
   an activity from the More panel; adds `activity_bar` components. Coverage PR candidate; green under
   Playwright only.
-- `3298ad89d82`: renames `preferences.activity` to `activity_bar.more`. It edits
-  `upload_activity_helpers.py`, which `f8d1e1b0fe1` creates, so it goes with the `galaxy.selenium`
-  PR, or with `f29cbd6da64` if that lands first, touching the older caller.
-- `4ca25c903a7`: coverage for `analysis_add_custom_build`. `test_custom_builds.py` makes a build
+- `f4918b8d62d`: renames `preferences.activity` to `activity_bar.more`. It edits
+  `upload_activity_helpers.py`, which `eafc0dae2e6` creates, so it goes with the `galaxy.selenium`
+  PR, or with `861c6136d84` if that lands first, touching the older caller.
+- `107c3b899f8`: coverage for `analysis_add_custom_build`. `test_custom_builds.py` makes a build
   from a history fasta; adds `custom_builds` components, and `len`/`linecount` plus the
   `fasta -> len -> linecount` converters to the framework datatypes. Coverage PR candidate. Green
   under Playwright only; `test_datatypes.py` API tests still pass.
-- `26ed03d01b6`: `tool_form_fill` switches a dataset field to collection mode for a collection hid
+- `0ae9e0dba9d`: `tool_form_fill` switches a dataset field to collection mode for a collection hid
   and fails when the selection doesn't land (was a silent no-op). Test in `test_tool_form.py`, red
   without the fix. `tool_form_fill` came from 6a, so this goes with `selenium_tool_form_helpers`.
-- `2a3eca13e68`: coverage for `analysis_jobs_not_running`. `test_user_activation.py` checks that an
+- `e8be936ba74`: coverage for `analysis_jobs_not_running`. `test_user_activation.py` checks that an
   inactive user's upload fails with "Action requires account activation."; adds
   `upload_activity.progress_row_error(row)` and the `UsesUploadActivity` mixin on that class. Goes
-  with `06483cd415a`.
-- `46178e67fa0`: coverage for `analysis_troubleshooting`. `test_dataset_error_report.py` opens a red
+  with `2c99b9abcfd`.
+- `b75d7100d6f`: coverage for `analysis_troubleshooting`. `test_dataset_error_report.py` opens a red
   dataset's error page from its bug icon and submits a report (mock SMTP + `error_email_to`); adds
   `dataset_error`, `email_report` and `content_item.error_button` components, an
   `email-report-result` class on `EmailReportForm`'s result alert, and two helpers. Coverage PR
   candidate; green under Playwright only.
-- `a784caca829`: coverage for `bulk_change_datatype`. `test_history_panel.py` changes two selected
+- `42209a18086`: coverage for `bulk_change_datatype`. `test_history_panel.py` changes two selected
   datasets' data type from the Selection menu; adds a `data-description` on the modal, a
   `multi_operations.change_datatype_modal` component and `history_panel_change_datatype_of_selected`.
-  Extracted with `e9593d8912d` into
+  Extracted with `424a8a9ec90` into
   [`selenium_history_datatype_citations`](../../repositories/galaxy/branches/active/selenium_history_datatype_citations/index.md)
   (`release_26.2`, 2026-10-21), widened to Change Database/Build through a shared `operation_modal` /
   `history_panel_change_selected`. On restack, drop both commits and point gxui's
   `history-change-datatype` verb at the new helper.
-- `e9593d8912d`: coverage for `cite-tools-used-in-a-history`. `test_history_options.py` opens
+- `424a8a9ec90`: coverage for `cite-tools-used-in-a-history`. `test_history_options.py` opens
   History options > Export Tool References and checks both tabs; adds `data-description`s on the
   menu item and tabs, a `citations` component and `click_history_option_tool_references`. In
   `selenium_history_datatype_citations` (see above).
-- `66ec1c8e5e6`: coverage for `collections_autobuild_list`. `test_collection_builders.py` builds a
+- `2840bad41aa`: coverage for `collections_autobuild_list`. `test_collection_builders.py` builds a
   list with "Remove file extensions?" off and checks identifiers keep `.fasta`; adds a
   `list_wizard.remove_extensions` component and `collection_builder_toggle_remove_extensions`.
   Coverage PR candidate; green under Playwright only, red without the toggle.
-- `83874b7e2ed`: renames `history_panel_muli_operation_select_hid` to `..._multi_...` (3 callers).
-  Goes with whichever PR lands `a784caca829`'s caller, or alone.
-- `d3a9580d166`: coverage for `collections_convert_datatype` (and `collections_change_datatype`).
+- `9bd925d19a1`: renames `history_panel_muli_operation_select_hid` to `..._multi_...` (3 callers).
+  Goes with whichever PR lands `42209a18086`'s caller, or alone.
+- `ad16fdd6a66`: coverage for `collections_convert_datatype` (and `collections_change_datatype`).
   `test_collection_edit.py` converts a fasta list with "Convert FASTA to Tabular"; adds convert-tab
   components, `collection_edit_convert`, and moves the test's change-datatype steps into
   `collection_edit_change_datatype`. `history_panel_collection_edit(hid)` replaces the bare
   `.edit-btn` `collection_menu_edit_attributes`, which relied on the collection being the first item. Adds
-  `history_wait_for_new_collection(after_hid)` (also used by `f52ca913830` and gxui). Coverage
+  `history_wait_for_new_collection(after_hid)` (also used by `bd01a6af21b` and gxui). Coverage
   PR candidate; green under Playwright only (file 3/3).
-- `6d458cecfe4`: coverage for `collections_build_list`. `test_collection_builders.py` builds a list
+- `42335f0f1d8`: coverage for `collections_build_list`. `test_collection_builders.py` builds a list
   through Advanced Build List > Flat List and renames an element; adds `list_wizard.element_name`/
-  `element_name_input` and `collection_builder_rename_element`. Pairs naturally with `66ec1c8e5e6`.
+  `element_name_input` and `collection_builder_rename_element`. Pairs naturally with `2840bad41aa`.
   Green under Playwright only.
-- `66ec1c8e5e6`, `d3a9580d166` and `6d458cecfe4` were extracted into
+- `2840bad41aa`, `ad16fdd6a66` and `42335f0f1d8` were extracted into
   [`selenium_collection_build_convert`](../../repositories/galaxy/branches/active/selenium_collection_build_convert/index.md)
   (`release_26.2`, 2026-10-21). It also adds a refactor commit and a fix for Convert Collection always
   being enabled. On restack, drop all three by subject; the convert commit's patch differs.
-- `f52ca913830`: coverage for `collections_force_mapping_over`. `test_tool_form.py` nests a list with
+- `bd01a6af21b`: coverage for `collections_force_mapping_over`. `test_tool_form.py` nests a list with
   Apply rules through the Column > Basename and column definition menus (other Apply rules tests set
   the rule source JSON), then checks Sort collection maps over the `list:list`. Adds
-  `rule_builder_add_column_basename`. Needs `d3a9580d166`'s `history_wait_for_new_collection`.
+  `rule_builder_add_column_basename`. Needs `ad16fdd6a66`'s `history_wait_for_new_collection`.
   Extracted into
   [`selenium_apply_rules_nest_menus`](../../repositories/galaxy/branches/active/selenium_apply_rules_nest_menus/index.md)
   (`release_26.2`, 2026-10-21; green under both backends). It carries its own byte-identical copy of the wait
   helper and widens to baseline asserts on the GTN rules examples plus a column-selector target for the
   single-column rule builder helpers. On restack, drop the commit.
-- `9268e731f45`: coverage for `datasets_add_tag`. `test_history_panel.py` tags an expanded dataset
+- `639d18429fa`: coverage for `datasets_add_tag`. `test_history_panel.py` tags an expanded dataset
   `#plus` from its Add Tags button, then checks a cat1 output shows `#plus`. Adds
   `history_panel_item_add_tags` and `content_item.tag_area_button` / `tag_area_input` (same names as
   `history_panel.*`). Green under Playwright and Selenium. Standalone.
-- `e0496229d5a`: coverage for `dataset_tool_errors_metadata`. `test_dataset.py` edits a BED's comment
+- `a7669dbb0be`: coverage for `dataset_tool_errors_metadata`. `test_dataset.py` edits a BED's comment
   lines, then checks the Attributes tab's Auto-detect re-detects them (only the Datatypes tab's was
   tested). Adds `edit_dataset_attributes.auto_detect_metadata_button` (sibling selector, no client
   change) and `metadata_input(name)`. Green under Playwright and Selenium. Standalone.
-- `9268e731f45` and `e0496229d5a` were extracted together into
+- `639d18429fa` and `a7669dbb0be` were extracted together into
   [`selenium_dataset_tags_auto_detect`](../../repositories/galaxy/branches/active/selenium_dataset_tags_auto_detect/index.md)
   (`release_26.2`, 2026-10-21, green under both backends). It shares the tag loop as
   `tags_add_from_button` and adds a success-alert helper. It also gives the Attributes tab's
   Auto-detect button an id, so `auto_detect_metadata_button` targets
   `#dataset-attributes-autodetect-metadata`; the alt branch keeps the sibling selector. On restack, drop both by
   subject.
-- `755d9376924`: coverage for `datasets_change_datatype`. `test_dataset.py` sets a txt dataset to
+- `24fa0702f6d`: coverage for `datasets_change_datatype`. `test_dataset.py` sets a txt dataset to
   `bed` from the Datatypes tab's New Type and Save (only Auto-detect, the Selection menu and the
   collection view were tested). Adds `edit_dataset_datatype` and
   `edit_dataset_attributes.datatype_save_button` (Auto-detect's previous sibling; a client id would be
   cleaner, as on `selenium_dataset_tags_auto_detect`). Green under Playwright and Selenium. Standalone.
-- `46bac522e23`: coverage for `datasets_create_new_file`. `test_upload_activity.py` pastes
+- `f0f2a98992e`: coverage for `datasets_create_new_file`. `test_upload_activity.py` pastes
   space-separated text with the row's Spaces→Tabs ticked and checks the tabs and 3 columns. Adds
   `UploadMetadata` `space_to_tab`, `UploadItem.set_space_to_tab` and
   `upload_activity.row_space_to_tab_checkbox`/`_label` (by title; a client test id would be cleaner).
   Green under Playwright and Selenium. Standalone.
-- `ec8601a9914`: coverage for `datasets_convert_datatype`. `test_dataset.py` converts a tsv to csv from
+- `b1ebdb7b94c`: coverage for `datasets_convert_datatype`. `test_dataset.py` converts a tsv to csv from
   the Datatypes tab's Convert to Datatype (only the collection view's Convert tab was tested). Adds
   `edit_dataset_convert` and `edit_dataset_attributes.conversion_dropdown`, `conversion_option`,
   `convert_button`. Green under Playwright and Selenium. Standalone.
-- `3e37b70c4e8`: a docstring on `edit_dataset_dbkey`, which gxui's `dataset-change-dbkey` calls (the
-  pending `galaxy_ui_driver_editor_refs` REGISTRY test needs it). Fold into `c5e788cad37` if that lands.
+- `f40b5bf8832` (from `galaxy_ui_driver_editor_refs`, folded in 2026-10-22): `tool_open` searches a
+  Tool Shed tool by its short id, which older servers' panel search (test.galaxyproject.org) matches;
+  the link is still picked by full id. Follows the merged `tool_open_tool_shed_ids`. Touches every
+  test that opens a tool; `test_tool_form.py` spot check green under Playwright. Ask John before
+  upstreaming: it only helps older servers.
+- `fb122be45c8` (same fold-in): one-line docstrings on the `NavigatesGalaxy` methods gxui verbs back
+  onto (incl. `edit_dataset_dbkey`, `workflow_editor_remove_node`, `workflow_editor_destroy_connection`).
+  gxui's REGISTRY test requires them. Goes with the gxui PR.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

@@ -5,7 +5,7 @@
   galaxy_commit: 6c1b6093964
   used_by: [digital-humanities/grobid, digital-humanities/introduction_to_dh, introduction/galaxy-intro-101, introduction/galaxy-intro-rdm, introduction/galaxy-intro-short, microbiome/beer-data-analysis]
   faq_findings: [masthead-login-register, account-create-step-numbers, account-create-resend-verification, account-create-typos]
-  gx_findings: Added E2E for masthead Register + activation flow and an inactivity_box component (06483cd415a); fixed gxui methods summary for register (cd24ef31d6a); replay needs a gxui mail verb.
+  gx_findings: Added E2E for masthead Register + activation flow and an inactivity_box component (2c99b9abcfd); fixed gxui methods summary for register (baa2c07eaf7); replay needs a gxui mail verb.
   note: Activation link read from a debug SMTP sink by hand; the replay pauses there.
 - faq: faqs/galaxy/account_multiple.md
   status: reviewed
@@ -36,7 +36,7 @@
   galaxy_commit: e273c4f3502
   used_by: [introduction/galaxy-intro-101]
   faq_findings: [activity-bar-faq-obsolete]
-  gx_findings: Added E2E for More panel hide/show + activity_bar components (f29cbd6da64); GButton tooltip selectors need @data-title; renamed preferences.activity to activity_bar.more (3298ad89d82).
+  gx_findings: Added E2E for More panel hide/show + activity_bar components (861c6136d84); GButton tooltip selectors need @data-title; renamed preferences.activity to activity_bar.more (f4918b8d62d).
   note: Replay verifies the 26.2 replacement flow, not the FAQ's steps.
 - faq: faqs/galaxy/add-toolshed-category-to-a-tool.md
   status: reviewed
@@ -50,7 +50,7 @@
   galaxy_commit: e64d932e12e
   used_by: [ecology/ref-based-rad-seq]
   faq_findings: [masthead-user-menu, custom-build-key-label, custom-build-upload-first, custom-build-reload, custom-build-typo]
-  gx_findings: 'No E2E/API test for the FASTA path; added E2E + custom_builds components + len/linecount framework datatypes (4ca25c903a7). Issues: build hidden until reload (#24309), API swallows NoConverterException (fixed on branch custom_build_no_converter_400_26.0). gxui preferences verb used for real; added `gxui history-wait` with no HID (whole history, hidden too).'
+  gx_findings: 'No E2E/API test for the FASTA path; added E2E + custom_builds components + len/linecount framework datatypes (107c3b899f8). Issues: build hidden until reload (#24309), API swallows NoConverterException (fixed on branch custom_build_no_converter_400_26.0). gxui preferences verb used for real; added `gxui history-wait` with no HID (whole history, hidden too).'
   galaxy_issues: [24309]
 - faq: faqs/galaxy/analysis_concatenate.md
   status: ui_verified
@@ -59,7 +59,7 @@
   galaxy_commit: e64d932e12e
   faq_findings: [concatenate-collection-mode]
   note: Tool 2 (tp_cat) isn't on stock servers; its claims are unverified.
-  gx_findings: 'tool_form_fill silently ignored a collection hid in a dataset field; now switches to collection mode and asserts the selection (26ed03d01b6). tool-describe reads the API, not the page (docstring, tip e64d932e12e). Added `gxui collection-peek HID [ELEMENT]`.'
+  gx_findings: 'tool_form_fill silently ignored a collection hid in a dataset field; now switches to collection mode and asserts the selection (0ae9e0dba9d). tool-describe reads the API, not the page (docstring, tip e64d932e12e). Added `gxui collection-peek HID [ELEMENT]`.'
 - faq: faqs/galaxy/analysis_cut.md
   status: reviewed
   mode: text
@@ -89,7 +89,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: ef6f75182e7
   faq_findings: [masthead-user-menu, masthead-login-register, jobs-not-running-anonymous, jobs-not-running-activation-symptom]
-  gx_findings: 'Added E2E for an inactive user''s upload + upload_activity.progress_row_error (2a3eca13e68). gxui upload-paste now fails fast on a row error instead of waiting 60s (tip).'
+  gx_findings: 'Added E2E for an inactive user''s upload + upload_activity.progress_row_error (e8be936ba74). gxui upload-paste now fails fast on a row error instead of waiting 60s (tip).'
 - faq: faqs/galaxy/analysis_regular_expressions.md
   status: reviewed
   mode: text
@@ -119,7 +119,7 @@
   galaxy_commit: 6379b83d12a
   used_by: [introduction/data-manipulation-olympics, introduction/galaxy-reproduce, single-cell/GO-enrichment, single-cell/scrna_batch_correction, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_trajectories, single-cell/scrna-seurat-pbmc3k]
   faq_findings: [gitter-to-matrix, job-execution-details, troubleshooting-report-admins]
-  gx_findings: 'Added E2E: bug icon -> error page -> Report, with mail (46178e67fa0); dataset_error/email_report/error_button components. Report form shows even with reporting disabled, Filter1 traceback on a missing column (galaxy#24315, #24316). gxui: dataset-peek handles red items; new dataset-error [--report] (tip). faq_server.sh sets error_email_to.'
+  gx_findings: 'Added E2E: bug icon -> error page -> Report, with mail (b75d7100d6f); dataset_error/email_report/error_button components. Report form shows even with reporting disabled, Filter1 traceback on a missing column (galaxy#24315, #24316). gxui: dataset-peek handles red items; new dataset-error [--report] (tip). faq_server.sh sets error_email_to.'
   galaxy_issues: [24315, 24316]
 - faq: faqs/galaxy/bulk_change_datatype.md
   status: ui_verified
@@ -128,7 +128,7 @@
   galaxy_commit: 57b4747a752
   used_by: [imaging/dicom-anatomical-3d]
   faq_findings: [all-n-selected, bulk-datatype-step-labels]
-  gx_findings: 'Added E2E for Selection > Change data type (a784caca829): change_datatype_modal component + history_panel_change_datatype_of_selected. ${_} children resolve only via component._.child. gxui: history-change-datatype (tip). faq_server.sh runs Celery now.'
+  gx_findings: 'Added E2E for Selection > Change data type (42209a18086): change_datatype_modal component + history_panel_change_datatype_of_selected. ${_} children resolve only via component._.child. gxui: history-change-datatype (tip). faq_server.sh runs Celery now.'
 - faq: faqs/galaxy/can-i-use-a-public-galaxy-for-my-private-data.md
   status: reviewed
   mode: text
@@ -141,7 +141,7 @@
   galaxy_commit: 57b4747a752
   used_by: [introduction/galaxy-cite]
   faq_findings: [cite-export-tool-references, cite-references-tabs, cite-galaxy-paper-first]
-  gx_findings: 'Added E2E for History options > Export Tool References (e9593d8912d): citations component, data-descriptions on menu item and tabs, click_history_option_tool_references. gxui: history-references [--bibtex] (tip).'
+  gx_findings: 'Added E2E for History options > Export Tool References (424a8a9ec90): citations component, data-descriptions on menu item and tabs, click_history_option_tool_references. gxui: history-references [--bibtex] (tip).'
 - faq: faqs/galaxy/collections_add_tag.md
   status: ui_verified
   mode: ui
@@ -157,7 +157,7 @@
   galaxy_commit: ea9238b123d
   used_by: [climate/ocean_qcv_analysis, digital-humanities/grobid, introduction/galaxy-intro-rdm]
   faq_findings: [all-n-selected, builder-selection-ends-on-build, builder-hides-originals, autobuild-letter-b, builder-selection-stays-on]
-  gx_findings: 'Remove file extensions switch untested: added test_build_list_keep_extensions (66ec1c8e5e6) + list_wizard.remove_extensions, collection_builder_toggle_remove_extensions. gxui: collection-build --keep-extensions (tip).'
+  gx_findings: 'Remove file extensions switch untested: added test_build_list_keep_extensions (2840bad41aa) + list_wizard.remove_extensions, collection_builder_toggle_remove_extensions. gxui: collection-build --keep-extensions (tip).'
 - faq: faqs/galaxy/collections_build_list_paired.md
   status: ui_verified
   mode: ui
@@ -170,30 +170,30 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 6d458cecfe4
+  galaxy_commit: 42335f0f1d8
   used_by: [assembly/ERGA-post-assembly-QC, assembly/mitochondrion-assembly, assembly/vgp_genome_assembly, assembly/vgp_workflow_training, ecology/ENA_Biodiv_submission, ecology/phylogeny-data-prep, epigenetics/methylation-seq, galaxy-interface/group-tags, galaxy-interface/history, galaxy-interface/workflow-editor, genome-annotation/gene-centric, genome-annotation/pangenome-annotation-with-roary, imaging/iscc-suite, imaging/stain-quantification-color-deconvolution, introduction/galaxy-reproduce, metabolomics/gc_ms_with_xcms, metabolomics/gcms, metabolomics/lcms, metabolomics/lcms-preprocessing, microbiome/diversity, microbiome/metagenomics-binning, microbiome/mgnify-amplicon, microbiome/pathogen-detection-from-nanopore-foodborne-data, microbiome/plasmid-metagenomics-nanopore, proteomics/DIA_Analysis_OSW, proteomics/DIA_lib_OSW, proteomics/encyclopedia, proteomics/metaproteomics, proteomics/metaquantome-data-creation, proteomics/proteogenomics-dbsearch, sequence-analysis/tapscan-streptophyte-algae, single-cell/scatac-batch-correction-snapatac2, single-cell/scrna-preprocessing, synthetic-biology/pathway_analysis, transcriptomics/ref-based, transcriptomics/srna, variant-analysis/trio-analysis]
   faq_findings: [all-n-selected-2, build-list-click-to-rename]
-  gx_findings: 'Flat list rename untested: added test_build_list_advanced_rename_element (6d458cecfe4) + list_wizard.element_name, collection_builder_rename_element. gxui: collection-build --advanced, --rename for flat lists (tip 0450e986d59).'
+  gx_findings: 'Flat list rename untested: added test_build_list_advanced_rename_element (42335f0f1d8) + list_wizard.element_name, collection_builder_rename_element. gxui: collection-build --advanced, --rename for flat lists (tip 0450e986d59).'
 - faq: faqs/galaxy/collections_change_datatype.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: d3a9580d166
-  gx_findings: 'Coverage exists; helpers moved to NavigatesGalaxy (collection_edit_change_datatype, history_panel_collection_edit - the old bare .edit-btn relied on the collection being first) in d3a9580d166. gxui: collection-change-datatype (tip 0450e986d59).'
+  galaxy_commit: ad16fdd6a66
+  gx_findings: 'Coverage exists; helpers moved to NavigatesGalaxy (collection_edit_change_datatype, history_panel_collection_edit - the old bare .edit-btn relied on the collection being first) in ad16fdd6a66. gxui: collection-change-datatype (tip 0450e986d59).'
 - faq: faqs/galaxy/collections_convert_datatype.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: d3a9580d166
-  gx_findings: 'Convert untested: added test_convert_datatype_simple_list (d3a9580d166) + convert components, collection_edit_convert. gxui: collection-convert (tip 0450e986d59).'
+  galaxy_commit: ad16fdd6a66
+  gx_findings: 'Convert untested: added test_convert_datatype_simple_list (ad16fdd6a66) + convert components, collection_edit_convert. gxui: collection-convert (tip 0450e986d59).'
 - faq: faqs/galaxy/collections_force_mapping_over.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: f52ca913830
+  galaxy_commit: bd01a6af21b
   used_by: [microbiome/metagenomics-assembly]
   faq_findings: [force-mapping-nest-version]
-  gx_findings: 'Menu-driven Apply rules untested (tests set rule source JSON): added test_run_apply_rules_nest_from_menus (f52ca913830) + rule_builder_add_column_basename; history_wait_for_new_collection (d3a9580d166). fastp, collection_column_join, metaspades not on faq_server.sh; Sort collection stood in for the map over.'
+  gx_findings: 'Menu-driven Apply rules untested (tests set rule source JSON): added test_run_apply_rules_nest_from_menus (bd01a6af21b) + rule_builder_add_column_basename; history_wait_for_new_collection (ad16fdd6a66). fastp, collection_column_join, metaspades not on faq_server.sh; Sort collection stood in for the map over.'
 - faq: faqs/galaxy/collections_rename.md
   status: ui_verified
   mode: ui
@@ -213,16 +213,16 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: e0496229d5a
+  galaxy_commit: a7669dbb0be
   faq_findings: [tool-errors-metadata-autodetect-tab]
-  gx_findings: 'Added E2E for the Attributes tab Auto-detect (e0496229d5a) with edit_dataset_attributes.auto_detect_metadata_button and metadata_input(name); only the Datatypes tab one was tested.'
+  gx_findings: 'Added E2E for the Attributes tab Auto-detect (a7669dbb0be) with edit_dataset_attributes.auto_detect_metadata_button and metadata_input(name); only the Datatypes tab one was tested.'
 - faq: faqs/galaxy/datasets_add_tag.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 9268e731f45
+  galaxy_commit: 639d18429fa
   used_by: [assembly/assembly-with-preprocessing, assembly/mrsa-nanopore, climate/climate-101, climate/fates-jupyterlab, climate/pangeo, climate/panoply, digital-humanities/introduction_to_dh, ecology/eDNA-taxonomic-analysis, ecology/gbif_cleaning, ecology/NEAL_tutorial, ecology/Obitools-metabarcoding, ecology/PAMPA-toolsuite-tutorial, ecology/panoply_ebv, ecology/phylodiversity_workflow, ecology/x-array-map-plot, epigenetics/atac-seq, epigenetics/cut_and_run, epigenetics/formation_of_super-structures_on_xi, epigenetics/tal1-binding-site-identification, galaxy-interface/history, galaxy-interface/name-tags, genome-annotation/crispr-screen, genome-annotation/secondary-metabolite-discovery, genome-annotation/tnseq, introduction/galaxy-intro-101-everyone, introduction/galaxy-intro-peaks2genes, introduction/galaxy-intro-rdm, introduction/galaxy-reproduce, metabolomics/msi-finding-nglycans, metabolomics/qcxms-predictions, proteomics/clinical-mp-1-database-generation, proteomics/clinical-mp-2-discovery, proteomics/clinical-mp-3-verification, proteomics/clinical-mp-4-quantitation, proteomics/clinical-mp-5-data-interpretation, proteomics/encyclopedia, proteomics/maxquant-msstats-dda-lfq, proteomics/neoantigen-fragpipe-discovery, proteomics/neoantigen-fusion-database-generation, proteomics/neoantigen-hla-binding-novel-peptides, proteomics/neoantigen-non-reference-database-generation, proteomics/neoantigen-peptide-verification, proteomics/neoantigen-predicting-hla-binding, proteomics/neoantigen-variant-annotation, sequence-analysis/Manage_AB1_Sanger, single-cell/bulk-deconvolution-evaluate, single-cell/bulk-music, single-cell/bulk-music-2-preparescref, single-cell/bulk-music-3-preparebulk, single-cell/bulk-music-4-compare, single-cell/scanpy_parameter_iterator, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna-ncbi-anndata, single-cell/scrna-plant, statistics/flexynesis_classification, statistics/flexynesis_survival, statistics/flexynesis_unsupervised, statistics/galaxy-ludwig, statistics/GTEx_Tissue_modeling, statistics/image_learner, statistics/loris_model, transcriptomics/full-de-novo, transcriptomics/mirna-target-finder, transcriptomics/rna-interactome, transcriptomics/rna-seq-counts-to-genes, transcriptomics/rna-seq-genes-to-pathways, transcriptomics/rna-seq-reads-to-counts, variant-analysis/beaconise_1000hg, variant-analysis/exome-seq, variant-analysis/somatic-variant-discovery, variant-analysis/somatic-variants]
-  gx_findings: 'Added E2E tagging a history item and checking #name propagation (9268e731f45) with history_panel_item_add_tags and content_item tag selectors. gxui: dataset-tag (tip d982e460bb0).'
+  gx_findings: 'Added E2E tagging a history item and checking #name propagation (639d18429fa) with history_panel_item_add_tags and content_item tag selectors. gxui: dataset-tag (tip d982e460bb0).'
 - faq: faqs/galaxy/datasets_BAM_dataset_identifiers.md
   status: reviewed
   mode: text
@@ -231,9 +231,9 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 755d9376924
+  galaxy_commit: 24fa0702f6d
   used_by: [assembly/assembly-decontamination, assembly/assembly-quality-control, assembly/ecoli_comparison, assembly/hifi-assembly, assembly/largegenome, assembly/mitochondrion-assembly, assembly/mrsa-nanopore, climate/argo_pangeo, climate/climate-101, climate/fates, climate/fates-jupyterlab, climate/ocean_qcv_analysis, climate/ocean-variables, climate/pangeo, climate/panoply, climate/sentinel5_data, computational-chemistry/cheminformatics, computational-chemistry/covid19-docking, computational-chemistry/htmd-analysis, computational-chemistry/md-simulation-namd, computational-chemistry/setting-up-molecular-systems, computational-chemistry/zauberkugel, digital-humanities/grobid, digital-humanities/introduction_to_dh, digital-humanities/mfa_tutorial, digital-humanities/open-refine-tutorial, digital-humanities/text_mining_chinese, digital-humanities/Whisper_speech_recognition, ecology/de-novo-rad-seq, ecology/ecoregiolifetraits, ecology/Ecoregionalization_tutorial, ecology/eDNA-taxonomic-analysis, ecology/ENA_Biodiv_submission, ecology/gbif_cleaning, ecology/ndvi_openeo, ecology/NEAL_tutorial, ecology/obisindicators, ecology/Obitools-metabarcoding, ecology/openrefine_gbif, ecology/panoply_ebv, ecology/phylodiversity_workflow, ecology/ref-based-rad-seq, epigenetics/atac-seq, epigenetics/cut_and_run, epigenetics/methylation-seq, evolution/mtb_transmission, galaxy-interface/galaxy-intro-jupyter, galaxy-interface/group-tags, genome-annotation/annotation-with-maker, genome-annotation/crispr-screen, genome-annotation/hpc-for-lsgc, genome-annotation/secondary-metabolite-discovery, genome-annotation/tnseq, imaging/Annotation_AI_Pipeline, imaging/detection-of-mitoflashes, imaging/electrophoresis-gel-bands-image-analysis, imaging/parameter-tuning, imaging/process-image-bioimageio, imaging/pycytominer, imaging/stain-quantification-color-deconvolution, introduction/data-manipulation-olympics, introduction/galaxy-intro-101, introduction/galaxy-intro-101-everyone, introduction/galaxy-intro-peaks2genes, introduction/galaxy-reproduce, introduction/vsi_qc, materials-science/muon-stopping-sites-muairss-uep, metabolomics/lcms, metabolomics/lcms-dataprocessing, metabolomics/lcms-preprocessing, metabolomics/mfassignr, metabolomics/qcxms-predictions, microbiome/dada-16S, microbiome/dunnart_metabarcoding, microbiome/metaplasmidome_query, microbiome/metatranscriptomics, microbiome/samestr-strain-detection, proteomics/bioconductor-scp, proteomics/clinical-mp-1-database-generation, proteomics/clinical-mp-2-discovery, proteomics/clinical-mp-3-verification, proteomics/clinical-mp-4-quantitation, proteomics/clinical-mp-5-data-interpretation, proteomics/encyclopedia, proteomics/maxquant-label-free, proteomics/metaquantome-data-creation, proteomics/ml-modeling-of-anti-cancer-peptides, proteomics/neoantigen-fragpipe-discovery, proteomics/neoantigen-fusion-database-generation, proteomics/neoantigen-hla-binding-novel-peptides, proteomics/neoantigen-non-reference-database-generation, proteomics/neoantigen-peptide-verification, proteomics/neoantigen-predicting-hla-binding, proteomics/neoantigen-variant-annotation, proteomics/proteogenomics-dbcreation, proteomics/proteogenomics-dbsearch, proteomics/proteogenomics-novel-peptide-analysis, single-cell/bulk-deconvolution-evaluate, single-cell/bulk-music, single-cell/bulk-music-2-preparescref, single-cell/bulk-music-3-preparebulk, single-cell/EBI-retrieval, single-cell/GO-enrichment, single-cell/pseudobulk-analysis, single-cell/scanpy_parameter_iterator, single-cell/scatac-batch-correction-snapatac2, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna_batch_correction, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_cell-cycle, single-cell/scrna-case_FilterPlotandExplore_SeuratTools, single-cell/scrna-case_FilterPlotandExploreRStudio, single-cell/scrna-case_JUPYTER-trajectories, single-cell/scrna-case_monocle3-rstudio, single-cell/scrna-case_trajectories, single-cell/scrna-case-jupyter_basic-pipeline, single-cell/scrna-data-ingest, single-cell/scrna-ncbi-anndata, single-cell/scrna-raceid, single-cell/scrna-seurat-pbmc3k, single-cell/scrna-umis, single-cell/spatial-melanoma-SPICA, statistics/age-prediction-with-ml, statistics/clustering_machinelearning, statistics/CNN, statistics/flexynesis_classification, statistics/flexynesis_survival, statistics/flexynesis_unsupervised, statistics/FNN, statistics/fruit_360, statistics/galaxy-ludwig, statistics/gpu_jupyter_lab, statistics/GTEx_Tissue_modeling, statistics/image_learner, statistics/intro_deep_learning, statistics/loris_model, statistics/multimodal_learner, statistics/regression_machinelearning, statistics/RNN, transcriptomics/clipseq, transcriptomics/full-de-novo, transcriptomics/minerva-pathways, transcriptomics/ref-based, transcriptomics/rna-interactome, transcriptomics/rna-seq-analysis-clustering-viz, transcriptomics/rna-seq-analysis-with-askomics-it, transcriptomics/rna-seq-bash-star-align, transcriptomics/rna-seq-counts-to-genes, transcriptomics/rna-seq-genes-to-pathways, transcriptomics/rna-seq-viz-with-heatmap2, transcriptomics/rna-seq-viz-with-volcanoplot, transcriptomics/rna-seq-viz-with-volcanoplot-r, transcriptomics/srna, variant-analysis/countess-mave-chek2, variant-analysis/exome-seq, variant-analysis/non-dip, variant-analysis/sars-cov-2-variant-discovery, variant-analysis/somatic-variant-discovery, variant-analysis/somatic-variants, variant-analysis/trio-analysis, visualisation/circos]
-  gx_findings: 'Added E2E for per-dataset New Type + Save on the Datatypes tab (755d9376924) with edit_dataset_datatype and edit_dataset_attributes.datatype_save_button. gxui: dataset-change-datatype (tip d982e460bb0).'
+  gx_findings: 'Added E2E for per-dataset New Type + Save on the Datatypes tab (24fa0702f6d) with edit_dataset_datatype and edit_dataset_attributes.datatype_save_button. gxui: dataset-change-datatype (tip d982e460bb0).'
 - faq: faqs/galaxy/datasets_change_dbkey.md
   status: ui_verified
   mode: ui
@@ -249,17 +249,17 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: ec8601a9914
+  galaxy_commit: b1ebdb7b94c
   used_by: [assembly/ecoli_comparison, assembly/mrsa-nanopore, climate/climate-101, ecology/biodiversity-data-exploration, ecology/PAMPA-toolsuite-tutorial, ecology/x-array-map-plot, introduction/data-manipulation-olympics, introduction/galaxy-intro-101-everyone, variant-analysis/countess-mave-chek2]
-  gx_findings: 'Added E2E converting a dataset from its Datatypes tab (ec8601a9914) with edit_dataset_convert and conversion selectors. faq_server.sh: samtools in a tool_deps env on PATH. gxui: dataset-convert (tip 7c448d5a4ee).'
+  gx_findings: 'Added E2E converting a dataset from its Datatypes tab (b1ebdb7b94c) with edit_dataset_convert and conversion selectors. faq_server.sh: samtools in a tool_deps env on PATH. gxui: dataset-convert (tip 748500e4b6b).'
 - faq: faqs/galaxy/datasets_create_new_file.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 46bac522e23
+  galaxy_commit: f0f2a98992e
   used_by: [assembly/assembly-with-preprocessing, computational-chemistry/zauberkugel, ecology/de-novo-rad-seq, ecology/ref-based-rad-seq, ecology/yolo_predict_deepsea, imaging/dicom-anatomical-3d, imaging/hela-screen-analysis, microbiome/dada-16S, microbiome/mags-building, proteomics/mass-spectrometry-imaging-loading-exploring-data, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna-case_cell-cycle, single-cell/scrna-seurat-pbmc3k, statistics/simorgh, transcriptomics/ref-based, transcriptomics/rna-seq-analysis-clustering-viz, variant-analysis/exome-seq, variant-analysis/pox-tiled-amplicon, variant-analysis/sars-cov-2-variant-discovery, variant-analysis/trio-analysis]
   faq_findings: [upload-tool-panel-button, upload-import-data-panel]
-  gx_findings: 'Added E2E for paste upload with Spaces→Tabs (46bac522e23) with UploadItem.set_space_to_tab. Upload row table overflows the center panel at 1280px. gxui: upload-paste --dbkey/--space-to-tab (tip 7c448d5a4ee).'
+  gx_findings: 'Added E2E for paste upload with Spaces→Tabs (f0f2a98992e) with UploadItem.set_space_to_tab. Upload row table overflows the center panel at 1280px. gxui: upload-paste --dbkey/--space-to-tab (tip 748500e4b6b).'
 - faq: faqs/galaxy/datasets_data_privacy_features.md
   status: pending
 - faq: faqs/galaxy/datasets_deleting.md
