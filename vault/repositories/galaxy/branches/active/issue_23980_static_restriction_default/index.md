@@ -4,7 +4,7 @@ Status: `attention`. mvdbeek's 2026-10-20 review is addressed in code but not ye
 
 Preselects defaults for statically restricted workflow text inputs (#23980). The run form can also submit `""` when it's the default option.
 
-Standing decision (John, 2026-10-22): multiple text parameters are greenfield in 26.2, so they're strictly typed. #23992's `str()` coercions are removed, and a numeric default is rejected. The gxformat2 follow-up types text defaults as strings so that upload catches it too.
+Standing decision (John, 2026-10-22): multiple text parameters are greenfield in 26.2, so they're strictly typed. #23992's `str()` coercions are removed, and a numeric default is rejected. The gxformat2 follow-up ([gxformat2#272](https://github.com/galaxyproject/gxformat2/issues/272)) types text defaults as strings so that upload catches it too.
 
 [Review response](review_response.md) · [Release rebase](release_26.2_rebase.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish](polish_debrief.md) · [Codex review](codex_review.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
 

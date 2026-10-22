@@ -11,7 +11,7 @@ Pushed to the fork on 2026-10-22; tip `3274a9c98da`:
 
 **`modules.py:1677` (`str()` conversion)**
 
-> These conversions came from my response to your #23992 review, and multiple text parameters haven't shipped yet, so I've removed them altogether instead of carrying them into 26.2 (3274a9c98da). Multiple text parameters are now strictly typed: a non-text default fails the run form with a 400, and runtime entries must be strings. The numeric test is now a rejection test. I'll follow up with gxformat2 typing text defaults as strings, so that this gets caught at upload too.
+> These conversions came from my response to your #23992 review, and multiple text parameters haven't shipped yet, so I've removed them altogether instead of carrying them into 26.2 (3274a9c98da). Multiple text parameters are now strictly typed: a non-text default fails the run form with a 400, and runtime entries must be strings. The numeric test is now a rejection test. I opened galaxyproject/gxformat2#272 to type text defaults as strings in gxformat2, so that this gets caught at upload too.
 
 **`utilities.js:416` (required select submitting `""`)**
 
@@ -42,5 +42,7 @@ Title: Workflow text input restrictions lose data through the editor's `value:la
 > Found during review of #24140.
 
 ## Follow-up branch (not started)
+
+Issue: [galaxyproject/gxformat2#272](https://github.com/galaxyproject/gxformat2/issues/272), opened 2026-10-22.
 
 Type text defaults as strings in gxformat2 (schema plus lint), so non-text defaults are rejected at upload rather than at run-form time.
