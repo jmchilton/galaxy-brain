@@ -329,3 +329,43 @@
   target: version
   summary: 26.2 replaces the upload dialog with the Import Data panel, so Paste/Fetch Data, the "New File" name, Genome, the Settings gear and Close no longer exist.
   fix: 'Upload > **Paste File Content**; paste into the text field; the name defaults to "Pasted Dataset 1"; set **Type** and **Reference** in the row; tick the row''s **Spaces→Tabs**; **Start** (no window to close). Other upload FAQs likely need the same.'
+
+- label: deleting-undelete-how
+  faqs: [faqs/galaxy/datasets_deleting.md]
+  target: main
+  summary: The FAQ says twice that deleted datasets can be undeleted but never says how.
+  fix: 'Add "To undelete, click the trash counter at the top of the history (**Include deleted**), then the dataset''s **Undelete** icon. Permanently deleted (**Purged**) datasets can''t be restored."'
+
+- label: masthead-user-menu-2
+  faqs: [faqs/galaxy/datasets_data_privacy_features.md]
+  target: main
+  summary: Step 3's "Click **user** button" — there is no "User" masthead item; the menu is labelled with the username.
+  fix: Same wording as masthead-user-menu.
+
+- label: privacy-default-private
+  faqs: [faqs/galaxy/datasets_data_privacy_features.md]
+  target: version
+  summary: 26.2 makes new users' data private by default (access is their private role), so the intro's "private and unlisted ... invisible until you publish a link" is wrong; private data can't be reached by a link.
+  fix: Say new datasets are private to you, check or change it on the dataset's **Permissions** tab, and share by sharing the history.
+
+- label: privacy-dataset-access-step
+  faqs: [faqs/galaxy/datasets_data_privacy_features.md]
+  target: main
+  summary: Step 1's "Search for the name of the user to grant permission" grants nothing next to your private role (the FAQ's own note) and otherwise restricts the dataset to that user; "two input tab" is garbled and the button is **Save**.
+  fix: Describe the Permissions tab's **manage permissions** and **access** fields; for sharing with people, point to History options > **Share & Manage Access**.
+
+- label: privacy-make-private-location
+  faqs: [faqs/galaxy/datasets_data_privacy_features.md]
+  target: main
+  summary: Step 2's History Options gear has no **Make Private**; it is History options (☰) > **Share & Manage Access** > **Make Private** tab > **Make History Private**.
+
+- label: privacy-new-histories-switch
+  faqs: [faqs/galaxy/datasets_data_privacy_features.md]
+  target: main
+  summary: Step 3's page is a **Make new datasets private** switch that saves on toggle; adding a permission and **Save Permissions** sit behind "Show advanced options.", and there is no "cofest" icon.
+
+- label: privacy-gif-links
+  faqs: [faqs/galaxy/datasets_data_privacy_features.md]
+  target: main
+  summary: All three galaxyproject.org/learn/privacy-features/*.gif links 404 (moved to /images/learn/privacy-features/), and the gifs show the pre-2019 UI.
+  fix: Drop them or replace with current screenshots; repointing alone shows a UI that no longer exists.

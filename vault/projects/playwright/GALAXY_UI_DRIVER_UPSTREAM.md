@@ -171,9 +171,24 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   the link is still picked by full id. Follows the merged `tool_open_tool_shed_ids`. Touches every
   test that opens a tool; `test_tool_form.py` spot check green under Playwright. Ask John before
   upstreaming: it only helps older servers.
-- `fb122be45c8` (same fold-in): one-line docstrings on the `NavigatesGalaxy` methods gxui verbs back
-  onto (incl. `edit_dataset_dbkey`, `workflow_editor_remove_node`, `workflow_editor_destroy_connection`).
-  gxui's REGISTRY test requires them. Goes with the gxui PR.
+- `10978cbf4af` (same fold-in): one-line docstrings on the `NavigatesGalaxy` methods gxui verbs back
+  onto (incl. `edit_dataset_dbkey`, `workflow_editor_remove_node`, `workflow_editor_destroy_connection`,
+  `make_history_private`). gxui's REGISTRY test requires them. Goes with the gxui PR.
+- `d0d92741f74`: coverage for `datasets_deleting`. `test_history_panel.py` deletes an item by its
+  trash button, deletes and purges from the Selection menu (with the confirm), then undeletes after
+  Include deleted; none had E2E. Adds `history_panel_item_delete`/`_undelete`,
+  `history_panel_delete_selected(purge)`, `history_panel_include_deleted`,
+  `content_item.undelete_button`, `history_panel.include_deleted_button`. Green under Playwright and
+  Selenium. Standalone.
+- `53ab472b46d`: `edit_dataset_auto_detect_datatype`, lifted from
+  `test_history_dataset_auto_detect_datatype` (`datasets_detect_datatype`) for gxui. Small refactor;
+  goes with the gxui PR or a dataset-helpers PR.
+- `ea0bc576e38`: coverage for `datasets_data_privacy_features`. `test_personal_information.py`
+  registers a user, turns Make new datasets private off and on, and checks a new history's dataset's
+  access roles through the API and the Permissions tab. Neither page was tested, and 26.2 flips the
+  default to private. Adds `user_preferences_set_new_datasets_private`, `edit_dataset_permission_roles`
+  and preferences/permissions selectors (the switch by `name`; a client test id would be cleaner).
+  Green under Playwright and Selenium. Coverage PR candidate for 26.2.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
