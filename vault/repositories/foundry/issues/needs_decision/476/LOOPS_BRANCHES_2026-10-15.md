@@ -141,7 +141,13 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
 - Subagent review, both branches, 2026-10-21:
   - Loop-repair (`4fd802e6`): no repair for a surrendered-only blocker, or after the last call `--max-iterations` allows; ledger counts and cap via `parseOpenRequirements`; README corrected; tests pin that repairs don't count toward `--max-iterations` and the consume-side preflight. build-cli 306.
   - Stock-version (`5d6d6123`): the review's "add doesn't confirm the version" was half right. The shed serves Galaxy's declared equivalent on an exact miss (`WORKFLOW_SAFE_TOOL_VERSION_UPDATES`, `lib/galaxy/tool_util/version_updates.py`; `__APPLY_RULES__` 1.0.0–1.1.0), cached under the requested key. Rule now in the `add` CLI note: re-run `add` with the reported version and pin that. `summarize-galaxy-tool` aligned; `galaxy-collection-tools` named for collection ops only.
-  - Open for John: default iteration cap vs repair cap; progress counted ledger-wide vs on the named blockers; `cap: 0`; whether the dashboard's loop ×N counts repairs; no non-blocking exit when no version source exists; which cached version to take when several are cached.
+  - John's decisions (2026-10-21) on the open questions:
+    - The default `--max-iterations` adds the repair cap. Built (`7445bdd9`).
+    - A repair's progress is judged on its named blockers: it must resolve at least one, and removing one stops. Built (`7445bdd9`), build-cli 309.
+    - `cap: 0` stays "unset", so the default of 3 applies.
+    - The dashboard's loop ×N keeps counting all iterations.
+    - No version source → a non-blocking gap, the draft unchanged, no repair. Built (`d25aaa75`); the controller reports it as `loop_no_progress`.
+    - With several cached versions, take the one the plan's parameters need, the newest if several fit. Built (`d25aaa75`, `add.md`).
 
 ## Open questions
 
