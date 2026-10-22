@@ -201,7 +201,21 @@ John's decisions:
 - `fix/advance-draft-needs-tool` (`8b37372f`), on paired-identifiers, pushed, no PR; draft `pr_needs_tool.md`:
   - `advance-galaxy-draft-step` rev 11 records the need instead of improvising, and treats a step with an inline tool as resolved.
   - The ledger note is rev 6 and documents `needs_tool`. There are 2 eval properties.
-- Live rerun: local `tmp/rerun-author` (rerun-7-10 + both branches, build-cli 319), `~/foundry-runs/nf2g-demo-author-7-2026-10-22/`, `--from 7 --through 7`, seeded from 10-16.
+- Live rerun: local `tmp/rerun-author` (rerun-7-10 + both branches, build-cli 319), `~/foundry-runs/nf2g-demo-author-7-2026-10-22/`, `--from 7 --through 7`, seeded from 10-16. Controller **passed**: 12 iterations, 32m44s, 219 turns, $4.22.
+  - The path works. 3 `needs_tool` entries were followed by 3 author workers (iterations 4, 7, 10):
+    - FastQC 0.12.1 HTML+ZIP;
+    - MultiQC 1.33 over ZIPs, with `multiple: true`;
+    - a Python tool that rebuilds the trimmed sample sheet, with its script in `configfiles`.
+
+    Each next call wired the tool. There are no made-up ids and nothing in `/tmp`, and `gxwf validate` passes 5/5 with 0 skipped. No repairs ran.
+  - New problem: authoring is now the easy way out. Each entry rejected an existing wrapper on exact source parity:
+    - `devteam/fastqc` for having no ZIP, though its text report feeds MultiQC;
+    - IUC MultiQC 1.33 for taking text, not ZIPs;
+    - the sample-sheet step, which earlier runs dropped, was authored instead.
+
+    Three unreviewed tools replaced a narrowing. Needs a decision on when an existing wrapper is close enough.
+  - The Apply Rules `SAMPLE3_SE` collision is still present.
+  - Live-run sections filled in `pr_loop_author.md` and `pr_needs_tool.md`.
 
 ## Open questions
 
