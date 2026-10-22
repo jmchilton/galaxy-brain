@@ -174,6 +174,8 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `10978cbf4af` (same fold-in): one-line docstrings on the `NavigatesGalaxy` methods gxui verbs back
   onto (incl. `edit_dataset_dbkey`, `workflow_editor_remove_node`, `workflow_editor_destroy_connection`,
   `make_history_private`). gxui's REGISTRY test requires them. Goes with the gxui PR.
+  When `galaxy_ui_driver_editor_refs` merges, don't drop this by subject: it differs from their
+  `c5e788cad37` by those four docstrings. Keep them or the REGISTRY test fails on four verbs.
 - `d0d92741f74`: coverage for `datasets_deleting`. `test_history_panel.py` deletes an item by its
   trash button, deletes and purges from the Selection menu (with the confirm), then undeletes after
   Include deleted; none had E2E. Adds `history_panel_item_delete`/`_undelete`,
