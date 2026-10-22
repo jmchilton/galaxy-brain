@@ -5,11 +5,9 @@
 
 ## Status
 
-Draft PR opened on John's request 2026-10-21 (`ci_wait`), head `c1c12b303ed`, title/description/labels as approved; screenshot hosted on `pr-assets-selenium_collection_build_convert`. See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Head `c1c12b303ed`; undrafted 2026-10-22 on John's request (`ready`). See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
-[#24341](https://github.com/galaxyproject/galaxy/pull/24341), draft against `release_26.2`.
-
-Upstream CI on `c1c12b303ed` running, no failures yet.
+PR CI reds diagnosed unrelated 2026-10-22: Integration Selenium `test_user_file_source_ftp.py::test_create_and_use` fails across unrelated PRs 2026-10-21 (certifi, dependabot, oidc, backport-xdist); Mulled/Integration exit 100: apptainer PPA 503 in apt setup, tests never ran; failed jobs rerun. Playwright, other Integration Selenium tests, tool-form harness and linting green.
 
 ## Scope
 

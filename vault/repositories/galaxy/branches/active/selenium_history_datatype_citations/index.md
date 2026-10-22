@@ -5,11 +5,9 @@
 
 ## Status
 
-Polished; opened as draft on John's request, waiting on CI; head `c277d04f05d`. See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Head `c277d04f05d`; undrafted 2026-10-22 on John's request (`ready`). See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
-Draft [#24329](https://github.com/galaxyproject/galaxy/pull/24329), title "[26.2] Add browser tests for bulk Change data type, Change Database/Build and Export Tool References", labels `kind/enhancement`, `area/testing/selenium`.
-
-PR CI on `c277d04f05d` queued (no reds on `50dc4ccb773`, which differs only in assert messages). Locally, every new test passes under both Playwright and Selenium.
+PR CI reds diagnosed unrelated 2026-10-22: API tests `test_libraries.py::test_update_dataset_in_folder` (403 dataset in use) also fails on `release_26.2` push CI; Mulled/Integration exit 100: apptainer PPA 503 in apt setup, tests never ran; failed jobs rerun. Playwright, Integration Selenium, tool-form harness and linting green.
 
 ## Scope
 

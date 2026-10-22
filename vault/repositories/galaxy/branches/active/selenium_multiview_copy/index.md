@@ -6,11 +6,9 @@
 
 ## Status
 
-Rebased onto `release_26.2`, head `3e9eaf4f887`; draft PR waiting on CI (`ci_wait`). See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Head `3e9eaf4f887`; undrafted 2026-10-22 on John's request (`ready`). See [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
-Draft [#24334](https://github.com/galaxyproject/galaxy/pull/24334), opened on request 2026-10-21 with the polished title, description and labels.
-
-Upstream CI running on `3e9eaf4f887`.
+PR CI reds diagnosed unrelated 2026-10-22: API tests `test_libraries.py::test_update_dataset_in_folder` (403 dataset in use) also fails on `release_26.2` push CI; Mulled/Integration exit 100: apptainer PPA 503 in apt setup, tests never ran; failed jobs rerun. Playwright, Integration Selenium, tool-form harness and linting green.
 
 ## Scope
 

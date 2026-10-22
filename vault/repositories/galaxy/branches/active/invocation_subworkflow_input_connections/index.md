@@ -44,3 +44,7 @@ PR conflicted with `release_26.2` after #24171 merged. Rebased `14584e545ae` →
 ## TICK — 2026-10-20
 
 PR CI on `2de0931ac07`: one red, API tests `test_workflows.py::TestWorkflowsApi::test_parameter_substitution_sanitization` (`409001` "dataset ... is new and has no data"). Looks like a dataset-ready race, but it is a workflow API test and this branch changes workflow runtime, so it is **unconfirmed unrelated** until seen failing on base or another PR. Failed job rerun ([run 39302416630](https://github.com/galaxyproject/galaxy/actions/runs/39302416630)); stays `ci_wait`.
+
+## CI check — 2026-10-22
+
+PR CI green on `2de0931ac07`. John asked to undraft green `ci_wait` drafts; held draft per the standing instruction above pending his explicit call.
