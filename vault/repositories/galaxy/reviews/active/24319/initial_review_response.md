@@ -1,4 +1,4 @@
-
+Agents suggestions below - P3 1 makes a performance claim without any data - feel free to ignore. P3 2, P3 3 seem good refactorings.
 
 <details><summary>Automated Review Details</summary>
 
@@ -122,25 +122,5 @@ Fixed in `bf10dda0490` as `galaxy.app_unittest_utils.tool_source_support.Populat
 <details><summary>Discovery & Verification Agent Details</summary>
 
 Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Opus 5.5 at medium effort and by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at low effort. Verified via Opus 5.5 at medium effort.
-
-</details>
-
-### P3 4: Tests stop one step short of the reported symptom (implementation verified)
-
-The real-store test asserts on `index_tool_files` directly. The reported failure was `ToolMaterializationError` from `_load_tool_on_demand`, which recovers only through its self-heal (`_populate_adhoc_path` -> `index_tool_files` -> `_resolve_index_entry`). The tests don't pin that user-visible path.
-
-Add a test that materializes the stale entry right after the peer populate and asserts that it gets the new source.
-
-Fix: [`a9a4caa5db0`](https://github.com/jmchilton/galaxy/commit/a9a4caa5db0)
-
-<details><summary>Details</summary>
-
-Added in `a9a4caa5db0` as `test_materializing_a_stale_entry_after_a_peer_populate_heals`. It stubs `_create_tool_from_stored_source` to return the stored row. With `cached_toolbox.py` reverted to `cffdae9b5f2~1`, it fails with the reported `indexed source is missing (path=..., hash=...)`.
-
-</details>
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
 
 </details>

@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review of `cffdae9b5f2` ready, not delivered (2026-10-22): four P3s, all fixed on fork branch `pr_24319_review_0` (`a9a4caa5db0`), not pushed into PR.
+Initial review of `cffdae9b5f2` delivered 2026-10-22 as approval; awaiting merge. Findings: four P3s, all fixed on fork branch `pr_24319_review_0` (`a9a4caa5db0`), not pushed into PR.
 
 Open, ready for review, against `release_26.2`. Author @mvdbeek. Cached toolbox index race fix (2 files, +150/-2). Worktree `~/projects/worktrees/galaxy/pr/24319` (on `pr_24319_review_0`; no `.venv`, tests ran via main clone's venv with `--import-mode=importlib`).
