@@ -425,4 +425,5 @@
 - label: library-create-list-label
   faqs: [faqs/galaxy/datasets_import_from_data_library.md]
   target: main
-  summary: Step 8's **Create collection** is the collection builder's **Create list** button (26.1 too).
+  summary: Step 8's **Create collection** is the builder's **Create list**, or **Create list of pairs** for a List of Pairs (26.1 too).
+  fix: 'Say "Click **Create {{ include.collection_type | default: "list" | downcase }}**" or just "click **Create**"; sars-cov-2-variant-discovery passes List of Pairs.'

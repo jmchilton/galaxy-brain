@@ -24,7 +24,7 @@ and `2.bed` from it. 7 tutorials embed this FAQ; 3 pass a `location` path (Genom
 - Covered: `test/integration_selenium/test_upload_activity_remote_files.py`, which uses a posix
   source.
 - Helper bug, fixed in `14d970513f5`: `stage_remote_file(s)` looked for each file on the browser's
-  first page only. Galaxy's test-data source has 4 pages, so `1.bed` was never found. Each file is
+  first page only. Galaxy's test-data source has several pages, so `1.bed` was never found. Each file is
   now searched for first, as the FAQ tells users to, and selections survive the search. Adds
   `upload_activity.remote_files_search`. The integration test is green under Playwright and
   Selenium. Not red-to-green: its fixture source has too few files to page.

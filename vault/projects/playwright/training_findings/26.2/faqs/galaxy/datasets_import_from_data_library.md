@@ -10,7 +10,8 @@ build). 141 tutorials embed this FAQ. Three pass `astype="as a Collection"`, and
 ## GTN
 
 - `library-create-list-label` (main): step 8's **Create collection** is the builder's
-  **Create list**, in 26.1 as well.
+  **Create list**, or **Create list of pairs** for `sars-cov-2-variant-discovery`'s List of Pairs
+  (`CollectionCreator`'s "Create <type>"). The same in 26.1.
 - Otherwise the steps match 26.2: Libraries in the Activity Bar, **Add to History** with
   **as Datasets** and **as a Collection**, **Select history** (or create new), **Collection type**,
   and **Import** or **Continue**.
@@ -30,7 +31,7 @@ build). 141 tutorials embed this FAQ. Three pass `astype="as a Collection"`, and
   - The bug was in 26.1 too.
   - Tests: red-to-green `test_library_collection_export_to_selected_history` plus a vitest. All 7
     library-to-collection tests pass under Playwright, and the new one passes under Selenium.
-  - Queue an issue? See the report.
+  - Queued: `gx_issues/to_file/library_collection_ignores_selected_history.md` (not filed).
 - **Gap, filled in `913dfd7dfd6`:** nothing tested "as Datasets", the path this FAQ teaches. Added
   `test_add_datasets_to_selected_history` with `libraries_folder_wait_for_datasets`,
   `libraries_folder_select_datasets` and `libraries_folder_add_to_history`, and the nav entries
