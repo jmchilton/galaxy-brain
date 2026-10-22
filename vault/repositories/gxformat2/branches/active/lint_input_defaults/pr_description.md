@@ -2,9 +2,9 @@ Lint multiple text and native parameter input defaults
 
 Closes #272.
 
-galaxyproject/galaxy#24140 (open, `release_26.2`) makes Galaxy reject non-string entries in multiple text defaults. The lint didn't catch these:
+galaxyproject/galaxy#24140 (open, `release_26.2`) makes Galaxy reject non-string entries in multiple text defaults. Galaxy's multiple integer/float parameters already raise on non-numeric entries (`IntegerToolParameter.__init__`). The lint didn't catch these:
 
-- `[string]`/`[text]` inputs skipped default validation entirely.
+- List-typed inputs (`[string]`, `[int]`, `[float]`) skipped default validation entirely.
 - Native `.ga` `parameter_input` defaults were never checked.
 
 Scalar `default: 1` on a `string` input was already a lint error.
@@ -12,12 +12,12 @@ Scalar `default: 1` on a `string` input was already a lint error.
 Changes:
 
 - One helper checks input defaults for both format2 inputs and native `parameter_input` steps. Native types come from `native_input_to_format2_type`. A `_DEFAULT_CHECKS` table maps each type alias to its check, replacing the per-type branches.
-- A `[string]` default may be a string (Galaxy wraps it) or a list of strings. Any non-string entry is an error. Other list types are still not checked.
+- A list-typed default may be a single value (Galaxy wraps it) or a list. Every entry must match the element type, e.g. `[int]` takes an integer or a list of integers.
 - Booleans are no longer accepted as `int`/`float` defaults. That matches the TS port.
 - The message names the input and the expected type, after the old prefix: `Input default is of invalid type. Input mixed_list is [string]; its default must be a string or a list of strings.`
-- New declarative fixtures: `synthetic-lint-bad-text-list-default.gxwf.yml` and `synthetic-lint-bad-parameter-defaults.ga`.
+- New declarative fixtures: `synthetic-lint-bad-list-defaults.gxwf.yml` and `synthetic-lint-bad-parameter-defaults.ga`.
 
-I lint rather than type `default` in the schema. List inputs fall back to the catch-all `WorkflowInputParameter`, whose `default` has to stay `Any`, so a schema type would only cover scalar text, which the lint already catches.
+I lint rather than type `default` in the schema. List inputs fall back to the catch-all `WorkflowInputParameter`, whose `default` has to stay `Any`, so a schema type would only cover single-value inputs, which the lint already catches.
 
 `lint_ga` sweep of IWC (132 workflows) and planemo's test workflows (21): 0 new errors.
 

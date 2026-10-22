@@ -1,6 +1,6 @@
 # lint_input_defaults
 
-Status: pushed to `origin` (jmchilton), commit `4dcc34a2`; PR [#196](https://github.com/jmchilton/galaxy-tool-util-ts/pull/196) opened 2026-10-22. Base: `origin/main` `a3abfa2b` (rebased after #195 merged; `DEFAULT_CHECKS` table mirrors gxformat2).
+Status: pushed to `origin` (jmchilton), commits `4dcc34a2`, `ef0e5530` (list element checks), `51e0c41b` (non-object `tool_state` → `{}`; Codex review); PR [#196](https://github.com/jmchilton/galaxy-tool-util-ts/pull/196) opened 2026-10-22. Base: `origin/main` `a3abfa2b` (rebased after #195 merged; `DEFAULT_CHECKS` table mirrors gxformat2).
 Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/lint_input_defaults`.
 
 [PR description](pr_description.md) · Python twin: [gxformat2 lint_input_defaults](../../../../gxformat2/branches/active/lint_input_defaults/index.md)
