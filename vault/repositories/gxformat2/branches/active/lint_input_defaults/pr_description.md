@@ -19,7 +19,7 @@ Changes:
 
 I lint rather than type `default` in the schema. List inputs fall back to the catch-all `WorkflowInputParameter`, whose `default` has to stay `Any`, so a schema type would only cover scalar text, which the lint already catches.
 
-IWC sweep of `lint_ga` (132 workflows): 0 new errors.
+`lint_ga` sweep of IWC (132 workflows) and planemo's test workflows (21): 0 new errors.
 
 TS port: jmchilton/galaxy-tool-util-ts branch `lint_input_defaults`.
 
