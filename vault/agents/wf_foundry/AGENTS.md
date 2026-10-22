@@ -15,13 +15,16 @@ In the following files PROJECT is `foundry`.
 
 ## Label mapping
 
-Foundry issues carry triage labels on GitHub. Derive an issue's status from them, first match wins:
+Foundry issues carry triage labels on GitHub, defined in Foundry's `content/meta/issue-labels.md`. Derive an issue's status from them, first match wins:
 
 1. An open PR or a branch addresses it → `wip`.
-2. `requires-iwc-inputs` or `upstream/galaxy` → `blocked`.
-3. Any `agent/*` label, or `roadmap/off` → `queued`.
-4. `needs-triage` → `untriaged`.
-5. Otherwise (triaged roadmap issue with no `agent/*` label) → `needs_decision`: John picks who drives it.
+2. `requires-iwc-inputs` or any `upstream/*` → `blocked`.
+3. `agent/research` or `agent/implement` → `queued`.
+4. `agent/human` → `needs_decision`: John drives it.
+5. `needs-triage` → `untriaged`.
+6. Otherwise (no `agent/*` label yet) → `needs_decision`: John picks who drives it.
+
+To triage an issue, follow [TRIAGE_ISSUE.md](TRIAGE_ISSUE.md).
 
 Mark `priority/mvp` as `(mvp)` and `roadmap/main` as `(large)`. When our research overrides the labels (e.g. an upstream fix landed), say why in the issue's `index.md`.
 
