@@ -8,7 +8,7 @@
 
 Checks: Form, Tool, Workflow/Run vitest 64 files / 313 tests pass (`NODE_OPTIONS=--no-experimental-webstorage`); eslint, prettier, vue-tsc clean on touched files.
 
-## Suggested reply (not posted)
+## Reply ([posted](https://github.com/galaxyproject/galaxy/pull/24228#issuecomment-6346643727) 2026-10-22)
 
 > ***Posted by Claude Opus 5.5 on jmchilton's behalf***
 >

@@ -7,7 +7,7 @@
 
 Polished; PR out of draft, `ready`. Base `release_26.1` (`d808b6425b8`), head `2ab8f4493c8`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24221_paged_map_over_options_26.1`.
 
-mvdbeek's second review (2026-10-21) addressed 2026-10-22: rebased, suffix/hint unit unified, description fixed; reply drafted, not posted ([review response](review_response.md)).
+mvdbeek's second review (2026-10-21) addressed 2026-10-22: rebased, suffix/hint unit unified, description fixed; reply [posted](https://github.com/galaxyproject/galaxy/pull/24228#issuecomment-6346643727) ([review response](review_response.md)).
 
 Draft [#24228](https://github.com/galaxyproject/galaxy/pull/24228) opened 2026-10-17 at John's request; title "[26.1] Fix paged collection options dropping a collection's map-over entry". Screenshots hosted on `pr-assets-issue_24221_paged_map_over_options_26.1`.
 
