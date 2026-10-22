@@ -1,0 +1,7 @@
+Branch `pr_24346_review_0` (based on `684e1ce9bcc`, head `e9740665028`) applies the verified review findings. It drops the `_resolve_api_key` unit tests that duplicate the integration coverage. It reads the `x-api-key` header with `get_http_headers(include_all=True)` so future fastmcp header stripping can't silently drop it. It replaces the `api_key_header.model.name` lookup with an `API_KEY_HEADER_NAME` constant shared by the REST API and MCP. In `TestMCPApiKey`, it adds a `_mcp_url` helper driven by `mcp_server_path` and a guard test showing that an invalid header doesn't fall back to the `api_key` argument. The edited unit file (8 tests) and the whole `TestMCPApiKey` class (8 tests, one server boot) pass locally.
+
+- `ad915e15952` Drop _resolve_api_key unit tests covered by TestMCPApiKey: removes the three `test_resolve_api_key_*` tests and their import.
+- `fec1bd9e285` Read MCP x-api-key header without fastmcp's credential stripping: calls `get_http_headers(include_all=True)`, which has been available since fastmcp 2.13.0.
+- `62eca406d32` Share x-api-key header name constant between REST API and MCP: adds `API_KEY_HEADER_NAME` in `galaxy.webapps.galaxy.api`, used by `APIKeyHeader` and `mcp.py`.
+- `4667e0b70f2` Add _mcp_url helper to TestMCPApiKey: adds a `mcp_server_path` class attribute, wired into the config, and uses `_mcp_url` at both call sites.
+- `e9740665028` Test invalid x-api-key header doesn't fall back to api_key argument: adds `test_invalid_header_not_overridden_by_argument`, a guard that passes against the current code.
