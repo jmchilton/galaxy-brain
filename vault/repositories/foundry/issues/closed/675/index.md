@@ -32,3 +32,9 @@ package change). Comment on #675 that item 1 is fixed upstream (needs John's OK 
 ## Done (2026-10-21)
 
 Idioms line 81 edited (nested `count`/`min`/`max`, `count: 1` unpaired example, no nested `collection_type`); 8 casts + Dashboard regenerated. Vendored-schema check: nested `count: 1` valid, nested `collection_type` rejected.
+
+## Closed (2026-10-21)
+
+PR #697 merged (`e7e35239`); issue closed with a note pointing at #697 and the earlier comment.
+Branch/worktree prune deferred: worktree `~/projects/worktrees/foundry/branch/issue-675` holds an
+uncommitted rewrite of the idioms paragraph (17 files, not in #697), not made by this session. Kept for John to decide.
