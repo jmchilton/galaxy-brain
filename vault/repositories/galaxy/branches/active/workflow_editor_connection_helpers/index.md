@@ -5,11 +5,11 @@
 
 ## Status
 
-Head `9699ec45644` on `release_26.2` `7febcc1d683`: re-scoped and hardened twice, and implemented. The second [scope evaluation](scope_evaluation.md) asked for two changes. John took the typo rename and deferred the CSS-safe selectors to a follow-up.
+Head `9699ec45644` on `release_26.2` `7febcc1d683` (merges clean with current base): polished, awaiting John's final review (`branches_ready_for_final_review`).
 
 No PR yet.
 
-No CI yet.
+Fork CI green on `9699ec45644`, both new E2E tests passing under Playwright ([run](https://github.com/jmchilton/galaxy/actions/runs/39780461081)).
 
 ## Scope
 
@@ -32,4 +32,4 @@ Base `release_26.2` on John's call (2026-10-21), not dev as [the upstreaming pla
 
 **Superseded fold-in:** `77b5ea69434` on `jmchilton/galaxy_ui_driver_editor_refs` (step-number refs). The re-scope covers it with the same names. Drop it when folding that branch in, and keep its gxui fixup.
 
-[Implementation debrief](implementation_debrief.md)
+[Implementation debrief](implementation_debrief.md) · [Polish debrief](polish_debrief.md) · [PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md)
