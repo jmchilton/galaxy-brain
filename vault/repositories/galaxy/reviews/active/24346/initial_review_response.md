@@ -1,4 +1,4 @@
-
+Seems a good idea and a solid implementation. Two small nits below completely non-blocking - uncontroversial but pretty trivial also. Merge PR with or without. Thanks for the fix.-John 
 
 <details><summary>Automated Review Details</summary>
 

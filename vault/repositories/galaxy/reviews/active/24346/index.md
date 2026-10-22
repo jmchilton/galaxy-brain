@@ -4,7 +4,7 @@
 
 ## Status
 
-Initial review of `684e1ce9bcc` ready, unposted (2026-10-21): response trimmed to two P3s (header constant, `_mcp_url` helper) on fork branch `pr_24346_review_1` (`6f002204f29`, tests passed), not pushed into PR; `verified_review.md` keeps all five. Awaiting John's pick in [response action](initial_response_action.md).
+Initial review of `684e1ce9bcc` delivered as approval with response (2026-10-21, [review](https://github.com/galaxyproject/galaxy/pull/24346#pullrequestreview-5608946466)): two P3s (header constant, `_mcp_url` helper) on fork branch `pr_24346_review_1` (`6f002204f29`), not pushed into PR; `verified_review.md` keeps all five.
 
 Open, ready for review, against `dev`. Author @dannon. MCP server auth (6 files, +187/-67). Worktree `~/projects/worktrees/galaxy/pr/24346` (on `pr_24346_review_1`; no `.venv`, tests ran via main clone's venv with `--import-mode=importlib`).
 
