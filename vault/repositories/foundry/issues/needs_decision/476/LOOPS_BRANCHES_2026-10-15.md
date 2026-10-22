@@ -178,6 +178,31 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
       - "Passed" is the controller's status. The advance eval counts a fabricated `tool_id` as a failure.
     - Local only: `tmp/phase10-combined`, `tmp/rerun-7-10`, `tmp/loop-repair-stock-tool-version`. PR drafts `pr_paired_identifiers.md` and `pr_sample_sheet_rows.md` are in the session scratchpad.
 
+## Controller-owned authoring — 2026-10-22
+
+John's decisions:
+- signal: a `kind: needs_tool` ledger entry;
+- the author worker writes the tool inline as the step's `run:`;
+- authorings share the repair cap.
+
+- Checked first:
+  - `gxwf draft-next-step`, `draft-validate --concrete --strict-state` and `draft-extract` accept an inline `run: {class: GalaxyUserTool}` step (Galaxy's `inline_user_defined_tool.gxwf.yml`).
+  - A step with `run:` and TODO ports stays drafty and validates.
+  - The ledger is parsed permissively (`run-ledgers.ts`), so a new `kind` needs no package schema change.
+  - No pipeline uses `author-galaxy-tool-wrapper` as a phase.
+- `feat/test-pipeline-loop-author`, on loop-repair, pushed, no PR; draft `pr_loop_author.md`:
+  - `62766fff`: refactor, no behavior change. `repair` becomes a list of escalations (`LoopEscalation`: skill, noun, takes, check, prompt), and the ledger reads move to `blockers`. All 309 existing tests pass unchanged.
+  - `e821d362`: authoring. An open `needs_tool` entry for the stalled step escalates to `author-galaxy-tool-wrapper`.
+    - It must resolve the entry and leave an inline `GalaxyUserTool` `run:` with no `tool_id`.
+    - A step is authored at most once, and authorings count against `--max-repairs`.
+    - A version `gap` still stops `loop_no_progress`.
+    - The author Mold is rev 6: optional draft and ledger in and out, and a new step 7 places the tool.
+    - 8 red→green tests; build-cli 317, root 491.
+- `fix/advance-draft-needs-tool` (`8b37372f`), on paired-identifiers, pushed, no PR; draft `pr_needs_tool.md`:
+  - `advance-galaxy-draft-step` rev 11 records the need instead of improvising, and treats a step with an inline tool as resolved.
+  - The ledger note is rev 6 and documents `needs_tool`. There are 2 eval properties.
+- Live rerun: local `tmp/rerun-author` (rerun-7-10 + both branches, build-cli 319), `~/foundry-runs/nf2g-demo-author-7-2026-10-22/`, `--from 7 --through 7`, seeded from 10-16.
+
 ## Open questions
 
 1. ~~Is `--from` (seed from a frozen run) wanted as an evaluation feature?~~ Built 2026-10-20 (above), pending John's review.
