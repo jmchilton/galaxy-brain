@@ -38,10 +38,10 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](../../repositories/foundry/issues/wip/694/index.md)
 - [#657](https://github.com/galaxyproject/foundry/issues/657) — planemo-asserts-idioms omits `has_line_matching` anchoring and `has_n_columns` first-line semantics; PR [#701](https://github.com/galaxyproject/foundry/pull/701). [notes](../../repositories/foundry/issues/wip/657/index.md)
 - [#677](https://github.com/galaxyproject/foundry/issues/677) — `${on_string}` rename premise wrong; foundry rename-syntax docs PR [#702](https://github.com/galaxyproject/foundry/pull/702); lint fixes with tooling agents. [notes](../../repositories/foundry/issues/wip/677/index.md)
+- [#676](https://github.com/galaxyproject/foundry/issues/676) — casts cite `parsed-tool`, `summarize`, `draft-next-step` without packaging them; branch `issue-676-package-refs`. [notes](../../repositories/foundry/issues/wip/676/index.md)
 
 ## Queued (`queued`)
 
-- [#676](https://github.com/galaxyproject/foundry/issues/676) — casts cite `parsed-tool`, `summarize`, `draft-next-step` without packaging them; next: add on-demand refs to the Molds. [notes](../../repositories/foundry/issues/queued/676/index.md)
 - [#3](https://github.com/galaxyproject/foundry/issues/3) — Hero pipeline-fan widget (replace pipeline matrix / new /pipelines/ landing); next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/3/index.md)
 - (large) [#40](https://github.com/galaxyproject/foundry/issues/40) — Write IWC exemplar match schema; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/40/index.md)
 - [#48](https://github.com/galaxyproject/foundry/issues/48) — Write target test plan schema; next: research and add a first comment. [notes](../../repositories/foundry/issues/queued/48/index.md)

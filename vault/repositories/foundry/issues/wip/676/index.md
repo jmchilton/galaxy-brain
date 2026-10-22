@@ -1,6 +1,7 @@
 # foundry#676 — cast bundles cite unpackaged references (`parsed-tool`, `summarize`, `draft-next-step`)
 
 Issue: https://github.com/galaxyproject/foundry/issues/676 (scottcain, AI-posted, `needs-triage`)
+Branch: `issue-676-package-refs` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-676`, commit `3abf679c`. PR not opened; body in [pr_description.md](pr_description.md).
 
 ## Triage (2026-10-22)
 
