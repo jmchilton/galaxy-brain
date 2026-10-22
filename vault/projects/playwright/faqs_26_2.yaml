@@ -312,7 +312,13 @@
   used_by: [galaxy-interface/history]
   gx_findings: 'Added E2E hiding and unhiding items (3f1d565241a) with history_panel_hide_selected, history_panel_include_hidden; shared pick-and-confirm is history_panel_confirm_selected_operation. gxui: history-hide [--unhide] (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_icons.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: a081fe7ebb3
+  used_by: [metabolomics/gc_ms_with_xcms]
+  faq_findings: [icons-export-another-galaxy]
+  gx_findings: 'Strengthened test_history_related_filter: a second Show Related Items click clears the filter (a081fe7ebb3), with history_panel_item_show_related, history_panel_filter_text. Title-button checks are the stubbed _assert_buttons, already queued (985f0cba). gxui: dataset-related HID (tip e2711889874).'
 - faq: faqs/galaxy/datasets_import_from_data_library.md
   status: pending
 - faq: faqs/galaxy/datasets_import_from_remote_files.md

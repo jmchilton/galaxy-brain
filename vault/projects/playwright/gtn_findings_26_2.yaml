@@ -392,3 +392,9 @@
   faqs: [faqs/galaxy/datasets_finding_datasets.md]
   target: main
   summary: There is no **User > Datasets**; the user menu only has Preferences and Sign Out. The list is the Activity Bar's **Datasets**.
+
+- label: icons-export-another-galaxy
+  faqs: [faqs/galaxy/datasets_icons.md]
+  target: version
+  summary: 26.2 adds an **Export to another Galaxy** button (`fa-file-export`) between Download and Copy Link on a user's datasets; the FAQ doesn't list it and GTN has no icon for it.
+  fix: 'Add `galaxy-export-to-galaxy: fas fa-file-export` to `_config.yml` icons, then a line "**Export to another Galaxy**: make a link another Galaxy can import the dataset from".'
