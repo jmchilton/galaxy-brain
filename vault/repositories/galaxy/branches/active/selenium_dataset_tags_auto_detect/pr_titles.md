@@ -1,0 +1,4 @@
+- [26.2] Add missing E2E tests for tagging a history item and Attributes tab metadata Auto-detect
+- [26.2] Test history item name tags reaching tool outputs and metadata Auto-detect in the browser
+- [26.2] Add browser coverage for item Add Tags and re-detecting dataset metadata
+- [26.2] Missing E2E tests: history item Add Tags and Edit Attributes metadata Auto-detect

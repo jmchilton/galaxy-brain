@@ -5,11 +5,11 @@
 
 ## Status
 
-Implemented and hardened (re-scoped once); ready for CI. Base `release_26.2`, head `0f23fc4cf5a`. See the [implementation debrief](implementation_debrief.md).
+Polished; ready for final review. Base `release_26.2`, head `0f23fc4cf5a`. See the [implementation debrief](implementation_debrief.md) and [polish debrief](polish_debrief.md).
 
-No PR.
+No PR. [Description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-No CI yet.
+Fork CI green so far; Playwright, Integration and docs still running (2026-10-21).
 
 ## Scope
 
