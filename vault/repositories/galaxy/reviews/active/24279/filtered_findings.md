@@ -1,0 +1,4 @@
+# Filtered findings — galaxy#24279
+
+- **default P3 1: edit sweep stats every indexed shed file on every reload.** Not actionable. The per-reload stat cost is real, and in cached mode it is new relative to the cached baseline. But it matches what the eager toolbox already pays: `ToolCache.cleanup()` runs on every `reload_toolbox` and stats every cached tool and macro path. The sweep's explicit `is_shed_guid` → guid mapping shows shed edits are meant to be covered.
+- **thermo P3 2: share the mtime+md5 staleness check with the eager `ToolCache`.** Not actionable as stated. `ToolCache._should_cleanup` compares against its own mutable recorded mtime (bumped when content is unchanged) and also walks macro paths. The cached sweep compares against an immutable `indexed_at`. What's actually in common is a two-line predicate. Kept as step 3 of the follow-up refactor issue, with macro coverage.
