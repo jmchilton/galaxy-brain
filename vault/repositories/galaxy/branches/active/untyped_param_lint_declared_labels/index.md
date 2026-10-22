@@ -5,11 +5,11 @@
 
 ## Status
 
-Hardened and re-scoped (backend run-form narrowing added), READY; head `e953ff7344a` on base `release_26.1`; see [implementation_debrief.md](implementation_debrief.md).
+Polished, ready for final review; head `e953ff7344a` on base `release_26.1`; see [polish_debrief.md](polish_debrief.md) and [implementation_debrief.md](implementation_debrief.md).
 
-No PR yet.
+No PR yet; [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-No CI yet.
+Fork CI on head queued 2026-10-22.
 
 ## Issue
 
