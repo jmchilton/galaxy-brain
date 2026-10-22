@@ -1,7 +1,7 @@
 # foundry#675 — nested sub-collection arity not assertable
 
 Issue: https://github.com/galaxyproject/foundry/issues/675 (scottcain, AI-posted, `needs-triage`)
-Branch: `issue-675-nested-count-docs` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-675`, commit `275cc43f` on `89c7b9ef`. PR body: [pr_description.md](pr_description.md) (not opened).
+Branch: `issue-675-nested-count-docs` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-675`, commit `275cc43f` on `89c7b9ef`. PR: https://github.com/galaxyproject/foundry/pull/697 (opened 2026-10-21; body from [pr_description.md](pr_description.md))
 Issue comment posted 2026-10-21: https://github.com/galaxyproject/foundry/issues/675#issuecomment-6328805936
 
 ## Triage (2026-10-21)
