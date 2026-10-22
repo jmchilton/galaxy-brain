@@ -222,7 +222,13 @@ John's decisions:
   - The eval adds two rows that share every column value.
   - Merged into `fix/advance-draft-needs-tool` (`505c2648`, advance rev 12) rather than rebased and force-pushed.
   - `validate-roadmap` now fails on the base commit too: the live GitHub issue hierarchy changed. That's environmental, like `check-vendored`.
-  - Rerun `~/foundry-runs/nf2g-demo-collision-7-2026-10-22/` (phase 7, seeded from 10-16) on local `tmp/rerun-author` + the fix.
+  - Rerun `~/foundry-runs/nf2g-demo-collision-7-2026-10-22/` (phase 7, seeded from 10-16) on local `tmp/rerun-author` + the fix. Controller **passed**: 12 iterations, 42m15s, 207 turns, $3.97. `gxwf validate` 5/5. The fix was **not exercised**: no Apply Rules step this time.
+    - `explode_and_label_input_reads` was authored instead. Its `needs_tool` claims Apply Rules "cannot conditionally rewrite them to R1/R2 or reject repeated sample-derived output identifiers". The rewrite claim is false: the previous rerun did it with `add_column_regex` replacements. Rejecting collisions was never asked for; the call made it up from the new rule.
+    - The authored script repeats the original bug. It reads `"$row_dir/fastq_$mate"` (phase 6's `fields` names) where Galaxy names members `forward`/`reverse`/`unpaired`. It still labels by `${sample}`, and fails the job on a duplicate rather than making names unique.
+    - FastQC was authored again for the ZIP; MultiQC used the IUC wrapper this time.
+    - Two recurring causes:
+      - authoring is the easy way out, and nothing checks an authored tool's runtime behavior;
+      - phase 6's spurious `fields: fastq_1/fastq_2` keeps misleading later steps.
 
 ## Open questions
 
