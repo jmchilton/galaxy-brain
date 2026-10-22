@@ -18,10 +18,10 @@ No test inserted a second workflow. `test_editor_embed_workflow` inserts one, so
 
 <details><summary>Helper changes in detail</summary>
 
-- `navigation.yml` gains `workflow_editor.workflow_activity_panel`, `workflow_activity_search` and `workflow_activity_list`, replacing the raw `.activity-panel input` / `.workflow-scroll-list` strings.
+- `navigation.yml` gains `workflow_editor.workflow_activity_panel`, `workflow_activity_search` and `workflow_activity_list`, replacing the raw `.activity-panel input` / `.workflow-scroll-list` strings, plus `workflow_editor.node.loading` for a node's header spinner.
 - `_workflow_editor_panel_card_titled` lists the panel's cards and returns the one whose title equals NAME. An exact match is the right card whether or not the debounced search has applied, so there is no "wait for the list to filter" step. A substring wait would pass on a stale list (`child extended` while searching `child`), and the panel's search also matches tags and owners, so not every result's title contains the search text.
 - The lookup and click run inside `retry_call_during_transitions`, because cards re-render while the search reloads them.
-- The post-open sleep becomes a wait for the search input; `add_subworkflow` waits for the new node to be visible instead of present-then-sleep. `add_steps` keeps its sleep: copied steps keep their own labels, so there's no single node to wait on.
+- The post-open sleep becomes a wait for the search input; `add_subworkflow` waits for the new node to be visible and its loading spinner to go (the module request that fills in its inputs and outputs) instead of present-then-sleep, so `setup_subworkflow` drops its trailing sleep too. `add_steps` keeps its sleep: copied steps keep their own labels, so there's no single node to wait on.
 - `clear_tooltips` now hovers the search input. Without the sleep, hovering the list's center could land on a card's "Last updated" badge before the list loaded and wait on its tooltip.
 
 </details>

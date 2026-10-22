@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished and read by John; head `41125e9268d` on `release_26.2` `e2649e52818`.
+Head `41c4bed8e84` on `release_26.2` `e2649e52818`: mvdbeek's optional spinner-wait suggestion applied as a follow-up commit; the 3 subworkflow-insert tests pass locally on Playwright.
 
-Draft [#24314](https://github.com/galaxyproject/galaxy/pull/24314) opened 2026-10-21 on John's request (`ci_wait`), title "[26.2] Test inserting two subworkflows from the workflow editor's Workflows panel".
+[#24314](https://github.com/galaxyproject/galaxy/pull/24314) is out of draft and mvdbeek approved it at `41125e9268d` (`ready`); a draft reply to their inline comment awaits John.
 
-CI on `41125e9268d` queued, no reds yet; Playwright runs the new test on push (the Selenium workflow is weekly/manual only).
+CI was green at `41125e9268d` (54 pass, 2 skipped); CI on `41c4bed8e84` is pending.
 
 ## Polish
 
