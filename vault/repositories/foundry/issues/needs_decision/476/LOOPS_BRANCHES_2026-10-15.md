@@ -229,6 +229,17 @@ John's decisions:
     - Two recurring causes:
       - authoring is the easy way out, and nothing checks an authored tool's runtime behavior;
       - phase 6's spurious `fields: fastq_1/fastq_2` keeps misleading later steps.
+- Phase-6 fix, John's pick: `fix/template-sample-sheet-fields` (`eef27c6c`), off origin/main, pushed, no PR.
+  - The source is phase 3's interface ("The `fastq_1` member is required; `fastq_2` is optional"), which phase 6 turned into `fields`.
+  - `nextflow-summary-to-galaxy-template` now says:
+    - a collection input's members are named by its `collection_type`;
+    - a sample sheet's path columns become those members;
+    - `column_definitions` covers the other columns only;
+    - never `fields` outside a `record` collection.
+  - The Mold bundles `galaxy-paired-or-unpaired-collections` on demand, and a new eval property checks the naming.
+  - Not changed: the interface Mold's wording, and the other `*-summary-to-galaxy-template` Molds.
+  - Live check: `~/foundry-runs/nf2g-demo-fields-6-7-2026-10-22/` (`--from 6 --through 7`, seeded from 10-16) on local `tmp/rerun-author` + this fix + current main.
+- Stacking hazard: main merged #695, which bumped `implement-galaxy-workflow-test` to rev 11. That collides with `feat/test-data-refs-omitted` (its own rev 11) and `fix/workflow-test-sample-sheet-rows` (rev 12). None of our branches is in main yet; each needs a rebase before its PR.
 
 ## Open questions
 
