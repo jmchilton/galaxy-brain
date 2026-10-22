@@ -15,3 +15,6 @@ export const PROJECT_FILES_PATTERN = ['projects/**/*.md', '!projects/**/index.md
 export const PAPER_FILES_PATTERN = ['papers/**/*.md', '!papers/**/index.md'];
 
 export const REPOSITORY_FILES_PATTERN = ['repositories/**/*.md'];
+
+// The one published slice of agents/: reader-facing factory landing pages.
+export const FACTORY_FILES_PATTERN = ['agents/factory/FACTORY.md', 'agents/factory/*_FACTORY.md'];

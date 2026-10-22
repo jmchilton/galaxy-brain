@@ -8,6 +8,7 @@ import remarkMdLinks from './src/lib/remark-md-links.ts';
 import remarkMissingImages from './src/lib/remark-missing-images.ts';
 import remarkPaperCitations from './src/lib/remark-paper-citations.ts';
 import remarkPaperCrossrefs from './src/lib/remark-paper-crossrefs.ts';
+import remarkGithubAlerts from './src/lib/remark-github-alerts.ts';
 
 export default defineConfig({
   site: 'https://jmchilton.github.io',
@@ -21,6 +22,7 @@ export default defineConfig({
       remarkPaperCitations,
       remarkPaperCrossrefs,
       remarkMermaid,
+      remarkGithubAlerts,
     ],
   },
   vite: {

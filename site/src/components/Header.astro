@@ -9,16 +9,17 @@ const navLinks = [
   { href: `${base}/tags/`, label: 'Tags', match: (p: string) => p.startsWith(`${base}/tags`) },
   { href: `${base}/repositories/`, label: 'Repositories', match: (p: string) => p.startsWith(`${base}/repositories`) },
   { href: `${base}/log/`, label: 'Log', match: (p: string) => p.startsWith(`${base}/log`) },
+  { href: `${base}/factory/`, label: 'Factory', match: (p: string) => p.startsWith(`${base}/factory`) },
 ];
 ---
 <header class="bg-(--color-galaxy-dark) border-b-4 border-(--color-accent) relative">
   <div class="absolute inset-0 bg-grid-header pointer-events-none"></div>
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-2">
-    <div class="flex items-center gap-4">
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
       <a href={`${base}/`} class="text-xl font-bold text-(--color-text-on-dark) no-underline hover:text-(--color-accent) transition-colors">
         Galaxy Brain
       </a>
-      <nav class="flex items-center gap-3 text-sm" aria-label="Primary">
+      <nav class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm" aria-label="Primary">
         {navLinks.map(link => {
           const active = link.match(pathname);
           return (

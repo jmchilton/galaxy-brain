@@ -73,10 +73,12 @@ Write each filtered item, with a one-line reason, to `REVIEW_DIRECTORY/filtered_
 
 ### Review agent details
 
-The coordinator, which launched every subagent and knows their models and efforts, writes `REVIEW_DIRECTORY/initial_review_agents.md`, one profile bullet per review run:
+The coordinator, which launched every subagent and knows their models and efforts, writes `REVIEW_DIRECTORY/initial_review_agents.md`, one profile bullet per review run. Include the "Reviewed with" line only when PROJECT is galaxy:
 
 ```
 <details><summary>Automated Review Details</summary>
+
+Reviewed with [John's Galaxy Brain Review Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-reviews/).
 
 - Review profile [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/<profile>.md) was run via <model> at <effort> effort.
 - Verification was run as documented [here](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_INITIAL_REVIEW.md) via <model> at <effort> effort.

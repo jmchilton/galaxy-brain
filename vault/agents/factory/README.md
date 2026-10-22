@@ -52,7 +52,7 @@ Durable state lives outside the agent directories:
 vault/repositories/PROJECT/{reviews,issues,branches}/STATUS/ID/index.md
 ```
 
-`STATUS` is a directory (`active`/`archived`, `active`/`merged`/`abandoned`, `queued`/`wip`/`blocked`/…), so a record moves when its state changes. Supporting files — debriefs, PR description drafts, screenshots — sit beside `index.md`. Neither agent nor record files are vault notes: no frontmatter, not validated, not on the site.
+`STATUS` is a directory (`active`/`archived`, `active`/`merged`/`abandoned`, `queued`/`wip`/`blocked`/…), so a record moves when its state changes. Supporting files — debriefs, PR description drafts, screenshots — sit beside `index.md`. Neither agent nor record files are vault notes: no frontmatter, not validated. Records are published on the site as raw records; agent files aren't, except the reader-facing factory pages (`FACTORY.md`, `*_FACTORY.md`).
 
 ## How Galaxy work flows
 

@@ -1,0 +1,105 @@
+---
+interface Stage {
+  slug: string;
+  text: string;
+}
+interface Link {
+  href: string;
+  label: string;
+}
+interface Props {
+  title: string;
+  lede: string;
+  stages?: Stage[];
+  links?: Link[];
+}
+const { title, lede, stages = [], links = [] } = Astro.props;
+---
+<section class="factory-hero not-prose relative overflow-hidden rounded-lg mb-8 px-5 sm:px-8 py-8">
+  <div class="absolute inset-0 factory-hero-grid pointer-events-none"></div>
+  <div class="relative">
+    <p class="text-xs font-semibold uppercase tracking-widest text-(--color-accent) mb-2">Galaxy Brain Factory</p>
+    <h1 class="text-2xl sm:text-3xl font-bold text-(--color-text-on-dark) mb-3">{title}</h1>
+    <p class="max-w-3xl text-(--color-text-on-dark) opacity-85">{lede}</p>
+    {stages.length > 0 && (
+      <nav aria-label="Sections" class="mt-6">
+        <ol class="flex flex-wrap gap-2">
+          {stages.map((stage, i) => (
+            <li>
+              <a href={`#${stage.slug}`} class="factory-stage">
+                <span class="factory-stage-num">{i + 1}</span>{stage.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+  </div>
+</section>
+
+<article class="factory-body prose prose-slate max-w-none dark:prose-invert" data-pagefind-body>
+  <slot />
+</article>
+
+<slot name="after" />
+
+{links.length > 0 && (
+  <nav aria-label="More from the factory" class="not-prose mt-12 pt-6 border-t border-(--color-border) flex flex-wrap gap-x-6 gap-y-2 text-sm">
+    {links.map(link => (
+      <a href={link.href} class="text-(--color-link) hover:underline">{link.label}</a>
+    ))}
+  </nav>
+)}
+
+<style>
+  .factory-hero {
+    background: var(--color-galaxy-dark);
+    border-bottom: 4px solid var(--color-accent);
+  }
+  .factory-hero-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .factory-stage {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem 0.35rem 0.35rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text-on-dark);
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: border-color 150ms, background-color 150ms;
+  }
+  .factory-stage:hover {
+    border-color: var(--color-accent);
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+  .factory-stage-num {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background: var(--color-accent);
+    color: var(--color-galaxy-dark);
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
+  /* The hero carries the title; the source's H1 is for GitHub readers. */
+  .factory-body :global(> h1:first-child) {
+    display: none;
+  }
+  .factory-body :global(.mermaid) {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.5rem;
+    background: var(--color-surface-raised);
+    overflow-x: auto;
+    text-align: center;
+  }
+</style>

@@ -133,6 +133,24 @@ a:hover .tag {
   @apply italic;
 }
 
+/* GitHub alert blockquotes (`> [!TIP]`), rendered by remark-github-alerts */
+.callout {
+  --callout-color: var(--color-galaxy-primary);
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--callout-color);
+  border-radius: 0 0.375rem 0.375rem 0;
+  background: color-mix(in srgb, var(--callout-color) 8%, var(--color-surface));
+}
+.callout > :first-child { margin-top: 0; }
+.callout > :last-child { margin-bottom: 0; }
+.callout-tip { --callout-color: var(--color-galaxy-gold-dark); }
+.callout-important { --callout-color: #8250df; }
+.callout-warning { --callout-color: #bf8700; }
+.callout-caution { --callout-color: #cf222e; }
+.dark .callout-note { --callout-color: #6fa5d4; }
+.dark .callout-tip { --callout-color: var(--color-accent); }
+
 /* --- Accessibility --- */
 
 :focus-visible {

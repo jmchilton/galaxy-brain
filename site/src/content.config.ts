@@ -2,6 +2,7 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { slugifyPath, vaultPathToSlug } from './lib/vault-urls';
 import {
+  FACTORY_FILES_PATTERN,
   PAPER_FILES_PATTERN,
   PROJECT_FILES_PATTERN,
   REPOSITORY_FILES_PATTERN,
@@ -100,4 +101,16 @@ const repositoryFiles = defineCollection({
   schema: z.object({}).passthrough()
 });
 
-export const collections = { vault, projectFiles, paperFiles, repositoryFiles };
+// Factory landing pages; ids are the bare file stem (e.g. BRANCH_FACTORY).
+const factoryFiles = defineCollection({
+  loader: glob({
+    pattern: FACTORY_FILES_PATTERN,
+    base: '../vault',
+    generateId({ entry }) {
+      return entry.split('/').pop()!.replace(/\.md$/, '');
+    }
+  }),
+  schema: z.object({}).passthrough()
+});
+
+export const collections = { vault, projectFiles, paperFiles, repositoryFiles, factoryFiles };

@@ -48,7 +48,7 @@ make site-test                     # site vitest suite (vault-urls, repository-r
 
 ### Static Site (`site/`)
 - Astro static site deployed to GitHub Pages at `/galaxy-brain/`
-- Two Astro content collections: `vault` (typed frontmatter), `projectFiles` (no frontmatter, raw sub-files)
+- Astro content collections: `vault` (typed frontmatter), plus frontmatter-less `projectFiles`, `paperFiles`, `repositoryFiles` and `factoryFiles`; glob patterns in `site/src/lib/collection-patterns.ts`
 - Content loaded from `../vault/` via Astro content collections (`site/src/content.config.ts`)
 - Tailwind CSS v4 via `@tailwindcss/vite` plugin; theme tokens in `site/src/styles/global.css`
 - Dark mode: class-based toggle, auto-detects OS preference
@@ -57,6 +57,8 @@ make site-test                     # site vitest suite (vault-urls, repository-r
 - Vault path → URL mapping lives in `site/src/lib/vault-urls.ts`; repository record URLs drop the status directory so they survive moves (see `LIBRARY_REPOSITORY_RECORDS.md`)
 - Record pages show per-file help from `vault/repositories/{_defaults,<repo>}/<kind>/FILE_DOCS.md` via `site/src/lib/file-docs.ts` (see `LIBRARY_RECORD_FILE_DOCS.md`)
 - Wiki links (`[[...]]`) resolved to site URLs via `site/src/lib/wiki-links.ts`
+- Factory landing pages (`/factory/`, `/factory/galaxy-branches/`, `/factory/galaxy-reviews/`) render `vault/agents/factory/FACTORY.md` and `*_FACTORY.md`, the only published `agents/` files; slug map in `site/src/lib/factory-pages.ts`. Links from them to other `agents/` docs use absolute GitHub URLs
+- GitHub alert blockquotes (`> [!TIP]` etc.) render as `.callout` asides via `site/src/lib/remark-github-alerts.ts`
 - GitHub Actions deploys on push to `main` (`.github/workflows/deploy.yml`)
 
 ### Dashboard Sync

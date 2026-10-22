@@ -1,0 +1,26 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import FactoryShell from '../../components/FactoryShell.astro';
+import { FACTORY_HUB_SOURCE, FACTORY_PAGES, FACTORY_README_URL } from '../../lib/factory-pages';
+
+const entry = await getEntry('factoryFiles', FACTORY_HUB_SOURCE);
+if (!entry) throw new Error(`Missing factory source vault/agents/factory/${FACTORY_HUB_SOURCE}.md`);
+const { Content } = await render(entry);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const title = "John's Galaxy Brain Factory";
+const lede = 'The agent-driven process behind the Galaxy pull requests and reviews John posts.';
+---
+<Base title={title} pageTitle={title} description={lede}>
+  <FactoryShell title={title} lede={lede} links={[{ href: FACTORY_README_URL, label: 'How the factory is built (GitHub)' }]}>
+    <Content />
+    <section slot="after" class="not-prose mt-8 grid gap-4 sm:grid-cols-2">
+      {FACTORY_PAGES.map(page => (
+        <a href={`${base}/factory/${page.slug}/`} class="group block rounded-lg border border-(--color-border) bg-(--color-surface-raised) p-5 no-underline transition-colors hover:border-(--color-accent)">
+          <h2 class="text-lg font-bold text-(--color-text-primary) mb-2 group-hover:text-(--color-link)">{page.title} →</h2>
+          <p class="text-sm text-(--color-text-secondary)">{page.blurb}</p>
+        </a>
+      ))}
+    </section>
+  </FactoryShell>
+</Base>

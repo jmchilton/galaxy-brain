@@ -1,0 +1,27 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import FactoryShell from '../../components/FactoryShell.astro';
+import { FACTORY_PAGES, FACTORY_README_URL, type FactoryPage } from '../../lib/factory-pages';
+
+export function getStaticPaths() {
+  return FACTORY_PAGES.map(page => ({ params: { factory: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: FactoryPage };
+const entry = await getEntry('factoryFiles', page.source);
+if (!entry) throw new Error(`Missing factory source vault/agents/factory/${page.source}.md`);
+const { Content, headings } = await render(entry);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const stages = headings.filter(h => h.depth === 2);
+const links = [
+  { href: `${base}/factory/`, label: '← Factory overview' },
+  ...FACTORY_PAGES.filter(p => p.slug !== page.slug).map(p => ({ href: `${base}/factory/${p.slug}/`, label: p.title })),
+  { href: FACTORY_README_URL, label: 'How the factory is built (GitHub)' },
+];
+---
+<Base title={page.title} pageTitle={page.title} description={page.blurb}>
+  <FactoryShell title={page.title} lede={page.blurb} stages={stages} links={links}>
+    <Content />
+  </FactoryShell>
+</Base>

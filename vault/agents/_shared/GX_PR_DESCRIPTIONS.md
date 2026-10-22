@@ -1,4 +1,6 @@
 
+Read and apply general ./PITCH_ADVICE.md.
+
 In general PRs to Galaxy should be of the structure:
 
 ```
@@ -79,29 +81,8 @@ Combine sentences into one short paragraphs in a "## Context" section above the 
 - Alternative to <pr_number>.
 - Alternative kept on 🌿<alt_branch_name_and_link> - <how it differs, from `alts/<short_description>.md`>. One per file in `BRANCH_DIRECTORY/alts/`.
 
-## DO NOT: Cite an agent as evidence.
+Always end the paragraph with `Developed with [John's Galaxy Brain Branch Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/).`, so the section is present even when nothing else applies.
 
-- No "an agent found / says / agrees". Agreement between two agents is no evidence at all.
-- If an agent surfaced the problem, reproduce it as a failing workflow or real example first. If you can't, don't file.
-- Saying an agent was used is fine. Treating it as an authority isn't.
-## DO: Avoid vacuous claims.
-
-- A test cited as failing on the base branch must fail at the bug's assertion, not on an API the branch adds.
-- If it reads a new field first, run it on the base with that check removed.
-- When the branch changes after the description is written, re-check every claim and update `pr_description.md` and any open PR's body to match.
-## DO: Use details liberally.
-
-In main body:
-
-- Use detail tags and nested details also.
-- Hide implementation details in details if they extend beyond a readable paragraph.
-- Hide detailed code walks in details. Do not include detailed code walks unless they are needed.
-## DO: Be persuasive.
-
-The purpose of the code and documentation is describe implementation details, describe edges and limitations of features, etc.. The PR description is a pitch. People will want to jump to just looking at the implementation to describe it - they should be convinced there is a problem or this feature is needed before any implementation description.
-## DO: Lead with showing instead of telling.
-
-If the main body can be front loaded with something visual - please make it so. If the bulk of it can be entirely visual - please make it so. See ./SHOW_ME_RULES.md for guidance.
 ## DO: Clean the Galaxy checklist.
 
 - Drop the "(Select all options that apply)"

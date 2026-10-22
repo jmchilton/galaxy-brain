@@ -4,6 +4,7 @@ import path from 'node:path';
 import { globSync } from 'tinyglobby';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import {
+  FACTORY_FILES_PATTERN,
   PAPER_FILES_PATTERN,
   PROJECT_FILES_PATTERN,
   REPOSITORY_FILES_PATTERN,
@@ -14,6 +15,14 @@ const FILES = [
   'research/note.md',
   'Dashboard.md',
   'agents/gx_branches/TICK.md',
+  'agents/_shared/GX_PR_DESCRIPTIONS.md',
+  'agents/factory/FACTORY.md',
+  'agents/factory/BRANCH_FACTORY.md',
+  'agents/factory/REVIEW_FACTORY.md',
+  'agents/factory/README.md',
+  'agents/factory/TODO.md',
+  'agents/factory/FACTORY_LANDING_PAGES_PLAN.md',
+  'agents/factory/sessions_for_retro/OLD_FACTORY.md',
   'templates/research.md',
   'projects/cwl/index.md',
   'projects/cwl/notes.md',
@@ -68,5 +77,13 @@ describe('collection patterns', () => {
 
   it('repositoryFiles takes record markdown only', () => {
     expect(match(REPOSITORY_FILES_PATTERN)).toEqual(['repositories/galaxy/branches/active/foo/index.md']);
+  });
+
+  it('factoryFiles takes only the published factory pages', () => {
+    expect(match(FACTORY_FILES_PATTERN)).toEqual([
+      'agents/factory/BRANCH_FACTORY.md',
+      'agents/factory/FACTORY.md',
+      'agents/factory/REVIEW_FACTORY.md',
+    ]);
   });
 });
