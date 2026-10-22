@@ -63,3 +63,17 @@
   priority: medium
   summary: The history panel's select, menu and delete still match, but the masthead is pre-Activity-Bar and the tool panel has the old Upload Data button.
   retake: Select two items, Selection menu > Delete with its confirm, then Include deleted and Undelete.
+
+- image: faqs/galaxy/images/datasets_import_via_link.gif
+  faqs: [faqs/galaxy/datasets_import_via_link.md]
+  target: version
+  priority: high
+  summary: Shows the 26.1 upload dialog (Regular tab, Paste/Fetch data, Type/Genome selects, Start, Close); 26.2 uses the Import Data panel's Paste Links/URLs.
+  retake: Upload > Paste Links/URLs, paste a link, Add URLs, set Type and Reference in the row, Start, Upload Progress.
+
+- image: faqs/galaxy/images/datasets_import_via_link_collection.gif
+  faqs: [faqs/galaxy/datasets_import_via_link.md]
+  target: version
+  priority: high
+  summary: Shows the 26.1 dialog's Collection tab with Build; 26.2 has the "Create a collection from these files" switch and no Build step.
+  retake: Paste Links/URLs with two links, Add URLs, switch on Create a collection, name it, List, Start.

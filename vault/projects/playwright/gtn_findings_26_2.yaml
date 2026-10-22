@@ -325,7 +325,7 @@
   fix: Say "Click {% icon galaxy-upload %} **Upload** in the Activity Bar".
 
 - label: upload-import-data-panel
-  faqs: [faqs/galaxy/datasets_create_new_file.md]
+  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_via_link.md]
   target: version
   summary: 26.2 replaces the upload dialog with the Import Data panel, so Paste/Fetch Data, the "New File" name, Genome, the Settings gear and Close no longer exist.
   fix: 'Upload > **Paste File Content**; paste into the text field; the name defaults to "Pasted Dataset 1"; set **Type** and **Reference** in the row; tick the row''s **Spaces→Tabs**; **Start** (no window to close). Other upload FAQs likely need the same.'
@@ -398,3 +398,20 @@
   target: version
   summary: 26.2 adds an **Export to another Galaxy** button (`fa-file-export`) between Download and Copy Link on a user's datasets; the FAQ doesn't list it and GTN has no icon for it.
   fix: 'Add `galaxy-export-to-galaxy: fas fa-file-export` to `_config.yml` icons, then a line "**Export to another Galaxy**: make a link another Galaxy can import the dataset from".'
+
+- label: link-add-urls
+  faqs: [faqs/galaxy/datasets_import_via_link.md]
+  target: version
+  summary: In 26.2's **Paste Links/URLs** the pasted links only become upload rows (Name, URL, Type, Reference) after **Add URLs**; Start stays disabled until then.
+  fix: After "Paste the link(s) into the text field" add "Click **Add URLs**"; the format and genome steps then set the row's (or the header's, for all rows) **Type** and **Reference**.
+
+- label: link-collection-switch
+  faqs: [faqs/galaxy/datasets_import_via_link.md]
+  target: version
+  summary: The Collection tab, Collection Type dropdown, Build, Swap and Create list are gone; 26.2 has a **Create a collection from these files** switch with **Collection Name** and **Collection Type** (List or List of Pairs only), and Start builds it, pairing links in pasted order.
+  fix: 'Rewrite the collection branch: switch on, name, type, Start. `pairswaptext` becomes "paste the forward link first". No single Paired type: single-cell/scrna-preprocessing (collection_type="Paired") must use List of Pairs or Build Dataset Pair afterwards. Also used by metabolomics lcms, lcms-preprocessing, gcms, gc_ms_with_xcms, transcriptomics/full-de-novo, variant-analysis/trio-analysis, proteomics/maxquant-msstats-tmt.'
+
+- label: link-reset-form
+  faqs: [faqs/galaxy/datasets_import_via_link.md]
+  target: version
+  summary: There is no **Reset** button in 26.2; Paste Links/URLs opens empty each time, so the `reset_form` step (used by galaxy-interface/collections) no longer applies.
