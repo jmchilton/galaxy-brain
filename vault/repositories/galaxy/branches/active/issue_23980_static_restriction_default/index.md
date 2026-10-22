@@ -1,10 +1,10 @@
 # issue_23980_static_restriction_default
 
-Status: `attention`. mvdbeek's 2026-10-20 review is addressed in code but not yet answered on GitHub (see [review response](review_response.md)). Base: `release_26.2`. PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140). Tip `5ad2b2d10c2`, with CI pending.
+Status: `attention`. mvdbeek's 2026-10-20 review is addressed in code but not yet answered on GitHub (see [review response](review_response.md)). Base: `release_26.2`. PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140). Tip `3274a9c98da`, with CI pending.
 
 Preselects defaults for statically restricted workflow text inputs (#23980). The run form can also submit `""` when it's the default option.
 
-Standing decision: don't extend the `str()` list-default conversion in `restrict_options`. The follow-up types text defaults as strings in gxformat2 and turns the numeric list-default test into a rejection test.
+Standing decision (John, 2026-10-22): multiple text parameters are greenfield in 26.2, so they're strictly typed. #23992's `str()` coercions are removed, and a numeric default is rejected. The gxformat2 follow-up types text defaults as strings so that upload catches it too.
 
 [Review response](review_response.md) · [Release rebase](release_26.2_rebase.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish](polish_debrief.md) · [Codex review](codex_review.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
 

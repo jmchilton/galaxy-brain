@@ -1,17 +1,17 @@
 # Response to mvdbeek review (2026-10-20)
 
-Pushed to the fork on 2026-10-22 at `5ad2b2d10c2`:
+Pushed to the fork on 2026-10-22; tip `3274a9c98da`:
 
 - `df3dac04058` makes a required select submit `""` only when `""` is its default option (`option[1] === "" && option[2]`). Vitest went red first, then green.
-- `5ad2b2d10c2` adds API `test_value_restriction_connected_empty_default_selected` (`collection_creates_pair_format.out_format`). It fails on `release_26.2`'s `modules.py`. Together with `test_value_restriction_static_default_selected` and the numeric list-default test, 3 pass locally.
-- No change to the `str()` list-default conversion in `restrict_options`.
+- `5ad2b2d10c2` adds API `test_value_restriction_connected_empty_default_selected` (`collection_creates_pair_format.out_format`). It fails on `release_26.2`'s `modules.py`. It passes locally.
+- `3274a9c98da` types multiple text parameters strictly, on John's call: the feature is new in 26.2 (#23992, not in any release), so it shouldn't coerce. All three `str()` conversions that #23992 added in response to mvdbeek's review are gone (`restrict_options`, `TextToolParameter.get_initial_value`, `_multiple_to_python`). A non-text default on a multiple text input now fails the run form with a 400 (`InputParameterModule.get_runtime_inputs`), and runtime entries must be `str`. The numeric test is now `test_value_restriction_rejects_multiple_numeric_text_list_default`. Doctests 15 passed, workflow units 194 passed, related API tests 14 passed.
 - Static check: nothing in the client mutates the option tuples' `selected` flag, so both Selenium tests should still pass. Fork CI will confirm.
 
 ## Draft thread replies (not posted)
 
 **`modules.py:1677` (`str()` conversion)**
 
-> Agreed. I'll leave it as it is for the backport and won't extend it. Follow-up on `dev`: type text input defaults as strings in gxformat2, then turn `test_value_restriction_selects_multiple_numeric_text_list_default` into a rejection test.
+> These conversions came from my response to your #23992 review, and multiple text parameters haven't shipped yet, so I've removed them altogether instead of carrying them into 26.2 (3274a9c98da). Multiple text parameters are now strictly typed: a non-text default fails the run form with a 400, and runtime entries must be strings. The numeric test is now a rejection test. I'll follow up with gxformat2 typing text defaults as strings, so that this gets caught at upload too.
 
 **`utilities.js:416` (required select submitting `""`)**
 
@@ -43,4 +43,4 @@ Title: Workflow text input restrictions lose data through the editor's `value:la
 
 ## Follow-up branch (not started)
 
-Type text defaults as strings in gxformat2 (schema plus lint), release it, then convert the Galaxy numeric list-default test into a rejection test on `dev` and drop the `str()` conversion.
+Type text defaults as strings in gxformat2 (schema plus lint), so non-text defaults are rejected at upload rather than at run-form time.

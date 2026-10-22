@@ -21,7 +21,8 @@ A user who accepts the run form as shown runs the workflow with the first allowe
 
 - **`_is_default_option(value, default)`** in `lib/galaxy/workflow/modules.py` is one matcher for both paths. A list default selects each entry it contains, and a scalar default selects the equal option. It compares against `None`, not truthiness, so an empty-string default can be selected. An absent default arrives as `None`.
 - **`_parameter_def_list_to_options`** moves out of `get_runtime_inputs` to module level, returns `OptionDict`s and marks `selected` against the default. Suggestions still call it without a default.
-- **`restrict_options` (`restrictOnConnections`)** uses the same matcher. ***On `release_26.2`, list-default selection already works on that path; this PR additionally preselects an allowed `""` default.*** Its `str()` conversion of list defaults comes from #23992 and isn't extended here.
+- **`restrict_options` (`restrictOnConnections`)** uses the same matcher. ***On `release_26.2`, list-default selection already works on that path; this PR additionally preselects an allowed `""` default.***
+- **Multiple text parameters are strictly typed.** They're new in 26.2 (#23992), so the `str()` coercions it added are removed: in `restrict_options`, in `TextToolParameter.get_initial_value` and in `_multiple_to_python`. A non-text default on a multiple text input (`default: [1, 2]` on `[string]`) now fails the run form with a 400, and runtime entries must be strings.
 - The dead top-level `selected` keyword is gone.
 - **Client (`client/src/components/Form/utilities.js`).** The simple run form rejects `""` for required inputs (`rejectEmptyRequiredInputs`). That blocked the `Empty` option even though the workflow explicitly allows it. `validateInputs` now accepts `""` for a select whose default is the `""` option. A non-default `""` option, such as a tool's placeholder, is still rejected. Only the workflow run form and config-template instance forms set `rejectEmptyRequiredInputs`, and no shipped template has a `""` select option.
 
@@ -38,6 +39,7 @@ Risks are minimal. This is a two-way door: it changes which value the run form p
 - UI runs of workflows with a statically restricted text input and a default now submit the default instead of the first allowed value. A user who relied on the old preselection would get a different result.
 - The `restrictOnConnections` path additionally preselects `""` defaults. Its existing list-default behavior remains covered by the release branch's API test.
 - The workflow run form and config-template instance forms now let a required select submit `""` when `""` is its default option. The server accepts that value anyway. Selects whose `""` option isn't the default, such as a tool's placeholder or a stray comma in editor restrictions, are rejected as before.
+- A workflow with a non-text default on a multiple text input, such as `default: [1, 2]` on `[string]`, no longer opens in the run form. Multiple text parameters are unreleased (new in 26.2), so no shipped workflow can depend on the coercion.
 - `release_26.2` already includes #23992's save-time validation rejecting list defaults on single-value inputs; those validation tests are preserved.
 
 </details>
@@ -106,6 +108,7 @@ Targets `release_26.2`. Bug found while working on the now-merged 🔀 #23992 (m
 
 - **API `test_value_restriction_static_default_selected`** covers a scalar, a list on `[text]`, `{value, label}` dicts and a `""` default. It checks `value` and every option's `selected` flag in the `style=run` payload. On `dev`'s `modules.py` it fails at `assert 'a' == 'b'`.
 - **API `test_value_restriction_selects_multiple_text_list_default`** covers a list default on the `restrictOnConnections` path. It is retained from merged #23992 on the release base; this branch's duplicate was removed during rebase.
+- **API `test_value_restriction_rejects_multiple_numeric_text_list_default`** (formerly `..._selects_...`) checks that `default: [1, 2]` on a `[string]` input fails the run form with a 400. The `TextToolParameter` doctest checks that `validate([1])` is rejected.
 - **API `test_value_restriction_connected_empty_default_selected`** covers a `""` default on the `restrictOnConnections` path, connected to a tool select with a `""` option. On `release_26.2`'s `modules.py` the `""` option isn't selected.
 - **Selenium `test_execution_with_text_default_value_and_static_restrictions`** checks that the run form shows `Ex2` for `default: ex2`, then submits and checks that the output is `ex2`. On `dev`'s `modules.py` it fails at `assert 'Ex1' == 'Ex2'`.
 - **Selenium `test_execution_with_empty_text_default_among_static_restrictions`** checks that a `""` default shows `Empty`. It then switches to `A` and back to `Empty`, submits, and checks that the invocation received `""`. With `dev`'s `utilities.js`, Run stays disabled after the switch.
