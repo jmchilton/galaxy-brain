@@ -7,11 +7,11 @@
 
 ## Status
 
-Approved, `branches_need_pr`; base `release_26.2`, head `20bab26d44b`.
+Draft PR open, `ci_wait`; base `release_26.2`, head `20bab26d44b`.
 
-No PR yet.
+[#24380](https://github.com/galaxyproject/galaxy/pull/24380), draft (opened early at John's request).
 
-Fork CI for `20bab26d44b` still queued (2026-10-22); Selenium/Playwright pending. PR opens once greenish.
+Fork CI for `20bab26d44b` queued (2026-10-22); Selenium/Playwright pending. Undraft once green.
 
 ## Decisions
 

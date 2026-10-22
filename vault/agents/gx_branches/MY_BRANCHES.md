@@ -38,6 +38,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`selenium_delete_items_dataset_privacy`](../../repositories/galaxy/branches/active/selenium_delete_items_dataset_privacy/index.md) — Fixes history items vanishing after undelete/unhide under Include deleted/hidden; delete/purge and privacy E2E. Base `release_26.2`. [#24380](https://github.com/galaxyproject/galaxy/pull/24380).
 - [`extract_next_followups_baseline`](../../repositories/galaxy/branches/active/extract_next_followups_baseline/index.md) — Baseline tests, PageManager notebook access check and public extraction helpers ahead of #24225. Base `release_26.2`. [#24368](https://github.com/galaxyproject/galaxy/pull/24368).
 - [`invocation_subworkflow_input_connections`](../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — Rejects disconnected required subworkflow inputs and fixes runtime diagnostics. Base `release_26.2`. [#24203](https://github.com/galaxyproject/galaxy/pull/24203). CI green; kept draft per John's standing instruction, awaiting his call.
 - [`yaml_boolean_defaults`](../../repositories/galaxy/branches/active/yaml_boolean_defaults/index.md) — YAML tools load Boolean `value`, optionality and canonical repeats/sections as the tool models define (#23888). Base `release_26.1`. [#24365](https://github.com/galaxyproject/galaxy/pull/24365). Draft requested by John.
@@ -104,8 +105,7 @@ None yet.
 
 ## Galaxy branches — approved, opens when green (`branches_need_pr`)
 
-- [`selenium_delete_items_dataset_privacy`](../../repositories/galaxy/branches/active/selenium_delete_items_dataset_privacy/index.md) — Fixes history items vanishing after undelete/unhide under Include deleted/hidden; delete/purge and privacy E2E. [Approved `20bab26d44b`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_delete_items_dataset_privacy?expand=1).
-
+None yet.
 ## Galaxy branches — still deciding on (`branches_need_decision`)
 
 - [`invocation_graph_embedded_outputs`](../../repositories/galaxy/branches/active/invocation_graph_embedded_outputs/index.md) — Spike: outputs inside the invocation graph (hover preview; workflow outputs as large embedded nodes with nudge-only layout; per-step preferred output). Base `dev`, head `3e4312f7c1d`; browser-checked on a 10-step workflow. Decision: go/no-go on nudging (right mode is recognizable but fits at 40–50% zoom); split into per-stage PRs? [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_embedded_outputs?expand=1).
