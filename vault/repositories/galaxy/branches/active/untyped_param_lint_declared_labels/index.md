@@ -5,9 +5,13 @@
 
 ## Status
 
-Research only; bug confirmed by code reading on `dev` (0073b5e9224), see [research.md](research.md). No implementation yet.
+Implemented and pushed (head `6bb6d2cab4d`, base `dev`); see [research.md](research.md) and [implementation_debrief.md](implementation_debrief.md).
 
-Branch exists locally in `~/projects/worktrees/galaxy/branch/untyped_param_lint_declared_labels/`, not pushed.
+No PR yet. No CI yet.
+
+## Issue
+
+Draft not filed: `vault/agents/gx_issues/to_file/proposed_untyped_param_lint_declared_labels.md` (+ `debrief_`).
 
 ## Context
 
