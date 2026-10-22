@@ -1,6 +1,6 @@
 # lint_input_defaults
 
-Status: pushed to `jmchilton` fork, commit `736b1e0`; no PR yet. Base: `origin/main` `007b7ae`.
+Status: pushed to `jmchilton` fork, commit `e6008f8`; no PR yet. Base: `origin/main` `9f8fb36` (rebased after #271 merged; reuses `_as_list`, table-driven `_DEFAULT_CHECKS`).
 Worktree: `~/projects/worktrees/gxformat2/branch/lint_input_defaults`.
 Issue: [gxformat2#272](https://github.com/galaxyproject/gxformat2/issues/272).
 
@@ -8,10 +8,10 @@ Issue: [gxformat2#272](https://github.com/galaxyproject/gxformat2/issues/272).
 
 Issue check: galaxy#24140 (`3274a9c98da`) does reject non-string multiple-text defaults. The issue overstated the scalar case, which `_validate_input_types` already errored on. The gaps were `[string]` (skipped) and native `.ga` (unchecked). The lint route was chosen over schema typing because list inputs use the catch-all `WorkflowInputParameter` with an `Any` default.
 
-Verified: full pytest (908 passed, after final fixture edits), isort/ruff/flake8/black(--fast)/mypy/pyrefly clean. Red-to-green: the new expectations fail on main (format2 fixture: main reports 0 errors). `lint_ga` sweep: IWC 132 files, planemo 21, 0 skipped, 0 hits.
+Verified: full pytest (910 passed after rebase), isort/ruff/flake8/black(--fast)/mypy/pyrefly clean. Red-to-green: the new expectations fail on main (format2 fixture: main reports 0 errors). `lint_ga` sweep: IWC 132 files, planemo 21, 0 skipped, 0 hits.
 
 Merge gxformat2 first, then re-sync TS fixtures from `main`.
 
-Conflicts with `lint_untyped_params` (#271) in `lint.py` (both touch the `_conversion` import), per `git merge-tree`. Merge #271 first and rebase this branch.
+#271 merged; rebased, import conflict resolved.
 
 Follow-up (not done): a `10.0` int default errors in Python (float) but passes TS (`Number.isInteger`). The format2 path already diverged this way; native inherits it.
