@@ -21,7 +21,7 @@ linked from Galaxy's own error page ("My job ended with an error. What can I do?
   `test_report_error` only checks the backend, and `test_galaxy_wizard.py` goes in through the
   dataset view's Error tab and skips without agents. Added `test_dataset_error_report.py`
   (integration, mock SMTP + `error_email_to`): bug icon, tool id, stderr, Report, and the mail
-  (`d58f510c7c0`). Components: `history_panel.content_item.error_button`, `dataset_error`,
+  (`46178e67fa0`). Components: `history_panel.content_item.error_button`, `dataset_error`,
   `email_report` (shared with invocation feedback; new `email-report-result` class on its result
   alert). Helpers `history_panel_item_show_error`, `submit_email_report`; `navigate_to_dataset_error`
   uses the `dataset_error.tab` component. Green under Playwright.

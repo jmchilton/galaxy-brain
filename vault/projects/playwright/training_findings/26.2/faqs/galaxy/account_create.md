@@ -20,7 +20,7 @@ activation email, activation link → "Your account has been successfully activa
 
 ## Galaxy
 
-- Coverage was missing, now added (`4d391ac7e36`, below gxui). `test_registration.py` covered only
+- Coverage was missing, now added (`06483cd415a`, below gxui). `test_registration.py` covered only
   Login → Register here → Create. New: `test_registration_from_masthead` (via
   `register(via_masthead=True)`) and `test/integration_selenium/test_user_activation.py`
   (`user_activation_on` + `mock_emails_to_path://`: register, banner, Resend Verification,
@@ -33,7 +33,7 @@ activation email, activation link → "Your account has been successfully activa
   masthead); only a "Return to the home page" / "Go to login page." link. Works, looks dated.
 - gxui: `gxui methods regist` summarised `register` as "Register a virtual subclass of an ABC"
   (`inspect.getdoc` inheriting `ABC.register`'s doc). Fixed: docstring on
-  `NavigatesGalaxy.register` (`c31fcb13a8e`, below gxui).
+  `NavigatesGalaxy.register` (`cd24ef31d6a`, below gxui).
 - gxui: no way to read the activation email, so the replay can't finish on its own (see the
   script). A `gxui mail-last [--to EMAIL] [--link PATTERN]` reading Galaxy's
   `mock_emails_to_path://` output would make account FAQs fully replayable.

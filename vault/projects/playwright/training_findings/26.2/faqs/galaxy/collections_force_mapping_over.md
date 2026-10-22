@@ -1,6 +1,6 @@
 # faqs/galaxy/collections_force_mapping_over.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `00c72c7fa3c` (`faq_server.sh main`). Nested a two-element
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `f52ca913830` (`faq_server.sh main`). Nested a two-element
 fasta list with **Nest collection** and with **Apply rules** (the FAQ's Basename + List Identifier(s)
 A, B recipe); both gave a `list:list`. **Sort collection** (takes a `list`) then showed "The supplied
 input will be mapped over this tool: one job per list." and ran per sublist. Used by
@@ -20,8 +20,8 @@ microbiome/metagenomics-assembly.
 ## Galaxy
 
 - Gap: Apply rules tests all set the rule source JSON; none drove the Column/Rules menus. Added
-  `test_run_apply_rules_nest_from_menus` (`00c72c7fa3c`) with `rule_builder_add_column_basename`;
-  it also checks the mapped-over hint on Sort collection. `history_wait_for_new_collection` (`b96ef661d45`)
+  `test_run_apply_rules_nest_from_menus` (`f52ca913830`) with `rule_builder_add_column_basename`;
+  it also checks the mapped-over hint on Sort collection. `history_wait_for_new_collection` (`d3a9580d166`)
   replaces the hand-rolled waits in the convert test and gxui `collection-convert`.
 - Nest is covered by its XML tool tests and `harmonize_optional_collection.gxwf.yml`.
 - Replay uses `gxui call` for the rule builder steps; no Apply rules verb yet.

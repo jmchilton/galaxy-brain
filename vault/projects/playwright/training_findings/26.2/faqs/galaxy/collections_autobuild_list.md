@@ -19,7 +19,7 @@ digital-humanities/grobid, introduction/galaxy-intro-rdm.
 
 - Auto build covered (`test_build_list_simple_hidden`), but nothing exercised the Remove file
   extensions switch. Added `test_build_list_keep_extensions` to `test_collection_builders.py`
-  (`e31b6908bec`): `collection_builders.list_wizard.remove_extensions` component and
+  (`66ec1c8e5e6`): `collection_builders.list_wizard.remove_extensions` component and
   `collection_builder_toggle_remove_extensions`; asserts identifiers via the API. Green under
   Playwright, red without the toggle.
 - Builder lists elements newest first (`ListCollectionCreator` reverses to match the panel), so

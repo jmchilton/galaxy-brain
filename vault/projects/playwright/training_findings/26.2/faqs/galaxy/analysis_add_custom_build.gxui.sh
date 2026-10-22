@@ -1,6 +1,6 @@
 #!/bin/sh
 # Replay of faqs/galaxy/analysis_add_custom_build.md against a logged-in gxui session on the
-# `faq_server.sh main` Galaxy. Needs the custom_builds components (galaxy_ui_driver 2782db29ee2 and up).
+# `faq_server.sh main` Galaxy. Needs the custom_builds components (galaxy_ui_driver 4ca25c903a7 and up).
 set -e
 gxui note "step 1: a history holding the reference fasta"
 gxui history-new "custom build faq"

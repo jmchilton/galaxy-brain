@@ -14,5 +14,6 @@ Owned by the [Playwright project](../../../../../projects/playwright/GALAXY_UI_S
 - **Dropped:** `8db334d5c50` and `046111eba20`, superseded by #24317, which merged to 26.2. The `_workflow_card_named` unit tests went with them; #24317 covers that lookup with E2E tests.
 - **Kept, re-resolved:** `ffbdb7ee11e` (now `ec9ae950924`), the colon-free search, now on #24317's `_workflow_card_action`. Its "every title contains" check uses the search term, so another workflow matching only the term can't stall the wait.
 - **gxui editor verbs:** `workflow-connect`, `-disconnect` and `-remove-step` call `workflow_editor_try_connect`, `workflow_editor_destroy_connection` and `workflow_editor_remove_node` when the step's `node-label` is unique. Otherwise they use their id-based code, because unlabelled steps of one tool share a label.
+- **Since (FAQ loop):** `755d9376924` tests a dataset's Datatypes-tab change; gxui gains `dataset-change-datatype` and `dataset-change-dbkey`. 43 commits; tip `d982e460bb0`.
 
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.

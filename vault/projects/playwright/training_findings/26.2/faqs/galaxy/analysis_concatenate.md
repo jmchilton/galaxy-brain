@@ -19,7 +19,7 @@ Not embedded by any tutorial at the pinned commit.
 - `cat1` map-over is well covered by API tests (`test_tools.py`).
 - **gxui / `tool_form_fill` bug:** a collection hid for a dataset field matched nothing, kept the old
   selection, and `tool-fill` still said "filled 3 fields". `tool_form_fill` now switches the field
-  to collection mode and fails if the field doesn't show the hid (`f19d8ec90f8`, with
+  to collection mode and fails if the field doesn't show the hid (`26ed03d01b6`, with
   `test_tool_form_fill_maps_over_collection`, red before the fix).
 - gxui: `tool-describe` reads the API build, not the page, so it can't confirm a fill; docstring
   says so now (gxui tip `e64d932e12e`).

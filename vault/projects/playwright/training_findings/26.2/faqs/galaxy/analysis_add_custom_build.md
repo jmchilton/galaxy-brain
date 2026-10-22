@@ -22,7 +22,7 @@ Embedded in `ecology/ref-based-rad-seq` (name `Stickleback`, dbkey `stickleback`
 
 - `test_custom_builds.py` only covered the copy/paste len path; no E2E or API test made a build
   from a history fasta. Added `test_build_add_from_fasta` and `custom_builds` components, plus the
-  `len`/`linecount` datatypes and converters the framework test datatypes lacked (`2782db29ee2`).
+  `len`/`linecount` datatypes and converters the framework test datatypes lacked (`4ca25c903a7`).
   Green under Playwright.
 - [#24309](https://github.com/galaxyproject/galaxy/issues/24309): the list hides a FASTA build
   until its linecount job is ok, and the page never re-polls.

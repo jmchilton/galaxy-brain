@@ -16,7 +16,7 @@ GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `57b4747a752` (`faq_server.sh main`)
 ## Galaxy
 
 - No E2E opened a history's references (`test_tool_form.py` only covers the tool form's). Added
-  `test_export_tool_references` to `test_history_options.py` (`93b1f03b432`): runs the `bibtex`
+  `test_export_tool_references` to `test_history_options.py` (`e9593d8912d`): runs the `bibtex`
   test tool, checks the APA and BibTeX tabs show its and Galaxy's references.
   `data-description`s on the menu item and both tabs, a `citations` component and
   `click_history_option_tool_references`. Green under Playwright.

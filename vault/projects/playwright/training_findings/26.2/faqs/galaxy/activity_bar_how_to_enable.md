@@ -16,9 +16,9 @@ GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `e273c4f3502` (`faq_server.sh main`,
 
 - No E2E coverage for the More panel's star/unstar (vitest only). Added
   `test_activity_bar.py` and `activity_bar` components (`item(id)`, `more`, `settings.hide(title)`,
-  `settings.show(title)`) in `8d36a3bd9f3`.
+  `settings.show(title)`) in `f29cbd6da64`.
 - `GButton` with `tooltip` renders `data-title`, not `title`; selectors must use `@data-title`.
 - `preferences.activity` was the More button (`#activity-settings`) under an old name; renamed to
-  `activity_bar.more` with its 2 callers (`12c8ec3d7c7`).
+  `activity_bar.more` with its 2 callers (`3298ad89d82`).
 - gxui: `gxui components activity` (a selector, not a component) raised a bare `AttributeError`;
   it now says how to act on the selector (gxui tip `8e7f03546f7`).

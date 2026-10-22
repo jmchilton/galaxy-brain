@@ -14,12 +14,12 @@ Two `txt` datasets changed to `tabular`. Used by imaging/dicom-anatomical-3d.
 
 - No E2E covered the Selection menu's Change data type (API `test_bulk_datatype_change` covers the
   backend, collections included). Added `test_change_datatype_of_selected_items` to
-  `test_history_panel.py` (`a51d2b9ed4a`): `data-description="change data type modal"` on the
+  `test_history_panel.py` (`a784caca829`): `data-description="change data type modal"` on the
   modal, `history_panel.multi_operations.change_datatype_modal` component, and
   `history_panel_change_datatype_of_selected`. Green under Playwright.
 - navigation.yml children written as `${_} ...` resolve only through `component._.child`;
   `component.child` raises `KeyError: '_'`.
-- Renamed `history_panel_muli_operation_select_hid` to `..._multi_...` (`7bea524600b`).
+- Renamed `history_panel_muli_operation_select_hid` to `..._multi_...` (`83874b7e2ed`).
 - gxui (tip): `history-change-datatype DATATYPE HID...` ticks the items (Select Items if needed),
   changes them and waits for the new extension.
 - `faq_server.sh` now runs Celery (gravity worker + `enable_celery_tasks`). Re-ran

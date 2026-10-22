@@ -16,7 +16,7 @@ activation on). Replay: `analysis_jobs_not_running.gxui.sh`.
 
 Galaxy findings from this run:
 - Coverage: the activation E2E never tried an upload. Added `test_inactive_user_cannot_upload` and
-  `upload_activity.progress_row_error(row)` (`a67081d346c`).
+  `upload_activity.progress_row_error(row)` (`2a3eca13e68`).
 - gxui: `upload-paste` waited 60s, then reported "hids did not appear", because the server's
   message replaced the "Upload request failed" text gxui looked for. It now fails at once with
   the row's error, checking only this upload's rows (earlier rows stay listed).

@@ -49,3 +49,10 @@
   priority: low
   summary: The Select Items checkbox still matches, but the row also shows a gear at the right that 26.2's panel doesn't have.
   retake: The history panel's select-items and collapse row, with the Select Items tooltip.
+
+- image: shared/images/datasets_dbkey.svg
+  faqs: [faqs/galaxy/datasets_change_dbkey.md]
+  target: main
+  priority: low
+  summary: Pre-Activity-Bar masthead and left tool panel; the arrowed `?` database link is unchanged.
+  retake: An expanded history dataset with the `?` after "database" circled.
