@@ -5,7 +5,7 @@ This profile produces no P-labeled findings; ignore that part of shared.md. Stil
 You're not reviewing the code for correctness or clarity - you're reviewing the code for "What should someone learn about Galaxy from this work". Review the code and the context around the code.
 
 Decide if this work is "architecturally interesting"
-- bug fixes generally are not
+- bug fixes generally are not, unless they change cross-cutting semantics (precedence, merge rules, shared payload shapes)
 - adding/modifying a single new plugin generally is not
 - test touchups or small refactorings generally are not
 - new frameworks generally are
