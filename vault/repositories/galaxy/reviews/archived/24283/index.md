@@ -7,3 +7,7 @@
 Initial review of `27544cf8f0c` delivered 2026-10-21 as an approval; John trimmed it to three P3s (test-only findings dropped). Fixes remain on fork review branch, not pushed into PR.
 
 Open, ready for review, against `release_26.2`; CI green at review time.
+
+## Archived — 2026-10-22
+
+Merged 2026-10-21T14:44:24Z; tracking ended. Worktree removed (clean, HEAD on jmchilton fork).

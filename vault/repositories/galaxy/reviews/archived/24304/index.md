@@ -7,3 +7,7 @@
 Initial review of `4471d665921` delivered 2026-10-21 as an approval (one P2, three P3s; John recommends including all review-branch commits). Fixes on fork review branch, not pushed into PR; its Selenium test not run locally.
 
 Open, ready for review, against `release_26.2`.
+
+## Archived — 2026-10-22
+
+Merged 2026-10-22T13:07:20Z; tracking ended. Worktree removed (clean, HEAD on jmchilton fork).

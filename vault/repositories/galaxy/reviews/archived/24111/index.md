@@ -13,3 +13,7 @@
 - Reports: [default](initial_review.md), [thermo](thermo_review.md), [test challenger](test_challenges_review.md), [risks](risks.md); [agents](initial_review_agents.md)
 
 Main risk: `allowed_login_redirect_hosts` is a new config option on a release branch (one-way door); PR body leaves that scope call to maintainers.
+
+## Archived — 2026-10-22
+
+Merged 2026-10-21T05:06:56Z; tracking ended. Worktree removed (clean, HEAD on jmchilton fork).

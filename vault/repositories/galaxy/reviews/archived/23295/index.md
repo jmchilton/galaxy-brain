@@ -15,3 +15,9 @@ Coordinator corrected three false claims in `risks.md` (Pulsar double-seeding, p
 - 2026-08-18: John reviewed (no vault record) and opened suggestion PR [ksuderman/galaxy#10](https://github.com/ksuderman/galaxy/pull/10) (self-enforcing seam via `prepare_job`, resolve through spec default, three-tier resolution); commented on #23295.
 - 2026-10-14: Keith merged ksuderman/galaxy#10; PR rebased 2026-10-18. Head now Keith's `18a64ceca88` + John's `73695fa00a6`.
 - 2026-10-21: follow-up review of `73695fa00a6` (this record).
+
+## Archived — 2026-10-22
+
+Merged 2026-10-21T23:14:36Z; tracking ended. Worktree removed (clean, HEAD on jmchilton fork).
+
+Merged 2026-10-22 with follow-up review of `73695fa00a6` never delivered; fixes remain on `pr_23295_review_0` (jmchilton fork).

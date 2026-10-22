@@ -7,3 +7,7 @@
 Initial review of `7399ba875a9` delivered 2026-10-21 as an approval (four P3s; John asked author to merge review-branch commits, non-blocking). Fixes on fork review branch, not pushed into PR.
 
 Open, ready for review, against `release_25.1`; no failing CI at review time.
+
+## Archived — 2026-10-22
+
+Merged 2026-10-22T10:38:18Z; tracking ended. Worktree removed (clean, HEAD on jmchilton fork).
