@@ -6,6 +6,7 @@ PR: https://github.com/galaxyproject/foundry/pull/702 (opened 2026-10-22; body f
 Gaps 2 and 3 (lint precision, Python/TS parity) handed to tooling agents by John (2026-10-22).
 Upstream branches pushed, PRs not opened: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md),
 [galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/active/lint_untyped_params/index.md).
+Planemo runtime side: https://github.com/galaxyproject/planemo/issues/1750 (send `<DEPRECATED_PARAMETER_UNSET>` for informal params + warn).
 
 Fix placement: `gxformat2-schema` paragraph, but only 2 casts package that note (cwl/nextflow template),
 so `implement-galaxy-tool-step` also got a one-line rule + eval property.
