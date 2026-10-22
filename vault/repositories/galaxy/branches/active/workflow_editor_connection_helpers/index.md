@@ -5,7 +5,7 @@
 
 ## Status
 
-Head `8380a8c1026` on `release_26.2` `7febcc1d683`: implemented, needs polish; the new test passes locally on Playwright and Selenium.
+Head `04ce1a3f088` on `release_26.2` `7febcc1d683`: BLOCKED on John's scope decision. The branch is re-scoped and hardened twice, and the second [scope evaluation](scope_evaluation.md) asks for CSS-safe selectors and a typo rename.
 
 No PR yet.
 
@@ -13,11 +13,21 @@ No CI yet.
 
 ## Scope
 
-New E2E test, `test_workflow_editor.py::TestWorkflowEditor::test_refused_connection_and_removed_step`. It covers a refused connection with its reason, connect, disconnect, reconnect, removing a step, and the save, checked through the API. It brings three changes:
-- the editor's connection helpers move from the test class onto `NavigatesGalaxy`;
+It adds two new E2E tests in `test_workflow_editor.py`:
+- `test_refused_connection_and_removed_step` covers a refused connection with its reason, connect, disconnect, removing a step, and the save, checked through the API.
+- `test_connect_unlabelled_steps_by_order_index` connects, disconnects and removes unlabelled steps of the same tool, by step number.
+
+It brings these changes:
+- the editor's connection helpers move onto `NavigatesGalaxy`, renamed `workflow_editor_assert_*`;
+- steps can be addressed by label or by order index (`EditorTerminalReference`, `workflow_editor_node`);
 - new `workflow_editor_try_connect` and `workflow_editor_remove_node` helpers;
 - a fix to Playwright's synthetic drag timing.
 
+The original label-only scope is kept as an [alt](alts/original_scope.md).
+
 Base `release_26.2` on John's call (2026-10-21), not dev as [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md) says. It backs gxui's editor verbs (pitch refinement plan item 5). [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) is stacked on it, so restack that branch after any rewrite here.
+- Not yet restacked onto `04ce1a3f088`. Deferred until the scope decision, because another session was rewriting `galaxy_ui_driver` at the time.
+
+**Superseded fold-in:** `77b5ea69434` on `jmchilton/galaxy_ui_driver_editor_refs` (step-number refs). The re-scope covers it with the same names. Drop it when folding that branch in, and keep its gxui fixup.
 
 [Implementation debrief](implementation_debrief.md)
