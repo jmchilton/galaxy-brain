@@ -166,7 +166,14 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
 - Fixes, both pushed, no PRs:
   - `fix/advance-draft-paired-identifiers` (`3c8adb32`), on stock-version. `galaxy-apply-rules-dsl` rev 4 gives a paired level's identifiers. `advance-galaxy-draft-step` rev 10 says so in step 4 for `__APPLY_RULES__`, and bundles the note on demand. New eval property: run the rules over both variants with `rules_dsl`.
   - `fix/workflow-test-sample-sheet-rows` (`79699865`), on omitted-state. `galaxy-sample-sheet-collections` rev 3 gives the test-job form. `implement-galaxy-workflow-test` rev 12 says how to write a sample-sheet input, and bundles the note on demand. New eval property checks `rows` and the row shapes.
-  - Rerun on local `tmp/rerun-7-10` (combined + both fixes): `~/foundry-runs/nf2g-demo-rerun-7-10-2026-10-21/`, `--from 7 --through 10`, seeded from 10-16.
+  - Rerun on local `tmp/rerun-7-10` (combined + both fixes): `~/foundry-runs/nf2g-demo-rerun-7-10-2026-10-21/`, `--from 7 --through 10`, seeded from 10-16. **Passed**: 10 loop iterations (2 repairs), 41m03s, 234 turns, $4.38.
+    - Both fixes held:
+      - the Apply Rules step matches `forward`/`reverse`/`unpaired`, and Galaxy's `rules_dsl` runs it without error (scratchpad checker);
+      - the test gives `rows` per row, single-read rows are `Collection` + `unpaired`, and `validate-tests --workflow` passes.
+    - New, not fixed:
+      - Apply Rules names reads by the `sample` column (`add_column_from_sample_sheet_index 0`), not the row identifier. The two `SAMPLE3_SE` rows both map to `SAMPLE3_SE__R1`, so one read replaces the other: 5 FastQC reports where the test expects 6. The new eval property's uniqueness check catches it.
+      - The FastQC ZIP blocker was repaired by inserting a producer, not narrowed. The next call couldn't load `author-galaxy-tool-wrapper` in a one-skill worker. It improvised a 640-byte XML wrapper in `/tmp/foundry-fastqc-archive-native.xml`, cached it as `source: local`, and pinned `toolshed.g2.bx.psu.edu/repos/foundry/fastqc_archive_native`, which doesn't exist. `gxwf validate` skips that tool state (`fetch failed`). The wrapper isn't a run artifact, so the workflow isn't installable. This is the same one-skill limit the controller solved for topology repair.
+      - Phase 6's `fields: fastq_1/fastq_2` is still in the workflow.
 
 ## Open questions
 
