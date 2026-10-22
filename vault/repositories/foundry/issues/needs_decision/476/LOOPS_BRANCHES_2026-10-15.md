@@ -261,6 +261,10 @@ John's decisions:
     - It recorded 3 cited `kind: dropped` entries: no FastQC ZIP (the text report feeds MultiQC), and no MultiQC config or methods-description ports.
     - One authoring: `restore_trimmed_sample_sheet_metadata`, a two-collection join no listed tool does.
     - The collision is still there. The call read the uniqueness rule but keyed names on `add_column_from_sample_sheet_index 0` (`sample`), using `identifier0` only for a provenance tag, so the `SAMPLE3_SE` rows still map to one `SAMPLE3_SE__R1`. Cause: the step's plan from phases 4/6 demands labels of exactly `sample__R1/R2`, which can't hold when a sample repeats. The plan and the Mold rule conflict, and nothing deterministic checks the rules against the test's rows.
+- Label-contract root cause → PR [#705](https://github.com/galaxyproject/foundry/pull/705) (`fix/data-flow-unique-element-identifiers`, `bc4b44bd`, off origin/main), John's pick, 2026-10-22.
+  - The source groups rows by `sample` and numbers reads within a sample (`summary-nextflow.json:3044`: `SAMPLE3_SE_1/_2` are two single-end runs). Phase 4 read `_1/_2` as mates and invented `sample__R1/R2`; phase 3's "preserve `sample` as the element identifier" seeded it.
+  - `nextflow-summary-to-galaxy-data-flow` rev 8: take identifiers from the source's output names, check them against the test's rows, and key on something unique per dataset. Eval property added. No live run yet.
+  - Not done: the phase-3 interface clause; the deterministic Apply Rules check (John picked galaxy-tool-util-ts as its home, then paused it).
 - Stacking hazard: main merged #695, which bumped `implement-galaxy-workflow-test` to rev 11. That collides with `feat/test-data-refs-omitted` (its own rev 11) and `fix/workflow-test-sample-sheet-rows` (rev 12). None of our branches is in main yet; each needs a rebase before its PR.
 
 ## Open questions
