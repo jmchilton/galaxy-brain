@@ -40,4 +40,4 @@ Follow-up: another session pushed `d07b03be` (drop `elements:` alias and `attrib
 to the old branch after #697 merged, so it never reached main. Cherry-picked onto `issue-675-idioms-trim`
 (`9ebbcbc2`, note revision 9): PR https://github.com/galaxyproject/foundry/pull/698.
 That session also added a line to merged #697's body describing the trim; it's only true once #698 merges.
-Stale `issue-675-nested-count-docs` (local + origin) not yet deleted (auto-mode denied); worktree now on `issue-675-idioms-trim`.
+#698 merged; worktree and local `issue-675-idioms-trim` removed. `issue-675-nested-count-docs` (local + origin) still present: deletion auto-mode denied, John to delete.

@@ -1,6 +1,8 @@
 # foundry#671 — iwc-test-data-conventions nested example uses `type:`
 
 Issue: https://github.com/galaxyproject/foundry/issues/671 (scottcain, AI-posted, `needs-triage`)
+Branch: `issue-671-nested-input-type` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-671`, commit `47e1355a` on `2f8792a6`.
+PR: https://github.com/galaxyproject/foundry/pull/699 (opened 2026-10-21; body from [pr_description.md](pr_description.md))
 
 ## Triage (2026-10-21)
 
@@ -22,3 +24,7 @@ Verified on foundry `origin/main` (after #698):
 Drop `type: paired` from the example (no inner `collection_type` either); prose: inner type is derived from the
 outer `collection_type`, an inner `collection_type` (as the IWC file has) is redundant and ignored, `type:` is
 rejected. Line 100: `element_tests:` at each level. Bump revision 4→5, recast, Dashboard. No changeset.
+
+## Done (2026-10-21)
+
+Applied as proposed; 12 casts + Dashboard regenerated. Vendored-schema check: fixed example valid, inner `collection_type` valid (ignored at runtime), `type:` rejected. All six checks green.
