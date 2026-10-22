@@ -7,7 +7,7 @@ Fixes a tool test framework race. With the tool request API (`use_legacy_api: ne
 
 ## Status
 
-`branches_implemented_needs_ci`: `2ba7122fee9` pushed to `jmchilton` 2026-10-22. It skips `__new_primary_file_*` outputs and adds a red-to-green unit test.
+`branches_implemented_needs_ci`: `31462df5561` (refactor + fix commits) pushed to `jmchilton` 2026-10-22. Hardening in progress: scope eval recommends modest expand (shared `__new_primary_file_` helper). It skips `__new_primary_file_*` outputs and adds a red-to-green unit test.
 
 No PR yet.
 
