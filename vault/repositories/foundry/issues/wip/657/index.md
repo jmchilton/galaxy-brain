@@ -2,7 +2,7 @@
 
 Issue: https://github.com/galaxyproject/foundry/issues/657 (scottcain, AI-posted, `needs-triage`)
 Branch: `issue-657-assert-semantics` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-657`, commit `e32b8775` on `47aa5c1c`.
-PR body: [pr_description.md](pr_description.md) (not opened).
+PR: https://github.com/galaxyproject/foundry/pull/701 (opened 2026-10-21; body from [pr_description.md](pr_description.md))
 
 ## Triage (2026-10-21)
 
