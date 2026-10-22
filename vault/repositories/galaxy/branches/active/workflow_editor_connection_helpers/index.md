@@ -1,13 +1,13 @@
 # workflow_editor_connection_helpers
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:workflow_editor_connection_helpers?expand=1)
+- [PR #24370](https://github.com/galaxyproject/galaxy/pull/24370)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/workflow_editor_connection_helpers)
 
 ## Status
 
-Head `9699ec45644` on `release_26.2` `7febcc1d683` (merges clean with current base): polished, awaiting John's final review (`branches_ready_for_final_review`).
+Head `9699ec45644` on `release_26.2` `7febcc1d683` (merges clean with current base): polished and opened (`ready`).
 
-No PR yet.
+[#24370](https://github.com/galaxyproject/galaxy/pull/24370) opened 2026-10-22 out of draft against `release_26.2` with the first title from `pr_titles.md` and the labels from `pr_tags.md`.
 
 Fork CI green on `9699ec45644`, both new E2E tests passing under Playwright ([run](https://github.com/jmchilton/galaxy/actions/runs/39780461081)).
 
