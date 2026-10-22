@@ -52,4 +52,9 @@ John: on-disk YAML is greenfield, so no legacy `checked:`/`blocks:` support for 
   - contract + unprivileged API: 78 passed (81 minus the three dropped cases);
   - framework: 19 passed;
   - unit `tool_util` + `app/tools`: 1779 passed. `test_metadata` needs the venv on PATH, and watcher was excluded as before.
-- **Fail loud (John, follow-up):** new tip commit `af71669652f` makes `CanonicalYamlInputSource.__init__` raise `ValueError` naming the canonical key for `checked`/`blocks`, at any depth. It mirrors the trusted-only key check. User tools can't carry these keys, because strict parameter models have rejected them since 25.0. Unit tests in `test_parsing.py` cover top level, nested in a section, both classes and a class-less control. Unit 1786 passed, framework 19 passed, and no sample tool trips the error.
+- **Fail loud, then dropped (John, follow-up):** a load-time `ValueError` for `checked`/`blocks` (`af71669652f`) was added and then removed at John's direction. Greenfield means these keys never existed for class-declaring YAML, so there's neither a check nor tests for them. The baseline's API test that the user-tool model rejects `checked:` (`test_user_checked_is_rejected`) went too, along with its fixture and the helpers only it used: `DescribeUserTool.create_raw`/`runtime_model_raw` in the baseline, and `build_raw` plus the `user_tool` fixture and doc row from the repeat/section commit on, where the structural xfail that also used them is replaced.
+- I rebuilt the history commit by commit, and each commit collects and has no stale references. The autosquash also moved the branch onto newer `release_26.1` `d808b6425b8` without conflicts; that base doesn't touch the helper files.
+- **Verified** at `19b7933d5a9`:
+  - contract + unprivileged API: 77 passed (60 contract cases);
+  - framework: passed;
+  - unit `tool_util` + `app/tools`: 1779 passed.
