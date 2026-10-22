@@ -1,10 +1,12 @@
 # issue_23980_static_restriction_default
 
-Status: `ready` — undrafted by John 2026-10-19; CI green on tip (51 checks), mergeable. Base: `release_26.2` (`f9cf361962e`). PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140). Tip `a38979e45f6f652f5c1c7d84baa35f0bb86db833`.
+Status: `attention`. mvdbeek's 2026-10-20 review is addressed in code but not yet answered on GitHub (see [review response](review_response.md)). Base: `release_26.2`. PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140). Tip `5ad2b2d10c2`, with CI pending.
 
-Preselects defaults for statically restricted workflow text inputs (#23980). The run form can also submit an allowed `""` option.
+Preselects defaults for statically restricted workflow text inputs (#23980). The run form can also submit `""` when it's the default option.
 
-[Release rebase](release_26.2_rebase.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish](polish_debrief.md) · [Codex review](codex_review.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
+Standing decision: don't extend the `str()` list-default conversion in `restrict_options`. The follow-up types text defaults as strings in gxformat2 and turns the numeric list-default test into a rejection test.
+
+[Review response](review_response.md) · [Release rebase](release_26.2_rebase.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish](polish_debrief.md) · [Codex review](codex_review.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [Test challenges](test_challenges_debrief.md) · [Tracking history](tracking_history.md)
 
 Polished 2026-10-09. On John's call, the scope widened into the client: `validateInputs` now accepts an allowed `""` select option. Red/green results are in the polish debrief. Fork CI on `db7eb057921` hasn't been assessed yet.
 

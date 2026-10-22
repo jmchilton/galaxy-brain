@@ -5,7 +5,6 @@ Snapshot: 2026-10-21 (#24349 issue_24328_data_table_mismatch_26.1 opened as draf
 ## Open Galaxy PRs — ready from our side (`ready`)
 
 - [`tool_form_job_count_baseline`](../../repositories/galaxy/branches/active/tool_form_job_count_baseline/index.md) — Baseline tests, shared batch classifier and form-input path refactors ahead of `tool_form_job_count`. [#24217](https://github.com/galaxyproject/galaxy/pull/24217).
-- [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects restricted text-input defaults and permits allowed empty options on 26.2. [#24140](https://github.com/galaxyproject/galaxy/pull/24140).
 - [`issue_24221_paged_map_over_options_26.1`](../../repositories/galaxy/branches/active/issue_24221_paged_map_over_options_26.1/index.md) — Paged collection options keep a collection's map-over entry, and it's selectable with a "(one job per …)" label (#24221). Base `release_26.1`. [#24228](https://github.com/galaxyproject/galaxy/pull/24228).
 - [`xsd_sample_sheet_collection_type_25.1`](../../repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/index.md) — Aligns tool XSD with sample-sheet collection syntax and adds core-tool lint coverage. Base `release_25.1`. [#24206](https://github.com/galaxyproject/galaxy/pull/24206).
 - [`issue_24188_subworkflow_rename_expression_json`](../../repositories/galaxy/branches/active/issue_24188_subworkflow_rename_expression_json/index.md) — `${label}` renames inside subworkflows use expression.json values, not HDA reprs (#24188). Base `release_26.1`. [#24224](https://github.com/galaxyproject/galaxy/pull/24224).
@@ -17,6 +16,7 @@ Snapshot: 2026-10-21 (#24349 issue_24328_data_table_mismatch_26.1 opened as draf
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
+- [`issue_23980_static_restriction_default`](../../repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md) — Preselects restricted text-input defaults and permits a default empty option on 26.2. [#24140](https://github.com/galaxyproject/galaxy/pull/24140).
 - [`extract_next_followups`](../../repositories/galaxy/branches/active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.
 - [`issue_24199_workflow_numeric_bounds_26.0`](../../repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/index.md) — Workflow int/float bounds reach run form + editor Default field; inverted bounds give a clear 400 and step error (#24199). Base `release_26.0`. [#24212](https://github.com/galaxyproject/galaxy/pull/24212).
 

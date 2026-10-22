@@ -21,9 +21,9 @@ A user who accepts the run form as shown runs the workflow with the first allowe
 
 - **`_is_default_option(value, default)`** in `lib/galaxy/workflow/modules.py` is one matcher for both paths. A list default selects each entry it contains, and a scalar default selects the equal option. It compares against `None`, not truthiness, so an empty-string default can be selected. An absent default arrives as `None`.
 - **`_parameter_def_list_to_options`** moves out of `get_runtime_inputs` to module level, returns `OptionDict`s and marks `selected` against the default. Suggestions still call it without a default.
-- **`restrict_options` (`restrictOnConnections`)** uses the same matcher. ***On `release_26.2`, list-default selection already works on that path; this PR additionally preselects an allowed `""` default.***
+- **`restrict_options` (`restrictOnConnections`)** uses the same matcher. ***On `release_26.2`, list-default selection already works on that path; this PR additionally preselects an allowed `""` default.*** Its `str()` conversion of list defaults comes from #23992 and isn't extended here.
 - The dead top-level `selected` keyword is gone.
-- **Client (`client/src/components/Form/utilities.js`).** The simple run form rejects `""` for required inputs (`rejectEmptyRequiredInputs`). That blocked the `Empty` option even though the workflow explicitly allows it. `validateInputs` now accepts `""` for a select that lists `""` among its options. Only the workflow run form and config-template instance forms set `rejectEmptyRequiredInputs`, and no shipped template has a `""` select option.
+- **Client (`client/src/components/Form/utilities.js`).** The simple run form rejects `""` for required inputs (`rejectEmptyRequiredInputs`). That blocked the `Empty` option even though the workflow explicitly allows it. `validateInputs` now accepts `""` for a select whose default is the `""` option. A non-default `""` option, such as a tool's placeholder, is still rejected. Only the workflow run form and config-template instance forms set `rejectEmptyRequiredInputs`, and no shipped template has a `""` select option.
 
 </details>
 
@@ -37,7 +37,7 @@ Risks are minimal. This is a two-way door: it changes which value the run form p
 
 - UI runs of workflows with a statically restricted text input and a default now submit the default instead of the first allowed value. A user who relied on the old preselection would get a different result.
 - The `restrictOnConnections` path additionally preselects `""` defaults. Its existing list-default behavior remains covered by the release branch's API test.
-- The workflow run form and config-template instance forms now let a required select submit `""` when `""` is one of its options. The server accepts that value anyway. Selects without a `""` option are rejected as before. A connected tool select with a `""` placeholder option can now be submitted as `""` from the run form, where before Run stayed disabled.
+- The workflow run form and config-template instance forms now let a required select submit `""` when `""` is its default option. The server accepts that value anyway. Selects whose `""` option isn't the default, such as a tool's placeholder or a stray comma in editor restrictions, are rejected as before.
 - `release_26.2` already includes #23992's save-time validation rejecting list defaults on single-value inputs; those validation tests are preserved.
 
 </details>
@@ -92,10 +92,10 @@ Targets `release_26.2`. Bug found while working on the now-merged 🔀 #23992 (m
 - [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? The run form preselects the author's default. If the default isn't among the allowed values, the form falls back to the first option with no warning, as on `release_26.2`. A required select with no `""` option still blocks Run with "Please provide a value for this option."
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. The API tests hard-code `value` and the per-option flags in the run payload. The `validateInputs` test checks accept and reject outcomes for selects with and without a `""` option. The E2E tests drive the form and check what was submitted.
+- [x] Are unit tests not just testing the literal implementation? Yes. The API tests hard-code `value` and the per-option flags in the run payload. The `validateInputs` test checks accept and reject outcomes for selects with a `""` default, a non-default `""` option and no `""` option. The E2E tests drive the form and check what was submitted.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
-- [x] Which existing workflows change behavior (if any)? Workflows with statically restricted text inputs that have a default. The run form now preselects and submits the default. On the `restrictOnConnections` path, `""` defaults change too; list defaults already work on the release base. A required restricted input that lists `""` among its options can now be submitted as `""`.
+- [x] Which existing workflows change behavior (if any)? Workflows with statically restricted text inputs that have a default. The run form now preselects and submits the default. On the `restrictOnConnections` path, `""` defaults change too; list defaults already work on the release base. A required restricted input whose default is `""` can now be submitted as `""`.
 - [x] Who hits this in practice and what is the evidence? Anyone who runs such a workflow from the UI and accepts the form. The evidence is a reproduction and a browser test that fails on `dev`, not a user report. The same symptom on the `restrictOnConnections` path was reported in #13242.
 - [x] Were simpler or existing approaches considered? Yes. The issue's alternatives were to make the dict input source honor a top-level `selected` (which changes a shared parser for one caller) or to pass the default as `value` (`SelectToolParameter` derives its value from per-option flags). This PR reuses the per-option `selected` mechanism `restrict_options` already uses.
 
@@ -106,9 +106,10 @@ Targets `release_26.2`. Bug found while working on the now-merged 🔀 #23992 (m
 
 - **API `test_value_restriction_static_default_selected`** covers a scalar, a list on `[text]`, `{value, label}` dicts and a `""` default. It checks `value` and every option's `selected` flag in the `style=run` payload. On `dev`'s `modules.py` it fails at `assert 'a' == 'b'`.
 - **API `test_value_restriction_selects_multiple_text_list_default`** covers a list default on the `restrictOnConnections` path. It is retained from merged #23992 on the release base; this branch's duplicate was removed during rebase.
+- **API `test_value_restriction_connected_empty_default_selected`** covers a `""` default on the `restrictOnConnections` path, connected to a tool select with a `""` option. On `release_26.2`'s `modules.py` the `""` option isn't selected.
 - **Selenium `test_execution_with_text_default_value_and_static_restrictions`** checks that the run form shows `Ex2` for `default: ex2`, then submits and checks that the output is `ex2`. On `dev`'s `modules.py` it fails at `assert 'Ex1' == 'Ex2'`.
 - **Selenium `test_execution_with_empty_text_default_among_static_restrictions`** checks that a `""` default shows `Empty`. It then switches to `A` and back to `Empty`, submits, and checks that the invocation received `""`. With `dev`'s `utilities.js`, Run stays disabled after the switch.
-- **Vitest `utilities.test.js`** checks that a required select accepts `""` only when `""` is one of its options, and that a required text input still rejects it. It fails on `dev`'s `validateInputs`.
+- **Vitest `utilities.test.js`** checks that a required select accepts `""` only when `""` is its default option, and that a required text input still rejects it. It fails on `dev`'s `validateInputs`.
 - After rebasing onto `release_26.2`: workflow unit suite **193 passed, 2 skipped**; focused `utilities.test.js` and `useFormState.test.js` **60 passed**. API and browser execution will be checked by fresh CI; earlier browser results below predate this rebase.
 - Earlier local runs:
   - both new restriction E2E tests pass, along with the existing `restrictOnConnections` one;
