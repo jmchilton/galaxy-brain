@@ -91,7 +91,6 @@ None yet.
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 - [`untyped_param_lint_declared_labels`](../../repositories/galaxy/branches/active/untyped_param_lint_declared_labels/index.md) — Editor lint and run form only treat rename `${...}` as replacement params; lint skips input-backed names (#24379). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:untyped_param_lint_declared_labels?expand=1).
 - [`issue_24377_history_item_buttons_26.2`](../../repositories/galaxy/branches/active/issue_24377_history_item_buttons_26.2/index.md) — Restores no-op history item button tooltip checks; GCollapse settle marker for the shared expand helper (#24377). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24377_history_item_buttons_26.2?expand=1).
-- [`selenium_delete_items_dataset_privacy`](../../repositories/galaxy/branches/active/selenium_delete_items_dataset_privacy/index.md) — Fixes history items vanishing after undelete/unhide under Include deleted/hidden; delete/purge and privacy E2E. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_delete_items_dataset_privacy?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
 - [`issue_24173_invocation_selection_prep`](../../repositories/galaxy/branches/active/issue_24173_invocation_selection_prep/index.md) — Fixes invocation order-index lookup and graph centering, with component and browser baselines. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24173_invocation_selection_prep?expand=1).
@@ -105,7 +104,7 @@ None yet.
 
 ## Galaxy branches — approved, opens when green (`branches_need_pr`)
 
-None yet.
+- [`selenium_delete_items_dataset_privacy`](../../repositories/galaxy/branches/active/selenium_delete_items_dataset_privacy/index.md) — Fixes history items vanishing after undelete/unhide under Include deleted/hidden; delete/purge and privacy E2E. [Approved `20bab26d44b`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_delete_items_dataset_privacy?expand=1).
 
 ## Galaxy branches — still deciding on (`branches_need_decision`)
 

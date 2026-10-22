@@ -7,14 +7,15 @@
 
 ## Status
 
-Polished, `branches_ready_for_final_review`; base `release_26.2`, head `20bab26d44b`.
+Approved, `branches_need_pr`; base `release_26.2`, head `20bab26d44b`.
 
 No PR yet.
 
-Fork CI for `20bab26d44b` was queued at hand-off.
+Fork CI for `20bab26d44b` still queued (2026-10-22); Selenium/Playwright pending. PR opens once greenish.
 
 ## Decisions
 
+- 2026-10-22 (John): approved head `20bab26d44b`; title: `[26.2] Fix history items vanishing after undelete/unhide with Include deleted/hidden on`.
 - 2026-10-22 (John): take Scope B (undelete/unhide failure handling), ship as one 26.2 PR (no 26.0 split), and commit the post-Undelete screenshot.
 
 ## Scope
