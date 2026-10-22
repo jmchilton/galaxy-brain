@@ -1,0 +1,4 @@
+- [26.1] Name the conflicting data table when it stops Galaxy from starting, and stop installs from creating it
+- [26.1] Fix data manager installs that leave Galaxy unable to start
+- [26.1] Stop data manager installs from wiping the data table registry
+- [26.1] Replace the data table startup AssertionError with an actionable ConfigurationError
