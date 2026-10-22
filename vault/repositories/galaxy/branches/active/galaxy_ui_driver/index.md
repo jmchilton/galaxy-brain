@@ -24,4 +24,6 @@ Owned by the [Playwright project](../../../../../projects/playwright/GALAXY_UI_S
 
 **Then (FAQ loop batch 4, 2026-10-22):** `3f1d565241a` (hide/unhide items; `history_panel_confirm_selected_operation` now backs `history_panel_delete_selected`), `0b9b1788274` (Copy Link) and `ffc8a469ec6` (Datasets list). gxui gains `history-hide [--unhide]`, `dataset-copy-link`, `datasets-list [--search]`. 53 commits; tip `fa8cfda6c7c`.
 
+**Extracted 2026-10-22:** `d0d92741f74` and `ea0bc576e38` → [`selenium_delete_items_dataset_privacy`](../selenium_delete_items_dataset_privacy/index.md) (hardened, re-scoped with a HistoryPanel fix). On restack, drop both by subject. That branch adds `history_panel_item_unhide`/`history_panel_include_hidden`, so reconcile `3f1d565241a` with them. `53ab472b46d` stays.
+
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.

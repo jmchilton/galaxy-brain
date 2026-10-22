@@ -5,15 +5,17 @@
 
 ## Status
 
-Implemented and hardening; base `release_26.2`.
+BLOCKED on a scope decision (see [implementation debrief](implementation_debrief.md)); re-scoped and re-hardened; base `release_26.2`, head `b2722375165`.
 
 ## Scope
 
-Missing E2E tests for 26.2, three commits:
+Missing 26.2 E2E coverage, plus the HistoryPanel bug it found (re-scoped; test-only version is [an alt](alts/original_scope.md)). Five commits:
 
-0. Refactor: `history_panel_item_delete` helper; `test_tool_form`'s rerun test uses it.
-1. `test_history_panel.py::test_delete_undelete_and_purge_items`: trash button, Selection > Delete, Selection > Delete (permanently), Include deleted, Undelete. Adds `history_panel_item_undelete`, `history_panel_delete_selected`, `history_panel_include_deleted`, `content_item.undelete_button`, `history_panel.include_deleted_button`.
-2. `test_personal_information.py::test_new_datasets_private_switch`: Preferences > Set Dataset Permissions for New Histories switch and the dataset Permissions tab. Adds `user_preferences_new_datasets_private`, `user_preferences_set_new_datasets_private`, `edit_dataset_permission_roles` and their components.
+1. **Baseline tests: Make new datasets private preference.** `test_personal_information.py::test_new_datasets_private_switch` checks that the Preferences switch persists, and that the API and the dataset Permissions tab agree on roles. Adds client test hooks (`data-description` on the switch, a Permissions tab class).
+2. **`history_panel_item_delete` helper.** `test_rerun_deleted_dataset` uses it.
+3. **Extract `getClientFilters` / `itemPassesFilters`** from `historyItemsStore` into `HistoryFilters.js`. Pure refactor.
+4. **Fix: keep history items shown after delete/undelete/unhide if they still match the filter.** Before, with Include deleted or Include hidden on, the item vanished until the filter changed. The vitest is in `HistoryView.test.js`, red before the fix.
+5. **E2E:** trash button, Selection > Delete and Delete (permanently), Include deleted, Undelete, and Unhide under Include hidden.
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commits `d0d92741f74`, `ea0bc576e38`) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). `53ab472b46d` (`edit_dataset_auto_detect_datatype`) left behind: gxui-only motivation and it conflicts with #24347's rewrite of the same lines. On restack onto a 26.2 that has this branch, drop `d0d92741f74` and `ea0bc576e38` by subject; `d0d92741f74`'s helper now lands via "Add history_panel_item_delete helper" (patches differ: hardened, and 26.2's `history_panel_muli_operation_select_hid` spelling).
 

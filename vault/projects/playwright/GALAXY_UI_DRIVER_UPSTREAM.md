@@ -191,6 +191,13 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   default to private. Adds `user_preferences_set_new_datasets_private`, `edit_dataset_permission_roles`
   and preferences/permissions selectors (the switch by `name`; a client test id would be cleaner).
   Green under Playwright and Selenium. Coverage PR candidate for 26.2.
+- `d0d92741f74` and `ea0bc576e38` were extracted into
+  [`selenium_delete_items_dataset_privacy`](../../repositories/galaxy/branches/active/selenium_delete_items_dataset_privacy/index.md)
+  (`release_26.2`, 2026-10-22). It was hardened and re-scoped to fix a HistoryPanel bug the delete
+  test found: undelete or unhide under Include deleted/hidden hid the item. It also adds client test
+  hooks for the privacy selectors and its own `history_panel_item_unhide`, `history_panel_include_hidden`
+  and `include_hidden_button`, which overlap `3f1d565241a`. `53ab472b46d` stays here. On restack, drop
+  both commits by subject and reconcile `3f1d565241a` with the new helpers. Parked on a scope decision.
 - `3f1d565241a`: coverage for `datasets_hidden`. `test_history_panel.py` hides two items from the
   Selection menu (with the confirm) and unhides one after Include hidden; neither had E2E. Hide,
   unhide, delete, undelete and purge share one confirm, so `history_panel_delete_selected`'s body
