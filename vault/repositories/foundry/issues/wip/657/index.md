@@ -22,3 +22,4 @@ Examples run against galaxy-tool-util 26.1.1 functions via `uv run --with` (all 
 Not done: Scott's note-wide "say what each family measures" framing (vague; per-family fixes cover it);
 upstream Galaxy docstring for `has_line_matching` (source of the identical schema descriptions) could
 mention the anchoring — possible small Galaxy PR.
+- Galaxy docs request queued: [gx_issues/to_file/assert_line_matching_anchoring_docs.md](../../../agents/gx_issues/to_file/assert_line_matching_anchoring_docs.md)
