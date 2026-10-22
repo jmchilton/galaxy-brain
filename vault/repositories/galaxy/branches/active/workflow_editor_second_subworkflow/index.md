@@ -7,7 +7,7 @@
 
 Head `41c4bed8e84` on `release_26.2` `e2649e52818`: mvdbeek's optional spinner-wait suggestion applied as a follow-up commit; the 3 subworkflow-insert tests pass locally on Playwright.
 
-[#24314](https://github.com/galaxyproject/galaxy/pull/24314) is out of draft and mvdbeek approved it at `41125e9268d` (`ready`); a draft reply to their inline comment awaits John.
+[#24314](https://github.com/galaxyproject/galaxy/pull/24314) is out of draft and mvdbeek approved it at `41125e9268d` (`ready`); reply to their inline comment and refreshed description posted 2026-10-21.
 
 CI was green at `41125e9268d` (54 pass, 2 skipped); CI on `41c4bed8e84` is pending.
 

@@ -6,7 +6,7 @@ Tone: approving, no design contention. One optional inline suggestion, applied i
 
 Applied, adapted: `node.loading(label=name)` raises `KeyError: '_'` because `${_}` children only resolve through the parent template, so the helper binds `node._(label=name)` first and uses `.loading` (same idiom as `node.title` / `node.destroy`). Selector is `.loading-icon`, not a new `data-description`, to keep the release-branch diff test-only. Verified `onInsertWorkflow` → `insertStep` → `getModule` sets loading before its first `await`.
 
-Draft reply (not posted):
+Reply ([posted](https://github.com/galaxyproject/galaxy/pull/24314#discussion_r4344268007) 2026-10-21; PR description updated to match):
 
 > Applied in 41c4bed8e84, thanks. `onInsertWorkflow` goes straight through `insertStep`, so the spinner is up the same tick the node is added. One adjustment: `node.loading(label=name)` raises `KeyError: '_'` because `${_}` children only resolve off the parent template, so it's `node._(label=name).loading`, the same pattern as `.title`/`.destroy`. I kept the `.loading-icon` selector so the release branch stays test-only, and dropped the trailing `UX_RENDER` sleep in `setup_subworkflow`. `test_editor_embed_two_workflows`, `test_editor_embed_workflow` and `test_conditional_subworkflow_step` pass on Playwright.
 >
