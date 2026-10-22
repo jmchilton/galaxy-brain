@@ -1,6 +1,6 @@
 # lint_input_defaults
 
-Status: pushed to `jmchilton` fork, commit `e6008f8`; no PR yet. Base: `origin/main` `9f8fb36` (rebased after #271 merged; reuses `_as_list`, table-driven `_DEFAULT_CHECKS`).
+Status: pushed to `jmchilton` fork, commit `e6008f8`; PR [#275](https://github.com/galaxyproject/gxformat2/pull/275) opened 2026-10-22. Base: `origin/main` `9f8fb36` (rebased after #271 merged; reuses `_as_list`, table-driven `_DEFAULT_CHECKS`).
 Worktree: `~/projects/worktrees/gxformat2/branch/lint_input_defaults`.
 Issue: [gxformat2#272](https://github.com/galaxyproject/gxformat2/issues/272).
 

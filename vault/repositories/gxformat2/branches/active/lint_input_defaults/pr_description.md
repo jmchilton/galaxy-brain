@@ -11,7 +11,7 @@ Scalar `default: 1` on a `string` input was already a lint error.
 
 Changes:
 
-- One helper checks input defaults for both format2 inputs and native `parameter_input` steps. Native types come from `native_input_to_format2_type`.
+- One helper checks input defaults for both format2 inputs and native `parameter_input` steps. Native types come from `native_input_to_format2_type`. A `_DEFAULT_CHECKS` table maps each type alias to its check, replacing the per-type branches.
 - A `[string]` default may be a string (Galaxy wraps it) or a list of strings. Any non-string entry is an error. Other list types are still not checked.
 - Booleans are no longer accepted as `int`/`float` defaults. That matches the TS port.
 - The message names the input and the expected type, after the old prefix: `Input default is of invalid type. Input mixed_list is [string]; its default must be a string or a list of strings.`
@@ -21,6 +21,6 @@ I lint rather than type `default` in the schema. List inputs fall back to the ca
 
 `lint_ga` sweep of IWC (132 workflows) and planemo's test workflows (21): 0 new errors.
 
-TS port: jmchilton/galaxy-tool-util-ts branch `lint_input_defaults`.
+TS port: jmchilton/galaxy-tool-util-ts#196.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
