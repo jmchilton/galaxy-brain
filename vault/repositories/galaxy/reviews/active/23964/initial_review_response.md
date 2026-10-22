@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Learned a lot in the review - thanks so much! Filtered out agent findings to just the ones I thought looked useful but feel free to merge either way. -John
 
 <details><summary>Automated Review Details</summary>
 
@@ -62,91 +62,11 @@ This [review branch](https://github.com/jmchilton/galaxy/tree/pr_23964_review_0)
 - [`7e123c379a7`](https://github.com/jmchilton/galaxy/commit/7e123c379a7) Share one custom-property parser across token tests: exports `parseCustomProperties` beside `readTokenSources`; `tokensContract.test.ts` drops its own regex and reads `tokens.css` through `readTokenSources`.
 - [`759b0d74c5c`](https://github.com/jmchilton/galaxy/commit/759b0d74c5c) Pin semantic tokens to the Bootstrap theme colors they copy: a new `tokensContract.test.ts` case compares primary, secondary, success, info, danger and foreground with the matching `$brand-*` in `blue.scss`; `resolveToken` moves into the shared module.
 - [`cd552e2b77f`](https://github.com/jmchilton/galaxy/commit/cd552e2b77f) Note --color-accent collision with brand-tokens: a `theme.css` comment, and a test that fails if galaxy-ui gains another name that brand-tokens also declares.
-- [`61c7fbc4112`](https://github.com/jmchilton/galaxy/commit/61c7fbc4112) Use @theme static so Tailwind keeps every token: the generator accepts `@theme static {`; `tokens.css` is byte-identical.
+- [`61c7fbc4112`](https://github.com/jmchilton/galaxy/commit/61c7fbc4112) Use `@theme static` so Tailwind keeps every token: the generator accepts `@theme static {`; `tokens.css` is byte-identical.
 - [`3d66e72d3a4`](https://github.com/jmchilton/galaxy/commit/3d66e72d3a4) Exact-match the galaxy-ui Vite alias: `resolve.alias` becomes an array with `/^@galaxyproject\/galaxy-ui$/`, so subpaths (including `./eslint`) resolve through the exports map.
 - [`4be950dd91f`](https://github.com/jmchilton/galaxy/commit/4be950dd91f) Document theme.css as galaxy-ui's token source: the README names `theme.css` and `build:tokens`, and prefers semantic names.
 
 </details>
-
-</details>
-
-### P2 1: Rewritten contract test no longer guards the legacy non-color tokens (implementation verified)
-
-The old `tokensContract.test.ts` pinned `--background-color`, `--font-size-small/medium/large`, `--spacing`, `--spacing-1..8` and the twelve `--field-*` tokens. The rewrite dropped that list, and `tokens.test.ts` never names a non-color token. Only the `grey` aliases are guarded. The PR promises that every existing token keeps working, and client SCSS still reads these names, but deleting one from `theme.css` and regenerating fails no test.
-
-<details><summary>Evidence</summary>
-
-Deleting `--font-size-small` and `--field-radius-large` from `theme.css` and regenerating: all 8 original `tokens.test.ts` cases still pass. With the new case added, it fails with `expected [ '--font-size-small', '--field-radius-large' ] to deeply equal []`.
-
-</details>
-
-Add a `tokens.test.ts` case that lists the legacy names and asserts each one resolves through `resolveToken`, so a deprecated alias whose target was removed also fails.
-
-Fixed on the review branch in [`d43a1822774`](https://github.com/jmchilton/galaxy/commit/d43a1822774).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 1: As a Tailwind input, `theme.css` would drop every token that no utility uses (implementation verified)
-
-`theme.css` is exported and presented as the Tailwind entry point for the RFC follow-up. A plain `@theme` block only emits the variables that generated utilities reference. The galaxy-ui components and client SCSS read `--field-*`, `--font-size-*`, `--background-color` and most palette shades through `var()`, not through utilities. If the follow-up swaps `tokens.css` for `theme.css`, those tokens disappear without any error. `@theme static` is Tailwind's option for emitting every variable.
-
-<details><summary>Evidence</summary>
-
-Compiled `theme.css` plus `@tailwind utilities` with Tailwind 4.1.18, using the candidates `bg-primary p-2 text-sm`. With `@theme {`, `--field-height-medium`, `--font-size-small`, `--background-color` and `--color-red-100` were all absent from the output. With `@theme static {`, all of them were present.
-
-</details>
-
-Switch to `@theme static {` and have `generateTokens.mjs` accept it. The generated `tokens.css` stays byte-identical.
-
-Fixed on the review branch in [`61c7fbc4112`](https://github.com/jmchilton/galaxy/commit/61c7fbc4112).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 2: Per-stylesheet Vite aliases duplicate the exports map, and `./eslint` is still swallowed (implementation verified)
-
-Because Vite aliases match by prefix, the fix adds one alias per stylesheet ahead of the package alias. That means every new subpath export has to be added in two places. `./eslint` is already exported and still resolves to `packages/ui/src/index.ts/eslint`. Nothing imports `@galaxyproject/galaxy-ui/theme.css`, so its alias has no user.
-
-<details><summary>Evidence</summary>
-
-Called `server.pluginContainer.resolveId` from `src/entry/analysis/index.ts` with the PR's config: `@galaxyproject/galaxy-ui/eslint` resolved to `./packages/ui/src/index.ts/eslint`. After the change, the package root still resolves to `src/index.ts`, `tokens.css` and `theme.css` resolve to `src/styles/`, `eslint` resolves to `eslint.mjs`, and `galaxy-api-client` and `vue` are unchanged.
-
-</details>
-
-Use array form with an exact-match regex for the package root, `{ find: /^@galaxyproject\/galaxy-ui$/, ... }`. Subpaths then resolve through the workspace symlink and the `exports` map, which is what `vitest.config.mts` already relies on.
-
-Fixed on the review branch in [`3d66e72d3a4`](https://github.com/jmchilton/galaxy/commit/3d66e72d3a4).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 3: No guard ties the semantic colors to the Bootstrap values they copy (implementation verified)
-
-`--color-primary`, `secondary`, `success`, `info`, `danger` and `foreground` equal `$brand-primary`, `secondary`, `success`, `info`, `danger` and `dark` in `client/src/style/scss/theme/blue.scss`. Most of today's UI still renders through those Bootstrap variables. If either side is retuned, the Bootstrap-styled UI and the token-styled UI drift apart and no test notices. `warning` is deliberately close but not equal (`orange-600` `#fe7e03` vs `#fe7f02`).
-
-<details><summary>Evidence</summary>
-
-Changing `$brand-info` to `#2078b3` passes the PR's tests. The new case fails with `$brand-info: expected '#2077b3' to be '#2078b3'`.
-
-</details>
-
-Add a `tokensContract.test.ts` case that parses the literal `$brand-*` hex values from `blue.scss` and compares each with the resolved semantic token, leaving out `warning`.
-
-Fixed on the review branch in [`759b0d74c5c`](https://github.com/jmchilton/galaxy/commit/759b0d74c5c).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
 
 </details>
 

@@ -4,7 +4,7 @@
 
 ## Status
 
-Initial review of `9b8df5aa76e` complete, not delivered: one P2 + six P3s, all implementation verified, fixes on fork branch `pr_23964_review_0` (7 commits), not pushed into PR. Awaiting John's pick in `initial_response_action.md`.
+Initial review of `9b8df5aa76e` delivered 2026-10-22 as approval; John trimmed the response to P3 4–6 (verified P2 + P3 1–3 left out). Fixes for all on fork branch `pr_23964_review_0`, not pushed into PR. galaxy-brain follow-up issue opened: https://github.com/jmchilton/galaxy-brain/issues/34. Awaiting merge.
 
 `9b8df5aa76e` is John's merge of `dev` into the PR, pushed to the author's branch 2026-10-22 (conflict with dev's form-field tokens resolved by moving them into galaxy-ui `theme.css` and regenerating `tokens.css`).
 
