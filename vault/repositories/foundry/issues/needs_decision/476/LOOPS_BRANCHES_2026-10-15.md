@@ -158,10 +158,15 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
   - Phase 10: the test file has no validator in the run record. `gxwf validate-tests --workflow` passes it.
 - Not caught by any gate. Each is checked against Galaxy source but not run:
   - Workflow, phase 7: the Apply Rules regex `^(?:fastq_)?([12])$` runs on the second identifier. Galaxy names those `forward`/`reverse`/`unpaired`, and a miss raises (`lib/galaxy/util/rules_dsl.py:50`). So step 1 fails on any input. This confirms the unpaired-rows worry, and is wider than it.
-  - Test, phase 10: no `rows:` for a sample sheet whose `sample` column is required. Galaxy refuses that (`model/dataset_collections/types/sample_sheet.py:23`), and its own sample-sheet tests always give `rows`.
+  - Test, phase 10: no `rows:` for a sample sheet whose `sample` column is required. Galaxy's own sample-sheet tests always give `rows`. Correction: "Galaxy refuses it" was wrong for this path. `sample_sheet.py:23` fires only when `column_definitions` is passed, and test staging (`tool_util/client/staging.py`, `create_collection_func`) sends `rows` but never `column_definitions`. Whether an input that declares columns accepts a staged sheet without them is unverified.
   - Test, phase 10: unpaired rows are bare `File`s. Galaxy writes them as `paired_or_unpaired` with one `unpaired` element (`lib/galaxy_test/workflow/split_paired_and_unpaired.gxwf-tests.yml`).
   - Test, phase 10: the expected `SAMPLE*__R1/R2` element names inherit the broken rules.
   - The `implement-galaxy-workflow-test` Mold says nothing about sample sheets or `rows`.
+  - Upstream, not fixed: phase 6 (`nextflow-summary-to-galaxy-template`) gave the sample-sheet input `fields: fastq_1/fastq_2`. Galaxy uses `fields` only for `record` collections (`tool_util_models/parameters.py`, `DataCollectionInternalJsonBase`). It's the likely source of the regex.
+- Fixes, both pushed, no PRs:
+  - `fix/advance-draft-paired-identifiers` (`3c8adb32`), on stock-version. `galaxy-apply-rules-dsl` rev 4 gives a paired level's identifiers. `advance-galaxy-draft-step` rev 10 says so in step 4 for `__APPLY_RULES__`, and bundles the note on demand. New eval property: run the rules over both variants with `rules_dsl`.
+  - `fix/workflow-test-sample-sheet-rows` (`79699865`), on omitted-state. `galaxy-sample-sheet-collections` rev 3 gives the test-job form. `implement-galaxy-workflow-test` rev 12 says how to write a sample-sheet input, and bundles the note on demand. New eval property checks `rows` and the row shapes.
+  - Rerun on local `tmp/rerun-7-10` (combined + both fixes): `~/foundry-runs/nf2g-demo-rerun-7-10-2026-10-21/`, `--from 7 --through 10`, seeded from 10-16.
 
 ## Open questions
 
