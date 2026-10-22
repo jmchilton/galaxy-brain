@@ -1,6 +1,30 @@
-import { Notice, Plugin, TFile } from "obsidian";
+import {
+	App,
+	FileSystemAdapter,
+	FuzzySuggestModal,
+	MarkdownView,
+	Menu,
+	Modal,
+	Notice,
+	Platform,
+	Plugin,
+	Setting,
+	TAbstractFile,
+	TFile,
+} from "obsidian";
+import { type AgentKind, fillTemplate, type Launcher, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
+import { githubUrl, worktreeCandidates } from "./record-links";
+import { repositoryNames } from "./repository";
+import { REPOSITORY_VIEW, RepositoryView } from "./repository-view";
+
+const LAUNCHERS_PATH = "agents/_shared/LAUNCHERS.md";
+const LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
+// Where the `code` CLI lives; GUI apps get a bare PATH.
+const CODE_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
 
 export default class GalaxyBrainPlugin extends Plugin {
+	private recordActions = new WeakMap<MarkdownView, HTMLElement[]>();
+
 	async onload() {
 		this.registerEvent(
 			this.app.workspace.on("file-menu", (menu, file) => {
@@ -8,6 +32,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 				menu.addItem((item) =>
 					item.setTitle("Copy contents").setIcon("copy").onClick(() => this.copyContents(file)),
 				);
+				void this.addLaunchItems(menu, file);
 			}),
 		);
 
@@ -21,6 +46,33 @@ export default class GalaxyBrainPlugin extends Plugin {
 				return true;
 			},
 		});
+
+		this.registerView(REPOSITORY_VIEW, (leaf) => new RepositoryView(leaf, this));
+		this.addRibbonIcon("library", "Open repository records", () => void this.pickRepository());
+		this.addCommand({
+			id: "open-repository",
+			name: "Open repository records",
+			callback: () => void this.pickRepository(),
+		});
+
+		if (!Platform.isDesktopApp) return;
+
+		this.addCommand({
+			id: "launch-agent",
+			name: "Launch agent for this record",
+			checkCallback: (checking) => {
+				const file = this.app.workspace.getActiveFile();
+				const record = file && recordFromPath(file.path);
+				if (!record) return false;
+				if (!checking) void this.pickLauncher(record);
+				return true;
+			},
+		});
+
+		const refresh = () => this.refreshRecordActions();
+		this.registerEvent(this.app.workspace.on("file-open", refresh));
+		this.registerEvent(this.app.workspace.on("layout-change", refresh));
+		this.app.workspace.onLayoutReady(refresh);
 	}
 
 	async copyContents(file: TFile) {
@@ -30,5 +82,235 @@ export default class GalaxyBrainPlugin extends Plugin {
 		} catch (error) {
 			new Notice(`Could not copy ${file.name}: ${error}`);
 		}
+	}
+
+	/** Code, GitHub and agent icons in the header of notes inside a repository record. */
+	private refreshRecordActions() {
+		for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
+			const view = leaf.view;
+			if (!(view instanceof MarkdownView)) continue;
+			const record = view.file && recordFromPath(view.file.path);
+			const existing = this.recordActions.get(view);
+			if (record && !existing) {
+				const withRecord = (act: (record: RecordRef) => unknown) => () => {
+					const current = view.file && recordFromPath(view.file.path);
+					if (current) void act(current);
+				};
+				// addAction prepends, so the bot ends up leftmost, matching the repository view.
+				const actions = [
+					view.addAction("code", "Open with Code", withRecord((r) => this.openRecordInCode(r))),
+					view.addAction("github", "Open on GitHub", withRecord((r) => this.openRecordOnGithub(r))),
+					view.addAction("bot", "Launch agent", withRecord((r) => this.pickLauncher(r))),
+				];
+				this.recordActions.set(view, actions);
+				this.register(() => actions.forEach((action) => action.remove()));
+			} else if (!record && existing) {
+				existing.forEach((action) => action.remove());
+				this.recordActions.delete(view);
+			}
+		}
+	}
+
+	private async indexBody(record: RecordRef): Promise<string> {
+		const index = this.app.vault.getFileByPath(`${record.dir}/index.md`);
+		return index ? this.app.vault.cachedRead(index) : "";
+	}
+
+	/** The record's worktree, if one exists on disk. */
+	worktreeFor(record: RecordRef, body: string): string | null {
+		const { existsSync } = require("fs") as typeof import("fs");
+		const { homedir } = require("os") as typeof import("os");
+		return worktreeCandidates(record, body, homedir()).find((path) => existsSync(path)) ?? null;
+	}
+
+	openInCode(path: string) {
+		const { execFile } = require("child_process") as typeof import("child_process");
+		const PATH = [...CODE_BIN_DIRS, process.env.PATH].join(":");
+		execFile("code", [path], { env: { ...process.env, PATH } }, (error) => {
+			if (error) new Notice(`Could not run the VS Code \`code\` CLI: ${error.message}`, 10_000);
+		});
+	}
+
+	private async openRecordInCode(record: RecordRef) {
+		const worktree = this.worktreeFor(record, await this.indexBody(record));
+		if (worktree) this.openInCode(worktree);
+		else new Notice(`No worktree on disk for ${record.name}`);
+	}
+
+	private async openRecordOnGithub(record: RecordRef) {
+		window.open(githubUrl(record, await this.indexBody(record)));
+	}
+
+	async loadLaunchers(): Promise<Launcher[]> {
+		const config = this.app.vault.getAbstractFileByPath(LAUNCHERS_PATH);
+		if (!(config instanceof TFile)) return [];
+		return parseLaunchers(await this.app.vault.cachedRead(config));
+	}
+
+	private async launchersFor(record: RecordRef): Promise<Launcher[]> {
+		return launchersFor(await this.loadLaunchers(), record);
+	}
+
+	private async openRepository(repo: string) {
+		const leaf = this.app.workspace.getLeaf("tab");
+		await leaf.setViewState({ type: REPOSITORY_VIEW, state: { repo }, active: true });
+	}
+
+	/** Opens the current record's repository, or asks which one. */
+	private async pickRepository() {
+		const file = this.app.workspace.getActiveFile();
+		const current = file && recordFromPath(file.path);
+		if (current) return this.openRepository(current.repo);
+		const files = this.app.vault.getMarkdownFiles().map((f) => ({ path: f.path, mtime: f.stat.mtime }));
+		new ChoiceSuggest(this.app, repositoryNames(files), "Open repository…", (repo) => void this.openRepository(repo)).open();
+	}
+
+	private async addLaunchItems(menu: Menu, file: TAbstractFile) {
+		if (!Platform.isDesktopApp) return;
+		const record = recordFromPath(file.path);
+		if (!record) return;
+		for (const launcher of await this.launchersFor(record)) {
+			menu.addItem((item) =>
+				item.setTitle(`Launch: ${launcher.label}`).setIcon("bot").onClick(() => this.confirmLaunch(launcher, record)),
+			);
+		}
+	}
+
+	async pickLauncher(record: RecordRef) {
+		const launchers = await this.launchersFor(record);
+		if (launchers.length === 0) {
+			new Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in ${LAUNCHERS_PATH}`);
+			return;
+		}
+		new LauncherSuggest(this.app, launchers, (launcher) => this.confirmLaunch(launcher, record)).open();
+	}
+
+	private confirmLaunch(launcher: Launcher, record: RecordRef) {
+		const vaultRoot = this.vaultRoot();
+		if (!vaultRoot) return;
+		new LaunchModal(this.app, launcher, {
+			name: fillTemplate(launcher.name, record, vaultRoot),
+			prompt: fillTemplate(launcher.prompt, record, vaultRoot),
+			launch: (kind, name, prompt) => this.launch(vaultRoot, launcher, kind, name, prompt),
+		}).open();
+	}
+
+	private vaultRoot(): string | null {
+		const adapter = this.app.vault.adapter;
+		if (adapter instanceof FileSystemAdapter) return adapter.getBasePath();
+		new Notice("Launching agents needs the desktop app");
+		return null;
+	}
+
+	private launch(vaultRoot: string, launcher: Launcher, kind: AgentKind, name: string, prompt: string) {
+		// Required lazily: child_process doesn't exist on mobile.
+		const { execFile } = require("child_process") as typeof import("child_process");
+		const started = new Notice(`Launching ${kind} in ${launcher.agentDir}…`, 0);
+		execFile(
+			`${vaultRoot}/${LAUNCH_SCRIPT}`,
+			[launcher.agentDir, kind, name, prompt],
+			{ timeout: 180_000 },
+			(error, stdout, stderr) => {
+				started.hide();
+				if (error) new Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15_000);
+				else new Notice(stdout.trim(), 10_000);
+			},
+		);
+	}
+}
+
+class LauncherSuggest extends FuzzySuggestModal<Launcher> {
+	constructor(
+		app: App,
+		private launchers: Launcher[],
+		private choose: (launcher: Launcher) => void,
+	) {
+		super(app);
+		this.setPlaceholder("Launch agent…");
+	}
+
+	getItems() {
+		return this.launchers;
+	}
+
+	getItemText(launcher: Launcher) {
+		return launcher.label;
+	}
+
+	onChooseItem(launcher: Launcher) {
+		this.choose(launcher);
+	}
+}
+
+class ChoiceSuggest extends FuzzySuggestModal<string> {
+	constructor(
+		app: App,
+		private choices: string[],
+		placeholder: string,
+		private choose: (choice: string) => void,
+	) {
+		super(app);
+		this.setPlaceholder(placeholder);
+	}
+
+	getItems() {
+		return this.choices;
+	}
+
+	getItemText(choice: string) {
+		return choice;
+	}
+
+	onChooseItem(choice: string) {
+		this.choose(choice);
+	}
+}
+
+interface LaunchDetails {
+	name: string;
+	prompt: string;
+	launch: (kind: AgentKind, name: string, prompt: string) => void;
+}
+
+/** Confirm dialog: editable name and prompt, Claude or Codex. */
+class LaunchModal extends Modal {
+	constructor(
+		app: App,
+		private launcher: Launcher,
+		private details: LaunchDetails,
+	) {
+		super(app);
+	}
+
+	onOpen() {
+		const { launcher } = this;
+		let { name, prompt } = this.details;
+		this.setTitle(`${launcher.label} in ${launcher.agentDir}`);
+		new Setting(this.contentEl).setName("Agent name").addText((text) =>
+			text.setValue(name).onChange((value) => (name = value)),
+		);
+		new Setting(this.contentEl)
+			.setName("Prompt")
+			.addTextArea((area) => {
+				area.setValue(prompt).onChange((value) => (prompt = value));
+				area.inputEl.rows = 6;
+			})
+			.settingEl.addClass("galaxy-brain-launch-prompt");
+		const buttons = new Setting(this.contentEl);
+		const order: AgentKind[] = launcher.agent === "codex" ? ["codex", "claude"] : ["claude", "codex"];
+		for (const kind of order) {
+			buttons.addButton((button) => {
+				button.setButtonText(kind === "claude" ? "Launch Claude" : "Launch Codex").onClick(() => {
+					this.close();
+					this.details.launch(kind, name, prompt);
+				});
+				if (kind === launcher.agent) button.setCta();
+			});
+		}
+		buttons.addButton((button) => button.setButtonText("Cancel").onClick(() => this.close()));
+	}
+
+	onClose() {
+		this.contentEl.empty();
 	}
 }

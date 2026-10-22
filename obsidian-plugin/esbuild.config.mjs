@@ -18,7 +18,7 @@ const copyStatic = {
 const context = await esbuild.context({
 	entryPoints: ["src/main.ts"],
 	bundle: true,
-	external: ["obsidian", "electron", "@codemirror/*", "@lezer/*"],
+	external: ["obsidian", "electron", "child_process", "fs", "os", "@codemirror/*", "@lezer/*"],
 	format: "cjs",
 	target: "es2020",
 	sourcemap: production ? false : "inline",

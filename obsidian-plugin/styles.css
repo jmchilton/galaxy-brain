@@ -136,3 +136,46 @@
 .galaxy-brain-github-preview .token.punctuation {
 	color: var(--code-punctuation);
 }
+
+/* Launch dialog: full-width prompt editor. */
+.galaxy-brain-launch-prompt {
+	flex-direction: column;
+	align-items: stretch;
+	gap: 8px;
+}
+
+.galaxy-brain-launch-prompt .setting-item-control,
+.galaxy-brain-launch-prompt textarea {
+	width: 100%;
+}
+
+/* Repository records view. */
+.galaxy-brain-repository .gbr-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.galaxy-brain-repository .gbr-group summary {
+	cursor: pointer;
+	font-weight: 600;
+	text-transform: capitalize;
+	color: var(--text-muted);
+}
+
+.galaxy-brain-repository .gbr-record {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.galaxy-brain-repository .gbr-name,
+.galaxy-brain-repository .gbr-time {
+	color: var(--text-faint);
+	font-size: var(--font-smaller);
+}
+
+.galaxy-brain-repository .gbr-actions {
+	margin-left: auto;
+	display: flex;
+}

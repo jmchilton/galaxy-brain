@@ -18,7 +18,7 @@ Obsidian vault + validation tooling for AI-generated Galaxy development notes. N
 - `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make index`, `make check-index`, `make site-dev`, `make site-build`, `make site-test`
 - `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
 - `site/` - Astro static site rendering vault notes for GitHub Pages
-- `obsidian-plugin/` - our own Obsidian plugin (TS + esbuild); builds into `vault/.obsidian/plugins/galaxy-brain/`. Pure logic in plain modules with vitest tests; `make plugin-build`, `make plugin-dev` (watch), `make plugin-test`
+- `obsidian-plugin/` - our own Obsidian plugin (TS + esbuild); builds into `vault/.obsidian/plugins/galaxy-brain/`. Pure logic in plain modules with vitest tests; `make plugin-build`, `make plugin-dev` (watch), `make plugin-test`. Repository records view and agent launch buttons (`vault/agents/_shared/LAUNCHERS.md`). Shares record path/status helpers with the site via the dependency-free `site/src/lib/records.ts` (keep it free of Node imports - the plugin also loads on mobile)
 
 ## Commands
 
