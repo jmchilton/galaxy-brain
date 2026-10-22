@@ -20,6 +20,16 @@ Options:
 - **Accept A+B**, then re-harden. All the current reviews and tests stand for the code they cover.
 - **Ship as is** and take A/B as a follow-up.
 
+### Remaining validation
+
+- **If you accept A+B:**
+  - add the subworkflow-label E2E test and run it on both backends;
+  - re-run the connection tests the selector change touches;
+  - run a round 3 of hardening, archiving the current debriefs to `earlier_drafts/2/`;
+  - restack `galaxy_ui_driver`;
+  - CI.
+- **If you ship as is:** move the branch to `branches_implemented_needs_ci`, restack `galaxy_ui_driver`, then CI.
+
 My lean: B is trivial. A is real but confined to subworkflow steps whose labels need escaping, so it's fine as a follow-up unless you want the helpers bulletproof before gxui leans on them.
 
 ## Final branch

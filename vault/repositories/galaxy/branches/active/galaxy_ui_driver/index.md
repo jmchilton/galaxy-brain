@@ -17,7 +17,7 @@ Owned by the [Playwright project](../../../../../projects/playwright/GALAXY_UI_S
 - **Since (FAQ loop):** `755d9376924` tests a dataset's Datatypes-tab change; gxui gains `dataset-change-datatype` and `dataset-change-dbkey`. Then `46bac522e23` (paste upload Spaces→Tabs), `ec8601a9914` (dataset Convert) and `3e37b70c4e8` (`edit_dataset_dbkey` docstring); gxui gains `dataset-convert` and `upload-paste --dbkey/--space-to-tab`. 46 commits; tip `7c448d5a4ee`.
 
 **Pending fold-in (2026-10-21): `jmchilton/galaxy_ui_driver_editor_refs`** (`df78f64ec31`, worktree `branch/galaxy_ui_driver_editor_refs`). It is this stack at `fddc4bda08a` plus four commits, built aside while the FAQ loop was mid-commit here. The four commits:
-- `77b5ea69434` "Let workflow editor helpers take a step number", directly on `workflow_editor_connection_helpers`. Fold it into that branch during its polish.
+- `77b5ea69434` "Let workflow editor helpers take a step number", directly on `workflow_editor_connection_helpers`. **Superseded (2026-10-22): drop it.** That branch's re-scope (now `04ce1a3f088`, history rewritten, so `8380a8c1026` is gone from the remote) has the same `EditorTerminalReference`/`workflow_editor_node` API. Keep `df78f64ec31`. The restack onto `04ce1a3f088` waits for John's scope decision on that branch.
 - `ecb87b41894` "Search tool_open by a Tool Shed tool's short id" and `c5e788cad37` "Document NavigatesGalaxy methods gxui verbs back onto", below gxui.
 - `df78f64ec31`, a `fixup!` of gxui: editor verbs pass step numbers (the mouse-drag fallback is gone), selection uses `workflow_editor_ensure_tool_form_open`, `workflow-add-tool` calls its method, and a new REGISTRY metadata test.
 
