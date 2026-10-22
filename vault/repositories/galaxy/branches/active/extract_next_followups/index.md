@@ -15,7 +15,7 @@ Rebased onto `release_26.2` and pushed `d918bcf0552` 2026-10-19 with a fix for t
 
 ## Decisions and references
 
-- Baseline prefix (first 7 commits) cut as [`extract_next_followups_baseline`](../extract_next_followups_baseline/index.md) 2026-10-22, awaiting John's PR-first decision.
+- Baseline prefix (first 7 commits) cut as [`extract_next_followups_baseline`](../extract_next_followups_baseline/index.md) 2026-10-22; draft [#24368](https://github.com/galaxyproject/galaxy/pull/24368) lands first.
 - Original scope kept as `extract_next_followups_alt_original_scope` ([alt](alts/original_scope.md)).
 - John: H3 accept quotes, M7 lock star (C+B), plain-history copies collapse server-side, `rebase -i` approved for this branch's history rewrites; 2026-10-17: retarget to `release_26.2`, E5 rename/drop `report_title`, do E6+E7, drop `test_extract_button_visible_in_notebook_editor`, E8 explain only, then do E8 (local copy in synthesized boundary rows).
 - PR: [description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
