@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_download_using_command_line.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `0b9b1788274` (`faq_server.sh main`). Copy Link on a
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `1c8ea1d9a31` (`faq_server.sh main`). Copy Link on a
 pasted txt, then the FAQ's wget/curl lines from a terminal against a new user's private dataset, a
 public one, and a list collection. Embedded in `introduction/galaxy-intro-rdm`.
 
@@ -23,6 +23,6 @@ public one, and a list collection. Embedded in `introduction/galaxy-intro-rdm`.
 - The `/download` redirect drops a `?key=` query key by design (`42dfcdd5f54`: keys in a redirect
   Location are best avoided). Scripts and docs that append `?key=` to a copied link now get 403 on
   private data. Raised with John; not filed.
-- Copy Link is covered by `test_history_dataset_copy_link` (`0b9b1788274`). The redirect and
+- Copy Link is covered by `test_history_dataset_copy_link` (`1c8ea1d9a31`). The redirect and
   header auth are covered by the direct-download integration tests (`b86d62166c1`).
 - gxui: `dataset-copy-link HID` (tip `fa8cfda6c7c`). The terminal steps are outside gxui.

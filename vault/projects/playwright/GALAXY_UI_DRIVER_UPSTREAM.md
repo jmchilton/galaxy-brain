@@ -171,46 +171,62 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   the link is still picked by full id. Follows the merged `tool_open_tool_shed_ids`. Touches every
   test that opens a tool; `test_tool_form.py` spot check green under Playwright. Ask John before
   upstreaming: it only helps older servers.
-- `10978cbf4af` (same fold-in): one-line docstrings on the `NavigatesGalaxy` methods gxui verbs back
+- `2e597420f5f` (same fold-in): one-line docstrings on the `NavigatesGalaxy` methods gxui verbs back
   onto (incl. `edit_dataset_dbkey`, `workflow_editor_remove_node`, `workflow_editor_destroy_connection`,
   `make_history_private`). gxui's REGISTRY test requires them. Goes with the gxui PR.
   When `galaxy_ui_driver_editor_refs` merges, don't drop this by subject: it differs from their
   `c5e788cad37` by those four docstrings. Keep them or the REGISTRY test fails on four verbs.
-- `d0d92741f74`: coverage for `datasets_deleting`. `test_history_panel.py` deletes an item by its
+- `cac01c0884a`: coverage for `datasets_deleting`. `test_history_panel.py` deletes an item by its
   trash button, deletes and purges from the Selection menu (with the confirm), then undeletes after
   Include deleted; none had E2E. Adds `history_panel_item_delete`/`_undelete`,
   `history_panel_delete_selected(purge)`, `history_panel_include_deleted`,
   `content_item.undelete_button`, `history_panel.include_deleted_button`. Green under Playwright and
   Selenium. Standalone.
-- `53ab472b46d`: `edit_dataset_auto_detect_datatype`, lifted from
+- `961cab38f9f`: `edit_dataset_auto_detect_datatype`, lifted from
   `test_history_dataset_auto_detect_datatype` (`datasets_detect_datatype`) for gxui. Small refactor;
   goes with the gxui PR or a dataset-helpers PR.
-- `ea0bc576e38`: coverage for `datasets_data_privacy_features`. `test_personal_information.py`
+- `e4bca1128c1`: coverage for `datasets_data_privacy_features`. `test_personal_information.py`
   registers a user, turns Make new datasets private off and on, and checks a new history's dataset's
   access roles through the API and the Permissions tab. Neither page was tested, and 26.2 flips the
   default to private. Adds `user_preferences_set_new_datasets_private`, `edit_dataset_permission_roles`
   and preferences/permissions selectors (the switch by `name`; a client test id would be cleaner).
   Green under Playwright and Selenium. Coverage PR candidate for 26.2.
-- `d0d92741f74` and `ea0bc576e38` were extracted into
+- `cac01c0884a` and `e4bca1128c1` were extracted into
   [`selenium_delete_items_dataset_privacy`](../../repositories/galaxy/branches/active/selenium_delete_items_dataset_privacy/index.md)
   (`release_26.2`, 2026-10-22). It was hardened and re-scoped to fix a HistoryPanel bug the delete
   test found: undelete or unhide under Include deleted/hidden hid the item. It also adds client test
   hooks for the privacy selectors and its own `history_panel_item_unhide`, `history_panel_include_hidden`
-  and `include_hidden_button`, which overlap `3f1d565241a`. `53ab472b46d` stays here. On restack, drop
-  both commits by subject and reconcile `3f1d565241a` with the new helpers. Parked on a scope decision.
-- `3f1d565241a`: coverage for `datasets_hidden`. `test_history_panel.py` hides two items from the
+  and `include_hidden_button`, which overlap `073889a2872`. `961cab38f9f` stays here. On restack, drop
+  both commits by subject and reconcile `073889a2872` with the new helpers. Parked on a scope decision.
+- `073889a2872`: coverage for `datasets_hidden`. `test_history_panel.py` hides two items from the
   Selection menu (with the confirm) and unhides one after Include hidden; neither had E2E. Hide,
   unhide, delete, undelete and purge share one confirm, so `history_panel_delete_selected`'s body
   becomes `history_panel_confirm_selected_operation(option)`. Adds `history_panel_hide_selected(unhide)`,
-  `history_panel_include_hidden`, `history_panel.include_hidden_button`. Needs `d0d92741f74`; ship
+  `history_panel_include_hidden`, `history_panel.include_hidden_button`. Needs `cac01c0884a`; ship
   them together. Green under Playwright and Selenium.
-- `0b9b1788274`: coverage for `datasets_download_datasets` and `datasets_download_using_command_line`.
+- `1c8ea1d9a31`: coverage for `datasets_download_datasets` and `datasets_download_using_command_line`.
   `test_dataset.py` checks the Download href and the Copy Link clipboard are the same
   `/api/datasets/{id}/download` link. Adds `content_item.copy_link_button` (by `aria-label`; a client
   test id would be cleaner) and `history_panel_item_copy_link`. Standalone.
-- `ffc8a469ec6`: coverage for `datasets_finding_datasets`. New `test_datasets_list.py`: a fresh user's
+- `54bddee5432`: coverage for `datasets_finding_datasets`. New `test_datasets_list.py`: a fresh user's
   datasets from two histories, latest first, then the name search. Adds the `datasets` component,
   `navigate_to_datasets_list`, `datasets_list_rows`, `datasets_list_search`. Standalone.
+- `32e12d33af7`: coverage for `datasets_icons`. `test_history_related_filter` checks a second Show
+  Related Items click clears the filter. Adds `history_panel_item_show_related` and
+  `history_panel_filter_text`. Standalone.
+- `162dfdb49b4`: helper bug (`datasets_import_via_link`). `start_for_uploaded_hids` counted one hid
+  per file for a collection upload. The bug predates the branch (upstream's private
+  `_start_and_wait_for_uploaded_hids`), so this needs 394738015d8's rename, or a rebased copy.
+  `test_upload_pair` asserts `[1]`.
+- `14d970513f5`: helper bug (`datasets_import_from_remote_files`). `stage_remote_file(s)` searches for
+  each file, so paged sources work. Adds `upload_activity.remote_files_search`. Standalone.
+- `1d227e6fc4c`: **client bug fix**, also in 26.1. Library "Add to History > as a Collection" ignored
+  Select history. `useCollectionCreation` now takes the creator's `historyId`, and the dialog makes
+  the picked history current. Red-to-green E2E plus a vitest. Standalone. A candidate for a
+  release-branch PR.
+- `913dfd7dfd6`: coverage for `datasets_import_from_data_library`. Adds
+  `test_add_datasets_to_selected_history`, the `libraries_folder_*` helpers, and the
+  `import_to_history_select` and `selected_dataset_row` nav entries. Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

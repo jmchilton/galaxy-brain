@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_download_datasets.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `0b9b1788274` (`faq_server.sh main`). A pasted txt:
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `1c8ea1d9a31` (`faq_server.sh main`). A pasted txt:
 expand it, the Download (save) icon. Embedded in `introduction/galaxy-intro-rdm`.
 
 ## GTN
@@ -13,7 +13,7 @@ expand it, the Download (save) icon. Embedded in `introduction/galaxy-intro-rdm`
   `/display` (26.1 linked `/display` directly). Browsers follow it; see
   `datasets_download_using_command_line.md` for what it breaks.
 - Covered: `_assert_downloadable` (button present) and `test_dataset_metadata_download` (clicks it).
-  Added `test_history_dataset_copy_link` (`0b9b1788274`): the Download href and Copy Link URL are the
+  Added `test_history_dataset_copy_link` (`1c8ea1d9a31`): the Download href and Copy Link URL are the
   same download link. No test checks the downloaded file; Playwright and Selenium save downloads
   differently, so a shared helper would be a bigger job.
 - `content_item.info_button` is `.params-btn`; the button is now `.info-btn`. Unnoticed because

@@ -319,7 +319,7 @@
   fix: Say **Auto-detect** on the **Attributes** tab; for a wrong datatype, point to the **Datatypes** tab.
 
 - label: upload-tool-panel-button
-  faqs: [faqs/galaxy/datasets_create_new_file.md]
+  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_from_remote_files.md]
   target: main
   summary: There is no **Upload Data** button at the top of the tool panel; upload is the Activity Bar's **Upload**.
   fix: Say "Click {% icon galaxy-upload %} **Upload** in the Activity Bar".
@@ -415,3 +415,14 @@
   faqs: [faqs/galaxy/datasets_import_via_link.md]
   target: version
   summary: There is no **Reset** button in 26.2; Paste Links/URLs opens empty each time, so the `reset_form` step (used by galaxy-interface/collections) no longer applies.
+
+- label: remote-files-choose-remote
+  faqs: [faqs/galaxy/datasets_import_from_remote_files.md]
+  target: version
+  summary: 26.1's **Choose from repository** button is 26.2's Import Data **Choose Remote Files**; files are ticked then **Add Selected Files (n)** and **Start**, with no **OK** or **Close**.
+  fix: 'Upload > **Choose Remote Files** > pick the source (or search file sources) > open folders (the `location` path) > search files and folders, tick > **Add Selected Files** > **Start**. Also fix "in you history", "click on **OK**" and the intro "made available from a *Choose from repositories*".'
+
+- label: library-create-list-label
+  faqs: [faqs/galaxy/datasets_import_from_data_library.md]
+  target: main
+  summary: Step 8's **Create collection** is the collection builder's **Create list** button (26.1 too).

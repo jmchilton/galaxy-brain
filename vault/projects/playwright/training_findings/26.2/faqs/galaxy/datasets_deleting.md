@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_deleting.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `d0d92741f74` (`faq_server.sh main`). Four pasted
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `cac01c0884a` (`faq_server.sh main`). Four pasted
 datasets: hid 1 by its trash button (no confirm); 2 and 3 by Select Items > **n of N selected** >
 **Delete** ("Really delete 2 content items?" > **Delete**); 4 by **Delete (permanently)** ("Purge
 Selected Content?" > **Purge**). The API reports 1-3 deleted and 4 purged; hid 1 then undeletes.
@@ -18,7 +18,7 @@ Embedded in 4 tutorials.
 ## Galaxy
 
 - Gap: no E2E deleted a dataset from the Selection menu, purged one, or undeleted one. Added
-  `test_delete_undelete_and_purge_items` (`d0d92741f74`) with `history_panel_item_delete`,
+  `test_delete_undelete_and_purge_items` (`cac01c0884a`) with `history_panel_item_delete`,
   `history_panel_item_undelete`, `history_panel_delete_selected(purge=False)` (picks the option and
   confirms) and `history_panel_include_deleted`, plus `content_item.undelete_button` and
   `history_panel.include_deleted_button`. Green under Playwright and Selenium.

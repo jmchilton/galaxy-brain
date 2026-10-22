@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_import_via_link.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `72965c49ec8` (`faq_server.sh main`). Ran it three ways:
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `162dfdb49b4` (`faq_server.sh main`). Ran it three ways:
 - one link with Type `interval` and Reference `mm9`;
 - two links as a List;
 - two links as a List of Pairs.
@@ -45,7 +45,7 @@ tabs, Paste/Fetch data, Build, Reset and Close.
   - List and List of Pairs from links (`test_upload_activity_collection`).
 - `test_upload_activity_collection` has its own navigation and collection-switch helpers, which
   duplicate `upload_context().to_list()`/`to_paired_list()`. Not refactored.
-- Helper bug, fixed in `72965c49ec8`: `start_for_uploaded_hids` counted one hid per staged file. A
+- Helper bug, fixed in `162dfdb49b4`: `start_for_uploaded_hids` counted one hid per staged file. A
   collection upload adds the collection, then its elements as hidden datasets, so
   `start_and_wait_for_uploaded_hids` waited on an element. The bug predates the branch (upstream's
   private `_start_and_wait_for_uploaded_hids`). Red to green via `test_upload_pair`, which now

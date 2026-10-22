@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_hidden.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `3f1d565241a` (`faq_server.sh main`). Three pasted
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `073889a2872` (`faq_server.sh main`). Three pasted
 datasets: Select Items, tick 1 and 2, **2 of 3 selected** > **Hide** ("Really hide 2 content
 items?" > **Hide**); then Include hidden and Unhide 1. Embedded in `galaxy-interface/history`.
 
@@ -12,7 +12,7 @@ items?" > **Hide**); then Include hidden and Unhide 1. Embedded in `galaxy-inter
 
 ## Galaxy
 
-- Gap: nothing tested Hide or Unhide. Added `test_hide_and_unhide_items` (`3f1d565241a`) with
+- Gap: nothing tested Hide or Unhide. Added `test_hide_and_unhide_items` (`073889a2872`) with
   `history_panel_hide_selected(unhide=False)`, `history_panel_include_hidden` and
   `history_panel.include_hidden_button`. The pick-and-confirm step shared with delete is now
   `history_panel_confirm_selected_operation`. Green under Playwright and Selenium, as is the delete

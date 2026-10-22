@@ -17,6 +17,8 @@ set -euo pipefail
 GALAXY_ROOT=${GALAXY_ROOT:-$HOME/projects/worktrees/galaxy/branch/galaxy_ui_driver}
 FAQ_HOME=${FAQ_HOME:-$HOME/.cache/gxui-faq}
 ADMIN_EMAIL=${FAQ_ADMIN_EMAIL:-jmchilton@gmail.com}
+# Replays that need an admin (e.g. to set up a data library) register or log in as this one.
+REPLAY_ADMIN_EMAIL=faq-admin@example.org
 
 command=${1:-status}
 profile=${2:-main}
@@ -50,14 +52,26 @@ galaxy:
   data_dir: $state/data
   conda_auto_init: false
   enable_celery_tasks: true
-  admin_users: $ADMIN_EMAIL
+  admin_users: $ADMIN_EMAIL,$REPLAY_ADMIN_EMAIL
   galaxy_infrastructure_url: $url
+  # Public servers offer remote file sources (Upload > Choose Remote Files) and GTN data libraries;
+  # Galaxy's test-data stands in for both.
+  file_sources_config_file: $state/file_sources_conf.yml
+  library_import_dir: $GALAXY_ROOT/test-data
   user_activation_on: $activation
   smtp_server: mock_emails_to_path://$state/email.json
   smtp_ssl: false
   email_from: galaxy-faq@example.org
   # Turns on dataset error reports; they land in the captured mail too.
   error_email_to: galaxy-errors@example.org
+EOF
+    cat > "$state/file_sources_conf.yml" <<EOF
+- type: posix
+  id: test-data
+  label: Galaxy test data
+  doc: Galaxy's test-data directory
+  root: $GALAXY_ROOT/test-data
+  writable: false
 EOF
 }
 

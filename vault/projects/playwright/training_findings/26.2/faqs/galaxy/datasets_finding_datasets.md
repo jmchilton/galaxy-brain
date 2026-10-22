@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_finding_datasets.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `ffc8a469ec6` (`faq_server.sh main`). A new user with a
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `54bddee5432` (`faq_server.sh main`). A new user with a
 dataset in each of two histories; the Datasets list and its search. No tutorial embeds it.
 
 ## GTN
@@ -13,7 +13,7 @@ dataset in each of two histories; the Datasets list and its search. No tutorial 
 ## Galaxy
 
 - Gap: nothing opened the Datasets list. Added `test_datasets_list_spans_histories`
-  (`ffc8a469ec6`, a fresh user): rows across two histories, latest first, then search. Adds the
+  (`54bddee5432`, a fresh user): rows across two histories, latest first, then search. Adds the
   `datasets` component, `navigate_to_datasets_list`, `datasets_list_rows` and
   `datasets_list_search`. Green under Playwright and Selenium.
 - The History cell's text includes its link's screen-reader tooltip ("Switch to history and view

@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_data_privacy_features.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `ea0bc576e38` (`faq_server.sh main`). A new user's
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `e4bca1128c1` (`faq_server.sh main`). A new user's
 pasted dataset; its Permissions tab; Make History Private; the new-histories switch off and on. No
 tutorial embeds it.
 
@@ -28,7 +28,7 @@ tutorial embeds it.
 - 26.2's private-by-default flip is a big behaviour change for training: other sharing/publishing
   FAQs may assume public-by-link data. Raised with John.
 - Gap: nothing tested the new-histories switch or the dataset Permissions tab. Added
-  `test_new_datasets_private_switch` (`ea0bc576e38`, a fresh user): off gives a new history's
+  `test_new_datasets_private_switch` (`e4bca1128c1`, a fresh user): off gives a new history's
   dataset no access role, on gives the private role, shown on the Permissions tab. Adds
   `user_preferences_set_new_datasets_private`, `edit_dataset_permission_roles`,
   `preferences.dataset_permissions`, `new_datasets_private_input`/`_label` (by the switch's
