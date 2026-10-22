@@ -61,8 +61,21 @@ galaxy:
 EOF
 }
 
+# Command-line tools that converters (Datatypes > Convert) need, on the jobs' PATH. Public servers
+# resolve them per tool; bioconda lacks osx-arm64 builds of some pinned versions, so use one env.
+TOOL_DEPS=(samtools)
+tool_deps=$FAQ_HOME/tool_deps
+CONDA=${FAQ_CONDA:-$HOME/miniforge3/bin/conda}
+
+ensure_tool_deps() {
+    if [ ! -x "$tool_deps/bin/${TOOL_DEPS[0]}" ]; then
+        echo "creating $tool_deps with ${TOOL_DEPS[*]} ..."
+        "$CONDA" create -y -q -p "$tool_deps" -c conda-forge -c bioconda "${TOOL_DEPS[@]}"
+    fi
+}
+
 run_galaxy() {
-    (cd "$GALAXY_ROOT" && GALAXY_CONFIG_FILE=$config GALAXY_LOG=$state/galaxy.log ./run.sh --skip-wheels "$@")
+    (cd "$GALAXY_ROOT" && PATH=$tool_deps/bin:$PATH GALAXY_CONFIG_FILE=$config GALAXY_LOG=$state/galaxy.log ./run.sh --skip-wheels "$@")
 }
 
 up() {
@@ -86,6 +99,7 @@ case "$command" in
             echo "client out of date - building (several minutes) ..."
             make -C "$GALAXY_ROOT" client-production
         fi
+        ensure_tool_deps
         write_config
         GALAXY_SKIP_CLIENT_BUILD=1 run_galaxy --daemon
         echo "waiting for $url (first start creates the database) ..."

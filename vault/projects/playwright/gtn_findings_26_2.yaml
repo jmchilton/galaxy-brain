@@ -317,3 +317,15 @@
   target: main
   summary: '"Click on the Auto-detect button" is ambiguous: Edit Attributes has two, the Attributes tab''s re-detects metadata and the Datatypes tab''s re-detects the datatype.'
   fix: Say **Auto-detect** on the **Attributes** tab; for a wrong datatype, point to the **Datatypes** tab.
+
+- label: upload-tool-panel-button
+  faqs: [faqs/galaxy/datasets_create_new_file.md]
+  target: main
+  summary: There is no **Upload Data** button at the top of the tool panel; upload is the Activity Bar's **Upload**.
+  fix: Say "Click {% icon galaxy-upload %} **Upload** in the Activity Bar".
+
+- label: upload-import-data-panel
+  faqs: [faqs/galaxy/datasets_create_new_file.md]
+  target: version
+  summary: 26.2 replaces the upload dialog with the Import Data panel, so Paste/Fetch Data, the "New File" name, Genome, the Settings gear and Close no longer exist.
+  fix: 'Upload > **Paste File Content**; paste into the text field; the name defaults to "Pasted Dataset 1"; set **Type** and **Reference** in the row; tick the row''s **Spaces→Tabs**; **Start** (no window to close). Other upload FAQs likely need the same.'

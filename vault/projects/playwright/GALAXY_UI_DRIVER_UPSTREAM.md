@@ -157,6 +157,17 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   collection view were tested). Adds `edit_dataset_datatype` and
   `edit_dataset_attributes.datatype_save_button` (Auto-detect's previous sibling; a client id would be
   cleaner, as on `selenium_dataset_tags_auto_detect`). Green under Playwright and Selenium. Standalone.
+- `1ca7d1eb482`: coverage for `datasets_create_new_file`. `test_upload_activity.py` pastes
+  space-separated text with the row's Spaces→Tabs ticked and checks the tabs and 3 columns. Adds
+  `UploadMetadata` `space_to_tab`, `UploadItem.set_space_to_tab` and
+  `upload_activity.row_space_to_tab_checkbox`/`_label` (by title; a client test id would be cleaner).
+  Green under Playwright and Selenium. Standalone.
+- `423abc6cdf8`: coverage for `datasets_convert_datatype`. `test_dataset.py` converts a tsv to csv from
+  the Datatypes tab's Convert to Datatype (only the collection view's Convert tab was tested). Adds
+  `edit_dataset_convert` and `edit_dataset_attributes.conversion_dropdown`, `conversion_option`,
+  `convert_button`. Green under Playwright and Selenium. Standalone.
+- `223fa05f17b`: a docstring on `edit_dataset_dbkey`, which gxui's `dataset-change-dbkey` calls (the
+  pending `galaxy_ui_driver_editor_refs` REGISTRY test needs it). Fold into `c5e788cad37` if that lands.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

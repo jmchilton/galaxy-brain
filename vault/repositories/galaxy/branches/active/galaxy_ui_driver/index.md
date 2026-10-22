@@ -14,6 +14,13 @@ Owned by the [Playwright project](../../../../../projects/playwright/GALAXY_UI_S
 - **Dropped:** `8db334d5c50` and `046111eba20`, superseded by #24317, which merged to 26.2. The `_workflow_card_named` unit tests went with them; #24317 covers that lookup with E2E tests.
 - **Kept, re-resolved:** `ffbdb7ee11e` (now `ec9ae950924`), the colon-free search, now on #24317's `_workflow_card_action`. Its "every title contains" check uses the search term, so another workflow matching only the term can't stall the wait.
 - **gxui editor verbs:** `workflow-connect`, `-disconnect` and `-remove-step` call `workflow_editor_try_connect`, `workflow_editor_destroy_connection` and `workflow_editor_remove_node` when the step's `node-label` is unique. Otherwise they use their id-based code, because unlabelled steps of one tool share a label.
-- **Since (FAQ loop):** `755d9376924` tests a dataset's Datatypes-tab change; gxui gains `dataset-change-datatype` and `dataset-change-dbkey`. 43 commits; tip `d982e460bb0`.
+- **Since (FAQ loop):** `755d9376924` tests a dataset's Datatypes-tab change; gxui gains `dataset-change-datatype` and `dataset-change-dbkey`. Then `1ca7d1eb482` (paste upload Spaces→Tabs), `423abc6cdf8` (dataset Convert) and `223fa05f17b` (`edit_dataset_dbkey` docstring); gxui gains `dataset-convert` and `upload-paste --dbkey/--space-to-tab`. 46 commits; tip `3e3bea0fcaa`.
+
+**Pending fold-in (2026-10-21): `jmchilton/galaxy_ui_driver_editor_refs`** (`df78f64ec31`, worktree `branch/galaxy_ui_driver_editor_refs`). It is this stack at `fddc4bda08a` plus four commits, built aside while the FAQ loop was mid-commit here. The four commits:
+- `77b5ea69434` "Let workflow editor helpers take a step number", directly on `workflow_editor_connection_helpers`. Fold it into that branch during its polish.
+- `ecb87b41894` "Search tool_open by a Tool Shed tool's short id" and `c5e788cad37` "Document NavigatesGalaxy methods gxui verbs back onto", below gxui.
+- `df78f64ec31`, a `fixup!` of gxui: editor verbs pass step numbers (the mouse-drag fallback is gone), selection uses `workflow_editor_ensure_tool_form_open`, `workflow-add-tool` calls its method, and a new REGISTRY metadata test.
+
+Dry run onto `d982e460bb0`: all four cherry-pick cleanly. The new REGISTRY test then fails only for `dataset-change-dbkey`, because `edit_dataset_dbkey` needs a docstring. `223fa05f17b` (2026-10-22) adds it.
 
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.

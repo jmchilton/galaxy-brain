@@ -242,11 +242,24 @@
   used_by: [assembly/assembly-with-preprocessing, ecology/ref-based-rad-seq, epigenetics/ewas-suite, epigenetics/hicexplorer, epigenetics/methylation-seq, introduction/galaxy-intro-101, proteomics/proteogenomics-dbcreation, sequence-analysis/mapping, transcriptomics/minerva-pathways, variant-analysis/exome-seq]
   gx_findings: 'Covered by test_dataset_change_dbkey. gxui: dataset-change-dbkey (tip d982e460bb0). dbkey_dropdown_results._ is a stale select2 selector.'
 - faq: faqs/galaxy/datasets_chromosome_identifiers.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/datasets_convert_datatype.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 423abc6cdf8
+  used_by: [assembly/ecoli_comparison, assembly/mrsa-nanopore, climate/climate-101, ecology/biodiversity-data-exploration, ecology/PAMPA-toolsuite-tutorial, ecology/x-array-map-plot, introduction/data-manipulation-olympics, introduction/galaxy-intro-101-everyone, variant-analysis/countess-mave-chek2]
+  gx_findings: 'Added E2E converting a dataset from its Datatypes tab (423abc6cdf8) with edit_dataset_convert and conversion selectors. faq_server.sh: samtools in a tool_deps env on PATH. gxui: dataset-convert (tip 3e3bea0fcaa).'
 - faq: faqs/galaxy/datasets_create_new_file.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 1ca7d1eb482
+  used_by: [assembly/assembly-with-preprocessing, computational-chemistry/zauberkugel, ecology/de-novo-rad-seq, ecology/ref-based-rad-seq, ecology/yolo_predict_deepsea, imaging/dicom-anatomical-3d, imaging/hela-screen-analysis, microbiome/dada-16S, microbiome/mags-building, proteomics/mass-spectrometry-imaging-loading-exploring-data, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna-case_cell-cycle, single-cell/scrna-seurat-pbmc3k, statistics/simorgh, transcriptomics/ref-based, transcriptomics/rna-seq-analysis-clustering-viz, variant-analysis/exome-seq, variant-analysis/pox-tiled-amplicon, variant-analysis/sars-cov-2-variant-discovery, variant-analysis/trio-analysis]
+  faq_findings: [upload-tool-panel-button, upload-import-data-panel]
+  gx_findings: 'Added E2E for paste upload with Spaces→Tabs (1ca7d1eb482) with UploadItem.set_space_to_tab. Upload row table overflows the center panel at 1280px. gxui: upload-paste --dbkey/--space-to-tab (tip 3e3bea0fcaa).'
 - faq: faqs/galaxy/datasets_data_privacy_features.md
   status: pending
 - faq: faqs/galaxy/datasets_deleting.md

@@ -70,7 +70,9 @@ State (socket, log, transcript, screenshots, aria snapshots) is in `$GXUI_HOME` 
 FAQ loop (`../HARDEN_AGAINST_FAQ.md`) against a local `galaxy_ui_driver` Galaxy instead of
 test.galaxyproject.org. `faq_server.sh` runs one server per profile: `main` (8091) for most FAQs,
 `accounts` (8092, account activation on) for account FAQs. Config, database and captured mail live
-under `~/.cache/gxui-faq/server/<profile>`; the worktree's own config is untouched.
+under `~/.cache/gxui-faq/server/<profile>`; the worktree's own config is untouched. Converter tools
+(`TOOL_DEPS`, e.g. samtools) go in a conda env at `~/.cache/gxui-faq/tool_deps` on the server's PATH;
+`start` creates it with `~/miniforge3/bin/conda` (or `FAQ_CONDA`).
 
     ./faq_server.sh start            # or: start accounts
     eval "$(./faq_server.sh env)"    # GXUI_* for that profile, plus FAQ_MAIL
