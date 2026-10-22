@@ -1,5 +1,12 @@
 # Implementation debrief: workflow_editor_connection_helpers
 
+> **Update 2026-10-22: READY.** John chose "B now, A as follow-up".
+> - **B:** `9699ec45644` "Fix workflow_editor_set_tool_version typo" renames the method and its two callers. `test_editor_tool_upgrade` passes on Playwright. It's pushed.
+> - **A:** CSS-safe selectors are a follow-up, recorded in `index.md`.
+> - **`galaxy_ui_driver`:** restacked onto `9699ec45644`. Tip `b271e13696c`, clean rebase, gxui unit tests pass (101). Backup: `jmchilton/galaxy_ui_driver_backup_20261022`.
+>
+> The BLOCKED text below is kept as the record of the decision.
+
 STATUS: BLOCKED. It needs your scope decision; the work itself is sound.
 - Head `04ce1a3f088` on `release_26.2` `7febcc1d683`, pushed to `jmchilton`. That's 8 commits, +266/−152 across 5 files.
 - The first scope evaluation asked for an expansion, which was implemented.
