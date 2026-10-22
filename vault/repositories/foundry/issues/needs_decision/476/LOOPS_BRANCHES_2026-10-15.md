@@ -149,6 +149,20 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
     - No version source → a non-blocking gap, the draft unchanged, no repair. Built (`d25aaa75`); the controller reports it as `loop_no_progress`.
     - With several cached versions, take the one the plan's parameters need, the newest if several fit. Built (`d25aaa75`, `add.md`).
 
+## Phases 8–10 past the loop — 2026-10-21
+
+- Local `tmp/phase10-combined` (`c4b3ea49`, unpushed): loop-repair + omitted-state merged; README and test-file conflicts kept both sides. build-cli 311, casts and generated checks pass. The stock-version commits are left out: they touch only phase 7, which this run doesn't execute.
+- Live `~/foundry-runs/nf2g-demo-phase8-10-2026-10-21/` (`--from 8 --through 10`, seeded from the stock-version run): **passed**, 11m33s, 39 turns, $0.89. This is the first run to reach `implement-galaxy-workflow-test`.
+  - Phase 8: `nextflow-to-test-data` left 7 unresolved, and `find-test-data` settled them all.
+  - Phase 9: the test plan validated.
+  - Phase 10: the test file has no validator in the run record. `gxwf validate-tests --workflow` passes it.
+- Not caught by any gate. Each is checked against Galaxy source but not run:
+  - Workflow, phase 7: the Apply Rules regex `^(?:fastq_)?([12])$` runs on the second identifier. Galaxy names those `forward`/`reverse`/`unpaired`, and a miss raises (`lib/galaxy/util/rules_dsl.py:50`). So step 1 fails on any input. This confirms the unpaired-rows worry, and is wider than it.
+  - Test, phase 10: no `rows:` for a sample sheet whose `sample` column is required. Galaxy refuses that (`model/dataset_collections/types/sample_sheet.py:23`), and its own sample-sheet tests always give `rows`.
+  - Test, phase 10: unpaired rows are bare `File`s. Galaxy writes them as `paired_or_unpaired` with one `unpaired` element (`lib/galaxy_test/workflow/split_paired_and_unpaired.gxwf-tests.yml`).
+  - Test, phase 10: the expected `SAMPLE*__R1/R2` element names inherit the broken rules.
+  - The `implement-galaxy-workflow-test` Mold says nothing about sample sheets or `rows`.
+
 ## Open questions
 
 1. ~~Is `--from` (seed from a frozen run) wanted as an evaluation feature?~~ Built 2026-10-20 (above), pending John's review.
