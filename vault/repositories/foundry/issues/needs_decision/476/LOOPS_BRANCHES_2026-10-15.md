@@ -250,6 +250,13 @@ John's decisions:
       - MultiQC: IUC 1.33 takes txt, not ZIPs, and has no config or methods ports.
       - restore: Apply Rules takes one collection.
     - Third run in a row where authoring is the easy way out. Exact source parity drives each rejection, not what consumers need. Next: a close-enough rule.
+- Close-enough rule, John's pick: `f28d3557` on `fix/advance-draft-needs-tool`, `advance-galaxy-draft-step` rev 13.
+  - A candidate is acceptable when its outputs can feed every consumer, even with a plan change; each source output or port given up becomes a `kind: dropped` entry.
+  - Neither exact source parity nor a property the step's configuration provides is a reason to author.
+  - A `needs_tool` entry must name, for each candidate, the consumer it can't serve.
+  - Apply Rules uniqueness is a property of the rules, not a check to perform.
+  - New eval property.
+  - Rerun `~/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/` (phase 7, seeded from the 6–7 run).
 - Stacking hazard: main merged #695, which bumped `implement-galaxy-workflow-test` to rev 11. That collides with `feat/test-data-refs-omitted` (its own rev 11) and `fix/workflow-test-sample-sheet-rows` (rev 12). None of our branches is in main yet; each needs a rebase before its PR.
 
 ## Open questions
