@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished, `branches_ready_for_final_review`; head `e36c43a2465` on `release_26.1` `6ff6692662d` (legacy `checked:`/`blocks:` dropped for class-declaring YAML, per John 2026-10-22).
+Polished, `branches_ready_for_final_review`; head `af71669652f` on `release_26.1` `6ff6692662d` (legacy `checked:`/`blocks:` now rejected for class-declaring YAML, per John 2026-10-22).
 
 No PR yet.
 
-Fork CI pending on `e36c43a2465`; prior head `ef275d8fa42` was green.
+Fork CI pending on `af71669652f`; prior head `ef275d8fa42` was green.
 
 ## Polish (2026-10-22)
 
