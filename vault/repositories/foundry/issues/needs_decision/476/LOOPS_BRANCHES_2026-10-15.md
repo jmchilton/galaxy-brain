@@ -172,8 +172,11 @@ Question (John): do we need loop and branch constructs in the Pi controller, or 
       - the test gives `rows` per row, single-read rows are `Collection` + `unpaired`, and `validate-tests --workflow` passes.
     - New, not fixed:
       - Apply Rules names reads by the `sample` column (`add_column_from_sample_sheet_index 0`), not the row identifier. The two `SAMPLE3_SE` rows both map to `SAMPLE3_SE__R1`, so one read replaces the other: 5 FastQC reports where the test expects 6. The new eval property's uniqueness check catches it.
-      - The FastQC ZIP blocker was repaired by inserting a producer, not narrowed. The next call couldn't load `author-galaxy-tool-wrapper` in a one-skill worker. It improvised a 640-byte XML wrapper in `/tmp/foundry-fastqc-archive-native.xml`, cached it as `source: local`, and pinned `toolshed.g2.bx.psu.edu/repos/foundry/fastqc_archive_native`, which doesn't exist. `gxwf validate` skips that tool state (`fetch failed`). The wrapper isn't a run artifact, so the workflow isn't installable. This is the same one-skill limit the controller solved for topology repair.
+      - The FastQC ZIP blocker was repaired by inserting a producer, not narrowed. The next call couldn't load `author-galaxy-tool-wrapper` in a one-skill worker. It improvised a 640-byte XML wrapper in `/tmp/foundry-fastqc-archive-native.xml` (copied to the run dir), cached it as `source: local`, and pinned `toolshed.g2.bx.psu.edu/repos/foundry/fastqc_archive_native`, which doesn't exist. `gxwf validate` skips that tool state (`fetch failed`). The wrapper isn't a run artifact, so the workflow isn't installable. This is the same one-skill limit the controller solved for topology repair.
       - Phase 6's `fields: fastq_1/fastq_2` is still in the workflow.
+      - Phase 9 (`nextflow-test-to-galaxy-test-plan`) mis-mapped a checksum. The snapshot (`tests/default.nf.test.snap:108`) gives `SAMPLE3_SE_sample2_R1` `05dba9…`, and the plan (`galaxy-test-plan.yml:98`) gives `1995fe…`, which is `SAMPLE1_PE_sample1_R2`'s. Phase 10 copied it into `trimmed_reads`.
+      - "Passed" is the controller's status. The advance eval counts a fabricated `tool_id` as a failure.
+    - Local only: `tmp/phase10-combined`, `tmp/rerun-7-10`, `tmp/loop-repair-stock-tool-version`. PR drafts `pr_paired_identifiers.md` and `pr_sample_sheet_rows.md` are in the session scratchpad.
 
 ## Open questions
 
