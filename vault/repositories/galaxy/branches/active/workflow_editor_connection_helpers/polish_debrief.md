@@ -44,3 +44,11 @@ Polished 2026-10-22 at head `9699ec45644` on `release_26.2` `7febcc1d683`. The b
 
 - `pr_description.md` claims "runs under both Selenium and Playwright", which rests on local Selenium runs. Its Tests section says so.
 - Before opening: none needed beyond John's read-through. If `release_26.2` later conflicts, rebase, then restack `workflow_editor_selector_escaping` and `galaxy_ui_driver`.
+
+## Reframe (John, 2026-10-22)
+
+John asked for the pitch to be "Add missing tests", with `release_26.2` justified because missing tests are bugs.
+- The opener and body now lead with a coverage table of the three untested editor behaviors. The helpers and the drag fix are framed as what the tests needed.
+- The titles were rewritten to match.
+- The tag changed to `kind/enhancement`, matching the sibling test-only PR.
+- Checked against base `7febcc1d683`: the conditional test already removed a connected tool step, but never saved and checked connections, so the table says exactly that.

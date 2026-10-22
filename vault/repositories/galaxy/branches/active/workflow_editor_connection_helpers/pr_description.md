@@ -1,10 +1,21 @@
-Refactor ahead of 🌿[`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy_ui_driver) - shared workflow editor connection helpers for `NavigatesGalaxy` that can address any step and report why a connection was refused.
+Add missing workflow editor E2E tests - refused connections, removing a connected step, and unlabelled steps of the same tool.
 
-***This only changes test and browser-automation code - no Galaxy behavior changes for users*** (`navigation.yml` is the shared test selector registry). ***Targets `release_26.2` because `galaxy_ui_driver` drives 26.2 QA and must match 26.2's selectors and helpers.***
+***Missing tests are bugs, so this targets `release_26.2`. It only changes test and browser-automation code - no Galaxy behavior changes for users*** (`navigation.yml` is the shared test selector registry).
 
-Workflow editor E2E tests could only check connections that the editor accepted, and only between steps with unique labels. Unlabelled steps of the same tool share a `node-label`, so the old helpers silently acted on the first one. The editor's refusal tooltips ("Cannot connect workflow parameter to data input.") had no browser (E2E) coverage. ***The helpers move to `NavigatesGalaxy` so code that isn't a test class (`galaxy_ui_driver`) can use them*** - and it drives workflows it didn't write, so it can't count on unique labels.
+Before this PR, three editor behaviors had no browser test:
 
-After this PR, a test reads like this and runs under both Selenium and Playwright:
+| Editor behavior | Covered before | Covered now |
+|---|---|---|
+| A drag the editor refuses shows why ("Cannot connect workflow parameter to data input.") | ❌ only the message logic, in a vitest unit test | ✅ `test_refused_connection_and_removed_step` |
+| Removing a connected tool step, then saving, drops its connections from the saved workflow | ❌ removal tests delete steps but never save and check the saved connections | ✅ `test_refused_connection_and_removed_step`, checked through the API |
+| Two unlabelled steps of the same tool connect, disconnect and are removed independently | ❌ | ✅ `test_connect_unlabelled_steps_by_order_index`, checked through the API after each save |
+
+***The existing helpers couldn't write these tests***, so the PR also fixes the helpers:
+- They only checked connections the editor accepted.
+- They found steps by `node-label`, which unlabelled steps of one tool share, so they silently acted on the first one.
+- On Playwright, the synthetic drag never triggered the editor's hover state, so no refusal tooltip appeared.
+
+The new tests read like this and run under both Selenium and Playwright:
 
 ```python
 # workflow: input1, int_input (integer), first_cat, second_cat
@@ -17,6 +28,8 @@ assert self.workflow_editor_try_connect("input2#output", (3, "input1")) is None
 self.workflow_editor_destroy_connection((3, "input1"))
 self.workflow_editor_remove_node(3)
 ```
+
+The helpers move from `TestWorkflowEditor` to `NavigatesGalaxy`, so non-test code can use them too. 🌿[`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy_ui_driver) already does.
 
 <details><summary>What changes</summary>
 

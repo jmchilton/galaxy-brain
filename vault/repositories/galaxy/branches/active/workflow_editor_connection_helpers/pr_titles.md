@@ -1,4 +1,4 @@
-- [26.2] Shared workflow editor connection helpers: refusal reasons and order-index step refs
-- [26.2] Move workflow editor connection helpers to NavigatesGalaxy; address unlabelled steps
-- [26.2] Workflow editor E2E helpers for refused connections and unlabelled steps
-- [26.2] Editor connection test helpers for galaxy_ui_driver, plus Playwright drag timing fix
+- [26.2] Add missing workflow editor tests for refused connections, step removal and unlabelled steps
+- [26.2] Add missing E2E tests for workflow editor connections
+- [26.2] Add missing workflow editor connection tests (and the helpers to write them)
+- [26.2] Test refused connections and same-tool unlabelled steps in the workflow editor
