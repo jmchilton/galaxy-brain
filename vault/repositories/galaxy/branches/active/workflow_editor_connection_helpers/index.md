@@ -28,7 +28,7 @@ The original label-only scope is kept as an [alt](alts/original_scope.md).
 Base `release_26.2` on John's call (2026-10-21), not dev as [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md) says. It backs gxui's editor verbs (pitch refinement plan item 5). [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) is stacked on it, so restack that branch after any rewrite here.
 - Restacked onto `9699ec45644` on 2026-10-22 (tip `b271e13696c`).
 
-**Follow-up (John, 2026-10-22):** CSS-safe terminal and connector selectors, for subworkflow terminals whose labels contain spaces, `'` or `\`. See scope_evaluation item A. It is not in this branch.
+**Follow-up (John, 2026-10-22):** CSS-safe terminal and connector selectors, for subworkflow terminals whose labels contain spaces, `'` or `\`. See scope_evaluation item A. It is not in this branch; it's on [`workflow_editor_selector_escaping`](../workflow_editor_selector_escaping/index.md), stacked on this one.
 
 **Superseded fold-in:** `77b5ea69434` on `jmchilton/galaxy_ui_driver_editor_refs` (step-number refs). The re-scope covers it with the same names. Drop it when folding that branch in, and keep its gxui fixup.
 

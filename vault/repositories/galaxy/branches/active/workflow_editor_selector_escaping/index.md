@@ -5,7 +5,7 @@
 
 ## Status
 
-Implementation in progress.
+Head `7ba4f7bd25f`, stacked on `workflow_editor_connection_helpers` `9699ec45644`: implemented, re-scoped and hardened. It's ready for CI.
 
 No PR yet.
 
@@ -13,10 +13,10 @@ No CI yet.
 
 ## Scope
 
-CSS-safe workflow editor terminal and connector selectors. A subworkflow step's terminal names are its inner workflow's free-text input and output labels, so they can contain spaces, `'` or `\`.
-- The `connector_for` / `connector_invalid_for` targets escape only `|`.
-- The `[input-name='…']` / `[output-name='…']` targets break on `'`.
+CSS-safe Selenium/Playwright selectors for free-text labels. Editor terminal names, node labels, connector ids and workflow run-form input labels all go through one `css_attribute_value` escape, and the connector targets become `[id='…']`. E2E tests cover the editor (a subworkflow with `it's an input` / `it's a \ output` labels, and a step labelled `cat's downstream`) and the run form (`it's input`).
 
-So the `workflow_editor_assert_*` helpers and `workflow_editor_destroy_connection` fail on such steps. This is item A of [the parent's second scope evaluation](../workflow_editor_connection_helpers/scope_evaluation.md), deferred by John on 2026-10-22.
+This is item A of [the parent's second scope evaluation](../workflow_editor_connection_helpers/scope_evaluation.md), deferred by John on 2026-10-22. It was re-scoped once to add the run form; the editor-only version is kept as an [alt](alts/original_scope.md).
 
-Stacked on [`workflow_editor_connection_helpers`](../workflow_editor_connection_helpers/index.md) at `9699ec45644`, base `release_26.2`. It shares that branch's worktree (`branch/workflow_editor_connection_helpers`).
+Stacked on [`workflow_editor_connection_helpers`](../workflow_editor_connection_helpers/index.md), base `release_26.2`. It shares that branch's worktree (`branch/workflow_editor_connection_helpers`). Open its PR only after the parent's, or retarget it.
+
+[Implementation debrief](implementation_debrief.md)
