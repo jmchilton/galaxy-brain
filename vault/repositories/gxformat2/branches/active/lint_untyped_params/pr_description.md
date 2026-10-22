@@ -13,10 +13,13 @@ Changes:
 - Search the whole string (was `re.match`), matching Galaxy and the TS port.
 - Don't warn for a rename that references a declared parameter input label.
 - One warning per reference, naming `${name}`, the action, the output, and the fix. The old sentence stays as the prefix, so planemo's substring assertions still match.
+- A `${data_input_label}` rename gets a pointer to `#{<connected step input>}`. Galaxy fills `${...}` only from parameter inputs, and adding a parameter with that label would collide.
 - Extract `format2_input_step_type()` from `_build_input_step` so the lint can find parameter inputs.
 - New shared declarative fixtures (`synthetic-untyped-params.{ga,gxwf.yml}`): a declared label, a mid-string undeclared name, a data-input label, a non-rename action, `#{input}`, and tool state.
 
 IWC sweep of `lint_best_practices_ga`: before, 2 warnings (mgnify renames that reference declared labels). After, 0.
+
+Galaxy's own editor lint (`getUntypedWorkflowParameters`) still flags every `${...}`, declared labels included. Its fix action is "extract untyped parameter". These libs follow runtime behavior instead.
 
 TS port: jmchilton/galaxy-tool-util-ts branch `lint_untyped_params`.
 
