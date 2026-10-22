@@ -72,6 +72,7 @@ None yet.
 - [`vitest_real_api_calls`](../../repositories/galaxy/branches/active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`cwl_fixes_5`](../../repositories/galaxy/branches/active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
 - [`licenses`](../../repositories/galaxy/branches/active/licenses/index.md) — Adds `<license_agreement>` tool requirements that users must accept before running the tool. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
+- [`ag_grid_36`](../../repositories/galaxy/branches/active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
@@ -81,7 +82,6 @@ None yet.
 - [`upgrade_advice_structured_like`](../../repositories/galaxy/branches/active/upgrade_advice_structured_like/index.md) — Moves `structured_like` qualification upgrade advice from 18.01 to a new 26.0 migration (fixes #23884). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upgrade_advice_structured_like?expand=1).
 - [`optional_input_gating`](../../repositories/galaxy/branches/active/optional_input_gating/index.md) — Runs workflow steps only when their optional inputs are present. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:optional_input_gating?expand=1).
 - [`api_gotchas`](../../repositories/galaxy/branches/active/api_gotchas/index.md) — Documents API client best practices for external projects, plus a review rubric for API-driven work. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:api_gotchas?expand=1).
-- [`ag_grid_36`](../../repositories/galaxy/branches/active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
 - [`issue_3899_pulsar_container_deps`](../../repositories/galaxy/branches/active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_3899_pulsar_container_deps?expand=1).
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
