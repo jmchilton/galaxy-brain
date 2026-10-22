@@ -216,6 +216,13 @@ John's decisions:
     Three unreviewed tools replaced a narrowing. Needs a decision on when an existing wrapper is close enough.
   - The Apply Rules `SAMPLE3_SE` collision is still present.
   - Live-run sections filled in `pr_loop_author.md` and `pr_needs_tool.md`.
+- Collision fix, John's pick: `fc9a9dcb` on `fix/advance-draft-paired-identifiers`.
+  - `advance-galaxy-draft-step` rev 11 requires mapped identifiers unique per dataset: key on `identifier0`, or add it where a column repeats.
+  - `galaxy-apply-rules-dsl` rev 5 names repeating sample-sheet columns in its duplicate-path pitfall.
+  - The eval adds two rows that share every column value.
+  - Merged into `fix/advance-draft-needs-tool` (`505c2648`, advance rev 12) rather than rebased and force-pushed.
+  - `validate-roadmap` now fails on the base commit too: the live GitHub issue hierarchy changed. That's environmental, like `check-vendored`.
+  - Rerun `~/foundry-runs/nf2g-demo-collision-7-2026-10-22/` (phase 7, seeded from 10-16) on local `tmp/rerun-author` + the fix.
 
 ## Open questions
 
