@@ -1,0 +1,3 @@
+- kind/bug
+- area/testing/selenium
+- area/histories

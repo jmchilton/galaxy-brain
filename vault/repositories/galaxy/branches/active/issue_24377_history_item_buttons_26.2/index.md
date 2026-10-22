@@ -5,13 +5,13 @@
 
 ## Status
 
-Status: `branches_implemented_needs_ci`. READY: re-scoped once, hardened twice. Base: `release_26.2` (`fe7b52529a0`). Head: `379f1267d54`. Alt: `issue_24377_history_item_buttons_26.2_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24377_history_item_buttons_26.2`.
+Status: `branches_ready_for_final_review`. Polished; re-scoped once, hardened twice. Base: `release_26.2` (`fe7b52529a0`). Head: `379f1267d54`. Alt: `issue_24377_history_item_buttons_26.2_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24377_history_item_buttons_26.2`.
 
-No PR yet. CI not yet seen.
+No PR yet. Fork CI on `379f1267d54` queued at polish time.
 
 Implements [#24377](https://github.com/galaxyproject/galaxy/issues/24377) ([issue record](../../../issues/queued/24377/index.md)): restores the stubbed history item button tooltip checks, fixes the stale selectors, and adds a GCollapse `g-collapse-shown` marker that `history_panel_click_item_title(wait=True)` waits on.
 
-[Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · Reviews: [subagents/](subagents/) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex](codex_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · Alt: [original scope](alts/original_scope.md) · Round 1 hardening: [earlier_drafts/1/](earlier_drafts/1/)
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish](polish_debrief.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · Reviews: [subagents/](subagents/) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex](codex_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · Alt: [original scope](alts/original_scope.md) · Round 1 hardening: [earlier_drafts/1/](earlier_drafts/1/)
 
 ## Decisions
 
