@@ -12,7 +12,7 @@ it, click the `?` after "database", pick `Human Feb. 2009 (GRCh37/hg19) (hg19)` 
 
 ## Galaxy
 
-- Covered: `test_dataset_change_dbkey` follows the FAQ's path (item `dbkey` link > Database/Build >
+- Covered: `test_dataset_change_dbkey` (green under Playwright) follows the FAQ's path (item `dbkey` link > Database/Build >
   Save). No new test.
 - The history item shows the new build on its next poll (a few seconds), not at Save.
 - `edit_dataset_attributes.dbkey_dropdown_results._` is still a select2 selector; it only works

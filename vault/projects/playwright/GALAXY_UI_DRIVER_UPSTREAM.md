@@ -140,11 +140,11 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `9268e731f45`: coverage for `datasets_add_tag`. `test_history_panel.py` tags an expanded dataset
   `#plus` from its Add Tags button, then checks a cat1 output shows `#plus`. Adds
   `history_panel_item_add_tags` and `content_item.tag_area_button` / `tag_area_input` (same names as
-  `history_panel.*`). Green under Playwright. Standalone.
+  `history_panel.*`). Green under Playwright and Selenium. Standalone.
 - `e0496229d5a`: coverage for `dataset_tool_errors_metadata`. `test_dataset.py` edits a BED's comment
   lines, then checks the Attributes tab's Auto-detect re-detects them (only the Datatypes tab's was
   tested). Adds `edit_dataset_attributes.auto_detect_metadata_button` (sibling selector, no client
-  change) and `metadata_input(name)`. Green under Playwright. Standalone.
+  change) and `metadata_input(name)`. Green under Playwright and Selenium. Standalone.
 - `9268e731f45` and `e0496229d5a` were extracted together into
   [`selenium_dataset_tags_auto_detect`](../../repositories/galaxy/branches/active/selenium_dataset_tags_auto_detect/index.md)
   (`release_26.2`, 2026-10-21, green under both backends). It shares the tag loop as
