@@ -35,6 +35,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#24218](https://github.com/galaxyproject/galaxy/issues/24218) — client `canMapOver` allows `:paired_or_unpaired` map-overs server rejects; branch `issue_20657_input_processing_mode` (26.0 backport). [notes](../../repositories/galaxy/issues/wip/24218/index.md)
 - [#24220](https://github.com/galaxyproject/galaxy/issues/24220) — tool form drop matches collections by plain `endsWith`; branch `issue_20657_input_processing_mode` (26.0 backport). [notes](../../repositories/galaxy/issues/wip/24220/index.md)
 - [#24221](https://github.com/galaxyproject/galaxy/issues/24221) — option paging/merge drops a collection's map-over entry; branch `issue_20657_input_processing_mode` (26.1 backport). [notes](../../repositories/galaxy/issues/wip/24221/index.md)
+- [#24379](https://github.com/galaxyproject/galaxy/issues/24379) — editor lint flags rename `${name}` filled by a parameter input; extract fix can't succeed; branch `untyped_param_lint_declared_labels`. [notes](../../repositories/galaxy/issues/wip/24379/index.md)
 
 ## Queued (`queued`)
 

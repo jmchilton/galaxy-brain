@@ -11,7 +11,7 @@ No PR yet. No CI yet.
 
 ## Issue
 
-Draft not filed: `vault/agents/gx_issues/to_file/proposed_untyped_param_lint_declared_labels.md` (+ `debrief_`).
+[#24379](https://github.com/galaxyproject/galaxy/issues/24379), filed 2026-10-22; tracked in `vault/repositories/galaxy/issues/wip/24379/`.
 
 ## Context
 

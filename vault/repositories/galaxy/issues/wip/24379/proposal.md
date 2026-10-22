@@ -1,3 +1,5 @@
+# Workflow editor flags rename `${name}` as an untyped parameter even when a parameter input with that label fills it
+
 The workflow editor warns that a rename's `${name}` is an untyped parameter even when a parameter input with that label already fills it, and its one-click fix can only fail.
 
 ```yaml
@@ -28,10 +30,40 @@ steps:
 
 What happens in the editor:
 
-- With the workflow above, the lint flags `${sample_name}`. "Extract untyped parameter" tries to add a second input labelled `sample_name`, and Galaxy rejects it: `Duplicated step label 'sample_name' in request.`
-- Starting instead from a rename `${p} …` with no input `p`, the fix adds a text parameter input `p` and leaves the rename as `${p} …`, the intended fixed form. The lint re-runs and flags `${p}` again, and the warning never clears: applying the fix again hits the duplicate-label error above.
+- With the workflow above, the lint flags `${sample_name}`. "Extract untyped parameter" tries to add a second input labelled `sample_name`. The refactor rebuilds the workflow, which rejects repeated step labels (`DuplicatedIdentifierException`), so the fix fails.
+- Starting instead from a rename `${p} …` with no input `p`, the fix adds a text parameter input `p` and leaves the rename as `${p} …`, the intended fixed form. The lint re-runs and flags `${p}` again, so the warning never clears, and applying the fix again runs into the same duplicate label.
 
 The run form already gets this right: it doesn't prompt for a post-job action parameter whose name matches a parameter input label.
+
+<details><summary>Reproduction (vitest, fails on dev)</summary>
+
+New `client/src/components/Workflow/Editor/modules/parameters.test.ts`:
+
+```ts
+it("skips a rename parameter filled by a parameter input with that label", () => {
+    const steps = asSteps(parameterInput(0, "sample"), toolStep(1, { postJobActions: rename("${sample} reads") }));
+    expect(parameterNames(steps)).toEqual([]); // dev: ["sample"]
+});
+
+it("ignores non-rename post job action arguments", () => {
+    const steps = asSteps(
+        toolStep(0, {
+            postJobActions: {
+                TagDatasetActionout_file1: {
+                    action_type: "TagDatasetAction",
+                    output_name: "out_file1",
+                    action_arguments: { tags: "name:${sample}" },
+                },
+            },
+        }),
+    );
+    expect(parameterNames(steps)).toEqual([]); // dev: ["sample"]
+});
+```
+
+`parameterInput`, `toolStep`, `rename` and `asSteps` build minimal `Step` objects; `parameterNames` maps `getUntypedWorkflowParameters(steps).parameters` to names.
+
+</details>
 
 <details><summary>Code pointers (dev)</summary>
 
