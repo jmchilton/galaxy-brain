@@ -104,8 +104,8 @@ Part of 🌿[`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy
 
 <details><summary>Tests</summary>
 
-- `lib/galaxy_test/selenium/test_workflow_editor.py::TestWorkflowEditor::test_editor_embed_two_workflows`: passes on Playwright and Selenium.
-- Existing helper callers `test_editor_embed_workflow`, `test_editor_insert_steps` and `test_conditional_subworkflow_step`: pass on Playwright.
+- `lib/galaxy_test/selenium/test_workflow_editor.py::TestWorkflowEditor::test_editor_embed_two_workflows`: passes on Playwright at HEAD; also passed on Selenium before the spinner-wait commit.
+- Existing helper callers `test_editor_embed_workflow`, `test_editor_insert_steps` and `test_conditional_subworkflow_step`: pass on Playwright (`test_editor_insert_steps` not rerun after the spinner-wait commit, which doesn't touch `add_steps`).
 
 </details>
 
