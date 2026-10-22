@@ -1,11 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { RECORD_KINDS, parseRecordPath } from './records';
+import type { RecordKind } from './records';
 
 // Single source of truth for mapping vault paths to site URL slugs. Used by
 // content collection ids, remark link rewriting, and page/file-tree hrefs.
 
-export const RECORD_KINDS = ['branches', 'issues', 'reviews'] as const;
-export type RecordKind = typeof RECORD_KINDS[number];
+export { RECORD_KINDS, parseRecordPath } from './records';
+export type { RecordKind, RecordPath } from './records';
 
 export function slugify(name: string): string {
   return name.toLowerCase()
@@ -17,23 +19,6 @@ export function slugify(name: string): string {
 
 export function slugifyPath(rel: string): string {
   return rel.replace(/\.md$/, '').split('/').map(slugify).join('/');
-}
-
-export interface RecordPath {
-  repo: string;
-  kind: RecordKind;
-  status: string;
-  id: string;
-  rest: string;
-}
-
-/** Parse `repositories/<repo>/<kind>/<status>/<id>/<rest>`; null for anything else. */
-export function parseRecordPath(rel: string): RecordPath | null {
-  const parts = rel.split('/');
-  if (parts[0] !== 'repositories' || parts.length < 5) return null;
-  const kind = parts[2] as RecordKind;
-  if (!RECORD_KINDS.includes(kind)) return null;
-  return { repo: parts[1], kind, status: parts[3], id: parts[4], rest: parts.slice(5).join('/') };
 }
 
 /**

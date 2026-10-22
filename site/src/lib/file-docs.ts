@@ -1,12 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { DEFAULTS_REPO } from './records';
 
 // File Docs describe the files inside repository records. Each
 // `repositories/<repo>/<kind>/FILE_DOCS.md` (and the `_defaults` repository's,
 // as fallback) is a `# ` title followed by one `## <glob>` section per file
 // pattern, relative to the record directory. See LIBRARY_RECORD_FILE_DOCS.md.
 
-export const DEFAULTS_REPO = '_defaults';
+export { DEFAULTS_REPO } from './records';
 
 export interface FileDocSection {
   heading: string;

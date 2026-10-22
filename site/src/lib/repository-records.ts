@@ -1,24 +1,10 @@
-import { DEFAULTS_REPO } from './file-docs';
 import { originalRelPath } from './project-paths';
-import { RECORD_KINDS, parseRecordPath, vaultPathToSlug } from './vault-urls';
-import type { RecordKind } from './vault-urls';
+import { DEFAULTS_REPO, KIND_LABELS, RECORD_KINDS, parseRecordPath, recordTitle } from './records';
+import type { RecordKind } from './records';
+import { vaultPathToSlug } from './vault-urls';
 
 // Groups `repositoryFiles` entries into repositories and branch/issue/review
 // records for the repository pages.
-
-export const KIND_LABELS: Record<RecordKind, string> = {
-  branches: 'Branches',
-  issues: 'Issues',
-  reviews: 'Reviews',
-};
-
-// Directory statuses as documented in vault/agents/_shared/REPOSITORY_*.md.
-// Unlisted statuses still render, after these.
-export const STATUS_ORDER: Record<RecordKind, string[]> = {
-  branches: ['active', 'merged', 'abandoned'],
-  issues: ['needs_decision', 'queued', 'wip', 'blocked', 'delegated', 'closed'],
-  reviews: ['active', 'archived'],
-};
 
 // Reuses the note status badge palette (global.css `.badge-*`).
 const STATUS_BADGES: Record<string, string> = {
@@ -36,17 +22,6 @@ const STATUS_BADGES: Record<string, string> = {
 
 export function statusBadgeClass(status: string): string {
   return `badge badge-${STATUS_BADGES[status] ?? 'archived'}`;
-}
-
-// Finished statuses; collapsed by default on repository pages.
-const TERMINAL_STATUSES = new Set(['merged', 'abandoned', 'archived', 'closed']);
-
-export function isTerminalStatus(status: string): boolean {
-  return TERMINAL_STATUSES.has(status);
-}
-
-export function statusLabel(status: string): string {
-  return status.replace(/_/g, ' ');
 }
 
 export interface RepoEntry {
@@ -72,11 +47,6 @@ export interface Repository<E extends RepoEntry> {
   slug: string;
   records: RepositoryRecord<E>[];
   otherFiles: E[];
-}
-
-export function recordTitle(body: string | undefined): string | null {
-  const m = body?.match(/^#\s+(.+?)\s*$/m);
-  return m ? m[1] : null;
 }
 
 export function buildRepositories<E extends RepoEntry>(entries: E[]): Repository<E>[] {
@@ -125,40 +95,8 @@ export function buildRepositories<E extends RepoEntry>(entries: E[]): Repository
   return [...repos.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
-// `_defaults` holds only the default File Docs; it isn't a tracked repository.
 export function listedRepositories<E extends RepoEntry>(repos: Repository<E>[]): Repository<E>[] {
   return repos.filter(repo => repo.name !== DEFAULTS_REPO);
-}
-
-function compareNames(a: string, b: string): number {
-  const na = Number(a);
-  const nb = Number(b);
-  if (Number.isInteger(na) && Number.isInteger(nb)) return nb - na;
-  return a.localeCompare(b, undefined, { sensitivity: 'base' });
-}
-
-export function groupByStatus<E extends RepoEntry>(
-  records: RepositoryRecord<E>[],
-  kind: RecordKind,
-): Array<{ status: string; records: RepositoryRecord<E>[] }> {
-  const byStatus = new Map<string, RepositoryRecord<E>[]>();
-  for (const record of records) {
-    if (record.kind !== kind) continue;
-    byStatus.set(record.status, [...(byStatus.get(record.status) ?? []), record]);
-  }
-  const known = STATUS_ORDER[kind];
-  const statuses = [...byStatus.keys()].sort((a, b) => {
-    const ia = known.indexOf(a);
-    const ib = known.indexOf(b);
-    if (ia >= 0 && ib >= 0) return ia - ib;
-    if (ia >= 0) return -1;
-    if (ib >= 0) return 1;
-    return a.localeCompare(b);
-  });
-  return statuses.map(status => ({
-    status,
-    records: byStatus.get(status)!.sort((a, b) => compareNames(a.name, b.name)),
-  }));
 }
 
 export interface TrailItem {
@@ -243,4 +181,6 @@ export function repositoryPages<E extends RepoEntry>(repos: Repository<E>[]): Re
   return [...pages.values()];
 }
 
-export { RECORD_KINDS };
+export {
+  KIND_LABELS, RECORD_KINDS, STATUS_ORDER, groupByStatus, isTerminalStatus, recordTitle, statusLabel,
+} from './records';
