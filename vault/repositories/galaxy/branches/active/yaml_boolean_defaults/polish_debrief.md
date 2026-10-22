@@ -40,3 +40,16 @@ I didn't re-run the checklist subagent. The fix moves one method and none of the
 - Why `release_26.1` and not dev? The description doesn't argue for the release branch, and it should.
 - Is the disk-optionality change OK on 26.1? It's flagged in Risk Review Advice.
 - The opener reads "Toward 🎯 #23888", because this is the input-loading slice and doesn't fix the whole umbrella issue.
+
+## Rework: drop legacy keys on disk (2026-10-22, John's request)
+
+John: on-disk YAML is greenfield, so no legacy `checked:`/`blocks:` support for class-declaring tools. Old head `ef275d8fa42` is kept as fork tag `yaml_boolean_defaults_pre_legacy_drop_20261022`. New head `e36c43a2465`, same base. Each change is folded into the commit that introduced the code it touches:
+- `CanonicalYamlInputSource.parse_boolean_default` reads only `value` (default False), and `parse_nested_inputs_source` reads only `parameters`.
+- `test_disk_checked_compatibility` and its `sample_tool_conf.xml` entry are removed. The `checked:` fixture moved to `lib/galaxy_test/base/data/user_tools/` and now feeds only the API rejection test (`precedence` input dropped).
+- Class-declaring fixtures converted: `simple_constructs.yml` and the YAML embedded in `test_parsing.py`, `test_tool_linters.py` and `test_user_tool_parser_trust.py` (the last two would have broken).
+- I reworded the two commit messages that described the fallbacks.
+- **Verified** at `e36c43a2465`:
+  - contract + unprivileged API: 78 passed (81 minus the three dropped cases);
+  - framework: 19 passed;
+  - unit `tool_util` + `app/tools`: 1779 passed. `test_metadata` needs the venv on PATH, and watcher was excluded as before.
+- **Open:** a disk `GalaxyTool` that still says `checked: true` silently defaults to false, and a `blocks:` repeat fails with a `KeyError`. Should these raise a clear error instead, or is that the strictness seam from #23888?

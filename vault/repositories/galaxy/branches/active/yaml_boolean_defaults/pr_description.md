@@ -13,9 +13,9 @@ On 26.1, Galaxy validates a YAML tool against the `GalaxyTool`/`GalaxyUserTool` 
 
 The Boolean row is the headline: ***a user-defined tool cannot default a Boolean to true on 26.1***. `value: true` is ignored, and `checked: true` is rejected by the model.
 
-***Only YAML tools that declare `class: GalaxyTool` or `class: GalaxyUserTool` change, and on disk they keep honoring legacy `checked:` and `blocks:`. XML tools and class-less YAML tools take the same code paths as before.*** The parameter-model dump over every XML tool in `test/functional/tools` is byte-identical. When both `value` and `checked` are set, `value` wins. `simple_constructs.yml` is unedited and still passes its framework test.
+***Only YAML tools that declare `class: GalaxyTool` or `class: GalaxyUserTool` change, and they read only the canonical form, on disk too: `value:` for Boolean defaults and `parameters:` for repeats and sections. Legacy `checked:` and `blocks:` are not read. XML tools and class-less YAML tools take the same code paths as before.*** The parameter-model dump over every XML tool in `test/functional/tools` is byte-identical. The in-tree class-declaring tools that used the legacy keys move to the canonical ones: `simple_constructs.yml`, plus YAML tools embedded in `test_parsing.py`, `test_tool_linters.py` and `test_user_tool_parser_trust.py`.
 
-***This is the input-loading slice of #23888, not the whole issue.*** Scalar `GalaxyTool` outputs, unknown-field strictness on `GalaxyTool`, and converting in-tree fixtures off the legacy dialect are separate seams that the issue proposes as separate PRs.
+***This is the input-loading slice of #23888, not the whole issue.*** Scalar `GalaxyTool` outputs, unknown-field strictness on `GalaxyTool`, and the class-less YAML dialect are separate seams that the issue proposes as separate PRs.
 
 <details><summary>What changes</summary>
 
@@ -38,11 +38,12 @@ The Boolean row is the headline: ***a user-defined tool cannot default a Boolean
 
 ## Risks
 
-This sets behavior for tool authors on a release branch, a one-way door. Existing `class: GalaxyTool` disk tools with a text or multi-select input that omits `optional` become required, and legacy/21.01 user tools stop seeing `__index__`/`__current_case__` in `$(inputs)`.
+This sets behavior for tool authors on a release branch, a one-way door. Existing `class: GalaxyTool` disk tools with a text or multi-select input that omits `optional` become required, the same tools lose legacy `checked:`/`blocks:`, and legacy/21.01 user tools stop seeing `__index__`/`__current_case__` in `$(inputs)`.
 
 <details><summary>Risk Details</summary>
 
 - A `GalaxyTool` disk YAML tool whose text or multi-select input omits `optional` was inferred optional (an XML-era rule) and is now required, matching what the same file already did as an API user tool. In-tree, the only one exposed is `simple_constructs.yml`'s multi-select `check_select`, which becomes required but has a `selected` option, so its framework test still passes.
+- A `class: GalaxyTool` disk tool that still uses legacy keys changes: `checked: true` is ignored and the Boolean defaults to false, and a repeat spelled with `blocks:` fails to load. On-disk YAML tools are treated as greenfield, so there's no compatibility path. In-tree, only the fixtures listed above used them, and they're converted.
 - A `GalaxyTool`/`GalaxyUserTool` Boolean that sets `value: true` now defaults to true. Any tool that relied on the bug (setting `value: true` but expecting false) changes.
 - A user tool that renders a whole repeat or conditional through `$(inputs.<group>)` loses the `__index__`/`__current_case__` keys. Element access is unchanged; `simple_constructs_y` still reads `$(inputs.more_files[0].nestinput['path'])`.
 - An optional Boolean declared `value: null` and omitted from a request-format job now reaches the job as `null`, not `false`.
@@ -87,7 +88,7 @@ Alternative kept on 🌿[`yaml_boolean_defaults_alt_original_scope`](https://git
 
 <details><summary>Every case fails at its own behavior assertion until the commit that owns it; base production fails 47 of 64.</summary>
 
-- With the tip's tests on base production code: 47 failed, 11 passed, 6 skipped. The skipped cases are disk repeat/section tools, which can't load at base. Red drops commit by commit: 26 → 21 → 18 → 9 → 6 → 0.
+- With the tip's tests on base production code: 47 failed, 11 passed, 6 skipped. The skipped cases are disk repeat/section tools, which can't load at base. Red drops commit by commit: 26 → 21 → 18 → 9 → 6 → 0. These counts were measured on 64 cases, before the three disk `checked:` compatibility cases were dropped.
 - The cases that pass at base are the ones a commit doesn't change, such as API user tools' optionality, which was already canonical.
 - Strengthened three positional `inputs[0]` lookups to also assert the input name. Moved the `use_cached_job` helper fix ahead of the baseline.
 - There are no unit tests. Each contract crosses parsing, the `/build` form and job rendering under three input formats, so these are API tests.
@@ -128,8 +129,8 @@ It reviewed the full diff plus the surrounding loading and execution code, and r
 
 <details><summary>Test coverage</summary>
 
-- API: `lib/galaxy_test/api/test_user_tool_contract.py` has 64 cases. Each contract runs on a toolbox YAML tool, an API user tool created from YAML, and one created from JSON, under the legacy, 21.01 and request input formats. Fixtures are in `test/functional/tools/parameters/` (registered in `sample_tool_conf.xml`), with JSON twins in `lib/galaxy_test/base/data/user_tools/`.
-- At the final code, before the clean rebase onto current `release_26.1`, these pass: the contract module plus `test_unprivileged_tools.py` (81), the framework tests `simple_constructs_y`, `gx_boolean_user*`, `gx_repeat*`, `gx_section*` and `configfile` (19), and the `tool_util` and `app/tools` unit tests (1711, excluding the environment-only cwl/conda/mulled/expression cases).
+- API: `lib/galaxy_test/api/test_user_tool_contract.py` has 61 cases. Each contract runs on a toolbox YAML tool, an API user tool created from YAML, and one created from JSON, under the legacy, 21.01 and request input formats. Fixtures are in `test/functional/tools/parameters/` (registered in `sample_tool_conf.xml`), with JSON twins in `lib/galaxy_test/base/data/user_tools/`.
+- At the final code (`e36c43a2465`), these pass: the contract module plus `test_unprivileged_tools.py` (78), the framework tests `simple_constructs_y`, `gx_boolean_user*`, `gx_repeat*`, `gx_section*` and `configfile` (19), and the `tool_util` and `app/tools` unit tests (1779, excluding the environment-only cwl/conda/mulled/watcher/expression cases).
 - Earlier in hardening, `test_tool_execute.py` (117) passed, as did unit `workflows`, before the last two tweaks to `evaluation.py` and `yaml.py`.
 
 </details>
