@@ -16,5 +16,7 @@ expand it, the Download (save) icon. Embedded in `introduction/galaxy-intro-rdm`
   Added `test_history_dataset_copy_link` (`0b9b1788274`): the Download href and Copy Link URL are the
   same download link. No test checks the downloaded file; Playwright and Selenium save downloads
   differently, so a shared helper would be a bigger job.
+- `content_item.info_button` is `.params-btn`; the button is now `.info-btn`. Unnoticed because
+  `test_history_dataset_state._assert_buttons` is a stub that returns.
 - `test_library_contents.download_dataset_from_library` lacks the `test_` prefix, so it never runs.
 - gxui: `dataset-copy-link HID` (tip `fa8cfda6c7c`); no verb saves a download.

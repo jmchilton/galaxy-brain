@@ -288,7 +288,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: 0b9b1788274
   used_by: [introduction/galaxy-intro-rdm]
-  gx_findings: 'Download href is now /api/datasets/{id}/download (302 to /display; 26.1 linked /display). Added E2E that Download and Copy Link give that link (0b9b1788274); no test checks the saved file. test_library_contents.download_dataset_from_library lacks the test_ prefix and never runs. gxui: dataset-copy-link (tip fa8cfda6c7c).'
+  gx_findings: 'Download href is now /api/datasets/{id}/download (302 to /display; 26.1 linked /display). Added E2E that Download and Copy Link give that link (0b9b1788274); no test checks the saved file. test_library_contents.download_dataset_from_library lacks the test_ prefix and never runs. content_item.info_button (.params-btn) is stale (.info-btn); _assert_buttons is a stub. gxui: dataset-copy-link (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_download_using_command_line.md
   status: ui_verified
   mode: ui

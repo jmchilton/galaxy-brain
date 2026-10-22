@@ -15,6 +15,6 @@ items?" > **Hide**); then Include hidden and Unhide 1. Embedded in `galaxy-inter
 - Gap: nothing tested Hide or Unhide. Added `test_hide_and_unhide_items` (`3f1d565241a`) with
   `history_panel_hide_selected(unhide=False)`, `history_panel_include_hidden` and
   `history_panel.include_hidden_button`. The pick-and-confirm step shared with delete is now
-  `history_panel_confirm_selected_operation`. Green under Playwright and Selenium; the delete test
-  still passes.
+  `history_panel_confirm_selected_operation`. Green under Playwright and Selenium, as is the delete
+  test after the refactor.
 - gxui: `history-hide HIDS... [--unhide]` (tip `fa8cfda6c7c`).

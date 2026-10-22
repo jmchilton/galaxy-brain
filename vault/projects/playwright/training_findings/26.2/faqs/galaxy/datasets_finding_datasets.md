@@ -8,7 +8,7 @@ dataset in each of two histories; the Datasets list and its search. No tutorial 
 - `finding-datasets-user-menu` (main, 26.1 too): there is no **User > Datasets**; the user menu
   only has Preferences and Sign Out. The list is the Activity Bar's **Datasets**. It lists every
   history's datasets, hidden ones and collections included, with a name search.
-- The notes (uploads and logout, the most recently used history, the refresh icon) still hold.
+- The refresh icon is there; the notes on uploads (logout, most recently used history) weren't exercised.
 
 ## Galaxy
 
