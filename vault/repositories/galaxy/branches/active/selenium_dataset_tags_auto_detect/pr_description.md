@@ -89,7 +89,7 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Users see no change. The new tests fail on named waits (`hid N to be tagged name:plus`, `comment_lines to be re-detected as 0`) or pytest equality diffs, plus the framework's screenshot and DOM dump.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They check results, not markup: the input's `name:plus` tag and `metadata_comment_lines` going 0 → 3 → 0 are read through the API, and `#plus` is read off the output's rendered tags.

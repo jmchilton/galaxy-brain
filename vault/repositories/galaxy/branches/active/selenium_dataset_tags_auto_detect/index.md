@@ -1,13 +1,13 @@
 # selenium_dataset_tags_auto_detect
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_dataset_tags_auto_detect?expand=1)
+- [PR #24347](https://github.com/galaxyproject/galaxy/pull/24347)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_dataset_tags_auto_detect)
 
 ## Status
 
-Polished; ready for final review. Base `release_26.2`, head `0f23fc4cf5a`. See the [implementation debrief](implementation_debrief.md) and [polish debrief](polish_debrief.md).
+Polished; John read it through. Base `release_26.2`, head `0f23fc4cf5a`. See the [implementation debrief](implementation_debrief.md) and [polish debrief](polish_debrief.md).
 
-No PR. [Description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+Draft [#24347](https://github.com/galaxyproject/galaxy/pull/24347) opened 2026-10-21 on John's request, waiting on CI; title is pr_titles.md option 1. [Description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
 Fork CI green so far; Playwright, Integration and docs still running (2026-10-21).
 
