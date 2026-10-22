@@ -9,7 +9,7 @@ Polished, `branches_ready_for_final_review`; head `ef275d8fa42` on `release_26.1
 
 No PR yet.
 
-Fork CI pending on `ef275d8fa42`; prior tip's reds were infra only (cache miss, Playwright download DNS).
+Fork CI green on `ef275d8fa42` (CWL conformance skipped, not exercised by this change).
 
 ## Polish (2026-10-22)
 

@@ -4,7 +4,7 @@ Polished per `gx_branches/POLISH_BRANCH.md`. Old tip `58f9664c617` (kept as tag 
 
 ## CI
 
-The fork CI on `58f9664c617` showed only infra reds: a `galaxy-static-<sha>` cache miss (`fail-on-cache-miss`) in first startup, Integration Selenium and Selenium, plus a Playwright download DNS failure (`ENOTFOUND playwright.download.prss.microsoft.com`) in tool form harness. No test failed. The reruns were superseded by the push, so CI on `ef275d8fa42` is pending.
+The fork CI on `58f9664c617` showed only infra reds: a `galaxy-static-<sha>` cache miss (`fail-on-cache-miss`) in first startup, Integration Selenium and Selenium, plus a Playwright download DNS failure (`ENOTFOUND playwright.download.prss.microsoft.com`) in tool form harness. No test failed. The reruns were superseded by the push, and CI on `ef275d8fa42` came back all green (CWL conformance skipped).
 
 ## Checklist (GENERAL.md)
 
