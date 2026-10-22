@@ -238,7 +238,11 @@ John's decisions:
     - never `fields` outside a `record` collection.
   - The Mold bundles `galaxy-paired-or-unpaired-collections` on demand, and a new eval property checks the naming.
   - Not changed: the interface Mold's wording, and the other `*-summary-to-galaxy-template` Molds.
-  - Live check: `~/foundry-runs/nf2g-demo-fields-6-7-2026-10-22/` (`--from 6 --through 7`, seeded from 10-16) on local `tmp/rerun-author` + this fix + current main.
+  - Live check: `~/foundry-runs/nf2g-demo-fields-6-7-2026-10-22/` (`--from 6 --through 7`, seeded from 10-16) on local `tmp/rerun-author` + this fix + current main. **Failed** at phase 7: 11m43s, $1.61.
+    - Phase 6 fix held. The input has no `fields`, and its `doc` names `forward`/`reverse`/`unpaired`: "The source fastq_1/fastq_2 names are not Galaxy member names."
+    - Phase 7 stopped `loop_no_progress` at iteration 3. This template wrote `steps:` as a list, so `draft-next-step` names the step by label ("Restore trimmed sample-sheet metadata"). The call's `needs_tool` entry named the id, and the controller compared only the label. This is an older controller bug: the same comparison gates #686's blocked exit and repair. Earlier seeds keyed steps by id, so it never showed.
+    - Fixed on `feat/test-pipeline-loop-author` (`eaba0f33`): the blockers read resolves the step and accepts its id or label. Red test first; build-cli 318. #686 itself still has the bug.
+  - Rerun of phase 7, seeded from the 6–7 run (fixed phase 6): `~/foundry-runs/nf2g-demo-fields-7-2026-10-22/`.
 - Stacking hazard: main merged #695, which bumped `implement-galaxy-workflow-test` to rev 11. That collides with `feat/test-data-refs-omitted` (its own rev 11) and `fix/workflow-test-sample-sheet-rows` (rev 12). None of our branches is in main yet; each needs a rebase before its PR.
 
 ## Open questions
