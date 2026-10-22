@@ -1,6 +1,6 @@
 # issue_23980_static_restriction_default
 
-Status: `attention`. mvdbeek's 2026-10-20 review is addressed, and replies were posted 2026-10-22 (see [review response](review_response.md)). The promised restriction-string issue isn't open yet. Base: `release_26.2`. PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140). Tip `3274a9c98da`, with CI pending.
+Status: `attention`. mvdbeek's 2026-10-20 review is addressed, and replies were posted 2026-10-22 (see [review response](review_response.md)). Restriction-string follow-up: [#24375](https://github.com/galaxyproject/galaxy/issues/24375). Base: `release_26.2`. PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140). Tip `3274a9c98da`, with CI pending.
 
 Preselects defaults for statically restricted workflow text inputs (#23980). The run form can also submit `""` when it's the default option.
 

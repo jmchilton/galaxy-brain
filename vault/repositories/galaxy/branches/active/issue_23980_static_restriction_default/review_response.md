@@ -25,7 +25,7 @@ Pushed to the fork on 2026-10-22; tip `3274a9c98da`:
 
 > Yes, I think that's worth an issue. I'll open one.
 
-## Draft issue (not opened)
+## Restriction-string issue (opened 2026-10-22 as [#24375](https://github.com/galaxyproject/galaxy/issues/24375); original draft below)
 
 Title: Workflow text input restrictions lose data through the editor's `value:label,...` string
 
