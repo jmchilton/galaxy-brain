@@ -36,5 +36,8 @@ Idioms line 81 edited (nested `count`/`min`/`max`, `count: 1` unpaired example, 
 ## Closed (2026-10-21)
 
 PR #697 merged (`e7e35239`); issue closed with a note pointing at #697 and the earlier comment.
-Branch/worktree prune deferred: worktree `~/projects/worktrees/foundry/branch/issue-675` holds an
-uncommitted rewrite of the idioms paragraph (17 files, not in #697), not made by this session. Kept for John to decide.
+Follow-up: another session pushed `d07b03be` (drop `elements:` alias and `attributes:` from section 5)
+to the old branch after #697 merged, so it never reached main. Cherry-picked onto `issue-675-idioms-trim`
+(`9ebbcbc2`, note revision 9): PR https://github.com/galaxyproject/foundry/pull/698.
+That session also added a line to merged #697's body describing the trim; it's only true once #698 merges.
+Stale `issue-675-nested-count-docs` (local + origin) not yet deleted (auto-mode denied); worktree now on `issue-675-idioms-trim`.
