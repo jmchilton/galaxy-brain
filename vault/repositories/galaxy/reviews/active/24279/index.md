@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review of `890d6f7ab98` complete, not delivered: one P2 (integration test for bug 1) + seven P3s, all fixed on fork branch `pr_24279_review_0` (`4eff7fffd71`), not pushed into PR.
+Initial review of `890d6f7ab98` delivered 2026-10-22 as approval; approved, awaiting merge. Findings: one P2 (integration test for bug 1) + seven P3s, all fixed on fork branch `pr_24279_review_0` (`4eff7fffd71`), not pushed into PR.
 
 Open, ready for review, against `release_26.2` (milestoned 27.0). Author @mvdbeek. Fixes #24263, cached toolbox (18 files, +656/-71). Worktree `~/projects/worktrees/galaxy/pr/24279` (on `pr_24279_review_0`; no `.venv`, tests ran via main clone's venv).
