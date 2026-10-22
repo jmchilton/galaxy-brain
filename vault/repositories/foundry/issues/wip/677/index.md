@@ -3,6 +3,8 @@
 Issue: https://github.com/galaxyproject/foundry/issues/677 (scottcain, AI-posted, `needs-triage`)
 Branch: `issue-677-rename-syntax` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-677`, commit `da00dea6`. PR not opened; body in [pr_description.md](pr_description.md).
 Gaps 2 and 3 (lint precision, Python/TS parity) handed to tooling agents by John (2026-10-22).
+Upstream branches pushed, PRs not opened: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md),
+[galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/active/lint_untyped_params/index.md).
 
 Fix placement: `gxformat2-schema` paragraph, but only 2 casts package that note (cwl/nextflow template),
 so `implement-galaxy-tool-step` also got a one-line rule + eval property.
@@ -17,6 +19,10 @@ The issue's premise is wrong; the warning caught a real authoring defect.
   job's input dataset names, then `${k}` from `replacement_dict` only: workflow parameter inputs by
   step label (`run_request.py:744`) plus runtime step-label replacements (`run.py:709-716`).
   `rename: "Coverage track on ${on_string}"` stays literal unless a parameter is labelled `on_string`.
+  Correction (workflow_libs, 2026-10-22): there's no such label, so Galaxy treats `on_string` as an informal
+  replacement parameter (`get_informal_replacement_parameters`). Both UI run forms prompt for it as
+  free text and fill whatever the user types; only API/planemo runs (no `replacement_params`) leave
+  it literal. Keep this in mind for the reply to Scott: "literal names" holds for API runs only.
 - IWC: 0 `.ga` renames use `${on_string}`; `${X}` renames reference declared parameter labels
   (`${Haplotype}`, `${Taxonomic abundance summary table name}`); 6 use `#{...}`.
 - Not a foundry bug: the check is gxformat2 `lint.py:_check_json_for_untyped_params` and its TS port
