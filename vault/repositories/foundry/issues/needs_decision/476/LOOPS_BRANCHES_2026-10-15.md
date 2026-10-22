@@ -242,7 +242,14 @@ John's decisions:
     - Phase 6 fix held. The input has no `fields`, and its `doc` names `forward`/`reverse`/`unpaired`: "The source fastq_1/fastq_2 names are not Galaxy member names."
     - Phase 7 stopped `loop_no_progress` at iteration 3. This template wrote `steps:` as a list, so `draft-next-step` names the step by label ("Restore trimmed sample-sheet metadata"). The call's `needs_tool` entry named the id, and the controller compared only the label. This is an older controller bug: the same comparison gates #686's blocked exit and repair. Earlier seeds keyed steps by id, so it never showed.
     - Fixed on `feat/test-pipeline-loop-author` (`eaba0f33`): the blockers read resolves the step and accepts its id or label. Red test first; build-cli 318. #686 itself still has the bug.
-  - Rerun of phase 7, seeded from the 6–7 run (fixed phase 6): `~/foundry-runs/nf2g-demo-fields-7-2026-10-22/`.
+  - Rerun of phase 7, seeded from the 6–7 run (fixed phase 6): `~/foundry-runs/nf2g-demo-fields-7-2026-10-22/`. **Failed** `loop_blocked`: 11 iterations, 33m55s, 198 turns, $4.03.
+    - Held: the label fix (escalations fire on listed steps), and the phase-6 fix (the authored explode script reads `forward`/`reverse`/`unpaired`).
+    - Authoring asked for on 4 of 5 steps. Explode, restore and FastQC used the shared cap of 3, so MultiQC, the fourth, stopped at the cap. Reasons given:
+      - explode: "Apply Rules can derive the required labels", but can't *reject* collisions. The collision rule was read as a runtime check, not a naming choice.
+      - FastQC: no ZIP on `devteam/fastqc`.
+      - MultiQC: IUC 1.33 takes txt, not ZIPs, and has no config or methods ports.
+      - restore: Apply Rules takes one collection.
+    - Third run in a row where authoring is the easy way out. Exact source parity drives each rejection, not what consumers need. Next: a close-enough rule.
 - Stacking hazard: main merged #695, which bumped `implement-galaxy-workflow-test` to rev 11. That collides with `feat/test-data-refs-omitted` (its own rev 11) and `fix/workflow-test-sample-sheet-rows` (rev 12). None of our branches is in main yet; each needs a rebase before its PR.
 
 ## Open questions
