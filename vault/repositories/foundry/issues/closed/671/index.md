@@ -28,3 +28,7 @@ rejected. Line 100: `element_tests:` at each level. Bump revision 4→5, recast,
 ## Done (2026-10-21)
 
 Applied as proposed; 12 casts + Dashboard regenerated. Vendored-schema check: fixed example valid, inner `collection_type` valid (ignored at runtime), `type:` rejected. All six checks green.
+
+## Closed (2026-10-21)
+
+PR #699 merged; issue auto-closed. Worktree and local branch removed; `origin/issue-671-nested-input-type` left (remote deletes auto-mode denied).

@@ -36,7 +36,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#679](https://github.com/galaxyproject/foundry/issues/679) — test-plan `evidence` can't mark fixture-derived values; `family` has no home for output attributes; PR [#695](https://github.com/galaxyproject/foundry/pull/695). [notes](../../repositories/foundry/issues/wip/679/index.md)
 - [#573](https://github.com/galaxyproject/foundry/issues/573) — `implement-galaxy-tool-step` documents no binding convention for an authored UDT; draft PR [#617](https://github.com/galaxyproject/foundry/pull/617). [notes](../../repositories/foundry/issues/wip/573/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](../../repositories/foundry/issues/wip/694/index.md)
-- [#671](https://github.com/galaxyproject/foundry/issues/671) — iwc-test-data-conventions nested input example uses `type:` (schema rejects; IWC uses `collection_type`); PR [#699](https://github.com/galaxyproject/foundry/pull/699). [notes](../../repositories/foundry/issues/wip/671/index.md)
+- [#657](https://github.com/galaxyproject/foundry/issues/657) — planemo-asserts-idioms omits `has_line_matching` anchoring and `has_n_columns` first-line semantics; branch `issue-657-assert-semantics` on `origin`. [notes](../../repositories/foundry/issues/wip/657/index.md)
 
 ## Queued (`queued`)
 
