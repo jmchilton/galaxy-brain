@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Last two nits seem marginal at best - but the first ones here look worth a review. Nothing in the PR looks problematic to me. -John
 
 <details><summary>Automated Review Details</summary>
 
