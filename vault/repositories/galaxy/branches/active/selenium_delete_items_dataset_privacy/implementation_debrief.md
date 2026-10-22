@@ -30,6 +30,7 @@ Five commits:
 - **Lint:** eslint, prettier, vue-tsc and pre-commit are clean.
 - **Merges:** clean with all queued 26.2 selenium siblings.
 - **Screenshots:** 7, in `screenshots/`.
+- **Final head `b2722375165`, post-fix client:** `test_rerun_deleted_dataset` passes under Playwright and Selenium. The delete and unhide E2Es pass under Selenium. Playwright ran on the identical tree at `864f139b58f`.
 
 ## Decision needed (John)
 
