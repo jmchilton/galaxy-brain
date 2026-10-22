@@ -41,6 +41,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 
 ## Queued (`queued`)
 
+- [#676](https://github.com/galaxyproject/foundry/issues/676) — casts cite `parsed-tool`, `summarize`, `draft-next-step` without packaging them; next: add on-demand refs to the Molds. [notes](../../repositories/foundry/issues/queued/676/index.md)
 - [#3](https://github.com/galaxyproject/foundry/issues/3) — Hero pipeline-fan widget (replace pipeline matrix / new /pipelines/ landing); next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/3/index.md)
 - (large) [#40](https://github.com/galaxyproject/foundry/issues/40) — Write IWC exemplar match schema; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/40/index.md)
 - [#48](https://github.com/galaxyproject/foundry/issues/48) — Write target test plan schema; next: research and add a first comment. [notes](../../repositories/foundry/issues/queued/48/index.md)
