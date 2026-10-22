@@ -7,7 +7,7 @@ Pushed to the fork on 2026-10-22; tip `3274a9c98da`:
 - `3274a9c98da` types multiple text parameters strictly, on John's call: the feature is new in 26.2 (#23992, not in any release), so it shouldn't coerce. All three `str()` conversions that #23992 added in response to mvdbeek's review are gone (`restrict_options`, `TextToolParameter.get_initial_value`, `_multiple_to_python`). A non-text default on a multiple text input now fails the run form with a 400 (`InputParameterModule.get_runtime_inputs`), and runtime entries must be `str`. The numeric test is now `test_value_restriction_rejects_multiple_numeric_text_list_default`. Doctests 15 passed, workflow units 194 passed, related API tests 14 passed.
 - Static check: nothing in the client mutates the option tuples' `selected` flag, so both Selenium tests should still pass. Fork CI will confirm.
 
-## Draft thread replies (not posted)
+## Thread replies (posted 2026-10-22)
 
 **`modules.py:1677` (`str()` conversion)**
 
