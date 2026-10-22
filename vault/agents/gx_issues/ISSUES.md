@@ -102,6 +102,8 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#24138](https://github.com/galaxyproject/galaxy/issues/24138) — invocation Steps tab step headers freeze while invocation runs (regression #20719); next: watcher in `useInvocationGraph`, red component vitest. [notes](../../repositories/galaxy/issues/queued/24138/index.md)
 - [#22745](https://github.com/galaxyproject/galaxy/issues/22745) — invocation graph freezes mid run; O(n²) 3 s refresh measured, comment posted; next: hoist PR + idle-refresh test. [notes](../../repositories/galaxy/issues/queued/22745/index.md)
 - [#24350](https://github.com/galaxyproject/galaxy/issues/24350) — `has_line_matching` wraps regex as `^e$` (ungrouped) but docs match `has_text_matching`; next: red unit test, split annotation, regen. [notes](../../repositories/galaxy/issues/queued/24350/index.md)
+- [#24376](https://github.com/galaxyproject/galaxy/issues/24376) — library folder download Selenium test lacks `test_` prefix; stale selector + zip name; next: rename, fix both, run. [notes](../../repositories/galaxy/issues/queued/24376/index.md)
+- [#24377](https://github.com/galaxyproject/galaxy/issues/24377) — `_assert_buttons` in `test_history_dataset_state.py` is a stub; `info_button` etc. stale; next: fix selectors/tooltips, restore. [notes](../../repositories/galaxy/issues/queued/24377/index.md)
 
 
 ## Blocked on others (`blocked`)
