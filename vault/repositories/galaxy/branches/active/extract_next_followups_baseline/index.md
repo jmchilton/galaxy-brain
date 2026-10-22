@@ -11,7 +11,7 @@ The first seven commits of [`extract_next_followups`](../extract_next_followups/
 
 Draft PR [#24368](https://github.com/galaxyproject/galaxy/pull/24368) opened 2026-10-22 at John's request, titled "[26.2] Branch refactoring and tests to enable notebook extraction fixes"; undraft once CI is greenish.
 
-Local: unit 130 passed; extraction + pages API 139 passed, 1 skipped (not a baseline test). First PR CI run failed isort (format) only; rerunning on `602cf07cb37`.
+Local: unit 130 passed; extraction + pages API 139 passed, 1 skipped (not a baseline test). First PR CI run failed isort (format) only, fixed. On `602cf07cb37`, framework tools (`never` legacy API) failed `output_filter/1.0.0-3` with 5 outputs instead of 3. That is unrelated: a race in `resolve_tool_submission`, where `job_outputs` can include discovered `__new_primary_file_*` element datasets. Failed job rerun 2026-10-22.
 
 ## Polish
 
