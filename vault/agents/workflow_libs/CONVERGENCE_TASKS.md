@@ -152,7 +152,7 @@ Out of scope (TS ports of Galaxy's `tool_util.workflow_state` and connection val
 - **Verified:** the declarative suite gives 387 pass / 1 skip. `check-sync-workflow-expectations` exits 0. `check-sync-workflow-fixtures` exits 1, only because of the draft dir (task 4a).
 - **Merge order:** merge this first. Tasks 1, 3 and 8 build on its files and ops.
 
-## In-flight: `lint_untyped_params` (both repos, pushed, no PRs)
+## In-flight: `lint_untyped_params` (gxformat2#271, galaxy-tool-util-ts#195)
 
 - **Fixes:** a parity split in untyped-param lint (Py `re.match` vs TS search). Both now follow Galaxy's `${name}` semantics with identical messages, and renames referencing declared parameter labels no longer warn.
 - **Shared fixtures:** `synthetic-untyped-params.{ga,gxwf.yml}` with `test_bp_{native,format2}_untyped_params`.

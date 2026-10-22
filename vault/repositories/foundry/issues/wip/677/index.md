@@ -4,7 +4,7 @@ Issue: https://github.com/galaxyproject/foundry/issues/677 (scottcain, AI-posted
 Branch: `issue-677-rename-syntax` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-677`, commit `ef8abda3` on `da00dea6` (second commit applies the informal-parameter correction below).
 PR: https://github.com/galaxyproject/foundry/pull/702 (opened 2026-10-22; body from [pr_description.md](pr_description.md)).
 Gaps 2 and 3 (lint precision, Python/TS parity) handed to tooling agents by John (2026-10-22).
-Upstream branches pushed, PRs not opened: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md),
+Upstream lint PRs: [gxformat2#271](https://github.com/galaxyproject/gxformat2/pull/271), [galaxy-tool-util-ts#195](https://github.com/jmchilton/galaxy-tool-util-ts/pull/195); records: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md),
 [galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/active/lint_untyped_params/index.md).
 Planemo runtime side: https://github.com/galaxyproject/planemo/issues/1750 (send `<DEPRECATED_PARAMETER_UNSET>` for informal params + warn).
 
