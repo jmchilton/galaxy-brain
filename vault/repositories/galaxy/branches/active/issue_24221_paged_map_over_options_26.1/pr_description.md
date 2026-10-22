@@ -16,12 +16,12 @@ Past the first page of options (50 by default), the map-over row can also just v
 
 <details><summary>What changes</summary>
 
-- **Server** (`pagination.py`): `accumulate_with_filter` finishes the row it's on, so a page can return `limit + 1` entries rather than splitting a collection across pages. This is the same fix as on dev.
+- **Server** (`pagination.py`): `accumulate_with_filter` finishes the row it's on, so a page can return `limit + 1` entries rather than splitting a collection across pages. The same fix is on the `issue_20657_input_processing_mode` branch, not yet on dev.
 - **Client page merge**: `ToolForm.vue` and `WorkflowRunDefaultStep.vue` share a new `mergeDataOptions`, keyed on `src`+`id`+`map_over_type`.
 - **Selection identity** (`FormData`): `itemUniqueKey` includes `map_over_type`. `findDataOption` tries the exact entry first, then any entry for the same item, so values without `map_over_type` still resolve to the direct row as before. The keep-option cache, the `createValue` dedupe, incoming-value normalization and the drag-enter duplicate check all go through these helpers. Several of them used to match on `id` alone.
-- **Label**: on collection inputs, map-over rows get ` (one job per <unit>)` (`dataset`, `list`, `dataset pair`, …). Dataset inputs get no suffix.
+- **Label**: on collection inputs, map-over rows get ` (one job per <unit>)` (`dataset`, `list`, `dataset pair`, `list:list collection`, …), named the same way as #24223's batch hint. Dataset inputs get no suffix.
 
-The helpers are line-for-line the ones on dev (from the `issue_20657_input_processing_mode` work), so merging forward should be easy. Dev shows a badge through a FormSelect `label-area` slot that 26.1 doesn't have, so here the label is plain text.
+The helpers are line-for-line the ones on the `issue_20657_input_processing_mode` branch. `release_26.2` and dev still have the old `ToolForm.vue` merge and `pagination.py`, and `ToolForm.vue` is `<script setup>` there, so the client side has to be ported by hand when merging forward. That branch shows a badge through a FormSelect `label-area` slot that 26.1 doesn't have, so here the label is plain text.
 
 </details>
 
@@ -71,7 +71,7 @@ Regression from 🔀 #22643 (26.1), which added option paging and listed both en
 
 <details><summary>One behavior-preserving commit adds the id+src lookup helpers before the fix.</summary>
 
-- `27506823dcb` adds `isSameItem`/`findDataOption` and routes FormData's value lookups and keep-option keys through them. This is the FormData/types half of the matching dev commit, applied verbatim. The final tree is identical.
+- `d093a0a544e` adds `isSameItem`/`findDataOption` and routes FormData's value lookups and keep-option keys through them. This is the FormData/types half of the matching `issue_20657_input_processing_mode` commit, applied verbatim. The final tree is identical.
 - Left in the fix commits, because they change behavior: `mergeDataOptions` (a single id+src helper would have made ToolForm drop same-page map-over entries), the `id`-only call sites, and `handleIncoming`'s rewire.
 - It can be squashed into the map-over commit if reviewers want fewer commits.
 
