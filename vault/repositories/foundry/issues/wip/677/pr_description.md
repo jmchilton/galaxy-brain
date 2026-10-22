@@ -7,10 +7,10 @@ Refs #677.
 - `#{input}` becomes the name of the dataset bound to that tool input. Nested inputs use `.`, and `| basename`, `| upper` or `| lower` are optional.
 - `${label}` becomes the value of the workflow parameter input with that label.
 
-Anything else stays literal in the dataset name. IWC agrees: no `.ga` rename uses `${on_string}`, and its `${X}` renames name declared parameter inputs.
+A `${name}` with no matching parameter input, `${on_string}` included, is an informal, untyped parameter (`get_informal_replacement_parameters`). The run form asks for a free-text value, and an API or Planemo run without `replacement_params` leaves it literal in the dataset name. IWC agrees: no `.ga` rename uses `${on_string}`, and its `${X}` renames name declared parameter inputs.
 
 **Changes**
-- `gxformat2-schema` (rev 4): a paragraph on rename syntax after the step `out:` actions, sourced to Galaxy v26.1.1 `post.py`.
+- `gxformat2-schema` (rev 4): a paragraph on rename syntax after the step `out:` actions, sourced to Galaxy v26.1.1 `post.py` and `modules.py`.
 - `implement-galaxy-tool-step` (rev 10): a one-line rule under "Preserve testability". It's there because this skill doesn't package `gxformat2-schema`.
 - `implement-galaxy-tool-step` eval: a new property that fails a rename using a tool-XML variable.
 - The affected casts and `Dashboard.md` are regenerated. Docs only, so there's no changeset.

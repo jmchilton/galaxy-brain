@@ -1,7 +1,8 @@
 # foundry#677 — `gxwf lint` untyped-param warning on `${on_string}` renames
 
 Issue: https://github.com/galaxyproject/foundry/issues/677 (scottcain, AI-posted, `needs-triage`)
-Branch: `issue-677-rename-syntax` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-677`, commit `da00dea6`. PR not opened; body in [pr_description.md](pr_description.md).
+Branch: `issue-677-rename-syntax` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-677`, commit `ef8abda3` on `da00dea6` (second commit applies the informal-parameter correction below).
+PR: https://github.com/galaxyproject/foundry/pull/702 (opened 2026-10-22; body from [pr_description.md](pr_description.md)).
 Gaps 2 and 3 (lint precision, Python/TS parity) handed to tooling agents by John (2026-10-22).
 Upstream branches pushed, PRs not opened: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md),
 [galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/active/lint_untyped_params/index.md).
