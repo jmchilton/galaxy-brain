@@ -1,8 +1,19 @@
 # yaml_boolean_defaults
 
-Status: `branches_implemented_needs_ci`.
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:yaml_boolean_defaults?expand=1)
+- [View on GitHub](https://github.com/jmchilton/galaxy/tree/yaml_boolean_defaults)
 
-Honors explicit YAML Boolean defaults with user-tool API contract coverage (#23888).
+## Status
+
+Polished, `branches_ready_for_final_review`; head `ef275d8fa42` on `release_26.1` `6ff6692662d`.
+
+No PR yet.
+
+Fork CI pending on `ef275d8fa42`; prior tip's reds were infra only (cache miss, Playwright download DNS).
+
+## Polish (2026-10-22)
+
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish debrief](polish_debrief.md). Open for John: release-branch rationale for 26.1, and the disk-optionality change on a release branch.
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Tracking history](tracking_history.md)
 
@@ -13,15 +24,3 @@ Rebased onto `origin/release_26.1` (`6df388987b4`); old tip `01027324b35`. Only 
 Hardened tip `9894e813cc1` (pushed): fixture fix → Baseline tests → 2 refactor commits → 3 fix commits. Contract suite 46 passed / 4 strict xfail. First-pass debriefs in [earlier_drafts/1](earlier_drafts/1/scope_evaluation.md).
 
 **Re-scope (John, 2026-10-20):** expand to canonical YAML `repeat`/`section` loading + `yaml_origin` in `strictify` section branch. Original scope kept as `yaml_boolean_defaults_alt_original_scope` ([alt](alts/original_scope.md)). Re-hardened tip `58f9664c617` (pushed): repeat/section loading, strictify sections, `__current_case__` stripping; contract suite 64 passed. Second scope evaluation: keep as implemented. STATUS READY; needs CI on new tip.
-
-## TICK — 2026-10-12
-
-Current fork tip `01027324b35b860fd2136d1baf442a882c3a80f6` conflicts with dev in `lib/galaxy/tool_util/parameters/convert.py`, `lib/galaxy/tool_util/parser/interface.py`, `lib/galaxy/tool_util/parser/util.py`, `lib/galaxy/tools/__init__.py`, `lib/galaxy_test/base/populators.py`. The overlapping production behavior/schema or linter changes require a substantive reconciliation; left branch intact under the automatic small/mechanical-conflict limit. Existing workflow status and review decisions remain.
-
-## GOOD_MORNING — 2026-10-13
-
-Current fork head `01027324b35b860fd2136d1baf442a882c3a80f6` conflicts with `origin/dev` in 5 paths. Overlapping behavior, schema or assertion changes require deliberate reconciliation beyond the standing mechanical/small-conflict authorization. Branch left intact. `lib/galaxy/tool_util/parameters/convert.py` · `lib/galaxy/tool_util/parser/interface.py` · `lib/galaxy/tool_util/parser/util.py` · `lib/galaxy/tools/__init__.py` · `lib/galaxy_test/base/populators.py`
-
-## Morning refresh — 2026-10-16
-
-Conflict preview against `origin/dev` at `01027324b35b860fd2136d1baf442a882c3a80f6` found overlapping changes in 5 paths (`lib/galaxy/tool_util/parameters/convert.py`, `lib/galaxy/tool_util/parser/interface.py`, `lib/galaxy/tool_util/parser/util.py`, `lib/galaxy/tools/__init__.py`, `lib/galaxy_test/base/populators.py`). These include behavior/schema/assertion changes beyond a small mechanical rebase; fork and development worktree left intact. Existing status/review holds remain.

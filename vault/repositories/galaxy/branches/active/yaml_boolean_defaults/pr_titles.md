@@ -1,0 +1,4 @@
+- [26.1] Load YAML tool inputs the way the tool models define them
+- [26.1] Fix YAML tools ignoring Boolean `value`, canonical repeats and sections
+- [26.1] YAML tools: honor Boolean `value`, `optional: false` default, `repeat`/`section` parameters
+- [26.1] Make the YAML tool loader agree with the YAML tool models on input defaults and groups
