@@ -10,10 +10,11 @@ On 26.1, Galaxy validates a YAML tool against the `GalaxyTool`/`GalaxyUserTool` 
 | `{type: repeat, parameters: [...]}` | ❌ HTTP 500 (`KeyError: 'blocks'`) | ✅ loads and runs |
 | `{type: section, parameters: [...]}` | ❌ HTTP 500 (`Unknown Galaxy parameter type section`) | ✅ loads and runs |
 | API user tool repeat (the model writes unset `min`/`max` as `null`) | ❌ HTTP 500 (`float(None)`) | ✅ unset |
+| legacy `checked:` / `blocks:` in a `class: GalaxyTool` disk tool | accepted as a second dialect | ⛔ load error naming `value` / `parameters` |
 
 The Boolean row is the headline: ***a user-defined tool cannot default a Boolean to true on 26.1***. `value: true` is ignored, and `checked: true` is rejected by the model.
 
-***Only YAML tools that declare `class: GalaxyTool` or `class: GalaxyUserTool` change, and they read only the canonical form, on disk too: `value:` for Boolean defaults and `parameters:` for repeats and sections. Legacy `checked:` and `blocks:` fail the tool load with an error naming the canonical key. XML tools and class-less YAML tools take the same code paths as before.*** The parameter-model dump over every XML tool in `test/functional/tools` is byte-identical. The in-tree class-declaring tools that used the legacy keys move to the canonical ones: `simple_constructs.yml`, plus YAML tools embedded in `test_parsing.py`, `test_tool_linters.py` and `test_user_tool_parser_trust.py`.
+***Only YAML tools that declare `class: GalaxyTool` or `class: GalaxyUserTool` change. They speak only the canonical form, on disk too, and a legacy key fails the load instead of being silently misread. XML tools and class-less YAML tools take the same code paths as before.*** Disk YAML in the canonical classes is greenfield, so no legacy dialect is kept for it. The parameter-model dump over every XML tool in `test/functional/tools` is byte-identical. The few in-tree class-declaring tools that used legacy keys are converted: `simple_constructs.yml`, plus YAML embedded in `test_parsing.py`, `test_tool_linters.py` and `test_user_tool_parser_trust.py`.
 
 ***This is the input-loading slice of #23888, not the whole issue.*** Scalar `GalaxyTool` outputs, unknown-field strictness on `GalaxyTool`, and the class-less YAML dialect are separate seams that the issue proposes as separate PRs.
 
@@ -38,7 +39,7 @@ The Boolean row is the headline: ***a user-defined tool cannot default a Boolean
 
 ## Risks
 
-This sets behavior for tool authors on a release branch, a one-way door. Existing `class: GalaxyTool` disk tools with a text or multi-select input that omits `optional` become required, the same tools lose legacy `checked:`/`blocks:`, and legacy/21.01 user tools stop seeing `__index__`/`__current_case__` in `$(inputs)`.
+This sets behavior for tool authors on a release branch, a one-way door. Existing `class: GalaxyTool` disk tools with a text or multi-select input that omits `optional` become required, the same tools fail to load if they still use `checked:`/`blocks:`, and legacy/21.01 user tools stop seeing `__index__`/`__current_case__` in `$(inputs)`.
 
 <details><summary>Risk Details</summary>
 
@@ -53,9 +54,9 @@ This sets behavior for tool authors on a release branch, a one-way door. Existin
 
 <details><summary>Risk Review Advice</summary>
 
-The question for 26.1 is whether the disk-optionality change belongs there. It only makes disk `GalaxyTool` files behave as they already do once created through the API, but it can make a previously optional input required. If that's too much for a release branch, the Boolean and structural fixes don't depend on it, and the alt branch below shows the split points.
+The question for 26.1 is whether the disk-optionality change belongs there. It only makes disk `GalaxyTool` files behave as they already do once created through the API, but it can make a previously optional input required. If that's too much for a release branch, the Boolean and structural fixes don't depend on it, and the alt branch below shows the split points. The legacy-key rejection is the other deliberate break: a third-party disk `GalaxyTool` still using `checked:`/`blocks:` stops loading, with a message saying what to change.
 
-In the code, check `CanonicalYamlInputSource` and the `is_yaml_origin` predicate, because they decide which tools change. Also check the `yaml_origin` branch in `_fill_default_for`, the only request-path behavior change. The `remap` visitor in `evaluation.py` drops exactly two keys. It only descends into dicts and lists, so model objects such as HDAs pass through untouched.
+In the code, check `CanonicalYamlInputSource` (including its `__init__` legacy-key check) and the `is_yaml_origin` predicate, because they decide which tools change. Also check the `yaml_origin` branch in `_fill_default_for`, the only request-path behavior change. The `remap` visitor in `evaluation.py` drops exactly two keys. It only descends into dicts and lists, so model objects such as HDAs pass through untouched.
 
 </details>
 
@@ -71,6 +72,7 @@ Alternative kept on 🌿[`yaml_boolean_defaults_alt_original_scope`](https://git
 
 - The first pass recommended finishing #23888's model→loader slice: canonical repeats and sections, plus the YAML Boolean policy inside `strictify` sections. That was done, and the original scope is kept as the alt branch.
 - The second pass recommended no further change. The legacy `to_cwl` path still leaks top-level runtime keys (`__input_ext`, `chromInfo`, …) into `$(inputs)` for legacy-format user tools. That is real but sits on a deprecated path, and removing the keys could break tools that read them.
+- After polish, John narrowed the disk contract: class-declaring YAML is greenfield, so legacy `checked:`/`blocks:` are rejected rather than honored.
 - Decompositions considered: five PRs, one per step; two PRs along the alt split; three PRs with the test-infra fix pulled out; or one PR. Each fix commit is a red→green step over one shared contract suite, so one PR reads commit by commit.
 
 </details>
@@ -89,6 +91,7 @@ Alternative kept on 🌿[`yaml_boolean_defaults_alt_original_scope`](https://git
 <details><summary>Every case fails at its own behavior assertion until the commit that owns it; base production fails 47 of 64.</summary>
 
 - With the tip's tests on base production code: 47 failed, 11 passed, 6 skipped. The skipped cases are disk repeat/section tools, which can't load at base. Red drops commit by commit: 26 → 21 → 18 → 9 → 6 → 0. These counts were measured on 64 cases, before the three disk `checked:` compatibility cases were dropped.
+- The legacy-key rejection tests came after this round and were written red first. All six rejection cases failed before the check landed: four were silently accepted and two raised a bare `KeyError`.
 - The cases that pass at base are the ones a commit doesn't change, such as API user tools' optionality, which was already canonical.
 - Strengthened three positional `inputs[0]` lookups to also assert the input name. Moved the `use_cached_job` helper fix ahead of the baseline.
 - The contracts have no unit tests: each one crosses parsing, the `/build` form and job rendering under three input formats, so these are API tests.
@@ -109,7 +112,7 @@ Alternative kept on 🌿[`yaml_boolean_defaults_alt_original_scope`](https://git
 
 <details><summary>Codex reported no correctness defects. One reuse finding (the traversal above) was confirmed and fixed.</summary>
 
-It reviewed the full diff plus the surrounding loading and execution code, and ran 96 targeted conversion and YAML-model unit tests.
+It reviewed the full diff plus the surrounding loading and execution code, and ran 96 targeted conversion and YAML-model unit tests. This and the thermo-nuclear review predate the legacy-key rejection.
 
 </details>
 
