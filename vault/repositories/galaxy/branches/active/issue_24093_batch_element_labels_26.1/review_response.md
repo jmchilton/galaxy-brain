@@ -66,3 +66,17 @@ Done. Only the case matching `__current_case__` gets `incoming`. The API tests a
 - Implementation bullet 3: replace "resolved through `from_json` like the first" with "bulk-loaded in one query per source (HDA, HDCA) plus a tag load, limited to the current or the user's own histories; deleted or errored values, collections with deleted elements and malformed ids are skipped". Add: "Only the active conditional case reads `incoming`."
 - Risk Review Advice: the `full_name` keying is now covered by API tests for conditionals and repeats.
 - Tests list: add the six `test_tools.py` API tests (`test_build_labels_every_batch_value`, `test_build_labels_every_batch_collection`, `test_build_skips_batch_collection_with_deleted_elements`, `test_build_skips_batch_values_of_other_users`, `test_build_labels_batch_values_in_active_conditional_case_only`, `test_build_labels_batch_values_in_repeat`).
+
+## Round 2 — mvdbeek perf commits (2026-10-22)
+
+He posted two perf commits on `mvdbeek:issue_24093_batch_labels_perf` (on top of `3f058729bad`) and asked whether to cherry-pick them or do a follow-up. We fast-forwarded to them, keeping his SHAs: head `dffba2cc4b0`.
+
+- `8d2ffd1228a` eager-loads `implicitly_converted_datasets` → converted HDA → tags, plus `HDCA.collection`, in `_load_owned_items`.
+- `dffba2cc4b0` indexes options by id in `FormData.vue` (`formattedOptions` keep-option merge, `matchedValues`). Checked by reading: same order (latest keep-option first), page options still beat pinned ones.
+- Re-ran: `test_data_parameters.py` (22 pass) and the FormData vitest suites (29 pass; Node 25 needs `NODE_OPTIONS=--no-experimental-webstorage` locally). `cd lib && mypy` reports nothing in `basic.py`, so his `type: ignore` is needed. Build API tests are left to CI.
+
+### Draft: PR comment reply
+
+Thanks, both were good and they're pulled in. I fast-forwarded the branch to your two commits (head `dffba2cc4b0`), so they keep your SHAs. Re-ran `test_data_parameters.py` and the FormData vitest suites locally, both green. Agreed on leaving the vue-multiselect per-selected-value cost for now.
+
+***Posted by model Claude Opus 5.5 on jmchilton's behalf***
