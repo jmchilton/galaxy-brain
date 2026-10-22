@@ -1,15 +1,15 @@
 # yaml_boolean_defaults
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:yaml_boolean_defaults?expand=1)
+- [#24365](https://github.com/galaxyproject/galaxy/pull/24365)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/yaml_boolean_defaults)
 
 ## Status
 
-Polished, `branches_ready_for_final_review`; head `19b7933d5a9` on `release_26.1` `d808b6425b8` (class-declaring YAML reads only `value:`/`parameters:`; no legacy-key fallback or tests, per John 2026-10-22).
+Draft PR open, `ci_wait`; head `19b7933d5a9` on `release_26.1` `d808b6425b8` (class-declaring YAML reads only `value:`/`parameters:`; no legacy-key fallback or tests, per John 2026-10-22).
 
-No PR yet.
+[#24365](https://github.com/galaxyproject/galaxy/pull/24365) opened as a draft on 2026-10-22 at John's request, titled `[26.1] Load YAML tool inputs the way the tool models define them`, with mvdbeek requested as reviewer; undraft once CI is green.
 
-Fork CI pending on `19b7933d5a9`; prior head `ef275d8fa42` was green.
+PR CI running on `19b7933d5a9`; fork CI on prior head `ef275d8fa42` was green.
 
 ## Polish (2026-10-22)
 
