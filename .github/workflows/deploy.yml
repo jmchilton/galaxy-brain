@@ -6,9 +6,11 @@ permissions:
   contents: read
   pages: write
   id-token: write
+# Agents push every few minutes; cancelling in-progress runs meant no deploy ever finished.
+# Without cancellation the running deploy completes and only the newest pending run is kept.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { fileURLToPath } from 'node:url';
+import { glob, type Loader } from 'astro/loaders';
 import { slugifyPath, vaultPathToSlug } from './lib/vault-urls';
 import {
   FACTORY_FILES_PATTERN,
@@ -8,6 +9,23 @@ import {
   REPOSITORY_FILES_PATTERN,
   VAULT_PATTERN,
 } from './lib/collection-patterns';
+import { filterWatcher, patternMatcher } from './lib/watch-filter';
+
+const VAULT_BASE = '../vault';
+
+/** glob() over the vault whose dev watcher honors `!` excludes (Astro's own re-check ORs them). */
+function vaultGlob(pattern: string[], generateId: (entry: string) => string): Loader {
+  const loader = glob({ pattern, base: VAULT_BASE, generateId: ({ entry }) => generateId(entry) });
+  const matches = patternMatcher(pattern);
+  return {
+    ...loader,
+    load: (context) => loader.load({
+      ...context,
+      watcher: context.watcher
+        && filterWatcher(context.watcher, fileURLToPath(new URL(VAULT_BASE, context.config.root)), matches),
+    }),
+  };
+}
 
 const noteTypeSchema = z.enum(['research', 'plan', 'plan-section', 'concept', 'moc', 'project', 'paper']);
 const statusSchema = z.enum(['draft', 'reviewed', 'revised', 'stale', 'archived']);
@@ -15,13 +33,7 @@ const paperStageSchema = z.enum(['idea', 'outline', 'evidence', 'drafting', 'pre
 const paperKindSchema = z.enum(['application-note', 'software', 'methods', 'perspective', 'white-paper', 'review']);
 
 const vault = defineCollection({
-  loader: glob({
-    pattern: VAULT_PATTERN,
-    base: '../vault',
-    generateId({ entry }) {
-      return vaultPathToSlug(entry);
-    }
-  }),
+  loader: vaultGlob(VAULT_PATTERN, vaultPathToSlug),
   schema: z.object({
     type: noteTypeSchema,
     tags: z.array(z.string()),
@@ -67,49 +79,25 @@ const vault = defineCollection({
 });
 
 const projectFiles = defineCollection({
-  loader: glob({
-    pattern: PROJECT_FILES_PATTERN,
-    base: '../vault',
-    generateId({ entry }) {
-      return slugifyPath(entry);
-    }
-  }),
+  loader: vaultGlob(PROJECT_FILES_PATTERN, slugifyPath),
   schema: z.object({}).passthrough()
 });
 
 const paperFiles = defineCollection({
-  loader: glob({
-    pattern: PAPER_FILES_PATTERN,
-    base: '../vault',
-    generateId({ entry }) {
-      return slugifyPath(entry);
-    }
-  }),
+  loader: vaultGlob(PAPER_FILES_PATTERN, slugifyPath),
   schema: z.object({}).passthrough()
 });
 
 // Branch, issue, and review records. Ids drop the status directory so a
 // record's URL survives moves between statuses.
 const repositoryFiles = defineCollection({
-  loader: glob({
-    pattern: REPOSITORY_FILES_PATTERN,
-    base: '../vault',
-    generateId({ entry }) {
-      return vaultPathToSlug(entry);
-    }
-  }),
+  loader: vaultGlob(REPOSITORY_FILES_PATTERN, vaultPathToSlug),
   schema: z.object({}).passthrough()
 });
 
 // Factory landing pages; ids are the bare file stem (e.g. BRANCH_FACTORY).
 const factoryFiles = defineCollection({
-  loader: glob({
-    pattern: FACTORY_FILES_PATTERN,
-    base: '../vault',
-    generateId({ entry }) {
-      return entry.split('/').pop()!.replace(/\.md$/, '');
-    }
-  }),
+  loader: vaultGlob(FACTORY_FILES_PATTERN, entry => entry.split('/').pop()!.replace(/\.md$/, '')),
   schema: z.object({}).passthrough()
 });
 

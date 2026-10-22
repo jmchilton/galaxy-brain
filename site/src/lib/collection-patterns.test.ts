@@ -10,6 +10,7 @@ import {
   REPOSITORY_FILES_PATTERN,
   VAULT_PATTERN,
 } from './collection-patterns';
+import { patternMatcher } from './watch-filter';
 
 const FILES = [
   'research/note.md',
@@ -77,6 +78,12 @@ describe('collection patterns', () => {
 
   it('repositoryFiles takes record markdown only', () => {
     expect(match(REPOSITORY_FILES_PATTERN)).toEqual(['repositories/galaxy/branches/active/foo/index.md']);
+  });
+
+  it('dev watcher matcher agrees with the build glob for every collection', () => {
+    for (const pattern of [VAULT_PATTERN, PROJECT_FILES_PATTERN, PAPER_FILES_PATTERN, REPOSITORY_FILES_PATTERN, FACTORY_FILES_PATTERN]) {
+      expect(FILES.filter(patternMatcher(pattern)).sort()).toEqual(match(pattern));
+    }
   });
 
   it('factoryFiles takes only the published factory pages', () => {
