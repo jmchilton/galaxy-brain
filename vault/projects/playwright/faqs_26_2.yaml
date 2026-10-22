@@ -251,7 +251,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: b1ebdb7b94c
   used_by: [assembly/ecoli_comparison, assembly/mrsa-nanopore, climate/climate-101, ecology/biodiversity-data-exploration, ecology/PAMPA-toolsuite-tutorial, ecology/x-array-map-plot, introduction/data-manipulation-olympics, introduction/galaxy-intro-101-everyone, variant-analysis/countess-mave-chek2]
-  gx_findings: 'Added E2E converting a dataset from its Datatypes tab (b1ebdb7b94c) with edit_dataset_convert and conversion selectors. faq_server.sh: samtools in a tool_deps env on PATH. gxui: dataset-convert (tip 2e5ed648b97).'
+  gx_findings: 'Added E2E converting a dataset from its Datatypes tab (b1ebdb7b94c) with edit_dataset_convert and conversion selectors. faq_server.sh: samtools in a tool_deps env on PATH. gxui: dataset-convert (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_create_new_file.md
   status: ui_verified
   mode: ui
@@ -259,14 +259,14 @@
   galaxy_commit: f0f2a98992e
   used_by: [assembly/assembly-with-preprocessing, computational-chemistry/zauberkugel, ecology/de-novo-rad-seq, ecology/ref-based-rad-seq, ecology/yolo_predict_deepsea, imaging/dicom-anatomical-3d, imaging/hela-screen-analysis, microbiome/dada-16S, microbiome/mags-building, proteomics/mass-spectrometry-imaging-loading-exploring-data, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna-case_cell-cycle, single-cell/scrna-seurat-pbmc3k, statistics/simorgh, transcriptomics/ref-based, transcriptomics/rna-seq-analysis-clustering-viz, variant-analysis/exome-seq, variant-analysis/pox-tiled-amplicon, variant-analysis/sars-cov-2-variant-discovery, variant-analysis/trio-analysis]
   faq_findings: [upload-tool-panel-button, upload-import-data-panel]
-  gx_findings: 'Added E2E for paste upload with Spaces→Tabs (f0f2a98992e) with UploadItem.set_space_to_tab. Upload row table overflows the center panel at 1280px. gxui: upload-paste --dbkey/--space-to-tab (tip 2e5ed648b97).'
+  gx_findings: 'Added E2E for paste upload with Spaces→Tabs (f0f2a98992e) with UploadItem.set_space_to_tab. Upload row table overflows the center panel at 1280px. gxui: upload-paste --dbkey/--space-to-tab (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_data_privacy_features.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: ea0bc576e38
   faq_findings: [masthead-user-menu-2, privacy-default-private, privacy-dataset-access-step, privacy-make-private-location, privacy-new-histories-switch, privacy-gif-links]
-  gx_findings: '26.2 flips new_user_dataset_access_role_default_private to true (new users'' data private). Added E2E for the new-histories switch and the dataset Permissions tab (ea0bc576e38). gxui: dataset-permissions, history-make-private, preferences-new-datasets-private (tip 2e5ed648b97).'
+  gx_findings: '26.2 flips new_user_dataset_access_role_default_private to true (new users'' data private). Added E2E for the new-histories switch and the dataset Permissions tab (ea0bc576e38). gxui: dataset-permissions, history-make-private, preferences-new-datasets-private (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_deleting.md
   status: ui_verified
   mode: ui
@@ -274,22 +274,43 @@
   galaxy_commit: d0d92741f74
   used_by: [galaxy-interface/history, introduction/galaxy-cite, introduction/galaxy-intro-rdm, single-cell/scatac-batch-correction-snapatac2]
   faq_findings: [deleting-undelete-how]
-  gx_findings: 'Added E2E deleting, bulk deleting, purging and undeleting items (d0d92741f74) with history_panel_item_delete/_undelete, history_panel_delete_selected, history_panel_include_deleted. Undelete icon reads as trash at 16px. gxui: dataset-delete, dataset-undelete, history-delete [--purge] (tip 2e5ed648b97).'
+  gx_findings: 'Added E2E deleting, bulk deleting, purging and undeleting items (d0d92741f74) with history_panel_item_delete/_undelete, history_panel_delete_selected, history_panel_include_deleted. Undelete icon reads as trash at 16px. gxui: dataset-delete, dataset-undelete, history-delete [--purge] (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_detect_datatype.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
   galaxy_commit: 53ab472b46d
   used_by: [introduction/galaxy-intro-101-everyone, introduction/galaxy-reproduce, statistics/clustering_machinelearning]
-  gx_findings: 'Already covered by test_history_dataset_auto_detect_datatype; lifted edit_dataset_auto_detect_datatype (53ab472b46d). gxui: dataset-detect-datatype (tip 2e5ed648b97).'
+  gx_findings: 'Already covered by test_history_dataset_auto_detect_datatype; lifted edit_dataset_auto_detect_datatype (53ab472b46d). gxui: dataset-detect-datatype (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_download_datasets.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 0b9b1788274
+  used_by: [introduction/galaxy-intro-rdm]
+  gx_findings: 'Download href is now /api/datasets/{id}/download (302 to /display; 26.1 linked /display). Added E2E that Download and Copy Link give that link (0b9b1788274); no test checks the saved file. test_library_contents.download_dataset_from_library lacks the test_ prefix and never runs. gxui: dataset-copy-link (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_download_using_command_line.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 0b9b1788274
+  used_by: [introduction/galaxy-intro-rdm]
+  faq_findings: [cli-download-redirect, cli-download-private, cli-wget-output-flag]
+  gx_findings: 'The /download redirect drops a ?key= query key by design (42dfcdd5f54), so ?key= on a copied link gives 403 on private data; raised with John, not filed. Copy Link covered by test_history_dataset_copy_link (0b9b1788274). gxui: dataset-copy-link (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_finding_datasets.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: ffc8a469ec6
+  faq_findings: [finding-datasets-user-menu]
+  gx_findings: 'Added E2E for the Datasets list across histories and its search (ffc8a469ec6) with the datasets component, navigate_to_datasets_list, datasets_list_rows, datasets_list_search. Empty-list alert names a nonexistent upload button. gxui: datasets-list [--search] (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_hidden.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 3f1d565241a
+  used_by: [galaxy-interface/history]
+  gx_findings: 'Added E2E hiding and unhiding items (3f1d565241a) with history_panel_hide_selected, history_panel_include_hidden; shared pick-and-confirm is history_panel_confirm_selected_operation. gxui: history-hide [--unhide] (tip fa8cfda6c7c).'
 - faq: faqs/galaxy/datasets_icons.md
   status: pending
 - faq: faqs/galaxy/datasets_import_from_data_library.md

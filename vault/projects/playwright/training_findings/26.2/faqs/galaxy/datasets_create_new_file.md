@@ -25,4 +25,4 @@ item is tabular, hg19, 3 tab-separated columns. Embedded in 20 tutorials.
   the checkbox has no test id). Green under Playwright and Selenium.
 - At 1280px with the Import Data panel open, the row table is wider than the center panel: Reference
   and Spaces→Tabs sit off to the right behind a horizontal scroll.
-- gxui: `upload-paste` gains `--dbkey` and `--space-to-tab` (tip `2e5ed648b97`).
+- gxui: `upload-paste` gains `--dbkey` and `--space-to-tab` (tip `fa8cfda6c7c`).

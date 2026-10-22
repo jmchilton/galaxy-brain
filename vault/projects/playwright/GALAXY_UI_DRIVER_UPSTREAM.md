@@ -191,6 +191,19 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   default to private. Adds `user_preferences_set_new_datasets_private`, `edit_dataset_permission_roles`
   and preferences/permissions selectors (the switch by `name`; a client test id would be cleaner).
   Green under Playwright and Selenium. Coverage PR candidate for 26.2.
+- `3f1d565241a`: coverage for `datasets_hidden`. `test_history_panel.py` hides two items from the
+  Selection menu (with the confirm) and unhides one after Include hidden; neither had E2E. Hide,
+  unhide, delete, undelete and purge share one confirm, so `history_panel_delete_selected`'s body
+  becomes `history_panel_confirm_selected_operation(option)`. Adds `history_panel_hide_selected(unhide)`,
+  `history_panel_include_hidden`, `history_panel.include_hidden_button`. Needs `d0d92741f74`; ship
+  them together. Green under Playwright and Selenium.
+- `0b9b1788274`: coverage for `datasets_download_datasets` and `datasets_download_using_command_line`.
+  `test_dataset.py` checks the Download href and the Copy Link clipboard are the same
+  `/api/datasets/{id}/download` link. Adds `content_item.copy_link_button` (by `aria-label`; a client
+  test id would be cleaner) and `history_panel_item_copy_link`. Standalone.
+- `ffc8a469ec6`: coverage for `datasets_finding_datasets`. New `test_datasets_list.py`: a fresh user's
+  datasets from two histories, latest first, then the name search. Adds the `datasets` component,
+  `navigate_to_datasets_list`, `datasets_list_rows`, `datasets_list_search`. Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

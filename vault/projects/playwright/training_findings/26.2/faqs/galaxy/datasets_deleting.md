@@ -26,6 +26,6 @@ Embedded in 4 tutorials.
 - At 16px the **Undelete** (trash-restore) icon reads as the trash icon, so a deleted item shown via
   Include deleted looks undeleted. UX note only.
 - gxui: `dataset-delete HID`, `dataset-undelete HID`, `history-delete HIDS... [--purge]`;
-  `history-items --deleted` marks items `(deleted)`/`(purged)` (tip `2e5ed648b97`).
+  `history-items --deleted` marks items `(deleted)`/`(purged)` (tip `fa8cfda6c7c`).
 - gxui friction: `call` takes no keyword arguments, and its string results come back repr-quoted
   (`'#dataset-…'`), which breaks when pasted into the next selector.

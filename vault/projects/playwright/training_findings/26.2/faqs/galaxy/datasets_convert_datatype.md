@@ -21,4 +21,4 @@ conversion of ... has been added to the Queue."); a new `bam` item appears. Embe
   osx-arm64 samtools 1.17 (the converters' pin), so `faq_server.sh` now keeps a conda env of converter
   tools at `~/.cache/gxui-faq/tool_deps` (samtools 1.24) on the server's PATH.
 - `test-data/1.sam` isn't valid SAM (an `@QNAME` header line); samtools can't read it.
-- gxui: `dataset-convert HID DATATYPE` (tip `2e5ed648b97`).
+- gxui: `dataset-convert HID DATATYPE` (tip `fa8cfda6c7c`).

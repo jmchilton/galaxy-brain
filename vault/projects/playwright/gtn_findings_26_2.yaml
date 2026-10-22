@@ -369,3 +369,26 @@
   target: main
   summary: All three galaxyproject.org/learn/privacy-features/*.gif links 404 (moved to /images/learn/privacy-features/), and the gifs show the pre-2019 UI.
   fix: Drop them or replace with current screenshots; repointing alone shows a UI that no longer exists.
+
+- label: cli-download-redirect
+  faqs: [faqs/galaxy/datasets_download_using_command_line.md]
+  target: version
+  summary: 26.2's Copy Link URL (`/api/datasets/{id}/download`) always 302s to `/display`, so every `curl -o outfile '<link>'` line exits 0 and leaves an empty file.
+  fix: Add `-L` to the curl lines.
+
+- label: cli-download-private
+  faqs: [faqs/galaxy/datasets_download_using_command_line.md]
+  target: version
+  summary: 26.2 makes new users' data private, so the bare link gives 403; appending `?key=` to a dataset link doesn't help because the `/download` redirect drops it.
+  fix: 'Show `wget --header "x-api-key: KEY" ''<link>''` and `curl -L -H "x-api-key: KEY" -o outfile ''<link>''` for private data; step 4''s collection `?key=` commands still work. See privacy-default-private.'
+
+- label: cli-wget-output-flag
+  faqs: [faqs/galaxy/datasets_download_using_command_line.md]
+  target: main
+  summary: '`wget -O ''<link>''` and `wget -O --no-check-certificate ''<link>''` fail with "missing URL" because `-O` takes the output file name; plain `wget ''<link>''` saves as `download?to_ext=txt`.'
+  fix: Use `wget -O outfile '<link>'` (or `--content-disposition`).
+
+- label: finding-datasets-user-menu
+  faqs: [faqs/galaxy/datasets_finding_datasets.md]
+  target: main
+  summary: There is no **User > Datasets**; the user menu only has Preferences and Sign Out. The list is the Activity Bar's **Datasets**.

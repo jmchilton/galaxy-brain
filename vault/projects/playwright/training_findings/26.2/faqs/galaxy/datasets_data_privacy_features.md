@@ -36,4 +36,4 @@ tutorial embeds it.
   `permission_field`, `permission_roles`. Green under Playwright and Selenium. Make History Private
   was already used by `test_sharing_private_history_default_permission`.
 - gxui: `dataset-permissions HID`, `history-make-private`, `preferences-new-datasets-private
-  [--off]` (tip `2e5ed648b97`).
+  [--off]` (tip `fa8cfda6c7c`).

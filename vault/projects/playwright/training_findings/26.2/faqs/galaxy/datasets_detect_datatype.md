@@ -14,4 +14,4 @@ GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `53ab472b46d` (`faq_server.sh main`)
   assertions. Green under Playwright and Selenium.
 - After Auto-detect the edit view reloads onto the Attributes tab and the success alert can be gone
   before a slow observer looks (the E2E sees it). gxui waits on the dataset instead.
-- gxui: `dataset-detect-datatype HID` (tip `2e5ed648b97`).
+- gxui: `dataset-detect-datatype HID` (tip `fa8cfda6c7c`).
