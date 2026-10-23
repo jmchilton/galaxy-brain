@@ -1,12 +1,15 @@
-// Agent launchers configured in vault/agents/_shared/LAUNCHERS.md.
+// Agent launchers configured in vault/repositories/<repo>/<kind>/LAUNCHERS.md;
+// format in vault/agents/_shared/LAUNCHERS.md.
 
-import { parseRecordPath, type RecordKind } from "../../site/src/lib/records";
+import { DEFAULTS_REPO, parseRecordPath, RECORD_KINDS, type RecordKind } from "../../site/src/lib/records";
 
 export type AgentKind = "claude" | "codex";
 
 export interface Launcher {
 	label: string;
-	records: string[];
+	/** null for `_defaults` launchers, which apply to every repo. */
+	repo: string | null;
+	kind: RecordKind;
 	statuses: string[];
 	agentDir: string;
 	name: string;
@@ -24,7 +27,7 @@ export interface RecordRef {
 	dir: string;
 }
 
-const KEY_LINE = /^(records|status|agent_dir|name|profile):\s*(.*)$/;
+const KEY_LINE = /^(status|agent_dir|name|profile):\s*(.*)$/;
 
 const list = (value: string) =>
 	value
@@ -32,7 +35,17 @@ const list = (value: string) =>
 		.map((item) => item.trim())
 		.filter(Boolean);
 
-export function parseLaunchers(markdown: string): Launcher[] {
+export type LauncherScope = Pick<Launcher, "repo" | "kind">;
+
+/** Repo and kind a `repositories/<repo>/<kind>/LAUNCHERS.md` file configures. */
+export function launcherScope(path: string): LauncherScope | null {
+	const [root, repo, kind, file, ...rest] = path.split("/");
+	if (root !== "repositories" || file !== "LAUNCHERS.md" || rest.length || !repo) return null;
+	if (!(RECORD_KINDS as readonly string[]).includes(kind!)) return null;
+	return { repo: repo === DEFAULTS_REPO ? null : repo, kind: kind as RecordKind };
+}
+
+export function parseLaunchers(markdown: string, scope: LauncherScope): Launcher[] {
 	const launchers: Launcher[] = [];
 	for (const section of markdown.split(/^## /m).slice(1)) {
 		const [heading = "", ...lines] = section.split("\n");
@@ -45,10 +58,10 @@ export function parseLaunchers(markdown: string): Launcher[] {
 		}
 		const prompt = lines.slice(i).join("\n").trim();
 		const label = heading.trim();
-		if (!label || !fields.records || !fields.agent_dir || !prompt) continue;
+		if (!label || !fields.agent_dir || !prompt) continue;
 		launchers.push({
 			label,
-			records: list(fields.records),
+			...scope,
 			statuses: list(fields.status ?? ""),
 			agentDir: fields.agent_dir,
 			name: fields.name || fields.agent_dir,
@@ -78,7 +91,8 @@ export function untrackedRecord(repo: string, kind: "reviews" | "issues", number
 export function launchersFor(launchers: Launcher[], record: RecordRef): Launcher[] {
 	return launchers.filter(
 		(launcher) =>
-			launcher.records.includes(`${record.repo}/${record.kind}`) &&
+			(launcher.repo ?? record.repo) === record.repo &&
+			launcher.kind === record.kind &&
 			(launcher.statuses.includes(record.status) || (launcher.statuses.length === 0 && record.status !== UNTRACKED)),
 	);
 }

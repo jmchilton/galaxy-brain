@@ -68,22 +68,6 @@ const item = (node: Node, at = node.createdAt): FeedItem => ({
 	...(node.headRefName ? { branch: node.headRefName } : {}),
 });
 
-const FEED_FILTERS: Record<FeedList, [list: "pulls" | "issues", query: string]> = {
-	newPrs: ["pulls", "is:pr is:open sort:created-desc"],
-	// GitHub can't sort by ready-for-review time; recently updated non-drafts is the closest.
-	undraftedPrs: ["pulls", "is:pr is:open draft:false sort:updated-desc"],
-	issues: ["issues", "is:issue is:open sort:created-desc"],
-	myDrafts: ["pulls", "is:pr is:open author:@me draft:true"],
-	// GitHub has no conflict filter.
-	conflicting: ["pulls", "is:pr is:open author:@me"],
-};
-
-/** The feed's list on GitHub. */
-export function feedUrl(owner: string, name: string, feed: FeedList): string {
-	const [list, query] = FEED_FILTERS[feed];
-	return `https://github.com/${owner}/${name}/${list}?q=${encodeURIComponent(query)}`;
-}
-
 export function feedArgs(owner: string, name: string): string[] {
 	const mine = `repo:${owner}/${name} is:pr is:open author:@me sort:updated-desc`;
 	return ["api", "graphql", "-f", `owner=${owner}`, "-f", `name=${name}`, "-f", `mine=${mine}`, "-f", `query=${FEED_QUERY}`];

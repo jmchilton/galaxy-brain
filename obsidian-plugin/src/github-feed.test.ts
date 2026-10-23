@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { feedArgs, feedUrl, matchRecords, parseFeeds } from "./github-feed";
+import { feedArgs, matchRecords, parseFeeds } from "./github-feed";
 import { recordFromPath } from "./launchers";
-import { upstreamOwner } from "./record-links";
 
 const pr = (number: number, extra: object = {}) => ({
 	number,
@@ -81,23 +80,6 @@ describe("feedArgs", () => {
 	});
 });
 
-describe("upstreamOwner", () => {
-	it("picks the most linked non-fork owner across records", () => {
-		const bodies = [
-			"[a](https://github.com/jmchilton/galaxy/pull/1) [b](https://github.com/jmchilton/galaxy/pull/2)",
-			"[c](https://github.com/galaxyproject/galaxy/issues/3) [d](https://github.com/jmchilton/galaxy/tree/x)",
-		];
-		expect(upstreamOwner("galaxy", bodies)).toBe("galaxyproject");
-	});
-
-	it("uses the fork owner when it is the only one, else defaults to galaxyproject", () => {
-		expect(upstreamOwner("galaxy-tool-util-ts", ["[a](https://github.com/jmchilton/galaxy-tool-util-ts/pull/4)"])).toBe(
-			"jmchilton",
-		);
-		expect(upstreamOwner("galaxy", [])).toBe("galaxyproject");
-	});
-});
-
 describe("matchRecords", () => {
 	const records = [
 		"repositories/galaxy/branches/active/fix_3/index.md",
@@ -123,15 +105,5 @@ describe("matchRecords", () => {
 
 	it("matches issue records for issues", () => {
 		expect(names(matchRecords({ ...three!, branch: undefined }, true, records, bodyOf))).toEqual(["issues/3"]);
-	});
-});
-
-describe("feedUrl", () => {
-	it("links each feed to its GitHub list filter", () => {
-		const base = "https://github.com/galaxyproject/galaxy";
-		expect(feedUrl("galaxyproject", "galaxy", "newPrs")).toBe(`${base}/pulls?q=${encodeURIComponent("is:pr is:open sort:created-desc")}`);
-		expect(feedUrl("galaxyproject", "galaxy", "undraftedPrs")).toBe(`${base}/pulls?q=${encodeURIComponent("is:pr is:open draft:false sort:updated-desc")}`);
-		expect(feedUrl("galaxyproject", "galaxy", "issues")).toBe(`${base}/issues?q=${encodeURIComponent("is:issue is:open sort:created-desc")}`);
-		expect(feedUrl("galaxyproject", "galaxy", "myDrafts")).toBe(`${base}/pulls?q=${encodeURIComponent("is:pr is:open author:@me draft:true")}`);
 	});
 });

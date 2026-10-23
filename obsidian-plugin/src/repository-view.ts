@@ -1,9 +1,10 @@
-import { debounce, ItemView, Platform, setIcon, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
-import { RECORD_KINDS, type RecordKind, statusLabel } from "../../site/src/lib/records";
+import { Component, debounce, ItemView, MarkdownRenderer, Platform, setIcon, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
+import { type GroupingSection, groupingFor, parseGrouping, RECORD_KINDS, type RecordKind, statusLabel } from "../../site/src/lib/records";
+import { type GithubTab, githubListTitle, githubListUrl, REPOSITORY_TABS as TABS, type RepositoryTab as Tab, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./launchers";
-import { type FeedItem, type FeedList, type Feeds, feedArgs, feedUrl, matchRecords, parseFeeds } from "./github-feed";
-import { githubUrl, upstreamOwner } from "./record-links";
-import { type GroupingSection, groupingFor, groupRecords, parseGrouping } from "./record-groups";
+import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
+import { githubUrl } from "./record-links";
+import { groupRecords } from "./record-groups";
 import { collectRecords, type RecordSummary, repositoryNames, timeAgo } from "./repository";
 
 export const REPOSITORY_VIEW = "galaxy-brain-repository";
@@ -16,38 +17,18 @@ export interface RecordHost {
 	runGh(args: string[]): Promise<string>;
 }
 
-const TABS = [
-	{ id: "branches", label: "My branches" },
-	{ id: "issues", label: "My issues" },
-	{ id: "reviews", label: "My reviews" },
-	{ id: "my-drafts", label: "My drafts" },
-	{ id: "conflicting", label: "Conflicting" },
-	{ id: "new-prs", label: "New PRs" },
-	{ id: "undrafted-prs", label: "Out of draft" },
-	{ id: "new-issues", label: "New issues" },
-] as const;
-type Tab = (typeof TABS)[number]["id"];
-type FeedTab = Exclude<Tab, RecordKind>;
 
 const isRecordTab = (tab: Tab): tab is RecordKind => (RECORD_KINDS as readonly string[]).includes(tab);
-const isMine = (tab: FeedTab) => tab === "my-drafts" || tab === "conflicting";
+const isMine = (tab: GithubTab) => tab === "my-drafts" || tab === "conflicting";
 
 const RECORD_ICONS: Record<RecordKind, string> = { branches: "git-branch", reviews: "file-search", issues: "file-text" };
 
-const FEED_KEYS: Record<FeedTab, FeedList> = {
+const FEED_KEYS: Record<GithubTab, FeedList> = {
 	"new-prs": "newPrs",
 	"undrafted-prs": "undraftedPrs",
 	"new-issues": "issues",
 	"my-drafts": "myDrafts",
 	conflicting: "conflicting",
-};
-
-const FEED_LINKS: Record<FeedTab, string> = {
-	"new-prs": "Open PRs, newest first, on GitHub",
-	"undrafted-prs": "Open non-draft PRs, recently updated, on GitHub",
-	"new-issues": "Open issues, newest first, on GitHub",
-	"my-drafts": "My open draft PRs on GitHub",
-	conflicting: "My open PRs on GitHub (it can't filter by conflicts)",
 };
 
 /** Wait before re-asking GitHub about PRs whose mergeability it was still computing. */
@@ -60,6 +41,13 @@ interface FeedState {
 	loading?: Promise<void>;
 	/** Waiting to re-fetch PRs GitHub hadn't checked for conflicts. */
 	checking?: boolean;
+}
+
+/** A repository's queue file for a kind, e.g. MY_BRANCHES.md. */
+interface QueueFile {
+	path: string;
+	text: string;
+	sections: GroupingSection[];
 }
 
 interface RepositoryViewState extends Record<string, unknown> {
@@ -76,6 +64,8 @@ export class RepositoryView extends ItemView {
 	private launchers: Launcher[] = [];
 	/** Status groups toggled away from their default, kept across re-renders. */
 	private toggled = new Set<string>();
+	/** Owns the rendered queue file's children; replaced on every render. */
+	private embed: Component | undefined;
 	private scheduleRender = debounce(() => void this.render(), 300, true);
 
 	constructor(
@@ -134,6 +124,8 @@ export class RepositoryView extends ItemView {
 		this.launchers = Platform.isDesktopApp ? await this.host.loadLaunchers() : [];
 		const launchable = new Set(records.filter((record) => this.canLaunch(record)).map((record) => record.dir));
 
+		if (this.embed) this.removeChild(this.embed);
+		this.embed = this.addChild(new Component());
 		const root = this.contentEl;
 		root.empty();
 		root.addClass("galaxy-brain-repository");
@@ -160,7 +152,7 @@ export class RepositoryView extends ItemView {
 			};
 		}
 
-		if (isRecordTab(current)) this.renderRecords(root, current, records, bodies, launchable, await this.readGrouping(current));
+		if (isRecordTab(current)) this.renderRecords(root, current, records, bodies, launchable, await this.readQueue(current));
 		else this.renderFeed(root, current, records, bodies, launchable, header);
 	}
 
@@ -170,9 +162,9 @@ export class RepositoryView extends ItemView {
 		records: RecordSummary[],
 		bodies: Map<string, string>,
 		launchable: Set<string>,
-		grouping: GroupingSection[] | undefined,
+		queue: QueueFile | undefined,
 	) {
-		const groups = groupRecords(records, kind, grouping);
+		const groups = groupRecords(records, kind, queue?.sections);
 		if (groups.length === 0) root.createEl("p", { text: "No records.", cls: "gbr-empty" });
 		for (const group of groups) {
 			const key = `${kind}/${group.status}`;
@@ -189,11 +181,33 @@ export class RepositoryView extends ItemView {
 				this.renderRecord(list, record, body, launchable.has(record.dir));
 			}
 		}
+		if (queue) void this.renderQueue(root, queue);
+	}
+
+	/** The queue file itself, below the groups it defines. */
+	private async renderQueue(root: HTMLElement, queue: QueueFile) {
+		const section = root.createDiv({ cls: "gbr-queue" });
+		const heading = section.createDiv({ cls: "gbr-queue-heading" });
+		heading.createSpan({ text: queue.path.split("/").pop() });
+		const open = heading.createEl("a", { text: "Open note", cls: "internal-link", href: "#" });
+		const body = section.createDiv({ cls: "gbr-queue-body markdown-rendered" });
+		const openLink = (event: MouseEvent, link: string) => {
+			event.preventDefault();
+			void this.app.workspace.openLinkText(link, queue.path, event.metaKey || event.ctrlKey);
+		};
+		open.onclick = (event) => openLink(event, queue.path);
+		// Rendered internal links don't navigate inside a custom view on their own.
+		body.onclick = (event) => {
+			const link = (event.target as HTMLElement).closest("a.internal-link");
+			const href = link?.getAttribute("data-href") ?? link?.getAttribute("href");
+			if (href) openLink(event, href);
+		};
+		await MarkdownRenderer.render(this.app, queue.text, body, queue.path, this.embed!);
 	}
 
 	private renderFeed(
 		root: HTMLElement,
-		tab: FeedTab,
+		tab: GithubTab,
 		records: RecordSummary[],
 		bodies: Map<string, string>,
 		launchable: Set<string>,
@@ -206,8 +220,8 @@ export class RepositoryView extends ItemView {
 		if (state.fetchedAt) header.createSpan({ text: `fetched ${timeAgo(state.fetchedAt, Date.now())}`, cls: "gbr-time" });
 		const owner = upstreamOwner(this.repo, [...bodies.values()]);
 		root.createEl("p", { cls: "gbr-github-link" }).createEl("a", {
-			text: FEED_LINKS[tab],
-			href: feedUrl(owner, this.repo, FEED_KEYS[tab]),
+			text: githubListTitle(tab),
+			href: githubListUrl(owner, this.repo, tab),
 			cls: "external-link",
 		});
 
@@ -305,11 +319,13 @@ export class RepositoryView extends ItemView {
 		return state.loading;
 	}
 
-	/** Sections of the repository's grouping file for this kind, if it has one. */
-	private async readGrouping(kind: RecordKind): Promise<GroupingSection[] | undefined> {
+	/** The repository's queue file for this kind, if it has one. */
+	private async readQueue(kind: RecordKind): Promise<QueueFile | undefined> {
 		const path = groupingFor(this.repo, kind);
 		const file = path ? this.app.vault.getFileByPath(path) : null;
-		return file ? parseGrouping(await this.app.vault.cachedRead(file), file.path, this.repo, kind) : undefined;
+		if (!file) return undefined;
+		const text = await this.app.vault.cachedRead(file);
+		return { path: file.path, text, sections: parseGrouping(text, file.path, this.repo, kind) };
 	}
 
 	private async readIndexes(paths: string[]): Promise<Map<string, string>> {

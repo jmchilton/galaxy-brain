@@ -52,7 +52,7 @@ describe("profileArgs", () => {
 
 describe("defaultProfile", () => {
 	const profiles = parseProfiles({ profiles: [{ name: "A", agent: "claude" }, { name: "B", agent: "codex" }] });
-	const [plain, named] = parseLaunchers("## X\nrecords: r/k\nagent_dir: d\n\nGo\n## Y\nrecords: r/k\nagent_dir: d\nprofile: B\n\nGo");
+	const [plain, named] = parseLaunchers("## X\nagent_dir: d\n\nGo\n## Y\nagent_dir: d\nprofile: B\n\nGo", { repo: "r", kind: "issues" });
 
 	it("uses the launcher's profile, else the first", () => {
 		expect(defaultProfile(profiles, named!).name).toBe("B");

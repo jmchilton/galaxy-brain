@@ -1,7 +1,7 @@
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { parseGrouping } from "../../site/src/lib/records";
 import { collectRecords } from "./repository";
-import { groupingFor, groupRecords, parseGrouping } from "./record-groups";
+import { groupRecords } from "./record-groups";
 
 const QUEUE_PATH = "repositories/galaxy/branches/MY_BRANCHES.md";
 
@@ -29,23 +29,6 @@ const FILES = ["active/fix_a", "active/fix_b", "active/fix_c", "merged/moved", "
 }));
 const RECORDS = collectRecords(FILES, "galaxy", () => undefined);
 
-describe("parseGrouping", () => {
-	it("reads sections in order with the record names they link", () => {
-		expect(parseGrouping(QUEUE, QUEUE_PATH, "galaxy", "branches")).toEqual([
-			{ key: "ready", label: "Open Galaxy PRs — ready from our side", names: ["fix_b", "moved"] },
-			{ key: "ci_wait", label: "Draft Galaxy PRs — waiting for CI", names: [] },
-			{ key: "branches_reference", label: "Galaxy branches — reference only", names: ["fix_a"] },
-		]);
-	});
-
-	it("parses the vault's MY_BRANCHES.md", () => {
-		const text = readFileSync(new URL(`../../vault/${QUEUE_PATH}`, import.meta.url), "utf8");
-		const sections = parseGrouping(text, QUEUE_PATH, "galaxy", "branches");
-		expect(sections.map((section) => section.key)).toContain("branches_need_polish");
-		expect(sections.reduce((n, section) => n + section.names.length, 0)).toBeGreaterThan(0);
-	});
-});
-
 describe("groupRecords", () => {
 	it("uses the file's sections first, then generic status groups for the rest", () => {
 		const groups = groupRecords(RECORDS, "branches", parseGrouping(QUEUE, QUEUE_PATH, "galaxy", "branches"));
@@ -59,13 +42,5 @@ describe("groupRecords", () => {
 
 	it("falls back to generic status groups without a grouping", () => {
 		expect(groupRecords(RECORDS, "branches", undefined).map((group) => group.status)).toEqual(["active", "merged"]);
-	});
-});
-
-describe("groupingFor", () => {
-	it("names each repository's branch queue and nothing for other kinds", () => {
-		expect(groupingFor("galaxy", "branches")).toBe(QUEUE_PATH);
-		expect(groupingFor("pulsar", "branches")).toBe("repositories/pulsar/branches/MY_BRANCHES.md");
-		expect(groupingFor("galaxy", "issues")).toBeUndefined();
 	});
 });

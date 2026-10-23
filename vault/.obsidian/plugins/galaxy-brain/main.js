@@ -77,11 +77,59 @@ function groupByStatus(records, kind) {
     records: byStatus.get(status).sort((a, b) => compareNames(a.name, b.name))
   }));
 }
+function groupingFor(repo, kind) {
+  return kind === "branches" ? `repositories/${repo}/branches/MY_BRANCHES.md` : void 0;
+}
+function resolveLink(from, link) {
+  const parts = from.split("/").slice(0, -1);
+  for (const part of link.split("/")) {
+    if (part === "..") parts.pop();
+    else if (part !== ".") parts.push(part);
+  }
+  return parts.join("/");
+}
+function parseGrouping(text2, path, repo, kind) {
+  const sections = [];
+  for (const line of text2.split("\n")) {
+    const heading = line.match(/^## (.+?)\s*\(`([^`]+)`\)\s*$/);
+    if (heading) {
+      sections.push({ label: heading[1], key: heading[2], names: [] });
+      continue;
+    }
+    const link = line.match(/^- \[[^\]]*\]\(([^)\s]+)\)/);
+    const section = sections[sections.length - 1];
+    if (!link || !section) continue;
+    const record = parseRecordPath(resolveLink(path, decodeURI(link[1])));
+    if (record?.rest && record.repo === repo && record.kind === kind && !section.names.includes(record.id)) section.names.push(record.id);
+  }
+  return sections;
+}
+function groupBySections(records, kind, grouping) {
+  const ofKind = records.filter((record) => record.kind === kind);
+  const byName = new Map(ofKind.map((record) => [record.name, record]));
+  const listed = /* @__PURE__ */ new Set();
+  const sections = (grouping ?? []).flatMap((section) => {
+    const found = section.names.flatMap((name) => {
+      const record = byName.get(name);
+      if (!record || listed.has(name)) return [];
+      listed.add(name);
+      return [record];
+    });
+    return found.length ? [{ key: section.key, label: section.label, records: found }] : [];
+  });
+  return { sections, rest: ofKind.filter((record) => !listed.has(record.name)) };
+}
 
 // src/launchers.ts
-var KEY_LINE = /^(records|status|agent_dir|name|profile):\s*(.*)$/;
+var KEY_LINE = /^(status|agent_dir|name|profile):\s*(.*)$/;
 var list = (value) => value.split(",").map((item2) => item2.trim()).filter(Boolean);
-function parseLaunchers(markdown) {
+function launcherScope(path) {
+  const [root, repo, kind, file, ...rest] = path.split("/");
+  if (root !== "repositories" || file !== "LAUNCHERS.md" || rest.length || !repo) return null;
+  if (!RECORD_KINDS.includes(kind)) return null;
+  return { repo: repo === DEFAULTS_REPO ? null : repo, kind };
+}
+function parseLaunchers(markdown, scope) {
   const launchers = [];
   for (const section of markdown.split(/^## /m).slice(1)) {
     const [heading = "", ...lines] = section.split("\n");
@@ -94,10 +142,10 @@ function parseLaunchers(markdown) {
     }
     const prompt = lines.slice(i).join("\n").trim();
     const label = heading.trim();
-    if (!label || !fields.records || !fields.agent_dir || !prompt) continue;
+    if (!label || !fields.agent_dir || !prompt) continue;
     launchers.push({
       label,
-      records: list(fields.records),
+      ...scope,
       statuses: list(fields.status ?? ""),
       agentDir: fields.agent_dir,
       name: fields.name || fields.agent_dir,
@@ -119,7 +167,7 @@ function untrackedRecord(repo, kind, number) {
 }
 function launchersFor(launchers, record) {
   return launchers.filter(
-    (launcher) => launcher.records.includes(`${record.repo}/${record.kind}`) && (launcher.statuses.includes(record.status) || launcher.statuses.length === 0 && record.status !== UNTRACKED)
+    (launcher) => (launcher.repo ?? record.repo) === record.repo && launcher.kind === record.kind && (launcher.statuses.includes(record.status) || launcher.statuses.length === 0 && record.status !== UNTRACKED)
   );
 }
 function fillTemplate(template, record, vaultRoot) {
@@ -167,27 +215,55 @@ function defaultProfile(profiles, launcher) {
   return profiles.find((profile) => profile.name === launcher.profile) ?? profiles[0] ?? FALLBACK_PROFILES[0];
 }
 
-// src/record-links.ts
+// ../site/src/lib/repository-tabs.ts
+var REPOSITORY_TABS = [
+  { id: "branches", label: "My branches" },
+  { id: "issues", label: "My issues" },
+  { id: "reviews", label: "My reviews" },
+  { id: "my-drafts", label: "My drafts" },
+  { id: "conflicting", label: "Conflicting" },
+  { id: "new-prs", label: "New PRs" },
+  { id: "undrafted-prs", label: "Out of draft" },
+  { id: "new-issues", label: "New issues" }
+];
+var FORK_OWNER = "jmchilton";
+var GITHUB_LISTS = {
+  "my-drafts": { list: "pulls", query: (me) => `is:pr is:open author:${me} draft:true`, title: "My open draft PRs on GitHub" },
+  // GitHub has no conflict filter.
+  conflicting: { list: "pulls", query: (me) => `is:pr is:open author:${me}`, title: "My open PRs on GitHub (it can't filter by conflicts)" },
+  "new-prs": { list: "pulls", query: () => "is:pr is:open sort:created-desc", title: "Open PRs, newest first, on GitHub" },
+  // GitHub can't sort by ready-for-review time; recently updated non-drafts is the closest.
+  "undrafted-prs": { list: "pulls", query: () => "is:pr is:open draft:false sort:updated-desc", title: "Open non-draft PRs, recently updated, on GitHub" },
+  "new-issues": { list: "issues", query: () => "is:issue is:open sort:created-desc", title: "Open issues, newest first, on GitHub" }
+};
+function githubListUrl(owner, repo, tab, me = "@me") {
+  const { list: list2, query } = GITHUB_LISTS[tab];
+  return `https://github.com/${owner}/${repo}/${list2}?q=${encodeURIComponent(query(me))}`;
+}
+function githubListTitle(tab) {
+  return GITHUB_LISTS[tab].title;
+}
 var MARKDOWN_LINK = /\[([^\]]*)\]\((https:\/\/github\.com\/[^)\s]+)\)/g;
-function links(body) {
+function githubLinks(body) {
   return [...body.matchAll(MARKDOWN_LINK)].map((match) => ({ label: match[1], url: match[2] }));
 }
-var escape = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-var FORK_OWNER = "jmchilton";
-var BRANCHES_ON_UPSTREAM = /* @__PURE__ */ new Set(["foundry"]);
+var escapeRegExp = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 function upstreamOwner(repo, bodies) {
-  const pattern = new RegExp(`^https://github\\.com/([^/]+)/${escape(repo)}/(pull|issues)/`);
+  const pattern = new RegExp(`^https://github\\.com/([^/]+)/${escapeRegExp(repo)}/(pull|issues)/`);
   const counts = /* @__PURE__ */ new Map();
-  for (const link of bodies.flatMap(links)) {
+  for (const link of bodies.flatMap(githubLinks)) {
     const owner = pattern.exec(link.url)?.[1];
     if (owner) counts.set(owner, (counts.get(owner) ?? 0) + 1);
   }
   const ranked = [...counts].sort((a, b) => b[1] - a[1]).map(([owner]) => owner);
   return ranked.find((owner) => owner !== FORK_OWNER) ?? ranked[0] ?? "galaxyproject";
 }
+
+// src/record-links.ts
+var BRANCHES_ON_UPSTREAM = /* @__PURE__ */ new Set(["foundry"]);
 function githubUrl(record, body) {
-  const all = links(body);
-  const id = escape(record.name);
+  const all = githubLinks(body);
+  const id = escapeRegExp(record.name);
   const find = (pattern, label) => all.find((link) => pattern.test(link.url) && (!label || label.test(link.label)))?.url;
   const upstream = `https://github.com/${upstreamOwner(record.repo, [body])}/${record.repo}`;
   if (record.kind === "reviews") return find(new RegExp(`/pull/${id}$`)) ?? `${upstream}/pull/${record.name}`;
@@ -280,19 +356,6 @@ var item = (node, at = node.createdAt) => ({
   isDraft: node.isDraft ?? false,
   ...node.headRefName ? { branch: node.headRefName } : {}
 });
-var FEED_FILTERS = {
-  newPrs: ["pulls", "is:pr is:open sort:created-desc"],
-  // GitHub can't sort by ready-for-review time; recently updated non-drafts is the closest.
-  undraftedPrs: ["pulls", "is:pr is:open draft:false sort:updated-desc"],
-  issues: ["issues", "is:issue is:open sort:created-desc"],
-  myDrafts: ["pulls", "is:pr is:open author:@me draft:true"],
-  // GitHub has no conflict filter.
-  conflicting: ["pulls", "is:pr is:open author:@me"]
-};
-function feedUrl(owner, name, feed) {
-  const [list2, query] = FEED_FILTERS[feed];
-  return `https://github.com/${owner}/${name}/${list2}?q=${encodeURIComponent(query)}`;
-}
 function feedArgs(owner, name) {
   const mine = `repo:${owner}/${name} is:pr is:open author:@me sort:updated-desc`;
   return ["api", "graphql", "-f", `owner=${owner}`, "-f", `name=${name}`, "-f", `mine=${mine}`, "-f", `query=${FEED_QUERY}`];
@@ -324,63 +387,14 @@ function matchRecords(item2, isIssue, records, bodyOf) {
 }
 
 // src/record-groups.ts
-function groupingFor(repo, kind) {
-  return kind === "branches" ? `repositories/${repo}/branches/MY_BRANCHES.md` : void 0;
-}
-function resolve(from, link) {
-  const parts = from.split("/").slice(0, -1);
-  for (const part of link.split("/")) {
-    if (part === "..") parts.pop();
-    else if (part !== ".") parts.push(part);
-  }
-  return parts.join("/");
-}
-function parseGrouping(text2, path, repo, kind) {
-  const sections = [];
-  for (const line of text2.split("\n")) {
-    const heading = line.match(/^## (.+?)\s*\(`([^`]+)`\)\s*$/);
-    if (heading) {
-      sections.push({ label: heading[1], key: heading[2], names: [] });
-      continue;
-    }
-    const link = line.match(/^- \[[^\]]*\]\(([^)\s]+)\)/);
-    const section = sections[sections.length - 1];
-    if (!link || !section) continue;
-    const record = recordFromPath(resolve(path, decodeURI(link[1])));
-    if (record?.repo === repo && record.kind === kind && !section.names.includes(record.name)) section.names.push(record.name);
-  }
-  return sections;
-}
 function groupRecords(records, kind, grouping) {
-  const ofKind = records.filter((record) => record.kind === kind);
-  const byName = new Map(ofKind.map((record) => [record.name, record]));
-  const listed = /* @__PURE__ */ new Set();
-  const groups = [];
-  for (const section of grouping ?? []) {
-    const found = section.names.flatMap((name) => {
-      const record = byName.get(name);
-      if (!record || listed.has(name)) return [];
-      listed.add(name);
-      return [record];
-    });
-    if (found.length) groups.push({ status: section.key, label: section.label, collapsed: false, records: found });
-  }
-  const rest = ofKind.filter((record) => !listed.has(record.name));
+  const { sections, rest } = groupBySections(records, kind, grouping);
+  const groups = sections.map(({ key, label, records: records2 }) => ({ status: key, label, collapsed: false, records: records2 }));
   return [...groups, ...repositorySections(rest).find((section) => section.kind === kind)?.groups ?? []];
 }
 
 // src/repository-view.ts
 var REPOSITORY_VIEW = "galaxy-brain-repository";
-var TABS = [
-  { id: "branches", label: "My branches" },
-  { id: "issues", label: "My issues" },
-  { id: "reviews", label: "My reviews" },
-  { id: "my-drafts", label: "My drafts" },
-  { id: "conflicting", label: "Conflicting" },
-  { id: "new-prs", label: "New PRs" },
-  { id: "undrafted-prs", label: "Out of draft" },
-  { id: "new-issues", label: "New issues" }
-];
 var isRecordTab = (tab) => RECORD_KINDS.includes(tab);
 var isMine = (tab) => tab === "my-drafts" || tab === "conflicting";
 var RECORD_ICONS = { branches: "git-branch", reviews: "file-search", issues: "file-text" };
@@ -390,13 +404,6 @@ var FEED_KEYS = {
   "new-issues": "issues",
   "my-drafts": "myDrafts",
   conflicting: "conflicting"
-};
-var FEED_LINKS = {
-  "new-prs": "Open PRs, newest first, on GitHub",
-  "undrafted-prs": "Open non-draft PRs, recently updated, on GitHub",
-  "new-issues": "Open issues, newest first, on GitHub",
-  "my-drafts": "My open draft PRs on GitHub",
-  conflicting: "My open PRs on GitHub (it can't filter by conflicts)"
 };
 var RECHECK_MS = 5e3;
 var RepositoryView = class extends import_obsidian.ItemView {
@@ -429,7 +436,7 @@ var RepositoryView = class extends import_obsidian.ItemView {
       this.repo = state.repo;
       this.toggled.clear();
     }
-    if (state.tab && TABS.some((tab) => tab.id === state.tab)) this.tab = state.tab;
+    if (state.tab && REPOSITORY_TABS.some((tab) => tab.id === state.tab)) this.tab = state.tab;
     else if (state.tab === "records") this.tab = "branches";
     await super.setState(state, result);
     await this.render();
@@ -454,6 +461,8 @@ var RepositoryView = class extends import_obsidian.ItemView {
     const records = collectRecords(files, this.repo, (path) => bodies.get(path));
     this.launchers = import_obsidian.Platform.isDesktopApp ? await this.host.loadLaunchers() : [];
     const launchable = new Set(records.filter((record) => this.canLaunch(record)).map((record) => record.dir));
+    if (this.embed) this.removeChild(this.embed);
+    this.embed = this.addChild(new import_obsidian.Component());
     const root = this.contentEl;
     root.empty();
     root.addClass("galaxy-brain-repository");
@@ -464,7 +473,7 @@ var RepositoryView = class extends import_obsidian.ItemView {
       select.createEl("option", { text: name, value: name }).selected = name === this.repo;
     }
     select.onchange = () => void this.leaf.setViewState({ type: REPOSITORY_VIEW, state: { repo: select.value, tab: this.tab } });
-    const tabs = import_obsidian.Platform.isDesktopApp ? TABS : TABS.filter((tab) => isRecordTab(tab.id));
+    const tabs = import_obsidian.Platform.isDesktopApp ? REPOSITORY_TABS : REPOSITORY_TABS.filter((tab) => isRecordTab(tab.id));
     const current = tabs.some((tab) => tab.id === this.tab) ? this.tab : "branches";
     const bar = root.createDiv({ cls: "gbr-tabs" });
     for (const tab of tabs) {
@@ -476,11 +485,11 @@ var RepositoryView = class extends import_obsidian.ItemView {
         void this.render();
       };
     }
-    if (isRecordTab(current)) this.renderRecords(root, current, records, bodies, launchable, await this.readGrouping(current));
+    if (isRecordTab(current)) this.renderRecords(root, current, records, bodies, launchable, await this.readQueue(current));
     else this.renderFeed(root, current, records, bodies, launchable, header);
   }
-  renderRecords(root, kind, records, bodies, launchable, grouping) {
-    const groups = groupRecords(records, kind, grouping);
+  renderRecords(root, kind, records, bodies, launchable, queue) {
+    const groups = groupRecords(records, kind, queue?.sections);
     if (groups.length === 0) root.createEl("p", { text: "No records.", cls: "gbr-empty" });
     for (const group of groups) {
       const key = `${kind}/${group.status}`;
@@ -497,6 +506,26 @@ var RepositoryView = class extends import_obsidian.ItemView {
         this.renderRecord(list2, record, body, launchable.has(record.dir));
       }
     }
+    if (queue) void this.renderQueue(root, queue);
+  }
+  /** The queue file itself, below the groups it defines. */
+  async renderQueue(root, queue) {
+    const section = root.createDiv({ cls: "gbr-queue" });
+    const heading = section.createDiv({ cls: "gbr-queue-heading" });
+    heading.createSpan({ text: queue.path.split("/").pop() });
+    const open = heading.createEl("a", { text: "Open note", cls: "internal-link", href: "#" });
+    const body = section.createDiv({ cls: "gbr-queue-body markdown-rendered" });
+    const openLink = (event, link) => {
+      event.preventDefault();
+      void this.app.workspace.openLinkText(link, queue.path, event.metaKey || event.ctrlKey);
+    };
+    open.onclick = (event) => openLink(event, queue.path);
+    body.onclick = (event) => {
+      const link = event.target.closest("a.internal-link");
+      const href = link?.getAttribute("data-href") ?? link?.getAttribute("href");
+      if (href) openLink(event, href);
+    };
+    await import_obsidian.MarkdownRenderer.render(this.app, queue.text, body, queue.path, this.embed);
   }
   renderFeed(root, tab, records, bodies, launchable, header) {
     const state = this.feedState();
@@ -506,8 +535,8 @@ var RepositoryView = class extends import_obsidian.ItemView {
     if (state.fetchedAt) header.createSpan({ text: `fetched ${timeAgo(state.fetchedAt, Date.now())}`, cls: "gbr-time" });
     const owner = upstreamOwner(this.repo, [...bodies.values()]);
     root.createEl("p", { cls: "gbr-github-link" }).createEl("a", {
-      text: FEED_LINKS[tab],
-      href: feedUrl(owner, this.repo, FEED_KEYS[tab]),
+      text: githubListTitle(tab),
+      href: githubListUrl(owner, this.repo, tab),
       cls: "external-link"
     });
     if (!state.feeds) {
@@ -594,11 +623,13 @@ var RepositoryView = class extends import_obsidian.ItemView {
     if (force) await this.render();
     return state.loading;
   }
-  /** Sections of the repository's grouping file for this kind, if it has one. */
-  async readGrouping(kind) {
+  /** The repository's queue file for this kind, if it has one. */
+  async readQueue(kind) {
     const path = groupingFor(this.repo, kind);
     const file = path ? this.app.vault.getFileByPath(path) : null;
-    return file ? parseGrouping(await this.app.vault.cachedRead(file), file.path, this.repo, kind) : void 0;
+    if (!file) return void 0;
+    const text2 = await this.app.vault.cachedRead(file);
+    return { path: file.path, text: text2, sections: parseGrouping(text2, file.path, this.repo, kind) };
   }
   async readIndexes(paths) {
     const prefix = `repositories/${this.repo}/`;
@@ -636,7 +667,6 @@ var RepositoryView = class extends import_obsidian.ItemView {
 };
 
 // src/main.ts
-var LAUNCHERS_PATH = "agents/_shared/LAUNCHERS.md";
 var PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 var LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
 var CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
@@ -742,10 +772,10 @@ var GalaxyBrainPlugin = class extends import_obsidian2.Plugin {
   runGh(args) {
     const { execFile } = require("child_process");
     const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
-    return new Promise((resolve2, reject) => {
+    return new Promise((resolve, reject) => {
       execFile("gh", args, { env: { ...process.env, PATH }, timeout: 6e4, maxBuffer: 16 * 1024 * 1024 }, (error, stdout, stderr) => {
         if (error) reject(new Error((stderr || error.message).trim()));
-        else resolve2(stdout);
+        else resolve(stdout);
       });
     });
   }
@@ -758,9 +788,12 @@ var GalaxyBrainPlugin = class extends import_obsidian2.Plugin {
     window.open(githubUrl(record, await this.indexBody(record)));
   }
   async loadLaunchers() {
-    const config = this.app.vault.getAbstractFileByPath(LAUNCHERS_PATH);
-    if (!(config instanceof import_obsidian2.TFile)) return [];
-    return parseLaunchers(await this.app.vault.cachedRead(config));
+    const files = this.app.vault.getMarkdownFiles().flatMap((file) => {
+      const scope = launcherScope(file.path);
+      return scope ? [{ file, scope }] : [];
+    }).sort((a, b) => Number(a.scope.repo === null) - Number(b.scope.repo === null));
+    const parsed = await Promise.all(files.map(async ({ file, scope }) => parseLaunchers(await this.app.vault.cachedRead(file), scope)));
+    return parsed.flat();
   }
   async launchersFor(record) {
     return launchersFor(await this.loadLaunchers(), record);
@@ -790,7 +823,7 @@ var GalaxyBrainPlugin = class extends import_obsidian2.Plugin {
   async pickLauncher(record) {
     const launchers = await this.launchersFor(record);
     if (launchers.length === 0) {
-      new import_obsidian2.Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in ${LAUNCHERS_PATH}`);
+      new import_obsidian2.Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in repositories/${record.repo}/${record.kind}/LAUNCHERS.md`);
       return;
     }
     new LauncherSuggest(this.app, launchers, (launcher) => void this.confirmLaunch(launcher, record)).open();

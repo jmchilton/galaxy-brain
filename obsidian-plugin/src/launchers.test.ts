@@ -1,11 +1,10 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { fillTemplate, launchersFor, parseLaunchers, recordFromPath, untrackedRecord } from "./launchers";
+import { fillTemplate, launcherScope, launchersFor, parseLaunchers, recordFromPath, untrackedRecord } from "./launchers";
 
 const CONFIG = `Intro text, ignored.
 
 ## 🐴 Implement
-records: galaxy/issues, pulsar/issues
 status: queued
 agent_dir: gx_workhorse
 name: wh-{name}
@@ -14,53 +13,86 @@ Implement galaxyproject/galaxy#{name}.
 Record: {record}
 
 ## ✨ Polish
-records: galaxy/branches
-agent_dir: gx_branches
+agent_dir: gx_workhorse
 profile: Codex
 
-Run ./POLISH_BRANCH.md {name}
+Polish #{name}
 
 ## Broken
-records: galaxy/branches
+status: queued
 `;
 
+const GALAXY_ISSUES = { repo: "galaxy", kind: "issues" } as const;
+
+const vaultLaunchers = (path: string) =>
+	parseLaunchers(readFileSync(new URL(`../../vault/${path}`, import.meta.url), "utf8"), launcherScope(path)!).map((l) => [
+		l.label,
+		l.statuses.join(","),
+		l.agentDir,
+	]);
+
+describe("launcherScope", () => {
+	it("reads repo and kind from a kind-level LAUNCHERS.md; _defaults applies to every repo", () => {
+		expect(launcherScope("repositories/galaxy/issues/LAUNCHERS.md")).toEqual(GALAXY_ISSUES);
+		expect(launcherScope("repositories/_defaults/branches/LAUNCHERS.md")).toEqual({ repo: null, kind: "branches" });
+	});
+
+	it("ignores other files", () => {
+		expect(launcherScope("agents/_shared/LAUNCHERS.md")).toBeNull();
+		expect(launcherScope("repositories/galaxy/issues/MY_ISSUES.md")).toBeNull();
+		expect(launcherScope("repositories/galaxy/notes/LAUNCHERS.md")).toBeNull();
+		expect(launcherScope("repositories/galaxy/issues/queued/1/LAUNCHERS.md")).toBeNull();
+	});
+});
+
 describe("parseLaunchers", () => {
-	it("reads fields and the multi-line prompt", () => {
-		const [implement, polish] = parseLaunchers(CONFIG);
+	it("reads fields and the multi-line prompt, scoped by the file", () => {
+		const [implement, polish] = parseLaunchers(CONFIG, GALAXY_ISSUES);
 		expect(implement).toEqual({
 			label: "🐴 Implement",
-			records: ["galaxy/issues", "pulsar/issues"],
+			repo: "galaxy",
+			kind: "issues",
 			statuses: ["queued"],
 			agentDir: "gx_workhorse",
 			name: "wh-{name}",
 			prompt: "Implement galaxyproject/galaxy#{name}.\nRecord: {record}",
 		});
-		expect(polish).toMatchObject({ statuses: [], name: "gx_branches", profile: "Codex" });
+		expect(polish).toMatchObject({ statuses: [], name: "gx_workhorse", profile: "Codex" });
 		expect(implement).not.toHaveProperty("profile");
 	});
 
 	it("skips launchers missing agent_dir or prompt", () => {
-		expect(parseLaunchers(CONFIG).map((l) => l.label)).toEqual(["🐴 Implement", "✨ Polish"]);
+		expect(parseLaunchers(CONFIG, GALAXY_ISSUES).map((l) => l.label)).toEqual(["🐴 Implement", "✨ Polish"]);
 	});
 
-	it("parses the vault config", () => {
-		const vaultConfig = readFileSync(new URL("../../vault/agents/_shared/LAUNCHERS.md", import.meta.url), "utf8");
-		expect(parseLaunchers(vaultConfig).map((l) => [l.label, l.agentDir])).toEqual([
-			["🐴 Implement", "gx_workhorse"],
-			["🛡️ Harden", "gx_workhorse"],
-			["✨ Polish", "gx_branches"],
-			["🚦 Fix CI", "gx_branches"],
-			["🔀 De-conflict", "gx_branches"],
-			["🚀 Open PR", "gx_branches"],
-			["💬 Respond to review", "gx_reviews"],
-			["💬 Respond to review", "gx_branches"],
-			["✂️ Trim findings", "gx_reviews"],
-			["💭 New session", "gx_issues"],
-			["💭 New session", "gx_branches"],
-			["💭 New session", "gx_reviews"],
-			["🔎 Review", "gx_reviews"],
-			["🩺 Root cause", "gx_workhorse"],
-			["🛠️ Work on", "gx_workhorse"],
+	it("parses the vault's Galaxy launchers", () => {
+		expect(vaultLaunchers("repositories/galaxy/branches/LAUNCHERS.md")).toEqual([
+			["🛡️ Harden", "active", "gx_workhorse"],
+			["✨ Polish", "active", "gx_branches"],
+			["🚦 Fix CI", "", "gx_branches"],
+			["🔀 De-conflict", "active", "gx_branches"],
+			["🚀 Open PR", "active", "gx_branches"],
+			["💬 Respond to review", "active", "gx_branches"],
+			["💭 New session", "", "gx_branches"],
+		]);
+		expect(vaultLaunchers("repositories/galaxy/issues/LAUNCHERS.md")).toEqual([
+			["🐴 Implement", "queued,wip,needs_decision,blocked", "gx_workhorse"],
+			["💭 New session", "", "gx_issues"],
+			["🩺 Root cause", "untracked", "gx_workhorse"],
+			["🛠️ Work on", "untracked", "gx_workhorse"],
+		]);
+		expect(vaultLaunchers("repositories/galaxy/reviews/LAUNCHERS.md")).toEqual([
+			["💬 Respond to review", "active", "gx_reviews"],
+			["✂️ Trim findings", "active", "gx_reviews"],
+			["💭 New session", "", "gx_reviews"],
+			["🔎 Review", "untracked", "gx_reviews"],
+		]);
+	});
+
+	it("parses the vault's Foundry launchers", () => {
+		expect(vaultLaunchers("repositories/foundry/issues/LAUNCHERS.md")).toEqual([
+			["🏷️ Triage issue", "untracked,needs_decision", "wf_foundry"],
+			["🐴 Work on issue", "untracked,queued,wip", "wf_foundry"],
 		]);
 	});
 });
@@ -84,25 +116,28 @@ describe("recordFromPath", () => {
 });
 
 describe("launchersFor", () => {
-	const launchers = parseLaunchers(CONFIG);
+	const launchers = parseLaunchers(CONFIG, GALAXY_ISSUES);
 	const issue = recordFromPath("repositories/galaxy/issues/queued/24350/index.md")!;
 
-	it("matches repo/kind and status", () => {
-		expect(launchersFor(launchers, issue).map((l) => l.label)).toEqual(["🐴 Implement"]);
-		expect(launchersFor(launchers, { ...issue, status: "closed" })).toEqual([]);
+	it("matches repo, kind and status", () => {
+		expect(launchersFor(launchers, issue).map((l) => l.label)).toEqual(["🐴 Implement", "✨ Polish"]);
+		expect(launchersFor(launchers, { ...issue, repo: "pulsar" })).toEqual([]);
+		expect(launchersFor(launchers, { ...issue, kind: "reviews" })).toEqual([]);
+	});
+
+	it("applies _defaults launchers to every repo of the kind", () => {
+		const defaults = parseLaunchers("## Chat\nagent_dir: gx_issues\n\nTalk", { repo: null, kind: "issues" });
+		expect(launchersFor(defaults, { ...issue, repo: "pulsar" }).map((l) => l.label)).toEqual(["Chat"]);
+		expect(launchersFor(defaults, { ...issue, kind: "branches" })).toEqual([]);
 	});
 
 	it("offers untracked items only launchers that list untracked", () => {
-		const untracked = [...launchers, ...parseLaunchers("## Review\nrecords: galaxy/branches\nstatus: untracked\nagent_dir: gx_reviews\n\nGo")];
-		expect(launchersFor(untracked, untrackedRecord("galaxy", "issues", 1))).toEqual([]);
-		expect(launchersFor(untracked, { ...untrackedRecord("galaxy", "issues", 1), kind: "branches" }).map((l) => l.label)).toEqual([
-			"Review",
-		]);
+		const untracked = [...launchers, ...parseLaunchers("## Review\nstatus: untracked\nagent_dir: gx_reviews\n\nGo", GALAXY_ISSUES)];
+		expect(launchersFor(untracked, untrackedRecord("galaxy", "issues", 1)).map((l) => l.label)).toEqual(["Review"]);
 	});
 
 	it("treats a missing status as any", () => {
-		const branch = recordFromPath("repositories/galaxy/branches/merged/b/index.md")!;
-		expect(launchersFor(launchers, branch).map((l) => l.label)).toEqual(["✨ Polish"]);
+		expect(launchersFor(launchers, { ...issue, status: "closed" }).map((l) => l.label)).toEqual(["✨ Polish"]);
 	});
 });
 

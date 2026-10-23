@@ -13,13 +13,12 @@ import {
 	TAbstractFile,
 	TFile,
 } from "obsidian";
-import { fillTemplate, type Launcher, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
+import { fillTemplate, type Launcher, launcherScope, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
 import { githubUrl, worktreeCandidates } from "./record-links";
 import { repositoryNames } from "./repository";
 import { REPOSITORY_VIEW, RepositoryView } from "./repository-view";
 
-const LAUNCHERS_PATH = "agents/_shared/LAUNCHERS.md";
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 const LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
 // Where the `code` and `gh` CLIs live; GUI apps get a bare PATH.
@@ -156,9 +155,16 @@ export default class GalaxyBrainPlugin extends Plugin {
 	}
 
 	async loadLaunchers(): Promise<Launcher[]> {
-		const config = this.app.vault.getAbstractFileByPath(LAUNCHERS_PATH);
-		if (!(config instanceof TFile)) return [];
-		return parseLaunchers(await this.app.vault.cachedRead(config));
+		// Repo files sort before `_defaults`, so a repo's own launchers list first.
+		const files = this.app.vault
+			.getMarkdownFiles()
+			.flatMap((file) => {
+				const scope = launcherScope(file.path);
+				return scope ? [{ file, scope }] : [];
+			})
+			.sort((a, b) => Number(a.scope.repo === null) - Number(b.scope.repo === null));
+		const parsed = await Promise.all(files.map(async ({ file, scope }) => parseLaunchers(await this.app.vault.cachedRead(file), scope)));
+		return parsed.flat();
 	}
 
 	private async launchersFor(record: RecordRef): Promise<Launcher[]> {
@@ -193,7 +199,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 	async pickLauncher(record: RecordRef) {
 		const launchers = await this.launchersFor(record);
 		if (launchers.length === 0) {
-			new Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in ${LAUNCHERS_PATH}`);
+			new Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in repositories/${record.repo}/${record.kind}/LAUNCHERS.md`);
 			return;
 		}
 		new LauncherSuggest(this.app, launchers, (launcher) => void this.confirmLaunch(launcher, record)).open();

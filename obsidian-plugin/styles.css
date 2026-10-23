@@ -207,3 +207,26 @@
 	margin: 0 0 8px;
 	font-size: var(--font-smaller);
 }
+
+.galaxy-brain-repository .gbr-queue {
+	margin-top: 16px;
+	padding-top: 8px;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.galaxy-brain-repository .gbr-queue-heading {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	font-weight: 600;
+	color: var(--text-muted);
+}
+
+.galaxy-brain-repository .gbr-queue-heading a {
+	font-weight: normal;
+	font-size: var(--font-smaller);
+}
+
+.galaxy-brain-repository .gbr-queue-body {
+	font-size: var(--font-smaller);
+}
