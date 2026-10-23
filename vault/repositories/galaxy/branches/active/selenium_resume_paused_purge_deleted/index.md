@@ -5,7 +5,7 @@
 
 ## Status
 
-Implemented, hardening in progress. Base `release_26.2`, head `e6e3502cc67`.
+Implemented and re-scoped once; re-hardening in progress. Base `release_26.2` `b66ec973f2b`, head `6d21d8c4d45`.
 
 No PR.
 
@@ -13,13 +13,20 @@ No CI yet.
 
 ## Scope
 
-Missing 26.2 E2E coverage for two UI paths that had none, with the client test hooks they need:
+Missing 26.2 E2E coverage for UI paths that had none, plus the client test hooks they need. Four commits:
 
-1. History options > Resume Paused Jobs (`test_history_panel.py::test_resume_paused_job`). Adds `data-description="resume paused jobs"` and `click_history_option_resume_paused_jobs`.
-2. Storage Dashboard > Free up disk space purges deleted datasets (`test_history_storage.py::test_purge_deleted_datasets_from_storage_dashboard`). Adds `data-description="<operation id> cleanup"` on the cleanup cards, `storage_dashboard.cleanup` selectors and `storage_dashboard_purge_deleted_datasets`.
+1. `navigate_to_storage_dashboard` helper; `test_history_storage_accessibility` uses it.
+2. History options > Resume Paused Jobs (`test_history_panel.py::test_resume_paused_job`). Adds `data-description="resume paused jobs"` and `click_history_option_resume_paused_jobs`.
+3. Storage Dashboard > Free up disk space purges deleted datasets (`test_purge_deleted_datasets_from_storage_dashboard`). Adds `data-description="<operation id> cleanup"` on the cleanup cards, `storage_dashboard.cleanup` selectors and `storage_dashboard_cleanup(operation)`.
+4. The same for deleted and archived histories (`test_purge_deleted_and_archived_histories_from_storage_dashboard`). This is the re-scope; the original scope is kept as [an alt](alts/original_scope.md).
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commits `c184ed00be2`, `0cf8353fc84`) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Difference from those commits: the paused-job test undeletes its input through the API (`update_dataset`), not the history panel, because the panel undelete helpers come from [#24380](../selenium_delete_items_dataset_privacy/index.md), which isn't on 26.2. On restack, drop both commits from `galaxy_ui_driver` by subject.
+Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commits `c184ed00be2`, `0cf8353fc84`) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). It differs from those commits in three ways:
+- The paused-job test undeletes its input through the API, not the history panel. The panel helpers come from [#24380](../selenium_delete_items_dataset_privacy/index.md), which isn't on 26.2.
+- `storage_dashboard_purge_deleted_datasets` is now `storage_dashboard_cleanup("deleted_datasets", ...)`, with no wrapper.
+- The purge helper waits for `:not(.g-disabled)` buttons.
+
+On restack, drop both source commits by subject and rebind gxui's `datasets-purge-deleted` verb to `storage_dashboard_cleanup`.
 
 ## Worktree
 
-`~/projects/worktrees/galaxy/branch/selenium_resume_paused_purge_deleted/`. `.venv` and `client/node_modules` are symlinks into `galaxy_ui_driver_gxui`; never run `pnpm install` here. Client built in place (`static/dist`). Tests use a framework-managed server.
+`~/projects/worktrees/galaxy/branch/selenium_resume_paused_purge_deleted/`. `.venv` and `client/node_modules` are symlinks into `galaxy_ui_driver_gxui`; never run `pnpm install` here. Client built in place (`static/dist`). Tests use a framework-managed server; Selenium needs chromedriver on `PATH` and `GALAXY_TEST_SELENIUM_HEADLESS` unset.
