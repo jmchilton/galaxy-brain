@@ -6,8 +6,18 @@
 
 Review notes for `galaxyproject/planemo` pull requests, issues, feature development, plus the rules for keeping the local worktrees in sync with what's worth reviewing.
 
-In the following files PROJECT is `planemo`.
+## Project settings
 
+In the following files:
+
+- PROJECT is `planemo`.
+- Base branch: `origin/master`.
+- Push remote: the `jmchilton` fork.
+- Local gate: `make lint` plus the tests covering the change (`make test` runs them all).
+- CI runs on pushes too, so a pushed branch gets fork CI before any PR.
+
+@../_shared/MY_BRANCHES_INDEX.md
+@../_shared/REPOSITORY_BRANCHES.md
 @../_shared/WORKTREES.md
 @../_shared/PROCESS_INITIAL_REVIEW.md
 @../_shared/REVIEW_FOCUS.md
@@ -15,6 +25,8 @@ In the following files PROJECT is `planemo`.
 @../_shared/PULL_REQUESTS_INDEX.md
 
 The review queue is [PULL_REQUESTS.md](agents/planemo/PULL_REQUESTS.md); detail lives under `vault/repositories/planemo/reviews/`, including archived history.
+
+The agent running in this directory is also responsible for maintaining and promoting John's branches within [MY_BRANCHES.md](../../repositories/planemo/branches/MY_BRANCHES.md). Branch records and supporting files live in `vault/repositories/planemo/branches/active/<branch_name>/`.
 
 ## User Interaction
 
