@@ -21,7 +21,7 @@ usegalaxy.org runs 26.1 (`/api/version` → 26.1.2.dev0); that sets the version 
 - Fix: resync gtu-ts schema via `scripts/dump-user-tool-source-schema.py` against Galaxy dev, release, bump Foundry. Note keeps flat shape plus a temporary "gxwf ≤1.14.0 rejects this" line, per #617's pattern for its gxwf defect. Still check `pattern: __name__` / `format` in the §5 example against the regenerated schema.
 
 **Item 4 — issue is right: `element_identifier` renders `null`, even mapped.** (Corrects my earlier code-read guess.)
-- API-tested on Galaxy dev `51e0a80a`, worktree `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`, commit `bc1f26b4486` (not pushed). Mapped over a list via `/api/tools` and via `/api/jobs` Batch: both `null`. Plain dataset: `null`. Mapped tests left red on purpose (assert desired behavior).
+- API-tested on Galaxy dev `51e0a80a`, worktree `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`, commit `bc1f26b4486`, pushed to `jmchilton`. Mapped over a list via `/api/tools` and via `/api/jobs` Batch: both `null`. Plain dataset: `null`. Mapped tests left red on purpose (assert desired behavior).
 - Cause: map-over expansion stores each job's input as `{"src": "hda"}` (`lib/galaxy/tools/parameters/meta.py:450`, transient identifier at `:508`), so runtimeify's DCE branch (`lib/galaxy/tool_util/parameters/convert.py:821` → `lib/galaxy/tools/runtime.py:160-172`) never runs. Legacy `to_cwl` (`lib/galaxy/workflow/modules.py:374`) uses the identifier only as a basename fallback.
 - `basename`/`nameroot` = `created_from_basename` or HDA name; matched the identifier only because pasted elements had no upload filename.
 - Output labels do resolve `$(inputs.x.element_identifier)` on map-over (`test_unprivileged_tools_labels.py::test_mapped_over_labels`): labels and command line disagree. Possible Galaxy fix: keep DCE reference in batch-expanded job state.
@@ -41,7 +41,7 @@ usegalaxy.org runs 26.1 (`/api/version` → 26.1.2.dev0); that sets the version 
 
 - gtu-ts: branch `issue-672-udt-schema-resync` on `jmchilton`, `a7a508ce`. Schema regenerated from Galaxy dev `51e0a80a`; tests mirror Galaxy's collection cases (pattern-only test red on old schema, green on new). Changeset added. `make check` clean; `make test` green except gxwf-web `--output-schema`, which flakes under full-suite load and passes alone with and without the change. The note's §5 example passes rebuilt `validate-tool-source`.
 - Foundry: branch `issue-672-udt-authoring-note` on `origin`, `12d8f77a` (§5, §6) + `5c001801` (§3). Recast; `validate` 0 errors; casts, index, dashboard clean. PR text: [pr_description.md](pr_description.md).
-- Galaxy: red API tests above, local only.
+- Galaxy: red API tests above, branch `udt_element_identifier_api_test` on `jmchilton`; no PR.
 
 ## Next
 
