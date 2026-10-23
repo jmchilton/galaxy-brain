@@ -1,0 +1,4 @@
+Branch `pr_24357_review_0` builds on the reviewed commit `81bcc6eac6b` with two small follow-ups. `IntParameter.marshal` now rejects booleans and non-integral floats, which tool-provided metadata could otherwise store as `True` or silently truncate. The CSRF-scraping web login in the new API test moves into a reusable `_browser_session` helper on `UsesApiTestCaseMixin`, for later tests of legacy routes outside `/api`.
+
+- `111f5bdd98a` Reject bool and non-integral float comment_lines metadata. Adds the bool and float guard to `IntParameter.marshal` and adds the matching rejection, `3.0 -> 3` and type-check cases to the unit tests.
+- `ea18258b648` Extract _browser_session test helper for legacy controller routes. Adds the context manager to `lib/galaxy_test/base/api.py` and uses it in `test_set_edit_stores_comment_lines_as_int`, dropping the inline `re` and `requests.Session` code.
