@@ -4,7 +4,9 @@ Issue: https://github.com/galaxyproject/foundry/issues/677 (scottcain, AI-posted
 Branch: `issue-677-rename-syntax` on `origin`, worktree `~/projects/worktrees/foundry/branch/issue-677`, commit `ef8abda3` on `da00dea6` (second commit applies the informal-parameter correction below).
 PR: https://github.com/galaxyproject/foundry/pull/702 (opened 2026-10-22; body from [pr_description.md](pr_description.md)).
 Gaps 2 and 3 (lint precision, Python/TS parity) handed to tooling agents by John (2026-10-22).
-Upstream lint PRs: [gxformat2#271](https://github.com/galaxyproject/gxformat2/pull/271), [galaxy-tool-util-ts#195](https://github.com/jmchilton/galaxy-tool-util-ts/pull/195); records: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md),
+Galaxy editor/run-form counterpart: [galaxy#24381](https://github.com/galaxyproject/galaxy/pull/24381) (draft, 26.1; fixes galaxy#24379).
+Draft reply to Scott: [issue_comment.md](issue_comment.md) (not posted).
+Upstream lint PRs (both merged 2026-10-22, unreleased): [gxformat2#271](https://github.com/galaxyproject/gxformat2/pull/271), [galaxy-tool-util-ts#195](https://github.com/jmchilton/galaxy-tool-util-ts/pull/195); records: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md),
 [galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/active/lint_untyped_params/index.md).
 Planemo runtime side: https://github.com/galaxyproject/planemo/issues/1750 (send `<DEPRECATED_PARAMETER_UNSET>` for informal params + warn).
 
@@ -41,4 +43,4 @@ The issue's premise is wrong; the warning caught a real authoring defect.
 3. Upstream parity: Python uses `re.match` (start-anchored), TS uses `.test` (search). Python misses
    mid-string refs (`Chromosome File for ${Haplotype}`), which is why planemo stayed silent here.
 
-Next: open PR (Refs #677), reply to Scott on the premise.
+Next: John posts [issue_comment.md](issue_comment.md); close after #702 merges.
