@@ -11,7 +11,7 @@ Currently only `needs-triage` (opened 2026-09-18 by scottcain, AI-assisted).
 - `agent/research`: confirm the fix's release path and whether Foundry needs a fixture/pattern note.
 - No blocker: the fix is already released (below), overriding the initial `upstream/galaxy` proposal.
 
-Status: `needs_decision` (likely close as fixed upstream).
+Status: `closed`.
 
 ## Findings
 
@@ -23,4 +23,4 @@ Status: `needs_decision` (likely close as fixed upstream).
 
 ## Next
 
-decide: close with a comment (fixed in galaxy-tool-util 26.1.0; upgrade Planemo's env), optionally after a repro with 26.1.1.
+Closed 2026-10-23 as fixed upstream with [issue_comment.md](issue_comment.md): https://github.com/galaxyproject/foundry/issues/583#issuecomment-6375434070. Reporter asked to reopen if an updated Planemo still fails.
