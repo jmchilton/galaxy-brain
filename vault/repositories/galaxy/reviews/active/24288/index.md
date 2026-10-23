@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review of `f3fd25889b4` complete 2026-10-23, not delivered: six P2s + ten P3s; 12 fixed on fork branch `pr_24288_review_0` (`8f30600b41c`), not pushed into PR. P2 5 (LRU cache as list store), P3 4, P3 7, P3 10 unfixed.
+Initial review of `f3fd25889b4` complete 2026-10-23; response not yet posted on #24288: six P2s + ten P3s; 12 fixed on fork branch `pr_24288_review_0` (`8f30600b41c`), opened as [ahmedhamidawan/galaxy#44](https://github.com/ahmedhamidawan/galaxy/pull/44) against `add_job_panel` 2026-10-23 (body: the 12 fixed findings). P2 5 (LRU cache as list store), P3 4, P3 7, P3 10 unfixed.
 
 Open, ready for review, against `dev`. Author @ahmedhamidawan (carries agnesbrnb's #23005 commits; maintainer edits on). 21 files, +1003/-23. Worktree `~/projects/worktrees/galaxy/pr/24288` (on `pr_24288_review_0`; client deps installed; E2E ran on Playwright backend only).
