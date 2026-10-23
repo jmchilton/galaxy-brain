@@ -39,6 +39,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#657](https://github.com/galaxyproject/foundry/issues/657) — planemo-asserts-idioms omits `has_line_matching` anchoring and `has_n_columns` first-line semantics; PR [#701](https://github.com/galaxyproject/foundry/pull/701). [notes](../../repositories/foundry/issues/wip/657/index.md)
 - [#676](https://github.com/galaxyproject/foundry/issues/676) — casts cite `parsed-tool`, `summarize`, `draft-next-step` without packaging them; PR [#704](https://github.com/galaxyproject/foundry/pull/704). [notes](../../repositories/foundry/issues/wip/676/index.md)
 - (mvp) [#672](https://github.com/galaxyproject/foundry/issues/672) — UDT authoring note: collection example vs stale gxwf schema, no vendoring recipes, `inputs.x` shape undocumented; branch `issue-672-udt-authoring-note` on `origin`, gtu-ts branch `issue-672-udt-schema-resync`. [notes](../../repositories/foundry/issues/wip/672/index.md)
+- [#706](https://github.com/galaxyproject/foundry/issues/706) — validators can't detect skew vs a bundle's schema; `--schema-sha256` pin; branch `issue-706-schema-skew-guard` on `origin`. [notes](../../repositories/foundry/issues/wip/706/index.md)
 
 ## Queued (`queued`)
 
@@ -103,4 +104,3 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#590](https://github.com/galaxyproject/foundry/issues/590) — Authoring never checks a wrapped script's own declared input-ordering assumption against the tool it will consume from
 - [#591](https://github.com/galaxyproject/foundry/issues/591) — `download?style=ga` emits unversioned `tool_id`s, producing workflows that save but cannot be invoked
 - [#592](https://github.com/galaxyproject/foundry/issues/592) — Augment freeform-to-Workflow Brief scenarios with real source artifacts
-- [#706](https://github.com/galaxyproject/foundry/issues/706) — `summarize-nextflow`: detect bundled-schema vs installed-validator skew before a run
