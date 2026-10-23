@@ -5,9 +5,11 @@
 
 ## Status
 
-Status: `branches_ready_for_final_review`. Polished; description, titles and tags await John's read-through.
+Status: PR open as draft (`ci_wait`), approved by John via launch 2026-10-23, SHA `4189977901c`.
 
 Base: `release_26.1` (`d808b6425b8`). Head: `4189977901c` on `jmchilton`. Worktree: `~/projects/worktrees/galaxy/branch/library_collection_selected_history_26.1`.
+
+PR: [#24399](https://github.com/galaxyproject/galaxy/pull/24399), draft until reruns settle.
 
 Fork CI green except Playwright (`test_import_dataset_from_history`) and Integration (interactive tools Pulsar) reds, both diagnosed unrelated; reruns queued.
 
