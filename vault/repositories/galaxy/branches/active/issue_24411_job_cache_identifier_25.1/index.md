@@ -5,11 +5,11 @@
 
 ## Status
 
-Implemented; hardening in progress.
+Status: `branches_implemented_needs_ci` — READY. Hardened, re-scoped once (mapped name match), re-hardened; second scope eval: keep. See [implementation debrief](implementation_debrief.md).
 
-No PR.
+No PR. CI not yet seen.
 
-Base: `release_25.1` (`6060e10fe7a`). Fork: `jmchilton/issue_24411_job_cache_identifier_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24411_job_cache_identifier_25.1`.
+Base: `release_25.1` (`6060e10fe7a`), head `9e28638711a`; alt `issue_24411_job_cache_identifier_25.1_alt_original_scope`. Fork: `jmchilton/issue_24411_job_cache_identifier_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24411_job_cache_identifier_25.1`.
 
 ## Issue
 
@@ -20,3 +20,5 @@ Fixes [#24411](https://github.com/galaxyproject/galaxy/issues/24411) (`vault/rep
 - Base `release_25.1`: oldest release in the 1-year window (25.0 is 2025-06); same `JobSearch` code there; small fix.
 - Scope widened past the issue: the issue's "reverse direction is already guarded" is wrong. A mapped run reused a plain job, or a job mapped over another list with the same dataset, through the job wrapper's second, name-agnostic search (`consumes_names` not set by `element_identifier`). Fixed here too.
 - The NOT EXISTS guard sits under `require_name_match`, so the name-agnostic second search still reuses across plain and mapped runs for tools that read neither name nor identifier.
+- Re-scope: name match applies to mapped requests too (stale `$input.name` after element rename); `tool_evaluator` on fallback wrappers.
+- Doesn't cover UDTs: `UserToolEvaluator` `consumes_names` one-liner rides with #24410 on dev.
