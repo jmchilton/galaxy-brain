@@ -11,6 +11,10 @@ No PR.
 
 Base: `dev` (`51e0a80a0db`), head `d5ddac3f416`; alt `udt_element_identifier_api_test_alt_original_scope`. Fork: `jmchilton/udt_element_identifier_api_test`. Worktree: `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`.
 
+## Issue
+
+[#24410](https://github.com/galaxyproject/galaxy/issues/24410), filed 2026-10-23; tracked in `vault/repositories/galaxy/issues/wip/24410/`. Job-cache guard: [#24411](https://github.com/galaxyproject/galaxy/issues/24411) (`queued/24411/`).
+
 ## Decisions
 
 - Red tests came from Foundry issue #672 research ([notes](../../../../foundry/issues/wip/672/index.md)).
