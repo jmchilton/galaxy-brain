@@ -7,11 +7,11 @@ Previews tool job counts before Run, with expansion and mismatch warnings; Run d
 
 ## Status
 
-`branches_ready_for_final_review`: polished 2026-10-17 and rebased with the baseline 2026-10-20 onto dev `93b3c85e532`, then got async parity tests at `fff553be2d4`; waiting on John's read-through. Preview counts match the async tool request path. Remaining items: reword the "/api/tools would reject" claim, and check empty batches on async ([async parity](async_parity.md)).
+`branches_ready_for_final_review`: polished 2026-10-17 and rebased with the baseline 2026-10-20 onto dev `93b3c85e532`, then got async parity tests at `fff553be2d4`; restacked 2026-10-23 on the baseline mypy fix at `0ceeea6f13e` (only diff: `bool(...)` in `meta.py` `_is_async_batch`); waiting on John's read-through. Preview counts match the async tool request path. Remaining items: reword the "/api/tools would reject" claim, and check empty batches on async ([async parity](async_parity.md)).
 
 No PR yet. The baseline commits are split out as [`tool_form_job_count_baseline`](../tool_form_job_count_baseline/index.md), meant to land first.
 
-Fork CI is pending on `fff553be2d4`.
+Fork CI is pending on `0ceeea6f13e`.
 
 ## Polish
 
