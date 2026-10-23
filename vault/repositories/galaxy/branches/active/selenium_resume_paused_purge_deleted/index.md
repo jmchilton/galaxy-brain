@@ -5,7 +5,7 @@
 
 ## Status
 
-READY: implemented, re-scoped once, re-hardened; see [implementation debrief](implementation_debrief.md). Base `release_26.2` `b66ec973f2b`, head `30f2122cd91`.
+READY: implemented, re-scoped once, re-hardened; see [implementation debrief](implementation_debrief.md). Base `release_26.2` `b66ec973f2b`, head `257d514929c`.
 
 No PR.
 

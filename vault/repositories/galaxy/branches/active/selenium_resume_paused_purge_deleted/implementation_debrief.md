@@ -1,6 +1,8 @@
 # Implementation debrief
 
-**STATUS: READY.** Base `release_26.2` `b66ec973f2b`, head `30f2122cd91`, 4 commits (+137/-5); alt `selenium_resume_paused_purge_deleted_alt_original_scope` (`ed05d842b20`).
+**STATUS: READY.** Base `release_26.2` `b66ec973f2b`, head `257d514929c`, 4 commits; alt `selenium_resume_paused_purge_deleted_alt_original_scope` (`ed05d842b20`).
+
+**After hardening (John's question):** the purge tests called `logout_if_needed()` + `register()` themselves. Selenium tests don't get fresh users that way. `TestHistoryStorage` sets `ensure_registered = True`, and `setup_with_driver` → `login()` already registers a new user per test unless `GALAXY_TEST_SELENIUM_USER_EMAIL` is set (CI doesn't set it). The explicit logout + register pattern is only for multi-user tests (sharing, published objects). Dropped it from both purge tests, so each test now registers one user instead of two. Both tests are green under Playwright and Selenium at `257d514929c`. The debriefs that say the fresh-user pattern is needed (test challenges, polish, normal review) predate this fix.
 
 ## What
 
