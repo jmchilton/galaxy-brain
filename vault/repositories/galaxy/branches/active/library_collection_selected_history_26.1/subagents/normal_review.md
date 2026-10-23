@@ -10,7 +10,7 @@ I verified the change: the vitest fails without the plumbing, `test_library_to_c
 Not acted on:
 - Letting the import go ahead when `setCurrentHistory` fails. The current behavior matches `createNewHistory`.
 - `libraries_folder_add_to_history` has a single caller. It is a coherent UI action, so I kept it.
-- A behavior change outside the library dialog, noted for the PR body: in multiview, "build list from selection" on an owned non-current history (`SelectionOperations` passes `history.id`) now creates the list in that history instead of the current one. The builder header already says "From history: X". The upload `DefaultBox` path now also honors its target history.
+- A behavior change outside the library dialog, noted for the PR body (correction: this is the history view page of an owned non-current history, not multiview, where the Selection menu is hidden; see the [re-scope debrief](../implementation_rescope_debrief.md)): in multiview, "build list from selection" on an owned non-current history (`SelectionOperations` passes `history.id`) now creates the list in that history instead of the current one. The builder header already says "From history: X". The upload `DefaultBox` path now also honors its target history.
 
 <details><summary>Full review</summary>
 

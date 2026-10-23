@@ -39,6 +39,7 @@
 - **Re-scope:** expanded once, to ListWizard. The original scope is in alt `library_collection_selected_history_26.1_alt_original_scope`. The second scope evaluation said keep.
 - **Test challenge:** the creator vitest was dropped as redundant with the ListWizard E2E. If commits 3 and 4 are ever split into separate PRs, give 3 its own test of the plumbing back.
 - **Cherry-pick dependency:** commit 4 needs `history_collection_names` from commit 3.
+- **Forward merge into `release_26.2`:** `git merge-tree` reports conflicts in `ListWizard.vue` (26.2 swapped `BAlert` for `GAlert` on the success-alert line), `navigation.yml` and `test_collection_builders.py`. All of them sit next to unrelated 26.2 edits, and each is a trivial resolution.
 
 ## Follow-ups (not done)
 
