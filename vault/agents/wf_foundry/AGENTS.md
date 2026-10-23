@@ -1,4 +1,4 @@
-# Workflow Foundry Maintenance
+# Workflow Foundry
 
 @../_shared/VAULT_SYNC.md
 @../_shared/SECURITY_REPORTS.md
@@ -6,10 +6,29 @@
 
 We're responsible for maintaining the Foundry ecosystem (`galaxyproject/foundry`).
 
+## Project settings
+
+In the following files:
+
+- PROJECT is `foundry`.
+- Base branch: `origin/main`.
+- Push remote: `origin` (`galaxyproject/foundry`), not the `jmchilton` fork.
+- Branch naming: `issue-<number>-<short-slug>`.
+- Local gate: `make check`. `check-vendored` and `check:planemo-cli` can fail on this machine only; note them, don't fix them.
+- CI runs only on pull requests and `main`, so a pushed branch gets no CI until its PR opens.
+
+@../_shared/MY_BRANCHES_INDEX.md
+@../_shared/REPOSITORY_BRANCHES.md
+@../_shared/WORKTREES.md
+
+The agent running in this directory is responsible for maintaining and promoting branches within ./MY_BRANCHES.md.
+
+Branch records and supporting files live in `vault/repositories/foundry/branches/active/<branch_name>/`.
+
+If the user asks to abandon a branch, follow the process described for that.
+
 Worktree inventory and scan tool: [TREE_MANAGE.md](TREE_MANAGE.md) and
 `./scan_worktrees.sh`.
-
-In the following files PROJECT is `foundry`.
 
 @../_shared/ISSUES_INDEX.md
 

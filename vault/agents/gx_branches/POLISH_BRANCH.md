@@ -3,6 +3,8 @@
 Polishing takes a branch from `branches_implemented` or `branches_implemented_needs_ci` to `branches_ready_for_final_review`. When you start, move its entry to `branches_need_polish`. When you finish, move it to `branches_ready_for_final_review`. The result is a branch that passes its checklist, plus a persuasive PR description that waits for John's final review. It builds on [`GX_PR_DESCRIPTIONS.md`](../_shared/GX_PR_DESCRIPTIONS.md). Never open the PR from polishing, and never post anything to GitHub.
 
 BRANCH_DIRECTORY is `vault/repositories/galaxy/branches/active/<branch_name>/`, following [`REPOSITORY_BRANCHES.md`](../_shared/REPOSITORY_BRANCHES.md). Read its `index.md` and supporting notes before starting; update its workflow status alongside the queue without moving the directory.
+
+Polish only hardened branches: check BRANCH_DIRECTORY for the debriefs [`GX_PROCESS_HARDEN_BRANCH.md`](../_shared/GX_PROCESS_HARDEN_BRANCH.md) produces (e.g. `baseline_refactor.md`, `scope_evaluation.md`); if they're missing, stop and ask user to confirm polishing before hardening.
 ## 1. Check CI
 
 Check CI for issues with this branch before continuing with the polish. If some checks are still running that is fine - but check the current failures for evidence they are related to this branch. Fix the branch before continuing.

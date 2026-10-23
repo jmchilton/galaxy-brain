@@ -11,14 +11,21 @@ If `REVIEW_DIRECTORY/review_<n>_branch_details.md` exists (highest n), its branc
 
 REVIEW_AGENT_DETAILS
 
-(only if risks.md is present in REVIEW_DIRECTORY)
+(if risks.md is present in REVIEW_DIRECTORY)
+
 <details><summary>Risks</summary>
 
 (contents of risks.md)
 
 </details>
 
-(skip if no findings)
+(if no findings, insert one of these lines as its own paragraph, picked by PR number mod 3: 0 → first, 1 → second, 2 → third)
+
+- What is this magic 🪄 - no findings! What a trick you pulled off here.
+- Exit 0 from these Unix-y agents 🐧 - everything must be okay.
+- Heroic effort 🦸 - none of the agents found issues.
+
+(else)
 
 ## Automated Review Findings
 
