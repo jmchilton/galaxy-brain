@@ -2,6 +2,8 @@
 
 [Issue](https://github.com/galaxyproject/foundry/issues/643)
 
+Closed 2026-10-22 as fixed by `summarize-nextflow` 0.4.0, with the close comment below (`#NNN` → #706). Guard (2) split out as [#706](https://github.com/galaxyproject/foundry/issues/706), the follow-up draft below.
+
 Labels at triage (2026-10-22): `needs-triage`. Filed 2026-10-12 on scottcain's behalf; no comments, no linked PRs.
 
 ## Findings (2026-10-22)
