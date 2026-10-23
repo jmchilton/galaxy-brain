@@ -4,7 +4,6 @@ Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agen
 
 ## Open Foundry PRs — ready from our side (`ready`)
 
-- [`issue-706-schema-skew-guard`](active/issue-706-schema-skew-guard/index.md) — Pins cast bundles to the schema their validator carries (#706). [#707](https://github.com/galaxyproject/foundry/pull/707).
 - [`issue-677-rename-syntax`](active/issue-677-rename-syntax/index.md) — Documents rename post-job action syntax (#677). [#702](https://github.com/galaxyproject/foundry/pull/702).
 - [`feat/test-pipeline-test-data-branch`](active/feat-test-pipeline-test-data-branch/index.md) — Runs the test-data branch in test-pipeline, one worker per leg. Base `feat/test-pipeline-draft-loop`. [#690](https://github.com/galaxyproject/foundry/pull/690).
 

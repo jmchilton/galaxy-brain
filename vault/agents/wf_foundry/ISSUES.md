@@ -2,7 +2,7 @@
 
 Triage index for `galaxyproject/foundry` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/foundry/issues/`. Statuses are seeded from GitHub labels; see the label mapping in `AGENTS.md`.
 
-GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default and `priority/v2` by default; `(mvp)` marks `priority/mvp`, `(large)` marks `roadmap/main`.
+GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default and `priority/v2` by default; `(mvp)` marks `priority/mvp`, `(large)` marks `roadmap/main`.
 
 ## Waiting on John (`needs_decision`)
 
@@ -36,7 +36,6 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#573](https://github.com/galaxyproject/foundry/issues/573) — `implement-galaxy-tool-step` documents no binding convention for an authored UDT; draft PR [#617](https://github.com/galaxyproject/foundry/pull/617). [notes](../../repositories/foundry/issues/wip/573/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](../../repositories/foundry/issues/wip/694/index.md)
 - (mvp) [#672](https://github.com/galaxyproject/foundry/issues/672) — UDT authoring note: collection example vs stale gxwf schema, no vendoring recipes, `inputs.x` shape undocumented; draft PR [#710](https://github.com/galaxyproject/foundry/pull/710), needs gtu-ts [#198](https://github.com/jmchilton/galaxy-tool-util-ts/pull/198). [notes](../../repositories/foundry/issues/wip/672/index.md)
-- [#706](https://github.com/galaxyproject/foundry/issues/706) — validators can't detect skew vs a bundle's schema; `--schema-sha256` pin; branch `issue-706-schema-skew-guard` on `origin`, PR [#707](https://github.com/galaxyproject/foundry/pull/707). [notes](../../repositories/foundry/issues/wip/706/index.md)
 - (mvp) [#585](https://github.com/galaxyproject/foundry/issues/585) — UDT registration endpoint is `/api/unprivileged_tools`, not `/api/dynamic_tools`; draft PR [#617](https://github.com/galaxyproject/foundry/pull/617) (partial). [notes](../../repositories/foundry/issues/wip/585/index.md)
 
 ## Queued (`queued`)

@@ -6,7 +6,7 @@ Follow-up split from [#643](../../closed/643/index.md) on 2026-10-22. Labels at 
 
 ## Status (2026-10-23)
 
-Branch `issue-706-schema-skew-guard` on `origin`, commit `e104dfde`. Worktree `~/projects/worktrees/foundry/branch/issue-706-schema-skew-guard`. PR [#707](https://github.com/galaxyproject/foundry/pull/707) opened 2026-10-23.
+`closed`: PR [#707](https://github.com/galaxyproject/foundry/pull/707) merged 2026-10-23 (`d6311c5e`), closing the issue. Branch record: [issue-706-schema-skew-guard](../../../branches/merged/issue-706-schema-skew-guard/index.md).
 
 Codex review (2026-10-23): one confirmed finding. The `validate-tests-format` pin hashed Foundry's snapshot `testsFormatSchema`, but `validateTestsFile` compiles upstream `@galaxy-tool-util/schema` `testsSchema` (`^1.14.0`, so the two can drift). They are identical at 1.14.0, so the bug was latent. Fixed in `c10cb59a`, which pins upstream `testsSchema`. A red-to-green test mocks upstream drift.
 
