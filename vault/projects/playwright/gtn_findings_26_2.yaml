@@ -319,16 +319,16 @@
   fix: Say **Auto-detect** on the **Attributes** tab; for a wrong datatype, point to the **Datatypes** tab.
 
 - label: upload-tool-panel-button
-  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_from_remote_files.md]
+  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_from_remote_files.md, faqs/galaxy/datasets_upload.md]
   target: main
   summary: There is no **Upload Data** button at the top of the tool panel; upload is the Activity Bar's **Upload**.
   fix: Say "Click {% icon galaxy-upload %} **Upload** in the Activity Bar".
 
 - label: upload-import-data-panel
-  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_via_link.md, faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md]
+  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_via_link.md, faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md, faqs/galaxy/datasets_upload.md]
   target: version
   summary: 26.2 replaces the upload dialog with the Import Data panel, so Paste/Fetch Data, the "New File" name, Genome, the Settings gear and Close no longer exist.
-  fix: 'Upload > **Paste File Content**; paste into the text field; the name defaults to "Pasted Dataset 1"; set **Type** and **Reference** in the row; tick the row''s **Spaces→Tabs**; **Start** (no window to close). Other upload FAQs likely need the same.'
+  fix: 'Upload > **Paste File Content**; paste into the text field; the name defaults to "Pasted Dataset 1"; set **Type** and **Reference** in the row; tick the row''s **Spaces→Tabs**; **Start** (no window to close). Other upload FAQs likely need the same. Local files: Upload > **Upload from Computer** > **Browse Files** (or drop them on "Drag files here") > **Start**.'
 
 - label: deleting-undelete-how
   faqs: [faqs/galaxy/datasets_deleting.md]
@@ -435,13 +435,13 @@
   fix: 'Add before step 1: make the history accessible (History options > **Share & Manage Access** > **Make History accessible**). Mention 26.2''s **Export to another Galaxy** button (icons-export-another-galaxy). Same cause as cli-download-private.'
 
 - label: purging-purge-locations
-  faqs: [faqs/galaxy/datasets_purging_datasets.md]
+  faqs: [faqs/galaxy/datasets_purging_datasets.md, faqs/galaxy/datasets_working_with_deleted_datasets.md]
   target: main
   summary: Step 2's "Purge Deleted Datasets option in the History menu" and "link from within the dataset" don't exist (26.1 too).
   fix: 'Say: **Select Items** > tick > **Delete (permanently)**; or, for everything deleted, the masthead usage meter > **Storage Dashboard** > **Free up disk space** > Deleted datasets > **Review and clear**, select, **Permanently delete**, confirm.'
 
 - label: purging-panel-controls
-  faqs: [faqs/galaxy/datasets_purging_datasets.md]
+  faqs: [faqs/galaxy/datasets_purging_datasets.md, faqs/galaxy/datasets_working_with_deleted_datasets.md]
   target: main
   summary: There are no "deleted" or "hidden" links under the history name, and no "far right X"; the counters at the top of the history (trash, eye-slash) toggle **Include deleted** and **Include hidden**, and an item deletes with its trash icon.
 
@@ -462,3 +462,26 @@
   target: main
   summary: There is no **Choose FTP file** at the bottom of Upload; FTP files are a file source (26.1 too, under **Choose from repository**).
   fix: 'Steps 5-8: Upload > **Choose Remote Files** > **FTP Directory** > tick the files > **Add Selected Files** > **Start**. Step 1: the same FTP Directory page names the server''s FTP address (once the queued remote_files_upload_ftp_help_missing fix lands).'
+
+- label: deleted-datasets-expanded-links
+  faqs: [faqs/galaxy/datasets_working_with_deleted_datasets.md]
+  target: main
+  summary: An expanded deleted dataset shows no message with Undelete or "Permanently remove it from disk" links (26.1 too), and Select Items has no "Operations on Multiple Datasets" mode.
+  fix: 'One dataset: "Click its **Undelete** icon; to purge it, **Select Items**, tick it, then **n of N selected** > **Delete (permanently)**." Many: "**Select Items**, tick them, then pick from the **n of N selected** menu."'
+
+- label: fastq-best-practices-decompress
+  faqs: [faqs/galaxy/datatypes_best_practices_fastq.md]
+  target: main
+  summary: Autodetect keeps gzipped fastq compressed as `fastqsanger.gz`, so "Compressed `fastq` data will be converted to uncompressed" and the "To preserve `fastq` compression, directly assign" bullet are wrong (default since `sniff_compressed_dynamic_datatypes_default`, 26.1 too).
+  fix: 'Say "Autodetect gives `fastqsanger`, or `fastqsanger.gz` for gzipped data, which stays compressed." Drop the second bullet and "As of release `17.09`".'
+
+- label: gft-typo
+  faqs: [faqs/galaxy/datasets_working_with_reference_annotation.md, faqs/galaxy/datasets_working_with_fasta.md]
+  target: main
+  summary: '"GFT" is a typo for GTF: the annotation FAQ''s title and "Most tools expect GFT format", and the FASTA FAQ''s "See **GFF GFT GFF3**".'
+  fix: In the FASTA FAQ also make "See ..." a link to `datasets_working_with_reference_annotation.md`.
+
+- label: reference-annotation-header-bullet
+  faqs: [faqs/galaxy/datasets_working_with_reference_annotation.md]
+  target: main
+  summary: '"-Remove the headers" has no space after the dash, so it is not a bullet and runs into "It probably has headers."'

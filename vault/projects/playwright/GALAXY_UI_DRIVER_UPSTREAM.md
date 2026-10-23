@@ -270,6 +270,11 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `0cd9f75f9d1`: client fix (`datasets_upload_from_genomeark`): long remote file names wrap instead of
   running under Details. CSS only; queued as `remote_files_upload_long_names_overlap.md`. Standalone,
   and a `release_26.2` PR candidate.
+- All of batch 7 above, plus `14d970513f5` and `073889a2872`, was extracted to
+  `selenium_history_filters_ftp_notice` (2026-10-23); drop them by subject on restack.
+- `865d70395e8`: coverage for `datasets_upload` (batch 8). `set_file_input` takes a list;
+  `stage_local_files` picks several files in one chooser selection; `test_upload_files_from_one_selection`.
+  Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

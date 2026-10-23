@@ -424,17 +424,41 @@
   faq_findings: [ftp-choose-ftp-file]
   gx_findings: '26.2 regression: Choose Remote Files dropped the FTP server notice FilesDialog showed; extracted FtpUploadHelp.vue for both, test_ftp_directory_shows_upload_site (bcaec710b18), queued remote_files_upload_ftp_help_missing. faq_server: ftp_upload_dir/ftp_upload_site, env FAQ_FTP; replay copies files in place of an FTP client.'
 - faq: faqs/galaxy/datasets_upload.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 865d70395e8
+  used_by: [ecology/remote-sensing, microbiome/beer-data-analysis, microbiome/lotus2-identifying-fungi, microbiome/mgnify-amplicon]
+  faq_findings: [upload-tool-panel-button, upload-import-data-panel]
+  gx_findings: 'No test picked several local files in one chooser selection; set_file_input takes a list, stage_local_files, test_upload_files_from_one_selection (865d70395e8). gxui: upload-file takes several paths (tip 8d36c6dcdf8).'
 - faq: faqs/galaxy/datasets_working_with_deleted_datasets.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 8d36c6dcdf8
+  faq_findings: [purging-panel-controls, purging-purge-locations, deleted-datasets-expanded-links]
+  gx_findings: 'Covered by test_delete_undelete_and_purge_items. gxui: history-delete --purge now reaches already-deleted hids (deleted:any) (tip 8d36c6dcdf8).'
 - faq: faqs/galaxy/datasets_working_with_fasta.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [gft-typo]
 - faq: faqs/galaxy/datasets_working_with_fastq.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/datasets_working_with_reference_annotation.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [gft-typo, reference-annotation-header-bullet]
 - faq: faqs/galaxy/datatypes_best_practices_fastq.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 8d36c6dcdf8
+  faq_findings: [fastq-best-practices-decompress]
+  gx_findings: 'Keeping fastqsanger.gz compressed is covered by API tests (test_fetch_compressed_default); Selenium tests cannot check it, their framework datatypes conf has no fastq sniffers.'
 - faq: faqs/galaxy/datatypes_fastq_and_fastqsanger.md
   status: pending
 - faq: faqs/galaxy/datatypes_fastq_compressed.md
