@@ -4,7 +4,9 @@
 
 ## Status
 
-Initial review round 0 against `a0adddb` done (2 P2, 2 P3; fixes on `pr_278_review_0`, pushed to fork); not delivered.
+Merged as-is 2026-10-23 (merge commit, head `a0adddb`); tracking ended. Review response not posted; review commits opened as follow-up [#279](https://github.com/galaxyproject/gxformat2/pull/279) from `jmchilton:pr_278_review_0`.
+
+Prior: Initial review round 0 against `a0adddb` done (2 P2, 2 P3; fixes on `pr_278_review_0`, pushed to fork); not delivered.
 
 PR open by richard-burhans; fixes #186. Worktree `~/projects/worktrees/gxformat2/pr/278` (checked out on `pr_278_review_0`).
 
