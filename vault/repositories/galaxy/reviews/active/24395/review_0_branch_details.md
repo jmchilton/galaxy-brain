@@ -1,0 +1,5 @@
+`pr_24395_review_0` builds on the PR head `b95cd79f9bb`. It completes the fix so that a conditional's `selected` select option resolves by its value rather than its label, which makes the CI-failing `test_legacy_features_fail_validation_with_24_2` pass again. It also adds a regression tool and a parsing test that fail on both `release_26.1` and the PR head, and makes the "no matching when" log report the value it actually tried.
+
+- `44f79b84068` Use option value, not label, for selected conditional default in test parsing: the selected loop now takes tuple[1] (value) instead of tuple[0] (label), matching the runtime and typed-model defaults.
+- `8970e7a489a` Test conditional test params resolve against selected select option: adds the `parameters/gx_conditional_select_selected.xml` framework tool and `test_conditional_defaults_to_selected_option` in `test/unit/tool_util/test_test_definition_parsing.py`.
+- `a117a7b1a31` Log effective conditional value when no when matches: the failure log now prints the boolean query value or the select default instead of `declared_value`, which is always `None` on the default path.
