@@ -1,0 +1,6 @@
+Review branch `pr_1751_review_0`, cut from the reviewed commit `3fcaae47`, fixes the ShedVersion lint message so it prints the tool's declared version (not the normalized `1.0+galaxy.10`), and adds the first test for `lint_shed_version`: a real one-tool repository on disk, a small fake Tool Shed class, and exact-message assertions. The `+galaxy9` case fails on master and the message case fails on the PR head. It also restores the parser's return type, notes when to drop the fallback, and splits the tool-version test into a fallback test plus an upstream parity test that skips until galaxy-tool-util ships `parse_tool_version`.
+
+- `ce13dc68` Report declared tool version in ShedVersion lint error — compares parsed versions but formats the raw `tool_source.parse_version()` string, with a parametrized fake-shed test in `tests/test_planemo_linters.py`.
+- `3df9ac83` Keep parse_tool_version return type — annotates the fallback and alias as `Union[LegacyVersion, Version]` and drops `Any`.
+- `75cbf683` State when to drop parse_tool_version fallback — names the removal condition and fixes the docstring's claim that 26.1+ ships it.
+- `5cfdd459` Split fallback and upstream parity tool version tests — replaces the parametrize that ran the fallback twice and drops the assert the sort already implies.
