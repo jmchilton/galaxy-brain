@@ -1,7 +1,7 @@
 PRs To Review:
 - [#24407](https://github.com/galaxyproject/galaxy/pull/24407) — initial review in progress. [notes](../../repositories/galaxy/reviews/active/24407/index.md)
 - [#24409](https://github.com/galaxyproject/galaxy/pull/24409) — initial review in progress (author fixed mypy lint). [notes](../../repositories/galaxy/reviews/active/24409/index.md)
-- [#24413](https://github.com/galaxyproject/galaxy/pull/24413) — initial review in progress (low effort). [notes](../../repositories/galaxy/reviews/active/24413/index.md)
+- [#24413](https://github.com/galaxyproject/galaxy/pull/24413) — initial review ready, unposted (one P3; fixed on `pr_24413_review_0`). [notes](../../repositories/galaxy/reviews/active/24413/index.md)
 - [#24288](https://github.com/galaxyproject/galaxy/pull/24288) — initial review ready, unposted (six P2s + ten P3s; 12 fixed on `pr_24288_review_0`, opened as ahmedhamidawan/galaxy#44). [notes](../../repositories/galaxy/reviews/active/24288/index.md)
 - [#24395](https://github.com/galaxyproject/galaxy/pull/24395) — review comment posted, fixes pushed into PR branch (P1 label/value bug); awaiting author/CI. [notes](../../repositories/galaxy/reviews/active/24395/index.md)
 - [#24394](https://github.com/galaxyproject/galaxy/pull/24394) — fixes PR [davelopez/galaxy#11](https://github.com/davelopez/galaxy/pull/11) opened into author branch (P3 1 dropped); review response not posted. [notes](../../repositories/galaxy/reviews/active/24394/index.md)
