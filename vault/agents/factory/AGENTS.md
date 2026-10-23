@@ -4,6 +4,8 @@ The user feels in general when agents write procedures and guidelines for other 
 
 When John asks for a retro sweep, follow `SWEEP.md`.
 
+As we evolve workflows we should keep ./BRANCH_FACTORY.md and ./REVIEW_FACTORY.md up to date.
+
 ## Automatic Actions
 
 The user authorizes these ahead of time, but only exactly as written here.

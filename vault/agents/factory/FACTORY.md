@@ -8,7 +8,7 @@ There are two factories:
 - **[Review Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-reviews/)**: how a review of someone else's pull request is produced. Several reviewer profiles run in parallel, a verifier reproduces and filters their findings, and John edits the response before it's posted.
 
 > [!TIP]
-> **💭 John's take:** agents draft; John decides. A PR opens only after John has read and approved the branch, and a review is posted only after John has edited it and picked an action. Approval is pinned to a commit SHA, so any change other than a clean rebase sends the branch back for another read.
+> **💭 Workflow Rule:** agents draft; John decides. A PR opens only after John has read and approved the branch, and a review is posted only after John has edited it and picked an action. Approval is pinned to a commit SHA, so any change other than a clean rebase sends the branch back for another read.
 
 > [!NOTE]
 > Galaxy is an old, well-established codebase. Both factories push hard on reusing existing abstractions and leaving behind reusable ones, rather than adding code that only serves one PR.

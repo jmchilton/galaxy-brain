@@ -42,6 +42,14 @@ name: rr-{name}
 
 Respond to galaxyproject/galaxy#{name}.
 
+## ✂️ Trim findings
+records: galaxy/reviews
+status: active
+agent_dir: gx_reviews
+name: tf-{name}
+
+Trim the findings for galaxyproject/galaxy#{name} following ../_shared/PROCESS_TRIM_FINDINGS.md. The review record is {record}.
+
 ## 💭 New session
 records: galaxy/issues
 agent_dir: gx_issues

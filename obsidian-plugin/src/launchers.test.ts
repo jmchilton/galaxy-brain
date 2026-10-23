@@ -50,6 +50,7 @@ describe("parseLaunchers", () => {
 			"gx_workhorse",
 			"gx_branches",
 			"gx_reviews",
+			"gx_reviews",
 			"gx_issues",
 			"gx_branches",
 			"gx_reviews",

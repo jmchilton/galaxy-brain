@@ -12,4 +12,4 @@ Review profiles, when to run them, and where they write in REVIEW_DIRECTORY. Eve
 | [gx_risk_assessment](gx_risk_assessment.md)           | Every Galaxy pull request                                                                                         | `risks.md`                  |
 | [generic_risk_assessment](generic_risk_assessment.md) | Every non-Galaxy pull request                                                                                     | `risks.md`                  |
 
-Thermo's 500-line threshold is deliberately higher than branch hardening's 50: John spends more context on work he authors than on PRs he reviews.
+Thermo's 500-line threshold is deliberately higher than branch hardening's 50: John spends more context on work they author than on PRs they review.

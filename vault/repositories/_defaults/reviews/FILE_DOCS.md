@@ -40,7 +40,7 @@ The coordinator's collapsible list of review profiles, models, and efforts, plac
 
 ## filtered_findings.md
 
-Findings the verifier kept out of `verified_review.md`, each with a one-line reason, for John alone. Only present when something was filtered.
+Findings the verifier kept out of `verified_review.md`, or John trimmed, each with a one-line reason, for John alone. Only present when something was filtered.
 
 ## test_challenges_debrief.md
 
@@ -57,6 +57,10 @@ John's working response, composed from `initial_review_agents.md` and `verified_
 ## initial_response_action.md
 
 Checkbox list of what to do with `initial_review_response.md` and any review branch: approve, approve and merge, comment, review comment, request changes, open a PR from the review branch, push it into the PR, or open the follow-up refactor or galaxy-brain issue. John checks the options.
+
+## verified_findings_checklist.md
+
+One checked box per finding in `verified_review.md`, then a free-text Other Actions section. John unchecks findings to drop and writes requests under Other Actions; [PROCESS_TRIM_FINDINGS.md](../../../agents/_shared/PROCESS_TRIM_FINDINGS.md) then rebuilds the review branch and renumbers the findings.
 
 ## review-*.md
 

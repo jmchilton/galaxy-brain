@@ -106,4 +106,13 @@ Then write `initial_response_action.md` for John to check one or more options; l
 - [ ] Issue: open the galaxy-brain research follow-up issue
 ```
 
+When `verified_review.md` has findings, also write `verified_findings_checklist.md`: one checked box per finding, in order, then an Other Actions section left blank for John. John unchecks findings to drop and adds free-text requests, then asks for [PROCESS_TRIM_FINDINGS.md](PROCESS_TRIM_FINDINGS.md).
+
+```markdown
+- [x] P1 1: <title>
+- [x] P2 1: <title>
+
+Other Actions:
+```
+
 The coordinator updates the index and handles galaxy-brain commits and pushes per [VAULT_SYNC.md](VAULT_SYNC.md).

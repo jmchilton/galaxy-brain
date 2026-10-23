@@ -13,18 +13,15 @@ flowchart LR
   B --> PR(["Galaxy PR"])
   J1{{"John: what to work on"}} -.-> W
   W -.-> J2{{"John: scope and blockers"}}
-  B -.-> J3{{"John: final read, approves a SHA"}}
+  B -.-> J3{{"John: final read, approves branch"}}
   J3 -.-> PR
 ```
 
-| Agent | Job |
-| --- | --- |
-| [`gx_issues`](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_issues/AGENTS.md) | Triage Galaxy issues and turn rough bug reports into issues ready to file. |
-| [`gx_workhorse`](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_workhorse/AGENTS.md) | Implement one scoped change, harden it with a series of checks, and hand off the branch. |
-| [`gx_branches`](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/AGENTS.md) | Track every branch and PR: CI, rebases, polish, PR descriptions, and opening approved PRs. |
-
-> [!TIP]
-> **💭 John's take:** separating implementation from branch management keeps the implementer focused on the change. A separate agent that never wrote the code then decides whether the branch is ready to be pitched.
+| Agent                                                                                                     | Job                                                                                        |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [`gx_issues`](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_issues/AGENTS.md)       | Triage Galaxy issues and turn rough bug reports into issues ready to file.                 |
+| [`gx_workhorse`](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_workhorse/AGENTS.md) | Implement one scoped change, harden it with a series of checks, and hand off the branch.   |
+| [`gx_branches`](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/AGENTS.md)   | Track every branch and PR: CI, rebases, polish, PR descriptions, and opening approved PRs. |
 
 ## gx_issues: triage and filing
 
@@ -47,10 +44,16 @@ flowchart TD
 ```
 
 > [!TIP]
-> **💭 John's take:** an agent saying something is a bug is not evidence. If an agent surfaced a problem, it has to be reproduced as a failing workflow or a real example before it's filed. The review subagent is told to push back on unreproduced claims, wrong premises and duplicates, not polish them.
+> **💭 Workflow Rule:** an agent saying something is a bug is not evidence. If an agent surfaced a problem, it has to be reproduced as a failing workflow or a real example before it's filed. The review subagent is told to push back on unreproduced claims, wrong premises and duplicates, not polish them.
 
 > [!TIP]
-> **💭 John's take:** some issues are too small to be worth a GitHub issue. Those are tracked internally and fixed PR-first.
+> **💭 John's Dev Philosophy:** most pull requests should have issues first. Developers' eyes glaze over when reading pull request descriptions. Keeping the issue reproduction and the detailed description separate allows separate, more focused reading of the problem and the approach.
+
+> [!TIP]
+> **💭 Workflow Rule:** alternatives should be considered, and as early as possible. Creating an issue that lays out alternatives is important in scoping the problem and implementation.
+
+> [!TIP]
+> **💭 John's Dev Philosophy:** issue descriptions are sales pitches. Information should be presented persuasively and with purpose, implications at top, and easy to visualize. The issue should make it clear the problem has been reproduced and is real.
 
 ## gx_workhorse: implement and harden
 
@@ -84,16 +87,19 @@ flowchart TD
 Not every step runs every time. Test challenges run only when the branch adds tests, E2E polish only for browser tests, thermo-nuclear only above about 50 lines or for intricate plumbing, and screenshots only for UI changes. A scope evaluation that recommends contracting scope, or a second re-scope, parks the branch for John instead of looping.
 
 > [!TIP]
-> **💭 John's take:** pin behavior before changing it. New tests for an existing component land first, in their own "Baseline tests" commits that pass on the base branch. Reviewers can then see exactly what the change alters, and the baseline can be split into its own PR.
+> **💭 John's Dev Philosophy:** refactoring and tests always land ahead of the implementation. The fix or feature should look like it always belonged in the codebase. New tests for an existing component land first, in their own "Baseline tests" commits that pass on the base branch. Reviewers can then see exactly what the change alters, and the baseline can be split into its own PR. John has been doing this for Galaxy for over a decade, and it is a pattern agents should follow. In the era of agentic development we need to prioritize developer attention and understanding, and baseline refactoring and tests aid this.
 
 > [!TIP]
-> **💭 John's take:** agents scope too narrowly by default, and Galaxy reviewers usually want more. Scope evaluation leans toward a modest expansion, such as fixing related bugs in code the branch already touches or generalizing the feature a little. If the issue thread proposes a reusable abstraction, building that abstraction counts as part of the work, not a follow-up.
+> **💭 Galaxy Reviewer Opinion:** agents scope too narrowly by default, and most Galaxy reviewers want more. Scope evaluation leans toward a modest expansion, such as fixing related bugs in code the branch already touches or generalizing the feature a little. If the issue thread proposes a reusable abstraction, building that abstraction counts as part of the work, not a follow-up.
 
 > [!TIP]
-> **💭 John's take:** unit tests should earn their place. Test challenges drop tests that only restate the implementation, move tests to the API, integration or E2E layer when that's where the behavior lives, and treat hard-to-mock code as a design problem to refactor. Every non-baseline test has to fail without the change, at its own assertion.
+> **💭 John's Dev Philosophy:** unit tests are absolutely beautiful or suck. Every unit test should be challenged. Test challenges drop tests that only restate the implementation, move tests to the API, integration or E2E layer when that's where the behavior lives, and treat hard-to-mock code as a design problem to refactor. Every non-baseline test has to fail without the change, at its own assertion.
 
 > [!TIP]
-> **💭 John's take:** roads not taken are kept, not deleted. A re-scope keeps the original as an `_alt_` branch, and alternatives are listed in the PR's Context section so reviewers can compare.
+> **💭 Workflow Rule:** roads not taken are kept, not deleted. A re-scope keeps the original as an `_alt_` branch, and alternatives are listed in the PR's Context section so reviewers can compare.
+
+> [!TIP]
+> **💭 Workflow Rule:** to optimize human review time, screenshots should be generated from tests and be available when reviewing the implementation.
 
 When the work is done, the workhorse writes an implementation debrief, adds one line to the branch queue, and for the first handoff posts a short note on the issue saying a branch exists and John hasn't reviewed it yet.
 
@@ -125,13 +131,16 @@ flowchart TD
 5. Suggest 3–5 titles and the `kind/` and `area/` labels.
 
 > [!TIP]
-> **💭 John's take:** a PR description is a pitch. Readers should be convinced the problem is real, ideally by being shown something, before they read about the implementation. Implementation details go in collapsed sections.
+> **💭 John's Dev Philosophy:** a PR description is a sales pitch and an essential coding artifact. Information should be presented persuasively and with purpose, implications at top, and easy to visualize. In 2026 the pull request description is much more important than the comments, and maybe even than the implementation.
 
 > [!TIP]
-> **💭 John's take:** risk is about how easily a change can be undone. A two-way door, such as a test-only change, a refactor or an obvious UI tweak, can be walked back. API changes, behavior that tools and workflows will depend on, and UI that users have to relearn are one-way doors, and the Risks section names them.
+> **💭 John's Dev Philosophy:** a PR description must be developed with the implementation. The PR description exposes critical limitations and defects in an implementation. If the implementation can be changed to improve the pull request, the implementation should be changed.
 
 > [!TIP]
-> **💭 John's take:** no vacuous claims. A test cited as failing on the base branch has to fail at the bug's assertion, not because it calls an API the branch adds. When the branch changes, every claim in the description is checked again.
+> **💭 Stealing Best Practices:** the Risks section uses [Matt Pocock's risk assessment ideas](https://www.youtube.com/watch?v=LlgiOCmFG_w): a one-way door is hard to walk back, a two-way door is not.
+
+> [!TIP]
+> **💭 Stealing Best Practices:** issue and PR descriptions use HumanLayer's [show-me skill](https://github.com/humanlayer/skills/blob/main/plugins/show-me/skills/show-me/SKILL.md) to show the problem with diagrams, call trees and diffs.
 
 ## What the Agentic Checks mean
 

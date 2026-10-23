@@ -4,7 +4,7 @@ If a review on your Galaxy pull request linked you here, the findings came from 
 
 ## Overview
 
-A coordinating agent keeps the review queue. It never reads the whole diff itself; each kind of review runs in its own subagent, at an effort level the coordinator sets explicitly.
+A coordinating agent keeps the review queue. Reading a diff plus the code around it burns a lot of context, so the coordinator leaves that to subagents: each kind of review runs in its own, at an effort level the coordinator sets explicitly.
 
 ```mermaid
 flowchart TD
@@ -18,7 +18,7 @@ flowchart TD
 ```
 
 > [!TIP]
-> **💭 John's take:** the review weighs most heavily on reusing existing abstractions, staying consistent with sibling code paths, and leaving behind something reusable instead of accreting code. Galaxy is old and well established, so a change that fits what's already there usually beats a clever new path.
+> **💭 John's Dev Philosophy:** the review weighs most heavily on reusing existing abstractions, staying consistent with sibling code paths, and leaving behind something reusable instead of accreting code. Galaxy is old and well established, so a change that fits what's already there usually beats a clever new path.
 
 ## Profiles
 
@@ -49,7 +49,13 @@ flowchart TD
 | [learning_galaxy](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/learning_galaxy.md) | What a Galaxy developer should learn from architecturally interesting changes. Feeds John's notes, not your review. |
 
 > [!TIP]
-> **💭 John's take:** effort is matched to the PR. A bug fix against a release branch gets its test and maintainability challenges at low effort, so it isn't buried in refactoring requests that don't belong in a release. Thermo review starts at 500 lines here, compared with 50 on John's own branches, because John spends more attention on work they author than on PRs they review.
+> **💭 John's Dev Philosophy:** don't keep broken input alive. If code supports input that never worked and nothing could have relied on, the review asks for it to be rejected with a load-time, lint or validation error instead.
+
+> [!TIP]
+> **💭 Workflow Rule:** effort is matched to the PR. A bug fix against a release branch gets its test and maintainability challenges at low effort. Big refactorings that don't belong in a release fix are collapsed into one P2 or P3 finding and offered as a follow-up issue instead. Thermo review starts at 500 lines here, compared with 50 on John's own branches, because John spends more attention on work they author than on PRs they review.
+
+> [!TIP]
+> **💭 Stealing Best Practices:** thermo review runs the [Cursor team's thermo-nuclear code quality prompt](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review_readme.md) as is, and risk assessment uses [Matt Pocock's one-way and two-way doors](https://www.youtube.com/watch?v=LlgiOCmFG_w), with a [Galaxy list](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_ASSESSING_RISK.md) of which changes are which.
 
 ## Verify
 
@@ -67,16 +73,21 @@ flowchart TD
 ```
 
 > [!TIP]
-> **💭 John's take:** a finding the verifier couldn't stand behind shouldn't cost you time. Disproved and non-actionable findings are dropped, along with anything that re-argues a choice your PR description already explains. Slow test layers are no excuse: if a finding needs an API, integration or Selenium test to prove it, the verifier writes that test.
+> **💭 Workflow Rule:** a finding the verifier couldn't stand behind shouldn't cost you time. Disproved and non-actionable findings are dropped, along with anything that re-argues a choice your PR description already explains or is about code your PR doesn't touch.
+
+> [!TIP]
+> **💭 Workflow Rule:** slow test layers are no excuse. If a finding needs an API, integration or Selenium test to prove it, the verifier writes that test. A low-effort review is only an agent setting; it never means missing API, integration or E2E tests can be skipped.
 
 ## Respond
 
-A low-effort subagent assembles the response: space for John's own comments at the top, the risk summary, then the verified findings, each with its evidence, suggested fix, and the review-branch commit if there is one. John edits it and checks the actions to take.
+A low-effort subagent assembles the response: space for John's own comments at the top, the risk summary, then the verified findings, each with its evidence, suggested fix, and the review-branch commit if there is one. If nothing survives verification, the response says so in one line. John can uncheck findings to drop them; the review branch is then rebuilt without their commits, the remaining findings are renumbered, and the response is composed again. John edits it and checks the actions to take.
 
 ```mermaid
 flowchart TD
   In["Verified findings + risks<br/>+ review agent details"] --> C["Compose response"]
   C --> J{{"John edits, adds comments"}}
+  J -.->|"unchecks findings"| T["Trim: next review branch<br/>findings renumbered"]
+  T -.-> C
   J --> A["John checks the actions"]
   A --> Rv["Approve, comment<br/>or request changes"]
   A --> M["Approve and merge"]
@@ -86,7 +97,10 @@ flowchart TD
 ```
 
 > [!TIP]
-> **💭 John's take:** once the review is delivered, the next move is yours. The agents are told never to nudge you, bump a stale thread, or chase a PR. They come back only when you push changes that need checking, or when John has promised a follow-up.
+> **💭 Workflow Rule:** once the review is delivered, the next move is yours. The agents are told never to nudge you, bump a stale thread, or chase a PR. They come back only when you push changes that need checking, or when John has promised a follow-up.
+
+> [!TIP]
+> **💭 Workflow Rule:** your branch stays yours. Review fixes reach it only as a PR you can merge, or as a fast-forward push when John checks Push. The agents never force-push, and they never @-mention anyone.
 
 ## Reading a review from this factory
 
