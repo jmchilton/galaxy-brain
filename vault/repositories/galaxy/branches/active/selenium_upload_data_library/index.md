@@ -9,8 +9,9 @@ Missing E2E tests for the 26.2 Upload Activity "Import from Data Library" route 
 
 ## Status
 
-READY. Re-scoped once (alt `selenium_upload_data_library_alt_original_scope`), re-hardened; head `344dc3d6b17`. See `implementation_debrief.md`.
+In progress: fixing the product bugs the tests surfaced (John, 2026-10-23). Prior READY tests-only state at `344dc3d6b17`.
 
 ## Decisions
 
 - 2026-10-23: John asked for these tests on `release_26.2` after davelopez's #24399 comment. #24399's commits (old library folder UI, 26.1) aren't pulled in; they reach 26.2 via the forward merge.
+- 2026-10-23: John asked to fix all surfaced bugs on this branch and keep the `start()` wait commit here. Fix commits go after the Baseline + `start()` commits.
