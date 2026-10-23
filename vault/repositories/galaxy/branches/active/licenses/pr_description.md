@@ -6,11 +6,11 @@ It implements the unconditional-agreement portion of [#23261](https://github.com
 
 ## Changes
 
-- **Tool XML:** adds `<license_agreement>` under tool `<requirements>`, for profile 26.2+.
+- **Tool XML:** adds `<license_agreement>` under tool `<requirements>`, for profile 27.0+.
   - Terms come from a UTF-8 file next to the tool (`path`) or inline `<text>`.
   - Tool loading fails for: an older profile, unreadable terms, actions that skip execution checks, and `data_source`/`data_source_async` tools. A data source job is created by the remote site's callback, which can't carry an affirmation.
   - An agreement's identity is a versioned SHA-256 of its terms and affirmation. Display metadata is not included.
-- **Scope:** `binds="submission"` is the default; the affirmation covers the jobs of one submission. `binds="user"` also allows a remembered acceptance. Declaring an agreement implies `require_login`.
+- **Scope:** `binds="submission"` is the default; the affirmation covers the jobs of one submission. `binds="user"` also allows a remembered acceptance. When identical terms are declared with both scopes, the submission-bound declaration wins. Declaring an agreement implies `require_login`.
 - **Storage:** agreement terms, acceptance and revocation events, job authorization associations, and durable one-time invocation associations.
   - Migration `01cbf54bb541`, plus cleanup when a user is purged.
   - A persistent acceptance must confirm the hash that was displayed.
@@ -18,19 +18,20 @@ It implements the unconditional-agreement portion of [#23261](https://github.com
 - **API:**
   - Discovery endpoints for tool and workflow agreements, and user acceptance endpoints.
   - `one_time_license_acceptances` on submission payloads.
-  - The default tool action's bare access assertion is replaced by structured execution preconditions (`403009`, with an `unmet` list).
+  - The default tool action's bare access assertion is replaced by structured execution preconditions (`403009`, with a typed `unmet` list discriminated on `kind`).
   - Asynchronous tool-request failures keep the structured reason.
 - **Workflows:**
-  - Agreements are found in nested subworkflows too.
+  - Agreements are found in nested subworkflows too. Discovery and the run form omit agreements of tools the user can't access; invoking such a workflow is refused with the access precondition.
   - An invocation request with unmet agreements is rejected.
   - Each (sub)invocation pins the one-time hashes its own steps declare.
   - Agreements are checked again as each step is scheduled. A revocation blocks later persistently authorized steps; pinned one-time authorization stays with its invocation.
-- **Converters:** a converter declaring agreements is never selected for implicit or offered conversion. It can still be run directly from the Built-in Converters panel section.
+- **Converters:** a converter declaring agreements is never selected for implicit or offered conversion, nor listed by `/api/datatypes/converters`. It can still be run directly from the Built-in Converters panel section.
 - **UI:**
   - Prompts in the tool form and both workflow run forms.
   - A preferences page to manage remembered acceptances and view their history.
   - Forms refresh after a refused submission.
-- **Tool tests:** test execution automatically supplies the declared agreement hashes.
+- **Tool and workflow tests:** tool test execution automatically supplies the declared agreement hashes; workflow framework tests opt in with `accept_license_agreements: true`.
+- **Pre-feature fixes:** missing workflow tools are checked before a `new_history_name` history is created; `parsed_tool()` re-parsing preserves whitespace and handles non-XML sources; converter lookup caches are cleared on re-registration; `Workflow.walk_tool_steps` dedupes `missing_tools` across subworkflows. Terms files are included in a tool's externally referenced paths.
 - **Docs:** `doc/source/dev/tool_license_agreements.md` covers authoring, enforcement points, the API flow and operator concerns. `license_agreement` is added to the generated tool XML reference.
 
 ## Scope and known limitations
@@ -44,12 +45,8 @@ It implements the unconditional-agreement portion of [#23261](https://github.com
   - Workflow preflight also requires agreements for `when`-skipped steps.
   - Paused-job resume and automatic resubmission don't re-check; a new rerun or remap does.
 - **Incomplete:**
-  - Workflow framework tests and Planemo can't send one-time hashes yet.
+  - Planemo can't send one-time hashes yet.
   - MCP and agent runs can't send them either, so they work only with remembered acceptance.
-- **Known defects still open:**
-  - Identical terms declared as both `user` and `submission` are deduplicated by hash. The first declaration wins, so a remembered acceptance can satisfy a submission-bound declaration. A workflow can also pass preflight and then fail when the step is scheduled.
-  - Workflow agreement discovery doesn't check tool access, so it can show the terms of tools the user can't access.
-  - `/api/datatypes/converters` still lists licensed converters.
 
 ## How to test the changes?
 
@@ -60,14 +57,11 @@ It implements the unconditional-agreement portion of [#23261](https://github.com
   - API;
   - direct and asynchronous execution;
   - nested workflow scheduling and restart;
-  - cleanup;
+  - cleanup, including both purge modes on PostgreSQL;
   - client components;
   - Selenium for prompts, preferences and refusals.
 - [x] The precondition extraction refactors existing access checks.
-- [ ] Fresh full validation has completed.
-  - The focused unit suites pass locally (manager, preconditions, parsing/hash, workflow walker, tool loading, datatypes registry).
-  - The API, integration and Selenium suites passed earlier in development but haven't been rerun on the latest commits.
-  - The PostgreSQL cleanup test was skipped locally.
+- [x] The branch's unit, API, integration, workflow-framework and Selenium/Playwright tests pass locally (Selenium with celery on); the cleanup and migration tests were run on PostgreSQL.
 - [ ] Manual verification with a production wrapper and operator-reviewed terms is complete.
 
 To check by hand, load the registered `license_agreement_*` fixture tools on a migrated test server, then verify:
