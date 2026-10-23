@@ -21,11 +21,15 @@ The same tool in a workflow step mapped over a list does get the identifiers. Ou
 
 ## Fix (branch `jmchilton/udt_element_identifier_api_test`)
 
-The UDT evaluator builds `{input dataset id: identifier}` from the persisted `<name>|__identifier__` params (via `ElementIdentifierMapper`) and passes it to both `setup_for_runtimeify` and `to_cwl`, which set `element_identifier` on the File object. `basename`/`nameroot` are unchanged. Tests: API tests for `/api/tools` and `/api/jobs` map-over (red before the fix), workflow map-over and plain-dataset baselines, and unit tests in `test/unit/app/tools/test_runtime.py`.
+- The UDT evaluator builds `{input dataset id: identifier}` from the persisted `<name>|__identifier__` params (via a new `ElementIdentifierMapper.identifiers_by_dataset_id`) and passes it to both `setup_for_runtimeify` and `to_cwl`, which set `element_identifier` on the File object. `basename`/`nameroot` are unchanged.
+- When a mapped-over input needs an implicit conversion, `process_dataset` (`actions/__init__.py`) copies the identifier onto the converted HDA. Otherwise `|__identifier__` was never persisted for that job.
+- Tests: API tests for `/api/tools`, `/api/jobs` and a converted (csv→tabular) map-over, all red before the fix, plus workflow map-over and plain-dataset baselines.
 
 Longer term, it may be cleaner for batch expansion to record `{"src": "dce"}` in the job tool state so that runtimeify's existing DCE branch covers this. That would touch tool state and job-cache matching for every mapped-over tool, so it isn't done here.
 
 ## Open questions
+
+- Job cache: `JobSearch._build_stmt_for_hda` (`managers/jobs.py`) checks `|__identifier__` only when the request has an identifier. With `use_cached_job`, a plain run on dataset D can reuse an earlier job that mapped over D as `sample_a` and return `sample_a` instead of `null`. Before the fix both rendered `null`, so the reuse was harmless. XML tools have the same hole, mostly hidden by their name fallback. Possible guard: for identifier-less requests, reject cached jobs that recorded `{k}|__identifier__`. That only adds cache misses, never wrong hits.
 
 - With a plain (non-collection) dataset, `$(inputs.x.element_identifier)` is still `null`. The label renderer (`tools/expressions/labels.py`) and Cheetah fall back to the HDA name. Should UDT command lines fall back the same way? The branch pins `null` with a baseline test.
 - Implicitly converted mapped-over inputs (e.g. a csv list into a tabular-only tool): the branch now copies the transient identifier onto the converted HDA (`actions/__init__.py` `process_dataset`), which fixes UDTs. Cheetah `$input.element_identifier` still falls back to the dataset name there: `ElementIdentifierMapper` is keyed on the converted HDA but queried with the original. A follow-up could key the parents as well.

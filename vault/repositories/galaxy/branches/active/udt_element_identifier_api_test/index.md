@@ -5,11 +5,11 @@
 
 ## Status
 
-Implemented and being hardened; fixes `$(inputs.x.element_identifier)` rendering `null` in user-defined tools mapped over a list from the tool form/API.
+BLOCKED on a scope decision. The fix works (UDT `$(inputs.x.element_identifier)` was `null` when mapped over a list from the tool form/API); the second scope evaluation wants a job-cache guard. See [implementation debrief](implementation_debrief.md).
 
 No PR.
 
-Base: `dev` (`51e0a80a0db`). Fork: `jmchilton/udt_element_identifier_api_test`. Worktree: `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`.
+Base: `dev` (`51e0a80a0db`), head `d5ddac3f416`; alt `udt_element_identifier_api_test_alt_original_scope`. Fork: `jmchilton/udt_element_identifier_api_test`. Worktree: `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`.
 
 ## Decisions
 
