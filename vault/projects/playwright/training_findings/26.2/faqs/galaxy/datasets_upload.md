@@ -15,6 +15,6 @@ GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `865d70395e8` (`faq_server.sh main`)
 
 - No test picked several files in one chooser selection; chained `stage_local_file` calls exist only
   for collections. `865d70395e8`: `set_file_input` takes a list, `stage_local_files`,
-  `test_upload_files_from_one_selection`. Green under Playwright; under Selenium 2 of 3 runs passed,
-  and the first failure's output wasn't kept. Not run red (it needs the new helper to run at all).
+  `test_upload_files_from_one_selection`. Green under Playwright; under Selenium 4 of 5 runs passed;
+  the one failure's output wasn't kept. Not run red (it needs the new helper to run at all).
 - gxui: `upload-file` takes several paths, picked in one selection.
