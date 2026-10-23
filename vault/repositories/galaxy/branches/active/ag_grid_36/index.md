@@ -4,18 +4,19 @@ Status: `branches_implemented_needs_ci`. Base: `dev`.
 
 Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations.
 
-[Implementation](initial_implementation_debrief.md) · [Tracking history](tracking_history.md)
+[Implementation](implementation_debrief.md) · [Tracking history](tracking_history.md)
 
 The upgrade is optional now that #23938 fixes the CVE; older stack and CI details remain in the tracking history.
 
-## Rebase — 2026-10-22
+## Status
 
-Parent #24050 (`sample_sheet_vue3`) merged to `release_26.2` and forward to `dev`. Restacked the single commit onto `origin/dev` as `d310c6fe2da`; 3 conflicts: dropped the legacy components script block in `PairedOrUnpairedListCollectionCreator.vue`, kept dev's row-copy comment in `FetchGrid.vue`, and merged `FetchGrid.test.ts` (dev's tests switched to the `modelValue` stub, plus the branch's v-model edit test). Local vitest (Landing, Collections, composables: 636 passed), vue-tsc and eslint clean. Fork CI pending on the new SHA.
+Hardened and re-scoped. Tip `3bf56e17e9b` (5 commits on `dev`) is READY; the [implementation debrief](implementation_debrief.md) has details and links.
 
-## Hardening — 2026-10-22
+Not opened as a PR.
 
-Tip `9a28016a0e1`: a 31-compatible refactor commit `83aae1e26b8`, the upgrade, then the fixes from hardening. Codex found a P1 bug: sample-sheet rows lost their source element because v36 copies rows. It is fixed in `0a16bedbb15`, and a test against the real grid now covers it. Scope evaluation recommends a modest expansion: E2E tests for FetchGrid edits and for paired-builder rename/swap, plus a comment describing the row-copy behaviour. Paused for John's scope decision; screenshots and the final debrief are still to do.
+Fork CI is pending on `3bf56e17e9b`. Polish starts once it's greenish.
 
-[Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md)
+## Decisions
 
-
+- 2026-10-22: John approved the scope expansion (E2E coverage for the row-copy paths). The original scope is on `ag_grid_36_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
+- John asked for this branch to be polished after hardening.
