@@ -237,6 +237,18 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
     `storage_dashboard_purge_deleted_datasets`, the `storage_dashboard.cleanup` nav entries and a
     `data-description` on the cleanup cards (a client change).
   - Standalone.
+- `c184ed00be2` and `0cf8353fc84` were extracted together into
+  [`selenium_resume_paused_purge_deleted`](../../repositories/galaxy/branches/active/selenium_resume_paused_purge_deleted/index.md)
+  (`release_26.2`, 2026-10-23). It differs from the source commits in three ways:
+  - The paused-job test undeletes through the API, so it doesn't depend on
+    `selenium_delete_items_dataset_privacy`.
+  - It was re-scoped: `storage_dashboard_cleanup(operation)` replaces
+    `storage_dashboard_purge_deleted_datasets`, and a test for the deleted and archived histories
+    cleanups was added.
+  - It adds `navigate_to_storage_dashboard`.
+
+  On restack, drop both commits by subject and rebind gxui's `datasets-purge-deleted` to
+  `storage_dashboard_cleanup("deleted_datasets")`.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

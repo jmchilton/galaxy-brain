@@ -45,4 +45,6 @@ The extraction drop above is not done yet. These restacks kept `cac01c0884a`/`e4
 
 gxui gains `history-resume-paused` and `datasets-purge-deleted`. 60 commits; tip `6e95ac5a804`.
 
+**Extracted 2026-10-23:** `c184ed00be2` and `0cf8353fc84` were moved to [`selenium_resume_paused_purge_deleted`](../selenium_resume_paused_purge_deleted/index.md), which was hardened and re-scoped. On restack, drop both by subject. That branch renames the purge helper to `storage_dashboard_cleanup(operation, screenshot_prefix=None)` (no wrapper), so rebind `datasets-purge-deleted` to `storage_dashboard_cleanup("deleted_datasets")`. The purge helper there also waits for `:not(.g-disabled)` buttons and adds `navigate_to_storage_dashboard`.
+
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.
