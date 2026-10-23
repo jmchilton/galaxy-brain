@@ -4,7 +4,6 @@ Snapshot: 2026-10-23 (#24314, #24209, #24212 merged; #24380, #24368, #24203 foun
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
-- [`tool_test_discovered_outputs_race_26.2`](../../repositories/galaxy/branches/active/tool_test_discovered_outputs_race_26.2/index.md) — Tool tests (tool request API) skip discovered `__new_primary_file_*` outputs; fixes `expect_num_outputs` flake. Base `release_26.2`. [#24398](https://github.com/galaxyproject/galaxy/pull/24398)
 - [`workflow_editor_connection_helpers`](../../repositories/galaxy/branches/active/workflow_editor_connection_helpers/index.md) — Missing editor E2E tests (refused connections, step removal, unlabelled same-tool steps) + shared connection helpers. Base `release_26.2`. [#24370](https://github.com/galaxyproject/galaxy/pull/24370).
 - [`tool_form_job_count_baseline`](../../repositories/galaxy/branches/active/tool_form_job_count_baseline/index.md) — Baseline tests, shared batch classifier and form-input path refactors ahead of `tool_form_job_count`. [#24217](https://github.com/galaxyproject/galaxy/pull/24217).
 - [`issue_24221_paged_map_over_options_26.1`](../../repositories/galaxy/branches/active/issue_24221_paged_map_over_options_26.1/index.md) — Paged collection options keep a collection's map-over entry, and it's selectable with a "(one job per …)" label (#24221). Base `release_26.1`. [#24228](https://github.com/galaxyproject/galaxy/pull/24228).
@@ -42,6 +41,7 @@ None yet.
 - [`yaml_boolean_defaults`](../../repositories/galaxy/branches/active/yaml_boolean_defaults/index.md) — YAML tools load Boolean `value`, optionality and canonical repeats/sections as the tool models define (#23888). Base `release_26.1`. [#24365](https://github.com/galaxyproject/galaxy/pull/24365). Draft requested by John.
 - [`ag_grid_testing_26.2`](../../repositories/galaxy/branches/active/ag_grid_testing_26.2/index.md) — Missing ag-grid E2E tests: data landing cell edits, paired builder rename; shared cell-edit helper. Base `release_26.2`. [#24397](https://github.com/galaxyproject/galaxy/pull/24397).
 - [`library_collection_selected_history_26.1`](../../repositories/galaxy/branches/active/library_collection_selected_history_26.1/index.md) — Library "Add to History > as a Collection" and Build List from a non-current history build in the picked history. Base `release_26.1`. [#24399](https://github.com/galaxyproject/galaxy/pull/24399).
+- [`tool_test_discovered_outputs_race_26.2`](../../repositories/galaxy/branches/active/tool_test_discovered_outputs_race_26.2/index.md) — Tool tests (tool request API) skip discovered `__new_primary_file_*` outputs; fixes `expect_num_outputs` flake. Base `release_26.2`. [#24398](https://github.com/galaxyproject/galaxy/pull/24398).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
