@@ -1,0 +1,1 @@
+- default P3 3 (last nit), "anonymous caller can get 403 instead of 404 for a login-only closest match": not actionable. The review branch keeps the access check ahead of the exact check on purpose, so anonymous callers don't get a 404 naming the closest installed tool id/version.
