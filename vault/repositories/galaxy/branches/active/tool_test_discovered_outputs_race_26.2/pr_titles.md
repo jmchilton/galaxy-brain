@@ -1,0 +1,4 @@
+- [26.2] Fix tool test output count race with the tool request API
+- [26.2] Skip discovered datasets when resolving tool request test outputs
+- [26.2] Fix `expect_num_outputs` flake when tool test jobs finish early
+- [26.2] Ignore `__new_primary_file_*` outputs in tool request API tool tests
