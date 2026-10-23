@@ -13,7 +13,7 @@ Base: `dev` (`51e0a80a0db`), head `d5ddac3f416`; alt `udt_element_identifier_api
 
 ## Issue
 
-[#24410](https://github.com/galaxyproject/galaxy/issues/24410), filed 2026-10-23; tracked in `vault/repositories/galaxy/issues/wip/24410/`. Job-cache guard: [#24411](https://github.com/galaxyproject/galaxy/issues/24411) (`queued/24411/`).
+[#24410](https://github.com/galaxyproject/galaxy/issues/24410), filed 2026-10-23; tracked in `vault/repositories/galaxy/issues/wip/24410/`. Job-cache guard: [#24411](https://github.com/galaxyproject/galaxy/issues/24411) (`wip/24411/`), fixed separately on `issue_24411_job_cache_identifier_25.1`, which settles this branch's cache-guard scope question.
 
 ## Decisions
 

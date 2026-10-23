@@ -37,6 +37,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#24221](https://github.com/galaxyproject/galaxy/issues/24221) — option paging/merge drops a collection's map-over entry; branch `issue_20657_input_processing_mode` (26.1 backport). [notes](../../repositories/galaxy/issues/wip/24221/index.md)
 - [#24379](https://github.com/galaxyproject/galaxy/issues/24379) — editor lint flags rename `${name}` filled by a parameter input; extract fix can't succeed; branch `untyped_param_lint_declared_labels`. [notes](../../repositories/galaxy/issues/wip/24379/index.md)
 - [#24410](https://github.com/galaxyproject/galaxy/issues/24410) — UDT `$(inputs.x.element_identifier)` is `null` when mapped over a list from tool form/API; branch `udt_element_identifier_api_test`. [notes](../../repositories/galaxy/issues/wip/24410/index.md)
+- [#24411](https://github.com/galaxyproject/galaxy/issues/24411) — job cache reuses a job with another `element_identifier` (plain↔mapped, list↔list); branch `issue_24411_job_cache_identifier_25.1`. [notes](../../repositories/galaxy/issues/wip/24411/index.md)
 
 ## Queued (`queued`)
 
@@ -106,7 +107,6 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#24350](https://github.com/galaxyproject/galaxy/issues/24350) — `has_line_matching` wraps regex as `^e$` (ungrouped) but docs match `has_text_matching`; next: red unit test, split annotation, regen. [notes](../../repositories/galaxy/issues/queued/24350/index.md)
 - [#24376](https://github.com/galaxyproject/galaxy/issues/24376) — library folder download Selenium test lacks `test_` prefix; stale selector + zip name; next: rename, fix both, run. [notes](../../repositories/galaxy/issues/queued/24376/index.md)
 - [#24377](https://github.com/galaxyproject/galaxy/issues/24377) — `_assert_buttons` in `test_history_dataset_state.py` is a stub; `info_button` etc. stale; next: fix selectors/tooltips, restore. [notes](../../repositories/galaxy/issues/queued/24377/index.md)
-- [#24411](https://github.com/galaxyproject/galaxy/issues/24411) — job cache reuses a mapped-over job for a plain run (wrong `element_identifier`); next: `NOT EXISTS` guard + red API test. [notes](../../repositories/galaxy/issues/queued/24411/index.md)
 
 
 ## Blocked on others (`blocked`)

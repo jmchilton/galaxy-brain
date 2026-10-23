@@ -4,4 +4,4 @@
 
 Filed 2026-10-23. `JobSearch` never requires a plain request's cached job to lack `|__identifier__`. Reproduced on dev with the `identifier_single` tool.
 
-Next: add a `NOT EXISTS` guard in `_build_stmt_for_hda`, plus a red API test in `test_jobs.py`. This may land on `udt_element_identifier_api_test` (scope decision pending).
+Branch: [`issue_24411_job_cache_identifier_25.1`](../../../branches/active/issue_24411_job_cache_identifier_25.1/index.md) (base `release_25.1`). Also fixes the reverse direction the issue called guarded: mapped runs reused plain jobs or jobs mapped over another list, via the name-agnostic second search.
