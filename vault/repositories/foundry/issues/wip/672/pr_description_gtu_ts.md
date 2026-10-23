@@ -6,6 +6,6 @@ Title: Resync UDT schema from Galaxy release_26.1: flat collection outputs
 - Tests ported from Galaxy's `user_tool_source_validation_cases.yml` collection cases: a flat output whose discovery entry has only `pattern` is accepted (fails on the old schema), and a typo'd discovery key is rejected. The existing missing-discovery test now uses the flat shape.
 - Patch changeset for `@galaxy-tool-util/schema`.
 
-`make check` is clean. In `make test`, gxwf-web `--output-schema` (`contents.test.ts`) fails intermittently under load, with or without this change, and passes on rerun. Everything else is green.
+`make check` is clean. In `make test`, gxwf-web `--output-schema` (`contents.test.ts`) fails intermittently with or without this change and passes on rerun. Everything else is green.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
