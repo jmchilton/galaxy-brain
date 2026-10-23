@@ -76,7 +76,9 @@ under `~/.cache/gxui-faq/server/<profile>`; the worktree's own config is untouch
 remote file source ("Galaxy test data") and `library_import_dir`. Replays needing an admin register
 or log in as `faq-admin@example.org`. An "FAQ Replay" tool section adds Galaxy's
 `cat_data_and_sleep` test tool, to keep a job waiting. `fetch_url_allowlist` lets the server fetch
-its own Copy Link URLs, so one server can play two.
+its own Copy Link URLs, so one server can play two. Remote files also offer usegalaxy.org's
+anonymous "Genome Ark" S3 source (needs network) and an "FTP Directory": `ftp_upload_dir` is
+`$FAQ_FTP` (from `env`) with no FTP daemon, so replays copy files into `$FAQ_FTP/<email>` instead.
 
     ./faq_server.sh start            # or: start accounts
     eval "$(./faq_server.sh env)"    # GXUI_* for that profile, plus FAQ_MAIL

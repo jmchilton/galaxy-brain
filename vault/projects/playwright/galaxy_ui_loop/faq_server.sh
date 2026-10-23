@@ -60,6 +60,9 @@ galaxy:
   library_import_dir: $GALAXY_ROOT/test-data
   # Lets Paste Links/URLs fetch this server's own Copy Link URLs, standing in for a second Galaxy.
   fetch_url_allowlist: 127.0.0.1,::1
+  # FTP upload with no FTP server: replays copy files into \$FAQ_FTP/<email> in its place.
+  ftp_upload_dir: $state/ftp
+  ftp_upload_site: ftp.faq.example.org
   # Default tools, plus a sleep tool replays use to keep a job waiting (job status FAQ).
   tool_config_file: $GALAXY_ROOT/lib/galaxy/config/sample/tool_conf.xml.sample,$state/replay_tool_conf.xml
   user_activation_on: $activation
@@ -76,6 +79,13 @@ EOF
   doc: Galaxy's test-data directory
   root: $GALAXY_ROOT/test-data
   writable: false
+# As on usegalaxy.org; needs network.
+- type: s3fs
+  label: Genome Ark
+  id: genomeark
+  doc: Access to Genome Ark open data on AWS.
+  bucket: genomeark
+  anon: true
 EOF
     cat > "$state/replay_tool_conf.xml" <<EOF
 <toolbox tool_path="$GALAXY_ROOT/test/functional/tools">
@@ -155,6 +165,7 @@ case "$command" in
         echo "export GXUI_SESSION=$profile"
         echo "export GXUI_GALAXY_URL=$url"
         echo "export FAQ_MAIL=$state/email.json"
+        echo "export FAQ_FTP=$state/ftp"
         ;;
     *)
         echo "usage: $0 start|stop|restart|status|env [main|accounts]" >&2

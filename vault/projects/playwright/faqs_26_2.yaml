@@ -384,17 +384,45 @@
   gtn_commit: 45d4932d33
   faq_findings: [quotas-shared-histories]
 - faq: faqs/galaxy/datasets_rename.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 3f9bc855d76
+  used_by: [assembly/assembly-decontamination, assembly/chloroplast-assembly, assembly/debruijn-graph-assembly, assembly/ecoli_comparison, assembly/ERGA-post-assembly-QC, assembly/general-introduction, assembly/mrsa-illumina, assembly/mrsa-nanopore, assembly/vgp_genome_assembly, climate/climate-101, climate/fates, climate/fates-jupyterlab, climate/panoply, computational-chemistry/analysis-md-simulations, computational-chemistry/md-simulation-namd, computational-chemistry/zauberkugel, digital-humanities/introduction_to_dh, digital-humanities/Whisper_speech_recognition, ecology/ecoregiolifetraits, ecology/Ecoregionalization_tutorial, ecology/ENA_Biodiv_submission, ecology/marine_omics_bgc, ecology/NEAL_tutorial, ecology/openrefine_gbif, ecology/panoply_ebv, ecology/remote-sensing, epigenetics/atac-seq, epigenetics/hicexplorer, epigenetics/tal1-binding-site-identification, evolution/mtb_phylogeny, galaxy-interface/intermine, galaxy-interface/ncbi-sarf, genome-annotation/annotation-with-maker, genome-annotation/hpc-for-lsgc, genome-annotation/tnseq, imaging/dicom-anatomical-3d, imaging/hela-screen-analysis, imaging/imaging-introduction, imaging/pycytominer, introduction/galaxy-intro-101, introduction/galaxy-intro-101-everyone, introduction/galaxy-intro-peaks2genes, introduction/galaxy-intro-rdm, introduction/galaxy-reproduce, metabolomics/gcms, metabolomics/lcms, metabolomics/lcms-dataprocessing, metabolomics/lcms-preprocessing, microbiome/dunnart_metabarcoding, microbiome/metaplasmidome_query, microbiome/metatranscriptomics, microbiome/pathogen-detection-from-nanopore-foodborne-data, microbiome/samestr-strain-detection, proteomics/biomarker_selection, proteomics/DIA_Analysis_MSstats, proteomics/DIA_Analysis_OSW, proteomics/DIA_lib_OSW, proteomics/mass-spectrometry-imaging-loading-exploring-data, proteomics/maxquant-label-free, proteomics/maxquant-msstats-dda-lfq, proteomics/maxquant-msstats-tmt, proteomics/metaquantome-data-creation, proteomics/protein-quant-sil, proteomics/proteogenomics-dbcreation, sequence-analysis/mapping, sequence-analysis/quality-contamination-control, sequence-analysis/viral_primer_design, single-cell/bulk-deconvolution-evaluate, single-cell/scatac-batch-correction-snapatac2, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna-case_FilterPlotandExplore_SeuratTools, single-cell/scrna-case_JUPYTER-trajectories, single-cell/scrna-case_trajectories, single-cell/scrna-data-ingest, single-cell/scrna-seurat-pbmc3k, single-cell/spatial-melanoma-SPICA, statistics/age-prediction-with-ml, statistics/classification_machinelearning, statistics/classification_regression, statistics/clustering_machinelearning, statistics/CNN, statistics/FNN, statistics/fruit_360, statistics/gpu_jupyter_lab, statistics/hyperdimensional_computing, statistics/intro_deep_learning, statistics/machinelearning, statistics/regression_machinelearning, statistics/RNN, synthetic-biology/basic_assembly_analysis, transcriptomics/full-de-novo, transcriptomics/rna-seq-bash-star-align, transcriptomics/rna-seq-viz-with-cummerbund, variant-analysis/beaconise_1000hg, variant-analysis/countess-mave-chek2, variant-analysis/dunovo, variant-analysis/exome-seq, variant-analysis/pox-tiled-amplicon, variant-analysis/sars-cov-2-variant-discovery, variant-analysis/somatic-variant-discovery, variant-analysis/somatic-variants, visualisation/circos]
+  gx_findings: 'Rename covered (test_dataset.py::test_history_dataset_rename). gxui: dataset-rename (tip 3f9bc855d76).'
 - faq: faqs/galaxy/datasets_UCSC_sourced_genome.md
-  status: pending
+  status: reviewed
+  mode: external
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/datasets_undelete.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: b0c1d0188a5
+  used_by: [galaxy-interface/history]
+  gx_findings: 'history_panel.search matched a hidden input (no callers) and tests typed filters via raw history_element lookups; fixed it and added history_panel_filter (c3c36d23184). Extended test_delete_undelete_and_purge_items with deleted:true + Selection menu Undelete, history_panel_undelete_selected (b0c1d0188a5). gxui: history-filter, history-undelete (tip 3f9bc855d76).'
 - faq: faqs/galaxy/datasets_unhidden.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: e4b931ea1ca
+  used_by: [assembly/debruijn-graph-assembly, ecology/ecoregiolifetraits, ecology/Ecoregionalization_tutorial, ecology/yolo_predict_deepsea, galaxy-interface/history]
+  gx_findings: 'No test or nav for the item Unhide icon; added content_item.unhide_button, history_panel_item_unhide and extended test_hide_and_unhide_items with visible:hidden + the icon (e4b931ea1ca). gxui: dataset-unhide (tip 3f9bc855d76).'
 - faq: faqs/galaxy/datasets_upload_from_genomeark.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 3180b2df251
+  used_by: [assembly/vgp_genome_assembly, assembly/vgp_workflow_training]
+  faq_findings: [remote-files-choose-remote]
+  gx_findings: 'Long remote file names overflowed the Details column; wrapped (3180b2df251), queued remote_files_upload_long_names_overlap. Upload helpers could not open folders; open_remote_folder and path= on stage_remote_file(s), test_upload_from_remote_file_source_folder (9009ff074c7). faq_server: Genome Ark S3 source. gxui: upload-remote --path (tip 3f9bc855d76).'
 - faq: faqs/galaxy/datasets_upload_ftp.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 962cc494100
+  faq_findings: [ftp-choose-ftp-file]
+  gx_findings: '26.2 regression: Choose Remote Files dropped the FTP server notice FilesDialog showed; extracted FtpUploadHelp.vue for both, test_ftp_directory_shows_upload_site (962cc494100), queued remote_files_upload_ftp_help_missing. faq_server: ftp_upload_dir/ftp_upload_site, env FAQ_FTP; replay copies files in place of an FTP client.'
 - faq: faqs/galaxy/datasets_upload.md
   status: pending
 - faq: faqs/galaxy/datasets_working_with_deleted_datasets.md
