@@ -5,9 +5,13 @@
 
 ## Status
 
-Status: `branches_implemented_needs_ci` — READY, re-scoped once, hardened twice (recovered from a non-workhorse session). Base: `release_26.0` (`f90a897bfbe`). Head: `2844b08fb87`. Alt: `issue_24273_dataset_edit_alert_26.0_alt_original_scope`. Fork: `jmchilton/issue_24273_dataset_edit_alert_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24273_dataset_edit_alert_26.0`.
+Status: `branches_ready_for_final_review` — polished 2026-10-23; awaiting John's read-through (incl. human-read checklist item). Base: `release_26.0` (`817a4795098`), baseline merged as #24297. Head: `c6795829fb1` (22 fix commits). Alt: `issue_24273_dataset_edit_alert_26.0_alt_original_scope`. Fork: `jmchilton/issue_24273_dataset_edit_alert_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24273_dataset_edit_alert_26.0`.
 
-No PR yet. CI not yet seen.
+No PR yet.
+
+Fork CI on `c6795829fb1` running (2026-10-23); prior head's reds were client-cache restore infra.
+
+Polish: [description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [checklist](checklist.md) · [debrief](polish_debrief.md)
 
 Fixes [#24273](https://github.com/galaxyproject/galaxy/issues/24273): scheduled Selenium `test_dataset.py::TestDataset::test_history_dataset_rename` times out waiting for `.dataset-attributes-alert`.
 
@@ -15,7 +19,7 @@ Fixes [#24273](https://github.com/galaxyproject/galaxy/issues/24273): scheduled 
 
 ## Dependencies
 
-- Blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297) ([`_baseline`](../../merged/issue_24273_dataset_edit_alert_26.0_baseline/index.md), commits 1–7). Once it merges, rebase onto `release_26.0` so the PR carries only the fix commits.
+- Baseline [#24297](https://github.com/galaxyproject/galaxy/pull/24297) ([`_baseline`](../../merged/issue_24273_dataset_edit_alert_26.0_baseline/index.md)) merged 2026-10-21; branch rebased, carries only fix commits.
 
 ## Decisions
 

@@ -1,0 +1,4 @@
+- [26.0] Keep the dataset Edit tab and its save alert mounted through background refetches
+- [26.0] Fix dataset view tabs being torn down by background refetches
+- [26.0] Keep open dataset tabs mounted and refreshed in place when the dataset updates
+- [26.0] Fix lost dataset attribute save alert (scheduled Selenium rename failure)

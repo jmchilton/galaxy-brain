@@ -86,9 +86,10 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`issue_24273_dataset_edit_alert_26.0`](../../repositories/galaxy/branches/active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Polishing with baseline decomposition; baseline [#24297](https://github.com/galaxyproject/galaxy/pull/24297) merged. Base `release_26.0`, head `c11610da344`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
+- [`issue_24273_dataset_edit_alert_26.0`](../../repositories/galaxy/branches/active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Base `release_26.0`, head `c6795829fb1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
 - [`issue_24377_history_item_buttons_26.2`](../../repositories/galaxy/branches/active/issue_24377_history_item_buttons_26.2/index.md) — Restores no-op history item button tooltip checks; GCollapse settle marker for the shared expand helper (#24377). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24377_history_item_buttons_26.2?expand=1).
 - [`tool_form_job_count`](../../repositories/galaxy/branches/active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](../../repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
