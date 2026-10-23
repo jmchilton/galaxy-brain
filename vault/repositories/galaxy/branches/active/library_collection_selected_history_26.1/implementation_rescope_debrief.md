@@ -3,7 +3,7 @@
 The scope evaluation recommended a modest expansion. "Auto Build List" and "Advanced Build List" (`ListWizard`) record which history the selection came from, but still built in the current history. That is the same root cause as the library bug. Without fixing it, "Build Dataset List" and the wizard entries in the same Selection menu would disagree on an owned non-current history's view page. I confirmed this in `ListWizard.vue` before expanding.
 
 - **Original scope:** kept as alt `library_collection_selected_history_26.1_alt_original_scope` (`c57876ad7b5`); see [alts/original_scope.md](alts/original_scope.md).
-- **New commit `469a571f614`:**
+- **New commit `fc218167da1` (was `469a571f614`):**
   - `ListWizard` feeds the store's `historyId` to `useCollectionCreation` and to both creators' `history-id`.
   - The success alert no longer says "your history".
   - Test helpers can now target a history that isn't current:
