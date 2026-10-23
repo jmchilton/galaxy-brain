@@ -4,7 +4,7 @@
 
 ## Status
 
-`needs_decision` (was `blocked` on upstream/gxwf). decide: close. Fixed upstream by [galaxy-tool-util-ts#179](https://github.com/jmchilton/galaxy-tool-util-ts/pull/179), shipped in `@galaxy-tool-util/cli` 1.13.1 (2026-09-26). Foundry skills already pin `^1.14.0`. Closing isn't greenlisted, so it's left to John. GitHub labels unchanged (`needs-triage`). The proposed labels below are moot if the issue closes.
+`closed`: John closed it 2026-10-23 (completed). Fixed upstream by [galaxy-tool-util-ts#179](https://github.com/jmchilton/galaxy-tool-util-ts/pull/179), `@galaxy-tool-util/cli` 1.13.1+; Foundry pins `^1.14.0`. No branch to prune.
 
 ## Verification (2026-10-23)
 
