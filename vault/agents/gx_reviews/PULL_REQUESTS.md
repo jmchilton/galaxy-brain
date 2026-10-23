@@ -1,5 +1,7 @@
 PRs To Review:
+- [#24288](https://github.com/galaxyproject/galaxy/pull/24288) — initial review in progress (`f3fd25889b4`). [notes](../../repositories/galaxy/reviews/active/24288/index.md)
 - [#24395](https://github.com/galaxyproject/galaxy/pull/24395) — initial review done, not delivered (P1 label/value bug; fixes on fork branch). [notes](../../repositories/galaxy/reviews/active/24395/index.md)
+- [#24394](https://github.com/galaxyproject/galaxy/pull/24394) — initial review drafted (`c1e5f3fd6e0`); P2 1 + five P3s, fixes on fork branch; awaiting John. [notes](../../repositories/galaxy/reviews/active/24394/index.md)
 - [#24359](https://github.com/galaxyproject/galaxy/pull/24359) — approved 2026-10-22; test fixes pushed to PR branch (`53c31a7032e`); awaiting merge. [notes](../../repositories/galaxy/reviews/active/24359/index.md)
 - [#24357](https://github.com/galaxyproject/galaxy/pull/24357) — approved 2026-10-22 with review; review branch (`ea18258b648`) pushed into PR; awaiting merge. [notes](../../repositories/galaxy/reviews/active/24357/index.md)
 - [#23964](https://github.com/galaxyproject/galaxy/pull/23964) — approved 2026-10-22 with three P3s (fixes on fork branch, not pushed); awaiting merge. [notes](../../repositories/galaxy/reviews/active/23964/index.md)

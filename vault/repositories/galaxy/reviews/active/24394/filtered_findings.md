@@ -1,0 +1,1 @@
+- Default P3 3, use `Intl.Collator` `numeric` collation: dropped. It's optional, it isn't a regression (GTable sorts the same way), and it's the author's call. The default collator already keeps R1/R2 pairs next to each other (`s1_R1, s1_R2, s10_R1, s10_R2, s2_R1, s2_R2`), so only the order of the pairs is affected.
