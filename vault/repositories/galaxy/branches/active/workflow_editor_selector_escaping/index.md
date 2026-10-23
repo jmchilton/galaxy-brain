@@ -9,7 +9,7 @@ Head `7ba4f7bd25f`, stacked on `workflow_editor_connection_helpers` `9699ec45644
 
 No PR yet.
 
-No CI yet.
+Fork CI green on `7ba4f7bd25f` (2026-10-23) except Integration, cancelled; it doesn't exercise the selector helpers (Integration Selenium green). `branches_implemented`.
 
 ## Scope
 

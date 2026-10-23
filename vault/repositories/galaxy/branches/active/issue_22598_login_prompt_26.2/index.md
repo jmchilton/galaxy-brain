@@ -5,11 +5,11 @@
 
 ## Status
 
-`branches_implemented_needs_ci`: implemented and pushed 2026-10-20, but not polished. Base `release_26.2` (`1ff2ce4cc51`), head `d5723a26b94`. Worktree: `~/projects/worktrees/galaxy/branch/issue_22598_login_prompt_26.2`.
+`branches_implemented`: implemented and pushed 2026-10-20, but not polished. Base `release_26.2` (`1ff2ce4cc51`), head `d5723a26b94`. Worktree: `~/projects/worktrees/galaxy/branch/issue_22598_login_prompt_26.2`.
 
 No PR yet.
 
-Fork CI hasn't been checked.
+Fork CI green on `d5723a26b94` (2026-10-23).
 
 ## About
 

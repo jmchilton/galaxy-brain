@@ -1,6 +1,6 @@
 # ag_grid_36
 
-Status: `branches_implemented_needs_ci`. Base: `dev`.
+Status: `branches_implemented`. Base: `dev`.
 
 Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations.
 
@@ -14,7 +14,7 @@ Hardened and re-scoped. Tip `3bf56e17e9b` (5 commits on `dev`) is READY; the [im
 
 Not opened as a PR.
 
-Fork CI is pending on `3bf56e17e9b`. Polish starts once it's greenish.
+Fork CI green on `3bf56e17e9b` (2026-10-23); ready for polish.
 
 ## Decisions
 

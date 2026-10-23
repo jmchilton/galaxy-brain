@@ -42,7 +42,7 @@ John requested all four remaining candidates as standalone branches. Each starts
 
 - [invocation_object_store_validation](../invocation_object_store_validation/index.md) — Validate workflow object-store preferences.
 - [invocation_completion_action_validation](../invocation_completion_action_validation/index.md) — Reject unknown completion actions.
-- [invocation_tool_compatibility](../invocation_tool_compatibility/index.md) — Reject incompatible workflow tools early.
+- [invocation_tool_compatibility](../../merged/invocation_tool_compatibility/index.md) — Reject incompatible workflow tools early.
 - [invocation_subworkflow_input_connections](../invocation_subworkflow_input_connections/index.md) — Reject disconnected required subworkflow inputs.
 
 Combined focused local runs: 216 passed, 2 skipped. All applicable hooks and branch-specific review processes passed. Fresh fork CI has not been assessed; no PRs created.

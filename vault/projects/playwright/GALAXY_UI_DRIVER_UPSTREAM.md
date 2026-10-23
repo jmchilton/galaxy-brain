@@ -45,7 +45,7 @@ and red without each fix. Queued in `MY_BRANCHES.md`; no PRs yet.
 |---|---|---|
 | [`workflow_editor_run_cancel`](../../repositories/galaxy/branches/active/workflow_editor_run_cancel/index.md) | 4b, 7h, 7j | run from the editor's Run activity, pick a non-default dataset in the simplified run form, cancel |
 | [`workflow_open_exact_title`](../../repositories/galaxy/branches/merged/workflow_open_exact_title/index.md) | 7c, 7g | open and run a workflow whose title prefixes a newer one's |
-| [`workflow_editor_second_subworkflow`](../../repositories/galaxy/branches/active/workflow_editor_second_subworkflow/index.md) | 7d | insert two subworkflows from the editor's Workflows panel |
+| [`workflow_editor_second_subworkflow`](../../repositories/galaxy/branches/merged/workflow_editor_second_subworkflow/index.md) | 7d | insert two subworkflows from the editor's Workflows panel |
 
 - **7i moved to step 4.** On 26.2 the list search opens `X: Y`, `X:Y` and `tag:Y` titles without
   it (dev's `filtering.ts` is the same); it only works around test.galaxyproject.org's older client.

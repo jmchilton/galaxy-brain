@@ -7,11 +7,11 @@ Fixes a tool test framework race. With the tool request API (`use_legacy_api: ne
 
 ## Status
 
-`branches_implemented_needs_ci`: `fc70b831522` (refactor, shared discovered-output helpers, fix) pushed to `jmchilton` 2026-10-22; hardened + rescoped, READY. It skips `__new_primary_file_*` outputs and adds a red-to-green unit test. Original scope alt: `tool_test_discovered_outputs_race_26.2_alt_original_scope`.
+`branches_implemented`: `fc70b831522` (refactor, shared discovered-output helpers, fix) pushed to `jmchilton` 2026-10-22; hardened + rescoped, READY. It skips `__new_primary_file_*` outputs and adds a red-to-green unit test. Original scope alt: `tool_test_discovered_outputs_race_26.2_alt_original_scope`.
 
 No PR yet.
 
-Local: `test/unit/tool_util/verify/` 158 passed; isort, black and ruff clean. Fork CI not checked yet.
+Local: `test/unit/tool_util/verify/` 158 passed; isort, black and ruff clean. Fork CI green on `fc70b831522` (2026-10-23).
 
 ## Context
 

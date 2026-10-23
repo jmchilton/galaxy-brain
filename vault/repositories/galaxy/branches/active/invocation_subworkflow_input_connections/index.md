@@ -1,6 +1,6 @@
 # invocation_subworkflow_input_connections
 
-Status: `ci_wait` — draft PR #24203 (draft at John's request) rebased onto `release_26.2` 2026-10-19, head `2de0931ac07`; fresh CI running.
+Status: `ready` — PR #24203 undrafted, rebased onto `release_26.2` 2026-10-19; PR CI all green (2026-10-23).
 
 Reject disconnected required subworkflow inputs with HTTP 400 before creating histories or invocations, including nested step paths, while preserving optional and defaulted inputs.
 

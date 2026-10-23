@@ -7,11 +7,11 @@
 
 ## Status
 
-Draft PR open, `ci_wait`; base `release_26.2`, head `20bab26d44b`.
+PR open (undrafted), `ready`; base `release_26.2`, head `20bab26d44b`.
 
 [#24380](https://github.com/galaxyproject/galaxy/pull/24380), draft (opened early at John's request).
 
-Fork CI for `20bab26d44b` queued (2026-10-22); Selenium/Playwright pending. Undraft once green.
+PR CI on `20bab26d44b` (2026-10-23): reds are Main tool tests (red on every base since 2026-10-22) and Integration `test_pulsar_embedded_extended_metadata` runtime env, both unrelated; Integration rerun.
 
 ## Decisions
 

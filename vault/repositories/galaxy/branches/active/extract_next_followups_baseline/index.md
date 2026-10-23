@@ -7,7 +7,7 @@ The first seven commits of [`extract_next_followups`](../extract_next_followups/
 
 ## Status
 
-`ci_wait`: cut 2026-10-22 at `bb9c9ad754a`, re-cut at `602cf07cb37` after fixing an isort ordering error in the 5th commit (on both branches); pushed to `jmchilton`. It isn't rebased; it merges cleanly into `release_26.2` `cd04fbc2dcd`.
+`ready` (undrafted; only red is Main tool tests, red on every base since 2026-10-22, unrelated): cut 2026-10-22 at `bb9c9ad754a`, re-cut at `602cf07cb37` after fixing an isort ordering error in the 5th commit (on both branches); pushed to `jmchilton`. It isn't rebased; it merges cleanly into `release_26.2` `cd04fbc2dcd`.
 
 Draft PR [#24368](https://github.com/galaxyproject/galaxy/pull/24368) opened 2026-10-22 at John's request, titled "[26.2] Branch refactoring and tests to enable notebook extraction fixes"; undraft once CI is greenish.
 
