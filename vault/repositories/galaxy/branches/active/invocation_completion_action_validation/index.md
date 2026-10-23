@@ -1,6 +1,6 @@
 # invocation_completion_action_validation
 
-Status: `ready` — PR #24202 (draft at John's request, undrafted by John 2026-10-20) rebased onto `release_26.2` 2026-10-19, head `67da46bcfed`; CI green 2026-10-20.
+Status: `ready` — PR #24202 (draft at John's request, undrafted by John 2026-10-20) rebased 2026-10-23 onto `release_26.2` `d2d1dcd883c` (conflicted after #24209 merged), head `f972f92d536`; PR CI re-running.
 
 Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
 

@@ -9,7 +9,7 @@ Branch is polished at `1dd5eb07d8e`; John's final read-through (including the hu
 
 Draft [#24307](https://github.com/galaxyproject/galaxy/pull/24307) against `dev` was opened by accident on 2026-10-20 and sits in `ci_wait`; prep's four commits appear in its diff until prep merges.
 
-PR CI on `1dd5eb07d8e` is in progress; `c69f43e3222` failed Playwright `test_output_urls_expand_outputs` (smooth scroll let lazy outputs above push the target off screen), fixed by an instant jump.
+PR conflicts with `dev` (`f1772b6775d`, 2026-10-23); rebase not done. Prep rebases cleanly, but `c978b652038` conflicts in `WorkflowInvocationSteps.test.ts` and `test_workflow_invocation_details.py`: dev's `956c561c8a2` ("Keep invocation step states current while an invocation runs") rewrote `useInvocationGraph` and replaced this test's mocking. Reconciling needs a design pass, not a mechanical merge.
 
 ## Branch
 

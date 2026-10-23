@@ -11,7 +11,7 @@ Fixes notebook-to-workflow extraction, report references and editor behavior aft
 
 Draft PR [#24225](https://github.com/galaxyproject/galaxy/pull/24225); screenshots hosted on `pr-assets-extract_next_followups`. E5 renames a 26.2 API route, so this must merge before 26.2.0.
 
-Rebased onto `release_26.2` and pushed `d918bcf0552` 2026-10-19 with a fix for the mypy comparison-overlap in `test_workflow_extraction_summary.py`, the cause of all 4 red package/lint Test jobs; CI re-running.
+Rebased 2026-10-23 onto the rebased baseline `6ba90ac64bf` (on `release_26.2` `d2d1dcd883c`); head `e095205891d`. The only conflict, in `services/workflows.py`, put #24209's `_describe_tool_references` next to this branch's new module helpers (kept both); the tree equals a 3-way merge of the old head with `release_26.2`. PR CI re-running.
 
 ## Decisions and references
 
