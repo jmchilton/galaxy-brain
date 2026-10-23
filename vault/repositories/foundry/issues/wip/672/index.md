@@ -39,7 +39,7 @@ usegalaxy.org runs 26.1 (`/api/version` → 26.1.2.dev0); that sets the version 
 
 ## Done (2026-10-22)
 
-- gtu-ts: branch `issue-672-udt-schema-resync` on `jmchilton`, `a7a508ce`. Schema regenerated from Galaxy dev `51e0a80a`; tests mirror Galaxy's collection cases (pattern-only test red on old schema, green on new). Changeset added. `make check` clean; `make test` green except gxwf-web `--output-schema`, which flakes under full-suite load and passes alone with and without the change. The note's §5 example passes rebuilt `validate-tool-source`.
+- gtu-ts: branch `issue-672-udt-schema-resync` on `origin` (jmchilton/galaxy-tool-util-ts), `a7a508ce` + `509b403b`. Schema regenerated from Galaxy `release_26.1` `5af1d03c929` (dev cut pulled in dev-only `runtime_environment_variables`, test `visible`); PR text [pr_description_gtu_ts.md](pr_description_gtu_ts.md); tests mirror Galaxy's collection cases (pattern-only test red on old schema, green on new). Changeset added. `make check` clean; `make test` green except gxwf-web `--output-schema`, which flakes under full-suite load and passes alone with and without the change. The note's §5 example passes rebuilt `validate-tool-source`.
 - Foundry: branch `issue-672-udt-authoring-note` on `origin`, `12d8f77a` (§5, §6) + `5c001801` (§3). Recast; `validate` 0 errors; casts, index, dashboard clean. PR text: [pr_description.md](pr_description.md).
 - Galaxy: red API tests above, branch `udt_element_identifier_api_test` on `jmchilton`; no PR.
 
