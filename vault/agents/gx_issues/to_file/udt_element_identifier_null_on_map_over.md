@@ -28,5 +28,6 @@ Longer term, it may be cleaner for batch expansion to record `{"src": "dce"}` in
 ## Open questions
 
 - With a plain (non-collection) dataset, `$(inputs.x.element_identifier)` is still `null`. The label renderer (`tools/expressions/labels.py`) and Cheetah fall back to the HDA name. Should UDT command lines fall back the same way? The branch pins `null` with a baseline test.
-- Implicitly converted mapped-over inputs (e.g. a csv list into a tabular-only UDT) are still `null`. `actions/__init__.py` swaps in the converted HDA before writing `|__identifier__`, so nothing is persisted. Cheetah hides this behind its name fallback. Carrying the identifier onto the converted HDA would fix both.
+- Implicitly converted mapped-over inputs (e.g. a csv list into a tabular-only tool): the branch now copies the transient identifier onto the converted HDA (`actions/__init__.py` `process_dataset`), which fixes UDTs. Cheetah `$input.element_identifier` still falls back to the dataset name there: `ElementIdentifierMapper` is keyed on the converted HDA but queried with the original. A follow-up could key the parents as well.
+- Identifiers are keyed by dataset, not input. If one input maps over a list and another input directly selects one of the same HDAs, both see the element identifier. Cheetah's `ElementIdentifierMapper` has the same collapse.
 - Backport: the UDT runtime code on `release_26.1` (and `release_26.0`, which has no runtimeify) differs a lot from dev, so the branch targets `dev`.
