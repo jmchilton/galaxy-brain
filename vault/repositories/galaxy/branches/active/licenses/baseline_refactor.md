@@ -75,3 +75,33 @@ If commits 5 and 6 are split into their own PR, add generic tests modelled on th
 - **Broader run at commit 6:** `test/unit/app/tools`, `test/unit/data/datatypes` and `test/unit/tool_util/test_parsing.py` gave 1488 passed, 1 skipped, 2 xpassed. `test_parsed_tool_model.py`, `test_parameter_test_cases.py` and `managers/test_datatypes.py` gave 38 passed.
 - **Not rerun:** the final tree is unchanged, and the new commits change no API models, so `schema.ts` was not regenerated. Mypy, the API and integration tests, and the client tests were not rerun either. Earlier hardening results still apply.
 - No security issues were found.
+
+## Tests added
+
+On request, both scratch checks became real tests in their fix commits. That closes the coverage gap described above.
+
+- New head: `3dca8fee922`. Backup ref: `backup/licenses_pre_baseline_2b` = `a9cc198cb2a`. Not pushed.
+- The final tree differs from `a9cc198cb2a` only by these tests (31 lines added).
+- Commit SHAs from 5 onward changed. Commit 5 is now `d651612aa36` and commit 6 is now `b074d6c51db`.
+
+**Commit 5 tests, in `test/unit/app/tools/test_tool_deserialization.py`.** They reuse the `tool_app` fixture, `_deserialize` and `YAML_TOOL`.
+- `test_parsed_tool_after_mem_optimize_preserves_regex_whitespace` uses a new `XML_TOOL_WITH_REGEX_VALIDATOR` constant.
+  - At commit 4 the re-parse turns the regex into `*(\d+...`, and the test fails with `regex error: nothing to repeat`.
+- `test_parsed_tool_yaml_tool` confirms the YAML claim.
+  - At commit 4, `parsed_tool()` on a YAML tool fails with `XMLSyntaxError`, because the YAML source is fed to the XML parser.
+
+**Commit 6 test, in `test/unit/data/datatypes/test_datatypes_registry.py`.**
+- `test_reregistered_converter_replaces_cached_lookup` adds the `_StubConverter` dataclass, with `id` only.
+  - At commit 4 it fails with `'old_to_tabular' == 'new_to_tabular'`.
+- "Keep license agreements off indirect execution paths" now adds `license_agreements` to the existing stub, where before it created the stub.
+- I kept `test_reregistered_converter_requiring_license_agreements_is_not_offered`. It also covers the license filter, so the new test is not strictly better.
+
+**Red-to-green:** each test fails with commit 4's library file and passes at its own commit.
+
+**Validation**
+- At each of commits 5 to 21:
+  - ruff 0.17.1 and black on both test modules: clean.
+  - Both modules pass: 38, then 39, 40 and 42 tests as the count grows. At HEAD it is 42.
+- Pre-commit hooks passed on the amended commits 5 and 6.
+- `git range-diff` shows patch changes only in commits 5 and 6, and in the stub transition in "Keep license agreements off indirect execution paths".
+- Only unit tests changed, so mypy, the API and integration tests and `schema.ts` were not rerun.
