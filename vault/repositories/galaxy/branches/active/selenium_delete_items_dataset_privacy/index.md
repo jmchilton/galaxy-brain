@@ -7,11 +7,11 @@
 
 ## Status
 
-PR open (undrafted), `ready`; base `release_26.2`, head `20bab26d44b`.
+PR open, `ready`; base `release_26.2`, head `d83f7eaa13c` (review follow-up on approved `20bab26d44b`).
 
-[#24380](https://github.com/galaxyproject/galaxy/pull/24380), draft (opened early at John's request).
+[#24380](https://github.com/galaxyproject/galaxy/pull/24380) approved by davelopez 2026-10-23; non-blocking nit (click DOM buttons, not `vm.$emit`) addressed in `d83f7eaa13c`, see [review response](review_response.md).
 
-PR CI on `20bab26d44b` (2026-10-23): reds are Main tool tests (red on every base since 2026-10-22) and Integration `test_pulsar_embedded_extended_metadata` runtime env, both unrelated; Integration rerun.
+PR CI on `d83f7eaa13c` pending; on `20bab26d44b` only unrelated reds (Main tool tests, Integration pulsar runtime env).
 
 ## Decisions
 
