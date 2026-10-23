@@ -47,4 +47,4 @@
 - The view page shows "1 of 0 selected".
 - The wizard's Name input is narrow.
 - SampleSheet creation has no history getter.
-- The queued issue `gx_issues/to_file/library_collection_ignores_selected_history.md` hasn't been filed. Its text should also mention the ListWizard path, and that the side effect is on the view page, not multiview.
+- The queued issue `gx_issues/to_file/library_collection_ignores_selected_history.md` hasn't been filed; its text now points at this branch and covers ListWizard and the view page.
