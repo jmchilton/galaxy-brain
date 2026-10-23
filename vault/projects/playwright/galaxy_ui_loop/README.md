@@ -74,7 +74,9 @@ under `~/.cache/gxui-faq/server/<profile>`; the worktree's own config is untouch
 (`TOOL_DEPS`, e.g. samtools) go in a conda env at `~/.cache/gxui-faq/tool_deps` on the server's PATH;
 `start` creates it with `~/miniforge3/bin/conda` (or `FAQ_CONDA`). Galaxy's `test-data` is both a
 remote file source ("Galaxy test data") and `library_import_dir`. Replays needing an admin register
-or log in as `faq-admin@example.org`.
+or log in as `faq-admin@example.org`. An "FAQ Replay" tool section adds Galaxy's
+`cat_data_and_sleep` test tool, to keep a job waiting. `fetch_url_allowlist` lets the server fetch
+its own Copy Link URLs, so one server can play two.
 
     ./faq_server.sh start            # or: start accounts
     eval "$(./faq_server.sh env)"    # GXUI_* for that profile, plus FAQ_MAIL

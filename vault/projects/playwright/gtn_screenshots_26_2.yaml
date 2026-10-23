@@ -77,3 +77,10 @@
   priority: high
   summary: Shows the 26.1 dialog's Collection tab with Build; 26.2 has the "Create a collection from these files" switch and no Build step.
   retake: Paste Links/URLs with two links, Add URLs, switch on Create a collection, name it, List, Start.
+
+- image: faqs/galaxy/images/multiselect.gif
+  faqs: [faqs/galaxy/datasets_multiple.md]
+  target: main
+  priority: low
+  summary: Recorded on 24.1; the history panel's Select Items flow still matches, but the old masthead (Workflow, Visualize, Data, Help, User) shows.
+  retake: Select Items under the history size, tick items, open the n of N selected menu, Hide or Delete, Select Items again to close.

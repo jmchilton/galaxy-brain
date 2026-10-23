@@ -344,17 +344,45 @@
   faq_findings: [upload-import-data-panel, link-add-urls, link-collection-switch, link-reset-form]
   gx_findings: 'Fixed start_for_uploaded_hids counting one hid per file for collection uploads (162dfdb49b4; predates the branch), red-to-green via test_upload_pair. Links with metadata and List/List of Pairs from links already covered; test_upload_activity_collection duplicates upload_context().to_list() with private helpers (not refactored). Pair from 1.bed/2.bed is named ".bed" (_guessNameForPair edge case, not filed). gxui: upload-url --dbkey/--collection/--collection-type; history-wait fails on a failed collection (tip 6c434fc3a15).'
 - faq: faqs/galaxy/datasets_job_status.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: ff3da7861e7
+  gx_findings: 'Added E2E pausing a job (input deleted while it waits on cat_data_and_sleep) and resuming it from History options (ff3da7861e7), with data-description="resume paused jobs" and click_history_option_resume_paused_jobs. Queued/new items are grey via [data-state] although states.ts says alert-warning. faq_server.sh loads cat_data_and_sleep so the replay pauses deterministically. gxui: history-resume-paused (tip 5d410abf9b8).'
 - faq: faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 5d410abf9b8
+  faq_findings: [moving-link-private, upload-import-data-panel, link-add-urls]
+  gx_findings: 'Copy Link and link uploads already covered. faq_server.sh sets fetch_url_allowlist 127.0.0.1,::1 so the server can fetch its own links (Galaxy refuses local addresses by default).'
 - faq: faqs/galaxy/datasets_multiple.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 5d410abf9b8
+  used_by: [galaxy-interface/history]
+  gx_findings: 'Hide, delete and purge from the Selection menu already covered (batch 4 tests).'
 - faq: faqs/galaxy/datasets_not_downloading_at_all.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 5d410abf9b8
+  faq_findings: [masthead-user-menu-2]
+  gx_findings: 'Preferences cards, dataset Permissions tab and the new-histories switch already covered (e4bca1128c1).'
 - faq: faqs/galaxy/datasets_purging_datasets.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6cd6a7db90e
+  used_by: [introduction/galaxy-intro-rdm]
+  faq_findings: [finding-datasets-user-menu, purging-purge-locations, purging-panel-controls]
+  gx_findings: 'Storage Dashboard cleanup was only screenshotted; added E2E purging deleted datasets there and checking usage before and after (6cd6a7db90e), with data-description="<operation id> cleanup" on the cards, storage_dashboard.cleanup.*, storage_dashboard_purge_deleted_datasets. History panel size stays stale after a dashboard purge (not filed). gxui: datasets-purge-deleted (tip 5d410abf9b8).'
 - faq: faqs/galaxy/datasets_quotas_for_datasets_and_histories.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [quotas-shared-histories]
 - faq: faqs/galaxy/datasets_rename.md
   status: pending
 - faq: faqs/galaxy/datasets_UCSC_sourced_genome.md

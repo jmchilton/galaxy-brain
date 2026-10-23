@@ -227,6 +227,16 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `913dfd7dfd6`: coverage for `datasets_import_from_data_library`. Adds
   `test_add_datasets_to_selected_history`, the `libraries_folder_*` helpers, and the
   `import_to_history_select` and `selected_dataset_row` nav entries. Standalone.
+- `ff3da7861e7`: coverage for `datasets_job_status`.
+  - Adds `test_resume_paused_job`, `click_history_option_resume_paused_jobs` and
+    `data-description="resume paused jobs"` (a client change).
+  - Needs `history_panel_include_deleted` and `history_panel_item_undelete` from
+    `selenium_delete_items_dataset_privacy`, so it lands after that branch or is rebased onto it.
+- `6cd6a7db90e`: coverage for `datasets_purging_datasets`.
+  - Adds `test_purge_deleted_datasets_from_storage_dashboard`,
+    `storage_dashboard_purge_deleted_datasets`, the `storage_dashboard.cleanup` nav entries and a
+    `data-description` on the cleanup cards (a client change).
+  - Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

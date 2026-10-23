@@ -58,6 +58,10 @@ galaxy:
   # Galaxy's test-data stands in for both.
   file_sources_config_file: $state/file_sources_conf.yml
   library_import_dir: $GALAXY_ROOT/test-data
+  # Lets Paste Links/URLs fetch this server's own Copy Link URLs, standing in for a second Galaxy.
+  fetch_url_allowlist: 127.0.0.1,::1
+  # Default tools, plus a sleep tool replays use to keep a job waiting (job status FAQ).
+  tool_config_file: $GALAXY_ROOT/lib/galaxy/config/sample/tool_conf.xml.sample,$state/replay_tool_conf.xml
   user_activation_on: $activation
   smtp_server: mock_emails_to_path://$state/email.json
   smtp_ssl: false
@@ -72,6 +76,13 @@ EOF
   doc: Galaxy's test-data directory
   root: $GALAXY_ROOT/test-data
   writable: false
+EOF
+    cat > "$state/replay_tool_conf.xml" <<EOF
+<toolbox tool_path="$GALAXY_ROOT/test/functional/tools">
+  <section id="faq_replay" name="FAQ Replay">
+    <tool file="cat_data_and_sleep.xml" />
+  </section>
+</toolbox>
 EOF
 }
 

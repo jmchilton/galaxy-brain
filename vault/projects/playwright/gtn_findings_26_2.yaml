@@ -325,7 +325,7 @@
   fix: Say "Click {% icon galaxy-upload %} **Upload** in the Activity Bar".
 
 - label: upload-import-data-panel
-  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_via_link.md]
+  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_via_link.md, faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md]
   target: version
   summary: 26.2 replaces the upload dialog with the Import Data panel, so Paste/Fetch Data, the "New File" name, Genome, the Settings gear and Close no longer exist.
   fix: 'Upload > **Paste File Content**; paste into the text field; the name defaults to "Pasted Dataset 1"; set **Type** and **Reference** in the row; tick the row''s **Spaces→Tabs**; **Start** (no window to close). Other upload FAQs likely need the same.'
@@ -337,7 +337,7 @@
   fix: 'Add "To undelete, click the trash counter at the top of the history (**Include deleted**), then the dataset''s **Undelete** icon. Permanently deleted (**Purged**) datasets can''t be restored."'
 
 - label: masthead-user-menu-2
-  faqs: [faqs/galaxy/datasets_data_privacy_features.md]
+  faqs: [faqs/galaxy/datasets_data_privacy_features.md, faqs/galaxy/datasets_not_downloading_at_all.md]
   target: main
   summary: Step 3's "Click **user** button" — there is no "User" masthead item; the menu is labelled with the username.
   fix: Same wording as masthead-user-menu.
@@ -389,7 +389,7 @@
   fix: Use `wget -O outfile '<link>'` (or `--content-disposition`).
 
 - label: finding-datasets-user-menu
-  faqs: [faqs/galaxy/datasets_finding_datasets.md]
+  faqs: [faqs/galaxy/datasets_finding_datasets.md, faqs/galaxy/datasets_purging_datasets.md]
   target: main
   summary: There is no **User > Datasets**; the user menu only has Preferences and Sign Out. The list is the Activity Bar's **Datasets**.
 
@@ -400,7 +400,7 @@
   fix: 'Add `galaxy-export-to-galaxy: fas fa-file-export` to `_config.yml` icons, then a line "**Export to another Galaxy**: make a link another Galaxy can import the dataset from".'
 
 - label: link-add-urls
-  faqs: [faqs/galaxy/datasets_import_via_link.md]
+  faqs: [faqs/galaxy/datasets_import_via_link.md, faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md]
   target: version
   summary: In 26.2's **Paste Links/URLs** the pasted links only become upload rows (Name, URL, Type, Reference) after **Add URLs**; Start stays disabled until then.
   fix: After "Paste the link(s) into the text field" add "Click **Add URLs**"; the format and genome steps then set the row's (or the header's, for all rows) **Type** and **Reference**.
@@ -427,3 +427,26 @@
   target: main
   summary: Step 8's **Create collection** is the builder's **Create list**, or **Create list of pairs** for a List of Pairs (26.1 too).
   fix: 'Say "Click **Create {{ include.collection_type | default: "list" | downcase }}**" or just "click **Create**"; sars-cov-2-variant-discovery passes List of Pairs.'
+
+- label: moving-link-private
+  faqs: [faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md]
+  target: version
+  summary: 26.2 makes new users' data private, so a Copy Link pasted into another Galaxy fails with 403 Forbidden and the import goes red.
+  fix: 'Add before step 1: make the history accessible (History options > **Share & Manage Access** > **Make History accessible**). Mention 26.2''s **Export to another Galaxy** button (icons-export-another-galaxy). Same cause as cli-download-private.'
+
+- label: purging-purge-locations
+  faqs: [faqs/galaxy/datasets_purging_datasets.md]
+  target: main
+  summary: Step 2's "Purge Deleted Datasets option in the History menu" and "link from within the dataset" don't exist (26.1 too).
+  fix: 'Say: **Select Items** > tick > **Delete (permanently)**; or, for everything deleted, the masthead usage meter > **Storage Dashboard** > **Free up disk space** > Deleted datasets > **Review and clear**, select, **Permanently delete**, confirm.'
+
+- label: purging-panel-controls
+  faqs: [faqs/galaxy/datasets_purging_datasets.md]
+  target: main
+  summary: There are no "deleted" or "hidden" links under the history name, and no "far right X"; the counters at the top of the history (trash, eye-slash) toggle **Include deleted** and **Include hidden**, and an item deletes with its trash icon.
+
+- label: quotas-shared-histories
+  faqs: [faqs/galaxy/datasets_quotas_for_datasets_and_histories.md]
+  target: main
+  summary: '"Shared with you ... only partially considered unless you import them" is wrong: usage counts the unique datasets in your own unpurged histories, so shared data counts for nothing until imported, then in full.'
+  fix: 'Say "Histories and datasets shared with you don''t count until you import them; imported copies count in full. Data library datasets don''t count."'
