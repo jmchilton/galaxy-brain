@@ -1,55 +1,45 @@
-# Scope evaluation
+# Scope evaluation (second, post-rescope)
 
-**Recommendation: modest expand.** Keep the fix and add a small shared helper for the `__new_primary_file_` naming convention in `interactor.py`, e.g. `discovered_output_prefix(name)` or a constant plus `is_discovered_output(name)`. Route `split_declared_job_outputs` and `verify_primary_datasets` (lines ~461 and ~478, which build the same prefix by hand) through it. This adds about 10 lines, matches the default lean toward a modest expansion, and makes the convention one reusable piece instead of a third hard-coded string. Leave server/API changes and the `populators.py` callers out of scope.
+**Recommendation: keep as implemented.** The approved modest expansion has landed. `DISCOVERED_OUTPUT_PREFIX`, `discovered_output_name` and `is_discovered_output` are now the only `__new_primary_file_` definitions in `tool_util` and `galaxy_test`, and the race fix goes through them. The remaining candidates are either a cross-layer refactor of Galaxy core, which belongs on `dev`, or API-helper changes with no observed failure. Neither is a modest expansion for `release_26.2`. Note the core follow-up in the PR body, as `subagents/rescope_review.md` suggests.
 
-The branch is about 30 lines of non-generated code, so this report has no decomposition section. The two existing commits, baseline refactor then fix, already split cleanly.
-
-No review debrief (`codex_review.md`, `test_challenges_debrief.md`, `baseline_refactor.md`) raised scope.
+The branch has about 50 changed lines across 3 files, which is under 100, so there is no decomposition section. The three commits already split cleanly: the extraction refactor, then the shared helpers, then the fix.
 
 ## As implemented
 
-The fix extracts `split_declared_job_outputs` and makes it skip `__new_primary_file_*` outputs on the tool-request (`use_legacy_api: never`) path. With that, `expect_num_outputs` no longer counts discovered datasets when the job finished before its outputs were listed. A unit test covers it.
+The branch has three commits. The first extracts `split_declared_job_outputs`. The second adds the shared discovered-output name helpers and uses them in `verify_output_dataset`, `split_declared_job_outputs` and `galaxy_test/selenium/framework.py`. The third skips discovered datasets when resolving tool request outputs, so `expect_num_outputs` stops counting them during the race.
 
 | Pros | Cons |
 |---|---|
-| Tiny, targeted, and easy to backport to `release_26.2` | The prefix string is now hard-coded in three places in one file |
-| Red-to-green unit test | No functional test reproduces the race. It is timing-dependent, so that is acceptable |
-| Legacy and non-legacy paths now produce the same output map | |
+| Fixes the reported race, and the earlier eval's expansion is fully absorbed | Galaxy core (`output_collect.py`, `store/discover.py`, `model/__init__.py`) still hard-codes the name format |
+| One definition of the naming convention across the test framework | No functional test for the race. It is timing-dependent, so that is acceptable |
+| Small and easy to backport | |
 
-## Modest expand: shared discovered-output helper (recommended)
+## Expand: unify the name format with Galaxy core via `galaxy.util`
 
-This scope is the same fix plus one helper or constant for the `__new_primary_file_{name}|{designation}__` convention. The helper is used by `split_declared_job_outputs` and `verify_primary_datasets` (the prefix match and the exact designation match).
-
-| Pros | Cons |
-|---|---|
-| One definition of the convention for the verify module | Touches `verify_primary_datasets`, which is otherwise not involved in the bug |
-| Reviewers favour building the reusable piece over a third literal | Needs a small unit test, or reuse of the existing primary-dataset tests |
-| Still small and safe for a release branch | |
-
-<details>
-<summary>Details</summary>
-
-The server-side source of the name is `lib/galaxy/model/store/discover.py`. `tool_util` deliberately doesn't import the model layer, so the helper should live in `tool_util/verify` and should not be shared with the server.
-</details>
-
-## Wider expand: also harden `populators.py` job-output consumers
-
-This scope also applies the helper to `DescribeToolExecution.with_output` in `lib/galaxy_test/base/populators.py`. Indexing by integer (`outputs[output]`) can return a discovered dataset depending on ordering.
+This scope would move the helpers to `galaxy.util`, so that `tool_util`, `output_collect.py`, `store/discover.py` and `model/__init__.py` all share one definition.
 
 | Pros | Cons |
 |---|---|
-| Removes a similar latent ambiguity in API test helpers | There is no observed failure. The integer index is also used against completed jobs on purpose, and changing it could alter what existing tests assert |
-| | A different module and audience (API tests rather than the tool test framework) |
+| A true single source of truth | Touches the server job-output collection path, which is unrelated to this bug |
+| Reviewers like reusable pieces | Not modest. It is a cross-layer refactor, and the earlier eval and the rescope review both put it on `dev` |
 
-## Server-side: exclude discovered outputs from `jobs/{id}/outputs`
+## Expand: harden `populators.py` job-output consumers
 
-This scope would change the API so it lists only declared outputs, or add a filter parameter.
+This scope would use `is_discovered_output` in `DescribeToolExecution.with_output`, where indexing by integer could return a discovered dataset.
 
 | Pros | Cons |
 |---|---|
-| Fixes the race for every client | Changes API behaviour that `verify_primary_datasets` and others rely on |
-| | Too large and risky for `release_26.2`. Not warranted |
+| Removes a similar latent ambiguity | No observed failure. The integer index is used on purpose against completed jobs, and changing it could change what existing tests assert |
+| | A different audience (API tests) |
 
-## Contract
+## Server-side: filter discovered outputs from `jobs/{id}/outputs`
 
-The only possible contraction is dropping the extraction refactor and inlining the skip. That gains nothing, because the refactor is what makes the fix unit-testable.
+| Pros | Cons |
+|---|---|
+| Fixes the race for every client | Changes an API contract that `verify_primary_datasets` and others rely on. Too risky for a release branch |
+
+## Contract: revert to the original scope (`alts/original_scope.md`)
+
+| Pros | Cons |
+|---|---|
+| A smaller diff | Undoes an expansion the user approved, and brings back hard-coded strings in three places |

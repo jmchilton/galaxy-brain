@@ -1,21 +1,22 @@
-# Test challenges debrief
+# Test challenges debrief (re-harden after rescope)
 
-Branch had one unit test: `test_resolve_tool_submission_skips_discovered_outputs_of_finished_job`, driving `resolve_tool_submission` through four `requests_mock` HTTP stubs (tool request state, tool request, job, job outputs) to check one loop.
+Prior debrief: `earlier_drafts/1/test_challenges_debrief.md` (moved the HTTP-mocked test to the `split_declared_job_outputs` dict-in test; still holds).
 
-## Changes (amended into the single commit, now `a21117ee072`)
+## Changes (amended into helpers commit, now `9b2fd1671c3`, force-pushed to `jmchilton`)
 
-- **Restructured**: extracted module-level `split_declared_job_outputs(job_outputs)` in `lib/galaxy/tool_util/verify/interactor.py`; `resolve_tool_submission` calls it.
-- **Rewrote test** as `test_split_declared_job_outputs_skips_discovered_datasets`: plain dicts in, no HTTP mocks. Asserts exact dicts (stricter than key lists).
+- **Dropped** `test_discovered_output_name_matches_galaxy_association_name`: restates the f-string; silly.
+- **Dropped** `test_is_discovered_output_scopes_to_parent_output`: tests the helper directly; `verify_output_dataset` discovered-dataset counting is already exercised by tool framework tests with `discovered_datasets` / `expect_num_outputs` (e.g. `output_filter`, multi-output discovery tools). Helpers commit is a pure refactor; no test needed.
 
-## Challenges considered, not acted on
+## Kept
 
-- API/framework layer: the bug is a timing race (job finishes before outputs fetched); not deterministically reproducible in tool framework tests. `output_filter` test 3 already covers the end-to-end path when the race hits. Unit test stays.
-- E2E: not applicable (test-framework client code).
-- No baseline tests needed: single new test for a fix.
+- `test_split_declared_job_outputs_skips_discovered_datasets` (fix commit): plain dicts, no mocks, exact dict asserts. Race not deterministically reproducible at API/framework layer, so unit test stays. Red without the skip (verified in draft 1; logic unchanged since).
 
-## Red/green
+## Not applicable
 
-- Green: `pytest test/unit/tool_util/verify/` 158 passed.
-- Red: with the skip disabled, the new test fails at its assertion (`__new_primary_file_list_output|4__` present in outputs).
+- E2E: test-framework client code, no UI.
+- API/integration helper reuse: no API tests added.
+- No baseline tests needed.
 
-Note: worktree has no `.venv`; ran with `extract_next_followups/.venv` python + `PYTHONPATH=lib`.
+## Results
+
+`pytest test/unit/tool_util/verify/` 158 passed; pre-commit (black, ruff, flake8) clean.
