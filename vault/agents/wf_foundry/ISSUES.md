@@ -28,6 +28,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - (mvp) [#505](https://github.com/galaxyproject/foundry/issues/505) — Ensure every pattern page has a test workflow.; decide: who drives (agent/implement, agent/research or agent/human). [notes](../../repositories/foundry/issues/needs_decision/505/index.md)
 - (large) [#507](https://github.com/galaxyproject/foundry/issues/507) — Improved Structure and Schemas for Mold Artifacts; decide: who drives (agent/implement, agent/research or agent/human). [notes](../../repositories/foundry/issues/needs_decision/507/index.md)
 - [#564](https://github.com/galaxyproject/foundry/issues/564) — advance-galaxy-draft-step/repair-galaxy-draft-topology can produce step doc: text long enough to crash work…; decide: close? galaxy#23579 dropped the annotation index; no lint check yet. [notes](../../repositories/foundry/issues/needs_decision/564/index.md)
+- (mvp) [#581](https://github.com/galaxyproject/foundry/issues/581) — `gxwf validate --connections` crashes on list-form steps with dict `in:`; decide: close? fixed by gtu-ts#179 (cli 1.13.1+), pinned 1.14.0. [notes](../../repositories/foundry/issues/needs_decision/581/index.md)
 
 ## In motion (`wip`)
 
@@ -73,7 +74,6 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - (large) [#225](https://github.com/galaxyproject/foundry/issues/225) — Document Galaxy list-of-record collections for reference data; blocked on: a Galaxy change. [notes](../../repositories/foundry/issues/blocked/225/index.md)
 - [#271](https://github.com/galaxyproject/foundry/issues/271) — Decide gops_* vs bedtools interval-tool redundancy (interval MOC); blocked on: an IWC workflow using the operation. [notes](../../repositories/foundry/issues/blocked/271/index.md)
 - [#624](https://github.com/galaxyproject/foundry/issues/624) — API Docs Maybe Should Have Corresponding MCP entrypoints; blocked on: a Galaxy change. [notes](../../repositories/foundry/issues/blocked/624/index.md)
-- (mvp) [#581](https://github.com/galaxyproject/foundry/issues/581) — `gxwf validate --connections` crashes on dict-shaped `step.in`; blocked on: gxwf fix (no upstream issue yet). [notes](../../repositories/foundry/issues/blocked/581/index.md)
 - [#583](https://github.com/galaxyproject/foundry/issues/583) — Planemo staging KeyError `rows` for sample_sheet input without rows; blocked on: Galaxy dev `.get("rows")` fix reaching a release. [notes](../../repositories/foundry/issues/blocked/583/index.md)
 - (mvp) [#591](https://github.com/galaxyproject/foundry/issues/591) — `download?style=ga` emits unversioned tool_ids; saves but 400s on invoke; blocked on: Galaxy fix (no Galaxy issue yet). [notes](../../repositories/foundry/issues/blocked/591/index.md)
 
