@@ -37,6 +37,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](../../repositories/foundry/issues/wip/694/index.md)
 - (mvp) [#672](https://github.com/galaxyproject/foundry/issues/672) — UDT authoring note: collection example vs stale gxwf schema, no vendoring recipes, `inputs.x` shape undocumented; branch `issue-672-udt-authoring-note` on `origin`, gtu-ts branch `issue-672-udt-schema-resync`. [notes](../../repositories/foundry/issues/wip/672/index.md)
 - [#706](https://github.com/galaxyproject/foundry/issues/706) — validators can't detect skew vs a bundle's schema; `--schema-sha256` pin; branch `issue-706-schema-skew-guard` on `origin`, PR [#707](https://github.com/galaxyproject/foundry/pull/707). [notes](../../repositories/foundry/issues/wip/706/index.md)
+- (mvp) [#585](https://github.com/galaxyproject/foundry/issues/585) — UDT registration endpoint is `/api/unprivileged_tools`, not `/api/dynamic_tools`; draft PR [#617](https://github.com/galaxyproject/foundry/pull/617) (partial). [notes](../../repositories/foundry/issues/wip/585/index.md)
 
 ## Queued (`queued`)
 
@@ -64,6 +65,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/535/index.md)
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review New Paper; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/568/index.md)
 - [#621](https://github.com/galaxyproject/foundry/issues/621) — Apply Rules Tutorial Patterns; next: research and add a first comment. [notes](../../repositories/foundry/issues/queued/621/index.md)
+- (mvp) [#580](https://github.com/galaxyproject/foundry/issues/580) — frame comments without position/size rejected by real Galaxy import; next: require geometry in 4 template Molds + evals. [notes](../../repositories/foundry/issues/queued/580/index.md)
 
 ## Blocked on others (`blocked`)
 
@@ -71,6 +73,9 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - (large) [#225](https://github.com/galaxyproject/foundry/issues/225) — Document Galaxy list-of-record collections for reference data; blocked on: a Galaxy change. [notes](../../repositories/foundry/issues/blocked/225/index.md)
 - [#271](https://github.com/galaxyproject/foundry/issues/271) — Decide gops_* vs bedtools interval-tool redundancy (interval MOC); blocked on: an IWC workflow using the operation. [notes](../../repositories/foundry/issues/blocked/271/index.md)
 - [#624](https://github.com/galaxyproject/foundry/issues/624) — API Docs Maybe Should Have Corresponding MCP entrypoints; blocked on: a Galaxy change. [notes](../../repositories/foundry/issues/blocked/624/index.md)
+- (mvp) [#581](https://github.com/galaxyproject/foundry/issues/581) — `gxwf validate --connections` crashes on dict-shaped `step.in`; blocked on: gxwf fix (no upstream issue yet). [notes](../../repositories/foundry/issues/blocked/581/index.md)
+- [#583](https://github.com/galaxyproject/foundry/issues/583) — Planemo staging KeyError `rows` for sample_sheet input without rows; blocked on: Galaxy dev `.get("rows")` fix reaching a release. [notes](../../repositories/foundry/issues/blocked/583/index.md)
+- (mvp) [#591](https://github.com/galaxyproject/foundry/issues/591) — `download?style=ga` emits unversioned tool_ids; saves but 400s on invoke; blocked on: Galaxy fix (no Galaxy issue yet). [notes](../../repositories/foundry/issues/blocked/591/index.md)
 
 ## Untriaged (`untriaged`)
 
@@ -88,16 +93,11 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#577](https://github.com/galaxyproject/foundry/issues/577) — `freeform-summary-to-galaxy-test-plan` is silent on being handed a concrete draft and resolved test-data refs
 - [#578](https://github.com/galaxyproject/foundry/issues/578) — tests-format has no way to put a value on an intermediate step's input port
 - [#579](https://github.com/galaxyproject/foundry/issues/579) — No packaged note documents the `sample_sheet` + `rows:` job-input shape
-- [#580](https://github.com/galaxyproject/foundry/issues/580) — `comments: type: frame` authored without `position`/`size` is rejected by real Galaxy import
-- [#581](https://github.com/galaxyproject/foundry/issues/581) — `gxwf validate --connections` crashes on an ordinary format2 dict-shaped `step.in`
 - [#582](https://github.com/galaxyproject/foundry/issues/582) — No documented path for an authored `GalaxyUserTool` to reach a Planemo-managed toolbox
-- [#583](https://github.com/galaxyproject/foundry/issues/583) — `replacement_collection` indexes `rows` unconditionally, crashing Planemo staging for a `sample_sheet` input without `rows`
 - [#584](https://github.com/galaxyproject/foundry/issues/584) — Invocation-failure reference has no tell for a stale toolbox read vs. a real install failure
-- [#585](https://github.com/galaxyproject/foundry/issues/585) — The real UDT registration endpoint is `/api/unprivileged_tools`, not the admin-only `/api/dynamic_tools`
 - [#586](https://github.com/galaxyproject/foundry/issues/586) — Galaxy's unprivileged-tool lint fails opaquely on an integer input with `value: 0`
 - [#587](https://github.com/galaxyproject/foundry/issues/587) — gxformat2 has no `tool_uuid`, so a step bound to a registered UDT imports unresolved
 - [#588](https://github.com/galaxyproject/foundry/issues/588) — A `sample_sheet` column was wired onto a plain scalar tool port, a binding that can never work
 - [#589](https://github.com/galaxyproject/foundry/issues/589) — `PUT /api/workflows/{id}` defaults `exact_tools` to true and discards the per-step detail it already computed
 - [#590](https://github.com/galaxyproject/foundry/issues/590) — Authoring never checks a wrapped script's own declared input-ordering assumption against the tool it will consume from
-- [#591](https://github.com/galaxyproject/foundry/issues/591) — `download?style=ga` emits unversioned `tool_id`s, producing workflows that save but cannot be invoked
 - [#592](https://github.com/galaxyproject/foundry/issues/592) — Augment freeform-to-Workflow Brief scenarios with real source artifacts
