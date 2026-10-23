@@ -4,7 +4,7 @@ Status: `branches_implemented_needs_ci`. Base: `dev`.
 
 Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations.
 
-[Implementation](implementation_debrief.md) · [Tracking history](tracking_history.md)
+[Implementation](initial_implementation_debrief.md) · [Tracking history](tracking_history.md)
 
 The upgrade is optional now that #23938 fixes the CVE; older stack and CI details remain in the tracking history.
 
