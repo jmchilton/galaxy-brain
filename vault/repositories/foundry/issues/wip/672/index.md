@@ -20,11 +20,11 @@ usegalaxy.org runs 26.1 (`/api/version` → 26.1.2.dev0); that sets the version 
 - Galaxy's own `authoringHelp.yml` (vendored by #617) uses the flat shape.
 - Fix: resync gtu-ts schema via `scripts/dump-user-tool-source-schema.py` against Galaxy dev, release, bump Foundry. Note keeps flat shape plus a temporary "gxwf ≤1.14.0 rejects this" line, per #617's pattern for its gxwf defect. Still check `pattern: __name__` / `format` in the §5 example against the regenerated schema.
 
-**Item 4 — `element_identifier` exists on 26.1, unverified by run.**
-- UDT inputs come from `runtimeify` (`lib/galaxy/tools/evaluation.py` `UserToolEvaluator`). The data object is `DataInternalJson` (`lib/galaxy/tool_util_models/parameters.py`): `class`, `basename`, `nameroot`, `nameext`, `location`, `path`, `format`, `size`, `listing`, `checksum`, `element_identifier`.
-- `adapt_dataset` sets `element_identifier` for a DCE reference (`lib/galaxy/tools/runtime.py`, `bab77ba32d8`, 2026-03-08; in `release_26.1`, not `release_26.0`). Null for a plain dataset input.
-- No API test covers `$(inputs.x.element_identifier)`. Verify with one API run (UDT mapped over a 2-element list) before documenting; an upstream API test would be a good companion.
-- The issue's proposed prohibition ("a UDT cannot name its own collection element") is likely wrong on 26.1.
+**Item 4 — issue is right: `element_identifier` renders `null`, even mapped.** (Corrects my earlier code-read guess.)
+- API-tested on Galaxy dev `51e0a80a`, worktree `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`, commit `bc1f26b4486` (not pushed). Mapped over a list via `/api/tools` and via `/api/jobs` Batch: both `null`. Plain dataset: `null`. Mapped tests left red on purpose (assert desired behavior).
+- Cause: map-over expansion stores each job's input as `{"src": "hda"}` (`lib/galaxy/tools/parameters/meta.py:450`, transient identifier at `:508`), so runtimeify's DCE branch (`lib/galaxy/tool_util/parameters/convert.py:821` → `lib/galaxy/tools/runtime.py:160-172`) never runs. Legacy `to_cwl` (`lib/galaxy/workflow/modules.py:374`) uses the identifier only as a basename fallback.
+- `basename`/`nameroot` = `created_from_basename` or HDA name; matched the identifier only because pasted elements had no upload filename.
+- Output labels do resolve `$(inputs.x.element_identifier)` on map-over (`test_unprivileged_tools_labels.py::test_mapped_over_labels`): labels and command line disagree. Possible Galaxy fix: keep DCE reference in batch-expanded job state.
 
 **Items 2–3 — note additions.**
 - `configfiles[].content` goes through the undeclared-input check (1.14.0 `semantic.js`) and the same expression evaluation (authoringHelp `expressions-pattern`). Attested.
@@ -37,8 +37,15 @@ usegalaxy.org runs 26.1 (`/api/version` → 26.1.2.dev0); that sets the version 
 - Our branch: off `origin/main`, edits only the authoring note + recast. Cite pinned Galaxy URLs, not #617's vendored YAML.
 - Expected overlap: generated `author-galaxy-tool-wrapper` cast / `_provenance.json` (also touched by #545). Resolve by recasting.
 
+## Done (2026-10-22)
+
+- gtu-ts: branch `issue-672-udt-schema-resync` on `jmchilton`, `a7a508ce`. Schema regenerated from Galaxy dev `51e0a80a`; tests mirror Galaxy's collection cases (pattern-only test red on old schema, green on new). Changeset added. `make check` clean; `make test` green except gxwf-web `--output-schema`, which flakes under full-suite load and passes alone with and without the change. The note's §5 example passes rebuilt `validate-tool-source`.
+- Foundry: branch `issue-672-udt-authoring-note` on `origin`, `12d8f77a` (§5, §6) + `5c001801` (§3). Recast; `validate` 0 errors; casts, index, dashboard clean. PR text: [pr_description.md](pr_description.md).
+- Galaxy: red API tests above, local only.
+
 ## Next
 
-1. gtu-ts: resync UDT schema, test flat collection output passes `validate-tool-source`.
-2. Galaxy 26.1/dev worktree: one API run for `element_identifier` on mapped UDT.
-3. Foundry branch: rewrite §3 (input object), §5 (flat example + gxwf caveat), §6 (vendored script), Nextflow template subsection; recast.
+1. Open gtu-ts PR, release, then bump Foundry's gxwf pin and drop the §5 "validator defect" paragraph.
+2. Open Foundry PR (draft until gtu-ts released?).
+3. Decide on Galaxy: issue/PR to carry the DCE through map-over so `element_identifier` works in commands; then relax §3.
+4. Apply proposed labels + #501 parent on GitHub.

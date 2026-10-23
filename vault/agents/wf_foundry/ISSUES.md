@@ -38,6 +38,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](../../repositories/foundry/issues/wip/694/index.md)
 - [#657](https://github.com/galaxyproject/foundry/issues/657) — planemo-asserts-idioms omits `has_line_matching` anchoring and `has_n_columns` first-line semantics; PR [#701](https://github.com/galaxyproject/foundry/pull/701). [notes](../../repositories/foundry/issues/wip/657/index.md)
 - [#676](https://github.com/galaxyproject/foundry/issues/676) — casts cite `parsed-tool`, `summarize`, `draft-next-step` without packaging them; PR [#704](https://github.com/galaxyproject/foundry/pull/704). [notes](../../repositories/foundry/issues/wip/676/index.md)
+- (mvp) [#672](https://github.com/galaxyproject/foundry/issues/672) — UDT authoring note: collection example vs stale gxwf schema, no vendoring recipes, `inputs.x` shape undocumented; branch `issue-672-udt-authoring-note` on `origin`, gtu-ts branch `issue-672-udt-schema-resync`. [notes](../../repositories/foundry/issues/wip/672/index.md)
 
 ## Queued (`queued`)
 
@@ -61,7 +62,6 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - (large) [#308](https://github.com/galaxyproject/foundry/issues/308) — Design a Claude dynamic-workflow projection for Foundry Pipelines; next: research and add a first comment. [notes](../../repositories/foundry/issues/queued/308/index.md)
 - [#415](https://github.com/galaxyproject/foundry/issues/415) — The Foundry Diagram Makes it look like Molds are not part of the KB; next: none planned (off the roadmap). [notes](../../repositories/foundry/issues/queued/415/index.md)
 - (mvp) [#468](https://github.com/galaxyproject/foundry/issues/468) — author-galaxy-tool-wrapper: no validation step, no GalaxyUserTool schema, and the bundled prompt contradict…; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/468/index.md)
-- (mvp) [#672](https://github.com/galaxyproject/foundry/issues/672) — UDT authoring note: collection example vs stale gxwf schema, no vendoring recipes, `inputs.x` shape undocumented; next: resync gtu-ts UDT schema, verify `element_identifier`, rewrite note. [notes](../../repositories/foundry/issues/queued/672/index.md)
 - (mvp) (large) [#531](https://github.com/galaxyproject/foundry/issues/531) — Prove the IWC maturation pipeline with runnable fixtures and a .ga entry case; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/531/index.md)
 - (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/535/index.md)
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review New Paper; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/568/index.md)
