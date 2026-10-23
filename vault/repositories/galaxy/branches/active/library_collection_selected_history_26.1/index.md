@@ -5,11 +5,13 @@
 
 ## Status
 
-Status: `branches_implemented_needs_ci`. Implementation is hardened and re-scoped once, to include ListWizard; READY.
+Status: `branches_ready_for_final_review`. Polished; description, titles and tags await John's read-through.
 
 Base: `release_26.1` (`d808b6425b8`). Head: `4189977901c` on `jmchilton`. Worktree: `~/projects/worktrees/galaxy/branch/library_collection_selected_history_26.1`.
 
-No CI has run yet.
+Fork CI green except Playwright (`test_import_dataset_from_history`) and Integration (interactive tools Pulsar) reds, both diagnosed unrelated; reruns queued.
+
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
 
 ## Summary
 
