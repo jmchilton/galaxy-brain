@@ -38,7 +38,6 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - [#573](https://github.com/galaxyproject/foundry/issues/573) — `implement-galaxy-tool-step` documents no binding convention for an authored UDT; draft PR [#617](https://github.com/galaxyproject/foundry/pull/617). [notes](../../repositories/foundry/issues/wip/573/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](../../repositories/foundry/issues/wip/694/index.md)
 - [#657](https://github.com/galaxyproject/foundry/issues/657) — planemo-asserts-idioms omits `has_line_matching` anchoring and `has_n_columns` first-line semantics; PR [#701](https://github.com/galaxyproject/foundry/pull/701). [notes](../../repositories/foundry/issues/wip/657/index.md)
-- [#677](https://github.com/galaxyproject/foundry/issues/677) — `${on_string}` rename premise wrong; foundry rename-syntax docs PR [#702](https://github.com/galaxyproject/foundry/pull/702); lint fixes with tooling agents. [notes](../../repositories/foundry/issues/wip/677/index.md)
 - [#676](https://github.com/galaxyproject/foundry/issues/676) — casts cite `parsed-tool`, `summarize`, `draft-next-step` without packaging them; PR [#704](https://github.com/galaxyproject/foundry/pull/704). [notes](../../repositories/foundry/issues/wip/676/index.md)
 
 ## Queued (`queued`)

@@ -5,7 +5,8 @@ Branch: `issue-677-rename-syntax` on `origin`, worktree `~/projects/worktrees/fo
 PR: https://github.com/galaxyproject/foundry/pull/702 (opened 2026-10-22; body from [pr_description.md](pr_description.md)).
 Gaps 2 and 3 (lint precision, Python/TS parity) handed to tooling agents by John (2026-10-22).
 Galaxy editor/run-form counterpart: [galaxy#24381](https://github.com/galaxyproject/galaxy/pull/24381) (draft, 26.1; fixes galaxy#24379).
-Draft reply to Scott: [issue_comment.md](issue_comment.md) (not posted).
+Reply to Scott: [issue_comment.md](issue_comment.md), posted 2026-10-22 (https://github.com/galaxyproject/foundry/issues/677#issuecomment-6354312209).
+Closed on GitHub 2026-10-22 with #702 still open; keep branch `issue-677-rename-syntax` until it merges.
 Upstream lint PRs (both merged 2026-10-22, unreleased): [gxformat2#271](https://github.com/galaxyproject/gxformat2/pull/271), [galaxy-tool-util-ts#195](https://github.com/jmchilton/galaxy-tool-util-ts/pull/195); records: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md),
 [galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/active/lint_untyped_params/index.md).
 Planemo runtime side: https://github.com/galaxyproject/planemo/issues/1750 (send `<DEPRECATED_PARAMETER_UNSET>` for informal params + warn).
@@ -43,4 +44,4 @@ The issue's premise is wrong; the warning caught a real authoring defect.
 3. Upstream parity: Python uses `re.match` (start-anchored), TS uses `.test` (search). Python misses
    mid-string refs (`Chromosome File for ${Haplotype}`), which is why planemo stayed silent here.
 
-Next: John posts [issue_comment.md](issue_comment.md); close after #702 merges.
+Closed 2026-10-22. Remaining: merge #702, then remove the issue-677 worktree and branch.
