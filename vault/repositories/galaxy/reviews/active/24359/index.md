@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review of `c7394ba6229` complete 2026-10-22, not delivered: no P1/P2; four test-only P3s fixed on fork branch `pr_24359_review_0` (`53c31a7032e`), not pushed into PR. Response drafted; awaiting John's pick in [response action](initial_response_action.md).
+Initial review of `c7394ba6229` complete 2026-10-22, delivered 2026-10-22: approved with response; review branch `pr_24359_review_0` (`53c31a7032e`, four test-only P3s) fast-forward pushed onto PR head `fix_tabular_raw_data_request`. Approved; awaiting merge.
 
 Open, ready for review, against `release_25.1`. Author @davelopez. Tabular raw_data data provider (2 files, +29/-11). Worktree `~/projects/worktrees/galaxy/pr/24359` (on `pr_24359_review_0`; no `.venv` — API test ran via `~/projects/worktrees/galaxy/branch/issue_24264_library_metadata_file_name_25.1/.venv`, main clone venv lacks 25.1 deps).
