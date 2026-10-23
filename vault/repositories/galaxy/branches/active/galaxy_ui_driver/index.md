@@ -37,4 +37,6 @@ gxui gains `dataset-related`, `upload-url --dbkey/--collection/--collection-type
 
 The extraction drop above is not done yet. These restacks kept `cac01c0884a`/`e4bca1128c1`, because gxui's delete and permissions verbs build on them; that is waiting on John. `selenium_delete_items_dataset_privacy`'s records cite the pre-remap hashes (`d0d92741f74`, `ea0bc576e38`).
 
+**Extracted 2026-10-22:** `1d227e6fc4c` (library collection picked history) and `913dfd7dfd6` (library "as Datasets" test) → [`library_collection_selected_history_26.1`](../library_collection_selected_history_26.1/index.md) (hardened, re-scoped with a ListWizard fix). On restack, drop both by subject; gxui's `library-add-to-history` uses `libraries_folder_add_to_history`, whose 26.1 version takes `history_id` (not `history_name`) and `screenshot_name`. `162dfdb49b4` stays here.
+
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.
