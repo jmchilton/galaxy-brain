@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { fillTemplate, launchersFor, parseLaunchers, recordFromPath } from "./launchers";
+import { fillTemplate, launchersFor, parseLaunchers, recordFromPath, untrackedRecord } from "./launchers";
 
 const CONFIG = `Intro text, ignored.
 
@@ -16,7 +16,7 @@ Record: {record}
 ## ✨ Polish
 records: galaxy/branches
 agent_dir: gx_branches
-agent: codex
+profile: Codex
 
 Run ./POLISH_BRANCH.md {name}
 
@@ -33,10 +33,10 @@ describe("parseLaunchers", () => {
 			statuses: ["queued"],
 			agentDir: "gx_workhorse",
 			name: "wh-{name}",
-			agent: "claude",
 			prompt: "Implement galaxyproject/galaxy#{name}.\nRecord: {record}",
 		});
-		expect(polish).toMatchObject({ statuses: [], name: "gx_branches", agent: "codex" });
+		expect(polish).toMatchObject({ statuses: [], name: "gx_branches", profile: "Codex" });
+		expect(implement).not.toHaveProperty("profile");
 	});
 
 	it("skips launchers missing agent_dir or prompt", () => {
@@ -45,15 +45,22 @@ describe("parseLaunchers", () => {
 
 	it("parses the vault config", () => {
 		const vaultConfig = readFileSync(new URL("../../vault/agents/_shared/LAUNCHERS.md", import.meta.url), "utf8");
-		expect(parseLaunchers(vaultConfig).map((l) => l.agentDir)).toEqual([
-			"gx_workhorse",
-			"gx_workhorse",
-			"gx_branches",
-			"gx_reviews",
-			"gx_reviews",
-			"gx_issues",
-			"gx_branches",
-			"gx_reviews",
+		expect(parseLaunchers(vaultConfig).map((l) => [l.label, l.agentDir])).toEqual([
+			["🐴 Implement", "gx_workhorse"],
+			["🛡️ Harden", "gx_workhorse"],
+			["✨ Polish", "gx_branches"],
+			["🚦 Fix CI", "gx_branches"],
+			["🔀 De-conflict", "gx_branches"],
+			["🚀 Open PR", "gx_branches"],
+			["💬 Respond to review", "gx_reviews"],
+			["💬 Respond to review", "gx_branches"],
+			["✂️ Trim findings", "gx_reviews"],
+			["💭 New session", "gx_issues"],
+			["💭 New session", "gx_branches"],
+			["💭 New session", "gx_reviews"],
+			["🔎 Review", "gx_reviews"],
+			["🩺 Root cause", "gx_workhorse"],
+			["🛠️ Work on", "gx_workhorse"],
 		]);
 	});
 });
@@ -83,6 +90,14 @@ describe("launchersFor", () => {
 	it("matches repo/kind and status", () => {
 		expect(launchersFor(launchers, issue).map((l) => l.label)).toEqual(["🐴 Implement"]);
 		expect(launchersFor(launchers, { ...issue, status: "closed" })).toEqual([]);
+	});
+
+	it("offers untracked items only launchers that list untracked", () => {
+		const untracked = [...launchers, ...parseLaunchers("## Review\nrecords: galaxy/branches\nstatus: untracked\nagent_dir: gx_reviews\n\nGo")];
+		expect(launchersFor(untracked, untrackedRecord("galaxy", "issues", 1))).toEqual([]);
+		expect(launchersFor(untracked, { ...untrackedRecord("galaxy", "issues", 1), kind: "branches" }).map((l) => l.label)).toEqual([
+			"Review",
+		]);
 	});
 
 	it("treats a missing status as any", () => {

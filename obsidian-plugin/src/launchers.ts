@@ -10,7 +10,8 @@ export interface Launcher {
 	statuses: string[];
 	agentDir: string;
 	name: string;
-	agent: AgentKind;
+	/** Profile preselected in the launch dialog; the first profile when unset. */
+	profile?: string;
 	prompt: string;
 }
 
@@ -23,7 +24,7 @@ export interface RecordRef {
 	dir: string;
 }
 
-const KEY_LINE = /^(records|status|agent_dir|name|agent):\s*(.*)$/;
+const KEY_LINE = /^(records|status|agent_dir|name|profile):\s*(.*)$/;
 
 const list = (value: string) =>
 	value
@@ -51,7 +52,7 @@ export function parseLaunchers(markdown: string): Launcher[] {
 			statuses: list(fields.status ?? ""),
 			agentDir: fields.agent_dir,
 			name: fields.name || fields.agent_dir,
-			agent: fields.agent === "codex" ? "codex" : "claude",
+			...(fields.profile ? { profile: fields.profile } : {}),
 			prompt,
 		});
 	}
@@ -66,11 +67,19 @@ export function recordFromPath(path: string): RecordRef | null {
 	return { repo, kind, status, name, dir: ["repositories", repo, kind, status, name].join("/") };
 }
 
+/** Status of a GitHub PR or issue with no record yet; launchers must list it explicitly. */
+export const UNTRACKED = "untracked";
+
+/** Stand-in record for an untracked PR (as a would-be review) or issue. */
+export function untrackedRecord(repo: string, kind: "reviews" | "issues", number: number): RecordRef {
+	return { repo, kind, status: UNTRACKED, name: String(number), dir: "" };
+}
+
 export function launchersFor(launchers: Launcher[], record: RecordRef): Launcher[] {
 	return launchers.filter(
 		(launcher) =>
 			launcher.records.includes(`${record.repo}/${record.kind}`) &&
-			(launcher.statuses.length === 0 || launcher.statuses.includes(record.status)),
+			(launcher.statuses.includes(record.status) || (launcher.statuses.length === 0 && record.status !== UNTRACKED)),
 	);
 }
 
@@ -80,7 +89,7 @@ export function fillTemplate(template: string, record: RecordRef, vaultRoot: str
 		kind: record.kind,
 		status: record.status,
 		name: record.name,
-		record: `${vaultRoot}/${record.dir}`,
+		record: record.dir ? `${vaultRoot}/${record.dir}` : "",
 	};
 	return template.replace(/\{(\w+)\}/g, (whole, key: string) => values[key] ?? whole);
 }

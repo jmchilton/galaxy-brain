@@ -163,6 +163,11 @@
 	color: var(--text-muted);
 }
 
+.galaxy-brain-repository ul:has(> .gbr-record) {
+	padding-left: 0;
+	list-style: none;
+}
+
 .galaxy-brain-repository .gbr-record {
 	display: flex;
 	align-items: center;
@@ -175,7 +180,30 @@
 	font-size: var(--font-smaller);
 }
 
+/* Actions lead each row; the fixed width keeps titles aligned. */
 .galaxy-brain-repository .gbr-actions {
-	margin-left: auto;
 	display: flex;
+	flex: none;
+	justify-content: flex-end;
+	min-width: 84px;
+}
+
+.galaxy-brain-repository .gbr-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 8px 0 12px;
+}
+
+.galaxy-brain-repository .gbr-tag {
+	padding: 0 6px;
+	border-radius: 8px;
+	background: var(--background-modifier-border);
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+}
+
+.galaxy-brain-repository .gbr-github-link {
+	margin: 0 0 8px;
+	font-size: var(--font-smaller);
 }

@@ -1,0 +1,54 @@
+# Agent profiles offered in the Obsidian launch dialog (see LAUNCHERS.md).
+# The first profile is the default unless a launcher names one with `profile:`.
+#
+#   name:   shown in the dropdown; what `profile:` refers to
+#   agent:  claude or codex
+#   model:  optional; claude: alias (fable, opus, sonnet) or full id; codex: model name
+#   effort: optional; claude: low, medium, high, xhigh, max; codex: model_reasoning_effort value
+#   args:   optional list of extra command-line arguments
+#
+# Unset model/effort use the agent's own defaults.
+
+profiles:
+  - name: Opus (low)
+    agent: claude
+    effort: low
+    model: opus
+  - name: Opus (medium)
+    agent: claude
+    effort: medium
+    model: opus
+  - name: Opus (high)
+    agent: claude
+    effort: high
+    model: opus
+  - name: Sonnet (medium)
+    agent: claude
+    effort: medium
+    model: sonnet
+  - name: Sonnet (high)
+    agent: claude
+    effort: high
+    model: sonnet
+  - name: Fable (high)
+    agent: claude
+    model: fable
+    effort: high
+  - name: Codex (default)
+    agent: codex
+  - name: Codex (high)
+    agent: codex
+    effort: high
+  # Codex model names checked 2026-10-22 against a ChatGPT login: Sol is on 6.1; Terra and Luna only on 5.6.
+  - name: Sol (high)
+    agent: codex
+    model: gpt-6.1-sol
+    effort: high
+  - name: Terra (high)
+    agent: codex
+    model: gpt-5.6-terra
+    effort: high
+  - name: Luna (medium)
+    agent: codex
+    model: gpt-5.6-luna
+    effort: medium

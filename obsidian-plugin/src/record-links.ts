@@ -14,12 +14,16 @@ const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const FORK_OWNER = "jmchilton";
 const BRANCHES_ON_UPSTREAM = new Set(["foundry"]);
 
-function upstreamOwner(record: RecordRef, body: string): string {
-	const repo = escape(record.repo);
-	const owners = links(body)
-		.map((link) => new RegExp(`^https://github\\.com/([^/]+)/${repo}/(pull|issues)/`).exec(link.url)?.[1])
-		.filter((owner) => owner && owner !== FORK_OWNER);
-	return owners[0] ?? "galaxyproject";
+/** Owner most linked for the repo's PRs and issues, preferring anyone but the fork owner. */
+export function upstreamOwner(repo: string, bodies: string[]): string {
+	const pattern = new RegExp(`^https://github\\.com/([^/]+)/${escape(repo)}/(pull|issues)/`);
+	const counts = new Map<string, number>();
+	for (const link of bodies.flatMap(links)) {
+		const owner = pattern.exec(link.url)?.[1];
+		if (owner) counts.set(owner, (counts.get(owner) ?? 0) + 1);
+	}
+	const ranked = [...counts].sort((a, b) => b[1] - a[1]).map(([owner]) => owner);
+	return ranked.find((owner) => owner !== FORK_OWNER) ?? ranked[0] ?? "galaxyproject";
 }
 
 /**
@@ -31,11 +35,11 @@ export function githubUrl(record: RecordRef, body: string): string {
 	const id = escape(record.name);
 	const find = (pattern: RegExp, label?: RegExp) =>
 		all.find((link) => pattern.test(link.url) && (!label || label.test(link.label)))?.url;
-	const upstream = `https://github.com/${upstreamOwner(record, body)}/${record.repo}`;
+	const upstream = `https://github.com/${upstreamOwner(record.repo, [body])}/${record.repo}`;
 	if (record.kind === "reviews") return find(new RegExp(`/pull/${id}$`)) ?? `${upstream}/pull/${record.name}`;
 	if (record.kind === "issues") return find(new RegExp(`/issues/${id}$`)) ?? `${upstream}/issues/${record.name}`;
 	const statusPr = /^Status:.*?\bPR #(\d+)/m.exec(body)?.[1];
-	const forkOwner = BRANCHES_ON_UPSTREAM.has(record.repo) ? upstreamOwner(record, body) : FORK_OWNER;
+	const forkOwner = BRANCHES_ON_UPSTREAM.has(record.repo) ? upstreamOwner(record.repo, [body]) : FORK_OWNER;
 	return (
 		find(/\/pull\/\d+$/, /^(View )?PR #\d+$/) ??
 		(statusPr ? `${upstream}/pull/${statusPr}` : undefined) ??

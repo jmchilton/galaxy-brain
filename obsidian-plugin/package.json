@@ -17,6 +17,7 @@
     "esbuild": "^0.28.2",
     "obsidian": "^1.13.1",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.11",
+    "yaml": "^2.9.1"
   }
 }

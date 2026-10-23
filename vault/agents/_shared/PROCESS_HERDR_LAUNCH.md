@@ -10,8 +10,10 @@ Use whatever agent you are unless the user requests the other.
 
 ```sh
 /Users/jxc755/projects/repositories/galaxy-brain/vault/agents/_shared/scripts/launch_agent.sh \
-  <AGENT_DIR> <claude-or-codex> <NAME> "<PROMPT>"
+  <AGENT_DIR> <claude-or-codex> <NAME> "<PROMPT>" [agent args...]
 ```
+
+Agent args go to the agent for that session only, e.g. `--model opus --effort xhigh` for Claude or `-m <model> -c model_reasoning_effort="high"` for Codex. Pass them only when the user asks for a model or effort.
 
 It creates a background workspace, starts the agent, sends the prompt, waits until the agent is working, and prints the kind, name and pane ID. It talks to the Herdr server's socket, so it works outside Herdr too - the same script backs the launch buttons in Obsidian ([`LAUNCHERS.md`](LAUNCHERS.md)).
 

@@ -24,6 +24,8 @@ export interface RecordSummary extends RecordRef {
 
 export interface StatusGroup {
 	status: string;
+	/** Heading when it isn't the status label. */
+	label?: string;
 	collapsed: boolean;
 	records: RecordSummary[];
 }

@@ -1,11 +1,14 @@
 ## Tick
 Run ./TICK.md
 
-## Good morning
+## 🌅 Good morning
 Run ./GOOD_MORNING.md
 
 ## Polish branch
 Run ./POLISH_BRANCH.md on branch
+
+## Open PR
+Open a PR on the branch we're discussing. If CI is complete and green, open it out of draft otherwise open in draft waiting on CI.
 
 ## Decompose baseline changes and polish
 Run ./DECOMPOSE_BASELINE_CHANGES_AND_POLISH.md on branch

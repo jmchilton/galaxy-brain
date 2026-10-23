@@ -6,21 +6,24 @@ import {
 	Menu,
 	Modal,
 	Notice,
+	parseYaml,
 	Platform,
 	Plugin,
 	Setting,
 	TAbstractFile,
 	TFile,
 } from "obsidian";
-import { type AgentKind, fillTemplate, type Launcher, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
+import { fillTemplate, type Launcher, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
+import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
 import { githubUrl, worktreeCandidates } from "./record-links";
 import { repositoryNames } from "./repository";
 import { REPOSITORY_VIEW, RepositoryView } from "./repository-view";
 
 const LAUNCHERS_PATH = "agents/_shared/LAUNCHERS.md";
+const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 const LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
-// Where the `code` CLI lives; GUI apps get a bare PATH.
-const CODE_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
+// Where the `code` and `gh` CLIs live; GUI apps get a bare PATH.
+const CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
 
 export default class GalaxyBrainPlugin extends Plugin {
 	private recordActions = new WeakMap<MarkdownView, HTMLElement[]>();
@@ -125,9 +128,20 @@ export default class GalaxyBrainPlugin extends Plugin {
 
 	openInCode(path: string) {
 		const { execFile } = require("child_process") as typeof import("child_process");
-		const PATH = [...CODE_BIN_DIRS, process.env.PATH].join(":");
+		const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
 		execFile("code", [path], { env: { ...process.env, PATH } }, (error) => {
 			if (error) new Notice(`Could not run the VS Code \`code\` CLI: ${error.message}`, 10_000);
+		});
+	}
+
+	runGh(args: string[]): Promise<string> {
+		const { execFile } = require("child_process") as typeof import("child_process");
+		const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
+		return new Promise((resolve, reject) => {
+			execFile("gh", args, { env: { ...process.env, PATH }, timeout: 60_000, maxBuffer: 16 * 1024 * 1024 }, (error, stdout, stderr) => {
+				if (error) reject(new Error((stderr || error.message).trim()));
+				else resolve(stdout);
+			});
 		});
 	}
 
@@ -171,7 +185,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		if (!record) return;
 		for (const launcher of await this.launchersFor(record)) {
 			menu.addItem((item) =>
-				item.setTitle(`Launch: ${launcher.label}`).setIcon("bot").onClick(() => this.confirmLaunch(launcher, record)),
+				item.setTitle(`Launch: ${launcher.label}`).setIcon("bot").onClick(() => void this.confirmLaunch(launcher, record)),
 			);
 		}
 	}
@@ -182,16 +196,29 @@ export default class GalaxyBrainPlugin extends Plugin {
 			new Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in ${LAUNCHERS_PATH}`);
 			return;
 		}
-		new LauncherSuggest(this.app, launchers, (launcher) => this.confirmLaunch(launcher, record)).open();
+		new LauncherSuggest(this.app, launchers, (launcher) => void this.confirmLaunch(launcher, record)).open();
 	}
 
-	private confirmLaunch(launcher: Launcher, record: RecordRef) {
+	private async loadProfiles(): Promise<Profile[]> {
+		try {
+			const profiles = parseProfiles(parseYaml(await this.app.vault.adapter.read(PROFILES_PATH)));
+			if (profiles.length > 0) return profiles;
+		} catch (error) {
+			new Notice(`Could not read ${PROFILES_PATH}: ${error}`);
+		}
+		return FALLBACK_PROFILES;
+	}
+
+	private async confirmLaunch(launcher: Launcher, record: RecordRef) {
 		const vaultRoot = this.vaultRoot();
 		if (!vaultRoot) return;
+		const profiles = await this.loadProfiles();
 		new LaunchModal(this.app, launcher, {
+			profiles,
+			profile: defaultProfile(profiles, launcher),
 			name: fillTemplate(launcher.name, record, vaultRoot),
 			prompt: fillTemplate(launcher.prompt, record, vaultRoot),
-			launch: (kind, name, prompt) => this.launch(vaultRoot, launcher, kind, name, prompt),
+			launch: (profile, name, prompt) => this.launch(vaultRoot, launcher, profile, name, prompt),
 		}).open();
 	}
 
@@ -202,13 +229,13 @@ export default class GalaxyBrainPlugin extends Plugin {
 		return null;
 	}
 
-	private launch(vaultRoot: string, launcher: Launcher, kind: AgentKind, name: string, prompt: string) {
+	private launch(vaultRoot: string, launcher: Launcher, profile: Profile, name: string, prompt: string) {
 		// Required lazily: child_process doesn't exist on mobile.
 		const { execFile } = require("child_process") as typeof import("child_process");
-		const started = new Notice(`Launching ${kind} in ${launcher.agentDir}…`, 0);
+		const started = new Notice(`Launching ${profile.name} in ${launcher.agentDir}…`, 0);
 		execFile(
 			`${vaultRoot}/${LAUNCH_SCRIPT}`,
-			[launcher.agentDir, kind, name, prompt],
+			[launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)],
 			{ timeout: 180_000 },
 			(error, stdout, stderr) => {
 				started.hide();
@@ -267,12 +294,14 @@ class ChoiceSuggest extends FuzzySuggestModal<string> {
 }
 
 interface LaunchDetails {
+	profiles: Profile[];
+	profile: Profile;
 	name: string;
 	prompt: string;
-	launch: (kind: AgentKind, name: string, prompt: string) => void;
+	launch: (profile: Profile, name: string, prompt: string) => void;
 }
 
-/** Confirm dialog: editable name and prompt, Claude or Codex. */
+/** Confirm dialog: editable name and prompt, agent profile, launch. */
 class LaunchModal extends Modal {
 	constructor(
 		app: App,
@@ -284,7 +313,7 @@ class LaunchModal extends Modal {
 
 	onOpen() {
 		const { launcher } = this;
-		let { name, prompt } = this.details;
+		let { name, prompt, profile } = this.details;
 		this.setTitle(`${launcher.label} in ${launcher.agentDir}`);
 		new Setting(this.contentEl).setName("Agent name").addText((text) =>
 			text.setValue(name).onChange((value) => (name = value)),
@@ -296,18 +325,23 @@ class LaunchModal extends Modal {
 				area.inputEl.rows = 6;
 			})
 			.settingEl.addClass("galaxy-brain-launch-prompt");
-		const buttons = new Setting(this.contentEl);
-		const order: AgentKind[] = launcher.agent === "codex" ? ["codex", "claude"] : ["claude", "codex"];
-		for (const kind of order) {
-			buttons.addButton((button) => {
-				button.setButtonText(kind === "claude" ? "Launch Claude" : "Launch Codex").onClick(() => {
-					this.close();
-					this.details.launch(kind, name, prompt);
+		new Setting(this.contentEl)
+			.addDropdown((dropdown) => {
+				for (const option of this.details.profiles) dropdown.addOption(option.name, option.name);
+				dropdown.setValue(profile.name).onChange((value) => {
+					profile = this.details.profiles.find((option) => option.name === value) ?? profile;
 				});
-				if (kind === launcher.agent) button.setCta();
-			});
-		}
-		buttons.addButton((button) => button.setButtonText("Cancel").onClick(() => this.close()));
+			})
+			.addButton((button) =>
+				button
+					.setButtonText("Launch")
+					.setCta()
+					.onClick(() => {
+						this.close();
+						this.details.launch(profile, name, prompt);
+					}),
+			)
+			.addButton((button) => button.setButtonText("Cancel").onClick(() => this.close()));
 	}
 
 	onClose() {
