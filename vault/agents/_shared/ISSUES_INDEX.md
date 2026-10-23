@@ -37,4 +37,4 @@ Each entry is one bullet:
 
 When asked for new issues to track, exclude issues already in `ISSUES.md` or under `vault/repositories/PROJECT/issues/` (including `delegated/` and `closed/`), and check first for issues assigned to jmchilton in this repository; all of those should eventually be triaged into `ISSUES.md`. Triaging an issue creates its directory under its status.
 
-When sweeping, check `delegated/` issues for closure and move closed ones to `closed/`.
+When sweeping, check every tracked issue (`ISSUES.md` lines and every status directory except `closed/`) for closure on GitHub, and close out the ones that closed as above. Then refresh the index's snapshot date.

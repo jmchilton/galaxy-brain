@@ -36,12 +36,13 @@ Worktree inventory and scan tool: [TREE_MANAGE.md](TREE_MANAGE.md) and
 
 Foundry issues carry triage labels on GitHub, defined in Foundry's `content/meta/issue-labels.md`. Derive an issue's status from them, first match wins:
 
-1. An open PR or a branch addresses it → `wip`.
-2. `requires-iwc-inputs` or any `upstream/*` → `blocked`.
-3. `agent/research` or `agent/implement` → `queued`.
-4. `agent/human` → `needs_decision`: John drives it.
-5. `needs-triage` → `untriaged`.
-6. Otherwise (no `agent/*` label yet) → `needs_decision`: John picks who drives it.
+1. Closed on GitHub → `closed`.
+2. An open PR or a branch addresses it → `wip`.
+3. `requires-iwc-inputs` or any `upstream/*` → `blocked`.
+4. `agent/research` or `agent/implement` → `queued`.
+5. `agent/human` → `needs_decision`: John drives it.
+6. `needs-triage` → `untriaged`.
+7. Otherwise (no `agent/*` label yet) → `needs_decision`: John picks who drives it.
 
 To triage an issue, follow [TRIAGE_ISSUE.md](TRIAGE_ISSUE.md).
 
