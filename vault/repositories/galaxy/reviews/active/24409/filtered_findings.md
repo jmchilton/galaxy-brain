@@ -1,0 +1,1 @@
+- gx_test_challenger P3 3 (positional `hid=3` lookup in `test_repeat_connection_without_fill_defaults`): filtered. The test uses a fresh `test_history()`, so the hid is deterministic, and the same lookup is used throughout `test_workflows.py`. Not worth changing.
