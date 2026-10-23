@@ -6,7 +6,7 @@ Follow-up split from [#643](../../closed/643/index.md) on 2026-10-22. Labels at 
 
 ## Status (2026-10-23)
 
-Branch `issue-706-schema-skew-guard` on `origin`, commit `e104dfde`. Worktree `~/projects/worktrees/foundry/branch/issue-706-schema-skew-guard`. No PR opened yet.
+Branch `issue-706-schema-skew-guard` on `origin`, commit `e104dfde`. Worktree `~/projects/worktrees/foundry/branch/issue-706-schema-skew-guard`. PR [#707](https://github.com/galaxyproject/foundry/pull/707) opened 2026-10-23.
 
 ## Design
 
