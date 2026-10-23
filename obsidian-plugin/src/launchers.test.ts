@@ -94,6 +94,29 @@ describe("parseLaunchers", () => {
 			["🏷️ Triage issue", "untracked,needs_decision", "wf_foundry"],
 			["🐴 Work on issue", "untracked,queued,wip", "wf_foundry"],
 		]);
+		expect(vaultLaunchers("repositories/foundry/reviews/LAUNCHERS.md")).toEqual([["🔎 Review", "untracked", "wf_foundry"]]);
+	});
+
+	it("parses the vault's workflow library launchers", () => {
+		for (const repo of ["gxformat2", "galaxy-tool-util-ts"]) {
+			for (const kind of ["branches", "issues", "reviews"]) {
+				const extra = {
+					branches: [],
+					issues: [["🐴 Work on issue", "untracked,queued,wip,needs_decision,blocked", "workflow_libs"]],
+					reviews: [["🔎 Review", "untracked", "workflow_libs"]],
+				}[kind];
+				expect(vaultLaunchers(`repositories/${repo}/${kind}/LAUNCHERS.md`)).toEqual([["💭 New session", "", "workflow_libs"], ...extra!]);
+			}
+		}
+	});
+
+	it("parses the vault's Pulsar and Planemo launchers", () => {
+		for (const repo of ["pulsar", "planemo"]) {
+			expect(vaultLaunchers(`repositories/${repo}/issues/LAUNCHERS.md`)).toEqual([
+				["🐴 Work on issue", "untracked,queued,wip,needs_decision,blocked", repo],
+			]);
+			expect(vaultLaunchers(`repositories/${repo}/reviews/LAUNCHERS.md`)).toEqual([["🔎 Review", "untracked", repo]]);
+		}
 	});
 });
 
