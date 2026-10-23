@@ -3,7 +3,7 @@
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:ag_grid_testing_26.2?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/ag_grid_testing_26.2)
 
-Status: `branches_ready_for_final_review`. Base: `release_26.2`.
+Status: `ci_wait` (draft PR). Base: `release_26.2`.
 
 Missing ag-grid E2E tests (data landing cell edits, paired builder rename) + shared `ag_grid_edit_cell` helper, split out of [ag_grid_36](../ag_grid_36/index.md).
 
@@ -11,7 +11,7 @@ Missing ag-grid E2E tests (data landing cell edits, paired builder rename) + sha
 
 Polished; head `71bfc69c498` (3 commits from `ag_grid_36` + swap step dropped) on `release_26.2`. [Description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
 
-Not opened as a PR.
+Opened as draft [#24397](https://github.com/galaxyproject/galaxy/pull/24397) on 2026-10-23 (John's launch approval); undraft when CI green.
 
 Fork CI queued on `71bfc69c498`.
 

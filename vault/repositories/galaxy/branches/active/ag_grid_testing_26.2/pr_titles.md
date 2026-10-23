@@ -1,4 +1,1 @@
 - [26.2] Add missing E2E tests for ag-grid edits in data landing and paired list builder
-- [26.2] Test that data landing and paired list builder grid edits reach what Galaxy creates
-- [26.2] Add missing E2E coverage for editable ag-grid tables
-- [26.2] Guard ag-grid cell edits with data landing and list builder E2E tests
