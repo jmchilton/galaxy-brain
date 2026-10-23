@@ -35,3 +35,7 @@ After #617 merges, check whether the body shape and registration-vs-execution di
 - gxwf 1.14.0 (Foundry pin) on embedded `GalaxyUserTool`: `validate`, `draft-validate --concrete` OK; `draft-extract` keeps outputs without `out:`. #617's crash workarounds are obsolete.
 - Trial merge onto origin/main (132 commits ahead of its base): 9 conflicts; source ones README, `advance-galaxy-draft-step/index.md` (2), `implement-galaxy-tool-step/index.md` (2) + `eval.md`, all additive; rest generated (casts, Dashboard).
 - To finish: rebase keeping mvdbeek's commits, re-pin vendored help to `galaxy` at/after `7ca102fe1f2` (drop `galaxy_mvdbeek` prefix), remove gxwf workaround text, close the #585 gaps above, recast, `make check`.
+
+## Taken over from #617 (2026-10-23)
+
+Branch `issue-585-udt-workflow-binding` on `origin`: mvdbeek's 7 commits + `55be0ae8` (merge main; Mold conflicts resolved) + `7cbb53a2` (vendored help re-pinned to galaxy release_26.1 `5af1d03c929`, `galaxy_mvdbeek` dropped) + `13a36a45` (gxwf workarounds removed; "Registering a tool on a server" section; binding note on-demand in `author-galaxy-tool-wrapper`). `validate` 0 errors; all `make check` targets pass except `check-vendored` (other entries vs local checkouts). PR text: [pr_description.md](pr_description.md). Not opened; #617 not closed or commented on.
