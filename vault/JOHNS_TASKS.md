@@ -10,6 +10,7 @@ ai_generated: false
 summary: "Running personal task list of Galaxy dev work threads tracked by date with checkboxes"
 ---
 
+Look into tags in workflows. 
 # John's Tasks
 
 ## September 21, 2026

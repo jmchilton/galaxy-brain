@@ -22,7 +22,6 @@ Some of them are internal still:
 
 Merged PRs from this work:
 - [#24164](https://github.com/galaxyproject/galaxy/pull/24164) — Add E2E tests for the invocation graph
-- [#24157](https://github.com/galaxyproject/galaxy/pull/24157) — Show the color swatch for color parameter inputs in the invocation graph (tangential)
 - [#24133](https://github.com/galaxyproject/galaxy/pull/24133) — Document OIDC authorization request parameters for administrators (Dannon's agent had this wrong in the planning docs - hopefully the doc fix would prevent that)
 
 Open PRs from this work:

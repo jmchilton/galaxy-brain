@@ -4,24 +4,38 @@
     "type": "split",
     "children": [
       {
-        "id": "b03ad9b89438e304",
+        "id": "0e13d552e2b68d41",
         "type": "tabs",
         "children": [
           {
-            "id": "914ec2c90aadb734",
+            "id": "1bdff99524050d52",
+            "type": "leaf",
+            "state": {
+              "type": "galaxy-brain-repository",
+              "state": {
+                "repo": "galaxy",
+                "tab": "new-prs"
+              },
+              "icon": "library",
+              "title": "galaxy records"
+            }
+          },
+          {
+            "id": "d5e11d9267cc49c5",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "agents/_shared/REPOSITORY_BRANCHES.md",
+                "file": "agents/_shared/MY_BRANCHES_INDEX.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "REPOSITORY_BRANCHES"
+              "title": "MY_BRANCHES_INDEX"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -41,7 +55,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false,
+                "autoReveal": true,
                 "showSearch": true,
                 "searchQuery": ""
               },
@@ -80,7 +94,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 726.90234375
+    "width": 636.21484375
   },
   "right": {
     "id": "cbd554e3fe405514",
@@ -187,6 +201,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "galaxy-brain:Open repository records": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -197,54 +212,54 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "914ec2c90aadb734",
+  "active": "d5e11d9267cc49c5",
   "lastOpenFiles": [
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/earlier_drafts/1/scope_evaluation.md",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/earlier_drafts/1/codex_review.md",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/earlier_drafts/1/baseline_refactor.md",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/earlier_drafts/1",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/earlier_drafts",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/implementation_rescope_debrief.md",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/subagents/rescope_review.md.tmp",
-    "repositories/galaxy/branches/active/issue_24200_workflow_input_validators/codex_review.md",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/subagents/rescope_review.md",
-    "repositories/_defaults/branches/FILE_DOCS.md",
-    "agents/_shared/REPOSITORY_BRANCHES.md",
-    "agents/_shared/MY_BRANCHES_INDEX.md",
-    "agents/_shared/GX_IMPLEMENTATION_HANDOFF.md",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/alts/original_scope.md",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/alts",
-    "repositories/galaxy/branches/FILE_DOCS.md",
-    "repositories/galaxy/branches/active/xsd_sample_sheet_collection_type_25.1/scope_evaluation.md",
-    "repositories/galaxy/branches/active/extract_next_followups/subagents/rescope_phase_a_review.md",
-    "repositories/galaxy/branches/active/issue_24200_workflow_input_validators/polish_e2e_tests_debrief.md",
-    "agents/gx_branches/POLISH_BRANCH.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/thermo_nuclear_review.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/codex_review.md",
     "agents/gx_branches/MY_BRANCHES.md",
-    "agents/gx_branches/GOOD_MORNING.md",
-    "agents/gx_branches/AGENTS.md",
-    "repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/test_challenges_debrief.md",
-    "repositories/galaxy/branches/active/issue_24200_workflow_input_validators/test_challenges_debrief.md",
-    "repositories/galaxy/branches/active/tool_form_job_count/alts/original_scope.md",
-    "repositories/galaxy/branches/active/tool_form_job_count/alts",
-    "repositories/galaxy/branches/active/tool_form_job_count/scope_evaluation.md",
-    "repositories/galaxy/branches/active/tool_form_job_count/index.md",
-    "repositories/_defaults/issues/FILE_DOCS.md",
-    "repositories/_defaults/reviews/FILE_DOCS.md",
-    "repositories/galaxy/branches/active/issue_24200_workflow_input_validators/earlier_drafts/1",
-    "repositories/galaxy/branches/active/issue_24200_workflow_input_validators/earlier_drafts",
-    "repositories/galaxy/branches/active/issue_24200_workflow_input_validators/alts",
-    "repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/earlier_drafts/1",
-    "repositories/galaxy/branches/active/issue_24199_workflow_numeric_bounds_26.0/earlier_drafts",
-    "repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/screenshots/workflow_rerun_simple_form_workflow_parameters_renamed.png",
-    "repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/screenshots/workflow_rerun_simple_form_workflow_parameters.png",
-    "repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/screenshots/workflow_rerun_expanded_form_seeded_workflow_parameters_step.png",
-    "repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/screenshots/workflow_rerun_expanded_form_seeded_workflow_parameters.png",
-    "repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/screenshots/workflow_rerun_expanded_form_seeded_step.png",
-    "repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/earlier_drafts/1/screenshots/workflow_rerun_keeps_tool_step_parameters_final.png",
-    "repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/earlier_drafts/1/screenshots/workflow_rerun_simple_form_no_step_params.png",
-    "repositories/galaxy/branches/active/issue_24177_rerun_step_params_full_form/earlier_drafts/1/screenshots/workflow_rerun_keeps_tool_step_parameters.png",
-    "repositories/galaxy/branches/active/issue_24176_rerun_full_form_prefill/screenshots/04_baseline_plain_run_form_unseeded.png",
-    "repositories/galaxy/branches/active/issue_24176_rerun_full_form_prefill/screenshots/03_rerun_seeded_workflow_parameters_step.png",
+    "agents/wf_foundry/WORK_HORSE.md",
+    "repositories/galaxy/branches/active/selenium_upload_data_library/thermo_nuclear_review.md",
+    "agents/wf_foundry/AGENTS.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/test_challenges_debrief.md",
+    "agents/_shared/GENERIC_IMPLEMENTATION.md",
+    "agents/_shared/REVIEW_FOCUS.md",
+    "agents/_shared/GX_IMPLEMENTATION_HANDOFF.md",
+    "agents/_shared/GX_DEVELOPMENT.md",
+    "repositories/galaxy/branches/active/selenium_upload_data_library/codex_review.md",
+    "repositories/galaxy/branches/active/selenium_upload_data_library/polish_e2e_tests_debrief.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/scope_evaluation.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/baseline_refactor.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/thermo_nuclear_review.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/codex_review.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/test_challenges_debrief.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/implementation_rescope_debrief.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/subagents/rescope_review.md",
+    "agents/wf_foundry/TRIAGE_ISSUE.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/alts/original_scope.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/alts",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/scope_evaluation.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/baseline_refactor.md",
+    "agents/_shared/PROCESS_GENERIC_POLISH_BRANCH.md",
+    "agents/_shared/PROCESS_GENERIC_HARDEN_BRANCH.md",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test/subagents",
+    "repositories/galaxy/branches/active/udt_element_identifier_api_test",
+    "repositories/galaxy/branches/active/selenium_upload_data_library/subagents",
+    "repositories/galaxy/branches/active/selenium_upload_data_library",
+    "projects/playwright/gtn_findings_26_2.yaml.tmp.52456.30ec60c598eb",
+    "projects/playwright/training_findings/26.2/faqs/galaxy/datasets_purging_datasets.gxui.sh",
+    "projects/playwright/training_findings/26.2/faqs/galaxy/datasets_not_downloading_at_all.gxui.sh",
+    "repositories/galaxy/branches/active/licenses/screenshots/workflow_license_submission_refused.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/workflow_license_agreement_prompt_expanded.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/workflow_license_agreement_prompt.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/workflow_editor_tool_license_notice.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/tool_license_submission_refused.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/tool_license_agreement_terms.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/tool_license_agreement_prompt.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/tool_license_agreement_accepted.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/license_preferences_history.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/license_preferences_accepted.png",
     "Untitled.canvas",
     "Untitled 1.canvas",
     "Untitled 2.canvas",
