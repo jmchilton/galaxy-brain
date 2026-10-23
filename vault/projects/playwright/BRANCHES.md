@@ -1,6 +1,6 @@
 # Branches and PRs
 
-Convenience view. **Source of truth is [`MY_BRANCHES.md`](../../agents/gx_branches/MY_BRANCHES.md).**
+Convenience view. **Source of truth is [`MY_BRANCHES.md`](../../repositories/galaxy/branches/MY_BRANCHES.md).**
 The pre-2026-10-20 ledger (every merged migration PR, the parity stack, Test Stories piece
 notes) is [archive/BRANCHES.md](archive/BRANCHES.md).
 

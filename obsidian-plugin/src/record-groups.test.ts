@@ -3,24 +3,24 @@ import { describe, expect, it } from "vitest";
 import { collectRecords } from "./repository";
 import { groupingFor, groupRecords, parseGrouping } from "./record-groups";
 
-const QUEUE_PATH = "agents/gx_branches/MY_BRANCHES.md";
+const QUEUE_PATH = "repositories/galaxy/branches/MY_BRANCHES.md";
 
 const QUEUE = `# Open PR and branch queue
 
-Snapshot: 2026-10-22 ([\`fix_a\`](../../repositories/galaxy/branches/active/fix_a/index.md) mentioned).
+Snapshot: 2026-10-22 ([\`fix_a\`](active/fix_a/index.md) mentioned).
 
 ## Open Galaxy PRs — ready from our side (\`ready\`)
 
-- [\`fix_b\`](../../repositories/galaxy/branches/active/fix_b/index.md) — B. [#2](https://github.com/galaxyproject/galaxy/pull/2).
-- [\`moved\`](../../repositories/galaxy/branches/active/moved/index.md) — now merged.
+- [\`fix_b\`](active/fix_b/index.md) — B. [#2](https://github.com/galaxyproject/galaxy/pull/2).
+- [\`moved\`](active/moved/index.md) — now merged.
 
 ## Draft Galaxy PRs — waiting for CI (\`ci_wait\`)
 
 None yet.
 
 ## Galaxy branches — reference only (\`branches_reference\`)
-- [\`fix_a\`](../../repositories/galaxy/branches/active/fix_a/index.md) — A.
-- [\`elsewhere\`](../../repositories/pulsar/branches/active/elsewhere/index.md) — other repo.
+- [\`fix_a\`](active/fix_a/index.md) — A.
+- [\`elsewhere\`](../../pulsar/branches/active/elsewhere/index.md) — other repo.
 `;
 
 const FILES = ["active/fix_a", "active/fix_b", "active/fix_c", "merged/moved", "merged/old"].map((dir, i) => ({
@@ -63,9 +63,9 @@ describe("groupRecords", () => {
 });
 
 describe("groupingFor", () => {
-	it("names the grouping file for galaxy branches only", () => {
+	it("names each repository's branch queue and nothing for other kinds", () => {
 		expect(groupingFor("galaxy", "branches")).toBe(QUEUE_PATH);
+		expect(groupingFor("pulsar", "branches")).toBe("repositories/pulsar/branches/MY_BRANCHES.md");
 		expect(groupingFor("galaxy", "issues")).toBeUndefined();
-		expect(groupingFor("pulsar", "branches")).toBeUndefined();
 	});
 });

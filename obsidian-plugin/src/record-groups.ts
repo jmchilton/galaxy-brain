@@ -1,16 +1,12 @@
-// Repository-specific record grouping from a curated queue file, e.g. gx_branches/MY_BRANCHES.md.
+// Repository-specific record grouping from a curated queue file, e.g. repositories/galaxy/branches/MY_BRANCHES.md.
 
 import type { RecordKind } from "../../site/src/lib/records";
 import { recordFromPath } from "./launchers";
 import { type RecordSummary, repositorySections, type StatusGroup } from "./repository";
 
-/** Vault path of the queue file that groups a repository's records of a kind. */
-const GROUPINGS: Record<string, string> = {
-	"galaxy/branches": "agents/gx_branches/MY_BRANCHES.md",
-};
-
+/** Vault path of the queue file that groups a repository's records of a kind; it may not exist. */
 export function groupingFor(repo: string, kind: RecordKind): string | undefined {
-	return GROUPINGS[`${repo}/${kind}`];
+	return kind === "branches" ? `repositories/${repo}/branches/MY_BRANCHES.md` : undefined;
 }
 
 export interface GroupingSection {

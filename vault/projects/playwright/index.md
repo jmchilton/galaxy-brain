@@ -37,7 +37,7 @@ removes the last `selenium_only` decorator. It is no longer a goal.
 - `AGENTS.md` — instructions for agents working on this project (`CLAUDE.md` symlinks to it).
 - `PROBLEMS_AND_GOALS.md` — big-picture context.
 - `BACKLOG.md` — open issues to work down.
-- `BRANCHES.md` — short view of live branches; mirrors `vault/agents/gx_branches/MY_BRANCHES.md`.
+- `BRANCHES.md` — short view of live branches; mirrors `vault/repositories/galaxy/branches/MY_BRANCHES.md`.
 - `GALAXY_UI_DRIVER_UPSTREAM.md` — long-running task: break `galaxy_ui_driver` into PRs off dev; agreed breakdown, order and coverage to add.
 - `GXUI_POLISH.md` — long-running task: finish gxui and the skill; points at the planned work and drafts what "done" means.
 - `GALAXY_UI_SKILL_DESIGN.md` — **start here for the UI skill**: status/next steps, `gxui` daemon + CLI over `NavigatesGalaxy`, playwright-cli escape hatch, prerequisite PRs, spikes S1–S3.

@@ -21,7 +21,7 @@ In the following files:
 @../_shared/REPOSITORY_BRANCHES.md
 @../_shared/WORKTREES.md
 
-The agent running in this directory is responsible for maintaining and promoting branches within ./MY_BRANCHES.md.
+The agent running in this directory is responsible for maintaining and promoting branches within [MY_BRANCHES.md](../../repositories/foundry/branches/MY_BRANCHES.md).
 
 Branch records and supporting files live in `vault/repositories/foundry/branches/active/<branch_name>/`.
 

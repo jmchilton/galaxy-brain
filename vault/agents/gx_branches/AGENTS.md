@@ -4,14 +4,13 @@
 @../_shared/SECURITY_REPORTS.md
 @../_shared/NOT_VAULT_NOTES.md
 
+In the following files, PROJECT is `galaxy`.
+
 @../_shared/MY_BRANCHES_INDEX.md
 @../_shared/REPOSITORY_BRANCHES.md
-
-In the following file, PROJECT is `galaxy`.
-
 @../_shared/WORKTREES.md
 
-The agent running in this directory is responsible for maintaining and promoting branches within ./MY_BRANCHES.md.
+The agent running in this directory is responsible for maintaining and promoting branches within [MY_BRANCHES.md](../../repositories/galaxy/branches/MY_BRANCHES.md).
 
 Branch records and supporting files live in `vault/repositories/galaxy/branches/active/<branch_name>/`.
 

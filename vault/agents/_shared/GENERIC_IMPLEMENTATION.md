@@ -28,7 +28,7 @@ Write a review debrief to `BRANCH_DIRECTORY/subagents/`.
 
 ## Hand Off
 
-When the unit of work is done, write `BRANCH_DIRECTORY/implementation_debrief.md` and add one line to this agent's `MY_BRANCHES.md` per [MY_BRANCHES_INDEX.md](MY_BRANCHES_INDEX.md):
+When the unit of work is done, write `BRANCH_DIRECTORY/implementation_debrief.md` and add one line to `vault/repositories/PROJECT/branches/MY_BRANCHES.md` per [MY_BRANCHES_INDEX.md](MY_BRANCHES_INDEX.md):
 
 - `branches_implemented` if it's mostly shippable and CI is green - or, when the project's CI runs only on PRs, the local gate is.
 - `branches_implemented_needs_ci` if it's shippable but CI hasn't run.

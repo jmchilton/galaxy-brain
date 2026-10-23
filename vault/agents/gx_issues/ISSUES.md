@@ -1,6 +1,6 @@
 # Galaxy Issue Backlog
 
-Triage index for `galaxyproject/galaxy` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/galaxy/issues/`. Branch and PR state lives in `vault/agents/gx_branches/MY_BRANCHES.md`.
+Triage index for `galaxyproject/galaxy` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/galaxy/issues/`. Branch and PR state lives in `vault/repositories/galaxy/branches/MY_BRANCHES.md`.
 
 GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to jmchilton.
 

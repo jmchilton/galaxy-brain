@@ -324,11 +324,8 @@ function matchRecords(item2, isIssue, records, bodyOf) {
 }
 
 // src/record-groups.ts
-var GROUPINGS = {
-  "galaxy/branches": "agents/gx_branches/MY_BRANCHES.md"
-};
 function groupingFor(repo, kind) {
-  return GROUPINGS[`${repo}/${kind}`];
+  return kind === "branches" ? `repositories/${repo}/branches/MY_BRANCHES.md` : void 0;
 }
 function resolve(from, link) {
   const parts = from.split("/").slice(0, -1);

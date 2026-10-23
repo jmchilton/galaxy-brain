@@ -16,7 +16,7 @@ Galaxy development matters most, so it's split across narrowly scoped agents:
 | `gx_issues`     | Triage Galaxy issues; polish and file drafts dropped into `to_file/`.       |
 | `gx_workhorse`  | Implement a scoped Galaxy change, then hand the branch off.                 |
 | `gx_spike`      | Build a throwaway exploration to talk through a design, then hand it off.   |
-| `gx_branches`   | Own `MY_BRANCHES.md`: track CI, rebase, polish, open approved PRs, undraft. |
+| `gx_branches`   | Own Galaxy's `MY_BRANCHES.md`: track CI, rebase, polish, open approved PRs, undraft. |
 
 ### Project agents
 
@@ -25,7 +25,7 @@ Daily drivers for one project or a set of related projects. Each one reviews, im
 ## Anatomy of an agent directory
 
 - `AGENTS.md` — a short role statement, `@../_shared/...` includes, a `PROJECT` binding for those includes, and optionally an **Automatic Actions** list.
-- A queue file — `PULL_REQUESTS.md`, `ISSUES.md` or `MY_BRANCHES.md`. One line per item, linking to its record. Queues stay thin; detail lives in records.
+- A queue file — `PULL_REQUESTS.md` or `ISSUES.md`. One line per item, linking to its record. Queues stay thin; detail lives in records. Branch queues (`MY_BRANCHES.md`) live with their records in `vault/repositories/PROJECT/branches/`.
 - `TICK.md` — the prompt for a recurring loop. Usually "take every Automatic Action" plus a few checks.
 - `GOOD_MORNING.md` — the daily triage prompt. May include `TICK.md`, then surfaces what needs John and offers next tasks.
 
@@ -57,7 +57,7 @@ vault/repositories/PROJECT/{reviews,issues,branches}/STATUS/ID/index.md
 ## How Galaxy work flows
 
 1. `gx_issues` triages issues; any agent can queue an issue draft in `gx_issues/to_file/`.
-2. `gx_workhorse` or `gx_spike` implements on a branch, runs the `GX_PROCESS_*` steps, writes debriefs into the branch record, and adds one line to `gx_branches/MY_BRANCHES.md` (`GX_IMPLEMENTATION_HANDOFF.md`).
+2. `gx_workhorse` or `gx_spike` implements on a branch, runs the `GX_PROCESS_*` steps, writes debriefs into the branch record, and adds one line to `repositories/galaxy/branches/MY_BRANCHES.md` (`GX_IMPLEMENTATION_HANDOFF.md`).
 3. `gx_branches` moves the entry through its sections as CI and John's approvals land, and opens the PR once approved and green.
 4. `gx_reviews` handles other people's PRs in parallel.
 

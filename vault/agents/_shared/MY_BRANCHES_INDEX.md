@@ -1,8 +1,8 @@
 ## The Index
 
-`agents/gx_branches/MY_BRANCHES.md` is the categorized work queue for the user's open Galaxy PRs and for Galaxy branches meant to become PRs. Each open PR appears exactly once. Adding a non-PR branch is the signal to move it toward a PR, except entries explicitly marked reference-only or do-not-PR. Merged and explicitly abandoned branches leave the queue; closed unmerged PRs await a decision.
+`vault/repositories/PROJECT/branches/MY_BRANCHES.md` is the categorized work queue for the user's open PROJECT PRs and for PROJECT branches meant to become PRs. Each open PR appears exactly once. Adding a non-PR branch is the signal to move it toward a PR, except entries explicitly marked reference-only or do-not-PR. Merged and explicitly abandoned branches leave the queue; closed unmerged PRs await a decision.
 
-Branch records and supporting files follow [REPOSITORY_BRANCHES.md](REPOSITORY_BRANCHES.md). Galaxy's active records live at `vault/repositories/galaxy/branches/active/<branch_name>/index.md`; keep workflow status in that record consistent with its queue section.
+Branch records and supporting files follow [REPOSITORY_BRANCHES.md](REPOSITORY_BRANCHES.md). Active records live at `vault/repositories/PROJECT/branches/active/<branch_name>/index.md`, so queue links are relative (`active/<branch_name>/index.md`); keep workflow status in that record consistent with its queue section.
 
 ## Sections
 
@@ -13,10 +13,10 @@ Keep these sections in this order. Write `None yet.` under an empty one. Each he
 3. `draft_ready`: draft, mergeable and greenish. Skipped checks or a diagnosed unrelated red are fine; an unexplained relevant red isn't.
 4. `ci_wait`: draft with a run still queued or in progress. Move it once the run settles.
 5. `author_work`: draft with conflicts, stale or absent CI, relevant failures or open design work.
-6. `branches_implemented` | `branches_implemented_needs_ci`: an agent finished a unit of work and pushed it. Polish it with [`POLISH_BRANCH.md`](../gx_branches/POLISH_BRANCH.md) once fork CI is greenish; branch notes retain CI evidence and any known limitations.
+6. `branches_implemented` | `branches_implemented_needs_ci`: an agent finished a unit of work and pushed it. Polish it with [`POLISH_BRANCH.md`](../gx_branches/POLISH_BRANCH.md) for Galaxy or [`PROCESS_GENERIC_POLISH_BRANCH.md`](PROCESS_GENERIC_POLISH_BRANCH.md) otherwise, once CI is greenish (or the local gate, when the project's CI runs only on PRs); branch notes retain CI evidence and any known limitations.
 7. `branches_need_polish`: polishing in progress. The entry moves here when polishing starts and on to `branches_ready_for_final_review` when it ends.
 8. `branches_ready_for_final_review`: polished. The description is in the branch directory's `pr_description.md`, and the branch waits for the user's read-through, including the human-read checklist item. Only the user moves an entry out.
-9. `branches_need_pr`: the user approved it. The branch record holds the approved SHA, approval date and chosen title; retain the SHA in the queue entry too. Agents open the PR once fork CI on that SHA is greenish (see Automatic Actions in `gx_branches/AGENTS.md`).
+9. `branches_need_pr`: the user approved it. The branch record holds the approved SHA, approval date and chosen title; retain the SHA in the queue entry too. Agents open the PR once CI on that SHA is greenish, where their AGENTS.md authorizes it (Automatic Actions in `gx_branches/AGENTS.md`).
 10. `branches_need_decision`: the user has to choose (scope, an alternative, drop it).
 11. `branches_reference`: kept for reference, as a standing branch, or as part of another effort. No PR intended; agents don't act on these.
 
@@ -34,7 +34,7 @@ Each entry is one short bullet linking the branch record:
 - Keep the description to at most 120 characters. It says what the change does; testing, reviews, CI history and dependencies belong in the branch notes.
 - Status communicates routine progression. No next step or blockers field is required. Include an explicit user decision or do-not-PR instruction when useful; do not invent one from the status.
 - Branch records hold approvals, chosen titles, standing instructions and supporting links. Read them before acting on the queue.
-- End every `branches_*` entry with an `[Open PR]` compare link from the `jmchilton` fork branch to its upstream target (`dev` unless the entry names a release branch). Skip it only for entries marked do-not-PR.
+- End every `branches_*` entry with an `[Open PR]` compare link from the branch on its push remote (the `jmchilton` fork unless the project settings say otherwise) to its base (for Galaxy, `dev` unless the entry names a release branch). Skip it only for entries marked do-not-PR.
 - Refresh the snapshot date at the top whenever GitHub state is re-queried.
 ## Merged PRs
 
@@ -44,7 +44,7 @@ When a PR is merged, remove its entry and move the branch directory to `merged/`
 When a PR is closed move its entry from the PRs section- to branches_need_decision. A branch not merged needs to by explicitly abandoned by user to leave this index - not just a close.
 ## Abandoned Branches
 
-When the user explicitly abandons a branch, remove it from the queue and move its directory to `abandoned/` after agents working there finish. Update links and add a one-line entry to `ABANDONED_BRANCHES.md` linking the record and describing why it was abandoned.
+When the user explicitly abandons a branch, remove it from the queue and move its directory to `abandoned/` after agents working there finish. Update links and add a one-line entry to `vault/repositories/PROJECT/branches/ABANDONED_BRANCHES.md` linking the record and describing why it was abandoned.
 ## Cleaning up Worktrees
 
 Try to reclaim space when we can while trying to preserve work where we can - remove clean merged/closed/abandoned worktrees from disk after ensuring nothing is going to be lost because they are pushed to Github.

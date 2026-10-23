@@ -28,7 +28,7 @@ Each entry is one bullet:
 
 - Mark assignment on the exception, not the rule: the header says whether issues in this index are assigned to jmchilton by default, and lines that differ carry `(assigned)` or `(unassigned)`.
 - Prefix `(large)` when the issue is too big for a triage agent to take on alone.
-- `wip` entries name the branch or PR, never its CI or review state. That lives in the branch tracking file (e.g. `gx_branches/MY_BRANCHES.md`).
+- `wip` entries name the branch or PR, never its CI or review state. That lives in the branch tracking file (`vault/repositories/PROJECT/branches/MY_BRANCHES.md`).
 - `blocked` entries replace `next:` with `blocked on:`; `needs_decision` entries with `decide:`.
 - `untriaged` entries are just the link and a short title.
 - Findings, history, open questions and plans go in the issue's `index.md`, not the entry.
