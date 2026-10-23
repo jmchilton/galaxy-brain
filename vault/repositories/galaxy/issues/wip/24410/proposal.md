@@ -17,7 +17,7 @@ shell_command: echo '$(inputs.input.element_identifier)' > output.fastq
 
 Output labels of the same tool-form job do resolve `$(inputs.input.element_identifier)` to `sample_a` (`test_unprivileged_tools_labels.py::test_mapped_over_labels`), so the label and the command line disagree. A tool that writes sample names into its output (e.g. reports later aggregated by MultiQC) writes `null` for every sample, so per-sample results can't be told apart downstream.
 
-<details><summary>Cause (dev 2527d009dfa)</summary>
+<details><summary>Cause (code read on `dev` at 2527d009dfa)</summary>
 
 - Tool-form/API map-over (`_collection_batch_values` in `tools/parameters/meta.py`, shared by `__expand_collection_parameter` and its `_async` variant) gives each job a bare HDA with a transient `element_identifier` attribute. The job's tool state records `{"src": "hda", "id": ...}`.
 - `tools/actions/__init__.py` persists that identifier as the job parameter `<name>|__identifier__`. XML tools read it back through `ElementIdentifierMapper` (`tools/wrappers.py`), which is why `$input.element_identifier` works for them.
