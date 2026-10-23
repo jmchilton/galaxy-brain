@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `5d410abf9b8` (`faq_server.sh main`). The one server
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `6e95ac5a804` (`faq_server.sh main`). The one server
 plays both ends: a new user's Copy Link pasted into Paste Links/URLs in another history. No
 tutorial embeds it.
 

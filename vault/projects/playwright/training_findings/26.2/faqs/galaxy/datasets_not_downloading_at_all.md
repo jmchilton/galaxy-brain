@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_not_downloading_at_all.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `5d410abf9b8` (`faq_server.sh main`). A new user's
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `6e95ac5a804` (`faq_server.sh main`). A new user's
 Preferences cards, a pasted dataset's Permissions tab, and the new-histories switch. No tutorial
 embeds it.
 

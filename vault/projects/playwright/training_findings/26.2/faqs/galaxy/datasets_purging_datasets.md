@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_purging_datasets.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `6cd6a7db90e` (`faq_server.sh main`). Three pasted
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `0cf8353fc84` (`faq_server.sh main`). Three pasted
 datasets:
 - the Datasets list;
 - the trash icon on 1 and 2;
@@ -28,7 +28,7 @@ Usage counted deleted datasets until the purge. Embedded in `introduction/galaxy
 ## Galaxy
 
 - Gap: the Storage Dashboard cleanup was only screenshotted (`test_history_storage_accessibility`).
-  Added `test_purge_deleted_datasets_from_storage_dashboard` (`6cd6a7db90e`):
+  Added `test_purge_deleted_datasets_from_storage_dashboard` (`0cf8353fc84`):
   - a fresh user deletes one of two datasets;
   - usage still counts it;
   - the dashboard purges it, and only it;
@@ -39,4 +39,4 @@ Usage counted deleted datasets until the purge. Embedded in `introduction/galaxy
   the input), as `_set_boolean_value` does. Green under Playwright and Selenium.
 - After the purge, the history panel's size (15 B) stayed stale until reload while the masthead
   meter updated. Minor; not filed.
-- gxui: `datasets-purge-deleted` (tip `5d410abf9b8`).
+- gxui: `datasets-purge-deleted` (tip `6e95ac5a804`).

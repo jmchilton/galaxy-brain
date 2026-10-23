@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_multiple.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `5d410abf9b8` (`faq_server.sh main`). Four pasted
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `6e95ac5a804` (`faq_server.sh main`). Four pasted
 datasets: Select Items (the checkbox under the history size), then Hide 1 and 2, Delete 3, and
 **Delete (permanently)** 4. Embedded in `galaxy-interface/history`.
 

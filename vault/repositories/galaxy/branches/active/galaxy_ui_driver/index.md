@@ -40,9 +40,9 @@ The extraction drop above is not done yet. These restacks kept `cac01c0884a`/`e4
 **Extracted 2026-10-22:** `1d227e6fc4c` (library collection picked history) and `913dfd7dfd6` (library "as Datasets" test) → [`library_collection_selected_history_26.1`](../library_collection_selected_history_26.1/index.md) (hardened, re-scoped with a ListWizard fix). On restack, drop both by subject; gxui's `library-add-to-history` uses `libraries_folder_add_to_history`, whose 26.1 version takes `history_id` (not `history_name`) and `screenshot_name`. `162dfdb49b4` stays here.
 
 **Then (FAQ loop batch 6, 2026-10-23):** two new commits below gxui. Nothing was restacked, so neither extraction drop is done yet.
-- `ff3da7861e7`: tests Resume Paused Jobs and adds its `data-description`. It uses `cac01c0884a`'s undelete helpers.
-- `6cd6a7db90e`: tests purging deleted datasets from the Storage Dashboard and adds a `data-description` on the cleanup cards.
+- `c184ed00be2`: tests Resume Paused Jobs and adds its `data-description`. It uses `cac01c0884a`'s undelete helpers.
+- `0cf8353fc84`: tests purging deleted datasets from the Storage Dashboard and adds a `data-description` on the cleanup cards.
 
-gxui gains `history-resume-paused` and `datasets-purge-deleted`. 60 commits; tip `5d410abf9b8`.
+gxui gains `history-resume-paused` and `datasets-purge-deleted`. 60 commits; tip `6e95ac5a804`.
 
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.
