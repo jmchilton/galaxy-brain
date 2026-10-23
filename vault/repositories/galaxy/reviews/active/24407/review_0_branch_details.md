@@ -1,0 +1,8 @@
+Branch `pr_24407_review_0` is built on the PR's reviewed commit `2273ae0bca5`. Its main addition is a deterministic tools-API test for the map-over case: the test tool `collection_creates_dynamic_list_failbool` gains an optional input, so it can be mapped over a list where only the `fail`-named element errors empty. The branch also trims the comments to one line, uses `Job.states.ERROR`, rewords the population-failed message, adds the tool's own failing-path test, and tightens the PR's API workflow test assertions.
+
+- `ee731b45274` Test map-over of discovered list where one element fails empty: adds the optional `input1` to the test tool, plus `test_map_over_dynamic_list_output_element_failed_empty` in `test_tools.py`; the test fails without the PR's `output_collect.py` change.
+- `08895714309` Trim comments to one line: cuts the `output_collect.py` comment to one line and drops the test's rationale comment.
+- `705eaffd52a` Compare final job state to Job.states.ERROR: moves `Job` from the `TYPE_CHECKING` import to the runtime `galaxy.model` import and replaces the `"error"` literal.
+- `1013de00d93` Reword population-failed message to what is known: the message is now "Job failed and no datasets were discovered for this collection."
+- `7f1861eec31` Cover failing path in collection_creates_dynamic_list_failbool tool tests: adds an `expect_failure` tool test with `failbool=true`.
+- `e8463cbbbb6` Strengthen discovered-collection failure test assertions: asserts a single `collection_failed` message whose `hdca_id` is the producer's HDCA, the population-failed message, and no jobs in either downstream step.
