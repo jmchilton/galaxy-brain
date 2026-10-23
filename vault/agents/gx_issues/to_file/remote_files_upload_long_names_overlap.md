@@ -1,6 +1,6 @@
 # Choose Remote Files: long file names overflow into the Details column
 
-Found by the FAQ loop (`faqs/galaxy/datasets_upload_from_genomeark.md`, 26.2). Fix on `jmchilton/galaxy_ui_driver` (`3180b2df251`, "Wrap long names in the remote files browser"); target `release_26.2`.
+Found by the FAQ loop (`faqs/galaxy/datasets_upload_from_genomeark.md`, 26.2). Fix on `jmchilton/galaxy_ui_driver` (`0cd9f75f9d1`, "Wrap long names in the remote files browser"); target `release_26.2`. `origin/dev` is affected too (2026-10-23).
 
 ## Symptom
 

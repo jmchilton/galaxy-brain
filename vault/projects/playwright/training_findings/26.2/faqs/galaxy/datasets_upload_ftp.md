@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_upload_ftp.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `962cc494100` (`faq_server.sh main`). The server now sets
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `bcaec710b18` (`faq_server.sh main`). The server now sets
 `ftp_upload_dir` and `ftp_upload_site` (`ftp.faq.example.org`), with no FTP daemon. Copying files
 into `$FAQ_FTP/<email>` stands in for the FTP client (steps 2-4). Imported `1.bed` and `2.bed` through
 Upload > Choose Remote Files > **FTP Directory**. No tutorial embeds it.
@@ -14,7 +14,7 @@ Upload > Choose Remote Files > **FTP Directory**. No tutorial embeds it.
 
 ## Galaxy
 
-- Bug (26.2 regression), fixed (`962cc494100`) and queued (`remote_files_upload_ftp_help_missing`).
+- Bug (26.2 regression), fixed (`bcaec710b18`) and queued (`remote_files_upload_ftp_help_missing`).
   - 26.1's remote files dialog (`FilesDialog`) told users at `gxftp://` which FTP server to log in to.
     26.2's Choose Remote Files (`RemoteFilesUpload.vue`) dropped that notice.
   - The notice is now its own component, `FtpUploadHelp.vue`, used by both.

@@ -48,13 +48,13 @@ gxui gains `history-resume-paused` and `datasets-purge-deleted`. 60 commits; tip
 **Extracted 2026-10-23:** `c184ed00be2` and `0cf8353fc84` were moved to [`selenium_resume_paused_purge_deleted`](../selenium_resume_paused_purge_deleted/index.md), which was hardened and re-scoped. On restack, drop both by subject. That branch renames the purge helper to `storage_dashboard_cleanup(operation, screenshot_prefix=None)` (no wrapper), so rebind `datasets-purge-deleted` to `storage_dashboard_cleanup("deleted_datasets")`. The purge helper there also waits for `:not(.g-disabled)` buttons and adds `navigate_to_storage_dashboard`.
 
 **Then (FAQ loop batch 7, 2026-10-23):** six new commits below gxui. The restack only autosquashed; no extraction drop is done yet.
-- `c3c36d23184`: fixes `history_panel.search`, which had no callers and matched a hidden input. Adds `history_panel_filter`, used by `history_panel_filter_text` and the collection builders.
-- `b0c1d0188a5`: `deleted:true` plus Selection menu **Undelete** in `test_delete_undelete_and_purge_items`; adds `history_panel_undelete_selected`.
-- `e4b931ea1ca`: `visible:hidden` plus the item Unhide icon in `test_hide_and_unhide_items`. Its `history_panel_item_unhide` and `unhide_button` match `selenium_delete_items_dataset_privacy`'s exactly.
-- `9009ff074c7`: `open_remote_folder` and `path=` on `stage_remote_file(s)`, plus a posix subfolder integration test.
-- `962cc494100`: **26.2 client regression fix.** Choose Remote Files lost the FTP server notice; adds the shared `FtpUploadHelp.vue` and an integration test.
-- `3180b2df251`: CSS; long remote file names wrap.
+- `77ebe032746`: fixes `history_panel.search`, which had no callers and never became visible. Adds `history_panel_filter`, used by `history_panel_filter_text` and the collection builders.
+- `28eb02432cd`: `deleted:true` plus Selection menu **Undelete** in `test_delete_undelete_and_purge_items`; adds `history_panel_undelete_selected`.
+- `391dd82665d`: `visible:hidden` plus the item Unhide icon in `test_hide_and_unhide_items`. Its `history_panel_item_unhide` and `unhide_button` match `selenium_delete_items_dataset_privacy`'s exactly.
+- `de467e6fcb9`: `open_remote_folder` and `path=` on `stage_remote_file(s)`, plus a posix subfolder integration test.
+- `bcaec710b18`: **26.2 client regression fix.** Choose Remote Files lost the FTP server notice; adds the shared `FtpUploadHelp.vue` and an integration test.
+- `0cd9f75f9d1`: CSS; long remote file names wrap.
 
-gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filter` and `upload-remote --path`. 66 commits; tip `3f9bc855d76`.
+gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filter` and `upload-remote --path`. 66 commits; tip `7e323178dc0`.
 
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.

@@ -1,6 +1,6 @@
 # faqs/galaxy/datasets_rename.md — 26.2, UI run
 
-GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `3f9bc855d76` (`faq_server.sh main`). A pasted `seq.fa`:
+GTN `45d4932d33`, Galaxy `galaxy_ui_driver` `7e323178dc0` (`faq_server.sh main`). A pasted `seq.fa`:
 pencil > Edit Dataset Attributes > Attributes > **Name** `genomes.fa` > **Save** ("Attributes
 updated."). Embedded in 102 tutorials.
 
@@ -11,4 +11,4 @@ updated."). Embedded in 102 tutorials.
 ## Galaxy
 
 - Covered: `test_dataset.py::test_history_dataset_rename`. No new tests.
-- gxui: `dataset-rename HID NAME` (tip `3f9bc855d76`).
+- gxui: `dataset-rename HID NAME` (tip `7e323178dc0`).

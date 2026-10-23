@@ -249,25 +249,25 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 
   On restack, drop both commits by subject and rebind gxui's `datasets-purge-deleted` to
   `storage_dashboard_cleanup("deleted_datasets")`.
-- `c3c36d23184`: helper fix (`datasets_undelete`). `history_panel.search` matched a hidden input and
+- `77ebe032746`: helper fix (`datasets_undelete`). `history_panel.search` never became visible and
   had no callers. It now targets the filter text input; adds `history_panel_filter(text)`, used by
   `history_panel_filter_text` and `test_collection_builders._show_hidden_content`. Standalone, but
   `history_panel_filter_text` comes from `32e12d33af7`.
-- `b0c1d0188a5`: coverage for `datasets_undelete`. `test_delete_undelete_and_purge_items` filters
+- `28eb02432cd`: coverage for `datasets_undelete`. `test_delete_undelete_and_purge_items` filters
   `deleted:true` and undeletes from the Selection menu; adds `history_panel_undelete_selected`. Needs
-  `c3c36d23184` and the delete test (`selenium_delete_items_dataset_privacy`).
-- `e4b931ea1ca`: coverage for `datasets_unhidden`. `test_hide_and_unhide_items` filters
+  `77ebe032746` and the delete test (`selenium_delete_items_dataset_privacy`).
+- `391dd82665d`: coverage for `datasets_unhidden`. `test_hide_and_unhide_items` filters
   `visible:hidden` and clicks the item's Unhide icon. Its `history_panel_item_unhide` and
   `content_item.unhide_button` are identical to `selenium_delete_items_dataset_privacy`'s, so drop
   them when reconciling. Needs `073889a2872`.
-- `9009ff074c7`: helper abstraction (`datasets_upload_from_genomeark`). `open_remote_folder(source,
+- `de467e6fcb9`: helper abstraction (`datasets_upload_from_genomeark`). `open_remote_folder(source,
   path)` and `path=` on `stage_remote_file(s)`; waits out the debounced search before clicking a
   folder. `test_upload_from_remote_file_source_folder`. Needs `14d970513f5`.
-- `962cc494100`: **client regression fix**, 26.2 only (`datasets_upload_ftp`). Choose Remote Files
+- `bcaec710b18`: **client regression fix**, 26.2 only (`datasets_upload_ftp`). Choose Remote Files
   dropped `FilesDialog`'s FTP server notice. Adds the shared `FtpUploadHelp.vue` and
   `test_ftp_directory_shows_upload_site`; queued as `gx_issues/to_file/remote_files_upload_ftp_help_missing.md`.
-  Uses `9009ff074c7`'s `open_remote_folder`. A `release_26.2` PR candidate.
-- `3180b2df251`: client fix (`datasets_upload_from_genomeark`): long remote file names wrap instead of
+  Uses `de467e6fcb9`'s `open_remote_folder`. A `release_26.2` PR candidate.
+- `0cd9f75f9d1`: client fix (`datasets_upload_from_genomeark`): long remote file names wrap instead of
   running under Details. CSS only; queued as `remote_files_upload_long_names_overlap.md`. Standalone,
   and a `release_26.2` PR candidate.
 

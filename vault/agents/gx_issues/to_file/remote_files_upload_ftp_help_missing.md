@@ -1,6 +1,6 @@
 # 26.2 Import Data > Choose Remote Files no longer tells FTP users where to upload
 
-Found by the FAQ loop (`faqs/galaxy/datasets_upload_ftp.md`, 26.2). Fix on `jmchilton/galaxy_ui_driver` (`962cc494100`, "Show the FTP upload notice in Choose Remote Files again"); target `release_26.2`.
+Found by the FAQ loop (`faqs/galaxy/datasets_upload_ftp.md`, 26.2). Fix on `jmchilton/galaxy_ui_driver` (`bcaec710b18`, "Show the FTP upload notice in Choose Remote Files again"); target `release_26.2`. `origin/dev` is affected too (2026-10-23: no FTP notice in `RemoteFilesUpload.vue`).
 
 ## Symptom
 
@@ -22,4 +22,4 @@ GTN's FTP FAQ step 1 says "Check that your Galaxy supports FTP upload and look u
 
 ## Test
 
-`test/integration_selenium/test_upload_ftp.py::test_ftp_directory_shows_upload_site`: opens FTP Directory in Choose Remote Files and asserts the alert names the configured `ftp_upload_site`. Red before the fix, green after (Playwright and Selenium). Nav: `upload_activity.remote_files_ftp_help`.
+`test/integration_selenium/test_upload_ftp.py::test_ftp_directory_shows_upload_site`: opens FTP Directory in Choose Remote Files and asserts the alert names the configured `ftp_upload_site`. Green under Playwright and Selenium. Not run red: the client was rebuilt with the fix first; the red is the FAQ run's pre-fix FTP Directory screenshot, which has no notice. Nav: `upload_activity.remote_files_ftp_help`.
