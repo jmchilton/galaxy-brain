@@ -1,0 +1,32 @@
+# User-defined tools: `$(inputs.x.element_identifier)` is `null` when mapped over a list from the tool form/API
+
+A YAML user-defined tool (`class: GalaxyUserTool`) with
+
+```yaml
+shell_command: echo '$(inputs.input.element_identifier)' > output.fastq
+```
+
+writes `null` for every element when it's run over a list collection (batch mode in the tool form, `POST /api/tools` with `{"batch": true, "values": [{"src": "hdca", ...}]}`, or `POST /api/jobs` with `{"__class__": "Batch", ...}`). The expected output is each element's identifier (`sample_a`, `sample_b`, ...).
+
+The same tool in a workflow step mapped over a list does get the identifiers. Output labels on the same tool-form run resolve `$(inputs.input.element_identifier)` correctly too (`test_unprivileged_tools_labels.py::test_mapped_over_labels`). So the label and the command line give different answers for the same job.
+
+## Cause (dev `51e0a80a0db`)
+
+- Tool-form/API map-over (`lib/galaxy/tools/parameters/meta.py` `__expand_collection_parameter` / `_async`) gives each job a bare HDA with a transient `element_identifier` attribute. The job's tool state records it as `{"src": "hda", "id": ...}`.
+- `lib/galaxy/tools/actions/__init__.py` (~line 558) persists the identifier as job parameter `<name>|__identifier__`. XML/Cheetah tools read it back through `ElementIdentifierMapper` (`tools/wrappers.py`), which is why `$input.element_identifier` works for them.
+- `UserToolEvaluator.build_param_dict` (`lib/galaxy/tools/evaluation.py`) never reads it:
+  - `/api/jobs` (has `job.tool_state`) → `runtimeify` → `setup_for_runtimeify.adapt_dataset` (`tools/runtime.py`) only sets `element_identifier` on the `src: dce` branch.
+  - `/api/tools` (no `job.tool_state`) → legacy `to_cwl` (`workflow/modules.py`) uses the identifier only as a `basename` fallback and never sets an `element_identifier` property, even for a real DCE.
+- Workflows work because workflow map-over hands the step a DCE.
+
+## Fix (branch `jmchilton/udt_element_identifier_api_test`)
+
+The UDT evaluator builds `{input dataset id: identifier}` from the persisted `<name>|__identifier__` params (via `ElementIdentifierMapper`) and passes it to both `setup_for_runtimeify` and `to_cwl`, which set `element_identifier` on the File object. `basename`/`nameroot` are unchanged. Tests: API tests for `/api/tools` and `/api/jobs` map-over (red before the fix), workflow map-over and plain-dataset baselines, and unit tests in `test/unit/app/tools/test_runtime.py`.
+
+Longer term, it may be cleaner for batch expansion to record `{"src": "dce"}` in the job tool state so that runtimeify's existing DCE branch covers this. That would touch tool state and job-cache matching for every mapped-over tool, so it isn't done here.
+
+## Open questions
+
+- With a plain (non-collection) dataset, `$(inputs.x.element_identifier)` is still `null`. The label renderer (`tools/expressions/labels.py`) and Cheetah fall back to the HDA name. Should UDT command lines fall back the same way? The branch pins `null` with a baseline test.
+- Implicitly converted mapped-over inputs (e.g. a csv list into a tabular-only UDT) are still `null`. `actions/__init__.py` swaps in the converted HDA before writing `|__identifier__`, so nothing is persisted. Cheetah hides this behind its name fallback. Carrying the identifier onto the converted HDA would fix both.
+- Backport: the UDT runtime code on `release_26.1` (and `release_26.0`, which has no runtimeify) differs a lot from dev, so the branch targets `dev`.
