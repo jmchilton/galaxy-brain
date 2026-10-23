@@ -13,5 +13,7 @@ gzipped fastq with autodetect. No tutorial embeds it.
 
 ## Galaxy
 
-- Covered by API tests (`test_fetch_compressed_default`). Selenium tests can't check it: their
-  framework datatypes conf has no fastq sniffers, so the test server decompresses to `fastqsanger`.
+- Covered by API tests (`test_fetch_compressed_default`, autodetect). On the Selenium framework test
+  server, autodetect gave `fastqsanger` instead (decompressed); its datatypes conf
+  (`sample_datatypes_conf.xml`) differs from the default, but I didn't find the cause. So the new E2E
+  test uploads `1.bed` and `1.fasta` and doesn't check compression.

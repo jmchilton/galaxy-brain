@@ -458,7 +458,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: 8d36c6dcdf8
   faq_findings: [fastq-best-practices-decompress]
-  gx_findings: 'Keeping fastqsanger.gz compressed is covered by API tests (test_fetch_compressed_default); Selenium tests cannot check it, their framework datatypes conf has no fastq sniffers.'
+  gx_findings: 'Keeping fastqsanger.gz compressed is covered by API tests (test_fetch_compressed_default); on the Selenium framework test server autodetect gave fastqsanger instead (cause not found), so the E2E test does not check it.'
 - faq: faqs/galaxy/datatypes_fastq_and_fastqsanger.md
   status: pending
 - faq: faqs/galaxy/datatypes_fastq_compressed.md

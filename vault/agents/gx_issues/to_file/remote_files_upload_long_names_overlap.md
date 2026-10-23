@@ -1,6 +1,6 @@
 # Choose Remote Files: long file names overflow into the Details column
 
-Found by the FAQ loop (`faqs/galaxy/datasets_upload_from_genomeark.md`, 26.2). Fix on `jmchilton/galaxy_ui_driver` (`0cd9f75f9d1`, "Wrap long names in the remote files browser"); target `release_26.2`. `origin/dev` is affected too (2026-10-23).
+Found by the FAQ loop (`faqs/galaxy/datasets_upload_from_genomeark.md`, 26.2). Fix on `jmchilton/selenium_history_filters_ftp_notice` (extracted 2026-10-23, stacked on #24380), commit "Wrap long names in the remote files browser" (first made on `galaxy_ui_driver` as `0cd9f75f9d1`); target `release_26.2`. `origin/dev` is affected too (2026-10-23).
 
 ## Symptom
 
@@ -10,4 +10,4 @@ Upload > **Choose Remote Files** > **Genome Ark** > `species/Taeniopygia_guttata
 
 `RemoteFilesUpload.vue` scoped style: `.remote-files-browser-label` gets `min-width: 0; overflow-wrap: anywhere;` so names wrap inside the Name column. (8d02e258acc "Aligns remote file browser labels" set `text-align: start` on the same class for long names, but not wrapping.)
 
-No automated test: a CSS overlap check isn't worth an E2E. Verified by eye on the FAQ server.
+Test (added on the extracted branch): `test_long_remote_file_name_stays_in_its_column` measures the label against its column; red before the fix (733px of overflow), green after under Playwright and Selenium.
