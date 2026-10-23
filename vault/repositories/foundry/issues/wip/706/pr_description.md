@@ -26,7 +26,15 @@ A skill bundle copies its schema when it is cast. `foundry validate-*` validates
   - Failed: `check-vendored`, which compares vendored files against my local Galaxy / galaxy-tool-util-ts checkouts. The drift is in files this PR doesn't touch.
 - Smoke-tested the built CLI: a matching pin exits 0, a wrong pin exits 4, and no artifact without a pin exits 1.
 
-The guard only reaches users once `@galaxy-foundry/gxwf-foundry` is released with it.
+- Also ran the CI steps `make check` doesn't cover: `lint:packages`, `check:kinds`, full `typecheck` (with the site), `smoke:packages`, `site:build`, and `changeset status`. All green. I didn't run the Pi container test because there's no Docker here; it uses a synthetic skill and doesn't read the recast bundles.
+
+## Rollout
+
+The recast bundles break validation until this is released. Published `@galaxy-foundry/gxwf-foundry` 0.3.0, and the 0.1.0 baked into the `gxwf-pi-harness` image, reject `--schema-sha256` with `unknown option`. So from merge until a release, each cast skill's preflight and validate step will fail, as the skill text intends, and `validate-artifact` will report failures. CI is unaffected because it validates against workspace sources. Merge together with a `gxwf-foundry` release, and bump the harness image's `FOUNDRY_CLI_VERSION` in the same step.
+
+## Known gap
+
+14 Mold bodies (e.g. `summarize-nextflow` step 8) still spell out the unpinned `foundry validate-<name> <file>` in their procedure. The cast Validation section's preflight still catches skew up front, but the procedure and the Validation section now give different commands. That can follow separately.
 
 Fixes #706
 
