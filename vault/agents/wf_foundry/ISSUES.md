@@ -28,6 +28,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default a
 - (mvp) [#505](https://github.com/galaxyproject/foundry/issues/505) — Ensure every pattern page has a test workflow.; decide: who drives (agent/implement, agent/research or agent/human). [notes](../../repositories/foundry/issues/needs_decision/505/index.md)
 - (large) [#507](https://github.com/galaxyproject/foundry/issues/507) — Improved Structure and Schemas for Mold Artifacts; decide: who drives (agent/implement, agent/research or agent/human). [notes](../../repositories/foundry/issues/needs_decision/507/index.md)
 - [#564](https://github.com/galaxyproject/foundry/issues/564) — advance-galaxy-draft-step/repair-galaxy-draft-topology can produce step doc: text long enough to crash work…; decide: close? galaxy#23579 dropped the annotation index; no lint check yet. [notes](../../repositories/foundry/issues/needs_decision/564/index.md)
+- [#643](https://github.com/galaxyproject/foundry/issues/643) — published summarize-nextflow shipped stale schema; 0.4.0 (2026-10-16) matches bundle; decide: close + file skew-guard follow-up? [notes](../../repositories/foundry/issues/needs_decision/643/index.md)
 
 ## In motion (`wip`)
 
