@@ -122,7 +122,7 @@ Independent of 🔀 #24167 (the in-app repository file browser). Either can land
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A missing or empty field hides its row or card. A failed copy shows the shed's "Your browser did not allow copying to the clipboard." notice.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. `test_show_clone_url_clones` clones from the returned URL, and the rendered `.shed.yml` is loaded back with PyYAML.

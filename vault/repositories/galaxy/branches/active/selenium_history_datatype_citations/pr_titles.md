@@ -1,4 +1,1 @@
-- [26.2] Add browser tests for bulk Change data type, Change Database/Build and Export Tool References
-- [26.2] Test the history Selection modals and Export Tool References in the browser
-- [26.2] E2E coverage for Selection > Change data type/Database and history tool references
-- [26.2] Add Selenium/Playwright tests for three untested history pages
+- [26.2] Add missing history Selection modals and Export Tool References E2E Tests

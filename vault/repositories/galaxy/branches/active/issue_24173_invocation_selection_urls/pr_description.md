@@ -122,5 +122,3 @@ Graph centering and list scrolling are asserted in real browsers (centered withi
 
 ## License
 - [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)

@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Pushed some changes for these - hope that is okay! 
 
 <details><summary>Automated Review Details</summary>
 

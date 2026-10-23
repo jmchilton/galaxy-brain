@@ -1,7 +1,7 @@
 # Implementation debrief
 
 **STATUS: READY.** Fixes [#24273](https://github.com/galaxyproject/galaxy/issues/24273) on `release_26.0`.
-- Head `2844b08fb87`. Original-scope alt: `072f8e9fa80`.
+- Head `c11610da344` (same tree as hand-off head `2844b08fb87`; #23985 backport moved to commit 7 for the baseline split). Original-scope alt: `072f8e9fa80`.
 - A non-workhorse session implemented this. It was recovered into the workhorse process, re-scoped once, and hardened twice.
 
 ## Bug

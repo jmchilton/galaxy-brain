@@ -72,7 +72,7 @@ Both commits are safe on the base alone, and the fix commit no longer adds a tes
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Nothing - test-only for users; a wrong tooltip or selector fails the E2E at `assert_tooltip_text`, and a `GCollapse` regression fails vitest.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They toggle props and fire `transitionend` on the root and a child, and check the rendered class.
@@ -92,5 +92,3 @@ Both commits are safe on the base alone, and the fix commit no longer adds a tes
 
 ## License
 - [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)

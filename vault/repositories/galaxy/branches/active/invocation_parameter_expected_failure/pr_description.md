@@ -45,7 +45,7 @@ Folding in #20900's earlier request validation would couple a reporting fix to c
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? The parent invocation shows "Workflow parameter on <step path> failed validation: <validator message>" instead of "an unexpected failure occurred." The child subworkflow invocation still shows the unexpected failure (see above).
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The API test runs a real nested invocation and checks only what the API returns (state, reason, details, step path). It fails on `release_26.1` with `unexpected_failure`.
@@ -68,5 +68,3 @@ Folding in #20900's earlier request validation would couple a reporting fix to c
 
 ## License
 - [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)

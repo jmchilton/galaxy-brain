@@ -1,4 +1,1 @@
 - [26.1] Fix paged collection options dropping a collection's map-over entry
-- [26.1] Keep a collection's map-over option across option pages and make it selectable
-- [26.1] Fix map-over collection options lost to paging and indistinguishable in the form
-- [26.1] Label and keep map-over entries in paged collection options

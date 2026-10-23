@@ -118,7 +118,7 @@ Both server bugs sit on the HTTP/serialization boundary (key presence vs value),
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Server: no new error path. Explicit `false`/`null` `no_add_to_history` now copies inputs, and a `null`/`{}` `ds_map` next to `inputs` now runs instead of returning 400. A non-empty `ds_map` next to `inputs` still gets the same 400 message. Types: a wrong classification would show up as a TS compile error or a server 422, never as a runtime change.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. Both API tests drive the public invocation endpoint and check HTTP status or history contents. The generator test checks the TS emitted for a fixture OpenAPI document. Each was red without its fix or fails under mutation.

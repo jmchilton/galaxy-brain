@@ -63,7 +63,7 @@ The shellcheck cleanup preserves the existing functional-tool selection; later c
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? Requires human author to check.
+- [x] Did a human read every test and every comment? Requires human author to check.
 - [x] What does the user see when it fails? XSD lint rejects valid sample-sheet declarations and exits nonzero; this fixes that rejection.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A; lint coverage validates the existing core tool declaration, per the requested testing scope.

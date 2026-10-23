@@ -1,4 +1,4 @@
-Backport the two server-side invocation-request fixes from 🌿[invocation_no_add_to_history_false](https://github.com/jmchilton/galaxy/tree/invocation_no_add_to_history_false) to `release_26.1`.
+Fix two server-side invocation-request bugs on `release_26.1`. These are the server half of 🌿[invocation_no_add_to_history_false](https://github.com/jmchilton/galaxy/tree/invocation_no_add_to_history_false), which also carries the 26.2-only client-type generator changes.
 
 A caller filling in the published request defaults can trigger two server bugs: explicitly sending `no_add_to_history: false` silently suppresses input copying, while sending an empty `ds_map` alongside `inputs` returns 400. Both checks currently treat key presence as the value.
 
@@ -9,9 +9,9 @@ A caller filling in the published request defaults can trigger two server bugs: 
 | `ds_map: {}` or `null` alongside `inputs` | HTTP 400 | `inputs` is used |
 | Non-empty `ds_map` alongside non-null `inputs` | HTTP 400 | Unchanged |
 
-***This backport changes only the two server value checks and their API regressions. The client-type generator, generated schemas and description changes stay in the 26.2 sibling.***
+***This PR changes only the two server value checks and their API regressions. The client-type generator, generated schemas and description changes stay in the 26.2 sibling.***
 
-***This affects invocation API callers that explicitly send these default values; this backport does not change the published client types.***
+***This affects invocation API callers that explicitly send these default values; this PR does not change the published client types.***
 
 Omitting either field behaves as before. The published api-client types expose these server bugs by requiring callers to fill defaulted request fields.
 
@@ -35,11 +35,11 @@ Review the distinction between omission, false/null and true, plus the empty/non
 
 ## Context
 
-Server-only backport of the two fixes in 🌿[invocation_no_add_to_history_false](https://github.com/jmchilton/galaxy/tree/invocation_no_add_to_history_false), split from 🌿[issue_20900_invocation_validation](https://github.com/jmchilton/galaxy/tree/issue_20900_invocation_validation). Independent of the 26.2 generator changes.
+Server-only subset of the two fixes in 🌿[invocation_no_add_to_history_false](https://github.com/jmchilton/galaxy/tree/invocation_no_add_to_history_false), split from 🌿[issue_20900_invocation_validation](https://github.com/jmchilton/galaxy/tree/issue_20900_invocation_validation). Independent of the 26.2 generator changes.
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Explicit false/null copies inputs; null/empty ds_map next to inputs is accepted. A non-empty conflicting map keeps the existing HTTP 400.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. API tests exercise observable request behavior and persistence effects.
@@ -55,7 +55,7 @@ Server-only backport of the two fixes in 🌿[invocation_no_add_to_history_false
 
 <details><summary>API regression coverage and validation</summary>
 
-The two parametrized API tests cover omitted/null/false/true no_add_to_history and omitted/null/empty/non-empty ds_map. Earlier regression evidence from the 26.2 sibling demonstrates the value-check failures; the eight cases also passed on the 26.1 backport before polish.
+The two parametrized API tests cover omitted/null/false/true no_add_to_history and omitted/null/empty/non-empty ds_map. Earlier regression evidence from the 26.2 sibling demonstrates the value-check failures; the eight cases also passed on the 26.1 branch before polish.
 
 ```sh
 GALAXY_CONFIG_OVERRIDE_CONDA_AUTO_INIT=false \

@@ -107,7 +107,7 @@ It reviewed the full diff and the surrounding code (`basic.py`, `variants.ts`, F
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A value whose map-over entry isn't listed falls back to the direct row without a message, as on 26.1. Server-seeded values (first load, rerun) still land on the direct row (see Known gaps).
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The FormData tests assert rendered labels, selection and emitted values; the pagination unit tests drive `accumulate_with_filter` with fake rows, including a two-entry row at the limit; the API tests check `/build` pages and job results.

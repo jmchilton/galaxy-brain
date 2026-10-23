@@ -153,7 +153,7 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? An error naming the path or hid. The exception is a `values` path the form never shows, which is skipped as the harness needs (the docstring says so).
   <details><summary>Messages</summary>
 

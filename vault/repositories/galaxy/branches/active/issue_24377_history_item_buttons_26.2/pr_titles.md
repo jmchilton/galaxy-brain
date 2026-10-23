@@ -1,4 +1,1 @@
 - [26.2] Restore history item button tooltip checks in dataset state tests
-- [26.2] Fix stubbed history item button checks and wait for item bodies to finish expanding
-- [26.2] Restore no-op history item button tests; fix stale selectors and tooltips
-- [26.2] Re-enable history item button checks, with a GCollapse settle marker for hovers

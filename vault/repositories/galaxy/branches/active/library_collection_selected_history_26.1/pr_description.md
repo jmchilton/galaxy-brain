@@ -106,7 +106,7 @@ The bug is also present on `release_25.1` and `release_26.0`. Alternative kept o
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Library dialog shows the existing "An error occurred." toast (now on the picked-history path too); the wizard shows its existing creation-error alert.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes - E2Es assert where collections land via history contents; the vitest pins the current-history fallback.

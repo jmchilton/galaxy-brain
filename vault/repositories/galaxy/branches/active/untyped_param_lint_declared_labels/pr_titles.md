@@ -1,4 +1,1 @@
-- [26.1] Don't flag rename parameters filled by a workflow parameter input
 - [26.1] Fix untyped parameter lint for renames backed by a parameter input
-- [26.1] Treat only rename `${...}` as workflow replacement parameters in editor lint and run form
-- [26.1] Clear the untyped parameter warning after extracting a rename parameter

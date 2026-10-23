@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+My bots nits seem worth addressing. I dropped the one I didn't love. -John
 
 <details><summary>Automated Review Details</summary>
 
@@ -104,26 +104,6 @@ Fixed in [`bd57dcf2db9`](https://github.com/jmchilton/galaxy/commit/bd57dcf2db9)
 <details><summary>Discovery & Verification Agent Details</summary>
 
 Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/thermo_review.md) via Opus 5.5 at low effort. Verified via Opus 5.5 at medium effort.
-
-</details>
-
-### P3 2: Converter retention under `--target __default__` is untested (implementation verified)
-
-The PR body lists "`populate_store.py --target __default__` keeps the converters in the default index" as a fix (`include_converters = DEFAULT_STORE_NAME in writable_names`). The only test change was `datatypes_config: []`. That builds an empty registry, so no converter is ever enumerated. Neither branch of the new `try/except` around `_ensure_datatypes_registry` was exercised either: raise on a full/prune rebuild, warn on a partial populate.
-
-<details><summary>Evidence</summary>
-
-The new `TestDefaultTargetConverters` in `test/unit/scripts/tool_source/test_populate_store.py` uses a fake registry with one converter. All 3 tests fail with the base `populator.py` restored and pass on the PR head.
-
-</details>
-
-Add tests for retention across a default-target rebuild and a prune rebuild, and for both failure branches. The review branch has them.
-
-Fixed in [`2cac6a2e3fc`](https://github.com/jmchilton/galaxy/commit/2cac6a2e3fc).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
 
 </details>
 

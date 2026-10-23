@@ -2,10 +2,11 @@ Fix 🎯 #24093 - every collection element dropped into a "Multiple datasets" in
 
 Put a tool's data input in batch ("Multiple datasets") mode, open a paired collection and drag its `forward` element in, then do the same from a second pair. The first chip gets the server's label with hid and state; the second keeps the client's placeholder.
 
-| `release_26.1` (from the issue) | This branch |
-| --- | --- |
+| `release_26.1` (from the issue)                                                                                                                                                                                  | This branch                                                                                                                                                                            |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <img width="600" alt="Two dropped forward elements: the first labelled with its file name, the second labelled forward" src="https://github.com/user-attachments/assets/513978de-adc2-42a9-a8cf-38f8098cb231" /> | <img width="600" alt="cat1 in Multiple datasets mode with two chips, 2: (hidden) forward and 5: (hidden) forward" src="screenshots/tool_form_batch_dropped_collection_elements.png" /> |
-| New test on `release_26.1`: `2: (hidden) forward`, `Selected: forward` | New test here: `2: (hidden) forward`, `5: (hidden) forward` |
+| New test on `release_26.1`: `2: (hidden) forward`, `Selected: forward`                                                                                                                                           | New test here: `2: (hidden) forward`, `5: (hidden) forward`                                                                                                                            |
+|                                                                                                                                                                                                                  |                                                                                                                                                                                        |
 
 The cause is in tool form build (`POST /api/tools/{id}/build`), not the client. The form state keeps only the first value of a batch selection on a single-dataset input. So the build response only has an option entry for that one, and the client falls back to its `Selected: <name>` placeholder for the rest. This branch has build read the raw request value as well, and send an option entry for every value in the batch.
 
@@ -76,7 +77,7 @@ Read-only review of the fix, E2E test and selectors, with only the issue and hou
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A later batch value that can't be resolved (deleted, errored, malformed id) is skipped and keeps the label the client gave it, as every later value did before; the form still loads.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The unit test checks the option labels `to_dict` returns for a batch of two hidden datasets plus a malformed id. It fails on the missing second label with the batch path disabled, and on `MalformedId` without the skip.
@@ -98,5 +99,3 @@ Read-only review of the fix, E2E test and selectors, with only the issue and hou
 
 ## License
 - [x] I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)

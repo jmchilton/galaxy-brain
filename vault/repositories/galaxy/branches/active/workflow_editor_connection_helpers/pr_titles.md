@@ -1,4 +1,1 @@
 - [26.2] Add missing workflow editor tests for refused connections, step removal and unlabelled steps
-- [26.2] Add missing E2E tests for workflow editor connections
-- [26.2] Add missing workflow editor connection tests (and the helpers to write them)
-- [26.2] Test refused connections and same-tool unlabelled steps in the workflow editor

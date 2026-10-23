@@ -76,7 +76,7 @@ That review preceded the image route; the mismatch it recorded is now covered by
 
 ## John’s Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Missing images return 404; unreadable READMEs are omitted and logged; request failures trigger the frontend notification.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes: real repository histories, rendered HTML and revision-specific image bytes.

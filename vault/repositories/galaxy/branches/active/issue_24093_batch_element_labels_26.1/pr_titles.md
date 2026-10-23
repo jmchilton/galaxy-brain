@@ -1,4 +1,1 @@
-- [26.1] Label every value of a batch data input in the tool form
 - [26.1] Fix inconsistent labels for collection elements dropped into a batch input
-- [26.1] Give every dropped batch dataset its server label, not just the first
-- [26.1] Fix tool form build labelling only the first batch value

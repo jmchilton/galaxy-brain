@@ -1,4 +1,1 @@
-- [26.1] Build collections in the picked history, not the current one
-- [26.1] Fix library "Add to History > as a Collection" ignoring the selected history
 - [26.1] Fix collections from libraries and Build List landing in the current history
-- [26.1] Create collections in the history they were built from
