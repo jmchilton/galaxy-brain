@@ -12,3 +12,7 @@
 ## Status
 
 Initial review complete 2026-10-23; awaiting John's action. Selenium test on review branch not run locally.
+
+## Delivery
+
+- 2026-10-23: John dropped P3 1 (checklist). Rebuilt as `pr_24394_review_1` (`c9597a2dc7e`, review_0 minus `94ed91ea044`) and opened https://github.com/davelopez/galaxy/pull/11 into the PR branch `26.2-fix-collection-upload-sorting`. Touched vitest files pass; Selenium test not run. Response comment not yet posted.
