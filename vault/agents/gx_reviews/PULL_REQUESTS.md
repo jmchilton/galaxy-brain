@@ -1,6 +1,6 @@
 PRs To Review:
 - [#24288](https://github.com/galaxyproject/galaxy/pull/24288) — initial review ready, unposted (six P2s + ten P3s; 12 fixed on `pr_24288_review_0`, opened as ahmedhamidawan/galaxy#44). [notes](../../repositories/galaxy/reviews/active/24288/index.md)
-- [#24395](https://github.com/galaxyproject/galaxy/pull/24395) — initial review done, not delivered (P1 label/value bug; fixes on fork branch). [notes](../../repositories/galaxy/reviews/active/24395/index.md)
+- [#24395](https://github.com/galaxyproject/galaxy/pull/24395) — review comment posted, fixes pushed into PR branch (P1 label/value bug); awaiting author/CI. [notes](../../repositories/galaxy/reviews/active/24395/index.md)
 - [#24394](https://github.com/galaxyproject/galaxy/pull/24394) — fixes PR [davelopez/galaxy#11](https://github.com/davelopez/galaxy/pull/11) opened into author branch (P3 1 dropped); review response not posted. [notes](../../repositories/galaxy/reviews/active/24394/index.md)
 - [#24359](https://github.com/galaxyproject/galaxy/pull/24359) — approved 2026-10-22; test fixes pushed to PR branch (`53c31a7032e`); awaiting merge. [notes](../../repositories/galaxy/reviews/active/24359/index.md)
 - [#24357](https://github.com/galaxyproject/galaxy/pull/24357) — approved 2026-10-22 with review; review branch (`ea18258b648`) pushed into PR; awaiting merge. [notes](../../repositories/galaxy/reviews/active/24357/index.md)
