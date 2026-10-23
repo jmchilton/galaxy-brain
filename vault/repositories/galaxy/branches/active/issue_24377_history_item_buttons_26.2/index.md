@@ -5,9 +5,11 @@
 
 ## Status
 
-Status: `branches_ready_for_final_review`. Polished; re-scoped once, hardened twice. Base: `release_26.2` (`fe7b52529a0`). Head: `379f1267d54`. Alt: `issue_24377_history_item_buttons_26.2_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24377_history_item_buttons_26.2`.
+Status: `ready` (PR open). Polished; re-scoped once, hardened twice. Base: `release_26.2` (`fe7b52529a0`). Head: `379f1267d54`. Alt: `issue_24377_history_item_buttons_26.2_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24377_history_item_buttons_26.2`.
 
-No PR yet. Fork CI on `379f1267d54` queued at polish time.
+PR [#24400](https://github.com/galaxyproject/galaxy/pull/24400) opened out of draft 2026-10-23 on John's launch approval.
+
+Fork CI on `379f1267d54` green (Pulsar packages/CWL skipped).
 
 Implements [#24377](https://github.com/galaxyproject/galaxy/issues/24377) ([issue record](../../../issues/queued/24377/index.md)): restores the stubbed history item button tooltip checks, fixes the stale selectors, and adds a GCollapse `g-collapse-shown` marker that `history_panel_click_item_title(wait=True)` waits on.
 
