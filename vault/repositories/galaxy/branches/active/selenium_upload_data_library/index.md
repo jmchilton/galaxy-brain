@@ -9,7 +9,7 @@ Missing E2E tests for the 26.2 Upload Activity "Import from Data Library" route 
 
 ## Status
 
-Implemented; hardening in progress.
+READY. Re-scoped once (alt `selenium_upload_data_library_alt_original_scope`), re-hardened; head `344dc3d6b17`. See `implementation_debrief.md`.
 
 ## Decisions
 
