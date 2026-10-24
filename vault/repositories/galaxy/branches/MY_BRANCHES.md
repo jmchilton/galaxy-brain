@@ -4,6 +4,7 @@ Snapshot: 2026-10-23 (#24314, #24209, #24212 merged; #24380, #24368, #24203 foun
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`udt_element_identifier_api_test`](active/udt_element_identifier_api_test/index.md) — Fixes UDT `$(inputs.x.element_identifier)`: list identifiers when mapped over (incl. converted inputs), dataset name otherwise. [#24434](https://github.com/galaxyproject/galaxy/pull/24434).
 - [`issue_24377_history_item_buttons_26.2`](active/issue_24377_history_item_buttons_26.2/index.md) — Restores no-op history item button tooltip checks; GCollapse settle marker for the shared expand helper (#24377). [#24400](https://github.com/galaxyproject/galaxy/pull/24400).
 - [`workflow_editor_connection_helpers`](active/workflow_editor_connection_helpers/index.md) — Missing editor E2E tests (refused connections, step removal, unlabelled same-tool steps) + shared connection helpers. Base `release_26.2`. [#24370](https://github.com/galaxyproject/galaxy/pull/24370).
 - [`tool_form_job_count_baseline`](active/tool_form_job_count_baseline/index.md) — Baseline tests, shared batch classifier and form-input path refactors ahead of `tool_form_job_count`. [#24217](https://github.com/galaxyproject/galaxy/pull/24217).
@@ -95,7 +96,6 @@ None yet.
 None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
-- [`udt_element_identifier_api_test`](active/udt_element_identifier_api_test/index.md) — Fixes UDT `$(inputs.x.element_identifier)`: list identifiers when mapped over (incl. converted inputs), dataset name otherwise (#24410). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:udt_element_identifier_api_test?expand=1).
 - [`issue_24273_dataset_edit_alert_26.0`](active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Base `release_26.0`, head `c6795829fb1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
 - [`tool_form_job_count`](active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).

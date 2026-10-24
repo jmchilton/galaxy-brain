@@ -1,15 +1,15 @@
 # udt_element_identifier_api_test
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:udt_element_identifier_api_test?expand=1)
+- [PR #24434](https://github.com/galaxyproject/galaxy/pull/24434)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/udt_element_identifier_api_test)
 
 ## Status
 
-`branches_ready_for_final_review`: reworked onto `release_26.1` and polished; waits for John's read-through.
+`ready`: reworked onto `release_26.1`, polished, PR opened 2026-10-24 at John's request.
 
-No PR.
+[#24434](https://github.com/galaxyproject/galaxy/pull/24434) open against `release_26.1`, not draft.
 
-Fork CI on `10492c660b3` running at handoff, no failures seen.
+CI running on `10492c660b3`.
 
 Base: `release_26.1` (`28dcf86a6c4`), head `10492c660b3`; alts `udt_element_identifier_api_test_alt_original_scope`, `udt_element_identifier_api_test_alt_dev` ([alts](alts/)). Fork: `jmchilton/udt_element_identifier_api_test`. Worktree: `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`.
 
