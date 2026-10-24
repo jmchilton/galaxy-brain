@@ -1,0 +1,2 @@
+- `enhancement` — new Format2 input types (#202).
+- `bug` (optional) — any workflow with a color or directory_uri input failed validation and conversion on `main`.

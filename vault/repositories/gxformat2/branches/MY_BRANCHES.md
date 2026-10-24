@@ -28,7 +28,7 @@ None yet.
 
 ## gxformat2 branches — implemented, work left, green (`branches_implemented`)
 
-- [`color_directory_uri_inputs`](active/color_directory_uri_inputs/index.md) — First-class `color`/`directory_uri` workflow parameter inputs (#202). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:color_directory_uri_inputs?expand=1).
+None yet.
 
 ## gxformat2 branches — needs polish (`branches_need_polish`)
 
@@ -36,7 +36,7 @@ None yet.
 
 ## gxformat2 branches — ready for final review (`branches_ready_for_final_review`)
 
-None yet.
+- [`color_directory_uri_inputs`](active/color_directory_uri_inputs/index.md) — First-class `color`/`directory_uri` workflow parameter inputs (#202). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:color_directory_uri_inputs?expand=1).
 
 ## gxformat2 branches — approved, opens when green (`branches_need_pr`)
 

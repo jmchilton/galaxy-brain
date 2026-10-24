@@ -1,0 +1,4 @@
+- Support Galaxy color and directory_uri workflow parameter inputs
+- Add first-class `color` and `directory_uri` Format2 input types
+- Fix color/directory_uri parameter inputs crashing Format2 conversion
+- Model `color` and `directory_uri` workflow inputs in Format2 schema

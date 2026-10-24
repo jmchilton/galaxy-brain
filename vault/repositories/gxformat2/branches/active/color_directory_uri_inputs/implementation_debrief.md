@@ -1,8 +1,8 @@
 # Implementation debrief
 
-Closes [gxformat2#202](https://github.com/galaxyproject/gxformat2/issues/202). Commits: `5b6f370`, `3dd0a45` (normal review fixes).
+Closes [gxformat2#202](https://github.com/galaxyproject/gxformat2/issues/202). Commits: `5b6f370`, `3dd0a45` (normal review fixes), `6b375cf` (thermo-nuclear refactor).
 
-**Root cause.** Format2 had no `color` or `directory_uri` input model. The pydantic discriminator sent `color` to `WorkflowTextParameter`, whose `Literal["text", "string"]` rejects it. As a result, native→Format2 and Format2→native both crashed on color inputs. `directory_uri` fell through to the data-input default.
+**Root cause.** Format2 had no `color` or `directory_uri` input model. The pydantic discriminator sent `color` to `WorkflowTextParameter`, whose `Literal["text", "string"]` rejects it. As a result, native→Format2 and Format2→native both crashed on color inputs. `directory_uri` fell through to `WorkflowDataParameter`, which rejects it, so it crashed the same way.
 
 **Change**
 - New SALAD records `WorkflowColorParameter` and `WorkflowDirectoryUriParameter`, plus `GalaxyType` symbols.
@@ -20,7 +20,7 @@ Closes [gxformat2#202](https://github.com/galaxyproject/gxformat2/issues/202). C
 
 **Verified**
 - Red to green: the new declarative to_native/to_format2/validate/lint/mermaid expectations, a JSON Schema test, a pydantic class test and a cwltool-validated abstract export test.
-- Full pytest: 939 passed. `make lint` passes, including the schema regeneration drift check.
+- Full pytest: 940 passed after hardening. `make lint` passes, including the schema regeneration drift check.
 - IWC suite: 1975 passed. IWC has no workflows using either type.
 
 **Follow-ups (not done)**
