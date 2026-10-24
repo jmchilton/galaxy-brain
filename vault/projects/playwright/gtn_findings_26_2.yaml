@@ -389,12 +389,12 @@
   fix: Use `wget -O outfile '<link>'` (or `--content-disposition`).
 
 - label: finding-datasets-user-menu
-  faqs: [faqs/galaxy/datasets_finding_datasets.md, faqs/galaxy/datasets_purging_datasets.md]
+  faqs: [faqs/galaxy/datasets_finding_datasets.md, faqs/galaxy/datasets_purging_datasets.md, faqs/galaxy/histories_copy_dataset.md]
   target: main
   summary: There is no **User > Datasets**; the user menu only has Preferences and Sign Out. The list is the Activity Bar's **Datasets**.
 
 - label: icons-export-another-galaxy
-  faqs: [faqs/galaxy/datasets_icons.md]
+  faqs: [faqs/galaxy/datasets_icons.md, faqs/galaxy/histories_dataset_item.md]
   target: version
   summary: 26.2 adds an **Export to another Galaxy** button (`fa-file-export`) between Download and Copy Link on a user's datasets; the FAQ doesn't list it and GTN has no icon for it.
   fix: 'Add `galaxy-export-to-galaxy: fas fa-file-export` to `_config.yml` icons, then a line "**Export to another Galaxy**: make a link another Galaxy can import the dataset from".'
@@ -520,3 +520,23 @@
   target: main
   summary: 'Two "Use ... Manipulate FASTQ settings to produce a dataset that contains the `/1` (`/2`) reads**" bullets end with an unmatched `**` that renders literally, and Solution 4 stops after the example identifiers without saying what to match by.'
   fix: 'Drop the stray `**`; end Solution 4 with the expressions, e.g. Match by `.+ 2:N:.*` for the `/1` reads.'
+
+- label: scratchbook-no-checkmark
+  faqs: [faqs/galaxy/features_scratchbook.md]
+  target: main
+  summary: Step 1's "You should see a little checkmark on the icon now" is wrong; the Window Manager icon gets no checkmark, it only stays highlighted while on.
+
+- label: copy-dataset-stale-steps
+  faqs: [faqs/galaxy/histories_copy_dataset.md]
+  target: main
+  summary: 'Method 1 opens History options with the gear (now ☰, `galaxy-history-options`), names the button "Copy History Items" (now **Copy Selected Items**) and says the green box link switches history (it opens the history''s page, then **Switch to this history**). Method 2 says "dropdown arrow" for the same ☰ menu. Methods 1 and 2 both repeat a step number (5, 5 and 3, 3). Method 3''s action is **Copy to current history** in the row''s menu.'
+
+- label: archive-archived-histories-location
+  faqs: [faqs/galaxy/histories_archive.md]
+  target: main
+  summary: There is no **Data** menu; archived histories are under the Activity Bar's **Histories** > **Archived Histories** tab, also linked from the "archived" message.
+
+- label: collections-minmap2-typo
+  faqs: [faqs/galaxy/histories_datasets_vs_collections.md]
+  target: main
+  summary: '"provide `minmap2` with just one input" misspells Minimap2.'

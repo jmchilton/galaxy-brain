@@ -511,25 +511,60 @@
   mode: text
   gtn_commit: 45d4932d33
 - faq: faqs/galaxy/fastq_groupmerge.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [microbiome/metagenomics-assembly]
 - faq: faqs/galaxy/features_scratchbook.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [scratchbook-no-checkmark]
+  gx_findings: 'Covered by test_window_manager.py (toggle, open dataset, multiple windows); no gxui run needed.'
 - faq: faqs/galaxy/galaxy_labs.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [introduction/galaxy-intro-rdm]
 - faq: faqs/galaxy/histories_annotation.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [galaxy-interface/history, introduction/galaxy-cite]
+  gx_findings: 'Covered by test_history_panel_annotations_change.'
 - faq: faqs/galaxy/histories_archive.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 7ee70847cf8
+  faq_findings: [archive-archived-histories-location]
+  gx_findings: 'No E2E test archived a history; history_panel_archive, navigate_to_archived_histories, test_archive_current_history (7ee70847cf8, red without the Archive click). gxui: history-archive, histories-archived.'
 - faq: faqs/galaxy/histories_copy_dataset.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 7ee70847cf8
+  used_by: [metabolomics/gcms, metabolomics/lcms, single-cell/bulk-music-4-compare, single-cell/scrna-data-ingest, transcriptomics/ref-based]
+  faq_findings: [copy-dataset-stale-steps, finding-datasets-user-menu]
+  gx_findings: 'Method 1 is covered by test_copy_hdca; gxui history-copy-datasets added. Method 2 (Multiview drag) runs with dataset-copy; covered by test_copy_dataset_between_columns. Method 3 (Datasets list > Copy to current history) has no E2E test or verb.'
 - faq: faqs/galaxy/histories_create_new.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/histories_dataset_colors.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/histories_dataset_item.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [icons-export-another-galaxy]
 - faq: faqs/galaxy/histories_datasets_vs_collections.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [collections-minmap2-typo]
 - faq: faqs/galaxy/histories_download_histories.md
   status: pending
 - faq: faqs/galaxy/histories_export_citations.md

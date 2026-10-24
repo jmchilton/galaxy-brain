@@ -65,4 +65,6 @@ gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filt
 
 **Then (FAQ loop batch 9, 2026-10-24):** `3dfeb7f18a2` tests a tool form data input's accepted formats list (`tool_form_accepted_formats`). `bcabe015080` tests assigning interval columns on the Attributes tab (`edit_dataset_attribute_fields`, `edit_dataset_set_metadata_select`). gxui: `tool-accepted-formats`, `dataset-attributes`, `dataset-set-metadata`. 69 commits; tip `b6305d0adee`.
 
+**Then (FAQ loop batch 10, 2026-10-24):** `7ee70847cf8` tests archiving the current history (`history_panel_archive`, `navigate_to_archived_histories`). gxui: `history-archive`, `histories-archived`, `history-copy-datasets`. 70 commits; tip `492577ebcbb`.
+
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.

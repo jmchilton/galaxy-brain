@@ -291,6 +291,8 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `bcabe015080`: coverage for `datatypes_tabular` (batch 9). Attributes tab field reader
   `edit_dataset_attribute_fields`, `edit_dataset_set_metadata_select`,
   `test_history_dataset_assign_interval_columns`. Standalone.
+- `7ee70847cf8`: coverage for `histories_archive` (batch 10). Archive selectors,
+  `history_panel_archive`, `navigate_to_archived_histories`, `test_history_archive.py`. Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
