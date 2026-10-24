@@ -5,14 +5,15 @@
 
 ## Status
 
-Implemented for [#1746](https://github.com/galaxyproject/planemo/issues/1746); review, hardening and polish follow.
+Polished for [#1746](https://github.com/galaxyproject/planemo/issues/1746); waiting for John's final review.
 
 No PR yet.
 
-Fork CI pending.
+Fork CI queued on `e30e16b0`.
 
 ## Details
 
 - Base: `origin/master` at `969e5cee`.
 - Issue record: [#1746](../../../issues/wip/1746/index.md).
-- [Implementation debrief](implementation_debrief.md).
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+- Debriefs: [implementation](implementation_debrief.md), [normal review](subagents/normal_review.md), [codex review](codex_review.md), [thermo-nuclear review](thermo_nuclear_review.md), [polish](polish_debrief.md).

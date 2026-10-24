@@ -1,0 +1,4 @@
+- Fail tool tests that print their secrets
+- Fail `planemo test` when a tool leaks a test secret or the API key
+- Catch tools that leak credentials or API keys in `planemo test`
+- Fail tool tests whose stdio or outputs contain a test secret
