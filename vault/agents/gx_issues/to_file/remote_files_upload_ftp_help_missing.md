@@ -16,9 +16,12 @@ GTN's FTP FAQ step 1 says "Check that your Galaxy supports FTP upload and look u
 
 ## Fix
 
-- Move the alert from `FilesDialog.vue` into `client/src/components/FilesDialog/FtpUploadHelp.vue` (reads `useConfig()` itself; `data-description="ftp upload help"`).
-- `FilesDialog.vue` renders `<FtpUploadHelp v-if="showFTPHelper" id="helper" />` (its vitest `#helper` checks unchanged); drops its own `useConfig`/`GAlert`.
-- `RemoteFilesUpload.vue` renders `<FtpUploadHelp v-if="currentFileSourceUri === 'gxftp://'" />` under the search bar.
+- Move the alert from `FilesDialog.vue` into `client/src/components/FilesDialog/FtpUploadHelp.vue`.
+  - The component reads `useConfig()` itself and carries `data-description="ftp upload help"`.
+  - It takes a `uri` prop and shows only for `gxftp://`.
+  - It skips the log-in sentence when `ftp_upload_site` is unset.
+- `FilesDialog.vue` renders `<FtpUploadHelp id="helper" :uri="..." />` and drops `showFTPHelper`, `useConfig` and `GAlert`. Its `#helper` vitest checks are unchanged.
+- `RemoteFilesUpload.vue` renders `<FtpUploadHelp :uri="currentFileSourceUri" />` under the search bar.
 
 ## Test
 

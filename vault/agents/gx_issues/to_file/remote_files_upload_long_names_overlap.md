@@ -8,6 +8,10 @@ Upload > **Choose Remote Files** > **Genome Ark** > `species/Taeniopygia_guttata
 
 ## Fix
 
-`RemoteFilesUpload.vue` scoped style: `.remote-files-browser-label` gets `min-width: 0; overflow-wrap: anywhere;` so names wrap inside the Name column. (8d02e258acc "Aligns remote file browser labels" set `text-align: start` on the same class for long names, but not wrapping.)
+A new `upload-browser-label` mixin in `Panels/Upload/shared/upload-table-shared.scss` sets `min-width: 0; overflow-wrap: anywhere;`, so names wrap inside the Name column. `RemoteFilesUpload.vue` applies it to `.remote-files-browser-label`. (8d02e258acc "Aligns remote file browser labels" set `text-align: start` on that class for long names, but didn't make them wrap.)
 
-Test (added on the extracted branch): `test_long_remote_file_name_stays_in_its_column` measures the label against its column; red before the fix (733px of overflow), green after under Playwright and Selenium.
+The Import from Data Library browser (`DataLibraryUpload.vue`) had the same bug for both library names and folder/dataset names, and now uses the same mixin. Its commit is "Wrap long names in the data library browser too".
+
+Tests (added on the extracted branch). Both measure the label against its column with `assert_label_within_its_column`, and both pass under Playwright and Selenium:
+- `test_long_remote_file_name_stays_in_its_column`: red before the fix, with 733px of overflow.
+- `test_long_data_library_names_stay_in_their_column`: red before the fix; the library name overflowed by 1063px and the folder name by 917px.

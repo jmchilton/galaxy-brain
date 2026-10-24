@@ -270,8 +270,18 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `0cd9f75f9d1`: client fix (`datasets_upload_from_genomeark`): long remote file names wrap instead of
   running under Details. CSS only; queued as `remote_files_upload_long_names_overlap.md`. Standalone,
   and a `release_26.2` PR candidate.
-- All of batch 7 above, plus `14d970513f5` and `073889a2872`, was extracted to
-  `selenium_history_filters_ftp_notice` (2026-10-23); drop them by subject on restack.
+- Batch 7 (`77ebe032746`, `28eb02432cd`, `391dd82665d`, `de467e6fcb9`, `bcaec710b18`, `0cd9f75f9d1`)
+  and the prerequisites `14d970513f5` and `073889a2872` were extracted together into
+  [`selenium_history_filters_ftp_notice`](../../repositories/galaxy/branches/active/selenium_history_filters_ftp_notice/index.md)
+  (2026-10-23). It is stacked on #24380 and goes onto `release_26.2` once that merges. It differs from
+  the source commits:
+  - Helpers that duplicate #24380's are dropped, the tests are rewritten in #24380's style, and the
+    FTP and long-name fixes both have red-to-green E2E tests.
+  - It was re-scoped. `FtpUploadHelp` takes `uri` and skips the log-in sentence when no
+    `ftp_upload_site` is set. The data library browser (library and item names) gets the same wrap,
+    through an `upload-browser-label` mixin.
+
+  On restack, drop all eight commits by subject.
 - `865d70395e8`: coverage for `datasets_upload` (batch 8). `set_file_input` takes a list;
   `stage_local_files` picks several files in one chooser selection; `test_upload_files_from_one_selection`.
   Standalone.

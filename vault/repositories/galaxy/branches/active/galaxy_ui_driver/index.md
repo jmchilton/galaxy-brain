@@ -58,6 +58,8 @@ gxui gains `history-resume-paused` and `datasets-purge-deleted`. 60 commits; tip
 gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filter` and `upload-remote --path`. 66 commits; tip `7e323178dc0`.
 
 **Extracted 2026-10-23:** batch 7's six commits plus `14d970513f5` (remote file search) and `073889a2872` (hide/unhide) → [`selenium_history_filters_ftp_notice`](../selenium_history_filters_ftp_notice/index.md), stacked on `selenium_delete_items_dataset_privacy`. On restack, drop all eight by subject. With the earlier extractions, 14 commits now wait to be dropped.
+- That branch is hardened and was re-scoped. It keeps the helper names `history_panel_filter`, `history_panel_confirm_selected_operation`, `history_panel_undelete_selected`, `history_panel_hide_selected` and `open_remote_folder`, so gxui's verbs bind unchanged.
+- `history_panel_filter_text` (`32e12d33af7`, which stays here) should read `components.history_panel.search`. `FtpUploadHelp` now takes a `uri` prop.
 
 **Then (FAQ loop batch 8, 2026-10-23):** `865d70395e8` tests picking several local files in one chooser selection (`set_file_input` takes a list, `stage_local_files`). gxui: `upload-file` takes several paths; `history-delete --purge` shows already-deleted hids with `deleted:any` first. 67 commits; tip `8d36c6dcdf8`.
 
