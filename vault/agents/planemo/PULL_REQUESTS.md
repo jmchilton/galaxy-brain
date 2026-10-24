@@ -17,6 +17,6 @@ PRs To Review:
 - [#1751](https://github.com/galaxyproject/planemo/pull/1751) — Initial review drafted; review branch pushed; not delivered. [notes](../../repositories/planemo/reviews/active/1751/index.md)
 - [#1744](https://github.com/galaxyproject/planemo/pull/1744) — Initial review drafted; review branch pushed; not delivered. [notes](../../repositories/planemo/reviews/active/1744/index.md)
 - [#1752](https://github.com/galaxyproject/planemo/pull/1752) — Initial review drafted; review branch pushed; not delivered. [notes](../../repositories/planemo/reviews/active/1752/index.md)
-- [#1747](https://github.com/galaxyproject/planemo/pull/1747) — Initial review drafted; review branch pushed; not delivered. [notes](../../repositories/planemo/reviews/active/1747/index.md)
+- [#1747](https://github.com/galaxyproject/planemo/pull/1747) — Approved with response; review-fix PR mvdbeek/planemo#2 opened; awaiting author merge. [notes](../../repositories/planemo/reviews/active/1747/index.md)
 
 GitHub state last refreshed: 2026-10-11.
