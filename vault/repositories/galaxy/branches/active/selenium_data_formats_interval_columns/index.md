@@ -1,13 +1,13 @@
 # selenium_data_formats_interval_columns
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_data_formats_interval_columns?expand=1)
+- [PR #24439](https://github.com/galaxyproject/galaxy/pull/24439)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_data_formats_interval_columns)
 
 ## Status
 
 Polished, ready for final review; see [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md). Base `release_26.2` `d39f1172656`, head `2a5656f8f8b`.
 
-No PR.
+Draft PR [#24439](https://github.com/galaxyproject/galaxy/pull/24439), opened 2026-10-24 at John's request; undraft when CI is green.
 
 Fork CI pending on `2a5656f8f8b`.
 
