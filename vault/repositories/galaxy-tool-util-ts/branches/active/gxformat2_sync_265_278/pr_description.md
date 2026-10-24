@@ -10,7 +10,7 @@ After this branch, `check-sync` against gxformat2 `main` is clean and the full s
 <details><summary>Notes</summary>
 
 - The raw schemas were regenerated with `PYTHONHASHSEED=0`. `schema-salad-plus-pydantic` orders declarations by hash seed, and no seed reproduced the committed files, so part of the `raw/` diff is reordering only.
-- New CLI test: `gxwf validate --json` on a classless Format2 workflow reports a structure error. It was red before the fix.
+- New CLI test: `gxwf validate --json` on a classless Format2 workflow reports a structure error in both Effect and json-schema modes. Each mode was red before the fix.
 - Changesets: `minor` for `@galaxy-tool-util/schema`; `minor` for `@galaxy-tool-util/cli` (new rejection).
 
 </details>
