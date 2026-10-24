@@ -1,8 +1,8 @@
 # gxformat2_sync_265_278
 
-- [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...gxformat2_sync_265_278?expand=1)
+- PR [#199](https://github.com/jmchilton/galaxy-tool-util-ts/pull/199)
 
-Status: pushed to `origin` (jmchilton) at `5eb9202d`; no PR yet (awaiting John). Base: `origin/main` `6266935d`.
+Status: pushed to `origin` (jmchilton) at `5eb9202d`; PR [#199](https://github.com/jmchilton/galaxy-tool-util-ts/pull/199) opened 2026-10-24 at John's request. Base: `origin/main` `6266935d`.
 Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/gxformat2_sync_265_278`.
 
 [PR description](pr_description.md)

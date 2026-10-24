@@ -1,6 +1,6 @@
 TS port of galaxyproject/gxformat2#281 (#202): first-class `color` and `directory_uri` workflow parameter inputs.
 
-Stacked on #<gxformat2_sync_265_278 PR>; review only the last two commits.
+Stacked on #199; review only the last two commits.
 
 Syncing fixtures from gxformat2#281 (`6b375cf`) turned 12 declarative tests red. This branch makes them pass:
 
