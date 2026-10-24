@@ -1,0 +1,7 @@
+Branch `pr_24367_review_0` (on `jmchilton/galaxy`, from reviewed commit `63c6cbf9eb3`) adds a per-job backstop to the resubmit loop, matching the new-job loop. It moves the `__fail__` placeholder into the shared unmappable-job helper so both paths fail without mapping the job again. Resubmission dispatch is logged only when the runner actually queued the job. It replaces the unit test's mapper-attempt count with a direct "no remap during fail" check, and adds an integration test that runs the real `JobWrapper.fail` and handler monitor loop.
+
+- `d8dd87f90b9` Assert unmappable resubmission is not remapped during fail — the harness `fail()` records any mapping attempt it triggers, replacing `count(resubmit) == 2`.
+- `8e14315619d` Keep any resubmission failure from stopping job dispatch — extracts `__dispatch_resubmitted_job` and wraps each call in `except Exception: log.exception(...)`, with a unit test whose dispatcher raises.
+- `f5f6b7c5f18` Cache __fail__ destination for every unmappable job — moves the placeholder into `__fail_unmappable_job`, with a new-job unit test.
+- `218caba3832` Log resubmission dispatch only when the runner queued it — checks the `dispatcher.put` return value, as the new-job branch does.
+- `dd33df60f6a` Integration test unmappable resubmission against real JobWrapper.fail — new `resubmission_unmappable_job_conf.yml` and `dynamic_unmappable_resubmission` rule, plus `TestJobResubmissionUnmappableIntegration`.

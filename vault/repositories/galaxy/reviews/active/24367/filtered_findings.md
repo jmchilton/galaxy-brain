@@ -1,0 +1,2 @@
+- Default P2 1 optional aside: reuse the wrapper built by `__recover_job_wrapper` in the failure branch instead of building a second one. Dropped because it was optional and P2 1's backstop already covers a failure in the second construction.
+- Default P3 3 alternative: add a comment naming `JobWrapper.fail` as the source of the test double. Dropped as a comment nit; it was folded into P2 2, whose integration test covers the real `fail()`.
