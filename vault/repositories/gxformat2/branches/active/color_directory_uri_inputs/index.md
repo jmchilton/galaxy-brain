@@ -1,15 +1,13 @@
 # color_directory_uri_inputs
 
-- [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:color_directory_uri_inputs?expand=1)
+- PR [#281](https://github.com/galaxyproject/gxformat2/pull/281)
 - [View on GitHub](https://github.com/jmchilton/gxformat2/tree/color_directory_uri_inputs)
 
 ## Status
 
-Polished at `6b375cf` and waiting for John's final review.
+PR [#281](https://github.com/galaxyproject/gxformat2/pull/281) opened 2026-10-24 at John's request from `6b375cf` (title "Support Galaxy color and directory_uri workflow parameter inputs", label `enhancement`). CI green.
 
-No PR opened yet.
-
-CI runs only on PRs. The local gate (full pytest 940 passed, `make lint` including the schema drift check, IWC suite) is green.
+TS companion: [galaxy-tool-util-ts color_directory_uri_inputs](../../../../galaxy-tool-util-ts/branches/active/color_directory_uri_inputs/index.md), stacked on [gxformat2_sync_265_278](../../../../galaxy-tool-util-ts/branches/active/gxformat2_sync_265_278/index.md).
 
 ## Details
 

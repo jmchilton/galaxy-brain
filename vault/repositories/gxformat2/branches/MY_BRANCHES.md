@@ -4,7 +4,7 @@ Snapshot: 2026-10-24 (live GitHub state for jmchilton's open gxformat2 PRs).
 
 ## Open gxformat2 PRs — ready from our side (`ready`)
 
-None yet.
+- [`color_directory_uri_inputs`](active/color_directory_uri_inputs/index.md) — First-class `color`/`directory_uri` workflow parameter inputs (#202). [#281](https://github.com/galaxyproject/gxformat2/pull/281).
 
 ## Open gxformat2 PRs — needs attention (`attention`)
 
@@ -36,7 +36,7 @@ None yet.
 
 ## gxformat2 branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`color_directory_uri_inputs`](active/color_directory_uri_inputs/index.md) — First-class `color`/`directory_uri` workflow parameter inputs (#202). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:color_directory_uri_inputs?expand=1).
+None yet.
 
 ## gxformat2 branches — approved, opens when green (`branches_need_pr`)
 
