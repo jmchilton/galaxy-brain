@@ -5,11 +5,11 @@
 
 ## Status
 
-Head `9699ec45644` on `release_26.2` `7febcc1d683` (merges clean with current base): polished and opened (`ready`).
+Head `24cbef8b930` addresses davelopez and mvdbeek review comments (2026-10-24); also carries 5 previously unpushed local commits (CSS escaping, test helper extraction).
 
 [#24370](https://github.com/galaxyproject/galaxy/pull/24370) opened 2026-10-22 out of draft against `release_26.2` with the first title from `pr_titles.md` and the labels from `pr_tags.md`.
 
-Fork CI green on `9699ec45644`, both new E2E tests passing under Playwright ([run](https://github.com/jmchilton/galaxy/actions/runs/39780461081)).
+CI pending on `24cbef8b930`; changed editor, undo/redo and drag tests pass locally on Playwright.
 
 ## Scope
 
