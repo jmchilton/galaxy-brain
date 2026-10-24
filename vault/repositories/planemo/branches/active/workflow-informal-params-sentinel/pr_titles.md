@@ -1,0 +1,3 @@
+- Fill undeclared workflow replacement parameters with a sentinel and warn
+- Warn and send a sentinel for undeclared `${...}` workflow parameters
+- Stop leaving undeclared `${...}` workflow parameters literal

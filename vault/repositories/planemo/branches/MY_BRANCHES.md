@@ -51,7 +51,7 @@ None yet.
 
 ## Planemo branches — ready for final review (`branches_ready_for_final_review`)
 
-None yet.
+- [`workflow-informal-params-sentinel`](active/workflow-informal-params-sentinel/index.md) — Fills undeclared workflow `${...}` parameters with a sentinel and warns (#1750). [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:workflow-informal-params-sentinel?expand=1).
 
 ## Planemo branches — approved, opens when green (`branches_need_pr`)
 

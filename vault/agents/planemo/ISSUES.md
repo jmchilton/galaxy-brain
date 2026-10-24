@@ -28,6 +28,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default. 
 
 ## In motion (`wip`)
 
+- [#1750](https://github.com/galaxyproject/planemo/issues/1750) — undeclared `${...}` workflow params left literal; branch `workflow-informal-params-sentinel`. [notes](../../repositories/planemo/issues/wip/1750/index.md)
 - [#542](https://github.com/galaxyproject/planemo/issues/542) — planemo shed_lint --fail_fast broken?; PR [#1710](https://github.com/galaxyproject/planemo/pull/1710). [notes](../../repositories/planemo/issues/wip/542/index.md)
 - [#667](https://github.com/galaxyproject/planemo/issues/667) — shed_lint is missing options in lint; PR [#1729](https://github.com/galaxyproject/planemo/pull/1729). [notes](../../repositories/planemo/issues/wip/667/index.md)
 - [#1476](https://github.com/galaxyproject/planemo/issues/1476) — planemo's configuration of bioblend's api key prevents running commands without authentication that don't require it; PR [#1700](https://github.com/galaxyproject/planemo/pull/1700). [notes](../../repositories/planemo/issues/wip/1476/index.md)

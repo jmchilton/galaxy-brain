@@ -1,0 +1,3 @@
+- `enhancement`
+- `workflows`
+- `ux` (the change is mostly a user-facing warning)
