@@ -28,6 +28,7 @@ GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default a
 - (mvp) [#505](https://github.com/galaxyproject/foundry/issues/505) — Ensure every pattern page has a test workflow.; decide: who drives (agent/implement, agent/research or agent/human). [notes](../../repositories/foundry/issues/needs_decision/505/index.md)
 - (large) [#507](https://github.com/galaxyproject/foundry/issues/507) — Improved Structure and Schemas for Mold Artifacts; decide: who drives (agent/implement, agent/research or agent/human). [notes](../../repositories/foundry/issues/needs_decision/507/index.md)
 - [#564](https://github.com/galaxyproject/foundry/issues/564) — advance-galaxy-draft-step/repair-galaxy-draft-topology can produce step doc: text long enough to crash work…; decide: close? galaxy#23579 dropped the annotation index; no lint check yet. [notes](../../repositories/foundry/issues/needs_decision/564/index.md)
+- [#664](https://github.com/galaxyproject/foundry/issues/664) — 4 upstream wrapper bugs (multiqc qualimap, salmonquantmerge, agat, stringtie), none filed upstream; decide: forward upstream, then close? [notes](../../repositories/foundry/issues/needs_decision/664/index.md)
 
 ## In motion (`wip`)
 
@@ -65,6 +66,9 @@ GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default a
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review New Paper; next: implement and open a PR. [notes](../../repositories/foundry/issues/queued/568/index.md)
 - [#621](https://github.com/galaxyproject/foundry/issues/621) — Apply Rules Tutorial Patterns; next: research and add a first comment. [notes](../../repositories/foundry/issues/queued/621/index.md)
 - (mvp) [#580](https://github.com/galaxyproject/foundry/issues/580) — frame comments without position/size rejected by real Galaxy import; next: require geometry in 4 template Molds + evals. [notes](../../repositories/foundry/issues/queued/580/index.md)
+- (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; next: generator line + per-Mold fixes. [notes](../../repositories/foundry/issues/queued/673/index.md)
+- (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack rules for shape-changing params and meta-driven parameterization; next: edit params + channel-shape notes, recast. [notes](../../repositories/foundry/issues/queued/674/index.md)
+- (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; next: add status to schema + Molds, coordinate with #669. [notes](../../repositories/foundry/issues/queued/678/index.md)
 
 ## Blocked on others (`blocked`)
 
@@ -73,6 +77,7 @@ GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default a
 - [#271](https://github.com/galaxyproject/foundry/issues/271) — Decide gops_* vs bedtools interval-tool redundancy (interval MOC); blocked on: an IWC workflow using the operation. [notes](../../repositories/foundry/issues/blocked/271/index.md)
 - [#624](https://github.com/galaxyproject/foundry/issues/624) — API Docs Maybe Should Have Corresponding MCP entrypoints; blocked on: a Galaxy change. [notes](../../repositories/foundry/issues/blocked/624/index.md)
 - (mvp) [#591](https://github.com/galaxyproject/foundry/issues/591) — `download?style=ga` emits unversioned tool_ids; saves but 400s on invoke; blocked on: Galaxy fix (no Galaxy issue yet). [notes](../../repositories/foundry/issues/blocked/591/index.md)
+- (mvp) [#658](https://github.com/galaxyproject/foundry/issues/658) — planemo workflow_lint: string `run:` crash (fixed on master, unreleased) and no workflow_directory; blocked on: planemo release + part-2 fix. [notes](../../repositories/foundry/issues/blocked/658/index.md)
 
 ## Untriaged (`untriaged`)
 
