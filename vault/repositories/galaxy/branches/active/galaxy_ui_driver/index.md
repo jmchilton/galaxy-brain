@@ -71,4 +71,6 @@ gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filt
 
 **Extracted 2026-10-24:** `316dbcf7610` and `4dc3afa5d26` → [`selenium_history_import_purge`](../selenium_history_import_purge/index.md) (hardened, re-scoped). On restack, drop both by subject and rebind gxui `history-import` to the top-level `copy_history_modal` (replaces `history_view.copy_modal`; `history_view_import` is otherwise the same).
 
+**Then (FAQ loop batch 12, 2026-10-24):** `8b84ce48e0f` tests switching histories from the history panel's Switch to history modal (`history_panel_switch_to`). gxui: `history-switch` now uses the modal; new `history-multiview`, `histories-delete`, `histories-restore`. 73 commits; tip `b6077811fd5`. Extraction restack above not yet done.
+
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.

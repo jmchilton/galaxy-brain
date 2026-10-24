@@ -84,3 +84,17 @@
   priority: low
   summary: Recorded on 24.1; the history panel's Select Items flow still matches, but the old masthead (Workflow, Visualize, Data, Help, User) shows.
   retake: Select Items under the history size, tick items, open the n of N selected menu, Hide or Delete, Select Items again to close.
+
+- image: shared/images/list_of_histories.png
+  faqs: [faqs/galaxy/histories_switch.md]
+  target: main
+  priority: high
+  summary: Shows the old center-panel histories list; Switch to history now opens a modal.
+  retake: History panel, Switch to history, with a few histories in the modal.
+
+- image: faqs/galaxy/images/histories_undelete.gif
+  faqs: [faqs/galaxy/histories_undelete.md]
+  target: main
+  priority: medium
+  summary: Predates the card layout and its Restore button.
+  retake: Histories, Toggle Advanced Search, tick Deleted, Restore on a deleted history's card.

@@ -297,6 +297,8 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   `navigate_to_history_view`, `history_view_import`, `test_import_shared_history`. Standalone.
 - `4dc3afa5d26`: coverage for `histories_find_purge` (batch 11). `histories.select_all`,
   `bulk_purge_button`, `histories_purge_all`, `TestHistoriesPurge`. Standalone.
+- `8b84ce48e0f`: coverage for `histories_switch` (batch 12). `history_panel` switch selectors,
+  `history_panel_switch_to`, `test_history_panel_switch_history`. Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
