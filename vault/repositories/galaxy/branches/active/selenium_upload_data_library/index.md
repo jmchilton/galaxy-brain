@@ -9,7 +9,7 @@ Missing E2E tests for the 26.2 Upload Activity "Import from Data Library" route 
 
 ## Status
 
-In progress: fixing the product bugs the tests surfaced (John, 2026-10-23). Prior READY tests-only state at `344dc3d6b17`.
+READY. Tests + 5 bug fixes, re-hardened; head `1fccf61f2d5`. See `implementation_debrief.md`.
 
 ## Decisions
 
