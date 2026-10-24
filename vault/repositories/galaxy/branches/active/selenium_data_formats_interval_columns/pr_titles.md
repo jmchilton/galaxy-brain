@@ -1,0 +1,4 @@
+- [26.2] Add missing E2E tests for tool form accepted formats and dataset interval columns
+- [26.2] Add missing E2E tests: data field accepted formats list, Attributes tab interval columns
+- [26.2] Test tool form accepted formats list and assigning interval column metadata
+- [26.2] Add missing E2E coverage for accepted formats and interval column metadata

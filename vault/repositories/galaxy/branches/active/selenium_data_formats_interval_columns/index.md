@@ -5,11 +5,11 @@
 
 ## Status
 
-READY: hardened; see [implementation debrief](implementation_debrief.md). Base `release_26.2` `d39f1172656`, head `222a113f31d`.
+Polished, ready for final review; see [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md). Base `release_26.2` `d39f1172656`, head `222a113f31d`.
 
 No PR.
 
-No CI yet.
+Fork CI running on `222a113f31d`.
 
 ## Scope
 
