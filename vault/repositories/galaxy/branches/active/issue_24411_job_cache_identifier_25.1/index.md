@@ -9,7 +9,7 @@ Status: `branches_implemented_needs_ci` — READY. Hardened, re-scoped once (map
 
 No PR. CI not yet seen.
 
-Base: `release_25.1` (`6060e10fe7a`), head `9e28638711a`; alt `issue_24411_job_cache_identifier_25.1_alt_original_scope`. Fork: `jmchilton/issue_24411_job_cache_identifier_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24411_job_cache_identifier_25.1`.
+Base: `release_25.1` (`6060e10fe7a`), head `fac15b1bfa9` (model_attributes tests isolated to new users); alt `issue_24411_job_cache_identifier_25.1_alt_original_scope`. Fork: `jmchilton/issue_24411_job_cache_identifier_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24411_job_cache_identifier_25.1`.
 
 ## Issue
 
