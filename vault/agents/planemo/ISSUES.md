@@ -66,7 +66,7 @@ GitHub state last refreshed: 2026-10-06. Issues here are unassigned by default. 
 
 ## Blocked on others (`blocked`)
 
-None yet.
+- [#1745](https://github.com/galaxyproject/planemo/issues/1745) — collection `metadata: {name:}` assertions; routing done in #1723, docs remain; blocked on: galaxy#24224 merge + galaxy-tool-util release. [notes](../../repositories/planemo/issues/blocked/1745/index.md)
 
 ## Untriaged (`untriaged`)
 
