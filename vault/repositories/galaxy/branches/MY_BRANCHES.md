@@ -39,6 +39,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`issue_24411_job_cache_identifier_25.1`](active/issue_24411_job_cache_identifier_25.1/index.md) — [25.1] Job cache no longer reuses a job that saw another `element_identifier` or dataset name (#24411). [#24436](https://github.com/galaxyproject/galaxy/pull/24436).
 - [`untyped_param_lint_declared_labels`](active/untyped_param_lint_declared_labels/index.md) — Editor lint and run form only treat rename `${...}` as replacement params; lint skips input-backed names (#24379). Base `release_26.1`. [#24381](https://github.com/galaxyproject/galaxy/pull/24381).
 - [`yaml_boolean_defaults`](active/yaml_boolean_defaults/index.md) — YAML tools load Boolean `value`, optionality and canonical repeats/sections as the tool models define (#23888). Base `release_26.1`. [#24365](https://github.com/galaxyproject/galaxy/pull/24365). Draft requested by John.
 - [`ag_grid_testing_26.2`](active/ag_grid_testing_26.2/index.md) — Missing ag-grid E2E tests: data landing cell edits, paired builder rename; shared cell-edit helper. Base `release_26.2`. [#24397](https://github.com/galaxyproject/galaxy/pull/24397).
@@ -95,7 +96,6 @@ None yet.
 None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
-- [`issue_24411_job_cache_identifier_25.1`](active/issue_24411_job_cache_identifier_25.1/index.md) — Job cache no longer reuses a job that saw another `element_identifier` or dataset name (#24411). Base `release_25.1`, head `fac15b1bfa9`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24411_job_cache_identifier_25.1?expand=1).
 - [`issue_24273_dataset_edit_alert_26.0`](active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Base `release_26.0`, head `c6795829fb1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
 - [`tool_form_job_count`](active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).

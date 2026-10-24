@@ -1,13 +1,13 @@
 # issue_24411_job_cache_identifier_25.1
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24411_job_cache_identifier_25.1?expand=1)
+- [PR #24436](https://github.com/galaxyproject/galaxy/pull/24436)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24411_job_cache_identifier_25.1)
 
 ## Status
 
-Status: `branches_ready_for_final_review` — polished; awaiting John's read-through. See [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+Status: `ci_wait` — opened as draft [#24436](https://github.com/galaxyproject/galaxy/pull/24436) on John's request; title option 1. See [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-No PR.
+Draft PR #24436 against `release_25.1`, opened 2026-10-24 at `fac15b1bfa9`.
 
 Fork CI on `fac15b1bfa9`: reds diagnosed unrelated (converter, selenium UI, singularity/mulled); API/unit/framework green.
 
