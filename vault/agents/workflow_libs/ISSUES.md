@@ -7,6 +7,7 @@ None yet.
 ## In progress (`wip`)
 
 - [galaxy-tool-util-ts#193](https://github.com/jmchilton/galaxy-tool-util-ts/issues/193) — vendored tests.schema.json rejects nested collection count/min/max; PR [#194](https://github.com/jmchilton/galaxy-tool-util-ts/pull/194). [notes](../../repositories/galaxy-tool-util-ts/issues/wip/193/index.md)
+- [gxformat2#202](https://github.com/galaxyproject/gxformat2/issues/202) — `color`/`directory_uri` not first-class Format2 input types; branch `color_directory_uri_inputs`. [notes](../../repositories/gxformat2/issues/wip/202/index.md)
 
 ## Queued (`queued`)
 
