@@ -5,11 +5,15 @@
 
 ## Status
 
-Hardened, re-scoped, re-hardened; READY. Base `release_26.2` `d39f1172656`, head `32cc69c6e02`; see [debrief](implementation_debrief.md).
+Polished; awaiting John's final review. Base `release_26.2` `d39f1172656`, head `32cc69c6e02`; see [debrief](implementation_debrief.md), [polish debrief](polish_debrief.md).
 
 No PR.
 
-Fork CI pending.
+Fork CI on head in progress.
+
+## PR
+
+[Description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
 ## Scope
 

@@ -1,0 +1,4 @@
+- [26.2] Add missing E2E tests for importing a shared history and purging all histories
+- [26.2] Add missing E2E tests for shared history import and histories list bulk purge
+- [26.2] Test importing another user's shared history and bulk purging histories
+- [26.2] Add missing E2E coverage for history import and bulk purge, with a shared copy history modal selector
