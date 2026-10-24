@@ -288,6 +288,9 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `3dfeb7f18a2`: coverage for `datatypes_understanding_datatypes` (batch 9). `tool_form` data-input
   accepted formats selectors, `tool_form_accepted_formats`, `test_data_parameter_accepted_formats`.
   Standalone.
+- `bcabe015080`: coverage for `datatypes_tabular` (batch 9). Attributes tab field reader
+  `edit_dataset_attribute_fields`, `edit_dataset_set_metadata_select`,
+  `test_history_dataset_assign_interval_columns`. Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

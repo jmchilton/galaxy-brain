@@ -481,9 +481,9 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 936d7155f34
+  galaxy_commit: bcabe015080
   faq_findings: [tabular-datatypes-tab]
-  gx_findings: 'Datatype change covered by the 24fa0702f6d test; no test sets interval column metadata on the Attributes tab. gxui: no verb opens Edit Attributes alone; replay uses dataset-rename to reach the Attributes tab.'
+  gx_findings: 'No test set column metadata from the Attributes tab; edit_dataset_attribute_fields, edit_dataset_set_metadata_select, test_history_dataset_assign_interval_columns (bcabe015080, red without Save). gxui: dataset-attributes, dataset-set-metadata (tip b6305d0adee). Saving Attributes blanks a 0 comment_lines (the known comment_lines bug, being fixed elsewhere).'
 - faq: faqs/galaxy/datatypes_understanding_datatypes.md
   status: ui_verified
   mode: ui
@@ -491,7 +491,7 @@
   galaxy_commit: 3dfeb7f18a2
   used_by: [metabolomics/gc_ms_with_xcms, metabolomics/gcms]
   faq_findings: [understanding-datatypes-accepted-formats]
-  gx_findings: 'No E2E test opened a data input''s accepted formats toggle; tool_form_accepted_formats, test_data_parameter_accepted_formats (3dfeb7f18a2). gxui: tool-accepted-formats (tip 936d7155f34).'
+  gx_findings: 'No E2E test opened a data input''s accepted formats toggle; tool_form_accepted_formats, test_data_parameter_accepted_formats (3dfeb7f18a2). gxui: tool-accepted-formats (tip b6305d0adee).'
 - faq: faqs/galaxy/datatypes_Using_compressed_fastq_data.md
   status: reviewed
   mode: text
