@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished, ready for final review; see [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md). Base `release_26.2` `d39f1172656`, head `222a113f31d`.
+Polished, ready for final review; see [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md). Base `release_26.2` `d39f1172656`, head `2a5656f8f8b`.
 
 No PR.
 
-Fork CI running on `222a113f31d`.
+Fork CI pending on `2a5656f8f8b`.
 
 ## Scope
 
