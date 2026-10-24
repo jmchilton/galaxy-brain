@@ -15,3 +15,9 @@ Not done:
 - XML-tool converted-input identifier is untested (description says so).
 - Job-cache crossing when identifier != dataset name remains (#24411 branch is on 25.1; UDTs also need `consumes_names`).
 - Hardening debriefs (scope, thermo, test challenges, Codex, baseline) predate the rework and the fallback commit; not re-run.
+
+## Parity with #24422 (2026-10-24, John's request)
+
+- Ran #24422's two tests against `release_26.1` code: both red (`null`). Each maps to an existing test here (legacy, `/api/jobs`, workflow); no tests needed copying.
+- Found on the way: on `release_26.1` workflow map-over of a UDT is also broken (only `dev` already handled it). Moved `test_user_defined_tool_step_mapped_over_writes_element_identifier` (and its builder kwargs) from the baseline commit into the fix commit; the baseline commit passes alone (19 passed). Tree unchanged; head `10492c660b3`.
+- Description: added "Comparison with #24422" section above Context (reuse argument + parity table) and dropped the "workflow map-over already correct" claims.

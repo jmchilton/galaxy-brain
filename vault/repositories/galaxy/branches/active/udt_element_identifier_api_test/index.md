@@ -9,9 +9,9 @@
 
 No PR.
 
-Fork CI on `238622866a2` running at handoff, no failures seen.
+Fork CI on `10492c660b3` running at handoff, no failures seen.
 
-Base: `release_26.1` (`28dcf86a6c4`), head `238622866a2`; alts `udt_element_identifier_api_test_alt_original_scope`, `udt_element_identifier_api_test_alt_dev` ([alts](alts/)). Fork: `jmchilton/udt_element_identifier_api_test`. Worktree: `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`.
+Base: `release_26.1` (`28dcf86a6c4`), head `10492c660b3`; alts `udt_element_identifier_api_test_alt_original_scope`, `udt_element_identifier_api_test_alt_dev` ([alts](alts/)). Fork: `jmchilton/udt_element_identifier_api_test`. Worktree: `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`.
 
 ## Issue
 
