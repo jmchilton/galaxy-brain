@@ -38,8 +38,8 @@ Snapshot: 2026-10-23 (#24314, #24209, #24212 merged; #24380, #24368, #24203 foun
 None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
-- [`selenium_data_formats_interval_columns`](active/selenium_data_formats_interval_columns/index.md) — Add missing E2E tests: tool form accepted formats, Attributes tab interval columns; shared `form_element_*` read/set helpers. [#24439](https://github.com/galaxyproject/galaxy/pull/24439).
 
+- [`selenium_data_formats_interval_columns`](active/selenium_data_formats_interval_columns/index.md) — Add missing E2E tests: tool form accepted formats, Attributes tab interval columns; shared `form_element_*` read/set helpers. [#24439](https://github.com/galaxyproject/galaxy/pull/24439).
 - [`issue_24411_job_cache_identifier_25.1`](active/issue_24411_job_cache_identifier_25.1/index.md) — [25.1] Job cache no longer reuses a job that saw another `element_identifier` or dataset name (#24411). [#24436](https://github.com/galaxyproject/galaxy/pull/24436).
 - [`untyped_param_lint_declared_labels`](active/untyped_param_lint_declared_labels/index.md) — Editor lint and run form only treat rename `${...}` as replacement params; lint skips input-backed names (#24379). Base `release_26.1`. [#24381](https://github.com/galaxyproject/galaxy/pull/24381).
 - [`yaml_boolean_defaults`](active/yaml_boolean_defaults/index.md) — YAML tools load Boolean `value`, optionality and canonical repeats/sections as the tool models define (#23888). Base `release_26.1`. [#24365](https://github.com/galaxyproject/galaxy/pull/24365). Draft requested by John.
