@@ -6,3 +6,11 @@ agent_dir: planemo
 name: wh-{name}
 
 Run ./WORK_HORSE.md on galaxyproject/planemo#{name}
+
+## ✅ Close issue
+status: needs_decision, queued, wip, blocked, delegated
+agent_dir: planemo
+name: cl-{name}
+profile: Sonnet (medium)
+
+Close issue galaxyproject/planemo#{name} according to the processes described in AGENTS.md.

@@ -27,3 +27,19 @@ agent_dir: gx_reviews
 name: rv-{name}
 
 Launch a review of galaxyproject/galaxy#{name}
+
+## 🔁 Rework review into PR
+status: active
+agent_dir: gx_reviews
+name: rw-{name}
+profile: Sonnet (medium)
+
+Rework the review of galaxyproject/galaxy#{name} into a pull request description following ../_shared/PROCESS_REWORK_REVIEW_TO_PR.md. REVIEW_DIRECTORY is {record}.
+
+## ⚡ Quick merge
+status: untracked, active
+agent_dir: gx_reviews
+name: qm-{name}
+profile: Sonnet (medium)
+
+Quick merge pull request galaxyproject/galaxy#{name} - skip the initial review process. Check it is still open, not a draft, mergeable and CI is green; if not, stop and report without merging. Otherwise merge it according to the processes described in AGENTS.md. This launch is my approval to merge. Then clean up the review record and relevant worktree (if present).

@@ -86,36 +86,50 @@ describe("parseLaunchers", () => {
 			["✂️ Trim findings", "active", "gx_reviews"],
 			["💭 New session", "", "gx_reviews"],
 			["🔎 Review", "untracked", "gx_reviews"],
+			["🔁 Rework review into PR", "active", "gx_reviews"],
+			["⚡ Quick merge", "untracked,active", "gx_reviews"],
 		]);
 	});
 
-	it("parses the vault's Foundry launchers", () => {
-		expect(vaultLaunchers("repositories/foundry/issues/LAUNCHERS.md")).toEqual([
-			["🏷️ Triage issue", "untracked,needs_decision", "wf_foundry"],
-			["🐴 Work on issue", "untracked,queued,wip", "wf_foundry"],
-		]);
-		expect(vaultLaunchers("repositories/foundry/reviews/LAUNCHERS.md")).toEqual([["🔎 Review", "untracked", "wf_foundry"]]);
-	});
-
-	it("parses the vault's workflow library launchers", () => {
-		for (const repo of ["gxformat2", "galaxy-tool-util-ts"]) {
-			for (const kind of ["branches", "issues", "reviews"]) {
-				const extra = {
-					branches: [],
-					issues: [["🐴 Work on issue", "untracked,queued,wip,needs_decision,blocked", "workflow_libs"]],
-					reviews: [["🔎 Review", "untracked", "workflow_libs"]],
-				}[kind];
-				expect(vaultLaunchers(`repositories/${repo}/${kind}/LAUNCHERS.md`)).toEqual([["💭 New session", "", "workflow_libs"], ...extra!]);
+	it("parses the vault's Foundry, workflow library, Pulsar and Planemo launchers", () => {
+		const WORK_ON = "untracked,queued,wip,needs_decision,blocked";
+		const OPEN_ISSUE = "needs_decision,queued,wip,blocked,delegated";
+		const AGENT_DIRS = { foundry: "wf_foundry", gxformat2: "workflow_libs", "galaxy-tool-util-ts": "workflow_libs", pulsar: "pulsar", planemo: "planemo" };
+		for (const [repo, dir] of Object.entries(AGENT_DIRS)) {
+			const session = dir === "workflow_libs" ? [["💭 New session", "", dir]] : [];
+			const issues =
+				dir === "wf_foundry"
+					? [["🏷️ Triage issue", "untracked,needs_decision", dir], ["🐴 Work on issue", "untracked,queued,wip", dir]]
+					: [...session, ["🐴 Work on issue", WORK_ON, dir]];
+			const expected = {
+				branches: [...session, ["🚀 Open pull request", "active", dir], ["🟣 Merge branch", "active", dir]],
+				issues: [...issues, ["✅ Close issue", OPEN_ISSUE, dir]],
+				reviews: [
+					...session,
+					["🔎 Review", "untracked", dir],
+					["🟣 Merge pull request", "active", dir],
+					["💬 Respond to review", "active", dir],
+					["🔁 Rework review into PR", "active", dir],
+					["⚡ Quick merge", "untracked,active", dir],
+				],
+			};
+			for (const [kind, launchers] of Object.entries(expected)) {
+				expect(vaultLaunchers(`repositories/${repo}/${kind}/LAUNCHERS.md`), `${repo}/${kind}`).toEqual(launchers);
 			}
 		}
 	});
 
-	it("parses the vault's Pulsar and Planemo launchers", () => {
-		for (const repo of ["pulsar", "planemo"]) {
-			expect(vaultLaunchers(`repositories/${repo}/issues/LAUNCHERS.md`)).toEqual([
-				["🐴 Work on issue", "untracked,queued,wip,needs_decision,blocked", repo],
-			]);
-			expect(vaultLaunchers(`repositories/${repo}/reviews/LAUNCHERS.md`)).toEqual([["🔎 Review", "untracked", repo]]);
+	it("defaults the merge, quick merge, open, close, respond and rework launchers to Sonnet", () => {
+		for (const repo of ["foundry", "gxformat2", "galaxy-tool-util-ts", "pulsar", "planemo", "galaxy"]) {
+			// Galaxy only gets the review actions.
+			const counts = repo === "galaxy" ? { reviews: 3 } : { branches: 2, issues: 1, reviews: 4 };
+			for (const [kind, count] of Object.entries(counts)) {
+				const path = `repositories/${repo}/${kind}/LAUNCHERS.md`;
+				const launchers = parseLaunchers(readFileSync(new URL(`../../vault/${path}`, import.meta.url), "utf8"), launcherScope(path)!);
+				const actions = launchers.filter((l) => /^(🚀 Open pull|🟣 |✅ |💬 Respond to review$|🔁 |⚡ )/.test(l.label));
+				expect(actions.map((l) => l.profile), path).toEqual(actions.map(() => "Sonnet (medium)"));
+				expect(actions.length, path).toBe(count);
+			}
 		}
 	});
 });
