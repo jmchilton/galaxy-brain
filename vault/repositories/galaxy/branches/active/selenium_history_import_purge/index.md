@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished; awaiting John's final review. Base `release_26.2` `d39f1172656`, head `32cc69c6e02`; see [debrief](implementation_debrief.md), [polish debrief](polish_debrief.md).
+Polished; PR opened as draft on John's launch approval (2026-10-24). Base `release_26.2` `d39f1172656`, head `32cc69c6e02`; see [debrief](implementation_debrief.md), [polish debrief](polish_debrief.md).
 
-No PR.
+Draft [#24440](https://github.com/galaxyproject/galaxy/pull/24440).
 
-Fork CI on head in progress.
+PR CI on head in progress; undraft when green.
 
 ## PR
 
