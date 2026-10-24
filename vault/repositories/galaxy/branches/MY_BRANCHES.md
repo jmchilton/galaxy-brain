@@ -95,6 +95,7 @@ None yet.
 None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
+- [`udt_element_identifier_api_test`](active/udt_element_identifier_api_test/index.md) — Fixes UDT `$(inputs.x.element_identifier)`: list identifiers when mapped over (incl. converted inputs), dataset name otherwise (#24410). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:udt_element_identifier_api_test?expand=1).
 - [`issue_24273_dataset_edit_alert_26.0`](active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Base `release_26.0`, head `c6795829fb1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
 - [`tool_form_job_count`](active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).
 - [`issue_24174_invocation_rerun_lineage`](active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists (#24174). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1).
@@ -111,8 +112,6 @@ None yet.
 
 None yet.
 ## Galaxy branches — still deciding on (`branches_need_decision`)
-
-- [`udt_element_identifier_api_test`](active/udt_element_identifier_api_test/index.md) — Fixes UDT `$(inputs.x.element_identifier)` rendering `null` when mapped over a list from the tool form/API, including converted inputs. Base `dev`, head `d5ddac3f416`; re-scoped, re-hardened, BLOCKED. Decision: add the job-cache guard (a plain run can reuse a mapped job), and pick `null` or the HDA-name fallback for plain datasets. Issues [#24410](https://github.com/galaxyproject/galaxy/issues/24410) (fix) and [#24411](https://github.com/galaxyproject/galaxy/issues/24411) (job-cache guard). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:udt_element_identifier_api_test?expand=1).
 
 - [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Spike: outputs inside the invocation graph (hover preview; workflow outputs as large embedded nodes with nudge-only layout; per-step preferred output). Base `dev`, head `3e4312f7c1d`; browser-checked on a 10-step workflow. Decision: go/no-go on nudging (right mode is recognizable but fits at 40–50% zoom); split into per-stage PRs? [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_embedded_outputs?expand=1).
 - [`issue_20657_input_processing_mode`](active/issue_20657_input_processing_mode/index.md) — Explains tool input batching and collection mapping, and fixes collection-type matching (#20657) (re-hardened, re-scoped). Decision: second scope eval says expand (pin off-page HDCA selection on refresh); split? Head `10ae420a663`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_20657_input_processing_mode?expand=1).

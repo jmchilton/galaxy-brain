@@ -1,0 +1,4 @@
+- [26.1] Fix user-defined tool element_identifier when mapped over a list
+- [26.1] Fix `$(inputs.x.element_identifier)` being null in user-defined tools run from the tool form or API
+- [26.1] Pass collection element identifiers to user-defined tools on map-over
+- [26.1] User-defined tools: element_identifier for mapped-over, converted and plain inputs

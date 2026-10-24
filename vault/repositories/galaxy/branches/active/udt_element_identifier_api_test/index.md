@@ -1,23 +1,30 @@
 # udt_element_identifier_api_test
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:udt_element_identifier_api_test?expand=1)
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:udt_element_identifier_api_test?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/udt_element_identifier_api_test)
 
 ## Status
 
-BLOCKED on a scope decision. The fix works (UDT `$(inputs.x.element_identifier)` was `null` when mapped over a list from the tool form/API); the second scope evaluation wants a job-cache guard. See [implementation debrief](implementation_debrief.md).
+`branches_ready_for_final_review`: reworked onto `release_26.1` and polished; waits for John's read-through.
 
 No PR.
 
-Base: `dev` (`51e0a80a0db`), head `d5ddac3f416`; alt `udt_element_identifier_api_test_alt_original_scope`. Fork: `jmchilton/udt_element_identifier_api_test`. Worktree: `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`.
+Fork CI on `238622866a2` running at handoff, no failures seen.
+
+Base: `release_26.1` (`28dcf86a6c4`), head `238622866a2`; alts `udt_element_identifier_api_test_alt_original_scope`, `udt_element_identifier_api_test_alt_dev` ([alts](alts/)). Fork: `jmchilton/udt_element_identifier_api_test`. Worktree: `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`.
 
 ## Issue
 
-[#24410](https://github.com/galaxyproject/galaxy/issues/24410), filed 2026-10-23; tracked in `vault/repositories/galaxy/issues/wip/24410/`. Job-cache guard: [#24411](https://github.com/galaxyproject/galaxy/issues/24411) (`wip/24411/`), fixed separately on `issue_24411_job_cache_identifier_25.1` (25.1), which settles this branch's cache-guard scope question — but UDTs need `UserToolEvaluator` to set `consumes_names` here (with a red test), or cached plain/mapped UDT runs still cross.
+[#24410](https://github.com/galaxyproject/galaxy/issues/24410), filed 2026-10-23; tracked in `vault/repositories/galaxy/issues/wip/24410/`. Job-cache crossing: [#24411](https://github.com/galaxyproject/galaxy/issues/24411) (`wip/24411/`), fixed separately on `issue_24411_job_cache_identifier_25.1`.
 
 ## Decisions
 
 - Red tests came from Foundry issue #672 research ([notes](../../../../foundry/issues/wip/672/index.md)).
 - Fix reads the identifier already persisted as `<name>|__identifier__` job param (same source as Cheetah's `ElementIdentifierMapper`); does not change job tool_state to `{"src": "dce"}`.
-- Base `dev`: UDT runtime code in `evaluation.py`/`runtime.py`/`modules.py` diverges heavily from `release_26.1` (no shell_quotable/deferred plumbing) and `release_26.0` (no runtimeify). Backport is an open question.
-- Plain (non-mapped) dataset still renders `null`; labels and Cheetah fall back to HDA name. Left as-is, flagged in issue text.
+- 2026-10-24 John: rework onto `release_26.1` (same branch, force-pushed; dev version kept as `_alt_dev`); `shell_quotable` plumbing dropped (dev-only).
+- 2026-10-24 John: no job-cache guard / `consumes_names` here; left to #24411.
+- 2026-10-24 John: plain (non-mapped) dataset falls back to the HDA name (Cheetah/labels parity). In `to_cwl` the fallback applies only on the UDT path, not workflow `when` expressions.
+
+## Polish
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md).
