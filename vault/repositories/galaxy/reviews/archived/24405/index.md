@@ -4,6 +4,10 @@
 
 ## Status
 
+Archived 2026-10-23: merged by John via quick merge (merge commit, GitHub state MERGED 2026-10-24T00:12Z) without posting the review; P3s not delivered. Worktree removed.
+
+(Earlier status:)
+
 Initial review of `e277999b9f0` complete 2026-10-23, unposted: two P3s (comment trim + savepoint-isolation unit test), fixed on `pr_24405_review_0` (`00fc12580ba`, pushed to fork); unit tests pass (6) with red check.
 
 Open, ready for review, against `release_26.2`. Author mvdbeek. 2 files, +30/-0. Worktree `~/projects/worktrees/galaxy/pr/24405`.
