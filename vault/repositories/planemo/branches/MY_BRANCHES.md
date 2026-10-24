@@ -4,6 +4,7 @@ Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agen
 
 ## Open Planemo PRs — ready from our side (`ready`)
 
+- [`shutdown_test_real_galaxy_run`](active/shutdown_test_real_galaxy_run/index.md) — Post-shutdown test results test drives real `GalaxyEngine._run`. [#1753](https://github.com/galaxyproject/planemo/pull/1753).
 - [`skip-tests-when-external-services-down`](active/skip-tests-when-external-services-down/index.md) — Skips tests relying on quay.io, the Tool Sheds, Dockstore and usegalaxy.eu when they're down. [#1726](https://github.com/galaxyproject/planemo/pull/1726).
 - [`collection-output-assertions`](active/collection-output-assertions/index.md) — Fixes silently skipped collection output assertions in workflow tests. [#1723](https://github.com/galaxyproject/planemo/pull/1723).
 - [`config-option-conversion`](active/config-option-conversion/index.md) — Applies Click conversion to configured option values. [#1714](https://github.com/galaxyproject/planemo/pull/1714).

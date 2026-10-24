@@ -4,6 +4,10 @@
 
 ## Status
 
-Initial review against `14c205f7` complete (1 P2, 1 P3, both fixed on review branch); not delivered.
+Initial review against `14c205f7` (1 P2, 1 P3); not delivered.
 
-PR open by mvdbeek; base `master`.
+Merged 2026-10-24 (`5ff07fa8`); tracking ended on merge.
+
+## Decisions
+
+John disagreed with P3 1 (comment trim). P2 1 test fix (`88fa39d5`) went upstream separately as [#1753](https://github.com/galaxyproject/planemo/pull/1753), tracked in [branch record](../../../branches/active/shutdown_test_real_galaxy_run/index.md).

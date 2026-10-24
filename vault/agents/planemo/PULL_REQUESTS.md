@@ -16,6 +16,5 @@ PRs To Review:
 - [#1703](https://github.com/galaxyproject/planemo/pull/1703) — Marius fix #4 merged; John replied; awaiting renewed review. [notes](../../repositories/planemo/reviews/active/1703/index.md)
 - [#1751](https://github.com/galaxyproject/planemo/pull/1751) — Initial review drafted; review branch pushed; not delivered. [notes](../../repositories/planemo/reviews/active/1751/index.md)
 - [#1747](https://github.com/galaxyproject/planemo/pull/1747) — Initial review drafted; review branch pushed; not delivered. [notes](../../repositories/planemo/reviews/active/1747/index.md)
-- [#1748](https://github.com/galaxyproject/planemo/pull/1748) — Initial review drafted; review branch pushed; not delivered. [notes](../../repositories/planemo/reviews/active/1748/index.md)
 
 GitHub state last refreshed: 2026-10-11.
