@@ -39,7 +39,7 @@ None yet.
 
 ## Planemo branches — implemented, work left (`branches_implemented_needs_ci`)
 
-None yet.
+- [`fail-tests-leaking-secrets`](active/fail-tests-leaking-secrets/index.md) — Fails tool tests whose stdio or outputs contain a test credential secret or the API key (#1746). [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:fail-tests-leaking-secrets?expand=1).
 
 ## Planemo branches — implemented, work left, green (`branches_implemented`)
 
