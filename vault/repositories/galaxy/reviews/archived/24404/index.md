@@ -4,6 +4,8 @@
 
 ## Status
 
+Archived 2026-10-23: PR merged by John (GitHub state MERGED, 2026-10-24T00:03Z). Review response was never posted; tracking ended on merge.
+
 Initial review of `ede9d32e647` complete 2026-10-23, unposted: three P3s (integration-test strength + comment/docstring trim), all on `pr_24404_review_0` (`ab457b3ac9e`, pushed to fork). Edited Postgres-only integration test not run locally (no Postgres); CI must cover it.
 
-Open, ready for review, against `release_25.1`. Author mvdbeek. 2 files, +51/-3. Worktree `~/projects/worktrees/galaxy/pr/24404`.
+Was open against `release_25.1`. Author mvdbeek. 2 files, +51/-3. Worktree `~/projects/worktrees/galaxy/pr/24404`.
