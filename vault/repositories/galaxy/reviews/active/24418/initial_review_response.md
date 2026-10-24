@@ -45,16 +45,14 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24418_review_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24418_review_1) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-[`pr_24418_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24418_review_0) sits on the reviewed commit `bdfe24d00ed` and changes only tests and docstrings. The validators themselves are untouched. The twobit and lav invalid assertions now check the expected message, so a crashing validator can no longer pass as a detected truncation. The TwoBit tests build big-endian and version-1 variants of `1.twobit` in the test, and parametrized byte mutations cover every rejection branch. Separately, the validate docstring is trimmed to one line and a sniff doctest is added.
+[`pr_24418_review_1`](https://github.com/jmchilton/galaxy/tree/pr_24418_review_1) sits on the reviewed commit `bdfe24d00ed` and changes only tests. The validators themselves are untouched. The twobit and lav invalid assertions now check the expected message, so a crashing validator can no longer pass as a detected truncation. The TwoBit tests build big-endian and version-1 variants of `1.twobit` in the test, and parametrized byte mutations cover every rejection branch.
 
-- [`d9aad76f2c8`](https://github.com/jmchilton/galaxy/commit/d9aad76f2c8) Assert expected messages for twobit and lav invalid cases: `_assert_invalid` takes an optional message substring, and every new invalid case passes one.
-- [`8fef17b62c8`](https://github.com/jmchilton/galaxy/commit/8fef17b62c8) Cover big-endian, v1, and each rejection branch of TwoBit validation: adds the `_twobit(order, version)` rebuild helper, the parametrized valid/truncated and rejection tests, and `_bytes()` in place of `_empty()`.
-- [`96198cca2a0`](https://github.com/jmchilton/galaxy/commit/96198cca2a0) Trim TwoBit.validate docstring to one line: drops the rationale paragraph.
-- [`3c09e4c2610`](https://github.com/jmchilton/galaxy/commit/3c09e4c2610) Add TwoBit sniff doctest using 1.twobit: a positive check on `1.twobit` and a negative one on `1.fasta`.
+- [`0ab04803605`](https://github.com/jmchilton/galaxy/commit/0ab04803605) Assert expected messages for twobit and lav invalid cases: `_assert_invalid` takes an optional message substring, and every new invalid case passes one.
+- [`bc2d663e291`](https://github.com/jmchilton/galaxy/commit/bc2d663e291) Cover big-endian, v1, and each rejection branch of TwoBit validation: adds the `_twobit(order, version)` rebuild helper, the parametrized valid/truncated and rejection tests, and `_bytes()` in place of `_empty()`.
 
 </details>
 
@@ -64,9 +62,9 @@ This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24418_review_0)
 
 `galaxy.datatypes.data.validate()` turns any exception into `invalid("Problem running datatype validation method [...]")`, and `_assert_invalid` checks only `state`. With `TwoBit.validate` and `Lav.validate` replaced by a function that raises `RuntimeError`, all five new invalid assertions still pass. The tests can't tell a detected truncation from a crash.
 
-Commit `d9aad76f2c8` gives `_assert_invalid` an optional expected message substring and passes one in every new twobit and lav invalid case. Under the same raising stub, each of the five assertions now fails on the `Problem running datatype validation method [boom]` message.
+Commit `0ab04803605` gives `_assert_invalid` an optional expected message substring and passes one in every new twobit and lav invalid case. Under the same raising stub, each of the five assertions now fails on the `Problem running datatype validation method [boom]` message.
 
-Fix: [`d9aad76f2c8`](https://github.com/jmchilton/galaxy/commit/d9aad76f2c8)
+Fix: [`0ab04803605`](https://github.com/jmchilton/galaxy/commit/0ab04803605)
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -78,40 +76,12 @@ Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blo
 
 `1.twobit` is little-endian version 0, so neither the `order = ">"` branch nor the 64-bit offset path ever runs. The byte order decides how every later int is decoded, which makes it the riskiest untested code. The tests also reach only 2 of the 8 rejection branches: `size < 16` through the empty file, and the final `end > size` check through a 3-byte truncation.
 
-Commit `8fef17b62c8` rebuilds `1.twobit` in the test with either byte order and either version, so no new binary fixtures are needed. Each variant is asserted `ok`, and the same variant cut by one byte is asserted `invalid`. Byte mutations of the fixture are parametrized over every rejection branch, each with its expected message: empty, bad magic, version 2, zero sequences, truncated index, offset past EOF, truncated record header, truncated DNA. A small `_bytes(content)` helper replaces `_empty()`. With the PR's code the rebuilt little-endian v0 file is byte-identical to the fixture. Forcing `order = "<"` and 32-bit offsets in the validator fails the three big-endian and v1 cases.
+Commit `bc2d663e291` rebuilds `1.twobit` in the test with either byte order and either version, so no new binary fixtures are needed. Each variant is asserted `ok`, and the same variant cut by one byte is asserted `invalid`. Byte mutations of the fixture are parametrized over every rejection branch, each with its expected message: empty, bad magic, version 2, zero sequences, truncated index, offset past EOF, truncated record header, truncated DNA. A small `_bytes(content)` helper replaces `_empty()`. With the PR's code the rebuilt little-endian v0 file is byte-identical to the fixture. Forcing `order = "<"` and 32-bit offsets in the validator fails the three big-endian and v1 cases.
 
-Fix: [`8fef17b62c8`](https://github.com/jmchilton/galaxy/commit/8fef17b62c8)
+Fix: [`bc2d663e291`](https://github.com/jmchilton/galaxy/commit/bc2d663e291)
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
 Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via claude-opus-5-5 at medium effort and [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
-
-</details>
-
-### P3 1: `TwoBit.validate` docstring carries rationale (implementation verified)
-
-The docstring's second paragraph ("A 2bit truncated or written empty by a failed job still sniffs...") explains why the validator exists. That belongs in the commit or PR message.
-
-Commit `96198cca2a0` keeps only the first line.
-
-Fix: [`96198cca2a0`](https://github.com/jmchilton/galaxy/commit/96198cca2a0)
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
-
-</details>
-
-### P3 2: No sniff doctest for TwoBit (implementation verified)
-
-`TwoBit.sniff_prefix` has no doctest, and the PR's new `1.twobit` fixture makes one cheap to add.
-
-Commit `3c09e4c2610` adds a doctest that sniffs `1.twobit` as `True` and `1.fasta` as `False`. It passes.
-
-Fix: [`3c09e4c2610`](https://github.com/jmchilton/galaxy/commit/3c09e4c2610)
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
 
 </details>

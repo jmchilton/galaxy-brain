@@ -1,0 +1,4 @@
+`pr_24418_review_1` sits on the reviewed commit `bdfe24d00ed` and changes only tests. The validators themselves are untouched. The twobit and lav invalid assertions now check the expected message, so a crashing validator can no longer pass as a detected truncation. The TwoBit tests build big-endian and version-1 variants of `1.twobit` in the test, and parametrized byte mutations cover every rejection branch.
+
+- `0ab04803605` Assert expected messages for twobit and lav invalid cases: `_assert_invalid` takes an optional message substring, and every new invalid case passes one.
+- `bc2d663e291` Cover big-endian, v1, and each rejection branch of TwoBit validation: adds the `_twobit(order, version)` rebuild helper, the parametrized valid/truncated and rejection tests, and `_bytes()` in place of `_empty()`.

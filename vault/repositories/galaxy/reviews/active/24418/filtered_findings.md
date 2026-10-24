@@ -1,0 +1,2 @@
+- P3 1: `TwoBit.validate` docstring carries rationale — Trimmed by John
+- P3 2: No sniff doctest for TwoBit — Trimmed by John
