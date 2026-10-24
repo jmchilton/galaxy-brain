@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished for [#1750](https://github.com/galaxyproject/planemo/issues/1750); waiting on John's final review.
+Polished for [#1750](https://github.com/galaxyproject/planemo/issues/1750); John asked for the PR on 2026-10-24 at `da1d0916`.
 
-No PR yet.
+Draft PR [#1755](https://github.com/galaxyproject/planemo/pull/1755) opened 2026-10-24.
 
-Fork CI queued on `da1d0916`.
+Fork CI queued on `da1d0916`; undraft once green.
 
 ## Decisions
 

@@ -55,5 +55,3 @@ Reuses `get_dict_from_workflow`, keeps discovery a pure tested function, and add
 Codex argued that a failed run-data fetch should stop the invocation, since otherwise the sentinel and the job-file check are skipped. This branch keeps fail-open: Galaxy's run-form endpoint errors on workflows that invoke tolerates, and failing closed would break runs that work today. The warning is printed either way.
 
 </details>
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
