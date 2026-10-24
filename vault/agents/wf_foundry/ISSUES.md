@@ -33,10 +33,10 @@ GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default a
 
 - [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios` on `jmchilton` (1 commit, 116 behind main). [notes](../../repositories/foundry/issues/wip/534/index.md)
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](../../repositories/foundry/issues/wip/548/index.md)
-- [#573](https://github.com/galaxyproject/foundry/issues/573) — `implement-galaxy-tool-step` documents no binding convention for an authored UDT; branch `issue-585-udt-workflow-binding` on `origin` (supersedes #617). [notes](../../repositories/foundry/issues/wip/573/index.md)
+- [#573](https://github.com/galaxyproject/foundry/issues/573) — `implement-galaxy-tool-step` documents no binding convention for an authored UDT; PR [#714](https://github.com/galaxyproject/foundry/pull/714) (supersedes #617). [notes](../../repositories/foundry/issues/wip/573/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](../../repositories/foundry/issues/wip/694/index.md)
 - (mvp) [#672](https://github.com/galaxyproject/foundry/issues/672) — UDT authoring note: collection example vs stale gxwf schema, no vendoring recipes, `inputs.x` shape undocumented; draft PR [#710](https://github.com/galaxyproject/foundry/pull/710), needs gtu-ts [#198](https://github.com/jmchilton/galaxy-tool-util-ts/pull/198). [notes](../../repositories/foundry/issues/wip/672/index.md)
-- (mvp) [#585](https://github.com/galaxyproject/foundry/issues/585) — UDT registration endpoint is `/api/unprivileged_tools`, not `/api/dynamic_tools`; branch `issue-585-udt-workflow-binding` on `origin` (supersedes #617, also fixes #573). [notes](../../repositories/foundry/issues/wip/585/index.md)
+- (mvp) [#585](https://github.com/galaxyproject/foundry/issues/585) — UDT registration endpoint is `/api/unprivileged_tools`, not `/api/dynamic_tools`; PR [#714](https://github.com/galaxyproject/foundry/pull/714) (supersedes #617, also fixes #573). [notes](../../repositories/foundry/issues/wip/585/index.md)
 
 ## Queued (`queued`)
 
