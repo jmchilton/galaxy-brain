@@ -8,7 +8,8 @@
 - Parent: none fits well. Weak candidate #501 "Improved Support for Tool Development" (UDT-in-workflow adjacent, like #582). Otherwise `roadmap/off`; John to pick.
 - `priority/mvp`: `workflow_lint` is the only changeset-installability check, so the crash hides wrong tool pins ("correct results now").
 - `agent/implement`: fix is small and specified; lives in planemo/gxformat2, which we maintain.
-- `upstream/planemo`: fix lands in Planemo (and a small gxformat2 change). Drop the label when released and pinned.
+- `upstream/planemo`: fix lands in Planemo. Drop the label when released and pinned.
+- `upstream/gxformat2`: part 2 needs `_try_build_nf2` to accept `workflow_directory` (label added 2026-10-24).
 
 ## Derived status
 

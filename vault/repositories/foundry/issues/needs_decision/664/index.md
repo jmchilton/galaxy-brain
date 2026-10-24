@@ -10,11 +10,11 @@ Not a Foundry change: a bundle of four wrapper bugs in other repos. Work is forw
 - Parent: none.
 - `priority/v2`: Foundry itself unaffected; workarounds exist (downstream `change_datatype`, collection_column_join).
 - `agent/human`: John decides whether/where to forward; filing upstream is outside the greenlist.
-- No blocker labels: `upstream/*` only covers galaxy/planemo/gxwf, and nothing in Foundry waits on these.
+- `upstream/tools`: the fixes land in tools-iuc and bgruening/galaxytools (label added 2026-10-24).
 
 ## Derived status
 
-`needs_decision`: `agent/human` (rule 5).
+`needs_decision`, overriding rule 3: nothing is filed upstream yet, so the next move is John's. Becomes `blocked` once upstream issues/PRs exist.
 
 ## Upstream check (2026-10-24, current main of each repo)
 
