@@ -566,25 +566,65 @@
   gtn_commit: 45d4932d33
   faq_findings: [collections-minmap2-typo]
 - faq: faqs/galaxy/histories_download_histories.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [download-histories-stale-steps]
 - faq: faqs/galaxy/histories_export_citations.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/histories_export.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 8408408ab05
+  gx_findings: 'Covered by test_history_native_export_to_file and test_history_rocrate_export_to_file. gxui: history-export (also replays histories_download_histories).'
 - faq: faqs/galaxy/histories_find_purge.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 4dc3afa5d26
+  faq_findings: [find-purge-stale-steps]
+  gx_findings: 'Bulk Purge (N) had no selector or test; histories.select_all, bulk_purge_button, histories_purge_all, TestHistoriesPurge (4dc3afa5d26, red without the confirm). gxui: histories-purge-all.'
 - faq: faqs/galaxy/histories_finding_histories.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [introduction/galaxy-intro-rdm]
+  faq_findings: [finding-histories-typo]
 - faq: faqs/galaxy/histories_import.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 316dbcf7610
+  used_by: [genome-annotation/gene-centric, introduction/galaxy-intro-rdm, introduction/galaxy-intro-short, introduction/galaxy-reproduce, metabolomics/qcxms-predictions, microbiome/lotus2-identifying-fungi, microbiome/mags-building, single-cell/GO-enrichment, single-cell/scanpy_parameter_iterator, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_cell-cycle, single-cell/scrna-case_FilterPlotandExplore_SeuratTools, single-cell/scrna-case_FilterPlotandExploreRStudio, single-cell/scrna-case_JUPYTER-trajectories, single-cell/scrna-case_monocle3-rstudio, single-cell/scrna-case_monocle3-trajectories, single-cell/scrna-case_trajectories, single-cell/scrna-case-jupyter_basic-pipeline, single-cell/scrna-data-ingest]
+  faq_findings: [import-history-button-location]
+  gx_findings: 'No E2E test imported a shared history; history_view import selectors, navigate_to_history_view, history_view_import, test_import_shared_history (316dbcf7610, red without Copy History). gxui: history-import.'
 - faq: faqs/galaxy/histories_list.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [introduction/galaxy-intro-101]
+  faq_findings: [histories-list-data-menu]
 - faq: faqs/galaxy/histories_options.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [galaxy-interface/history]
+  faq_findings: [history-options-menu-drift]
 - faq: faqs/galaxy/histories_rename.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 8408408ab05
+  used_by: [assembly/assembly-with-preprocessing, assembly/chloroplast-assembly, assembly/ERGA-post-assembly-QC, assembly/hybrid_denovo_assembly, assembly/largegenome, assembly/mrsa-illumina, assembly/mrsa-nanopore, climate/pangeo, computational-chemistry/zauberkugel, data-science/online-resources-gene, ecology/bacterial-isolate-species-contamination-checking, ecology/ecoregiolifetraits, ecology/Ecoregionalization_tutorial, ecology/genetic-map-rad-seq, ecology/NEAL_tutorial, ecology/openrefine_gbif, ecology/PAMPA-toolsuite-tutorial, ecology/regionalGAM, ecology/species-distribution-modeling, ecology/yolo_predict_deepsea, epigenetics/formation_of_super-structures_on_xi, evolution/bacterial-comparative-genomics, evolution/mtb_phylogeny, evolution/mtb_transmission, galaxy-interface/history, galaxy-interface/ncbi-sarf, galaxy-interface/workflow-fairification, genome-annotation/amr-gene-detection, genome-annotation/apollo, genome-annotation/bacterial-comparative-genomics-dataset-construction, genome-annotation/bacterial-genome-annotation, genome-annotation/bacterial-genome-quality-control, genome-annotation/bacterial-pangenomics, genome-annotation/hpc-for-lsgc, genome-annotation/pangenome-annotation-with-roary, genome-annotation/secondary-metabolite-discovery, genome-annotation/tnseq, imaging/Annotation_AI_Pipeline, introduction/galaxy-intro-101-everyone, introduction/galaxy-intro-rdm, introduction/galaxy-intro-short, introduction/galaxy-reproduce, microbiome/beer-data-analysis, microbiome/dada-16S, microbiome/diversity, microbiome/host-removal, microbiome/mags-building, microbiome/metagenomics-assembly, microbiome/metagenomics-binning, microbiome/metaplasmidome_query, microbiome/metatranscriptomics, microbiome/mgnify-amplicon, microbiome/pathogen-detection-from-nanopore-foodborne-data, microbiome/taxonomic-profiling, proteomics/metaproteomics, proteomics/metaquantome-data-creation, proteomics/metaquantome-function, proteomics/metaquantome-taxonomy, sequence-analysis/human-reads-removal, sequence-analysis/mapping, sequence-analysis/ncbi-blast-against-the-madland, sequence-analysis/quality-contamination-control, sequence-analysis/quality-control, sequence-analysis/tapscan-streptophyte-algae, sequence-analysis/viral_primer_design, single-cell/scrna-raceid, single-cell/spatial-melanoma-SPICA, transcriptomics/de-novo, transcriptomics/network-analysis-with-heinz, transcriptomics/rna-seq-analysis-with-askomics-it, transcriptomics/rna-seq-counts-to-genes, transcriptomics/rna-seq-genes-to-pathways, transcriptomics/rna-seq-reads-to-counts, transcriptomics/rna-seq-viz-with-heatmap2, transcriptomics/rna-seq-viz-with-volcanoplot, transcriptomics/rna-seq-viz-with-volcanoplot-r, transcriptomics/srna, variant-analysis/aiv-analysis, variant-analysis/baculovirus-isolate-variation, variant-analysis/beacon_cnv_query, variant-analysis/beaconise_1000hg, variant-analysis/exome-seq, variant-analysis/non-dip, variant-analysis/pangenome-with-deepvariant, variant-analysis/pox-tiled-amplicon, variant-analysis/sars-cov-2, variant-analysis/sars-cov-2-variant-discovery, variant-analysis/somatic-variant-discovery, variant-analysis/somatic-variants]
+  gx_findings: 'Covered by test_history_panel_rename; gxui history-rename.'
 - faq: faqs/galaxy/histories_search.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [microbiome/plasmid-metagenomics-nanopore]
 - faq: faqs/galaxy/histories_shared.md
   status: pending
 - faq: faqs/galaxy/histories_sharing.md

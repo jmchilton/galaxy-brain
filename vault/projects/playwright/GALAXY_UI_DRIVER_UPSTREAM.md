@@ -293,6 +293,10 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   `test_history_dataset_assign_interval_columns`. Standalone.
 - `7ee70847cf8`: coverage for `histories_archive` (batch 10). Archive selectors,
   `history_panel_archive`, `navigate_to_archived_histories`, `test_history_archive.py`. Standalone.
+- `316dbcf7610`: coverage for `histories_import` (batch 11). `history_view` import selectors,
+  `navigate_to_history_view`, `history_view_import`, `test_import_shared_history`. Standalone.
+- `4dc3afa5d26`: coverage for `histories_find_purge` (batch 11). `histories.select_all`,
+  `bulk_purge_button`, `histories_purge_all`, `TestHistoriesPurge`. Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

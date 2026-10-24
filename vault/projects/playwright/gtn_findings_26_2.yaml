@@ -540,3 +540,37 @@
   faqs: [faqs/galaxy/histories_datasets_vs_collections.md]
   target: main
   summary: '"provide `minmap2` with just one input" misspells Minimap2.'
+
+- label: download-histories-stale-steps
+  faqs: [faqs/galaxy/histories_download_histories.md]
+  target: main
+  summary: 'The gear is History options (☰, `galaxy-history-options`), and "Click here to generate a new archive" and its link are gone; **Export History to File** is a wizard (format, **Temporary Direct Download**, **Export**, then **Download**).'
+  fix: Replace the steps with a snippet of faqs/galaxy/histories_export.md, or retire this FAQ in its favour.
+
+- label: find-purge-stale-steps
+  faqs: [faqs/galaxy/histories_find_purge.md]
+  target: main
+  summary: 'There is no **User > Histories** (it is the Activity Bar''s **Histories**), Advanced Search has no **Status: All** (it has Deleted and Purged checkboxes), the select-all box is **Select all** above the cards, and the button is **Purge (N)**, confirmed with **Purge histories**.'
+  fix: Steps 2-8 become Histories (Activity Bar) > **Select all** > **Purge (N)** > **Purge histories**; to include already-deleted histories, first tick **Deleted** in Advanced Search.
+
+- label: finding-histories-typo
+  faqs: [faqs/galaxy/histories_finding_histories.md]
+  target: main
+  summary: Typo "Historires Shared with Me".
+
+- label: import-history-button-location
+  faqs: [faqs/galaxy/histories_import.md]
+  target: main
+  summary: '**Import this history** is at the top right of the shared history, not the top left.'
+
+- label: histories-list-data-menu
+  faqs: [faqs/galaxy/histories_list.md]
+  target: main
+  summary: Method 3's **Data** masthead menu doesn't exist (the Activity Bar's **Histories**, method 2, replaces it), and two methods are numbered 3.
+  fix: Drop method 3 and its histories_list_via_masthead.svg, renumber Multi-view as 3; used by introduction/galaxy-intro-101.
+
+- label: history-options-menu-drift
+  faqs: [faqs/galaxy/histories_options.md]
+  target: main
+  summary: 'The list is out of date: "Copy this history" is **Copy History** and "Export tool citations" is **Export Tool References**; **Share or Publish**, **Set Permissions** and **Make Private** are one **Share & Manage Access** item; **Copy Datasets**, **Show History Graph** and **Show History Notebooks** are missing; typo "daysets".'
+  fix: Used by galaxy-interface/history.
