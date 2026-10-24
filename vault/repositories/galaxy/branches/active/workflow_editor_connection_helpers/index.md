@@ -5,11 +5,11 @@
 
 ## Status
 
-Head `24cbef8b930` addresses davelopez and mvdbeek review comments (2026-10-24); also carries 5 previously unpushed local commits (CSS escaping, test helper extraction).
+Head `deae097a003` addresses davelopez and mvdbeek review comments (2026-10-24); also carries 5 previously unpushed local commits (CSS escaping, test helper extraction).
 
 [#24370](https://github.com/galaxyproject/galaxy/pull/24370) opened 2026-10-22 out of draft against `release_26.2` with the first title from `pr_titles.md` and the labels from `pr_tags.md`.
 
-CI pending on `24cbef8b930`; changed editor, undo/redo and drag tests pass locally on Playwright.
+CI pending on `deae097a003`; changed editor, undo/redo and drag tests pass locally on Playwright.
 
 ## Scope
 
