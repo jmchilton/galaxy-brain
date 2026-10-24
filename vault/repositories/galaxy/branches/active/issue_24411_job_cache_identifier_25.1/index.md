@@ -5,9 +5,11 @@
 
 ## Status
 
-Status: `branches_implemented_needs_ci` — READY. Hardened, re-scoped once (mapped name match), re-hardened; second scope eval: keep. See [implementation debrief](implementation_debrief.md).
+Status: `branches_ready_for_final_review` — polished; awaiting John's read-through. See [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-No PR. CI not yet seen.
+No PR.
+
+Fork CI on `fac15b1bfa9`: reds diagnosed unrelated (converter, selenium UI, singularity/mulled); API/unit/framework green.
 
 Base: `release_25.1` (`6060e10fe7a`), head `fac15b1bfa9` (model_attributes tests isolated to new users); alt `issue_24411_job_cache_identifier_25.1_alt_original_scope`. Fork: `jmchilton/issue_24411_job_cache_identifier_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24411_job_cache_identifier_25.1`.
 
