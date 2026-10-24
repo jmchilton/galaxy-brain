@@ -285,6 +285,9 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `865d70395e8`: coverage for `datasets_upload` (batch 8). `set_file_input` takes a list;
   `stage_local_files` picks several files in one chooser selection; `test_upload_files_from_one_selection`.
   Standalone.
+- `3dfeb7f18a2`: coverage for `datatypes_understanding_datatypes` (batch 9). `tool_form` data-input
+  accepted formats selectors, `tool_form_accepted_formats`, `test_data_parameter_accepted_formats`.
+  Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

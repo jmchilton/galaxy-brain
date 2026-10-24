@@ -485,3 +485,38 @@
   faqs: [faqs/galaxy/datasets_working_with_reference_annotation.md]
   target: main
   summary: '"-Remove the headers" has no space after the dash, so it is not a bullet and runs into "It probably has headers."'
+
+- label: fastq-format-edit-steps
+  faqs: [faqs/galaxy/datatypes_fastq_format.md]
+  target: main
+  summary: 'The Edit Attributes steps say "click on the ""Datatype"" tab, enter the datatype `.fastqsanger`", but the tab is **Datatypes** and the datatype is picked from **New Type** (`fastqsanger`, no dot); the "NGS: Fastq manipulation → AB-SOLID DATA → Convert" and "NGS: QC and manipulation →" panel paths are old usegalaxy.org sections.'
+  fix: 'Use "**Datatypes** tab > **New Type**: `fastqsanger` > **Save**" (or link `datasets_change_datatype.md`) in both places, and name the tools without panel paths.'
+
+- label: fastq-varieties-garbled-tip
+  faqs: [faqs/galaxy/datatypes_fastq_varieties.md]
+  target: main
+  summary: '"please make sure you `fastqsanger` and `fastqcssanger` (not the additional `cs`)" is missing words.'
+  fix: 'Say "`fastqsanger` and `fastqcssanger` (note the extra `cs`) are different; make sure you pick `fastqsanger`."'
+
+- label: tabular-datatypes-tab
+  faqs: [faqs/galaxy/datatypes_tabular.md]
+  target: main
+  summary: 'Step 1 says change the datatype on the "3rd tab"; **Datatypes** is the 2nd (Attributes, Datatypes, Permissions), and the column selects only appear on **Attributes** once the datatype is one with columns, such as interval.'
+  fix: 'Reorder: "1. **Datatypes** tab: set the datatype and save. 2. **Attributes** tab: assign the columns (Chrom, Start, End, ...) and save."'
+
+- label: understanding-datatypes-accepted-formats
+  faqs: [faqs/galaxy/datatypes_understanding_datatypes.md]
+  target: main
+  summary: The tool form does not list an input's datatypes until you click **accepted formats** under it, and an empty history isn't needed for that.
+  fix: 'Replace the tip''s steps with "Open the tool and click **accepted formats** under the input."'
+
+- label: ebi-sra-name-tool
+  faqs: [faqs/galaxy/dataupload_EBI-SRA.md]
+  target: main
+  summary: '"Search for your data directly in the tool" never names the tool (**EBI SRA**, in the **Get Data** tool section); the title also has a double space.'
+
+- label: sra-fastq-stray-bold
+  faqs: [faqs/galaxy/dataupload_NCBI_SRA_sourced_fastq_data.md]
+  target: main
+  summary: 'Two "Use ... Manipulate FASTQ settings to produce a dataset that contains the `/1` (`/2`) reads**" bullets end with an unmatched `**` that renders literally, and Solution 4 stops after the example identifiers without saying what to match by.'
+  fix: 'Drop the stray `**`; end Solution 4 with the expressions, e.g. Match by `.+ 2:N:.*` for the `/1` reads.'

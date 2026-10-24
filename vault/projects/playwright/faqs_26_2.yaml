@@ -460,25 +460,56 @@
   faq_findings: [fastq-best-practices-decompress]
   gx_findings: 'Keeping fastqsanger.gz compressed is covered by API tests (test_fetch_compressed_default); on the Selenium framework test server autodetect gave fastqsanger instead (cause not found), so the E2E test does not check it.'
 - faq: faqs/galaxy/datatypes_fastq_and_fastqsanger.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/datatypes_fastq_compressed.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/datatypes_fastq_format.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [fastq-format-edit-steps]
 - faq: faqs/galaxy/datatypes_fastq_varieties.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [fastq-varieties-garbled-tip]
 - faq: faqs/galaxy/datatypes_tabular.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 936d7155f34
+  faq_findings: [tabular-datatypes-tab]
+  gx_findings: 'Datatype change covered by the 24fa0702f6d test; no test sets interval column metadata on the Attributes tab. gxui: no verb opens Edit Attributes alone; replay uses dataset-rename to reach the Attributes tab.'
 - faq: faqs/galaxy/datatypes_understanding_datatypes.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 3dfeb7f18a2
+  used_by: [metabolomics/gc_ms_with_xcms, metabolomics/gcms]
+  faq_findings: [understanding-datatypes-accepted-formats]
+  gx_findings: 'No E2E test opened a data input''s accepted formats toggle; tool_form_accepted_formats, test_data_parameter_accepted_formats (3dfeb7f18a2). gxui: tool-accepted-formats (tip 936d7155f34).'
 - faq: faqs/galaxy/datatypes_Using_compressed_fastq_data.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/dataupload_EBI-SRA.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [ebi-sra-name-tool]
 - faq: faqs/galaxy/dataupload_NCBI_SRA_sourced_fastq_data.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [sra-fastq-stray-bold]
 - faq: faqs/galaxy/dataupload_NCBI_SRA.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/fastq_groupmerge.md
   status: pending
 - faq: faqs/galaxy/features_scratchbook.md

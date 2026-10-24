@@ -63,4 +63,6 @@ gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filt
 
 **Then (FAQ loop batch 8, 2026-10-23):** `865d70395e8` tests picking several local files in one chooser selection (`set_file_input` takes a list, `stage_local_files`). gxui: `upload-file` takes several paths; `history-delete --purge` shows already-deleted hids with `deleted:any` first. 67 commits; tip `8d36c6dcdf8`.
 
+**Then (FAQ loop batch 9, 2026-10-24):** `3dfeb7f18a2` tests a tool form data input's accepted formats list (`tool_form_accepted_formats`). gxui: `tool-accepted-formats`. 68 commits; tip `936d7155f34`.
+
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.
