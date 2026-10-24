@@ -1,0 +1,3 @@
+No refactoring of the base branch was performed.
+
+Both commits (c5e1206485a, 85fe9356f35) are purely additive: new `data-description` attributes on `CopyModal.vue`, new `navigation.yml` selectors, new `NavigatesGalaxy` helpers (`histories_purge_all`, `navigate_to_history_view`, `history_view_import`) and the two new tests. No existing code is restructured or reused in a changed form, so there's nothing to move ahead of the feature onto `release_26.2`. Splitting the selector/attribute additions into a separate commit would just be a new commit with no caller, not a refactor. Branch history unchanged; no push.

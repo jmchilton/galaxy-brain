@@ -69,4 +69,6 @@ gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filt
 
 **Then (FAQ loop batch 11, 2026-10-24):** `316dbcf7610` tests importing another user's shared history (`navigate_to_history_view`, `history_view_import`). `4dc3afa5d26` tests purging all histories from the list (`histories_purge_all`). gxui: `history-import`, `histories-purge-all`, `history-export`. 72 commits; tip `8408408ab05`.
 
+**Extracted 2026-10-24:** `316dbcf7610` and `4dc3afa5d26` → [`selenium_history_import_purge`](../selenium_history_import_purge/index.md) (hardened, re-scoped). On restack, drop both by subject and rebind gxui `history-import` to the top-level `copy_history_modal` (replaces `history_view.copy_modal`; `history_view_import` is otherwise the same).
+
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.
