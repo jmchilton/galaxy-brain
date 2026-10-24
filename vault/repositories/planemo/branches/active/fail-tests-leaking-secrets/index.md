@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished for [#1746](https://github.com/galaxyproject/planemo/issues/1746); waiting for John's final review.
+Polished for [#1746](https://github.com/galaxyproject/planemo/issues/1746); John asked for the PR on 2026-10-24 at `e30e16b0`.
 
-No PR yet.
+Draft PR [#1754](https://github.com/galaxyproject/planemo/pull/1754) opened 2026-10-24.
 
-Fork CI queued on `e30e16b0`.
+Fork CI queued on `e30e16b0`; undraft once green.
 
 ## Details
 

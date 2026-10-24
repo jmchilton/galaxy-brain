@@ -28,7 +28,7 @@ None yet.
 
 ## Draft Planemo PRs — waiting for CI (`ci_wait`)
 
-None yet.
+- [`fail-tests-leaking-secrets`](active/fail-tests-leaking-secrets/index.md) — Fails tool tests whose stdio or outputs contain a test credential secret or the API key. [#1754](https://github.com/galaxyproject/planemo/pull/1754).
 
 ## Draft Planemo PRs — needs author work (`author_work`)
 
@@ -51,7 +51,6 @@ None yet.
 
 ## Planemo branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`fail-tests-leaking-secrets`](active/fail-tests-leaking-secrets/index.md) — Fails tool tests whose stdio or outputs contain a test credential secret or the API key (#1746). [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:fail-tests-leaking-secrets?expand=1).
 - [`workflow-informal-params-sentinel`](active/workflow-informal-params-sentinel/index.md) — Fills undeclared workflow `${...}` parameters with a sentinel and warns (#1750). [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:workflow-informal-params-sentinel?expand=1).
 
 ## Planemo branches — approved, opens when green (`branches_need_pr`)
