@@ -7,8 +7,8 @@
 - Review agents: [details](initial_review_agents.md)
 - Reviewed head: `6c40cf8c76379f17e9bdb1da1b72e8956a0aedee`
 - Worktree: `/Users/jxc755/projects/worktrees/pulsar/pr/547`
-- GitHub state checked 2026-10-25: open, targets `master`; no comments or reviews.
-- Status: review complete with no actionable findings; draft response awaits John's delivery choice. Nothing posted upstream; no review branch needed.
+- GitHub state checked 2026-10-25: merged, targets `master`; approval review posted by John.
+- Status: merged 2026-10-25 into `master`; review response posted and PR merged. Merge commit: `ac4df8671aab9da01068732fc6230990dbe1d30a`. No review branch was needed.
 
 ## Validation and CI
 
