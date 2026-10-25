@@ -699,3 +699,15 @@
   faqs: [faqs/galaxy/tools_rerun.md]
   target: main
   summary: '"paramters" typo; the button tooltip is "Run Job Again".'
+- label: select-multiple-datasets-ctrl-click
+  faqs: [faqs/galaxy/tools_select_multiple_datasets.md]
+  target: main
+  summary: Step 2's Ctrl/COMMAND-click is gone; the list stays open and each click adds a dataset. Say it runs one job per dataset.
+- label: tools-similar-typo
+  faqs: [faqs/galaxy/tools_similar.md]
+  target: main
+  summary: Title "Multipile" -> "Multiple".
+- label: tools-sorting-typo
+  faqs: [faqs/galaxy/tools_sorting.md]
+  target: main
+  summary: '"VFC" -> "VCF".'

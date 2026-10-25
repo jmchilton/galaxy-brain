@@ -868,25 +868,55 @@
   galaxy_commit: 3121f76bffb
   used_by: [assembly/vgp_genome_assembly, computational-chemistry/cheminformatics, ecology/ecoregiolifetraits, ecology/Ecoregionalization_tutorial, introduction/galaxy-intro-rdm, metabolomics/gc_ms_with_xcms, metabolomics/gcms, metabolomics/lcms, metabolomics/lcms-preprocessing, microbiome/plasmid-metagenomics-nanopore, microbiome/samestr-strain-detection, sequence-analysis/Manage_AB1_Sanger, sequence-analysis/tapscan-streptophyte-algae, transcriptomics/differential-isoform-expression, transcriptomics/ref-based, transcriptomics/rna-seq-reads-to-counts, transcriptomics/srna, variant-analysis/somatic-variant-discovery]
 - faq: faqs/galaxy/tools_select_multiple_datasets.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 93b8866b6bd
+  used_by: [assembly/general-introduction, assembly/vgp_genome_assembly, ecology/ecoregiolifetraits, ecology/Ecoregionalization_tutorial, ecology/PAMPA-toolsuite-tutorial, ecology/regionalGAM, epigenetics/methylation-seq, microbiome/metatranscriptomics, sequence-analysis/Manage_AB1_Sanger, sequence-analysis/quality-control, statistics/clustering_machinelearning, synthetic-biology/basic_assembly_analysis, variant-analysis/exome-seq, variant-analysis/non-dip, variant-analysis/somatic-variant-discovery, variant-analysis/somatic-variants]
+  faq_findings: [select-multiple-datasets-ctrl-click]
+  gx_findings: No multiple-datasets coverage; added tool_form_fill list support, nav parameter_data_input_multiple and test_tool_form_fill_multiple_datasets_runs_one_job_each (b0e042c7d8d); gxui tool-fill takes a hid list.
 - faq: faqs/galaxy/tools_similar.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [introduction/galaxy-intro-peaks2genes]
+  faq_findings: [tools-similar-typo]
 - faq: faqs/galaxy/tools_sorting.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [tools-sorting-typo]
 - faq: faqs/galaxy/tools_tool_doesnt_recognize_any_input_datasets.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/troubleshooting_cluster_failure.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/troubleshooting_excess_memory.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/troubleshooting_input_problem.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/troubleshooting_value_error.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/troubleshooting_walltime.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/tutorial_mode.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 93b8866b6bd
+  used_by: [introduction/galaxy-intro-rdm, introduction/galaxy-intro-short, microbiome/lotus2-identifying-fungi, single-cell/bulk-music, single-cell/bulk-music-2-preparescref, single-cell/bulk-music-3-preparebulk, single-cell/bulk-music-4-compare, single-cell/GO-enrichment, single-cell/scanpy_parameter_iterator, single-cell/scatac-batch-correction-snapatac2, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna_batch_correction, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_cell-cycle, single-cell/scrna-case_monocle3-trajectories, single-cell/scrna-case_trajectories, single-cell/scrna-data-ingest, single-cell/scrna-seurat-pbmc3k, single-cell/spatial-melanoma-SPICA]
+  gx_findings: Galaxy bug - GTN webhook proxy probe always passed (catch-all 200), blank iframe; fixed (092b507ccdd), test_activate_tutorial_mode red->green; queued gtn_webhook_proxy_probe_always_passes. Replay uses gxui call (no verb).
 - faq: faqs/galaxy/user_preferences_account_usage_quota.md
   status: pending
   faq_findings: [masthead-user-menu]

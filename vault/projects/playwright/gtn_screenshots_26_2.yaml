@@ -98,3 +98,11 @@
   priority: medium
   summary: Predates the card layout and its Restore button.
   retake: Histories, Toggle Advanced Search, tick Deleted, Restore on a deleted history's card.
+
+- image: topics/contributing/images/88277962-ddda4a80-cce1-11ea-92cd-41b1df063db0.gif
+  faqs: [faqs/galaxy/tutorial_mode.md]
+  used_in: [faqs/galaxy/tools_missing.md]
+  target: main
+  priority: low
+  summary: 2020 masthead and GTN theme; the graduation-cap flow is unchanged.
+  retake: Masthead graduation cap opening the GTN overlay, then a tool button opening its form.
