@@ -6,6 +6,7 @@ Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agen
 
 - [`issue-677-rename-syntax`](active/issue-677-rename-syntax/index.md) — Documents rename post-job action syntax (#677). [#702](https://github.com/galaxyproject/foundry/pull/702).
 - [`feat/test-pipeline-test-data-branch`](active/feat-test-pipeline-test-data-branch/index.md) — Runs the test-data branch in test-pipeline, one worker per leg. Base `feat/test-pipeline-draft-loop`. [#690](https://github.com/galaxyproject/foundry/pull/690).
+- [`issue-716-summarize-nextflow-eval-test-cases`](active/issue-716-summarize-nextflow-eval-test-cases/index.md) — summarize-nextflow eval counts nf-test cases, not files (#716). [#717](https://github.com/galaxyproject/foundry/pull/717).
 
 ## Open Foundry PRs — needs attention (`attention`)
 
