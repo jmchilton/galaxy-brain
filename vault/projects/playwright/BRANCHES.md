@@ -6,6 +6,6 @@ notes) is [archive/BRANCHES.md](archive/BRANCHES.md).
 
 | Branch | State | Notes |
 |---|---|---|
-| [`galaxy_ui_driver`](../../repositories/galaxy/branches/active/galaxy_ui_driver/index.md) | standing, no PR | gxui tip + Galaxy fixes below it; pulled out per `GALAXY_UI_DRIVER_UPSTREAM.md`. On `release_26.2` (via `workflow_editor_connection_helpers`) for 26.2 QA (tip `93b8866b6bd`, restacked 2026-10-25). The final PR targets dev. |
+| [`galaxy_ui_driver`](../../repositories/galaxy/branches/active/galaxy_ui_driver/index.md) | standing, no PR | gxui tip + Galaxy fixes below it; pulled out per `GALAXY_UI_DRIVER_UPSTREAM.md`. On `release_26.2` (via `workflow_editor_connection_helpers`) for 26.2 QA (tip `1bd0ff5728d`, restacked 2026-10-25). The final PR targets dev. |
 | [`selenium_stories_core`](../../repositories/galaxy/branches/active/selenium_stories_core/index.md) | [#24137](https://github.com/galaxyproject/galaxy/pull/24137) open | Test Stories piece D (`TEST_STORIES_RESCUE.md`). |
 | [`move_markdown_conversion_to_util`](../../repositories/galaxy/branches/active/move_markdown_conversion_to_util/index.md) | reference | First commit of `selenium_stories_core`; retire once #24137 merges. |

@@ -916,7 +916,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: 93b8866b6bd
   used_by: [introduction/galaxy-intro-rdm, introduction/galaxy-intro-short, microbiome/lotus2-identifying-fungi, single-cell/bulk-music, single-cell/bulk-music-2-preparescref, single-cell/bulk-music-3-preparebulk, single-cell/bulk-music-4-compare, single-cell/GO-enrichment, single-cell/scanpy_parameter_iterator, single-cell/scatac-batch-correction-snapatac2, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna_batch_correction, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_cell-cycle, single-cell/scrna-case_monocle3-trajectories, single-cell/scrna-case_trajectories, single-cell/scrna-data-ingest, single-cell/scrna-seurat-pbmc3k, single-cell/spatial-melanoma-SPICA]
-  gx_findings: Galaxy bug - GTN webhook proxy probe always passed (catch-all 200), blank iframe; fixed (092b507ccdd), test_activate_tutorial_mode red->green; queued gtn_webhook_proxy_probe_always_passes. Replay uses gxui call (no verb).
+  gx_findings: Galaxy bug - GTN webhook proxy probe always passed (catch-all 200), blank iframe; fixed (092b507ccdd), test_activate_tutorial_mode red->green; queued gtn_webhook_proxy_probe_always_passes. Added gxui tutorial-mode verb.
 - faq: faqs/galaxy/user_preferences_account_usage_quota.md
   status: pending
   faq_findings: [masthead-user-menu]
