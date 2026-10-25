@@ -1,8 +1,10 @@
 #!/bin/bash
 # Query GitHub for every tracked issue and PR in an agent's ISSUES.md; print TSV.
 # Usage: sync_issue_state.sh <ISSUES.md> <OWNER/REPO> <vault/repositories/PROJECT/issues dir>
-# Tracked = issue links in ISSUES.md + numbered dirs outside closed/. Also lists open jmchilton-assigned issues not tracked (any status dir, incl. closed/).
+# Tracked = issue links in ISSUES.md + numbered dirs outside closed/. Also lists open issues assigned to gh_user not tracked (any status dir, incl. closed/).
 set -eu
+
+. "$(dirname "$0")/sync_common.sh"
 
 [ $# -eq 3 ] || { echo "usage: $0 <ISSUES.md> <OWNER/REPO> <issues_dir>" >&2; exit 2; }
 index=$1 repo=$2 dir=$3
@@ -24,9 +26,9 @@ grep -oE "github.com/$repo/pull/[0-9]+" "$index" | grep -oE '[0-9]+$' | sort -un
   gh pr view "$p" -R "$repo" --json number,state,mergedAt,isDraft --jq '[.number,.state,.mergedAt,.isDraft]|@tsv' || echo "$p	QUERY_FAILED"
 done
 
-echo "## open issues assigned to jmchilton, not tracked"
+echo "## open issues assigned to $(gh_user), not tracked"
 known=$(printf '%s\n%s\n' "$tracked" "$all_dirs")
-gh issue list -R "$repo" --assignee jmchilton --state open --json number,title --jq '.[]|[.number,.title]|@tsv' |
+gh issue list -R "$repo" --assignee "$(gh_user)" --state open --json number,title --jq '.[]|[.number,.title]|@tsv' |
   while IFS= read -r line; do
     n=${line%%	*}
     printf '%s\n' "$known" | grep -qx "$n" || echo "$line"

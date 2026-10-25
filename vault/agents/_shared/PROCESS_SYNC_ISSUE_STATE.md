@@ -14,7 +14,7 @@ It prints three TSV sections:
 
 1. Tracked issues (every issue link in `ISSUES.md`, untriaged included, plus numbered directories outside `closed/`): number, state, reason, closedAt, assignees, closing PRs.
 2. PRs linked in `ISSUES.md`: number, state, mergedAt, isDraft. Check any closing PR from section 1 that isn't listed here with `gh pr view`.
-3. Open issues assigned to jmchilton that aren't tracked in any status directory (`delegated/` and `closed/` included).
+3. Open issues assigned to the tracked user (`gh_user` in `scripts/sync_common.sh`, jmchilton unless `GB_GH_USER` is set) that aren't tracked in any status directory (`delegated/` and `closed/` included).
 
 Use `gh issue view` directly only for labels or other fields the script omits.
 
