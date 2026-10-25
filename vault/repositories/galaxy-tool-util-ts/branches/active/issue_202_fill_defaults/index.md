@@ -1,11 +1,11 @@
 # Completeness check + `gxwf fill-defaults` (#202)
 
-- [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_202_fill_defaults?expand=1)
+- [PR #207](https://github.com/jmchilton/galaxy-tool-util-ts/pull/207)
 - [View on GitHub](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_202_fill_defaults)
 
 ## Status
 
-Polished at `31c59854`; ready for John's final review. Not opened as a PR.
+Polished at `31c59854`; PR [#207](https://github.com/jmchilton/galaxy-tool-util-ts/pull/207) opened 2026-10-25 at John's request.
 
 CI runs on PRs; local `make check` + `make test` green.
 
