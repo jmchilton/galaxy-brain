@@ -54,4 +54,4 @@ When a run exposes a Mold problem, fix the Mold and its eval directly; don't wri
 
 ## Pipeline tests
 
-To test-drive a pipeline (`/test-pipeline` journey), follow [TEST_PIPELINE.md](TEST_PIPELINE.md).
+To test-drive a pipeline (`/test-pipeline` journey), follow [TEST_PIPELINE.md](TEST_PIPELINE.md). Overview and lessons: [DRIVING_PIPELINE_TESTS.md](DRIVING_PIPELINE_TESTS.md).
