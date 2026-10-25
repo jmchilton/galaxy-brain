@@ -14,3 +14,5 @@ jennaj reported the same loss in 24.0rc1: the recipient can't unshare, so the "s
 ## Recommendation
 
 Don't file a new issue. Post the points above as a short comment on #17204 if wanted, or fix it PR-first with a link to #17204. Still seen on 26.2rc1.
+
+Commented on #17204 and labeled `release-testing-26.2` on 2026-10-25.
