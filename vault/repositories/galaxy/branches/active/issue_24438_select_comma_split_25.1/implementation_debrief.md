@@ -22,3 +22,5 @@
 **Forward-merge to dev**: add `hidden_data` to the split gate; don't split `test_case_json` strings.
 
 **Env note**: worktree `.venv` is a symlink to the `issue_24411_job_cache_identifier_25.1` worktree's venv.
+
+**Final checks at head**: full `test/unit/tool_util` (minus mulled/watcher) - same 31 conda/CWL env failures as before the linter, nothing new; new linter over 823 repo tools (functional, lib/galaxy/tools, converters, tools/) - 0 warnings.
