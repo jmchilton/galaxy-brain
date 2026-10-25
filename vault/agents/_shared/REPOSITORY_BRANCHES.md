@@ -18,7 +18,7 @@ On merge or explicit abandonment, move the directory once agents working there h
 
 ## Directory Contents
 
-Each directory contains an `index.md` file without frontmatter. It serves as a status tracker and holds action links for the user.
+Each directory contains an `index.md` file with branch metadata in YAML frontmatter. It serves as a status tracker and holds action links for the user.
 
 File names follow the File Docs: `vault/repositories/_defaults/branches/FILE_DOCS.md`, with sections replaced by `vault/repositories/PROJECT/branches/FILE_DOCS.md`. Prefer a documented name over a new one; add a section when a new kind of file starts recurring. Undocumented files are fine.
 
@@ -26,7 +26,20 @@ Implementation notes, research, plans, reviews, and other supporting files go he
 
 ## index.md
 
-Keep it minimal. Start with `# <branch title>`, followed by bullet action links for "Open PR" and "View on GitHub".
+New branch records start with:
+
+```yaml
+---
+upstream_base_branch: release_25.1
+parent_branch: job_cache_refactor
+---
+```
+
+`upstream_base_branch` is required and names the eventual upstream target, without a remote prefix. `parent_branch` is optional and references another branch record by branch name within the same project. Omit it for independent branches.
+
+Branch from, rebase onto, and target PRs and compare links at `parent_branch` when present, otherwise `upstream_base_branch`. Use the same base for branch-specific diffs and checks. Keep these fields current when the target changes. Existing records without metadata may continue using their recorded prose until migrated.
+
+Keep the body minimal. Start with `# <branch title>`, followed by bullet action links for "Open PR" and "View on GitHub".
 
 Next comes `## Status`. This section should contain at most one sentence each about the branch status, PR status, and CI status, each as its own paragraph. Don't list files or keep older status updates.
 

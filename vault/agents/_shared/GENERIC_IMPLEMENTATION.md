@@ -6,7 +6,7 @@ The including agent's `AGENTS.md` has a "Project settings" block: PROJECT, base 
 
 BRANCH_DIRECTORY is `vault/repositories/PROJECT/branches/active/<branch_name>/`; follow [REPOSITORY_BRANCHES.md](REPOSITORY_BRANCHES.md) for its record and supporting files. WORKING_DIRECTORY is the worktree, created per [WORKTREES.md](WORKTREES.md).
 
-Name the branch per the settings. Fetch the base before branching and branch from the fetched remote ref - `ghwt` can branch off a stale base. Record the base and its SHA in the branch record. Push to the settings' push remote.
+Name the branch per the settings. When creating its record, write `upstream_base_branch` and, for dependent work, `parent_branch` in frontmatter per `REPOSITORY_BRANCHES.md`. Use the parent when present, otherwise the upstream base. Fetch the base before branching and branch from the fetched remote ref - `ghwt` can branch off a stale base. Record the base and its SHA in the branch record. Push to the settings' push remote.
 
 ## Local Checks
 

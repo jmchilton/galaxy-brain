@@ -34,7 +34,7 @@ Each entry is one short bullet linking the branch record:
 - Keep the description to at most 120 characters. It says what the change does; testing, reviews, CI history and dependencies belong in the branch notes.
 - Status communicates routine progression. No next step or blockers field is required. Include an explicit user decision or do-not-PR instruction when useful; do not invent one from the status.
 - Branch records hold approvals, chosen titles, standing instructions and supporting links. Read them before acting on the queue.
-- End every `branches_*` entry with an `[Open PR]` compare link from the branch on its push remote (the `jmchilton` fork unless the project settings say otherwise) to its base (for Galaxy, `dev` unless the entry names a release branch). Skip it only for entries marked do-not-PR.
+- End every `branches_*` entry with an `[Open PR]` compare link from the branch on its push remote (the `jmchilton` fork unless the project settings say otherwise) to its base (`parent_branch` when present, otherwise `upstream_base_branch` from the record's frontmatter, or the recorded prose for unmigrated records). Skip it only for entries marked do-not-PR.
 - Refresh the snapshot date at the top whenever GitHub state is re-queried.
 ## Merged PRs
 
