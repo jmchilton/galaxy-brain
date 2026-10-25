@@ -1,10 +1,7 @@
-Review if we have important work to do on PROJECT:
+Sync records per `../_shared/PROCESS_SYNC.md`.
 
-- New issues/PRs to review.
-- Old PRs that need rebase.
-- Old PRs that are red and should be worked on.
-- Outstanding work from earlier in the session (if applicable).
+Collect suggested tasks for PROJECT per `../_shared/PROCESS_COLLECT_SUGGESTED_TASKS.md` with WHEN `whenever` and `daily`.
 
-If none of these offer some issues to start to work on.
+Also report outstanding work from earlier in the session (if applicable).
 
-Do not record documents for the triage process. 
+Do not record documents for the triage process.

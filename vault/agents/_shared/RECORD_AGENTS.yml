@@ -1,0 +1,20 @@
+# Agent dir responsible for each repository's record kinds (under vault/repositories/<repo>/<kind>/).
+# The Obsidian plugin's repository view launches it for the 🔄 Sync button on My issues / My reviews.
+foundry:
+  issues: wf_foundry
+  reviews: wf_foundry
+galaxy:
+  issues: gx_issues
+  reviews: gx_reviews
+galaxy-tool-util-ts:
+  issues: workflow_libs
+  reviews: workflow_libs
+gxformat2:
+  issues: workflow_libs
+  reviews: workflow_libs
+planemo:
+  issues: planemo
+  reviews: planemo
+pulsar:
+  issues: pulsar
+  reviews: pulsar

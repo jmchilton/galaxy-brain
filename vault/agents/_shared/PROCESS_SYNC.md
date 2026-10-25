@@ -1,0 +1,1 @@
+For each record kind [RECORD_AGENTS.yml](RECORD_AGENTS.yml) maps to this agent directory, run its sync: `issues` → [PROCESS_SYNC_ISSUE_STATE.md](PROCESS_SYNC_ISSUE_STATE.md), `reviews` → [PROCESS_SYNC_REVIEW_STATE.md](PROCESS_SYNC_REVIEW_STATE.md).

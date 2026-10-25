@@ -6,7 +6,7 @@ agent_dir: gx_reviews
 name: rr-{name}
 profile: Sonnet (medium)
 
-Respond to galaxyproject/galaxy#{name}. This is launch is my approval to run the action outlined in the relevant initial_response_action.md file - which may include opening pull requests, creating issues, push commits to the target PR branch, and posting comments.
+Respond to galaxyproject/galaxy#{name}. This launch is my approval to run the action outlined in the relevant initial_response_action.md file - which may include opening pull requests, creating issues, pushing commits to the target PR branch, and posting comments.
 
 ## ✂️ Trim findings
 status: active

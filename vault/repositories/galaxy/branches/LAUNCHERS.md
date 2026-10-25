@@ -42,7 +42,7 @@ status: active
 agent_dir: gx_branches
 name: br-{name}
 
-Working on branch {name}. BRANCH_DIRECTORY is {record}. We received PR advice - can you check it out and address it (merging relevant PRs, cherry picking relevant commits, making local changes) unless it degrades the quality of the PR. After the changes have been made - please summarize what you did for John and show an example response with an agent marker. 
+Respond to the review of branch {name} per ../_shared/RESPOND_TO_REVIEW.md. BRANCH_DIRECTORY is {record}.
 
 ## 💭 New session
 agent_dir: gx_branches
