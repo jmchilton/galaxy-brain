@@ -5,11 +5,11 @@
 
 ## Status
 
-Status: `branches_ready_for_final_review`. Polished; head `30f986a5a48`, rebased onto `release_26.0` after #24227 (24218) merged. Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
+Status: PR open. Polished; head `30f986a5a48`, rebased onto `release_26.0` after #24227 (24218) merged. Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
 
-No PR yet.
+PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) open, not draft.
 
-Fork CI on `30f986a5a48` queued 2026-10-25; previous head greenish.
+Fork CI on `30f986a5a48` green except "Test Galaxy release script" (checks the fork's stale `master` version; unrelated).
 
 Fixes galaxyproject/galaxy#24220: tool form drag and drop matched collections to collection inputs by plain string suffix. Carved from [issue_20657_input_processing_mode](../issue_20657_input_processing_mode/index.md).
 
