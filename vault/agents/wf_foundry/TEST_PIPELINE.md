@@ -30,6 +30,7 @@ Overrides:
 - A run that exposes a Mold problem: you may fix that Mold and its eval.md in <WT> (re-cast, `make check` scoped as AGENTS.md says), committed locally, never pushed. Say whether later phases ran on the fixed Mold. Don't touch packages/ or harness code; report those gaps.
 - Run each cast phase, and each loop iteration, in its own subagent returning a short report (artifacts, assumptions, status, feedback outcome). You keep the run record and the ledger.
 - Run executable phases for real (`gxwf validate`, `planemo test`). Without a green planemo result the journey is incomplete, not done.
+- Never hand back while a child agent or background command is still running; wait for it. Another session's planemo may hold the machine: wait for it rather than starting a second.
 Return at most 60 lines: per-phase eval table, then the pipeline eval.md and the case's expect results; misses; incomplete or blocked phases; Mold fixes committed (SHAs); the paths to run-summary.md and the ledger.
 ```
 
