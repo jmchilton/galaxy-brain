@@ -8,3 +8,7 @@
 ## John’s reply — 2026-10-11
 
 John [thanked Marius for the merged correction](https://github.com/galaxyproject/planemo/pull/1703#issuecomment-6111092038). Back with reviewers; remaining suggestions are informational follow-ups.
+
+## Archived
+
+GitHub state: merged 2026-10-12T08:32:36Z (head `5c4a6def`). Tracking ended on merge (sync 2026-10-24).
