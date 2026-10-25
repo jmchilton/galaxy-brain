@@ -1,0 +1,1 @@
+Risks are minimal: this change only adds the existing client job ID to debug messages and is cheap to revert (a two-way door). Cleanup decisions and actions remain unchanged; no persistent data format or compatibility commitment is introduced.
