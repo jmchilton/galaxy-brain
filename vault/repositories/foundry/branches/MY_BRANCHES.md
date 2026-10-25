@@ -6,7 +6,6 @@ Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agen
 
 - [`issue-677-rename-syntax`](active/issue-677-rename-syntax/index.md) — Documents rename post-job action syntax (#677). [#702](https://github.com/galaxyproject/foundry/pull/702).
 - [`feat/test-pipeline-test-data-branch`](active/feat-test-pipeline-test-data-branch/index.md) — Runs the test-data branch in test-pipeline, one worker per leg. Base `feat/test-pipeline-draft-loop`. [#690](https://github.com/galaxyproject/foundry/pull/690).
-- [`issue-716-summarize-nextflow-eval-test-cases`](active/issue-716-summarize-nextflow-eval-test-cases/index.md) — summarize-nextflow eval counts nf-test cases, not files (#716). [#717](https://github.com/galaxyproject/foundry/pull/717).
 
 ## Open Foundry PRs — needs attention (`attention`)
 
@@ -33,6 +32,7 @@ None yet.
 
 ## Foundry branches — implemented, work left, green (`branches_implemented`)
 
+- [`issue-718-nextflow-scenarios`](active/issue-718-nextflow-scenarios/index.md) — Simple end-to-end nextflow-to-galaxy scenarios for five more fixtures (#718). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-718-nextflow-scenarios).
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: flat collection outputs, vendoring recipes, `inputs.x` shape (#672). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).

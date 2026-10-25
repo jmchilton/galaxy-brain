@@ -38,7 +38,7 @@ GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default a
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](../../repositories/foundry/issues/wip/694/index.md)
 - (mvp) [#672](https://github.com/galaxyproject/foundry/issues/672) — UDT authoring note: collection example vs stale gxwf schema, no vendoring recipes, `inputs.x` shape undocumented; draft PR [#710](https://github.com/galaxyproject/foundry/pull/710), needs gtu-ts [#198](https://github.com/jmchilton/galaxy-tool-util-ts/pull/198). [notes](../../repositories/foundry/issues/wip/672/index.md)
 - (mvp) [#585](https://github.com/galaxyproject/foundry/issues/585) — UDT registration endpoint is `/api/unprivileged_tools`, not `/api/dynamic_tools`; PR [#714](https://github.com/galaxyproject/foundry/pull/714) (supersedes #617, also fixes #573). [notes](../../repositories/foundry/issues/wip/585/index.md)
-- (mvp) [#716](https://github.com/galaxyproject/foundry/issues/716) — summarize-nextflow eval counts nf-test files; resolver emits one row per test case; PR [#717](https://github.com/galaxyproject/foundry/pull/717). [notes](../../repositories/foundry/issues/wip/716/index.md)
+- [#718](https://github.com/galaxyproject/foundry/issues/718) — nextflow-to-galaxy scenarios cover 4 of 25 Nextflow fixtures; add simple end-to-end cases; branch `issue-718-nextflow-scenarios`. [notes](../../repositories/foundry/issues/wip/718/index.md)
 
 ## Queued (`queued`)
 

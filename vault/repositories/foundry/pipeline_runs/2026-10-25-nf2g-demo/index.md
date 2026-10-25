@@ -10,7 +10,7 @@ Complete: phases 1–12 done, `planemo test` green (1 test, 0 failures, 305 s, G
 
 | # | Phase | Result |
 |---|---|---|
-| 1 | summarize-nextflow | Schema valid, process and test counts match; eval wording wrong ([#716](../../issues/wip/716/index.md)) |
+| 1 | summarize-nextflow | Schema valid, process and test counts match; eval wording wrong ([#716](../../issues/closed/716/index.md)) |
 | 2 | reference-data | "No reference data" sound; Mold has no `eval.md` |
 | 3 | interface | 6/6; sample sheet → `sample_sheet:paired_or_unpaired` |
 | 4 | data-flow | Pass, but claimed nested `paired_or_unpaired` feeds MultiQC (invalid; caught in 6) |
