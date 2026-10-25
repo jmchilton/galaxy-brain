@@ -11,9 +11,9 @@ Missing E2E tests for the 26.2 Upload Activity "Import from Data Library" route 
 
 Polished, ready for John's final review; head `bac934c504f` (mypy fix squashed in). See [polish_debrief.md](polish_debrief.md).
 
-No PR yet; [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+PR [#24452](https://github.com/galaxyproject/galaxy/pull/24452) opened 2026-10-25 (not draft); [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-Fork CI on `bac934c504f` queued; previous head's only related reds (mypy) fixed.
+Fork CI on `bac934c504f` green.
 
 ## Decisions
 
