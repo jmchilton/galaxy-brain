@@ -1,6 +1,6 @@
 # Codex review (round 2, after re-scope)
 
-Codex (`codex exec -s read-only`, unprimed brief covering #24389 plus the `edit_attributes` change) reported two findings. I confirmed and fixed the first in `7f2cbaab65a`. I refuted the second.
+Codex (`codex exec -s read-only`, unprimed brief covering #24389 plus the `edit_attributes` change) reported two findings. I confirmed and fixed the first in `7f2cbaab65a` (now `50717f7c63e` after the thermo review). I refuted the second.
 
 **P2, confirmed: identical duplicate collection params with composite elements were rejected.** `_comparable_test_input` stripped generated composite renames only from the outer `edit_attributes`. Collection elements parsed by `__parse_param_elem` carry their own UUID renames inside `attributes["collection"]`. I reproduced it at profile 25.1 with two identical `<collection>` params holding a composite element, which errored at load. Fix: `_comparable_attributes` / `_comparable_collection` recurse into collection elements, including nested collections. Red→green test: `test_duplicate_identical_composite_collection_test_param_is_tolerated`.
 
