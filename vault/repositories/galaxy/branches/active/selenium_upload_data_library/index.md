@@ -9,11 +9,11 @@ Missing E2E tests for the 26.2 Upload Activity "Import from Data Library" route 
 
 ## Status
 
-Polished, ready for John's final review; head `bac934c504f` (mypy fix squashed in). See [polish_debrief.md](polish_debrief.md).
+Head `7a7c7b4b11c`: adds legacy `GET /api/libraries/{id}/contents` unlinked-LD fix (mvdbeek review on #24452), with a unit test. See [polish_debrief.md](polish_debrief.md).
 
-PR [#24452](https://github.com/galaxyproject/galaxy/pull/24452) opened 2026-10-25 (not draft); [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+PR [#24452](https://github.com/galaxyproject/galaxy/pull/24452) opened 2026-10-25 (not draft), approved by mvdbeek; [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-Fork CI on `bac934c504f` green.
+Fork CI on `7a7c7b4b11c` pending.
 
 ## Decisions
 
