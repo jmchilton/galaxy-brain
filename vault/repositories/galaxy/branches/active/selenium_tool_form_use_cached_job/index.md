@@ -5,11 +5,16 @@
 
 ## Status
 
-`implemented`: hardened, head `95e29931f78` on `release_26.2` (`e3affe97eb8`).
+`ready_for_final_review`: polished, head `f62f22acedf` on `release_26.2` (`39084b89e8f`).
 
 No PR.
 
-No CI yet.
+Fork CI running on `f62f22acedf`.
+
+## Polish
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md)
+- [Polish debrief](polish_debrief.md)
 
 ## Scope
 

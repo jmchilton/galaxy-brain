@@ -1,0 +1,4 @@
+- [26.2] Add missing E2E test for the tool form's re-use equivalent jobs switch
+- [26.2] Test the tool form's job re-use switch end to end
+- [26.2] Add E2E test for "Attempt to re-use jobs with identical parameters?"
+- [26.2] Test the tool form's re-use jobs switch; share one switch setter in E2E helpers
