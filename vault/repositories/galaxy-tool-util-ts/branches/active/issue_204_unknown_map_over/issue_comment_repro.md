@@ -9,6 +9,11 @@ Connections: INVALID — 1 ok, 2 invalid, 0 skip
   step 2 (…/fastp/1.4.0+galaxy0)
     invalid: 1/output -> single_paired|paired_input
       Incompatible types: output is collection<list:list>, input expects collection<paired>
+  step 3 (__FLATTEN__)
+    invalid: 2/report_json -> input
+      Incompatible types: output is dataset, input expects collection (any type)
 ```
+
+The second error follows from the first: an `invalid` edge, unlike a `skip`, still drops the step's map-over.
 
 With `list_identifiers: [0]` plus `paired_identifier: [1]`, it validates cleanly: `OK — 3 ok, 0 invalid, 0 skip`.
