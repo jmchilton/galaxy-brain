@@ -8,4 +8,4 @@ https://github.com/galaxyproject/galaxy/issues/24441. Filed 2026-10-24, assigned
 
 Source: the review of planemo#1752 (`vault/repositories/planemo/reviews/active/1752/`). Planemo consumption gets its own planemo issue.
 
-Next: red unit tests for the `upload_tar` dry-run bugs (alerts, clone leak), then split `set_repository_metadata` into compute and persist.
+Branch: [`issue_24441_tool_shed_upload_dry_run`](../../../branches/active/issue_24441_tool_shed_upload_dry_run/index.md) (gx_workhorse, started 2026-10-24).
