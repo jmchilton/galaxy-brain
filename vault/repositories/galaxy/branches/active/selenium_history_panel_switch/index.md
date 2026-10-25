@@ -5,9 +5,9 @@
 
 ## Status
 
-Polished, ready for final review; head `4f61d010c98`, not yet PR. Base `release_26.2` `e3affe97eb8`.
+Approved by John 2026-10-24; opened as draft PR [#24444](https://github.com/galaxyproject/galaxy/pull/24444) at `4f61d010c98` (title: first option; screenshot hosted on fork branch `pr-assets-selenium_history_panel_switch`). Base `release_26.2` `e3affe97eb8`.
 
-Fork CI on `4f61d010c98` partly run (no failures as of 2026-10-24; E2E jobs queued).
+Fork CI on `4f61d010c98` partly run (no failures as of 2026-10-24; E2E jobs queued); draft until CI is green.
 
 ## Polish
 
