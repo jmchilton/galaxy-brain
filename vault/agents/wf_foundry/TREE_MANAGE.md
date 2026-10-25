@@ -147,3 +147,7 @@ is actually gone, `rm -rf` any husk, then `worktree prune`.
   [PR #502](https://github.com/galaxyproject/foundry/pull/502); worktree and local branch removed. The
   rebase shrank it to the byte-for-byte badge parity test — site-kit 0.9.7/0.10 had already brought the
   gallery half onto main. `origin/gallery-license-cases` still exists and can be deleted.
+- **2026-10-25** — 7 clean trees whose PRs had merged were removed, freeing ~4.4G: `foundry-brief-oq` (#688),
+  `data-flow-unique-identifiers` (#705), `docs-upstream-labels` (#715), `docs/issue-labels` (#709),
+  `issue-585-udt-workflow-binding` (#714), `issue-677` (#702) and `run-dashboard-rebase` (#569).
+  The merged but still open `egapx` and `workflow-brief-pipelines` trees were kept.
