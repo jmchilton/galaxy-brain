@@ -56,23 +56,43 @@ Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vaul
 
 </details>
 
-### P2 3: Terminal but unacknowledged attempts accumulate with no expiry and are rescanned on every poll
+### P2 3: Cancelled and failed attempts are never acknowledged, so their staging is retained forever and rescanned on every poll
 
-The docs deliberately preserve staging when collection fails or is uncertain. Deletion requires both `CLEAN_FILE` and `ACK_FILE`, and no retention policy or admin purge exists for a client that never acks:
-- an unmodified Galaxy;
-- a cancel with nothing to import;
-- a failed import that is never retried.
+Pulsar deletes staging only when an attempt is terminal and has both `CLEAN_FILE` and `ACK_FILE`. The companion Galaxy PR (galaxy#24378 at `1f03f37`) acknowledges only fully successful jobs, and with `collection_ack` it never calls `clean()` without an ack. So staging is kept forever for:
+- **User cancels.** A deleted job (`DELETED`) is the usual cancel.
+- **Every failed job.** Any job that ends in `ERROR`: a tool error, a `failed` status from Pulsar, failed output staging, or failed metadata.
+- **Unmodified Galaxy,** which never acks anything.
+- **Lost acks.** If the ack request itself fails, nothing retries it.
 
-Every manager's housekeeper also reloads each such attempt every `poll_interval` (default 0.5s) under the pool flock, so the cost grows with retained attempts.
+No retention policy or admin purge exists. Every manager's housekeeper also reloads each retained attempt every `poll_interval` (default 0.5s) under the pool flock, so the cost grows with every cancelled or failed job.
 
-Suggested fix:
-- Document what a client must do after a cancel. Does galaxy#24378 ack cancelled attempts?
-- Consider an opt-in retention setting or an admin purge.
+<details><summary>Details</summary>
+
+How a cancel flows through galaxy#24378 (`lib/galaxy/jobs/runners/pulsar.py`):
+1. A user delete marks the job `DELETED` (`handler.__delete`). `stop_job` sees `asynchronous_cancel` and calls `client.kill()` only.
+2. Polling continues until Pulsar reports `cancelled`. Then `mark_as_finished` → `finish_job`, which passes `cleanup_job="never"` when `collection_ack` is set.
+3. `_complete_staged_job` → `JobWrapper.finish()` returns `fail()` at once for `DELETED`/`ERROR` jobs. `_finish_pulsar_job` still returns True.
+4. `_acknowledge_staged_collection` returns early unless the job state is `OK` and no output is `ERROR`/`FAILED_METADATA`. No ack, no `clean()`.
+
+Galaxy's "stop" (`STOPPED`, used for interactive tools) is the one cancel that can be acked. `finish_job` forces exit code 0, so the job can finish `OK`.
+
+The `fail_job` paths (Pulsar `failed`, staging failure, finish exception) don't reach `_acknowledge_staged_collection` at all. The Pulsar runner doesn't override `fail_job`.
+
+Galaxy's own docs in that PR say: "Failed imports or missing acknowledgment retain staging. If acknowledgment fails after the job finishes, an operator must arrange an idempotent acknowledgment and cleanup retry … completed jobs do not receive automatic acknowledgment retries." Neither PR adds tooling for that retry.
+
+</details>
+
+Suggested fix: define, in Pulsar's docs and the `collection_ack` contract, what a client must do after a cancel or a failure.
+- **Option 1: acknowledge terminal attempts in every final state.** "The client has finished with this attempt, keep or delete it per `cleanup_job`." galaxy#24378 would then ack and clean after `DELETED`/`ERROR` too, except when the operator chose `cleanup_job: never`.
+- **Option 2: a confirmed `cancelled` attempt needs no ack.** There is nothing to import, so `clean()` alone deletes it. Failed jobs would still need an ack.
+
+Either way:
+- Add an opt-in retention setting or an admin purge for attempts that are never acknowledged.
 - Skip already-reconciled terminal attempts in the hot loop.
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort.
+Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Cancel path traced against galaxy#24378 at `1f03f37` by the coordinating agent (Opus 5.5).
 
 </details>
 

@@ -1,7 +1,7 @@
 - [x] P1 1: The generic `StatefulManagerProxy` sniffs a detached-only capability dict
 - [x] P2 1: A stopped command can record a negative return code, and the code depends on whether the supervisor was replaced
 - [x] P2 2: Attempts without a manifest are never cleaned
-- [x] P2 3: Terminal but unacknowledged attempts accumulate with no expiry and are rescanned on every poll
+- [x] P2 3: Cancelled and failed attempts are never acknowledged, so their staging is retained forever and rescanned on every poll
 - [x] P2 4: `acknowledge_collection` is not part of the manager interface, so the new route returns 500 on other managers
 - [x] P2 5: `DetachedLocalManager` extends the PID-based unqueued `Manager`
 - [x] P2 6: The on-disk record model is untyped and duplicated between the manager and the worker
