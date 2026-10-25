@@ -1,0 +1,1 @@
+- [initial_review.md](initial_review.md) P3 3, "stateful recovery path writes status metadata without the status lock": disproved. `__proxy_status` runs only inside `get_status`'s `with job_directory.lock("status")`, so the recovery writes already hold that lock.

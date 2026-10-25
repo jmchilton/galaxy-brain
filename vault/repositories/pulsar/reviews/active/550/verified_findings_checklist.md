@@ -1,0 +1,27 @@
+- [x] P1 1: The generic `StatefulManagerProxy` sniffs a detached-only capability dict
+- [x] P2 1: A stopped command can record a negative return code, and the code depends on whether the supervisor was replaced
+- [x] P2 2: Attempts without a manifest are never cleaned
+- [x] P2 3: Terminal but unacknowledged attempts accumulate with no expiry and are rescanned on every poll
+- [x] P2 4: `acknowledge_collection` is not part of the manager interface, so the new route returns 500 on other managers
+- [x] P2 5: `DetachedLocalManager` extends the PID-based unqueued `Manager`
+- [x] P2 6: The on-disk record model is untyped and duplicated between the manager and the worker
+- [x] P2 7: `detached_worker.py` is one 894-line module with five concerns and a ~170-line `supervise` loop
+- [x] P2 8: The Galaxy↔Pulsar job-directory contract is a private JSON shape with fallbacks that hide its real form
+- [x] P2 9: The `acknowledge_collection` client and HTTP surface, and the end-to-end Pulsar-app path, are untested
+- [x] P2 10: FIFO ordering is advertised but never asserted
+- [x] P2 11: Tests pin reconciliation decisions by monkeypatching the private `_spawn_worker`
+- [x] P2 12: Docker tests monkeypatch around the existing `docker_cmd` seam
+- [x] P2 13: The entry-point callback payload is never asserted
+- [x] P3 1: `num_concurrent_jobs` parsing duplicates `QueueManager`'s with different semantics
+- [x] P3 2: `launch()` hardcodes `root / "configs"`
+- [x] P3 3: Copying the worker into every job directory still depends on Pulsar's interpreter, and the reason isn't stated
+- [x] P3 4: A third process-group killer sits next to `util/kill.py` and `util/process_groups.py`
+- [x] P3 5: The request-stop sequence is repeated in four places
+- [x] P3 6: `test_policy_is_snapshotted_and_enforced` doesn't test the snapshot
+- [x] P3 7: Container-config and entry-point fallback branches are untested
+- [x] P3 8: `detached_worker_test.py` duplicates `wait_for` and uses a `SimpleNamespace` fixture
+- [x] P3 9: `manager_detached_test.py` repeats local fakes and imports inside test functions
+- [x] P3 10: Signal guards use `Mock`
+- [x] P3 11: Two worker tests mix concerns or spawn a supervisor for a pure decision
+
+Other Actions:
