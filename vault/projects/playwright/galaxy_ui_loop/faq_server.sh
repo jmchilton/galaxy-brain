@@ -10,6 +10,8 @@
 # Each profile gets its own generated galaxy.yml and data dir (database, gravity state, captured
 # mail) under ~/.cache/gxui-faq/server/PROFILE, so the worktree's config/ and database/ are untouched.
 # start rebuilds the client only if client/ changed since the last build.
+# Interactive tools (Jupyter, RStudio) run in Docker behind gx-it-proxy on port+100, at
+# <id>.interactivetool.localhost:PROXY_PORT; Docker must be running for them to launch.
 #
 #   eval "$(galaxy_ui_loop/faq_server.sh env)"   # point gxui at the profile's server
 set -euo pipefail
@@ -31,6 +33,7 @@ esac
 state=$FAQ_HOME/server/$profile
 config=$state/galaxy.yml
 url=http://localhost:$port
+proxy_port=$((port + 100))
 
 write_config() {
     mkdir -p "$state"
@@ -45,7 +48,8 @@ gravity:
     enable: true
     enable_beat: false
   gx_it_proxy:
-    enable: false
+    enable: true
+    port: $proxy_port
   reports:
     enable: false
 galaxy:
@@ -64,13 +68,42 @@ galaxy:
   ftp_upload_dir: $state/ftp
   ftp_upload_site: ftp.faq.example.org
   # Default tools, plus a sleep tool replays use to keep a job waiting (job status FAQ).
-  tool_config_file: $GALAXY_ROOT/lib/galaxy/config/sample/tool_conf.xml.sample,$state/replay_tool_conf.xml
+  tool_config_file: $GALAXY_ROOT/lib/galaxy/config/sample/tool_conf.xml.sample,$state/replay_tool_conf.xml,$state/interactive_tool_conf.xml
   user_activation_on: $activation
   smtp_server: mock_emails_to_path://$state/email.json
   smtp_ssl: false
   email_from: galaxy-faq@example.org
   # Turns on dataset error reports; they land in the captured mail too.
   error_email_to: galaxy-errors@example.org
+  # Interactive tools as on usegalaxy.*: Docker jobs, reached straight through gx-it-proxy.
+  interactivetools_enable: true
+  interactivetools_upstream_proxy: false
+  interactivetools_proxy_host: localhost:$proxy_port
+  interactivetools_map: $state/data/interactivetools_map.sqlite
+  job_config_file: $state/job_conf.yml
+EOF
+    cat > "$state/job_conf.yml" <<EOF
+runners:
+  local:
+    load: galaxy.jobs.runners.local:LocalJobRunner
+    workers: 4
+execution:
+  default: local
+  environments:
+    local:
+      runner: local
+    docker:
+      runner: local
+      docker_enabled: true
+      require_container: true
+      # Jobs' PATH has no python; the monitor reports the IT's published port back to Galaxy.
+      container_monitor_command: $GALAXY_ROOT/.venv/bin/python $GALAXY_ROOT/lib/galaxy_ext/container_monitor/monitor.py
+      container_monitor_get_ip_method: 'command:echo 127.0.0.1'
+tools:
+  - id: interactive_tool_jupyter_notebook
+    environment: docker
+  - id: interactive_tool_rstudio
+    environment: docker
 EOF
     cat > "$state/file_sources_conf.yml" <<EOF
 - type: posix
@@ -91,6 +124,14 @@ EOF
 <toolbox tool_path="$GALAXY_ROOT/test/functional/tools">
   <section id="faq_replay" name="FAQ Replay">
     <tool file="cat_data_and_sleep.xml" />
+  </section>
+</toolbox>
+EOF
+    cat > "$state/interactive_tool_conf.xml" <<EOF
+<toolbox tool_path="$GALAXY_ROOT/tools/interactive">
+  <section id="interactivetools" name="Interactive Tools">
+    <tool file="interactivetool_jupyter_notebook.xml" />
+    <tool file="interactivetool_rstudio.xml" />
   </section>
 </toolbox>
 EOF

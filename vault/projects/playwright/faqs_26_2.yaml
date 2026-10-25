@@ -694,50 +694,55 @@
   gtn_commit: 45d4932d33
   used_by: [introduction/galaxy-intro-rdm]
 - faq: faqs/galaxy/interactive_tools_jupyter_launch.md
-  status: reviewed
-  mode: text
+  status: ui_verified
+  mode: ui
   gtn_commit: 45d4932d33
+  galaxy_commit: 3293319e399
   used_by: [galaxy-interface/galaxy-intro-jupyter, galaxy-interface/jupyterlab, genome-annotation/gene-centric, single-cell/alevin-commandline, single-cell/scrna-case_monocle3-rstudio, single-cell/scrna-case-jupyter_basic-pipeline]
-  note: ITs need Docker; checked against client source.
+  gx_findings: 'Covered by test_interactive_tools_panel (stubbed entry points, no Docker); gxui interactive-tools, interactive-tool-wait/open/stop. Local entry point is "Jupyter Interactive Tool" (FAQ names usegalaxy.eu''s JupyTool; server-dependent). Found and fixed a store bug: second IT missing until reload.'
 - faq: faqs/galaxy/interactive_tools_jupyter_terminal.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
 - faq: faqs/galaxy/interactive_tools_open.md
-  status: reviewed
-  mode: text
+  status: ui_verified
+  mode: ui
   gtn_commit: 45d4932d33
+  galaxy_commit: 3293319e399
   used_by: [climate/argo_pangeo, climate/ocean-data-view, climate/ocean-variables, climate/sentinel5_data, ecology/ndvi_openeo, imaging/yolo-segmentation-training, microbiome/dada-16S, microbiome/taxonomic-profiling, statistics/text-mining_simtext]
-  note: ITs need Docker; checked against client source.
+  gx_findings: 'Covered by test_interactive_tools_panel (stubbed entry points, no Docker); gxui interactive-tool-open.'
 - faq: faqs/galaxy/interactive_tools_rstudio_knit.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
   faq_findings: [rstudio-knit-duplicate-image]
 - faq: faqs/galaxy/interactive_tools_rstudio_launch.md
-  status: reviewed
-  mode: text
+  status: ui_verified
+  mode: ui
   gtn_commit: 45d4932d33
+  galaxy_commit: 3293319e399
   used_by: [data-science/bash-git, data-science/bash-variant-calling, data-science/r-advanced, data-science/r-basics, evolution/mtb_phylogeny, galaxy-interface/rstudio, statistics/intro-to-ml-with-r, transcriptomics/rna-seq-bash-star-align, transcriptomics/rna-seq-counts-to-viz-in-r, transcriptomics/rna-seq-viz-with-volcanoplot-r]
   faq_findings: [it-rstudio-user-menu-stale]
-  note: ITs need Docker; checked against client source.
+  gx_findings: 'Covered by test_interactive_tools_panel (stubbed entry points, no Docker); gxui interactive-tool-wait/open. In-Galaxy RStudio frame renders blank headless (RStudio unsupported-browser page); proxy serves it.'
 - faq: faqs/galaxy/interactive_tools_rstudio_rmarkdown.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
 - faq: faqs/galaxy/interactive_tools_rstudio_stop.md
-  status: reviewed
-  mode: text
+  status: ui_verified
+  mode: ui
   gtn_commit: 45d4932d33
+  galaxy_commit: 3293319e399
   used_by: [galaxy-interface/rstudio]
   faq_findings: [it-rstudio-user-menu-stale]
-  note: ITs need Docker; checked against client source.
+  gx_findings: 'Covered by test_interactive_tools_panel (stubbed entry points, no Docker); gxui interactive-tool-stop.'
 - faq: faqs/galaxy/interactive_tools_stop.md
-  status: reviewed
-  mode: text
+  status: ui_verified
+  mode: ui
   gtn_commit: 45d4932d33
+  galaxy_commit: 3293319e399
   used_by: [introduction/galaxy-intro-rdm]
-  note: ITs need Docker; checked against client source.
+  gx_findings: 'Covered by test_interactive_tools_panel (stubbed entry points, no Docker); gxui interactive-tool-stop.'
 - faq: faqs/galaxy/manage_your_galaxy_storage.md
   status: reviewed
   mode: text

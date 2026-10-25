@@ -299,6 +299,11 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   `bulk_purge_button`, `histories_purge_all`, `TestHistoriesPurge`. Standalone.
 - `8b84ce48e0f`: coverage for `histories_switch` (batch 12). `history_panel` switch selectors,
   `history_panel_switch_to`, `test_history_panel_switch_history`. Standalone.
+- `4b54438b1c2`: coverage for the `interactive_tools_*` FAQs (batch 13). `interactive_tools_panel`
+  selectors and helpers, `_base_interactive_tools.py` (shared with `test_entry_point_sse.py`),
+  `test_interactive_tools_panel_running_and_stop`. Standalone.
+- `5e84f0ebadb`: fix, a new IT missing from the panel while others are active (all releases;
+  gx_issues `interactive_tools_panel_drops_new_entry_point`). Needs `4b54438b1c2`.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
