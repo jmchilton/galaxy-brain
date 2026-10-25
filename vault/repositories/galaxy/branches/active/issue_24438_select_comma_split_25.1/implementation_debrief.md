@@ -1,12 +1,12 @@
 # Implementation debrief
 
-**STATUS: READY.** Base `release_25.1` (`74f52289d82`), head `386a1c925b0`, fork `jmchilton/issue_24438_select_comma_split_25.1`. Fixes [#24438](https://github.com/galaxyproject/galaxy/issues/24438).
+**STATUS: READY.** Base `release_25.1` (`74f52289d82`), head `cb8b7184eec`, fork `jmchilton/issue_24438_select_comma_split_25.1`. Fixes [#24438](https://github.com/galaxyproject/galaxy/issues/24438).
 
 **Commits**
-1. `82a6d15cf4e` Baseline tests - ftpfile comma-split unit test; `select_comma_value.xml` framework tool with `value_json` list cases for a multiple select with comma option values (all pass on base).
-2. `d5ad8013146` Fix - `verify/parse.py` `_test_value_as_list`: legacy test parsing comma-splits only `data` and multiple inputs (`ftpfile` defaults multiple); other values wrapped as `[value]`. Covers plain params and conditional discriminators. Framework cases for single select via `value=`/`value_json=` and conditional `when` with commas - fail on base with the issue's exact error.
-3. `30baf371bf0` Linter - `TestsParamMultipleSelectCommaOptions` warns on `value=` for a multiple select with comma option values when the split parts aren't all option values/labels; skips short names shared by several inputs; reuses `inputs._iter_param`.
-4. `386a1c925b0` Docs - `galaxy.xsd` select test-param docs: single select takes comma values verbatim; multiple select needs a `value_json` list.
+1. `d0a3afd70bd` Baseline tests - ftpfile comma-split unit test; `select_comma_value.xml` framework tool with `value_json` list cases for a multiple select with comma option values (all pass on base).
+2. `3ecaf2b7ebb` Fix - `verify/parse.py` `_test_value_as_list`: legacy test parsing comma-splits only `data` and multiple inputs (`ftpfile` defaults multiple); other values wrapped as `[value]`. Covers plain params and conditional discriminators. Framework cases for single select via `value=`/`value_json=` and conditional `when` with commas - fail on base with the issue's exact error.
+3. `837951def92` Linter - `TestsParamMultipleSelectCommaOptions` warns on `value=` for a multiple select with comma option values when the split parts aren't all option values/labels; skips short names shared by several inputs; reuses `inputs._iter_param`.
+4. `cb8b7184eec` Docs - `galaxy.xsd` select test-param docs: single select takes comma values verbatim; multiple select needs a `value_json` list.
 
 **Choices**
 - Fix A from the posted root cause (narrow the split) over moving tests off the legacy API (impossible on 25.1).
@@ -24,3 +24,5 @@
 **Env note**: worktree `.venv` is a symlink to the `issue_24411_job_cache_identifier_25.1` worktree's venv.
 
 **Final checks at head**: full `test/unit/tool_util` (minus mulled/watcher) - same 31 conda/CWL env failures as before the linter, nothing new; new linter over 823 repo tools (functional, lib/galaxy/tools, converters, tools/) - 0 warnings.
+
+**CI mypy fix**: `test_ftpfile_value_split_on_commas` indexed the `Iterable` from `parse_tool_test_descriptions`; wrapped in `list()` and folded into the baseline commit (head was `386a1c925b0`). Earlier "mypy clean" check missed it - ran without `MYPYPATH=lib`, so galaxy imports were untyped. Rechecked with `MYPYPATH=lib`: no errors in touched files; unit file 11 passed.

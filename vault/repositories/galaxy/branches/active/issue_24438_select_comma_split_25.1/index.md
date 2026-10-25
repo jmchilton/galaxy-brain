@@ -9,7 +9,7 @@ READY - implemented, re-scoped, re-hardened; handed off under `branches_implemen
 
 No PR yet; fork CI not checked.
 
-Base: `release_25.1` (`74f52289d82`), head `386a1c925b0`; alt `issue_24438_select_comma_split_25.1_alt_original_scope`. Fork: `jmchilton/issue_24438_select_comma_split_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24438_select_comma_split_25.1`.
+Base: `release_25.1` (`74f52289d82`), head `cb8b7184eec`; alt `issue_24438_select_comma_split_25.1_alt_original_scope`. Fork: `jmchilton/issue_24438_select_comma_split_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24438_select_comma_split_25.1`.
 
 ## Issue
 
