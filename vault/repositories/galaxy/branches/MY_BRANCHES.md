@@ -76,6 +76,7 @@ None yet.
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`cwl_fixes_5`](active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
 - [`licenses`](active/licenses/index.md) — Adds `<license_agreement>` tool requirements users must accept before running tools/workflows (#23261). Rebased, hardened, re-scoped, re-hardened; decisions: gxwf opt-in default, PR split. Base `dev`, head `cd37d851bb2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
+- [`reset_metadata_sample_isolation_26.1`](active/reset_metadata_sample_isolation_26.1/index.md) — Tool shed `reset_metadata` reads each revision's own samples and stages them outside the clone (from #24441 branch). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:reset_metadata_sample_isolation_26.1?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
