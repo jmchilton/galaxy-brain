@@ -16,7 +16,7 @@ Spike of [RERUN_ISSUE.md](RERUN_ISSUE.md) / [RERUN_UX.md](RERUN_UX.md). Branch `
   - Reruns re-show recorded keys, and the gate only fires on unrecorded keys.
   - A "rerun with this changed" row action in the invocation job parameters.
 - **Tests**
-  - API probes: `lib/galaxy_test/api/test_workflow_exposed_step_params.py`, 8 tests.
+  - API probes: `lib/galaxy_test/api/test_workflow_exposed_step_params.py`, 10 tests.
   - Vitest: 8 tests.
   - E2E: `lib/galaxy_test/selenium/test_workflow_run_exposed_step_params.py`, 5 tests, all green under Playwright.
   - New test tool `exposed_step_params` echoes its section, repeat, conditional and scalar values, so tests check what the job actually got.
@@ -47,7 +47,7 @@ Spike of [RERUN_ISSUE.md](RERUN_ISSUE.md) / [RERUN_UX.md](RERUN_UX.md). Branch `
 
 ![unrecorded](screenshots/rerun_unrecorded_expanded.png)
 
-**F3, row action in the invocation's job parameters.** Rerun icons appear on scalar rows only. `Column` and the conditional selector get none.
+**F3, row action in the invocation's job parameters.** Rerun icons appear on scalar rows only. `Column` has none. The test also checks that the conditional selector row (below the fold here) has none.
 
 ![row action](screenshots/rerun_invocation_row_action.png)
 
@@ -76,14 +76,14 @@ Spike of [RERUN_ISSUE.md](RERUN_ISSUE.md) / [RERUN_UX.md](RERUN_UX.md). Branch `
    - `__`-prefixed keys (runtime PJAs, step meta state) are skipped.
    - Strictness is passed down to subworkflow inner tool steps.
    - Unknown, inactive-case and missing-repeat keys now 400. The 22 existing step-param API tests still pass.
-   - Expanded-form E2E audit: with strictness on, `test_workflow_rerun.py` plus `test_workflow_run.py` passed 41 of 41. One upload timeout under load passed on re-run. So the legacy form's payloads in those suites carry no dead keys.
+   - Expanded-form E2E audit: with strictness on, `test_workflow_rerun.py` plus `test_workflow_run.py` passed 41 of 41 (one upload timeout under load passed on re-run). Most of those tests submit the simple form, which never sends `parameters`. About 13 drive the expanded form (subworkflows, subworkflow runtime params, replacement params, step-parameter inputs, rules, reports, the #24177 expanded rerun), and all of them pass strict.
    - That audit only covers the tools those suites use. Before turning this on by default, still check: tools with dynamic options, hidden params, `__job_resource`, and old saved states with keys from upgraded tools.
 2. **G2 machine paths: cheap.**
    - `summarize_job_parameters` now tracks a prefix through repeats, sections and conditionals, and adds `name` and `exposable` to each row.
    - Watch out: the `exposable` rule now lives both server-side (`EXPOSABLE_PARAMETER_TYPES` plus `is_dynamic`) and in the client tree. Pick one source, preferably the server, which could also drive the tree.
    - The raw value is not added. F3 didn't need it, because the rerun run dict is already seeded from the invocation.
 3. **G3: the server half already works.**
-   - The probe `{"1": {"1|threshold": 0.9, "1|cond|min": 7}}` against a non-runtime inner tool step applied with no code change. #24178's `step_parameters_by_id` plus `param_map.get(step.id)` already carries the keys into the sub-invocation.
+   - Probes against a non-runtime inner tool step applied with no code change: one level deep (`{"1": {"1|threshold": 0.9, "1|cond|min": 7}}`) and two levels deep (`{"1": {"1|1|threshold": 0.9}}`). G1 strictness also rejects an unknown key two levels deep. #24178's `step_parameters_by_id` plus `param_map.get(step.id)` already carries the keys into the sub-invocation.
    - What's missing is only the **listing**: `SubWorkflowModule.get_runtime_inputs` returns only inner RuntimeValue params, so the picker can't show the inner tree.
    - The spike lists only those runtime params, as `2|1|num_lines` leaves. Full listing needs a recursive `tool.to_json` per inner step in `_workflow_to_dict_run`, plus a nested picker. Not built.
 4. **G4 record exposed keys: no migration.**
