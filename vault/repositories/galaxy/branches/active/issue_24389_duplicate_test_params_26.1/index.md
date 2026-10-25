@@ -5,11 +5,11 @@
 
 ## Status
 
-READY: hardened, re-scoped once (edit_attributes as dicts), re-hardened; second scope evaluation recommends no change.
+Ready for final review: polished 2026-10-25 at `60607462357`; waiting for John's read-through.
 
 No PR.
 
-Fork CI not checked.
+Fork CI on `60607462357` queued (Python linting green, no reds).
 
 Base: `release_26.1` (`df713519127`). Head: `60607462357`. Alt: `issue_24389_duplicate_test_params_26.1_alt_original_scope`. Fork: `jmchilton/issue_24389_duplicate_test_params_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24389_duplicate_test_params_26.1`. Issue: [#24389](https://github.com/galaxyproject/galaxy/issues/24389) (assigned to John; root-cause comment posted).
 
@@ -24,4 +24,4 @@ Base: `release_26.1` (`df713519127`). Head: `60607462357`. Alt: `issue_24389_dup
 
 - Merge-forward to dev conflicts in `case.py` (take dev's `test_case_validation`, keep the rest), `parser/util.py` and `test_tool_linters.py` (both: keep both sides).
 
-[Implementation debrief](implementation_debrief.md)
+[Implementation debrief](implementation_debrief.md) · [Polish debrief](polish_debrief.md) · [PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md)
