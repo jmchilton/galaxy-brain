@@ -5,7 +5,7 @@ Two changes:
 1. **Type `__APPLY_RULES__` outputs from their rules.** Galaxy's editor (via `get_all_outputs`) and the Python validator compute a `type_from_rules` output's collection type from the step's rules mapping; the TS port never did, so every apply-rules edge was `skip`. This ports Galaxy's rule builder DSL (`RuleSet`) to `@galaxy-tool-util/workflow-graph`, checked against Galaxy's `rules_dsl_spec.yml` (synced, like `connection_type_cases.yml`), and uses it in the graph builder.
 2. **Treat map-over as unknown downstream of a skip.** When an edge still `skip`s (an output with no rules mapping, an unresolvable output or input), the step's outputs become unknown, so downstream edges `skip` rather than fail against a guessed dataset type. Known edges are still checked against each other, so incompatible map-over errors still surface.
 
-With a `list:paired` regroup feeding fastp, as in the sarek conversion:
+With a `list:paired` regroup feeding fastp:
 
 ```
 # main (1.14.0)
@@ -26,6 +26,7 @@ The issue reports 22 `invalid` edges on a 125-step nf-core/sarek conversion, all
 
 - `packages/workflow-graph/test/rules-dsl.test.ts`: every `rules_dsl_spec.yml` case, using the Python harness semantics (error-only cases check `hasErrors`), plus `collectionType` for each mapping shape and Python regex translation (`(?P<name>)`, `\g<name>`, `\1`). Mutating unmatched-regex handling, sort order or unknown-rule rejection each fails a spec case.
 - `packages/connection-validation/test/rules-collection-type.test.ts`: `list:paired` mapping validates through a paired consumer (`map_over: list`); `list:list` is `invalid`; no mapping still `skip`s. The first two fail before the graph-builder change.
+- Native `.ga` path: real `real-sars-cov2-variant-calling.ga` `__APPLY_RULES__` steps resolve to `list:paired` and `list` (Galaxy mappings with extra keys).
 - `packages/connection-validation/test/unknown-map-over.test.ts`: direct, transitive, mixed, conflict and subworkflow cases for the skip fallback. The conflict test guards behaviour this branch keeps.
 
 The connection tests are TS-only: the `connection_workflows` corpus is synced from Galaxy and `check-sync` rejects local additions.
@@ -39,7 +40,7 @@ This is a two-way door: no persisted state or API shape change. The tradeoff is 
 <details><summary>Risk Details</summary>
 
 - **Quiet downstream of any skip.** Every skip cause counts: an untyped source, an unresolvable source output, or an unresolvable target input. Narrowing the trigger to untyped sources only is a possible follow-up.
-- **More lenient than the editor for untyped sources into collection inputs.** The editor accepts an untyped output into a collection input without mapping, so its outputs become datasets; this branch marks them unknown. With rules typing in place, this now only applies to outputs Galaxy can't type either.
+- **More lenient than the editor for untyped sources into collection inputs.** The editor accepts an untyped output into a collection input without mapping, so its outputs become datasets; this branch marks them unknown. With rules typing in place this is mostly outputs Galaxy can't type either, but TS still skips where Galaxy wouldn't, e.g. a step whose tool isn't in the cache.
 - **Regex dialect.** Rules use Python `re` syntax evaluated with JS `RegExp`; named groups and replacement templates are translated, other dialect differences (e.g. `\Z`) are not. Only `apply`/filter rules use regexes; collection typing reads the mapping alone.
 - **Python parity.** The skip fallback is mirrored on Galaxy's `wf_tool_state` branch (`8bf22007fcd`); rules typing was already there.
 
