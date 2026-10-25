@@ -1,0 +1,3 @@
+- fix(cli): report package version from `--version`
+- Fix `gxwf --version` always printing 1.0.0
+- Stamp CLI spec version from package.json
