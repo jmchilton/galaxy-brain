@@ -1,0 +1,4 @@
+- [26.2] Test Upload Activity data library imports and fix the bugs they found
+- [26.2] Add Upload Activity "Import from Data Library" E2E tests and fix five surfaced bugs
+- [26.2] Fix data library imports through the Upload Activity, with E2E coverage
+- [26.2] Upload Activity data library tests: regular users, subfolders, lists into a picked history

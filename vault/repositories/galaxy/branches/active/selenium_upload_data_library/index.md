@@ -9,7 +9,11 @@ Missing E2E tests for the 26.2 Upload Activity "Import from Data Library" route 
 
 ## Status
 
-READY. Tests + 5 bug fixes, re-hardened; head `1fccf61f2d5`. See `implementation_debrief.md`.
+Polished, ready for John's final review; head `bac934c504f` (mypy fix squashed in). See [polish_debrief.md](polish_debrief.md).
+
+No PR yet; [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+
+Fork CI on `bac934c504f` queued; previous head's only related reds (mypy) fixed.
 
 ## Decisions
 
