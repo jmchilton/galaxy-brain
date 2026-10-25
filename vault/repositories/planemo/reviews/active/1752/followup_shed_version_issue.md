@@ -25,7 +25,11 @@ Only `hg clone` reaches the files, and we'd rather not depend on `hg` or full-hi
 
 ## Proposal
 
-Add Tool Shed infrastructure for reading a published changeset's files, then use it in `lint_shed_version`. Either shape works:
+Preferred: **upload dry run**, galaxyproject/galaxy#24441. The Tool Shed upload API accepts `dry_run=true`, runs the archive checks and metadata generation against a throwaway clone, and reports whether the upload would create a new installable revision or overwrite the latest one in place, plus the files changed relative to tip. `shed_lint` (or `shed_upload --dry_run`) sends the realized tarball planemo already builds (`build_tarball`). It errors when the result is "overwrite" and files changed, listing them. The shed decides with its own logic, so planemo doesn't need to work out which files matter for which tool. The same call catches uploads the shed would reject.
+
+Once galaxyproject/galaxy#24441 is deployed on the main and test Tool Sheds, `lint_shed_version` can rely on the dry run, falling back to today's check on sheds without it.
+
+Alternatives, if the dry run stalls: add Tool Shed infrastructure for reading a published changeset's files, then compare in `lint_shed_version`. Either shape works:
 
 1. **Archive.** `GET /api/repositories/{id}/revisions/{changeset}/archive` returns a tarball (`hg archive`). Planemo compares it with the realized repository it already builds for upload (`build_tarball`). The same endpoint restores `shed_download` and `shed_diff`.
 2. **File list plus fetch.** `GET /api/repositories/{id}/revisions/{changeset}/files` returns `[{path, sha256, size}]` from the changeset manifest, with no clone, modeled on the existing `/revisions/{changeset}/readmes` route. Planemo hashes local files and compares. A per-file content route can be added if diffs are wanted.
@@ -33,6 +37,8 @@ Add Tool Shed infrastructure for reading a published changeset's files, then use
 Both are immutable per changeset and cacheable. Planemo can then either walk out from each tool (its `<required_files>`, `<code file>`, macros, install-time files) or diff the whole repository. The file list makes per-tool walking cheap; the archive makes whole-repo diffing and `shed_diff` simple.
 
 ## What should count as a change
+
+The dry run makes this the Tool Shed's call. The rules below apply only to the archive and file-list alternatives.
 
 The same-version tool is unchanged only if its rendered XML matches and none of these differ:
 
@@ -55,11 +61,12 @@ Through `shed_lint`, with a mocked Tool Shed (the `responses` tests from #1752),
 - test-data-only change
 - fetch failure
 
-Galaxy side: a Tool Shed API test for the new endpoint against tip and an older changeset.
+For the dry run, mock its response: "overwrite" with changed files → error naming them; "new installable revision" → pass; no changes → pass; dry run unsupported → fall back to the current check. The Galaxy-side tests are part of galaxyproject/galaxy#24441.
 
 ## Open questions
 
-- Archive, file list, or both?
+- Use the dry run in `shed_lint`, `shed_upload --dry_run`, or both?
+- Are the archive or file-list alternatives still worth it once the dry run lands? An archive endpoint would still fix `shed_download`/`shed_diff`.
 - Should test-data-only changes require a bump? (Proposed: no.)
 - Data tables: count for every tool in the repository, or only for tools that reference them?
 - Help images (`static/images/**`): ignore or count?
