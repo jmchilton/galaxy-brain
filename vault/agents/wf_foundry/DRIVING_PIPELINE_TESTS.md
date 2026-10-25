@@ -49,13 +49,13 @@ The run dir is outside the worktree on purpose: upstream tracks files in `casts/
 Lessons, now in the brief or the prepare step:
 
 - The driver handed back while its phase 12 child was still waiting for planemo. Hence the "never hand back early" rule.
-- That wait was real: another session's planemo Galaxy held the machine. Only one `planemo test` at a time here; the driver waits instead of starting a second.
+- The child was waiting for another session's planemo Galaxy. Concurrent planemo runs are now allowed; a clash between them is a planemo bug to report, not a reason to serialize.
 - Fixture builds collide on a git lock; build them one at a time.
 - `make check` stops at `check-vendored`, which fails only on this machine; `make -k check` shows the rest.
 
 ## Limits
 
-- One journey at a time on this machine.
+- Parallel journeys need a worktree each and fixtures built first, one at a time. The process sets no cap; pick a count with tokens and disk in mind.
 - The driver's eval verdicts are its own; spot-check claims like "tooling defect" before filing (the round-trip `when` failure in the first run is unconfirmed).
 - Long runs depend on the session's permission checks staying up; when they stalled mid-run, read-only checks still worked but nothing could be written until they returned.
 - Related, not a replacement: `foundry-build test-pipeline` (the Pi runner, #476) runs straight-line pipelines with `--through` on main; loop and branch support is in the #686 / #689 / #690 stack.

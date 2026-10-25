@@ -8,8 +8,8 @@ Foundry's `/test-pipeline` is a slash command in the checkout's `.claude/command
 
 - Worktree: `ghwt create foundry pipeline-run-<short-slug>` (or reuse the tested branch's worktree). `git fetch` and confirm it sits on fresh `origin/main` or the branch head.
 - New worktree: `pnpm install --frozen-lockfile && npm run packages-build`.
-- Fixtures the case names: `make fixtures-nextflow`, `make fixtures-iwc fixtures-skeletons`, etc. One at a time; parallel runs collide on a git lock.
-- One journey at a time on this machine: each `planemo test` starts a Galaxy. Check free disk first.
+- Fixtures the case names: `make fixtures-nextflow`, `make fixtures-iwc fixtures-skeletons`, etc. One at a time; parallel runs collide on a git lock. For parallel journeys, build all fixtures before launching any driver.
+- Parallel journeys are fine, with no cap here; John picks how many. Give each its own worktree (drivers commit Mold fixes locally) and check free disk first.
 - Run dir: `~/foundry-runs/prose-<pipeline-short>-<case-short>-<YYYY-MM-DD>/`. Not `casts/claude/_emulated-runs/`: upstream tracks files there, so new runs dirty the worktree and block cleanup.
 
 ## 2. Drive (a background subagent)
@@ -30,7 +30,8 @@ Overrides:
 - A run that exposes a Mold problem: you may fix that Mold and its eval.md in <WT> (re-cast, `make check` scoped as AGENTS.md says), committed locally, never pushed. Say whether later phases ran on the fixed Mold. Don't touch packages/ or harness code; report those gaps.
 - Run each cast phase, and each loop iteration, in its own subagent returning a short report (artifacts, assumptions, status, feedback outcome). You keep the run record and the ledger.
 - Run executable phases for real (`gxwf validate`, `planemo test`). Without a green planemo result the journey is incomplete, not done.
-- Never hand back while a child agent or background command is still running; wait for it. Another session's planemo may hold the machine: wait for it rather than starting a second.
+- Never hand back while a child agent or background command is still running; wait for it.
+- Other planemo Galaxies may be running; run yours anyway. If a failure looks caused by them (port, ~/.planemo cache, locks), report it as a suspected planemo bug with the error text and the other runs' PIDs, then retry once.
 Return at most 60 lines: per-phase eval table, then the pipeline eval.md and the case's expect results; misses; incomplete or blocked phases; Mold fixes committed (SHAs); the paths to run-summary.md and the ledger.
 ```
 
