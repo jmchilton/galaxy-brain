@@ -1,0 +1,4 @@
+- Skip, don't fail, connections downstream of an unknown map-over
+- Treat map-over as unknown when a step has a skipped edge
+- Fix false `invalid` edges downstream of untyped collection outputs
+- validate --connections: propagate unknown map-over instead of guessing datasets
