@@ -8,4 +8,4 @@ Fix: `src/meta/specs.ts` stamps `version` from `package.json`; stale `version` d
 
 Local gate: `make check` green; `make test` green except the known gxwf-web `--output-schema` timeout under load, which passes alone.
 
-Status: polished; ready for final review. [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [implementation debrief](implementation_debrief.md) · [polish debrief](polish_debrief.md) · [Codex review](codex_review.md) · [normal review](subagents/normal_review.md)
+Status: PR [#206](https://github.com/jmchilton/galaxy-tool-util-ts/pull/206) opened 2026-10-25. [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [implementation debrief](implementation_debrief.md) · [polish debrief](polish_debrief.md) · [Codex review](codex_review.md) · [normal review](subagents/normal_review.md)
