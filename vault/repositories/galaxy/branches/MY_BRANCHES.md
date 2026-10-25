@@ -4,6 +4,7 @@ Snapshot: 2026-10-24 (#24400, #24380, #24312, #24217, #24202 merged, dirs moved 
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`udt_element_identifier_api_test`](active/udt_element_identifier_api_test/index.md) — Fixes UDT `$(inputs.x.element_identifier)`: list identifiers when mapped over (incl. converted inputs), dataset name otherwise. [#24434](https://github.com/galaxyproject/galaxy/pull/24434).
 - [`workflow_editor_connection_helpers`](active/workflow_editor_connection_helpers/index.md) — Missing editor E2E tests (refused connections, step removal, unlabelled same-tool steps) + shared connection helpers. Base `release_26.2`. [#24370](https://github.com/galaxyproject/galaxy/pull/24370).
 - [`issue_24221_paged_map_over_options_26.1`](active/issue_24221_paged_map_over_options_26.1/index.md) — Paged collection options keep a collection's map-over entry, and it's selectable with a "(one job per …)" label (#24221). Base `release_26.1`. [#24228](https://github.com/galaxyproject/galaxy/pull/24228).
 - [`xsd_sample_sheet_collection_type_25.1`](active/xsd_sample_sheet_collection_type_25.1/index.md) — Aligns tool XSD with sample-sheet collection syntax and adds core-tool lint coverage. Base `release_25.1`. [#24206](https://github.com/galaxyproject/galaxy/pull/24206).
@@ -33,7 +34,6 @@ Snapshot: 2026-10-24 (#24400, #24380, #24312, #24217, #24202 merged, dirs moved 
 
 - [`issue_23980_static_restriction_default`](active/issue_23980_static_restriction_default/index.md) — Preselects restricted text-input defaults and permits a default empty option on 26.2. [#24140](https://github.com/galaxyproject/galaxy/pull/24140).
 - [`issue_24173_invocation_selection_urls`](active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [#24307](https://github.com/galaxyproject/galaxy/pull/24307). Opened by accident; final read-through still pending.
-- [`udt_element_identifier_api_test`](active/udt_element_identifier_api_test/index.md) — Fixes UDT `$(inputs.x.element_identifier)`: list identifiers when mapped over (incl. converted inputs), dataset name otherwise. [#24434](https://github.com/galaxyproject/galaxy/pull/24434).
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 

@@ -5,11 +5,11 @@
 
 ## Status
 
-`attention`: polished, head `10492c660b3` on `release_26.1`.
+`ready`: polished, head `1a5562e8c8c` on `release_26.1`.
 
 [#24434](https://github.com/galaxyproject/galaxy/pull/24434) open, not draft.
 
-PR CI relevant red: mypy `galaxy_test/api/test_unprivileged_tools.py:165: error: Unpacked dict entry 0` (Python linting, Test Galaxy packages); API `test_upload_and_validate_invalid` and Selenium shard 1 reds look unrelated.
+mypy red (`test_unprivileged_tools.py:165` Unpacked dict entry) fixed 2026-10-24 by typing `TOOL_WITH_ELEMENT_IDENTIFIER: dict[str, Any]`, squashed into baseline commit; PR CI rerunning.
 
 ## Issue
 
