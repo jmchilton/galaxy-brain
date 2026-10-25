@@ -42,6 +42,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 
 ## Queued (`queued`)
 
+- [#24445](https://github.com/galaxyproject/galaxy/issues/24445) — IT panel drops a newly started interactive tool while another is active (since #17356); next: extract 5e84f0ebadb + 4b54438b1c2 onto release_25.0. [notes](../../repositories/galaxy/issues/queued/24445/index.md)
 - [#24305](https://github.com/galaxyproject/galaxy/issues/24305) — workflow API saves duplicate output labels (server check dead); invocation hides outputs; next: red API tests. [notes](../../repositories/galaxy/issues/queued/24305/index.md)
 - [#24309](https://github.com/galaxyproject/galaxy/issues/24309) — custom build from FASTA not listed until jobs finish + reload; next: red API test for pending state. [notes](../../repositories/galaxy/issues/queued/24309/index.md)
 - (unassigned) [#24311](https://github.com/galaxyproject/galaxy/issues/24311) — 26.2 upload panel defaults POSIX conversion off (no trailing newline, CRLF kept); next: 26.2 branch restoring `true` + paste test. [notes](../../repositories/galaxy/issues/queued/24311/index.md)
