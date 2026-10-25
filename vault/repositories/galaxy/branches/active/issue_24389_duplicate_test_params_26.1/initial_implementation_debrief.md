@@ -36,3 +36,7 @@ For profile ≥ 24.2, the test now fails at load instead of running with a silen
 
 - The legacy runtime path (`verify/parse.py` `ParamContext.__raw_param_found`) still takes the last match for profile < 24.2, so for old tools the linter warning is the only signal. Making it raise would break old tools' runtime tests on a release branch.
 - The top-level legacy-vs-modern first/last divergence is gone for conflicting values: they now raise on the modern path.
+
+## After normal review
+
+I dropped the XSD hunk. It hard-errors on a legacy (≤24.1) idiom that still works: an outer repeat left out of the test, so same-name params in one test container fill successive repeat instances. The XSD can't be gated on profile. The fix commit is now `85fdcfa736f` and touches only `case.py` plus tests. The linter test checks `TestsCaseValidation`: error at 25.1, warning at 23.0. A new pin test shows that below 24.2 the test still runs on the legacy inputs. In the impact table, the XSD column no longer applies, so hicAdjustMatrix is now warning-only.
