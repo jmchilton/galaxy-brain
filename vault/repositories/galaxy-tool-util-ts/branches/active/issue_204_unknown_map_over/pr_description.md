@@ -1,9 +1,10 @@
 Fix 🎯 #204 - `validate --connections` reports false `invalid` edges downstream of `__APPLY_RULES__` and other steps whose input type is unknown.
 
-Two changes:
+Three changes:
 
 1. **Type `__APPLY_RULES__` outputs from their rules.** Galaxy's editor (via `get_all_outputs`) and the Python validator compute a `type_from_rules` output's collection type from the step's rules mapping; the TS port never did, so every apply-rules edge was `skip`. This ports Galaxy's rule builder DSL (`RuleSet`) to `@galaxy-tool-util/workflow-graph`, checked against Galaxy's `rules_dsl_spec.yml` (synced, like `connection_type_cases.yml`), and uses it in the graph builder.
-2. **Treat map-over as unknown downstream of a skip.** When an edge still `skip`s (an output with no rules mapping, an unresolvable output or input), the step's outputs become unknown, so downstream edges `skip` rather than fail against a guessed dataset type. Known edges are still checked against each other, so incompatible map-over errors still surface.
+2. **Make the rules DSL importable by Galaxy's rule builder.** `workflow-graph` is the package Galaxy's client is meant to depend on, so it also gets the pure part of the client's `RuleBuilder/rule-definitions.js`: `applyRules` (column tracking, `rule.error`/`warn`) and `colHeadersFor`, on the same rule implementations. Regexes go through `pyre-to-regexp`, as in Galaxy's client; it's the package's first runtime dependency.
+3. **Treat map-over as unknown downstream of a skip.** When an edge still `skip`s (an output with no rules mapping, an unresolvable output or input), the step's outputs become unknown, so downstream edges `skip` rather than fail against a guessed dataset type. Known edges are still checked against each other, so incompatible map-over errors still surface.
 
 With a `list:paired` regroup feeding fastp:
 
@@ -24,7 +25,7 @@ The issue reports 22 `invalid` edges on a 125-step nf-core/sarek conversion, all
 
 <details><summary>Tests</summary>
 
-- `packages/workflow-graph/test/rules-dsl.test.ts`: every `rules_dsl_spec.yml` case, using the Python harness semantics (error-only cases check `hasErrors`), plus `collectionType` for each mapping shape and Python regex translation (`(?P<name>)`, `\g<name>`, `\1`). Mutating unmatched-regex handling, sort order or unknown-rule rejection each fails a spec case.
+- `packages/workflow-graph/test/rules-dsl.test.ts`: every `rules_dsl_spec.yml` case, using the Python harness semantics (error-only cases check `hasErrors`), plus `collectionType` for each mapping shape and Python regex translation (`(?P<name>)`, `\g<name>`, `\1`). The spec also runs through `applyRules` (like the client's `RuleDefinitions.test.ts`, but failing when an error case sets no `rule.error`), with tests for column tracking, error/skip warnings and headers. Mutating unmatched-regex handling, sort order, unknown-rule rejection, column tracking, skip warnings, replacements or header width each fails a test.
 - `packages/connection-validation/test/rules-collection-type.test.ts`: `list:paired` mapping validates through a paired consumer (`map_over: list`); `list:list` is `invalid`; no mapping still `skip`s. The first two fail before the graph-builder change.
 - Native `.ga` path: real `real-sars-cov2-variant-calling.ga` `__APPLY_RULES__` steps resolve to `list:paired` and `list` (Galaxy mappings with extra keys).
 - `packages/connection-validation/test/unknown-map-over.test.ts`: direct, transitive, mixed, conflict and subworkflow cases for the skip fallback. The conflict test guards behaviour this branch keeps.
@@ -41,14 +42,15 @@ This is a two-way door: no persisted state or API shape change. The tradeoff is 
 
 - **Quiet downstream of any skip.** Every skip cause counts: an untyped source, an unresolvable source output, or an unresolvable target input. Narrowing the trigger to untyped sources only is a possible follow-up.
 - **More lenient than the editor for untyped sources into collection inputs.** The editor accepts an untyped output into a collection input without mapping, so its outputs become datasets; this branch marks them unknown. With rules typing in place this is mostly outputs Galaxy can't type either, but TS still skips where Galaxy wouldn't, e.g. a step whose tool isn't in the cache.
-- **Regex dialect.** Rules use Python `re` syntax evaluated with JS `RegExp`; named groups and replacement templates are translated, other dialect differences (e.g. `\Z`) are not. Only `apply`/filter rules use regexes; collection typing reads the mapping alone.
+- **Regex dialect.** Python `re` patterns go through `pyre-to-regexp`, as in Galaxy's client: named groups and `\1`/`\g<…>` replacements translate; backreferences (`(?P=name)`) and other dialect differences don't, and a replacement naming a missing group yields a literal `$n` where Python raises. Collection typing reads the mapping alone.
+- **`applyRules` differs from the current client code in a few deliberate places**: non-numeric compare/sort cells are errors rather than `NaN`; `remove_columns`/`split_columns` drop header markers (the client's `removeColumns` compares string indices and never removes any); unknown rule types are errors rather than crashes. Listed in `docs/packages/workflow-graph.md`.
 - **Python parity.** The skip fallback is mirrored on Galaxy's `wf_tool_state` branch (`8bf22007fcd`); rules typing was already there.
 
 </details>
 
 ## Context
 
-`@galaxy-tool-util/workflow-graph` minor (new `RuleSet` export) and `@galaxy-tool-util/connection-validation` patch. New sync group: `make sync-rules-dsl-spec`.
+`@galaxy-tool-util/workflow-graph` minor (new `RuleSet`, `applyRules`, `colHeadersFor` exports; adds `pyre-to-regexp` dependency) and `@galaxy-tool-util/connection-validation` patch. New sync group: `make sync-rules-dsl-spec`.
 
 ## Agentic Checks
 
@@ -64,7 +66,7 @@ Run before the rules DSL port. Acted on one finding: the `mapOverUnknown` flag w
 
 <details><summary>No findings on the skip fallback; typecheck and the package's tests passed.</summary>
 
-An independent Codex review of the skip-fallback diff returned an empty findings list. The rules DSL port has not had a separate review.
+An independent Codex review of the skip-fallback diff returned an empty findings list. The rules DSL port and `applyRules` have not had a separate review.
 
 </details>
 

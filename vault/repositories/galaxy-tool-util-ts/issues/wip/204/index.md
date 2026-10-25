@@ -13,5 +13,5 @@ Branch: `issue_204_unknown_map_over`, worktree `~/projects/worktrees/galaxy-tool
 
 - PR [#205](https://github.com/jmchilton/galaxy-tool-util-ts/pull/205) opened from `issue_204_unknown_map_over`.
 - Python parity committed to Galaxy `wf_tool_state` (`8bf22007fcd`, on `jmchilton`).
-- Deeper cause for `__APPLY_RULES__`: Galaxy editor and Python type `type_from_rules` outputs from the rules mapping; TS never ported `RuleSet`. Ported to `workflow-graph` with synced `rules_dsl_spec.yml` and wired into graph builder (`a4c85310`, `187ee082`, docs `ea3a11a2`) on #205.
+- Deeper cause for `__APPLY_RULES__`: Galaxy editor and Python type `type_from_rules` outputs from the rules mapping; TS never ported `RuleSet`. Ported to `workflow-graph` with synced `rules_dsl_spec.yml` and wired into graph builder (`a4c85310`, `187ee082`, docs `ea3a11a2`) on #205. Client-compatible `applyRules` (pyre-to-regexp) added `9ea1e0d5`.
 - Issue repro is miswired: its mapping builds `list:list`, now a real `invalid` vs fastp `paired`; `list:paired` variant gives 3 ok. Correction comment drafted, not posted: [issue_comment_repro.md](../../../branches/active/issue_204_unknown_map_over/issue_comment_repro.md).
