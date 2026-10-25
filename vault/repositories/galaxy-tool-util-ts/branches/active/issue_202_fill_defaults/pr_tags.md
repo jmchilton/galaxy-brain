@@ -1,0 +1,2 @@
+- `enhancement` — new `gxwf fill-defaults` command and stricter `--strict-state`.
+- `bug` — optional; `--strict` accepted state Galaxy's import rejects.
