@@ -337,7 +337,7 @@
   fix: 'Add "To undelete, click the trash counter at the top of the history (**Include deleted**), then the dataset''s **Undelete** icon. Permanently deleted (**Purged**) datasets can''t be restored."'
 
 - label: masthead-user-menu-2
-  faqs: [faqs/galaxy/datasets_data_privacy_features.md, faqs/galaxy/datasets_not_downloading_at_all.md]
+  faqs: [faqs/galaxy/datasets_data_privacy_features.md, faqs/galaxy/datasets_not_downloading_at_all.md, faqs/galaxy/preferences_admin_api_key.md]
   target: main
   summary: Step 3's "Click **user** button" — there is no "User" masthead item; the menu is labelled with the username.
   fix: Same wording as masthead-user-menu.
@@ -650,3 +650,29 @@
   target: main
   summary: History export is a wizard (output format, then destination **Repository** / **RDM Repository** / Zenodo, then source); no `to repository` / `to RDM repository` / `to Zenodo` tabs or **Show advanced export options**.
   fix: History options > **Export History to File** > pick format > **Repository** (or **RDM Repository** / Zenodo) > select directory > **Export**. Used by fair/zenodo-in-galaxy and introduction/galaxy-intro-rdm.
+
+- label: api-key-include-dev
+  faqs: [faqs/galaxy/preferences_admin_api_key.md]
+  target: main
+  summary: Step 1 tests `{% if dev %}` instead of `{% if include.dev %}`, so the localhost:8080 URL never renders for dev/bioblend-dev (which passes dev=true).
+
+- label: api-key-card-label
+  faqs: [faqs/galaxy/preferences_admin_api_key.md]
+  target: main
+  summary: Step 3's card is "Manage Galaxy API Key", not "Manage API key".
+
+- label: job-cache-preference-removed
+  faqs: [faqs/galaxy/re_use_equivalent_jobs.md]
+  target: main
+  summary: Step 1's Manage Information switch "Do you want to be able to re-use equivalent jobs?" was removed in 25.0; every tool form now shows "Attempt to re-use jobs with identical parameters?" under Additional Options.
+  fix: Drop step 1; say the switch is under **Additional Options** above **Run Tool**. The step also says "user-references" and "Run tool".
+
+- label: reports-collapse-galaxy-fence
+  faqs: [faqs/galaxy/reports_collapsible_box.md]
+  target: main
+  summary: The example's inner fence is a bare ``` instead of ```galaxy, so pasted into a report it is not a Galaxy directive.
+
+- label: custom-genome-empty-line-regex
+  faqs: [faqs/galaxy/reference_genomes_troubleshooting_custom_genome.md]
+  target: main
+  summary: '`^\w*$` with "NOT matching" (twice) also removes every sequence line, since lines like ACGT are all word characters; empty lines need `^\s*$`.'

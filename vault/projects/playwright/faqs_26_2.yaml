@@ -755,25 +755,59 @@
   used_by: [fair/inveniordm-integration, fair/zenodo-in-galaxy, introduction/galaxy-intro-rdm]
   faq_findings: [repositories-s3-section-is-invenio, repositories-history-export-wizard, remote-files-choose-remote]
 - faq: faqs/galaxy/preferences_admin_api_key.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 7ecf397f044
+  used_by: [admin/beacon, admin/data-library, admin/reference-genomes, admin/tool-management, contributing/create-new-tutorial, dev/bioblend-dev, galaxy-interface/workflow-automation, galaxy-interface/workflow-fairification]
+  faq_findings: [masthead-user-menu-2, api-key-card-label, api-key-include-dev]
+  gx_findings: 'Covered by test_personal_information (manage_api_key, get_new_key, api_key_input).'
 - faq: faqs/galaxy/re_use_equivalent_jobs.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 7ecf397f044
+  used_by: [genome-annotation/comparison-braker-helixer-annotation]
+  faq_findings: [job-cache-preference-removed]
+  gx_findings: 'No UI coverage of the re-use switch; added test_run_reuses_equivalent_job + tool_form_set_use_cached_job (fff4be834ab), gxui tool-run --reuse.'
 - faq: faqs/galaxy/reference_genomes_custom_genomes.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/reference_genomes_sorting_reference_genome.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/reference_genomes_troubleshooting_custom_genome.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [custom-genome-empty-line-regex]
 - faq: faqs/galaxy/reports_collapsible_box.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [galaxy-interface/workflow-reports]
+  faq_findings: [reports-collapse-galaxy-fence]
 - faq: faqs/galaxy/reports_tables.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [galaxy-interface/workflow-reports]
 - faq: faqs/galaxy/request-galaxy-tools-on-a-specific-server.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/sequencing_illumina_miseq.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [assembly/mrsa-illumina, sequence-analysis/quality-contamination-control]
 - faq: faqs/galaxy/sequencing_nanopore.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [assembly/mrsa-nanopore, microbiome/pathogen-detection-from-nanopore-foodborne-data, microbiome/plasmid-metagenomics-nanopore]
 - faq: faqs/galaxy/support_admins.md
   status: pending
 - faq: faqs/galaxy/support_messaging_system.md

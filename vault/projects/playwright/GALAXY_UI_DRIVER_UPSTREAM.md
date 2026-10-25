@@ -304,6 +304,8 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   `test_interactive_tools_panel_running_and_stop`. Standalone.
 - `5e84f0ebadb`: fix, a new IT missing from the panel while others are active (all releases;
   gx_issues `interactive_tools_panel_drops_new_entry_point`). Needs `4b54438b1c2`.
+- `fff4be834ab`: coverage for `re_use_equivalent_jobs` (batch 14). `tool_form_set_use_cached_job`,
+  `test_run_reuses_equivalent_job`. Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
