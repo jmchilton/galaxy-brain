@@ -314,6 +314,8 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
+**Restacked 2026-10-25** onto `release_26.2` + #24370: #24314, #24380, #24301 and #24312 commits dropped; hashes above predate it (pick by subject).
+
 ## Starting a PR
 
 - Pick the commit off the current `galaxy_ui_driver` by subject; hashes change on every restack.
