@@ -32,7 +32,7 @@ None yet.
 
 ## Foundry branches — implemented, work left, green (`branches_implemented`)
 
-- [`issue-718-nextflow-scenarios`](active/issue-718-nextflow-scenarios/index.md) — Simple end-to-end nextflow-to-galaxy scenarios for five more fixtures (#718). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-718-nextflow-scenarios).
+- [`issue-718-nextflow-scenarios`](active/issue-718-nextflow-scenarios/index.md) — Plain end-to-end nextflow-to-galaxy scenarios for nine more fixtures (#718). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-718-nextflow-scenarios).
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: flat collection outputs, vendoring recipes, `inputs.x` shape (#672). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).

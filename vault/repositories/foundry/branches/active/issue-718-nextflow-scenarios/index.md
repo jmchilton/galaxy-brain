@@ -5,7 +5,7 @@
 
 ## Status
 
-Branch `issue-718-nextflow-scenarios` on `origin`, one commit `9fc3f9bb`; worktree `~/projects/worktrees/foundry/branch/issue-718-nextflow-scenarios`. Refs [#718](../../../issues/wip/718/index.md).
+Branch `issue-718-nextflow-scenarios` on `origin`, two commits, head `cb2d58e6`; worktree `~/projects/worktrees/foundry/branch/issue-718-nextflow-scenarios`. Refs [#718](../../../issues/wip/718/index.md).
 
 No PR yet.
 
