@@ -9,11 +9,11 @@ Missing E2E tests for the 26.2 Upload Activity "Import from Data Library" route 
 
 ## Status
 
-Head `7a7c7b4b11c`: adds legacy `GET /api/libraries/{id}/contents` unlinked-LD fix (mvdbeek review on #24452), with a unit test. See [polish_debrief.md](polish_debrief.md).
+Head `a73d90dc50e`: fixes the legacy library contents regression test's mock typing; returned to final review because the branch changed.
 
 PR [#24452](https://github.com/galaxyproject/galaxy/pull/24452) opened 2026-10-25 (not draft), approved by mvdbeek; [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-Fork CI on `7a7c7b4b11c` pending.
+Fresh fork and PR CI requested by the push; all previous reds were the same branch-caused mypy error. See [ci_diagnosis.md](ci_diagnosis.md).
 
 ## Decisions
 
