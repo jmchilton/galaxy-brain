@@ -7,3 +7,7 @@
 Initial review of `cffdae9b5f2` delivered 2026-10-22 as approval; awaiting merge. Findings: four P3s, all fixed on fork branch `pr_24319_review_0` (`a9a4caa5db0`), not pushed into PR. 2026-10-23: mvdbeek pulled two of our review commits (`d4afc9148b1`, `47e566d8dcd`) into the PR and added `b72522a478b`; CI failures on that head look unrelated (codeload DNS, biotools API, `join1` tool test, workflow API flake).
 
 Open, ready for review, against `release_26.2`. Author @mvdbeek. Cached toolbox index race fix (2 files, +150/-2). Worktree `~/projects/worktrees/galaxy/pr/24319` (on `pr_24319_review_0`; no `.venv`, tests ran via main clone's venv with `--import-mode=importlib`).
+
+## Archived
+
+2026-10-25: PR merged 2026-10-24 (head `b72522a478b`). Tracking ended on merge; worktree removed.
