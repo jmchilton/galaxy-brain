@@ -306,6 +306,11 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   gx_issues `interactive_tools_panel_drops_new_entry_point`). Needs `4b54438b1c2`.
 - `fff4be834ab`: coverage for `re_use_equivalent_jobs` (batch 14). `tool_form_set_use_cached_job`,
   `test_run_reuses_equivalent_job`. Standalone.
+- `00e0b665ce1`: coverage for `tools_favorite`/`tools_change_version` (batch 15). `tool_form_select_version`
+  (now used by `_run_multiple_version_test_tool`), `tool_form_toggle_favorite`, `tool_panel_show_favorites`,
+  `test_favorite_tool_from_tool_form`. Standalone.
+- `9caa20b8267`: coverage for `tools_logs` (batch 15). `job_details.tool_stdout`/`tool_stderr`,
+  `test_dataset_details_tool_logs`. Standalone.
 
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 

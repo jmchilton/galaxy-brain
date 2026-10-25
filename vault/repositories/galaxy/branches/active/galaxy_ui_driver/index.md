@@ -77,4 +77,6 @@ gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filt
 
 **Then (FAQ loop batch 14, 2026-10-24):** `fff4be834ab` tests the tool form's "Attempt to re-use jobs with identical parameters?" switch (`tool_form_set_use_cached_job`, `test_run_reuses_equivalent_job`: second cat1 job's `copied_from_job_id` is the first). gxui: `tool-run --reuse`. 76 commits; tip `7ecf397f044`. Extraction restack still not done.
 
+**Then (FAQ loop batch 15, 2026-10-25):** `00e0b665ce1` tests starring a tool from its form (`tool_form_select_version`, `tool_form_toggle_favorite`, `tool_panel_show_favorites`, `test_favorite_tool_from_tool_form`); `9caa20b8267` tests stdout/stderr on Dataset Details (`test_dataset_details_tool_logs`). gxui: `tool-version`, `tool-favorite [--show]`, `dataset-logs`. 78 commits; tip `3121f76bffb`.
+
 **Worktree (2026-10-20).** Another session put the standing worktree (`branch/galaxy_ui_driver`) on `custom_build_from_fasta`. `galaxy_ui_driver` is checked out in `branch/galaxy_ui_driver_gxui` (shares the standing worktree's `.venv` by symlink). Run `faq_server.sh` and `gxui` with `GALAXY_ROOT`/`GXUI_GALAXY_ROOT` set to it.

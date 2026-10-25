@@ -67,7 +67,8 @@ galaxy:
   # FTP upload with no FTP server: replays copy files into \$FAQ_FTP/<email> in its place.
   ftp_upload_dir: $state/ftp
   ftp_upload_site: ftp.faq.example.org
-  # Default tools, plus a sleep tool replays use to keep a job waiting (job status FAQ).
+  # Default tools, plus a sleep tool replays use to keep a job waiting (job status FAQ) and a
+  # two-version tool (tool version FAQ).
   tool_config_file: $GALAXY_ROOT/lib/galaxy/config/sample/tool_conf.xml.sample,$state/replay_tool_conf.xml,$state/interactive_tool_conf.xml
   user_activation_on: $activation
   smtp_server: mock_emails_to_path://$state/email.json
@@ -124,6 +125,8 @@ EOF
 <toolbox tool_path="$GALAXY_ROOT/test/functional/tools">
   <section id="faq_replay" name="FAQ Replay">
     <tool file="cat_data_and_sleep.xml" />
+    <tool file="multiple_versions_v01.xml" />
+    <tool file="multiple_versions_v02.xml" />
   </section>
 </toolbox>
 EOF

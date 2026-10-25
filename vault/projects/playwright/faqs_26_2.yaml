@@ -809,25 +809,64 @@
   gtn_commit: 45d4932d33
   used_by: [assembly/mrsa-nanopore, microbiome/pathogen-detection-from-nanopore-foodborne-data, microbiome/plasmid-metagenomics-nanopore]
 - faq: faqs/galaxy/support_admins.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/support_messaging_system.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [matrix-lobby-alias]
 - faq: faqs/galaxy/support.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [introduction/galaxy-intro-rdm]
 - faq: faqs/galaxy/tools_change_version.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 3121f76bffb
+  used_by: [single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-scanpy-pbmc3k, transcriptomics/ref-based, variant-analysis/trio-analysis]
+  gx_findings: Added tool_form_select_version (00e0b665ce1), gxui tool-version, and faq_server's multiple_versions test tools.
 - faq: faqs/galaxy/tools_favorite.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 3121f76bffb
+  used_by: [introduction/data-manipulation-olympics, introduction/galaxy-intro-rdm]
+  gx_findings: Added test_favorite_tool_from_tool_form (00e0b665ce1) and gxui tool-favorite.
 - faq: faqs/galaxy/tools_help.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [digital-humanities/grobid]
 - faq: faqs/galaxy/tools_logs.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 3121f76bffb
+  used_by: [assembly/chloroplast-assembly]
+  faq_findings: [job-execution-details-2]
+  gx_findings: Added test_dataset_details_tool_logs (9caa20b8267) and gxui dataset-logs.
 - faq: faqs/galaxy/tools_missing.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [gitter-to-matrix-2]
 - faq: faqs/galaxy/tools_rerun.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 3121f76bffb
+  used_by: [climate/ocean_qcv_analysis, digital-humanities/grobid, digital-humanities/introduction_to_dh, digital-humanities/solar-eclipse-frequency, introduction/galaxy-intro-101-everyone, introduction/galaxy-reproduce, sequence-analysis/Manage_AB1_Sanger, single-cell/bulk-deconvolution-evaluate, single-cell/spatial-melanoma-SPICA]
+  faq_findings: [tools-rerun-typo]
 - faq: faqs/galaxy/tools_select_collection.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 3121f76bffb
+  used_by: [assembly/vgp_genome_assembly, computational-chemistry/cheminformatics, ecology/ecoregiolifetraits, ecology/Ecoregionalization_tutorial, introduction/galaxy-intro-rdm, metabolomics/gc_ms_with_xcms, metabolomics/gcms, metabolomics/lcms, metabolomics/lcms-preprocessing, microbiome/plasmid-metagenomics-nanopore, microbiome/samestr-strain-detection, sequence-analysis/Manage_AB1_Sanger, sequence-analysis/tapscan-streptophyte-algae, transcriptomics/differential-isoform-expression, transcriptomics/ref-based, transcriptomics/rna-seq-reads-to-counts, transcriptomics/srna, variant-analysis/somatic-variant-discovery]
 - faq: faqs/galaxy/tools_select_multiple_datasets.md
   status: pending
 - faq: faqs/galaxy/tools_similar.md

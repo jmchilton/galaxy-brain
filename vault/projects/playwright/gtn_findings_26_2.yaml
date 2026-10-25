@@ -676,3 +676,26 @@
   faqs: [faqs/galaxy/reference_genomes_troubleshooting_custom_genome.md]
   target: main
   summary: '`^\w*$` with "NOT matching" (twice) also removes every sequence line, since lines like ACGT are all word characters; empty lines need `^\s*$`.'
+
+- label: job-execution-details-2
+  faqs: [faqs/galaxy/tools_logs.md]
+  target: version
+  summary: The Details section is "Job Execution Details", not "Job Information", and it shows the logs inline as "Tool Standard Output" and "Tool Standard Error" rather than as links.
+  fix: Scroll to **Job Execution Details**; the logs are shown there as **Tool Standard Output** (`stdout`) and **Tool Standard Error** (`stderr`). The button is **Dataset Details**.
+
+- label: gitter-to-matrix-2
+  faqs: [faqs/galaxy/tools_missing.md]
+  target: main
+  summary: Step 3 says "Ask help in Gitter" and links `site.gitter_url`, a gitter.im URL.
+  fix: Same as gitter-to-matrix; link the GTN Matrix room and call it Matrix.
+
+- label: matrix-lobby-alias
+  faqs: [faqs/galaxy/support_messaging_system.md]
+  target: main
+  summary: Step 3 and the TL;DR give `#galaxyproject:matrix.org` as the Galaxy Lobby, but the FAQ's own table links that alias as "All Galaxy Matrix rooms" (the space); the Lobby is `#galaxyproject_Lobby:gitter.im`.
+  fix: Name the Lobby by its own alias/link in both places; mention the space separately.
+
+- label: tools-rerun-typo
+  faqs: [faqs/galaxy/tools_rerun.md]
+  target: main
+  summary: '"paramters" typo; the button tooltip is "Run Job Again".'
