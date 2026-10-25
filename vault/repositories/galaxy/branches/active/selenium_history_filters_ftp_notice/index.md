@@ -5,13 +5,16 @@
 
 ## Status
 
-READY. Re-scoped once and hardened twice; see the [implementation debrief](implementation_debrief.md). Base: `release_26.2` (`e3affe97eb8`), which includes [#24380](../../merged/selenium_delete_items_dataset_privacy/index.md). Head: `23e404c6c86`.
+Polished, ready for final review; see the [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md) and [tags](pr_tags.md). Base: `release_26.2` (`39084b89e8f`). Head: `cca66ef7a78`.
 
 No PR yet.
 
-No CI yet on the rebased head.
+Fork CI queued on the new head.
 
 ## Base
+
+Polish 2026-10-25: isort fixup folded into `Let the upload helpers open remote file folders`, rebased clean onto `release_26.2` `39084b89e8f`; old head `23e404c6c86`.
+
 
 Was stacked on `selenium_delete_items_dataset_privacy` (#24380, merged 2026-10-24). Its undelete/hide tests extend #24380's `test_delete_undelete_and_purge_items` and use #24380's helpers.
 
@@ -19,7 +22,7 @@ Rebased 2026-10-25 onto `release_26.2` (`e3affe97eb8`), dropping #24380's commit
 
 ## Scope
 
-All of `galaxy_ui_driver`'s FAQ-loop batch 7 except gxui, plus the prerequisites it needs (John, 2026-10-23: "everything in one"). It is 14 commits and touches 16 files, +296/−48:
+All of `galaxy_ui_driver`'s FAQ-loop batch 7 except gxui, plus the prerequisites it needs (John, 2026-10-23: "everything in one"). It is 14 commits and touches 16 files, +296/−48 (16 files):
 
 - **History panel test helpers and coverage.**
   - Fixes `history_panel.search`, whose selector never matched.
@@ -29,7 +32,7 @@ All of `galaxy_ui_driver`'s FAQ-loop batch 7 except gxui, plus the prerequisites
   - Searches for each file before ticking it. The search waits out the debounce and tolerates sources that ignore the query.
   - Adds `open_remote_folder` and `path=`.
   - Baseline subfolder-upload E2E.
-- **Fix (26.2 regression): FTP notice.** Choose Remote Files shows the FTP server notice again.
+- **Fix: FTP notice** (missing since Upload Activity landed in 26.0). Choose Remote Files shows the FTP server notice again.
   - The notice is the shared `FtpUploadHelp.vue`, which also renders in FilesDialog and itself checks for `gxftp://`.
   - Without an `ftp_upload_site`, it skips the log-in sentence.
   - The E2E and the vitest were red before the fix.
