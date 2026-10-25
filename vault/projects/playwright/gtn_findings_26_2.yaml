@@ -711,3 +711,45 @@
   faqs: [faqs/galaxy/tools_sorting.md]
   target: main
   summary: '"VFC" -> "VCF".'
+
+- label: usage-quota-logout-refresh
+  faqs: [faqs/galaxy/user_preferences_account_usage_quota.md]
+  target: main
+  summary: Logging out and back in doesn't recalculate disk usage (login never calls the recalculation); the exact figure is at the top of Preferences, not the bottom.
+  fix: 'Step 1: "Click the usage meter in the top bar to open the **Storage Dashboard**, then **Refresh**; recalculation can take a moment." Note: "...at the top of your user preferences page."'
+
+- label: forgot-password-steps
+  faqs: [faqs/galaxy/user_preferences_forgot_password.md]
+  target: main
+  summary: Step 2's "Login or Register" is now a **Login** button; after the reset link there's an unlisted **Send password reset email** step; the new password must also be confirmed; two steps are numbered 5.
+  fix: '2. Click **Login** in the top bar. 4. Click **Forgot password? Click here to reset your password.**, then **Send password reset email**. 6. Enter and confirm your new password, then **Save new password**. Renumber.'
+
+- label: manage-information-change-password
+  faqs: [faqs/galaxy/user_preferences_manage_information.md]
+  target: main
+  summary: Step 5 puts **Change Password** on the Manage Information form; it is its own Preferences card. Typo "Your may also".
+  fix: '5. "To change your password, use the **Change Password** card on the Preferences page instead." Step 7 only applies to an email change.'
+
+- label: workflows-create-new-editor
+  faqs: [faqs/galaxy/workflows_create_new.md]
+  target: main
+  summary: '"Workflow on the top bar" is now **Workflows** in the left activity bar, and **Create** opens the editor at once; the name is set in its Attributes panel and saved with **Save**.'
+  fix: '1. Click **Workflows** in the activity bar. 2. Click {% icon galaxy-wf-new %} **Create**. 3. Give it a clear and memorable **Name** in the Attributes panel. 4. Click **Save**.'
+
+- label: workflows-annotate-attributes
+  faqs: [faqs/galaxy/workflows_annotate.md]
+  target: main
+  summary: There's no "Edit Attributes on the top right"; **Attributes** is the editor's activity bar (open by default), and the **Annotation** box is **Short Description**. Tags save at once.
+  fix: 'Click {% icon galaxy-pencil %} **Attributes** in the editor''s activity bar; write a description in **Short Description**; add a tag under **Tags**.'
+
+- label: workflows-best-practices-activity
+  faqs: [faqs/galaxy/workflows_best_practices.md]
+  target: main
+  summary: There's no Workflow Options dropdown holding Best Practices; **Best Practices** is its own item in the editor's activity bar (with a warning count), opening the **Best Practices Review** panel.
+  fix: 'Replace steps 2-3 with "Click {% icon galaxy-wf-best-practices %} **Best Practices** in the editor''s activity bar."'
+
+- label: igv-display-on-visualize-tab
+  faqs: [faqs/galaxy/visualisations_igv.md]
+  target: main
+  summary: The IGV link isn't on the expanded dataset; it's on the dataset's Visualize page (Charts icon) as **display with IGV** (**local**), as visualisations_igb already says for IGB.
+  fix: 'Step 4: "Click the Charts icon {% icon galaxy-barchart %}; next to **display with IGV**, click **local**."'

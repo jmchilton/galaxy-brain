@@ -918,25 +918,68 @@
   used_by: [introduction/galaxy-intro-rdm, introduction/galaxy-intro-short, microbiome/lotus2-identifying-fungi, single-cell/bulk-music, single-cell/bulk-music-2-preparescref, single-cell/bulk-music-3-preparebulk, single-cell/bulk-music-4-compare, single-cell/GO-enrichment, single-cell/scanpy_parameter_iterator, single-cell/scatac-batch-correction-snapatac2, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna_batch_correction, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_cell-cycle, single-cell/scrna-case_monocle3-trajectories, single-cell/scrna-case_trajectories, single-cell/scrna-data-ingest, single-cell/scrna-seurat-pbmc3k, single-cell/spatial-melanoma-SPICA]
   gx_findings: Galaxy bug - GTN webhook proxy probe always passed (catch-all 200), blank iframe; fixed (092b507ccdd), test_activate_tutorial_mode red->green; queued gtn_webhook_proxy_probe_always_passes. Added gxui tutorial-mode verb.
 - faq: faqs/galaxy/user_preferences_account_usage_quota.md
-  status: pending
-  faq_findings: [masthead-user-menu]
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6b42e205276
+  faq_findings: [masthead-user-menu, usage-quota-logout-refresh]
+  gx_findings: Test gap - Storage Dashboard Refresh had no E2E; added test_recalculate_disk_usage_from_storage_dashboard (red->green, endpoint broken). Added gxui disk-usage [--refresh].
 - faq: faqs/galaxy/user_preferences_forgot_password.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6b42e205276
+  faq_findings: [forgot-password-steps]
+  gx_findings: Added request_password_reset / reset_password_from_link helpers (test_reset_password_link uses the first) and gxui password-reset [--link --password]; accounts server.
 - faq: faqs/galaxy/user_preferences_manage_information.md
-  status: pending
-  faq_findings: [masthead-user-menu]
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6b42e205276
+  faq_findings: [masthead-user-menu, manage-information-change-password]
+  gx_findings: Added manage_information_save helper (test_change_email, test_public_name use it) and gxui user-info [--email --username]; accounts server.
 - faq: faqs/galaxy/visualisations_igb.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6b42e205276
+  gx_findings: Test gap - display app links on Visualize tab had no E2E; added test_display_application_links (red->green, no dbkey). Added gxui dataset-display-apps.
 - faq: faqs/galaxy/visualisations_igv.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6b42e205276
+  faq_findings: [igv-display-on-visualize-tab]
+  gx_findings: Covered by test_display_application_links / gxui dataset-display-apps (see visualisations_igb).
 - faq: faqs/galaxy/why_not_excel.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [galaxy-interface/upload-rules, introduction/galaxy-intro-strands]
 - faq: faqs/galaxy/workflows_annotate.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6b42e205276
+  used_by: [contributing/create-new-tutorial]
+  faq_findings: [workflows-annotate-attributes]
+  gx_findings: Test gap - editor Attributes tags untested; added test_edit_tags (red->green). Added gxui workflow-tag.
 - faq: faqs/galaxy/workflows_best_practices.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6b42e205276
+  used_by: [contributing/updating_tutorial, fair/ro-crate-galaxy-best-practices, galaxy-interface/workflow-automation, galaxy-interface/workflow-fairification]
+  faq_findings: [workflows-best-practices-activity]
+  gx_findings: Added workflow_editor_best_practices helper (3 tests use it) and gxui workflow-best-practices.
 - faq: faqs/galaxy/workflows_create_new.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: 6b42e205276
+  used_by: [contributing/create-new-tutorial, galaxy-interface/workflow-automation, galaxy-interface/workflow-fairification, galaxy-interface/workflow-parameters, imaging/hela-screen-analysis, imaging/iscc-suite, imaging/object-tracking-using-cell-profiler, imaging/omero-suite, imaging/parameter-tuning]
+  faq_findings: [workflows-create-new-editor]
+  gx_findings: Covered by workflow_create_new tests; replay uses gxui workflow-new.
 - faq: faqs/galaxy/workflows_download.md
   status: pending
 - faq: faqs/galaxy/workflows_edit.md

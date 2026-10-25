@@ -106,3 +106,17 @@
   priority: low
   summary: 2020 masthead and GTN theme; the graduation-cap flow is unchanged.
   retake: Masthead graduation cap opening the GTN overlay, then a tool button opening its form.
+
+- image: faqs/galaxy/images/best-practices1.png
+  faqs: [faqs/galaxy/workflows_best_practices.md]
+  target: main
+  priority: high
+  summary: Shows Best Practices in a gear dropdown that no longer exists.
+  retake: Workflow editor with the Best Practices activity bar item (and its warning badge) highlighted.
+
+- image: faqs/galaxy/images/best-practices2.png
+  faqs: [faqs/galaxy/workflows_best_practices.md]
+  target: main
+  priority: medium
+  summary: Older side panel; 26.2's "Best Practices Review" groups Critical and Attributes checks with counts.
+  retake: Best Practices Review panel for a workflow with an unlabeled input and no annotation.
