@@ -5,11 +5,11 @@
 
 ## Status
 
-`ready_for_final_review`: polished, head `f62f22acedf` on `release_26.2` (`39084b89e8f`).
+`pr_open`: head `f62f22acedf` on `release_26.2` (`39084b89e8f`).
 
-No PR.
+[#24451](https://github.com/galaxyproject/galaxy/pull/24451) opened 2026-10-25, not draft.
 
-Fork CI running on `f62f22acedf`.
+Fork CI green on `f62f22acedf`; screenshot hosted on fork branch `pr-assets-selenium_tool_form_use_cached_job`.
 
 ## Polish
 
