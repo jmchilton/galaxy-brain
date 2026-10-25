@@ -1,5 +1,5 @@
 PRs To Review:
-- [#548](https://github.com/galaxyproject/pulsar/pull/548) — Initial review complete; no actionable findings, response drafted and not posted. [notes](../../repositories/pulsar/reviews/active/548/index.md)
+- [#548](https://github.com/galaxyproject/pulsar/pull/548) — Approved; merge pending because Framework tests / Test (3.10, master, directory) fails during collection. [notes](../../repositories/pulsar/reviews/active/548/index.md)
 - [#545](https://github.com/galaxyproject/pulsar/pull/545) — Changelog migration needs `no changelog` exemption (Check changes/ entry failing); mvdbeek review + fix PR jmchilton/pulsar#2; nsoranzo asks for rationale. [notes](../../repositories/pulsar/reviews/active/545/index.md)
 - [#530](https://github.com/galaxyproject/pulsar/pull/530) — Rebased onto release_0.15; head now `364eeb3` (adds datetime-alias fix); 2 Test (3.10, dev) checks failing. [notes](../../repositories/pulsar/reviews/active/530/index.md)
 - [#518](https://github.com/galaxyproject/pulsar/pull/518) — Review fixes pushed; now conflicting, needs rebase. [notes](../../repositories/pulsar/reviews/active/518/index.md)
