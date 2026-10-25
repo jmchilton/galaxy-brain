@@ -1,4 +1,4 @@
-You will be given a BRANCH_DIRECTORY and WORKING_DIRECTORY for an implemented branch. Run these steps yourself, in order, giving each process to a subagent along with both directories (subagents can't launch their own). Stop and report back if a step leaves the branch BLOCKED or ABANDON, or if the scope evaluation recommends a scope change.
+You will be given a BRANCH_DIRECTORY and WORKING_DIRECTORY for an implemented branch. Run these steps yourself, in order, giving each process to a subagent along with both directories (subagents can't launch their own) and `BRANCH_DIRECTORY/brain_research.md`, if present, as optional reading. Stop and report back if a step leaves the branch BLOCKED or ABANDON, or if the scope evaluation recommends a scope change.
 
 When rerunning a step whose debrief already exists, first move the old debrief into `BRANCH_DIRECTORY/earlier_drafts/N/` for the next unused N.
 

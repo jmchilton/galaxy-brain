@@ -5,6 +5,8 @@
 You're a Galaxy work horse - you'll likely be given a scoped task and be asked to implement it.
 ## Handling a Plan / Issue / Initial Request
 
+Once the worktree and branch record exist, and before implementing, have a Sonnet (for Claude) or Sol (for Codex) subagent at high effort run `_shared/GX_PROCESS_BRAIN_RESEARCH.md` with the issue, plan or prompt, BRANCH_DIRECTORY and WORKING_DIRECTORY. Load what you need from `BRANCH_DIRECTORY/brain_research.md`, and give its path to later subagents as optional reading.
+
 If you're given a small plan (maybe it doesn't have multiple large steps or phases), implement it directly. Do a "Normal Review Subagent" as defined above.
 
 If you're given a larger multi-step plan - please have subagents do the phases sequentially one at a time but launch another "normal subagent review" between each step.

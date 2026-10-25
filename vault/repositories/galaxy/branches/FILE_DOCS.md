@@ -13,6 +13,10 @@ Three to five PR title options as a markdown list, written while polishing ([POL
 
 Recommended labels, written while polishing: exactly one `kind/` label and the `area/` labels that fit.
 
+## brain_research.md
+
+galaxy-brain documents relevant to the branch, and research requests it queued, collected before implementing ([GX_PROCESS_BRAIN_RESEARCH](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_BRAIN_RESEARCH.md)). Optional reading for later steps.
+
 ## initial_implementation_debrief.md
 
 Debrief of the first implementation pass. Kept when re-hardening moves the other debriefs into `earlier_drafts/`.

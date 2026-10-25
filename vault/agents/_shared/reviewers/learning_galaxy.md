@@ -27,6 +27,6 @@ For architecture points - use Mermaid diagrams. Keep language high-level and rea
 
 Review galaxy-brain's research in ../../research/ for relevant documentation on touched pieces of code. Do our existing research findings conflict with the baseline knowledge above (missing research is not a conflict)? If so, spell out the stale documentation point by point in `learning_galaxy_followup_issue.md`.
 
-Missing research isn't a conflict, but if this PR introduces or substantially reshapes an area with no research note, add a "Suggested new research" section to `learning_galaxy_followup_issue.md`: at most two bullets, each a proposed note title (`Component - <Area>`, matching existing notes) and one sentence on why a Galaxy developer would want it.
+Missing research isn't a conflict, but if this PR introduces or substantially reshapes an area with no research note, queue at most two research requests per [GX_QUEUING_RESEARCH.md](../GX_QUEUING_RESEARCH.md), with REVIEW_DIRECTORY as the requester, and list their paths at the end of `learning_galaxy.md`.
 
 Should any of the documents be updated if and after the PR is merged - if so include pointers to this in `learning_galaxy_followup_issue.md` as post merge activities.

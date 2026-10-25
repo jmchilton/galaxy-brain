@@ -22,7 +22,7 @@ If you're asked by the user to file an issue or record an issue or file a bug re
 A review debrief has a top-line written by you describing what you acted on and didn't. Follow it with a quick list of things you didn't act on and why. Place the full review under a `details` section. If the review identifies any security issues at all - please skip this document and write out a security report for me according to `SECURITY_REPORTS.md`.
 ## Normal Review Subagent
 
-When any part of this work asks for a normal subagent review. The subagent should be given ``vault/agents/_shared/REVIEW_FOCUS.md`` for suggested focus areas but domain/branch specific concerns should also be reviewed. Do not report back to user unless a serious problem arises or until after the review has been done and acted on.
+When any part of this work asks for a normal subagent review. The subagent should be given ``vault/agents/_shared/REVIEW_FOCUS.md`` for suggested focus areas but domain/branch specific concerns should also be reviewed. Point it at `BRANCH_DIRECTORY/brain_research.md`, if present, as optional reading. Do not report back to user unless a serious problem arises or until after the review has been done and acted on.
 
 Write a review debrief to `BRANCH_DIRECTORY/subagents/`.
 ## Hand Off

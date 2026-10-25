@@ -57,14 +57,15 @@ flowchart TD
 
 ## gx_workhorse: implement and harden
 
-The workhorse gets one issue or plan. Before writing code it picks the base branch: Galaxy's policy is the oldest supported release that has the bug. More intricate fixes lean toward a newer release, and simpler or more serious ones toward an older one. Large plans run phase by phase, with a review subagent between phases.
+The workhorse gets one issue or plan. Before writing code it picks the base branch: Galaxy's policy is the oldest supported release that has the bug. More intricate fixes lean toward a newer release, and simpler or more serious ones toward an older one. A lighter-model subagent (Sonnet or Sol) then collects the galaxy-brain notes relevant to the change, as optional reading for every later step, and queues research requests for gaps worth a new note. Large plans run phase by phase, with a review subagent between phases.
 
 After the first implementation passes a normal review, the branch goes through **hardening**. Each step runs in its own subagent, makes its changes on the branch, and writes a debrief. Those debriefs become the "Agentic Checks" in the PR description.
 
 ```mermaid
 flowchart TD
   P["Issue or plan"] --> Base["Pick base branch"]
-  Base --> BT["Baseline tests commit<br/>pins current behavior"]
+  Base --> BR["Brain research<br/>relevant notes, research gaps"]
+  BR --> BT["Baseline tests commit<br/>pins current behavior"]
   BT --> Impl["Implement"]
   Impl --> Rev["Review subagent"]
   Rev --> H
