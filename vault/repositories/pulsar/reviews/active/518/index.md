@@ -6,8 +6,8 @@
 
 Recorded review snapshot: `392c870`. Later review rounds and delivery history remain in the linked notes.
 
-Current PR head: `a030789fae7`. The migration refreshed tracking, not the code review.
+Current PR head: `1b89d092d4` (rebased onto master 2026-10-25 from `a030789fae7`; no code review of the rebase).
 
-Tracking: Review fixes remain pushed at `a030789fae7d`; GitHub now reports CONFLICTING / DIRTY against master. Needs rebase before merge. Older green CI in the linked review is historical; no current rollup is reported. No fresh code review performed in this sweep.
+Tracking: Review fixes carried through the rebase; GitHub reports MERGEABLE. CI on the new head pending; older green CI in the linked review is historical.
 
 Prior queue tracking: review fixes and test cleanup pushed; CI green; awaiting merge.
