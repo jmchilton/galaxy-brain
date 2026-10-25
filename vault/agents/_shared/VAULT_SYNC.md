@@ -15,7 +15,7 @@ updates unless John asks.
   shared files (`MY_BRANCHES.md` etc.) first and commit only your hunks.
 - Edit shared files with the Edit tool, not whole-file shell rewrites.
 - Other sessions' local commits on `main` are fine to push along with yours.
-- Validate and inspect the diff and outgoing commits. Don't publish unrelated,
+- Validate (`make validate`, from the repo root) and inspect the diff and outgoing commits. Don't publish unrelated,
   unreviewed work or force-push. If blocked, tell John what remains unsynced and why.
 - Keep sensitive findings out of the repo per
   [SECURITY_REPORTS.md](SECURITY_REPORTS.md).

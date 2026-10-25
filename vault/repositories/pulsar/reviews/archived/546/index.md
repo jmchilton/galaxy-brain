@@ -1,6 +1,6 @@
 # Pulsar #546 — Fix datetime import aliases for Ruff 0.17
 
-[PR #546](https://github.com/galaxyproject/pulsar/pull/546) · Status: open; base `master`. Created 2026-10-11 at John’s request.
+[PR #546](https://github.com/galaxyproject/pulsar/pull/546) · Status: merged 2026-10-12 into `master`; tracking ended (merged). GitHub state checked 2026-10-24. Was: open; base `master`. Created 2026-10-11 at John’s request.
 
 [Implementation verification](implementation-2026-10-11.md) · [branch](https://github.com/jmchilton/pulsar/tree/fix-datetime-import-alias)
 

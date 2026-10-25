@@ -31,7 +31,7 @@ Don't post comments, edit labels or close issues on GitHub as part of a sync, ev
 
 ## Finish
 
-Refresh the snapshot date in `ISSUES.md`, write the report, run `make validate`, and commit the touched paths per [VAULT_SYNC.md](VAULT_SYNC.md).
+Refresh the snapshot date in `ISSUES.md`, write the report, run `make validate` (from the repo root), and commit the touched paths per [VAULT_SYNC.md](VAULT_SYNC.md).
 
 ## Report
 
