@@ -73,6 +73,7 @@ None yet.
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`cwl_fixes_5`](active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
 - [`licenses`](active/licenses/index.md) — Adds `<license_agreement>` tool requirements users must accept before running tools/workflows (#23261). Rebased, hardened, re-scoped, re-hardened; decisions: gxwf opt-in default, PR split. Base `dev`, head `cd37d851bb2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
+- [`issue_24441_tool_shed_upload_dry_run`](active/issue_24441_tool_shed_upload_dry_run/index.md) — Tool Shed upload API `?dry_run=true`: predicts new installable revision vs in-place overwrite, `installable`, per-tool versions and changed files without persisting; fixes `reset_metadata` sample handling (#24441). Re-scoped, re-hardened; decisions: data manager key bug (release branches), data-table check follow-up. Base `dev`, head `574ce683a19`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 

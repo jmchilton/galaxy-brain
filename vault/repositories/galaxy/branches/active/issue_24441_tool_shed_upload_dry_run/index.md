@@ -5,9 +5,13 @@
 
 ## Status
 
-Implementation in progress (gx_workhorse).
+Status: `branches_implemented_needs_ci`. Implemented and hardened, READY for review; see the [implementation debrief](implementation_debrief.md).
 
-Base: `dev` (`a468ce9de10`). Worktree: `~/projects/worktrees/galaxy/branch/issue_24441_tool_shed_upload_dry_run`.
+No PR yet.
+
+Fork CI not yet checked on `574ce683a19`.
+
+Base: `dev` (`a468ce9de10`), head `574ce683a19`; alt `issue_24441_tool_shed_upload_dry_run_alt_original_scope`. Fork: `jmchilton/issue_24441_tool_shed_upload_dry_run`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24441_tool_shed_upload_dry_run`.
 
 ## Issue
 
@@ -16,5 +20,8 @@ Implements [#24441](https://github.com/galaxyproject/galaxy/issues/24441) (`vaul
 ## Decisions
 
 - Base `dev`: new API feature plus a metadata manager refactor.
-- Re-scoped per [scope evaluation](earlier_drafts/1/scope_evaluation.md): tool shed reset mode always isolates sample files (fixes `reset_metadata` sample-only tools / leaked copies / stale samples); dry run reports `installable`. Original scope kept as alt `issue_24441_tool_shed_upload_dry_run_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
-- Deferred to John: `new_data_manager_required` compares the wrong metadata key, so data manager changes never force a new installable revision (also on `release_25.1`/`26.0`). Fix flips a `dev` test assertion and changes real uploads; belongs on its own release-targeted branch. The dry run mirrors today's behavior.
+- Re-scoped per [scope evaluation](earlier_drafts/1/scope_evaluation.md): tool shed reset mode always isolates sample files (fixes `reset_metadata` sample-only tools / leaked copies / stale samples); dry run reports `installable`. Original scope kept as alt `issue_24441_tool_shed_upload_dry_run_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)). Second [scope evaluation](scope_evaluation.md): as implemented.
+- Deferred to John: `new_data_manager_required` compares the wrong metadata key, so data manager changes never force a new installable revision (also on `release_25.1`, `26.0`, `26.1`, `26.2`). Fix flips a `dev` test assertion and changes real uploads; belongs on its own release-targeted branch. The dry run mirrors today's behavior.
+- Deferred to John: real uploads also check `tool_data_table_conf.xml.sample` against the process's in-memory tables (ephemeral, per-worker state); the dry run checks against throwaway tables. Upload-side follow-up options in [scope evaluation](scope_evaluation.md) ([codex review](codex_review.md)).
+- Rejections before the commit raise like a real upload; post-commit errors (invalid tools, no utilities, generation failures) return `ok: false`; upload equal to tip returns `no_changes`.
+- PR body should note the `reset_metadata` behaviour change (see [rescope debrief](implementation_rescope_debrief.md)).
