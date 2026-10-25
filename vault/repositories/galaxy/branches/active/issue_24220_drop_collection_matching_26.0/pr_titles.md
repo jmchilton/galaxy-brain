@@ -1,0 +1,4 @@
+- [26.0] Match dropped collections to tool form collection inputs like the server
+- [26.0] Fix tool form drag and drop disagreeing with the collection dropdown
+- [26.0] Fix collection drag and drop matching on tool form inputs (suffix check)
+- [26.0] Make tool form collection drops follow the server's matching and map-over rules
