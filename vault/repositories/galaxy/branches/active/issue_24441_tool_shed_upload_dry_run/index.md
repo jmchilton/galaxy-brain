@@ -5,7 +5,7 @@
 
 ## Status
 
-Status: `branches_need_polish`. Implemented and hardened; polishing started 2026-10-25. See the [implementation debrief](implementation_debrief.md).
+Status: `branches_ready_for_final_review`. Polished 2026-10-25 ([debrief](polish_debrief.md)); waiting on John's read-through of [pr_description.md](pr_description.md), [pr_titles.md](pr_titles.md) and [pr_tags.md](pr_tags.md).
 
 No PR yet.
 

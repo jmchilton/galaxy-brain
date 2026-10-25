@@ -91,10 +91,11 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`issue_24441_tool_shed_upload_dry_run`](active/issue_24441_tool_shed_upload_dry_run/index.md) — Tool Shed upload API `?dry_run=true` predicting the resulting revision without persisting; fixes `reset_metadata` sample handling (#24441). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`issue_24441_tool_shed_upload_dry_run`](active/issue_24441_tool_shed_upload_dry_run/index.md) — Tool Shed upload API `?dry_run=true` predicting the resulting revision without persisting; fixes `reset_metadata` sample handling (#24441). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1).
 - [`selenium_history_filters_ftp_notice`](active/selenium_history_filters_ftp_notice/index.md) — Fixes Choose Remote Files missing the FTP server notice (shared `FtpUploadHelp`) and long names overflowing the remote files and data library browsers; history panel filter/undelete/hide helpers and E2E tests; remote-folder upload helpers. All of `galaxy_ui_driver` batch 7. Base `release_26.2`, head `cca66ef7a78`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_history_filters_ftp_notice?expand=1).
 - [`issue_24220_drop_collection_matching_26.0`](active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections to collection inputs like the server's dropdown (#24220). Base `release_26.0`, head `30f986a5a48`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24220_drop_collection_matching_26.0?expand=1).
 - [`selenium_upload_data_library`](active/selenium_upload_data_library/index.md) — E2E tests for 26.2 Upload Activity "Import from Data Library" + fixes for the 5 bugs they surfaced (#24399 follow-up). Decisions: 1 PR vs split, 26.1 backport. Base `release_26.2`, head `bac934c504f`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_upload_data_library?expand=1).

@@ -1,0 +1,4 @@
+- Add a dry run mode to the Tool Shed upload API
+- Tool Shed upload API: `dry_run` reports new installable revision vs in-place overwrite
+- Let Tool Shed uploads preview whether they create or overwrite an installable revision
+- Implement Tool Shed upload `dry_run` and fix `reset_metadata` sample file handling
