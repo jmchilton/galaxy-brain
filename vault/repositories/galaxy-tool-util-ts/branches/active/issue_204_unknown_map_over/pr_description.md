@@ -1,6 +1,11 @@
-Fix 🎯 #204 - `validate --connections` reports false `invalid` edges downstream of a step whose input type is unknown.
+Fix 🎯 #204 - `validate --connections` reports false `invalid` edges downstream of `__APPLY_RULES__` and other steps whose input type is unknown.
 
-When an edge `skip`s because its source type can't be determined (typically an `__APPLY_RULES__` regroup), the validator treated the step as **not mapped**, typed its outputs as plain datasets, and failed every collection consumer downstream. Here is the issue's repro, run against `main`'s CLI and then this branch's:
+Two changes:
+
+1. **Type `__APPLY_RULES__` outputs from their rules.** Galaxy's editor (via `get_all_outputs`) and the Python validator compute a `type_from_rules` output's collection type from the step's rules mapping; the TS port never did, so every apply-rules edge was `skip`. This ports Galaxy's rule builder DSL (`RuleSet`) to `@galaxy-tool-util/workflow-graph`, checked against Galaxy's `rules_dsl_spec.yml` (synced, like `connection_type_cases.yml`), and uses it in the graph builder.
+2. **Treat map-over as unknown downstream of a skip.** When an edge still `skip`s (an output with no rules mapping, an unresolvable output or input), the step's outputs become unknown, so downstream edges `skip` rather than fail against a guessed dataset type. Known edges are still checked against each other, so incompatible map-over errors still surface.
+
+With a `list:paired` regroup feeding fastp, as in the sarek conversion:
 
 ```
 # main (1.14.0)
@@ -10,62 +15,55 @@ Connections: INVALID — 1 ok, 1 invalid, 1 skip
       Incompatible types: output is dataset, input expects collection (any type)
 
 # this branch
-Connections: OK — 1 ok, 0 invalid, 2 skip
-  step 3 (__FLATTEN__)
-    skip: 2/report_json -> input
-      Cannot determine output type for 'report_json' on step 2
+Connections: OK — 3 ok, 0 invalid, 0 skip
 ```
 
-The issue reports a 125-step nf-core/sarek conversion with 22 `invalid` edges, all downstream of an unknown edge: 8 directly and 14 transitively. That workflow runs cleanly in Galaxy, but real wiring errors in that output couldn't be told apart from the false ones. (I didn't re-run sarek on this branch; the tests below cover the direct and transitive shapes.)
+The issue's own repro maps two `list_identifiers` columns, which builds `list:list`; this branch now reports that as a real error against fastp's `paired` input (`output is collection<list:list>, input expects collection<paired>`).
 
-**The fix:** if any edge into a step is `skip`, the step's map-over is unknown. Its reported `map_over` stays `null`, and all of its outputs, subworkflow outputs included, become unknown, so downstream edges `skip` rather than fail. Known edges are still checked against each other, so incompatible map-over errors still surface.
-
-**This does not infer `__APPLY_RULES__` output types; those edges still `skip`. It also means every edge downstream of a skip goes unchecked, by design.**
+The issue reports 22 `invalid` edges on a 125-step nf-core/sarek conversion, all downstream of an unknown edge. I didn't re-run sarek on this branch.
 
 <details><summary>Tests</summary>
 
-`packages/connection-validation/test/unknown-map-over.test.ts`. The first four tests fail on `main` and pass here. The conflict test passes on both; it guards behaviour this branch keeps.
+- `packages/workflow-graph/test/rules-dsl.test.ts`: every `rules_dsl_spec.yml` case, using the Python harness semantics (error-only cases check `hasErrors`), plus `collectionType` for each mapping shape and Python regex translation (`(?P<name>)`, `\g<name>`, `\1`). Mutating unmatched-regex handling, sort order or unknown-rule rejection each fails a spec case.
+- `packages/connection-validation/test/rules-collection-type.test.ts`: `list:paired` mapping validates through a paired consumer (`map_over: list`); `list:list` is `invalid`; no mapping still `skip`s. The first two fail before the graph-builder change.
+- `packages/connection-validation/test/unknown-map-over.test.ts`: direct, transitive, mixed, conflict and subworkflow cases for the skip fallback. The conflict test guards behaviour this branch keeps.
 
-- direct: untyped collection → paired consumer (`skip`) → list consumer (was `invalid`, now `skip`)
-- transitive: the unknown state carries through a step whose own edge validates
-- mixed: a known `list` mapping next to a skipped edge still leaves `map_over` unknown
-- conflict: two incompatible known mappings beside a skipped edge still report `Incompatible map-over types`
-- subworkflow: outputs of a subworkflow with a skipped input edge are unknown, not unresolvable
-
-These tests are TS-only. The `connection_workflows` corpus is synced from Galaxy, and `check-sync` rejects local additions. The synced corpus still passes unchanged.
+The connection tests are TS-only: the `connection_workflows` corpus is synced from Galaxy and `check-sync` rejects local additions.
 
 </details>
 
 ## Risks
 
-This is a two-way door: it only changes which edges the validator reports, with no persisted state or API shape change. The real tradeoff is that **validation goes quiet downstream of every skip**, including skips caused by a stale input name, not just unknown types.
+This is a two-way door: no persisted state or API shape change. The tradeoff is that **validation goes quiet downstream of every remaining skip**, including skips caused by a stale input name.
 
 <details><summary>Risk Details</summary>
 
-- **Validation goes quiet downstream of any skip.** Every skip cause counts: an unknown source type, an unresolvable source output, or an unresolvable target input (for example, a stale input name). Real wiring errors downstream of such a step are now reported as `skip` instead of being checked against a guessed type. That guess was wrong in the reported cases, and narrowing the trigger to unknown sources only is a possible follow-up.
-- **Python parity.** The Python twin (`connection_validation.py`) exists only on Galaxy's unmerged `wf_tool_state` branch and still has the old behaviour. It needs the same change when it lands.
+- **Quiet downstream of any skip.** Every skip cause counts: an untyped source, an unresolvable source output, or an unresolvable target input. Narrowing the trigger to untyped sources only is a possible follow-up.
+- **More lenient than the editor for untyped sources into collection inputs.** The editor accepts an untyped output into a collection input without mapping, so its outputs become datasets; this branch marks them unknown. With rules typing in place, this now only applies to outputs Galaxy can't type either.
+- **Regex dialect.** Rules use Python `re` syntax evaluated with JS `RegExp`; named groups and replacement templates are translated, other dialect differences (e.g. `\Z`) are not. Only `apply`/filter rules use regexes; collection typing reads the mapping alone.
+- **Python parity.** The skip fallback is mirrored on Galaxy's `wf_tool_state` branch (`8bf22007fcd`); rules typing was already there.
 
 </details>
 
 ## Context
 
-Only touches `@galaxy-tool-util/connection-validation`, with a patch changeset.
+`@galaxy-tool-util/workflow-graph` minor (new `RuleSet` export) and `@galaxy-tool-util/connection-validation` patch. New sync group: `make sync-rules-dsl-spec`.
 
 ## Agentic Checks
 
 ### ✅ [Cursor's Thermo Nuclear Review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md)
 
-<details><summary>Small, correct fix; folded the unknown-output marking into one helper and one branch.</summary>
+<details><summary>Small, correct skip fallback; folded the unknown-output marking into one helper and one branch.</summary>
 
-Acted on one finding: the `mapOverUnknown` flag was checked twice and the marking loop was inline, so it now lives in `_markOutputsUnknown`, with no behaviour change. Kept `_resolveStepMapOver` running on known edges so real map-over conflicts still error. Kept the tests TS-only because of the corpus sync check.
+Run before the rules DSL port. Acted on one finding: the `mapOverUnknown` flag was checked twice and the marking loop was inline, so it now lives in `_markOutputsUnknown`, with no behaviour change.
 
 </details>
 
 ### ✅ Second Frontier Model Review
 
-<details><summary>No findings; typecheck and the package's tests passed.</summary>
+<details><summary>No findings on the skip fallback; typecheck and the package's tests passed.</summary>
 
-An independent Codex review of the full diff returned an empty findings list.
+An independent Codex review of the skip-fallback diff returned an empty findings list. The rules DSL port has not had a separate review.
 
 </details>
 
