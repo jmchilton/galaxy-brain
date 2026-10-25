@@ -1,6 +1,6 @@
 # faqs/galaxy/user_preferences_account_usage_quota.md — 26.2, UI run (main)
 
-GTN `45d4932d33`, `galaxy_ui_driver` `6b42e205276`. Replay: `user_preferences_account_usage_quota.gxui.sh`.
+GTN `45d4932d33`, `galaxy_ui_driver` `8d743c0a96d`. Replay: `user_preferences_account_usage_quota.gxui.sh`.
 
 - **Step 1 is wrong** (`usage-quota-logout-refresh`): login never recalculates usage
   (`PUT /api/users/current/recalculate_disk_usage` has no login caller). The fix is the masthead

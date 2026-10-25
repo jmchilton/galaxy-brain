@@ -1,6 +1,6 @@
 # faqs/galaxy/user_preferences_manage_information.md — 26.2, UI run (accounts)
 
-GTN `45d4932d33`, `galaxy_ui_driver` `6b42e205276`. Replay: `user_preferences_manage_information.gxui.sh`.
+GTN `45d4932d33`, `galaxy_ui_driver` `8d743c0a96d`. Replay: `user_preferences_manage_information.gxui.sh`.
 
 - Email/public name change and **Save** work. With activation on, the new email leaves the account
   inactive (banner) until its activation link is opened; then login with the new email works.

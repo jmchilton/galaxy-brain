@@ -921,34 +921,34 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 6b42e205276
+  galaxy_commit: 8d743c0a96d
   faq_findings: [masthead-user-menu, usage-quota-logout-refresh]
   gx_findings: Test gap - Storage Dashboard Refresh had no E2E; added test_recalculate_disk_usage_from_storage_dashboard (red->green, endpoint broken). Added gxui disk-usage [--refresh].
 - faq: faqs/galaxy/user_preferences_forgot_password.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 6b42e205276
+  galaxy_commit: 8d743c0a96d
   faq_findings: [forgot-password-steps]
-  gx_findings: Added request_password_reset / reset_password_from_link helpers (test_reset_password_link uses the first) and gxui password-reset [--link --password]; accounts server.
+  gx_findings: Galaxy bug - after saving a reset password the UI stayed logged out and Login failed (stale session token); fixed (76c58d2fb7f), vitest + test_password_reset red->green; queued password_reset_stale_session_after_save. Added request_password_reset / reset_password_from_link helpers and gxui password-reset.
 - faq: faqs/galaxy/user_preferences_manage_information.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 6b42e205276
+  galaxy_commit: 8d743c0a96d
   faq_findings: [masthead-user-menu, manage-information-change-password]
   gx_findings: Added manage_information_save helper (test_change_email, test_public_name use it) and gxui user-info [--email --username]; accounts server.
 - faq: faqs/galaxy/visualisations_igb.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 6b42e205276
+  galaxy_commit: 8d743c0a96d
   gx_findings: Test gap - display app links on Visualize tab had no E2E; added test_display_application_links (red->green, no dbkey). Added gxui dataset-display-apps.
 - faq: faqs/galaxy/visualisations_igv.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 6b42e205276
+  galaxy_commit: 8d743c0a96d
   faq_findings: [igv-display-on-visualize-tab]
   gx_findings: Covered by test_display_application_links / gxui dataset-display-apps (see visualisations_igb).
 - faq: faqs/galaxy/why_not_excel.md
@@ -960,7 +960,7 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 6b42e205276
+  galaxy_commit: 8d743c0a96d
   used_by: [contributing/create-new-tutorial]
   faq_findings: [workflows-annotate-attributes]
   gx_findings: Test gap - editor Attributes tags untested; added test_edit_tags (red->green). Added gxui workflow-tag.
@@ -968,7 +968,7 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 6b42e205276
+  galaxy_commit: 8d743c0a96d
   used_by: [contributing/updating_tutorial, fair/ro-crate-galaxy-best-practices, galaxy-interface/workflow-automation, galaxy-interface/workflow-fairification]
   faq_findings: [workflows-best-practices-activity]
   gx_findings: Added workflow_editor_best_practices helper (3 tests use it) and gxui workflow-best-practices.
@@ -976,7 +976,7 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 6b42e205276
+  galaxy_commit: 8d743c0a96d
   used_by: [contributing/create-new-tutorial, galaxy-interface/workflow-automation, galaxy-interface/workflow-fairification, galaxy-interface/workflow-parameters, imaging/hela-screen-analysis, imaging/iscc-suite, imaging/object-tracking-using-cell-profiler, imaging/omero-suite, imaging/parameter-tuning]
   faq_findings: [workflows-create-new-editor]
   gx_findings: Covered by workflow_create_new tests; replay uses gxui workflow-new.

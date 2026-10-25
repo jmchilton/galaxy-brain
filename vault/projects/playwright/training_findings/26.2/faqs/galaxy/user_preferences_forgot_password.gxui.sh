@@ -14,4 +14,7 @@ gxui note "steps 3-5: email on the login form, 'Forgot password? Click here to r
 gxui password-reset "$N@example.org"
 gxui note "steps 5-6: open the emailed link, enter (and confirm) the new password, Save new password"
 gxui password-reset "$N@example.org" --link "$(grep -o 'http[^" \\]*token=[0-9a-f]*' "$FAQ_MAIL" | tail -1)" --password newpass456
+gxui note "saving logs you in; log out and back in with the new password"
+gxui component masthead.logged_in_only visible
+gxui logout
 GXUI_PASSWORD=newpass456 gxui login "$N@example.org"

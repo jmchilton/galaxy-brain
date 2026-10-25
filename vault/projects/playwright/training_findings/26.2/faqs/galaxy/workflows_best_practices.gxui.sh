@@ -10,3 +10,4 @@ gxui workflow-add-input
 gxui note "steps 2-4: Workflow Options > Best Practices (26.2: Best Practices in the editor's activity bar)"
 gxui workflow-best-practices
 gxui screenshot workflows-best-practices-panel
+gxui workflow-save
