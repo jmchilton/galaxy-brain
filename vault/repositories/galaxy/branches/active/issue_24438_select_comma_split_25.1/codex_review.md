@@ -1,6 +1,6 @@
 # Codex review (round 2)
 
-Acted on both findings (P2, confirmed). Each was a linter false positive, and planemo lint fails on warnings by default. Both are fixed red-to-green and folded into the linter commit `3e07ada26ac`:
+Acted on both findings (P2, confirmed). Each was a linter false positive, and planemo lint fails on warnings by default. Both are fixed red-to-green and folded into the linter commit `30baf371bf0`:
 1. A short test-param name shared by several inputs no longer warns. For example, a single select `other|dup` next to a multiple `dup`: the linter now skips names that more than one input uses.
 2. A selection made only of ordinary options no longer warns. For example, `value="c,d"` on a multiple select that also has an `x,1` option: the linter now warns only when a comma-split part isn't an option value or label.
 
