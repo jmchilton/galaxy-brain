@@ -1,13 +1,13 @@
 # Unknown upstream type leaves map-over unknown (#204)
 
-- [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_204_unknown_map_over?expand=1)
+- [PR #205](https://github.com/jmchilton/galaxy-tool-util-ts/pull/205)
 - [View on GitHub](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_204_unknown_map_over)
 
 ## Status
 
-Polished and pushed to `origin` at `e57c9157` (base `origin/main` `539c16c9`); ready for John's final review.
+Polished and pushed to `origin` at `e57c9157` (base `origin/main` `539c16c9`); PR open.
 
-No PR yet.
+PR [#205](https://github.com/jmchilton/galaxy-tool-util-ts/pull/205) opened 2026-10-25 on John's request.
 
 Local gate (`make check`, `make test`) green; CI runs on PRs only.
 
@@ -21,4 +21,4 @@ Local gate (`make check`, `make test`) green; CI runs on PRs only.
 - Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_204_unknown_map_over`.
 - workflow_libs `AGENTS.md` has no project settings block; conventions inferred from earlier branch records: push to `origin`, gate `make check` + `make test`.
 - Open decision: narrow trigger to unknown-source skips only? See polish debrief.
-- Python twin (`connection_validation.py`) exists only on Galaxy's unmerged `wf_tool_state` branch and will diverge; parity follow-up there.
+- Python parity: committed to Galaxy `wf_tool_state` as `8bf22007fcd` (pushed to `jmchilton`); 4 tests in `test_connection_validation.py::TestUnknownMapOver`.
