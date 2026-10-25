@@ -5,11 +5,11 @@
 
 ## Status
 
-`ready`: polished, head `1a5562e8c8c` on `release_26.1`.
+`ready`: polished, head `fea7a4a1daa` on `release_26.1`.
 
 [#24434](https://github.com/galaxyproject/galaxy/pull/24434) open, not draft.
 
-mypy red (`test_unprivileged_tools.py:165` Unpacked dict entry) fixed 2026-10-24 by typing `TOOL_WITH_ELEMENT_IDENTIFIER: dict[str, Any]`, squashed into baseline commit; PR CI rerunning.
+2026-10-25: fast-forwarded to mvdbeek's 4 review commits (named-dataset test lists, record DCE in `to_cwl`, identifiers keyed by dataset, `/api/jobs` tests); replied on PR; CI rerunning.
 
 ## Issue
 
