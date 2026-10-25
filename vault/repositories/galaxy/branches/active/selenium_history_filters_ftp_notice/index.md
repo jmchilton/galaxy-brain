@@ -5,15 +5,17 @@
 
 ## Status
 
-READY. Re-scoped once and hardened twice; see the [implementation debrief](implementation_debrief.md). Base: [#24380](../../merged/selenium_delete_items_dataset_privacy/index.md) head `d83f7eaa13c`, which is on `release_26.2`. Head: `2c983d1b49a`.
+READY. Re-scoped once and hardened twice; see the [implementation debrief](implementation_debrief.md). Base: `release_26.2` (`e3affe97eb8`), which includes [#24380](../../merged/selenium_delete_items_dataset_privacy/index.md). Head: `23e404c6c86`.
 
-No PR yet. It can open once #24380 merges.
+No PR yet.
 
-No CI yet.
+No CI yet on the rebased head.
 
 ## Base
 
-The branch is stacked on `selenium_delete_items_dataset_privacy` (#24380, open, approved). Its undelete/hide tests extend #24380's `test_delete_undelete_and_purge_items` and use #24380's helpers. When #24380 merges, rebase onto `release_26.2`, then open the PR.
+Was stacked on `selenium_delete_items_dataset_privacy` (#24380, merged 2026-10-24). Its undelete/hide tests extend #24380's `test_delete_undelete_and_purge_items` and use #24380's helpers.
+
+Rebased 2026-10-25 onto `release_26.2` (`e3affe97eb8`), dropping #24380's commits (`--onto origin/release_26.2 d83f7eaa13c`); old head `2c983d1b49a`. One conflict in `FilesDialog.vue`: kept the RDM root alert and `rdmUriRoots` from `release_26.2`, plus this branch's `FtpUploadHelp`; restored the `GAlert` import the RDM alert still uses. FilesDialog vitest passes (21).
 
 ## Scope
 
