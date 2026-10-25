@@ -5,9 +5,11 @@
 
 ## Status
 
-Implemented; hardening in progress.
+READY - implemented, re-scoped, re-hardened; handed off under `branches_implemented_needs_ci`. See [implementation debrief](implementation_debrief.md).
 
-Base: `release_25.1` (`74f52289d82`). Fork: `jmchilton/issue_24438_select_comma_split_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24438_select_comma_split_25.1`.
+No PR yet; fork CI not checked.
+
+Base: `release_25.1` (`74f52289d82`), head `386a1c925b0`; alt `issue_24438_select_comma_split_25.1_alt_original_scope`. Fork: `jmchilton/issue_24438_select_comma_split_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24438_select_comma_split_25.1`.
 
 ## Issue
 
@@ -17,4 +19,6 @@ Fixes [#24438](https://github.com/galaxyproject/galaxy/issues/24438). Root cause
 
 - Base `release_25.1`: bug on all supported releases; small test-framework fix; John picked it.
 - Fix A: legacy-path test parsing (`verify/parse.py`) comma-splits only data and `multiple` inputs; others wrap as `[value]` (same shape as before). Covers conditional discriminators too.
-- Not done: moving tool tests off the legacy API path (request state already correct).
+- Re-scope (scope eval 1): add `TestsParamMultipleSelectCommaOptions` lint warning + `galaxy.xsd` docs for comma option values on multiple selects (`value_json` list). Scope eval 2: keep.
+- Not done: moving tool tests off the legacy API path (impossible on 25.1); option-aware splitting.
+- Forward-merge to dev: add `hidden_data` to the split gate; don't split `test_case_json` strings.

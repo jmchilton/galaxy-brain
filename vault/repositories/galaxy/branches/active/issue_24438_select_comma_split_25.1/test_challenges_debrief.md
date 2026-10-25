@@ -45,3 +45,5 @@
 - Units (`test_tool_linters.py`, `test_test_definition_parsing.py`, `test_parameter_test_cases.py`): 103 passed, 1 skipped.
 - Framework `-k 'select_comma_value or multi_select'`: 6 passed.
 - Baseline commit on base code: the 11 parsing units and the 2 `select_comma_value` tests pass.
+
+Later rewrites (codex round 2, thermo round 2): linter `2d81ad155af` → `30baf371bf0`, docs `09d4aa1e11b` → `386a1c925b0`; baseline and fix SHAs unchanged. Backup branches deleted.
