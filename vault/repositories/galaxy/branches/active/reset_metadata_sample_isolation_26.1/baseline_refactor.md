@@ -1,0 +1,9 @@
+No refactoring of the base branch was performed during this hardening step; the existing preparatory refactor already precedes the fix.
+
+The branch starts with `c6ee20cecd5` ("Key tool shed metadata path stripping and cleanup on files_dir"). It changes path-conversion arguments from `work_dir` to `files_dir`, names the scan directory explicitly, adds the `None` return annotation, and expresses cleanup in terms of directory ownership. At this commit reset still uses the clone for both directories, and non-reset generation still uses a distinct temporary directory, so the refactor preserves the base behavior while allowing later sample staging to diverge from repository scanning.
+
+The actual behavior change is already isolated in `6408b44bbfe`: `ValidationContext` owns the temporary sample directory and reset reads samples from the selected revision. Moving either change into the preparatory commit would change the baseline behavior and obscure the regression boundary. There is no additional behavior-preserving abstraction to extract: the fix removes temporary-directory plumbing by using the existing context manager.
+
+`96b94dd2697` migrates the two regression scenarios to the public repository API and removes their branch-specific unit scaffolding. The final unit files match the release base. Rewriting these already separated commits solely to fold that test migration into the fix would add history churn without revealing another independent refactor; no history rewrite was needed.
+
+Reviewed the complete branch against `d9647406cf6`, all three commits, and the test-challenge and code-quality debriefs. No source or test changes were made in this step, so the recorded 40 passing repository API tests, 99 passing unit tests (12 skipped), and both baseline assertion failures remain applicable. No new baseline tests or commits were introduced. Ready for scope evaluation.
