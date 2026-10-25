@@ -1,17 +1,17 @@
 # issue_24389_duplicate_test_params_26.1
 
-- [Open PR](https://github.com/jmchilton/galaxy/pull/new/issue_24389_duplicate_test_params_26.1)
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24389_duplicate_test_params_26.1?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24389_duplicate_test_params_26.1)
 
 ## Status
 
-Implemented; hardening in progress.
+READY: hardened, re-scoped once (edit_attributes as dicts), re-hardened; second scope evaluation recommends no change.
 
 No PR.
 
 Fork CI not checked.
 
-Base: `release_26.1` (`df713519127`). Head: `60607462357`. Fork: `jmchilton/issue_24389_duplicate_test_params_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24389_duplicate_test_params_26.1`. Issue: [#24389](https://github.com/galaxyproject/galaxy/issues/24389) (assigned to John; root-cause comment posted).
+Base: `release_26.1` (`df713519127`). Head: `60607462357`. Alt: `issue_24389_duplicate_test_params_26.1_alt_original_scope`. Fork: `jmchilton/issue_24389_duplicate_test_params_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24389_duplicate_test_params_26.1`. Issue: [#24389](https://github.com/galaxyproject/galaxy/issues/24389) (assigned to John; root-cause comment posted).
 
 ## Decisions
 
@@ -22,4 +22,6 @@ Base: `release_26.1` (`df713519127`). Head: `60607462357`. Fork: `jmchilton/issu
 
 ## Dependencies
 
-- Merge-forward to dev conflicts: `case.py` (`test_case_validation` refactored on dev by `262e080dfe0`, already builds state inside `try` - take dev's; keep this branch's `input_for` and `_inputs_by_name` changes) and `test_tool_linters.py` (EOF appends - keep both).
+- Merge-forward to dev conflicts in `case.py` (take dev's `test_case_validation`, keep the rest), `parser/util.py` and `test_tool_linters.py` (both: keep both sides).
+
+[Implementation debrief](implementation_debrief.md)
