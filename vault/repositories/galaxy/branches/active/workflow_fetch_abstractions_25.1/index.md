@@ -11,7 +11,7 @@ Base: `release_25.1` (`74f52289d82`), head `0f5cdb3b750`. Fork: `jmchilton/workf
 
 ## Scope
 
-Add an owned stored-workflow getter on `WorkflowsManager` alongside `get_stored_accessible_workflow`, and route workflow API/service paths through the getter matching what they do (delete, undelete, refactor, legacy `PUT /api/workflows/{id}`). Per-user bookmark updates (`show_in_tool_panel`/`menu_entry`) keep using the accessible getter.
+Add an owned stored-workflow getter on `WorkflowsManager` alongside `get_stored_accessible_workflow`, and route workflow API/service paths through the getter matching what they do (delete, undelete, refactor, legacy `PUT /api/workflows/{id}`). Per-user bookmark updates (`show_in_tool_panel`/`menu_entry`) and `PUT /api/workflows/menu` use the accessible getter.
 
 ## Decisions
 
