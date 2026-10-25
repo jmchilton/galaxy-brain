@@ -2,6 +2,6 @@
 
 [PR #486](https://github.com/galaxyproject/pulsar/pull/486) · Active. GitHub state checked 2026-10-11.
 
-Current PR head: `7237476cd5c2b46500a073445e19a154178ed51e`. This is a tracking snapshot, not a code-review verdict.
+Current PR head: `d35f169c1796637bdaa6b73981b6cb93b99c3dfd` (rebased on master 2026-10-25). This is a tracking snapshot, not a code-review verdict.
 
-Open, non-draft, conflicting. Coordinate with Galaxy #23326 and preserve the shared-module contract. Blocks #492 per its declared sequencing. Local worktree is clean but htcondor2-rebase has no upstream: preserve it. No current code review performed in this sweep.
+Open, non-draft, mergeable. Coordinate with Galaxy #23326 and preserve the shared-module contract. Blocks #492 per its declared sequencing. Local worktree is clean; htcondor2-rebase has no upstream configured but is pushed to origin/htcondor2. No current code review performed in this sweep.

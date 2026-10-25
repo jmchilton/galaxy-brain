@@ -7,10 +7,14 @@
 
 Branch `htcondor2` on `galaxyproject`, base `master`; `~/projects/worktrees/pulsar/branch/htcondor2`.
 
-PR #486 open, conflicting.
+PR #486 open, mergeable.
 
-CI green on `7237476cd5`.
+CI pending on `d35f169c17` (previously green on `7237476cd5`).
 
-Head lives on `galaxyproject:htcondor2` (local branch `htcondor2-rebase`); coordinate with Galaxy #23326.
+Head lives on `galaxyproject:htcondor2` (local branch `htcondor2-rebase`, pushed to `origin/htcondor2`); coordinate with Galaxy #23326.
 
 Review notes: [reviews/active/486](../../../reviews/active/486/index.md).
+
+## Rebase
+
+2026-10-25: rebased onto `origin/master` (67 commits); only conflict was `HISTORY.rst` (kept both entries). Force-pushed `7237476cd5` -> `d35f169c17`. `make lint` and `test/manager_htcondor_test.py` + `test/manager_condor_test.py` pass.
