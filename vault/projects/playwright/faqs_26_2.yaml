@@ -694,25 +694,61 @@
   gtn_commit: 45d4932d33
   used_by: [introduction/galaxy-intro-rdm]
 - faq: faqs/galaxy/interactive_tools_jupyter_launch.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [galaxy-interface/galaxy-intro-jupyter, galaxy-interface/jupyterlab, genome-annotation/gene-centric, single-cell/alevin-commandline, single-cell/scrna-case_monocle3-rstudio, single-cell/scrna-case-jupyter_basic-pipeline]
+  note: ITs need Docker; checked against client source.
 - faq: faqs/galaxy/interactive_tools_jupyter_terminal.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/interactive_tools_open.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [climate/argo_pangeo, climate/ocean-data-view, climate/ocean-variables, climate/sentinel5_data, ecology/ndvi_openeo, imaging/yolo-segmentation-training, microbiome/dada-16S, microbiome/taxonomic-profiling, statistics/text-mining_simtext]
+  note: ITs need Docker; checked against client source.
 - faq: faqs/galaxy/interactive_tools_rstudio_knit.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [rstudio-knit-duplicate-image]
 - faq: faqs/galaxy/interactive_tools_rstudio_launch.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [data-science/bash-git, data-science/bash-variant-calling, data-science/r-advanced, data-science/r-basics, evolution/mtb_phylogeny, galaxy-interface/rstudio, statistics/intro-to-ml-with-r, transcriptomics/rna-seq-bash-star-align, transcriptomics/rna-seq-counts-to-viz-in-r, transcriptomics/rna-seq-viz-with-volcanoplot-r]
+  faq_findings: [it-rstudio-user-menu-stale]
+  note: ITs need Docker; checked against client source.
 - faq: faqs/galaxy/interactive_tools_rstudio_rmarkdown.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: faqs/galaxy/interactive_tools_rstudio_stop.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [galaxy-interface/rstudio]
+  faq_findings: [it-rstudio-user-menu-stale]
+  note: ITs need Docker; checked against client source.
 - faq: faqs/galaxy/interactive_tools_stop.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [introduction/galaxy-intro-rdm]
+  note: ITs need Docker; checked against client source.
 - faq: faqs/galaxy/manage_your_galaxy_storage.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [storage-secret-key-field-name]
 - faq: faqs/galaxy/manage_your_repositories.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [fair/inveniordm-integration, fair/zenodo-in-galaxy, introduction/galaxy-intro-rdm]
+  faq_findings: [repositories-s3-section-is-invenio, repositories-history-export-wizard, remote-files-choose-remote]
 - faq: faqs/galaxy/preferences_admin_api_key.md
   status: pending
 - faq: faqs/galaxy/re_use_equivalent_jobs.md

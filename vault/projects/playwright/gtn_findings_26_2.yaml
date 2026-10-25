@@ -417,7 +417,7 @@
   summary: There is no **Reset** button in 26.2; Paste Links/URLs opens empty each time, so the `reset_form` step (used by galaxy-interface/collections) no longer applies.
 
 - label: remote-files-choose-remote
-  faqs: [faqs/galaxy/datasets_import_from_remote_files.md]
+  faqs: [faqs/galaxy/datasets_import_from_remote_files.md, faqs/galaxy/manage_your_repositories.md]
   target: version
   summary: 26.1's **Choose from repository** button is 26.2's Import Data **Choose Remote Files**; files are ticked then **Add Selected Files (n)** and **Start**, with no **OK** or **Close**.
   fix: 'Upload > **Choose Remote Files** > pick the source (or search file sources) > open folders (the `location` path) > search files and folders, tick > **Add Selected Files** > **Start**. Also fix "in you history", "click on **OK**" and the intro "made available from a *Choose from repositories*".'
@@ -620,3 +620,33 @@
   target: main
   summary: 'There is no **User** menu (it is Activity Bar **Histories** > **Histories Shared with Me**), recipients cannot unshare (shared cards only offer **View**; the owner unshares from **Share & Manage Access**), and **User > Preferences** no longer holds sharing options.'
   fix: Rewrite around View and Import (copy), or retire; no tutorial embeds it, but histories_shared.md links it.
+
+- label: it-rstudio-user-menu-stale
+  faqs: [faqs/galaxy/interactive_tools_rstudio_launch.md, faqs/galaxy/interactive_tools_rstudio_stop.md]
+  target: main
+  summary: '"User" menu > "Active InteractiveTools" is gone; active ITs are in the Activity Bar **Interactive Tools** panel, and stopping is a per-row stop icon, not a checkbox plus bottom **Stop** button.'
+  fix: Snippet interactive_tools_open.md (launch step 4) and interactive_tools_stop.md (stop step 2), with tool "RStudio". Used by galaxy-interface/rstudio and 9 more.
+
+- label: rstudio-knit-duplicate-image
+  faqs: [faqs/galaxy/interactive_tools_rstudio_knit.md]
+  target: main
+  summary: The rendered-preview screenshot reuses `r-preview.png` (the Preview dropdown); its alt text describes a rendered document. Also "verison".
+  fix: Point the second image at the rendered-preview screenshot (or drop it); fix "version".
+
+- label: storage-secret-key-field-name
+  faqs: [faqs/galaxy/manage_your_galaxy_storage.md]
+  target: main
+  summary: AWS S3 block says to enter the secret key "in the `Secret Access Key` section" but calls it "`Access Key ID`".
+  fix: '"Enter the second part of the key (the Secret Access Key) in **Secret Access Key**."'
+
+- label: repositories-s3-section-is-invenio
+  faqs: [faqs/galaxy/manage_your_repositories.md]
+  target: main
+  summary: The "S3 Compatible Storage with Credentials" block holds InvenioRDM's **Publication Name** / **Personal Access Token** bullets, so InvenioRDM is incomplete and S3 has no real steps.
+  fix: Move those bullets into the InvenioRDM block; give S3 its own Access Key ID / Secret / Bucket / Endpoint bullets (as in manage_your_galaxy_storage.md). Used by fair/inveniordm-integration.
+
+- label: repositories-history-export-wizard
+  faqs: [faqs/galaxy/manage_your_repositories.md]
+  target: main
+  summary: History export is a wizard (output format, then destination **Repository** / **RDM Repository** / Zenodo, then source); no `to repository` / `to RDM repository` / `to Zenodo` tabs or **Show advanced export options**.
+  fix: History options > **Export History to File** > pick format > **Repository** (or **RDM Repository** / Zenodo) > select directory > **Export**. Used by fair/zenodo-in-galaxy and introduction/galaxy-intro-rdm.
