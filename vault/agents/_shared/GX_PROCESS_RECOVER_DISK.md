@@ -12,7 +12,7 @@ scripts/idle_deps_estimate.sh DAYS [ROOT...]
 
 - `ROOT` defaults to `~/projects/worktrees/galaxy/{branch,pr}`. Pass other project roots to include them.
 - A worktree counts as idle when its newest activity is older than `DAYS`. Activity is the newest of the last commit, the git index mtime and the HEAD mtime. `git status` can bump the index.
-- `du` overcounts uv's copy-on-write `.venv` clones and pnpm hard links, so the real savings are lower.
+- `du` overcounts uv's copy-on-write `.venv` clones and pnpm hard links, so the real savings are much lower. On 2026-10-25, cleaning 32 worktrees freed only 2.5 GB, against a `du` estimate of about 40 GB.
 
 After John agrees on `DAYS` (5 was used on 2026-10-25), clean:
 
