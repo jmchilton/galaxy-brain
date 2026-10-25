@@ -5,7 +5,13 @@
 
 ## Status
 
-Implemented, READY; head `4f61d010c98`, not yet PR. Base `release_26.2` `e3affe97eb8`.
+Polished, ready for final review; head `4f61d010c98`, not yet PR. Base `release_26.2` `e3affe97eb8`.
+
+Fork CI on `4f61d010c98` partly run (no failures as of 2026-10-24; E2E jobs queued).
+
+## Polish
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [debrief](polish_debrief.md).
 
 ## Scope
 
