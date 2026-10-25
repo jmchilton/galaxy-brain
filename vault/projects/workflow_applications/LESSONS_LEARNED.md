@@ -27,9 +27,17 @@ Spike of [RERUN_ISSUE.md](RERUN_ISSUE.md) / [RERUN_UX.md](RERUN_UX.md). Branch `
 
 ![empty](screenshots/rerun_empty.png)
 
-**Picker.** The tree mirrors the tool form: section (Advanced), repeat instances (Query 1/2), and a conditional whose selector is a fixed `= min` badge with only the active case listed. `Column` (a `data_column`) is shown disabled, with the reason. Exposure keys are shown next to labels.
+**Picker.** The tree mirrors the tool form: section (Advanced), repeat instances (Query 1/2), and a conditional with only the active case listed. Each row shows what the workflow sets ("workflow sets to 0.5"). Locked rows are grayed with a lock icon: the conditional selector (`Filter type`) and `Column` (a `data_column`). Exposure keys are not shown.
 
 ![picker](screenshots/rerun_picker_selected.png)
+
+**Help.** A `?` icon appears only on params with help text. Hover or click shows it.
+
+![help](screenshots/rerun_picker_help.png)
+
+**Locked conditional selector.** Hovering the lock explains: changing it would change which params below apply, so set it in the expanded form.
+
+![locked conditional](screenshots/rerun_picker_locked_conditional.png)
 
 **Picker filter** ("query") keeps the ancestor nodes.
 
@@ -61,7 +69,7 @@ Spike of [RERUN_ISSUE.md](RERUN_ISSUE.md) / [RERUN_UX.md](RERUN_UX.md). Branch `
 
 ## UI lessons
 
-1. **Picker tree: works.** For a tool with about 10 params it reads like the tool form. The conditional badge explains why the other case's params are missing. Exposure keys in the picker help when building links but are noise for most users, so put them behind a toggle or a tooltip.
+1. **Picker tree: works.** For a tool with about 10 params it reads like the tool form. The locked conditional selector, with its value, explains why the other case's params are missing. Polish pass (`a6e08520821`, on both spikes): keys hidden, workflow values and help shown, locked rows grayed with a lock tooltip. Two leftovers: the filter still matches the now-hidden keys, and the dropped-keys alert still lists raw keys.
 2. **Cards: work.** Rendering each card through its own one-input `FormDisplay` got validation, the right widget and value parsing for free. The "saved:" or "original run:" hint plus × covers "what am I changing". Nit: a conditional has no label, so the breadcrumb shows its name (`cond`). Use the test param's label.
 3. **Data-dependent params are the real scope problem.** `data_column` is shown disabled ("Options depend on a data input"). That's correct for a first pass, but column choice is probably the most common thing people want to change at run time (Cut, Filter, Sort, Join). Ship the first pass knowing that, and plan a follow-up that lets a `data_column` be picked once its `data_ref` input is chosen in the simple form.
 4. **The simple form sends values as strings** (`"0.9"`, `"5"`), the same as the expanded form, so `/request` records strings. Harmless, but tests must not compare types. An API-launched run (numbers) and its UI rerun (strings) record different JSON for the same values.

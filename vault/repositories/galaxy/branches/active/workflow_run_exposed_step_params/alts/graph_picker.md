@@ -1,6 +1,6 @@
 # Alt: graph_picker
 
-Branch `jmchilton/workflow_run_exposed_step_params_alt_graph_picker`, head `b54ebfabb34`, on the parent spike head `147dac7222a`. Spike only, no PR. Findings and screenshots: [LESSONS_LEARNED.md § Graph picker spike](../../../../../../projects/workflow_applications/LESSONS_LEARNED.md#graph-picker-spike).
+Branch `jmchilton/workflow_run_exposed_step_params_alt_graph_picker`, head `1c4e9534043`, rebased on the parent spike head `a6e08520821`. Spike only, no PR. Findings and screenshots: [LESSONS_LEARNED.md § Graph picker spike](../../../../../../projects/workflow_applications/LESSONS_LEARNED.md#graph-picker-spike).
 
 ## What it does
 
