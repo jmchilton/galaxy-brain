@@ -5,11 +5,11 @@
 
 ## Status
 
-Status: `branches_implemented_needs_ci`. Implemented and hardened, READY for review; see the [implementation debrief](implementation_debrief.md).
+Status: `branches_need_polish`. Implemented and hardened; polishing started 2026-10-25. See the [implementation debrief](implementation_debrief.md).
 
 No PR yet.
 
-Fork CI not yet checked on `574ce683a19`.
+Fork CI green on `574ce683a19`.
 
 Base: `dev` (`a468ce9de10`), head `574ce683a19`; alt `issue_24441_tool_shed_upload_dry_run_alt_original_scope`. Fork: `jmchilton/issue_24441_tool_shed_upload_dry_run`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24441_tool_shed_upload_dry_run`.
 
