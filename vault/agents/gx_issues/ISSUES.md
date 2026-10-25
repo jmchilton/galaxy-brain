@@ -14,6 +14,7 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 
 ## In motion (`wip`)
 
+- [#24457](https://github.com/galaxyproject/galaxy/issues/24457) — after password reset, client keeps stale CSRF token; login fails "Wrong session token"; fix on `galaxy_ui_driver` (76c58d2fb7f). [notes](../../repositories/galaxy/issues/wip/24457/index.md)
 - [#19325](https://github.com/galaxyproject/galaxy/issues/19325) — `value_json="null"` for optional selects undocumented; branch `issue_19325_optional_select_test_docs`. [notes](../../repositories/galaxy/issues/wip/19325/index.md)
 - [#21788](https://github.com/galaxyproject/galaxy/issues/21788) — extraction gives empty workflow for empty collections; PR [#21806](https://github.com/galaxyproject/galaxy/pull/21806) (`fix_copied_datasets`). [notes](../../repositories/galaxy/issues/wip/21788/index.md)
 - [#21789](https://github.com/galaxyproject/galaxy/issues/21789) — extraction misses tools for dynamic nested collections; PR [#21806](https://github.com/galaxyproject/galaxy/pull/21806) (`fix_copied_datasets`). [notes](../../repositories/galaxy/issues/wip/21789/index.md)

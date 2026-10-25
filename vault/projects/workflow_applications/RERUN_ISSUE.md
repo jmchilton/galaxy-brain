@@ -1,7 +1,5 @@
 # Expose individual step parameters in the simple workflow run form
 
-Slides: https://jmchilton.net/slides/workflow-step-params/
-
 ## Problem
 
 Some users rely on the legacy expanded workflow run form to change tool settings at run time, such as a threshold, a filter value or one option inside a repeat. That form renders every step and every unconnected parameter of the workflow and submits all of them. It is slow to render, and it makes it hard to see what is actually being changed for a run.
@@ -12,11 +10,13 @@ The simple run form renders only workflow inputs, so it cannot meet this need. R
 - import re-keys step parameters;
 - rerun prefills from the original run.
 
-But @jmchilton is resisting opening the fixes because they target the legacy workflow run mode. The modern invocation API can already set any of these parameters. What's missing is a lightweight way to set *a few* of them (and not set every parameter and render every form across the whole workflow).
+But I'm reluctant to open the fixes because they target the legacy workflow run mode. The modern invocation API can already set any of these parameters. What's missing is a lightweight way to set *a few* of them (and not set every parameter and render every form across the whole workflow).
 
 ## Proposal
 
 Let the user add specific step parameters to the simple run form as extra inputs, and add or remove them as needed. Only those parameters get sent as step parameter overrides. Everything else uses the workflow's saved values.
+
+![Exposed step parameters as cards in the simple run form](https://jmchilton.net/slides/workflow-step-params/cards.png)
 
 ### Picking parameters
 
@@ -31,6 +31,10 @@ Let the user add specific step parameters to the simple run form as extra inputs
 - **Each row** shows the parameter's label and the value the workflow sets ("workflow sets to 0.5"; option labels for selects). It shows a help icon when the parameter has help text. Locked rows (conditional selectors, data-dependent parameters) are grayed out with a lock icon, and hovering the lock explains why. Exposure keys are not shown.
 - **Picking is select/deselect.** The picker opens with the currently exposed parameters checked, and applying it sets the whole exposed set, removals included.
 
+![Tree picker: steps, sections, repeats and conditionals, with locked rows](https://jmchilton.net/slides/workflow-step-params/tree-picker.png)
+
+![Locked conditional selector with hover reason](https://jmchilton.net/slides/workflow-step-params/row-locked-conditional.png)
+
 ### Exposure key
 
 Each exposed parameter is identified by a single string, `<order_index>|<prefixed_name>`. Inside a subworkflow it is `<outer>|<inner>|<prefixed_name>`, with one more index per level of nesting. This matches the step-parameter keys already used by the invocation request export, so run links, rerun and submission all share one scheme. Like `inputs_by: "step_index"`, the step index is the 0-based `order_index`.
@@ -40,6 +44,8 @@ Each exposed parameter is identified by a single string, `<order_index>|<prefixe
 - The run and rerun entry points accept a repeatable argument listing the exposure keys to show on load, e.g. `step_param=3|cond|threshold`. They also accept an optional preset value for each, e.g. `step_param_value=3|cond|threshold=0.05`.
 - When the form opens, keys that can't be resolved are dropped with a warning, and the run is not blocked.
 - Landing requests are out of scope for the first pass.
+
+![Run link with a preset value and a dropped key](https://jmchilton.net/slides/workflow-step-params/link-preset-dropped.png)
 
 ### Recording exposed parameters
 
@@ -51,8 +57,12 @@ The invocation records which step parameters the user explicitly exposed, separa
 ### Rerun
 
 - **Rerun must re-show exposed parameters.** Rerunning an invocation that recorded exposure keys opens the simple form with exactly those parameters shown, prefilled with the original run's values.
+
+![Rerun re-showing exposed parameters, prefilled](https://jmchilton.net/slides/workflow-step-params/rerun-prefilled.png)
 - This replaces the #24177 rule that forces the expanded form whenever an invocation has step parameters. Invocations with step parameters but no recorded exposure keys (from the expanded form or the API) keep that behaviour. The #24177 alert ("the simplified form does not support these") should instead say that the original run didn't record which parameters were chosen.
 - **Rerun with a change from the invocation:** from an invocation, the user can find a step's parameter and choose **rerun with this changed**. This opens the rerun form with the original inputs, any previously exposed parameters, and that parameter exposed and prefilled with the original run's value.
+
+![Rerun-with-this-changed action on job parameter rows](https://jmchilton.net/slides/workflow-step-params/rerun-row-action.png)
   - On an invocation whose step parameters weren't recorded, rerun still opens the expanded form, where the extra parameter has no effect. Either offer the action only when the run's step parameters are all recorded (or absent), or carry the parameter into the expanded form.
   - For steps inside a subworkflow, the action must build `<outer>|<inner>|name` keys against the parent invocation, not rerun the sub-invocation.
 - For mapped-over steps, the value applies to every job of the step, which is the same as the expanded form today.
@@ -113,7 +123,7 @@ Like the expanded form, the form sends values as strings (`"0.05"`), so an API r
 
 ## Spike
 
-Two throwaway spikes, for reference only. Neither will be opened as a PR. They share the server work, the cards and the payload, and differ only in how parameters are picked.
+Two throwaway spikes, for reference only. Neither will be opened as a PR. Screenshots above are from spike 1; a slide walkthrough of both is at https://jmchilton.net/slides/workflow-step-params/. They share the server work, the cards and the payload, and differ only in how parameters are picked.
 
 ### Spike 1: tree picker
 
@@ -138,6 +148,8 @@ Two throwaway spikes, for reference only. Neither will be opened as a PR. They s
   - Clicking a tool node lists that step's parameters in a side panel, using the same rows as the tree.
   - Each node says how many of its parameters are picked ("2 of 7 parameters picked").
   - Picking is select/deselect, and Apply sets the whole exposed set.
+![Graph picker with side panel and locked subworkflow node](https://jmchilton.net/slides/workflow-step-params/graph-picker.png)
+
 - **Subworkflows are locked.** Subworkflow nodes get a warning header, a lock icon and "Parameters inside subworkflows can't be picked here". Subworkflow keys from a link or a rerun are dropped, with a red alert you can't dismiss saying they **will not be sent**. A matching banner shows in the picker, and the Apply button counts them ("Apply (1) - 1 subworkflow parameter(s) not sent").
 - **Client cost:**
   - Editor nodes need a small new prop so tool nodes can show the counts.
