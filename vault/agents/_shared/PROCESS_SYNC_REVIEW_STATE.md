@@ -4,9 +4,18 @@ You'll be asked to sync this agent's `PULL_REQUESTS.md` and review records with 
 
 For each PROJECT this agent covers:
 
-1. Tracked PRs: `PULL_REQUESTS.md` entries, plus every directory under `vault/repositories/PROJECT/reviews/active/`.
-2. Query each: `gh pr view N -R OWNER/REPO --json state,mergedAt,closedAt,isDraft,headRefOid,reviewDecision,reviews,statusCheckRollup`.
-3. Compare `headRefOid` with the last reviewed commit in `index.md`.
+Run, from `vault/agents/_shared/`:
+
+```sh
+scripts/sync_review_state.sh ../AGENT_DIR/PULL_REQUESTS.md OWNER/REPO ../../repositories/PROJECT/reviews
+```
+
+It covers `PULL_REQUESTS.md` entries plus every directory under `reviews/active/`, and prints:
+
+1. Mismatches: entries with no active record, and active records with no entry.
+2. One row per PR: number, state, mergedAt, closedAt, isDraft, mergeable, reviewDecision, `headRefOid`, checks (pass/fail/pending), and SHAs found in the record's `index.md`.
+
+Compare `headRefOid` with the last reviewed commit in `index.md`; the SHA column is a heuristic, so read the record when it's unclear. Use `gh pr view` directly for review bodies or other fields the script omits.
 
 ## Reconcile
 
