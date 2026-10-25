@@ -10,3 +10,4 @@
 - `1a66bf5f2d2` Name the in-place data table swap as ToolDataTable._replace_with. Puts the `__class__`/`__dict__` swap in one documented method (P3 5).
 - `68e15f68ec9` Move function-level test imports to module top. Covers `test_ordered_data_tables.py` and `test_install_manager.py` (P3 6).
 - `9f55343196d` Integration test: registration lands in configured managed slot. Checks `/api/tool_data` order after a live registration and after reload. Passes on the branch and fails against `release_26.1`'s `lib/galaxy` (P2 4).
+- `62a50f641ae` Drop startup ordering test now covered by tool_data_table_config_sources tests. Removes `test_explicit_managed_position_loads_once` and the comma-string branch of `make_app` that only it used (P2 3).

@@ -70,6 +70,7 @@ This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24396_review_0)
 - [`1a66bf5f2d2`](https://github.com/jmchilton/galaxy/commit/1a66bf5f2d2) Name the in-place data table swap as ToolDataTable._replace_with. Puts the `__class__`/`__dict__` swap in one documented method (P3 5).
 - [`68e15f68ec9`](https://github.com/jmchilton/galaxy/commit/68e15f68ec9) Move function-level test imports to module top. Covers `test_ordered_data_tables.py` and `test_install_manager.py` (P3 6).
 - [`9f55343196d`](https://github.com/jmchilton/galaxy/commit/9f55343196d) Integration test: registration lands in configured managed slot. Checks `/api/tool_data` order after a live registration and after reload. Passes on the branch and fails against `release_26.1`'s `lib/galaxy` (P2 4).
+- [`62a50f641ae`](https://github.com/jmchilton/galaxy/commit/62a50f641ae) Drop startup ordering test now covered by tool_data_table_config_sources tests. Removes `test_explicit_managed_position_loads_once` and the comma-string branch of `make_app` that only it used (P2 3).
 
 </details>
 
@@ -129,9 +130,9 @@ Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vaul
 
 `MinimalGalaxyApplication._configure_tool_data_tables` turns config into a `List[ToolDataTableConfigSource]` with no side effects. It handles realpath/normcase identity, collapses repeats of the managed file, marks the default managed file `optional`, and appends it last when it isn't listed. Even so, the code sits in the app and builds the managed source twice. `test_ordered_data_tables.py::make_app` exercises it only by building `Mock(spec=UniverseApplication)` and binding `MinimalGalaxyApplication` methods onto it by hand.
 
-Commit [`8a81e018c2f`](https://github.com/jmchilton/galaxy/commit/8a81e018c2f) on [`pr_24396_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24396_review_0) moves the logic into `galaxy.tool_util.data.tool_data_table_config_sources(config_paths, managed, from_shed_config, managed_optional)`. The app becomes one call. Direct tests in `test/unit/tool_util/data/test_tool_data.py` cover symlink aliases, a repeated managed file, empty entries, comma-string config and the unlisted or optional managed file. The `make_app` harness is unchanged on the branch. Moving the ordering and registration tests to `ToolDataTableManager(config_sources=..., on_registration=recorder)`, as `test_refgenie_data_table.py` already does, is listed in the follow-up issue.
+Commit [`8a81e018c2f`](https://github.com/jmchilton/galaxy/commit/8a81e018c2f) on [`pr_24396_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24396_review_0) moves the logic into `galaxy.tool_util.data.tool_data_table_config_sources(config_paths, managed, from_shed_config, managed_optional)`. The app becomes one call. Direct tests in `test/unit/tool_util/data/test_tool_data.py` cover symlink aliases, a repeated managed file, empty entries, comma-string config and the unlisted or optional managed file. Commit [`62a50f641ae`](https://github.com/jmchilton/galaxy/commit/62a50f641ae) drops `test_explicit_managed_position_loads_once`, which those direct tests now cover; its only other assertion checked `_merged_load_info`. Since `test_ordered_data_tables.py` is new in this PR and test-only, please also drive its ordering and registration tests through `ToolDataTableManager(config_sources=..., on_registration=recorder)`, as `test_refgenie_data_table.py` already does, and keep one thin app-wiring test instead of binding `MinimalGalaxyApplication` methods onto `Mock(spec=UniverseApplication)`. The branch leaves that rewrite to you.
 
-Fix commit: [`8a81e018c2f`](https://github.com/jmchilton/galaxy/commit/8a81e018c2f).
+Fix commits: [`8a81e018c2f`](https://github.com/jmchilton/galaxy/commit/8a81e018c2f), [`62a50f641ae`](https://github.com/jmchilton/galaxy/commit/62a50f641ae) (harness rewrite left to the author).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -262,10 +263,9 @@ The two modes differ in source order, duplicate handling and error reporting, an
 
 1. In `__init__`, normalize `config_filename` and `tool_data_table_config_path_set` into `List[ToolDataTableConfigSource]` (e.g. via `tool_data_table_config_sources`), and drop the legacy load loop.
 2. Delete the legacy branches in `reload_tables` and `add_new_entries_from_config_file`, together with `ToolDataTable.reload_from_files` / `_merged_load_info`. `persist=False` callers (Tool Shed install validation) should use the staging manager directly.
-3. Rewrite `test/unit/app/tools/test_ordered_data_tables.py` so it no longer binds `MinimalGalaxyApplication` methods onto `Mock(spec=UniverseApplication)`. Drive ordering and registration through `ToolDataTableManager(config_sources=..., on_registration=recorder)`, as `test_refgenie_data_table.py` does, and keep one thin app-wiring test.
-4. Replace the in-place `__class__`/`__dict__` publish (`ToolDataTable._replace_with`) with name-based lookups. This means auditing the callers that hold `ToolDataTable` references, such as dynamic options and data managers.
-5. Consider having `DataManager._reload` use the same single batched peer-notification hook that registrations use.
-6. Check how planemo and the Tool Shed use `ToolDataTableManager(config_filename=...)` for behavior changes, in particular source order and the non-identical same-value rows that are now kept.
+3. Replace the in-place `__class__`/`__dict__` publish (`ToolDataTable._replace_with`) with name-based lookups. This means auditing the callers that hold `ToolDataTable` references, such as dynamic options and data managers.
+4. Consider having `DataManager._reload` use the same single batched peer-notification hook that registrations use.
+5. Check how planemo and the Tool Shed use `ToolDataTableManager(config_filename=...)` for behavior changes, in particular source order and the non-identical same-value rows that are now kept.
 ```
 
 </details>
