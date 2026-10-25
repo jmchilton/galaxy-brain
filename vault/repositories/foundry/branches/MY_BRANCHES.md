@@ -7,6 +7,8 @@ Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agen
 - [`issue-677-rename-syntax`](active/issue-677-rename-syntax/index.md) — Documents rename post-job action syntax (#677). [#702](https://github.com/galaxyproject/foundry/pull/702).
 - [`feat/test-pipeline-test-data-branch`](active/feat-test-pipeline-test-data-branch/index.md) — Runs the test-data branch in test-pipeline, one worker per leg. Base `feat/test-pipeline-draft-loop`. [#690](https://github.com/galaxyproject/foundry/pull/690).
 
+- [`issue-719-eval-draft-fixes`](active/issue-719-eval-draft-fixes/index.md) — Template and draft-loop evals stop failing correct output (#719). [#720](https://github.com/galaxyproject/foundry/pull/720).
+
 ## Open Foundry PRs — needs attention (`attention`)
 
 - [`fix/data-flow-unique-element-identifiers`](active/fix-data-flow-unique-element-identifiers/index.md) — data-flow Mold: element identifiers unique per dataset. [#705](https://github.com/galaxyproject/foundry/pull/705).
