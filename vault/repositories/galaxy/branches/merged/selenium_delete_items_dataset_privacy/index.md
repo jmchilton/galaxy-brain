@@ -7,6 +7,8 @@
 
 ## Status
 
+Merged: [#24380](https://github.com/galaxyproject/galaxy/pull/24380) merged 2026-10-24.
+
 PR open, `ready`; base `release_26.2`, head `d83f7eaa13c` (review follow-up on approved `20bab26d44b`).
 
 [#24380](https://github.com/galaxyproject/galaxy/pull/24380) approved by davelopez 2026-10-23; non-blocking nit (click DOM buttons, not `vm.$emit`) addressed in `d83f7eaa13c`, see [review response](review_response.md).
@@ -29,7 +31,7 @@ Missing 26.2 E2E coverage, plus the HistoryPanel bug it found (re-scoped; the te
 5. **E2E:** trash button, Selection > Delete and Delete (permanently), Include deleted, Undelete, and Unhide under Include hidden.
 6. **Undelete/Unhide failure handling** through `updateItem`: reshow the row and report the error, like Delete. The vitest is red before it.
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commits `d0d92741f74`, `ea0bc576e38`) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). `53ab472b46d` (`edit_dataset_auto_detect_datatype`) was left behind: only gxui motivates it, and it conflicts with #24347's rewrite of the same lines. When restacking onto a 26.2 that has this branch, drop `d0d92741f74` and `ea0bc576e38` by subject. `d0d92741f74`'s helper now lands via "Add history_panel_item_delete helper". The patches differ: this one is hardened and uses 26.2's `history_panel_muli_operation_select_hid` spelling.
+Pulled out of [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) (FAQ-loop commits `d0d92741f74`, `ea0bc576e38`) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). `53ab472b46d` (`edit_dataset_auto_detect_datatype`) was left behind: only gxui motivates it, and it conflicts with #24347's rewrite of the same lines. When restacking onto a 26.2 that has this branch, drop `d0d92741f74` and `ea0bc576e38` by subject. `d0d92741f74`'s helper now lands via "Add history_panel_item_delete helper". The patches differ: this one is hardened and uses 26.2's `history_panel_muli_operation_select_hid` spelling.
 
 Merges cleanly (`git merge-tree`) with `selenium_history_datatype_citations`, `selenium_dataset_tags_auto_detect`, `selenium_collection_build_convert`, `selenium_apply_rules_nest_menus`, `selenium_multiview_copy` (checked before commit 6).
 

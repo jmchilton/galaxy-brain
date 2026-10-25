@@ -6,9 +6,11 @@
 
 ## Status
 
-Head `99f6ed772c1`; undrafted 2026-10-22 on John's request (`ready`).
+`ready`: rebased onto `dev` `a468ce9de10` 2026-10-24 (tick) to clear conflict with #24217's `tool_form_select_collection` (kept both helpers, mechanical); head `e1f5f508a8b`.
 
-PR CI reds diagnosed unrelated 2026-10-22: Integration Selenium `test_user_file_source_ftp.py::test_create_and_use` fails across unrelated PRs 2026-10-21 (certifi, dependabot, oidc, backport-xdist); Mulled/Integration exit 100: apptainer PPA 503 in apt setup, tests never ran; failed jobs rerun. Playwright, other Integration Selenium tests, tool-form harness and linting green.
+[#24331](https://github.com/galaxyproject/galaxy/pull/24331) open, not draft.
+
+PR CI rerunning on new head.
 
 ## Scope
 

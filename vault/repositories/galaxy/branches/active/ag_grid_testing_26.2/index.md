@@ -9,11 +9,11 @@ Missing ag-grid E2E tests (data landing cell edits, paired builder rename) + sha
 
 ## Status
 
-Polished; head `71bfc69c498` (3 commits from `ag_grid_36` + swap step dropped) on `release_26.2`. [Description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
+`ready`: polished, head `71bfc69c498` on `release_26.2`.
 
-Opened as draft [#24397](https://github.com/galaxyproject/galaxy/pull/24397) on 2026-10-23 (John's launch approval); undraft when CI green.
+[#24397](https://github.com/galaxyproject/galaxy/pull/24397) undrafted 2026-10-24 (tick).
 
-Fork CI queued on `71bfc69c498`.
+PR CI green except Main tool tests (disk quota exceeded, infra) and Converter tests (client/selenium-only change, converter flaky on release bases), unrelated; reruns queued.
 
 ## Decisions
 

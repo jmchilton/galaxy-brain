@@ -5,9 +5,9 @@
 
 ## Status
 
-Status: `ci_wait` — opened as draft [#24436](https://github.com/galaxyproject/galaxy/pull/24436) on John's request; title option 1. See [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+Status: `ready` — [#24436](https://github.com/galaxyproject/galaxy/pull/24436) opened as draft on John's request (title option 1), found undrafted 2026-10-24. See [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-Draft PR #24436 against `release_25.1`, opened 2026-10-24 at `fac15b1bfa9`.
+PR #24436 against `release_25.1` at `fac15b1bfa9`; PR CI green except Selenium `test_library_contents::test_import_dataset_from_history` timeout, unrelated; rerun.
 
 Fork CI on `fac15b1bfa9`: reds diagnosed unrelated (converter, selenium UI, singularity/mulled); API/unit/framework green.
 

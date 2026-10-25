@@ -24,7 +24,7 @@ Owned by the [Playwright project](../../../../../projects/playwright/GALAXY_UI_S
 
 **Then (FAQ loop batch 4, 2026-10-22):** `073889a2872` (hide/unhide items; `history_panel_confirm_selected_operation` now backs `history_panel_delete_selected`), `1c8ea1d9a31` (Copy Link) and `54bddee5432` (Datasets list). gxui gains `history-hide [--unhide]`, `dataset-copy-link`, `datasets-list [--search]`. 53 commits; tip `fa8cfda6c7c`.
 
-**Extracted 2026-10-22:** `cac01c0884a` and `e4bca1128c1` → [`selenium_delete_items_dataset_privacy`](../selenium_delete_items_dataset_privacy/index.md) (hardened, re-scoped with a HistoryPanel fix). On restack, drop both by subject. That branch adds `history_panel_item_unhide`/`history_panel_include_hidden`, so reconcile `073889a2872` with them. `961cab38f9f` stays.
+**Extracted 2026-10-22:** `cac01c0884a` and `e4bca1128c1` → [`selenium_delete_items_dataset_privacy`](../../merged/selenium_delete_items_dataset_privacy/index.md) (hardened, re-scoped with a HistoryPanel fix). On restack, drop both by subject. That branch adds `history_panel_item_unhide`/`history_panel_include_hidden`, so reconcile `073889a2872` with them. `961cab38f9f` stays.
 
 **Then (FAQ loop batch 5, 2026-10-22):** the docstrings for `libraries_index_create` and `populate_library_folder_from_import_dir` were folded into `2e597420f5f`, so every later hash changed; the hashes above are remapped. New commits:
 - `32e12d33af7`: Show Related Items toggles off.

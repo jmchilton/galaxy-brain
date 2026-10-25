@@ -5,15 +5,11 @@
 
 ## Status
 
-Status: PR open as draft (`ci_wait`), approved by John via launch 2026-10-23, SHA `4189977901c`.
+`ready`: head `4189977901c` on `release_26.1`.
 
-Base: `release_26.1` (`d808b6425b8`). Head: `4189977901c` on `jmchilton`. Worktree: `~/projects/worktrees/galaxy/branch/library_collection_selected_history_26.1`.
+[#24399](https://github.com/galaxyproject/galaxy/pull/24399) out of draft (found undrafted 2026-10-24).
 
-PR: [#24399](https://github.com/galaxyproject/galaxy/pull/24399), draft until reruns settle.
-
-Fork CI green except Playwright (`test_import_dataset_from_history`) and Integration (interactive tools Pulsar) reds, both diagnosed unrelated; reruns queued.
-
-[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
+PR CI green except Converter tests (red on `release_26.1` too), unrelated; rerun.
 
 ## Summary
 

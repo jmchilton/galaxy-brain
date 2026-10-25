@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished; PR opened as draft on John's launch approval (2026-10-24). Base `release_26.2` `d39f1172656`, head `32cc69c6e02`; see [debrief](implementation_debrief.md), [polish debrief](polish_debrief.md).
+`ready`: polished, head `32cc69c6e02` on `release_26.2`.
 
-Draft [#24440](https://github.com/galaxyproject/galaxy/pull/24440).
+[#24440](https://github.com/galaxyproject/galaxy/pull/24440) undrafted 2026-10-24 (tick).
 
-PR CI on head in progress; undraft when green.
+PR CI green except Integration `test_pulsar_embedded_extended_metadata::test_runtime_environment_warning` (Pulsar job stuck `running`), unrelated to E2E-only change; rerun.
 
 ## PR
 

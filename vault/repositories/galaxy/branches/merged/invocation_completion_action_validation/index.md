@@ -1,12 +1,14 @@
 # invocation_completion_action_validation
 
+Merged: [#24202](https://github.com/galaxyproject/galaxy/pull/24202) merged 2026-10-23.
+
 Status: `ready` — PR #24202 (draft at John's request, undrafted by John 2026-10-20) rebased 2026-10-23 onto `release_26.2` `d2d1dcd883c` (conflicted after #24209 merged), head `f972f92d536`; PR CI re-running.
 
 Reject unknown workflow completion-action names with HTTP 400 before creating histories or invocations, using the shared registered hook registry.
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Code-quality review](thermo_nuclear_review.md)
 
-Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md), requested 2026-10-15. Pushed to the fork, reviewed and locally validated. Original CI evidence is historical; see the current polish handoff below.
+Independent extraction from [issue_20900_invocation_validation](../../active/issue_20900_invocation_validation/index.md), requested 2026-10-15. Pushed to the fork, reviewed and locally validated. Original CI evidence is historical; see the current polish handoff below.
 
 ## Morning refresh — 2026-10-16
 

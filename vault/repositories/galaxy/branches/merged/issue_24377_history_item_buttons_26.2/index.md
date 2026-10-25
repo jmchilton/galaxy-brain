@@ -5,6 +5,8 @@
 
 ## Status
 
+Merged: [#24400](https://github.com/galaxyproject/galaxy/pull/24400) merged 2026-10-24.
+
 Status: `ready` (PR open). Polished; re-scoped once, hardened twice. Base: `release_26.2` (`fe7b52529a0`). Head: `379f1267d54`. Alt: `issue_24377_history_item_buttons_26.2_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24377_history_item_buttons_26.2`.
 
 PR [#24400](https://github.com/galaxyproject/galaxy/pull/24400) opened out of draft 2026-10-23 on John's launch approval.

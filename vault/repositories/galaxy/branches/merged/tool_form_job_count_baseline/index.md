@@ -3,9 +3,11 @@
 - [#24217](https://github.com/galaxyproject/galaxy/pull/24217)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/tool_form_job_count_baseline)
 
-The leading baseline tests and refactor commits of [`tool_form_job_count`](../tool_form_job_count/index.md), cut at its 6th commit for a PR that lands first. Base: `dev`.
+The leading baseline tests and refactor commits of [`tool_form_job_count`](../../active/tool_form_job_count/index.md), cut at its 6th commit for a PR that lands first. Base: `dev`.
 
 ## Status
+
+Merged: [#24217](https://github.com/galaxyproject/galaxy/pull/24217) merged 2026-10-23.
 
 `ready`: rebased 2026-10-20 onto dev `93b3c85e532`; mypy fix squashed into commit 3 2026-10-23, head `d05498fb2fe`, still an exact prefix of `tool_form_job_count`. mvdbeek nits 1–3 were folded into commit 3 the same day. To resolve the commit 6 conflict, `tool_form_select_collection` now builds on dev's `tool_form_select_data`. John approved `bd218fccaef` on 2026-10-17 with the title "Branch refactoring and tests to enable tool form job counts".
 
@@ -15,7 +17,7 @@ PR CI on `005d75ad95d` failed mypy `meta.py:257` "Returning Any from function" (
 
 ## Polish
 
-[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md). The process and checklist findings are in the main branch's [polish debrief](../tool_form_job_count/polish_debrief.md); the commits are described in its [baseline refactor](../tool_form_job_count/baseline_refactor.md) report (pre-rebase hashes).
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md). The process and checklist findings are in the main branch's [polish debrief](../../active/tool_form_job_count/polish_debrief.md); the commits are described in its [baseline refactor](../../active/tool_form_job_count/baseline_refactor.md) report (pre-rebase hashes).
 
 ## Standing instructions
 

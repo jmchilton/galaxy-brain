@@ -41,7 +41,7 @@ Published `07377e10531` on current dev `88127f42979`, incorporating all nine pol
 John requested all four remaining candidates as standalone branches. Each starts directly at `release_26.2` commit `0c70fdd5182`, has one independent commit, is pushed and reviewed, and is queued under `branches_implemented_needs_ci`. Source branch remains `07377e10531`; its recorded blockers are unchanged.
 
 - [invocation_object_store_validation](../invocation_object_store_validation/index.md) — Validate workflow object-store preferences.
-- [invocation_completion_action_validation](../invocation_completion_action_validation/index.md) — Reject unknown completion actions.
+- [invocation_completion_action_validation](../../merged/invocation_completion_action_validation/index.md) — Reject unknown completion actions.
 - [invocation_tool_compatibility](../../merged/invocation_tool_compatibility/index.md) — Reject incompatible workflow tools early.
 - [invocation_subworkflow_input_connections](../invocation_subworkflow_input_connections/index.md) — Reject disconnected required subworkflow inputs.
 

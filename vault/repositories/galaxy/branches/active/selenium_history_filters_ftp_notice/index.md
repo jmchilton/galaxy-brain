@@ -5,7 +5,7 @@
 
 ## Status
 
-READY. Re-scoped once and hardened twice; see the [implementation debrief](implementation_debrief.md). Base: [#24380](../selenium_delete_items_dataset_privacy/index.md) head `d83f7eaa13c`, which is on `release_26.2`. Head: `2c983d1b49a`.
+READY. Re-scoped once and hardened twice; see the [implementation debrief](implementation_debrief.md). Base: [#24380](../../merged/selenium_delete_items_dataset_privacy/index.md) head `d83f7eaa13c`, which is on `release_26.2`. Head: `2c983d1b49a`.
 
 No PR yet. It can open once #24380 merges.
 

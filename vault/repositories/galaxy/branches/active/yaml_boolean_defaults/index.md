@@ -5,11 +5,11 @@
 
 ## Status
 
-Draft PR open, `ci_wait`; head `19b7933d5a9` on `release_26.1` `d808b6425b8` (class-declaring YAML reads only `value:`/`parameters:`; no legacy-key fallback or tests, per John 2026-10-22).
+`ready`: head `19b7933d5a9` on `release_26.1`; class-declaring YAML reads only `value:`/`parameters:` (John 2026-10-22).
 
-[#24365](https://github.com/galaxyproject/galaxy/pull/24365) opened as a draft on 2026-10-22 at John's request, titled `[26.1] Load YAML tool inputs the way the tool models define them`, with mvdbeek requested as reviewer; undraft once CI is green.
+[#24365](https://github.com/galaxyproject/galaxy/pull/24365) out of draft (found undrafted 2026-10-24); mvdbeek requested.
 
-PR CI running on `19b7933d5a9`; fork CI on prior head `ef275d8fa42` was green.
+PR CI green except Playwright and Tool form harness (`Playwright does not support chromium on ubuntu26.04-x64`, install infra), unrelated; rerun.
 
 ## Polish (2026-10-22)
 

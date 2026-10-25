@@ -192,7 +192,7 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   and preferences/permissions selectors (the switch by `name`; a client test id would be cleaner).
   Green under Playwright and Selenium. Coverage PR candidate for 26.2.
 - `cac01c0884a` and `e4bca1128c1` were extracted into
-  [`selenium_delete_items_dataset_privacy`](../../repositories/galaxy/branches/active/selenium_delete_items_dataset_privacy/index.md)
+  [`selenium_delete_items_dataset_privacy`](../../repositories/galaxy/branches/merged/selenium_delete_items_dataset_privacy/index.md)
   (`release_26.2`, 2026-10-22). It was hardened and re-scoped to fix a HistoryPanel bug the delete
   test found: undelete or unhide under Include deleted/hidden hid the item. It also adds client test
   hooks for the privacy selectors and its own `history_panel_item_unhide`, `history_panel_include_hidden`

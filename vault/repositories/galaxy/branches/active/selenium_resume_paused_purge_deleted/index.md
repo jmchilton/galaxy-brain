@@ -9,7 +9,7 @@ READY: implemented, re-scoped once, re-hardened; see [implementation debrief](im
 
 No PR.
 
-No CI yet.
+Fork CI on `257d514929c` green except Integration `TestSingularityJobsIntegration::test_mulled_simple` (Singularity mulled job error), unrelated to E2E-only change; promoted to `branches_implemented` 2026-10-24.
 
 ## Scope
 
@@ -21,7 +21,7 @@ Missing 26.2 E2E coverage for UI paths that had none, plus the client test hooks
 4. The same for deleted and archived histories (`test_purge_deleted_and_archived_histories_from_storage_dashboard`). This is the re-scope; the original scope is kept as [an alt](alts/original_scope.md).
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commits `c184ed00be2`, `0cf8353fc84`) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). It differs from those commits in three ways:
-- The paused-job test undeletes its input through the API, not the history panel. The panel helpers come from [#24380](../selenium_delete_items_dataset_privacy/index.md), which isn't on 26.2.
+- The paused-job test undeletes its input through the API, not the history panel. The panel helpers come from [#24380](../../merged/selenium_delete_items_dataset_privacy/index.md), which isn't on 26.2.
 - `storage_dashboard_purge_deleted_datasets` is now `storage_dashboard_cleanup("deleted_datasets", ...)`, with no wrapper.
 - The purge helper waits for `:not(.g-disabled)` buttons.
 

@@ -5,13 +5,11 @@
 
 ## Status
 
-`ready`: reworked onto `release_26.1`, polished, PR opened 2026-10-24 at John's request.
+`attention`: polished, head `10492c660b3` on `release_26.1`.
 
-[#24434](https://github.com/galaxyproject/galaxy/pull/24434) open against `release_26.1`, not draft.
+[#24434](https://github.com/galaxyproject/galaxy/pull/24434) open, not draft.
 
-CI running on `10492c660b3`.
-
-Base: `release_26.1` (`28dcf86a6c4`), head `10492c660b3`; alts `udt_element_identifier_api_test_alt_original_scope`, `udt_element_identifier_api_test_alt_dev` ([alts](alts/)). Fork: `jmchilton/udt_element_identifier_api_test`. Worktree: `~/projects/worktrees/galaxy/branch/udt_element_identifier_api_test`.
+PR CI relevant red: mypy `galaxy_test/api/test_unprivileged_tools.py:165: error: Unpacked dict entry 0` (Python linting, Test Galaxy packages); API `test_upload_and_validate_invalid` and Selenium shard 1 reds look unrelated.
 
 ## Issue
 
