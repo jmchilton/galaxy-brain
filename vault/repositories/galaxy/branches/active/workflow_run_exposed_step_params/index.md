@@ -15,7 +15,8 @@ API probes, vitest and 5 E2E tests pass locally; no CI.
 
 - Spike of [RERUN_ISSUE.md](../../../../../projects/workflow_applications/RERUN_ISSUE.md) / [RERUN_UX.md](../../../../../projects/workflow_applications/RERUN_UX.md): expose individual step parameters in the simple workflow run form.
 - Findings with screenshots: [LESSONS_LEARNED.md](../../../../../projects/workflow_applications/LESSONS_LEARNED.md). Debrief: [spike_debrief.md](spike_debrief.md).
-- Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/workflow_run_exposed_step_params` (its `.venv` and `client/node_modules` are symlinks into the #24177 worktree).
+- Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/workflow_run_exposed_step_params`, currently checked out on the graph picker alt. It has its own bootstrapped `.venv` and `client/node_modules`, which replaced the dangling symlinks into the #24177 worktree.
+- Alt: [graph_picker](alts/graph_picker.md) picks parameters from the workflow graph; subworkflow parameters are locked.
 
 ## Decision
 

@@ -103,6 +103,68 @@ Spike of [RERUN_ISSUE.md](RERUN_ISSUE.md) / [RERUN_UX.md](RERUN_UX.md). Branch `
 4. Rerun: say what happens when "rerun with this changed" is used on a run with unrecorded step params (expanded form, link param ignored), and that inner subworkflow steps need parent-invocation keys.
 5. Scope: call out that data-dependent params (column pickers) are excluded in the first pass, and track a follow-up. This is the most likely user complaint.
 
+## Graph picker spike
+
+The alt branch `workflow_run_exposed_step_params_alt_graph_picker` ([alt note](../../repositories/galaxy/branches/active/workflow_run_exposed_step_params/alts/graph_picker.md)) replaces the tree picker with a picker on the workflow graph. The cards, the payload and the server are the same as above, so the only thing that changes is how parameters are picked. Subworkflow parameters are deliberately locked out.
+
+**Verdict: it works and reads well for small, flat workflows. It is a navigation aid, not a replacement for the tree.** Picking reuses the tree's per-step list, so the graph adds only "where is this step" and per-step counts. The subworkflow lock costs real function: recorded rerun overrides inside subworkflows are dropped.
+
+### Screenshots
+
+**Overview.** A read-only graph of the whole workflow. Each tool node says how many parameters it has to pick. The subworkflow node gets a warning-colored header, a lock icon, and "can't be picked here".
+
+![graph overview](screenshots/graph_overview.png)
+
+**Tool node clicked.** The side panel lists that step's parameters, with the same widgets as the tree picker: the conditional badge, and the disabled data-dependent `Column`. Checking two of them turns the node green with "2 of 7 parameters picked".
+
+![step picked](screenshots/graph_step_picked.png)
+
+**Subworkflow node clicked.** It explains the lock and shows no list.
+
+![subworkflow locked](screenshots/graph_subworkflow_locked.png)
+
+**Cards after Apply.** These are the same cards as the tree spike. Reopening the picker and unchecking a parameter removes its card. That's the select/deselect behaviour the tree picker didn't have.
+
+![cards](screenshots/graph_cards.png)
+
+**A link with a subworkflow key** (`step_param=2|1|threshold&step_param_value=2|1|threshold=0.9`). A red, non-dismissible alert says the parameter **will not be sent**. The top-level key next to it still becomes a card.
+
+![link subworkflow dropped](screenshots/graph_link_subworkflow_dropped.png)
+
+**Picker with dropped keys.** A banner repeats the warning, and the Apply button counts what's lost: "Apply (1) - 1 subworkflow parameter(s) not sent".
+
+![locked banner](screenshots/graph_locked_banner.png)
+
+### Lessons
+
+1. **Step numbers are off by one between the node and the key.** The node header reads **"2: echo"**, using the run form's 1-based index, but the keys read **`1|threshold`**, using the 0-based `order_index`. The tree picker had the same mismatch ("Step 2" with `1|…` keys), but it's much more visible next to the graph. Either hide keys by default (UI lesson 1 above) or show keys 1-based in the UI. Never mix the two side by side.
+2. **The graph only helps with "where".** Once a node is clicked, the panel is the tree picker's subtree. On a 3-step workflow the graph is just extra chrome. It pays off on large workflows where the step name alone doesn't tell you which step you mean. Filtering by parameter name across steps (the tree picker's filter) is lost, and a large workflow is exactly where you'd want it.
+3. **Select/deselect is better than add-only.** Starting from the current exposed set and applying the full set, with removals, is the right model whichever picker ships. Port `diffExposures` back to the tree picker.
+4. **Locking subworkflows costs function, not just listing.** The server already applies inner keys (G3 above), so this mode throws away something that works. The bad case is a **rerun** whose original run recorded an override inside a subworkflow. The form drops it, with a warning, and the rerun quietly uses the saved value instead of the one from the original run. Options:
+   - fall back to the expanded form, as the #24177 gate does for unrecorded params;
+   - keep such keys as read-only, pass-through cards that still get sent but can't be picked;
+   - drill into the subworkflow node, showing its inner graph, once G3 lists inner trees.
+
+   The second option is cheap and loses nothing. The spike built the drop-with-warning behaviour as asked.
+5. **Integration cost is small but touches the editor.**
+   - `Node.vue` and `WorkflowGraph.vue` need an `annotated` prop. Without it, `NodeInvocationText` shows `nodeText` only for invocations and populated inputs, and says "This is a subworkflow." otherwise.
+   - The picker needs its own store scope. Otherwise node clicks move the run form's active step.
+   - The node header color reuses an invocation job-state class (`setting_metadata`, for the yellow warning). A real version wants its own class.
+   - `useDatatypesMapper()` keeps a copy of the mapper that never updates. If another component is already loading it, the copy stays `null` forever and the picker hangs on "Loading workflow". Use the store's reactive ref.
+6. **The scope problem is unchanged.** `Column` is still disabled ("Options depend on a data input"). The graph makes the data edge into the step visible, but picking a column still needs the follow-up described in UI lesson 3.
+
+### Tree vs graph
+
+| | Tree picker | Graph picker |
+|---|---|---|
+| Find a step in a big workflow | By name, or with the filter | By its place in the graph |
+| Find a parameter by name across steps | Filter | No |
+| Remove exposed parameters | × on the card only | Uncheck in the picker, or × on the card |
+| Subworkflow parameters | Runtime ones listed. Full listing needs G3 | Locked. Link and rerun keys are dropped with a warning |
+| Extra client cost | One modal | Modal, store scope, `annotated` prop on editor nodes |
+
+Recommendation: ship the tree picker with select/deselect. Consider the graph as an optional "show in graph" view on top of it, reusing the run form's existing graph panel, rather than as the only way to pick. If graph mode ships, prefer pass-through cards for subworkflow keys over dropping them.
+
 ## Not done
 
 - G3 listing of full inner subworkflow trees, and a nested picker.
