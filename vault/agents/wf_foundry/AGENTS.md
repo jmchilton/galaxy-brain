@@ -51,3 +51,7 @@ Mark `priority/mvp` as `(mvp)` and `roadmap/main` as `(large)`. When our researc
 ## Mold fixes
 
 When a run exposes a Mold problem, fix the Mold and its eval directly; don't write a `refinements/` note unless John asks. Run evidence goes in the PR description or vault tracking note.
+
+## Pipeline tests
+
+To test-drive a pipeline (`/test-pipeline` journey), follow [TEST_PIPELINE.md](TEST_PIPELINE.md).
