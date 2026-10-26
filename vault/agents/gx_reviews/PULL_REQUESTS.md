@@ -33,4 +33,4 @@ PRs to Skip For 7 Days:
 PRs Blocked:
 None yet.
 
-GitHub state last refreshed: 2026-10-25 (#24394, #24359, #24319 merged and archived; #24413, #24418 merged, archive pending; their clean worktrees removed).
+GitHub state last refreshed: 2026-10-26 (#24413, #24418 merged, archive pending; no new merges).
