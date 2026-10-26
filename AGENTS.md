@@ -17,6 +17,7 @@ Obsidian vault + validation tooling for AI-generated Galaxy development notes. N
 - `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make index`, `make check-index`, `make site-dev`, `make site-build`
 - `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
 - `site/` - Astro static site rendering vault notes for GitHub Pages
+- `differential-review/` - differential-review library: pure core (`src/core/`, no Node imports) shared by plugins, and the snapshot CLI agents run after each phase (`src/cli/`); see `LIBRARY_DIFFERENTIAL_REVIEW.md`
 
 ## Commands
 
@@ -32,6 +33,8 @@ make check-index                   # exit 1 if Index.md drifts from vault
 make site-dev                      # start Astro dev server
 make site-build                    # build static site to site/dist/
 make site-preview                  # preview production build
+make diff-review-build             # typecheck + bundle differential-review CLI
+make diff-review-test              # differential-review Vitest suite (core + temp-git-repo CLI tests)
 ```
 
 ## Architecture
