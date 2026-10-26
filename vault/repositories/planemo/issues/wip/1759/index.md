@@ -2,7 +2,7 @@
 
 Issue: https://github.com/galaxyproject/planemo/issues/1759
 
-Claimed 2026-10-26. Implemented on [collection-expression-assertions](../../../branches/active/collection-expression-assertions/index.md); reviewed, hardened, polished and pushed; awaiting John’s final review.
+Claimed 2026-10-26. Implemented on [collection-expression-assertions](../../../branches/active/collection-expression-assertions/index.md); reviewed, hardened, polished and pushed; approved by John; [PR #1760](https://github.com/galaxyproject/planemo/pull/1760) is open.
 
 This belongs in Planemo. Galaxy's output_to_cwl_json deliberately parses expression.json values for CWL. Planemo loses their downloaded file properties before calling a file verifier. The fix retains those paths for Galaxy collection assertions and leaves CWL conversion intact. No upstream issue is needed.
 

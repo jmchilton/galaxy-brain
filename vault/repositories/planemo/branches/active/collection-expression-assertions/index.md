@@ -3,14 +3,14 @@ upstream_base_branch: master
 ---
 # Preserve expression.json files for collection assertions
 
-- [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:collection-expression-assertions)
+- [PR #1760](https://github.com/galaxyproject/planemo/pull/1760)
 - [View on GitHub](https://github.com/jmchilton/planemo/tree/collection-expression-assertions)
 
 ## Status
 
-Polished and ready for John’s final review at `5e2893173e7335e995cf0b3529f606c3f6ae8a25`.
+John approved `5e2893173e7335e995cf0b3529f606c3f6ae8a25` on 2026-10-26.
 
-No PR is open.
+PR #1760 is open for upstream review.
 
 Local lint and 43 related tests pass; [fork Python CI](https://github.com/jmchilton/planemo/actions/runs/40380814802) is queued (2026-10-26).
 

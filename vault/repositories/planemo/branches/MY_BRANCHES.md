@@ -4,6 +4,7 @@ Snapshot: 2026-10-26 (open PRs checked while implementing #1757; other entries r
 
 ## Open Planemo PRs — ready from our side (`ready`)
 
+- [`collection-expression-assertions`](active/collection-expression-assertions/index.md) — Verifies expression.json collection elements using downloaded files. [#1760](https://github.com/galaxyproject/planemo/pull/1760).
 - [`shutdown_test_real_galaxy_run`](active/shutdown_test_real_galaxy_run/index.md) — Post-shutdown test results test drives real `GalaxyEngine._run`. [#1753](https://github.com/galaxyproject/planemo/pull/1753).
 - [`skip-tests-when-external-services-down`](active/skip-tests-when-external-services-down/index.md) — Skips tests relying on quay.io, the Tool Sheds, Dockstore and usegalaxy.eu when they're down. [#1726](https://github.com/galaxyproject/planemo/pull/1726).
 - [`collection-output-assertions`](active/collection-output-assertions/index.md) — Fixes silently skipped collection output assertions in workflow tests. [#1723](https://github.com/galaxyproject/planemo/pull/1723).
@@ -52,7 +53,7 @@ None yet.
 
 ## Planemo branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`collection-expression-assertions`](active/collection-expression-assertions/index.md) — Verifies expression.json collection elements using downloaded files (#1759). [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:collection-expression-assertions).
+None yet.
 
 ## Planemo branches — approved, opens when green (`branches_need_pr`)
 
