@@ -1,4 +1,1 @@
-- Reject missing conditional test params under `--strict-state`; add `gxwf fill-defaults`
-- Catch partial conditional state Galaxy import rejects; add `gxwf fill-defaults`
-- `gxwf fill-defaults` and a conditional completeness check for `--strict-state`
-- Close the gap between `--strict-state` and Galaxy import for conditionals
+- Add optional workflow default expansion with `gxwf fill-defaults`
