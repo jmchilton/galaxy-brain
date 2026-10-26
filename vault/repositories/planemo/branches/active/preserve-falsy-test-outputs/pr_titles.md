@@ -1,0 +1,3 @@
+- Preserve false and other falsy workflow test outputs
+- Fix missing-output errors for false workflow results
+- Check falsy test outputs instead of reporting them missing

@@ -4,6 +4,7 @@ Snapshot: 2026-10-26 (open PRs checked while implementing #1757; other entries r
 
 ## Open Planemo PRs — ready from our side (`ready`)
 
+- [`preserve-falsy-test-outputs`](active/preserve-falsy-test-outputs/index.md) — Checks false, zero and empty workflow outputs instead of reporting them missing. [#1761](https://github.com/galaxyproject/planemo/pull/1761).
 - [`collection-expression-assertions`](active/collection-expression-assertions/index.md) — Verifies expression.json collection elements using downloaded files. [#1760](https://github.com/galaxyproject/planemo/pull/1760).
 - [`shutdown_test_real_galaxy_run`](active/shutdown_test_real_galaxy_run/index.md) — Post-shutdown test results test drives real `GalaxyEngine._run`. [#1753](https://github.com/galaxyproject/planemo/pull/1753).
 - [`skip-tests-when-external-services-down`](active/skip-tests-when-external-services-down/index.md) — Skips tests relying on quay.io, the Tool Sheds, Dockstore and usegalaxy.eu when they're down. [#1726](https://github.com/galaxyproject/planemo/pull/1726).

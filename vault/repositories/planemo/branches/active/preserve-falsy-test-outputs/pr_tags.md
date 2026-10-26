@@ -1,0 +1,1 @@
+- `kind/bug`: valid workflow test outputs are reported as missing.
