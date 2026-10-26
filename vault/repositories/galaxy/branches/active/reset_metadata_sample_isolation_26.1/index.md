@@ -1,3 +1,7 @@
+---
+upstream_base_branch: release_26.1
+---
+
 # reset_metadata_sample_isolation_26.1
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:reset_metadata_sample_isolation_26.1?expand=1)
@@ -5,13 +9,13 @@
 
 ## Status
 
-Status: `branches_implemented_needs_ci`; READY after hardening on 2026-10-25, retaining the implemented scope.
+Status: `branches_ready_for_final_review`; polished 2026-10-25, awaiting John's read-through and title choice.
 
 No PR yet.
 
-Fork CI pending on pushed head `96b94dd2697`.
+Fork CI queued/pending on pushed head `c6e92c5ce8d`; no failures in the 2026-10-25 live check.
 
-Base: `release_26.1` (`d9647406cf6`), head `96b94dd2697`. Fork: `jmchilton/reset_metadata_sample_isolation_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/reset_metadata_sample_isolation_26.1` (`.venv` symlinked from `issue_24093_batch_element_labels_26.1`).
+Base: `release_26.1` (`cf168b20f6a`), head `c6e92c5ce8d`. Fork: `jmchilton/reset_metadata_sample_isolation_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/reset_metadata_sample_isolation_26.1` (`.venv` symlinked from `issue_24093_batch_element_labels_26.1`).
 
 ## What
 
@@ -19,17 +23,29 @@ Tool shed `reset_metadata` staged de-suffixed sample copies inside the clone it 
 
 ## Commits
 
-1. `c6ee20cecd5` Key tool shed metadata path stripping and cleanup on `files_dir` (cherry-pick of `4a7ff284e3b`, clean).
-2. `6408b44bbfe` Isolate sample files when resetting tool shed metadata (cherry-pick of `b6f362b2bbc`, clean; plus the `revision_path`/`metadata_rows` test helpers from the dry run branch's baseline commit `304d663321f`, which aren't on 26.1).
-3. `96b94dd2697` Move both regressions to the existing Tool Shed repository API suite; remove branch-only unit fixtures and helpers.
+1. `787e812c77e` Key tool shed metadata path stripping and cleanup on `files_dir` (originally `c6ee20cecd5`).
+2. `03489800465` Isolate sample files when resetting tool shed metadata (originally `6408b44bbfe`).
+3. `c6e92c5ce8d` Exercise reset sample isolation through the Tool Shed API (originally `96b94dd2697`); remove branch-only unit fixtures and helpers.
+
+Clean rebase on 2026-10-25; `git range-diff` reports all three patches unchanged.
 
 ## Testing
 
+- Both focused API regressions passed again after the clean rebase to `cf168b20f6a`.
 - Repository API suite: 40 passed; `test/unit/tool_shed/`: 99 passed, 12 skipped (two regressions moved to API).
 - Both final API regressions fail at metadata assertions with the release-base generator and pass with the fix.
 - `make format`, diff checks, and commit hooks pass; mypy on both changed files reports only the generator's two verified base errors.
 - Test challenge, code-quality review, baseline-refactoring review, and scope evaluation complete; no scope change or production edits needed during hardening.
-- Vault validation has an unrelated existing error: untracked `vault/FILL_IN_AT_RUNTIME.md` lacks frontmatter.
+- Fresh vault validation passed on 2026-10-25: 126 files, zero errors, 15 advisory warnings.
+
+## Final review
+
+- [PR description](pr_description.md)
+- [Title options](pr_titles.md)
+- [Recommended labels](pr_tags.md)
+- [Polish debrief](polish_debrief.md)
+- [Checklist review](subagents/polish_checklist.md)
+- [Strengthening review](subagents/polish_strengthening.md)
 
 ## Decisions
 

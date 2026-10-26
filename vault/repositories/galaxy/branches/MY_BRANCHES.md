@@ -77,7 +77,6 @@ None yet.
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`cwl_fixes_5`](active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
 - [`licenses`](active/licenses/index.md) — Adds `<license_agreement>` tool requirements users must accept before running tools/workflows (#23261). Rebased, hardened, re-scoped, re-hardened; decisions: gxwf opt-in default, PR split. Base `dev`, head `cd37d851bb2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
-- [`reset_metadata_sample_isolation_26.1`](active/reset_metadata_sample_isolation_26.1/index.md) — Hardened: reset reads each revision's samples and stages copies outside the clone; scope retained. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:reset_metadata_sample_isolation_26.1?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
@@ -98,6 +97,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`reset_metadata_sample_isolation_26.1`](active/reset_metadata_sample_isolation_26.1/index.md) — Reset reads each revision's samples and stages copies outside the clone. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:reset_metadata_sample_isolation_26.1?expand=1).
 - [`issue_24441_tool_shed_upload_dry_run`](active/issue_24441_tool_shed_upload_dry_run/index.md) — Tool Shed upload API `?dry_run=true` predicting the resulting revision without persisting; fixes `reset_metadata` sample handling (#24441). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1).
 - [`selenium_history_filters_ftp_notice`](active/selenium_history_filters_ftp_notice/index.md) — Fixes Choose Remote Files missing the FTP server notice (shared `FtpUploadHelp`) and long names overflowing the remote files and data library browsers; history panel filter/undelete/hide helpers and E2E tests; remote-folder upload helpers. All of `galaxy_ui_driver` batch 7. Base `release_26.2`, head `cca66ef7a78`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_history_filters_ftp_notice?expand=1).
 - [`selenium_upload_data_library`](active/selenium_upload_data_library/index.md) — E2E tests for 26.2 Upload Activity "Import from Data Library" and fixes for the bugs they surfaced. [#24452](https://github.com/galaxyproject/galaxy/pull/24452).

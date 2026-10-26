@@ -1,0 +1,4 @@
+- [26.1] Keep sample files out of Tool Shed metadata scans
+- [26.1] Preserve revision-local samples when resetting Tool Shed metadata
+- [26.1] Fix sample isolation during Tool Shed metadata reset
+- [26.1] Prevent metadata reset from promoting sample tools
