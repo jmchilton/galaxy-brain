@@ -864,3 +864,27 @@
   faqs: [topics/admin/faqs/install_tool.md]
   target: main
   summary: 'Step 2 says to open the Admin menu "from the top bar"; Admin is an Activity Bar item (bottom of the bar) since at least 25.0.'
+
+- label: library-permissions-roles-arg
+  faqs: [topics/admin/faqs/library-permissions.md]
+  target: main
+  summary: '`--roles` is `nargs="+"` of role IDs; `--roles ROLES role1,role2,role3` passes the literal `ROLES` and one comma-joined string, so permissions get set to bogus roles. Tutorial admin/data-library.'
+  fix: '`set-library-permissions -g https://galaxy.example.com -a $API_KEY LIBRARY_ID --roles ROLE_ID_1 ROLE_ID_2` and say the roles are encoded role IDs.'
+
+- label: mapping-by-user-user-object
+  faqs: [topics/admin/faqs/mapping_by_user.md]
+  target: main
+  summary: 'Dynamic-rule `user` is a Galaxy `User` object, so `if user == "alice":` never matches and the storage mapping silently does nothing.'
+  fix: 'Compare `user.username == "alice"` (or take `user_email`), guarding `user is not None` for anonymous jobs.'
+
+- label: history-updating-chrony-sample
+  faqs: [topics/admin/faqs/why-isnt-my-history-updating.md]
+  target: main
+  summary: 'The "should look more like" `chronyc -n sources` sample marks every source `^?` (unreachable), so readers comparing against it learn nothing; "0ns is not a realistic office" should be "offset".'
+  fix: 'Use a sample with a `^*` (selected) and `^+` sources; fix "office" → "offset" and "THe".'
+
+- label: codex-data-community-folder
+  faqs: [topics/community/faqs/codex.md]
+  target: main
+  summary: 'Intro says to create the folder in `data/community`; galaxy_codex has no `data/` dir. Communities live in `communities/<name>/` (step 2 already says `communities`).'
+  fix: 'Say `communities` in the intro.'
