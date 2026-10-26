@@ -8,8 +8,17 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-READY: deployment-test bugs fixed, hardened, and pushed at `9d5f0d32df81`; final scope accepted.
+Polished at `9d5f0d32df81`; workflow status is `branches_ready_for_final_review`, awaiting John's read-through.
 
 No PR opened.
 
-Fork CI is queued; handoff is in `branches_implemented_needs_ci`.
+Fork CI is queued with no reported failures (2026-10-26); local checks pass with no new mypy diagnostics against the release base.
+
+## Final review
+
+- [PR description](pr_description.md)
+- [Title options](pr_titles.md)
+- [Recommended labels](pr_tags.md)
+- [Polish debrief](polish_debrief.md)
+- [Checklist review](subagents/polish_checklist.md)
+- [Strengthening review](subagents/polish_strengthening.md)

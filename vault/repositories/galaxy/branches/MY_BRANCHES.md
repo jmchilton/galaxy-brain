@@ -66,7 +66,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`deployment_test_fixes_26_2`](active/deployment_test_fixes_26_2/index.md) — Fix deployment test collection, failure propagation, bootstrap and runtime capability skips; hardened READY after registration scope expansion. Base `release_26.2`, head `9d5f0d32df81`; fork CI queued.
 - [`selenium_workflow_preview_import_26.2`](active/selenium_workflow_preview_import_26.2/index.md) — Public workflow preview/Run/Import tests + TRS launch-link auto-import and version-alias fixes; baseline first, hardened READY. Base `release_26.2`, head `ef7bf72fdea9`; both browser backends verified.
 
 - [`issue_24303_collection_type_prefix_26.2`](active/issue_24303_collection_type_prefix_26.2/index.md) — `type_prefix` on `type_source` tool output collections (parser/XSD/lint, runtime, workflow server + subworkflow export fix, editor, collection_semantics) + Nest 1.1.0 replacing #24190 (bernt-matthias's commit cherry-picked; 1.0.0 kept) (#24303). Hardened + re-scoped; decisions: #24190 fate, PR split. Base `release_26.2`, head `e0239d8d74b`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24303_collection_type_prefix_26.2?expand=1).
@@ -101,6 +100,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`deployment_test_fixes_26_2`](active/deployment_test_fixes_26_2/index.md) — Restore deployment test collection, failure propagation, bootstrap and runtime capability skips. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:deployment_test_fixes_26_2?expand=1).
 - [`issue_17204_remove_shared_with_me_26.2`](active/issue_17204_remove_shared_with_me_26.2/index.md) — Individual/bulk recipient removal for shared histories, workflows and visualizations; bookmark cleanup (#17204). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_17204_remove_shared_with_me_26.2?expand=1).
 - [`selenium_faq_account_workflow_display_26.2`](active/selenium_faq_account_workflow_display_26.2/index.md) — FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_faq_account_workflow_display_26.2?expand=1).
 - [`issue_24476_parsed_output_filters_26_1`](active/issue_24476_parsed_output_filters_26_1/index.md) — Preserves filter expressions in parsed data, collection and scalar outputs (#24476). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24476_parsed_output_filters_26_1?expand=1).
