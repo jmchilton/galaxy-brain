@@ -9,7 +9,7 @@ READY: hardened and pushed at `b88e76ad2ca`, awaiting CI and human review; base 
 
 PR not opened.
 
-Fork CI queued.
+Substantive fork CI checks are green, including client/Python unit tests and tool/workflow frameworks; remaining checks are queued or running.
 
 ## Handoff
 

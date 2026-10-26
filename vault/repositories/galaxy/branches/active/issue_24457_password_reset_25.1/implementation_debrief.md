@@ -1,6 +1,6 @@
 # Password-reset implementation handoff
 
-STATUS: READY — hardened and pushed; queued for fork CI and human review.
+STATUS: READY — hardened and pushed; substantive fork CI is green, with remaining checks and human review pending.
 
 Branch: `jmchilton/issue_24457_password_reset_25.1`, head `b88e76ad2ca`. Base: `release_25.1` at `bd2cb474a8d`, the oldest affected supported release (25.1.0 released 2025-12-17). Issue: [#24457](https://github.com/galaxyproject/galaxy/issues/24457).
 
@@ -15,7 +15,7 @@ Validation and hardening:
 - Existing ChangePassword/LoginForm Jest suites: 7 passed under pinned Node 22.13.0. Both webpack builds succeeded; lockfile unchanged.
 - Normal review, test challenge, E2E polish, strict code-quality review, baseline evaluation and scope evaluation completed without outstanding findings. Their reports are alongside this file.
 - Required `make format` passed with 2,290 files unchanged; worktree and diff checks are clean. Matching-entry mypy baseline/final diagnostics are identical after sorting: 54 pre-existing transitive/stub errors in 44 files, no new branch diagnostics.
-- Fork CI is queued for `b88e76ad2ca`; no upstream PR has been opened by this implementation workflow.
+- Fork CI for `b88e76ad2ca` has passed client unit/lint, Python unit (including PostgreSQL), tool/workflow framework, main tool, package and other checks without an observed failure; remaining workflows are queued/running. Handoff is under `branches_implemented`. No upstream PR has been opened by this implementation workflow.
 
 Forward-merge note: 25.1 requests resets inline on LoginForm; 26.2 has a separate reset page. The separate FAQ branch supplies the 26.2 `request_password_reset` body. Reconcile those helpers and retain the appropriate reset-page targets when forwarding the older fix. This is not a dependency between the two review branches.
 

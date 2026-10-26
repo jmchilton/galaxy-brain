@@ -5,8 +5,12 @@
 
 ## Status
 
-Implementation in progress; base `release_26.2`, per the Playwright UPSTREAM_TESTS.md QA target.
+READY: re-scoped, freshly hardened and pushed at `fbb015b3916`; base `release_26.2` (`849c2573cb0`), awaiting CI and human review.
 
 PR not opened.
 
-CI not run.
+Client lint CI passed; remaining fork CI workflows are queued or running.
+
+## Handoff
+
+[Implementation debrief](implementation_debrief.md) records ten passing tests on each browser backend, verified screenshots and the retained final scope; [scope correction](implementation_rescope_debrief.md) explains the empty-catalog expansion and preserved original alternate.
