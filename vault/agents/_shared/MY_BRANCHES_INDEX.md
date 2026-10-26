@@ -13,7 +13,7 @@ Keep these sections in this order. Write `None yet.` under an empty one. Each he
 3. `draft_ready`: draft, mergeable and greenish. Skipped checks or a diagnosed unrelated red are fine; an unexplained relevant red isn't.
 4. `ci_wait`: draft with a run still queued or in progress. Move it once the run settles.
 5. `author_work`: draft with conflicts, stale or absent CI, relevant failures or open design work.
-6. `branches_implemented` | `branches_implemented_needs_ci`: an agent finished a unit of work and pushed it. Polish it with [`POLISH_BRANCH.md`](../gx_branches/POLISH_BRANCH.md) for Galaxy or [`PROCESS_GENERIC_POLISH_BRANCH.md`](PROCESS_GENERIC_POLISH_BRANCH.md) otherwise, once CI is greenish (or the local gate, when the project's CI runs only on PRs); branch notes retain CI evidence and any known limitations.
+6. `branches_implemented` | `branches_implemented_needs_ci`: an agent finished a unit of work and pushed it.
 7. `branches_need_polish`: polishing in progress. The entry moves here when polishing starts and on to `branches_ready_for_final_review` when it ends.
 8. `branches_ready_for_final_review`: polished. The description is in the branch directory's `pr_description.md`, and the branch waits for the user's read-through, including the human-read checklist item. Only the user moves an entry out.
 9. `branches_need_pr`: the user approved it. The branch record holds the approved SHA, approval date and chosen title; retain the SHA in the queue entry too. Agents open the PR once CI on that SHA is greenish, where their AGENTS.md authorizes it (Automatic Actions in `gx_branches/AGENTS.md`).

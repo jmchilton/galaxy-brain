@@ -28,6 +28,10 @@ When John asks to respond to a PR, follow [PROCESS_RESPOND_TO_INITIAL_REVIEW.md]
 
 `/sync-galaxy-reviews` creates missing queued worktrees and removes eligible settled ones.
 
+## Review Adjustments
+
+I haven't figured out how to separate challenges / review focuses in my own PRs from others' - but a couple things I don't want to land up in verified reviews of other people's PRs.
+
 ## Automatic Actions
 
 The user authorizes these ahead of time, but only exactly as written here. Take them in this order.

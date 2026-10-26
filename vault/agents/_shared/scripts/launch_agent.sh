@@ -1,7 +1,7 @@
 #!/bin/sh
 # Launch Claude or Codex in a new Herdr workspace under vault/agents/<agent_dir> and send it a prompt.
 # Usage: launch_agent.sh <agent_dir> <claude|codex> <name> <prompt> [agent args...]
-# Agent args go to claude/codex, e.g. --model opus --effort xhigh.
+# An empty prompt just starts the agent. Agent args go to claude/codex, e.g. --model opus --effort xhigh.
 # Works outside Herdr (e.g. from Obsidian) as long as the Herdr server is running.
 set -eu
 
@@ -35,7 +35,9 @@ if ! herdr agent start "$name" --kind "$kind" --pane "$pane" --timeout 60000 -- 
 fi
 
 # Target the pane from here on: the Claude session-name hook clears agent names.
-herdr agent prompt "$pane" "$prompt" >/dev/null
-herdr agent wait "$pane" --until working --timeout 30000 >/dev/null || echo "warning: agent in $pane not working yet" >&2
+if [ -n "$prompt" ]; then
+  herdr agent prompt "$pane" "$prompt" >/dev/null
+  herdr agent wait "$pane" --until working --timeout 30000 >/dev/null || echo "warning: agent in $pane not working yet" >&2
+fi
 
 echo "Launched $kind${*:+ $*} '$name' in $agent_dir, pane $pane"

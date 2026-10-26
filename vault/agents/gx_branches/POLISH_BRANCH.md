@@ -33,14 +33,18 @@ Always use [`GENERAL.md`](../_shared/gx_pr_checklists/GENERAL.md). Add [`WORKFLO
 - Re-run the checklist subagent if the changes touched any item it answered.
 - Do one strengthening round only. Report anything left over instead of looping.
 
-## 7. PR Titles
+## 7. Check Galaxy
+
+Run `_shared/GX_PROCESS_CHECK_BRANCH.md` and fix any errors.
+
+## 8. PR Titles
 
 Place 3-5 title options as a simple markdown list in `BRANCH_DIRECTORY/pr_titles.md`. For a release-branch target, prefix every title with Galaxy's version tag (`[26.0]` for `release_26.0`).
 
-## 8. PR Tags
+## 9. PR Tags
 
 Recommend labels in `BRANCH_DIRECTORY/pr_tags.md`: exactly one `kind/` label and the `area/` labels that fit, per Galaxy's `doc/source/project/issues.rst`. Check what Galaxy's bot would apply from `.github/labeler.yml`, but it over-tags; keep only areas central to the change.
 
-## 9. Hand off
+## 10. Hand off
 
 Move the entry from `branches_need_polish` to `branches_ready_for_final_review`, linking the branch's `index.md`, per [`MY_BRANCHES_INDEX.md`](../_shared/MY_BRANCHES_INDEX.md). Write a debrief of the polishing process to `BRANCH_DIRECTORY/polish_debrief.md` and link it, the description, titles, and tags from `index.md`.

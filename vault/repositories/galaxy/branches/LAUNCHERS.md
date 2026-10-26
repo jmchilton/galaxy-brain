@@ -49,3 +49,15 @@ agent_dir: gx_branches
 name: br-{name}
 
 Let's talk about branch {name}. The branch record is {record}.
+
+## 🛝 Build Slides - Pitch
+agent_dir: gx_branches
+name: brslide-{name}
+
+Yo agent - let's talk about branch {name}. The branch record is {record}. I'd like to implement slides according to `../_shared/PROCESS_SLIDES.md`. The aim for a five minute pitch for this feature. If this branch has a pr_description.md please update it so the second line is a link to the slides - do not rewrite the PR description around the slides though - just amend that line with a link. The PR description should standalone as it is and should not depend on the slides. That said - if the slides contain images that would improve the `{record}/pr_description.md` those could be incorporated (probably the PR description should have its own images already though). If the implementation of the slides results in ideas for strengthen the branch's implementation or ideas - please offer to John to expand the scope and implement these.
+
+## 🗣 Build Slides - Implementation
+agent_dir: gx_branches
+name: brslide-{name}
+
+Yo agent - let's talk about branch {name}. The branch record is {record}. I'd like to implement slides according to `../_shared/PROCESS_SLIDES.md`. The aim for a 10 minute implementation description for this feature. If this branch has a pr_description.md please update it so the second line is a link to the slides - do not rewrite the PR description around the slides though - just amend that line with a link. The PR description should standalone as it is and should not depend on the slides. That said - if the slides contain images that would improve the k`{record}/pr_description.md` those could be incorporated (probably the PR description should have its own images already though). If the implementation of the slides results in ideas for strengthen the branch's implementation or ideas - please offer to John to expand the scope and implement these.

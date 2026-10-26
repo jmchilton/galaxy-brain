@@ -11,6 +11,15 @@ An alt branch keeps an alternative take on a branch - e.g. its original scope af
 ## Unused Infrastructure
 
 When new or ported infrastructure has no caller, search the existing codebase for a real consumer it would improve before offering to park, fold or delete it. Report the sites it doesn't help, and why.
+## Running Python
+
+Use the worktree's `.venv` (no `.venv` → `/galaxy-bootstrap`):
+
+- Tests: `source .venv/bin/activate && PYTHONPATH=lib pytest <path>`; API/integration/Selenium via `/galaxy-backend-tests` or `/galaxy-playwright`.
+- Scripts: write them to the scratchpad, run with `.venv/bin/python <script>`. Not bare `python3`, and not `uv run python -` heredocs.
+- JSON from `curl`: `jq`, not `python3 -c`.
+- ruff, black, isort and mypy come from `.venv/bin` at CI's pins; not `uvx`. If one is missing, install `lib/galaxy/dependencies/pinned-{lint,typecheck}-requirements.txt` into `.venv` rather than reaching for another copy.
+- Quick mypy: `.venv/bin/mypy <changed files>` from the worktree root (`cd lib` first pulls in unrelated errors). Judge `make mypy` against the base branch, not by raw count.
 ## Local Checks
 
 Run client vitest under the node pinned in `client/.node_version` (`npm_config_use_node_version=<version> pnpm exec vitest run <path>`); the default node 25 breaks happy-dom's `localStorage` on unmodified `dev`.

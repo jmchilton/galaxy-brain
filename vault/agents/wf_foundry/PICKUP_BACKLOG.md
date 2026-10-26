@@ -1,5 +1,3 @@
-Read index.md and build a list of issues actively being worked or previously worked on by other agents.
-
 Pick an outstanding issue on galaxyproject/foundry with agent/implement or agent/research. Skip issues labeled upstream/* or requires-iwc-inputs. Prioritize priority/mvp issues over priority/v2 issues. Prioritize roadmap/main over roadmap/substep over roadmap/off.
 
 When you pick an issue record it in index.md with a status of WIP - a line - <issue link> | AGENT WIP.

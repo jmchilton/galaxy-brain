@@ -68,6 +68,8 @@ If `REVIEW_DIRECTORY/thermo_followup_refactor_issue.md` exists, check that it st
 - Findings that re-litigate a decision called out explicitly in the PR description.
 - Findings about pre-existing code the PR doesn't touch.
 - A follow-up refactor issue that no longer makes sense.
+- Especially nit-picky comment adjustments (incorrect comments should remain issues)
+- Adding Galaxy Doctests (we need to update the best practices to disuade these)
 
 Write each filtered item, with a one-line reason, to `REVIEW_DIRECTORY/filtered_findings.md` for John. Don't create this file if nothing was filtered.
 

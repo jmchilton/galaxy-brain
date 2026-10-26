@@ -8,4 +8,6 @@ When rerunning a step whose debrief already exists, first move the old debrief i
 - If this branch has more than 50 lines of implementation or test code or is touching intricate or substantial pieces of plumbing - have a subagent run `_shared/prompts/thermo-nuclear-code-quality-review.md` and address the review comments. Have the agent write a debrief of the process to `BRANCH_DIRECTORY/thermo_nuclear_review.md`.
 - Have a subagent run `_shared/GX_PROCESS_REFACTOR_BASELINE.md` - this should result in `BRANCH_DIRECTORY/baseline_refactor.md`.
 - Have a subagent run `_shared/GX_PROCESS_SCOPE_EVALUATION.md` - this should result in `BRANCH_DIRECTORY/scope_evaluation.md`. Read its first paragraph; if it recommends expanding or contracting scope, stop and report that.
+- Run `_shared/GX_PROCESS_CHECK_BRANCH.md` and fix any errors.
 - If this work touches the UI/client of Galaxy, have a subagent run `_shared/GX_PROCESS_SCREENSHOTS.md`. If screenshots are expected but cannot be generated - status is BLOCKED.
+

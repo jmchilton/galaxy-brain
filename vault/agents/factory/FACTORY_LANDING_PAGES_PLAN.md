@@ -24,7 +24,7 @@ Reuse the content-collection path, not `renderVaultDoc`. `renderVaultDoc` (used 
 5. `site/src/components/Header.astro`: add `Factory` nav entry.
 6. Philosophy callouts: author them as GitHub alerts (`> [!TIP]` + `**💭 <label>:** …`, label one of John's Dev Philosophy, Workflow Rule, Galaxy Reviewer Opinion or Stealing Best Practices) so they render on GitHub as well. Add a small `remark-github-alerts.ts` plugin that turns alert blockquotes into `<aside class="callout callout-tip">` and styles them in `global.css`. This is reusable by every vault note, not just the factory pages.
 7. Links inside the factory `.md` files to `agents/_shared/*` and `agents/gx_*` docs use absolute GitHub blob URLs, the same convention as the existing CHECK_LINKs. Those docs aren't on the site, so relative links would break there.
-8. Docs: `agents/factory/FACTORY.md` and `*_FACTORY.md` are a deliberate exception to `agents/**` being off-site. Update `_shared/NOT_VAULT_NOTES.md` and the Static Site section of `.claude/CLAUDE.md`.
+8. Docs: `agents/factory/FACTORY.md` and `*_FACTORY.md` are a deliberate exception to `agents/**` being off-site. Update `_shared/NOT_VAULT_NOTES.md` and the Static Site section of `AGENTS.md`.
 
 ## Branch Factory Content (`BRANCH_FACTORY.md`)
 
@@ -79,7 +79,7 @@ Candidate callouts: verified findings only, filtering out disproved ones; a huma
 1. Infra + tests (collection, alerts plugin, pages, nav) with stub `*_FACTORY.md` files containing one mermaid block each.
 2. Branch Factory content.
 3. Review Factory content.
-4. Process doc edits + NOT_VAULT_NOTES/CLAUDE.md updates + TODO cleanup.
+4. Process doc edits + NOT_VAULT_NOTES/AGENTS.md updates + TODO cleanup.
 
 ## Unresolved Questions
 

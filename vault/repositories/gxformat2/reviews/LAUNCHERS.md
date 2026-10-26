@@ -43,4 +43,4 @@ agent_dir: workflow_libs
 name: qm-{name}
 profile: Sonnet (medium)
 
-Quick merge pull request galaxyproject/gxformat2#{name} - skip the initial review process. Check it is still open, not a draft, mergeable and CI is green; if not, stop and report without merging. Otherwise merge it according to the processes described in AGENTS.md. This launch is my approval to merge. Then clean up the review record and relevant worktree (if present).
+Quick merge pull request galaxyproject/gxformat2#{name} - skip the initial review process. Check it is still open, not a draft and mergeable; if not, stop and report without merging. Otherwise merge it according to the processes described in AGENTS.md. This launch is my approval to merge. Then clean up the review record and relevant worktree (if present).

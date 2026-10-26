@@ -8,6 +8,8 @@ If E2E/Selenium tests are found please read "vault/research/Component - E2E Test
 - Please create shared abstractions if they are used more than once.
 - Replace sleeps with waits throughout - if a sleep must remain it should have a comment. If you need to create new navigation.yml targets for the waiting - that is fine. 
 - If this is the only test or set of tests over a component - make sure they are capturing screenshots.
+- Would decorating the DOM improve the tests? If yes, please decorate the DOM - even on bug fixes. Get the tests right the first time.
+- Would refactoring the client improve the tests? If yes and this is targets dev - please refactor the client. Get the tests right the first time.
 
 Prepare a debrief with a one sentence top-line summarizing the work that was done.
 
