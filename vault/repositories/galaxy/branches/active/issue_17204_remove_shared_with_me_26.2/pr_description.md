@@ -8,7 +8,7 @@ Old training histories and workflows can accumulate in a recipient's shared list
 
 ***Histories, workflows and visualizations gain individual and bulk UI actions; pages gain the API operation only.*** This addresses recipient removal, including the issue's batch-cleanup request. It does not change workflow execution or add a shared-pages list.
 
-Removing a workflow share also removes that recipient's tool-panel bookmark, whether the owner or recipient initiates removal. Bulk operations continue after individual failures and report their names and errors. Existing owner bulk messages now use the correct singular/plural nouns. A small event-type correction removes an existing client `as any` without changing editor behavior.
+When a recipient removes a workflow share, their tool-panel bookmark goes too; owner unsharing leaves bookmarks alone, since a published workflow stays reachable. Bulk operations continue after individual failures and report their names and errors. Existing owner bulk messages now use the correct singular/plural nouns. A small event-type correction removes an existing client `as any` without changing editor behavior.
 
 <details><summary>Result and implementation</summary>
 
@@ -16,7 +16,7 @@ Removing a workflow share also removes that recipient's tool-panel bookmark, whe
 
 The common sharing service exposes `PUT /api/{histories,workflows,pages,visualizations}/{id}/unshare_with_me`; each call removes only the authenticated recipient's association. There is no database migration. Client requests use generated route types. Shared list selection exposes the removal action while Delete/Backspace remains guarded from owner-only actions.
 
-Workflow bookmark rows are deleted with both recipient and workflow predicates in the same transaction as the share. This avoids an existing relationship's cartesian-product warning becoming a server error under strict SQLAlchemy settings. Both owner- and recipient-initiated regression cases were reproduced failing before that correction and pass afterward.
+Workflow bookmark rows are deleted with both recipient and workflow predicates in the same transaction as the share. This avoids an existing relationship's cartesian-product warning becoming a server error under strict SQLAlchemy settings. A regression test also pins that owner unsharing keeps recipient bookmarks.
 
 </details>
 
@@ -27,7 +27,7 @@ The additive API and recipient-controlled removal establish a lasting contract; 
 <details><summary>Risk Details</summary>
 
 - Bulk removal commits each item separately. A failure can leave a partially completed selection; failures are reported rather than rolled back as a group.
-- Workflow unsharing now drops the affected recipient's bookmark, including through the existing owner operation. Owner and other-recipient bookmarks are preserved.
+- Recipient removal of a workflow share drops that recipient's bookmark. Owner unsharing doesn't touch bookmarks.
 - The common operation covers four shareable types, while pages remain API-only.
 - No schema migration, workflow execution change, or owner bulk error-handling change is included.
 
@@ -79,14 +79,14 @@ The isolated helper refactor follows the leading baseline tests. History extract
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
-- [x] What does the user see when it fails? Errors name failed removals; bulk actions continue and refresh, and failed workflows remain selected.
+- [x] Did a human read every test and every comment?
+- [x] What does the user see when it fails? Errors name failed removals; bulk actions continue and refresh, and failed items remain selected.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Tests cover observable cancellation, error, access, list and bookmark behavior.
 - [x] Are baseline tests in their own leading commits? Yes.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments describe previous implementation or bugs, what purpose do they serve? N/A.
-- [x] Which existing workflows change behavior? Shared workflow lists gain recipient removal, and unsharing clears that recipient's bookmark.
+- [x] Which existing workflows change behavior? Shared workflow lists gain recipient removal, which clears that recipient's bookmark.
 - [x] Who hits this in practice and what is the evidence? Recipients with accumulated shares, including the instructor example in #17204.
 - [x] Were simpler or existing approaches considered? Existing sharing, selection, dialog and grid infrastructure is reused; scope alternatives are documented above.
 
@@ -96,7 +96,7 @@ The isolated helper refactor follows the leading baseline tests. History extract
 
 <details><summary>Test coverage and execution</summary>
 
-API regressions cover all four shareable types, recipient access, repeat removal, other-recipient preservation and owner/recipient workflow bookmark cleanup. Client coverage exercises action visibility, cancellation, partial failures and keyboard guards. Browser scenarios exercise individual history/workflow removal and two-of-three history bulk removal.
+API regressions cover all four shareable types, recipient access, repeat removal, other-recipient preservation and recipient bookmark cleanup with owner-unshare preservation. Client coverage exercises action visibility, cancellation, partial failures and keyboard guards. Browser scenarios exercise individual history/workflow removal and two-of-three history bulk removal.
 
 Fresh polishing: the initial seven-file client run passed 42 tests; the expanded visualization suite then passed six (43 focused cases total). All 14 strict-warning workflow-sharing API tests pass. Client type checking and Python formatting pass; full mypy reports the same 32 existing errors as the release-base comparison. Before polishing: all three browser scenarios passed and six screenshots were inspected. Fork CI is rerunning on the polished head; the previous head's API bookmark failures were reproduced and fixed locally. Its unrelated integration failure was a Pulsar job-state timing assertion; macOS jobs were cancelled before executing steps.
 

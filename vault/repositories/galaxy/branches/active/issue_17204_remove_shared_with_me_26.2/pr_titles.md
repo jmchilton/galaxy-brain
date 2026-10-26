@@ -1,4 +1,1 @@
-- [26.2] Restore recipient removal from Shared with Me (#17204)
-- [26.2] Let recipients remove shared histories, workflows and visualizations
-- [26.2] Add individual and bulk Remove from Shared actions
-- [26.2] Restore shared-list cleanup and remove stale workflow bookmarks
+- Restore recipient removal from Shared with Me (#17204)
