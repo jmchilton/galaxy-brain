@@ -1,5 +1,5 @@
 PRs To Review:
-- [#24465](https://github.com/galaxyproject/galaxy/pull/24465) — initial review in progress. [notes](../../repositories/galaxy/reviews/active/24465/index.md)
+- [#24465](https://github.com/galaxyproject/galaxy/pull/24465) — initial review ready, unposted (one P3 test improvement; fixed on `pr_24465_review_0`). [notes](../../repositories/galaxy/reviews/active/24465/index.md)
 - [#24396](https://github.com/galaxyproject/galaxy/pull/24396) — approved + response posted 2026-10-26; fork PR mvdbeek/galaxy#37 opened (four P2s + seven P3s); awaiting merge. [notes](../../repositories/galaxy/reviews/active/24396/index.md)
 - [#24427](https://github.com/galaxyproject/galaxy/pull/24427) — initial review ready, unposted (one P2 + four P3s; fixed on `pr_24427_review_0`). [notes](../../repositories/galaxy/reviews/active/24427/index.md)
 - [#24361](https://github.com/galaxyproject/galaxy/pull/24361) — initial review ready, unposted (one P1 + one P2 + six P3s; fixed on `pr_24361_review_0`). [notes](../../repositories/galaxy/reviews/active/24361/index.md)

@@ -1,0 +1,16 @@
+Profile: gx_test_challenger
+Model: GPT-6 (inherited)
+Effort: LOW
+Reviewed commit: d7dfb46505d72d1a4d4891e2977781d721d1cd5a
+
+Reviewed the PR description, comments/reviews (none), diff against origin/release_26.2, and doc/source/dev/writing_tests.md. Scope is the release-branch transaction-ordering fix. Discovery chunked commits and SetMetadataTool.exec_after_process are explicitly excluded by the author and are not raised as missing coverage here.
+
+The seven new tests exercise real model objects and MinimalJobWrapper.finish using the established UsesTools application harness. The normal and extended metadata tests target the original regression, rather than merely asserting calls to new methods. A deterministic transaction observer is appropriate for this race: a normal API test would not reliably catch the short inconsistent-state window. Keep these tests at their current layer. This is substantive production job-completion logic, so the prohibition on dedicated files for tiny development-infrastructure guards does not apply.
+
+The metrics test uses a small concrete JobMetrics implementation instead of a mock and verifies metrics accompany terminal job state. Keep it: existing API metrics coverage tests availability but does not deterministically enforce the transaction boundary. The hash-order test replaces only external task dispatch and inspects the transaction history at that boundary. Keep it. The hash-dispatch-failure test covers the newly promised behavior when the queue is unavailable. Keep it. The collection timestamp test persists and refreshes a real collection association and protects extraction of the model helper. Keep it. The timestamp-failure test protects preservation of the successful job result, with a small improvement below.
+
+P3 1 — Exercise a failure after the timestamp transaction has touched the database.
+Location: test/unit/app/jobs/test_job_wrapper_finish.py:test_update_time_failure_keeps_committed_job_state
+The current patch raises OperationalError at entry to touch_dependent_update_times. It exercises the exception branch, but does not put the session into a failed database transaction or make pending timestamp updates. Add a focused variant that fails the second commit or a database statement within the timestamp phase, then reload job and dataset and verify both remain ok and the session can query successfully. This would protect the rollback and post-error state access against a realistic database failure. This is a minor coverage improvement, not a release blocker.
+
+Test plan: retain all seven deterministic tests; optionally add the database-failure variant above. Run the focused unit file and the existing runtime-environment/extended-metadata integration suites. The PR author reports PostgreSQL integration/API coverage; these runs were not independently repeated in this low-effort challenge. No local .venv was present in the supplied worktree. No client tests, repeated API calls, browser layout mocks, or new HTTP helper opportunities are introduced. Selenium coverage would add cost without directly testing this backend transaction guarantee, so no new browser test is recommended. No implementation or test source was changed.
