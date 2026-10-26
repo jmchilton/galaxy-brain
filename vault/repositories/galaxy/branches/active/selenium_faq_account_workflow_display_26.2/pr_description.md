@@ -105,7 +105,11 @@ The Visualize selector cleanup belongs to the extraction commit. The clean rebas
 
 <details><summary>Browser and component verification</summary>
 
-The implementation head passed all ten affected cases under Selenium and headless Playwright, and the existing DisplayApplications component test passed under Node 22.20.0. Seven screenshots were inspected. The pre-rebase fork head passed all 23 CI workflows that ran; CWL conformance and Pulsar package tests were skipped. Post-rebase verification is recorded in the polishing debrief.
+All five DisplayApplications component cases pass under Node 22.20.0, including the four added during polishing. Formatting left all 2,782 Python files unchanged, commit hooks passed, and mypy diagnostics match the current base exactly (23 existing errors in imported files).
+
+The implementation head passed all ten affected cases under both Selenium and headless Playwright, with seven screenshots inspected. The clean rebase preserves those implementation patches; the only later source change is the additional component coverage. Fresh local browser verification was incomplete: Playwright timed out on the initial page load before any test action, and Galaxy exceeded its startup limit before the Selenium batch could run.
+
+The pre-rebase fork head passed all 23 CI workflows that ran; CWL conformance and Pulsar package tests were skipped. Fresh CI on the final head is queued as of 2026-10-26.
 
 </details>
 

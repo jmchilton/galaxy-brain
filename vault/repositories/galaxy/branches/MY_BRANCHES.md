@@ -95,10 +95,11 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`selenium_faq_account_workflow_display_26.2`](active/selenium_faq_account_workflow_display_26.2/index.md) — FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_faq_account_workflow_display_26.2?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`selenium_faq_account_workflow_display_26.2`](active/selenium_faq_account_workflow_display_26.2/index.md) — FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_faq_account_workflow_display_26.2?expand=1).
 - [`issue_24476_parsed_output_filters_26_1`](active/issue_24476_parsed_output_filters_26_1/index.md) — Preserves filter expressions in parsed data, collection and scalar outputs (#24476). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24476_parsed_output_filters_26_1?expand=1).
 - [`workflow_import_embedded_tools`](active/workflow_import_embedded_tools/index.md) — Fix embedded user/admin tool imports after workflow outputs or rename actions (#24471), including nested imports. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:workflow_import_embedded_tools?expand=1).
 - [`issue_24457_password_reset_25.1`](active/issue_24457_password_reset_25.1/index.md) — Refresh the authenticated session after reset/expired-password saves; fix expired-login routing (#24457). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24457_password_reset_25.1?expand=1).
