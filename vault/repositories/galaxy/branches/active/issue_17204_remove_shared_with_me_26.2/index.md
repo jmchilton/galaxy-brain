@@ -8,11 +8,11 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Status: `branches_implemented_needs_ci` (READY, 2026-10-26): approved scope expansion complete, freshly hardened, three Playwright scenarios passed and six screenshots verified; head `81e7e68d517`.
+Status: `branches_ready_for_final_review` (2026-10-26): polished and pushed at `6b2ad0b2dbeb`; awaits John's human read-through.
 
 No PR yet.
 
-Fork CI at the final head has not yet been assessed.
+Fresh fork CI is queued/in progress; both original bookmark API failures are fixed and all 14 strict-warning workflow-sharing tests pass locally.
 
 ## What
 
@@ -24,3 +24,12 @@ Share recipients remove histories, workflows and visualizations shared with them
 - John approved the second scope expansion on 2026-10-26; fresh scope evaluation recommends no further change.
 - Baseline tests remain first; standalone plural-helper refactor precedes the feature. Alternatives are preserved in `alts/`.
 - Worktree: `~/projects/worktrees/galaxy/branch/issue_17204_remove_shared_with_me_26.2`. Issue assignment left unchanged.
+
+## Final review
+
+- [PR description](pr_description.md)
+- [Title options](pr_titles.md)
+- [Recommended labels](pr_tags.md)
+- [Polishing debrief and verification](polish_debrief.md)
+- [Checklist review](subagents/polish_checklist.md) and [one strengthening round](subagents/polish_strengthening.md)
+- [Screenshots and browser evidence](screenshot_debrief.md)
