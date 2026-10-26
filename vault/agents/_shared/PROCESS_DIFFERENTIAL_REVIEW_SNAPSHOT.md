@@ -14,7 +14,7 @@ A snapshot never blocks the phase. If it fails:
 - No base in the record's frontmatter: rerun once with `--base <base>` taken from the record's prose (e.g. `--base dev`).
 - Anything else, including "not built": paste the error into the debrief and carry on. Don't build or fix the tool.
 
-The CLI writes `BRANCH_DIRECTORY/differential-review/snapshots/` (or `REVIEW_DIRECTORY/...`, both gitignored). Never create, edit or delete files under `differential-review/` yourself; `review-state.json` is John's.
+The CLI writes `BRANCH_DIRECTORY/differential-review/snapshots/` (or `REVIEW_DIRECTORY/...`, both gitignored). Never create, edit or delete files under `differential-review/` by hand. `review-state.json` and `annotations/threads/` are John's. Agents may append replies with the CLI when [addressing diff comments](PROCESS_DIFFERENTIAL_REVIEW_COMMENTS.md).
 
 ## PR reviews
 

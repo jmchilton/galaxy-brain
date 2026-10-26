@@ -17,7 +17,13 @@ export function vaultFileAdapter(adapter: VaultAdapter, onWrite?: (path: string,
 		read: (path) => adapter.read(path),
 		async write(path, data) {
 			const parent = path.slice(0, Math.max(0, path.lastIndexOf("/")));
-			if (parent && !(await adapter.exists(parent))) await adapter.mkdir(parent);
+			if (parent && !(await adapter.exists(parent))) {
+				let dir = "";
+				for (const part of parent.split("/")) {
+					dir = dir ? `${dir}/${part}` : part;
+					if (!(await adapter.exists(dir))) await adapter.mkdir(dir);
+				}
+			}
 			onWrite?.(path, data);
 			await adapter.write(path, data);
 		},

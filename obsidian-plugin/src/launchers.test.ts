@@ -76,6 +76,7 @@ describe("parseLaunchers", () => {
 			["💭 New session", "", "gx_branches"],
 			["🛝 Build Slides - Pitch", "", "gx_branches"],
 			["🗣 Build Slides - Implementation", "", "gx_branches"],
+			["📝 Address diff comments", "active", "gx_branches"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/issues/LAUNCHERS.md")).toEqual([
 			["🐴 Implement", "queued,wip,needs_decision,blocked", "gx_workhorse"],
@@ -90,6 +91,7 @@ describe("parseLaunchers", () => {
 			["🔎 Review", "untracked", "gx_reviews"],
 			["🔁 Rework review into PR", "active", "gx_reviews"],
 			["⚡ Quick merge", "untracked,active", "gx_reviews"],
+			["📝 Address diff comments", "active", "gx_reviews"],
 		]);
 	});
 

@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
-import { commitFiles, readAllSnapshots, snapshotFiles, snapshotReader, snapshotsDir, type Snapshot } from "../../differential-review-lib/src/core/index.js";
+import { annotationPath, captureReviewOrigin, createReviewThread, commitFiles, readAllSnapshots, snapshotFiles, snapshotReader, snapshotsDir, type Snapshot } from "../../differential-review-lib/src/core/index.js";
 import { baseCandidates, nodeReadAdapter } from "../../differential-review-lib/src/cli/index.js";
 import { isolateGit, numberedLines, TestRepo } from "../../differential-review-lib/src/cli/test-repo.js";
 import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
@@ -200,5 +200,33 @@ describe("snapshot --record", () => {
     ]);
     expect(baseCandidates(chooseBase(info, undefined), ["origin"])).toEqual(["origin/dev", "refs/heads/dev", "dev"]);
     expect(baseCandidates(chooseBase(info, "dev"), ["origin"])).toEqual(["origin/dev", "refs/heads/dev", "dev"]);
+  });
+});
+
+describe("persistent comments --record", () => {
+  it("lets an agent read and reply from the vault, without a worktree or base flag", async () => {
+    const { repo, record } = setup();
+    await snapshot(repo, record, "implementation");
+    const s = (await snapshots(record))[0];
+    const hunk = snapshotFiles(s)[0].hunks[0];
+    const thread = createReviewThread({ id: "request-1", author: "John", createdAt: "2026-10-26T03:00:00Z", body: "Explain this value",
+      origin: captureReviewOrigin(s, { path: "lib/mod.py", hunkId: hunk.id, side: "new", range: [10, 10] }),
+    });
+    const path = annotationPath(recordReviewDir(record), "threads", thread.id);
+    mkdirSync(join(path, ".."), { recursive: true }); writeFileSync(path, JSON.stringify(thread));
+    const listed = await cliIn(repo.root, ["threads", "--record", record, "--open", "--json"]);
+    expect(listed.code).toBe(0); expect(JSON.parse(listed.out)[0].thread.body).toBe("Explain this value");
+    const response = await cliIn(repo.root, ["reply", "--record", record, "--thread", thread.id, "--body", "It is the regression case.", "--snapshot", s.id]);
+    expect(response.code).toBe(0);
+    const notes = JSON.parse((await cli("threads", "--record", record, "--json")).out);
+    expect(notes[0]).toMatchObject({ thread: { status: "open" }, replies: [{ body: "It is the regression case.", source: "agent", snapshotId: s.id }] });
+  });
+  it("refuses invalid records without creating annotation directories", async () => {
+    const repo = new TestRepo();
+    const record = join(repo.root, "missing");
+    for (const command of [["threads"], ["reply", "--thread", "request-1", "--body", "answer"]]) {
+      expect((await cli(...command, "--record", record)).code).toBe(1);
+    }
+    expect(existsSync(record)).toBe(false);
   });
 });

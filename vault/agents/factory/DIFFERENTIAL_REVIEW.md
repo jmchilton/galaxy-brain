@@ -43,10 +43,20 @@ Every item is one of `reviewed`, `new` or `changed`. The view hides reviewed ite
 > **💭 Workflow Rule:** human attention is the scarce resource. Agents may rebase, amend and force-push as much as the work needs; the cost of that churn should never land on the reviewer as a full re-read.
 
 > [!TIP]
-> **💭 Workflow Rule:** agents only ever add snapshots, and only John writes review state. An agent can't mark its own work reviewed.
+> **💭 Workflow Rule:** agents add snapshots and append replies, and only John writes review state and resolves threads. An agent can't mark its own work reviewed.
 
 > [!TIP]
 > **💭 Workflow Rule:** when in doubt, show more. If a matching rule can't be sure a hunk is unchanged, it comes back as `changed` or `new`, never silently reviewed.
+
+## Comments and replies
+
+Click an old or new line number in Obsidian to write a comment. Shift-click another line in the same hunk to select a range. The comment keeps the original snapshot, selected code and a little surrounding text. Open comments stay accessible when reviewed hunks or unchanged baseline hunks would otherwise be hidden. Use **Open threads only**, the thread links, or `[` / `]` to navigate them.
+
+Select **Address diff comments** on a Galaxy branch or review record to hand the open threads to an agent. The agent can read and reply through the CLI while Obsidian is closed. Replies can name the snapshot containing the change. John inspects that revision and selects **Resolve**, or **Reopen** for another round. Resolving a thread and checking off code are separate actions.
+
+When the quoted code moves, the thread follows an unambiguous text match. Changed or ambiguous code keeps its original excerpt and a placement warning. Missing code never resolves a request automatically. Comments and replies remain readable even when their original snapshots are unavailable.
+
+Threads and replies live beside the snapshots under `annotations/`, in tracked JSON files. John owns the threads and their resolution. Agents can append replies through the CLI, and cannot change threads or review check-offs through it.
 
 ## Where it fits
 

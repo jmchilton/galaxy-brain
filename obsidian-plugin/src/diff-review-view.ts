@@ -1,7 +1,13 @@
-// Obsidian view for a branch or review record's differential review: reads snapshots, reads/writes review-state.json.
+// Obsidian differential review: snapshots, reviewer check-offs and persistent source conversations.
 import { type App, debounce, ItemView, Notice, type Plugin, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
 import {
 	type Baseline,
+	annotationStore,
+	createReviewThread,
+	parseReviewReply,
+	setThreadResolved,
+	type AnnotationStore,
+	type ReviewAnnotations,
 	buildReviewView,
 	markFileReviewed,
 	markHunksReviewed,
@@ -21,6 +27,7 @@ import {
 } from "../../differential-review-lib/src/core";
 import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
 import { AUTO_EXPAND_LINES, focusedItem, handleReviewKey, newReviewUi, renderReview, restoreFocus, type ReviewUi, visibleLineCount } from "./diff-review-render";
+import { renderThread, type AnnotationActions } from "./diff-review-threads";
 import { vaultFileAdapter } from "./diff-review-storage";
 import { recordFromPath } from "./launchers";
 
@@ -33,9 +40,9 @@ interface DiffReviewState extends Record<string, unknown> {
 	hideReviewed?: boolean;
 }
 
-/** A record dir with at least the snapshots folder; no file reads. */
+/** A record with snapshots or saved conversations; no file reads. */
 export function hasDifferentialReview(app: App, recordDir: string): boolean {
-	return app.vault.getFolderByPath(snapshotsDir(recordReviewDir(recordDir))) !== null;
+	return app.vault.getFolderByPath(snapshotsDir(recordReviewDir(recordDir))) !== null || app.vault.getFolderByPath(`${recordReviewDir(recordDir)}/annotations`) !== null;
 }
 
 export async function openDifferentialReview(app: App, recordDir: string, newTab = true) {
@@ -69,6 +76,8 @@ export class DiffReviewView extends ItemView {
 	/** Parsed snapshots by id; snapshots are immutable, so each is read once. */
 	private snapshots = new Map<string, Snapshot>();
 	private reviewState: ReviewState | null = null;
+	private annotations: ReviewAnnotations = { threads: [], replies: [] };
+	private annotationsStore: AnnotationStore | undefined;
 	private view: ReviewView | null = null;
 	private reader: SnapshotReader | undefined;
 	private store: ReviewStateStore | undefined;
@@ -77,6 +86,7 @@ export class DiffReviewView extends ItemView {
 	/** What this view last wrote, to ignore its own modify events. */
 	private lastWritten: string | undefined;
 	private expandedOnce = false;
+	private loadToken = 0;
 	private scheduleLoad = debounce(() => void this.reload(), 300, true);
 
 	constructor(leaf: WorkspaceLeaf) {
@@ -112,7 +122,12 @@ export class DiffReviewView extends ItemView {
 			});
 			this.reader = snapshotReader(adapter, recordReviewDir(state.recordDir));
 			this.store = reviewStateStore(adapter, recordReviewDir(state.recordDir));
+			this.annotationsStore = annotationStore(adapter, recordReviewDir(state.recordDir));
+			this.lastWritten = undefined;
 			this.snapshots.clear();
+			this.view = null;
+			this.reviewState = null;
+			this.annotations = { threads: [], replies: [] };
 			this.ui = newReviewUi(this.ui.hideReviewed);
 			this.expandedOnce = false;
 		}
@@ -150,22 +165,30 @@ export class DiffReviewView extends ItemView {
 
 	/** Re-read the snapshot list (reading only new ones) and review state, then render. */
 	private async reload() {
-		const { reader, store, recordDir } = this;
-		if (!reader || !store || !recordDir) return;
+		const { reader, store, annotationsStore, recordDir } = this;
+		if (!reader || !store || !annotationsStore || !recordDir) return;
+		const token = ++this.loadToken;
+		const snapshots = new Map(this.snapshots);
 		try {
 			const ids = await reader.listSnapshotIds();
-			for (const id of [...this.snapshots.keys()]) if (!ids.includes(id)) this.snapshots.delete(id);
-			for (const id of ids) if (!this.snapshots.has(id)) this.snapshots.set(id, await reader.readSnapshot(id));
-			this.reviewState = await store.readReviewState();
+			for (const id of [...snapshots.keys()]) if (!ids.includes(id)) snapshots.delete(id);
+			for (const id of ids) if (!snapshots.has(id)) snapshots.set(id, await reader.readSnapshot(id));
+			const reviewState = await store.readReviewState();
+			const annotations = await annotationsStore.read();
+			if (token !== this.loadToken || recordDir !== this.recordDir) return;
+			this.snapshots = snapshots;
+			this.reviewState = reviewState;
+			this.annotations = annotations;
 			this.rebuild();
 		} catch (error) {
+			if (token !== this.loadToken || recordDir !== this.recordDir) return;
 			this.view = null;
 			this.showMessage(`Could not load the differential review for ${recordDir}: ${error instanceof Error ? error.message : error}`);
 		}
 	}
 
 	private rebuild() {
-		this.view = buildReviewView([...this.snapshots.values()], this.reviewState, { baseline: this.baseline, hideReviewed: this.ui.hideReviewed });
+		this.view = buildReviewView([...this.snapshots.values()], this.reviewState, { baseline: this.baseline, hideReviewed: this.ui.hideReviewed, annotations: this.annotations });
 		if (this.view && !this.expandedOnce) {
 			this.expandedOnce = true;
 			if (visibleLineCount(this.view) <= AUTO_EXPAND_LINES) {
@@ -177,15 +200,25 @@ export class DiffReviewView extends ItemView {
 
 	private render() {
 		const root = this.contentEl;
+		root.classList.add("gbdr");
 		if (!this.view) {
 			this.showMessage(
 				`No differential-review snapshots in ${this.recordDir}/differential-review/snapshots yet. Agents write one after each branch phase or PR review round (see agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).`,
 			);
+			for (const thread of this.annotations.threads) {
+				renderThread(root, { thread, replies: this.annotations.replies.filter((r) => r.threadId === thread.id), placement: { state: "unmapped", path: null, hunkId: null, range: null } }, { snapshots: [], snapshot: null }, this.ui, this.annotationActions(), () => this.render());
+			}
 			return;
 		}
 		const scroll = root.scrollTop;
 		const focused = focusedItem(root);
+		const active = document.activeElement as HTMLTextAreaElement | null;
+		const editing = active?.tagName === "TEXTAREA" && root.contains(active) ? {
+			threadId: active.closest<HTMLElement>(".gbdr-thread")?.dataset.threadId ?? null,
+			start: active.selectionStart, end: active.selectionEnd,
+		} : null;
 		renderReview(root, this.view, this.ui, {
+			annotations: this.annotationActions(),
 			toggleHunk: (file, hunk) =>
 				this.mutate((state, snapshot, now) =>
 					hunk.state === "reviewed"
@@ -211,6 +244,34 @@ export class DiffReviewView extends ItemView {
 		});
 		root.scrollTop = scroll;
 		restoreFocus(root, focused);
+		if (editing) {
+			const input = [...root.querySelectorAll<HTMLTextAreaElement>(".gbdr-comment-input")].find((node) => (node.closest<HTMLElement>(".gbdr-thread")?.dataset.threadId ?? null) === editing.threadId);
+			input?.focus({ preventScroll: true });
+			input?.setSelectionRange(editing.start, editing.end);
+		}
+	}
+
+	private annotationActions(): AnnotationActions {
+		return {
+			createThread: (origin, body) => this.writeAnnotation(async (store) => {
+				await store.writeThread(createReviewThread({ id: crypto.randomUUID(), origin, body, author: "John", createdAt: new Date().toISOString() }));
+			}),
+			reply: (threadId, body) => {
+				const snapshotId = this.view?.snapshot.id;
+				return this.writeAnnotation(async (store) => {
+					const annotations = await store.read();
+					if (!annotations.threads.some((t) => t.id === threadId)) throw new Error("This thread no longer exists; reload the review.");
+					await store.writeReply(parseReviewReply({ schemaVersion: 1, kind: "differential-review-reply", id: crypto.randomUUID(), threadId, body, author: "John", source: "human", createdAt: new Date().toISOString(), ...(snapshotId ? { snapshotId } : {}) }));
+				});
+			},
+			resolve: (threadId, resolved) => this.writeAnnotation(async (store) => {
+				const annotations = await store.read();
+				const thread = annotations.threads.find((t) => t.id === threadId);
+				if (!thread) throw new Error("This thread no longer exists; reload the review.");
+				await store.writeThread(setThreadResolved(thread, resolved, new Date().toISOString()));
+			}),
+			refresh: () => { void this.reload(); },
+		};
 	}
 
 	private setHideReviewed(hide: boolean) {
@@ -225,13 +286,24 @@ export class DiffReviewView extends ItemView {
 		if (!store || !view) return;
 		this.writes = this.writes
 			.then(async () => {
-				this.reviewState = await updateReviewState(store, (state) => change(state, view.snapshot, new Date().toISOString()));
+				const next = await updateReviewState(store, (state) => change(state, view.snapshot, new Date().toISOString()));
+				if (this.store !== store) return;
+				this.reviewState = next;
 				this.rebuild();
 			})
 			.catch((error) => {
 				new Notice(`Could not update review-state.json: ${error instanceof Error ? error.message : error}`, 10_000);
 				void this.reload();
 			});
+	}
+
+	/** UI thread edits serialize independently of immutable CLI replies. */
+	private writeAnnotation(write: (store: AnnotationStore) => Promise<void>): Promise<void> {
+		const store = this.annotationsStore;
+		if (!store) return Promise.reject(new Error("No review record is open"));
+		const next = this.writes.then(() => write(store));
+		this.writes = next.catch(() => undefined);
+		return next;
 	}
 
 	private showMessage(text: string) {

@@ -6,6 +6,8 @@ If a review on your Galaxy pull request linked you here, the findings came from 
 
 A coordinating agent keeps the review queue. Reading a diff plus the code around it burns a lot of context, so the coordinator leaves that to subagents: each kind of review runs in its own, at an effort level the coordinator sets explicitly. Each round also starts with a local snapshot of the PR head, so on follow-up rounds John can read only [what changed](https://jmchilton.github.io/galaxy-brain/factory/differential-review/) since the last look, even across force-pushes.
 
+John can also comment on diff lines in Obsidian and select **Address diff comments** on the record. The agent reads the persistent threads, responds with any resulting revision snapshot, and leaves resolution to John.
+
 ```mermaid
 flowchart TD
   Q["PR queued for review"] --> P["Reviewer profiles<br/>run in parallel"]

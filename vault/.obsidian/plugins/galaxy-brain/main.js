@@ -660,8 +660,8 @@ function routineLaunch(agentDir, routine) {
 }
 
 // src/task-cards.ts
-function renderTaskCards(el2, tasks, actions) {
-  const list2 = el2.createDiv({ cls: "gb-tasks" });
+function renderTaskCards(el3, tasks, actions) {
+  const list2 = el3.createDiv({ cls: "gb-tasks" });
   if (tasks.length === 0) list2.createDiv({ cls: "gb-tasks-empty", text: "No tasks." });
   tasks.forEach((task, index) => {
     const human = task.kind === "human";
@@ -852,12 +852,12 @@ var AgentsView = class extends import_obsidian.ItemView {
     });
   }
   /** 🌅 / ⏱️ buttons for the routine files the agent dir has; desktop only. */
-  renderRoutineButtons(el2, dir, routines) {
+  renderRoutineButtons(el3, dir, routines) {
     if (!import_obsidian.Platform.isDesktopApp) return;
     for (const routine of routines) {
       const { task, name } = routineLaunch(dir, routine);
-      const button = el2.createEl("button", { text: routine.label, attr: { "aria-label": `Launch ${dir} with ./${routine.file}` } });
-      button.onclick = () => void this.host.confirmTask(task, () => {
+      const button2 = el3.createEl("button", { text: routine.label, attr: { "aria-label": `Launch ${dir} with ./${routine.file}` } });
+      button2.onclick = () => void this.host.confirmTask(task, () => {
       }, name);
     }
   }
@@ -2479,6 +2479,134 @@ async function updateReviewState(store, mutate) {
   return next;
 }
 
+// ../differential-review-lib/src/core/annotations.ts
+function sourceLines(hunk, side) {
+  let line = side === "old" ? hunk.oldStart : hunk.newStart;
+  const out = [];
+  for (const text2 of hunk.lines) {
+    if (text2[0] === " " || text2[0] === (side === "old" ? "-" : "+")) out.push({ line: line++, text: text2.slice(1) });
+  }
+  return out;
+}
+function validRange(range) {
+  return Array.isArray(range) && range.length === 2 && range.every((n) => Number.isSafeInteger(n) && n > 0) && range[0] <= range[1];
+}
+function annotationId(id) {
+  if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,127}$/.test(id)) throw new Error("invalid annotation id");
+  return id;
+}
+function nonempty(value, field) {
+  if (typeof value !== "string" || !value.trim()) throw new Error(`annotation ${field} must be non-empty text`);
+}
+function object(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("invalid annotation object");
+  return value;
+}
+function parseOrigin(value) {
+  const o = object(value);
+  for (const key2 of ["snapshotId", "path", "hunkId"]) nonempty(o[key2], key2);
+  if (o.basePath !== null && typeof o.basePath !== "string") throw new Error("invalid annotation basePath");
+  if (o.side !== "old" && o.side !== "new") throw new Error("invalid annotation side");
+  if (!validRange(o.range)) throw new Error("invalid annotation range");
+  if (typeof o.quote !== "string" || o.quote.split("\n").length !== o.range[1] - o.range[0] + 1) throw new Error("invalid annotation quote");
+  for (const key2 of ["contextBefore", "contextAfter"]) {
+    if (!Array.isArray(o[key2]) || !o[key2].every((v) => typeof v === "string")) throw new Error(`invalid annotation ${key2}`);
+  }
+  return o;
+}
+function parseReviewThread(value) {
+  const t = object(value);
+  if (t.kind !== "differential-review-thread") throw new Error("not a differential-review thread");
+  if (t.schemaVersion !== 1) throw new Error(`unsupported thread schemaVersion ${t.schemaVersion}`);
+  nonempty(t.id, "id");
+  annotationId(t.id);
+  for (const key2 of ["body", "author", "createdAt"]) nonempty(t[key2], key2);
+  parseOrigin(t.origin);
+  if (t.status !== "open" && t.status !== "resolved") throw new Error("invalid thread status");
+  if (t.resolvedAt !== null && typeof t.resolvedAt !== "string") throw new Error("invalid resolvedAt");
+  return t;
+}
+function parseReviewReply(value) {
+  const r = object(value);
+  if (r.kind !== "differential-review-reply") throw new Error("not a differential-review reply");
+  if (r.schemaVersion !== 1) throw new Error(`unsupported reply schemaVersion ${r.schemaVersion}`);
+  for (const key2 of ["id", "threadId", "body", "author", "createdAt"]) nonempty(r[key2], key2);
+  annotationId(r.id);
+  annotationId(r.threadId);
+  if (r.source !== "human" && r.source !== "agent") throw new Error("invalid reply source");
+  if (r.snapshotId !== void 0) nonempty(r.snapshotId, "snapshotId");
+  return r;
+}
+function captureReviewOrigin(snapshot, target) {
+  if (!validRange(target.range)) throw new Error("invalid annotation range");
+  const file = snapshotFiles(snapshot).find((f) => f.path === target.path);
+  const hunk = file?.hunks.find((h) => h.id === target.hunkId && h.kind === "text");
+  if (!file || !hunk) throw new Error("annotation target is not a text hunk in this snapshot");
+  const lines = sourceLines(hunk, target.side);
+  const start = lines.findIndex((l) => l.line === target.range[0]);
+  const end = lines.findIndex((l) => l.line === target.range[1]);
+  if (start < 0 || end < start) throw new Error("annotation range must be within one diff hunk");
+  return {
+    snapshotId: snapshot.id,
+    path: file.path,
+    basePath: file.basePath,
+    hunkId: hunk.id,
+    side: target.side,
+    range: [...target.range],
+    quote: lines.slice(start, end + 1).map((l) => l.text).join("\n"),
+    contextBefore: lines.slice(Math.max(0, start - 3), start).map((l) => l.text),
+    contextAfter: lines.slice(end + 1, end + 4).map((l) => l.text)
+  };
+}
+function createReviewThread(input) {
+  return parseReviewThread({ ...input, schemaVersion: 1, kind: "differential-review-thread", status: "open", resolvedAt: null });
+}
+function setThreadResolved(thread, resolved, now) {
+  return { ...thread, status: resolved ? "resolved" : "open", resolvedAt: resolved ? now : null };
+}
+function locateThread(thread, current, snapshots) {
+  const o = thread.origin;
+  const file = snapshotFiles(current).find((f) => f.path === o.path || o.basePath !== null && f.basePath === o.basePath);
+  if (!file) return { state: "unmapped", path: null, hunkId: null, range: null };
+  const quoted = o.quote.split("\n");
+  const previous = snapshots.find((s) => s.id === o.snapshotId);
+  if (current.id === o.snapshotId || previous && previous.diff === current.diff) {
+    const hunk = file.hunks.find((h) => h.id === o.hunkId);
+    const selected = hunk && sourceLines(hunk, o.side).filter((l) => l.line >= o.range[0] && l.line <= o.range[1]);
+    if (selected && selected.length === quoted.length && selected.every((l, i) => l.text === quoted[i])) {
+      return { state: current.id === o.snapshotId ? "active" : "moved", path: file.path, hunkId: o.hunkId, range: [...o.range] };
+    }
+  }
+  const matches = [];
+  for (const h of file.hunks.filter((h2) => h2.kind === "text")) {
+    const lines = sourceLines(h, o.side);
+    for (let i = 0; i + quoted.length <= lines.length; i++) {
+      if (!quoted.every((text2, j) => lines[i + j].text === text2)) continue;
+      const before = lines.slice(Math.max(0, i - o.contextBefore.length), i).map((l) => l.text);
+      const after = lines.slice(i + quoted.length, i + quoted.length + o.contextAfter.length).map((l) => l.text);
+      matches.push({ hunkId: h.id, range: [lines[i].line, lines[i + quoted.length - 1].line], context: JSON.stringify(before) === JSON.stringify(o.contextBefore) && JSON.stringify(after) === JSON.stringify(o.contextAfter) });
+    }
+  }
+  const contextual = matches.filter((m) => m.context);
+  const certain = matches.length === 1 ? matches[0] : contextual.length === 1 ? contextual[0] : null;
+  if (certain) return {
+    state: current.id === o.snapshotId ? "active" : "moved",
+    path: file.path,
+    hunkId: certain.hunkId,
+    range: certain.range
+  };
+  const oldFile = previous && snapshotFiles(previous).find((f) => f.path === o.path);
+  const pair = oldFile && matchHunks(hunkRefs([oldFile]), hunkRefs([file])).pairs.find((p) => p.oldId === o.hunkId);
+  return { state: "outdated", path: file.path, hunkId: pair?.newId ?? null, range: null };
+}
+function deriveThreads(annotations, current, snapshots) {
+  return annotations.threads.map((thread) => ({
+    thread,
+    replies: annotations.replies.filter((r) => r.threadId === thread.id).sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id)),
+    placement: locateThread(thread, current, snapshots)
+  })).sort((a, b) => a.thread.createdAt.localeCompare(b.thread.createdAt) || a.thread.id.localeCompare(b.thread.id));
+}
+
 // ../differential-review-lib/src/core/view.ts
 function snapshotLabel(s) {
   return `${s.phase} @ ${s.head.slice(0, 8)} (${s.createdAt.slice(0, 16).replace("T", " ")}Z)`;
@@ -2496,6 +2624,8 @@ function buildReviewView(snapshots, state, options = {}) {
   const changes = baselineSnapshot ? changesBetween(ordered, baselineSnapshot, current) : null;
   const hunkChange = new Map(changes?.hunks.map((h) => [h.id, h]));
   const commitChange = new Map(changes?.commits.map((c) => [c.sha, c.change]));
+  const threads = deriveThreads(options.annotations ?? { threads: [], replies: [] }, current, ordered);
+  const openHunks = new Set(threads.filter((t) => t.thread.status === "open").map((t) => t.placement.hunkId));
   const hidden = { files: 0, hunks: 0, commits: 0 };
   const parsed = new Map(snapshotFiles(current).map((f) => [f.path, f]));
   const files = review.files.map((file) => {
@@ -2504,7 +2634,7 @@ function buildReviewView(snapshots, state, options = {}) {
       const index = source.hunks[i];
       const match = hunkChange.get(h.id);
       const sinceBaseline = match ? HUNK_DELTA2[match.match] : null;
-      const visible2 = !(hideReviewed && h.state === "reviewed") && sinceBaseline !== "carried";
+      const visible2 = openHunks.has(h.id) || !(hideReviewed && h.state === "reviewed") && sinceBaseline !== "carried";
       if (!visible2) hidden.hunks++;
       return {
         ...h,
@@ -2539,6 +2669,7 @@ function buildReviewView(snapshots, state, options = {}) {
     };
   });
   return {
+    threads,
     snapshot: current,
     snapshots: ordered,
     summary: summarizeSnapshot(current),
@@ -2590,6 +2721,42 @@ function commitHunks(commit, ids) {
   if (!ids) return files;
   const keep = new Set(ids);
   return files.map((f) => ({ ...f, hunks: f.hunks.filter((h) => keep.has(h.id)) })).filter((f) => f.hunks.length > 0);
+}
+
+// ../differential-review-lib/src/core/annotation-storage.ts
+function annotationDir(reviewDir, kind) {
+  return `${reviewDir.replace(/\/$/, "")}/annotations/${kind}`;
+}
+function annotationPath(reviewDir, kind, id) {
+  return `${annotationDir(reviewDir, kind)}/${annotationId(id)}.json`;
+}
+async function readAnnotations(adapter, reviewDir) {
+  async function read(kind, parse2) {
+    const names = (await adapter.listFiles(annotationDir(reviewDir, kind))).filter((name) => name.endsWith(".json")).sort();
+    return Promise.all(names.map(async (name) => {
+      const path = annotationPath(reviewDir, kind, name.slice(0, -5));
+      try {
+        const value = parse2(JSON.parse(await adapter.read(path)));
+        if (value.id !== name.slice(0, -5)) throw new Error("id does not match filename");
+        return value;
+      } catch (e) {
+        throw new Error(`unreadable annotation ${path}: ${e.message}`);
+      }
+    }));
+  }
+  const [threads, replies] = await Promise.all([read("threads", parseReviewThread), read("replies", parseReviewReply)]);
+  return { threads, replies };
+}
+function annotationStore(adapter, reviewDir) {
+  return {
+    read: () => readAnnotations(adapter, reviewDir),
+    writeThread: (thread) => adapter.write(annotationPath(reviewDir, "threads", thread.id), JSON.stringify(parseReviewThread(thread), null, 2) + "\n"),
+    async writeReply(reply) {
+      const path = annotationPath(reviewDir, "replies", reply.id);
+      if (await adapter.exists(path)) throw new Error(`reply already exists: ${reply.id}`);
+      await adapter.write(path, JSON.stringify(parseReviewReply(reply), null, 2) + "\n");
+    }
+  };
 }
 
 // node_modules/diff2html/lib-esm/types.js
@@ -4537,13 +4704,165 @@ function html(diffInput, configuration = {}) {
   return fileList + diffOutput;
 }
 
+// src/diff-review-threads.ts
+function newThreadUi() {
+  return { draft: null, replyDrafts: /* @__PURE__ */ new Map(), openThreadsOnly: false, showResolved: false, activeThreadId: null };
+}
+function el(parent, tag, cls, text2) {
+  const node = document.createElement(tag);
+  node.className = cls;
+  if (text2 !== void 0) node.textContent = text2;
+  parent.appendChild(node);
+  return node;
+}
+function button(parent, text2, click) {
+  const b = el(parent, "button", "gbdr-thread-button", text2);
+  b.type = "button";
+  b.onclick = click;
+  return b;
+}
+var errorText = (e) => e instanceof Error ? e.message : String(e);
+function editor(parent, state, label, save, saved, redraw) {
+  const form = el(parent, "form", "gbdr-comment-form");
+  const input = el(form, "textarea", "gbdr-comment-input");
+  input.setAttribute("aria-label", label);
+  input.placeholder = label;
+  input.value = state.body;
+  input.disabled = state.saving;
+  input.oninput = () => {
+    state.body = input.value;
+  };
+  const submit = el(form, "button", "mod-cta", state.saving ? "Saving\u2026" : "Save");
+  submit.type = "submit";
+  submit.disabled = state.saving;
+  if (state.error) el(form, "p", "gbdr-comment-error", state.error);
+  form.onsubmit = (event) => {
+    event.preventDefault();
+    if (state.saving || !state.body.trim()) return;
+    state.saving = true;
+    state.error = void 0;
+    input.disabled = submit.disabled = true;
+    void save().then(saved).catch((error) => {
+      state.error = errorText(error);
+    }).finally(() => {
+      state.saving = false;
+      redraw();
+    });
+  };
+}
+function renderCommentDraft(parent, ui, actions, redraw) {
+  const draft = ui.draft;
+  if (!draft) return;
+  const box = el(parent, "div", "gbdr-comment-draft");
+  const o = draft.origin;
+  el(box, "strong", "", `Comment on ${o.path} \xB7 ${o.side} lines ${o.range.join("\u2013")}`);
+  el(box, "div", "gbdr-meta", `Original snapshot: ${o.snapshotId}`);
+  el(box, "pre", "gbdr-comment-quote", o.quote);
+  editor(box, draft, "Review comment", () => actions.createThread(o, draft.body), () => {
+    if (ui.draft === draft) ui.draft = null;
+  }, () => actions.refresh());
+  const cancel = button(box, "Cancel", () => {
+    ui.draft = null;
+    redraw();
+  });
+  cancel.disabled = draft.saving;
+}
+function renderThread(parent, item2, view, ui, actions, redraw) {
+  const { thread: t, replies, placement: p } = item2;
+  const card = el(parent, "article", `gbdr-thread gbdr-thread-${p.state}`);
+  card.dataset.threadId = t.id;
+  card.tabIndex = 0;
+  el(card, "strong", "", `${t.author} \xB7 ${t.status}`);
+  el(card, "div", "gbdr-meta", `${t.origin.path} \xB7 ${t.origin.side} ${t.origin.range.join("\u2013")} \xB7 ${t.createdAt}`);
+  el(card, "p", "gbdr-comment-body", t.body);
+  if (p.range && p.state === "moved") el(card, "div", "gbdr-meta", `Current location: ${p.path} \xB7 ${t.origin.side} ${p.range.join("\u2013")}`);
+  if (p.state === "outdated" || p.state === "unmapped") el(card, "p", "gbdr-comment-warning", p.state === "outdated" ? "Code changed or placement is ambiguous. Inspect the original excerpt before responding." : "The original location is absent from this diff. Inspect the original excerpt before responding.");
+  const original = el(card, "details", "gbdr-comment-original");
+  original.open = p.state === "outdated" || p.state === "unmapped";
+  el(original, "summary", "", `Original excerpt \xB7 ${t.origin.snapshotId}`);
+  el(original, "pre", "gbdr-comment-quote", t.origin.quote);
+  for (const r of replies) {
+    const reply = el(card, "div", "gbdr-reply");
+    el(reply, "strong", "", `${r.author} (${r.source})`);
+    el(reply, "p", "gbdr-comment-body", r.body);
+    if (r.snapshotId) {
+      const snapshot = view.snapshots.find((s) => s.id === r.snapshotId);
+      el(reply, "div", "gbdr-meta", snapshot ? `Response revision: ${snapshot.phase} @ ${snapshot.head.slice(0, 8)}${snapshot.id === view.snapshot?.id ? " (current)" : ""}` : `Response revision: ${r.snapshotId} (snapshot unavailable)`);
+    }
+  }
+  const controls = el(card, "div", "gbdr-thread-controls");
+  button(controls, "Reply", () => {
+    if (!ui.replyDrafts.has(t.id)) ui.replyDrafts.set(t.id, { body: "", saving: false });
+    redraw();
+  });
+  const resolve = button(controls, t.status === "open" ? "Resolve" : "Reopen", () => {
+    resolve.disabled = true;
+    void actions.resolve(t.id, t.status === "open").then(() => actions.refresh()).catch((e) => {
+      el(card, "p", "gbdr-comment-error", errorText(e));
+      resolve.disabled = false;
+    });
+  });
+  const draft = ui.replyDrafts.get(t.id);
+  if (draft) editor(card, draft, "Reply to review comment", () => actions.reply(t.id, draft.body), () => {
+    ui.replyDrafts.delete(t.id);
+  }, () => actions.refresh());
+}
+function annotateHunk(parent, source, view, ui, actions, redraw) {
+  const { file, hunk } = source;
+  const rows = [...parent.querySelectorAll(":scope > .gbdr-diff tr")];
+  for (const row of rows) {
+    for (const side of ["old", "new"]) {
+      const cell = row.querySelector(side === "old" ? ".line-num1" : ".line-num2");
+      const line = Number(cell?.textContent?.trim());
+      if (!cell || !Number.isSafeInteger(line) || line < 1) continue;
+      cell.replaceChildren();
+      const b = button(cell, String(line), () => {
+      });
+      b.className = "gbdr-comment-line";
+      b.dataset.side = side;
+      b.dataset.line = String(line);
+      b.setAttribute("aria-label", `Comment on ${side} line ${line}; Shift-click to select a range`);
+      b.onclick = (event) => {
+        if (ui.draft?.saving) return;
+        const previous = ui.draft?.origin;
+        const extend = event.shiftKey && previous?.snapshotId === view.snapshot.id && previous?.hunkId === hunk.id && previous?.side === side;
+        const start = extend ? previous.range[0] : line;
+        const origin = captureReviewOrigin(view.snapshot, { path: file.path, hunkId: hunk.id, side, range: [Math.min(start, line), Math.max(start, line)] });
+        ui.draft = { origin, body: ui.draft?.body ?? "", saving: false };
+        redraw();
+      };
+      const o = ui.draft?.origin;
+      if (o?.snapshotId === view.snapshot.id && o.hunkId === hunk.id && o.side === side && line >= o.range[0] && line <= o.range[1]) b.classList.add("is-selected");
+    }
+  }
+  const insertAfter = /* @__PURE__ */ new Map();
+  const anchoredPanel = (side, line) => {
+    const row = line && rows.find((r) => Number(r.querySelector(side === "old" ? ".line-num1" : ".line-num2")?.textContent) === line);
+    if (!row) return parent;
+    const tr = document.createElement("tr");
+    tr.className = "gbdr-thread-row";
+    const td = document.createElement("td");
+    td.colSpan = 2;
+    tr.appendChild(td);
+    (insertAfter.get(row) ?? row).after(tr);
+    insertAfter.set(row, tr);
+    return td;
+  };
+  if (ui.draft?.origin.snapshotId === view.snapshot.id && ui.draft.origin.hunkId === hunk.id) {
+    renderCommentDraft(anchoredPanel(ui.draft.origin.side, ui.draft.origin.range[1]), ui, actions, redraw);
+  }
+  for (const item2 of view.threads.filter((t) => t.placement.hunkId === hunk.id && t.thread.status === "open")) {
+    renderThread(anchoredPanel(item2.thread.origin.side, item2.placement.range?.[1]), item2, view, ui, actions, redraw);
+  }
+}
+
 // src/diff-review-render.ts
 function newReviewUi(hideReviewed = true) {
-  return { hideReviewed, expanded: /* @__PURE__ */ new Set(), interdiffs: /* @__PURE__ */ new Set(), htmlCache: /* @__PURE__ */ new Map() };
+  return { ...newThreadUi(), hideReviewed, expanded: /* @__PURE__ */ new Set(), interdiffs: /* @__PURE__ */ new Set(), htmlCache: /* @__PURE__ */ new Map() };
 }
 var STATE_LABELS = { reviewed: "reviewed", new: "new", changed: "changed" };
 var AUTO_EXPAND_LINES = 400;
-function el(parent, tag, cls, text2) {
+function el2(parent, tag, cls, text2) {
   const node = document.createElement(tag);
   if (cls) node.className = cls;
   if (text2 !== void 0) node.textContent = text2;
@@ -4551,10 +4870,10 @@ function el(parent, tag, cls, text2) {
   return node;
 }
 function badge(parent, state) {
-  el(parent, "span", `gbdr-badge gbdr-${state}`, STATE_LABELS[state]);
+  el2(parent, "span", `gbdr-badge gbdr-${state}`, STATE_LABELS[state]);
 }
 function checkbox(parent, checked, label, onChange) {
-  const box = el(parent, "input", "gbdr-check");
+  const box = el2(parent, "input", "gbdr-check");
   box.type = "checkbox";
   box.checked = checked;
   box.title = label;
@@ -4569,12 +4888,12 @@ function renderPatch(parent, patch, ui) {
     markup = html(patch, { drawFileList: false, outputFormat: "line-by-line", matching: "lines", diffStyle: "word" });
     ui.htmlCache.set(patch, markup);
   }
-  el(parent, "div", "gbdr-diff").innerHTML = markup;
+  el2(parent, "div", "gbdr-diff").innerHTML = markup;
 }
 function renderHunkBody(parent, source, ui) {
   const patch = hunkPatch(source);
   if (patch) renderPatch(parent, patch, ui);
-  else el(parent, "pre", "gbdr-meta-lines", source.hunk.lines.join("\n"));
+  else el2(parent, "pre", "gbdr-meta-lines", source.hunk.lines.join("\n"));
 }
 function visibleLineCount(view) {
   const files = snapshotFiles(view.snapshot);
@@ -4593,48 +4912,48 @@ function summaryText(summary, previousLabel) {
 }
 function progress(parent, label, counts) {
   const total = counts.reviewed + counts.new + counts.changed;
-  const item2 = el(parent, "span", "gbdr-progress-item");
-  el(item2, "strong", void 0, `${label} `);
+  const item2 = el2(parent, "span", "gbdr-progress-item");
+  el2(item2, "strong", void 0, `${label} `);
   item2.append(`${counts.reviewed}/${total}`);
-  if (counts.changed) el(item2, "span", "gbdr-badge gbdr-changed", `${counts.changed} changed`);
-  if (counts.new) el(item2, "span", "gbdr-badge gbdr-new", `${counts.new} new`);
+  if (counts.changed) el2(item2, "span", "gbdr-badge gbdr-changed", `${counts.changed} changed`);
+  if (counts.new) el2(item2, "span", "gbdr-badge gbdr-new", `${counts.new} new`);
 }
 function renderHeader(root, view, ui, actions) {
   const { snapshot } = view;
-  const header = el(root, "div", "gbdr-header");
-  el(header, "h2", void 0, `Review ${snapshot.branch}`);
-  el(header, "div", "gbdr-meta", `${snapshotLabel(snapshot)} vs ${snapshot.base.ref} (merge-base ${snapshot.base.mergeBase.slice(0, 8)}) \xB7 ${view.snapshots.length} snapshot(s)`);
-  const bar = el(header, "div", "gbdr-progress");
+  const header = el2(root, "div", "gbdr-header");
+  el2(header, "h2", void 0, `Review ${snapshot.branch}`);
+  el2(header, "div", "gbdr-meta", `${snapshotLabel(snapshot)} vs ${snapshot.base.ref} (merge-base ${snapshot.base.mergeBase.slice(0, 8)}) \xB7 ${view.snapshots.length} snapshot(s)`);
+  const bar = el2(header, "div", "gbdr-progress");
   progress(bar, "Hunks", view.counts.hunks);
   progress(bar, "Files", view.counts.files);
   progress(bar, "Commits", view.counts.commits);
   const total = view.counts.hunks.reviewed + view.counts.hunks.new + view.counts.hunks.changed;
-  const meter = el(header, "div", "gbdr-meter");
-  el(meter, "div", "gbdr-meter-fill").style.width = `${total ? 100 * view.counts.hunks.reviewed / total : 100}%`;
-  const controls = el(header, "div", "gbdr-controls");
-  const label = el(controls, "label", void 0, "Show ");
-  const select = el(label, "select", "dropdown gbdr-baseline");
-  const review = el(select, "option", void 0, "everything, badged since my last review");
+  const meter = el2(header, "div", "gbdr-meter");
+  el2(meter, "div", "gbdr-meter-fill").style.width = `${total ? 100 * view.counts.hunks.reviewed / total : 100}%`;
+  const controls = el2(header, "div", "gbdr-controls");
+  const label = el2(controls, "label", void 0, "Show ");
+  const select = el2(label, "select", "dropdown gbdr-baseline");
+  const review = el2(select, "option", void 0, "everything, badged since my last review");
   review.value = "";
   for (const option of view.baselineOptions) {
-    const node = el(select, "option", void 0, `only changes since ${option.label}`);
+    const node = el2(select, "option", void 0, `only changes since ${option.label}`);
     node.value = option.id;
   }
   select.value = view.baseline.kind === "snapshot" ? view.baseline.snapshotId : "";
   select.onchange = () => actions.setBaseline(select.value ? { kind: "snapshot", snapshotId: select.value } : { kind: "review" });
-  const hide = el(controls, "label", "gbdr-hide");
+  const hide = el2(controls, "label", "gbdr-hide");
   checkbox(hide, ui.hideReviewed, "Hide reviewed", () => actions.setHideReviewed(!ui.hideReviewed));
   hide.append(" Hide reviewed");
   const previous = view.snapshots.find((s) => s.id === view.summary.previousSnapshotId);
   const summary = summaryText(view.summary, previous ? snapshotLabel(previous) : null);
-  if (summary) el(header, "div", "gbdr-summary", summary);
+  if (summary) el2(header, "div", "gbdr-summary", summary);
   if (view.needsRelook) {
     const n = view.commits.filter((c) => c.state === "changed").length;
-    el(header, "div", "gbdr-callout", `${n} commit(s) changed since you signed them off: re-look below under Commits.`);
+    el2(header, "div", "gbdr-callout", `${n} commit(s) changed since you signed them off: re-look below under Commits.`);
   }
 }
 function hiddenNote(parent, n, what) {
-  if (n > 0) el(parent, "p", "gbdr-hidden", `${n} ${what} hidden (reviewed or unchanged since the baseline).`);
+  if (n > 0) el2(parent, "p", "gbdr-hidden", `${n} ${what} hidden (reviewed or unchanged since the baseline).`);
 }
 function interdiffToggle(parent, body, view, file, hunk, against, ui) {
   const before = previousHunk(view, hunk, against);
@@ -4642,15 +4961,15 @@ function interdiffToggle(parent, body, view, file, hunk, against, ui) {
   if (!before || !after || hunk.kind === "meta") return;
   const key2 = `${hunk.id}:${against}`;
   const text2 = against === "reviewed" ? "since reviewed" : "since baseline";
-  const button = el(parent, "button", "gbdr-link", `\u0394 ${text2}`);
-  const panel = el(null, "div", "gbdr-interdiff");
+  const button2 = el2(parent, "button", "gbdr-link", `\u0394 ${text2}`);
+  const panel = el2(null, "div", "gbdr-interdiff");
   const show = () => {
     panel.replaceChildren();
-    el(panel, "div", "gbdr-caption", `How this hunk's changed lines differ from the version ${against === "reviewed" ? "you reviewed" : "in the baseline"}:`);
+    el2(panel, "div", "gbdr-caption", `How this hunk's changed lines differ from the version ${against === "reviewed" ? "you reviewed" : "in the baseline"}:`);
     renderPatch(panel, interdiffPatch(file.path, before.hunk, after.hunk), ui);
     body.prepend(panel);
   };
-  button.onclick = (event) => {
+  button2.onclick = (event) => {
     event.stopPropagation();
     if (ui.interdiffs.delete(key2)) panel.remove();
     else {
@@ -4662,27 +4981,30 @@ function interdiffToggle(parent, body, view, file, hunk, against, ui) {
 }
 function renderHunk(parent, view, file, hunk, ui, actions) {
   const source = findHunk(snapshotFiles(view.snapshot), hunk.id);
-  const box = el(parent, "div", `gbdr-hunk gbdr-state-${hunk.state}`);
-  const bar = el(box, "div", "gbdr-hunk-bar gbdr-nav");
+  const box = el2(parent, "div", `gbdr-hunk gbdr-state-${hunk.state}`);
+  const bar = el2(box, "div", "gbdr-hunk-bar gbdr-nav");
   bar.tabIndex = 0;
   bar.dataset.key = `hunk:${hunk.id}`;
   checkbox(bar, hunk.state === "reviewed", "Hunk reviewed (x)", () => actions.toggleHunk(file, hunk));
   badge(bar, hunk.state);
-  el(bar, "code", "gbdr-hunk-header", hunk.header);
-  if (hunk.kind === "text") el(bar, "span", "gbdr-stat", `+${hunk.added} \u2212${hunk.removed}`);
-  if (hunk.whitespaceOnly) el(bar, "span", "gbdr-tag", "whitespace only");
-  if (hunk.sinceBaseline && hunk.sinceBaseline !== "carried") el(bar, "span", "gbdr-tag", `${hunk.sinceBaseline} since baseline`);
-  const body = el(box, "div", "gbdr-hunk-body");
+  el2(bar, "code", "gbdr-hunk-header", hunk.header);
+  if (hunk.kind === "text") el2(bar, "span", "gbdr-stat", `+${hunk.added} \u2212${hunk.removed}`);
+  if (hunk.whitespaceOnly) el2(bar, "span", "gbdr-tag", "whitespace only");
+  if (hunk.sinceBaseline && hunk.sinceBaseline !== "carried") el2(bar, "span", "gbdr-tag", `${hunk.sinceBaseline} since baseline`);
+  const body = el2(box, "div", "gbdr-hunk-body");
   if (hunk.state === "changed") interdiffToggle(bar, body, view, file, hunk, "reviewed", ui);
   if (hunk.sinceBaseline === "changed") interdiffToggle(bar, body, view, file, hunk, "baseline", ui);
-  if (source) renderHunkBody(body, source, ui);
+  if (source) {
+    renderHunkBody(body, source, ui);
+    if (actions.annotations && hunk.kind === "text") annotateHunk(body, source, view, ui, actions.annotations, () => renderReview(parent.closest(".gbdr"), view, ui, actions));
+  }
 }
 function section(parent, key2, ui, fill) {
-  const details = el(parent, "details", "gbdr-section");
-  const summary = el(details, "summary", "gbdr-nav");
+  const details = el2(parent, "details", "gbdr-section");
+  const summary = el2(details, "summary", "gbdr-nav");
   summary.dataset.key = key2;
   let filled = false;
-  const body = el(details, "div", "gbdr-section-body");
+  const body = el2(details, "div", "gbdr-section-body");
   const fillOnce = () => {
     if (filled) return;
     filled = true;
@@ -4700,34 +5022,34 @@ function section(parent, key2, ui, fill) {
 }
 function renderFile(parent, view, file, ui, actions) {
   const { summary } = section(parent, `file:${file.path}`, ui, (body) => {
-    for (const hunk of file.hunks) if (hunk.visible) renderHunk(body, view, file, hunk, ui, actions);
+    for (const hunk of file.hunks) if (hunk.visible && (!ui.openThreadsOnly || view.threads.some((t) => t.thread.status === "open" && t.placement.hunkId === hunk.id))) renderHunk(body, view, file, hunk, ui, actions);
     hiddenNote(body, file.hunks.filter((h) => !h.visible).length, "hunk(s)");
   });
   summary.classList.add(`gbdr-state-${file.state}`);
   checkbox(summary, file.state === "reviewed", "File reviewed (x)", () => actions.toggleFile(file));
   badge(summary, file.state);
-  el(summary, "span", "gbdr-path", file.oldPath && file.oldPath !== file.path ? `${file.oldPath} \u2192 ${file.path}` : file.path);
-  if (file.status !== "modified") el(summary, "span", "gbdr-tag", file.status);
-  if (file.binary) el(summary, "span", "gbdr-tag", "binary");
+  el2(summary, "span", "gbdr-path", file.oldPath && file.oldPath !== file.path ? `${file.oldPath} \u2192 ${file.path}` : file.path);
+  if (file.status !== "modified") el2(summary, "span", "gbdr-tag", file.status);
+  if (file.binary) el2(summary, "span", "gbdr-tag", "binary");
   const total = file.hunks.length;
-  el(summary, "span", "gbdr-stat", `${file.counts.reviewed}/${total} hunk(s) reviewed`);
+  el2(summary, "span", "gbdr-stat", `${file.counts.reviewed}/${total} hunk(s) reviewed`);
 }
 function renderCommit(parent, view, commit, ui, actions) {
   const source = view.snapshot.commits.find((c) => c.sha === commit.sha);
   const { summary } = section(parent, `commit:${commit.sha}`, ui, (body) => {
-    el(body, "pre", "gbdr-message", commit.message.trim());
-    el(body, "div", "gbdr-caption", `${commit.author} \xB7 ${commit.authorDate}`);
+    el2(body, "pre", "gbdr-message", commit.message.trim());
+    el2(body, "div", "gbdr-caption", `${commit.author} \xB7 ${commit.authorDate}`);
     if (commit.signoff && commit.state !== "reviewed") {
-      el(body, "div", "gbdr-caption", `You signed off ${commit.signoff.sha.slice(0, 8)} "${commit.signoff.subject}" at ${commit.signoff.signedOffAt}.`);
+      el2(body, "div", "gbdr-caption", `You signed off ${commit.signoff.sha.slice(0, 8)} "${commit.signoff.subject}" at ${commit.signoff.signedOffAt}.`);
     }
     if (commit.contextOnly) {
-      el(body, "p", "gbdr-callout", "Its patch-id changed but every hunk carried over (e.g. rebase context). Re-look at the commit as a whole and sign off again.");
+      el2(body, "p", "gbdr-callout", "Its patch-id changed but every hunk carried over (e.g. rebase context). Re-look at the commit as a whole and sign off again.");
       return;
     }
     const ids = commit.state === "changed" ? commit.differingHunks : null;
-    if (ids) el(body, "div", "gbdr-caption", "Only the hunks that differ from the signed-off version:");
+    if (ids) el2(body, "div", "gbdr-caption", "Only the hunks that differ from the signed-off version:");
     for (const file of commitHunks(source, ids)) {
-      el(body, "div", "gbdr-commit-file", file.path);
+      el2(body, "div", "gbdr-commit-file", file.path);
       for (const hunk of file.hunks) renderHunkBody(body, { file, hunk }, ui);
     }
   });
@@ -4735,27 +5057,76 @@ function renderCommit(parent, view, commit, ui, actions) {
   const label = commit.state === "reviewed" ? "Revoke sign-off (x)" : "Sign off commit (x)";
   checkbox(summary, commit.state === "reviewed", label, () => actions.toggleCommit(commit));
   badge(summary, commit.state);
-  el(summary, "code", "gbdr-sha", commit.sha.slice(0, 8));
-  el(summary, "span", "gbdr-path", commit.subject);
-  if (commit.contextOnly) el(summary, "span", "gbdr-tag", "rebased, context only");
-  else if (commit.state === "changed") el(summary, "span", "gbdr-tag", `${commit.differingHunks?.length ?? 0} differing hunk(s)`);
-  if (commit.sinceBaseline && commit.sinceBaseline !== "unchanged") el(summary, "span", "gbdr-tag", `${commit.sinceBaseline} since baseline`);
+  el2(summary, "code", "gbdr-sha", commit.sha.slice(0, 8));
+  el2(summary, "span", "gbdr-path", commit.subject);
+  if (commit.contextOnly) el2(summary, "span", "gbdr-tag", "rebased, context only");
+  else if (commit.state === "changed") el2(summary, "span", "gbdr-tag", `${commit.differingHunks?.length ?? 0} differing hunk(s)`);
+  if (commit.sinceBaseline && commit.sinceBaseline !== "unchanged") el2(summary, "span", "gbdr-tag", `${commit.sinceBaseline} since baseline`);
 }
 function renderReview(root, view, ui, actions) {
+  const scroll = root.scrollTop;
   root.replaceChildren();
   root.classList.add("gbdr");
   renderHeader(root, view, ui, actions);
-  el(root, "h3", void 0, "Files");
-  const files = el(root, "div", "gbdr-files");
-  for (const file of view.files) if (file.visible) renderFile(files, view, file, ui, actions);
-  if (!view.files.some((f) => f.visible)) el(files, "p", "gbdr-empty", "Nothing to review in the branch diff.");
+  const redraw = () => renderReview(root, view, ui, actions);
+  if (actions.annotations) {
+    const threads = view.threads.filter((t) => t.thread.status === "open");
+    const tools = el2(root, "div", "gbdr-thread-toolbar");
+    el2(tools, "strong", void 0, `${threads.length} open review thread(s)`);
+    const only = el2(tools, "label", void 0, " Open threads only ");
+    checkbox(only, ui.openThreadsOnly, "Open threads only", () => {
+      ui.openThreadsOnly = !ui.openThreadsOnly;
+      redraw();
+    });
+    el2(tools, "span", "gbdr-meta", "Click a line number to comment; Shift-click another for a range.");
+    const index = el2(root, "nav", "gbdr-thread-index");
+    for (const t of threads) {
+      const link = el2(index, "button", "gbdr-thread-link", `${t.thread.origin.path}: ${t.thread.body.split("\n")[0]}`);
+      link.dataset.threadId = t.thread.id;
+      link.onclick = () => {
+        ui.activeThreadId = t.thread.id;
+        if (t.placement.path) ui.expanded.add(`file:${t.placement.path}`);
+        redraw();
+        const card = [...root.querySelectorAll(".gbdr-thread")].find((n) => n.dataset.threadId === t.thread.id);
+        card?.focus();
+        card?.scrollIntoView({ block: "center" });
+      };
+    }
+    const draft = ui.draft?.origin;
+    if (draft && (ui.openThreadsOnly && !view.threads.some((t) => t.thread.status === "open" && t.placement.hunkId === draft.hunkId) || draft.snapshotId !== view.snapshot.id || !view.files.some((f) => f.visible && f.hunks.some((h) => h.visible && h.id === draft.hunkId)))) renderCommentDraft(root, ui, actions.annotations, redraw);
+  }
+  el2(root, "h3", void 0, "Files");
+  const files = el2(root, "div", "gbdr-files");
+  for (const file of view.files) if (file.visible && (!ui.openThreadsOnly || view.threads.some((t) => t.thread.status === "open" && t.placement.path === file.path && t.placement.hunkId))) renderFile(files, view, file, ui, actions);
+  if (!view.files.some((f) => f.visible)) el2(files, "p", "gbdr-empty", "Nothing to review in the branch diff.");
   hiddenNote(files, view.hidden.files, "file(s)");
-  el(root, "h3", void 0, "Commits");
-  const commits = el(root, "div", "gbdr-commits");
+  if (actions.annotations) {
+    const detached = view.threads.filter((t) => t.thread.status === "open" && !t.placement.hunkId);
+    if (detached.length) {
+      el2(root, "h3", void 0, "Threads needing placement review");
+      for (const t of detached) renderThread(root, t, view, ui, actions.annotations, redraw);
+    }
+    const resolved = view.threads.filter((t) => t.thread.status === "resolved");
+    if (resolved.length) {
+      const label = el2(root, "label", void 0, ` Show resolved threads (${resolved.length}) `);
+      checkbox(label, ui.showResolved, "Show resolved threads", () => {
+        ui.showResolved = !ui.showResolved;
+        redraw();
+      });
+      if (ui.showResolved) for (const t of resolved) renderThread(root, t, view, ui, actions.annotations, redraw);
+    }
+  }
+  if (ui.openThreadsOnly) {
+    root.scrollTop = scroll;
+    return;
+  }
+  el2(root, "h3", void 0, "Commits");
+  const commits = el2(root, "div", "gbdr-commits");
   for (const commit of view.commits) if (commit.visible) renderCommit(commits, view, commit, ui, actions);
-  if (!view.commits.some((c) => c.visible)) el(commits, "p", "gbdr-empty", "No commits to sign off.");
+  if (!view.commits.some((c) => c.visible)) el2(commits, "p", "gbdr-empty", "No commits to sign off.");
   hiddenNote(commits, view.hidden.commits, "commit(s)");
-  el(root, "p", "gbdr-keys", "Keys: j/k move \xB7 x check off \xB7 o open/close \xB7 h hide reviewed \xB7 e expand all \xB7 c collapse all");
+  el2(root, "p", "gbdr-keys", "Keys: j/k move \xB7 x check off \xB7 o open/close \xB7 h hide reviewed \xB7 e expand all \xB7 c collapse all \xB7 [/] previous/next thread");
+  root.scrollTop = scroll;
 }
 function handleReviewKey(root, event, view, ui, keys) {
   if (event.metaKey || event.ctrlKey || event.altKey) return false;
@@ -4769,6 +5140,15 @@ function handleReviewKey(root, event, view, ui, keys) {
     node?.scrollIntoView({ block: "nearest" });
   };
   switch (event.key) {
+    case "[":
+    case "]": {
+      const links = [...root.querySelectorAll(".gbdr-thread-link")];
+      if (!links.length) return false;
+      const index2 = links.findIndex((link) => link.dataset.threadId === ui.activeThreadId);
+      const next = index2 < 0 ? event.key === "]" ? 0 : links.length - 1 : (index2 + (event.key === "]" ? 1 : -1) + links.length) % links.length;
+      links[next].click();
+      return true;
+    }
     case "j":
       focus(items[Math.min(items.length - 1, index + 1)]);
       return true;
@@ -4814,7 +5194,13 @@ function vaultFileAdapter(adapter, onWrite) {
     read: (path) => adapter.read(path),
     async write(path, data) {
       const parent = path.slice(0, Math.max(0, path.lastIndexOf("/")));
-      if (parent && !await adapter.exists(parent)) await adapter.mkdir(parent);
+      if (parent && !await adapter.exists(parent)) {
+        let dir = "";
+        for (const part of parent.split("/")) {
+          dir = dir ? `${dir}/${part}` : part;
+          if (!await adapter.exists(dir)) await adapter.mkdir(dir);
+        }
+      }
       onWrite?.(path, data);
       await adapter.write(path, data);
     },
@@ -4829,7 +5215,7 @@ function vaultFileAdapter(adapter, onWrite) {
 // src/diff-review-view.ts
 var DIFF_REVIEW_VIEW = "galaxy-brain-differential-review";
 function hasDifferentialReview(app, recordDir) {
-  return app.vault.getFolderByPath(snapshotsDir(recordReviewDir(recordDir))) !== null;
+  return app.vault.getFolderByPath(snapshotsDir(recordReviewDir(recordDir))) !== null || app.vault.getFolderByPath(`${recordReviewDir(recordDir)}/annotations`) !== null;
 }
 async function openDifferentialReview(app, recordDir, newTab = true) {
   const existing = app.workspace.getLeavesOfType(DIFF_REVIEW_VIEW).find((leaf2) => leaf2.getViewState().state?.recordDir === recordDir);
@@ -4859,10 +5245,12 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
     /** Parsed snapshots by id; snapshots are immutable, so each is read once. */
     this.snapshots = /* @__PURE__ */ new Map();
     this.reviewState = null;
+    this.annotations = { threads: [], replies: [] };
     this.view = null;
     /** Serializes review-state writes from this view. */
     this.writes = Promise.resolve();
     this.expandedOnce = false;
+    this.loadToken = 0;
     this.scheduleLoad = (0, import_obsidian2.debounce)(() => void this.reload(), 300, true);
     this.contentEl.tabIndex = 0;
   }
@@ -4890,7 +5278,12 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
       });
       this.reader = snapshotReader(adapter, recordReviewDir(state.recordDir));
       this.store = reviewStateStore(adapter, recordReviewDir(state.recordDir));
+      this.annotationsStore = annotationStore(adapter, recordReviewDir(state.recordDir));
+      this.lastWritten = void 0;
       this.snapshots.clear();
+      this.view = null;
+      this.reviewState = null;
+      this.annotations = { threads: [], replies: [] };
       this.ui = newReviewUi(this.ui.hideReviewed);
       this.expandedOnce = false;
     }
@@ -4926,21 +5319,29 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
   }
   /** Re-read the snapshot list (reading only new ones) and review state, then render. */
   async reload() {
-    const { reader, store, recordDir } = this;
-    if (!reader || !store || !recordDir) return;
+    const { reader, store, annotationsStore, recordDir } = this;
+    if (!reader || !store || !annotationsStore || !recordDir) return;
+    const token = ++this.loadToken;
+    const snapshots = new Map(this.snapshots);
     try {
       const ids = await reader.listSnapshotIds();
-      for (const id of [...this.snapshots.keys()]) if (!ids.includes(id)) this.snapshots.delete(id);
-      for (const id of ids) if (!this.snapshots.has(id)) this.snapshots.set(id, await reader.readSnapshot(id));
-      this.reviewState = await store.readReviewState();
+      for (const id of [...snapshots.keys()]) if (!ids.includes(id)) snapshots.delete(id);
+      for (const id of ids) if (!snapshots.has(id)) snapshots.set(id, await reader.readSnapshot(id));
+      const reviewState = await store.readReviewState();
+      const annotations = await annotationsStore.read();
+      if (token !== this.loadToken || recordDir !== this.recordDir) return;
+      this.snapshots = snapshots;
+      this.reviewState = reviewState;
+      this.annotations = annotations;
       this.rebuild();
     } catch (error) {
+      if (token !== this.loadToken || recordDir !== this.recordDir) return;
       this.view = null;
       this.showMessage(`Could not load the differential review for ${recordDir}: ${error instanceof Error ? error.message : error}`);
     }
   }
   rebuild() {
-    this.view = buildReviewView([...this.snapshots.values()], this.reviewState, { baseline: this.baseline, hideReviewed: this.ui.hideReviewed });
+    this.view = buildReviewView([...this.snapshots.values()], this.reviewState, { baseline: this.baseline, hideReviewed: this.ui.hideReviewed, annotations: this.annotations });
     if (this.view && !this.expandedOnce) {
       this.expandedOnce = true;
       if (visibleLineCount(this.view) <= AUTO_EXPAND_LINES) {
@@ -4951,15 +5352,26 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
   }
   render() {
     const root = this.contentEl;
+    root.classList.add("gbdr");
     if (!this.view) {
       this.showMessage(
         `No differential-review snapshots in ${this.recordDir}/differential-review/snapshots yet. Agents write one after each branch phase or PR review round (see agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).`
       );
+      for (const thread of this.annotations.threads) {
+        renderThread(root, { thread, replies: this.annotations.replies.filter((r) => r.threadId === thread.id), placement: { state: "unmapped", path: null, hunkId: null, range: null } }, { snapshots: [], snapshot: null }, this.ui, this.annotationActions(), () => this.render());
+      }
       return;
     }
     const scroll = root.scrollTop;
     const focused = focusedItem(root);
+    const active = document.activeElement;
+    const editing = active?.tagName === "TEXTAREA" && root.contains(active) ? {
+      threadId: active.closest(".gbdr-thread")?.dataset.threadId ?? null,
+      start: active.selectionStart,
+      end: active.selectionEnd
+    } : null;
     renderReview(root, this.view, this.ui, {
+      annotations: this.annotationActions(),
       toggleHunk: (file, hunk) => this.mutate(
         (state, snapshot, now) => hunk.state === "reviewed" ? unmarkHunks(state, [hunk.id, ...hunk.reviewedAs ? [hunk.reviewedAs.hunkId] : []], now) : markHunksReviewed(state, snapshot, [hunk.id], now)
       ),
@@ -4978,6 +5390,35 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
     });
     root.scrollTop = scroll;
     restoreFocus(root, focused);
+    if (editing) {
+      const input = [...root.querySelectorAll(".gbdr-comment-input")].find((node) => (node.closest(".gbdr-thread")?.dataset.threadId ?? null) === editing.threadId);
+      input?.focus({ preventScroll: true });
+      input?.setSelectionRange(editing.start, editing.end);
+    }
+  }
+  annotationActions() {
+    return {
+      createThread: (origin, body) => this.writeAnnotation(async (store) => {
+        await store.writeThread(createReviewThread({ id: crypto.randomUUID(), origin, body, author: "John", createdAt: (/* @__PURE__ */ new Date()).toISOString() }));
+      }),
+      reply: (threadId, body) => {
+        const snapshotId = this.view?.snapshot.id;
+        return this.writeAnnotation(async (store) => {
+          const annotations = await store.read();
+          if (!annotations.threads.some((t) => t.id === threadId)) throw new Error("This thread no longer exists; reload the review.");
+          await store.writeReply(parseReviewReply({ schemaVersion: 1, kind: "differential-review-reply", id: crypto.randomUUID(), threadId, body, author: "John", source: "human", createdAt: (/* @__PURE__ */ new Date()).toISOString(), ...snapshotId ? { snapshotId } : {} }));
+        });
+      },
+      resolve: (threadId, resolved) => this.writeAnnotation(async (store) => {
+        const annotations = await store.read();
+        const thread = annotations.threads.find((t) => t.id === threadId);
+        if (!thread) throw new Error("This thread no longer exists; reload the review.");
+        await store.writeThread(setThreadResolved(thread, resolved, (/* @__PURE__ */ new Date()).toISOString()));
+      }),
+      refresh: () => {
+        void this.reload();
+      }
+    };
   }
   setHideReviewed(hide) {
     this.ui.hideReviewed = hide;
@@ -4989,12 +5430,22 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
     const { store, view } = this;
     if (!store || !view) return;
     this.writes = this.writes.then(async () => {
-      this.reviewState = await updateReviewState(store, (state) => change(state, view.snapshot, (/* @__PURE__ */ new Date()).toISOString()));
+      const next = await updateReviewState(store, (state) => change(state, view.snapshot, (/* @__PURE__ */ new Date()).toISOString()));
+      if (this.store !== store) return;
+      this.reviewState = next;
       this.rebuild();
     }).catch((error) => {
       new import_obsidian2.Notice(`Could not update review-state.json: ${error instanceof Error ? error.message : error}`, 1e4);
       void this.reload();
     });
+  }
+  /** UI thread edits serialize independently of immutable CLI replies. */
+  writeAnnotation(write) {
+    const store = this.annotationsStore;
+    if (!store) return Promise.reject(new Error("No review record is open"));
+    const next = this.writes.then(() => write(store));
+    this.writes = next.catch(() => void 0);
+    return next;
   }
   showMessage(text2) {
     this.contentEl.replaceChildren();
@@ -5302,8 +5753,8 @@ var RepositoryView = class extends import_obsidian3.ItemView {
     const bar = root.createDiv({ cls: "gbr-tabs" });
     for (const tab of tabs) {
       const count = isRecordTab(tab.id) ? ` (${records.filter((record) => record.kind === tab.id).length})` : "";
-      const button = bar.createEl("button", { text: tab.label + count, cls: tab.id === current ? "mod-cta" : "" });
-      button.onclick = () => {
+      const button2 = bar.createEl("button", { text: tab.label + count, cls: tab.id === current ? "mod-cta" : "" });
+      button2.onclick = () => {
         this.tab = tab.id;
         this.app.workspace.requestSaveLayout();
         void this.render();
@@ -5371,8 +5822,8 @@ var RepositoryView = class extends import_obsidian3.ItemView {
     const agent = import_obsidian3.Platform.isDesktopApp ? await this.host.syncAgent(this.repo, kind) : void 0;
     if (agent) {
       const bar = root.createDiv({ cls: "gbr-sync" });
-      const button = bar.createEl("button", { text: `\u{1F504} Sync ${kind}`, attr: { "aria-label": `Launch ${agent} to sync ${kind}` } });
-      button.onclick = () => void this.host.launchSync(this.repo, kind, agent);
+      const button2 = bar.createEl("button", { text: `\u{1F504} Sync ${kind}`, attr: { "aria-label": `Launch ${agent} to sync ${kind}` } });
+      button2.onclick = () => void this.host.launchSync(this.repo, kind, agent);
       bar.createSpan({ cls: "gbr-time", text: `${agent} \xB7 ${SYNC_PROFILE}` });
     }
     const report = this.app.vault.getFileByPath(`repositories/${this.repo}/${kind}/SYNC_REPORT.md`);
@@ -5437,9 +5888,9 @@ var RepositoryView = class extends import_obsidian3.ItemView {
     if (item2.isDraft) row.createSpan({ text: "draft", cls: "gbr-tag" });
     row.createSpan({ text: `${item2.author} \xB7 ${timeAgo(Date.parse(item2.at), Date.now())}`, cls: "gbr-time" });
     const action = (icon, label, onClick) => {
-      const button = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label } });
-      (0, import_obsidian3.setIcon)(button, icon);
-      button.onclick = onClick;
+      const button2 = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label } });
+      (0, import_obsidian3.setIcon)(button2, icon);
+      button2.onclick = onClick;
     };
     if (matched.length === 0) {
       const untracked = untrackedRecord(this.repo, isIssue ? "issues" : "reviews", item2.number);
@@ -5527,9 +5978,9 @@ var RepositoryView = class extends import_obsidian3.ItemView {
     for (const tag of tags) item2.createSpan({ text: tag, cls: "gbr-tag" });
     item2.createSpan({ text: timeAgo(time, Date.now()), cls: "gbr-time" });
     const action = (icon, label, onClick) => {
-      const button = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label } });
-      (0, import_obsidian3.setIcon)(button, icon);
-      button.onclick = onClick;
+      const button2 = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label } });
+      (0, import_obsidian3.setIcon)(button2, icon);
+      button2.onclick = onClick;
     };
     if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
     action("github", "Open on GitHub", () => window.open(githubUrl(record, body)));
@@ -5593,7 +6044,7 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
       name: "Agents: routines and tasks",
       callback: () => void this.openAgents()
     });
-    this.registerMarkdownCodeBlockProcessor("gb-tasks", (source, el2, ctx) => this.renderTasks(source, el2, ctx));
+    this.registerMarkdownCodeBlockProcessor("gb-tasks", (source, el3, ctx) => this.renderTasks(source, el3, ctx));
     if (!import_obsidian4.Platform.isDesktopApp) return;
     this.addCommand({
       id: "launch-agent",
@@ -5774,7 +6225,7 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
     return names.filter((_, i) => withClaude[i]).sort();
   }
   /** Cards for a ```gb-tasks block: 🚀 launches (and removes on success), ✖ removes. */
-  async renderTasks(source, el2, ctx) {
+  async renderTasks(source, el3, ctx) {
     const profiles = await this.loadProfiles();
     let raw;
     let tasks;
@@ -5782,12 +6233,12 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
       raw = (0, import_obsidian4.parseYaml)(source);
       tasks = parseTasks(raw, { profiles: profiles.map((p) => p.name), agentDirs: await this.agentDirs() });
     } catch (error) {
-      el2.createDiv({ cls: "gb-tasks-error", text: `gb-tasks: ${error instanceof Error ? error.message : error}` });
+      el3.createDiv({ cls: "gb-tasks-error", text: `gb-tasks: ${error instanceof Error ? error.message : error}` });
       return;
     }
     const remove = async (index) => {
       const file = this.app.vault.getFileByPath(ctx.sourcePath);
-      const section2 = ctx.getSectionInfo(el2);
+      const section2 = ctx.getSectionInfo(el3);
       if (!file || !section2) return void new import_obsidian4.Notice("Could not locate this gb-tasks block");
       const rest = raw.filter((_, i) => i !== index);
       await this.app.vault.process(
@@ -5795,7 +6246,7 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
         (note) => replaceBlockBody(note, section2.lineStart, section2.lineEnd, rest.length ? (0, import_obsidian4.stringifyYaml)(rest) : "")
       );
     };
-    renderTaskCards(el2, tasks, {
+    renderTaskCards(el3, tasks, {
       defaultProfile: profiles[0]?.name ?? "",
       ...import_obsidian4.Platform.isDesktopApp ? { launch: (task, index) => void this.confirmTask(task, () => void remove(index)) } : {},
       remove: (_task, index) => void remove(index)
@@ -5890,11 +6341,11 @@ var LaunchModal = class extends import_obsidian4.Modal {
         profile = this.details.profiles.find((option) => option.name === value) ?? profile;
       });
     }).addButton(
-      (button) => button.setButtonText("Launch").setCta().onClick(() => {
+      (button2) => button2.setButtonText("Launch").setCta().onClick(() => {
         this.close();
         this.details.launch(profile, name, prompt);
       })
-    ).addButton((button) => button.setButtonText("Cancel").onClick(() => this.close()));
+    ).addButton((button2) => button2.setButtonText("Cancel").onClick(() => this.close()));
   }
   onClose() {
     this.contentEl.empty();

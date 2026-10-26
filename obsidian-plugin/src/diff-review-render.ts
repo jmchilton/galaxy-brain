@@ -18,7 +18,10 @@ import {
 	type SnapshotSummary,
 } from "../../differential-review-lib/src/core";
 
+import { annotateHunk, newThreadUi, renderCommentDraft, renderThread, type AnnotationActions, type ThreadUi } from "./diff-review-threads";
+
 export interface ReviewActions {
+	annotations?: AnnotationActions;
 	toggleHunk(file: FileView, hunk: HunkView): void;
 	toggleFile(file: FileView): void;
 	toggleCommit(commit: CommitView): void;
@@ -27,7 +30,7 @@ export interface ReviewActions {
 }
 
 /** View-local UI state, kept across re-renders. */
-export interface ReviewUi {
+export interface ReviewUi extends ThreadUi {
 	hideReviewed: boolean;
 	/** `file:<path>` / `commit:<sha>` keys of open sections. */
 	expanded: Set<string>;
@@ -38,7 +41,7 @@ export interface ReviewUi {
 }
 
 export function newReviewUi(hideReviewed = true): ReviewUi {
-	return { hideReviewed, expanded: new Set(), interdiffs: new Set(), htmlCache: new Map() };
+	return { ...newThreadUi(), hideReviewed, expanded: new Set(), interdiffs: new Set(), htmlCache: new Map() };
 }
 
 const STATE_LABELS: Record<ReviewStatus, string> = { reviewed: "reviewed", new: "new", changed: "changed" };
@@ -197,7 +200,10 @@ function renderHunk(parent: HTMLElement, view: ReviewView, file: FileView, hunk:
 	const body = el(box, "div", "gbdr-hunk-body");
 	if (hunk.state === "changed") interdiffToggle(bar, body, view, file, hunk, "reviewed", ui);
 	if (hunk.sinceBaseline === "changed") interdiffToggle(bar, body, view, file, hunk, "baseline", ui);
-	if (source) renderHunkBody(body, source, ui);
+	if (source) {
+		renderHunkBody(body, source, ui);
+		if (actions.annotations && hunk.kind === "text") annotateHunk(body, source, view, ui, actions.annotations, () => renderReview(parent.closest<HTMLElement>(".gbdr")!, view, ui, actions));
+	}
 }
 
 function section(parent: HTMLElement, key: string, ui: ReviewUi, fill: (body: HTMLElement) => void): { details: HTMLDetailsElement; summary: HTMLElement } {
@@ -224,7 +230,7 @@ function section(parent: HTMLElement, key: string, ui: ReviewUi, fill: (body: HT
 
 function renderFile(parent: HTMLElement, view: ReviewView, file: FileView, ui: ReviewUi, actions: ReviewActions) {
 	const { summary } = section(parent, `file:${file.path}`, ui, (body) => {
-		for (const hunk of file.hunks) if (hunk.visible) renderHunk(body, view, file, hunk, ui, actions);
+		for (const hunk of file.hunks) if (hunk.visible && (!ui.openThreadsOnly || view.threads.some((t) => t.thread.status === "open" && t.placement.hunkId === hunk.id))) renderHunk(body, view, file, hunk, ui, actions);
 		hiddenNote(body, file.hunks.filter((h) => !h.visible).length, "hunk(s)");
 	});
 	summary.classList.add(`gbdr-state-${file.state}`);
@@ -269,23 +275,62 @@ function renderCommit(parent: HTMLElement, view: ReviewView, commit: CommitView,
 
 /** Render the whole review into `root`; sections fill lazily when opened. */
 export function renderReview(root: HTMLElement, view: ReviewView, ui: ReviewUi, actions: ReviewActions) {
+	const scroll = root.scrollTop;
 	root.replaceChildren();
 	root.classList.add("gbdr");
 	renderHeader(root, view, ui, actions);
+	const redraw = () => renderReview(root, view, ui, actions);
+	if (actions.annotations) {
+		const threads = view.threads.filter((t) => t.thread.status === "open");
+		const tools = el(root, "div", "gbdr-thread-toolbar");
+		el(tools, "strong", undefined, `${threads.length} open review thread(s)`);
+		const only = el(tools, "label", undefined, " Open threads only ");
+		checkbox(only, ui.openThreadsOnly, "Open threads only", () => { ui.openThreadsOnly = !ui.openThreadsOnly; redraw(); });
+		el(tools, "span", "gbdr-meta", "Click a line number to comment; Shift-click another for a range.");
+		const index = el(root, "nav", "gbdr-thread-index");
+		for (const t of threads) {
+			const link = el(index, "button", "gbdr-thread-link", `${t.thread.origin.path}: ${t.thread.body.split("\n")[0]}`);
+			link.dataset.threadId = t.thread.id;
+			link.onclick = () => {
+				ui.activeThreadId = t.thread.id;
+				if (t.placement.path) ui.expanded.add(`file:${t.placement.path}`);
+				redraw();
+				const card = [...root.querySelectorAll<HTMLElement>(".gbdr-thread")].find((n) => n.dataset.threadId === t.thread.id);
+				card?.focus(); card?.scrollIntoView({ block: "center" });
+			};
+		}
+		const draft = ui.draft?.origin;
+		if (draft && ((ui.openThreadsOnly && !view.threads.some((t) => t.thread.status === "open" && t.placement.hunkId === draft.hunkId)) || draft.snapshotId !== view.snapshot.id || !view.files.some((f) => f.visible && f.hunks.some((h) => h.visible && h.id === draft.hunkId)))) renderCommentDraft(root, ui, actions.annotations, redraw);
+	}
 
 	el(root, "h3", undefined, "Files");
 	const files = el(root, "div", "gbdr-files");
-	for (const file of view.files) if (file.visible) renderFile(files, view, file, ui, actions);
+	for (const file of view.files) if (file.visible && (!ui.openThreadsOnly || view.threads.some((t) => t.thread.status === "open" && t.placement.path === file.path && t.placement.hunkId))) renderFile(files, view, file, ui, actions);
 	if (!view.files.some((f) => f.visible)) el(files, "p", "gbdr-empty", "Nothing to review in the branch diff.");
 	hiddenNote(files, view.hidden.files, "file(s)");
 
+	if (actions.annotations) {
+		const detached = view.threads.filter((t) => t.thread.status === "open" && !t.placement.hunkId);
+		if (detached.length) {
+			el(root, "h3", undefined, "Threads needing placement review");
+			for (const t of detached) renderThread(root, t, view, ui, actions.annotations, redraw);
+		}
+		const resolved = view.threads.filter((t) => t.thread.status === "resolved");
+		if (resolved.length) {
+			const label = el(root, "label", undefined, ` Show resolved threads (${resolved.length}) `);
+			checkbox(label, ui.showResolved, "Show resolved threads", () => { ui.showResolved = !ui.showResolved; redraw(); });
+			if (ui.showResolved) for (const t of resolved) renderThread(root, t, view, ui, actions.annotations, redraw);
+		}
+	}
+	if (ui.openThreadsOnly) { root.scrollTop = scroll; return; }
 	el(root, "h3", undefined, "Commits");
 	const commits = el(root, "div", "gbdr-commits");
 	for (const commit of view.commits) if (commit.visible) renderCommit(commits, view, commit, ui, actions);
 	if (!view.commits.some((c) => c.visible)) el(commits, "p", "gbdr-empty", "No commits to sign off.");
 	hiddenNote(commits, view.hidden.commits, "commit(s)");
 
-	el(root, "p", "gbdr-keys", "Keys: j/k move · x check off · o open/close · h hide reviewed · e expand all · c collapse all");
+	el(root, "p", "gbdr-keys", "Keys: j/k move · x check off · o open/close · h hide reviewed · e expand all · c collapse all · [/] previous/next thread");
+	root.scrollTop = scroll;
 }
 
 export interface KeyActions {
@@ -306,6 +351,15 @@ export function handleReviewKey(root: HTMLElement, event: KeyboardEvent, view: R
 		node?.scrollIntoView({ block: "nearest" });
 	};
 	switch (event.key) {
+		case "[":
+		case "]": {
+			const links = [...root.querySelectorAll<HTMLButtonElement>(".gbdr-thread-link")];
+			if (!links.length) return false;
+			const index = links.findIndex((link) => link.dataset.threadId === ui.activeThreadId);
+			const next = index < 0 ? (event.key === "]" ? 0 : links.length - 1) : (index + (event.key === "]" ? 1 : -1) + links.length) % links.length;
+			links[next].click();
+			return true;
+		}
 		case "j":
 			focus(items[Math.min(items.length - 1, index + 1)]);
 			return true;

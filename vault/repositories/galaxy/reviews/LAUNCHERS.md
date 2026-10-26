@@ -43,3 +43,10 @@ name: qm-{name}
 profile: Sonnet (medium)
 
 Quick merge pull request galaxyproject/galaxy#{name} - skip the initial review process. Check it is still open, not a draft and mergeable; if not, stop and report without merging. Otherwise merge it according to the processes described in AGENTS.md. This launch is my approval to merge. Then clean up the review record and relevant worktree (if present).
+
+## 📝 Address diff comments
+status: active
+agent_dir: gx_reviews
+name: diff-{name}
+
+Address the open differential-review comments in {record} following ../_shared/PROCESS_DIFFERENTIAL_REVIEW_COMMENTS.md.

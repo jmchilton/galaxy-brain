@@ -73,3 +73,5 @@ Local captures supporting the review. Ignored by git; describe useful captures i
 ## differential-review/**
 
 Differential review data for the PR. `snapshots/*.json` are immutable, gitignored snapshots of the PR head at each review round, written only by the `differential-review` CLI ([PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md)). `review-state.json` holds John's optional check-offs and is written only by the review plugins; agents never create, edit or delete it.
+
+`annotations/threads/*.json` hold John's source-anchored comments and resolution. `annotations/replies/*.json` hold individual human or agent responses, optionally linked to a revision snapshot. Both are tracked. Agents append responses through the CLI following [PROCESS_DIFFERENTIAL_REVIEW_COMMENTS](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_COMMENTS.md), and leave thread resolution to John.

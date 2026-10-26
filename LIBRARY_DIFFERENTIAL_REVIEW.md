@@ -93,7 +93,7 @@ Exit codes are 0 for ok and 1 for an error. Errors include git failures, a missi
 
 Snapshots are gitignored (`/vault/repositories/**/{branches,reviews}/**/differential-review/snapshots/`); `review-state.json` is tracked. Snapshot IDs contain no colons, which break Obsidian sync and mobile. Immutability, idempotent reruns and the read-only guarantee for `review-state.json` are the package's; see its design doc.
 
-The Chrome native host (`herdr-plugin/src/native-host.ts`) dispatches on typed requests: `lookup`, `launch`, `newAgent` and `open`. A differential-review adapter there would add something like `readFile`, `listFiles` and `writeReviewState` requests on vault-relative paths, restricted to `repositories/*/{branches,reviews}/*/<id>/differential-review/`, with writes allowed only to `review-state.json`. Message size is tabled; see Resolved by John.
+The Chrome native host (`herdr-plugin/src/native-host.ts`) dispatches on typed requests: `lookup`, `launch`, `newAgent` and `open`. A differential-review adapter there would add something like `readFile`, `listFiles` and `writeReviewState` requests on vault-relative paths, restricted to `repositories/*/{branches,reviews}/*/<id>/differential-review/`, with check-off writes allowed only to `review-state.json`. An annotation bridge would separately expose reviewer thread writes and immutable reply creation. Message size is tabled; see Resolved by John.
 
 ## Tests
 
@@ -158,7 +158,7 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 - **Phases.** `implementation | hardening | polishing | revision | review`, validated in one place (`PHASES` / `isPhase`). Adding a phase isn't a schema change.
 - **Snapshots are gitignored by default.** `.gitignore` has `/vault/repositories/**/branches/**/differential-review/snapshots/`, and `review-state.json` stays tracked. This is the reversible choice; committing large diffs to history is not. John confirmed it.
 - **No record lookup by branch name.** Agents already pass BRANCH_DIRECTORY. Finding the vault root from an arbitrary worktree means guessing (`~/.galaxy-brain`?), and a wrong guess could write a stray record into a real vault. Revisit if John wants `differential-review status` from inside a worktree with no flags.
-- **Three commands only** (`snapshot`, `list`, `status`). Interdiffs and phase views ("what hardening changed since implementation") are core queries for the plugins, not CLI commands.
+- **Snapshot commands** (`snapshot`, `list`, `status`), plus `threads` and `reply` for review conversations. Interdiffs and phase views ("what hardening changed since implementation") are core queries for the plugins, not CLI commands.
 
 - **The library is its own package** ([jmchilton/differential-review](https://github.com/jmchilton/differential-review)), vendored as the `differential-review-lib/` submodule, like `galaxy-architecture`. galaxy-brain's record layout is a `createCli()` target in `differential-review/`, so the package knows nothing about vaults.
 - **Record tests import `site/src/lib/records.ts`** the way `obsidian-plugin` does. `differential-review/vitest.config.ts` (`oxc.tsconfig: false`) and the esbuild `tsconfig` option stop either tool from resolving `site/tsconfig.json`, which extends `astro`.
@@ -197,7 +197,7 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
   - `matchHunks` memoizes fuzzy similarity per content-hash pair. On a synthetic 1.2 MB, 2400-hunk snapshot with 900 changed hunks, deriving the view took about 1.7 s cold and about 85 ms per check-off after that.
 - **Theme.** diff2html's light-scheme `--d2h-*` variables are mapped onto Obsidian tokens (`--background-*`, `--color-*-rgb`), scoped to `.gbdr`, so light and dark themes both follow Obsidian. `esbuild.config.mjs` concatenates `styles.css`, diff2html's CSS and `src/diff-review.css` into the built `styles.css`.
 
-**Write safety.** The view writes only `review-state.json`.
+**Write safety.** Check-offs write only `review-state.json`. Thread and reply writes use the separate annotation store below.
 - Each check-off is queued on one promise chain per view. Each queued write re-reads the file from disk, applies the pure mutation (core `updateReviewState`) and writes the result. A concurrent writer's check-offs on other keys survive, unless its write lands between the read and the write (milliseconds).
 - The first write creates the `differential-review/` dir.
 - Vault `create`, `modify`, `delete` and `rename` events under `<record>/differential-review/` reload the view, debounced. This picks up new agent snapshots and edits by other writers. The view ignores modify events whose content equals its own last write.
@@ -213,6 +213,18 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 - Writes aren't atomic: `adapter.write` has no temp-file rename. There is no compare-and-swap; John judged re-reading enough.
 - The repository view re-renders only on markdown changes, so a branch's git-compare icon appears at its next re-render after the first snapshot lands.
 - It hasn't been exercised inside a live Obsidian yet, and theme tokens were checked only with stand-in values. DOM tests run under happy-dom, plus a static harness rendered in Chromium in light and dark.
+
+## Persistent diff comments
+
+The Obsidian review view lets John click an old or new line number, Shift-click another line in that hunk for a range, and save a comment beside the diff. Root comments and replies render inline. The thread index and `[` / `]` navigate open threads. **Open threads only** narrows the diff, and resolved threads can be shown separately for reopening. Open threads remain accessible under reviewed and baseline filters. Unplaced threads show their original excerpt separately. Draft text survives new snapshots and failed writes. Stored threads remain readable when all snapshot files are unavailable.
+
+The package owns the types, source-coordinate capture, placement and storage adapter. Data lives under `<review dir>/annotations/threads/<id>.json` and `annotations/replies/<id>.json`, both tracked in vault records. John creates and resolves thread files. Each response is a new reply file. CLI replies use an atomic no-clobber write and never rewrite a thread or `review-state.json`.
+
+The [comment handoff](vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_COMMENTS.md) is selected explicitly through **Address diff comments** on Galaxy branch and review records. It reads `threads --record <dir> --open --json`, performs local requested work, snapshots any code revision, and appends responses with `reply --record <dir> --thread <id> --body-file <path> [--snapshot <id>] [--author <name>]`. It does not need a running Obsidian session. Agents leave thread resolution and check-offs to John.
+
+Placement uses exact quoted source plus context for ambiguous repeats. Hunk similarity only supplies a candidate for an outdated thread. An original snapshot ID and excerpt are retained even after a rebase, changed code, or missing snapshots. Reply snapshot links identify the revision the agent is discussing. No change to the snapshot or review-state schema is needed.
+
+Verification covers source ranges, moved/changed/missing code, ambiguous repeats, immutable reply files, reviewer state preservation, line-number selection, threaded replies, resolve/reopen, and draft recovery. Browser visual verification remains outstanding when no browser connection is available.
 
 ## Resolved by John (2026-10-26)
 

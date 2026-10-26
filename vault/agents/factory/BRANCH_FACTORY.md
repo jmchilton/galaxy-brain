@@ -106,6 +106,8 @@ When the work is done, the workhorse writes an implementation debrief, adds one 
 
 At the end of implementation, hardening and, later, polishing, and after rebases, requested changes and review responses (`revision`), the agent also saves a [differential review snapshot](https://jmchilton.github.io/galaxy-brain/factory/differential-review/) of the branch, so John's review tooling can show only what changed since the last check-off.
 
+John can also comment on diff lines in Obsidian and select **Address diff comments** on the record. The agent reads the persistent threads, responds with any resulting revision snapshot, and leaves resolution to John.
+
 ## gx_branches: polish, approve, open
 
 The branch manager owns a single queue of every open PR and every branch meant to become one. It reclassifies entries from live GitHub state. It rebases only when that unblocks something, and never just because a branch is old. It reruns unrelated CI failures and takes green drafts out of draft.
