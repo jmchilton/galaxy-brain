@@ -930,3 +930,15 @@
   target: main
   summary: '`\(( \sim \))` is broken MathJax and renders as literal text (twice); "[Bendall et al. 2016](#)" is a dead link. Tutorial microbiome/mags-building.'
   fix: 'Use `~150 bp` / `~99.99%` (or `\\( \sim \\)` as ani.md does); cite bendall2016 or link the paper.'
+
+- label: taxon-archaea-lifemap
+  faqs: [topics/microbiome/faqs/taxon.md]
+  target: main
+  summary: 'Misspells the domain "Archae" (Archaea); the Lifemap link and iframe point at lifemap.univ-lyon1.fr/explore.html, which now 301s to the lifemap.cnrs.fr root (explore.html 404s there). Tutorials microbiome/beer-data-analysis, pathogen-detection-from-nanopore-foodborne-data, taxonomic-profiling.'
+  fix: 'Spell "Archaea"; point link and iframe at https://lifemap.cnrs.fr/.'
+
+- label: quality-score-de-sanger-test
+  faqs: [topics/sequence-analysis/faqs/quality_score_DE.md]
+  target: main
+  summary: 'Alt text renders "goes back to the Sanger" as "entspricht dem Sanger-Test" (Sanger test); table headers left in English.'
+  fix: 'Use "entspricht wieder der Sanger-Kodierung"; translate the three table headers.'

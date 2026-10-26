@@ -1476,19 +1476,36 @@
   gtn_commit: 45d4932d33
   used_by: [microbiome/mags-building]
 - faq: topics/microbiome/faqs/taxon.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [microbiome/beer-data-analysis, microbiome/pathogen-detection-from-nanopore-foodborne-data, microbiome/taxonomic-profiling]
+  faq_findings: [taxon-archaea-lifemap]
 - faq: topics/proteomics/faqs/resources.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/sequence-analysis/faqs/fastq.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [microbiome/beer-data-analysis]
 - faq: topics/sequence-analysis/faqs/quality_score_DE.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
+  faq_findings: [quality-score-de-sanger-test]
 - faq: topics/sequence-analysis/faqs/quality_score_ES.md
   status: pending
 - faq: topics/sequence-analysis/faqs/quality_score_IT.md
   status: pending
 - faq: topics/sequence-analysis/faqs/quality_score.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [sequence-analysis/quality-control, sequence-analysis/sars-with-galaxy-on-anvil]
 - faq: topics/single-cell/faqs/amplification.md
   status: pending
 - faq: topics/single-cell/faqs/dimension_reduction.md
