@@ -1,3 +1,7 @@
+---
+upstream_base_branch: release_26.2
+---
+
 # FAQ coverage for accounts, workflow editing and dataset display links
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_faq_account_workflow_display_26.2?expand=1)
@@ -5,11 +9,11 @@
 
 ## Status
 
-READY: re-scoped, freshly hardened and pushed at `fbb015b3916`; base `release_26.2` (`849c2573cb0`), awaiting CI and human review.
+Polishing in progress (`branches_need_polish`); cleanly rebased to `release_26.2` (`cce99870510`), head `a7934d518fc`.
 
 PR not opened.
 
-Client lint CI passed; remaining fork CI workflows are queued or running.
+CI checked 2026-10-26: all 23 workflows that ran on pre-rebase head `fbb015b3916` passed; CWL conformance and Pulsar package tests skipped.
 
 ## Handoff
 

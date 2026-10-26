@@ -1,0 +1,4 @@
+- [26.2] Add FAQ browser coverage and reusable account, workflow and display helpers
+- [26.2] Cover storage Refresh, workflow tags and dataset display catalogs
+- [26.2] Extract shared browser helpers for account and workflow QA
+- [26.2] Harden FAQ browser interactions and support empty display catalogs
