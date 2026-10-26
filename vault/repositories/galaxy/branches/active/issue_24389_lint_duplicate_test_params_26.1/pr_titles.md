@@ -1,0 +1,4 @@
+- [26.1] Lint conflicting duplicate tool test params; fix tests lost to `<edit_attributes>`
+- [26.1] Report duplicate test params in repeats/conditionals in the tool linter
+- [26.1] Lint tool tests that give the same param twice with different values
+- [26.1] Flag ambiguous duplicate test params in lint and keep `<edit_attributes>` tests loadable

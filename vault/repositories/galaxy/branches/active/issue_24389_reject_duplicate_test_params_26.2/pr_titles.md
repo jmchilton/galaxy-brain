@@ -1,0 +1,3 @@
+- [26.2] Reject tool tests that give the same param twice with different values
+- [26.2] Error at load on conflicting duplicate tool test params
+- [26.2] Stop silently dropping duplicate test params in repeats/conditionals

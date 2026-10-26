@@ -7,7 +7,7 @@
 
 Polished; opened on John's request 2026-10-25 at `60607462357`.
 
-Draft [#24450](https://github.com/galaxyproject/galaxy/pull/24450) waiting on CI; review requested from bernt-matthias (issue author).
+Closed [#24450](https://github.com/galaxyproject/galaxy/pull/24450) 2026-10-26: split into [`issue_24389_lint_duplicate_test_params_26.1`](../issue_24389_lint_duplicate_test_params_26.1/index.md) and [`issue_24389_reject_duplicate_test_params_26.2`](../issue_24389_reject_duplicate_test_params_26.2/index.md).
 
 Fork CI on `60607462357`: all green except API tests, an unrelated runner stall (from ~72% every workflow/WES test timed out waiting on jobs, 17 failed / 1605 passed); failed job rerun.
 
