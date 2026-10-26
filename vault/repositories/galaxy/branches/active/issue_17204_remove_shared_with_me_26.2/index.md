@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.2
+---
 # issue_17204_remove_shared_with_me_26.2
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_17204_remove_shared_with_me_26.2?expand=1)
@@ -5,19 +8,19 @@
 
 ## Status
 
-Status: re-hardening (2026-10-26): John approved the second scope expansion; owner bulk plurals and return annotations implemented in `684d6e15537`, fresh reviews and screenshots in progress.
+Status: `branches_implemented_needs_ci` (READY, 2026-10-26): approved scope expansion complete, freshly hardened, three Playwright scenarios passed and six screenshots verified; head `81e7e68d517`.
 
 No PR yet.
 
-Fork CI not yet checked on `7f8a10ab0e5`.
-
-Base: `release_26.2` (`8c59e95feb2`), head `7f8a10ab0e5`. Worktree: `~/projects/worktrees/galaxy/branch/issue_17204_remove_shared_with_me_26.2` (`.venv` symlinked from `issue_24303_collection_type_prefix_26.2`). Alt: `issue_17204_remove_shared_with_me_26.2_alt_original_scope` (`alts/original_scope.md`).
+Fork CI at the final head has not yet been assessed.
 
 ## What
 
-Share recipients can remove items shared with them (#17204), one at a time or in bulk, for histories, workflows and visualizations (pages API-only). Removing a workflow share also drops the recipient's bookmark.
+Share recipients remove histories, workflows and visualizations shared with them individually or in bulk (#17204); pages API-only. Unsharing drops recipient workflow bookmarks. Existing owner bulk messages now use correct singular/plural forms.
 
 ## Decisions
 
-- Base `release_26.2`: restores lost functionality, additive, no migration, issue labeled `release-testing-26.2`; dev is the fallback.
-- Issue assigned to dannon; assignment left alone.
+- Base `release_26.2`: restores lost functionality, additive, no migration; issue labeled `release-testing-26.2`.
+- John approved the second scope expansion on 2026-10-26; fresh scope evaluation recommends no further change.
+- Baseline tests remain first; standalone plural-helper refactor precedes the feature. Alternatives are preserved in `alts/`.
+- Worktree: `~/projects/worktrees/galaxy/branch/issue_17204_remove_shared_with_me_26.2`. Issue assignment left unchanged.
