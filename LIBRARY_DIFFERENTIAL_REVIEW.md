@@ -12,7 +12,7 @@ This document covers the static library and CLI in `differential-review/`, and t
 - **Hunk identity.** Hunks are fingerprinted by their changed lines, not by line numbers or context, so check-offs survive most rebases. Commits are matched with `git patch-id` and `git range-diff`.
 - **States.** Every item is `reviewed`, `new` or `changed` (changed since reviewed).
 - **Architecture.** Everything is local, with no GitHub integration and no server. A client-side TypeScript library is shared by the Obsidian plugin and the Chrome extension. Git never runs in the browser; all git work happens in the static CLI.
-- **Static tooling.** Agents run the CLI after each phase (implementation, hardening, polishing) and after later revisions (rebases, requested changes, review responses). Each run writes an immutable snapshot keyed by head SHA and tagged with the phase. A snapshot holds the full diff, per-hunk fingerprints, per-commit patch-ids and a mapping to the previous snapshot.
+- **Static tooling.** Agents run the CLI after each phase (implementation, hardening, polishing) and after later revisions (rebases, requested changes, review responses). Review agents snapshot the PR head at each round of reviewing someone else's PR. Each run writes an immutable snapshot keyed by head SHA and tagged with the phase. A snapshot holds the full diff, per-hunk fingerprints, per-commit patch-ids and a mapping to the previous snapshot.
 - **Storage.** Files live in `<branch record>/differential-review/`:
   - `snapshots/` is immutable and written only by agents.
   - `review-state.json` is written only by the reviewer, through the plugins.
@@ -62,17 +62,17 @@ The CLI lives in this repository, and `make install` links the repository to `~/
 
 ```sh
 # Agent post-phase step: run from the branch's worktree, or pass --worktree.
-differential-review snapshot --record BRANCH_DIRECTORY --phase implementation|hardening|polishing|revision \
-  [--worktree WORKING_DIRECTORY] [--base <ref>] [--remote <name>] [--json]
+differential-review snapshot --record BRANCH_DIRECTORY --phase implementation|hardening|polishing|revision|review \
+  [--worktree WORKING_DIRECTORY] [--head <rev>] [--base <ref>] [--remote <name>] [--json]
 
 differential-review list   --record <dir> [--json]
 differential-review status --record <dir> [--snapshot <id>] [--json]
 differential-review [<command>] --help
 ```
 
-`--worktree` defaults to the current directory. In that case HEAD must be on the record's branch, or the command fails. This guards against an agent whose cwd is the vault snapshotting galaxy-brain's own HEAD into a record. With an explicit `--worktree`, a different branch or a detached HEAD only produces a warning, because alts and renames are legitimate.
+`--worktree` defaults to the current directory. For a branch record, HEAD must then be on the record's branch, or the command fails. This guards against an agent whose cwd is the vault snapshotting galaxy-brain's own HEAD into a record. With an explicit `--worktree`, a different branch or a detached HEAD only produces a warning, because alts and renames are legitimate. Review records and `--head <rev>` skip the check: a PR worktree often has a review branch checked out, so agents fetch `pull/<N>/head` and pass `--head FETCH_HEAD`. The worktree is never touched.
 
-`--record` is always the branch record directory, `vault/repositories/<repo>/branches/<status>/<branch>`. It must already contain `index.md`. A path that has none is an error, never a new directory.
+`--record` is a branch or review record directory, `vault/repositories/<repo>/{branches,reviews}/<status>/<name>` (`REVIEWABLE_RECORD_KINDS` in core). Review `index.md` files have no frontmatter, so reviews always pass `--base`. It must already contain `index.md`. A path that has none is an error, never a new directory.
 
 ### `snapshot`
 
@@ -378,8 +378,9 @@ Galaxy phases call it right before each phase's debrief:
 | hardening | `gx_workhorse/AGENTS.md`, after `GX_PROCESS_HARDEN_BRANCH.md` (also covers Re-scope and Re-harden) | `implementation_debrief.md` |
 | polishing | `gx_branches/POLISH_BRANCH.md`, Hand off | `polish_debrief.md` |
 | revision | `gx_branches/AGENTS.md` rebase rule; `gx_workhorse/AGENTS.md` Changes; `_shared/RESPOND_TO_REVIEW.md` | new `implementation_debrief.md` for Changes; none otherwise |
+| review | `_shared/PROCESS_INITIAL_REVIEW.md`, start of "Run reviews in subagents", every round, all repositories | none |
 
-`GX_PROCESS_HARDEN_BRANCH.md` is left alone. It writes no debrief of its own, and John has uncommitted edits at its end. The generic flows (`PROCESS_GENERIC_*`, used by pulsar, planemo, foundry and workflow_libs) aren't wired, per John. `vault/repositories/_defaults/branches/FILE_DOCS.md` documents `differential-review/**`, and `vault/agents/factory/BRANCH_FACTORY.md` mentions the snapshots.
+`GX_PROCESS_HARDEN_BRANCH.md` is left alone. It writes no debrief of its own, and John has uncommitted edits at its end. The generic flows (`PROCESS_GENERIC_*`, used by pulsar, planemo, foundry and workflow_libs) aren't wired, per John. `vault/repositories/_defaults/branches/FILE_DOCS.md` documents `differential-review/**`, and `vault/agents/factory/BRANCH_FACTORY.md` mentions the snapshots. `_defaults/reviews/FILE_DOCS.md` and `REVIEW_FACTORY.md` do the same for reviews. Reviewing is optional for John: snapshots always land, and `review-state.json` only exists once he checks something off.
 
 **Prerequisite.** After merging, run `cd differential-review && npm install` and then `make diff-review-build` in the main checkout. Until then, agents paste the "not built" error into their debriefs and carry on. `launch_agent.sh` and `make install` are unchanged.
 
@@ -401,7 +402,7 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 
 ## Decisions made (all reversible)
 
-- **Phases.** `implementation | hardening | polishing | revision`, validated in one place (`PHASES` / `isPhase`). Adding a phase isn't a schema change.
+- **Phases.** `implementation | hardening | polishing | revision | review`, validated in one place (`PHASES` / `isPhase`). Adding a phase isn't a schema change.
 - **Hunk check-offs live on the cumulative branch diff.** Per-commit fingerprints are stored only to support commit sign-off re-looks. A commit hunk with identical content in the same file shares an ID with the cumulative hunk, but plugins should check off from the file view.
 - **No stored hunk lines.** Snapshots store the diff text once, plus a fingerprint index. Consumers re-parse the text.
 - **64-bit truncated SHA-256** fingerprints, implemented synchronously in pure TS so core stays sync and Node-free.
@@ -418,8 +419,8 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 `obsidian-plugin/src/diff-review-view.ts` (the `ItemView`), `diff-review-render.ts` (plain DOM plus diff2html, no Obsidian APIs), `diff-review-storage.ts` (`TextFileAdapter` over `app.vault.adapter`) and `diff-review.css`. The view model is core's `buildReviewView` (`src/core/view.ts`), so a Chrome UI can reuse it, and the render module too.
 
 **Entry points.**
-- Repository view: a git-compare icon on each branch record that has a `differential-review/snapshots/` folder.
-- Command "Open differential review for this branch record", available on any note inside a branch record.
+- Repository view: a git-compare icon on each branch or review record that has a `differential-review/snapshots/` folder.
+- Command "Open differential review for this record", available on any note inside a branch or review record.
 - Both open, or refocus, one tab per record. The view registers before the desktop-only return, so it works on mobile.
 
 **UX.**

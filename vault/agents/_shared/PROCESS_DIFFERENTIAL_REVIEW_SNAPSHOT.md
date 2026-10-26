@@ -14,4 +14,16 @@ A snapshot never blocks the phase. If it fails:
 - No base in the record's frontmatter: rerun once with `--base <base>` taken from the record's prose (e.g. `--base dev`).
 - Anything else, including "not built": paste the error into the debrief and carry on. Don't build or fix the tool.
 
-The CLI writes `BRANCH_DIRECTORY/differential-review/snapshots/` (gitignored). Never create, edit or delete files under `differential-review/` yourself; `review-state.json` is John's.
+The CLI writes `BRANCH_DIRECTORY/differential-review/snapshots/` (or `REVIEW_DIRECTORY/...`, both gitignored). Never create, edit or delete files under `differential-review/` yourself; `review-state.json` is John's.
+
+## PR reviews
+
+At the start of each review round, snapshot the PR's own head, whatever the worktree has checked out (e.g. a `pr_<PR_NUMBER>_review_<n>` branch). WORKING_DIRECTORY is the PR's worktree; BASE is the PR's `baseRefName`.
+
+```sh
+(cd WORKING_DIRECTORY && git fetch origin BASE && git fetch origin pull/PR_NUMBER/head && \
+  ~/projects/repositories/galaxy-brain/differential-review/bin/differential-review snapshot \
+  --phase review --head FETCH_HEAD --base BASE --record ~/projects/repositories/galaxy-brain/REVIEW_DIRECTORY)
+```
+
+Paste nothing. If it fails, mention it in your report and carry on.

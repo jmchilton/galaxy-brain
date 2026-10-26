@@ -1,8 +1,9 @@
-// Obsidian view for a branch record's differential review: reads snapshots, reads/writes review-state.json.
+// Obsidian view for a branch or review record's differential review: reads snapshots, reads/writes review-state.json.
 import { type App, debounce, ItemView, Notice, type Plugin, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
 import {
 	type Baseline,
 	buildReviewView,
+	isReviewableRecordKind,
 	markFileReviewed,
 	markHunksReviewed,
 	recordReviewStateStore,
@@ -33,7 +34,7 @@ interface DiffReviewState extends Record<string, unknown> {
 	hideReviewed?: boolean;
 }
 
-/** A branch record dir with at least the snapshots folder; no file reads. */
+/** A record dir with at least the snapshots folder; no file reads. */
 export function hasDifferentialReview(app: App, recordDir: string): boolean {
 	return app.vault.getFolderByPath(snapshotsDir(recordDir)) !== null;
 }
@@ -51,11 +52,11 @@ export function registerDifferentialReview(plugin: Plugin) {
 	plugin.registerView(DIFF_REVIEW_VIEW, (leaf) => new DiffReviewView(leaf));
 	plugin.addCommand({
 		id: "open-differential-review",
-		name: "Open differential review for this branch record",
+		name: "Open differential review for this record",
 		checkCallback: (checking) => {
 			const file = plugin.app.workspace.getActiveFile();
 			const record = file && recordFromPath(file.path);
-			if (!record || record.kind !== "branches") return false;
+			if (!record || !isReviewableRecordKind(record.kind)) return false;
 			if (!checking) void openDifferentialReview(plugin.app, record.dir);
 			return true;
 		},
@@ -179,7 +180,7 @@ export class DiffReviewView extends ItemView {
 		const root = this.contentEl;
 		if (!this.view) {
 			this.showMessage(
-				`No differential-review snapshots in ${this.recordDir}/differential-review/snapshots yet. Agents write one after implementation, hardening, polishing and later revisions (see agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).`,
+				`No differential-review snapshots in ${this.recordDir}/differential-review/snapshots yet. Agents write one after each branch phase or PR review round (see agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).`,
 			);
 			return;
 		}

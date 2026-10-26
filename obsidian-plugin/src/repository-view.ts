@@ -3,6 +3,7 @@ import { type GroupingSection, groupingFor, parseGrouping, RECORD_KINDS, type Re
 import { type GithubTab, githubListTitle, githubListUrl, REPOSITORY_TABS as TABS, type RepositoryTab as Tab, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./launchers";
 import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
+import { isReviewableRecordKind } from "../../differential-review/src/core";
 import { hasDifferentialReview, openDifferentialReview } from "./diff-review-view";
 import { githubUrl } from "./record-links";
 import { groupRecords } from "./record-groups";
@@ -359,7 +360,7 @@ export class RepositoryView extends ItemView {
 		action("github", "Open on GitHub", () => window.open(githubUrl(record, body)));
 		const worktree = Platform.isDesktopApp ? this.host.worktreeFor(record, body) : null;
 		if (worktree) action("code", "Open with Code", () => this.host.openInCode(worktree));
-		if (record.kind === "branches" && hasDifferentialReview(this.app, record.dir)) action("git-compare", "Differential review", () => void openDifferentialReview(this.app, record.dir));
+		if (isReviewableRecordKind(record.kind) && hasDifferentialReview(this.app, record.dir)) action("git-compare", "Differential review", () => void openDifferentialReview(this.app, record.dir));
 	}
 
 	private canLaunch(record: RecordRef): boolean {

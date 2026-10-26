@@ -69,3 +69,7 @@ A dated review round (`review-YYYY-MM-DD.md`) for a PR reviewed more than once. 
 ## screenshots/
 
 Local captures supporting the review. Ignored by git; describe useful captures in the notes.
+
+## differential-review/**
+
+Differential review data for the PR. `snapshots/*.json` are immutable, gitignored snapshots of the PR head at each review round, written only by the `differential-review` CLI ([PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md)). `review-state.json` holds John's optional check-offs and is written only by the review plugins; agents never create, edit or delete it.
