@@ -44,6 +44,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`issue_24389_lint_duplicate_test_params_26.1`](active/issue_24389_lint_duplicate_test_params_26.1/index.md) — Lint conflicting duplicate tool-test params (load unchanged); `<edit_attributes>` stored as dicts (#24389). Base `release_26.1`. [#24480](https://github.com/galaxyproject/galaxy/pull/24480).
 - [`selenium_history_filters_ftp_notice`](active/selenium_history_filters_ftp_notice/index.md) — Restores FTP guidance and wraps upload-browser names; adds history and remote-folder tests. Base `release_26.2`. [#24458](https://github.com/galaxyproject/galaxy/pull/24458).
 - [`selenium_history_panel_switch`](active/selenium_history_panel_switch/index.md) — Add missing 26.2 E2E test for the history panel's Switch to history modal; shared `history_selector_modal` component. Base `release_26.2`. [#24444](https://github.com/galaxyproject/galaxy/pull/24444).
 - [`untyped_param_lint_declared_labels`](active/untyped_param_lint_declared_labels/index.md) — Editor lint and run form only treat rename `${...}` as replacement params; lint skips input-backed names (#24379). Base `release_26.1`. [#24381](https://github.com/galaxyproject/galaxy/pull/24381).
@@ -117,7 +118,6 @@ None yet.
 - [`issue_23914_page_card_actions`](active/issue_23914_page_card_actions/index.md) — Makes notebook card title and Edit/Share actions follow the current user and page, so a late user load shows Share. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23914_page_card_actions?expand=1).
 - [`issue_23521_conditional_case_resolution`](active/issue_23521_conditional_case_resolution/index.md) — Rejects conditional cases that resolve to nothing instead of running the last when-case (#23521). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_23521_conditional_case_resolution?expand=1).
 - [`issue_23891_output_reference_resolver`](active/issue_23891_output_reference_resolver/index.md) — Resolves format_source and metadata_source against declared inputs at tool load (#23891). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23891_output_reference_resolver?expand=1).
-- [`issue_24389_lint_duplicate_test_params_26.1`](active/issue_24389_lint_duplicate_test_params_26.1/index.md) — Lint conflicting duplicate tool-test params (load unchanged); `<edit_attributes>` stored as dicts (#24389). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24389_lint_duplicate_test_params_26.1?expand=1).
 - [`issue_24389_reject_duplicate_test_params_26.2`](active/issue_24389_reject_duplicate_test_params_26.2/index.md) — Conflicting duplicate tool-test params error at load from 26.2 (#24389). Stacked on the 26.1 lint branch. [Open PR](https://github.com/jmchilton/galaxy/compare/issue_24389_lint_duplicate_test_params_26.1...issue_24389_reject_duplicate_test_params_26.2?expand=1).
 
 ## Galaxy branches — approved, opens when green (`branches_need_pr`)

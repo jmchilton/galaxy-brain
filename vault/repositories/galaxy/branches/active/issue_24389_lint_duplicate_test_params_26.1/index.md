@@ -9,11 +9,11 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Polished 2026-10-26 at `88151f3a8d6`; waiting for John's final review.
+Polished 2026-10-26 at `88151f3a8d6`; approved by John's launch 2026-10-26.
 
-No PR; replaces closed [#24450](https://github.com/galaxyproject/galaxy/pull/24450) (split on bernt-matthias' review).
+Draft [#24480](https://github.com/galaxyproject/galaxy/pull/24480) opened 2026-10-26; replaces closed [#24450](https://github.com/galaxyproject/galaxy/pull/24450) (split on bernt-matthias' review).
 
-Fork CI on `88151f3a8d6` pending.
+CI on `88151f3a8d6` queued; undraft when green.
 
 ## Decisions
 

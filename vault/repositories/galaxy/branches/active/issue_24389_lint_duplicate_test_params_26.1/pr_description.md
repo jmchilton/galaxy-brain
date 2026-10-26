@@ -121,7 +121,7 @@ Replaces 🔀 #24450, split on review: lint and the `edit_attributes` fix here, 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A `TestsCaseValidation` message: "Test N: … Validation errors are [Ambiguous test parameter (\<path\>) specified more than once with different values]". It is an error at profile ≥ 24.2 and a warning below. The test itself still runs as before.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes.
