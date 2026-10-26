@@ -114,7 +114,7 @@ Do not weaken the schema to fit a non-conforming note. Reshape the note or delib
 - Routes cover note details (`[...slug].astro`), project sub-files (`projects/[project]/[...path].astro`), paper workspaces, repository records, tags, raw Markdown, the catalog, and the log. `/catalog/` renders `vault/Index.md` and `/log/` renders `vault/log.md` directly outside the content collections.
 - `site/src/lib/vault-urls.ts` maps vault paths to URLs. Repository record URLs omit the status directory so they survive status moves. See `LIBRARY_REPOSITORY_RECORDS.md`.
 - Repository pages display per-file help from `vault/repositories/{_defaults,<repo>}/<kind>/FILE_DOCS.md` through `site/src/lib/file-docs.ts`. See `LIBRARY_RECORD_FILE_DOCS.md`.
-- Factory pages publish `vault/agents/factory/FACTORY.md` and `*_FACTORY.md`, the only published slice of `agents/`. `/factory/` is the hub. The child-page map lives in `site/src/lib/factory-pages.ts`. Links to unpublished agent documents use absolute GitHub URLs.
+- Factory pages publish `vault/agents/factory/FACTORY.md`, `*_FACTORY.md` and `DIFFERENTIAL_REVIEW.md`, the only published slice of `agents/`. `/factory/` is the hub. The child-page map lives in `site/src/lib/factory-pages.ts`. Links to unpublished agent documents use absolute GitHub URLs.
 - Wiki-link rendering lives in `site/src/lib/remark-wiki-links.ts` and `site/src/lib/wiki-links.ts`. Note detail pages include a frontmatter backlinks panel.
 - GitHub alert blockquotes render as `.callout` asides through `site/src/lib/remark-github-alerts.ts`.
 - Tailwind CSS v4 uses `@tailwindcss/vite` and `@tailwindcss/typography`. Theme tokens live in `site/src/styles/global.css`. Dark mode uses a class toggle and detects OS preference.

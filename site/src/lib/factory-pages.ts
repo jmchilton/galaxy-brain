@@ -25,4 +25,10 @@ export const FACTORY_PAGES: FactoryPage[] = [
     title: "John's Galaxy Brain Review Factory",
     blurb: 'How a Galaxy pull request review is produced: reviewer profiles, verified findings, and the response John posts.',
   },
+  {
+    slug: 'differential-review',
+    source: 'DIFFERENTIAL_REVIEW',
+    title: "John's Galaxy Brain Differential Review",
+    blurb: 'How agents snapshot each branch after every phase, so John checks work off once and later reads only what changed.',
+  },
 ];

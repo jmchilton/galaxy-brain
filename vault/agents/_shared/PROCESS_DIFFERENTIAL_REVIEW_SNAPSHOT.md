@@ -1,6 +1,6 @@
 # Differential review snapshot
 
-At the end of a phase (implementation, hardening, polishing) or a later `revision` (rebase, requested changes, review response), record the branch's committed HEAD so John's review tooling can show him only what changed since he last checked it off. Take it after the phase's last commit, right before writing its debrief. WORKING_DIRECTORY is the branch's worktree.
+At the end of a phase (implementation, hardening, polishing) or a later `revision` (rebase, requested changes, review response), record the branch's committed HEAD so John's review tooling can show only what changed since John last checked it off. Take it after the phase's last commit, right before writing its debrief. WORKING_DIRECTORY is the branch's worktree.
 
 ```sh
 (cd WORKING_DIRECTORY && ~/projects/repositories/galaxy-brain/differential-review/bin/differential-review snapshot \

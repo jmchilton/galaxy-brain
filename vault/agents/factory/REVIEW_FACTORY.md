@@ -4,7 +4,7 @@ If a review on your Galaxy pull request linked you here, the findings came from 
 
 ## Overview
 
-A coordinating agent keeps the review queue. Reading a diff plus the code around it burns a lot of context, so the coordinator leaves that to subagents: each kind of review runs in its own, at an effort level the coordinator sets explicitly. Each round also starts with a local snapshot of the PR head, so on follow-up rounds John can read only what changed since he last looked, even across force-pushes.
+A coordinating agent keeps the review queue. Reading a diff plus the code around it burns a lot of context, so the coordinator leaves that to subagents: each kind of review runs in its own, at an effort level the coordinator sets explicitly. Each round also starts with a local snapshot of the PR head, so on follow-up rounds John can read only [what changed](https://jmchilton.github.io/galaxy-brain/factory/differential-review/) since the last look, even across force-pushes.
 
 ```mermaid
 flowchart TD

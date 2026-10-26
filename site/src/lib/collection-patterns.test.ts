@@ -20,6 +20,7 @@ const FILES = [
   'agents/factory/FACTORY.md',
   'agents/factory/BRANCH_FACTORY.md',
   'agents/factory/REVIEW_FACTORY.md',
+  'agents/factory/DIFFERENTIAL_REVIEW.md',
   'agents/factory/README.md',
   'agents/factory/TODO.md',
   'agents/factory/FACTORY_LANDING_PAGES_PLAN.md',
@@ -89,6 +90,7 @@ describe('collection patterns', () => {
   it('factoryFiles takes only the published factory pages', () => {
     expect(match(FACTORY_FILES_PATTERN)).toEqual([
       'agents/factory/BRANCH_FACTORY.md',
+      'agents/factory/DIFFERENTIAL_REVIEW.md',
       'agents/factory/FACTORY.md',
       'agents/factory/REVIEW_FACTORY.md',
     ]);
