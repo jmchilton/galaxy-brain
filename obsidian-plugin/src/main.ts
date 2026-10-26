@@ -15,6 +15,7 @@ import {
 } from "obsidian";
 import { fillTemplate, type Launcher, launcherScope, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
+import { registerDifferentialReview } from "./diff-review-view";
 import { githubUrl, worktreeCandidates } from "./record-links";
 import { repositoryNames } from "./repository";
 import { REPOSITORY_VIEW, RepositoryView } from "./repository-view";
@@ -28,6 +29,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 	private recordActions = new WeakMap<MarkdownView, HTMLElement[]>();
 
 	async onload() {
+		registerDifferentialReview(this);
 		this.registerEvent(
 			this.app.workspace.on("file-menu", (menu, file) => {
 				if (!(file instanceof TFile)) return;

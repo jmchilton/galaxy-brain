@@ -18,6 +18,7 @@ Obsidian vault + validation tooling for AI-generated Galaxy development notes. N
 - `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
 - `site/` - Astro static site rendering vault notes for GitHub Pages
 - `differential-review/` - differential-review library: pure core (`src/core/`, no Node imports) shared by plugins, and the snapshot CLI agents run after each phase (`src/cli/`); see `LIBRARY_DIFFERENTIAL_REVIEW.md`
+- `obsidian-plugin/src/diff-review-*.ts` - Obsidian differential-review view (diff2html; the only writer of `review-state.json`); plugin build/tests need `npm install` in `differential-review/` too
 
 ## Commands
 

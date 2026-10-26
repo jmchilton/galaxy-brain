@@ -2,7 +2,7 @@
 
 Local tooling for reviewing branches that keep changing through rebases, force-pushes and agent iterations. The reviewer checks work off once. After that, only what actually changed is shown again.
 
-This document covers the static library and CLI in `differential-review/`. The UI (diff2html in the Obsidian plugin and Chrome extension) comes later. The factory process wiring is under [Factory integration](#factory-integration).
+This document covers the static library and CLI in `differential-review/`, and the reviewer's UI in the Obsidian plugin under [Obsidian view](#obsidian-view). A Chrome UI comes later. The factory process wiring is under [Factory integration](#factory-integration).
 
 ## Spec summary
 
@@ -35,7 +35,9 @@ differential-review/
     queries.ts                      commit lineage, latestSnapshot, changesBetween, changesSincePhase, summarizeSnapshot
     review-state.ts                 review-state model + immutable mutations
     derive.ts                       reviewed/new/changed at hunk, file and commit level
-    storage.ts                      layout, TextFileAdapter, SnapshotReader, ReviewStateStore
+    storage.ts                      layout, TextFileAdapter, SnapshotReader, ReviewStateStore, updateReviewState
+    view.ts                         UI view model: buildReviewView (states, baseline, visibility) + render helpers
+    fixtures/make-view-fixtures.sh  regenerates fixtures/view-fixtures/ (3 real CLI snapshots) for view tests
     sha256.ts                       sync SHA-256 (no node:crypto, no async WebCrypto)
   src/cli/                          Node only
     git.ts                          git invocations with pinned diff flags; range-diff parser
@@ -312,7 +314,7 @@ The `h1:` prefix is versioned because review state keeps fingerprints forever. A
 
 ## Tests
 
-`make diff-review-test` runs 79 tests: core unit tests on fixture diffs, plus CLI tests that build real temp git repos with isolated config (`GIT_CONFIG_GLOBAL=/dev/null`, fixed dates). They cover:
+`make diff-review-test` runs 91 tests: core unit tests on fixture diffs, plus CLI tests that build real temp git repos with isolated config (`GIT_CONFIG_GLOBAL=/dev/null`, fixed dates). They cover:
 
 - **Rebases and amends**
   - A rebase that only shifts line numbers: the hunks and the commit stay reviewed.
@@ -410,13 +412,63 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 - **Dirty worktrees warn, not fail.** The snapshot covers committed HEAD. Failing would block an agent's post-phase step over stray files that are irrelevant to it.
 - **Tests import `site/src/lib/records.ts`** the way `obsidian-plugin` does. `vitest.config.ts` (`oxc.tsconfig: false`) and the esbuild `tsconfig` option stop either tool from resolving `site/tsconfig.json`, which extends `astro`. So tests and the build run without `site/node_modules`. `obsidian-plugin` has no such guard, so its tests need `site/node_modules` in a fresh worktree.
 
+## Obsidian view
+
+`obsidian-plugin/src/diff-review-view.ts` (the `ItemView`), `diff-review-render.ts` (plain DOM plus diff2html, no Obsidian APIs), `diff-review-storage.ts` (`TextFileAdapter` over `app.vault.adapter`) and `diff-review.css`. The view model is core's `buildReviewView` (`src/core/view.ts`), so a Chrome UI can reuse it, and the render module too.
+
+**Entry points.**
+- Repository view: a git-compare icon on each branch record that has a `differential-review/snapshots/` folder.
+- Command "Open differential review for this branch record", available on any note inside a branch record.
+- Both open, or refocus, one tab per record. The view registers before the desktop-only return, so it works on mobile.
+
+**UX.**
+- The view always shows the latest snapshot. Check-offs are recorded against it.
+- **Header.**
+  - Progress for hunks, files and commits, with a meter.
+  - A "Show" selector: "everything, badged since my last review" (the default), or "only changes since <snapshot>" for each earlier snapshot, labelled with its phase. The baseline hides hunks that exact- or moved-match that snapshot, and commits that are unchanged since it. Badges still come from review state, so "hardening since implementation, unreviewed" is that baseline plus "Hide reviewed".
+  - A "Hide reviewed" toggle, on by default. The baseline and the toggle persist in the view state.
+- **Hidden complexity.**
+  - The "Since <previous snapshot>: …" line (`summarizeSnapshot`) appears only when the last snapshot changed, added or dropped something. A clean rebase shows nothing.
+  - The re-look callout appears only when a commit is `changed` since its sign-off.
+  - A fully reviewed pure rebase renders as "Nothing to review" with full progress.
+- **Files.**
+  - Collapsible sections, each with a checkbox and a reviewed/new/changed badge. Ticking the checkbox checks off the whole file (`markFileReviewed`); unticking removes the current and carried-over (`reviewedAs.hunkId`) records.
+  - Each hunk renders as its own one-hunk diff2html patch, with a checkbox, a badge, the `@@` header, +/− counts and a whitespace-only tag. Meta units (renames, binaries, modes) render as text.
+  - A changed hunk has "Δ since reviewed", and under a baseline "Δ since baseline". This interdiff diffs the two versions' `+`/`−` lines (`interdiffPatch`).
+- **Commits.**
+  - Each commit has a sign-off checkbox (`signOffCommit` / `revokeCommitSignoff`), a badge and the message.
+  - A changed commit shows only its differing hunks, from the per-commit diff. A context-only one (`differingHunks: []`) says to re-look holistically and sign off again.
+  - Hunks are checked off only from the file view (open question 4).
+- **Keys** (view focused): `j`/`k` move, `x` checks off the focused file, hunk or commit, `o` opens or closes, `h` hides reviewed, `e`/`c` expand or collapse all.
+- **Large snapshots.**
+  - Sections fill lazily on first open. Files start expanded only when the visible hunks total at most 400 diff lines.
+  - diff2html output is cached per patch, and parsed snapshots are cached per id (they're immutable). Reloads read only new snapshot files.
+  - `matchHunks` memoizes fuzzy similarity per content-hash pair (`match.ts`). On a synthetic 1.2 MB, 2400-hunk snapshot with 900 changed hunks, deriving the view took about 1.7 s cold and about 85 ms per check-off after that.
+- **Theme.** diff2html's light-scheme `--d2h-*` variables are mapped onto Obsidian tokens (`--background-*`, `--color-*-rgb`), scoped to `.gbdr`, so light and dark themes both follow Obsidian. `esbuild.config.mjs` concatenates `styles.css`, diff2html's CSS and `src/diff-review.css` into the built `styles.css`.
+
+**Write safety.** The view writes only `review-state.json`.
+- Each check-off is queued on one promise chain per view. Each queued write re-reads the file from disk, applies the pure mutation (core `updateReviewState`) and writes the result. A concurrent writer's check-offs on other keys survive, unless its write lands between the read and the write (milliseconds).
+- The first write creates the `differential-review/` dir.
+- Vault `create`, `modify`, `delete` and `rename` events under `<record>/differential-review/` reload the view, debounced. This picks up new agent snapshots and edits by other writers. The view ignores modify events whose content equals its own last write.
+- A failed write shows a Notice and reloads from disk.
+
+**Build.** diff2html 3.4.56 is pinned and bundled; it pulls its own `diff@8` alongside core's `diff@9.0.0`. The bundle grows from about 41 KB to about 210 KB. Core's `import "diff"` resolves from `differential-review/node_modules`, so `npm install` must run in `differential-review/` before `make plugin-build` or `make plugin-test`. Render tests use happy-dom 20.14.6.
+
+**Remaining gaps.**
+- There is no snapshot picker. Older snapshots can only serve as baselines; the view never shows them as the reviewed target.
+- Hunks can't be checked off from a commit view.
+- Commits that dropped out since the last snapshot aren't listed.
+- The keyboard model is minimal: no `n` for the next unreviewed item.
+- Writes aren't atomic: `adapter.write` has no temp-file rename. There is no compare-and-swap (open question 5).
+- It hasn't been exercised inside a live Obsidian yet. DOM tests run under happy-dom, plus a static harness rendered in Chromium in light and dark.
+
 ## Open questions for John
 
 1. **Commit snapshots to the vault repo, or keep them gitignored?** They are gitignored for now. Size is about 65–150 KB per snapshot for typical branches, roughly ×3 phases plus reruns per branch. But a long branch on a stale base can produce MBs. If they stay ignored, `review-state.json` synced to another machine refers to snapshots that aren't there, so only exact-ID matches survive there. Options: commit them, sync them outside git, or move `review-state.json` next to the ignored snapshots.
 2. **Add a `rebase` phase** (or `review-response`)? gx_branches rebases are exactly what this tool is for, but they currently have no phase tag, so rebase snapshots would have to reuse `polishing`.
 3. **Fuzzy threshold 0.6 at character level.** Is that the right "changed vs. new" line? Tune it once there are real UI sessions.
 4. **Should hunk check-offs also be allowed from the commit view** (per-commit hunks), or only from the cumulative file view, as decided above?
-5. **Concurrency on `review-state.json`.** Obsidian and Chrome could both write it. There is no revision check yet, so the last writer wins. Add a `revision` compare-and-swap?
+5. **Concurrency on `review-state.json`.** Obsidian and Chrome could both write it. The Obsidian view re-reads before every write (`updateReviewState`), so only writes landing within the same few milliseconds can lose a check-off. Is that enough, or add a `revision` compare-and-swap?
 6. **Chrome native-host API** for read/write (still open per the spec). It should implement `TextFileAdapter`, or `SnapshotReader` plus `ReviewStateStore`, over the existing host. See Interfaces for a sketch, and item 9 for message size.
 7. **Merged or split hunks** (see the known limitation). Is it worth `h2` change-run fingerprints, or is failing safe good enough?
 8. **Missing base metadata.** Many active records have only prose like "Base: `dev`". Migrate them to `upstream_base_branch` frontmatter, or have agents always pass `--base`?
