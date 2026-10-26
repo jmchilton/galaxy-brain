@@ -6,4 +6,8 @@ https://github.com/galaxyproject/galaxy/issues/24457 (assigned jmchilton, filed 
 - [proposal.md](proposal.md) — posted text
 - [debrief.md](debrief.md) — research + review
 
-Fix: commit 76c58d2fb7f on `jmchilton/galaxy_ui_driver` (mixed with other work). Next: split to a dedicated branch off release (bug dates ≥ 2024-02-28), open PR.
+Original FAQ fix: commit 76c58d2fb7f on `jmchilton/galaxy_ui_driver`; the owning Playwright session retains that standing branch until upstream reconciliation.
+
+Hardened implementation: [`issue_24457_password_reset_25.1`](../../../branches/active/issue_24457_password_reset_25.1/index.md), base `release_25.1`, head `b88e76ad2ca`. READY and pushed; fork CI queued, handed off for human/PR review.
+
+[Implementation update posted](https://github.com/galaxyproject/galaxy/issues/24457#issuecomment-6405387043).

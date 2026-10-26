@@ -18,3 +18,5 @@ Validation and hardening:
 - Fork CI is queued for `b88e76ad2ca`; no upstream PR has been opened by this implementation workflow.
 
 Forward-merge note: 25.1 requests resets inline on LoginForm; 26.2 has a separate reset page. The separate FAQ branch supplies the 26.2 `request_password_reset` body. Reconcile those helpers and retain the appropriate reset-page targets when forwarding the older fix. This is not a dependency between the two review branches.
+
+The first-handoff [implementation update](https://github.com/galaxyproject/galaxy/issues/24457#issuecomment-6405387043) was posted on #24457. The standing driver branch was not restacked.
