@@ -1,10 +1,11 @@
 #!/bin/bash
-# Print a compact CI failure digest (gh-ci-artifacts --digest), cached per head SHA.
+# Print a compact CI failure digest (gh-ci-artifacts --digest).
 # Usage: gx_check_ci.sh <PR number | PR URL> [--repo OWNER/REPO] [--fresh]
 #        gx_check_ci.sh --branch NAME --base UPSTREAM_BASE [--repo OWNER/REPO] [--fresh]
+# Cached per head SHA and run attempts/statuses, so reruns and finished runs refresh it.
 # PR default repo: galaxyproject/galaxy. Branch mode reads fork CI (default repo: <gh user>/galaxy)
 # and compares against UPSTREAM_BASE in galaxyproject/galaxy.
-# Exit: 0 green, 1 failures, 2 nothing failed yet but runs pending, 3 tool error.
+# Exit: 0 green, 1 failures, 2 nothing failed yet but runs pending or not started, 3 tool error.
 # GH_CI_ARTIFACTS overrides the tool command (default: local clone's dist/cli.js, else npx).
 set -eu
 
@@ -47,8 +48,10 @@ mkdir -p "$key_dir"
 find "$key_dir" -mindepth 1 -maxdepth 1 ! -name "${sha:0:12}*" -exec rm -rf {} +
 find "$root" -mindepth 2 -maxdepth 2 -type d -mtime +7 -exec rm -rf {} +
 
-if [ -n "$fresh" ] || [ ! -f "$out.complete" ]; then
-  rm -rf "$out" "$out.complete"
+runs=$(gh api "repos/$repo/actions/runs?head_sha=$sha&per_page=100" \
+  --jq '[.workflow_runs[] | "\(.id):\(.run_attempt):\(.status)"] | sort | join(",")')
+if [ -n "$fresh" ] || [ "$(cat "$out.runs" 2>/dev/null)" != "$runs" ]; then
+  rm -rf "$out" "$out.runs"
   status=0
   # shellcheck disable=SC2086
   $tool "$ref" --repo "$repo" -o "$out" --config "$(dirname "$0")/gx_check_ci.json" "${base_args[@]+"${base_args[@]}"}" \
@@ -59,12 +62,12 @@ if [ -n "$fresh" ] || [ ! -f "$out.complete" ]; then
     tail -5 "$out.log" >&2
     exit 3
   fi
-  grep -q '^Pending: ' "$digest" || touch "$out.complete"
+  echo "$runs" > "$out.runs"
 fi
 
 digest=$(find "$out" -maxdepth 2 -name digest.txt | head -1)
 cat "$digest"
 echo "Details: $(dirname "$digest") (converted/ = pytest JSON, raw/ = artifacts and job logs)"
 if grep -q '^Failed jobs' "$digest"; then exit 1
-elif grep -q '^Pending: ' "$digest"; then exit 2
+elif grep -qE '^(Pending: |No workflow runs)' "$digest"; then exit 2
 fi

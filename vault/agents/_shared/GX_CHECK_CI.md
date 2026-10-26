@@ -10,7 +10,7 @@ $S/gx_check_ci.sh <PR number or URL>                    # an upstream PR
 $S/gx_check_ci.sh --branch BRANCH --base UPSTREAM_BASE  # a branch's fork CI, before its PR
 ```
 
-UPSTREAM_BASE is the record's `upstream_base_branch`. The command prints a digest and exits 0 green, 1 failures, 2 nothing failed yet but runs pending, or 3 if the tool failed. Results are cached per head SHA, so rerunning it is cheap. Don't wait for pending runs. Judge what has already failed.
+UPSTREAM_BASE is the record's `upstream_base_branch`. The command prints a digest and exits 0 green, 1 failures, 2 nothing failed yet (runs pending or not started), or 3 if the tool failed. Results are cached until the head SHA or a run's attempt or status changes, so rerunning it is cheap. Don't wait for pending runs. Judge what has already failed.
 
 ## Read the digest
 
@@ -24,7 +24,7 @@ Classify each signature:
 - **Unrelated**: `[fails on <base>]`, or failures far from the branch's changes in a job that also fails on the base (e.g. a Python integration test on a client-only branch).
 - **Unclear**: anything else. Only for these, read the test's entry under the printed `Details:` directory (`jq` on `converted/`, or `grep` in the job logs under `raw/`).
 
-Read-only: don't rerun jobs, push, comment, or fetch into Galaxy clones. If the command exits 3, report its error and stop.
+Read-only: don't rerun jobs, push, comment, or fetch into Galaxy clones. If the command exits 3, report its error and stop. It needs a `gh-ci-artifacts` with `--digest` ([jmchilton/gh-ci-artifacts#4](https://github.com/jmchilton/gh-ci-artifacts/pull/4)); until that is released it runs the build in `~/projects/repositories/gh-ci-artifacts`.
 
 ## Report
 
