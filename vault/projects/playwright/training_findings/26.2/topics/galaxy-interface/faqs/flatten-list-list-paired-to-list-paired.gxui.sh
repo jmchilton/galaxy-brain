@@ -12,8 +12,7 @@ gxui collection-build list:paired 1,2,3,4 --name pairs
 gxui tool-open __APPLY_RULES__
 gxui tool-fill '{"input": 9}'
 gxui call tool_parameter_edit_rules
-# leading space keeps gxui call from parsing the JSON into a dict
-gxui call rule_builder_set_source ' {"rules":[{"type":"add_column_metadata","value":"identifier0"},{"type":"add_column_metadata","value":"identifier1"},{"type":"add_column_value","value":"batch1"}],"mapping":[{"type":"list_identifiers","columns":[2,0]},{"type":"paired_identifier","columns":[1]}]}'
+gxui call rule_builder_set_source '{"rules":[{"type":"add_column_metadata","value":"identifier0"},{"type":"add_column_metadata","value":"identifier1"},{"type":"add_column_value","value":"batch1"}],"mapping":[{"type":"list_identifiers","columns":[2,0]},{"type":"paired_identifier","columns":[1]}]}'
 gxui component rule_builder.main_button_ok click
 gxui tool-run
 gxui collection-peek 14
