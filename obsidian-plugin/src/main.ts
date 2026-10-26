@@ -19,7 +19,8 @@ import type { RecordKind } from "../../site/src/lib/records";
 import { AGENTS_VIEW, AgentsView, ALL_AGENTS } from "./agents-view";
 import { fillTemplate, type Launcher, launcherScope, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
-import { registerDifferentialReview } from "./diff-review-view";
+import { isReviewableRecordKind } from "../../differential-review/src/core";
+import { openDifferentialReview, registerDifferentialReview } from "./diff-review-view";
 import { githubUrl, worktreeCandidates } from "./record-links";
 import { parseRecordAgents, SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { repositoryNames } from "./repository";
@@ -34,7 +35,7 @@ const LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
 const CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
 
 export default class GalaxyBrainPlugin extends Plugin {
-	private recordActions = new WeakMap<MarkdownView, HTMLElement[]>();
+	private recordActions = new WeakMap<MarkdownView, { reviewable: boolean; actions: HTMLElement[] }>();
 
 	async onload() {
 		registerDifferentialReview(this);
@@ -112,29 +113,32 @@ export default class GalaxyBrainPlugin extends Plugin {
 		}
 	}
 
-	/** Code, GitHub and agent icons in the header of notes inside a repository record. */
+	/** Code, GitHub, agent and (branches/reviews) differential review icons in the header of notes inside a repository record. */
 	private refreshRecordActions() {
 		for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
 			const view = leaf.view;
 			if (!(view instanceof MarkdownView)) continue;
 			const record = view.file && recordFromPath(view.file.path);
+			const reviewable = !!record && isReviewableRecordKind(record.kind);
 			const existing = this.recordActions.get(view);
-			if (record && !existing) {
+			if (existing && (!record || existing.reviewable !== reviewable)) {
+				existing.actions.forEach((action) => action.remove());
+				this.recordActions.delete(view);
+			}
+			if (record && !this.recordActions.has(view)) {
 				const withRecord = (act: (record: RecordRef) => unknown) => () => {
 					const current = view.file && recordFromPath(view.file.path);
 					if (current) void act(current);
 				};
 				// addAction prepends, so the bot ends up leftmost, matching the repository view.
 				const actions = [
+					...(reviewable ? [view.addAction("git-compare", "Differential review", withRecord((r) => openDifferentialReview(this.app, r.dir)))] : []),
 					view.addAction("code", "Open with Code", withRecord((r) => this.openRecordInCode(r))),
 					view.addAction("github", "Open on GitHub", withRecord((r) => this.openRecordOnGithub(r))),
 					view.addAction("bot", "Launch agent", withRecord((r) => this.pickLauncher(r))),
 				];
-				this.recordActions.set(view, actions);
+				this.recordActions.set(view, { reviewable, actions });
 				this.register(() => actions.forEach((action) => action.remove()));
-			} else if (!record && existing) {
-				existing.forEach((action) => action.remove());
-				this.recordActions.delete(view);
 			}
 		}
 	}

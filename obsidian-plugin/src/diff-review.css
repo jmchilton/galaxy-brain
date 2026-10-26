@@ -31,7 +31,8 @@
 
 .gbdr .d2h-wrapper { color: var(--text-normal); }
 .gbdr .d2h-file-header { display: none; }
-.gbdr .d2h-file-wrapper { margin-bottom: 0; border-radius: 0; border-width: 1px 0 0; }
+/* diff2html's line numbers are position: absolute; anchor them inside the scrolling view, not Obsidian's leaf. */
+.gbdr .d2h-file-wrapper { position: relative; margin-bottom: 0; border-radius: 0; border-width: 1px 0 0; }
 .gbdr .d2h-diff-table { font-family: var(--font-monospace); font-size: var(--code-size); }
 .gbdr .d2h-code-linenumber { background-color: var(--background-primary); }
 /* The hunk bar already shows the @@ header. */

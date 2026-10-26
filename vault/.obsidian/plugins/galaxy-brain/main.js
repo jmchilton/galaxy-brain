@@ -1084,9 +1084,6 @@ function defaultProfile(profiles, launcher) {
   return profiles.find((profile) => profile.name === launcher.profile) ?? profiles[0] ?? FALLBACK_PROFILES[0];
 }
 
-// src/diff-review-view.ts
-var import_obsidian2 = require("obsidian");
-
 // ../differential-review/src/core/types.ts
 var SNAPSHOT_SCHEMA_VERSION = 1;
 var REVIEW_STATE_SCHEMA_VERSION = 1;
@@ -2592,6 +2589,9 @@ function commitHunks(commit, ids) {
   const keep = new Set(ids);
   return files.map((f) => ({ ...f, hunks: f.hunks.filter((h) => keep.has(h.id)) })).filter((f) => f.hunks.length > 0);
 }
+
+// src/diff-review-view.ts
+var import_obsidian2 = require("obsidian");
 
 // node_modules/diff2html/lib-esm/types.js
 var LineType;
@@ -5620,28 +5620,31 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
       new import_obsidian4.Notice(`Could not copy ${file.name}: ${error}`);
     }
   }
-  /** Code, GitHub and agent icons in the header of notes inside a repository record. */
+  /** Code, GitHub, agent and (branches/reviews) differential review icons in the header of notes inside a repository record. */
   refreshRecordActions() {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
       if (!(view instanceof import_obsidian4.MarkdownView)) continue;
       const record = view.file && recordFromPath(view.file.path);
+      const reviewable = !!record && isReviewableRecordKind(record.kind);
       const existing = this.recordActions.get(view);
-      if (record && !existing) {
+      if (existing && (!record || existing.reviewable !== reviewable)) {
+        existing.actions.forEach((action) => action.remove());
+        this.recordActions.delete(view);
+      }
+      if (record && !this.recordActions.has(view)) {
         const withRecord = (act) => () => {
           const current = view.file && recordFromPath(view.file.path);
           if (current) void act(current);
         };
         const actions = [
+          ...reviewable ? [view.addAction("git-compare", "Differential review", withRecord((r) => openDifferentialReview(this.app, r.dir)))] : [],
           view.addAction("code", "Open with Code", withRecord((r) => this.openRecordInCode(r))),
           view.addAction("github", "Open on GitHub", withRecord((r) => this.openRecordOnGithub(r))),
           view.addAction("bot", "Launch agent", withRecord((r) => this.pickLauncher(r)))
         ];
-        this.recordActions.set(view, actions);
+        this.recordActions.set(view, { reviewable, actions });
         this.register(() => actions.forEach((action) => action.remove()));
-      } else if (!record && existing) {
-        existing.forEach((action) => action.remove());
-        this.recordActions.delete(view);
       }
     }
   }
