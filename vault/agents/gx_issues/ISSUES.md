@@ -2,7 +2,7 @@
 
 Triage index for `galaxyproject/galaxy` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/galaxy/issues/`. Branch and PR state lives in `vault/repositories/galaxy/branches/MY_BRANCHES.md`.
 
-GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to jmchilton.
+GitHub state last refreshed: 2026-10-26. Every open issue below is assigned to jmchilton.
 
 ## Waiting on John (`needs_decision`)
 
@@ -23,17 +23,12 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#23424](https://github.com/galaxyproject/galaxy/issues/23424) — validate `when` expression input references at import; branch `issue_23424_when_expression_validation`. [notes](../../repositories/galaxy/issues/wip/23424/index.md)
 - [#23428](https://github.com/galaxyproject/galaxy/issues/23428) — are pipes allowed in subworkflow input names; branch `workflow_input_pipe_names`. [notes](../../repositories/galaxy/issues/wip/23428/index.md)
 - [#23521](https://github.com/galaxyproject/galaxy/issues/23521) — unmatched conditional case silently runs the last `<when>`; branch `issue_23521_conditional_case_resolution`. [notes](../../repositories/galaxy/issues/wip/23521/index.md)
-- [#23695](https://github.com/galaxyproject/galaxy/issues/23695) — testing docs lack skip-when-site-down; branch `issue_23695_testing_docs_site_down`. [notes](../../repositories/galaxy/issues/wip/23695/index.md)
 - [#23884](https://github.com/galaxyproject/galaxy/issues/23884) — `structured_like` upgrade advice names the wrong profile; branch `upgrade_advice_structured_like`. [notes](../../repositories/galaxy/issues/wip/23884/index.md)
 - [#23888](https://github.com/galaxyproject/galaxy/issues/23888) — YAML tool authoring models vs loader dialects; first slice branch `yaml_boolean_defaults`. [notes](../../repositories/galaxy/issues/wip/23888/index.md)
 - [#23891](https://github.com/galaxyproject/galaxy/issues/23891) — `format_source` resolves internal job keys; branch `issue_23891_output_reference_resolver`. [notes](../../repositories/galaxy/issues/wip/23891/index.md)
 - [#23902](https://github.com/galaxyproject/galaxy/issues/23902) — unqualified `format_source` resolves only via legacy alias; branch `issue_23902_qualified_output_references` (stacked on #23891's). [notes](../../repositories/galaxy/issues/wip/23902/index.md)
 - [#23897](https://github.com/galaxyproject/galaxy/issues/23897) — XML `<output type="collection">` never parsed; branch `issue_23897_xml_collection_output`. [notes](../../repositories/galaxy/issues/wip/23897/index.md)
-- [#23900](https://github.com/galaxyproject/galaxy/issues/23900) — rename leaves literal `#{...}` after an empty placeholder; branch `issue_23900_rename_single_pass`. [notes](../../repositories/galaxy/issues/wip/23900/index.md)
 - [#23914](https://github.com/galaxyproject/galaxy/issues/23914) — notebook card hides Share when user loads late; branch `issue_23914_page_card_actions`. [notes](../../repositories/galaxy/issues/wip/23914/index.md)
-- [#23917](https://github.com/galaxyproject/galaxy/issues/23917) — vitest auto-stubs drop `COMPONENT_V_MODEL: false`; branch `issue_23917_compat_vmodel_stubs`. [notes](../../repositories/galaxy/issues/wip/23917/index.md)
-- [#23930](https://github.com/galaxyproject/galaxy/issues/23930) — Tool Shed update swaps short/long description (26.1 regression); branch `issue_23930_shed_update_descriptions`. [notes](../../repositories/galaxy/issues/wip/23930/index.md)
-- [#24218](https://github.com/galaxyproject/galaxy/issues/24218) — client `canMapOver` allows `:paired_or_unpaired` map-overs server rejects; branch `issue_20657_input_processing_mode` (26.0 backport). [notes](../../repositories/galaxy/issues/wip/24218/index.md)
 - [#24220](https://github.com/galaxyproject/galaxy/issues/24220) — tool form drop matches collections by plain `endsWith`; branch `issue_20657_input_processing_mode` (26.0 backport). [notes](../../repositories/galaxy/issues/wip/24220/index.md)
 - [#24221](https://github.com/galaxyproject/galaxy/issues/24221) — option paging/merge drops a collection's map-over entry; branch `issue_20657_input_processing_mode` (26.1 backport). [notes](../../repositories/galaxy/issues/wip/24221/index.md)
 - [#24379](https://github.com/galaxyproject/galaxy/issues/24379) — editor lint flags rename `${name}` filled by a parameter input; extract fix can't succeed; branch `untyped_param_lint_declared_labels`. [notes](../../repositories/galaxy/issues/wip/24379/index.md)
@@ -46,7 +41,6 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#24445](https://github.com/galaxyproject/galaxy/issues/24445) — IT panel drops a newly started interactive tool while another is active (since #17356); next: extract 5e84f0ebadb + 4b54438b1c2 onto release_25.0. [notes](../../repositories/galaxy/issues/queued/24445/index.md)
 - [#24305](https://github.com/galaxyproject/galaxy/issues/24305) — workflow API saves duplicate output labels (server check dead); invocation hides outputs; next: red API tests. [notes](../../repositories/galaxy/issues/queued/24305/index.md)
 - [#24309](https://github.com/galaxyproject/galaxy/issues/24309) — custom build from FASTA not listed until jobs finish + reload; next: red API test for pending state. [notes](../../repositories/galaxy/issues/queued/24309/index.md)
-- (unassigned) [#24311](https://github.com/galaxyproject/galaxy/issues/24311) — 26.2 upload panel defaults POSIX conversion off (no trailing newline, CRLF kept); next: 26.2 branch restoring `true` + paste test. [notes](../../repositories/galaxy/issues/queued/24311/index.md)
 - (unassigned) [#24315](https://github.com/galaxyproject/galaxy/issues/24315) — error report forms shown when emails unconfigured; invocation feedback always claims success; next: UI repro, then config flag branch. [notes](../../repositories/galaxy/issues/queued/24315/index.md)
 - (unassigned) [#24316](https://github.com/galaxyproject/galaxy/issues/24316) — Filter1: missing column → traceback; `stop_err` exits 0 so errors finish green (profile 24.2); next: red tool tests + exit 1. [notes](../../repositories/galaxy/issues/queued/24316/index.md)
 - [#24226](https://github.com/galaxyproject/galaxy/issues/24226) — server `effective_collection_type` under-strips `X:paired_or_unpaired` over matching input, too many jobs; next: red tests on 26.0. [notes](../../repositories/galaxy/issues/queued/24226/index.md)
@@ -55,13 +49,11 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#24174](https://github.com/galaxyproject/galaxy/issues/24174) — rerun doesn't record which invocation it came from; next: implement from proposal. [notes](../../repositories/galaxy/issues/queued/24174/index.md)
 - [#24175](https://github.com/galaxyproject/galaxy/issues/24175) — rerun of imported invocation 500s on step params; next: port spike fix after #24178 helpers. [notes](../../repositories/galaxy/issues/queued/24175/index.md)
 - [#24176](https://github.com/galaxyproject/galaxy/issues/24176) — full run form ignores invocation on rerun; next: server-seeded prefill from spike. [notes](../../repositories/galaxy/issues/queued/24176/index.md)
-- [#24199](https://github.com/galaxyproject/galaxy/issues/24199) — workflow numeric input bounds enforced but not sent to the run form (no slider/warning); next: red serialization test. [notes](../../repositories/galaxy/issues/queued/24199/index.md)
 - [#24200](https://github.com/galaxyproject/galaxy/issues/24200) — workflow input validators rewritten on import (negate/extra ranges/messages lost); next: land red repro. [notes](../../repositories/galaxy/issues/queued/24200/index.md)
 - [#24219](https://github.com/galaxyproject/galaxy/issues/24219) — selected collection off the first option page lost on tool form refresh (not pinned); next: red API test, server pin helper. [notes](../../repositories/galaxy/issues/queued/24219/index.md)
 - [#24177](https://github.com/galaxyproject/galaxy/issues/24177) — simplified rerun form silently drops tool step params; next: after #24176, route to full form. [notes](../../repositories/galaxy/issues/queued/24177/index.md)
 - [#24178](https://github.com/galaxyproject/galaxy/issues/24178) — subworkflow step params in request export can't be posted back (500); next: PR spike's re-keying helpers. [notes](../../repositories/galaxy/issues/queued/24178/index.md)
 - (large) [#22709](https://github.com/galaxyproject/galaxy/issues/22709) — meta-issue: workflow extraction overhaul (notebook → graph → workflow); next: track individual bugs separately. [notes](../../repositories/galaxy/issues/queued/22709/index.md)
-- (large) [#21659](https://github.com/galaxyproject/galaxy/issues/21659) — progress towards a History Graph View; next: scope a first increment. [notes](../../repositories/galaxy/issues/queued/21659/index.md)
 - (large) [#22954](https://github.com/galaxyproject/galaxy/issues/22954) — Format 2 workflows have no layout round-trip; next: scope across gxformat2, editor and IWC. [notes](../../repositories/galaxy/issues/queued/22954/index.md)
 - (large) [#22999](https://github.com/galaxyproject/galaxy/issues/22999) — flag workflow outputs ephemeral to skip metadata; next: check whether deferred datasets are the mechanism. [notes](../../repositories/galaxy/issues/queued/22999/index.md)
 - [#23895](https://github.com/galaxyproject/galaxy/issues/23895) — `fill_defaults` import drops or crashes on nested repeat connections; next: shared descent helper, red API tests. [notes](../../repositories/galaxy/issues/queued/23895/index.md)
@@ -90,14 +82,10 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#21219](https://github.com/galaxyproject/galaxy/issues/21219) — Sentry `Cannot copy a NoneType to a collection element`; next: find the source via the improved message. [notes](../../repositories/galaxy/issues/queued/21219/index.md)
 - [#18153](https://github.com/galaxyproject/galaxy/issues/18153) — anon users see broken object store selection; next: decide hide or fix. [notes](../../repositories/galaxy/issues/queued/18153/index.md)
 - [#19391](https://github.com/galaxyproject/galaxy/issues/19391) — `file_source_templates_config_dir` option; next: add it. [notes](../../repositories/galaxy/issues/queued/19391/index.md)
-- [#18750](https://github.com/galaxyproject/galaxy/issues/18750) — user-defined S3 file source import fails; next: confirm on dev, add the `s3fs` property. [notes](../../repositories/galaxy/issues/queued/18750/index.md)
 - [#21811](https://github.com/galaxyproject/galaxy/issues/21811) — make `uv run` work from the Galaxy root; next: retry `uv.lock` with current tooling. [notes](../../repositories/galaxy/issues/queued/21811/index.md)
-- [#18642](https://github.com/galaxyproject/galaxy/issues/18642) — framework test gaps: `from_file`/`dynamic_options` drill-downs and selects; next: test tools. [notes](../../repositories/galaxy/issues/queued/18642/index.md)
-- [#11743](https://github.com/galaxyproject/galaxy/issues/11743) — collection tagging parameter cleanup; next: the three cleanups. [notes](../../repositories/galaxy/issues/queued/11743/index.md)
 - [#3899](https://github.com/galaxyproject/galaxy/issues/3899) — dependencies resolved for jobs that run in Docker; next: check on dev. [notes](../../repositories/galaxy/issues/queued/3899/index.md)
 - [#23977](https://github.com/galaxyproject/galaxy/issues/23977) — client page loads fan out /api/ requests (invocations list 165, 96 × 429 on test); next: dedupe datatypes fetch, red request-count test. [notes](../../repositories/galaxy/issues/queued/23977/index.md)
 - [#23978](https://github.com/galaxyproject/galaxy/issues/23978) — `parameters/` test tools use ignored `ext=`; 17 tools fail XSD, CI skips them; next: fix after issue_18642 lands, add to CI. [notes](../../repositories/galaxy/issues/queued/23978/index.md)
-- [#23979](https://github.com/galaxyproject/galaxy/issues/23979) — Playwright backend with default `headless=auto` needs chromedriver/geckodriver; next: backend guard in `headless_selenium()` + unit test. [notes](../../repositories/galaxy/issues/queued/23979/index.md)
 - [#23980](https://github.com/galaxyproject/galaxy/issues/23980) — workflow text param with static allowed values ignores its default in the run form; next: per-option `selected` from default + red unit test. [notes](../../repositories/galaxy/issues/queued/23980/index.md)
 - [#23981](https://github.com/galaxyproject/galaxy/issues/23981) — workflow rename `#{name }` with padding silently renders empty (hits IWC VGP5); next: always strip + flip parity test row. [notes](../../repositories/galaxy/issues/queued/23981/index.md)
 - [#23983](https://github.com/galaxyproject/galaxy/issues/23983) — TEMP SSE/notification overrides left in E2E workflows; two are dead keys; next: revert PR (coordinate with #23976). [notes](../../repositories/galaxy/issues/queued/23983/index.md)
@@ -109,20 +97,16 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#22745](https://github.com/galaxyproject/galaxy/issues/22745) — invocation graph freezes mid run; O(n²) 3 s refresh measured, comment posted; next: hoist PR + idle-refresh test. [notes](../../repositories/galaxy/issues/queued/22745/index.md)
 - [#24350](https://github.com/galaxyproject/galaxy/issues/24350) — `has_line_matching` wraps regex as `^e$` (ungrouped) but docs match `has_text_matching`; next: red unit test, split annotation, regen. [notes](../../repositories/galaxy/issues/queued/24350/index.md)
 - [#24376](https://github.com/galaxyproject/galaxy/issues/24376) — library folder download Selenium test lacks `test_` prefix; stale selector + zip name; next: rename, fix both, run. [notes](../../repositories/galaxy/issues/queued/24376/index.md)
-- [#24377](https://github.com/galaxyproject/galaxy/issues/24377) — `_assert_buttons` in `test_history_dataset_state.py` is a stub; `info_button` etc. stale; next: fix selectors/tooltips, restore. [notes](../../repositories/galaxy/issues/queued/24377/index.md)
 
 
 ## Blocked on others (`blocked`)
 
-- [#15515](https://github.com/galaxyproject/galaxy/issues/15515) — "show inputs/outputs" broken for imported histories; blocked on: ahmedhamidawan's WIP [#15573](https://github.com/galaxyproject/galaxy/pull/15573), stale since 2023. [notes](../../repositories/galaxy/issues/blocked/15515/index.md)
 - [#22598](https://github.com/galaxyproject/galaxy/issues/22598) — Tool Shed contents hidden from anonymous users after bot traffic; blocked on: an infrastructure decision (natefoo, mvdbeek). [notes](../../repositories/galaxy/issues/blocked/22598/index.md)
 - [#23183](https://github.com/galaxyproject/galaxy/issues/23183) — warm pool of interactive tool instances; blocked on: startup metrics showing which part is slow. [notes](../../repositories/galaxy/issues/blocked/23183/index.md)
 
 ## Untriaged (`untriaged`)
 
 - [#1810](https://github.com/galaxyproject/galaxy/issues/1810) — Simplified User-Facing Dataset Collection Model
-- [#13511](https://github.com/galaxyproject/galaxy/issues/13511) — Galaxy interactive tools with slurm and docker - docker container is not removed when tool is finished.
-- [#19049](https://github.com/galaxyproject/galaxy/issues/19049) — Add a dedicated interface for collection types in Workflow input field
 - [#19234](https://github.com/galaxyproject/galaxy/issues/19234) — Missing batch mode info for paired data
 - [#19677](https://github.com/galaxyproject/galaxy/issues/19677) — Type annotation imports breaking the package structure
 - [#20540](https://github.com/galaxyproject/galaxy/issues/20540) — Implement UI for Fixed Length Collections (records)
@@ -130,3 +114,11 @@ GitHub state last refreshed: 2026-10-06. Every open issue below is assigned to j
 - [#20900](https://github.com/galaxyproject/galaxy/issues/20900) — Add validation step in workflow submission / scheduling
 - [#21015](https://github.com/galaxyproject/galaxy/issues/21015) — Cannot provide multiple selection text input for multiple selection tool input
 - [#23935](https://github.com/galaxyproject/galaxy/issues/23935) — Drop handsontable after 26.2 is branched.
+- [#24438](https://github.com/galaxyproject/galaxy/issues/24438) — Select values with comma are handled incorrectly in tests
+- [#24389](https://github.com/galaxyproject/galaxy/issues/24389) — Testing: duplicate parameters in repeats are not reported (when inside conditional)
+- [#24375](https://github.com/galaxyproject/galaxy/issues/24375) — Workflow text input restrictions lose data through the editor's `value:label,...` string
+- [#24335](https://github.com/galaxyproject/galaxy/issues/24335) — Markdown editor cell menus lose keyboard focus after selecting an item
+- [#24328](https://github.com/galaxyproject/galaxy/issues/24328) — Installing data_manager_fetch_index_maf stops Galaxy from starting
+- [#24273](https://github.com/galaxyproject/galaxy/issues/24273) — Scheduled Selenium tests are failing
+- [#24264](https://github.com/galaxyproject/galaxy/issues/24264) — Library dataset iteration fails
+- [#24188](https://github.com/galaxyproject/galaxy/issues/24188) — Rename post-job action yields "<galaxy.model.HistoryDatasetAssociation(...)>" when a subworkflow text input is fed from an expression tool
