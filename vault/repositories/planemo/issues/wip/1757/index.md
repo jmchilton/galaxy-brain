@@ -6,4 +6,4 @@ Implemented 2026-10-26 through `WORK_HORSE.md` on [embedded-user-tool-workflows]
 
 The fix skips embedded definitions during dependency discovery and provisions the user-tool role before managed import. Local suites passed (89 tests, 5 skipped), `make lint` passed, and a real managed workflow ran in Docker with its output assertion passing. [Implementation details](../../../branches/active/embedded-user-tool-workflows/implementation_debrief.md).
 
-Fork CI is queued. No PR opened. Description polishing was blocked by automatic approval review and awaits explicit user approval.
+Fork CI is queued. No PR opened. Polishing is complete after John's explicit description-writing approval; the branch is ready for final human review.

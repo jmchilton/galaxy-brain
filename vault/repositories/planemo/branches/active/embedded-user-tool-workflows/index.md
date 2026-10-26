@@ -9,7 +9,7 @@ upstream_base_branch: master
 
 ## Status
 
-Implemented, reviewed and hardened for [#1757](https://github.com/galaxyproject/planemo/issues/1757); description polishing awaits approval after automatic review rejected writing a PR description.
+Polished and ready for final human review (`branches_ready_for_final_review`) for [#1757](https://github.com/galaxyproject/planemo/issues/1757) at pushed commit `4177dcf4`.
 
 No PR opened.
 
@@ -23,3 +23,9 @@ Base: `origin/master` at `5ff07fa8`. Worktree: `/Users/jxc755/projects/worktrees
 - [Normal review](subagents/normal_review.md)
 - [Hardening review](thermo_nuclear_review.md)
 - [Polishing debrief](polish_debrief.md)
+- [PR description](pr_description.md)
+- [Title options](pr_titles.md)
+- [Suggested labels](pr_tags.md)
+- [Strengthening review](subagents/polish_strengthening.md)
+
+John explicitly authorized description writing on 2026-10-26; final human read-through and PR approval remain pending.

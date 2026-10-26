@@ -1,0 +1,4 @@
+- Run embedded user tools in Planemo-managed workflows
+- Support embedded GalaxyUserTool steps in managed workflow runs
+- Fix discovery and permissions for embedded workflow tools
+- Provision managed users for embedded user-tool workflows

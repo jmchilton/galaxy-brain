@@ -41,7 +41,7 @@ None yet.
 
 ## Planemo branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`embedded-user-tool-workflows`](active/embedded-user-tool-workflows/index.md) — Runs local workflows with embedded user tools in managed Galaxy. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:embedded-user-tool-workflows).
+None yet.
 
 ## Planemo branches — implemented, work left, green (`branches_implemented`)
 
@@ -53,7 +53,7 @@ None yet.
 
 ## Planemo branches — ready for final review (`branches_ready_for_final_review`)
 
-None yet.
+- [`embedded-user-tool-workflows`](active/embedded-user-tool-workflows/index.md) — Runs local workflows with embedded user tools in managed Galaxy. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:embedded-user-tool-workflows).
 
 ## Planemo branches — approved, opens when green (`branches_need_pr`)
 

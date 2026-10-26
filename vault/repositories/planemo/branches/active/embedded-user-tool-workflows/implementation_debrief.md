@@ -33,4 +33,4 @@ The smoke test used local Galaxy with Docker job execution. The Docker-hosted Ga
 
 Normal review identified deleted-role reuse; fixed with active-role intersection and regression coverage. Hardening removed duplicate recursion through the existing walker. Neither review left a blocker.
 
-The code branch is committed, pushed, clean, and waiting for fork CI. No PR opened. Automatic approval review twice rejected saving `pr_description.md`, interpreting the shared no-description instruction as applying to this feature work. No bypass was attempted; the description-dependent polishing steps await explicit user approval. See [polishing debrief](polish_debrief.md).
+The code branch is committed, pushed, clean, and waiting for fork CI. No PR opened. Automatic approval review initially rejected saving `pr_description.md`; John then explicitly authorized the write and clarified the Galaxy-only scope of the handoff restrictions. Description writing and the strengthening/title/tag steps are complete, with the branch ready for final human review. See [polishing debrief](polish_debrief.md).
