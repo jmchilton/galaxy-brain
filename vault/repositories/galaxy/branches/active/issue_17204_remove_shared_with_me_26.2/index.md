@@ -8,7 +8,7 @@ upstream_base_branch: dev
 
 ## Status
 
-Status: `ci_wait` (2026-10-26): rebased onto `dev` and Dannon's review addressed at `3c87b5d9fed`.
+Status: `ci_wait` (2026-10-26): rebased onto `dev` and Dannon's review addressed at `a1fc81d4bc2`.
 
 PR status: Draft [#24486](https://github.com/galaxyproject/galaxy/pull/24486) retargeted to `dev`.
 
