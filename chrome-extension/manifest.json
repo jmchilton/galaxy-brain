@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Galaxy Brain",
+  "version": "0.1.0",
+  "description": "Launch galaxy-brain agents for the GitHub PR or issue in the current tab",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkhW095NyhYILbGaRyGc7aQogvtri0JQIv/5DA8F2NBSOYiqJt8TDofi6GHUELYM9HzcSBNFpPB7OEnnQkypyVFW7wptzNJXXoqobkxrrTvI8swzRuA/OmCTdz++E5KJxCFK65bhk1T8VK8N/459nJyOlNljfepSnUmc2xB9ofG6ZXU/F2UkshI8SHPbI67Q+6cszvFu3hRe24r/W85oTyKWPDEerYQHFAtnPsGs69GPmX3QsybBKjr4nKNUHaNhEv09ggQI5NKbB8cTbmZO8UXepLYj0wV1XJyqG4+JXu2gp+twu2E0dbLzlTD8liQfw5xWo1CyCR6g2SJTZ+n7fswIDAQAB",
+  "action": { "default_popup": "popup.html", "default_title": "Galaxy Brain" },
+  "permissions": ["activeTab", "nativeMessaging"]
+}

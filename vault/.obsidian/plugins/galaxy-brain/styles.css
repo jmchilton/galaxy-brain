@@ -230,3 +230,26 @@
 .galaxy-brain-repository .gbr-queue-body {
 	font-size: var(--font-smaller);
 }
+
+/* ```gb-tasks blocks. */
+.gb-tasks { display: flex; flex-direction: column; gap: 6px; }
+.gb-task { border: 1px solid var(--background-modifier-border); border-radius: 6px; padding: 6px 8px; }
+.gb-task-idea { border-style: dashed; }
+.gb-task-head { display: flex; align-items: center; gap: 4px; }
+.gb-task-status { font-size: var(--font-ui-smaller); padding: 0 6px; border-radius: 8px; background: var(--background-modifier-hover); }
+.gb-task-recommended .gb-task-status { color: var(--text-on-accent); background: var(--interactive-accent); }
+.gb-task-priority { font-size: var(--font-ui-smaller); padding: 0 6px; border-radius: 8px; background: var(--background-modifier-hover); }
+.gb-task-high { border-color: var(--color-orange); }
+.gb-task-high .gb-task-priority { color: var(--text-on-accent); background: var(--color-orange); }
+.gb-task-low { opacity: 0.75; }
+.gb-task-human { border-left-width: 3px; }
+.gb-task-meta { flex: 1; color: var(--text-muted); font-size: var(--font-ui-smaller); }
+.gb-task-description { white-space: pre-wrap; margin-top: 4px; }
+.gb-task-link { font-size: var(--font-ui-small); margin-top: 4px; overflow-wrap: anywhere; }
+.gb-task-prompt { white-space: pre-wrap; font-size: var(--font-ui-small); margin-top: 4px; }
+.gb-task-description + .gb-task-prompt { color: var(--text-muted); }
+.gb-tasks-empty { color: var(--text-muted); }
+.gb-tasks-error { color: var(--text-error); }
+
+/* Sync button above issues and reviews tabs. */
+.galaxy-brain-repository .gbr-sync { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }

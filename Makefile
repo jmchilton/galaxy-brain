@@ -1,4 +1,4 @@
-.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test site-test
+.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test chrome-ext-build chrome-native-install site-test
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -60,3 +60,15 @@ plugin-dev:
 
 plugin-test:
 	cd obsidian-plugin && npm test
+
+herdr-plugin-build:
+	cd herdr-plugin && npm run build
+
+herdr-plugin-test:
+	cd herdr-plugin && npm test
+
+chrome-ext-build: herdr-plugin-build
+	cd chrome-extension && npm run build
+
+chrome-native-install:
+	chrome-extension/install-native-host.sh

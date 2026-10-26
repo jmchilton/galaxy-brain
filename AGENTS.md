@@ -1,142 +1,159 @@
-# Galaxy Brain - Codex Instructions
+# Galaxy Brain - Agent Instructions
 
-## Project Overview
+Galaxy Brain is an Obsidian vault of Galaxy development notes, repository records, and agent workflows, with validation tooling, an Astro site, and launcher plugins. Open `vault/` as the Obsidian vault. Tooling and metadata live at the repository root.
 
-Obsidian vault + validation tooling for AI-generated Galaxy development notes. Notes live in `vault/`, tooling at repo root.
+This root `AGENTS.md` is the shared repository instruction source. Keep repository-wide guidance here.
 
-## Key Files
+## Repository map
 
-- `meta_tags.yml` - tag registry; every vault tag must appear here
-- `meta_schema.yml` - JSON Schema Draft 07 (YAML syntax) defining the frontmatter contract
-- `validate_frontmatter.py` - validation CLI (PEP 723 inline deps for uv)
-- `test_validate_frontmatter.py` - pytest suite (52 tests)
-- `dashboard_sections.json` - shared dashboard section config (drives both Dashboard.md and index.astro)
-- `generate_dashboard.py` - generates Dashboard.md from config; `--check` for drift detection
-- `generate_index.py` - generates Index.md (prose catalog of every note + summary); `--check` for drift
-- `vault/log.md` - append-only vault operations log; written by `/ingest` (and future `/ask`, `/lint-vault`); excluded from validator and site
-- `Makefile` - `make validate`, `make test`, `make dashboard`, `make check-dashboard`, `make index`, `make check-index`, `make site-dev`, `make site-build`
-- `LIBRARY_*.md` - research/planning docs about the library itself (not vault notes)
-- `site/` - Astro static site rendering vault notes for GitHub Pages
+- `meta_tags.yml` is the tag registry. Every tag on a validated note must appear here.
+- `meta_schema.yml` defines the frontmatter contract in JSON Schema Draft 07, written as YAML.
+- `validate_frontmatter.py` validates notes. It declares PEP 723 dependencies for `uv`.
+- `test_validate_frontmatter.py` and `test_check_references.py` contain the root Python tests.
+- `dashboard_sections.json` drives `generate_dashboard.py` and `site/src/pages/index.astro`.
+- `generate_index.py` generates `vault/Index.md`, a catalog of validated note types and their summaries. It excludes agent workflows, repository records, and workspace sub-files.
+- `vault/log.md` is the append-only operations journal, written by the ingest workflow. It is excluded from validation and content collections, but published at `/log/`.
+- `tasks_sync.yml` configures `.claude/commands/sync-tasks.md`, which maintains `vault/JOHNS_TASKS.md`.
+- `.claude/commands/` contains repository slash-command workflows, including ingestion, project creation, and task/review sync.
+- `skill/` contains the `galaxy-brain` lookup and `galaxy-weekly-pr-review` skills.
+- `LIBRARY_*.md` are research/planning documents about this library, not vault notes. They need no frontmatter.
+- `site/` contains the Astro static site.
+- `obsidian-plugin/`, `herdr-plugin/`, and `chrome-extension/` provide repository views and agent launchers.
+- `galaxy-architecture/` is a Git submodule. `generate_architecture_views.py` renders its topics into `vault/projects/architecture/topics/`.
+- `check_references.py` checks paper manuscript citations against each paper's `references.yml`.
 
 ## Commands
 
+Run commands from the repository root. Python commands require `uv`. Run `npm install` in each relevant JavaScript package before building or testing it. Herdr's picker also requires Node and `fzf`.
+
 ```sh
-make test                          # run all tests
-make test ARGS="-k pattern"        # run specific tests
-make validate                      # validate vault/ frontmatter
-make validate ARGS="vault/research/" # validate subdirectory
-make dashboard                     # generate vault/Dashboard.md from config
-make check-dashboard               # exit 1 if Dashboard.md drifts from config
-make index                         # generate vault/Index.md from frontmatter summaries
-make check-index                   # exit 1 if Index.md drifts from vault
-make site-dev                      # start Astro dev server
-make site-build                    # build static site to site/dist/
-make site-preview                  # preview production build
+make test                           # root Python tests, not the JS suites
+make test ARGS="-k pattern"         # select Python tests
+make validate                       # validate vault/ frontmatter
+make validate ARGS="vault/research/" # validate a directory
+make dashboard                      # generate vault/Dashboard.md
+make check-dashboard                # fail on dashboard drift
+make index                          # generate vault/Index.md
+make check-index                    # fail on catalog drift
+make references                     # report paper citation coverage/errors
+make check-references               # fail on paper citation errors
+make architecture-views             # regenerate architecture topic views
+make check-architecture-views       # fail on architecture view drift
+make site-dev                       # Astro dev server
+make site-build                     # build into site/dist/
+make site-preview                   # preview the production build
+make site-test                      # site Vitest suite
+make plugin-build                   # typecheck/build Obsidian plugin into vault
+make plugin-dev                     # watch/rebuild Obsidian plugin
+make plugin-test                    # Obsidian plugin Vitest suite
+make herdr-plugin-build             # typecheck/bundle terminal and native host code
+make herdr-plugin-test              # Herdr plugin Vitest suite
+make chrome-ext-build               # build Herdr host and Chrome popup
+make chrome-native-install          # register native messaging host for macOS Chrome
 ```
 
-## Architecture
+`make install` links the lookup skill into `~/.claude/skills/` and this repository to `~/.galaxy-brain`. `make architecture-update` runs `scripts/sync_architecture.py`, which updates the submodule pin, regenerates views, and stages the changes for review. Read the script before using that maintenance workflow.
 
-### Validation
-- Schema in `meta_schema.yml` uses `allOf/if/then` for conditional field requirements (e.g. `type: research` + `subtype: issue` requires `github_issue`)
-- Tag enum in schema is empty in the file; `validate_frontmatter.py` injects `meta_tags.yml` keys at runtime
-- `additionalProperties: false` - unknown frontmatter fields are rejected
-- Validation layers: JSON Schema -> date format -> wiki link format -> tag coherence (warnings)
-- PyYAML parses YAML dates as `datetime.date`; `preprocess_frontmatter()` converts to ISO strings before schema validation
+## Vault contracts
 
-### Static Site (`site/`)
-- Astro static site deployed to GitHub Pages at `/galaxy-brain/`
-- Two Astro content collections: `vault` (typed frontmatter), `projectFiles` (no frontmatter, raw sub-files)
-- Content loaded from `../vault/` via Astro content collections (`site/src/content.config.ts`)
-- Tailwind CSS v4 via `@tailwindcss/vite` plugin; theme tokens in `site/src/styles/global.css`
-- Dark mode: class-based toggle, auto-detects OS preference
-- `@tailwindcss/typography` for markdown prose rendering
-- Pages: dashboard (`index.astro`), note detail (`[...slug].astro`), project sub-file detail (`projects/[project]/[...file].astro`), tag index + tag detail (`tags/`), raw markdown endpoints (`raw/`)
-- Wiki links (`[[...]]`) resolved to site URLs via `site/src/lib/wiki-links.ts`
-- GitHub Actions deploys on push to `main` (`.github/workflows/deploy.yml`)
+### Validated notes and plain documents
 
-### Dashboard Sync
-- Sections defined in `dashboard_sections.json` (repo root)
-- `generate_dashboard.py` produces Dataview queries for Obsidian's `vault/Dashboard.md`
-- Astro `index.astro` imports same JSON for the landing page
-- `make check-dashboard` detects drift between config and generated file
+- Notes require `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`, and `summary`. Summaries must contain 20–160 characters. Type-specific requirements live in `meta_schema.yml` under `allOf/if/then`.
+- Supported types are `research`, `plan`, `plan-section`, `concept`, `moc`, `project`, and `paper`. Research notes also require a registered `subtype`.
+- `vault/projects/<name>/` and `vault/papers/<name>/` are workspaces. Only their `index.md` files are validated notes. Sibling Markdown files are plain documents and render through separate site collections.
+- `vault/agents/**` and `vault/repositories/**`, including their `index.md` files, are plain documents excluded from frontmatter validation. Do not add note frontmatter to them. See `vault/agents/_shared/NOT_VAULT_NOTES.md`.
+- `find_md_files()` in `validate_frontmatter.py` skips hidden paths, `templates/`, `agents/`, `repositories/`, `Dashboard.md`, `Index.md`, `log.md`, and non-index Markdown files under `projects/` and `papers/` when traversing the vault root.
+- Tags are hierarchical, such as `research/component`. Tag coherence accepts a registered subtag of the expected type tag.
+- `parent_plan`, `related_issues`, `related_notes`, and `related_projects` use `[[Target Name]]` links. `related_prs` accepts wiki links or integer PR numbers.
 
-### Templates
-- `vault/templates/` holds Obsidian Templater templates, one per `type`/`subtype`
-- Skipped by validator (`SKIP_DIRS`) and Astro glob (`!templates/**`)
-- Requires Templater community plugin; see README "Obsidian Templates"
+### Validation behavior
 
-### Project Type
-- Directory-based note type: `vault/projects/<name>/` with `index.md` (frontmatter) + raw sub-files (no frontmatter)
-- Validator only validates `index.md`; non-index files in `projects/` are skipped by `find_md_files()`
-- Project indexes render at `/projects/<name>/` with a "Project Files" listing
-- Sub-files render at `/projects/<name>/<file>/` with breadcrumb navigation
+- The validator injects `meta_tags.yml` keys into the schema's initially empty tag enum.
+- `additionalProperties: false` rejects unknown frontmatter fields.
+- Validation checks schema, dates, wiki-link content, and tag coherence. PyYAML date values are converted to ISO strings by `preprocess_frontmatter()` before schema validation.
+- Unknown tags and invalid fields are errors. Missing expected type tags and asymmetric `related_notes` backlinks are advisory warnings.
+- Cross-file backlink checks run across successfully validated notes in the selected directory.
 
-## Conventions
+### Add or update a note
 
-- Notes in `vault/` must have YAML frontmatter with all base fields: `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`
-- Tags are hierarchical (`research/component`); searching `research` matches subtags in Obsidian
-- Wiki link fields (`parent_plan`, `related_issues`, `related_notes`) must use `[[...]]` format
-- `LIBRARY_*.md` files are project meta-docs, not vault notes - they don't need frontmatter
-- Validator skips `.obsidian/`, `templates/`, and non-index files in `projects/` directories
-
-## Adding a New Note Type
-
-1. Add type tag to `meta_tags.yml`
-2. If new `type` value: add to `type.enum` in `meta_schema.yml`
-3. If new `subtype`: add to `subtype.enum` in the research `allOf/if/then` block
-4. If conditional fields needed: add `if/then` block to `allOf` in schema; declare properties at top level
-5. Add entry to `TYPE_TAG_MAP` in `validate_frontmatter.py` for tag coherence
-6. Add test cases in `test_validate_frontmatter.py`
-
-## Adding a New Frontmatter Field
-
-1. Add property definition to `properties` in `meta_schema.yml` (must be top-level due to `additionalProperties: false`)
-2. If conditionally required: add to relevant `then.required` in `allOf`
-3. If wiki link field: add `pattern: "^\\[\\[.+\\]\\]$"` in schema and entry in `WIKI_LINK_FIELDS` dict in validator
-4. Add test coverage
-
-## Tests
-
-- Tests use real `meta_schema.yml` and `meta_tags.yml` from repo root
-- Unit tests call `validate_data()` directly with dicts
-- Integration tests use `validate_file()` with temp markdown files via `tmp_path`
-- Prefer red-to-green: write failing test first, then fix
-- Never remove tests or weaken assertions to make them pass; fix the implementation
-
-## Agent Playbook
-
-Operating manual for Codex sessions working in this vault. Link to code, don't duplicate it.
-
-### Add a note
-- Don't hand-write frontmatter. Use the `/ingest` skill for URLs/local files, or an Obsidian Templater template from `vault/templates/`.
-- Required base fields: `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`, `summary`. Conditional fields per type live in `meta_schema.yml` (`allOf/if/then`).
-- Tags must appear in `meta_tags.yml`. Unknown tags fail validation.
-- Wiki-link fields (`parent_plan`, `related_notes`, `related_issues`) must be `[[Target Name]]`.
+- Start from `.claude/commands/ingest.md` for URLs/local files, or a matching Obsidian Templater template in `vault/templates/`. When slash commands are unavailable, read and follow the workflow file directly. Do not invent frontmatter from scratch.
+- Templater templates cover each current type/subtype and are excluded from validation and site collections. Obsidian users need the Templater community plugin, with `templates/` as its template folder.
+- On updates to validated notes, increment `revision`, set `revised` to today's date, and preserve `created`.
+- Regenerate `make index` after adding/removing notes or changing their frontmatter. Regenerate `make dashboard` after changing `dashboard_sections.json`.
+- Append ingest operations to `vault/log.md`. Keep earlier entries intact.
+- Before committing, run `make validate`. Errors block completion. Run `make check-index` and `make check-dashboard` after frontmatter/config changes, and the tests relevant to the change.
+- Do not edit `vault/Dashboard.md` or `vault/Index.md` by hand. Change their sources and regenerate. Regenerate architecture topic views with `make architecture-views`.
 
 ### Answer from the vault
-- Start with `vault/Index.md` for topic routing — summary-level catalog of every note.
-- If summaries aren't enough, read the full notes. Check `related_notes` / `parent_plan` for context.
-- `vault/log.md` is the append-only operations journal (written by `/ingest`); skip unless the question is about vault history.
 
-### Update a note
-- Increment `revision`, update `revised` to today's date, preserve `created`.
-- If frontmatter changed, regenerate: `make index` (and `make dashboard` if section config changed).
+Start with `vault/Index.md` for topic routing, then read full notes and their `related_notes` / `parent_plan` links as needed. For repository work and agent workflows, inspect `vault/repositories/` and `vault/agents/` directly because the catalog excludes them. Skip `vault/log.md` unless the question concerns vault history.
 
-### Maintain
-- Before commit: `make validate` (errors block; warnings are advisory).
-- `make check-index` and `make check-dashboard` detect drift — run after frontmatter/config changes.
-- `make test` runs the pytest suite.
-- Validator also performs a cross-file bidirectional `related_notes` check — asymmetric links emit warnings.
+### Extend the schema
 
-### Where things live
-- `vault/` — notes. `Dashboard.md` / `Index.md` / `log.md` are generated or special, skipped by validator and site.
-- `vault/projects/<name>/` — directory-based note type; only `index.md` is validated, siblings are raw project files.
-- `vault/templates/` — Templater templates, skipped by validator and site.
-- `site/` — Astro static site; `site/src/pages/[...slug].astro` renders each note with backlinks panel.
-- Root tooling: `validate_frontmatter.py`, `generate_dashboard.py`, `generate_index.py`, `Makefile`.
+When adding a note type or research subtype:
 
-### Don't
-- Don't remove tests or weaken assertions to make them pass — fix the implementation.
-- Don't weaken `meta_schema.yml` to fit a non-conforming note. Reshape the note or extend the schema deliberately (with tests).
-- Don't add ad-hoc frontmatter fields — `additionalProperties: false` rejects anything not declared in `meta_schema.yml`.
-- Don't edit generated files (`Dashboard.md`, `Index.md`) by hand; change the source (`dashboard_sections.json` or note frontmatter) and regenerate.
+1. Register its tag in `meta_tags.yml`.
+2. Add a type to `type.enum`, or a research subtype to the research conditional's `subtype.enum`, in `meta_schema.yml`.
+3. Declare any new properties at the schema's top level and add conditional requirements under `allOf`.
+4. Update `TYPE_TAG_MAP` in `validate_frontmatter.py` and add tests in `test_validate_frontmatter.py`.
+5. Update the site's schema in `site/src/content.config.ts`, templates, catalog grouping in `generate_index.py`, and dashboard sections as applicable.
+
+When adding a frontmatter field, declare it in top-level `properties` and add it to the relevant conditional `required` list when needed. For wiki-link fields, add the schema pattern `"^\\[\\[.+\\]\\]$"` and an entry in `WIKI_LINK_FIELDS` for custom content checks. Keep the site's schema in sync and add test coverage.
+
+Do not weaken the schema to fit a non-conforming note. Reshape the note or deliberately extend the contract with tests.
+
+## Static site
+
+- Astro publishes to GitHub Pages under `/galaxy-brain/`. `.github/workflows/deploy.yml` deploys on pushes to `main`.
+- `site/src/content.config.ts` loads `../vault/`. Collection patterns live in `site/src/lib/collection-patterns.ts`.
+- Collections are `vault` for typed notes and `projectFiles`, `paperFiles`, `repositoryFiles`, and `factoryFiles` for plain Markdown documents.
+- `site/src/pages/index.astro` imports the shared dashboard sections. `generate_dashboard.py` produces the matching Obsidian Dataview queries.
+- Routes cover note details (`[...slug].astro`), project sub-files (`projects/[project]/[...path].astro`), paper workspaces, repository records, tags, raw Markdown, the catalog, and the log. `/catalog/` renders `vault/Index.md` and `/log/` renders `vault/log.md` directly outside the content collections.
+- `site/src/lib/vault-urls.ts` maps vault paths to URLs. Repository record URLs omit the status directory so they survive status moves. See `LIBRARY_REPOSITORY_RECORDS.md`.
+- Repository pages display per-file help from `vault/repositories/{_defaults,<repo>}/<kind>/FILE_DOCS.md` through `site/src/lib/file-docs.ts`. See `LIBRARY_RECORD_FILE_DOCS.md`.
+- Factory pages publish `vault/agents/factory/FACTORY.md` and `*_FACTORY.md`, the only published slice of `agents/`. `/factory/` is the hub. The child-page map lives in `site/src/lib/factory-pages.ts`. Links to unpublished agent documents use absolute GitHub URLs.
+- Wiki-link rendering lives in `site/src/lib/remark-wiki-links.ts` and `site/src/lib/wiki-links.ts`. Note detail pages include a frontmatter backlinks panel.
+- GitHub alert blockquotes render as `.callout` asides through `site/src/lib/remark-github-alerts.ts`.
+- Tailwind CSS v4 uses `@tailwindcss/vite` and `@tailwindcss/typography`. Theme tokens live in `site/src/styles/global.css`. Dark mode uses a class toggle and detects OS preference.
+
+## Repository views and launchers
+
+### Shared records and configuration
+
+- Records live at `vault/repositories/<repo>/<kind>/<status>/<id>/`, where kind is `branches`, `issues`, or `reviews`. Their `index.md` files need no frontmatter.
+- `site/src/lib/records.ts` supplies record paths, status helpers, and queue grouping shared by the site and Obsidian plugin. Keep it dependency-free and free of Node imports because the plugin also loads on mobile.
+- Branch records group by sections in `vault/repositories/<repo>/branches/MY_BRANCHES.md` when present. Unlisted records fall back to status groups. The branches tab also embeds the queue file.
+- Launchers come from `vault/repositories/<repo>/<kind>/LAUNCHERS.md` and `_defaults/<kind>/LAUNCHERS.md`. The format is documented in `vault/agents/_shared/LAUNCHERS.md` and parsed by `obsidian-plugin/src/launchers.ts`.
+- Launch profiles (agent, model, effort, args) come from `vault/agents/_shared/AGENT_PROFILES.yml`, parsed by `obsidian-plugin/src/profiles.ts`.
+- `vault/agents/_shared/scripts/launch_agent.sh` starts agents. Agent directories hold their own `AGENTS.md` instructions, with `CLAUDE.md` symlinks for Claude discovery.
+- Agent directories' `SUGGESTED_PROMPTS.md` files feed the separate `suggested-prompts` hooks plugin in `~/projects/repositories/claude-jmchilton-plugins/plugins/suggested-prompts/`.
+
+### Obsidian plugin
+
+- TypeScript + esbuild builds into `vault/.obsidian/plugins/galaxy-brain/`. Pure logic lives in plain modules with Vitest tests.
+- The repository view provides launch buttons and an upstream activity feed fetched with `gh api graphql` (`github-feed.ts`). Tab definitions and GitHub list URLs are shared with the site through `site/src/lib/repository-tabs.ts`. The site links to GitHub lists, while the plugin fetches them.
+- `gb-tasks` fenced blocks render as task cards with launch-and-remove and remove buttons; `kind: human` cards get only ✔ (remove). See `vault/agents/_shared/TASK_LIST_YAML_FORMAT.md` and `obsidian-plugin/src/task-list.ts`.
+- The Agents view (`agents-view.ts`) has an agent-dir dropdown. Each agent page shows 🌅 Good morning / ⏱️ Tick buttons (`Run ./GOOD_MORNING.md` / `./TICK.md`, `Sonnet (medium)`, for the files present) and its `TASKS.md` task cards; the landing page lists every agent's buttons and merges all `TASKS.md` cards, by priority then recommended first. See `agent-routines.ts`.
+- My issues / My reviews tabs show `SYNC_REPORT.md` and a sync button. `vault/agents/_shared/RECORD_AGENTS.yml` maps each repo/kind to an agent. `obsidian-plugin/src/record-agents.ts` selects `PROCESS_SYNC_ISSUE_STATE.md` or `PROCESS_SYNC_REVIEW_STATE.md` and the `Sonnet (medium)` profile.
+- The plugin's Recent tab lists up to 25 records by creation time or `index.md` modification time, with kind and repository filters, including all repositories. See `recentRecords()` in `obsidian-plugin/src/repository.ts`.
+
+### Herdr plugin
+
+- `herdr-plugin/herdr-plugin.toml` defines an fzf popup for choosing a record, launcher, and profile, then confirming/editing the launch. Ctrl-clicking a GitHub PR/issue URL opens the picker for that record or an untracked stand-in.
+- It reuses the Obsidian plugin's pure modules. Filesystem reads live in `herdr-plugin/src/vault.ts`.
+- `make herdr-plugin-build` bundles into gitignored `dist/`. Run it after cloning/pulling, then `herdr plugin link herdr-plugin` to register. Linking does not build the plugin.
+- `GB_DRY_RUN=1` prints launches instead of running them.
+
+### Chrome extension
+
+- The MV3 popup offers launchers for the current GitHub PR, issue, or branch. Tree/commits/compare pages match branch records by name; a PR from the fork also gets its branch record (head branch via `gh pr view`). It also offers new blank agents for each agent directory.
+- Requests use Chrome native messaging through `herdr-plugin/src/native.ts`, with handlers in `native-host.ts`. Launchers, records, and profiles are resolved again on the host.
+- After installing dependencies in both `herdr-plugin/` and `chrome-extension/`, run `make chrome-ext-build`, load `chrome-extension/` unpacked, and run `make chrome-native-install` once to register the macOS Chrome host.
+- The manifest key pins extension ID `mkckliibikdomehoflcgoefdhlolgdah`. The installer allows that extension origin. Build output in `dist/` is gitignored.
+
+## Verification and working rules
+
+- Root Python tests load the real schema and tag registry. Unit tests call `validate_data()` with dictionaries. File-level tests use `validate_file()` and `tmp_path`.
+- Prefer red-to-green for behavior changes. Never remove tests or weaken assertions to make them pass. Fix the implementation.
+- `make test` covers the two root Python suites. Site, Obsidian, and Herdr tests are separate targets. Chrome's build includes a TypeScript check.
+- Before reporting GitHub authentication as blocked, try a harmless API read such as `gh repo view --json nameWithOwner,defaultBranchRef`. `gh auth status` alone can report a stale stored token even when repository reads authenticate through another path. Distinguish authentication failures from sandbox and transient network failures.

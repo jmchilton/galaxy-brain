@@ -2,6 +2,7 @@ import {
 	App,
 	FileSystemAdapter,
 	FuzzySuggestModal,
+	type MarkdownPostProcessorContext,
 	MarkdownView,
 	Menu,
 	Modal,
@@ -10,16 +11,23 @@ import {
 	Platform,
 	Plugin,
 	Setting,
+	stringifyYaml,
 	TAbstractFile,
 	TFile,
 } from "obsidian";
+import type { RecordKind } from "../../site/src/lib/records";
+import { AGENTS_VIEW, AgentsView, ALL_AGENTS } from "./agents-view";
 import { fillTemplate, type Launcher, launcherScope, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
 import { githubUrl, worktreeCandidates } from "./record-links";
+import { parseRecordAgents, SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { repositoryNames } from "./repository";
-import { REPOSITORY_VIEW, RepositoryView } from "./repository-view";
+import { renderTaskCards } from "./task-cards";
+import { parseTasks, replaceBlockBody, type Task } from "./task-list";
+import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
+const RECORD_AGENTS_PATH = "agents/_shared/RECORD_AGENTS.yml";
 const LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
 // Where the `code` and `gh` CLIs live; GUI apps get a bare PATH.
 const CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
@@ -50,12 +58,28 @@ export default class GalaxyBrainPlugin extends Plugin {
 		});
 
 		this.registerView(REPOSITORY_VIEW, (leaf) => new RepositoryView(leaf, this));
-		this.addRibbonIcon("library", "Open repository records", () => void this.pickRepository());
+		this.addRibbonIcon("library", "Open a repository's records", () => void this.pickRepository());
+		this.addRibbonIcon("layers", "All repository records", () => void this.openRepository(ALL_REPOS));
 		this.addCommand({
 			id: "open-repository",
-			name: "Open repository records",
+			name: "Open a repository's records",
 			callback: () => void this.pickRepository(),
 		});
+		this.addCommand({
+			id: "open-recent-records",
+			name: "All repository records",
+			callback: () => void this.openRepository(ALL_REPOS),
+		});
+
+		this.registerView(AGENTS_VIEW, (leaf) => new AgentsView(leaf, this));
+		this.addRibbonIcon("bot", "Agents: routines and tasks", () => void this.openAgents());
+		this.addCommand({
+			id: "open-agents",
+			name: "Agents: routines and tasks",
+			callback: () => void this.openAgents(),
+		});
+
+		this.registerMarkdownCodeBlockProcessor("gb-tasks", (source, el, ctx) => this.renderTasks(source, el, ctx));
 
 		if (!Platform.isDesktopApp) return;
 
@@ -176,6 +200,11 @@ export default class GalaxyBrainPlugin extends Plugin {
 		await leaf.setViewState({ type: REPOSITORY_VIEW, state: { repo }, active: true });
 	}
 
+	private async openAgents() {
+		const leaf = this.app.workspace.getLeaf("tab");
+		await leaf.setViewState({ type: AGENTS_VIEW, state: { agent: ALL_AGENTS }, active: true });
+	}
+
 	/** Opens the current record's repository, or asks which one. */
 	private async pickRepository() {
 		const file = this.app.workspace.getActiveFile();
@@ -205,7 +234,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		new LauncherSuggest(this.app, launchers, (launcher) => void this.confirmLaunch(launcher, record)).open();
 	}
 
-	private async loadProfiles(): Promise<Profile[]> {
+	async loadProfiles(): Promise<Profile[]> {
 		try {
 			const profiles = parseProfiles(parseYaml(await this.app.vault.adapter.read(PROFILES_PATH)));
 			if (profiles.length > 0) return profiles;
@@ -235,7 +264,71 @@ export default class GalaxyBrainPlugin extends Plugin {
 		return null;
 	}
 
-	private launch(vaultRoot: string, launcher: Launcher, profile: Profile, name: string, prompt: string) {
+	async syncAgent(repo: string, kind: RecordKind): Promise<string | undefined> {
+		try {
+			return parseRecordAgents(parseYaml(await this.app.vault.adapter.read(RECORD_AGENTS_PATH)))[repo]?.[kind];
+		} catch {
+			return undefined;
+		}
+	}
+
+	async launchSync(repo: string, kind: RecordKind, agentDir: string) {
+		const prompt = `Sync ${repo} ${kind} per agents/_shared/${SYNC_PROCESSES[kind]} (${repo} only).`;
+		await this.confirmTask({ prompt, agentDir, profile: SYNC_PROFILE }, () => {});
+	}
+
+	/** Agent dirs with a CLAUDE.md, not `_`-prefixed. */
+	async agentDirs(): Promise<string[]> {
+		const { folders } = await this.app.vault.adapter.list("agents");
+		const names = folders.map((folder) => folder.split("/").pop()!).filter((name) => !name.startsWith("_"));
+		const withClaude = await Promise.all(names.map((name) => this.app.vault.adapter.exists(`agents/${name}/CLAUDE.md`)));
+		return names.filter((_, i) => withClaude[i]).sort();
+	}
+
+	/** Cards for a ```gb-tasks block: 🚀 launches (and removes on success), ✖ removes. */
+	private async renderTasks(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
+		const profiles = await this.loadProfiles();
+		let raw: unknown;
+		let tasks: Task[];
+		try {
+			raw = parseYaml(source);
+			tasks = parseTasks(raw, { profiles: profiles.map((p) => p.name), agentDirs: await this.agentDirs() });
+		} catch (error) {
+			el.createDiv({ cls: "gb-tasks-error", text: `gb-tasks: ${error instanceof Error ? error.message : error}` });
+			return;
+		}
+		const remove = async (index: number) => {
+			const file = this.app.vault.getFileByPath(ctx.sourcePath);
+			const section = ctx.getSectionInfo(el);
+			if (!file || !section) return void new Notice("Could not locate this gb-tasks block");
+			const rest = (raw as unknown[]).filter((_, i) => i !== index);
+			await this.app.vault.process(file, (note) =>
+				replaceBlockBody(note, section.lineStart, section.lineEnd, rest.length ? stringifyYaml(rest) : ""),
+			);
+		};
+		renderTaskCards(el, tasks, {
+			defaultProfile: profiles[0]?.name ?? "",
+			...(Platform.isDesktopApp ? { launch: (task: Task, index: number) => void this.confirmTask(task, () => void remove(index)) } : {}),
+			remove: (_task, index) => void remove(index),
+		});
+	}
+
+	/** Launch dialog for a task; launched runs once the agent starts. */
+	async confirmTask(task: Task, launched: () => void, name = task.agentDir) {
+		const vaultRoot = this.vaultRoot();
+		if (!vaultRoot) return;
+		const profiles = await this.loadProfiles();
+		const launcher: Launcher = { label: "Task", repo: null, kind: "branches", statuses: [], agentDir: task.agentDir, name, prompt: task.prompt, ...(task.profile ? { profile: task.profile } : {}) };
+		new LaunchModal(this.app, launcher, {
+			profiles,
+			profile: defaultProfile(profiles, launcher),
+			name: launcher.name,
+			prompt: task.prompt,
+			launch: (profile, name, prompt) => this.launch(vaultRoot, launcher, profile, name, prompt, launched),
+		}).open();
+	}
+
+	private launch(vaultRoot: string, launcher: Launcher, profile: Profile, name: string, prompt: string, launched?: () => void) {
 		// Required lazily: child_process doesn't exist on mobile.
 		const { execFile } = require("child_process") as typeof import("child_process");
 		const started = new Notice(`Launching ${profile.name} in ${launcher.agentDir}…`, 0);
@@ -246,7 +339,10 @@ export default class GalaxyBrainPlugin extends Plugin {
 			(error, stdout, stderr) => {
 				started.hide();
 				if (error) new Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15_000);
-				else new Notice(stdout.trim(), 10_000);
+				else {
+					new Notice(stdout.trim(), 10_000);
+					launched?.();
+				}
 			},
 		);
 	}

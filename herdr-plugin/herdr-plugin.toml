@@ -1,0 +1,30 @@
+id = "galaxy-brain"
+name = "Galaxy Brain"
+version = "0.1.0"
+min_herdr_version = "0.7.4"
+description = "Launch galaxy-brain agents on repository records, like the Obsidian plugin"
+platforms = ["macos", "linux"]
+
+[[actions]]
+id = "launch"
+title = "Launch agent for a record"
+command = ["sh", "bin/run.sh", "open"]
+
+[[actions]]
+id = "launch-link"
+title = "Launch agent for a GitHub PR or issue"
+command = ["sh", "bin/run.sh", "open"]
+
+[[panes]]
+id = "picker"
+title = "Galaxy Brain"
+placement = "popup"
+width = "90%"
+height = "90%"
+command = ["sh", "bin/run.sh", "pick"]
+
+[[link_handlers]]
+id = "github"
+title = "Galaxy Brain launchers"
+pattern = "^https://github\\.com/[^/]+/[^/]+/(pull|issues)/[0-9]+([/?#].*)?$"
+action = "launch-link"

@@ -74,6 +74,8 @@ describe("parseLaunchers", () => {
 			["🚀 Open PR", "active", "gx_branches"],
 			["💬 Respond to review", "active", "gx_branches"],
 			["💭 New session", "", "gx_branches"],
+			["🛝 Build Slides - Pitch", "", "gx_branches"],
+			["🗣 Build Slides - Implementation", "", "gx_branches"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/issues/LAUNCHERS.md")).toEqual([
 			["🐴 Implement", "queued,wip,needs_decision,blocked", "gx_workhorse"],
