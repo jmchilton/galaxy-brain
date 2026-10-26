@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review of `84910093a8c` complete 2026-10-23, unposted: one P2 (worker/infrastructure failures reported as the tool author's expression error; red-to-green) + five P3s, all fixed on `pr_24415_review_0` (`dfe496c3489`, pushed to fork); new/edited unit tests + API test pass.
+Initial review of `84910093a8c` complete 2026-10-23; delivered 2026-10-26 as approval + review PR https://github.com/richard-burhans/galaxy/pull/6 (base `fix-udt-expression-error-message`): one P2 (worker/infrastructure failures reported as the tool author's expression error; red-to-green) + five P3s, all fixed on `pr_24415_review_0` (`dfe496c3489`, pushed to fork); new/edited unit tests + API test pass.
 
 Open, ready for review, against `release_26.1`. Author richard-burhans. 5 files, +54/-1. Worktree `~/projects/worktrees/galaxy/pr/24415`.
