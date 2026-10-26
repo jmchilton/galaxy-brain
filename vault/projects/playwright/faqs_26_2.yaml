@@ -1407,14 +1407,18 @@
   gtn_commit: 45d4932d33
   used_by: [dev/core-contributing, dev/debugging, dev/writing_tests]
 - faq: topics/galaxy-interface/faqs/flatten-list-list-paired-to-list-paired.md
-  status: reviewed
-  mode: text
+  status: ui_verified
+  mode: ui
   gtn_commit: 45d4932d33
+  galaxy_commit: 0eee83da68e
+  gx_findings: New test_run_apply_rules_flatten_list_list_paired_from_menus (menus, not JSON source; Playwright + Selenium green). gxui `call` parses a JSON arg into a dict, so rule_builder_set_source needs a leading space to stay a string.
 - faq: topics/introduction/faqs/analyze_data.md
-  status: reviewed
-  mode: text
+  status: ui_verified
+  mode: ui
   gtn_commit: 45d4932d33
+  galaxy_commit: 0eee83da68e
   faq_findings: [intro-analyze-data-home-icon]
+  gx_findings: New test_masthead_logged_out_and_home_logo clicks the logo (masthead.home) back to root; nothing clicked it before.
 - faq: topics/introduction/faqs/fetched_data.md
   status: reviewed
   mode: text
@@ -1425,10 +1429,12 @@
   mode: text
   gtn_commit: 45d4932d33
 - faq: topics/introduction/faqs/login.md
-  status: reviewed
-  mode: text
+  status: ui_verified
+  mode: ui
   gtn_commit: 45d4932d33
+  galaxy_commit: 0eee83da68e
   faq_findings: [intro-login-masthead-labels]
+  gx_findings: test_masthead_logged_out_and_home_logo asserts the Login and Register item labels and no user menu when logged out.
 - faq: topics/introduction/faqs/ucsc.md
   status: reviewed
   mode: text
