@@ -773,7 +773,7 @@
   fix: 'Step 3: "...look something like `https://usegalaxy.eu/workflows/edit?id=34d18f081b73cb15`..."'
 
 - label: workflows-import-wizard
-  faqs: [faqs/galaxy/workflows_import.md, faqs/galaxy/workflows_import_search.md, faqs/galaxy/workflows_import_from_dockstore.md, faqs/galaxy/workflows_run_ds.md]
+  faqs: [faqs/galaxy/workflows_import.md, faqs/galaxy/workflows_import_search.md, faqs/galaxy/workflows_import_from_dockstore.md, faqs/galaxy/workflows_run_ds.md, faqs/galaxy/workflows_run_wfh.md]
   target: main
   summary: Import is now a wizard with **Upload file**, **Fetch URL** and **Import from repository** cards; there are no "Archived Workflow URL/File" boxes or "GA4GH servers"/"TRS ID" tabs. Repository imports pick **Search workflow registries**, **TRS URL** or **TRS ID**, then a version in **Select a version** and **Import**.
   fix: 'import step 3: "Choose **Fetch URL** and paste the URL (or **Upload file**)"; step 4: "Click **Import**". import_search step 3: "Choose **Import from repository**, then **Search workflow registries**"; steps 3.3-3.4: "Click the workflow, pick a version in **Select a version**, click **Import**". run_ds steps 2-3: "Choose **Import from repository**, then **TRS ID**" (the server is shown, Dockstore by default). import_from_dockstore steps 5-6: "pick the version in **Select a version** and click **Import**".'
@@ -783,3 +783,49 @@
   target: main
   summary: Invocations are under **Workflow Invocations** in the activity bar (no User menu); clicking one opens it, and the report is its **Report** tab. The PDF icon only shows where the server enables PDF export.
   fix: '"Click **Workflow Invocations** in the activity bar, click the invocation, then open its **Report** tab."'
+
+- label: workflows-run-trs-url-404
+  faqs: [faqs/galaxy/workflows_run_trs.md]
+  target: main
+  summary: Launch links to a GTN workflow whose file name has `_` (e.g. `Galaxy-Workflow-Data_QC.ga`) 404, because `convert_workflow_path_to_trs` only downcases the name while `api.rb` publishes it with non-alphanumerics turned into `-`.
+  fix: 'In `_plugins/gtn.rb` `convert_workflow_path_to_trs`, build the version as `m[:workflow].downcase.gsub(/[^a-z0-9]/, "-")` to match `jekyll-topic-filter.rb`/`api.rb` (better: share one helper).'
+
+- label: workflows-run-wfh-examples
+  faqs: [faqs/galaxy/workflows_run_wfh.md]
+  target: main
+  summary: The frontmatter `examples` pass `dockstore_id` (copied from workflows_run_ds), but this FAQ reads `wfhub_id`, so both examples render the no-id branch.
+  fix: 'e.g. `{wfhub_id: "1352", title: "mags-building/main", version: "4"}`.'
+
+- label: workflows-run-include-debug
+  faqs: [faqs/galaxy/workflows_run.md]
+  target: main
+  summary: A stray `{{include}}` line in step 9's `unless` block prints the snippet's parameters (e.g. `{"tab"=>"Public workflows", "name"=>"..."}` in mags-building) and restarts the numbered list.
+  fix: Delete the `{{include}}` line.
+
+- label: workflows-run-form-controls
+  faqs: [faqs/galaxy/workflows_run.md]
+  target: main
+  summary: Step 7's **Send results to a new history** and **Re-use jobs with identical parameters** are under the run form's ⚙ **Workflow Run Settings** (top right); step 9's import on the run form is an unlabelled upload icon (**Import this workflow**) at the top left, not an "Import (left of Run)" button.
+  fix: 'step 7: "Click ⚙ **Workflow Run Settings** (top right) to: ..."; step 9: "click the {% icon galaxy-upload %} **Import this workflow** icon at the top of the form (or **Import** in the preview)".'
+
+- label: workflows-share-save
+  faqs: [faqs/galaxy/workflows_share.md]
+  target: main
+  summary: The steps never say to click **Save** after entering the email, and nothing is shared without it; step 2 says "the workflow you would like to publish".
+  fix: 'step 4: "Enter the email address of the user you want to share the workflow with, and click **Save**"; step 2: "...you would like to share".'
+
+- label: admin-os-compat-stale
+  faqs: [topics/admin/faqs/admin-testing.md]
+  target: main
+  summary: '"Last tested on Centos 7 and Ubuntu 18.04" and usegalaxy.* "both are running CentOS 7" are years out of date (both EOL); the ansible-galaxy tutorial it is embedded in asks for Ubuntu 20.04-22.04.'
+  fix: Match the tutorial's requirement and drop the claim about what usegalaxy.* servers run.
+
+- label: ansible-role-prefix-typo
+  faqs: [topics/admin/faqs/ansible_role-prefix.md]
+  target: main
+  summary: Typo "specifiy".
+
+- label: ansible-connection-title
+  faqs: [topics/admin/faqs/ansible-connection.md]
+  target: main
+  summary: Title "Variable connection" doesn't match the tip, which is about how Ansible collects variables; likely "Variable collection".

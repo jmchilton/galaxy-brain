@@ -1083,35 +1083,94 @@
   faq_findings: [workflows-import-wizard]
   gx_findings: Galaxy bug - 26.1+ import wizard ignored trs_version, so launch links didn't auto-import/run; fixed (trsImportQuery + vitest) and queued trs_import_ignores_trs_version.md.
 - faq: faqs/galaxy/workflows_run_trs.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: c48fe3d7d5a
+  used_by: [assembly/largegenome, computational-chemistry/zauberkugel, contributing/create-new-tutorial-content, digital-humanities/solar-eclipse-frequency, fair/ro-crate-in-galaxy, galaxy-interface/workflow-reports, imaging/dicom-anatomical-3d, imaging/iscc-suite, introduction/galaxy-intro-101-everyone, microbiome/mothur-miseq-sop, microbiome/samestr-strain-detection, proteomics/clinical-mp-1-database-generation, proteomics/clinical-mp-2-discovery, proteomics/clinical-mp-3-verification, proteomics/clinical-mp-4-quantitation, proteomics/clinical-mp-5-data-interpretation, proteomics/metaproteomics, proteomics/metaquantome-data-creation, sequence-analysis/ncbi-fcs, synthetic-biology/basic_assembly_analysis, synthetic-biology/pathway_analysis, synthetic-biology/retrosynthesis_analysis, transcriptomics/minerva-pathways, transcriptomics/rna-seq-reads-to-counts, visualisation/circos-microbial]
+  faq_findings: [workflows-run-trs-url-404]
+  gx_findings: Galaxy bug - 26.1+ import wizard dropped trs_url auto-import; fixed (TrsUrlImport + vitest), integration auto-import tests strengthened, folded into queued trs_import_ignores_trs_version.md. gxui workflow-import --trs-url.
 - faq: faqs/galaxy/workflows_run_wfh.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: c48fe3d7d5a
+  used_by: [contributing/create-new-tutorial-content, microbiome/dada-16S, microbiome/mags-building, transcriptomics/minerva-pathways, variant-analysis/tb-variant-analysis]
+  faq_findings: [workflows-run-wfh-examples, workflows-import-wizard]
+  gx_findings: faq_server.sh now configures WorkflowHub TRS. gxui workflow-import --trs-server.
 - faq: faqs/galaxy/workflows_run.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: c48fe3d7d5a
+  used_by: [assembly/largegenome, climate/ocean_qcv_analysis, digital-humanities/introduction_to_dh, digital-humanities/solar-eclipse-frequency, fair/ro-crate-in-galaxy, galaxy-interface/workflow-editor, galaxy-interface/workflow-fairification, galaxy-interface/workflow-parameters, galaxy-interface/workflow-reports, imaging/hela-screen-analysis, imaging/object-tracking-using-cell-profiler, introduction/galaxy-intro-101, introduction/galaxy-intro-rdm, microbiome/mags-building, microbiome/metatranscriptomics, microbiome/mgnify-amplicon, microbiome/mothur-miseq-sop, microbiome/pathogen-detection-from-nanopore-foodborne-data, proteomics/clinical-mp-1-database-generation, proteomics/clinical-mp-2-discovery, proteomics/clinical-mp-3-verification, proteomics/clinical-mp-4-quantitation, proteomics/clinical-mp-5-data-interpretation, proteomics/metaproteomics, proteomics/metaquantome-data-creation, proteomics/neoantigen-fragpipe-discovery, proteomics/neoantigen-fusion-database-generation, proteomics/neoantigen-hla-binding-novel-peptides, proteomics/neoantigen-non-reference-database-generation, proteomics/neoantigen-peptide-verification, proteomics/neoantigen-predicting-hla-binding, proteomics/neoantigen-variant-annotation, sequence-analysis/quality-contamination-control, single-cell/bulk-deconvolution-evaluate, single-cell/bulk-music-2-preparescref, single-cell/bulk-music-3-preparebulk, transcriptomics/rna-seq-reads-to-counts, variant-analysis/pangenome-with-deepvariant, variant-analysis/sars-cov-2-variant-discovery, visualisation/circos-microbial]
+  faq_findings: [workflows-run-include-debug, workflows-run-form-controls]
+  gx_findings: Added E2E test_run_from_preview_and_import (preview > Run > run-form Import). gxui workflow-preview, workflow-run-import.
 - faq: faqs/galaxy/workflows_share.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: c48fe3d7d5a
+  used_by: [introduction/galaxy-intro-rdm]
+  faq_findings: [workflows-share-save]
+  gx_findings: Sharing already covered by test_workflow_sharing.py. gxui workflow-share.
 - faq: topics/admin/faqs/admin-testing.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/ansible, admin/ansible-galaxy]
+  faq_findings: [admin-os-compat-stale]
 - faq: topics/admin/faqs/ansible_define-once.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/ansible-galaxy]
 - faq: topics/admin/faqs/ansible_diff.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/ansible]
 - faq: topics/admin/faqs/ansible_error-no-hosts-matched.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/ansible-galaxy]
 - faq: topics/admin/faqs/ansible_local.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/cvmfs, admin/ftp]
 - faq: topics/admin/faqs/ansible_role-prefix.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/ansible-galaxy]
+  faq_findings: [ansible-role-prefix-typo]
 - faq: topics/admin/faqs/ansible_role-properties.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/ansible]
 - faq: topics/admin/faqs/ansible_see_inventory.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
 - faq: topics/admin/faqs/ansible_yaml.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/ansible-galaxy]
 - faq: topics/admin/faqs/ansible-connection.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/ansible]
+  faq_findings: [ansible-connection-title]
 - faq: topics/admin/faqs/byobu-shortcuts.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [admin/tool-management]
 - faq: topics/admin/faqs/data-source-with-pulsar.md
   status: pending
 - faq: topics/admin/faqs/database-slow-query.md

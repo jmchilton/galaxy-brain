@@ -82,6 +82,8 @@ galaxy:
   interactivetools_proxy_host: localhost:$proxy_port
   interactivetools_map: $state/data/interactivetools_map.sqlite
   job_config_file: $state/job_conf.yml
+  # Dockstore and WorkflowHub, as on usegalaxy.*; needs network.
+  trs_servers_config_file: $state/trs_servers_conf.yml
 EOF
     cat > "$state/job_conf.yml" <<EOF
 runners:
@@ -120,6 +122,16 @@ EOF
   doc: Access to Genome Ark open data on AWS.
   bucket: genomeark
   anon: true
+EOF
+    cat > "$state/trs_servers_conf.yml" <<EOF
+- id: dockstore
+  label: Dockstore
+  link_url: https://dockstore.org
+  api_url: https://dockstore.org/api
+- id: workflowhub
+  label: WorkflowHub
+  link_url: https://workflowhub.eu
+  api_url: https://workflowhub.eu
 EOF
     cat > "$state/replay_tool_conf.xml" <<EOF
 <toolbox tool_path="$GALAXY_ROOT/test/functional/tools">
