@@ -37,7 +37,6 @@ None yet.
 
 ## Foundry branches — implemented, work left, green (`branches_implemented`)
 
-- [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: flat collection outputs, vendoring recipes, `inputs.x` shape (#672). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).
 - [`issue-534-concrete-nextflow-scenarios`](active/issue-534-concrete-nextflow-scenarios/index.md) — Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios).
@@ -48,7 +47,7 @@ None yet.
 
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
-None yet.
+- [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: collection inputs/outputs, vendoring recipes, `inputs.x` shape (#672). Draft [#710](https://github.com/galaxyproject/foundry/pull/710). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
 
 ## Foundry branches — approved, opens when green (`branches_need_pr`)
 

@@ -1,0 +1,4 @@
+- docs(galaxy-user-tool-authoring): collection inputs, vendored scripts, input object
+- UDT authoring note: document `inputs.x` for data and collection inputs, vendoring recipes
+- galaxy-user-tool-authoring: correct `inputs.x` collection shapes and add vendoring recipes
+- Fix UDT authoring note gaps from the dupRadar and egapx runs (#672)

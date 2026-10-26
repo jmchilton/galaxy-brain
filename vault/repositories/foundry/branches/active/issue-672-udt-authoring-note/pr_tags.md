@@ -1,0 +1,1 @@
+None of the issue labels apply to PRs (roadmap/priority/agent are issue triage labels per `content/meta/issue-labels.md`). Recommend no PR labels; link to #672 via "Fix" opener. If a docs-type label exists on the repo, use it.

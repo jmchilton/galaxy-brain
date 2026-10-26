@@ -43,9 +43,19 @@ usegalaxy.org runs 26.1 (`/api/version` → 26.1.2.dev0); that sets the version 
 - Foundry: branch `issue-672-udt-authoring-note` on `origin`, `12d8f77a` (§5, §6) + `5c001801` (§3). Recast; `validate` 0 errors; casts, index, dashboard clean. Draft PR [#710](https://github.com/galaxyproject/foundry/pull/710), requires gtu-ts #198; text [pr_description.md](pr_description.md).
 - Galaxy: red API tests above, branch `udt_element_identifier_api_test` on `jmchilton`; no PR.
 
+## 2026-10-26 — egapx comment (data_collection inputs)
+
+Comment [6420577078](https://github.com/galaxyproject/foundry/issues/672#issuecomment-6420577078). Branch rebased onto `main` `f48c01b6`, commit `f0727bd3` pushed.
+
+- Collection-input runtime shape (runtimeify, Galaxy dev `87d295c9` `runtime.py` L95-102, L290-370; models `parameters.py` ~L870-960): `{class: Collection, name, collection_type, tags, elements}`. `list*`/`sample_sheet*` → `elements` is an **array** (not a map, despite the brief); `paired`/`record`/`paired_or_unpaired` → keyed object; `has_single_item` for `paired_or_unpaired`, singleton key `unpaired`. Leaf Files carry `element_identifier`. Code-read only.
+- **Two builders.** `UserToolEvaluator.build_param_dict` uses runtimeify only when `job.tool_state` is set (`/api/jobs`, validated workflow steps; workflow capture is best-effort, falls back). Legacy `to_cwl` (`/api/tools`, failed capture) gives paired as bare `{forward, reverse}`, list as bare array, no `elements`/`has_single_item`. So egapx `star_wnode`'s `inputs.reads.forward.path` works on legacy and fails on runtimeify. Galaxy-side follow-up candidate: shape is submission-path dependent. Not filed.
+- `element_identifier` on mapped `data` input: still null on dev; fixes galaxy#24434 (ours) and #24422 open against `release_26.1`.
+- gxwf 1.14.0 accepts `data_collection` inputs (scratch probe OK) and does not check property paths after `inputs.X` (comment's follow-up, gtu-ts).
+- §5 example (+`format`) passes `validate-tool-source` built from gtu-ts `main` `539c16c9`; still fails 1.14.0. #198 merged 2026-10-25, **not released** (npm latest 1.14.0).
+
 ## Next
 
-1. Merge gtu-ts #198, release, then bump Foundry's gxwf pin and drop the §5 "validator defect" paragraph.
-2. Undraft #710 after step 1 lands in it.
-3. Decide on Galaxy: issue/PR to carry the DCE through map-over so `element_identifier` works in commands; then relax §3.
-4. Apply proposed labels + #501 parent on GitHub.
+1. Release gtu-ts (contains #198), then bump Foundry's gxwf pin and drop the §5 "validator defect" paragraph.
+2. Undraft #710 after step 1 lands in it; refresh its body from the branch record's `pr_description.md`.
+3. Galaxy: land #24434 (or #24422); then relax §3's map-over line.
+4. Link #672 as native sub-issue of #501 (`validate-roadmap` fails without it).
