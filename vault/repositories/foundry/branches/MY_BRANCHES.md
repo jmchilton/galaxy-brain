@@ -47,6 +47,7 @@ None yet.
 
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`issue-726-import-rejection-surface`](active/issue-726-import-rejection-surface/index.md) — debug-galaxy-workflow-output: workflow import rejection surface, evidence, bisection, routing (#726). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-726-import-rejection-surface).
 - [`issue-730-udt-run-recipe`](active/issue-730-udt-run-recipe/index.md) — run-workflow-test: external_galaxy route for UDT workflows, data-table detect-and-defer (#730). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-730-udt-run-recipe).
 - [`issue-731-igwt-cardinality-trace`](active/issue-731-igwt-cardinality-trace/index.md) — implement-galaxy-workflow-test: trace output kinds via `--connections`; stop overclaiming cross-check (#731). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-731-igwt-cardinality-trace).
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: collection inputs/outputs, vendoring recipes, `inputs.x` shape (#672). Draft [#710](https://github.com/galaxyproject/foundry/pull/710). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).

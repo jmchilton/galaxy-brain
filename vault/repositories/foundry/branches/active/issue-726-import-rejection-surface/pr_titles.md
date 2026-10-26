@@ -1,0 +1,4 @@
+- debug-galaxy-workflow-output: add a workflow import rejection surface
+- Triage workflow import rejections before invocation surfaces
+- Give pre-invocation import 500/400s a debug surface, evidence, and bisection method
+- run-workflow-test + debug: `workflow-import-rejected` modality and surface
