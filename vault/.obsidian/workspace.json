@@ -4,38 +4,107 @@
     "type": "split",
     "children": [
       {
-        "id": "0e13d552e2b68d41",
+        "id": "cb90f96d906d1015",
         "type": "tabs",
         "children": [
           {
-            "id": "1bdff99524050d52",
-            "type": "leaf",
-            "state": {
-              "type": "galaxy-brain-repository",
-              "state": {
-                "repo": "galaxy",
-                "tab": "new-prs"
-              },
-              "icon": "library",
-              "title": "galaxy records"
-            }
-          },
-          {
-            "id": "d5e11d9267cc49c5",
+            "id": "7c1d2f47cfafb6a8",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "agents/_shared/MY_BRANCHES_INDEX.md",
+                "file": "repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MY_BRANCHES_INDEX"
+              "title": "index"
+            }
+          },
+          {
+            "id": "f0cbe87a0c9ad7b8",
+            "type": "leaf",
+            "state": {
+              "type": "galaxy-brain-repository",
+              "state": {
+                "repo": "galaxy-tool-util-ts",
+                "tab": "new-issues",
+                "recentBy": "created"
+              },
+              "icon": "library",
+              "title": "galaxy-tool-util-ts records"
+            }
+          },
+          {
+            "id": "89e45841d4e8523b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "agents/_shared/PROCESS_SYNC.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "PROCESS_SYNC"
+            }
+          },
+          {
+            "id": "2d34ec949d46223b",
+            "type": "leaf",
+            "state": {
+              "type": "galaxy-brain-repository",
+              "state": {
+                "repo": "*",
+                "tab": "branches",
+                "recentBy": "created"
+              },
+              "icon": "library",
+              "title": "Recent records"
+            }
+          },
+          {
+            "id": "6dc4a476252cf47a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "repositories/galaxy/branches/active/reset_metadata_sample_isolation_26.1/pr_titles.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "pr_titles"
+            }
+          },
+          {
+            "id": "22bfb96a8f8ffb76",
+            "type": "leaf",
+            "state": {
+              "type": "galaxy-brain-agents",
+              "state": {
+                "agent": "gx_issues"
+              },
+              "icon": "bot",
+              "title": "gx_issues agent"
+            }
+          },
+          {
+            "id": "61fb680c9682df21",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "repositories/galaxy/issues/queued/24469/index.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "index"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 6
       }
     ],
     "direction": "vertical"
@@ -57,7 +126,7 @@
                 "sortOrder": "alphabetical",
                 "autoReveal": true,
                 "showSearch": true,
-                "searchQuery": ""
+                "searchQuery": "24469"
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -94,7 +163,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 636.21484375
+    "width": 454.34375
   },
   "right": {
     "id": "cbd554e3fe405514",
@@ -201,7 +270,9 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "galaxy-brain:Open repository records": false,
+      "galaxy-brain:Agents: routines and tasks": false,
+      "galaxy-brain:Open a repository's records": false,
+      "galaxy-brain:All repository records": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -212,52 +283,52 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "d5e11d9267cc49c5",
+  "active": "61fb680c9682df21",
   "lastOpenFiles": [
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/thermo_nuclear_review.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/codex_review.md",
-    "agents/gx_branches/MY_BRANCHES.md",
-    "agents/wf_foundry/WORK_HORSE.md",
-    "repositories/galaxy/branches/active/selenium_upload_data_library/thermo_nuclear_review.md",
-    "agents/wf_foundry/AGENTS.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/test_challenges_debrief.md",
-    "agents/_shared/GENERIC_IMPLEMENTATION.md",
-    "agents/_shared/REVIEW_FOCUS.md",
-    "agents/_shared/GX_IMPLEMENTATION_HANDOFF.md",
-    "agents/_shared/GX_DEVELOPMENT.md",
-    "repositories/galaxy/branches/active/selenium_upload_data_library/codex_review.md",
-    "repositories/galaxy/branches/active/selenium_upload_data_library/polish_e2e_tests_debrief.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/scope_evaluation.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/baseline_refactor.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/thermo_nuclear_review.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/codex_review.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1/test_challenges_debrief.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts/1",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/earlier_drafts",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/implementation_rescope_debrief.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/subagents/rescope_review.md",
-    "agents/wf_foundry/TRIAGE_ISSUE.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/alts/original_scope.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/alts",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/scope_evaluation.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/baseline_refactor.md",
-    "agents/_shared/PROCESS_GENERIC_POLISH_BRANCH.md",
-    "agents/_shared/PROCESS_GENERIC_HARDEN_BRANCH.md",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test/subagents",
-    "repositories/galaxy/branches/active/udt_element_identifier_api_test",
-    "repositories/galaxy/branches/active/selenium_upload_data_library/subagents",
-    "repositories/galaxy/branches/active/selenium_upload_data_library",
-    "projects/playwright/gtn_findings_26_2.yaml.tmp.52456.30ec60c598eb",
-    "projects/playwright/training_findings/26.2/faqs/galaxy/datasets_purging_datasets.gxui.sh",
-    "projects/playwright/training_findings/26.2/faqs/galaxy/datasets_not_downloading_at_all.gxui.sh",
+    "repositories/galaxy/branches/active/issue_24469_collection_build_reset_selection_25.1/brain_research.md",
+    "agents/gx_research/todo/history_panel_selection_and_collection_builders.md",
+    "repositories/galaxy/issues/queued/24471/index.md",
+    "repositories/galaxy/issues/queued/24471/debrief.md",
+    "repositories/galaxy/issues/queued/24471/proposal.md",
+    "repositories/galaxy/issues/queued/24471/issue_draft.md",
+    "repositories/galaxy/issues/queued/24471",
+    "repositories/galaxy/issues/wip/24470/proposal.md",
+    "repositories/galaxy/issues/wip/24470/issue_draft.md",
+    "repositories/galaxy/issues/wip/24470/index.md",
+    "repositories/galaxy/issues/wip/24470/debrief.md",
+    "repositories/galaxy/issues/wip/24470",
+    "repositories/galaxy/branches/active/issue_24469_collection_build_reset_selection_25.1/index.md",
+    "repositories/galaxy/branches/active/issue_24469_collection_build_reset_selection_25.1",
+    "agents/gx_issues/to_file/debrief_workflow_import_udt_after_output_integrity_error.md",
+    "repositories/galaxy/issues/queued/24469/index.md",
+    "repositories/galaxy/issues/queued/24469/proposal.md",
+    "repositories/galaxy/issues/queued/24469/issue_draft.md",
+    "repositories/galaxy/issues/queued/24469/debrief.md",
+    "repositories/galaxy/issues/queued/24469",
+    "repositories/galaxy/branches/active/issue_17204_remove_shared_with_me_26.2/scope_evaluation.md",
+    "agents/gx_issues/to_file/debrief_trs_import_ignores_trs_version.md",
+    "agents/gx_issues/to_file/debrief_collection_build_leaves_stale_selection.md",
+    "agents/gx_issues/to_file/proposed_workflow_import_udt_after_output_integrity_error.md",
+    "agents/gx_issues/to_file/proposed_trs_import_ignores_trs_version.md",
+    "agents/gx_issues/to_file/proposed_collection_build_leaves_stale_selection.md",
+    "repositories/galaxy/branches/active/issue_17204_remove_shared_with_me_26.2/alts/before_baseline_refactor.md",
+    "repositories/galaxy/branches/active/issue_17204_remove_shared_with_me_26.2/baseline_refactor.md",
+    "repositories/galaxy/reviews/active/24367/initial_response_action.md",
+    "repositories/galaxy/reviews/active/24367/initial_review_response.md",
+    "repositories/galaxy/branches/active/issue_17204_remove_shared_with_me_26.2/earlier_drafts/2",
+    "repositories/galaxy/issues/closed/24345",
+    "repositories/galaxy/issues/closed/23695",
+    "repositories/galaxy/issues/closed/24311",
+    "repositories/galaxy/issues/closed/24377",
+    "repositories/galaxy/issues/closed/22451",
+    "agents/factory/gbdr-dark.png",
+    "agents/factory/gbdr-light.png",
     "repositories/galaxy/branches/active/licenses/screenshots/workflow_license_submission_refused.png",
-    "repositories/galaxy/branches/active/licenses/screenshots/workflow_license_agreement_prompt_expanded.png",
-    "repositories/galaxy/branches/active/licenses/screenshots/workflow_license_agreement_prompt.png",
     "repositories/galaxy/branches/active/licenses/screenshots/workflow_editor_tool_license_notice.png",
+    "repositories/galaxy/branches/active/licenses/screenshots/workflow_license_agreement_prompt.png",
     "repositories/galaxy/branches/active/licenses/screenshots/tool_license_submission_refused.png",
     "repositories/galaxy/branches/active/licenses/screenshots/tool_license_agreement_terms.png",
     "repositories/galaxy/branches/active/licenses/screenshots/tool_license_agreement_prompt.png",
-    "repositories/galaxy/branches/active/licenses/screenshots/tool_license_agreement_accepted.png",
     "repositories/galaxy/branches/active/licenses/screenshots/license_preferences_history.png",
     "repositories/galaxy/branches/active/licenses/screenshots/license_preferences_accepted.png",
     "Untitled.canvas",

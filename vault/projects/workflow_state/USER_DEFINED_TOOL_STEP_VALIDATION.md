@@ -369,7 +369,7 @@ So in-process consumers can run the gate without going through argparse.
 
 ## 9. Test plan
 
-Red-to-green per [[../../../.claude/CLAUDE.md]] preference.
+Red-to-green per [AGENTS.md](projects/cwl/AGENTS.md) preference.
 
 Red-first tests are marked **R** below — they describe the current false-negative behavior and fail before the implementation lands. **G** tests are green-only-after-implementation.
 
