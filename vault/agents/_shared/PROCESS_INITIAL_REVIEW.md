@@ -10,6 +10,8 @@ Security findings and sensitive evidence instead follow [SECURITY_REPORTS.md](SE
 
 ### Run reviews in subagents
 
+First take a `review` snapshot of the PR head per [PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md](PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md), on every round.
+
 Reading a PROJECT PR's diff plus surrounding code burns a lot of context; keep the main session as a coordinator. Pick every applicable profile from the [reviewer registry](reviewers/index.md) and run each in its own subagent, given the profile, the PR and its worktree, the PR's review directory, its private security output destination, and the agent's own review guidance.
 
 ### Effort

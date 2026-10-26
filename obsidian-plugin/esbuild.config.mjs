@@ -1,4 +1,4 @@
-import { copyFileSync, mkdirSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import esbuild from "esbuild";
 
 // Builds straight into the vault so Obsidian loads the plugin from source.
@@ -10,7 +10,10 @@ const copyStatic = {
 	name: "copy-static",
 	setup(build) {
 		build.onEnd(() => {
-			for (const file of ["manifest.json", "styles.css"]) copyFileSync(file, `${outdir}/${file}`);
+			copyFileSync("manifest.json", `${outdir}/manifest.json`);
+			// Obsidian loads one styles.css: the plugin's, then diff2html's and the differential-review view's.
+			const css = ["styles.css", "node_modules/diff2html/bundles/css/diff2html.min.css", "src/diff-review.css"];
+			writeFileSync(`${outdir}/styles.css`, css.map((file) => readFileSync(file, "utf8").trimEnd() + "\n").join("\n"));
 		});
 	},
 };

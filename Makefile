@@ -1,4 +1,4 @@
-.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test chrome-ext-build chrome-native-install site-test
+.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test chrome-ext-build chrome-native-install site-test diff-review-build diff-review-test
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -72,3 +72,9 @@ chrome-ext-build: herdr-plugin-build
 
 chrome-native-install:
 	chrome-extension/install-native-host.sh
+
+diff-review-build:
+	cd differential-review && npm run build
+
+diff-review-test:
+	cd differential-review && npm test

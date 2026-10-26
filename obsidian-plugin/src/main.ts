@@ -19,6 +19,7 @@ import type { RecordKind } from "../../site/src/lib/records";
 import { AGENTS_VIEW, AgentsView, ALL_AGENTS } from "./agents-view";
 import { fillTemplate, type Launcher, launcherScope, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
+import { registerDifferentialReview } from "./diff-review-view";
 import { githubUrl, worktreeCandidates } from "./record-links";
 import { parseRecordAgents, SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { repositoryNames } from "./repository";
@@ -36,6 +37,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 	private recordActions = new WeakMap<MarkdownView, HTMLElement[]>();
 
 	async onload() {
+		registerDifferentialReview(this);
 		this.registerEvent(
 			this.app.workspace.on("file-menu", (menu, file) => {
 				if (!(file instanceof TFile)) return;

@@ -19,6 +19,7 @@ This root `AGENTS.md` is the shared repository instruction source. Keep reposito
 - `LIBRARY_*.md` are research/planning documents about this library, not vault notes. They need no frontmatter.
 - `site/` contains the Astro static site.
 - `obsidian-plugin/`, `herdr-plugin/`, and `chrome-extension/` provide repository views and agent launchers.
+- `differential-review/` is the differential review library: a pure core (`src/core/`, no Node imports) shared by the plugins, and the snapshot CLI agents run after each phase (`src/cli/`). See `LIBRARY_DIFFERENTIAL_REVIEW.md`. Its Obsidian view is `obsidian-plugin/src/diff-review-*.ts`, the only writer of `review-state.json`; plugin builds also need `npm install` in `differential-review/`.
 - `galaxy-architecture/` is a Git submodule. `generate_architecture_views.py` renders its topics into `vault/projects/architecture/topics/`.
 - `check_references.py` checks paper manuscript citations against each paper's `references.yml`.
 
@@ -50,6 +51,8 @@ make herdr-plugin-build             # typecheck/bundle terminal and native host 
 make herdr-plugin-test              # Herdr plugin Vitest suite
 make chrome-ext-build               # build Herdr host and Chrome popup
 make chrome-native-install          # register native messaging host for macOS Chrome
+make diff-review-build              # typecheck/bundle differential-review CLI
+make diff-review-test               # differential-review Vitest suite
 ```
 
 `make install` links the lookup skill into `~/.claude/skills/` and this repository to `~/.galaxy-brain`. `make architecture-update` runs `scripts/sync_architecture.py`, which updates the submodule pin, regenerates views, and stages the changes for review. Read the script before using that maintenance workflow.

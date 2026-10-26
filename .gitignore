@@ -10,3 +10,6 @@ site/.astro/
 /vault/repositories/**/branches/**/screenshots/
 /vault/repositories/**/reviews/**/screenshots/
 /vault/agents/factory/sessions_for_retro/
+# Differential-review snapshots (full diffs per phase); review-state.json stays tracked.
+/vault/repositories/**/branches/**/differential-review/snapshots/
+/vault/repositories/**/reviews/**/differential-review/snapshots/
