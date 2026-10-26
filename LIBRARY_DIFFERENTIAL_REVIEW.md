@@ -2,7 +2,7 @@
 
 Local tooling for reviewing branches that keep changing through rebases, force-pushes and agent iterations. The reviewer checks work off once. After that, only what actually changed is shown again.
 
-This document covers the static library and CLI in `differential-review/`. The UI (diff2html in the Obsidian plugin and Chrome extension) and the factory process wiring come later.
+This document covers the static library and CLI in `differential-review/`. The UI (diff2html in the Obsidian plugin and Chrome extension) comes later. The factory process wiring is under [Factory integration](#factory-integration).
 
 ## Spec summary
 
@@ -56,7 +56,7 @@ The CLI lives in this repository, and `make install` links the repository to `~/
 ~/.galaxy-brain/differential-review/bin/differential-review <command> [options]
 ```
 
-The bin follows symlinks. `dist/` is gitignored, so run `make diff-review-build` once in the checkout after cloning or pulling. Without a build, the bin says so.
+`~/.galaxy-brain` exists only after `make install`, so the factory docs use the checkout path `~/projects/repositories/galaxy-brain/` instead. The bin follows symlinks. `dist/` is gitignored, so run `make diff-review-build` once in the checkout after cloning or pulling. Without a build, the bin says so.
 
 ```sh
 # Agent post-phase step: run from the branch's worktree, or pass --worktree.
@@ -364,6 +364,38 @@ The smoke run used a `--shared` scratch clone of `issue_22534_step_change_unify`
 
 Each run took about 4s. Snapshots were 92–147 KB.
 
+## Factory integration
+
+[`vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md`](vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md) holds the command, where to paste the output, and what to do on failure. A snapshot never blocks a phase. Agents `cd` into the worktree so the CLI's defaulted `--worktree` keeps its branch-match guard, and pass `--record` as an absolute path under the checkout.
+
+Galaxy phases call it right before each phase's debrief:
+
+| Phase | Where | Debrief that gets the summary |
+| --- | --- | --- |
+| implementation | `gx_workhorse/AGENTS.md`, "After your plan is done" | `initial_implementation_debrief.md` |
+| hardening | `gx_workhorse/AGENTS.md`, after `GX_PROCESS_HARDEN_BRANCH.md` (also covers Re-scope and Re-harden) | `implementation_debrief.md` |
+| polishing | `gx_branches/POLISH_BRANCH.md`, Hand off | `polish_debrief.md` |
+
+`GX_PROCESS_HARDEN_BRANCH.md` is left alone. It writes no debrief of its own, and John has uncommitted edits at its end. The generic flows (`PROCESS_GENERIC_*`, used by pulsar, planemo, foundry and workflow_libs) aren't wired yet; see the open questions. `vault/repositories/_defaults/branches/FILE_DOCS.md` documents `differential-review/**`, and `vault/agents/factory/BRANCH_FACTORY.md` mentions the snapshots.
+
+**Prerequisite.** After merging, run `cd differential-review && npm install` and then `make diff-review-build` in the main checkout. Until then, agents paste the "not built" error into their debriefs and carry on. `launch_agent.sh` and `make install` are unchanged.
+
+**Dry run (agent 3).** The test followed only the new doc. It used `issue_24457_password_reset_25.1`, whose record was copied to a scratch mirror of `~/projects/repositories/galaxy-brain/`, and its real worktree, which was left unmodified.
+- Snapshots of all three phases succeeded in about 1s each, at about 40 KB.
+- A rerun printed `exists`.
+- With the frontmatter stripped, the run failed with a clear "pass --base" error, and `--base release_25.1` fixed it.
+- Run from the wrong cwd, it failed with the branch guard.
+
+The output pasted into a debrief looks like this:
+
+```
+created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca7.json
+  hardening @ b88e76ad2ca7 vs origin/release_25.1 (merge-base bd2cb474a8d3)
+  since 20261026T053715Z-implementation-b88e76ad2ca7:
+    commits: 2 same, 0 rebased, 0 changed, 0 new, 0 dropped
+    hunks:   8 carried, 0 changed, 0 new, 0 dropped
+```
+
 ## Decisions made (all reversible)
 
 - **Phases.** `implementation | hardening | polishing`, validated in one place (`PHASES` / `isPhase`). Adding a phase isn't a schema change.
@@ -395,3 +427,5 @@ Each run took about 4s. Snapshots were 92–147 KB.
 10. **A reworded commit message keeps its sign-off.** The patch-id ignores the message, as the spec says. But a sign-off is meant to cover "the commit message, coherence". Should derivation flag a message-only change as info, for example by storing a message hash in the sign-off?
 11. **Non-UTF-8 file content** is decoded lossily (U+FFFD). Fingerprints and patch-ids stay deterministic, but the stored diff text isn't byte-exact. Is that fine for review?
 12. **Record lookup by branch name.** It was skipped (see Decisions). Add a `--branch` lookup under `~/.galaxy-brain/vault` if running from a worktree without flags matters.
+13. **Generic flows.** Wire the snapshot into `GENERIC_IMPLEMENTATION.md` (Hand Off), `PROCESS_GENERIC_HARDEN_BRANCH.md` and `PROCESS_GENERIC_POLISH_BRANCH.md` too? Generic hardening writes no debrief, so its summary would need a home.
+14. **Other branch-changing steps.** Should gx_branches rebases, gx_workhorse "Changes" (user-requested revisions) and review responses also snapshot? They'd need a phase tag (see item 2) or would reuse the nearest one. Also unwired: gx_workhorse Recover (walks only `GX_PROCESS_HARDEN_BRANCH.md`) and Parking on a Scope Decision take no hardening snapshot; Re-harden after a re-scope may take a fresh `implementation` snapshot.
