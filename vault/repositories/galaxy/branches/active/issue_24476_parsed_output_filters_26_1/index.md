@@ -8,4 +8,10 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Implementing [#24476](https://github.com/galaxyproject/galaxy/issues/24476) against release_26.1.
+READY: implemented and hardened [#24476](https://github.com/galaxyproject/galaxy/issues/24476) against release_26.1; head `90601b3bc4e` pushed to jmchilton.
+
+No PR opened; ready for human review and branch management.
+
+Fork CI queued; 196 local tests passed, with unchanged base mypy errors.
+
+See [implementation_debrief.md](implementation_debrief.md) for decisions and validation.
