@@ -1,6 +1,6 @@
-No correctness changes are recommended for the implemented fixes. The review found one small documentation omission to address alongside the existing help-text correction.
+Normal review found no correctness defects. The coordinator acted on the Celery help recommendation; no actionable recommendation remains outstanding.
 
-- Recommended: add `GALAXY_TEST_SKIP_IF_REQUIRES_CELERY` to the runtime skip-variable list in `run_tests.sh` help. The runner now exports it, and the source research note explicitly identified its absence from that list.
+- Addressed: added `GALAXY_TEST_SKIP_IF_REQUIRES_CELERY` to the runtime skip-variable list in `run_tests.sh` help. The runner now exports it, and the source research note explicitly identified its absence from that list.
 - No implementation change requested for history cleanup, API timeout scaling, browser-backend migration, or Selenium registration guards in this review; these remain distinct scope choices rather than regressions introduced here.
 
 <details>

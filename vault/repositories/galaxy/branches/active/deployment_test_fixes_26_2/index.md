@@ -8,4 +8,8 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Implementation in progress for bugs identified in Component - Deployment Tests.
+READY: deployment-test bugs fixed, hardened, and pushed at `9d5f0d32df81`; final scope accepted.
+
+No PR opened.
+
+Fork CI is queued; handoff is in `branches_implemented_needs_ci`.
