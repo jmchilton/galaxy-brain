@@ -25,44 +25,80 @@ differential-review/
   tsconfig.json                     whole package, Node types
   tsconfig.core.json                src/core only, `types: []`: a Node import in core is a compile error
   esbuild.config.mjs                bundles src/cli/main.ts -> dist/differential-review.cjs
-  bin/differential-review           sh wrapper around the bundle
+  vitest.config.ts                  skips site/tsconfig.json (extends astro) when tests import site/src/lib/records.ts
+  bin/differential-review           sh wrapper around the bundle; follows symlinks
   src/core/                         pure: no fs/child_process/path/process (Obsidian mobile)
     types.ts                        JSON schemas as TS types, PHASES, schema/fingerprint versions
     diff.ts                         git diff parsing (jsdiff parsePatch) + fingerprints
     match.ts                        exact / moved / fuzzy hunk matching
     snapshot.ts                     buildSnapshot, mapping to previous, commitKey, snapshotId
-    queries.ts                      commit lineage, latestSnapshot, changesBetween, changesSincePhase
+    queries.ts                      commit lineage, latestSnapshot, changesBetween, changesSincePhase, summarizeSnapshot
     review-state.ts                 review-state model + immutable mutations
     derive.ts                       reviewed/new/changed at hunk, file and commit level
     storage.ts                      layout, TextFileAdapter, SnapshotReader, ReviewStateStore
     sha256.ts                       sync SHA-256 (no node:crypto, no async WebCrypto)
   src/cli/                          Node only
     git.ts                          git invocations with pinned diff flags; range-diff parser
-    record.ts                       index.md frontmatter, base selection and ref resolution
+    record.ts                       index.md frontmatter (repo via site/src/lib/records.ts parseRecordPath), base selection and ref resolution
     snapshot.ts                     createSnapshot (the agent post-phase step)
-    node-storage.ts                 fs TextFileAdapter, writeSnapshot (`wx`)
-    run.ts / main.ts                commands / entry point
+    node-storage.ts                 read-only fs adapter, atomic no-clobber writeSnapshot
+    format.ts                       human output for snapshot / list / status
+    run.ts / main.ts                command table (options, help, handler) / entry point
 ```
 
 Run `make diff-review-build` to typecheck both configs and bundle, and `make diff-review-test` to run Vitest. Run `npm install` in `differential-review/` first.
 
 ## CLI usage
 
-```sh
-differential-review/bin/differential-review snapshot \
-  --worktree ~/projects/worktrees/galaxy/branch/<branch> \
-  --record vault/repositories/galaxy/branches/active/<branch> \
-  --phase implementation|hardening|polishing \
-  [--base <ref>] [--remote <name>] [--json]
+The CLI lives in this repository, and `make install` links the repository to `~/.galaxy-brain`. From anywhere, run:
 
-differential-review/bin/differential-review list   --record <dir> [--json]
-differential-review/bin/differential-review status --record <dir> [--snapshot <id>] [--json]
+```sh
+~/.galaxy-brain/differential-review/bin/differential-review <command> [options]
 ```
 
-- `snapshot` prints `created <path>` or `exists <path>` and exits 0. `--json` prints `{"status","id","path"}` instead. Warnings go to stderr: a dirty worktree, a worktree branch that differs from the record name, or range-diff being unavailable.
-- `list` prints one line per snapshot: commits, files, hunks and the base ref.
-- `status` reads `review-state.json`, if present, and prints reviewed/changed/new counts for hunks, files and commits. It is read-only.
-- Exit codes: 0 means ok, 1 means an error (git, missing base metadata), 2 means a usage error (unknown phase or missing flag).
+The bin follows symlinks. `dist/` is gitignored, so run `make diff-review-build` once in the checkout after cloning or pulling. Without a build, the bin says so.
+
+```sh
+# Agent post-phase step: run from the branch's worktree, or pass --worktree.
+differential-review snapshot --record BRANCH_DIRECTORY --phase implementation|hardening|polishing \
+  [--worktree WORKING_DIRECTORY] [--base <ref>] [--remote <name>] [--json]
+
+differential-review list   --record <dir> [--json]
+differential-review status --record <dir> [--snapshot <id>] [--json]
+differential-review [<command>] --help
+```
+
+`--record` is always the branch record directory, `vault/repositories/<repo>/branches/<status>/<branch>`. It must already contain `index.md`. A path that has none is an error, never a new directory.
+
+### `snapshot`
+
+The first line is `created <path>`, or `exists <path>` for a no-op rerun. The rest is a summary to paste into a debrief:
+
+```
+created …/snapshots/20261026T052513Z-polishing-a9569d8fee3b.json
+  polishing @ a9569d8fee3b vs origin/dev (merge-base 43c4d0f06a4a)
+  since 20261026T052424Z-hardening-c48aa1d4ca6b:
+    commits: 0 same, 4 rebased, 1 changed, 0 new, 0 dropped
+    hunks:   34 carried, 1 changed, 0 new, 0 dropped
+    changed 7629850da068 Summarize workflow upgrade changes in the editor (1 differing hunk)
+```
+
+- **Commits.**
+  - `same`: identical SHA.
+  - `rebased`: new SHA with the same patch-id, so a sign-off holds.
+  - `changed`: paired by range-diff or subject, with a different patch-id, so the commit is flagged.
+  - `new` and `dropped` mean what they say.
+- **Hunks.** `carried` is an exact or moved fingerprint match, `changed` is a fuzzy match, and then `new` and `dropped`.
+- A first snapshot prints totals instead.
+- `--json` prints `{status, id, path, summary, warnings}`. `summary` is core's `summarizeSnapshot()`, and a test pins the key order.
+- Warnings go to stderr. They cover a dirty worktree (only committed HEAD is snapshotted), a worktree branch that differs from the record name, a detached HEAD, an empty branch, and range-diff being unavailable.
+
+### `list` and `status`
+
+- `list` prints one line per snapshot: id, then commit, file and hunk counts, then the base ref.
+- `status` derives reviewed/changed/new for hunks, files and commits from `review-state.json`, then lists the files and commits still to review. A changed commit also shows its count of differing hunks. Without `review-state.json`, it says that everything is new. `--json` prints the full `deriveReview()` result. It is read-only.
+
+Exit codes are 0 for ok and 1 for an error. Errors include git failures, a missing record or base metadata, a worktree that isn't one, and an unreadable snapshot. Code 2 is a usage error: an unknown command, flag or phase, or a missing required flag. Every error names the cause and the fix, such as "add `upstream_base_branch:` to index.md or pass --base", or "fetch it or pass --base".
 
 ### Base resolution
 
@@ -75,7 +111,26 @@ differential-review/bin/differential-review status --record <dir> [--snapshot <i
 
 ### Git flags
 
-Diffs are generated with `--no-ext-diff --no-color --no-textconv --src-prefix=a/ --dst-prefix=b/ -M --full-index -U3 --inter-hunk-context=0 --diff-algorithm=myers --indent-heuristic`, plus `-c core.quotePath=false -c color.ui=never`. These pin git's defaults, so fingerprints don't depend on anyone's `diff.*` config. `--full-index` gives binary and mode-only entries real blob IDs to fingerprint.
+Diffs are generated with these flags:
+
+```
+--no-ext-diff --no-color --no-textconv --no-relative --src-prefix=a/ --dst-prefix=b/ -M -l1000 -O/dev/null
+--full-index -U3 --inter-hunk-context=0 --diff-algorithm=myers --indent-heuristic
+--ignore-submodules=none --submodule=short
+```
+
+Every git call also gets these:
+
+```
+--no-optional-locks -c core.quotePath=false -c color.ui=never -c diff.suppressBlankEmpty=false -c log.showSignature=false
+```
+
+- **Why pin.** These flags fix git's defaults, so neither fingerprints nor patch-ids depend on anyone's `diff.*` config.
+- **Patch-ids hash the diff text, context lines included.** One example: `diff.suppressBlankEmpty=true` changes how blank context lines are written. That changes every commit's patch-id, and the sign-offs with it.
+- **Regression test.** A test sets a dozen hostile repo-local options and asserts that the diffs and patch-ids are byte-identical.
+- **Blob IDs.** `--full-index` gives binary and mode-only entries real blob IDs to fingerprint.
+- **Worktree.** `--worktree` resolves to its top level.
+- **Read-only.** `--no-optional-locks` keeps `git status` from rewriting the worktree index.
 
 ## Storage
 
@@ -86,10 +141,10 @@ Diffs are generated with `--no-ext-diff --no-color --no-textconv --src-prefix=a/
 ```
 
 - Snapshot IDs are file stems. They sort by time and contain no colons, which break Obsidian sync and mobile.
-- **Immutability.** Files are written with the `wx` flag, so an existing file raises `EEXIST` and is never overwritten.
-- **Idempotency.** A rerun with the same head SHA and phase is a no-op that reports `exists`. The same head with a different phase writes a new snapshot, so the phase tag is recorded.
+- **Immutability.** A snapshot is written to a hidden `.<id>.json.<pid>.tmp` file, then hard-linked into place. An existing file raises `EEXIST` and is never overwritten. A crash can't leave truncated JSON that every later run would trip over. If a snapshot can't be read, the error names its file.
+- **Idempotency.** A rerun is a no-op that reports `exists` when a snapshot with the same head SHA and phase exists *and HEAD hasn't moved since*. The same head with a different phase writes a new snapshot, so the phase tag is recorded. If HEAD returns to an earlier SHA after other snapshots, for example after a reset, the CLI snapshots it again, so the latest snapshot always reflects HEAD.
 - The previous snapshot is the latest existing one. If the clock runs behind it, `createdAt` is bumped by 1s to keep the order.
-- **The CLI never writes `review-state.json`.** It never constructs a `ReviewStateStore`. `status` uses the read-only `readReviewState()`, and tests check that the file stays byte-identical, or absent, across `snapshot`, `list` and `status`.
+- **The CLI never writes `review-state.json`.** This is enforced by type. The CLI's only adapter, `nodeReadAdapter`, is a `ReadOnlyFileAdapter` with no `write`, so a `ReviewStateStore` can't be built from it. `status` uses the read-only `readReviewState()`. Tests check that the file stays byte-identical, or absent, across `snapshot`, `list` and `status`; they simulate plugin writes through a separate `pluginAdapter`.
 
 ### Interfaces (`src/core/storage.ts`)
 
@@ -97,19 +152,22 @@ Diffs are generated with `--no-ext-diff --no-color --no-textconv --src-prefix=a/
 interface TextFileAdapter {            // Obsidian app.vault.adapter, Node fs, Chrome native host
   exists(path): Promise<boolean>;
   read(path): Promise<string>;
-  write(path, data): Promise<void>;
+  write(path, data): Promise<void>;    // creates missing parent dirs
   listFiles(dir): Promise<string[]>;   // file names directly in dir; [] if missing
 }
+type ReadOnlyFileAdapter = Pick<TextFileAdapter, "exists" | "read" | "listFiles">;
 interface SnapshotReader   { listSnapshotIds(): Promise<string[]>; readSnapshot(id): Promise<Snapshot>; }
 interface ReviewStateStore { readReviewState(): Promise<ReviewState | null>; writeReviewState(s): Promise<void>; }
 
-recordSnapshotReader(adapter, recordDir): SnapshotReader
+recordSnapshotReader(adapter /* read + listFiles */, recordDir): SnapshotReader
 recordReviewStateStore(adapter, recordDir): ReviewStateStore   // plugins
 readReviewState(adapter, recordDir)                             // read-only (CLI)
 readAllSnapshots(reader): Promise<Snapshot[]>   // oldest first
 ```
 
-Paths are joined with `/`, never `node:path`. For Obsidian, `recordDir` is vault-relative (`repositories/galaxy/branches/active/<branch>`). An Obsidian `TextFileAdapter` wraps `adapter.list(dir).files` and takes each basename.
+Paths are joined with `/`, never `node:path`. For Obsidian, `recordDir` is vault-relative (`repositories/galaxy/branches/active/<branch>`). An Obsidian `TextFileAdapter` wraps `adapter.list(dir).files` and takes each basename. It must `mkdir` the parent before writing `review-state.json` for the first time.
+
+The Chrome native host (`herdr-plugin/src/native-host.ts`, uncommitted on John's main) dispatches on typed requests: `lookup`, `launch`, `newAgent` and `open`. A differential-review adapter there would add something like `readFile`, `listFiles` and `writeReviewState` requests on vault-relative paths. It would restrict them to `repositories/*/branches/*/<id>/differential-review/`, and allow writes only to `review-state.json`. See the open questions about message size.
 
 ## JSON schemas
 
@@ -248,26 +306,60 @@ The `h1:` prefix is versioned because review state keeps fingerprints forever. A
 - `changesBetween(snapshots, from, to)` compares hunks directly, and commits by SHA or patch-id (unchanged), then lineage (modified), else added.
 - `changesSincePhase(snapshots, "implementation")` covers views like "what did hardening/polishing change since the latest implementation snapshot". Combine it with `deriveReview` for "only what hardening changed since I reviewed implementation".
 - `commitLineage(snapshots, snapshot, sha)` returns the earlier versions of a commit.
+- `summarizeSnapshot(snapshot)` reads a snapshot's stored `mapping` and counts what changed since the previous snapshot. It also lists the changed and new commits, and the CLI's `snapshot` output is built from it. A plugin can use it to keep "complexity hidden until a rebase actually changes something".
 
 ## Tests
 
-`make diff-review-test` runs 57 tests: core unit tests on fixture diffs, plus CLI tests that build real temp git repos with isolated config (`GIT_CONFIG_GLOBAL=/dev/null`, fixed dates). They cover:
+`make diff-review-test` runs 77 tests: core unit tests on fixture diffs, plus CLI tests that build real temp git repos with isolated config (`GIT_CONFIG_GLOBAL=/dev/null`, fixed dates). They cover:
 
-- a rebase that only shifts line numbers (hunks and commit stay reviewed);
-- a rebase that changes context (hunks stay reviewed, and the commit is flagged with no differing hunks);
-- an amend that changes one line (only that hunk is changed, and the commit is flagged with only that hunk);
-- an indentation-only amend (the commit is flagged);
-- identical hunks in two files, where checking off one doesn't cover the other;
-- immutability, `EEXIST` and idempotent reruns;
-- review state staying byte-identical or absent;
-- a missing frontmatter base needing `--base`;
-- `origin/<base>` preferred over local;
-- unknown phases rejected;
-- merge commits staying paired by SHA;
-- the subject fallback when range-diff is unavailable;
-- stored fingerprints matching a re-parse, and loud failure on drift.
+- **Rebases and amends**
+  - A rebase that only shifts line numbers: the hunks and the commit stay reviewed.
+  - A rebase that changes context: the hunks stay reviewed, and the commit is flagged with no differing hunks.
+  - An amend that changes one line: only that hunk is changed, and the commit is flagged with only that hunk.
+  - An indentation-only amend: the commit is flagged.
+  - A sign-off followed back through an unreviewed rebase snapshot (multi-hop lineage).
+- **Renames, collisions and git config**
+  - A `git mv` rename: text-hunk check-offs carry, and the rename meta unit is new.
+  - Identical hunks in two files: checking off one doesn't cover the other.
+  - Different binary edits get different patch-ids.
+  - Byte-identical diffs and patch-ids under a dozen hostile repo-local `diff.*` settings, run from a subdirectory.
+- **Snapshot files and review state**
+  - Immutability, `EEXIST`, no temp files left behind, and idempotent reruns.
+  - A new snapshot when HEAD returns to an earlier SHA.
+  - An unreadable snapshot is named in the error.
+  - Review state stays byte-identical or absent.
+- **CLI behavior**
+  - A missing frontmatter base needs `--base`, and no directory is created.
+  - A record path without `index.md` is refused by `snapshot`, `list` and `status`.
+  - Clear errors for a worktree that isn't git and for an unresolvable base.
+  - `--worktree` defaults to cwd, and a detached HEAD gives a warning.
+  - Usage errors exit 2, and per-command help works.
+  - `origin/<base>` is preferred over the local branch.
+  - Unknown phases are rejected.
+  - Merge commits stay paired by SHA.
+  - The subject fallback is used when range-diff is unavailable.
+  - The exact text and `--json` key set of the `snapshot` summary and the `status` listing are pinned.
+- **Fingerprints**
+  - Stored fingerprints match a re-parse, and drift fails loudly.
+  - `summarizeSnapshot` counts are correct.
+  - SHA-256 is correct at the padding boundaries.
+  - Lines split on `\n` only, so form feeds and lone CRs stay inside a line.
 
-Mutation checks were run by hand: dropping `--verbatim`, including context lines in fingerprints, or making IDs content-only each turns the relevant tests red.
+Mutation checks were run by hand:
+
+- Dropping `--verbatim`, including context lines in fingerprints, or making IDs content-only each turns the relevant tests red.
+- Dropping the `diff.suppressBlankEmpty` pin turns the git-config test red.
+
+### Smoke run (agent 2, 2026-10-26)
+
+The smoke run used a `--shared` scratch clone of `issue_22534_step_change_unify` (Galaxy), with its record directory in a scratchpad. It went through four steps:
+
+1. An implementation snapshot at tip~2: 3 commits, 6 files, 24 hunks.
+2. A hardening snapshot at the tip: 3 same and 2 new commits, 24 hunks carried and 11 new.
+3. A real `git rebase` onto a newer `dev`, plus a fixup that changed one line in one commit, then a polishing snapshot: 4 commits rebased, 1 changed (1 differing hunk), 34 hunks carried and 1 changed.
+4. With everything in the hardening snapshot checked off, `status` on the polishing snapshot showed 34 hunks reviewed and 1 changed, 4 commits reviewed and 1 changed. Only that file and that commit were listed to review.
+
+Each run took about 4s. Snapshots were 92–147 KB.
 
 ## Decisions made (all reversible)
 
@@ -278,6 +370,10 @@ Mutation checks were run by hand: dropping `--verbatim`, including context lines
 - **Snapshots are gitignored by default.** `.gitignore` has `/vault/repositories/**/branches/**/differential-review/snapshots/`, and `review-state.json` stays tracked. This is the reversible choice; committing large diffs to history is not. See the open questions.
 - **No auto-fetch.** The base is whatever the worktree already has.
 - **Snapshots include commits from merged-in branches.** They have null patch-ids and pair by SHA.
+- **No record lookup by branch name.** Agents already pass BRANCH_DIRECTORY. Finding the vault root from an arbitrary worktree means guessing (`~/.galaxy-brain`?), and a wrong guess could write a stray record into a real vault. Revisit if John wants `differential-review status` from inside a worktree with no flags.
+- **Three commands only** (`snapshot`, `list`, `status`). Interdiffs and phase views ("what hardening changed since implementation") are core queries for the plugins, not CLI commands.
+- **Dirty worktrees warn, not fail.** The snapshot covers committed HEAD. Failing would block an agent's post-phase step over stray files that are irrelevant to it.
+- **Tests import `site/src/lib/records.ts`** the way `obsidian-plugin` does. `vitest.config.ts` stops Vite from resolving `site/tsconfig.json`, which extends `astro`, so the suite runs without `site/node_modules`.
 
 ## Open questions for John
 
@@ -286,6 +382,13 @@ Mutation checks were run by hand: dropping `--verbatim`, including context lines
 3. **Fuzzy threshold 0.6 at character level.** Is that the right "changed vs. new" line? Tune it once there are real UI sessions.
 4. **Should hunk check-offs also be allowed from the commit view** (per-commit hunks), or only from the cumulative file view, as decided above?
 5. **Concurrency on `review-state.json`.** Obsidian and Chrome could both write it. There is no revision check yet, so the last writer wins. Add a `revision` compare-and-swap?
-6. **Chrome native-host API** for read/write (still open per the spec). It should implement `TextFileAdapter`, or `SnapshotReader` plus `ReviewStateStore`, over the existing host.
+6. **Chrome native-host API** for read/write (still open per the spec). It should implement `TextFileAdapter`, or `SnapshotReader` plus `ReviewStateStore`, over the existing host. See Interfaces for a sketch, and item 9 for message size.
 7. **Merged or split hunks** (see the known limitation). Is it worth `h2` change-run fingerprints, or is failing safe good enough?
 8. **Missing base metadata.** Many active records have only prose like "Base: `dev`". Migrate them to `upstream_base_branch` frontmatter, or have agents always pass `--base`?
+9. **Chrome native messaging caps each host-to-extension message at 1 MB.** Typical snapshots (65–150 KB) fit. Snapshots of long or stale-base branches, which reach several MB, don't fit, so a naive `read(path)` fails. Options:
+   - chunked reads;
+   - have the host run `deriveReview` and send only the derived states plus per-file diff text on demand;
+   - drop per-commit diffs from big snapshots.
+10. **A reworded commit message keeps its sign-off.** The patch-id ignores the message, as the spec says. But a sign-off is meant to cover "the commit message, coherence". Should derivation flag a message-only change as info, for example by storing a message hash in the sign-off?
+11. **Non-UTF-8 file content** is decoded lossily (U+FFFD). Fingerprints and patch-ids stay deterministic, but the stored diff text isn't byte-exact. Is that fine for review?
+12. **Record lookup by branch name.** It was skipped (see Decisions). Add a `--branch` lookup under `~/.galaxy-brain/vault` if running from a worktree without flags matters.
