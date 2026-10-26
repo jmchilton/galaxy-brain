@@ -1410,13 +1410,13 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 0eee83da68e
-  gx_findings: New test_run_apply_rules_flatten_list_list_paired_from_menus (menus, not JSON source; Playwright + Selenium green). gxui `call` parses a JSON arg into a dict, so rule_builder_set_source needs a leading space to stay a string.
+  galaxy_commit: cdbfecd0b71
+  gx_findings: New test_run_apply_rules_flatten_list_list_paired_from_menus (menus, not JSON source; Playwright + Selenium green). gxui `call` now converts args by the method's annotations; rule_builder_set_source takes JSON text or the rules object (cdbfecd0b71).
 - faq: topics/introduction/faqs/analyze_data.md
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 0eee83da68e
+  galaxy_commit: cdbfecd0b71
   faq_findings: [intro-analyze-data-home-icon]
   gx_findings: New test_masthead_logged_out_and_home_logo clicks the logo (masthead.home) back to root; nothing clicked it before.
 - faq: topics/introduction/faqs/fetched_data.md
@@ -1432,7 +1432,7 @@
   status: ui_verified
   mode: ui
   gtn_commit: 45d4932d33
-  galaxy_commit: 0eee83da68e
+  galaxy_commit: cdbfecd0b71
   faq_findings: [intro-login-masthead-labels]
   gx_findings: test_masthead_logged_out_and_home_logo asserts the Login and Register item labels and no user menu when logged out.
 - faq: topics/introduction/faqs/ucsc.md
