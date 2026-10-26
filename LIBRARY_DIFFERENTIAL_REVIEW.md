@@ -68,15 +68,17 @@ differential-review status --record <dir> [--snapshot <id>] [--json]
 differential-review [<command>] --help
 ```
 
+`--worktree` defaults to the current directory. In that case HEAD must be on the record's branch, or the command fails. This guards against an agent whose cwd is the vault snapshotting galaxy-brain's own HEAD into a record. With an explicit `--worktree`, a different branch or a detached HEAD only produces a warning, because alts and renames are legitimate.
+
 `--record` is always the branch record directory, `vault/repositories/<repo>/branches/<status>/<branch>`. It must already contain `index.md`. A path that has none is an error, never a new directory.
 
 ### `snapshot`
 
-The first line is `created <path>`, or `exists <path>` for a no-op rerun. The rest is a summary to paste into a debrief:
+The first line is `created <path>`, or `exists <path>` for a no-op rerun. The rest is a summary to paste into a debrief. This is the smoke run's output, with the path shortened:
 
 ```
 created …/snapshots/20261026T052513Z-polishing-a9569d8fee3b.json
-  polishing @ a9569d8fee3b vs origin/dev (merge-base 43c4d0f06a4a)
+  polishing @ a9569d8fee3b vs 43c4d0f06a4a (merge-base 43c4d0f06a4a)
   since 20261026T052424Z-hardening-c48aa1d4ca6b:
     commits: 0 same, 4 rebased, 1 changed, 0 new, 0 dropped
     hunks:   34 carried, 1 changed, 0 new, 0 dropped
@@ -142,7 +144,7 @@ Every git call also gets these:
 
 - Snapshot IDs are file stems. They sort by time and contain no colons, which break Obsidian sync and mobile.
 - **Immutability.** A snapshot is written to a hidden `.<id>.json.<pid>.tmp` file, then hard-linked into place. An existing file raises `EEXIST` and is never overwritten. A crash can't leave truncated JSON that every later run would trip over. If a snapshot can't be read, the error names its file.
-- **Idempotency.** A rerun is a no-op that reports `exists` when a snapshot with the same head SHA and phase exists *and HEAD hasn't moved since*. The same head with a different phase writes a new snapshot, so the phase tag is recorded. If HEAD returns to an earlier SHA after other snapshots, for example after a reset, the CLI snapshots it again, so the latest snapshot always reflects HEAD.
+- **Idempotency.** A rerun is a no-op that reports `exists` when a snapshot with the same head SHA, merge-base and phase exists *and HEAD hasn't moved since*. If a run used the wrong base, rerunning with the fixed base writes a new snapshot. The same head with a different phase writes a new snapshot, so the phase tag is recorded. If HEAD returns to an earlier SHA after other snapshots, for example after a reset, the CLI snapshots it again, so the latest snapshot always reflects HEAD.
 - The previous snapshot is the latest existing one. If the clock runs behind it, `createdAt` is bumped by 1s to keep the order.
 - **The CLI never writes `review-state.json`.** This is enforced by type. The CLI's only adapter, `nodeReadAdapter`, is a `ReadOnlyFileAdapter` with no `write`, so a `ReviewStateStore` can't be built from it. `status` uses the read-only `readReviewState()`. Tests check that the file stays byte-identical, or absent, across `snapshot`, `list` and `status`; they simulate plugin writes through a separate `pluginAdapter`.
 
@@ -310,7 +312,7 @@ The `h1:` prefix is versioned because review state keeps fingerprints forever. A
 
 ## Tests
 
-`make diff-review-test` runs 77 tests: core unit tests on fixture diffs, plus CLI tests that build real temp git repos with isolated config (`GIT_CONFIG_GLOBAL=/dev/null`, fixed dates). They cover:
+`make diff-review-test` runs 79 tests: core unit tests on fixture diffs, plus CLI tests that build real temp git repos with isolated config (`GIT_CONFIG_GLOBAL=/dev/null`, fixed dates). They cover:
 
 - **Rebases and amends**
   - A rebase that only shifts line numbers: the hunks and the commit stay reviewed.
@@ -332,7 +334,8 @@ The `h1:` prefix is versioned because review state keeps fingerprints forever. A
   - A missing frontmatter base needs `--base`, and no directory is created.
   - A record path without `index.md` is refused by `snapshot`, `list` and `status`.
   - Clear errors for a worktree that isn't git and for an unresolvable base.
-  - `--worktree` defaults to cwd, and a detached HEAD gives a warning.
+  - A defaulted `--worktree` fails when cwd is on another branch or detached; an explicit one only warns.
+  - A same-head rerun against a different base writes a new snapshot.
   - Usage errors exit 2, and per-command help works.
   - `origin/<base>` is preferred over the local branch.
   - Unknown phases are rejected.
@@ -373,7 +376,7 @@ Each run took about 4s. Snapshots were 92–147 KB.
 - **No record lookup by branch name.** Agents already pass BRANCH_DIRECTORY. Finding the vault root from an arbitrary worktree means guessing (`~/.galaxy-brain`?), and a wrong guess could write a stray record into a real vault. Revisit if John wants `differential-review status` from inside a worktree with no flags.
 - **Three commands only** (`snapshot`, `list`, `status`). Interdiffs and phase views ("what hardening changed since implementation") are core queries for the plugins, not CLI commands.
 - **Dirty worktrees warn, not fail.** The snapshot covers committed HEAD. Failing would block an agent's post-phase step over stray files that are irrelevant to it.
-- **Tests import `site/src/lib/records.ts`** the way `obsidian-plugin` does. `vitest.config.ts` stops Vite from resolving `site/tsconfig.json`, which extends `astro`, so the suite runs without `site/node_modules`.
+- **Tests import `site/src/lib/records.ts`** the way `obsidian-plugin` does. `vitest.config.ts` (`oxc.tsconfig: false`) and the esbuild `tsconfig` option stop either tool from resolving `site/tsconfig.json`, which extends `astro`. So tests and the build run without `site/node_modules`. `obsidian-plugin` has no such guard, so its tests need `site/node_modules` in a fresh worktree.
 
 ## Open questions for John
 
