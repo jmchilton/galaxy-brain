@@ -5,13 +5,15 @@
 
 ## Status
 
-Polished, ready for final review; see the [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md) and [tags](pr_tags.md). Base: `release_26.2` (`39084b89e8f`). Head: `cca66ef7a78`.
+Polished, ready for final review; see the [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md) and [tags](pr_tags.md). Base: `release_26.2` (`849c2573cb0`). Head: `540a46e8c79`.
 
 No PR yet.
 
-Fork CI queued on the new head.
+Fresh fork CI pending; local Selenium (5), focused component tests (20), formatting and changed-file mypy passed.
 
 ## Base
+
+Re-polish 2026-10-25: admin login moved into driver setup before managed history creation; clean rebase onto `release_26.2` `849c2573cb0`, client import lint fixed, and annotations added. Head `540a46e8c79`; previous polished head `cca66ef7a78`.
 
 Polish 2026-10-25: isort fixup folded into `Let the upload helpers open remote file folders`, rebased clean onto `release_26.2` `39084b89e8f`; old head `23e404c6c86`.
 
@@ -22,7 +24,7 @@ Rebased 2026-10-25 onto `release_26.2` (`e3affe97eb8`), dropping #24380's commit
 
 ## Scope
 
-All of `galaxy_ui_driver`'s FAQ-loop batch 7 except gxui, plus the prerequisites it needs (John, 2026-10-23: "everything in one"). It is 14 commits and touches 16 files, +296/−48 (16 files):
+All of `galaxy_ui_driver`'s FAQ-loop batch 7 except gxui, plus the prerequisites it needs (John, 2026-10-23: "everything in one"). It touches history test helpers and Upload Activity browsers:
 
 - **History panel test helpers and coverage.**
   - Fixes `history_panel.search`, whose selector never matched.

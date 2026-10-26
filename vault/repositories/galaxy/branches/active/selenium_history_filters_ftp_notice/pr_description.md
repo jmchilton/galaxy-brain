@@ -8,11 +8,11 @@ Fix two Upload Activity bugs - Choose Remote Files never shows the FTP server no
 
 The older FilesDialog modal tells users which FTP server to log in to; the Upload Activity's Choose Remote Files (new in 26.0) never did, so a user browsing an empty FTP directory gets no hint how to fill it. Long unbroken names push into the next column in both Upload Activity browsers.
 
-***Every user-visible fix has an E2E test that failed on `release_26.2` at its own assertion (notice not visible; file name 734px and library name 1063px past the Name column), and the empty-site guard's vitest failed before its fix. The only UI changes are the restored notice and a CSS wrap rule; the test helpers ride along because the fix tests need them (`history_panel.search` never matched, and the remote-files search raced its debounce).***
+***Every user-visible fix has an E2E test that failed on `release_26.2` at its own assertion (notice not visible; file name 734px and library name 1063px past the Name column), and the empty-site guard's vitest failed before its fix. This combines two Upload Activity fixes with baseline coverage for existing history hide/undelete and remote-folder upload flows. The history helpers support that separate baseline coverage; the remote-files helpers support the upload regression tests.***
 
 <details><summary>Client fixes</summary>
 
-- **FTP notice.** FilesDialog's inline notice moved into the existing `FtpUploadHelp.vue`, which now takes `uri` and decides for itself when to show (`gxftp://` plus config loaded). FilesDialog drops `showFTPHelper`; `RemoteFilesUpload.vue` adds `<FtpUploadHelp :uri="currentFileSourceUri" />`.
+- **FTP notice.** FilesDialog's inline notice moved into a new shared `FtpUploadHelp.vue`, which now takes `uri` and decides for itself when to show (`gxftp://` plus config loaded). FilesDialog drops `showFTPHelper`; `RemoteFilesUpload.vue` adds `<FtpUploadHelp :uri="currentFileSourceUri" />`.
 - When `ftp_upload_site` is unset, the "log in to the FTP server at" sentence is skipped instead of rendering with an empty server.
 - **Long names.** A two-property `upload-browser-label` mixin in `upload-table-shared.scss`, applied to the name labels in `RemoteFilesUpload.vue` and `DataLibraryUpload.vue` (libraries, folders, datasets).
 
@@ -25,6 +25,7 @@ The older FilesDialog modal tells users which FTP server to log in to; the Uploa
 - **Remote files.** The upload helpers search for each file before ticking it, and gain `open_remote_folder` and `path=`. The search outlasts `DataDialogSearch`'s 500ms debounce and tolerates sources that ignore the query (Invenio). New `test_upload_from_remote_file_source_folder` checks the uploaded content.
 - `assert_label_within_its_column` measures each label against its `td` for both long-name tests.
 - `libraries_folder_create` now waits for its save to finish (also used by `test_library_contents`).
+- Admin upload classes log in during driver setup, before `@managed_history` creates a history, avoiding regular-user registration and a logout/login cycle.
 
 </details>
 
@@ -100,6 +101,8 @@ The helper now waits out the debounce before checking the listing; 8 remote-file
 - [x] I've included appropriate [automated tests](https://docs.galaxyproject.org/en/latest/dev/writing_tests.html).
 
 <details><summary>Tests</summary>
+
+Latest polish: all five affected admin upload tests passed on Selenium with the rebuilt client; the focused FilesDialog and FTP guard component tests passed (20 total).
 
 - `test/integration_selenium/test_upload_ftp.py::TestUploadFtpSeleniumIntegration::test_ftp_directory_shows_upload_site`
 - `test/integration_selenium/test_upload_activity_remote_files.py::TestUploadActivityRemoteFiles::test_long_remote_file_name_stays_in_its_column`
