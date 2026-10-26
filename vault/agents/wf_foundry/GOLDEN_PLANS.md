@@ -62,7 +62,7 @@ For each fold edit, ask: could `nextflow-summary-to-workflow-brief` (or `summari
 
 ## Metrics
 
-Per iteration in HISTORY.md: last phase reached, planemo test (green/red/not run), steps in the final workflow, ledger counts (open gaps, `dropped` units, surrendered, brief-change recommendations), brief open questions vs decisions. Richer and converging = more steps carried, fewer drops and surrenders, more decisions, fewer open questions.
+Per iteration in HISTORY.md: last phase reached, planemo test (green/red/not run), steps in the final workflow, ledger counts (open gaps, `dropped` units, surrendered, brief-change recommendations), open questions vs decisions of the brief the build ran on (the folded version's counts go in Result). Richer and converging = more steps carried, fewer drops and surrenders, more decisions, fewer open questions.
 
 ## Known gaps
 
