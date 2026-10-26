@@ -1,0 +1,8 @@
+{
+  "skipArtifacts": [
+    {
+      "pattern": "^mulled-resolution-cache",
+      "reason": "Dependency resolution cache, not test output"
+    }
+  ]
+}
