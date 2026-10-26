@@ -89,7 +89,7 @@ Diffs are generated with `--no-ext-diff --no-color --no-textconv --src-prefix=a/
 - **Immutability.** Files are written with the `wx` flag, so an existing file raises `EEXIST` and is never overwritten.
 - **Idempotency.** A rerun with the same head SHA and phase is a no-op that reports `exists`. The same head with a different phase writes a new snapshot, so the phase tag is recorded.
 - The previous snapshot is the latest existing one. If the clock runs behind it, `createdAt` is bumped by 1s to keep the order.
-- **The CLI never writes `review-state.json`.** It never constructs a `ReviewStateStore` for writing, and tests check that the file stays byte-identical, or absent, across `snapshot`, `list` and `status`.
+- **The CLI never writes `review-state.json`.** It never constructs a `ReviewStateStore`. `status` uses the read-only `readReviewState()`, and tests check that the file stays byte-identical, or absent, across `snapshot`, `list` and `status`.
 
 ### Interfaces (`src/core/storage.ts`)
 
@@ -104,7 +104,8 @@ interface SnapshotReader   { listSnapshotIds(): Promise<string[]>; readSnapshot(
 interface ReviewStateStore { readReviewState(): Promise<ReviewState | null>; writeReviewState(s): Promise<void>; }
 
 recordSnapshotReader(adapter, recordDir): SnapshotReader
-recordReviewStateStore(adapter, recordDir): ReviewStateStore
+recordReviewStateStore(adapter, recordDir): ReviewStateStore   // plugins
+readReviewState(adapter, recordDir)                             // read-only (CLI)
 readAllSnapshots(reader): Promise<Snapshot[]>   // oldest first
 ```
 
@@ -168,7 +169,7 @@ TypeScript types in `src/core/types.ts` are the source of truth. Both files carr
 - `mapping.commits[].method` is `sha`, `patch-id`, `range-diff`, `subject` or null (new commit).
 - When `patchIdChanged` is true, the mapping entry also carries per-commit `hunks` matches.
 - `mapping.hunks[].match` is `exact`, `moved`, `fuzzy` or `new`.
-- Hunk lines aren't stored twice. `snapshotFiles(snapshot)` and `commitFiles(commit)` re-parse the stored diff text, memoized per object, to get `lines` and `changed`. Parsing is deterministic, and the stored IDs equal the re-parsed ones.
+- Hunk lines aren't stored twice. `snapshotFiles(snapshot)` and `commitFiles(commit)` re-parse the stored diff text, memoized per object, to get `lines` and `changed`. `verifyFingerprints` compares the re-parsed IDs with the stored index and throws when they differ, so a jsdiff version change or parser fix that drifts without a new fingerprint version fails loudly instead of silently turning check-offs `new`. `parseSnapshot` also rejects any other `fingerprintVersion`.
 - Size: about 65 KB for a 3-commit, 2-file Galaxy branch, and about 150 KB for 5 commits and 22 files. Per-commit diffs usually outweigh the cumulative diff.
 
 ### Review state
@@ -213,6 +214,8 @@ For each hunk:
 
 The `h1:` prefix is versioned because review state keeps fingerprints forever. A new algorithm gets a new prefix.
 
+**Known limitation: hunks that merge or split.** Git merges two changes 7 or fewer lines apart into one hunk. This happens when upstream deletes the lines between them, or when hardening adds code next to a reviewed hunk. The merged hunk has a new `contentHash`, and the small old hunk can score below 0.6 against it, so identical changed lines can come back as `changed` or `new`. This fails safe, showing more rather than less. A fix would fingerprint contiguous change runs within hunks, as `h2`.
+
 ## Matching (`matchHunks`, one-to-one)
 
 1. **exact**: same `id` (same path, content and occurrence).
@@ -248,7 +251,7 @@ The `h1:` prefix is versioned because review state keeps fingerprints forever. A
 
 ## Tests
 
-`make diff-review-test` runs 54 tests: core unit tests on fixture diffs, plus CLI tests that build real temp git repos with isolated config (`GIT_CONFIG_GLOBAL=/dev/null`, fixed dates). They cover:
+`make diff-review-test` runs 57 tests: core unit tests on fixture diffs, plus CLI tests that build real temp git repos with isolated config (`GIT_CONFIG_GLOBAL=/dev/null`, fixed dates). They cover:
 
 - a rebase that only shifts line numbers (hunks and commit stay reviewed);
 - a rebase that changes context (hunks stay reviewed, and the commit is flagged with no differing hunks);
@@ -261,7 +264,8 @@ The `h1:` prefix is versioned because review state keeps fingerprints forever. A
 - `origin/<base>` preferred over local;
 - unknown phases rejected;
 - merge commits staying paired by SHA;
-- the subject fallback when range-diff is unavailable.
+- the subject fallback when range-diff is unavailable;
+- stored fingerprints matching a re-parse, and loud failure on drift.
 
 Mutation checks were run by hand: dropping `--verbatim`, including context lines in fingerprints, or making IDs content-only each turns the relevant tests red.
 
@@ -283,4 +287,5 @@ Mutation checks were run by hand: dropping `--verbatim`, including context lines
 4. **Should hunk check-offs also be allowed from the commit view** (per-commit hunks), or only from the cumulative file view, as decided above?
 5. **Concurrency on `review-state.json`.** Obsidian and Chrome could both write it. There is no revision check yet, so the last writer wins. Add a `revision` compare-and-swap?
 6. **Chrome native-host API** for read/write (still open per the spec). It should implement `TextFileAdapter`, or `SnapshotReader` plus `ReviewStateStore`, over the existing host.
-7. **Missing base metadata.** Many active records have only prose like "Base: `dev`". Migrate them to `upstream_base_branch` frontmatter, or have agents always pass `--base`?
+7. **Merged or split hunks** (see the known limitation). Is it worth `h2` change-run fingerprints, or is failing safe good enough?
+8. **Missing base metadata.** Many active records have only prose like "Base: `dev`". Migrate them to `upstream_base_branch` frontmatter, or have agents always pass `--base`?
