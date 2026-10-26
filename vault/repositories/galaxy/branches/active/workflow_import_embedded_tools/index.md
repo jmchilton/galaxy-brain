@@ -8,8 +8,16 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-READY for human review: fixes [#24471](https://github.com/galaxyproject/galaxy/issues/24471) for embedded user and admin tools, including nested imports; pushed at `d8e943eff4c`.
+Polished and awaiting John's final review (`branches_ready_for_final_review`) at `51b6ea3a404`, targeting `release_26.1`.
 
-PR not opened; implementation handoff is in [implementation_debrief.md](implementation_debrief.md).
+PR not opened; John's human-read checklist item and approval remain pending.
 
-Local API validation passed; fork CI is pending.
+Ten import API variants pass after the conflict-free rebase; fresh fork CI is queued/pending (2026-10-26), with the old release-script failure diagnosed as unrelated in the debrief.
+
+## Review
+
+- [PR description](pr_description.md)
+- [Title options](pr_titles.md)
+- [Recommended labels](pr_tags.md)
+- [Polishing debrief](polish_debrief.md)
+- [Implementation and hardening handoff](implementation_debrief.md)
