@@ -1,12 +1,12 @@
 # Preparation debrief: mapped collection outputs over sample sheets
 
-Prepared 2026-10-26 from [the original draft](mapped_output_over_sample_sheet_invalid_type.md). See [the proposal](proposed_mapped_output_over_sample_sheet_invalid_type.md).
+Prepared 2026-10-26 from [the original draft](issue_draft.md). See [the proposal](proposal.md).
 
 ## Existing work and duplicate check
 
 Searched active and merged Galaxy branch records for sample sheet mapping, `sample_sheet:list`, multiplication, the source filename and #24303. No implementation branch for this specific problem was found.
 
-- [The #24303 implementation debrief](../../../repositories/galaxy/branches/active/issue_24303_collection_type_prefix_26.2/implementation_debrief.md) explicitly leaves mapped sample sheet output types as a follow-up. Its scope evaluation and runtime review say the same. Normalizing a sample sheet when adding a per-job `type_prefix` is implemented there, but that does not repair the outer mapping product.
+- [The #24303 implementation debrief](../../../branches/active/issue_24303_collection_type_prefix_26.2/implementation_debrief.md) explicitly leaves mapped sample sheet output types as a follow-up. Its scope evaluation and runtime review say the same. Normalizing a sample sheet when adding a per-job `type_prefix` is implemented there, but that does not repair the outer mapping product.
 - #24226 concerns effective map-over structure for nested compound inputs, not multiplication by a per-job collection output. Its earlier draft's sample sheet truncation premise was rejected; that does not invalidate this distinct example.
 - The XSD sample sheet branch concerns tool XML validation rather than mapped collection precreation. The collection matching branches concern input compatibility.
 - Live GitHub searches across all issue states for `sample_sheet mapped in:body`, `"sample_sheet:list"`, and `"sample sheet" collection output` found related #24303, #24308, #24226 and #24220, but no dedicated duplicate. This is a targeted search, not proof none exists.
@@ -30,6 +30,6 @@ No API job was submitted and no browser was exercised. The proposal describes th
 
 One fresh-subagent review completed. The reviewer checked the runtime path, related issues and branch notes, clarified that precreation succeeds and the explicit validation call exposes the inconsistency, added assertions for preserved metadata, and added the column definition's required `optional: False` field. The reviewer reran the revised reproduction successfully and found no duplicate or blocking premise problem. There was one review round only.
 
-Recommend posting this as a granular collection-type correctness issue, with the explicit in-process reproduction limitation. Nothing has been filed; the source remains in `to_file/` awaiting John's decision.
+Recommend posting this as a granular collection-type correctness issue, with the explicit in-process reproduction limitation. Filed on 2026-10-26 as [#24481](https://github.com/galaxyproject/galaxy/issues/24481), assigned to jmchilton at his request. Source, proposal and debrief moved into this issue record.
 
 `make validate` passed: 126 files, 0 errors, 15 existing advisory warnings. `git diff --check` passed. No frontmatter or generated catalog/dashboard sources changed.
