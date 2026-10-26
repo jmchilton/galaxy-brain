@@ -80,7 +80,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
-- [`issue_24457_password_reset_25.1`](active/issue_24457_password_reset_25.1/index.md) — Fixes #24457: reload the authenticated session after password reset/expired-password save; correct expired-login redirect. Hardened READY, baseline first; base `release_25.1`, head `b88e76ad2ca`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24457_password_reset_25.1?expand=1).
 - [`issue_22598_login_prompt_26.2`](active/issue_22598_login_prompt_26.2/index.md) — Prompts anonymous shed users to log in for Changelog/Contents, then returns them (#22598). Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_22598_login_prompt_26.2?expand=1).
 - [`workflow_editor_selector_escaping`](active/workflow_editor_selector_escaping/index.md) — CSS-safe selector escaping (`css_attribute_value`) for editor terminal names, node labels, connector ids (`[id='…']`) and workflow run-form input labels, so `'`/`\` in free-text labels no longer break the Selenium/Playwright helpers; editor + run-form E2E tests. Re-scoped, re-hardened. Stacked on `workflow_editor_connection_helpers` (`9699ec45644`), head `7ba4f7bd25f`. [Open PR](https://github.com/galaxyproject/galaxy/compare/workflow_editor_connection_helpers...jmchilton:galaxy:workflow_editor_selector_escaping?expand=1).
 - [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
@@ -98,6 +97,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`issue_24457_password_reset_25.1`](active/issue_24457_password_reset_25.1/index.md) — Refresh the authenticated session after reset/expired-password saves; fix expired-login routing (#24457). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24457_password_reset_25.1?expand=1).
 - [`licenses`](active/licenses/index.md) — Requires the runner's affirmation of declared tool terms for tool and workflow submissions (#23261). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
 - [`reset_metadata_sample_isolation_26.1`](active/reset_metadata_sample_isolation_26.1/index.md) — Reset reads each revision's samples and stages copies outside the clone. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:reset_metadata_sample_isolation_26.1?expand=1).
 - [`issue_24441_tool_shed_upload_dry_run`](active/issue_24441_tool_shed_upload_dry_run/index.md) — Tool Shed upload API `?dry_run=true` predicting the resulting revision without persisting; fixes `reset_metadata` sample handling (#24441). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1).

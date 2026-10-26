@@ -1,0 +1,4 @@
+- [25.1] Refresh the authenticated session after password reset
+- [25.1] Fix stale login state after saving a new password
+- [25.1] Restore password-reset and expired-password login flows
+- [25.1] Reload Galaxy after password changes to pick up the new session
