@@ -5,13 +5,15 @@
 
 ## Status
 
-Polished, ready for final review; see the [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md) and [tags](pr_tags.md). Base: `release_26.2` (`849c2573cb0`). Head: `540a46e8c79`.
+Polished, ready for final review; see the [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md) and [tags](pr_tags.md). Base: `release_26.2` (`7a7c1576f94`). Head: `1090ba998b5`.
 
 Draft PR #24458 opened; fork CI is pending.
 
-Fresh fork CI pending; local Selenium (5), focused component tests (20), formatting and changed-file mypy passed.
+Fresh fork CI pending after rebase; prior local Selenium (5), focused component tests (20), formatting and changed-file mypy passed (not rerun after rebase).
 
 ## Base
+
+Rebase 2026-10-26 onto `release_26.2` `7a7c1576f94`; old head `540a46e8c79`. Conflicts only in `test_upload_activity.py`: kept upstream's new data-library tests and API-based `_create_and_populate_library` (dropped its own admin login, since driver setup logs in admin); kept this branch's long-name test, now `@requires_new_library`. Selenium not rerun.
 
 Re-polish 2026-10-25: admin login moved into driver setup before managed history creation; clean rebase onto `release_26.2` `849c2573cb0`, client import lint fixed, and annotations added. Head `540a46e8c79`; previous polished head `cca66ef7a78`.
 
