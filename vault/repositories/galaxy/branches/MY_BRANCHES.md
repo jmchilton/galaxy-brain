@@ -44,6 +44,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`issue_24469_collection_build_reset_selection_25.1`](active/issue_24469_collection_build_reset_selection_25.1/index.md) — Leave history selection mode when handing datasets to collection builders (#24469). [#24487](https://github.com/galaxyproject/galaxy/pull/24487).
 - [`issue_24389_lint_duplicate_test_params_26.1`](active/issue_24389_lint_duplicate_test_params_26.1/index.md) — Lint conflicting duplicate tool-test params (load unchanged); `<edit_attributes>` stored as dicts (#24389). Base `release_26.1`. [#24480](https://github.com/galaxyproject/galaxy/pull/24480).
 - [`selenium_history_filters_ftp_notice`](active/selenium_history_filters_ftp_notice/index.md) — Restores FTP guidance and wraps upload-browser names; adds history and remote-folder tests. Base `release_26.2`. [#24458](https://github.com/galaxyproject/galaxy/pull/24458).
 - [`selenium_history_panel_switch`](active/selenium_history_panel_switch/index.md) — Add missing 26.2 E2E test for the history panel's Switch to history modal; shared `history_selector_modal` component. Base `release_26.2`. [#24444](https://github.com/galaxyproject/galaxy/pull/24444).
@@ -100,7 +101,6 @@ None yet.
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`issue_17204_remove_shared_with_me_26.2`](active/issue_17204_remove_shared_with_me_26.2/index.md) — Individual/bulk recipient removal for shared histories, workflows and visualizations; bookmark cleanup (#17204). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_17204_remove_shared_with_me_26.2?expand=1).
-- [`issue_24469_collection_build_reset_selection_25.1`](active/issue_24469_collection_build_reset_selection_25.1/index.md) — Leave history selection mode when handing datasets to collection builders (#24469). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24469_collection_build_reset_selection_25.1?expand=1).
 - [`selenium_faq_account_workflow_display_26.2`](active/selenium_faq_account_workflow_display_26.2/index.md) — FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_faq_account_workflow_display_26.2?expand=1).
 - [`issue_24476_parsed_output_filters_26_1`](active/issue_24476_parsed_output_filters_26_1/index.md) — Preserves filter expressions in parsed data, collection and scalar outputs (#24476). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24476_parsed_output_filters_26_1?expand=1).
 - [`workflow_import_embedded_tools`](active/workflow_import_embedded_tools/index.md) — Fix embedded user/admin tool imports after workflow outputs or rename actions (#24471), including nested imports. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:workflow_import_embedded_tools?expand=1).

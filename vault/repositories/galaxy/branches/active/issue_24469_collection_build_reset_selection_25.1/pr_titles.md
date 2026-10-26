@@ -1,4 +1,1 @@
-- [25.1] Clear history selection when building a collection
-- [25.1] Leave history selection mode after handing datasets to collection builders
 - [25.1] Fix stale history selection after Auto/Advanced Build List
-- [25.1] Reset history selection for list collection builders

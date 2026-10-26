@@ -2,9 +2,9 @@ Fix 🎯 #24469 — leave history selection mode when building a collection from
 
 After Auto/Advanced Build List, the history panel can retain the old dataset selection even though those datasets are now hidden inside the new collection. The result is a stale selection count and checkboxes on the remaining history items.
 
-| Before | After |
-| --- | --- |
-| ![After building a list, selection mode remains with “2 of 1 selected”](screenshots/02_before_fix_after_build.png) | ![After building a list, the history panel has left selection mode](screenshots/03_after_fix_after_build.png) |
+| Before                                                                                                             | After                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| ![After building a list, selection mode remains with “2 of 1 selected”](https://raw.githubusercontent.com/jmchilton/galaxy/63a19b1a86ca44553ab84b3b798bf3afe069e28f/screenshots/02_before_fix_after_build.png) | ![After building a list, the history panel has left selection mode](https://raw.githubusercontent.com/jmchilton/galaxy/63a19b1a86ca44553ab84b3b798bf3afe069e28f/screenshots/03_after_fix_after_build.png) |
 
 ***For Auto/Advanced Build List, selection clears when the wizard opens, so cancelling the wizard also leaves selection mode off.*** The selected datasets are handed to the builder before selection clears. The Build Dataset List modal used for an all-in-query selection clears selection when creation succeeds.
 
@@ -60,7 +60,7 @@ The production change adds selection-mode resets to the two relevant paths. The 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Stale selection controls and counts after building a collection, as shown above.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes: handoff/navigation and the modal event contract, with Selenium checking the visible result.
