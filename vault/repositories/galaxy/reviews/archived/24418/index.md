@@ -7,3 +7,7 @@
 Initial review of `bdfe24d00ed` complete 2026-10-23; approved 2026-10-24 with response, fix PR opened at https://github.com/richard-burhans/galaxy/pull/4 (review branch not pushed to PR head). Trimmed by John 2026-10-24: both P3s dropped (see filtered). Two P2s remain (invalid-case assertions pass on validator crash; twobit big-endian/v1/rejection branches untested), fixed on `pr_24418_review_1` (`bc2d663e291`, pushed to fork); 13 twobit/lav unit tests pass.
 
 Open, ready for review, against `dev`. Author richard-burhans. 4 files, +85/-0. Worktree `~/projects/worktrees/galaxy/pr/24418`.
+
+## Tracking ended
+
+Merged on GitHub; state checked 2026-10-26. Archived and removed from the review queue.

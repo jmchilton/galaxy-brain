@@ -7,3 +7,7 @@
 Initial review (low effort, per John) of `4f2e4126a6b` complete 2026-10-23, unposted: one P3 (test strengthening) fixed on `pr_24413_review_0` (`5b6156bcc8a`, pushed to fork; edited API test passes).
 
 Open, ready for review, against `release_26.1`. Author richard-burhans. 2 files, +31/-1. Worktree `~/projects/worktrees/galaxy/pr/24413`.
+
+## Tracking ended
+
+Merged on GitHub; state checked 2026-10-26. Archived and removed from the review queue.
