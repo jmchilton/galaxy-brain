@@ -1,0 +1,1 @@
+- `kind/bug`: collection element assertions can abort the test run.

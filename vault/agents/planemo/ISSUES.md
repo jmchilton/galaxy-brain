@@ -27,6 +27,7 @@ GitHub state last refreshed: 2026-10-24. Issues here are unassigned by default. 
 
 ## In motion (`wip`)
 
+- [#1759](https://github.com/galaxyproject/planemo/issues/1759) — expression.json collection assertions; branch `collection-expression-assertions`. [notes](../../repositories/planemo/issues/wip/1759/index.md)
 - [#1746](https://github.com/galaxyproject/planemo/issues/1746) — fail tool tests that print their secrets; branch `fail-tests-leaking-secrets`. [notes](../../repositories/planemo/issues/wip/1746/index.md)
 - [#1750](https://github.com/galaxyproject/planemo/issues/1750) — undeclared `${...}` workflow params left literal; branch `workflow-informal-params-sentinel`. [notes](../../repositories/planemo/issues/wip/1750/index.md)
 - [#542](https://github.com/galaxyproject/planemo/issues/542) — planemo shed_lint --fail_fast broken?; PR [#1710](https://github.com/galaxyproject/planemo/pull/1710). [notes](../../repositories/planemo/issues/wip/542/index.md)

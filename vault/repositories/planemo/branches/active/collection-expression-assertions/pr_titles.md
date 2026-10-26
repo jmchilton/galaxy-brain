@@ -1,0 +1,3 @@
+- Fix expression.json collection element assertions
+- Preserve downloaded expression files for collection tests
+- Verify skipped workflow collection outputs without crashing

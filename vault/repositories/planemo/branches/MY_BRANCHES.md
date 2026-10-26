@@ -52,7 +52,7 @@ None yet.
 
 ## Planemo branches — ready for final review (`branches_ready_for_final_review`)
 
-None yet.
+- [`collection-expression-assertions`](active/collection-expression-assertions/index.md) — Verifies expression.json collection elements using downloaded files (#1759). [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:collection-expression-assertions).
 
 ## Planemo branches — approved, opens when green (`branches_need_pr`)
 
