@@ -888,3 +888,15 @@
   target: main
   summary: 'Intro says to create the folder in `data/community`; galaxy_codex has no `data/` dir. Communities live in `communities/<name>/` (step 2 already says `communities`).'
   fix: 'Say `communities` in the intro.'
+
+- label: gtn-adr-images-truncated
+  faqs: [topics/contributing/faqs/gtn-adr-images.md]
+  target: main
+  summary: 'The "Bad" consequence ends mid-sentence with an unclosed paren: "(We can offset this with ".'
+  fix: 'Finish the sentence (e.g. shallow clones / image compression) or drop the parenthetical.'
+
+- label: input-answer-keys-yaml-indent
+  faqs: [topics/contributing/faqs/input-and-answer-keys.md]
+  target: main
+  summary: 'The `answer_histories` example puts `history:` and `date:` at the same indent as `- label:`, so it is invalid YAML and breaks a tutorial header if copied.'
+  fix: 'Indent `history:`/`date:` two spaces past the dash, as in `bin/schema-tutorial.yaml` `_examples`.'
