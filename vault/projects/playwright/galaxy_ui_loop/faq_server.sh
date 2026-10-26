@@ -67,9 +67,11 @@ galaxy:
   # FTP upload with no FTP server: replays copy files into \$FAQ_FTP/<email> in its place.
   ftp_upload_dir: $state/ftp
   ftp_upload_site: ftp.faq.example.org
-  # Default tools, plus a sleep tool replays use to keep a job waiting (job status FAQ) and a
-  # two-version tool (tool version FAQ).
-  tool_config_file: $GALAXY_ROOT/lib/galaxy/config/sample/tool_conf.xml.sample,$state/replay_tool_conf.xml,$state/interactive_tool_conf.xml
+  # Default tools, plus a sleep tool replays use to keep a job waiting (job status FAQ), a
+  # two-version tool (tool version FAQ) and a shed tool conf for Admin tool installs.
+  tool_config_file: $GALAXY_ROOT/lib/galaxy/config/sample/tool_conf.xml.sample,$state/shed_tool_conf.xml,$state/replay_tool_conf.xml,$state/interactive_tool_conf.xml
+  # Every conf with a tool_path can take installs; the install form defaults to the first one.
+  shed_tool_data_path: $state/shed_tool_data
   user_activation_on: $activation
   smtp_server: mock_emails_to_path://$state/email.json
   smtp_ssl: false
@@ -140,6 +142,11 @@ EOF
     <tool file="multiple_versions_v01.xml" />
     <tool file="multiple_versions_v02.xml" />
   </section>
+</toolbox>
+EOF
+    # Admin > Install and Uninstall installs here; kept across restarts so installs survive.
+    [ -f "$state/shed_tool_conf.xml" ] || cat > "$state/shed_tool_conf.xml" <<EOF
+<toolbox tool_path="$state/shed_tools">
 </toolbox>
 EOF
     cat > "$state/interactive_tool_conf.xml" <<EOF

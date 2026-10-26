@@ -829,3 +829,38 @@
   faqs: [topics/admin/faqs/ansible-connection.md]
   target: main
   summary: Title "Variable connection" doesn't match the tip, which is about how Ansible collects variables; likely "Variable collection".
+
+- label: data-source-pulsar-yaml-handler
+  faqs: [topics/admin/faqs/data-source-with-pulsar.md]
+  target: main
+  summary: 'The job_conf.yml example uses `handler: my-local`, which sends the tool to a job handler named my-local, not to the my-local destination the XML example (`destination="my-local"`) routes to.'
+  fix: 'Use `environment: my-local` in the YAML example.'
+
+- label: database-slow-query-sentry-option
+  faqs: [topics/admin/faqs/database-slow-query.md]
+  target: main
+  summary: '`sentry_sloreq_threshold` was removed in 21.09 (sentry-sdk switch); slow requests now show up via Sentry performance tracing.'
+  fix: 'Replace it with `sentry_traces_sample_rate` (performance tracing) or drop the bullet.'
+
+- label: admin-mules-obsolete
+  faqs: [topics/admin/faqs/galaxy-how-many-mules.md]
+  target: main
+  summary: 'Mules went away with uWSGI in 23.0; the title asks "How many mules?" while the answer is about job handlers.'
+  fix: 'Retitle "How many job handlers?" and say "handler processes" (gravity `handlers: ... processes:`).'
+
+- label: jobs-in-containers-xml
+  faqs: [topics/admin/faqs/galaxy-jobs-in-containers.md]
+  target: main
+  summary: 'The XML example closes two destinations with `</destionation>`, so copy-pasted job_conf.xml fails to parse; the podman comment waits for galaxyproject/galaxy#18998, merged in 24.2 (Nov 2024).'
+  fix: 'Fix both closing tags; drop the comment and un-comment the `docker_volumes` param.'
+
+- label: tool-missing-reload-api
+  faqs: [topics/admin/faqs/galaxy-tool-missing.md]
+  target: main
+  summary: '`curl -X PUT https://galaxy.example.org/api/configuration` is not a route; the toolbox reload is `PUT /api/configuration/toolbox`, admin-only, and the example passes no API key.'
+  fix: '`curl -X PUT -H "x-api-key: $ADMIN_API_KEY" https://galaxy.example.org/api/configuration/toolbox`'
+
+- label: install-tool-admin-activity
+  faqs: [topics/admin/faqs/install_tool.md]
+  target: main
+  summary: 'Step 2 says to open the Admin menu "from the top bar"; Admin is an Activity Bar item (bottom of the bar) since at least 25.0.'
