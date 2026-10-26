@@ -1,4 +1,5 @@
 # Native tool license affirmations for tool and workflow submissions
+[Implementation slides](https://jmchilton.net/slides/licenses)
 
 Ordinary license checkboxes are saved as tool parameters, which causes two problems. A workflow author can bake in an affirmation that future runners never see, and a rerun can replay it. This branch adds an agreement requirement that the server enforces, prompts the person running the tool, and records on each job how its agreements were authorized.
 
