@@ -1,0 +1,4 @@
+- [26.1] Preserve filter expressions in parsed tool outputs
+- [26.1] Include output conditions in parsed tool metadata
+- [26.1] Expose output filters to parsed-tool API consumers
+- [26.1] Keep conditional output metadata in ParsedTool

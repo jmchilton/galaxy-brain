@@ -1,0 +1,4 @@
+- kind/bug
+- area/tool-framework
+- area/API
+- area/toolshed

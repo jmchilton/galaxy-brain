@@ -8,10 +8,18 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-READY: implemented and hardened [#24476](https://github.com/galaxyproject/galaxy/issues/24476) against release_26.1; head `90601b3bc4e` pushed to jmchilton.
+Polished and ready for final human review (`branches_ready_for_final_review`) for [#24476](https://github.com/galaxyproject/galaxy/issues/24476), targeting release_26.1 at pushed head `ee6cad444fb`.
 
-No PR opened; ready for human review and branch management.
+No PR opened.
 
-Fork CI queued; 196 local tests passed, with unchanged base mypy errors.
+Fresh fork CI pending after a conflict-free rebase; 124 focused tests pass, formatting is clean, and mypy matches the refreshed base's 14 existing errors.
 
-See [implementation_debrief.md](implementation_debrief.md) for decisions and validation.
+## Review materials
+
+- [PR description](pr_description.md)
+- [Title options](pr_titles.md)
+- [Recommended labels](pr_tags.md)
+- [Polishing debrief](polish_debrief.md)
+- [Implementation and hardening debrief](implementation_debrief.md)
+
+The human-read checklist item remains unchecked; no PR approval has been recorded.
