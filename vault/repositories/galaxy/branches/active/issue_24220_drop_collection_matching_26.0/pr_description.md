@@ -106,7 +106,7 @@ Builds on 🔀 #24227 (🎯 #24218, merged), which fixed the client's `canMapOve
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A drop that doesn't fit is refused with an alert on the input (e.g. "mixed list of paired and unpaired dataset collection is not a valid input for paired type dataset collection parameter.") and the value is unchanged.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They drop items on a mounted `FormData` and assert the emitted payload against the server's listing rules; the helper isn't tested directly.

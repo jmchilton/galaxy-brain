@@ -89,7 +89,7 @@ The helper now waits out the debounce before checking the listing; 8 remote-file
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? The FTP notice is a plain alert; without `ftp_upload_site` it just leaves out the server sentence. The wrap is CSS only.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes - both vitests check rendered text.

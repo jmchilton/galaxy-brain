@@ -122,7 +122,7 @@ Builds on 🔀 #22894, whose ambiguity check (`_resolve_matching_inputs`) alread
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? `TestsCaseValidation` "Test N: … Validation errors are [Ambiguous test parameter (<path>) specified more than once with different values]" - an error at profile ≥ 24.2 (the test also errors at load), a warning below (the test still runs with the last value).
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes.

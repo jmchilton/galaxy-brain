@@ -70,7 +70,7 @@ The leading commit keys repository path handling on <code>files_dir</code>. The 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Reset can advertise a sample-only tool or lose historical tool metadata despite completing.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Public API tests check tools and versions by changeset.

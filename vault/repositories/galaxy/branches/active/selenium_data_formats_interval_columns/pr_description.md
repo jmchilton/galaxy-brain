@@ -76,7 +76,7 @@ Split out of 🌿[`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/g
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Nothing - test-only for users; a regression fails the E2E on an exact-equality assertion showing the formats or column values, with screenshots of the formats list and edited Attributes form.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A. E2E only; the interval test checks stored metadata through the API.

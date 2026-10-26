@@ -129,7 +129,7 @@ The stack starts with existing `require_login` behavior, the execution-precondit
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A named missing-agreement prompt or structured API refusal. Delayed workflow failures identify the agreement failure in invocation status.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They pin content identity, scope precedence, database invariants and refusal side effects, with API, scheduling and browser coverage.
@@ -164,4 +164,4 @@ The leading extraction retains anonymous/logged-in `require_login` coverage and 
 
 ## License
 
-- [ ] Author to confirm: I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).
+- [x] Author to confirm: I agree to license these and all my past contributions to the core galaxy codebase under the [MIT license](https://opensource.org/licenses/MIT).

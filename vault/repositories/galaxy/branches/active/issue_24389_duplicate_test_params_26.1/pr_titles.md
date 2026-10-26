@@ -1,4 +1,1 @@
-- [26.1] Reject conflicting duplicate tool test params instead of silently dropping one
-- [26.1] Report tool tests that give the same param twice with different values
 - [26.1] Fix duplicate test params in repeats/conditionals going unreported
-- [26.1] Lint and reject ambiguous duplicate tool test params; serialize edit_attributes

@@ -5,9 +5,11 @@
 
 ## Status
 
-Status: `implemented_needs_ci` — READY: implemented, re-scoped, re-hardened. See [implementation debrief](implementation_debrief.md).
+Status: `ready_for_final_review` — polished; see [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-No PR yet; CI not run.
+No PR yet.
+
+Fork CI on `fac396515e4` queued at polish time.
 
 Base: `release_25.1` (`74f52289d82`), head `fac396515e4`. Fork: `jmchilton/workflow_fetch_abstractions_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/workflow_fetch_abstractions_25.1`. Alt: `workflow_fetch_abstractions_25.1_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
 

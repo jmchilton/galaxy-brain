@@ -97,5 +97,3 @@ Follows the Galaxy dev meeting outcome on galaxyproject/galaxy#23878 (no masking
 - Left as decisions: scanning `extra_files`, and the 8-character minimum.
 
 </details>
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)

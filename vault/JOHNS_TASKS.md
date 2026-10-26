@@ -10,7 +10,18 @@ ai_generated: false
 summary: "Running personal task list of Galaxy dev work threads tracked by date with checkboxes"
 ---
 
+- [x] Meds Saturdays
+- [ ] Presenting for BioData and if so when?
+	- [ ] Thursday and Friday and Saturday(?) posters. 
+- [ ] Lodging Plans for NYC
+	- [ ] Check In Date: **11/4/2026** Check Out Date: **11/7/2026**
+- [x] Send Donna the dates
+- [ ] Flight to NYC.
+- [ ] Lodging Plans for Barcelona
+- [ ] Hotel for Michael and I.
+
 Look into tags in workflows. 
+
 # John's Tasks
 
 ## September 21, 2026

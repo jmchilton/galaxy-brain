@@ -1,12 +1,6 @@
 # gx_issues tasks
 
 ```gb-tasks
-- prompt: Prepare to file issue at to_file/collection_build_leaves_stale_selection.md with ./PREPARE_TO_FILE.md
-  agent_dir: gx_issues
-  profile: Opus (low)
-  description: |
-    ❯ Building a collection from a history selection leaves selection mode on with a stale count (regression since 25.0, found by FAQ loop on release_26.2).
-  status: recommended
 - prompt: Prepare to file issue at to_file/custom_build_fasta_api_no_current_history.md with ./PREPARE_TO_FILE.md
   agent_dir: gx_issues
   profile: Opus (low)
@@ -66,17 +60,5 @@
   profile: Opus (low)
   description: |
     ❯ Tool API accepts a directly-passed HDCA whose collection type the input does not declare.
-  status: recommended
-- prompt: Prepare to file issue at to_file/trs_import_ignores_trs_version.md with ./PREPARE_TO_FILE.md
-  agent_dir: gx_issues
-  profile: Opus (low)
-  description: |
-    ❯ TRS launch links with trs_version no longer auto-import since 26.1; fix + test on galaxy_ui_driver.
-  status: recommended
-- prompt: Prepare to file issue at to_file/workflow_import_udt_after_output_integrity_error.md with ./PREPARE_TO_FILE.md
-  agent_dir: gx_issues
-  profile: Opus (low)
-  description: |
-    ❯ Importing a workflow 500s (IntegrityError) when an embedded user-defined tool follows a step with a workflow output or PJA.
   status: recommended
 ```

@@ -44,6 +44,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`selenium_history_filters_ftp_notice`](active/selenium_history_filters_ftp_notice/index.md) — Restores FTP guidance and wraps upload-browser names; adds history and remote-folder tests. Base `release_26.2`. [#24458](https://github.com/galaxyproject/galaxy/pull/24458).
 - [`selenium_history_panel_switch`](active/selenium_history_panel_switch/index.md) — Add missing 26.2 E2E test for the history panel's Switch to history modal; shared `history_selector_modal` component. Base `release_26.2`. [#24444](https://github.com/galaxyproject/galaxy/pull/24444).
 - [`untyped_param_lint_declared_labels`](active/untyped_param_lint_declared_labels/index.md) — Editor lint and run form only treat rename `${...}` as replacement params; lint skips input-backed names (#24379). Base `release_26.1`. [#24381](https://github.com/galaxyproject/galaxy/pull/24381).
 - [`issue_24389_duplicate_test_params_26.1`](active/issue_24389_duplicate_test_params_26.1/index.md) — Conflicting duplicate tool-test params raise "Ambiguous" instead of silently keeping one; `<edit_attributes>` stored as dicts (#24389). Base `release_26.1`. [#24450](https://github.com/galaxyproject/galaxy/pull/24450).
@@ -93,7 +94,6 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
@@ -101,7 +101,6 @@ None yet.
 - [`workflow_fetch_abstractions_25.1`](active/workflow_fetch_abstractions_25.1/index.md) — Owned/accessible getters for workflow show, update, refactor, delete and menu; non-owners can no longer edit. Base `release_25.1`, head `fac396515e4`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:workflow_fetch_abstractions_25.1?expand=1).
 - [`licenses`](active/licenses/index.md) — Requires the runner's affirmation of declared tool terms for tool and workflow submissions (#23261). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
 - [`issue_24441_tool_shed_upload_dry_run`](active/issue_24441_tool_shed_upload_dry_run/index.md) — Tool Shed upload API `?dry_run=true` predicting the resulting revision without persisting; fixes `reset_metadata` sample handling (#24441). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1).
-- [`selenium_history_filters_ftp_notice`](active/selenium_history_filters_ftp_notice/index.md) — Restores FTP guidance and wraps upload-browser names; adds history and remote-folder tests. Head `540a46e8c79`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_history_filters_ftp_notice?expand=1).
 - [`selenium_upload_data_library`](active/selenium_upload_data_library/index.md) — E2E tests for 26.2 Upload Activity "Import from Data Library" and fixes for the bugs they surfaced. [#24452](https://github.com/galaxyproject/galaxy/pull/24452).
 - [`issue_24273_dataset_edit_alert_26.0`](active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Base `release_26.0`, head `c6795829fb1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).
 - [`tool_form_job_count`](active/tool_form_job_count/index.md) — Previews tool job counts before Run, with expansion and mismatch warnings; Run blocked on mismatch/multi-job remap. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1).

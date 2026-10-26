@@ -1,4 +1,2 @@
-- [26.2] Restore the FTP notice and wrap long names in Upload Activity browsers
-- [26.2] Fix Choose Remote Files FTP notice and long-name overflow, with history filter E2E tests
-- [26.2] Upload Activity fixes (FTP notice, long names) plus history panel and remote-folder E2E coverage
+
 - [26.2] Show the FTP server notice in Choose Remote Files and wrap long names

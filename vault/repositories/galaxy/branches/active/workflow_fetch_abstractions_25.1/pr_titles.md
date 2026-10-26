@@ -1,0 +1,4 @@
+- [25.1] Require workflow ownership for update and refactor API edits
+- [25.1] Fetch stored workflows through owned/accessible getters in the workflow API
+- [25.1] Add `get_stored_owned_workflow` and check access on workflow update, refactor and menu
+- [25.1] Fix missing access checks on workflow update, refactor and menu endpoints

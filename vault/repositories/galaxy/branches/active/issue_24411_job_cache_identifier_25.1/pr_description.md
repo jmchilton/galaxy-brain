@@ -104,7 +104,7 @@ Related to 🔀 #24434, which fixes #24410 (UDT `element_identifier`) and carrie
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Nothing new - a cached request that no longer matches just runs a fresh job.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. API tests assert output content and `copied_from_job_id`, not SQL or wrapper internals.

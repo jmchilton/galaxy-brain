@@ -67,7 +67,7 @@ The refactor commit is behavior-preserving for the harness boolean cases and the
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Nothing - test-only; failures show the job API values, a Galaxy wait timeout, or "switch '<name>' not set to <value> after clicking its label".
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A. E2E only; it checks `copied_from_job_id` through the job API, not the DOM.

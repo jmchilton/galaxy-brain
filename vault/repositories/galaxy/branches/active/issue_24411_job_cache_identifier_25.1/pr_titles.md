@@ -1,4 +1,1 @@
 - [25.1] Fix job cache reuse across element identifiers and dataset names
-- [25.1] Don't reuse cached jobs that saw a different `element_identifier`
-- [25.1] Fix job cache returning outputs with another run's element identifier
-- [25.1] Require matching identifier or dataset name for job cache hits

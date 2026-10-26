@@ -154,7 +154,7 @@ The reset fix was moved ahead of the feature so it stands alone, and the feature
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Pre-commit rejections and permission errors raise as a real upload would; post-commit failures return `ok: false` with the invalid-tool message or the generation exception type (traceback in the server log).
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The parity tests run the real upload afterwards and compare the prediction with the stored rows.

@@ -1,7 +1,5 @@
 Review suggestions for #24396: tighten ordered data table sources and their tests
 
-(space for John's free style comments - just keep empty)
-
 These are the fixes from the automated review of #24396 at `770965bef62`, one commit per finding, so you can merge, cherry-pick or drop them individually. Your branch is still at `770965bef62`, so this merges as a fast-forward. Full findings are in the review comment on #24396.
 
 **Library changes** (`lib/galaxy/tool_util/data`, `lib/galaxy/app`, `lib/galaxy/config_watchers`)

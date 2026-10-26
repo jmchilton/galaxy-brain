@@ -123,7 +123,7 @@ Follow-up to 🔀 #24399 (old library folder UI fix on 26.1). Alternative kept o
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Folders open instead of 500ing, the change link stays visible, no lingering tooltip, and a library list leaves only its own hidden datasets.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. One vitest also pins the `copy_elements: false` request body; the E2E checks the resulting history.

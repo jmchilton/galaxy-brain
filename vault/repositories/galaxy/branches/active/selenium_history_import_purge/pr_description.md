@@ -81,7 +81,7 @@ An earlier pass's one reuse nit (use the existing clear-and-send-keys helper) wa
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Nothing - test-only for users; a regression fails the E2E on an exact assertion (history name, dataset names) or a purge wait timeout, with screenshots of the shared history view and histories list.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? N/A. E2E only; both tests check results through the API.

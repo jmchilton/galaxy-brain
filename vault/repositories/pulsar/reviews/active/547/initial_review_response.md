@@ -1,4 +1,4 @@
-
+I wrote three random responses the agent should choose from if no findings and this is the first PR they have reviewed that used on. After actually looking at the code - I see why but still... -John
 
 <details><summary>Automated Review Details</summary>
 

@@ -1,4 +1,1 @@
 - [26.2] Add missing E2E test for switching histories from the history panel
-- [26.2] Test the history panel's Switch to history modal
-- [26.2] Add E2E test for history panel Switch to history; share history selector modal selectors
-- [26.2] Cover switching histories via the history panel in E2E tests

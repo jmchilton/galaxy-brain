@@ -1,13 +1,13 @@
 # selenium_history_filters_ftp_notice
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_history_filters_ftp_notice?expand=1)
+- [PR #24458](https://github.com/galaxyproject/galaxy/pull/24458)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_history_filters_ftp_notice)
 
 ## Status
 
 Polished, ready for final review; see the [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md) and [tags](pr_tags.md). Base: `release_26.2` (`849c2573cb0`). Head: `540a46e8c79`.
 
-No PR yet.
+Draft PR #24458 opened; fork CI is pending.
 
 Fresh fork CI pending; local Selenium (5), focused component tests (20), formatting and changed-file mypy passed.
 
