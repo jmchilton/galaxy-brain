@@ -20,5 +20,5 @@ Local `pnpm build`, `make check`, and `make test` pass. GitHub CI, dependency re
 - Issue: [galaxy-tool-util-ts#202](https://github.com/jmchilton/galaxy-tool-util-ts/issues/202), with [issue notes](../../../issues/wip/202/index.md).
 - Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_202_fill_defaults/`. PR merge-base: `539c16c9d425`.
 - Current scope: [implementation notes](implementation_notes.md), [PR description](pr_description.md), [selected title](pr_titles.md), and [revision debrief](revision_debrief.md).
-- Galaxy's sparse-state importer fix is [queued separately](../../../../../agents/gx_issues/to_file/workflow_import_missing_conditional_defaults.md), targeting `release_26.1` unless a maintainer objects.
+- Galaxy already fixes the sparse-state import crash in [#24272](https://github.com/galaxyproject/galaxy/pull/24272), merged into `release_26.1` on October 20. The [follow-up investigation](galaxy_import_followup.md) reproduces the exact fastp error when that fix is removed. No additional Galaxy issue is recommended.
 - Earlier polish and review documents describe `31c59854`. Their review results do not cover this revision. The validator-context follow-up is superseded because its new `checks` plumbing has been removed.

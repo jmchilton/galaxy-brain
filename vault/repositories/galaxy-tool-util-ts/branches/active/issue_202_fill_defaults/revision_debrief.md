@@ -15,3 +15,9 @@ created /Users/jxc755/projects/repositories/galaxy-brain/vault/repositories/gala
   revision @ 37264be13d0d vs origin/main (merge-base 539c16c9d425)
   first snapshot: 16 commits, 16 files, 19 hunks
 ```
+
+## Subsequent Galaxy investigation (2026-10-26)
+
+The Galaxy agent's rejection prompted a direct API comparison. The bug is already fixed by merged Galaxy PR #24272, which the initial investigation missed. All 13 import cases pass on current `release_26.1`. Removing only its five-line visitor change reproduces eight HTTP 500s, including the exact fastp `eval_dups` error. The original source was restored. See [the evidence and branch history](galaxy_import_followup.md).
+
+PR #207's body now points to the merged fix instead of the queued draft and records the follow-up import checks. Its title and code remain appropriate. The queued draft is annotated as superseded, with a recommendation not to file a duplicate. Earlier statements above about a pending Galaxy fix describe the knowledge at the time of the code revision.

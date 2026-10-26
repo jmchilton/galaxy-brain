@@ -4,7 +4,7 @@ Current revision: `37264be13d0d` (2026-10-26). PR #207 targets `main`, with merg
 
 ## Contract
 
-Omitted conditional selectors with declared defaults are valid request/workflow state. Galaxy must resolve those defaults when adapting state for legacy import or execution. The Galaxy fix is queued separately for `release_26.1`. This PR does not require default expansion before validation and does not claim the Galaxy fix has landed.
+Omitted conditional selectors with declared defaults are valid request/workflow state. Galaxy resolves those defaults during import using the generic selector initialization in [PR #24272](https://github.com/galaxyproject/galaxy/pull/24272), merged into `release_26.1` on October 20. The [follow-up investigation](galaxy_import_followup.md) confirms the exact fastp crash returns when that fix is removed. This PR does not require default expansion before validation.
 
 ## Final implementation
 
@@ -21,6 +21,6 @@ Omitted conditional selectors with declared defaults are valid request/workflow 
 - `pnpm build`, `make check`, and `make test` pass. CLI: 429 passed / 14 skipped. Schema: 5169 passed / 5 expected failures / 79 skipped. gxwf-web: 117 passed.
 - Exact fastp fixture passes strict Effect and JSON Schema validation before expansion, with input files unchanged. Optional expansion supplies all six reported selectors and preserves its dataset connection and explicit paired-collection branch.
 - Sparse-state acceptance also covers native workflows, subworkflows, tree validation, lint, and concrete drafts. Invalid explicit selectors still fail in both backends.
-- No live Galaxy import or execution was run for this revision.
+- A subsequent live API import matrix passed all 13 cases on `release_26.1` at `5a5850702d0`. Removing only #24272's five-line fix produced eight HTTP 500 failures, including fastp's `eval_dups` error. Fastp execution was not tested.
 
 The original implementation/polish debriefs are historical. Their completeness-check recommendation was superseded by John's 2026-10-26 direction.

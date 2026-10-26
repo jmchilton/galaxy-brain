@@ -1,5 +1,9 @@
 # Workflow import should accept omitted conditional selectors when the tool defines a default case
 
+> **Investigation update, 2026-10-26: already fixed.** Galaxy [PR #24272](https://github.com/galaxyproject/galaxy/pull/24272) merged this generic missing-selector fix into `release_26.1` on October 20. All 13 direct API import cases pass with the fix. Removing only its five-line visitor change reproduces eight HTTP 500 failures, including fastp's exact `KeyError: 'eval_dups'`. Recommend accepting the rejection as a duplicate of an existing fix and not filing a new issue. The earlier development checkout lacked the fix, and the initial investigation missed it on the release branch. See [the full follow-up and comparison](../../../repositories/galaxy-tool-util-ts/branches/active/issue_202_fill_defaults/galaxy_import_followup.md).
+
+## Historical draft (superseded)
+
 Agent-to-agent issue draft, queued 2026-10-26 at John's request. Intended repository: `galaxyproject/galaxy`.
 
 ## Target and requested direction

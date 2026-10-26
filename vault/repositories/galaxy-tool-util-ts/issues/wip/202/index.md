@@ -5,11 +5,13 @@ Branch: `issue_202_fill_defaults`, worktree `~/projects/worktrees/galaxy-tool-ut
 
 ## Current direction (2026-10-26)
 
-John requested that Galaxy honor the existing sparse-state contract, with the importer fix queued for `release_26.1`. Python checks of the exact fastp fixture pass workflow and strict request validation, preserve omissions during request decoding, and produce valid job state after default expansion. This establishes that the missing selectors are semantically valid, not that the import bug is fixed.
+PR #207 provides optional `gxwf fill-defaults` without tightening `--strict-state`. Its code revision is `37264be13d0d`. Build, checks, and tests pass. Sparse selectors with declared defaults remain valid.
 
-PR #207 was revised at `37264be13d0d` to provide optional `gxwf fill-defaults` without tightening `--strict-state`. Its title and description now reflect that scope. The blanket completeness checker and validator plumbing are removed. Local build, checks, and tests pass. See the [revision debrief](../../../branches/active/issue_202_fill_defaults/revision_debrief.md).
+The Galaxy import crash is already fixed by [galaxyproject/galaxy#24272](https://github.com/galaxyproject/galaxy/pull/24272), merged October 20 into `release_26.1`. The initial investigation used a development checkout without that fix and missed its presence in the release branch's visitor. No new Galaxy issue is recommended.
 
-The earlier conclusion that the importer limitation should become a strict-validation requirement is superseded. The [Galaxy-side issue draft](../../../../../agents/gx_issues/to_file/workflow_import_missing_conditional_defaults.md) contains the repro, evidence, implementation guidance, and regression plan. The TypeScript PR addresses optional expansion, so its body references #202 without claiming to fix the separate Galaxy bug.
+Follow-up direct API tests passed all 13 import cases on release commit `5a5850702d0`, including omitted and false `fill_defaults` values. Removing only #24272's five-line visitor change caused eight HTTP 500 failures, including the original fastp `KeyError: 'eval_dups'`. The source was restored. See [full evidence](../../../branches/active/issue_202_fill_defaults/galaxy_import_followup.md).
+
+PR #207's description now links the merged fix. The original report likely came from a build missing it, but the original run's exact Galaxy version has not been established. The earlier completeness-check recommendation and subsequent request for a new 26.1 fix are both superseded.
 
 ## Historical triage (2026-10-25)
 
