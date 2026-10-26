@@ -42,6 +42,7 @@ GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default a
 - [#719](https://github.com/galaxyproject/foundry/issues/719) — Template eval uses plain validate on drafts; draft-loop eval greps whole draft for TODOs mid-loop; PR [#720](https://github.com/galaxyproject/foundry/pull/720). [notes](../../repositories/foundry/issues/wip/719/index.md)
 - [#724](https://github.com/galaxyproject/foundry/issues/724) — implement-galaxy-tool-step leaves shed tool_id versionless, failing exact-version invocation; PR [#727](https://github.com/galaxyproject/foundry/pull/727). [notes](../../repositories/foundry/issues/wip/724/index.md)
 - [#725](https://github.com/galaxyproject/foundry/issues/725) — Brief Mold has no rule for clear scope that conflicts with source behavior; PR [#728](https://github.com/galaxyproject/foundry/pull/728). [notes](../../repositories/foundry/issues/wip/725/index.md)
+- (mvp) [#730](https://github.com/galaxyproject/foundry/issues/730) — run-workflow-test: no guidance for UDT-embedding workflows (external_galaxy recipe) or empty data tables; branch `issue-730-udt-run-recipe`. [notes](../../repositories/foundry/issues/wip/730/index.md)
 - (mvp) [#731](https://github.com/galaxyproject/foundry/issues/731) — implement-galaxy-workflow-test cross-check overclaims shape/datatype; output cardinality not traced; branch `issue-731-igwt-cardinality-trace`. [notes](../../repositories/foundry/issues/wip/731/index.md)
 
 ## Queued (`queued`)

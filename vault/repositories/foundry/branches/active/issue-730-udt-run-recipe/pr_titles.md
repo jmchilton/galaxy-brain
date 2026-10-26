@@ -1,0 +1,4 @@
+- run-workflow-test: test user-defined-tool workflows on a served Galaxy, defer on missing data tables
+- run-workflow-test: external_galaxy route for embedded GalaxyUserTool workflows, data-table check
+- Document how to test workflows that embed user-defined tools, and when a data table blocks a run
+- run-workflow-test: managed-path exception for UDT workflows plus data-table detect-and-defer
