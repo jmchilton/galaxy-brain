@@ -1,12 +1,12 @@
 # Preparation debrief: collection input type validation
 
-Prepared 2026-10-26 from [the original draft](tool_api_collection_input_type_not_validated.md). The [proposed issue](proposed_tool_api_collection_input_type_not_validated.md) remains in `to_file/` for John's decision. No issue was posted.
+Prepared 2026-10-26 from [the original draft](issue_draft.md). The [proposed issue](proposal.md) was filed as [galaxy#24474](https://github.com/galaxyproject/galaxy/issues/24474) on 2026-10-26 after John approved posting.
 
 ## Recommendation
 
 Post the proposed issue as a focused parameter-validation bug. The mismatch is reproduced on real Galaxy parameter and collection objects, with the exercised validation methods verified against current upstream `dev`. It affects the collection-input contract across tools, so it is substantial enough for a separate issue. Do not present it as an end-to-end API execution or workflow failure.
 
-If posted, assignment to jmchilton is reasonable because this finding arose from his #24303 implementation work. Filing, assignment, and index updates await John's decision under `PREPARE_TO_FILE.md`.
+If posted, assignment to jmchilton is reasonable because this finding arose from his #24303 implementation work. John approved posting. The issue is assigned to jmchilton, tracked as `queued`, and listed in `ISSUES.md`.
 
 ## Evidence
 
