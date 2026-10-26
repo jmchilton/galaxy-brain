@@ -8,11 +8,11 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Polished and ready for final human review (`branches_ready_for_final_review`) for [#24476](https://github.com/galaxyproject/galaxy/issues/24476), targeting release_26.1 at pushed head `ee6cad444fb`.
+Draft PR open (`ci_wait`) for [#24476](https://github.com/galaxyproject/galaxy/issues/24476), targeting release_26.1 at pushed head `ee6cad444fb`.
 
-No PR opened.
+[#24483](https://github.com/galaxyproject/galaxy/pull/24483) opened as draft 2026-10-26 on John's launch approval; undraft when CI green.
 
-Fresh fork CI pending after a conflict-free rebase; 124 focused tests pass, formatting is clean, and mypy matches the refreshed base's 14 existing errors.
+Fork CI queued on `ee6cad444fb`; 124 focused tests pass, formatting is clean, and mypy matches the refreshed base's 14 existing errors.
 
 ## Review materials
 
@@ -22,4 +22,4 @@ Fresh fork CI pending after a conflict-free rebase; 124 focused tests pass, form
 - [Polishing debrief](polish_debrief.md)
 - [Implementation and hardening debrief](implementation_debrief.md)
 
-The human-read checklist item remains unchecked; no PR approval has been recorded.
+PR open approved by John via launch at `ee6cad444fb`.
