@@ -312,6 +312,23 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
 - `9caa20b8267`: coverage for `tools_logs` (batch 15). `job_details.tool_stdout`/`tool_stderr`,
   `test_dataset_details_tool_logs`. Standalone.
 
+The workflow launch/preview FAQ batch reported at `c48fe3d7d5a` was extracted into
+[`selenium_workflow_preview_import_26.2`](../../repositories/galaxy/branches/active/selenium_workflow_preview_import_26.2/index.md)
+(2026-10-26). John chose one combined branch targeting `release_26.2`:
+- `57169998d11` ("Accept trs_version in TRS import links again") and `98da06986fb`
+  ("Import TRS URL launch links again"): restore both launch-link forms; auto-import integration
+  tests no longer click Import, and cover run-page redirects, requested-version provenance and
+  the imported workflow ID. The query alias stays inline; duplicate parser/component unit tests
+  were replaced by this browser coverage.
+- `904094dc011` ("Test running a public workflow from its preview and importing it"): baseline
+  coverage first, then tab-aware `workflow_preview_open` consumed by public and own-workflow tests.
+  The shared fixture stores its user/workflow fields on the test class so the whole file passes.
+
+On restack, drop these three source commits by subject once the extraction lands, preserving gxui
+adapters/docstrings and reconciling its TRS helper callers with the extracted branch. GTN findings
+and gxui CLI changes remain outside this extraction. The queued issue's older-release backport
+recommendation is independent of John's chosen `release_26.2` target for this batch.
+
 **4. gxui** with 2 (CDP port), 7m (storage state) and 7i (colon-free workflow search).
 
 **Restacked 2026-10-25** onto `release_26.2` + #24370: #24314, #24380, #24301 and #24312 commits dropped; hashes above predate it (pick by subject).
