@@ -1,9 +1,8 @@
 import { Component, debounce, ItemView, MarkdownRenderer, Platform, setIcon, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
-import { type GroupingSection, groupingFor, KIND_LABELS, parseGrouping, RECORD_KINDS, type RecordKind, recordTitle, statusLabel } from "../../site/src/lib/records";
+import { type GroupingSection, groupingFor, isReviewableRecordKind, KIND_LABELS, parseGrouping, RECORD_KINDS, type RecordKind, recordTitle, statusLabel } from "../../site/src/lib/records";
 import { type GithubTab, githubListTitle, githubListUrl, REPOSITORY_TABS as TABS, type RepositoryTab as Tab, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./launchers";
 import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
-import { isReviewableRecordKind } from "../../differential-review/src/core";
 import { hasDifferentialReview, openDifferentialReview } from "./diff-review-view";
 import { githubUrl } from "./record-links";
 import { SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";

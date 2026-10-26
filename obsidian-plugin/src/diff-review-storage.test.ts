@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { emptyReviewState, recordReviewStateStore, recordSnapshotReader } from "../../differential-review/src/core";
+import { emptyReviewState, reviewStateStore, snapshotReader } from "../../differential-review-lib/src/core";
+import { recordReviewDir } from "../../site/src/lib/records";
 import { type VaultAdapter, vaultFileAdapter } from "./diff-review-storage";
 
 /** In-memory DataAdapter: `list` throws for a missing dir, like Obsidian's. */
@@ -35,16 +36,16 @@ const RECORD = "repositories/galaxy/branches/active/feature";
 describe("vaultFileAdapter", () => {
 	it("lists snapshot ids from vault paths, and [] when the dir is missing", async () => {
 		const files = { [`${RECORD}/differential-review/snapshots/20261026T000000Z-hardening-abc.json`]: "{}" };
-		expect(await recordSnapshotReader(vaultFileAdapter(fakeAdapter(files)), RECORD).listSnapshotIds()).toEqual([
+		expect(await snapshotReader(vaultFileAdapter(fakeAdapter(files)), recordReviewDir(RECORD)).listSnapshotIds()).toEqual([
 			"20261026T000000Z-hardening-abc",
 		]);
-		expect(await recordSnapshotReader(vaultFileAdapter(fakeAdapter({})), RECORD).listSnapshotIds()).toEqual([]);
+		expect(await snapshotReader(vaultFileAdapter(fakeAdapter({})), recordReviewDir(RECORD)).listSnapshotIds()).toEqual([]);
 	});
 
 	it("creates the review dir on the first review-state write and reports writes", async () => {
 		const files: Record<string, string> = {};
 		const writes: string[] = [];
-		const store = recordReviewStateStore(vaultFileAdapter(fakeAdapter(files), (path) => writes.push(path)), RECORD);
+		const store = reviewStateStore(vaultFileAdapter(fakeAdapter(files), (path) => writes.push(path)), recordReviewDir(RECORD));
 		expect(await store.readReviewState()).toBeNull();
 		await store.writeReviewState(emptyReviewState());
 		expect(writes).toEqual([`${RECORD}/differential-review/review-state.json`]);

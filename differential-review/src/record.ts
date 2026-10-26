@@ -1,10 +1,9 @@
-// Branch/review record metadata (index.md frontmatter) and diff-base resolution.
+// Branch/review record metadata (index.md frontmatter) and the record's diff base.
 import { existsSync, readFileSync } from "node:fs";
 import { basename, join, resolve, sep } from "node:path";
 import { parse as parseYaml } from "yaml";
-import { parseRecordPath } from "../../../site/src/lib/records";
-import { isReviewableRecordKind, type BaseSource, type ReviewableRecordKind } from "../core";
-import { remotes, revParse } from "./git";
+import type { BaseChoice } from "../../differential-review-lib/src/cli/index.js";
+import { isReviewableRecordKind, parseRecordPath, type ReviewableRecordKind } from "../../site/src/lib/records";
 
 export interface RecordInfo {
   repo: string | null;
@@ -55,48 +54,14 @@ export function readRecord(recordDir: string): RecordInfo {
   };
 }
 
-export interface BaseChoice {
-  name: string;
-  source: BaseSource;
-}
-
-/** `parent_branch` first, else `upstream_base_branch`; `--base` overrides both. */
+/** `parent_branch` first (a local factory branch), else `upstream_base_branch`; `--base` overrides both. */
 export function chooseBase(record: RecordInfo, override: string | undefined): BaseChoice {
   if (override) return { name: override, source: "override" };
-  if (record.parentBranch) return { name: record.parentBranch, source: "parent_branch" };
+  if (record.parentBranch) return { name: record.parentBranch, source: "parent_branch", localFirst: true };
   if (record.upstreamBaseBranch) return { name: record.upstreamBaseBranch, source: "upstream_base_branch" };
   if (record.kind === "reviews") throw new Error(`review record ${record.branch} has no base: pass --base <the PR's base branch>`);
   throw new Error(
     `record ${record.branch} has no base: add \`upstream_base_branch: <branch>\` to its index.md frontmatter ` +
       `(see vault/agents/_shared/REPOSITORY_BRANCHES.md) or pass --base <ref>`,
-  );
-}
-
-/** Candidate refs for a base name, most trusted first. Records store names without a remote. */
-export function baseCandidates(choice: BaseChoice, remoteNames: string[], preferredRemote?: string): string[] {
-  const ordered = [...new Set([preferredRemote, "origin", "upstream", ...remoteNames].filter((r): r is string => !!r && remoteNames.includes(r)))];
-  const remote = ordered.map((r) => `${r}/${choice.name}`);
-  const local = `refs/heads/${choice.name}`;
-  switch (choice.source) {
-    case "parent_branch":
-      // Parent branches are local factory branches; the local ref is canonical.
-      return [local, ...remote];
-    case "upstream_base_branch":
-    case "override":
-      // Upstream bases move; a remote-tracking ref is fresher than a stale local copy.
-      // An override that is already a remote ref or SHA falls through to itself.
-      return [...remote, choice.source === "override" ? choice.name : local];
-  }
-}
-
-export function resolveBaseRef(worktree: string, choice: BaseChoice, preferredRemote?: string): { ref: string; sha: string } {
-  const candidates = baseCandidates(choice, remotes(worktree), preferredRemote);
-  for (const ref of candidates) {
-    const sha = revParse(worktree, ref);
-    if (sha) return { ref: ref.replace(/^refs\/heads\//, ""), sha };
-  }
-  throw new Error(
-    `could not resolve base ${choice.name} (${choice.source}); tried ${candidates.join(", ")}. ` +
-      `Fetch it (the CLI never fetches) or pass --base <ref>`,
   );
 }

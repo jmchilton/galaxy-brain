@@ -1,7 +1,7 @@
 import esbuild from "esbuild";
 
 await esbuild.build({
-  entryPoints: ["src/cli/main.ts"],
+  entryPoints: ["src/main.ts"],
   outfile: "dist/differential-review.cjs",
   bundle: true,
   platform: "node",

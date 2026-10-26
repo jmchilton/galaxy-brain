@@ -22,7 +22,7 @@ flowchart LR
 | Piece | Job |
 | --- | --- |
 | [Snapshot step](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md) | Agents run it at the end of implementation, hardening, polishing and every later revision. Review agents run it at the start of each round on someone else's PR. |
-| [`differential-review`](https://github.com/jmchilton/galaxy-brain/tree/main/differential-review) | The CLI and pure TypeScript library: diff parsing, hunk fingerprints, commit and hunk matching, review-state derivation. |
+| [`differential-review`](https://github.com/jmchilton/differential-review) | A standalone package: the snapshot CLI and a pure TypeScript library for diff parsing, hunk fingerprints, commit and hunk matching, and review-state derivation. |
 | [Obsidian view](https://github.com/jmchilton/galaxy-brain/blob/main/obsidian-plugin/src/diff-review-view.ts) | The only thing that writes review state. Opened from the git-compare icon on a branch or review record. |
 
 ## What a snapshot holds
@@ -56,4 +56,4 @@ Every item is one of `reviewed`, `new` or `changed`. The view hides reviewed ite
 Everything is local: no server, and no GitHub integration beyond the git fetches agents already do. Snapshots stay out of git; `review-state.json` is committed with the record.
 
 > [!NOTE]
-> The design, JSON schemas and matching rules are in [`LIBRARY_DIFFERENTIAL_REVIEW.md`](https://github.com/jmchilton/galaxy-brain/blob/main/LIBRARY_DIFFERENTIAL_REVIEW.md).
+> The matching rules, storage and JSON formats are in the package's [design doc](https://github.com/jmchilton/differential-review/blob/main/docs/design.md). galaxy-brain's integration is in [`LIBRARY_DIFFERENTIAL_REVIEW.md`](https://github.com/jmchilton/galaxy-brain/blob/main/LIBRARY_DIFFERENTIAL_REVIEW.md).

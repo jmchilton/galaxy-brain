@@ -19,7 +19,7 @@ This root `AGENTS.md` is the shared repository instruction source. Keep reposito
 - `LIBRARY_*.md` are research/planning documents about this library, not vault notes. They need no frontmatter.
 - `site/` contains the Astro static site.
 - `obsidian-plugin/`, `herdr-plugin/`, and `chrome-extension/` provide repository views and agent launchers.
-- `differential-review/` is the differential review library: a pure core (`src/core/`, no Node imports) shared by the plugins, and the snapshot CLI agents run after each phase (`src/cli/`). See `LIBRARY_DIFFERENTIAL_REVIEW.md`. Its Obsidian view is `obsidian-plugin/src/diff-review-*.ts`, the only writer of `review-state.json`; plugin builds also need `npm install` in `differential-review/`.
+- `differential-review-lib/` is a Git submodule of the differential review package ([jmchilton/differential-review](https://github.com/jmchilton/differential-review)): a pure core (`src/core/`, no Node imports) shared by the plugins, and a generic snapshot CLI. `differential-review/` is galaxy-brain's CLI on top of it, which agents run after each phase with `--record <record dir>`. See `LIBRARY_DIFFERENTIAL_REVIEW.md`. Its Obsidian view is `obsidian-plugin/src/diff-review-*.ts`, the only writer of `review-state.json`. Plugin builds also need `npm install` in `differential-review-lib/`, and the CLI in `differential-review/`.
 - `galaxy-architecture/` is a Git submodule. `generate_architecture_views.py` renders its topics into `vault/projects/architecture/topics/`.
 - `check_references.py` checks paper manuscript citations against each paper's `references.yml`.
 

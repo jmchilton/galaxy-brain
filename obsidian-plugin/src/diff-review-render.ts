@@ -16,7 +16,7 @@ import {
 	snapshotFiles,
 	snapshotLabel,
 	type SnapshotSummary,
-} from "../../differential-review/src/core";
+} from "../../differential-review-lib/src/core";
 
 export interface ReviewActions {
 	toggleHunk(file: FileView, hunk: HunkView): void;

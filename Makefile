@@ -74,7 +74,9 @@ chrome-native-install:
 	chrome-extension/install-native-host.sh
 
 diff-review-build:
+	cd differential-review-lib && npm run typecheck
 	cd differential-review && npm run build
 
 diff-review-test:
+	cd differential-review-lib && npm test
 	cd differential-review && npm test

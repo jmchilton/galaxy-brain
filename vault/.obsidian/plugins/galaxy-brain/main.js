@@ -892,6 +892,13 @@ var AgentsView = class extends import_obsidian.ItemView {
 // ../site/src/lib/records.ts
 var RECORD_KINDS = ["branches", "issues", "reviews"];
 var DEFAULTS_REPO = "_defaults";
+var REVIEWABLE_RECORD_KINDS = ["branches", "reviews"];
+function isReviewableRecordKind(kind) {
+  return REVIEWABLE_RECORD_KINDS.includes(kind);
+}
+function recordReviewDir(recordDir) {
+  return `${recordDir.replace(/\/+$/, "")}/differential-review`;
+}
 function parseRecordPath(rel) {
   const parts = rel.split("/");
   if (parts[0] !== "repositories" || parts.length < 5) return null;
@@ -1084,12 +1091,15 @@ function defaultProfile(profiles, launcher) {
   return profiles.find((profile) => profile.name === launcher.profile) ?? profiles[0] ?? FALLBACK_PROFILES[0];
 }
 
-// ../differential-review/src/core/types.ts
+// src/diff-review-view.ts
+var import_obsidian2 = require("obsidian");
+
+// ../differential-review-lib/src/core/types.ts
 var SNAPSHOT_SCHEMA_VERSION = 1;
 var REVIEW_STATE_SCHEMA_VERSION = 1;
 var FINGERPRINT_VERSION = "h1";
 
-// ../differential-review/node_modules/diff/libesm/diff/base.js
+// ../differential-review-lib/node_modules/diff/libesm/diff/base.js
 var Diff = class {
   diff(oldStr, newStr, options = {}) {
     let callback;
@@ -1291,7 +1301,7 @@ var Diff = class {
   }
 };
 
-// ../differential-review/node_modules/diff/libesm/diff/character.js
+// ../differential-review-lib/node_modules/diff/libesm/diff/character.js
 var CharacterDiff = class extends Diff {
 };
 var characterDiff = new CharacterDiff();
@@ -1299,7 +1309,7 @@ function diffChars(oldStr, newStr, options) {
   return characterDiff.diff(oldStr, newStr, options);
 }
 
-// ../differential-review/node_modules/diff/libesm/diff/line.js
+// ../differential-review-lib/node_modules/diff/libesm/diff/line.js
 var LineDiff = class extends Diff {
   constructor() {
     super(...arguments);
@@ -1347,7 +1357,7 @@ function tokenize(value, options) {
   return retLines;
 }
 
-// ../differential-review/node_modules/diff/libesm/diff/array.js
+// ../differential-review-lib/node_modules/diff/libesm/diff/array.js
 var ArrayDiff = class extends Diff {
   tokenize(value) {
     return value.slice();
@@ -1364,7 +1374,7 @@ function diffArrays(oldArr, newArr, options) {
   return arrayDiff.diff(oldArr, newArr, options);
 }
 
-// ../differential-review/node_modules/diff/libesm/patch/parse.js
+// ../differential-review-lib/node_modules/diff/libesm/patch/parse.js
 function parsePatch(uniDiff) {
   const diffstr = uniDiff.split(/\n/), list2 = [];
   let i = 0;
@@ -1700,7 +1710,7 @@ function parsePatch(uniDiff) {
   return list2;
 }
 
-// ../differential-review/node_modules/diff/libesm/patch/create.js
+// ../differential-review-lib/node_modules/diff/libesm/patch/create.js
 function structuredPatch(oldFileName, newFileName, oldStr, newStr, oldHeader, newHeader, options) {
   let optionsObj;
   if (!options) {
@@ -1818,7 +1828,7 @@ function splitLines(text2) {
   return result;
 }
 
-// ../differential-review/src/core/sha256.ts
+// ../differential-review-lib/src/core/sha256.ts
 var K = new Uint32Array([
   1116352408,
   1899447441,
@@ -1957,7 +1967,7 @@ function sha256Hex(text2) {
   return Array.from(h, (x) => x.toString(16).padStart(8, "0")).join("");
 }
 
-// ../differential-review/src/core/diff.ts
+// ../differential-review-lib/src/core/diff.ts
 var HUNK_HEADER = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/;
 var INDEX_LINE = /^index ([0-9a-f]+)\.\.([0-9a-f]+)/m;
 function hash(text2) {
@@ -2094,7 +2104,7 @@ function parseDiff(diffText) {
   return splitDiffSections(diffText).map(parseSection);
 }
 
-// ../differential-review/src/core/match.ts
+// ../differential-review-lib/src/core/match.ts
 var FUZZY_THRESHOLD = 0.6;
 var CHAR_DIFF_LIMIT = 2e4;
 var MAX_EDIT_LENGTH = 2e3;
@@ -2195,7 +2205,7 @@ function round(n) {
   return Math.round(n * 1e3) / 1e3;
 }
 
-// ../differential-review/src/core/snapshot.ts
+// ../differential-review-lib/src/core/snapshot.ts
 var parsedCache = /* @__PURE__ */ new WeakMap();
 function verifyFingerprints(stored, parsed) {
   const ids = (files) => files.flatMap((f) => f.hunks.map((h) => h.id)).join(",");
@@ -2225,7 +2235,7 @@ function sortSnapshots(snapshots) {
   return [...snapshots].sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id));
 }
 
-// ../differential-review/src/core/queries.ts
+// ../differential-review-lib/src/core/queries.ts
 function commitLineage(snapshots, from, sha) {
   const byId = new Map(snapshots.map((s) => [s.id, s]));
   const steps = [];
@@ -2298,7 +2308,7 @@ function summarizeSnapshot(snapshot) {
   return { previousSnapshotId: mapping?.previousSnapshotId ?? null, commits, hunks, flaggedCommits };
 }
 
-// ../differential-review/src/core/review-state.ts
+// ../differential-review-lib/src/core/review-state.ts
 function emptyReviewState() {
   return { schemaVersion: REVIEW_STATE_SCHEMA_VERSION, kind: "differential-review-state", updatedAt: null, hunks: {}, commits: {} };
 }
@@ -2341,7 +2351,7 @@ function revokeCommitSignoff(state, key2, now) {
   return { ...state, updatedAt: now, commits };
 }
 
-// ../differential-review/src/core/derive.ts
+// ../differential-review-lib/src/core/derive.ts
 function zero() {
   return { reviewed: 0, new: 0, changed: 0 };
 }
@@ -2412,28 +2422,20 @@ function deriveReview(current, state, snapshots) {
   return { snapshotId: current.id, files, commits, counts };
 }
 
-// ../differential-review/src/core/storage.ts
-var REVIEW_DIR = "differential-review";
+// ../differential-review-lib/src/core/storage.ts
 var SNAPSHOTS_DIR = "snapshots";
 var REVIEW_STATE_FILE = "review-state.json";
-var REVIEWABLE_RECORD_KINDS = ["branches", "reviews"];
-function isReviewableRecordKind(kind) {
-  return REVIEWABLE_RECORD_KINDS.includes(kind);
-}
 function join(...parts) {
   return parts.filter(Boolean).join("/").replace(/\/+/g, "/");
 }
-function reviewDir(recordDir) {
-  return join(recordDir, REVIEW_DIR);
+function snapshotsDir(reviewDir) {
+  return join(reviewDir, SNAPSHOTS_DIR);
 }
-function snapshotsDir(recordDir) {
-  return join(recordDir, REVIEW_DIR, SNAPSHOTS_DIR);
+function snapshotPath(reviewDir, id) {
+  return join(snapshotsDir(reviewDir), `${id}.json`);
 }
-function snapshotPath(recordDir, id) {
-  return join(snapshotsDir(recordDir), `${id}.json`);
-}
-function reviewStatePath(recordDir) {
-  return join(recordDir, REVIEW_DIR, REVIEW_STATE_FILE);
+function reviewStatePath(reviewDir) {
+  return join(reviewDir, REVIEW_STATE_FILE);
 }
 function parseSnapshot(json) {
   const s = json;
@@ -2442,14 +2444,14 @@ function parseSnapshot(json) {
   if (s.fingerprintVersion !== FINGERPRINT_VERSION) throw new Error(`unsupported fingerprintVersion ${s.fingerprintVersion}`);
   return s;
 }
-function recordSnapshotReader(adapter, recordDir) {
+function snapshotReader(adapter, reviewDir) {
   return {
     async listSnapshotIds() {
-      const names = await adapter.listFiles(snapshotsDir(recordDir));
+      const names = await adapter.listFiles(snapshotsDir(reviewDir));
       return names.filter((n) => n.endsWith(".json")).map((n) => n.slice(0, -5)).sort();
     },
     async readSnapshot(id) {
-      const path = snapshotPath(recordDir, id);
+      const path = snapshotPath(reviewDir, id);
       try {
         return parseSnapshot(JSON.parse(await adapter.read(path)));
       } catch (e) {
@@ -2458,16 +2460,16 @@ function recordSnapshotReader(adapter, recordDir) {
     }
   };
 }
-async function readReviewState(adapter, recordDir) {
-  const path = reviewStatePath(recordDir);
+async function readReviewState(adapter, reviewDir) {
+  const path = reviewStatePath(reviewDir);
   if (!await adapter.exists(path)) return null;
   return parseReviewState(JSON.parse(await adapter.read(path)));
 }
-function recordReviewStateStore(adapter, recordDir) {
+function reviewStateStore(adapter, reviewDir) {
   return {
-    readReviewState: () => readReviewState(adapter, recordDir),
+    readReviewState: () => readReviewState(adapter, reviewDir),
     async writeReviewState(state) {
-      await adapter.write(reviewStatePath(recordDir), JSON.stringify(state, null, 2) + "\n");
+      await adapter.write(reviewStatePath(reviewDir), JSON.stringify(state, null, 2) + "\n");
     }
   };
 }
@@ -2477,7 +2479,7 @@ async function updateReviewState(store, mutate) {
   return next;
 }
 
-// ../differential-review/src/core/view.ts
+// ../differential-review-lib/src/core/view.ts
 function snapshotLabel(s) {
   return `${s.phase} @ ${s.head.slice(0, 8)} (${s.createdAt.slice(0, 16).replace("T", " ")}Z)`;
 }
@@ -2589,9 +2591,6 @@ function commitHunks(commit, ids) {
   const keep = new Set(ids);
   return files.map((f) => ({ ...f, hunks: f.hunks.filter((h) => keep.has(h.id)) })).filter((f) => f.hunks.length > 0);
 }
-
-// src/diff-review-view.ts
-var import_obsidian2 = require("obsidian");
 
 // node_modules/diff2html/lib-esm/types.js
 var LineType;
@@ -4830,7 +4829,7 @@ function vaultFileAdapter(adapter, onWrite) {
 // src/diff-review-view.ts
 var DIFF_REVIEW_VIEW = "galaxy-brain-differential-review";
 function hasDifferentialReview(app, recordDir) {
-  return app.vault.getFolderByPath(snapshotsDir(recordDir)) !== null;
+  return app.vault.getFolderByPath(snapshotsDir(recordReviewDir(recordDir))) !== null;
 }
 async function openDifferentialReview(app, recordDir, newTab = true) {
   const existing = app.workspace.getLeavesOfType(DIFF_REVIEW_VIEW).find((leaf2) => leaf2.getViewState().state?.recordDir === recordDir);
@@ -4887,10 +4886,10 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
     if (state.recordDir && state.recordDir !== this.recordDir) {
       this.recordDir = state.recordDir;
       const adapter = vaultFileAdapter(this.app.vault.adapter, (path, data) => {
-        if (path === reviewStatePath(state.recordDir)) this.lastWritten = data;
+        if (path === reviewStatePath(recordReviewDir(state.recordDir))) this.lastWritten = data;
       });
-      this.reader = recordSnapshotReader(adapter, state.recordDir);
-      this.store = recordReviewStateStore(adapter, state.recordDir);
+      this.reader = snapshotReader(adapter, recordReviewDir(state.recordDir));
+      this.store = reviewStateStore(adapter, recordReviewDir(state.recordDir));
       this.snapshots.clear();
       this.ui = newReviewUi(this.ui.hideReviewed);
       this.expandedOnce = false;
@@ -4902,8 +4901,8 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
   }
   async onOpen() {
     const onChange = async (path) => {
-      if (!this.recordDir || !path.startsWith(`${reviewDir(this.recordDir)}/`)) return;
-      if (path === reviewStatePath(this.recordDir) && this.lastWritten !== void 0) {
+      if (!this.recordDir || !path.startsWith(`${recordReviewDir(this.recordDir)}/`)) return;
+      if (path === reviewStatePath(recordReviewDir(this.recordDir)) && this.lastWritten !== void 0) {
         const text2 = await this.app.vault.adapter.read(path).catch(() => void 0);
         if (text2 === this.lastWritten) return;
       }

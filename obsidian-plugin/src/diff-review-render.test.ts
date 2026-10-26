@@ -11,11 +11,11 @@ import {
 	type ReviewState,
 	signOffCommit,
 	type Snapshot,
-} from "../../differential-review/src/core";
+} from "../../differential-review-lib/src/core";
 import { handleReviewKey, newReviewUi, type ReviewActions, renderReview, summaryText } from "./diff-review-render";
 
 // happy-dom replaces URL, so resolve the fixture dir as a path.
-const DIR = join(fileURLToPath(import.meta.url), "../../../differential-review/src/core/fixtures/view-fixtures");
+const DIR = join(fileURLToPath(import.meta.url), "../../../differential-review-lib/src/core/fixtures/view-fixtures");
 const [impl, hard, polish] = readdirSync(DIR)
 	.sort()
 	.map((name) => parseSnapshot(JSON.parse(readFileSync(join(DIR, name), "utf8"))));

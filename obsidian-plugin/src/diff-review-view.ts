@@ -3,24 +3,23 @@ import { type App, debounce, ItemView, Notice, type Plugin, type ViewStateResult
 import {
 	type Baseline,
 	buildReviewView,
-	isReviewableRecordKind,
 	markFileReviewed,
 	markHunksReviewed,
-	recordReviewStateStore,
-	recordSnapshotReader,
 	revokeCommitSignoff,
-	reviewDir,
 	reviewStatePath,
 	type ReviewState,
 	type ReviewStateStore,
+	reviewStateStore,
 	type ReviewView,
 	signOffCommit,
 	type Snapshot,
 	type SnapshotReader,
+	snapshotReader,
 	snapshotsDir,
 	unmarkHunks,
 	updateReviewState,
-} from "../../differential-review/src/core";
+} from "../../differential-review-lib/src/core";
+import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
 import { AUTO_EXPAND_LINES, focusedItem, handleReviewKey, newReviewUi, renderReview, restoreFocus, type ReviewUi, visibleLineCount } from "./diff-review-render";
 import { vaultFileAdapter } from "./diff-review-storage";
 import { recordFromPath } from "./launchers";
@@ -36,7 +35,7 @@ interface DiffReviewState extends Record<string, unknown> {
 
 /** A record dir with at least the snapshots folder; no file reads. */
 export function hasDifferentialReview(app: App, recordDir: string): boolean {
-	return app.vault.getFolderByPath(snapshotsDir(recordDir)) !== null;
+	return app.vault.getFolderByPath(snapshotsDir(recordReviewDir(recordDir))) !== null;
 }
 
 export async function openDifferentialReview(app: App, recordDir: string, newTab = true) {
@@ -109,10 +108,10 @@ export class DiffReviewView extends ItemView {
 		if (state.recordDir && state.recordDir !== this.recordDir) {
 			this.recordDir = state.recordDir;
 			const adapter = vaultFileAdapter(this.app.vault.adapter, (path, data) => {
-				if (path === reviewStatePath(state.recordDir!)) this.lastWritten = data;
+				if (path === reviewStatePath(recordReviewDir(state.recordDir!))) this.lastWritten = data;
 			});
-			this.reader = recordSnapshotReader(adapter, state.recordDir);
-			this.store = recordReviewStateStore(adapter, state.recordDir);
+			this.reader = snapshotReader(adapter, recordReviewDir(state.recordDir));
+			this.store = reviewStateStore(adapter, recordReviewDir(state.recordDir));
 			this.snapshots.clear();
 			this.ui = newReviewUi(this.ui.hideReviewed);
 			this.expandedOnce = false;
@@ -125,8 +124,8 @@ export class DiffReviewView extends ItemView {
 
 	async onOpen() {
 		const onChange = async (path: string) => {
-			if (!this.recordDir || !path.startsWith(`${reviewDir(this.recordDir)}/`)) return;
-			if (path === reviewStatePath(this.recordDir) && this.lastWritten !== undefined) {
+			if (!this.recordDir || !path.startsWith(`${recordReviewDir(this.recordDir)}/`)) return;
+			if (path === reviewStatePath(recordReviewDir(this.recordDir)) && this.lastWritten !== undefined) {
 				const text = await this.app.vault.adapter.read(path).catch(() => undefined);
 				if (text === this.lastWritten) return;
 			}

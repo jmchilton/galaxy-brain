@@ -15,6 +15,19 @@ export interface RecordPath {
   rest: string;
 }
 
+/** Record kinds that hold a differential review, in `<record>/differential-review/`. */
+export const REVIEWABLE_RECORD_KINDS = ['branches', 'reviews'] as const;
+export type ReviewableRecordKind = typeof REVIEWABLE_RECORD_KINDS[number];
+
+export function isReviewableRecordKind(kind: string): kind is ReviewableRecordKind {
+  return (REVIEWABLE_RECORD_KINDS as readonly string[]).includes(kind);
+}
+
+/** A branch or review record's differential review dir: its snapshots and review-state.json. */
+export function recordReviewDir(recordDir: string): string {
+  return `${recordDir.replace(/\/+$/, '')}/differential-review`;
+}
+
 /** Parse `repositories/<repo>/<kind>/<status>/<id>/<rest>`; null for anything else. */
 export function parseRecordPath(rel: string): RecordPath | null {
   const parts = rel.split('/');

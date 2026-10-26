@@ -1,5 +1,5 @@
 // Differential-review TextFileAdapter over Obsidian's vault adapter (no fs: the plugin also loads on mobile).
-import type { TextFileAdapter } from "../../differential-review/src/core";
+import type { TextFileAdapter } from "../../differential-review-lib/src/core";
 
 /** The slice of Obsidian's DataAdapter used here; paths are vault-relative. */
 export interface VaultAdapter {
