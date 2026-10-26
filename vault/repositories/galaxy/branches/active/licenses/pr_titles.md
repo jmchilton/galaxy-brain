@@ -1,0 +1,4 @@
+- Require runner affirmation of tool license agreements
+- Add tool license agreements enforced for tool and workflow runs
+- Record tool license affirmations outside saved parameters
+- Add submission-bound and remembered tool license affirmations

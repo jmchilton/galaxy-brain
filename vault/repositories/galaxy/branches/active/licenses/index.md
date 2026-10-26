@@ -7,11 +7,20 @@ Adds `<license_agreement>` tool requirements (#23261) that users must accept bef
 
 ## Status
 
-Status: `branches_implemented_needs_ci`. Rebased onto `0073b5e9224`, hardened, re-scoped (modest expansion) and re-hardened; READY, head `cd37d851bb2` (21 commits; see [implementation_debrief.md](implementation_debrief.md)).
+Status: `branches_ready_for_final_review`. Polished and independently reviewed at `b5cfab9adcd` on `dev` `c93175dc985`, awaiting John's read-through.
 
 No PR opened.
 
-Fork CI running on `cd37d851bb2`.
+Fork CI queued on `b5cfab9adcd`. The original unit/package failure was repaired and verified locally.
+
+## Final review
+
+- [PR description](pr_description.md)
+- [Title options](pr_titles.md)
+- [Recommended labels](pr_tags.md)
+- [Polish debrief and verification](polish_debrief.md)
+- [Checklist review](subagents/polish_checklist.md) and [strengthening review](subagents/polish_strengthening.md)
+- [Implementation slides](https://jmchilton.net/slides/licenses) and [slides debrief](slides_debrief.md)
 
 ## Decisions pending
 
