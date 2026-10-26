@@ -39,7 +39,8 @@ export function hasDifferentialReview(app: App, recordDir: string): boolean {
 }
 
 export async function openDifferentialReview(app: App, recordDir: string, newTab = true) {
-	const existing = app.workspace.getLeavesOfType(DIFF_REVIEW_VIEW).find((leaf) => leaf.view.getState().recordDir === recordDir);
+	// getViewState works on deferred (not yet loaded) tabs too.
+	const existing = app.workspace.getLeavesOfType(DIFF_REVIEW_VIEW).find((leaf) => leaf.getViewState().state?.recordDir === recordDir);
 	const leaf = existing ?? app.workspace.getLeaf(newTab ? "tab" : false);
 	await leaf.setViewState({ type: DIFF_REVIEW_VIEW, state: { recordDir }, active: true });
 	void app.workspace.revealLeaf(leaf);

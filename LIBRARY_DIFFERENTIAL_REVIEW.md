@@ -460,7 +460,9 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 - Commits that dropped out since the last snapshot aren't listed.
 - The keyboard model is minimal: no `n` for the next unreviewed item.
 - Writes aren't atomic: `adapter.write` has no temp-file rename. There is no compare-and-swap (open question 5).
-- It hasn't been exercised inside a live Obsidian yet. DOM tests run under happy-dom, plus a static harness rendered in Chromium in light and dark.
+- The repository view re-renders only on markdown changes, so a branch's git-compare icon appears at its next re-render after the first snapshot lands.
+- `make-view-fixtures.sh` is macOS-only (BSD `sed -i ''`).
+- It hasn't been exercised inside a live Obsidian yet, and theme tokens were checked only with stand-in values. DOM tests run under happy-dom, plus a static harness rendered in Chromium in light and dark.
 
 ## Open questions for John
 
