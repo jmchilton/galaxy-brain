@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Did my agent catch on performance problem for yours for a change? Or do we actually want to watch those directories recursively? My brain has been scattered so this review is a bit dis-jointed - take only what makes sense please. -John
 
 <details><summary>Automated Review Details</summary>
 
@@ -54,7 +54,7 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24396_review_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24396_review_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human. The same fixes, plus the test rewrite from P2 3, are offered as a PR against your branch: https://github.com/mvdbeek/galaxy/pull/37.
 
 <details><summary>Branch and Commit Details</summary>
 
@@ -130,7 +130,7 @@ Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vaul
 
 `MinimalGalaxyApplication._configure_tool_data_tables` turns config into a `List[ToolDataTableConfigSource]` with no side effects. It handles realpath/normcase identity, collapses repeats of the managed file, marks the default managed file `optional`, and appends it last when it isn't listed. Even so, the code sits in the app and builds the managed source twice. `test_ordered_data_tables.py::make_app` exercises it only by building `Mock(spec=UniverseApplication)` and binding `MinimalGalaxyApplication` methods onto it by hand.
 
-Commit [`8a81e018c2f`](https://github.com/jmchilton/galaxy/commit/8a81e018c2f) on [`pr_24396_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24396_review_0) moves the logic into `galaxy.tool_util.data.tool_data_table_config_sources(config_paths, managed, from_shed_config, managed_optional)`. The app becomes one call. Direct tests in `test/unit/tool_util/data/test_tool_data.py` cover symlink aliases, a repeated managed file, empty entries, comma-string config and the unlisted or optional managed file. Commit [`62a50f641ae`](https://github.com/jmchilton/galaxy/commit/62a50f641ae) drops `test_explicit_managed_position_loads_once`, which those direct tests now cover; its only other assertion checked `_merged_load_info`. Since `test_ordered_data_tables.py` is new in this PR and test-only, please also drive its ordering and registration tests through `ToolDataTableManager(config_sources=..., on_registration=recorder)`, as `test_refgenie_data_table.py` already does, and keep one thin app-wiring test instead of binding `MinimalGalaxyApplication` methods onto `Mock(spec=UniverseApplication)`. The branch leaves that rewrite to you.
+Commit [`8a81e018c2f`](https://github.com/jmchilton/galaxy/commit/8a81e018c2f) on [`pr_24396_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24396_review_0) moves the logic into `galaxy.tool_util.data.tool_data_table_config_sources(config_paths, managed, from_shed_config, managed_optional)`. The app becomes one call. Direct tests in `test/unit/tool_util/data/test_tool_data.py` cover symlink aliases, a repeated managed file, empty entries, comma-string config and the unlisted or optional managed file. Commit [`62a50f641ae`](https://github.com/jmchilton/galaxy/commit/62a50f641ae) drops `test_explicit_managed_position_loads_once`, which those direct tests now cover; its only other assertion checked `_merged_load_info`. Since `test_ordered_data_tables.py` is new in this PR and test-only, please also drive its ordering and registration tests through `ToolDataTableManager(config_sources=..., on_registration=recorder)`, as `test_refgenie_data_table.py` already does, and keep one thin app-wiring test instead of binding `MinimalGalaxyApplication` methods onto `Mock(spec=UniverseApplication)`. That rewrite is in https://github.com/mvdbeek/galaxy/pull/37, not on `pr_24396_review_0`.
 
 Fix commits: [`8a81e018c2f`](https://github.com/jmchilton/galaxy/commit/8a81e018c2f), [`62a50f641ae`](https://github.com/jmchilton/galaxy/commit/62a50f641ae) (harness rewrite left to the author).
 
