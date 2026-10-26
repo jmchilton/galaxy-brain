@@ -120,3 +120,17 @@
   priority: medium
   summary: Older side panel; 26.2's "Best Practices Review" groups Critical and Attributes checks with counts.
   retake: Best Practices Review panel for a workflow with an unlabeled input and no annotation.
+
+- image: faqs/galaxy/images/workflow_invocations_menu.png
+  faqs: [faqs/galaxy/workflows_report_view.md]
+  target: main
+  priority: high
+  summary: Expanded invocation row with a "View Report" link; 26.2 opens the invocation with Overview/Steps/Inputs/Outputs/Report tabs.
+  retake: Invocation page with the Report tab selected.
+
+- image: topics/assembly/images/vgp_assembly/workflow_list.png
+  faqs: [faqs/galaxy/workflows_import_search.md]
+  target: main
+  priority: medium
+  summary: Old GA4GH search form; its `name:vgp` query now finds nothing (Dockstore matches names case-sensitively).
+  retake: Import > Import from repository > Search workflow registries with `name:VGP` and results listed.

@@ -981,33 +981,107 @@
   faq_findings: [workflows-create-new-editor]
   gx_findings: Covered by workflow_create_new tests; replay uses gxui workflow-new.
 - faq: faqs/galaxy/workflows_download.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [galaxy-interface/workflow-automation, introduction/galaxy-intro-rdm]
+  gx_findings: test_download was a stub (click only); now asserts the button's .ga href and its content. Added workflow_card_download_href and gxui workflow-download.
 - faq: faqs/galaxy/workflows_edit.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [climate/fates, digital-humanities/introduction_to_dh, galaxy-interface/workflow-parameters, galaxy-interface/workflow-reports]
+  faq_findings: [workflows-edit-save-exit]
+  gx_findings: Covered by editor tests; replay uses gxui workflow-edit/workflow-save.
 - faq: faqs/galaxy/workflows_extract_from_history.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [contributing/create-new-tutorial, digital-humanities/introduction_to_dh, imaging/biapy, imaging/hela-screen-analysis, imaging/pycytominer, imaging/yolo-segmentation-training, introduction/galaxy-cite, transcriptomics/network-analysis-with-heinz, transcriptomics/rna-seq-analysis-clustering-viz]
+  faq_findings: [workflows-extract-cards]
+  gx_findings: Covered by test_workflow_extraction; replay uses gxui workflow-extract.
 - faq: faqs/galaxy/workflows_get_id.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [galaxy-interface/workflow-automation]
+  faq_findings: [workflows-get-id-url]
 - faq: faqs/galaxy/workflows_get_invocation_id.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [galaxy-interface/workflow-fairification]
+  gx_findings: Added gxui invocation-report (opens the invocation from the activity panel; prints its URL).
 - faq: faqs/galaxy/workflows_hide_intermediate_steps.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [introduction/galaxy-intro-101-everyone]
+  gx_findings: Test gap - editor eye toggle untested; added test_hide_output (red->green) and workflow_editor_set_output_hidden; gxui workflow-output --hide/--show.
 - faq: faqs/galaxy/workflows_import_from_dockstore.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  faq_findings: [workflows-import-wizard]
+  gx_findings: Steps 1-4 are on dockstore.org; Galaxy side checked via the TRS ID page (see workflows_run_ds).
 - faq: faqs/galaxy/workflows_import_search.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [assembly/largegenome, variant-analysis/sars-cov-2-variant-discovery]
+  faq_findings: [workflows-import-wizard]
+  gx_findings: Needs network (Dockstore); no CI test. Added gxui workflow-import --trs-search/--pick.
 - faq: faqs/galaxy/workflows_import.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [climate/ocean_qcv_analysis, contributing/updating_tutorial, digital-humanities/solar-eclipse-frequency, introduction/galaxy-intro-rdm, introduction/galaxy-reproduce, microbiome/metatranscriptomics, microbiome/mgnify-amplicon, microbiome/pathogen-detection-from-nanopore-foodborne-data, sequence-analysis/quality-contamination-control, single-cell/bulk-music-2-preparescref, single-cell/bulk-music-3-preparebulk, variant-analysis/tb-variant-analysis]
+  faq_findings: [workflows-import-wizard]
+  gx_findings: Covered by test_import_from_url; added gxui workflow-import --url/--trs-id.
 - faq: faqs/galaxy/workflows_parameter_set_runtime.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  gx_findings: Test gap - runtime toggle only checked for visibility; added test_set_parameter_at_runtime (red->green), workflow_editor_set_runtime_value, gxui workflow-param-runtime.
 - faq: faqs/galaxy/workflows_publish.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [contributing/create-new-tutorial, galaxy-interface/workflow-fairification, introduction/galaxy-intro-rdm]
+  gx_findings: Publishing only tested via API; added test_publish_workflow; dropped dead workflow_sharing_click_publish (stale selector). gxui workflow-publish.
 - faq: faqs/galaxy/workflows_rename_output.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [introduction/galaxy-intro-101-everyone]
+  gx_findings: Covered by editor rename_output tests; replay uses gxui workflow-output --rename.
 - faq: faqs/galaxy/workflows_report_view.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [galaxy-interface/workflow-reports]
+  faq_findings: [workflows-report-view-tab]
+  gx_findings: Report tests opened the report by URL; added test_report_tab (via the Report tab) and gxui invocation-report.
 - faq: faqs/galaxy/workflows_run_ds.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: f40c7f6d116
+  used_by: [assembly/vgp_workflow_training, contributing/create-new-tutorial-content]
+  faq_findings: [workflows-import-wizard]
+  gx_findings: Galaxy bug - 26.1+ import wizard ignored trs_version, so launch links didn't auto-import/run; fixed (trsImportQuery + vitest) and queued trs_import_ignores_trs_version.md.
 - faq: faqs/galaxy/workflows_run_trs.md
   status: pending
 - faq: faqs/galaxy/workflows_run_wfh.md

@@ -753,3 +753,33 @@
   target: main
   summary: The IGV link isn't on the expanded dataset; it's on the dataset's Visualize page (Charts icon) as **display with IGV** (**local**), as visualisations_igb already says for IGB.
   fix: 'Step 4: "Click the Charts icon {% icon galaxy-barchart %}; next to **display with IGV**, click **local**."'
+
+- label: workflows-edit-save-exit
+  faqs: [faqs/galaxy/workflows_edit.md]
+  target: main
+  summary: There's no **Save + Exit**; the editor's activity bar has separate **Save** and **Exit** items, and the unsaved-changes Save icon sits at the top right of the canvas, not next to the title.
+  fix: 'Step 4: "Click {% icon dataset-save %} **Save** (in the activity bar, or the icon at the top right while there are unsaved changes); **Exit** in the activity bar leaves the editor."'
+
+- label: workflows-extract-cards
+  faqs: [faqs/galaxy/workflows_extract_from_history.md]
+  target: main
+  summary: The Extract Workflow page is one column of step cards; inputs are renamed with the pencil on their card (a dialog), steps are left out by unchecking the card's checkbox, and **Create Workflow** is next to the name field at the top.
+  fix: 'Step 4: "**Rename** each workflow input with the {% icon galaxy-pencil %} on its card." Step 5: "uncheck the box on the card of any step that shouldn''t be included."'
+
+- label: workflows-get-id-url
+  faqs: [faqs/galaxy/workflows_get_id.md]
+  target: main
+  summary: The editor URL is `/workflows/edit?id=...` (Share gives `/workflows/sharing?id=...`); the `/workflow/editor?id=` example no longer matches.
+  fix: 'Step 3: "...look something like `https://usegalaxy.eu/workflows/edit?id=34d18f081b73cb15`..."'
+
+- label: workflows-import-wizard
+  faqs: [faqs/galaxy/workflows_import.md, faqs/galaxy/workflows_import_search.md, faqs/galaxy/workflows_import_from_dockstore.md, faqs/galaxy/workflows_run_ds.md]
+  target: main
+  summary: Import is now a wizard with **Upload file**, **Fetch URL** and **Import from repository** cards; there are no "Archived Workflow URL/File" boxes or "GA4GH servers"/"TRS ID" tabs. Repository imports pick **Search workflow registries**, **TRS URL** or **TRS ID**, then a version in **Select a version** and **Import**.
+  fix: 'import step 3: "Choose **Fetch URL** and paste the URL (or **Upload file**)"; step 4: "Click **Import**". import_search step 3: "Choose **Import from repository**, then **Search workflow registries**"; steps 3.3-3.4: "Click the workflow, pick a version in **Select a version**, click **Import**". run_ds steps 2-3: "Choose **Import from repository**, then **TRS ID**" (the server is shown, Dockstore by default). import_from_dockstore steps 5-6: "pick the version in **Select a version** and click **Import**".'
+
+- label: workflows-report-view-tab
+  faqs: [faqs/galaxy/workflows_report_view.md]
+  target: main
+  summary: Invocations are under **Workflow Invocations** in the activity bar (no User menu); clicking one opens it, and the report is its **Report** tab. The PDF icon only shows where the server enables PDF export.
+  fix: '"Click **Workflow Invocations** in the activity bar, click the invocation, then open its **Report** tab."'
