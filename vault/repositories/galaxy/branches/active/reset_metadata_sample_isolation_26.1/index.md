@@ -9,11 +9,11 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Status: `branches_ready_for_final_review`; polished 2026-10-25, awaiting John's read-through and title choice.
+Status: `ready`; polished 2026-10-25, John approved opening 2026-10-26.
 
-No PR yet.
+[#24468](https://github.com/galaxyproject/galaxy/pull/24468) opened 2026-10-26 against `release_26.1` out of draft, first title.
 
-Fork CI queued/pending on pushed head `c6e92c5ce8d`; no failures in the 2026-10-25 live check.
+Fork CI on `c6e92c5ce8d` green except two unrelated reds: Unit tests (3.14) `test_modules.py::test_to_cwl_*` (`MockObjectStore` lacks `exists`, CWL workflow modules) and Test Galaxy release script (fork `master` has no `VERSION_MINOR`).
 
 Base: `release_26.1` (`cf168b20f6a`), head `c6e92c5ce8d`. Fork: `jmchilton/reset_metadata_sample_isolation_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/reset_metadata_sample_isolation_26.1` (`.venv` symlinked from `issue_24093_batch_element_labels_26.1`).
 
