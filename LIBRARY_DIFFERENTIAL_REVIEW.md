@@ -12,7 +12,7 @@ This document covers the static library and CLI in `differential-review/`, and t
 - **Hunk identity.** Hunks are fingerprinted by their changed lines, not by line numbers or context, so check-offs survive most rebases. Commits are matched with `git patch-id` and `git range-diff`.
 - **States.** Every item is `reviewed`, `new` or `changed` (changed since reviewed).
 - **Architecture.** Everything is local, with no GitHub integration and no server. A client-side TypeScript library is shared by the Obsidian plugin and the Chrome extension. Git never runs in the browser; all git work happens in the static CLI.
-- **Static tooling.** Agents run the CLI after each phase (implementation, hardening, polishing). Each run writes an immutable snapshot keyed by head SHA and tagged with the phase. A snapshot holds the full diff, per-hunk fingerprints, per-commit patch-ids and a mapping to the previous snapshot.
+- **Static tooling.** Agents run the CLI after each phase (implementation, hardening, polishing) and after later revisions (rebases, requested changes, review responses). Each run writes an immutable snapshot keyed by head SHA and tagged with the phase. A snapshot holds the full diff, per-hunk fingerprints, per-commit patch-ids and a mapping to the previous snapshot.
 - **Storage.** Files live in `<branch record>/differential-review/`:
   - `snapshots/` is immutable and written only by agents.
   - `review-state.json` is written only by the reviewer, through the plugins.
@@ -62,7 +62,7 @@ The CLI lives in this repository, and `make install` links the repository to `~/
 
 ```sh
 # Agent post-phase step: run from the branch's worktree, or pass --worktree.
-differential-review snapshot --record BRANCH_DIRECTORY --phase implementation|hardening|polishing \
+differential-review snapshot --record BRANCH_DIRECTORY --phase implementation|hardening|polishing|revision \
   [--worktree WORKING_DIRECTORY] [--base <ref>] [--remote <name>] [--json]
 
 differential-review list   --record <dir> [--json]
@@ -171,7 +171,7 @@ readAllSnapshots(reader): Promise<Snapshot[]>   // oldest first
 
 Paths are joined with `/`, never `node:path`. For Obsidian, `recordDir` is vault-relative (`repositories/galaxy/branches/active/<branch>`). An Obsidian `TextFileAdapter` wraps `adapter.list(dir).files` and takes each basename. It must `mkdir` the parent before writing `review-state.json` for the first time.
 
-The Chrome native host (`herdr-plugin/src/native-host.ts`, uncommitted on John's main) dispatches on typed requests: `lookup`, `launch`, `newAgent` and `open`. A differential-review adapter there would add something like `readFile`, `listFiles` and `writeReviewState` requests on vault-relative paths. It would restrict them to `repositories/*/branches/*/<id>/differential-review/`, and allow writes only to `review-state.json`. See the open questions about message size.
+The Chrome native host (`herdr-plugin/src/native-host.ts`, uncommitted on John's main) dispatches on typed requests: `lookup`, `launch`, `newAgent` and `open`. A differential-review adapter there would add something like `readFile`, `listFiles` and `writeReviewState` requests on vault-relative paths. It would restrict them to `repositories/*/branches/*/<id>/differential-review/`, and allow writes only to `review-state.json`. Message size is tabled; see Resolved by John.
 
 ## JSON schemas
 
@@ -377,8 +377,9 @@ Galaxy phases call it right before each phase's debrief:
 | implementation | `gx_workhorse/AGENTS.md`, "After your plan is done" | `initial_implementation_debrief.md` |
 | hardening | `gx_workhorse/AGENTS.md`, after `GX_PROCESS_HARDEN_BRANCH.md` (also covers Re-scope and Re-harden) | `implementation_debrief.md` |
 | polishing | `gx_branches/POLISH_BRANCH.md`, Hand off | `polish_debrief.md` |
+| revision | `gx_branches/AGENTS.md` rebase rule; `gx_workhorse/AGENTS.md` Changes; `_shared/RESPOND_TO_REVIEW.md` | new `implementation_debrief.md` for Changes; none otherwise |
 
-`GX_PROCESS_HARDEN_BRANCH.md` is left alone. It writes no debrief of its own, and John has uncommitted edits at its end. The generic flows (`PROCESS_GENERIC_*`, used by pulsar, planemo, foundry and workflow_libs) aren't wired yet; see the open questions. `vault/repositories/_defaults/branches/FILE_DOCS.md` documents `differential-review/**`, and `vault/agents/factory/BRANCH_FACTORY.md` mentions the snapshots.
+`GX_PROCESS_HARDEN_BRANCH.md` is left alone. It writes no debrief of its own, and John has uncommitted edits at its end. The generic flows (`PROCESS_GENERIC_*`, used by pulsar, planemo, foundry and workflow_libs) aren't wired, per John. `vault/repositories/_defaults/branches/FILE_DOCS.md` documents `differential-review/**`, and `vault/agents/factory/BRANCH_FACTORY.md` mentions the snapshots.
 
 **Prerequisite.** After merging, run `cd differential-review && npm install` and then `make diff-review-build` in the main checkout. Until then, agents paste the "not built" error into their debriefs and carry on. `launch_agent.sh` and `make install` are unchanged.
 
@@ -400,11 +401,11 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 
 ## Decisions made (all reversible)
 
-- **Phases.** `implementation | hardening | polishing`, validated in one place (`PHASES` / `isPhase`). Adding a phase isn't a schema change.
+- **Phases.** `implementation | hardening | polishing | revision`, validated in one place (`PHASES` / `isPhase`). Adding a phase isn't a schema change.
 - **Hunk check-offs live on the cumulative branch diff.** Per-commit fingerprints are stored only to support commit sign-off re-looks. A commit hunk with identical content in the same file shares an ID with the cumulative hunk, but plugins should check off from the file view.
 - **No stored hunk lines.** Snapshots store the diff text once, plus a fingerprint index. Consumers re-parse the text.
 - **64-bit truncated SHA-256** fingerprints, implemented synchronously in pure TS so core stays sync and Node-free.
-- **Snapshots are gitignored by default.** `.gitignore` has `/vault/repositories/**/branches/**/differential-review/snapshots/`, and `review-state.json` stays tracked. This is the reversible choice; committing large diffs to history is not. See the open questions.
+- **Snapshots are gitignored by default.** `.gitignore` has `/vault/repositories/**/branches/**/differential-review/snapshots/`, and `review-state.json` stays tracked. This is the reversible choice; committing large diffs to history is not. John confirmed it.
 - **No auto-fetch.** The base is whatever the worktree already has.
 - **Snapshots include commits from merged-in branches.** They have null patch-ids and pair by SHA.
 - **No record lookup by branch name.** Agents already pass BRANCH_DIRECTORY. Finding the vault root from an arbitrary worktree means guessing (`~/.galaxy-brain`?), and a wrong guess could write a stray record into a real vault. Revisit if John wants `differential-review status` from inside a worktree with no flags.
@@ -438,7 +439,7 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 - **Commits.**
   - Each commit has a sign-off checkbox (`signOffCommit` / `revokeCommitSignoff`), a badge and the message.
   - A changed commit shows only its differing hunks, from the per-commit diff. A context-only one (`differingHunks: []`) says to re-look holistically and sign off again.
-  - Hunks are checked off only from the file view (open question 4).
+  - Hunks are checked off only from the file view (open question 1).
 - **Keys** (view focused): `j`/`k` move, `x` checks off the focused file, hunk or commit, `o` opens or closes, `h` hides reviewed, `e`/`c` expand or collapse all.
 - **Large snapshots.**
   - Sections fill lazily on first open. Files start expanded only when the visible hunks total at most 400 diff lines.
@@ -459,27 +460,28 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 - Hunks can't be checked off from a commit view.
 - Commits that dropped out since the last snapshot aren't listed.
 - The keyboard model is minimal: no `n` for the next unreviewed item.
-- Writes aren't atomic: `adapter.write` has no temp-file rename. There is no compare-and-swap (open question 5).
+- Writes aren't atomic: `adapter.write` has no temp-file rename. There is no compare-and-swap; John judged re-reading enough.
 - The repository view re-renders only on markdown changes, so a branch's git-compare icon appears at its next re-render after the first snapshot lands.
 - `make-view-fixtures.sh` is macOS-only (BSD `sed -i ''`).
 - It hasn't been exercised inside a live Obsidian yet, and theme tokens were checked only with stand-in values. DOM tests run under happy-dom, plus a static harness rendered in Chromium in light and dark.
 
+## Resolved by John (2026-10-26)
+
+- **Snapshots stay gitignored** for now; `review-state.json` stays tracked.
+- **`revision` phase added** for rebases, requested changes and review responses (see Factory integration).
+- **Fuzzy threshold stays 0.6** (`FUZZY_THRESHOLD`); revisit after real use.
+- **Re-read before each write is enough** for `review-state.json`; no compare-and-swap.
+- **Reworded commit messages keep their sign-off.** Patch-id behavior is fine.
+- **Generic flows aren't wired.**
+- **"Hide reviewed" on by default** is fine.
+- **Chrome is tabled**, including the 1 MB native-messaging cap (chunked reads vs. host-side derivation vs. dropping per-commit diffs).
+- Unwired Recover / Parking paths and the unbounded similarity memo in `match.ts` are fine for now.
+
 ## Open questions for John
 
-1. **Commit snapshots to the vault repo, or keep them gitignored?** They are gitignored for now. Size is about 65–150 KB per snapshot for typical branches, roughly ×3 phases plus reruns per branch. But a long branch on a stale base can produce MBs. If they stay ignored, `review-state.json` synced to another machine refers to snapshots that aren't there, so only exact-ID matches survive there. Options: commit them, sync them outside git, or move `review-state.json` next to the ignored snapshots.
-2. **Add a `rebase` phase** (or `review-response`)? gx_branches rebases are exactly what this tool is for, but they currently have no phase tag, so rebase snapshots would have to reuse `polishing`.
-3. **Fuzzy threshold 0.6 at character level.** Is that the right "changed vs. new" line? Tune it once there are real UI sessions.
-4. **Should hunk check-offs also be allowed from the commit view** (per-commit hunks), or only from the cumulative file view, as decided above?
-5. **Concurrency on `review-state.json`.** Obsidian and Chrome could both write it. The Obsidian view re-reads before every write (`updateReviewState`), so only writes landing within the same few milliseconds can lose a check-off. Is that enough, or add a `revision` compare-and-swap?
-6. **Chrome native-host API** for read/write (still open per the spec). It should implement `TextFileAdapter`, or `SnapshotReader` plus `ReviewStateStore`, over the existing host. See Interfaces for a sketch, and item 9 for message size.
-7. **Merged or split hunks** (see the known limitation). Is it worth `h2` change-run fingerprints, or is failing safe good enough?
-8. **Missing base metadata.** Many active records have only prose like "Base: `dev`". Migrate them to `upstream_base_branch` frontmatter, or have agents always pass `--base`?
-9. **Chrome native messaging caps each host-to-extension message at 1 MB.** Typical snapshots (65–150 KB) fit. Snapshots of long or stale-base branches, which reach several MB, don't fit, so a naive `read(path)` fails. Options:
-   - chunked reads;
-   - have the host run `deriveReview` and send only the derived states plus per-file diff text on demand;
-   - drop per-commit diffs from big snapshots.
-10. **A reworded commit message keeps its sign-off.** The patch-id ignores the message, as the spec says. But a sign-off is meant to cover "the commit message, coherence". Should derivation flag a message-only change as info, for example by storing a message hash in the sign-off?
-11. **Non-UTF-8 file content** is decoded lossily (U+FFFD). Fingerprints and patch-ids stay deterministic, but the stored diff text isn't byte-exact. Is that fine for review?
-12. **Record lookup by branch name.** It was skipped (see Decisions). Add a `--branch` lookup under `~/.galaxy-brain/vault` if running from a worktree without flags matters.
-13. **Generic flows.** Wire the snapshot into `GENERIC_IMPLEMENTATION.md` (Hand Off), `PROCESS_GENERIC_HARDEN_BRANCH.md` and `PROCESS_GENERIC_POLISH_BRANCH.md` too? Generic hardening writes no debrief, so its summary would need a home.
-14. **Other branch-changing steps.** Should gx_branches rebases, gx_workhorse "Changes" (user-requested revisions) and review responses also snapshot? They'd need a phase tag (see item 2) or would reuse the nearest one. Also unwired: gx_workhorse Recover (walks only `GX_PROCESS_HARDEN_BRANCH.md`) and Parking on a Scope Decision take no hardening snapshot; Re-harden after a re-scope may take a fresh `implementation` snapshot.
+1. **Should hunk check-offs also be allowed from the commit view** (per-commit hunks), or only from the cumulative file view, as decided above?
+2. **Chrome native-host API** for read/write (still open per the spec). It should implement `TextFileAdapter`, or `SnapshotReader` plus `ReviewStateStore`, over the existing host. See Interfaces for a sketch; message size is tabled above.
+3. **Merged or split hunks** (see the known limitation). Is it worth `h2` change-run fingerprints, or is failing safe good enough?
+4. **Missing base metadata.** Many active records have only prose like "Base: `dev`". Migrate them to `upstream_base_branch` frontmatter, or have agents always pass `--base`?
+5. **Non-UTF-8 file content** is decoded lossily (U+FFFD). Fingerprints and patch-ids stay deterministic, but the stored diff text isn't byte-exact. Is that fine for review?
+6. **Record lookup by branch name.** It was skipped (see Decisions). Add a `--branch` lookup under `~/.galaxy-brain/vault` if running from a worktree without flags matters.

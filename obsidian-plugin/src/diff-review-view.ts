@@ -179,7 +179,7 @@ export class DiffReviewView extends ItemView {
 		const root = this.contentEl;
 		if (!this.view) {
 			this.showMessage(
-				`No differential-review snapshots in ${this.recordDir}/differential-review/snapshots yet. Agents write one after implementation, hardening and polishing (see agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).`,
+				`No differential-review snapshots in ${this.recordDir}/differential-review/snapshots yet. Agents write one after implementation, hardening, polishing and later revisions (see agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).`,
 			);
 			return;
 		}

@@ -104,7 +104,7 @@ Not every step runs every time. Test challenges run only when the branch adds te
 
 When the work is done, the workhorse writes an implementation debrief, adds one line to the branch queue, and for the first handoff posts a short note on the issue saying a branch exists and John hasn't reviewed it yet.
 
-At the end of implementation, hardening and, later, polishing, the agent also saves a [differential review snapshot](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md) of the branch, so John's review tooling can show only what changed since he last checked it off.
+At the end of implementation, hardening and, later, polishing, and after rebases, requested changes and review responses (`revision`), the agent also saves a [differential review snapshot](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md) of the branch, so John's review tooling can show only what changed since he last checked it off.
 
 ## gx_branches: polish, approve, open
 

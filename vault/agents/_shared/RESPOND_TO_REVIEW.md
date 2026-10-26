@@ -11,3 +11,5 @@ If there are things you're not acting on - spell these out for John and why you'
 If some nits or requests only make sense in dev/main - please scope the follow up issue(s) and present to John for review before posting them. Write these in the branch directory with an obvious name.
 
 Give John a plan for responding to the points - including if inline comments are present. Be sure to add `***Posted by model X at effort E on jmchilton's behalf***` on suggested responses.
+
+After committing changes to the branch, take a `revision` snapshot per [`PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md`](PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).
