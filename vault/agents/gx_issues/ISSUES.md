@@ -98,6 +98,7 @@ GitHub state last refreshed: 2026-10-26. Every open issue below is assigned to j
 - [#22745](https://github.com/galaxyproject/galaxy/issues/22745) — invocation graph freezes mid run; O(n²) 3 s refresh measured, comment posted; next: hoist PR + idle-refresh test. [notes](../../repositories/galaxy/issues/queued/22745/index.md)
 - [#24350](https://github.com/galaxyproject/galaxy/issues/24350) — `has_line_matching` wraps regex as `^e$` (ungrouped) but docs match `has_text_matching`; next: red unit test, split annotation, regen. [notes](../../repositories/galaxy/issues/queued/24350/index.md)
 - [#24376](https://github.com/galaxyproject/galaxy/issues/24376) — library folder download Selenium test lacks `test_` prefix; stale selector + zip name; next: rename, fix both, run. [notes](../../repositories/galaxy/issues/queued/24376/index.md)
+- [#24471](https://github.com/galaxyproject/galaxy/issues/24471) — workflow import 500s (IntegrityError) when an embedded UDT follows a step with an output/PJA; next: red API test in `test_workflows.py`, UDT pre-pass. [notes](../../repositories/galaxy/issues/queued/24471/index.md)
 
 
 ## Blocked on others (`blocked`)
