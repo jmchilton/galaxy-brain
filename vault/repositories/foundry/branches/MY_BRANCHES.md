@@ -8,7 +8,9 @@ Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agen
 - [`feat/test-pipeline-test-data-branch`](active/feat-test-pipeline-test-data-branch/index.md) — Runs the test-data branch in test-pipeline, one worker per leg. Base `feat/test-pipeline-draft-loop`. [#690](https://github.com/galaxyproject/foundry/pull/690).
 
 - [`issue-719-eval-draft-fixes`](active/issue-719-eval-draft-fixes/index.md) — Template and draft-loop evals stop failing correct output (#719). [#720](https://github.com/galaxyproject/foundry/pull/720).
-- [`issue-721-draft-loop-extract`](active/issue-721-draft-loop-extract/index.md) — Draft loop extracts the concrete workflow on the last concretizing call (#721). [#722](https://github.com/galaxyproject/foundry/pull/722).
+- [`issue-724-shed-tool-id-version`](active/issue-724-shed-tool-id-version/index.md) — Shed tool_id is the full versioned GUID in implement-galaxy-tool-step (#724). [#727](https://github.com/galaxyproject/foundry/pull/727).
+- [`issue-725-brief-scope-conflicts`](active/issue-725-brief-scope-conflicts/index.md) — Clear scope vs source conflicts become brief open questions (#725). [#728](https://github.com/galaxyproject/foundry/pull/728).
+- [`issue-718-nextflow-scenarios`](active/issue-718-nextflow-scenarios/index.md) — Plain end-to-end nextflow-to-galaxy scenarios for nine more fixtures (#718). [#729](https://github.com/galaxyproject/foundry/pull/729).
 
 ## Open Foundry PRs — needs attention (`attention`)
 
@@ -35,7 +37,6 @@ None yet.
 
 ## Foundry branches — implemented, work left, green (`branches_implemented`)
 
-- [`issue-718-nextflow-scenarios`](active/issue-718-nextflow-scenarios/index.md) — Plain end-to-end nextflow-to-galaxy scenarios for nine more fixtures (#718). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-718-nextflow-scenarios).
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: flat collection outputs, vendoring recipes, `inputs.x` shape (#672). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).

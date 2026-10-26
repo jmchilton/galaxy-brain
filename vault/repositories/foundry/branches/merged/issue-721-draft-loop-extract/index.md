@@ -5,11 +5,7 @@
 
 ## Status
 
-Branch `issue-721-draft-loop-extract` @ `283bc9a4` on `origin/main` `08d534a3`, cherry-picked from the golden demo run's `96f1aefe`.
-
-PR #722 open, not draft; fixes #721.
-
-`make check` green locally except machine-local `check-vendored`; CI not yet seen.
+Merged via #722 (merge commit `f48c01b6`); fixes #721.
 
 ## Evidence
 
