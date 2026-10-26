@@ -900,3 +900,33 @@
   target: main
   summary: 'The `answer_histories` example puts `history:` and `date:` at the same indent as `- label:`, so it is invalid YAML and breaks a tutorial header if copied.'
   fix: 'Indent `history:`/`date:` two spaces past the dash, as in `bin/schema-tutorial.yaml` `_examples`.'
+
+- label: why-prerequisites-examples
+  faqs: [topics/contributing/faqs/why-prerequisites.md]
+  target: main
+  summary: 'The software-requirements example ends with a bare `- type: none` entry (no title), and the external example links wiki.galaxyproject.org, which is retired.'
+  fix: 'Drop the dangling entry; point the external example at a live URL (e.g. the Galaxy Hub).'
+
+- label: intro-analyze-data-home-icon
+  faqs: [topics/introduction/faqs/analyze_data.md]
+  target: main
+  summary: 'Says "Analyze Data" now "looks like a home icon"; in 26.2 Home is the Galaxy logo at the left of the masthead (tooltip "Home").'
+  fix: 'Say: click the Galaxy logo at the top left to return to the home/analysis view.'
+
+- label: intro-fetched-data-chrome-bug
+  faqs: [topics/introduction/faqs/fetched_data.md]
+  target: main
+  summary: 'Calls galaxyproject/galaxy#11374 a current Chrome bug and recommends Firefox; the issue was closed 2022-06-09.'
+  fix: 'Remove the FAQ, or reword to generic advice (log in again, check third-party cookie settings).'
+
+- label: intro-login-masthead-labels
+  faqs: [topics/introduction/faqs/login.md]
+  target: main
+  summary: 'Says to look for a "User" section showing "Login/Register"; in 26.2 a logged-out masthead shows separate **Login** and **Register** items and a logged-in one shows a user icon menu.'
+  fix: 'If you see **Login** / **Register** at the top right, you are not logged in.'
+
+- label: ani-dereplication-markup
+  faqs: [topics/microbiome/faqs/ani_dereplication_threshold.md]
+  target: main
+  summary: '`\(( \sim \))` is broken MathJax and renders as literal text (twice); "[Bendall et al. 2016](#)" is a dead link. Tutorial microbiome/mags-building.'
+  fix: 'Use `~150 bp` / `~99.99%` (or `\\( \sim \\)` as ani.md does); cite bendall2016 or link the paper.'
