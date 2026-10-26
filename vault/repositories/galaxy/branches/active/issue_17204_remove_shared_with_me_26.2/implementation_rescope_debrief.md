@@ -1,20 +1,9 @@
-# Rescope debrief
+# Approved second scope expansion
 
-Scope evaluation (now `earlier_drafts/1/scope_evaluation.md`) recommended a modest expansion; implemented as recommended. Original scope kept as `issue_17204_remove_shared_with_me_26.2_alt_original_scope` (`alts/original_scope.md`). Head `cbdc2e042f6`.
+John approved the parked second scope recommendation on 2026-10-26. Commit `684d6e15537` adopts `pluralize` in ten existing owner bulk confirmation/toast strings across HistoryList and WorkflowList, plus the existing Multiview toast (eleven sites total). It also adds missing return annotations to the four recipient removal routes and the workflow manager override.
 
-## Added
-- `WorkflowsManager.unshare_with` override: removing a share (recipient- or owner-side) also deletes that recipient's `StoredWorkflowMenuEntry` bookmark; previously the bookmark returned on re-share. API tests with two recipients + owner bookmark; red against base manager.
-- Client wrappers `unshareHistoryWithMe`, `unshareVisualizationWithMe` (alongside `unshareWorkflowWithMe`); card/row actions route through them.
-- Bulk "Remove from Shared (N)" in Histories Shared with Me and Workflows Shared with Me (existing `useSelectedItems` selection + footer, owner bulk actions stay hidden), batch op in shared visualizations grid. Per-item loop, continues past failures, reports them.
-- Keyboard Delete/Backspace does nothing in shared views (safer than an unshare one keypress away).
-- Hidden select gates in HistoryCard/HistoryCardList/WorkflowCard loosened for shared views only (E2E caught the history one).
-- E2E `test_bulk_unshare_with_me` (3 shared, remove 2, third stays); setup helper generalized to share several histories.
+The earlier per-item alt remains unchanged. The immediately preceding expanded implementation is preserved as `issue_17204_remove_shared_with_me_26.2_alt_before_plural_messages` at `7f8a10ab0e5`, described in `alts/before_plural_messages.md`.
 
-## Left out (per scope eval)
-Share-time ordering (needs migration → dev), shared-with-me pages list, options-object refactor, cross-type client helper.
+Normal review approved the changes (`subagents/normal_review_plural_messages.md`); its formatting recommendation was applied. Existing HistoryList/WorkflowList tests pass (16), client lint has no errors, and all commit hooks pass. No tests or operation semantics changed. Full formatting passed. Full mypy comparison and fresh hardening are in progress.
 
-## Reviews
-`subagents/normal_review_rescope_bookmarks.md`, `subagents/normal_review_rescope.md`: approve, nits applied or explained.
-
-## Tests
-vitest History/Workflow/Grid/api 546 passed; type-check clean; workflow sharing API 14 passed; E2E bulk + both single-item tests pass (Playwright).
+All previous hardening reports and final implementation/rescope debriefs moved together into `earlier_drafts/2/`; the initial implementation debrief is retained. The new brain research report supplies testing references for later review agents.

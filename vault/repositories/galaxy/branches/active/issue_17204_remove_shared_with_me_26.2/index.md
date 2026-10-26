@@ -5,7 +5,7 @@
 
 ## Status
 
-Status: `branches_need_decision` (BLOCKED, 2026-10-25): second scope eval suggests `pluralize` in 11 existing owner bulk strings; check-branch mypy annotations and screenshots remain.
+Status: re-hardening (2026-10-26): John approved the second scope expansion; owner bulk plurals and return annotations implemented in `684d6e15537`, fresh reviews and screenshots in progress.
 
 No PR yet.
 
