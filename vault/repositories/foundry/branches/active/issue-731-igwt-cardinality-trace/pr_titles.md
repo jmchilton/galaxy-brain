@@ -1,0 +1,4 @@
+- implement-galaxy-workflow-test: trace output collection kinds, stop overclaiming the cross-check
+- Resolve test output kinds from `gxwf validate --connections`, not the test plan
+- implement-galaxy-workflow-test: catch dataset assertions on mapped-over collection outputs
+- Narrow `checkTestsAgainstWorkflow` claims and add an output-kind trace to workflow test authoring

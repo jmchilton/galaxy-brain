@@ -47,6 +47,7 @@ None yet.
 
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`issue-731-igwt-cardinality-trace`](active/issue-731-igwt-cardinality-trace/index.md) — implement-galaxy-workflow-test: trace output kinds via `--connections`; stop overclaiming cross-check (#731). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-731-igwt-cardinality-trace).
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: collection inputs/outputs, vendoring recipes, `inputs.x` shape (#672). Draft [#710](https://github.com/galaxyproject/foundry/pull/710). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
 
 ## Foundry branches — approved, opens when green (`branches_need_pr`)
