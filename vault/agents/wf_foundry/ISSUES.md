@@ -40,6 +40,7 @@ GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default a
 - (mvp) [#585](https://github.com/galaxyproject/foundry/issues/585) — UDT registration endpoint is `/api/unprivileged_tools`, not `/api/dynamic_tools`; PR [#714](https://github.com/galaxyproject/foundry/pull/714) (supersedes #617, also fixes #573). [notes](../../repositories/foundry/issues/wip/585/index.md)
 - [#718](https://github.com/galaxyproject/foundry/issues/718) — nextflow-to-galaxy scenarios cover 4 of 25 Nextflow fixtures; add simple end-to-end cases; branch `issue-718-nextflow-scenarios`. [notes](../../repositories/foundry/issues/wip/718/index.md)
 - [#719](https://github.com/galaxyproject/foundry/issues/719) — Template eval uses plain validate on drafts; draft-loop eval greps whole draft for TODOs mid-loop; PR [#720](https://github.com/galaxyproject/foundry/pull/720). [notes](../../repositories/foundry/issues/wip/719/index.md)
+- [#721](https://github.com/galaxyproject/foundry/issues/721) — Draft loop never extracts the concrete workflow under a while-draft harness; PR [#722](https://github.com/galaxyproject/foundry/pull/722). [notes](../../repositories/foundry/issues/wip/721/index.md)
 
 ## Queued (`queued`)
 
