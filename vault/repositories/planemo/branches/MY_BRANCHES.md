@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agent notes; earlier tracking lived in `agents/planemo/PULL_REQUESTS.md`).
+Snapshot: 2026-10-26 (open PRs checked while implementing #1757; other entries retain their previous classification).
 
 ## Open Planemo PRs — ready from our side (`ready`)
 
@@ -40,7 +40,7 @@ None yet.
 
 ## Planemo branches — implemented, work left (`branches_implemented_needs_ci`)
 
-None yet.
+- [`embedded-user-tool-workflows`](active/embedded-user-tool-workflows/index.md) — Runs local workflows with embedded user tools in managed Galaxy. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:embedded-user-tool-workflows).
 
 ## Planemo branches — implemented, work left, green (`branches_implemented`)
 
