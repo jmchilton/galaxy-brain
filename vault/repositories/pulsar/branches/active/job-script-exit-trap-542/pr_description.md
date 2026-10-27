@@ -22,7 +22,8 @@ When exit handlers are registered, `job_script()` now runs the command in a subs
 
 <details><summary>Tests</summary>
 
-- `test_galaxy_docker_trap_does_not_replace_exit_handlers` builds the command with Galaxy's own `DockerContainer.containerize_command`, runs the rendered script with a stub `docker`, and checks that `docker kill` and then the unmount both run. On `release_0.15` it fails, because the unmount never runs.
+- `test_galaxy_docker_trap_does_not_replace_exit_handlers` uses a copy of the shape `DockerContainer.containerize_command` emits, runs the rendered script with a stub `docker`, and checks that `docker kill` and then the unmount both run. On `release_0.15` it fails, because the unmount never runs.
+  - The test uses a copy because `JobInfo`'s constructor differs across the unpinned `galaxy-tool-util` versions.
 - `test_command_exit_status_kept_with_exit_handlers` checks that an `exit 7` still ends the script with 7 and skips the post-instrument commands.
 - `test_manager_return_code_written_with_exit_handlers` checks that the manager's appended return-code suffix still writes the command's status.
 - `test_command_not_wrapped_without_exit_handlers` checks that the command is not wrapped when no exit handlers are registered.
@@ -45,6 +46,7 @@ Only `mountrepo` jobs change shape, and reverting the change in `job_script()` r
   - On bash 5.2 both handlers run, but the unmount can race `docker kill`.
   - On macOS bash 3.2 the subshell's handler doesn't run.
 - **Cancel on `release_0.15`:** `kill_pid` SIGKILLs, so no trap runs either way. #541 tracks making cancellation TERM-first.
+- **Lint on `release_0.15` may be red:** the ruff ICN001 `datetime` errors, in files this PR doesn't touch, are fixed by #546 on `master` only.
 
 </details>
 

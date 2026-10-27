@@ -5,7 +5,12 @@ Fixes [#542](https://github.com/galaxyproject/pulsar/issues/542) on `release_0.1
 - **Root cause:** confirmed as stated in the issue. Galaxy's Docker command sets `trap _on_exit EXIT` at the top level of `$command`, which replaces the job script's `_galaxy_on_exit` trap.
 - **Fix:** `job_script()` wraps the command as `(\n<command>\n)` whenever `exit_handler_setup` is non-empty. `|| exit $?` was added after the Codex review. Jobs without exit handlers render byte-identical scripts; the template is unchanged, and the `exit_handler_setup` docstring notes the subshell.
 - **Tests:**
-  - `test/job_script_test.py` executes a rendered script whose command sets its own EXIT trap. It asserts that both traps fire. It was red on the base (only `GALAXY` was logged) and is green on the branch.
+  - `test/job_script_test.py` runs a rendered script whose command is a copy of Galaxy's Docker command shape, with a stub `docker`. It asserts that `docker kill` and then the unmount both run. It is red on the base (no unmount) and green on the branch.
+  - Three more tests pin existing behaviour and pass on the base too:
+    - the `exit N` status;
+    - the manager's return-code suffix;
+    - no wrap without exit handlers.
+  - A literal command is used instead of `DockerContainer` because `JobInfo`'s constructor differs between galaxy-tool-util 26.1 and Galaxy `dev`, which adds a required `output_paths`.
   - `test/manager_cvmfsexec_test.py` asserts that the subshell is present in `mountrepo` mode and absent when cvmfsexec is disabled or in namespace mode.
 - **Local gate:**
   - Changed files pass ruff, isort and mypy.

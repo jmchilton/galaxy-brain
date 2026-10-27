@@ -29,4 +29,4 @@ Questions for John:
 - Open a Galaxy issue for chaining the trap in `containerize_command`?
 - Land #541's TERM-first cancellation in the same 0.15.x release?
 
-The checklist subagent was not rerun after these changes.
+A narrow re-check of the revised description at `6b2606d` found no wrong claims and every misreading answered. Later, the trap test switched to a literal copy of Galaxy's command shape, because `JobInfo`'s signature differs across unpinned galaxy-tool-util versions.

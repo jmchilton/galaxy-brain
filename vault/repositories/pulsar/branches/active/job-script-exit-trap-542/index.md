@@ -9,11 +9,11 @@ upstream_base_branch: release_0.15
 
 ## Status
 
-Polished and ready for final review at `2a6e7cd`; fixes [#542](https://github.com/galaxyproject/pulsar/issues/542) ([issue notes](../../../issues/wip/542/index.md)).
+Polished and ready for final review at `6b2606d`; fixes [#542](https://github.com/galaxyproject/pulsar/issues/542) ([issue notes](../../../issues/wip/542/index.md)).
 
 No PR yet.
 
-Fork CI runs were still queued on GitHub at 2026-10-27 04:40Z; local tests for the touched files are green.
+Fork CI runs were still queued on GitHub at 2026-10-27 04:40Z; local tests for the touched files are green; expect pre-existing ruff ICN001 lint reds on `release_0.15` (fixed by #546 on `master` only).
 
 ## Docs
 
