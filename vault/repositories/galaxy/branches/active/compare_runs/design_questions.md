@@ -1,10 +1,11 @@
 # Design questions for John
 
-## Where things stand (06:40)
+## Where things stand (07:25)
 
-- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs` at `125ae963eb0`, 79 commits, ~11k lines incl. generated schema. See [initial_implementation_debrief.md](initial_implementation_debrief.md).
-- Now: history cleanup (fold fixups, baselines first; tree unchanged; backup at `jmchilton/compare_runs_pre_harden`). Then hardening ×3.
-- Most important questions: 1 (mode 3 row unit), 10 (`inaccessible` cells), 14 (entry points), 19 (output links never highlighted), and how to split ~11k lines into PRs (scope evaluation will lay out options).
+- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs`, ~10k non-generated lines. History cleaned to ~39 commits, baselines first (pre-cleanup backup: `jmchilton/compare_runs_pre_harden`). See [initial_implementation_debrief.md](initial_implementation_debrief.md).
+- Hardening 1: test challenges done; Codex found 4 issues (multi-dataset inputs show only first, parameter-input steps show no value, skipped vs not_in_version, label facet page-scoped) — fixes in progress. [Scope evaluation](scope_evaluation.md) recommends a modest "finish the abstractions" expansion (5 small items) → re-scope next, then hardening 2 and 3.
+- **Biggest decision: how to split ~10k lines into PRs** — five options (A–E) in [scope_evaluation.md](scope_evaluation.md#possible-decompositions).
+- Other important questions: 1 (mode 3 row unit), 10 (`inaccessible` cells), 14 (entry points), 19 (output links never highlighted).
 
 ## Questions
 
