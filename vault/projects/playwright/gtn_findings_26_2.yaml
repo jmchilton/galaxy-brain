@@ -980,7 +980,7 @@
   fix: 'Pin it: https://github.com/lskatz/Kalamari/blob/51fea405f68053fef47e3020aa73cba037b3684d/src/Kalamari_v3.9.1.tsv (parent of the commit that removed it), or link src/chromosomes.tsv if the tutorial DB is v5.'
 
 - label: maxquant-isobaric-tmtpro
-  faqs: [topics/proteomics/tutorials/maxquant-msstats-dda-lfq/faqs/Maxquant_isobaric_quant.md]
+  faqs: [topics/proteomics/tutorials/maxquant-msstats-dda-lfq/faqs/Maxquant_isobaric_quant.md, topics/proteomics/tutorials/maxquant-msstats-dda-lfq/faqs/tmt_itraq.md]
   target: main
   summary: 'Says TMT16 is "in preparation"; the tools-galaxyp MaxQuant wrapper (master) offers TMTpro 16plex and 18plex. Also "Includion" typo.'
   fix: 'List TMTpro 16 and 18 plex alongside iTRAQ 4/8, TMT 2-11 and iodoTMT6plex; drop the "in preparation" sentence.'
