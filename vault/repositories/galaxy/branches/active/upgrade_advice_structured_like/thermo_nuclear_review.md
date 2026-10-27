@@ -1,24 +1,21 @@
-# Thermo-nuclear code quality review
+# Thermo-nuclear review debrief
 
-Acted on: nothing. Diff (3 commits, +222/-111, lib ~+130/-110 net move) has no structural regression, no file over 1k lines (output.py 436, upgrade/__init__.py 333, _util.py 105), no spaghetti growth. No code commits made; tests untouched.
+Acted on 1 finding: extracted `tool_requests_provided_metadata(tool_source, outputs)` in `parser/output_objects.py`, used by both `AbstractTool._uses_tool_provided_metadata` and 26.2 advice; deleted upgrade-local `_requests_tool_provided_metadata` (commit on branch after 1b951469a3d). Tests green (206 passed), mypy parity with base on touched files.
 
-Not acted on:
-- `upgrade` importing from private `linters._util` - boundary smell, but the known open decision (#23891/#23902 move it to public `parser/output_references.py`). View: `parser/` is the right home, since it describes tool input structure, not lint policy. Rebase onto that when it lands; don't create a third location now.
-- `ProfileMigration26_0.advise` repeats the linter's "qualified, else legacy" lookup (`_check_structured_like_reference`). A shared `InputReferences.resolve()` would save ~2 lines, but the two callers differ on purpose (linter: legacy only when no `|` and profile < 26.0; advice: also flags partially qualified refs, skips repeats). A shared resolver would need flags, which is worse. Left as is.
-- `normalize()` then `qualified()` happens at three call sites. A `qualified_match()` helper was considered. Skipped because format_source reuses `normalized` for its legacy and error paths, so the helper only saves code at two sites.
-- `output.attrib.get('name', 'unknown')`: collection outputs need `name`, so the fallback can't happen. It's harmless and matches the rest of the module, so left as is.
+## Not acted on
 
-<details>
-<summary>Full review</summary>
+- `upgrade/` imports `InputReferences`/`writes_galaxy_json` from `linters/_util.py` (layer leak) - known; #23891/#23902 plan to move to `parser/output_references.py`. Don't relocate here.
+- `validate_test_cases_for_tool_source` now has both `use_latest_profile` and `profile` - overlapping modes. Collapsing means touching lint/script/test callers outside scope; `profile` wins when given, so contract is clear.
+- 26.1 test-validation diff zips before/after by index - relies on stable test ordering from the same tool_source; true by construction.
+- 26.0 uses `tool_xml.findall` directly while others use `_find_all` - cosmetic; it already needs raw `xml_tree` for `InputReferences`.
+- No file crosses 1k lines (upgrade/__init__.py ~400, output.py shrank).
 
-**Verdict: approve.**
+<details><summary>Full review</summary>
 
-1. Structural: moving `_InputReferences` to `linters/_util.py` and making it public removes code from output.py instead of copying it into upgrade, which is the right call. The new `legacy()` method replaces two inline comprehensions, so it adds no extra concept.
-2. Code-judo: the obvious bigger move is a single "structured_like resolution" policy object shared by the linter and the advice. It was rejected because the profile-gated semantics differ (see above), and merging them would bring back the flag-driven branching this standard warns against.
-3. Spaghetti: removing the old 18.01 `consider` check and adding a dedicated `ProfileMigration26_0` class follows the existing per-profile pattern. There are no bolted-on conditionals.
-4. Boundaries/types: `InputReference` is a NamedTuple with explicit fields, with no casts or `Any`. The only issue is the private-module import across packages, which belongs to the known decision above.
-5. File size: fine.
-6. Modularity: the advice text builds the qualified-name list inline. It is acceptable for a single caller.
-7. Legibility: fine. The `latest_supported_version` bump to 26.0 is consistent with the profile migration list.
+Verdict: approve with one structural fix. Diff is mostly well-shaped: walker extraction shrinks output.py by ~100 lines, `output_uses_tool_provided_metadata` lifted from a nested closure into the canonical parser module, `writes_galaxy_json` shared between linter and advisor, and two latent bugs fixed (`_find_all` ignoring xpath, empty 21.09 code).
 
+1. Duplicate opt-in logic (acted): `_requests_tool_provided_metadata` re-implemented `parse_provided_metadata_is_explicit() or any(output_uses_tool_provided_metadata ...)` already inside `AbstractTool._uses_tool_provided_metadata`. Two copies of "what counts as opting in" will drift when 26.2 semantics change. Extract one helper beside `output_uses_tool_provided_metadata`.
+2. Layer leak (known): advisor depending on `linters._util` - canonical home is parser; planned elsewhere.
+3. Mode overlap in `validate_test_cases_for_tool_source` (`use_latest_profile` + `profile`): a single `profile` param with callers passing `LATEST` would delete a boolean mode. Nit-level given caller spread.
+4. Advice classes are flat, each focused; no spaghetti growth in shared flows. `<=` skip fix is a one-char semantic change with test coverage.
 </details>

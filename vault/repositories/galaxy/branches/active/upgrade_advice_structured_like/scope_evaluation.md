@@ -1,71 +1,62 @@
-# Scope evaluation — upgrade_advice_structured_like (#23884)
+# Scope evaluation (post-rescope) — upgrade_advice_structured_like (#23884)
 
-**Recommendation: expand (modestly).** Keep the 26.0 `structured_like` migration as built, and also add the 26.1 and 26.2 migrations that dev's other profile gates need. Raise `latest_supported_version` to 26.2 so the advisor stops refusing current-profile tools. The issue's second complaint ("the advisor refuses tools or targets above 24.2") is only half fixed while 26.1/26.2 tools are still rejected. Each gate is small and can be found with an XPath (invalid citations become fatal in 26.1; `value_json="[]"` is required for empty multiple test params in 26.1; optional booleans start unset in 26.2; the tool-provided-metadata default changes in 26.2). Leave the top-level shadowing advice (Codex P1) and the `parser/output_references.py` relocation as follow-ups.
+**Recommendation: keep.** The tip (`07b1b68e6a9`) already contains the earlier expansion. It fixes the wrong `structured_like` advice (18.01 → 26.0), adds 26.1/26.2 migrations, and raises `latest_supported_version` to 26.2. It also fixes three advisor bugs found along the way (21.09 empty code, `<` profile skip, `_find_all` ignoring xpath). A sweep of dev for `Version("26.x")` gates finds none left uncovered: citations, empty multiple test values, optional booleans, tool-provided metadata, tabular separator, and unqualified `structured_like`/`execute.py:585` all have advice. Both halves of the issue are now covered. The candidates that remain are either niche (top-level shadowing, two-deep bare refs) or cleanups that touch callers outside the advisor (`use_latest_profile`, moving modules). Adding them would make the PR bigger for little user value. The strongest of them is C (shadowing advice), which also fits as a small follow-up.
 
 ## Possible Decompositions
 
-The branch is about 222 lines added and 111 removed over 3 commits.
+The diff is 519 lines added and 155 removed across 8 files and 13 commits (about 250 of the added lines are tests).
 
-1. **Refactor**: move `_InputReference`/`_InputReferences` from `linters/output.py` to public `InputReference`/`InputReferences` + `legacy()` in `linters/_util.py`. No behavior change. Linter tests pass unchanged.
-2. **Advice fix**: drop `18_01_consider_structured_like`, add `ProfileMigration26_0` + `26_0_fix_unqualified_structured_like`, bump `latest_supported_version`, plus the upgrade tests. This depends on 1.
-3. (If expanded) **26.1/26.2 migrations**: a separate commit or PR on top of 2. Each migration is independent and could land one at a time.
+1. **Refactor / sharing** (`252fdeb0715`, `c0406db498f`, `acea709859b`): move the input-reference walker and the `galaxy.json` detection into `linters/_util.py`, and lift `tool_requests_provided_metadata` into `parser/output_objects.py`. No behavior change. Lands first.
+2. **structured_like advice** (`8210455c21d`, `bf0d8aa626a`, `d7cec17a4e4`, `07b1b68e6a9`): the 26.0 migration replaces the 18.01 `consider`, with partial-qualification, repeat-skip and dataset-only filtering. Depends on 1.
+3. **Advisor bug fixes** (`901c34f0298`, `145022e5d7c`, `09c03b73cde`): independent red→green fixes. These could go first or be their own small PR. The `<=` skip is a behavior change.
+4. **26.1/26.2 migrations** (`6e63305a91e`, `1020e86a7d9`, `b5a085365fd`): new codes plus the `profile` kwarg on `validate_test_cases_for_tool_source`. Depends on 1 (shared helpers) and on 3 (`_find_all` fix).
+
+Other options: put 1+2 together as the #23884 PR and 3+4 as a second "profile 26.x upgrade advice" PR. Or keep the branch as one PR, as now.
 
 ## Scopes considered
 
-### A. As implemented
-Replace the wrong 18.01 `consider` advice with a 26.0 `must_fix` that names the qualified path(s) for each bare or partially qualified `structured_like` that resolves only through the legacy alias (repeats skipped). Share the input-reference resolver with the linter.
+### A. As implemented (recommended)
+26.0 `structured_like` must_fix advice, the 26.1/26.2 migrations covering every current profile gate, `latest_supported_version` 26.2, three advisor bug fixes, and shared helpers in place of duplicated logic.
 
 | Pros | Cons |
 |---|---|
-| Fixes both directions of the issue exactly | Advisor still refuses tools at profile 26.1/26.2 (`initial_version > latest_supported_version`) |
-| Reuses dev's resolver and doesn't duplicate it | `upgrade` imports from private-ish `linters._util` |
-| Small and easy to review | |
+| Covers both complaints in the issue, and every 26.x gate on dev | Already broad, and the title has to say "26.x upgrade advice" |
+| Reuses the linter/parser logic and removes duplicates | `upgrade` imports from `linters._util` (layer leak, known) |
+| Each piece is in its own commit, so it splits easily | |
 
-### B. A + 26.1/26.2 migrations (recommended)
-Add `ProfileMigration26_1`/`26_2` with advice for the existing profile gates, and bump `latest_supported_version` to 26.2.
-
-| Pros | Cons |
-|---|---|
-| Fully covers the issue's "advisor stops at 24.2" complaint, so tool authors can run the advisor on current profiles | Goes beyond `structured_like`, so the PR title broadens |
-| Each gate is one check plus one code, following the existing per-profile pattern | Each migration needs its own message and URL, which means digging up the PRs behind those gates |
-| Galaxy reviewers tend to prefer general fixes in touched code | Some gates (the metadata default, optional booleans) can only be `consider` advice |
-
-<details><summary>Gates found on the branch (non-test)</summary>
-
-- `parser/xml.py:756`: an invalid citation is fatal from 26.1 and skipped below it.
-- `parameters/case.py:167`: a `multiple` test param needs explicit `value_json="[]"` from 26.1.
-- `parser/util.py:86`, `parameters/convert.py:521`: optional booleans start unset (not false) from 26.2.
-- `abstract_tool.py:302`: the default for tool-provided metadata / `galaxy.json` changes at 26.2.
-- `verify/__init__.py:77`, `verify/asserts/tabular.py`: tabular assertions split on the datatype delimiter from 26.2.
-
-Only `structured_like` (`tools/execute.py:585`, `linters/output.py:355`) is gated at 26.0, so A already covers 26.0 completely.
-</details>
-
-### C. A + top-level shadowing advice (Codex P1)
-Also advise when a qualified/top-level `structured_like` name is shadowed by a same-named nested input declared earlier. In that case mapped-over resolution before 26.0 picks the nested input and 26.0 picks the top-level one.
+### B. A + derive `use_latest_profile` from the advisor's latest version
+`case.py:692` hardcodes `"26.1"`. Swap it for a shared latest-profile constant, or collapse the `use_latest_profile` and `profile` modes into one.
 
 | Pros | Cons |
 |---|---|
-| Catches a silent behavior change | The ref is already valid and qualified; this needs a new "resolution changes" message for an unusual, ambiguous tool shape |
-| | Has no user report behind it, and is better done as a linter warning than as upgrade advice |
+| Removes a stale constant that will drift with each release | Touches the linter, the script and test callers outside the advisor |
+| Gets rid of the overlapping modes flagged by the thermo review | No 26.2 test-validation gate exists, so "26.1" is not wrong today |
 
-### D. A + move resolver to `parser/output_references.py`
-Put `InputReferences` in its planned public home (#23891/#23902) instead of `linters/_util.py`.
-
-| Pros | Cons |
-|---|---|
-| Cleaner package boundary (the thermo-nuclear review agrees `parser/` is the right home) | Collides with in-flight PRs that own that move; creating a third location now is worse |
-
-### E. Add `type_source` / `format_source` / `change_format` advice
-Cover the other output references in the same migration.
+### C. A + top-level shadowing advice
+Advise when a top-level `structured_like` name is shadowed by an earlier nested input with the same name. Before 26.0 the runtime resolves to the nested input (`execute.py:585`); from 26.0 it resolves to the top-level one.
 
 | Pros | Cons |
 |---|---|
-| Groups the reference checks together | Not gated at 26.0. Bare `type_source` is rejected at every profile (earlier decision in `type_source_nested_inputs`), so there is nothing profile-specific to advise |
+| The same 26.0 semantic change, in code this branch already touches | Rare pattern, and a silent behavior shift that is hard to state as advice |
+| Makes the 26.0 migration complete | Needs new resolver queries plus tests, and was deferred as a follow-up last round |
 
-### F. Contract: only reword/drop the 18.01 advice
-Fix the message and leave out the 26.0 migration.
+### D. A + two-deep bare `structured_like` advice
+The rescope review saw no advice for a bare name nested two conditionals deep.
 
 | Pros | Cons |
 |---|---|
-| Tiny | Leaves the real break silent. That is the main harm in the issue |
+| Possible gap in the 26.0 advice | The linter already errors on it, and legacy lookup may never have resolved it, so it may not be a regression |
+
+### E. A + move the walker to `parser/output_references.py`
+Fixes the layer leak.
+
+| Pros | Cons |
+|---|---|
+| Cleaner layering | #23891/#23902 already plan this move, so doing it here would conflict |
+
+### F. Contract to the original scope (alt `_alt_original_scope`)
+Only the 26.0 structured_like fix.
+
+| Pros | Cons |
+|---|---|
+| Smaller PR | The advisor goes back to refusing 26.1/26.2 tools. John already chose the expansion |
