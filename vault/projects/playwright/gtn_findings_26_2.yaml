@@ -954,3 +954,9 @@
   target: main
   summary: 'Warning says to pick `fastaqsanger` (no such type; `fastqsanger`) and misspells "corect"; step 4 "as in URLs above" but the FAQ lists none. Tutorials assembly/vgp_genome_assembly, vgp_workflow_training, galaxy-interface/collections.'
   fix: 'Use `fastqsanger`, "correct"; say "if your URLs end in `.gz`".'
+
+- label: debugging-yarn-is-pnpm
+  faqs: [topics/dev/tutorials/debugging/faqs/no_tests_no_yarn.md]
+  target: main
+  summary: 'Galaxy''s client uses pnpm (client/package.json `packageManager: pnpm@10`, no yarn.lock; common_startup.sh installs pnpm), so "yarn is not installed" no longer applies; also `.venv/vin/activate` typo. The dev/debugging tutorial''s `yarn run eslint` / `yarn jest` commands are stale too.'
+  fix: 'Retitle for pnpm ("pnpm is not installed"); run `scripts/common_startup.sh` (or `corepack enable`), activate with `. .venv/bin/activate`; update the tutorial''s yarn commands to pnpm.'
