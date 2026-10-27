@@ -1,0 +1,4 @@
+- Upgrade AG Grid to 36.2.0 while preserving grid editing
+- Update AG Grid to v36 with row-copy and legacy-theme adaptations
+- Move Galaxy grids to AG Grid 36.2.0
+- Upgrade AG Grid and retain collection and sample-sheet edits

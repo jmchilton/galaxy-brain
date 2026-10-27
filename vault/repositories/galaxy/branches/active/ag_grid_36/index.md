@@ -1,6 +1,9 @@
+---
+upstream_base_branch: dev
+---
 # ag_grid_36
 
-Status: `branches_implemented`. Base: `dev`.
+Status: `branches_need_polish`. Base: `dev`.
 
 Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations.
 
@@ -10,11 +13,11 @@ The upgrade is optional now that #23938 fixes the CVE; older stack and CI detail
 
 ## Status
 
-Hardened and re-scoped. Tip `3bf56e17e9b` (5 commits on `dev`) is READY; the [implementation debrief](implementation_debrief.md) has details and links.
+Polishing in progress; rebased without conflicts onto current `dev` (`a9a68082414`), tip `be137af455e`. The generic Selenium helper and both E2E commits are already upstream, leaving two commits.
 
 Not opened as a PR.
 
-Fork CI green on `3bf56e17e9b` (2026-10-23); ready for polish.
+Prior tip `3bf56e17e9b` CI checked 2026-10-27: no failed jobs; fresh CI required after rebase.
 
 ## Decisions
 

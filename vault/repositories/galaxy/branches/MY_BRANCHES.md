@@ -87,7 +87,6 @@ None yet.
 
 - [`issue_22598_login_prompt_26.2`](active/issue_22598_login_prompt_26.2/index.md) — Prompts anonymous shed users to log in for Changelog/Contents, then returns them (#22598). Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_22598_login_prompt_26.2?expand=1).
 - [`workflow_editor_selector_escaping`](active/workflow_editor_selector_escaping/index.md) — CSS-safe selector escaping (`css_attribute_value`) for editor terminal names, node labels, connector ids (`[id='…']`) and workflow run-form input labels, so `'`/`\` in free-text labels no longer break the Selenium/Playwright helpers; editor + run-form E2E tests. Re-scoped, re-hardened. Stacked on `workflow_editor_connection_helpers` (`9699ec45644`), head `7ba4f7bd25f`. [Open PR](https://github.com/galaxyproject/galaxy/compare/workflow_editor_connection_helpers...jmchilton:galaxy:workflow_editor_selector_escaping?expand=1).
-- [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
 - [`issue_23902_qualified_output_references`](active/issue_23902_qualified_output_references/index.md) — From 26.2, unqualified `format_source`/`metadata_source` fail tool load; runtime skips legacy aliases (fixes #23902). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23902_qualified_output_references?expand=1).
 - [`resubmit_static_chain_test_26.1`](active/resubmit_static_chain_test_26.1/index.md) — Tests repeated resubmission through static destinations with per-hop environment values. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:resubmit_static_chain_test_26.1?expand=1).
 - [`upgrade_advice_structured_like`](active/upgrade_advice_structured_like/index.md) — Moves `structured_like` qualification upgrade advice from 18.01 to a new 26.0 migration (fixes #23884). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upgrade_advice_structured_like?expand=1).
@@ -98,7 +97,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
