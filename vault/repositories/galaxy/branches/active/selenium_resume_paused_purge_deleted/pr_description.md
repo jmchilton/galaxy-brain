@@ -46,6 +46,10 @@ Risks are minimal - this change doesn't lock Galaxy into particular difficult to
 
 Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy_ui_driver), used to resume paused jobs and free disk space when driving Galaxy 26.2 from scripts. Alternative kept on 🌿 [`selenium_resume_paused_purge_deleted_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/selenium_resume_paused_purge_deleted_alt_original_scope) - covers only deleted datasets, through a dedicated `storage_dashboard_purge_deleted_datasets` helper. Developed with [John's Galaxy Brain Branch Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/).
 
+## Human Review
+
+(PUBLISHING_AGENT: Please include the contents of BRANCH_DIRECTORY/human_review.md before publishing this. If that file doesn't exist please double check that this PR should be published - if user confirms yes publish without this section.)
+
 ## Agentic Checks
 
 ### ✅ [Scope Evaluation](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md)
@@ -94,13 +98,16 @@ Part of 🌿 [`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galax
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+<details><summary>Checklist Details</summary>
+
 - [x] What does the user see when it fails? Users see no change. The tests fail on named waits (e.g. `usage to drop the purged dataset`) or pytest assertions on job state and `purged`/`deleted`/`archived` flags, plus the framework's screenshot and DOM dump.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They drive the UI and check results through the API, including negatives: the job stays paused after undelete, and kept datasets/histories survive.
 - [x] Are baseline tests in their own leading commits (if applicable)? Yes. The `navigate_to_storage_dashboard` refactor leads; the rest add new coverage.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A.
+
+</details>
 
 ## How to test the changes?
 - [x] I've included appropriate [automated tests](https://docs.galaxyproject.org/en/latest/dev/writing_tests.html).
