@@ -950,7 +950,7 @@
   gtn_commit: 45d4932d33
   galaxy_commit: 8d743c0a96d
   faq_findings: [igv-display-on-visualize-tab]
-  gx_findings: Covered by test_display_application_links / gxui dataset-display-apps (see visualisations_igb).
+  gx_findings: "Covered by test_display_application_links / gxui dataset-display-apps (see visualisations_igb)."
 - faq: faqs/galaxy/why_not_excel.md
   status: reviewed
   mode: text
@@ -1529,25 +1529,63 @@
   gtn_commit: 45d4932d33
   used_by: []
 - faq: topics/single-cell/faqs/gtn-in-galaxy_mode-cs.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: cdbfecd0b71
+  used_by: []
+  gx_findings: Covered by test_activate_tutorial_mode / gxui tutorial-mode (see faqs/galaxy/tutorial_mode).
 - faq: topics/single-cell/faqs/notebook_warning.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [single-cell/alevin-commandline, single-cell/scrna-case_FilterPlotandExploreRStudio, single-cell/scrna-case_JUPYTER-trajectories, single-cell/scrna-case_monocle3-rstudio, single-cell/scrna-case-jupyter_basic-pipeline]
 - faq: topics/single-cell/faqs/sc_version.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/single-cell/faqs/single_cell_omics.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [single-cell/GO-enrichment, single-cell/scatac-batch-correction-snapatac2, single-cell/scatac-standard-processing-snapatac2, single-cell/scrna_batch_correction, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_cell-cycle, single-cell/scrna-case_trajectories, single-cell/scrna-seurat-pbmc3k]
 - faq: topics/single-cell/faqs/techniques.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/single-cell/faqs/umi.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/single-cell/faqs/user_community_join.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [single-cell/bulk-music, single-cell/bulk-music-2-preparescref, single-cell/bulk-music-3-preparebulk, single-cell/bulk-music-4-compare, single-cell/scanpy_parameter_iterator, single-cell/scrna-case_alevin, single-cell/scrna-case_alevin-combine-datasets, single-cell/scrna-case_basic-pipeline, single-cell/scrna-case_cell-cycle, single-cell/scrna-case_monocle3-trajectories]
 - faq: topics/single-cell/faqs/variable_genes.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/visualisation/faqs/visualizations_igv_add_genome.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: cdbfecd0b71
+  used_by: [genome-annotation/tnseq]
+  faq_findings: [igv-display-on-visualize-tab]
+  gx_findings: "Covered by test_display_application_links / gxui dataset-display-apps; FASTA and GFF3 both list 'display with IGV: local'."
 - faq: topics/visualisation/faqs/visualizations_igv_view_mapping.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: cdbfecd0b71
+  used_by: [genome-annotation/tnseq]
+  faq_findings: [igv-display-on-visualize-tab]
+  gx_findings: "Covered by test_display_application_links / gxui dataset-display-apps; BAM lists 'display with IGV: local'."
 - faq: topics/admin/tutorials/ansible-galaxy/faqs/custom-welcome.md
   status: pending
 - faq: topics/assembly/tutorials/assembly-with-preprocessing/faqs/alternative_tools.md

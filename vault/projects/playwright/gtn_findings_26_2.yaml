@@ -749,7 +749,7 @@
   fix: 'Replace steps 2-3 with "Click {% icon galaxy-wf-best-practices %} **Best Practices** in the editor''s activity bar."'
 
 - label: igv-display-on-visualize-tab
-  faqs: [faqs/galaxy/visualisations_igv.md]
+  faqs: [faqs/galaxy/visualisations_igv.md, topics/visualisation/faqs/visualizations_igv_add_genome.md, topics/visualisation/faqs/visualizations_igv_view_mapping.md]
   target: main
   summary: The IGV link isn't on the expanded dataset; it's on the dataset's Visualize page (Charts icon) as **display with IGV** (**local**), as visualisations_igb already says for IGB.
   fix: 'Step 4: "Click the Charts icon {% icon galaxy-barchart %}; next to **display with IGV**, click **local**."'

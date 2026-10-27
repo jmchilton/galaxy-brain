@@ -100,7 +100,7 @@
   retake: Histories, Toggle Advanced Search, tick Deleted, Restore on a deleted history's card.
 
 - image: topics/contributing/images/88277962-ddda4a80-cce1-11ea-92cd-41b1df063db0.gif
-  faqs: [faqs/galaxy/tutorial_mode.md]
+  faqs: [faqs/galaxy/tutorial_mode.md, topics/single-cell/faqs/gtn-in-galaxy_mode-cs.md]
   used_in: [faqs/galaxy/tools_missing.md]
   target: main
   priority: low
