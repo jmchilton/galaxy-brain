@@ -24,7 +24,7 @@ Check cancellation responsiveness and real Docker/InteractiveTool cleanup before
 
 ## Context
 
-Addresses the cancellation helper in Pulsar #541. The matching Galaxy helper is synchronized on [pulsar-term-first-cancellation](https://github.com/jmchilton/galaxy/tree/pulsar-term-first-cancellation). **The independent trap-composition issue #542 is outside this branch.**
+Addresses the cancellation helper in Pulsar #541. **This PR is independently functional; no Galaxy companion change is required.** Galaxy's matching helper can be updated at the next sync: it has no callers in the checked Galaxy tree, and the local runner uses `kill_pg`. **The independent trap-composition issue #542 is outside this branch.**
 
 ## Agentic Checks
 
@@ -32,6 +32,6 @@ Addresses the cancellation helper in Pulsar #541. The matching Galaxy helper is 
 
 <details><summary>No blocking structural findings; grace-period validation was added.</summary>
 
-Normal review also identified and reproduced cleanup subprocesses escaping the original snapshot; escalation now refreshes surviving descendants. Focused cancellation and manager tests: 20 passed. Lint passes. The broader local suite has 11 missing-dependency failures (pycurl, kombu, pykube); 453 passed and 136 skipped.
+Normal review also identified and reproduced cleanup subprocesses escaping the original snapshot; escalation now refreshes surviving descendants. Focused cancellation and manager tests: 20 passed. [Fork Pulsar CI](https://github.com/jmchilton/pulsar/actions/runs/40449379279) passes, including the test matrix, lint, and type checks. The broader local suite has 11 missing-dependency failures (pycurl, kombu, pykube); 453 passed and 136 skipped. The separate [framework run](https://github.com/jmchilton/pulsar/actions/runs/40449379326) fails collecting Galaxy master tests because `pulsar.client` does not export `build_client_manager`; this branch changes only the cancellation helper and its tests.
 
 </details>

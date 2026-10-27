@@ -1,5 +1,7 @@
 # Polishing debrief
 
+Update 2026-10-27: John authorized opening [PR #554](https://github.com/galaxyproject/pulsar/pull/554). Fork Pulsar CI is green; framework Galaxy master collection fails on the unrelated `build_client_manager` import. Fresh PR checks are queued. The Galaxy copy is parked for the next sync, per John.
+
 Ready for John's final review. One strengthening round found no implementation work needed; the description now highlights affected managers, unchanged Windows behavior, and the separate #542 scope.
 
 The pitch uses “Toward #541” because shell cleanup was verified with a fake Docker client, not a real Docker/InteractiveTool cancellation. It explicitly identifies the grace setting as an API argument rather than a manager option.

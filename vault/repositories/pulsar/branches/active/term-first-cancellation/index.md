@@ -3,16 +3,16 @@ upstream_base_branch: master
 ---
 # Allow job cleanup before forced cancellation
 
-- [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:term-first-cancellation?expand=1)
+- [PR #554](https://github.com/galaxyproject/pulsar/pull/554)
 - [View on GitHub](https://github.com/jmchilton/pulsar/tree/term-first-cancellation)
 
 ## Status
 
-Polished and ready for final review at `d87e08f`; awaits John’s read-through.
+Ready from our side at `d87e08f`; John authorized opening the PR on 2026-10-27.
 
-No PR opened.
+[#554](https://github.com/galaxyproject/pulsar/pull/554) is open, non-draft, targeting master.
 
-Fork CI is queued for `d87e08f`: [Pulsar checks](https://github.com/jmchilton/pulsar/actions/runs/40449379279).
+Fork Pulsar CI passes; framework CI fails during Galaxy master collection on an unrelated `build_client_manager` import. Fresh PR checks are queued.
 
 ## Base
 
@@ -32,4 +32,4 @@ Addresses [#541](https://github.com/galaxyproject/pulsar/issues/541). Worktree: 
 - [Labels](pr_tags.md)
 - [Polishing and human-read checklist](polish_debrief.md)
 
-The [Galaxy mirror](https://github.com/jmchilton/galaxy/tree/pulsar-term-first-cancellation) is pushed at `c20d1f345ce` with nine passing regression tests.
+The [Galaxy mirror](https://github.com/jmchilton/galaxy/tree/pulsar-term-first-cancellation) is parked as reference-only for the next sync, per John (2026-10-27); no companion PR is needed. Its helper has no callers in the checked Galaxy tree; the local runner uses `kill_pg`.

@@ -4,7 +4,7 @@ Snapshot: 2026-10-27 (#541 branch and fork CI refreshed; other entries retain th
 
 ## Open Pulsar PRs — ready from our side (`ready`)
 
-None yet.
+- [`term-first-cancellation`](active/term-first-cancellation/index.md) — Allow job EXIT cleanup before forcibly killing cancelled process trees. [#554](https://github.com/galaxyproject/pulsar/pull/554).
 
 ## Open Pulsar PRs — needs attention (`attention`)
 
@@ -41,7 +41,6 @@ None yet.
 ## Pulsar branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`job-script-exit-trap-542`](active/job-script-exit-trap-542/index.md) — Runs the job command in a subshell so embedded EXIT traps can't drop cvmfsexec unmount. [Open PR](https://github.com/galaxyproject/pulsar/compare/release_0.15...jmchilton:pulsar:job-script-exit-trap-542?expand=1).
-- [`term-first-cancellation`](active/term-first-cancellation/index.md) — Allow job EXIT cleanup before forcibly killing cancelled process trees. [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:term-first-cancellation?expand=1)
 
 ## Pulsar branches — approved, opens when green (`branches_need_pr`)
 
