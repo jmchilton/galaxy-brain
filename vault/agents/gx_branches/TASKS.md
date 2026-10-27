@@ -81,7 +81,7 @@
   description: |
     🙇 Tool Shed repository contents. Unanswered mvdbeek comment(s) after our last push.
   status: recommended
-- prompt: Review dannon-response changes (rebase + tool-count assertion) in the differential review, then post the suggested comment from review_pushback_dannon_1.md.
+- prompt: Review dannon-response changes (rebase + tool-count assertion) in the differential review, open the follow-up issue from followup_atomic_import_issue.md (galaxyproject/galaxy, dev), then post the suggested comment from review_pushback_dannon_1.md with the issue number filled in.
   agent_dir: gx_branches
   kind: human
   link: https://github.com/galaxyproject/galaxy/pull/24475

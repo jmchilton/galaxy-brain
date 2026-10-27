@@ -20,5 +20,6 @@ Fresh CI pending on `82a993c494a`; targeted import API tests pass locally.
 - [Title options](pr_titles.md)
 - [Recommended labels](pr_tags.md)
 - [dannon review response](review_pushback_dannon_1.md)
+- [Follow-up issue draft: atomic import](followup_atomic_import_issue.md)
 - [Polishing debrief](polish_debrief.md)
 - [Implementation and hardening handoff](implementation_debrief.md)
