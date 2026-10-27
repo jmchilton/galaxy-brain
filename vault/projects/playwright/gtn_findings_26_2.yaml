@@ -942,3 +942,9 @@
   target: main
   summary: 'Alt text renders "goes back to the Sanger" as "entspricht dem Sanger-Test" (Sanger test); table headers left in English.'
   fix: 'Use "entspricht wieder der Sanger-Kodierung"; translate the three table headers.'
+
+- label: quality-score-it-duplicate-sentence
+  faqs: [topics/sequence-analysis/faqs/quality_score_IT.md]
+  target: main
+  summary: 'Repeats the example sentence ("Ad esempio, 10 corrisponde a "+". Ad esempio, 10 corrisponde a "+" e 40 a "I"."); table headers left in English. Tutorial sequence-analysis/quality-control.'
+  fix: 'Drop the first "Ad esempio, 10 corrisponde a "+"."; translate the three table headers.'

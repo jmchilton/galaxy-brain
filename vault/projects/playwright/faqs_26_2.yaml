@@ -1498,20 +1498,36 @@
   used_by: []
   faq_findings: [quality-score-de-sanger-test]
 - faq: topics/sequence-analysis/faqs/quality_score_ES.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [sequence-analysis/quality-control]
 - faq: topics/sequence-analysis/faqs/quality_score_IT.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [sequence-analysis/quality-control]
+  faq_findings: [quality-score-it-duplicate-sentence]
 - faq: topics/sequence-analysis/faqs/quality_score.md
   status: reviewed
   mode: text
   gtn_commit: 45d4932d33
   used_by: [sequence-analysis/quality-control, sequence-analysis/sars-with-galaxy-on-anvil]
 - faq: topics/single-cell/faqs/amplification.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/single-cell/faqs/dimension_reduction.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/single-cell/faqs/gene_profile.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/single-cell/faqs/gtn-in-galaxy_mode-cs.md
   status: pending
 - faq: topics/single-cell/faqs/notebook_warning.md
