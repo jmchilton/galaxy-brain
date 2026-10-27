@@ -38,7 +38,7 @@ Revision snapshot after the conflict-free rebase (the warning was expected becau
 
 ```text
 warning: worktree has uncommitted changes; snapshot covers committed HEAD only
-created /Users/jxc755/projects/repositories/galaxy-brain/vault/repositories/galaxy/branches/active/issue_17204_remove_shared_with_me_26.2/differential-review/snapshots/20261026T183858Z-revision-92c294eb73c2.json
+created /Users/jxc755/projects/repositories/galaxy-brain/vault/repositories/galaxy/branches/merged/issue_17204_remove_shared_with_me_26.2/differential-review/snapshots/20261026T183858Z-revision-92c294eb73c2.json
   revision @ 92c294eb73c2 vs origin/release_26.2 (merge-base cce99870510e)
   first snapshot: 17 commits, 34 files, 107 hunks
 ```
@@ -46,7 +46,7 @@ created /Users/jxc755/projects/repositories/galaxy-brain/vault/repositories/gala
 Final polishing snapshot:
 
 ```text
-created /Users/jxc755/projects/repositories/galaxy-brain/vault/repositories/galaxy/branches/active/issue_17204_remove_shared_with_me_26.2/differential-review/snapshots/20261026T184447Z-polishing-6b2ad0b2dbeb.json
+created /Users/jxc755/projects/repositories/galaxy-brain/vault/repositories/galaxy/branches/merged/issue_17204_remove_shared_with_me_26.2/differential-review/snapshots/20261026T184447Z-polishing-6b2ad0b2dbeb.json
   polishing @ 6b2ad0b2dbeb vs origin/release_26.2 (merge-base cce99870510e)
   since 20261026T183858Z-revision-92c294eb73c2:
     commits: 17 same, 0 rebased, 0 changed, 3 new, 0 dropped

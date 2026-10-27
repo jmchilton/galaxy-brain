@@ -1,0 +1,568 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-26T19:47:34.371Z",
+  "hunks": {
+    "h1:e70a573a14d5dc9c": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-26T19:44:33.557Z"
+    },
+    "h1:25dc584816472b13": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-26T19:44:33.557Z"
+    },
+    "h1:d791718830d864b9": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-26T19:44:33.557Z"
+    },
+    "h1:eca5936b8ea2325f": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-26T19:44:33.557Z"
+    },
+    "h1:64a5f10c78556aad": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-26T19:44:33.557Z"
+    },
+    "h1:32ee82e5e3fa29b8": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-26T19:44:33.557Z"
+    },
+    "h1:6ef9eb59dd27b7fa": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-26T19:44:33.557Z"
+    },
+    "h1:56a96db112e6e9dd": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-26T19:44:33.557Z"
+    },
+    "h1:dda080cba6dfb570": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/api/histories.ts",
+      "reviewedAt": "2026-10-26T19:44:39.187Z"
+    },
+    "h1:8512088c560aa132": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/api/visualizations.ts",
+      "reviewedAt": "2026-10-26T19:44:42.591Z"
+    },
+    "h1:9f41e4a293afc10c": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/api/workflows.ts",
+      "reviewedAt": "2026-10-26T19:44:46.641Z"
+    },
+    "h1:a6df7ad4b5e3f8b4": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Grid/configs/visualizationsShared.test.ts",
+      "reviewedAt": "2026-10-26T19:44:57.838Z"
+    },
+    "h1:a14cc0d5eb5bb356": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Grid/configs/visualizationsShared.ts",
+      "reviewedAt": "2026-10-26T19:45:03.900Z"
+    },
+    "h1:334bcf4644ee66c8": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Grid/configs/visualizationsShared.ts",
+      "reviewedAt": "2026-10-26T19:45:03.900Z"
+    },
+    "h1:a60a96c901e5103c": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Grid/configs/visualizationsShared.ts",
+      "reviewedAt": "2026-10-26T19:45:03.900Z"
+    },
+    "h1:294d894ff1a63668": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Grid/configs/visualizationsShared.ts",
+      "reviewedAt": "2026-10-26T19:45:03.900Z"
+    },
+    "h1:a891ef585e5073fe": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryCard.vue",
+      "reviewedAt": "2026-10-26T19:45:09.604Z"
+    },
+    "h1:fc76ef1b5e66b839": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryCard.vue",
+      "reviewedAt": "2026-10-26T19:45:09.604Z"
+    },
+    "h1:4803872b5c0ec1b8": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryCardList.vue",
+      "reviewedAt": "2026-10-26T19:45:16.999Z"
+    },
+    "h1:f4d9571c7751ea46": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryCardList.vue",
+      "reviewedAt": "2026-10-26T19:45:16.999Z"
+    },
+    "h1:d10fada61f4afa5d": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryCardList.vue",
+      "reviewedAt": "2026-10-26T19:45:16.999Z"
+    },
+    "h1:1d5b11005c7ed424": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.test.ts",
+      "reviewedAt": "2026-10-26T19:45:24.209Z"
+    },
+    "h1:f3e72294b079589d": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:1e9f5ca6fecbd2e1": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:c6aeadb183008aa6": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:cec3ef4da7fbe5ad": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:d79ce3ae0c7f3bde": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:c4c921e375518dd6": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:1d8e82e07769b055": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:d08e1fd736b3cf1f": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:45a602f247761b32": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:53eda16db08f32c0": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:4153f864c63a09b0": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:4e932b774cf9a0c9": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:746b834c3d51a4a1": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:1e392e131c707429": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:d2a210dcf48e3ded": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/HistoryList.vue",
+      "reviewedAt": "2026-10-26T19:45:35.140Z"
+    },
+    "h1:ea51bba0afb6cd50": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/useHistoryCardActions.test.ts",
+      "reviewedAt": "2026-10-26T19:45:41.198Z"
+    },
+    "h1:20a0c024a0d0fb69": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/useHistoryCardActions.test.ts",
+      "reviewedAt": "2026-10-26T19:45:41.198Z"
+    },
+    "h1:9da532c6d7857306": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/useHistoryCardActions.test.ts",
+      "reviewedAt": "2026-10-26T19:45:41.198Z"
+    },
+    "h1:5e48ca7af69549f3": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/useHistoryCardActions.ts",
+      "reviewedAt": "2026-10-26T19:45:46.850Z"
+    },
+    "h1:afdd36014a0ef50c": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/useHistoryCardActions.ts",
+      "reviewedAt": "2026-10-26T19:45:46.850Z"
+    },
+    "h1:d5e76c8774f93dc5": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/useHistoryCardActions.ts",
+      "reviewedAt": "2026-10-26T19:45:46.850Z"
+    },
+    "h1:a262dcfb47f268ac": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/useHistoryCardActions.ts",
+      "reviewedAt": "2026-10-26T19:45:46.850Z"
+    },
+    "h1:9a8d0cc2e88bb9a2": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/useHistoryCardActions.ts",
+      "reviewedAt": "2026-10-26T19:45:46.850Z"
+    },
+    "h1:7aca0ff382ee0059": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/History/useHistoryCardActions.ts",
+      "reviewedAt": "2026-10-26T19:45:46.850Z"
+    },
+    "h1:6b5b17c83fc81f57": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Panels/WorkflowPanel.vue",
+      "reviewedAt": "2026-10-26T19:45:50.574Z"
+    },
+    "h1:0d1cdd87b34c8954": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Panels/WorkflowPanel.vue",
+      "reviewedAt": "2026-10-26T19:45:50.574Z"
+    },
+    "h1:73a9201ee721e451": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowCard.vue",
+      "reviewedAt": "2026-10-26T19:45:54.596Z"
+    },
+    "h1:fe3d55e43118786e": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowCard.vue",
+      "reviewedAt": "2026-10-26T19:45:54.596Z"
+    },
+    "h1:b2e6c44ead084f02": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowCard.vue",
+      "reviewedAt": "2026-10-26T19:45:54.596Z"
+    },
+    "h1:0777c78802f20760": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowCard.vue",
+      "reviewedAt": "2026-10-26T19:45:54.596Z"
+    },
+    "h1:95a99c0578430c68": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowCardList.vue",
+      "reviewedAt": "2026-10-26T19:45:59.112Z"
+    },
+    "h1:8159a89b3ea0aa2d": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowCardList.vue",
+      "reviewedAt": "2026-10-26T19:45:59.112Z"
+    },
+    "h1:059627b5898b3192": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowCardList.vue",
+      "reviewedAt": "2026-10-26T19:45:59.112Z"
+    },
+    "h1:780af8c7f390824f": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowCardList.vue",
+      "reviewedAt": "2026-10-26T19:45:59.112Z"
+    },
+    "h1:0959e83c655f02ff": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowCardList.vue",
+      "reviewedAt": "2026-10-26T19:45:59.112Z"
+    },
+    "h1:3c22543977e0f9b2": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.test.ts",
+      "reviewedAt": "2026-10-26T19:46:08.809Z"
+    },
+    "h1:8335e1fccf7cb815": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.test.ts",
+      "reviewedAt": "2026-10-26T19:46:08.809Z"
+    },
+    "h1:4d3887462a450120": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.test.ts",
+      "reviewedAt": "2026-10-26T19:46:08.809Z"
+    },
+    "h1:51f2a3d81d7e94aa": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.test.ts",
+      "reviewedAt": "2026-10-26T19:46:08.809Z"
+    },
+    "h1:74f699da3e8ddf8f": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:12cdeab553db91a6": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:22995d5bb509db18": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:60ba6f9736ab10cd": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:9778716ab2dd001a": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:d1c8a95a327c04ca": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:acff27ff302255da": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:14b0513a848238b4": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:fa186239255d2b0f": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:3811deb42c705df8": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:b1e8ebb40a6d1705": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:55ad6c43485404ce": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:d40e16d7b1cae1bb": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/WorkflowList.vue",
+      "reviewedAt": "2026-10-26T19:46:13.969Z"
+    },
+    "h1:2c4f25ad2fb44ce3": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+      "reviewedAt": "2026-10-26T19:46:20.014Z"
+    },
+    "h1:4378bbf20f975dc8": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+      "reviewedAt": "2026-10-26T19:46:20.014Z"
+    },
+    "h1:14fcbd114fbe07c5": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+      "reviewedAt": "2026-10-26T19:46:20.014Z"
+    },
+    "h1:d6f70f44a90ea9e4": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+      "reviewedAt": "2026-10-26T19:46:20.014Z"
+    },
+    "h1:11859385cf9ba2b5": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+      "reviewedAt": "2026-10-26T19:46:20.014Z"
+    },
+    "h1:58ee4b5dd87e9a66": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.test.ts",
+      "reviewedAt": "2026-10-26T19:46:20.014Z"
+    },
+    "h1:fc25a26c8da373a0": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.ts",
+      "reviewedAt": "2026-10-26T19:46:31.255Z"
+    },
+    "h1:dffc41395455d4b6": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.ts",
+      "reviewedAt": "2026-10-26T19:46:31.255Z"
+    },
+    "h1:41451f51e9cfd808": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.ts",
+      "reviewedAt": "2026-10-26T19:46:31.255Z"
+    },
+    "h1:562d5689b99d8589": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.ts",
+      "reviewedAt": "2026-10-26T19:46:31.255Z"
+    },
+    "h1:35add46a6d272165": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/components/Workflow/List/useWorkflowCardActions.ts",
+      "reviewedAt": "2026-10-26T19:46:31.255Z"
+    },
+    "h1:6df99146148cd0c3": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-26T19:46:34.614Z"
+    },
+    "h1:29f3a5ea7b39ddff": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-26T19:46:34.614Z"
+    },
+    "h1:7fb482a0908f8e98": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-26T19:46:34.614Z"
+    },
+    "h1:9b1d68a95b90d81d": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/utils/settleEach.test.ts",
+      "reviewedAt": "2026-10-26T19:46:38.714Z"
+    },
+    "h1:d8cf8facf56932a4": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/utils/settleEach.ts",
+      "reviewedAt": "2026-10-26T19:46:43.730Z"
+    },
+    "h1:c7b94a6d9aa79567": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/utils/strings.test.ts",
+      "reviewedAt": "2026-10-26T19:46:48.458Z"
+    },
+    "h1:424191e3e5964b3a": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/utils/strings.test.ts",
+      "reviewedAt": "2026-10-26T19:46:48.458Z"
+    },
+    "h1:208efe5ebf8ce7e0": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "client/src/utils/strings.ts",
+      "reviewedAt": "2026-10-26T19:46:54.487Z"
+    },
+    "h1:5defd994234a8948": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-10-26T19:46:58.462Z"
+    },
+    "h1:9ce6bec50a4ae9de": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-10-26T19:46:58.462Z"
+    },
+    "h1:601f36cadffa8567": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy/webapps/galaxy/api/histories.py",
+      "reviewedAt": "2026-10-26T19:47:01.125Z"
+    },
+    "h1:9673b69a4e1e5087": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy/webapps/galaxy/api/pages.py",
+      "reviewedAt": "2026-10-26T19:47:03.991Z"
+    },
+    "h1:dcacd3b83d5efadf": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy/webapps/galaxy/api/visualizations.py",
+      "reviewedAt": "2026-10-26T19:47:07.913Z"
+    },
+    "h1:4927856cfd3e565a": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy/webapps/galaxy/api/workflows.py",
+      "reviewedAt": "2026-10-26T19:47:11.775Z"
+    },
+    "h1:36d23f056d0a7f5f": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy/webapps/galaxy/services/sharable.py",
+      "reviewedAt": "2026-10-26T19:47:14.422Z"
+    },
+    "h1:9dcea26032257b48": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy/webapps/galaxy/services/sharable.py",
+      "reviewedAt": "2026-10-26T19:47:14.422Z"
+    },
+    "h1:0b19ebd7e3e143aa": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/api/sharable.py",
+      "reviewedAt": "2026-10-26T19:47:22.225Z"
+    },
+    "h1:2db280cd4eee74a5": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/api/sharable.py",
+      "reviewedAt": "2026-10-26T19:47:22.225Z"
+    },
+    "h1:9021c7d23735f65c": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/api/sharable.py",
+      "reviewedAt": "2026-10-26T19:47:22.225Z"
+    },
+    "h1:099b43279734f749": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/api/sharable.py",
+      "reviewedAt": "2026-10-26T19:47:22.225Z"
+    },
+    "h1:5e0bf8d87a1cee69": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/api/test_histories.py",
+      "reviewedAt": "2026-10-26T19:47:24.862Z"
+    },
+    "h1:83e798379adbb71d": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-10-26T19:47:25.762Z"
+    },
+    "h1:b51a579f823fb14d": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/selenium/test_history_sharing.py",
+      "reviewedAt": "2026-10-26T19:47:30.479Z"
+    },
+    "h1:0c3980dbd7751d1c": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/selenium/test_history_sharing.py",
+      "reviewedAt": "2026-10-26T19:47:30.479Z"
+    },
+    "h1:694805eb5e92e9b2": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/selenium/test_workflow_sharing.py",
+      "reviewedAt": "2026-10-26T19:47:34.371Z"
+    },
+    "h1:78772b2a7c39c0e7": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/selenium/test_workflow_sharing.py",
+      "reviewedAt": "2026-10-26T19:47:34.371Z"
+    },
+    "h1:d33dbceb9b94b31e": {
+      "snapshotId": "20261026T184447Z-polishing-6b2ad0b2dbeb",
+      "path": "lib/galaxy_test/selenium/test_workflow_sharing.py",
+      "reviewedAt": "2026-10-26T19:47:34.371Z"
+    }
+  },
+  "commits": {}
+}

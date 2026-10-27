@@ -3,7 +3,7 @@ documents:
   - path: vault/research/Component - E2E Tests - Writing.md
     why: Browser helpers, API setup patterns, smart selectors and screenshot facilities for verifying the shared-item removal UI.
     load_when: Capturing final screenshots or adjusting recipient-side browser verification.
-  - path: vault/repositories/galaxy/branches/active/issue_17204_remove_shared_with_me_26.2/polish_e2e_tests_debrief.md
+  - path: vault/repositories/galaxy/branches/merged/issue_17204_remove_shared_with_me_26.2/polish_e2e_tests_debrief.md
     why: Records the branch-specific API setup that avoids login screenshot timeouts and the existing recipient-side screenshot checkpoints.
     load_when: Reusing the three existing browser scenarios for screenshots and final validation; historical head hashes are not current.
   - path: vault/research/Component - API Tests.md

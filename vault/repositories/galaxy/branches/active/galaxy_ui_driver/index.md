@@ -37,7 +37,7 @@ gxui gains `dataset-related`, `upload-url --dbkey/--collection/--collection-type
 
 The extraction drop above is not done yet. These restacks kept `cac01c0884a`/`e4bca1128c1`, because gxui's delete and permissions verbs build on them; that is waiting on John. `selenium_delete_items_dataset_privacy`'s records cite the pre-remap hashes (`d0d92741f74`, `ea0bc576e38`).
 
-**Extracted 2026-10-22:** `1d227e6fc4c` (library collection picked history) and `913dfd7dfd6` (library "as Datasets" test) → [`library_collection_selected_history_26.1`](../library_collection_selected_history_26.1/index.md) (hardened, re-scoped with a ListWizard fix). On restack, drop both by subject; gxui's `library-add-to-history` uses `libraries_folder_add_to_history`, whose 26.1 version takes `history_id` (not `history_name`) and `screenshot_name`. `162dfdb49b4` stays here.
+**Extracted 2026-10-22:** `1d227e6fc4c` (library collection picked history) and `913dfd7dfd6` (library "as Datasets" test) → [`library_collection_selected_history_26.1`](../../merged/library_collection_selected_history_26.1/index.md) (hardened, re-scoped with a ListWizard fix). On restack, drop both by subject; gxui's `library-add-to-history` uses `libraries_folder_add_to_history`, whose 26.1 version takes `history_id` (not `history_name`) and `screenshot_name`. `162dfdb49b4` stays here.
 
 **Then (FAQ loop batch 6, 2026-10-23):** two new commits below gxui. Nothing was restacked, so neither extraction drop is done yet.
 - `c184ed00be2`: tests Resume Paused Jobs and adds its `data-description`. It uses `cac01c0884a`'s undelete helpers.

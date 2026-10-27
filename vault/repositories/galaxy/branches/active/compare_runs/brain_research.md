@@ -21,7 +21,7 @@ documents:
   - path: vault/repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/implementation_debrief.md
     why: Adds a nullable indexed self-FK on invocations, source/latest rerun links in element responses, and rerun markers in both invocation lists. Touches the same lists and invocation serializers; a "rerun of" column would build on it.
     load_when: Adding the stored-workflow Compare outputs entry point or a rerun column; rebasing.
-  - path: vault/repositories/galaxy/branches/active/issue_24411_job_cache_identifier_25.1/pr_description.md
+  - path: vault/repositories/galaxy/branches/merged/issue_24411_job_cache_identifier_25.1/pr_description.md
     why: What `copied_from_job_id` means and when the cache hits (name and element-identifier matching, plain versus mapped runs). Bounds the `reused` column's semantics.
     load_when: Deriving `reused` / `partial`, or writing the job-cache API test.
   - path: vault/repositories/galaxy/issues/queued/24305/proposal.md

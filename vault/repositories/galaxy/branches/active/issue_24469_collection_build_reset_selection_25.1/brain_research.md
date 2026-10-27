@@ -8,7 +8,7 @@ documents:
   - path: vault/research/PR 19377 - Collection Types and Wizard UI.md
     why: Introduced Auto/Advanced Build List and ListWizard.vue (/collection/new_list); the path that currently never resets history selection.
     load_when: Deciding whether ListWizard completion should also reset selection.
-  - path: vault/repositories/galaxy/branches/active/library_collection_selected_history_26.1/index.md
+  - path: vault/repositories/galaxy/branches/merged/library_collection_selected_history_26.1/index.md
     why: Recent branch touching the same ListWizard / selection-to-builder flow (history-id handling); possible conflicts or reusable test helpers.
     load_when: Touching ListWizard.vue or the collectionBuilderItemsStore.
   - path: vault/repositories/galaxy/branches/active/selenium_collection_build_convert/index.md
