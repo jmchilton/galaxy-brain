@@ -3,9 +3,9 @@
 - [View PR #24224](https://github.com/galaxyproject/galaxy/pull/24224)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24188_subworkflow_rename_expression_json)
 
-Status: `ready` — PR [#24224](https://github.com/galaxyproject/galaxy/pull/24224) ("[26.1] Fix `${label}` renames in subworkflows fed by expression tools") approved by mvdbeek 2026-10-19; re-drafted at John's request pending CI on `cbe21ccd399` (Marius' optional points), undrafted 2026-10-20 on green CI. Base: `release_26.1` (`b2b1e1deeee`). Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
+Status: `ready` — PR [#24224](https://github.com/galaxyproject/galaxy/pull/24224) ("[26.1] Fix `${label}` renames in subworkflows fed by expression tools") approved by mvdbeek 2026-10-19; re-drafted at John's request for Marius' optional points, undrafted 2026-10-20 on green CI. Base: `release_26.1` (`1bb6a59dd7d`). Head: `949f70bc3eb`. Fork: `jmchilton/issue_24188_subworkflow_rename_expression_json`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24188_subworkflow_rename_expression_json`.
 
-CI green on `de29da2c1c7`; `cbe21ccd399` passed workflow unit tests and the 4 `replacement_parameters_nested*` framework tests locally, PR CI running.
+Rebased 2026-10-27 onto `release_26.1` (one import conflict in `workflow_support.py`); 210 touched unit tests pass locally, PR CI running on `949f70bc3eb` (was green on `cbe21ccd399`).
 
 [PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
 
