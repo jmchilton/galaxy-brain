@@ -93,6 +93,7 @@ GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default a
 - [#553](https://github.com/galaxyproject/foundry/issues/553) — No reachable route serves a Tool Shed wrapper's raw XML at a pinned changeset
 - [#562](https://github.com/galaxyproject/foundry/issues/562) — Sandbox Support - agent-safehouse
 - [#566](https://github.com/galaxyproject/foundry/issues/566) — Needs better guidance for importing to a real galaxy instance
+- [#735](https://github.com/galaxyproject/foundry/issues/735) — Test-data Molds stage data tables in a form planemo doesn't auto-discover
 - [#570](https://github.com/galaxyproject/foundry/issues/570) — Pattern MOCs are cast without the pattern pages they point at
 - [#571](https://github.com/galaxyproject/foundry/issues/571) — `gxformat2-schema` documents nested `state` but not nested `in:` key addressing
 - [#572](https://github.com/galaxyproject/foundry/issues/572) — ToolShed-fetch decoder rejects a real IUC wrapper's filtered list-collection output
