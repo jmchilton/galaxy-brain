@@ -1,11 +1,11 @@
 # Design questions for John
 
-## Where things stand (09:10)
+## Where things stand (11:45)
 
-- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs` (`9aa33beef03`), ~10k non-generated lines. Pre-cleanup backup: `jmchilton/compare_runs_pre_harden`. See [initial_implementation_debrief.md](initial_implementation_debrief.md).
-- Hardening 1 done through scope: test challenges, [Codex](earlier_drafts/1/codex_review.md) (3 confirmed + fixed, 1 refuted), [scope evaluation](earlier_drafts/1/scope_evaluation.md) → modest expansion.
-- Re-scope implemented (original scope kept as `compare_runs_alt_original_scope`): `totalMatches` + `useExecutionJobs` second consumers, `?keys=metadata_<name>`, mode 2 `versions` filter, DatasetDetails "Other runs", skipped outputs → `Missing(skipped)`, declared columns from step definitions, selenium mypy fix. Review running; then hardening 2 and 3.
-- **Biggest decision: how to split ~10k lines into PRs** — five options (A–E) in [scope_evaluation.md](earlier_drafts/1/scope_evaluation.md#possible-decompositions).
+- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs` (`b527b296a74`), ~10.7k non-generated lines. Backups: `compare_runs_pre_harden`, `compare_runs_pre_fold2`. See [initial_implementation_debrief.md](initial_implementation_debrief.md).
+- Hardening 1 (stopped at scope, per process): test challenges, [Codex](earlier_drafts/1/codex_review.md), [scope](earlier_drafts/1/scope_evaluation.md) → [re-scope](implementation_rescope_debrief.md) (original kept as `compare_runs_alt_original_scope`).
+- Hardening 2 in progress: [test challenges](test_challenges_debrief.md), [Codex](codex_review.md) (2 fixed, 1 decision), [scope](scope_evaluation.md) → small expansion taken in place rather than parking (route meta renamed `reuseOnQueryChange` to match #24307, skipped outputs in all modes, **workflow editor "Compare runs of this step" link for #10039**, reused badge in batch pager). Now: E2E polish → thermo-nuclear → baseline refactor → checks → screenshots; then hardening 3.
+- **Biggest decision: how to split ~10.7k lines into PRs** — options in [scope_evaluation.md](scope_evaluation.md) (iteration 2) and [iteration 1](earlier_drafts/1/scope_evaluation.md#possible-decompositions). Note #24288 moves `get_count` → CI break for whichever lands second.
 - Other important questions: 1 (mode 3 row unit), 10 (`inaccessible` cells), 14 (entry points), 19 (output links never highlighted).
 
 ## Questions
