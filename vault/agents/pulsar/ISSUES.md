@@ -6,6 +6,8 @@ GitHub state last refreshed: 2026-10-26. Issues here are unassigned by default.
 None yet.
 ## In motion (`wip`)
 
+- [#541](https://github.com/galaxyproject/pulsar/issues/541) — preserve cancellation cleanup; branch `term-first-cancellation`. [notes](../../repositories/pulsar/issues/wip/541/index.md)
+
 - [#544](https://github.com/galaxyproject/pulsar/issues/544) — replace direct HISTORY edits with fragments; [#545](https://github.com/galaxyproject/pulsar/pull/545) introduces towncrier on release_0.15. [notes](../../repositories/pulsar/issues/wip/544/index.md)
 
 - [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) addresses part, won't close it. [notes](../../repositories/pulsar/issues/wip/465/index.md)
@@ -13,7 +15,6 @@ None yet.
 ## Queued (`queued`)
 
 - [#416](https://github.com/galaxyproject/pulsar/issues/416) — empty `final_status` causes endless monitor failures; next: reproduce and design recovery for damaged metadata. [notes](../../repositories/pulsar/issues/queued/416/index.md)
-- [#541](https://github.com/galaxyproject/pulsar/issues/541) — SIGKILL skips Docker cleanup traps; next: test TERM-first cancellation and coordinate Galaxy's copy. [notes](../../repositories/pulsar/issues/queued/541/index.md)
 
 - (assigned) [#498](https://github.com/galaxyproject/pulsar/issues/498) — ubuntu-22.04 runner deprecation; lint/test moved to 24.04 (#508 merged); next: packaging metadata PR. [notes](../../repositories/pulsar/issues/queued/498/index.md)
 - [#263](https://github.com/galaxyproject/pulsar/issues/263) — expression tools unsupported; #266 and friends are workarounds; next: design a real fix from the research note. [notes](../../repositories/pulsar/issues/queued/263/index.md)
