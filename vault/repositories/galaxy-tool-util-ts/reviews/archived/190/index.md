@@ -1,5 +1,7 @@
 # galaxy-tool-util-ts #190 — Fix draft workflow parity with gxformat2
 
+**Closed on GitHub: PR merged 2026-10-19; tracking ended.**
+
 - [PR](https://github.com/jmchilton/galaxy-tool-util-ts/pull/190)
 - [Independent review](review.md)
 - [Coordinated implementation and validation](../../../../gxformat2/reviews/archived/219/follow-up.md)

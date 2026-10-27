@@ -1,5 +1,7 @@
 # galaxy-tool-util-ts#192 — Lint duplicate step labels as errors (port gxformat2 StepLabelNotUnique)
 
+**Closed on GitHub: PR merged 2026-10-20; tracking ended.**
+
 PR: https://github.com/jmchilton/galaxy-tool-util-ts/pull/192 (mvdbeek, branch `lint-duplicate-step-labels`)
 Worktree: `~/projects/worktrees/galaxy-tool-util-ts/pr/192/`
 Reviewed commit: `fee94b34` (2026-10-19). Not delivered.

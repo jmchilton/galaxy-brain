@@ -1,5 +1,7 @@
 # galaxy-tool-util-ts#204 — unknown upstream type collapses map-over
 
+**Closed on GitHub: 2026-10-26 via PR #205 (merged 2026-10-26).**
+
 Issue: https://github.com/jmchilton/galaxy-tool-util-ts/issues/204
 Branch: `issue_204_unknown_map_over`, worktree `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_204_unknown_map_over/`. Branch record: [index](../../../branches/active/issue_204_unknown_map_over/index.md).
 

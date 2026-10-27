@@ -1,5 +1,7 @@
 # galaxy-tool-util-ts#193 — tests.schema.json predates galaxy#23554
 
+**Closed on GitHub: 2026-10-20 via PR #194 (merged 2026-10-20).**
+
 Issue: https://github.com/jmchilton/galaxy-tool-util-ts/issues/193
 Branch: `issue_193_nested_collection_count` (`da4aca61`), worktree `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_193_nested_collection_count/`.
 PR description: [pr_description.md](pr_description.md). PR: https://github.com/jmchilton/galaxy-tool-util-ts/pull/194 (opened 2026-10-19).

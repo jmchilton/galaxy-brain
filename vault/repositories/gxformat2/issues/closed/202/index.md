@@ -1,5 +1,7 @@
 # gxformat2 #202 — First-class `color` and `directory_uri` parameter inputs
 
+**Closed on GitHub: 2026-10-24 via PR #281 (merged 2026-10-24).**
+
 - [Issue](https://github.com/galaxyproject/gxformat2/issues/202) (filed by John, 2026-05-06).
 - Branch: [color_directory_uri_inputs](../../../branches/active/color_directory_uri_inputs/index.md)
 

@@ -1,5 +1,7 @@
 # galaxy-tool-util-ts#201 — `--version` always prints 1.0.0
 
+**Closed on GitHub: 2026-10-26 (completed; PR #206).**
+
 Issue: https://github.com/jmchilton/galaxy-tool-util-ts/issues/201
 Branch: `issue_201_cli_version` (PR [#206](https://github.com/jmchilton/galaxy-tool-util-ts/pull/206)), worktree `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_201_cli_version/`. Branch record: [index](../../../branches/active/issue_201_cli_version/index.md).
 
