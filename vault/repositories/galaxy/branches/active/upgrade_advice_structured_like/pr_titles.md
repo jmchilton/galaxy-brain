@@ -1,0 +1,4 @@
+- Fix `structured_like` upgrade advice (26.0, not 18.01) and add 26.1/26.2 tool profile advice
+- Tool upgrade advisor: move `structured_like` advice to 26.0, support profiles through 26.2
+- Correct `structured_like` upgrade advice and extend the tool upgrade advisor to 26.2
+- Add 26.x tool profile upgrade advice, fixing misplaced `structured_like` advice

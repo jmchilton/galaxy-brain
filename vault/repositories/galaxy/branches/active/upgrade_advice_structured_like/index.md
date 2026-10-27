@@ -4,11 +4,11 @@ upstream_base_branch: dev
 
 # upgrade_advice_structured_like
 
-Status: `branches_implemented_needs_ci` — READY (re-scoped, hardened 2026-10-27). Base: `dev`, head `a9580538c98`.
+Status: `branches_ready_for_final_review` — polished 2026-10-27. Base: `dev`, head `a9580538c98`.
 
 Tool upgrade advisor: `structured_like` advice 18.01→26.0 (fixes #23884) plus 26.1/26.2 migrations and advisor bug fixes.
 
-[Implementation](implementation_debrief.md) · [Initial](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Scope eval](scope_evaluation.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Test challenges](test_challenges_debrief.md) · [Baseline refactor](baseline_refactor.md) · [Alt: original scope](alts/original_scope.md) · [Tracking history](tracking_history.md)
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish](polish_debrief.md) · [Implementation](implementation_debrief.md) · [Initial](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Scope eval](scope_evaluation.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Test challenges](test_challenges_debrief.md) · [Baseline refactor](baseline_refactor.md) · [Alt: original scope](alts/original_scope.md) · [Tracking history](tracking_history.md)
 
 ## TICK — 2026-10-12
 

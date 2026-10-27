@@ -83,7 +83,6 @@ None yet.
 - [`issue_24177_rerun_step_params_full_form`](active/issue_24177_rerun_step_params_full_form/index.md) — Keeps reruns with tool step params in the expanded form, prefills simple-form settings and fixes simple-form workflow params (`replacement_params`) (#24177). Stacked on `issue_24176_rerun_full_form_prefill`; re-scoped, head `46db8f9d5b6`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24176_rerun_full_form_prefill...jmchilton:galaxy:issue_24177_rerun_step_params_full_form?expand=1).
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`cwl_fixes_5`](active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
-- [`upgrade_advice_structured_like`](active/upgrade_advice_structured_like/index.md) — Tool upgrade advisor: `structured_like` advice moved 18.01→26.0 (#23884), re-scoped to 26.1/26.2 migrations + advisor bug fixes. Redone on dev + hardened READY, head `a9580538c98`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upgrade_advice_structured_like?expand=1).
 - [`staging_workflow_parameter_lists`](active/staging_workflow_parameter_lists/index.md) — Lets galaxy-tool-util staging leave parameter-input values (e.g. multi-value lists) unstaged; upstream of planemo#1744. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:staging_workflow_parameter_lists?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
@@ -102,6 +101,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`upgrade_advice_structured_like`](active/upgrade_advice_structured_like/index.md) — Tool upgrade advisor: `structured_like` advice moved to 26.0 (#23884), plus 26.1/26.2 advice and advisor fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:upgrade_advice_structured_like?expand=1).
 - [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
 - [`licenses`](active/licenses/index.md) — Requires the runner's affirmation of declared tool terms for tool and workflow submissions (#23261). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
 - [`issue_24441_tool_shed_upload_dry_run`](active/issue_24441_tool_shed_upload_dry_run/index.md) — Tool Shed upload API `?dry_run=true` predicting the resulting revision without persisting; fixes `reset_metadata` sample handling (#24441). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1).
