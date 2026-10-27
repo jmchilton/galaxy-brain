@@ -3,14 +3,14 @@ upstream_base_branch: release_26.2
 ---
 # selenium_resume_paused_purge_deleted
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_resume_paused_purge_deleted?expand=1)
+- [#24520](https://github.com/galaxyproject/galaxy/pull/24520)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/selenium_resume_paused_purge_deleted)
 
 ## Status
 
-POLISHED: ready for John's final review; see [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md). Rebased onto `release_26.2` `a680ed79834`, head `3c8b6169aa7`.
+Approved by John 2026-10-27 at `3c8b6169aa7` ([human review](human_review.md)); title "[26.2] Add missing E2E tests for Resume Paused Jobs and Storage Dashboard cleanup". See [polish debrief](polish_debrief.md), [PR description](pr_description.md), [tags](pr_tags.md).
 
-No PR.
+Draft [#24520](https://github.com/galaxyproject/galaxy/pull/24520) opened 2026-10-27, waiting on CI; screenshots hosted on `pr-assets-selenium_resume_paused_purge_deleted`.
 
 Fork CI on pre-rebase `257d514929c` green except unrelated Singularity `test_mulled_simple` timeout; CI rerunning on `3c8b6169aa7`.
 
