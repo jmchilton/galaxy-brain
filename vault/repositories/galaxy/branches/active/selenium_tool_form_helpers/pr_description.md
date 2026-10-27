@@ -27,7 +27,7 @@ self.tool_form_fill(
     }
 )
 
-# Describe a form, or a job's rerun form, as ToolFormParameter(path, label, type, value, options, condition).
+# Describe a form, or a job's rerun form, as ToolFormParameter(path, label, type, value, options, conditions).
 parameters = self.tool_form_parameters("gx_conditional_select")
 inttest = next(p for p in self.tool_form_parameters(job_id=job_id) if p.path == "inttest")
 ```
@@ -36,7 +36,7 @@ inttest = next(p for p in self.tool_form_parameters(job_id=job_id) if p.path == 
 
 ***It moves the filler and fixes it in one PR because the move makes it public API: shipping it as-is would publish these bugs. The `select_set_value` fix is on the filler's own select path.***
 
-***It's about +1080/−200 lines, but library code is about +460/−200; the rest is tests and HTML fixtures. Ten commits, one per theme, so it can be read commit by commit. The move commit leaves `dev`'s behavior unchanged.***
+***It's about +1290/−210 lines, but library code is about +460/−200; the rest is tests and HTML fixtures. Ten thematic commits followed by review fixes, so it can be read commit by commit. The move commit leaves `dev`'s behavior unchanged.***
 
 <details><summary>What each commit does</summary>
 
@@ -44,12 +44,13 @@ inttest = next(p for p in self.tool_form_parameters(job_id=job_id) if p.path == 
 2. **`select_set_value` exact option.** Click the option equal to the value when one is listed. See below.
 3. **Move** the filler from `RunsToolTests` onto `NavigatesGalaxy` unchanged, as `tool_form_fill` / `tool_form_set_parameter`. The Playwright timeout check becomes `has_driver.exception_indicates_playwright_timeout` so the filler can share it.
 4. **Data and late parameters.** Select data by hid; select collections like datasets (one `data` argument); look deferred parameters up by their real path; defer on either backend's timeout.
-5. **Describe.** `tool_form_parameters(tool_id)` flattens the build model the form renders from into `ToolFormParameter`s (path, label, type, value, options, and the conditional case that shows the field). `job_id=` describes a rerun form, including the datasets the rerun pins. Drill-down options are flattened. Parsing lives in `galaxy.selenium.tool_form` and needs no browser.
+5. **Describe.** `tool_form_parameters(tool_id)` flattens the build model the form renders from into `ToolFormParameter`s (path, label, type, value, options, and every conditional case required to show the field, as a tuple). `job_id=` describes a rerun form, including the datasets the rerun pins. Drill-down options are flattened. Parsing lives in `galaxy.selenium.tool_form` and needs no browser.
 6. **Editor step.** Wait for the form header, not the Run button.
 7. **Repeat counts.** Count rendered instances before inserting, so a `min` repeat doesn't gain an extra one.
 8. **Module.** Move the fill code into `galaxy.selenium.tool_form_filler.ToolFormFiller`, a composed helper. `NavigatesGalaxy` keeps three thin public methods, so `navigates_galaxy.py` grows by about 45 lines.
 9. **Map over** a dataset field with a collection hid.
 10. **Repeats and sections at any depth.** Before setting each path, expand its collapsed sections and add its missing repeat instances, outer level first. A `name_N` segment counts as a repeat only if the page shows one there, so a conditional named `options_1` isn't misread. Same-named repeats in one scope raise instead of clicking a guess.
+11. **Review fixes.** Exact-hid clicks after digit-only searches, round-trippable string hids, complete conditional ancestry, unset single-data values, scoped section/repeat selectors, and a shared collection-mode wait, with regressions on both browser backends.
 
 </details>
 

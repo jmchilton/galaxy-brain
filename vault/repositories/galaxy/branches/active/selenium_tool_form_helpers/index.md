@@ -1,3 +1,7 @@
+---
+upstream_base_branch: dev
+---
+
 # selenium_tool_form_helpers
 
 - [#24331](https://github.com/galaxyproject/galaxy/pull/24331)
@@ -6,11 +10,11 @@
 
 ## Status
 
-`ready`: rebased onto `dev` `a468ce9de10` 2026-10-24 (tick) to clear conflict with #24217's `tool_form_select_collection` (kept both helpers, mechanical); head `e1f5f508a8b`.
+`attention`: all eight points in mvdbeek's review fixed and pushed at `38c2ac06b3c`; suggested replies await John's review in [the response plan](review_response_mvdbeek_1.md).
 
 [#24331](https://github.com/galaxyproject/galaxy/pull/24331) open, not draft.
 
-PR CI rerunning on new head.
+CI is queued/running on the revision; local checks and snapshot details are in [the review debrief](review_response_debrief_mvdbeek_1.md).
 
 ## Scope
 
