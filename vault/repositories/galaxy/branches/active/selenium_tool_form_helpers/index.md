@@ -10,11 +10,11 @@ upstream_base_branch: dev
 
 ## Status
 
-`attention`: all eight points in mvdbeek's review fixed and pushed at `38c2ac06b3c`; suggested replies await John's review in [the response plan](review_response_mvdbeek_1.md).
+`attention`: all eight review points fixed at `38c2ac06b3c` and [replies posted](review_response_mvdbeek_1.md) with John's approval; CI failures remain to be diagnosed.
 
 [#24331](https://github.com/galaxyproject/galaxy/pull/24331) open, not draft.
 
-CI is queued/running on the revision; local checks and snapshot details are in [the review debrief](review_response_debrief_mvdbeek_1.md).
+CI has three failed checks and others still running on the revision; local checks and snapshot details are in [the review debrief](review_response_debrief_mvdbeek_1.md).
 
 ## Scope
 

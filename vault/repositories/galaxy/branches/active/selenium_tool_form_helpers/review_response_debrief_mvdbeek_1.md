@@ -13,7 +13,9 @@
 - Scoped a nested repeat's insert button by its nearest enclosing repeat block, retaining the error for genuinely ambiguous sibling repeats.
 - Both collection-selection entry points share `ToolFormFiller.enter_collection_mode`, waiting on the captured button's class rather than its temporarily blank title.
 
-All eight points were incorporated. No pushback report or follow-up issue is needed. [Suggested inline and summary replies](review_response_mvdbeek_1.md) are ready for John; no comments have been posted or threads resolved. The local PR description reflects `conditions`; its GitHub body has not been changed. Downstream gxui callers using the old `condition` field will need the tuple when restacking.
+All eight points were incorporated. No pushback report or follow-up issue is needed. John approved posting the replies with attribution corrected to GPT-6.1-Sol at effort medium. All five inline replies and the [summary](https://github.com/galaxyproject/galaxy/pull/24331#issuecomment-6448246028) were posted on 2026-10-27 and verified; threads remain unresolved for the reviewer. The GitHub connector returned a write-permission 403, so posting used the authenticated GitHub CLI. The local PR description reflects `conditions`; its GitHub body has not been changed. Downstream gxui callers using the old `condition` field will need the tuple when restacking.
+
+At posting, CI had three failed checks (`Test (3.14)`, `Test (3.10, 0)`, and `Test (3.10)`), with other checks still running. These were not diagnosed as part of the request to post replies, so the branch remains in `attention`.
 
 ## Verification
 
