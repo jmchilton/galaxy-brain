@@ -996,3 +996,15 @@
   target: main
   summary: 'All three usegalaxy.org example histories (u/nate/h/imported-from-usegalaxyeu-proteogenomics-1/2/3-…) return 404 (same as a made-up slug); the three usegalaxy.eu galaxyp histories still load.'
   fix: 'Drop the Galaxy Main list, or republish the histories on usegalaxy.org and update the links.'
+
+- label: alevin-version-stale
+  faqs: [topics/single-cell/tutorials/scrna-case_alevin/faqs/alevin_version.md, topics/single-cell/tutorials/scrna-case_alevin-combine-datasets/faqs/alevin_version.md]
+  target: main
+  summary: 'Tells readers to switch to Alevin ; the scrna-case_alevin tutorial now pins , so following the FAQ moves them off the tutorial version. Title also "Why is Alevin is not working?".'
+  fix: 'Point at the version the tutorial uses (or say "use the version in the tutorial''s tool button / Tutorial Mode"); fix the title.'
+
+- label: anndata-version-stale
+  faqs: [topics/single-cell/tutorials/scrna-scanpy-pbmc3k/faqs/anndata_not_working.md]
+  target: main
+  summary: 'Says avoid AnnData Import/Manipulate  and use ; the scrna-scanpy-pbmc3k tutorial now pins , so the advice downgrades readers.'
+  fix: 'Remove the FAQ, or update it to the tutorial''s version / Tutorial Mode.'
