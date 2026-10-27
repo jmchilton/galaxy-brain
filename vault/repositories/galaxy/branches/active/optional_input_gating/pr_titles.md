@@ -1,0 +1,4 @@
+- Let workflow steps run only when an optional input is provided
+- Gate workflow steps on optional inputs in the editor
+- Workflow editor: run a step only when its optional input is provided
+- Author optional-input conditions in the workflow editor
