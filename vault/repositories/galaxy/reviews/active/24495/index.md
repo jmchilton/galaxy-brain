@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review of `d3a03e397a7` complete 2026-10-27, unposted: three P2s fixed on `pr_24495_review_0` (`8355212f702`, pushed to fork; new unit + API tests red-to-green) + one P3 (leading-magic zip check, dev follow-up). P2 2 fix changes raw `guess_ext` for directory-first zips (`txt` → `tabular`); split `cb8fca124e1` if release branch should stay crash-fix-only.
+Initial review of `d3a03e397a7` complete 2026-10-27, posted as PR comment 2026-10-27 (https://github.com/galaxyproject/galaxy/pull/24495#issuecomment-6443227886): three P2s fixed on `pr_24495_review_0` (`8355212f702`, pushed to fork; new unit + API tests red-to-green) + one P3 (leading-magic zip check, dev follow-up). P2 2 fix changes raw `guess_ext` for directory-first zips (`txt` → `tabular`); split `cb8fca124e1` if release branch should stay crash-fix-only.
 
 Open, ready for review, against `release_26.2`. Author dannon. 4 files, +39/-9; fixes #24488. Worktree `~/projects/worktrees/galaxy/pr/24495`.
