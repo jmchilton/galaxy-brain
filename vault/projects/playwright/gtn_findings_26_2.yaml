@@ -960,3 +960,9 @@
   target: main
   summary: 'Galaxy''s client uses pnpm (client/package.json `packageManager: pnpm@10`, no yarn.lock; common_startup.sh installs pnpm), so "yarn is not installed" no longer applies; also `.venv/vin/activate` typo. The dev/debugging tutorial''s `yarn run eslint` / `yarn jest` commands are stale too.'
   fix: 'Retitle for pnpm ("pnpm is not installed"); run `scripts/common_startup.sh` (or `corepack enable`), activate with `. .venv/bin/activate`; update the tutorial''s yarn commands to pnpm.'
+
+- label: ecology-account-exists-link
+  faqs: [topics/ecology/tutorials/PAMPA-toolsuite-tutorial/faqs/account_exists.md]
+  target: main
+  summary: 'The "ecology.usegalaxy.eu" link points at https://usegalaxy.eu, so readers never reach the Ecology server the FAQ is about.'
+  fix: 'Link https://ecology.usegalaxy.eu; also "you will need to create one".'
