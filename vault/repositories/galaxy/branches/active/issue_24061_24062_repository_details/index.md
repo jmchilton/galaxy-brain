@@ -5,11 +5,11 @@
 
 ## Status
 
-`ci_wait`: draft PR opened 2026-10-20 at John's request. Base `dev` (`1e6125acd93`), head `52518dcfa65` (mypy fix: `.shed.yml` test reads with `inner_text()`). History rewritten by the baseline refactor; old SHAs in debriefs map via [baseline_refactor.md](baseline_refactor.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
+`ready`: rebased 2026-10-27 onto `dev` (`a9a68082414`), head `47d1220d667` (one import conflict in `test_shed_repositories.py`, kept both). Earlier SHAs in debriefs map via [baseline_refactor.md](baseline_refactor.md). Worktree: `~/projects/worktrees/galaxy/branch/issue_24061_24062_repository_details`.
 
-Draft [#24298](https://github.com/galaxyproject/galaxy/pull/24298), title is the first option in `pr_titles.md`, labels from `pr_tags.md`; screenshots hosted on `pr-assets-issue_24061_24062_repository_details`.
+[#24298](https://github.com/galaxyproject/galaxy/pull/24298) is open, not draft, mergeable; title is the first option in `pr_titles.md`, labels from `pr_tags.md`; screenshots hosted on `pr-assets-issue_24061_24062_repository_details`.
 
-CI at `418a861ca0d` failed only on mypy (fixed); rerun at head pending. Tool Shed frontend evidence is the `1bc094fd6e6` run (identical frontend tree), also queued.
+CI rerun at `47d1220d667` pending after force-push; the pre-rebase mypy fix is included.
 
 ## About
 
