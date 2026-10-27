@@ -81,4 +81,9 @@
   description: |
     🙇 Tool Shed repository contents. Unanswered mvdbeek comment(s) after our last push.
   status: recommended
+- prompt: Review dannon-response changes (rebase + tool-count assertion) in the differential review, then post the suggested comment from review_pushback_dannon_1.md.
+  agent_dir: gx_branches
+  kind: human
+  link: https://github.com/galaxyproject/galaxy/pull/24475
+  record: galaxy/branches/workflow_import_embedded_tools
 ```
