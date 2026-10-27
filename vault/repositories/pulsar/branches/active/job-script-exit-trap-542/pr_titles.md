@@ -1,0 +1,4 @@
+- Keep job-script EXIT handlers when the command sets its own trap
+- Fix cvmfsexec `mountrepo` unmount skipped for Docker jobs
+- Run the job command in a subshell when exit handlers are registered
+- Stop Galaxy's Docker EXIT trap from replacing cvmfsexec cleanup

@@ -12,6 +12,8 @@ None yet.
 
 - [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) addresses part, won't close it. [notes](../../repositories/pulsar/issues/wip/465/index.md)
 
+- [#542](https://github.com/galaxyproject/pulsar/issues/542) — Galaxy Docker EXIT trap replaces cvmfsexec `mountrepo` unmount (shipped in 0.15.16); branch `job-script-exit-trap-542`. [notes](../../repositories/pulsar/issues/wip/542/index.md)
+
 ## Queued (`queued`)
 
 - [#416](https://github.com/galaxyproject/pulsar/issues/416) — empty `final_status` causes endless monitor failures; next: reproduce and design recovery for damaged metadata. [notes](../../repositories/pulsar/issues/queued/416/index.md)
@@ -19,7 +21,6 @@ None yet.
 - (assigned) [#498](https://github.com/galaxyproject/pulsar/issues/498) — ubuntu-22.04 runner deprecation; lint/test moved to 24.04 (#508 merged); next: packaging metadata PR. [notes](../../repositories/pulsar/issues/queued/498/index.md)
 - [#263](https://github.com/galaxyproject/pulsar/issues/263) — expression tools unsupported; #266 and friends are workarounds; next: design a real fix from the research note. [notes](../../repositories/pulsar/issues/queued/263/index.md)
 - [#469](https://github.com/galaxyproject/pulsar/issues/469) — resilience suite fixture startup flakiness; next: read #470 (partial) and #471 (unmerged) before starting fresh. [notes](../../repositories/pulsar/issues/queued/469/index.md)
-- [#542](https://github.com/galaxyproject/pulsar/issues/542) — Galaxy Docker EXIT trap replaces cvmfsexec `mountrepo` unmount (unreleased code); next: subshell `$command` before release. [notes](../../repositories/pulsar/issues/queued/542/index.md)
 
 ## Blocked on others (`blocked`)
 
