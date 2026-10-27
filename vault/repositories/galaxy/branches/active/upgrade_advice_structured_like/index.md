@@ -1,3 +1,7 @@
+---
+upstream_base_branch: dev
+---
+
 # upgrade_advice_structured_like
 
 Status: `branches_implemented`. Base: `dev`.
