@@ -35,3 +35,5 @@ Running list, added to throughout the overnight run. Each is "chose X, confirm?"
 20. **Job page "Tool Version" never renders on released Galaxy** (field stripped from job responses). The branch's job-fields commits fix it; [scope_evaluation.md](scope_evaluation.md) (iteration 3) suggests splitting that piece out as a release-branch fix (P1). Conflicts textually with #24288. Split it?
 21. **`GET /api/jobs?tool_version=`** has no consumer on the branch beyond tests — keep it in the job-fields prep PR, or drop?
 22. **Subworkflow invocation pages** — All runs there would resolve to the subworkflow build's hidden StoredWorkflow; iteration 3 disables/labels the tab there rather than inventing an identity rule.
+23. **State chooser** — job `error` and `failed` merged into one "failed" option (writes both to the URL, matches the State column); options in a compact "State: …" dropdown. `error` alone is no longer filterable. OK?
+24. **Disabled All runs tab** — now reads "All runs" with the explanation in a tooltip (supersedes the full-sentence label noted in Q13).
