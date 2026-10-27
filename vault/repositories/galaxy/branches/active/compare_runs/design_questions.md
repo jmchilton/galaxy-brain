@@ -1,10 +1,11 @@
 # Design questions for John
 
-## Where things stand (11:45)
+## Where things stand (13:55)
 
-- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs` (`b527b296a74`), ~10.7k non-generated lines. Backups: `compare_runs_pre_harden`, `compare_runs_pre_fold2`. See [initial_implementation_debrief.md](initial_implementation_debrief.md).
+- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs` (`565950820cd`, 63 commits: 7 baseline, 8 standalone refactors, feature), ~11.5k non-generated lines. Backups: `compare_runs_pre_harden`, `compare_runs_pre_fold2`, `compare_runs_pre_refactor2`. See [initial_implementation_debrief.md](initial_implementation_debrief.md) and [iteration 2 debrief](earlier_drafts/2/implementation_debrief.md).
+- Hardening 2 complete (E2E 3/3 Playwright, thermo refactor, base refactors split out, mypy = base, 12 screenshots). Hardening 3 running now.
 - Hardening 1 (stopped at scope, per process): test challenges, [Codex](earlier_drafts/1/codex_review.md), [scope](earlier_drafts/1/scope_evaluation.md) → [re-scope](implementation_rescope_debrief.md) (original kept as `compare_runs_alt_original_scope`).
-- Hardening 2 in progress: [test challenges](earlier_drafts/2/test_challenges_debrief.md), [Codex](earlier_drafts/2/codex_review.md) (2 fixed, 1 decision), [scope](earlier_drafts/2/scope_evaluation.md) → small expansion taken in place rather than parking (route meta renamed `reuseOnQueryChange` to match #24307, skipped outputs in all modes, **workflow editor "Compare runs of this step" link for #10039**, reused badge in batch pager). Now: E2E polish → thermo-nuclear → baseline refactor → checks → screenshots; then hardening 3.
+- Hardening 2: [test challenges](earlier_drafts/2/test_challenges_debrief.md), [Codex](earlier_drafts/2/codex_review.md) (2 fixed, 1 decision), [scope](earlier_drafts/2/scope_evaluation.md) → small expansion taken in place rather than parking (route meta renamed `reuseOnQueryChange` to match #24307, skipped outputs in all modes, **workflow editor "Compare runs of this step" link for #10039**, reused badge in batch pager).
 - **Biggest decision: how to split ~10.7k lines into PRs** — options in [scope_evaluation.md](earlier_drafts/2/scope_evaluation.md) (iteration 2) and [iteration 1](earlier_drafts/1/scope_evaluation.md#possible-decompositions). Note #24288 moves `get_count` → CI break for whichever lands second.
 - Other important questions: 1 (mode 3 row unit), 10 (`inaccessible` cells), 14 (entry points), 19 (output links never highlighted).
 
