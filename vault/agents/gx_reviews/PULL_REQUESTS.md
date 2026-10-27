@@ -1,6 +1,6 @@
 PRs To Review:
-- [#24465](https://github.com/galaxyproject/galaxy/pull/24465) — initial review ready, unposted (one P3 test improvement; fixed on `pr_24465_review_0`). [notes](../../repositories/galaxy/reviews/active/24465/index.md)
-- [#24396](https://github.com/galaxyproject/galaxy/pull/24396) — approved + response posted 2026-10-26; fork PR mvdbeek/galaxy#37 opened (four P2s + seven P3s); awaiting merge. [notes](../../repositories/galaxy/reviews/active/24396/index.md)
+- [#24290](https://github.com/galaxyproject/galaxy/pull/24290) — initial review in progress. [notes](../../repositories/galaxy/reviews/active/24290/index.md)
+- [#24348](https://github.com/galaxyproject/galaxy/pull/24348) — initial review in progress. [notes](../../repositories/galaxy/reviews/active/24348/index.md)
 - [#24427](https://github.com/galaxyproject/galaxy/pull/24427) — initial review ready, unposted (one P2 + four P3s; fixed on `pr_24427_review_0`). [notes](../../repositories/galaxy/reviews/active/24427/index.md)
 - [#24361](https://github.com/galaxyproject/galaxy/pull/24361) — initial review ready, unposted (one P1 + one P2 + six P3s; fixed on `pr_24361_review_0`). [notes](../../repositories/galaxy/reviews/active/24361/index.md)
 - [#24367](https://github.com/galaxyproject/galaxy/pull/24367) — approved 2026-10-26 with review response (two P2s + three P3s; fixes on fork `pr_24367_review_0`, not pushed to PR); awaiting author/merge. [notes](../../repositories/galaxy/reviews/active/24367/index.md)
@@ -12,7 +12,6 @@ PRs To Review:
 - [#24395](https://github.com/galaxyproject/galaxy/pull/24395) — review comment posted, fixes pushed into PR branch (P1 label/value bug); awaiting author/CI. [notes](../../repositories/galaxy/reviews/active/24395/index.md)
 - [#23964](https://github.com/galaxyproject/galaxy/pull/23964) — approved 2026-10-22 with three P3s (fixes on fork branch, not pushed); awaiting merge. [notes](../../repositories/galaxy/reviews/active/23964/index.md)
 - [#24323](https://github.com/galaxyproject/galaxy/pull/24323) — approved with response; awaiting merge. [notes](../../repositories/galaxy/reviews/active/24323/index.md)
-- [#24299](https://github.com/galaxyproject/galaxy/pull/24299) — Approved with response (two P2s + four P3s; fixes + Selenium test on fork branch); awaiting merge. [notes](../../repositories/galaxy/reviews/active/24299/index.md)
 - [#24271](https://github.com/galaxyproject/galaxy/pull/24271) — review fixes pushed into PR; approved; awaiting merge. [notes](../../repositories/galaxy/reviews/active/24271/index.md)
 - [#24268](https://github.com/galaxyproject/galaxy/pull/24268) — Approved with response (three P2s + five P3s, fixes on fork branch); awaiting merge. [notes](../../repositories/galaxy/reviews/active/24268/index.md)
 - [#24269](https://github.com/galaxyproject/galaxy/pull/24269) — review posted as comment; fixes on fork branch, not pushed. [notes](../../repositories/galaxy/reviews/active/24269/index.md)

@@ -6,4 +6,4 @@
 
 Initial review of `d7dfb46505d72d1a4d4891e2977781d721d1cd5a` complete 2026-10-26, unposted: one P3 test-coverage finding addressed on `pr_24465_review_0` (`7bfee985a03`, pushed to fork); original seven tests and added regression test pass, and removing rollback makes the new test fail.
 
-PR open, targeting `release_26.2`; GitHub state checked 2026-10-26, PostgreSQL integration coverage reported by author was not independently rerun.
+PR merged 2026-10-26; tracking ended and record archived. PostgreSQL integration coverage reported by author was not independently rerun.

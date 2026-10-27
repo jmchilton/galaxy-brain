@@ -4,7 +4,7 @@ PR: https://github.com/galaxyproject/galaxy/pull/24396 (mvdbeek, base `release_2
 Worktree: `~/projects/worktrees/galaxy/pr/24396` (on `pr_24396_review_0`)
 Reviewed commit: `770965bef62`
 
-Status: approved with response 2026-10-26; fork PR https://github.com/mvdbeek/galaxy/pull/37 (`pr_24396_review_1`) opened; awaiting author/merge. Delivered: yes. Refactor issue not filed (unchecked). P2 1 depends on #24323 (duplicate select choices); no branch fix for it.
+Status: approved with response 2026-10-26; fork PR https://github.com/mvdbeek/galaxy/pull/37 (`pr_24396_review_1`) opened; PR merged 2026-10-26; tracking ended and record archived. Delivered: yes. Refactor issue not filed (unchecked). P2 1 depends on #24323 (duplicate select choices); no branch fix for it.
 
 - Latest review: [verified_review.md](verified_review.md) — P2 1–4, P3 1–7 @ `770965bef62`, all implementation verified
 - Response: [initial_review_response.md](initial_review_response.md); fork PR body draft [initial_pr_description.md](initial_pr_description.md) (`pr_24396_review_1` → `mvdbeek:ordered-tool-data-config-26.1`); options [initial_response_action.md](initial_response_action.md); [verified_findings_checklist.md](verified_findings_checklist.md)
