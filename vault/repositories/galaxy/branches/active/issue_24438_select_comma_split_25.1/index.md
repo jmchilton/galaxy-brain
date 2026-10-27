@@ -1,3 +1,7 @@
+---
+upstream_base_branch: release_25.1
+---
+
 # issue_24438_select_comma_split_25.1
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24438_select_comma_split_25.1?expand=1)
@@ -5,11 +9,23 @@
 
 ## Status
 
-READY - implemented, re-scoped, re-hardened; handed off under `branches_implemented_needs_ci`. See [implementation debrief](implementation_debrief.md).
+Polished; awaiting John's final review (`branches_ready_for_final_review`) at `d85ea54982db8c335ff616d1aebcdc3c98e70912`.
 
-No PR yet; fork CI not checked.
+No PR yet; human-read checklist item remains unchecked.
 
-Base: `release_25.1` (`74f52289d82`), head `cb8b7184eec`; alt `issue_24438_select_comma_split_25.1_alt_original_scope`. Fork: `jmchilton/issue_24438_select_comma_split_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24438_select_comma_split_25.1`.
+Pre-rebase fork CI had unrelated failures only; fresh CI after the conflict-free rebase is pending.
+
+Base: `release_25.1` (`8243913fd5cb`); fork: `jmchilton/issue_24438_select_comma_split_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24438_select_comma_split_25.1`.
+
+## Review materials
+
+- [PR description](pr_description.md)
+- [Title options](pr_titles.md)
+- [Recommended labels](pr_tags.md)
+- [Polishing debrief](polish_debrief.md)
+- [Implementation debrief](implementation_debrief.md)
+- [Checklist review](subagents/polish_checklist.md)
+- [Description strengthening](subagents/polish_strengthening.md)
 
 ## Issue
 

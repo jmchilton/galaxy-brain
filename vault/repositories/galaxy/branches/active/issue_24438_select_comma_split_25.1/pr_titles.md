@@ -1,0 +1,4 @@
+- [25.1] Preserve commas in single-select tool test values
+- [25.1] Fix tool tests for comma-containing select options
+- [25.1] Fix comma parsing in select tests and document multiple-select values
+- [25.1] Keep single-select test values intact and lint ambiguous multiple selections
