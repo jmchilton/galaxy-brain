@@ -5,11 +5,15 @@
 
 ## Status
 
-`ready`: head `19b7933d5a9` on `release_26.1`; class-declaring YAML reads only `value:`/`parameters:` (John 2026-10-22).
+`ready`: head `c16d347ec08` on `release_26.1`, rebased 2026-10-27; class-declaring YAML reads only `value:`/`parameters:` (John 2026-10-22).
 
-[#24365](https://github.com/galaxyproject/galaxy/pull/24365) out of draft (found undrafted 2026-10-24); mvdbeek requested.
+[#24365](https://github.com/galaxyproject/galaxy/pull/24365) out of draft (found undrafted 2026-10-24); mvdbeek requested. Was conflicting; rebased + force-pushed.
 
-PR CI green except Playwright and Tool form harness (`Playwright does not support chromium on ubuntu26.04-x64`, install infra), unrelated; rerun.
+CI rerunning on `c16d347ec08`; prior run green except Playwright and Tool form harness (`Playwright does not support chromium on ubuntu26.04-x64`, install infra), unrelated.
+
+## Rebase — 2026-10-27
+
+Onto `origin/release_26.1` (`1bb6a59dd7d`); old tip `19b7933d5a9`. Conflicts (both mechanical): `populators.py` `tool_request_raw` (release gained `tool_uuid`/optional `tool_id`; dropped our duplicate kwarg/payload); `tools/evaluation.py` `UserToolEvaluator` `to_cwl` call (kept `remap(incoming, visit=_is_not_repeat_index)` + release's `element_identifiers`). Only compile + ruff run locally; contract suite not rerun (CI).
 
 ## Polish (2026-10-22)
 
