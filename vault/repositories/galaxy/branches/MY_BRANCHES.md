@@ -66,6 +66,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`issue_23891_output_reference_resolver`](active/issue_23891_output_reference_resolver/index.md) — Resolves format_source/metadata_source against declared inputs at tool load (#23891); re-hardened, rescoped to lint metadata_source; needs fork CI + PR description refresh; open qs in [debrief](active/issue_23891_output_reference_resolver/implementation_debrief.md). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23891_output_reference_resolver?expand=1).
 
 - [`deployment_test_docs_decorators_26_2`](active/deployment_test_docs_decorators_26_2/index.md) — Documents deployment tests and adds a decorator audit skill. Stacked on `deployment_test_fixes_26_2`. [Open PR](https://github.com/jmchilton/galaxy/compare/deployment_test_fixes_26_2...deployment_test_docs_decorators_26_2?expand=1).
 - [`selenium_workflow_preview_import_26.2`](active/selenium_workflow_preview_import_26.2/index.md) — Public workflow preview/Run/Import tests + TRS launch-link auto-import and version-alias fixes; baseline first, hardened READY. Base `release_26.2`, head `ef7bf72fdea9`; both browser backends verified.
@@ -114,7 +115,6 @@ None yet.
 - [`issue_23897_xml_collection_output`](active/issue_23897_xml_collection_output/index.md) — Fixes XML `<output type="collection">` parsing and lets the XSD accept its static elements (#23897). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23897_xml_collection_output?expand=1).
 - [`issue_23914_page_card_actions`](active/issue_23914_page_card_actions/index.md) — Makes notebook card title and Edit/Share actions follow the current user and page, so a late user load shows Share. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23914_page_card_actions?expand=1).
 - [`issue_23521_conditional_case_resolution`](active/issue_23521_conditional_case_resolution/index.md) — Rejects conditional cases that resolve to nothing instead of running the last when-case (#23521). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_23521_conditional_case_resolution?expand=1).
-- [`issue_23891_output_reference_resolver`](active/issue_23891_output_reference_resolver/index.md) — Resolves format_source and metadata_source against declared inputs at tool load (#23891). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23891_output_reference_resolver?expand=1).
 - [`issue_24389_reject_duplicate_test_params_26.2`](active/issue_24389_reject_duplicate_test_params_26.2/index.md) — Conflicting duplicate tool-test params error at load from 26.2 (#24389). Stacked on the 26.1 lint branch. [Open PR](https://github.com/jmchilton/galaxy/compare/issue_24389_lint_duplicate_test_params_26.1...issue_24389_reject_duplicate_test_params_26.2?expand=1).
 
 ## Galaxy branches — approved, opens when green (`branches_need_pr`)
