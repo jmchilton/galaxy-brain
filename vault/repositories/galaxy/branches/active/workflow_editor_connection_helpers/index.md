@@ -5,11 +5,11 @@
 
 ## Status
 
-Head `deae097a003` addresses davelopez and mvdbeek review comments (2026-10-24); also carries 5 previously unpushed local commits (CSS escaping, test helper extraction).
+Head `bbb56abe1bb` (2026-10-27): rebased onto `release_26.2` (nav.yml `tooltip_*` conflict, kept both), fixed davelopez mypy blocker, escaping moved to selector sites per his optional note. `workflow_editor_selector_escaping` content is folded in; restack `galaxy_ui_driver`.
 
 [#24370](https://github.com/galaxyproject/galaxy/pull/24370) opened 2026-10-22 out of draft against `release_26.2` with the first title from `pr_titles.md` and the labels from `pr_tags.md`.
 
-CI pending on `deae097a003`; changed editor, undo/redo and drag tests pass locally on Playwright.
+CI pending on `bbb56abe1bb`; mypy and lint clean locally, no local E2E run (port 8080 held by another worktree).
 
 ## Scope
 

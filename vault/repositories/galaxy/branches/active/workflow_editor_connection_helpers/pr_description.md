@@ -38,6 +38,8 @@ The helpers move from `TestWorkflowEditor` to `NavigatesGalaxy`, so non-test cod
 - New `workflow_editor_try_connect` drags with `drag_over`. It returns `None` if the sink accepts, and otherwise the text of the editor's refusal tooltip. New `workflow_editor_remove_node`. Existing tests that inlined these steps now call the helpers.
 - Terminals are found through the node component, so `workflow_editor_connect` no longer queries again by raw `#id`.
 - `workflow_editor_set_tool_vesrion` is renamed `workflow_editor_set_tool_version`.
+- **CSS-safe selectors.** Editor node labels, terminal names and connector ids, and workflow run input labels in `workflow_run_specify_inputs`, go through `css_attribute_value` where the selector is built, so labels with spaces, `'` or `\` work. Helpers return raw names, so they can still be used in XPath or text checks.
+- Small test helpers are extracted: `_saved_step_connections_by_label` (editor) and `_wait_for_single_invocation` (workflow run).
 - **Playwright drag fix (test driver only - no editor change).** The synthetic drag in `has_playwright_driver.py` now fires `dragenter` one task after `dragstart`, as a real browser does. Before, the editor's drag state (set by a watcher after `dragstart`) wasn't there yet when `dragenter` arrived, so the sink never showed its accept/refuse state or tooltip. Drops still connected, which is why the existing connect tests passed. `test_refused_connection_and_removed_step` fails on Playwright without this fix.
 
 </details>
@@ -64,7 +66,7 @@ The two things worth reading are `workflow_editor_try_connect`, which only judge
 
 ## Context
 
-Used by 🌿[`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy_ui_driver), whose `workflow-connect`, `-disconnect` and `-remove-step` commands call `workflow_editor_try_connect`, `workflow_editor_destroy_connection` and `workflow_editor_remove_node` with order-index refs in place of their own duplicate-label mouse-drag and click fallbacks. Alternative kept on 🌿[`workflow_editor_connection_helpers_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/workflow_editor_connection_helpers_alt_original_scope): label-only refs and no rename of the moved asserts. A follow-up on 🌿[`workflow_editor_selector_escaping`](https://github.com/jmchilton/galaxy/tree/workflow_editor_selector_escaping) makes the terminal and connector selectors safe for labels containing spaces, `'` or `\`. Developed with [John's Galaxy Brain Branch Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/).
+Used by 🌿[`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy_ui_driver), whose `workflow-connect`, `-disconnect` and `-remove-step` commands call `workflow_editor_try_connect`, `workflow_editor_destroy_connection` and `workflow_editor_remove_node` with order-index refs in place of their own duplicate-label mouse-drag and click fallbacks. Alternative kept on 🌿[`workflow_editor_connection_helpers_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/workflow_editor_connection_helpers_alt_original_scope): label-only refs and no rename of the moved asserts. Round 2's CSS-safe selectors, first planned as a follow-up, are now in this PR. Developed with [John's Galaxy Brain Branch Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/).
 
 ## Agentic Checks
 
@@ -73,7 +75,7 @@ Used by 🌿[`galaxy_ui_driver`](https://github.com/jmchilton/galaxy/tree/galaxy
 <details><summary>Two rounds of review. Round 1 added order-index refs and the rename. From round 2, the typo fix was taken and CSS-safe selectors went to a follow-up.</summary>
 
 - Round 1 found that the label-only helpers act on the wrong node when unlabelled steps of one tool share a label. The branch was re-scoped to address steps by order index and to rename the moved asserts `workflow_editor_assert_*`.
-- Round 2 asked for (A) CSS-safe terminal and connector selectors for subworkflow terminals whose labels contain `'`, `\` or spaces, and (B) the `set_tool_vesrion` typo fix. B is in this PR. A is the follow-up branch `workflow_editor_selector_escaping`.
+- Round 2 asked for (A) CSS-safe terminal and connector selectors for subworkflow terminals whose labels contain `'`, `\` or spaces, and (B) the `set_tool_vesrion` typo fix. Both are in this PR. A was first planned as a follow-up.
 - Rejected: a `NavigatesWorkflowEditor` mixin, backend-agnostic waits, rebuilding `connect` on `drag_over`, and removing `node.by_id`. Each is structural churn beyond this change.
 
 </details>
@@ -145,6 +147,7 @@ Commits 1–8 give a tree identical to the pre-rewrite head. The typo fix came a
 - New in `test_workflow_editor.py`:
   - `test_refused_connection_and_removed_step`: refusal reason, an accepted connect, disconnect, reconnect, removing a step, then the saved connections checked through the API.
   - `test_connect_unlabelled_steps_by_order_index`: connect, disconnect and remove unlabelled steps of the same tool by order index, checked through the API after each save.
+- New in `test_workflow_run.py`: `test_execution_with_input_label_needing_css_escape` runs a workflow whose input label contains `'`.
 - The existing editor tests cover the moved and renamed helpers.
 - Both new tests pass locally under Selenium and Playwright, and under Playwright in fork CI. Galaxy's Selenium workflow runs only on schedule.
 

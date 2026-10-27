@@ -28,7 +28,6 @@ Snapshot: 2026-10-27 (reclassified from GitHub: 9 PRs merged and archived; #2448
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
-- [`workflow_editor_connection_helpers`](active/workflow_editor_connection_helpers/index.md) — Missing editor E2E tests (refused connections, step removal, unlabelled same-tool steps) + shared connection helpers. Base `release_26.2`. [#24370](https://github.com/galaxyproject/galaxy/pull/24370).
 - [`issue_24188_subworkflow_rename_expression_json`](active/issue_24188_subworkflow_rename_expression_json/index.md) — `${label}` renames inside subworkflows use expression.json values, not HDA reprs (#24188). Base `release_26.1`. [#24224](https://github.com/galaxyproject/galaxy/pull/24224).
 - [`issue_24328_data_table_mismatch_26.1`](active/issue_24328_data_table_mismatch_26.1/index.md) — Conflicting shed data table halts startup with an actionable error; installs no longer wipe Galaxy's tables (#24328). Base `release_26.1`. [#24349](https://github.com/galaxyproject/galaxy/pull/24349).
 - [`issue_24061_24062_repository_details`](active/issue_24061_24062_repository_details/index.md) — Tool Shed repository page: `hg clone` command, category links, generated `.shed.yml`; API adds `categories`, `clone_url`. [#24298](https://github.com/galaxyproject/galaxy/pull/24298).
@@ -46,6 +45,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`workflow_editor_connection_helpers`](active/workflow_editor_connection_helpers/index.md) — Missing editor E2E tests (refused connections, step removal, unlabelled same-tool steps) + shared connection helpers. Base `release_26.2`. [#24370](https://github.com/galaxyproject/galaxy/pull/24370).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
