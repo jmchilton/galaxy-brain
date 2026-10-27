@@ -2,9 +2,13 @@ Follow-up to 🔀 #20647 - let workflow authors make a step run only when an opt
 
 Galaxy already runs this shape: a condition such as `$(inputs.primer.input_bed !== null)` skips the step before its required input is validated (fixed in #20647). The editor won't let anyone build it, though. An optional output connected to a required input is marked invalid, and the only built-in condition is a boolean. IWC's virology workflow (`pe-illumina-simple-virus-calling-and-consensus.ga`) works around this with two helper steps: `map_param_value` turns the optional primer scheme into a boolean for `ivar trim`'s `when`, and a one-option `pick_value` passes the dataset on to `primer|input_bed`. With this PR, that step needs neither helper.
 
-| Drop an optional output on a required input | The step is gated and the connection is valid |
+| Drag an optional output over a required input | Drop and confirm the condition |
 | --- | --- |
-| ![Confirm dialog after dropping an optional output](screenshots/workflow_editor_drop_optional_output_confirm.png) | ![Connection accepted and step gated](screenshots/workflow_editor_drop_optional_output_gated.png) |
+| ![Accepted drop preview with explanation](screenshots/workflow_editor_drop_optional_output_preview.png) | ![Confirm dialog after dropping an optional output](screenshots/workflow_editor_drop_optional_output_confirm.png) |
+
+| The step is gated and the connection is valid |
+| --- |
+| ![Connection accepted and step gated](screenshots/workflow_editor_drop_optional_output_gated.png) |
 
 | New condition modes | Gated on an optional input |
 | --- | --- |
@@ -23,7 +27,7 @@ Dashed edges carry optional values; orange marks an invalid connection.
 ### What changes for authors
 
 - **Condition modes.** **Conditionally skip step?** becomes a selector: always run, run when a boolean parameter is true, or run when a connected input is provided. Conditions the editor didn't write show as a read-only *Custom expression*, and replacing one asks for confirmation instead of silently clearing it.
-- **Drop to gate.** An optional output dragged onto a required tool or subworkflow input previews as accepted and explains that the step will run only when the input is provided. Confirming creates the connection and the condition as one undoable action. Pause steps and genuine type mismatches are still rejected.
+- **Drop to gate.** An optional output dragged onto a required tool or subworkflow input previews as accepted and explains that the step will run only when the input is provided. Confirming creates the connection and the condition as one undoable action. Pause steps, steps that already have a condition and genuine type mismatches are still rejected, and the tooltip says which.
 - **Imported workflows validate.** Connections that the step's condition protects from an absent value are no longer marked invalid. This applies to data, collection and parameter inputs, and to the "twin dispatch" shape where one step runs on `!== null` and another on `=== null` from the same source.
 
 | Twin dispatch renders valid | Hand-written conditions are read-only |
@@ -44,7 +48,7 @@ Dashed edges carry optional values; orange marks an invalid connection.
 1. Use `select_set_value` for the pick value mode in editor tests: a test-only cleanup that replaces a sleep-and-script helper.
 2. Extract shared step output helpers in the workflow editor: a refactor of existing code with no behavior change.
 3. Drop connections orphaned when a step's condition changes: a fix for a bug on `dev`. Turning a boolean condition off left its `when` connection saved with no port. Any `when` change now removes connections whose condition port disappears, through the terminal path so map-over resets. One undo restores everything.
-4. Add framework workflow tests for steps gated on optional input presence: these baseline tests pass on `dev`, since the runtime already supports the shape.
+4. Add framework workflow tests for steps gated on optional input presence: these baseline tests pass on `dev`, since the runtime already supports the shape. An ungated control fails with `Parameter 'input1': specify a dataset…` when the optional input is omitted, which is why the gate matters.
 5. Let workflow steps run only when an optional input is provided: the feature.
 
 </details>
@@ -124,7 +128,7 @@ Shared step-output helpers are extracted from existing editor code with no behav
 
 <details><summary>Checklist Details</summary>
 
-- [x] What does the user see when it fails? Drop targets turn green or red with a tooltip reason, gating asks for confirmation first, and hand-written conditions are read-only and need a confirm to replace. An undecidable condition that still runs without its input fails at runtime, as on `dev`.
+- [x] What does the user see when it fails? Drop targets turn green or red with a tooltip giving the specific reason (e.g. "This step already has a condition."), gating asks for confirmation first, and hand-written conditions are read-only and need a confirm to replace. An undecidable condition that still runs without its input fails at runtime, as on `dev`.
 - [x] Is the diff free of unrelated or stale generated changes? Yes! The pick-value test helper cleanup is isolated as commit 1.
 - [x] Are unit tests not just testing the literal implementation? Yes. Generated expressions round-trip through the evaluator via a YAML spec, and undo/redo is compared against whole-workflow snapshots. New client tests fail on `dev` or on the pre-fix code; the framework tests pass on `dev` by design.
 - [x] Are baseline tests in their own leading commits (if applicable)? Yes. The framework workflow tests come before the feature, and the fix commit carries its own red-to-green tests.
@@ -142,9 +146,9 @@ Shared step-output helpers are extracted from existing editor code with no behav
 
 <details><summary>Coverage</summary>
 
-- Framework workflows run the gate at top level and nested in a conditional and in a repeat, plus twin dispatch, each with the optional value present and absent: `pytest lib/galaxy_test/workflow/test_framework_workflows.py -k optional_input_gating -m workflow`.
-- Client tests cover condition modes, expression generation and evaluation, terminal validity, drop-to-gate and undo, orphaned-connection cleanup with map-over reset, and probe typing (`FormConditional`, `NodeInput`, `terminals`, `whenExpression`, `actions` and `workflowStepStore` tests).
-- E2E covers choosing condition modes, drop-to-gate, twin dispatch validity, read-only custom conditions and the saved `when`.
+- Framework workflows run the gate at top level and nested in a conditional and in a repeat, plus twin dispatch, each with the optional value present and absent, and an ungated control that fails without the value: `pytest lib/galaxy_test/workflow/test_framework_workflows.py -k optional_input_gating -m workflow`.
+- Client tests cover condition modes, expression generation and evaluation, terminal validity for data, collection and parameter inputs, drop-to-gate with its rejection reasons and undo, orphaned-connection cleanup with map-over reset, and probe typing (`FormConditional`, `NodeInput`, `terminals`, `whenExpression`, `actions` and `workflowStepStore` tests).
+- E2E covers choosing condition modes, drop-to-gate, twin dispatch validity, read-only custom conditions and the saved `when`. The mid-drag preview screenshot is taken on Playwright only.
 
 </details>
 
