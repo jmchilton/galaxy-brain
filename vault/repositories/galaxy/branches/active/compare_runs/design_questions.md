@@ -1,13 +1,12 @@
 # Design questions for John
 
-## Where things stand (13:55)
+## Where things stand (final, 18:30)
 
-- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs` (`565950820cd`, 63 commits: 7 baseline, 8 standalone refactors, feature), ~11.5k non-generated lines. Backups: `compare_runs_pre_harden`, `compare_runs_pre_fold2`, `compare_runs_pre_refactor2`. See [initial_implementation_debrief.md](initial_implementation_debrief.md) and [iteration 2 debrief](earlier_drafts/2/implementation_debrief.md).
-- Hardening 2 complete (E2E 3/3 Playwright, thermo refactor, base refactors split out, mypy = base, 12 screenshots). Hardening 3 running now.
-- Hardening 1 (stopped at scope, per process): test challenges, [Codex](earlier_drafts/1/codex_review.md), [scope](earlier_drafts/1/scope_evaluation.md) → [re-scope](implementation_rescope_debrief.md) (original kept as `compare_runs_alt_original_scope`).
-- Hardening 2: [test challenges](earlier_drafts/2/test_challenges_debrief.md), [Codex](earlier_drafts/2/codex_review.md) (2 fixed, 1 decision), [scope](earlier_drafts/2/scope_evaluation.md) → small expansion taken in place rather than parking (route meta renamed `reuseOnQueryChange` to match #24307, skipped outputs in all modes, **workflow editor "Compare runs of this step" link for #10039**, reused badge in batch pager).
-- **Biggest decision: how to split ~10.7k lines into PRs** — options in [scope_evaluation.md](earlier_drafts/2/scope_evaluation.md) (iteration 2) and [iteration 1](earlier_drafts/1/scope_evaluation.md#possible-decompositions). Note #24288 moves `get_count` → CI break for whichever lands second.
-- Other important questions: 1 (mode 3 row unit), 10 (`inaccessible` cells), 14 (entry points), 19 (output links never highlighted).
+- **READY** at `jmchilton/compare_runs` `be7415d94dd` (74 commits: 8 baseline, 10 base-level refactors/fixes, feature, E2E last), ~11.8k non-generated lines. No PR, no CI yet. See [implementation_debrief.md](implementation_debrief.md).
+- Hardened three times: 1 → [re-scope](implementation_rescope_debrief.md) (original as `compare_runs_alt_original_scope`); 2 (small expansion taken in place, see [earlier_drafts/2](earlier_drafts/2/implementation_debrief.md)); 3 recommended **no scope change**.
+- **Biggest decision: how to split into PRs** — options in [scope_evaluation.md](scope_evaluation.md) (iteration 3: prep PRs P1–P6, then server / client / polish). P1 (job `tool_version` response fix) is a released bug fix that could target a release branch (Q20).
+- Coordination: #24288 moves `get_count` (one-line import fix for whichever lands second); #24307 touches the same `Analysis.vue`/`router.js`/`navigation.yml` lines.
+- Other important questions: 1 (mode 3 row unit), 10 (`inaccessible` cells), 14 (entry points), 19 (output links never highlighted), 23 (merged "failed" filter).
 
 ## Questions
 
