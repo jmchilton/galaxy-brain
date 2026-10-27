@@ -5,7 +5,7 @@
 
 ## Status
 
-Head `c1c12b303ed`; undrafted 2026-10-22 on John's request (`ready`). See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Head `5b3d5f87c6b` (rebased onto `release_26.2` 2026-10-27, mvdbeek review 1 addressed, see [response](review_response_mvdbeek_1.md)); approved by mvdbeek. See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
 PR CI reds diagnosed unrelated 2026-10-22: Integration Selenium `test_user_file_source_ftp.py::test_create_and_use` fails across unrelated PRs 2026-10-21 (certifi, dependabot, oidc, backport-xdist); Mulled/Integration exit 100: apptainer PPA 503 in apt setup, tests never ran; failed jobs rerun. Playwright, other Integration Selenium tests, tool-form harness and linting green.
 
