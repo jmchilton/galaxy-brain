@@ -4,14 +4,14 @@ upstream_base_branch: release_0.15
 
 # Keep job-script EXIT handlers when the command sets its own trap
 
-- [Open PR](https://github.com/galaxyproject/pulsar/compare/release_0.15...jmchilton:pulsar:job-script-exit-trap-542?expand=1)
+- [PR #555](https://github.com/galaxyproject/pulsar/pull/555)
 - [View on GitHub](https://github.com/jmchilton/pulsar/tree/job-script-exit-trap-542)
 
 ## Status
 
-Polished and ready for final review at `6b2606d`; fixes [#542](https://github.com/galaxyproject/pulsar/issues/542) ([issue notes](../../../issues/wip/542/index.md)).
+Polished at `6b2606d`; fixes [#542](https://github.com/galaxyproject/pulsar/issues/542) ([issue notes](../../../issues/wip/542/index.md)).
 
-No PR yet.
+[#555](https://github.com/galaxyproject/pulsar/pull/555) opened 2026-10-27 at John's request (title option 1, label `confirmed bug`).
 
 Fork CI runs were still queued on GitHub at 2026-10-27 04:40Z; local tests for the touched files are green; expect pre-existing ruff ICN001 lint reds on `release_0.15` (fixed by #546 on `master` only).
 

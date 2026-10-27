@@ -12,7 +12,7 @@ None yet.
 
 - [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) addresses part, won't close it. [notes](../../repositories/pulsar/issues/wip/465/index.md)
 
-- [#542](https://github.com/galaxyproject/pulsar/issues/542) — Galaxy Docker EXIT trap replaces cvmfsexec `mountrepo` unmount (shipped in 0.15.16); branch `job-script-exit-trap-542`. [notes](../../repositories/pulsar/issues/wip/542/index.md)
+- [#542](https://github.com/galaxyproject/pulsar/issues/542) — Galaxy Docker EXIT trap replaces cvmfsexec `mountrepo` unmount (shipped in 0.15.16); [#555](https://github.com/galaxyproject/pulsar/pull/555). [notes](../../repositories/pulsar/issues/wip/542/index.md)
 
 ## Queued (`queued`)
 

@@ -45,7 +45,7 @@ Only `mountrepo` jobs change shape, and reverting the change in `job_script()` r
 - **TERM sent to the whole process group:**
   - On bash 5.2 both handlers run, but the unmount can race `docker kill`.
   - On macOS bash 3.2 the subshell's handler doesn't run.
-- **Cancel on `release_0.15`:** `kill_pid` SIGKILLs, so no trap runs either way. #541 tracks making cancellation TERM-first.
+- **Cancel on `release_0.15`:** `kill_pid` SIGKILLs, so no trap runs either way. 🔀 #554 (for #541) makes cancellation TERM-first on `master`.
 - **Lint on `release_0.15` may be red:** the ruff ICN001 `datetime` errors, in files this PR doesn't touch, are fixed by #546 on `master` only.
 
 </details>
@@ -58,7 +58,7 @@ For signals, the real fix is Galaxy chaining any existing EXIT trap in `DockerCo
 
 ## Context
 
-Builds on 🔀 #475, which added `ExitHandlers` and cvmfsexec `mountrepo` mode (shipped in 0.15.16 and 0.16.0). This targets `release_0.15`, which merges forward into `master`, so 0.16 picks it up. Related to #541 (cancellation should send TERM first so these traps can run). The general fix, chaining the trap Galaxy's Docker wrapper sets, belongs in Galaxy.
+Builds on 🔀 #475, which added `ExitHandlers` and cvmfsexec `mountrepo` mode (shipped in 0.15.16 and 0.16.0). This targets `release_0.15`, which merges forward into `master`, so 0.16 picks it up. Related to 🔀 #554 (for #541), which sends TERM first on cancellation so these traps can run. The general fix, chaining the trap Galaxy's Docker wrapper sets, belongs in Galaxy.
 
 ## Agentic Checks
 
@@ -70,5 +70,3 @@ Builds on 🔀 #475, which added `ExitHandlers` and cvmfsexec `mountrepo` mode (
 - The fix adds `|| exit $?` after the subshell, with a regression test that passes on `release_0.15`.
 
 </details>
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
