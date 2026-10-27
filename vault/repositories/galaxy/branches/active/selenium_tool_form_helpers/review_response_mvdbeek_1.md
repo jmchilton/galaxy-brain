@@ -38,6 +38,6 @@ Kept option values as strings and made digit-only strings use the same exact-hid
 
 ## Reply to the review summary
 
-Thanks for the detailed review. Incorporated all the points, including the three without inline threads: unset single-value data parameters now report `None` (empty multiple-value parameters retain `[]`); collapsed-section lookup is scoped to the Tool Parameters container so workflow output cards stay collapsed; and repeat insert buttons must belong to the nearest enclosing repeat instance, excluding deeper same-named repeats. Each has regression coverage. The inline replies describe the hid and public-shape fixes.
+Thanks for the detailed review. Incorporated all the points, including the three without inline threads: unset single-value data parameters now report `None` (empty multiple-value parameters retain `[]`); collapsed-section lookup is scoped to the Tool Parameters container so workflow output cards stay collapsed; and repeat insert buttons must belong to the nearest enclosing repeat instance, excluding deeper same-named repeats. Each has regression coverage. The inline replies describe the hid and public-shape fixes. The full Selenium helper unit suite passes locally: 562 passed, 1 skipped, including browser fixtures on both backends; lint hooks and type checks pass too.
 
 ***Posted by model GPT-6 (Codex) at effort unspecified on jmchilton's behalf***

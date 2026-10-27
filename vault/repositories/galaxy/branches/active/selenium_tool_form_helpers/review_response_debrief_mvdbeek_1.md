@@ -20,7 +20,7 @@ All eight points were incorporated. No pushback report or follow-up issue is nee
 - Focused parser, filler, and exact-option tests: **36 passed**, including both Selenium and Playwright.
 - Initial regression run: 12 failures before the fixes, covering conditions, unset data, hid selection, collection tooltips, repeat scope, and workflow output cards.
 - Rechecked the finalized hid fixture against the original filler loaded from Git: all four integer/string-hid tests failed with incorrect selections. Working-tree files were not swapped for this check.
-- Full helper suite: running with four workers; the sequential run was interrupted after 120 passes to finish sooner.
+- Full helper suite: **562 passed, 1 skipped** in 227.58 seconds with four workers; 28 collection warnings about helper classes with constructors. The earlier sequential run was interrupted after 120 passes to finish sooner.
 - Mypy: success for all three changed helper modules, using `MYPYPATH=lib`, `--explicit-package-bases`, and `--follow-imports=silent`.
 - Commit hooks: Black, Ruff, flake8, Prettier and whitespace/conflict checks passed. HTML fixtures also pass a direct Prettier check. `navigation.yml` retains its existing formatting, as required by the client's Prettier ignore rules.
 - Vault validation: 127 files, **0 errors**, 15 existing backlink warnings.
