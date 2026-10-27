@@ -15,14 +15,17 @@ The shared abstraction already exists in `@galaxy-tool-util/workflow-graph`: `Da
 - Tests on real types (subtype hits/misses, `.gz` behavior, unknown ext). Keep the toy fixture tests: they're a verbatim port of Galaxy's tests.
 - Alternative source kept documented, not built: offline dump from a `GALAXY_ROOT` registry (prototype script in research). usegalaxy.org (799 types) ⊂ `dev` sample conf (808).
 
-## Phase B — #210 asks 1+2 (`issue_210_test_kind_checks`, parent A)
+## Phase B — #210 asks 1+2 (`issue_210_test_kind_checks`, parent A) — built
 
-- Red tests first from the issue's repro cases.
-- Extractors keep input `format[]`/`collection_type` and output `outputSource` as new optional fields (vscode builds these types itself on schema 1.9.0).
-- `checkTestsAgainstWorkflow(testsDoc, workflow, options?)`: optional `isSubTypeOfAny`-style predicate + resolved output collection-type map. `schema` can't depend on `connection-validation`; the CLI wires both, resolving outputs via `buildWorkflowGraph`/`StepOutputTypeMap` (not the report, which collapses unknown → null).
-- Checks: `class: Collection` vs `data` input and vice versa; input `collection_type` via `canMatch` (`sample_sheet:paired` → `list:paired` passes); `filetype` outside declared `format` (skip no-filetype/sniffed inputs); output dataset-form vs collection and `collection_type` mismatch (skip unknown/any); `class: Collection` output without `element_tests` (planemo fails "No path specified").
-- Optional `severity` on `TestFormatDiagnostic` (default error; `valid` from errors only). Warnings: `filetype` vs `format` (Galaxy doesn't enforce at invocation, may convert), test-input map-over.
-- CLI: `validate-tests --workflow` gains the tool-resolution flags of `validate --connections` (`--cache-dir`, offline default kept).
+As shipped (`1cb4b41a`; [verification](../../../branches/active/issue_210_test_kind_checks/verification.md)):
+- Extractors keep input `format[]` / `collection_type` (optional fields; vscode builds these types itself). `WorkflowOutput.collectionType` (null = dataset, absent = unknown) filled by the CLI via new `resolveWorkflowOutputCollectionTypes` (`WorkflowGraph.outputMap`; unknown/"any" omitted).
+- `checkTestsAgainstWorkflow(doc, shape, { datatypes?: DatatypesMapperModel })`; `schema` now depends on `workflow-graph`.
+- Errors: `class: File` on a collection input; input `collection_type` not accepted (`CollectionTypeDescription.accepts`); output dataset form vs collection (collection form = `class: Collection` or `element_tests`/`elements`, as planemo); output `collection_type` ≠ resolved (exact, as Galaxy's runner).
+- Warnings (new optional `severity`; reports gain `warnings`): `filetype` ∉ `format` (`producesAcceptableDatatype` over the snapshot; skips `auto`, verbatim formats); map-over — deeper collection, or `class: Collection` on a data input (Galaxy's own tests do this).
+- Output shape checks skipped for a test whose job collections differ from declared inputs (map-over, `sample_sheet` into `list`, non-`list` into untyped collection).
+- CLI: `--cache-dir` read-only (never fetch); shared loader for validate-tests / -tree.
+- Dropped from the first sketch: `class: Collection` output without `element_tests` lint (schema/planemo concern, not cross-check).
+- Planemo caveat: planemo ignores dataset `ftype` and top-level `collection_type`; Galaxy's runner is the reference.
 
 ## Phase C — output `ftype` (deferred)
 
@@ -36,11 +39,21 @@ Galaxy's server accepts implicit conversion; editor/mapper ignore converters. Cl
 
 Galaxy client adopts `@galaxy-tool-util/workflow-graph` re-exports (separate Galaxy branch via `GX_IMPLEMENTATION_HANDOFF.md`). Foundry #731 rewording after a release.
 
+## Follow-ups found during Phase B
+
+- Connection validation skips `pick_value` repeat inputs (`style_cond|type_cond|pick_from_N|value`): 15/17 egapx outputs stay unresolved even with all tools cached.
+- Per-test output resolution seeded with the job's input collection types (`validateConnectionGraph` seed) instead of skipping divergent tests.
+- Report unresolved/skipped outputs in the JSON report.
+- Galaxy: `CollectionAttributes.collection_type` in the Tests schema vs verifier reading `attributes.type`.
+
 ## Unresolved questions
 
 - "main" = usegalaxy.org? (assumed) or Galaxy `dev` sample conf dump?
-- Subpath of `workflow-graph` ok, or want new `@galaxy-tool-util/datatypes` pkg (needs npm trusted-publish setup)?
-- Add `severity` to diagnostics, or keep all errors?
-- `filetype` ∉ `format` with no converter: warning or error?
-- Phase C worth doing given planemo ignores `ftype`?
+- Subpath of `workflow-graph` ok, or new `@galaxy-tool-util/datatypes` pkg (npm trusted-publish setup)?
+- Reused `DatatypesCombinedMap` → `DatatypesMapperModel` as the shared abstraction (no source interface). Enough? Hand off Galaxy client adoption (Phase E) now?
+- `severity` + warnings for `filetype` ∉ `format` and map-over: ok?
+- `workflow_output_collection_type` an error though planemo ignores it?
+- Split ask 3 (output `ftype`) into own issue? PR opener is "Toward", not "Fix".
+- `--cache-dir` read-only ok, or fetch like `validate`?
+- Post Galaxy class-collision issue draft? File `pick_value` gap as a gtu issue?
 - Snapshot refresh: manual `make sync-datatypes`, or scheduled CI PR?
