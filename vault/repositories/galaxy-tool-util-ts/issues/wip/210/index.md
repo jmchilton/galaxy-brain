@@ -3,6 +3,10 @@
 Issue: https://github.com/jmchilton/galaxy-tool-util-ts/issues/210
 Downstream: [galaxyproject/foundry#731](https://github.com/galaxyproject/foundry/issues/731)
 
+[Plan](plan.md) · [Galaxy datatype research](research_galaxy_datatypes.md) · [TS consumer research](research_ts_consumers.md)
+
+Branches (stacked): [`issue_210_datatypes_snapshot`](../../../branches/active/issue_210_datatypes_snapshot/index.md) (Phase A) → [`issue_210_test_kind_checks`](../../../branches/active/issue_210_test_kind_checks/index.md) (Phase B, asks 1+2; [verification](../../../branches/active/issue_210_test_kind_checks/verification.md)). Ask 3 (output `ftype`) deferred.
+
 ## Triage (2026-10-27)
 
 - Claimed by workflow_libs workhorse; base `origin/main` `a0476900`.
