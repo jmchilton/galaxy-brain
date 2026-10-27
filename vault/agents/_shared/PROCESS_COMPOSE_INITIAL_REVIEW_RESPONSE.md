@@ -4,10 +4,14 @@ The core findings in `REVIEW_DIRECTORY/verified_review.md` have already been ver
 
 Compose `REVIEW_DIRECTORY/initial_review_response.md`, the working document John edits into the posted response. Leave out any extra agent attribution markers in the response not called out in `initial_review_agents.md`.
 
-If `REVIEW_DIRECTORY/review_<n>_branch_details.md` exists (highest n), its branch `pr_<PR_NUMBER>_review_<n>` is already pushed. Fill the Review Verification Branch Details block with that file's contents, linking the branch name and each commit SHA on the remote it was pushed to. On each finding the branch fixes, add a link to its commit after the suggested fix. Extend findings with these links; don't rewrite them.
+If `REVIEW_DIRECTORY/review_<n>_branch_details.md` exists (highest n), its branch `pr_<PR_NUMBER>_review_<n>` is already pushed. Fill the Review Verification Branch Details block with that file's contents, linking the branch name and each commit SHA on the remote it was pushed to. On each finding the branch fixes, add a link to its commit after the suggested fix. Put that link in its own `Fixed on the review branch in [`<sha>`](<link>).` paragraph after the finding's fix `<details>` block and before its agent details, never inside a `<details>` block — move any commit mention the verified finding has inside one out. Extend findings with these links; don't rewrite them.
 
 ```
 (space for John's free style comments - just keep empty)
+
+## Human Review
+
+(PUBLISHING_AGENT: replace with the contents of REVIEW_DIRECTORY/human_review.md; drop this section if that file is missing.)
 
 REVIEW_AGENT_DETAILS
 

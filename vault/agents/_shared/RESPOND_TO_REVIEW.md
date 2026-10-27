@@ -12,4 +12,4 @@ If some nits or requests only make sense in dev/main - please scope the follow u
 
 Give John a plan for responding to the points - including if inline comments are present. Be sure to add `***Posted by model X at effort E on jmchilton's behalf***` on suggested responses.
 
-After committing changes to the branch, take a `revision` snapshot per [`PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md`](PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).
+After committing changes to the branch, take a `revision` snapshot per [`PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md`](PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md), then add a `kind: human` task to your agent dir's `TASKS.md` ([`TASK_LIST_YAML_FORMAT.md`](TASK_LIST_YAML_FORMAT.md)) asking John to review the changes in the differential review, with the PR as `link` and the branch as `record`.
