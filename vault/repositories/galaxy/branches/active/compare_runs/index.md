@@ -9,7 +9,11 @@ upstream_base_branch: dev
 
 ## Status
 
-Implementation in progress (overnight run started 2026-10-27).
+Implemented (plan + Phase 5 polish) at `125ae963eb0`; hardening ×3 in progress — see [design questions](design_questions.md) and [initial debrief](initial_implementation_debrief.md).
+
+No PR.
+
+No CI yet.
 
 ## Decisions
 

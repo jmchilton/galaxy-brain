@@ -1,5 +1,13 @@
 # Design questions for John
 
+## Where things stand (06:40)
+
+- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs` at `125ae963eb0`, 79 commits, ~11k lines incl. generated schema. See [initial_implementation_debrief.md](initial_implementation_debrief.md).
+- Now: history cleanup (fold fixups, baselines first; tree unchanged; backup at `jmchilton/compare_runs_pre_harden`). Then hardening ×3.
+- Most important questions: 1 (mode 3 row unit), 10 (`inaccessible` cells), 14 (entry points), 19 (output links never highlighted), and how to split ~11k lines into PRs (scope evaluation will lay out options).
+
+## Questions
+
 Running list, added to throughout the overnight run. Each is "chose X, confirm?".
 
 1. **Mode 3 row unit** — chose one row per Job, or per ImplicitCollectionJobs when mapped over (not per ToolRequest). Brain research: since PR 21842 every UI submission gets an indexed `tool_request_id`; only legacy `/api/tools` and workflow jobs lack one. Job/ICJ still covers workflow jobs uniformly. Confirm?
