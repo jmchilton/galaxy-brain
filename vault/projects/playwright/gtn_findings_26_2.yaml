@@ -984,3 +984,9 @@
   target: main
   summary: 'Says TMT16 is "in preparation"; the tools-galaxyp MaxQuant wrapper (master) offers TMTpro 16plex and 18plex. Also "Includion" typo.'
   fix: 'List TMTpro 16 and 18 plex alongside iTRAQ 4/8, TMT 2-11 and iodoTMT6plex; drop the "in preparation" sentence.'
+
+- label: metaproteomics-functional-title
+  faqs: [topics/proteomics/tutorials/metaproteomics/faqs/functional_analysis_tools.md]
+  target: main
+  summary: 'Title is copied from the single-cell dimension_reduction FAQ ("Why do we do dimension reduction and then clustering?…"); the body is about functional-analysis tools. The "EggNOG Mapper" link goes to a PLOS ONE paper comparing tools, not EggNOG Mapper.'
+  fix: 'Title: "Which tools can be used for functional analysis of metaproteomics data?"; link EggNOG Mapper''s Galaxy tool or paper, keep the PLOS link on "functional outputs".'
