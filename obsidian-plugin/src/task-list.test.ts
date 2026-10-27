@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parse, stringify } from "yaml";
-import { byPriority, parseTasks, removeTask, replaceBlockBody, type Task, taskBlocks } from "./task-list";
+import { byPriority, parseTasks, recordIndexPath, refinementPrompt, removeTask, replaceBlockBody, type Task, taskBlocks } from "./task-list";
 
 const known = { profiles: ["Opus (high)", "Sonnet (medium)"], agentDirs: ["planemo", "wf_foundry"] };
 
@@ -37,6 +37,17 @@ describe("parseTasks", () => {
 		expect(parseTasks([{ prompt: "x", agent_dir: "planemo", link }], known)).toEqual([{ prompt: "x", agentDir: "planemo", link }]);
 	});
 
+	it("reads a record reference", () => {
+		expect(parseTasks([{ prompt: "x", agent_dir: "planemo", record: "galaxy/reviews/24396" }], known)).toEqual([
+			{ prompt: "x", agentDir: "planemo", record: { repo: "galaxy", kind: "reviews", name: "24396" } },
+		]);
+	});
+
+	it("reads suggested_by", () => {
+		const suggestedBy = "gx_reviews/SUGGESTED_TASKS.md#Review New PRs";
+		expect(parseTasks([{ prompt: "x", agent_dir: "planemo", suggested_by: suggestedBy }], known)).toEqual([{ prompt: "x", agentDir: "planemo", suggestedBy }]);
+	});
+
 	it("treats an empty block as no tasks", () => {
 		expect(parseTasks(null, known)).toEqual([]);
 	});
@@ -54,6 +65,9 @@ describe("parseTasks", () => {
 		[[{ prompt: "x", agent_dir: "planemo", kind: "robot" }], /task 1: unknown kind robot/],
 		[[{ prompt: "x", agent_dir: "planemo", kind: "human", profile: "Opus (high)" }], /task 1: human task with a profile/],
 		[[{ prompt: "x", agent_dir: "planemo", link: "galaxy#24396" }], /task 1: link must be an http\(s\) URL/],
+		[[{ prompt: "x", agent_dir: "planemo", record: "galaxy/pulls/24396" }], /task 1: record must be <repo>\/<branches\|issues\|reviews>\/<name>/],
+		[[{ prompt: "x", agent_dir: "planemo", record: "repositories/galaxy/reviews/active/24396" }], /task 1: record must be/],
+		[[{ prompt: "x", agent_dir: "planemo", suggested_by: "gx_reviews/SUGGESTED_TASKS" }], /task 1: suggested_by must be/],
 	])("rejects %j", (data, error) => {
 		expect(() => parseTasks(data, known)).toThrow(error);
 	});
@@ -118,5 +132,24 @@ describe("byPriority", () => {
 			{ prompt: "4", agentDir: "a", status: "recommended" },
 		];
 		expect(byPriority(tasks).map((task) => task.prompt)).toEqual(["3", "4", "2", "1"]);
+	});
+});
+
+describe("recordIndexPath", () => {
+	const paths = ["repositories/galaxy/reviews/archived/24396/index.md", "repositories/galaxy/reviews/active/243/index.md", "repositories/galaxy/issues/active/24396/index.md"];
+	it("finds the record's index.md in whichever status it's in", () => {
+		expect(recordIndexPath({ repo: "galaxy", kind: "reviews", name: "24396" }, paths)).toBe("repositories/galaxy/reviews/archived/24396/index.md");
+		expect(recordIndexPath({ repo: "galaxy", kind: "branches", name: "24396" }, paths)).toBeUndefined();
+	});
+});
+
+describe("refinementPrompt", () => {
+	it("names the agent, suggesting section, description and prompt", () => {
+		const prompt = refinementPrompt({ prompt: "Run it\n", agentDir: "planemo", description: "Why\n", suggestedBy: "_shared/PROJECT_SUGGESTED_TASKS.md#Review New PRs" });
+		expect(prompt).toContain("Agent: planemo\nSuggested by: vault/agents/_shared/PROJECT_SUGGESTED_TASKS.md#Review New PRs\n\nDescription:\nWhy\n\nPrompt:\nRun it");
+	});
+
+	it("flags a task with no suggested_by", () => {
+		expect(refinementPrompt({ prompt: "x", agentDir: "planemo" })).toContain("Suggested by: unknown");
 	});
 });

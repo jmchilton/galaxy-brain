@@ -1,5 +1,7 @@
 // ```gb-tasks blocks of agent tasks; format in vault/agents/_shared/TASK_LIST_YAML_FORMAT.md.
 
+import { RECORD_KINDS, type RecordKind } from "../../site/src/lib/records";
+
 export interface Task {
 	prompt: string;
 	agentDir: string;
@@ -12,13 +14,25 @@ export interface Task {
 	kind?: TaskKind;
 	/** URL shown on the card, e.g. the PR. */
 	link?: string;
+	/** Repository record the task is about, opened in Obsidian from the card. */
+	record?: TaskRecord;
+	/** SUGGESTED_TASKS.md section that produced the task, as `<path under vault/agents>#<heading>`. */
+	suggestedBy?: string;
 }
+
+export interface TaskRecord {
+	repo: string;
+	kind: RecordKind;
+	name: string;
+}
+
+const RECORD_REF = new RegExp(`^([^/\\s]+)/(${RECORD_KINDS.join("|")})/([^/\\s]+)$`);
 
 export type TaskStatus = "recommended" | "idea";
 export type TaskPriority = "high" | "low";
 export type TaskKind = "human";
 
-const FIELDS = ["prompt", "agent_dir", "profile", "description", "status", "priority", "kind", "link"];
+const FIELDS = ["prompt", "agent_dir", "profile", "description", "status", "priority", "kind", "link", "record", "suggested_by"];
 const STATUSES: unknown[] = ["recommended", "idea"] satisfies TaskStatus[];
 const PRIORITIES: unknown[] = ["high", "low"] satisfies TaskPriority[];
 const KINDS: unknown[] = ["human"] satisfies TaskKind[];
@@ -32,7 +46,7 @@ export function parseTasks(data: unknown, known: { profiles: string[]; agentDirs
 		if (!entry || typeof entry !== "object") throw fail("not a mapping");
 		const extra = Object.keys(entry).find((key) => !FIELDS.includes(key));
 		if (extra) throw fail(`unknown field ${extra}`);
-		const { prompt, agent_dir: agentDir, profile, description, status, priority, kind, link } = entry;
+		const { prompt, agent_dir: agentDir, profile, description, status, priority, kind, link, record, suggested_by: suggestedBy } = entry;
 		if (typeof prompt !== "string" || !prompt.trim()) throw fail("missing prompt");
 		if (typeof agentDir !== "string" || !agentDir) throw fail("missing agent_dir");
 		if (!known.agentDirs.includes(agentDir)) throw fail(`unknown agent_dir ${agentDir}`);
@@ -43,6 +57,9 @@ export function parseTasks(data: unknown, known: { profiles: string[]; agentDirs
 		if (kind !== undefined && !KINDS.includes(kind)) throw fail(`unknown kind ${kind}`);
 		if (kind === "human" && profile !== undefined) throw fail("human task with a profile");
 		if (link !== undefined && (typeof link !== "string" || !/^https?:\/\/\S+$/.test(link))) throw fail("link must be an http(s) URL");
+		const recordMatch = record === undefined ? undefined : typeof record === "string" ? RECORD_REF.exec(record) : null;
+		if (recordMatch === null) throw fail(`record must be <repo>/<${RECORD_KINDS.join("|")}>/<name>`);
+		if (suggestedBy !== undefined && (typeof suggestedBy !== "string" || !/^[^\s#]+\.md(#.+)?$/.test(suggestedBy))) throw fail("suggested_by must be <path>.md#<heading>");
 		return {
 			prompt,
 			agentDir,
@@ -52,6 +69,8 @@ export function parseTasks(data: unknown, known: { profiles: string[]; agentDirs
 			...(priority ? { priority: priority as TaskPriority } : {}),
 			...(kind ? { kind: kind as TaskKind } : {}),
 			...(link ? { link } : {}),
+			...(recordMatch ? { record: { repo: recordMatch[1]!, kind: recordMatch[2] as RecordKind, name: recordMatch[3]! } } : {}),
+			...(suggestedBy ? { suggestedBy } : {}),
 		};
 	});
 }
@@ -105,5 +124,25 @@ export function replaceBlockBody(note: string, fenceStart: number, fenceEnd: num
 	const lines = note.split("\n");
 	const bodyLines = body ? body.replace(/\n$/, "").split("\n") : [];
 	lines.splice(fenceStart + 1, fenceEnd - fenceStart - 1, ...bodyLines);
+	return lines.join("\n");
+}
+
+/** The record's `index.md` among vault paths, in whichever status directory it is. */
+export function recordIndexPath(record: TaskRecord, paths: string[]): string | undefined {
+	const prefix = `repositories/${record.repo}/${record.kind}/`;
+	const suffix = `/${record.name}/index.md`;
+	return paths.find((path) => path.startsWith(prefix) && path.endsWith(suffix) && !path.slice(prefix.length, -suffix.length).includes("/"));
+}
+
+/** Prompt asking the factory agent to discuss refining a task and the SUGGESTED_TASKS.md section behind it. */
+export function refinementPrompt(task: Task): string {
+	const lines = [
+		"Let's discuss refining this task and, where it came from a SUGGESTED_TASKS.md section, that section. Don't edit anything until we agree.",
+		"",
+		`Agent: ${task.agentDir}`,
+		`Suggested by: ${task.suggestedBy ? `vault/agents/${task.suggestedBy}` : "unknown (hand-written?)"}`,
+	];
+	if (task.description) lines.push("", "Description:", task.description.trim());
+	lines.push("", "Prompt:", task.prompt.trim());
 	return lines.join("\n");
 }
