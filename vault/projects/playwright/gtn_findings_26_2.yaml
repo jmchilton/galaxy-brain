@@ -1014,3 +1014,21 @@
   target: main
   summary: 'Two FAQs on the same tutorial FAQ page ask the same question and have word-for-word identical bodies.'
   fix: 'Delete one (keep transcript.md, which has the redirect_from) and redirect the other.'
+
+- label: tb-keyerror-obsolete
+  faqs: [topics/variant-analysis/tutorials/tb-variant-analysis/faqs/key-error.md]
+  target: main
+  summary: 'Describes a KeyError bug in TB Variant Report 0.1.8 and earlier; the tutorial now pins tbvcfreport `1.0.1+galaxy0`, so learners following it will not hit this.'
+  fix: 'Remove the FAQ, or note it only applies to tbvcfreport <= 0.1.8.'
+
+- label: contributors-workflow-testing-archived
+  faqs: [faqs/gtn/contributors_getting_started.md]
+  target: main
+  summary: '"Enable workflow testing" links github.com/usegalaxy-eu/workflow-testing, archived since 2021; GTN workflows are now tested in-repo (planemo tests next to the .ga files).'
+  fix: 'Link the GTN workflow-testing FAQ/tutorial section instead.'
+
+- label: contributors-git-advanced-stale
+  faqs: [faqs/gtn/contributors_git_advanced.md]
+  target: main
+  summary: 'Tells contributors to run `git submodule init`/`update` (repo has no .gitmodules), says CI runs on Travis CI (no .travis.yml; GitHub Actions), skips step 17 in the numbered list, and the Carpentries "lesson writing" link (instructor-training/15-lesson-study/) returns 404.'
+  fix: 'Drop the submodule step, say GitHub Actions, renumber, and point the lesson-writing link at the current Carpentries instructor-training page.'
