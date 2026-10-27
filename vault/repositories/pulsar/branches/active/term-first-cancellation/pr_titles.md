@@ -1,0 +1,4 @@
+- Allow EXIT cleanup before forcibly cancelling local jobs
+- Send TERM before KILL when cancelling job process trees
+- Give cancelled jobs a grace period for cleanup
+- Preserve shell cleanup during process-tree cancellation

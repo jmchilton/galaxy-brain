@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agent notes; earlier tracking lived in `agents/pulsar/PULL_REQUESTS.md`).
+Snapshot: 2026-10-27 (#541 branch and fork CI refreshed; other entries retain their prior snapshots).
 
 ## Open Pulsar PRs — ready from our side (`ready`)
 
@@ -40,7 +40,7 @@ None yet.
 
 ## Pulsar branches — ready for final review (`branches_ready_for_final_review`)
 
-None yet.
+- [`term-first-cancellation`](active/term-first-cancellation/index.md) — Allow job EXIT cleanup before forcibly killing cancelled process trees. [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:term-first-cancellation?expand=1)
 
 ## Pulsar branches — approved, opens when green (`branches_need_pr`)
 
