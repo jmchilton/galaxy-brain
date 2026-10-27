@@ -10,15 +10,20 @@ Runs workflow steps only when their optional inputs are present.
 
 ## Status
 
-Status: `branches_need_polish`; hardened (scope expanded per John 2026-10-27) at `b158809f396`, 4 commits on `dev` (`a9a68082414`); parent [dangling_when_lint](../../merged/dangling_when_lint/index.md) merged as #24107.
+Status: `branches_ready_for_final_review`; polished at `8b049f90c33`, 5 commits on `dev` (`a9a68082414`), awaiting John's read-through; parent [dangling_when_lint](../../merged/dangling_when_lint/index.md) merged as #24107.
 
 Not opened as a PR.
 
-Fork CI being checked on this head; local vitest (1151), vue-tsc, framework-workflow and gating Playwright tests pass.
+Fork CI not yet checked on this head; local vitest (1153), vue-tsc, framework-workflow (6) and gating Playwright tests pass.
+
+## Review
+
+[PR description](pr_description.md) · [Title options](pr_titles.md) · [Labels](pr_tags.md) · [Polish debrief](polish_debrief.md) · [Checklist reviews](subagents/checklist_review_2.md)
 
 ## Open decisions
 
 - `expressionGuardsInputPresence`: keep accepting `unknown` or accept only `false-when-null` ([Codex review](codex_review.md)).
+- Commit 1 (pick-value test helper cleanup): keep, split out or drop.
 
 ## Notes
 

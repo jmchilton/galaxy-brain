@@ -95,12 +95,13 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`optional_input_gating`](active/optional_input_gating/index.md) — Runs workflow steps only when their optional inputs are present. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:optional_input_gating?expand=1).
+None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`issue_23891_output_reference_resolver`](active/issue_23891_output_reference_resolver/index.md) — Resolves format_source/metadata_source against declared inputs at tool load; lints both; errors gated at profile 27.0 (#23891). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23891_output_reference_resolver?expand=1).
 - [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
+- [`optional_input_gating`](active/optional_input_gating/index.md) — Lets editor authors gate a step on an optional input: condition modes, drop-to-gate, validity for gated links. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:optional_input_gating?expand=1).
 - [`licenses`](active/licenses/index.md) — Requires the runner's affirmation of declared tool terms for tool and workflow submissions (#23261). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
 - [`issue_24441_tool_shed_upload_dry_run`](active/issue_24441_tool_shed_upload_dry_run/index.md) — Tool Shed upload API `?dry_run=true` predicting the resulting revision without persisting; fixes `reset_metadata` sample handling (#24441). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1).
 - [`issue_24273_dataset_edit_alert_26.0`](active/issue_24273_dataset_edit_alert_26.0/index.md) — Dataset view tabs (Edit, Preview, Details) stay mounted and refresh in place through background dataset refetches, so the attribute-save alert survives (#24273). Base `release_26.0`, head `c6795829fb1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1).

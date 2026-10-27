@@ -102,7 +102,7 @@ Building a gate expression had been written three times; it is now one helper. D
 
 ### ✅ [John's Galaxy Test Challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md)
 
-<details><summary>11 unit tests that passed on <code>dev</code> were dropped or merged; the rest fail without the change.</summary>
+<details><summary>11 unit tests that passed on <code>dev</code> were dropped or merged, so the new tests exercise the change.</summary>
 
 Negative checks were folded into tests that first prove the positive case, so a rejection can't pass vacuously. A new E2E test covers drag → confirm → valid connection → saved `when`. The E2E tests were then moved onto the shared `select_set_value` helper and waits, with screenshots, and pass on Playwright.
 
@@ -128,9 +128,9 @@ Shared step-output helpers are extracted from existing editor code with no behav
 
 <details><summary>Checklist Details</summary>
 
-- [x] What does the user see when it fails? Drop targets turn green or red with a tooltip giving the specific reason (e.g. "This step already has a condition."), gating asks for confirmation first, and hand-written conditions are read-only and need a confirm to replace. An undecidable condition that still runs without its input fails at runtime, as on `dev`.
-- [x] Is the diff free of unrelated or stale generated changes? Yes! The pick-value test helper cleanup is isolated as commit 1.
-- [x] Are unit tests not just testing the literal implementation? Yes. Generated expressions round-trip through the evaluator via a YAML spec, and undo/redo is compared against whole-workflow snapshots. New client tests fail on `dev` or on the pre-fix code; the framework tests pass on `dev` by design.
+- [x] What does the user see when it fails? Drop targets turn green or red; a refused optional drop keeps `dev`'s "Cannot connect an optional output…" reason and adds why no condition can be offered (e.g. "This step already has a condition."), gating asks for confirmation first, and hand-written conditions are read-only and need a confirm to replace. An undecidable condition that still runs without its input fails at runtime, as on `dev`.
+- [x] Is the diff free of unrelated or stale generated changes? No generated changes. Commit 1 is a small unrelated test cleanup (pick-value tests use the shared `select_set_value`), kept separate.
+- [x] Are unit tests not just testing the literal implementation? Yes. Generated expressions round-trip through the evaluator via a YAML spec, and undo/redo is compared against whole-workflow snapshots. New client tests fail on `dev` or on the pre-fix code, except one regression guard for genuine type mismatches; the framework tests pass on `dev` by design.
 - [x] Are baseline tests in their own leading commits (if applicable)? Yes. The framework workflow tests come before the feature, and the fix commit carries its own red-to-green tests.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
