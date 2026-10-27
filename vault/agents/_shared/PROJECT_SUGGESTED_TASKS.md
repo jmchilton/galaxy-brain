@@ -12,6 +12,7 @@ Suggest:
 ```
 prompt: Run ./REVIEW.md on {repo}#{n}
 agent_dir: {agent_dir}
+link: https://github.com/{repo}/pull/{n}
 description: 🔎 {description}
 status: {status}
 ```
@@ -28,6 +29,7 @@ Suggest:
 ```
 prompt: Run ./WORK_HORSE.md on {repo}#{n}
 agent_dir: {agent_dir}
+link: https://github.com/{repo}/issues/{n}
 description: 🐴 {description}
 status: {status}
 ```
@@ -44,6 +46,7 @@ Suggest:
 ```
 prompt: Fix CI on branch {name}. BRANCH_DIRECTORY is vault/repositories/{project}/branches/active/{name}/. Diagnose each red check; fix the ones the branch caused, rerun the unrelated ones, and record the diagnosis in the branch notes.
 agent_dir: {agent_dir}
+record: {project}/branches/{name}
 profile: Sonnet (high)
 description: 🔧 {description}
 status: recommended
@@ -61,6 +64,8 @@ Suggest:
 ```
 prompt: De-conflict branch {name}. BRANCH_DIRECTORY is vault/repositories/{project}/branches/active/{name}/. Rebase it onto its actual base branch, resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease`, update the SHA in the branch record, and note the rebase in the branch notes.
 agent_dir: {agent_dir}
+link: https://github.com/{repo}/pull/{n}
+record: {project}/branches/{name}
 profile: Sonnet (high)
 description: 🔀 {description}
 status: recommended
@@ -78,6 +83,8 @@ Suggest:
 ```
 prompt: Respond to {reviewer}'s review of {repo}#{n} (branch {name}) per ../_shared/RESPOND_TO_REVIEW.md. BRANCH_DIRECTORY is vault/repositories/{project}/branches/active/{name}/.
 agent_dir: {agent_dir}
+link: https://github.com/{repo}/pull/{n}
+record: {project}/branches/{name}
 profile: Opus (low)
 description: 🙇 {description}
 status: recommended
@@ -93,6 +100,8 @@ Suggest:
 ```
 prompt: Respond to {reviewer}'s review of {repo}#{n} (branch {name}) per ../_shared/RESPOND_TO_REVIEW.md. BRANCH_DIRECTORY is vault/repositories/{project}/branches/active/{name}/. Confirm your plan with me before changing the branch.
 agent_dir: {agent_dir}
+link: https://github.com/{repo}/pull/{n}
+record: {project}/branches/{name}
 profile: Opus (low)
 description: 💬 {description}
 status: recommended
@@ -110,6 +119,7 @@ Suggest:
 ```
 prompt: Run ./WORK_HORSE.md on {repo}#{n}
 agent_dir: {agent_dir}
+link: https://github.com/{repo}/issues/{n}
 description: 🌱 {description}
 status: idea
 ```

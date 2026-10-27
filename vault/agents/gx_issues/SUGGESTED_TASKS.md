@@ -44,6 +44,7 @@ Suggest:
 ```
 prompt: Run ./ROOT_CAUSE.md on galaxyproject/galaxy#{n}.
 agent_dir: gx_workhorse
+link: https://github.com/galaxyproject/galaxy/issues/{n}
 profile: Opus (low)
 description: 🐴 {description}
 status: {status}

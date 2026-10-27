@@ -10,6 +10,7 @@ Suggest:
 ```
 prompt: Run ./POLISH_BRANCH.md {name}
 agent_dir: gx_branches
+record: galaxy/branches/{name}
 description: ✨ {description}
 status: recommended
 ```
@@ -26,6 +27,7 @@ Suggest:
 ```
 prompt: Add galaxyproject/galaxy#{n} to vault/repositories/galaxy/branches/MY_BRANCHES.md per ../_shared/MY_BRANCHES_INDEX.md, creating its branch record.
 agent_dir: gx_branches
+link: https://github.com/galaxyproject/galaxy/pull/{n}
 profile: Sonnet (medium)
 description: 📥 {description}
 status: recommended
@@ -43,6 +45,8 @@ Suggest:
 ```
 prompt: Respond to {reviewer}'s review of galaxyproject/galaxy#{n} (branch {name}) per ../_shared/RESPOND_TO_REVIEW.md. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/{name}/.
 agent_dir: gx_branches
+link: https://github.com/galaxyproject/galaxy/pull/{n}
+record: galaxy/branches/{name}
 profile: Opus (low)
 description: 🙇 {description}
 status: recommended
@@ -58,6 +62,8 @@ Suggest:
 ```
 prompt: Respond to {reviewer}'s review of galaxyproject/galaxy#{n} (branch {name}) per ../_shared/RESPOND_TO_REVIEW.md. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/{name}/. Confirm your plan with me before changing the branch.
 agent_dir: gx_branches
+link: https://github.com/galaxyproject/galaxy/pull/{n}
+record: galaxy/branches/{name}
 profile: Opus (low)
 description: 💬 {description}
 status: recommended
@@ -75,6 +81,7 @@ Suggest:
 ```
 prompt: Let's talk about branch {name}. The branch record is vault/repositories/galaxy/branches/active/{name}/.
 agent_dir: gx_branches
+record: galaxy/branches/{name}
 description: 🤔 {description}
 status: idea
 ```
