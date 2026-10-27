@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # Invocation selection URLs — issue #24173
 
 - [PR #24307](https://github.com/galaxyproject/galaxy/pull/24307)
@@ -5,11 +8,11 @@
 
 ## Status
 
-Branch is polished at `d0b76746d47` (rebased onto `dev` `f1772b6775d` on 2026-10-23); John's final read-through (including the human-read checklist item) is still pending.
+Review fixes are pushed at `0e46a8984b4`; John's final read-through (including the human-read checklist item) is still pending.
 
-[#24307](https://github.com/galaxyproject/galaxy/pull/24307) against `dev` was opened by accident on 2026-10-20; prep's four commits appear in its diff until prep merges.
+[#24307](https://github.com/galaxyproject/galaxy/pull/24307) is open and non-draft against `dev`; proposed replies to mvdbeek await John's review.
 
-PR is mergeable after the force-push; CI on `d0b76746d47` not yet checked.
+CI on `0e46a8984b4` is queued/running as of 2026-10-27; 148 local client tests and both targeted Playwright tests pass.
 
 ## Branch
 
@@ -25,6 +28,10 @@ PR is mergeable after the force-push; CI on `d0b76746d47` not yet checked.
 - Polish (2026-10-20): delete baseline-only `Analysis.test.ts`; strip unresolvable `job`/`output`/`step_tab` once the step or invocation is terminal; add a browser test for `output=` links.
 
 - Rebase (2026-10-23): `1dd5eb07d8e` → `d0b76746d47` on `dev` `f1772b6775d`. Dev's `956c561c8a2` replaced `WorkflowInvocationSteps.test.ts` mocking (`useInvocationGraph` → `workflowStore.getFullWorkflowCached`), so the grouped-input selection test was ported onto dev's mocks (hoisted `steps`/`selection`), with `order_index: 0` added to dev's invocation fixture since step lookup is by order index. Selenium file: kept both new tests. Later polish edits to that test replayed by hand. Component code merged cleanly; 27 vitest files (159 tests) in Invocation/, WorkflowInvocationState/, invocationSelection, GenericItem, entry/analysis pass; selenium not run.
+
+## Review response
+
+- [mvdbeek response plan and suggested replies](review_response_mvdbeek_1.md) · [Changes, validation and revision snapshot](review_response_mvdbeek_1_debrief.md)
 
 ## Polish
 
