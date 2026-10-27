@@ -46,6 +46,7 @@ None yet.
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
 - [`workflow_editor_connection_helpers`](active/workflow_editor_connection_helpers/index.md) — Missing editor E2E tests (refused connections, step removal, unlabelled same-tool steps) + shared connection helpers. Base `release_26.2`. [#24370](https://github.com/galaxyproject/galaxy/pull/24370).
+- [`selenium_resume_paused_purge_deleted`](active/selenium_resume_paused_purge_deleted/index.md) — Adds missing E2E tests for Resume Paused Jobs and Storage Dashboard cleanup (26.2). [#24520](https://github.com/galaxyproject/galaxy/pull/24520).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
@@ -101,7 +102,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`selenium_resume_paused_purge_deleted`](active/selenium_resume_paused_purge_deleted/index.md) — Adds missing E2E tests for Resume Paused Jobs and Storage Dashboard cleanup (26.2). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_resume_paused_purge_deleted?expand=1).
 - [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
 - [`licenses`](active/licenses/index.md) — Requires the runner's affirmation of declared tool terms for tool and workflow submissions (#23261). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1).
 - [`issue_24441_tool_shed_upload_dry_run`](active/issue_24441_tool_shed_upload_dry_run/index.md) — Tool Shed upload API `?dry_run=true` predicting the resulting revision without persisting; fixes `reset_metadata` sample handling (#24441). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1).
