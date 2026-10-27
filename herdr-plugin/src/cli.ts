@@ -1,4 +1,5 @@
-// galaxy-brain herdr plugin: `open` (actions) pops up the picker pane; `pick` (the pane) runs the fzf launch flow.
+// galaxy-brain herdr plugin: `open` (actions) pops up the picker pane; `pick` (the pane) runs the fzf launch flow;
+// `actions <agent_dir>` prints that dir's launchers as prompts (JSON) for the suggested-prompts Claude plugin.
 
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -8,6 +9,7 @@ import { isTerminalStatus } from "../../site/src/lib/records";
 import { fillTemplate, type Launcher, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import type { RecordSummary } from "../../obsidian-plugin/src/repository";
+import { agentActions } from "./agent-actions";
 import { fzfKey, fzfLine } from "./fzf-lines";
 import { parseGithubRef, recordsForRef } from "./github-ref";
 import { type OpenLinks, openLinks } from "./open-links";
@@ -152,7 +154,8 @@ function open() {
 const command = process.argv[2];
 if (command === "pick") pick();
 else if (command === "open") open();
+else if (command === "actions" && process.argv[3]) console.log(JSON.stringify(agentActions(loadLaunchers(vaultRoot), process.argv[3], vaultRoot)));
 else {
-	console.error("usage: galaxy-brain.cjs pick|open");
+	console.error("usage: galaxy-brain.cjs pick|open|actions <agent_dir>");
 	process.exit(2);
 }
