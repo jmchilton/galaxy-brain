@@ -1,0 +1,2 @@
+- P3 (default, generic_test_challenger): trim 3-line comment in `test_ensure_metadata_missing_field_is_warning` to one line — nit-picky comment adjustment.
+- P3 2 (generic_test_challenger): dedupe the repeated 7-item arg list in the two new tests — style nit, not actionable enough to post.
