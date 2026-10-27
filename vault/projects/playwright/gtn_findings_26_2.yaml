@@ -1008,3 +1008,9 @@
   target: main
   summary: 'Says avoid AnnData Import/Manipulate `0.7.4` and use `0.6.2`; the scrna-scanpy-pbmc3k tutorial now pins `0.10.9+galaxy0`, so the advice downgrades readers.'
   fix: 'Remove the FAQ, or update it to the tutorial''s version / Tutorial Mode.'
+
+- label: de-novo-duplicate-faqs
+  faqs: [topics/transcriptomics/tutorials/de-novo/faqs/different_results.md, topics/transcriptomics/tutorials/de-novo/faqs/transcript.md]
+  target: main
+  summary: 'Two FAQs on the same tutorial FAQ page ask the same question and have word-for-word identical bodies.'
+  fix: 'Delete one (keep transcript.md, which has the redirect_from) and redirect the other.'
