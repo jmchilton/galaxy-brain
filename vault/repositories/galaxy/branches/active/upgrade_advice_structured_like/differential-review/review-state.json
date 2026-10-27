@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-27T19:11:58.203Z",
+  "hunks": {
+    "h1:4763df99b914cbfc": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/abstract_tool.py",
+      "reviewedAt": "2026-10-27T19:11:49.901Z"
+    },
+    "h1:c2a19287fadceb07": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/abstract_tool.py",
+      "reviewedAt": "2026-10-27T19:11:49.901Z"
+    },
+    "h1:4edf1ed22d3a1eb4": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/_util.py",
+      "reviewedAt": "2026-10-27T19:11:50.373Z"
+    },
+    "h1:18b4bafc8ef84574": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/_util.py",
+      "reviewedAt": "2026-10-27T19:11:50.373Z"
+    },
+    "h1:bb337558c06124ec": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:aab1e3790588ada2": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:6e85801522e7946a": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:10d9cb99c872d2ae": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:9d07ba51975b3fb7": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:2d92fb4e156b3821": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:7ef361b8e6e8e34f": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:29d8c6838b411d1f": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:7e49145b78ca70ae": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:4736dd026fd31995": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:1bb21eee018f0bb9": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:11:50.775Z"
+    },
+    "h1:706eb95cba6dc732": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/parameters/case.py",
+      "reviewedAt": "2026-10-27T19:11:51.072Z"
+    },
+    "h1:4d296c8cc6b335fa": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/parser/output_objects.py",
+      "reviewedAt": "2026-10-27T19:11:51.319Z"
+    },
+    "h1:67f1d42f17072e6c": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/__init__.py",
+      "reviewedAt": "2026-10-27T19:11:51.765Z"
+    },
+    "h1:e9e9fc3154566e98": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/__init__.py",
+      "reviewedAt": "2026-10-27T19:11:51.765Z"
+    },
+    "h1:cc1c8799b3c7c3f0": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/__init__.py",
+      "reviewedAt": "2026-10-27T19:11:51.765Z"
+    },
+    "h1:ca73da7549ade403": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/__init__.py",
+      "reviewedAt": "2026-10-27T19:11:51.765Z"
+    },
+    "h1:13b0671cdb673c49": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/__init__.py",
+      "reviewedAt": "2026-10-27T19:11:51.765Z"
+    },
+    "h1:af08e866dfc6fd30": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/__init__.py",
+      "reviewedAt": "2026-10-27T19:11:51.765Z"
+    },
+    "h1:92d00115479e12cc": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/__init__.py",
+      "reviewedAt": "2026-10-27T19:11:51.765Z"
+    },
+    "h1:9d7a8434b384e34e": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/__init__.py",
+      "reviewedAt": "2026-10-27T19:11:51.765Z"
+    },
+    "h1:9e0d286004bbe131": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/upgrade_codes.json",
+      "reviewedAt": "2026-10-27T19:11:52.148Z"
+    },
+    "h1:cd1ebad506127224": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "lib/galaxy/tool_util/upgrade/upgrade_codes.json",
+      "reviewedAt": "2026-10-27T19:11:52.148Z"
+    },
+    "h1:fdcba3722370926d": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "test/unit/tool_util/upgrade/test_upgrade_advice.py",
+      "reviewedAt": "2026-10-27T19:11:52.623Z"
+    },
+    "h1:67a53312c333f2fb": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "test/unit/tool_util/upgrade/test_upgrade_advice.py",
+      "reviewedAt": "2026-10-27T19:11:52.623Z"
+    },
+    "h1:fd636072a36b1f13": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "test/unit/tool_util/upgrade/test_upgrade_advice.py",
+      "reviewedAt": "2026-10-27T19:11:52.623Z"
+    },
+    "h1:40c5dab9dde82a19": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "test/unit/tool_util/upgrade/test_upgrade_advice.py",
+      "reviewedAt": "2026-10-27T19:11:52.623Z"
+    },
+    "h1:4d10f03ce6da1eb7": {
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "path": "test/unit/tool_util/upgrade/test_upgrade_advice.py",
+      "reviewedAt": "2026-10-27T19:11:52.623Z"
+    }
+  },
+  "commits": {
+    "915bc36bb3cd55a3de46578fbfe689e00e136dcc": {
+      "sha": "252fdeb0715126129ba432720bd880fad4d432a1",
+      "subject": "Move linter input reference walker to linters/_util",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:54.603Z"
+    },
+    "1479bbdc808bbe438cf2e7104d65064a5f5e4411": {
+      "sha": "26f853ce2583a253a64003308b8af4486c82fefe",
+      "subject": "Share galaxy.json detection helper from linters/_util",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:56.112Z"
+    },
+    "1b4d65a226f20e90c3af3f8b86202d0c9d75a2cf": {
+      "sha": "6ac6e6c09b5b43cda7bffd86bc318d274fd2e0dc",
+      "subject": "Extract tool_requests_provided_metadata from AbstractTool",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:56.269Z"
+    },
+    "2296942cc1bea268ad042f680142cfb80fdb954b": {
+      "sha": "11cb9c9006d905d108d02ba9f10e5ff8dcbdfc64",
+      "subject": "Move structured_like upgrade advice to profile 26.0",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:56.453Z"
+    },
+    "c3411a3227e7f8302a8619ee6c17dd59badfa1a6": {
+      "sha": "5db3d07933eb930c6c6d580b14ddceeb619e8391",
+      "subject": "Flag partially qualified structured_like in 26.0 advice",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:56.628Z"
+    },
+    "1639d2bac14a50cf448634d7584de89ad015ce90": {
+      "sha": "791976ec91182c3965597a9902845e5d0eb5581a",
+      "subject": "Don't advise structured_like paths inside repeats",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:56.820Z"
+    },
+    "a3695a16306a1917910a24b25ddd7c9c347e476b": {
+      "sha": "b14d14b43744642d85b49b10d83add2609b7208f",
+      "subject": "Fix 21.09 from_work_dir whitespace upgrade advice code",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:56.995Z"
+    },
+    "04c12df8c5d85fccea811388e24b260ac258df0e": {
+      "sha": "1f48e32148f880f5d8ba0d42bfe0106b2c326992",
+      "subject": "Skip upgrade advice for profiles a tool already targets",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:57.186Z"
+    },
+    "5ed06af30df69a6db3d5c976590c24be3aca682b": {
+      "sha": "384878476cb6a14eae2329ffa4e7f79910be0f49",
+      "subject": "Make upgrade advisor _find_all honor its xpath",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:57.369Z"
+    },
+    "6e2450551dea7143d31a62d67882645cfcea81e8": {
+      "sha": "a1a39d5fb579e8aa1cff5e1b2ad63229d7368ebf",
+      "subject": "Add 26.1 and 26.2 tool profile upgrade advice",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:57.561Z"
+    },
+    "a2696abf97eabd89a8b946b86259097977858b84": {
+      "sha": "a8d39672578e6b3dbcbc83ff947ff96b2400e27f",
+      "subject": "Tighten upgrade advice tests",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:57.787Z"
+    },
+    "3e880999d9517e6d6db0266eb33dcb63141e6212": {
+      "sha": "98411aab20d32389c028e0fc40d8dc970ab0ccfa",
+      "subject": "Validate 24.2 upgrade test cases at profile 24.2",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:57.978Z"
+    },
+    "0f0f8caf52997db261aa0216ac0de1683c1c7e06": {
+      "sha": "a9580538c98e094fae3fec0dee2d171af017a587",
+      "subject": "Only advise structured_like names for dataset inputs",
+      "snapshotId": "20261027T183555Z-hardening-a9580538c98e",
+      "signedOffAt": "2026-10-27T19:11:58.203Z"
+    }
+  }
+}
