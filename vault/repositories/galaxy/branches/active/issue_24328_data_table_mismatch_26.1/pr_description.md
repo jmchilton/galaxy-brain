@@ -9,10 +9,10 @@ AssertionError: Merging tabular data tables with non matching columns is not all
 With this PR, the same state stops startup with:
 
 ```
-galaxy.exceptions.ConfigurationError: Data table 'indexed_maf_files' is already registered with columns {'name': 0, 'value': 1, 'dbkey': 2, 'species': 3}, refusing to register conflicting columns {'name': 0, 'value': 1, 'indexed_for': 2, 'exists_in_maf': 3, 'path': 4} from file '/srv/galaxy/var/shed_tool_data_table_conf.xml' (installed by repository iuc/data_manager_fetch_index_maf revision 3483c363dc6b from toolshed.g2.bx.psu.edu). To start Galaxy, remove this <table name="indexed_maf_files"> element from '/srv/galaxy/var/shed_tool_data_table_conf.xml' or remove the other definition of 'indexed_maf_files'; tools that rely on the removed definition will not work until the conflict is resolved.
+galaxy.exceptions.ConfigurationError: Data table 'indexed_maf_files' is already registered with columns {'name': 0, 'value': 1, 'dbkey': 2, 'species': 3}, refusing to register conflicting columns {'name': 0, 'value': 1, 'indexed_for': 2, 'exists_in_maf': 3, 'path': 4} from file '/srv/galaxy/var/shed_tool_data_table_conf.xml' (installed by repository iuc/data_manager_fetch_index_maf revision 3483c363dc6b from toolshed.g2.bx.psu.edu). To start Galaxy, remove the <table name="indexed_maf_files"> element from '/srv/galaxy/var/shed_tool_data_table_conf.xml' or remove the other definition of 'indexed_maf_files'; tools that rely on the removed definition will not work until the conflict is resolved.
 ```
 
-That's real output from `build_tool_data_tables` against those two `<table>` definitions (paths shortened). The fix it names is the workaround the reporter confirmed on the issue.
+That's real output from `_configure_tool_data_tables` against those two `<table>` definitions (paths shortened). The fix it names is the workaround the reporter confirmed on the issue.
 
 ***Healthy 26.1 servers already refuse this install, but a data manager install could switch that check off for the rest of the server's run. This PR stops that, so installs can't write the conflicting `<table>` any more.*** The install check (#22679) compares against the live registry, and `handle_missing_data_table_entry` emptied that registry after any data manager install whose tools reference a table not yet registered. Every later install in the same run skipped the check, which fits the reporter's batch of data manager installs through ephemeris. A new test installs a data manager, then a conflicting table: it's refused with this PR, and goes through on `release_26.1`.
 
@@ -27,10 +27,10 @@ That's real output from `build_tool_data_tables` against those two `<table>` def
 <details><summary>What each commit does</summary>
 
 1. **Declare `columns` on `ToolDataTable`** (refactor). Every concrete table sets it, so the `getattr(..., "columns", None)` fallback in `assert_data_table_consistency` and the `existing.columns is not None` guard in `install_tool_data_tables` were dead.
-2. **Extract `build_tool_data_tables(config, from_shed_config)`** from `MinimalGalaxyApplication._configure_tool_data_tables` (refactor). The body moves unchanged, so startup can be unit tested against a real `GalaxyAppConfiguration`.
-3. **Halt startup with an actionable error.** `load_from_config_file` checks each table's columns before merging it, and the `DataTableColumnMismatch` names the file and installing repository. `build_tool_data_tables` re-raises it as a `ConfigurationError` with the fix.
-4. **Don't wipe Galaxy's data tables in `handle_missing_data_table_entry`.** Drops the `reset_tool_data_tables()` call, the root cause. `reset_tool_data_tables` stays for its one Tool Shed caller (`lib/tool_shed/tools/tool_validator.py`), with a comment saying Galaxy must not call it. Tested by keeping core tables registered across the call, and by refusing a conflicting install after it.
-5. **`merge_tool_data_table` raises `DataTableColumnMismatch`** instead of a bare `assert`, so the check survives `python -O` and every column conflict has one exception type.
+2. **Halt startup with an actionable error.** `load_from_config_file` checks each table's columns before merging it, and the `DataTableColumnMismatch` names the file and installing repository. `_configure_tool_data_tables` re-raises it as a `ConfigurationError` with the fix.
+3. **Don't wipe Galaxy's data tables in `handle_missing_data_table_entry`.** Drops the `reset_tool_data_tables()` call, the root cause. `reset_tool_data_tables` stays for its one Tool Shed caller (`lib/tool_shed/tools/tool_validator.py`), with a comment saying Galaxy must not call it. Tested by keeping core tables registered across the call, and by refusing a conflicting install after it.
+4. **`merge_tool_data_table` raises `DataTableColumnMismatch`** instead of a bare `assert`, so the check survives `python -O` and every column conflict has one exception type.
+5. **Name the shed config regardless of load order.** With admin-ordered sources the shed config can load before the core one; the error now carries the existing table's config files and points at the shed config either way.
 
 </details>
 
@@ -42,9 +42,9 @@ No one-way doors. Two behavior changes: column conflicts raise `ConfigurationErr
 
 - Callers on these paths only catch `Exception` broadly (`add_new_entries_from_config_file`, `handle_sample_tool_data_table_conf_file`, the queue worker's reload), which covers both exception types. Nothing catches `AssertionError` specifically.
 - `DataTableColumnMismatch.__init__` and `ToolDataTableManager.assert_data_table_consistency` gain optional `config_filename` and `repository_info` keyword arguments; existing calls are unchanged.
-- `galaxy.app` gains a module-level `build_tool_data_tables` on a release branch.
 - Tables registered by earlier installs in the same server run now stay registered after a data manager install.
 - For a conflict between two shed tables, the message points at the later one, which may be the newer install. It also offers removing the other definition.
+- When admin-ordered `tool_data_table_config_path` loads the shed config before the core one, the message still names the shed config but can't name the installing repository.
 - A conflict between two core configs raises a bare `DataTableColumnMismatch` naming the file, without the fix hint.
 
 </details>
@@ -85,7 +85,7 @@ Scope, thermo, second-model and baseline reviews ran before the switch from skip
 
 <details><summary>Rewrote the startup test against a real <code>GalaxyAppConfiguration</code>; kept the other four.</summary>
 
-- The startup test previously passed a `SimpleNamespace` app to an unbound method. Extracting `build_tool_data_tables` (its own refactor commit) removed the fake and the `type: ignore`.
+- The startup test runs `MinimalGalaxyApplication._configure_tool_data_tables` on a small stub app against a real `GalaxyAppConfiguration`, for both core-first and shed-first source order.
 - All 5 tests it reviewed fail on the refactor-only lib: four with the original `AssertionError` escaping `pytest.raises`, one at its own assertion (`set() == {'all_fasta', 'core_table'}`).
 - No integration test: the behavior is a startup failure, and there's no pattern for asserting a server fails to boot.
 
