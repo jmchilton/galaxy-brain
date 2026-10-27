@@ -4,7 +4,7 @@
 #   faq_server.sh start|stop|restart|status|env [PROFILE]
 #
 # Profiles (default: main):
-#   main      port 8091, account activation off - most FAQs
+#   main      port 8091 (FAQ_PORT overrides), account activation off - most FAQs
 #   accounts  port 8092, account activation on  - account FAQs (registration, activation mail)
 #
 # Each profile gets its own generated galaxy.yml and data dir (database, gravity state, captured
@@ -25,8 +25,8 @@ REPLAY_ADMIN_EMAIL=faq-admin@example.org
 command=${1:-status}
 profile=${2:-main}
 case "$profile" in
-    main) port=8091; activation=false ;;
-    accounts) port=8092; activation=true ;;
+    main) port=${FAQ_PORT:-8091}; activation=false ;;
+    accounts) port=${FAQ_PORT:-8092}; activation=true ;;
     *) echo "unknown profile '$profile' (main, accounts)" >&2; exit 64 ;;
 esac
 

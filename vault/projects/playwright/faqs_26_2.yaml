@@ -1587,25 +1587,58 @@
   faq_findings: [igv-display-on-visualize-tab]
   gx_findings: "Covered by test_display_application_links / gxui dataset-display-apps; BAM lists 'display with IGV: local'."
 - faq: topics/admin/tutorials/ansible-galaxy/faqs/custom-welcome.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/assembly/tutorials/assembly-with-preprocessing/faqs/alternative_tools.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/assembly/tutorials/assembly-with-preprocessing/faqs/upload_slow.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/assembly/tutorials/chloroplast-assembly/faqs/bandage_different.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/assembly/tutorials/chloroplast-assembly/faqs/pilon.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/assembly/tutorials/chloroplast-assembly/faqs/polish_longreads.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fasta_via_urls.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [assembly/vgp_genome_assembly, assembly/vgp_workflow_training]
 - faq: topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md
-  status: pending
+  status: ui_verified
+  mode: ui
+  gtn_commit: 45d4932d33
+  galaxy_commit: cdbfecd0b71
+  used_by: [assembly/vgp_genome_assembly, assembly/vgp_workflow_training, galaxy-interface/collections]
+  faq_findings: [upload-tool-panel-button, upload-import-data-panel, link-add-urls, fastqsanger-url-typos]
+  gx_findings: 'Covered by upload-url (Paste Links/URLs, header Type) as in datasets_import_via_link. faq_server.sh gained FAQ_PORT to run beside another Galaxy on 8091.'
 - faq: topics/contributing/tutorials/create-new-tutorial-content/faqs/icons_list.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: topics/contributing/tutorials/create-new-tutorial-content/faqs/remote-teaching-cyoa.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [contributing/create-new-tutorial-content]
 - faq: topics/contributing/tutorials/create-new-tutorial-content/faqs/remote-teaching-faqs.md
   status: pending
 - faq: topics/contributing/tutorials/create-new-tutorial-content/faqs/remote-teaching-selfstudy.md

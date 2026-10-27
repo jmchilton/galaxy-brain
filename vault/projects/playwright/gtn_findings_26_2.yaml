@@ -319,13 +319,13 @@
   fix: Say **Auto-detect** on the **Attributes** tab; for a wrong datatype, point to the **Datatypes** tab.
 
 - label: upload-tool-panel-button
-  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_from_remote_files.md, faqs/galaxy/datasets_upload.md]
+  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_from_remote_files.md, faqs/galaxy/datasets_upload.md, topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
   target: main
   summary: There is no **Upload Data** button at the top of the tool panel; upload is the Activity Bar's **Upload**.
   fix: Say "Click {% icon galaxy-upload %} **Upload** in the Activity Bar".
 
 - label: upload-import-data-panel
-  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_via_link.md, faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md, faqs/galaxy/datasets_upload.md]
+  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_via_link.md, faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md, faqs/galaxy/datasets_upload.md, topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
   target: version
   summary: 26.2 replaces the upload dialog with the Import Data panel, so Paste/Fetch Data, the "New File" name, Genome, the Settings gear and Close no longer exist.
   fix: 'Upload > **Paste File Content**; paste into the text field; the name defaults to "Pasted Dataset 1"; set **Type** and **Reference** in the row; tick the row''s **Spaces→Tabs**; **Start** (no window to close). Other upload FAQs likely need the same. Local files: Upload > **Upload from Computer** > **Browse Files** (or drop them on "Drag files here") > **Start**.'
@@ -400,7 +400,7 @@
   fix: 'Add `galaxy-export-to-galaxy: fas fa-file-export` to `_config.yml` icons, then a line "**Export to another Galaxy**: make a link another Galaxy can import the dataset from".'
 
 - label: link-add-urls
-  faqs: [faqs/galaxy/datasets_import_via_link.md, faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md]
+  faqs: [faqs/galaxy/datasets_import_via_link.md, faqs/galaxy/datasets_moving_datasets_between_galaxy_servers.md, topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
   target: version
   summary: In 26.2's **Paste Links/URLs** the pasted links only become upload rows (Name, URL, Type, Reference) after **Add URLs**; Start stays disabled until then.
   fix: After "Paste the link(s) into the text field" add "Click **Add URLs**"; the format and genome steps then set the row's (or the header's, for all rows) **Type** and **Reference**.
@@ -948,3 +948,9 @@
   target: main
   summary: 'Repeats the example sentence ("Ad esempio, 10 corrisponde a "+". Ad esempio, 10 corrisponde a "+" e 40 a "I"."); table headers left in English. Tutorial sequence-analysis/quality-control.'
   fix: 'Drop the first "Ad esempio, 10 corrisponde a "+"."; translate the three table headers.'
+
+- label: fastqsanger-url-typos
+  faqs: [topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
+  target: main
+  summary: 'Warning says to pick `fastaqsanger` (no such type; `fastqsanger`) and misspells "corect"; step 4 "as in URLs above" but the FAQ lists none. Tutorials assembly/vgp_genome_assembly, vgp_workflow_training, galaxy-interface/collections.'
+  fix: 'Use `fastqsanger`, "correct"; say "if your URLs end in `.gz`".'

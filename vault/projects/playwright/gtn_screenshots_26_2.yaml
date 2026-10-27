@@ -134,3 +134,45 @@
   priority: medium
   summary: Old GA4GH search form; its `name:vgp` query now finds nothing (Dockstore matches names case-sensitively).
   retake: Import > Import from repository > Search workflow registries with `name:VGP` and results listed.
+
+- image: faqs/galaxy/images/upload_data_button.png
+  faqs: [topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
+  target: version
+  priority: high
+  summary: 'Tool panel **Upload Data** button; 26.2 uses the Activity Bar **Upload**.'
+  retake: 'Activity Bar Upload.'
+
+- image: faqs/galaxy/images/paste_fetch_data_button.png
+  faqs: [topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
+  target: version
+  priority: high
+  summary: 'Old upload dialog''s **Paste/Fetch data** button.'
+  retake: 'Import Data panel, Paste Links/URLs.'
+
+- image: faqs/galaxy/images/paste_fetch_data_modal.png
+  faqs: [topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
+  target: version
+  priority: high
+  summary: 'Old upload dialog text box.'
+  retake: 'Paste Links/URLs with links pasted, before Add URLs.'
+
+- image: faqs/galaxy/images/paste_fetch_set_data_type.png
+  faqs: [topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
+  target: version
+  priority: high
+  summary: 'Old dialog **Type (set all)** dropdown.'
+  retake: 'Rows after Add URLs, header Type set to fastqsanger.gz.'
+
+- image: faqs/galaxy/images/upload_fastqsanger_via_url.png
+  faqs: [topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
+  target: version
+  priority: high
+  summary: 'Animated upload via the old dialog.'
+  retake: 'Paste Links/URLs, Add URLs, header Type fastqsanger.gz, Start.'
+
+- image: faqs/galaxy/images/upload_fasta_via_url.png
+  faqs: [topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fasta_via_urls.md]
+  target: version
+  priority: high
+  summary: 'Animated upload via the old dialog; the FAQ is only this image.'
+  retake: 'Paste Links/URLs, Add URLs, header Type fasta.gz, Start.'
