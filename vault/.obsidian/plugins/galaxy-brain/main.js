@@ -673,11 +673,23 @@ function renderTaskCards(el3, tasks, actions) {
     head.createSpan({ cls: "gb-task-meta", text: `${task.agentDir} \xB7 ${human ? "for John" : task.profile ?? actions.defaultProfile}` });
     if (actions.launch && !human) {
       const launch = actions.launch;
-      head.createEl("button", { text: "\u{1F680}", attr: { "aria-label": "Launch" } }).onclick = () => launch(task, index);
+      head.createEl("button", { text: "\u{1F680}", attr: { "aria-label": "Launch" } }).onclick = () => launch(task, index, (on) => card.toggleClass("gb-task-pending", on));
+    }
+    if (actions.refine) {
+      const refine = actions.refine;
+      head.createEl("button", { text: "\u{1FA84}", attr: { "aria-label": "Discuss task refinement" } }).onclick = () => refine(task);
     }
     const [text2, label] = human ? ["\u2714", "Done"] : ["\u2716", "Remove"];
     head.createEl("button", { text: text2, attr: { "aria-label": label } }).onclick = () => actions.remove(task, index);
     if (task.description) card.createDiv({ cls: "gb-task-description", text: task.description.trim() });
+    const { record } = task;
+    if (record) {
+      const open = card.createDiv({ cls: "gb-task-link" }).createEl("a", { text: `\u{1F4D3} ${record.repo} ${record.kind} ${record.name}`, cls: "internal-link", href: "#" });
+      open.onclick = (event) => {
+        event.preventDefault();
+        actions.openRecord(record, event.metaKey || event.ctrlKey);
+      };
+    }
     if (task.link) {
       const text3 = task.link.replace(/^https?:\/\//, "");
       card.createDiv({ cls: "gb-task-link" }).createEl("a", { text: text3, href: task.link, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
@@ -686,8 +698,116 @@ function renderTaskCards(el3, tasks, actions) {
   });
 }
 
+// ../site/src/lib/records.ts
+var RECORD_KINDS = ["branches", "issues", "reviews"];
+var DEFAULTS_REPO = "_defaults";
+var REVIEWABLE_RECORD_KINDS = ["branches", "reviews"];
+function isReviewableRecordKind(kind) {
+  return REVIEWABLE_RECORD_KINDS.includes(kind);
+}
+function recordReviewDir(recordDir) {
+  return `${recordDir.replace(/\/+$/, "")}/differential-review`;
+}
+function parseRecordPath(rel) {
+  const parts = rel.split("/");
+  if (parts[0] !== "repositories" || parts.length < 5) return null;
+  const kind = parts[2];
+  if (!RECORD_KINDS.includes(kind)) return null;
+  return { repo: parts[1], kind, status: parts[3], id: parts[4], rest: parts.slice(5).join("/") };
+}
+var KIND_LABELS = {
+  branches: "Branches",
+  issues: "Issues",
+  reviews: "Reviews"
+};
+var STATUS_ORDER = {
+  branches: ["active", "merged", "abandoned"],
+  issues: ["needs_decision", "queued", "wip", "blocked", "delegated", "closed"],
+  reviews: ["active", "archived"]
+};
+var TERMINAL_STATUSES = /* @__PURE__ */ new Set(["merged", "abandoned", "archived", "closed"]);
+function isTerminalStatus(status) {
+  return TERMINAL_STATUSES.has(status);
+}
+function statusLabel(status) {
+  return status.replace(/_/g, " ");
+}
+function recordTitle(body) {
+  const m = body?.match(/^#\s+(.+?)\s*$/m);
+  return m ? m[1] : null;
+}
+function compareNames(a, b) {
+  const na = Number(a);
+  const nb = Number(b);
+  if (Number.isInteger(na) && Number.isInteger(nb)) return nb - na;
+  return a.localeCompare(b, void 0, { sensitivity: "base" });
+}
+function groupByStatus(records, kind) {
+  const byStatus = /* @__PURE__ */ new Map();
+  for (const record of records) {
+    if (record.kind !== kind) continue;
+    byStatus.set(record.status, [...byStatus.get(record.status) ?? [], record]);
+  }
+  const known = STATUS_ORDER[kind];
+  const statuses = [...byStatus.keys()].sort((a, b) => {
+    const ia = known.indexOf(a);
+    const ib = known.indexOf(b);
+    if (ia >= 0 && ib >= 0) return ia - ib;
+    if (ia >= 0) return -1;
+    if (ib >= 0) return 1;
+    return a.localeCompare(b);
+  });
+  return statuses.map((status) => ({
+    status,
+    records: byStatus.get(status).sort((a, b) => compareNames(a.name, b.name))
+  }));
+}
+function groupingFor(repo, kind) {
+  return kind === "branches" ? `repositories/${repo}/branches/MY_BRANCHES.md` : void 0;
+}
+function resolveLink(from, link) {
+  const parts = from.split("/").slice(0, -1);
+  for (const part of link.split("/")) {
+    if (part === "..") parts.pop();
+    else if (part !== ".") parts.push(part);
+  }
+  return parts.join("/");
+}
+function parseGrouping(text2, path, repo, kind) {
+  const sections = [];
+  for (const line of text2.split("\n")) {
+    const heading = line.match(/^## (.+?)\s*\(`([^`]+)`\)\s*$/);
+    if (heading) {
+      sections.push({ label: heading[1], key: heading[2], names: [] });
+      continue;
+    }
+    const link = line.match(/^- \[[^\]]*\]\(([^)\s]+)\)/);
+    const section2 = sections[sections.length - 1];
+    if (!link || !section2) continue;
+    const record = parseRecordPath(resolveLink(path, decodeURI(link[1])));
+    if (record?.rest && record.repo === repo && record.kind === kind && !section2.names.includes(record.id)) section2.names.push(record.id);
+  }
+  return sections;
+}
+function groupBySections(records, kind, grouping) {
+  const ofKind = records.filter((record) => record.kind === kind);
+  const byName = new Map(ofKind.map((record) => [record.name, record]));
+  const listed = /* @__PURE__ */ new Set();
+  const sections = (grouping ?? []).flatMap((section2) => {
+    const found = section2.names.flatMap((name) => {
+      const record = byName.get(name);
+      if (!record || listed.has(name)) return [];
+      listed.add(name);
+      return [record];
+    });
+    return found.length ? [{ key: section2.key, label: section2.label, records: found }] : [];
+  });
+  return { sections, rest: ofKind.filter((record) => !listed.has(record.name)) };
+}
+
 // src/task-list.ts
-var FIELDS = ["prompt", "agent_dir", "profile", "description", "status", "priority", "kind", "link"];
+var RECORD_REF = new RegExp(`^([^/\\s]+)/(${RECORD_KINDS.join("|")})/([^/\\s]+)$`);
+var FIELDS = ["prompt", "agent_dir", "profile", "description", "status", "priority", "kind", "link", "record", "suggested_by"];
 var STATUSES = ["recommended", "idea"];
 var PRIORITIES = ["high", "low"];
 var KINDS = ["human"];
@@ -699,7 +819,7 @@ function parseTasks(data, known) {
     if (!entry || typeof entry !== "object") throw fail("not a mapping");
     const extra = Object.keys(entry).find((key2) => !FIELDS.includes(key2));
     if (extra) throw fail(`unknown field ${extra}`);
-    const { prompt, agent_dir: agentDir, profile, description, status, priority, kind, link } = entry;
+    const { prompt, agent_dir: agentDir, profile, description, status, priority, kind, link, record, suggested_by: suggestedBy } = entry;
     if (typeof prompt !== "string" || !prompt.trim()) throw fail("missing prompt");
     if (typeof agentDir !== "string" || !agentDir) throw fail("missing agent_dir");
     if (!known.agentDirs.includes(agentDir)) throw fail(`unknown agent_dir ${agentDir}`);
@@ -710,6 +830,9 @@ function parseTasks(data, known) {
     if (kind !== void 0 && !KINDS.includes(kind)) throw fail(`unknown kind ${kind}`);
     if (kind === "human" && profile !== void 0) throw fail("human task with a profile");
     if (link !== void 0 && (typeof link !== "string" || !/^https?:\/\/\S+$/.test(link))) throw fail("link must be an http(s) URL");
+    const recordMatch = record === void 0 ? void 0 : typeof record === "string" ? RECORD_REF.exec(record) : null;
+    if (recordMatch === null) throw fail(`record must be <repo>/<${RECORD_KINDS.join("|")}>/<name>`);
+    if (suggestedBy !== void 0 && (typeof suggestedBy !== "string" || !/^[^\s#]+\.md(#.+)?$/.test(suggestedBy))) throw fail("suggested_by must be <path>.md#<heading>");
     return {
       prompt,
       agentDir,
@@ -718,7 +841,9 @@ function parseTasks(data, known) {
       ...status ? { status } : {},
       ...priority ? { priority } : {},
       ...kind ? { kind } : {},
-      ...link ? { link } : {}
+      ...link ? { link } : {},
+      ...recordMatch ? { record: { repo: recordMatch[1], kind: recordMatch[2], name: recordMatch[3] } } : {},
+      ...suggestedBy ? { suggestedBy } : {}
     };
   });
 }
@@ -746,16 +871,32 @@ function removeTask(note, task, parse2, stringify) {
   return void 0;
 }
 var PRIORITY_ORDER = { high: 0, none: 1, low: 2 };
-var STATUS_ORDER = { recommended: 0, none: 1, idea: 2 };
+var STATUS_ORDER2 = { recommended: 0, none: 1, idea: 2 };
 function byPriority(tasks) {
   return [...tasks].sort(
-    (a, b) => PRIORITY_ORDER[a.priority ?? "none"] - PRIORITY_ORDER[b.priority ?? "none"] || STATUS_ORDER[a.status ?? "none"] - STATUS_ORDER[b.status ?? "none"]
+    (a, b) => PRIORITY_ORDER[a.priority ?? "none"] - PRIORITY_ORDER[b.priority ?? "none"] || STATUS_ORDER2[a.status ?? "none"] - STATUS_ORDER2[b.status ?? "none"]
   );
 }
 function replaceBlockBody(note, fenceStart, fenceEnd, body) {
   const lines = note.split("\n");
   const bodyLines = body ? body.replace(/\n$/, "").split("\n") : [];
   lines.splice(fenceStart + 1, fenceEnd - fenceStart - 1, ...bodyLines);
+  return lines.join("\n");
+}
+function recordIndexPath(record, paths) {
+  const prefix = `repositories/${record.repo}/${record.kind}/`;
+  const suffix = `/${record.name}/index.md`;
+  return paths.find((path) => path.startsWith(prefix) && path.endsWith(suffix) && !path.slice(prefix.length, -suffix.length).includes("/"));
+}
+function refinementPrompt(task) {
+  const lines = [
+    "Let's discuss refining this task and, where it came from a SUGGESTED_TASKS.md section, that section. Don't edit anything until we agree.",
+    "",
+    `Agent: ${task.agentDir}`,
+    `Suggested by: ${task.suggestedBy ? `vault/agents/${task.suggestedBy}` : "unknown (hand-written?)"}`
+  ];
+  if (task.description) lines.push("", "Description:", task.description.trim());
+  lines.push("", "Prompt:", task.prompt.trim());
   return lines.join("\n");
 }
 
@@ -847,8 +988,12 @@ var AgentsView = class extends import_obsidian.ItemView {
     const tasks = byPriority(lists.flatMap((list2) => list2.tasks));
     renderTaskCards(root, tasks, {
       defaultProfile: profiles[0]?.name ?? "",
-      ...import_obsidian.Platform.isDesktopApp ? { launch: (_task, i) => void this.host.confirmTask(tasks[i], () => void this.remove(tasks[i])) } : {},
-      remove: (_task, i) => void this.remove(tasks[i])
+      ...import_obsidian.Platform.isDesktopApp ? {
+        launch: (_task, i, pending) => void this.host.confirmTask(tasks[i], () => void this.remove(tasks[i]), tasks[i].agentDir, pending),
+        refine: (task) => void this.host.refineTask(task)
+      } : {},
+      remove: (_task, i) => void this.remove(tasks[i]),
+      openRecord: (record, newLeaf) => this.host.openTaskRecord(record, newLeaf)
     });
   }
   /** 🌅 / ⏱️ buttons for the routine files the agent dir has; desktop only. */
@@ -888,113 +1033,6 @@ var AgentsView = class extends import_obsidian.ItemView {
     if (!found) new import_obsidian.Notice("Task already removed");
   }
 };
-
-// ../site/src/lib/records.ts
-var RECORD_KINDS = ["branches", "issues", "reviews"];
-var DEFAULTS_REPO = "_defaults";
-var REVIEWABLE_RECORD_KINDS = ["branches", "reviews"];
-function isReviewableRecordKind(kind) {
-  return REVIEWABLE_RECORD_KINDS.includes(kind);
-}
-function recordReviewDir(recordDir) {
-  return `${recordDir.replace(/\/+$/, "")}/differential-review`;
-}
-function parseRecordPath(rel) {
-  const parts = rel.split("/");
-  if (parts[0] !== "repositories" || parts.length < 5) return null;
-  const kind = parts[2];
-  if (!RECORD_KINDS.includes(kind)) return null;
-  return { repo: parts[1], kind, status: parts[3], id: parts[4], rest: parts.slice(5).join("/") };
-}
-var KIND_LABELS = {
-  branches: "Branches",
-  issues: "Issues",
-  reviews: "Reviews"
-};
-var STATUS_ORDER2 = {
-  branches: ["active", "merged", "abandoned"],
-  issues: ["needs_decision", "queued", "wip", "blocked", "delegated", "closed"],
-  reviews: ["active", "archived"]
-};
-var TERMINAL_STATUSES = /* @__PURE__ */ new Set(["merged", "abandoned", "archived", "closed"]);
-function isTerminalStatus(status) {
-  return TERMINAL_STATUSES.has(status);
-}
-function statusLabel(status) {
-  return status.replace(/_/g, " ");
-}
-function recordTitle(body) {
-  const m = body?.match(/^#\s+(.+?)\s*$/m);
-  return m ? m[1] : null;
-}
-function compareNames(a, b) {
-  const na = Number(a);
-  const nb = Number(b);
-  if (Number.isInteger(na) && Number.isInteger(nb)) return nb - na;
-  return a.localeCompare(b, void 0, { sensitivity: "base" });
-}
-function groupByStatus(records, kind) {
-  const byStatus = /* @__PURE__ */ new Map();
-  for (const record of records) {
-    if (record.kind !== kind) continue;
-    byStatus.set(record.status, [...byStatus.get(record.status) ?? [], record]);
-  }
-  const known = STATUS_ORDER2[kind];
-  const statuses = [...byStatus.keys()].sort((a, b) => {
-    const ia = known.indexOf(a);
-    const ib = known.indexOf(b);
-    if (ia >= 0 && ib >= 0) return ia - ib;
-    if (ia >= 0) return -1;
-    if (ib >= 0) return 1;
-    return a.localeCompare(b);
-  });
-  return statuses.map((status) => ({
-    status,
-    records: byStatus.get(status).sort((a, b) => compareNames(a.name, b.name))
-  }));
-}
-function groupingFor(repo, kind) {
-  return kind === "branches" ? `repositories/${repo}/branches/MY_BRANCHES.md` : void 0;
-}
-function resolveLink(from, link) {
-  const parts = from.split("/").slice(0, -1);
-  for (const part of link.split("/")) {
-    if (part === "..") parts.pop();
-    else if (part !== ".") parts.push(part);
-  }
-  return parts.join("/");
-}
-function parseGrouping(text2, path, repo, kind) {
-  const sections = [];
-  for (const line of text2.split("\n")) {
-    const heading = line.match(/^## (.+?)\s*\(`([^`]+)`\)\s*$/);
-    if (heading) {
-      sections.push({ label: heading[1], key: heading[2], names: [] });
-      continue;
-    }
-    const link = line.match(/^- \[[^\]]*\]\(([^)\s]+)\)/);
-    const section2 = sections[sections.length - 1];
-    if (!link || !section2) continue;
-    const record = parseRecordPath(resolveLink(path, decodeURI(link[1])));
-    if (record?.rest && record.repo === repo && record.kind === kind && !section2.names.includes(record.id)) section2.names.push(record.id);
-  }
-  return sections;
-}
-function groupBySections(records, kind, grouping) {
-  const ofKind = records.filter((record) => record.kind === kind);
-  const byName = new Map(ofKind.map((record) => [record.name, record]));
-  const listed = /* @__PURE__ */ new Set();
-  const sections = (grouping ?? []).flatMap((section2) => {
-    const found = section2.names.flatMap((name) => {
-      const record = byName.get(name);
-      if (!record || listed.has(name)) return [];
-      listed.add(name);
-      return [record];
-    });
-    return found.length ? [{ key: section2.key, label: section2.label, records: found }] : [];
-  });
-  return { sections, rest: ofKind.filter((record) => !listed.has(record.name)) };
-}
 
 // src/launchers.ts
 var KEY_LINE = /^(status|agent_dir|name|profile):\s*(.*)$/;
@@ -5187,6 +5225,19 @@ function restoreFocus(root, item2) {
   (items.find((n) => n.dataset.key === item2.key) ?? items[Math.min(item2.index, items.length - 1)])?.focus({ preventScroll: true });
 }
 
+// src/diff-review-status.ts
+var DIFFERENTIAL_REVIEW_URL = "https://galaxy-brain.jmchilton.net/factory/differential-review/";
+var HUMAN_REVIEW_FILE = "human_review.md";
+function humanReviewStatus(view) {
+  const all = (counts) => counts.reviewed > 0 && counts.new === 0 && counts.changed === 0;
+  const commits = all(view.counts.commits);
+  const diffs = all(view.counts.hunks);
+  const what = commits && diffs ? "commits and diffs" : commits ? "commits" : diffs ? "diffs" : null;
+  if (!what) return null;
+  return `John (the human) has reviewed all ${what} using [John's Galaxy Brain Differential Review](${DIFFERENTIAL_REVIEW_URL}) at sha1 ${view.snapshot.head}.
+`;
+}
+
 // src/diff-review-storage.ts
 function vaultFileAdapter(adapter, onWrite) {
   return {
@@ -5434,10 +5485,23 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
       if (this.store !== store) return;
       this.reviewState = next;
       this.rebuild();
+      await this.writeHumanReviewStatus();
     }).catch((error) => {
       new import_obsidian2.Notice(`Could not update review-state.json: ${error instanceof Error ? error.message : error}`, 1e4);
       void this.reload();
     });
+  }
+  /** Write `<record>/human_review.md` when commits or diffs are all reviewed; remove it when that stops being true. */
+  async writeHumanReviewStatus() {
+    const { view, recordDir } = this;
+    if (!view || !recordDir) return;
+    const path = `${recordDir}/${HUMAN_REVIEW_FILE}`;
+    const status = humanReviewStatus(view);
+    const adapter = this.app.vault.adapter;
+    const exists = await adapter.exists(path);
+    if (status === null) {
+      if (exists) await adapter.remove(path);
+    } else if (!exists || await adapter.read(path) !== status) await adapter.write(path, status);
   }
   /** UI thread edits serialize independently of immutable CLI replies. */
   writeAnnotation(write) {
@@ -5509,6 +5573,14 @@ function githubUrl(record, body) {
   const statusPr = /^Status:.*?\bPR #(\d+)/m.exec(body)?.[1];
   const forkOwner = BRANCHES_ON_UPSTREAM.has(record.repo) ? upstreamOwner(record.repo, [body]) : FORK_OWNER;
   return find(/\/pull\/\d+$/, /^(View )?PR #\d+$/) ?? (statusPr ? `${upstream}/pull/${statusPr}` : void 0) ?? find(new RegExp(`/tree/${id}$`)) ?? `https://github.com/${forkOwner}/${record.repo}/tree/${record.name}`;
+}
+function compareUrl(record, body) {
+  if (record.kind !== "branches") return void 0;
+  const base = /^---\n[\s\S]*?^upstream_base_branch:\s*["']?([^\s"']+)["']?\s*$[\s\S]*?^---$/m.exec(body)?.[1];
+  if (!base) return void 0;
+  const upstream = upstreamOwner(record.repo, [body]);
+  const head = BRANCHES_ON_UPSTREAM.has(record.repo) ? record.name : `${FORK_OWNER}:${record.repo}:${record.name}`;
+  return `https://github.com/${upstream}/${record.repo}/compare/${base}...${head}`;
 }
 function worktreeCandidates(record, body, home) {
   const root = `${home}/projects/worktrees/${record.repo}`;
@@ -5984,6 +6056,8 @@ var RepositoryView = class extends import_obsidian3.ItemView {
     };
     if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
     action("github", "Open on GitHub", () => window.open(githubUrl(record, body)));
+    const compare = compareUrl(record, body);
+    if (compare) action("git-compare-arrows", "Compare to upstream base", () => window.open(compare));
     const worktree = import_obsidian3.Platform.isDesktopApp ? this.host.worktreeFor(record, body) : null;
     if (worktree) action("code", "Open with Code", () => this.host.openInCode(worktree));
     if (isReviewableRecordKind(record.kind) && hasDifferentialReview(this.app, record.dir)) action("git-compare", "Differential review", () => void openDifferentialReview(this.app, record.dir));
@@ -5997,6 +6071,7 @@ var RepositoryView = class extends import_obsidian3.ItemView {
 var PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 var RECORD_AGENTS_PATH = "agents/_shared/RECORD_AGENTS.yml";
 var LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
+var FACTORY_AGENT_DIR = "factory";
 var CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
 var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
   constructor() {
@@ -6070,7 +6145,7 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
       new import_obsidian4.Notice(`Could not copy ${file.name}: ${error}`);
     }
   }
-  /** Code, GitHub, agent and (branches/reviews) differential review icons in the header of notes inside a repository record. */
+  /** Code, GitHub, agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */
   refreshRecordActions() {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
@@ -6078,7 +6153,7 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
       const record = view.file && recordFromPath(view.file.path);
       const reviewable = !!record && isReviewableRecordKind(record.kind);
       const existing = this.recordActions.get(view);
-      if (existing && (!record || existing.reviewable !== reviewable)) {
+      if (existing && (!record || existing.kind !== record.kind)) {
         existing.actions.forEach((action) => action.remove());
         this.recordActions.delete(view);
       }
@@ -6090,10 +6165,11 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
         const actions = [
           ...reviewable ? [view.addAction("git-compare", "Differential review", withRecord((r) => openDifferentialReview(this.app, r.dir)))] : [],
           view.addAction("code", "Open with Code", withRecord((r) => this.openRecordInCode(r))),
+          ...record.kind === "branches" ? [view.addAction("git-compare-arrows", "Compare to upstream base", withRecord((r) => this.openRecordCompare(r)))] : [],
           view.addAction("github", "Open on GitHub", withRecord((r) => this.openRecordOnGithub(r))),
           view.addAction("bot", "Launch agent", withRecord((r) => this.pickLauncher(r)))
         ];
-        this.recordActions.set(view, { reviewable, actions });
+        this.recordActions.set(view, { kind: record.kind, actions });
         this.register(() => actions.forEach((action) => action.remove()));
       }
     }
@@ -6132,6 +6208,11 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
   }
   async openRecordOnGithub(record) {
     window.open(githubUrl(record, await this.indexBody(record)));
+  }
+  async openRecordCompare(record) {
+    const url = compareUrl(record, await this.indexBody(record));
+    if (url) window.open(url);
+    else new import_obsidian4.Notice(`No upstream_base_branch in ${record.name}'s index.md`);
   }
   async loadLaunchers() {
     const files = this.app.vault.getMarkdownFiles().flatMap((file) => {
@@ -6248,12 +6329,27 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
     };
     renderTaskCards(el3, tasks, {
       defaultProfile: profiles[0]?.name ?? "",
-      ...import_obsidian4.Platform.isDesktopApp ? { launch: (task, index) => void this.confirmTask(task, () => void remove(index)) } : {},
-      remove: (_task, index) => void remove(index)
+      ...import_obsidian4.Platform.isDesktopApp ? {
+        launch: (task, index, pending) => void this.confirmTask(task, () => void remove(index), task.agentDir, pending),
+        refine: (task) => void this.refineTask(task)
+      } : {},
+      remove: (_task, index) => void remove(index),
+      openRecord: (record, newLeaf) => this.openTaskRecord(record, newLeaf)
     });
   }
-  /** Launch dialog for a task; launched runs once the agent starts. */
-  async confirmTask(task, launched, name = task.agentDir) {
+  /** Opens a task's record index.md, wherever its status puts it. */
+  openTaskRecord(record, newLeaf) {
+    const path = recordIndexPath(record, this.app.vault.getMarkdownFiles().map((file) => file.path));
+    if (!path) return void new import_obsidian4.Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
+    void this.app.workspace.openLinkText(path, "", newLeaf);
+  }
+  /** Launch dialog for the factory agent to discuss refining task. */
+  async refineTask(task) {
+    await this.confirmTask({ prompt: refinementPrompt(task), agentDir: FACTORY_AGENT_DIR }, () => {
+    }, "refine-task");
+  }
+  /** Launch dialog for a task; launched runs once the agent starts, pending brackets the launch. */
+  async confirmTask(task, launched, name = task.agentDir, pending) {
     const vaultRoot = this.vaultRoot();
     if (!vaultRoot) return;
     const profiles = await this.loadProfiles();
@@ -6263,20 +6359,23 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
       profile: defaultProfile(profiles, launcher),
       name: launcher.name,
       prompt: task.prompt,
-      launch: (profile, name2, prompt) => this.launch(vaultRoot, launcher, profile, name2, prompt, launched)
+      launch: (profile, name2, prompt) => this.launch(vaultRoot, launcher, profile, name2, prompt, launched, pending)
     }).open();
   }
-  launch(vaultRoot, launcher, profile, name, prompt, launched) {
+  launch(vaultRoot, launcher, profile, name, prompt, launched, pending) {
     const { execFile } = require("child_process");
     const started = new import_obsidian4.Notice(`Launching ${profile.name} in ${launcher.agentDir}\u2026`, 0);
+    pending?.(true);
     execFile(
       `${vaultRoot}/${LAUNCH_SCRIPT}`,
       [launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)],
       { timeout: 18e4 },
       (error, stdout, stderr) => {
         started.hide();
-        if (error) new import_obsidian4.Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15e3);
-        else {
+        if (error) {
+          pending?.(false);
+          new import_obsidian4.Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15e3);
+        } else {
           new import_obsidian4.Notice(stdout.trim(), 1e4);
           launched?.();
         }

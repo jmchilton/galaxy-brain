@@ -28,6 +28,16 @@ export function githubUrl(record: RecordRef, body: string): string {
 	);
 }
 
+/** A branch's GitHub compare against its `upstream_base_branch` frontmatter; undefined without one. */
+export function compareUrl(record: RecordRef, body: string): string | undefined {
+	if (record.kind !== "branches") return undefined;
+	const base = /^---\n[\s\S]*?^upstream_base_branch:\s*["']?([^\s"']+)["']?\s*$[\s\S]*?^---$/m.exec(body)?.[1];
+	if (!base) return undefined;
+	const upstream = upstreamOwner(record.repo, [body]);
+	const head = BRANCHES_ON_UPSTREAM.has(record.repo) ? record.name : `${FORK_OWNER}:${record.repo}:${record.name}`;
+	return `https://github.com/${upstream}/${record.repo}/compare/${base}...${head}`;
+}
+
 /** Candidate worktrees, best first: a branch's `Worktree:` line, then the conventional location. Issues have none. */
 export function worktreeCandidates(record: RecordRef, body: string, home: string): string[] {
 	const root = `${home}/projects/worktrees/${record.repo}`;

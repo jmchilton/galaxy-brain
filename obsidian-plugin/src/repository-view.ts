@@ -4,7 +4,7 @@ import { type GithubTab, githubListTitle, githubListUrl, REPOSITORY_TABS as TABS
 import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./launchers";
 import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
 import { hasDifferentialReview, openDifferentialReview } from "./diff-review-view";
-import { githubUrl } from "./record-links";
+import { compareUrl, githubUrl } from "./record-links";
 import { SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { groupRecords } from "./record-groups";
 import { collectRecords, type RecentBy, recentRecords, type RecordSummary, repositoryNames, timeAgo } from "./repository";
@@ -445,6 +445,8 @@ export class RepositoryView extends ItemView {
 		};
 		if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
 		action("github", "Open on GitHub", () => window.open(githubUrl(record, body)));
+		const compare = compareUrl(record, body);
+		if (compare) action("git-compare-arrows", "Compare to upstream base", () => window.open(compare));
 		const worktree = Platform.isDesktopApp ? this.host.worktreeFor(record, body) : null;
 		if (worktree) action("code", "Open with Code", () => this.host.openInCode(worktree));
 		if (isReviewableRecordKind(record.kind) && hasDifferentialReview(this.app, record.dir)) action("git-compare", "Differential review", () => void openDifferentialReview(this.app, record.dir));

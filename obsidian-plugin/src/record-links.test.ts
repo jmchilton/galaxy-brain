@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { recordFromPath } from "./launchers";
-import { githubUrl, worktreeCandidates } from "./record-links";
+import { compareUrl, githubUrl, worktreeCandidates } from "./record-links";
 
 const branch = recordFromPath("repositories/galaxy/branches/active/fix_26.0/index.md")!;
 const review = recordFromPath("repositories/galaxy/reviews/active/23295/index.md")!;
@@ -47,6 +47,25 @@ Blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297).`;
 		expect(githubUrl(issue, "[other](https://github.com/galaxyproject/galaxy/issues/1)")).toBe(
 			"https://github.com/galaxyproject/galaxy/issues/24350",
 		);
+	});
+});
+
+describe("compareUrl", () => {
+	it("compares a fork branch to its upstream_base_branch", () => {
+		expect(compareUrl(branch, "---\nupstream_base_branch: release_26.0\n---\n# Fix")).toBe(
+			"https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:fix_26.0",
+		);
+	});
+
+	it("compares within upstream for foundry", () => {
+		const foundry = recordFromPath("repositories/foundry/branches/active/b/index.md")!;
+		expect(compareUrl(foundry, "---\nupstream_base_branch: main\n---\n")).toBe("https://github.com/galaxyproject/foundry/compare/main...b");
+	});
+
+	it("is undefined without a base or outside frontmatter or for non-branches", () => {
+		expect(compareUrl(branch, "# Fix")).toBeUndefined();
+		expect(compareUrl(branch, "# Fix\nupstream_base_branch: dev\n")).toBeUndefined();
+		expect(compareUrl(review, "---\nupstream_base_branch: dev\n---\n")).toBeUndefined();
 	});
 });
 

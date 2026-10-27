@@ -21,21 +21,23 @@ import { fillTemplate, type Launcher, launcherScope, launchersFor, parseLauncher
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
 import { isReviewableRecordKind } from "../../site/src/lib/records";
 import { openDifferentialReview, registerDifferentialReview } from "./diff-review-view";
-import { githubUrl, worktreeCandidates } from "./record-links";
+import { compareUrl, githubUrl, worktreeCandidates } from "./record-links";
 import { parseRecordAgents, SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { repositoryNames } from "./repository";
 import { renderTaskCards } from "./task-cards";
-import { parseTasks, replaceBlockBody, type Task } from "./task-list";
+import { parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type Task, type TaskRecord } from "./task-list";
 import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 const RECORD_AGENTS_PATH = "agents/_shared/RECORD_AGENTS.yml";
 const LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
+/** Agent dir that maintains the agent processes, e.g. SUGGESTED_TASKS.md. */
+const FACTORY_AGENT_DIR = "factory";
 // Where the `code` and `gh` CLIs live; GUI apps get a bare PATH.
 const CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
 
 export default class GalaxyBrainPlugin extends Plugin {
-	private recordActions = new WeakMap<MarkdownView, { reviewable: boolean; actions: HTMLElement[] }>();
+	private recordActions = new WeakMap<MarkdownView, { kind: string; actions: HTMLElement[] }>();
 
 	async onload() {
 		registerDifferentialReview(this);
@@ -113,7 +115,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		}
 	}
 
-	/** Code, GitHub, agent and (branches/reviews) differential review icons in the header of notes inside a repository record. */
+	/** Code, GitHub, agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */
 	private refreshRecordActions() {
 		for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
 			const view = leaf.view;
@@ -121,7 +123,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 			const record = view.file && recordFromPath(view.file.path);
 			const reviewable = !!record && isReviewableRecordKind(record.kind);
 			const existing = this.recordActions.get(view);
-			if (existing && (!record || existing.reviewable !== reviewable)) {
+			if (existing && (!record || existing.kind !== record.kind)) {
 				existing.actions.forEach((action) => action.remove());
 				this.recordActions.delete(view);
 			}
@@ -134,10 +136,11 @@ export default class GalaxyBrainPlugin extends Plugin {
 				const actions = [
 					...(reviewable ? [view.addAction("git-compare", "Differential review", withRecord((r) => openDifferentialReview(this.app, r.dir)))] : []),
 					view.addAction("code", "Open with Code", withRecord((r) => this.openRecordInCode(r))),
+					...(record.kind === "branches" ? [view.addAction("git-compare-arrows", "Compare to upstream base", withRecord((r) => this.openRecordCompare(r)))] : []),
 					view.addAction("github", "Open on GitHub", withRecord((r) => this.openRecordOnGithub(r))),
 					view.addAction("bot", "Launch agent", withRecord((r) => this.pickLauncher(r))),
 				];
-				this.recordActions.set(view, { reviewable, actions });
+				this.recordActions.set(view, { kind: record.kind, actions });
 				this.register(() => actions.forEach((action) => action.remove()));
 			}
 		}
@@ -182,6 +185,12 @@ export default class GalaxyBrainPlugin extends Plugin {
 
 	private async openRecordOnGithub(record: RecordRef) {
 		window.open(githubUrl(record, await this.indexBody(record)));
+	}
+
+	private async openRecordCompare(record: RecordRef) {
+		const url = compareUrl(record, await this.indexBody(record));
+		if (url) window.open(url);
+		else new Notice(`No upstream_base_branch in ${record.name}'s index.md`);
 	}
 
 	async loadLaunchers(): Promise<Launcher[]> {
@@ -314,13 +323,31 @@ export default class GalaxyBrainPlugin extends Plugin {
 		};
 		renderTaskCards(el, tasks, {
 			defaultProfile: profiles[0]?.name ?? "",
-			...(Platform.isDesktopApp ? { launch: (task: Task, index: number) => void this.confirmTask(task, () => void remove(index)) } : {}),
+			...(Platform.isDesktopApp
+				? {
+						launch: (task: Task, index: number, pending: (on: boolean) => void) => void this.confirmTask(task, () => void remove(index), task.agentDir, pending),
+						refine: (task: Task) => void this.refineTask(task),
+					}
+				: {}),
 			remove: (_task, index) => void remove(index),
+			openRecord: (record, newLeaf) => this.openTaskRecord(record, newLeaf),
 		});
 	}
 
-	/** Launch dialog for a task; launched runs once the agent starts. */
-	async confirmTask(task: Task, launched: () => void, name = task.agentDir) {
+	/** Opens a task's record index.md, wherever its status puts it. */
+	openTaskRecord(record: TaskRecord, newLeaf: boolean) {
+		const path = recordIndexPath(record, this.app.vault.getMarkdownFiles().map((file) => file.path));
+		if (!path) return void new Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
+		void this.app.workspace.openLinkText(path, "", newLeaf);
+	}
+
+	/** Launch dialog for the factory agent to discuss refining task. */
+	async refineTask(task: Task) {
+		await this.confirmTask({ prompt: refinementPrompt(task), agentDir: FACTORY_AGENT_DIR }, () => {}, "refine-task");
+	}
+
+	/** Launch dialog for a task; launched runs once the agent starts, pending brackets the launch. */
+	async confirmTask(task: Task, launched: () => void, name = task.agentDir, pending?: (on: boolean) => void) {
 		const vaultRoot = this.vaultRoot();
 		if (!vaultRoot) return;
 		const profiles = await this.loadProfiles();
@@ -330,22 +357,25 @@ export default class GalaxyBrainPlugin extends Plugin {
 			profile: defaultProfile(profiles, launcher),
 			name: launcher.name,
 			prompt: task.prompt,
-			launch: (profile, name, prompt) => this.launch(vaultRoot, launcher, profile, name, prompt, launched),
+			launch: (profile, name, prompt) => this.launch(vaultRoot, launcher, profile, name, prompt, launched, pending),
 		}).open();
 	}
 
-	private launch(vaultRoot: string, launcher: Launcher, profile: Profile, name: string, prompt: string, launched?: () => void) {
+	private launch(vaultRoot: string, launcher: Launcher, profile: Profile, name: string, prompt: string, launched?: () => void, pending?: (on: boolean) => void) {
 		// Required lazily: child_process doesn't exist on mobile.
 		const { execFile } = require("child_process") as typeof import("child_process");
 		const started = new Notice(`Launching ${profile.name} in ${launcher.agentDir}…`, 0);
+		pending?.(true);
 		execFile(
 			`${vaultRoot}/${LAUNCH_SCRIPT}`,
 			[launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)],
 			{ timeout: 180_000 },
 			(error, stdout, stderr) => {
 				started.hide();
-				if (error) new Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15_000);
-				else {
+				if (error) {
+					pending?.(false);
+					new Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15_000);
+				} else {
 					new Notice(stdout.trim(), 10_000);
 					launched?.();
 				}

@@ -243,6 +243,7 @@
 .gb-task-high .gb-task-priority { color: var(--text-on-accent); background: var(--color-orange); }
 .gb-task-low { opacity: 0.75; }
 .gb-task-human { border-left-width: 3px; }
+.gb-task-pending { opacity: 0.4; pointer-events: none; }
 .gb-task-meta { flex: 1; color: var(--text-muted); font-size: var(--font-ui-smaller); }
 .gb-task-description { white-space: pre-wrap; margin-top: 4px; }
 .gb-task-link { font-size: var(--font-ui-small); margin-top: 4px; overflow-wrap: anywhere; }

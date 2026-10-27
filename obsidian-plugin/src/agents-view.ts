@@ -2,7 +2,7 @@ import { debounce, ItemView, Notice, parseYaml, Platform, stringifyYaml, type Vi
 import { ROUTINES, routineLaunch, tasksPath } from "./agent-routines";
 import type { Profile } from "./profiles";
 import { renderTaskCards } from "./task-cards";
-import { byPriority, parseTasks, removeTask, type Task, taskBlocks } from "./task-list";
+import { byPriority, parseTasks, removeTask, type Task, type TaskRecord, taskBlocks } from "./task-list";
 
 export const AGENTS_VIEW = "galaxy-brain-agents";
 /** `agent` state for the landing page across every agent dir. */
@@ -11,7 +11,9 @@ export const ALL_AGENTS = "*";
 export interface AgentHost {
 	agentDirs(): Promise<string[]>;
 	loadProfiles(): Promise<Profile[]>;
-	confirmTask(task: Task, launched: () => void, name?: string): Promise<void>;
+	confirmTask(task: Task, launched: () => void, name?: string, pending?: (on: boolean) => void): Promise<void>;
+	refineTask(task: Task): Promise<void>;
+	openTaskRecord(record: TaskRecord, newLeaf: boolean): void;
 }
 
 /** A task and the agent dir whose TASKS.md holds it (not necessarily its `agent_dir`). */
@@ -121,8 +123,15 @@ export class AgentsView extends ItemView {
 		const tasks = byPriority(lists.flatMap((list) => list.tasks));
 		renderTaskCards(root, tasks, {
 			defaultProfile: profiles[0]?.name ?? "",
-			...(Platform.isDesktopApp ? { launch: (_task: Task, i: number) => void this.host.confirmTask(tasks[i]!, () => void this.remove(tasks[i]!)) } : {}),
+			...(Platform.isDesktopApp
+				? {
+						launch: (_task: Task, i: number, pending: (on: boolean) => void) =>
+							void this.host.confirmTask(tasks[i]!, () => void this.remove(tasks[i]!), tasks[i]!.agentDir, pending),
+						refine: (task: Task) => void this.host.refineTask(task),
+					}
+				: {}),
 			remove: (_task, i) => void this.remove(tasks[i]!),
+			openRecord: (record, newLeaf) => this.host.openTaskRecord(record, newLeaf),
 		});
 	}
 
