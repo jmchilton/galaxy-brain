@@ -130,7 +130,7 @@ flowchart TD
 **Polishing** is where the PR description is written:
 
 1. Check CI, and fix anything the branch caused.
-2. A fresh subagent answers John's checklist with evidence from the diff. It never answers the "did a human read every test and comment" item; that one is left for John.
+2. A fresh subagent answers John's checklist with evidence from the diff.
 3. Write the description: a single-line opener, the pitch, risks, context and the agentic checks.
 4. A second subagent asks whether more development would make the pitch more convincing, lists the likely misreadings of the PR, and checks that a highlighted sentence answers each one.
 5. Suggest 3–5 titles and the `kind/` and `area/` labels.
@@ -159,7 +159,7 @@ Each check in a PR's "Agentic Checks" section links to the process that produced
 | Second Frontier Model Review | A model from another vendor reviewed the branch, and the recommendations that made sense were applied. |
 | [Refactoring of base branch](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md) | Refactoring that the change needed was moved into its own commits ahead of it, so the fix or feature reads as a small diff on top. |
 
-"John's Checklist" is answered from the diff by an agent, except the human-read item, which only John can check.
+"John's Checklist" is answered from the diff by an agent. "Human Review" is written by John's [differential review](https://jmchilton.github.io/galaxy-brain/factory/differential-review/) tool once they have checked off every commit or diff, and names the SHA they reviewed.
 
 > [!NOTE]
 > Want to see the raw records? Each branch's notes, debriefs and earlier drafts live under [`vault/repositories/galaxy/branches/`](https://github.com/jmchilton/galaxy-brain/tree/main/vault/repositories/galaxy/branches) while the work is active.

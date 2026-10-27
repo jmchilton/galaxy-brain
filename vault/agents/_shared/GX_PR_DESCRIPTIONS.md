@@ -16,13 +16,21 @@ For the main body - use best judgement.
 
 (see below)
 
+## Human Review
+
+(PUBLISHING_AGENT: Please include the contents of BRANCH_DIRECTORY/human_review.md before publishing this. If that file doesn't exist please double check that this PR should be published - if user confirms yes publish without this section.)
+
 ## Agentic Checks
 
 (see below - exclude section if none available)
 
 ## John's Checklist
 
+<details><summary>Checklist Details</summary>
+
 (see below)
+
+</details>
 
 (Galaxy template stuff - how to test, license, etc. if changed)
 
@@ -92,6 +100,7 @@ Always end the paragraph with `Developed with [John's Galaxy Brain Branch Factor
 ## DO: Include a risk assessment.
 
 See ./GX_ASSESSING_RISK.md for details and format.
+
 ## DO: Predict possible misunderstandings and highlight specific sentences addressing them in context.
 
 Highlight with bold and italics and try to keep it above folds and away from large blocks of text (if any).

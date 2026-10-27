@@ -15,12 +15,11 @@ Always use [`GENERAL.md`](../_shared/gx_pr_checklists/GENERAL.md). Add [`WORKFLO
 ## 3. Evaluate the checklist with a subagent
 
 - Give a fresh subagent the branch's diff against its base, the checklist and the branch's notes. Ask it to answer every item with evidence from the diff.
-- The subagent never answers the human-read item. It stays unchecked for John.
 - If an item fails, fix the branch, or stop and ask user when the fix is a judgement call. Don't write a description for a branch that fails its checklist.
 
 ## 4. Write the PR description
 
-- Write it to `BRANCH_DIRECTORY/pr_description.md`, following `GX_PR_DESCRIPTIONS.md`.
+- Write it to `BRANCH_DIRECTORY/pr_description.md`, following `GX_PR_DESCRIPTIONS.md`. Keep the Human Review placeholder as written.
 ## 5. Strengthen it with a subagent
 
 - Give a fresh subagent the description and the branch. Ask whether more development would make the pitch more convincing and/or allow not hedging. 
