@@ -10,9 +10,9 @@ upstream_base_branch: dev
 
 Review fixes are pushed at `0e46a8984b4`; John's final read-through (including the human-read checklist item) is still pending.
 
-[#24307](https://github.com/galaxyproject/galaxy/pull/24307) is open and non-draft against `dev`; proposed replies to mvdbeek await John's review.
+[#24307](https://github.com/galaxyproject/galaxy/pull/24307) is open and non-draft against `dev`; all five inline replies and the summary response to mvdbeek are posted.
 
-CI on `0e46a8984b4` is queued/running as of 2026-10-27; 148 local client tests and both targeted Playwright tests pass.
+CI on `0e46a8984b4` is green as of 2026-10-27 (all checks that ran passed); 148 local client tests and both targeted Playwright tests pass.
 
 ## Branch
 
@@ -31,7 +31,7 @@ CI on `0e46a8984b4` is queued/running as of 2026-10-27; 148 local client tests a
 
 ## Review response
 
-- [mvdbeek response plan and suggested replies](review_response_mvdbeek_1.md) · [Changes, validation and revision snapshot](review_response_mvdbeek_1_debrief.md)
+- [mvdbeek posted replies](review_response_mvdbeek_1.md) · [Changes, validation and revision snapshot](review_response_mvdbeek_1_debrief.md)
 
 ## Polish
 

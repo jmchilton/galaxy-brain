@@ -28,3 +28,7 @@ created /Users/jxc755/projects/repositories/galaxy-brain/vault/repositories/gala
   revision @ 0e46a8984b40 vs origin/dev (merge-base f1772b6775de)
   first snapshot: 15 commits, 33 files, 102 hunks
 ```
+
+## Posting follow-up — 2026-10-27
+
+John authorized posting and specified GPT-6.1-Sol at medium effort. Updated all six attributions and posted the five inline replies plus the [summary](https://github.com/galaxyproject/galaxy/pull/24307#issuecomment-6448179712). [Reply links](review_response_mvdbeek_1.md#posted-links) are recorded. No review thread was resolved. Rechecked `0e46a8984b4`: every check that ran passed, with only the report aggregation check skipped. Updated the posted summary to report green CI. John's final read-through remains pending.
