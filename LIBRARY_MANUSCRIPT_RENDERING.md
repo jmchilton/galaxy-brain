@@ -28,7 +28,7 @@ across all three papers from the start.
 - `references.md` mixes bibliography entries **and** editorial notes ("Use in
   Introduction…") — not machine-readable as-is.
 - SI (`supporting-information.md`) already has a clean contents table + stable
-  links + download paths (`/galaxy-brain/si/*.ga`). Inline mentions
+  links + download paths (`/si/*.ga`). Inline mentions
   ("SI Recipe S1–S3") are unlinked prose.
 - Markdown pipeline = remark plugins in `site/astro.config.mjs`
   (`remark-wiki-links`, `remark-md-links`, `remark-mermaid`). New linking logic
@@ -247,7 +247,7 @@ stays as notes.
 
 **SI cards:** render `supporting-information.md`'s contents table as a styled
 card grid — type icon (recipe / workflow / data), vignette badge, **download
-button** for `.ga`/`.yml` (paths already stable under `/galaxy-brain/si/`),
+button** for `.ga`/`.yml` (paths already stable under `/si/`),
 "render" link for recipe pages. Either embedded at the manuscript's
 `## Supporting Information` section or as a persistent sidebar "Downloads" block.
 

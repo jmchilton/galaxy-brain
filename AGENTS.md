@@ -107,7 +107,7 @@ Do not weaken the schema to fit a non-conforming note. Reshape the note or delib
 
 ## Static site
 
-- Astro publishes to GitHub Pages under `/galaxy-brain/`. `.github/workflows/deploy.yml` deploys on pushes to `main`.
+- Astro publishes to GitHub Pages at `galaxy-brain.jmchilton.net` (custom domain). `.github/workflows/deploy.yml` deploys on pushes to `main`.
 - `site/src/content.config.ts` loads `../vault/`. Collection patterns live in `site/src/lib/collection-patterns.ts`.
 - Collections are `vault` for typed notes and `projectFiles`, `paperFiles`, `repositoryFiles`, and `factoryFiles` for plain Markdown documents.
 - `site/src/pages/index.astro` imports the shared dashboard sections. `generate_dashboard.py` produces the matching Obsidian Dataview queries.

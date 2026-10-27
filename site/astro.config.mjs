@@ -11,13 +11,13 @@ import remarkPaperCrossrefs from './src/lib/remark-paper-crossrefs.ts';
 import remarkGithubAlerts from './src/lib/remark-github-alerts.ts';
 
 export default defineConfig({
-  site: 'https://jmchilton.github.io',
-  base: '/galaxy-brain',
+  site: 'https://galaxy-brain.jmchilton.net',
+  base: '/',
   integrations: [pagefind()],
   markdown: {
     remarkPlugins: [
-      [remarkWikiLinks, { vaultDir: '../vault', base: '/galaxy-brain' }],
-      [remarkMdLinks, { vaultDir: '../vault', base: '/galaxy-brain' }],
+      [remarkWikiLinks, { vaultDir: '../vault', base: '/' }],
+      [remarkMdLinks, { vaultDir: '../vault', base: '/' }],
       remarkMissingImages,
       remarkPaperCitations,
       remarkPaperCrossrefs,
