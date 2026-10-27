@@ -1,0 +1,4 @@
+- [26.2] Add missing E2E tests for Resume Paused Jobs and Storage Dashboard cleanup
+- [26.2] Test resuming paused jobs and freeing disk space in the browser
+- [26.2] Add browser coverage for History options > Resume Paused Jobs and Free up disk space
+- [26.2] Missing E2E tests: Resume Paused Jobs and purging deleted/archived items

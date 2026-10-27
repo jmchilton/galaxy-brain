@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.2
+---
 # selenium_resume_paused_purge_deleted
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_resume_paused_purge_deleted?expand=1)
@@ -5,11 +8,11 @@
 
 ## Status
 
-READY: implemented, re-scoped once, re-hardened; see [implementation debrief](implementation_debrief.md). Base `release_26.2` `b66ec973f2b`, head `257d514929c`.
+POLISHED: ready for John's final review; see [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md). Rebased onto `release_26.2` `a680ed79834`, head `3c8b6169aa7`.
 
 No PR.
 
-Fork CI on `257d514929c` green except Integration `TestSingularityJobsIntegration::test_mulled_simple` (Singularity mulled job error), unrelated to E2E-only change; promoted to `branches_implemented` 2026-10-24.
+Fork CI on pre-rebase `257d514929c` green except unrelated Singularity `test_mulled_simple` timeout; CI rerunning on `3c8b6169aa7`.
 
 ## Scope
 
