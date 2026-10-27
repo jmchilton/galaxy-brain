@@ -1000,11 +1000,11 @@
 - label: alevin-version-stale
   faqs: [topics/single-cell/tutorials/scrna-case_alevin/faqs/alevin_version.md, topics/single-cell/tutorials/scrna-case_alevin-combine-datasets/faqs/alevin_version.md]
   target: main
-  summary: 'Tells readers to switch to Alevin ; the scrna-case_alevin tutorial now pins , so following the FAQ moves them off the tutorial version. Title also "Why is Alevin is not working?".'
+  summary: 'Tells readers to switch to Alevin `1.3.0+galaxy2`; the scrna-case_alevin tutorial now pins `1.10.1+galaxy2`, so following the FAQ moves them off the tutorial version. Title also "Why is Alevin is not working?".'
   fix: 'Point at the version the tutorial uses (or say "use the version in the tutorial''s tool button / Tutorial Mode"); fix the title.'
 
 - label: anndata-version-stale
   faqs: [topics/single-cell/tutorials/scrna-scanpy-pbmc3k/faqs/anndata_not_working.md]
   target: main
-  summary: 'Says avoid AnnData Import/Manipulate  and use ; the scrna-scanpy-pbmc3k tutorial now pins , so the advice downgrades readers.'
+  summary: 'Says avoid AnnData Import/Manipulate `0.7.4` and use `0.6.2`; the scrna-scanpy-pbmc3k tutorial now pins `0.10.9+galaxy0`, so the advice downgrades readers.'
   fix: 'Remove the FAQ, or update it to the tutorial''s version / Tutorial Mode.'
