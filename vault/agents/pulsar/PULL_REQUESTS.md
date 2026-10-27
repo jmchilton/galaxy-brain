@@ -1,5 +1,6 @@
 PRs To Review:
 - [#553](https://github.com/galaxyproject/pulsar/pull/553) — Initial review done (1 P2 coverage gap); response and test-only review branch ready for John. [notes](../../repositories/pulsar/reviews/active/553/index.md)
+- [#552](https://github.com/galaxyproject/pulsar/pull/552) — Initial review done (2 P2); response and verification branch ready for John. [notes](../../repositories/pulsar/reviews/active/552/index.md)
 - [#550](https://github.com/galaxyproject/pulsar/pull/550) — Initial review done (1 P1, 13 P2, 11 P3); response + review branch ready for John. [notes](../../repositories/pulsar/reviews/active/550/index.md)
 - [#548](https://github.com/galaxyproject/pulsar/pull/548) — Approved; merge pending because Framework tests / Test (3.10, master, directory) fails during collection. [notes](../../repositories/pulsar/reviews/active/548/index.md)
 - [#545](https://github.com/galaxyproject/pulsar/pull/545) — Changelog migration needs `no changelog` exemption (Check changes/ entry failing); mvdbeek review + fix PR jmchilton/pulsar#2; nsoranzo asks for rationale. [notes](../../repositories/pulsar/reviews/active/545/index.md)
