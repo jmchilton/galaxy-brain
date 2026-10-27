@@ -2,7 +2,7 @@
 
 Triage index for `galaxyproject/planemo` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/planemo/issues/`. PR reviews are tracked in `PULL_REQUESTS.md`; live gaps with no issue yet are in [`WORTH_FILING.md`](WORTH_FILING.md).
 
-GitHub state last refreshed: 2026-10-24. Issues here are unassigned by default. Only the issues below are triaged; Planemo's other ~170 open issues are not listed.
+GitHub state last refreshed: 2026-10-27. Issues here are unassigned by default. Only the issues below are triaged; Planemo's other ~170 open issues are not listed.
 
 ## Waiting on John (`needs_decision`)
 

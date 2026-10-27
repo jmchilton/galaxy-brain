@@ -1,20 +1,8 @@
-# Planemo review sync — 2026-10-24
+# Planemo review sync — 2026-10-27 (agent dir: planemo)
 
-Agent dir: `vault/agents/planemo`.
-
-## Archived (merged 2026-10-12)
-- #1703, #1706, #1725 -> `reviews/archived/`; entries removed.
-
-## Needs re-review
-None.
-
-## Status changes
-- #1747: review-fix PR mvdbeek/planemo#2 merged; head `04c44d6c`; approved, CI green.
-- #1700: marked draft, 15 checks green.
-- Others unchanged (heads match recorded SHAs; #1709/#1714 heads are merged companion fixes).
-
-## Mismatches
-- #1734: active record (retained implementation/review record, open draft) has no queue entry; left as is.
-
-## Removable worktrees
-None. No worktrees exist for #1703/#1706/#1725. `pr/1747` has the review branch checked out, no upstream configured; not touched.
+- Archived: none (no merged/closed PRs).
+- Needing re-review: none; reviewed heads match for tracked PRs (not re-verified for #1744, #1751, #1752 beyond index SHA match).
+- Status changes: #1707, #1724 and #1733 now CONFLICTING (#1733 approved); #1700, #1701 CONFLICTING drafts. Checks all green.
+- Mismatches: active record `1734` (own pyrefly draft) has no `PULL_REQUESTS.md` entry; not added.
+- New untracked PRs: #1756 (bernt-matthias), #1715 (guerler, review requested from John); drafts #1743 skipped.
+- Removable worktrees: none checked.
