@@ -28,6 +28,7 @@ import {
 import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
 import { AUTO_EXPAND_LINES, focusedItem, handleReviewKey, newReviewUi, renderReview, restoreFocus, type ReviewUi, visibleLineCount } from "./diff-review-render";
 import { renderThread, type AnnotationActions } from "./diff-review-threads";
+import { HUMAN_REVIEW_FILE, humanReviewStatus } from "./diff-review-status";
 import { vaultFileAdapter } from "./diff-review-storage";
 import { recordFromPath } from "./launchers";
 
@@ -290,11 +291,25 @@ export class DiffReviewView extends ItemView {
 				if (this.store !== store) return;
 				this.reviewState = next;
 				this.rebuild();
+				await this.writeHumanReviewStatus();
 			})
 			.catch((error) => {
 				new Notice(`Could not update review-state.json: ${error instanceof Error ? error.message : error}`, 10_000);
 				void this.reload();
 			});
+	}
+
+	/** Write `<record>/human_review.md` when commits or diffs are all reviewed; remove it when that stops being true. */
+	private async writeHumanReviewStatus() {
+		const { view, recordDir } = this;
+		if (!view || !recordDir) return;
+		const path = `${recordDir}/${HUMAN_REVIEW_FILE}`;
+		const status = humanReviewStatus(view);
+		const adapter = this.app.vault.adapter;
+		const exists = await adapter.exists(path);
+		if (status === null) {
+			if (exists) await adapter.remove(path);
+		} else if (!exists || (await adapter.read(path)) !== status) await adapter.write(path, status);
 	}
 
 	/** UI thread edits serialize independently of immutable CLI replies. */
