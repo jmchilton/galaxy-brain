@@ -1,0 +1,1 @@
+- [`pulsar-shared-constant`](abandoned/pulsar-shared-constant/index.md) (`3379e60eca`, PR #522) — abandoned: merged #537 already made `pulsar.client.staging` import-free, so the change is redundant (John, 2026-10-26).

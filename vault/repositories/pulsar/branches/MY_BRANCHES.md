@@ -11,7 +11,6 @@ None yet.
 - [`towncrier_changelog`](active/towncrier_changelog/index.md) — Introduces towncrier for CHANGELOG management. Base `release_0.15`. [#545](https://github.com/galaxyproject/pulsar/pull/545).
 - [`pulsar-transfer-metrics`](active/pulsar-transfer-metrics/index.md) — Records file staging metrics for Galaxy job metrics. [#518](https://github.com/galaxyproject/pulsar/pull/518).
 - [`action-destination-defaults`](active/action-destination-defaults/index.md) — Lets file actions declare what they need from the destination. [#517](https://github.com/galaxyproject/pulsar/pull/517).
-- [`pulsar-shared-constant`](active/pulsar-shared-constant/index.md) — Moves `COMMAND_VERSION_FILENAME` to import-free `pulsar.shared`. [#522](https://github.com/galaxyproject/pulsar/pull/522).
 - [`htcondor2`](active/htcondor2/index.md) — Adds a `queued_htcondor` manager on the htcondor2 bindings, shared with Galaxy. [#486](https://github.com/galaxyproject/pulsar/pull/486).
 
 ## Draft Pulsar PRs — ready to undraft (`draft_ready`)
