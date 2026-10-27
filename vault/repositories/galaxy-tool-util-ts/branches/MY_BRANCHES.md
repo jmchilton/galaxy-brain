@@ -34,7 +34,8 @@ None yet.
 
 ## Branches — ready for final review (`branches_ready_for_final_review`)
 
-None yet.
+- [`issue_210_datatypes_snapshot`](active/issue_210_datatypes_snapshot/index.md) — Committed usegalaxy.org datatypes snapshot + `snapshotDatatypesMapper()` in workflow-graph (#210). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_210_datatypes_snapshot).
+- [`issue_210_test_kind_checks`](active/issue_210_test_kind_checks/index.md) — validate-tests checks collection shape; datatype warnings (#210 asks 1+2). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/issue_210_datatypes_snapshot...issue_210_test_kind_checks).
 
 ## Branches — need PR (`branches_need_pr`)
 

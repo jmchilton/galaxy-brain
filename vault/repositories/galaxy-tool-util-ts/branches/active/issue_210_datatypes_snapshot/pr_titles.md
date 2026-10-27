@@ -1,0 +1,4 @@
+- workflow-graph: committed Galaxy datatypes snapshot for offline subtype checks
+- Snapshot usegalaxy.org's datatype hierarchy into workflow-graph
+- Add `@galaxy-tool-util/workflow-graph/datatypes-snapshot` (Galaxy `types_and_mapping`)
+- Offline `DatatypesMapperModel` from a committed Galaxy datatypes snapshot

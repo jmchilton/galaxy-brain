@@ -5,7 +5,11 @@ Downstream: [galaxyproject/foundry#731](https://github.com/galaxyproject/foundry
 
 [Plan](plan.md) · [Galaxy datatype research](research_galaxy_datatypes.md) · [TS consumer research](research_ts_consumers.md)
 
-Branches (stacked): [`issue_210_datatypes_snapshot`](../../../branches/active/issue_210_datatypes_snapshot/index.md) (Phase A) → [`issue_210_test_kind_checks`](../../../branches/active/issue_210_test_kind_checks/index.md) (Phase B, asks 1+2; [verification](../../../branches/active/issue_210_test_kind_checks/verification.md)). Ask 3 (output `ftype`) deferred.
+Branches (stacked): [`issue_210_datatypes_snapshot`](../../../branches/active/issue_210_datatypes_snapshot/index.md) (Phase A) → [`issue_210_test_kind_checks`](../../../branches/active/issue_210_test_kind_checks/index.md) (Phase B, asks 1+2; [verification](../../../branches/active/issue_210_test_kind_checks/verification.md)). Ask 3 (output `ftype`) deferred. [Draft Galaxy issue](galaxy_issue_draft_datatype_mapping_collisions.md) (datatype class-name collisions; not posted).
+
+## Status (2026-10-27)
+
+Both branches polished, in `branches_ready_for_final_review`; no PRs opened. Follow-ups: output `ftype` propagation (ask 3); per-test seeded output resolution; connection validation skips `pick_value` repeat inputs (2/17 egapx outputs resolve); planemo vs Galaxy runner on `collection_type`.
 
 ## Triage (2026-10-27)
 

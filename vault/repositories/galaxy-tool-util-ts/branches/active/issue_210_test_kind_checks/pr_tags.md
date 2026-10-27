@@ -1,0 +1,2 @@
+- `enhancement`
+- `bug` — optional; the issue frames the gap as validate-tests reporting `valid: true` for tests that fail in Galaxy.

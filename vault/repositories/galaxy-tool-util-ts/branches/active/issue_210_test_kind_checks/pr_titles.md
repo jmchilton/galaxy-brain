@@ -1,0 +1,4 @@
+- validate-tests: check collection shape and datatype against the workflow
+- Cross-check test collection shapes and datatypes against workflow inputs and outputs
+- `gxwf validate-tests --workflow`: catch dataset/collection and `collection_type` mismatches
+- validate-tests: resolve output shapes through the connection graph; datatype warnings
