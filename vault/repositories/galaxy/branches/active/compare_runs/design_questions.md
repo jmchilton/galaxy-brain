@@ -1,9 +1,10 @@
 # Design questions for John
 
-## Where things stand (07:25)
+## Where things stand (09:10)
 
-- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs`, ~10k non-generated lines. History cleaned to ~39 commits, baselines first (pre-cleanup backup: `jmchilton/compare_runs_pre_harden`). See [initial_implementation_debrief.md](initial_implementation_debrief.md).
-- Hardening 1: test challenges done; Codex found 4 issues (multi-dataset inputs show only first, parameter-input steps show no value, skipped vs not_in_version, label facet page-scoped) — fixes in progress. [Scope evaluation](scope_evaluation.md) recommends a modest "finish the abstractions" expansion (5 small items) → re-scope next, then hardening 2 and 3.
+- All of plan.md plus Phase 5 polish (two-row diff, filters, CSV export, highlights, batch pager) is implemented and pushed: `jmchilton/compare_runs` (`9aa33beef03`), ~10k non-generated lines. Pre-cleanup backup: `jmchilton/compare_runs_pre_harden`. See [initial_implementation_debrief.md](initial_implementation_debrief.md).
+- Hardening 1 done through scope: test challenges, [Codex](codex_review.md) (3 confirmed + fixed, 1 refuted), [scope evaluation](scope_evaluation.md) → modest expansion.
+- Re-scope implemented (original scope kept as `compare_runs_alt_original_scope`): `totalMatches` + `useExecutionJobs` second consumers, `?keys=metadata_<name>`, mode 2 `versions` filter, DatasetDetails "Other runs", skipped outputs → `Missing(skipped)`, declared columns from step definitions, selenium mypy fix. Review running; then hardening 2 and 3.
 - **Biggest decision: how to split ~10k lines into PRs** — five options (A–E) in [scope_evaluation.md](scope_evaluation.md#possible-decompositions).
 - Other important questions: 1 (mode 3 row unit), 10 (`inaccessible` cells), 14 (entry points), 19 (output links never highlighted).
 
