@@ -1,36 +1,46 @@
-# issue_23891_output_reference_resolver — polish debrief (2026-10-06)
+# issue_23891_output_reference_resolver — polish debrief (2026-10-27)
 
-Polished at `b73007851cd` (was `6d6548ee962`; base `dev`, parent #23919 merged).
+Re-polished at `b28aa18d1b5` (base `dev`). No branch commits this round. Previous polish: [earlier_drafts/4/polish_debrief.md](earlier_drafts/4/polish_debrief.md).
 
 ## CI
-- Fork CI on `6d6548ee962` was still queued at start. The only branch-related red from the prior run (mypy `output_collect.py`, `default_format: str | None`) was already fixed and verified locally. The other prior reds were unrelated (cache eviction, Mulled, packages, release script). Fork CI on `b73007851cd` is pending.
+Fork CI on `b28aa18d1b5` was queued or pending at the start, and nothing had failed. It still needs to finish before this branch can open.
 
 ## Checklist (GENERAL + WORKFLOW_RELATED)
-WORKFLOW_RELATED was included because a dropped reference changes what the workflow editor advertises for a dataset output (`modules.py`). There were no hard fails. Findings:
-- The pre-26.2 warning didn't say the reference becomes a load error. **Fixed:** it now ends "Ignoring it; tools with profile 26.2 or newer fail to load."
-- The API test variable `pair` was really a list. **Fixed:** renamed to `forward_reverse`.
-- Duplicate legacy qualifiers. `qualify_legacy_data_input_reference` (already on dev, used for `type_source`) overlaps `InputReferences`. Left for John; it widens scope.
-- `metadata_source` isn't linted. Left for John (open since the parent's polish).
+Every item passed on the code. Code, XSD, warnings and tests use 27.0 consistently, and all imports are at the top of their files. The only failure was the stale `pr_description.md`, which still said 26.2, said `metadata_source` isn't linted, and left out the shadowed-alias error.
+
+## Description
+- Rewritten to the current `GX_PR_DESCRIPTIONS.md` structure: Human Review placeholder, Agentic Checks, Context with the alt and the Factory link, and the checklist in a details block.
+- Content updated for the 27.0 gate, `metadata_source` linting and the shadowed-alias load error.
+- The #23902 line no longer names a version, because that branch's record still says 26.2.
 
 ## Strengthening round (one round)
 Applied:
-- YAML-tool unit test (`test_yaml_tool_references_resolved`): red with the load hook disabled, green with it.
-- XSD wording now includes `hidden_data`, matching `OUTPUT_REFERENCE_PARAM_TYPES`.
-- API test comment no longer implies `format_source="input"` is blocked.
-- Description:
-  - The sweep claim is scoped to the swept repos.
-  - New bold line: legacy aliases still work at 26.2, #23902 requires qualified names, and `structured_like`/`type_source`/`change_format` are untouched.
-  - Admin load warnings for the 22 drops.
-  - The test-failure claim is narrowed. The `tool_util` unit tests hit the moved resolver directly, so they don't count as red-on-dev.
-  - The editor side effect now says "dataset output".
+- Re-verified the "red with load-time resolution disabled" claim on the unit file at this head: 6 red, 1 green (the declared control). The framework and API parts of that claim were not re-run.
+- The sweep is labeled as measured before the 27.0 gate. The numbers weren't re-measured.
+- Removed the duplicate workflow-editor bullet from Side effects.
 
 Left over:
-- An end-to-end `metadata_source` collision test (framework/API). Today it's covered only at the unit level (rewritten value).
+- An end-to-end `metadata_source` test (framework or API). Coverage is still unit and lint level only.
+- No re-sweep of the 555/94/22 numbers.
 
-Checks: 185 unit tests (output references, linters, collect_primary_datasets) pass. mypy is clean on the changed modules. ruff/black/isort and pre-commit pass. The checklist subagent wasn't re-run; the only answer the changes touched (failure text) was updated in the description directly.
+## Galaxy check
+`make format` made no changes. mypy (`mypy.ini`, changed `lib` files) reports no errors in the changed files.
+
+## Titles and tags
+- In the title that named a profile, 26.2 → 27.0.
+- Tags unchanged: `kind/bug`, `area/tool-framework`.
+
+## Snapshot
+```
+created .../differential-review/snapshots/20261027T193528Z-polishing-b28aa18d1b5e.json
+  polishing @ b28aa18d1b5e vs origin/dev (merge-base a9a68082414f)
+  since 20261027T192012Z-revision-b28aa18d1b5e:
+    commits: 11 same, 0 rebased, 0 changed, 0 new, 0 dropped
+    hunks:   32 carried, 0 changed, 0 new, 0 dropped
+```
 
 ## Questions for John
-- Lint `metadata_source` before 26.2 makes a bad one a load error?
-- ~~Fold `type_source`'s `qualify_legacy_data_input_reference` onto `InputReferences`?~~ Done at `ca3890d94e0` (John asked): the check moved into `_resolve_output_references` and shares its `InputReferences`; the helper is deleted; an ambiguous alias lists every candidate. 180 unit tests pass. `issue_23902` was rebased onto it (two mechanical conflicts: test additions, XSD `metadata_source` sentence), now `435099bdf8c`, with 200 unit tests passing.
-- Cover `structured_like`/`change_format` with the same resolution (follow-up)?
-- Add an end-to-end `metadata_source` collision test before opening?
+- Is 27.0 settled as the gate profile? Should the pitch say why?
+- Add an end-to-end `metadata_source` test before opening?
+- Should `issue_23902_qualified_output_references` move from 26.2 to 27.0 too?
+- `human_review.md` predates this round; refresh it during final review.

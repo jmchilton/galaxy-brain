@@ -2,4 +2,4 @@
 - Stop format_source from resolving Galaxy's internal input keys
 - Resolve output format/metadata references at tool load, not against job-creation keys
 - Fix format_source legacy alias resolving to the wrong input; ignore internal keys
-- Validate format_source/metadata_source at tool load (error from profile 26.2)
+- Validate format_source/metadata_source at tool load (error from profile 27.0)
