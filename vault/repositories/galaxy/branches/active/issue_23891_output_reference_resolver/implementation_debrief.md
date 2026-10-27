@@ -1,41 +1,34 @@
-# issue_23891_output_reference_resolver — implementation debrief (re-harden, 2026-10-27)
+# issue_23891_output_reference_resolver — implementation debrief (revision, 2026-10-27)
 
-**STATUS: READY.** Fixes galaxyproject/galaxy#23891. The branch is at `jmchilton/issue_23891_output_reference_resolver` @ `bc6d953af2c`, nine commits on `origin/dev` (`a9a68082414`). The earlier debrief is in `earlier_drafts/1/`.
+**STATUS: READY.** Fixes galaxyproject/galaxy#23891. The branch is at `jmchilton/issue_23891_output_reference_resolver` @ `b28aa18d1b5`, 11 commits on `origin/dev` (`a9a68082414`). The re-harden debrief is in `earlier_drafts/3/`.
 
-## What happened in this re-harden
-- **Rebase:** rebased cleanly onto `origin/dev`; the branch had been 2150 commits behind. The unit tests passed afterwards.
-- **Round 1 hardening** (debriefs in `earlier_drafts/2/`):
-  - The test challenge trimmed two comments.
-  - Codex found a real load crash: a tool with a `value_from` conditional (as in `upload.xml`) plus any `format_source`/`metadata_source` output hit an `AssertionError`. I fixed it with a red→green test.
-  - The thermo-nuclear review built the resolver once and flattened `_visit`.
-  - The baseline refactor split out a pure refactor commit, `0858c00a9e9`, that moves the linter walker into `tool_util/parser/output_references.py` as `InputReferences`.
-- **Rescope (EXPAND):** added `OutputsMetadataSourceReference` (`886d8ffd327`). It uses the same `_check_output_reference` path and rules as format_source, so every reference that fails at 26.2 load is now linted first.
-  - The pre-rescope branch is kept as the alt `..._alt_original_scope`.
-  - The normal review found no bugs. Details: `implementation_rescope_debrief.md`, `subagents/rescope_review.md`.
-- **Round 2 hardening** (current debriefs):
-  - Test challenge: no change.
-  - Codex: no change; every finding is an open policy question or was already true on dev.
-  - Thermo-nuclear: `resolve()` cleanup and comment trims.
-  - Baseline: no change.
-  - Scope: **KEEP**.
-- **Checks:**
-  - `make format` is clean.
-  - The 4 unit test files pass (190 tests).
-  - mypy, compared with dev on the changed files, shows no new real errors. The only new line is the usual `Linter` "subclass Any" environment noise.
-  - I didn't rerun the API or framework tests. No runtime behavior changed since the earlier verified run apart from the `value_from` guard, which has a unit test.
+## Revision: John answered open question 1
+John's decision: "Yes - but dev has shifted lets error it out at 27.0". `release_26.2` has branched, so dev is now 27.0.
+- **Gate moved:** the branch's existing load error for an unresolvable `format_source`/`metadata_source` moved from profile 26.2 to 27.0, with John's OK. Without the move, tools that already have profile 26.2 would newly fail to load. Both gates now read one `OUTPUT_REFERENCE_STRICT_PROFILE`.
+- **New error: shadowed legacy alias.** This is an unqualified reference whose qualified key is also another input's legacy alias, e.g. `input1` → `cond|input1` when `cond|inner|input1` exists.
+  - From profile 27.0, it fails tool load with "is ambiguous. Use the qualified name 'cond|input1'".
+  - Below 27.0 the reference is kept as written, which is the same as dev.
+  - The linter errors at the same threshold through the shared `output_reference_ambiguity()`.
+  - Runtime verified: the suggested qualified key wins, because `set_legacy_alias` names are looked up only after real keys.
+- **Docs and wording:** the XSD has a new `### 27.0` section covering both rules. The linter's discovered-collection error now says "before Galaxy 27.0".
+- **Tests:** the new load and lint tests were red against the old code. They cover the 27.0 load and lint errors, both attributes, and the lenient behavior below 27.0.
+- **Process:**
+  - A normal review found no bugs. I applied two nits; see `subagents/profile_27_review.md`.
+  - A fresh test challenge rewrote one fixture as a literal; see `test_challenges_debrief.md`.
+  - 194 unit tests pass, and `black`/`ruff`/`isort` are clean.
+  - I didn't rerun the API or framework tests, because no runtime path below profile 27.0 changed.
 
 ## Snapshot
 ```
-exists .../differential-review/snapshots/20261027T164915Z-hardening-bc6d953af2ce.json
-  hardening @ bc6d953af2ce vs origin/dev (merge-base a9a68082414f)
-  since 20261027T162528Z-revision-6524c4c38c30:
-    commits: 0 same, 2 rebased, 2 changed, 5 new, 0 dropped
+created .../differential-review/snapshots/20261027T192012Z-revision-b28aa18d1b5e.json
+  revision @ b28aa18d1b5e vs origin/dev (merge-base a9a68082414f)
+  since 20261027T164915Z-hardening-bc6d953af2ce:
+    commits: 9 same, 0 rebased, 0 changed, 2 new, 0 dropped
 ```
 
 ## Open questions for John
-1. **Shadowed legacy alias:** should it be a load error from 26.2? Codex raised it twice, and it isn't a regression. The linter already errors on it.
-2. **Mixed-type conditional matches:** they are kept on `any()`. Should 26.2 require `all()`?
-3. **YAML tool linting:** the output reference linters are XML-only, same as dev. Make it a follow-up?
-4. **PR split:** 1, 2 or 3 PRs (see `scope_evaluation.md`)?
-5. **Stale PR description:** `pr_description.md` predates the metadata_source lint and the `value_from` fix, and needs a refresh before the PR opens.
-6. **CI:** fork CI hasn't run on `bc6d953af2c`.
+1. **Mixed-type matches:** keep `any()`?
+2. **YAML tool linting:** do it as a follow-up?
+3. **PR split:** one, two or three PRs (see `scope_evaluation.md`)?
+4. **PR description:** `pr_description.md` is stale. It predates the `metadata_source` lint, the `value_from` fix and the 27.0 gate, and it still says 26.2.
+5. **CI:** fork CI hasn't run on `b28aa18d1b5`.
