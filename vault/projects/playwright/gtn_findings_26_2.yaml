@@ -972,3 +972,9 @@
   target: main
   summary: 'SRA helpdesk address is truncated: `sra@ncbi.nlm.nih` (text and mailto), so mail bounces.'
   fix: 'Use `sra@ncbi.nlm.nih.gov` in both.'
+
+- label: kalamari-host-list-link
+  faqs: [topics/microbiome/tutorials/pathogen-detection-from-nanopore-foodborne-data/faqs/host_removal.md, topics/microbiome/tutorials/pathogen-detection-from-nanopore-foodborne-data/faqs/importing_genomes.md]
+  target: main
+  summary: 'The host list link (Kalamari master src/Kalamari_v3.9.1.tsv) 404s; Kalamari is at v5.x and splits the list into src/chromosomes.tsv and plasmids.tsv.'
+  fix: 'Pin it: https://github.com/lskatz/Kalamari/blob/8bdf8738d630091c8eb8cfe74d2ff57b049009d8/src/Kalamari_v3.9.1.tsv (last commit with the file), or link src/chromosomes.tsv if the tutorial DB is v5.'
