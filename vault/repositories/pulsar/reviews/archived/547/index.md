@@ -17,3 +17,5 @@ The default reviewer passed five isolated checks of the actual cleanup function;
 PR CI lint, format, typing, unit tests, regular tests, resilience, and both Galaxy dev framework jobs passed. The sole failed job, [Test (3.10, master, directory)](https://github.com/galaxyproject/pulsar/actions/runs/38610114064/job/116010958929), aborts during Galaxy test collection because `galaxy.jobs.runners.pulsar` cannot import `build_client_manager` from `pulsar.client`. This import interface is untouched by the logging-only diff; the failure appears independent of this PR.
 
 Vault validation: `make validate` passed on a clean HEAD snapshot with this review's changes (126 files, zero errors, 15 advisory warnings). Validation in the shared working checkout is blocked by the unrelated untracked `vault/FILL_IN_AT_RUNTIME.md`, which has no frontmatter.
+
+Tracking ended 2026-10-26: merged; archived, worktree removed.

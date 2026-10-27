@@ -1,10 +1,11 @@
 # Pulsar review sync report
 
-Synced 2026-10-25, agent dir `vault/agents/pulsar`.
+Synced 2026-10-26, agent dir `vault/agents/pulsar`.
 
-- Archived: none. All 9 queued PRs still open; entries and active records match.
-- Re-review needed: none; all head SHAs match the last reviewed commits.
-- Status changes: none. Reds: #545 (Check changes/ entry), #530 and #529 (2 Test checks each). Conflicting: #473, #486, #517, #518, #522, #523, #529.
-- Mismatches: none.
-- Untracked open non-draft PRs: #547, #548, #549, #550 (new), #399, #401 (old); suggested in TASKS.md.
-- Removable worktrees: not audited.
+- Archived: #547, #548 (both merged 2026-10-25). Worktrees removed (clean, ancestors of master).
+- Re-review needed: none; head SHAs match recorded reviews (#517 head `df0b98e` vs recorded `c5f24c6`: review fixes pushed, status already notes it).
+- Status changes: #517, #518, #486 now MERGEABLE (were conflicting). Still conflicting: #522, #529. #473 mergeable UNKNOWN.
+- Reds: #517/#518/#530 Test (3.10, master/dev); #545 Check changes/ entry; #529 2 tests; #486 pyrefly x2.
+- Mismatches: none after archive. #552/#553 records untracked in git (in-progress agents), left alone.
+- Untracked open PRs: #549 (already suggested in TASKS.md), #399, #401 (old).
+- Removable worktrees: 547, 548 removed; others not audited.
