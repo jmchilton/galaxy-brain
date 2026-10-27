@@ -11,6 +11,7 @@ Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agen
 - [`issue-724-shed-tool-id-version`](active/issue-724-shed-tool-id-version/index.md) — Shed tool_id is the full versioned GUID in implement-galaxy-tool-step (#724). [#727](https://github.com/galaxyproject/foundry/pull/727).
 - [`issue-725-brief-scope-conflicts`](active/issue-725-brief-scope-conflicts/index.md) — Clear scope vs source conflicts become brief open questions (#725). [#728](https://github.com/galaxyproject/foundry/pull/728).
 - [`issue-718-nextflow-scenarios`](active/issue-718-nextflow-scenarios/index.md) — Plain end-to-end nextflow-to-galaxy scenarios for nine more fixtures (#718). [#729](https://github.com/galaxyproject/foundry/pull/729).
+- [`gxwf-1-15`](active/gxwf-1-15/index.md) — Bumps gxwf/schema pins to 1.15.0, re-casts Molds. [#736](https://github.com/galaxyproject/foundry/pull/736).
 
 ## Open Foundry PRs — needs attention (`attention`)
 
