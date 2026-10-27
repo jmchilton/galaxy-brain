@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished; John read it through. Base `release_26.2`, head `0f23fc4cf5a`. See the [implementation debrief](implementation_debrief.md) and [polish debrief](polish_debrief.md).
+Polished; John read it through. Rebased onto `release_26.2` 2026-10-27 (conflict with new `test_history_panel_switch_history` resolved by keeping both) with Marius's optional tweaks folded in; head `29f5d9c46ce`. See the [implementation debrief](implementation_debrief.md) and [polish debrief](polish_debrief.md).
 
-Draft [#24347](https://github.com/galaxyproject/galaxy/pull/24347) opened 2026-10-21 on John's request, waiting on CI; title is pr_titles.md option 1. [Description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+[#24347](https://github.com/galaxyproject/galaxy/pull/24347) opened 2026-10-21, approved by mvdbeek; title is pr_titles.md option 1. [Description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-Fork CI green so far; Playwright, Integration and docs still running (2026-10-21).
+CI pending on rebased head (2026-10-27).
 
 ## Scope
 
@@ -30,3 +30,13 @@ Merges cleanly (`git merge-tree`) with `selenium_history_datatype_citations`, `s
 ## Worktree
 
 `~/projects/worktrees/galaxy/branch/selenium_dataset_tags_auto_detect/`. `.venv` and `client/node_modules` are symlinks into `galaxy_ui_driver_gxui`; never run `pnpm install` here. The client is built in place (`static/dist`). Tests use a framework-managed server.
+
+## Revision 2026-10-27
+
+mvdbeek approved with two optional asks, both applied: `history_panel_item_add_tags` docstring says "dataset" (collections open instead of expanding), and `test_history_dataset_auto_detect_metadata` reads the hid from the API and asserts literal `0` instead of a `detected` variable. Selenium tests not rerun locally; CI covers.
+
+```
+created .../differential-review/snapshots/20261027T193853Z-revision-29f5d9c46ce5.json
+  revision @ 29f5d9c46ce5 vs origin/release_26.2 (merge-base 92f736f9ca79)
+  first snapshot: 5 commits, 6 files, 13 hunks
+```
