@@ -15,6 +15,6 @@ PRs To Review:
 - [#1744](https://github.com/galaxyproject/planemo/pull/1744) — Taken over as branch `list-param-inputs-not-collections`; initial review not delivered. [notes](../../repositories/planemo/reviews/active/1744/index.md)
 - [#1752](https://github.com/galaxyproject/planemo/pull/1752) — Initial review drafted; review branch pushed; not delivered. [notes](../../repositories/planemo/reviews/active/1752/index.md)
 - [#1747](https://github.com/galaxyproject/planemo/pull/1747) — Approved with response; review-fix PR mvdbeek/planemo#2 merged (head `04c44d6c`); awaiting merge. [notes](../../repositories/planemo/reviews/active/1747/index.md)
-- [#1756](https://github.com/galaxyproject/planemo/pull/1756) — Initial review drafted (approve, 1 P3); review branch pushed; not delivered. [notes](../../repositories/planemo/reviews/active/1756/index.md)
+- [#1756](https://github.com/galaxyproject/planemo/pull/1756) — Approved with response; review branch pushed to PR head; awaiting merge. [notes](../../repositories/planemo/reviews/active/1756/index.md)
 
 GitHub state last refreshed: 2026-10-27.

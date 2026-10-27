@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review against `ce1a2eb3` complete (approve; 1 P3, fixed on review branch); not delivered.
+Initial review against `ce1a2eb3` complete (approve; 1 P3, fixed on review branch); approved on GitHub and review branch pushed to PR head (`2a58b5f8`), 2026-10-27; awaiting merge.
 
 PR open by bernt-matthias; base `master`.
