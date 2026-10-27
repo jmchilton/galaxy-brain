@@ -47,3 +47,5 @@ Recommend labels in `BRANCH_DIRECTORY/pr_tags.md`: exactly one `kind/` label and
 ## 10. Hand off
 
 Move the entry from `branches_need_polish` to `branches_ready_for_final_review`, linking the branch's `index.md`, per [`MY_BRANCHES_INDEX.md`](../_shared/MY_BRANCHES_INDEX.md). Take a `polishing` snapshot per [`PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md`](../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md), then write a debrief of the polishing process to `BRANCH_DIRECTORY/polish_debrief.md` and link it, the description, titles, and tags from `index.md`.
+
+In your hand-off message, quote the snapshot's "since" summary, so John knows whether code changed since they last reviewed it or only the description did.
