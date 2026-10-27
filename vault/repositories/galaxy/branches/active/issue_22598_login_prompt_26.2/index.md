@@ -5,11 +5,15 @@
 
 ## Status
 
-`branches_implemented`: implemented and pushed 2026-10-20, but not polished. Base `release_26.2` (`1ff2ce4cc51`), head `d5723a26b94`. Worktree: `~/projects/worktrees/galaxy/branch/issue_22598_login_prompt_26.2`.
+`branches_implemented`: hardening stopped at scope evaluation (2026-10-27), which recommends a modest expansion; awaiting John's call. Base `release_26.2` (`1ff2ce4cc51`), head `64f0b66df55`. Worktree: `~/projects/worktrees/galaxy/branch/issue_22598_login_prompt_26.2`.
 
 No PR yet.
 
-Fork CI green on `d5723a26b94` (2026-10-23).
+Fork CI not yet run on `64f0b66df55`.
+
+## Hardening
+
+Done: [test challenges](test_challenges_debrief.md), [E2E polish](polish_e2e_tests_debrief.md), [Codex review](codex_review.md), [thermo-nuclear review](thermo_nuclear_review.md), [baseline refactor](baseline_refactor.md), [scope evaluation](scope_evaluation.md). Remaining: check branch, screenshots.
 
 ## About
 
