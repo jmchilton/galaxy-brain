@@ -10,7 +10,7 @@ Runs workflow steps only when their optional inputs are present.
 
 ## Status
 
-Status: `branches_ready_for_final_review`; polished at `8b049f90c33`, 5 commits on `dev` (`a9a68082414`), awaiting John's read-through; parent [dangling_when_lint](../../merged/dangling_when_lint/index.md) merged as #24107.
+Status: `branches_ready_for_final_review`; polished at `8b049f90c33`, revised to `14ff8cf7591` (review comment), 5 commits on `dev` (`a9a68082414`), awaiting John's read-through; parent [dangling_when_lint](../../merged/dangling_when_lint/index.md) merged as #24107.
 
 Not opened as a PR.
 

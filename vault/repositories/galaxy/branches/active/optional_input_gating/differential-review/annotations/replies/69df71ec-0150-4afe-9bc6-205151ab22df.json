@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-reply",
+  "id": "69df71ec-0150-4afe-9bc6-205151ab22df",
+  "threadId": "22bd1c5a-8205-4b4e-af89-51b22f5dd933",
+  "body": "Dropped the `cond|param` connection-naming sentence; bullet now ends at `inputs[\"cond\"][\"param\"]`. Amended into the last commit (now `14ff8cf7591`) and force-pushed to the fork. Doc-only, no tests run.\n",
+  "author": "Agent",
+  "source": "agent",
+  "createdAt": "2026-10-27T22:02:53.998Z",
+  "snapshotId": "20261027T220253Z-revision-14ff8cf7591c"
+}

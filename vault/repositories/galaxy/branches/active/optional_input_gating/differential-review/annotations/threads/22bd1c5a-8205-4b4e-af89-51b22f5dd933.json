@@ -1,0 +1,32 @@
+{
+  "id": "22bd1c5a-8205-4b4e-af89-51b22f5dd933",
+  "origin": {
+    "snapshotId": "20261027T210159Z-polishing-8b049f90c337",
+    "path": "doc/source/dev/workflow_conditional_steps.md",
+    "basePath": null,
+    "hunkId": "h1:d27529a9fb38f18e",
+    "side": "new",
+    "range": [
+      16,
+      16
+    ],
+    "quote": "  `inputs[\"cond\"][\"param\"]`. Galaxy names the _connection_ with a flat, pipe-prefixed",
+    "contextBefore": [
+      "",
+      "- **Tool parameters**, connected or not, in their tool-state shape. A parameter nested",
+      "  inside a `<conditional>` is addressed as `inputs.cond.param` or"
+    ],
+    "contextAfter": [
+      "  name (`cond|param`), but that spelling is not exposed to the expression.",
+      "- **Data inputs.** A connected dataset appears as an object with its metadata, so",
+      "  `$(inputs.reference.format != \"bwa_mem2_index\")` is a valid condition."
+    ]
+  },
+  "body": "Drop the Galaxy names ... sentence please. ",
+  "author": "John",
+  "createdAt": "2026-10-27T21:59:02.629Z",
+  "schemaVersion": 1,
+  "kind": "differential-review-thread",
+  "status": "open",
+  "resolvedAt": null
+}
