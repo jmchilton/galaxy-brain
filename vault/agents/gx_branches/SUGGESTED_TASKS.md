@@ -38,7 +38,7 @@ status: recommended
 when: whenever
 what: entries in `MY_BRANCHES.md` whose PR has merge conflicts with its base, skipping `branches_need_decision`, reference-only and do-not-PR branches.
 
-`description` is the branch's queue line plus the conflicting files.
+`description` is the branch's queue line plus the conflicting files. Add `priority: high` when the PR is out of draft.
 
 Suggest:
 
