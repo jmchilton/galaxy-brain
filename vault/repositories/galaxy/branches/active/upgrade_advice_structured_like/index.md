@@ -4,7 +4,7 @@ upstream_base_branch: dev
 
 # upgrade_advice_structured_like
 
-Status: `ci_wait` — approved and PR opened as draft 2026-10-27 ([#24524](https://github.com/galaxyproject/galaxy/pull/24524)), awaiting CI. Base: `dev`, head `a9580538c98`.
+Status: `ci_wait` — approved and PR opened as draft 2026-10-27 ([#24524](https://github.com/galaxyproject/galaxy/pull/24524)), awaiting CI. Base: `dev`, head `cc649c94509` (approved `a9580538c98` + mypy `str()` fix for lxml-stubs `str | bytes`, squashed into tip commit).
 
 Tool upgrade advisor: `structured_like` advice 18.01→26.0 (fixes #23884) plus 26.1/26.2 migrations and advisor bug fixes.
 
