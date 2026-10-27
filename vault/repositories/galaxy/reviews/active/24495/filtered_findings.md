@@ -1,0 +1,2 @@
+- default P3 3 (the `is_zipfile` precheck in the helper is redundant): not actionable. It's a cheap fast path that avoids raising an exception for every non-zip file, and the result is the same either way.
+- default P3 4 (generate the binary fixture in the test instead of committing it): not actionable. The new API fetch test now reuses the committed fixture, which the reviewer already said justifies keeping it.

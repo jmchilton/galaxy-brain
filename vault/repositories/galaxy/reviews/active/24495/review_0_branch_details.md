@@ -1,0 +1,5 @@
+`pr_24495_review_0` branches from the reviewed head `d3a03e397a7`. Its first commit changes the new zip-sniffing helper to reuse `checkers.iter_zip`. The helper now skips directory entries, and an empty zip (or a tar ending in one) is read raw instead of raising `IndexError`. The second commit carries the PR's `is_zipfile` false-positive fallback into `CompressedFile`, so the #24488 tar also works as an `elements_from` archive. The third commit adds the fetch-API upload test for the PR's fixture. Each fix has a test that was red before it.
+
+- `cb8fca124e1` Skip zip directory entries and empty zips when sniffing: the helper takes the first member from `iter_zip`, returns `None` on `BadZipFile`/`StopIteration`, and annotates `iter_zip`; it adds two unit tests.
+- `1ca64d6b600` Fall back to tar in CompressedFile when zip open fails: if `open_zip` raises `BadZipFile` and `is_tarfile` is True, the file opens as tar; it adds a unit test that extracts `member.bin`.
+- `8355212f702` Add API fetch test for tar misdetected as zip: it uploads `tar_with_stray_zip_end_record.tar` via fetch and asserts ok, `tar`, and an unchanged size.
