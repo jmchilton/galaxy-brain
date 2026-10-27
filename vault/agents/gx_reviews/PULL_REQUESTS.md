@@ -1,4 +1,5 @@
 PRs To Review:
+- [#23522](https://github.com/galaxyproject/galaxy/pull/23522) — initial review ready, unposted (three P2s + one P3; two fixed on `pr_23522_review_0`). [notes](../../repositories/galaxy/reviews/active/23522/index.md)
 - [#24495](https://github.com/galaxyproject/galaxy/pull/24495) — initial review ready, unposted (three P2s + one P3; fixed on `pr_24495_review_0`). [notes](../../repositories/galaxy/reviews/active/24495/index.md)
 - [#24290](https://github.com/galaxyproject/galaxy/pull/24290) — initial review ready, unposted (two P2s + five P3s; fixed on `pr_24290_review_0`; overlaps arash77/galaxy#10). [notes](../../repositories/galaxy/reviews/active/24290/index.md)
 - [#24348](https://github.com/galaxyproject/galaxy/pull/24348) — initial review ready, unposted (one verified P2 concurrency fix on fork branch `pr_24348_review_0`); new head 70d88dc6 (mvdbeek, approved) — verify vs review. [notes](../../repositories/galaxy/reviews/active/24348/index.md)
