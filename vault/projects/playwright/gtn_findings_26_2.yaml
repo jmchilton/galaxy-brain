@@ -966,3 +966,9 @@
   target: main
   summary: 'The "ecology.usegalaxy.eu" link points at https://usegalaxy.eu, so readers never reach the Ecology server the FAQ is about.'
   fix: 'Link https://ecology.usegalaxy.eu; also "you will need to create one".'
+
+- label: sarf-sra-helpdesk-email
+  faqs: [topics/galaxy-interface/tutorials/ncbi-sarf/faqs/other-datatypes.md]
+  target: main
+  summary: 'SRA helpdesk address is truncated: `sra@ncbi.nlm.nih` (text and mailto), so mail bounces.'
+  fix: 'Use `sra@ncbi.nlm.nih.gov` in both.'
