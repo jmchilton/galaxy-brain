@@ -7,8 +7,8 @@
 
 Branch `jobs-directory-version-source` on `jmchilton`, base `master`; `~/projects/worktrees/pulsar/branch/jobs-directory-version-source`.
 
-Draft PR #523 open, conflicting.
+Draft PR #523 open, mergeable after 2026-10-26 rebase onto master.
 
-CI green on `f6c04924c9`.
+CI pending on rebased `cd9404c037`; local lint + unit tests green.
 
 Review notes: [reviews/active/523](../../../reviews/active/523/index.md).
