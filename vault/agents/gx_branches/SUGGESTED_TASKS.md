@@ -33,6 +33,25 @@ description: 📥 {description}
 status: recommended
 ```
 
+## De-conflict Branches
+
+when: whenever
+what: entries in `MY_BRANCHES.md` whose PR has merge conflicts with its base, skipping `branches_need_decision`, reference-only and do-not-PR branches.
+
+`description` is the branch's queue line plus the conflicting files.
+
+Suggest:
+
+```
+prompt: De-conflict branch {name}. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/{name}/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
+agent_dir: gx_branches
+link: https://github.com/galaxyproject/galaxy/pull/{n}
+record: galaxy/branches/{name}
+profile: Sonnet (high)
+description: 🔀 {description}
+status: recommended
+```
+
 ## Respond to Review (deferential)
 
 when: whenever
