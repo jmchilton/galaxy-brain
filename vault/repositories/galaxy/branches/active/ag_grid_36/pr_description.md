@@ -4,7 +4,7 @@ The upgrade moves Galaxy's shared grid integration onto v36. It also handles a c
 
 ***This is an optional dependency upgrade: #23938 already addressed the CVE on `dev`.***
 
-***Users should keep the existing grid behavior and appearance, including edits in data landings, pair renaming/swapping, sample sheets and rule previews.***
+***This preserves existing user-facing grid behavior and Alpine styling across data landings, collection builders, sample sheets and rule previews.***
 
 <details><summary>Before/after grid comparison from hardening (dev left, upgrade right)</summary>
 
@@ -108,7 +108,7 @@ The original baseline refactor and helper passed 702 tests on v31. The generic h
 
 <details><summary>Coverage and validation</summary>
 
-The real-grid test covers model-object preservation. The paired-builder E2E checks a saved rename and swapped dataset order; the existing data-landing E2E checks that edited values reach the imported dataset. Hardening also exercised sample-sheet display/creation and rule grids. Current polish validation results are recorded in the branch's polish debrief.
+The real-grid test covers model-object preservation. The paired-builder E2E checks a saved rename and swapped dataset order; the existing data-landing E2E checks that edited values reach the imported dataset. Hardening also exercised sample-sheet display/creation and rule grids. Polish on `7c58e3c3f63`: Playwright passed the paired-builder rename/swap test and both data-landing tests (3/3). The client suite passed 706/707 initially; the unrelated palette timeout passed all 12 cases on retry. Client typechecking, formatting and lint passed (warnings only). Changed-file mypy reports the same 198 diagnostics as `dev`, with no new errors. See the [polish debrief](https://github.com/jmchilton/galaxy-brain/blob/main/vault/repositories/galaxy/branches/active/ag_grid_36/polish_debrief.md) for details.
 
 </details>
 
