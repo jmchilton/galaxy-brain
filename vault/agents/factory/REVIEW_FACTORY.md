@@ -82,7 +82,7 @@ flowchart TD
 
 ## Respond
 
-A low-effort subagent assembles the response: space for John's own comments at the top, the risk summary, then the verified findings, each with its evidence, suggested fix, and the review-branch commit if there is one. If nothing survives verification, the response says so in one line. John can uncheck findings to drop them; the review branch is then rebuilt without their commits, the remaining findings are renumbered, and the response is composed again. John edits it and checks the actions to take.
+A low-effort subagent assembles the response: space for John's own comments at the top, a Human Review line when John has checked off every commit or diff in the [differential review](https://jmchilton.github.io/galaxy-brain/factory/differential-review/), the risk summary, then the verified findings, each with its evidence, suggested fix, and the review-branch commit if there is one. If nothing survives verification, the response says so in one line. John can uncheck findings to drop them; the review branch is then rebuilt without their commits, the remaining findings are renumbered, and the response is composed again. John edits it and checks the actions to take.
 
 ```mermaid
 flowchart TD

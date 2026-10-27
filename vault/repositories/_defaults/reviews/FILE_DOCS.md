@@ -72,7 +72,7 @@ Local captures supporting the review. Ignored by git; describe useful captures i
 
 ## human_review.md
 
-One sentence saying John reviewed all commits and/or diffs of the latest differential review snapshot, naming its head SHA. Written and deleted only by the review plugins as John checks items off; agents never create or edit it.
+One sentence saying John reviewed all commits and/or diffs of the latest differential review snapshot, naming its head SHA. Written and deleted only by the review plugins as John checks items off; agents never create or edit it. Quoted under "Human Review" when the response is posted.
 
 ## differential-review/**
 
