@@ -1,5 +1,7 @@
 # #24445 Interactive Tools panel drops a second interactive tool
 
+Closed 2026-10-27 (completed) by davelopez; fixed by merged PR #24467 (keep new entry points in store, 25.1).
+
 https://github.com/galaxyproject/galaxy/issues/24445. Filed 2026-10-24, assigned jmchilton.
 
 - [issue_draft.md](issue_draft.md): original draft (fix and test commits)

@@ -2,7 +2,7 @@
 
 Triage index for `galaxyproject/galaxy` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/galaxy/issues/`. Branch and PR state lives in `vault/repositories/galaxy/branches/MY_BRANCHES.md`.
 
-GitHub state last refreshed: 2026-10-26. Every open issue below is assigned to jmchilton.
+GitHub state last refreshed: 2026-10-27. Every open issue below is assigned to jmchilton.
 
 ## Waiting on John (`needs_decision`)
 
@@ -43,7 +43,6 @@ GitHub state last refreshed: 2026-10-26. Every open issue below is assigned to j
 - [#24476](https://github.com/galaxyproject/galaxy/issues/24476) — ParsedTool output models drop `<filter>`, conditional outputs look unconditional; next: red unit test on `output_filter.xml`. [notes](../../repositories/galaxy/issues/queued/24476/index.md)
 - [#24474](https://github.com/galaxyproject/galaxy/issues/24474) — collection parameter validation accepts undeclared types; next: red API test for incompatible direct HDCA inputs. [notes](../../repositories/galaxy/issues/queued/24474/index.md)
 - [#24469](https://github.com/galaxyproject/galaxy/issues/24469) — building collection from history selection leaves selection mode on, stale count (since 25.0); next: red vitest + restore handler. [notes](../../repositories/galaxy/issues/queued/24469/index.md)
-- [#24445](https://github.com/galaxyproject/galaxy/issues/24445) — IT panel drops a newly started interactive tool while another is active (since #17356); next: extract 5e84f0ebadb + 4b54438b1c2 onto release_25.0. [notes](../../repositories/galaxy/issues/queued/24445/index.md)
 - [#24305](https://github.com/galaxyproject/galaxy/issues/24305) — workflow API saves duplicate output labels (server check dead); invocation hides outputs; next: red API tests. [notes](../../repositories/galaxy/issues/queued/24305/index.md)
 - [#24309](https://github.com/galaxyproject/galaxy/issues/24309) — custom build from FASTA not listed until jobs finish + reload; next: red API test for pending state. [notes](../../repositories/galaxy/issues/queued/24309/index.md)
 - (unassigned) [#24315](https://github.com/galaxyproject/galaxy/issues/24315) — error report forms shown when emails unconfigured; invocation feedback always claims success; next: UI repro, then config flag branch. [notes](../../repositories/galaxy/issues/queued/24315/index.md)
