@@ -79,6 +79,7 @@ None yet.
 - [`issue_24177_rerun_step_params_full_form`](active/issue_24177_rerun_step_params_full_form/index.md) — Keeps reruns with tool step params in the expanded form, prefills simple-form settings and fixes simple-form workflow params (`replacement_params`) (#24177). Stacked on `issue_24176_rerun_full_form_prefill`; re-scoped, head `46db8f9d5b6`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24176_rerun_full_form_prefill...jmchilton:galaxy:issue_24177_rerun_step_params_full_form?expand=1).
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`cwl_fixes_5`](active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
+- [`staging_workflow_parameter_lists`](active/staging_workflow_parameter_lists/index.md) — Lets galaxy-tool-util staging leave parameter-input values (e.g. multi-value lists) unstaged; upstream of planemo#1744. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:staging_workflow_parameter_lists?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 

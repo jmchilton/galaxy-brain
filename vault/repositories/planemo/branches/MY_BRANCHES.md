@@ -44,6 +44,7 @@ None yet.
 ## Planemo branches — implemented, work left (`branches_implemented_needs_ci`)
 
 - [`committer-self-merge`](active/committer-self-merge/index.md) — Clarifies committer self-merging and keeps review by request. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:committer-self-merge).
+- [`list-param-inputs-not-collections`](active/list-param-inputs-not-collections/index.md) — Takes over #1744: passes lists to multiple-value workflow parameter inputs instead of uploading collections. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:list-param-inputs-not-collections).
 
 ## Planemo branches — implemented, work left, green (`branches_implemented`)
 
