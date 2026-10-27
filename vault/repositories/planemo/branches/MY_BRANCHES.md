@@ -56,7 +56,7 @@ None yet.
 
 ## Planemo branches — ready for final review (`branches_ready_for_final_review`)
 
-None yet.
+- [`issue-1764-workflow-tool-data-tables`](active/issue-1764-workflow-tool-data-tables/index.md) — Document data table discovery for workflow tests; print the loaded conf. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:issue-1764-workflow-tool-data-tables?expand=1).
 
 ## Planemo branches — approved, opens when green (`branches_need_pr`)
 

@@ -1,0 +1,4 @@
+- Document tool data table discovery for workflow tests
+- Document and print auto-discovered `tool_data_table_conf.xml.test` for workflow tests
+- Explain test `.loc` data for workflow tests; print loaded data table config
+- Surface `tool_data_table_conf.xml.test` discovery for workflow tests
