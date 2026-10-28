@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { commandArgs, fillTemplate, launcherScope, launchersFor, parseLaunchers, recordFromPath, untrackedRecord } from "./launchers";
+import { agentFromPath, commandArgs, fillAgentTemplate, fillTemplate, launcherScope, launchersFor, parseAgentLaunchers, parseLaunchers, recordFromPath, untrackedRecord } from "./launchers";
 
 const CONFIG = `Intro text, ignored.
 
@@ -44,6 +44,36 @@ describe("launcherScope", () => {
 		expect(launcherScope("repositories/galaxy/issues/MY_ISSUES.md")).toBeNull();
 		expect(launcherScope("repositories/galaxy/notes/LAUNCHERS.md")).toBeNull();
 		expect(launcherScope("repositories/galaxy/issues/queued/1/LAUNCHERS.md")).toBeNull();
+	});
+});
+
+describe("agent launchers", () => {
+	it("finds the agent dir of files under agents/<agent>/", () => {
+		expect(agentFromPath("agents/gx_branches/TODO.md")).toBe("gx_branches");
+		expect(agentFromPath("agents/gx_branches/notes/x.md")).toBe("gx_branches");
+		expect(agentFromPath("agents/_shared/LAUNCHERS.md")).toBeNull();
+		expect(agentFromPath("agents/README.md")).toBeNull();
+		expect(agentFromPath("repositories/galaxy/branches/LAUNCHERS.md")).toBeNull();
+	});
+
+	it("defaults agent_dir to the agent and drops command launchers", () => {
+		const markdown = "## 🧹 Tidy\nprofile: Codex\n\nTidy {file} for {agent}\n\n## Elsewhere\nagent_dir: factory\nname: f\n\nGo\n\n## Cmd\ncommand: x.sh\n";
+		const [tidy, elsewhere, ...rest] = parseAgentLaunchers(markdown, "gx_branches");
+		expect(tidy).toMatchObject({ label: "🧹 Tidy", repo: null, kind: null, agentDir: "gx_branches", name: "gx_branches", profile: "Codex" });
+		expect(elsewhere).toMatchObject({ agentDir: "factory", name: "f" });
+		expect(rest).toEqual([]);
+		expect(fillAgentTemplate(tidy!.prompt, "gx_branches", "/v/agents/gx_branches/TODO.md")).toBe("Tidy /v/agents/gx_branches/TODO.md for gx_branches");
+	});
+
+	it("parses the vault's wf_foundry launchers", () => {
+		const markdown = readFileSync(new URL("../../vault/agents/wf_foundry/LAUNCHERS.md", import.meta.url), "utf8");
+		expect(parseAgentLaunchers(markdown, "wf_foundry").map((l) => [l.label, l.agentDir])).toEqual([
+			["☀️ Good morning", "wf_foundry"],
+			["⏱️ Tick", "wf_foundry"],
+			["📥 Pick up backlog", "wf_foundry"],
+			["🧪 Test pipeline", "wf_foundry"],
+			["💭 Discuss this note", "wf_foundry"],
+		]);
 	});
 });
 

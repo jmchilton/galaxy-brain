@@ -13,3 +13,7 @@ One `## Label` per launcher. Leading `key: value` lines configure it; the rest i
 Placeholders: `{repo}`, `{kind}`, `{status}`, `{name}` (branch name, PR or issue number), `{record}` (absolute record directory; empty for untracked items).
 
 In a Claude session in an `agent_dir`, the suggested-prompts plugin's 🚀 menu offers that dir's launchers to run in the same session; Claude fills the record placeholders from the record under discussion (`herdr-plugin` CLI `actions <agent_dir>`; rebuild with `make herdr-plugin-build`).
+
+## Agent launchers
+
+`vault/agents/<agent>/LAUNCHERS.md` holds launchers for notes in that agent dir; the plugin shows a 🤖 launch button and an "Agents: routines and tasks" button (opens that agent's view) in the header of any note under `agents/<agent>/`. Same format, but `agent_dir:` defaults to `<agent>`, `status:` is ignored, and `command:` launchers are dropped. Placeholders: `{agent}`, `{file}` (absolute path of the open note).

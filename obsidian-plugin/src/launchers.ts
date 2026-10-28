@@ -7,9 +7,10 @@ export type AgentKind = "claude" | "codex";
 
 export interface Launcher {
 	label: string;
-	/** null for `_defaults` launchers, which apply to every repo. */
+	/** null for `_defaults` and agent launchers, which apply to every repo. */
 	repo: string | null;
-	kind: RecordKind;
+	/** null for agent launchers, which aren't tied to records. */
+	kind: RecordKind | null;
 	statuses: string[];
 	agentDir: string;
 	name: string;
@@ -47,7 +48,26 @@ export function launcherScope(path: string): LauncherScope | null {
 	return { repo: repo === DEFAULTS_REPO ? null : repo, kind: kind as RecordKind };
 }
 
-export function parseLaunchers(markdown: string, scope: LauncherScope): Launcher[] {
+/** Agent dir holding a file under `agents/<agent>/`; null for `_`-prefixed dirs. */
+export function agentFromPath(path: string): string | null {
+	const [root, agent, ...rest] = path.split("/");
+	return root === "agents" && agent && !agent.startsWith("_") && rest.length ? agent : null;
+}
+
+export const agentLaunchersPath = (agent: string) => `agents/${agent}/LAUNCHERS.md`;
+
+/** Launchers in `agents/<agent>/LAUNCHERS.md`; agent_dir defaults to that agent, command launchers are dropped. */
+export function parseAgentLaunchers(markdown: string, agent: string): Launcher[] {
+	return parseLaunchers(markdown, { repo: null, kind: null }, agent).filter((launcher) => !launcher.command);
+}
+
+/** Fills `{agent}` and `{file}` (absolute path of the open file) in an agent launcher's name or prompt. */
+export function fillAgentTemplate(template: string, agent: string, file: string): string {
+	const values: Record<string, string> = { agent, file };
+	return template.replace(/\{(\w+)\}/g, (whole, key: string) => values[key] ?? whole);
+}
+
+export function parseLaunchers(markdown: string, scope: LauncherScope, defaultAgentDir?: string): Launcher[] {
 	const launchers: Launcher[] = [];
 	for (const section of markdown.split(/^## /m).slice(1)) {
 		const [heading = "", ...lines] = section.split("\n");
@@ -65,13 +85,14 @@ export function parseLaunchers(markdown: string, scope: LauncherScope): Launcher
 			launchers.push({ label, ...scope, statuses: list(fields.status ?? ""), agentDir: "", name: "", prompt: "", command: fields.command });
 			continue;
 		}
-		if (!fields.agent_dir || !prompt) continue;
+		const agentDir = fields.agent_dir || defaultAgentDir;
+		if (!agentDir || !prompt) continue;
 		launchers.push({
 			label,
 			...scope,
 			statuses: list(fields.status ?? ""),
-			agentDir: fields.agent_dir,
-			name: fields.name || fields.agent_dir,
+			agentDir,
+			name: fields.name || agentDir,
 			...(fields.profile ? { profile: fields.profile } : {}),
 			prompt,
 		});

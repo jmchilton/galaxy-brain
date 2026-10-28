@@ -16,8 +16,10 @@ import {
 	TFile,
 } from "obsidian";
 import type { RecordKind } from "../../site/src/lib/records";
+import { type CiSource, ciSources, isPrSource, summarizeCheckRuns, summarizePrChecks } from "./ci-status";
+import { CiStatusModal } from "./ci-status-modal";
 import { AGENTS_VIEW, AgentsView, ALL_AGENTS } from "./agents-view";
-import { commandArgs, fillTemplate, type Launcher, launcherScope, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
+import { agentFromPath, agentLaunchersPath, commandArgs, fillAgentTemplate, fillTemplate, type Launcher, launcherScope, launchersFor, parseAgentLaunchers, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
 import { isReviewableRecordKind } from "../../site/src/lib/records";
 import { openDifferentialReview, registerDifferentialReview } from "./diff-review-view";
@@ -38,6 +40,7 @@ const CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visu
 
 export default class GalaxyBrainPlugin extends Plugin {
 	private recordActions = new WeakMap<MarkdownView, { kind: string; actions: HTMLElement[] }>();
+	private agentActions = new WeakMap<MarkdownView, { agent: string; actions: HTMLElement[] }>();
 
 	async onload() {
 		registerDifferentialReview(this);
@@ -100,7 +103,10 @@ export default class GalaxyBrainPlugin extends Plugin {
 			},
 		});
 
-		const refresh = () => this.refreshRecordActions();
+		const refresh = () => {
+			this.refreshRecordActions();
+			this.refreshAgentActions();
+		};
 		this.registerEvent(this.app.workspace.on("file-open", refresh));
 		this.registerEvent(this.app.workspace.on("layout-change", refresh));
 		this.app.workspace.onLayoutReady(refresh);
@@ -122,6 +128,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 			if (!(view instanceof MarkdownView)) continue;
 			const record = view.file && recordFromPath(view.file.path);
 			const reviewable = !!record && isReviewableRecordKind(record.kind);
+			const hasCi = record?.kind === "branches" || record?.kind === "reviews";
 			const existing = this.recordActions.get(view);
 			if (existing && (!record || existing.kind !== record.kind)) {
 				existing.actions.forEach((action) => action.remove());
@@ -134,6 +141,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 				};
 				// addAction prepends, so the bot ends up leftmost, matching the repository view.
 				const actions = [
+					...(hasCi ? [view.addAction("circle-dot", "CI status", withRecord((r) => this.openCiStatus(r)))] : []),
 					...(reviewable ? [view.addAction("git-compare", "Differential review", withRecord((r) => openDifferentialReview(this.app, r.dir)))] : []),
 					view.addAction("code", "Open with Code", withRecord((r) => this.openRecordInCode(r))),
 					...(record.kind === "branches" ? [view.addAction("git-compare-arrows", "Compare to upstream base", withRecord((r) => this.openRecordCompare(r)))] : []),
@@ -144,6 +152,43 @@ export default class GalaxyBrainPlugin extends Plugin {
 				this.register(() => actions.forEach((action) => action.remove()));
 			}
 		}
+	}
+
+	/** Agent launcher and agents-view icons in the header of notes under `agents/<agent>/`. */
+	private refreshAgentActions() {
+		for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
+			const view = leaf.view;
+			if (!(view instanceof MarkdownView)) continue;
+			const agent = view.file && agentFromPath(view.file.path);
+			const existing = this.agentActions.get(view);
+			if (existing && existing.agent !== agent) {
+				existing.actions.forEach((action) => action.remove());
+				this.agentActions.delete(view);
+			}
+			if (agent && !this.agentActions.has(view)) {
+				// addAction prepends, so the bot ends up leftmost, matching record notes.
+				const actions = [
+					view.addAction("layout-list", "Agents: routines and tasks", () => void this.openAgents(agent)),
+					view.addAction("bot", "Launch agent", () => void this.pickAgentLauncher(agent, view.file?.path ?? "")),
+				];
+				this.agentActions.set(view, { agent, actions });
+				this.register(() => actions.forEach((action) => action.remove()));
+			}
+		}
+	}
+
+	private async pickAgentLauncher(agent: string, path: string) {
+		const vaultRoot = this.vaultRoot();
+		if (!vaultRoot) return;
+		const file = this.app.vault.getFileByPath(agentLaunchersPath(agent));
+		const launchers = file ? parseAgentLaunchers(await this.app.vault.cachedRead(file), agent) : [];
+		if (launchers.length === 0) return void new Notice(`No launchers in ${agentLaunchersPath(agent)}`);
+		const absolute = path ? `${vaultRoot}/${path}` : "";
+		new LauncherSuggest(this.app, launchers, (launcher) => {
+			const name = fillAgentTemplate(launcher.name, agent, absolute);
+			const prompt = fillAgentTemplate(launcher.prompt, agent, absolute);
+			void this.confirmTask({ prompt, agentDir: launcher.agentDir, ...(launcher.profile ? { profile: launcher.profile } : {}) }, () => {}, name);
+		}).open();
 	}
 
 	private async indexBody(record: RecordRef): Promise<string> {
@@ -166,12 +211,13 @@ export default class GalaxyBrainPlugin extends Plugin {
 		});
 	}
 
-	runGh(args: string[]): Promise<string> {
+	/** okWithOutput: resolve with stdout despite a nonzero exit, as `gh pr checks` exits 1/8 for failed/pending checks. */
+	runGh(args: string[], okWithOutput = false): Promise<string> {
 		const { execFile } = require("child_process") as typeof import("child_process");
 		const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
 		return new Promise((resolve, reject) => {
 			execFile("gh", args, { env: { ...process.env, PATH }, timeout: 60_000, maxBuffer: 16 * 1024 * 1024 }, (error, stdout, stderr) => {
-				if (error) reject(new Error((stderr || error.message).trim()));
+				if (error && !(okWithOutput && stdout.trim())) reject(new Error((stderr || error.message).trim()));
 				else resolve(stdout);
 			});
 		});
@@ -181,6 +227,16 @@ export default class GalaxyBrainPlugin extends Plugin {
 		const worktree = this.worktreeFor(record, await this.indexBody(record));
 		if (worktree) this.openInCode(worktree);
 		else new Notice(`No worktree on disk for ${record.name}`);
+	}
+
+	private async openCiStatus(record: RecordRef) {
+		const sources = ciSources(record, await this.indexBody(record));
+		const fixCi = (await this.launchersFor(record)).find((launcher) => /fix ci/i.test(launcher.label));
+		const fetch = async (source: CiSource) => {
+			const output = await this.runGh(source.args, isPrSource(source));
+			return isPrSource(source) ? summarizePrChecks(output) : summarizeCheckRuns(output);
+		};
+		new CiStatusModal(this.app, `CI: ${record.name}`, sources, fetch, fixCi && (() => void this.confirmLaunch(fixCi, record))).open();
 	}
 
 	private async openRecordOnGithub(record: RecordRef) {
@@ -216,9 +272,9 @@ export default class GalaxyBrainPlugin extends Plugin {
 		await leaf.setViewState({ type: REPOSITORY_VIEW, state: { repo }, active: true });
 	}
 
-	private async openAgents() {
+	private async openAgents(agent = ALL_AGENTS) {
 		const leaf = this.app.workspace.getLeaf("tab");
-		await leaf.setViewState({ type: AGENTS_VIEW, state: { agent: ALL_AGENTS }, active: true });
+		await leaf.setViewState({ type: AGENTS_VIEW, state: { agent }, active: true });
 	}
 
 	/** Opens the current record's repository, or asks which one. */
@@ -357,7 +413,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		const vaultRoot = this.vaultRoot();
 		if (!vaultRoot) return;
 		const profiles = await this.loadProfiles();
-		const launcher: Launcher = { label: "Task", repo: null, kind: "branches", statuses: [], agentDir: task.agentDir, name, prompt: task.prompt, ...(task.profile ? { profile: task.profile } : {}) };
+		const launcher: Launcher = { label: "Task", repo: null, kind: null, statuses: [], agentDir: task.agentDir, name, prompt: task.prompt, ...(task.profile ? { profile: task.profile } : {}) };
 		new LaunchModal(this.app, launcher, {
 			profiles,
 			profile: defaultProfile(profiles, launcher),

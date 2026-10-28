@@ -16,7 +16,7 @@ Keep these sections in this order. Write `None yet.` under an empty one. Each he
 6. `branches_implemented` | `branches_implemented_needs_ci`: an agent finished a unit of work and pushed it.
 7. `branches_need_polish`: polishing in progress. The entry moves here when polishing starts and on to `branches_ready_for_final_review` when it ends.
 8. `branches_ready_for_final_review`: polished. The description is in the branch directory's `pr_description.md`, and the branch waits for the user's read-through, including the differential review, which writes `human_review.md`. Only the user moves an entry out.
-9. `branches_need_pr`: the user approved it. The branch record holds the approved SHA, approval date and chosen title; retain the SHA in the queue entry too. Agents open the PR once CI on that SHA is greenish, where their AGENTS.md authorizes it (Automatic Actions in `gx_branches/AGENTS.md`).
+9. `branches_need_pr`: the user approved it. The branch record holds the approved SHA, approval date and chosen title; retain the SHA in the queue entry too. Agents open the PR once CI on that SHA is greenish, where their AGENTS.md authorizes it (Automatic Actions in `gx_branches/AGENTS.md`), then add `pr: <number>` to the branch record's frontmatter.
 10. `branches_need_decision`: the user has to choose (scope, an alternative, drop it).
 11. `branches_reference`: kept for reference, as a standing branch, or as part of another effort. No PR intended; agents don't act on these.
 
@@ -34,7 +34,7 @@ Each entry is one short bullet linking the branch record:
 - Keep the description to at most 120 characters. It says what the change does; testing, reviews, CI history and dependencies belong in the branch notes.
 - Status communicates routine progression. No next step or blockers field is required. Include an explicit user decision or do-not-PR instruction when useful; do not invent one from the status.
 - Branch records hold approvals, chosen titles, standing instructions and supporting links. Read them before acting on the queue.
-- End every `branches_*` entry with an `[Open PR]` compare link from the branch on its push remote (the `jmchilton` fork unless the project settings say otherwise) to its base (`parent_branch` when present, otherwise `upstream_base_branch` from the record's frontmatter, or the recorded prose for unmigrated records). Skip it only for entries marked do-not-PR.
+- End every `branches_*` entry with an `[Open PR]` compare link from the branch on its push remote (the `jmchilton` fork) to its base (`parent_branch` when present, otherwise `upstream_base_branch` from the record's frontmatter, or the recorded prose for unmigrated records). Skip it only for entries marked do-not-PR.
 - Refresh the snapshot date at the top whenever GitHub state is re-queried.
 ## Merged PRs
 

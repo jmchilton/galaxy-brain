@@ -13,10 +13,10 @@ In the following files:
 
 - PROJECT is `foundry`.
 - Base branch: `origin/main`.
-- Push remote: `origin` (`galaxyproject/foundry`), not the `jmchilton` fork.
+- Push remote: `jmchilton` (the `jmchilton/foundry` fork), not `origin`. Branches pushed to `origin` before this stay there until they merge or are abandoned.
 - Branch naming: `issue-<number>-<short-slug>`.
 - Local gate: `make check`. `check-vendored` and `check:planemo-cli` can fail on this machine only; note them, don't fix them.
-- CI runs only on pull requests and `main`, so a pushed branch gets no CI until its PR opens.
+- CI runs only on pull requests and `main`, so a pushed branch gets no CI until its PR opens; the fork branch shows no checks.
 
 @../_shared/MY_BRANCHES_INDEX.md
 @../_shared/REPOSITORY_BRANCHES.md

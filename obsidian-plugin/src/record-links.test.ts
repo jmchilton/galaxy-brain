@@ -14,6 +14,11 @@ describe("githubUrl", () => {
 		expect(githubUrl(branch, body)).toBe("https://github.com/galaxyproject/galaxy/pull/24300");
 	});
 
+	it("prefers the pr frontmatter over links and the Status line", () => {
+		const body = "---\npr: 24400\n---\n- [PR #24300](https://github.com/galaxyproject/galaxy/pull/24300)\nStatus: PR #24202";
+		expect(githubUrl(branch, body)).toBe("https://github.com/galaxyproject/galaxy/pull/24400");
+	});
+
 	it("uses a PR named on the Status line", () => {
 		expect(githubUrl(branch, "Status: `ready` — PR #24202 (draft) rebased.\n\nBlocked on PR #1.")).toBe(
 			"https://github.com/galaxyproject/galaxy/pull/24202",
@@ -30,7 +35,7 @@ Blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297).`;
 	it("guesses the fork branch when nothing is linked", () => {
 		expect(githubUrl(branch, "No links.")).toBe("https://github.com/jmchilton/galaxy/tree/fix_26.0");
 		const foundry = recordFromPath("repositories/foundry/branches/active/b/index.md")!;
-		expect(githubUrl(foundry, "No links.")).toBe("https://github.com/galaxyproject/foundry/tree/b");
+		expect(githubUrl(foundry, "No links.")).toBe("https://github.com/jmchilton/foundry/tree/b");
 	});
 
 	it("finds the review's PR, not review branches or comment anchors", () => {
@@ -64,9 +69,9 @@ describe("compareUrl", () => {
 		);
 	});
 
-	it("compares within upstream for foundry", () => {
+	it("compares foundry's fork branch like any other", () => {
 		const foundry = recordFromPath("repositories/foundry/branches/active/b/index.md")!;
-		expect(compareUrl(foundry, "---\nupstream_base_branch: main\n---\n")).toBe("https://github.com/galaxyproject/foundry/compare/main...b");
+		expect(compareUrl(foundry, "---\nupstream_base_branch: main\n---\n")).toBe("https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:b");
 	});
 
 	it("is undefined without a base or outside frontmatter or for non-branches", () => {

@@ -2,12 +2,10 @@
 
 import { escapeRegExp, FORK_OWNER, githubLinks, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import type { RecordRef } from "./launchers";
-
-// Branches are pushed to the fork, except foundry's, which go on the upstream repository.
-const BRANCHES_ON_UPSTREAM = new Set(["foundry"]);
+import { recordFrontmatter } from "./record-frontmatter";
 
 /**
- * Branches: their PR (linked, or named on the Status line), else their branch;
+ * Branches: their PR (`pr:` frontmatter, linked, or named on the Status line), else their fork branch;
  * reviews and issues: the PR or issue named by the record; issue drafts: none.
  */
 export function githubUrl(record: RecordRef, body: string): string | undefined {
@@ -20,23 +18,23 @@ export function githubUrl(record: RecordRef, body: string): string | undefined {
 	if (record.kind === "issues") return find(new RegExp(`/issues/${id}$`)) ?? `${upstream}/issues/${record.name}`;
 	if (record.kind === "issues_incubator") return undefined;
 	const statusPr = /^Status:.*?\bPR #(\d+)/m.exec(body)?.[1];
-	const forkOwner = BRANCHES_ON_UPSTREAM.has(record.repo) ? upstreamOwner(record.repo, [body]) : FORK_OWNER;
+	const pr = recordFrontmatter(body).pr;
 	return (
+		(pr ? `${upstream}/pull/${pr}` : undefined) ??
 		find(/\/pull\/\d+$/, /^(View )?PR #\d+$/) ??
 		(statusPr ? `${upstream}/pull/${statusPr}` : undefined) ??
 		find(new RegExp(`/tree/${id}$`)) ??
-		`https://github.com/${forkOwner}/${record.repo}/tree/${record.name}`
+		`https://github.com/${FORK_OWNER}/${record.repo}/tree/${record.name}`
 	);
 }
 
 /** A branch's GitHub compare against its `upstream_base_branch` frontmatter; undefined without one. */
 export function compareUrl(record: RecordRef, body: string): string | undefined {
 	if (record.kind !== "branches") return undefined;
-	const base = /^---\n[\s\S]*?^upstream_base_branch:\s*["']?([^\s"']+)["']?\s*$[\s\S]*?^---$/m.exec(body)?.[1];
+	const base = recordFrontmatter(body).upstream_base_branch;
 	if (!base) return undefined;
 	const upstream = upstreamOwner(record.repo, [body]);
-	const head = BRANCHES_ON_UPSTREAM.has(record.repo) ? record.name : `${FORK_OWNER}:${record.repo}:${record.name}`;
-	return `https://github.com/${upstream}/${record.repo}/compare/${base}...${head}`;
+	return `https://github.com/${upstream}/${record.repo}/compare/${base}...${FORK_OWNER}:${record.repo}:${record.name}`;
 }
 
 /** Candidate worktrees, best first: a branch's `Worktree:` line, then the conventional location. Issues have none. */

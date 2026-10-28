@@ -1,5 +1,7 @@
 // Shelved work in agent dirs' blockers/ (vault/agents/_shared/BLOCKERS.md).
 
+import { recordFrontmatter } from "./record-frontmatter";
+
 export interface BlockerRef {
 	agentDir: string;
 	name: string;
@@ -20,6 +22,6 @@ export function blockerFromPath(path: string): BlockerRef | null {
 
 /** The blocker a record's index.md names in frontmatter as `blocker: <agent_dir>/<short_name>`; null without one. */
 export function recordBlocker(body: string): BlockerRef | null {
-	const m = /^---\n[\s\S]*?^blocker:\s*["']?([^\s/"']+)\/([^\s/"']+)["']?\s*$[\s\S]*?^---$/m.exec(body);
+	const m = /^([^\s/]+)\/([^\s/]+)$/.exec(recordFrontmatter(body).blocker ?? "");
 	return m ? { agentDir: m[1]!, name: m[2]! } : null;
 }
