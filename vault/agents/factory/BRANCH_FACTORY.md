@@ -27,11 +27,11 @@ flowchart LR
 
 The issue agent keeps a triage index of the Galaxy issues John is tracking, each with a short "next step" and a notes directory. It prefers issues about workflows, Pulsar, Planemo, tool development, file sources and the API, and issues no one else has claimed.
 
-Any agent that runs into a bug while working on something else doesn't file it. It writes a rough, context-heavy draft into a `to_file/` queue. The issue agent turns that draft into a proper description, has a fresh subagent check it against the code, and hands John a recommendation.
+Any agent that runs into a bug while working on something else doesn't file it. It writes a rough, context-heavy draft into an issue incubator record. The issue agent turns that draft into a proper description, has a fresh subagent check it against the code, and hands John a recommendation.
 
 ```mermaid
 flowchart TD
-  A["Any agent hits a bug"] --> Q["Rough draft in to_file/"]
+  A["Any agent hits a bug"] --> Q["Rough draft in the issue incubator"]
   Q --> D["Write issue description"]
   D --> R["Fresh subagent checks claims<br/>against code, issues and PRs"]
   R --> J{{"John: post, keep internal or reject"}}

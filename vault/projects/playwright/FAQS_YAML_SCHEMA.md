@@ -40,7 +40,7 @@ A checklist of every GTN FAQ, for walking through them during release 26.2 QA. T
 - `gx_findings` holds a one-line summary of the Galaxy findings.
 - Leave a field out when it has no findings.
 - `galaxy_issues` lists the `galaxyproject/galaxy` issue numbers filed from the entry's findings.
-  Add a number once the issue is filed; a draft still in `gx_issues/to_file/` doesn't count yet.
+  Add a number once the issue is filed; a draft still in `repositories/galaxy/issues_incubator/` doesn't count yet.
 
 Built from GTN `origin/main` at `45d4932d33` (2026-10-20). The list includes every `*.md` under any
 `faqs/` directory: `faqs/<area>/`, `topics/<topic>/faqs/` and

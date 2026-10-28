@@ -13,7 +13,7 @@ Galaxy development matters most, so it's split across narrowly scoped agents:
 | Agent           | Job                                                                         |
 | --------------- | --------------------------------------------------------------------------- |
 | `gx_reviews`    | Queue and review other people's Galaxy PRs.                                 |
-| `gx_issues`     | Triage Galaxy issues; polish and file drafts dropped into `to_file/`.       |
+| `gx_issues`     | Triage Galaxy issues; polish and file drafts in `galaxy/issues_incubator/`. |
 | `gx_workhorse`  | Implement a scoped Galaxy change, then hand the branch off.                 |
 | `gx_spike`      | Build a throwaway exploration to talk through a design, then hand it off.   |
 | `gx_branches`   | Own Galaxy's `MY_BRANCHES.md`: track CI, rebase, polish, open approved PRs, undraft. |
@@ -56,7 +56,7 @@ vault/repositories/PROJECT/{reviews,issues,branches}/STATUS/ID/index.md
 
 ## How Galaxy work flows
 
-1. `gx_issues` triages issues; any agent can queue an issue draft in `gx_issues/to_file/`.
+1. `gx_issues` triages issues; any agent can queue an issue draft in `repositories/galaxy/issues_incubator/incubating/`.
 2. `gx_workhorse` or `gx_spike` implements on a branch, runs the `GX_PROCESS_*` steps, writes debriefs into the branch record, and adds one line to `repositories/galaxy/branches/MY_BRANCHES.md` (`GX_IMPLEMENTATION_HANDOFF.md`).
 3. `gx_branches` moves the entry through its sections as CI and John's approvals land, and opens the PR once approved and green.
 4. `gx_reviews` handles other people's PRs in parallel.
