@@ -9,3 +9,4 @@ The custom-build FASTA 500 (#24529) came from a caller with no history; the exis
 ## Requested by
 
 - vault/repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/brain_research.md: needed history-resolution semantics and sibling no-history callers.
+- vault/repositories/galaxy/branches/active/converted_dataset_lookup_via_manager_26.0/brain_research.md: also needs the full caller list of `get_converted_dataset` / `get_converted_files_by_type` / `implicitly_converted_datasets` (incl. `display_applications/parameters.py`, `registry.find_conversion_destination_for_dataset_by_extensions`, `serialize_converted_datasets`) and whether existing conversions are checked against the requesting user's accessibility (open question 3 in the note).

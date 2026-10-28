@@ -9,3 +9,4 @@ Two branches (compare_runs, job_parameters_input_access_25.1) had to rediscover 
 ## Requested by
 
 - vault/repositories/galaxy/branches/active/job_parameters_input_access_25.1/brain_research.md: per-item access decision for data inputs in `parameters_display`, on a release branch without the dev batch helper.
+- vault/repositories/galaxy/branches/active/converted_dataset_lookup_via_manager_26.0/brain_research.md: which helper (`HDAManager.is_accessible` / `get_accessible` vs `can_access_dataset`) to apply to a related dataset reached through a model relationship (implicit conversions), and how it treats admin, anonymous users and LDDAs.

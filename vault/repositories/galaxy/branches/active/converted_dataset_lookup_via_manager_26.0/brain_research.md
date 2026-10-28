@@ -1,0 +1,32 @@
+```yaml
+documents:
+  - path: vault/research/Component - Implicit Dataset Conversion.md
+    why: How ImplicitlyConvertedDatasetAssociation, get_converted_dataset, get_converted_files_by_type and attach_implicitly_converted_dataset fit together; converted HDAs are real, separate HDAs (own id, shared hid, visible=False). Line refs are stale (get_converted_dataset now ~model/__init__.py:5547) and it lists "are implicit conversions subject to the same permission checks?" as an unanswered question.
+  - path: vault/repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/index.md
+    why: Sibling branch on the same release_26.0 callers (add_custom_builds, services/datasets.py `_get_or_create_converted`/`_search_features`, genomes.py, dbkeys.py); passes history= to the custom-build conversions. Expect textual overlap in users.py and services/datasets.py.
+    load_when: Rebasing, choosing branch order, or touching add_custom_builds / `_get_or_create_converted`.
+  - path: vault/repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/initial_implementation_debrief.md
+    why: Lists the other get_converted_dataset call sites left alone there (services/datasets.py:849,928, model/__init__.py:5787 and dependency recursion, genomes.py:321,400, dbkeys.py:146, data_providers/registry.py:114) - a ready caller inventory.
+    load_when: Enumerating callers to convert.
+  - path: vault/repositories/galaxy/branches/active/custom_build_no_converter_400_26.0/index.md
+    why: Draft PR #24313 on the same add_custom_builds conversion calls (NoConverterException handling); merge-order conflicts in users.py/test_users.py.
+    load_when: Rebasing or editing the try/except around the conversion calls.
+  - path: vault/repositories/galaxy/branches/active/job_parameters_input_access_25.1/brain_research.md
+    why: Prior release-branch work choosing an accessibility predicate for related datasets (can_access_dataset/can_access_datasets/is_accessible, admin bypass); its listed compare_runs notes give parity tests and the dataset_id-keyed reasoning (copies share the restricted Dataset).
+    load_when: Deciding the predicate and the admin / anonymous behaviour for the new helper.
+  - path: vault/repositories/galaxy/branches/merged/custom_build_from_fasta/index.md
+    why: Origin of the custom-build-from-FASTA flow and its Selenium test (test_custom_builds.py).
+    load_when: Writing or reviewing tests for the custom-build path.
+research_requests:
+  - vault/agents/gx_research/todo/implicit_conversion_history_resolution.md
+  - vault/agents/gx_research/todo/dataset_collection_access_checks.md
+```
+
+Notes (no document covers these; from reading the code at base `e27589acb8d`, release_26.0):
+
+- Accessibility abstraction: `HDAManager`/`DatasetAssociationManager.is_accessible(item, user)` defers to `DatasetManager.is_accessible(dataset, user)` in `lib/galaxy/managers/datasets.py` (admin bypass via `user_manager.is_admin`, else `has_access_permission` -> `app.security_agent.can_access_dataset(roles, dataset)`; `roles = user.all_roles_exploiting_cache()`, empty for anonymous). `get_accessible(id, user)` / `error_unless_accessible(item, user)` come from `AccessibleManagerMixin` in `lib/galaxy/managers/secured.py` and raise `ItemAccessibilityException`. The accessibility check is on the underlying `Dataset` (permissions), not on the HDA's history. `LDDAManager` has the same mixin.
+- Model-level lookup to wrap: `DatasetInstance.get_converted_files_by_type` (`lib/galaxy/model/__init__.py:5523`) returns the first non-deleted association whose dataset is in a valid state; `get_converted_dataset` (`:5547`) calls it, also `get_metadata_dataset`, resolves deps recursively, then `datatype.convert_dataset` (`datatypes/data.py`). The model has no user/manager context. A manager helper must apply `is_accessible` per candidate and skip (not raise) inaccessible ones, so that "not converted" falls through to creating a new conversion; `get_converted_dataset` currently short-circuits on the first match, so the helper likely needs a way to filter candidates (or a model-level `get_converted_files_by_type` variant taking a predicate/iterator).
+- Callers (grep of `lib/`): `webapps/galaxy/services/datasets.py` (`_get_or_create_converted` ~:847, used by `converted_ext` ~:753; `_search_features` ~:928 "fli"; `_converted_datasets_state`/data provider path via `data_provider_registry`), `webapps/galaxy/api/users.py:528-529` (len + linecount; only the FASTA is checked with `hda_manager.get_accessible`), `visualization/genomes.py:321-322,400`, `managers/dbkeys.py:146`, `visualization/data_providers/registry.py:114-115` (`get_converted_dataset` + `get_converted_dataset_deps`), `model/__init__.py:5574,5785` (dependency recursion; `get_converted_dataset_deps` at `:5536`), `tools/actions/__init__.py:180` (`process_dataset`), `datatypes/registry.py:948` (`find_conversion_destination_for_dataset_by_extensions`, used by tool-form dataset matching), `datatypes/display_applications/parameters.py:130,151` and `datatypes/sequence.py:810` (datatype layer, no trans/user), plus relationship readers `managers/datasets.py:777` (`serialize_converted_datasets` -> `converted` serializer key, emits ids of all non-deleted conversions), `tools/actions/__init__.py:1245`, `tools/parameters/basic.py:2493`, `model/store/__init__.py` (export/import).
+- Read-only exposure points that bypass the manager: the `converted` key in `HDASerializer` (ids of converted datasets) and `GET /api/datasets/{id}/converted/{ext}` (`services/datasets.py` `converted_ext` -> `self.hda_serializer.serialize_converted_datasets`).
+- Tests: `lib/galaxy_test/api/test_users.py` has `test_custom_build_from_unconvertible_dataset` (~:309) and `test_custom_build_from_inaccessible_dataset` (~:398) for the FASTA itself; `test/unit/app/managers/test_HDAManager.py` is the home for a manager-level unit test (no existing conversion tests there; `test/unit/app/tools/test_dataset_matcher.py` and `test_data_parameters.py` cover conversion matching with mocks). Multi-user API helper: `_different_user` (see `Component - API Tests`).
+- Open question for the implementer (unverified): how the conversion's own `Dataset` gets its permissions (converter job output permission copying vs `copy_attributes`), and whether they follow later permission changes on the parent; that decides how often the helper will skip an existing conversion in practice.
