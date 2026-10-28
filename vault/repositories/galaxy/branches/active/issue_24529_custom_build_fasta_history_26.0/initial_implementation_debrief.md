@@ -20,3 +20,13 @@ exists .../differential-review/snapshots/20261028T053851Z-implementation-dacb7d3
   since 20261028T050139Z-implementation-0ee1473ec4e2:
     commits: 1 same, 0 rebased, 0 changed, 5 new, 0 dropped
 ```
+
+## After rescope 2
+
+```
+created .../differential-review/snapshots/20261028T150017Z-implementation-1ba51ea6acc9.json
+  implementation @ 1ba51ea6acc9 vs origin/release_26.0 (merge-base 29d1801ad21b)
+  since 20261028T061915Z-hardening-0a6c27e2cae3:
+    commits: 5 same, 0 rebased, 0 changed, 1 new, 0 dropped
+    hunks:   19 carried, 1 changed, 1 new, 1 dropped
+```
