@@ -23,7 +23,7 @@ Read those from `origin/main` first; if they disagree with this file, upstream w
 ## After release
 
 - Watch the tag's `Deploy` run reach `pypi-publish` success; verify the version on https://pypi.org/project/gxformat2/.
-- Optionally draft GitHub release notes from the HISTORY section (offer clipboard; don't post without asking).
+- Create the GitHub Release for the tag (`make release` only pushes a tag; maintainers expect a Release). Body = the version's HISTORY entries converted to Markdown, matching earlier releases (`gh release view <prev> --repo galaxyproject/gxformat2`). Show John the body first — its `@` thanks notify people — then `gh release create X.Y.Z --repo galaxyproject/gxformat2 --title X.Y.Z --verify-tag --notes-file <file>`.
 - Append this task to this dir's `TASKS.md` gb-tasks block (no need to ask; John launches tasks), per [`TASK_LIST_YAML_FORMAT.md`](../_shared/TASK_LIST_YAML_FORMAT.md), filling in `X.Y.Z`:
 
   ```yaml
