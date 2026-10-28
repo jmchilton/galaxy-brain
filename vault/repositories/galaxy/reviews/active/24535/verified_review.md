@@ -27,42 +27,11 @@ Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vaul
 
 </details>
 
-### P2 2: `sel` datatype registration has no test (implementation verified)
-
-Nothing tests the new `sel` entry in `datatypes_conf.xml.sample`. `discover_unknown_ext` only checks that unknown extensions become `data`, so dropping or renaming `sel` would bring back the BayeScan failure without any test going red.
-
-Review branch commit `6777f3cb916` adds a small framework tool, `discover_sel_ext`. It mirrors BayeScan: it discovers `out/bayescan.sel` through `__designation_and_ext__` and asserts `ftype="sel"`. The tool is registered in `sample_tool_conf.xml`. It isn't added to `test_extended_metadata.py`'s list, because that suite loads `test/functional/tools/sample_datatypes_conf.xml`, which has no `sel`. The standard framework run uses the stock sample conf.
-
-<details><summary>Evidence</summary>
-
-- Without the `sel` line: `JobOutputsError: Dataset metadata verification for [file_ext] failed, expected [sel] but found [data]`.
-- With it: 1 passed (`pytest test/functional/test_toolbox_pytest.py -k discover_sel_ext -m tool`).
-
-</details>
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at low effort. Verified via Opus 5.5 at medium effort.
-
-</details>
-
-### P3 1: `sel` datatype is shown in upload with no description (implementation verified)
-
-The new entry is `display_in_upload="true"` and has no `description`. `sel` is a generic, tool-specific name for BayeScan output, so a bare `sel` in the upload format list tells users nothing. Similar tool-specific `Text` subclasses (`mfa.dict`, `sirius.ms`) are hidden from upload.
-
-Review branch commit `d4a7755b8ec` sets `display_in_upload="false"` and adds `description="BayeScan selection output"`.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
-
-</details>
-
-### P3 2: `metadata_defaults` can't tell sniffed `comment_lines` from the action default (implementation verified)
+### P3 1: `metadata_defaults` can't tell sniffed `comment_lines` from the action default (implementation verified)
 
 The fixture writes exactly 7 and 3 `#` lines, which match the action defaults `7` and `3`. Its `comment_lines` assertions therefore pass whichever value wins. In practice, `Tabular.set_meta` overwrites `comment_lines` from the file contents at job finish, so the action default doesn't persist on an `ok` dataset. The test proves the crash at job creation is gone, but it reads as though the default is applied.
 
-Review branch commit `b47ddbc1ebe` writes 2 and 1 comment lines and asserts those sniffed values. Both metadata paths agree on them, so the fixture now pins which value wins. It still goes red on base. `set_meta` also sniffs `column_types`, and the data rows still sniff to the same types the action sets, so those assertions still pass whichever value wins.
+Review branch commit `87c69955d9a` writes 2 and 1 comment lines and asserts those sniffed values. Both metadata paths agree on them, so the fixture now pins which value wins. It still goes red on base. `set_meta` also sniffs `column_types`, and the data rows still sniff to the same types the action sets, so those assertions still pass whichever value wins.
 
 <details><summary>Evidence</summary>
 
