@@ -1,5 +1,6 @@
 ## PRs to review (`to_review`)
 
+- [#24540](https://github.com/galaxyproject/galaxy/pull/24540) — initial review ready, unposted (two P2 test gaps + four P3s; all fixed on `pr_24540_review_0`; perf negligible). [notes](active/24540/index.md)
 - [#24535](https://github.com/galaxyproject/galaxy/pull/24535) — initial review ready, unposted (two P2s + two P3s; three fixed on `pr_24535_review_0`; P2 1 = int half should retarget `release_25.1`). [notes](active/24535/index.md)
 - [#24525](https://github.com/galaxyproject/galaxy/pull/24525) — initial review ready, unposted (two P2s + one P3; P2s fixed on `pr_24525_review_0`). [notes](active/24525/index.md)
 - [#24517](https://github.com/galaxyproject/galaxy/pull/24517) — initial review ready, unposted (two P2s + four P3s; five fixed on `pr_24517_review_0`). [notes](active/24517/index.md)
