@@ -1,12 +1,12 @@
 #!/bin/bash
-# Query GitHub for every tracked issue and PR in an agent's ISSUES.md; print TSV.
-# Usage: sync_issue_state.sh <ISSUES.md> <OWNER/REPO> <vault/repositories/PROJECT/issues dir>
-# Tracked = issue links in ISSUES.md + numbered dirs outside closed/. Also lists open issues assigned to gh_user not tracked (any status dir, incl. closed/).
+# Query GitHub for every tracked issue and PR in a MY_ISSUES.md; print TSV.
+# Usage: sync_issue_state.sh <MY_ISSUES.md> <OWNER/REPO> <vault/repositories/PROJECT/issues dir>
+# Tracked = issue links in MY_ISSUES.md + numbered dirs outside closed/. Also lists open issues assigned to gh_user not tracked (any status dir, incl. closed/).
 set -eu
 
 . "$(dirname "$0")/sync_common.sh"
 
-[ $# -eq 3 ] || { echo "usage: $0 <ISSUES.md> <OWNER/REPO> <issues_dir>" >&2; exit 2; }
+[ $# -eq 3 ] || { echo "usage: $0 <MY_ISSUES.md> <OWNER/REPO> <issues_dir>" >&2; exit 2; }
 index=$1 repo=$2 dir=$3
 
 linked=$(grep -oE "github.com/$repo/issues/[0-9]+" "$index" | grep -oE '[0-9]+$' || true)

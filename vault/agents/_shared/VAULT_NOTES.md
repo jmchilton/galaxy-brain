@@ -22,7 +22,7 @@ Paths are relative to the galaxy-brain repository root; run `make` commands from
 
 ## Add or update a note
 
-- Start from `.claude/commands/ingest.md` for URLs/local files, or a matching Obsidian Templater template in `vault/templates/`. When slash commands are unavailable, read and follow the workflow file directly. Do not invent frontmatter from scratch.
+- Start from `vault/agents/gx_research/INGEST.md` for URLs/local files, or a matching Obsidian Templater template in `vault/templates/`. Do not invent frontmatter from scratch.
 - Templater templates cover each current type/subtype and are excluded from validation and site collections. Obsidian users need the Templater community plugin, with `templates/` as its template folder.
 - On updates to validated notes, increment `revision`, set `revised` to today's date, and preserve `created`.
 - Regenerate `make index` after adding/removing notes or changing their frontmatter. Regenerate `make dashboard` after changing `dashboard_sections.json`.

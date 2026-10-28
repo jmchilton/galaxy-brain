@@ -699,7 +699,7 @@ function renderTaskCards(el3, tasks, actions) {
 }
 
 // ../site/src/lib/records.ts
-var RECORD_KINDS = ["branches", "issues", "reviews"];
+var RECORD_KINDS = ["branches", "issues", "issues_incubator", "reviews"];
 var DEFAULTS_REPO = "_defaults";
 var REVIEWABLE_RECORD_KINDS = ["branches", "reviews"];
 function isReviewableRecordKind(kind) {
@@ -718,14 +718,16 @@ function parseRecordPath(rel) {
 var KIND_LABELS = {
   branches: "Branches",
   issues: "Issues",
+  issues_incubator: "Issue incubator",
   reviews: "Reviews"
 };
 var STATUS_ORDER = {
   branches: ["active", "merged", "abandoned"],
   issues: ["needs_decision", "queued", "wip", "blocked", "delegated", "closed"],
+  issues_incubator: ["incubating", "internal", "rejected"],
   reviews: ["active", "archived"]
 };
-var TERMINAL_STATUSES = /* @__PURE__ */ new Set(["merged", "abandoned", "archived", "closed"]);
+var TERMINAL_STATUSES = /* @__PURE__ */ new Set(["merged", "abandoned", "archived", "closed", "rejected"]);
 function isTerminalStatus(status) {
   return TERMINAL_STATUSES.has(status);
 }
@@ -762,8 +764,14 @@ function groupByStatus(records, kind) {
     records: byStatus.get(status).sort((a, b) => compareNames(a.name, b.name))
   }));
 }
+var QUEUE_FILES = {
+  branches: "MY_BRANCHES.md",
+  issues: "MY_ISSUES.md",
+  reviews: "MY_REVIEWS.md"
+};
 function groupingFor(repo, kind) {
-  return kind === "branches" ? `repositories/${repo}/branches/MY_BRANCHES.md` : void 0;
+  const file = QUEUE_FILES[kind];
+  return file ? `repositories/${repo}/${kind}/${file}` : void 0;
 }
 function resolveLink(from, link) {
   const parts = from.split("/").slice(0, -1);
@@ -1035,7 +1043,7 @@ var AgentsView = class extends import_obsidian.ItemView {
 };
 
 // src/launchers.ts
-var KEY_LINE = /^(status|agent_dir|name|profile):\s*(.*)$/;
+var KEY_LINE = /^(status|agent_dir|name|profile|command):\s*(.*)$/;
 var list = (value) => value.split(",").map((item2) => item2.trim()).filter(Boolean);
 function launcherScope(path) {
   const [root, repo, kind, file, ...rest] = path.split("/");
@@ -1056,7 +1064,12 @@ function parseLaunchers(markdown, scope) {
     }
     const prompt = lines.slice(i).join("\n").trim();
     const label = heading.trim();
-    if (!label || !fields.agent_dir || !prompt) continue;
+    if (!label) continue;
+    if (fields.command) {
+      launchers.push({ label, ...scope, statuses: list(fields.status ?? ""), agentDir: "", name: "", prompt: "", command: fields.command });
+      continue;
+    }
+    if (!fields.agent_dir || !prompt) continue;
     launchers.push({
       label,
       ...scope,
@@ -1093,6 +1106,10 @@ function fillTemplate(template, record, vaultRoot) {
     record: record.dir ? `${vaultRoot}/${record.dir}` : ""
   };
   return template.replace(/\{(\w+)\}/g, (whole, key2) => values[key2] ?? whole);
+}
+function commandArgs(launcher, record, vaultRoot) {
+  const [executable = "", ...args] = (launcher.command ?? "").trim().split(/\s+/);
+  return [`${vaultRoot}/${executable}`, ...args.map((arg) => fillTemplate(arg, record, vaultRoot))];
 }
 
 // src/profiles.ts
@@ -5521,6 +5538,7 @@ var DiffReviewView = class extends import_obsidian2.ItemView {
 var REPOSITORY_TABS = [
   { id: "branches", label: "My branches" },
   { id: "issues", label: "My issues" },
+  { id: "issues_incubator", label: "Issue incubator" },
   { id: "reviews", label: "My reviews" },
   { id: "my-drafts", label: "My drafts" },
   { id: "conflicting", label: "Conflicting" },
@@ -5570,6 +5588,7 @@ function githubUrl(record, body) {
   const upstream = `https://github.com/${upstreamOwner(record.repo, [body])}/${record.repo}`;
   if (record.kind === "reviews") return find(new RegExp(`/pull/${id}$`)) ?? `${upstream}/pull/${record.name}`;
   if (record.kind === "issues") return find(new RegExp(`/issues/${id}$`)) ?? `${upstream}/issues/${record.name}`;
+  if (record.kind === "issues_incubator") return void 0;
   const statusPr = /^Status:.*?\bPR #(\d+)/m.exec(body)?.[1];
   const forkOwner = BRANCHES_ON_UPSTREAM.has(record.repo) ? upstreamOwner(record.repo, [body]) : FORK_OWNER;
   return find(/\/pull\/\d+$/, /^(View )?PR #\d+$/) ?? (statusPr ? `${upstream}/pull/${statusPr}` : void 0) ?? find(new RegExp(`/tree/${id}$`)) ?? `https://github.com/${forkOwner}/${record.repo}/tree/${record.name}`;
@@ -5736,8 +5755,8 @@ var RECENT_TAB = { id: RECENT, label: "Recent" };
 var isRecordTab = (tab) => RECORD_KINDS.includes(tab);
 var isMine = (tab) => tab === "my-drafts" || tab === "conflicting";
 var RECENT_BY = { created: "Newest", updated: "Recently updated" };
-var RECORD_ICONS = { branches: "git-branch", reviews: "file-search", issues: "file-text" };
-var RECORD_NOUNS = { branches: "branch", reviews: "review", issues: "issue" };
+var RECORD_ICONS = { branches: "git-branch", reviews: "file-search", issues: "file-text", issues_incubator: "sprout" };
+var RECORD_NOUNS = { branches: "branch", reviews: "review", issues: "issue", issues_incubator: "issue draft" };
 var FEED_KEYS = {
   "new-prs": "newPrs",
   "undrafted-prs": "undraftedPrs",
@@ -6055,7 +6074,8 @@ var RepositoryView = class extends import_obsidian3.ItemView {
       button2.onclick = onClick;
     };
     if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
-    action("github", "Open on GitHub", () => window.open(githubUrl(record, body)));
+    const github = githubUrl(record, body);
+    if (github) action("github", "Open on GitHub", () => window.open(github));
     const compare = compareUrl(record, body);
     if (compare) action("git-compare-arrows", "Compare to upstream base", () => window.open(compare));
     const worktree = import_obsidian3.Platform.isDesktopApp ? this.host.worktreeFor(record, body) : null;
@@ -6145,7 +6165,7 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
       new import_obsidian4.Notice(`Could not copy ${file.name}: ${error}`);
     }
   }
-  /** Code, GitHub, agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */
+  /** Code, GitHub (not issue incubator), agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */
   refreshRecordActions() {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
@@ -6166,7 +6186,7 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
           ...reviewable ? [view.addAction("git-compare", "Differential review", withRecord((r) => openDifferentialReview(this.app, r.dir)))] : [],
           view.addAction("code", "Open with Code", withRecord((r) => this.openRecordInCode(r))),
           ...record.kind === "branches" ? [view.addAction("git-compare-arrows", "Compare to upstream base", withRecord((r) => this.openRecordCompare(r)))] : [],
-          view.addAction("github", "Open on GitHub", withRecord((r) => this.openRecordOnGithub(r))),
+          ...record.kind !== "issues_incubator" ? [view.addAction("github", "Open on GitHub", withRecord((r) => this.openRecordOnGithub(r)))] : [],
           view.addAction("bot", "Launch agent", withRecord((r) => this.pickLauncher(r)))
         ];
         this.recordActions.set(view, { kind: record.kind, actions });
@@ -6207,7 +6227,8 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
     else new import_obsidian4.Notice(`No worktree on disk for ${record.name}`);
   }
   async openRecordOnGithub(record) {
-    window.open(githubUrl(record, await this.indexBody(record)));
+    const url = githubUrl(record, await this.indexBody(record));
+    if (url) window.open(url);
   }
   async openRecordCompare(record) {
     const url = compareUrl(record, await this.indexBody(record));
@@ -6271,6 +6292,11 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
   async confirmLaunch(launcher, record) {
     const vaultRoot = this.vaultRoot();
     if (!vaultRoot) return;
+    if (launcher.command) {
+      const args = commandArgs(launcher, record, vaultRoot);
+      new CommandModal(this.app, launcher.label, args, () => this.runCommand(launcher.label, args)).open();
+      return;
+    }
     const profiles = await this.loadProfiles();
     new LaunchModal(this.app, launcher, {
       profiles,
@@ -6362,6 +6388,17 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
       launch: (profile, name2, prompt) => this.launch(vaultRoot, launcher, profile, name2, prompt, launched, pending)
     }).open();
   }
+  runCommand(label, [executable, ...args]) {
+    const { execFile } = require("child_process");
+    const { homedir } = require("os");
+    const PATH = [`${homedir()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
+    const started = new import_obsidian4.Notice(`Running ${label}\u2026`, 0);
+    execFile(executable, args, { env: { ...process.env, PATH }, timeout: 18e4 }, (error, stdout, stderr) => {
+      started.hide();
+      if (error) new import_obsidian4.Notice(`${label} failed: ${(stderr || error.message).trim()}`, 0);
+      else new import_obsidian4.Notice(stdout.trim() || `${label} done`, 15e3);
+    });
+  }
   launch(vaultRoot, launcher, profile, name, prompt, launched, pending) {
     const { execFile } = require("child_process");
     const started = new import_obsidian4.Notice(`Launching ${profile.name} in ${launcher.agentDir}\u2026`, 0);
@@ -6381,6 +6418,27 @@ var GalaxyBrainPlugin = class extends import_obsidian4.Plugin {
         }
       }
     );
+  }
+};
+var CommandModal = class extends import_obsidian4.Modal {
+  constructor(app, label, args, run) {
+    super(app);
+    this.label = label;
+    this.args = args;
+    this.run = run;
+  }
+  onOpen() {
+    this.setTitle(this.label);
+    this.contentEl.createEl("pre", { text: this.args.join(" \\\n  ") });
+    new import_obsidian4.Setting(this.contentEl).addButton(
+      (button2) => button2.setButtonText("Run").setCta().onClick(() => {
+        this.close();
+        this.run();
+      })
+    ).addButton((button2) => button2.setButtonText("Cancel").onClick(() => this.close()));
+  }
+  onClose() {
+    this.contentEl.empty();
   }
 };
 var LauncherSuggest = class extends import_obsidian4.FuzzySuggestModal {

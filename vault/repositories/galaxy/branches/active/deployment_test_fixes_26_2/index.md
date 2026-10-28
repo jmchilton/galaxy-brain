@@ -3,14 +3,14 @@ upstream_base_branch: release_26.2
 ---
 # Deployment test framework fixes
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:deployment_test_fixes_26_2?expand=1)
+- [PR #24489](https://github.com/galaxyproject/galaxy/pull/24489)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/deployment_test_fixes_26_2)
 
 ## Status
 
-Polished at `9d5f0d32df81`; workflow status is `branches_ready_for_final_review`, awaiting John's read-through.
+Polished at `9d5f0d32df81`; workflow status is `ci_wait`.
 
-No PR opened.
+Draft PR #24489 targets `release_26.2`, opened at John's request pending CI.
 
 Fork CI is queued with no reported failures (2026-10-26); local checks pass with no new mypy diagnostics against the release base.
 

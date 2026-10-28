@@ -3,7 +3,7 @@ Suggested tasks for a project agent directory (pulsar, planemo, workflow_libs), 
 ## Review New PRs
 
 when: daily
-what: open, non-draft PRs on {repo} not by jmchilton and not yet in `PULL_REQUESTS.md` or under `vault/repositories/PROJECT/reviews/`.
+what: open, non-draft PRs on {repo} not by jmchilton and not yet in `MY_REVIEWS.md` or a record under `vault/repositories/PROJECT/reviews/`.
 
 For each PR number `n`, `description` is a one-line summary from the PR text. `status` is `recommended` unless another contributor already has a review request on it, then `idea`.
 
@@ -20,7 +20,7 @@ status: {status}
 ## Work New Issues
 
 when: daily
-what: issues on {repo} opened in the last 24 hours, open, unassigned or assigned to jmchilton, and not already tracked per `ISSUES_INDEX.md`.
+what: issues on {repo} opened in the last 24 hours, open, unassigned or assigned to jmchilton, and not already tracked per `MY_ISSUES_INDEX.md`.
 
 For each issue number `n`, `description` is a one-paragraph summary from the issue text. `status` is `recommended` for a clear bug with a likely small fix, otherwise `idea`.
 
@@ -110,9 +110,9 @@ status: recommended
 ## Starter Issues
 
 when: daily
-what: only when no other section suggested anything: up to three issues from `ISSUES.md` (`queued` first) worth starting.
+what: only when no other section suggested anything: up to three issues from `MY_ISSUES.md` (`queued` first) worth starting.
 
-`description` is the issue's `ISSUES.md` line.
+`description` is the issue's `MY_ISSUES.md` line.
 
 Suggest:
 

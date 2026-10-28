@@ -25,7 +25,7 @@ Daily drivers for one project or a set of related projects. Each one reviews, im
 ## Anatomy of an agent directory
 
 - `AGENTS.md` — a short role statement, `@../_shared/...` includes, a `PROJECT` binding for those includes, and optionally an **Automatic Actions** list.
-- A queue file — `PULL_REQUESTS.md` or `ISSUES.md`. One line per item, linking to its record. Queues stay thin; detail lives in records. Branch queues (`MY_BRANCHES.md`) live with their records in `vault/repositories/PROJECT/branches/`.
+- Queue files — `MY_BRANCHES.md`, `MY_ISSUES.md`, `MY_REVIEWS.md` — live with their records in `vault/repositories/PROJECT/{branches,issues,reviews}/`, not in the agent directory. One line per item, linking to its record. Queues stay thin; detail lives in records.
 - `TICK.md` — the prompt for a recurring loop. Usually "take every Automatic Action" plus a few checks.
 - `GOOD_MORNING.md` — the daily triage prompt. May include `TICK.md`, then surfaces what needs John and offers next tasks.
 
@@ -35,7 +35,7 @@ Anything else in an agent directory is working material (process docs, PR descri
 
 Agents compose their instructions from shared fragments rather than copying rules. Naming tells you what a fragment is:
 
-- `*_INDEX.md` — format of a queue file (`PULL_REQUESTS_INDEX`, `ISSUES_INDEX`, `MY_BRANCHES_INDEX`).
+- `*_INDEX.md` — format of a queue file (`MY_BRANCHES_INDEX`, `MY_ISSUES_INDEX`, `MY_REVIEWS_INDEX`).
 - `REPOSITORY_*.md` — layout of the records behind a queue (reviews, issues, branches).
 - `GX_*.md` — Galaxy-specific conventions (PR/issue descriptions, risk assessment, implementation hand-off).
 - `GX_PROCESS_*.md` — single-purpose subagent steps (challenge tests, polish E2E, scope evaluation, screenshots). They take `BRANCH_DIRECTORY` and `WORKING_DIRECTORY` and write a debrief.

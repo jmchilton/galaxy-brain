@@ -6,8 +6,8 @@ component: "DRS Support"
 galaxy_areas: [files, api, security]
 status: draft
 created: 2026-07-13
-revised: 2026-08-08
-revision: 2
+revised: 2026-10-26
+revision: 3
 ai_generated: true
 summary: "Client and server for GA4GH DRS URIs — file-source plugin, identifiers.org compact-identifier resolution, OIDC bearer token attachment"
 sources: ["/Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-DRS-Support.md"]
@@ -17,6 +17,7 @@ related_notes:
   - "[[Component - CORS Handling]]"
   - "[[Component - API Tests]]"
   - "[[Component - Private Object Stores]]"
+  - "[[Component - Deployment Tests]]"
 related_prs:
   - 22484
   - 20410

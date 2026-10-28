@@ -9,9 +9,9 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Polished and awaiting John's final review (`branches_ready_for_final_review`), pushed at `64b7f1ef204` against `release_26.2` (`cce99870510`).
+Approved by launch; PR opened as draft (`ci_wait`), pushed at `64b7f1ef204` against `release_26.2` (`cce99870510`).
 
-PR not opened.
+[PR #24482](https://github.com/galaxyproject/galaxy/pull/24482) draft against `release_26.2`; screenshots hosted on fork branch `pr-assets-selenium_faq_account_workflow_display_26.2`.
 
 CI checked 2026-10-26: fresh head queued; pre-rebase head passed all 23 workflows that ran, and local post-rebase browser verification was blocked during setup.
 

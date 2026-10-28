@@ -50,7 +50,7 @@ Follow-up to 🌿[`issue_24389_lint_duplicate_test_params_26.1`](https://github.
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? The test errors at load with "Ambiguous test parameter (\<path\>) specified more than once with different values", the same text as the `TestsCaseValidation` lint.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes.

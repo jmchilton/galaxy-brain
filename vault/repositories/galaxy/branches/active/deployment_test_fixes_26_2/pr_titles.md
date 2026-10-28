@@ -1,3 +1,1 @@
 - [26.2] Fix deployment test collection and failure reporting
-- [26.2] Restore deployment test harness contracts and runtime skips
-- [26.2] Fix deployment test bootstrap and capability restrictions

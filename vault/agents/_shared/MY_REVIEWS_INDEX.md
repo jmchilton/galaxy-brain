@@ -2,15 +2,13 @@
 
 ## The index
 
-`PULL_REQUESTS.md` beside `AGENTS.md` is the agent's review queue. Keep a flat list under `PRs To Review:`; write `None yet.` when empty.
+`vault/repositories/PROJECT/reviews/MY_REVIEWS.md` is the review queue for PROJECT's PRs. Keep a flat list under ``## PRs to review (`to_review`)``; write `None yet.` when empty. An agent covering several projects keeps one queue per PROJECT.
 
 Each entry is one short bullet:
 
 ```text
-- [#12345](PR_URL) — short tracking status. [notes](REVIEW_INDEX_PATH)
+- [#12345](PR_URL) — short tracking status. [notes](active/12345/index.md)
 ```
-
-For agents covering several repositories, include PROJECT in the label (e.g. `gxformat2#254`). PR numbers are only unique within a repository.
 
 Keep findings, reviewed commits, delivery history, CI logs, worktrees, and supporting plans in the review record. Status communicates routine progression; no next step is required when it follows from that status. Preserve explicit user decisions and instructions without inventing new ones.
 

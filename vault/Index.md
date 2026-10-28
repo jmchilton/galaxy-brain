@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*126 notes. Auto-generated — run `make index` to refresh.*
+*127 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -53,6 +53,7 @@
 - [[Component - CWL Workflow State]] — CWL workflow import to persistence to execution: parsed via WorkflowProxy, state encoded/decoded, tool_inputs dict
 - [[Component - Collection Creation API]] — Two-path collection creation: direct POST with element identifiers or fetch API uploading new data atomically
 - [[Component - Dataset Display]] — Catalog of the eight ways the UI renders dataset contents, from datatype display_data and viz plugins to display apps, peek and Markdown embeds
+- [[Component - Deployment Tests]] — Running API and Selenium suites against usegalaxy servers via GALAXY_TEST_EXTERNAL, requirement markers, and a manual GH workflow
 - [[Component - DRS Support]] — Client and server for GA4GH DRS URIs — file-source plugin, identifiers.org compact-identifier resolution, OIDC bearer token attachment
 - [[Component - Agents Backend]] — Multi-agent AI framework with pydantic-ai, five specialized agents, registry pattern, and async execution
 - [[Component - Agents UX]] — Four agent UX surfaces: ChatGXY full-page chat, GalaxyWizard error widget, tool generator, Jupyternaut proxy

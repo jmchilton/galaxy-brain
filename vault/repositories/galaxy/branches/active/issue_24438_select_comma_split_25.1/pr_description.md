@@ -83,7 +83,7 @@ The parsing helper's body is the fix itself. Moving shared linter helpers would 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? The multiple-values error above; the new lint warning names the test and parameter and recommends `value_json`.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Public parsing/linting fixtures check behavior; framework tests assert command output.

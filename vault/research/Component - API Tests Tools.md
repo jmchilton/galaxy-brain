@@ -9,8 +9,8 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-03-04
-revised: 2026-04-28
-revision: 3
+revised: 2026-10-26
+revision: 4
 ai_generated: true
 galaxy_areas:
   - api
@@ -23,6 +23,7 @@ related_notes:
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
+  - "[[Component - Deployment Tests]]"
 ---
 
 # Component: API Tests - Tools

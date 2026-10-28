@@ -58,7 +58,7 @@ Baseline tests remain in their own leading commit; the fixes restore existing co
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Pytest reports the original failure or explicit requirement skip.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes; callable, result, and independent skip behavior.

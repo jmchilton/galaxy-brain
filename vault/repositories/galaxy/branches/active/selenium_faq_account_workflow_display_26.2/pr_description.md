@@ -88,7 +88,7 @@ The Visualize selector cleanup belongs to the extraction commit. The clean rebas
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Browser assertions/timeouts identify missing expected states; no new product error message is introduced.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes; browser cases verify persistence and rendered state, with independent UCSC/main coverage.

@@ -1,0 +1,7 @@
+- uv cache prune
+- yarn cache clean
+- pnpm store prune
+- pre-commit gc
+- npm cache clean
+- Playwright MCP Cache - keep only latest profile.
+- Playwright browsers - keep only the newest builds

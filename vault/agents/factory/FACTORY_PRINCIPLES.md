@@ -1,0 +1,15 @@
+- static tools do static work where possible
+- we make it clear when communication is coming from John vs. agents
+- agents should be treated with respect
+- we steal from existing best practices when possible
+- the artifacts of our factory are self documenting
+- the process of our factory are self documenting
+- we develop in the open and preserve artifacts of development
+- projects that are vibe coded - are vibe coded. projects that are engineered by humans are engineered by humans
+- communication should be intentional - default to a persuasive posture, when it is time to present technical information - summary first and dig into relevant details below
+- we decompose big problems into small ones so we can pick the right agent for the right job
+- the right agent for the job is the smallest agent at the least effort that will get it right
+- the harness is the factory - the claude CLI and codex are proprietary tools and we should leverage exotic features when we can but not bake them into our core workflow
+	- prefer factory documents of local agent memories
+	- prefer factory documents over harness skills
+- we spend the tokens now to build a harness for the future that can operate on fewer tokens - tokens are going to go up in price

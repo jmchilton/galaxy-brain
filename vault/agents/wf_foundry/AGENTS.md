@@ -3,6 +3,7 @@
 @../_shared/VAULT_SYNC.md
 @../_shared/SECURITY_REPORTS.md
 @../_shared/NOT_VAULT_NOTES.md
+@../_shared/AGENT_MARKERS.md
 
 We're responsible for maintaining the Foundry ecosystem (`galaxyproject/foundry`).
 
@@ -36,7 +37,9 @@ The user authorizes these ahead of time, but only exactly as written here.
 
 - **Rerun unrelated reds.** For each MY_BRANCHES.md entry whose open PR has failed CI: unless its branch record has a CI verdict for that head SHA, check CI per [`CHECK_CI.md`](../_shared/CHECK_CI.md) (upstream `galaxyproject/foundry`) and replace the record's CI line with the verdict. Then rerun per that file's "Rerun unrelated reds". Skip `branches_need_decision` and `branches_reference` entries.
 
-@../_shared/ISSUES_INDEX.md
+@../_shared/MY_ISSUES_INDEX.md
+
+The issue index is [MY_ISSUES.md](../../repositories/foundry/issues/MY_ISSUES.md).
 
 ## Label mapping
 

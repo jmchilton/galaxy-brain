@@ -9,3 +9,14 @@ created .../differential-review/snapshots/20261028T050139Z-implementation-0ee147
   implementation @ 0ee1473ec4e2 vs origin/release_26.0 (merge-base 29d1801ad21b)
   first snapshot: 1 commit, 2 files, 6 hunks
 ```
+
+## After rescope
+
+See `implementation_rescope_debrief.md`.
+
+```
+exists .../differential-review/snapshots/20261028T053851Z-implementation-dacb7d38dd6b.json
+  implementation @ dacb7d38dd6b vs origin/release_26.0 (merge-base 29d1801ad21b)
+  since 20261028T050139Z-implementation-0ee1473ec4e2:
+    commits: 1 same, 0 rebased, 0 changed, 5 new, 0 dropped
+```

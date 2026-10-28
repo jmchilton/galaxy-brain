@@ -2,8 +2,8 @@
 # /// script
 # requires-python = ">=3.10"
 # ///
-"""Post an issues_incubator record's proposal.md as a GitHub issue and move the
-record to `repositories/<repo>/issues/<status>/<number>/`.
+"""Post an issues_incubator record's proposal.md as a GitHub issue, labeled per its
+issue_tags.md, and move the record to `repositories/<repo>/issues/<status>/<number>/`.
 
 Usage: vault/agents/_shared/scripts/file_incubator_issue.py RECORD_DIR [--status STATUS] [--github-repo OWNER/REPO] [--assign] [--dry-run]
 """
@@ -13,13 +13,15 @@ import re
 import shutil
 import subprocess
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
 ISSUE_STATUSES = ["needs_decision", "queued", "wip", "blocked", "delegated"]
 FILEABLE_STATUSES = ["incubating", "internal"]
 ISSUE_URL = re.compile(r"https://github\.com/[^/\s]+/[^/\s]+/issues/(\d+)")
+# One backticked label per bullet; prose and anything else in issue_tags.md is ignored.
+TAG_LINE = re.compile(r"^- `([^`]+)`", re.MULTILINE)
 
 
 class FilingError(Exception):
@@ -36,6 +38,7 @@ class FilingPlan:
     summary: str
     dest_parent: Path
     assign: bool = False
+    labels: list[str] = field(default_factory=list)
 
 
 def plan_filing(record: Path, status: str, github_repo: str | None = None, assign: bool = False) -> FilingPlan:
@@ -60,6 +63,8 @@ def plan_filing(record: Path, status: str, github_repo: str | None = None, assig
     body = proposal.read_text()[title_match.end():].lstrip("\n")
     index = record / "index.md"
     summary = re.sub(r"^\s*#\s+.*\n", "", index.read_text(), count=1).strip() if index.is_file() else ""
+    tags = record / "issue_tags.md"
+    labels = TAG_LINE.findall(tags.read_text()) if tags.is_file() else []
     return FilingPlan(
         record=record,
         repo=repo,
@@ -69,6 +74,7 @@ def plan_filing(record: Path, status: str, github_repo: str | None = None, assig
         summary=summary,
         dest_parent=record.parents[2] / "issues" / status,
         assign=assign,
+        labels=labels,
     )
 
 
@@ -76,13 +82,37 @@ def gh_create_issue(plan: FilingPlan) -> str:
     cmd = ["gh", "issue", "create", "--repo", plan.github_repo, "--title", plan.title, "--body-file", "-"]
     if plan.assign:
         cmd += ["--assignee", "@me"]
+    for label in plan.labels:
+        cmd += ["--label", label]
     result = subprocess.run(cmd, input=plan.body, capture_output=True, text=True)
     if result.returncode:
         raise FilingError(f"gh issue create failed: {result.stderr.strip()}")
     return result.stdout.strip().splitlines()[-1]
 
 
-def file_record(plan: FilingPlan, create: Callable[[FilingPlan], str] = gh_create_issue) -> Path:
+def gh_label_names(github_repo: str) -> set[str]:
+    result = subprocess.run(
+        ["gh", "label", "list", "--repo", github_repo, "--limit", "1000", "--json", "name", "--jq", ".[].name"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        raise FilingError(f"gh label list failed: {result.stderr.strip()}")
+    return set(result.stdout.splitlines())
+
+
+def check_labels(plan: FilingPlan, known: Callable[[str], set[str]] = gh_label_names) -> None:
+    unknown = [label for label in plan.labels if label not in known(plan.github_repo)] if plan.labels else []
+    if unknown:
+        raise FilingError(f"unknown label(s) on {plan.github_repo}: {', '.join(unknown)}; fix issue_tags.md")
+
+
+def file_record(
+    plan: FilingPlan,
+    create: Callable[[FilingPlan], str] = gh_create_issue,
+    known_labels: Callable[[str], set[str]] = gh_label_names,
+) -> Path:
+    check_labels(plan, known_labels)
     url = create(plan)
     match = ISSUE_URL.search(url)
     if not match:
@@ -113,13 +143,15 @@ def main(argv: list[str] | None = None) -> int:
     try:
         plan = plan_filing(args.record, args.status, args.github_repo, args.assign)
         if args.dry_run:
-            print(f"Would file on {plan.github_repo}: {plan.title}\nthen move to {plan.dest_parent}/<number>/\n\n{plan.body}")
+            check_labels(plan)
+            labels = ", ".join(plan.labels) or "none"
+            print(f"Would file on {plan.github_repo}: {plan.title}\nlabels: {labels}\nthen move to {plan.dest_parent}/<number>/\n\n{plan.body}")
             return 0
         dest = file_record(plan)
     except FilingError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
-    print(f"Filed and moved record to {dest}\nNext: triage it into ISSUES.md per vault/agents/_shared/ISSUES_INDEX.md")
+    print(f"Filed and moved record to {dest}\nNext: triage it into MY_ISSUES.md per vault/agents/_shared/MY_ISSUES_INDEX.md")
     return 0
 
 

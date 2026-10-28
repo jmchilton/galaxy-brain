@@ -6,12 +6,12 @@ None yet.
 
 ## In progress (`wip`)
 
-- [galaxy-tool-util-ts#202](https://github.com/jmchilton/galaxy-tool-util-ts/issues/202) — optional default expansion with sparse-state validation preserved; PR [#207](https://github.com/jmchilton/galaxy-tool-util-ts/pull/207). [notes](../../repositories/galaxy-tool-util-ts/issues/wip/202/index.md)
-- [galaxy-tool-util-ts#210](https://github.com/jmchilton/galaxy-tool-util-ts/issues/210) — `validate-tests --workflow` ignores collection shape and datatype; stacked branches `issue_210_datatypes_snapshot` → `issue_210_test_kind_checks` (asks 1+2). [notes](../../repositories/galaxy-tool-util-ts/issues/wip/210/index.md)
+- [#202](https://github.com/jmchilton/galaxy-tool-util-ts/issues/202) — optional default expansion with sparse-state validation preserved; PR [#207](https://github.com/jmchilton/galaxy-tool-util-ts/pull/207). [notes](wip/202/index.md)
+- [#210](https://github.com/jmchilton/galaxy-tool-util-ts/issues/210) — `validate-tests --workflow` ignores collection shape and datatype; stacked branches `issue_210_datatypes_snapshot` → `issue_210_test_kind_checks` (asks 1+2). [notes](wip/210/index.md)
 
 ## Queued (`queued`)
 
-- [gxformat2#266](https://github.com/galaxyproject/gxformat2/issues/266) — numeric min/max semantic gaps (non-numeric inputs, min > max); next: red declarative tests + `_semantic_validators` fix. [notes](../../repositories/gxformat2/issues/queued/266/index.md)
+None yet.
 
 ## Blocked (`blocked`)
 

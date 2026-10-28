@@ -1,6 +1,8 @@
 Initialize a new project in the vault with proper frontmatter.
 
-Arguments: $ARGUMENTS
+Paths are relative to the galaxy-brain repository root (`~/projects/repositories/galaxy-brain`); run commands from there.
+
+Arguments: the slug, then a description or file path, as you were given them.
 
 The first argument is the project slug (kebab-case directory name, e.g. `structured-tool-state`).
 Everything after the slug is either:

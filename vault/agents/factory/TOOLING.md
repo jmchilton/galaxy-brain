@@ -12,8 +12,8 @@ Paths are relative to the galaxy-brain repository root. Note contracts live in [
 - `generate_index.py` generates `vault/Index.md`, a catalog of validated note types and their summaries. It excludes agent workflows, repository records, and workspace sub-files.
 - `vault/log.md` is the append-only operations journal, written by the ingest workflow. It is excluded from validation and content collections, but published at `/log/`.
 - `tasks_sync.yml` configures `.claude/commands/sync-tasks.md`, which maintains `vault/JOHNS_TASKS.md`.
-- `.claude/commands/` contains repository slash-command workflows, including ingestion, project creation, and task/review sync.
-- `skill/` contains the `galaxy-brain` lookup and `galaxy-weekly-pr-review` skills.
+- `.claude/commands/` contains repository slash-command workflows for task/review sync. Ingestion and project creation live in `vault/agents/gx_research/`.
+- `skill/` contains the `galaxy-brain` lookup skill.
 - `LIBRARY_*.md` are research/planning documents about this library, not vault notes. They need no frontmatter.
 - `site/` contains the Astro static site.
 - `obsidian-plugin/`, `herdr-plugin/`, and `chrome-extension/` provide repository views and agent launchers.
@@ -75,7 +75,7 @@ make diff-review-test               # differential-review Vitest suite
 
 - Records live at `vault/repositories/<repo>/<kind>/<status>/<id>/`, where kind is `branches`, `issues`, `issues_incubator`, or `reviews`. Their `index.md` files need no frontmatter.
 - `site/src/lib/records.ts` supplies record paths, status helpers, and queue grouping shared by the site and Obsidian plugin. Keep it dependency-free and free of Node imports because the plugin also loads on mobile.
-- Branch records group by sections in `vault/repositories/<repo>/branches/MY_BRANCHES.md` when present. Unlisted records fall back to status groups. The branches tab also embeds the queue file.
+- Branch, issue and review records group by sections in their queue file (`vault/repositories/<repo>/<kind>/MY_BRANCHES.md`, `MY_ISSUES.md`, `MY_REVIEWS.md`) when present. Unlisted records fall back to status groups. The tab also embeds the queue file.
 - Launchers come from `vault/repositories/<repo>/<kind>/LAUNCHERS.md` and `_defaults/<kind>/LAUNCHERS.md`. The format is documented in `vault/agents/_shared/LAUNCHERS.md` and parsed by `obsidian-plugin/src/launchers.ts`.
 - Launch profiles (agent, model, effort, args) come from `vault/agents/_shared/AGENT_PROFILES.yml`, parsed by `obsidian-plugin/src/profiles.ts`.
 - `vault/agents/_shared/scripts/launch_agent.sh` starts agents. Agent directories hold their own `AGENTS.md` instructions, with `CLAUDE.md` symlinks for Claude discovery.

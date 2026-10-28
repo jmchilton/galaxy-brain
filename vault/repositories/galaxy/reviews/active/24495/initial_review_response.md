@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+The P2 1 below seems blocking and the tests seem good. Any chance you could review these changes and bring in the ones that look okay and push back on the P2 1 if my agent got it wrong.  P3 1 looks like a valid follow up issue for dev - probably worth filing. -John
 
 <details><summary>Automated Review Details</summary>
 
@@ -92,9 +92,9 @@ except zipfile.BadZipFile:
     self.archive = self.open_tar(file_path, mode)
 ```
 
-Commit [`1ca64d6b600`](https://github.com/jmchilton/galaxy/commit/1ca64d6b600be5bf63d7bcabfadd3468d90bf195) on [`pr_24495_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24495_review_0), with unit test `test_compressed_file_tar_with_stray_zip_end_record`.
-
 </details>
+
+Fixed on the review branch in [`1ca64d6b600`](https://github.com/jmchilton/galaxy/commit/1ca64d6b600be5bf63d7bcabfadd3468d90bf195), with unit test `test_compressed_file_tar_with_stray_zip_end_record`.
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -137,9 +137,9 @@ finally:
 
 `iter_zip` gets a return annotation, `Generator[tuple[IO[bytes], str], None, None]`, so mypy stays clean. The `mode` argument is dropped. Write mode on a zip never worked: `ZipFile(path, "w")` truncates the file, then `namelist()[0]` raised. No caller passes it.
 
-Commit [`cb8fca124e1`](https://github.com/jmchilton/galaxy/commit/cb8fca124e1b9f36887a09bababff50e1bc5c04e), with unit tests `test_get_fileobj_raw_empty_zip_read_raw` and `test_get_fileobj_raw_zip_skips_directory_entries`.
-
 </details>
+
+Fixed on the review branch in [`cb8fca124e1`](https://github.com/jmchilton/galaxy/commit/cb8fca124e1b9f36887a09bababff50e1bc5c04e), with unit tests `test_get_fileobj_raw_empty_zip_read_raw` and `test_get_fileobj_raw_zip_skips_directory_entries`.
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -159,11 +159,7 @@ The issue is that uploads of such a tar failed on every route. The PR's tests st
 
 Add a fetch-API test to `lib/galaxy_test/api/test_tools_upload.py` that uploads the committed fixture. It asserts state ok, `file_ext == "tar"`, and an unchanged size.
 
-<details><summary>Details</summary>
-
-`test_upload_tar_with_stray_zip_end_record` in `TestToolsUpload`, commit [`8355212f702`](https://github.com/jmchilton/galaxy/commit/8355212f702f1c9e659406b55bd44460a6dbaa66).
-
-</details>
+Fixed on the review branch in [`8355212f702`](https://github.com/jmchilton/galaxy/commit/8355212f702f1c9e659406b55bd44460a6dbaa66), as `test_upload_tar_with_stray_zip_end_record` in `TestToolsUpload`.
 
 <details><summary>Discovery & Verification Agent Details</summary>
 

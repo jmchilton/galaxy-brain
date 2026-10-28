@@ -1,12 +1,12 @@
 #!/bin/bash
-# Query GitHub for every tracked PR in an agent's PULL_REQUESTS.md; print TSV.
-# Usage: sync_review_state.sh <PULL_REQUESTS.md> <OWNER/REPO> <vault/repositories/PROJECT/reviews dir>
-# Tracked = PR links in PULL_REQUESTS.md + numbered dirs in active/. Prints head SHA beside SHAs found in each record's index.md (heuristic; compare with the last reviewed commit).
+# Query GitHub for every tracked PR in a MY_REVIEWS.md; print TSV.
+# Usage: sync_review_state.sh <MY_REVIEWS.md> <OWNER/REPO> <vault/repositories/PROJECT/reviews dir>
+# Tracked = PR links in MY_REVIEWS.md + numbered dirs in active/. Prints head SHA beside SHAs found in each record's index.md (heuristic; compare with the last reviewed commit).
 set -eu
 
 . "$(dirname "$0")/sync_common.sh"
 
-[ $# -eq 3 ] || { echo "usage: $0 <PULL_REQUESTS.md> <OWNER/REPO> <reviews_dir>" >&2; exit 2; }
+[ $# -eq 3 ] || { echo "usage: $0 <MY_REVIEWS.md> <OWNER/REPO> <reviews_dir>" >&2; exit 2; }
 index=$1 repo=$2 dir=$3
 
 linked=$(grep -oE "github.com/$repo/pull/[0-9]+" "$index" | grep -oE '[0-9]+$' || true)

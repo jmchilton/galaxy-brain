@@ -5,6 +5,10 @@
 - Implement review awards.
 - Integration daily changeset work.
 - Bring scope evaluation into development so implementers catch extensions (e.g. issue-thread abstractions) before building, not after.
-- Move review queues next to their records, like `MY_BRANCHES.md`: `gx_reviews/PULL_REQUESTS.md` → `repositories/galaxy/reviews/PULL_REQUESTS.md` (and other agents' `PULL_REQUESTS.md`), generalize `PULL_REQUESTS_INDEX.md` by PROJECT, and have the plugin group review records by its sections (`groupingFor` in `record-groups.ts`).
-- Move issue queues the same way: `ISSUES.md` → `repositories/PROJECT/issues/ISSUES.md`, generalize `ISSUES_INDEX.md`, and group issue records by its sections in the plugin. Agent dirs covering several projects (e.g. `workflow_libs`) need one queue per project.
 - Revisit `ADR_RESEARCH.md`: decide whether to add a critical decision points doc step to branch processes (generalizing issue alternatives + scope evaluation); answer its open questions.
+- Figure out what to do if I'm requesting a review that already has a significant outstanding review on it.
+- PR Descriptions:
+	- Move checklist into a single Agentic Checks section.
+	- Record and report models and effort levels for each checks like we do with reviews.
+	- Link in actual reports. 
+- Process where each agent has a blockers/ directory (optional). Each blocker has a condition.md file saying what is being blocked on (short, one sentence ideally), follow_up.md (prompt to run). Update SUGGESTED_TASKS.md for all projects - check each blockers/ entry and add a task with follow_up: on unblocked. Agents view in Obsidian -> Tasks and Blockers as tabs, with counts. PROCESS_SHELVE.md when given a blocker -> summarize current session in agent_dir/blockers/<short_name>/previous_session.md, figure out condition.md and follow_up.md from context. Add shelving prompt to Claude plugin. Add launcher on reviews, branches, and issues to setup shelving the project on: <user_input_here> (I can fill that in from Obsidian prompt). 

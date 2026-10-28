@@ -34,6 +34,7 @@ For the main body - use best judgement.
 
 (Galaxy template stuff - how to test, license, etc. if changed)
 
+(no agent marker at the end please!)
 ```
 
 ## PR checklists

@@ -11,5 +11,5 @@ Label rules live in Foundry, not here: [`content/meta/issue-labels.md`](https://
    - Bugs in repos we don't maintain with no matching `upstream/*` label (e.g. tool wrappers): `roadmap/off` + `agent/human`, and say where it should be filed.
 4. Derive the vault status from the proposed labels per the "Label mapping" in [CLAUDE.md](CLAUDE.md). Open questions for John go in the note; they don't change the status.
 5. Create the directory and `vault/repositories/foundry/issues/<status>/<number>/index.md`: title, issue link, proposed labels and parent with a reason each, status, findings (what was verified, what wasn't), next. See `issues/queued/678/index.md` for shape.
-6. Move the issue's line in [ISSUES.md](ISSUES.md) to the matching section. In batch runs with subagents, the coordinator does this, not the subagents.
+6. Move the issue's line in [MY_ISSUES.md](../../repositories/foundry/issues/MY_ISSUES.md) to the matching section. In batch runs with subagents, the coordinator does this, not the subagents.
 7. Apply labels and the parent link on GitHub only with John's OK.

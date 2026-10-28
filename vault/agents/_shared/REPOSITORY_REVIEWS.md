@@ -11,7 +11,7 @@ A review lives under exactly one directory status:
 - `active/` — tracked reviews, including unposted drafts, author-fix verification, and waits for the author or John's merge.
 - `archived/` — the PR merged or closed, or John removed it from tracking.
 
-Delivering or approving a review does not archive it. Keep finer workflow status in `index.md` and the agent's `PULL_REQUESTS.md`; routine progress does not move the directory.
+Delivering or approving a review does not archive it. Keep finer workflow status in `index.md` and `MY_REVIEWS.md`; routine progress does not move the directory.
 
 When archiving, move the directory once agents working there have finished, remove the queue entry, and update links together. Record the GitHub state and why tracking ended in `index.md`.
 

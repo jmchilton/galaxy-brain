@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-26T18:25:55.948Z",
+  "hunks": {
+    "h1:ef797277b8b1796a": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/components/Visualizations/DisplayApplications.test.js",
+      "reviewedAt": "2026-10-26T18:25:46.449Z"
+    },
+    "h1:dc7fe02f03ca724c": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/components/Visualizations/DisplayApplications.test.js",
+      "reviewedAt": "2026-10-26T18:25:46.449Z"
+    },
+    "h1:020bbcf52a137930": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/components/Visualizations/DisplayApplications.test.js",
+      "reviewedAt": "2026-10-26T18:25:46.449Z"
+    },
+    "h1:15868d788fdfec5c": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/components/Visualizations/DisplayApplications.test.js",
+      "reviewedAt": "2026-10-26T18:25:46.449Z"
+    },
+    "h1:11bfcdc4f1c57e05": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/components/Visualizations/DisplayApplications.test.js",
+      "reviewedAt": "2026-10-26T18:25:46.449Z"
+    },
+    "h1:0eae45299b8ab3f6": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/components/Visualizations/DisplayApplications.vue",
+      "reviewedAt": "2026-10-26T18:25:47.285Z"
+    },
+    "h1:506786e0e6e7885a": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-26T18:25:48.060Z"
+    },
+    "h1:ecfa54ee86318126": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-26T18:25:48.060Z"
+    },
+    "h1:551a3453beaeea06": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-26T18:25:48.060Z"
+    },
+    "h1:3b1c1844c08e0d32": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-26T18:25:48.060Z"
+    },
+    "h1:464ce38c7dad39c5": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-26T18:25:49.777Z"
+    },
+    "h1:49b15b3c96035c55": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-26T18:25:49.777Z"
+    },
+    "h1:92f88e4df38a1127": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-26T18:25:49.777Z"
+    },
+    "h1:7c6783a4462b31ab": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-26T18:25:49.777Z"
+    },
+    "h1:0882e16e51843030": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-26T18:25:49.777Z"
+    },
+    "h1:3f56a7ba17bbfe99": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_history_storage.py",
+      "reviewedAt": "2026-10-26T18:25:50.284Z"
+    },
+    "h1:bef3e8f9f7b3ae01": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_login.py",
+      "reviewedAt": "2026-10-26T18:25:51.525Z"
+    },
+    "h1:f11e7fe0c2b28d3d": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_personal_information.py",
+      "reviewedAt": "2026-10-26T18:25:51.925Z"
+    },
+    "h1:1353e7fc2905def1": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_personal_information.py",
+      "reviewedAt": "2026-10-26T18:25:51.925Z"
+    },
+    "h1:73fd12cf8238dfc9": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_personal_information.py",
+      "reviewedAt": "2026-10-26T18:25:51.925Z"
+    },
+    "h1:d688b135dafeb00a": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_visualizations.py",
+      "reviewedAt": "2026-10-26T18:25:52.285Z"
+    },
+    "h1:4f639b3f14ee860b": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_workflow_editor.py",
+      "reviewedAt": "2026-10-26T18:25:52.733Z"
+    },
+    "h1:4cee76355ef37a71": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_workflow_editor.py",
+      "reviewedAt": "2026-10-26T18:25:52.733Z"
+    },
+    "h1:c59d81bec23f3f9e": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_workflow_editor.py",
+      "reviewedAt": "2026-10-26T18:25:52.733Z"
+    },
+    "h1:f287424f3623ef31": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_workflow_editor.py",
+      "reviewedAt": "2026-10-26T18:25:52.733Z"
+    },
+    "h1:c553b305c24310ae": {
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "path": "lib/galaxy_test/selenium/test_workflow_editor.py",
+      "reviewedAt": "2026-10-26T18:25:52.733Z"
+    }
+  },
+  "commits": {
+    "5920459bd85c4dc7523ea110572b24e66e7bb964": {
+      "sha": "b16df7b89e8647bf664b5b4ad7d6afd75da8dcb2",
+      "subject": "Baseline tests for FAQ storage refresh, workflow tags and display catalogs",
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "signedOffAt": "2026-10-26T18:25:54.762Z"
+    },
+    "35cc76d2653ea8538b14c0966eb20cee4c7845d0": {
+      "sha": "58c4e114d2a0ee79859bf6b5bb8af38645fb5150",
+      "subject": "Extract FAQ account, workflow and display navigation helpers",
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "signedOffAt": "2026-10-26T18:25:55.128Z"
+    },
+    "64c809198704ccaf477787f98dd5b6886dcfddbd": {
+      "sha": "a7934d518fc5ec077d9a921ca9c227d19647e690",
+      "subject": "Handle loaded empty display application catalogs in browser helper",
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "signedOffAt": "2026-10-26T18:25:55.524Z"
+    },
+    "49169ffb9439e77eee0f1a588807bd22ac0eaefd": {
+      "sha": "64b7f1ef204112bd9a252c88038b8a9a3827e3b6",
+      "subject": "Test display catalog readiness for empty and invalid provider results",
+      "snapshotId": "20261026T181902Z-polishing-64b7f1ef2041",
+      "signedOffAt": "2026-10-26T18:25:55.948Z"
+    }
+  }
+}

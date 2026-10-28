@@ -12,6 +12,10 @@ Prepare to file issue at {record} with ./PREPARE_TO_FILE.md
 status: incubating, internal
 command: agents/_shared/scripts/file_incubator_issue.py {record}
 
+## 📤 File issue and assign me
+status: incubating, internal
+command: agents/_shared/scripts/file_incubator_issue.py {record} --assign
+
 ## 💭 New session
 agent_dir: gx_issues
 name: inc-{name}

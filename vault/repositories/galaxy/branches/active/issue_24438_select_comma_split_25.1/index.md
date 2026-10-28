@@ -4,16 +4,16 @@ upstream_base_branch: release_25.1
 
 # issue_24438_select_comma_split_25.1
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24438_select_comma_split_25.1?expand=1)
+- [Open PR](https://github.com/galaxyproject/galaxy/pull/24491)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24438_select_comma_split_25.1)
 
 ## Status
 
-Polished; awaiting John's final review (`branches_ready_for_final_review`) at `d85ea54982db8c335ff616d1aebcdc3c98e70912`.
+Draft PR #24491; waiting for CI (`ci_wait`) at `d85ea54982db8c335ff616d1aebcdc3c98e70912`.
 
-No PR yet; human-read checklist item remains unchecked.
+Human-read checklist item remains unchecked while the draft PR waits for CI.
 
-Pre-rebase fork CI had unrelated failures only; fresh CI after the conflict-free rebase is pending.
+Fork CI is pending; the only completed failure is a setup/skip failure with no failed job.
 
 Base: `release_25.1` (`8243913fd5cb`); fork: `jmchilton/issue_24438_select_comma_split_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24438_select_comma_split_25.1`.
 

@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-27T19:27:36.910Z",
+  "hunks": {
+    "h1:9583005f59d866e7": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/job_execution/output_collect.py",
+      "reviewedAt": "2026-10-27T19:25:33.969Z"
+    },
+    "h1:4c2ddfd0ec6255a5": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/job_execution/output_collect.py",
+      "reviewedAt": "2026-10-27T19:25:33.969Z"
+    },
+    "h1:a3c9209421cbd5fe": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/job_execution/output_format.py",
+      "reviewedAt": "2026-10-27T19:25:51.682Z"
+    },
+    "h1:e38df63a5ca15cc8": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/job_execution/output_format.py",
+      "reviewedAt": "2026-10-27T19:25:51.682Z"
+    },
+    "h1:875daa62913ac8a0": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:26:05.294Z"
+    },
+    "h1:d24704fb3c403f38": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:26:05.294Z"
+    },
+    "h1:05c61973f35708af": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:26:05.294Z"
+    },
+    "h1:2d92fb4e156b3821": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:26:05.294Z"
+    },
+    "h1:e1016ea55d594d82": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:26:05.294Z"
+    },
+    "h1:4736dd026fd31995": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/linters/output.py",
+      "reviewedAt": "2026-10-27T19:26:05.294Z"
+    },
+    "h1:3d8fbf4b8bb57f4b": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/parser/output_references.py",
+      "reviewedAt": "2026-10-27T19:26:14.329Z"
+    },
+    "h1:d04a99fb078bdf08": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/xsd/galaxy.xsd",
+      "reviewedAt": "2026-10-27T19:26:35.921Z"
+    },
+    "h1:844a448c1b12dbab": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/xsd/galaxy.xsd",
+      "reviewedAt": "2026-10-27T19:26:35.921Z"
+    },
+    "h1:94fb53e3c4a1dd03": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tool_util/xsd/galaxy.xsd",
+      "reviewedAt": "2026-10-27T19:26:35.921Z"
+    },
+    "h1:034a7452c0d59e53": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tools/__init__.py",
+      "reviewedAt": "2026-10-27T19:26:40.791Z"
+    },
+    "h1:c387127a3875e986": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tools/__init__.py",
+      "reviewedAt": "2026-10-27T19:26:40.791Z"
+    },
+    "h1:6773fc903401ea3a": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tools/__init__.py",
+      "reviewedAt": "2026-10-27T19:26:40.791Z"
+    },
+    "h1:27d5b8626a11380f": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tools/__init__.py",
+      "reviewedAt": "2026-10-27T19:26:40.791Z"
+    },
+    "h1:503e5d63550da2ae": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tools/parameters/__init__.py",
+      "reviewedAt": "2026-10-27T19:26:45.107Z"
+    },
+    "h1:ec152e1939e0f664": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy/tools/parameters/__init__.py",
+      "reviewedAt": "2026-10-27T19:26:45.107Z"
+    },
+    "h1:4813e34f7723946b": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "lib/galaxy_test/api/test_tools.py",
+      "reviewedAt": "2026-10-27T19:26:59.986Z"
+    },
+    "h1:2a80d5a0f2518951": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/functional/tools/format_source_internal_keys.xml",
+      "reviewedAt": "2026-10-27T19:27:05.941Z"
+    },
+    "h1:46f4a70a8a0de096": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/functional/tools/format_source_legacy_alias_collision.xml",
+      "reviewedAt": "2026-10-27T19:27:10.658Z"
+    },
+    "h1:3dec98c17e87027b": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/functional/tools/sample_tool_conf.xml",
+      "reviewedAt": "2026-10-27T19:27:13.800Z"
+    },
+    "h1:0b1b5de488d50949": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/unit/app/tools/test_output_references.py",
+      "reviewedAt": "2026-10-27T19:27:18.300Z"
+    },
+    "h1:d9361340eb352b70": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/unit/app/tools/test_tool_deserialization.py",
+      "reviewedAt": "2026-10-27T19:27:24.132Z"
+    },
+    "h1:dba18f56e0f9e230": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/unit/app/tools/test_tool_deserialization.py",
+      "reviewedAt": "2026-10-27T19:27:24.132Z"
+    },
+    "h1:3fdcfc46c1fe8189": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/unit/tool_util/test_output_references.py",
+      "reviewedAt": "2026-10-27T19:27:29.762Z"
+    },
+    "h1:091088bca17d15e2": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/unit/tool_util/test_tool_linters.py",
+      "reviewedAt": "2026-10-27T19:27:30.662Z"
+    },
+    "h1:df2c9bdd4e95d1f1": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/unit/tool_util/test_tool_linters.py",
+      "reviewedAt": "2026-10-27T19:27:30.662Z"
+    },
+    "h1:3a6eda59d4dad5a7": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/unit/tool_util/test_tool_linters.py",
+      "reviewedAt": "2026-10-27T19:27:30.662Z"
+    },
+    "h1:f78847f2a6522dbc": {
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "path": "test/unit/tool_util/test_tool_linters.py",
+      "reviewedAt": "2026-10-27T19:27:30.662Z"
+    }
+  },
+  "commits": {
+    "b6057f9fb0691de48951935b97ee49d7335c1a56": {
+      "sha": "0858c00a9e9e2ec341f6048e306dd60dc64b7f5e",
+      "subject": "Move linter's input reference walker into tool_util as InputReferences",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:32.177Z"
+    },
+    "f97c00e350aca5c35881b32449f64fac29f18c89": {
+      "sha": "63ffa8b0c21054f2d399e51e43fb033157dc7b2a",
+      "subject": "Resolve format_source/metadata_source against declared inputs (#23891)",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:35.235Z"
+    },
+    "19a4212ab62b78c0915fb4b21dc5dc388a60fb4b": {
+      "sha": "dbd80a1dcb7e4bf386fe99e8b6db109b9b6ea055",
+      "subject": "Address review of output reference resolution",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:35.394Z"
+    },
+    "0d196473d819b21107153c058c5bacd92c8a1ea8": {
+      "sha": "46962a8e7b1980c79d6787f9c23fa5748ba5b758",
+      "subject": "Check type_source with the shared output reference resolver",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:35.577Z"
+    },
+    "b470d57cc4361a5d470c7926b6f92f794b87b8a8": {
+      "sha": "e6fb87e148ef19d0528a8ceda4e291e7335ad252",
+      "subject": "Test output reference resolution with a value_from conditional",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:35.769Z"
+    },
+    "76b3a4935901a60a28e71fad3935cf1e0f13ea9a": {
+      "sha": "51f270617f559b9744403d233ab3e4452a363a8f",
+      "subject": "Build output reference resolver once, flatten input visitor",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:35.936Z"
+    },
+    "aa573cc17336425ce71399ac35e416bee10a1474": {
+      "sha": "f323237f5195ae32bed17a08541019893eb68110",
+      "subject": "Shorten output reference test comments to one line",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:36.111Z"
+    },
+    "070d68dfd7c6d1f16c62b30c5af78cc528e7e829": {
+      "sha": "886d8ffd3273bd29b3f22876d6027b0683be87d3",
+      "subject": "Lint metadata_source references against declared inputs",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:36.302Z"
+    },
+    "7d137fa1fa264392b0c1a7add59ec39ba88d4be7": {
+      "sha": "bc6d953af2ce700c99bb8cb796cb41d8c89ae177",
+      "subject": "Simplify output reference runtime key resolution, trim comments",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:36.493Z"
+    },
+    "89929efefaab3e71e1f90757e74146329a16c249": {
+      "sha": "f7b5ad8f0982320c88e1e5cc2a012dde9904fd8e",
+      "subject": "Gate output reference load errors at profile 27.0, error on shadowed legacy aliases",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:36.695Z"
+    },
+    "cb7cbf2310331cf50b615bf89c1b59d97f938de0": {
+      "sha": "b28aa18d1b5eb84f56245294aaec9b7c937671d4",
+      "subject": "Spell out shadowed legacy linter fixture, drop fixture self-check",
+      "snapshotId": "20261027T192012Z-revision-b28aa18d1b5e",
+      "signedOffAt": "2026-10-27T19:27:36.910Z"
+    }
+  }
+}

@@ -14,6 +14,10 @@ The rough, context-heavy draft queued by the agent that found the issue.
 
 The reviewed issue description, as proposed for posting. Absent when the draft is recommended for rejection.
 
+## issue_tags.md
+
+Recommended labels, one backticked label per bullet, applied when the draft is posted.
+
 ## debrief.md
 
 Debrief of the research and rewrite behind the proposal, or the case for rejecting the draft.

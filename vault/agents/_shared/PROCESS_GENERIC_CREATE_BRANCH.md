@@ -2,7 +2,7 @@ You'll be given an issue on `<repo>`, the repository your agent directory works 
 
 Read the issue and its comments. Check for open PRs or branches that address it - don't redo work.
 
-Claim the issue before starting: move its line in your agent directory's `ISSUES.md` to `wip` and its record directory to `vault/repositories/<repo>/issues/wip/<number>/`. If it has no issue record yet, create one.
+Claim the issue before starting: move its line in `vault/repositories/<repo>/issues/MY_ISSUES.md` to `wip` and its record directory to `vault/repositories/<repo>/issues/wip/<number>/`. If it has no issue record yet, create one.
 
 If it is a bug - please find a root cause or verify the issue's stated root cause. Make sure this is the appropriate repository to work on it.
 

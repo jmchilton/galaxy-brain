@@ -8,8 +8,8 @@ tags:
   - galaxy/testing
 status: draft
 created: 2026-02-07
-revised: 2026-08-17
-revision: 3
+revised: 2026-10-26
+revision: 4
 ai_generated: true
 component: worktree_bootstrap
 galaxy_areas:
@@ -20,6 +20,7 @@ summary: "Backend Python and frontend Node.js dependency setup, configuration, a
 related_notes:
   - "[[Component - Backend Dependency Management]]"
   - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
+  - "[[Component - Deployment Tests]]"
 ---
 
 # Galaxy Worktree Bootstrapping Reference
@@ -354,14 +355,18 @@ Tests can use a YAML config file for credentials:
 cp lib/galaxy_test/selenium/jupyter/galaxy_selenium_context.yml.sample ./galaxy_selenium_context.yml
 ```
 
-Config keys map to environment variables:
+Config keys map to environment variables (`_load_config_file()` in `lib/galaxy_test/selenium/framework.py`, only when the var is unset):
 | Config Key | Environment Variable |
 |------------|---------------------|
-| `local_galaxy_url` | `GALAXY_TEST_SELENIUM_URL` |
+| `local_galaxy_url` | `GALAXY_TEST_EXTERNAL` |
 | `login_email` | `GALAXY_TEST_SELENIUM_USER_EMAIL` |
 | `login_password` | `GALAXY_TEST_SELENIUM_USER_PASSWORD` |
-| `admin_api_key` | `GALAXY_TEST_SELENIUM_ADMIN_API_KEY` |
+| `admin_api_key` | `GALAXY_TEST_SELENIUM_ADMIN_API_KEY` (set but never read; admin calls use `GALAXY_CONFIG_MASTER_API_KEY`) |
+| `admin_email` | `GALAXY_TEST_SELENIUM_ADMIN_USER_EMAIL` |
+| `admin_password` | `GALAXY_TEST_SELENIUM_ADMIN_USER_PASSWORD` |
 | `selenium_galaxy_url` | `GALAXY_TEST_EXTERNAL_FROM_SELENIUM` |
+
+`run_tests.sh` and `writing_tests.md` still document `local_galaxy_url` → `GALAXY_TEST_SELENIUM_URL`, which nothing reads. See [[Component - Deployment Tests]].
 
 Use with:
 ```bash

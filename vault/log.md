@@ -305,3 +305,14 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
 - **source**: Galaxy origin/dev @ c63ffc2c
 - **updated-target**: [[Component - Invocation Graph View]] — rev 4; corrected stale facts (shared not per-instance stores, 4 polling levels, step card now GTabs w/ Step Config, styling map, test inventory); added 26.x features (focus mode, Show Connections, minimap colors, search), WorkflowGraph vs generic GraphView comparison, recent-activity PR table, open issues (#22745, #21989, #22075, #20864), new inferred bugs, where-to-change guide
 - **updated**: none
+
+## 2026-10-26 ingest — Component - Deployment Tests
+- **source**: https://github.com/galaxyproject/galaxy/pull/15420 (via /ingest-gx-component, Galaxy origin/dev @ fd43a3c6)
+- **created**: [[Component - Deployment Tests]]
+- **updated**:
+  - [[Component - API Tests]] — backlink
+  - [[Component - E2E Tests - Writing]] — backlink
+  - [[Component - API Tests Tools]] — backlink
+  - [[Component - Tool Testing Infrastructure]] — backlink
+  - [[Component - DRS Support]] — backlink
+  - [[Component - Worktree Bootstrapping]] — backlink; flipped stale E2E config mapping (`local_galaxy_url` → `GALAXY_TEST_EXTERNAL`, not `GALAXY_TEST_SELENIUM_URL`), added admin_email/admin_password rows

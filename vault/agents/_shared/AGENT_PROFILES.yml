@@ -44,6 +44,14 @@ profiles:
     agent: codex
     model: gpt-6.1-sol
     effort: high
+  - name: Sol (medium)
+    agent: codex
+    model: gpt-6.1-sol
+    effort: medium
+  - name: Sol (low)
+    agent: codex
+    model: gpt-6.1-sol
+    effort: low
   - name: Terra (high)
     agent: codex
     model: gpt-5.6-terra

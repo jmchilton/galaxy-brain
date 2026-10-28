@@ -77,7 +77,7 @@ The new base and conversion property serve the new field directly. Passing basel
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Metadata consumers can treat a conditional output as guaranteed and create connections that cannot be satisfied when its filter is false.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes; they assert the public serialized contract from real XML/YAML sources.

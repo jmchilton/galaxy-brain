@@ -1,4 +1,1 @@
-- [26.1] Fix workflow imports containing embedded tools
-- [26.1] Resolve embedded tools before building workflow steps
 - [26.1] Preserve outputs and rename actions when importing embedded tools
-- [26.1] Fix embedded-tool imports after workflow step metadata

@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-27T16:20:33.415Z",
+  "hunks": {
+    "h1:1ad0ccd0f9a194f0": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/package.json",
+      "reviewedAt": "2026-10-27T16:19:12.486Z"
+    },
+    "h1:849b609d6e1c0ea5": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/pnpm-lock.yaml",
+      "reviewedAt": "2026-10-27T16:19:13.363Z"
+    },
+    "h1:3ad160de57ba7d4b": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/pnpm-lock.yaml",
+      "reviewedAt": "2026-10-27T16:19:13.363Z"
+    },
+    "h1:79cb5ad1d0737b21": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/pnpm-lock.yaml",
+      "reviewedAt": "2026-10-27T16:19:13.363Z"
+    },
+    "h1:54f67c5ddedb3c26": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/PairedOrUnpairedComponents.ts",
+      "reviewedAt": "2026-10-27T16:19:18.732Z"
+    },
+    "h1:22b38274df0df046": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.vue",
+      "reviewedAt": "2026-10-27T16:19:24.475Z"
+    },
+    "h1:2c377a6583489fe2": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.vue",
+      "reviewedAt": "2026-10-27T16:19:24.475Z"
+    },
+    "h1:fdbb15336126d051": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.vue",
+      "reviewedAt": "2026-10-27T16:19:24.475Z"
+    },
+    "h1:5e436570d3f315a0": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.vue",
+      "reviewedAt": "2026-10-27T16:19:24.475Z"
+    },
+    "h1:a93861de6e030f60": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.vue",
+      "reviewedAt": "2026-10-27T16:19:24.475Z"
+    },
+    "h1:0ac9785cf0d71a5c": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.vue",
+      "reviewedAt": "2026-10-27T16:19:24.475Z"
+    },
+    "h1:e4ae93a59a8afc20": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.vue",
+      "reviewedAt": "2026-10-27T16:19:24.475Z"
+    },
+    "h1:588005bd6a6f22c3": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/PairedOrUnpairedListCollectionCreator.vue",
+      "reviewedAt": "2026-10-27T16:19:24.475Z"
+    },
+    "h1:1d4676971a6f81d6": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/common/CellStatusComponent.vue",
+      "reviewedAt": "2026-10-27T16:19:28.052Z"
+    },
+    "h1:b0315a0cd0853eeb": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/common/CellStatusComponent.vue",
+      "reviewedAt": "2026-10-27T16:19:28.052Z"
+    },
+    "h1:395e2654eadf77b8": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/common/DisplayCollectionAsSheet.vue",
+      "reviewedAt": "2026-10-27T16:19:32.623Z"
+    },
+    "h1:4073b9cc8887b5dc": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/common/PairedDatasetCellComponent.vue",
+      "reviewedAt": "2026-10-27T16:19:36.067Z"
+    },
+    "h1:1027f57c619c31fc": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/SampleSheetGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:40.137Z"
+    },
+    "h1:43f565c170fbc2ed": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/SampleSheetGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:40.137Z"
+    },
+    "h1:40f6d5d8cde24004": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/SampleSheetGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:40.137Z"
+    },
+    "h1:b0e1714e0d3cbd9d": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/SampleSheetGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:40.137Z"
+    },
+    "h1:deafb2ae1fa529e5": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/SampleSheetGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:40.137Z"
+    },
+    "h1:109d6f07d004b635": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/SampleSheetGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:40.137Z"
+    },
+    "h1:9c16e45c3e672863": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/SampleSheetGrid.vue",
+      "reviewedAt": "2026-10-27T16:19:42.503Z"
+    },
+    "h1:b6c30e9873ac6c41": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/useSampleSheetGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:49.846Z"
+    },
+    "h1:407f298fb51884d5": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/useSampleSheetGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:49.846Z"
+    },
+    "h1:3111440ed3a273dc": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/useSampleSheetGrid.ts",
+      "reviewedAt": "2026-10-27T16:19:52.622Z"
+    },
+    "h1:bbcccdf534fd8656": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Collections/sheet/useSampleSheetGrid.ts",
+      "reviewedAt": "2026-10-27T16:19:52.622Z"
+    },
+    "h1:b91bba263c2ad6c6": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Landing/FetchGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:55.886Z"
+    },
+    "h1:6aa8a660ec264776": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Landing/FetchGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:55.886Z"
+    },
+    "h1:74bc165660cdb523": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Landing/FetchGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:55.886Z"
+    },
+    "h1:0c49ec998a958fff": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Landing/FetchGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:55.886Z"
+    },
+    "h1:af03539e7dbd9902": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Landing/FetchGrid.test.ts",
+      "reviewedAt": "2026-10-27T16:19:55.886Z"
+    },
+    "h1:cfde73b994f6b0f0": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/Landing/FetchGrid.vue",
+      "reviewedAt": "2026-10-27T16:19:58.440Z"
+    },
+    "h1:03882dce066049f4": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/RuleBuilder/RuleGrid.vue",
+      "reviewedAt": "2026-10-27T16:20:05.149Z"
+    },
+    "h1:c76614719b704cd5": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/components/RuleBuilder/RuleGrid.vue",
+      "reviewedAt": "2026-10-27T16:20:05.149Z"
+    },
+    "h1:d6c26a2d967f7aca": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/composables/agGridLegacyTheme.css",
+      "reviewedAt": "2026-10-27T16:20:07.368Z"
+    },
+    "h1:352e98a39d0c8a9c": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/composables/useAgGrid.ts",
+      "reviewedAt": "2026-10-27T16:20:10.689Z"
+    },
+    "h1:6c485fbef89c6cda": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-27T16:20:12.994Z"
+    },
+    "h1:34fb670c126503d3": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "client/vitest.config.mts",
+      "reviewedAt": "2026-10-27T16:20:14.957Z"
+    },
+    "h1:2d610d10a4443f1f": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "lib/galaxy_test/selenium/test_collection_builders.py",
+      "reviewedAt": "2026-10-27T16:20:16.889Z"
+    },
+    "h1:5355b8bfdeda5387": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "lib/galaxy_test/selenium/test_collection_builders.py",
+      "reviewedAt": "2026-10-27T16:20:16.889Z"
+    },
+    "h1:fa00d83936b6e7bc": {
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "path": "lib/galaxy_test/selenium/test_uploads.py",
+      "reviewedAt": "2026-10-27T16:20:33.415Z"
+    }
+  },
+  "commits": {
+    "77de0a3ca8aa85d4b3ae6b4f143b7ee7b9083255": {
+      "sha": "7d33c1a020f3f40f08c1092d262e633f19d6e973",
+      "subject": "Tidy ag-grid usage ahead of 36 upgrade",
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "signedOffAt": "2026-10-27T16:20:23.740Z"
+    },
+    "4b4958401d379993c22bfb118d419c8dfbbdb722": {
+      "sha": "be137af455e965b306e407c2d5b9003d9f2ce637",
+      "subject": "Upgrade ag-grid-community and ag-grid-vue3 from 31.3.4 to 36.2.0",
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "signedOffAt": "2026-10-27T16:20:24.565Z"
+    },
+    "48f6fee9ee2d6030bb68f66268045ccd2056db46": {
+      "sha": "7c58e3c3f638f3c16f6d7eb7c71f7ad1b4ddab3a",
+      "subject": "Restore paired builder swap coverage with a stable button hook",
+      "snapshotId": "20261027T160547Z-polishing-7c58e3c3f638",
+      "signedOffAt": "2026-10-27T16:20:25.015Z"
+    }
+  }
+}

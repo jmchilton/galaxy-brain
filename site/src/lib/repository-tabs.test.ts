@@ -38,6 +38,15 @@ describe('parseGrouping', () => {
     expect(sections.map(section => section.key)).toContain('branches_need_polish');
     expect(sections.reduce((n, section) => n + section.names.length, 0)).toBeGreaterThan(0);
   });
+
+  it("parses the vault's MY_ISSUES.md and MY_REVIEWS.md", () => {
+    for (const [kind, key] of [['issues', 'needs_decision'], ['reviews', 'to_review']] as const) {
+      const path = groupingFor('galaxy', kind)!;
+      const sections = parseGrouping(readFileSync(new URL(`../../../vault/${path}`, import.meta.url), 'utf8'), path, 'galaxy', kind);
+      expect(sections.map(section => section.key)).toContain(key);
+      expect(sections.reduce((n, section) => n + section.names.length, 0)).toBeGreaterThan(0);
+    }
+  });
 });
 
 describe('groupBySections', () => {
@@ -59,10 +68,12 @@ describe('groupBySections', () => {
 });
 
 describe('groupingFor', () => {
-  it("names each repository's branch queue and nothing for other kinds", () => {
+  it("names each repository's branch, issue and review queue and nothing for incubating issues", () => {
     expect(groupingFor('galaxy', 'branches')).toBe(QUEUE_PATH);
     expect(groupingFor('pulsar', 'branches')).toBe('repositories/pulsar/branches/MY_BRANCHES.md');
-    expect(groupingFor('galaxy', 'issues')).toBeUndefined();
+    expect(groupingFor('galaxy', 'issues')).toBe('repositories/galaxy/issues/MY_ISSUES.md');
+    expect(groupingFor('planemo', 'reviews')).toBe('repositories/planemo/reviews/MY_REVIEWS.md');
+    expect(groupingFor('galaxy', 'issues_incubator')).toBeUndefined();
   });
 });
 

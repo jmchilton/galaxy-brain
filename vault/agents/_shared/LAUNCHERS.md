@@ -11,3 +11,5 @@ One `## Label` per launcher. Leading `key: value` lines configure it; the rest i
 - `command:` run a vault-relative executable instead of an agent, e.g. `agents/_shared/scripts/file_incubator_issue.py {record}`. Args split on whitespace before placeholders fill; no prompt, `agent_dir`, `name` or `profile`. Obsidian asks for confirmation, then shows the output; herdr, the Chrome extension and the 🚀 menu skip these.
 
 Placeholders: `{repo}`, `{kind}`, `{status}`, `{name}` (branch name, PR or issue number), `{record}` (absolute record directory; empty for untracked items).
+
+In a Claude session in an `agent_dir`, the suggested-prompts plugin's 🚀 menu offers that dir's launchers to run in the same session; Claude fills the record placeholders from the record under discussion (`herdr-plugin` CLI `actions <agent_dir>`; rebuild with `make herdr-plugin-build`).

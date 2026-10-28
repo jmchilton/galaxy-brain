@@ -3,6 +3,7 @@
 @../_shared/VAULT_SYNC.md
 @../_shared/SECURITY_REPORTS.md
 @../_shared/NOT_VAULT_NOTES.md
+@../_shared/AGENT_MARKERS.md
 
 This directory coordinates reviews and related development across:
 
@@ -13,7 +14,7 @@ This directory coordinates reviews and related development across:
 
 ## Project settings
 
-In the following files, PROJECT is the repository a branch or PR belongs to.
+In the following files, PROJECT is the repository a branch, issue or PR belongs to.
 
 - `gxformat2`: upstream `galaxyproject/gxformat2`, base branch `origin/main`, push remote the `jmchilton` fork. CI runs on pushes too, so a pushed branch gets fork CI before any PR.
 - `galaxy-tool-util-ts`: upstream `jmchilton/galaxy-tool-util-ts`, base branch `origin/main`, push remote `origin`. CI runs only on pull requests and `main`, so a pushed branch gets no CI until its PR opens.
@@ -23,10 +24,10 @@ In the following files, PROJECT is the repository a branch or PR belongs to.
 @../_shared/WORKTREES.md
 @../_shared/PROCESS_INITIAL_REVIEW.md
 @../_shared/REVIEW_FOCUS.md
-@../_shared/ISSUES_INDEX.md
-@../_shared/PULL_REQUESTS_INDEX.md
+@../_shared/MY_ISSUES_INDEX.md
+@../_shared/MY_REVIEWS_INDEX.md
 
-Review records live under `vault/repositories/PROJECT/reviews/` for the PR's repository; [PULL_REQUESTS.md](agents/workflow_libs/PULL_REQUESTS.md) is the shared queue. Include the repository in each entry's label.
+Each project has its own review queue and issue index: [gxformat2 reviews](../../repositories/gxformat2/reviews/MY_REVIEWS.md), [gxformat2 issues](../../repositories/gxformat2/issues/MY_ISSUES.md), [galaxy-tool-util-ts reviews](../../repositories/galaxy-tool-util-ts/reviews/MY_REVIEWS.md) and [galaxy-tool-util-ts issues](../../repositories/galaxy-tool-util-ts/issues/MY_ISSUES.md).
 
 The agent running in this directory is also responsible for maintaining and promoting John's branches within the [gxformat2](../../repositories/gxformat2/branches/MY_BRANCHES.md) and [galaxy-tool-util-ts](../../repositories/galaxy-tool-util-ts/branches/MY_BRANCHES.md) queues. Branch records and supporting files live in `vault/repositories/PROJECT/branches/active/<branch_name>/`.
 

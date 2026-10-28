@@ -91,7 +91,7 @@ The original baseline refactor and helper passed 702 tests on v31. The generic h
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Edits or swaps can be lost on submission; missing model objects can leave identifiers blank or prevent sheet creation.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? They check validation and real-grid identifier/model-object preservation; E2E checks submitted results.

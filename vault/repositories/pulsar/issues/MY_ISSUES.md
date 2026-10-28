@@ -1,4 +1,4 @@
-Triage index for `galaxyproject/pulsar` issues, per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md); detail lives in `vault/repositories/pulsar/issues/`. PR reviews are tracked in [PULL_REQUESTS.md](agents/pulsar/PULL_REQUESTS.md).
+Triage index for `galaxyproject/pulsar` issues, per [`MY_ISSUES_INDEX.md`](../../../agents/_shared/MY_ISSUES_INDEX.md); detail lives in `vault/repositories/pulsar/issues/`. PR reviews are tracked in [MY_REVIEWS.md](../reviews/MY_REVIEWS.md).
 
 GitHub state last refreshed: 2026-10-26. Issues here are unassigned by default.
 ## Waiting on John (`needs_decision`)
@@ -6,27 +6,27 @@ GitHub state last refreshed: 2026-10-26. Issues here are unassigned by default.
 None yet.
 ## In motion (`wip`)
 
-- [#541](https://github.com/galaxyproject/pulsar/issues/541) — preserve cancellation cleanup; branch `term-first-cancellation`. [notes](../../repositories/pulsar/issues/wip/541/index.md)
+- [#541](https://github.com/galaxyproject/pulsar/issues/541) — preserve cancellation cleanup; branch `term-first-cancellation`. [notes](wip/541/index.md)
 
-- [#544](https://github.com/galaxyproject/pulsar/issues/544) — replace direct HISTORY edits with fragments; [#545](https://github.com/galaxyproject/pulsar/pull/545) introduces towncrier on release_0.15. [notes](../../repositories/pulsar/issues/wip/544/index.md)
+- [#544](https://github.com/galaxyproject/pulsar/issues/544) — replace direct HISTORY edits with fragments; [#545](https://github.com/galaxyproject/pulsar/pull/545) introduces towncrier on release_0.15. [notes](wip/544/index.md)
 
-- [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) addresses part, won't close it. [notes](../../repositories/pulsar/issues/wip/465/index.md)
+- [#465](https://github.com/galaxyproject/pulsar/issues/465) — batch co-execution tracker; [#473](https://github.com/galaxyproject/pulsar/pull/473) addresses part, won't close it. [notes](wip/465/index.md)
 
-- [#542](https://github.com/galaxyproject/pulsar/issues/542) — Galaxy Docker EXIT trap replaces cvmfsexec `mountrepo` unmount (shipped in 0.15.16); [#555](https://github.com/galaxyproject/pulsar/pull/555). [notes](../../repositories/pulsar/issues/wip/542/index.md)
+- [#542](https://github.com/galaxyproject/pulsar/issues/542) — Galaxy Docker EXIT trap replaces cvmfsexec `mountrepo` unmount (shipped in 0.15.16); [#555](https://github.com/galaxyproject/pulsar/pull/555). [notes](wip/542/index.md)
 
 ## Queued (`queued`)
 
-- [#416](https://github.com/galaxyproject/pulsar/issues/416) — empty `final_status` causes endless monitor failures; next: reproduce and design recovery for damaged metadata. [notes](../../repositories/pulsar/issues/queued/416/index.md)
+- [#416](https://github.com/galaxyproject/pulsar/issues/416) — empty `final_status` causes endless monitor failures; next: reproduce and design recovery for damaged metadata. [notes](queued/416/index.md)
 
-- (assigned) [#498](https://github.com/galaxyproject/pulsar/issues/498) — ubuntu-22.04 runner deprecation; lint/test moved to 24.04 (#508 merged); next: packaging metadata PR. [notes](../../repositories/pulsar/issues/queued/498/index.md)
-- [#263](https://github.com/galaxyproject/pulsar/issues/263) — expression tools unsupported; #266 and friends are workarounds; next: design a real fix from the research note. [notes](../../repositories/pulsar/issues/queued/263/index.md)
-- [#469](https://github.com/galaxyproject/pulsar/issues/469) — resilience suite fixture startup flakiness; next: read #470 (partial) and #471 (unmerged) before starting fresh. [notes](../../repositories/pulsar/issues/queued/469/index.md)
+- (assigned) [#498](https://github.com/galaxyproject/pulsar/issues/498) — ubuntu-22.04 runner deprecation; lint/test moved to 24.04 (#508 merged); next: packaging metadata PR. [notes](queued/498/index.md)
+- [#263](https://github.com/galaxyproject/pulsar/issues/263) — expression tools unsupported; #266 and friends are workarounds; next: design a real fix from the research note. [notes](queued/263/index.md)
+- [#469](https://github.com/galaxyproject/pulsar/issues/469) — resilience suite fixture startup flakiness; next: read #470 (partial) and #471 (unmerged) before starting fresh. [notes](queued/469/index.md)
 
 ## Blocked on others (`blocked`)
 
-- [#492](https://github.com/galaxyproject/pulsar/issues/492) — report job failure reason to Galaxy for resubmission; blocked on: [#486](https://github.com/galaxyproject/pulsar/pull/486). [notes](../../repositories/pulsar/issues/blocked/492/index.md)
-- [#510](https://github.com/galaxyproject/pulsar/issues/510) — modernize Windows support; blocked on: a Windows dev environment for an agent. [notes](../../repositories/pulsar/issues/blocked/510/index.md)
-- (assigned) [#520](https://github.com/galaxyproject/pulsar/issues/520) — release 1.0; blocked on: a 0.16.0 we really like and a Galaxy 26.2 release process that feels good. [notes](../../repositories/pulsar/issues/blocked/520/index.md)
+- [#492](https://github.com/galaxyproject/pulsar/issues/492) — report job failure reason to Galaxy for resubmission; blocked on: [#486](https://github.com/galaxyproject/pulsar/pull/486). [notes](blocked/492/index.md)
+- [#510](https://github.com/galaxyproject/pulsar/issues/510) — modernize Windows support; blocked on: a Windows dev environment for an agent. [notes](blocked/510/index.md)
+- (assigned) [#520](https://github.com/galaxyproject/pulsar/issues/520) — release 1.0; blocked on: a 0.16.0 we really like and a Galaxy 26.2 release process that feels good. [notes](blocked/520/index.md)
 
 ## Untriaged (`untriaged`)
 

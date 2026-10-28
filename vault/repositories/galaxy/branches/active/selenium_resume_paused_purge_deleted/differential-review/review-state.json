@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-27T17:03:23.694Z",
+  "hunks": {
+    "h1:7b6292c05c44d8e5": {
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "path": "client/src/components/History/HistoryOptions.vue",
+      "reviewedAt": "2026-10-27T17:02:18.903Z"
+    },
+    "h1:6800ea69998bae92": {
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "path": "client/src/components/User/DiskUsage/Management/Cleanup/CleanupOperationSummary.vue",
+      "reviewedAt": "2026-10-27T17:02:22.011Z"
+    },
+    "h1:939dd9bb2fb94a0f": {
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-27T17:02:23.703Z"
+    },
+    "h1:4ab76dc252202558": {
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-27T17:02:25.036Z"
+    },
+    "h1:97f4397b1fbf8028": {
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-27T17:02:25.036Z"
+    },
+    "h1:0fb52c38a1c25307": {
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "path": "lib/galaxy_test/selenium/test_history_panel.py",
+      "reviewedAt": "2026-10-27T17:02:25.678Z"
+    },
+    "h1:9bdd7533e636c940": {
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "path": "lib/galaxy_test/selenium/test_history_storage.py",
+      "reviewedAt": "2026-10-27T17:02:26.427Z"
+    },
+    "h1:36a7aabe15ad1bfc": {
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "path": "lib/galaxy_test/selenium/test_history_storage.py",
+      "reviewedAt": "2026-10-27T17:02:26.427Z"
+    }
+  },
+  "commits": {
+    "af6f5673a0af8600a4b6dc26a22b33827b41de11": {
+      "sha": "42077894f051cdfdb38331cf6871abec02313b93",
+      "subject": "Add navigate_to_storage_dashboard selenium helper",
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "signedOffAt": "2026-10-27T17:03:22.795Z"
+    },
+    "4414090dbde0a292bfedeffc3244445898e17838": {
+      "sha": "1ce165cc5f1706ea6f68efeceb31e5747aeac299",
+      "subject": "Test resuming a paused job from History options",
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "signedOffAt": "2026-10-27T17:03:23.097Z"
+    },
+    "41c2f59148240cce9c69363e7fdf3cdfca6673a4": {
+      "sha": "b0723beeda45fe4284c7165cb51c7b1094b2ad5b",
+      "subject": "Test purging deleted datasets from the Storage Dashboard",
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "signedOffAt": "2026-10-27T17:03:23.417Z"
+    },
+    "6e2ae49e783bfe4cccb9acd71aba4c58fa032a96": {
+      "sha": "3c8b6169aa748a56cafc6b97f7378342dfa77785",
+      "subject": "Test purging deleted and archived histories from the Storage Dashboard",
+      "snapshotId": "20261027T161916Z-polishing-3c8b6169aa74",
+      "signedOffAt": "2026-10-27T17:03:23.694Z"
+    }
+  }
+}

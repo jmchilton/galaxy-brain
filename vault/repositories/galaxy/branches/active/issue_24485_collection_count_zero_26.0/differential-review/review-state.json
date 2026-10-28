@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-28T05:28:43.620Z",
+  "hunks": {
+    "h1:acfd4a2acd2a1e86": {
+      "snapshotId": "20261028T044136Z-hardening-8eb7779ec8aa",
+      "path": "lib/galaxy/tool_util/verify/interactor.py",
+      "reviewedAt": "2026-10-28T05:28:40.391Z"
+    },
+    "h1:64c9987c2280a5a7": {
+      "snapshotId": "20261028T044136Z-hardening-8eb7779ec8aa",
+      "path": "test/unit/tool_util/test_verify_collection.py",
+      "reviewedAt": "2026-10-28T05:28:40.950Z"
+    }
+  },
+  "commits": {
+    "4b06cbea02c0fc9d0c72d9784bbab98e9f6bb4a1": {
+      "sha": "def6a11f5de86142bab9e1c983f707804f7eb3bf",
+      "subject": "Baseline tests for verify_collection size checks",
+      "snapshotId": "20261028T044136Z-hardening-8eb7779ec8aa",
+      "signedOffAt": "2026-10-28T05:28:42.173Z"
+    },
+    "7e6088711c1ea6735451b6011587bb62f6fe50fe": {
+      "sha": "8eb7779ec8aa3b359d4ebfbbce319ff73667605b",
+      "subject": "Fix collection output tests ignoring count/max of 0",
+      "snapshotId": "20261028T044136Z-hardening-8eb7779ec8aa",
+      "signedOffAt": "2026-10-28T05:28:43.620Z"
+    }
+  }
+}

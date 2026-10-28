@@ -17,7 +17,7 @@ The status answers "whose move is it?". An issue lives under exactly one:
 
 Size is not a status. A big issue that is otherwise queued stays in `queued/` and is marked `(large)` in the index. Likewise assignment: whether jmchilton is assigned is marked `(assigned)` in the index, not in the directory.
 
-Untriaged issues get no directory; they are lines in the agent's `ISSUES.md` until triaged.
+Untriaged issues get no directory; they are lines in `MY_ISSUES.md` until triaged.
 
 When the status changes, move the directory. Until permanent URLs exist, a move breaks path links, so find an issue by number (`issues/*/ISSUE_NUMBER/`) rather than trusting a stored path.
 

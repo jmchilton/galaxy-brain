@@ -106,9 +106,16 @@ export function groupByStatus<R extends GroupableRecord>(
   }));
 }
 
+const QUEUE_FILES: Partial<Record<RecordKind, string>> = {
+  branches: 'MY_BRANCHES.md',
+  issues: 'MY_ISSUES.md',
+  reviews: 'MY_REVIEWS.md',
+};
+
 /** Vault path of the queue file that groups a repository's records of a kind; it may not exist. */
 export function groupingFor(repo: string, kind: RecordKind): string | undefined {
-  return kind === 'branches' ? `repositories/${repo}/branches/MY_BRANCHES.md` : undefined;
+  const file = QUEUE_FILES[kind];
+  return file ? `repositories/${repo}/${kind}/${file}` : undefined;
 }
 
 export interface GroupingSection {

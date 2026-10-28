@@ -14,14 +14,18 @@ RECORD is the incubator record. Create it, with the idea in `raw.md`, if it does
 - If anything is egregious, such as a claim that isn't reproduced, a wrong premise, or a duplicate issue, the subagent pushes back instead of polishing the text.
 - Do one review round only. Report anything left over instead of looping.
 
-## 3. Debrief
+## 3. Issue tags (if proposed)
+
+Recommend labels in `RECORD/issue_tags.md`: exactly one `kind/` label and the `area/` labels central to the issue, per Galaxy's `doc/source/project/issues.rst` on `origin/dev`. Write one backticked label per bullet (``- `kind/bug` — reason``), then any prose; the filing script applies only the bulleted labels.
+
+## 4. Debrief
 
 Write a debrief of the research and the rewrite to `RECORD/debrief.md`. Update `RECORD/index.md`: a `# ` title, then one line describing the issue and your recommendation.
 
-## 4. Hand off
+## 5. Hand off
 
 - Give the user a recommendation: post the issue as it stands, keep it internal, or accept a rejection. Issues are meant to be granular, but some are too small to be worth a GitHub issue; recommend keeping those internal.
-- If the user wants it posted, run [`file_incubator_issue.py`](../_shared/scripts/file_incubator_issue.py) `RECORD --status STATUS` (add `--assign` per the last bullet). It posts `proposal.md` and moves RECORD to the new `vault/repositories/galaxy/issues/STATUS/<number>/` record. Then triage it per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md). John can also post it with the 📤 File issue launcher.
+- If the user wants it posted, run [`file_incubator_issue.py`](../_shared/scripts/file_incubator_issue.py) `RECORD --status STATUS` (add `--assign` per the last bullet). It posts `proposal.md` with the labels in `issue_tags.md` and moves RECORD to the new `vault/repositories/galaxy/issues/STATUS/<number>/` record. Then triage it per [`MY_ISSUES_INDEX.md`](../_shared/MY_ISSUES_INDEX.md). John can also post it with the 📤 File issue launcher.
 - If the user keeps it internal, because it's too small for its own issue or for another reason they give (such as fixing it PR-first), move RECORD to `issues_incubator/internal/`. A branch that implements it links RECORD from its `index.md`.
 - If the user decides not to post it or accepts a rejection, move RECORD to `issues_incubator/rejected/`.
-- Infer from context whether John should be assigned, for example when the issue came out of his own branch or work. If so, assign John and add the issue to `ISSUES.md`.
+- Infer from context whether John should be assigned, for example when the issue came out of his own branch or work. If so, assign John and add the issue to [`MY_ISSUES.md`](../../repositories/galaxy/issues/MY_ISSUES.md).

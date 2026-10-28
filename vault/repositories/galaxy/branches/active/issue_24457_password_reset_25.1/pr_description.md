@@ -79,7 +79,7 @@ Commit <code>0e56f4e9a3a</code> adds form hooks and baseline coverage. Commit <c
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? The form retains its existing error alert.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes; browser tests check session behavior.

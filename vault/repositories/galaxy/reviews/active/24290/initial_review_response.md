@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+A clear gap in my current process is figuring out what to do when other people have already reviewed a PR I launched a review of. Hmm... -John
 
 <details><summary>Automated Review Details</summary>
 

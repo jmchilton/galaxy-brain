@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-27T01:11:49.332Z",
+  "hunks": {
+    "h1:4999c18803a0af4f": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "lib/galaxy/tool_util/linters/tests.py",
+      "reviewedAt": "2026-10-27T01:11:31.943Z"
+    },
+    "h1:4a35d55868ad883e": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "lib/galaxy/tool_util/linters/tests.py",
+      "reviewedAt": "2026-10-27T01:11:31.943Z"
+    },
+    "h1:7898445a9d1a8781": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "lib/galaxy/tool_util/linters/tests.py",
+      "reviewedAt": "2026-10-27T01:11:31.943Z"
+    },
+    "h1:ab824dd026b1a00f": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "lib/galaxy/tool_util/verify/parse.py",
+      "reviewedAt": "2026-10-27T01:11:36.122Z"
+    },
+    "h1:096cdd846781ecb4": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "lib/galaxy/tool_util/verify/parse.py",
+      "reviewedAt": "2026-10-27T01:11:37.393Z"
+    },
+    "h1:74ff379f381e9c39": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "lib/galaxy/tool_util/verify/parse.py",
+      "reviewedAt": "2026-10-27T01:11:38.208Z"
+    },
+    "h1:6ba1a0b058f30879": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "lib/galaxy/tool_util/xsd/galaxy.xsd",
+      "reviewedAt": "2026-10-27T01:11:40.209Z"
+    },
+    "h1:0bd77beece36ffc2": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "test/functional/tools/sample_tool_conf.xml",
+      "reviewedAt": "2026-10-27T01:11:41.308Z"
+    },
+    "h1:25ce5e70bd089481": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "test/functional/tools/select_comma_value.xml",
+      "reviewedAt": "2026-10-27T01:11:44.417Z"
+    },
+    "h1:08503c3522fbe0b0": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "test/unit/tool_util/test_test_definition_parsing.py",
+      "reviewedAt": "2026-10-27T01:11:45.708Z"
+    },
+    "h1:7b43853268366c3c": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "test/unit/tool_util/test_tool_linters.py",
+      "reviewedAt": "2026-10-27T01:11:47.115Z"
+    },
+    "h1:feb111aad346b689": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "test/unit/tool_util/test_tool_linters.py",
+      "reviewedAt": "2026-10-27T01:11:48.240Z"
+    },
+    "h1:5396f9cf7ed71c7d": {
+      "snapshotId": "20261027T010836Z-polishing-d85ea54982db",
+      "path": "test/unit/tool_util/test_tool_linters.py",
+      "reviewedAt": "2026-10-27T01:11:49.332Z"
+    }
+  },
+  "commits": {}
+}

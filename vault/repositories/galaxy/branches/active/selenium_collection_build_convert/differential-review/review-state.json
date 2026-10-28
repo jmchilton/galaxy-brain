@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-27T19:15:32.653Z",
+  "hunks": {
+    "h1:651e347c1340b80d": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "client/src/components/Collections/common/SuitableConvertersTab.vue",
+      "reviewedAt": "2026-10-27T19:15:24.981Z"
+    },
+    "h1:d8e89195eeb238b0": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "client/src/components/Collections/common/SuitableConvertersTab.vue",
+      "reviewedAt": "2026-10-27T19:15:24.981Z"
+    },
+    "h1:c160456299cfdda8": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-27T19:15:25.513Z"
+    },
+    "h1:3b542ba56b4dc142": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-27T19:15:25.513Z"
+    },
+    "h1:f4e11a4c7f541e3f": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-27T19:15:25.513Z"
+    },
+    "h1:65c5fcc8f9cd3ea0": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "client/src/utils/navigation/schema.ts",
+      "reviewedAt": "2026-10-27T19:15:26.113Z"
+    },
+    "h1:59edfbe203457c04": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "client/src/utils/navigation/schema.ts",
+      "reviewedAt": "2026-10-27T19:15:26.113Z"
+    },
+    "h1:675136b7e60dd1f0": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-27T19:15:26.913Z"
+    },
+    "h1:01d0d0fdfdc7afaf": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-27T19:15:26.913Z"
+    },
+    "h1:d2fd8b5fc29668f3": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-27T19:15:26.913Z"
+    },
+    "h1:12226da7a1e34e15": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy_test/selenium/test_collection_builders.py",
+      "reviewedAt": "2026-10-27T19:15:27.579Z"
+    },
+    "h1:d69e03de7e8264ca": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy_test/selenium/test_collection_builders.py",
+      "reviewedAt": "2026-10-27T19:15:27.579Z"
+    },
+    "h1:2be169f6abdf1778": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy_test/selenium/test_collection_edit.py",
+      "reviewedAt": "2026-10-27T19:15:29.837Z"
+    },
+    "h1:f3c2a39729de625d": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy_test/selenium/test_collection_edit.py",
+      "reviewedAt": "2026-10-27T19:15:29.837Z"
+    },
+    "h1:3296283d4592e6c0": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy_test/selenium/test_collection_edit.py",
+      "reviewedAt": "2026-10-27T19:15:29.837Z"
+    },
+    "h1:01edab906c73fc21": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy_test/selenium/test_collection_edit.py",
+      "reviewedAt": "2026-10-27T19:15:29.837Z"
+    },
+    "h1:b01d6449bd906fc0": {
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "path": "lib/galaxy_test/selenium/test_collection_edit.py",
+      "reviewedAt": "2026-10-27T19:15:29.837Z"
+    }
+  },
+  "commits": {
+    "56b492407a21f335abe04815862a9515451172a4": {
+      "sha": "6b5197c1be344193786620595a393868a072de1c",
+      "subject": "Open collection edit view by hid; share change-datatype steps",
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "signedOffAt": "2026-10-27T19:15:31.311Z"
+    },
+    "bd030311045c348d993d66b1a7312dfeccfe05fa": {
+      "sha": "b0666e7ceb035f15eac02486d01f02b132f0647f",
+      "subject": "Test building a list that keeps file extensions",
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "signedOffAt": "2026-10-27T19:15:31.860Z"
+    },
+    "2918d788c2d4a5e751d8b19f75f6a72df8c269a4": {
+      "sha": "be7bf6069fc87847530cc108189ca2e523cb47c1",
+      "subject": "Test converting a collection's datatype from its edit view",
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "signedOffAt": "2026-10-27T19:15:32.127Z"
+    },
+    "2c9ef69b5b2920234523b2d211bfed3b0f2dec26": {
+      "sha": "29a9bb7c49a3e97c4b236a153329389ab3e5b570",
+      "subject": "Test renaming an element in the advanced flat list builder",
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "signedOffAt": "2026-10-27T19:15:32.378Z"
+    },
+    "bd0db5dc998f3f19cbe5f78a101d7b404f528373": {
+      "sha": "5b3d5f87c6b6a94d1c9eab17af64a4003a71d75a",
+      "subject": "Disable Convert Collection until a converter is selected",
+      "snapshotId": "20261027T183145Z-revision-5b3d5f87c6b6",
+      "signedOffAt": "2026-10-27T19:15:32.653Z"
+    }
+  }
+}

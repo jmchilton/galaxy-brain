@@ -7,4 +7,4 @@ Act on the checked boxes in the PR record's `initial_response_action.md`, follow
 - **Issue (galaxy-brain)** — open an issue on jmchilton/galaxy-brain from `learning_galaxy_followup_issue.md`. Don't link it from the response.
 - **Push** — push the review branch onto the PR's head branch. Fast-forward only; never force-push. If the push is refused, report back rather than working around it.
 
-Afterwards, update the record's `index.md` status and the agent's `PULL_REQUESTS.md` entry to show what was delivered, and check off the completed boxes.
+Afterwards, update the record's `index.md` status and PROJECT's `MY_REVIEWS.md` entry to show what was delivered, and check off the completed boxes.

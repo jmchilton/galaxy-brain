@@ -102,7 +102,7 @@ With the final tests checked out at the refactor tip, 39 pass and exactly the 7 
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Non-owners get 403 on update, refactor, delete and undelete; inaccessible show gets 403 with the existing message; unknown ids get 404 "No such workflow found."
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They are API tests asserting status and the visible state afterwards.

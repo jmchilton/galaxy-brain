@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-26T22:39:21.149Z",
+  "hunks": {
+    "h1:b02f85db3785582e": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "doc/source/dev/writing_tests.md",
+      "reviewedAt": "2026-10-26T22:39:17.569Z"
+    },
+    "h1:76b5bccf7f70db50": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "lib/galaxy_test/base/api.py",
+      "reviewedAt": "2026-10-26T22:39:18.407Z"
+    },
+    "h1:ed270437b62f6155": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "lib/galaxy_test/base/api.py",
+      "reviewedAt": "2026-10-26T22:39:18.407Z"
+    },
+    "h1:d20d52d5d9db7fb8": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "lib/galaxy_test/base/decorators.py",
+      "reviewedAt": "2026-10-26T22:39:18.936Z"
+    },
+    "h1:2f4b8221efc41181": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "lib/galaxy_test/base/populators.py",
+      "reviewedAt": "2026-10-26T22:39:19.255Z"
+    },
+    "h1:8c8902fa5c644ebf": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "lib/galaxy_test/base/populators.py",
+      "reviewedAt": "2026-10-26T22:39:19.255Z"
+    },
+    "h1:d9646088c8451b9d": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "lib/galaxy_test/selenium/framework.py",
+      "reviewedAt": "2026-10-26T22:39:19.733Z"
+    },
+    "h1:e20ce39b483e2dc6": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "run_tests.sh",
+      "reviewedAt": "2026-10-26T22:39:20.202Z"
+    },
+    "h1:9269bb6c84ee81fb": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "run_tests.sh",
+      "reviewedAt": "2026-10-26T22:39:20.202Z"
+    },
+    "h1:86d69f3b6e4e547b": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "test/deployment/usegalaxystar.bash",
+      "reviewedAt": "2026-10-26T22:39:20.668Z"
+    },
+    "h1:387548575838692a": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "test/deployment/usegalaxystar.bash",
+      "reviewedAt": "2026-10-26T22:39:20.668Z"
+    },
+    "h1:45d68b5c48bcad86": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "test/deployment/usegalaxystar.bash",
+      "reviewedAt": "2026-10-26T22:39:20.668Z"
+    },
+    "h1:3c8cc44325fd94e3": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "test/unit/test_base/test_decorators.py",
+      "reviewedAt": "2026-10-26T22:39:21.149Z"
+    },
+    "h1:4301176b29b69443": {
+      "snapshotId": "20261026T222920Z-hardening-9d5f0d32df81",
+      "path": "test/unit/test_base/test_decorators.py",
+      "reviewedAt": "2026-10-26T22:39:21.149Z"
+    }
+  },
+  "commits": {}
+}

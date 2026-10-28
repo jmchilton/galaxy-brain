@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-26T18:36:32.995Z",
+  "hunks": {
+    "h1:29aa4bed510a29cc": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js",
+      "reviewedAt": "2026-10-26T18:35:24.969Z"
+    },
+    "h1:89835a25043b9ab9": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js",
+      "reviewedAt": "2026-10-26T18:35:26.030Z"
+    },
+    "h1:764809e688764713": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js",
+      "reviewedAt": "2026-10-26T18:35:30.238Z"
+    },
+    "h1:bb153778f90fc258": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.test.js",
+      "reviewedAt": "2026-10-26T18:35:32.786Z"
+    },
+    "h1:3a8ca23059546c55": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.vue",
+      "reviewedAt": "2026-10-26T18:35:35.270Z"
+    },
+    "h1:43ff0e620877906c": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "client/src/components/History/CurrentHistory/HistoryOperations/SelectionOperations.vue",
+      "reviewedAt": "2026-10-26T18:35:37.194Z"
+    },
+    "h1:396dfd9da22c93df": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-26T18:35:38.386Z"
+    },
+    "h1:5f43d6dcc6cba155": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "lib/galaxy_test/selenium/test_collection_builders.py",
+      "reviewedAt": "2026-10-26T18:35:39.878Z"
+    },
+    "h1:c2b0ed6c57ab4f8b": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "lib/galaxy_test/selenium/test_collection_builders.py",
+      "reviewedAt": "2026-10-26T18:35:39.878Z"
+    },
+    "h1:72b0bd09337e5257": {
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "path": "lib/galaxy_test/selenium/test_collection_builders.py",
+      "reviewedAt": "2026-10-26T18:35:39.878Z"
+    }
+  },
+  "commits": {
+    "a8edbc4464f6fb5eaf35e7d237f9ec1908dd69f7": {
+      "sha": "206d8cb3a59498d18c52b41a85a5c71d9a3b0502",
+      "subject": "Baseline tests for SelectionOperations list wizard hand-off",
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "signedOffAt": "2026-10-26T18:36:32.004Z"
+    },
+    "b918f2b8ff8777dd88d94bb537d63be0c4fa02c8": {
+      "sha": "33914ab23fdc2630521237fdda8150b6905fbf14",
+      "subject": "Leave history selection mode after building a collection",
+      "snapshotId": "20261026T145913Z-hardening-33914ab23fdc",
+      "signedOffAt": "2026-10-26T18:36:32.995Z"
+    }
+  }
+}

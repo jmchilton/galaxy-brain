@@ -26,7 +26,7 @@ Prepare `path` (the record directory), `short_name` (its last path segment) and 
 Suggest:
 
 ```
-prompt: File a Galaxy issue {path} with ../_shared/scripts/file_incubator_issue.py, then triage it per ../_shared/ISSUES_INDEX.md
+prompt: File a Galaxy issue {path} with ../_shared/scripts/file_incubator_issue.py, then triage it per ../_shared/MY_ISSUES_INDEX.md
 agent_dir: gx_issues
 profile: Sonnet (medium)
 record: galaxy/issues_incubator/{short_name}

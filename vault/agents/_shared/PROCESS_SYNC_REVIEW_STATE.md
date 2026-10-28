@@ -1,4 +1,4 @@
-You'll be asked to sync this agent's `PULL_REQUESTS.md` and review records with GitHub. Rules for the queue and statuses are in [PULL_REQUESTS_INDEX.md](PULL_REQUESTS_INDEX.md) and [REPOSITORY_REVIEWS.md](REPOSITORY_REVIEWS.md); this is the sweep.
+You'll be asked to sync this agent's `MY_REVIEWS.md` queues and review records with GitHub. Rules for the queue and statuses are in [MY_REVIEWS_INDEX.md](MY_REVIEWS_INDEX.md) and [REPOSITORY_REVIEWS.md](REPOSITORY_REVIEWS.md); this is the sweep.
 
 ## Gather
 
@@ -7,10 +7,10 @@ For each PROJECT this agent covers:
 Run, from `vault/agents/_shared/`:
 
 ```sh
-scripts/sync_review_state.sh ../AGENT_DIR/PULL_REQUESTS.md OWNER/REPO ../../repositories/PROJECT/reviews
+scripts/sync_review_state.sh ../../repositories/PROJECT/reviews/MY_REVIEWS.md OWNER/REPO ../../repositories/PROJECT/reviews
 ```
 
-It covers `PULL_REQUESTS.md` entries plus every directory under `reviews/active/`, and prints:
+It covers `MY_REVIEWS.md` entries plus every directory under `reviews/active/`, and prints:
 
 1. Mismatches: entries with no active record, and active records with no entry.
 2. One row per PR: number, state, mergedAt, closedAt, isDraft, mergeable, reviewDecision, `headRefOid`, checks (pass/fail/pending), and SHAs found in the record's `index.md`.
@@ -31,7 +31,7 @@ Don't post reviews or comments on GitHub as part of a sync.
 
 ## Finish
 
-Refresh the snapshot date in `PULL_REQUESTS.md`, write the report, run `make validate` (from the repo root), and commit the touched paths per [VAULT_SYNC.md](VAULT_SYNC.md).
+Refresh the snapshot date in each `MY_REVIEWS.md`, write the report, run `make validate` (from the repo root), and commit the touched paths per [VAULT_SYNC.md](VAULT_SYNC.md).
 
 ## Report
 

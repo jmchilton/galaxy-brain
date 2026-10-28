@@ -1,18 +1,18 @@
-Sync local Galaxy PR worktrees with `vault/agents/gx_reviews/PULL_REQUESTS.md` — create missing ones, tear down merged/closed ones.
+Sync local Galaxy PR worktrees with `vault/repositories/galaxy/reviews/MY_REVIEWS.md` — create missing ones, tear down merged/closed ones.
 
 Reconcile two things:
 
-- **Create** — every PR number listed in `vault/agents/gx_reviews/PULL_REQUESTS.md` should have a worktree.
+- **Create** — every PR number listed in `vault/repositories/galaxy/reviews/MY_REVIEWS.md` should have a worktree.
 - **Remove** — every existing worktree whose PR has been merged or closed should be gone.
 
-The two directions are independent. A PR dropping off `PULL_REQUESTS.md` is *not* a reason to
+The two directions are independent. A PR dropping off `MY_REVIEWS.md` is *not* a reason to
 destroy its worktree, and an open PR keeps its worktree even if it isn't listed.
 
 ## Steps
 
 ### 1. Read the list
 
-Read `vault/agents/gx_reviews/PULL_REQUESTS.md`. It's a flat list of `- [#<number>](PR_URL) — <status>. [notes](REVIEW_INDEX_PATH)` entries under `PRs To Review:`. Collect PR numbers from the `galaxyproject/galaxy/pull/<number>` URLs in that section; ignore the skip/blocked sections, supporting-note links, and anything else in the file. `None yet.` means an empty queue.
+Read `vault/repositories/galaxy/reviews/MY_REVIEWS.md`. It's a flat list of `- [#<number>](PR_URL) — <status>. [notes](active/<number>/index.md)` entries under ``## PRs to review (`to_review`)``. Collect PR numbers from the `galaxyproject/galaxy/pull/<number>` URLs in that section; ignore the skip/blocked sections, supporting-note links, and anything else in the file. `None yet.` means an empty queue.
 
 ### 2. List existing worktrees
 
@@ -65,7 +65,7 @@ remove either case automatically; list them separately and ask the user.
 
 Print a short plan before touching anything:
 
-- `create: <numbers>` — listed in `PULL_REQUESTS.md`, no worktree
+- `create: <numbers>` — listed in `MY_REVIEWS.md`, no worktree
 - `remove: <number> (merged YYYY-MM-DD)` — clean worktrees only
 - `hold: <number> (open | dirty | mismatched)` — with the reason
 
@@ -97,5 +97,5 @@ One-line-per-action summary of what actually happened, plus anything held back a
 
 - Read-only `gh` and `ls` calls for step 3 can be batched in parallel; `ghwt` mutations
   should run one at a time.
-- Don't edit `PULL_REQUESTS.md` as part of this — it's hand-maintained input, not state.
+- Don't edit `MY_REVIEWS.md` as part of this — it's hand-maintained input, not state.
 - Don't create or delete review note files here; this command only manages worktrees.

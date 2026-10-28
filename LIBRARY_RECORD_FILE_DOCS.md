@@ -10,7 +10,7 @@ Document the files that live in `vault/repositories/<repo>/<kind>/<status>/<id>/
 - A repository section with the same pattern replaces the default's section.
 - Descriptive only. No lint, no warnings, no failures: record directories may hold stray plans, questions, docs, scripts, etc.
 - Dated variants are documented as patterns (`review-*.md`), not pushed back to one name.
-- Scope is repository records only, not `vault/agents/<name>/` files (`PULL_REQUESTS.md`, `TICK.md`, …).
+- Scope is repository records only, not `vault/agents/<name>/` files (`TICK.md`, `TASKS.md`, …).
 
 ## Format
 

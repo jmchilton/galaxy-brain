@@ -2,7 +2,7 @@
 
 Repository: [bgruening/docker-galaxy](https://github.com/bgruening/docker-galaxy). GitHub PR state last refreshed: 2026-10-09.
 
-Existing PR reviews are tracked in [PULL_REQUESTS.md](agents/docker-galaxy/PULL_REQUESTS.md).
+Existing PR reviews are tracked in [MY_REVIEWS.md](../../repositories/docker-galaxy/reviews/MY_REVIEWS.md).
 
 ## Draft development
 

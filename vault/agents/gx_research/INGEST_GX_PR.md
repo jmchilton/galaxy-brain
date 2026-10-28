@@ -1,14 +1,16 @@
-Deep-research a Galaxy PR against the current `dev` branch, then hand off to `/ingest` to create the vault note.
+Deep-research a Galaxy PR against the current `dev` branch, then hand off to `INGEST.md` to create the vault note.
 
-Source: $ARGUMENTS
+Paths are relative to the galaxy-brain repository root (`~/projects/repositories/galaxy-brain`); run commands from there.
 
-This command does the verification work that plain `/ingest` skips for Galaxy PRs — it cross-checks every file path, symbol, and line cited in the PR against current Galaxy `dev`, surfaces what changed since the PR merged, and produces a dossier rich enough to drive PR-18641-grade vault notes.
+Source: the PR you were given.
+
+This command does the verification work that plain `INGEST.md` skips for Galaxy PRs — it cross-checks every file path, symbol, and line cited in the PR against current Galaxy `dev`, surfaces what changed since the PR merged, and produces a dossier rich enough to drive PR-18641-grade vault notes.
 
 ## Steps
 
 ### 1. Parse the input
 
-`$ARGUMENTS` should be one of:
+The PR should be one of:
 - `https://github.com/galaxyproject/galaxy/pull/<N>`
 - `<N>` (bare PR number — assume `galaxyproject/galaxy`)
 
@@ -33,7 +35,7 @@ Record the current `origin/dev` SHA. Every line-number citation in the dossier i
 
 Spawn a `general-purpose` subagent with full read access to `~/projects/repositories/galaxy/`. Brief it as follows (parameterize the PR number and Galaxy SHA):
 
-> **Task**: produce a deep-research dossier for galaxyproject/galaxy#<N> verified against `origin/dev` at SHA `<SHA>`. The dossier will be handed to `/ingest` to create a vault note in galaxy-brain. Match the depth of `vault/research/PR 18641 - Parameter Model Improvements Research.md` in `~/projects/repositories/galaxy-brain/` — read it first as the depth bar.
+> **Task**: produce a deep-research dossier for galaxyproject/galaxy#<N> verified against `origin/dev` at SHA `<SHA>`. The dossier will be handed to `INGEST.md` to create a vault note in galaxy-brain. Match the depth of `vault/research/PR 18641 - Parameter Model Improvements Research.md` in `~/projects/repositories/galaxy-brain/` — read it first as the depth bar.
 >
 > **Inputs**:
 > - `gh pr view <N> --repo galaxyproject/galaxy --json number,title,body,author,state,labels,files,createdAt,mergeCommit,mergedAt`
@@ -60,14 +62,14 @@ Spawn a `general-purpose` subagent with full read access to `~/projects/reposito
 > - When the PR body and the diff disagree (e.g., a migration revision id), trust the diff and note the discrepancy.
 > - Do not invent line numbers. If you cannot find a symbol, say "not found at SHA `<SHA>`".
 >
-> **Output**: write the dossier to `~/projects/repositories/galaxy-brain/.ingest-dossiers/PR-<N>-<short-slug>.md` (create directory if missing). This file is a working artifact — it is gitignored and will be consumed by `/ingest` and then deleted. Keep prose tight; the dossier is for downstream synthesis, not human reading.
+> **Output**: write the dossier to `~/projects/repositories/galaxy-brain/.ingest-dossiers/PR-<N>-<short-slug>.md` (create directory if missing). This file is a working artifact — it is gitignored and will be consumed by `INGEST.md` and then deleted. Keep prose tight; the dossier is for downstream synthesis, not human reading.
 
-### 5. Hand off to `/ingest`
+### 5. Hand off to `INGEST.md`
 
 Once the subagent reports the dossier path:
 - Surface a one-paragraph summary of what the dossier contains and what cross-checks turned up surprises.
-- Run `/ingest <dossier-path>` to create the vault note. The dossier filename's `<short-slug>` should approximate the final note title so `/ingest`'s subtype/title detection works smoothly.
-- After `/ingest` completes, delete the dossier file (it has served its purpose; the vault note is the durable artifact).
+- Follow `INGEST.md` with `<dossier-path>` to create the vault note. The dossier filename's `<short-slug>` should approximate the final note title so `INGEST.md`'s subtype/title detection works smoothly.
+- After `INGEST.md` completes, delete the dossier file (it has served its purpose; the vault note is the durable artifact).
 
 ### 6. House-keeping
 

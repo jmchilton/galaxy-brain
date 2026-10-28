@@ -1,11 +1,13 @@
 Ingest a source (GitHub issue/PR URL, docs page, paper URL, or local file) into the vault. Create a new research note (or update an existing one), update cross-references on related notes, and append an entry to `vault/log.md`.
 
-Source: $ARGUMENTS
+Paths are relative to the galaxy-brain repository root (`~/projects/repositories/galaxy-brain`); run commands from there.
+
+Source: the URL or path you were given.
 
 ## Steps
 
 ### 1. Parse source
-- If `$ARGUMENTS` is empty, ask the user for a URL or path and stop.
+- If no source was given, ask the user for a URL or path and stop.
 - Classify:
   - GitHub issue URL (`github.com/<owner>/<repo>/issues/<N>`) → subtype candidate `issue`
   - GitHub PR URL (`github.com/<owner>/<repo>/pull/<N>`) → subtype candidate `pr`

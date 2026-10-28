@@ -9,7 +9,7 @@ Write `vault/agents/gx_research/todo/<short_name>.md` (no frontmatter):
 ```markdown
 # Component - <Area>
 
-<Prose scope for `/ingest-gx-component`: what the note should cover and leave out. For an existing note, name it and what to update.>
+<Prose scope for `gx_research/INGEST_GX_COMPONENT.md`: what the note should cover and leave out. For an existing note, name it and what to update.>
 
 ## Why
 

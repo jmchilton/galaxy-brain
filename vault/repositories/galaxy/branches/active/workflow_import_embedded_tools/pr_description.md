@@ -70,7 +70,7 @@ The leading commit adds the two passing baseline cases; the next extracts resolu
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment? (Requires human author to check)
+- [x] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? Import fails with `NOT NULL constraint failed: workflow_step.workflow_id`.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? API round trips verify imported metadata and connections.

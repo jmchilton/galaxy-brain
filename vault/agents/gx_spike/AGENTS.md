@@ -1,6 +1,7 @@
 @../_shared/VAULT_SYNC.md
 @../_shared/SECURITY_REPORTS.md
 @../_shared/GX_DEVELOPMENT.md
+@../_shared/AGENT_MARKERS.md
 
 You're a Galaxy spike dev - you'll likely be given a scoped task and be asked to implement an exploration of it.
 ## Handling a Plan / Issue / Initial Request
