@@ -23,6 +23,7 @@ Snapshot: 2026-10-28 (reclassified from GitHub: #24520 merged and archived; #243
 - [`issue_24061_24062_repository_details`](active/issue_24061_24062_repository_details/index.md) — Tool Shed repository page: `hg clone` command, category links, generated `.shed.yml`; API adds `categories`, `clone_url`. [#24298](https://github.com/galaxyproject/galaxy/pull/24298).
 - [`workflow_editor_connection_helpers`](active/workflow_editor_connection_helpers/index.md) — Missing editor E2E tests (refused connections, step removal, unlabelled same-tool steps) + shared connection helpers. Base `release_26.2`. [#24370](https://github.com/galaxyproject/galaxy/pull/24370).
 - [`upgrade_advice_structured_like`](active/upgrade_advice_structured_like/index.md) — Tool upgrade advisor: `structured_like` advice moved to 26.0 (#23884), plus 26.1/26.2 advice and advisor fixes. [#24524](https://github.com/galaxyproject/galaxy/pull/24524).
+- [`issue_24485_collection_count_zero_26.0`](active/issue_24485_collection_count_zero_26.0/index.md) — Collection output tests honor `count`/`element_count`/`max` of 0 (26.0 truthiness regression) (#24485). Base `release_26.0`. [#24539](https://github.com/galaxyproject/galaxy/pull/24539).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -104,7 +105,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_24485_collection_count_zero_26.0`](active/issue_24485_collection_count_zero_26.0/index.md) — Collection output tests honor `count`/`element_count`/`max` of 0 (26.0 truthiness regression) (#24485). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24485_collection_count_zero_26.0?expand=1).
 - [`issue_23891_output_reference_resolver`](active/issue_23891_output_reference_resolver/index.md) — Resolves format_source/metadata_source against declared inputs at tool load; lints both; errors gated at profile 27.0 (#23891). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23891_output_reference_resolver?expand=1).
 - [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
 - [`optional_input_gating`](active/optional_input_gating/index.md) — Lets editor authors gate a step on an optional input: condition modes, drop-to-gate, validity for gated links. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:optional_input_gating?expand=1).

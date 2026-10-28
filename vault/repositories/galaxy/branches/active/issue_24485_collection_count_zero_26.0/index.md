@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.0
+pr: 24539
 ---
 
 # issue_24485_collection_count_zero_26.0
@@ -9,11 +10,11 @@ upstream_base_branch: release_26.0
 
 ## Status
 
-Polished at `8eb7779ec8a`; ready for final review.
+Polished and approved at `8eb7779ec8a`.
 
-No PR.
+[#24539](https://github.com/galaxyproject/galaxy/pull/24539) opened 2026-10-28.
 
-Fork CI partly pending; only red (`test_trs_proxy`, external server) unrelated.
+Fork CI complete; only red (`Test (3.14)` unit; `test_trs_proxy`, external server) unrelated, 3.10 unit green.
 
 ## Issue
 
