@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.2
+pr: 24552
 ---
 # Let staging leave parameter input values unstaged
 
@@ -11,11 +12,11 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Polished at `a812cad3` on `release_26.2` (`0902830b`); awaiting John's final review.
+Approved at `a812cad3` on `release_26.2` (`0902830b`) on 2026-10-28 via launch.
 
-No PR.
+Draft [#24552](https://github.com/galaxyproject/galaxy/pull/24552) opened 2026-10-28, waiting on CI.
 
-Fork CI on `a812cad3` queued.
+CI on `a812cad3` queued.
 
 ## Context
 
