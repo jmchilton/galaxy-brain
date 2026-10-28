@@ -35,11 +35,11 @@ GitHub state last refreshed: 2026-10-27. Every open issue below is assigned to j
 - [#24410](https://github.com/galaxyproject/galaxy/issues/24410) — UDT `$(inputs.x.element_identifier)` is `null` when mapped over a list from tool form/API; branch `udt_element_identifier_api_test`. [notes](wip/24410/index.md)
 - [#24411](https://github.com/galaxyproject/galaxy/issues/24411) — job cache reuses a job with another `element_identifier` (plain↔mapped, list↔list); branch `issue_24411_job_cache_identifier_25.1`. [notes](wip/24411/index.md)
 - (large) [#24441](https://github.com/galaxyproject/galaxy/issues/24441) — Tool Shed upload API `dry_run` half-built; report new installable revision vs in-place overwrite; branch `issue_24441_tool_shed_upload_dry_run`. [notes](wip/24441/index.md)
+- [#24531](https://github.com/galaxyproject/galaxy/issues/24531) — disabled history item edit button never shows "not yet editable" tooltip; branch `issue_24531_edit_disabled_tooltip_26.2`. [notes](wip/24531/index.md)
 
 ## Queued (`queued`)
 
 - [#24532](https://github.com/galaxyproject/galaxy/issues/24532) — Delete Account modal shows generic error; checks `err_code === 403` vs server's 403004; next: named constant + red vitest. [notes](queued/24532/index.md)
-- [#24531](https://github.com/galaxyproject/galaxy/issues/24531) — disabled history item edit button never shows "not yet editable" tooltip (vGTooltip skips aria-disabled); next: switch to GButton `disabled-title`. [notes](queued/24531/index.md)
 - [#24485](https://github.com/galaxyproject/galaxy/issues/24485) — collection test `count`/`element_count`/`max` of 0 skipped by truthiness check; next: `is not None` + unit test. [notes](queued/24485/index.md)
 - [#24481](https://github.com/galaxyproject/galaxy/issues/24481) — mapped list outputs over sample sheets precreate invalid collection types; next: red regression test for composition. [notes](queued/24481/index.md)
 - [#24476](https://github.com/galaxyproject/galaxy/issues/24476) — ParsedTool output models drop `<filter>`, conditional outputs look unconditional; next: red unit test on `output_filter.xml`. [notes](queued/24476/index.md)
