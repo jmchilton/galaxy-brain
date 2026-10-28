@@ -1,0 +1,293 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-28T20:23:43.528Z",
+  "hunks": {
+    "h1:40629da0e99ac3c7": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-28T20:23:33.075Z"
+    },
+    "h1:38d1d7afe8f20a27": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-28T20:23:33.075Z"
+    },
+    "h1:4730fcccd977050e": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-28T20:23:33.075Z"
+    },
+    "h1:80f293623262816e": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-28T20:23:33.075Z"
+    },
+    "h1:a844fbddb85494a8": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/Collection/CollectionDescription.test.ts",
+      "reviewedAt": "2026-10-28T20:23:37.416Z"
+    },
+    "h1:974ed793196f35e5": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/Collection/CollectionDescription.test.ts",
+      "reviewedAt": "2026-10-28T20:23:37.416Z"
+    },
+    "h1:551b122fca451486": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/Collection/CollectionDescription.vue",
+      "reviewedAt": "2026-10-28T20:23:37.675Z"
+    },
+    "h1:23c027c66f1b2f22": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/Collection/CollectionDescription.vue",
+      "reviewedAt": "2026-10-28T20:23:37.675Z"
+    },
+    "h1:983e2cc135fad06e": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/Collection/CollectionDescription.vue",
+      "reviewedAt": "2026-10-28T20:23:37.675Z"
+    },
+    "h1:5bd1456127b37ec4": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/Collection/CollectionDescription.vue",
+      "reviewedAt": "2026-10-28T20:23:37.675Z"
+    },
+    "h1:af1b083bb8dfd79c": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/Collection/CollectionDescription.vue",
+      "reviewedAt": "2026-10-28T20:23:37.675Z"
+    },
+    "h1:094080a118a3df21": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/Collection/DatasetStateSummary.ts",
+      "reviewedAt": "2026-10-28T20:23:37.908Z"
+    },
+    "h1:7dc2a34f7b7c0bde": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/Collection/DatasetStateSummary.ts",
+      "reviewedAt": "2026-10-28T20:23:37.908Z"
+    },
+    "h1:9be4a5f9325f3611": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/ContentItem.test.js",
+      "reviewedAt": "2026-10-28T20:23:38.691Z"
+    },
+    "h1:f7f6552371ba11b5": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/ContentItem.test.js",
+      "reviewedAt": "2026-10-28T20:23:38.691Z"
+    },
+    "h1:90f12429a94657c1": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/ContentItem.test.js",
+      "reviewedAt": "2026-10-28T20:23:38.691Z"
+    },
+    "h1:3f727db2fea7fee6": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/ContentItem.vue",
+      "reviewedAt": "2026-10-28T20:23:39.057Z"
+    },
+    "h1:9e35e2580e67d031": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/ContentItem.vue",
+      "reviewedAt": "2026-10-28T20:23:39.057Z"
+    },
+    "h1:054d1d5154072381": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/ContentItem.vue",
+      "reviewedAt": "2026-10-28T20:23:39.057Z"
+    },
+    "h1:72c7920a95c1e621": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/ContentItem.vue",
+      "reviewedAt": "2026-10-28T20:23:39.057Z"
+    },
+    "h1:2cae953c99c412f3": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/ContentItem.vue",
+      "reviewedAt": "2026-10-28T20:23:39.057Z"
+    },
+    "h1:f6021f15aa7f1502": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/model/states.ts",
+      "reviewedAt": "2026-10-28T20:23:39.282Z"
+    },
+    "h1:7106e3b1875ba462": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/model/states.ts",
+      "reviewedAt": "2026-10-28T20:23:39.282Z"
+    },
+    "h1:17c5a9fdaa2322b8": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/components/History/Content/model/states.ts",
+      "reviewedAt": "2026-10-28T20:23:39.282Z"
+    },
+    "h1:66dbcd6eae24cb2e": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/stores/collectionElementsStore.test.ts",
+      "reviewedAt": "2026-10-28T20:23:39.451Z"
+    },
+    "h1:92115b2a80322d8b": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "client/src/stores/datasetCollectionStore.test.ts",
+      "reviewedAt": "2026-10-28T20:23:39.599Z"
+    },
+    "h1:9be6e9bf1829afdb": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/managers/collections.py",
+      "reviewedAt": "2026-10-28T20:23:39.774Z"
+    },
+    "h1:6ca9f299ff538633": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/managers/collections_util.py",
+      "reviewedAt": "2026-10-28T20:23:39.932Z"
+    },
+    "h1:c95e99edab91ebdf": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/managers/hdcas.py",
+      "reviewedAt": "2026-10-28T20:23:40.115Z"
+    },
+    "h1:b19a8613e5a59939": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/managers/hdcas.py",
+      "reviewedAt": "2026-10-28T20:23:40.115Z"
+    },
+    "h1:609a77eefeb6dc37": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/managers/hdcas.py",
+      "reviewedAt": "2026-10-28T20:23:40.115Z"
+    },
+    "h1:655f9967a1dfe8fc": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:ef4b6fa614c69b5a": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:b4cc0d095c6a1c93": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:4cfe2d283c9cb81d": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:edd21979a84e20af": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:d486bee9d0dd2169": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:ba686475922e1b26": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:978455cd31ee5b68": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:7062c922e90cefc6": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:bf3decaa2a8d4cce": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:e82bdaf8670adddf": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:1ebe22413664ff07": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-28T20:23:40.265Z"
+    },
+    "h1:ba46d187f6c7dc71": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/dataset_collections/adapters.py",
+      "reviewedAt": "2026-10-28T20:23:40.441Z"
+    },
+    "h1:89be49160f5ca7a1": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/dataset_collections/adapters.py",
+      "reviewedAt": "2026-10-28T20:23:40.441Z"
+    },
+    "h1:b9daf1421f6aa025": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/dataset_collections/adapters.py",
+      "reviewedAt": "2026-10-28T20:23:40.441Z"
+    },
+    "h1:7c523454ee83b31a": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/model/dataset_collections/adapters.py",
+      "reviewedAt": "2026-10-28T20:23:40.441Z"
+    },
+    "h1:b6dbff4402c5879f": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/schema/schema.py",
+      "reviewedAt": "2026-10-28T20:23:40.615Z"
+    },
+    "h1:ad01fd7656707353": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy/schema/schema.py",
+      "reviewedAt": "2026-10-28T20:23:40.615Z"
+    },
+    "h1:f76fbf5159716c47": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy_test/api/test_history_contents.py",
+      "reviewedAt": "2026-10-28T20:23:40.807Z"
+    },
+    "h1:844ea022aeb9c586": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "lib/galaxy_test/api/test_history_contents.py",
+      "reviewedAt": "2026-10-28T20:23:40.807Z"
+    },
+    "h1:c2d1c53b344a31da": {
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "path": "test/unit/data/model/db/test_misc.py",
+      "reviewedAt": "2026-10-28T20:23:40.998Z"
+    }
+  },
+  "commits": {
+    "53a24028ac687d70e8b24492273697d98fd938c7": {
+      "sha": "6788231f2d08ce235595d434a9bc39cdbc3a8b38",
+      "subject": "Add elements_purged count to dataset collection summaries",
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "signedOffAt": "2026-10-28T20:23:42.790Z"
+    },
+    "5474a34fde1b96a3cb988f7ad7d51f683314390c": {
+      "sha": "df3254a1a9cf3e9dc521d46430641ca5de17b2c3",
+      "subject": "Show collections with all elements purged as purged",
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "signedOffAt": "2026-10-28T20:23:43.036Z"
+    },
+    "c1d0ef73af2679e30b1c9121cb42d1659155b0d3": {
+      "sha": "2a1e33a3ef5d3180aab600dd554790b7f8550a80",
+      "subject": "Read HDCA state summary fields by name",
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "signedOffAt": "2026-10-28T20:23:43.221Z"
+    },
+    "cfc9c2e8e5fc96c38ea85f07c369018169f3e0e4": {
+      "sha": "613265a0d2f0ed31a93d2487ce9e9fd9b3796284",
+      "subject": "Don't repeat the purged count on all-purged history items",
+      "snapshotId": "20261028T150826Z-review-613265a0d2f0",
+      "signedOffAt": "2026-10-28T20:23:43.528Z"
+    }
+  }
+}
